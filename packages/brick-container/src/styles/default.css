@@ -1,0 +1,69 @@
+body {
+  background-color: rgba(239, 244, 250, 1);
+}
+
+#root-layout {
+  display: flex;
+}
+
+#root-content {
+  flex: 1;
+}
+
+#menu-bar-mount-point {
+  width: 240px;
+}
+
+#main-mount-point,
+#legacy-iframe-mount-point {
+  margin-top: 56px;
+  transition: filter 100ms ease-out;
+}
+
+#legacy-iframe-mount-point,
+#bg-mount-point {
+  display: none;
+}
+
+.bars-hidden #main-mount-point,
+.bars-hidden #legacy-iframe-mount-point {
+  margin-top: 0;
+}
+
+.show-legacy-iframe #main-mount-point,
+.bars-hidden #menu-bar-mount-point,
+.bars-hidden #app-bar-mount-point {
+  display: none;
+}
+
+.show-legacy-iframe #legacy-iframe-mount-point {
+  display: block;
+}
+
+.menu-bar-collapsed #menu-bar-mount-point {
+  width: 60px;
+}
+
+#menu-bar-mount-point,
+#app-bar-mount-point {
+  visibility: hidden;
+}
+
+.first-rendered #menu-bar-mount-point,
+.first-rendered #app-bar-mount-point {
+  visibility: visible;
+}
+
+.first-rendered #menu-bar-mount-point {
+  transition: width 250ms ease-out;
+}
+
+.filter-of-blur #main-mount-point,
+.filter-of-blur #legacy-iframe-mount-point {
+  filter: blur(5px);
+}
+@media print {
+  .print-hide {
+    display: none;
+  }
+}

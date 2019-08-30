@@ -1,0 +1,6 @@
+install_path: /usr/local/easyops/bricks/$kebab-package-name$-NB
+user: easyops:easyops
+dependencies:
+  - name: brick_next
+    version: '$brick.container.version$'
+    local_deploy: true

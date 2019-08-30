@@ -1,0 +1,41 @@
+{
+  "name": "@easyops/brick-types",
+  "version": "0.13.0",
+  "description": "Pure types for kernel",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-types",
+  "license": "UNLICENSED",
+  "main": "dist/index.bundle.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    ".schema"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "npm run build:types && rollup --config rollup.config.js --watch",
+    "prebuild": "npm run clean",
+    "build": "npm run build:types && npm run build:rollup",
+    "build:rollup": "rollup --config rollup.config.js",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "postbuild": "node scripts/post-build.js",
+    "test": "cross-env NODE_ENV='test' jest",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@easyops/rollup-config-factory": "^0.1.2",
+    "typescript-json-schema": "^0.40.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.22",
+    "antd": "^3.22.2",
+    "history": "^4.9.0",
+    "path-to-regexp": "^3.0.0"
+  }
+}

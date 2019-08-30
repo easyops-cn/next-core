@@ -1,0 +1,23 @@
+{
+  "*.{js,ts,jsx,tsx}": [
+    "cross-env ESLINT_ENV='production' eslint --fix --quiet",
+    "prettier --write",
+    "git add"
+  ],
+  "*.css": [
+    "prettier --write",
+    "git add"
+  ],
+  "*.html": [
+    "prettier --write",
+    "git add"
+  ],
+  "*.md": [
+    "prettier --write",
+    "git add"
+  ],
+  "*.json": [
+    "prettier --write",
+    "git add"
+  ]
+}

@@ -1,0 +1,18 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.1.2](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/rollup-config-factory@0.1.1...@easyops/rollup-config-factory@0.1.2) (2019-08-26)
+
+**Note:** Version bump only for package @easyops/rollup-config-factory
+
+## [0.1.1](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/rollup-config-factory@0.1.0...@easyops/rollup-config-factory@0.1.1) (2019-07-03)
+
+**Note:** Version bump only for package @easyops/rollup-config-factory
+
+# 0.1.0 (2019-06-24)
+
+### Features
+
+- **tooltip-place:** fakeData refs ATM-130 ([2319d5c](https://git.easyops.local/anyclouds/brick-next/commits/2319d5c))

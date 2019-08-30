@@ -1,0 +1,19 @@
+{
+  "name": "@easyops/rollup-config-factory",
+  "version": "0.1.2",
+  "description": "basic rollup config to pack @libs or @easyops in next-core",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/rollup-config-factory",
+  "license": "UNLICENSED",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "build": "echo 'nothing to build but lerna need this to build deps'"
+  },
+  "sideEffects": false
+}

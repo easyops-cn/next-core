@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`http DELETE http://example.com with [] should work 1`] = `
+Array [
+  "http://example.com",
+  Object {
+    "method": "DELETE",
+  },
+  undefined,
+]
+`;
+
+exports[`http GET http://example.com with [] should work 1`] = `
+Array [
+  "http://example.com",
+  Object {
+    "method": "GET",
+  },
+  undefined,
+]
+`;
+
+exports[`http GET http://example.com with [{"params":"<URLSearchParams> lang=zh-CN"}] should work 1`] = `
+Array [
+  "http://example.com/?lang=zh-CN",
+  Object {
+    "method": "GET",
+  },
+  undefined,
+]
+`;
+
+exports[`http GET http://example.com with [{"params":{"lang":"zh-CN"}}] should work 1`] = `
+Array [
+  "http://example.com/?lang=zh-CN",
+  Object {
+    "method": "GET",
+  },
+  undefined,
+]
+`;
+
+exports[`http GET http://example.com with [{"params":{"lang":["zh-CN","en-US"]}}] should work 1`] = `
+Array [
+  "http://example.com/?lang=zh-CN&lang=en-US",
+  Object {
+    "method": "GET",
+  },
+  undefined,
+]
+`;
+
+exports[`http GET http://example.com/for-good?token=secret with [{"params":{"lang":"zh-CN"}}] should work 1`] = `
+Array [
+  "http://example.com/for-good?token=secret&lang=zh-CN",
+  Object {
+    "method": "GET",
+  },
+  undefined,
+]
+`;
+
+exports[`http HEAD http://example.com with [] should work 1`] = `
+Array [
+  "http://example.com",
+  Object {
+    "method": "HEAD",
+  },
+  undefined,
+]
+`;
+
+exports[`http PATCH http://example.com with [] should work 1`] = `
+Array [
+  "http://example.com",
+  Object {
+    "method": "PATCH",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com with [] should work 1`] = `
+Array [
+  "http://example.com",
+  Object {
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com with [{"for":"good"}] should work 1`] = `
+Array [
+  "http://example.com",
+  Object {
+    "body": "{\\"for\\":\\"good\\"}",
+    "headers": Headers {
+      "map": Object {
+        "content-type": "application/json",
+      },
+    },
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com/for-good with ["<FormData> [[\\"for\\",\\"the throne\\"]]"] should work 1`] = `
+Array [
+  "http://example.com/for-good",
+  Object {
+    "body": "<FormData> [[\\"for\\",\\"the throne\\"]]",
+    "headers": Headers {
+      "map": Object {},
+    },
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com/for-good with ["for=the-throne"] should work 1`] = `
+Array [
+  "http://example.com/for-good",
+  Object {
+    "body": "for=the-throne",
+    "headers": Headers {
+      "map": Object {
+        "content-type": "application/x-www-form-urlencoded",
+      },
+    },
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com/for-good with [{"for":"the throne"},{"headers":{"map":{"x-requested-with":"XMLHttpRequest"}}}] should work 1`] = `
+Array [
+  "http://example.com/for-good",
+  Object {
+    "body": "{\\"for\\":\\"the throne\\"}",
+    "headers": Headers {
+      "map": Object {
+        "content-type": "application/json",
+        "x-requested-with": "XMLHttpRequest",
+      },
+    },
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com/for-good with [{"for":"the throne"},{"headers":{"x-requested-with":"XMLHttpRequest"}}] should work 1`] = `
+Array [
+  "http://example.com/for-good",
+  Object {
+    "body": "{\\"for\\":\\"the throne\\"}",
+    "headers": Headers {
+      "map": Object {
+        "content-type": "application/json",
+        "x-requested-with": "XMLHttpRequest",
+      },
+    },
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com/for-good with [{"for":"the throne"},{"params":"<URLSearchParams> lang=zh-CN"}] should work 1`] = `
+Array [
+  "http://example.com/for-good?lang=zh-CN",
+  Object {
+    "body": "{\\"for\\":\\"the throne\\"}",
+    "headers": Headers {
+      "map": Object {
+        "content-type": "application/json",
+      },
+    },
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http POST http://example.com/for-good with [{"for":"the throne"},{"params":{"lang":"zh-CN"}}] should work 1`] = `
+Array [
+  "http://example.com/for-good?lang=zh-CN",
+  Object {
+    "body": "{\\"for\\":\\"the throne\\"}",
+    "headers": Headers {
+      "map": Object {
+        "content-type": "application/json",
+      },
+    },
+    "method": "POST",
+  },
+  undefined,
+]
+`;
+
+exports[`http PUT http://example.com with [] should work 1`] = `
+Array [
+  "http://example.com",
+  Object {
+    "method": "PUT",
+  },
+  undefined,
+]
+`;

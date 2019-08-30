@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorBoundary should show errors 1`] = `<Child />`;
+
+exports[`ErrorBoundary should show errors 2`] = `
+<div>
+  <h3>
+    SOMETHING_WENT_WRONG
+  </h3>
+  <p>
+    Error: oops
+  </p>
+</div>
+`;

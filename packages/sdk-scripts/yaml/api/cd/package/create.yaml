@@ -1,0 +1,50 @@
+_version_: 2.1
+_kind_: "interface"
+
+version: 1.0
+name: "Create"
+description: "创建包"
+
+import:
+  - easyops/model/cd/package
+
+endpoint:
+  method: "POST"
+  uri: "/package"
+
+request:
+  type: object
+  fields:
+    - ref: Package.name
+    - ref: Package.type
+    - ref: Package.cId
+    - ref: Package.memo
+    - ref: Package.installPath
+    - ref: Package.platform
+    - ref: Package.source
+    - ref: Package.category
+    - ref: Package.icon
+    - ref: Package.style
+  required:
+    - Package.name
+    - Package.type
+    - Package.cId
+    - Package.memo
+    - Package.installPath
+    - Package.platform
+
+response:
+  wrapper: false
+  type: Package
+  required:
+    - Package.packageId
+    - Package.name
+    - Package.type
+    - Package.cId
+    - Package.memo
+    - Package.installPath
+    - Package.platform
+    - Package.source
+    - Package.category
+    - Package.icon
+    - Package.style

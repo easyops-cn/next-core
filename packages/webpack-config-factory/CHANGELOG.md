@@ -1,0 +1,37 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [0.7.0](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/webpack-config-factory@0.6.0...@easyops/webpack-config-factory@0.7.0) (2019-07-24)
+
+### Features
+
+- dynamic dll, ref [#5](https://git.easyops.local/anyclouds/brick-next/issues/5) ([7888ccd](https://git.easyops.local/anyclouds/brick-next/commits/7888ccd))
+
+# [0.6.0](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/webpack-config-factory@0.5.2...@easyops/webpack-config-factory@0.6.0) (2019-07-15)
+
+### Features
+
+- **webpack:** svg 支持 url 输出 ([d23c4b8](https://git.easyops.local/anyclouds/brick-next/commits/d23c4b8))
+
+## [0.5.2](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/webpack-config-factory@0.5.1...@easyops/webpack-config-factory@0.5.2) (2019-07-03)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
+## [0.5.1](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/webpack-config-factory@0.5.0...@easyops/webpack-config-factory@0.5.1) (2019-06-24)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
+# [0.5.0](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/webpack-config-factory@0.4.0...@easyops/webpack-config-factory@0.5.0) (2019-06-21)
+
+### Features
+
+- **developer:** support documentation ([12113f5](https://git.easyops.local/anyclouds/brick-next/commits/12113f5))
+
+# 0.4.0 (2019-06-19)
+
+### Features
+
+- **post-build:** auto generate deploy/\* and .pkgbuild after build ([4215ec9](https://git.easyops.local/anyclouds/brick-next/commits/4215ec9))
+- **sdk-scripts:** generate contracts.yaml ([94e97e9](https://git.easyops.local/anyclouds/brick-next/commits/94e97e9))

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadTemplate should work 1`] = `
+Array [
+  Array [
+    "/tmp/sdk/rollup.config.js",
+    "import { rollupFactory } from \\"@easyops/rollup-config-factory\\";
+
+export default rollupFactory({ umdName: \\"CdSdk\\" });
+",
+  ],
+  Array [
+    "/tmp/sdk/src/wrapper.ts",
+    "export interface ResponseBodyWrapper<T> {
+  code: number;
+  data: T;
+  error?: string;
+  message?: string;
+}
+
+export interface ResponseListWrapper<T> {
+  list: T[];
+  page: number;
+  page_size: number;
+  total: number;
+}
+",
+  ],
+  Array [
+    "/tmp/sdk/tsconfig.json",
+    "{
+  \\"extends\\": \\"../../tsconfig.json\\",
+  \\"include\\": [\\"./src\\", \\"../../declarations\\"]
+}
+",
+  ],
+]
+`;

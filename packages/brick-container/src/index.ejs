@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <base href="<%= htmlWebpackPlugin.options.baseHref %>">
+  </head>
+  <body>
+    <div id="root-layout">
+      <nav id="menu-bar-mount-point" class="print-hide"></nav>
+      <div id="root-content">
+        <header id="app-bar-mount-point" class="print-hide"></header>
+        <div id="main-mount-point"></div>
+        <div id="legacy-iframe-mount-point"></div>
+      </div>
+      <div id="loading-bar-mount-point"></div>
+    </div>
+    <div id="bg-mount-point"></div>
+  </body>
+</html>

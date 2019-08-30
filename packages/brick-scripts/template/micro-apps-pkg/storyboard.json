@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/@easyops/brick-types/.schema/storyboard.json",
+  "imports": ["@bricks/basic-bricks"],
+  "app": {
+    "name": "$Title Package Name$",
+    "id": "$kebab-package-name$",
+    "homepage": "/$kebab-package-name$"
+  },
+  "routes": []
+}

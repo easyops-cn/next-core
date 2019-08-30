@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadService should work 1`] = `
+Array [
+  Array [
+    "dist/src/api/cd/package/create.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+import { ModelPackage } from \\"../../../model/cd\\";
+
+export interface CreateRequestBody {
+  /** 包名称 */
+  name: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  type: number;
+
+  /** 包分类 */
+  cId: number;
+
+  /** 备注说明 */
+  memo: string;
+
+  /** 安装路径 */
+  installPath: string;
+
+  /** 平台 */
+  platform: string;
+
+  /** 包文件源 */
+  source?: string;
+
+  /** 包分类标签 */
+  category?: string;
+
+  /** 包图标 */
+  icon?: string;
+
+  /** 包图标样式(颜色) */
+  style?: string;
+}
+
+export type CreateResponseBody = Partial<ModelPackage> & {
+  /** 包Id */
+  packageId: string;
+
+  /** 包名称 */
+  name: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  type: number;
+
+  /** 包分类 */
+  cId: number;
+
+  /** 备注说明 */
+  memo: string;
+
+  /** 安装路径 */
+  installPath: string;
+
+  /** 平台 */
+  platform: string;
+
+  /** 包文件源 */
+  source: string;
+
+  /** 包分类标签 */
+  category: string;
+
+  /** 包图标 */
+  icon: string;
+
+  /** 包图标样式(颜色) */
+  style: string;
+};
+
+/** 创建包 */
+export const create = (
+  data: CreateRequestBody,
+  options?: HttpOptions
+): Promise<CreateResponseBody> =>
+  http.post<CreateResponseBody>(
+    \\"api/gateway/cd.package.Create/package\\",
+    data,
+    options
+  );
+",
+  ],
+  Array [
+    "dist/src/api/cd/package/get.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+import { ModelPackageWithVersion } from \\"../../../model/cd\\";
+import { ResponseBodyWrapper } from \\"../../../wrapper\\";
+
+export interface GetRequestParams {
+  /** 语言 */
+  lang?: string;
+}
+
+export interface GetResponseBody {
+  /** 最新版本信息 */
+  lastVersionInfo?: ModelPackageWithVersion[\\"lastVersionInfo\\"];
+
+  /** MAP */
+  mapField?: Record<string, any>;
+
+  /** MAPS */
+  mapsField?: Record<string, any>[];
+}
+
+/** 获取包 */
+export const get = async (
+  packageId: string | number,
+  versionId: string | number,
+  params: GetRequestParams,
+  options?: HttpOptions
+): Promise<GetResponseBody> =>
+  (await http.get<ResponseBodyWrapper<GetResponseBody>>(
+    \`api/gateway/cd.package.Get/packages/pkg/\${packageId}/\${versionId}\`,
+    { ...options, params }
+  )).data;
+",
+  ],
+  Array [
+    "dist/src/api/cd/package/search.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+import { ModelPackage, ModelPackageExt } from \\"../../../model/cd\\";
+import { ResponseListWrapper, ResponseBodyWrapper } from \\"../../../wrapper\\";
+
+export interface SearchRequestParams {
+  /** 包名称 */
+  name: string;
+
+  /** page number */
+  page?: number;
+
+  /** size of each page */
+  pageSize?: number;
+
+  /** the field need to sort */
+  order?: string;
+}
+
+export type SearchResponseItem = ModelPackage & {
+  /** 最新版本信息 */
+  lastVersionInfo: ModelPackageExt[\\"lastVersionInfo\\"];
+};
+
+export type SearchResponseBody = ResponseListWrapper<SearchResponseItem>;
+
+/** 搜索包 */
+export const search = async (
+  params: SearchRequestParams,
+  options?: HttpOptions
+): Promise<SearchResponseBody> =>
+  (await http.get<ResponseBodyWrapper<SearchResponseBody>>(
+    \\"api/gateway/cd.package.Search/packages/search\\",
+    { ...options, params }
+  )).data;
+",
+  ],
+  Array [
+    "dist/src/api/cd/package/upload.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+
+/** params */
+export interface UploadRequestParams {
+  /** 版本 ID */
+  versionId?: string;
+}
+
+/** others */
+export interface UploadRequestBody {
+  /** 文件 */
+  sourceFile?: File[];
+
+  /** 编码 */
+  encoding?: string[];
+}
+
+/** 上传包 */
+export const upload = (
+  packageId: string | number,
+  params: UploadRequestParams,
+  data: UploadRequestBody,
+  options?: HttpOptions
+): Promise<Blob> => {
+  const _formData = new FormData();
+  for (const [key, value] of Object.entries(data)) {
+    if (Array.isArray(value)) {
+      const k = \`\${key}[]\`;
+      value.forEach(v => {
+        _formData.append(k, v);
+      });
+    } else {
+      _formData.append(key, value);
+    }
+  }
+  return http.post<Blob>(
+    \`api/gateway/cd.package.Upload/packages/pkg/\${packageId}/upload\`,
+    _formData,
+    { ...options, params, responseType: \\"blob\\" }
+  );
+};
+",
+  ],
+  Array [
+    "dist/src/model/cd/ModelPackage.ts",
+    "/** 包模型 */
+export interface ModelPackage {
+  /** 包Id */
+  packageId: string;
+
+  /** 包名称 */
+  name: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  type: number;
+
+  /** 包分类 */
+  cId: number;
+
+  /** 包文件源 */
+  source: string;
+
+  /** 备注说明 */
+  memo: string;
+
+  /** 安装路径 */
+  installPath: string;
+
+  /** 平台 */
+  platform: string;
+
+  /** 包分类标签 */
+  category: string;
+
+  /** 包图标 */
+  icon: string;
+
+  /** 包图标样式(颜色) */
+  style: string;
+
+  /** ctime */
+  ctime: string;
+
+  /** mtime */
+  mtime: string;
+}
+",
+  ],
+  Array [
+    "dist/src/model/cd/ModelVersion.ts",
+    "/** 程序包版本 */
+export interface ModelVersion {
+  /** 版本名称 */
+  name: string;
+
+  /** 版本Id */
+  versionId: string;
+
+  /** 程序包Id */
+  packageId: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  env_type: number;
+
+  /** 创建时间 */
+  ctime: string;
+
+  /** 修改时间 */
+  mtime: string;
+}
+",
+  ],
+  Array [
+    "dist/src/model/cd/ModelPackageWithVersion.ts",
+    "import { ModelVersion } from \\".\\";
+
+/** 包带版本的模型 */
+export interface ModelPackageWithVersion {
+  /** 最新版本信息 */
+  lastVersionInfo: Partial<ModelVersion>[];
+
+  /** 描述 */
+  desc: string;
+}
+",
+  ],
+  Array [
+    "dist/src/model/cd/ModelPackageExt.ts",
+    "/** 包模型 */
+export interface ModelPackageExt {
+  /** 最新版本信息 */
+  lastVersionInfo: {
+    /** 创建时间 */
+    ctime?: string;
+
+    /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+    env_type?: number;
+
+    /** 版本名称 */
+    name?: string;
+
+    /** 版本Id */
+    versionId?: string;
+  };
+
+  /** 包实例数量 */
+  instanceCount: number;
+}
+",
+  ],
+  Array [
+    "dist/src/api/cd/package/index.ts",
+    "export * from \\"./create\\";
+export * from \\"./get\\";
+export * from \\"./search\\";
+export * from \\"./upload\\";
+",
+  ],
+  Array [
+    "dist/src/model/cd/index.ts",
+    "export * from \\"./ModelPackage\\";
+export * from \\"./ModelVersion\\";
+export * from \\"./ModelPackageWithVersion\\";
+export * from \\"./ModelPackageExt\\";
+",
+  ],
+  Array [
+    "dist/src/index.ts",
+    "import * as PackageApi from \\"./api/cd/package\\";
+import * as CdModels from \\"./model/cd\\";
+export { PackageApi, CdModels };
+",
+  ],
+  Array [
+    "dist/deploy/contracts.yaml",
+    "depend_contracts:
+  - name: easyops.api.cd.package.Create
+    version: ^1.0
+  - name: easyops.api.cd.package.Get
+    version: ^1.0
+  - name: easyops.api.cd.package.Search
+    version: ^1.0
+  - name: easyops.api.cd.package.Upload
+    version: ^1.0
+",
+  ],
+]
+`;

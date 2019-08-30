@@ -1,0 +1,49 @@
+{
+  "name": "@easyops/brick-scripts",
+  "version": "0.12.2",
+  "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-scripts",
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "bin": {
+    "brick-scripts": "./bin/brick-scripts.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "template"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "tsc -w",
+    "prebuild": "npm run clean",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "change-case": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "inquirer": "^7.0.0",
+    "klaw-sync": "^6.0.0",
+    "meow": "^5.0.0"
+  },
+  "templateDependencies": {
+    "@bricks/basic-bricks": ">=0.16.0",
+    "@easyops/brick-container": ">=0.11.0"
+  },
+  "devDependencies": {
+    "@easyops/brick-dll": "^0.5.46",
+    "@easyops/brick-types": "^0.13.0",
+    "@easyops/build-config-factory": "^0.11.2",
+    "@easyops/rollup-config-factory": "^0.1.2",
+    "@easyops/webpack-config-factory": "^0.7.0"
+  },
+  "engines": {
+    "node": ">=10.10.0"
+  }
+}

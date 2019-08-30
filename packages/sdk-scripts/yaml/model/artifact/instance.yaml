@@ -1,0 +1,79 @@
+_version_: 2.0
+_kind_: model
+
+name: Instance
+description: 程序包实例
+
+fields:
+  - name: appId
+    type: guid
+    description: 所属应用Id
+
+  - name: clusterId
+    type: guid
+    description: 所属集群Id
+
+  - name: creator
+    type: user_name
+    description: 创建者
+
+  - name: ctime
+    type: datetime
+    description: 创建时间
+
+  - name: deviceId
+    type: guid
+    description: 设备Id
+
+  - name: deviceIp
+    type: ip
+    description: 设备IP
+
+  - name: installPath
+    type: file_path
+    description: 安装路径
+
+  - name: installTime
+    type: datetime
+    description: 安装时间
+
+  - name: instanceId
+    type: guid
+    description: 实例Id
+
+  - name: lastOperation
+    type: string
+    description: 最近一次操作时间
+
+  - name: mtime
+    type: datetime
+    description: 修改时间
+
+  - name: org
+    type: int
+    description: 组织Id
+
+  - name: packageId
+    type: guid
+    description: 所属程序包Id
+
+  - name: packageName
+    type: string
+    description: 所属包名称
+
+  - name: packageType
+    type: string
+    description: 包类型
+
+  - name: updateTime
+    type: datetime
+    description: 更新时间
+
+  - name: versionId
+    type: guid
+    description: 所属版本Id
+
+  - name: versionName
+    type: version
+    description: 所属版本名
+

@@ -1,0 +1,40 @@
+{
+  "name": "@easyops/brick-dll",
+  "version": "0.5.46",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-dll",
+  "license": "UNLICENSED",
+  "main": "dist/manifest.json",
+  "files": [
+    "dist/manifest*.json",
+    "dist/dll*.js",
+    "dist/dll*.js.map",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack --config webpack.dll.js --watch",
+    "prepublishOnly": "npm run build",
+    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.dll.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
+  },
+  "dependencies": {
+    "@easyops/brick-http": "^0.1.3",
+    "@easyops/brick-kit": "^0.21.1",
+    "@easyops/brick-utils": "^0.6.5",
+    "@easyops/fontawesome-library": "^0.6.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "antd": "^3.22.2",
+    "history": "^4.9.0",
+    "i18next": "^17.0.13",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-i18next": "^10.12.2",
+    "react-transition-group": "^4.2.2"
+  }
+}

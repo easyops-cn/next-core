@@ -1,0 +1,42 @@
+_version_: 2.0
+_kind_: "interface"
+version: 1.0
+name: "Search"
+description: "搜索包"
+
+import:
+  - easyops/model/cd/package
+  - easyops/model/cd/package_ext
+
+endpoint:
+  method: "LIST"
+  uri: "/packages/search"
+
+request:
+  type: object
+  fields:
+    - ref: Package.name
+    - name: page
+      type: int
+      description: "page number"
+    - name: pageSize
+      type: int
+      description: "size of each page"
+    - name: order
+      type: string
+      description: "the field need to sort"
+  required:
+    - Package.name
+
+  default:
+    page: 1
+
+response:
+  type: object
+  fields:
+    - ref: Package.*      # reference package model
+    - ref: PackageExt.lastVersionInfo
+
+  required:
+    - Package.*
+    - PackageExt.lastVersionInfo

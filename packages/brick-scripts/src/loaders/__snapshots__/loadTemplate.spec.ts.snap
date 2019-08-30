@@ -1,0 +1,511 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadTemplate should create a new brick 1`] = `
+Array [
+  Array [
+    "dist/ForBetter.spec.tsx",
+    "import React from \\"react\\";
+import { shallow } from \\"enzyme\\";
+import { ForBetter } from \\"./ForBetter\\";
+
+describe(\\"ForBetter\\", () => {
+  it(\\"should work\\", () => {
+    const wrapper = shallow(<ForBetter />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+",
+  ],
+  Array [
+    "dist/ForBetter.tsx",
+    "import React from \\"react\\";
+import { useTranslation } from \\"react-i18next\\";
+import { NS_FOR_GOOD, K } from \\"../i18n/constants\\";
+
+export function ForBetter(): React.ReactElement {
+  const { t } = useTranslation(NS_FOR_GOOD);
+
+  return <div>{t(K.FOR_GOOD)} works!</div>;
+}
+",
+  ],
+  Array [
+    "dist/__snapshots__/ForBetter.spec.tsx.snap",
+    "// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[\`ForBetter should work 1\`] = \`
+<div>
+  FOR_GOOD
+   works!
+</div>
+\`;
+",
+  ],
+  Array [
+    "dist/index.spec.ts",
+    "// Ref https://github.com/jsdom/jsdom/issues/1030
+import \\"document-register-element\\";
+import ReactDOM from \\"react-dom\\";
+import \\"./\\";
+
+const spyOnRender = jest.spyOn(ReactDOM, \\"render\\").mockImplementation(() => {});
+const unmountComponentAtNode = jest
+  .spyOn(ReactDOM, \\"unmountComponentAtNode\\")
+  .mockImplementation((() => {}) as any);
+
+describe(\\"for-good.for-better\\", () => {
+  it(\\"should create a custom element\\", async () => {
+    const element = document.createElement(\\"for-good.for-better\\");
+    // Always waiting for async \`(dis)connectedCallback\`
+    await jest.runAllTimers();
+    expect(spyOnRender).not.toBeCalled();
+    document.body.appendChild(element);
+    await jest.runAllTimers();
+    expect(spyOnRender).toBeCalled();
+    document.body.removeChild(element);
+    await jest.runAllTimers();
+    expect(unmountComponentAtNode).toBeCalled();
+  });
+});
+",
+  ],
+  Array [
+    "dist/index.tsx",
+    "import React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+import { ErrorBoundary } from \\"@easyops/brick-kit\\";
+import { ForBetter } from \\"./ForBetter\\";
+
+class ForBetterElement extends HTMLElement {
+  connectedCallback(): void {
+    this.style.display = \\"block\\";
+    this._render();
+  }
+
+  disconnectedCallback(): void {
+    ReactDOM.unmountComponentAtNode(this);
+  }
+
+  private _render(): void {
+    if (this.isConnected) {
+      ReactDOM.render(
+        <ErrorBoundary>
+          <ForBetter />
+        </ErrorBoundary>,
+        this
+      );
+    }
+  }
+}
+
+customElements.define(\\"for-good.for-better\\", ForBetterElement);
+",
+  ],
+  Array [
+    "doc/for-good/for-better.md",
+    "# INPUTS
+
+| property | type | required | default | description |
+| -------- | ---- | -------- | ------- | ----------- |
+| -        | -    | -        | -       | -           |
+
+# EVENTS
+
+| type | detail | description |
+| ---- | ------ | ----------- |
+| -    | -      | -           |
+
+# METHODS
+
+| name | params | description |
+| ---- | ------ | ----------- |
+| -    | -      | -           |
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new package of bricks 1`] = `
+Array [
+  Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
+
+postBuild(\\"bricks\\");
+",
+  ],
+  Array [
+    "dist/src/i18n/constants.ts",
+    "export const NS_FOR_GOOD = \\"for-good\\";
+
+export enum K {
+  FOR_GOOD = \\"FOR_GOOD\\"
+}
+
+export type Locale = { [key in K]: string };
+",
+  ],
+  Array [
+    "dist/src/i18n/index.ts",
+    "import i18next from \\"i18next\\";
+import { NS_FOR_GOOD } from \\"./constants\\";
+import en from \\"./locales/en\\";
+import zh from \\"./locales/zh\\";
+
+i18next.addResourceBundle(\\"en\\", NS_FOR_GOOD, en);
+i18next.addResourceBundle(\\"zh\\", NS_FOR_GOOD, zh);
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/en.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/zh.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+  Array [
+    "dist/src/index.spec.ts",
+    "import i18next from \\"i18next\\";
+const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
+
+const spyOnDefine = jest.fn();
+(window as any).customElements = {
+  define: spyOnDefine
+};
+
+// Use \`require\` instead of \`import\` to avoid hoisting.
+require(\\"./index\\");
+
+describe(\\"index\\", () => {
+  it(\\"should add i18n resource bundle\\", () => {
+    expect(spyOnAddResourceBundle).toBeCalled();
+  });
+  it(\\"should define custom elements\\", () => {
+    expect(spyOnDefine).toBeCalled();
+  });
+});
+",
+  ],
+  Array [
+    "dist/src/index.ts",
+    "import \\"./i18n\\";
+",
+  ],
+  Array [
+    "dist/tsconfig.json",
+    "{
+  \\"extends\\": \\"../../tsconfig.json\\",
+  \\"include\\": [
+    \\"./src\\",
+    \\"../../declarations\\"
+  ]
+}
+",
+  ],
+  Array [
+    "dist/webpack.config.js",
+    "const merge = require(\\"webpack-merge\\");
+const { bricks } = require(\\"@easyops/webpack-config-factory\\");
+
+const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackCommonFactory(),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
+",
+  ],
+  Array [
+    "dist/src/for-better/ForBetter.spec.tsx",
+    "import React from \\"react\\";
+import { shallow } from \\"enzyme\\";
+import { ForBetter } from \\"./ForBetter\\";
+
+describe(\\"ForBetter\\", () => {
+  it(\\"should work\\", () => {
+    const wrapper = shallow(<ForBetter />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+",
+  ],
+  Array [
+    "dist/src/for-better/ForBetter.tsx",
+    "import React from \\"react\\";
+import { useTranslation } from \\"react-i18next\\";
+import { NS_FOR_GOOD, K } from \\"../i18n/constants\\";
+
+export function ForBetter(): React.ReactElement {
+  const { t } = useTranslation(NS_FOR_GOOD);
+
+  return <div>{t(K.FOR_GOOD)} works!</div>;
+}
+",
+  ],
+  Array [
+    "dist/src/for-better/__snapshots__/ForBetter.spec.tsx.snap",
+    "// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[\`ForBetter should work 1\`] = \`
+<div>
+  FOR_GOOD
+   works!
+</div>
+\`;
+",
+  ],
+  Array [
+    "dist/src/for-better/index.spec.ts",
+    "// Ref https://github.com/jsdom/jsdom/issues/1030
+import \\"document-register-element\\";
+import ReactDOM from \\"react-dom\\";
+import \\"./\\";
+
+const spyOnRender = jest.spyOn(ReactDOM, \\"render\\").mockImplementation(() => {});
+const unmountComponentAtNode = jest
+  .spyOn(ReactDOM, \\"unmountComponentAtNode\\")
+  .mockImplementation((() => {}) as any);
+
+describe(\\"for-good.for-better\\", () => {
+  it(\\"should create a custom element\\", async () => {
+    const element = document.createElement(\\"for-good.for-better\\");
+    // Always waiting for async \`(dis)connectedCallback\`
+    await jest.runAllTimers();
+    expect(spyOnRender).not.toBeCalled();
+    document.body.appendChild(element);
+    await jest.runAllTimers();
+    expect(spyOnRender).toBeCalled();
+    document.body.removeChild(element);
+    await jest.runAllTimers();
+    expect(unmountComponentAtNode).toBeCalled();
+  });
+});
+",
+  ],
+  Array [
+    "dist/src/for-better/index.tsx",
+    "import React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+import { ErrorBoundary } from \\"@easyops/brick-kit\\";
+import { ForBetter } from \\"./ForBetter\\";
+
+class ForBetterElement extends HTMLElement {
+  connectedCallback(): void {
+    this.style.display = \\"block\\";
+    this._render();
+  }
+
+  disconnectedCallback(): void {
+    ReactDOM.unmountComponentAtNode(this);
+  }
+
+  private _render(): void {
+    if (this.isConnected) {
+      ReactDOM.render(
+        <ErrorBoundary>
+          <ForBetter />
+        </ErrorBoundary>,
+        this
+      );
+    }
+  }
+}
+
+customElements.define(\\"for-good.for-better\\", ForBetterElement);
+",
+  ],
+  Array [
+    "doc/for-good/for-better.md",
+    "# INPUTS
+
+| property | type | required | default | description |
+| -------- | ---- | -------- | ------- | ----------- |
+| -        | -    | -        | -       | -           |
+
+# EVENTS
+
+| type | detail | description |
+| ---- | ------ | ----------- |
+| -    | -      | -           |
+
+# METHODS
+
+| name | params | description |
+| ---- | ------ | ----------- |
+| -    | -      | -           |
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new package of dll 1`] = `
+Array [
+  Array [
+    "dist/webpack.dll.js",
+    "const { dll } = require(\\"@easyops/webpack-config-factory\\");
+
+module.exports = dll.webpackDllFactory();
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new package of libs 1`] = `
+Array [
+  Array [
+    "dist/rollup.config.js",
+    "import { rollupFactory } from \\"@easyops/rollup-config-factory\\";
+
+export default rollupFactory({ umdName: \\"ForGood\\" });
+",
+  ],
+  Array [
+    "dist/src/index.ts",
+    "",
+  ],
+  Array [
+    "dist/tsconfig.json",
+    "{
+  \\"extends\\": \\"../../tsconfig.json\\",
+  \\"include\\": [
+    \\"./src\\",
+    \\"../../declarations\\"
+  ]
+}
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new package of micro-apps 1`] = `
+Array [
+  Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
+
+postBuild(\\"micro-apps\\");
+",
+  ],
+  Array [
+    "dist/storyboard.json",
+    "{
+  \\"$schema\\": \\"../../node_modules/@easyops/brick-types/.schema/storyboard.json\\",
+  \\"imports\\": [\\"@bricks/basic-bricks\\"],
+  \\"app\\": {
+    \\"name\\": \\"For Good\\",
+    \\"id\\": \\"for-good\\",
+    \\"homepage\\": \\"/for-good\\"
+  },
+  \\"routes\\": []
+}
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new package of providers 1`] = `
+Array [
+  Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
+
+postBuild(\\"bricks\\");
+",
+  ],
+  Array [
+    "dist/tsconfig.json",
+    "{
+  \\"extends\\": \\"../../tsconfig.json\\",
+  \\"include\\": [
+    \\"./src\\",
+    \\"../../declarations\\"
+  ]
+}
+",
+  ],
+  Array [
+    "dist/webpack.config.js",
+    "const merge = require(\\"webpack-merge\\");
+const { bricks } = require(\\"@easyops/webpack-config-factory\\");
+
+const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackCommonFactory(),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
+",
+  ],
+  Array [
+    "dist/.gitignore",
+    "/src/
+",
+  ],
+  Array [
+    "dist/scripts/pre-build.js",
+    "const { preBuild } = require(\\"@easyops/build-config-factory\\");
+
+preBuild(\\"providers\\");
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should transform a micro-app 1`] = `
+Array [
+  Array [
+    "dist/.gitignore",
+    "/storyboard.json
+",
+  ],
+  Array [
+    "dist/scripts/build.js",
+    "const { build } = require(\\"@easyops/build-config-factory\\");
+
+build(\\"micro-apps\\");
+",
+  ],
+  Array [
+    "dist/tsconfig.json",
+    "{
+  \\"compilerOptions\\": {
+    \\"target\\": \\"ES6\\",
+    \\"module\\": \\"CommonJS\\",
+    \\"moduleResolution\\": \\"node\\",
+    \\"esModuleInterop\\": true,
+    \\"resolveJsonModule\\": true,
+    \\"declaration\\": false,
+    \\"outDir\\": \\"./dist\\"
+  },
+  \\"exclude\\": [
+    \\"node_modules\\",
+    \\"**/*.spec.ts\\",
+    \\"dist/\\",
+    \\"template/\\",
+    \\"**/__mocks__/\\",
+    \\"package.json\\"
+  ]
+}
+",
+  ],
+]
+`;

@@ -1,0 +1,34 @@
+pkgname=brick_next
+pkgver=0.0.0 # placeholder
+pkgrel=1
+arch=('x86_64')
+source=()
+options=(!strip)
+
+_prepare_source_links() {
+    local _projectdir="${startdir}/../.."
+    ln -snf "${_projectdir}" "${srcdir}/next-core"
+}
+
+prepare() {
+    _prepare_source_links
+}
+
+pkgver() {
+    jq -r '.version' "${srcdir}/next-core/packages/brick-container/package.json"
+}
+
+check() {
+    cd next-core
+    stat -t packages/brick-container/dist/index.html
+}
+
+package() {
+    cd next-core
+    cp -arf packages/brick-container/deploy ${pkgdir}
+    cp -arf --parents packages/brick-container/dist ${pkgdir}
+    cp -arf --parents packages/brick-container/conf ${pkgdir}
+    cp -arf --parents packages/brick-container/tools ${pkgdir}
+    [[ -f packages/brick-container/CHANGELOG.md ]] && cp -arf --parents packages/brick-container/CHANGELOG.md ${pkgdir}
+    [[ -f packages/brick-container/README.md ]] && cp -arf --parents packages/brick-container/README.md ${pkgdir}
+}

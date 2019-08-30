@@ -1,0 +1,36 @@
+_version_: 2.0
+_kind_: "interface"
+version: 1.0
+name: "Get"
+description: "获取包"
+
+import:
+  - easyops/model/cd/package_with_version
+  - easyops/model/cd/version
+
+endpoint:
+  method: "GET"
+  uri: "/packages/pkg/:packageId/:versionId"
+
+request:
+  type: object
+  fields:
+    - name: packageId
+      type: string
+      description: 包 ID
+    - ref: Version.versionId
+    - name: lang
+      type: string
+      description: 语言
+
+response:
+  wrapper: true
+  type: object
+  fields:
+    - ref: PackageWithVersion.lastVersionInfo
+    - name: mapField
+      type: map
+      description: MAP
+    - name: mapsField
+      type: map[]
+      description: MAPS

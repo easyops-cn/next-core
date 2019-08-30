@@ -1,0 +1,63 @@
+_version_: 2.0
+_kind_: model
+
+name: Package
+description: 包模型
+
+fields:
+- name: packageId
+  type: guid
+  description: 包Id
+
+- name: name
+  type: string
+  description: 包名称
+  validate:
+    gte: 1
+    lte: 45
+
+- name: type
+  type: env_type
+  description: 版本类型 1 开发, 3 测试, 7 预发布, 15 生产
+
+- name: cId
+  type: int
+  description: 包分类
+
+- name: source
+  type: string
+  description: 包文件源
+
+- name: memo
+  type: string
+  description: 备注说明
+  validate:
+    gte: 1
+
+- name: installPath
+  type: file_path
+  description: 安装路径
+
+- name: platform
+  type: string
+  description: 平台
+
+- name: category
+  type: string
+  description: 包分类标签
+
+- name: icon
+  type: string
+  description: 包图标
+
+- name: style
+  type: string
+  description: 包图标样式(颜色)
+
+- name: ctime
+  type: datetime
+  description: ctime
+
+- name: mtime
+  type: datetime
+  description: mtime

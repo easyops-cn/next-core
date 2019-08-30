@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../node_modules/@easyops/brick-types/.schema/storyboard.json",
+  "menuBar": "basic-bricks.menu-bar",
+  "appBar": "basic-bricks.app-bar",
+  "loadingBar": "basic-bricks.loading-bar"
+}

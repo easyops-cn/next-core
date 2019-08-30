@@ -1,0 +1,25 @@
+{
+  "name": "@easyops/webpack-config-factory",
+  "version": "0.7.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/webpack-config-factory",
+  "license": "UNLICENSED",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "build": "echo 'nothing to build but lerna need this to build deps'"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "change-case": "^3.1.0"
+  },
+  "peerDependencies": {
+    "@easyops/brick-dll": "*"
+  }
+}

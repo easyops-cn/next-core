@@ -1,0 +1,35 @@
+{
+  "name": "@easyops/brick-container",
+  "version": "0.12.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-container",
+  "license": "UNLICENSED",
+  "files": [
+    "conf",
+    "deploy",
+    "dist",
+    "tools"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV='development' webpack-dev-server --open --config webpack.dev.js",
+    "build": "cross-env NODE_ENV='production' webpack --config webpack.prod.js",
+    "test": "cross-env NODE_ENV='test' jest",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+  },
+  "dependencies": {
+    "@dll/d3": "^0.2.2",
+    "@dll/echarts": "^0.1.0",
+    "@easyops/brick-dll": "^0.5.46",
+    "core-js": "^3.2.1",
+    "i18next-browser-languagedetector": "^3.0.3",
+    "regenerator-runtime": "^0.13.3"
+  },
+  "devDependencies": {
+    "concat-stream": "^2.0.0",
+    "meow": "^5.0.0"
+  }
+}

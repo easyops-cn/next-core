@@ -1,0 +1,17 @@
+{
+  "packages": ["packages/*", "dll/*"],
+  "version": "independent",
+  "npmClient": "yarn",
+  "stream": true,
+  "useWorkspaces": true,
+  "conventionalCommits": true,
+  "command": {
+    "publish": {
+      "npmClient": "npm",
+      "allowBranch": "master",
+      "verifyAccess": false,
+      "message": "chore(release): publish",
+      "registry": "https://registry.npm.easyops.local"
+    }
+  }
+}

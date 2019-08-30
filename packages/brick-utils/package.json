@@ -1,0 +1,40 @@
+{
+  "name": "@easyops/brick-utils",
+  "version": "0.6.5",
+  "description": "Pure utility functions for kernel",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-utils",
+  "license": "UNLICENSED",
+  "main": "dist/index.bundle.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "npm run build:types && rollup --config rollup.config.js --watch",
+    "prebuild": "npm run clean",
+    "build": "npm run build:types && npm run build:rollup",
+    "build:rollup": "rollup --config rollup.config.js",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "test": "cross-env NODE_ENV='test' jest",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@easyops/brick-types": "^0.13.0",
+    "path-to-regexp": "^3.0.0"
+  },
+  "devDependencies": {
+    "@easyops/rollup-config-factory": "^0.1.2",
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "lodash": "*"
+  }
+}

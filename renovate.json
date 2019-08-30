@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json.schemastore.org/renovate",
+  "extends": ["config:base"],
+  "rangeStrategy": "bump",
+  "semanticCommits": true,
+  "commitMessagePrefix": "chore(deps):",
+  "assignees": ["weareoutman"],
+  "devDependencies": {
+    "automerge": true
+  },
+  "ignorePresets": [":ignoreModulesAndTests"],
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "^@bricks/",
+        "^@easyops/",
+        "^@libs/",
+        "^@micro-apps/",
+        "^@sdk/"
+      ],
+      "automerge": false
+    }
+  ]
+}

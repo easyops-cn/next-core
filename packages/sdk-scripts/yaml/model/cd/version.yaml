@@ -1,0 +1,33 @@
+_version_: 2.0
+_kind_: model
+
+name: Version
+description: 程序包版本
+
+fields:
+  - name: name
+    type: string
+    description: 版本名称
+    validate:
+      gte: 1
+      lte: 45
+
+  - name: versionId
+    type: guid
+    description: 版本Id
+
+  - name: packageId
+    type: guid
+    description: 程序包Id
+
+  - name: env_type
+    type: env_type
+    description: 版本类型 1 开发, 3 测试, 7 预发布, 15 生产
+
+  - name: ctime
+    type: datetime
+    description: 创建时间
+
+  - name: mtime
+    type: datetime
+    description: 修改时间

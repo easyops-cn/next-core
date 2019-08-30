@@ -1,0 +1,29 @@
+{
+  "name": "@bricks/$kebab-package-name$",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/brick-next/tree/master/bricks/$kebab-package-name$",
+  "license": "UNLICENSED",
+  "files": ["dist", "deploy"],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/brick-next.git"
+  },
+  "scripts": {
+    "prestart": "node scripts/pre-build.js",
+    "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",
+    "prebuild": "node scripts/pre-build.js",
+    "build": "cross-env NODE_ENV='production' webpack --config webpack.config.js",
+    "postbuild": "node scripts/post-build.js",
+    "test": "cross-env NODE_ENV='test' jest",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+  },
+  "dependencies": {
+    "@easyops/brick-dll": "latest",
+    "@sdk/$kebab-sdk-name$": "$sdk.version$"
+  },
+  "devDependencies": {
+    "@easyops/build-config-factory": "latest"
+  },
+  "sideEffects": true
+}

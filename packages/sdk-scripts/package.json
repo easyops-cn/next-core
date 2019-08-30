@@ -1,0 +1,41 @@
+{
+  "name": "@easyops/sdk-scripts",
+  "version": "0.6.3",
+  "description": "Generate new brick-packages or new bricks in existed packages",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/sdk-scripts",
+  "license": "UNLICENSED",
+  "main": "dist/main.js",
+  "bin": {
+    "sdk-scripts": "./bin/sdk-scripts.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "template",
+    "template.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "tsc -w",
+    "prebuild": "npm run clean",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@easyops/brick-http": "^0.1.3",
+    "@easyops/rollup-config-factory": "^0.1.2",
+    "chalk": "^2.4.2",
+    "change-case": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "inquirer": "^7.0.0",
+    "js-yaml": "^3.13.1",
+    "klaw-sync": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=10.10.0"
+  }
+}

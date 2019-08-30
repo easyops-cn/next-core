@@ -1,0 +1,23 @@
+service_list:
+  - name: web.brick_next
+    port: 80
+    host: ~
+start_script: ""
+stop_script: ""
+restart_script: ""
+install_prescript: ""
+install_postscript: ""
+update_prescript: ""
+update_postscript: ""
+rollback_prescript: ""
+rollback_postscript: ""
+proc_guard: stopStart
+port_guard: stopStart
+user: easyops:easyops
+dependencies:
+  - name: api_gateway
+    version: ^1.0.3
+  - name: nginx
+    version: ^3.2.4
+start_dependencies:
+  - name: logic.api.gateway   # 依赖服务名

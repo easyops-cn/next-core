@@ -1,0 +1,30 @@
+_version_: 2.0
+_kind_: "interface"
+
+version: 1.0
+name: "GetPackageList"
+description: "批量获取包信息"
+
+import:
+  - easyops/model/artifact/package
+  - easyops/model/artifact/package_ext
+
+endpoint:
+  method: "POST"
+  uri: "/packages/list"
+
+request:
+  type: guid[]
+
+response:
+  type: object
+  fields:
+    - ref: Package.*      # reference package model
+    - ref: PackageExt.*
+
+  required:
+    - Package.*
+    - PackageExt.*
+    - PackageExt.
+
+custom_controller: true

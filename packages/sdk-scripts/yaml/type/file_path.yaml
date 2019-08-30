@@ -1,0 +1,9 @@
+_version_: 2.0
+_kind_: type
+
+name: file_path
+type: string
+description: 文件路径（兼容linux和windows）
+
+validate:
+  pattern: /^((\/[^\/:\*\?""<>\|\r\n]+)+)|(\/)|[a-zA-Z]:(\\[^\\:\*\?""<>\|\r\n]+)*$/

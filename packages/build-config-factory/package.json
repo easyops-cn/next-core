@@ -1,0 +1,28 @@
+{
+  "name": "@easyops/build-config-factory",
+  "version": "0.11.2",
+  "description": "build scripts",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/build-config-factory",
+  "license": "UNLICENSED",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "build": "echo 'nothing to build but lerna need this to build deps'"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@easyops/brick-utils": "^0.6.5",
+    "change-case": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "js-yaml": "^3.13.1",
+    "klaw-sync": "^6.0.0",
+    "meow": "^5.0.0",
+    "prettier": "^1.18.2"
+  }
+}

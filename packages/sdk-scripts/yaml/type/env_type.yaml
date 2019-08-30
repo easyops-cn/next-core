@@ -1,0 +1,7 @@
+_version_: 2.0
+_kind_: type
+
+name: env_type
+type: int
+enum: [1, 3, 7, 15]
+description: 版本类型 1 开发, 3 测试, 7 预发布, 15 生产

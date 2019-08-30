@@ -1,0 +1,3 @@
+source "$startdir"/../../../.pkgbuild/@$scope-name$/PKGBUILD
+pkgname=$package-name$-$suffix-name$
+pkgver=0.0.0 # placeholder

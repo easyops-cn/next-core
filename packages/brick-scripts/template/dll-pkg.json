@@ -1,0 +1,22 @@
+{
+  "name": "@dll/$kebab-package-name$",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/$kebab-package-name$",
+  "license": "UNLICENSED",
+  "main": "dist/manifest.json",
+  "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack --config webpack.dll.js --watch",
+    "prepublishOnly": "npm run build",
+    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.dll.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
+  },
+  "devDependencies": {
+    "@easyops/webpack-config-factory": "^0.7.0"
+  }
+}

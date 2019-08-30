@@ -1,0 +1,80 @@
+// --- 引入官方提供的 less 样式入口文件 ---
+@import "~antd/dist/antd.less";
+// --- 自定义参数覆盖 ---
+@import "./_antd-var.less";
+
+/**
+ * 修改nz-pagination的默认顺序
+ * 相关连接 https://lanhuapp.com/web/#/item/project/board/detail?pid=6a513040-2585-4e92-a5d5-9fa80ba2642b&project_id=6a513040-2585-4e92-a5d5-9fa80ba2642b&image_id=366ccd08-a802-42e7-af27-0936bc4e5bd3
+*/
+.@{pagination-prefix-cls} {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  >* {
+    order: 1;
+  }
+
+  &-total-text {
+    order: -1;
+    margin-right: auto;
+  }
+
+  &-options {
+    order: 0;
+
+    .ant-select-selection {
+      border: none;
+    }
+  }
+}
+
+/**
+ * 修改 nz-table 的hover状态颜色
+ * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=6a513040-2585-4e92-a5d5-9fa80ba2642b&project_id=6a513040-2585-4e92-a5d5-9fa80ba2642b&image_id=51f4cfe1-0047-4602-bf4a-a184010ead04
+*/
+.@{table-prefix-cls} {
+
+  &-thead>tr,
+  &-tbody>tr {
+
+    &.@{table-prefix-cls}-row-hover,
+    &:hover {
+      &:not(.@{table-prefix-cls}-expanded-row)>td {
+        border-top: 1px solid #7eb7fc;
+        border-bottom: 1px solid #7eb7fc;
+      }
+
+      &:last-child>td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &-thead>tr>th {
+    border-bottom: none;
+  }
+
+  &-tbody>tr>td {
+    border-top: @border-width-base @border-style-base @border-color-split;
+    border-bottom: none;
+  }
+}
+/**
+ * 修改 timeline的自定义dot的样式
+*/
+.@{timeline-prefix-cls} {
+  &-item {
+    &-head-custom {
+      transform: translate(-100%, -50%);
+      background: transparent;
+      left: 6px;
+      height: 0px;
+    }
+
+    &-head-custom+&-content {
+      top: 0;
+    }
+  }
+}
