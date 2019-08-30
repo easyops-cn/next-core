@@ -6,7 +6,8 @@
   "license": "UNLICENSED",
   "main": "src/index.js",
   "files": [
-    "src"
+    "src",
+    "template"
   ],
   "repository": {
     "type": "git",
