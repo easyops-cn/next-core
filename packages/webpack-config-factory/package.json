@@ -19,6 +19,28 @@
   "dependencies": {
     "change-case": "^3.1.0"
   },
+  "devDependencies": {
+    "@svgr/webpack": "^4.3.2",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "html-loader": "^0.5.5",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "markdown-loader": "^5.1.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-nested": "^4.1.2",
+    "postcss-preset-env": "^6.7.0",
+    "prismjs": "^1.17.1",
+    "raw-loader": "^3.1.0",
+    "style-loader": "^1.0.0",
+    "to-string-loader": "^1.1.5",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-merge": "^4.2.2",
+    "url-loader": "^2.1.0"
+  },
   "peerDependencies": {
     "@easyops/brick-dll": "*"
   }

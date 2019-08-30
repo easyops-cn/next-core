@@ -26,14 +26,17 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@easyops/brick-http": "^0.2.0",
-    "@easyops/rollup-config-factory": "^0.2.0",
     "chalk": "^2.4.2",
     "change-case": "^3.1.0",
     "fs-extra": "^8.1.0",
     "inquirer": "^7.0.0",
     "js-yaml": "^3.13.1",
-    "klaw-sync": "^6.0.0"
+    "klaw-sync": "^6.0.0",
+    "prettier": "^1.18.2"
+  },
+  "devDependencies": {
+    "@easyops/brick-http": "^0.2.0",
+    "@easyops/rollup-config-factory": "^0.2.0"
   },
   "engines": {
     "node": ">=10.10.0"

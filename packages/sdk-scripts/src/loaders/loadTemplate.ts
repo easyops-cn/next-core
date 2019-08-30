@@ -4,14 +4,16 @@ import path from "path";
 import klawSync from "klaw-sync";
 import changeCase from "change-case";
 import { FileWithContent } from "../interface";
-import brickHttpJson from "@easyops/brick-http/package.json";
-import rollupConfigFactoryJson from "@easyops/rollup-config-factory/package.json";
 
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
+const { devDependencies } = packageJson;
+const brickHttpVersion = devDependencies["@easyops/brick-http"];
+const rollupConfigFactoryVersion =
+  devDependencies["@easyops/rollup-config-factory"];
 
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
@@ -40,10 +42,10 @@ function replaceFileContent(
 
 function replaceDepsVersion(jsonString: string, sdkVersion: string): string {
   const pkg = JSON.parse(jsonString);
-  pkg.devDependencies["@easyops/brick-http"] = `^${brickHttpJson.version}`;
+  pkg.devDependencies["@easyops/brick-http"] = brickHttpVersion;
   pkg.devDependencies[
     "@easyops/rollup-config-factory"
-  ] = `^${rollupConfigFactoryJson.version}`;
+  ] = rollupConfigFactoryVersion;
   if (sdkVersion) {
     pkg.version = sdkVersion;
   }

@@ -49,17 +49,6 @@ module.exports = {
         options: {
           rootMode: "upward"
         }
-      },
-      {
-        test: /\.html$/,
-        use: "raw-loader"
-      },
-      {
-        test: /\.(jpe?g|png|gif|ico)$/i,
-        loader: "file-loader",
-        options: {
-          name: "[name].[ext]"
-        }
       }
     ]
   },

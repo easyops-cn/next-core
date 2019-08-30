@@ -2551,20 +2551,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-test-renderer@^16.9.0":
-  version "16.9.0"
-  resolved "https://registry.npm.taobao.org/@types/react-test-renderer/download/@types/react-test-renderer-16.9.0.tgz#d60f530ecf4c906721511603cca711b4fa830d41"
-  integrity sha1-1g9TDs9MkGchURYDzKcRtPqDDUE=
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-transition-group@^4.2.2":
-  version "4.2.2"
-  resolved "https://registry.npm.taobao.org/@types/react-transition-group/download/@types/react-transition-group-4.2.2.tgz?cache=0&sync_timestamp=1565213870089&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact-transition-group%2Fdownload%2F%40types%2Freact-transition-group-4.2.2.tgz#8c851c4598a23a3a34173069fb4c5c9e41c02e3f"
-  integrity sha1-jIUcRZiiOjo0FzBp+0xcnkHALj8=
-  dependencies:
-    "@types/react" "*"
-
 "@types/react@*", "@types/react@^16.9.2":
   version "16.9.2"
   resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.2.tgz#6d1765431a1ad1877979013906731aae373de268"
@@ -2613,11 +2599,6 @@
     "@types/tapable" "*"
     "@types/uglify-js" "*"
     source-map "^0.6.0"
-
-"@types/yaml@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npm.taobao.org/@types/yaml/download/@types/yaml-1.0.2.tgz#bba080d64714c6ef3eaa023e235dacd2cfa3c938"
-  integrity sha1-u6CA1kcUxu8+qgI+I12s0s+jyTg=
 
 "@types/yargs-parser@*":
   version "13.0.0"
@@ -3425,7 +3406,7 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
 
-body-parser@1.19.0:
+body-parser@1.19.0, body-parser@^1.19.0:
   version "1.19.0"
   resolved "https://registry.npm.taobao.org/body-parser/download/body-parser-1.19.0.tgz#96b2709e57c9c4e09a6fd66a8fd979844f69f08a"
   integrity sha1-lrJwnlfJxOCab9Zqj9l5hE9p8Io=
@@ -4132,7 +4113,7 @@ concat-stream@^1.5.0:
 
 concat-stream@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.npm.taobao.org/concat-stream/download/concat-stream-2.0.0.tgz#414cf5af790a48c60ab9be4527d56d5e41133cb1"
+  resolved "https://registry.npm.taobao.org/concat-stream/download/concat-stream-2.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fconcat-stream%2Fdownload%2Fconcat-stream-2.0.0.tgz#414cf5af790a48c60ab9be4527d56d5e41133cb1"
   integrity sha1-QUz1r3kKSMYKub5FJ9VtXkETPLE=
   dependencies:
     buffer-from "^1.0.0"
@@ -6517,11 +6498,6 @@ har-validator@~5.1.0:
     ajv "^6.5.5"
     har-schema "^2.0.0"
 
-harmony-reflect@^1.4.6:
-  version "1.6.1"
-  resolved "https://registry.npm.taobao.org/harmony-reflect/download/harmony-reflect-1.6.1.tgz#c108d4f2bb451efef7a37861fdbdae72c9bdefa9"
-  integrity sha1-wQjU8rtFHv73o3hh/b2ucsm976k=
-
 has-ansi@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/has-ansi/-/has-ansi-2.0.0.tgz#34f5049ce1ecdf2b0649af3ef24e45ed35416d91"
@@ -6874,13 +6850,6 @@ icss-utils@^4.0.0, icss-utils@^4.1.1:
   integrity sha1-IRcLU3ie4nRHwvR91oMIFAP5pGc=
   dependencies:
     postcss "^7.0.14"
-
-identity-obj-proxy@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/identity-obj-proxy/download/identity-obj-proxy-3.0.0.tgz#94d2bda96084453ef36fbc5aaec37e0f79f1fc14"
-  integrity sha1-lNK9qWCERT7zb7xarsN+D3nx/BQ=
-  dependencies:
-    harmony-reflect "^1.4.6"
 
 ieee754@^1.1.4:
   version "1.1.12"
@@ -8919,11 +8888,6 @@ mkdirp@*, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.1:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
-
-mock-fs@^4.10.1:
-  version "4.10.1"
-  resolved "https://registry.npm.taobao.org/mock-fs/download/mock-fs-4.10.1.tgz#50a07a20114a6cdb119f35762f61f46266a1e323"
-  integrity sha1-UKB6IBFKbNsRnzV2L2H0Ymah4yM=
 
 modify-values@^1.0.0:
   version "1.0.1"
@@ -11454,11 +11418,6 @@ react-is@^16.8.6:
   resolved "http://registry.npm.taobao.org/react-is/download/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha1-W7weLSkUHJ+9/tRWND/ivEMKahY=
 
-react-is@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npm.taobao.org/react-is/download/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
-  integrity sha1-IcqVYTmarQ/xp3AcAWg+jKmB7cs=
-
 react-lazy-load@^3.0.13:
   version "3.0.13"
   resolved "http://registry.npm.taobao.org/react-lazy-load/download/react-lazy-load-3.0.13.tgz#3b0a92d336d43d3f0d73cbe6f35b17050b08b824"
@@ -11492,16 +11451,6 @@ react-test-renderer@^16.0.0-0:
     prop-types "^15.6.2"
     react-is "^16.8.6"
     scheduler "^0.13.6"
-
-react-test-renderer@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npm.taobao.org/react-test-renderer/download/react-test-renderer-16.9.0.tgz#7ed657a374af47af88f66f33a3ef99c9610c8ae9"
-  integrity sha1-ftZXo3SvR6+I9m8zo++ZyWEMiuk=
-  dependencies:
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    react-is "^16.9.0"
-    scheduler "^0.15.0"
 
 react-transition-group@^4.2.2:
   version "4.2.2"
