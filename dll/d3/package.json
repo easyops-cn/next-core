@@ -1,6 +1,6 @@
 {
   "name": "@dll/d3",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/d3",
   "license": "UNLICENSED",
@@ -26,6 +26,6 @@
     "d3-zoom": "^1.8.3"
   },
   "devDependencies": {
-    "@easyops/webpack-config-factory": "^0.7.0"
+    "@easyops/webpack-config-factory": "^0.8.0"
   }
 }

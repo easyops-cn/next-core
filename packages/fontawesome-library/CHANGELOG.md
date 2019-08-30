@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.7.0 (2019-08-30)
+
+
+### Features
+
+* repo moved ([19b02c7](https://git.easyops.local/anyclouds/next-core/commits/19b02c7))
+
+
+
+
+
 # [0.6.0](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/fontawesome-library@0.5.4...@easyops/fontawesome-library@0.6.0) (2019-08-29)
 
 ### Features
