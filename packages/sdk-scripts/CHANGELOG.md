@@ -3,16 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# 0.7.0 (2019-08-30)
+## [0.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@0.7.0...@easyops/sdk-scripts@0.7.1) (2019-08-30)
 
+**Note:** Version bump only for package @easyops/sdk-scripts
+
+# 0.7.0 (2019-08-30)
 
 ### Features
 
-* repo moved ([19b02c7](https://git.easyops.local/anyclouds/next-core/commits/19b02c7))
-
-
-
-
+- repo moved ([19b02c7](https://git.easyops.local/anyclouds/next-core/commits/19b02c7))
 
 ## [0.6.3](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/sdk-scripts@0.6.2...@easyops/sdk-scripts@0.6.3) (2019-08-26)
 

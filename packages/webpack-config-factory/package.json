@@ -1,6 +1,6 @@
 {
   "name": "@easyops/webpack-config-factory",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/webpack-config-factory",
   "license": "UNLICENSED",
@@ -36,10 +36,10 @@
     "raw-loader": "^3.1.0",
     "style-loader": "^1.0.0",
     "to-string-loader": "^1.1.5",
+    "url-loader": "^2.1.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
-    "webpack-merge": "^4.2.2",
-    "url-loader": "^2.1.0"
+    "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
     "@easyops/brick-dll": "*"

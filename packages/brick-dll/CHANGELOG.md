@@ -3,16 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# 0.6.0 (2019-08-30)
+## [0.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@0.6.0...@easyops/brick-dll@0.6.1) (2019-08-30)
 
+**Note:** Version bump only for package @easyops/brick-dll
+
+# 0.6.0 (2019-08-30)
 
 ### Features
 
-* repo moved ([19b02c7](https://git.easyops.local/anyclouds/next-core/commits/19b02c7))
-
-
-
-
+- repo moved ([19b02c7](https://git.easyops.local/anyclouds/next-core/commits/19b02c7))
 
 ## [0.5.46](https://git.easyops.local/anyclouds/brick-next/compare/@easyops/brick-dll@0.5.45...@easyops/brick-dll@0.5.46) (2019-08-30)
 
