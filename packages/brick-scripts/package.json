@@ -30,7 +30,8 @@
     "fs-extra": "^8.1.0",
     "inquirer": "^7.0.0",
     "klaw-sync": "^6.0.0",
-    "meow": "^5.0.0"
+    "meow": "^5.0.0",
+    "prettier": "^1.18.2"
   },
   "templateDependencies": {
     "@bricks/basic-bricks": ">=0.16.0",
