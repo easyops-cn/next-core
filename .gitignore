@@ -7,3 +7,5 @@ node_modules
 .schema
 *.log
 report.*.json
+
+/dev.config.js

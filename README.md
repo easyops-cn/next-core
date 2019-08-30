@@ -17,13 +17,23 @@ http://brick-next.162.d.easyops.local/
 
 `yarn start`
 
-> For now, please run `yarn build` first before `yarn start`, to build all dependent sub-packages.  
-> Usually you run `yarn build` only once if [@easyops/brick-dll] has no breaking changes.
+> `yarn start` equals `lerna run start --scope=@easyops/brick-container`.
 
-`yarn start` equals `lerna run start --scope=@easyops/brick-container`. It means that you should run another start for your bricks-package if needed.
+`lerna run start --scope=OTHER-PACKAGES`
 
-You can use `yarn start --scope=@bricks/general-auth` to run @easyops/brick-container and @bricks/general-auth concurrently.
-It equals `lerna run start --scope=@easyops/brick-container --scope=@bricks/general-auth`
+The dev server will use this repository's sibling director of *brick-next* by default. It means it will work if your projects are like:
+
+```
+/Users/one/easyops/next-core
+/Users/one/easyops/brick-next
+```
+
+In case the *brick-next* located in other place, you could add a `dev.config.js` in this repository, E.g.:
+
+```js
+const path = require("path");
+exports.brickNextDir = path.join(__dirname, "../brick-next");
+```
 
 ### Offline development
 

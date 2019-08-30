@@ -39,9 +39,19 @@ const localMicroApps = flags.localMicroApps
   ? flags.localMicroApps.split(",")
   : [];
 
-const brickNextRootDir = path.join(__dirname, "../../../../brick-next");
-const microAppsDir = path.join(brickNextRootDir, "micro-apps");
-const brickPackagesDir = path.join(brickNextRootDir, "bricks");
+function getBrickNextDir() {
+  const rootDir = path.join(__dirname, "../../..");
+  const devConfigJs = path.join(rootDir, "dev.config.js");
+  if (fs.existsSync(devConfigJs)) {
+    return require(devConfigJs).brickNextDir;
+  }
+  return path.join(rootDir, "../brick-next");
+}
+
+const brickNextDir = getBrickNextDir();
+console.log(brickNextDir);
+const microAppsDir = path.join(brickNextDir, "micro-apps");
+const brickPackagesDir = path.join(brickNextDir, "bricks");
 
 function getNavbar() {
   return JSON.parse(

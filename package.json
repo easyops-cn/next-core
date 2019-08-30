@@ -93,7 +93,6 @@
     "style-loader": "^1.0.0",
     "to-string-loader": "^1.1.5",
     "typescript": "~3.6.2",
-    "typescript-plugin-css-modules": "^1.2.1",
     "url-loader": "^2.1.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
