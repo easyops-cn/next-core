@@ -41,7 +41,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "babel-jest": "^24.9.0",
     "babel-plugin-import": "^1.12.1",
-    "cross-env": "^5.2.0",
+    "cross-env": "^5.2.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.4.0",
