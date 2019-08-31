@@ -28,7 +28,7 @@
   "sideEffects": false,
   "dependencies": {
     "@easyops/brick-types": "^0.14.1",
-    "path-to-regexp": "^3.0.0"
+    "path-to-regexp": "^3.1.0"
   },
   "devDependencies": {
     "@easyops/rollup-config-factory": "^0.2.1",
