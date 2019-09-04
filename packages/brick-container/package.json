@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-container",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-container",
   "license": "UNLICENSED",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@dll/d3": "^0.3.2",
     "@dll/echarts": "^0.2.2",
-    "@easyops/brick-dll": "^0.6.2",
+    "@easyops/brick-dll": "^0.6.3",
     "core-js": "^3.2.1",
     "i18next-browser-languagedetector": "^3.0.3",
     "regenerator-runtime": "^0.13.3"

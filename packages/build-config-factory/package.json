@@ -1,6 +1,6 @@
 {
   "name": "@easyops/build-config-factory",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "build scripts",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/build-config-factory",
   "license": "UNLICENSED",
@@ -18,7 +18,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@easyops/brick-utils": "^0.7.1",
+    "@easyops/brick-utils": "^0.7.2",
     "change-case": "^3.1.0",
     "fs-extra": "^8.1.0",
     "js-yaml": "^3.13.1",
