@@ -35,6 +35,7 @@ export interface MountRoutesResult {
   bg: RuntimeBrick[];
   all: RuntimeBrick[];
   menuBar: {
+    app?: MicroApp;
     menu?: SidebarMenu;
   };
   appBar: {
@@ -90,7 +91,9 @@ export class LocationContext {
         main: [],
         bg: [],
         all: [],
-        menuBar: {},
+        menuBar: {
+          app: this.kernel.currentApp
+        },
         appBar: {
           app: this.kernel.currentApp,
           breadcrumb: this.kernel.appBar.element.breadcrumb
