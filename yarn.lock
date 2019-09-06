@@ -2993,10 +2993,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^3.23.1:
-  version "3.23.1"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-3.23.1.tgz#a251b0cdc2072a91a8c157f8b31de8ad92ce5d18"
-  integrity sha1-olGwzcIHKpGowVf4sx3orZLOXRg=
+antd@^3.23.2:
+  version "3.23.2"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-3.23.2.tgz#6fcbe5b22a932913a33dce0b6b76b4a60c30a403"
+  integrity sha1-b8vlsiqTKROjPc4La3a0pgwwpAM=
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
