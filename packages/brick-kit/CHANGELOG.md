@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.22.2...@easyops/brick-kit@0.22.3) (2019-09-06)
+
+### Bug Fixes
+
+- pass current app to menu bar ([c50213b](https://git.easyops.local/anyclouds/next-core/commits/c50213b))
+
 ## [0.22.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.22.1...@easyops/brick-kit@0.22.2) (2019-09-04)
 
 **Note:** Version bump only for package @easyops/brick-kit
