@@ -6,6 +6,7 @@
   "commitMessagePrefix": "chore(deps):",
   "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
+  "baseBranches": ["next"],
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],
