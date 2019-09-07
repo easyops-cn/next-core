@@ -10,7 +10,8 @@
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],
-      "automerge": true
+      "automerge": true,
+      "baseBranches": ["master"]
     },
     {
       "packagePatterns": ["^@bricks/", "^@libs/", "^@micro-apps/", "^@sdk/", "^@dll", "^@easyops/"],
