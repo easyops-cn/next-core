@@ -17,7 +17,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "rollup": "^1.20.3",
+    "rollup": "^1.21.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
