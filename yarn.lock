@@ -2573,10 +2573,10 @@
   version "10.14.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.1.tgz#8701cd760acc20beba5ffe0b7a1b879f39cb8c41"
 
-"@types/node@^12.7.2":
-  version "12.7.2"
-  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.7.2.tgz?cache=0&sync_timestamp=1566325318079&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.7.2.tgz#c4e63af5e8823ce9cc3f0b34f7b998c2171f0c44"
-  integrity sha1-xOY69eiCPOnMPws097mYwhcfDEQ=
+"@types/node@^12.7.4":
+  version "12.7.4"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.7.4.tgz#64db61e0359eb5a8d99b55e05c729f130a678b04"
+  integrity sha1-ZNth4DWetajZm1XgXHKfEwpniwQ=
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -12139,13 +12139,13 @@ rollup-pluginutils@^2.8.1:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^1.20.3:
-  version "1.20.3"
-  resolved "https://registry.npm.taobao.org/rollup/download/rollup-1.20.3.tgz#6243f6c118ca05f56b2d9433112400cd834a1eb8"
-  integrity sha1-YkP2wRjKBfVrLZQzESQAzYNKHrg=
+rollup@^1.21.0:
+  version "1.21.0"
+  resolved "https://registry.npm.taobao.org/rollup/download/rollup-1.21.0.tgz?cache=0&sync_timestamp=1567976251044&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup%2Fdownload%2Frollup-1.21.0.tgz#b5395271dcd91656dc8844b5403ecfb34106fd77"
+  integrity sha1-tTlScdzZFlbciES1QD7Ps0EG/Xc=
   dependencies:
     "@types/estree" "0.0.39"
-    "@types/node" "^12.7.2"
+    "@types/node" "^12.7.4"
     acorn "^7.0.0"
 
 rst-selector-parser@^2.2.3:
