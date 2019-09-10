@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.22.3...@easyops/brick-kit@0.23.0) (2019-09-10)
+
+### Features
+
+- support route path template ([fbb99a7](https://git.easyops.local/anyclouds/next-core/commits/fbb99a7))
+
 ## [0.22.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.22.2...@easyops/brick-kit@0.22.3) (2019-09-06)
 
 ### Bug Fixes
