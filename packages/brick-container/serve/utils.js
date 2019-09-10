@@ -60,7 +60,7 @@ function getSettings() {
     featureFlags: {},
     homepage: "/"
   };
-  const yamlPath = path.join(__dirname, "settings.yaml");
+  const yamlPath = path.join(process.cwd(), "dev-settings.yaml");
   if (!fs.existsSync(yamlPath)) {
     return defaultSettings;
   }

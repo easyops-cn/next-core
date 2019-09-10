@@ -22,7 +22,7 @@ module.exports = cwd => {
       },
       port: {
         type: "string",
-        default: "8083"
+        default: "8081"
       }
     }
   });
