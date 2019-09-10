@@ -13397,10 +13397,10 @@ typescript@^3.5.3:
   resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.5.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.5.3.tgz#c830f657f93f1ea846819e929092f5fe5983e977"
   integrity sha1-yDD2V/k/HqhGgZ6SkJL1/lmD6Xc=
 
-typescript@~3.6.2:
-  version "3.6.2"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.6.2.tgz#105b0f1934119dde543ac8eb71af3a91009efe54"
-  integrity sha1-EFsPGTQRnd5UOsjrca86kQCe/lQ=
+typescript@~3.6.3:
+  version "3.6.3"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.6.3.tgz?cache=0&sync_timestamp=1568148284673&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
+  integrity sha1-/qlC+rsg9+HKcWT/Ym8anz9wtNo=
 
 ua-parser-js@^0.7.18:
   version "0.7.19"
