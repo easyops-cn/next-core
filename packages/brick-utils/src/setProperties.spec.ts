@@ -11,9 +11,9 @@ describe("computeRealValue", () => {
   } as any;
   const cases: [any[], PluginRuntimeContext, any[]][] = [
     [["oops"], context, ["oops"]],
-    [["${event.type}"], context, ["hello"]],
+    [["${EVENT.type}"], context, ["hello"]],
     [
-      ["${event.detail}"],
+      ["${EVENT.detail}"],
       context,
       [
         {
@@ -21,8 +21,8 @@ describe("computeRealValue", () => {
         }
       ]
     ],
-    [["${event.detail.to}"], context, ["world"]],
-    [[{ "${event.detail.to}": "1" }], context, [{ world: "1" }]]
+    [["${EVENT.detail.to}"], context, ["world"]],
+    [[{ "${EVENT.detail.to}": "1" }], context, [{ world: "1" }]]
   ];
   it.each(cases)(
     "test computeRealValue(%s, %s, true) should work",
@@ -53,24 +53,24 @@ describe("setProperties", () => {
   const properties = {
     objectId: "${objectId}",
     instanceId: "${instanceId}",
-    q: "${query.q}",
-    page: "${query.page|number}",
-    pageSize: "${query.pageSize=20|number}",
-    sort: "${query.sort}",
-    asc: "${query.asc|boolean}",
-    extra: "${query.extra|bool}",
-    fields: "${query.fields|json}",
-    errors: "${query.errors|json}",
+    q: "${QUERY.q}",
+    page: "${QUERY.page|number}",
+    pageSize: "${QUERY.pageSize=20|number}",
+    sort: "${QUERY.sort}",
+    asc: "${QUERY.asc|boolean}",
+    extra: "${QUERY.extra|bool}",
+    fields: "${QUERY.fields|json}",
+    errors: "${QUERY.errors|json}",
     style: {
       width: "10px"
     },
     items: [],
     query: {
-      name: { $eq: "${query.name}" }
+      name: { $eq: "${QUERY.name}" }
     },
-    selectedKeys: ["${query.key}"],
+    selectedKeys: ["${QUERY.key}"],
     url: "/objects/${objectId}/instances/${instanceId}",
-    allQueryAsString: "${query.*|string}"
+    allQueryAsString: "${QUERY.*|string}"
   };
   const cases: [
     Record<string, any>,
@@ -96,9 +96,9 @@ describe("setProperties", () => {
         },
         items: [],
         query: {
-          name: { $eq: "${query.name}" }
+          name: { $eq: "${QUERY.name}" }
         },
-        selectedKeys: ["${query.key}"],
+        selectedKeys: ["${QUERY.key}"],
         url: "/objects/HOST/instances/undefined",
         allQueryAsString: originalQuery
       }

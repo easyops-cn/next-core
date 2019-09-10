@@ -1,4 +1,5 @@
 export * from "./bindListeners";
+export * from "./computeRealRoutePath";
 export * from "./createProviderClass";
 export * from "./getDllAndDepsOfStoryboard";
 export * from "./isObject";

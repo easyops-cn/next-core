@@ -14,7 +14,8 @@ import { isLoggedIn } from "../auth";
 import {
   isObject,
   computeRealProperties,
-  matchPath
+  matchPath,
+  computeRealRoutePath
 } from "@easyops/brick-utils";
 import { RuntimeBrick, Kernel } from "./exports";
 
@@ -55,10 +56,10 @@ export class LocationContext {
     this.query = new URLSearchParams(location.search);
   }
 
-  private matchRoutes(routes: RouteConf[]): MatchRoutesResult {
+  private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
     for (const route of routes) {
       const match = matchPath(this.location.pathname, {
-        path: route.path,
+        path: computeRealRoutePath(route.path, app),
         exact: route.exact
       });
       if (match !== null) {
@@ -74,7 +75,7 @@ export class LocationContext {
 
   matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
     for (const storyboard of storyboards) {
-      const matched = this.matchRoutes(storyboard.routes);
+      const matched = this.matchRoutes(storyboard.routes, storyboard.app);
       if (matched !== "missed") {
         return storyboard;
       }
@@ -101,7 +102,7 @@ export class LocationContext {
         redirect: undefined
       };
     }
-    const matched = this.matchRoutes(routes);
+    const matched = this.matchRoutes(routes, this.kernel.currentApp);
     switch (matched) {
       case "missed":
         break;
