@@ -6913,10 +6913,10 @@ i18next-browser-languagedetector@^3.0.3:
   resolved "https://registry.npm.taobao.org/i18next-browser-languagedetector/download/i18next-browser-languagedetector-3.0.3.tgz#879ebe421685c70cc5cfa96191364a35ea7da742"
   integrity sha1-h56+QhaFxwzFz6lhkTZKNep9p0I=
 
-i18next@^17.0.13:
-  version "17.0.13"
-  resolved "https://registry.npm.taobao.org/i18next/download/i18next-17.0.13.tgz#3c639e15de86e0523f8f286f6cf07db355ee0a4f"
-  integrity sha1-PGOeFd6G4FI/jyhvbPB9s1XuCk8=
+i18next@^17.0.14:
+  version "17.0.14"
+  resolved "https://registry.npm.taobao.org/i18next/download/i18next-17.0.14.tgz#b736fcb8c84aa84c57bfad3caac7f8b5f92d85a4"
+  integrity sha1-tzb8uMhKqExXv608qsf4tfkthaQ=
   dependencies:
     "@babel/runtime" "^7.3.1"
 
