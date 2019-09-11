@@ -31,7 +31,6 @@
     "path-to-regexp": "^3.1.0"
   },
   "devDependencies": {
-    "@easyops/rollup-config-factory": "^0.2.1",
     "lodash": "^4.17.15"
   },
   "peerDependencies": {

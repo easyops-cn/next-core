@@ -1,8 +1,6 @@
 module.exports = {
   setupFilesAfterEnv: ["<rootDir>/__jest__/setup.ts"],
-  snapshotSerializers: [
-    "enzyme-to-json/serializer"
-  ],
+  snapshotSerializers: ["enzyme-to-json/serializer"],
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/dist/",
@@ -13,10 +11,10 @@ module.exports = {
   collectCoverageFrom: ["packages/*/src/**/*.{ts,tsx,js,jsx}"],
   coverageThreshold: {
     global: {
-      statements: 86.76,
+      statements: 86.72,
       branches: 77.49,
-      functions: 86.17,
-      lines: 86.61
+      functions: 86.27,
+      lines: 86.56
     }
   },
   coverageDirectory: "<rootDir>/.coverage",
@@ -27,9 +25,7 @@ module.exports = {
   testPathIgnorePatterns: ["/node_modules/", "/dist/", "/template/"],
   // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
   // Todo(steve): remove next line when issue fixed.
-  modulePathIgnorePatterns: [
-    "<rootDir>/packages/[^/]*/src/.*/__mocks__"
-  ],
+  modulePathIgnorePatterns: ["<rootDir>/packages/[^/]*/src/.*/__mocks__"],
   // Use jsdom@14 which supports MutationObserver
   testEnvironment: "jest-environment-jsdom-fourteen",
   timers: "fake"

@@ -22,8 +22,5 @@
     "@easyops/brick-dll": "latest",
     "@sdk/$kebab-sdk-name$": "$sdk.version$"
   },
-  "devDependencies": {
-    "@easyops/build-config-factory": "latest"
-  },
   "sideEffects": true
 }

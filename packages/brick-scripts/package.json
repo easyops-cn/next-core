@@ -39,10 +39,7 @@
   },
   "devDependencies": {
     "@easyops/brick-dll": "^0.6.5",
-    "@easyops/brick-types": "^0.14.2",
-    "@easyops/build-config-factory": "^0.13.4",
-    "@easyops/rollup-config-factory": "^0.2.1",
-    "@easyops/webpack-config-factory": "^0.8.3"
+    "@easyops/brick-types": "^0.14.2"
   },
   "engines": {
     "node": ">=10.10.0"

@@ -12,8 +12,6 @@ const packageJson = JSON.parse(
 );
 const { devDependencies } = packageJson;
 const brickHttpVersion = devDependencies["@easyops/brick-http"];
-const rollupConfigFactoryVersion =
-  devDependencies["@easyops/rollup-config-factory"];
 
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
@@ -43,9 +41,6 @@ function replaceFileContent(
 function replaceDepsVersion(jsonString: string, sdkVersion: string): string {
   const pkg = JSON.parse(jsonString);
   pkg.devDependencies["@easyops/brick-http"] = brickHttpVersion;
-  pkg.devDependencies[
-    "@easyops/rollup-config-factory"
-  ] = rollupConfigFactoryVersion;
   if (sdkVersion) {
     pkg.version = sdkVersion;
   }
