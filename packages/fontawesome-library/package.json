@@ -25,9 +25,6 @@
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
-  "devDependencies": {
-    "@easyops/rollup-config-factory": "^0.2.1"
-  },
   "sideEffects": false,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.22",

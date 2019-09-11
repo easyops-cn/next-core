@@ -27,7 +27,6 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops/rollup-config-factory": "^0.2.1",
     "whatwg-fetch": "^3.0.0"
   }
 }
