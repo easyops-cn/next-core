@@ -2,7 +2,7 @@
   "name": "@libs/$kebab-package-name$",
   "version": "0.0.0",
   "description": "> TODO: description",
-  "homepage": "https://git.easyops.local/anyclouds/next-libs/tree/master/libs/$kebab-package-name$",
+  "homepage": "$workspace-homepage$/tree/master/libs/$kebab-package-name$",
   "license": "UNLICENSED",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",

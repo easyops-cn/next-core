@@ -15,6 +15,11 @@ const brickDllVersion = devDependencies["@easyops/brick-dll"];
 const basicBricksVersion = templateDependencies["@bricks/basic-bricks"];
 const brickContainerVersion = templateDependencies["@easyops/brick-container"];
 
+const workspacePackageJson = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8")
+);
+const workspaceHomepage = workspacePackageJson.homepage;
+
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
 }
@@ -95,6 +100,7 @@ export function loadTemplate({
   }
 
   const translations: Record<string, string> = {
+    "$workspace-homepage$": workspaceHomepage,
     "$kebab-package-name$": packageName,
     $PascalPackageName$: changeCase.pascal(packageName),
     "$Title Package Name$": changeCase.title(packageName),
