@@ -13,9 +13,6 @@
     "build": "echo 'nothing to build but lerna need this to build deps'",
     "postbuild": "node scripts/post-build.js"
   },
-  "devDependencies": {
-    "@easyops/build-config-factory": "latest"
-  },
   "peerDependencies": {
     "@bricks/basic-bricks": "latest"
   }

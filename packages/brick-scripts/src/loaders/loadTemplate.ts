@@ -12,12 +12,6 @@ const packageJson = JSON.parse(
 );
 const { templateDependencies, devDependencies } = packageJson;
 const brickDllVersion = devDependencies["@easyops/brick-dll"];
-const buildConfigFactoryVersion =
-  devDependencies["@easyops/build-config-factory"];
-const rollupConfigFactoryVersion =
-  devDependencies["@easyops/rollup-config-factory"];
-const webpackConfigFactoryVersion =
-  devDependencies["@easyops/webpack-config-factory"];
 const basicBricksVersion = templateDependencies["@bricks/basic-bricks"];
 const brickContainerVersion = templateDependencies["@easyops/brick-container"];
 
@@ -53,16 +47,6 @@ function replaceDepsVersion(jsonString: string): string {
     if (key === "@easyops/brick-dll") {
       deps[key] = brickDllVersion;
     }
-  }
-  const devDeps = pkg.devDependencies;
-  if (devDeps["@easyops/build-config-factory"]) {
-    devDeps["@easyops/build-config-factory"] = buildConfigFactoryVersion;
-  }
-  if (devDeps["@easyops/rollup-config-factory"]) {
-    devDeps["@easyops/rollup-config-factory"] = rollupConfigFactoryVersion;
-  }
-  if (devDeps["@easyops/webpack-config-factory"]) {
-    devDeps["@easyops/webpack-config-factory"] = webpackConfigFactoryVersion;
   }
 
   const peerDeps = pkg.peerDependencies || {};

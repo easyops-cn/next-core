@@ -19,9 +19,5 @@
   "dependencies": {
     "@easyops/brick-dll": "latest"
   },
-  "devDependencies": {
-    "@easyops/build-config-factory": "latest",
-    "@easyops/webpack-config-factory": "latest"
-  },
   "sideEffects": true
 }
