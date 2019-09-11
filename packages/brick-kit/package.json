@@ -39,7 +39,7 @@
     "i18next": "^17.0.14",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
-    "react-i18next": "^10.12.3"
+    "react-i18next": "^10.12.4"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",
