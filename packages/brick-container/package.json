@@ -43,7 +43,7 @@
     "meow": "^5.0.0",
     "mini-css-extract-plugin": "^0.8.0",
     "style-loader": "^1.0.0",
-    "webpack": "^4.39.3",
+    "webpack": "^4.40.0",
     "webpack-cli": "^3.3.8",
     "webpack-dev-server": "^3.8.0",
     "webpack-merge": "^4.2.2"
