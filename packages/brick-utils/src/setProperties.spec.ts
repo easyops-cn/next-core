@@ -7,7 +7,12 @@ describe("computeRealValue", () => {
       detail: {
         to: "world"
       }
-    })
+    }),
+    app: {
+      homepage: "/host",
+      name: "host",
+      id: "host"
+    }
   } as any;
   const cases: [any[], PluginRuntimeContext, any[]][] = [
     [["oops"], context, ["oops"]],
@@ -22,7 +27,8 @@ describe("computeRealValue", () => {
       ]
     ],
     [["${EVENT.detail.to}"], context, ["world"]],
-    [[{ "${EVENT.detail.to}": "1" }], context, [{ world: "1" }]]
+    [[{ "${EVENT.detail.to}": "1" }], context, [{ world: "1" }]],
+    [["${APP.homepage}"], context, ["/host"]]
   ];
   it.each(cases)(
     "test computeRealValue(%s, %s, true) should work",
@@ -48,7 +54,12 @@ describe("setProperties", () => {
     },
     event: new CustomEvent("hello", {
       detail: "world"
-    })
+    }),
+    app: {
+      homepage: "/cmdb",
+      name: "cmdb",
+      id: "cmdb"
+    }
   };
   const properties = {
     objectId: "${objectId}",
@@ -70,7 +81,8 @@ describe("setProperties", () => {
     },
     selectedKeys: ["${QUERY.key}"],
     url: "/objects/${objectId}/instances/${instanceId}",
-    allQueryAsString: "${QUERY.*|string}"
+    allQueryAsString: "${QUERY.*|string}",
+    urlToDetail: "${APP.homepage}/${objectId}"
   };
   const cases: [
     Record<string, any>,
@@ -100,7 +112,8 @@ describe("setProperties", () => {
         },
         selectedKeys: ["${QUERY.key}"],
         url: "/objects/HOST/instances/undefined",
-        allQueryAsString: originalQuery
+        allQueryAsString: originalQuery,
+        urlToDetail: "/cmdb/HOST"
       }
     ],
     [
@@ -125,7 +138,8 @@ describe("setProperties", () => {
         },
         selectedKeys: ["K"],
         url: "/objects/HOST/instances/undefined",
-        allQueryAsString: originalQuery
+        allQueryAsString: originalQuery,
+        urlToDetail: "/cmdb/HOST"
       }
     ]
   ];

@@ -1,6 +1,6 @@
 import { Key } from "path-to-regexp";
 import { History, Location, LocationDescriptor } from "history";
-import { BreadcrumbItemConf } from "./manifest";
+import { BreadcrumbItemConf, MicroApp } from "./manifest";
 import { SidebarMenu } from "./menu";
 
 export interface CompileOptions {
@@ -42,6 +42,7 @@ export interface PluginRuntimeContext {
   query: URLSearchParams;
   match?: MatchResult;
   event?: CustomEvent;
+  app?: MicroApp;
 }
 
 export interface MountPoints {
