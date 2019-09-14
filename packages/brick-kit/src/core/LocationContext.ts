@@ -154,14 +154,16 @@ export class LocationContext {
           menuConf.properties,
           {
             query: this.query,
-            match
+            match,
+            app: this.kernel.currentApp
           },
           menuConf.injectDeep
         ),
         events: isObject(menuConf.events) ? menuConf.events : {},
         context: {
           query: this.query,
-          match
+          match,
+          app: this.kernel.currentApp
         },
         children: []
       };
@@ -176,7 +178,8 @@ export class LocationContext {
           otherMenuConf,
           {
             query: this.query,
-            match
+            match,
+            app: this.kernel.currentApp
           },
           true
         )
@@ -215,7 +218,8 @@ export class LocationContext {
             brickConf.properties,
             {
               query: this.query,
-              match
+              match,
+              app: this.kernel.currentApp
             },
             brickConf.injectDeep
           ),
@@ -224,7 +228,8 @@ export class LocationContext {
         events: isObject(brickConf.events) ? brickConf.events : {},
         context: {
           query: this.query,
-          match
+          match,
+          app: this.kernel.currentApp
         },
         children: [],
         slotId,
