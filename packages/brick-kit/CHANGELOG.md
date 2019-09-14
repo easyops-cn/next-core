@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.23.1...@easyops/brick-kit@0.24.0) (2019-09-14)
+
+### Features
+
+- support compute properties by APP.homepage ([1fa7f25](https://git.easyops.local/anyclouds/next-core/commits/1fa7f25))
+
 ## [0.23.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.23.0...@easyops/brick-kit@0.23.1) (2019-09-11)
 
 **Note:** Version bump only for package @easyops/brick-kit
