@@ -78,9 +78,11 @@ export class Kernel {
   /**
    * 重置顶栏、侧栏
    */
-  unsetBars(): void {
+  unsetBars(appChanged?: boolean): void {
     this.toggleBars(true);
-    this.menuBar.setAppMenu(null);
+    if (appChanged) {
+      this.menuBar.setAppMenu(null);
+    }
     this.appBar.setPageTitle(null);
     this.appBar.setBreadcrumb(null);
   }
