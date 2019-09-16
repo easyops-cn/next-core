@@ -14,7 +14,6 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack --config webpack.dll.js --watch",
-    "prepublishOnly": "npm run build",
     "build:dev": "cross-env NODE_ENV=development webpack --config webpack.dll.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
   },
