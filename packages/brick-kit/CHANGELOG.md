@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.24.0...@easyops/brick-kit@0.25.0) (2019-09-16)
+
+### Features
+
+- add custom hooks: useCurrentApp ([6ff4892](https://git.easyops.local/anyclouds/next-core/commits/6ff4892))
+
 # [0.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.23.1...@easyops/brick-kit@0.24.0) (2019-09-14)
 
 ### Features
