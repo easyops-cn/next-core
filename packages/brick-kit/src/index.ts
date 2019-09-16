@@ -5,3 +5,4 @@ export * from "./i18n";
 export * from "./handleHttpError";
 export * from "./ErrorBoundary";
 export * from "./decorators";
+export * from "./useCurrentApp";

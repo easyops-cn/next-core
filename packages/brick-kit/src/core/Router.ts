@@ -58,7 +58,20 @@ export class Router {
     this.kernel.unsetBars();
     this.kernel.toggleLegacyIframe(false);
     this.resolver.resetCache();
-    this.kernel.currentApp = storyboard ? storyboard.app : undefined;
+
+    const previousApp = this.kernel.currentApp;
+    const currentApp = storyboard ? storyboard.app : undefined;
+    if (previousApp !== currentApp) {
+      this.kernel.currentApp = currentApp;
+      window.dispatchEvent(
+        new CustomEvent("app.change", {
+          detail: {
+            previousApp,
+            currentApp
+          }
+        })
+      );
+    }
 
     if (storyboard) {
       const legacy = storyboard.app ? storyboard.app.legacy : undefined;
