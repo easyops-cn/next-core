@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.0...@easyops/brick-kit@0.25.1) (2019-09-16)
+
+### Bug Fixes
+
+- fix useCurrentApp: useEffect only once ([cc214b4](https://git.easyops.local/anyclouds/next-core/commits/cc214b4))
+- reset app menu only if app changed ([8d544d8](https://git.easyops.local/anyclouds/next-core/commits/8d544d8))
+
 # [0.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.24.0...@easyops/brick-kit@0.25.0) (2019-09-16)
 
 ### Features
