@@ -10,7 +10,7 @@ export function useCurrentApp(): MicroApp {
     }) as EventListener;
     window.addEventListener("app.change", listener);
     return () => window.removeEventListener("app.change", listener);
-  });
+  }, []);
 
   return app;
 }
