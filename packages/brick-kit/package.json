@@ -38,6 +38,7 @@
     "i18next": "^17.0.13",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-i18next": "^10.12.2"
   },
   "peerDependencies": {
@@ -48,6 +49,7 @@
     "i18next": "*",
     "lodash": "*",
     "react": "*",
+    "react-dom": "*",
     "react-i18next": "*"
   }
 }
