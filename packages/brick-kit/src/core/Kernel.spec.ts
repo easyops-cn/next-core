@@ -106,7 +106,7 @@ describe("Kernel", () => {
       setBreadcrumb: jest.fn()
     } as any;
     kernel.toggleBars = jest.fn();
-    kernel.unsetBars();
+    kernel.unsetBars(true);
     expect(kernel.toggleBars).toBeCalledWith(true);
     expect(kernel.menuBar.setAppMenu).toBeCalledWith(null);
     expect(kernel.appBar.setPageTitle).toBeCalledWith(null);

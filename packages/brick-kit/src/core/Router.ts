@@ -54,14 +54,14 @@ export class Router {
       }
     }
 
-    const { mountPoints } = this.kernel;
-    this.kernel.unsetBars();
+    const { mountPoints, currentApp: previousApp } = this.kernel;
+    const currentApp = storyboard ? storyboard.app : undefined;
+    const appChanged = previousApp !== currentApp;
+    this.kernel.unsetBars(appChanged);
     this.kernel.toggleLegacyIframe(false);
     this.resolver.resetCache();
 
-    const previousApp = this.kernel.currentApp;
-    const currentApp = storyboard ? storyboard.app : undefined;
-    if (previousApp !== currentApp) {
+    if (appChanged) {
       this.kernel.currentApp = currentApp;
       window.dispatchEvent(
         new CustomEvent("app.change", {
