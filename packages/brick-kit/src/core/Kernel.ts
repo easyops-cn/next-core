@@ -42,8 +42,11 @@ export class Kernel {
     }
   }
 
-  async loadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
-    const bootstrapResponse = await AuthSdk.bootstrap<BootstrapData>({
+  async loadMicroApps(
+    params?: { check_login?: boolean },
+    interceptorParams?: InterceptorParams
+  ): Promise<void> {
+    const bootstrapResponse = await AuthSdk.bootstrap<BootstrapData>(params, {
       interceptorParams
     });
     this.bootstrapData = {
