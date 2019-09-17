@@ -13,7 +13,7 @@ def get_version(install_path):
         return "0.0.0"
     with open(os.path.join(install_path, "version.ini")) as f:
         lines = f.readlines()
-        return lines[-1]
+        return lines[-1].strip()
 
 
 def collect(install_path):
