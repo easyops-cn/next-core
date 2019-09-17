@@ -3,6 +3,7 @@ const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
 const generateBrickPackageDeps = require("./generateBrickPackageDeps");
+const ensureMicroApp = require("./ensureMicroApp");
 const ensureBrickDeps = require("./ensureBrickDeps");
 
 const generateContracts = () => {
@@ -153,6 +154,7 @@ module.exports = scope => {
     generateContracts();
   }
   if (scope === "micro-apps") {
+    ensureMicroApp();
     ensureBrickDeps();
     generateBrickPackageDeps();
   }

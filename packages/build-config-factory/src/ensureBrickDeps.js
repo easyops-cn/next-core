@@ -27,7 +27,10 @@ module.exports = function ensureBrickDeps() {
   // 收集 import 字段中 package 下所有的 brick 元素
   const importedAllBricks = new Set();
   importedPackages.forEach(pkg => {
-    const brickJson = require(`${pkg}/dist/bricks.json`);
+    // 解决该包在 `npm link` 下使用时报错的问题
+    const brickJson = require(require.resolve(`${pkg}/dist/bricks.json`, {
+      paths: [path.join(process.cwd())]
+    }));
     brickJson.bricks.forEach(brick => {
       importedAllBricks.add(brick);
     });
