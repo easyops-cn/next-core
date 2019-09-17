@@ -13691,10 +13691,10 @@ webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
-webpack-cli@^3.3.8:
-  version "3.3.8"
-  resolved "https://registry.npm.taobao.org/webpack-cli/download/webpack-cli-3.3.8.tgz?cache=0&sync_timestamp=1567702933473&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-cli%2Fdownload%2Fwebpack-cli-3.3.8.tgz#caeaebcc26f685db1736e5decd3f01aac30123ec"
-  integrity sha1-yurrzCb2hdsXNuXezT8BqsMBI+w=
+webpack-cli@^3.3.9:
+  version "3.3.9"
+  resolved "https://registry.npm.taobao.org/webpack-cli/download/webpack-cli-3.3.9.tgz#79c27e71f94b7fe324d594ab64a8e396b9daa91a"
+  integrity sha1-ecJ+cflLf+Mk1ZSrZKjjlrnaqRo=
   dependencies:
     chalk "2.4.2"
     cross-spawn "6.0.5"
