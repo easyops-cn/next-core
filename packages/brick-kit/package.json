@@ -34,7 +34,7 @@
     "@easyops/brick-http": "^0.2.1",
     "@easyops/brick-utils": "^0.7.2",
     "@easyops/rollup-config-factory": "^0.2.1",
-    "antd": "^3.23.2",
+    "antd": "^3.23.3",
     "history": "^4.9.0",
     "i18next": "^17.0.15",
     "lodash": "^4.17.15",
