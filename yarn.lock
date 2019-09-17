@@ -5319,12 +5319,12 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
-echarts@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.2.1.tgz#9a8ea3b03354f86f824d97625c334cf16965ef03"
-  integrity sha1-mo6jsDNU+G+CTZdiXDNM8Wll7wM=
+echarts@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fecharts%2Fdownload%2Fecharts-4.3.0.tgz#3728c2b5e8f277898f7299b4fe1cfc537170abd5"
+  integrity sha1-NyjCtejyd4mPcpm0/hz8U3Fwq9U=
   dependencies:
-    zrender "4.0.7"
+    zrender "4.1.0"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -14105,7 +14105,7 @@ yargs@^14.0.0:
     y18n "^4.0.0"
     yargs-parser "^13.1.1"
 
-zrender@4.0.7:
-  version "4.0.7"
-  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.0.7.tgz#15ae960822f5efed410995d37e5107fe3de10e6d"
-  integrity sha1-Fa6WCCL17+1BCZXTflEH/j3hDm0=
+zrender@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.1.0.tgz?cache=0&sync_timestamp=1567175890863&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fzrender%2Fdownload%2Fzrender-4.1.0.tgz#866ab97d0744c473d9b314ac5a89e7207c140608"
+  integrity sha1-hmq5fQdExHPZsxSsWonnIHwUBgg=
