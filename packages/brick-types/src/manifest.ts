@@ -29,9 +29,11 @@ export interface MicroApp {
   icons?: {
     large: string;
   };
+  iconBackground?: "circle" | "square";
   internal?: boolean;
   private?: boolean;
   installStatus?: "ok" | "running";
+  status?: "developing" | "enabled" | "disabled";
   legacy?: "iframe";
 }
 
