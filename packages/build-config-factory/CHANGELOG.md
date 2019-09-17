@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@0.13.7...@easyops/build-config-factory@0.14.0) (2019-09-17)
+
+### Features
+
+- ensure a micro-app's id always be the same as its directory name ([565a795](https://git.easyops.local/anyclouds/next-core/commits/565a795))
+
 ## [0.13.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@0.13.6...@easyops/build-config-factory@0.13.7) (2019-09-17)
 
 **Note:** Version bump only for package @easyops/build-config-factory

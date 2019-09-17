@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.2...@easyops/brick-kit@0.25.3) (2019-09-17)
+
+### Bug Fixes
+
+- check login when reload bootstrap ([ce2dafc](https://git.easyops.local/anyclouds/next-core/commits/ce2dafc))
+
 ## [0.25.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.1...@easyops/brick-kit@0.25.2) (2019-09-17)
 
 ### Bug Fixes
