@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.15.0...@easyops/brick-types@0.15.1) (2019-09-17)
+
+### Bug Fixes
+
+- **cmdb-instances:** 修复 decorateBrickModal 的 destroy 方法会改变 this.destroyOnClose 的问题 ([463c12d](https://git.easyops.local/anyclouds/next-core/commits/463c12d))
+
 # [0.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.14.3...@easyops/brick-types@0.15.0) (2019-09-14)
 
 ### Features

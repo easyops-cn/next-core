@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.1...@easyops/brick-kit@0.25.2) (2019-09-17)
+
+### Bug Fixes
+
+- **cmdb-instances:** 修复 decorateBrickModal 的 destroy 方法会改变 this.destroyOnClose 的问题 ([463c12d](https://git.easyops.local/anyclouds/next-core/commits/463c12d))
+
 ## [0.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.0...@easyops/brick-kit@0.25.1) (2019-09-16)
 
 ### Bug Fixes
