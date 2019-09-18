@@ -34,7 +34,7 @@
     "@easyops/brick-http": "^0.2.2",
     "@easyops/brick-utils": "^0.9.2",
     "antd": "^3.23.3",
-    "history": "^4.9.0",
+    "history": "^4.10.1",
     "i18next": "^17.0.16",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
