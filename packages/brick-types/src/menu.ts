@@ -8,6 +8,7 @@ export interface SidebarMenu {
   link?: LocationDescriptor;
   defaultCollapsed?: boolean;
   menuItems: SidebarMenuItem[];
+  showRelatedApps: boolean;
 }
 
 export type SidebarMenuItemType = "default" | "group";
