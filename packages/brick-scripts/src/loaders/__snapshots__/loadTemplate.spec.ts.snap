@@ -493,6 +493,7 @@ build(\\"micro-apps\\");
     \\"moduleResolution\\": \\"node\\",
     \\"esModuleInterop\\": true,
     \\"resolveJsonModule\\": true,
+    \\"skipLibCheck\\": true,
     \\"declaration\\": false,
     \\"outDir\\": \\"./dist\\"
   },
