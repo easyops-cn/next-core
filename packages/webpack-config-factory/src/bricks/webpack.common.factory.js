@@ -46,7 +46,7 @@ const getImageLoaderOptions = distPublicPath => ({
   ]
 });
 
-module.exports = ({ useToStringLoaderInsteadOfStyleLoader, dll = [] } = {}) => {
+module.exports = ({ useToStringLoaderInsteadOfStyleLoader } = {}) => {
   const dirname = process.cwd();
   const appRoot = path.join(dirname, "..", "..");
   const pkgRelativeRoot = path.relative(appRoot, dirname);
@@ -55,6 +55,12 @@ module.exports = ({ useToStringLoaderInsteadOfStyleLoader, dll = [] } = {}) => {
     .concat("dist")
     .join("/");
   const imageLoaderOptions = getImageLoaderOptions(distPublicPath);
+
+  const packageJson = require(path.join(dirname, "package.json"));
+  const dll = Object.keys(packageJson.dependencies).filter(name =>
+    name.startsWith("@dll/")
+  );
+
   return {
     context: appRoot,
     entry: path.join(dirname, "src", "index"),
@@ -176,7 +182,7 @@ module.exports = ({ useToStringLoaderInsteadOfStyleLoader, dll = [] } = {}) => {
         name =>
           new webpack.DllReferencePlugin({
             context: appRoot,
-            manifest: require(`@dll/${name}`)
+            manifest: require(name)
           })
       )
     ]
