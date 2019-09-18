@@ -755,9 +755,11 @@ export function decorateBrickModal<
     };
 
     destroy = () => {
+      const destroyOnClose = this.destroyOnClose;
+
       this.destroyOnClose = true;
       this.close();
-      this.destroyOnClose = false;
+      this.destroyOnClose = destroyOnClose;
 
       if (this.reset) {
         this.reset();

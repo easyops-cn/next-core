@@ -42,8 +42,11 @@ export class Kernel {
     }
   }
 
-  async loadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
-    const bootstrapResponse = await AuthSdk.bootstrap<BootstrapData>({
+  async loadMicroApps(
+    params?: { check_login?: boolean },
+    interceptorParams?: InterceptorParams
+  ): Promise<void> {
+    const bootstrapResponse = await AuthSdk.bootstrap<BootstrapData>(params, {
       interceptorParams
     });
     this.bootstrapData = {
@@ -78,9 +81,11 @@ export class Kernel {
   /**
    * 重置顶栏、侧栏
    */
-  unsetBars(): void {
+  unsetBars(appChanged?: boolean): void {
     this.toggleBars(true);
-    this.menuBar.setAppMenu(null);
+    if (appChanged) {
+      this.menuBar.setAppMenu(null);
+    }
     this.appBar.setPageTitle(null);
     this.appBar.setBreadcrumb(null);
   }

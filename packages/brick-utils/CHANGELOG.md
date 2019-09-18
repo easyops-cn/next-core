@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.9.1...@easyops/brick-utils@0.9.2) (2019-09-17)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [0.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.9.0...@easyops/brick-utils@0.9.1) (2019-09-17)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [0.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.8.1...@easyops/brick-utils@0.9.0) (2019-09-14)
+
+### Features
+
+- support compute properties by APP.homepage ([1fa7f25](https://git.easyops.local/anyclouds/next-core/commits/1fa7f25))
+
+## [0.8.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.8.0...@easyops/brick-utils@0.8.1) (2019-09-11)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [0.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.7.2...@easyops/brick-utils@0.8.0) (2019-09-10)
+
+### Features
+
+- support compute route path by template ([743f4fc](https://git.easyops.local/anyclouds/next-core/commits/743f4fc))
+
 ## [0.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.7.1...@easyops/brick-utils@0.7.2) (2019-09-04)
 
 **Note:** Version bump only for package @easyops/brick-utils

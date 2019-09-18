@@ -2,7 +2,7 @@
   "name": "@micro-apps/$kebab-package-name$",
   "version": "0.0.0",
   "description": "> TODO: description",
-  "homepage": "https://git.easyops.local/anyclouds/brick-next/tree/master/micro-apps/$kebab-package-name$",
+  "homepage": "$workspace-homepage$/tree/master/micro-apps/$kebab-package-name$",
   "license": "UNLICENSED",
   "files": ["storyboard.json", "deploy"],
   "repository": {
@@ -12,9 +12,6 @@
   "scripts": {
     "build": "echo 'nothing to build but lerna need this to build deps'",
     "postbuild": "node scripts/post-build.js"
-  },
-  "devDependencies": {
-    "@easyops/build-config-factory": "latest"
   },
   "peerDependencies": {
     "@bricks/basic-bricks": "latest"

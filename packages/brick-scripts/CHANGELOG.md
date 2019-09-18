@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.6...@easyops/brick-scripts@0.14.7) (2019-09-17)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [0.14.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.5...@easyops/brick-scripts@0.14.6) (2019-09-17)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [0.14.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.4...@easyops/brick-scripts@0.14.5) (2019-09-16)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [0.14.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.3...@easyops/brick-scripts@0.14.4) (2019-09-16)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [0.14.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.2...@easyops/brick-scripts@0.14.3) (2019-09-16)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [0.14.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.1...@easyops/brick-scripts@0.14.2) (2019-09-14)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [0.14.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.0...@easyops/brick-scripts@0.14.1) (2019-09-11)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+# [0.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.13.7...@easyops/brick-scripts@0.14.0) (2019-09-11)
+
+### Features
+
+- move certain dev dependencies to root ([0cbdd34](https://git.easyops.local/anyclouds/next-core/commits/0cbdd34))
+
+## [0.13.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.13.6...@easyops/brick-scripts@0.13.7) (2019-09-10)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 ## [0.13.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.13.5...@easyops/brick-scripts@0.13.6) (2019-09-09)
 
 **Note:** Version bump only for package @easyops/brick-scripts

@@ -16,7 +16,7 @@ if (process.env.SUBDIR === "true") {
 }
 
 // Find all `@dll/*`.
-const dll = Object.keys(packageJson.dependencies)
+const dll = Object.keys(packageJson.devDependencies)
   .filter(name => name.startsWith("@dll/"))
   .map(name => {
     const baseName = name.split("/").slice(-1)[0];

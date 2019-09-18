@@ -1,6 +1,6 @@
 {
   "name": "@easyops/sdk-scripts",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Generate new brick-packages or new bricks in existed packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/sdk-scripts",
   "license": "UNLICENSED",
@@ -35,8 +35,7 @@
     "prettier": "^1.18.2"
   },
   "devDependencies": {
-    "@easyops/brick-http": "^0.2.1",
-    "@easyops/rollup-config-factory": "^0.2.1"
+    "@easyops/brick-http": "^0.2.2"
   },
   "engines": {
     "node": ">=10.10.0"

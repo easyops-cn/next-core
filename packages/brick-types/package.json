@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-types",
-  "version": "0.14.2",
+  "version": "0.16.0",
   "description": "Pure types for kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-types",
   "license": "UNLICENSED",
@@ -29,13 +29,12 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops/rollup-config-factory": "^0.2.1",
     "typescript-json-schema": "^0.40.0"
   },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.22",
-    "antd": "^3.23.3",
-    "history": "^4.9.0",
-    "path-to-regexp": "^3.1.0"
+  "peerDependencies": {
+    "@fortawesome/fontawesome-svg-core": "*",
+    "antd": "*",
+    "history": "*",
+    "path-to-regexp": "*"
   }
 }

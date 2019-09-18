@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.7...@easyops/brick-container@0.14.8) (2019-09-17)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.14.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.6...@easyops/brick-container@0.14.7) (2019-09-17)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.14.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.5...@easyops/brick-container@0.14.6) (2019-09-16)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.14.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.4...@easyops/brick-container@0.14.5) (2019-09-16)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.14.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.3...@easyops/brick-container@0.14.4) (2019-09-16)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.14.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.2...@easyops/brick-container@0.14.3) (2019-09-14)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.14.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.1...@easyops/brick-container@0.14.2) (2019-09-11)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.14.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.0...@easyops/brick-container@0.14.1) (2019-09-10)
+
+### Bug Fixes
+
+- add bin scripts ([43b3b56](https://git.easyops.local/anyclouds/next-core/commits/43b3b56))
+
+# [0.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.13.6...@easyops/brick-container@0.14.0) (2019-09-10)
+
+### Features
+
+- serve brick container as a CLI tool ([168069b](https://git.easyops.local/anyclouds/next-core/commits/168069b))
+
+## [0.13.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.13.5...@easyops/brick-container@0.13.6) (2019-09-10)
+
+**Note:** Version bump only for package @easyops/brick-container
+
 ## [0.13.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.13.4...@easyops/brick-container@0.13.5) (2019-09-09)
 
 **Note:** Version bump only for package @easyops/brick-container

@@ -36,7 +36,12 @@ export class Runtime {
   }
 
   reloadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
-    return kernel.loadMicroApps(interceptorParams);
+    return kernel.loadMicroApps(
+      {
+        check_login: true
+      },
+      interceptorParams
+    );
   }
 
   /**

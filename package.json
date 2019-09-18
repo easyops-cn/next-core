@@ -1,6 +1,12 @@
 {
   "name": "next-core",
   "private": true,
+  "homepage": "https://git.easyops.local/anyclouds/next-core",
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "license": "UNLICENSED",
   "scripts": {
     "prepare": "lerna bootstrap",
     "start": "lerna run start --scope \"@easyops/brick-container\"",
@@ -11,11 +17,6 @@
     "yo": "brick-scripts -t dll",
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
-  },
-  "license": "UNLICENSED",
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",

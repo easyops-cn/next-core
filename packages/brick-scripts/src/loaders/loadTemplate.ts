@@ -12,14 +12,13 @@ const packageJson = JSON.parse(
 );
 const { templateDependencies, devDependencies } = packageJson;
 const brickDllVersion = devDependencies["@easyops/brick-dll"];
-const buildConfigFactoryVersion =
-  devDependencies["@easyops/build-config-factory"];
-const rollupConfigFactoryVersion =
-  devDependencies["@easyops/rollup-config-factory"];
-const webpackConfigFactoryVersion =
-  devDependencies["@easyops/webpack-config-factory"];
 const basicBricksVersion = templateDependencies["@bricks/basic-bricks"];
 const brickContainerVersion = templateDependencies["@easyops/brick-container"];
+
+const workspacePackageJson = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8")
+);
+const workspaceHomepage = workspacePackageJson.homepage;
 
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
@@ -53,16 +52,6 @@ function replaceDepsVersion(jsonString: string): string {
     if (key === "@easyops/brick-dll") {
       deps[key] = brickDllVersion;
     }
-  }
-  const devDeps = pkg.devDependencies;
-  if (devDeps["@easyops/build-config-factory"]) {
-    devDeps["@easyops/build-config-factory"] = buildConfigFactoryVersion;
-  }
-  if (devDeps["@easyops/rollup-config-factory"]) {
-    devDeps["@easyops/rollup-config-factory"] = rollupConfigFactoryVersion;
-  }
-  if (devDeps["@easyops/webpack-config-factory"]) {
-    devDeps["@easyops/webpack-config-factory"] = webpackConfigFactoryVersion;
   }
 
   const peerDeps = pkg.peerDependencies || {};
@@ -111,6 +100,7 @@ export function loadTemplate({
   }
 
   const translations: Record<string, string> = {
+    "$workspace-homepage$": workspaceHomepage,
     "$kebab-package-name$": packageName,
     $PascalPackageName$: changeCase.pascal(packageName),
     "$Title Package Name$": changeCase.title(packageName),

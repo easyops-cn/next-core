@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.2...@easyops/brick-kit@0.25.3) (2019-09-17)
+
+### Bug Fixes
+
+- check login when reload bootstrap ([ce2dafc](https://git.easyops.local/anyclouds/next-core/commits/ce2dafc))
+
+## [0.25.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.1...@easyops/brick-kit@0.25.2) (2019-09-17)
+
+### Bug Fixes
+
+- **cmdb-instances:** 修复 decorateBrickModal 的 destroy 方法会改变 this.destroyOnClose 的问题 ([463c12d](https://git.easyops.local/anyclouds/next-core/commits/463c12d))
+
+## [0.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.0...@easyops/brick-kit@0.25.1) (2019-09-16)
+
+### Bug Fixes
+
+- fix useCurrentApp: useEffect only once ([cc214b4](https://git.easyops.local/anyclouds/next-core/commits/cc214b4))
+- reset app menu only if app changed ([8d544d8](https://git.easyops.local/anyclouds/next-core/commits/8d544d8))
+
+# [0.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.24.0...@easyops/brick-kit@0.25.0) (2019-09-16)
+
+### Features
+
+- add custom hooks: useCurrentApp ([6ff4892](https://git.easyops.local/anyclouds/next-core/commits/6ff4892))
+
+# [0.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.23.1...@easyops/brick-kit@0.24.0) (2019-09-14)
+
+### Features
+
+- support compute properties by APP.homepage ([1fa7f25](https://git.easyops.local/anyclouds/next-core/commits/1fa7f25))
+
+## [0.23.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.23.0...@easyops/brick-kit@0.23.1) (2019-09-11)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [0.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.22.3...@easyops/brick-kit@0.23.0) (2019-09-10)
+
+### Features
+
+- support route path template ([fbb99a7](https://git.easyops.local/anyclouds/next-core/commits/fbb99a7))
+
 ## [0.22.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.22.2...@easyops/brick-kit@0.22.3) (2019-09-06)
 
 ### Bug Fixes

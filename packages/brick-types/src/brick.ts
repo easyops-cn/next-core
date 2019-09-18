@@ -387,6 +387,7 @@ export interface BrickOfModal<T = Record<string, any>> {
   isVisible: boolean;
   destroyOnClose: boolean;
   modalTitle?: React.ReactNode;
+  modalWidth?: number;
   open(e?: CustomEvent<T>): void;
   close(): void;
   destroy(): void;

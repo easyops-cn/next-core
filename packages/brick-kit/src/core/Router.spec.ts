@@ -19,6 +19,7 @@ const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
+const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 
 const spyOnHistoryListen = jest.fn();
 const spyOnHistoryReplace = jest.fn();
@@ -75,7 +76,10 @@ describe("Router", () => {
     __setMatchedStoryboard({
       dll: ["d3.js"],
       deps: ["dep.js"],
-      routes: []
+      routes: [],
+      app: {
+        id: "hello"
+      }
     });
     __setMountRoutesResults({
       main: [
@@ -105,6 +109,14 @@ describe("Router", () => {
     expect(spyOnHistoryListen).toBeCalled();
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["d3.js"]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["dep.js"]);
+    const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
+    expect(dispatchedEvent.type).toBe("app.change");
+    expect(dispatchedEvent.detail).toEqual({
+      previousApp: undefined,
+      currentApp: {
+        id: "hello"
+      }
+    });
     expect(spyOnMountTree.mock.calls[1][0]).toEqual([{ type: "p" }]);
     expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);
     expect(spyOnMountStaticNode.mock.calls[0][1]).toEqual({ title: "menu" });
