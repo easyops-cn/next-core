@@ -36,7 +36,7 @@
     "@easyops/rollup-config-factory": "^0.2.1",
     "antd": "^3.23.3",
     "history": "^4.9.0",
-    "i18next": "^17.0.15",
+    "i18next": "^17.0.16",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
     "react-i18next": "^10.12.5"
