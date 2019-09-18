@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.8.4...@easyops/webpack-config-factory@0.9.0) (2019-09-18)
+
+### Features
+
+- auto detect used dlls ([e070f6b](https://git.easyops.local/anyclouds/next-core/commits/e070f6b))
+
 ## [0.8.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.8.3...@easyops/webpack-config-factory@0.8.4) (2019-09-18)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory
