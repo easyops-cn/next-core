@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.7...@easyops/brick-scripts@0.14.8) (2019-09-18)
+
+### Bug Fixes
+
+- set transformed micro app's tsconfig.json skipLibCheck to true ([9c734b9](https://git.easyops.local/anyclouds/next-core/commits/9c734b9))
+
 ## [0.14.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.14.6...@easyops/brick-scripts@0.14.7) (2019-09-17)
 
 **Note:** Version bump only for package @easyops/brick-scripts
