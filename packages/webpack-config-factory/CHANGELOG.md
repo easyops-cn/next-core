@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.9.0...@easyops/webpack-config-factory@0.9.1) (2019-09-19)
+
+### Bug Fixes
+
+- fix loading dll errors ([2b4ed46](https://git.easyops.local/anyclouds/next-core/commits/2b4ed46))
+
 # [0.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.8.4...@easyops/webpack-config-factory@0.9.0) (2019-09-18)
 
 ### Features
