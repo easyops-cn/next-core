@@ -35,6 +35,7 @@
     "meow": "^5.0.0"
   },
   "devDependencies": {
+    "@dll/ace": "^0.0.0",
     "@dll/d3": "^0.3.5",
     "@dll/echarts": "^0.2.6",
     "@easyops/brick-dll": "^0.6.15",
