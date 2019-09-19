@@ -19,5 +19,8 @@
   },
   "dependencies": {
     "react-ace": "^7.0.4"
+  },
+  "devDependencies": {
+    "@easyops/brick-dll": "^0.6.15"
   }
 }
