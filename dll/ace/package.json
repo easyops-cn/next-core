@@ -1,0 +1,26 @@
+{
+  "name": "@dll/ace",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/ace",
+  "license": "UNLICENSED",
+  "main": "dist/manifest.json",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack --config webpack.dll.js --watch",
+    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.dll.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
+  },
+  "dependencies": {
+    "react-ace": "^7.0.4"
+  },
+  "devDependencies": {
+    "@easyops/brick-dll": "^0.6.15"
+  }
+}
