@@ -172,7 +172,9 @@ module.exports = ({ useToStringLoaderInsteadOfStyleLoader } = {}) => {
       ]
     },
     plugins: [
-      new ScanCustomElementsPlugin(dll),
+      new ScanCustomElementsPlugin(
+        dll.map(name => name.substr("@dll/".length))
+      ),
       new CleanWebpackPlugin(),
       new webpack.DllReferencePlugin({
         context: appRoot,
