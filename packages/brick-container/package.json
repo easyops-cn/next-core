@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-container",
-  "version": "0.14.11",
+  "version": "0.15.0",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-container",
   "license": "UNLICENSED",
@@ -35,7 +35,7 @@
     "meow": "^5.0.0"
   },
   "devDependencies": {
-    "@dll/ace": "^0.0.0",
+    "@dll/ace": "^0.1.0",
     "@dll/d3": "^0.3.5",
     "@dll/echarts": "^0.2.6",
     "@easyops/brick-dll": "^0.6.15",
