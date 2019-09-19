@@ -24,6 +24,10 @@ module.exports = () => {
       library: "[name]"
     },
     plugins: [
+      new webpack.DllReferencePlugin({
+        context: appRoot,
+        manifest: require("@easyops/brick-dll")
+      }),
       new webpack.DllPlugin({
         name: "[name]",
         path: path.join(distPath, "manifest.json")
