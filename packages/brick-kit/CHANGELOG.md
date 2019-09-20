@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.6...@easyops/brick-kit@0.26.0) (2019-09-20)
+
+### Features
+
+- refreshable providers ([f69ea14](https://git.easyops.local/anyclouds/next-core/commits/f69ea14))
+
 ## [0.25.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.5...@easyops/brick-kit@0.25.6) (2019-09-18)
 
 **Note:** Version bump only for package @easyops/brick-kit
