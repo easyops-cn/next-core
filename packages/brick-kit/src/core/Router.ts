@@ -60,6 +60,7 @@ export class Router {
     this.kernel.unsetBars(appChanged);
     this.kernel.toggleLegacyIframe(false);
     this.resolver.resetCache();
+    this.resolver.resetRefreshQueue();
 
     if (appChanged) {
       this.kernel.currentApp = currentApp;
@@ -148,6 +149,8 @@ export class Router {
               (brick.element as any)[brick.lifeCycle.didMount]();
             });
           });
+
+        this.resolver.scheduleRefreshing();
         return;
       }
     }
