@@ -23,6 +23,10 @@ module.exports = cwd => {
       port: {
         type: "string",
         default: "8081"
+      },
+      wsPort: {
+        type: "string",
+        default: "8090"
       }
     }
   });
@@ -67,6 +71,7 @@ module.exports = cwd => {
     microAppsDir,
     brickPackagesDir,
     navbarJsonPath,
-    port: Number(flags.port)
+    port: Number(flags.port),
+    wsPort: Number(flags.wsPort)
   };
 };
