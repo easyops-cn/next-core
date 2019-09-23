@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.16.2...@easyops/brick-types@0.16.3) (2019-09-23)
+
+### Bug Fixes
+
+- set `skipLibCheck: true` during schema generating ([303a74f](https://git.easyops.local/anyclouds/next-core/commits/303a74f))
+- throw an error is generated schema is null ([0d6b31f](https://git.easyops.local/anyclouds/next-core/commits/0d6b31f))
+
 ## [0.16.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.16.1...@easyops/brick-types@0.16.2) (2019-09-18)
 
 ### Bug Fixes
