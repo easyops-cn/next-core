@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.15.2...@easyops/brick-container@0.15.3) (2019-09-23)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.15.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.15.1...@easyops/brick-container@0.15.2) (2019-09-20)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.15.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.15.0...@easyops/brick-container@0.15.1) (2019-09-20)
+
+### Bug Fixes
+
+- **report-installed-micro-app:** uc 安装， 非应用商店安装小产品的话，编排小产品的状态没有扫上来 refs MICRO_APP-28 ([04ea575](https://git.easyops.local/anyclouds/next-core/commits/04ea575))
+
 # [0.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.14.11...@easyops/brick-container@0.15.0) (2019-09-19)
 
 ### Features

@@ -45,6 +45,7 @@ def collect(install_path):
             "homepage": story_board["app"]["homepage"],
             "internal": "true" if story_board["app"].get("internal") else "false",
             "private": "true" if story_board["app"].get("private") else "false",
+            "status": "enabled",  # 新安装状态默认是enabled的
         }
 
 
@@ -70,6 +71,10 @@ def create_or_update_micro_app(app, ip, port, org):
 
         print 'update app: {}'.format(app["appId"])
         app["installStatus"] = rsp.json()["data"]["installStatus"]
+        # 小产品状态如果非空需要继承， 因为这个是用户设置的
+        # 如果状态是空，则默认是enabled的
+        if rsp.json()["data"]["status"]:
+            app["status"] = rsp.json()["data"]["status"]
         rsp = requests.put(url, json=app, headers=headers)
         rsp.raise_for_status()
     else:
