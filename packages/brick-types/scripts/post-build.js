@@ -10,6 +10,11 @@ const program = TJS.getProgramFromFiles(
 );
 const schema = TJS.generateSchema(program, "Storyboard");
 
+if (schema === null) {
+  process.exitCode = 1;
+  throw new Error("Schema is null");
+}
+
 const schemaDir = path.resolve(__dirname, "../.schema");
 if (!fs.existsSync(schemaDir)) {
   fs.mkdirSync(schemaDir);
