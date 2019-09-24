@@ -222,6 +222,7 @@ export interface CustomBrickConfig<T = Record<string, any>> {
 
 export interface CustomComponent<T = Record<string, any>> {
   brick: string;
+  field?: string;
   properties: T;
 }
 export interface CustomComponentWrapper<T = Record<string, any>> {
