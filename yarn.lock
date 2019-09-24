@@ -1882,6 +1882,20 @@
     merge-deep "^3.0.2"
     svgo "^1.2.2"
 
+"@svgr/rollup@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.npm.taobao.org/@svgr/rollup/download/@svgr/rollup-4.3.2.tgz#e33669e37feeac0c9bc3f0a643d08cd2ee88c011"
+  integrity sha1-4zZp43/urAybw/CmQ9CM0u6IwBE=
+  dependencies:
+    "@babel/core" "^7.4.5"
+    "@babel/plugin-transform-react-constant-elements" "^7.0.0"
+    "@babel/preset-env" "^7.4.5"
+    "@babel/preset-react" "^7.0.0"
+    "@svgr/core" "^4.3.2"
+    "@svgr/plugin-jsx" "^4.3.2"
+    "@svgr/plugin-svgo" "^4.3.1"
+    rollup-pluginutils "^2.8.1"
+
 "@svgr/webpack@^4.3.2":
   version "4.3.2"
   resolved "https://registry.npm.taobao.org/@svgr/webpack/download/@svgr/webpack-4.3.2.tgz#319d4471c8f3d5c3af35059274834d9b5b8fb956"

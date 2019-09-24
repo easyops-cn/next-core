@@ -62,8 +62,13 @@ body {
 .filter-of-blur #legacy-iframe-mount-point {
   filter: blur(5px);
 }
+
 @media print {
   .print-hide {
     display: none;
   }
+}
+
+.easyops-icon {
+  width: 1em;
 }
