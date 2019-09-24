@@ -1,7 +1,6 @@
 import { LocationDescriptor } from "history";
 import { ThemeType } from "antd/lib/icon";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { BrickIconType, BrickIconCategory } from "@easyops/brick-icons";
 
 export interface SidebarMenu {
   title: string;
@@ -49,6 +48,6 @@ export interface FaIcon {
 
 export interface EasyopsIcon {
   lib: "easyops";
-  icon: BrickIconType;
-  category?: BrickIconCategory;
+  icon: string;
+  category?: string;
 }

@@ -32,7 +32,6 @@
     "typescript-json-schema": "^0.40.0"
   },
   "peerDependencies": {
-    "@easyops/brick-icons": "*",
     "@fortawesome/fontawesome-svg-core": "*",
     "antd": "*",
     "history": "*",

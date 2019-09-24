@@ -1,19 +1,10 @@
 import React from "react";
 import { defaultCategory, appCategory } from "./categories";
 
-export type BrickIconCategory = "app";
-
-interface BrickIconPropsOfDefault {
-  icon: keyof typeof defaultCategory;
-  category?: undefined;
+export interface BrickIconProps {
+  icon: string;
+  category?: string;
 }
-
-interface BrickIconPropsOfApp {
-  icon: keyof typeof appCategory;
-  category: BrickIconCategory;
-}
-
-export type BrickIconProps = BrickIconPropsOfDefault | BrickIconPropsOfApp;
 
 export const BrickIcon = (props: BrickIconProps): React.ReactElement => {
   const iconProps: Record<string, any> = {
@@ -25,19 +16,19 @@ export const BrickIcon = (props: BrickIconProps): React.ReactElement => {
     }`
   };
 
-  let icon: SvgrComponent;
+  let category: Record<string, SvgrComponent>;
 
   switch (props.category) {
     case undefined:
-      icon = defaultCategory[(props as BrickIconPropsOfDefault).icon];
+      category = defaultCategory;
       break;
     case "app":
-      icon = appCategory[(props as BrickIconPropsOfApp).icon];
+      category = appCategory;
       break;
   }
 
-  if (icon) {
-    return React.createElement(icon, iconProps);
+  if (category[props.icon]) {
+    return React.createElement(category[props.icon], iconProps);
   }
 
   return null;
