@@ -16,9 +16,9 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "prestart": "npm run clean",
+    "prestart": "npm run clean && node scripts/pre-build.js",
     "start": "npm run build:types && rollup --config rollup.config.js --watch",
-    "prebuild": "npm run clean",
+    "prebuild": "npm run clean && node scripts/pre-build.js",
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup --config rollup.config.js",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
@@ -27,8 +27,12 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "react": "^16.9.0",
-    "@svgr/rollup": "^4.3.2"
+    "@svgr/rollup": "^4.3.2",
+    "change-case": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "klaw-sync": "^6.0.0",
+    "prettier": "^1.18.2",
+    "react": "^16.9.0"
   },
   "peerDependencies": {
     "react": "*"

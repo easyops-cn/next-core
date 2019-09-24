@@ -1,30 +1,5 @@
 import React from "react";
-
-import Firewall from "./icons/firewall.svg";
-import IdcView from "./icons/idc-view.svg";
-import Router from "./icons/router.svg";
-import Server from "./icons/server.svg";
-import Switch from "./icons/switch.svg";
-import Task from "./icons/task.svg";
-import Tree from "./icons/tree.svg";
-
-import AppAppDeployStatistics from "./icons/app/app-deploy-statistics.svg";
-import AppIdc from "./icons/app/idc.svg";
-
-const defaultCategory = {
-  firewall: Firewall,
-  "idc-view": IdcView,
-  router: Router,
-  server: Server,
-  switch: Switch,
-  task: Task,
-  tree: Tree
-};
-
-const appCategory = {
-  "app-deploy-statistics": AppAppDeployStatistics,
-  idc: AppIdc
-};
+import { defaultCategory, appCategory } from "./categories";
 
 export type BrickIconCategory = "app";
 
@@ -45,7 +20,9 @@ export const BrickIcon = (props: BrickIconProps): React.ReactElement => {
     // Reset width and height.
     width: null,
     height: null,
-    className: `easyops-icon easyops-icon-${props.icon}`
+    className: `easyops-icon easyops-icon-${props.category || "default"}-${
+      props.icon
+    }`
   };
 
   let icon: SvgrComponent;
