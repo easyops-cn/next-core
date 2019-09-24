@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.15.4...@easyops/brick-container@0.16.0) (2019-09-24)
+
+### Features
+
+- add package: brick-icons ([9c8c000](https://git.easyops.local/anyclouds/next-core/commits/9c8c000))
+
 ## [0.15.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.15.3...@easyops/brick-container@0.15.4) (2019-09-23)
 
 **Note:** Version bump only for package @easyops/brick-container

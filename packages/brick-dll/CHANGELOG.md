@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@0.6.17...@easyops/brick-dll@0.7.0) (2019-09-24)
+
+### Features
+
+- add package: brick-icons ([9c8c000](https://git.easyops.local/anyclouds/next-core/commits/9c8c000))
+
 ## [0.6.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@0.6.16...@easyops/brick-dll@0.6.17) (2019-09-23)
 
 **Note:** Version bump only for package @easyops/brick-dll
