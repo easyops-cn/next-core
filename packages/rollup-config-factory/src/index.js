@@ -28,7 +28,7 @@ peerDependencies.forEach(dep => {
   }
 });
 
-exports.rollupFactory = ({ umdName }) => ({
+exports.rollupFactory = ({ umdName, plugins = [] }) => ({
   input: "src/index.ts",
   output: [
     {
@@ -47,6 +47,7 @@ exports.rollupFactory = ({ umdName }) => ({
   ],
   external: Array.from(external),
   plugins: [
+    ...plugins,
     replace({
       "process.env.NODE_ENV": process.env.NODE_ENV
     }),
