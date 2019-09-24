@@ -15,5 +15,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "dist/", "**/__mocks__/"]
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "dist/",
+    "**/__mocks__/"
+  ]
 }

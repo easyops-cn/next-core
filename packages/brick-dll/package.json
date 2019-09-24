@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@easyops/brick-http": "^0.2.2",
+    "@easyops/brick-icons": "^0.0.0",
     "@easyops/brick-kit": "^0.26.1",
     "@easyops/brick-utils": "^0.9.5",
     "@easyops/fontawesome-library": "^0.8.1",

@@ -33,7 +33,7 @@ export interface SidebarMenuGroup {
   key?: string;
 }
 
-export type MenuIcon = AntdIcon | FaIcon;
+export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 
 export interface AntdIcon {
   lib: "antd";
@@ -44,4 +44,10 @@ export interface AntdIcon {
 export interface FaIcon {
   lib: "fa";
   icon: IconProp;
+}
+
+export interface EasyopsIcon {
+  lib: "easyops";
+  icon: string;
+  category?: string;
 }

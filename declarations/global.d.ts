@@ -7,3 +7,11 @@ declare module "*.less" {
   const lessValue: string;
   export default lessValue;
 }
+
+interface SvgrComponent
+  extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
+
+declare module "*.svg" {
+  const svgValue: SvgrComponent;
+  export default svgValue;
+}
