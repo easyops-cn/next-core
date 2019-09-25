@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.17.0...@easyops/brick-types@0.18.0) (2019-09-25)
+
+### Features
+
+- add `menuIcon` in `MicroApp` ([587b8e1](https://git.easyops.local/anyclouds/next-core/commits/587b8e1))
+
 # [0.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.16.3...@easyops/brick-types@0.17.0) (2019-09-24)
 
 ### Bug Fixes
