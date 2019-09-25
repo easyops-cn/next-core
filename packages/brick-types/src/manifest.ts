@@ -1,5 +1,5 @@
 import { LocationDescriptor } from "history";
-import { SidebarMenu } from "./menu";
+import { SidebarMenu, MenuIcon } from "./menu";
 import { PluginHistoryState } from "./runtime";
 
 export interface BootstrapData {
@@ -35,6 +35,7 @@ export interface MicroApp {
   installStatus?: "ok" | "running";
   status?: "developing" | "enabled" | "disabled";
   legacy?: "iframe";
+  menuIcon?: MenuIcon;
 }
 
 export interface BrickPackage {

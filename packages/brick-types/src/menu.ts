@@ -1,6 +1,6 @@
 import { LocationDescriptor } from "history";
 import { ThemeType } from "antd/lib/icon";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 
 export interface SidebarMenu {
   title: string;
@@ -43,7 +43,8 @@ export interface AntdIcon {
 
 export interface FaIcon {
   lib: "fa";
-  icon: IconProp;
+  icon: IconName;
+  prefix?: IconPrefix;
 }
 
 export interface EasyopsIcon {
