@@ -21,6 +21,7 @@
 
 ## Development
 
+`lerna run start --scope=@easyops/brick-dll`
 `lerna run start --scope=@easyops/brick-icons`
 
 ## New Icons
