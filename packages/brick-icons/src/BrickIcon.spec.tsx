@@ -3,8 +3,14 @@ import { shallow } from "enzyme";
 import { BrickIcon } from "./BrickIcon";
 
 describe("BrickIcon", () => {
-  it("should render a default icon", () => {
+  it("should render a default icon when category is missed", () => {
     const wrapper = shallow(<BrickIcon icon="firewall" />);
+    expect(wrapper.prop("className")).toBe(
+      "easyops-icon easyops-icon-default-firewall"
+    );
+  });
+  it("should render a default icon when category is an empty string", () => {
+    const wrapper = shallow(<BrickIcon icon="firewall" category="" />);
     expect(wrapper.prop("className")).toBe(
       "easyops-icon easyops-icon-default-firewall"
     );

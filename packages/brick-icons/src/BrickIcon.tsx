@@ -7,28 +7,30 @@ export interface BrickIconProps {
 }
 
 export const BrickIcon = (props: BrickIconProps): React.ReactElement => {
+  const category = props.category || "default";
+
   const iconProps: Record<string, any> = {
     // Reset width and height.
     width: null,
     height: null,
-    className: `easyops-icon easyops-icon-${props.category || "default"}-${
+    className: `easyops-icon easyops-icon-${category || "default"}-${
       props.icon
     }`
   };
 
-  let category: Record<string, SvgrComponent>;
+  let categoryIcons: Record<string, SvgrComponent>;
 
-  switch (props.category) {
-    case undefined:
-      category = defaultCategory;
+  switch (category) {
+    case "default":
+      categoryIcons = defaultCategory;
       break;
     case "app":
-      category = appCategory;
+      categoryIcons = appCategory;
       break;
   }
 
-  if (category[props.icon]) {
-    return React.createElement(category[props.icon], iconProps);
+  if (categoryIcons && categoryIcons[props.icon]) {
+    return React.createElement(categoryIcons[props.icon], iconProps);
   }
 
   return null;
