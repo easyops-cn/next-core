@@ -8,15 +8,16 @@ module.exports = env => {
     useRemote,
     publicPath,
     localBrickPackages,
-    localMicroApps
+    localMicroApps,
+    server
   } = env;
 
   const pathRewriteFactory = seg =>
     useSubdir
-      ? {
-          [`^${publicPath}${seg}`]: `/${seg}`
-        }
-      : undefined;
+      ? undefined
+      : {
+          [`^/${seg}`]: `/next/${seg}`
+        };
 
   const proxyPaths = ["api"];
   const otherProxyOptions = {};
@@ -59,7 +60,7 @@ module.exports = env => {
     ? undefined
     : proxyPaths.reduce((acc, seg) => {
         acc[`${publicPath}${seg}`] = {
-          target: "http://brick-next.162.d.easyops.local",
+          target: server,
           changeOrigin: true,
           pathRewrite: pathRewriteFactory(seg),
           headers: {

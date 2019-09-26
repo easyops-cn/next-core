@@ -27,6 +27,9 @@ module.exports = cwd => {
       wsPort: {
         type: "string",
         default: "8090"
+      },
+      server: {
+        type: "string"
       }
     }
   });
@@ -35,6 +38,19 @@ module.exports = cwd => {
   const useSubdir = process.env.SUBDIR === "true" || flags.subdir;
   const useRemote = flags.remote;
   const publicPath = useSubdir ? "/next/" : "/";
+  let server = process.env.SERVER || flags.server;
+  if (server) {
+    if (/^\d+$/.test(server)) {
+      server = `http://192.168.100.${server}`;
+    } else if (
+      !server.startsWith("http://") &&
+      !server.startsWith("https://")
+    ) {
+      server = `http://${server}`;
+    }
+  } else {
+    server = "http://192.168.100.162";
+  }
 
   const localBrickPackages = flags.localBricks
     ? flags.localBricks.split(",")
@@ -72,6 +88,7 @@ module.exports = cwd => {
     brickPackagesDir,
     navbarJsonPath,
     port: Number(flags.port),
-    wsPort: Number(flags.wsPort)
+    wsPort: Number(flags.wsPort),
+    server
   };
 };
