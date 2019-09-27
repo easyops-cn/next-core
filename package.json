@@ -32,7 +32,7 @@
     "@types/jest": "^24.0.18",
     "@types/js-yaml": "^3.12.1",
     "@types/klaw-sync": "^6.0.0",
-    "@types/lodash": "^4.14.139",
+    "@types/lodash": "^4.14.140",
     "@types/meow": "^5.0.0",
     "@types/node": "^10.12.18",
     "@types/prettier": "^1.18.2",
