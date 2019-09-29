@@ -67,4 +67,14 @@ export class Runtime {
       "/"
     );
   }
+
+  getLaunchpadSettings(): { columns: number; rows: number } {
+    return Object.assign(
+      {
+        columns: 7,
+        rows: 4
+      },
+      kernel.bootstrapData.settings && kernel.bootstrapData.settings.launchpad
+    );
+  }
 }
