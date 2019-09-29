@@ -6,11 +6,25 @@
 
 在 Storyboard 中可以如下配置菜单图标：
 
+#### 其它图标
+
 ```json
 {
   "icon": {
     "lib": "easyops",
     "icon": "firewall"
+  }
+}
+```
+
+#### 小产品图标
+
+```json
+{
+  "icon": {
+    "lib": "easyops",
+    "category": "app",
+    "icon": "mysql-resource"
   }
 }
 ```
