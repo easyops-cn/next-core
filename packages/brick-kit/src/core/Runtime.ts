@@ -3,7 +3,8 @@ import {
   MountPoints,
   MicroApp,
   InterceptorParams,
-  FeatureFlags
+  FeatureFlags,
+  DesktopData
 } from "@easyops/brick-types";
 
 let kernel: Kernel;
@@ -42,6 +43,10 @@ export class Runtime {
       },
       interceptorParams
     );
+  }
+
+  getDesktops(): DesktopData[] {
+    return kernel.bootstrapData.desktops || [];
   }
 
   /**
