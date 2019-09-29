@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.26.3...@easyops/brick-kit@0.27.0) (2019-09-29)
+
+### Features
+
+- new runtime api: getLaunchpadSettings ([0b41f2c](https://git.easyops.local/anyclouds/next-core/commits/0b41f2c))
+
 ## [0.26.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.26.2...@easyops/brick-kit@0.26.3) (2019-09-25)
 
 **Note:** Version bump only for package @easyops/brick-kit
