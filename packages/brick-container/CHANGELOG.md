@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.17.1...@easyops/brick-container@0.17.2) (2019-09-29)
+
+### Bug Fixes
+
+- fix local bricks and local micro apps not working in remote mode ([d99f0e3](https://git.easyops.local/anyclouds/next-core/commits/d99f0e3))
+
 ## [0.17.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.17.0...@easyops/brick-container@0.17.1) (2019-09-29)
 
 **Note:** Version bump only for package @easyops/brick-container
