@@ -1042,12 +1042,11 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.25"
 
-"@fortawesome/react-fontawesome@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.npm.taobao.org/@fortawesome/react-fontawesome/download/@fortawesome/react-fontawesome-0.1.4.tgz#18d61d9b583ca289a61aa7dccc05bd164d6bc9ad"
-  integrity sha1-GNYdm1g8oommGqfczAW9Fk1rya0=
+"@fortawesome/react-fontawesome@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.npm.taobao.org/@fortawesome/react-fontawesome/download/@fortawesome/react-fontawesome-0.1.5.tgz#8bc3cd5c617749534787a35e29caa7a6cff705c9"
+  integrity sha1-i8PNXGF3SVNHh6NeKcqnps/3Bck=
   dependencies:
-    humps "^2.0.1"
     prop-types "^15.5.10"
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
@@ -6403,11 +6402,6 @@ humanize-ms@^1.2.1:
   resolved "http://registry.npm.taobao.org/humanize-ms/download/humanize-ms-1.2.1.tgz#c46e3159a293f6b896da29316d8b6fe8bb79bbed"
   dependencies:
     ms "^2.0.0"
-
-humps@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/humps/download/humps-2.0.1.tgz#dd02ea6081bd0568dc5d073184463957ba9ef9aa"
-  integrity sha1-3QLqYIG9BWjcXQcxhEY5V7qe+ao=
 
 husky@^3.0.7:
   version "3.0.7"
