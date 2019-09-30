@@ -143,7 +143,7 @@ describe("Runtime", () => {
     expect(runtime.getHomepage()).toEqual("/");
   });
 
-  it("should get launchpad settitngs", async () => {
+  it("should get launchpad settings", async () => {
     const mountPoints: MountPoints = {} as any;
     await runtime.bootstrap(mountPoints);
     const mockKernelInstance = spyOnKernel.mock.instances[0];
@@ -158,5 +158,26 @@ describe("Runtime", () => {
       columns: 5,
       rows: 4
     });
+  });
+
+  it("should get desktops", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.bootstrapData = {};
+    // Default is `[]`
+    expect(runtime.getDesktops()).toEqual([]);
+    mockKernelInstance.bootstrapData = {
+      desktops: [
+        {
+          items: []
+        }
+      ]
+    };
+    expect(runtime.getDesktops()).toEqual([
+      {
+        items: []
+      }
+    ]);
   });
 });
