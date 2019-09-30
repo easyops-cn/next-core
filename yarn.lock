@@ -1846,7 +1846,7 @@
     "@svgr/babel-plugin-transform-react-native-svg" "^4.2.0"
     "@svgr/babel-plugin-transform-svg-component" "^4.2.0"
 
-"@svgr/core@^4.3.2", "@svgr/core@^4.3.3":
+"@svgr/core@^4.3.3":
   version "4.3.3"
   resolved "https://registry.npm.taobao.org/@svgr/core/download/@svgr/core-4.3.3.tgz#b37b89d5b757dc66e8c74156d00c368338d24293"
   integrity sha1-s3uJ1bdX3Gbox0FW0Aw2gzjSQpM=
@@ -1862,7 +1862,7 @@
   dependencies:
     "@babel/types" "^7.4.4"
 
-"@svgr/plugin-jsx@^4.3.2", "@svgr/plugin-jsx@^4.3.3":
+"@svgr/plugin-jsx@^4.3.3":
   version "4.3.3"
   resolved "https://registry.npm.taobao.org/@svgr/plugin-jsx/download/@svgr/plugin-jsx-4.3.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fplugin-jsx%2Fdownload%2F%40svgr%2Fplugin-jsx-4.3.3.tgz#e2ba913dbdfbe85252a34db101abc7ebd50992fa"
   integrity sha1-4rqRPb376FJSo02xAavH69UJkvo=
@@ -1881,17 +1881,17 @@
     merge-deep "^3.0.2"
     svgo "^1.2.2"
 
-"@svgr/rollup@^4.3.2":
-  version "4.3.2"
-  resolved "https://registry.npm.taobao.org/@svgr/rollup/download/@svgr/rollup-4.3.2.tgz#e33669e37feeac0c9bc3f0a643d08cd2ee88c011"
-  integrity sha1-4zZp43/urAybw/CmQ9CM0u6IwBE=
+"@svgr/rollup@^4.3.3":
+  version "4.3.3"
+  resolved "https://registry.npm.taobao.org/@svgr/rollup/download/@svgr/rollup-4.3.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Frollup%2Fdownload%2F%40svgr%2Frollup-4.3.3.tgz#db8bc2746ae0930c14cba2409f417a6ac6aadb38"
+  integrity sha1-24vCdGrgkwwUy6JAn0F6asaq2zg=
   dependencies:
     "@babel/core" "^7.4.5"
     "@babel/plugin-transform-react-constant-elements" "^7.0.0"
     "@babel/preset-env" "^7.4.5"
     "@babel/preset-react" "^7.0.0"
-    "@svgr/core" "^4.3.2"
-    "@svgr/plugin-jsx" "^4.3.2"
+    "@svgr/core" "^4.3.3"
+    "@svgr/plugin-jsx" "^4.3.3"
     "@svgr/plugin-svgo" "^4.3.1"
     rollup-pluginutils "^2.8.1"
 
