@@ -81,13 +81,19 @@ export class Kernel {
   /**
    * 重置顶栏、侧栏
    */
-  unsetBars(appChanged?: boolean): void {
+  unsetBars({
+    appChanged,
+    legacy
+  }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
     if (appChanged) {
       this.menuBar.setAppMenu(null);
     }
+    if (legacy !== "iframe" || appChanged) {
+      // 对于 Legacy 页面，仅当切换应用时重设面包屑。
+      this.appBar.setBreadcrumb(null);
+    }
     this.appBar.setPageTitle(null);
-    this.appBar.setBreadcrumb(null);
   }
 
   toggleLegacyIframe(visible: boolean): void {
