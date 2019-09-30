@@ -2693,10 +2693,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^3.23.4:
-  version "3.23.4"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-3.23.4.tgz?cache=0&sync_timestamp=1569052337111&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.23.4.tgz#78110e06652697abfdff979683a118d39d66c6a2"
-  integrity sha1-eBEOBmUml6v9/5eWg6EY051mxqI=
+antd@^3.23.5:
+  version "3.23.5"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-3.23.5.tgz?cache=0&sync_timestamp=1569761604432&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.23.5.tgz#ee87cd742c9ac99c95e728aa948615108629af59"
+  integrity sha1-7ofNdCyayZyV5yiqlIYVEIYpr1k=
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -2731,6 +2731,7 @@ antd@^3.23.4:
     rc-pagination "~1.20.5"
     rc-progress "~2.5.0"
     rc-rate "~2.5.0"
+    rc-resize-observer "^0.1.0"
     rc-select "~9.2.0"
     rc-slider "~8.6.11"
     rc-steps "~3.5.0"
@@ -10545,6 +10546,15 @@ rc-rate@~2.5.0:
     rc-util "^4.3.0"
     react-lifecycles-compat "^3.0.4"
 
+rc-resize-observer@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npm.taobao.org/rc-resize-observer/download/rc-resize-observer-0.1.0.tgz#e3aeebc9dd743b6b97271ba7238a9a7a37a66b39"
+  integrity sha1-467ryd10O2uXJxunI4qaejemazk=
+  dependencies:
+    classnames "^2.2.1"
+    rc-util "^4.11.1"
+    resize-observer-polyfill "^1.5.1"
+
 rc-select@~9.2.0:
   version "9.2.0"
   resolved "https://registry.npm.taobao.org/rc-select/download/rc-select-9.2.0.tgz#b5dacccf3ce3fcdd27e0a0f598133d6284ca5292"
@@ -10732,6 +10742,17 @@ rc-util@^4.0.4, rc-util@^4.1.0, rc-util@^4.1.1, rc-util@^4.10.0, rc-util@^4.3.0,
     react-lifecycles-compat "^3.0.4"
     shallowequal "^0.2.2"
     warning "^4.0.3"
+
+rc-util@^4.11.1:
+  version "4.11.1"
+  resolved "https://registry.npm.taobao.org/rc-util/download/rc-util-4.11.1.tgz#07a6df593fc98a1350a6541990e1f8d90f4df603"
+  integrity sha1-B6bfWT/JihNQplQZkOH42Q9N9gM=
+  dependencies:
+    add-dom-event-listener "^1.1.0"
+    babel-runtime "6.x"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.4"
+    shallowequal "^0.2.2"
 
 rc@^1.2.7:
   version "1.2.8"
