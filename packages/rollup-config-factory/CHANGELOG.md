@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@0.2.2...@easyops/rollup-config-factory@0.3.0) (2019-09-24)
+
+### Features
+
+- support add custom plugins ([677d83b](https://git.easyops.local/anyclouds/next-core/commits/677d83b))
+
 ## [0.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@0.2.1...@easyops/rollup-config-factory@0.2.2) (2019-09-18)
 
 **Note:** Version bump only for package @easyops/rollup-config-factory

@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.27.0...@easyops/brick-kit@0.28.0) (2019-09-30)
+
+### Features
+
+- new runtime api: getDesktops ([57af3a5](https://git.easyops.local/anyclouds/next-core/commits/57af3a5))
+
+# [0.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.26.3...@easyops/brick-kit@0.27.0) (2019-09-29)
+
+### Features
+
+- new runtime api: getLaunchpadSettings ([0b41f2c](https://git.easyops.local/anyclouds/next-core/commits/0b41f2c))
+
+## [0.26.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.26.2...@easyops/brick-kit@0.26.3) (2019-09-25)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [0.26.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.26.1...@easyops/brick-kit@0.26.2) (2019-09-24)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [0.26.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.26.0...@easyops/brick-kit@0.26.1) (2019-09-23)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
 # [0.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.25.6...@easyops/brick-kit@0.26.0) (2019-09-20)
 
 ### Features

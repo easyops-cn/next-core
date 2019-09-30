@@ -220,6 +220,19 @@ export interface CustomBrickConfig<T = Record<string, any>> {
   options?: T;
 }
 
+export interface CustomComponent<T = Record<string, any>> {
+  brick: string;
+  field?: string;
+  properties: T;
+}
+export interface CustomComponentWrapper<T = Record<string, any>> {
+  component: CustomComponent;
+}
+
+export interface CustomComponentConfig<T = Record<string, any>> {
+  attrId: CustomComponentWrapper;
+}
+
 export interface BrickAction {
   label: string;
   type?: "button" | "dropdown";
@@ -234,6 +247,7 @@ export interface BrickOfCmdbInstanceDetail<T = Record<string, any>> {
   attributeConfigs: Record<string, AttributeConfig>;
   brickConfigList: CustomBrickConfig<T>[];
   actions: BrickAction[];
+  attrCustomConfigs: CustomComponentConfig<T>;
 }
 
 export interface BrickOfCmdbInstanceRelation {

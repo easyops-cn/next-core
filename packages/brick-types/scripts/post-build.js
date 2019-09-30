@@ -2,10 +2,18 @@ const path = require("path");
 const fs = require("fs");
 const TJS = require("typescript-json-schema");
 
-const program = TJS.getProgramFromFiles([
-  path.resolve(__dirname, "../src/manifest.ts")
-]);
+const program = TJS.getProgramFromFiles(
+  [path.resolve(__dirname, "../src/manifest.ts")],
+  {
+    skipLibCheck: true
+  }
+);
 const schema = TJS.generateSchema(program, "Storyboard");
+
+if (schema === null) {
+  process.exitCode = 1;
+  throw new Error("Schema is null");
+}
 
 const schemaDir = path.resolve(__dirname, "../.schema");
 if (!fs.existsSync(schemaDir)) {

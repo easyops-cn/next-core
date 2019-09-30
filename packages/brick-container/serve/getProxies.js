@@ -8,15 +8,16 @@ module.exports = env => {
     useRemote,
     publicPath,
     localBrickPackages,
-    localMicroApps
+    localMicroApps,
+    server
   } = env;
 
   const pathRewriteFactory = seg =>
     useSubdir
-      ? {
-          [`^${publicPath}${seg}`]: `/${seg}`
-        }
-      : undefined;
+      ? undefined
+      : {
+          [`^/${seg}`]: `/next/${seg}`
+        };
 
   const proxyPaths = ["api"];
   const otherProxyOptions = {};
@@ -25,7 +26,10 @@ module.exports = env => {
     if (localBrickPackages.length > 0 || localMicroApps.length > 0) {
       otherProxyOptions.onProxyRes = (proxyRes, req, res) => {
         // 设定透传远端请求时，可以指定特定的 brick packages 和 micro apps 使用本地文件。
-        if (req.path === "/api/auth/bootstrap") {
+        if (
+          req.path === "/next/api/auth/bootstrap" ||
+          req.path === "/api/auth/bootstrap"
+        ) {
           modifyResponse(res, proxyRes, raw => {
             const result = JSON.parse(raw);
             const { data } = result;
@@ -59,7 +63,7 @@ module.exports = env => {
     ? undefined
     : proxyPaths.reduce((acc, seg) => {
         acc[`${publicPath}${seg}`] = {
-          target: "http://brick-next.162.d.easyops.local",
+          target: server,
           changeOrigin: true,
           pathRewrite: pathRewriteFactory(seg),
           headers: {

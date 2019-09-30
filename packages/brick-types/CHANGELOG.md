@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.18.0...@easyops/brick-types@0.19.0) (2019-09-30)
+
+### Features
+
+- new types for launchpad desktops ([efbb4cc](https://git.easyops.local/anyclouds/next-core/commits/efbb4cc))
+
+# [0.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.17.0...@easyops/brick-types@0.18.0) (2019-09-25)
+
+### Features
+
+- add `menuIcon` in `MicroApp` ([587b8e1](https://git.easyops.local/anyclouds/next-core/commits/587b8e1))
+
+# [0.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.16.3...@easyops/brick-types@0.17.0) (2019-09-24)
+
+### Bug Fixes
+
+- use string as easyops icon type ([0ff3ac2](https://git.easyops.local/anyclouds/next-core/commits/0ff3ac2))
+
+### Features
+
+- add package: brick-icons ([9c8c000](https://git.easyops.local/anyclouds/next-core/commits/9c8c000))
+
+## [0.16.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.16.2...@easyops/brick-types@0.16.3) (2019-09-23)
+
+### Bug Fixes
+
+- set `skipLibCheck: true` during schema generating ([303a74f](https://git.easyops.local/anyclouds/next-core/commits/303a74f))
+- throw an error is generated schema is null ([0d6b31f](https://git.easyops.local/anyclouds/next-core/commits/0d6b31f))
+
 ## [0.16.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.16.1...@easyops/brick-types@0.16.2) (2019-09-18)
 
 ### Bug Fixes

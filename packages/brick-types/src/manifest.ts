@@ -1,5 +1,5 @@
 import { LocationDescriptor } from "history";
-import { SidebarMenu } from "./menu";
+import { SidebarMenu, MenuIcon } from "./menu";
 import { PluginHistoryState } from "./runtime";
 
 export interface BootstrapData {
@@ -7,6 +7,7 @@ export interface BootstrapData {
   navbar: NavbarConf;
   storyboards: Storyboard[];
   settings: Settings;
+  desktops: DesktopData[];
 }
 
 export interface RuntimeBootstrapData extends BootstrapData {
@@ -35,6 +36,7 @@ export interface MicroApp {
   installStatus?: "ok" | "running";
   status?: "developing" | "enabled" | "disabled";
   legacy?: "iframe";
+  menuIcon?: MenuIcon;
 }
 
 export interface BrickPackage {
@@ -173,4 +175,23 @@ export interface CustomBrickEventHandler {
   method: string; // The element's method
   multiple?: boolean; // Use `querySelectorAll` or `querySelector`
   args?: any[]; // Defaults to the event itself
+}
+
+export interface DesktopData {
+  items: DesktopItem[];
+}
+
+export type DesktopItem = DesktopItemApp | DesktopItemDir;
+
+export interface DesktopItemApp {
+  type: "app";
+  id: string;
+  app?: MicroApp;
+}
+
+export interface DesktopItemDir {
+  type: "dir";
+  id: string;
+  name: string;
+  items: DesktopItemApp[];
 }

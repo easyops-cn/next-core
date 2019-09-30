@@ -3,7 +3,8 @@ import {
   MountPoints,
   MicroApp,
   InterceptorParams,
-  FeatureFlags
+  FeatureFlags,
+  DesktopData
 } from "@easyops/brick-types";
 
 let kernel: Kernel;
@@ -44,6 +45,10 @@ export class Runtime {
     );
   }
 
+  getDesktops(): DesktopData[] {
+    return kernel.bootstrapData.desktops || [];
+  }
+
   /**
    * 切换主体内容 `filter: blur(...)`;
    * @param blur
@@ -65,6 +70,16 @@ export class Runtime {
       (kernel.bootstrapData.settings &&
         kernel.bootstrapData.settings.homepage) ||
       "/"
+    );
+  }
+
+  getLaunchpadSettings(): { columns: number; rows: number } {
+    return Object.assign(
+      {
+        columns: 7,
+        rows: 4
+      },
+      kernel.bootstrapData.settings && kernel.bootstrapData.settings.launchpad
     );
   }
 }
