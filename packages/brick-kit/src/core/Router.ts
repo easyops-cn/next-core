@@ -57,7 +57,9 @@ export class Router {
     const { mountPoints, currentApp: previousApp } = this.kernel;
     const currentApp = storyboard ? storyboard.app : undefined;
     const appChanged = previousApp !== currentApp;
-    this.kernel.unsetBars(appChanged);
+    const legacy = currentApp ? currentApp.legacy : undefined;
+
+    this.kernel.unsetBars({ appChanged, legacy });
     this.kernel.toggleLegacyIframe(false);
     this.resolver.resetCache();
     this.resolver.resetRefreshQueue();
@@ -75,7 +77,6 @@ export class Router {
     }
 
     if (storyboard) {
-      const legacy = storyboard.app ? storyboard.app.legacy : undefined;
       let {
         redirect,
         main,
