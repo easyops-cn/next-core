@@ -10662,7 +10662,7 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^16.10.1, react@^16.9.0:
+react@^16.10.1:
   version "16.10.1"
   resolved "https://registry.npm.taobao.org/react/download/react-16.10.1.tgz#967c1e71a2767dfa699e6ba702a00483e3b0573f"
   integrity sha1-lnwecaJ2ffppnmunAqAEg+OwVz8=
