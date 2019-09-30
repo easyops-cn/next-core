@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.18.0...@easyops/brick-types@0.19.0) (2019-09-30)
+
+### Features
+
+- new types for launchpad desktops ([efbb4cc](https://git.easyops.local/anyclouds/next-core/commits/efbb4cc))
+
 # [0.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.17.0...@easyops/brick-types@0.18.0) (2019-09-25)
 
 ### Features
