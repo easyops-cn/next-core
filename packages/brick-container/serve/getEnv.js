@@ -36,7 +36,7 @@ module.exports = cwd => {
 
   const useOffline = process.env.OFFLINE === "true" || flags.offline;
   const useSubdir = process.env.SUBDIR === "true" || flags.subdir;
-  const useRemote = flags.remote;
+  const useRemote = process.env.REMOTE === "true" || flags.remote;
   const publicPath = useSubdir ? "/next/" : "/";
   let server = process.env.SERVER || flags.server;
   if (server) {
@@ -54,9 +54,13 @@ module.exports = cwd => {
 
   const localBrickPackages = flags.localBricks
     ? flags.localBricks.split(",")
+    : process.env.LOCAL_BRICKS
+    ? process.env.LOCAL_BRICKS.split(",")
     : [];
   const localMicroApps = flags.localMicroApps
     ? flags.localMicroApps.split(",")
+    : process.env.LOCAL_MICRO_APPS
+    ? process.env.LOCAL_MICRO_APPS.split(",")
     : [];
 
   function getBrickNextDir() {
