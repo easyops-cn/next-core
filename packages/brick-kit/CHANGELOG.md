@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.28.0...@easyops/brick-kit@0.28.1) (2019-09-30)
+
+### Bug Fixes
+
+- 对于 Legacy 页面，仅当切换应用时重设面包屑 ([589a51a](https://git.easyops.local/anyclouds/next-core/commits/589a51a))
+
 # [0.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.27.0...@easyops/brick-kit@0.28.0) (2019-09-30)
 
 ### Features
