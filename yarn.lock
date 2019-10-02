@@ -7547,10 +7547,10 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lint-staged@^9.4.0:
-  version "9.4.0"
-  resolved "https://registry.npm.taobao.org/lint-staged/download/lint-staged-9.4.0.tgz#dd4abcc9a82539fd290aed1584e3241b8f8af687"
-  integrity sha1-3Uq8yaglOf0pCu0VhOMkG4+K9oc=
+lint-staged@^9.4.1:
+  version "9.4.1"
+  resolved "https://registry.npm.taobao.org/lint-staged/download/lint-staged-9.4.1.tgz?cache=0&sync_timestamp=1569906695983&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flint-staged%2Fdownload%2Flint-staged-9.4.1.tgz#60c0f85745bd398e6460aa7f5adb3cad3a2b862c"
+  integrity sha1-YMD4V0W9OY5kYKp/Wts8rTorhiw=
   dependencies:
     chalk "^2.4.2"
     commander "^2.20.0"
