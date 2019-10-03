@@ -4829,10 +4829,10 @@ enzyme-adapter-utils@^1.12.0:
     prop-types "^15.7.2"
     semver "^5.6.0"
 
-enzyme-to-json@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.4.0.tgz#2b6330a784a57ba68298e3c0d6cef17ee4fedc0e"
-  integrity sha1-K2Mwp4Sle6aCmOPA1s7xfuT+3A4=
+enzyme-to-json@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.4.2.tgz#e5e3f3d7f6700be72885e77b0792a2d20846b021"
+  integrity sha1-5ePz1/ZwC+cohed7B5Ki0ghGsCE=
   dependencies:
     lodash "^4.17.12"
 
