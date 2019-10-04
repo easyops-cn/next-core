@@ -6254,10 +6254,10 @@ husky@^3.0.7:
     run-node "^1.0.0"
     slash "^3.0.0"
 
-i18next-browser-languagedetector@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.npm.taobao.org/i18next-browser-languagedetector/download/i18next-browser-languagedetector-3.1.0.tgz#f28e7482ef22e67bf20cc189c86d55d7a7dfcacf"
-  integrity sha1-8o50gu8i5nvyDMGJyG1V16ffys8=
+i18next-browser-languagedetector@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/i18next-browser-languagedetector/download/i18next-browser-languagedetector-3.1.1.tgz#1a0c236d4339476cc3632da60ff947bbc2e3ba3c"
+  integrity sha1-GgwjbUM5R2zDYy2mD/lHu8Ljujw=
 
 i18next@^17.0.16:
   version "17.0.16"
