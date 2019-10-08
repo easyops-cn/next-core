@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ErrorBoundary } from "@easyops/brick-kit";
+import { BrickWrapper } from "@easyops/brick-kit";
 import { $PascalBrickName$ } from "./$PascalBrickName$";
 
 class $PascalBrickName$Element extends HTMLElement {
@@ -16,9 +16,9 @@ class $PascalBrickName$Element extends HTMLElement {
   private _render(): void {
     if (this.isConnected) {
       ReactDOM.render(
-        <ErrorBoundary>
+        <BrickWrapper>
           <$PascalBrickName$ />
-        </ErrorBoundary>,
+        </BrickWrapper>,
         this
       );
     }
