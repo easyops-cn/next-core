@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.28.1...@easyops/brick-kit@0.29.0) (2019-10-08)
+
+### Features
+
+- **brick-wrapper:** change antd default language, refs IDC_MNGER-60 ([c0a3d97](https://git.easyops.local/anyclouds/next-core/commits/c0a3d97))
+
 ## [0.28.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.28.0...@easyops/brick-kit@0.28.1) (2019-09-30)
 
 ### Bug Fixes
