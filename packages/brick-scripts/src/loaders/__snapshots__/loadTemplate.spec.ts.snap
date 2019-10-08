@@ -73,7 +73,7 @@ describe(\\"for-good.for-better\\", () => {
     "dist/index.tsx",
     "import React from \\"react\\";
 import ReactDOM from \\"react-dom\\";
-import { ErrorBoundary } from \\"@easyops/brick-kit\\";
+import { BrickWrapper } from \\"@easyops/brick-kit\\";
 import { ForBetter } from \\"./ForBetter\\";
 
 class ForBetterElement extends HTMLElement {
@@ -89,9 +89,9 @@ class ForBetterElement extends HTMLElement {
   private _render(): void {
     if (this.isConnected) {
       ReactDOM.render(
-        <ErrorBoundary>
+        <BrickWrapper>
           <ForBetter />
-        </ErrorBoundary>,
+        </BrickWrapper>,
         this
       );
     }
@@ -303,7 +303,7 @@ describe(\\"for-good.for-better\\", () => {
     "dist/src/for-better/index.tsx",
     "import React from \\"react\\";
 import ReactDOM from \\"react-dom\\";
-import { ErrorBoundary } from \\"@easyops/brick-kit\\";
+import { BrickWrapper } from \\"@easyops/brick-kit\\";
 import { ForBetter } from \\"./ForBetter\\";
 
 class ForBetterElement extends HTMLElement {
@@ -319,9 +319,9 @@ class ForBetterElement extends HTMLElement {
   private _render(): void {
     if (this.isConnected) {
       ReactDOM.render(
-        <ErrorBoundary>
+        <BrickWrapper>
           <ForBetter />
-        </ErrorBoundary>,
+        </BrickWrapper>,
         this
       );
     }
