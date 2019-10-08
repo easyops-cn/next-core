@@ -32,8 +32,8 @@
     "i18next": "^17.0.16",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "react": "^16.10.1",
-    "react-dom": "^16.10.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
     "react-i18next": "^10.13.1",
     "react-transition-group": "^4.3.0"
   }
