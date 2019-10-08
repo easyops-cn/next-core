@@ -11221,10 +11221,10 @@ rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.5.0, rollup-pluginutils@^2.6.0,
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^1.22.0:
-  version "1.22.0"
-  resolved "https://registry.npm.taobao.org/rollup/download/rollup-1.22.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup%2Fdownload%2Frollup-1.22.0.tgz#a5b2672c0eebe9f2b6454220f785dbc09b64b4bc"
-  integrity sha1-pbJnLA7r6fK2RUIg94XbwJtktLw=
+rollup@^1.23.1:
+  version "1.23.1"
+  resolved "https://registry.npm.taobao.org/rollup/download/rollup-1.23.1.tgz#0315a0f5d0dfb056e6363e1dff05b89ac2da6b8e"
+  integrity sha1-AxWg9dDfsFbmNj4d/wW4msLaa44=
   dependencies:
     "@types/estree" "*"
     "@types/node" "*"
