@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`brick wrapper should work 1`] = `
+<LegacyErrorBoundary
+  i18n={
+    Object {
+      "language": "zh-CN",
+    }
+  }
+  t={[Function]}
+>
+  <ConfigProvider
+    locale="zh_CN"
+  >
+    <div>
+      hello, brick-wrapper
+    </div>
+  </ConfigProvider>
+</LegacyErrorBoundary>
+`;
