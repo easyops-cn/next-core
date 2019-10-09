@@ -13,7 +13,7 @@
     "build": "echo 'nothing to build but lerna need this to build deps'",
     "postbuild": "node scripts/post-build.js"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@bricks/basic-bricks": "latest"
   }
 }

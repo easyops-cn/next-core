@@ -84,8 +84,7 @@ export async function create(): Promise<void> {
       build: "node scripts/build.js"
     });
     Object.assign(microAppPackageJson, {
-      dependencies: {
-        ...microAppPackageJson.dependencies,
+      devDependencies: {
         "@easyops/brick-types": brickTypesVersion
       }
     });
