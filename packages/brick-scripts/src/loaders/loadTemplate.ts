@@ -47,16 +47,16 @@ function replaceFileContent(
 
 function replaceDepsVersion(jsonString: string): string {
   const pkg = JSON.parse(jsonString);
-  const deps = pkg.dependencies || {};
-  for (const key of Object.keys(deps)) {
+  const devDeps = pkg.devDependencies || {};
+  for (const key of Object.keys(devDeps)) {
     if (key === "@easyops/brick-dll") {
-      deps[key] = brickDllVersion;
+      devDeps[key] = brickDllVersion;
     }
   }
 
-  const peerDeps = pkg.peerDependencies || {};
-  if (peerDeps["@bricks/basic-bricks"]) {
-    peerDeps["@bricks/basic-bricks"] = basicBricksVersion;
+  const deps = pkg.dependencies || {};
+  if (deps["@bricks/basic-bricks"]) {
+    deps["@bricks/basic-bricks"] = basicBricksVersion;
   }
   return JSON.stringify(pkg, null, 2) + os.EOL;
 }

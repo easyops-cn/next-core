@@ -11,7 +11,7 @@ module.exports = function ensureBrickDeps() {
     item.includes("-")
   );
 
-  const dependencies = Object.keys(microPackage.peerDependencies || []);
+  const dependencies = Object.keys(microPackage.dependencies || []);
 
   const importedPackages = microStoryboard.imports || [];
 
@@ -29,7 +29,7 @@ module.exports = function ensureBrickDeps() {
   importedPackages.forEach(pkg => {
     // 解决该包在 `npm link` 下使用时报错的问题
     const brickJson = require(require.resolve(`${pkg}/dist/bricks.json`, {
-      paths: [path.join(process.cwd())]
+      paths: [process.cwd()]
     }));
     brickJson.bricks.forEach(brick => {
       importedAllBricks.add(brick);
