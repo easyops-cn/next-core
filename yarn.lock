@@ -2178,10 +2178,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.142":
-  version "4.14.142"
-  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.142.tgz#52d5daff878e36e72e299bb9c5871fd6aee55829"
-  integrity sha1-UtXa/4eONucuKZu5xYcf1q7lWCk=
+"@types/lodash@^4.14.144":
+  version "4.14.144"
+  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.144.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Flodash%2Fdownload%2F%40types%2Flodash-4.14.144.tgz#12e57fc99064bce45e5ab3c8bc4783feb75eab8e"
+  integrity sha1-EuV/yZBkvOReWrPIvEeD/rdeq44=
 
 "@types/meow@^5.0.0":
   version "5.0.0"
