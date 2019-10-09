@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.29.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.29.0...@easyops/brick-kit@0.29.1) (2019-10-09)
+
+### Bug Fixes
+
+- **brick-wrapper:** detect language and default zhCN ([a24f313](https://git.easyops.local/anyclouds/next-core/commits/a24f313))
+
 # [0.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.28.1...@easyops/brick-kit@0.29.0) (2019-10-08)
 
 ### Features
