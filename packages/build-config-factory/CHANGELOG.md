@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@0.14.8...@easyops/build-config-factory@0.15.0) (2019-10-09)
+
+### Features
+
+- 调整构件库及小产品的依赖声明方式，以支持构件库拆分 git 仓库 ([b5a552d](https://git.easyops.local/anyclouds/next-core/commits/b5a552d))
+
 ## [0.14.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@0.14.7...@easyops/build-config-factory@0.14.8) (2019-10-08)
 
 **Note:** Version bump only for package @easyops/build-config-factory

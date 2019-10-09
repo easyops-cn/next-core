@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-scripts",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-scripts",
   "license": "UNLICENSED",
