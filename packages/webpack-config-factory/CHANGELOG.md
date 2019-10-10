@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.10.0...@easyops/webpack-config-factory@0.10.1) (2019-10-10)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
 # [0.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.9.3...@easyops/webpack-config-factory@0.10.0) (2019-10-09)
 
 ### Features

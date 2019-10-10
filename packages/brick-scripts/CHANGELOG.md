@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.16.0...@easyops/brick-scripts@0.16.1) (2019-10-10)
+
+### Bug Fixes
+
+- require new brick-container which has BrickWrapper ([bb3678c](https://git.easyops.local/anyclouds/next-core/commits/bb3678c))
+
 # [0.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.15.1...@easyops/brick-scripts@0.16.0) (2019-10-09)
 
 ### Features
