@@ -27,12 +27,12 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@svgr/rollup": "^4.3.2",
+    "@svgr/rollup": "^4.3.3",
     "change-case": "^3.1.0",
     "fs-extra": "^8.1.0",
     "klaw-sync": "^6.0.0",
     "prettier": "^1.18.2",
-    "react": "^16.9.0"
+    "react": "^16.10.2"
   },
   "peerDependencies": {
     "react": "*"
