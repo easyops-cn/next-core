@@ -35,7 +35,7 @@
   },
   "templateDependencies": {
     "@bricks/basic-bricks": ">=0.16.0",
-    "@easyops/brick-container": ">=0.11.0"
+    "@easyops/brick-container": ">=0.18.2"
   },
   "devDependencies": {
     "@easyops/brick-dll": "^0.7.6",
