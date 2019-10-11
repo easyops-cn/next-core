@@ -1,4 +1,8 @@
-import { loadScript } from "@easyops/brick-utils";
+import {
+  loadScript,
+  getDllAndDepsOfStoryboard,
+  getTemplateDepsOfStoryboard
+} from "@easyops/brick-utils";
 import { getHistory } from "../history";
 import { Router } from "./Router";
 import { Kernel } from "./Kernel";
@@ -20,6 +24,8 @@ const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
+const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
+const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 
 const spyOnHistoryListen = jest.fn();
 const spyOnHistoryReplace = jest.fn();
@@ -47,6 +53,11 @@ describe("Router", () => {
         {
           filePath: "all.js"
         }
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js"
+        }
       ]
     },
     unsetBars: jest.fn(),
@@ -73,9 +84,12 @@ describe("Router", () => {
 
   it("should render matched storyboard", async () => {
     const spyOnExecute = jest.fn();
-    __setMatchedStoryboard({
+    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
       dll: ["d3.js"],
-      deps: ["dep.js"],
+      deps: ["dep.js"]
+    });
+    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
+    __setMatchedStoryboard({
       routes: [],
       app: {
         id: "hello"
@@ -107,8 +121,9 @@ describe("Router", () => {
     } as any);
     await router.bootstrap();
     expect(spyOnHistoryListen).toBeCalled();
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["d3.js"]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["dep.js"]);
+    expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
+    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
+    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
     const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
     expect(dispatchedEvent.type).toBe("app.change");
     expect(dispatchedEvent.detail).toEqual({
@@ -130,6 +145,11 @@ describe("Router", () => {
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {
+    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
+      dll: [],
+      deps: []
+    });
+    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
     __setMatchedStoryboard({
       dependsAll: true,
       routes: []
@@ -143,10 +163,11 @@ describe("Router", () => {
       }
     } as any);
     await router.bootstrap();
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([
+    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([]);
+    expect(spyOnLoadScript.mock.calls[1][0]).toEqual([
       "dll-of-d3.js?fake-hash"
     ]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["all.js"]);
+    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["all.js", "layout.js"]);
     expect(spyOnHistoryReplace.mock.calls[0]).toEqual([
       "/auth/login",
       {
@@ -159,6 +180,7 @@ describe("Router", () => {
 
   it("should render matched storyboard with bars hidden and empty main", async () => {
     __setMatchedStoryboard({
+      depsProcessed: true,
       routes: []
     });
     __setMountRoutesResults({
