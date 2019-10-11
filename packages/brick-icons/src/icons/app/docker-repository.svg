@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>画板</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#1452CC" offset="0%"></stop>
+            <stop stop-color="#28C6CC" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板">
+            <g id="Docker镜像">
+                <g id="编组-7" transform="translate(1.000000, 4.000000)">
+                    <path d="M15.64,5.11746032 C15.52,5.15873016 15.4,5.15873016 15.28,5.24126984 C15.28,5.11746032 15.28,4.99365079 15.24,4.86984127 C15.08,4.12698413 14.68,3.46666667 14.12,3.01269841 C13.76,3.71428571 13.64,4.4984127 13.72,5.28253968 C13.76,5.53015873 13.88,5.77777778 14,5.98412698 C14,6.02539683 14.12,6.10793651 14.12,6.14920635 C14.12,6.19047619 13.88,6.31428571 13.84,6.35555556 C12.84,6.89206349 11.6,6.97460317 10.48,7.05714286 C9.16,7.13968254 7.88,7.13968254 6.56,7.13968254 C5.84,7.13968254 5.08,7.0984127 4.36,7.0984127 L0.04,7.0984127 C-5.68434189e-14,7.3047619 -5.68434189e-14,7.55238095 -5.68434189e-14,7.75873016 C-5.68434189e-14,10.647619 2.96,13 6.6,13 C7.6,13 8.6,12.8349206 9.52,12.4634921 C10.36,12.1333333 11.16,11.7206349 11.92,11.184127 C13.76,9.86349206 14.92,8.13015873 14.96,6.85079365 C15.28,6.85079365 15.64,6.80952381 15.96,6.72698413 C16.68,6.56190476 17.28,6.14920635 17.76,5.57142857 C17.08,5.11746032 16.36,4.99365079 15.64,5.11746032 Z" id="路径" stroke="#FFFFFF" stroke-linejoin="round" fill-rule="nonzero"></path>
+                    <ellipse id="椭圆形" stroke="#FFFFFF" stroke-width="0.5" cx="5.2" cy="9.78095238" rx="1" ry="1"></ellipse>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="1.52" y="4.45714286" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="3.68" y="4.45714286" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="5.84" y="4.45714286" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="8" y="4.45714286" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="3.68" y="2.22857143" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="5.84" y="2.22857143" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="8" y="2.22857143" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="8" y="9.1038288e-14" width="1.72" height="1.77460317"></rect>
+                    <rect id="矩形" fill="#FFFFFF" fill-rule="nonzero" x="10.16" y="4.45714286" width="1.72" height="1.77460317"></rect>
+                </g>
+                <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

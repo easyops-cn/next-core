@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>画板</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#1452CC" offset="0%"></stop>
+            <stop stop-color="#28C6CC" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板">
+            <g id="应用配置中心">
+                <g id="编组-2" transform="translate(1.000000, 2.000000)">
+                    <path d="M7.67876321,5.12098233 C6.95656433,4.61754572 6.4,3.727095 6.4,2.78362573 C6.4,1.24627169 7.6536027,0 9.2,0 C10.7463973,0 12,1.24627169 12,2.78362573 C12,3.21065281 11.9032785,3.61522148 11.7304267,3.97686099 M7.67876321,5.12098233 L2.8,12.9239766" id="形状结合" stroke="#FFFFFF" stroke-linecap="round"></path>
+                    <path d="M13.9734674,10.6197598 C14.3438706,10.4400374 14.7600879,10.3391813 15.2,10.3391813 C16.7463973,10.3391813 18,11.585453 18,13.122807 C18,14.6601611 16.7463973,15.9064327 15.2,15.9064327 C14.2487345,15.9064327 13.4082652,15.4348325 12.9022468,14.7139791 M9.2,2.78362573 L13.9734674,10.6197598" id="形状结合" stroke="#FFFFFF" stroke-linecap="round"></path>
+                    <g id="编组" transform="translate(-0.000000, 9.969711)" stroke="#FFFFFF">
+                        <path d="M5.6,3.15309636 C5.66523927,3.15309636 8.86523927,3.15309636 15.2,3.15309636 C8.73476073,3.15309636 5.53476073,3.15309636 5.6,3.15309636 Z" id="路径-3"></path>
+                        <path d="M5.6,3.15309636 C5.54712461,4.62766138 4.31277997,5.53906127 2.8,5.53906127 C1.2536027,5.53906127 0,4.29278958 0,2.75543554 C0,1.35309697 1.04308066,0.192958232 2.4,-1.77635684e-14" id="路径" stroke-linecap="round"></path>
+                    </g>
+                    <ellipse id="椭圆形" fill="#FFFFFF" cx="15.2" cy="13.122807" rx="1.2" ry="1.19298246"></ellipse>
+                    <ellipse id="椭圆形" fill="#FFFFFF" cx="2.8" cy="12.7251462" rx="1.2" ry="1.19298246"></ellipse>
+                    <ellipse id="椭圆形" fill="#FFFFFF" cx="9.2" cy="2.78362573" rx="1.2" ry="1.19298246"></ellipse>
+                </g>
+                <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
