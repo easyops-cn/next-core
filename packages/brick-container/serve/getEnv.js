@@ -78,6 +78,7 @@ module.exports = cwd => {
   const brickNextDir = getBrickNextDir();
   const microAppsDir = path.join(brickNextDir, "micro-apps");
   const brickPackagesDir = path.join(brickNextDir, "bricks");
+  const templatePackagesDir = path.join(brickNextDir, "templates");
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
 
   return {
@@ -90,6 +91,7 @@ module.exports = cwd => {
     brickNextDir,
     microAppsDir,
     brickPackagesDir,
+    templatePackagesDir,
     navbarJsonPath,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),

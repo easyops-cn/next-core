@@ -11,7 +11,9 @@ exports.before = (app, server) => {
   // Ref https://github.com/webpack/webpack-dev-server/issues/1271#issuecomment-379792541
   // More: https://github.com/webpack/webpack-dev-server/issues/1271#issuecomment-359817498
   server._watch(path.join(env.brickPackagesDir, "*/dist/*.js"));
-  // 额外监听 storyboard 文件，以便修改时触发页面刷新
+  // 额外监听模板库产物
+  server._watch(path.join(env.templatePackagesDir, "*/dist/*.js"));
+  // 额外监听 storyboard 文件
   server._watch(path.join(env.microAppsDir, "*/storyboard.json"));
 
   serveLocal(env, app);

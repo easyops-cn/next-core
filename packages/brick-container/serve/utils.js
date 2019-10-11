@@ -55,6 +55,39 @@ function getSingleBrickPackage(env, brickPackageName) {
   }
 }
 
+function getTemplatePackages(env) {
+  return fs
+    .readdirSync(env.templatePackagesDir)
+    .map(name => getSingleTemplatePackage(env, name))
+    .filter(Boolean);
+}
+
+function getSingleTemplatePackage(env, templatePackageName) {
+  const distDir = path.join(
+    env.templatePackagesDir,
+    templatePackageName,
+    "dist"
+  );
+  if (fs.existsSync(distDir)) {
+    let filePath, templatesJson;
+    for (const file of fs.readdirSync(distDir)) {
+      if (file.endsWith(".js")) {
+        filePath = `templates/${templatePackageName}/dist/${file}`;
+      } else if (file === "templates.json") {
+        templatesJson = JSON.parse(
+          fs.readFileSync(path.join(distDir, "templates.json"), "utf8")
+        );
+      }
+    }
+    if (templatesJson && filePath) {
+      return {
+        ...templatesJson,
+        filePath
+      };
+    }
+  }
+}
+
 function getSettings() {
   const defaultSettings = {
     featureFlags: {},
@@ -76,4 +109,5 @@ exports.getStoryboardsByMicroApps = getStoryboardsByMicroApps;
 exports.getSingleStoryboard = getSingleStoryboard;
 exports.getBrickPackages = getBrickPackages;
 exports.getSingleBrickPackage = getSingleBrickPackage;
+exports.getTemplatePackages = getTemplatePackages;
 exports.getSettings = getSettings;
