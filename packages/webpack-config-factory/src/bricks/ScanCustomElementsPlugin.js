@@ -18,6 +18,10 @@ module.exports = class ScanCustomElementsPlugin {
             ) {
               if (expression.arguments[0].type === "Literal") {
                 bricks.push(expression.arguments[0].value);
+              } else {
+                throw new Error(
+                  "Please call `customElements.define()` only with literal string"
+                );
               }
             }
           });
