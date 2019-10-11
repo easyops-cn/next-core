@@ -1,6 +1,6 @@
 import { Key } from "path-to-regexp";
 import { History, Location, LocationDescriptor } from "history";
-import { BreadcrumbItemConf, MicroApp } from "./manifest";
+import { BreadcrumbItemConf, MicroApp, BrickConf } from "./manifest";
 import { SidebarMenu } from "./menu";
 
 export interface CompileOptions {
@@ -69,3 +69,7 @@ export interface AppBarBrick extends HTMLElement {
 export interface InterceptorParams {
   ignoreLoadingBar?: boolean;
 }
+
+export type BrickTemplateFactory = (...args: any[]) => BrickConf;
+
+export type TemplateRegistry<T> = Map<string, T>;
