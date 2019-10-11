@@ -47,6 +47,7 @@ export class Router {
       let dll: string[] = [];
       let deps: string[] = [];
       if (!storyboard.depsProcessed) {
+        storyboard.depsProcessed = true;
         const templateDeps = getTemplateDepsOfStoryboard(
           storyboard,
           bootstrapData.templatePackages
@@ -58,7 +59,6 @@ export class Router {
         );
         dll = result.dll;
         deps = result.deps;
-        storyboard.depsProcessed = true;
       }
       // 如果找到匹配的 storyboard，那么加载它的依赖库。
       if (storyboard.dependsAll) {

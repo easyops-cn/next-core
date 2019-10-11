@@ -14,7 +14,7 @@ function processBrick(
     let updatedBrickConf: Partial<BrickConf> = {};
     if (templateRegistry.has(brickConf.template)) {
       updatedBrickConf = templateRegistry.get(brickConf.template)(
-        ...(brickConf.params || [])
+        brickConf.params
       );
     } else {
       updatedBrickConf = {
