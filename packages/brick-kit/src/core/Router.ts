@@ -44,22 +44,6 @@ export class Router {
       bootstrapData.storyboards
     );
     if (storyboard) {
-      let dll: string[] = [];
-      let deps: string[] = [];
-      if (!storyboard.depsProcessed) {
-        storyboard.depsProcessed = true;
-        const templateDeps = getTemplateDepsOfStoryboard(
-          storyboard,
-          bootstrapData.templatePackages
-        );
-        await loadScript(templateDeps);
-        const result = getDllAndDepsOfStoryboard(
-          processStoryboard(storyboard, brickTemplateRegistry),
-          bootstrapData.brickPackages
-        );
-        dll = result.dll;
-        deps = result.deps;
-      }
       // 如果找到匹配的 storyboard，那么加载它的依赖库。
       if (storyboard.dependsAll) {
         const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
@@ -73,9 +57,22 @@ export class Router {
             .map(item => item.filePath)
             .concat(bootstrapData.templatePackages.map(item => item.filePath))
         );
-      } else {
-        await loadScript(dll);
-        await loadScript(deps);
+      } else if (!storyboard.depsProcessed) {
+        // 先加载模板
+        const templateDeps = getTemplateDepsOfStoryboard(
+          storyboard,
+          bootstrapData.templatePackages
+        );
+        await loadScript(templateDeps);
+        // 加载模板后才能加工得到最终的构件表
+        const result = getDllAndDepsOfStoryboard(
+          processStoryboard(storyboard, brickTemplateRegistry),
+          bootstrapData.brickPackages
+        );
+        await loadScript(result.dll);
+        await loadScript(result.deps);
+        // 每个 storyboard 仅处理一次依赖
+        storyboard.depsProcessed = true;
       }
     }
 

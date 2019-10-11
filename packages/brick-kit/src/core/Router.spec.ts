@@ -163,11 +163,10 @@ describe("Router", () => {
       }
     } as any);
     await router.bootstrap();
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual([
+    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([
       "dll-of-d3.js?fake-hash"
     ]);
-    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["all.js", "layout.js"]);
+    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["all.js", "layout.js"]);
     expect(spyOnHistoryReplace.mock.calls[0]).toEqual([
       "/auth/login",
       {
