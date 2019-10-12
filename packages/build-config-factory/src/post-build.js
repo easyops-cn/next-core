@@ -2,9 +2,9 @@ const path = require("path");
 const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
-const generateBrickPackageDeps = require("./generateBrickPackageDeps");
+const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
-const ensureBrickDeps = require("./ensureBrickDeps");
+const ensureDeps = require("./ensureDeps");
 
 const generateContracts = () => {
   const { dependencies } = require(path.join(process.cwd(), "package.json"));
@@ -160,9 +160,9 @@ module.exports = scope => {
     generateContracts();
   } else if (scope === "micro-apps") {
     ensureMicroApp();
-    ensureBrickDeps();
-    generateBrickPackageDeps();
+    ensureDeps();
+    generateDeps();
   } else if (scope === "templates") {
-    generateBrickPackageDeps();
+    generateDeps();
   }
 };
