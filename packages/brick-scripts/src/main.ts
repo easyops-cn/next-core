@@ -45,7 +45,7 @@ export async function create(): Promise<void> {
     targetRoot = path.join(pkgRoot);
   }
 
-  const files = loadTemplate({
+  const files = await loadTemplate({
     targetType,
     packageName,
     brickName,
