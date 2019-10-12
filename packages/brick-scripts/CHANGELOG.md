@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.16.4...@easyops/brick-scripts@0.17.0) (2019-10-12)
+
+### Bug Fixes
+
+- **brick-scripts:** request sdk version at runtime ([6c29138](https://git.easyops.local/anyclouds/next-core/commits/6c29138))
+
+### Features
+
+- revert using bricks as peer dependencies of micro-apps ([fd3e7a1](https://git.easyops.local/anyclouds/next-core/commits/fd3e7a1))
+
 ## [0.16.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.16.3...@easyops/brick-scripts@0.16.4) (2019-10-12)
 
 **Note:** Version bump only for package @easyops/brick-scripts

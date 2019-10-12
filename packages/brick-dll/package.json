@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-dll",
-  "version": "0.7.10",
+  "version": "0.7.11",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-dll",
   "license": "UNLICENSED",
@@ -23,8 +23,8 @@
   "dependencies": {
     "@easyops/brick-http": "^0.2.2",
     "@easyops/brick-icons": "^0.4.0",
-    "@easyops/brick-kit": "^0.30.0",
-    "@easyops/brick-utils": "^0.10.0",
+    "@easyops/brick-kit": "^0.30.1",
+    "@easyops/brick-utils": "^0.10.1",
     "@easyops/fontawesome-library": "^0.8.2",
     "@fortawesome/react-fontawesome": "^0.1.5",
     "antd": "^3.23.6",
