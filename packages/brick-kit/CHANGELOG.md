@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.29.2...@easyops/brick-kit@0.30.0) (2019-10-12)
+
+### Features
+
+- register, scan, load and process templates in storyboards ([f9b7a72](https://git.easyops.local/anyclouds/next-core/commits/f9b7a72))
+
 ## [0.29.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.29.1...@easyops/brick-kit@0.29.2) (2019-10-10)
 
 **Note:** Version bump only for package @easyops/brick-kit

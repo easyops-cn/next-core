@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.9.8...@easyops/brick-utils@0.10.0) (2019-10-12)
+
+### Features
+
+- scan and process templates in storyboards ([5dcdc30](https://git.easyops.local/anyclouds/next-core/commits/5dcdc30))
+
 ## [0.9.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.9.7...@easyops/brick-utils@0.9.8) (2019-09-30)
 
 **Note:** Version bump only for package @easyops/brick-utils
