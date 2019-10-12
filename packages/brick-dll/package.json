@@ -29,7 +29,7 @@
     "@fortawesome/react-fontawesome": "^0.1.6",
     "antd": "^3.23.6",
     "history": "^4.10.1",
-    "i18next": "^17.1.0",
+    "i18next": "^17.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "react": "^16.10.2",
