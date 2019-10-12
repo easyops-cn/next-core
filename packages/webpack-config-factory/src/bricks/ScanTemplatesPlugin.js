@@ -9,6 +9,7 @@ module.exports = class ScanTemplatesPlugin {
           const { type, expression } = statement;
           if (type === "ExpressionStatement") {
             if (
+              expression.callee &&
               expression.callee.property.name === "registerBrickTemplate" &&
               expression.arguments.length === 2
             ) {
