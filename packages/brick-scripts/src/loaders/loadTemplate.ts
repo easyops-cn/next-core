@@ -3,6 +3,7 @@ import os from "os";
 import path from "path";
 import klawSync from "klaw-sync";
 import changeCase from "change-case";
+import rp from "request-promise-native";
 import { FileWithContent, TargetType } from "../interface";
 
 // `tsc` will compile files which `import` or `require`,
@@ -61,7 +62,7 @@ function replaceDepsVersion(jsonString: string): string {
   return JSON.stringify(pkg, null, 2) + os.EOL;
 }
 
-export function loadTemplate({
+export async function loadTemplate({
   targetType,
   packageName,
   brickName,
@@ -73,7 +74,7 @@ export function loadTemplate({
   brickName: string;
   targetRoot: string;
   docRoot: string;
-}): FileWithContent[] {
+}): Promise<FileWithContent[]> {
   const targetMap: { [key: string]: string } = {
     [TargetType.A_NEW_BRICK]: "brick",
     [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks-pkg",
@@ -152,11 +153,18 @@ export function loadTemplate({
       })
     });
 
-    if (process.env.NODE_ENV !== "test") {
-      // 测试环境暂难覆盖。
-      const sdkPackageJson = require(`@sdk/${sdkName}/package.json`);
-      translations["$sdk.version$"] = `^${sdkPackageJson.version}`;
+    let sdkVersion;
+    try {
+      const sdkPackage = await rp({
+        url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
+        json: true,
+        strictSSL: false
+      });
+      sdkVersion = `^${sdkPackage["dist-tags"].latest}`;
+    } catch {
+      sdkVersion = "FETCH LATEST VERSION ERROR";
     }
+    translations["$sdk.version$"] = sdkVersion;
   }
 
   const files: FileWithContent[] = templateGroups.reduce(
