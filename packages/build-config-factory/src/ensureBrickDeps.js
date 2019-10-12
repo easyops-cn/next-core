@@ -11,15 +11,15 @@ module.exports = function ensureBrickDeps() {
     item.includes("-")
   );
 
-  const dependencies = Object.keys(microPackage.dependencies || []);
+  const peerDependencies = Object.keys(microPackage.peerDependencies || []);
 
   const importedPackages = microStoryboard.imports || [];
 
-  // 校验 imports 字段中 package 是否在 dependencies 声明
+  // 校验 imports 字段中 package 是否在 peerDependencies 声明
   importedPackages.forEach(pkg => {
-    if (!dependencies.includes(pkg)) {
+    if (!peerDependencies.includes(pkg)) {
       throw new Error(
-        `Can't find ${pkg} module, please add it to dependencies of "${microPackage.name}"`
+        `Can't find ${pkg} module, please add it to peerDependencies of "${microPackage.name}"`
       );
     }
   });

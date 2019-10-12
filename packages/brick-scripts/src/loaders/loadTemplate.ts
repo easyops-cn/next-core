@@ -55,9 +55,9 @@ function replaceDepsVersion(jsonString: string): string {
     }
   }
 
-  const deps = pkg.dependencies || {};
-  if (deps["@bricks/basic-bricks"]) {
-    deps["@bricks/basic-bricks"] = basicBricksVersion;
+  const peerDeps = pkg.peerDependencies || {};
+  if (peerDeps["@bricks/basic-bricks"]) {
+    peerDeps["@bricks/basic-bricks"] = basicBricksVersion;
   }
   return JSON.stringify(pkg, null, 2) + os.EOL;
 }
