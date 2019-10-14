@@ -89,9 +89,9 @@ export interface BrickConf<T = any> {
   bg?: boolean;
   lifeCycle?: BrickLifeCycle;
   template?: string;
-  params?: any[];
+  params?: Record<string, any>;
   $template?: string;
-  $params?: any[];
+  $params?: Record<string, any>;
 }
 
 export interface BrickLifeCycle {
