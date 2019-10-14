@@ -13,6 +13,7 @@ const packageJson = JSON.parse(
 );
 const { templateDependencies, devDependencies } = packageJson;
 const brickDllVersion = devDependencies["@easyops/brick-dll"];
+const brickTypesVersion = packageJson.devDependencies["@easyops/brick-types"];
 const basicBricksVersion = templateDependencies["@bricks/basic-bricks"];
 const brickContainerVersion = templateDependencies["@easyops/brick-container"];
 
@@ -52,6 +53,8 @@ function replaceDepsVersion(jsonString: string): string {
   for (const key of Object.keys(devDeps)) {
     if (key === "@easyops/brick-dll") {
       devDeps[key] = brickDllVersion;
+    } else if (key === "@easyops/brick-types") {
+      devDeps[key] = brickTypesVersion;
     }
   }
 
@@ -66,12 +69,14 @@ export async function loadTemplate({
   targetType,
   packageName,
   brickName,
+  templateName,
   targetRoot,
   docRoot
 }: {
   targetType: TargetType;
   packageName: string;
   brickName: string;
+  templateName: string;
   targetRoot: string;
   docRoot: string;
 }): Promise<FileWithContent[]> {
@@ -82,11 +87,13 @@ export async function loadTemplate({
     [TargetType.A_NEW_PACKAGE_OF_MICRO_APPS]: "micro-apps-pkg",
     [TargetType.A_NEW_PACKAGE_OF_PROVIDERS]: "providers-pkg",
     [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll-pkg",
-    [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg"
+    [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg",
+    [TargetType.A_NEW_TEMPLATE]: "template",
+    [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "templates-pkg"
   };
-  const templateName = targetMap[targetType];
+  const templatePackageJsonName = targetMap[targetType];
   const templateRoot = path.join(__dirname, "../../template");
-  let templateDir = path.join(templateRoot, templateName);
+  let templateDir = path.join(templateRoot, templatePackageJsonName);
 
   const ignores = [".DS_Store"];
   let sdkName: string;
@@ -110,7 +117,10 @@ export async function loadTemplate({
     "$kebab-brick-name$": `${packageName}.${brickName}`,
     "$generator.version$": `v${packageJson.version}`,
     "$brick.container.version$": brickContainerVersion,
-    "$kebab-sdk-name$": sdkName
+    "$kebab-sdk-name$": sdkName,
+    "$kebab-template-name$": templateName,
+    $camelTemplateName$: changeCase.camel(templateName),
+    $PascalTemplateName$: changeCase.pascal(templateName)
   };
 
   const filter = (src: string): boolean =>
@@ -136,6 +146,18 @@ export async function loadTemplate({
       targetDir: path.join(targetRoot, "src", brickName),
       files: klawSync(brickTemplateDir, {
         depthLimit: 2,
+        nodir: true,
+        filter: item => filter(item.path)
+      })
+    });
+  } else if (targetType === TargetType.A_NEW_PACKAGE_OF_TEMPLATES) {
+    // Also create a new brick for the new bricks-package
+    const templateTemplateDir = path.join(templateRoot, "template");
+    templateGroups.push({
+      templateDir: templateTemplateDir,
+      targetDir: path.join(targetRoot, "src"),
+      files: klawSync(templateTemplateDir, {
+        depthLimit: 1,
         nodir: true,
         filter: item => filter(item.path)
       })
@@ -217,13 +239,14 @@ export async function loadTemplate({
 
   if (
     targetType !== TargetType.A_NEW_BRICK &&
+    targetType !== TargetType.A_NEW_TEMPLATE &&
     targetType !== TargetType.TRANSFORM_A_MICRO_APP
   ) {
     files.push([
       path.join(targetRoot, "package.json"),
       replaceDepsVersion(
         replaceFileContent(
-          path.join(templateRoot, `${templateName}.json`),
+          path.join(templateRoot, `${templatePackageJsonName}.json`),
           translations
         )
       )
