@@ -1,10 +1,10 @@
 import { getRuntime } from "@easyops/brick-kit";
 import { BrickConf } from "@easyops/brick-types";
 
-export interface $PascalTemplateParams {}
+export interface $PascalTemplateName$Params {}
 
-export function $camelTemplateNameFactory(
-  params: $PascalTemplateParams
+export function $camelTemplateName$Factory(
+  params: $PascalTemplateName$Params
 ): BrickConf {
   return {
     brick: "your.brick"
@@ -13,5 +13,5 @@ export function $camelTemplateNameFactory(
 
 getRuntime().registerBrickTemplate(
   "$kebab-package-name$.$kebab-template-name$",
-  $camelTemplateNameFactory
+  $camelTemplateName$Factory
 );

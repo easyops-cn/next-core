@@ -510,8 +510,8 @@ module.exports = merge(
     "dist/src/for-better.spec.ts",
     "import { BrickConf } from \\"@easyops/brick-types\\";
 import {
-  $camelTemplateNameFactory,
-  $PascalTemplateParams
+  forBetterFactory,
+  ForBetterParams
 } from \\"./for-better\\";
 
 jest.mock(\\"@easyops/brick-kit\\", () => ({
@@ -521,15 +521,15 @@ jest.mock(\\"@easyops/brick-kit\\", () => ({
 }));
 
 describe(\\"micro-app\\", () => {
-  it.each<[$PascalTemplateParams, BrickConf]>([
+  it.each<[ForBetterParams, BrickConf]>([
     [
       {},
       {
         brick: \\"your.brick\\"
       }
     ]
-  ])(\\"$camelTemplateNameFactory(%j) should work\\", (params, brickConf) => {
-    expect($camelTemplateNameFactory(params)).toEqual(brickConf);
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
   });
 });
 ",
@@ -539,10 +539,10 @@ describe(\\"micro-app\\", () => {
     "import { getRuntime } from \\"@easyops/brick-kit\\";
 import { BrickConf } from \\"@easyops/brick-types\\";
 
-export interface $PascalTemplateParams {}
+export interface ForBetterParams {}
 
-export function $camelTemplateNameFactory(
-  params: $PascalTemplateParams
+export function forBetterFactory(
+  params: ForBetterParams
 ): BrickConf {
   return {
     brick: \\"your.brick\\"
@@ -551,7 +551,7 @@ export function $camelTemplateNameFactory(
 
 getRuntime().registerBrickTemplate(
   \\"for-good.for-better\\",
-  $camelTemplateNameFactory
+  forBetterFactory
 );
 ",
   ],
@@ -564,8 +564,8 @@ Array [
     "dist/for-better.spec.ts",
     "import { BrickConf } from \\"@easyops/brick-types\\";
 import {
-  $camelTemplateNameFactory,
-  $PascalTemplateParams
+  forBetterFactory,
+  ForBetterParams
 } from \\"./for-better\\";
 
 jest.mock(\\"@easyops/brick-kit\\", () => ({
@@ -575,15 +575,15 @@ jest.mock(\\"@easyops/brick-kit\\", () => ({
 }));
 
 describe(\\"micro-app\\", () => {
-  it.each<[$PascalTemplateParams, BrickConf]>([
+  it.each<[ForBetterParams, BrickConf]>([
     [
       {},
       {
         brick: \\"your.brick\\"
       }
     ]
-  ])(\\"$camelTemplateNameFactory(%j) should work\\", (params, brickConf) => {
-    expect($camelTemplateNameFactory(params)).toEqual(brickConf);
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
   });
 });
 ",
@@ -593,10 +593,10 @@ describe(\\"micro-app\\", () => {
     "import { getRuntime } from \\"@easyops/brick-kit\\";
 import { BrickConf } from \\"@easyops/brick-types\\";
 
-export interface $PascalTemplateParams {}
+export interface ForBetterParams {}
 
-export function $camelTemplateNameFactory(
-  params: $PascalTemplateParams
+export function forBetterFactory(
+  params: ForBetterParams
 ): BrickConf {
   return {
     brick: \\"your.brick\\"
@@ -605,7 +605,7 @@ export function $camelTemplateNameFactory(
 
 getRuntime().registerBrickTemplate(
   \\"for-good.for-better\\",
-  $camelTemplateNameFactory
+  forBetterFactory
 );
 ",
   ],
