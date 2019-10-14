@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.0...@easyops/brick-types@0.20.1) (2019-10-14)
+
+### Bug Fixes
+
+- make `brick` optional since introduced `template` ([9bf727b](https://git.easyops.local/anyclouds/next-core/commits/9bf727b))
+
 # [0.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.19.0...@easyops/brick-types@0.20.0) (2019-10-12)
 
 ### Features

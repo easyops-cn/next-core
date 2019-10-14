@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.30.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.1...@easyops/brick-kit@0.30.2) (2019-10-14)
+
+### Bug Fixes
+
+- fix types of getRuntime().registerBrickTemplate() ([ba1cdde](https://git.easyops.local/anyclouds/next-core/commits/ba1cdde))
+
 ## [0.30.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.0...@easyops/brick-kit@0.30.1) (2019-10-12)
 
 **Note:** Version bump only for package @easyops/brick-kit
