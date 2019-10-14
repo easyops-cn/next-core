@@ -4,7 +4,8 @@ import {
   MicroApp,
   InterceptorParams,
   FeatureFlags,
-  DesktopData
+  DesktopData,
+  BrickTemplateFactory
 } from "@easyops/brick-types";
 import { registerBrickTemplate } from "./TemplateRegistries";
 
@@ -84,7 +85,7 @@ export class Runtime {
     );
   }
 
-  registerBrickTemplate(name: string, factory: any): void {
+  registerBrickTemplate(name: string, factory: BrickTemplateFactory): void {
     registerBrickTemplate(name, factory);
   }
 }

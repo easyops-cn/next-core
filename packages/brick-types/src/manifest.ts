@@ -81,7 +81,7 @@ export interface RouteConf<B = any, M = any> {
 }
 
 export interface BrickConf<T = any> {
-  brick: string;
+  brick?: string;
   slots?: SlotsConf;
   injectDeep?: boolean;
   properties?: T;

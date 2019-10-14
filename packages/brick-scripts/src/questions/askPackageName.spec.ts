@@ -32,4 +32,19 @@ describe("askPackageName", () => {
     }) as any;
     expect(Array.isArray(choices)).toBe(true);
   });
+  it("should validate correctly for new package of templates", () => {
+    const { validate } = askPackageName({
+      targetType: TargetType.A_NEW_PACKAGE_OF_TEMPLATES,
+      appRoot: process.cwd()
+    }) as any;
+    expect(validate("good")).toBe(true);
+    expect(validate("Bad")).not.toBe(true);
+  });
+  it("should return choices of package for new template", () => {
+    const { choices } = askPackageName({
+      targetType: TargetType.A_NEW_TEMPLATE,
+      appRoot: process.cwd()
+    }) as any;
+    expect(Array.isArray(choices)).toBe(true);
+  });
 });
