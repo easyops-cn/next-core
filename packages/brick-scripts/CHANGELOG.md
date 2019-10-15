@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.18.7...@easyops/brick-scripts@0.18.8) (2019-10-15)
+
+### Bug Fixes
+
+- fix wrong filenames of templates ([34e7892](https://git.easyops.local/anyclouds/next-core/commits/34e7892))
+
 ## [0.18.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.18.6...@easyops/brick-scripts@0.18.7) (2019-10-15)
 
 **Note:** Version bump only for package @easyops/brick-scripts
