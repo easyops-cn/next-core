@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.2...@easyops/brick-types@0.21.0) (2019-10-15)
+
+### Features
+
+- **sidebar:** BRICK_STORE-339 文档左侧菜单目录支持折叠 ([7c7a27e](https://git.easyops.local/anyclouds/next-core/commits/7c7a27e))
+
 ## [0.20.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.1...@easyops/brick-types@0.20.2) (2019-10-14)
 
 ### Bug Fixes
