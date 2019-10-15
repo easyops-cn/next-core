@@ -473,16 +473,6 @@ preBuild(\\"providers\\");
 exports[`loadTemplate should create a new package of templates 1`] = `
 Array [
   Array [
-    "dist/deploy-default/pacakge.conf.yaml",
-    "install_path: /usr/local/easyops/templates/for-good-NT
-user: easyops:easyops
-dependencies:
-  - name: brick_next
-    version: \\">=0.19.1\\"
-    local_deploy: true
-",
-  ],
-  Array [
     "dist/scripts/post-build.js",
     "const { postBuild } = require(\\"@easyops/build-config-factory\\");
 
