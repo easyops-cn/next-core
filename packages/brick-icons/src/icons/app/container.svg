@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="18px" height="21px" viewBox="0 0 18 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
-    <title>886140DD-D3F1-48CF-B28C-2EBBCE50B4EB</title>
+    <title>容器部署</title>
     <desc>Created with Sketch.</desc>
-    <g id="迭代一、二" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="容器部署" transform="translate(0.000000, -1.000000)">
-            <g id="编组">
-                <polygon id="Fill-1" fill="#FFFFFF" points="5.0823 9.3291 5.0823 13.7531 8.9163 15.9671 8.9163 11.5421"></polygon>
-                <polygon id="Fill-2" fill="#FFFFFF" points="12.8821 9.3291 12.8821 13.7531 9.0481 15.9671 9.0481 11.5421"></polygon>
-                <polygon id="Fill-3" fill="#FFFFFF" points="12.8147 9.2168 8.9807 11.4238 5.1497 9.2048 8.9847 6.9978"></polygon>
-                <g transform="translate(0.000000, 0.589100)" stroke="#FFFFFF" stroke-linecap="round">
-                    <polygon id="Stroke-4" stroke-linejoin="round" points="17.4651 15.6023 17.4651 5.8083 8.9831 0.9113 0.5001 5.8083 0.5001 15.6023 8.9831 20.4993"></polygon>
-                    <path d="M8.9827,10.5398 L8.9827,20.2938" id="Stroke-6"></path>
-                    <path d="M0.7258,5.7341 L9.0478,10.5401" id="Stroke-8"></path>
-                    <path d="M8.966,10.5114 L17.269,5.7174" id="Stroke-10"></path>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板备份-22">
+            <g id="容器部署" transform="translate(1.500000, -1.000000)">
+                <g id="编组">
+                    <polygon id="Fill-1" fill="#FFFFFF" points="4.79995 8.90505 4.79995 13.1279591 8.42095 15.2413227 8.42095 11.0174591"></polygon>
+                    <polygon id="Fill-2" fill="#FFFFFF" points="12.1664278 8.90505 12.1664278 13.1279591 8.54542778 15.2413227 8.54542778 11.0174591"></polygon>
+                    <polygon id="Fill-3" fill="#FFFFFF" points="12.1027722 8.79785455 8.48177222 10.9045364 4.86360556 8.7864 8.48555 6.67971818"></polygon>
+                    <g transform="translate(0.000000, 0.562323)" stroke="#FFFFFF" stroke-linecap="round">
+                        <polygon id="Stroke-4" stroke-linejoin="round" points="16.4948167 14.8931045 16.4948167 5.54428636 8.48403889 0.869877273 0.472316667 5.54428636 0.472316667 14.8931045 8.48403889 19.5675136"></polygon>
+                        <path d="M8.48366111,10.0607182 L8.48366111,19.3713545" id="Stroke-6"></path>
+                        <path d="M0.685477778,5.47345909 L8.54514444,10.0610045" id="Stroke-8"></path>
+                        <path d="M8.46788889,10.0336091 L16.3096111,5.45751818" id="Stroke-10"></path>
+                    </g>
                 </g>
             </g>
         </g>

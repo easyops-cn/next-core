@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>敏捷管理</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0.0004 19.796 0.0004 19.796 17.6814 0 17.6814"></polygon>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板备份-12">
+            <g id="敏捷管理" transform="translate(0.000000, 1.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-2"></g>
+                <path d="M19.7966,10.5678 L19.7966,1.2758 C19.7966,0.5738 19.2226,-0.0002 18.5206,-0.0002 L12.2746,-0.0002 C11.5716,-0.0002 10.9976,0.5738 10.9976,1.2758 L10.9976,10.5678 C10.9976,11.2698 11.5716,11.8438 12.2746,11.8438 L18.5206,11.8438 C19.2226,11.8438 19.7966,11.2698 19.7966,10.5678 M7.6986,17.6818 L1.0996,17.6818 C0.4946,17.6818 -0.0004,17.1868 -0.0004,16.5818 L-0.0004,1.1848 C-0.0004,0.5798 0.4946,0.0848 1.0996,0.0848 L7.6986,0.0848 C8.3036,0.0848 8.7986,0.5798 8.7986,1.1848 L8.7986,16.5818 C8.7986,17.1868 8.3036,17.6818 7.6986,17.6818" id="Fill-1" fill="#FFFFFF" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>
