@@ -7,19 +7,19 @@ module.exports = class ScanTemplatesPlugin {
       factory.hooks.parser.for("javascript/auto").tap(pluginName, parser => {
         parser.hooks.statement.tap(pluginName, statement => {
           const { type, expression } = statement;
-          if (type === "ExpressionStatement") {
-            if (
-              expression.callee &&
-              expression.callee.property.name === "registerBrickTemplate" &&
-              expression.arguments.length === 2
-            ) {
-              if (expression.arguments[0].type === "Literal") {
-                templates.push(expression.arguments[0].value);
-              } else {
-                throw new Error(
-                  "Please call `getRuntime().registerBrickTemplate()` only with literal string"
-                );
-              }
+          if (
+            type === "ExpressionStatement" &&
+            expression.type === "CallExpression" &&
+            expression.callee.type === "MemberExpression" &&
+            expression.callee.property.name === "registerBrickTemplate" &&
+            expression.arguments.length === 2
+          ) {
+            if (expression.arguments[0].type === "Literal") {
+              templates.push(expression.arguments[0].value);
+            } else {
+              throw new Error(
+                "Please call `getRuntime().registerBrickTemplate()` only with literal string"
+              );
             }
           }
         });
