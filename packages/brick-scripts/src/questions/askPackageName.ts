@@ -15,12 +15,12 @@ export function askPackageName({
     // 读取当前的 `@bricks/*` 作为候选列表。
     const root = path.join(appRoot, "bricks");
     const pkgList =
-    process.env.NODE_ENV !== "test"
-      ? fs
-        .readdirSync(root, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name)
-      : [];
+      process.env.NODE_ENV !== "test"
+        ? fs
+            .readdirSync(root, { withFileTypes: true })
+            .filter(dirent => dirent.isDirectory())
+            .map(dirent => dirent.name)
+        : [];
 
     return {
       type: "list",
@@ -28,9 +28,24 @@ export function askPackageName({
       message: "which package do you want to put the new brick in?",
       choices: pkgList
     };
-  }
+  } else if (targetType === TargetType.A_NEW_TEMPLATE) {
+    // 读取当前的 `@templates/*` 作为候选列表。
+    const root = path.join(appRoot, "templates");
+    const pkgList =
+      process.env.NODE_ENV !== "test"
+        ? fs
+            .readdirSync(root, { withFileTypes: true })
+            .filter(dirent => dirent.isDirectory())
+            .map(dirent => dirent.name)
+        : [];
 
-  if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
+    return {
+      type: "list",
+      name: "packageName",
+      message: "which package do you want to put the new template in?",
+      choices: pkgList
+    };
+  } else if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
     // 读取所有的 `@sdk/*` 作为候选列表。
     const root = path.join(appRoot, "../next-sdk/sdk");
     const sdkList =
@@ -50,9 +65,7 @@ export function askPackageName({
       message: "which sdk do you want to create providers for?",
       choices: sdkList
     };
-  }
-
-  if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
+  } else if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
     // 读取所有的 `@micro-apps/*` 作为候选列表。
     const root = path.join(appRoot, "micro-apps");
     const microApps = fs

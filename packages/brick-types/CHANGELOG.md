@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.1...@easyops/brick-types@0.20.2) (2019-10-14)
+
+### Bug Fixes
+
+- fix template types ([19d0520](https://git.easyops.local/anyclouds/next-core/commits/19d0520))
+
+## [0.20.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.0...@easyops/brick-types@0.20.1) (2019-10-14)
+
+### Bug Fixes
+
+- make `brick` optional since introduced `template` ([9bf727b](https://git.easyops.local/anyclouds/next-core/commits/9bf727b))
+
+# [0.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.19.0...@easyops/brick-types@0.20.0) (2019-10-12)
+
+### Features
+
+- add types for templates in storyboards ([b7d5a11](https://git.easyops.local/anyclouds/next-core/commits/b7d5a11))
+
 # [0.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.18.0...@easyops/brick-types@0.19.0) (2019-09-30)
 
 ### Features

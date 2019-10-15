@@ -23,7 +23,7 @@ const { flags } = meow({
 
 export async function create(): Promise<void> {
   const appRoot = path.join(process.cwd());
-  const { targetType, packageName, brickName } = await ask(
+  const { targetType, packageName, brickName, templateName } = await ask(
     appRoot,
     flags as AskFlags
   );
@@ -41,14 +41,17 @@ export async function create(): Promise<void> {
   let targetRoot: string;
   if (targetType === TargetType.A_NEW_BRICK) {
     targetRoot = path.join(pkgRoot, "src", brickName);
+  } else if (targetType === TargetType.A_NEW_TEMPLATE) {
+    targetRoot = path.join(pkgRoot, "src");
   } else {
     targetRoot = path.join(pkgRoot);
   }
 
-  const files = loadTemplate({
+  const files = await loadTemplate({
     targetType,
     packageName,
     brickName,
+    templateName,
     targetRoot,
     docRoot
   });
@@ -138,9 +141,24 @@ export default storyboard;`,
         )}`
       );
     }
-  }
+  } else if (
+    [TargetType.A_NEW_TEMPLATE, TargetType.A_NEW_PACKAGE_OF_TEMPLATES].includes(
+      targetType
+    )
+  ) {
+    // 如果是新建模板/模板库，需要更新/新建 `index.ts`。
+    const srcIndexTs = path.join(pkgRoot, "src", "index.ts");
+    fs.appendFileSync(srcIndexTs, `import "./${templateName}";${os.EOL}`);
 
-  if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
+    if (targetType === TargetType.A_NEW_TEMPLATE) {
+      console.log(
+        `${chalk.bold("File updated")}: ./${path.relative(
+          process.cwd(),
+          srcIndexTs
+        )}`
+      );
+    }
+  } else if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
     const storyboardJsonPath = path.join(targetRoot, "storyboard.json");
     fs.unlinkSync(storyboardJsonPath);
     console.log(

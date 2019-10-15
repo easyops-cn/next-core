@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.16](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@0.1.15...@dll/ace@0.1.16) (2019-10-14)
+
+**Note:** Version bump only for package @dll/ace
+
+## [0.1.15](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@0.1.14...@dll/ace@0.1.15) (2019-10-14)
+
+**Note:** Version bump only for package @dll/ace
+
+## [0.1.14](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@0.1.13...@dll/ace@0.1.14) (2019-10-12)
+
+**Note:** Version bump only for package @dll/ace
+
+## [0.1.13](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@0.1.12...@dll/ace@0.1.13) (2019-10-12)
+
+**Note:** Version bump only for package @dll/ace
+
+## [0.1.12](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@0.1.11...@dll/ace@0.1.12) (2019-10-12)
+
+**Note:** Version bump only for package @dll/ace
+
+## [0.1.11](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@0.1.10...@dll/ace@0.1.11) (2019-10-11)
+
+**Note:** Version bump only for package @dll/ace
+
 ## [0.1.10](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@0.1.9...@dll/ace@0.1.10) (2019-10-10)
 
 **Note:** Version bump only for package @dll/ace

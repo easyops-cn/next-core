@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.19.3...@easyops/brick-container@0.19.4) (2019-10-14)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.19.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.19.2...@easyops/brick-container@0.19.3) (2019-10-14)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.19.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.19.1...@easyops/brick-container@0.19.2) (2019-10-12)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [0.19.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.19.0...@easyops/brick-container@0.19.1) (2019-10-12)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [0.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.18.4...@easyops/brick-container@0.19.0) (2019-10-12)
+
+### Features
+
+- dev server support templates in storyboards ([70302a7](https://git.easyops.local/anyclouds/next-core/commits/70302a7))
+
+## [0.18.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.18.3...@easyops/brick-container@0.18.4) (2019-10-11)
+
+**Note:** Version bump only for package @easyops/brick-container
+
 ## [0.18.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.18.2...@easyops/brick-container@0.18.3) (2019-10-10)
 
 **Note:** Version bump only for package @easyops/brick-container

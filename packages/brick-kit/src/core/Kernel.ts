@@ -6,7 +6,6 @@ import {
   InterceptorParams,
   MicroApp
 } from "@easyops/brick-types";
-import { getDllAndDepsOfStoryboard } from "@easyops/brick-utils";
 import { authenticate } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 
@@ -46,18 +45,16 @@ export class Kernel {
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
-    const bootstrapResponse = await AuthSdk.bootstrap<BootstrapData>(params, {
-      interceptorParams
-    });
+    const bootstrapResponse = Object.assign(
+      {
+        templatePackages: []
+      },
+      await AuthSdk.bootstrap<BootstrapData>(params, {
+        interceptorParams
+      })
+    );
     this.bootstrapData = {
       ...bootstrapResponse,
-      storyboards: bootstrapResponse.storyboards.map(storyboard => ({
-        ...storyboard,
-        ...getDllAndDepsOfStoryboard(
-          storyboard,
-          bootstrapResponse.brickPackages
-        )
-      })),
       microApps: bootstrapResponse.storyboards
         .map(storyboard => storyboard.app)
         .filter(app => app && !app.internal)

@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.10.2...@easyops/brick-utils@0.10.3) (2019-10-14)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [0.10.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.10.1...@easyops/brick-utils@0.10.2) (2019-10-14)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [0.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.10.0...@easyops/brick-utils@0.10.1) (2019-10-12)
+
+### Bug Fixes
+
+- only collect non-falsy bricks ([36083eb](https://git.easyops.local/anyclouds/next-core/commits/36083eb))
+
+# [0.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.9.8...@easyops/brick-utils@0.10.0) (2019-10-12)
+
+### Features
+
+- scan and process templates in storyboards ([5dcdc30](https://git.easyops.local/anyclouds/next-core/commits/5dcdc30))
+
 ## [0.9.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.9.7...@easyops/brick-utils@0.9.8) (2019-09-30)
 
 **Note:** Version bump only for package @easyops/brick-utils

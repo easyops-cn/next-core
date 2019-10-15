@@ -4,6 +4,7 @@ import { PluginHistoryState } from "./runtime";
 
 export interface BootstrapData {
   brickPackages: BrickPackage[];
+  templatePackages: TemplatePackage[];
   navbar: NavbarConf;
   storyboards: Storyboard[];
   settings: Settings;
@@ -45,6 +46,11 @@ export interface BrickPackage {
   dll?: string[];
 }
 
+export interface TemplatePackage {
+  templates: string[];
+  filePath: string;
+}
+
 export interface AuthInfo {
   username?: string;
 }
@@ -63,8 +69,7 @@ export interface Storyboard {
 }
 
 export interface RuntimeStoryboard extends Storyboard {
-  dll: string[];
-  deps: string[];
+  depsProcessed?: boolean;
 }
 
 export interface RouteConf<B = any, M = any> {
@@ -76,13 +81,17 @@ export interface RouteConf<B = any, M = any> {
 }
 
 export interface BrickConf<T = any> {
-  brick: string;
+  brick?: string;
   slots?: SlotsConf;
   injectDeep?: boolean;
   properties?: T;
   events?: BrickEventsMap;
   bg?: boolean;
   lifeCycle?: BrickLifeCycle;
+  template?: string;
+  params?: Record<string, any>;
+  $template?: string;
+  $params?: Record<string, any>;
 }
 
 export interface BrickLifeCycle {
@@ -130,6 +139,10 @@ export interface BrickMenuConf<T = any> {
   injectDeep?: boolean;
   properties?: T;
   events?: BrickEventsMap;
+  template?: string;
+  params?: any[];
+  $template?: string;
+  $params?: any[];
 }
 
 export interface SlotsConf {

@@ -5,7 +5,8 @@ const {
   getNavbar,
   getStoryboardsByMicroApps,
   getBrickPackages,
-  getSettings
+  getSettings,
+  getTemplatePackages
 } = require("./utils");
 
 module.exports = (env, app) => {
@@ -16,7 +17,8 @@ module.exports = (env, app) => {
     localBrickPackages,
     localMicroApps,
     microAppsDir,
-    brickPackagesDir
+    brickPackagesDir,
+    templatePackagesDir
   } = env;
   let username;
 
@@ -58,12 +60,13 @@ module.exports = (env, app) => {
           navbar: getNavbar(env),
           storyboards: getStoryboardsByMicroApps(env),
           brickPackages: getBrickPackages(env),
+          templatePackages: getTemplatePackages(env),
           settings: getSettings()
         }
       });
     });
 
-    // 直接返回插件 js 文件。
+    // 直接返回构件库 js 文件。
     app.get(`${publicPath}bricks/*`, (req, res) => {
       const filePath = path.join(brickPackagesDir, req.params[0]);
       if (fs.existsSync(filePath)) {
@@ -83,6 +86,16 @@ module.exports = (env, app) => {
       }
     });
   }
+
+  // 直接返回模板库 js 文件。
+  app.get(`${publicPath}templates/*`, (req, res) => {
+    const filePath = path.join(templatePackagesDir, req.params[0]);
+    if (fs.existsSync(filePath)) {
+      res.sendFile(filePath);
+    } else {
+      res.status(404).end();
+    }
+  });
 
   if (useOffline) {
     // 离线开发模式下，mock API 请求

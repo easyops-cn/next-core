@@ -470,6 +470,148 @@ preBuild(\\"providers\\");
 ]
 `;
 
+exports[`loadTemplate should create a new package of templates 1`] = `
+Array [
+  Array [
+    "dist/deploy-default/pacakge.conf.yaml",
+    "install_path: /usr/local/easyops/templates/for-good-NT
+user: easyops:easyops
+dependencies:
+  - name: brick_next
+    version: \\">=0.19.1\\"
+    local_deploy: true
+",
+  ],
+  Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
+
+postBuild(\\"templates\\");
+",
+  ],
+  Array [
+    "dist/webpack.config.js",
+    "const merge = require(\\"webpack-merge\\");
+const { bricks } = require(\\"@easyops/webpack-config-factory\\");
+
+const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackCommonFactory({
+    scope: \\"templates\\"
+  }),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
+",
+  ],
+  Array [
+    "dist/src/for-better.spec.ts",
+    "import { BrickConf } from \\"@easyops/brick-types\\";
+import {
+  forBetterFactory,
+  ForBetterParams
+} from \\"./for-better\\";
+
+jest.mock(\\"@easyops/brick-kit\\", () => ({
+  getRuntime: () => ({
+    registerBrickTemplate: jest.fn()
+  })
+}));
+
+describe(\\"micro-app\\", () => {
+  it.each<[ForBetterParams, BrickConf]>([
+    [
+      {},
+      {
+        brick: \\"your.brick\\"
+      }
+    ]
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
+  });
+});
+",
+  ],
+  Array [
+    "dist/src/for-better.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+import { BrickConf } from \\"@easyops/brick-types\\";
+
+export interface ForBetterParams {}
+
+export function forBetterFactory(
+  params: ForBetterParams
+): BrickConf {
+  return {
+    brick: \\"your.brick\\"
+  };
+}
+
+getRuntime().registerBrickTemplate(
+  \\"for-good.for-better\\",
+  forBetterFactory
+);
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new template 1`] = `
+Array [
+  Array [
+    "dist/for-better.spec.ts",
+    "import { BrickConf } from \\"@easyops/brick-types\\";
+import {
+  forBetterFactory,
+  ForBetterParams
+} from \\"./for-better\\";
+
+jest.mock(\\"@easyops/brick-kit\\", () => ({
+  getRuntime: () => ({
+    registerBrickTemplate: jest.fn()
+  })
+}));
+
+describe(\\"micro-app\\", () => {
+  it.each<[ForBetterParams, BrickConf]>([
+    [
+      {},
+      {
+        brick: \\"your.brick\\"
+      }
+    ]
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
+  });
+});
+",
+  ],
+  Array [
+    "dist/for-better.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+import { BrickConf } from \\"@easyops/brick-types\\";
+
+export interface ForBetterParams {}
+
+export function forBetterFactory(
+  params: ForBetterParams
+): BrickConf {
+  return {
+    brick: \\"your.brick\\"
+  };
+}
+
+getRuntime().registerBrickTemplate(
+  \\"for-good.for-better\\",
+  forBetterFactory
+);
+",
+  ],
+]
+`;
+
 exports[`loadTemplate should transform a micro-app 1`] = `
 Array [
   Array [

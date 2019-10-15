@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const prism = require("prismjs");
 const loadLanguages = require("prismjs/components/index");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
+const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 
 const getStyleLoaders = cssOptions => [
   {
@@ -46,7 +47,10 @@ const getImageLoaderOptions = distPublicPath => ({
   ]
 });
 
-module.exports = ({ useToStringLoaderInsteadOfStyleLoader } = {}) => {
+module.exports = ({
+  useToStringLoaderInsteadOfStyleLoader,
+  scope = "bricks"
+} = {}) => {
   const cwdDirname = process.cwd();
   const appRoot = path.join(cwdDirname, "..", "..");
   const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
@@ -172,9 +176,11 @@ module.exports = ({ useToStringLoaderInsteadOfStyleLoader } = {}) => {
       ]
     },
     plugins: [
-      new ScanCustomElementsPlugin(
-        dll.map(name => name.substr("@dll/".length))
-      ),
+      scope === "templates"
+        ? new ScanTemplatesPlugin()
+        : new ScanCustomElementsPlugin(
+            dll.map(name => name.substr("@dll/".length))
+          ),
       new CleanWebpackPlugin(),
       new webpack.DllReferencePlugin({
         context: appRoot,
