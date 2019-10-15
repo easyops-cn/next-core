@@ -11,7 +11,7 @@ export interface SidebarMenu {
   showRelatedApps?: boolean;
 }
 
-export type SidebarMenuItemType = "default" | "group";
+export type SidebarMenuItemType = "default" | "group" | "subMenu";
 
 export type SidebarMenuItem = SidebarMenuSimpleItem | SidebarMenuGroup;
 
@@ -27,9 +27,9 @@ export interface SidebarMenuSimpleItem {
 }
 
 export interface SidebarMenuGroup {
-  type: "group";
+  type: "group" | "subMenu";
   title: string;
-  items: SidebarMenuSimpleItem[];
+  items: SidebarMenuItem[];
   key?: string;
 }
 
