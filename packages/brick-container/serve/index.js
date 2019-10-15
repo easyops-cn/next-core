@@ -80,7 +80,8 @@ const wss = new WebSocket.Server({ port: env.wsPort });
 
 const watcher = chokidar.watch([
   path.join(env.brickPackagesDir, "*/dist/*.js"),
-  path.join(env.microAppsDir, "*/storyboard.json")
+  path.join(env.microAppsDir, "*/storyboard.json"),
+  path.join(env.templatePackagesDir, "*/dist/*.js")
 ]);
 
 const throttledOnChange = throttle(
