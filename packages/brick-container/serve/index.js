@@ -25,7 +25,7 @@ const serveIndexHtml = (_req, res) => {
 
   // 开发环境下增加 websocket 连接的脚本
   content += `<script>
-        const socket = new WebSocket('ws://127.0.0.1:' + ${env.wsPort});
+        const socket = new WebSocket('ws://localhost:' + ${env.wsPort});
         socket.onmessage = function(event) {
             if (event.data === "content change") {
                 location.reload();
