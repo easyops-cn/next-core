@@ -2262,10 +2262,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.9.7":
-  version "16.9.7"
-  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.7.tgz#3b50cb38285a79fd325cf185e0d623e3e0dd2893"
-  integrity sha1-O1DLOChaef0yXPGF4NYj4+DdKJM=
+"@types/react@*", "@types/react@^16.9.9":
+  version "16.9.9"
+  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.9.tgz#a62c6f40f04bc7681be5e20975503a64fe783c3a"
+  integrity sha1-pixvQPBLx2gb5eIJdVA6ZP54PDo=
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
