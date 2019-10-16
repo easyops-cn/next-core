@@ -20,7 +20,8 @@ describe("scanTemplatesInStoryboard", () => {
                   type: "bricks",
                   bricks: [
                     {
-                      template: "c"
+                      template: "c",
+                      internalUsedTemplates: ["e"]
                     }
                   ]
                 },
@@ -41,7 +42,7 @@ describe("scanTemplatesInStoryboard", () => {
         }
       ]
     } as any;
-    expect(scanTemplatesInStoryboard(storyboard)).toEqual(["a", "c", "d"]);
+    expect(scanTemplatesInStoryboard(storyboard)).toEqual(["a", "c", "e", "d"]);
   });
 });
 
@@ -61,7 +62,8 @@ describe("getTemplateDepsOfStoryboard", () => {
                   type: "bricks",
                   bricks: [
                     {
-                      template: "c"
+                      template: "c",
+                      internalUsedTemplates: ["e"]
                     }
                   ]
                 },
