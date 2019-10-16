@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.10.4...@easyops/brick-utils@0.11.0) (2019-10-16)
+
+### Features
+
+- internal used bricks and templates ([9f2d00c](https://git.easyops.local/anyclouds/next-core/commits/9f2d00c))
+
 ## [0.10.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.10.3...@easyops/brick-utils@0.10.4) (2019-10-15)
 
 **Note:** Version bump only for package @easyops/brick-utils

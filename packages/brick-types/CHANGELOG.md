@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.21.0...@easyops/brick-types@0.22.0) (2019-10-16)
+
+### Features
+
+- internal used bricks and templates ([9f2d00c](https://git.easyops.local/anyclouds/next-core/commits/9f2d00c))
+
 # [0.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.2...@easyops/brick-types@0.21.0) (2019-10-15)
 
 ### Features
