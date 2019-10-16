@@ -21,6 +21,11 @@ function scanTemplatesInBrick(
       }
     });
   }
+  if (Array.isArray(brickConf.internalUsedTemplates)) {
+    brickConf.internalUsedTemplates.forEach(template => {
+      collection.add(template);
+    });
+  }
 }
 
 function scanTemplatesInBricks(

@@ -18,6 +18,11 @@ function scanBricksInBrickConfs(
           }
         });
       }
+      if (Array.isArray(brickConf.internalUsedBricks)) {
+        brickConf.internalUsedBricks.forEach(brick => {
+          collection.add(brick);
+        });
+      }
     });
   }
 }

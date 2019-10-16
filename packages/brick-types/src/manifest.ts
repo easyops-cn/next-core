@@ -88,8 +88,12 @@ export interface BrickConf<T = any> {
   events?: BrickEventsMap;
   bg?: boolean;
   lifeCycle?: BrickLifeCycle;
+  internalUsedBricks?: string[];
+  internalUsedTemplates?: string[];
   template?: string;
   params?: Record<string, any>;
+
+  // Runtime properties.
   $template?: string;
   $params?: Record<string, any>;
 }
