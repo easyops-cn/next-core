@@ -3508,7 +3508,7 @@ chokidar@^2.0.2, chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chokidar@^3.0.2, chokidar@^3.2.1:
+chokidar@^3.0.2:
   version "3.2.1"
   resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.2.1.tgz#4634772a1924512d990d4505957bf3a510611387"
   integrity sha1-RjR3KhkkUS2ZDUUFlXvzpRBhE4c=
@@ -3522,6 +3522,21 @@ chokidar@^3.0.2, chokidar@^3.2.1:
     readdirp "~3.1.3"
   optionalDependencies:
     fsevents "~2.1.0"
+
+chokidar@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.2.2.tgz#a433973350021e09f2b853a2287781022c0dc935"
+  integrity sha1-pDOXM1ACHgnyuFOiKHeBAiwNyTU=
+  dependencies:
+    anymatch "~3.1.1"
+    braces "~3.0.2"
+    glob-parent "~5.1.0"
+    is-binary-path "~2.1.0"
+    is-glob "~4.0.1"
+    normalize-path "~3.0.0"
+    readdirp "~3.2.0"
+  optionalDependencies:
+    fsevents "~2.1.1"
 
 chownr@^1.1.1:
   version "1.1.1"
@@ -5767,6 +5782,11 @@ fsevents@~2.1.0:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/fsevents/download/fsevents-2.1.0.tgz#ce1a5f9ac71c6d75278b0c5bd236d7dfece4cbaa"
   integrity sha1-zhpfmsccbXUniwxb0jbX3+zky6o=
+
+fsevents@~2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npm.taobao.org/fsevents/download/fsevents-2.1.1.tgz#74c64e21df71721845d0c44fe54b7f56b82995a9"
+  integrity sha1-dMZOId9xchhF0MRP5Ut/Vrgplak=
 
 function-bind@^1.0.2, function-bind@^1.1.1:
   version "1.1.1"
@@ -11034,6 +11054,13 @@ readdirp@~3.1.3:
   version "3.1.3"
   resolved "https://registry.npm.taobao.org/readdirp/download/readdirp-3.1.3.tgz#d6e011ed5b9240a92f08651eeb40f7942ceb6cc1"
   integrity sha1-1uAR7VuSQKkvCGUe60D3lCzrbME=
+  dependencies:
+    picomatch "^2.0.4"
+
+readdirp@~3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npm.taobao.org/readdirp/download/readdirp-3.2.0.tgz#c30c33352b12c96dfb4b895421a49fd5a9593839"
+  integrity sha1-wwwzNSsSyW37S4lUIaSf1alZODk=
   dependencies:
     picomatch "^2.0.4"
 
