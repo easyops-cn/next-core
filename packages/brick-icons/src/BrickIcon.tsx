@@ -1,9 +1,13 @@
 import React from "react";
-import { defaultCategory, appCategory } from "./categories";
+import categories from "./categories";
 
 export interface BrickIconProps {
   icon: string;
   category?: string;
+}
+
+function isValidKey(key: string, obj: {}): key is keyof typeof obj {
+  return key in obj;
 }
 
 export const BrickIcon = (props: BrickIconProps): React.ReactElement => {
@@ -18,16 +22,8 @@ export const BrickIcon = (props: BrickIconProps): React.ReactElement => {
     }`
   };
 
-  let categoryIcons: Record<string, SvgrComponent>;
-
-  switch (category) {
-    case "default":
-      categoryIcons = defaultCategory;
-      break;
-    case "app":
-      categoryIcons = appCategory;
-      break;
-  }
+  const categoryIcons: Record<string, SvgrComponent> =
+    isValidKey(category, categories) && categories[category];
 
   if (categoryIcons && categoryIcons[props.icon]) {
     return React.createElement(categoryIcons[props.icon], iconProps);
