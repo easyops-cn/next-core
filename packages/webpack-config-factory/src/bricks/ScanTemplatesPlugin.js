@@ -2,7 +2,7 @@ const pluginName = "ScanTemplatesPlugin";
 
 module.exports = class ScanTemplatesPlugin {
   apply(compiler) {
-    const templates = [];
+    const templateSet = new Set();
     compiler.hooks.normalModuleFactory.tap(pluginName, factory => {
       factory.hooks.parser.for("javascript/auto").tap(pluginName, parser => {
         parser.hooks.statement.tap(pluginName, statement => {
@@ -15,7 +15,7 @@ module.exports = class ScanTemplatesPlugin {
             expression.arguments.length === 2
           ) {
             if (expression.arguments[0].type === "Literal") {
-              templates.push(expression.arguments[0].value);
+              templateSet.add(expression.arguments[0].value);
             } else {
               throw new Error(
                 "Please call `getRuntime().registerBrickTemplate()` only with literal string"
@@ -26,12 +26,13 @@ module.exports = class ScanTemplatesPlugin {
       });
     });
     compiler.hooks.emit.tap(pluginName, compilation => {
+      const templates = Array.from(templateSet);
       const source = JSON.stringify({ templates }, null, 2);
       compilation.assets["templates.json"] = {
         source: () => source,
         size: () => source.length
       };
-      console.log(`${pluginName}:`, `Defined templates:`, templates);
+      console.log("Defined templates:", templates);
     });
   }
 };
