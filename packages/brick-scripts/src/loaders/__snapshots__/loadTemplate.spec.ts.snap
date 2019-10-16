@@ -602,6 +602,55 @@ getRuntime().registerBrickTemplate(
 ]
 `;
 
+exports[`loadTemplate should i18n-patch a package of templates 1`] = `
+Array [
+  Array [
+    "dist/src/i18n/constants.ts",
+    "export const NS_FOR_GOOD = \\"templates-for-good\\";
+
+export enum K {
+  FOR_GOOD = \\"FOR_GOOD\\"
+}
+
+export type Locale = { [key in K]: string };
+",
+  ],
+  Array [
+    "dist/src/i18n/index.ts",
+    "import i18next from \\"i18next\\";
+import { NS_FOR_GOOD } from \\"./constants\\";
+import en from \\"./locales/en\\";
+import zh from \\"./locales/zh\\";
+
+i18next.addResourceBundle(\\"en\\", NS_FOR_GOOD, en);
+i18next.addResourceBundle(\\"zh\\", NS_FOR_GOOD, zh);
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/en.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/zh.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+]
+`;
+
 exports[`loadTemplate should transform a micro-app 1`] = `
 Array [
   Array [

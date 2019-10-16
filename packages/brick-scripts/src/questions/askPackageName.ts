@@ -14,61 +14,7 @@ export function askPackageName({
   if (targetType === TargetType.A_NEW_BRICK) {
     // 读取当前的 `@bricks/*` 作为候选列表。
     const root = path.join(appRoot, "bricks");
-    const pkgList =
-      process.env.NODE_ENV !== "test"
-        ? fs
-            .readdirSync(root, { withFileTypes: true })
-            .filter(dirent => dirent.isDirectory())
-            .map(dirent => dirent.name)
-        : [];
-
-    return {
-      type: "list",
-      name: "packageName",
-      message: "which package do you want to put the new brick in?",
-      choices: pkgList
-    };
-  } else if (targetType === TargetType.A_NEW_TEMPLATE) {
-    // 读取当前的 `@templates/*` 作为候选列表。
-    const root = path.join(appRoot, "templates");
-    const pkgList =
-      process.env.NODE_ENV !== "test"
-        ? fs
-            .readdirSync(root, { withFileTypes: true })
-            .filter(dirent => dirent.isDirectory())
-            .map(dirent => dirent.name)
-        : [];
-
-    return {
-      type: "list",
-      name: "packageName",
-      message: "which package do you want to put the new template in?",
-      choices: pkgList
-    };
-  } else if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
-    // 读取所有的 `@sdk/*` 作为候选列表。
-    const root = path.join(appRoot, "../next-sdk/sdk");
-    const sdkList =
-      process.env.NODE_ENV !== "test"
-        ? fs
-            .readdirSync(root, { withFileTypes: true })
-            .filter(dirent => dirent.isDirectory())
-            .map(dirent => ({
-              name: dirent.name,
-              value: `providers-of-${dirent.name.replace(/-sdk$/, "")}`
-            }))
-        : [];
-
-    return {
-      type: "list",
-      name: "packageName",
-      message: "which sdk do you want to create providers for?",
-      choices: sdkList
-    };
-  } else if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
-    // 读取所有的 `@micro-apps/*` 作为候选列表。
-    const root = path.join(appRoot, "micro-apps");
-    const microApps = fs
+    const pkgList = fs
       .readdirSync(root, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory())
       .map(dirent => dirent.name);
@@ -76,7 +22,80 @@ export function askPackageName({
     return {
       type: "list",
       name: "packageName",
+      message: "which package do you want to put the new brick in?",
+      choices: pkgList
+    };
+  }
+
+  if (targetType === TargetType.A_NEW_TEMPLATE) {
+    // 读取当前的 `@templates/*` 作为候选列表。
+    const root = path.join(appRoot, "templates");
+    const pkgList = fs
+      .readdirSync(root, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name);
+
+    return {
+      type: "list",
+      name: "packageName",
+      message: "which package do you want to put the new template in?",
+      choices: pkgList
+    };
+  }
+
+  if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
+    // 读取所有的 `@sdk/*` 作为候选列表。
+    const root = path.join(appRoot, "../next-sdk/sdk");
+    const sdkList = fs
+      .readdirSync(root, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => ({
+        name: dirent.name,
+        value: `providers-of-${dirent.name.replace(/-sdk$/, "")}`
+      }));
+
+    return {
+      type: "list",
+      name: "packageName",
+      message: "which sdk do you want to create providers for?",
+      choices: sdkList
+    };
+  }
+
+  if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
+    // 读取所有的 `@micro-apps/*` 作为候选列表。
+    const root = path.join(appRoot, "micro-apps");
+    const microApps = fs
+      .readdirSync(root, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .filter(
+        dirent => !fs.existsSync(path.join(root, dirent.name, "src/index.ts"))
+      )
+      .map(dirent => dirent.name);
+
+    return {
+      type: "list",
+      name: "packageName",
       message: "which micro-app do you want to transform?",
+      choices: microApps
+    };
+  }
+
+  if (targetType === TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES) {
+    // 读取所有的 `@templates/*` 作为候选列表。
+    const root = path.join(appRoot, "templates");
+    const microApps = fs
+      .readdirSync(root, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .filter(
+        dirent => !fs.existsSync(path.join(root, dirent.name, "src/i18n"))
+      )
+      .map(dirent => dirent.name);
+
+    return {
+      type: "list",
+      name: "packageName",
+      message: "which package do you want to patch?",
       choices: microApps
     };
   }
