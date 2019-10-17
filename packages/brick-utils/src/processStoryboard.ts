@@ -6,7 +6,7 @@ import {
   TemplateRegistry
 } from "@easyops/brick-types";
 
-function processBrick(
+export function processBrick(
   brickConf: BrickConf,
   templateRegistry: TemplateRegistry<BrickTemplateFactory>
 ): void {
