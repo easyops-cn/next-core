@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.6...@easyops/brick-kit@0.31.0) (2019-10-17)
+
+### Features
+
+- add a develop helper: processBrick() ([9f3dab5](https://git.easyops.local/anyclouds/next-core/commits/9f3dab5))
+- fetch all user info, refs BRICK_STORE-428 ([ad7ee8b](https://git.easyops.local/anyclouds/next-core/commits/ad7ee8b))
+- iframe 产品可以配置 hybrid ([06a0970](https://git.easyops.local/anyclouds/next-core/commits/06a0970))
+
 ## [0.30.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.5...@easyops/brick-kit@0.30.6) (2019-10-17)
 
 **Note:** Version bump only for package @easyops/brick-kit

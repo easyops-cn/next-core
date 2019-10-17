@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.11.0...@easyops/brick-utils@0.12.0) (2019-10-17)
+
+### Features
+
+- add a develop helper: processBrick() ([9f3dab5](https://git.easyops.local/anyclouds/next-core/commits/9f3dab5))
+
 # [0.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.10.4...@easyops/brick-utils@0.11.0) (2019-10-16)
 
 ### Features

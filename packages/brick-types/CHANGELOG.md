@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.22.0...@easyops/brick-types@0.23.0) (2019-10-17)
+
+### Features
+
+- fetch all user info, refs BRICK_STORE-428 ([ad7ee8b](https://git.easyops.local/anyclouds/next-core/commits/ad7ee8b))
+- iframe 产品可以配置 hybrid ([06a0970](https://git.easyops.local/anyclouds/next-core/commits/06a0970))
+
 # [0.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.21.0...@easyops/brick-types@0.22.0) (2019-10-16)
 
 ### Features
