@@ -45,6 +45,7 @@ export interface MountRoutesResult {
     breadcrumb?: BreadcrumbItemConf[];
   };
   barsHidden?: boolean;
+  hybrid?: boolean;
 }
 
 export class LocationContext {
@@ -99,7 +100,8 @@ export class LocationContext {
           app: this.kernel.currentApp,
           breadcrumb: this.kernel.appBar.element.breadcrumb
         },
-        redirect: undefined
+        redirect: undefined,
+        hybrid: false
       };
     }
     const matched = this.matchRoutes(routes, this.kernel.currentApp);
@@ -115,6 +117,9 @@ export class LocationContext {
         };
         break;
       default:
+        if (matched.route.hybrid) {
+          matched.route.hybrid = true;
+        }
         this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
         this.mountBricks(
           matched.route.bricks,
