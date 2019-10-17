@@ -9,5 +9,6 @@ export const targetMap = {
   [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll",
   [TargetType.TRANSFORM_A_MICRO_APP]: "micro-apps",
   [TargetType.A_NEW_TEMPLATE]: "templates",
-  [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "templates"
+  [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "templates",
+  [TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES]: "templates"
 };

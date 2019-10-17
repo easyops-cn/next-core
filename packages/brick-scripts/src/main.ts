@@ -167,6 +167,18 @@ export default storyboard;`,
         storyboardJsonPath
       )}`
     );
+  } else if (targetType === TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES) {
+    const srcIndexTs = path.join(pkgRoot, "src", "index.ts");
+    fs.writeFileSync(
+      srcIndexTs,
+      `import "./i18n";${os.EOL}${fs.readFileSync(srcIndexTs)}`
+    );
+    console.log(
+      `${chalk.bold("File updated")}: ./${path.relative(
+        process.cwd(),
+        srcIndexTs
+      )}`
+    );
   }
 
   console.log();

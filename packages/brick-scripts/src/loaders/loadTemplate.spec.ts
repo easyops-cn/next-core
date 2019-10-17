@@ -122,4 +122,16 @@ describe("loadTemplate", () => {
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
   });
+  it("should i18n-patch a package of templates", async () => {
+    const files = await loadTemplate({
+      targetType: TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES,
+      packageName: "for-good",
+      brickName: "",
+      templateName: "",
+      targetRoot: "dist",
+      docRoot: "doc"
+    });
+    const otherFiles = ignoreVersionRelatedFiles(files);
+    expect(otherFiles).toMatchSnapshot();
+  });
 });

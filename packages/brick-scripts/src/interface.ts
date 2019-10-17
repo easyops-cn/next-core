@@ -13,7 +13,8 @@ export enum TargetType {
   A_NEW_PACKAGE_OF_DLL = "dll",
   TRANSFORM_A_MICRO_APP = "transform",
   A_NEW_TEMPLATE = "template",
-  A_NEW_PACKAGE_OF_TEMPLATES = "templates"
+  A_NEW_PACKAGE_OF_TEMPLATES = "templates",
+  I18N_PATCH_A_PACKAGE_OF_TEMPLATES = "i18n-patch"
 }
 
 export const TargetTypeDisplay = {
@@ -25,5 +26,7 @@ export const TargetTypeDisplay = {
   [TargetType.A_NEW_PACKAGE_OF_DLL]: "a new package of dll",
   [TargetType.TRANSFORM_A_MICRO_APP]: "transform a micro-app",
   [TargetType.A_NEW_TEMPLATE]: "a new template",
-  [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "a new package of templates"
+  [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "a new package of templates",
+  [TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES]:
+    "i18n-patch a package of templates"
 };

@@ -18,7 +18,8 @@ export function askTargetType(): inquirer.ListQuestion<{
       TargetType.A_NEW_TEMPLATE,
       TargetType.A_NEW_PACKAGE_OF_TEMPLATES,
       TargetType.A_NEW_PACKAGE_OF_DLL,
-      TargetType.TRANSFORM_A_MICRO_APP
+      TargetType.TRANSFORM_A_MICRO_APP,
+      TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES
     ].map(value => ({
       name: TargetTypeDisplay[value],
       value

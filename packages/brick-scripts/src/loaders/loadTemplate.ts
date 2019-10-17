@@ -89,7 +89,8 @@ export async function loadTemplate({
     [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll-pkg",
     [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg",
     [TargetType.A_NEW_TEMPLATE]: "template",
-    [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "templates-pkg"
+    [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "templates-pkg",
+    [TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES]: "i18n-patched-templates-pkg"
   };
   const templatePackageJsonName = targetMap[targetType];
   const templateRoot = path.join(__dirname, "../../template");
@@ -240,7 +241,8 @@ export async function loadTemplate({
   if (
     targetType !== TargetType.A_NEW_BRICK &&
     targetType !== TargetType.A_NEW_TEMPLATE &&
-    targetType !== TargetType.TRANSFORM_A_MICRO_APP
+    targetType !== TargetType.TRANSFORM_A_MICRO_APP &&
+    targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES
   ) {
     files.push([
       path.join(targetRoot, "package.json"),
