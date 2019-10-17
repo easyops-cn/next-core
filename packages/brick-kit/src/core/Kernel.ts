@@ -1,12 +1,14 @@
 import * as AuthSdk from "@sdk/auth-sdk";
+import { UserAdminApi } from "@sdk/user-service-sdk";
 import {
   MountPoints,
   BootstrapData,
   RuntimeBootstrapData,
   InterceptorParams,
-  MicroApp
+  MicroApp,
+  UserInfo
 } from "@easyops/brick-types";
-import { authenticate } from "../auth";
+import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 
 export class Kernel {
@@ -17,10 +19,32 @@ export class Kernel {
   public loadingBar: LoadingBar;
   public router: Router;
   public currentApp: MicroApp;
+  public allUserInfo: UserInfo[] = [];
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
+    if (isLoggedIn()) {
+      try {
+        const query = { state: "valid" };
+        const fields = {
+          name: true,
+          nickname: true,
+          user_email: true,
+          user_tel: true,
+          user_icon: true,
+          user_memo: true
+        };
+        this.allUserInfo = (await UserAdminApi.searchAllUsersInfo({
+          query,
+          fields
+        })).list as UserInfo[];
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error("fetch all user error:", err);
+        this.allUserInfo = [];
+      }
+    }
     this.menuBar = new MenuBar(this);
     this.appBar = new AppBar(this);
     this.loadingBar = new LoadingBar(this);

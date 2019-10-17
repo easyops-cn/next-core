@@ -73,3 +73,14 @@ export interface InterceptorParams {
 export type BrickTemplateFactory = (params?: Record<string, any>) => BrickConf;
 
 export type TemplateRegistry<T> = Map<string, T>;
+
+export interface UserInfo {
+  instanceId: string;
+  name: string;
+  nickname: string;
+  user_email: string;
+  user_tel: string;
+  state: "valid" | "invalid";
+  user_icon: string;
+  user_memo: string;
+}
