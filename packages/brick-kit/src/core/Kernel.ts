@@ -20,6 +20,7 @@ export class Kernel {
   public router: Router;
   public currentApp: MicroApp;
   public allUserInfo: UserInfo[] = [];
+  public allUserMap: Map<string, UserInfo> = new Map();
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
@@ -39,6 +40,9 @@ export class Kernel {
           query,
           fields
         })).list as UserInfo[];
+        for (const user of this.allUserInfo) {
+          this.allUserMap.set(user.name, user);
+        }
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error("fetch all user error:", err);

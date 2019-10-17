@@ -56,6 +56,10 @@ export class Runtime {
     return kernel.allUserInfo;
   }
 
+  getAllUserMap(): Map<string, UserInfo> {
+    return kernel.allUserMap;
+  }
+
   /**
    * 切换主体内容 `filter: blur(...)`;
    * @param blur
