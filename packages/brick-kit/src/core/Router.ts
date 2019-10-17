@@ -106,7 +106,8 @@ export class Router {
         all,
         menuBar,
         appBar,
-        barsHidden
+        barsHidden,
+        hybrid
       } = locationContext.mountRoutes(storyboard.routes);
 
       if (redirect) {
@@ -128,8 +129,7 @@ export class Router {
         mountStaticNode(this.kernel.menuBar.element, menuBar);
         mountStaticNode(this.kernel.appBar.element, appBar);
       }
-
-      if (legacy === "iframe") {
+      if (legacy === "iframe" && !hybrid) {
         this.kernel.toggleLegacyIframe(true);
       }
 

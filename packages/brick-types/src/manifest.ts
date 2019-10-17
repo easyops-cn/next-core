@@ -78,6 +78,7 @@ export interface RouteConf<B = any, M = any> {
   public?: boolean;
   bricks: BrickConf<B>[];
   menu?: MenuConf<M>;
+  hybrid?: boolean;
 }
 
 export interface BrickConf<T = any> {
