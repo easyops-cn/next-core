@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.11.3...@easyops/webpack-config-factory@0.11.4) (2019-10-17)
+
+### Bug Fixes
+
+- ensure scanned bricks and templates are unique when building ([9e55400](https://git.easyops.local/anyclouds/next-core/commits/9e55400))
+
 ## [0.11.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.11.2...@easyops/webpack-config-factory@0.11.3) (2019-10-15)
 
 ### Bug Fixes

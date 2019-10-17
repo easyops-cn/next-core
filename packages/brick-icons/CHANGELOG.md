@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@0.5.3...@easyops/brick-icons@0.6.0) (2019-10-17)
+
+### Features
+
+- support for custom icon directory ([7b9ddf7](https://git.easyops.local/anyclouds/next-core/commits/7b9ddf7))
+
 ## [0.5.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@0.5.2...@easyops/brick-icons@0.5.3) (2019-10-15)
 
 **Note:** Version bump only for package @easyops/brick-icons
