@@ -5,7 +5,8 @@ import {
   InterceptorParams,
   FeatureFlags,
   DesktopData,
-  BrickTemplateFactory
+  BrickTemplateFactory,
+  UserInfo
 } from "@easyops/brick-types";
 import { registerBrickTemplate } from "./TemplateRegistries";
 
@@ -49,6 +50,10 @@ export class Runtime {
 
   getDesktops(): DesktopData[] {
     return kernel.bootstrapData.desktops || [];
+  }
+
+  getAllUserInfo(): UserInfo[] {
+    return kernel.allUserInfo;
   }
 
   /**

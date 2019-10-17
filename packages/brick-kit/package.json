@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "@easyops/brick-types": "^0.22.0",
-    "@sdk/auth-sdk": "^0.7.0"
+    "@sdk/auth-sdk": "^0.7.0",
+    "@sdk/user-service-sdk": "^0.1.0"
   },
   "sideEffects": false,
   "devDependencies": {
