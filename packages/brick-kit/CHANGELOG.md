@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.31.0...@easyops/brick-kit@0.32.0) (2019-10-18)
+
+### Features
+
+- **runtime:** get all user map, refs BRICK_STORE-428 ([cb13de8](https://git.easyops.local/anyclouds/next-core/commits/cb13de8))
+
 # [0.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.6...@easyops/brick-kit@0.31.0) (2019-10-17)
 
 ### Features
