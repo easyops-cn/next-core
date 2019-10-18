@@ -118,7 +118,7 @@ export class LocationContext {
         break;
       default:
         if (matched.route.hybrid) {
-          matched.route.hybrid = true;
+          mountRoutesResult.hybrid = true;
         }
         this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
         this.mountBricks(
