@@ -180,4 +180,20 @@ describe("Runtime", () => {
       }
     ]);
   });
+
+  it("getAllUserInfo should work", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.allUserInfo = [];
+    expect(runtime.getAllUserInfo()).toEqual([]);
+  });
+
+  it("getAllUserMap should work", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.allUserMap = new Map();
+    expect(runtime.getAllUserMap().size).toBe(0);
+  });
 });
