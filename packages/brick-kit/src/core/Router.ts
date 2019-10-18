@@ -3,7 +3,7 @@ import {
   loadScript,
   getTemplateDepsOfStoryboard,
   getDllAndDepsOfStoryboard,
-  processStoryboard
+  asyncProcessStoryboard
 } from "@easyops/brick-utils";
 import {
   LocationContext,
@@ -66,7 +66,11 @@ export class Router {
         await loadScript(templateDeps);
         // 加载模板后才能加工得到最终的构件表
         const result = getDllAndDepsOfStoryboard(
-          processStoryboard(storyboard, brickTemplateRegistry),
+          await asyncProcessStoryboard(
+            storyboard,
+            brickTemplateRegistry,
+            bootstrapData.templatePackages
+          ),
           bootstrapData.brickPackages
         );
         await loadScript(result.dll);

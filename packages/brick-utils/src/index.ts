@@ -1,3 +1,4 @@
+export * from "./asyncProcessStoryboard";
 export * from "./bindListeners";
 export * from "./computeRealRoutePath";
 export * from "./createProviderClass";
