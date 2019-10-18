@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.32.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.32.0...@easyops/brick-kit@0.32.1) (2019-10-18)
+
+### Bug Fixes
+
+- result set true refs INSTANCE-727 ([bd76806](https://git.easyops.local/anyclouds/next-core/commits/bd76806))
+
 # [0.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.31.0...@easyops/brick-kit@0.32.0) (2019-10-18)
 
 ### Features
