@@ -11,7 +11,8 @@ import {
   mountStaticNode,
   Kernel,
   MountableElement,
-  Resolver
+  unmountTree,
+  MountRoutesResult
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString } from "../handleHttpError";
@@ -20,7 +21,7 @@ import { brickTemplateRegistry } from "./TemplateRegistries";
 
 export class Router {
   private defaultCollapsed = false;
-  private resolver = new Resolver();
+  private locationContext: LocationContext;
 
   constructor(private kernel: Kernel) {}
 
@@ -37,12 +38,20 @@ export class Router {
   }
 
   private render = async (location: PluginLocation): Promise<void> => {
+    if (this.locationContext) {
+      this.locationContext.resolver.resetRefreshQueue();
+    }
+
     const history = getHistory();
-    const locationContext = new LocationContext(this.kernel, location);
+    const locationContext = (this.locationContext = new LocationContext(
+      this.kernel,
+      location
+    ));
     const { bootstrapData } = this.kernel;
     const storyboard = locationContext.matchStoryboard(
       bootstrapData.storyboards
     );
+
     if (storyboard) {
       // 如果找到匹配的 storyboard，那么加载它的依赖库。
       if (storyboard.dependsAll) {
@@ -85,10 +94,11 @@ export class Router {
     const appChanged = previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
 
+    unmountTree(mountPoints.bg as MountableElement);
+    unmountTree(mountPoints.main as MountableElement);
+
     this.kernel.unsetBars({ appChanged, legacy });
     this.kernel.toggleLegacyIframe(false);
-    this.resolver.resetCache();
-    this.resolver.resetRefreshQueue();
 
     if (appChanged) {
       this.kernel.currentApp = currentApp;
@@ -103,16 +113,56 @@ export class Router {
     }
 
     if (storyboard) {
-      let {
+      const mountRoutesResult: MountRoutesResult = {
+        main: [],
+        menuBar: {
+          app: this.kernel.currentApp
+        },
+        appBar: {
+          app: this.kernel.currentApp,
+          breadcrumb: this.kernel.appBar.element.breadcrumb
+        },
+        redirect: undefined,
+        hybrid: false
+      };
+      try {
+        await locationContext.mountRoutes(
+          storyboard.routes,
+          undefined,
+          mountRoutesResult
+        );
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+
+        // Redirect to login page if not logged in.
+        if (isUnauthenticatedError(error)) {
+          const history = getHistory();
+          history.push("/auth/login", {
+            from: location
+          });
+          return;
+        }
+
+        mountRoutesResult.main = [
+          {
+            type: "basic-bricks.page-error",
+            properties: {
+              error: httpErrorToString(error)
+            },
+            events: {}
+          }
+        ];
+      }
+
+      const {
         redirect,
         main,
-        bg,
-        all,
         menuBar,
         appBar,
         barsHidden,
         hybrid
-      } = locationContext.mountRoutes(storyboard.routes);
+      } = mountRoutesResult;
 
       if (redirect) {
         history.replace(redirect.path, redirect.state);
@@ -137,47 +187,9 @@ export class Router {
         this.kernel.toggleLegacyIframe(true);
       }
 
-      mountTree(bg, mountPoints.bg as MountableElement);
       if (main.length > 0) {
-        // Life cycle: useResolves:
-        try {
-          await this.resolver.resolve(all, mountPoints.bg as MountableElement);
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-
-          // Redirect to login page if not logged in.
-          if (isUnauthenticatedError(error)) {
-            const history = getHistory();
-            history.push("/auth/login", {
-              from: location
-            });
-            return;
-          }
-
-          main = [
-            {
-              type: "basic-bricks.page-error",
-              properties: {
-                error: httpErrorToString(error)
-              },
-              events: {}
-            }
-          ];
-        }
-
         mountTree(main, mountPoints.main as MountableElement);
-
-        // Life cycle: didMount:
-        all
-          .filter(brick => brick.lifeCycle && brick.lifeCycle.didMount)
-          .forEach(brick => {
-            setTimeout(() => {
-              (brick.element as any)[brick.lifeCycle.didMount]();
-            });
-          });
-
-        this.resolver.scheduleRefreshing();
+        this.locationContext.resolver.scheduleRefreshing();
         return;
       }
     }

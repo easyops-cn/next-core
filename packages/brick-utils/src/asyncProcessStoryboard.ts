@@ -15,30 +15,42 @@ export async function asyncProcessBrick(
   templatePackages: TemplatePackage[]
 ): Promise<void> {
   if (brickConf.template) {
-    let updatedBrickConf: Partial<BrickConf> = {};
-    if (!templateRegistry.has(brickConf.template)) {
-      await loadScript(
-        getDepsOfTemplates([brickConf.template], templatePackages)
-      );
-    }
-    if (templateRegistry.has(brickConf.template)) {
-      updatedBrickConf = templateRegistry.get(brickConf.template)(
-        brickConf.params
-      );
+    if (
+      brickConf.lifeCycle &&
+      brickConf.lifeCycle.useResolves &&
+      brickConf.lifeCycle.useResolves.length > 0
+    ) {
+      // Leave these dynamic templates to `LocationContext::resolve()`.
+      (brickConf as any).$$dynamic = true;
     } else {
-      updatedBrickConf = {
-        brick: "basic-bricks.page-error",
-        properties: {
-          error: `Template not found: ${brickConf.template}`
-        }
-      };
+      let updatedBrickConf: Partial<BrickConf> = {};
+      if (!templateRegistry.has(brickConf.template)) {
+        await loadScript(
+          getDepsOfTemplates([brickConf.template], templatePackages)
+        );
+      }
+      if (templateRegistry.has(brickConf.template)) {
+        updatedBrickConf = templateRegistry.get(brickConf.template)(
+          brickConf.params
+        );
+      } else {
+        updatedBrickConf = {
+          brick: "basic-bricks.page-error",
+          properties: {
+            error: `Template not found: ${brickConf.template}`
+          }
+        };
+      }
+      // 清理 brickConf.
+      const { template, params } = brickConf;
+      Object.keys(brickConf).forEach(key => {
+        delete brickConf[key as keyof BrickConf];
+      });
+      Object.assign(brickConf, updatedBrickConf, {
+        $$template: template,
+        $$params: params
+      });
     }
-    Object.assign(brickConf, updatedBrickConf, {
-      $template: brickConf.template,
-      $params: brickConf.params
-    });
-    delete brickConf.template;
-    delete brickConf.params;
   }
   if (brickConf.slots) {
     await Promise.all(

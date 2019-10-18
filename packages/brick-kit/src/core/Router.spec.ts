@@ -101,17 +101,6 @@ describe("Router", () => {
           type: "p"
         }
       ],
-      bg: [],
-      all: [
-        {
-          lifeCycle: {
-            didMount: "execute"
-          },
-          element: {
-            execute: spyOnExecute
-          }
-        }
-      ],
       menuBar: {
         title: "menu"
       },
@@ -132,16 +121,13 @@ describe("Router", () => {
         id: "hello"
       }
     });
-    expect(spyOnMountTree.mock.calls[1][0]).toEqual([{ type: "p" }]);
+    expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
     expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);
     expect(spyOnMountStaticNode.mock.calls[0][1]).toEqual({ title: "menu" });
     expect(spyOnMountStaticNode.mock.calls[1][0]).toBe(kernel.appBar.element);
     expect(spyOnMountStaticNode.mock.calls[1][1]).toEqual({ title: "app" });
     expect(kernel.toggleBars).not.toBeCalled();
     expect(kernel.firstRendered).toBeCalled();
-    expect(spyOnExecute).not.toBeCalled();
-    await jest.runAllTimers();
-    expect(spyOnExecute).toBeCalled();
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {
@@ -189,8 +175,8 @@ describe("Router", () => {
     await router.bootstrap();
     expect(kernel.toggleBars).toBeCalledWith(false);
     expect(spyOnMountStaticNode).not.toBeCalled();
-    expect(spyOnMountTree).toBeCalledTimes(3);
-    expect(spyOnMountTree.mock.calls[2][0]).toMatchObject([
+    expect(spyOnMountTree).toBeCalledTimes(2);
+    expect(spyOnMountTree.mock.calls[1][0]).toMatchObject([
       {
         type: "basic-bricks.page-not-found",
         properties: {

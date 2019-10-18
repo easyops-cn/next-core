@@ -49,8 +49,8 @@ describe("processStoryboard", () => {
     processStoryboard(storyboard, registry);
     expect(storyboard.routes[0].bricks[0]).toEqual({
       brick: "a",
-      $template: "a",
-      $params: undefined
+      $$template: "a",
+      $$params: undefined
     });
   });
 });

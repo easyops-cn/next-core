@@ -5,7 +5,7 @@ import {
   TemplatePackage
 } from "@easyops/brick-types";
 
-function scanTemplatesInBrick(
+export function scanTemplatesInBrick(
   brickConf: BrickConf,
   collection: Set<string>
 ): void {

@@ -1,22 +1,24 @@
-import { Resolver, makeProviderRefreshable } from "./Resolver";
+import { Resolver } from "./Resolver";
 import { RuntimeBrick } from "./BrickNode";
-import { handleHttpError } from "../handleHttpError";
 
 jest.mock("../handleHttpError");
 
 describe("Resolver", () => {
-  const resolver = new Resolver();
+  const kernel = {
+    mountPoints: {}
+  } as any;
+  let resolver: Resolver;
 
   beforeEach(() => {
-    resolver.resetCache();
+    resolver = new Resolver(kernel as any);
   });
 
   it("should do nothing if nothing to resolve", async () => {
-    const result = await resolver.resolve([], null);
+    const result = await resolver.resolve({} as any, null, null);
     expect(result).toBe(undefined);
   });
 
-  it("should resolve", async () => {
+  it("should resolve bricks", async () => {
     const testMethod = jest.fn().mockResolvedValue({
       data: {
         hello: "world"
@@ -29,53 +31,64 @@ describe("Resolver", () => {
         ignoreErrors: true
       }
     };
-    const bg = {
+    kernel.mountPoints.bg = {
       querySelector: () => provider
     } as any;
-    const bricks: RuntimeBrick[] = [
-      {
-        type: "brick-A",
-        properties: {},
-        events: {},
-        lifeCycle: {
-          useResolves: [
-            {
-              name: "testProp",
-              provider: "any-provider",
-              method: "testMethod"
-            }
-          ]
-        }
-      },
-      {
-        type: "brick-B",
-        properties: {
-          existedProp: "any"
-        },
-        events: {},
-        lifeCycle: {
-          useResolves: [
-            {
-              name: "testProp",
-              provider: "any-provider",
-              method: "testMethod",
-              field: "data.hello"
-            }
-          ]
-        }
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: "any-provider",
+            method: "testMethod"
+          }
+        ]
       }
-    ];
+    };
+    const brickB: RuntimeBrick = {
+      type: "brick-B",
+      properties: {
+        existedProp: "any"
+      },
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: "any-provider",
+            method: "testMethod",
+            field: "data.hello"
+          }
+        ]
+      }
+    };
     resolver.resetRefreshQueue();
-    await resolver.resolve(bricks, bg);
+    await resolver.resolve(
+      {
+        lifeCycle: brickA.lifeCycle
+      },
+      brickA,
+      null
+    );
+    await resolver.resolve(
+      {
+        lifeCycle: brickB.lifeCycle
+      },
+      brickB,
+      null
+    );
     expect(testMethod).toBeCalledTimes(1);
-    expect(bricks[0].properties).toEqual({
+    expect(brickA.properties).toEqual({
       testProp: {
         data: {
           hello: "world"
         }
       }
     });
-    expect(bricks[1].properties).toEqual({
+    expect(brickB.properties).toEqual({
       existedProp: "any",
       testProp: "world"
     });
@@ -87,122 +100,37 @@ describe("Resolver", () => {
   });
 
   it("should throw if provider not found", async () => {
-    const bg = {
+    kernel.mountPoints.bg = {
       querySelector() {
         return null;
       }
     } as any;
-    const bricks: RuntimeBrick[] = [
-      {
-        type: "brick-A",
-        properties: {},
-        events: {},
-        lifeCycle: {
-          useResolves: [
-            {
-              name: "testProp",
-              provider: "any-provider",
-              method: "testMethod"
-            }
-          ]
-        }
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: "any-provider",
+            method: "testMethod"
+          }
+        ]
       }
-    ];
+    };
     expect.assertions(1);
     try {
-      await resolver.resolve(bricks, bg);
+      await resolver.resolve(
+        {
+          brick: brickA.type,
+          lifeCycle: brickA.lifeCycle
+        },
+        brickA,
+        null
+      );
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
-    }
-  });
-});
-
-describe("makeProviderRefreshable", () => {
-  const resolve = jest.fn();
-  const provider = {
-    resolve
-  } as any;
-  makeProviderRefreshable(provider);
-
-  const dependent = {
-    brick: {
-      element: {},
-      context: {}
-    },
-    name: "hello",
-    method: "resolve",
-    actualArgs: [1],
-    field: "data"
-  };
-  const anotherDependent = {
-    brick: {
-      element: {},
-      context: {}
-    },
-    name: "hello",
-    method: "resolve",
-    actualArgs: [1]
-  };
-  provider.$$dependents.push(dependent);
-  provider.$$dependents.push(anotherDependent);
-
-  afterEach(() => {
-    dependent.brick.element = {};
-    anotherDependent.brick.element = {};
-    resolve.mockReset();
-    (handleHttpError as jest.Mock).mockClear();
-  });
-
-  it("should refresh", async () => {
-    resolve.mockResolvedValue({
-      data: "world"
-    });
-    await provider.$refresh();
-    expect(resolve).toBeCalledTimes(1);
-    expect(dependent.brick.element).toEqual({
-      hello: "world"
-    });
-    expect(anotherDependent.brick.element).toEqual({
-      hello: {
-        data: "world"
-      }
-    });
-  });
-
-  it("should handle errors", async () => {
-    const error = {
-      error: "failed"
-    };
-    resolve.mockRejectedValue(error);
-    await provider.$refresh();
-    expect(resolve).toBeCalledTimes(1);
-    expect(handleHttpError).toBeCalledWith(error);
-  });
-
-  it("should ignore errors", async () => {
-    const error = {
-      error: "failed"
-    };
-    resolve.mockRejectedValue(error);
-    await provider.$refresh({
-      ignoreErrors: true
-    });
-    expect(handleHttpError).not.toBeCalled();
-  });
-
-  it("should throw errors", async () => {
-    expect.assertions(2);
-    const error = {
-      error: "failed"
-    };
-    resolve.mockRejectedValue(error);
-    try {
-      await provider.$refresh({
-        throwErrors: true
-      });
-    } catch (err) {
-      expect(handleHttpError).toBeCalledWith(error);
-      expect(err).toBe(error);
     }
   });
 });

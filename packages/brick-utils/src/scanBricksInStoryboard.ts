@@ -1,28 +1,35 @@
 import { Storyboard, BrickConf, RouteConf } from "@easyops/brick-types";
 
+export function scanBricksInBrickConf(
+  brickConf: BrickConf,
+  collection: Set<string>
+): void {
+  if (brickConf.brick) {
+    collection.add(brickConf.brick);
+  }
+  if (brickConf.slots) {
+    Object.values(brickConf.slots).forEach(slotConf => {
+      if (slotConf.type === "bricks") {
+        scanBricksInBrickConfs(slotConf.bricks, collection);
+      } else {
+        scanBricksInRouteConfs(slotConf.routes, collection);
+      }
+    });
+  }
+  if (Array.isArray(brickConf.internalUsedBricks)) {
+    brickConf.internalUsedBricks.forEach(brick => {
+      collection.add(brick);
+    });
+  }
+}
+
 function scanBricksInBrickConfs(
   bricks: BrickConf[],
   collection: Set<string>
 ): void {
   if (Array.isArray(bricks)) {
     bricks.forEach(brickConf => {
-      if (brickConf.brick) {
-        collection.add(brickConf.brick);
-      }
-      if (brickConf.slots) {
-        Object.values(brickConf.slots).forEach(slotConf => {
-          if (slotConf.type === "bricks") {
-            scanBricksInBrickConfs(slotConf.bricks, collection);
-          } else {
-            scanBricksInRouteConfs(slotConf.routes, collection);
-          }
-        });
-      }
-      if (Array.isArray(brickConf.internalUsedBricks)) {
-        brickConf.internalUsedBricks.forEach(brick => {
-          collection.add(brick);
-        });
-      }
+      scanBricksInBrickConf(brickConf, collection);
     });
   }
 }

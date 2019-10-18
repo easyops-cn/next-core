@@ -1,5 +1,5 @@
-import { RuntimeBrick, BrickNode } from "./exports";
 import { setRealProperties } from "@easyops/brick-utils";
+import { RuntimeBrick, BrickNode } from "./exports";
 
 export interface MountableElement extends HTMLElement {
   _rootBricks: BrickNode[];
@@ -40,4 +40,16 @@ export function mountStaticNode(
   properties: Record<string, any>
 ): void {
   setRealProperties(mountPoint, properties);
+}
+
+export function appendBrick(
+  brick: RuntimeBrick,
+  mountPoint: MountableElement
+): void {
+  const brickNode = new BrickNode(brick);
+  mountPoint.appendChild(brickNode.mount());
+  if (!mountPoint._rootBricks) {
+    mountPoint._rootBricks = [];
+  }
+  mountPoint._rootBricks.push(brickNode);
 }
