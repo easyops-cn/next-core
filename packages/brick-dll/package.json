@@ -26,7 +26,7 @@
     "@easyops/brick-kit": "^0.33.0",
     "@easyops/brick-utils": "^0.13.0",
     "@easyops/fontawesome-library": "^0.8.2",
-    "@fortawesome/react-fontawesome": "^0.1.6",
+    "@fortawesome/react-fontawesome": "^0.1.7",
     "antd": "^3.24.1",
     "history": "^4.10.1",
     "i18next": "^17.2.0",
