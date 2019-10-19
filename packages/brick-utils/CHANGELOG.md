@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.12.0...@easyops/brick-utils@0.13.0) (2019-10-19)
+
+### Features
+
+- async process storyboard to support templates in templates ([75ec2bd](https://git.easyops.local/anyclouds/next-core/commits/75ec2bd))
+
 # [0.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@0.11.0...@easyops/brick-utils@0.12.0) (2019-10-17)
 
 ### Features
