@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const prism = require("prismjs");
 const loadLanguages = require("prismjs/components/index");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
+const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 
 const getStyleLoaders = cssOptions => [
   {
@@ -46,26 +47,29 @@ const getImageLoaderOptions = distPublicPath => ({
   ]
 });
 
-module.exports = ({ useToStringLoaderInsteadOfStyleLoader } = {}) => {
-  const dirname = process.cwd();
-  const appRoot = path.join(dirname, "..", "..");
-  const pkgRelativeRoot = path.relative(appRoot, dirname);
+module.exports = ({
+  useToStringLoaderInsteadOfStyleLoader,
+  scope = "bricks"
+} = {}) => {
+  const cwdDirname = process.cwd();
+  const appRoot = path.join(cwdDirname, "..", "..");
+  const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
   const distPublicPath = pkgRelativeRoot
     .split(path.sep)
     .concat("dist")
     .join("/");
   const imageLoaderOptions = getImageLoaderOptions(distPublicPath);
 
-  const packageJson = require(path.join(dirname, "package.json"));
-  const dll = Object.keys(packageJson.dependencies).filter(name =>
+  const packageJson = require(path.join(cwdDirname, "package.json"));
+  const dll = Object.keys(packageJson.devDependencies).filter(name =>
     name.startsWith("@dll/")
   );
 
   return {
     context: appRoot,
-    entry: path.join(dirname, "src", "index"),
+    entry: path.join(cwdDirname, "src", "index"),
     output: {
-      path: path.join(dirname, "dist")
+      path: path.join(cwdDirname, "dist")
       // publicPath: "/"
     },
     resolve: {
@@ -172,19 +176,27 @@ module.exports = ({ useToStringLoaderInsteadOfStyleLoader } = {}) => {
       ]
     },
     plugins: [
-      new ScanCustomElementsPlugin(
-        dll.map(name => name.substr("@dll/".length))
-      ),
+      scope === "templates"
+        ? new ScanTemplatesPlugin()
+        : new ScanCustomElementsPlugin(
+            dll.map(name => name.substr("@dll/".length))
+          ),
       new CleanWebpackPlugin(),
       new webpack.DllReferencePlugin({
         context: appRoot,
-        manifest: require("@easyops/brick-dll")
+        // 解决该包在 `npm link` 下引用到错误的包路径的问题
+        manifest: require(require.resolve("@easyops/brick-dll", {
+          paths: [cwdDirname]
+        }))
       }),
       ...dll.map(
         name =>
           new webpack.DllReferencePlugin({
             context: appRoot,
-            manifest: require(name)
+            // 解决该包在 `npm link` 下引用到错误的包路径的问题
+            manifest: require(require.resolve(name, {
+              paths: [cwdDirname]
+            }))
           })
       )
     ]

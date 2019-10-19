@@ -470,6 +470,187 @@ preBuild(\\"providers\\");
 ]
 `;
 
+exports[`loadTemplate should create a new package of templates 1`] = `
+Array [
+  Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
+
+postBuild(\\"templates\\");
+",
+  ],
+  Array [
+    "dist/webpack.config.js",
+    "const merge = require(\\"webpack-merge\\");
+const { bricks } = require(\\"@easyops/webpack-config-factory\\");
+
+const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackCommonFactory({
+    scope: \\"templates\\"
+  }),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
+",
+  ],
+  Array [
+    "dist/src/for-better.spec.ts",
+    "import { BrickConf } from \\"@easyops/brick-types\\";
+import {
+  forBetterFactory,
+  ForBetterParams
+} from \\"./for-better\\";
+
+jest.mock(\\"@easyops/brick-kit\\", () => ({
+  getRuntime: () => ({
+    registerBrickTemplate: jest.fn()
+  })
+}));
+
+describe(\\"micro-app\\", () => {
+  it.each<[ForBetterParams, BrickConf]>([
+    [
+      {},
+      {
+        brick: \\"your.brick\\"
+      }
+    ]
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
+  });
+});
+",
+  ],
+  Array [
+    "dist/src/for-better.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+import { BrickConf } from \\"@easyops/brick-types\\";
+
+export interface ForBetterParams {}
+
+export function forBetterFactory(
+  params: ForBetterParams
+): BrickConf {
+  return {
+    brick: \\"your.brick\\"
+  };
+}
+
+getRuntime().registerBrickTemplate(
+  \\"for-good.for-better\\",
+  forBetterFactory
+);
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new template 1`] = `
+Array [
+  Array [
+    "dist/for-better.spec.ts",
+    "import { BrickConf } from \\"@easyops/brick-types\\";
+import {
+  forBetterFactory,
+  ForBetterParams
+} from \\"./for-better\\";
+
+jest.mock(\\"@easyops/brick-kit\\", () => ({
+  getRuntime: () => ({
+    registerBrickTemplate: jest.fn()
+  })
+}));
+
+describe(\\"micro-app\\", () => {
+  it.each<[ForBetterParams, BrickConf]>([
+    [
+      {},
+      {
+        brick: \\"your.brick\\"
+      }
+    ]
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
+  });
+});
+",
+  ],
+  Array [
+    "dist/for-better.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+import { BrickConf } from \\"@easyops/brick-types\\";
+
+export interface ForBetterParams {}
+
+export function forBetterFactory(
+  params: ForBetterParams
+): BrickConf {
+  return {
+    brick: \\"your.brick\\"
+  };
+}
+
+getRuntime().registerBrickTemplate(
+  \\"for-good.for-better\\",
+  forBetterFactory
+);
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should i18n-patch a package of templates 1`] = `
+Array [
+  Array [
+    "dist/src/i18n/constants.ts",
+    "export const NS_FOR_GOOD = \\"templates-for-good\\";
+
+export enum K {
+  FOR_GOOD = \\"FOR_GOOD\\"
+}
+
+export type Locale = { [key in K]: string };
+",
+  ],
+  Array [
+    "dist/src/i18n/index.ts",
+    "import i18next from \\"i18next\\";
+import { NS_FOR_GOOD } from \\"./constants\\";
+import en from \\"./locales/en\\";
+import zh from \\"./locales/zh\\";
+
+i18next.addResourceBundle(\\"en\\", NS_FOR_GOOD, en);
+i18next.addResourceBundle(\\"zh\\", NS_FOR_GOOD, zh);
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/en.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/zh.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+]
+`;
+
 exports[`loadTemplate should transform a micro-app 1`] = `
 Array [
   Array [

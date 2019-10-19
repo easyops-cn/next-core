@@ -1,13 +1,14 @@
 import * as AuthSdk from "@sdk/auth-sdk";
+import { UserAdminApi } from "@sdk/user-service-sdk";
 import {
   MountPoints,
   BootstrapData,
   RuntimeBootstrapData,
   InterceptorParams,
-  MicroApp
+  MicroApp,
+  UserInfo
 } from "@easyops/brick-types";
-import { getDllAndDepsOfStoryboard } from "@easyops/brick-utils";
-import { authenticate } from "../auth";
+import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 
 export class Kernel {
@@ -18,10 +19,36 @@ export class Kernel {
   public loadingBar: LoadingBar;
   public router: Router;
   public currentApp: MicroApp;
+  public allUserInfo: UserInfo[] = [];
+  public allUserMap: Map<string, UserInfo> = new Map();
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
+    if (isLoggedIn()) {
+      try {
+        const query = { state: "valid" };
+        const fields = {
+          name: true,
+          nickname: true,
+          user_email: true,
+          user_tel: true,
+          user_icon: true,
+          user_memo: true
+        };
+        this.allUserInfo = (await UserAdminApi.searchAllUsersInfo({
+          query,
+          fields
+        })).list as UserInfo[];
+        for (const user of this.allUserInfo) {
+          this.allUserMap.set(user.name, user);
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error("fetch all user error:", err);
+        this.allUserInfo = [];
+      }
+    }
     this.menuBar = new MenuBar(this);
     this.appBar = new AppBar(this);
     this.loadingBar = new LoadingBar(this);
@@ -46,18 +73,16 @@ export class Kernel {
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
-    const bootstrapResponse = await AuthSdk.bootstrap<BootstrapData>(params, {
-      interceptorParams
-    });
+    const bootstrapResponse = Object.assign(
+      {
+        templatePackages: []
+      },
+      await AuthSdk.bootstrap<BootstrapData>(params, {
+        interceptorParams
+      })
+    );
     this.bootstrapData = {
       ...bootstrapResponse,
-      storyboards: bootstrapResponse.storyboards.map(storyboard => ({
-        ...storyboard,
-        ...getDllAndDepsOfStoryboard(
-          storyboard,
-          bootstrapResponse.brickPackages
-        )
-      })),
       microApps: bootstrapResponse.storyboards
         .map(storyboard => storyboard.app)
         .filter(app => app && !app.internal)

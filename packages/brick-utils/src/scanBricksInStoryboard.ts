@@ -6,7 +6,9 @@ function scanBricksInBrickConfs(
 ): void {
   if (Array.isArray(bricks)) {
     bricks.forEach(brickConf => {
-      collection.add(brickConf.brick);
+      if (brickConf.brick) {
+        collection.add(brickConf.brick);
+      }
       if (brickConf.slots) {
         Object.values(brickConf.slots).forEach(slotConf => {
           if (slotConf.type === "bricks") {
@@ -14,6 +16,11 @@ function scanBricksInBrickConfs(
           } else {
             scanBricksInRouteConfs(slotConf.routes, collection);
           }
+        });
+      }
+      if (Array.isArray(brickConf.internalUsedBricks)) {
+        brickConf.internalUsedBricks.forEach(brick => {
+          collection.add(brick);
         });
       }
     });
@@ -27,7 +34,11 @@ function scanBricksInRouteConfs(
   if (Array.isArray(routes)) {
     routes.forEach(routeConf => {
       scanBricksInBrickConfs(routeConf.bricks, collection);
-      if (routeConf.menu && routeConf.menu.type === "brick") {
+      if (
+        routeConf.menu &&
+        routeConf.menu.type === "brick" &&
+        routeConf.menu.brick
+      ) {
         collection.add(routeConf.menu.brick);
       }
     });

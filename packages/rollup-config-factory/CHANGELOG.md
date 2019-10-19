@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@0.3.1...@easyops/rollup-config-factory@0.3.2) (2019-10-10)
+
+**Note:** Version bump only for package @easyops/rollup-config-factory
+
 ## [0.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@0.3.0...@easyops/rollup-config-factory@0.3.1) (2019-10-08)
 
 **Note:** Version bump only for package @easyops/rollup-config-factory

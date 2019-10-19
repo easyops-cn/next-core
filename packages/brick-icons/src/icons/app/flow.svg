@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>流程库</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0.0001 0.0004 16.4 0.0004 16.4 19.4234 0.0001 19.4234"></polygon>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板备份-21">
+            <g id="流程库" transform="translate(1.000000, 0.500000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-2"></g>
+                <path d="M16.4001,4.7554 L16.4001,0.0004 L11.6441,0.0004 L11.6441,1.5204 L7.9811,1.5204 L7.9811,9.0994 L6.5301,9.0994 C6.1481,7.6834 4.8601,6.6404 3.3241,6.6404 C1.4881,6.6404 0.0001,8.1284 0.0001,9.9644 C0.0001,11.7994 1.4881,13.2884 3.3241,13.2884 C5.0461,13.2884 6.4621,11.9774 6.6301,10.2984 L7.9811,10.2984 L7.9811,17.5764 L11.6441,17.5764 L11.6441,19.4234 L16.4001,19.4234 L16.4001,14.6684 L11.6441,14.6684 L11.6441,16.3774 L9.1811,16.3774 L9.1811,10.2984 L11.6441,10.2984 L11.6441,12.0894 L16.4001,12.0894 L16.4001,7.3344 L11.6441,7.3344 L11.6441,9.0994 L9.1811,9.0994 L9.1811,2.7204 L11.6441,2.7204 L11.6441,4.7554 L16.4001,4.7554 Z" id="Fill-1" fill="#FFFFFF" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

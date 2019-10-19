@@ -86,7 +86,8 @@
     {
       "files": ["packages/brick-scripts/template/**/*.{js,ts,jsx,tsx}"],
       "rules": {
-        "@typescript-eslint/class-name-casing": "off"
+        "@typescript-eslint/class-name-casing": "off",
+        "@typescript-eslint/no-empty-interface": "off"
       }
     },
     {

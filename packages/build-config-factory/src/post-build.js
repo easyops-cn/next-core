@@ -2,9 +2,9 @@ const path = require("path");
 const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
-const generateBrickPackageDeps = require("./generateBrickPackageDeps");
+const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
-const ensureBrickDeps = require("./ensureBrickDeps");
+const ensureDeps = require("./ensureDeps");
 
 const generateContracts = () => {
   const { dependencies } = require(path.join(process.cwd(), "package.json"));
@@ -62,14 +62,19 @@ function replaceFileContent(filePath, translations) {
 }
 
 const writeToFile = (scope, pluginName, templateDir, targetDir) => {
-  let dir = "";
-  let suffix = "";
+  let dir;
+  let suffix;
   if (scope === "micro-apps") {
     dir = "applications";
     suffix = "NA";
-  } else {
+  } else if (scope === "templates") {
+    dir = "templates";
+    suffix = "NT";
+  } else if (scope === "bricks") {
     dir = "bricks";
     suffix = "NB";
+  } else {
+    throw new Error(`Unknown scope: ${scope}`);
   }
 
   const translations = {
@@ -150,12 +155,14 @@ module.exports = scope => {
 
   generatePkgbuild(scope, pluginName, templateRoot);
   generateDeploy(scope, pluginName, templateRoot);
+
   if (scope === "bricks") {
     generateContracts();
-  }
-  if (scope === "micro-apps") {
+  } else if (scope === "micro-apps") {
     ensureMicroApp();
-    ensureBrickDeps();
-    generateBrickPackageDeps();
+    ensureDeps();
+    generateDeps();
+  } else if (scope === "templates") {
+    generateDeps();
   }
 };

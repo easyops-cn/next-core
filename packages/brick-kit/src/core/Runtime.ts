@@ -4,8 +4,11 @@ import {
   MicroApp,
   InterceptorParams,
   FeatureFlags,
-  DesktopData
+  DesktopData,
+  BrickTemplateFactory,
+  UserInfo
 } from "@easyops/brick-types";
+import { registerBrickTemplate } from "./TemplateRegistries";
 
 let kernel: Kernel;
 
@@ -49,6 +52,14 @@ export class Runtime {
     return kernel.bootstrapData.desktops || [];
   }
 
+  getAllUserInfo(): UserInfo[] {
+    return kernel.allUserInfo;
+  }
+
+  getAllUserMap(): Map<string, UserInfo> {
+    return kernel.allUserMap;
+  }
+
   /**
    * 切换主体内容 `filter: blur(...)`;
    * @param blur
@@ -81,5 +92,9 @@ export class Runtime {
       },
       kernel.bootstrapData.settings && kernel.bootstrapData.settings.launchpad
     );
+  }
+
+  registerBrickTemplate(name: string, factory: BrickTemplateFactory): void {
+    registerBrickTemplate(name, factory);
   }
 }

@@ -17,7 +17,8 @@ describe("scanBricksInStoryboard", () => {
                   type: "bricks",
                   bricks: [
                     {
-                      brick: "c"
+                      brick: "c",
+                      internalUsedBricks: ["e"]
                     }
                   ]
                 },
@@ -38,6 +39,12 @@ describe("scanBricksInStoryboard", () => {
         }
       ]
     } as any;
-    expect(scanBricksInStoryboard(storyboard)).toEqual(["a", "b", "c", "d"]);
+    expect(scanBricksInStoryboard(storyboard)).toEqual([
+      "a",
+      "b",
+      "c",
+      "e",
+      "d"
+    ]);
   });
 });

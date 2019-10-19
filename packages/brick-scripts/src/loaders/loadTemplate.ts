@@ -3,6 +3,7 @@ import os from "os";
 import path from "path";
 import klawSync from "klaw-sync";
 import changeCase from "change-case";
+import rp from "request-promise-native";
 import { FileWithContent, TargetType } from "../interface";
 
 // `tsc` will compile files which `import` or `require`,
@@ -12,6 +13,7 @@ const packageJson = JSON.parse(
 );
 const { templateDependencies, devDependencies } = packageJson;
 const brickDllVersion = devDependencies["@easyops/brick-dll"];
+const brickTypesVersion = packageJson.devDependencies["@easyops/brick-types"];
 const basicBricksVersion = templateDependencies["@bricks/basic-bricks"];
 const brickContainerVersion = templateDependencies["@easyops/brick-container"];
 
@@ -47,10 +49,12 @@ function replaceFileContent(
 
 function replaceDepsVersion(jsonString: string): string {
   const pkg = JSON.parse(jsonString);
-  const deps = pkg.dependencies || {};
-  for (const key of Object.keys(deps)) {
+  const devDeps = pkg.devDependencies || {};
+  for (const key of Object.keys(devDeps)) {
     if (key === "@easyops/brick-dll") {
-      deps[key] = brickDllVersion;
+      devDeps[key] = brickDllVersion;
+    } else if (key === "@easyops/brick-types") {
+      devDeps[key] = brickTypesVersion;
     }
   }
 
@@ -61,19 +65,21 @@ function replaceDepsVersion(jsonString: string): string {
   return JSON.stringify(pkg, null, 2) + os.EOL;
 }
 
-export function loadTemplate({
+export async function loadTemplate({
   targetType,
   packageName,
   brickName,
+  templateName,
   targetRoot,
   docRoot
 }: {
   targetType: TargetType;
   packageName: string;
   brickName: string;
+  templateName: string;
   targetRoot: string;
   docRoot: string;
-}): FileWithContent[] {
+}): Promise<FileWithContent[]> {
   const targetMap: { [key: string]: string } = {
     [TargetType.A_NEW_BRICK]: "brick",
     [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks-pkg",
@@ -81,11 +87,14 @@ export function loadTemplate({
     [TargetType.A_NEW_PACKAGE_OF_MICRO_APPS]: "micro-apps-pkg",
     [TargetType.A_NEW_PACKAGE_OF_PROVIDERS]: "providers-pkg",
     [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll-pkg",
-    [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg"
+    [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg",
+    [TargetType.A_NEW_TEMPLATE]: "template",
+    [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "templates-pkg",
+    [TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES]: "i18n-patched-templates-pkg"
   };
-  const templateName = targetMap[targetType];
+  const templatePackageJsonName = targetMap[targetType];
   const templateRoot = path.join(__dirname, "../../template");
-  let templateDir = path.join(templateRoot, templateName);
+  let templateDir = path.join(templateRoot, templatePackageJsonName);
 
   const ignores = [".DS_Store"];
   let sdkName: string;
@@ -109,7 +118,10 @@ export function loadTemplate({
     "$kebab-brick-name$": `${packageName}.${brickName}`,
     "$generator.version$": `v${packageJson.version}`,
     "$brick.container.version$": brickContainerVersion,
-    "$kebab-sdk-name$": sdkName
+    "$kebab-sdk-name$": sdkName,
+    "$kebab-template-name$": templateName,
+    $camelTemplateName$: changeCase.camel(templateName),
+    $PascalTemplateName$: changeCase.pascal(templateName)
   };
 
   const filter = (src: string): boolean =>
@@ -139,6 +151,18 @@ export function loadTemplate({
         filter: item => filter(item.path)
       })
     });
+  } else if (targetType === TargetType.A_NEW_PACKAGE_OF_TEMPLATES) {
+    // Also create a new brick for the new bricks-package
+    const templateTemplateDir = path.join(templateRoot, "template");
+    templateGroups.push({
+      templateDir: templateTemplateDir,
+      targetDir: path.join(targetRoot, "src"),
+      files: klawSync(templateTemplateDir, {
+        depthLimit: 1,
+        nodir: true,
+        filter: item => filter(item.path)
+      })
+    });
   } else if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
     // Providers 库还有专属的一些模板文件。
     const brickTemplateDir = path.join(templateRoot, "providers-pkg");
@@ -152,11 +176,18 @@ export function loadTemplate({
       })
     });
 
-    if (process.env.NODE_ENV !== "test") {
-      // 测试环境暂难覆盖。
-      const sdkPackageJson = require(`@sdk/${sdkName}/package.json`);
-      translations["$sdk.version$"] = `^${sdkPackageJson.version}`;
+    let sdkVersion;
+    try {
+      const sdkPackage = await rp({
+        url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
+        json: true,
+        strictSSL: false
+      });
+      sdkVersion = `^${sdkPackage["dist-tags"].latest}`;
+    } catch {
+      sdkVersion = "FETCH LATEST VERSION ERROR";
     }
+    translations["$sdk.version$"] = sdkVersion;
   }
 
   const files: FileWithContent[] = templateGroups.reduce(
@@ -209,13 +240,15 @@ export function loadTemplate({
 
   if (
     targetType !== TargetType.A_NEW_BRICK &&
-    targetType !== TargetType.TRANSFORM_A_MICRO_APP
+    targetType !== TargetType.A_NEW_TEMPLATE &&
+    targetType !== TargetType.TRANSFORM_A_MICRO_APP &&
+    targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES
   ) {
     files.push([
       path.join(targetRoot, "package.json"),
       replaceDepsVersion(
         replaceFileContent(
-          path.join(templateRoot, `${templateName}.json`),
+          path.join(templateRoot, `${templatePackageJsonName}.json`),
           translations
         )
       )

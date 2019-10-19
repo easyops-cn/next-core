@@ -1,5 +1,10 @@
 import { PluginLocation } from "@easyops/brick-types";
-import { loadScript } from "@easyops/brick-utils";
+import {
+  loadScript,
+  getTemplateDepsOfStoryboard,
+  getDllAndDepsOfStoryboard,
+  asyncProcessStoryboard
+} from "@easyops/brick-utils";
 import {
   LocationContext,
   mountTree,
@@ -11,6 +16,7 @@ import {
 import { getHistory } from "../history";
 import { httpErrorToString } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
+import { brickTemplateRegistry } from "./TemplateRegistries";
 
 export class Router {
   private defaultCollapsed = false;
@@ -33,8 +39,9 @@ export class Router {
   private render = async (location: PluginLocation): Promise<void> => {
     const history = getHistory();
     const locationContext = new LocationContext(this.kernel, location);
+    const { bootstrapData } = this.kernel;
     const storyboard = locationContext.matchStoryboard(
-      this.kernel.bootstrapData.storyboards
+      bootstrapData.storyboards
     );
     if (storyboard) {
       // 如果找到匹配的 storyboard，那么加载它的依赖库。
@@ -46,11 +53,30 @@ export class Router {
           )
         );
         await loadScript(
-          this.kernel.bootstrapData.brickPackages.map(bp => bp.filePath)
+          bootstrapData.brickPackages
+            .map(item => item.filePath)
+            .concat(bootstrapData.templatePackages.map(item => item.filePath))
         );
-      } else {
-        await loadScript(storyboard.dll);
-        await loadScript(storyboard.deps);
+      } else if (!storyboard.depsProcessed) {
+        // 先加载模板
+        const templateDeps = getTemplateDepsOfStoryboard(
+          storyboard,
+          bootstrapData.templatePackages
+        );
+        await loadScript(templateDeps);
+        // 加载模板后才能加工得到最终的构件表
+        const result = getDllAndDepsOfStoryboard(
+          await asyncProcessStoryboard(
+            storyboard,
+            brickTemplateRegistry,
+            bootstrapData.templatePackages
+          ),
+          bootstrapData.brickPackages
+        );
+        await loadScript(result.dll);
+        await loadScript(result.deps);
+        // 每个 storyboard 仅处理一次依赖
+        storyboard.depsProcessed = true;
       }
     }
 
@@ -84,7 +110,8 @@ export class Router {
         all,
         menuBar,
         appBar,
-        barsHidden
+        barsHidden,
+        hybrid
       } = locationContext.mountRoutes(storyboard.routes);
 
       if (redirect) {
@@ -106,8 +133,7 @@ export class Router {
         mountStaticNode(this.kernel.menuBar.element, menuBar);
         mountStaticNode(this.kernel.appBar.element, appBar);
       }
-
-      if (legacy === "iframe") {
+      if (legacy === "iframe" && !hybrid) {
         this.kernel.toggleLegacyIframe(true);
       }
 

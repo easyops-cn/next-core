@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>容器部署</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板备份-22">
+            <g id="容器部署" transform="translate(1.500000, -1.000000)">
+                <g id="编组">
+                    <polygon id="Fill-1" fill="#FFFFFF" points="4.79995 8.90505 4.79995 13.1279591 8.42095 15.2413227 8.42095 11.0174591"></polygon>
+                    <polygon id="Fill-2" fill="#FFFFFF" points="12.1664278 8.90505 12.1664278 13.1279591 8.54542778 15.2413227 8.54542778 11.0174591"></polygon>
+                    <polygon id="Fill-3" fill="#FFFFFF" points="12.1027722 8.79785455 8.48177222 10.9045364 4.86360556 8.7864 8.48555 6.67971818"></polygon>
+                    <g transform="translate(0.000000, 0.562323)" stroke="#FFFFFF" stroke-linecap="round">
+                        <polygon id="Stroke-4" stroke-linejoin="round" points="16.4948167 14.8931045 16.4948167 5.54428636 8.48403889 0.869877273 0.472316667 5.54428636 0.472316667 14.8931045 8.48403889 19.5675136"></polygon>
+                        <path d="M8.48366111,10.0607182 L8.48366111,19.3713545" id="Stroke-6"></path>
+                        <path d="M0.685477778,5.47345909 L8.54514444,10.0610045" id="Stroke-8"></path>
+                        <path d="M8.46788889,10.0336091 L16.3096111,5.45751818" id="Stroke-10"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

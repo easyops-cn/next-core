@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-scripts",
-  "version": "0.15.0",
+  "version": "0.19.5",
   "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-scripts",
   "license": "UNLICENSED",
@@ -31,15 +31,17 @@
     "inquirer": "^7.0.0",
     "klaw-sync": "^6.0.0",
     "meow": "^5.0.0",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
   },
   "templateDependencies": {
     "@bricks/basic-bricks": ">=0.16.0",
-    "@easyops/brick-container": ">=0.11.0"
+    "@easyops/brick-container": ">=0.19.1"
   },
   "devDependencies": {
-    "@easyops/brick-dll": "^0.7.5",
-    "@easyops/brick-types": "^0.19.0"
+    "@easyops/brick-dll": "^0.7.26",
+    "@easyops/brick-types": "^0.23.0"
   },
   "engines": {
     "node": ">=10.10.0"

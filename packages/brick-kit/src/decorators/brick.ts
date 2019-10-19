@@ -8,6 +8,7 @@ import {
   CustomBrickConfig,
   BrickAction
 } from "@easyops/brick-types";
+import { merge } from "lodash";
 
 export const ATTR_OBJECT_ID = "object-id";
 export const ATTR_INSTANCE_ID = "instance-id";
@@ -743,7 +744,7 @@ export function decorateBrickModal<
 
     open = (e?: CustomEvent<P>) => {
       if (e) {
-        Object.assign(this, e.detail);
+        merge(this, e.detail);
       }
       this.isVisible = true;
       this._render();

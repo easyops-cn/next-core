@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.32.1...@easyops/brick-kit@0.33.0) (2019-10-19)
+
+### Features
+
+- async process storyboard to support templates in templates ([75ec2bd](https://git.easyops.local/anyclouds/next-core/commits/75ec2bd))
+
+## [0.32.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.32.0...@easyops/brick-kit@0.32.1) (2019-10-18)
+
+### Bug Fixes
+
+- result set true refs INSTANCE-727 ([bd76806](https://git.easyops.local/anyclouds/next-core/commits/bd76806))
+
+# [0.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.31.0...@easyops/brick-kit@0.32.0) (2019-10-18)
+
+### Features
+
+- **runtime:** get all user map, refs BRICK_STORE-428 ([cb13de8](https://git.easyops.local/anyclouds/next-core/commits/cb13de8))
+
+# [0.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.6...@easyops/brick-kit@0.31.0) (2019-10-17)
+
+### Features
+
+- add a develop helper: processBrick() ([9f3dab5](https://git.easyops.local/anyclouds/next-core/commits/9f3dab5))
+- fetch all user info, refs BRICK_STORE-428 ([ad7ee8b](https://git.easyops.local/anyclouds/next-core/commits/ad7ee8b))
+- iframe 产品可以配置 hybrid ([06a0970](https://git.easyops.local/anyclouds/next-core/commits/06a0970))
+
+## [0.30.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.5...@easyops/brick-kit@0.30.6) (2019-10-17)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [0.30.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.4...@easyops/brick-kit@0.30.5) (2019-10-16)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [0.30.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.3...@easyops/brick-kit@0.30.4) (2019-10-15)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [0.30.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.2...@easyops/brick-kit@0.30.3) (2019-10-14)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [0.30.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.1...@easyops/brick-kit@0.30.2) (2019-10-14)
+
+### Bug Fixes
+
+- fix types of getRuntime().registerBrickTemplate() ([ba1cdde](https://git.easyops.local/anyclouds/next-core/commits/ba1cdde))
+
+## [0.30.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.30.0...@easyops/brick-kit@0.30.1) (2019-10-12)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [0.30.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.29.2...@easyops/brick-kit@0.30.0) (2019-10-12)
+
+### Features
+
+- register, scan, load and process templates in storyboards ([f9b7a72](https://git.easyops.local/anyclouds/next-core/commits/f9b7a72))
+
+## [0.29.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.29.1...@easyops/brick-kit@0.29.2) (2019-10-10)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [0.29.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.29.0...@easyops/brick-kit@0.29.1) (2019-10-09)
+
+### Bug Fixes
+
+- **brick-wrapper:** detect language and default zhCN ([a24f313](https://git.easyops.local/anyclouds/next-core/commits/a24f313))
+
 # [0.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.28.1...@easyops/brick-kit@0.29.0) (2019-10-08)
 
 ### Features

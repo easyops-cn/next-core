@@ -50,7 +50,16 @@ const content = [
         )
         .join(os.EOL)}
     };`
-  )
+  ),
+  `export default {
+    ${groupedIcons
+      .map(
+        ([category]) =>
+          `"${changeCase.kebab(category)}": ${changeCase.camel(category) +
+            "Category"}`
+      )
+      .join(",")}
+  };`
 ].join(os.EOL + os.EOL);
 
 const indexTsPath = path.join(process.cwd(), "src/categories.ts");

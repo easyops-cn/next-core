@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="18px" viewBox="0 0 20 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
-    <title>2F753AE4-47BB-4BB8-B8FA-A4292541783C</title>
+    <title>IDC管理</title>
     <desc>Created with Sketch.</desc>
     <defs>
         <polygon id="path-1" points="0.6728 0.773 6.4628 0.773 6.4628 17.9993 0.6728 17.9993"></polygon>
@@ -9,8 +9,8 @@
         <polygon id="path-5" points="0 0.773 5.7909 0.773 5.7909 17.9993 0 17.9993"></polygon>
     </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Easyops-5.0-IDC首页" transform="translate(-37.000000, -83.000000)">
-            <g id="IDC管理" transform="translate(37.000000, 82.000000)">
+        <g id="画板备份-9">
+            <g id="IDC管理">
                 <g id="icon/idc管理">
                     <g id="编组" transform="translate(13.000000, 0.227400)">
                         <mask id="mask-2" fill="white">

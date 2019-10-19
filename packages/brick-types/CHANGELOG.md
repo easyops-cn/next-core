@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.22.0...@easyops/brick-types@0.23.0) (2019-10-17)
+
+### Features
+
+- fetch all user info, refs BRICK_STORE-428 ([ad7ee8b](https://git.easyops.local/anyclouds/next-core/commits/ad7ee8b))
+- iframe 产品可以配置 hybrid ([06a0970](https://git.easyops.local/anyclouds/next-core/commits/06a0970))
+
+# [0.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.21.0...@easyops/brick-types@0.22.0) (2019-10-16)
+
+### Features
+
+- internal used bricks and templates ([9f2d00c](https://git.easyops.local/anyclouds/next-core/commits/9f2d00c))
+
+# [0.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.2...@easyops/brick-types@0.21.0) (2019-10-15)
+
+### Features
+
+- **sidebar:** BRICK_STORE-339 文档左侧菜单目录支持折叠 ([7c7a27e](https://git.easyops.local/anyclouds/next-core/commits/7c7a27e))
+
+## [0.20.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.1...@easyops/brick-types@0.20.2) (2019-10-14)
+
+### Bug Fixes
+
+- fix template types ([19d0520](https://git.easyops.local/anyclouds/next-core/commits/19d0520))
+
+## [0.20.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.20.0...@easyops/brick-types@0.20.1) (2019-10-14)
+
+### Bug Fixes
+
+- make `brick` optional since introduced `template` ([9bf727b](https://git.easyops.local/anyclouds/next-core/commits/9bf727b))
+
+# [0.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.19.0...@easyops/brick-types@0.20.0) (2019-10-12)
+
+### Features
+
+- add types for templates in storyboards ([b7d5a11](https://git.easyops.local/anyclouds/next-core/commits/b7d5a11))
+
 # [0.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.18.0...@easyops/brick-types@0.19.0) (2019-09-30)
 
 ### Features

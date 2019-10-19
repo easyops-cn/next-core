@@ -11,7 +11,8 @@ interface BrickWrapperProps {
 }
 
 export const BrickWrapper = (props: BrickWrapperProps): React.ReactElement => {
-  const locale = i18n.language === "zh" ? zhCN : enUS;
+  const locale =
+    i18n.language && i18n.language.split("-")[0] === "en" ? enUS : zhCN;
   return (
     <ErrorBoundary>
       <ConfigProvider locale={locale}>{props.children}</ConfigProvider>

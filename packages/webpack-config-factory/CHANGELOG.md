@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.11.3...@easyops/webpack-config-factory@0.11.4) (2019-10-17)
+
+### Bug Fixes
+
+- ensure scanned bricks and templates are unique when building ([9e55400](https://git.easyops.local/anyclouds/next-core/commits/9e55400))
+
+## [0.11.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.11.2...@easyops/webpack-config-factory@0.11.3) (2019-10-15)
+
+### Bug Fixes
+
+- fix errors when building templates ([789c1f1](https://git.easyops.local/anyclouds/next-core/commits/789c1f1))
+
+## [0.11.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.11.1...@easyops/webpack-config-factory@0.11.2) (2019-10-15)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
+## [0.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.11.0...@easyops/webpack-config-factory@0.11.1) (2019-10-12)
+
+### Bug Fixes
+
+- fix errors when building templates ([67dbf15](https://git.easyops.local/anyclouds/next-core/commits/67dbf15))
+
+# [0.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.10.1...@easyops/webpack-config-factory@0.11.0) (2019-10-12)
+
+### Features
+
+- scan registered templates in template packages when building ([3a3aaed](https://git.easyops.local/anyclouds/next-core/commits/3a3aaed))
+
+## [0.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.10.0...@easyops/webpack-config-factory@0.10.1) (2019-10-10)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
+# [0.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.9.3...@easyops/webpack-config-factory@0.10.0) (2019-10-09)
+
+### Features
+
+- 调整构件库及小产品的依赖声明方式，以支持构件库拆分 git 仓库 ([b5a552d](https://git.easyops.local/anyclouds/next-core/commits/b5a552d))
+
 ## [0.9.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.9.2...@easyops/webpack-config-factory@0.9.3) (2019-10-08)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory
