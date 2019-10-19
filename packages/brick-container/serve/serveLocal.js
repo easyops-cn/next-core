@@ -16,6 +16,7 @@ module.exports = (env, app) => {
     publicPath,
     localBrickPackages,
     localMicroApps,
+    localTemplates,
     microAppsDir,
     brickPackagesDir,
     templatePackagesDir
@@ -44,6 +45,19 @@ module.exports = (env, app) => {
         // 直接返回小产品相关文件。
         app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
           const filePath = path.join(microAppsDir, appId, req.params[0]);
+          if (fs.existsSync(filePath)) {
+            res.sendFile(filePath);
+          } else {
+            res.status(404).end();
+          }
+        });
+      });
+    }
+    if (localTemplates.length > 0) {
+      localTemplates.map(pkgId => {
+        // 直接返回模板相关文件。
+        app.get(`${publicPath}templates/${pkgId}/*`, (req, res) => {
+          const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
           if (fs.existsSync(filePath)) {
             res.sendFile(filePath);
           } else {
@@ -85,17 +99,17 @@ module.exports = (env, app) => {
         res.status(404).end();
       }
     });
-  }
 
-  // 直接返回模板库 js 文件。
-  app.get(`${publicPath}templates/*`, (req, res) => {
-    const filePath = path.join(templatePackagesDir, req.params[0]);
-    if (fs.existsSync(filePath)) {
-      res.sendFile(filePath);
-    } else {
-      res.status(404).end();
-    }
-  });
+    // 直接返回模板库 js 文件。
+    app.get(`${publicPath}templates/*`, (req, res) => {
+      const filePath = path.join(templatePackagesDir, req.params[0]);
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        res.status(404).end();
+      }
+    });
+  }
 
   if (useOffline) {
     // 离线开发模式下，mock API 请求

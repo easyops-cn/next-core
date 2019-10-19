@@ -20,6 +20,9 @@ module.exports = cwd => {
       localMicroApps: {
         type: "string"
       },
+      localTemplates: {
+        type: "string"
+      },
       port: {
         type: "string",
         default: "8081"
@@ -62,6 +65,11 @@ module.exports = cwd => {
     : process.env.LOCAL_MICRO_APPS
     ? process.env.LOCAL_MICRO_APPS.split(",")
     : [];
+  const localTemplates = flags.localTemplates
+    ? flags.localTemplates.split(",")
+    : process.env.LOCAL_TEMPLATES
+    ? process.env.LOCAL_TEMPLATES.split(",")
+    : [];
 
   function getBrickNextDir() {
     if (cwd) {
@@ -88,6 +96,7 @@ module.exports = cwd => {
     publicPath,
     localBrickPackages,
     localMicroApps,
+    localTemplates,
     brickNextDir,
     microAppsDir,
     brickPackagesDir,

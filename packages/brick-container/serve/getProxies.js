@@ -1,5 +1,9 @@
 const modifyResponse = require("./modifyResponse");
-const { getSingleBrickPackage, getSingleStoryboard } = require("./utils");
+const {
+  getSingleBrickPackage,
+  getSingleStoryboard,
+  getSingleTemplatePackage
+} = require("./utils");
 
 module.exports = env => {
   const {
@@ -9,6 +13,7 @@ module.exports = env => {
     publicPath,
     localBrickPackages,
     localMicroApps,
+    localTemplates,
     server
   } = env;
 
@@ -22,10 +27,14 @@ module.exports = env => {
   const proxyPaths = ["api"];
   const otherProxyOptions = {};
   if (useRemote) {
-    proxyPaths.push("bricks", "micro-apps");
-    if (localBrickPackages.length > 0 || localMicroApps.length > 0) {
+    proxyPaths.push("bricks", "micro-apps", "templates");
+    if (
+      localBrickPackages.length > 0 ||
+      localMicroApps.length > 0 ||
+      localTemplates.length > 0
+    ) {
       otherProxyOptions.onProxyRes = (proxyRes, req, res) => {
-        // 设定透传远端请求时，可以指定特定的 brick packages 和 micro apps 使用本地文件。
+        // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
         if (
           req.path === "/next/api/auth/bootstrap" ||
           req.path === "/api/auth/bootstrap"
@@ -48,6 +57,15 @@ module.exports = env => {
                 const id = item.filePath.split("/")[1];
                 if (localBrickPackages.includes(id)) {
                   return getSingleBrickPackage(env, id);
+                }
+                return item;
+              });
+            }
+            if (localTemplates.length > 0) {
+              data.templatePackages = data.templatePackages.map(item => {
+                const id = item.filePath.split("/")[1];
+                if (localTemplates.includes(id)) {
+                  return getSingleTemplatePackage(env, id);
                 }
                 return item;
               });
