@@ -74,8 +74,8 @@ describe("asyncProcessStoryboard", () => {
     expect(loadScript as jest.Mock).toBeCalledWith(["b.js"]);
     expect(storyboard.routes[0].bricks[0]).toMatchObject({
       brick: "a",
-      $template: "a",
-      $params: undefined
+      $$template: "a",
+      $$params: undefined
     });
   });
 });

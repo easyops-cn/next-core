@@ -1,98 +1,29 @@
 import { get } from "lodash";
-import { ResolveConf } from "@easyops/brick-types";
-import { computeRealValue, setProperties } from "@easyops/brick-utils";
-import { RuntimeBrick, MountableElement } from "./exports";
-import { handleHttpError } from "../handleHttpError";
-
-interface ProviderDependents {
-  brick: RuntimeBrick;
-  name: string;
-  method: string;
-  actualArgs: any;
-  field: string | string[];
-}
-
-interface IntervalSettings {
-  delay: number;
-  ignoreErrors?: boolean;
-  timeoutId?: any;
-}
-
-interface RefreshableProvider {
-  interval?: IntervalSettings;
-
-  // 使用 `$` 作前缀表明这是运行时追加的属性/方法。
-  $refresh: (options?: {
-    ignoreErrors?: boolean;
-    throwErrors?: boolean;
-  }) => Promise<void>;
-  // 使用 `$$` 作前缀表明这是运行时追加的内部属性/方法。
-  $$dependents: ProviderDependents[];
-
-  [key: string]: any;
-}
-
-export function makeProviderRefreshable(
-  providerBrick: RefreshableProvider
-): void {
-  if (!providerBrick.$refresh) {
-    providerBrick.$$dependents = [];
-    providerBrick.$refresh = async function({
-      ignoreErrors,
-      throwErrors
-    } = {}) {
-      const cache = new Map();
-      try {
-        await Promise.all(
-          this.$$dependents.map(
-            async ({ brick, name, method, actualArgs, field }) => {
-              const cacheKey = JSON.stringify({
-                method,
-                actualArgs
-              });
-              let promise: Promise<any>;
-              if (cache.has(cacheKey)) {
-                promise = cache.get(cacheKey);
-              } else {
-                promise = providerBrick[method](...actualArgs);
-                cache.set(cacheKey, promise);
-              }
-              const value = await promise;
-              setProperties(
-                brick.element,
-                {
-                  [name]:
-                    field === null || field === undefined
-                      ? value
-                      : get(value, field)
-                },
-                brick.context
-              );
-            }
-          )
-        );
-      } catch (error) {
-        if (!ignoreErrors) {
-          // 默认提示错误，但不抛出错误。
-          handleHttpError(error);
-          if (throwErrors) {
-            throw error;
-          }
-        }
-      }
-    };
-  }
-}
+import {
+  BrickConf,
+  ResolveConf,
+  PluginRuntimeContext
+} from "@easyops/brick-types";
+import {
+  computeRealValue,
+  asyncProcessBrick,
+  scanBricksInBrickConf,
+  getDllAndDepsOfBricks,
+  loadScript
+} from "@easyops/brick-utils";
+import { Kernel, RuntimeBrick } from "./exports";
+import {
+  makeProviderRefreshable,
+  RefreshableProvider,
+  IntervalSettings
+} from "../makeProviderRefreshable";
+import { brickTemplateRegistry } from "./TemplateRegistries";
 
 export class Resolver {
   private cache: Map<string, Promise<any>> = new Map();
   private refreshQueue: Map<RefreshableProvider, IntervalSettings> = new Map();
 
-  resetCache(): void {
-    if (this.cache.size > 0) {
-      this.cache = new Map();
-    }
-  }
+  constructor(private kernel: Kernel) {}
 
   resetRefreshQueue(): void {
     if (this.refreshQueue.size > 0) {
@@ -103,26 +34,20 @@ export class Resolver {
     }
   }
 
-  async resolve(all: RuntimeBrick[], bg: MountableElement): Promise<void> {
-    const useResolvesBricks = all.filter(
-      brick => brick.lifeCycle && brick.lifeCycle.useResolves && !brick.bg
+  async resolve(
+    brickConf: BrickConf,
+    brick: RuntimeBrick,
+    context: PluginRuntimeContext
+  ): Promise<void> {
+    const useResolves = get(
+      brickConf,
+      ["lifeCycle", "useResolves"],
+      [] as ResolveConf[]
     );
-    if (useResolvesBricks.length === 0) {
-      return;
-    }
-    const resolves = useResolvesBricks.reduce<[RuntimeBrick, ResolveConf][]>(
-      (acc, brick) =>
-        acc.concat(
-          brick.lifeCycle.useResolves.map(resolveConf => [brick, resolveConf])
-        ),
-      []
-    );
-
     await Promise.all(
-      resolves.map(async ([brick, resolveConf]) => {
-        const { type, properties } = brick;
+      useResolves.map(async resolveConf => {
         const { name, provider, method = "resolve", args, field } = resolveConf;
-        const providerBrick: RefreshableProvider = bg.querySelector(
+        const providerBrick: any = this.kernel.mountPoints.bg.querySelector(
           provider
         ) as any;
         if (providerBrick) {
@@ -133,16 +58,19 @@ export class Resolver {
           }
 
           const actualArgs = args
-            ? computeRealValue(args, brick.context, true)
+            ? computeRealValue(args, context, true)
             : providerBrick.args || [];
 
-          providerBrick.$$dependents.push({
-            brick,
-            name,
-            method,
-            actualArgs,
-            field
-          });
+          // Currently we can't refresh dynamic templates.
+          if (!brickConf.template) {
+            providerBrick.$$dependents.push({
+              brick,
+              name,
+              method,
+              actualArgs,
+              field
+            });
+          }
 
           const cacheKey = JSON.stringify({
             provider,
@@ -156,11 +84,52 @@ export class Resolver {
             promise = providerBrick[method](...actualArgs);
             this.cache.set(cacheKey, promise);
           }
+
           const value = await promise;
-          properties[name] =
+          const fieldValue =
             field === null || field === undefined ? value : get(value, field);
+
+          if (brickConf.template) {
+            // It's a dynamic template.
+            if (!brickConf.params) {
+              // eslint-disable-next-line require-atomic-updates
+              brickConf.params = {};
+            }
+            // eslint-disable-next-line require-atomic-updates
+            brickConf.params[name] = fieldValue;
+
+            // Try to process templates.
+            await asyncProcessBrick(
+              brickConf,
+              brickTemplateRegistry,
+              this.kernel.bootstrapData.templatePackages
+            );
+
+            // Try to load deps for dynamic added bricks.
+            const brickCollection = new Set<string>();
+            scanBricksInBrickConf(brickConf, brickCollection);
+            const { dll, deps } = getDllAndDepsOfBricks(
+              Array.from(brickCollection).filter(
+                // Only try to load undefined custom elements.
+                element => element.includes("-") && !customElements.get(element)
+              ),
+              this.kernel.bootstrapData.brickPackages
+            );
+            await loadScript(dll);
+            await loadScript(deps);
+          } else {
+            // It's a dynamic brick.
+            // eslint-disable-next-line require-atomic-updates
+            brick.properties[name] = fieldValue;
+          }
         } else {
-          throw new Error(`Provider not found: "${provider}" in brick ${type}`);
+          throw new Error(
+            `Provider not found: "${provider}" in ${
+              brickConf.template
+                ? `template ${brickConf.template}`
+                : `brick ${brick.type}`
+            }`
+          );
         }
       })
     );

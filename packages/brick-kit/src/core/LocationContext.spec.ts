@@ -1,6 +1,6 @@
 import { PluginLocation, RuntimeStoryboard } from "@easyops/brick-types";
 import * as brickUtils from "@easyops/brick-utils";
-import { LocationContext } from "./LocationContext";
+import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
 import { isLoggedIn } from "../auth";
 
@@ -13,7 +13,8 @@ describe("LocationContext", () => {
   let context: LocationContext;
   const kernel: Kernel = {
     mountPoints: {
-      main: {}
+      main: {},
+      bg: document.createElement("div")
     },
     bootstrapData: {
       storyboards: [],
@@ -42,6 +43,18 @@ describe("LocationContext", () => {
     state: {}
   };
 
+  const getInitialMountResult = (): MountRoutesResult => ({
+    main: [],
+    menuBar: {
+      app: kernel.currentApp
+    },
+    appBar: {
+      app: kernel.currentApp,
+      breadcrumb: kernel.appBar.element.breadcrumb
+    },
+    redirect: undefined
+  });
+
   beforeEach(() => {
     context = new LocationContext(kernel, location);
   });
@@ -60,9 +73,7 @@ describe("LocationContext", () => {
             public: true,
             bricks: []
           }
-        ],
-        deps: [],
-        dll: []
+        ]
       }
     ];
 
@@ -80,29 +91,35 @@ describe("LocationContext", () => {
   });
 
   describe("mountRoutes", () => {
-    it("should mount nothing if match missed", () => {
-      const result = context.mountRoutes([]);
+    it("should mount nothing if match missed", async () => {
+      const result = await context.mountRoutes(
+        [],
+        undefined,
+        getInitialMountResult()
+      );
       expect(result).toMatchObject({
         main: [],
-        bg: [],
         menuBar: {},
         appBar: {},
         redirect: undefined
       });
     });
 
-    it("should redirect if match redirected", () => {
+    it("should redirect if match redirected", async () => {
       spyOnMatchPath.mockReturnValueOnce({} as any);
       spyOnIsLoggedIn.mockReturnValueOnce(false);
-      const result = context.mountRoutes([
-        {
-          path: "/",
-          bricks: []
-        }
-      ]);
+      const result = await context.mountRoutes(
+        [
+          {
+            path: "/",
+            bricks: []
+          }
+        ],
+        undefined,
+        getInitialMountResult()
+      );
       expect(result).toMatchObject({
         main: [],
-        bg: [],
         menuBar: {},
         appBar: {},
         redirect: {
@@ -114,130 +131,134 @@ describe("LocationContext", () => {
       });
     });
 
-    it("should mount if match hit", () => {
+    it("should mount if match hit", async () => {
       spyOnMatchPath.mockReturnValue({} as any);
       spyOnIsLoggedIn.mockReturnValue(true);
-      const result = context.mountRoutes([
-        {
-          path: "/",
-          bricks: [
-            {
-              brick: "div",
-              properties: {
-                title: "good"
-              },
-              events: {
-                click: {
-                  action: "history.push"
-                }
-              },
-              slots: {
-                menu: {
-                  type: "bricks",
-                  bricks: [
-                    {
-                      brick: "p"
-                    }
-                  ]
+      const result = await context.mountRoutes(
+        [
+          {
+            path: "/",
+            bricks: [
+              {
+                brick: "div",
+                properties: {
+                  title: "good"
                 },
-                content: {
-                  type: "routes",
-                  routes: [
-                    {
-                      path: "/",
-                      bricks: [],
-                      menu: {
-                        sidebarMenu: {
-                          title: "menu title",
-                          menuItems: []
-                        },
-                        pageTitle: "page title",
-                        breadcrumb: {
-                          items: [
-                            {
-                              text: "first breadcrumb"
-                            }
-                          ]
+                events: {
+                  click: {
+                    action: "history.push"
+                  }
+                },
+                slots: {
+                  menu: {
+                    type: "bricks",
+                    bricks: [
+                      {
+                        brick: "p"
+                      }
+                    ]
+                  },
+                  content: {
+                    type: "routes",
+                    routes: [
+                      {
+                        path: "/",
+                        bricks: [],
+                        menu: {
+                          sidebarMenu: {
+                            title: "menu title",
+                            menuItems: []
+                          },
+                          pageTitle: "page title",
+                          breadcrumb: {
+                            items: [
+                              {
+                                text: "first breadcrumb"
+                              }
+                            ]
+                          }
                         }
                       }
-                    }
-                  ]
-                },
-                extendA: {
-                  type: "routes",
-                  routes: [
-                    {
-                      path: "/",
-                      bricks: [],
-                      menu: {
-                        type: "brick",
-                        brick: "a"
-                      }
-                    }
-                  ]
-                },
-                extendB: {
-                  type: "routes",
-                  routes: [
-                    {
-                      path: "/",
-                      bricks: [],
-                      menu: {
-                        type: "brick",
-                        brick: "b",
-                        events: {}
-                      }
-                    }
-                  ]
-                },
-                extendC: {
-                  type: "routes",
-                  routes: [
-                    {
-                      path: "/",
-                      bricks: [],
-                      menu: {
-                        breadcrumb: {
-                          overwrite: true,
-                          items: [
-                            {
-                              text: "second breadcrumb"
-                            }
-                          ]
+                    ]
+                  },
+                  extendA: {
+                    type: "routes",
+                    routes: [
+                      {
+                        path: "/",
+                        bricks: [],
+                        menu: {
+                          type: "brick",
+                          brick: "a"
                         }
                       }
-                    }
-                  ]
-                },
-                extendD: {
-                  type: "routes",
-                  routes: [
-                    {
-                      path: "/",
-                      bricks: [],
-                      menu: false
-                    }
-                  ]
-                },
-                extendE: {
-                  type: "routes",
-                  routes: [
-                    {
-                      path: "/",
-                      bricks: [],
-                      menu: {}
-                    }
-                  ]
-                },
-                extendF: {
-                  type: "invalid",
-                  routes: []
+                    ]
+                  },
+                  extendB: {
+                    type: "routes",
+                    routes: [
+                      {
+                        path: "/",
+                        bricks: [],
+                        menu: {
+                          type: "brick",
+                          brick: "b",
+                          events: {}
+                        }
+                      }
+                    ]
+                  },
+                  extendC: {
+                    type: "routes",
+                    routes: [
+                      {
+                        path: "/",
+                        bricks: [],
+                        menu: {
+                          breadcrumb: {
+                            overwrite: true,
+                            items: [
+                              {
+                                text: "second breadcrumb"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  extendD: {
+                    type: "routes",
+                    routes: [
+                      {
+                        path: "/",
+                        bricks: [],
+                        menu: false
+                      }
+                    ]
+                  },
+                  extendE: {
+                    type: "routes",
+                    routes: [
+                      {
+                        path: "/",
+                        bricks: [],
+                        menu: {}
+                      }
+                    ]
+                  },
+                  extendF: {
+                    type: "invalid",
+                    routes: []
+                  }
                 }
               }
-            }
-          ]
-        }
-      ] as any);
+            ]
+          }
+        ] as any,
+        undefined,
+        getInitialMountResult()
+      );
       expect(result).toMatchObject({
         menuBar: {
           menu: {
@@ -274,14 +295,6 @@ describe("LocationContext", () => {
               slotId: "menu"
             }
           ]
-        }
-      ]);
-      expect(result.bg).toMatchObject([
-        {
-          type: "a"
-        },
-        {
-          type: "b"
         }
       ]);
     });

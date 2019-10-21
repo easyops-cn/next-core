@@ -10,14 +10,15 @@ import {
   BreadcrumbItemConf,
   MicroApp
 } from "@easyops/brick-types";
-import { isLoggedIn } from "../auth";
 import {
   isObject,
   computeRealProperties,
   matchPath,
   computeRealRoutePath
 } from "@easyops/brick-utils";
-import { RuntimeBrick, Kernel } from "./exports";
+import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
+import { isLoggedIn } from "../auth";
+import { MountableElement } from "./reconciler";
 
 export type MatchRoutesResult =
   | {
@@ -33,8 +34,6 @@ export interface MountRoutesResult {
     state: PluginHistoryState;
   };
   main: RuntimeBrick[];
-  bg: RuntimeBrick[];
-  all: RuntimeBrick[];
   menuBar: {
     app?: MicroApp;
     menu?: SidebarMenu;
@@ -51,6 +50,7 @@ export interface MountRoutesResult {
 export class LocationContext {
   readonly location: PluginLocation;
   readonly query: URLSearchParams;
+  readonly resolver = new Resolver(this.kernel);
 
   constructor(private kernel: Kernel, location: PluginLocation) {
     this.location = location;
@@ -83,27 +83,11 @@ export class LocationContext {
     }
   }
 
-  mountRoutes(
+  async mountRoutes(
     routes: RouteConf[],
     slotId?: string,
     mountRoutesResult?: MountRoutesResult
-  ): MountRoutesResult {
-    if (mountRoutesResult === undefined) {
-      mountRoutesResult = {
-        main: [],
-        bg: [],
-        all: [],
-        menuBar: {
-          app: this.kernel.currentApp
-        },
-        appBar: {
-          app: this.kernel.currentApp,
-          breadcrumb: this.kernel.appBar.element.breadcrumb
-        },
-        redirect: undefined,
-        hybrid: false
-      };
-    }
+  ): Promise<MountRoutesResult> {
     const matched = this.matchRoutes(routes, this.kernel.currentApp);
     switch (matched) {
       case "missed":
@@ -121,7 +105,7 @@ export class LocationContext {
           mountRoutesResult.hybrid = true;
         }
         this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
-        this.mountBricks(
+        await this.mountBricks(
           matched.route.bricks,
           matched.match,
           slotId,
@@ -172,7 +156,7 @@ export class LocationContext {
         },
         children: []
       };
-      mountRoutesResult.bg.push(brick);
+      appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
       return;
     }
 
@@ -209,64 +193,70 @@ export class LocationContext {
     }
   }
 
-  private mountBricks(
+  private async mountBricks(
     bricks: BrickConf[],
     match: MatchResult,
     slotId: string,
     mountRoutesResult: MountRoutesResult
-  ): void {
-    bricks.forEach(brickConf => {
+  ): Promise<void> {
+    for (const brickConf of bricks) {
+      const context = {
+        query: this.query,
+        match,
+        app: this.kernel.currentApp
+      };
+
+      // First, resolve the template to a brick.
+      if (brickConf.template) {
+        await this.resolver.resolve(brickConf, null, context);
+      }
+
       const brick: RuntimeBrick = {
         type: brickConf.brick,
         properties: {
           ...computeRealProperties(
             brickConf.properties,
-            {
-              query: this.query,
-              match,
-              app: this.kernel.currentApp
-            },
+            context,
             brickConf.injectDeep
           ),
           match
         },
         events: isObject(brickConf.events) ? brickConf.events : {},
-        context: {
-          query: this.query,
-          match,
-          app: this.kernel.currentApp
-        },
+        context,
         children: [],
-        slotId,
-        lifeCycle: brickConf.lifeCycle,
-        bg: !!brickConf.bg
+        slotId
       };
-      if (isObject(brickConf.slots)) {
-        const children: RuntimeBrick[] = [];
-        for (const [slotId, slotConf] of Object.entries(brickConf.slots)) {
-          const slottedMountRoutesResult = {
-            ...mountRoutesResult,
-            main: children
-          };
-          if (slotConf.type === "bricks") {
-            this.mountBricks(
-              slotConf.bricks,
-              match,
-              slotId,
-              slottedMountRoutesResult
-            );
-          } else if (slotConf.type === "routes") {
-            this.mountRoutes(slotConf.routes, slotId, slottedMountRoutesResult);
+
+      // Then, resolve the brick.
+      await this.resolver.resolve(brickConf, brick, context);
+
+      if (brickConf.bg) {
+        appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
+      } else {
+        if (isObject(brickConf.slots)) {
+          for (const [slotId, slotConf] of Object.entries(brickConf.slots)) {
+            const slottedMountRoutesResult = {
+              ...mountRoutesResult,
+              main: brick.children
+            };
+            if (slotConf.type === "bricks") {
+              await this.mountBricks(
+                slotConf.bricks,
+                match,
+                slotId,
+                slottedMountRoutesResult
+              );
+            } else if (slotConf.type === "routes") {
+              await this.mountRoutes(
+                slotConf.routes,
+                slotId,
+                slottedMountRoutesResult
+              );
+            }
           }
         }
-        brick.children = children;
-      }
-      if (brickConf.bg) {
-        mountRoutesResult.bg.push(brick);
-      } else {
         mountRoutesResult.main.push(brick);
       }
-      mountRoutesResult.all.push(brick);
-    });
+    }
   }
 }

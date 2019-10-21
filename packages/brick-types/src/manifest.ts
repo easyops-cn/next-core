@@ -93,18 +93,11 @@ export interface BrickConf<T = any> {
   internalUsedTemplates?: string[];
   template?: string;
   params?: Record<string, any>;
-
-  // Runtime properties.
-  $template?: string;
-  $params?: Record<string, any>;
 }
 
 export interface BrickLifeCycle {
   // Before mounting brick, wait some async tasks to resolve.
   useResolves?: ResolveConf[];
-
-  // Give a method name to execute when brick did mount.
-  didMount?: string;
 }
 
 export interface ResolveConf {
@@ -146,8 +139,6 @@ export interface BrickMenuConf<T = any> {
   events?: BrickEventsMap;
   template?: string;
   params?: any[];
-  $template?: string;
-  $params?: any[];
 }
 
 export interface SlotsConf {

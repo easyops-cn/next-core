@@ -1,11 +1,13 @@
 import { setRealProperties, bindListeners } from "@easyops/brick-utils";
-import { getHistory } from "../history";
 import { PluginRuntimeContext, BrickLifeCycle } from "@easyops/brick-types";
+import { getHistory } from "../history";
 
 export interface RuntimeBrick {
-  type: string;
-  properties: Record<string, any>;
-  events: Record<string, any>;
+  type?: string;
+  properties?: Record<string, any>;
+  template?: string;
+  params?: Record<string, any>;
+  events?: Record<string, any>;
   children?: RuntimeBrick[];
   slotId?: string;
   context?: PluginRuntimeContext;
