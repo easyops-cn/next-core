@@ -2675,10 +2675,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^3.24.1:
-  version "3.24.1"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-3.24.1.tgz?cache=0&sync_timestamp=1571316740975&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.24.1.tgz#20f2ae5dc6b38de8a60a7843b7b4f2e4ba548fc3"
-  integrity sha1-IPKuXcazjeimCnhDt7Ty5LpUj8M=
+antd@^3.24.2:
+  version "3.24.2"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-3.24.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.24.2.tgz#c8923eaa28f8c25a91e4a3fee7c64d9f3ec31aaf"
+  integrity sha1-yJI+qij4wlqR5KP+58ZNnz7DGq8=
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -2718,7 +2718,7 @@ antd@^3.24.1:
     rc-slider "~8.7.1"
     rc-steps "~3.5.0"
     rc-switch "~1.9.0"
-    rc-table "~6.8.6"
+    rc-table "~6.9.4"
     rc-tabs "~9.6.4"
     rc-time-picker "~3.7.1"
     rc-tooltip "~3.7.3"
@@ -10712,21 +10712,19 @@ rc-switch@~1.9.0:
     prop-types "^15.5.6"
     react-lifecycles-compat "^3.0.4"
 
-rc-table@~6.8.6:
-  version "6.8.6"
-  resolved "https://registry.npm.taobao.org/rc-table/download/rc-table-6.8.6.tgz#11832e4696f4c81cec5dd8a14ad1c9f7021e287a"
-  integrity sha1-EYMuRpb0yBzsXdihStHJ9wIeKHo=
+rc-table@~6.9.4:
+  version "6.9.4"
+  resolved "https://registry.npm.taobao.org/rc-table/download/rc-table-6.9.4.tgz?cache=0&sync_timestamp=1571419497426&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frc-table%2Fdownload%2Frc-table-6.9.4.tgz#7539427fb9fca45f92cfabb1bd35158fa2005916"
+  integrity sha1-dTlCf7n8pF+Sz6uxvTUVj6IAWRY=
   dependencies:
-    babel-runtime "6.x"
     classnames "^2.2.5"
     component-classes "^1.2.6"
     lodash "^4.17.5"
     mini-store "^2.0.0"
     prop-types "^15.5.8"
-    rc-util "^4.0.4"
+    rc-util "^4.13.0"
     react-lifecycles-compat "^3.0.2"
     shallowequal "^1.0.2"
-    warning "^4.0.3"
 
 rc-tabs@~9.6.4:
   version "9.6.4"
