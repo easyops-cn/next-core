@@ -4,7 +4,8 @@ import {
   BrickConf,
   BrickTemplateFactory,
   TemplateRegistry,
-  TemplatePackage
+  TemplatePackage,
+  RuntimeBrickConf
 } from "@easyops/brick-types";
 import { loadScript } from "./loadScript";
 import { getDepsOfTemplates } from "./getTemplateDepsOfStoryboard";
@@ -16,12 +17,13 @@ export async function asyncProcessBrick(
 ): Promise<void> {
   if (brickConf.template) {
     if (
+      !(brickConf as RuntimeBrickConf).$$resolved &&
       brickConf.lifeCycle &&
       brickConf.lifeCycle.useResolves &&
       brickConf.lifeCycle.useResolves.length > 0
     ) {
       // Leave these dynamic templates to `LocationContext::resolve()`.
-      (brickConf as any).$$dynamic = true;
+      (brickConf as RuntimeBrickConf).$$dynamic = true;
     } else {
       let updatedBrickConf: Partial<BrickConf> = {};
       if (!templateRegistry.has(brickConf.template)) {
@@ -42,13 +44,14 @@ export async function asyncProcessBrick(
         };
       }
       // 清理 brickConf.
-      const { template, params } = brickConf;
+      const { template, params, lifeCycle } = brickConf;
       Object.keys(brickConf).forEach(key => {
         delete brickConf[key as keyof BrickConf];
       });
       Object.assign(brickConf, updatedBrickConf, {
         $$template: template,
-        $$params: params
+        $$params: params,
+        $$lifeCycle: lifeCycle
       });
     }
   }

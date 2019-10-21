@@ -95,6 +95,14 @@ export interface BrickConf<T = any> {
   params?: Record<string, any>;
 }
 
+export interface RuntimeBrickConf extends BrickConf {
+  $$dynamic?: boolean;
+  $$resolved?: boolean;
+  $$template?: string;
+  $$params?: Record<string, any>;
+  $$lifeCycle?: BrickLifeCycle;
+}
+
 export interface BrickLifeCycle {
   // Before mounting brick, wait some async tasks to resolve.
   useResolves?: ResolveConf[];

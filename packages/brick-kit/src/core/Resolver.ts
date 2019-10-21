@@ -1,8 +1,9 @@
-import { get } from "lodash";
+import { get, set } from "lodash";
 import {
   BrickConf,
   ResolveConf,
-  PluginRuntimeContext
+  PluginRuntimeContext,
+  RuntimeBrickConf
 } from "@easyops/brick-types";
 import {
   computeRealValue,
@@ -95,32 +96,12 @@ export class Resolver {
               // eslint-disable-next-line require-atomic-updates
               brickConf.params = {};
             }
-            // eslint-disable-next-line require-atomic-updates
-            brickConf.params[name] = fieldValue;
-
-            // Try to process templates.
-            await asyncProcessBrick(
-              brickConf,
-              brickTemplateRegistry,
-              this.kernel.bootstrapData.templatePackages
-            );
-
-            // Try to load deps for dynamic added bricks.
-            const brickCollection = new Set<string>();
-            scanBricksInBrickConf(brickConf, brickCollection);
-            const { dll, deps } = getDllAndDepsOfBricks(
-              Array.from(brickCollection).filter(
-                // Only try to load undefined custom elements.
-                element => element.includes("-") && !customElements.get(element)
-              ),
-              this.kernel.bootstrapData.brickPackages
-            );
-            await loadScript(dll);
-            await loadScript(deps);
+            // Support pass a field path as `name`.
+            set(brickConf.params, name, fieldValue);
           } else {
             // It's a dynamic brick.
-            // eslint-disable-next-line require-atomic-updates
-            brick.properties[name] = fieldValue;
+            // Support pass a field path as `name`.
+            set(brick.properties, name, fieldValue);
           }
         } else {
           throw new Error(
@@ -133,6 +114,29 @@ export class Resolver {
         }
       })
     );
+    if (brickConf.template) {
+      (brickConf as RuntimeBrickConf).$$resolved = true;
+
+      // Try to process templates.
+      await asyncProcessBrick(
+        brickConf,
+        brickTemplateRegistry,
+        this.kernel.bootstrapData.templatePackages
+      );
+
+      // Try to load deps for dynamic added bricks.
+      const brickCollection = new Set<string>();
+      scanBricksInBrickConf(brickConf, brickCollection);
+      const { dll, deps } = getDllAndDepsOfBricks(
+        Array.from(brickCollection).filter(
+          // Only try to load undefined custom elements.
+          element => element.includes("-") && !customElements.get(element)
+        ),
+        this.kernel.bootstrapData.brickPackages
+      );
+      await loadScript(dll);
+      await loadScript(deps);
+    }
   }
 
   scheduleRefreshing(): void {
