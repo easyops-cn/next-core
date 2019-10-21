@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { get, set } from "lodash";
 import { setProperties } from "@easyops/brick-utils";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
@@ -61,14 +61,15 @@ export function makeProviderRefreshable(
                 cache.set(cacheKey, promise);
               }
               const value = await promise;
+              const fieldValue =
+                field === null || field === undefined
+                  ? value
+                  : get(value, field);
+
               setProperties(
                 brick.element,
-                {
-                  [name]:
-                    field === null || field === undefined
-                      ? value
-                      : get(value, field)
-                },
+                // Support pass a field path as `name`.
+                set({}, name, fieldValue),
                 brick.context
               );
             }

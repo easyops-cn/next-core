@@ -3,7 +3,8 @@ import {
   RouteConf,
   BrickConf,
   BrickTemplateFactory,
-  TemplateRegistry
+  TemplateRegistry,
+  RuntimeBrickConf
 } from "@easyops/brick-types";
 
 export function processBrick(
@@ -12,11 +13,12 @@ export function processBrick(
 ): void {
   if (brickConf.template) {
     if (
+      !(brickConf as RuntimeBrickConf).$$resolved &&
       brickConf.lifeCycle &&
       brickConf.lifeCycle.useResolves &&
       brickConf.lifeCycle.useResolves.length > 0
     ) {
-      (brickConf as any).$$dynamic = true;
+      (brickConf as RuntimeBrickConf).$$dynamic = true;
     } else {
       let updatedBrickConf: Partial<BrickConf> = {};
       if (templateRegistry.has(brickConf.template)) {
@@ -32,14 +34,15 @@ export function processBrick(
         };
       }
       // 清理 brickConf.
-      const { template, params } = brickConf;
+      const { template, params, lifeCycle } = brickConf;
       Object.keys(brickConf).forEach(key => {
         delete brickConf[key as keyof BrickConf];
       });
       Object.assign(brickConf, updatedBrickConf, {
         // For debugging.
         $$template: template,
-        $$params: params
+        $$params: params,
+        $$lifeCycle: lifeCycle
       });
     }
   }
