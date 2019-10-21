@@ -110,4 +110,5 @@ exports.getSingleStoryboard = getSingleStoryboard;
 exports.getBrickPackages = getBrickPackages;
 exports.getSingleBrickPackage = getSingleBrickPackage;
 exports.getTemplatePackages = getTemplatePackages;
+exports.getSingleTemplatePackage = getSingleTemplatePackage;
 exports.getSettings = getSettings;
