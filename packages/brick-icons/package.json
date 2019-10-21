@@ -1,7 +1,7 @@
 {
   "name": "@easyops/brick-icons",
   "version": "0.6.1",
-  "description": "Self-designed icons",
+  "description": "Self designed icons",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-icons",
   "license": "UNLICENSED",
   "main": "dist/index.bundle.js",
