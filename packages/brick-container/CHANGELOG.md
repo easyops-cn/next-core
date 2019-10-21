@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.20.4...@easyops/brick-container@0.20.5) (2019-10-21)
+
+### Bug Fixes
+
+- support templates when remote-developing ([d8f225c](https://git.easyops.local/anyclouds/next-core/commits/d8f225c))
+
 ## [0.20.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.20.3...@easyops/brick-container@0.20.4) (2019-10-19)
 
 **Note:** Version bump only for package @easyops/brick-container

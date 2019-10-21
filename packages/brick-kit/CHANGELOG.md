@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.33.0...@easyops/brick-kit@0.34.0) (2019-10-21)
+
+### Features
+
+- async mount routes and bricks to support templates use resolves ([726ae33](https://git.easyops.local/anyclouds/next-core/commits/726ae33))
+
 # [0.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.32.1...@easyops/brick-kit@0.33.0) (2019-10-19)
 
 ### Features
