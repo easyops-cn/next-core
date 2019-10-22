@@ -4,6 +4,10 @@ import { property } from "./property";
 jest.mock("../UpdatingElement");
 
 describe("@property", () => {
+  afterEach(() => {
+    (UpdatingElement.createProperty as jest.Mock).mockClear();
+  });
+
   it("should work", () => {
     class TestElement extends UpdatingElement {
       @property({
@@ -12,12 +16,12 @@ describe("@property", () => {
       name: string;
     }
 
-    expect((TestElement.createProperty as jest.Mock).mock.calls[0][0]).toBe(
-      "name"
-    );
-    expect((TestElement.createProperty as jest.Mock).mock.calls[0][1]).toEqual({
-      type: String
-    });
+    expect((TestElement.createProperty as jest.Mock).mock.calls[0]).toEqual([
+      "name",
+      {
+        type: String
+      }
+    ]);
   });
 
   it("should throw if decorate a method", () => {
@@ -44,5 +48,24 @@ describe("@property", () => {
     } catch (error) {
       expect(error).toBeTruthy();
     }
+  });
+
+  it("should not throw if decorate a no-attribute property with initialized value", () => {
+    class TestElement extends UpdatingElement {
+      @property({
+        attribute: false
+      })
+      name = [0];
+    }
+
+    expect((TestElement.createProperty as jest.Mock).mock.calls[0]).toEqual([
+      "name",
+      {
+        attribute: false
+      }
+    ]);
+
+    const element = new TestElement();
+    expect(element.name).toEqual([0]);
   });
 });

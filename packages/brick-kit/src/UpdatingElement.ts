@@ -177,6 +177,19 @@ export abstract class UpdatingElement extends HTMLElement {
     const attr = attributeNameForProperty(name, options);
 
     if (attr === undefined) {
+      const key = `__${name}`;
+      Object.defineProperty(this.prototype, name, {
+        get(): any {
+          return (this as any)[key];
+        },
+        set(this: UpdatingElement, value: unknown) {
+          const oldValue = (this as any)[name];
+          if (options.hasChanged(value, oldValue)) {
+            (this as any)[key] = value;
+            this._render();
+          }
+        }
+      });
       return;
     }
 
@@ -191,7 +204,7 @@ export abstract class UpdatingElement extends HTMLElement {
         );
       },
       set(this: UpdatingElement, value: unknown) {
-        const oldValue = (this as Record<string, any>)[name];
+        const oldValue = (this as any)[name];
         if (options.hasChanged(value, oldValue)) {
           const attrValue = options.converter.toAttribute(value, options.type);
           if (attrValue === undefined) {

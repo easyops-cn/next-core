@@ -33,6 +33,9 @@ describe("UpdatingElement", () => {
       type: Boolean,
       attribute: "bool-attr"
     });
+    TestElement.createProperty("complexAttr", {
+      attribute: false
+    });
 
     expect(TestElement.observedAttributes).toEqual([
       "string-attr",
@@ -63,5 +66,8 @@ describe("UpdatingElement", () => {
     expect(element.hasAttribute("bool-attr")).toBe(true);
     element.removeAttribute("bool-attr");
     expect(element.booleanAttr).toEqual(false);
+
+    element.complexAttr = { hello: "world" };
+    expect(element.complexAttr).toEqual({ hello: "world" });
   });
 });

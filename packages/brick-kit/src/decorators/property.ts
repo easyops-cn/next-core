@@ -20,7 +20,10 @@ export function property(options?: PropertyDeclaration): any {
         "`@property()` only support decorate class string property"
       );
     }
-    if (typeof element.initializer === "function") {
+    if (
+      typeof element.initializer === "function" &&
+      !(options && options.attribute === false)
+    ) {
       throw new Error("`@property()` currently not support initialize value");
     }
     // createProperty() takes care of defining the property, but we still
@@ -31,7 +34,11 @@ export function property(options?: PropertyDeclaration): any {
       key: Symbol(),
       placement: "own",
       descriptor: {},
-      initializer: undefined,
+      initializer(this: { [key: string]: unknown }) {
+        if (typeof element.initializer === "function") {
+          this[element.key as string] = element.initializer.call(this);
+        }
+      },
       finisher(Class: typeof UpdatingElement) {
         Class.createProperty(element.key as string, options);
       }
