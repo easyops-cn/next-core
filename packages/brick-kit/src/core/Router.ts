@@ -185,6 +185,8 @@ export class Router {
       }
       if (legacy === "iframe" && !hybrid) {
         this.kernel.toggleLegacyIframe(true);
+      } else if (legacy !== "iframe" && hybrid) {
+        this.kernel.toggleLegacyIframe(true);
       }
 
       if (main.length > 0) {
