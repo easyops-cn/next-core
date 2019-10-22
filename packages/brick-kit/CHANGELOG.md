@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.34.1...@easyops/brick-kit@0.35.0) (2019-10-22)
+
+### Features
+
+- decorate a non-reflect-to-attribute property ([4f4efb7](https://git.easyops.local/anyclouds/next-core/commits/4f4efb7))
+- property decorator and UpdateElement ([39adfaf](https://git.easyops.local/anyclouds/next-core/commits/39adfaf))
+- **hybrid:** hybrid define ([3e900e7](https://git.easyops.local/anyclouds/next-core/commits/3e900e7))
+
 ## [0.34.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.34.0...@easyops/brick-kit@0.34.1) (2019-10-21)
 
 ### Bug Fixes
