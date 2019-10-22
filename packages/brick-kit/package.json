@@ -38,8 +38,8 @@
     "history": "^4.10.1",
     "i18next": "^17.3.0",
     "lodash": "^4.17.15",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "react-i18next": "^10.13.1"
   },
   "peerDependencies": {
