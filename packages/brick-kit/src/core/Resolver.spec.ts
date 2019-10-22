@@ -101,7 +101,7 @@ describe("Resolver", () => {
 
   it("should throw if provider not found", async () => {
     kernel.mountPoints.bg = {
-      querySelector() {
+      querySelector(): any {
         return null;
       }
     } as any;

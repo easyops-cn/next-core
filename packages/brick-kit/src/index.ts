@@ -8,3 +8,4 @@ export * from "./decorators";
 export * from "./useCurrentApp";
 export * from "./BrickWrapper";
 export * from "./developHelper";
+export * from "./UpdatingElement";
