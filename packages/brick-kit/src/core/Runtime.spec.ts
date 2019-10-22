@@ -8,7 +8,7 @@ const spyOnKernel = Kernel as jest.Mock;
 
 describe("Runtime", () => {
   let runtime: Runtime;
-  let IsolatedRuntime;
+  let IsolatedRuntime: typeof Runtime;
 
   beforeEach(() => {
     jest.isolateModules(() => {

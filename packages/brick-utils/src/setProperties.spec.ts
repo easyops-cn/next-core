@@ -75,7 +75,7 @@ describe("setProperties", () => {
     style: {
       width: "10px"
     },
-    items: [],
+    items: [] as any[],
     query: {
       name: { $eq: "${QUERY.name}" }
     },

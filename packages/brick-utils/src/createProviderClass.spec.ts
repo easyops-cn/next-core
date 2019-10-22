@@ -2,7 +2,7 @@ import { createProviderClass } from "./createProviderClass";
 
 const spyOnDispatchEvent = jest.fn();
 (global as any).HTMLElement = class {
-  dispatchEvent(...args): void {
+  dispatchEvent(...args: any[]): void {
     spyOnDispatchEvent(...args);
   }
 };
@@ -10,7 +10,7 @@ const spyOnDispatchEvent = jest.fn();
 describe("createProviderClass", () => {
   const spy = jest.fn();
   const Provider = createProviderClass(spy);
-  let provider;
+  let provider: any;
 
   beforeEach(() => {
     provider = new Provider();

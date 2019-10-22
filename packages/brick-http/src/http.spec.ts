@@ -90,7 +90,7 @@ describe("http", () => {
   it.each(batchTests)(
     "%s %s with %j should work",
     async (method: string, url: string, args: any[]) => {
-      await http[method.toLowerCase()](url, ...args);
+      await http[method.toLowerCase() as "get"](url, ...args);
       expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
     }
   );
