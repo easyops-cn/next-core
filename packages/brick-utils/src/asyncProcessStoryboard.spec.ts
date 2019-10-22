@@ -75,7 +75,7 @@ describe("asyncProcessStoryboard", () => {
     expect(storyboard.routes[0].bricks[0]).toMatchObject({
       brick: "a",
       $$template: "a",
-      $$params: undefined
+      $$params: {}
     });
   });
 });
