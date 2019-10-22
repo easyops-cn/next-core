@@ -30,15 +30,10 @@ module.exports = {
         [
           "@babel/plugin-proposal-decorators",
           {
-            legacy: true
+            decoratorsBeforeExport: true
           }
         ],
-        [
-          "@babel/plugin-proposal-class-properties",
-          {
-            loose: true
-          }
-        ]
+        "@babel/plugin-proposal-class-properties"
       ]
     },
     development: {
@@ -60,15 +55,10 @@ module.exports = {
         [
           "@babel/plugin-proposal-decorators",
           {
-            legacy: true
+            decoratorsBeforeExport: true
           }
         ],
-        [
-          "@babel/plugin-proposal-class-properties",
-          {
-            loose: true
-          }
-        ]
+        "@babel/plugin-proposal-class-properties"
       ]
     },
     production: {
@@ -90,15 +80,10 @@ module.exports = {
         [
           "@babel/plugin-proposal-decorators",
           {
-            legacy: true
+            decoratorsBeforeExport: true
           }
         ],
-        [
-          "@babel/plugin-proposal-class-properties",
-          {
-            loose: true
-          }
-        ]
+        "@babel/plugin-proposal-class-properties"
       ]
     }
   }
