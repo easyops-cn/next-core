@@ -3,7 +3,8 @@ import {
   loadScript,
   getTemplateDepsOfStoryboard,
   getDllAndDepsOfStoryboard,
-  asyncProcessStoryboard
+  asyncProcessStoryboard,
+  restoreDynamicTemplates
 } from "@easyops/brick-utils";
 import {
   LocationContext,
@@ -53,6 +54,9 @@ export class Router {
     );
 
     if (storyboard) {
+      // 将动态解析后的模板还原，以便重新动态解析。
+      restoreDynamicTemplates(storyboard);
+
       // 如果找到匹配的 storyboard，那么加载它的依赖库。
       if (storyboard.dependsAll) {
         const dllHash: Record<string, string> = (window as any).DLL_HASH || {};

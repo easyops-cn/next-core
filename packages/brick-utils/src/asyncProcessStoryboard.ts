@@ -1,31 +1,32 @@
+import { get } from "lodash";
 import {
   Storyboard,
   RouteConf,
-  BrickConf,
+  RuntimeBrickConf,
   BrickTemplateFactory,
   TemplateRegistry,
-  TemplatePackage,
-  RuntimeBrickConf
+  TemplatePackage
 } from "@easyops/brick-types";
 import { loadScript } from "./loadScript";
 import { getDepsOfTemplates } from "./getTemplateDepsOfStoryboard";
 
 export async function asyncProcessBrick(
-  brickConf: BrickConf,
+  brickConf: RuntimeBrickConf,
   templateRegistry: TemplateRegistry<BrickTemplateFactory>,
   templatePackages: TemplatePackage[]
 ): Promise<void> {
   if (brickConf.template) {
     if (
-      !(brickConf as RuntimeBrickConf).$$resolved &&
-      brickConf.lifeCycle &&
-      brickConf.lifeCycle.useResolves &&
-      brickConf.lifeCycle.useResolves.length > 0
+      !brickConf.$$resolved &&
+      get(brickConf, ["lifeCycle", "useResolves"], []).length > 0
     ) {
       // Leave these dynamic templates to `LocationContext::resolve()`.
-      (brickConf as RuntimeBrickConf).$$dynamic = true;
+      // Remember original params, cause it maybe changed when resolving.
+      brickConf.$$params = {
+        ...brickConf.params
+      };
     } else {
-      let updatedBrickConf: Partial<BrickConf> = {};
+      let updatedBrickConf: Partial<RuntimeBrickConf> = {};
       if (!templateRegistry.has(brickConf.template)) {
         await loadScript(
           getDepsOfTemplates([brickConf.template], templatePackages)
@@ -44,13 +45,13 @@ export async function asyncProcessBrick(
         };
       }
       // 清理 brickConf.
-      const { template, params, lifeCycle } = brickConf;
+      const { template, lifeCycle, $$params, params } = brickConf;
       Object.keys(brickConf).forEach(key => {
-        delete brickConf[key as keyof BrickConf];
+        delete brickConf[key as keyof RuntimeBrickConf];
       });
       Object.assign(brickConf, updatedBrickConf, {
         $$template: template,
-        $$params: params,
+        $$params: $$params || params,
         $$lifeCycle: lifeCycle
       });
     }
@@ -77,7 +78,7 @@ export async function asyncProcessBrick(
 }
 
 async function asyncProcessBricks(
-  bricks: BrickConf[],
+  bricks: RuntimeBrickConf[],
   templateRegistry: TemplateRegistry<BrickTemplateFactory>,
   templatePackages: TemplatePackage[]
 ): Promise<void> {
@@ -103,10 +104,10 @@ async function asyncProcessRoutes(
           templateRegistry,
           templatePackages
         );
-        const brickConf = routeConf.menu;
-        if (brickConf && brickConf.type === "brick") {
+        const menuBrickConf = routeConf.menu;
+        if (menuBrickConf && menuBrickConf.type === "brick") {
           await asyncProcessBrick(
-            brickConf,
+            menuBrickConf,
             templateRegistry,
             templatePackages
           );

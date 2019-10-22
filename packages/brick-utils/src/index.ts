@@ -8,5 +8,6 @@ export * from "./isObject";
 export * from "./loadScript";
 export * from "./matchPath";
 export * from "./processStoryboard";
+export * from "./restoreDynamicTemplates";
 export * from "./scanBricksInStoryboard";
 export * from "./setProperties";
