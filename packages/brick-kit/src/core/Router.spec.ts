@@ -83,7 +83,6 @@ describe("Router", () => {
   });
 
   it("should render matched storyboard", async () => {
-    const spyOnExecute = jest.fn();
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
       dll: ["d3.js"],
       deps: ["dep.js"]

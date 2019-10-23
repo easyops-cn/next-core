@@ -111,7 +111,7 @@ export class Router {
         },
         appBar: {
           app: this.kernel.nextApp,
-          breadcrumb: this.kernel.appBar.element.breadcrumb
+          breadcrumb: []
         },
         redirect: undefined,
         hybrid: false
