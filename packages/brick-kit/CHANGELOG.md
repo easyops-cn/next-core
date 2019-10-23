@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.36.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.36.0...@easyops/brick-kit@0.36.1) (2019-10-23)
+
+### Bug Fixes
+
+- refine router ([4c5ca4e](https://git.easyops.local/anyclouds/next-core/commits/4c5ca4e))
+
 # [0.36.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.35.0...@easyops/brick-kit@0.36.0) (2019-10-22)
 
 ### Features
