@@ -45,11 +45,12 @@ describe("LocationContext", () => {
 
   const getInitialMountResult = (): MountRoutesResult => ({
     main: [],
+    menuInBg: [],
     menuBar: {
-      app: kernel.currentApp
+      app: kernel.nextApp
     },
     appBar: {
-      app: kernel.currentApp,
+      app: kernel.nextApp,
       breadcrumb: kernel.appBar.element.breadcrumb
     },
     redirect: undefined

@@ -19,6 +19,7 @@ export class Kernel {
   public loadingBar: LoadingBar;
   public router: Router;
   public currentApp: MicroApp;
+  public nextApp: MicroApp;
   public allUserInfo: UserInfo[] = [];
   public allUserMap: Map<string, UserInfo> = new Map();
 

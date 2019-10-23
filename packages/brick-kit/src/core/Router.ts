@@ -13,7 +13,8 @@ import {
   Kernel,
   MountableElement,
   unmountTree,
-  MountRoutesResult
+  MountRoutesResult,
+  appendBrick
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString } from "../handleHttpError";
@@ -97,33 +98,19 @@ export class Router {
     const currentApp = storyboard ? storyboard.app : undefined;
     const appChanged = previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
+    this.kernel.nextApp = currentApp;
 
     unmountTree(mountPoints.bg as MountableElement);
-    unmountTree(mountPoints.main as MountableElement);
-
-    this.kernel.unsetBars({ appChanged, legacy });
-    this.kernel.toggleLegacyIframe(false);
-
-    if (appChanged) {
-      this.kernel.currentApp = currentApp;
-      window.dispatchEvent(
-        new CustomEvent("app.change", {
-          detail: {
-            previousApp,
-            currentApp
-          }
-        })
-      );
-    }
 
     if (storyboard) {
       const mountRoutesResult: MountRoutesResult = {
         main: [],
+        menuInBg: [],
         menuBar: {
-          app: this.kernel.currentApp
+          app: this.kernel.nextApp
         },
         appBar: {
-          app: this.kernel.currentApp,
+          app: this.kernel.nextApp,
           breadcrumb: this.kernel.appBar.element.breadcrumb
         },
         redirect: undefined,
@@ -162,6 +149,7 @@ export class Router {
       const {
         redirect,
         main,
+        menuInBg,
         menuBar,
         appBar,
         barsHidden,
@@ -172,6 +160,21 @@ export class Router {
         history.replace(redirect.path, redirect.state);
         return;
       }
+
+      if (appChanged) {
+        this.kernel.currentApp = currentApp;
+        window.dispatchEvent(
+          new CustomEvent("app.change", {
+            detail: {
+              previousApp,
+              currentApp
+            }
+          })
+        );
+      }
+
+      this.kernel.unsetBars({ appChanged, legacy });
+
       if (barsHidden) {
         this.kernel.toggleBars(false);
       } else {
@@ -187,11 +190,14 @@ export class Router {
         mountStaticNode(this.kernel.menuBar.element, menuBar);
         mountStaticNode(this.kernel.appBar.element, appBar);
       }
-      if (legacy === "iframe" && !hybrid) {
-        this.kernel.toggleLegacyIframe(true);
-      } else if (legacy !== "iframe" && hybrid) {
-        this.kernel.toggleLegacyIframe(true);
-      }
+
+      this.kernel.toggleLegacyIframe(
+        (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
+      );
+
+      menuInBg.forEach(brick => {
+        appendBrick(brick, mountPoints.bg as MountableElement);
+      });
 
       if (main.length > 0) {
         mountTree(main, mountPoints.main as MountableElement);
@@ -200,7 +206,6 @@ export class Router {
       }
     }
 
-    mountTree([], mountPoints.bg as MountableElement);
     mountTree(
       [
         {
