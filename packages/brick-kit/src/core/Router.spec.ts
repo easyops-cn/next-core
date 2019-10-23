@@ -175,8 +175,8 @@ describe("Router", () => {
     await router.bootstrap();
     expect(kernel.toggleBars).toBeCalledWith(false);
     expect(spyOnMountStaticNode).not.toBeCalled();
-    expect(spyOnMountTree).toBeCalledTimes(2);
-    expect(spyOnMountTree.mock.calls[1][0]).toMatchObject([
+    expect(spyOnMountTree).toBeCalledTimes(1);
+    expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
         type: "basic-bricks.page-not-found",
         properties: {
@@ -188,9 +188,8 @@ describe("Router", () => {
 
   it("should handle when page not found", async () => {
     await router.bootstrap();
-    expect(spyOnMountTree).toBeCalledTimes(2);
-    expect(spyOnMountTree.mock.calls[0][0]).toEqual([]);
-    expect(spyOnMountTree.mock.calls[1][0]).toMatchObject([
+    expect(spyOnMountTree).toBeCalledTimes(1);
+    expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
         type: "basic-bricks.page-not-found",
         properties: {

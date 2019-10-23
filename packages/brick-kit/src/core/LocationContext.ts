@@ -34,6 +34,7 @@ export interface MountRoutesResult {
     state: PluginHistoryState;
   };
   main: RuntimeBrick[];
+  menuInBg: RuntimeBrick[];
   menuBar: {
     app?: MicroApp;
     menu?: SidebarMenu;
@@ -88,7 +89,7 @@ export class LocationContext {
     slotId?: string,
     mountRoutesResult?: MountRoutesResult
   ): Promise<MountRoutesResult> {
-    const matched = this.matchRoutes(routes, this.kernel.currentApp);
+    const matched = this.matchRoutes(routes, this.kernel.nextApp);
     switch (matched) {
       case "missed":
         break;
@@ -144,7 +145,7 @@ export class LocationContext {
           {
             query: this.query,
             match,
-            app: this.kernel.currentApp
+            app: this.kernel.nextApp
           },
           menuConf.injectDeep
         ),
@@ -152,11 +153,11 @@ export class LocationContext {
         context: {
           query: this.query,
           match,
-          app: this.kernel.currentApp
+          app: this.kernel.nextApp
         },
         children: []
       };
-      appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
+      mountRoutesResult.menuInBg.push(brick);
       return;
     }
 
@@ -168,7 +169,7 @@ export class LocationContext {
           {
             query: this.query,
             match,
-            app: this.kernel.currentApp
+            app: this.kernel.nextApp
           },
           true
         )
@@ -203,7 +204,7 @@ export class LocationContext {
       const context = {
         query: this.query,
         match,
-        app: this.kernel.currentApp
+        app: this.kernel.nextApp
       };
 
       // First, resolve the template to a brick.
