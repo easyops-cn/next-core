@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.24.1...@easyops/brick-types@0.24.2) (2019-10-24)
+
+### Bug Fixes
+
+- fix type of `BrickTemplateFactory` ([c522c3a](https://git.easyops.local/anyclouds/next-core/commits/c522c3a))
+
 ## [0.24.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.24.0...@easyops/brick-types@0.24.1) (2019-10-21)
 
 ### Bug Fixes

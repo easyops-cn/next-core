@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.37.0...@easyops/brick-kit@0.38.0) (2019-10-24)
+
+### Features
+
+- drop `developHelper.processBrick` ([13299d0](https://git.easyops.local/anyclouds/next-core/commits/13299d0))
+
 # [0.37.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.36.2...@easyops/brick-kit@0.37.0) (2019-10-24)
 
 ### Features

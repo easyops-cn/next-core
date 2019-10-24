@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-types",
-  "version": "0.24.1",
+  "version": "0.24.2",
   "description": "Pure types for kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-types",
   "license": "UNLICENSED",
