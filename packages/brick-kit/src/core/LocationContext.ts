@@ -201,63 +201,72 @@ export class LocationContext {
     mountRoutesResult: MountRoutesResult
   ): Promise<void> {
     for (const brickConf of bricks) {
-      const context = {
-        query: this.query,
-        match,
-        app: this.kernel.nextApp
-      };
+      await this.mountBrick(brickConf, match, slotId, mountRoutesResult);
+    }
+  }
 
-      // First, resolve the template to a brick.
-      if (brickConf.template) {
-        await this.resolver.resolve(brickConf, null, context);
-      }
+  async mountBrick(
+    brickConf: BrickConf,
+    match: MatchResult,
+    slotId: string,
+    mountRoutesResult: MountRoutesResult
+  ): Promise<void> {
+    const context = {
+      query: this.query,
+      match,
+      app: this.kernel.nextApp
+    };
 
-      const brick: RuntimeBrick = {
-        type: brickConf.brick,
-        properties: {
-          ...computeRealProperties(
-            brickConf.properties,
-            context,
-            brickConf.injectDeep
-          ),
-          match
-        },
-        events: isObject(brickConf.events) ? brickConf.events : {},
-        context,
-        children: [],
-        slotId
-      };
+    // First, resolve the template to a brick.
+    if (brickConf.template) {
+      await this.resolver.resolve(brickConf, null, context);
+    }
 
-      // Then, resolve the brick.
-      await this.resolver.resolve(brickConf, brick, context);
+    const brick: RuntimeBrick = {
+      type: brickConf.brick,
+      properties: {
+        ...computeRealProperties(
+          brickConf.properties,
+          context,
+          brickConf.injectDeep
+        ),
+        match
+      },
+      events: isObject(brickConf.events) ? brickConf.events : {},
+      context,
+      children: [],
+      slotId
+    };
 
-      if (brickConf.bg) {
-        appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
-      } else {
-        if (isObject(brickConf.slots)) {
-          for (const [slotId, slotConf] of Object.entries(brickConf.slots)) {
-            const slottedMountRoutesResult = {
-              ...mountRoutesResult,
-              main: brick.children
-            };
-            if (slotConf.type === "bricks") {
-              await this.mountBricks(
-                slotConf.bricks,
-                match,
-                slotId,
-                slottedMountRoutesResult
-              );
-            } else if (slotConf.type === "routes") {
-              await this.mountRoutes(
-                slotConf.routes,
-                slotId,
-                slottedMountRoutesResult
-              );
-            }
+    // Then, resolve the brick.
+    await this.resolver.resolve(brickConf, brick, context);
+
+    if (brickConf.bg) {
+      appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
+    } else {
+      if (isObject(brickConf.slots)) {
+        for (const [slotId, slotConf] of Object.entries(brickConf.slots)) {
+          const slottedMountRoutesResult = {
+            ...mountRoutesResult,
+            main: brick.children
+          };
+          if (slotConf.type === "bricks") {
+            await this.mountBricks(
+              slotConf.bricks,
+              match,
+              slotId,
+              slottedMountRoutesResult
+            );
+          } else if (slotConf.type === "routes") {
+            await this.mountRoutes(
+              slotConf.routes,
+              slotId,
+              slottedMountRoutesResult
+            );
           }
         }
-        mountRoutesResult.main.push(brick);
       }
+      mountRoutesResult.main.push(brick);
     }
   }
 }
