@@ -70,7 +70,7 @@ export interface InterceptorParams {
   ignoreLoadingBar?: boolean;
 }
 
-export type BrickTemplateFactory = (params?: Record<string, any>) => BrickConf;
+export type BrickTemplateFactory = (params?: any) => BrickConf;
 
 export type TemplateRegistry<T> = Map<string, T>;
 
