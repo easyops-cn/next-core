@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.39.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.38.0...@easyops/brick-kit@0.39.0) (2019-10-25)
+
+### Features
+
+- remove legacy decorators ([7d3d507](https://git.easyops.local/anyclouds/next-core/commits/7d3d507))
+
 # [0.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.37.0...@easyops/brick-kit@0.38.0) (2019-10-24)
 
 ### Features
