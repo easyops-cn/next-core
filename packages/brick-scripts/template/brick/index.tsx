@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrickWrapper } from "@easyops/brick-kit";
+import { BrickWrapper, UpdatingElement } from "@easyops/brick-kit";
 import { $PascalBrickName$ } from "./$PascalBrickName$";
 
-class $PascalBrickName$Element extends HTMLElement {
+class $PascalBrickName$Element extends UpdatingElement {
   connectedCallback(): void {
     this.style.display = "block";
     this._render();
@@ -13,7 +13,7 @@ class $PascalBrickName$Element extends HTMLElement {
     ReactDOM.unmountComponentAtNode(this);
   }
 
-  private _render(): void {
+  protected _render(): void {
     if (this.isConnected) {
       ReactDOM.render(
         <BrickWrapper>
