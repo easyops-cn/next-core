@@ -2174,10 +2174,10 @@
   version "20.0.1"
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
 
-"@types/jest@^24.0.19":
-  version "24.0.19"
-  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-24.0.19.tgz?cache=0&sync_timestamp=1571080379328&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-24.0.19.tgz#f7036058d2a5844fe922609187c0ad8be430aff5"
-  integrity sha1-9wNgWNKlhE/pImCRh8Cti+Qwr/U=
+"@types/jest@^24.0.20":
+  version "24.0.20"
+  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-24.0.20.tgz?cache=0&sync_timestamp=1572035985701&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-24.0.20.tgz#729d5fe8684e7fb06368d3bd557ac6d91289d861"
+  integrity sha1-cp1f6GhOf7BjaNO9VXrG2RKJ2GE=
   dependencies:
     "@types/jest-diff" "*"
 
