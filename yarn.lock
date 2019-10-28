@@ -4006,10 +4006,10 @@ core-js@^2.4.0:
   version "2.6.5"
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
 
-core-js@^3.3.3:
-  version "3.3.3"
-  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.3.3.tgz#b7048d3c6c1a52b5fe55a729c1d4ccdffe0891bb"
-  integrity sha1-twSNPGwaUrX+VacpwdTM3/4Ikbs=
+core-js@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.3.4.tgz#6b0a23392958317bfb46e40b090529a923add669"
+  integrity sha1-awojOSlYMXv7RuQLCQUpqSOt1mk=
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
