@@ -19,6 +19,7 @@ export interface SidebarMenuSimpleItem {
   text: string;
   to: LocationDescriptor;
   icon?: MenuIcon;
+  target?: string;
   type?: "default";
   exact?: boolean;
   activeIncludes?: string[];
