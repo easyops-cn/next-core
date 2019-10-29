@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@0.17.12...@easyops/build-config-factory@0.17.13) (2019-10-29)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
 ## [0.17.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@0.17.11...@easyops/build-config-factory@0.17.12) (2019-10-29)
 
 **Note:** Version bump only for package @easyops/build-config-factory

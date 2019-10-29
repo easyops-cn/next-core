@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.39.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.39.1...@easyops/brick-kit@0.39.2) (2019-10-29)
+
+### Bug Fixes
+
+- fix breadcrumb in legacy iframe mode ([eb97645](https://git.easyops.local/anyclouds/next-core/commits/eb97645))
+
 ## [0.39.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.39.0...@easyops/brick-kit@0.39.1) (2019-10-29)
 
 ### Bug Fixes
