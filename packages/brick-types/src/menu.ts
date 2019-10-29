@@ -24,6 +24,7 @@ export interface SidebarMenuSimpleItem {
   exact?: boolean;
   activeIncludes?: string[];
   activeExcludes?: string[];
+  activeMatchSearch?: boolean;
   key?: string;
 }
 
