@@ -26,25 +26,38 @@ export async function asyncProcessBrick(
         ...brickConf.params
       };
     } else {
-      let updatedBrickConf: Partial<RuntimeBrickConf> = {};
-      if (!templateRegistry.has(brickConf.template)) {
-        await loadScript(
-          getDepsOfTemplates([brickConf.template], templatePackages)
-        );
+      let updatedBrickConf: Partial<RuntimeBrickConf> = brickConf;
+      const processedTemplates: string[] = [];
+      // If a template returns a template, keep on loading template,
+      // until finally it returns a brick.
+      while (updatedBrickConf.template) {
+        // Forbid recursive templates.
+        if (processedTemplates.includes(updatedBrickConf.template)) {
+          throw new Error(
+            `Recursive template found: ${updatedBrickConf.template}`
+          );
+        }
+        processedTemplates.push(updatedBrickConf.template);
+
+        if (!templateRegistry.has(updatedBrickConf.template)) {
+          await loadScript(
+            getDepsOfTemplates([updatedBrickConf.template], templatePackages)
+          );
+        }
+        if (templateRegistry.has(updatedBrickConf.template)) {
+          updatedBrickConf = templateRegistry.get(updatedBrickConf.template)(
+            updatedBrickConf.params
+          );
+        } else {
+          updatedBrickConf = {
+            brick: "basic-bricks.page-error",
+            properties: {
+              error: `Template not found: ${brickConf.template}`
+            }
+          };
+        }
       }
-      if (templateRegistry.has(brickConf.template)) {
-        updatedBrickConf = templateRegistry.get(brickConf.template)(
-          brickConf.params
-        );
-      } else {
-        updatedBrickConf = {
-          brick: "basic-bricks.page-error",
-          properties: {
-            error: `Template not found: ${brickConf.template}`
-          }
-        };
-      }
-      // 清理 brickConf.
+      // Cleanup brickConf and remember original data for restore.
       const { template, lifeCycle, $$params, params } = brickConf;
       Object.keys(brickConf).forEach(key => {
         delete brickConf[key as keyof RuntimeBrickConf];

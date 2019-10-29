@@ -1,4 +1,8 @@
-import { Storyboard, TemplatePackage } from "@easyops/brick-types";
+import {
+  Storyboard,
+  TemplatePackage,
+  SlotConfOfBricks
+} from "@easyops/brick-types";
 import { asyncProcessStoryboard } from "./asyncProcessStoryboard";
 import { loadScript } from "./loadScript";
 
@@ -69,12 +73,23 @@ describe("asyncProcessStoryboard", () => {
       registry.set("b", () => ({
         brick: "b"
       }));
+      registry.set("c", () => ({
+        template: "b"
+      }));
     });
     await asyncProcessStoryboard(storyboard, registry, templatePackages);
     expect(loadScript as jest.Mock).toBeCalledWith(["b.js"]);
     expect(storyboard.routes[0].bricks[0]).toMatchObject({
       brick: "a",
       $$template: "a",
+      $$params: {}
+    });
+    // Cover when a template returns a template.
+    expect(
+      (storyboard.routes[0].bricks[1].slots.s as SlotConfOfBricks).bricks[0]
+    ).toMatchObject({
+      brick: "b",
+      $$template: "c",
       $$params: {}
     });
   });
