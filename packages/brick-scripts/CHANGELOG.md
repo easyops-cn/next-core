@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.20.3...@easyops/brick-scripts@0.20.4) (2019-10-29)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 ## [0.20.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@0.20.2...@easyops/brick-scripts@0.20.3) (2019-10-29)
 
 **Note:** Version bump only for package @easyops/brick-scripts

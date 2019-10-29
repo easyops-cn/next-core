@@ -1,6 +1,6 @@
 {
   "name": "@dll/ace",
-  "version": "0.1.43",
+  "version": "0.1.44",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/ace",
   "license": "UNLICENSED",
@@ -21,6 +21,6 @@
     "react-ace": "^7.0.4"
   },
   "devDependencies": {
-    "@easyops/brick-dll": "^0.7.40"
+    "@easyops/brick-dll": "^0.7.41"
   }
 }
