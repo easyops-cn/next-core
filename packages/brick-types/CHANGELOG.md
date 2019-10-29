@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.25.0...@easyops/brick-types@0.25.1) (2019-10-29)
+
+### Bug Fixes
+
+- match search for active menu in sidebar ([b8d9ba2](https://git.easyops.local/anyclouds/next-core/commits/b8d9ba2))
+
 # [0.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.24.2...@easyops/brick-types@0.25.0) (2019-10-29)
 
 ### Features
