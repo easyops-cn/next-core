@@ -173,7 +173,11 @@ export class Router {
         );
       }
 
-      this.kernel.unsetBars({ appChanged, legacy });
+      const actualLegacy =
+        (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
+          ? "iframe"
+          : undefined;
+      this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
 
       if (barsHidden) {
         this.kernel.toggleBars(false);
@@ -187,13 +191,16 @@ export class Router {
           }
           this.defaultCollapsed = false;
         }
+        if (actualLegacy === "iframe") {
+          // Do not modify breadcrumb in iframe mode,
+          // it will be *popped* from iframe automatically.
+          delete appBar.breadcrumb;
+        }
         mountStaticNode(this.kernel.menuBar.element, menuBar);
         mountStaticNode(this.kernel.appBar.element, appBar);
       }
 
-      this.kernel.toggleLegacyIframe(
-        (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
-      );
+      this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
       menuInBg.forEach(brick => {
         appendBrick(brick, mountPoints.bg as MountableElement);
