@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>cpu</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="-12.4533333%" x2="50%" y2="112.546667%" id="linearGradient-1">
+            <stop stop-color="#FE9B35" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0.6407076%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9" offset="50.62%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="112.5%" y1="50.28%" x2="-12.5%" y2="50.28%" id="linearGradient-2">
+            <stop stop-color="#FE9B35" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0.6407076%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9" offset="50.62%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="112.5%" y1="50.27%" x2="-12.5%" y2="50.27%" id="linearGradient-3">
+            <stop stop-color="#FE9B35" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0.6407076%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9" offset="50.62%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-12.5%" y1="50.28%" x2="112.5%" y2="50.28%" id="linearGradient-4">
+            <stop stop-color="#FE9B35" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0.6407076%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9" offset="50.62%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-12.5%" y1="50.27%" x2="112.5%" y2="50.27%" id="linearGradient-5">
+            <stop stop-color="#FE9B35" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0.6407076%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9" offset="50.62%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="112.546667%" x2="50%" y2="-12.4533333%" id="linearGradient-6">
+            <stop stop-color="#FE9B35" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0.6407076%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9" offset="50.62%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="高优先级" transform="translate(-1920.000000, -271.000000)">
+            <g id="cpu" transform="translate(1920.000000, 271.000000)">
+                <rect id="矩形备份-14" x="0" y="0" width="36" height="36"></rect>
+                <g id="编组" transform="translate(1.000000, 1.000000)">
+                    <path d="M21.6333333,24.5 L11.3666667,24.5 C10.34,24.5 9.5,23.6693333 9.5,22.6333333 L9.5,12.3666667 C9.5,11.34 10.3306667,10.5 11.3666667,10.5 L21.6333333,10.5 C22.66,10.5 23.5,11.3306667 23.5,12.3666667 L23.5,22.6333333 C23.5,23.66 22.66,24.5 21.6333333,24.5 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    <line x1="16.5" y1="6" x2="16.5" y2="0" id="路径" stroke="url(#linearGradient-1)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="22.5" y1="6" x2="22.5" y2="0" id="路径" stroke="url(#linearGradient-1)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="10.5" y1="6" x2="10.5" y2="0" id="路径" stroke="url(#linearGradient-1)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="28" y1="17.5" x2="34" y2="17.5" id="路径" stroke="url(#linearGradient-2)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="28" y1="23.5" x2="34" y2="23.5" id="路径" stroke="url(#linearGradient-3)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="28" y1="11.5" x2="34" y2="11.5" id="路径" stroke="url(#linearGradient-2)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="0" y1="17.5" x2="6" y2="17.5" id="路径" stroke="url(#linearGradient-4)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="0" y1="23.5" x2="6" y2="23.5" id="路径" stroke="url(#linearGradient-5)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="0" y1="11.5" x2="6" y2="11.5" id="路径" stroke="url(#linearGradient-4)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="16.5" y1="34" x2="16.5" y2="28" id="路径" stroke="url(#linearGradient-6)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="22.5" y1="34" x2="22.5" y2="28" id="路径" stroke="url(#linearGradient-6)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="10.5" y1="34" x2="10.5" y2="28" id="路径" stroke="url(#linearGradient-6)" stroke-width="1.5" stroke-linecap="round"></line>
+                    <path d="M26.0833333,29 L6.91666667,29 C5.8625,29 5,28.1375 5,27.0833333 L5,7.91666667 C5,6.8625 5.8625,6 6.91666667,6 L26.0833333,6 C27.1375,6 28,6.8625 28,7.91666667 L28,27.0833333 C28,28.1375 27.1375,29 26.0833333,29 Z" id="路径" stroke="#FFFFFF" stroke-width="1.5"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

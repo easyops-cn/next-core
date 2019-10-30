@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="24px" viewBox="0 0 35 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>云</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100.011093%" x2="50%" y2="0.0106820049%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9701" offset="51.46%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="高优先级" transform="translate(-1002.000000, -276.000000)">
+            <g id="云" transform="translate(1002.000000, 271.000000)">
+                <rect id="矩形备份-5" x="0" y="0" width="36" height="36"></rect>
+                <path d="M27.5544444,28.44 L7.69277778,28.44 L7.63611111,28.44 C3.93388889,28.4116516 0.94,25.397272 0.94,21.6836319 C0.94,21.6741824 0.94,21.6647329 0.94,21.6647329 C0.958888889,17.9416434 3.97166667,14.9367132 7.69277778,14.9367132 C8.79777778,14.9367132 9.53444444,15.1635004 10.1105556,15.3713887 L10.4694444,15.5320296 C10.4788889,15.2485456 10.5733333,14.2374528 10.5827778,13.9445193 C10.7622222,9.24813476 14.3888889,5.44 19.0827778,5.44 C23.5405556,5.44 27.1766667,8.86070666 27.545,13.2169104 L27.5544444,13.2169104 C31.6533333,13.330304 34.94,16.6943139 34.94,20.8237305 C34.94,24.9531471 31.6627778,28.3077075 27.5733333,28.44 L27.5544444,28.44" id="路径" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>

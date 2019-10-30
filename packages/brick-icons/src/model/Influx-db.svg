@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="35px" viewBox="0 0 35 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>InfluxDB</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <radialGradient cx="50.009109%" cy="49.9947222%" fx="50.009109%" fy="49.9947222%" r="50.6253914%" gradientTransform="translate(0.500091,0.499947),scale(1.000000,0.986903),translate(-0.500091,-0.499947)" id="radialGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="15.3%"></stop>
+            <stop stop-color="#FFFFFF" offset="50.64%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.9" offset="79.31%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.2" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="中优先级" transform="translate(-2158.000000, -272.000000)">
+            <g id="InfluxDB" transform="translate(2157.000000, 271.000000)">
+                <polygon id="矩形备份-22" points="0 0 36 0 36 36 24.484679 36 0 36"></polygon>
+                <g id="编组">
+                    <path d="M11.1052364,21.1693487 L24.3532364,25.1883487 L21.2732364,35.3793487 L5.59823638,30.3983487 L11.1052364,21.1693487 Z M34.2772364,24.3593487 L23.0222364,34.6383487 L25.8062364,25.4263487 L34.2772364,24.3593487 Z M1.28023638,13.7843487 L9.79423638,20.5173487 L4.65523638,29.1303487 L1.28023638,13.7843487 Z M31.5272364,6.71734872 L35.0542364,22.7903487 L25.9712364,23.9343487 L23.1362364,10.2193487 L31.5272364,6.71734872 Z M21.8452364,11.1813487 L24.4302364,23.6873487 L12.2092364,19.9793487 L21.8452364,11.1813487 Z M13.7342364,1.06634872 L21.2822364,9.72034872 L10.7042364,19.3773487 L1.57823638,12.1603487 L13.7342364,1.06634872 Z M15.6112364,0.998348722 L30.2912364,5.65134872 L22.5042364,8.90134872 L15.6112364,0.998348722 Z" id="形状结合" fill="url(#radialGradient-1)" fill-rule="nonzero"></path>
+                    <g></g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

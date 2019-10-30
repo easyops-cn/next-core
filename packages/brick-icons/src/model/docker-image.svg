@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="26px" viewBox="0 0 36 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Docker镜像</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-0.44820186%" y1="50.7440707%" x2="99.9536586%" y2="50.7440707%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-0.606341395%" y1="50.7440707%" x2="99.7955191%" y2="50.7440707%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-0.527271628%" y1="50.8231405%" x2="99.8745888%" y2="50.8231405%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-0.606341395%" y1="50.9022102%" x2="99.7955191%" y2="50.9022102%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="模型图标库" transform="translate(-1101.000000, -324.000000)">
+            <g id="Docker镜像" transform="translate(1101.000000, 320.000000)">
+                <rect id="矩形" x="0" y="0" width="36" height="36"></rect>
+                <g id="编组-7" transform="translate(0.000000, 4.000000)" fill-rule="nonzero">
+                    <path d="M28.6216216,6 C29.7567568,6.90909091 30.5675676,8.23140496 30.8918919,9.71900826 C30.972973,9.96694215 30.972973,10.214876 30.972973,10.4628099 C31.2162162,10.2975207 31.4594595,10.2975207 31.7027027,10.214876 C33.1621622,9.96694215 34.6216216,10.214876 36,11.1239669 C35.027027,12.2809917 33.8108108,13.107438 32.3513514,13.4380165 C31.7027027,13.6033058 30.972973,13.6859504 30.3243243,13.6859504 C30.2432432,16.2479339 27.8918919,19.7190083 24.1621622,22.3636364 C22.6216216,23.4380165 21,24.2644628 19.2972973,24.9256198 C17.4324324,25.6694215 15.4054054,26 13.3783784,26 C6,26 -5.68434189e-14,21.2892562 -5.68434189e-14,15.5041322 C-5.68434189e-14,15.0909091 -5.68434189e-14,14.5950413 0.0810810811,14.1818182 L0.0810810811,14.1818182 L8.83783784,14.1818182 C10.2972973,14.1818182 11.8378378,14.2644628 13.2972973,14.2644628 C15.972973,14.2644628 18.5675676,14.2644628 21.2432432,14.0991736 C23.5135135,13.9338843 26.027027,13.768595 28.0540541,12.6942149 C28.1351351,12.6115702 28.6216216,12.3636364 28.6216216,12.2809917 C28.6216216,12.1983471 28.3783784,12.0330579 28.3783784,11.9504132 C28.1351351,11.5371901 27.8918919,11.0413223 27.8108108,10.5454545 C27.6486486,8.97520661 27.8918919,7.40495868 28.6216216,6 Z M10.5405405,17.9834711 C9.68972349,17.9834711 9,18.686495 9,19.553719 C9,20.420943 9.68972349,21.1239669 10.5405405,21.1239669 C11.3913576,21.1239669 12.0810811,20.420943 12.0810811,19.553719 C12.0810811,18.686495 11.3913576,17.9834711 10.5405405,17.9834711 Z M10.5405405,18.8099174 C10.9435591,18.8099174 11.2702703,19.1429287 11.2702703,19.553719 C11.2702703,19.9645093 10.9435591,20.2975207 10.5405405,20.2975207 C10.1375219,20.2975207 9.81081081,19.9645093 9.81081081,19.553719 C9.81081081,19.1429287 10.1375219,18.8099174 10.5405405,18.8099174 Z" id="形状结合" fill="#FFFFFF"></path>
+                    <rect id="矩形" fill="#FFFFFF" x="3" y="9" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="url(#linearGradient-1)" x="7.5" y="9" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="12" y="9" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="url(#linearGradient-2)" x="16.5" y="9" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="7.5" y="4.5" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="url(#linearGradient-3)" x="12" y="4.5" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="16.5" y="4.5" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="url(#linearGradient-4)" x="16.5" y="0" width="3.5" height="3.5"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="21" y="9" width="3.5" height="3.5"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

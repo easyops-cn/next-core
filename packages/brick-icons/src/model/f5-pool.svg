@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>F5POOL</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100.009231%" x2="50%" y2="0.00923076923%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="15.71%"></stop>
+            <stop stop-color="#FFFFFF" offset="37.45%"></stop>
+            <stop stop-color="#FFFFFF" offset="65.93%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="83.01%"></stop>
+        </linearGradient>
+        <linearGradient x1="29.5335699%" y1="63.0054767%" x2="71.9896178%" y2="36.0558943%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="41.89%"></stop>
+            <stop stop-color="#FFFFFF" offset="61.03%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="29.8896925%" y1="33.3895126%" x2="71.392249%" y2="67.7056838%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="41.89%"></stop>
+            <stop stop-color="#FFFFFF" offset="61.03%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="32.2652886%" y1="65.097862%" x2="68.8624713%" y2="33.9700219%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="41.89%"></stop>
+            <stop stop-color="#FFFFFF" offset="61.03%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="32.2652886%" y1="34.9292413%" x2="68.8624713%" y2="66.0570814%" id="linearGradient-5">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="41.89%"></stop>
+            <stop stop-color="#FFFFFF" offset="61.03%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="高优先级" transform="translate(-493.000000, -272.000000)">
+            <g id="F5POOL" transform="translate(492.000000, 271.000000)">
+                <rect id="矩形" x="0" y="0" width="36" height="36"></rect>
+                <g id="编组" transform="translate(1.000000, 1.000000)">
+                    <line x1="16.5" y1="5" x2="16.5" y2="30" id="路径" stroke="url(#linearGradient-1)" stroke-width="1.5"></line>
+                    <line x1="28" y1="22" x2="18" y2="28" id="路径" stroke="url(#linearGradient-2)" stroke-width="1.5"></line>
+                    <line x1="6" y1="23" x2="15" y2="29" id="路径" stroke="url(#linearGradient-3)" stroke-width="1.5"></line>
+                    <line x1="17" y1="5" x2="5" y2="22" id="路径" stroke="url(#linearGradient-4)" stroke-width="1.5"></line>
+                    <line x1="29" y1="22" x2="17" y2="5" id="路径" stroke="url(#linearGradient-5)" stroke-width="1.5"></line>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="16.5" cy="4.5" r="4.5"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="16.5" cy="29.5" r="4.5"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="4.5" cy="21.5" r="4.5"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="29.5" cy="21.5" r="4.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="36px" viewBox="0 0 33 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>用户</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="49.8996969%" y1="71.2135111%" x2="49.8996969%" y2="-44.418255%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="模型图标库" transform="translate(-273.000000, -318.000000)">
+            <g id="用户" transform="translate(270.300000, 317.500000)">
+                <rect id="矩形" x="0.7" y="0.5" width="36" height="36"></rect>
+                <path d="M26.7,21.5 C31.2,21.5 34.9,25.2 34.9,29.7 L34.9,29.7 L34.9,34.4 C34.9,35.5 34,36.3 32.9,36.4 L32.9,36.4 L5,36.4 C3.9,36.4 3,35.5 3,34.4 L3,34.4 L3,29.7 C3,25.2 6.7,21.5 11.2,21.5 L11.2,21.5 Z M29.2,27.25 L24.3,27.25 C23.8857864,27.25 23.55,27.5857864 23.55,28 C23.55,28.4142136 23.8857864,28.75 24.3,28.75 L29.2,28.75 C29.6142136,28.75 29.95,28.4142136 29.95,28 C29.95,27.5857864 29.6142136,27.25 29.2,27.25 Z" id="形状结合" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+                <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="18.9" cy="9.4" r="8.4"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
