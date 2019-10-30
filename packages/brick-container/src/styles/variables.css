@@ -1,0 +1,44 @@
+:root {
+  --color-brand: #0071eb;
+
+  --bg-color-table-head: #f2f5f9;
+  --bg-color-list-hover: #ebf3fd;
+  --bg-color-input-focus: #d6e8fb;
+
+  --bg-color-button-primary-hover: #65b2ff;
+  --bg-color-button-primary: #0071eb;
+  --bg-color-button-primary-pressed: #0063ce;
+
+  --bg-color-button-danger-hover: #ff867d;
+  --bg-color-button-danger: #f0493c;
+  --bg-color-button-danger-pressed: #e34236;
+
+  --bg-color-button-success-hover: #71d58f;
+  --bg-color-button-success: #2fc25b;
+  --bg-color-button-success-pressed: #259c49;
+
+  --bg-color-button-warning-hover: #ffb968;
+  --bg-color-button-warning: #ffa235;
+  --bg-color-button-warning-pressed: #e6922f;
+
+  --stroke-color-default: #e8e8e8;
+  --fill-color-gray-light: #fafafa;
+  --fill-color-gray-default: #f5f5f5;
+  --fill-color-gray-dark: #d9d9d9;
+
+  --text-color-default: #595959;
+  --text-color-title: #262626;
+  --text-color-secondary: #8c8c8c;
+  --text-color-disabled: #bfbfbf;
+  --text-color-link: #0071eb;
+
+  --menu-bar-width: 240px;
+  --menu-bar-collapsed-width: 60px;
+  --menu-bar-collapse-transition-duration: 250ms;
+  --menu-bar-collapse-transition-timing-function: ease-out;
+
+  --app-bar-height: 56px;
+
+  --launchpad-backdrop-filter: blur(5px);
+  --launchpad-backdrop-transition: filter 100ms ease-out;
+}

@@ -5,6 +5,7 @@ import { pushInterceptor } from "@easyops/brick-http";
 import "@easyops/fontawesome-library";
 import "./i18n";
 
+import "./styles/variables.css";
 import "./styles/antd.less";
 import "./styles/default.css";
 

@@ -1,5 +1,5 @@
 body {
-  background-color: rgba(239, 244, 250, 1);
+  background-color: #eff4fa;
 }
 
 #root-layout {
@@ -11,13 +11,13 @@ body {
 }
 
 #menu-bar-mount-point {
-  width: 240px;
+  width: var(--menu-bar-width);
 }
 
 #main-mount-point,
 #legacy-iframe-mount-point {
-  margin-top: 56px;
-  transition: filter 100ms ease-out;
+  margin-top: var(--app-bar-height);
+  transition: var(--launchpad-backdrop-transition);
 }
 
 #legacy-iframe-mount-point,
@@ -41,7 +41,7 @@ body {
 }
 
 .menu-bar-collapsed #menu-bar-mount-point {
-  width: 60px;
+  width: var(--menu-bar-collapsed-width);
 }
 
 #menu-bar-mount-point,
@@ -55,12 +55,13 @@ body {
 }
 
 .first-rendered #menu-bar-mount-point {
-  transition: width 250ms ease-out;
+  transition: width var(--menu-bar-collapse-transition-duration)
+    var(--menu-bar-collapse-transition-timing-function);
 }
 
 .filter-of-blur #main-mount-point,
 .filter-of-blur #legacy-iframe-mount-point {
-  filter: blur(5px);
+  filter: var(--launchpad-backdrop-filter);
 }
 
 @media print {
