@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="34px" viewBox="0 0 36 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>专线</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="低优先级" transform="translate(-611.000000, -275.000000)">
+            <g id="专线" transform="translate(608.000000, 271.000000)">
+                <polygon id="矩形备份-19" points="3 4 39 4 39 40 27.484679 40 3 40"></polygon>
+                <g id="编组-11" transform="translate(21.000000, 21.176471) rotate(-45.000000) translate(-21.000000, -21.176471) translate(5.000000, 8.000000)" stroke="#FFFFFF" stroke-width="1.5">
+                    <circle id="椭圆形" cx="7.52941176" cy="3.76470588" r="3.76470588"></circle>
+                    <circle id="椭圆形" cx="24.4705882" cy="22.5882353" r="3.76470588"></circle>
+                    <path d="M27.2941176,13.1764706 L27.2941176,13.1764706 C29.8931047,13.1764706 32,11.0695753 32,8.47058824 C32,5.87160118 29.8931047,3.76470588 27.2941176,3.76470588" id="路径"></path>
+                    <path d="M4.70588235,13.1764706 C2.1068953,13.1764706 0,15.2833659 0,17.8823529 C0,20.48134 2.1068953,22.5882353 4.70588235,22.5882353 L4.70588235,22.5882353" id="路径"></path>
+                    <line x1="11.7647059" y1="3.76470588" x2="27.2941176" y2="3.76470588" id="直线" stroke-linecap="round"></line>
+                    <line x1="4.70588235" y1="13.1764706" x2="27.2941176" y2="13.1764706" id="直线" stroke-linecap="round"></line>
+                    <line x1="4.70588235" y1="22.5882353" x2="20.7058824" y2="22.5882353" id="直线" stroke-linecap="round"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

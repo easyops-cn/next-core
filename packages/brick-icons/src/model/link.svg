@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>链路</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="48.7605756%" y1="76.3222417%" x2="51.3248461%" y2="22.0310918%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="41.89%"></stop>
+            <stop stop-color="#FFFFFF" offset="61.03%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="74.3110182%" y1="69.9515316%" x2="25.7250909%" y2="30.0817274%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="41.89%"></stop>
+            <stop stop-color="#FFFFFF" offset="57.8%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="48.518678%" y1="71.211624%" x2="51.5444962%" y2="28.079665%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="46.14%"></stop>
+            <stop stop-color="#FFFFFF" offset="56.34%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.3" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="高优先级" transform="translate(-1512.000000, -272.000000)">
+            <g id="链路" transform="translate(1511.000000, 271.000000)">
+                <rect id="矩形备份-10" x="0" y="0" width="36" height="36"></rect>
+                <g id="编组" transform="translate(1.000000, 1.000000)">
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="10.5" cy="9.5" r="5.5"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="5.5" cy="28.5" r="5.5"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="23.5" cy="20.5" r="5.5"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="28.5" cy="5.5" r="5.5"></circle>
+                    <line x1="11" y1="10" x2="6" y2="29" id="路径" stroke="url(#linearGradient-1)" stroke-width="1.6107"></line>
+                    <line x1="24" y1="21" x2="11" y2="10" id="路径" stroke="url(#linearGradient-2)" stroke-width="1.6107"></line>
+                    <line x1="29" y1="6" x2="24" y2="21" id="路径" stroke="url(#linearGradient-3)" stroke-width="1.6107"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

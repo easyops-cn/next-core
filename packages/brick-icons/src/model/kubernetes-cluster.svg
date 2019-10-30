@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Kubernetes Cluster</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="100%" x2="0.00833333333%" y2="-0.0105555556%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.843934755" offset="39.8780617%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.367183904" offset="73.4295819%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="中优先级" transform="translate(-1952.000000, -271.000000)">
+            <g id="Kubernetes-Cluster" transform="translate(1952.000000, 271.000000)">
+                <polygon id="矩形备份-20" points="0 0 36 0 36 36 24.484679 36 0 36"></polygon>
+                <g id="编组" fill-rule="nonzero">
+                    <rect id="矩形" fill="url(#linearGradient-1)" x="17.7859459" y="18.0875676" width="17.5135135" height="17.5135135"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="0.272432432" y="0.574054054" width="17.5135135" height="17.5135135"></rect>
+                    <circle id="椭圆形" fill="#FFFFFF" cx="26.5427027" cy="9.33081081" r="4.37837838"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" cx="9.02918919" cy="26.8443243" r="4.37837838"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

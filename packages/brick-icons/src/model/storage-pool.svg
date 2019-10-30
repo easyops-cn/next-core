@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>储存POOL</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="49.994882%" y1="-0.00656877898%" x2="49.994882%" y2="100.006569%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.1" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.6" offset="12.42%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="中优先级" transform="translate(-1434.000000, -271.000000)">
+            <g id="储存POOL" transform="translate(1434.000000, 271.000000)">
+                <polygon id="矩形备份-14" points="0 0 36 0 36 36 24.484679 36 0 36"></polygon>
+                <g id="编组-6" transform="translate(0.000000, 0.000000)">
+                    <path d="M28.42,0 C29.35,0 30.16,0.663060278 30.37,1.60741886 L35.7407413,26 L32.7794226,26 L28.4513921,6.36012365 C28.284654,5.61099304 27.671296,5.07106115 26.946283,5.00649595 L26.799891,5 L9.29397878,5 C8.49787053,5 7.81186236,5.56955178 7.64247763,6.36012365 L7.64247763,6.36012365 L3.2244226,26 L0.318422604,26 L5.8,1.60741886 C6,0.673106646 6.81,0 7.75,0 L28.42,0 Z" id="形状结合" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+                    <path d="M34,24.81 C35.1,24.81 36,25.71 36,26.81 L36,34 C36,35.1 35.11,36 34,36 L2,36 C0.9,36 0,35.1 0,34 L0,26.81 C0,25.71 0.9,24.81 2,24.81 L12.0089966,24.809056 C12.0030442,24.8719023 12,24.9355956 12,25 L12,25 L12,29 C12,30.1045695 12.8954305,31 14,31 L14,31 L22,31 C23.1045695,31 24,30.1045695 24,29 L24,29 L24,25 C24,24.9355956 23.9969558,24.8719023 23.9910034,24.809056 L34,24.81 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    <line x1="23" y1="12" x2="13" y2="12" id="直线-3" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"></line>
+                    <line x1="25" y1="16" x2="11" y2="16" id="直线-3" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

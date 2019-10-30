@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="35px" viewBox="0 0 34 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>存储资源组</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="中优先级" transform="translate(-1539.000000, -271.000000)">
+            <g id="存储资源组" transform="translate(1538.000000, 271.000000)">
+                <polygon id="矩形备份-15" points="0 0 36 0 36 36 24.484679 36 0 36"></polygon>
+                <g id="编组-42" transform="translate(1.000000, 0.000000)">
+                    <path d="M17.5151515,2.34090909 C26.4646748,2.34090909 33.719697,9.59593121 33.719697,18.5454545 C33.719697,27.4949779 26.4646748,34.75 17.5151515,34.75 C8.56562818,34.75 1.31060606,27.4949779 1.31060606,18.5454545 C1.31060606,9.59593121 8.56562818,2.34090909 17.5151515,2.34090909 Z M17.5151515,3.84090909 C9.39405531,3.84090909 2.81060606,10.4243583 2.81060606,18.5454545 C2.81060606,26.6665508 9.39405531,33.25 17.5151515,33.25 C25.6362477,33.25 32.219697,26.6665508 32.219697,18.5454545 C32.219697,10.4243583 25.6362477,3.84090909 17.5151515,3.84090909 Z" id="椭圆形" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    <circle id="椭圆形" fill="#FFFFFF" cx="17.5151515" cy="3.09090909" r="3.09090909"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" cx="3.09090909" cy="24.7272727" r="3.09090909"></circle>
+                    <ellipse id="椭圆形" fill="url(#linearGradient-1)" cx="17.5151515" cy="23.1818182" rx="8.24242424" ry="2.57575758"></ellipse>
+                    <ellipse id="椭圆形" fill="url(#linearGradient-1)" cx="17.5151515" cy="20.0909091" rx="8.24242424" ry="2.57575758"></ellipse>
+                    <ellipse id="椭圆形" fill="url(#linearGradient-1)" cx="17.5151515" cy="17" rx="8.24242424" ry="2.57575758"></ellipse>
+                    <ellipse id="椭圆形" fill="#FFFFFF" cx="17.5151515" cy="13.9090909" rx="8.24242424" ry="2.57575758"></ellipse>
+                    <circle id="椭圆形" fill="#FFFFFF" cx="30.9090909" cy="25.7575758" r="3.09090909"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
