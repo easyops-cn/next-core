@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.20.20...@easyops/brick-container@0.21.0) (2019-10-31)
+
+### Bug Fixes
+
+- disable backdrop scroll when launchpad is open ([cd8e43a](https://git.easyops.local/anyclouds/next-core/commits/cd8e43a))
+
+### Features
+
+- initial root css variables ([7144b84](https://git.easyops.local/anyclouds/next-core/commits/7144b84))
+
 ## [0.20.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.20.19...@easyops/brick-container@0.20.20) (2019-10-30)
 
 **Note:** Version bump only for package @easyops/brick-container

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.25.1...@easyops/brick-types@0.26.0) (2019-10-31)
+
+### Features
+
+- desktop can have a name ([f2f7109](https://git.easyops.local/anyclouds/next-core/commits/f2f7109))
+
 ## [0.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@0.25.0...@easyops/brick-types@0.25.1) (2019-10-29)
 
 ### Bug Fixes
