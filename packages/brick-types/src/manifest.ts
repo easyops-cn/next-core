@@ -196,6 +196,7 @@ export interface CustomBrickEventHandler {
 
 export interface DesktopData {
   items: DesktopItem[];
+  name?: string;
 }
 
 export type DesktopItem = DesktopItemApp | DesktopItemDir;
