@@ -62,10 +62,15 @@ export class Runtime {
 
   /**
    * 切换主体内容 `filter: blur(...)`;
+   * @deprecated
    * @param blur
    */
   toggleFilterOfBlur(blur: boolean): void {
     document.body.classList.toggle("filter-of-blur", blur);
+  }
+
+  toggleLaunchpadEffect(open: boolean): void {
+    document.body.classList.toggle("launchpad-open", open);
   }
 
   getFeatureFlags(): FeatureFlags {

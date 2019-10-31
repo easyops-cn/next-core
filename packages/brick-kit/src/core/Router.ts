@@ -71,7 +71,7 @@ export class Router {
             .map(item => item.filePath)
             .concat(bootstrapData.templatePackages.map(item => item.filePath))
         );
-      } else if (!storyboard.depsProcessed) {
+      } else if (!storyboard.$$depsProcessed) {
         // 先加载模板
         const templateDeps = getTemplateDepsOfStoryboard(
           storyboard,
@@ -90,13 +90,17 @@ export class Router {
         await loadScript(result.dll);
         await loadScript(result.deps);
         // 每个 storyboard 仅处理一次依赖
-        storyboard.depsProcessed = true;
+        storyboard.$$depsProcessed = true;
       }
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;
     const currentApp = storyboard ? storyboard.app : undefined;
-    const appChanged = previousApp !== currentApp;
+    // Storyboard maybe re-assigned, e.g. when open launchpad.
+    const appChanged =
+      previousApp && currentApp
+        ? previousApp.id !== currentApp.id
+        : previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
 

@@ -59,6 +59,12 @@ body {
     var(--menu-bar-collapse-transition-timing-function);
 }
 
+body.launchpad-open {
+  overflow: hidden;
+}
+
+.launchpad-open #main-mount-point,
+.launchpad-open #legacy-iframe-mount-point,
 .filter-of-blur #main-mount-point,
 .filter-of-blur #legacy-iframe-mount-point {
   filter: var(--launchpad-backdrop-filter);

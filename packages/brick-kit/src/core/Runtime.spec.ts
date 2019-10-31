@@ -43,6 +43,17 @@ describe("Runtime", () => {
     expect(document.body.classList.contains("filter-of-blur")).toBe(false);
   });
 
+  it("should toggleLaunchpadEffect", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+
+    expect(document.body.classList.contains("launchpad-open")).toBe(false);
+    runtime.toggleLaunchpadEffect(true);
+    expect(document.body.classList.contains("launchpad-open")).toBe(true);
+    runtime.toggleLaunchpadEffect(false);
+    expect(document.body.classList.contains("launchpad-open")).toBe(false);
+  });
+
   it("should throw if bootstrap more than once", async () => {
     const mountPoints: MountPoints = {} as any;
     await runtime.bootstrap(mountPoints);
