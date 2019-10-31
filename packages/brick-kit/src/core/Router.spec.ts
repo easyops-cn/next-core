@@ -164,7 +164,7 @@ describe("Router", () => {
 
   it("should render matched storyboard with bars hidden and empty main", async () => {
     __setMatchedStoryboard({
-      depsProcessed: true,
+      $$depsProcessed: true,
       routes: []
     });
     __setMountRoutesResults({

@@ -69,7 +69,7 @@ export interface Storyboard {
 }
 
 export interface RuntimeStoryboard extends Storyboard {
-  depsProcessed?: boolean;
+  $$depsProcessed?: boolean;
 }
 
 export interface RouteConf<B = any, M = any> {
