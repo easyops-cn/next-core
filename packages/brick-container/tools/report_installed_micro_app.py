@@ -76,8 +76,6 @@ def create_or_update_micro_app(app, ip, port, org):
         # 如果状态是空，则默认是enabled的
         if rsp.json()["data"]["status"]:
             app["status"] = rsp.json()["data"]["status"]
-        if rsp.json()["data"].get("menuIcon"):
-            app["menuIcon"] = rsp.json()["data"]["menuIcon"]
         rsp = requests.put(url, json=app, headers=headers)
         rsp.raise_for_status()
     else:
