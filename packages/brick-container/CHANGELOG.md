@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.21.2...@easyops/brick-container@0.22.0) (2019-11-01)
+
+### Features
+
+- add css variables like page padding and card border radius ([1c278d6](https://git.easyops.local/anyclouds/next-core/commits/1c278d6))
+
 ## [0.21.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@0.21.1...@easyops/brick-container@0.21.2) (2019-11-01)
 
 **Note:** Version bump only for package @easyops/brick-container
