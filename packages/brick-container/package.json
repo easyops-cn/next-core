@@ -41,22 +41,22 @@
     "@easyops/brick-dll": "^0.7.45",
     "add-asset-html-webpack-plugin": "^3.1.3",
     "babel-loader": "^8.0.6",
-    "chokidar": "^3.2.2",
+    "chokidar": "^3.3.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
-    "core-js": "^3.3.2",
+    "core-js": "^3.3.6",
     "css-loader": "^3.2.0",
     "html-webpack-plugin": "^3.2.0",
-    "i18next-browser-languagedetector": "^4.0.0",
+    "i18next-browser-languagedetector": "^4.0.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.8.0",
     "regenerator-runtime": "^0.13.3",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2",
-    "ws": "^7.1.2"
+    "ws": "^7.2.0"
   }
 }
