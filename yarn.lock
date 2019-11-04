@@ -2525,10 +2525,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^3.24.3:
-  version "3.24.3"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-3.24.3.tgz?cache=0&sync_timestamp=1572187477074&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.24.3.tgz#103e31a1a287166566db9ea16450588314367265"
-  integrity sha1-ED4xoaKHFmVm256hZFBYgxQ2cmU=
+antd@^3.25.0:
+  version "3.25.0"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-3.25.0.tgz?cache=0&sync_timestamp=1572850493466&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.25.0.tgz#d1d609038b3d17ddf9dfc1c3e3a9186d1c53849d"
+  integrity sha1-0dYJA4s9F93538HD46kYbRxThJ0=
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -2575,7 +2575,7 @@ antd@^3.24.3:
     rc-tree "~2.1.0"
     rc-tree-select "~2.9.1"
     rc-trigger "^2.6.2"
-    rc-upload "~2.8.0"
+    rc-upload "~2.9.1"
     rc-util "^4.10.0"
     react-lazy-load "^3.0.13"
     react-lifecycles-compat "^3.0.4"
@@ -10594,10 +10594,10 @@ rc-trigger@^3.0.0-rc.2:
     rc-animate "^3.0.0-rc.1"
     rc-util "^4.4.0"
 
-rc-upload@~2.8.0:
-  version "2.8.1"
-  resolved "https://registry.npm.taobao.org/rc-upload/download/rc-upload-2.8.1.tgz#8218eb8c4ed9cfb0340311c2c60525fc31060cb6"
-  integrity sha1-ghjrjE7Zz7A0AxHCxgUl/DEGDLY=
+rc-upload@~2.9.1:
+  version "2.9.1"
+  resolved "https://registry.npm.taobao.org/rc-upload/download/rc-upload-2.9.1.tgz#2ae60bc36054231bd967b5e1b293398f72222078"
+  integrity sha1-KuYLw2BUIxvZZ7XhspM5j3IiIHg=
   dependencies:
     babel-runtime "6.x"
     classnames "^2.2.5"

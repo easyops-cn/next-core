@@ -34,7 +34,7 @@
   "devDependencies": {
     "@easyops/brick-http": "^0.2.3",
     "@easyops/brick-utils": "^0.15.5",
-    "antd": "^3.24.3",
+    "antd": "^3.25.0",
     "history": "^4.10.1",
     "i18next": "^17.3.1",
     "lodash": "^4.17.15",
