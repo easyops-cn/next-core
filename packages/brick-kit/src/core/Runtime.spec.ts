@@ -171,6 +171,22 @@ describe("Runtime", () => {
     });
   });
 
+  it("should get brand settings", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.bootstrapData = {
+      settings: {
+        brand: {
+          base_title: "DevOps 管理专家"
+        }
+      }
+    };
+    expect(runtime.getBrandSettings()).toEqual({
+      base_title: "DevOps 管理专家"
+    });
+  });
+
   it("should get desktops", async () => {
     const mountPoints: MountPoints = {} as any;
     await runtime.bootstrap(mountPoints);
