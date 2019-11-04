@@ -34,6 +34,7 @@ module.exports = function ensureDeps() {
   const importedAllTemplates = new Set();
   importedPackages.forEach(pkg => {
     const isTemplates = pkg.startsWith("@templates/");
+    const isBricks = pkg.startsWith("@bricks/");
     if (isTemplates) {
       // 解决该包在 `npm link` 下使用时报错的问题
       const templatesJson = require(require.resolve(
@@ -45,7 +46,7 @@ module.exports = function ensureDeps() {
       templatesJson.templates.forEach(template => {
         importedAllTemplates.add(template);
       });
-    } else {
+    } else if (isBricks) {
       // 解决该包在 `npm link` 下使用时报错的问题
       const bricksJson = require(require.resolve(`${pkg}/dist/bricks.json`, {
         paths: [process.cwd()]
@@ -53,6 +54,8 @@ module.exports = function ensureDeps() {
       bricksJson.bricks.forEach(brick => {
         importedAllBricks.add(brick);
       });
+    } else {
+      throw new Error(`unexpected import: ${pkg}`);
     }
   });
 

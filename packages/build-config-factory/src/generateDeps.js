@@ -2,6 +2,8 @@ const path = require("path");
 const fs = require("fs-extra");
 const yaml = require("js-yaml");
 
+const scopeToSuffix = new Map([["@bricks", "NB"], ["@templates", "NT"]]);
+
 module.exports = function generateDeps() {
   const packageJson = require(path.join(process.cwd(), "package.json"));
   const { peerDependencies } = packageJson;
@@ -15,7 +17,10 @@ module.exports = function generateDeps() {
     ...Object.entries(peerDependencies)
       .map(([name, version]) => {
         const [scope, pkg] = name.split("/");
-        const suffix = scope === "@templates" ? "NT" : "NB";
+        if (!scopeToSuffix.has(scope)) {
+          throw new Error(`unexpected peer dependency: ${name}`);
+        }
+        const suffix = scopeToSuffix.get(scope);
         return {
           name: `${pkg}-${suffix}`,
           version
