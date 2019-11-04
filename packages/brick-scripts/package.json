@@ -33,7 +33,7 @@
     "meow": "^5.0.0",
     "prettier": "^1.18.2",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.7"
+    "request-promise-native": "^1.0.8"
   },
   "templateDependencies": {
     "@bricks/basic-bricks": ">=0.16.0",
