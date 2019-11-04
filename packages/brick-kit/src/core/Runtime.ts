@@ -89,6 +89,13 @@ export class Runtime {
     );
   }
 
+  getBrandSettings() {
+    return Object.assign(
+      { base_title: "DevOps 管理专家" },
+      kernel.bootstrapData.settings && kernel.bootstrapData.settings.brand
+    );
+  }
+
   getLaunchpadSettings(): { columns: number; rows: number } {
     return Object.assign(
       {

@@ -91,16 +91,18 @@ function getSingleTemplatePackage(env, templatePackageName) {
 function getSettings() {
   const defaultSettings = {
     featureFlags: {},
-    homepage: "/"
+    homepage: "/",
+    brand: { base_title: "DevOps 管理专家" }
   };
   const yamlPath = path.join(process.cwd(), "dev-settings.yaml");
   if (!fs.existsSync(yamlPath)) {
     return defaultSettings;
   }
   const userSettings = yaml.safeLoad(fs.readFileSync(yamlPath), "utf8");
-  const { feature_flags: featureFlags, homepage } = userSettings;
+  const { feature_flags: featureFlags, homepage, brand } = userSettings;
   Object.assign(defaultSettings.featureFlags, featureFlags);
   Object.assign(defaultSettings, { homepage });
+  Object.assign(defaultSettings, { brand });
   return defaultSettings;
 }
 
