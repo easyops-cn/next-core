@@ -89,7 +89,7 @@ export class Runtime {
     );
   }
 
-  getBrandSettings() {
+  getBrandSettings(): Record<string, string> {
     return Object.assign(
       { base_title: "DevOps 管理专家" },
       kernel.bootstrapData.settings && kernel.bootstrapData.settings.brand

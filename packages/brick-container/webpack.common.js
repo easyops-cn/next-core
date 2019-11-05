@@ -54,8 +54,14 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin(dll.map(({ filePath }) => require.resolve(filePath))),
+    new CopyPlugin([
+      {
+        from: path.resolve(__dirname, "./assets"),
+        to: "assets",
+        ignore: [".*"]
+      }
+    ]),
     new HtmlWebpackPlugin({
-      favicon: path.join(__dirname, "src", "favicon.png"),
       title: "DevOps 管理专家",
       baseHref,
       template: path.join(__dirname, "src", "index.ejs")
