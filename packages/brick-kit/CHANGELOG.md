@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.0.0...@easyops/brick-kit@1.1.0) (2019-11-05)
+
+### Features
+
+- **brand:** brand favicon config2 Refs INSTANCE-851 ([5a0dc32](https://git.easyops.local/anyclouds/next-core/commits/5a0dc32))
+- **brand:** brand title config Refs INSTANCE-851 ([08f3202](https://git.easyops.local/anyclouds/next-core/commits/08f3202))
+
 # [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@0.39.4...@easyops/brick-kit@1.0.0) (2019-11-03)
 
 **Note:** Version bump only for package @easyops/brick-kit
