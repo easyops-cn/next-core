@@ -98,28 +98,28 @@
 .ant-btn-primary {
   &:hover,
   &:focus {
-    background-color: #65b2ff;
-    border-color: #65b2ff;
+    background-color: var(--bg-color-button-primary-hover);
+    border-color: var(--bg-color-button-primary-hover);
   }
 
   &.active,
   &:active {
-    background-color: #0063ce;
-    border-color: #0063ce;
+    background-color: var(--bg-color-button-primary-pressed);
+    border-color: var(--bg-color-button-primary-pressed);
   }
 }
 
 .ant-btn-danger {
   &:hover,
   &:focus {
-    background-color: #ff867d;
-    border-color: #ff867d;
+    background-color: var(--bg-color-button-danger-hover);
+    border-color: var(--bg-color-button-danger-hover);
   }
 
   &.active,
   &:active {
-    background-color: #e34236;
-    border-color: #e34236;
+    background-color: var(--bg-color-button-danger-pressed);
+    border-color: var(--bg-color-button-danger-pressed);
   }
 }
 
@@ -135,4 +135,15 @@
     color: #116ac2;
     border-color: #0063ce;
   }
+}
+
+.ant-card {
+  box-shadow: var(--card-default-box-shadow);
+  transition: var(--card-transition);
+}
+
+// Consider all bordered card as inner card.
+.ant-card-bordered {
+  border: var(--card-inner-border);
+  border-radius: var(--card-inner-border-radius);
 }
