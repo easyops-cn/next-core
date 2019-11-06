@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.2...@easyops/brick-container@1.1.3) (2019-11-06)
+
+### Bug Fixes
+
+- fix card styles ([551b69e](https://git.easyops.local/anyclouds/next-core/commits/551b69e))
+
 ## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.1...@easyops/brick-container@1.1.2) (2019-11-06)
 
 ### Bug Fixes
