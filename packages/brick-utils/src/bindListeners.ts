@@ -58,6 +58,21 @@ export const bindListeners = (
               }
             }) as EventListener);
             break;
+          case "history.goBack":
+          case "history.goForward":
+            brick.addEventListener(eventType, ((event: CustomEvent) => {
+              const [, method] = handler.action.split(".") as [
+                "history",
+                "goBack" | "goForward"
+              ];
+              history[method]();
+            }) as EventListener);
+            break;
+          case "location.reload":
+            brick.addEventListener(eventType, ((event: CustomEvent) => {
+              location.reload();
+            }) as EventListener);
+            break;
           case "console.log":
           case "console.error":
           case "console.warn":
