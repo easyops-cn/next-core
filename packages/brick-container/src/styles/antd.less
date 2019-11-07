@@ -147,3 +147,49 @@
   border: var(--card-inner-border);
   border-radius: var(--card-inner-border-radius);
 }
+
+/**
+ * 修改 Input 的样式
+ * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=a0bee232-89c7-45d3-b3cf-7300c457ac9a
+*/
+.@{input-prefix-cls} {
+  &:focus {
+    color: #0071EB;
+  }
+
+  &-group-addon {
+    color: #595959;
+  }
+
+  &-search-button {
+    padding: 0 10px;
+  }
+}
+
+.@{input-number-prefix-cls} {
+  &-handler-wrap {
+    width: 20px;
+  }
+}
+
+/**
+ * 修改 Select 的样式
+ * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=2afae1c2-4839-410f-82fb-8f048c706a09
+*/
+.@{select-prefix-cls} {
+  &-dropdown-menu {
+    padding: 2px;
+  }
+
+  &-dropdown-menu-item {
+    border-radius: 6px !important;
+  }
+
+  &-selection__choice {
+    border-radius: 6px !important;
+  }
+
+  &-dropdown-menu-item-group-title {
+    font-size: 14px;
+  }
+}
