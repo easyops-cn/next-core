@@ -180,6 +180,9 @@ export interface BuiltinBrickEventHandler {
   action:
     | "history.push"
     | "history.replace"
+    | "history.goBack"
+    | "history.goForward"
+    | "location.reload"
     | "console.log"
     | "console.error"
     | "console.warn"

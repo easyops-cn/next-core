@@ -56,6 +56,14 @@ describe("bindListeners", () => {
             action: "history.replace",
             args: ["specified args for history.replace"]
           },
+          { action: "history.goBack" },
+          {
+            action: "history.goForward"
+          },
+          {
+            action: "location.reload",
+            args: [true]
+          },
           { action: "console.log" },
           { action: "console.info" },
           { action: "console.warn", args: ["specified args for console.warn"] },
@@ -80,8 +88,14 @@ describe("bindListeners", () => {
       } as any;
       const history = {
         push: jest.fn(),
-        replace: jest.fn()
+        replace: jest.fn(),
+        goBack: jest.fn(),
+        goForward: jest.fn()
       } as any;
+
+      const location = window.location;
+      delete window.location;
+      window.location = ({ reload: jest.fn() } as unknown) as Location;
 
       jest.spyOn(console, "log");
       jest.spyOn(console, "info");
@@ -103,6 +117,11 @@ describe("bindListeners", () => {
       expect(history.replace).toBeCalledWith(
         "specified args for history.replace"
       );
+      expect(history.goBack).toBeCalledWith();
+      expect(history.goForward).toBeCalledWith();
+
+      expect(window.location.reload).toBeCalledWith();
+      window.location = location;
 
       /* eslint-disable no-console */
       expect(console.log).toBeCalledWith(event1);
