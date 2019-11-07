@@ -28,6 +28,14 @@ describe("computeRealValue", () => {
     ],
     [["${EVENT.detail.to}"], context, ["world"]],
     [[{ "${EVENT.detail.to}": "1" }], context, [{ world: "1" }]],
+    [
+      ["${EVENT.detail}"],
+      {
+        app: context.app,
+        query: null
+      },
+      ["${EVENT.detail}"]
+    ],
     [["${APP.homepage}"], context, ["/host"]]
   ];
   it.each(cases)(
