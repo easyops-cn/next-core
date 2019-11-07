@@ -6,7 +6,7 @@ const replaceTemplateValue = (
   matches: string[],
   context: PluginRuntimeContext
 ): any => {
-  const [, namespace, field, defaultValue, type] = matches;
+  const [raw, namespace, field, defaultValue, type] = matches;
   let result;
   if (namespace === "QUERY" || namespace === "query") {
     if (field === "*") {
@@ -17,6 +17,9 @@ const replaceTemplateValue = (
         : defaultValue;
     }
   } else if (namespace === "EVENT" || namespace === "event") {
+    if (context.event === undefined) {
+      return raw;
+    }
     result = field === "*" ? context.event : get(context.event, field);
   } else if (namespace === "APP") {
     result = get(context.app, field);
@@ -83,8 +86,8 @@ export const computeRealValue = (
 
   return value.replace(
     /\$\{(?:(QUERY|EVENT|query|event|APP)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json))?\}/g,
-    (match, query, field, defaultValue, type) =>
-      replaceTemplateValue([match, query, field, defaultValue, type], context)
+    (raw, query, field, defaultValue, type) =>
+      replaceTemplateValue([raw, query, field, defaultValue, type], context)
   );
 };
 
