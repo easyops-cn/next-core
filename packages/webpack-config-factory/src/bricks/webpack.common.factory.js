@@ -142,9 +142,7 @@ module.exports = ({
             useToStringLoaderInsteadOfStyleLoader
               ? "to-string-loader"
               : "style-loader",
-            ...getStyleLoaders({
-              importLoaders: 1
-            })
+            ...getStyleLoaders()
           ]
         },
         {
@@ -152,7 +150,6 @@ module.exports = ({
           use: [
             "style-loader",
             ...getStyleLoaders({
-              importLoaders: 1,
               modules: {
                 localIdentName: "[local]--[hash:base64:8]"
               }
@@ -162,11 +159,21 @@ module.exports = ({
         {
           test: /\.shadow\.css$/,
           sideEffects: true,
+          use: ["to-string-loader", ...getStyleLoaders()]
+        },
+        {
+          test: /\.less$/,
+          sideEffects: true,
           use: [
             "to-string-loader",
-            ...getStyleLoaders({
-              importLoaders: 1
-            })
+            "css-loader",
+            {
+              loader: "less-loader",
+              options: {
+                sourceMap: true,
+                javascriptEnabled: true
+              }
+            }
           ]
         },
         {
