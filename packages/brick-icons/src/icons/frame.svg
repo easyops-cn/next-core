@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>F4911166-22BA-4626-BC09-BC3FD982FAFA</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 15.8197647 15.8616471 15.8197647 15.8616471 0.940705882 0 0.940705882"></polygon>
+    </defs>
+    <g id="迭代二" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Easyops-5.0-IDC首页" transform="translate(-42.000000, -379.000000)">
+            <g id="配线架管理" transform="translate(43.000000, 379.000000)">
+                <path d="M14.8037647,15.1828706 L1.12376471,15.3494985 C0.796235294,15.3532235 0.525176471,15.0887529 0.521411765,14.7612235 L0.470548536,10.5984 C0.466823529,10.2708706 0.731294118,9.99981176 1.05882353,9.99604706 L14.7388235,9.8304 C15.0654118,9.82569412 15.3355294,10.0901647 15.3402353,10.4176941 L15.3910985,14.5805176 C15.3948235,14.9080471 15.1303529,15.1791059 14.8037647,15.1828706 Z" id="Stroke-1" stroke="#FFFFFF" stroke-linecap="round"></path>
+                <path d="M14.8037647,6.76508235 L1.12376471,6.93072941 C0.796235294,6.93543529 0.525176471,6.67096471 0.521411765,6.34343529 L0.470548536,2.17967059 C0.466823529,1.85308235 0.731294118,1.58202353 1.05882353,1.57825882 L14.7388235,1.41163089 C15.0654118,1.40790588 15.3355294,1.67237647 15.3402353,1.99990588 L15.3910985,6.16272941 C15.3948235,6.49025882 15.1303529,6.76131765 14.8037647,6.76508235 Z" id="Stroke-3" stroke="#FFFFFF" stroke-linecap="round"></path>
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-6"></g>
+                <polygon id="Fill-5" fill="#FFFFFF" mask="url(#mask-2)" points="2.75388235 13.6249412 3.79011765 13.6249412 3.79011765 11.5543529 2.75388235 11.5543529"></polygon>
+                <polygon id="Fill-7" fill="#FFFFFF" mask="url(#mask-2)" points="5.85976471 13.6249412 6.896 13.6249412 6.896 11.5543529 5.85976471 11.5543529"></polygon>
+                <polygon id="Fill-8" fill="#FFFFFF" mask="url(#mask-2)" points="8.96564706 13.6249412 10.0009412 13.6249412 10.0009412 11.5543529 8.96564706 11.5543529"></polygon>
+                <polygon id="Fill-9" fill="#FFFFFF" mask="url(#mask-2)" points="12.0715294 13.6249412 13.1068235 13.6249412 13.1068235 11.5543529 12.0715294 11.5543529"></polygon>
+                <polygon id="Fill-10" fill="#FFFFFF" mask="url(#mask-2)" points="2.75388235 5.20705882 3.79011765 5.20705882 3.79011765 3.13647059 2.75388235 3.13647059"></polygon>
+                <polygon id="Fill-11" fill="#FFFFFF" mask="url(#mask-2)" points="5.85976471 5.20705882 6.896 5.20705882 6.896 3.13647059 5.85976471 3.13647059"></polygon>
+                <polygon id="Fill-12" fill="#FFFFFF" mask="url(#mask-2)" points="8.96564706 5.20705882 10.0009412 5.20705882 10.0009412 3.13647059 8.96564706 3.13647059"></polygon>
+                <polygon id="Fill-13" fill="#FFFFFF" mask="url(#mask-2)" points="12.0715294 5.20705882 13.1068235 5.20705882 13.1068235 3.13647059 12.0715294 3.13647059"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
