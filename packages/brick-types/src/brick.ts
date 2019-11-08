@@ -313,6 +313,7 @@ export interface PropertyDisplayConfig {
   type?: PropertyDisplayType;
   brick?: string;
   valueColorMap?: Record<string, string>;
+  properties?: Record<string, any>;
 }
 
 export interface CustomDisplay<T = any, O = Record<string, any>> {
