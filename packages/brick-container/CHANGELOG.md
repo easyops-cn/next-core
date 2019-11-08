@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.5...@easyops/brick-container@1.1.6) (2019-11-08)
+
+### Bug Fixes
+
+- **ui-5.0:** Input styles refs BRICK_STORE-572 ([65eb824](https://git.easyops.local/anyclouds/next-core/commits/65eb824))
+- **ui-5.0:** Input styles refs BRICK_STORE-572 ([72fc36f](https://git.easyops.local/anyclouds/next-core/commits/72fc36f))
+- **ui-5.0:** Select styles refs BRICK_STORE-573 ([1efdb6b](https://git.easyops.local/anyclouds/next-core/commits/1efdb6b))
+
 ## [1.1.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.4...@easyops/brick-container@1.1.5) (2019-11-07)
 
 **Note:** Version bump only for package @easyops/brick-container
