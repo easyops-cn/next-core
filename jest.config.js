@@ -5,16 +5,17 @@ module.exports = {
     "/node_modules/",
     "/dist/",
     "\\.spec\\.[jt]sx?$",
-    "/packages/.*-config-factory/"
+    "/packages/.*-config-factory/",
+    "/scripts/",
+    "/__jest__/"
   ],
   collectCoverage: true,
-  collectCoverageFrom: ["packages/*/src/**/*.{ts,tsx,js,jsx}"],
   coverageThreshold: {
     global: {
-      statements: 86.72,
-      branches: 77.49,
-      functions: 86.27,
-      lines: 86.56
+      statements: 91.5,
+      branches: 85.04,
+      functions: 95.21,
+      lines: 91.41
     }
   },
   coverageDirectory: "<rootDir>/.coverage",
