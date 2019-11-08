@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.0.0...@easyops/webpack-config-factory@1.1.0) (2019-11-08)
+
+### Features
+
+- support less (for custom antd styles) in @bricks/\* ([21fc734](https://git.easyops.local/anyclouds/next-core/commits/21fc734))
+
 # [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@0.11.5...@easyops/webpack-config-factory@1.0.0) (2019-11-03)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory

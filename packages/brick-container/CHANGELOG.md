@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.6...@easyops/brick-container@1.1.7) (2019-11-08)
+
+### Bug Fixes
+
+- using @libs/custom-antd-styles ([63e92e0](https://git.easyops.local/anyclouds/next-core/commits/63e92e0))
+- **ui-5.0:** DatePicker styles refs BRICK_STORE-574 ([5e66fe7](https://git.easyops.local/anyclouds/next-core/commits/5e66fe7))
+
 ## [1.1.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.5...@easyops/brick-container@1.1.6) (2019-11-08)
 
 ### Bug Fixes
