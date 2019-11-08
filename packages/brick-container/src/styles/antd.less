@@ -193,3 +193,37 @@
     font-size: 14px;
   }
 }
+
+.@{calendar-prefix-cls} {
+  &-date:hover {
+    background: #ebf3fd;
+    border-radius: 4px;
+  }
+
+  &-date,
+  &-year-panel-year,
+  &-month-panel-month {
+    border-radius: 4px;
+  }
+
+  &-selected-date &-date,
+  &-selected-day &-date {
+    border-color: #ffffff;
+    background: linear-gradient(45deg, #0071eb 0%, #65b2ff 100%);
+    color: #ffffff;
+  }
+
+  &-year-panel-selected-cell &-year-panel-year,
+  &-year-panel-selected-cell &-year-panel-year:hover,
+  &-month-panel-selected-cell &-month-panel-month,
+  &-month-panel-selected-cell &-month-panel-month:hover {
+    border-color: #ffffff;
+    background: linear-gradient(45deg, #0071eb 0%, #65b2ff 100%);
+    color: #ffffff;
+    transition: none;
+  }
+
+  &-range &-in-range-cell::before {
+    background: #ebf3fd;
+  }
+}
