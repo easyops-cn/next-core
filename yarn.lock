@@ -1683,6 +1683,11 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
+"@libs/custom-antd-styles@^0.1.0":
+  version "0.1.0"
+  resolved "http://registry.npm.easyops.local/@libs/custom-antd-styles/download/@libs/custom-antd-styles-0.1.0.tgz#699ce5005dd9228288eca1255767b7758c2ac275"
+  integrity sha1-aZzlAF3ZIoKI7KElV2e3dYwqwnU=
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "http://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

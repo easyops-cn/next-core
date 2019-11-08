@@ -1,7 +1,9 @@
-// --- 引入官方提供的 less 样式入口文件 ---
+// --- 官方样式 ---
 @import "~antd/dist/antd.less";
-// --- 自定义参数覆盖 ---
-@import "./_antd-var.less";
+// --- 自定义样式 ---
+@import "~@libs/custom-antd-styles/src/var.less";
+@import "~@libs/custom-antd-styles/src/button.less";
+@import "~@libs/custom-antd-styles/src/card.less";
 
 /**
  * 修改nz-pagination的默认顺序
@@ -93,59 +95,6 @@
         left: 0;
       }
     }
-}
-
-.ant-btn-primary {
-  &:hover,
-  &:focus {
-    background-color: var(--bg-color-button-primary-hover);
-    border-color: var(--bg-color-button-primary-hover);
-  }
-
-  &.active,
-  &:active {
-    background-color: var(--bg-color-button-primary-pressed);
-    border-color: var(--bg-color-button-primary-pressed);
-  }
-}
-
-.ant-btn-danger {
-  &:hover,
-  &:focus {
-    background-color: var(--bg-color-button-danger-hover);
-    border-color: var(--bg-color-button-danger-hover);
-  }
-
-  &.active,
-  &:active {
-    background-color: var(--bg-color-button-danger-pressed);
-    border-color: var(--bg-color-button-danger-pressed);
-  }
-}
-
-.ant-btn-default {
-  &:hover,
-  &:focus {
-    color: #53a7fb;
-    border-color: #53a7fb;
-  }
-
-  &.active,
-  &:active {
-    color: #116ac2;
-    border-color: #0063ce;
-  }
-}
-
-.ant-card {
-  box-shadow: var(--card-default-box-shadow);
-  transition: var(--card-transition);
-}
-
-// Consider all bordered card as inner card.
-.ant-card-bordered {
-  border: var(--card-inner-border);
-  border-radius: var(--card-inner-border-radius);
 }
 
 /**
