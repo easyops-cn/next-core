@@ -51,13 +51,11 @@ export interface MountRoutesResult {
 export class LocationContext {
   readonly location: PluginLocation;
   readonly query: URLSearchParams;
-  readonly hash: string;
   readonly resolver = new Resolver(this.kernel);
 
   constructor(private kernel: Kernel, location: PluginLocation) {
     this.location = location;
     this.query = new URLSearchParams(location.search);
-    this.hash = location.hash;
   }
 
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
@@ -214,7 +212,7 @@ export class LocationContext {
     mountRoutesResult: MountRoutesResult
   ): Promise<void> {
     const context = {
-      hash: this.hash,
+      hash: this.location.hash,
       query: this.query,
       match,
       app: this.kernel.nextApp
