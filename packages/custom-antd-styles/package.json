@@ -1,0 +1,18 @@
+{
+  "name": "@easyops/custom-antd-styles",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/custom-antd-styles",
+  "license": "UNLICENSED",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "build": "echo 'nothing to build but lerna need this to build deps'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "sideEffects": true
+}
