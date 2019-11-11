@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.1.1...@easyops/brick-types@1.2.0) (2019-11-11)
+
+### Features
+
+- should save hash ([be7ed4b](https://git.easyops.local/anyclouds/next-core/commits/be7ed4b))
+
 ## [1.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.1.0...@easyops/brick-types@1.1.1) (2019-11-08)
 
 **Note:** Version bump only for package @easyops/brick-types
