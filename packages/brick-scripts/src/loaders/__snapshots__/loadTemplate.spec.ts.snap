@@ -11,7 +11,7 @@ import { ForBetter } from \\"./ForBetter\\";
 describe(\\"ForBetter\\", () => {
   it(\\"should work\\", () => {
     const wrapper = shallow(<ForBetter />);
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(\\"div\\").text()).toBe(\\"FOR_GOOD works!\\");
   });
 });
 ",
@@ -27,18 +27,6 @@ export function ForBetter(): React.ReactElement {
 
   return <div>{t(K.FOR_GOOD)} works!</div>;
 }
-",
-  ],
-  Array [
-    "dist/__snapshots__/ForBetter.spec.tsx.snap",
-    "// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[\`ForBetter should work 1\`] = \`
-<div>
-  FOR_GOOD
-   works!
-</div>
-\`;
 ",
   ],
   Array [
@@ -241,7 +229,7 @@ import { ForBetter } from \\"./ForBetter\\";
 describe(\\"ForBetter\\", () => {
   it(\\"should work\\", () => {
     const wrapper = shallow(<ForBetter />);
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(\\"div\\").text()).toBe(\\"FOR_GOOD works!\\");
   });
 });
 ",
@@ -257,18 +245,6 @@ export function ForBetter(): React.ReactElement {
 
   return <div>{t(K.FOR_GOOD)} works!</div>;
 }
-",
-  ],
-  Array [
-    "dist/src/for-better/__snapshots__/ForBetter.spec.tsx.snap",
-    "// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[\`ForBetter should work 1\`] = \`
-<div>
-  FOR_GOOD
-   works!
-</div>
-\`;
 ",
   ],
   Array [
