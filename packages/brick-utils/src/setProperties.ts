@@ -8,9 +8,7 @@ const replaceTemplateValue = (
 ): any => {
   const [raw, namespace, field, defaultValue, type] = matches;
   let result;
-  if (namespace === "HASH") {
-    result = context.hash;
-  }
+
   if (namespace === "QUERY" || namespace === "query") {
     if (field === "*") {
       result = context.query;
@@ -26,6 +24,8 @@ const replaceTemplateValue = (
     result = field === "*" ? context.event : get(context.event, field);
   } else if (namespace === "APP") {
     result = get(context.app, field);
+  } else if (namespace === "HASH") {
+    result = context.hash;
   } else if (context.match) {
     result = context.match.params[field];
     if (result === undefined) {
