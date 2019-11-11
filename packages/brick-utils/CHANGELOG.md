@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.2.0...@easyops/brick-utils@1.2.1) (2019-11-11)
+
+### Bug Fixes
+
+- macth will conflict ([dbdf31f](https://git.easyops.local/anyclouds/next-core/commits/dbdf31f))
+
 # [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.1.2...@easyops/brick-utils@1.2.0) (2019-11-11)
 
 ### Features
