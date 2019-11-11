@@ -36,6 +36,14 @@ describe("computeRealValue", () => {
       },
       ["${EVENT.detail}"]
     ],
+    [
+      ["${HASH.*|string}"],
+      {
+        hash: "#123",
+        query: null
+      },
+      ["#123"]
+    ],
     [["${APP.homepage}"], context, ["/host"]]
   ];
   it.each(cases)(
