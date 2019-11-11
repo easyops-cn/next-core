@@ -8,6 +8,9 @@ const replaceTemplateValue = (
 ): any => {
   const [raw, namespace, field, defaultValue, type] = matches;
   let result;
+  if (namespace === "HASH") {
+    result = context.hash;
+  }
   if (namespace === "QUERY" || namespace === "query") {
     if (field === "*") {
       result = context.query;
@@ -78,14 +81,14 @@ export const computeRealValue = (
     return newValue;
   }
   const matches = value.match(
-    /^\$\{(?:(QUERY|EVENT|query|event|APP)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json))?\}$/
+    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json))?\}$/
   );
   if (matches) {
     return replaceTemplateValue(matches, context);
   }
 
   return value.replace(
-    /\$\{(?:(QUERY|EVENT|query|event|APP)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json))?\}/g,
+    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json))?\}/g,
     (raw, query, field, defaultValue, type) =>
       replaceTemplateValue([raw, query, field, defaultValue, type], context)
   );

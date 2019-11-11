@@ -43,6 +43,7 @@ export interface PluginRuntimeContext {
   match?: MatchResult;
   event?: CustomEvent;
   app?: MicroApp;
+  hash?: string;
 }
 
 export interface MountPoints {
