@@ -3,7 +3,9 @@ import { UpdatingElement } from "../UpdatingElement";
 import { property } from "../decorators";
 
 export abstract class ModalElement extends UpdatingElement {
-  @property()
+  @property({
+    type: Boolean
+  })
   public isVisible: boolean;
 
   openModal = (e?: CustomEvent): void => {
