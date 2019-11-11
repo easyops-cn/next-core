@@ -1683,10 +1683,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@libs/custom-antd-styles@^0.1.0":
-  version "0.1.0"
-  resolved "http://registry.npm.easyops.local/@libs/custom-antd-styles/download/@libs/custom-antd-styles-0.1.0.tgz#699ce5005dd9228288eca1255767b7758c2ac275"
-  integrity sha1-aZzlAF3ZIoKI7KElV2e3dYwqwnU=
+"@libs/custom-antd-styles@^0.2.1":
+  version "0.2.1"
+  resolved "http://registry.npm.easyops.local/@libs/custom-antd-styles/download/@libs/custom-antd-styles-0.2.1.tgz#754755eea00753455cf0101ff318cc449054b37e"
+  integrity sha1-dUdV7qAHU0Vc8BAf8xjMRJBUs34=
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
