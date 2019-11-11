@@ -1,0 +1,10 @@
+.@{card-prefix-cls} {
+  box-shadow: var(--card-default-box-shadow);
+  transition: var(--card-transition);
+
+  // Consider all bordered card as inner card.
+  &-bordered {
+    border: var(--card-inner-border);
+    border-radius: var(--card-inner-border-radius);
+  }
+}

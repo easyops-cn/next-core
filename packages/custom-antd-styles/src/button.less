@@ -1,0 +1,43 @@
+.@{btn-prefix-cls} {
+  &-primary {
+    &:hover,
+    &:focus {
+      background-color: var(--bg-color-button-primary-hover);
+      border-color: var(--bg-color-button-primary-hover);
+    }
+
+    &.active,
+    &:active {
+      background-color: var(--bg-color-button-primary-pressed);
+      border-color: var(--bg-color-button-primary-pressed);
+    }
+  }
+
+  &-danger {
+    &:hover,
+    &:focus {
+      background-color: var(--bg-color-button-danger-hover);
+      border-color: var(--bg-color-button-danger-hover);
+    }
+
+    &.active,
+    &:active {
+      background-color: var(--bg-color-button-danger-pressed);
+      border-color: var(--bg-color-button-danger-pressed);
+    }
+  }
+
+  &-default {
+    &:hover,
+    &:focus {
+      color: #53a7fb;
+      border-color: #53a7fb;
+    }
+
+    &.active,
+    &:active {
+      color: #116ac2;
+      border-color: #0063ce;
+    }
+  }
+}
