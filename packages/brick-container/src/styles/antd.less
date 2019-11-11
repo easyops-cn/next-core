@@ -4,6 +4,7 @@
 @import "~@libs/custom-antd-styles/src/var.less";
 @import "~@libs/custom-antd-styles/src/button.less";
 @import "~@libs/custom-antd-styles/src/card.less";
+@import "~@libs/custom-antd-styles/src/table.less";
 
 /**
  * 修改nz-pagination的默认顺序
@@ -32,40 +33,6 @@
   }
 }
 
-/**
- * 修改 nz-table 的hover状态颜色
- * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=6a513040-2585-4e92-a5d5-9fa80ba2642b&project_id=6a513040-2585-4e92-a5d5-9fa80ba2642b&image_id=51f4cfe1-0047-4602-bf4a-a184010ead04
-*/
-.@{table-prefix-cls} {
-
-  &-thead>tr,
-  &-tbody>tr {
-
-    &.@{table-prefix-cls}-row-hover,
-    &:hover {
-      &:not(.@{table-prefix-cls}-expanded-row)>td {
-        border-top: 1px solid #7eb7fc;
-        border-bottom: 1px solid #7eb7fc;
-      }
-
-      &:last-child>td {
-        border-bottom: none;
-      }
-    }
-  }
-
-  &-thead>tr>th {
-    border-bottom: none;
-  }
-
-  &-tbody>tr>td {
-    border-top: @border-width-base @border-style-base @border-color-split;
-    border-bottom: none;
-  }
-}
-/**
- * 修改 timeline的自定义dot的样式
-*/
 .@{timeline-prefix-cls} {
   &-item {
     &-head-custom {
