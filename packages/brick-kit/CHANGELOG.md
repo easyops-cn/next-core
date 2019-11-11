@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.1.3...@easyops/brick-kit@1.2.0) (2019-11-11)
+
+### Features
+
+- **element:** create modal element ([7ef5c78](https://git.easyops.local/anyclouds/next-core/commits/7ef5c78))
+
 ## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.1.2...@easyops/brick-kit@1.1.3) (2019-11-08)
 
 **Note:** Version bump only for package @easyops/brick-kit

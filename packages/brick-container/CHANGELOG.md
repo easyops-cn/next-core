@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.7...@easyops/brick-container@1.1.8) (2019-11-11)
+
+### Bug Fixes
+
+- fix table styles ([51ff311](https://git.easyops.local/anyclouds/next-core/commits/51ff311))
+- use api gateway ^1.5.1 ([b09cc8a](https://git.easyops.local/anyclouds/next-core/commits/b09cc8a))
+
 ## [1.1.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.6...@easyops/brick-container@1.1.7) (2019-11-08)
 
 ### Bug Fixes
