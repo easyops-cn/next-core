@@ -47,10 +47,7 @@ const getImageLoaderOptions = distPublicPath => ({
   ]
 });
 
-module.exports = ({
-  useToStringLoaderInsteadOfStyleLoader,
-  scope = "bricks"
-} = {}) => {
+module.exports = ({ scope = "bricks" } = {}) => {
   const cwdDirname = process.cwd();
   const appRoot = path.join(cwdDirname, "..", "..");
   const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
@@ -138,12 +135,7 @@ module.exports = ({
           test: /\.css$/,
           exclude: /\.(module|shadow)\.css$/,
           sideEffects: true,
-          use: [
-            useToStringLoaderInsteadOfStyleLoader
-              ? "to-string-loader"
-              : "style-loader",
-            ...getStyleLoaders()
-          ]
+          use: ["style-loader", ...getStyleLoaders()]
         },
         {
           test: /\.module\.css$/,
