@@ -14,6 +14,8 @@ describe("@property", () => {
         type: String
       })
       name: string;
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      protected _render(): void {}
     }
 
     expect((TestElement.createProperty as jest.Mock).mock.calls[0]).toEqual([
@@ -32,6 +34,8 @@ describe("@property", () => {
         someMethod(): void {
           // empty
         }
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        protected _render(): void {}
       }
     } catch (error) {
       expect(error).toBeTruthy();
@@ -44,6 +48,8 @@ describe("@property", () => {
       class TestElement extends UpdatingElement {
         @property()
         name = "hello";
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        protected _render(): void {}
       }
     } catch (error) {
       expect(error).toBeTruthy();
@@ -56,6 +62,8 @@ describe("@property", () => {
         attribute: false
       })
       name = [0];
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      protected _render(): void {}
     }
 
     expect((TestElement.createProperty as jest.Mock).mock.calls[0]).toEqual([

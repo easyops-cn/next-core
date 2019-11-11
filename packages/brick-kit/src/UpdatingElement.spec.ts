@@ -23,7 +23,10 @@ const { UpdatingElement } = require("./UpdatingElement");
 
 describe("UpdatingElement", () => {
   it("should work", () => {
-    class TestElement extends UpdatingElement {}
+    class TestElement extends UpdatingElement {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      protected _render(): void {}
+    }
 
     TestElement.createProperty("stringAttr");
     TestElement.createProperty("numberAttr", {

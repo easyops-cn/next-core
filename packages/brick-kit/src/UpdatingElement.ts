@@ -222,7 +222,5 @@ export abstract class UpdatingElement extends HTMLElement {
     });
   }
 
-  protected _render(): void {
-    // Abstract method.
-  }
+  protected abstract _render(): void;
 }
