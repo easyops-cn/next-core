@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { get, cloneDeep } from "lodash";
 import {
   Storyboard,
   RouteConf,
@@ -22,9 +22,7 @@ export async function asyncProcessBrick(
     ) {
       // Leave these dynamic templates to `LocationContext::resolve()`.
       // Remember original params, cause it maybe changed when resolving.
-      brickConf.$$params = {
-        ...brickConf.params
-      };
+      brickConf.$$params = cloneDeep(brickConf.params);
     } else {
       let updatedBrickConf: Partial<RuntimeBrickConf> = brickConf;
       const processedTemplates: string[] = [];
@@ -64,7 +62,7 @@ export async function asyncProcessBrick(
       });
       Object.assign(brickConf, updatedBrickConf, {
         $$template: template,
-        $$params: $$params || params,
+        $$params: $$params || cloneDeep(params),
         $$lifeCycle: lifeCycle
       });
     }
