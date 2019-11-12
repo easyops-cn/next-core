@@ -50,7 +50,7 @@
   --toolbar-button-gap: 8px;
   --sub-menu-width: 240px;
 
-  --card-default-border-radius: 10px;
+  --card-default-border-radius: 6px;
   --card-default-border: none;
   --card-default-background: #fff;
   --card-default-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
