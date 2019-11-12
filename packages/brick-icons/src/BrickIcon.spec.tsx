@@ -4,15 +4,15 @@ import { BrickIcon } from "./BrickIcon";
 
 describe("BrickIcon", () => {
   it("should render a default icon when category is missed", () => {
-    const wrapper = shallow(<BrickIcon icon="firewall" />);
+    const wrapper = shallow(<BrickIcon icon="task" />);
     expect(wrapper.prop("className")).toBe(
-      "easyops-icon easyops-icon-default-firewall"
+      "easyops-icon easyops-icon-default-task"
     );
   });
   it("should render a default icon when category is an empty string", () => {
-    const wrapper = shallow(<BrickIcon icon="firewall" category="" />);
+    const wrapper = shallow(<BrickIcon icon="task" category="" />);
     expect(wrapper.prop("className")).toBe(
-      "easyops-icon easyops-icon-default-firewall"
+      "easyops-icon easyops-icon-default-task"
     );
   });
   it("should render an app icon", () => {
