@@ -6,6 +6,12 @@ import requests
 
 import ens_api
 
+INSTALL_INFO_PATH = "/usr/local/easyops/deploy_init/conf/install_info.json"
+
+
+class NameServiceError(Exception):
+    pass
+
 
 def get_version(install_path):
     # 开发环境没有version.ini文件，直接返回0.0.0
@@ -14,6 +20,17 @@ def get_version(install_path):
     with open(os.path.join(install_path, "version.ini")) as f:
         lines = f.readlines()
         return lines[-1].strip()
+
+
+def _find_container_id(app_id, install_info_path):
+    install_info = {}
+    if os.path.exists(install_info_path):
+        with open(install_info_path) as f:
+            install_info = simplejson.load(f)
+    for micro_app in install_info.get("micro_app", []):
+        if micro_app["app_id"] == app_id:
+            return micro_app["container_id"]
+    return ""
 
 
 def collect(install_path):
@@ -35,9 +52,10 @@ def collect(install_path):
         # 跳过没有app字段的storyboard
         if not story_board.get("app"):
             return None
+        app_id = story_board["app"]["id"]
         return {
             "name": story_board["app"]["name"],
-            "appId": story_board["app"]["id"],
+            "appId": app_id,
             "icons": story_board["app"].get("icons", {}),
             "storyboardJson": story_board_content,
             "installStatus": "ok",
@@ -47,10 +65,27 @@ def collect(install_path):
             "private": "true" if story_board["app"].get("private") else "false",
             "status": "enabled",  # 新安装状态默认是enabled的
             "menuIcon": story_board["app"].get("menuIcon", {}),
+            "containerId": _find_container_id(app_id, INSTALL_INFO_PATH),
         }
 
 
-def create_or_update_micro_app(app, ip, port, org):
+def create_or_update_micro_app(app, org):
+    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.ucpro_desktop_service")
+    if session_id <= 0:
+        raise NameServiceError("get nameservice logic.api.gateway error, session_id={}".format(session_id))
+    headers = {"org": str(org), "user": "defaultUser"}
+    url = "http://{}:{}/api/micro_app/v1/installed_micro_app/report_result".format(ip, port)
+    rsp = requests.post(url, json=app, headers=headers)
+    rsp.raise_for_status()
+
+
+# 老的上报方法， 兼容ucpro还没升级的情况
+def create_or_update_micro_app_to_api_gw(app, org):
+    print "ucpro desktop service api not ready, use old way to report"
+    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.api.gateway")
+    if session_id <= 0:
+        raise NameServiceError("get nameservice logic.api.gateway error, session_id={}".format(session_id))
+    
     headers = {"org": str(org), "user": "defaultUser"}
     url = "http://{}:{}/api/micro_app/v1/installed_micro_app".format(ip, port)
     rsp = requests.post(url, json=app, headers=headers)
@@ -84,10 +119,14 @@ def create_or_update_micro_app(app, ip, port, org):
 
 
 def report(org, app):
-    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.api.gateway")
-    if session_id <= 0:
-        raise Exception("get nameservice logic.api.gateway error, session_id={}".format(session_id))
-    create_or_update_micro_app(app, ip, port, org)
+    try:
+        create_or_update_micro_app(app, org)
+    except NameServiceError, e:
+        create_or_update_micro_app_to_api_gw(app, org)
+    except requests.HTTPError, e:
+        # ucpro_desktop_service还没有这个接口, 走回api_gw的方式上报
+        if e.response.status_code == 404:
+            create_or_update_micro_app_to_api_gw(app, org)
 
 
 if __name__ == "__main__":
