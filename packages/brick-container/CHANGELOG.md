@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.12...@easyops/brick-container@1.1.13) (2019-11-12)
+
+### Bug Fixes
+
+- **ui-5.0:** modal styles ([183921a](https://git.easyops.local/anyclouds/next-core/commits/183921a))
+- **ui-5.0:** set card (without border) border radius to 6px ([75e1fc0](https://git.easyops.local/anyclouds/next-core/commits/75e1fc0))
+- **ui-5.0:** tabs styles ([cf9c5f6](https://git.easyops.local/anyclouds/next-core/commits/cf9c5f6))
+
 ## [1.1.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.11...@easyops/brick-container@1.1.12) (2019-11-12)
 
 ### Bug Fixes
