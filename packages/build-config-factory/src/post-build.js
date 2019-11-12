@@ -5,6 +5,7 @@ const klawSync = require("klaw-sync");
 const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
+const validateDeps = require("./validateDeps");
 
 const generateContracts = () => {
   const { dependencies } = require(path.join(process.cwd(), "package.json"));
@@ -155,6 +156,7 @@ module.exports = scope => {
 
   generatePkgbuild(scope, pluginName, templateRoot);
   generateDeploy(scope, pluginName, templateRoot);
+  validateDeps(scope);
 
   if (scope === "bricks") {
     generateContracts();
