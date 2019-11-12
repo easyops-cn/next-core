@@ -44,31 +44,37 @@ module.exports = env => {
             const { data } = result;
             if (localMicroApps.length > 0) {
               data.storyboards = data.storyboards
-                .map(item => {
-                  if (item.app && localMicroApps.includes(item.app.id)) {
-                    return getSingleStoryboard(env, item.app.id);
-                  }
-                  return item;
-                })
-                .filter(Boolean);
+                .filter(
+                  item => !(item.app && localMicroApps.includes(item.app.id))
+                )
+                .concat(
+                  localMicroApps
+                    .map(id => getSingleStoryboard(env, id))
+                    .filter(Boolean)
+                );
             }
             if (localBrickPackages.length > 0) {
-              data.brickPackages = data.brickPackages.map(item => {
-                const id = item.filePath.split("/")[1];
-                if (localBrickPackages.includes(id)) {
-                  return getSingleBrickPackage(env, id);
-                }
-                return item;
-              });
+              data.brickPackages = data.brickPackages
+                .filter(
+                  item =>
+                    !localBrickPackages.includes(item.filePath.split("/")[1])
+                )
+                .concat(
+                  localBrickPackages
+                    .map(id => getSingleBrickPackage(env, id))
+                    .filter(Boolean)
+                );
             }
             if (localTemplates.length > 0) {
-              data.templatePackages = data.templatePackages.map(item => {
-                const id = item.filePath.split("/")[1];
-                if (localTemplates.includes(id)) {
-                  return getSingleTemplatePackage(env, id);
-                }
-                return item;
-              });
+              data.templatePackages = data.templatePackages
+                .filter(
+                  item => !localTemplates.includes(item.filePath.split("/")[1])
+                )
+                .concat(
+                  localTemplates
+                    .map(id => getSingleTemplatePackage(env, id))
+                    .filter(Boolean)
+                );
             }
             return JSON.stringify(result);
           });
