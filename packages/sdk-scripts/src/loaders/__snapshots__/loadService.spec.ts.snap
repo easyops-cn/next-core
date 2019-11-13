@@ -115,10 +115,12 @@ export const get = async (
   params: GetRequestParams,
   options?: HttpOptions
 ): Promise<GetResponseBody> =>
-  (await http.get<ResponseBodyWrapper<GetResponseBody>>(
-    \`api/gateway/cd.package.Get/packages/pkg/\${packageId}/\${versionId}\`,
-    { ...options, params }
-  )).data;
+  (
+    await http.get<ResponseBodyWrapper<GetResponseBody>>(
+      \`api/gateway/cd.package.Get/packages/pkg/\${packageId}/\${versionId}\`,
+      { ...options, params }
+    )
+  ).data;
 ",
   ],
   Array [
@@ -153,10 +155,12 @@ export const search = async (
   params: SearchRequestParams,
   options?: HttpOptions
 ): Promise<SearchResponseBody> =>
-  (await http.get<ResponseBodyWrapper<SearchResponseBody>>(
-    \\"api/gateway/cd.package.Search/packages/search\\",
-    { ...options, params }
-  )).data;
+  (
+    await http.get<ResponseBodyWrapper<SearchResponseBody>>(
+      \\"api/gateway/cd.package.Search/packages/search\\",
+      { ...options, params }
+    )
+  ).data;
 ",
   ],
   Array [

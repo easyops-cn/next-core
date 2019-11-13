@@ -1,5 +1,5 @@
 // Ref https://github.com/ReactTraining/react-router/blob/master/packages/react-router/modules/matchPath.js
-import pathToRegexp from "path-to-regexp";
+import { pathToRegexp, Key } from "path-to-regexp";
 import {
   CompileResult,
   CompileOptions,
@@ -23,7 +23,7 @@ function compilePath(path: string, options: CompileOptions): CompileResult {
     return pathCache.get(path);
   }
 
-  const keys: pathToRegexp.Key[] = [];
+  const keys: Key[] = [];
   const regexp = pathToRegexp(path, keys, options);
   const result = { regexp, keys };
 
