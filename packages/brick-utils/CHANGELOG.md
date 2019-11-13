@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.2.1...@easyops/brick-utils@1.2.2) (2019-11-13)
+
+### Bug Fixes
+
+- fix for path-to-regexp v5 ([4991625](https://git.easyops.local/anyclouds/next-core/commits/4991625))
+
 ## [1.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.2.0...@easyops/brick-utils@1.2.1) (2019-11-11)
 
 ### Bug Fixes

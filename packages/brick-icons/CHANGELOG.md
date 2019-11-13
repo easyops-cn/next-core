@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.2.0...@easyops/brick-icons@1.3.0) (2019-11-13)
+
+### Bug Fixes
+
+- lint icon category and filename ([f5e6fcd](https://git.easyops.local/anyclouds/next-core/commits/f5e6fcd))
+
+### Features
+
+- **brick-icons:** add icon ([f278a42](https://git.easyops.local/anyclouds/next-core/commits/f278a42))
+- **user:** user permisson icon Refs THE_PRODUCTS-69 ([ffe4743](https://git.easyops.local/anyclouds/next-core/commits/ffe4743))
+
 # [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.1.0...@easyops/brick-icons@1.2.0) (2019-11-13)
 
 ### Features
