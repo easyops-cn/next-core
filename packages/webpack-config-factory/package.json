@@ -33,7 +33,7 @@
     "prismjs": "^1.17.1",
     "raw-loader": "^3.1.0",
     "style-loader": "^1.0.0",
-    "to-string-loader": "^1.1.5",
+    "to-string-loader": "^1.1.6",
     "url-loader": "^2.2.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
