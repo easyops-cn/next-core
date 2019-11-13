@@ -22,6 +22,12 @@ const flattenIcons = klawSync(iconsDir, {
   const category = relativePath.includes("/")
     ? relativePath.split("/")[0]
     : "default";
+  const lowerKebabCase = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
+  if (!(lowerKebabCase.test(category) && lowerKebabCase.test(basename))) {
+    throw new Error(
+      `Icon category and filename should always be in lower-kebab-case: ${category}/${basename}`
+    );
+  }
   return { category, relativePath, basename };
 });
 
