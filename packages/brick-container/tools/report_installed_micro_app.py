@@ -75,7 +75,7 @@ def create_or_update_micro_app(app, org):
         raise NameServiceError("get nameservice logic.api.gateway error, session_id={}".format(session_id))
     headers = {"org": str(org), "user": "defaultUser"}
     url = "http://{}:{}/api/micro_app/v1/installed_micro_app/report_result".format(ip, port)
-    rsp = requests.post(url, json=app, headers=headers)
+    rsp = requests.post(url, json={"installedApps": [{"microApp": app, "containerId": app["containerId"]}]}, headers=headers)
     rsp.raise_for_status()
 
 
@@ -127,6 +127,8 @@ def report(org, app):
         # ucpro_desktop_service还没有这个接口, 走回api_gw的方式上报
         if e.response.status_code == 404:
             create_or_update_micro_app_to_api_gw(app, org)
+        else:
+            raise e
 
 
 if __name__ == "__main__":
