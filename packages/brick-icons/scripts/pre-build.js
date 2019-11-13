@@ -73,3 +73,14 @@ fs.outputFileSync(
   indexTsPath,
   prettier.format(content, { parser: "typescript" })
 );
+
+let mapContent = {};
+groupedIcons.forEach(([category, icons]) => {
+  mapContent[category] = icons.map(icon => icon.basename);
+});
+mapContent = `export const  iconsByCategory = ${JSON.stringify(mapContent)}`;
+const iconsByCategory = path.join(process.cwd(), "src/iconsByCategory.ts");
+fs.outputFileSync(
+  iconsByCategory,
+  prettier.format(mapContent, { parser: "typescript" })
+);
