@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.1.0...@easyops/brick-icons@1.2.0) (2019-11-13)
+
+### Features
+
+- **icons:** add icon to model category ([856d447](https://git.easyops.local/anyclouds/next-core/commits/856d447))
+
 # [1.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.0.6...@easyops/brick-icons@1.1.0) (2019-11-13)
 
 ### Features
