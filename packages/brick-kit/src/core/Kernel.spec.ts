@@ -1,10 +1,11 @@
 import { checkLogin, bootstrap } from "@sdk/auth-sdk";
-import { Kernel } from "./Kernel";
 import { MountPoints } from "@easyops/brick-types";
+import { Kernel } from "./Kernel";
 import { authenticate } from "../auth";
 import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
+import * as mockHistory from "../history";
 
 jest.mock("@sdk/auth-sdk");
 jest.mock("./MenuBar");
@@ -12,6 +13,14 @@ jest.mock("./AppBar");
 jest.mock("./LoadingBar");
 jest.mock("./Router");
 jest.mock("../auth");
+
+const historyPush = jest.fn();
+jest.spyOn(mockHistory, "getHistory").mockReturnValue({
+  push: historyPush,
+  location: {
+    pathname: "/from"
+  }
+} as any);
 
 const spyOnCheckLogin = checkLogin as jest.Mock;
 const spyOnBootstrap = bootstrap as jest.Mock;
@@ -57,6 +66,22 @@ describe("Kernel", () => {
     expect(spyOnMenuBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
+
+    // `postMessage` did not trigger events.
+    // window.postMessage({ type: "auth.guard" }, window.location.origin);
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        origin: window.location.origin,
+        data: {
+          type: "auth.guard"
+        }
+      })
+    );
+    expect(historyPush).toBeCalledWith("/auth/login", {
+      from: {
+        pathname: "/from"
+      }
+    });
   });
 
   it("should bootstrap if not loggedIn", async () => {
