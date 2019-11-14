@@ -22,6 +22,7 @@ fields:
 
 - name: cId
   type: int
+  enum: [1]
   description: 包分类
 
 - name: source
@@ -40,6 +41,7 @@ fields:
 
 - name: platform
   type: string
+  enum: ["linux", "windows", "others"]
   description: 平台
 
 - name: category

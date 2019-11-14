@@ -34,7 +34,7 @@ export class ObjectType {
         throw new Error(`Unknown model: ${refModel}`);
       }
       field = ref.doc.fields.find(f => (f as NormalFieldDoc).name === refKey);
-      const { type: realType } = getRealType((field as NormalFieldDoc).type);
+      const { type: realType } = getRealType(field as NormalFieldDoc);
       if (!isPrimitiveType(realType)) {
         this.sourceFile.imports.addModel(ref);
         field = {
@@ -55,10 +55,11 @@ export class ObjectType {
     ].join("");
   }
 
-  fieldValueToString(field: NormalFieldDoc): string {
+  private fieldValueToString(field: NormalFieldDoc): string {
     return new MixedType(this.sourceFile, {
       type: field.type,
-      fields: field.fields
+      fields: field.fields,
+      enum: field.enum
     }).toString();
   }
 

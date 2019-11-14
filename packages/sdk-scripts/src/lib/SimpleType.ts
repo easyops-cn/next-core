@@ -1,3 +1,3 @@
-import { ObjectType } from "./internal";
+import { ObjectType, EnumType } from "./internal";
 
-export type SimpleType = string | ObjectType;
+export type SimpleType = string | EnumType | ObjectType;
