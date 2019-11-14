@@ -57,6 +57,16 @@ module.exports = function ensureDeps(scope) {
           "/*` should only contain `@bricks/*` and `@templates/*` in `peerDependencies`, use `devDependencies` for others."
       );
     }
+    const peerDependenciesVersions = Object.values(
+      packageJson.peerDependencies || {}
+    );
+    if (peerDependenciesVersions.some(version => !/[>^]/.test(version))) {
+      throw new Error(
+        "`@" +
+          scope +
+          "/*` should always contain a `^` or `>=` in it's `peerDependencies` version."
+      );
+    }
     const devDependencies = Object.keys(packageJson.devDependencies || {});
     if (
       devDependencies.some(
