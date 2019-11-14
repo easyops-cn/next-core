@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.1.2...@easyops/build-config-factory@1.1.3) (2019-11-14)
+
+### Bug Fixes
+
+- ensure micro-apps and templates peerDependencies version contains a `^` or `>=` ([d5ac4ee](https://git.easyops.local/anyclouds/next-core/commits/d5ac4ee))
+
 ## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.1.1...@easyops/build-config-factory@1.1.2) (2019-11-13)
 
 ### Bug Fixes
