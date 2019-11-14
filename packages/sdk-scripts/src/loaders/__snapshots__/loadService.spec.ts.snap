@@ -12,10 +12,10 @@ export interface CreateRequestBody {
   name: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  type: number;
+  type: 1 | 3 | 7 | 15;
 
   /** 包分类 */
-  cId: number;
+  cId: 1;
 
   /** 备注说明 */
   memo: string;
@@ -24,7 +24,7 @@ export interface CreateRequestBody {
   installPath: string;
 
   /** 平台 */
-  platform: string;
+  platform: \\"linux\\" | \\"windows\\" | \\"others\\";
 
   /** 包文件源 */
   source?: string;
@@ -47,10 +47,10 @@ export type CreateResponseBody = Partial<ModelPackage> & {
   name: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  type: number;
+  type: 1 | 3 | 7 | 15;
 
   /** 包分类 */
-  cId: number;
+  cId: 1;
 
   /** 备注说明 */
   memo: string;
@@ -59,7 +59,7 @@ export type CreateResponseBody = Partial<ModelPackage> & {
   installPath: string;
 
   /** 平台 */
-  platform: string;
+  platform: \\"linux\\" | \\"windows\\" | \\"others\\";
 
   /** 包文件源 */
   source: string;
@@ -219,10 +219,10 @@ export interface ModelPackage {
   name: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  type: number;
+  type: 1 | 3 | 7 | 15;
 
   /** 包分类 */
-  cId: number;
+  cId: 1;
 
   /** 包文件源 */
   source: string;
@@ -234,7 +234,7 @@ export interface ModelPackage {
   installPath: string;
 
   /** 平台 */
-  platform: string;
+  platform: \\"linux\\" | \\"windows\\" | \\"others\\";
 
   /** 包分类标签 */
   category: string;
@@ -267,7 +267,7 @@ export interface ModelVersion {
   packageId: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  env_type: number;
+  env_type: 1 | 3 | 7 | 15;
 
   /** 创建时间 */
   ctime: string;
@@ -301,7 +301,7 @@ export interface ModelPackageExt {
     ctime?: string;
 
     /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-    env_type?: number;
+    env_type?: 1 | 3 | 7 | 15;
 
     /** 版本名称 */
     name?: string;

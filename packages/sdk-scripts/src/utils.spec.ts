@@ -34,14 +34,25 @@ describe("sdk-scripts utils", () => {
   });
 
   describe("getRealType should work", () => {
-    const cases: [string, { type: string; isArray: boolean }][] = [
-      ["number", { type: "number", isArray: false }],
-      ["int[]", { type: "number", isArray: true }],
-      ["email", { type: "string", isArray: false }]
+    const cases: [
+      { type: string; enum?: string[] | number[] },
+      { type: string; isArray: boolean; enum?: string[] | number[] }
+    ][] = [
+      [{ type: "number" }, { type: "number", isArray: false }],
+      [{ type: "int[]" }, { type: "number", isArray: true }],
+      [{ type: "email" }, { type: "string", isArray: false }],
+      [
+        { type: "email", enum: ["a@b.com"] },
+        { type: "string", isArray: false }
+      ],
+      [
+        { type: "env_type" },
+        { type: "number", isArray: false, enum: [1, 3, 7, 15] }
+      ]
     ];
 
-    it.each(cases)("getRealType(%s) should be %j", (type, expected) => {
-      expect(getRealType(type)).toEqual(expected);
+    it.each(cases)("getRealType(%s) should be %j", (doc, expected) => {
+      expect(getRealType(doc)).toEqual(expected);
     });
   });
 

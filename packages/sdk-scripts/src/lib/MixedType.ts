@@ -1,9 +1,12 @@
-import { UnionType } from "./internal";
-import { SourceFile } from "./internal";
+import {
+  UnionType,
+  SourceFile,
+  ProbablyObjectType,
+  PartialModelType,
+  EnumType
+} from "./internal";
 import { MixedTypeDoc } from "../interface";
 import { isPrimitiveType, getRealType, isPropertyType } from "../utils";
-import { ProbablyObjectType } from "./internal";
-import { PartialModelType } from "./internal";
 
 export class MixedType extends UnionType {
   readonly isArray: boolean;
@@ -11,8 +14,20 @@ export class MixedType extends UnionType {
   constructor(sourceFile: SourceFile, doc: MixedTypeDoc) {
     super();
     const { fields, required, requireAll } = doc;
-    const { type, isArray } = getRealType(doc.type);
+    const { type, isArray, enum: enumValues } = getRealType(doc);
     this.isArray = isArray;
+
+    if (Array.isArray(enumValues) && enumValues.length > 0) {
+      if (!["string", "number", "boolean"].includes(type)) {
+        throw new Error(`Unexpected enum for type: ${type}`);
+      }
+      this.addUnion(
+        new EnumType({
+          enum: enumValues
+        })
+      );
+      return;
+    }
 
     if (isPrimitiveType(type) || isPropertyType(type)) {
       this.addUnion(type);

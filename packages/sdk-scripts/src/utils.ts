@@ -3,7 +3,8 @@ import {
   RefFieldDoc,
   NormalFieldDoc,
   ExtFieldSource,
-  BaseDoc
+  BaseDoc,
+  TypeAndEnum
 } from "./interface";
 import { Api } from "./lib/Api";
 
@@ -50,24 +51,29 @@ export function expectDocVersion({
   }
 }
 
-let defaultTypeMap: Map<string, string> = null;
-export function getRealType(type: string): { type: string; isArray: boolean } {
+let defaultTypeMap: Map<string, TypeAndEnum> = null;
+export function getRealType(
+  doc: TypeAndEnum
+): TypeAndEnum & { isArray: boolean } {
   if (defaultTypeMap === null) {
     defaultTypeMap = loadDefaultTypes();
   }
-
+  let { type, enum: enumValues } = doc;
   const isArray = type.endsWith("[]");
   if (isArray) {
     type = type.substr(0, type.length - 2);
   }
   if (defaultTypeMap.has(type)) {
-    type = defaultTypeMap.get(type);
+    const predefined = defaultTypeMap.get(type);
+    type = predefined.type;
+    enumValues = predefined.enum;
   }
   if (aliasTypeMap.has(type)) {
     type = aliasTypeMap.get(type);
   }
   return {
     type,
+    enum: enumValues,
     isArray
   };
 }
@@ -117,9 +123,7 @@ export function refineRequest(api: Api): RefinedRequestDoc {
         );
         if (indexOfParams === -1) {
           throw new Error(
-            `Expect \`request.fields\` contains one of \`ext_fields\` which name is '${
-              requestParamsField.name
-            }'`
+            `Expect \`request.fields\` contains one of \`ext_fields\` which name is '${requestParamsField.name}'`
           );
         }
         result.requestParams = fields[indexOfParams] as NormalFieldDoc;
@@ -135,9 +139,7 @@ export function refineRequest(api: Api): RefinedRequestDoc {
         );
         if (indexOfBody === -1) {
           throw new Error(
-            `Expect \`request.fields\` contains one of \`ext_fields\` which name is '${
-              requestBodyField.name
-            }'`
+            `Expect \`request.fields\` contains one of \`ext_fields\` which name is '${requestBodyField.name}'`
           );
         }
         result.requestBody = fields[indexOfBody] as NormalFieldDoc;
