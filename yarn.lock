@@ -7703,7 +7703,7 @@ loader-runner@^2.4.0:
   resolved "https://registry.npm.taobao.org/loader-runner/download/loader-runner-2.4.0.tgz#ed47066bfe534d7e84c4c7b9998c2a75607d9357"
   integrity sha1-7UcGa/5TTX6ExMe5mYwqdWB9k1c=
 
-loader-utils@1.2.3, loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3:
+loader-utils@1.2.3, loader-utils@^1.0.0, loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
   dependencies:
@@ -12318,12 +12318,12 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-to-string-loader@^1.1.5:
-  version "1.1.5"
-  resolved "http://registry.npm.taobao.org/to-string-loader/download/to-string-loader-1.1.5.tgz#7b7aa17891b7bb4947a7a11bfb03b5fde9c6e695"
-  integrity sha1-e3qheJG3u0lHp6Eb+wO1/enG5pU=
+to-string-loader@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.npm.taobao.org/to-string-loader/download/to-string-loader-1.1.6.tgz#230529ccc63dd0ecca052a85e1fb82afe946b0ab"
+  integrity sha1-IwUpzMY90OzKBSqF4fuCr+lGsKs=
   dependencies:
-    loader-utils "^0.2.16"
+    loader-utils "^1.0.0"
 
 toggle-selection@^1.0.6:
   version "1.0.6"
