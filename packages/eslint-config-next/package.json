@@ -1,8 +1,8 @@
 {
   "name": "@easyops/eslint-config-next",
   "version": "0.0.0",
-  "description": "Eslint recommended config or brick-next related packages",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-eslint",
+  "description": "Eslint recommended config for brick-next related packages",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/eslint-config-next",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
