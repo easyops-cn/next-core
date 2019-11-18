@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="35px" viewBox="0 0 31 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>MongoDB</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50.0326769%" y1="100.198363%" x2="50.0326769%" y2="0.198779817%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.98" offset="10%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.91" offset="22%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.81" offset="36%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.66" offset="51%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.47" offset="68%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.24" offset="84%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50.0430136%" y1="99.9309374%" x2="50.0430136%" y2="0.629863333%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.98" offset="10%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.91" offset="22%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.81" offset="36%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.66" offset="51%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.47" offset="68%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.24" offset="84%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50.0278645%" y1="100.471641%" x2="50.0278645%" y2="0.471694454%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.98" offset="10%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.91" offset="22%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.81" offset="36%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.66" offset="51%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.47" offset="68%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.24" offset="84%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="模型icon-库" transform="translate(-964.000000, -134.000000)">
+            <g id="MongoDB" transform="translate(962.000000, 134.000000)">
+                <rect id="矩形备份-5" opacity="0.446149554" x="0" y="0" width="36" height="36"></rect>
+                <path d="M17.4908108,13.4778378 C24.8994595,13.4778378 30.7686486,11.1686486 32.2118919,8.08972973 L32.2118919,6.93513514 C32.2118919,3.37513514 25.572973,0.488648649 17.4908108,0.488648649 C9.40864865,0.488648649 2.86594595,3.37513514 2.86594595,6.93513514 L2.86594595,7.99351351 C4.21297297,11.4572973 9.98594595,13.4778378 17.4908108,13.4778378 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
+                <path d="M21.5359459,15.1135135 C20.1889189,15.3059459 18.9381081,15.3059459 17.5910811,15.3059459 C10.2786486,15.3059459 4.02459459,12.9005405 2.87,9.82162162 L2.87,14.9210811 C4.31324324,18 10.2786486,20.3091892 17.4948649,20.3091892 L17.7835135,20.3091892 C18.5532432,18.2886486 19.8040541,16.4605405 21.5359459,15.1135135 Z" id="路径" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+                <path d="M32.1156757,9.91783784 C31.4421622,11.2648649 30.3837838,12.227027 29.0367568,12.9005405 C30.0951351,12.9967568 31.1535135,13.1891892 32.1156757,13.5740541 L32.1156757,9.91783784 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
+                <path d="M17.2021622,22.1372973 C10.0821622,22.0410811 4.21297297,19.7318919 2.86594595,16.7491892 L2.86594595,21.7524324 C4.21297297,24.8313514 10.2745946,27.1405405 17.4908108,27.1405405 L17.587027,27.1405405 C17.2983784,26.0821622 17.1059459,25.0237838 17.1059459,23.9654054 C17.0097297,23.2918919 17.1059459,22.7145946 17.2021622,22.1372973 Z" id="路径" fill="url(#linearGradient-2)" fill-rule="nonzero"></path>
+                <path d="M18.2605405,28.8724324 L17.4908108,28.8724324 C10.2745946,28.8724324 4.21297297,26.5632432 2.86594595,23.4843243 L2.86594595,28.1989189 C2.86594595,31.8551351 9.50486486,34.9340541 17.587027,34.9340541 C19.8,34.9340541 22.012973,34.7416216 24.2259459,34.2605405 C21.6281081,33.2021622 19.5113514,31.2778378 18.2605405,28.8724324 L18.2605405,28.8724324 Z" id="路径" fill="url(#linearGradient-3)" fill-rule="nonzero"></path>
+                <path d="M28.3632432,13.9589189 C27.9783784,16.2681081 23.9372973,18.2886486 23.9372973,23.9654054 C23.9372973,29.1610811 26.7275676,30.7005405 27.4010811,30.9891892 C28.4594595,29.9308108 28.267027,20.5978378 28.3632432,13.9589189 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
+                <path d="M27.9783784,33.2021622 L27.9783784,31.2778378 C29.4216216,30.6043243 28.5556757,19.347027 28.4594595,15.2097297 C28.9405405,16.5567568 32.2118919,19.8281081 32.2118919,23.9654054 C32.2118919,28.1027027 30.3837838,30.027027 28.8443243,31.0854054 L28.8443243,33.0097297 C28.8443243,33.2983784 28.6518919,33.4908108 28.4594595,33.4908108 C28.1708108,33.587027 27.9783784,33.3945946 27.9783784,33.2021622 L27.9783784,33.2021622 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
