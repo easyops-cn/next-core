@@ -2553,10 +2553,10 @@ ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-antd@^3.25.1:
-  version "3.25.1"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-3.25.1.tgz?cache=0&sync_timestamp=1573402301824&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.25.1.tgz#c23732e63fc01fed30d9ab708e9ef4e71527ed82"
-  integrity sha1-wjcy5j/AH+0w2atwjp705xUn7YI=
+antd@^3.25.2:
+  version "3.25.2"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-3.25.2.tgz#6994e2f9639194c08dce4634c6296577ad44ac9d"
+  integrity sha1-aZTi+WORlMCNzkY0xilld61ErJ0=
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
