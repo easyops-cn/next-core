@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="34px" viewBox="0 0 36 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>微服务</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="93.8166851%" y1="93.8328859%" x2="38.6325524%" y2="38.6402998%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.99" offset="37%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.97" offset="51%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.92" offset="60%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.85" offset="68%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.77" offset="75%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.66" offset="80%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.53" offset="86%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.39" offset="91%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.22" offset="95%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.04" offset="99%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="模型icon-库" transform="translate(-3550.000000, -137.000000)">
+            <g id="微服务" transform="translate(3550.000000, 136.000000)">
+                <rect id="矩形备份-22" opacity="0.446149554" x="0" y="0" width="36" height="36"></rect>
+                <path d="M23.569697,1.2 C25.778836,1.2 27.569697,2.990861 27.569697,5.2 L27.569697,23.0909091 C27.569697,25.3000481 25.778836,27.0909091 23.569697,27.0909091 L4.6,27.0909091 C2.390861,27.0909091 0.6,25.3000481 0.6,23.0909091 L0.6,5.2 C0.6,2.990861 2.390861,1.2 4.6,1.2 L23.569697,1.2 Z M19.8828606,8.7208829 C18.6807216,7.56662427 16.7338721,7.61279461 15.4872727,8.85939394 L15.4872727,8.85939394 L14.0848485,10.2618182 L12.6824242,8.85939394 L12.5302609,8.72819747 C11.2396252,7.6824619 9.40041958,7.8220979 8.25939394,8.85939394 C6.96484848,10.1539394 6.8569697,12.2036364 8.04363636,13.4981818 L8.04363636,13.4981818 L14.0848485,19.5393939 L20.1260606,13.4981818 C21.4206061,12.3115152 21.4206061,10.1539394 20.0181818,8.85939394 L20.0181818,8.85939394 Z" id="形状结合" fill="#FFFFFF"></path>
+                <path d="M35.3369697,13.1745455 L35.3369697,29.4642424 C35.3369697,32.3769697 32.9636364,34.750303 30.1587879,34.750303 L13.8690909,34.750303 C10.9563636,34.750303 8.69090909,32.3769697 8.69090909,29.4642424 L8.69090909,29.0327273 L24.4412121,29.0327273 C27.8933333,29.0327273 29.7272727,27.3066667 29.7272727,23.8545455 L29.7272727,8.10424242 L30.1587879,8.10424242 C33.0715152,7.99636364 35.3369697,10.2618182 35.3369697,13.1745455 Z" id="路径" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
