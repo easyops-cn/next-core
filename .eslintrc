@@ -10,7 +10,8 @@
         "packages/build-config-factory/src/**/*.{ts,js}",
         "packages/brick-scripts/src/**/*.{ts,js}",
         "packages/sdk-scripts/src/**/*.{ts,js}",
-        "packages/eslint-config-next/*.js"
+        "packages/eslint-config-next/*.js",
+        "packages/babel-preset-next/*.js"
       ],
       "extends": "@easyops/eslint-config-next/node"
     },
