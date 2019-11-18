@@ -58,6 +58,7 @@ module.exports = ({ scope = "bricks" } = {}) => {
   const imageLoaderOptions = getImageLoaderOptions(distPublicPath);
 
   const packageJson = require(path.join(cwdDirname, "package.json"));
+  const packageName = packageJson.name.split("/")[1];
   const dll = Object.keys(packageJson.devDependencies).filter(name =>
     name.startsWith("@dll/")
   );
@@ -176,8 +177,9 @@ module.exports = ({ scope = "bricks" } = {}) => {
     },
     plugins: [
       scope === "templates"
-        ? new ScanTemplatesPlugin()
+        ? new ScanTemplatesPlugin(packageName)
         : new ScanCustomElementsPlugin(
+            packageName,
             dll.map(name => name.substr("@dll/".length))
           ),
       new CleanWebpackPlugin(),
