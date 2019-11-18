@@ -1,0 +1,22 @@
+{
+  "name": "@easyops/eslint-config-next",
+  "version": "0.0.0",
+  "description": "Eslint recommended config or brick-next related packages",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-eslint",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "sideEffects": false,
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": ">= 2",
+    "eslint": ">= 6",
+    "eslint-plugin-react": ">= 7",
+    "eslint-plugin-react-hooks": ">= 2"
+  },
+  "dependencies": {
+    "@typescript-eslint/parser": "^2.7.0",
+    "eslint-config-prettier": "^6.5.0"
+  }
+}
