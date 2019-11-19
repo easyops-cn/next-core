@@ -2110,10 +2110,10 @@
   resolved "https://registry.npm.taobao.org/@types/normalize-package-data/download/@types/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha1-5IbQ2XOW15vu3QpuM/RTT/a0lz4=
 
-"@types/prettier@^1.18.3":
-  version "1.18.3"
-  resolved "https://registry.npm.taobao.org/@types/prettier/download/@types/prettier-1.18.3.tgz#64ff53329ce16139f17c3db9d3e0487199972cd8"
-  integrity sha1-ZP9TMpzhYTnxfD250+BIcZmXLNg=
+"@types/prettier@^1.18.4":
+  version "1.18.4"
+  resolved "https://registry.npm.taobao.org/@types/prettier/download/@types/prettier-1.18.4.tgz#40bebad38700a2f785940f01bdc067276fd2f7b8"
+  integrity sha1-QL6604cAoveFlA8BvcBnJ2/S97g=
 
 "@types/prop-types@*":
   version "15.7.0"
