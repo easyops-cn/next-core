@@ -61,4 +61,36 @@
 
   --card-hover-border-color: transparent;
   --card-hover-box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  --theme-green-color: #2fc25b;
+  --theme-green-background: #eaf8ec;
+  --theme-green-border-color: #97e0ad73;
+
+  --theme-red-color: #f0493c;
+  --theme-red-background: #fdf0ef;
+  --theme-red-border-color: #fda7a173;
+
+  --theme-blue-color: #0071eb;
+  --theme-blue-background: #ebf3fd;
+  --theme-blue-border-color: #80b8f573;
+
+  --theme-orange-color: #ffa235;
+  --theme-orange-background: #fff5ea;
+  --theme-orange-border-color: #ffd09a73;
+
+  --theme-cyan-color: #29c7cc;
+  --theme-cyan-background: #e9fafa;
+  --theme-cyan-border-color: #8ee1e173;
+
+  --theme-purple-color: #975fe4;
+  --theme-purple-background: #f2eafd;
+  --theme-purple-border-color: #cdb2f273;
+
+  --theme-geekblue-color: #1452cc;
+  --theme-geekblue-background: #ecf1fb;
+  --theme-geekblue-border-color: #d9e3f6;
+
+  --theme-gray-color: #8c8c8c;
+  --theme-gray-background: #f5f5f5;
+  --theme-gray-border-color: #c7c7c773;
 }
