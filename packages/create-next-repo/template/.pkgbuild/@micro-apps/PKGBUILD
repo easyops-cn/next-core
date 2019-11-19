@@ -1,0 +1,28 @@
+# The common PKGBUILD of all @bricks/*
+# Keep in mind that the actual PKGBUILD execution context is @bricks/[plugin-name]
+arch=('x86_64')
+pkgrel=1
+source=()
+options=()
+
+_prepare_source_links() {
+  local _projectdir="${startdir}/.."
+  ln -snf "${_projectdir}" "${srcdir}/src"
+}
+
+_package_artifacts() {
+  rsync --archive --stats --exclude="package.json" --exclude="scripts" . "${pkgdir}"
+}
+
+prepare() {
+  _prepare_source_links
+}
+
+pkgver() {
+  jq -r '.version' < "${srcdir}/src/package.json"
+}
+
+package() {
+  cd "${srcdir}/src"
+  _package_artifacts
+}

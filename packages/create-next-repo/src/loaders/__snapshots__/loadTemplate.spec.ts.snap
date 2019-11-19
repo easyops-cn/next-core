@@ -1,0 +1,497 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadTemplate should work 1`] = `
+Array [
+  Array [
+    "/tmp/next/my-repo/.editorconfig",
+    "root = true
+
+[*]
+indent_style = space
+indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{md,snap}]
+trim_trailing_whitespace = false
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.eslintignore",
+    "node_modules
+dist
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.eslintrc",
+    "{
+  \\"root\\": true,
+  \\"extends\\": \\"@easyops/eslint-config-next\\"
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.gitignore",
+    "dist
+node_modules
+.coverage
+.vscode
+.idea
+.DS_Store
+.schema
+*.log
+report.*.json
+/dev-settings.yaml
+
+/bricks/*/deploy/*
+!/bricks/*/deploy/package.conf.yaml
+/bricks/*/.pkgbuild/
+/micro-apps/*/deploy/
+/micro-apps/*/.pkgbuild/
+/templates/*/deploy/
+/templates/*/.pkgbuild/
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.huskyrc",
+    "{
+  \\"hooks\\": {
+    \\"pre-commit\\": \\"lint-staged\\"
+  }
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.lintstagedrc",
+    "{
+  \\"*.{js,ts,jsx,tsx}\\": [
+    \\"cross-env ESLINT_ENV='production' eslint --fix --quiet\\",
+    \\"prettier --write\\",
+    \\"git add\\"
+  ],
+  \\"*.css\\": [
+    \\"prettier --write\\",
+    \\"git add\\"
+  ],
+  \\"*.html\\": [
+    \\"prettier --write\\",
+    \\"git add\\"
+  ],
+  \\"*.md\\": [
+    \\"prettier --write\\",
+    \\"git add\\"
+  ],
+  \\"*.json\\": [
+    \\"prettier --write\\",
+    \\"git add\\"
+  ]
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.npmrc",
+    "registry=https://registry.npm.taobao.org
+@easyops:registry=http://registry.npm.easyops.local
+@bricks:registry=http://registry.npm.easyops.local
+@dll:registry=http://registry.npm.easyops.local
+@libs:registry=http://registry.npm.easyops.local
+@micro-apps:registry=http://registry.npm.easyops.local
+@sdk:registry=http://registry.npm.easyops.local
+@templates:registry=http://registry.npm.easyops.local
+tag-version-prefix=
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.pkgbuild/@bricks/PKGBUILD",
+    "# The common PKGBUILD of all @bricks/*
+# Keep in mind that the actual PKGBUILD execution context is @bricks/[plugin-name]
+pkgver() {
+  jq -r '.version' < \\"\${srcdir}/src/package.json\\"
+}
+arch=('x86_64')
+pkgrel=1
+source=()
+options=()
+
+_prepare_source_links() {
+  local _projectdir=\\"\${startdir}/..\\"
+  ln -snf \\"\${_projectdir}\\" \\"\${srcdir}/src\\"
+}
+
+_package_artifacts() {
+  rsync --archive --stats --include=\\"dist/***\\" --include=\\"deploy/***\\" --include=\\"CHANGELOG.md\\" --include=\\"README.md\\" --exclude=\\"*\\" . \\"\${pkgdir}\\"
+}
+
+prepare() {
+  _prepare_source_links
+}
+
+package() {
+  cd \\"\${srcdir}/src\\"
+  _package_artifacts
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.pkgbuild/@micro-apps/PKGBUILD",
+    "# The common PKGBUILD of all @bricks/*
+# Keep in mind that the actual PKGBUILD execution context is @bricks/[plugin-name]
+arch=('x86_64')
+pkgrel=1
+source=()
+options=()
+
+_prepare_source_links() {
+  local _projectdir=\\"\${startdir}/..\\"
+  ln -snf \\"\${_projectdir}\\" \\"\${srcdir}/src\\"
+}
+
+_package_artifacts() {
+  rsync --archive --stats --exclude=\\"package.json\\" --exclude=\\"scripts\\" . \\"\${pkgdir}\\"
+}
+
+prepare() {
+  _prepare_source_links
+}
+
+pkgver() {
+  jq -r '.version' < \\"\${srcdir}/src/package.json\\"
+}
+
+package() {
+  cd \\"\${srcdir}/src\\"
+  _package_artifacts
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.pkgbuild/@templates/PKGBUILD",
+    "# The common PKGBUILD of all @templates/*
+# Keep in mind that the actual PKGBUILD execution context is @templates/[plugin-name]
+pkgver() {
+  jq -r '.version' < \\"\${srcdir}/src/package.json\\"
+}
+arch=('x86_64')
+pkgrel=1
+source=()
+options=()
+
+_prepare_source_links() {
+  local _projectdir=\\"\${startdir}/..\\"
+  ln -snf \\"\${_projectdir}\\" \\"\${srcdir}/src\\"
+}
+
+_package_artifacts() {
+  rsync --archive --stats --include=\\"dist/***\\" --include=\\"deploy/***\\" --include=\\"CHANGELOG.md\\" --include=\\"README.md\\" --exclude=\\"*\\" . \\"\${pkgdir}\\"
+}
+
+prepare() {
+  _prepare_source_links
+}
+
+package() {
+  cd \\"\${srcdir}/src\\"
+  _package_artifacts
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.size-limit.js",
+    "const { sizeLimit } = require(\\"@easyops/build-config-factory\\");
+
+module.exports = sizeLimit({
+  bricks: {
+    \\"*\\": \\"50 KB\\"
+  },
+  templates: {
+    \\"*\\": \\"5 KB\\"
+  }
+});
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.yarnrc",
+    "registry \\"https://registry.npm.taobao.org\\"
+\\"@easyops:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@bricks:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@dll:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@libs:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@micro-apps:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@sdk:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@templates:registry\\" \\"http://registry.npm.easyops.local\\"
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__jest__/customElementsV1Serializer.ts",
+    "// 因 jest 引入 document-register-element 后，文档中的 Element 对象的 constructor 变成了 CustomElementsV1，这里将该类型的 serialize 重新指回 pretty-format 的 DOMElement.serialize，以便正常序列化
+import { plugins } from \\"pretty-format\\";
+
+export const test = (val: any) =>
+  val &&
+  val.constructor &&
+  val.constructor.name &&
+  val.constructor.name === \\"CustomElementsV1\\";
+export const serialize = plugins.DOMElement.serialize;
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__jest__/setup.ts",
+    "import { configure } from \\"enzyme\\";
+import Adapter from \\"enzyme-adapter-react-16\\";
+import { act } from \\"react-dom/test-utils\\";
+
+configure({ adapter: new Adapter() });
+
+// Ref https://github.com/facebook/jest/issues/2157#issuecomment-279171856
+(global as any).flushPromises = () =>
+  act(() => new Promise(resolve => setImmediate(resolve)));
+
+Element.prototype.scrollIntoView = jest.fn();
+document.execCommand = jest.fn(() => true);
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__mocks__/htmlMock.js",
+    "export default \\"test-file-stub\\";
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__mocks__/markdownMock.js",
+    "export default \\"markdown mock\\";
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__mocks__/pngMock.js",
+    "export default \\"png-url\\";
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__mocks__/react-i18next.js",
+    "export const withTranslation = () => Component => {
+  Component.defaultProps = {
+    ...Component.defaultProps,
+    t: key => key,
+    i18n: {
+      language: \\"zh-CN\\"
+    }
+  };
+  return Component;
+};
+
+export const useTranslation = () => ({
+  t: key => key,
+  i18n: {
+    language: \\"zh-CN\\"
+  }
+});
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__mocks__/styleMock.js",
+    "export default {};
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/__mocks__/svgrMock.js",
+    "export default \\"svgr-url\\";
+export const ReactComponent = \\"svgr-mock\\";
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/babel.config.js",
+    "module.exports = {
+  presets: [\\"@easyops/babel-preset-next\\"]
+};
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/browserslist",
+    "[development]
+last 2 Chrome versions
+
+[production]
+# Desktop browsers
+# with decent display: grid support: https://caniuse.com/#feat=css-grid
+# with proper class support: https://bugzilla.mozilla.org/show_bug.cgi?id=1216630
+Edge >= 17
+Chrome >= 57
+Firefox >= 55
+Safari >= 10.1
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/declarations/global.d.ts",
+    "declare module \\"*.module.css\\" {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+
+declare module \\"*.css\\" {
+  const css: string;
+  export default css;
+}
+
+declare module \\"*.less\\" {
+  const lessValue: string;
+  export default lessValue;
+}
+
+declare module \\"*.html\\" {
+  const html: string;
+  export default html;
+}
+
+declare module \\"*.md\\" {
+  const content: string;
+  export default content;
+}
+
+interface SvgrComponent
+  extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
+
+declare module \\"*.svg\\" {
+  const url: string;
+  export default url;
+  export const ReactComponent: SvgrComponent;
+}
+
+declare module \\"*.png\\" {
+  const url: string;
+  export default url;
+}
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    slot: any;
+  }
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/jest.config.js",
+    "module.exports = {
+  setupFilesAfterEnv: [\\"<rootDir>/__jest__/setup.ts\\"],
+  snapshotSerializers: [
+    \\"enzyme-to-json/serializer\\",
+    \\"<rootDir>/__jest__/customElementsV1Serializer.ts\\"
+  ],
+  coveragePathIgnorePatterns: [
+    \\"/node_modules/\\",
+    \\"/dist/\\",
+    \\"\\\\\\\\.spec\\\\\\\\.[jt]sx?$\\",
+    \\"/scripts/\\",
+    \\"/__jest__/\\",
+    \\"/micro-apps/\\"
+  ],
+  collectCoverage: true,
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 50,
+      functions: 80,
+      lines: 80
+    }
+  },
+  coverageDirectory: \\"<rootDir>/.coverage\\",
+  coverageReporters: [\\"lcov\\", \\"text-summary\\"],
+  transform: {
+    \\"^.+\\\\\\\\.[jt]sx?$\\": \\"babel-jest\\"
+  },
+  testPathIgnorePatterns: [\\"/node_modules/\\", \\"/dist/\\"],
+  moduleNameMapper: {
+    \\"\\\\\\\\.module\\\\\\\\.css$\\": \\"identity-obj-proxy\\",
+    \\"\\\\\\\\.less$\\": \\"<rootDir>/__mocks__/styleMock.js\\",
+    \\"\\\\\\\\.css$\\": \\"<rootDir>/__mocks__/styleMock.js\\",
+    \\"^.+\\\\\\\\.html$\\": \\"<rootDir>/__mocks__/htmlMock.js\\",
+    \\"\\\\\\\\.svg\\": \\"<rootDir>/__mocks__/svgrMock.js\\",
+    \\"\\\\\\\\.png\\": \\"<rootDir>/__mocks__/pngMock.js\\",
+    \\"^.+\\\\\\\\.md?$\\": \\"<rootDir>/__mocks__/markdownMock.js\\",
+    // Ref http://react-dnd.github.io/react-dnd/docs/testing#setup
+    \\"^dnd-core$\\": \\"dnd-core/dist/cjs\\",
+    \\"^react-dnd$\\": \\"react-dnd/dist/cjs\\",
+    \\"^react-dnd-html5-backend$\\": \\"react-dnd-html5-backend/dist/cjs\\"
+  },
+  // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
+  // Todo(steve): remove next line when issue fixed.
+  modulePathIgnorePatterns: [\\"<rootDir>/.*/__mocks__\\"],
+  // Use jsdom@14 which supports MutationObserver
+  testEnvironment: \\"jest-environment-jsdom-fourteen\\",
+  timers: \\"fake\\"
+};
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/lerna.json",
+    "{
+  \\"packages\\": [\\"bricks/*\\", \\"libs/*\\", \\"micro-apps/*\\", \\"templates/*\\"],
+  \\"version\\": \\"independent\\",
+  \\"npmClient\\": \\"yarn\\",
+  \\"stream\\": true,
+  \\"useWorkspaces\\": true,
+  \\"conventionalCommits\\": true,
+  \\"command\\": {
+    \\"publish\\": {
+      \\"npmClient\\": \\"npm\\",
+      \\"allowBranch\\": \\"master\\",
+      \\"verifyAccess\\": false,
+      \\"message\\": \\"chore(release): publish\\",
+      \\"registry\\": \\"https://registry.npm.easyops.local\\"
+    }
+  }
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/renovate.json",
+    "{
+  \\"$schema\\": \\"http://json.schemastore.org/renovate\\",
+  \\"extends\\": [\\"config:base\\"],
+  \\"rangeStrategy\\": \\"bump\\",
+  \\"semanticCommits\\": true,
+  \\"commitMessagePrefix\\": \\"chore(deps):\\",
+  \\"assignees\\": [\\"weareoutman\\"],
+  \\"ignorePresets\\": [\\":ignoreModulesAndTests\\"],
+  \\"packageRules\\": [
+    {
+      \\"depTypeList\\": [\\"devDependencies\\"],
+      \\"automerge\\": true
+    },
+    {
+      \\"packagePatterns\\": [\\"^@bricks/\\", \\"^@libs/\\", \\"^@micro-apps/\\", \\"^@sdk/\\"],
+      \\"enabled\\": false
+    },
+    {
+      \\"packagePatterns\\": [\\"^@dll\\", \\"^@easyops/\\"],
+      \\"automerge\\": false,
+      \\"groupName\\": \\"next-core packages\\"
+    }
+  ]
+}
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/tsconfig.json",
+    "{
+  \\"compilerOptions\\": {
+    \\"declaration\\": false,
+    \\"sourceMap\\": true,
+    \\"importHelpers\\": true,
+    \\"moduleResolution\\": \\"node\\",
+    \\"resolveJsonModule\\": true,
+    \\"esModuleInterop\\": true,
+    \\"target\\": \\"ESNext\\",
+    \\"module\\": \\"ESNext\\",
+    \\"skipLibCheck\\": true,
+    \\"strict\\": true,
+    \\"strictNullChecks\\": false,
+    \\"jsx\\": \\"preserve\\",
+    \\"emitDecoratorMetadata\\": true,
+    \\"experimentalDecorators\\": true
+  },
+  \\"exclude\\": [\\"node_modules\\", \\"**/*.spec.ts\\", \\"dist/\\", \\"**/__mocks__/\\"]
+}
+",
+  ],
+]
+`;

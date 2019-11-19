@@ -1,0 +1,27 @@
+# The common PKGBUILD of all @templates/*
+# Keep in mind that the actual PKGBUILD execution context is @templates/[plugin-name]
+pkgver() {
+  jq -r '.version' < "${srcdir}/src/package.json"
+}
+arch=('x86_64')
+pkgrel=1
+source=()
+options=()
+
+_prepare_source_links() {
+  local _projectdir="${startdir}/.."
+  ln -snf "${_projectdir}" "${srcdir}/src"
+}
+
+_package_artifacts() {
+  rsync --archive --stats --include="dist/***" --include="deploy/***" --include="CHANGELOG.md" --include="README.md" --exclude="*" . "${pkgdir}"
+}
+
+prepare() {
+  _prepare_source_links
+}
+
+package() {
+  cd "${srcdir}/src"
+  _package_artifacts
+}

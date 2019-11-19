@@ -1,6 +1,6 @@
 # sdk-scripts
 
-Generate new SDK. No worry!
+Generate new SDK. No worries!
 
 ## TODO
 

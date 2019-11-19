@@ -46,5 +46,14 @@ module.exports = function(sizeLimitJson) {
     });
   });
 
+  // Size Limit requires non-empty config.
+  if (limits.length === 0) {
+    limits.push({
+      path: "package.json",
+      limit: "10 KB",
+      running: false
+    });
+  }
+
   return limits;
 };
