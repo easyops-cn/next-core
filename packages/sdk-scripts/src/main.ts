@@ -69,5 +69,5 @@ export function create(serviceName: string): void {
   }
 
   console.log();
-  console.log(chalk.green("No worry!"));
+  console.log(chalk.green("No worries!"));
 }
