@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.1.1...@easyops/custom-antd-styles@0.2.0) (2019-11-19)
+
+### Features
+
+- **custom-style:** custom style of antd alert, refs BRICK_STORE-642 ([4846378](https://git.easyops.local/anyclouds/next-core/commits/4846378))
+
 ## [0.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.1.0...@easyops/custom-antd-styles@0.1.1) (2019-11-12)
 
 ### Bug Fixes

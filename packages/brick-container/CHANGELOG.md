@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.22...@easyops/brick-container@1.2.0) (2019-11-19)
+
+### Features
+
+- **custom-style:** custom style of antd alert, refs BRICK_STORE-642 ([4846378](https://git.easyops.local/anyclouds/next-core/commits/4846378))
+
 ## [1.1.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.21...@easyops/brick-container@1.1.22) (2019-11-18)
 
 **Note:** Version bump only for package @easyops/brick-container
