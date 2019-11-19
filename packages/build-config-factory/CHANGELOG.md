@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.0...@easyops/build-config-factory@1.2.1) (2019-11-19)
+
+### Bug Fixes
+
+- **size-limit:** Size Limit requires non-empty config ([3495ddb](https://git.easyops.local/anyclouds/next-core/commits/3495ddb))
+
 # [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.1.3...@easyops/build-config-factory@1.2.0) (2019-11-18)
 
 ### Features
