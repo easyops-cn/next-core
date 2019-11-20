@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.2.0...@easyops/custom-antd-styles@0.3.0) (2019-11-20)
+
+### Features
+
+- add link color style ([ebdf813](https://git.easyops.local/anyclouds/next-core/commits/ebdf813))
+- add tag component style ([c09075a](https://git.easyops.local/anyclouds/next-core/commits/c09075a))
+
 # [0.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.1.1...@easyops/custom-antd-styles@0.2.0) (2019-11-19)
 
 ### Features
