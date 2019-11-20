@@ -40,4 +40,16 @@
       border-color: #0063ce;
     }
   }
+
+  &-link {
+    &:hover,
+    &:focus {
+      color: var(--bg-color-button-link-hover);
+    }
+
+    &.active,
+    &:active {
+      color: var(--bg-color-button-link-pressed);
+    }
+  }
 }

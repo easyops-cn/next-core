@@ -21,6 +21,10 @@
   --bg-color-button-warning: #ffa235;
   --bg-color-button-warning-pressed: #e6922f;
 
+  --bg-color-button-link: #0071eb;
+  --bg-color-button-link-hover: #53a7fb;
+  --bg-color-button-link-pressed: #116ac2;
+
   --stroke-color-default: #e8e8e8;
   --fill-color-gray-light: #fafafa;
   --fill-color-gray-default: #f5f5f5;
