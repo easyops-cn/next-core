@@ -49,7 +49,7 @@ export class Kernel {
         }
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.error("fetch all user error:", err);
+        console.warn("fetch all user error:", err);
         this.allUserInfo = [];
       }
     }
