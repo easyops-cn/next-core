@@ -124,6 +124,30 @@ export const get = async (
 ",
   ],
   Array [
+    "dist/src/api/cd/package/retry.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+import { ResponseBodyWrapper } from \\"../../../wrapper\\";
+
+export interface RetryResponseBody {
+  /** build id */
+  id?: string;
+}
+
+/** 重试 */
+export const retry = async (
+  build_id: string | number,
+  options?: HttpOptions
+): Promise<RetryResponseBody> =>
+  (
+    await http.post<ResponseBodyWrapper<RetryResponseBody>>(
+      \`api/gateway/cd.package.Retry/api/pipeline/v1/builds/\${build_id}/retry\`,
+      undefined,
+      options
+    )
+  ).data;
+",
+  ],
+  Array [
     "dist/src/api/cd/package/search.ts",
     "import { http, HttpOptions } from \\"@easyops/brick-http\\";
 import { ModelPackage, ModelPackageExt } from \\"../../../model/cd\\";
@@ -319,6 +343,7 @@ export interface ModelPackageExt {
     "dist/src/api/cd/package/index.ts",
     "export * from \\"./create\\";
 export * from \\"./get\\";
+export * from \\"./retry\\";
 export * from \\"./search\\";
 export * from \\"./upload\\";
 ",
@@ -344,6 +369,8 @@ export { PackageApi, CdModels };
   - name: easyops.api.cd.package.Create
     version: ^1.0
   - name: easyops.api.cd.package.Get
+    version: ^1.0
+  - name: easyops.api.cd.package.Retry
     version: ^1.0
   - name: easyops.api.cd.package.Search
     version: ^1.0
