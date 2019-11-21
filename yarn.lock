@@ -4263,10 +4263,18 @@ d3-dispatch@1:
   resolved "http://registry.npm.taobao.org/d3-dispatch/download/d3-dispatch-1.0.5.tgz#e25c10a186517cd6c82dd19ea018f07e01e39015"
   integrity sha1-4lwQoYZRfNbILdGeoBjwfgHjkBU=
 
-d3-drag@1, d3-drag@^1.2.4:
+d3-drag@1:
   version "1.2.4"
   resolved "https://registry.npm.taobao.org/d3-drag/download/d3-drag-1.2.4.tgz#ba9331d68158ad14cf0b4b28a8afa9e78c7d99ad"
   integrity sha1-upMx1oFYrRTPC0soqK+p54x9ma0=
+  dependencies:
+    d3-dispatch "1"
+    d3-selection "1"
+
+d3-drag@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.npm.taobao.org/d3-drag/download/d3-drag-1.2.5.tgz#2537f451acd39d31406677b7dc77c82f7d988f70"
+  integrity sha1-JTf0UazTnTFAZne33HfIL32Yj3A=
   dependencies:
     d3-dispatch "1"
     d3-selection "1"
