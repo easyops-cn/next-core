@@ -36,8 +36,8 @@
     "request-promise-native": "^1.0.8"
   },
   "templateDependencies": {
-    "@bricks/basic-bricks": "^1.9.1",
-    "@easyops/brick-container": "^1.1.3"
+    "@bricks/basic-bricks": "^1.11.0",
+    "@easyops/brick-container": "^1.3.1"
   },
   "devDependencies": {
     "@easyops/brick-dll": "^1.0.22",
