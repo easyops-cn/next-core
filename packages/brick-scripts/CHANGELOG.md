@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.15...@easyops/brick-scripts@1.1.16) (2019-11-21)
+
+### Bug Fixes
+
+- bump deps of @bricks/basic-bricks and @easyops/brick-container ([3e0b982](https://git.easyops.local/anyclouds/next-core/commits/3e0b982))
+
 ## [1.1.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.14...@easyops/brick-scripts@1.1.15) (2019-11-19)
 
 **Note:** Version bump only for package @easyops/brick-scripts

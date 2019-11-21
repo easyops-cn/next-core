@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.3.0...@easyops/brick-container@1.3.1) (2019-11-21)
+
+### Bug Fixes
+
+- update nginx to ^3.5.5 which support templates ([541abfd](https://git.easyops.local/anyclouds/next-core/commits/541abfd))
+
 # [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.2.0...@easyops/brick-container@1.3.0) (2019-11-20)
 
 ### Features
