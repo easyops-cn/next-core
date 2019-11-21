@@ -11,8 +11,11 @@ import { getHistory } from "./history";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
 
 export const httpErrorToString = (
-  error: Error | HttpFetchError | HttpResponseError | HttpParseError
+  error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event
 ): string => {
+  if (error instanceof Event && error.target instanceof HTMLScriptElement) {
+    return error.target.src;
+  }
   if (error instanceof HttpResponseError) {
     if (error.responseJson && typeof error.responseJson.error === "string") {
       return error.responseJson.error;

@@ -20,6 +20,8 @@ const spyOnHistoryPush = jest.fn();
 (getHistory as jest.Mock).mockReturnValue({
   push: spyOnHistoryPush
 });
+(window as any).Event = class {};
+(window as any).HTMLScriptElement = class {};
 
 describe("httpErrorToString", () => {
   it("should return Errors", () => {
@@ -63,6 +65,14 @@ describe("httpErrorToString", () => {
     expect(httpErrorToString(new HttpParseError(new Response("")))).toBe(
       "HttpParseError: OK"
     );
+  });
+
+  it("should return script src if load script failed", () => {
+    const script = new HTMLScriptElement();
+    script.src = "not-existed-script-src";
+    const event = new Event("error");
+    (event as any).target = script;
+    expect(httpErrorToString(event)).toBe("not-existed-script-src");
   });
 });
 

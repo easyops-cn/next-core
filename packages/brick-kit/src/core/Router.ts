@@ -17,29 +17,54 @@ import {
   appendBrick
 } from "./exports";
 import { getHistory } from "../history";
-import { httpErrorToString } from "../handleHttpError";
+import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 
 export class Router {
   private defaultCollapsed = false;
   private locationContext: LocationContext;
+  private rendering = false;
+  private nextLocation: PluginLocation;
 
   constructor(private kernel: Kernel) {}
 
   async bootstrap(): Promise<void> {
-    getHistory().listen((location: PluginLocation) => {
+    const history = getHistory();
+    history.listen(async (location: PluginLocation) => {
       if (location.state && location.state.notify === false) {
         // No rendering if notify is `false`.
         return;
       }
-      this.render(location);
+      if (this.rendering) {
+        this.nextLocation = location;
+      } else {
+        try {
+          await this.queuedRender(location);
+        } catch (e) {
+          handleHttpError(e);
+        }
+      }
     });
-    await this.render(getHistory().location);
+    await this.queuedRender(history.location);
     this.kernel.firstRendered();
   }
 
-  private render = async (location: PluginLocation): Promise<void> => {
+  private async queuedRender(location: PluginLocation): Promise<void> {
+    this.rendering = true;
+    try {
+      await this.render(location);
+    } finally {
+      this.rendering = false;
+      if (this.nextLocation) {
+        const nextLocation = this.nextLocation;
+        this.nextLocation = null;
+        await this.queuedRender(nextLocation);
+      }
+    }
+  }
+
+  private async render(location: PluginLocation): Promise<void> {
     if (this.locationContext) {
       this.locationContext.resolver.resetRefreshQueue();
     }
@@ -229,5 +254,5 @@ export class Router {
       ],
       mountPoints.main as MountableElement
     );
-  };
+  }
 }
