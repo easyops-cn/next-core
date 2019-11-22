@@ -54,6 +54,8 @@
   --toolbar-button-gap: 8px;
   --sub-menu-width: 240px;
 
+  --card-content-gap: 15px;
+
   --card-default-border-radius: 6px;
   --card-default-border: none;
   --card-default-background: #fff;
