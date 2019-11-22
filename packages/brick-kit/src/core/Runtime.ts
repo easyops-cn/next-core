@@ -6,11 +6,16 @@ import {
   FeatureFlags,
   DesktopData,
   BrickTemplateFactory,
-  UserInfo
+  UserInfo,
+  BrickPackage
 } from "@easyops/brick-types";
 import { registerBrickTemplate } from "./TemplateRegistries";
 
 let kernel: Kernel;
+
+export function _dev_only_getBrickPackages(): BrickPackage[] {
+  return kernel.bootstrapData.brickPackages;
+}
 
 export class Runtime {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
