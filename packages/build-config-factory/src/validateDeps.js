@@ -1,7 +1,7 @@
 const path = require("path");
 const { isEmpty } = require("lodash");
 
-module.exports = function ensureDeps(scope) {
+module.exports = function validateDeps(scope) {
   const packageJson = require(path.join(process.cwd(), "package.json"));
 
   if (scope === "bricks") {
