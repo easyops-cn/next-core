@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.3.2...@easyops/brick-container@1.4.0) (2019-11-22)
+
+### Features
+
+- **variables:** card-content-gap ([a122ba9](https://git.easyops.local/anyclouds/next-core/commits/a122ba9))
+
 ## [1.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.3.1...@easyops/brick-container@1.3.2) (2019-11-21)
 
 **Note:** Version bump only for package @easyops/brick-container

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.17...@easyops/brick-scripts@1.1.18) (2019-11-22)
+
+### Bug Fixes
+
+- Create brick doc only when doc root exists ([4c0e6ed](https://git.easyops.local/anyclouds/next-core/commits/4c0e6ed))
+
 ## [1.1.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.16...@easyops/brick-scripts@1.1.17) (2019-11-21)
 
 **Note:** Version bump only for package @easyops/brick-scripts
