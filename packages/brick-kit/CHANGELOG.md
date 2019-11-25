@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.5.0...@easyops/brick-kit@1.6.0) (2019-11-25)
+
+### Bug Fixes
+
+- refine types of handleHttpError ([0289091](https://git.easyops.local/anyclouds/next-core/commits/0289091))
+
+### Features
+
+- support get micro apps including internal ([0230c8d](https://git.easyops.local/anyclouds/next-core/commits/0230c8d))
+
 # [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.4.1...@easyops/brick-kit@1.5.0) (2019-11-22)
 
 ### Features
