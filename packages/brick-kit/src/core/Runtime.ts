@@ -34,12 +34,18 @@ export class Runtime {
     return kernel.appBar;
   }
 
-  getMicroApps({ excludeInstalling = false } = {}): MicroApp[] {
-    const apps = kernel.bootstrapData.microApps;
+  getMicroApps({
+    excludeInstalling = false,
+    includeInternal = false
+  } = {}): MicroApp[] {
+    let apps = kernel.bootstrapData.microApps;
     if (excludeInstalling) {
-      return apps.filter(
+      apps = apps.filter(
         app => !(app.installStatus && app.installStatus === "running")
       );
+    }
+    if (!includeInternal) {
+      apps = apps.filter(app => !app.internal);
     }
     return apps;
   }
