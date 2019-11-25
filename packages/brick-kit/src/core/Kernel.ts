@@ -107,7 +107,7 @@ export class Kernel {
       ...bootstrapResponse,
       microApps: bootstrapResponse.storyboards
         .map(storyboard => storyboard.app)
-        .filter(app => app && !app.internal)
+        .filter(Boolean)
     };
   }
 
