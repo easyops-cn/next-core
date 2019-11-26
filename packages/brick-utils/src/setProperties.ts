@@ -95,13 +95,18 @@ export const computeRealValue = (
 };
 
 export function setProperties(
-  brick: HTMLElement,
+  bricks: HTMLElement | HTMLElement[],
   properties: Record<string, any>,
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): void {
   const realProps = computeRealProperties(properties, context, injectDeep);
-  setRealProperties(brick, realProps);
+  if (!Array.isArray(bricks)) {
+    bricks = [bricks];
+  }
+  bricks.forEach(brick => {
+    setRealProperties(brick, realProps);
+  });
 }
 
 export function setRealProperties(

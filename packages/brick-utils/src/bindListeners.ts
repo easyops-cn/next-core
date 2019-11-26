@@ -5,9 +5,11 @@ import {
   BuiltinBrickEventHandler,
   CustomBrickEventHandler,
   PluginHistory,
-  PluginRuntimeContext
+  PluginRuntimeContext,
+  ExecuteCustomBrickEventHandler,
+  SetPropsCustomBrickEventHandler
 } from "@easyops/brick-types";
-import { computeRealValue } from "./setProperties";
+import { computeRealValue, setProperties } from "./setProperties";
 
 export function isBuiltinHandler(
   handler: BrickEventHandler
@@ -20,8 +22,21 @@ export function isCustomHandler(
 ): handler is CustomBrickEventHandler {
   return !!(
     (handler as CustomBrickEventHandler).target &&
-    (handler as CustomBrickEventHandler).method
+    ((handler as ExecuteCustomBrickEventHandler).method ||
+      (handler as SetPropsCustomBrickEventHandler).properties)
   );
+}
+
+export function isExecuteCustomHandler(
+  handler: CustomBrickEventHandler
+): handler is ExecuteCustomBrickEventHandler {
+  return !!(handler as ExecuteCustomBrickEventHandler).method;
+}
+
+export function isSetPropsCustomHandler(
+  handler: CustomBrickEventHandler
+): handler is SetPropsCustomBrickEventHandler {
+  return !!(handler as SetPropsCustomBrickEventHandler).properties;
 }
 
 export const bindListeners = (
@@ -118,24 +133,36 @@ export const bindListeners = (
               targets.push(found);
             }
           }
-          targets.forEach(target => {
-            if (typeof target[handler.method] === "function") {
-              if (hasArgs) {
-                target[handler.method](
-                  ...computeRealValue(
-                    handler.args,
-                    {
-                      ...context,
-                      event
-                    },
-                    true
-                  )
-                );
-              } else {
-                target[handler.method](event);
+          if (isExecuteCustomHandler(handler)) {
+            targets.forEach(target => {
+              if (typeof target[handler.method] === "function") {
+                if (hasArgs) {
+                  target[handler.method](
+                    ...computeRealValue(
+                      handler.args,
+                      {
+                        ...context,
+                        event
+                      },
+                      true
+                    )
+                  );
+                } else {
+                  target[handler.method](event);
+                }
               }
-            }
-          });
+            });
+          } else if (isSetPropsCustomHandler(handler)) {
+            setProperties(
+              targets,
+              handler.properties,
+              {
+                ...context,
+                event
+              },
+              handler.injectDeep
+            );
+          }
         }) as EventListener);
       }
     });
