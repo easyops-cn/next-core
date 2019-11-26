@@ -104,11 +104,13 @@ describe("setProperties", () => {
     Record<string, any>,
     PluginRuntimeContext,
     boolean,
+    boolean,
     Record<string, any>
   ][] = [
     [
       properties,
       context,
+      false,
       false,
       {
         objectId: "HOST",
@@ -136,6 +138,7 @@ describe("setProperties", () => {
       properties,
       context,
       true,
+      false,
       {
         objectId: "HOST",
         q: "abc",
@@ -157,14 +160,73 @@ describe("setProperties", () => {
         allQueryAsString: originalQuery,
         urlToDetail: "/cmdb/HOST"
       }
+    ],
+    [
+      properties,
+      context,
+      false,
+      true,
+      [
+        {
+          objectId: "HOST",
+          q: "abc",
+          page: 2,
+          pageSize: 20,
+          sort: "name",
+          asc: true,
+          extra: false,
+          fields: {},
+          style: {
+            width: "10px"
+          },
+          items: [],
+          query: {
+            name: { $eq: "${QUERY.name}" }
+          },
+          selectedKeys: ["${QUERY.key}"],
+          url: "/objects/HOST/instances/undefined",
+          allQueryAsString: originalQuery,
+          urlToDetail: "/cmdb/HOST"
+        },
+        {
+          objectId: "HOST",
+          q: "abc",
+          page: 2,
+          pageSize: 20,
+          sort: "name",
+          asc: true,
+          extra: false,
+          fields: {},
+          style: {
+            width: "10px"
+          },
+          items: [],
+          query: {
+            name: { $eq: "${QUERY.name}" }
+          },
+          selectedKeys: ["${QUERY.key}"],
+          url: "/objects/HOST/instances/undefined",
+          allQueryAsString: originalQuery,
+          urlToDetail: "/cmdb/HOST"
+        }
+      ]
     ]
   ];
   it.each(cases)(
-    "test serProperties(%s, %s, %s) should work",
-    (props, ctx, injectDeep, expected) => {
-      const elem: HTMLElement = {
-        style: {}
-      } as any;
+    "test setProperties(%s, %s, %s) should work",
+    (props, ctx, injectDeep, multiple, expected) => {
+      const elem: HTMLElement | HTMLElement[] = multiple
+        ? ([
+            {
+              style: {}
+            },
+            {
+              style: {}
+            }
+          ] as any[])
+        : ({
+            style: {}
+          } as any);
       setProperties(elem, props, ctx, injectDeep);
       expect(elem).toEqual(expected);
     }

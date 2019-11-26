@@ -190,12 +190,26 @@ export interface BuiltinBrickEventHandler {
   args?: any[]; // Defaults to the event itself
 }
 
-export interface CustomBrickEventHandler {
+export interface BaseCustomBrickEventHandler {
   target: string; // The target element selector
-  method: string; // The element's method
   multiple?: boolean; // Use `querySelectorAll` or `querySelector`
+}
+
+export interface ExecuteCustomBrickEventHandler
+  extends BaseCustomBrickEventHandler {
+  method: string; // The element's method
   args?: any[]; // Defaults to the event itself
 }
+
+export interface SetPropsCustomBrickEventHandler<T = any>
+  extends BaseCustomBrickEventHandler {
+  properties: T; // Properties to set
+  injectDeep?: boolean;
+}
+
+export type CustomBrickEventHandler =
+  | ExecuteCustomBrickEventHandler
+  | SetPropsCustomBrickEventHandler;
 
 export interface DesktopData {
   items: DesktopItem[];
