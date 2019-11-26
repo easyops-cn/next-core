@@ -6136,10 +6136,10 @@ file-entry-cache@^5.0.1:
   dependencies:
     flat-cache "^2.0.1"
 
-file-loader@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.npm.taobao.org/file-loader/download/file-loader-4.3.0.tgz?cache=0&sync_timestamp=1574350259854&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffile-loader%2Fdownload%2Ffile-loader-4.3.0.tgz#780f040f729b3d18019f20605f723e844b8a58af"
-  integrity sha1-eA8ED3KbPRgBnyBgX3I+hEuKWK8=
+file-loader@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npm.taobao.org/file-loader/download/file-loader-5.0.2.tgz#7f3d8b4ac85a5e8df61338cfec95d7405f971caa"
+  integrity sha1-fz2LSshaXo32EzjP7JXXQF+XHKo=
   dependencies:
     loader-utils "^1.2.3"
     schema-utils "^2.5.0"
