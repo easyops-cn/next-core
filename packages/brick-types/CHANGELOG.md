@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.2.0...@easyops/brick-types@1.3.0) (2019-11-26)
+
+### Features
+
+- **brick-utils:** 构件事件支持设置目标的属性 ([a0d9b9b](https://git.easyops.local/anyclouds/next-core/commits/a0d9b9b))
+
 # [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.1.1...@easyops/brick-types@1.2.0) (2019-11-11)
 
 ### Features

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.5.0...@easyops/custom-antd-styles@0.6.0) (2019-11-26)
+
+### Features
+
+- modify small size button height ([4136685](https://git.easyops.local/anyclouds/next-core/commits/4136685))
+
 # [0.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.4.0...@easyops/custom-antd-styles@0.5.0) (2019-11-21)
 
 ### Features

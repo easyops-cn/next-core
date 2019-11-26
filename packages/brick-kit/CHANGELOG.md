@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.6.0...@easyops/brick-kit@1.7.0) (2019-11-26)
+
+### Features
+
+- disabled auto insert space in button ([0d77320](https://git.easyops.local/anyclouds/next-core/commits/0d77320))
+
 # [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.5.0...@easyops/brick-kit@1.6.0) (2019-11-25)
 
 ### Bug Fixes
