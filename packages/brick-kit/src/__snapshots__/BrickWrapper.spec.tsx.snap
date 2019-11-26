@@ -10,6 +10,7 @@ exports[`brick wrapper should work 1`] = `
   t={[Function]}
 >
   <ConfigProvider
+    autoInsertSpaceInButton={false}
     locale="zh_CN"
   >
     <div>
