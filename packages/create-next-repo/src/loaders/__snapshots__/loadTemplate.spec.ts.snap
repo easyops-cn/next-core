@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadTemplate should work 1`] = `
+exports[`loadTemplate should work by default 1`] = `
 Array [
   Array [
     "/tmp/next/my-repo/.editorconfig",
@@ -92,13 +92,13 @@ report.*.json
   Array [
     "/tmp/next/my-repo/.npmrc",
     "registry=https://registry.npm.taobao.org
-@easyops:registry=http://registry.npm.easyops.local
-@bricks:registry=http://registry.npm.easyops.local
-@dll:registry=http://registry.npm.easyops.local
-@libs:registry=http://registry.npm.easyops.local
-@micro-apps:registry=http://registry.npm.easyops.local
-@sdk:registry=http://registry.npm.easyops.local
-@templates:registry=http://registry.npm.easyops.local
+@easyops:registry=http://r.pnpm.easyops.cn
+@bricks:registry=http://r.pnpm.easyops.cn
+@dll:registry=http://r.pnpm.easyops.cn
+@libs:registry=http://r.pnpm.easyops.cn
+@micro-apps:registry=http://r.pnpm.easyops.cn
+@sdk:registry=http://r.pnpm.easyops.cn
+@templates:registry=http://r.pnpm.easyops.cn
 tag-version-prefix=
 ",
   ],
@@ -213,13 +213,13 @@ module.exports = sizeLimit({
   Array [
     "/tmp/next/my-repo/.yarnrc",
     "registry \\"https://registry.npm.taobao.org\\"
-\\"@easyops:registry\\" \\"http://registry.npm.easyops.local\\"
-\\"@bricks:registry\\" \\"http://registry.npm.easyops.local\\"
-\\"@dll:registry\\" \\"http://registry.npm.easyops.local\\"
-\\"@libs:registry\\" \\"http://registry.npm.easyops.local\\"
-\\"@micro-apps:registry\\" \\"http://registry.npm.easyops.local\\"
-\\"@sdk:registry\\" \\"http://registry.npm.easyops.local\\"
-\\"@templates:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@easyops:registry\\" \\"http://r.pnpm.easyops.cn\\"
+\\"@bricks:registry\\" \\"http://r.pnpm.easyops.cn\\"
+\\"@dll:registry\\" \\"http://r.pnpm.easyops.cn\\"
+\\"@libs:registry\\" \\"http://r.pnpm.easyops.cn\\"
+\\"@micro-apps:registry\\" \\"http://r.pnpm.easyops.cn\\"
+\\"@sdk:registry\\" \\"http://r.pnpm.easyops.cn\\"
+\\"@templates:registry\\" \\"http://r.pnpm.easyops.cn\\"
 ",
   ],
   Array [
@@ -491,6 +491,36 @@ declare namespace JSX {
   },
   \\"exclude\\": [\\"node_modules\\", \\"**/*.spec.ts\\", \\"dist/\\", \\"**/__mocks__/\\"]
 }
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should work for internal 1`] = `
+Array [
+  Array [
+    "/tmp/next/my-repo/.npmrc",
+    "registry=https://registry.npm.taobao.org
+@easyops:registry=http://registry.npm.easyops.local
+@bricks:registry=http://registry.npm.easyops.local
+@dll:registry=http://registry.npm.easyops.local
+@libs:registry=http://registry.npm.easyops.local
+@micro-apps:registry=http://registry.npm.easyops.local
+@sdk:registry=http://registry.npm.easyops.local
+@templates:registry=http://registry.npm.easyops.local
+tag-version-prefix=
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/.yarnrc",
+    "registry \\"https://registry.npm.taobao.org\\"
+\\"@easyops:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@bricks:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@dll:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@libs:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@micro-apps:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@sdk:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@templates:registry\\" \\"http://registry.npm.easyops.local\\"
 ",
   ],
 ]
