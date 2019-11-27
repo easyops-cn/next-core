@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.3.2...@easyops/webpack-config-factory@1.3.3) (2019-11-27)
+
+### Bug Fixes
+
+- set esModule to false for url-loader which is required by @svgr/webpack ([d7f7300](https://git.easyops.local/anyclouds/next-core/commits/d7f7300))
+
+## [1.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.3.1...@easyops/webpack-config-factory@1.3.2) (2019-11-27)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
+## [1.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.3.0...@easyops/webpack-config-factory@1.3.1) (2019-11-21)
+
+### Bug Fixes
+
+- all legacy invalid bricks renamed ([b995843](https://git.easyops.local/anyclouds/next-core/commits/b995843))
+
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.2.1...@easyops/webpack-config-factory@1.3.0) (2019-11-18)
+
+### Features
+
+- ensure bricks and templates are prefixed by the package name ([7cc0557](https://git.easyops.local/anyclouds/next-core/commits/7cc0557))
+
 ## [1.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.2.0...@easyops/webpack-config-factory@1.2.1) (2019-11-13)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory

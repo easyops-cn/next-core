@@ -40,6 +40,9 @@ module.exports = env => {
           req.path === "/api/auth/bootstrap"
         ) {
           modifyResponse(res, proxyRes, raw => {
+            if (res.statusCode !== 200) {
+              return raw;
+            }
             const result = JSON.parse(raw);
             const { data } = result;
             if (localMicroApps.length > 0) {

@@ -1,0 +1,4 @@
+{
+  "root": true,
+  "extends": "@easyops/eslint-config-next"
+}

@@ -6,11 +6,16 @@ import {
   FeatureFlags,
   DesktopData,
   BrickTemplateFactory,
-  UserInfo
+  UserInfo,
+  BrickPackage
 } from "@easyops/brick-types";
 import { registerBrickTemplate } from "./TemplateRegistries";
 
 let kernel: Kernel;
+
+export function _dev_only_getBrickPackages(): BrickPackage[] {
+  return kernel.bootstrapData.brickPackages;
+}
 
 export class Runtime {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
@@ -29,12 +34,18 @@ export class Runtime {
     return kernel.appBar;
   }
 
-  getMicroApps({ excludeInstalling = false } = {}): MicroApp[] {
-    const apps = kernel.bootstrapData.microApps;
+  getMicroApps({
+    excludeInstalling = false,
+    includeInternal = false
+  } = {}): MicroApp[] {
+    let apps = kernel.bootstrapData.microApps;
     if (excludeInstalling) {
-      return apps.filter(
+      apps = apps.filter(
         app => !(app.installStatus && app.installStatus === "running")
       );
+    }
+    if (!includeInternal) {
+      apps = apps.filter(app => !app.internal);
     }
     return apps;
   }

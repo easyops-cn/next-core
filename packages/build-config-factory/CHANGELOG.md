@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.3...@easyops/build-config-factory@1.2.4) (2019-11-27)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.2.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.2...@easyops/build-config-factory@1.2.3) (2019-11-26)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.1...@easyops/build-config-factory@1.2.2) (2019-11-22)
+
+### Bug Fixes
+
+- rename validateDeps ([debcd76](https://git.easyops.local/anyclouds/next-core/commits/debcd76))
+
+## [1.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.0...@easyops/build-config-factory@1.2.1) (2019-11-19)
+
+### Bug Fixes
+
+- **size-limit:** Size Limit requires non-empty config ([3495ddb](https://git.easyops.local/anyclouds/next-core/commits/3495ddb))
+
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.1.3...@easyops/build-config-factory@1.2.0) (2019-11-18)
+
+### Features
+
+- common size limit factory ([d44676d](https://git.easyops.local/anyclouds/next-core/commits/d44676d))
+
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.1.2...@easyops/build-config-factory@1.1.3) (2019-11-14)
+
+### Bug Fixes
+
+- ensure micro-apps and templates peerDependencies version contains a `^` or `>=` ([d5ac4ee](https://git.easyops.local/anyclouds/next-core/commits/d5ac4ee))
+
+## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.1.1...@easyops/build-config-factory@1.1.2) (2019-11-13)
+
+### Bug Fixes
+
+- fix an error when no devDependencies ([5e9f16a](https://git.easyops.local/anyclouds/next-core/commits/5e9f16a))
+
 ## [1.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.1.0...@easyops/build-config-factory@1.1.1) (2019-11-13)
 
 **Note:** Version bump only for package @easyops/build-config-factory

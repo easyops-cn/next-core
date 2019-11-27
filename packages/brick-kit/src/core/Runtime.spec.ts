@@ -75,6 +75,10 @@ describe("Runtime", () => {
         },
         {
           installStatus: "running"
+        },
+        {
+          name: "d",
+          internal: true
         }
       ]
     };
@@ -99,6 +103,22 @@ describe("Runtime", () => {
         installStatus: "ok"
       }
     ]);
+    expect(
+      runtime.getMicroApps({ excludeInstalling: true, includeInternal: true })
+    ).toEqual([
+      {
+        name: "a"
+      },
+      {
+        name: "b",
+        installStatus: "ok"
+      },
+      {
+        name: "d",
+        internal: true
+      }
+    ]);
+    expect(runtime.getMicroApps({ includeInternal: true }).length).toBe(4);
   });
 
   it("should reload micro apps", async () => {

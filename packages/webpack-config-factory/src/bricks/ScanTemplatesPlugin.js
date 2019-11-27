@@ -1,6 +1,10 @@
 const pluginName = "ScanTemplatesPlugin";
 
 module.exports = class ScanTemplatesPlugin {
+  constructor(packageName) {
+    this.packageName = packageName;
+  }
+
   apply(compiler) {
     const templateSet = new Set();
     compiler.hooks.normalModuleFactory.tap(pluginName, factory => {
@@ -14,8 +18,14 @@ module.exports = class ScanTemplatesPlugin {
             expression.callee.property.name === "registerBrickTemplate" &&
             expression.arguments.length === 2
           ) {
-            if (expression.arguments[0].type === "Literal") {
-              templateSet.add(expression.arguments[0].value);
+            const { type, value } = expression.arguments[0];
+            if (type === "Literal") {
+              if (!value.startsWith(`${this.packageName}.`)) {
+                throw new Error(
+                  `Invalid template: "${value}", expecting prefixed with the package name: "${this.packageName}"`
+                );
+              }
+              templateSet.add(value);
             } else {
               throw new Error(
                 "Please call `getRuntime().registerBrickTemplate()` only with literal string"

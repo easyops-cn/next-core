@@ -15,7 +15,9 @@ export const BrickWrapper = (props: BrickWrapperProps): React.ReactElement => {
     i18n.language && i18n.language.split("-")[0] === "en" ? enUS : zhCN;
   return (
     <ErrorBoundary>
-      <ConfigProvider locale={locale}>{props.children}</ConfigProvider>
+      <ConfigProvider locale={locale} autoInsertSpaceInButton={false}>
+        {props.children}
+      </ConfigProvider>
     </ErrorBoundary>
   );
 };

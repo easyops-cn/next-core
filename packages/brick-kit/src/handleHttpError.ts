@@ -4,15 +4,18 @@ import {
   HttpFetchError
 } from "@easyops/brick-http";
 import { Modal } from "antd";
-import { ModalFuncProps } from "antd/lib/modal";
+import { ModalFunc } from "antd/lib/modal/Modal";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "./i18n/constants";
 import { getHistory } from "./history";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
 
 export const httpErrorToString = (
-  error: Error | HttpFetchError | HttpResponseError | HttpParseError
+  error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event
 ): string => {
+  if (error instanceof Event && error.target instanceof HTMLScriptElement) {
+    return error.target.src;
+  }
   if (error instanceof HttpResponseError) {
     if (error.responseJson && typeof error.responseJson.error === "string") {
       return error.responseJson.error;
@@ -23,10 +26,7 @@ export const httpErrorToString = (
 
 export const handleHttpError = (
   error: Error | HttpFetchError | HttpResponseError | HttpParseError
-): {
-  destroy: () => void;
-  update: (newConfig: ModalFuncProps) => void;
-} => {
+): ReturnType<ModalFunc> => {
   // Redirect to login page if not logged in.
   if (isUnauthenticatedError(error)) {
     const history = getHistory();

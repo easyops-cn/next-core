@@ -32,6 +32,7 @@ export interface BaseDoc extends MixedTypeDoc {
 
 export interface MixedTypeDoc extends PartialModelTypeDoc {
   fields?: FieldDoc[];
+  enum?: string[] | number[];
 }
 
 export interface PartialModelTypeDoc extends RequiredDoc {
@@ -40,6 +41,10 @@ export interface PartialModelTypeDoc extends RequiredDoc {
 
 export interface ObjectTypeDoc extends RequiredDoc {
   fields: FieldDoc[];
+}
+
+export interface EnumTypeDoc {
+  enum: string[] | number[];
 }
 
 export type FieldDoc = RefFieldDoc | NormalFieldDoc;
@@ -53,6 +58,7 @@ export interface NormalFieldDoc {
   type: string;
   description: string;
   fields?: FieldDoc[];
+  enum?: string[] | number[];
 }
 
 export type FileWithContent = [string, string];
@@ -65,4 +71,9 @@ export interface ExtField {
 export enum ExtFieldSource {
   query = "query",
   body = "body"
+}
+
+export interface TypeAndEnum {
+  type: string;
+  enum?: string[] | number[];
 }

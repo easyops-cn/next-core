@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.21...@easyops/brick-scripts@1.1.22) (2019-11-27)
+
+### Bug Fixes
+
+- add `icons` in npm files ([49d34e0](https://git.easyops.local/anyclouds/next-core/commits/49d34e0))
+
+## [1.1.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.20...@easyops/brick-scripts@1.1.21) (2019-11-26)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.19...@easyops/brick-scripts@1.1.20) (2019-11-25)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.18...@easyops/brick-scripts@1.1.19) (2019-11-22)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.17...@easyops/brick-scripts@1.1.18) (2019-11-22)
+
+### Bug Fixes
+
+- Create brick doc only when doc root exists ([4c0e6ed](https://git.easyops.local/anyclouds/next-core/commits/4c0e6ed))
+
+## [1.1.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.16...@easyops/brick-scripts@1.1.17) (2019-11-21)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.15...@easyops/brick-scripts@1.1.16) (2019-11-21)
+
+### Bug Fixes
+
+- bump deps of @bricks/basic-bricks and @easyops/brick-container ([3e0b982](https://git.easyops.local/anyclouds/next-core/commits/3e0b982))
+
+## [1.1.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.14...@easyops/brick-scripts@1.1.15) (2019-11-19)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.13...@easyops/brick-scripts@1.1.14) (2019-11-19)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.12...@easyops/brick-scripts@1.1.13) (2019-11-18)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.11...@easyops/brick-scripts@1.1.12) (2019-11-15)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.10...@easyops/brick-scripts@1.1.11) (2019-11-15)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.9...@easyops/brick-scripts@1.1.10) (2019-11-14)
+
+### Bug Fixes
+
+- upgrade template dep version of basic-bricks ([45086d7](https://git.easyops.local/anyclouds/next-core/commits/45086d7))
+
+## [1.1.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.8...@easyops/brick-scripts@1.1.9) (2019-11-14)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.7...@easyops/brick-scripts@1.1.8) (2019-11-13)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.6...@easyops/brick-scripts@1.1.7) (2019-11-13)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 ## [1.1.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.5...@easyops/brick-scripts@1.1.6) (2019-11-13)
 
 **Note:** Version bump only for package @easyops/brick-scripts

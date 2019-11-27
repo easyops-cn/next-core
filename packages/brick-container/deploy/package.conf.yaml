@@ -18,6 +18,6 @@ dependencies:
   - name: api_gateway
     version: ^1.5.1
   - name: nginx
-    version: ^3.2.4
+    version: ^3.5.5
 start_dependencies:
   - name: logic.api.gateway   # 依赖服务名

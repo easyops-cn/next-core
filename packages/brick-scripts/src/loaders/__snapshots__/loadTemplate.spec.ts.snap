@@ -89,27 +89,6 @@ class ForBetterElement extends UpdatingElement {
 customElements.define(\\"for-good.for-better\\", ForBetterElement);
 ",
   ],
-  Array [
-    "doc/for-good/for-better.md",
-    "# INPUTS
-
-| property | type | required | default | description |
-| -------- | ---- | -------- | ------- | ----------- |
-| -        | -    | -        | -       | -           |
-
-# EVENTS
-
-| type | detail | description |
-| ---- | ------ | ----------- |
-| -    | -      | -           |
-
-# METHODS
-
-| name | params | description |
-| ---- | ------ | ----------- |
-| -    | -      | -           |
-",
-  ],
 ]
 `;
 
@@ -305,27 +284,6 @@ class ForBetterElement extends UpdatingElement {
 }
 
 customElements.define(\\"for-good.for-better\\", ForBetterElement);
-",
-  ],
-  Array [
-    "doc/for-good/for-better.md",
-    "# INPUTS
-
-| property | type | required | default | description |
-| -------- | ---- | -------- | ------- | ----------- |
-| -        | -    | -        | -       | -           |
-
-# EVENTS
-
-| type | detail | description |
-| ---- | ------ | ----------- |
-| -    | -      | -           |
-
-# METHODS
-
-| name | params | description |
-| ---- | ------ | ----------- |
-| -    | -      | -           |
 ",
   ],
 ]

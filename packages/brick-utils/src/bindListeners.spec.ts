@@ -81,7 +81,11 @@ describe("bindListeners", () => {
             args: ["specified args for multiple"]
           },
           { target: "#target-elem", method: "notExisted" },
-          { target: "#not-existed", method: "forGood" }
+          { target: "#not-existed", method: "forGood" },
+          {
+            target: "#target-elem",
+            properties: { someProperty: "${EVENT.detail}" }
+          }
         ],
         key3: { action: "not.existed" },
         key4: {}
@@ -135,6 +139,7 @@ describe("bindListeners", () => {
       expect((targetElem2 as any).forGood).toBeCalledWith(
         "specified args for multiple"
       );
+      expect((targetElem as any).someProperty).toBe(event2.detail);
 
       (console.log as jest.Mock).mockRestore();
       (console.info as jest.Mock).mockRestore();

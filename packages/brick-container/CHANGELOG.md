@@ -3,6 +3,91 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.5.0...@easyops/brick-container@1.6.0) (2019-11-27)
+
+### Features
+
+- select style in pagination ([f8e9a6c](https://git.easyops.local/anyclouds/next-core/commits/f8e9a6c))
+
+# [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.4.4...@easyops/brick-container@1.5.0) (2019-11-27)
+
+### Features
+
+- checkbox style modification ([65dafb4](https://git.easyops.local/anyclouds/next-core/commits/65dafb4))
+
+## [1.4.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.4.3...@easyops/brick-container@1.4.4) (2019-11-27)
+
+### Bug Fixes
+
+- dropdown menu item, padding and radius, refs BRICK_STORE-694 ([09505e6](https://git.easyops.local/anyclouds/next-core/commits/09505e6))
+
+## [1.4.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.4.2...@easyops/brick-container@1.4.3) (2019-11-26)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.4.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.4.1...@easyops/brick-container@1.4.2) (2019-11-25)
+
+### Bug Fixes
+
+- **dev-server:** return raw response if status code is other than 200 ([eb266ab](https://git.easyops.local/anyclouds/next-core/commits/eb266ab))
+
+## [1.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.4.0...@easyops/brick-container@1.4.1) (2019-11-22)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.3.2...@easyops/brick-container@1.4.0) (2019-11-22)
+
+### Features
+
+- **variables:** card-content-gap ([a122ba9](https://git.easyops.local/anyclouds/next-core/commits/a122ba9))
+
+## [1.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.3.1...@easyops/brick-container@1.3.2) (2019-11-21)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.3.0...@easyops/brick-container@1.3.1) (2019-11-21)
+
+### Bug Fixes
+
+- update nginx to ^3.5.5 which support templates ([541abfd](https://git.easyops.local/anyclouds/next-core/commits/541abfd))
+
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.2.0...@easyops/brick-container@1.3.0) (2019-11-20)
+
+### Features
+
+- add link color style ([ebdf813](https://git.easyops.local/anyclouds/next-core/commits/ebdf813))
+- add tag component style ([c09075a](https://git.easyops.local/anyclouds/next-core/commits/c09075a))
+
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.22...@easyops/brick-container@1.2.0) (2019-11-19)
+
+### Features
+
+- **custom-style:** custom style of antd alert, refs BRICK_STORE-642 ([4846378](https://git.easyops.local/anyclouds/next-core/commits/4846378))
+
+## [1.1.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.21...@easyops/brick-container@1.1.22) (2019-11-18)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.1.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.20...@easyops/brick-container@1.1.21) (2019-11-15)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.1.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.19...@easyops/brick-container@1.1.20) (2019-11-15)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.1.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.18...@easyops/brick-container@1.1.19) (2019-11-14)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.1.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.17...@easyops/brick-container@1.1.18) (2019-11-13)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.1.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.16...@easyops/brick-container@1.1.17) (2019-11-13)
+
+**Note:** Version bump only for package @easyops/brick-container
+
 ## [1.1.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.1.15...@easyops/brick-container@1.1.16) (2019-11-13)
 
 **Note:** Version bump only for package @easyops/brick-container

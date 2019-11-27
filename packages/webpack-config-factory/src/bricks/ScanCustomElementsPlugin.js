@@ -1,7 +1,8 @@
 const pluginName = "ScanCustomElementsPlugin";
 
 module.exports = class ScanCustomElementsPlugin {
-  constructor(dll = []) {
+  constructor(packageName, dll = []) {
+    this.packageName = packageName;
     this.dll = dll;
   }
 
@@ -16,8 +17,14 @@ module.exports = class ScanCustomElementsPlugin {
               expression.callee.property.name === "define" &&
               expression.arguments.length === 2
             ) {
-              if (expression.arguments[0].type === "Literal") {
-                brickSet.add(expression.arguments[0].value);
+              const { type, value } = expression.arguments[0];
+              if (type === "Literal") {
+                if (!value.startsWith(`${this.packageName}.`)) {
+                  throw new Error(
+                    `Invalid brick: "${value}", expecting prefixed with the package name: "${this.packageName}"`
+                  );
+                }
+                brickSet.add(value);
               } else {
                 throw new Error(
                   "Please call `customElements.define()` only with literal string"

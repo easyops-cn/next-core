@@ -1,7 +1,7 @@
 const path = require("path");
 const { isEmpty } = require("lodash");
 
-module.exports = function ensureDeps(scope) {
+module.exports = function validateDeps(scope) {
   const packageJson = require(path.join(process.cwd(), "package.json"));
 
   if (scope === "bricks") {
@@ -15,7 +15,7 @@ module.exports = function ensureDeps(scope) {
           "/*` should not have any `dependencies` or `peerDependencies`, use `devDependencies` instead."
       );
     }
-    const devDependencies = Object.keys(packageJson.devDependencies);
+    const devDependencies = Object.keys(packageJson.devDependencies || {});
     if (
       devDependencies.some(
         name =>
@@ -45,7 +45,7 @@ module.exports = function ensureDeps(scope) {
           "/*` should not have any `dependencies`, use `peerDependencies` for `@bricks/*` and `@templates/*`, use `devDependencies` for others."
       );
     }
-    const peerDependencies = Object.keys(packageJson.peerDependencies);
+    const peerDependencies = Object.keys(packageJson.peerDependencies || {});
     if (
       peerDependencies.some(
         name => !(name.startsWith("@bricks/") || name.startsWith("@templates/"))
@@ -57,7 +57,17 @@ module.exports = function ensureDeps(scope) {
           "/*` should only contain `@bricks/*` and `@templates/*` in `peerDependencies`, use `devDependencies` for others."
       );
     }
-    const devDependencies = Object.keys(packageJson.devDependencies);
+    const peerDependenciesVersions = Object.values(
+      packageJson.peerDependencies || {}
+    );
+    if (peerDependenciesVersions.some(version => !/[>^]/.test(version))) {
+      throw new Error(
+        "`@" +
+          scope +
+          "/*` should always contain a `^` or `>=` in it's `peerDependencies` version."
+      );
+    }
+    const devDependencies = Object.keys(packageJson.devDependencies || {});
     if (
       devDependencies.some(
         name => name.startsWith("@bricks/") || name.startsWith("@templates/")

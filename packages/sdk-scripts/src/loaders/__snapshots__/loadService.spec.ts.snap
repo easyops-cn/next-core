@@ -12,10 +12,10 @@ export interface CreateRequestBody {
   name: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  type: number;
+  type: 1 | 3 | 7 | 15;
 
   /** 包分类 */
-  cId: number;
+  cId: 1;
 
   /** 备注说明 */
   memo: string;
@@ -24,7 +24,7 @@ export interface CreateRequestBody {
   installPath: string;
 
   /** 平台 */
-  platform: string;
+  platform: \\"linux\\" | \\"windows\\" | \\"others\\";
 
   /** 包文件源 */
   source?: string;
@@ -47,10 +47,10 @@ export type CreateResponseBody = Partial<ModelPackage> & {
   name: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  type: number;
+  type: 1 | 3 | 7 | 15;
 
   /** 包分类 */
-  cId: number;
+  cId: 1;
 
   /** 备注说明 */
   memo: string;
@@ -59,7 +59,7 @@ export type CreateResponseBody = Partial<ModelPackage> & {
   installPath: string;
 
   /** 平台 */
-  platform: string;
+  platform: \\"linux\\" | \\"windows\\" | \\"others\\";
 
   /** 包文件源 */
   source: string;
@@ -119,6 +119,30 @@ export const get = async (
     await http.get<ResponseBodyWrapper<GetResponseBody>>(
       \`api/gateway/cd.package.Get/packages/pkg/\${packageId}/\${versionId}\`,
       { ...options, params }
+    )
+  ).data;
+",
+  ],
+  Array [
+    "dist/src/api/cd/package/retry.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+import { ResponseBodyWrapper } from \\"../../../wrapper\\";
+
+export interface RetryResponseBody {
+  /** build id */
+  id?: string;
+}
+
+/** 重试 */
+export const retry = async (
+  build_id: string | number,
+  options?: HttpOptions
+): Promise<RetryResponseBody> =>
+  (
+    await http.post<ResponseBodyWrapper<RetryResponseBody>>(
+      \`api/gateway/cd.package.Retry/api/pipeline/v1/builds/\${build_id}/retry\`,
+      undefined,
+      options
     )
   ).data;
 ",
@@ -219,10 +243,10 @@ export interface ModelPackage {
   name: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  type: number;
+  type: 1 | 3 | 7 | 15;
 
   /** 包分类 */
-  cId: number;
+  cId: 1;
 
   /** 包文件源 */
   source: string;
@@ -234,7 +258,7 @@ export interface ModelPackage {
   installPath: string;
 
   /** 平台 */
-  platform: string;
+  platform: \\"linux\\" | \\"windows\\" | \\"others\\";
 
   /** 包分类标签 */
   category: string;
@@ -267,7 +291,7 @@ export interface ModelVersion {
   packageId: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-  env_type: number;
+  env_type: 1 | 3 | 7 | 15;
 
   /** 创建时间 */
   ctime: string;
@@ -301,7 +325,7 @@ export interface ModelPackageExt {
     ctime?: string;
 
     /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-    env_type?: number;
+    env_type?: 1 | 3 | 7 | 15;
 
     /** 版本名称 */
     name?: string;
@@ -319,6 +343,7 @@ export interface ModelPackageExt {
     "dist/src/api/cd/package/index.ts",
     "export * from \\"./create\\";
 export * from \\"./get\\";
+export * from \\"./retry\\";
 export * from \\"./search\\";
 export * from \\"./upload\\";
 ",
@@ -344,6 +369,8 @@ export { PackageApi, CdModels };
   - name: easyops.api.cd.package.Create
     version: ^1.0
   - name: easyops.api.cd.package.Get
+    version: ^1.0
+  - name: easyops.api.cd.package.Retry
     version: ^1.0
   - name: easyops.api.cd.package.Search
     version: ^1.0

@@ -10,6 +10,7 @@ import {
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
+import { getHistory } from "../history";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -37,16 +38,18 @@ export class Kernel {
           user_icon: true,
           user_memo: true
         };
-        this.allUserInfo = (await UserAdminApi.searchAllUsersInfo({
-          query,
-          fields
-        })).list as UserInfo[];
+        this.allUserInfo = (
+          await UserAdminApi.searchAllUsersInfo({
+            query,
+            fields
+          })
+        ).list as UserInfo[];
         for (const user of this.allUserInfo) {
           this.allUserMap.set(user.name, user);
         }
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.error("fetch all user error:", err);
+        console.warn("fetch all user error:", err);
         this.allUserInfo = [];
       }
     }
@@ -61,6 +64,24 @@ export class Kernel {
     ]);
     // Router need those bars above to be ready.
     await this.router.bootstrap();
+    this.authGuard();
+  }
+
+  private authGuard(): void {
+    // Listen messages from legacy Console-W,
+    // Redirect to login page if received an `auth.guard` message.
+    window.addEventListener("message", (event: MessageEvent): void => {
+      if (event.origin !== window.location.origin) {
+        return;
+      }
+      const data = Object.assign({}, event.data);
+      if (data.type === "auth.guard") {
+        const history = getHistory();
+        history.push("/auth/login", {
+          from: history.location
+        });
+      }
+    });
   }
 
   private async loadCheckLogin(): Promise<void> {
@@ -86,7 +107,7 @@ export class Kernel {
       ...bootstrapResponse,
       microApps: bootstrapResponse.storyboards
         .map(storyboard => storyboard.app)
-        .filter(app => app && !app.internal)
+        .filter(Boolean)
     };
   }
 

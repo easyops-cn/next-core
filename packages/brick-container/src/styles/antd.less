@@ -6,6 +6,9 @@
 @import "~@easyops/custom-antd-styles/src/card.less";
 @import "~@easyops/custom-antd-styles/src/table.less";
 @import "~@easyops/custom-antd-styles/src/tabs.less";
+@import "~@easyops/custom-antd-styles/src/alert.less";
+@import "~@easyops/custom-antd-styles/src/tag.less";
+@import "~@easyops/custom-antd-styles/src/checkbox.less";
 
 // https://lanhuapp.com/web/#/item/project/board?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb
 
@@ -95,6 +98,16 @@
  * 修改 Select 的样式
  * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=2afae1c2-4839-410f-82fb-8f048c706a09
 */
+.@{dropdown-prefix-cls} {
+  &-menu {
+    padding: 2px;
+  }
+
+  &-menu-item {
+    border-radius: 6px;
+  }
+}
+
 .@{select-prefix-cls} {
   &-dropdown-menu {
     padding: 2px;
@@ -144,5 +157,15 @@
 
   &-range &-in-range-cell::before {
     background: #ebf3fd;
+  }
+}
+
+/**
+ * 修改 pagination 中的 Select 的样式
+ * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=79d453e2-f1b6-4cc6-8b5d-d1afc80e9635
+*/
+.@{pagination-prefix-cls} {
+  ul.@{select-prefix-cls}-dropdown-menu {
+    padding: 2px;
   }
 }

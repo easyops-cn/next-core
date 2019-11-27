@@ -228,14 +228,18 @@ export async function loadTemplate({
     targetType === TargetType.A_NEW_BRICK ||
     targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS
   ) {
-    const brickDocTemplatePath = path.join(
-      templateRoot,
-      "brick-doc",
-      "brick-doc-template.md"
-    );
-    const content = fs.readFileSync(brickDocTemplatePath, "utf8");
-    const targetMd = brickName + ".md";
-    files.push([path.join(docRoot, packageName, targetMd), content]);
+    // Create brick doc only when doc root exists.
+    // So repositories other than brick-next will not create any brick docs.
+    if (fs.existsSync(docRoot)) {
+      const brickDocTemplatePath = path.join(
+        templateRoot,
+        "brick-doc",
+        "brick-doc-template.md"
+      );
+      const content = fs.readFileSync(brickDocTemplatePath, "utf8");
+      const targetMd = brickName + ".md";
+      files.push([path.join(docRoot, packageName, targetMd), content]);
+    }
   }
 
   if (

@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.2...@easyops/brick-icons@1.6.3) (2019-11-27)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+## [1.6.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.1...@easyops/brick-icons@1.6.2) (2019-11-22)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+## [1.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.0...@easyops/brick-icons@1.6.1) (2019-11-21)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+# [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.5.3...@easyops/brick-icons@1.6.0) (2019-11-19)
+
+### Features
+
+- **icons:** add k8s icon ([8c7d696](https://git.easyops.local/anyclouds/next-core/commits/8c7d696))
+
+## [1.5.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.5.2...@easyops/brick-icons@1.5.3) (2019-11-18)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+## [1.5.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.5.1...@easyops/brick-icons@1.5.2) (2019-11-15)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+## [1.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.5.0...@easyops/brick-icons@1.5.1) (2019-11-15)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+# [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.4.0...@easyops/brick-icons@1.5.0) (2019-11-14)
+
+### Features
+
+- **brick-icons:** 添加删除图标 ([cdae638](https://git.easyops.local/anyclouds/next-core/commits/cdae638))
+
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.3.0...@easyops/brick-icons@1.4.0) (2019-11-13)
+
+### Features
+
+- export category ([92689f4](https://git.easyops.local/anyclouds/next-core/commits/92689f4))
+
 # [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.2.0...@easyops/brick-icons@1.3.0) (2019-11-13)
 
 ### Bug Fixes

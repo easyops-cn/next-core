@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.7.0...@easyops/brick-kit@1.7.1) (2019-11-27)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.6.0...@easyops/brick-kit@1.7.0) (2019-11-26)
+
+### Features
+
+- disabled auto insert space in button ([0d77320](https://git.easyops.local/anyclouds/next-core/commits/0d77320))
+
+# [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.5.0...@easyops/brick-kit@1.6.0) (2019-11-25)
+
+### Bug Fixes
+
+- refine types of handleHttpError ([0289091](https://git.easyops.local/anyclouds/next-core/commits/0289091))
+
+### Features
+
+- support get micro apps including internal ([0230c8d](https://git.easyops.local/anyclouds/next-core/commits/0230c8d))
+
+# [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.4.1...@easyops/brick-kit@1.5.0) (2019-11-22)
+
+### Features
+
+- add developHelper.getBrickPackages() ([151d34e](https://git.easyops.local/anyclouds/next-core/commits/151d34e))
+
+## [1.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.4.0...@easyops/brick-kit@1.4.1) (2019-11-21)
+
+### Bug Fixes
+
+- **router:** queued rendering to avoid conflicts ([4741db1](https://git.easyops.local/anyclouds/next-core/commits/4741db1))
+
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.3.3...@easyops/brick-kit@1.4.0) (2019-11-13)
+
+### Features
+
+- support auth guard for legacy Console-W ([e44e6b5](https://git.easyops.local/anyclouds/next-core/commits/e44e6b5))
+
 ## [1.3.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.3.2...@easyops/brick-kit@1.3.3) (2019-11-13)
 
 **Note:** Version bump only for package @easyops/brick-kit

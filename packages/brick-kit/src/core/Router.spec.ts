@@ -27,7 +27,15 @@ const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 
-const spyOnHistoryListen = jest.fn();
+let historyListeners: Function[] = [];
+const mockHistoryPush = (location: any): void => {
+  historyListeners.forEach(fn => {
+    fn(location);
+  });
+};
+const spyOnHistoryListen = jest.fn((fn: Function) => {
+  historyListeners.push(fn);
+});
 const spyOnHistoryReplace = jest.fn();
 spyOnGetHistory.mockReturnValue({
   location: {},
@@ -77,6 +85,7 @@ describe("Router", () => {
   });
 
   afterEach(() => {
+    historyListeners = [];
     __setMatchedStoryboard(undefined);
     __setMountRoutesResults(undefined);
     jest.clearAllMocks();
@@ -196,5 +205,40 @@ describe("Router", () => {
         }
       }
     ]);
+  });
+
+  it("should not render if notify is false", async () => {
+    await router.bootstrap();
+    jest.clearAllMocks();
+    mockHistoryPush({
+      path: "/first"
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(1);
+    mockHistoryPush({
+      path: "/second",
+      state: {
+        notify: false
+      }
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(1);
+  });
+
+  it("should render in queue", async () => {
+    await router.bootstrap();
+    jest.clearAllMocks();
+    mockHistoryPush({
+      path: "/first"
+    });
+    // `/second` should be ignored and replaced by `/third`.
+    mockHistoryPush({
+      path: "/second"
+    });
+    mockHistoryPush({
+      path: "/third"
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(2);
   });
 });

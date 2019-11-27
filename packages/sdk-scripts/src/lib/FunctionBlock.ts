@@ -54,7 +54,7 @@ export class FunctionBlock {
     let { requestParamsType, requestBodyType, responseBodyTypeName } = api;
     const { url, args } = this.getApiUrlAndParams();
 
-    const { isFormData } = api.requestBodyType as TypeDefinition;
+    const { isFormData } = requestBodyType;
     const { isFile } = api.responseBodyType as TypeDefinition;
     if (isFile) {
       responseBodyTypeName = "Blob";
@@ -70,6 +70,9 @@ export class FunctionBlock {
     if (requestBodyType.value) {
       args.push(`data: ${requestBodyType.name}`);
       argKeys.push(isFormData ? "_formData" : "data");
+    } else if (api.method.isComplex) {
+      // Fill an `undefined` if a complex request has no body.
+      argKeys.push("undefined");
     }
     if (isFile) {
       optionsKeys.push('responseType:"blob"');

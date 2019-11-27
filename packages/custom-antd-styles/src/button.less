@@ -1,5 +1,13 @@
 .@{btn-prefix-cls} {
   &-primary {
+    background-image: linear-gradient(45deg,rgba(0,113,235,1) 0%,rgba(101,178,255,1) 100%);
+    background-origin: border-box;
+    border-color: transparent;
+
+    &[disabled] {
+      background-image: none;
+    }
+
     &:hover,
     &:focus {
       background-color: var(--bg-color-button-primary-hover);
@@ -14,6 +22,14 @@
   }
 
   &-danger {
+    background-image: linear-gradient(45deg,rgba(240,73,60,1) 0%,rgba(252,121,111,1) 100%);
+    background-origin: border-box;
+    border-color: transparent;
+
+    &[disabled] {
+      background-image: none;
+    }
+
     &:hover,
     &:focus {
       background-color: var(--bg-color-button-danger-hover);
@@ -39,5 +55,21 @@
       color: #116ac2;
       border-color: #0063ce;
     }
+  }
+
+  &-link {
+    &:hover,
+    &:focus {
+      color: var(--bg-color-button-link-hover);
+    }
+
+    &.active,
+    &:active {
+      color: var(--bg-color-button-link-pressed);
+    }
+  }
+
+  &-sm {
+    height: 28px;
   }
 }
