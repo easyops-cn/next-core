@@ -41,7 +41,8 @@ const getImageLoaderOptions = distPublicPath => ({
       options: {
         name: "assets/[name].[hash:8].[ext]",
         limit: 8192,
-        publicPath: distPublicPath
+        publicPath: distPublicPath,
+        esModule: false
       }
     }
   ]
