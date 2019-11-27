@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.21...@easyops/brick-scripts@1.1.22) (2019-11-27)
+
+### Bug Fixes
+
+- add `icons` in npm files ([49d34e0](https://git.easyops.local/anyclouds/next-core/commits/49d34e0))
+
 ## [1.1.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.20...@easyops/brick-scripts@1.1.21) (2019-11-26)
 
 **Note:** Version bump only for package @easyops/brick-scripts
