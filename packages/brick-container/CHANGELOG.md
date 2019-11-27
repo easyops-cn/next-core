@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.4.4...@easyops/brick-container@1.5.0) (2019-11-27)
+
+### Features
+
+- checkbox style modification ([65dafb4](https://git.easyops.local/anyclouds/next-core/commits/65dafb4))
+
 ## [1.4.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.4.3...@easyops/brick-container@1.4.4) (2019-11-27)
 
 ### Bug Fixes

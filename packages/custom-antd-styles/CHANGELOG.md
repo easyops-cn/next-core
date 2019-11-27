@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.6.0...@easyops/custom-antd-styles@0.7.0) (2019-11-27)
+
+### Features
+
+- checkbox style modification ([65dafb4](https://git.easyops.local/anyclouds/next-core/commits/65dafb4))
+- tabs style modification ([8cf83b3](https://git.easyops.local/anyclouds/next-core/commits/8cf83b3))
+
 # [0.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.5.0...@easyops/custom-antd-styles@0.6.0) (2019-11-26)
 
 ### Features
