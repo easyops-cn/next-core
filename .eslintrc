@@ -12,7 +12,8 @@
         "packages/sdk-scripts/src/**/*.{ts,js}",
         "packages/create-next-repo/src/**/*.{ts,js}",
         "packages/eslint-config-next/*.js",
-        "packages/babel-preset-next/*.js"
+        "packages/babel-preset-next/*.js",
+        "packages/browserslist-config-next/*.js"
       ],
       "extends": "@easyops/eslint-config-next/node"
     },

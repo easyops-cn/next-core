@@ -17,6 +17,14 @@
     "yo": "brick-scripts -t dll",
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll"
   },
+  "browserslist": {
+    "development": [
+      "extends @easyops/browserslist-config-next/development"
+    ],
+    "production": [
+      "extends @easyops/browserslist-config-next/production"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@types/enzyme": "^3.10.3",
