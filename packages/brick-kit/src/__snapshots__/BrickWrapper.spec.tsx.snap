@@ -12,6 +12,7 @@ exports[`brick wrapper should work 1`] = `
   <ConfigProvider
     autoInsertSpaceInButton={false}
     locale="zh_CN"
+    renderEmpty={[Function]}
   >
     <div>
       hello, brick-wrapper
