@@ -1,6 +1,6 @@
 {
   "name": "@easyops/create-next-repo",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Create new brick-next repositories",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/create-next-repo",
   "license": "UNLICENSED",
@@ -41,7 +41,7 @@
     "@easyops/brick-scripts": "^1.1.22",
     "@easyops/build-config-factory": "^1.2.4",
     "@easyops/eslint-config-next": "^0.1.0",
-    "@easyops/webpack-config-factory": "^1.3.2"
+    "@easyops/webpack-config-factory": "^1.3.3"
   },
   "engines": {
     "node": ">=10.10.0"
