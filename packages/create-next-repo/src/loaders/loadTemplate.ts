@@ -60,7 +60,8 @@ function replaceDepsVersion(jsonString: string): string {
 
 export function loadTemplate(
   repoName: string,
-  targetDir: string
+  targetDir: string,
+  flags: { internal: boolean }
 ): FileWithContent[] {
   const templateDir = path.join(__dirname, "../../template");
 
@@ -77,7 +78,10 @@ export function loadTemplate(
   const translations: Record<string, string> = {
     "$kebab-repo-name$": changeCase.kebab(repoName),
     "$Title Repo Name$": changeCase.title(repoName),
-    "$generator.version$": `v${packageJson.version}`
+    "$generator.version$": `v${packageJson.version}`,
+    "$easyops-registry$": flags.internal
+      ? "http://registry.npm.easyops.local"
+      : "http://r.pnpm.easyops.cn"
   };
 
   const files: FileWithContent[] = templateFiles.map(file => {

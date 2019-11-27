@@ -6,7 +6,13 @@ import chalk from "chalk";
 import meow from "meow";
 import { loadTemplate } from "./loaders/loadTemplate";
 
-const { input } = meow({});
+const { input, flags } = meow({
+  flags: {
+    internal: {
+      type: "boolean"
+    }
+  }
+});
 
 export async function create(): Promise<void> {
   if (input.length !== 1) {
@@ -25,7 +31,11 @@ export async function create(): Promise<void> {
     throw new Error(`Target directory exists: ${targetDir}`);
   }
 
-  const files = loadTemplate(repoName, targetDir);
+  const files = loadTemplate(
+    repoName,
+    targetDir,
+    flags as { internal: boolean }
+  );
 
   for (const [filePath, content] of files) {
     fs.outputFileSync(filePath, content);
