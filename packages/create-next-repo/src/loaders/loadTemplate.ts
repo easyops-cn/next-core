@@ -16,6 +16,7 @@ const devDependenciesCopyMap = {
     "@easyops/babel-preset-next",
     "@easyops/brick-container",
     "@easyops/brick-scripts",
+    "@easyops/browserslist-config-next",
     "@easyops/build-config-factory",
     "@easyops/eslint-config-next",
     "@easyops/webpack-config-factory"

@@ -18,12 +18,17 @@
     "yo": "brick-scripts",
     "yo-debug": "node --inspect-brk ./node_modules/@easyops/brick-scripts/dist/index.js"
   },
+  "browserslist": {
+    "development": ["extends @easyops/browserslist-config-next/development"],
+    "production": ["extends @easyops/browserslist-config-next/production"]
+  },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@bricks/basic-bricks": "latest",
     "@easyops/babel-preset-next": "latest",
     "@easyops/brick-container": "latest",
     "@easyops/brick-scripts": "latest",
+    "@easyops/browserslist-config-next": "latest",
     "@easyops/build-config-factory": "latest",
     "@easyops/eslint-config-next": "latest",
     "@easyops/webpack-config-factory": "latest",
