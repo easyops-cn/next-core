@@ -4,7 +4,7 @@
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/micro-apps/$kebab-package-name$",
   "license": "UNLICENSED",
-  "files": ["storyboard.json", "deploy"],
+  "files": ["storyboard.json", "deploy", "icons"],
   "repository": {
     "type": "git",
     "url": "git@git.easyops.local:anyclouds/brick-next.git"
