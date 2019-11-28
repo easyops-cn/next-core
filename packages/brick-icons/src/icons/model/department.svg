@@ -1,55 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="36px" height="32px" viewBox="0 0 36 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>部门</title>
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>department</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <linearGradient x1="98.7682517%" y1="50.0210262%" x2="-1.89271793%" y2="50.0210262%" id="linearGradient-1">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.96" offset="8%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.87" offset="22%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.71" offset="40%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="60%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.22" offset="83%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-        <linearGradient x1="98.9151174%" y1="50.0247118%" x2="-1.32586573%" y2="50.0247118%" id="linearGradient-2">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.96" offset="8%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.87" offset="22%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.71" offset="40%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="60%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.22" offset="83%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-        <linearGradient x1="-1.70839138%" y1="50.0208907%" x2="98.9525783%" y2="50.0208907%" id="linearGradient-3">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.96" offset="8%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.87" offset="22%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.71" offset="40%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="60%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.22" offset="83%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-        <linearGradient x1="-1.15618941%" y1="50.0245475%" x2="99.0847937%" y2="50.0245475%" id="linearGradient-4">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.96" offset="8%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.87" offset="22%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.71" offset="40%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="60%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.22" offset="83%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-    </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="模型icon-库" transform="translate(-2987.000000, -139.000000)">
-            <g id="部门" transform="translate(2987.000000, 137.000000)">
+        <g id="模型icon-库" transform="translate(-2987.000000, -957.000000)">
+            <g id="department" transform="translate(2987.000000, 955.000000)">
                 <g id="编组">
                     <rect id="矩形备份-20" opacity="0.446149554" x="0" y="0" width="36" height="36"></rect>
-                    <circle id="椭圆形" fill="url(#linearGradient-1)" fill-rule="nonzero" cx="26.5" cy="13.8" r="5.8"></circle>
-                    <path d="M35.6,28.9 C35.6,29.2 17.1,29.3 17.1,28.9 C17.1,23.8 21.2,19.6 26.3,19.6 C31.4,19.6 35.6,23.7 35.6,28.9 L35.6,28.9 Z" id="路径" fill="url(#linearGradient-2)" fill-rule="nonzero"></path>
-                    <circle id="椭圆形" fill="url(#linearGradient-3)" fill-rule="nonzero" cx="9.7" cy="13.9" r="5.8"></circle>
-                    <path d="M18.8,29 C18.8,29.3 0.3,29.4 0.3,29 C0.3,23.9 4.4,19.7 9.5,19.7 C14.6,19.7 18.8,23.8 18.8,29 L18.8,29 Z" id="路径" fill="url(#linearGradient-4)" fill-rule="nonzero"></path>
+                    <path d="M26.5,8 C29.7032515,8 32.3,10.5967485 32.3,13.8 C32.3,17.0032515 29.7032515,19.6 26.5,19.6 C25.0330369,19.6 23.6932744,19.0553893 22.6718699,18.1573252 C25.1018482,16.5221096 26.7,13.747689 26.7,10.6 C26.7,9.69762275 26.5686559,8.82592256 26.3240423,8.00297413 L26.5,8 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    <path d="M26.3,19.6 C31.4,19.6 35.6,23.7 35.6,28.9 C35.6,29.0099221 33.1162971,29.0929935 29.9689845,29.1344564 C28.5301407,25.2494383 25.3452184,22.2348973 21.3726816,21.0484051 C22.7947619,20.1325352 24.4839839,19.6 26.3,19.6 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    <path d="M8.83036599,8.1647602 C8.61485237,8.9391737 8.5,9.75617424 8.5,10.6 C8.5,14.0164503 10.3827151,16.9931689 13.1672289,18.5492395 C12.2010435,19.2719706 11.0005076,19.7 9.7,19.7 C6.49674845,19.7 3.9,17.1032515 3.9,13.9 C3.9,10.9923112 6.03965448,8.58436543 8.83036599,8.1647602 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    <path d="M9.5,19.7 C11.1791637,19.7 12.7607636,20.1444568 14.127017,20.926295 C9.95201459,22.0325624 6.57807825,25.1863663 5.14455082,29.2442932 C2.37975062,29.212022 0.3,29.1341157 0.3,29 C0.3,23.9 4.4,19.7 9.5,19.7 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
                     <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="17.6" cy="10.6" r="8.1"></circle>
                     <path d="M29.8,33.6 C29.8,34 5.4,34.1 5.4,33.6 C5.4,26.9 10.9,21.4 17.6,21.5 C24.3,21.5 29.7,26.9 29.8,33.6 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
                 </g>

@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>Weblogic</title>
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>weblogic</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <linearGradient x1="50.059879%" y1="99.6767323%" x2="50.059879%" y2="-0.559711297%" id="linearGradient-1">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.99" offset="37%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.97" offset="51%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.92" offset="60%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.85" offset="68%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.77" offset="75%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.66" offset="80%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.53" offset="86%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.39" offset="91%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.22" offset="95%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0.04" offset="99%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-    </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="模型icon-库" transform="translate(-1353.000000, -134.000000)">
-            <g id="Weblogic" transform="translate(1353.000000, 134.000000)">
+        <g id="模型icon-库" transform="translate(-1353.000000, -952.000000)">
+            <g id="weblogic" transform="translate(1353.000000, 952.000000)">
                 <rect id="矩形备份-8" opacity="0.446149554" x="0" y="0" width="36" height="36"></rect>
-                <path d="M21.2871425,26.5114245 L21.1887874,17.3604132 L11.9434071,27.5938022 L11.9434071,17.852403 L7.32071696,17.852403 L7.32071696,15.5892497 L14.2055746,15.5892497 L14.2055746,21.6899239 L23.3525998,11.5549329 L23.4509549,20.9027402 L33.8765965,9.98056532 C29.4506166,1.22314586 18.7299097,-2.31918112 9.97630491,2.1087276 C1.22270017,6.53663632 -2.31808377,17.2620152 2.10789616,26.0194347 C6.53387608,34.7768541 17.254583,38.3191811 26.0081877,33.8912724 C33.8765965,29.9553535 37.7124458,20.7059442 34.8601476,12.3421166 L21.2871425,26.5114245 Z" id="路径" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+                <path d="M21.2871425,26.5114245 L21.1887874,17.3604132 L11.9434071,27.5938022 L11.9434071,17.852403 L7.32071696,17.852403 L7.32071696,15.5892497 L14.2055746,15.5892497 L14.2055746,21.6899239 L23.3525998,11.5549329 L23.4509549,20.9027402 L33.8765965,9.98056532 C29.4506166,1.22314586 18.7299097,-2.31918112 9.97630491,2.1087276 C1.22270017,6.53663632 -2.31808377,17.2620152 2.10789616,26.0194347 C6.53387608,34.7768541 17.254583,38.3191811 26.0081877,33.8912724 C33.8765965,29.9553535 37.7124458,20.7059442 34.8601476,12.3421166 L21.2871425,26.5114245 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
             </g>
         </g>
     </g>
