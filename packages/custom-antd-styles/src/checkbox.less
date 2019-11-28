@@ -1,4 +1,5 @@
 
+
 .@{ant-prefix}-checkbox {
 
   &-inner {
@@ -7,5 +8,23 @@
 
   &-checked::after {
     border-radius: 4px;
+  }
+
+  &-indeterminate {
+    .@{checkbox-inner-prefix-cls} {
+      background-color: @checkbox-color;
+      border-color: @checkbox-color;
+    }
+
+    .@{checkbox-inner-prefix-cls}::after {
+      position: absolute;
+      left: 3px;
+      top: 6px;
+      width: 8px;
+      height: 1px;
+      transform: scale(1);
+      opacity: 1;
+      border: 1px solid #fff;
+    }
   }
 }
