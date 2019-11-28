@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+<svg width="35px" height="35px" viewBox="0 0 35 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
     <title>logstash</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <linearGradient x1="45.0144444%" y1="49.984556%" x2="-0.0255555556%" y2="49.984556%" id="linearGradient-1">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-        <linearGradient x1="49.9744444%" y1="-0.00928641251%" x2="49.9744444%" y2="99.985826%" id="linearGradient-2">
-            <stop stop-color="#FFFFFF" offset="70.9%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-    </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="中优先级" transform="translate(-2571.000000, -271.000000)">
-            <g id="logstash" transform="translate(2571.000000, 271.000000)">
+        <g id="中优先级" transform="translate(-2572.000000, -1178.000000)">
+            <g id="logstash" transform="translate(2571.000000, 1177.000000)">
                 <polygon id="矩形备份-17" points="0 0 36 0 36 36 24.484679 36 0 36"></polygon>
-                <g id="编组" fill-rule="nonzero">
-                    <rect id="矩形" fill="url(#linearGradient-1)" x="18.2432432" y="20.4810811" width="17.5135135" height="15.12"></rect>
-                    <rect id="矩形" fill="#FFFFFF" x="0.72972973" y="20.4810811" width="17.5135135" height="15.12"></rect>
-                    <path d="M18.2432432,20.4810811 L0.72972973,20.4810811 L0.72972973,0.574054054 L0.72972973,0.574054054 C10.4010811,0.574054054 18.2432432,8.41621622 18.2432432,18.0875676 L18.2432432,20.4810811 Z" id="路径" fill="url(#linearGradient-2)"></path>
+                <g fill-rule="nonzero">
+                    <rect id="矩形" x="0" y="0" width="36" height="36"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="20.84" y="21.0133333" width="14.96" height="14.96"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="1.14666667" y="21.0133333" width="17.3333333" height="14.96"></rect>
+                    <path d="M18.48,21.0133333 L1.14666667,21.0133333 L1.14666667,1.30666667 L1.14666667,1.30666667 C10.72,1.30666667 18.48,9.06666667 18.48,18.64 L18.48,21.0133333 Z" id="路径" fill="#FFFFFF"></path>
                 </g>
             </g>
         </g>
