@@ -46,11 +46,11 @@
   --launchpad-backdrop-filter: blur(5px);
   --launchpad-backdrop-transition: filter 100ms ease-out;
 
-  --page-padding: 32px;
+  --page-padding: 24px;
   --page-title-height: 32px;
-  --page-card-gap: 24px;
-  --page-title-margin-top: 24px;
-  --page-title-margin-bottom: 20px;
+  --page-card-gap: 20px;
+  --page-title-margin-top: 18px;
+  --page-title-margin-bottom: 18px;
   --toolbar-button-gap: 8px;
   --sub-menu-width: 240px;
 
