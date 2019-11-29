@@ -7688,10 +7688,10 @@ jest-each@^24.9.0:
     jest-util "^24.9.0"
     pretty-format "^24.9.0"
 
-jest-environment-jsdom-fourteen@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/jest-environment-jsdom-fourteen/download/jest-environment-jsdom-fourteen-1.0.0.tgz#fa8ccedcebf677d535ea8b4f2417f2385a99c6c9"
-  integrity sha1-+ozO3Ov2d9U16otPJBfyOFqZxsk=
+jest-environment-jsdom-fourteen@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/jest-environment-jsdom-fourteen/download/jest-environment-jsdom-fourteen-1.0.1.tgz#4cd0042f58b4ab666950d96532ecb2fc188f96fb"
+  integrity sha1-TNAEL1i0q2ZpUNllMuyy/BiPlvs=
   dependencies:
     "@jest/environment" "^24.3.0"
     "@jest/fake-timers" "^24.3.0"
