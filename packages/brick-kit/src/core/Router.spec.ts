@@ -207,19 +207,38 @@ describe("Router", () => {
     ]);
   });
 
-  it("should not render if notify is false", async () => {
+  it("should ignore rendering if notify is false", async () => {
     await router.bootstrap();
     jest.clearAllMocks();
     mockHistoryPush({
-      path: "/first"
+      pathname: "/first"
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
     mockHistoryPush({
-      path: "/second",
+      pathname: "/second",
       state: {
         notify: false
       }
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(1);
+  });
+
+  it("should ignore rendering if location not changed except hash and key", async () => {
+    await router.bootstrap();
+    jest.clearAllMocks();
+    mockHistoryPush({
+      pathname: "/first",
+      search: "?ok=1"
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(1);
+    mockHistoryPush({
+      pathname: "/first",
+      search: "?ok=1",
+      hash: "#good",
+      key: "123"
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
@@ -229,14 +248,14 @@ describe("Router", () => {
     await router.bootstrap();
     jest.clearAllMocks();
     mockHistoryPush({
-      path: "/first"
+      pathname: "/first"
     });
     // `/second` should be ignored and replaced by `/third`.
     mockHistoryPush({
-      path: "/second"
+      pathname: "/second"
     });
     mockHistoryPush({
-      path: "/third"
+      pathname: "/third"
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(2);
