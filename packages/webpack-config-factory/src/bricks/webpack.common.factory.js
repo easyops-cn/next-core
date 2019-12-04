@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 const prism = require("prismjs");
 const loadLanguages = require("prismjs/components/index");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
@@ -48,7 +49,7 @@ const getImageLoaderOptions = distPublicPath => ({
   ]
 });
 
-module.exports = ({ scope = "bricks" } = {}) => {
+module.exports = ({ scope = "bricks", copyFiles = [] } = {}) => {
   const cwdDirname = process.cwd();
   const appRoot = path.join(cwdDirname, "..", "..");
   const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
@@ -200,7 +201,14 @@ module.exports = ({ scope = "bricks" } = {}) => {
               paths: [cwdDirname]
             }))
           })
-      )
+      ),
+      ...(copyFiles && copyFiles.length > 0
+        ? [
+            new CopyPlugin(copyFiles, {
+              context: cwdDirname
+            })
+          ]
+        : [])
     ]
   };
 };
