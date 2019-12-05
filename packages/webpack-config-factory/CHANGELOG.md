@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.3.3...@easyops/webpack-config-factory@1.4.0) (2019-12-05)
+
+### Features
+
+- support copy files for brick packages ([93d6974](https://git.easyops.local/anyclouds/next-core/commits/93d6974))
+
 ## [1.3.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.3.2...@easyops/webpack-config-factory@1.3.3) (2019-11-27)
 
 ### Bug Fixes
