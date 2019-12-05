@@ -20,20 +20,39 @@ import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { brickTemplateRegistry } from "./TemplateRegistries";
+import { locationsAreEqual } from "history";
 
 export class Router {
   private defaultCollapsed = false;
   private locationContext: LocationContext;
   private rendering = false;
   private nextLocation: PluginLocation;
+  private prevLocation: PluginLocation;
 
   constructor(private kernel: Kernel) {}
 
   async bootstrap(): Promise<void> {
     const history = getHistory();
+    this.prevLocation = history.location;
     history.listen(async (location: PluginLocation) => {
-      if (location.state && location.state.notify === false) {
-        // No rendering if notify is `false`.
+      let ignoreRendering = false;
+      const omittedLocationProps: any = {
+        hash: undefined,
+        key: undefined
+      };
+      if (
+        locationsAreEqual(
+          { ...this.prevLocation, ...omittedLocationProps },
+          { ...location, ...omittedLocationProps }
+        ) ||
+        (location.state && location.state.notify === false)
+      ) {
+        // Ignore rendering if location not changed except hash and key.
+        // Ignore rendering if notify is `false`.
+        ignoreRendering = true;
+      }
+      this.prevLocation = location;
+      if (ignoreRendering) {
         return;
       }
       if (this.rendering) {
