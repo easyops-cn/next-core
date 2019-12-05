@@ -36,10 +36,12 @@ import \\"document-register-element\\";
 import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
-const spyOnRender = jest.spyOn(ReactDOM, \\"render\\").mockImplementation(() => {});
+const spyOnRender = jest
+  .spyOn(ReactDOM, \\"render\\")
+  .mockImplementation(() => null);
 const unmountComponentAtNode = jest
   .spyOn(ReactDOM, \\"unmountComponentAtNode\\")
-  .mockImplementation((() => {}) as any);
+  .mockImplementation(() => null);
 
 describe(\\"for-good.for-better\\", () => {
   it(\\"should create a custom element\\", async () => {
@@ -233,10 +235,12 @@ import \\"document-register-element\\";
 import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
-const spyOnRender = jest.spyOn(ReactDOM, \\"render\\").mockImplementation(() => {});
+const spyOnRender = jest
+  .spyOn(ReactDOM, \\"render\\")
+  .mockImplementation(() => null);
 const unmountComponentAtNode = jest
   .spyOn(ReactDOM, \\"unmountComponentAtNode\\")
-  .mockImplementation((() => {}) as any);
+  .mockImplementation(() => null);
 
 describe(\\"for-good.for-better\\", () => {
   it(\\"should create a custom element\\", async () => {
