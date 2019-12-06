@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import klawSync from "klaw-sync";
-import changeCase from "change-case";
+import * as changeCase from "change-case";
 import rp from "request-promise-native";
 import { FileWithContent, TargetType } from "../interface";
 
@@ -111,17 +111,17 @@ export async function loadTemplate({
   const translations: Record<string, string> = {
     "$workspace-homepage$": workspaceHomepage,
     "$kebab-package-name$": packageName,
-    $PascalPackageName$: changeCase.pascal(packageName),
-    "$Title Package Name$": changeCase.title(packageName),
-    $CONSTANT_PACKAGE_NAME$: changeCase.constant(packageName),
-    $PascalBrickName$: changeCase.pascal(brickName),
+    $PascalPackageName$: changeCase.pascalCase(packageName),
+    "$Title Package Name$": changeCase.capitalCase(packageName),
+    $CONSTANT_PACKAGE_NAME$: changeCase.constantCase(packageName),
+    $PascalBrickName$: changeCase.pascalCase(brickName),
     "$kebab-brick-name$": `${packageName}.${brickName}`,
     "$generator.version$": `v${packageJson.version}`,
     "$brick.container.version$": brickContainerVersion,
     "$kebab-sdk-name$": sdkName,
     "$kebab-template-name$": templateName,
-    $camelTemplateName$: changeCase.camel(templateName),
-    $PascalTemplateName$: changeCase.pascal(templateName)
+    $camelTemplateName$: changeCase.camelCase(templateName),
+    $PascalTemplateName$: changeCase.pascalCase(templateName)
   };
 
   const filter = (src: string): boolean =>

@@ -17,9 +17,9 @@ const generateProviderElements = () => {
     groupSet.add(groupName);
     defines.push(
       `customElements.define(
-        "${packageName}.${changeCase.kebab(groupName)}-${changeCase.kebab(
-        apiName
-      )}",
+        "${packageName}.${changeCase.paramCase(
+        groupName
+      )}-${changeCase.paramCase(apiName)}",
         createProviderClass(${groupName}.${apiName})
       );`
     );

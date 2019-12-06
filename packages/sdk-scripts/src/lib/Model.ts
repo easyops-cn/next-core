@@ -1,4 +1,4 @@
-import changeCase from "change-case";
+import * as changeCase from "change-case";
 import { SourceFile } from "./internal";
 import { ModelDoc } from "../interface";
 import { TypeDefinition } from "./internal";
@@ -20,7 +20,7 @@ export class Model extends SourceFile {
     super(context);
     this.doc = doc;
     this.originalName = doc.name;
-    this.displayName = "Model" + changeCase.pascal(doc.name);
+    this.displayName = "Model" + changeCase.pascalCase(doc.name);
     this.modelSeg = modelSeg;
     this.dir = [".", "model", serviceSeg].join("/");
     this.filePath = [this.dir, this.displayName].join("/");
