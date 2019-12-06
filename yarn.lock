@@ -13149,10 +13149,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-json-schema@^0.40.0:
-  version "0.40.0"
-  resolved "https://registry.npm.taobao.org/typescript-json-schema/download/typescript-json-schema-0.40.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript-json-schema%2Fdownload%2Ftypescript-json-schema-0.40.0.tgz#4815092e5acf1662a94aa140924809ff5922da7c"
-  integrity sha1-SBUJLlrPFmKpSqFAkkgJ/1ki2nw=
+typescript-json-schema@^0.41.0:
+  version "0.41.0"
+  resolved "https://registry.npm.taobao.org/typescript-json-schema/download/typescript-json-schema-0.41.0.tgz#8dbe1798023ae50e803b3f9d53a6d10aaf5a9d74"
+  integrity sha1-jb4XmAI65Q6AOz+dU6bRCq9anXQ=
   dependencies:
     "@types/json-schema" "^7.0.3"
     glob "~7.1.4"
