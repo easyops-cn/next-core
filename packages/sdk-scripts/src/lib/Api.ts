@@ -1,4 +1,4 @@
-import changeCase from "change-case";
+import * as changeCase from "change-case";
 import { SourceFile } from "./internal";
 import { ApiDoc } from "../interface";
 import { ApiMethod } from "./internal";
@@ -27,7 +27,7 @@ export class Api extends SourceFile {
     super(context);
     this.doc = doc;
     this.originalName = doc.name;
-    this.displayName = changeCase.camel(doc.name);
+    this.displayName = changeCase.camelCase(doc.name);
     this.modelSeg = modelSeg;
     this.dir = [".", "api", context.serviceSeg, modelSeg].join("/");
     this.filePath = [this.dir, this.displayName].join("/");
@@ -36,7 +36,7 @@ export class Api extends SourceFile {
     );
     this.method = new ApiMethod(doc);
     this.namespace = this.getNamespaceByImports(doc.import, context);
-    const pascalName = changeCase.pascal(doc.name);
+    const pascalName = changeCase.pascalCase(doc.name);
 
     const { requestParams, requestBody } = refineRequest(this);
     this.requestParamsType = new TypeDefinition(

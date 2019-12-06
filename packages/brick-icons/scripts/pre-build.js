@@ -38,7 +38,7 @@ const content = [
     icons
       .map(
         icon =>
-          `import ${changeCase.pascal(category)}${changeCase.pascal(
+          `import ${changeCase.pascalCase(category)}${changeCase.pascalCase(
             icon.basename
           )} from "./icons/${icon.relativePath}";`
       )
@@ -46,13 +46,15 @@ const content = [
   ),
   ...groupedIcons.map(
     ([category, icons]) =>
-      `export const ${changeCase.camel(category)}Category = {
+      `export const ${changeCase.camelCase(category)}Category = {
       ${icons
         .map(
           icon =>
-            `  "${changeCase.kebab(icon.basename)}": ${changeCase.pascal(
-              category
-            )}${changeCase.pascal(icon.basename)},`
+            `  "${changeCase.paramCase(
+              icon.basename
+            )}": ${changeCase.pascalCase(category)}${changeCase.pascalCase(
+              icon.basename
+            )},`
         )
         .join(os.EOL)}
     };`
@@ -61,8 +63,9 @@ const content = [
     ${groupedIcons
       .map(
         ([category]) =>
-          `"${changeCase.kebab(category)}": ${changeCase.camel(category) +
-            "Category"}`
+          `"${changeCase.paramCase(category)}": ${changeCase.camelCase(
+            category
+          ) + "Category"}`
       )
       .join(",")}
   };`
