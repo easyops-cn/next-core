@@ -918,10 +918,10 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.25"
 
-"@fortawesome/react-fontawesome@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.npm.taobao.org/@fortawesome/react-fontawesome/download/@fortawesome/react-fontawesome-0.1.7.tgz?cache=0&sync_timestamp=1571494236196&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40fortawesome%2Freact-fontawesome%2Fdownload%2F%40fortawesome%2Freact-fontawesome-0.1.7.tgz#c004ca75c15c5a1218101e8f042b8da8dec0c4b5"
-  integrity sha1-wATKdcFcWhIYEB6PBCuNqN7AxLU=
+"@fortawesome/react-fontawesome@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.npm.taobao.org/@fortawesome/react-fontawesome/download/@fortawesome/react-fontawesome-0.1.8.tgz#cb6d4dd3aeec45b6ff2d48c812317a6627618511"
+  integrity sha1-y21N067sRbb/LUjIEjF6ZidhhRE=
   dependencies:
     prop-types "^15.5.10"
 
