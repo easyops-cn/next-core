@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.5...@easyops/build-config-factory@1.2.6) (2019-12-06)
+
+### Bug Fixes
+
+- validate dependencies in package.conf.yaml ([7290d87](https://git.easyops.local/anyclouds/next-core/commits/7290d87))
+
 ## [1.2.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.4...@easyops/build-config-factory@1.2.5) (2019-12-05)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@easyops/build-config-factory",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "build scripts",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/build-config-factory",
   "license": "UNLICENSED",
