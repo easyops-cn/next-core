@@ -1,13 +1,11 @@
 import os from "os";
-import { SourceFile } from "./internal";
+import { SourceFile, MixedType } from "./internal";
 import {
   ObjectTypeDoc,
   FieldDoc,
   RefFieldDoc,
   NormalFieldDoc
 } from "../interface";
-import { MixedType } from "./internal";
-import { getRealType, isPrimitiveType } from "../utils";
 
 export class ObjectType {
   constructor(private sourceFile: SourceFile, private doc: ObjectTypeDoc) {}
@@ -31,18 +29,11 @@ export class ObjectType {
     if (isRefFieldDoc) {
       const ref = this.sourceFile.namespace.get(refModel);
       if (ref === undefined) {
-        throw new Error(`Unknown model: ${refModel}`);
+        throw new Error(
+          `Unknown model in ${this.sourceFile.filePath}: ${refModel}`
+        );
       }
-      field = ref.doc.fields.find(f => (f as NormalFieldDoc).name === refKey);
-      const { type: realType } = getRealType(field as NormalFieldDoc);
-      if (!isPrimitiveType(realType)) {
-        this.sourceFile.imports.addModel(ref);
-        field = {
-          ...field,
-          // It's a property type!
-          type: `${ref.displayName}["${refKey}"]`
-        };
-      }
+      field = ref.getRefField(refKey, this.sourceFile);
     }
 
     const normalField = field as NormalFieldDoc;
