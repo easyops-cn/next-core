@@ -77,7 +77,9 @@ describe("Router", () => {
     },
     toggleBars: jest.fn(),
     firstRendered: jest.fn(),
-    toggleLegacyIframe: jest.fn()
+    toggleLegacyIframe: jest.fn(),
+    updateWorkspaceStack: jest.fn(),
+    getPreviousWorkspace: jest.fn()
   } as any;
 
   beforeEach(() => {

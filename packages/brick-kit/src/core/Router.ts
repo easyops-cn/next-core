@@ -1,3 +1,4 @@
+import { locationsAreEqual, createPath } from "history";
 import { PluginLocation } from "@easyops/brick-types";
 import {
   loadScript,
@@ -20,7 +21,7 @@ import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { locationsAreEqual } from "history";
+import { RecentApps } from "./interfaces";
 
 export class Router {
   private defaultCollapsed = false;
@@ -138,7 +139,11 @@ export class Router {
       }
     }
 
-    const { mountPoints, currentApp: previousApp } = this.kernel;
+    const {
+      mountPoints,
+      currentApp: previousApp,
+      currentUrl: previouseUrl
+    } = this.kernel;
     const currentApp = storyboard ? storyboard.app : undefined;
     // Storyboard maybe re-assigned, e.g. when open launchpad.
     const appChanged =
@@ -211,11 +216,17 @@ export class Router {
 
       if (appChanged) {
         this.kernel.currentApp = currentApp;
+      }
+      this.kernel.currentUrl = createPath(location);
+      this.kernel.updateWorkspaceStack();
+
+      if (appChanged) {
         window.dispatchEvent(
-          new CustomEvent("app.change", {
+          new CustomEvent<RecentApps>("app.change", {
             detail: {
               previousApp,
-              currentApp
+              currentApp,
+              previousWorkspace: this.kernel.getPreviousWorkspace()
             }
           })
         );
