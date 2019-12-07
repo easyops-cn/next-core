@@ -2118,10 +2118,18 @@
   dependencies:
     "@types/enzyme" "*"
 
-"@types/enzyme@*", "@types/enzyme@^3.10.3":
+"@types/enzyme@*":
   version "3.10.3"
   resolved "https://registry.npm.taobao.org/@types/enzyme/download/@types/enzyme-3.10.3.tgz#02b6c5ac7d0472005944a652e79045e2f6c66804"
   integrity sha1-ArbFrH0EcgBZRKZS55BF4vbGaAQ=
+  dependencies:
+    "@types/cheerio" "*"
+    "@types/react" "*"
+
+"@types/enzyme@^3.10.4":
+  version "3.10.4"
+  resolved "https://registry.npm.taobao.org/@types/enzyme/download/@types/enzyme-3.10.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fenzyme%2Fdownload%2F%40types%2Fenzyme-3.10.4.tgz#dd4961042381a7c0f6637ce25fec3f773ce489dd"
+  integrity sha1-3UlhBCOBp8D2Y3ziX+w/dzzkid0=
   dependencies:
     "@types/cheerio" "*"
     "@types/react" "*"
