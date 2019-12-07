@@ -19,7 +19,7 @@ export class PartialModelType extends UnionType {
       sourceFile.imports.addModel(this.model);
     }
     if (this.model === undefined) {
-      throw new Error(`Unknown type: ${doc.type}`);
+      throw new Error(`Unknown type in ${sourceFile.filePath}: ${doc.type}`);
     }
     this.requireAll =
       doc.requireAll ||

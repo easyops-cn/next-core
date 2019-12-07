@@ -93,6 +93,12 @@ import { ModelPackageWithVersion } from \\"../../../model/cd\\";
 import { ResponseBodyWrapper } from \\"../../../wrapper\\";
 
 export interface GetRequestParams {
+  /** 包Id */
+  packageId?: string;
+
+  /** 版本Id */
+  versionId?: string;
+
   /** 语言 */
   lang?: string;
 }
@@ -110,14 +116,12 @@ export interface GetResponseBody {
 
 /** 获取包 */
 export const get = async (
-  packageId: string | number,
-  versionId: string | number,
   params: GetRequestParams,
   options?: HttpOptions
 ): Promise<GetResponseBody> =>
   (
     await http.get<ResponseBodyWrapper<GetResponseBody>>(
-      \`api/gateway/cd.package.Get/packages/pkg/\${packageId}/\${versionId}\`,
+      \\"api/gateway/cd.package.Get/packages/pkg\\",
       { ...options, params }
     )
   ).data;
@@ -287,7 +291,7 @@ export interface ModelVersion {
   /** 版本Id */
   versionId: string;
 
-  /** 程序包Id */
+  /** 包Id */
   packageId: string;
 
   /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
