@@ -30,7 +30,7 @@ module.exports = {
   // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
   // Todo(steve): remove next line when issue fixed.
   modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
-  // Use jsdom@14 which supports MutationObserver
-  testEnvironment: "jest-environment-jsdom-fourteen",
+  // Use jsdom >= 14 which supports MutationObserver
+  testEnvironment: "jest-environment-jsdom-fifteen",
   timers: "fake"
 };
