@@ -4039,10 +4039,10 @@ copy-to-clipboard@^3.2.0:
   dependencies:
     toggle-selection "^1.0.6"
 
-copy-webpack-plugin@^5.0.5:
-  version "5.0.5"
-  resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-5.0.5.tgz#731df6a837a2ef0f8f8e2345bdfe9b7c62a2da68"
-  integrity sha1-cx32qDei7w+PjiNFvf6bfGKi2mg=
+copy-webpack-plugin@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-5.1.0.tgz?cache=0&sync_timestamp=1575905120168&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcopy-webpack-plugin%2Fdownload%2Fcopy-webpack-plugin-5.1.0.tgz#cd6bb506ffbbe830bf9ecb3d15cc4946b2edd011"
+  integrity sha1-zWu1Bv+76DC/nss9FcxJRrLt0BE=
   dependencies:
     cacache "^12.0.3"
     find-cache-dir "^2.1.0"
@@ -4054,7 +4054,7 @@ copy-webpack-plugin@^5.0.5:
     normalize-path "^3.0.0"
     p-limit "^2.2.1"
     schema-utils "^1.0.0"
-    serialize-javascript "^2.1.0"
+    serialize-javascript "^2.1.2"
     webpack-log "^2.0.0"
 
 core-js-compat@^3.1.1:
@@ -11694,10 +11694,10 @@ serialize-javascript@^1.7.0:
   resolved "https://registry.npm.taobao.org/serialize-javascript/download/serialize-javascript-1.7.0.tgz#d6e0dfb2a3832a8c94468e6eb1db97e55a192a65"
   integrity sha1-1uDfsqODKoyURo5usduX5VoZKmU=
 
-serialize-javascript@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npm.taobao.org/serialize-javascript/download/serialize-javascript-2.1.0.tgz?cache=0&sync_timestamp=1567600506467&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fserialize-javascript%2Fdownload%2Fserialize-javascript-2.1.0.tgz#9310276819efd0eb128258bb341957f6eb2fc570"
-  integrity sha1-kxAnaBnv0OsSgli7NBlX9usvxXA=
+serialize-javascript@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.npm.taobao.org/serialize-javascript/download/serialize-javascript-2.1.2.tgz#ecec53b0e0317bdc95ef76ab7074b7384785fa61"
+  integrity sha1-7OxTsOAxe9yV73arcHS3OEeF+mE=
 
 serve-index@^1.9.1:
   version "1.9.1"
