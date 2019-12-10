@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.7.2...@easyops/brick-kit@1.8.0) (2019-12-10)
+
+### Features
+
+- useRecentApps and useLocation and support workspace stack ([cde0e68](https://git.easyops.local/anyclouds/next-core/commits/cde0e68))
+
 ## [1.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.7.1...@easyops/brick-kit@1.7.2) (2019-12-05)
 
 ### Bug Fixes
