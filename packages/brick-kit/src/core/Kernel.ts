@@ -136,6 +136,8 @@ export class Kernel {
   }
 
   private async loadUsers(): Promise<void> {
+    let newUserInfo: UserInfo[] = [];
+    const newUserMap: Map<string, UserInfo> = new Map();
     try {
       const query = { state: "valid" };
       const fields = {
@@ -146,30 +148,32 @@ export class Kernel {
         user_icon: true,
         user_memo: true
       };
-      this.allUserInfo = (
+      newUserInfo = (
         await UserAdminApi.searchAllUsersInfo({
           query,
           fields
         })
       ).list as UserInfo[];
       for (const user of this.allUserInfo) {
-        this.allUserMap.set(user.name, user);
+        newUserMap.set(user.name, user);
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("Load users error:", error);
     }
+    this.allUserInfo = newUserInfo;
+    this.allUserMap = newUserMap;
   }
 
   private async loadRelatedApps(): Promise<void> {
+    let newRelatedApps: RelatedApp[] = [];
     try {
-      this.allRelatedApps = (
-        await ObjectMicroAppApi.getObjectMicroAppList()
-      ).list;
+      newRelatedApps = (await ObjectMicroAppApi.getObjectMicroAppList()).list;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("Load related apps error:", error);
     }
+    this.allRelatedApps = newRelatedApps;
   }
 
   getRelatedApps(appId: string): RelatedApp[] {
