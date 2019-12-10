@@ -3,7 +3,7 @@ import { act } from "react-dom/test-utils";
 import { mount } from "enzyme";
 import { useCurrentApp } from "./useCurrentApp";
 
-function HookWrapper() {
+function HookWrapper(): React.ReactElement {
   const app = useCurrentApp();
   return <div>{app ? app.id : "undefined"}</div>;
 }

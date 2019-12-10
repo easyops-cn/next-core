@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.26](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.25...@easyops/brick-scripts@1.1.26) (2019-12-10)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.25](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.24...@easyops/brick-scripts@1.1.25) (2019-12-06)
+
+### Bug Fixes
+
+- **brick-scripts:** upate template to meet @typescript-eslint/no-empty-function ([a2680b4](https://git.easyops.local/anyclouds/next-core/commits/a2680b4))
+
+## [1.1.24](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.23...@easyops/brick-scripts@1.1.24) (2019-12-05)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.1.23](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.22...@easyops/brick-scripts@1.1.23) (2019-11-28)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 ## [1.1.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.21...@easyops/brick-scripts@1.1.22) (2019-11-27)
 
 ### Bug Fixes

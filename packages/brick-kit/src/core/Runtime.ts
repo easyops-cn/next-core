@@ -1,4 +1,3 @@
-import { Kernel, MenuBar, AppBar } from "./exports";
 import {
   MountPoints,
   MicroApp,
@@ -9,10 +8,14 @@ import {
   UserInfo,
   BrickPackage
 } from "@easyops/brick-types";
+import { Kernel, MenuBar, AppBar } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
+import { RelatedApp } from "./interfaces";
 
 let kernel: Kernel;
 
+/* istanbul ignore next */
+// eslint-disable-next-line @typescript-eslint/camelcase
 export function _dev_only_getBrickPackages(): BrickPackage[] {
   return kernel.bootstrapData.brickPackages;
 }
@@ -57,6 +60,11 @@ export class Runtime {
       },
       interceptorParams
     );
+  }
+
+  /* istanbul ignore next */
+  reloadSharedData(): Promise<void> {
+    return kernel.loadSharedData();
   }
 
   getDesktops(): DesktopData[] {
@@ -117,7 +125,23 @@ export class Runtime {
     );
   }
 
+  /* istanbul ignore next */
   registerBrickTemplate(name: string, factory: BrickTemplateFactory): void {
     registerBrickTemplate(name, factory);
+  }
+
+  /* istanbul ignore next */
+  getRelatedApps(appId: string): RelatedApp[] {
+    return kernel.getRelatedApps(appId);
+  }
+
+  /* istanbul ignore next */
+  popWorkspaceStack(): void {
+    return kernel.popWorkspaceStack();
+  }
+
+  /* istanbul ignore next */
+  resetWorkspaceStack(): void {
+    kernel.workspaceStack = [];
   }
 }

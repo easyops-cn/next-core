@@ -1,13 +1,17 @@
 import { checkLogin, bootstrap } from "@sdk/auth-sdk";
+import { UserAdminApi } from "@sdk/user-service-sdk";
+import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
 import { MountPoints } from "@easyops/brick-types";
 import { Kernel } from "./Kernel";
-import { authenticate } from "../auth";
+import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
 
 jest.mock("@sdk/auth-sdk");
+jest.mock("@sdk/user-service-sdk");
+jest.mock("@sdk/micro-app-sdk");
 jest.mock("./MenuBar");
 jest.mock("./AppBar");
 jest.mock("./LoadingBar");
@@ -25,9 +29,12 @@ jest.spyOn(mockHistory, "getHistory").mockReturnValue({
 const spyOnCheckLogin = checkLogin as jest.Mock;
 const spyOnBootstrap = bootstrap as jest.Mock;
 const spyOnAuthenticate = authenticate as jest.Mock;
+const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 const spyOnMenuBar = MenuBar as jest.Mock;
 const spyOnAppBar = AppBar as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
+const searchAllUsersInfo = UserAdminApi.searchAllUsersInfo as jest.Mock;
+const getObjectMicroAppList = ObjectMicroAppApi.getObjectMicroAppList as jest.Mock;
 
 describe("Kernel", () => {
   let kernel: Kernel;
@@ -51,6 +58,31 @@ describe("Kernel", () => {
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: true
     });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    searchAllUsersInfo.mockResolvedValueOnce({
+      list: [
+        {
+          name: "hello",
+          instanceId: "abc"
+        }
+      ]
+    });
+    getObjectMicroAppList.mockResolvedValueOnce({
+      list: [
+        {
+          microAppId: "a",
+          objectId: "App"
+        },
+        {
+          microAppId: "b",
+          objectId: "App"
+        },
+        {
+          microAppId: "c",
+          objectId: "Host"
+        }
+      ]
+    });
     spyOnBootstrap.mockResolvedValueOnce({
       storyboards: [
         {
@@ -66,6 +98,52 @@ describe("Kernel", () => {
     expect(spyOnMenuBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
+
+    expect(kernel.getRelatedApps(undefined).length).toBe(0);
+    expect(kernel.getRelatedApps("x").length).toBe(0);
+    expect(kernel.getRelatedApps("a").length).toBe(2);
+
+    kernel.popWorkspaceStack();
+    kernel.updateWorkspaceStack();
+
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentApp = {
+      id: "a"
+    } as any;
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentUrl = "/a";
+    kernel.updateWorkspaceStack();
+    expect(kernel.getPreviousWorkspace()).toBe(undefined);
+
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentApp = {
+      id: "b"
+    } as any;
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentUrl = "/b";
+    kernel.updateWorkspaceStack();
+    expect(kernel.getPreviousWorkspace()).toBe(undefined);
+
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentApp = {
+      id: "c"
+    } as any;
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentUrl = "/c";
+    kernel.updateWorkspaceStack();
+    expect(kernel.getPreviousWorkspace()).toEqual({
+      appId: "b",
+      url: "/b"
+    });
+
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentApp = {
+      id: "x"
+    } as any;
+    // eslint-disable-next-line require-atomic-updates
+    kernel.currentUrl = "/x";
+    kernel.updateWorkspaceStack();
+    expect(kernel.getPreviousWorkspace()).toBe(undefined);
 
     // `postMessage` did not trigger events.
     // window.postMessage({ type: "auth.guard" }, window.location.origin);

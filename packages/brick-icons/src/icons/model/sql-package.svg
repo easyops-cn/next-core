@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="29px" height="32px" viewBox="0 0 29 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>SQL包</title>
+<svg width="32px" height="36px" viewBox="0 0 32 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>sql-package</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <linearGradient x1="49.7557261%" y1="100.202465%" x2="49.7557261%" y2="-25.040706%" id="linearGradient-1">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-        <linearGradient x1="49.7557261%" y1="100.422465%" x2="49.7557261%" y2="-27.6942203%" id="linearGradient-2">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
-        </linearGradient>
-    </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="模型图标库" transform="translate(-1214.000000, -320.000000)">
-            <g id="SQL包" transform="translate(1210.000000, 318.000000)">
-                <rect id="矩形备份-2" x="0" y="0" width="36" height="36"></rect>
-                <g id="编组-8" transform="translate(4.200000, 2.200000)" fill-rule="nonzero">
-                    <ellipse id="椭圆形" fill="#FFFFFF" cx="14" cy="7" rx="13.7" ry="7"></ellipse>
-                    <ellipse id="椭圆形" fill="url(#linearGradient-1)" cx="14" cy="15.8" rx="14" ry="7"></ellipse>
-                    <ellipse id="椭圆形" fill="url(#linearGradient-2)" cx="14" cy="24.6" rx="14" ry="7"></ellipse>
+        <g id="模型图标库" transform="translate(-1182.000000, -1186.000000)">
+            <g id="sql-package" transform="translate(1179.000000, 1186.000000)">
+                <g id="SQL包">
+                    <rect id="矩形备份-2" x="0" y="0" width="36" height="36"></rect>
+                    <g id="编组-63备份" transform="translate(3.000000, 0.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                        <g id="编组-8">
+                            <path d="M29.697378,24.0132502 C30.8485379,25.1071668 31.5,26.3530441 31.5,27.675 C31.5,32.0242424 24.4484848,35.55 15.75,35.55 C7.05151519,35.55 0,32.0242424 0,27.675 C0,26.3530441 0.651462055,25.1071668 1.80262201,24.0132502 C5.07775956,26.291057 10.1496629,27.65 15.75,27.65 C21.3434032,27.65 26.4096802,26.29442 29.6843905,24.0214288 L29.697378,24.0132502 Z" id="形状结合"></path>
+                            <path d="M29.5764326,14.0005552 C30.8028032,15.1212763 31.5,16.4074284 31.5,17.775 C31.5,22.1242424 24.4484848,25.65 15.75,25.65 C7.05151519,25.65 0,22.1242424 0,17.775 C0,16.4074284 0.697196778,15.1212763 1.9235674,14.0005552 C5.13003342,16.3446474 10.1744151,17.75 15.75,17.75 C21.3074577,17.75 26.3371606,16.3537706 29.5455875,14.024739 L29.5764326,14.0005552 Z" id="形状结合"></path>
+                            <ellipse id="椭圆形" cx="15.75" cy="7.875" rx="15.4125" ry="7.875"></ellipse>
+                        </g>
+                    </g>
                 </g>
             </g>
         </g>

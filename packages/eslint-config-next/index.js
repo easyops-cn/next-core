@@ -67,6 +67,12 @@ module.exports = {
         "**/bin/*.js"
       ],
       extends: "@easyops/eslint-config-next/node"
+    },
+    {
+      files: ["**/*.tsx"],
+      rules: {
+        "react/prop-types": "off"
+      }
     }
   ]
 };

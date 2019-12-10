@@ -10,14 +10,12 @@ import:
 
 endpoint:
   method: "GET"
-  uri: "/packages/pkg/:packageId/:versionId"
+  uri: "/packages/pkg"
 
 request:
   type: object
   fields:
-    - name: packageId
-      type: string
-      description: 包 ID
+    - ref: Version.packageId
     - ref: Version.versionId
     - name: lang
       type: string

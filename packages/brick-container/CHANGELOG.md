@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.7.1...@easyops/brick-container@1.7.2) (2019-12-10)
+
+### Bug Fixes
+
+- require api_gateway ^1.7.18 ([d0ad29f](https://git.easyops.local/anyclouds/next-core/commits/d0ad29f))
+
+## [1.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.7.0...@easyops/brick-container@1.7.1) (2019-12-10)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.6.4...@easyops/brick-container@1.7.0) (2019-12-09)
+
+### Features
+
+- split css variable of theme color into rgb channels ([a936dc4](https://git.easyops.local/anyclouds/next-core/commits/a936dc4))
+
+## [1.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.6.3...@easyops/brick-container@1.6.4) (2019-12-05)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.6.2...@easyops/brick-container@1.6.3) (2019-11-28)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.6.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.6.1...@easyops/brick-container@1.6.2) (2019-11-28)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.6.0...@easyops/brick-container@1.6.1) (2019-11-28)
+
+### Bug Fixes
+
+- update page padding ([246fddf](https://git.easyops.local/anyclouds/next-core/commits/246fddf))
+
 # [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.5.0...@easyops/brick-container@1.6.0) (2019-11-27)
 
 ### Features

@@ -1,43 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="34px" height="36px" viewBox="0 0 34 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
     <title>agent</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <linearGradient x1="49.97%" y1="103.990811%" x2="49.97%" y2="-3.98002397%" id="linearGradient-1">
-            <stop stop-color="#FFFFFF" stop-opacity="0.3225" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" offset="20.61%"></stop>
-            <stop stop-color="#FFFFFF" offset="81.52%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="97.85%"></stop>
-        </linearGradient>
-        <linearGradient x1="-6.42543577%" y1="50%" x2="106.487411%" y2="50%" id="linearGradient-2">
-            <stop stop-color="#FFFFFF" stop-opacity="0.3225" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" offset="28.14%"></stop>
-            <stop stop-color="#FFFFFF" offset="69.98%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="97.85%"></stop>
-        </linearGradient>
-        <linearGradient x1="49.9971347%" y1="-21.8550725%" x2="49.9971347%" y2="121.675362%" id="linearGradient-3">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" offset="69.98%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="97.85%"></stop>
-        </linearGradient>
-        <linearGradient x1="56.4412607%" y1="-14.3006263%" x2="56.4412607%" y2="99.9436326%" id="linearGradient-4">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#FFFFFF" offset="69.98%"></stop>
-            <stop stop-color="#FFFFFF" stop-opacity="0" offset="97.85%"></stop>
-        </linearGradient>
-    </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="中优先级" transform="translate(-1641.000000, -271.000000)">
-            <g id="agent" transform="translate(1640.000000, 271.000000)">
+        <g id="中优先级" transform="translate(-1646.000000, -1177.000000)">
+            <g id="agent" transform="translate(1645.000000, 1177.000000)">
                 <polygon id="矩形备份-16" points="0 0 36 0 36 36 24.484679 36 0 36"></polygon>
                 <g id="编组" transform="translate(1.000000, 0.000000)">
-                    <line x1="17.2445946" y1="10.0175676" x2="17.2445946" y2="33.6945946" id="路径" stroke="url(#linearGradient-1)" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="17.2445946" y1="10.0175676" x2="17.2445946" y2="33.6945946" id="路径" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"></line>
                     <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="17.3" cy="33.8418919" r="1.5"></circle>
-                    <line x1="9.91351351" y1="19.4675676" x2="24.5662162" y2="19.4675676" id="路径" stroke="url(#linearGradient-2)" stroke-width="2" stroke-linecap="round"></line>
-                    <polyline id="路径" stroke="url(#linearGradient-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="13.9432432 31.4905405 13.9432432 29.6648649 17.2445946 28.227027"></polyline>
+                    <line x1="9.91351351" y1="19.4675676" x2="24.5662162" y2="19.4675676" id="路径" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"></line>
+                    <polyline id="路径" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="13.9432432 31.4905405 13.9432432 29.6648649 17.2445946 28.227027"></polyline>
                     <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="14" cy="32.5" r="1.5"></circle>
-                    <polyline id="路径" stroke="url(#linearGradient-4)" stroke-width="2" stroke-linejoin="round" points="20.5459459 30.4972973 20.5459459 27.4135135 17.2445946 25.9662162"></polyline>
+                    <polyline id="路径" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" points="20.5459459 30.4972973 20.5459459 27.4135135 17.2445946 25.9662162"></polyline>
                     <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="20.5" cy="31.2310811" r="1.5"></circle>
                     <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="6.27162162" cy="19.4675676" r="5.48648649"></circle>
                     <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="28.4445946" cy="19.4675676" r="5.48648649"></circle>

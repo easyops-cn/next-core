@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.1.2...@easyops/sdk-scripts@1.1.3) (2019-12-09)
+
+### Bug Fixes
+
+- support use a ref of another model field in a model field ([07b486f](https://git.easyops.local/anyclouds/next-core/commits/07b486f))
+
 ## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.1.1...@easyops/sdk-scripts@1.1.2) (2019-11-20)
 
 ### Bug Fixes

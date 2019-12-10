@@ -4,6 +4,9 @@ _kind_: model
 name: Version
 description: 程序包版本
 
+import:
+  - easyops/model/cd/package
+
 fields:
   - name: name
     type: string
@@ -16,9 +19,7 @@ fields:
     type: guid
     description: 版本Id
 
-  - name: packageId
-    type: guid
-    description: 程序包Id
+  - ref: Package.packageId
 
   - name: env_type
     type: env_type

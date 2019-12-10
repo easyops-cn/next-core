@@ -5,6 +5,7 @@ const commonjs = require("rollup-plugin-commonjs");
 const json = require("rollup-plugin-json");
 const replace = require("rollup-plugin-replace");
 const postcss = require("rollup-plugin-postcss");
+const stringHash = require("string-hash");
 const packageJson = require(path.join(process.cwd(), "package.json"));
 
 // Find peer dependencies include:
@@ -27,6 +28,16 @@ peerDependencies.forEach(dep => {
     external.add(dep);
   }
 });
+
+// By default, rollup-plugin-postcss use filename hash instead of content hash.
+function generateScopedName(name, filename, css) {
+  const hash = stringHash(css)
+    .toString(36)
+    .substr(0, 8);
+  const file = path.basename(filename, ".module.css");
+
+  return `${file}--${name}--${hash}`;
+}
 
 exports.rollupFactory = ({ umdName, plugins = [] }) => ({
   input: "src/index.ts",
@@ -56,7 +67,9 @@ exports.rollupFactory = ({ umdName, plugins = [] }) => ({
       extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"]
     }),
     postcss({
-      modules: true
+      modules: {
+        generateScopedName
+      }
     }),
     json(),
     commonjs(),

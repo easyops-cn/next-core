@@ -3,10 +3,12 @@ import "document-register-element";
 import ReactDOM from "react-dom";
 import "./";
 
-const spyOnRender = jest.spyOn(ReactDOM, "render").mockImplementation(() => {});
+const spyOnRender = jest
+  .spyOn(ReactDOM, "render")
+  .mockImplementation(() => null);
 const unmountComponentAtNode = jest
   .spyOn(ReactDOM, "unmountComponentAtNode")
-  .mockImplementation((() => {}) as any);
+  .mockImplementation(() => null);
 
 describe("$kebab-brick-name$", () => {
   it("should create a custom element", async () => {

@@ -1948,6 +1948,11 @@
   resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.7.0.tgz#d0ffeaa0bfb515e43def42b17bce97b58c4dc61b"
   integrity sha1-0P/qoL+1FeQ970Kxe86XtYxNxhs=
 
+"@sdk/micro-app-sdk@^0.5.0":
+  version "0.5.0"
+  resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.5.0.tgz#7e6554b0537b2e880e2bcb289a41813d47956afb"
+  integrity sha1-fmVUsFN7LogOK8somkGBPUeVavs=
+
 "@sdk/user-service-sdk@^0.1.0":
   version "0.1.0"
   resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.1.0.tgz#49905e15ad53b7810d1826898e9157846cc3b41f"
@@ -4039,7 +4044,7 @@ copy-to-clipboard@^3.2.0:
   dependencies:
     toggle-selection "^1.0.6"
 
-copy-webpack-plugin@^5.1.0:
+copy-webpack-plugin@^5.0.5, copy-webpack-plugin@^5.1.0:
   version "5.1.0"
   resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-5.1.0.tgz?cache=0&sync_timestamp=1575905120168&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcopy-webpack-plugin%2Fdownload%2Fcopy-webpack-plugin-5.1.0.tgz#cd6bb506ffbbe830bf9ecb3d15cc4946b2edd011"
   integrity sha1-zWu1Bv+76DC/nss9FcxJRrLt0BE=
@@ -12120,7 +12125,7 @@ string-convert@^0.2.0:
   version "0.2.1"
   resolved "http://registry.npm.taobao.org/string-convert/download/string-convert-0.2.1.tgz#6982cc3049fbb4cd85f8b24568b9d9bf39eeff97"
 
-string-hash@^1.1.1:
+string-hash@^1.1.1, string-hash@^1.1.3:
   version "1.1.3"
   resolved "https://registry.npm.taobao.org/string-hash/download/string-hash-1.1.3.tgz#e8aafc0ac1855b4666929ed7dd1275df5d6c811b"
   integrity sha1-6Kr8CsGFW0Zmkp7X3RJ1311sgRs=

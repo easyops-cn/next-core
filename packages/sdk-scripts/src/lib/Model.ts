@@ -1,8 +1,7 @@
 import * as changeCase from "change-case";
-import { SourceFile } from "./internal";
-import { ModelDoc } from "../interface";
-import { TypeDefinition } from "./internal";
-import { Context } from "./internal";
+import { SourceFile, Context, TypeDefinition } from "./internal";
+import { ModelDoc, NormalFieldDoc, RefFieldDoc } from "../interface";
+import { isPrimitiveType, getRealType } from "../utils";
 
 export class Model extends SourceFile {
   readonly doc: ModelDoc;
@@ -30,6 +29,39 @@ export class Model extends SourceFile {
       { ...doc, type: "object", requireAll: true },
       this.displayName
     );
+  }
+
+  getRefField(refKey: string, originalSourceFile: SourceFile): NormalFieldDoc {
+    const field = this.doc.fields.find(f =>
+      (f as RefFieldDoc).ref
+        ? (f as RefFieldDoc).ref.split(".")[1] === refKey
+        : (f as NormalFieldDoc).name === refKey
+    );
+    if (field === undefined) {
+      throw new Error(`Field not found in ${this.filePath}: ${refKey}`);
+    }
+
+    const isRefFieldDoc = !!(field as RefFieldDoc).ref;
+
+    if (isRefFieldDoc) {
+      const refModel = (field as RefFieldDoc).ref.split(".")[0];
+      const ref = this.namespace.get(refModel);
+      if (ref === undefined) {
+        throw new Error(`Unknown model in ${this.filePath}: ${refModel}`);
+      }
+      return ref.getRefField(refKey, originalSourceFile);
+    }
+
+    if (isPrimitiveType(getRealType(field as NormalFieldDoc).type)) {
+      return field as NormalFieldDoc;
+    }
+
+    originalSourceFile.imports.addModel(this);
+    return {
+      ...(field as NormalFieldDoc),
+      // It's a property type!
+      type: `${this.displayName}["${refKey}"]`
+    };
   }
 
   toString(): string {

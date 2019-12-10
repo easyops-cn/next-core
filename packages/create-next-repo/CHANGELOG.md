@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.7...@easyops/create-next-repo@0.3.8) (2019-12-10)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.3.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.6...@easyops/create-next-repo@0.3.7) (2019-12-10)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.3.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.5...@easyops/create-next-repo@0.3.6) (2019-12-09)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.3.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.4...@easyops/create-next-repo@0.3.5) (2019-12-06)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.3.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.3...@easyops/create-next-repo@0.3.4) (2019-12-05)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.3.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.2...@easyops/create-next-repo@0.3.3) (2019-11-28)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.1...@easyops/create-next-repo@0.3.2) (2019-11-28)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.0...@easyops/create-next-repo@0.3.1) (2019-11-28)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
 # [0.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.2.3...@easyops/create-next-repo@0.3.0) (2019-11-27)
 
 ### Features
