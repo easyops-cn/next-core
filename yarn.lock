@@ -2486,6 +2486,11 @@
   resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.7.0.tgz#d0ffeaa0bfb515e43def42b17bce97b58c4dc61b"
   integrity sha1-0P/qoL+1FeQ970Kxe86XtYxNxhs=
 
+"@sdk/micro-app-sdk@^0.5.0":
+  version "0.5.0"
+  resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.5.0.tgz#7e6554b0537b2e880e2bcb289a41813d47956afb"
+  integrity sha1-fmVUsFN7LogOK8somkGBPUeVavs=
+
 "@sdk/user-service-sdk@^0.1.0":
   version "0.1.0"
   resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.1.0.tgz#49905e15ad53b7810d1826898e9157846cc3b41f"

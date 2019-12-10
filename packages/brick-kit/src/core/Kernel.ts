@@ -1,5 +1,7 @@
+import { sortBy } from "lodash";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
+import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
 import {
   MountPoints,
   BootstrapData,
@@ -11,6 +13,7 @@ import {
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
+import { RelatedApp, VisitedWorkspace } from "./interfaces";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -21,37 +24,18 @@ export class Kernel {
   public router: Router;
   public currentApp: MicroApp;
   public nextApp: MicroApp;
+  public currentUrl: string;
+  public workspaceStack: VisitedWorkspace[] = [];
   public allUserInfo: UserInfo[] = [];
   public allUserMap: Map<string, UserInfo> = new Map();
+
+  private allRelatedApps: RelatedApp[] = [];
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
     if (isLoggedIn()) {
-      try {
-        const query = { state: "valid" };
-        const fields = {
-          name: true,
-          nickname: true,
-          user_email: true,
-          user_tel: true,
-          user_icon: true,
-          user_memo: true
-        };
-        this.allUserInfo = (
-          await UserAdminApi.searchAllUsersInfo({
-            query,
-            fields
-          })
-        ).list as UserInfo[];
-        for (const user of this.allUserInfo) {
-          this.allUserMap.set(user.name, user);
-        }
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.warn("fetch all user error:", err);
-        this.allUserInfo = [];
-      }
+      await this.loadSharedData();
     }
     this.menuBar = new MenuBar(this);
     this.appBar = new AppBar(this);
@@ -145,5 +129,96 @@ export class Kernel {
 
   toggleLegacyIframe(visible: boolean): void {
     document.body.classList.toggle("show-legacy-iframe", visible);
+  }
+
+  async loadSharedData(): Promise<void> {
+    await Promise.all([this.loadUsers(), this.loadRelatedApps()]);
+  }
+
+  private async loadUsers(): Promise<void> {
+    try {
+      const query = { state: "valid" };
+      const fields = {
+        name: true,
+        nickname: true,
+        user_email: true,
+        user_tel: true,
+        user_icon: true,
+        user_memo: true
+      };
+      this.allUserInfo = (
+        await UserAdminApi.searchAllUsersInfo({
+          query,
+          fields
+        })
+      ).list as UserInfo[];
+      for (const user of this.allUserInfo) {
+        this.allUserMap.set(user.name, user);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn("Load users error:", error);
+    }
+  }
+
+  private async loadRelatedApps(): Promise<void> {
+    try {
+      this.allRelatedApps = (
+        await ObjectMicroAppApi.getObjectMicroAppList()
+      ).list;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn("Load related apps error:", error);
+    }
+  }
+
+  getRelatedApps(appId: string): RelatedApp[] {
+    if (!appId) {
+      return [];
+    }
+    const thisApp = this.allRelatedApps.find(item => item.microAppId === appId);
+    if (!thisApp) {
+      return [];
+    }
+    return sortBy(
+      this.allRelatedApps.filter(item => item.objectId === thisApp.objectId),
+      ["order"]
+    );
+  }
+
+  updateWorkspaceStack(): void {
+    if (this.currentApp && this.currentApp.id) {
+      if (this.workspaceStack.length > 0) {
+        const previousWorkspace = this.workspaceStack[
+          this.workspaceStack.length - 1
+        ];
+        const relatedApps = this.getRelatedApps(previousWorkspace.appId);
+        if (relatedApps.some(item => item.microAppId === this.currentApp.id)) {
+          previousWorkspace.appId = this.currentApp.id;
+          previousWorkspace.url = this.currentUrl;
+          return;
+        }
+      }
+
+      const relatedApps = this.getRelatedApps(this.currentApp.id);
+      if (relatedApps.length > 0) {
+        this.workspaceStack.push({
+          appId: this.currentApp.id,
+          url: this.currentUrl
+        });
+        return;
+      }
+    }
+    this.workspaceStack = [];
+  }
+
+  getPreviousWorkspace(): VisitedWorkspace {
+    if (this.workspaceStack.length > 1) {
+      return this.workspaceStack[this.workspaceStack.length - 2];
+    }
+  }
+
+  popWorkspaceStack(): void {
+    this.workspaceStack.pop();
   }
 }
