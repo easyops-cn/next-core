@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.8.0...@easyops/brick-kit@1.8.1) (2019-12-10)
+
+### Bug Fixes
+
+- ensure to reset shared data when reloading (e.g., reloading after logged in) ([1a7938a](https://git.easyops.local/anyclouds/next-core/commits/1a7938a))
+
 # [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.7.2...@easyops/brick-kit@1.8.0) (2019-12-10)
 
 ### Features

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.4.0...@easyops/webpack-config-factory@1.4.1) (2019-12-10)
+
+### Bug Fixes
+
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://git.easyops.local/anyclouds/next-core/commits/fef31e4))
+
 # [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.3.3...@easyops/webpack-config-factory@1.4.0) (2019-12-05)
 
 ### Features

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.5...@easyops/brick-icons@1.6.6) (2019-12-10)
+
+### Bug Fixes
+
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://git.easyops.local/anyclouds/next-core/commits/fef31e4))
+
 ## [1.6.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.4...@easyops/brick-icons@1.6.5) (2019-12-05)
 
 **Note:** Version bump only for package @easyops/brick-icons

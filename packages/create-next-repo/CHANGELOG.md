@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.8...@easyops/create-next-repo@0.3.9) (2019-12-10)
+
+### Bug Fixes
+
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://git.easyops.local/anyclouds/next-core/commits/fef31e4))
+
 ## [0.3.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.3.7...@easyops/create-next-repo@0.3.8) (2019-12-10)
 
 **Note:** Version bump only for package @easyops/create-next-repo

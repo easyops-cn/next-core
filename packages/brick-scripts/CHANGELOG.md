@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.27](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.26...@easyops/brick-scripts@1.1.27) (2019-12-10)
+
+### Bug Fixes
+
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://git.easyops.local/anyclouds/next-core/commits/fef31e4))
+
 ## [1.1.26](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.25...@easyops/brick-scripts@1.1.26) (2019-12-10)
 
 **Note:** Version bump only for package @easyops/brick-scripts

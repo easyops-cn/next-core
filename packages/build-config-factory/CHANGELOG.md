@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.6...@easyops/build-config-factory@1.2.7) (2019-12-10)
+
+### Bug Fixes
+
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://git.easyops.local/anyclouds/next-core/commits/fef31e4))
+
 ## [1.2.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.5...@easyops/build-config-factory@1.2.6) (2019-12-06)
 
 ### Bug Fixes
