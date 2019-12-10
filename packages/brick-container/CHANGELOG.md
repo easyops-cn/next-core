@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.7.1...@easyops/brick-container@1.7.2) (2019-12-10)
+
+### Bug Fixes
+
+- require api_gateway ^1.7.18 ([d0ad29f](https://git.easyops.local/anyclouds/next-core/commits/d0ad29f))
+
 ## [1.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.7.0...@easyops/brick-container@1.7.1) (2019-12-10)
 
 **Note:** Version bump only for package @easyops/brick-container
