@@ -27,7 +27,7 @@ module.exports = () => {
     devtool: "source-map",
     mode: isProd ? "production" : "development",
     entry: {
-      [changeCase.pascal(filename)]: Object.keys(dependencies)
+      [changeCase.pascalCase(filename)]: Object.keys(dependencies)
     },
     output: {
       filename: `${filename}.js`,

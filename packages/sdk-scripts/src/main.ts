@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs-extra";
 import chalk from "chalk";
-import changeCase from "change-case";
+import * as changeCase from "change-case";
 import { loadService } from "./loaders/loadService";
 import { loadTemplate } from "./loaders/loadTemplate";
 import { clone, checkout } from "./contractGit";
@@ -34,7 +34,7 @@ export function create(serviceName: string): void {
   const sdkRoot = path.join(
     process.cwd(),
     "sdk",
-    changeCase.kebab(serviceName) + "-sdk"
+    changeCase.paramCase(serviceName) + "-sdk"
   );
 
   let sdkVersion;

@@ -1,6 +1,6 @@
 import os from "os";
 import path from "path";
-import changeCase from "change-case";
+import * as changeCase from "change-case";
 import prettier from "prettier";
 import yaml from "js-yaml";
 import { Api } from "./internal";
@@ -40,14 +40,14 @@ export class Context {
     const sdkIndexImports = this.indexApiExports
       .map(
         modelSeg =>
-          `import * as ${changeCase.pascal(modelSeg)}${apiSuffix} from "./api/${
-            this.serviceSeg
-          }/${modelSeg}";`
+          `import * as ${changeCase.pascalCase(
+            modelSeg
+          )}${apiSuffix} from "./api/${this.serviceSeg}/${modelSeg}";`
       )
       .concat(
         this.indexModelExports.map(
           serviceSeg =>
-            `import * as ${changeCase.pascal(
+            `import * as ${changeCase.pascalCase(
               serviceSeg
             )}Models from "./model/${serviceSeg}";`
         )
@@ -55,10 +55,10 @@ export class Context {
       .join(os.EOL);
 
     const sdkIndexExports = this.indexApiExports
-      .map(modelSeg => changeCase.pascal(modelSeg) + apiSuffix)
+      .map(modelSeg => changeCase.pascalCase(modelSeg) + apiSuffix)
       .concat(
         this.indexModelExports.map(
-          serviceSeg => `${changeCase.pascal(serviceSeg)}Models`
+          serviceSeg => `${changeCase.pascalCase(serviceSeg)}Models`
         )
       )
       .join(",");
@@ -72,9 +72,7 @@ export class Context {
       yaml.safeDump({
         // eslint-disable-next-line @typescript-eslint/camelcase
         depend_contracts: Array.from(this.apiMap.values()).map(api => ({
-          name: `easyops.api.${this.serviceSeg}.${api.modelSeg}.${
-            api.originalName
-          }`,
+          name: `easyops.api.${this.serviceSeg}.${api.modelSeg}.${api.originalName}`,
           version: `^${Number(api.doc.version).toFixed(1)}`
         }))
       })

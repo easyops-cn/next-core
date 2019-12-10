@@ -26,15 +26,15 @@
     "@easyops/brick-kit": "^1.8.0",
     "@easyops/brick-utils": "^1.3.1",
     "@easyops/fontawesome-library": "^1.0.0",
-    "@fortawesome/react-fontawesome": "^0.1.7",
-    "antd": "^3.25.3",
+    "@fortawesome/react-fontawesome": "^0.1.8",
+    "antd": "^3.26.2",
     "history": "^4.10.1",
     "i18next": "^19.0.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-i18next": "^11.2.2",
+    "react-i18next": "^11.2.5",
     "react-transition-group": "^4.3.0"
   }
 }

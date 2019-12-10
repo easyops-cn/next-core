@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import klawSync from "klaw-sync";
-import changeCase from "change-case";
+import * as changeCase from "change-case";
 
 type FileWithContent = [string, string];
 
@@ -77,8 +77,8 @@ export function loadTemplate(
   });
 
   const translations: Record<string, string> = {
-    "$kebab-repo-name$": changeCase.kebab(repoName),
-    "$Title Repo Name$": changeCase.title(repoName),
+    "$kebab-repo-name$": changeCase.paramCase(repoName),
+    "$Title Repo Name$": changeCase.capitalCase(repoName),
     "$generator.version$": `v${packageJson.version}`,
     "$easyops-registry$": flags.internal
       ? "http://registry.npm.easyops.local"
