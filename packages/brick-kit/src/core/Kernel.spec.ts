@@ -108,7 +108,8 @@ describe("Kernel", () => {
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
-      id: "a"
+      id: "a",
+      name: "A"
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/a";
@@ -117,7 +118,8 @@ describe("Kernel", () => {
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
-      id: "b"
+      id: "b",
+      name: "B"
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/b";
@@ -126,19 +128,22 @@ describe("Kernel", () => {
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
-      id: "c"
+      id: "c",
+      name: "C"
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/c";
     kernel.updateWorkspaceStack();
     expect(kernel.getPreviousWorkspace()).toEqual({
       appId: "b",
+      appName: "B",
       url: "/b"
     });
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
-      id: "x"
+      id: "x",
+      name: "X"
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/x";

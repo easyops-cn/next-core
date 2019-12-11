@@ -5,6 +5,7 @@ export type RelatedApp = MicroAppModels.ModelObjectMicroApp;
 
 export interface VisitedWorkspace {
   appId: string;
+  appName: string;
   url: string;
 }
 

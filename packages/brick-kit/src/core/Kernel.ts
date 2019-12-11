@@ -192,24 +192,25 @@ export class Kernel {
 
   updateWorkspaceStack(): void {
     if (this.currentApp && this.currentApp.id) {
+      const workspace: VisitedWorkspace = {
+        appId: this.currentApp.id,
+        appName: this.currentApp.name,
+        url: this.currentUrl
+      };
       if (this.workspaceStack.length > 0) {
         const previousWorkspace = this.workspaceStack[
           this.workspaceStack.length - 1
         ];
         const relatedApps = this.getRelatedApps(previousWorkspace.appId);
         if (relatedApps.some(item => item.microAppId === this.currentApp.id)) {
-          previousWorkspace.appId = this.currentApp.id;
-          previousWorkspace.url = this.currentUrl;
+          Object.assign(previousWorkspace, workspace);
           return;
         }
       }
 
       const relatedApps = this.getRelatedApps(this.currentApp.id);
       if (relatedApps.length > 0) {
-        this.workspaceStack.push({
-          appId: this.currentApp.id,
-          url: this.currentUrl
-        });
+        this.workspaceStack.push(workspace);
         return;
       }
     }
