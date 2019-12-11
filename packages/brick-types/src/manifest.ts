@@ -14,6 +14,7 @@ export interface BootstrapData {
 export interface RuntimeBootstrapData extends BootstrapData {
   storyboards: RuntimeStoryboard[];
   microApps: MicroApp[];
+  originalStoryboards: Storyboard[];
 }
 
 export interface Settings {

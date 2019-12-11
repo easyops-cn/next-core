@@ -6,7 +6,8 @@ import {
   DesktopData,
   BrickTemplateFactory,
   UserInfo,
-  BrickPackage
+  BrickPackage,
+  Storyboard
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
@@ -15,9 +16,13 @@ import { RelatedApp } from "./interfaces";
 let kernel: Kernel;
 
 /* istanbul ignore next */
-// eslint-disable-next-line @typescript-eslint/camelcase
 export function _dev_only_getBrickPackages(): BrickPackage[] {
   return kernel.bootstrapData.brickPackages;
+}
+
+/* istanbul ignore next */
+export function _dev_only_getStoryboards(): Storyboard[] {
+  return kernel.bootstrapData.originalStoryboards;
 }
 
 export class Runtime {

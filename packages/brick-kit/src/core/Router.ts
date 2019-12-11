@@ -139,11 +139,7 @@ export class Router {
       }
     }
 
-    const {
-      mountPoints,
-      currentApp: previousApp,
-      currentUrl: previouseUrl
-    } = this.kernel;
+    const { mountPoints, currentApp: previousApp } = this.kernel;
     const currentApp = storyboard ? storyboard.app : undefined;
     // Storyboard maybe re-assigned, e.g. when open launchpad.
     const appChanged =

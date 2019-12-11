@@ -1,4 +1,4 @@
-import { sortBy } from "lodash";
+import { sortBy, cloneDeep } from "lodash";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
@@ -89,6 +89,7 @@ export class Kernel {
     );
     this.bootstrapData = {
       ...bootstrapResponse,
+      originalStoryboards: cloneDeep(bootstrapResponse.storyboards),
       microApps: bootstrapResponse.storyboards
         .map(storyboard => storyboard.app)
         .filter(Boolean)
