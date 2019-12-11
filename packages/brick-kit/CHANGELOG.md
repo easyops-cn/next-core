@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.8.1...@easyops/brick-kit@1.8.2) (2019-12-11)
+
+### Bug Fixes
+
+- remember previous workspace's app name ([c64c571](https://git.easyops.local/anyclouds/next-core/commits/c64c571))
+
 ## [1.8.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.8.0...@easyops/brick-kit@1.8.1) (2019-12-10)
 
 ### Bug Fixes
