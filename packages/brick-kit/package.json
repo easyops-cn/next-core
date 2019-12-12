@@ -41,7 +41,7 @@
     "lodash": "^4.17.15",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-i18next": "^11.2.5"
+    "react-i18next": "^11.2.6"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",
