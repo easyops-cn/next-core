@@ -10,6 +10,7 @@ import { ask } from "./ask";
 import { loadTemplate } from "./loaders/loadTemplate";
 import { TargetType, AskFlags } from "./interface";
 import { targetMap } from "./constant";
+import * as changeCase from "change-case";
 
 // 可以从命令行参数中指定生成类型。
 const { flags } = meow({
@@ -41,6 +42,8 @@ export async function create(): Promise<void> {
   let targetRoot: string;
   if (targetType === TargetType.A_NEW_BRICK) {
     targetRoot = path.join(pkgRoot, "src", brickName);
+  } else if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK) {
+    targetRoot = path.join(pkgRoot, "src", "data-providers");
   } else if (targetType === TargetType.A_NEW_TEMPLATE) {
     targetRoot = path.join(pkgRoot, "src");
   } else {
@@ -125,15 +128,29 @@ export default storyboard;`,
   }
 
   if (
-    [TargetType.A_NEW_BRICK, TargetType.A_NEW_PACKAGE_OF_BRICKS].includes(
-      targetType
-    )
+    [
+      TargetType.A_NEW_BRICK,
+      TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      TargetType.A_NEW_PACKAGE_OF_BRICKS
+    ].includes(targetType)
   ) {
-    // 如果是新建构件/构件库，需要更新/新建 `index.ts`。
+    // 如果是新建构件/自定义provider构件/构件库，需要更新/新建 `index.ts`。
     const srcIndexTs = path.join(pkgRoot, "src", "index.ts");
-    fs.appendFileSync(srcIndexTs, `import "./${brickName}";${os.EOL}`);
+    if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK) {
+      fs.appendFileSync(
+        srcIndexTs,
+        `import "./data-providers/${changeCase.pascalCase(brickName)}";${
+          os.EOL
+        }`
+      );
+    } else {
+      fs.appendFileSync(srcIndexTs, `import "./${brickName}";${os.EOL}`);
+    }
 
-    if (targetType === TargetType.A_NEW_BRICK) {
+    if (
+      targetType === TargetType.A_NEW_BRICK ||
+      targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
+    ) {
       console.log(
         `${chalk.bold("File updated")}: ./${path.relative(
           process.cwd(),

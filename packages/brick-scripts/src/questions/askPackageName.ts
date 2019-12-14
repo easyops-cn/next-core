@@ -11,7 +11,10 @@ export function askPackageName({
   targetType: TargetType;
   appRoot: string;
 }): inquirer.DistinctQuestion<{ packageName: string }> {
-  if (targetType === TargetType.A_NEW_BRICK) {
+  if (
+    targetType === TargetType.A_NEW_BRICK ||
+    targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
+  ) {
     // 读取当前的 `@bricks/*` 作为候选列表。
     const root = path.join(appRoot, "bricks");
     const pkgList = fs

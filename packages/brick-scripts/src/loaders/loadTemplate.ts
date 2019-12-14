@@ -85,6 +85,7 @@ export async function loadTemplate({
     [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks-pkg",
     [TargetType.A_NEW_PACKAGE_OF_LIBS]: "libs-pkg",
     [TargetType.A_NEW_PACKAGE_OF_MICRO_APPS]: "micro-apps-pkg",
+    [TargetType.A_NEW_CUSTOM_PROVIDER_BRICK]: "custom-provider-brick",
     [TargetType.A_NEW_PACKAGE_OF_PROVIDERS]: "providers-pkg",
     [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll-pkg",
     [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg",
@@ -116,6 +117,7 @@ export async function loadTemplate({
     $CONSTANT_PACKAGE_NAME$: changeCase.constantCase(packageName),
     $PascalBrickName$: changeCase.pascalCase(brickName),
     "$kebab-brick-name$": `${packageName}.${brickName}`,
+    "$kebab-custom-provider-brick-name$": `${packageName}.provider-${brickName}`,
     "$generator.version$": `v${packageJson.version}`,
     "$brick.container.version$": brickContainerVersion,
     "$kebab-sdk-name$": sdkName,
@@ -244,6 +246,7 @@ export async function loadTemplate({
 
   if (
     targetType !== TargetType.A_NEW_BRICK &&
+    targetType !== TargetType.A_NEW_CUSTOM_PROVIDER_BRICK &&
     targetType !== TargetType.A_NEW_TEMPLATE &&
     targetType !== TargetType.TRANSFORM_A_MICRO_APP &&
     targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES

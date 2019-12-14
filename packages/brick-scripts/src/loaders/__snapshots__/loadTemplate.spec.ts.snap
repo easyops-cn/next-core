@@ -94,6 +94,48 @@ customElements.define(\\"for-good.for-better\\", ForBetterElement);
 ]
 `;
 
+exports[`loadTemplate should create a new custom provider brick 1`] = `
+Array [
+  Array [
+    "dist/GetData.spec.ts",
+    "// Ref https://github.com/jsdom/jsdom/issues/1030
+import \\"document-register-element\\";
+import {
+  GetData,
+  GetDataParams
+} from \\"./GetData\\";
+
+describe(\\"GetData\\", () => {
+  it.each<[GetDataParams, any]>([[{}, null]])(
+    \\"GetData(%j) should work\\",
+    (params, result) => {
+      expect(GetData(params)).toEqual(result);
+    }
+  );
+});
+",
+  ],
+  Array [
+    "dist/GetData.ts",
+    "import { createProviderClass } from \\"@easyops/brick-utils\\";
+
+export interface GetDataParams {}
+
+export function GetData(
+  params: GetDataParams
+): Promise<any> {
+  return null;
+}
+
+customElements.define(
+  \\"for-good.provider-get-data\\",
+  createProviderClass(GetData)
+);
+",
+  ],
+]
+`;
+
 exports[`loadTemplate should create a new package of bricks 1`] = `
 Array [
   Array [

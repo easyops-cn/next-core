@@ -21,6 +21,7 @@ const spyOnAskTemplateName = askTemplateName as jest.Mock;
 describe("ask", () => {
   test.each<[TargetType, string, string, string]>([
     [TargetType.A_NEW_BRICK, "package-a", "brick-a", ""],
+    [TargetType.A_NEW_CUSTOM_PROVIDER_BRICK, "package-a", "brick-b", ""],
     [TargetType.A_NEW_PACKAGE_OF_LIBS, "lib-a", "", ""],
     [TargetType.A_NEW_TEMPLATE, "package-b", "", "template-b"]
   ])(

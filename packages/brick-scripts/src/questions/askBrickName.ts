@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import { TargetType } from "../interface";
+import * as changeCase from "change-case";
 
 export function askBrickName({
   targetType,
@@ -31,14 +32,28 @@ export function askBrickName({
       if (!pass) {
         return "Please enter a lower-kebab-case brick name (and must include a `-`).";
       }
-
-      const relativePath = path.join("bricks", packageName, "src", value);
+      const relativePath =
+        targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
+          ? path.join(
+              "bricks",
+              packageName,
+              "src",
+              "data-providers",
+              `${changeCase.pascalCase(value)}.ts`
+            )
+          : path.join("bricks", packageName, "src", value);
       const root = path.join(appRoot, relativePath);
       if (fs.existsSync(root)) {
         return `Brick "${relativePath}" exists, please enter another name.`;
       }
 
       return true;
+    },
+    transformer(value) {
+      if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK) {
+        return `provider-${value}`;
+      }
+      return value;
     }
   };
 }
