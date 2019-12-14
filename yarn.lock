@@ -13308,12 +13308,17 @@ ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.0.0, ws@^7.2.0:
+ws@^7.0.0:
   version "7.2.0"
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.2.0.tgz#422eda8c02a4b5dba7744ba66eebbd84bcef0ec7"
   integrity sha1-Qi7ajAKktdundEumbuu9hLzvDsc=
   dependencies:
     async-limiter "^1.0.0"
+
+ws@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.npm.taobao.org/ws/download/ws-7.2.1.tgz#03ed52423cd744084b2cf42ed197c8b65a936b8e"
+  integrity sha1-A+1SQjzXRAhLLPQu0ZfItlqTa44=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
