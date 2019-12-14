@@ -2718,10 +2718,10 @@ ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-antd@^3.26.2:
-  version "3.26.2"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-3.26.2.tgz#3c6068612a1790bf0cd3049ada70e8efb8b7c53e"
-  integrity sha1-PGBoYSoXkL8M0wSa2nDo77i3xT4=
+antd@^3.26.3:
+  version "3.26.3"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-3.26.3.tgz?cache=0&sync_timestamp=1576329975377&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.26.3.tgz#046747567d25e381b1b298c3a5c5b970ed716a0d"
+  integrity sha1-BGdHVn0l44GxspjDpcW5cO1xag0=
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -2744,8 +2744,8 @@ antd@^3.26.2:
     rc-cascader "~0.17.4"
     rc-checkbox "~2.1.6"
     rc-collapse "~1.11.3"
-    rc-dialog "~7.5.2"
-    rc-drawer "~3.0.0"
+    rc-dialog "~7.6.0"
+    rc-drawer "~3.1.1"
     rc-dropdown "~2.4.1"
     rc-editor-mention "^1.1.13"
     rc-form "^2.4.10"
@@ -2769,7 +2769,7 @@ antd@^3.26.2:
     rc-tree-select "~2.9.1"
     rc-trigger "^2.6.2"
     rc-upload "~2.9.1"
-    rc-util "^4.10.0"
+    rc-util "^4.16.1"
     react-lazy-load "^3.0.13"
     react-lifecycles-compat "^3.0.4"
     react-slick "~0.25.2"
@@ -10515,23 +10515,23 @@ rc-collapse@~1.11.3:
     react-is "^16.7.0"
     shallowequal "^1.1.0"
 
-rc-dialog@~7.5.2:
-  version "7.5.2"
-  resolved "https://registry.npm.taobao.org/rc-dialog/download/rc-dialog-7.5.2.tgz#56d61f76ffc1b93655d779b0d2e2831c3a0db986"
-  integrity sha1-VtYfdv/BuTZV13mw0uKDHDoNuYY=
+rc-dialog@~7.6.0:
+  version "7.6.0"
+  resolved "https://registry.npm.taobao.org/rc-dialog/download/rc-dialog-7.6.0.tgz#6467b75f5b60038129bf2e1b003b264281949c09"
+  integrity sha1-ZGe3X1tgA4Epvy4bADsmQoGUnAk=
   dependencies:
     babel-runtime "6.x"
     rc-animate "2.x"
-    rc-util "^4.8.1"
+    rc-util "^4.16.1"
 
-rc-drawer@~3.0.0:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/rc-drawer/download/rc-drawer-3.0.2.tgz#1c42b2b7790040344f8f05f1d132b1ef0e97b783"
-  integrity sha1-HEKyt3kAQDRPjwXx0TKx7w6Xt4M=
+rc-drawer@~3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/rc-drawer/download/rc-drawer-3.1.1.tgz?cache=0&sync_timestamp=1576241267018&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frc-drawer%2Fdownload%2Frc-drawer-3.1.1.tgz#25389488f3516b2af1f053eaf2574e3135ea265a"
+  integrity sha1-JTiUiPNRayrx8FPq8ldOMTXqJlo=
   dependencies:
     babel-runtime "^6.26.0"
     classnames "^2.2.6"
-    rc-util "^4.11.2"
+    rc-util "^4.16.1"
     react-lifecycles-compat "^3.0.4"
 
 rc-dropdown@~2.4.1:
@@ -10853,10 +10853,21 @@ rc-upload@~2.9.1:
     prop-types "^15.5.7"
     warning "4.x"
 
-rc-util@^4.0.4, rc-util@^4.1.1, rc-util@^4.10.0, rc-util@^4.11.1, rc-util@^4.11.2, rc-util@^4.13.0, rc-util@^4.15.3, rc-util@^4.3.0, rc-util@^4.4.0, rc-util@^4.5.0, rc-util@^4.5.1, rc-util@^4.6.0, rc-util@^4.8.1:
+rc-util@^4.0.4, rc-util@^4.1.1, rc-util@^4.11.1, rc-util@^4.13.0, rc-util@^4.15.3, rc-util@^4.3.0, rc-util@^4.4.0, rc-util@^4.5.0, rc-util@^4.5.1, rc-util@^4.6.0:
   version "4.15.3"
   resolved "https://registry.npm.taobao.org/rc-util/download/rc-util-4.15.3.tgz?cache=0&sync_timestamp=1573293101109&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frc-util%2Fdownload%2Frc-util-4.15.3.tgz#80ff9f6c706b3fc2e5d70e93fcb4659e2a754bb3"
   integrity sha1-gP+fbHBrP8Ll1w6T/LRlnip1S7M=
+  dependencies:
+    add-dom-event-listener "^1.1.0"
+    babel-runtime "6.x"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.4"
+    shallowequal "^1.1.0"
+
+rc-util@^4.16.1:
+  version "4.16.1"
+  resolved "https://registry.npm.taobao.org/rc-util/download/rc-util-4.16.1.tgz#bf9070ab219a69624c047026a8c68f71225396a2"
+  integrity sha1-v5BwqyGaaWJMBHAmqMaPcSJTlqI=
   dependencies:
     add-dom-event-listener "^1.1.0"
     babel-runtime "6.x"
