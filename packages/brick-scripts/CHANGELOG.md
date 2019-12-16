@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.31...@easyops/brick-scripts@1.2.0) (2019-12-16)
+
+### Features
+
+- support create a new custom provider brick by `yarn yo` ([eff0f47](https://git.easyops.local/anyclouds/next-core/commits/eff0f47))
+
 ## [1.1.31](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.1.30...@easyops/brick-scripts@1.1.31) (2019-12-12)
 
 **Note:** Version bump only for package @easyops/brick-scripts

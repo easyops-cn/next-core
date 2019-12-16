@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.8...@easyops/brick-icons@1.7.0) (2019-12-16)
+
+### Features
+
+- add icon refs ATM-535 ([3eaac14](https://git.easyops.local/anyclouds/next-core/commits/3eaac14))
+
 ## [1.6.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.7...@easyops/brick-icons@1.6.8) (2019-12-12)
 
 **Note:** Version bump only for package @easyops/brick-icons
