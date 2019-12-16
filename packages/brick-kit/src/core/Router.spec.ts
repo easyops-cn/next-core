@@ -232,15 +232,15 @@ describe("Router", () => {
     jest.clearAllMocks();
     mockHistoryPush({
       pathname: "/first",
-      search: "?ok=1"
+      search: "?ok=1",
+      key: "123"
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
     mockHistoryPush({
       pathname: "/first",
       search: "?ok=1",
-      hash: "#good",
-      key: "123"
+      hash: "#good"
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
