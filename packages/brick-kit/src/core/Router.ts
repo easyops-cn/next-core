@@ -37,10 +37,14 @@ export class Router {
     this.prevLocation = history.location;
     history.listen(async (location: PluginLocation) => {
       let ignoreRendering = false;
-      const omittedLocationProps: any = {
-        hash: undefined,
-        key: undefined
+      const omittedLocationProps: Partial<PluginLocation> = {
+        hash: null
       };
+      // If the new location is triggered by browser pop state, the `key` is undefined.
+      // Then we omit the "key" when checking whether locations are equal.
+      if (location.key === undefined) {
+        omittedLocationProps.key = null;
+      }
       if (
         locationsAreEqual(
           { ...this.prevLocation, ...omittedLocationProps },
