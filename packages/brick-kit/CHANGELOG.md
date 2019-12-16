@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.9.0...@easyops/brick-kit@1.9.1) (2019-12-16)
+
+### Bug Fixes
+
+- **router:** omit key only if new location's key is undefined when ([6b0b4d1](https://git.easyops.local/anyclouds/next-core/commits/6b0b4d1))
+
 # [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.8.2...@easyops/brick-kit@1.9.0) (2019-12-11)
 
 ### Features
