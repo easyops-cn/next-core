@@ -63,6 +63,17 @@ describe("loadTemplate", () => {
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
   });
+  it("should create a new custom provider brick", async () => {
+    const files = await loadTemplate({
+      targetType: TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      packageName: "for-good",
+      brickName: "get-data",
+      templateName: "",
+      targetRoot: "dist",
+      docRoot: "doc"
+    });
+    expect(files).toMatchSnapshot();
+  });
   it("should create a new package of providers", async () => {
     const files = await loadTemplate({
       targetType: TargetType.A_NEW_PACKAGE_OF_PROVIDERS,

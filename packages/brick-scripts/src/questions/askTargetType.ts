@@ -14,6 +14,7 @@ export function askTargetType(): inquirer.ListQuestion<{
       TargetType.A_NEW_PACKAGE_OF_BRICKS,
       TargetType.A_NEW_PACKAGE_OF_LIBS,
       TargetType.A_NEW_PACKAGE_OF_MICRO_APPS,
+      TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
       TargetType.A_NEW_PACKAGE_OF_PROVIDERS,
       TargetType.A_NEW_TEMPLATE,
       TargetType.A_NEW_PACKAGE_OF_TEMPLATES,

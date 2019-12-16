@@ -48,31 +48,37 @@ export async function ask(
   let brickName = "";
   let templateName = "";
   if (
-    [TargetType.A_NEW_BRICK, TargetType.A_NEW_PACKAGE_OF_BRICKS].includes(
-      targetType
-    )
+    [
+      TargetType.A_NEW_BRICK,
+      TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      TargetType.A_NEW_PACKAGE_OF_BRICKS
+    ].includes(targetType)
   ) {
-    // 如果是新建构件/构件库，额外询问新构件的名字。
-    brickName = (await inquirer.prompt(
-      askBrickName({
-        targetType,
-        packageName,
-        appRoot
-      })
-    )).brickName;
+    // 如果是新建构件/新建自定义provider构件/构件库，额外询问新构件的名字。
+    brickName = (
+      await inquirer.prompt(
+        askBrickName({
+          targetType,
+          packageName,
+          appRoot
+        })
+      )
+    ).brickName;
   } else if (
     [TargetType.A_NEW_TEMPLATE, TargetType.A_NEW_PACKAGE_OF_TEMPLATES].includes(
       targetType
     )
   ) {
     // 如果是新建模板/模板库，额外询问新模板的名字。
-    templateName = (await inquirer.prompt(
-      askTemplateName({
-        targetType,
-        packageName,
-        appRoot
-      })
-    )).templateName;
+    templateName = (
+      await inquirer.prompt(
+        askTemplateName({
+          targetType,
+          packageName,
+          appRoot
+        })
+      )
+    ).templateName;
   }
 
   return {

@@ -39,6 +39,13 @@ describe("askPackageName", () => {
     }) as any;
     expect(choices).toEqual(["fake-package-sdk"]);
   });
+  it("should return choices of package for new custom provider brick", () => {
+    const { choices } = askPackageName({
+      targetType: TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      appRoot: process.cwd()
+    }) as any;
+    expect(choices).toEqual(["fake-package-sdk"]);
+  });
   it("should return choices of package for new providers", () => {
     const { choices } = askPackageName({
       targetType: TargetType.A_NEW_PACKAGE_OF_PROVIDERS,
