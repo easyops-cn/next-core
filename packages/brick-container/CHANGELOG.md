@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.8.4...@easyops/brick-container@1.9.0) (2019-12-17)
+
+### Bug Fixes
+
+- silent errors when parsing local storyboards ([e45532f](https://git.easyops.local/anyclouds/next-core/commits/e45532f))
+
+### Features
+
+- support `yarn serve --auto-remote` ([d87cd79](https://git.easyops.local/anyclouds/next-core/commits/d87cd79))
+
 ## [1.8.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.8.3...@easyops/brick-container@1.8.4) (2019-12-16)
 
 **Note:** Version bump only for package @easyops/brick-container
