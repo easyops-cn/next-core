@@ -7,12 +7,19 @@ function getNavbar(env) {
 }
 
 function getStoryboardsByMicroApps(env) {
+  return getNamesOfMicroApps(env)
+    .map(name => getSingleStoryboard(env, name))
+    .filter(Boolean);
+}
+
+function getNamesOfMicroApps(env) {
+  if (!fs.existsSync(env.microAppsDir)) {
+    return [];
+  }
   return fs
     .readdirSync(env.microAppsDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name)
-    .map(name => getSingleStoryboard(env, name))
-    .filter(Boolean);
+    .map(dirent => dirent.name);
 }
 
 function getSingleStoryboard(env, microAppName) {
@@ -33,10 +40,19 @@ function getSingleStoryboard(env, microAppName) {
 }
 
 function getBrickPackages(env) {
-  return fs
-    .readdirSync(env.brickPackagesDir)
+  return getNamesOfBrickPackages(env)
     .map(name => getSingleBrickPackage(env, name))
     .filter(Boolean);
+}
+
+function getNamesOfBrickPackages(env) {
+  if (!fs.existsSync(env.brickPackagesDir)) {
+    return [];
+  }
+  return fs
+    .readdirSync(env.brickPackagesDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
 }
 
 function getSingleBrickPackage(env, brickPackageName) {
@@ -62,10 +78,19 @@ function getSingleBrickPackage(env, brickPackageName) {
 }
 
 function getTemplatePackages(env) {
-  return fs
-    .readdirSync(env.templatePackagesDir)
+  return getNamesOfTemplatePackages(env)
     .map(name => getSingleTemplatePackage(env, name))
     .filter(Boolean);
+}
+
+function getNamesOfTemplatePackages(env) {
+  if (!fs.existsSync(env.templatePackagesDir)) {
+    return [];
+  }
+  return fs
+    .readdirSync(env.templatePackagesDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
 }
 
 function getSingleTemplatePackage(env, templatePackageName) {
@@ -120,3 +145,6 @@ exports.getSingleBrickPackage = getSingleBrickPackage;
 exports.getTemplatePackages = getTemplatePackages;
 exports.getSingleTemplatePackage = getSingleTemplatePackage;
 exports.getSettings = getSettings;
+exports.getNamesOfMicroApps = getNamesOfMicroApps;
+exports.getNamesOfBrickPackages = getNamesOfBrickPackages;
+exports.getNamesOfTemplatePackages = getNamesOfTemplatePackages;
