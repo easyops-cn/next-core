@@ -21,9 +21,15 @@ function getSingleStoryboard(env, microAppName) {
     microAppName,
     "storyboard.json"
   );
-  return fs.existsSync(storyboardJsonFile)
-    ? JSON.parse(fs.readFileSync(storyboardJsonFile, "utf8"))
-    : undefined;
+  let storyboard = undefined;
+  if (fs.existsSync(storyboardJsonFile)) {
+    try {
+      storyboard = JSON.parse(fs.readFileSync(storyboardJsonFile, "utf8"));
+    } catch (e) {
+      console.error(`JSON.parse() error: ${storyboardJsonFile}`);
+    }
+  }
+  return storyboard;
 }
 
 function getBrickPackages(env) {
