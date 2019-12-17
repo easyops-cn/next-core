@@ -1,7 +1,7 @@
 {
   "name": "@easyops/brick-container",
   "version": "1.8.4",
-  "description": "> TODO: description",
+  "description": "Brick Container Server",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-container",
   "license": "UNLICENSED",
   "main": "dist/index.html",

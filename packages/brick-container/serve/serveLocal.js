@@ -26,7 +26,7 @@ module.exports = (env, app) => {
   // 开发时默认拦截 bootstrap 请求。
   // 如果设定 `REMOTE=true`，则透传远端请求。
   if (useRemote) {
-    // 设定透传远端请求时，可以指定特定的 brick packages 和 micro apps 使用本地文件。
+    // 设定透传远端请求时，可以指定特定的 brick packages, micro apps, template packages 使用本地文件。
     if (localBrickPackages.length > 0) {
       localBrickPackages.map(pkgId => {
         // 直接返回插件 js 文件。
