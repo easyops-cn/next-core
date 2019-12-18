@@ -18,11 +18,13 @@ module.exports = cwd => {
       Options
         --auto-remote       Use auto remote mode (use all local existed packages, combined with remote packages)
         --remote            Use remote mode (use all remote packages except those specified by \`--local-*\`)
-        --server            Set server address, defaults to "192.168.100.162"
+        --server            Set remote server address, defaults to "192.168.100.162"
         --subdir            Set base href to "/next/" instead of "/"
         --local-bricks      Specify local brick packages to be used in remote mode
         --local-micro-apps  Specify local micro apps to be used in remote mode
-        --local-templates   Specify local brick packages to be used in remote mode
+        --local-templates   Specify local template packages to be used in remote mode
+        --local-settings    Use local settings instead of remote settings in remote mode
+        --merge-settings    Merge remote settings by local settings in remote mode
         --port              Set local server port, defaults to "8081"
         --ws-port           Set local WebSocket server port, defaults to "8090"
         --offline           Use offline mode
@@ -49,6 +51,12 @@ module.exports = cwd => {
           },
           localTemplates: {
             type: "string"
+          },
+          localSettings: {
+            type: "boolean"
+          },
+          mergeSettings: {
+            type: "boolean"
           },
           port: {
             type: "string",
@@ -101,6 +109,11 @@ module.exports = cwd => {
     ? process.env.LOCAL_TEMPLATES.split(",")
     : [];
 
+  const useLocalSettings =
+    process.env.LOCAL_SETTINGS === "TRUE" || flags.localSettings;
+  const useMergeSettings =
+    process.env.MERGE_SETTINGS === "TRUE" || flags.mergeSettings;
+
   function getBrickNextDir() {
     if (cwd) {
       return cwd;
@@ -128,6 +141,8 @@ module.exports = cwd => {
     localBrickPackages,
     localMicroApps,
     localTemplates,
+    useLocalSettings,
+    useMergeSettings,
     brickNextDir,
     microAppsDir,
     brickPackagesDir,

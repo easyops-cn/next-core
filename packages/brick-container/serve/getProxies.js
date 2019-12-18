@@ -2,7 +2,10 @@ const modifyResponse = require("./modifyResponse");
 const {
   getSingleBrickPackage,
   getSingleStoryboard,
-  getSingleTemplatePackage
+  getSingleTemplatePackage,
+  getSettings,
+  mergeSettings,
+  getUserSettings
 } = require("./utils");
 
 module.exports = env => {
@@ -14,6 +17,8 @@ module.exports = env => {
     localBrickPackages,
     localMicroApps,
     localTemplates,
+    useLocalSettings,
+    useMergeSettings,
     server
   } = env;
 
@@ -31,7 +36,9 @@ module.exports = env => {
     if (
       localBrickPackages.length > 0 ||
       localMicroApps.length > 0 ||
-      localTemplates.length > 0
+      localTemplates.length > 0 ||
+      useLocalSettings ||
+      useMergeSettings
     ) {
       otherProxyOptions.onProxyRes = (proxyRes, req, res) => {
         // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
@@ -78,6 +85,11 @@ module.exports = env => {
                     .map(id => getSingleTemplatePackage(env, id))
                     .filter(Boolean)
                 );
+            }
+            if (useLocalSettings) {
+              data.settings = getSettings();
+            } else if (useMergeSettings) {
+              data.settings = mergeSettings(data.settings, getUserSettings());
             }
             return JSON.stringify(result);
           });

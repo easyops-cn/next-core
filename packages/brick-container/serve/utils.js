@@ -119,22 +119,29 @@ function getSingleTemplatePackage(env, templatePackageName) {
   }
 }
 
+function mergeSettings(defaultSettings, userSettings) {
+  const { feature_flags: featureFlags, homepage, brand } = userSettings;
+  Object.assign(defaultSettings.featureFlags, featureFlags);
+  Object.assign(defaultSettings, { homepage });
+  Object.assign(defaultSettings.brand, brand);
+  return defaultSettings;
+}
+
+function getUserSettings() {
+  const yamlPath = path.join(process.cwd(), "dev-settings.yaml");
+  if (!fs.existsSync(yamlPath)) {
+    return {};
+  }
+  return yaml.safeLoad(fs.readFileSync(yamlPath), "utf8");
+}
+
 function getSettings() {
   const defaultSettings = {
     featureFlags: {},
     homepage: "/",
-    brand: { base_title: "DevOps 管理专家" }
+    brand: {}
   };
-  const yamlPath = path.join(process.cwd(), "dev-settings.yaml");
-  if (!fs.existsSync(yamlPath)) {
-    return defaultSettings;
-  }
-  const userSettings = yaml.safeLoad(fs.readFileSync(yamlPath), "utf8");
-  const { feature_flags: featureFlags, homepage, brand } = userSettings;
-  Object.assign(defaultSettings.featureFlags, featureFlags);
-  Object.assign(defaultSettings, { homepage });
-  Object.assign(defaultSettings, { brand });
-  return defaultSettings;
+  return mergeSettings(defaultSettings, getUserSettings());
 }
 
 exports.getNavbar = getNavbar;
@@ -145,6 +152,8 @@ exports.getSingleBrickPackage = getSingleBrickPackage;
 exports.getTemplatePackages = getTemplatePackages;
 exports.getSingleTemplatePackage = getSingleTemplatePackage;
 exports.getSettings = getSettings;
+exports.mergeSettings = mergeSettings;
+exports.getUserSettings = getUserSettings;
 exports.getNamesOfMicroApps = getNamesOfMicroApps;
 exports.getNamesOfBrickPackages = getNamesOfBrickPackages;
 exports.getNamesOfTemplatePackages = getNamesOfTemplatePackages;
