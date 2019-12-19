@@ -3417,12 +3417,12 @@ camel-case@3.0.x:
     no-case "^2.2.0"
     upper-case "^1.1.1"
 
-camel-case@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npm.taobao.org/camel-case/download/camel-case-4.1.0.tgz?cache=0&sync_timestamp=1575601570648&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcamel-case%2Fdownload%2Fcamel-case-4.1.0.tgz#bdfcea5134eb8dc928e13c1ee84fd5635ba65e25"
-  integrity sha1-vfzqUTTrjcko4Twe6E/VY1umXiU=
+camel-case@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npm.taobao.org/camel-case/download/camel-case-4.1.1.tgz?cache=0&sync_timestamp=1576748709736&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcamel-case%2Fdownload%2Fcamel-case-4.1.1.tgz#1fc41c854f00e2f7d0139dfeba1542d6896fe547"
+  integrity sha1-H8QchU8A4vfQE53+uhVC1olv5Uc=
   dependencies:
-    pascal-case "^3.1.0"
+    pascal-case "^3.1.1"
     tslib "^1.10.0"
 
 camelcase-keys@^2.0.0:
@@ -3482,12 +3482,12 @@ caniuse-lite@^1.0.30001015:
   resolved "https://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30001015.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcaniuse-lite%2Fdownload%2Fcaniuse-lite-1.0.30001015.tgz#15a7ddf66aba786a71d99626bc8f2b91c6f0f5f0"
   integrity sha1-Fafd9mq6eGpx2ZYmvI8rkcbw9fA=
 
-capital-case@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npm.taobao.org/capital-case/download/capital-case-1.0.2.tgz#d82a7b3430c521ce700b397bd21b979843a731db"
-  integrity sha1-2Cp7NDDFIc5wCzl70huXmEOnMds=
+capital-case@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npm.taobao.org/capital-case/download/capital-case-1.0.3.tgz?cache=0&sync_timestamp=1576722674765&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcapital-case%2Fdownload%2Fcapital-case-1.0.3.tgz#339bd77e8fab6cf75111d4fca509b3edf7c117c8"
+  integrity sha1-M5vXfo+rbPdREdT8pQmz7ffBF8g=
   dependencies:
-    no-case "^3.0.2"
+    no-case "^3.0.3"
     tslib "^1.10.0"
     upper-case-first "^2.0.1"
 
@@ -3527,22 +3527,22 @@ chalk@^3.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-change-case@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npm.taobao.org/change-case/download/change-case-4.1.0.tgz?cache=0&sync_timestamp=1575601588183&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchange-case%2Fdownload%2Fchange-case-4.1.0.tgz#3db027d8655ee11b0eaf2adf14c1c9449572a857"
-  integrity sha1-PbAn2GVe4RsOryrfFMHJRJVyqFc=
+change-case@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npm.taobao.org/change-case/download/change-case-4.1.1.tgz?cache=0&sync_timestamp=1576721536235&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchange-case%2Fdownload%2Fchange-case-4.1.1.tgz#d5005709275952e7963fed7b91e4f9fdb6180afa"
+  integrity sha1-1QBXCSdZUueWP+17keT5/bYYCvo=
   dependencies:
-    camel-case "^4.1.0"
-    capital-case "^1.0.2"
-    constant-case "^3.0.2"
-    dot-case "^3.0.2"
-    header-case "^2.0.2"
-    no-case "^3.0.2"
-    param-case "^3.0.2"
-    pascal-case "^3.1.0"
-    path-case "^3.0.2"
-    sentence-case "^3.0.2"
-    snake-case "^3.0.2"
+    camel-case "^4.1.1"
+    capital-case "^1.0.3"
+    constant-case "^3.0.3"
+    dot-case "^3.0.3"
+    header-case "^2.0.3"
+    no-case "^3.0.3"
+    param-case "^3.0.3"
+    pascal-case "^3.1.1"
+    path-case "^3.0.3"
+    sentence-case "^3.0.3"
+    snake-case "^3.0.3"
     tslib "^1.10.0"
 
 chardet@^0.7.0:
@@ -3902,12 +3902,12 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
-constant-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/constant-case/download/constant-case-3.0.2.tgz?cache=0&sync_timestamp=1575601566270&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fconstant-case%2Fdownload%2Fconstant-case-3.0.2.tgz#e05225ae43e872b208b72de655bcb88143db3ec2"
-  integrity sha1-4FIlrkPocrIIty3mVby4gUPbPsI=
+constant-case@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/constant-case/download/constant-case-3.0.3.tgz?cache=0&sync_timestamp=1576721538302&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fconstant-case%2Fdownload%2Fconstant-case-3.0.3.tgz#ac910a99caf3926ac5112f352e3af599d8c5fc0a"
+  integrity sha1-rJEKmcrzkmrFES81Ljr1mdjF/Ao=
   dependencies:
-    no-case "^3.0.2"
+    no-case "^3.0.3"
     tslib "^1.10.0"
     upper-case "^2.0.1"
 
@@ -4911,12 +4911,12 @@ domutils@^1.5.1, domutils@^1.7.0:
     dom-serializer "0"
     domelementtype "1"
 
-dot-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/dot-case/download/dot-case-3.0.2.tgz?cache=0&sync_timestamp=1575601565914&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdot-case%2Fdownload%2Fdot-case-3.0.2.tgz#6758d86d3e7b69adc0fcfad23a845676c329f7d9"
-  integrity sha1-Z1jYbT57aa3A/PrSOoRWdsMp99k=
+dot-case@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/dot-case/download/dot-case-3.0.3.tgz?cache=0&sync_timestamp=1576721538631&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdot-case%2Fdownload%2Fdot-case-3.0.3.tgz#21d3b52efaaba2ea5fda875bb1aa8124521cf4aa"
+  integrity sha1-IdO1Lvqroupf2odbsaqBJFIc9Ko=
   dependencies:
-    no-case "^3.0.2"
+    no-case "^3.0.3"
     tslib "^1.10.0"
 
 dot-prop@^3.0.0:
@@ -6265,12 +6265,12 @@ he@1.2.x:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/he/download/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
 
-header-case@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/header-case/download/header-case-2.0.2.tgz?cache=0&sync_timestamp=1575601565709&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fheader-case%2Fdownload%2Fheader-case-2.0.2.tgz#0e4105f6a2489afdf40cfb65c6b24728d1d02ab2"
-  integrity sha1-DkEF9qJImv30DPtlxrJHKNHQKrI=
+header-case@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/header-case/download/header-case-2.0.3.tgz#8a7407d16edfd5c970f8ebb116e6383f855b5a72"
+  integrity sha1-inQH0W7f1clw+OuxFuY4P4VbWnI=
   dependencies:
-    capital-case "^1.0.2"
+    capital-case "^1.0.3"
     tslib "^1.10.0"
 
 hex-color-regex@^1.1.0:
@@ -8624,10 +8624,10 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
-no-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/no-case/download/no-case-3.0.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fno-case%2Fdownload%2Fno-case-3.0.2.tgz#2b03928510318591854c0423e504d13b21234263"
-  integrity sha1-KwOShRAxhZGFTAQj5QTROyEjQmM=
+no-case@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/no-case/download/no-case-3.0.3.tgz?cache=0&sync_timestamp=1576721537540&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fno-case%2Fdownload%2Fno-case-3.0.3.tgz#c21b434c1ffe48b39087e86cfb4d2582e9df18f8"
+  integrity sha1-whtDTB/+SLOQh+hs+00lgunfGPg=
   dependencies:
     lower-case "^2.0.1"
     tslib "^1.10.0"
@@ -9218,12 +9218,12 @@ param-case@2.1.x:
   dependencies:
     no-case "^2.2.0"
 
-param-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/param-case/download/param-case-3.0.2.tgz#2518860c89ef22add388c7293c26e48c4fe90c62"
-  integrity sha1-JRiGDInvIq3TiMcpPCbkjE/pDGI=
+param-case@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/param-case/download/param-case-3.0.3.tgz?cache=0&sync_timestamp=1576721509342&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fparam-case%2Fdownload%2Fparam-case-3.0.3.tgz#4be41f8399eff621c56eebb829a5e451d9801238"
+  integrity sha1-S+Qfg5nv9iHFbuu4KaXkUdmAEjg=
   dependencies:
-    dot-case "^3.0.2"
+    dot-case "^3.0.3"
     tslib "^1.10.0"
 
 parent-module@^1.0.0:
@@ -9310,12 +9310,12 @@ parseurl@~1.3.2, parseurl@~1.3.3:
   resolved "https://registry.npm.taobao.org/parseurl/download/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
   integrity sha1-naGee+6NEt/wUT7Vt2lXeTvC6NQ=
 
-pascal-case@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.npm.taobao.org/pascal-case/download/pascal-case-3.1.0.tgz?cache=0&sync_timestamp=1575601566105&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpascal-case%2Fdownload%2Fpascal-case-3.1.0.tgz#b3cc1273a957ceb0c37c029d2580ed59f585e4df"
-  integrity sha1-s8wSc6lXzrDDfAKdJYDtWfWF5N8=
+pascal-case@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/pascal-case/download/pascal-case-3.1.1.tgz?cache=0&sync_timestamp=1576721637306&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpascal-case%2Fdownload%2Fpascal-case-3.1.1.tgz#5ac1975133ed619281e88920973d2cd1f279de5f"
+  integrity sha1-WsGXUTPtYZKB6Ikglz0s0fJ53l8=
   dependencies:
-    no-case "^3.0.2"
+    no-case "^3.0.3"
     tslib "^1.10.0"
 
 pascalcase@^0.1.1:
@@ -9327,12 +9327,12 @@ path-browserify@0.0.1:
   resolved "https://registry.npm.taobao.org/path-browserify/download/path-browserify-0.0.1.tgz#e6c4ddd7ed3aa27c68a20cc4e50e1a4ee83bbc4a"
   integrity sha1-5sTd1+06onxoogzE5Q4aTug7vEo=
 
-path-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/path-case/download/path-case-3.0.2.tgz?cache=0&sync_timestamp=1575601570905&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpath-case%2Fdownload%2Fpath-case-3.0.2.tgz#ea7cf681e33e4fa5a8ec31ea91e5f02e22544ecc"
-  integrity sha1-6nz2geM+T6Wo7DHqkeXwLiJUTsw=
+path-case@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/path-case/download/path-case-3.0.3.tgz?cache=0&sync_timestamp=1576721539243&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpath-case%2Fdownload%2Fpath-case-3.0.3.tgz#d48119aed52c4712e036ca40c6b15984f909554f"
+  integrity sha1-1IEZrtUsRxLgNspAxrFZhPkJVU8=
   dependencies:
-    dot-case "^3.0.2"
+    dot-case "^3.0.3"
     tslib "^1.10.0"
 
 path-dirname@^1.0.0:
@@ -11727,12 +11727,12 @@ send@0.17.1:
     range-parser "~1.2.1"
     statuses "~1.5.0"
 
-sentence-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/sentence-case/download/sentence-case-3.0.2.tgz?cache=0&sync_timestamp=1575601565851&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsentence-case%2Fdownload%2Fsentence-case-3.0.2.tgz#c0274245ea0eeb9cce54268101ffbd7b98277b08"
-  integrity sha1-wCdCReoO65zOVCaBAf+9e5gnewg=
+sentence-case@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/sentence-case/download/sentence-case-3.0.3.tgz?cache=0&sync_timestamp=1576721537960&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsentence-case%2Fdownload%2Fsentence-case-3.0.3.tgz#47576e4adff7abf42c63c815b0543c9d2f85a930"
+  integrity sha1-R1duSt/3q/QsY8gVsFQ8nS+FqTA=
   dependencies:
-    no-case "^3.0.2"
+    no-case "^3.0.3"
     tslib "^1.10.0"
     upper-case-first "^2.0.1"
 
@@ -11892,12 +11892,12 @@ smart-buffer@4.0.2:
   version "4.0.2"
   resolved "http://registry.npm.taobao.org/smart-buffer/download/smart-buffer-4.0.2.tgz#5207858c3815cc69110703c6b94e46c15634395d"
 
-snake-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/snake-case/download/snake-case-3.0.2.tgz?cache=0&sync_timestamp=1575601565718&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsnake-case%2Fdownload%2Fsnake-case-3.0.2.tgz#2cc0eacf4edaab998f21af579b5a72b0766f91dd"
-  integrity sha1-LMDqz07aq5mPIa9Xm1pysHZvkd0=
+snake-case@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/snake-case/download/snake-case-3.0.3.tgz?cache=0&sync_timestamp=1576721539527&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsnake-case%2Fdownload%2Fsnake-case-3.0.3.tgz#c598b822ab443fcbb145ae8a82c5e43526d5bbee"
+  integrity sha1-xZi4IqtEP8uxRa6KgsXkNSbVu+4=
   dependencies:
-    dot-case "^3.0.2"
+    dot-case "^3.0.3"
     tslib "^1.10.0"
 
 snapdragon-node@^2.0.1:
