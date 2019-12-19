@@ -13192,10 +13192,10 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.41.3:
-  version "4.41.3"
-  resolved "https://registry.npm.taobao.org/webpack/download/webpack-4.41.3.tgz?cache=0&sync_timestamp=1576488979702&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack%2Fdownload%2Fwebpack-4.41.3.tgz#cb7592c43080337dbc9be9e98fc6478eb3981026"
-  integrity sha1-y3WSxDCAM328m+npj8ZHjrOYECY=
+webpack@^4.41.4:
+  version "4.41.4"
+  resolved "https://registry.npm.taobao.org/webpack/download/webpack-4.41.4.tgz?cache=0&sync_timestamp=1576740705108&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack%2Fdownload%2Fwebpack-4.41.4.tgz#4bec4125224bdf50efa8be6226c19047599cd034"
+  integrity sha1-S+xBJSJL31DvqL5iJsGQR1mc0DQ=
   dependencies:
     "@webassemblyjs/ast" "1.8.5"
     "@webassemblyjs/helper-module-context" "1.8.5"
