@@ -923,10 +923,10 @@
     "@babel/plugin-transform-react-jsx-self" "^7.7.4"
     "@babel/plugin-transform-react-jsx-source" "^7.7.4"
 
-"@babel/preset-typescript@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.npm.taobao.org/@babel/preset-typescript/download/@babel/preset-typescript-7.7.4.tgz?cache=0&sync_timestamp=1574465888896&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fpreset-typescript%2Fdownload%2F%40babel%2Fpreset-typescript-7.7.4.tgz#780059a78e6fa7f7a4c87f027292a86b31ce080a"
-  integrity sha1-eABZp45vp/ekyH8CcpKoazHOCAo=
+"@babel/preset-typescript@^7.7.7":
+  version "7.7.7"
+  resolved "https://registry.npm.taobao.org/@babel/preset-typescript/download/@babel/preset-typescript-7.7.7.tgz#69ddea54e8b4e491ccbf94147e673b2ac6e11e2e"
+  integrity sha1-ad3qVOi05JHMv5QUfmc7KsbhHi4=
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-typescript" "^7.7.4"
