@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.7.0...@easyops/brick-icons@1.8.0) (2019-12-20)
+
+### Features
+
+- **icons:** add container-config icon ([4b1fa60](https://git.easyops.local/anyclouds/next-core/commits/4b1fa60))
+
 # [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.6.8...@easyops/brick-icons@1.7.0) (2019-12-16)
 
 ### Features
