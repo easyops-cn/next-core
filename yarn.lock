@@ -12484,10 +12484,10 @@ style-inject@^0.3.0:
   resolved "https://registry.npm.taobao.org/style-inject/download/style-inject-0.3.0.tgz#d21c477affec91811cc82355832a700d22bf8dd3"
   integrity sha1-0hxHev/skYEcyCNVgypwDSK/jdM=
 
-style-loader@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npm.taobao.org/style-loader/download/style-loader-1.0.2.tgz?cache=0&sync_timestamp=1576586513876&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstyle-loader%2Fdownload%2Fstyle-loader-1.0.2.tgz#433d72eab8d1dd7d64c648b8ad7d9cbff3184111"
-  integrity sha1-Qz1y6rjR3X1kxki4rX2cv/MYQRE=
+style-loader@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/style-loader/download/style-loader-1.1.1.tgz?cache=0&sync_timestamp=1576852147369&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstyle-loader%2Fdownload%2Fstyle-loader-1.1.1.tgz#8290d915dffe820916790cdcab5aa58c38ab605c"
+  integrity sha1-gpDZFd/+ggkWeQzcq1qljDirYFw=
   dependencies:
     loader-utils "^1.2.3"
     schema-utils "^2.0.1"
