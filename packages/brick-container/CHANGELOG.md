@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.10.1...@easyops/brick-container@1.11.0) (2019-12-23)
+
+### Bug Fixes
+
+- copy dll js map ([11a7945](https://git.easyops.local/anyclouds/next-core/commits/11a7945))
+
+### Features
+
+- show loading bar at initial ([352ac91](https://git.easyops.local/anyclouds/next-core/commits/352ac91))
+
 ## [1.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.10.0...@easyops/brick-container@1.10.1) (2019-12-20)
 
 **Note:** Version bump only for package @easyops/brick-container
