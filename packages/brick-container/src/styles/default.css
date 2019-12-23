@@ -81,3 +81,56 @@ body.launchpad-open {
 .easyops-icon {
   width: 1em;
 }
+
+/* Ref https://mika-el.github.io/angular-loading-page/#/animations */
+/* Will be used in basic-bricks.loading-bar, too */
+.global-loading-bar {
+  height: 3px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  z-index: 10000;
+}
+
+.global-loading-bar > div {
+  position: absolute;
+  left: -200px;
+  width: 200px;
+  height: 100%;
+  background-color: #0077e6;
+  animation: global-loading 2s ease-in 100ms infinite;
+}
+
+.rendered-loading-bar,
+.first-rendered .initial-loading-bar {
+  display: none;
+}
+
+/* `.rendered-loading-bar` will be used in basic-bricks.loading-bar */
+.first-rendered .rendered-loading-bar.loading {
+  display: block;
+}
+
+@keyframes global-loading {
+  from {
+    left: -30%;
+    width: 30%;
+  }
+  50% {
+    width: 30%;
+  }
+  70% {
+    width: 70%;
+  }
+  80% {
+    left: 50%;
+  }
+  95% {
+    left: 120%;
+  }
+  to {
+    left: 100%;
+  }
+}
