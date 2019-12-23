@@ -53,7 +53,11 @@ module.exports = {
     ]
   },
   plugins: [
-    new CopyPlugin(dll.map(({ filePath }) => require.resolve(filePath))),
+    new CopyPlugin(
+      dll
+        .map(({ filePath }) => require.resolve(filePath))
+        .concat(dll.map(({ filePath }) => require.resolve(`${filePath}.map`)))
+    ),
     new CopyPlugin([
       {
         from: path.resolve(__dirname, "./assets"),
