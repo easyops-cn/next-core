@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.11.0...@easyops/brick-container@1.11.1) (2019-12-24)
+
+### Bug Fixes
+
+- revert style-loader from 1.1.1 to 1.0.2 ([5014442](https://git.easyops.local/anyclouds/next-core/commits/5014442))
+
 # [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.10.1...@easyops/brick-container@1.11.0) (2019-12-23)
 
 ### Bug Fixes

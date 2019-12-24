@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.4.2...@easyops/webpack-config-factory@1.4.3) (2019-12-24)
+
+### Bug Fixes
+
+- revert style-loader from 1.1.1 to 1.0.2 ([5014442](https://git.easyops.local/anyclouds/next-core/commits/5014442))
+
 ## [1.4.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.4.1...@easyops/webpack-config-factory@1.4.2) (2019-12-23)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory
