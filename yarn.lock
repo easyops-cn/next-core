@@ -5075,10 +5075,10 @@ escodegen@^1.11.1, escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-prettier@^6.5.0:
-  version "6.7.0"
-  resolved "https://registry.npm.taobao.org/eslint-config-prettier/download/eslint-config-prettier-6.7.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-prettier%2Fdownload%2Feslint-config-prettier-6.7.0.tgz#9a876952e12df2b284adbd3440994bf1f39dfbb9"
-  integrity sha1-modpUuEt8rKErb00QJlL8fOd+7k=
+eslint-config-prettier@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.npm.taobao.org/eslint-config-prettier/download/eslint-config-prettier-6.8.0.tgz#36bd7559dcef9f97d7596779b38e6a879abb89d3"
+  integrity sha1-Nr11Wdzvn5fXWWd5s45qh5q7idM=
   dependencies:
     get-stdin "^6.0.0"
 
