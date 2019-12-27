@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.9.2...@easyops/brick-kit@1.9.3) (2019-12-27)
+
+### Bug Fixes
+
+- multiple property settings will trigger rendering only once ([6fd8f6a](https://git.easyops.local/anyclouds/next-core/commits/6fd8f6a))
+
 ## [1.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.9.1...@easyops/brick-kit@1.9.2) (2019-12-23)
 
 **Note:** Version bump only for package @easyops/brick-kit
