@@ -10,11 +10,19 @@
   }
 
   setAttribute(name: string, value: string): void {
+    const old = this.attrs[name] || null;
     this.attrs[name] = value;
+    this.attributeChangedCallback(name, old, value);
   }
 
   removeAttribute(name: string): void {
+    const old = this.attrs[name];
     delete this.attrs[name];
+    this.attributeChangedCallback(name, old, null);
+  }
+
+  attributeChangedCallback(name: string, old: string, value: string): void {
+    // to be overload
   }
 };
 
@@ -22,10 +30,10 @@
 const { UpdatingElement } = require("./UpdatingElement");
 
 describe("UpdatingElement", () => {
-  it("should work", () => {
+  it("should work", async () => {
+    const render = jest.fn();
     class TestElement extends UpdatingElement {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      protected _render(): void {}
+      protected _render = render;
     }
 
     TestElement.createProperty("stringAttr");
@@ -72,5 +80,20 @@ describe("UpdatingElement", () => {
 
     element.complexAttr = { hello: "world" };
     expect(element.complexAttr).toEqual({ hello: "world" });
+
+    // Never trigger rendering if element is not connected.
+    await (global as any).flushPromises();
+    expect(render).not.toBeCalled();
+
+    element.isConnected = true;
+    element.stringAttr = "good";
+    element.numberAttr = 3;
+    element.booleanAttr = true;
+    element.complexAttr = { hello: "again" };
+    // Multiple property settings will trigger rendering only once
+    // in the next event loop.
+    expect(render).not.toBeCalled();
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(1);
   });
 });

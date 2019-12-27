@@ -150,6 +150,7 @@ function attributeNameForProperty(
 }
 
 export abstract class UpdatingElement extends HTMLElement {
+  private _hasRequestedRender = false;
   private static _observedAttributes = new Set<string>();
 
   static get observedAttributes(): string[] {
@@ -162,7 +163,20 @@ export abstract class UpdatingElement extends HTMLElement {
     value: string | null
   ): void {
     if (old !== value) {
-      this._render();
+      this._enqueueRender();
+    }
+  }
+
+  // Enure multiple property settings will trigger rendering only once.
+  private _enqueueRender(): void {
+    // If the element is not connected,
+    // let `connectedCallback()` do the job of rendering.
+    if (this.isConnected && !this._hasRequestedRender) {
+      this._hasRequestedRender = true;
+      Promise.resolve().then(() => {
+        this._hasRequestedRender = false;
+        this._render();
+      });
     }
   }
 
@@ -186,7 +200,7 @@ export abstract class UpdatingElement extends HTMLElement {
           const oldValue = (this as any)[name];
           if (options.hasChanged(value, oldValue)) {
             (this as any)[key] = value;
-            this._render();
+            this._enqueueRender();
           }
         }
       });
