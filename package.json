@@ -14,6 +14,7 @@
     "build": "lerna run build",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --ci",
+    "release": "lerna version --no-push && git push --follow-tags --atomic --no-verify origin master",
     "yo": "brick-scripts -t dll",
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll"
   },
