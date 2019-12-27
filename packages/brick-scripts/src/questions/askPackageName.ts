@@ -3,6 +3,7 @@ import path from "path";
 import inquirer from "inquirer";
 import { TargetType } from "../interface";
 import { targetMap } from "../constant";
+import { loadHistory } from "../loaders/loadHistory";
 
 export function askPackageName({
   targetType,
@@ -26,7 +27,8 @@ export function askPackageName({
       type: "list",
       name: "packageName",
       message: "which package do you want to put the new brick in?",
-      choices: pkgList
+      choices: pkgList,
+      default: loadHistory().lastSelectedBrickPackage
     };
   }
 
@@ -42,7 +44,8 @@ export function askPackageName({
       type: "list",
       name: "packageName",
       message: "which package do you want to put the new template in?",
-      choices: pkgList
+      choices: pkgList,
+      default: loadHistory().lastSelectedTemplatePackage
     };
   }
 
