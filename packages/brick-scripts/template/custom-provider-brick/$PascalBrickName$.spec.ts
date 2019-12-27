@@ -8,8 +8,8 @@ import {
 describe("$PascalBrickName$", () => {
   it.each<[$PascalBrickName$Params, any]>([[{}, null]])(
     "$PascalBrickName$(%j) should work",
-    (params, result) => {
-      expect($PascalBrickName$(params)).toEqual(result);
+    async (params, result) => {
+      expect(await $PascalBrickName$(params)).toEqual(result);
     }
   );
 });
