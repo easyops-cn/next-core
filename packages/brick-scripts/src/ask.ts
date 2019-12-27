@@ -5,6 +5,7 @@ import { askTargetType } from "./questions/askTargetType";
 import { askPackageName } from "./questions/askPackageName";
 import { askBrickName } from "./questions/askBrickName";
 import { askTemplateName } from "./questions/askTemplateName";
+import { updateHistory } from "./loaders/loadHistory";
 
 export async function ask(
   appRoot: string,
@@ -45,6 +46,18 @@ export async function ask(
   const { packageName } = await inquirer.prompt(
     askPackageName({ targetType, appRoot })
   );
+
+  switch (targetType) {
+    case TargetType.A_NEW_BRICK:
+    case TargetType.A_NEW_CUSTOM_PROVIDER_BRICK:
+    case TargetType.A_NEW_PACKAGE_OF_BRICKS:
+      updateHistory({ lastSelectedBrickPackage: packageName });
+      break;
+    case TargetType.A_NEW_TEMPLATE:
+    case TargetType.A_NEW_PACKAGE_OF_TEMPLATES:
+      updateHistory({ lastSelectedTemplatePackage: packageName });
+  }
+
   let brickName = "";
   let templateName = "";
   if (
