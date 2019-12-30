@@ -108,8 +108,8 @@ import {
 describe(\\"GetData\\", () => {
   it.each<[GetDataParams, any]>([[{}, null]])(
     \\"GetData(%j) should work\\",
-    (params, result) => {
-      expect(GetData(params)).toEqual(result);
+    async (params, result) => {
+      expect(await GetData(params)).toEqual(result);
     }
   );
 });
