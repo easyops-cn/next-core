@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.2.4...@easyops/brick-scripts@1.3.0) (2019-12-30)
+
+### Bug Fixes
+
+- custom provider brick template ([66afb16](https://git.easyops.local/anyclouds/next-core/commits/66afb16))
+- istanbul ignore else of `isConnected` in `_render` ([552de82](https://git.easyops.local/anyclouds/next-core/commits/552de82))
+
+### Features
+
+- remember last selected packages ([0f053be](https://git.easyops.local/anyclouds/next-core/commits/0f053be))
+
 ## [1.2.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.2.3...@easyops/brick-scripts@1.2.4) (2019-12-27)
 
 **Note:** Version bump only for package @easyops/brick-scripts
