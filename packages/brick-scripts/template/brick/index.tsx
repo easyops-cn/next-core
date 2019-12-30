@@ -14,6 +14,7 @@ class $PascalBrickName$Element extends UpdatingElement {
   }
 
   protected _render(): void {
+    // istanbul ignore else
     if (this.isConnected) {
       ReactDOM.render(
         <BrickWrapper>
