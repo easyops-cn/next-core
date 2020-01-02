@@ -17,7 +17,8 @@ export type SidebarMenuItem = SidebarMenuSimpleItem | SidebarMenuGroup;
 
 export interface SidebarMenuSimpleItem {
   text: string;
-  to: LocationDescriptor;
+  to?: LocationDescriptor;
+  href?: string;
   icon?: MenuIcon;
   target?: string;
   type?: "default";
