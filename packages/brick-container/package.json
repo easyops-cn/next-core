@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-container",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "Brick Container Server",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-container",
   "license": "UNLICENSED",
@@ -35,10 +35,10 @@
     "meow": "^6.0.0"
   },
   "devDependencies": {
-    "@dll/ace": "^1.0.42",
+    "@dll/ace": "^1.0.43",
     "@dll/d3": "^1.1.0",
     "@dll/echarts": "^1.0.1",
-    "@easyops/brick-dll": "^1.0.42",
+    "@easyops/brick-dll": "^1.0.43",
     "@easyops/custom-antd-styles": "^0.9.0",
     "add-asset-html-webpack-plugin": "^3.1.3",
     "babel-loader": "^8.0.6",

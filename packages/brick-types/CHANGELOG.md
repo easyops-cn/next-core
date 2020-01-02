@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.4.0...@easyops/brick-types@1.4.1) (2020-01-02)
+
+### Bug Fixes
+
+- SidebarMenuSimpleItem interface add href attribute ([6dbb2d6](https://git.easyops.local/anyclouds/next-core/commits/6dbb2d6))
+
 # [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.3.1...@easyops/brick-types@1.4.0) (2019-12-11)
 
 ### Features
