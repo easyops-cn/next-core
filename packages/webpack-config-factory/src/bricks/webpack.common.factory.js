@@ -49,7 +49,7 @@ const getImageLoaderOptions = distPublicPath => ({
   ]
 });
 
-module.exports = ({ scope = "bricks", copyFiles = [] } = {}) => {
+module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
   const cwdDirname = process.cwd();
   const appRoot = path.join(cwdDirname, "..", "..");
   const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
@@ -208,6 +208,9 @@ module.exports = ({ scope = "bricks", copyFiles = [] } = {}) => {
               context: cwdDirname
             })
           ]
+        : []),
+      ...(Array.isArray(ignores)
+        ? ignores.map(item => new webpack.IgnorePlugin(item))
         : [])
     ]
   };
