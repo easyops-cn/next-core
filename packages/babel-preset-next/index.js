@@ -4,6 +4,8 @@ const presetReact = require("@babel/preset-react");
 const presetTypescript = require("@babel/preset-typescript");
 const antdImport = require("babel-plugin-import");
 const proposalDecorators = require("@babel/plugin-proposal-decorators");
+const proposalNullishCoalescingOperator = require("@babel/plugin-proposal-nullish-coalescing-operator");
+const proposalOptionalChaining = require("@babel/plugin-proposal-optional-chaining");
 const proposalClassProperties = require("@babel/plugin-proposal-class-properties");
 const proposalUnicodePropertyRegex = require("@babel/plugin-proposal-unicode-property-regex");
 
@@ -34,6 +36,8 @@ module.exports = () => {
           decoratorsBeforeExport: true
         }
       ],
+      proposalNullishCoalescingOperator,
+      proposalOptionalChaining,
       proposalClassProperties,
       proposalUnicodePropertyRegex
     ]
@@ -61,6 +65,8 @@ module.exports = () => {
           decoratorsBeforeExport: true
         }
       ],
+      proposalNullishCoalescingOperator,
+      proposalOptionalChaining,
       proposalClassProperties,
       proposalUnicodePropertyRegex
     ]
