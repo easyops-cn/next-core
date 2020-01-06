@@ -8,6 +8,7 @@ export * from "./decorators";
 export * from "./useCurrentApp";
 export * from "./useLocation";
 export * from "./useRecentApps";
+export * from "./BrickAsComponent";
 export * from "./BrickWrapper";
 export * from "./developHelper";
 export * from "./UpdatingElement";

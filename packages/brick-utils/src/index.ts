@@ -11,3 +11,4 @@ export * from "./processStoryboard";
 export * from "./restoreDynamicTemplates";
 export * from "./scanBricksInStoryboard";
 export * from "./setProperties";
+export * from "./transformProperties";
