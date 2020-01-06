@@ -2978,6 +2978,11 @@ babel-plugin-jest-hoist@^24.9.0:
   dependencies:
     "@types/babel__traverse" "^7.0.6"
 
+babel-plugin-prismjs@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/babel-plugin-prismjs/download/babel-plugin-prismjs-2.0.0.tgz#e8d844fde465766e0563d20c86a9fadbe742a673"
+  integrity sha1-6NhE/eRldm4FY9IMhqn62+dCpnM=
+
 babel-preset-jest@^24.9.0:
   version "24.9.0"
   resolved "https://registry.npm.taobao.org/babel-preset-jest/download/babel-preset-jest-24.9.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-preset-jest%2Fdownload%2Fbabel-preset-jest-24.9.0.tgz#192b521e2217fb1d1f67cf73f70c336650ad3cdc"
@@ -10077,10 +10082,10 @@ pretty-format@^24.9.0:
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
 
-prismjs@^1.17.1:
-  version "1.17.1"
-  resolved "https://registry.npm.taobao.org/prismjs/download/prismjs-1.17.1.tgz#e669fcbd4cdd873c35102881c33b14d0d68519be"
-  integrity sha1-5mn8vUzdhzw1ECiBwzsU0NaFGb4=
+prismjs@^1.18.0:
+  version "1.18.0"
+  resolved "https://registry.npm.taobao.org/prismjs/download/prismjs-1.18.0.tgz?cache=0&sync_timestamp=1578175859595&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fprismjs%2Fdownload%2Fprismjs-1.18.0.tgz#8f04dd47fa232cbd27d1ca969107580ff43f06e4"
+  integrity sha1-jwTdR/ojLL0n0cqWkQdYD/Q/BuQ=
   optionalDependencies:
     clipboard "^2.0.0"
 
