@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-next@0.3.0...@easyops/babel-preset-next@0.4.0) (2020-01-07)
+
+### Features
+
+- **prismjs:** support json ([054be7f](https://git.easyops.local/anyclouds/next-core/commits/054be7f))
+
 # [0.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-next@0.2.0...@easyops/babel-preset-next@0.3.0) (2020-01-07)
 
 ### Features
