@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.5.0...@easyops/webpack-config-factory@1.6.0) (2020-01-07)
+
+### Features
+
+- **babel-preset-next:** babel-plugin-prismjs ([294ba10](https://git.easyops.local/anyclouds/next-core/commits/294ba10))
+
 # [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.4.3...@easyops/webpack-config-factory@1.5.0) (2020-01-02)
 
 ### Features

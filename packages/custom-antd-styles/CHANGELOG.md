@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.9.0...@easyops/custom-antd-styles@0.9.1) (2020-01-07)
+
+### Bug Fixes
+
+- form item label colon margin right, 12px, refs BRICK_STORE-815 ([a705118](https://git.easyops.local/anyclouds/next-core/commits/a705118))
+
 # [0.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.8.1...@easyops/custom-antd-styles@0.9.0) (2019-12-11)
 
 ### Features
