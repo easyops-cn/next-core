@@ -23,6 +23,7 @@ const prismjsPluginConfig = [
       "git",
       "go",
       "java",
+      "json",
       "php",
       "powershell",
       "python",
