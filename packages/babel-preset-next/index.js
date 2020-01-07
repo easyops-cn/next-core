@@ -8,6 +8,33 @@ const proposalNullishCoalescingOperator = require("@babel/plugin-proposal-nullis
 const proposalOptionalChaining = require("@babel/plugin-proposal-optional-chaining");
 const proposalClassProperties = require("@babel/plugin-proposal-class-properties");
 const proposalUnicodePropertyRegex = require("@babel/plugin-proposal-unicode-property-regex");
+const prismjsPlugin = require("babel-plugin-prismjs");
+
+const prismjsPluginConfig = [
+  prismjsPlugin,
+  {
+    languages: [
+      "javascript",
+      "css",
+      "markup",
+      "bash",
+      "shell",
+      "c",
+      "git",
+      "go",
+      "java",
+      "php",
+      "powershell",
+      "python",
+      "sql",
+      "typescript",
+      "vim",
+      "yaml"
+    ],
+    plugins: ["line-numbers"],
+    css: true
+  }
+];
 
 module.exports = () => {
   const envTest = {
@@ -39,7 +66,8 @@ module.exports = () => {
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
       proposalClassProperties,
-      proposalUnicodePropertyRegex
+      proposalUnicodePropertyRegex,
+      prismjsPluginConfig
     ]
   };
 
@@ -68,7 +96,8 @@ module.exports = () => {
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
       proposalClassProperties,
-      proposalUnicodePropertyRegex
+      proposalUnicodePropertyRegex,
+      prismjsPluginConfig
     ]
   };
 
