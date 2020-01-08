@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.9.4...@easyops/brick-kit@1.10.0) (2020-01-08)
+
+### Features
+
+- unified properties transform ([06699d3](https://git.easyops.local/anyclouds/next-core/commits/06699d3))
+
 ## [1.9.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.9.3...@easyops/brick-kit@1.9.4) (2020-01-02)
 
 **Note:** Version bump only for package @easyops/brick-kit

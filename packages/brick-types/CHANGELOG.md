@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.4.1...@easyops/brick-types@1.5.0) (2020-01-08)
+
+### Features
+
+- unified properties transform ([06699d3](https://git.easyops.local/anyclouds/next-core/commits/06699d3))
+
 ## [1.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.4.0...@easyops/brick-types@1.4.1) (2020-01-02)
 
 ### Bug Fixes
