@@ -1,4 +1,4 @@
-import { get, set } from "lodash";
+import { get } from "lodash";
 import {
   BrickConf,
   ResolveConf,
@@ -10,7 +10,8 @@ import {
   asyncProcessBrick,
   scanBricksInBrickConf,
   getDllAndDepsOfBricks,
-  loadScript
+  loadScript,
+  transformProperties
 } from "@easyops/brick-utils";
 import { Kernel, RuntimeBrick } from "./exports";
 import {
@@ -47,7 +48,15 @@ export class Resolver {
     );
     await Promise.all(
       useResolves.map(async resolveConf => {
-        const { name, provider, method = "resolve", args, field } = resolveConf;
+        const {
+          name,
+          provider,
+          method = "resolve",
+          args,
+          field,
+          transformFrom,
+          transform
+        } = resolveConf;
         const providerBrick: any = this.kernel.mountPoints.bg.querySelector(
           provider
         ) as any;
@@ -66,10 +75,11 @@ export class Resolver {
           if (!brickConf.template) {
             providerBrick.$$dependents.push({
               brick,
-              name,
               method,
               actualArgs,
-              field
+              field,
+              transformFrom,
+              transform: transform || name
             });
           }
 
@@ -90,19 +100,25 @@ export class Resolver {
           const fieldValue =
             field === null || field === undefined ? value : get(value, field);
 
+          let props: Record<string, any>;
           if (brickConf.template) {
             // It's a dynamic template.
             if (!brickConf.params) {
               // eslint-disable-next-line require-atomic-updates
               brickConf.params = {};
             }
-            // Support pass a field path as `name`.
-            set(brickConf.params, name, fieldValue);
+            props = brickConf.params;
           } else {
             // It's a dynamic brick.
-            // Support pass a field path as `name`.
-            set(brick.properties, name, fieldValue);
+            props = brick.properties;
           }
+          transformProperties(
+            props,
+            fieldValue,
+            // Also support legacy `name`
+            transform || name,
+            transformFrom
+          );
         } else {
           throw new Error(
             `Provider not found: "${provider}" in ${

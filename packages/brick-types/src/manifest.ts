@@ -110,11 +110,19 @@ export interface BrickLifeCycle {
 }
 
 export interface ResolveConf {
-  name: string;
   provider: string;
   method?: string;
   args?: any[];
   field?: string | string[];
+  name?: string;
+  transformFrom?: string | string[];
+  transform?: GeneralTransform;
+}
+
+export type GeneralTransform = string | TransformMap;
+
+export interface TransformMap {
+  [propName: string]: any;
 }
 
 export type MenuConf<T = any> = false | StaticMenuConf | BrickMenuConf<T>;
@@ -230,4 +238,12 @@ export interface DesktopItemDir {
   id: string;
   name: string;
   items: DesktopItemApp[];
+}
+
+export interface UseBrickConf {
+  brick: string;
+  properties?: Record<string, any>;
+  events?: BrickEventsMap;
+  transformFrom?: string | string[];
+  transform?: GeneralTransform;
 }

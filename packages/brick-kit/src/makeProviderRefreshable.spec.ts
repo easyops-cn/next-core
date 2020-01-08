@@ -15,7 +15,7 @@ describe("makeProviderRefreshable", () => {
       element: {},
       context: {}
     },
-    name: "hello",
+    transform: "hello",
     method: "resolve",
     actualArgs: [1],
     field: "data"
@@ -25,7 +25,7 @@ describe("makeProviderRefreshable", () => {
       element: {},
       context: {}
     },
-    name: "hello",
+    transform: "hello",
     method: "resolve",
     actualArgs: [1]
   };

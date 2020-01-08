@@ -1,14 +1,16 @@
-import { get, set } from "lodash";
-import { setProperties } from "@easyops/brick-utils";
+import { get } from "lodash";
+import { setProperties, transformProperties } from "@easyops/brick-utils";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
+import { GeneralTransform } from "@easyops/brick-types";
 
 export interface ProviderDependents {
   brick: RuntimeBrick;
-  name: string;
   method: string;
   actualArgs: any;
-  field: string | string[];
+  field?: string | string[];
+  transformFrom?: string | string[];
+  transform?: GeneralTransform;
 }
 
 export interface IntervalSettings {
@@ -48,7 +50,14 @@ export function makeProviderRefreshable(
       try {
         await Promise.all(
           this.$$dependents.map(
-            async ({ brick, name, method, actualArgs, field }) => {
+            async ({
+              brick,
+              method,
+              actualArgs,
+              field,
+              transform,
+              transformFrom
+            }) => {
               const cacheKey = JSON.stringify({
                 method,
                 actualArgs
@@ -68,8 +77,7 @@ export function makeProviderRefreshable(
 
               setProperties(
                 brick.element,
-                // Support pass a field path as `name`.
-                set({}, name, fieldValue),
+                transformProperties({}, fieldValue, transform, transformFrom),
                 brick.context
               );
             }
