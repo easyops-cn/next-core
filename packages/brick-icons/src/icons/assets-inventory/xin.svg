@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>DF1E7E8F-9C7F-4AB9-BD40-ED11F098A2DA</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <path d="M18,1 C19.0098113,1 19.8371159,1.78140408 19.910239,2.77253747 L19.915493,2.91549296 L19.915,16.084 L33.084507,16.084507 C34.1424046,16.084507 35,16.9421025 35,18 C35,19.0098113 34.2185959,19.8371159 33.2274625,19.910239 L33.084507,19.915493 L19.915,19.915 L19.915493,33.084507 C19.915493,34.1424046 19.0578975,35 18,35 C16.9901887,35 16.1628841,34.2185959 16.089761,33.2274625 L16.084507,33.084507 L16.084,19.915 L2.91549296,19.915493 C1.85759541,19.915493 1,19.0578975 1,18 C1,16.9901887 1.78140408,16.1628841 2.77253747,16.089761 L2.91549296,16.084507 L16.084,16.084 L16.084507,2.91549296 C16.084507,1.85759541 16.9421025,1 18,1 Z" id="path-2"></path>
+        <filter x="-20.6%" y="-14.7%" width="141.2%" height="141.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="终版" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页" transform="translate(-1376.000000, -247.000000)">
+            <g id="1备份-14" transform="translate(1090.000000, 186.000000)">
+                <g id="icon/代码项目" transform="translate(269.000000, 42.000000)">
+                    <g id="入库设备数" transform="translate(20.000000, 20.000000)">
+                        <g id="形状结合">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        </g>
+                        <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="36" height="36"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
