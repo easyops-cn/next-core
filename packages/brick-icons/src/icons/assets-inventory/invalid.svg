@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="39px" viewBox="0 0 42 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>5DEB6CD3-F6C8-45CF-8B49-E7502F9E02A0</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <path d="M18.4835901,2.07944468 C18.6483638,2.17050384 18.7840864,2.3062264 18.8751455,2.4710001 L34.9046848,31.4768332 C35.1718173,31.9602157 34.996512,32.5686283 34.5131294,32.8357608 C34.3650504,32.917594 34.1986298,32.9605193 34.0294433,32.9605193 L1.97036465,32.9605193 C1.4180799,32.9605193 0.970364652,32.512804 0.970364652,31.9605193 C0.970364652,31.7913328 1.01328997,31.6249122 1.09512312,31.4768332 L17.1246624,2.4710001 C17.3917949,1.98761755 18.0002075,1.81231222 18.4835901,2.07944468 Z M17.999904,24.8677233 C17.1361609,24.8677233 16.4359587,25.5679254 16.4359587,26.4316685 C16.4359587,27.2954116 17.1361609,27.9956138 17.999904,27.9956138 C18.8636471,27.9956138 19.5638492,27.2954116 19.5638492,26.4316685 C19.5638492,25.5679254 18.8636471,24.8677233 17.999904,24.8677233 Z M17.999904,12.3561614 C17.1361609,12.3561614 16.4359587,12.8229628 16.4359587,13.3987916 L16.4359587,13.3987916 L16.4359587,22.4349196 L16.4464805,22.5565123 C16.536822,23.0750526 17.1978568,23.4775498 17.999904,23.4775498 C18.8636471,23.4775498 19.5638492,23.0107483 19.5638492,22.4349196 L19.5638492,22.4349196 L19.5638492,13.3987916 L19.5533274,13.2771989 C19.4629859,12.7586586 18.8019511,12.3561614 17.999904,12.3561614 Z" id="path-2"></path>
+        <filter x="-20.7%" y="-16.3%" width="141.4%" height="145.4%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="终版" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页" transform="translate(-963.000000, -427.000000)">
+            <g id="1备份-18" transform="translate(677.000000, 366.000000)">
+                <g id="icon/代码项目" transform="translate(269.000000, 42.000000)">
+                    <g id="异常设备数" transform="translate(20.000000, 19.000000)">
+                        <g id="形状结合">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        </g>
+                        <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="2.84217094e-14" width="36" height="36"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

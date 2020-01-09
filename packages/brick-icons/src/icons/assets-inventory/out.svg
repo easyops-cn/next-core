@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="12px" viewBox="0 0 42 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>99B4CD8F-FAA3-4DD7-BDEA-7DEE84E7F9C1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <path d="M33.084507,16 C34.1424046,16 35,16.8954305 35,18 C35,19.0543618 34.2185959,19.9181651 33.2274625,19.9945143 L33.084507,20 L2.91549296,20 C1.85759541,20 1,19.1045695 1,18 C1,16.9456382 1.78140408,16.0818349 2.77253747,16.0054857 L2.91549296,16 L33.084507,16 Z" id="path-2"></path>
+        <filter x="-20.6%" y="-125.0%" width="141.2%" height="450.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="终版" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页" transform="translate(-1376.000000, -442.000000)">
+            <g id="1备份-15" transform="translate(1090.000000, 366.000000)">
+                <g id="icon/代码项目" transform="translate(269.000000, 42.000000)">
+                    <g id="出库设备数" transform="translate(20.000000, 20.000000)">
+                        <g id="直线-8备份-8">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        </g>
+                        <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="2.84217094e-14" width="36" height="36"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
