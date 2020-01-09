@@ -36,6 +36,7 @@ describe("computeRealValue", () => {
       },
       ["${EVENT.detail}"]
     ],
+    [["${EVENT.detail|jsonStringify}"], context, ['{\n  "to": "world"\n}']],
     [
       ["${HASH.*|string}"],
       {
