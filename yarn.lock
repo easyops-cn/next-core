@@ -6402,10 +6402,10 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.3.tgz#8a082455f8c76a602ec00f9a6a6f9f458860f49e"
-  integrity sha1-iggkVfjHamAuwA+aam+fRYhg9J4=
+husky@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.4.tgz#f4aaee536c5bd0e4618451d0615f46b43a94816c"
+  integrity sha1-9KruU2xb0ORhhFHQYV9GtDqUgWw=
   dependencies:
     chalk "^3.0.0"
     ci-info "^2.0.0"
