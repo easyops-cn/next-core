@@ -53,6 +53,14 @@ const replaceTemplateValue = (
         console.error(e);
         return;
       }
+    case "jsonStringify":
+      try {
+        return JSON.stringify(result, null, 2);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        return;
+      }
   }
 };
 
@@ -81,14 +89,14 @@ export const computeRealValue = (
     return newValue;
   }
   const matches = value.match(
-    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json))?\}$/
+    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}$/
   );
   if (matches) {
     return replaceTemplateValue(matches, context);
   }
 
   return value.replace(
-    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json))?\}/g,
+    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}/g,
     (raw, query, field, defaultValue, type) =>
       replaceTemplateValue([raw, query, field, defaultValue, type], context)
   );
