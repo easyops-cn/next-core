@@ -12,7 +12,16 @@ report.*.json
 /bricks/*/deploy/*
 !/bricks/*/deploy/package.conf.yaml
 /bricks/*/.pkgbuild/
+/bricks/*/version.ini
+/bricks/*/*.tgz
+
 /micro-apps/*/deploy/
 /micro-apps/*/.pkgbuild/
+/micro-apps/*/version.ini
+/micro-apps/*/*.tgz
+
 /templates/*/deploy/
 /templates/*/.pkgbuild/
+/templates/*/version.ini
+/templates/*/*.tgz
+
