@@ -4,7 +4,7 @@
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/brick-next/tree/master/templates/$kebab-package-name$",
   "license": "UNLICENSED",
-  "files": ["dist", "deploy"],
+  "files": ["dist", "deploy", "version.ini"],
   "repository": {
     "type": "git",
     "url": "git@git.easyops.local:anyclouds/brick-next.git"
@@ -14,7 +14,9 @@
     "build": "cross-env NODE_ENV='production' webpack --config webpack.config.js",
     "postbuild": "node scripts/post-build.js",
     "test": "cross-env NODE_ENV='test' jest",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest",
+    "prepack:tar": "node scripts/generate-version-file.js",
+    "pack:tar": "npm pack"
   },
   "sideEffects": true,
   "devDependencies": {

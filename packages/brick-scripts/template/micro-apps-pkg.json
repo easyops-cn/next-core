@@ -4,14 +4,16 @@
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/micro-apps/$kebab-package-name$",
   "license": "UNLICENSED",
-  "files": ["storyboard.json", "deploy", "icons"],
+  "files": ["storyboard.json", "deploy", "icons", "version.ini"],
   "repository": {
     "type": "git",
     "url": "git@git.easyops.local:anyclouds/brick-next.git"
   },
   "scripts": {
     "build": "echo 'nothing to build but lerna need this to build deps'",
-    "postbuild": "node scripts/post-build.js"
+    "postbuild": "node scripts/post-build.js",
+    "prepack:tar": "node scripts/generate-version-file.js",
+    "pack:tar": "npm pack"
   },
   "peerDependencies": {
     "@bricks/basic-bricks": "latest"
