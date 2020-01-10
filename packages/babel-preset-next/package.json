@@ -1,6 +1,6 @@
 {
   "name": "@easyops/babel-preset-next",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "babel preset for brick-next related packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/babel-preset-next",
   "license": "UNLICENSED",
