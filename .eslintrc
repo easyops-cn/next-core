@@ -13,6 +13,7 @@
         "packages/create-next-repo/src/**/*.{ts,js}",
         "packages/eslint-config-next/*.js",
         "packages/babel-preset-next/*.js",
+        "packages/babel-preset-prismjs/*.js",
         "packages/browserslist-config-next/*.js"
       ],
       "extends": "@easyops/eslint-config-next/node"
