@@ -66,3 +66,15 @@ function preprocessTransformProperties(
 
   return props;
 }
+
+export function transformIntermediateData(
+  data: any,
+  transform: GeneralTransform,
+  transformFrom?: string | string[]
+): any {
+  const intermediateData = transformFrom ? get(data, transformFrom) : data;
+  if (!transform) {
+    return intermediateData;
+  }
+  return transformProperties({}, intermediateData, transform);
+}

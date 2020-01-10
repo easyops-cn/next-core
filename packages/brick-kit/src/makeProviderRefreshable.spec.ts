@@ -17,7 +17,7 @@ describe("makeProviderRefreshable", () => {
     },
     transform: "hello",
     method: "resolve",
-    actualArgs: [1],
+    args: [1],
     field: "data"
   };
   const anotherDependent = {
@@ -25,9 +25,13 @@ describe("makeProviderRefreshable", () => {
       element: {},
       context: {}
     },
-    transform: "hello",
     method: "resolve",
-    actualArgs: [1]
+    args: [1],
+    ref: "ref",
+    transform: {
+      hallo: "@{}"
+    },
+    intermediateTransformFrom: "data"
   };
   provider.$$dependents.push(dependent);
   provider.$$dependents.push(anotherDependent);
@@ -49,9 +53,7 @@ describe("makeProviderRefreshable", () => {
       hello: "world"
     });
     expect(anotherDependent.brick.element).toEqual({
-      hello: {
-        data: "world"
-      }
+      hallo: "world"
     });
   });
 

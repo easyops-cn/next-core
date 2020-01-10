@@ -8,7 +8,8 @@ import {
   SidebarMenu,
   MenuConf,
   BreadcrumbItemConf,
-  MicroApp
+  MicroApp,
+  ProviderConf
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -105,6 +106,13 @@ export class LocationContext {
         if (matched.route.hybrid) {
           mountRoutesResult.hybrid = true;
         }
+        this.resolver.defineResolves(matched.route.defineResolves);
+        await this.mountProviders(
+          matched.route.providers,
+          matched.match,
+          slotId,
+          mountRoutesResult
+        );
         this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
         await this.mountBricks(
           matched.route.bricks,
@@ -190,6 +198,32 @@ export class LocationContext {
           ...mountRoutesResult.appBar.breadcrumb,
           ...breadcrumb.items
         ];
+      }
+    }
+  }
+
+  private async mountProviders(
+    providers: ProviderConf[],
+    match: MatchResult,
+    slotId: string,
+    mountRoutesResult: MountRoutesResult
+  ): Promise<void> {
+    if (Array.isArray(providers)) {
+      for (const providerConf of providers) {
+        await this.mountBrick(
+          {
+            ...(typeof providerConf === "string"
+              ? {
+                  brick: providerConf
+                }
+              : providerConf),
+            bg: true,
+            injectDeep: true
+          },
+          match,
+          slotId,
+          mountRoutesResult
+        );
       }
     }
   }
