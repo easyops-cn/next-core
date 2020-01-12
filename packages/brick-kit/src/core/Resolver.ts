@@ -51,7 +51,7 @@ export class Resolver {
   async resolve(
     brickConf: BrickConf,
     brick: RuntimeBrick,
-    context: PluginRuntimeContext
+    context?: PluginRuntimeContext
   ): Promise<void> {
     const useResolves = brickConf.lifeCycle?.useResolves ?? [];
     await Promise.all(
@@ -136,7 +136,9 @@ export class Resolver {
           promise = this.cache.get(cacheKey);
         } else {
           const actualArgs = args
-            ? computeRealValue(args, context, true)
+            ? context
+              ? computeRealValue(args, context, true)
+              : args
             : providerBrick.args || [];
           promise = providerBrick[method](...actualArgs);
           this.cache.set(cacheKey, promise);

@@ -9,7 +9,7 @@ import {
   BrickPackage,
   Storyboard
 } from "@easyops/brick-types";
-import { Kernel, MenuBar, AppBar } from "./exports";
+import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import { RelatedApp } from "./interfaces";
 
@@ -148,5 +148,10 @@ export class Runtime {
   /* istanbul ignore next */
   resetWorkspaceStack(): void {
     kernel.workspaceStack = [];
+  }
+
+  /* istanbul ignore next */
+  _internalApiGetResolver(): Resolver {
+    return kernel.router.locationContext.resolver;
   }
 }

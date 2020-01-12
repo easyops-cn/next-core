@@ -73,7 +73,9 @@ export function makeProviderRefreshable(
                 promise = cache.get(cacheKey);
               } else {
                 const actualArgs = args
-                  ? computeRealValue(args, brick.context, true)
+                  ? brick.context
+                    ? computeRealValue(args, brick.context, true)
+                    : args
                   : providerBrick.args || [];
                 promise = providerBrick[method](...actualArgs);
                 cache.set(cacheKey, promise);
