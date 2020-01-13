@@ -1,7 +1,6 @@
 import { get } from "lodash";
 import {
   BrickConf,
-  ResolveConf,
   PluginRuntimeContext,
   RuntimeBrickConf,
   RefResolveConf,

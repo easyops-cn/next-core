@@ -1,4 +1,9 @@
-import { Storyboard, BrickConf, RouteConf } from "@easyops/brick-types";
+import {
+  Storyboard,
+  BrickConf,
+  RouteConf,
+  ProviderConf
+} from "@easyops/brick-types";
 
 export function scanBricksInBrickConf(
   brickConf: BrickConf,
@@ -34,12 +39,26 @@ function scanBricksInBrickConfs(
   }
 }
 
+function scanBricksInProviderConfs(
+  providers: ProviderConf[],
+  collection: Set<string>
+): void {
+  if (Array.isArray(providers)) {
+    providers.forEach(providerConf => {
+      collection.add(
+        typeof providerConf === "string" ? providerConf : providerConf.brick
+      );
+    });
+  }
+}
+
 function scanBricksInRouteConfs(
   routes: RouteConf[],
   collection: Set<string>
 ): void {
   if (Array.isArray(routes)) {
     routes.forEach(routeConf => {
+      scanBricksInProviderConfs(routeConf.providers, collection);
       scanBricksInBrickConfs(routeConf.bricks, collection);
       if (
         routeConf.menu &&
