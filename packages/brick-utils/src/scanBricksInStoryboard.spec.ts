@@ -6,6 +6,12 @@ describe("scanBricksInStoryboard", () => {
     const storyboard: Storyboard = {
       routes: [
         {
+          providers: [
+            "p-a",
+            {
+              brick: "p-b"
+            }
+          ],
           bricks: [
             {
               brick: "a"
@@ -36,10 +42,19 @@ describe("scanBricksInStoryboard", () => {
             brick: "d"
           }
           // `bricks` not set
+        },
+        {
+          bricks: [
+            {
+              template: "t-a"
+            }
+          ]
         }
       ]
     } as any;
     expect(scanBricksInStoryboard(storyboard)).toEqual([
+      "p-a",
+      "p-b",
       "a",
       "b",
       "c",
