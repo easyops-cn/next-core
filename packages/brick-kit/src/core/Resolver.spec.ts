@@ -99,6 +99,59 @@ describe("Resolver", () => {
     resolver.resetRefreshQueue();
   });
 
+  it("should use defined resolves", async () => {
+    resolver.defineResolves([
+      {
+        id: "provider-a",
+        provider: "your-provider",
+        method: "testMethod",
+        args: ["good"],
+        transformFrom: "data"
+      }
+    ]);
+
+    const testMethod = jest.fn().mockResolvedValue({
+      data: {
+        hello: "world"
+      }
+    });
+    const provider = {
+      testMethod
+    };
+    kernel.mountPoints.bg = {
+      querySelector: () => provider
+    } as any;
+
+    const brickA: RuntimeBrick = {
+      type: "brickA-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            ref: "provider-a"
+          }
+        ]
+      }
+    };
+
+    await resolver.resolve(
+      {
+        lifeCycle: brickA.lifeCycle
+      },
+      brickA,
+      null
+    );
+
+    expect(brickA.properties).toEqual({
+      testProp: {
+        hello: "world"
+      }
+    });
+    expect(testMethod).toBeCalledWith("good");
+  });
+
   it("should throw if provider not found", async () => {
     kernel.mountPoints.bg = {
       querySelector(): any {
@@ -115,6 +168,36 @@ describe("Resolver", () => {
             name: "testProp",
             provider: "any-provider",
             method: "testMethod"
+          }
+        ]
+      }
+    };
+    expect.assertions(1);
+    try {
+      await resolver.resolve(
+        {
+          brick: brickA.type,
+          lifeCycle: brickA.lifeCycle
+        },
+        brickA,
+        null
+      );
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+    }
+  });
+
+  it("should throw if ref provider not found", async () => {
+    resolver.defineResolves(undefined);
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            ref: "provider-a"
           }
         ]
       }

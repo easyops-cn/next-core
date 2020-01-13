@@ -80,6 +80,8 @@ export interface RouteConf<B = any, M = any> {
   bricks: BrickConf<B>[];
   menu?: MenuConf<M>;
   hybrid?: boolean;
+  providers?: ProviderConf[];
+  defineResolves?: DefineResolveConf[];
 }
 
 export interface BrickConf<T = any> {
@@ -96,6 +98,10 @@ export interface BrickConf<T = any> {
   params?: Record<string, any>;
 }
 
+export type ProviderConf =
+  | string
+  | Pick<BrickConf, "brick" | "properties" | "events" | "lifeCycle">;
+
 export interface RuntimeBrickConf extends BrickConf {
   $$dynamic?: boolean;
   $$resolved?: boolean;
@@ -105,15 +111,28 @@ export interface RuntimeBrickConf extends BrickConf {
 }
 
 export interface BrickLifeCycle {
-  // Before mounting brick, wait some async tasks to resolve.
+  // Before mounting bricks, wait some async tasks to be resolved.
   useResolves?: ResolveConf[];
 }
 
-export interface ResolveConf {
+export type ResolveConf = EntityResolveConf | RefResolveConf;
+
+export interface EntityResolveConf {
   provider: string;
   method?: string;
   args?: any[];
   field?: string | string[];
+  name?: string;
+  transformFrom?: string | string[];
+  transform?: GeneralTransform;
+}
+
+export interface DefineResolveConf extends Omit<EntityResolveConf, "name"> {
+  id: string;
+}
+
+export interface RefResolveConf {
+  ref: string;
   name?: string;
   transformFrom?: string | string[];
   transform?: GeneralTransform;

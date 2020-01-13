@@ -1,5 +1,9 @@
 import { get } from "lodash";
-import { setProperties, transformProperties } from "@easyops/brick-utils";
+import {
+  transformProperties,
+  transformIntermediateData,
+  computeRealValue
+} from "@easyops/brick-utils";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { GeneralTransform } from "@easyops/brick-types";
@@ -7,10 +11,13 @@ import { GeneralTransform } from "@easyops/brick-types";
 export interface ProviderDependents {
   brick: RuntimeBrick;
   method: string;
-  actualArgs: any;
+  args: any[];
   field?: string | string[];
-  transformFrom?: string | string[];
   transform?: GeneralTransform;
+  transformFrom?: string | string[];
+  ref?: string;
+  intermediateTransform?: GeneralTransform;
+  intermediateTransformFrom?: string | string[];
 }
 
 export interface IntervalSettings {
@@ -19,7 +26,7 @@ export interface IntervalSettings {
   timeoutId?: any;
 }
 
-export interface RefreshableProvider {
+export interface RefreshableProvider extends Element {
   interval?: IntervalSettings;
 
   // 使用 `$` 作前缀表明这是运行时追加的属性/方法。
@@ -29,7 +36,6 @@ export interface RefreshableProvider {
   }) => Promise<void>;
   // 使用 `$$` 作前缀表明这是运行时追加的内部属性/方法。
   $$dependents: ProviderDependents[];
-  $$cache: Map<string, Promise<any>>;
 
   [key: string]: any;
 }
@@ -37,9 +43,6 @@ export interface RefreshableProvider {
 export function makeProviderRefreshable(
   providerBrick: RefreshableProvider
 ): void {
-  if (!providerBrick.$$cache) {
-    providerBrick.$$cache = new Map();
-  }
   if (!providerBrick.$refresh) {
     providerBrick.$$dependents = [];
     providerBrick.$refresh = async function({
@@ -53,32 +56,47 @@ export function makeProviderRefreshable(
             async ({
               brick,
               method,
-              actualArgs,
+              args,
               field,
               transform,
-              transformFrom
+              transformFrom,
+              ref,
+              intermediateTransform,
+              intermediateTransformFrom
             }) => {
               const cacheKey = JSON.stringify({
                 method,
-                actualArgs
+                args
               });
               let promise: Promise<any>;
               if (cache.has(cacheKey)) {
                 promise = cache.get(cacheKey);
               } else {
+                const actualArgs = args
+                  ? computeRealValue(args, brick.context, true)
+                  : providerBrick.args || [];
                 promise = providerBrick[method](...actualArgs);
                 cache.set(cacheKey, promise);
               }
               const value = await promise;
-              const fieldValue =
+              let data =
                 field === null || field === undefined
                   ? value
                   : get(value, field);
 
-              setProperties(
+              if (ref) {
+                data = transformIntermediateData(
+                  data,
+                  intermediateTransform,
+                  intermediateTransformFrom
+                );
+              }
+
+              transformProperties(
                 brick.element,
-                transformProperties({}, fieldValue, transform, transformFrom),
-                brick.context
+                data,
+                transform,
+                transformFrom
               );
             }
           )

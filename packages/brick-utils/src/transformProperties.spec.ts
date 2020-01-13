@@ -1,15 +1,17 @@
-import { transformProperties } from "./transformProperties";
-import { GeneralTransform } from "@easyops/brick-types";
+import {
+  transformProperties,
+  transformIntermediateData
+} from "./transformProperties";
 
 interface Args {
-  props: Record<string, any>;
-  data: any;
-  transformFrom?: string | string[];
-  transform?: GeneralTransform;
+  props: Parameters<typeof transformProperties>[0];
+  data: Parameters<typeof transformProperties>[1];
+  transform?: Parameters<typeof transformProperties>[2];
+  transformFrom?: Parameters<typeof transformProperties>[3];
 }
 
 describe("transformProperties", () => {
-  it.each<[Args, Record<string, any>]>([
+  it.each<[Args, ReturnType<typeof transformProperties>]>([
     // Assign whole data to a single property.
     [
       {
@@ -128,6 +130,52 @@ describe("transformProperties", () => {
       expect(
         transformProperties(props, data, transform, transformFrom)
       ).toEqual(newProps);
+    }
+  );
+});
+
+describe("transformIntermediateData", () => {
+  const data: Parameters<typeof transformIntermediateData>[0] = {
+    hello: "good"
+  };
+
+  it.each<
+    [
+      Parameters<typeof transformIntermediateData>[1],
+      Parameters<typeof transformIntermediateData>[2],
+      ReturnType<typeof transformIntermediateData>
+    ]
+  >([
+    [
+      undefined,
+      undefined,
+      {
+        hello: "good"
+      }
+    ],
+    [undefined, "hello", "good"],
+    [
+      "value",
+      undefined,
+      {
+        value: {
+          hello: "good"
+        }
+      }
+    ],
+    [
+      "value",
+      "hello",
+      {
+        value: "good"
+      }
+    ]
+  ])(
+    'transformIntermediateData({hello:"good"}, %j, %j) should return %j',
+    (transform, transformFrom, result) => {
+      expect(transformIntermediateData(data, transform, transformFrom)).toEqual(
+        result
+      );
     }
   );
 });

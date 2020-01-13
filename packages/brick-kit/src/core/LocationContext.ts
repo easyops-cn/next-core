@@ -8,7 +8,9 @@ import {
   SidebarMenu,
   MenuConf,
   BreadcrumbItemConf,
-  MicroApp
+  MicroApp,
+  ProviderConf,
+  PluginRuntimeContext
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -58,6 +60,15 @@ export class LocationContext {
     this.query = new URLSearchParams(location.search);
   }
 
+  private getContext(match: MatchResult): PluginRuntimeContext {
+    return {
+      hash: this.location.hash,
+      query: this.query,
+      match,
+      app: this.kernel.nextApp
+    };
+  }
+
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
     for (const route of routes) {
       const match = matchPath(this.location.pathname, {
@@ -105,6 +116,13 @@ export class LocationContext {
         if (matched.route.hybrid) {
           mountRoutesResult.hybrid = true;
         }
+        this.resolver.defineResolves(matched.route.defineResolves);
+        await this.mountProviders(
+          matched.route.providers,
+          matched.match,
+          slotId,
+          mountRoutesResult
+        );
         this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
         await this.mountBricks(
           matched.route.bricks,
@@ -133,6 +151,8 @@ export class LocationContext {
       return;
     }
 
+    const context = this.getContext(match);
+
     if (menuConf.type === "brick") {
       // 如果某个路由的菜单无法配置为静态的 json，
       // 那么可以将菜单配置指定为一个构件，这个构件会被装载到背景容器中（不会在界面中显示），
@@ -142,19 +162,11 @@ export class LocationContext {
         type: menuConf.brick,
         properties: computeRealProperties(
           menuConf.properties,
-          {
-            query: this.query,
-            match,
-            app: this.kernel.nextApp
-          },
+          context,
           menuConf.injectDeep
         ),
         events: isObject(menuConf.events) ? menuConf.events : {},
-        context: {
-          query: this.query,
-          match,
-          app: this.kernel.nextApp
-        },
+        context,
         children: []
       };
       mountRoutesResult.menuInBg.push(brick);
@@ -164,15 +176,7 @@ export class LocationContext {
     // 静态菜单配置，仅在有值时才设置，这样可以让菜单设置也具有按路由层级覆盖的能力。
     const { injectDeep, ...otherMenuConf } = menuConf;
     const injectedMenuConf = injectDeep
-      ? computeRealProperties(
-          otherMenuConf,
-          {
-            query: this.query,
-            match,
-            app: this.kernel.nextApp
-          },
-          true
-        )
+      ? computeRealProperties(otherMenuConf, context, true)
       : otherMenuConf;
     const { sidebarMenu, pageTitle, breadcrumb } = injectedMenuConf;
 
@@ -194,6 +198,32 @@ export class LocationContext {
     }
   }
 
+  private async mountProviders(
+    providers: ProviderConf[],
+    match: MatchResult,
+    slotId: string,
+    mountRoutesResult: MountRoutesResult
+  ): Promise<void> {
+    if (Array.isArray(providers)) {
+      for (const providerConf of providers) {
+        await this.mountBrick(
+          {
+            ...(typeof providerConf === "string"
+              ? {
+                  brick: providerConf
+                }
+              : providerConf),
+            bg: true,
+            injectDeep: true
+          },
+          match,
+          slotId,
+          mountRoutesResult
+        );
+      }
+    }
+  }
+
   private async mountBricks(
     bricks: BrickConf[],
     match: MatchResult,
@@ -211,12 +241,7 @@ export class LocationContext {
     slotId: string,
     mountRoutesResult: MountRoutesResult
   ): Promise<void> {
-    const context = {
-      hash: this.location.hash,
-      query: this.query,
-      match,
-      app: this.kernel.nextApp
-    };
+    const context = this.getContext(match);
 
     // First, resolve the template to a brick.
     if (brickConf.template) {

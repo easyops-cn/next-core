@@ -3,7 +3,10 @@ import {
   BrickConf,
   ResolveConf,
   PluginRuntimeContext,
-  RuntimeBrickConf
+  RuntimeBrickConf,
+  RefResolveConf,
+  EntityResolveConf,
+  DefineResolveConf
 } from "@easyops/brick-types";
 import {
   computeRealValue,
@@ -11,7 +14,8 @@ import {
   scanBricksInBrickConf,
   getDllAndDepsOfBricks,
   loadScript,
-  transformProperties
+  transformProperties,
+  transformIntermediateData
 } from "@easyops/brick-utils";
 import { Kernel, RuntimeBrick } from "./exports";
 import {
@@ -22,8 +26,9 @@ import {
 import { brickTemplateRegistry } from "./TemplateRegistries";
 
 export class Resolver {
-  private cache: Map<string, Promise<any>> = new Map();
+  private readonly cache: Map<string, Promise<any>> = new Map();
   private refreshQueue: Map<RefreshableProvider, IntervalSettings> = new Map();
+  private readonly definedResolves: Map<string, DefineResolveConf> = new Map();
 
   constructor(private kernel: Kernel) {}
 
@@ -36,18 +41,40 @@ export class Resolver {
     }
   }
 
+  defineResolves(resolves: DefineResolveConf[]): void {
+    if (Array.isArray(resolves)) {
+      for (const resolveConf of resolves) {
+        this.definedResolves.set(resolveConf.id, resolveConf);
+      }
+    }
+  }
+
   async resolve(
     brickConf: BrickConf,
     brick: RuntimeBrick,
     context: PluginRuntimeContext
   ): Promise<void> {
-    const useResolves = get(
-      brickConf,
-      ["lifeCycle", "useResolves"],
-      [] as ResolveConf[]
-    );
+    const useResolves = brickConf.lifeCycle?.useResolves ?? [];
     await Promise.all(
       useResolves.map(async resolveConf => {
+        let actualResolveConf: EntityResolveConf;
+        const { ref } = resolveConf as RefResolveConf;
+        if (ref) {
+          if (!this.definedResolves.has(ref)) {
+            throw new Error(
+              `Provider ref not found: "${ref}" in ${
+                brickConf.template
+                  ? `template ${brickConf.template}`
+                  : `brick ${brick.type}`
+              }`
+            );
+          }
+          actualResolveConf = this.definedResolves.get(ref);
+        } else {
+          actualResolveConf = resolveConf as EntityResolveConf;
+        }
+
+        let data: any;
         const {
           name,
           provider,
@@ -56,70 +83,13 @@ export class Resolver {
           field,
           transformFrom,
           transform
-        } = resolveConf;
-        const providerBrick: any = this.kernel.mountPoints.bg.querySelector(
+        } = actualResolveConf as EntityResolveConf;
+
+        const providerBrick: RefreshableProvider = this.kernel.mountPoints.bg.querySelector(
           provider
-        ) as any;
-        if (providerBrick) {
-          makeProviderRefreshable(providerBrick);
+        ) as RefreshableProvider;
 
-          if (providerBrick.interval && !this.refreshQueue.has(providerBrick)) {
-            this.refreshQueue.set(providerBrick, { ...providerBrick.interval });
-          }
-
-          const actualArgs = args
-            ? computeRealValue(args, context, true)
-            : providerBrick.args || [];
-
-          // Currently we can't refresh dynamic templates.
-          if (!brickConf.template) {
-            providerBrick.$$dependents.push({
-              brick,
-              method,
-              actualArgs,
-              field,
-              transformFrom,
-              transform: transform || name
-            });
-          }
-
-          const cacheKey = JSON.stringify({
-            provider,
-            method,
-            args
-          });
-          let promise: Promise<any>;
-          if (this.cache.has(cacheKey)) {
-            promise = this.cache.get(cacheKey);
-          } else {
-            promise = providerBrick[method](...actualArgs);
-            this.cache.set(cacheKey, promise);
-          }
-
-          const value = await promise;
-          const fieldValue =
-            field === null || field === undefined ? value : get(value, field);
-
-          let props: Record<string, any>;
-          if (brickConf.template) {
-            // It's a dynamic template.
-            if (!brickConf.params) {
-              // eslint-disable-next-line require-atomic-updates
-              brickConf.params = {};
-            }
-            props = brickConf.params;
-          } else {
-            // It's a dynamic brick.
-            props = brick.properties;
-          }
-          transformProperties(
-            props,
-            fieldValue,
-            // Also support legacy `name`
-            transform || name,
-            transformFrom
-          );
-        } else {
+        if (!providerBrick) {
           throw new Error(
             `Provider not found: "${provider}" in ${
               brickConf.template
@@ -128,6 +98,78 @@ export class Resolver {
             }`
           );
         }
+
+        makeProviderRefreshable(providerBrick);
+
+        if (providerBrick.interval && !this.refreshQueue.has(providerBrick)) {
+          this.refreshQueue.set(providerBrick, { ...providerBrick.interval });
+        }
+
+        // Currently we can't refresh dynamic templates.
+        if (!brickConf.template) {
+          providerBrick.$$dependents.push({
+            brick,
+            method,
+            args,
+            field,
+            ...(ref
+              ? {
+                  ref,
+                  intermediateTransform: transform || name,
+                  intermediateTransformFrom: transformFrom,
+                  transform: resolveConf.transform,
+                  transformFrom: resolveConf.transformFrom
+                }
+              : {
+                  transform: transform || name,
+                  transformFrom
+                })
+          });
+        }
+
+        const cacheKey = JSON.stringify({
+          provider,
+          method,
+          args
+        });
+        let promise: Promise<any>;
+        if (this.cache.has(cacheKey)) {
+          promise = this.cache.get(cacheKey);
+        } else {
+          const actualArgs = args
+            ? computeRealValue(args, context, true)
+            : providerBrick.args || [];
+          promise = providerBrick[method](...actualArgs);
+          this.cache.set(cacheKey, promise);
+        }
+
+        const value = await promise;
+        data =
+          field === null || field === undefined ? value : get(value, field);
+
+        if (ref) {
+          data = transformIntermediateData(data, transform, transformFrom);
+        }
+
+        let props: Record<string, any>;
+        if (brickConf.template) {
+          // It's a dynamic template.
+          if (!brickConf.params) {
+            // eslint-disable-next-line require-atomic-updates
+            brickConf.params = {};
+          }
+          props = brickConf.params;
+        } else {
+          // It's a dynamic brick.
+          props = brick.properties;
+        }
+        transformProperties(
+          props,
+          data,
+          // Also support legacy `name`
+          resolveConf.transform || resolveConf.name,
+          resolveConf.transformFrom
+        );
       })
     );
     if (brickConf.template) {

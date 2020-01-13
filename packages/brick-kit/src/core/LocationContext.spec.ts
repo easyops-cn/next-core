@@ -139,6 +139,15 @@ describe("LocationContext", () => {
         [
           {
             path: "/",
+            providers: [
+              "provider-a",
+              {
+                brick: "provider-b",
+                properties: {
+                  args: ["good"]
+                }
+              }
+            ],
             bricks: [
               {
                 brick: "div",
@@ -298,6 +307,10 @@ describe("LocationContext", () => {
           ]
         }
       ]);
+      expect(kernel.mountPoints.bg.children.length).toBe(2);
+      expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
+      expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
+      expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
     });
   });
 });
