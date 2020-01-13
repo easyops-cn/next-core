@@ -4122,10 +4122,10 @@ css-has-pseudo@^0.10.0:
     postcss "^7.0.6"
     postcss-selector-parser "^5.0.0-rc.4"
 
-css-loader@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.npm.taobao.org/css-loader/download/css-loader-3.4.1.tgz#dfb7968aa9bffb26bd20375afdffe77d5a234b77"
-  integrity sha1-37eWiqm/+ya9IDda/f/nfVojS3c=
+css-loader@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.npm.taobao.org/css-loader/download/css-loader-3.4.2.tgz?cache=0&sync_timestamp=1578676111891&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcss-loader%2Fdownload%2Fcss-loader-3.4.2.tgz#d3fdb3358b43f233b78501c5ed7b1c6da6133202"
+  integrity sha1-0/2zNYtD8jO3hQHF7XscbaYTMgI=
   dependencies:
     camelcase "^5.3.1"
     cssesc "^3.0.0"
