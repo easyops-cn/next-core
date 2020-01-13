@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.6.0...@easyops/brick-utils@1.6.1) (2020-01-13)
+
+### Bug Fixes
+
+- scan providers as bricks ([ef16ec9](https://git.easyops.local/anyclouds/next-core/commits/ef16ec9))
+
 # [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.5.0...@easyops/brick-utils@1.6.0) (2020-01-13)
 
 ### Features
