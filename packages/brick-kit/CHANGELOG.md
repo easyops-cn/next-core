@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.11.1...@easyops/brick-kit@1.12.0) (2020-01-14)
+
+### Features
+
+- `useBrick.events` in BrickAsComponent supports transform ([863a566](https://git.easyops.local/anyclouds/next-core/commits/863a566))
+
 ## [1.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.11.0...@easyops/brick-kit@1.11.1) (2020-01-13)
 
 ### Bug Fixes
