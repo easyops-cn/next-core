@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.11.11...@easyops/brick-container@1.12.0) (2020-01-14)
+
+### Features
+
+- refine fontawesome library ([4675bf9](https://git.easyops.local/anyclouds/next-core/commits/4675bf9))
+
 ## [1.11.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.11.10...@easyops/brick-container@1.11.11) (2020-01-14)
 
 **Note:** Version bump only for package @easyops/brick-container
