@@ -2,12 +2,14 @@ import "moment";
 import "moment/locale/zh-cn";
 import { createRuntime, handleHttpError } from "@easyops/brick-kit";
 import { pushInterceptor } from "@easyops/brick-http";
-import "@easyops/fontawesome-library";
+import { initializeLibrary } from "@easyops/fontawesome-library";
 import "./i18n";
 
 import "./styles/variables.css";
 import "./styles/antd.less";
 import "./styles/default.css";
+
+initializeLibrary();
 
 // DLL_HASH is defined by `webpack.DefinePlugin`.
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
