@@ -15,8 +15,9 @@
     "postbuild": "node scripts/post-build.js",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest",
-    "prepack:tar": "node scripts/generate-version-file.js",
-    "pack:tar": "npm pack"
+    "prepack:tar": "node scripts/generate-version-file.js && npm run build",
+    "pack:tar": "npm pack",
+    "postpack:tar": "node scripts/rename-tar-package.js"
   },
   "sideEffects": true,
   "devDependencies": {

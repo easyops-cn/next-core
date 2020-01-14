@@ -3,5 +3,6 @@ module.exports = {
   preBuild: require("./pre-build"),
   postBuild: require("./post-build"),
   sizeLimit: require("./size-limit"),
-  createVersionFiles: require("./generateVersionFile")
+  createVersionFile: require("./generateVersionFile"),
+  renameTarPackage: require("./rename-tar-package")
 };

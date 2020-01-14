@@ -141,9 +141,9 @@ exports[`loadTemplate should create a new package of bricks 1`] = `
 Array [
   Array [
     "dist/scripts/generate-version-file.js",
-    "const { createVersionFiles } = require(\\"@easyops/build-config-factory\\");
+    "const { createVersionFile } = require(\\"@easyops/build-config-factory\\");
 
-createVersionFiles();
+createVersionFile();
 ",
   ],
   Array [
@@ -151,6 +151,13 @@ createVersionFiles();
     "const { postBuild } = require(\\"@easyops/build-config-factory\\");
 
 postBuild(\\"bricks\\");
+",
+  ],
+  Array [
+    "dist/scripts/rename-tar-package.js",
+    "const { renameTarPackage } = require(\\"@easyops/build-config-factory\\");
+
+renameTarPackage();
 ",
   ],
   Array [
@@ -387,9 +394,9 @@ exports[`loadTemplate should create a new package of micro-apps 1`] = `
 Array [
   Array [
     "dist/scripts/generate-version-file.js",
-    "const { createVersionFiles } = require(\\"@easyops/build-config-factory\\");
+    "const { createVersionFile } = require(\\"@easyops/build-config-factory\\");
 
-createVersionFiles();
+createVersionFile();
 ",
   ],
   Array [
@@ -397,6 +404,13 @@ createVersionFiles();
     "const { postBuild } = require(\\"@easyops/build-config-factory\\");
 
 postBuild(\\"micro-apps\\");
+",
+  ],
+  Array [
+    "dist/scripts/rename-tar-package.js",
+    "const { renameTarPackage } = require(\\"@easyops/build-config-factory\\");
+
+renameTarPackage();
 ",
   ],
   Array [
@@ -420,9 +434,9 @@ exports[`loadTemplate should create a new package of providers 1`] = `
 Array [
   Array [
     "dist/scripts/generate-version-file.js",
-    "const { createVersionFiles } = require(\\"@easyops/build-config-factory\\");
+    "const { createVersionFile } = require(\\"@easyops/build-config-factory\\");
 
-createVersionFiles();
+createVersionFile();
 ",
   ],
   Array [
@@ -430,6 +444,13 @@ createVersionFiles();
     "const { postBuild } = require(\\"@easyops/build-config-factory\\");
 
 postBuild(\\"bricks\\");
+",
+  ],
+  Array [
+    "dist/scripts/rename-tar-package.js",
+    "const { renameTarPackage } = require(\\"@easyops/build-config-factory\\");
+
+renameTarPackage();
 ",
   ],
   Array [
@@ -477,9 +498,9 @@ exports[`loadTemplate should create a new package of templates 1`] = `
 Array [
   Array [
     "dist/scripts/generate-version-file.js",
-    "const { createVersionFiles } = require(\\"@easyops/build-config-factory\\");
+    "const { createVersionFile } = require(\\"@easyops/build-config-factory\\");
 
-createVersionFiles();
+createVersionFile();
 ",
   ],
   Array [
@@ -487,6 +508,13 @@ createVersionFiles();
     "const { postBuild } = require(\\"@easyops/build-config-factory\\");
 
 postBuild(\\"templates\\");
+",
+  ],
+  Array [
+    "dist/scripts/rename-tar-package.js",
+    "const { renameTarPackage } = require(\\"@easyops/build-config-factory\\");
+
+renameTarPackage();
 ",
   ],
   Array [
