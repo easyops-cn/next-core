@@ -1,6 +1,7 @@
 import {
   transformProperties,
-  transformIntermediateData
+  transformIntermediateData,
+  doTransform
 } from "./transformProperties";
 
 interface Args {
@@ -176,6 +177,39 @@ describe("transformIntermediateData", () => {
       expect(transformIntermediateData(data, transform, transformFrom)).toEqual(
         result
       );
+    }
+  );
+});
+
+describe("doTransform", () => {
+  const data: Parameters<typeof doTransform>[0] = {
+    hello: "good"
+  };
+
+  it.each<
+    [
+      Parameters<typeof doTransform>[1],
+      Parameters<typeof doTransform>[2],
+      ReturnType<typeof doTransform>
+    ]
+  >([
+    [
+      {
+        "button.click": {
+          args: ["@{hello}"]
+        }
+      },
+      undefined,
+      {
+        "button.click": {
+          args: ["good"]
+        }
+      }
+    ]
+  ])(
+    'doTransform({hello:"good"}, %j, %j) should return %j',
+    (transform, transformFrom, result) => {
+      expect(doTransform(data, transform, transformFrom)).toEqual(result);
     }
   );
 });
