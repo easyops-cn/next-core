@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.9.0...@easyops/brick-icons@1.10.0) (2020-01-14)
+
+### Features
+
+- **icon:** add a template icon ([80a82e8](https://git.easyops.local/anyclouds/next-core/commits/80a82e8))
+
 # [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.8.1...@easyops/brick-icons@1.9.0) (2020-01-09)
 
 ### Features
