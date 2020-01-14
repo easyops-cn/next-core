@@ -18,7 +18,7 @@ export function transformProperties(
   return props;
 }
 
-function transformSingleProperty(data: any, transformTo: any): any {
+export function doTransform(data: any, transformTo: any, smart?: boolean): any {
   if (typeof transformTo === "string") {
     const matches = transformTo.match(/^@\{([^}]*)\}$/);
     if (matches) {
@@ -32,12 +32,16 @@ function transformSingleProperty(data: any, transformTo: any): any {
   }
 
   return Array.isArray(transformTo)
-    ? transformTo.map(item => transformSingleProperty(data, item))
+    ? transformTo.map(item => doTransform(data, item, smart))
     : isObject(transformTo)
-    ? Object.entries(transformTo).reduce<Record<string, any>>(
-        (acc, [k, v]) => set(acc, k, transformSingleProperty(data, v)),
-        {}
-      )
+    ? Object.entries(transformTo).reduce<Record<string, any>>((acc, [k, v]) => {
+        if (smart) {
+          set(acc, k, doTransform(data, v, smart));
+        } else {
+          acc[k] = doTransform(data, v, smart);
+        }
+        return acc;
+      }, {})
     : transformTo;
 }
 
@@ -60,8 +64,8 @@ function preprocessTransformProperties(
   for (const [transformedPropName, transformTo] of Object.entries(transform)) {
     // If data is array, mapping it's items.
     props[transformedPropName] = isArray
-      ? (data as any[]).map(item => transformSingleProperty(item, transformTo))
-      : transformSingleProperty(data, transformTo);
+      ? (data as any[]).map(item => doTransform(item, transformTo, true))
+      : doTransform(data, transformTo, true);
   }
 
   return props;

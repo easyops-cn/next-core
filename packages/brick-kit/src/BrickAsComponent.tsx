@@ -1,6 +1,10 @@
 import React from "react";
 import { cloneDeep } from "lodash";
-import { bindListeners, transformProperties } from "@easyops/brick-utils";
+import {
+  bindListeners,
+  transformProperties,
+  doTransform
+} from "@easyops/brick-utils";
 import { UseBrickConf } from "@easyops/brick-types";
 import { getHistory } from "./history";
 
@@ -28,11 +32,15 @@ export function BrickAsComponent(
       if (element) {
         Object.assign(element, transformedProperties);
         if (props.useBrick.events) {
-          bindListeners(element, props.useBrick.events, getHistory());
+          bindListeners(
+            element,
+            doTransform(props.data, props.useBrick.events),
+            getHistory()
+          );
         }
       }
     },
-    [transformedProperties, props.useBrick]
+    [transformedProperties, props.useBrick, props.data]
   );
 
   return React.createElement(props.useBrick.brick, {
