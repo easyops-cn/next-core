@@ -4,7 +4,8 @@ import { isObject } from "./isObject";
 
 const replaceTemplateValue = (
   matches: string[],
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  asString?: boolean
 ): any => {
   const [raw, namespace, field, defaultValue, type] = matches;
   let result;
@@ -32,8 +33,8 @@ const replaceTemplateValue = (
       result = defaultValue;
     }
   }
-  if (result === undefined) {
-    return;
+  if (result === undefined || result === null) {
+    return asString ? "" : undefined;
   }
   switch (type) {
     case undefined:
@@ -98,7 +99,11 @@ export const computeRealValue = (
   return value.replace(
     /\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}/g,
     (raw, query, field, defaultValue, type) =>
-      replaceTemplateValue([raw, query, field, defaultValue, type], context)
+      replaceTemplateValue(
+        [raw, query, field, defaultValue, type],
+        context,
+        true
+      )
   );
 };
 

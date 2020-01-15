@@ -130,7 +130,7 @@ describe("setProperties", () => {
           name: { $eq: "${QUERY.name}" }
         },
         selectedKeys: ["${QUERY.key}"],
-        url: "/objects/HOST/instances/undefined",
+        url: "/objects/HOST/instances/",
         allQueryAsString: originalQuery,
         urlToDetail: "/cmdb/HOST"
       }
@@ -157,7 +157,7 @@ describe("setProperties", () => {
           name: { $eq: "abc" }
         },
         selectedKeys: ["K"],
-        url: "/objects/HOST/instances/undefined",
+        url: "/objects/HOST/instances/",
         allQueryAsString: originalQuery,
         urlToDetail: "/cmdb/HOST"
       }
@@ -185,7 +185,7 @@ describe("setProperties", () => {
             name: { $eq: "${QUERY.name}" }
           },
           selectedKeys: ["${QUERY.key}"],
-          url: "/objects/HOST/instances/undefined",
+          url: "/objects/HOST/instances/",
           allQueryAsString: originalQuery,
           urlToDetail: "/cmdb/HOST"
         },
@@ -206,7 +206,7 @@ describe("setProperties", () => {
             name: { $eq: "${QUERY.name}" }
           },
           selectedKeys: ["${QUERY.key}"],
-          url: "/objects/HOST/instances/undefined",
+          url: "/objects/HOST/instances/",
           allQueryAsString: originalQuery,
           urlToDetail: "/cmdb/HOST"
         }
