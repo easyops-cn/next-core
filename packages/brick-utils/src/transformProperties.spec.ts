@@ -205,6 +205,24 @@ describe("doTransform", () => {
           args: ["good"]
         }
       }
+    ],
+    [
+      {
+        value: "@{notExisted}"
+      },
+      undefined,
+      {
+        value: undefined
+      }
+    ],
+    [
+      {
+        value: "id=@{notExisted}"
+      },
+      undefined,
+      {
+        value: "id="
+      }
     ]
   ])(
     'doTransform({hello:"good"}, %j, %j) should return %j',

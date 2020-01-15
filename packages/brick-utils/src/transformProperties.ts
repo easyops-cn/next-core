@@ -26,8 +26,11 @@ export function doTransform(data: any, transformTo: any, smart?: boolean): any {
       // If meet `@{}`, return `data`.
       return matches[1] ? get(data, matches[1]) : data;
     }
-    return transformTo.replace(/@\{([^}]*)\}/g, (_raw, field) =>
-      field ? get(data, field) : data
+    return transformTo.replace(
+      /@\{([^}]*)\}/g,
+      (_raw, field) =>
+        // If the retrieved data is null/undefined, replace it with an empty string.
+        (field ? get(data, field) : data) ?? ""
     );
   }
 
