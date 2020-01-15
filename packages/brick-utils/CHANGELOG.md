@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.7.0...@easyops/brick-utils@1.7.1) (2020-01-15)
+
+### Bug Fixes
+
+- **transform/setProperties:** replace null/undefined with empty string ([52a4b9d](https://git.easyops.local/anyclouds/next-core/commits/52a4b9d))
+
 # [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.6.1...@easyops/brick-utils@1.7.0) (2020-01-14)
 
 ### Features

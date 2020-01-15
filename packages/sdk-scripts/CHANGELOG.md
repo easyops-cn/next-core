@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.1.5...@easyops/sdk-scripts@1.1.6) (2020-01-15)
+
+### Bug Fixes
+
+- fix a problem when an api use a refed-refed-ref ([d131686](https://git.easyops.local/anyclouds/next-core/commits/d131686))
+
 ## [1.1.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.1.4...@easyops/sdk-scripts@1.1.5) (2019-12-23)
 
 **Note:** Version bump only for package @easyops/sdk-scripts
