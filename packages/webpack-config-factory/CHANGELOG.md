@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.6.0...@easyops/webpack-config-factory@1.7.0) (2020-01-15)
+
+### Features
+
+- move brick package's `@dll/*` from `devDependencies` to peerDependencies ([d96990c](https://git.easyops.local/anyclouds/next-core/commits/d96990c))
+
 # [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.5.0...@easyops/webpack-config-factory@1.6.0) (2020-01-07)
 
 ### Features

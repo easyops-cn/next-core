@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.3.9...@easyops/brick-scripts@1.4.0) (2020-01-15)
+
+### Features
+
+- move next-core dependencies out to workspace ([3f5a689](https://git.easyops.local/anyclouds/next-core/commits/3f5a689))
+- pack:tar 打包后需重命名为平台要求的名称 ([8145458](https://git.easyops.local/anyclouds/next-core/commits/8145458))
+
 ## [1.3.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.3.8...@easyops/brick-scripts@1.3.9) (2020-01-14)
 
 **Note:** Version bump only for package @easyops/brick-scripts

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.15...@easyops/build-config-factory@1.3.0) (2020-01-15)
+
+### Features
+
+- pack:tar 打包后需重命名为平台要求的名称 ([8145458](https://git.easyops.local/anyclouds/next-core/commits/8145458))
+- refine updating deps after refine dependencies management ([cd757ea](https://git.easyops.local/anyclouds/next-core/commits/cd757ea))
+
 ## [1.2.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.2.14...@easyops/build-config-factory@1.2.15) (2020-01-14)
 
 **Note:** Version bump only for package @easyops/build-config-factory
