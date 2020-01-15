@@ -61,7 +61,7 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
 
   const packageJson = require(path.join(cwdDirname, "package.json"));
   const packageName = packageJson.name.split("/")[1];
-  const dll = Object.keys(packageJson.devDependencies).filter(name =>
+  const dll = Object.keys(packageJson.peerDependencies || {}).filter(name =>
     name.startsWith("@dll/")
   );
 

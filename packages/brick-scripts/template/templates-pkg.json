@@ -19,10 +19,6 @@
     "pack:tar": "npm pack"
   },
   "sideEffects": true,
-  "devDependencies": {
-    "@easyops/brick-dll": "latest",
-    "@easyops/brick-types": "latest"
-  },
   "peerDependencies": {
     "@bricks/basic-bricks": "latest"
   }

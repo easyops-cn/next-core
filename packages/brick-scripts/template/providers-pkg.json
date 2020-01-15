@@ -19,7 +19,6 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "devDependencies": {
-    "@easyops/brick-dll": "latest",
     "@sdk/$kebab-sdk-name$": "$sdk.version$"
   },
   "sideEffects": true
