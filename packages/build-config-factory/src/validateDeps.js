@@ -5,14 +5,11 @@ module.exports = function validateDeps(scope) {
   const packageJson = require(path.join(process.cwd(), "package.json"));
 
   if (scope === "bricks") {
-    if (
-      !isEmpty(packageJson.dependencies) ||
-      !isEmpty(packageJson.peerDependencies)
-    ) {
+    if (!isEmpty(packageJson.dependencies)) {
       throw new Error(
         "`@" +
           scope +
-          "/*` should not have any `dependencies` or `peerDependencies`, use `devDependencies` instead."
+          "/*` should not have any `dependencies`, use `peerDependencies` for `@dll/*` and `devDependencies` for others instead."
       );
     }
     const devDependencies = Object.keys(packageJson.devDependencies || {});
@@ -30,11 +27,20 @@ module.exports = function validateDeps(scope) {
           "/*` should never depend on `@templates/*` or `@micro-apps/*` or other `@bricks/*`."
       );
     }
-    if (!devDependencies.includes("@easyops/brick-dll")) {
+    if (
+      devDependencies.includes("@easyops/brick-dll") ||
+      devDependencies.some(pkg => pkg.startsWith("@dll/"))
+    ) {
       throw new Error(
         "`@" +
           scope +
-          "/*` should always have a dev-dependency of `@easyops/brick-dll`."
+          "/*` should never have `devDependencies` of `@easyops/brick-dll` or `@dll/*`."
+      );
+    }
+    const peerDependencies = Object.keys(packageJson.peerDependencies || {});
+    if (peerDependencies.some(pkg => !pkg.startsWith("@dll/"))) {
+      throw new Error(
+        "`@" + scope + "/*` should only have `peerDependencies` of `@dll/*`."
       );
     }
   } else if (scope === "micro-apps" || scope === "templates") {
