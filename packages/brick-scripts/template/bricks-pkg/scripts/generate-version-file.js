@@ -1,3 +1,3 @@
-const { createVersionFiles } = require("@easyops/build-config-factory");
+const { createVersionFile } = require("@easyops/build-config-factory");
 
-createVersionFiles();
+createVersionFile();

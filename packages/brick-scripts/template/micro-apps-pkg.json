@@ -12,8 +12,9 @@
   "scripts": {
     "build": "echo 'nothing to build but lerna need this to build deps'",
     "postbuild": "node scripts/post-build.js",
-    "prepack:tar": "node scripts/generate-version-file.js",
-    "pack:tar": "npm pack"
+    "prepack:tar": "node scripts/generate-version-file.js && npm run build",
+    "pack:tar": "npm pack",
+    "postpack:tar": "node scripts/rename-tar-package.js"
   },
   "peerDependencies": {
     "@bricks/basic-bricks": "latest"
