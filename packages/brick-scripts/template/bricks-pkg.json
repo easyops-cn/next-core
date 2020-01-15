@@ -18,8 +18,5 @@
     "prepack:tar": "node scripts/generate-version-file.js",
     "pack:tar": "npm pack"
   },
-  "devDependencies": {
-    "@easyops/brick-dll": "latest"
-  },
   "sideEffects": true
 }

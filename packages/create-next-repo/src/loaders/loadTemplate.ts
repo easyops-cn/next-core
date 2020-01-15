@@ -13,9 +13,14 @@ const packageJson = JSON.parse(
 );
 const devDependenciesCopyMap = {
   devDependencies: [
+    "@dll/ace",
+    "@dll/d3",
+    "@dll/echarts",
     "@easyops/babel-preset-next",
     "@easyops/brick-container",
+    "@easyops/brick-dll",
     "@easyops/brick-scripts",
+    "@easyops/brick-types",
     "@easyops/browserslist-config-next",
     "@easyops/build-config-factory",
     "@easyops/eslint-config-next",

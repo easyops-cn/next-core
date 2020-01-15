@@ -11,9 +11,7 @@ import { FileWithContent, TargetType } from "../interface";
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
-const { templateDependencies, devDependencies } = packageJson;
-const brickDllVersion = devDependencies["@easyops/brick-dll"];
-const brickTypesVersion = packageJson.devDependencies["@easyops/brick-types"];
+const { templateDependencies } = packageJson;
 const basicBricksVersion = templateDependencies["@bricks/basic-bricks"];
 const brickContainerVersion = templateDependencies["@easyops/brick-container"];
 
@@ -49,14 +47,6 @@ function replaceFileContent(
 
 function replaceDepsVersion(jsonString: string): string {
   const pkg = JSON.parse(jsonString);
-  const devDeps = pkg.devDependencies || {};
-  for (const key of Object.keys(devDeps)) {
-    if (key === "@easyops/brick-dll") {
-      devDeps[key] = brickDllVersion;
-    } else if (key === "@easyops/brick-types") {
-      devDeps[key] = brickTypesVersion;
-    }
-  }
 
   const peerDeps = pkg.peerDependencies || {};
   if (peerDeps["@bricks/basic-bricks"]) {

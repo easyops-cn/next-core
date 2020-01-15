@@ -77,22 +77,12 @@ export async function create(): Promise<void> {
       ]);
     }
   } else if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
-    const packageJson = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "../package.json"), "utf8")
-    );
-    const brickTypesVersion =
-      packageJson.devDependencies["@easyops/brick-types"];
     const microAppPackageJsonPath = path.join(targetRoot, "package.json");
     const microAppPackageJson = require(microAppPackageJsonPath);
     Object.assign(microAppPackageJson.scripts, {
       start: "tsc -w --preserveWatchOutput & node scripts/build.js -w",
       prebuild: "rimraf dist && tsc",
       build: "node scripts/build.js"
-    });
-    Object.assign(microAppPackageJson, {
-      devDependencies: {
-        "@easyops/brick-types": brickTypesVersion
-      }
     });
 
     files.push([
