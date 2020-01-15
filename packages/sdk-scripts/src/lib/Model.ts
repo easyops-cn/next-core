@@ -31,13 +31,37 @@ export class Model extends SourceFile {
     );
   }
 
-  getRefField(refKey: string, originalSourceFile: SourceFile): NormalFieldDoc {
+  getRefField(
+    refKey: string,
+    originalSourceFile: SourceFile,
+    justTry?: boolean
+  ): NormalFieldDoc {
+    let possibleField: NormalFieldDoc;
+    for (const f of this.doc.fields) {
+      if ((f as RefFieldDoc).ref) {
+        const [refModel, key] = (f as RefFieldDoc).ref.split(".");
+        if (key === "*") {
+          const ref = this.namespace.get(refModel);
+          if (ref === undefined) {
+            throw new Error(`Unknown model in ${this.filePath}: ${refModel}`);
+          }
+          possibleField = ref.getRefField(refKey, originalSourceFile, true);
+          if (possibleField) {
+            return possibleField;
+          }
+        }
+      }
+    }
+
     const field = this.doc.fields.find(f =>
       (f as RefFieldDoc).ref
         ? (f as RefFieldDoc).ref.split(".")[1] === refKey
         : (f as NormalFieldDoc).name === refKey
     );
     if (field === undefined) {
+      if (justTry) {
+        return null;
+      }
       throw new Error(`Field not found in ${this.filePath}: ${refKey}`);
     }
 
