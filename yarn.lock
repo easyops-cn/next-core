@@ -7193,10 +7193,10 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^4.0.9:
-  version "4.0.9"
-  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.9.tgz#ded9e4f957dd8358649330da84906b6bf2e367e9"
-  integrity sha1-3tnk+Vfdg1hkkzDahJBra/LjZ+k=
+husky@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.10.tgz?cache=0&sync_timestamp=1579100492102&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-4.0.10.tgz#659b52c404d3163b943a73f6c1d454708c0226d8"
+  integrity sha1-ZZtSxATTFjuUOnP2wdRUcIwCJtg=
   dependencies:
     chalk "^3.0.0"
     ci-info "^2.0.0"
