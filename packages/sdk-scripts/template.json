@@ -1,6 +1,6 @@
 {
   "name": "@sdk/$kebab-service-name$-sdk",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "SDK for $Title Service Name$",
   "homepage": "https://git.easyops.local/anyclouds/next-sdk/tree/master/sdk/$kebab-service-name$-sdk",
   "license": "UNLICENSED",
@@ -24,9 +24,6 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "sideEffects": false,
-  "devDependencies": {
-    "@easyops/brick-http": "latest"
-  },
   "peerDependencies": {
     "@easyops/brick-http": "*"
   }

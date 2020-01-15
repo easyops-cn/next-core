@@ -10,8 +10,6 @@ import { FileWithContent } from "../interface";
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
-const { devDependencies } = packageJson;
-const brickHttpVersion = devDependencies["@easyops/brick-http"];
 
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
@@ -40,7 +38,6 @@ function replaceFileContent(
 
 function replaceDepsVersion(jsonString: string, sdkVersion: string): string {
   const pkg = JSON.parse(jsonString);
-  pkg.devDependencies["@easyops/brick-http"] = brickHttpVersion;
   if (sdkVersion) {
     pkg.version = sdkVersion;
   }

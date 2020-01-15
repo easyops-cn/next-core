@@ -6,7 +6,7 @@ describe("loadTemplate", () => {
     let files = loadTemplate("cd", "/tmp/sdk", "1.2.3");
     files = files.filter(([filePath]) => {
       const fileName = path.basename(filePath);
-      return !["package.json", "README.md"].includes(fileName);
+      return !["README.md"].includes(fileName);
     });
     expect(files).toMatchSnapshot();
   });
