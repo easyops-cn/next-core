@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.1.6...@easyops/sdk-scripts@1.2.0) (2020-01-16)
+
+### Features
+
+- move sdk's dep of `@easyops/brick-http` out to workspace ([3176980](https://git.easyops.local/anyclouds/next-core/commits/3176980))
+
 ## [1.1.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.1.5...@easyops/sdk-scripts@1.1.6) (2020-01-15)
 
 ### Bug Fixes
