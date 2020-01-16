@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
-    <title>B9CFEDF3-8D3B-4F86-B545-EB912E986C25</title>
+    <title>切片</title>
     <desc>Created with Sketch.</desc>
     <defs>
         <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
             <stop stop-color="#FFFFFF" offset="0%"></stop>
             <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
         </linearGradient>
-        <path d="M18,1 C27.3888407,1 35,8.61115925 35,18 C35,27.3888407 27.3888407,35 18,35 C8.61115925,35 1,27.3888407 1,18 C1,8.61115925 8.61115925,1 18,1 Z M26.98702,11.9852534 C26.4265909,11.3751626 25.4776971,11.3349039 24.8676063,11.8953329 L24.8676063,11.8953329 L14.59,21.335 L11.2208468,16.6148785 L11.1313256,16.5012924 C10.6302228,15.9244298 9.76308097,15.8125341 9.12848798,16.2655438 C8.45423294,16.7468666 8.29783045,17.6836475 8.77915324,18.3579025 L8.77915324,18.3579025 L13.1350079,24.4597473 L13.2269977,24.576231 C13.7740137,25.2033597 14.7436149,25.2688517 15.3706013,24.6929024 L15.3706013,24.6929024 L26.8970995,14.1046671 L27.0048063,13.9952119 C27.5098762,13.4269497 27.5124223,12.5572135 26.98702,11.9852534 Z" id="path-2"></path>
-        <filter x="-20.6%" y="-14.7%" width="141.2%" height="141.2%" filterUnits="objectBoundingBox" id="filter-3">
+        <path d="M18,-1.13686838e-13 C27.9411255,-1.13686838e-13 36,8.0588745 36,18 C36,27.9411255 27.9411255,36 18,36 C8.0588745,36 0,27.9411255 0,18 C0,8.0588745 8.0588745,-1.13686838e-13 18,-1.13686838e-13 Z M27.5156683,11.6314448 C26.9222728,10.9854663 25.9175617,10.9428394 25.2715832,11.5362349 L25.2715832,11.5362349 L14.3894118,21.5311765 L10.822073,16.5334008 L10.727286,16.4131331 C10.1967065,15.8023375 9.27855632,15.6838596 8.60663434,16.1635169 C7.89271723,16.6731528 7.72711459,17.6650385 8.23675049,18.3789556 L8.23675049,18.3789556 L12.8488319,24.8397324 L12.9462328,24.9630681 C13.5254262,25.6270868 14.5520629,25.6964312 15.2159307,25.0866025 L15.2159307,25.0866025 L27.4204583,13.8755298 L27.5345008,13.7596361 C28.0692807,13.1579468 28.0719765,12.2370496 27.5156683,11.6314448 Z" id="path-2"></path>
+        <filter x="-19.4%" y="-13.9%" width="138.9%" height="138.9%" filterUnits="objectBoundingBox" id="filter-3">
             <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
             <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
             <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
         </filter>
     </defs>
     <g id="终版" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="首页" transform="translate(-963.000000, -247.000000)">
-            <g id="1备份-11" transform="translate(677.000000, 186.000000)">
-                <g id="icon/代码项目" transform="translate(269.000000, 42.000000)">
-                    <g id="正常设备数" transform="translate(20.000000, 20.000000)">
-                        <g id="编组-5">
-                            <g id="形状结合">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
-                                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
-                            </g>
-                            <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="36" height="36"></rect>
-                        </g>
-                    </g>
+        <g id="正常设备数">
+            <g id="编组-5">
+                <g id="形状结合">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
                 </g>
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="36" height="36"></rect>
             </g>
         </g>
     </g>

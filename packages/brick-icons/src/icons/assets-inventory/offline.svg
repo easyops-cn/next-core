@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="34px" height="37px" viewBox="0 0 34 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
-    <title>8E130879-FD39-4498-87BF-0D7E2234301B</title>
+    <title>切片</title>
     <desc>Created with Sketch.</desc>
     <defs>
         <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
@@ -26,23 +26,15 @@
         </filter>
     </defs>
     <g id="终版" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="首页" transform="translate(-1793.000000, -429.000000)">
-            <g id="1备份-16" transform="translate(1503.000000, 366.000000)">
-                <g id="icon/代码项目" transform="translate(269.000000, 42.000000)">
-                    <g id="编组-21备份-2" transform="translate(20.000000, 22.000000)">
-                        <g id="下线设备数" transform="translate(0.000000, 0.000000)">
-                            <g id="形状结合备份-3" transform="translate(18.000000, 20.062500) rotate(-180.000000) translate(-18.000000, -20.062500) ">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
-                                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
-                            </g>
-                            <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="2.84217094e-14" width="36" height="36"></rect>
-                            <g id="直线-7备份-4">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
-                                <use fill="url(#linearGradient-4)" fill-rule="evenodd" xlink:href="#path-5"></use>
-                            </g>
-                        </g>
-                    </g>
-                </g>
+        <g id="下线设备数">
+            <g id="形状结合备份-3" transform="translate(18.000000, 20.062500) rotate(-180.000000) translate(-18.000000, -20.062500) ">
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="2.84217094e-14" width="36" height="36"></rect>
+            <g id="直线-7备份-4">
+                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                <use fill="url(#linearGradient-4)" fill-rule="evenodd" xlink:href="#path-5"></use>
             </g>
         </g>
     </g>
