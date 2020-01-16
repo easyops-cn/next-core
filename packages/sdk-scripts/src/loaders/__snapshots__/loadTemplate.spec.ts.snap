@@ -34,5 +34,42 @@ export interface ResponseListWrapper<T> {
 }
 ",
   ],
+  Array [
+    "/tmp/sdk/package.json",
+    "{
+  \\"name\\": \\"@sdk/cd-sdk\\",
+  \\"version\\": \\"1.2.3\\",
+  \\"description\\": \\"SDK for Cd\\",
+  \\"homepage\\": \\"https://git.easyops.local/anyclouds/next-sdk/tree/master/sdk/cd-sdk\\",
+  \\"license\\": \\"UNLICENSED\\",
+  \\"main\\": \\"dist/index.bundle.js\\",
+  \\"module\\": \\"dist/index.esm.js\\",
+  \\"typings\\": \\"dist/types/index.d.ts\\",
+  \\"files\\": [
+    \\"dist\\",
+    \\"deploy\\"
+  ],
+  \\"repository\\": {
+    \\"type\\": \\"git\\",
+    \\"url\\": \\"git@git.easyops.local:anyclouds/next-sdk.git\\"
+  },
+  \\"scripts\\": {
+    \\"clean\\": \\"rimraf dist\\",
+    \\"prestart\\": \\"npm run clean\\",
+    \\"start\\": \\"npm run build:types && rollup --config rollup.config.js --watch\\",
+    \\"prebuild\\": \\"npm run clean\\",
+    \\"build\\": \\"npm run build:types && npm run build:rollup\\",
+    \\"build:rollup\\": \\"rollup --config rollup.config.js\\",
+    \\"build:types\\": \\"tsc --emitDeclarationOnly --declaration --declarationDir dist/types\\",
+    \\"test\\": \\"cross-env NODE_ENV='test' jest\\",
+    \\"test:ci\\": \\"cross-env NODE_ENV='test' CI=true jest\\"
+  },
+  \\"sideEffects\\": false,
+  \\"peerDependencies\\": {
+    \\"@easyops/brick-http\\": \\"*\\"
+  }
+}
+",
+  ],
 ]
 `;

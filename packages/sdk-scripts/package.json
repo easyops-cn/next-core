@@ -34,9 +34,6 @@
     "klaw-sync": "^6.0.0",
     "prettier": "^1.19.1"
   },
-  "devDependencies": {
-    "@easyops/brick-http": "^1.0.0"
-  },
   "engines": {
     "node": ">=10.10.0"
   }
