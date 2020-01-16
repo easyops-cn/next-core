@@ -90,14 +90,14 @@ export const computeRealValue = (
     return newValue;
   }
   const matches = value.match(
-    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}$/
+    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|}]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}$/
   );
   if (matches) {
     return replaceTemplateValue(matches, context);
   }
 
   return value.replace(
-    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}/g,
+    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|}]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}/g,
     (raw, query, field, defaultValue, type) =>
       replaceTemplateValue(
         [raw, query, field, defaultValue, type],

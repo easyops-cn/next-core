@@ -97,7 +97,7 @@ describe("setProperties", () => {
       name: { $eq: "${QUERY.name}" }
     },
     selectedKeys: ["${QUERY.key}"],
-    url: "/objects/${objectId}/instances/${instanceId}",
+    url: "/objects/${objectId=}/instances/${instanceId}",
     allQueryAsString: "${QUERY.*|string}",
     urlToDetail: "${APP.homepage}/${objectId}"
   };
