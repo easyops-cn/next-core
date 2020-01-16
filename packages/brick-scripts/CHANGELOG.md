@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.4.0...@easyops/brick-scripts@1.5.0) (2020-01-16)
+
+### Features
+
+- **brick-dpc:** add history block and make some blocks optional ([aa79915](https://git.easyops.local/anyclouds/next-core/commits/aa79915))
+
 # [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.3.9...@easyops/brick-scripts@1.4.0) (2020-01-15)
 
 ### Features
