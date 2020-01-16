@@ -11618,10 +11618,10 @@ react-dom@^16.12.0:
     prop-types "^15.6.2"
     scheduler "^0.18.0"
 
-react-i18next@^11.3.0:
-  version "11.3.0"
-  resolved "https://registry.npm.taobao.org/react-i18next/download/react-i18next-11.3.0.tgz?cache=0&sync_timestamp=1578914721369&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-i18next%2Fdownload%2Freact-i18next-11.3.0.tgz#8c827b084708924fd2e8c787aca78e0f7966fa44"
-  integrity sha1-jIJ7CEcIkk/S6MeHrKeOD3lm+kQ=
+react-i18next@^11.3.1:
+  version "11.3.1"
+  resolved "https://registry.npm.taobao.org/react-i18next/download/react-i18next-11.3.1.tgz#9269282c3f566015f0bdf8fdbf46782bbe50f5a7"
+  integrity sha1-kmkoLD9WYBXwvfj9v0Z4K75Q9ac=
   dependencies:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"
