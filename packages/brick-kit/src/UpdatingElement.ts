@@ -154,6 +154,7 @@ export abstract class UpdatingElement extends HTMLElement {
   private static _observedAttributes = new Set<string>();
 
   static get observedAttributes(): string[] {
+    this._ensureObservedAttributes();
     return Array.from(this._observedAttributes);
   }
 
@@ -180,7 +181,22 @@ export abstract class UpdatingElement extends HTMLElement {
     }
   }
 
+  private static _ensureObservedAttributes(): void {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!this.hasOwnProperty("_observedAttributes")) {
+      const superClass = Object.getPrototypeOf(this);
+      this._observedAttributes = new Set<string>(
+        // eslint-disable-next-line no-prototype-builtins
+        superClass.hasOwnProperty("_observedAttributes")
+          ? superClass._observedAttributes
+          : null
+      );
+    }
+  }
+
   static createProperty(name: string, options?: PropertyDeclaration): void {
+    this._ensureObservedAttributes();
+
     options = Object.assign({}, defaultPropertyDeclaration, options);
 
     // eslint-disable-next-line no-prototype-builtins
