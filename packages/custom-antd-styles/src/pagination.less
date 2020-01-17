@@ -1,0 +1,26 @@
+.@{pagination-prefix-cls} {
+  &-item {
+    border-color: transparent;
+    background-color: transparent;
+  }
+
+  .ant-pagination-item-active {
+    border-color: @primary-color;
+  }
+
+  &-prev &-item-link,
+  &-next &-item-link {
+    border-color: transparent;
+    background-color: transparent;
+  }
+
+  &-options {
+    &-size-changer.@{ant-prefix}-select {
+      .@{ant-prefix}-select-selection{
+        background-color: transparent;
+      }
+    }
+  }
+
+
+}
