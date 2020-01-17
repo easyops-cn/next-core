@@ -48,10 +48,20 @@ describe("UpdatingElement", () => {
       attribute: false
     });
 
+    class ChildTestElement extends TestElement {}
+    (ChildTestElement as any).createProperty("childAttr");
+
+    expect(UpdatingElement.observedAttributes).toEqual([]);
     expect(TestElement.observedAttributes).toEqual([
       "string-attr",
       "number-attr",
       "bool-attr"
+    ]);
+    expect((ChildTestElement as any).observedAttributes).toEqual([
+      "string-attr",
+      "number-attr",
+      "bool-attr",
+      "child-attr"
     ]);
 
     const element = new TestElement() as any;
