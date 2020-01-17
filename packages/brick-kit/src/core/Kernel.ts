@@ -155,7 +155,7 @@ export class Kernel {
           fields
         })
       ).list as UserInfo[];
-      for (const user of this.allUserInfo) {
+      for (const user of newUserInfo) {
         newUserMap.set(user.name, user);
       }
     } catch (error) {
