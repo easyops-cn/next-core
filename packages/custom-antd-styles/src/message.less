@@ -1,0 +1,40 @@
+
+.@{message-prefix-cls} {
+  &-notice-content {
+    position: relative;
+    padding: 9px 18px;
+  }
+
+  &-success::before,
+  &-error::before,
+  &-warning::before,
+  &-info::before,
+  &-loading::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  &-success::before {
+    background-color: @success-color;
+  }
+
+  &-error::before {
+    background-color: @error-color;
+  }
+
+  &-warning::before {
+    background-color: @warning-color;
+  }
+
+  &-info::before,
+  &-loading::before {
+    background-color: @info-color;
+  }
+}
+
