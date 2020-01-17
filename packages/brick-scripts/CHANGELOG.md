@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.5.0...@easyops/brick-scripts@1.5.1) (2020-01-17)
+
+### Bug Fixes
+
+- always show the history block of a new brick cause it's a new brick ([93bc94f](https://git.easyops.local/anyclouds/next-core/commits/93bc94f))
+
 # [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.4.0...@easyops/brick-scripts@1.5.0) (2020-01-16)
 
 ### Features
