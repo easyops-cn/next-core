@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>编组 5</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Apple-TV备份-4" transform="translate(-1159.000000, -953.000000)">
+            <g id="编组-5" transform="translate(1159.000000, 953.000000)">
+                <g id="编组-4" transform="translate(1.000000, 1.000000)" stroke="#FFFFFF">
+                    <circle id="椭圆形备份-10" cx="5.78947368" cy="14.2105263" r="2.10526316"></circle>
+                    <rect id="矩形备份-16" x="0" y="0" width="20" height="20" rx="2"></rect>
+                    <g id="编组-3备份-2" transform="translate(6.219231, 5.496270) rotate(-315.000000) translate(-6.219231, -5.496270) translate(4.640284, 2.864691)" stroke-linecap="round">
+                        <line x1="0.24617149" y1="4.56323879" x2="2.70676692" y2="4.99710816" id="直线-6备份-2"></line>
+                        <line x1="2.27124024" y1="0.0190155052" x2="2.70676692" y2="4.99710816" id="直线-6备份-2"></line>
+                    </g>
+                    <line x1="11.0526316" y1="6.31578947" x2="16.3157895" y2="6.31578947" id="直线-6备份-5" stroke-linecap="round"></line>
+                    <line x1="11.0526316" y1="14.2105263" x2="16.3157895" y2="14.2105263" id="直线-6备份-6" stroke-linecap="round"></line>
+                </g>
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="22" height="22"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
