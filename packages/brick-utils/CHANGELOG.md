@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.7.1...@easyops/brick-utils@1.7.2) (2020-01-17)
+
+### Bug Fixes
+
+- **setProperties:** fix injecting with default value followed by empty string ([88b4734](https://git.easyops.local/anyclouds/next-core/commits/88b4734))
+
 ## [1.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.7.0...@easyops/brick-utils@1.7.1) (2020-01-15)
 
 ### Bug Fixes

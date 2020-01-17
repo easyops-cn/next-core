@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.9.1...@easyops/custom-antd-styles@0.9.2) (2020-01-17)
+
+### Bug Fixes
+
+- message 按照规范调整样式 ([ea16231](https://git.easyops.local/anyclouds/next-core/commits/ea16231))
+
 ## [0.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.9.0...@easyops/custom-antd-styles@0.9.1) (2020-01-07)
 
 ### Bug Fixes
