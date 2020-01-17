@@ -228,7 +228,7 @@ export async function loadTemplate({
         "brick-doc",
         "brick-doc-template.md"
       );
-      const content = fs.readFileSync(brickDocTemplatePath, "utf8");
+      const content = replaceFileContent(brickDocTemplatePath, translations);
       const targetMd = brickName + ".md";
       files.push([path.join(docRoot, packageName, targetMd), content]);
     }

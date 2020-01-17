@@ -1,9 +1,9 @@
 <details>
 <summary>History</summary>
 
-| Version | Change   |
-| ------- | -------- |
-| 1.x.0   | 新增构件 |
+| Version | Change                        |
+| ------- | ----------------------------- |
+| 1.x.0   | 新增构件 `$kebab-brick-name$` |
 
 </details>
 
