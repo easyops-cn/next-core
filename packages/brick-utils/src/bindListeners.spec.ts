@@ -56,6 +56,28 @@ describe("bindListeners", () => {
             action: "history.replace",
             args: ["specified args for history.replace"]
           },
+          {
+            action: "history.pushQuery",
+            args: [
+              {
+                q: "123",
+                a: undefined
+              },
+              {
+                extraQuery: {
+                  page: 1
+                }
+              }
+            ]
+          },
+          {
+            action: "history.replaceQuery",
+            args: [
+              {
+                page: 1
+              }
+            ]
+          },
           { action: "history.goBack" },
           {
             action: "history.goForward"
@@ -93,8 +115,13 @@ describe("bindListeners", () => {
       const history = {
         push: jest.fn(),
         replace: jest.fn(),
+        pushQuery: jest.fn(),
+        replaceQuery: jest.fn(),
         goBack: jest.fn(),
-        goForward: jest.fn()
+        goForward: jest.fn(),
+        location: {
+          search: "?page=3"
+        }
       } as any;
 
       const location = window.location;
@@ -118,9 +145,11 @@ describe("bindListeners", () => {
       sourceElem.dispatchEvent(event2);
 
       expect(history.push).toBeCalledWith("for-good");
+      expect(history.push).toBeCalledWith("?page=1&q=123");
       expect(history.replace).toBeCalledWith(
         "specified args for history.replace"
       );
+      expect(history.replace).toBeCalledWith("?page=1");
       expect(history.goBack).toBeCalledWith();
       expect(history.goForward).toBeCalledWith();
 
