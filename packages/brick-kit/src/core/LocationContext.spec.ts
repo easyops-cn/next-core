@@ -159,6 +159,11 @@ describe("LocationContext", () => {
                     action: "history.push"
                   }
                 },
+                lifeCycle: {
+                  onPageLoad: {
+                    action: "console.log"
+                  }
+                },
                 slots: {
                   menu: {
                     type: "bricks",
@@ -311,6 +316,10 @@ describe("LocationContext", () => {
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
       expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
+      const consoleLog = jest.spyOn(console, "log");
+      context.handlePageLoad();
+      expect(consoleLog.mock.calls[0][0].type).toBe("page.load");
+      consoleLog.mockRestore();
     });
   });
 });

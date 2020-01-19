@@ -113,6 +113,7 @@ export interface RuntimeBrickConf extends BrickConf {
 export interface BrickLifeCycle {
   // Before mounting bricks, wait some async tasks to be resolved.
   useResolves?: ResolveConf[];
+  onPageLoad?: BrickEventHandler | BrickEventHandler[];
 }
 
 export type ResolveConf = EntityResolveConf | RefResolveConf;
@@ -221,7 +222,7 @@ export interface BuiltinBrickEventHandler {
 }
 
 export interface BaseCustomBrickEventHandler {
-  target: string; // The target element selector
+  target: string | any; // The target element selector or element itself.
   multiple?: boolean; // Use `querySelectorAll` or `querySelector`
 }
 
