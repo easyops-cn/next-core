@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.7.2...@easyops/brick-utils@1.8.0) (2020-01-19)
+
+### Features
+
+- **bindListeners:** history.pushQuery & history.replaceQuery ([99ff354](https://git.easyops.local/anyclouds/next-core/commits/99ff354))
+
 ## [1.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.7.1...@easyops/brick-utils@1.7.2) (2020-01-17)
 
 ### Bug Fixes
