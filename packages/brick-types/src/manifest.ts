@@ -208,6 +208,8 @@ export interface BuiltinBrickEventHandler {
   action:
     | "history.push"
     | "history.replace"
+    | "history.pushQuery"
+    | "history.replaceQuery"
     | "history.goBack"
     | "history.goForward"
     | "location.reload"

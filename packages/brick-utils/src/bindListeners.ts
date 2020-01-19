@@ -10,6 +10,8 @@ import {
   SetPropsCustomBrickEventHandler
 } from "@easyops/brick-types";
 import { computeRealValue, setProperties } from "./setProperties";
+import { isNil, forEach } from "lodash";
+import { isObject } from "./isObject";
 
 export function isBuiltinHandler(
   handler: BrickEventHandler
@@ -70,6 +72,40 @@ export const bindListeners = (
                 );
               } else {
                 history[method](event.detail as Location);
+              }
+            }) as EventListener);
+            break;
+          case "history.pushQuery":
+          case "history.replaceQuery":
+            brick.addEventListener(eventType, ((event: CustomEvent) => {
+              const method =
+                handler.action === "history.pushQuery" ? "push" : "replace";
+              const urlSearchParams = new URLSearchParams(
+                history.location.search
+              );
+              const assignArgs = {};
+              if (hasArgs || isObject(event.detail)) {
+                const realArgs = hasArgs
+                  ? computeRealValue(
+                      handler.args,
+                      {
+                        ...context,
+                        event
+                      },
+                      true
+                    )
+                  : [event.detail];
+                const extraQuery =
+                  hasArgs && realArgs[1] ? realArgs[1].extraQuery : {};
+                Object.assign(assignArgs, realArgs[0], extraQuery);
+                forEach(assignArgs, (v, k) => {
+                  if (isNil(v) || v === "") {
+                    urlSearchParams.delete(k);
+                  } else {
+                    urlSearchParams.set(k, v);
+                  }
+                });
+                history[method](`?${urlSearchParams.toString()}`);
               }
             }) as EventListener);
             break;
