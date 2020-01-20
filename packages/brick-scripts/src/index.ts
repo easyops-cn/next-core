@@ -21,7 +21,7 @@ if (flags.type === "record") {
   });
 } else {
   // istanbul ignore next (nothing logic)
-  create().catch(error => {
+  create(flags).catch(error => {
     console.error(error);
     process.exitCode = 1;
   });

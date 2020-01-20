@@ -5,28 +5,17 @@ import os from "os";
 import fs from "fs-extra";
 import chalk from "chalk";
 import prettier from "prettier";
-import meow from "meow";
 import { ask } from "./ask";
 import { loadTemplate } from "./loaders/loadTemplate";
 import { TargetType, AskFlags } from "./interface";
 import { targetMap } from "./constant";
 import * as changeCase from "change-case";
 
-// 可以从命令行参数中指定生成类型。
-const { flags } = meow({
-  flags: {
-    type: {
-      type: "string",
-      alias: "t"
-    }
-  }
-});
-
-export async function create(): Promise<void> {
+export async function create(flags: AskFlags): Promise<void> {
   const appRoot = path.join(process.cwd());
   const { targetType, packageName, brickName, templateName } = await ask(
     appRoot,
-    flags as AskFlags
+    flags
   );
 
   const pkgRoot = path.join(appRoot, targetMap[targetType], packageName);
