@@ -4,5 +4,6 @@ module.exports = {
   postBuild: require("./post-build"),
   sizeLimit: require("./size-limit"),
   createVersionFile: require("./generateVersionFile"),
-  renameTarPackage: require("./rename-tar-package")
+  renameTarPackage: require("./rename-tar-package"),
+  syncDllDeps: require("./syncDllDeps")
 };
