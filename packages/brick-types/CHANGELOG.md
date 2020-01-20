@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.7.0...@easyops/brick-types@1.8.0) (2020-01-20)
+
+### Features
+
+- support `lifeCycle.onPageLoad` ([610cdab](https://git.easyops.local/anyclouds/next-core/commits/610cdab))
+
 # [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.6.0...@easyops/brick-types@1.7.0) (2020-01-19)
 
 ### Features

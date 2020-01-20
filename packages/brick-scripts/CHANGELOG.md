@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.5.2...@easyops/brick-scripts@1.6.0) (2020-01-20)
+
+### Bug Fixes
+
+- transfer flags ([48b5b98](https://git.easyops.local/anyclouds/next-core/commits/48b5b98))
+
+### Features
+
+- publish script ([eeb2d23](https://git.easyops.local/anyclouds/next-core/commits/eeb2d23))
+
 ## [1.5.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.5.1...@easyops/brick-scripts@1.5.2) (2020-01-17)
 
 ### Bug Fixes
