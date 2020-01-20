@@ -167,7 +167,8 @@ export class Router {
           breadcrumb: []
         },
         redirect: undefined,
-        hybrid: false
+        hybrid: false,
+        failed: false
       };
       try {
         await locationContext.mountRoutes(
@@ -188,6 +189,7 @@ export class Router {
           return;
         }
 
+        mountRoutesResult.failed = true;
         mountRoutesResult.main = [
           {
             type: "basic-bricks.page-error",
@@ -206,7 +208,8 @@ export class Router {
         menuBar,
         appBar,
         barsHidden,
-        hybrid
+        hybrid,
+        failed
       } = mountRoutesResult;
 
       if (redirect) {
@@ -267,7 +270,10 @@ export class Router {
 
       if (main.length > 0) {
         mountTree(main, mountPoints.main as MountableElement);
-        this.locationContext.resolver.scheduleRefreshing();
+        if (!failed) {
+          this.locationContext.handlePageLoad();
+          this.locationContext.resolver.scheduleRefreshing();
+        }
         return;
       }
     }

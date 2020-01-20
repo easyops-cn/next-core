@@ -13,6 +13,22 @@ import { computeRealValue, setProperties } from "./setProperties";
 import { isNil, forEach } from "lodash";
 import { isObject } from "./isObject";
 
+export function bindListeners(
+  brick: HTMLElement,
+  eventsMap: BrickEventsMap,
+  history: PluginHistory,
+  context?: PluginRuntimeContext
+): void {
+  Object.entries(eventsMap).forEach(([eventType, handlers]) => {
+    [].concat(handlers).forEach((handler: BrickEventHandler) => {
+      brick.addEventListener(
+        eventType,
+        listenerFactory(handler, history, context)
+      );
+    });
+  });
+}
+
 export function isBuiltinHandler(
   handler: BrickEventHandler
 ): handler is BuiltinBrickEventHandler {
@@ -41,166 +57,171 @@ export function isSetPropsCustomHandler(
   return !!(handler as SetPropsCustomBrickEventHandler).properties;
 }
 
-export const bindListeners = (
-  brick: HTMLElement,
-  eventsMap: BrickEventsMap,
+export function listenerFactory(
+  handler: BrickEventHandler,
   history: PluginHistory,
   context?: PluginRuntimeContext
-): void => {
-  Object.entries(eventsMap).forEach(([eventType, handlers]) => {
-    [].concat(handlers).forEach(handler => {
-      const hasArgs = Array.isArray(handler.args);
-      if (isBuiltinHandler(handler)) {
-        switch (handler.action) {
-          case "history.push":
-          case "history.replace":
-            brick.addEventListener(eventType, ((event: CustomEvent) => {
-              const [, method] = handler.action.split(".") as [
-                "history",
-                "push" | "replace"
-              ];
-              if (hasArgs) {
-                history[method](
-                  ...(computeRealValue(
-                    handler.args,
-                    {
-                      ...context,
-                      event
-                    },
-                    true
-                  ) as [Location])
-                );
-              } else {
-                history[method](event.detail as Location);
-              }
-            }) as EventListener);
-            break;
-          case "history.pushQuery":
-          case "history.replaceQuery":
-            brick.addEventListener(eventType, ((event: CustomEvent) => {
-              const method =
-                handler.action === "history.pushQuery" ? "push" : "replace";
-              const urlSearchParams = new URLSearchParams(
-                history.location.search
-              );
-              const assignArgs = {};
-              if (hasArgs || isObject(event.detail)) {
-                const realArgs = hasArgs
-                  ? computeRealValue(
-                      handler.args,
-                      {
-                        ...context,
-                        event
-                      },
-                      true
-                    )
-                  : [event.detail];
-                const extraQuery =
-                  hasArgs && realArgs[1] ? realArgs[1].extraQuery : {};
-                Object.assign(assignArgs, realArgs[0], extraQuery);
-                forEach(assignArgs, (v, k) => {
-                  if (isNil(v) || v === "") {
-                    urlSearchParams.delete(k);
-                  } else {
-                    urlSearchParams.set(k, v);
-                  }
-                });
-                history[method](`?${urlSearchParams.toString()}`);
-              }
-            }) as EventListener);
-            break;
-          case "history.goBack":
-          case "history.goForward":
-            brick.addEventListener(eventType, ((event: CustomEvent) => {
-              const [, method] = handler.action.split(".") as [
-                "history",
-                "goBack" | "goForward"
-              ];
-              history[method]();
-            }) as EventListener);
-            break;
-          case "location.reload":
-            brick.addEventListener(eventType, ((event: CustomEvent) => {
-              location.reload();
-            }) as EventListener);
-            break;
-          case "console.log":
-          case "console.error":
-          case "console.warn":
-          case "console.info":
-            brick.addEventListener(eventType, ((event: CustomEvent) => {
-              const [, method] = handler.action.split(".") as [
-                "console",
-                "log" | "error" | "warn" | "info"
-              ];
-              if (hasArgs) {
-                // eslint-disable-next-line no-console
-                console[method](
-                  ...computeRealValue(
-                    handler.args,
-                    {
-                      ...context,
-                      event
-                    },
-                    true
-                  )
-                );
-              } else {
-                // eslint-disable-next-line no-console
-                console[method](event);
-              }
-            }) as EventListener);
-            break;
-          default:
-            /*global process*/
-            if (process.env.NODE_ENV === "development") {
-              // eslint-disable-next-line no-console
-              console.warn("unknown event listener action:", handler.action);
-            }
+): EventListener {
+  if (isBuiltinHandler(handler)) {
+    const method = handler.action.split(".")[1] as any;
+    switch (handler.action) {
+      case "history.push":
+      case "history.replace":
+        return builtinHistoryListenerFactory(
+          method,
+          handler.args,
+          history,
+          context
+        );
+      case "history.goBack":
+      case "history.goForward":
+        return builtinHistoryWithoutArgsListenerFactory(method, history);
+      case "history.pushQuery":
+      case "history.replaceQuery":
+        return builtinQueryListenerFactory(
+          method,
+          handler.args,
+          history,
+          context
+        );
+      case "location.reload":
+        return () => {
+          location.reload();
+        };
+      case "console.log":
+      case "console.error":
+      case "console.warn":
+      case "console.info":
+        return builtinConsoleListenerFactory(method, handler.args, context);
+      default:
+        return () => {
+          /*global process*/
+          if (process.env.NODE_ENV === "development") {
+            // eslint-disable-next-line no-console
+            console.warn("unknown event listener action:", handler.action);
+          }
+        };
+    }
+  }
+
+  if (isCustomHandler(handler)) {
+    return customListenerFactory(handler, context);
+  }
+}
+
+function customListenerFactory(
+  handler: CustomBrickEventHandler,
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    let targets: any[] = [];
+    if (typeof handler.target === "string") {
+      if (handler.multiple) {
+        targets = Array.from(document.querySelectorAll(handler.target));
+      } else {
+        const found = document.querySelector(handler.target);
+        if (found !== null) {
+          targets.push(found);
         }
-      } else if (isCustomHandler(handler)) {
-        brick.addEventListener(eventType, ((event: CustomEvent) => {
-          let targets: any[] = [];
-          if (handler.multiple) {
-            targets = Array.from(document.querySelectorAll(handler.target));
-          } else {
-            const found = document.querySelector(handler.target);
-            if (found !== null) {
-              targets.push(found);
-            }
-          }
-          if (isExecuteCustomHandler(handler)) {
-            targets.forEach(target => {
-              if (typeof target[handler.method] === "function") {
-                if (hasArgs) {
-                  target[handler.method](
-                    ...computeRealValue(
-                      handler.args,
-                      {
-                        ...context,
-                        event
-                      },
-                      true
-                    )
-                  );
-                } else {
-                  target[handler.method](event);
-                }
-              }
-            });
-          } else if (isSetPropsCustomHandler(handler)) {
-            setProperties(
-              targets,
-              handler.properties,
-              {
-                ...context,
-                event
-              },
-              handler.injectDeep
-            );
-          }
-        }) as EventListener);
       }
-    });
-  });
-};
+    } else if (handler.target) {
+      targets.push(handler.target);
+    }
+    if (targets.length === 0) {
+      // eslint-disable-next-line no-console
+      console.error("target not found:", handler.target);
+      return;
+    }
+    if (isExecuteCustomHandler(handler)) {
+      targets.forEach(target => {
+        target[handler.method]?.(...argsFactory(handler.args, context, event));
+      });
+    } else if (isSetPropsCustomHandler(handler)) {
+      setProperties(
+        targets,
+        handler.properties,
+        {
+          ...context,
+          event
+        },
+        handler.injectDeep
+      );
+    }
+  } as EventListener;
+}
+
+function builtinHistoryListenerFactory(
+  method: "push" | "replace",
+  args: any[],
+  history: PluginHistory,
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    history[method](...(argsFactory(args, context, event, true) as [Location]));
+  } as EventListener;
+}
+
+function builtinHistoryWithoutArgsListenerFactory(
+  method: "goBack" | "goForward",
+  history: PluginHistory
+): EventListener {
+  return function(): void {
+    history[method]();
+  } as EventListener;
+}
+
+function builtinQueryListenerFactory(
+  method: "pushQuery" | "replaceQuery",
+  args: any[],
+  history: PluginHistory,
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    const hasArgs = Array.isArray(args);
+    const realMethod = method === "pushQuery" ? "push" : "replace";
+    const urlSearchParams = new URLSearchParams(history.location.search);
+    const assignArgs = {};
+    if (hasArgs || isObject(event.detail)) {
+      const realArgs = argsFactory(args, context, event, true);
+      const extraQuery = hasArgs && realArgs[1] ? realArgs[1].extraQuery : {};
+      Object.assign(assignArgs, realArgs[0], extraQuery);
+      forEach(assignArgs, (v, k) => {
+        if (isNil(v) || v === "") {
+          urlSearchParams.delete(k);
+        } else {
+          urlSearchParams.set(k, v);
+        }
+      });
+      history[realMethod](`?${urlSearchParams.toString()}`);
+    }
+  } as EventListener;
+}
+
+function builtinConsoleListenerFactory(
+  method: "log" | "error" | "warn" | "info",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    // eslint-disable-next-line no-console
+    console[method](...argsFactory(args, context, event));
+  } as EventListener;
+}
+
+function argsFactory(
+  args: any[],
+  context: PluginRuntimeContext,
+  event: CustomEvent,
+  useEventDetailAsDefault?: boolean
+): any {
+  return Array.isArray(args)
+    ? computeRealValue(
+        args,
+        {
+          ...context,
+          event
+        },
+        true
+      )
+    : [useEventDetailAsDefault ? event.detail : event];
+}

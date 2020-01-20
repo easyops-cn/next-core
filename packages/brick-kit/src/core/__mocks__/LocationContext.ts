@@ -18,6 +18,8 @@ export class LocationContext {
     scheduleRefreshing: jest.fn()
   };
 
+  handlePageLoad = jest.fn();
+
   matchStoryboard(): RuntimeStoryboard {
     return _matchedStoryboard;
   }

@@ -10,17 +10,22 @@ import {
   BreadcrumbItemConf,
   MicroApp,
   ProviderConf,
-  PluginRuntimeContext
+  PluginRuntimeContext,
+  BrickLifeCycle,
+  BrickEventHandler,
+  CustomBrickEventHandler
 } from "@easyops/brick-types";
 import {
   isObject,
   computeRealProperties,
   matchPath,
-  computeRealRoutePath
+  computeRealRoutePath,
+  listenerFactory
 } from "@easyops/brick-utils";
 import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
 import { isLoggedIn } from "../auth";
 import { MountableElement } from "./reconciler";
+import { getHistory } from "../history";
 
 export type MatchRoutesResult =
   | {
@@ -48,12 +53,19 @@ export interface MountRoutesResult {
   };
   barsHidden?: boolean;
   hybrid?: boolean;
+  failed?: boolean;
+}
+
+interface PageLoadHandler {
+  brick: RuntimeBrick;
+  onPageLoad: BrickLifeCycle["onPageLoad"];
 }
 
 export class LocationContext {
   readonly location: PluginLocation;
   readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
+  private readonly pageLoadHandlers: PageLoadHandler[] = [];
 
   constructor(private kernel: Kernel, location: PluginLocation) {
     this.location = location;
@@ -264,6 +276,13 @@ export class LocationContext {
       slotId
     };
 
+    if (brickConf.lifeCycle?.onPageLoad) {
+      this.pageLoadHandlers.push({
+        brick,
+        onPageLoad: brickConf.lifeCycle.onPageLoad
+      });
+    }
+
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
 
@@ -293,6 +312,27 @@ export class LocationContext {
         }
       }
       mountRoutesResult.main.push(brick);
+    }
+  }
+
+  handlePageLoad(): void {
+    const history = getHistory();
+    const event = new CustomEvent("page.load");
+    for (const pageLoadHandler of this.pageLoadHandlers) {
+      for (const handler of ([] as BrickEventHandler[]).concat(
+        pageLoadHandler.onPageLoad
+      )) {
+        listenerFactory(
+          (handler as CustomBrickEventHandler).target === "_self"
+            ? {
+                ...handler,
+                target: pageLoadHandler.brick.element
+              }
+            : handler,
+          history,
+          this.getContext(null)
+        )(event);
+      }
     }
   }
 }
