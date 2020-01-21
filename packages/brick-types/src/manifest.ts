@@ -266,6 +266,7 @@ export interface UseBrickConf {
   brick: string;
   properties?: Record<string, any>;
   events?: BrickEventsMap;
+  lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
   transformFrom?: string | string[];
   transform?: GeneralTransform;
 }

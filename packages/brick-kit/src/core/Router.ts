@@ -25,7 +25,7 @@ import { RecentApps } from "./interfaces";
 
 export class Router {
   private defaultCollapsed = false;
-  private locationContext: LocationContext;
+  locationContext: LocationContext;
   private rendering = false;
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;

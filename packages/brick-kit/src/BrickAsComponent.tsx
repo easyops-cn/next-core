@@ -3,10 +3,14 @@ import { cloneDeep } from "lodash";
 import {
   bindListeners,
   transformProperties,
-  doTransform
+  doTransform,
+  setRealProperties
 } from "@easyops/brick-utils";
 import { UseBrickConf } from "@easyops/brick-types";
 import { getHistory } from "./history";
+import { RuntimeBrick } from "./core/exports";
+import { getRuntime } from "./runtime";
+import { handleHttpError } from "./handleHttpError";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -16,21 +20,40 @@ interface BrickAsComponentProps {
 export function BrickAsComponent(
   props: BrickAsComponentProps
 ): React.ReactElement {
-  const transformedProperties = React.useMemo(
-    () =>
-      transformProperties(
-        cloneDeep(props.useBrick.properties) || {},
-        props.data,
-        props.useBrick.transform,
-        props.useBrick.transformFrom
-      ),
-    [props.useBrick, props.data]
-  );
+  const runtimeBrick = React.useMemo(async () => {
+    const brick: RuntimeBrick = {
+      type: props.useBrick.brick,
+      properties: cloneDeep(props.useBrick.properties) || {}
+    };
+    transformProperties(
+      brick.properties,
+      props.data,
+      props.useBrick.transform,
+      props.useBrick.transformFrom
+    );
+    if (props.useBrick.lifeCycle) {
+      const resolver = getRuntime()._internalApiGetResolver();
+      try {
+        await resolver.resolve(
+          {
+            brick: props.useBrick.brick,
+            lifeCycle: props.useBrick.lifeCycle
+          },
+          brick
+        );
+      } catch (e) {
+        handleHttpError(e);
+      }
+    }
+    return brick;
+  }, [props.useBrick, props.data]);
 
   const refCallback = React.useCallback(
-    (element: HTMLElement): void => {
+    async (element: HTMLElement) => {
       if (element) {
-        Object.assign(element, transformedProperties);
+        const brick = await runtimeBrick;
+        brick.element = element;
+        setRealProperties(element, brick.properties);
         if (props.useBrick.events) {
           bindListeners(
             element,
@@ -40,7 +63,7 @@ export function BrickAsComponent(
         }
       }
     },
-    [transformedProperties, props.useBrick, props.data]
+    [runtimeBrick, props.useBrick, props.data]
   );
 
   return React.createElement(props.useBrick.brick, {
