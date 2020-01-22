@@ -221,7 +221,7 @@ export class Router {
         this.kernel.currentApp = currentApp;
       }
       this.kernel.currentUrl = createPath(location);
-      this.kernel.updateWorkspaceStack();
+      await this.kernel.updateWorkspaceStack();
 
       if (appChanged) {
         window.dispatchEvent(

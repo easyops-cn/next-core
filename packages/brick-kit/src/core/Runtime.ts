@@ -68,20 +68,36 @@ export class Runtime {
   }
 
   /* istanbul ignore next */
-  reloadSharedData(): Promise<void> {
+  reloadSharedData(): void {
     return kernel.loadSharedData();
   }
 
+  /* istanbul ignore next */
   getDesktops(): DesktopData[] {
     return kernel.bootstrapData.desktops || [];
   }
 
+  /* istanbul ignore next */
   getAllUserInfo(): UserInfo[] {
-    return kernel.allUserInfo;
+    // eslint-disable-next-line no-console
+    console.warn(
+      "`getRuntime().getAllUserInfo()` is deprecated and will always return an empty array, please use `await getRuntime().getAllUserMapAsync()` instead"
+    );
+    return [];
   }
 
+  /* istanbul ignore next */
   getAllUserMap(): Map<string, UserInfo> {
-    return kernel.allUserMap;
+    // eslint-disable-next-line no-console
+    console.warn(
+      "`getRuntime().getAllUserMap()` is deprecated and will always return an empty Map, please use `await getRuntime().getAllUserMapAsync()` instead"
+    );
+    return new Map();
+  }
+
+  /* istanbul ignore next */
+  getAllUserMapAsync(): Promise<Map<string, UserInfo>> {
+    return kernel.allUserMapPromise;
   }
 
   /**
@@ -137,7 +153,16 @@ export class Runtime {
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {
-    return kernel.getRelatedApps(appId);
+    // eslint-disable-next-line no-console
+    console.warn(
+      "`getRuntime().getRelatedApps()` is deprecated and will always return an empty array, please use `await getRuntime().getRelatedAppsAsync()` instead"
+    );
+    return [];
+  }
+
+  /* istanbul ignore next */
+  getRelatedAppsAsync(appId: string): Promise<RelatedApp[]> {
+    return kernel.getRelatedAppsAsync(appId);
   }
 
   /* istanbul ignore next */

@@ -26,16 +26,17 @@ export class Kernel {
   public nextApp: MicroApp;
   public currentUrl: string;
   public workspaceStack: VisitedWorkspace[] = [];
-  public allUserInfo: UserInfo[] = [];
-  public allUserMap: Map<string, UserInfo> = new Map();
+  public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
+    new Map()
+  );
 
-  private allRelatedApps: RelatedApp[] = [];
+  private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
     if (isLoggedIn()) {
-      await this.loadSharedData();
+      this.loadSharedData();
     }
     this.menuBar = new MenuBar(this);
     this.appBar = new AppBar(this);
@@ -132,13 +133,17 @@ export class Kernel {
     document.body.classList.toggle("show-legacy-iframe", visible);
   }
 
-  async loadSharedData(): Promise<void> {
-    await Promise.all([this.loadUsers(), this.loadRelatedApps()]);
+  loadSharedData(): void {
+    this.loadUsersAsync();
+    this.loadRelatedAppsAsync();
   }
 
-  private async loadUsers(): Promise<void> {
-    let newUserInfo: UserInfo[] = [];
-    const newUserMap: Map<string, UserInfo> = new Map();
+  private loadUsersAsync(): void {
+    this.allUserMapPromise = this.loadUsers();
+  }
+
+  private async loadUsers(): Promise<Map<string, UserInfo>> {
+    const allUserMap: Map<string, UserInfo> = new Map();
     try {
       const query = { state: "valid" };
       const fields = {
@@ -149,49 +154,53 @@ export class Kernel {
         user_icon: true,
         user_memo: true
       };
-      newUserInfo = (
+      const allUserInfo = (
         await UserAdminApi.searchAllUsersInfo({
           query,
           fields
         })
       ).list as UserInfo[];
-      for (const user of newUserInfo) {
-        newUserMap.set(user.name, user);
+      for (const user of allUserInfo) {
+        allUserMap.set(user.name, user);
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("Load users error:", error);
     }
-    this.allUserInfo = newUserInfo;
-    this.allUserMap = newUserMap;
+    return allUserMap;
   }
 
-  private async loadRelatedApps(): Promise<void> {
-    let newRelatedApps: RelatedApp[] = [];
+  private loadRelatedAppsAsync(): void {
+    this.allRelatedAppsPromise = this.loadRelatedApps();
+  }
+
+  private async loadRelatedApps(): Promise<RelatedApp[]> {
+    let relatedApps: RelatedApp[] = [];
     try {
-      newRelatedApps = (await ObjectMicroAppApi.getObjectMicroAppList()).list;
+      relatedApps = (await ObjectMicroAppApi.getObjectMicroAppList()).list;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("Load related apps error:", error);
     }
-    this.allRelatedApps = newRelatedApps;
+    return relatedApps;
   }
 
-  getRelatedApps(appId: string): RelatedApp[] {
+  async getRelatedAppsAsync(appId: string): Promise<RelatedApp[]> {
     if (!appId) {
       return [];
     }
-    const thisApp = this.allRelatedApps.find(item => item.microAppId === appId);
+    const allRelatedApps = await this.allRelatedAppsPromise;
+    const thisApp = allRelatedApps.find(item => item.microAppId === appId);
     if (!thisApp) {
       return [];
     }
     return sortBy(
-      this.allRelatedApps.filter(item => item.objectId === thisApp.objectId),
+      allRelatedApps.filter(item => item.objectId === thisApp.objectId),
       ["order"]
     );
   }
 
-  updateWorkspaceStack(): void {
+  async updateWorkspaceStack(): Promise<void> {
     if (this.currentApp && this.currentApp.id) {
       const workspace: VisitedWorkspace = {
         appId: this.currentApp.id,
@@ -202,14 +211,16 @@ export class Kernel {
         const previousWorkspace = this.workspaceStack[
           this.workspaceStack.length - 1
         ];
-        const relatedApps = this.getRelatedApps(previousWorkspace.appId);
+        const relatedApps = await this.getRelatedAppsAsync(
+          previousWorkspace.appId
+        );
         if (relatedApps.some(item => item.microAppId === this.currentApp.id)) {
           Object.assign(previousWorkspace, workspace);
           return;
         }
       }
 
-      const relatedApps = this.getRelatedApps(this.currentApp.id);
+      const relatedApps = await this.getRelatedAppsAsync(this.currentApp.id);
       if (relatedApps.length > 0) {
         this.workspaceStack.push(workspace);
         return;

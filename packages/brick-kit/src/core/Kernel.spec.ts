@@ -99,12 +99,12 @@ describe("Kernel", () => {
     expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
 
-    expect(kernel.getRelatedApps(undefined).length).toBe(0);
-    expect(kernel.getRelatedApps("x").length).toBe(0);
-    expect(kernel.getRelatedApps("a").length).toBe(2);
+    expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
+    expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
+    expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
 
     kernel.popWorkspaceStack();
-    kernel.updateWorkspaceStack();
+    await kernel.updateWorkspaceStack();
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
@@ -133,7 +133,7 @@ describe("Kernel", () => {
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/c";
-    kernel.updateWorkspaceStack();
+    await kernel.updateWorkspaceStack();
     expect(kernel.getPreviousWorkspace()).toEqual({
       appId: "b",
       appName: "B",
@@ -147,7 +147,7 @@ describe("Kernel", () => {
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/x";
-    kernel.updateWorkspaceStack();
+    await kernel.updateWorkspaceStack();
     expect(kernel.getPreviousWorkspace()).toBe(undefined);
 
     // `postMessage` did not trigger events.
