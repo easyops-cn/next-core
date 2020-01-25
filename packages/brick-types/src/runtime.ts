@@ -85,3 +85,13 @@ export interface UserInfo {
   user_icon: string;
   user_memo: string;
 }
+
+export interface MagicBrickConfig {
+  selector: string;
+  brick: string;
+  events?: string;
+  properties?: string;
+  resolves?: string;
+  scene: "create" | "read" | "update" | "delete";
+  transform?: string;
+}

@@ -7,7 +7,8 @@ import {
   BrickTemplateFactory,
   UserInfo,
   BrickPackage,
-  Storyboard
+  Storyboard,
+  MagicBrickConfig
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
@@ -98,6 +99,11 @@ export class Runtime {
   /* istanbul ignore next */
   getAllUserMapAsync(): Promise<Map<string, UserInfo>> {
     return kernel.allUserMapPromise;
+  }
+
+  /* istanbul ignore next */
+  getMagicBrickConfigMapAsync(): Promise<Map<string, MagicBrickConfig>> {
+    return kernel.allMagicBrickConfigMapPromise;
   }
 
   /**

@@ -1,6 +1,7 @@
 import { checkLogin, bootstrap } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
+import { InstanceApi } from "@sdk/cmdb-sdk";
 import { MountPoints } from "@easyops/brick-types";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
@@ -12,6 +13,7 @@ import * as mockHistory from "../history";
 jest.mock("@sdk/auth-sdk");
 jest.mock("@sdk/user-service-sdk");
 jest.mock("@sdk/micro-app-sdk");
+jest.mock("@sdk/cmdb-sdk");
 jest.mock("./MenuBar");
 jest.mock("./AppBar");
 jest.mock("./LoadingBar");
@@ -34,6 +36,7 @@ const spyOnMenuBar = MenuBar as jest.Mock;
 const spyOnAppBar = AppBar as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi.searchAllUsersInfo as jest.Mock;
+const searchAllMagicBrickConfig = InstanceApi.postSearch as jest.Mock;
 const getObjectMicroAppList = ObjectMicroAppApi.getObjectMicroAppList as jest.Mock;
 
 describe("Kernel", () => {
@@ -67,6 +70,29 @@ describe("Kernel", () => {
         }
       ]
     });
+    searchAllMagicBrickConfig.mockResolvedValueOnce({
+      list: [
+        {
+          _object_id: "MAGIC_BRICK",
+          _object_version: 11,
+          _pre_ts: 1579432390,
+          _ts: 1579503251,
+          _version: 3,
+          brick: "presentational-bricks.brick-link",
+          creator: "easyops",
+          ctime: "2020-01-19 17:43:38",
+          instanceId: "59c7b02603e96",
+          modifier: "easyops",
+          mtime: "2020-01-20 14:54:11",
+          org: 8888,
+          properties: "target: _blank",
+          scene: "read",
+          selector: "HOST.ip",
+          transform:
+            'url: "/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}"\nlabel: "@{ip}"'
+        }
+      ]
+    });
     getObjectMicroAppList.mockResolvedValueOnce({
       list: [
         {
@@ -89,9 +115,15 @@ describe("Kernel", () => {
           routes: []
         }
       ],
-      brickPackages: []
+      brickPackages: [],
+      settings: {
+        featureFlags: {
+          "load-magic-brick-config": true
+        }
+      }
     });
     await kernel.bootstrap(mountPoints);
+    expect(searchAllMagicBrickConfig).toHaveBeenCalled();
     expect(spyOnAuthenticate.mock.calls[0][0]).toEqual({
       loggedIn: true
     });
