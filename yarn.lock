@@ -12470,10 +12470,10 @@ rollup-plugin-node-resolve@^5.2.0:
     resolve "^1.11.1"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-postcss@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-2.0.4.tgz#da4e8ff43f4e1f45222decd193020bb5b8d8e583"
-  integrity sha1-2k6P9D9OH0UiLezRkwILtbjY5YM=
+rollup-plugin-postcss@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-2.0.5.tgz#93cad7b22e2647a013f3f158c2d45796e9885626"
+  integrity sha1-k8rXsi4mR6AT8/FYwtRXlumIViY=
   dependencies:
     chalk "^2.4.2"
     concat-with-sourcemaps "^1.0.5"
