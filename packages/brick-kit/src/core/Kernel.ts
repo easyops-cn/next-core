@@ -2,13 +2,15 @@ import { sortBy, cloneDeep } from "lodash";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
+import { InstanceApi } from "@sdk/cmdb-sdk";
 import {
   MountPoints,
   BootstrapData,
   RuntimeBootstrapData,
   InterceptorParams,
   MicroApp,
-  UserInfo
+  UserInfo,
+  MagicBrickConfig
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
@@ -29,6 +31,9 @@ export class Kernel {
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
+  public allMagicBrickConfigMapPromise: Promise<
+    Map<string, MagicBrickConfig>
+  > = Promise.resolve(new Map());
 
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
 
@@ -136,6 +141,11 @@ export class Kernel {
   loadSharedData(): void {
     this.loadUsersAsync();
     this.loadRelatedAppsAsync();
+    if (
+      this.bootstrapData.settings?.featureFlags?.["load-magic-brick-config"]
+    ) {
+      this.loadMagicBrickConfigAsync();
+    }
   }
 
   private loadUsersAsync(): void {
@@ -168,6 +178,33 @@ export class Kernel {
       console.warn("Load users error:", error);
     }
     return allUserMap;
+  }
+
+  private loadMagicBrickConfigAsync(): void {
+    this.allMagicBrickConfigMapPromise = this.loadMagicBrickConfig();
+  }
+
+  private async loadMagicBrickConfig(): Promise<Map<string, MagicBrickConfig>> {
+    const allMagicBrickConfiMap: Map<string, MagicBrickConfig> = new Map();
+    try {
+      const allMagicBrickConfig = (
+        await InstanceApi.postSearch("MAGIC_BRICK", {
+          page: 1,
+          // TODO(Lynette): 暂时设置3000，待后台提供全量接口
+          page_size: 3000,
+          fields: {
+            "*": true
+          }
+        })
+      ).list as MagicBrickConfig[];
+      for (const config of allMagicBrickConfig) {
+        allMagicBrickConfiMap.set(config.selector, config);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn("Load magic brick config error:", error);
+    }
+    return allMagicBrickConfiMap;
   }
 
   private loadRelatedAppsAsync(): void {
