@@ -29,7 +29,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "typescript-json-schema": "^0.41.0"
+    "typescript-json-schema": "^0.42.0"
   },
   "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "*",
