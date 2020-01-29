@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.9.0...@easyops/brick-types@1.10.0) (2020-01-29)
+
+### Features
+
+- **runtime:** getMigicBrickConfigMapAsync ([b7d6f24](https://git.easyops.local/anyclouds/next-core/commits/b7d6f24))
+
 # [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.8.0...@easyops/brick-types@1.9.0) (2020-01-21)
 
 ### Features

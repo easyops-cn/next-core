@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.15.0...@easyops/brick-kit@1.16.0) (2020-01-29)
+
+### Features
+
+- **runtime:** getMigicBrickConfigMapAsync ([b7d6f24](https://git.easyops.local/anyclouds/next-core/commits/b7d6f24))
+
 # [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.14.0...@easyops/brick-kit@1.15.0) (2020-01-22)
 
 ### Features
