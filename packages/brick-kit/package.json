@@ -36,13 +36,13 @@
   "devDependencies": {
     "@easyops/brick-http": "^1.0.0",
     "@easyops/brick-utils": "^1.9.1",
-    "antd": "^3.26.3",
+    "antd": "^3.26.7",
     "history": "^4.10.1",
-    "i18next": "^19.0.2",
+    "i18next": "^19.1.0",
     "lodash": "^4.17.15",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-i18next": "^11.2.7"
+    "react-i18next": "^11.3.1"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",
