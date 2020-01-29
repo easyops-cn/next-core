@@ -10,7 +10,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "babel-plugin-prismjs": "^2.0.0"
+    "babel-plugin-prismjs": "^2.0.1"
   },
   "peerDependencies": {
     "prismjs": "^1.18.0"
