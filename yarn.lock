@@ -3144,10 +3144,10 @@ babel-plugin-jest-hoist@^25.1.0:
   dependencies:
     "@types/babel__traverse" "^7.0.6"
 
-babel-plugin-prismjs@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npm.taobao.org/babel-plugin-prismjs/download/babel-plugin-prismjs-2.0.0.tgz#e8d844fde465766e0563d20c86a9fadbe742a673"
-  integrity sha1-6NhE/eRldm4FY9IMhqn62+dCpnM=
+babel-plugin-prismjs@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/babel-plugin-prismjs/download/babel-plugin-prismjs-2.0.1.tgz#b56095f423926662259de8f5ee50a7afbcf0fd92"
+  integrity sha1-tWCV9COSZmIlnej17lCnr7zw/ZI=
 
 babel-preset-jest@^25.1.0:
   version "25.1.0"
