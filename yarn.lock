@@ -5336,12 +5336,13 @@ enzyme-shallow-equal@^1.0.1:
     has "^1.0.3"
     object-is "^1.0.2"
 
-enzyme-to-json@^3.4.3:
-  version "3.4.3"
-  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.4.3.tgz?cache=0&sync_timestamp=1571418875825&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fenzyme-to-json%2Fdownload%2Fenzyme-to-json-3.4.3.tgz#ed4386f48768ed29e2d1a2910893542c34e7e0af"
-  integrity sha1-7UOG9Ido7Sni0aKRCJNULDTn4K8=
+enzyme-to-json@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.4.4.tgz#b30726c59091d273521b6568c859e8831e94d00e"
+  integrity sha1-swcmxZCR0nNSG2VoyFnogx6U0A4=
   dependencies:
     lodash "^4.17.15"
+    react-is "^16.12.0"
 
 enzyme@^3.11.0:
   version "3.11.0"
