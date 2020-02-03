@@ -465,6 +465,13 @@ declare namespace JSX {
 ",
   ],
   Array [
+    "/tmp/next/my-repo/scripts/sync-dll.js",
+    "const { syncDllDeps } = require(\\"@easyops/build-config-factory\\");
+
+syncDllDeps();
+",
+  ],
+  Array [
     "/tmp/next/my-repo/tsconfig.json",
     "{
   \\"compilerOptions\\": {

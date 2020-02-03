@@ -1,20 +1,23 @@
 // File System, hard to test for now.
 /* istanbul ignore file */
 import path from "path";
-import fs from "fs-extra";
 import chalk from "chalk";
 import meow from "meow";
-import { loadTemplate } from "./loaders/loadTemplate";
+import { update } from "./update";
+import { create } from "./create";
 
 const { input, flags } = meow({
   flags: {
     internal: {
       type: "boolean"
+    },
+    update: {
+      type: "boolean"
     }
   }
 });
 
-export async function create(): Promise<void> {
+export async function main(): Promise<void> {
   if (input.length !== 1) {
     throw new Error("Usage: create-next-repo my-repo");
   }
@@ -27,21 +30,11 @@ export async function create(): Promise<void> {
 
   const cwd = process.cwd();
   const targetDir = path.join(cwd, repoName);
-  if (fs.existsSync(targetDir)) {
-    throw new Error(`Target directory exists: ${targetDir}`);
-  }
 
-  const files = loadTemplate(
-    repoName,
-    targetDir,
-    flags as { internal: boolean }
-  );
-
-  for (const [filePath, content] of files) {
-    fs.outputFileSync(filePath, content);
-    console.log(
-      `${chalk.bold("File created")}: ./${path.relative(cwd, filePath)}`
-    );
+  if (flags.update) {
+    update(repoName, targetDir);
+  } else {
+    create(repoName, targetDir, flags);
   }
 
   console.log();
