@@ -140,6 +140,14 @@ export class Resolver {
               ? computeRealValue(args, context, true)
               : args
             : providerBrick.args || [];
+
+          const providerName = providerBrick.tagName.toLowerCase();
+          if (!customElements.get(providerName)) {
+            throw new Error(
+              `Provider not defined: "${providerName}", make sure that relative package is installed`
+            );
+          }
+
           promise = providerBrick[method](...actualArgs);
           this.cache.set(cacheKey, promise);
         }
