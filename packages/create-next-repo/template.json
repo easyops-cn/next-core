@@ -15,6 +15,7 @@
     "serve": "brick-container-serve",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --ci",
+    "sync-dll": "node scripts/sync-dll.js",
     "yo": "brick-scripts",
     "yo-debug": "node --inspect-brk ./node_modules/@easyops/brick-scripts/dist/index.js"
   },
@@ -82,5 +83,8 @@
   "resolutions": {
     "@types/react": "^16.9.11",
     "lodash": "^4.17.15"
+  },
+  "easyops": {
+    "create-next-repo": "latest"
   }
 }
