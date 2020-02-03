@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const prettier = require("prettier");
 const { chain } = require("lodash");
 
 // 将 DLL 的依赖包及其版本都放到仓库根目录的 `package.json` 的 `devDependencies` 中，
@@ -31,7 +32,7 @@ module.exports = function syncDllDeps() {
 
   fs.writeFileSync(
     rootPackageJsonPath,
-    JSON.stringify(rootPackageJson, null, 2)
+    prettier.format(JSON.stringify(rootPackageJson), { parser: "json" })
   );
 
   // 同时更新 Renovate 配置，DLL 的依赖由 DLL 带动更新，不需要自动更新
@@ -53,5 +54,8 @@ module.exports = function syncDllDeps() {
   }
   disabledRule.packageNames = Array.from(disabledPackageNames).sort();
 
-  fs.writeFileSync(renovateJsonPath, JSON.stringify(renovateJson, null, 2));
+  fs.writeFileSync(
+    renovateJsonPath,
+    prettier.format(JSON.stringify(renovateJson), { parser: "json" })
+  );
 };
