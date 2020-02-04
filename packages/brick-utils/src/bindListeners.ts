@@ -144,7 +144,7 @@ function customListenerFactory(
           ...context,
           event
         },
-        handler.injectDeep
+        handler.injectDeep !== false
       );
     }
   } as EventListener;

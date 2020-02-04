@@ -175,7 +175,7 @@ export class LocationContext {
         properties: computeRealProperties(
           menuConf.properties,
           context,
-          menuConf.injectDeep
+          menuConf.injectDeep !== false
         ),
         events: isObject(menuConf.events) ? menuConf.events : {},
         context,
@@ -187,9 +187,10 @@ export class LocationContext {
 
     // 静态菜单配置，仅在有值时才设置，这样可以让菜单设置也具有按路由层级覆盖的能力。
     const { injectDeep, ...otherMenuConf } = menuConf;
-    const injectedMenuConf = injectDeep
-      ? computeRealProperties(otherMenuConf, context, true)
-      : otherMenuConf;
+    const injectedMenuConf =
+      injectDeep !== false
+        ? computeRealProperties(otherMenuConf, context, true)
+        : otherMenuConf;
     const { sidebarMenu, pageTitle, breadcrumb } = injectedMenuConf;
 
     if (sidebarMenu !== undefined) {
@@ -266,7 +267,7 @@ export class LocationContext {
         ...computeRealProperties(
           brickConf.properties,
           context,
-          brickConf.injectDeep
+          brickConf.injectDeep !== false
         ),
         match
       },
