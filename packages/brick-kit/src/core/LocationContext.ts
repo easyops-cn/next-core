@@ -36,10 +36,6 @@ export type MatchRoutesResult =
   | "redirect";
 
 export interface MountRoutesResult {
-  redirect?: {
-    path: string;
-    state: PluginHistoryState;
-  };
   main: RuntimeBrick[];
   menuInBg: RuntimeBrick[];
   menuBar: {
@@ -51,9 +47,15 @@ export interface MountRoutesResult {
     pageTitle?: string;
     breadcrumb?: BreadcrumbItemConf[];
   };
-  barsHidden?: boolean;
-  hybrid?: boolean;
-  failed?: boolean;
+  flags: {
+    redirect?: {
+      path: string;
+      state: PluginHistoryState;
+    };
+    barsHidden?: boolean;
+    hybrid?: boolean;
+    failed?: boolean;
+  };
 }
 
 interface PageLoadHandler {
@@ -117,7 +119,7 @@ export class LocationContext {
       case "missed":
         break;
       case "redirect":
-        mountRoutesResult.redirect = {
+        mountRoutesResult.flags.redirect = {
           path: "/auth/login",
           state: {
             from: this.location
@@ -126,7 +128,7 @@ export class LocationContext {
         break;
       default:
         if (matched.route.hybrid) {
-          mountRoutesResult.hybrid = true;
+          mountRoutesResult.flags.hybrid = true;
         }
         this.resolver.defineResolves(matched.route.defineResolves);
         await this.mountProviders(
@@ -154,7 +156,7 @@ export class LocationContext {
   ): void {
     if (menuConf === false) {
       // `route.menu` 设置为 `false` 表示不显示顶栏和侧栏。
-      mountRoutesResult.barsHidden = true;
+      mountRoutesResult.flags.barsHidden = true;
       return;
     }
 

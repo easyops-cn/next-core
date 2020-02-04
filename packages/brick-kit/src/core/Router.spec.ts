@@ -151,10 +151,12 @@ describe("Router", () => {
       routes: []
     });
     __setMountRoutesResults({
-      redirect: {
-        path: "/auth/login",
-        state: {
-          from: "/private"
+      flags: {
+        redirect: {
+          path: "/auth/login",
+          state: {
+            from: "/private"
+          }
         }
       }
     } as any);
@@ -179,7 +181,9 @@ describe("Router", () => {
       routes: []
     });
     __setMountRoutesResults({
-      barsHidden: true,
+      flags: {
+        barsHidden: true
+      },
       main: []
     } as any);
     await router.bootstrap();
