@@ -53,7 +53,9 @@ describe("LocationContext", () => {
       app: kernel.nextApp,
       breadcrumb: kernel.appBar.element.breadcrumb
     },
-    redirect: undefined
+    flags: {
+      redirect: undefined
+    }
   });
 
   beforeEach(() => {
@@ -102,7 +104,9 @@ describe("LocationContext", () => {
         main: [],
         menuBar: {},
         appBar: {},
-        redirect: undefined
+        flags: {
+          redirect: undefined
+        }
       });
     });
 
@@ -123,10 +127,12 @@ describe("LocationContext", () => {
         main: [],
         menuBar: {},
         appBar: {},
-        redirect: {
-          path: "/auth/login",
-          state: {
-            from: location
+        flags: {
+          redirect: {
+            path: "/auth/login",
+            state: {
+              from: location
+            }
           }
         }
       });
@@ -289,8 +295,10 @@ describe("LocationContext", () => {
             }
           ]
         },
-        redirect: undefined
-        // barsHidden: true
+        flags: {
+          barsHidden: true,
+          redirect: undefined
+        }
       });
       expect(result.main).toMatchObject([
         {

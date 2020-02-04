@@ -166,9 +166,11 @@ export class Router {
           app: this.kernel.nextApp,
           breadcrumb: []
         },
-        redirect: undefined,
-        hybrid: false,
-        failed: false
+        flags: {
+          redirect: undefined,
+          hybrid: false,
+          failed: false
+        }
       };
       try {
         await locationContext.mountRoutes(
@@ -189,7 +191,7 @@ export class Router {
           return;
         }
 
-        mountRoutesResult.failed = true;
+        mountRoutesResult.flags.failed = true;
         mountRoutesResult.main = [
           {
             type: "basic-bricks.page-error",
@@ -201,16 +203,9 @@ export class Router {
         ];
       }
 
-      const {
-        redirect,
-        main,
-        menuInBg,
-        menuBar,
-        appBar,
-        barsHidden,
-        hybrid,
-        failed
-      } = mountRoutesResult;
+      const { main, menuInBg, menuBar, appBar, flags } = mountRoutesResult;
+
+      const { redirect, barsHidden, hybrid, failed } = flags;
 
       if (redirect) {
         history.replace(redirect.path, redirect.state);
