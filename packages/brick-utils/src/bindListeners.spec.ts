@@ -83,9 +83,13 @@ describe("bindListeners", () => {
             action: "history.goForward"
           },
           {
+            action: "history.reload"
+          },
+          {
             action: "location.reload",
             args: [true]
           },
+          { action: "event.preventDefault" },
           { action: "console.log" },
           { action: "console.info" },
           { action: "console.warn", args: ["specified args for console.warn"] },
@@ -138,6 +142,7 @@ describe("bindListeners", () => {
       const event1 = new CustomEvent("key1", {
         detail: "for-good"
       });
+      const spyOnPreventDefault = jest.spyOn(event1, 'preventDefault');
       sourceElem.dispatchEvent(event1);
       const event2 = new CustomEvent("key2", {
         detail: "for-better"
@@ -152,9 +157,14 @@ describe("bindListeners", () => {
       expect(history.replace).toBeCalledWith("?page=1");
       expect(history.goBack).toBeCalledWith();
       expect(history.goForward).toBeCalledWith();
+      expect(history.replace).toBeCalledWith(
+        history.location
+      );
 
       expect(window.location.reload).toBeCalledWith();
       window.location = location;
+      
+      expect(spyOnPreventDefault).toBeCalled();
 
       /* eslint-disable no-console */
       expect(console.log).toBeCalledWith(event1);

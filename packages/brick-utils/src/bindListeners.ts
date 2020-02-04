@@ -84,9 +84,17 @@ export function listenerFactory(
           history,
           context
         );
+      case "history.reload":
+        return () => {
+          history.replace(history.location);
+        }
       case "location.reload":
         return () => {
           location.reload();
+        };
+      case "event.preventDefault":
+        return event => {
+          event.preventDefault();
         };
       case "console.log":
       case "console.error":
