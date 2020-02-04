@@ -8,7 +8,9 @@ const bindListeners = jest.spyOn(utils, "bindListeners");
 const spyOnResolve = jest.fn((_brickConf: any, brick: any) => {
   brick.properties.title = "resolved";
 });
+const _internalApiGetRouterState = jest.fn().mockReturnValue("mounted");
 jest.spyOn(runtime, "getRuntime").mockReturnValue({
+  _internalApiGetRouterState,
   _internalApiGetResolver: () => ({
     resolve: spyOnResolve
   })
@@ -96,5 +98,15 @@ describe("BrickAsComponent", () => {
     expect(div.id).toBe("hello");
     expect(div.title).toBe("resolved");
     expect(div.style.color).toBe("red");
+
+    // Should ignore rendering if router state is initial.
+    _internalApiGetRouterState.mockReturnValueOnce("initial");
+    wrapper.setProps({
+      data: {
+        tips: "good"
+      }
+    });
+    await (global as any).flushPromises();
+    expect(spyOnResolve).toBeCalledTimes(1);
   });
 });

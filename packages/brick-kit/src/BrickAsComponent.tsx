@@ -21,6 +21,10 @@ export function BrickAsComponent(
   props: BrickAsComponentProps
 ): React.ReactElement {
   const runtimeBrick = React.useMemo(async () => {
+    // If the router state is initial, ignore rendering the sub-brick.
+    if (getRuntime()._internalApiGetRouterState() === "initial") {
+      return;
+    }
     const brick: RuntimeBrick = {
       type: props.useBrick.brick,
       properties: cloneDeep(props.useBrick.properties) || {}
@@ -52,6 +56,10 @@ export function BrickAsComponent(
     async (element: HTMLElement) => {
       if (element) {
         const brick = await runtimeBrick;
+        // sub-brick rendering is ignored.
+        if (!brick) {
+          return;
+        }
         brick.element = element;
         setRealProperties(element, brick.properties);
         if (props.useBrick.events) {

@@ -12,7 +12,7 @@ import {
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
-import { RelatedApp } from "./interfaces";
+import { RelatedApp, RouterState } from "./interfaces";
 
 let kernel: Kernel;
 
@@ -183,6 +183,11 @@ export class Runtime {
 
   /* istanbul ignore next */
   _internalApiGetResolver(): Resolver {
-    return kernel.router.locationContext.resolver;
+    return kernel.router.getResolver();
+  }
+
+  /* istanbul ignore next */
+  _internalApiGetRouterState(): RouterState {
+    return kernel.router.getState();
   }
 }

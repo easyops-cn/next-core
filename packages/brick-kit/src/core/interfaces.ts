@@ -14,3 +14,5 @@ export interface RecentApps {
   previousApp?: MicroApp;
   previousWorkspace?: VisitedWorkspace;
 }
+
+export type RouterState = "initial" | "ready-to-mount" | "mounted";
