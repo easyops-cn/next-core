@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.16.0...@easyops/brick-kit@1.17.0) (2020-02-04)
+
+
+### Bug Fixes
+
+* fix a bug that sub route public not working ([e4bdd8b](https://git.easyops.local/anyclouds/next-core/commits/e4bdd8b))
+* **kernel:** add tip when provider not defined refs BRICK_STORE-982 ([bd25e32](https://git.easyops.local/anyclouds/next-core/commits/bd25e32))
+
+
+### Features
+
+* **set-properties:** `injectDeep` default to be true, refs BRICK_STORE-987 ([cd12bb8](https://git.easyops.local/anyclouds/next-core/commits/cd12bb8))
+
+
+
+
+
 # [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.15.0...@easyops/brick-kit@1.16.0) (2020-01-29)
 
 ### Features

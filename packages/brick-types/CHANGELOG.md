@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.10.0...@easyops/brick-types@1.11.0) (2020-02-04)
+
+
+### Features
+
+* add 'history.reload' and 'event.preventDefault' brick event action ([7f8363c](https://git.easyops.local/anyclouds/next-core/commits/7f8363c))
+
+
+
+
+
 # [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.9.0...@easyops/brick-types@1.10.0) (2020-01-29)
 
 ### Features

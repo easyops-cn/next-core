@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.9.2...@easyops/brick-utils@1.10.0) (2020-02-04)
+
+
+### Features
+
+* add 'history.reload' and 'event.preventDefault' brick event action ([7f8363c](https://git.easyops.local/anyclouds/next-core/commits/7f8363c))
+* **set-properties:** `injectDeep` default to be true, refs BRICK_STORE-987 ([cd12bb8](https://git.easyops.local/anyclouds/next-core/commits/cd12bb8))
+
+
+
+
+
 ## [1.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.9.1...@easyops/brick-utils@1.9.2) (2020-01-29)
 
 **Note:** Version bump only for package @easyops/brick-utils
