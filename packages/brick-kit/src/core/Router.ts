@@ -15,20 +15,22 @@ import {
   MountableElement,
   unmountTree,
   MountRoutesResult,
-  appendBrick
+  appendBrick,
+  Resolver
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { RecentApps } from "./interfaces";
+import { RecentApps, RouterState } from "./interfaces";
 
 export class Router {
   private defaultCollapsed = false;
-  locationContext: LocationContext;
+  private locationContext: LocationContext;
   private rendering = false;
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
+  private state: RouterState = "initial";
 
   constructor(private kernel: Kernel) {}
 
@@ -153,6 +155,7 @@ export class Router {
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
 
+    this.state = "initial";
     unmountTree(mountPoints.bg as MountableElement);
 
     if (storyboard) {
@@ -212,6 +215,8 @@ export class Router {
         return;
       }
 
+      this.state = "ready-to-mount";
+
       if (appChanged) {
         this.kernel.currentApp = currentApp;
       }
@@ -269,9 +274,12 @@ export class Router {
           this.locationContext.handlePageLoad();
           this.locationContext.resolver.scheduleRefreshing();
         }
+        this.state = "mounted";
         return;
       }
     }
+
+    this.state = "ready-to-mount";
 
     mountTree(
       [
@@ -285,5 +293,16 @@ export class Router {
       ],
       mountPoints.main as MountableElement
     );
+
+    this.state = "mounted";
+  }
+
+  /* istanbul ignore next */
+  getResolver(): Resolver {
+    return this.locationContext.resolver;
+  }
+
+  getState(): RouterState {
+    return this.state;
   }
 }

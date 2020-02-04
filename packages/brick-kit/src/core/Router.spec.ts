@@ -118,7 +118,9 @@ describe("Router", () => {
         title: "app"
       }
     } as any);
+    expect(router.getState()).toBe("initial");
     await router.bootstrap();
+    expect(router.getState()).toBe("mounted");
     expect(spyOnHistoryListen).toBeCalled();
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
