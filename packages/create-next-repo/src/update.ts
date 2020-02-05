@@ -28,6 +28,7 @@ export function update(repoName: string, targetDir: string): void {
   const targetCurrentGeneratorVersion =
     targetPackageJson.easyops?.["create-next-repo"] ?? "0.4.10";
   const newFilesFromTemplates: string[] = [];
+  const overwriteFilesFromTemplates: string[] = [];
   const templateDir = path.join(__dirname, "../template");
 
   const translations: Record<string, string> = {
@@ -48,8 +49,13 @@ export function update(repoName: string, targetDir: string): void {
     newFilesFromTemplates.push("scripts/sync-dll.js");
   }
 
+  if (semver.lt(targetCurrentGeneratorVersion, "0.6.0")) {
+    overwriteFilesFromTemplates.push("README.md");
+  }
+
   syncPackageJson();
-  syncNewFiles();
+  syncFiles(newFilesFromTemplates, "new");
+  syncFiles(overwriteFilesFromTemplates, "overwrite");
 
   function addFeatureSyncDll(): void {
     targetPackageJson.scripts["sync-dll"] = "node scripts/sync-dll.js";
@@ -96,15 +102,17 @@ export function update(repoName: string, targetDir: string): void {
     );
   }
 
-  function syncNewFiles(): void {
-    const newFiles = newFilesFromTemplates.map(filePath => [
+  function syncFiles(files: string[], type: "new" | "overwrite"): void {
+    const newFiles = files.map(filePath => [
       path.join(targetDir, filePath),
       replaceFileContent(path.join(templateDir, filePath), translations)
     ]);
     for (const [filePath, content] of newFiles) {
       fs.outputFileSync(filePath, content);
       console.log(
-        `${chalk.bold("File created")}: ./${path.relative(cwd, filePath)}`
+        `${chalk.bold(
+          type === "new" ? "File created" : "File updated"
+        )}: ./${path.relative(cwd, filePath)}`
       );
     }
   }
