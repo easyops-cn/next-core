@@ -74,7 +74,11 @@ function processRoutes(
 ): void {
   if (Array.isArray(routes)) {
     routes.forEach(routeConf => {
-      processBricks(routeConf.bricks, templateRegistry);
+      if (routeConf.type === "routes") {
+        processRoutes(routeConf.routes, templateRegistry);
+      } else {
+        processBricks(routeConf.bricks, templateRegistry);
+      }
       const brickConf = routeConf.menu;
       if (brickConf && brickConf.type === "brick") {
         processBrick(brickConf, templateRegistry);

@@ -73,22 +73,33 @@ export interface RuntimeStoryboard extends Storyboard {
   $$depsProcessed?: boolean;
 }
 
-export interface RouteConf<B = any, M = any> {
+export type RouteConf = RouteConfOfBricks | RouteConfOfRoutes;
+
+export interface RouteConfOfBricks extends BaseRouteConf {
+  type?: "bricks";
+  bricks: BrickConf[];
+}
+
+export interface RouteConfOfRoutes extends BaseRouteConf {
+  type: "routes";
+  routes: RouteConf[];
+}
+
+export interface BaseRouteConf {
   path: string | string[];
   exact?: boolean;
   public?: boolean;
-  bricks: BrickConf<B>[];
-  menu?: MenuConf<M>;
+  menu?: MenuConf;
   hybrid?: boolean;
   providers?: ProviderConf[];
   defineResolves?: DefineResolveConf[];
 }
 
-export interface BrickConf<T = any> {
+export interface BrickConf {
   brick?: string;
   slots?: SlotsConf;
   injectDeep?: boolean;
-  properties?: T;
+  properties?: Record<string, any>;
   events?: BrickEventsMap;
   bg?: boolean;
   lifeCycle?: BrickLifeCycle;
@@ -145,7 +156,7 @@ export interface TransformMap {
   [propName: string]: any;
 }
 
-export type MenuConf<T = any> = false | StaticMenuConf | BrickMenuConf<T>;
+export type MenuConf = false | StaticMenuConf | BrickMenuConf;
 
 export interface StaticMenuConf extends StaticMenuProps {
   type?: "static";
@@ -168,11 +179,11 @@ export interface BreadcrumbItemConf {
   to?: LocationDescriptor<PluginHistoryState>;
 }
 
-export interface BrickMenuConf<T = any> {
+export interface BrickMenuConf {
   type: "brick";
   brick: string;
   injectDeep?: boolean;
-  properties?: T;
+  properties?: Record<string, any>;
   events?: BrickEventsMap;
   template?: string;
   params?: any[];

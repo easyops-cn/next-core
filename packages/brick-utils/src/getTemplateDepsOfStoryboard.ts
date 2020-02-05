@@ -45,7 +45,11 @@ function scanTemplatesInRoutes(
 ): void {
   if (Array.isArray(routes)) {
     routes.forEach(routeConf => {
-      scanTemplatesInBricks(routeConf.bricks, collection);
+      if (routeConf.type === "routes") {
+        scanTemplatesInRoutes(routeConf.routes, collection);
+      } else {
+        scanTemplatesInBricks(routeConf.bricks, collection);
+      }
       const brickConf = routeConf.menu;
       if (brickConf && brickConf.type === "brick") {
         scanTemplatesInBrick(brickConf, collection);

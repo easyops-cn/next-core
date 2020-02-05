@@ -33,7 +33,11 @@ function restoreDynamicTemplatesInBricks(bricks: RuntimeBrickConf[]): void {
 function restoreDynamicTemplatesInRoutes(routes: RouteConf[]): void {
   if (Array.isArray(routes)) {
     routes.forEach(routeConf => {
-      restoreDynamicTemplatesInBricks(routeConf.bricks);
+      if (routeConf.type === "routes") {
+        restoreDynamicTemplatesInRoutes(routeConf.routes);
+      } else {
+        restoreDynamicTemplatesInBricks(routeConf.bricks);
+      }
       const menuBrickConf = routeConf.menu;
       if (menuBrickConf && menuBrickConf.type === "brick") {
         restoreDynamicTemplatesInBrick(menuBrickConf);
