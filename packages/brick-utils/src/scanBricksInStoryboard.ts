@@ -59,7 +59,11 @@ function scanBricksInRouteConfs(
   if (Array.isArray(routes)) {
     routes.forEach(routeConf => {
       scanBricksInProviderConfs(routeConf.providers, collection);
-      scanBricksInBrickConfs(routeConf.bricks, collection);
+      if (routeConf.type === "routes") {
+        scanBricksInRouteConfs(routeConf.routes, collection);
+      } else {
+        scanBricksInBrickConfs(routeConf.bricks, collection);
+      }
       if (
         routeConf.menu &&
         routeConf.menu.type === "brick" &&

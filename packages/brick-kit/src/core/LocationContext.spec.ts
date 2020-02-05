@@ -154,125 +154,131 @@ describe("LocationContext", () => {
                 }
               }
             ],
-            bricks: [
+            type: "routes",
+            routes: [
               {
-                brick: "div",
-                properties: {
-                  title: "good"
-                },
-                events: {
-                  click: {
-                    action: "history.push"
-                  }
-                },
-                lifeCycle: {
-                  onPageLoad: {
-                    action: "console.log"
-                  }
-                },
-                slots: {
-                  menu: {
-                    type: "bricks",
-                    bricks: [
-                      {
-                        brick: "p"
+                path: "/",
+                bricks: [
+                  {
+                    brick: "div",
+                    properties: {
+                      title: "good"
+                    },
+                    events: {
+                      click: {
+                        action: "history.push"
                       }
-                    ]
-                  },
-                  content: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          sidebarMenu: {
-                            title: "menu title",
-                            menuItems: []
-                          },
-                          pageTitle: "page title",
-                          breadcrumb: {
-                            items: [
-                              {
-                                text: "first breadcrumb"
-                              }
-                            ]
+                    },
+                    lifeCycle: {
+                      onPageLoad: {
+                        action: "console.log"
+                      }
+                    },
+                    slots: {
+                      menu: {
+                        type: "bricks",
+                        bricks: [
+                          {
+                            brick: "p"
                           }
-                        }
-                      }
-                    ]
-                  },
-                  extendA: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          type: "brick",
-                          brick: "a"
-                        }
-                      }
-                    ]
-                  },
-                  extendB: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          type: "brick",
-                          brick: "b",
-                          events: {}
-                        }
-                      }
-                    ]
-                  },
-                  extendC: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          breadcrumb: {
-                            overwrite: true,
-                            items: [
-                              {
-                                text: "second breadcrumb"
+                        ]
+                      },
+                      content: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              sidebarMenu: {
+                                title: "menu title",
+                                menuItems: []
+                              },
+                              pageTitle: "page title",
+                              breadcrumb: {
+                                items: [
+                                  {
+                                    text: "first breadcrumb"
+                                  }
+                                ]
                               }
-                            ]
+                            }
                           }
-                        }
+                        ]
+                      },
+                      extendA: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              type: "brick",
+                              brick: "a"
+                            }
+                          }
+                        ]
+                      },
+                      extendB: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              type: "brick",
+                              brick: "b",
+                              events: {}
+                            }
+                          }
+                        ]
+                      },
+                      extendC: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              breadcrumb: {
+                                overwrite: true,
+                                items: [
+                                  {
+                                    text: "second breadcrumb"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      extendD: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: false
+                          }
+                        ]
+                      },
+                      extendE: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {}
+                          }
+                        ]
+                      },
+                      extendF: {
+                        type: "invalid",
+                        routes: []
                       }
-                    ]
-                  },
-                  extendD: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: false
-                      }
-                    ]
-                  },
-                  extendE: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {}
-                      }
-                    ]
-                  },
-                  extendF: {
-                    type: "invalid",
-                    routes: []
+                    }
                   }
-                }
+                ]
               }
             ]
           }

@@ -49,6 +49,18 @@ describe("scanBricksInStoryboard", () => {
               template: "t-a"
             }
           ]
+        },
+        {
+          type: "routes",
+          routes: [
+            {
+              bricks: [
+                {
+                  brick: "f"
+                }
+              ]
+            }
+          ]
         }
       ]
     } as any;
@@ -59,7 +71,8 @@ describe("scanBricksInStoryboard", () => {
       "b",
       "c",
       "e",
-      "d"
+      "d",
+      "f"
     ]);
   });
 });

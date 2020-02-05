@@ -138,12 +138,20 @@ export class LocationContext {
           mountRoutesResult
         );
         this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
-        await this.mountBricks(
-          matched.route.bricks,
-          matched.match,
-          slotId,
-          mountRoutesResult
-        );
+        if (matched.route.type === "routes") {
+          await this.mountRoutes(
+            matched.route.routes,
+            slotId,
+            mountRoutesResult
+          );
+        } else {
+          await this.mountBricks(
+            matched.route.bricks,
+            matched.match,
+            slotId,
+            mountRoutesResult
+          );
+        }
         break;
     }
     return mountRoutesResult;

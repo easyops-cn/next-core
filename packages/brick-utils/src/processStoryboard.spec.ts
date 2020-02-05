@@ -1,4 +1,4 @@
-import { Storyboard } from "@easyops/brick-types";
+import { Storyboard, RouteConfOfBricks } from "@easyops/brick-types";
 import { processStoryboard } from "./processStoryboard";
 
 describe("processStoryboard", () => {
@@ -35,6 +35,18 @@ describe("processStoryboard", () => {
             template: "d"
           }
           // `bricks` not set
+        },
+        {
+          type: "routes",
+          routes: [
+            {
+              bricks: [
+                {
+                  template: "f"
+                }
+              ]
+            }
+          ]
         }
       ]
     } as any;
@@ -47,7 +59,7 @@ describe("processStoryboard", () => {
       ]
     ]);
     processStoryboard(storyboard, registry);
-    expect(storyboard.routes[0].bricks[0]).toEqual({
+    expect((storyboard.routes[0] as RouteConfOfBricks).bricks[0]).toEqual({
       brick: "a",
       $$template: "a",
       $$params: undefined

@@ -110,11 +110,19 @@ async function asyncProcessRoutes(
   if (Array.isArray(routes)) {
     await Promise.all(
       routes.map(async routeConf => {
-        await asyncProcessBricks(
-          routeConf.bricks,
-          templateRegistry,
-          templatePackages
-        );
+        if (routeConf.type === "routes") {
+          await asyncProcessRoutes(
+            routeConf.routes,
+            templateRegistry,
+            templatePackages
+          );
+        } else {
+          await asyncProcessBricks(
+            routeConf.bricks,
+            templateRegistry,
+            templatePackages
+          );
+        }
         const menuBrickConf = routeConf.menu;
         if (menuBrickConf && menuBrickConf.type === "brick") {
           await asyncProcessBrick(
