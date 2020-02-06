@@ -7,7 +7,9 @@ interface ProviderElement<P extends any[], R> extends HTMLElement {
 
   updateArgsAndExecute: (event: CustomEvent<Record<string, any>>) => void;
 
-  execute(): R;
+  execute(): Promise<void>;
+
+  executeWithArgs(...args: P): Promise<void>;
 
   resolve(...args: P): R;
 }
@@ -29,9 +31,13 @@ export function createProviderClass(
       this.execute();
     }
 
-    async execute(): ReturnType<typeof api> {
+    execute(): Promise<void> {
+      return this.executeWithArgs(...this.args);
+    }
+
+    async executeWithArgs(...args: Parameters<typeof api>): Promise<void> {
       try {
-        const result = await api(...this.args);
+        const result = await api(...args);
         this.dispatchEvent(
           new CustomEvent("response.success", {
             detail: result

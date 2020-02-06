@@ -47,9 +47,18 @@ describe("createProviderClass", () => {
       query: "needle",
       page: 2
     });
-    expect(spyOnDispatchEvent.mock.calls[0][0]).toMatchObject({
-      detail: "good"
-    });
+    expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.success");
+    expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("good");
+  });
+
+  it("should execute with args", async () => {
+    spy.mockResolvedValue(3);
+
+    await provider.executeWithArgs(1, 2);
+    expect(spy).toBeCalledWith(1, 2);
+
+    expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.success");
+    expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe(3);
   });
 
   it("should resolve", async () => {
@@ -64,8 +73,7 @@ describe("createProviderClass", () => {
     spy.mockRejectedValue("oops");
 
     await provider.execute();
-    expect(spyOnDispatchEvent.mock.calls[0][0]).toMatchObject({
-      detail: "oops"
-    });
+    expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.error");
+    expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("oops");
   });
 });
