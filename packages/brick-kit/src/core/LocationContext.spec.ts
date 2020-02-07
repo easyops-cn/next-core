@@ -2,12 +2,15 @@ import { PluginLocation, RuntimeStoryboard } from "@easyops/brick-types";
 import * as brickUtils from "@easyops/brick-utils";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
-import { isLoggedIn } from "../auth";
+import { isLoggedIn, getAuth } from "../auth";
 
 jest.mock("../auth");
 
 const spyOnMatchPath = jest.spyOn(brickUtils, "matchPath");
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
+(getAuth as jest.Mock).mockReturnValue({
+  username: "easyops"
+});
 
 describe("LocationContext", () => {
   let context: LocationContext;
