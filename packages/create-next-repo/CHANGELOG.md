@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.5.3...@easyops/create-next-repo@0.6.0) (2020-02-07)
+
+### Features
+
+- add badges of new next-repo ([a345734](https://git.easyops.local/anyclouds/next-core/commits/a345734))
+
 ## [0.5.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.5.2...@easyops/create-next-repo@0.5.3) (2020-02-05)
 
 **Note:** Version bump only for package @easyops/create-next-repo

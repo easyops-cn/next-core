@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.11.0...@easyops/brick-utils@1.12.0) (2020-02-07)
+
+### Features
+
+- **provider:** support `executeWithArgs` ([ce2eb38](https://git.easyops.local/anyclouds/next-core/commits/ce2eb38))
+
 # [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.10.0...@easyops/brick-utils@1.11.0) (2020-02-05)
 
 ### Features
