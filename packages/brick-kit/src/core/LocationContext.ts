@@ -23,7 +23,7 @@ import {
   listenerFactory
 } from "@easyops/brick-utils";
 import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
-import { isLoggedIn } from "../auth";
+import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
 
@@ -79,7 +79,10 @@ export class LocationContext {
       hash: this.location.hash,
       query: this.query,
       match,
-      app: this.kernel.nextApp
+      app: this.kernel.nextApp,
+      sys: {
+        username: getAuth().username
+      }
     };
   }
 

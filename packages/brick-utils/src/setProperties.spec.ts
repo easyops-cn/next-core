@@ -12,6 +12,9 @@ describe("computeRealValue", () => {
       homepage: "/host",
       name: "host",
       id: "host"
+    },
+    sys: {
+      username: "easyops"
     }
   } as any;
   const cases: [any[], PluginRuntimeContext, any[]][] = [
@@ -45,7 +48,8 @@ describe("computeRealValue", () => {
       },
       ["#123"]
     ],
-    [["${APP.homepage}"], context, ["/host"]]
+    [["${APP.homepage}"], context, ["/host"]],
+    [["${SYS.username}"], context, ["easyops"]]
   ];
   it.each(cases)(
     "test computeRealValue(%s, %s, true) should work",
@@ -76,6 +80,9 @@ describe("setProperties", () => {
       homepage: "/cmdb",
       name: "cmdb",
       id: "cmdb"
+    },
+    sys: {
+      username: "easyops"
     }
   };
   const properties = {
@@ -99,7 +106,8 @@ describe("setProperties", () => {
     selectedKeys: ["${QUERY.key}"],
     url: "/objects/${objectId=}/instances/${instanceId}",
     allQueryAsString: "${QUERY.*|string}",
-    urlToDetail: "${APP.homepage}/${objectId}"
+    urlToDetail: "${APP.homepage}/${objectId}",
+    username: "${SYS.username}"
   };
   const cases: [
     Record<string, any>,
@@ -132,7 +140,8 @@ describe("setProperties", () => {
         selectedKeys: ["${QUERY.key}"],
         url: "/objects/HOST/instances/",
         allQueryAsString: originalQuery,
-        urlToDetail: "/cmdb/HOST"
+        urlToDetail: "/cmdb/HOST",
+        username: "easyops"
       }
     ],
     [
@@ -159,7 +168,8 @@ describe("setProperties", () => {
         selectedKeys: ["K"],
         url: "/objects/HOST/instances/",
         allQueryAsString: originalQuery,
-        urlToDetail: "/cmdb/HOST"
+        urlToDetail: "/cmdb/HOST",
+        username: "easyops"
       }
     ],
     [
@@ -187,7 +197,8 @@ describe("setProperties", () => {
           selectedKeys: ["${QUERY.key}"],
           url: "/objects/HOST/instances/",
           allQueryAsString: originalQuery,
-          urlToDetail: "/cmdb/HOST"
+          urlToDetail: "/cmdb/HOST",
+          username: "easyops"
         },
         {
           objectId: "HOST",
@@ -208,7 +219,8 @@ describe("setProperties", () => {
           selectedKeys: ["${QUERY.key}"],
           url: "/objects/HOST/instances/",
           allQueryAsString: originalQuery,
-          urlToDetail: "/cmdb/HOST"
+          urlToDetail: "/cmdb/HOST",
+          username: "easyops"
         }
       ]
     ]

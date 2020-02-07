@@ -30,6 +30,10 @@ export interface MatchParams {
   [key: string]: string;
 }
 
+export interface SystemInfo {
+  username: string;
+}
+
 export type PluginHistory = History<PluginHistoryState>;
 export type PluginLocation = Location<PluginHistoryState>;
 
@@ -44,6 +48,7 @@ export interface PluginRuntimeContext {
   event?: CustomEvent;
   app?: MicroApp;
   hash?: string;
+  sys?: SystemInfo;
 }
 
 export interface MountPoints {
