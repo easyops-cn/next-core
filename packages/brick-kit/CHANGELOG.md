@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.18.1...@easyops/brick-kit@1.19.0) (2020-02-07)
+
+### Features
+
+- 框架提供当前用户的系统变量 ([cff4566](https://git.easyops.local/anyclouds/next-core/commits/cff4566))
+
 ## [1.18.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.18.0...@easyops/brick-kit@1.18.1) (2020-02-07)
 
 **Note:** Version bump only for package @easyops/brick-kit
