@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="41px" height="47px" viewBox="0 0 41 47" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>告警</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-38.9%" y="-38.9%" width="177.8%" height="188.9%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <path d="M31.713714,25.8911073 C32.0573504,25.8750557 32.3846231,25.9553134 32.6791685,26.1479316 C31.5009867,25.4095616 30.7973504,24.1414912 30.7973504,22.7610602 L30.7973504,14.8316076 C30.7973504,9.00490463 26.493714,4.15734456 20.7664413,2.96953183 L20.7664413,2.68060441 C20.7664413,1.20386426 19.5391685,9.30165036e-14 18.033714,9.30165036e-14 L18.033714,9.30165036e-14 C16.5282594,9.30165036e-14 15.3009867,1.20386426 15.3009867,2.68060441 L15.3009867,2.95348031 C9.55735035,4.15734456 5.25371399,9.00490463 5.25371399,14.8155561 L5.25371399,22.7610602 C5.25371399,24.1896458 4.50098672,25.4256131 3.37189581,26.1479316 C3.65007763,25.9713649 3.99371399,25.8750557 4.33735035,25.8911073 C3.33916853,25.8590042 2.48825944,26.6294773 2.45553217,27.6086203 C2.4228049,28.5877632 3.20825944,29.4224424 4.20644126,29.4545455 L31.713714,29.4545455 C32.7118958,29.4545455 33.5300776,28.6519693 33.5464413,27.6728264 C33.5300776,26.6936834 32.7118958,25.8911073 31.713714,25.8911073 L31.713714,25.8911073 Z" id="path-4"></path>
+        <filter x="-22.5%" y="-17.0%" width="145.0%" height="147.5%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-6">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <path d="M18,36 C20.52,36 22.5654545,33.9545455 22.5654545,31.4509091 L13.4345455,31.4509091 C13.4345455,33.9545455 15.48,36 18,36 L18,36 Z" id="path-7"></path>
+        <filter x="-76.7%" y="-109.9%" width="253.3%" height="407.8%" filterUnits="objectBoundingBox" id="filter-8">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="设计稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="通用图标/bell" filter="url(#filter-2)" transform="translate(3.000000, 2.000000)">
+            <g id="编组">
+                <rect id="Rectangle" fill="#FFFFFF" opacity="0" x="0" y="0" width="36" height="36"></rect>
+                <g id="Path">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                    <use fill="url(#linearGradient-3)" fill-rule="evenodd" xlink:href="#path-4"></use>
+                </g>
+                <g id="Path">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlink:href="#path-7"></use>
+                    <use fill="url(#linearGradient-6)" fill-rule="evenodd" xlink:href="#path-7"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
