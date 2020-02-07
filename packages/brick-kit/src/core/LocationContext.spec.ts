@@ -113,7 +113,7 @@ describe("LocationContext", () => {
       });
     });
 
-    it("should redirect if match redirected", async () => {
+    it("should redirect if not logged in", async () => {
       spyOnMatchPath.mockReturnValueOnce({} as any);
       spyOnIsLoggedIn.mockReturnValueOnce(false);
       const result = await context.mountRoutes(
@@ -136,6 +136,31 @@ describe("LocationContext", () => {
             state: {
               from: location
             }
+          }
+        }
+      });
+    });
+
+    it("should redirect if match redirected", async () => {
+      spyOnMatchPath.mockReturnValueOnce({} as any);
+      spyOnIsLoggedIn.mockReturnValue(true);
+      const result = await context.mountRoutes(
+        [
+          {
+            path: "/",
+            redirect: "/oops"
+          }
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+      expect(result).toMatchObject({
+        main: [],
+        menuBar: {},
+        appBar: {},
+        flags: {
+          redirect: {
+            path: "/oops"
           }
         }
       });

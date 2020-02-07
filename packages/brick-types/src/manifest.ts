@@ -76,7 +76,10 @@ export interface RuntimeStoryboard extends Storyboard {
   $$depsProcessed?: boolean;
 }
 
-export type RouteConf = RouteConfOfBricks | RouteConfOfRoutes;
+export type RouteConf =
+  | RouteConfOfBricks
+  | RouteConfOfRoutes
+  | RouteConfOfRedirect;
 
 export interface RouteConfOfBricks extends BaseRouteConf {
   type?: "bricks";
@@ -88,6 +91,11 @@ export interface RouteConfOfRoutes extends BaseRouteConf {
   routes: RouteConf[];
 }
 
+export interface RouteConfOfRedirect extends BaseRouteConf {
+  type?: "redirect";
+  redirect: string | ResolveConf;
+}
+
 export interface BaseRouteConf {
   path: string | string[];
   exact?: boolean;
@@ -96,6 +104,7 @@ export interface BaseRouteConf {
   hybrid?: boolean;
   providers?: ProviderConf[];
   defineResolves?: DefineResolveConf[];
+  redirect?: string | ResolveConf;
 }
 
 export interface BrickConf {

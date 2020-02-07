@@ -2,7 +2,8 @@ import {
   Storyboard,
   BrickConf,
   RouteConf,
-  ProviderConf
+  ProviderConf,
+  RouteConfOfBricks
 } from "@easyops/brick-types";
 
 export function scanBricksInBrickConf(
@@ -62,7 +63,10 @@ function scanBricksInRouteConfs(
       if (routeConf.type === "routes") {
         scanBricksInRouteConfs(routeConf.routes, collection);
       } else {
-        scanBricksInBrickConfs(routeConf.bricks, collection);
+        scanBricksInBrickConfs(
+          (routeConf as RouteConfOfBricks).bricks,
+          collection
+        );
       }
       if (
         routeConf.menu &&

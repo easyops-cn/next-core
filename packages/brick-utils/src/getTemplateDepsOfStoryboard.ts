@@ -2,7 +2,8 @@ import {
   Storyboard,
   RouteConf,
   BrickConf,
-  TemplatePackage
+  TemplatePackage,
+  RouteConfOfBricks
 } from "@easyops/brick-types";
 
 export function scanTemplatesInBrick(
@@ -48,7 +49,10 @@ function scanTemplatesInRoutes(
       if (routeConf.type === "routes") {
         scanTemplatesInRoutes(routeConf.routes, collection);
       } else {
-        scanTemplatesInBricks(routeConf.bricks, collection);
+        scanTemplatesInBricks(
+          (routeConf as RouteConfOfBricks).bricks,
+          collection
+        );
       }
       const brickConf = routeConf.menu;
       if (brickConf && brickConf.type === "brick") {

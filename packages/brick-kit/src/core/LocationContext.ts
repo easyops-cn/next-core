@@ -13,19 +13,24 @@ import {
   PluginRuntimeContext,
   BrickLifeCycle,
   BrickEventHandler,
-  CustomBrickEventHandler
+  CustomBrickEventHandler,
+  ResolveConf,
+  RouteConfOfRoutes,
+  RouteConfOfBricks
 } from "@easyops/brick-types";
 import {
   isObject,
   computeRealProperties,
   matchPath,
   computeRealRoutePath,
-  listenerFactory
+  listenerFactory,
+  computeRealValue
 } from "@easyops/brick-utils";
 import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
 import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
+import { RedirectConf } from "./interfaces";
 
 export type MatchRoutesResult =
   | {
@@ -50,7 +55,7 @@ export interface MountRoutesResult {
   flags: {
     redirect?: {
       path: string;
-      state: PluginHistoryState;
+      state?: PluginHistoryState;
     };
     barsHidden?: boolean;
     hybrid?: boolean;
@@ -118,6 +123,8 @@ export class LocationContext {
     mountRoutesResult?: MountRoutesResult
   ): Promise<MountRoutesResult> {
     const matched = this.matchRoutes(routes, this.kernel.nextApp);
+    let redirect: string | ResolveConf;
+    const redirectConf: RedirectConf = {};
     switch (matched) {
       case "missed":
         break;
@@ -140,22 +147,48 @@ export class LocationContext {
           slotId,
           mountRoutesResult
         );
+
+        redirect = computeRealValue(
+          matched.route.redirect,
+          this.getContext(matched.match),
+          true
+        );
+
+        if (redirect) {
+          if (typeof redirect === "string") {
+            // Directly redirect.
+            mountRoutesResult.flags.redirect = {
+              path: redirect
+            };
+            break;
+          } else {
+            // Resolvable redirect.
+            await this.resolver.resolveOne("redirect", redirect, redirectConf);
+            if (redirectConf.redirect) {
+              mountRoutesResult.flags.redirect = {
+                path: redirectConf.redirect
+              };
+              break;
+            }
+          }
+        }
+
         this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
+
         if (matched.route.type === "routes") {
           await this.mountRoutes(
-            matched.route.routes,
+            (matched.route as RouteConfOfRoutes).routes,
             slotId,
             mountRoutesResult
           );
-        } else {
+        } else if (Array.isArray((matched.route as RouteConfOfBricks).bricks)) {
           await this.mountBricks(
-            matched.route.bricks,
+            (matched.route as RouteConfOfBricks).bricks,
             matched.match,
             slotId,
             mountRoutesResult
           );
         }
-        break;
     }
     return mountRoutesResult;
   }

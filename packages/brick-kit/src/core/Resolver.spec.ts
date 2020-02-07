@@ -85,6 +85,18 @@ describe("Resolver", () => {
       brickB,
       null
     );
+    const redirectConf = {};
+    await resolver.resolveOne(
+      "redirect",
+      {
+        provider: "any-provider",
+        method: "testMethod",
+        transform: {
+          redirect: "/go/to/@{data.hello}"
+        }
+      },
+      redirectConf
+    );
     expect(testMethod).toBeCalledTimes(1);
     expect(brickA.properties).toEqual({
       testProp: {
@@ -96,6 +108,9 @@ describe("Resolver", () => {
     expect(brickB.properties).toEqual({
       existedProp: "any",
       testProp: "world"
+    });
+    expect(redirectConf).toEqual({
+      redirect: "/go/to/world"
     });
 
     resolver.scheduleRefreshing();

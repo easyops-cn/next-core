@@ -5,7 +5,8 @@ import {
   RuntimeBrickConf,
   BrickTemplateFactory,
   TemplateRegistry,
-  TemplatePackage
+  TemplatePackage,
+  RouteConfOfBricks
 } from "@easyops/brick-types";
 import { loadScript } from "./loadScript";
 import { getDepsOfTemplates } from "./getTemplateDepsOfStoryboard";
@@ -118,7 +119,7 @@ async function asyncProcessRoutes(
           );
         } else {
           await asyncProcessBricks(
-            routeConf.bricks,
+            (routeConf as RouteConfOfBricks).bricks,
             templateRegistry,
             templatePackages
           );

@@ -1,5 +1,10 @@
 import { get } from "lodash";
-import { Storyboard, RouteConf, RuntimeBrickConf } from "@easyops/brick-types";
+import {
+  Storyboard,
+  RouteConf,
+  RuntimeBrickConf,
+  RouteConfOfBricks
+} from "@easyops/brick-types";
 
 function restoreDynamicTemplatesInBrick(brickConf: RuntimeBrickConf): void {
   if (get(brickConf, ["$$lifeCycle", "useResolves"], []).length > 0) {
@@ -36,7 +41,9 @@ function restoreDynamicTemplatesInRoutes(routes: RouteConf[]): void {
       if (routeConf.type === "routes") {
         restoreDynamicTemplatesInRoutes(routeConf.routes);
       } else {
-        restoreDynamicTemplatesInBricks(routeConf.bricks);
+        restoreDynamicTemplatesInBricks(
+          (routeConf as RouteConfOfBricks).bricks
+        );
       }
       const menuBrickConf = routeConf.menu;
       if (menuBrickConf && menuBrickConf.type === "brick") {
