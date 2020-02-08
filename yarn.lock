@@ -2964,10 +2964,10 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
 
-antd@^3.26.8:
-  version "3.26.8"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-3.26.8.tgz#e40982c5cdb6c5c2c5f037ead27889b5f71e4ea3"
-  integrity sha1-5AmCxc22xcLF8Dfq0niJtfceTqM=
+antd@^3.26.9:
+  version "3.26.9"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-3.26.9.tgz?cache=0&sync_timestamp=1581171947957&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-3.26.9.tgz#233c9d090c44146997984966d3b3657c9426bac1"
+  integrity sha1-IzydCQxEFGmXmElm07NlfJQmusE=
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
