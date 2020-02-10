@@ -53,6 +53,10 @@ export function update(repoName: string, targetDir: string): void {
     overwriteFilesFromTemplates.push("README.md");
   }
 
+  if (semver.lt(targetCurrentGeneratorVersion, "0.6.2")) {
+    overwriteFilesFromTemplates.push(".gitignore");
+  }
+
   syncPackageJson();
   syncFiles(newFilesFromTemplates, "new");
   syncFiles(overwriteFilesFromTemplates, "overwrite");
