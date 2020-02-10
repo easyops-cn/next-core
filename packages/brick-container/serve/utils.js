@@ -32,6 +32,13 @@ function getSingleStoryboard(env, microAppName) {
   if (fs.existsSync(storyboardJsonFile)) {
     try {
       storyboard = JSON.parse(fs.readFileSync(storyboardJsonFile, "utf8"));
+      const app = storyboard.app;
+      if (app && app.id) {
+        const id = app.id;
+        if (env.appConfig[id]) {
+          app.userConfig = env.appConfig[id];
+        }
+      }
     } catch (e) {
       console.error(`JSON.parse() error: ${storyboardJsonFile}`);
     }

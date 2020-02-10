@@ -109,6 +109,7 @@ module.exports = cwd => {
     ? process.env.LOCAL_TEMPLATES.split(",")
     : [];
 
+  const rootDir = path.join(__dirname, "../../..");
   const useLocalSettings =
     process.env.LOCAL_SETTINGS === "TRUE" || flags.localSettings;
   const useMergeSettings =
@@ -118,12 +119,26 @@ module.exports = cwd => {
     if (cwd) {
       return cwd;
     }
-    const rootDir = path.join(__dirname, "../../..");
-    const devConfigJs = path.join(rootDir, "dev.config.js");
-    if (fs.existsSync(devConfigJs)) {
-      return require(devConfigJs).brickNextDir;
+    const devConfig = getDevConfig();
+    if (devConfig && devConfig.brickNextDir) {
+      return devConfig.brickNextDir;
     }
     return path.join(rootDir, "../brick-next");
+  }
+
+  function getDevConfig() {
+    const devConfigJsPath = path.join(rootDir, "dev.config.js");
+    if (fs.existsSync(devConfigJsPath)) {
+      return require(devConfigJsPath);
+    }
+  }
+
+  function getAppConfig() {
+    const devConfig = getDevConfig();
+    if (devConfig) {
+      return devConfig.appConfig || {};
+    }
+    return {};
   }
 
   const brickNextDir = getBrickNextDir();
@@ -131,6 +146,7 @@ module.exports = cwd => {
   const brickPackagesDir = path.join(brickNextDir, "bricks");
   const templatePackagesDir = path.join(brickNextDir, "templates");
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
+  const appConfig = getAppConfig();
 
   const env = {
     useOffline,
@@ -150,7 +166,8 @@ module.exports = cwd => {
     navbarJsonPath,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
-    server
+    server,
+    appConfig
   };
 
   if (useAutoRemote) {
