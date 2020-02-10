@@ -8093,10 +8093,10 @@ less-loader@^5.0.0:
     loader-utils "^1.1.0"
     pify "^4.0.1"
 
-less@^3.10.3:
-  version "3.10.3"
-  resolved "https://registry.npm.taobao.org/less/download/less-3.10.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.10.3.tgz#417a0975d5eeecc52cff4bcfa3c09d35781e6792"
-  integrity sha1-QXoJddXu7MUs/0vPo8CdNXgeZ5I=
+less@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.npm.taobao.org/less/download/less-3.11.0.tgz?cache=0&sync_timestamp=1581286111539&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.11.0.tgz#ce3b6010d4ecf00710d5a68915207de7541b4d73"
+  integrity sha1-zjtgENTs8AcQ1aaJFSB951QbTXM=
   dependencies:
     clone "^2.1.2"
   optionalDependencies:
