@@ -147,6 +147,14 @@ describe("Kernel", () => {
     kernel.currentUrl = "/a";
     kernel.updateWorkspaceStack();
     expect(kernel.getPreviousWorkspace()).toBe(undefined);
+    expect(kernel.getRecentApps()).toEqual({
+      previousApp: undefined,
+      currentApp: {
+        id: "a",
+        name: "A"
+      },
+      previousWorkspace: undefined
+    });
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
