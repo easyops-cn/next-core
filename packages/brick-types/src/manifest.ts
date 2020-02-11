@@ -39,6 +39,9 @@ export interface MicroApp {
   status?: "developing" | "enabled" | "disabled";
   legacy?: "iframe";
   menuIcon?: MenuIcon;
+  defaultConfig?: Record<string, any>;
+  userConfig?: Record<string, any>;
+  config?: Record<string, any>;
 }
 
 export interface BrickPackage {

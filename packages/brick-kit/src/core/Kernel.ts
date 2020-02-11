@@ -16,6 +16,7 @@ import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
 import { RelatedApp, VisitedWorkspace } from "./interfaces";
+import { mergeAppConfig } from "./processors";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -93,6 +94,8 @@ export class Kernel {
         interceptorParams
       })
     );
+    // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+    mergeAppConfig(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
       originalStoryboards: cloneDeep(bootstrapResponse.storyboards),
