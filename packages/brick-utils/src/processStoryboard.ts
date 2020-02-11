@@ -4,7 +4,8 @@ import {
   BrickConf,
   BrickTemplateFactory,
   TemplateRegistry,
-  RuntimeBrickConf
+  RuntimeBrickConf,
+  RouteConfOfBricks
 } from "@easyops/brick-types";
 
 export function processBrick(
@@ -77,7 +78,10 @@ function processRoutes(
       if (routeConf.type === "routes") {
         processRoutes(routeConf.routes, templateRegistry);
       } else {
-        processBricks(routeConf.bricks, templateRegistry);
+        processBricks(
+          (routeConf as RouteConfOfBricks).bricks,
+          templateRegistry
+        );
       }
       const brickConf = routeConf.menu;
       if (brickConf && brickConf.type === "brick") {
