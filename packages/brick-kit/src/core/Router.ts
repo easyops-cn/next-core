@@ -219,18 +219,18 @@ export class Router {
 
       if (appChanged) {
         this.kernel.currentApp = currentApp;
+        this.kernel.previousApp = previousApp;
       }
       this.kernel.currentUrl = createPath(location);
       await this.kernel.updateWorkspaceStack();
 
+      // Unmount main tree to avoid app change fired before new routes mounted.
+      unmountTree(mountPoints.main as MountableElement);
+
       if (appChanged) {
         window.dispatchEvent(
           new CustomEvent<RecentApps>("app.change", {
-            detail: {
-              previousApp,
-              currentApp,
-              previousWorkspace: this.kernel.getPreviousWorkspace()
-            }
+            detail: this.kernel.getRecentApps()
           })
         );
       }

@@ -12,7 +12,7 @@ import {
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
-import { RelatedApp, RouterState } from "./interfaces";
+import { RelatedApp, RouterState, RecentApps } from "./interfaces";
 
 let kernel: Kernel;
 
@@ -41,6 +41,16 @@ export class Runtime {
 
   get appBar(): AppBar {
     return kernel.appBar;
+  }
+
+  /* istanbul ignore next */
+  getCurrentApp(): MicroApp {
+    return kernel.currentApp;
+  }
+
+  /* istanbul ignore next */
+  getRecentApps(): RecentApps {
+    return kernel.getRecentApps();
   }
 
   getMicroApps({

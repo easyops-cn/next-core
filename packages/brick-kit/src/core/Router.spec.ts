@@ -79,7 +79,8 @@ describe("Router", () => {
     firstRendered: jest.fn(),
     toggleLegacyIframe: jest.fn(),
     updateWorkspaceStack: jest.fn(),
-    getPreviousWorkspace: jest.fn()
+    getPreviousWorkspace: jest.fn(),
+    getRecentApps: jest.fn()
   } as any;
 
   beforeEach(() => {
@@ -127,12 +128,6 @@ describe("Router", () => {
     expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
     const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
     expect(dispatchedEvent.type).toBe("app.change");
-    expect(dispatchedEvent.detail).toEqual({
-      previousApp: undefined,
-      currentApp: {
-        id: "hello"
-      }
-    });
     expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
     expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);
     expect(spyOnMountStaticNode.mock.calls[0][1]).toEqual({ title: "menu" });

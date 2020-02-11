@@ -15,7 +15,7 @@ import {
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
-import { RelatedApp, VisitedWorkspace } from "./interfaces";
+import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
 import { mergeAppConfig } from "./processors";
 
 export class Kernel {
@@ -26,6 +26,7 @@ export class Kernel {
   public loadingBar: LoadingBar;
   public router: Router;
   public currentApp: MicroApp;
+  public previousApp: MicroApp;
   public nextApp: MicroApp;
   public currentUrl: string;
   public workspaceStack: VisitedWorkspace[] = [];
@@ -277,5 +278,13 @@ export class Kernel {
 
   popWorkspaceStack(): void {
     this.workspaceStack.pop();
+  }
+
+  getRecentApps(): RecentApps {
+    return {
+      previousApp: this.previousApp,
+      currentApp: this.currentApp,
+      previousWorkspace: this.getPreviousWorkspace()
+    };
   }
 }
