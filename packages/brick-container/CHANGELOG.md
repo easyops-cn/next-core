@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.13.10...@easyops/brick-container@1.14.0) (2020-02-11)
+
+### Features
+
+- app config ([85033d0](https://git.easyops.local/anyclouds/next-core/commits/85033d0))
+- support app config ([1ac1492](https://git.easyops.local/anyclouds/next-core/commits/1ac1492))
+
 ## [1.13.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.13.9...@easyops/brick-container@1.13.10) (2020-02-07)
 
 ### Bug Fixes
