@@ -8093,12 +8093,13 @@ less-loader@^5.0.0:
     loader-utils "^1.1.0"
     pify "^4.0.1"
 
-less@^3.11.0:
-  version "3.11.0"
-  resolved "https://registry.npm.taobao.org/less/download/less-3.11.0.tgz?cache=0&sync_timestamp=1581286111539&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.11.0.tgz#ce3b6010d4ecf00710d5a68915207de7541b4d73"
-  integrity sha1-zjtgENTs8AcQ1aaJFSB951QbTXM=
+less@^3.11.1:
+  version "3.11.1"
+  resolved "https://registry.npm.taobao.org/less/download/less-3.11.1.tgz?cache=0&sync_timestamp=1581400805472&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.11.1.tgz#c6bf08e39e02404fe6b307a3dfffafdc55bd36e2"
+  integrity sha1-xr8I454CQE/mswej3/+v3FW9NuI=
   dependencies:
     clone "^2.1.2"
+    tslib "^1.10.0"
   optionalDependencies:
     errno "^0.1.1"
     graceful-fs "^4.1.2"
