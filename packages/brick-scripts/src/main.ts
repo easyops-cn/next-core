@@ -71,6 +71,7 @@ export async function create(flags: AskFlags): Promise<void> {
     Object.assign(microAppPackageJson.scripts, {
       start:
         'concurrently -k -n tsc,build "tsc -w --preserveWatchOutput" "node scripts/build.js -w"',
+      prestart: "rimraf dist",
       prebuild: "rimraf dist && tsc",
       build: "node scripts/build.js"
     });
