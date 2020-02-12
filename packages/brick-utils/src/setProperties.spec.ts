@@ -14,7 +14,8 @@ describe("computeRealValue", () => {
       id: "host"
     },
     sys: {
-      username: "easyops"
+      username: "easyops",
+      userInstanceId: "acbd46b"
     }
   } as any;
   const cases: [any[], PluginRuntimeContext, any[]][] = [
@@ -49,7 +50,8 @@ describe("computeRealValue", () => {
       ["#123"]
     ],
     [["${APP.homepage}"], context, ["/host"]],
-    [["${SYS.username}"], context, ["easyops"]]
+    [["${SYS.username}"], context, ["easyops"]],
+    [["${SYS.userInstanceId}"], context, ["acbd46b"]]
   ];
   it.each(cases)(
     "test computeRealValue(%s, %s, true) should work",
@@ -82,7 +84,8 @@ describe("setProperties", () => {
       id: "cmdb"
     },
     sys: {
-      username: "easyops"
+      username: "easyops",
+      userInstanceId: "acbd46b"
     }
   };
   const properties = {
@@ -107,7 +110,8 @@ describe("setProperties", () => {
     url: "/objects/${objectId=}/instances/${instanceId}",
     allQueryAsString: "${QUERY.*|string}",
     urlToDetail: "${APP.homepage}/${objectId}",
-    username: "${SYS.username}"
+    username: "${SYS.username}",
+    userInstanceId: "${SYS.userInstanceId}"
   };
   const cases: [
     Record<string, any>,
@@ -141,7 +145,8 @@ describe("setProperties", () => {
         url: "/objects/HOST/instances/",
         allQueryAsString: originalQuery,
         urlToDetail: "/cmdb/HOST",
-        username: "easyops"
+        username: "easyops",
+        userInstanceId: "acbd46b"
       }
     ],
     [
@@ -169,7 +174,8 @@ describe("setProperties", () => {
         url: "/objects/HOST/instances/",
         allQueryAsString: originalQuery,
         urlToDetail: "/cmdb/HOST",
-        username: "easyops"
+        username: "easyops",
+        userInstanceId: "acbd46b"
       }
     ],
     [
@@ -198,7 +204,8 @@ describe("setProperties", () => {
           url: "/objects/HOST/instances/",
           allQueryAsString: originalQuery,
           urlToDetail: "/cmdb/HOST",
-          username: "easyops"
+          username: "easyops",
+          userInstanceId: "acbd46b"
         },
         {
           objectId: "HOST",
@@ -220,7 +227,8 @@ describe("setProperties", () => {
           url: "/objects/HOST/instances/",
           allQueryAsString: originalQuery,
           urlToDetail: "/cmdb/HOST",
-          username: "easyops"
+          username: "easyops",
+          userInstanceId: "acbd46b"
         }
       ]
     ]

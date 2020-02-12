@@ -86,7 +86,8 @@ export class LocationContext {
       match,
       app: this.kernel.nextApp,
       sys: {
-        username: getAuth().username
+        username: getAuth().username,
+        userInstanceId: getAuth().userInstanceId
       }
     };
   }

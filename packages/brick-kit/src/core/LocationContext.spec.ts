@@ -9,7 +9,8 @@ jest.mock("../auth");
 const spyOnMatchPath = jest.spyOn(brickUtils, "matchPath");
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (getAuth as jest.Mock).mockReturnValue({
-  username: "easyops"
+  username: "easyops",
+  userInstanceId: "acbd46b"
 });
 
 (global as any).customElements = {
