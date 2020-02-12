@@ -27,6 +27,11 @@ export class BrickNode {
   mount(): HTMLElement {
     const brick = this.currentElement;
 
+    if (brick.type.includes("-") && !customElements.get(brick.type)) {
+      // eslint-disable-next-line no-console
+      console.error(`Undefined custom element: ${brick.type}`);
+    }
+
     const node = document.createElement(brick.type);
     brick.element = node;
 

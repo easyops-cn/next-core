@@ -12,6 +12,10 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
   username: "easyops"
 });
 
+(global as any).customElements = {
+  get: () => true
+};
+
 describe("LocationContext", () => {
   let context: LocationContext;
   const kernel: Kernel = {
