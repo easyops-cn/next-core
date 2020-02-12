@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.13.1...@easyops/brick-utils@1.14.0) (2020-02-12)
+
+### Features
+
+- support redirect in routes ([2e290ff](https://git.easyops.local/anyclouds/next-core/commits/2e290ff)), closes [anyclouds/brick-next#20](https://git.easyops.local/anyclouds/next-core/issues/20)
+
 ## [1.13.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.13.0...@easyops/brick-utils@1.13.1) (2020-02-11)
 
 **Note:** Version bump only for package @easyops/brick-utils
