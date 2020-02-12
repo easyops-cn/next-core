@@ -69,7 +69,8 @@ export async function create(flags: AskFlags): Promise<void> {
     const microAppPackageJsonPath = path.join(targetRoot, "package.json");
     const microAppPackageJson = require(microAppPackageJsonPath);
     Object.assign(microAppPackageJson.scripts, {
-      start: "tsc -w --preserveWatchOutput & node scripts/build.js -w",
+      start:
+        'concurrently -k -n tsc,build "tsc -w --preserveWatchOutput" "node scripts/build.js -w"',
       prebuild: "rimraf dist && tsc",
       build: "node scripts/build.js"
     });
