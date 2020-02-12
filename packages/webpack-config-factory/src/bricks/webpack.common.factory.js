@@ -35,7 +35,6 @@ const highlight = (code, lang) => {
 };
 
 const getImageLoaderOptions = distPublicPath => ({
-  exclude: /node_modules/,
   use: [
     {
       loader: "url-loader",
@@ -129,6 +128,18 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
             exclude: /\.(ts|js)x?$/
           },
           ...imageLoaderOptions
+        },
+        {
+          test: /\.(woff(2)?|ttf|eot)$/,
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                name: "assets/[name].[hash:8].[ext]",
+                publicPath: distPublicPath
+              }
+            }
+          ]
         },
         {
           test: /\.(png|jpg)$/,
