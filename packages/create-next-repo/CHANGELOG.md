@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.6.3...@easyops/create-next-repo@0.6.4) (2020-02-12)
+
+### Bug Fixes
+
+- concurrently to run tsc and build for micro-apps ([8237581](https://git.easyops.local/anyclouds/next-core/commits/8237581))
+
 ## [0.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.6.2...@easyops/create-next-repo@0.6.3) (2020-02-12)
 
 **Note:** Version bump only for package @easyops/create-next-repo

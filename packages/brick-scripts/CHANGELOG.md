@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.1...@easyops/brick-scripts@1.6.2) (2020-02-12)
+
+### Bug Fixes
+
+- concurrently to run tsc and build for micro-apps ([8237581](https://git.easyops.local/anyclouds/next-core/commits/8237581))
+
 ## [1.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.0...@easyops/brick-scripts@1.6.1) (2020-01-29)
 
 **Note:** Version bump only for package @easyops/brick-scripts
