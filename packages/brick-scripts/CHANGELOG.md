@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.2...@easyops/brick-scripts@1.6.3) (2020-02-12)
+
+### Bug Fixes
+
+- remove dist before starting micro-apps ([f893ad1](https://git.easyops.local/anyclouds/next-core/commits/f893ad1))
+
 ## [1.6.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.1...@easyops/brick-scripts@1.6.2) (2020-02-12)
 
 ### Bug Fixes
