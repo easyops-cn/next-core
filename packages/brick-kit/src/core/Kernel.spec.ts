@@ -73,7 +73,7 @@ describe("Kernel", () => {
     searchAllMagicBrickConfig.mockResolvedValueOnce({
       list: [
         {
-          _object_id: "MAGIC_BRICK",
+          _object_id: "_BRICK_MAGIC",
           _object_version: 11,
           _pre_ts: 1579432390,
           _ts: 1579503251,

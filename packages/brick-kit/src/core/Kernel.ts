@@ -192,7 +192,7 @@ export class Kernel {
     const allMagicBrickConfiMap: Map<string, MagicBrickConfig> = new Map();
     try {
       const allMagicBrickConfig = (
-        await InstanceApi.postSearch("MAGIC_BRICK", {
+        await InstanceApi.postSearch("_BRICK_MAGIC", {
           page: 1,
           // TODO(Lynette): 暂时设置3000，待后台提供全量接口
           page_size: 3000,
