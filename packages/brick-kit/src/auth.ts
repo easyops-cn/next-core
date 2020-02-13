@@ -4,7 +4,8 @@ const auth: AuthInfo = {};
 
 export function authenticate(newAuth: AuthInfo): void {
   Object.assign(auth, {
-    username: newAuth.username
+    username: newAuth.username,
+    userInstanceId: newAuth.userInstanceId
   });
 }
 

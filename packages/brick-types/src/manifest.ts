@@ -57,6 +57,7 @@ export interface TemplatePackage {
 
 export interface AuthInfo {
   username?: string;
+  userInstanceId?: string;
 }
 
 export interface NavbarConf {

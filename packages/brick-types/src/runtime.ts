@@ -32,6 +32,7 @@ export interface MatchParams {
 
 export interface SystemInfo {
   username: string;
+  userInstanceId: string;
 }
 
 export type PluginHistory = History<PluginHistoryState>;
