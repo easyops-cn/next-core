@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.0...@easyops/brick-kit@1.22.1) (2020-02-13)
+
+### Bug Fixes
+
+- replace MAGIC_BRICK to \_BRICK_MAGIC ([5566051](https://git.easyops.local/anyclouds/next-core/commits/5566051))
+
 # [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.21.1...@easyops/brick-kit@1.22.0) (2020-02-13)
 
 ### Features
