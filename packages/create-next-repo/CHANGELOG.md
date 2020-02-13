@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.6.5...@easyops/create-next-repo@0.6.6) (2020-02-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
 ## [0.6.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.6.4...@easyops/create-next-repo@0.6.5) (2020-02-12)
 
 **Note:** Version bump only for package @easyops/create-next-repo

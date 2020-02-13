@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.21.1...@easyops/brick-kit@1.22.0) (2020-02-13)
+
+### Features
+
+- 框架提供 instanceId 变量 ([22a04b5](https://git.easyops.local/anyclouds/next-core/commits/22a04b5))
+
 ## [1.21.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.21.0...@easyops/brick-kit@1.21.1) (2020-02-12)
 
 ### Bug Fixes
