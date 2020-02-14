@@ -32,6 +32,13 @@ export class BrickNode {
       console.error(`Undefined custom element: ${brick.type}`);
     }
 
+    if (brick.type === "basic-bricks.script-brick") {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "`basic-bricks.script-brick` is deprecated, please take caution when using it"
+      );
+    }
+
     const node = document.createElement(brick.type);
     brick.element = node;
 
