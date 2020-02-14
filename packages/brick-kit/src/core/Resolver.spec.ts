@@ -62,10 +62,12 @@ describe("Resolver", () => {
       lifeCycle: {
         useResolves: [
           {
-            name: "testProp",
             provider: "any-provider",
             method: "testMethod",
-            field: "data.hello"
+            transformFrom: "data",
+            transform: {
+              testProp: "${quality} @{hello}"
+            }
           }
         ]
       }
@@ -76,14 +78,26 @@ describe("Resolver", () => {
         lifeCycle: brickA.lifeCycle
       },
       brickA,
-      null
+      {
+        match: {
+          params: {
+            quality: "better"
+          }
+        }
+      } as any
     );
     await resolver.resolve(
       {
         lifeCycle: brickB.lifeCycle
       },
       brickB,
-      null
+      {
+        match: {
+          params: {
+            quality: "better"
+          }
+        }
+      } as any
     );
     const redirectConf = {};
     await resolver.resolveOne(
@@ -107,7 +121,7 @@ describe("Resolver", () => {
     });
     expect(brickB.properties).toEqual({
       existedProp: "any",
-      testProp: "world"
+      testProp: "better world"
     });
     expect(redirectConf).toEqual({
       redirect: "/go/to/world"

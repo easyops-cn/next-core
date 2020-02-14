@@ -89,7 +89,13 @@ export function makeProviderRefreshable(
               if (ref) {
                 data = transformIntermediateData(
                   data,
-                  intermediateTransform,
+                  brick.context
+                    ? computeRealValue(
+                        intermediateTransform,
+                        brick.context,
+                        true
+                      )
+                    : intermediateTransform,
                   intermediateTransformFrom
                 );
               }
@@ -97,7 +103,9 @@ export function makeProviderRefreshable(
               transformProperties(
                 brick.element,
                 data,
-                transform,
+                brick.context
+                  ? computeRealValue(transform, brick.context, true)
+                  : transform,
                 transformFrom
               );
             }
