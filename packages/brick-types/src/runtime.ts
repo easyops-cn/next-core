@@ -101,3 +101,9 @@ export interface MagicBrickConfig {
   scene: "create" | "read" | "update" | "delete";
   transform?: string;
 }
+
+export type rememberedEventListener = [string, EventListener];
+
+export interface RuntimeBrickElement extends HTMLElement {
+  $$eventListeners?: rememberedEventListener[];
+}

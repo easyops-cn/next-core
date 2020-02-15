@@ -1,7 +1,8 @@
 import {
   isBuiltinHandler,
   isCustomHandler,
-  bindListeners
+  bindListeners,
+  unbindListeners
 } from "./bindListeners";
 import { BrickEventHandler, BrickEventsMap } from "@easyops/brick-types";
 
@@ -142,7 +143,7 @@ describe("bindListeners", () => {
       const event1 = new CustomEvent("key1", {
         detail: "for-good"
       });
-      const spyOnPreventDefault = jest.spyOn(event1, 'preventDefault');
+      const spyOnPreventDefault = jest.spyOn(event1, "preventDefault");
       sourceElem.dispatchEvent(event1);
       const event2 = new CustomEvent("key2", {
         detail: "for-better"
@@ -157,13 +158,11 @@ describe("bindListeners", () => {
       expect(history.replace).toBeCalledWith("?page=1");
       expect(history.goBack).toBeCalledWith();
       expect(history.goForward).toBeCalledWith();
-      expect(history.replace).toBeCalledWith(
-        history.location
-      );
+      expect(history.replace).toBeCalledWith(history.location);
 
       expect(window.location.reload).toBeCalledWith();
       window.location = location;
-      
+
       expect(spyOnPreventDefault).toBeCalled();
 
       /* eslint-disable no-console */
@@ -179,6 +178,15 @@ describe("bindListeners", () => {
         "specified args for multiple"
       );
       expect((targetElem as any).someProperty).toBe(event2.detail);
+
+      (console.log as jest.Mock).mockClear();
+      (console.info as jest.Mock).mockClear();
+      (console.warn as jest.Mock).mockClear();
+      (console.error as jest.Mock).mockClear();
+
+      unbindListeners(sourceElem);
+      sourceElem.dispatchEvent(event1);
+      expect(console.log).not.toBeCalled();
 
       (console.log as jest.Mock).mockRestore();
       (console.info as jest.Mock).mockRestore();
