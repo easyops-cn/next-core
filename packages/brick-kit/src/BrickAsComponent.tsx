@@ -4,7 +4,8 @@ import {
   bindListeners,
   transformProperties,
   doTransform,
-  setRealProperties
+  setRealProperties,
+  unbindListeners
 } from "@easyops/brick-utils";
 import { UseBrickConf } from "@easyops/brick-types";
 import { getHistory } from "./history";
@@ -62,6 +63,7 @@ export function BrickAsComponent(
         }
         brick.element = element;
         setRealProperties(element, brick.properties);
+        unbindListeners(element);
         if (props.useBrick.events) {
           bindListeners(
             element,
