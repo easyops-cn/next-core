@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.10.1...@easyops/custom-antd-styles@0.10.2) (2020-02-15)
+
+### Bug Fixes
+
+- 禁止 button 的动画效果 ([74d5e3f](https://git.easyops.local/anyclouds/next-core/commits/74d5e3f))
+
 ## [0.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.10.0...@easyops/custom-antd-styles@0.10.1) (2020-02-07)
 
 ### Bug Fixes

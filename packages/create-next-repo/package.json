@@ -1,6 +1,6 @@
 {
   "name": "@easyops/create-next-repo",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "Create new brick-next repositories",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/create-next-repo",
   "license": "UNLICENSED",
@@ -38,16 +38,16 @@
     "@bricks/basic-bricks": "^1.11.0"
   },
   "devDependencies": {
-    "@dll/ace": "^1.0.71",
+    "@dll/ace": "^1.0.72",
     "@dll/d3": "^1.1.0",
     "@dll/echarts": "^1.0.2",
     "@easyops/babel-preset-next": "^0.6.1",
-    "@easyops/brick-container": "^1.15.1",
-    "@easyops/brick-dll": "^1.0.71",
-    "@easyops/brick-scripts": "^1.6.3",
-    "@easyops/brick-types": "^1.16.0",
+    "@easyops/brick-container": "^1.15.2",
+    "@easyops/brick-dll": "^1.0.72",
+    "@easyops/brick-scripts": "^1.6.4",
+    "@easyops/brick-types": "^1.16.1",
     "@easyops/browserslist-config-next": "^0.1.0",
-    "@easyops/build-config-factory": "^1.4.9",
+    "@easyops/build-config-factory": "^1.4.10",
     "@easyops/eslint-config-next": "^0.1.4",
     "@easyops/webpack-config-factory": "^1.7.2"
   },

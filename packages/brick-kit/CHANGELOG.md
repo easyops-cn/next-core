@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.1...@easyops/brick-kit@1.22.2) (2020-02-15)
+
+### Bug Fixes
+
+- **useBrick:** fix a bug that event listeners are duplicated ([a1f97f9](https://git.easyops.local/anyclouds/next-core/commits/a1f97f9))
+- warn when meet basic-bricks.script-brick ([5dadea9](https://git.easyops.local/anyclouds/next-core/commits/5dadea9))
+
 ## [1.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.0...@easyops/brick-kit@1.22.1) (2020-02-13)
 
 ### Bug Fixes

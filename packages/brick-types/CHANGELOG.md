@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.16.0...@easyops/brick-types@1.16.1) (2020-02-15)
+
+### Bug Fixes
+
+- **useBrick:** fix a bug that event listeners are duplicated ([a1f97f9](https://git.easyops.local/anyclouds/next-core/commits/a1f97f9))
+
 # [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.15.0...@easyops/brick-types@1.16.0) (2020-02-13)
 
 ### Features
