@@ -7,7 +7,8 @@ import {
   PluginHistory,
   PluginRuntimeContext,
   ExecuteCustomBrickEventHandler,
-  SetPropsCustomBrickEventHandler
+  SetPropsCustomBrickEventHandler,
+  RuntimeBrickElement
 } from "@easyops/brick-types";
 import { computeRealValue, setProperties } from "./setProperties";
 import { isNil, forEach } from "lodash";
@@ -21,12 +22,32 @@ export function bindListeners(
 ): void {
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
-      brick.addEventListener(
-        eventType,
-        listenerFactory(handler, history, context)
-      );
+      const listener = listenerFactory(handler, history, context);
+      brick.addEventListener(eventType, listener);
+      rememberListeners(brick, eventType, listener);
     });
   });
+}
+
+export function unbindListeners(brick: HTMLElement): void {
+  if ((brick as RuntimeBrickElement).$$eventListeners) {
+    for (const [eventType, listener] of (brick as RuntimeBrickElement)
+      .$$eventListeners) {
+      brick.removeEventListener(eventType, listener);
+    }
+    (brick as RuntimeBrickElement).$$eventListeners = [];
+  }
+}
+
+function rememberListeners(
+  brick: RuntimeBrickElement,
+  eventType: string,
+  listener: EventListener
+): void {
+  if (!brick.$$eventListeners) {
+    brick.$$eventListeners = [];
+  }
+  brick.$$eventListeners.push([eventType, listener]);
 }
 
 export function isBuiltinHandler(
@@ -87,7 +108,7 @@ export function listenerFactory(
       case "history.reload":
         return () => {
           history.replace(history.location);
-        }
+        };
       case "location.reload":
         return () => {
           location.reload();
