@@ -213,7 +213,11 @@ export class Resolver {
     data = field === null || field === undefined ? value : get(value, field);
 
     if (ref) {
-      data = transformIntermediateData(data, transform, transformFrom);
+      data = transformIntermediateData(
+        data,
+        context ? computeRealValue(transform, context, true) : transform,
+        transformFrom
+      );
     }
 
     let props: Record<string, any>;
@@ -234,7 +238,13 @@ export class Resolver {
       props,
       data,
       // Also support legacy `name`
-      resolveConf.transform || resolveConf.name,
+      context
+        ? computeRealValue(
+            resolveConf.transform || resolveConf.name,
+            context,
+            true
+          )
+        : resolveConf.transform || resolveConf.name,
       resolveConf.transformFrom
     );
   }
