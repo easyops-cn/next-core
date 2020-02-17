@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.23.0...@easyops/brick-kit@1.23.1) (2020-02-17)
+
+### Bug Fixes
+
+- two key for error refs MONITOR-194 ([e76b2db](https://git.easyops.local/anyclouds/next-core/commits/e76b2db))
+
 # [1.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.2...@easyops/brick-kit@1.23.0) (2020-02-17)
 
 ### Features
