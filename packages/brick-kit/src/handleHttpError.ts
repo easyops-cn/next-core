@@ -17,8 +17,12 @@ export const httpErrorToString = (
     return error.target.src;
   }
   if (error instanceof HttpResponseError) {
-    if (error.responseJson && typeof error.responseJson.error === "string") {
-      return error.responseJson.error;
+    if (error.responseJson) {
+      if (typeof error.responseJson.error === "string") {
+        return error.responseJson.error;
+      } else if (typeof error.responseJson.msg === "string") {
+        return error.responseJson.msg;
+      }
     }
   }
   return error.toString();

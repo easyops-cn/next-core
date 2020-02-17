@@ -48,6 +48,20 @@ describe("httpErrorToString", () => {
     ).toBe("oops");
   });
 
+  it("should return HttpResponseErrors with msg compatible", () => {
+    expect(
+      httpErrorToString(
+        new HttpResponseError(
+          new Response("", {
+            status: 500,
+            statusText: "Internal Server Error"
+          }),
+          { msg: "oops" }
+        )
+      )
+    ).toBe("oops");
+  });
+
   it("should return HttpResponseErrors without json", () => {
     expect(
       httpErrorToString(
