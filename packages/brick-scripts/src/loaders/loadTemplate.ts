@@ -220,9 +220,8 @@ export async function loadTemplate({
     targetType === TargetType.A_NEW_BRICK ||
     targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS
   ) {
-    // Create brick doc only when doc root exists.
-    // So repositories other than brick-next will not create any brick docs.
-    if (fs.existsSync(docRoot)) {
+    // Create brick doc only when doc root exists and workspace is `next-basics`.
+    if (fs.existsSync(docRoot) && workspacePackageJson.name === "next-basics") {
       const brickDocTemplatePath = path.join(
         templateRoot,
         "brick-doc",
