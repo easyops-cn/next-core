@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.2...@easyops/brick-kit@1.23.0) (2020-02-17)
+
+### Features
+
+- `lifeCycle.transform` can be injected ([a64d960](https://git.easyops.local/anyclouds/next-core/commits/a64d960))
+
 ## [1.22.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.1...@easyops/brick-kit@1.22.2) (2020-02-15)
 
 ### Bug Fixes
