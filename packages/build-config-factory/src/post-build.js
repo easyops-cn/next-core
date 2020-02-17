@@ -6,6 +6,8 @@ const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
 const validateDeps = require("./validateDeps");
+const generateProviderDocs = require("./generateProviderDocs");
+const { providerPackagePrefix } = require("./constants");
 
 const generateContracts = () => {
   const { dependencies } = require(path.join(process.cwd(), "package.json"));
@@ -160,6 +162,9 @@ module.exports = scope => {
 
   if (scope === "bricks") {
     generateContracts();
+    if (pluginName.startsWith(providerPackagePrefix)) {
+      generateProviderDocs(pluginName);
+    }
   } else if (scope === "micro-apps") {
     ensureMicroApp();
     ensureDeps();
