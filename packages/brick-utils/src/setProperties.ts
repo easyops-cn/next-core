@@ -30,6 +30,8 @@ const replaceTemplateValue = (
     result = context.hash;
   } else if (namespace === "SYS") {
     result = get(context.sys, field);
+  } else if (namespace === "FLAGS") {
+    result = get(context.flags, field);
   } else if (context.match) {
     result = context.match.params[field];
     if (result === undefined) {
@@ -67,14 +69,14 @@ export const computeRealValue = (
     return newValue;
   }
   const matches = value.match(
-    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}$/
+    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS|FLAGS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}$/
   );
   if (matches) {
     return replaceTemplateValue(matches, context);
   }
 
   return value.replace(
-    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}/g,
+    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS|FLAGS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}/g,
     (raw, query, field, defaultValue, rawPipes) =>
       replaceTemplateValue(
         [raw, query, field, defaultValue, rawPipes],

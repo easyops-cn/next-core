@@ -1,6 +1,11 @@
 import { Key } from "path-to-regexp";
 import { History, Location, LocationDescriptor } from "history";
-import { BreadcrumbItemConf, MicroApp, BrickConf } from "./manifest";
+import {
+  BreadcrumbItemConf,
+  MicroApp,
+  BrickConf,
+  FeatureFlags
+} from "./manifest";
 import { SidebarMenu } from "./menu";
 
 export interface CompileOptions {
@@ -50,6 +55,7 @@ export interface PluginRuntimeContext {
   app?: MicroApp;
   hash?: string;
   sys?: SystemInfo;
+  flags?: FeatureFlags;
 }
 
 export interface MountPoints {

@@ -10,7 +10,8 @@ import {
   InterceptorParams,
   MicroApp,
   UserInfo,
-  MagicBrickConfig
+  MagicBrickConfig,
+  FeatureFlags
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
@@ -286,5 +287,9 @@ export class Kernel {
       currentApp: this.currentApp,
       previousWorkspace: this.getPreviousWorkspace()
     };
+  }
+
+  getFeatureFlags(): FeatureFlags {
+    return Object.assign({}, this.bootstrapData.settings?.featureFlags);
   }
 }

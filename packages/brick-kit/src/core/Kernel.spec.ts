@@ -131,6 +131,9 @@ describe("Kernel", () => {
     expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
 
+    expect(kernel.getFeatureFlags()).toEqual({
+      "load-magic-brick-config": true
+    });
     expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);

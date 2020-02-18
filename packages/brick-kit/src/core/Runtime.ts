@@ -129,26 +129,19 @@ export class Runtime {
     document.body.classList.toggle("launchpad-open", open);
   }
 
+  /* istanbul ignore next */
   getFeatureFlags(): FeatureFlags {
-    return Object.assign(
-      {},
-      kernel.bootstrapData.settings &&
-        kernel.bootstrapData.settings.featureFlags
-    );
+    return kernel.getFeatureFlags();
   }
 
   getHomepage(): string {
-    return (
-      (kernel.bootstrapData.settings &&
-        kernel.bootstrapData.settings.homepage) ||
-      "/"
-    );
+    return kernel.bootstrapData.settings?.homepage ?? "/";
   }
 
   getBrandSettings(): Record<string, string> {
     return Object.assign(
       { base_title: "DevOps 管理专家" },
-      kernel.bootstrapData.settings && kernel.bootstrapData.settings.brand
+      kernel.bootstrapData.settings?.brand
     );
   }
 
@@ -158,7 +151,7 @@ export class Runtime {
         columns: 7,
         rows: 4
       },
-      kernel.bootstrapData.settings && kernel.bootstrapData.settings.launchpad
+      kernel.bootstrapData.settings?.launchpad
     );
   }
 
