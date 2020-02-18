@@ -6,6 +6,7 @@ PipeRegistry.set("bool", pipeBoolean);
 PipeRegistry.set("boolean", pipeBoolean);
 PipeRegistry.set("json", pipeJson);
 PipeRegistry.set("jsonStringify", pipeJsonStringify);
+PipeRegistry.set("not", pipeNot);
 
 function pipeString(value: any): string {
   // Consider `undefined` and `null` as `""`.
@@ -39,4 +40,8 @@ function pipeJsonStringify(value: any): string {
     console.error(e);
     return;
   }
+}
+
+function pipeNot(value: boolean): boolean {
+  return !value;
 }

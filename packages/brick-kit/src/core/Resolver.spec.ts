@@ -101,7 +101,7 @@ describe("Resolver", () => {
     );
     const redirectConf = {};
     await resolver.resolveOne(
-      "redirect",
+      "reference",
       {
         provider: "any-provider",
         method: "testMethod",

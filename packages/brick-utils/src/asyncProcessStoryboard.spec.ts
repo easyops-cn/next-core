@@ -16,6 +16,7 @@ describe("asyncProcessStoryboard", () => {
         {
           bricks: [
             {
+              if: "${FLAGS.testing}",
               template: "a"
             },
             {
@@ -96,7 +97,8 @@ describe("asyncProcessStoryboard", () => {
       {
         brick: "a",
         $$template: "a",
-        $$params: {}
+        $$params: {},
+        $$if: "${FLAGS.testing}"
       }
     );
     // Cover when a template returns a template.
@@ -106,7 +108,8 @@ describe("asyncProcessStoryboard", () => {
     ).toMatchObject({
       brick: "b",
       $$template: "c",
-      $$params: {}
+      $$params: {},
+      $$if: undefined
     });
   });
 });

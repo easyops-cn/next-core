@@ -24,7 +24,7 @@ import {
   IntervalSettings
 } from "../makeProviderRefreshable";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { RedirectConf } from "./interfaces";
+// import { RedirectConf } from "./interfaces";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -94,29 +94,29 @@ export class Resolver {
     context?: PluginRuntimeContext
   ): Promise<void>;
   async resolveOne(
-    type: "redirect",
+    type: "reference",
     resolveConf: ResolveConf,
-    conf: RedirectConf,
+    conf: object,
     brick?: RuntimeBrick,
     context?: PluginRuntimeContext
   ): Promise<void>;
   async resolveOne(
-    type: "brick" | "redirect",
+    type: "brick" | "reference",
     resolveConf: ResolveConf,
-    conf: BrickConf | RedirectConf,
+    conf: BrickConf | object,
     brick?: RuntimeBrick,
     context?: PluginRuntimeContext
   ): Promise<void> {
     const brickConf = conf as BrickConf;
-    const redirectConf = conf as RedirectConf;
+    const propsReference = conf as object;
     let actualResolveConf: EntityResolveConf;
     const { ref } = resolveConf as RefResolveConf;
     if (ref) {
       if (!this.definedResolves.has(ref)) {
         throw new Error(
           `Provider ref not found: "${ref}" in ${
-            type === "redirect"
-              ? "redirect"
+            type === "reference"
+              ? "reference"
               : brickConf.template
               ? `template ${brickConf.template}`
               : `brick ${brick.type}`
@@ -146,8 +146,8 @@ export class Resolver {
     if (!providerBrick) {
       throw new Error(
         `Provider not found: "${provider}" in ${
-          type === "redirect"
-            ? "redirect"
+          type === "reference"
+            ? "reference"
             : brickConf.template
             ? `template ${brickConf.template}`
             : `brick ${brick.type}`
@@ -162,7 +162,7 @@ export class Resolver {
     }
 
     // Currently we can't refresh dynamic templates.
-    if (type !== "redirect" && !brickConf.template) {
+    if (type !== "reference" && !brickConf.template) {
       providerBrick.$$dependents.push({
         brick,
         method,
@@ -221,8 +221,8 @@ export class Resolver {
     }
 
     let props: Record<string, any>;
-    if (type === "redirect") {
-      props = redirectConf;
+    if (type === "reference") {
+      props = propsReference;
     } else if (brickConf.template) {
       // It's a dynamic template.
       if (!brickConf.params) {

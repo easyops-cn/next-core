@@ -42,7 +42,9 @@ describe("LocationContext", () => {
       }
     },
     toggleBars: jest.fn(),
-    getFeatureFlags: jest.fn().mockReturnValue({})
+    getFeatureFlags: jest.fn().mockReturnValue({
+      testing: true
+    })
   } as any;
 
   const location: PluginLocation = {
@@ -194,6 +196,7 @@ describe("LocationContext", () => {
                 path: "/",
                 bricks: [
                   {
+                    if: "${FLAGS.testing}",
                     brick: "div",
                     properties: {
                       title: "good"
@@ -311,6 +314,10 @@ describe("LocationContext", () => {
                         routes: []
                       }
                     }
+                  },
+                  {
+                    if: "${FLAGS.testing|not}",
+                    brick: "div"
                   }
                 ]
               }

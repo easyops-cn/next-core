@@ -20,6 +20,7 @@ describe("restoreDynamicTemplates", () => {
                 useResolves: [{}]
               },
               $$resolved: true,
+              $$if: "${FLAGS.testing}",
               brick: "a"
             },
             {
@@ -76,7 +77,8 @@ describe("restoreDynamicTemplates", () => {
       },
       lifeCycle: {
         useResolves: [{}]
-      }
+      },
+      if: "${FLAGS.testing}"
     });
     expect(
       ((storyboard.routes[0] as RouteConfOfBricks).bricks[1].slots
@@ -88,7 +90,8 @@ describe("restoreDynamicTemplates", () => {
       },
       lifeCycle: {
         useResolves: [{}]
-      }
+      },
+      if: undefined
     });
   });
 });
