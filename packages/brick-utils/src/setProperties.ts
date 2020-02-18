@@ -1,13 +1,14 @@
 import { get } from "lodash";
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject } from "./isObject";
+import { processPipes } from "./pipes";
 
 const replaceTemplateValue = (
   matches: string[],
   context: PluginRuntimeContext,
   asString?: boolean
 ): any => {
-  const [raw, namespace, field, defaultValue, type] = matches;
+  const [raw, namespace, field, defaultValue, rawPipes] = matches;
   let result;
 
   if (namespace === "QUERY" || namespace === "query") {
@@ -35,36 +36,10 @@ const replaceTemplateValue = (
       result = defaultValue;
     }
   }
-  if (result === undefined || result === null) {
-    return asString ? "" : undefined;
+  if (asString && !rawPipes && (result === undefined || result === null)) {
+    return "";
   }
-  switch (type) {
-    case undefined:
-      return result;
-    case "string":
-      return String(result);
-    case "number":
-      return Number(result);
-    case "bool":
-    case "boolean":
-      return Boolean(Number(result));
-    case "json":
-      try {
-        return JSON.parse(result);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e);
-        return;
-      }
-    case "jsonStringify":
-      try {
-        return JSON.stringify(result, null, 2);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e);
-        return;
-      }
-  }
+  return processPipes(result, rawPipes);
 };
 
 export const computeRealValue = (
@@ -92,17 +67,17 @@ export const computeRealValue = (
     return newValue;
   }
   const matches = value.match(
-    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS)\.)?([^|=}]+)(?:=([^|}]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}$/
+    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}$/
   );
   if (matches) {
     return replaceTemplateValue(matches, context);
   }
 
   return value.replace(
-    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS)\.)?([^|=}]+)(?:=([^|}]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}/g,
-    (raw, query, field, defaultValue, type) =>
+    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}/g,
+    (raw, query, field, defaultValue, rawPipes) =>
       replaceTemplateValue(
-        [raw, query, field, defaultValue, type],
+        [raw, query, field, defaultValue, rawPipes],
         context,
         true
       )
