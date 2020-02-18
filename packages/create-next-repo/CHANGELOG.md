@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.6.12...@easyops/create-next-repo@0.6.13) (2020-02-18)
+
+### Bug Fixes
+
+- ignore @templates/\* in renovate.json ([a575302](https://git.easyops.local/anyclouds/next-core/commits/a575302))
+
 ## [0.6.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.6.11...@easyops/create-next-repo@0.6.12) (2020-02-18)
 
 **Note:** Version bump only for package @easyops/create-next-repo
