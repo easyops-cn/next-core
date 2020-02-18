@@ -88,7 +88,8 @@ export class LocationContext {
       sys: {
         username: getAuth().username,
         userInstanceId: getAuth().userInstanceId
-      }
+      },
+      flags: this.kernel.getFeatureFlags()
     };
   }
 

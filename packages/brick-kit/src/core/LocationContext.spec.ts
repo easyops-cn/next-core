@@ -41,7 +41,8 @@ describe("LocationContext", () => {
         breadcrumb: []
       }
     },
-    toggleBars: jest.fn()
+    toggleBars: jest.fn(),
+    getFeatureFlags: jest.fn().mockReturnValue({})
   } as any;
 
   const location: PluginLocation = {

@@ -16,6 +16,9 @@ describe("computeRealValue", () => {
     sys: {
       username: "easyops",
       userInstanceId: "acbd46b"
+    },
+    flags: {
+      "better-world": true
     }
   } as any;
   const cases: [any[], PluginRuntimeContext, any[]][] = [
@@ -51,7 +54,8 @@ describe("computeRealValue", () => {
     ],
     [["${APP.homepage}"], context, ["/host"]],
     [["${SYS.username}"], context, ["easyops"]],
-    [["${SYS.userInstanceId}"], context, ["acbd46b"]]
+    [["${SYS.userInstanceId}"], context, ["acbd46b"]],
+    [["${FLAGS.better-world}"], context, [true]]
   ];
   it.each(cases)(
     "test computeRealValue(%s, %s, true) should work",
@@ -86,6 +90,9 @@ describe("setProperties", () => {
     sys: {
       username: "easyops",
       userInstanceId: "acbd46b"
+    },
+    flags: {
+      "better-world": true
     }
   };
   const properties = {
@@ -111,7 +118,8 @@ describe("setProperties", () => {
     allQueryAsString: "${QUERY.*|string}",
     urlToDetail: "${APP.homepage}/${objectId}",
     username: "${SYS.username}",
-    userInstanceId: "${SYS.userInstanceId}"
+    userInstanceId: "${SYS.userInstanceId}",
+    betterWorld: "${FLAGS.better-world}"
   };
   const cases: [
     Record<string, any>,
@@ -146,7 +154,8 @@ describe("setProperties", () => {
         allQueryAsString: originalQuery,
         urlToDetail: "/cmdb/HOST",
         username: "easyops",
-        userInstanceId: "acbd46b"
+        userInstanceId: "acbd46b",
+        betterWorld: true
       }
     ],
     [
@@ -175,7 +184,8 @@ describe("setProperties", () => {
         allQueryAsString: originalQuery,
         urlToDetail: "/cmdb/HOST",
         username: "easyops",
-        userInstanceId: "acbd46b"
+        userInstanceId: "acbd46b",
+        betterWorld: true
       }
     ],
     [
@@ -205,7 +215,8 @@ describe("setProperties", () => {
           allQueryAsString: originalQuery,
           urlToDetail: "/cmdb/HOST",
           username: "easyops",
-          userInstanceId: "acbd46b"
+          userInstanceId: "acbd46b",
+          betterWorld: true
         },
         {
           objectId: "HOST",
@@ -228,7 +239,8 @@ describe("setProperties", () => {
           allQueryAsString: originalQuery,
           urlToDetail: "/cmdb/HOST",
           username: "easyops",
-          userInstanceId: "acbd46b"
+          userInstanceId: "acbd46b",
+          betterWorld: true
         }
       ]
     ]

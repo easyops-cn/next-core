@@ -130,30 +130,6 @@ describe("Runtime", () => {
     expect(mockKernelInstance.loadMicroApps).toBeCalled();
   });
 
-  it("should get feature flags", async () => {
-    const mountPoints: MountPoints = {} as any;
-    await runtime.bootstrap(mountPoints);
-    const mockKernelInstance = spyOnKernel.mock.instances[0];
-    mockKernelInstance.bootstrapData = {
-      settings: {
-        featureFlags: {
-          cool: true
-        }
-      }
-    };
-    expect(runtime.getFeatureFlags()).toEqual({
-      cool: true
-    });
-  });
-
-  it("should get empty feature flags if no settings", async () => {
-    const mountPoints: MountPoints = {} as any;
-    await runtime.bootstrap(mountPoints);
-    const mockKernelInstance = spyOnKernel.mock.instances[0];
-    mockKernelInstance.bootstrapData = {};
-    expect(runtime.getFeatureFlags()).toEqual({});
-  });
-
   it("should get homepage", async () => {
     const mountPoints: MountPoints = {} as any;
     await runtime.bootstrap(mountPoints);
