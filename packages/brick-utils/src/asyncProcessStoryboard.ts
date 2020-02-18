@@ -57,14 +57,15 @@ export async function asyncProcessBrick(
         }
       }
       // Cleanup brickConf and remember original data for restore.
-      const { template, lifeCycle, $$params, params } = brickConf;
+      const { template, lifeCycle, $$params, params, if: rawIf } = brickConf;
       Object.keys(brickConf).forEach(key => {
         delete brickConf[key as keyof RuntimeBrickConf];
       });
       Object.assign(brickConf, updatedBrickConf, {
         $$template: template,
         $$params: $$params || cloneDeep(params),
-        $$lifeCycle: lifeCycle
+        $$lifeCycle: lifeCycle,
+        $$if: rawIf
       });
     }
   }

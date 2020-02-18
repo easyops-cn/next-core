@@ -30,7 +30,7 @@ import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
 import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
-import { RedirectConf } from "./interfaces";
+import { RedirectConf, IfConf } from "./interfaces";
 
 export type MatchRoutesResult =
   | {
@@ -165,7 +165,7 @@ export class LocationContext {
             break;
           } else {
             // Resolvable redirect.
-            await this.resolver.resolveOne("redirect", redirect, redirectConf);
+            await this.resolver.resolveOne("reference", redirect, redirectConf);
             if (redirectConf.redirect) {
               mountRoutesResult.flags.redirect = {
                 path: redirectConf.redirect
@@ -296,6 +296,27 @@ export class LocationContext {
     }
   }
 
+  private async checkIf(
+    rawIf: string | ResolveConf,
+    context: PluginRuntimeContext
+  ): Promise<boolean> {
+    if (rawIf) {
+      const ifChecked = computeRealValue(rawIf, context, true);
+
+      if (isObject(ifChecked)) {
+        const ifConf: IfConf = {};
+        await this.resolver.resolveOne("reference", ifChecked, ifConf);
+        if (!ifConf.if) {
+          return false;
+        }
+      } else if (!ifChecked) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   async mountBrick(
     brickConf: BrickConf,
     match: MatchResult,
@@ -304,9 +325,19 @@ export class LocationContext {
   ): Promise<void> {
     const context = this.getContext(match);
 
-    // First, resolve the template to a brick.
+    // First, check whether the brick should be rendered.
+    if (!(await this.checkIf(brickConf.if, context))) {
+      return;
+    }
+
+    // Then, resolve the template to a brick.
     if (brickConf.template) {
       await this.resolver.resolve(brickConf, null, context);
+    }
+
+    // Check again for dynamic loaded templates.
+    if (!(await this.checkIf(brickConf.if, context))) {
+      return;
     }
 
     const brick: RuntimeBrick = {

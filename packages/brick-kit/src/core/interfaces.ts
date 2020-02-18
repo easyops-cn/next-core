@@ -20,3 +20,7 @@ export type RouterState = "initial" | "ready-to-mount" | "mounted";
 export interface RedirectConf {
   redirect?: string;
 }
+
+export interface IfConf {
+  if?: boolean;
+}

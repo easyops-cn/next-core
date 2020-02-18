@@ -120,6 +120,7 @@ export interface BrickConf {
   internalUsedTemplates?: string[];
   template?: string;
   params?: Record<string, any>;
+  if?: string | ResolveConf;
 }
 
 export type ProviderConf =
@@ -132,6 +133,7 @@ export interface RuntimeBrickConf extends BrickConf {
   $$template?: string;
   $$params?: Record<string, any>;
   $$lifeCycle?: BrickLifeCycle;
+  $$if?: string | ResolveConf;
 }
 
 export interface BrickLifeCycle {

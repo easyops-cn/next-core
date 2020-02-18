@@ -8,14 +8,15 @@ import {
 
 function restoreDynamicTemplatesInBrick(brickConf: RuntimeBrickConf): void {
   if (get(brickConf, ["$$lifeCycle", "useResolves"], []).length > 0) {
-    const { $$template, $$params, $$lifeCycle } = brickConf;
+    const { $$template, $$params, $$lifeCycle, $$if } = brickConf;
     Object.keys(brickConf).forEach(key => {
       delete brickConf[key as keyof RuntimeBrickConf];
     });
     Object.assign(brickConf, {
       template: $$template,
       params: $$params,
-      lifeCycle: $$lifeCycle
+      lifeCycle: $$lifeCycle,
+      if: $$if
     });
   }
   if (brickConf.slots) {
