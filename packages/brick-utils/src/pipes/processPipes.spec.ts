@@ -16,7 +16,9 @@ describe("processPipes", () => {
     ["{", "|json", undefined],
     [{ a: 1 }, "|jsonStringify", '{\n  "a": 1\n}'],
     [circularValue, "|jsonStringify", undefined],
-    [1, "|unknown", undefined]
+    [1, "|unknown", undefined],
+    [1, "|bool|not", false],
+    [0, "|bool|not", true]
   ];
   it.each(cases)(
     "processPipes(%j,%j) should return %j",
