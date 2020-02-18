@@ -453,7 +453,13 @@ declare namespace JSX {
       \\"automerge\\": true
     },
     {
-      \\"packagePatterns\\": [\\"^@bricks/\\", \\"^@libs/\\", \\"^@micro-apps/\\", \\"^@sdk/\\"],
+      \\"packagePatterns\\": [
+        \\"^@bricks/\\",
+        \\"^@libs/\\",
+        \\"^@micro-apps/\\",
+        \\"^@sdk/\\",
+        \\"^@templates/\\"
+      ],
       \\"enabled\\": false
     },
     {
