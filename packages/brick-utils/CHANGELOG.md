@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.16.0...@easyops/brick-utils@1.17.0) (2020-02-18)
+
+### Features
+
+- new method for providers: setArgs/setArgsAndExecute ([b10ca3f](https://git.easyops.local/anyclouds/next-core/commits/b10ca3f))
+- new pipe: not ([b3e5057](https://git.easyops.local/anyclouds/next-core/commits/b3e5057))
+- remove processStoryboard and processBrick ([9f8ac13](https://git.easyops.local/anyclouds/next-core/commits/9f8ac13))
+- support if in BrickConf ([a7d9334](https://git.easyops.local/anyclouds/next-core/commits/a7d9334)), closes [anyclouds/brick-next#22](https://git.easyops.local/anyclouds/next-core/issues/22)
+- support injecting feature flags ([dc2a906](https://git.easyops.local/anyclouds/next-core/commits/dc2a906))
+- transform support default value and pipes ([cd4986c](https://git.easyops.local/anyclouds/next-core/commits/cd4986c))
+
 # [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.15.0...@easyops/brick-utils@1.16.0) (2020-02-15)
 
 ### Features

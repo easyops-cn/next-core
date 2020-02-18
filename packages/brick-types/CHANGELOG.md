@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.16.1...@easyops/brick-types@1.17.0) (2020-02-18)
+
+### Features
+
+- support if in BrickConf ([a7d9334](https://git.easyops.local/anyclouds/next-core/commits/a7d9334)), closes [anyclouds/brick-next#22](https://git.easyops.local/anyclouds/next-core/issues/22)
+- support injecting feature flags ([dc2a906](https://git.easyops.local/anyclouds/next-core/commits/dc2a906))
+
 ## [1.16.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.16.0...@easyops/brick-types@1.16.1) (2020-02-15)
 
 ### Bug Fixes
