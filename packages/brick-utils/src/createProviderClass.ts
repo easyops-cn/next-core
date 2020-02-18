@@ -7,6 +7,10 @@ interface ProviderElement<P extends any[], R> extends HTMLElement {
 
   updateArgsAndExecute: (event: CustomEvent<Record<string, any>>) => void;
 
+  setArgs: (patch: Record<string, any>) => void;
+
+  setArgsAndExecute: (patch: Record<string, any>) => void;
+
   execute(): Promise<void>;
 
   executeWithArgs(...args: P): Promise<void>;
@@ -21,13 +25,22 @@ export function createProviderClass(
     args: Parameters<typeof api> = [] as any;
 
     updateArgs(event: CustomEvent<Record<string, any>>): void {
-      for (const [path, value] of Object.entries(event.detail)) {
-        set(this.args, path, value);
-      }
+      this.setArgs(event.detail);
     }
 
     updateArgsAndExecute(event: CustomEvent<Record<string, any>>): void {
       this.updateArgs(event);
+      this.execute();
+    }
+
+    setArgs(patch: Record<string, any>): void {
+      for (const [path, value] of Object.entries(patch)) {
+        set(this.args, path, value);
+      }
+    }
+
+    setArgsAndExecute(patch: Record<string, any>): void {
+      this.setArgs(patch);
       this.execute();
     }
 
