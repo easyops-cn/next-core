@@ -241,6 +241,7 @@ export interface BuiltinBrickEventHandler {
     | "history.goForward"
     | "history.reload"
     | "location.reload"
+    | "location.assign"
     | "event.preventDefault"
     | "console.log"
     | "console.error"
