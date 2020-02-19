@@ -91,6 +91,7 @@ describe("bindListeners", () => {
             action: "location.reload",
             args: [true]
           },
+          { action: "location.assign", args: ["www.baidu.com"] },
           { action: "event.preventDefault" },
           { action: "console.log" },
           { action: "console.info" },
@@ -132,7 +133,10 @@ describe("bindListeners", () => {
 
       const location = window.location;
       delete window.location;
-      window.location = ({ reload: jest.fn() } as unknown) as Location;
+      window.location = ({
+        reload: jest.fn(),
+        assign: jest.fn()
+      } as unknown) as Location;
 
       jest.spyOn(console, "log");
       jest.spyOn(console, "info");
@@ -162,6 +166,8 @@ describe("bindListeners", () => {
       expect(history.replace).toBeCalledWith(history.location);
 
       expect(window.location.reload).toBeCalledWith();
+      expect(window.location.assign).toBeCalledWith("www.baidu.com");
+
       window.location = location;
 
       expect(spyOnPreventDefault).toBeCalled();

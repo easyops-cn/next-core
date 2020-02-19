@@ -110,9 +110,8 @@ export function listenerFactory(
           history.replace(history.location);
         };
       case "location.reload":
-        return () => {
-          location.reload();
-        };
+      case "location.assign":
+        return builtinLocationListenerFactory(method, handler.args, context);
       case "event.preventDefault":
         return event => {
           event.preventDefault();
@@ -136,6 +135,21 @@ export function listenerFactory(
   if (isCustomHandler(handler)) {
     return customListenerFactory(handler, context);
   }
+}
+
+function builtinLocationListenerFactory(
+  method: "assign" | "reload",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    if (method === "assign") {
+      const [url] = argsFactory(args, context, event);
+      location.assign(url);
+    } else {
+      location[method]();
+    }
+  } as EventListener;
 }
 
 function customListenerFactory(
