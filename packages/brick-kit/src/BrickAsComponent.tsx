@@ -7,7 +7,7 @@ import {
   setRealProperties,
   unbindListeners
 } from "@easyops/brick-utils";
-import { UseBrickConf } from "@easyops/brick-types";
+import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
 import { getHistory } from "./history";
 import { RuntimeBrick } from "./core/exports";
 import { getRuntime } from "./runtime";
@@ -20,6 +20,30 @@ interface BrickAsComponentProps {
 
 export function BrickAsComponent(
   props: BrickAsComponentProps
+): React.ReactElement {
+  if (Array.isArray(props.useBrick)) {
+    return (
+      <>
+        {props.useBrick.map((item, index) => (
+          <SingleBrickAsComponent
+            key={index}
+            useBrick={item}
+            data={props.data}
+          />
+        ))}
+      </>
+    );
+  }
+  return <SingleBrickAsComponent useBrick={props.useBrick} data={props.data} />;
+}
+
+interface SingleBrickAsComponentProps {
+  useBrick: UseSingleBrickConf;
+  data?: any;
+}
+
+function SingleBrickAsComponent(
+  props: SingleBrickAsComponentProps
 ): React.ReactElement {
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.

@@ -290,7 +290,9 @@ export interface DesktopItemDir {
   items: DesktopItemApp[];
 }
 
-export interface UseBrickConf {
+export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
+
+export interface UseSingleBrickConf {
   brick: string;
   properties?: Record<string, any>;
   events?: BrickEventsMap;
