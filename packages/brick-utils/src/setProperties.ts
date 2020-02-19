@@ -19,6 +19,10 @@ const replaceTemplateValue = (
         ? context.query.get(field)
         : defaultValue;
     }
+  } else if (namespace === "QUERY_ARRAY") {
+    result = context.query.has(field)
+      ? context.query.getAll(field)
+      : defaultValue;
   } else if (namespace === "EVENT" || namespace === "event") {
     if (context.event === undefined) {
       return raw;
@@ -69,14 +73,14 @@ export const computeRealValue = (
     return newValue;
   }
   const matches = value.match(
-    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS|FLAGS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}$/
+    /^\$\{(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|SYS|FLAGS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}$/
   );
   if (matches) {
     return replaceTemplateValue(matches, context);
   }
 
   return value.replace(
-    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH|SYS|FLAGS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}/g,
+    /\$\{(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|SYS|FLAGS)\.)?([^|=}]+)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}/g,
     (raw, query, field, defaultValue, rawPipes) =>
       replaceTemplateValue(
         [raw, query, field, defaultValue, rawPipes],
