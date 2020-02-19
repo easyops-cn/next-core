@@ -351,8 +351,7 @@ describe("LocationContext", () => {
         {
           type: "div",
           properties: {
-            title: "good",
-            match: {}
+            title: "good"
           },
           events: {
             click: {

@@ -342,14 +342,11 @@ export class LocationContext {
 
     const brick: RuntimeBrick = {
       type: brickConf.brick,
-      properties: {
-        ...computeRealProperties(
-          brickConf.properties,
-          context,
-          brickConf.injectDeep !== false
-        ),
-        match
-      },
+      properties: computeRealProperties(
+        brickConf.properties,
+        context,
+        brickConf.injectDeep !== false
+      ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
       children: [],
