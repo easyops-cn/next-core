@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.18.0...@easyops/brick-types@1.19.0) (2020-02-19)
+
+### Features
+
+- builtin location assign refs BRICK_STORE-1131 ([9597e79](https://git.easyops.local/anyclouds/next-core/commits/9597e79))
+
 # [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.17.0...@easyops/brick-types@1.18.0) (2020-02-19)
 
 ### Features

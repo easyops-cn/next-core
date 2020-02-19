@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.25.0...@easyops/brick-kit@1.25.1) (2020-02-19)
+
+### Bug Fixes
+
+- do not auto assign a property named match to bricks any more ([7e880bc](https://git.easyops.local/anyclouds/next-core/commits/7e880bc))
+
 # [1.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.24.0...@easyops/brick-kit@1.25.0) (2020-02-19)
 
 ### Features
