@@ -2439,10 +2439,10 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^25.1.2":
-  version "25.1.2"
-  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-25.1.2.tgz?cache=0&sync_timestamp=1581011828371&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-25.1.2.tgz#1c4c8770c27906c7d8def5d2033df9dbd39f60da"
-  integrity sha1-HEyHcMJ5BsfY3vXSAz3529OfYNo=
+"@types/jest@^25.1.3":
+  version "25.1.3"
+  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-25.1.3.tgz#9b0b5addebccfb631175870be8ba62182f1bc35a"
+  integrity sha1-mwta3evM+2MRdYcL6LpiGC8bw1o=
   dependencies:
     jest-diff "^25.1.0"
     pretty-format "^25.1.0"
