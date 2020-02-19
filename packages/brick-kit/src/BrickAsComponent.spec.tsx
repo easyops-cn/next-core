@@ -17,6 +17,10 @@ jest.spyOn(runtime, "getRuntime").mockReturnValue({
 } as any);
 
 describe("BrickAsComponent", () => {
+  afterEach(() => {
+    bindListeners.mockClear();
+  });
+
   it("should work", async () => {
     const wrapper = mount(
       <BrickAsComponent
@@ -46,6 +50,34 @@ describe("BrickAsComponent", () => {
         args: ["good"]
       }
     });
+  });
+
+  it("should work for multiple bricks", async () => {
+    const wrapper = mount(
+      <BrickAsComponent
+        useBrick={[
+          {
+            brick: "div",
+            transform: "title",
+            transformFrom: "tips"
+          },
+          {
+            brick: "span",
+            transform: "title",
+            transformFrom: "tips"
+          }
+        ]}
+        data={{
+          tips: "better"
+        }}
+      />
+    );
+
+    await (global as any).flushPromises();
+    const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
+    expect(div.title).toBe("better");
+    const span = wrapper.find("span").getDOMNode() as HTMLDivElement;
+    expect(span.title).toBe("better");
   });
 
   it("should resolve", async () => {
