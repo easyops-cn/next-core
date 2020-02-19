@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.17.0...@easyops/brick-utils@1.18.0) (2020-02-19)
+
+### Features
+
+- support array values in query ([a4a8544](https://git.easyops.local/anyclouds/next-core/commits/a4a8544))
+
 # [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.16.0...@easyops/brick-utils@1.17.0) (2020-02-18)
 
 ### Features

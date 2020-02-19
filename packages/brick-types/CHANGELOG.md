@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.17.0...@easyops/brick-types@1.18.0) (2020-02-19)
+
+### Features
+
+- support multiple bricks in useBrick ([b30b6b4](https://git.easyops.local/anyclouds/next-core/commits/b30b6b4))
+
 # [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.16.1...@easyops/brick-types@1.17.0) (2020-02-18)
 
 ### Features
