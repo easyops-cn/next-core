@@ -68,7 +68,7 @@ describe("computeRealValue", () => {
 
 describe("setProperties", () => {
   const originalQuery =
-    "q=abc&page=2&sort=name&asc=1&extra=0&fields=%7B%7D&errors=&name=abc&key=K";
+    "q=abc&page=2&sort=name&asc=1&extra=0&fields=%7B%7D&errors=&name=abc&key=K&array=1&array=2";
   const context: PluginRuntimeContext = {
     query: new URLSearchParams(originalQuery),
     match: {
@@ -119,7 +119,9 @@ describe("setProperties", () => {
     urlToDetail: "${APP.homepage}/${objectId}",
     username: "${SYS.username}",
     userInstanceId: "${SYS.userInstanceId}",
-    betterWorld: "${FLAGS.better-world}"
+    betterWorld: "${FLAGS.better-world}",
+    array: "${QUERY_ARRAY.array}",
+    arrayNotExisted: "${QUERY_ARRAY.arrayNotExisted}"
   };
   const cases: [
     Record<string, any>,
@@ -155,7 +157,8 @@ describe("setProperties", () => {
         urlToDetail: "/cmdb/HOST",
         username: "easyops",
         userInstanceId: "acbd46b",
-        betterWorld: true
+        betterWorld: true,
+        array: ["1", "2"]
       }
     ],
     [
@@ -185,7 +188,8 @@ describe("setProperties", () => {
         urlToDetail: "/cmdb/HOST",
         username: "easyops",
         userInstanceId: "acbd46b",
-        betterWorld: true
+        betterWorld: true,
+        array: ["1", "2"]
       }
     ],
     [
@@ -216,7 +220,8 @@ describe("setProperties", () => {
           urlToDetail: "/cmdb/HOST",
           username: "easyops",
           userInstanceId: "acbd46b",
-          betterWorld: true
+          betterWorld: true,
+          array: ["1", "2"]
         },
         {
           objectId: "HOST",
@@ -240,7 +245,8 @@ describe("setProperties", () => {
           urlToDetail: "/cmdb/HOST",
           username: "easyops",
           userInstanceId: "acbd46b",
-          betterWorld: true
+          betterWorld: true,
+          array: ["1", "2"]
         }
       ]
     ]

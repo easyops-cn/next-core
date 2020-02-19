@@ -62,7 +62,8 @@ describe("bindListeners", () => {
             args: [
               {
                 q: "123",
-                a: undefined
+                a: undefined,
+                list: ["a", "b"]
               },
               {
                 extraQuery: {
@@ -151,7 +152,7 @@ describe("bindListeners", () => {
       sourceElem.dispatchEvent(event2);
 
       expect(history.push).toBeCalledWith("for-good");
-      expect(history.push).toBeCalledWith("?page=1&q=123");
+      expect(history.push).toBeCalledWith("?page=1&q=123&list=a&list=b");
       expect(history.replace).toBeCalledWith(
         "specified args for history.replace"
       );

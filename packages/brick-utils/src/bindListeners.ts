@@ -209,13 +209,18 @@ function builtinQueryListenerFactory(
     const hasArgs = Array.isArray(args);
     const realMethod = method === "pushQuery" ? "push" : "replace";
     const urlSearchParams = new URLSearchParams(history.location.search);
-    const assignArgs = {};
+    const assignArgs: Record<string, any> = {};
     if (hasArgs || isObject(event.detail)) {
       const realArgs = argsFactory(args, context, event, true);
       const extraQuery = hasArgs && realArgs[1] ? realArgs[1].extraQuery : {};
       Object.assign(assignArgs, realArgs[0], extraQuery);
       forEach(assignArgs, (v, k) => {
-        if (isNil(v) || v === "") {
+        if (Array.isArray(v)) {
+          urlSearchParams.delete(k);
+          for (const item of v) {
+            urlSearchParams.append(k, item);
+          }
+        } else if (isNil(v) || v === "") {
           urlSearchParams.delete(k);
         } else {
           urlSearchParams.set(k, v);
