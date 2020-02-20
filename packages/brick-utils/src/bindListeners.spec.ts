@@ -88,6 +88,10 @@ describe("bindListeners", () => {
             action: "history.reload"
           },
           {
+            action: "window.open",
+            args: ["www.google.com"]
+          },
+          {
             action: "location.reload",
             args: [true]
           },
@@ -142,6 +146,7 @@ describe("bindListeners", () => {
       jest.spyOn(console, "info");
       jest.spyOn(console, "warn");
       jest.spyOn(console, "error");
+      window.open = jest.fn();
 
       bindListeners(sourceElem, eventsMap, history);
 
@@ -181,6 +186,7 @@ describe("bindListeners", () => {
       expect((targetElem as any).forGood).toBeCalledWith(
         "specified args for multiple"
       );
+      expect(window.open).toBeCalledWith("www.google.com", "_self");
       expect((targetElem2 as any).forGood).toBeCalledWith(
         "specified args for multiple"
       );

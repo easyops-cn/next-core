@@ -109,6 +109,8 @@ export function listenerFactory(
         return () => {
           history.replace(history.location);
         };
+      case "window.open":
+        return builtinWindowListenerFactory(method, handler.args, context);
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(method, handler.args, context);
@@ -149,6 +151,17 @@ function builtinLocationListenerFactory(
     } else {
       location[method]();
     }
+  } as EventListener;
+}
+
+function builtinWindowListenerFactory(
+  method: "open",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    const [url, target] = argsFactory(args, context, event);
+    window.open(url, target || "_self");
   } as EventListener;
 }
 

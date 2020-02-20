@@ -242,6 +242,7 @@ export interface BuiltinBrickEventHandler {
     | "history.reload"
     | "location.reload"
     | "location.assign"
+    | "window.open"
     | "event.preventDefault"
     | "console.log"
     | "console.error"
