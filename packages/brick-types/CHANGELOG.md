@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.19.0...@easyops/brick-types@1.20.0) (2020-02-20)
+
+### Features
+
+- add listen event: window open, Refs BRICK_STORE-1131 ([e83e6bc](https://git.easyops.local/anyclouds/next-core/commits/e83e6bc))
+
 # [1.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.18.0...@easyops/brick-types@1.19.0) (2020-02-19)
 
 ### Features
