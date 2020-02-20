@@ -45,28 +45,37 @@ interface SingleBrickAsComponentProps {
 function SingleBrickAsComponent(
   props: SingleBrickAsComponentProps
 ): React.ReactElement {
+  const { useBrick, data } = props;
+
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.
     if (getRuntime()._internalApiGetRouterState() === "initial") {
       return;
     }
+    if (useBrick.template) {
+      delete useBrick.transform;
+      delete useBrick.transformFrom;
+      getRuntime()
+        ._internalApiGetResolver()
+        .processBrick(useBrick);
+    }
     const brick: RuntimeBrick = {
-      type: props.useBrick.brick,
-      properties: cloneDeep(props.useBrick.properties) || {}
+      type: useBrick.brick,
+      properties: cloneDeep(useBrick.properties) || {}
     };
     transformProperties(
       brick.properties,
-      props.data,
-      props.useBrick.transform,
-      props.useBrick.transformFrom
+      data,
+      useBrick.transform,
+      useBrick.transformFrom
     );
-    if (props.useBrick.lifeCycle) {
+    if (useBrick.lifeCycle) {
       const resolver = getRuntime()._internalApiGetResolver();
       try {
         await resolver.resolve(
           {
-            brick: props.useBrick.brick,
-            lifeCycle: props.useBrick.lifeCycle
+            brick: useBrick.brick,
+            lifeCycle: useBrick.lifeCycle
           },
           brick
         );
@@ -75,7 +84,7 @@ function SingleBrickAsComponent(
       }
     }
     return brick;
-  }, [props.useBrick, props.data]);
+  }, [useBrick, data]);
 
   const refCallback = React.useCallback(
     async (element: HTMLElement) => {
@@ -88,19 +97,19 @@ function SingleBrickAsComponent(
         brick.element = element;
         setRealProperties(element, brick.properties);
         unbindListeners(element);
-        if (props.useBrick.events) {
+        if (useBrick.events) {
           bindListeners(
             element,
-            doTransform(props.data, props.useBrick.events),
+            doTransform(data, useBrick.events),
             getHistory()
           );
         }
       }
     },
-    [runtimeBrick, props.useBrick, props.data]
+    [runtimeBrick, useBrick, data]
   );
 
-  return React.createElement(props.useBrick.brick, {
+  return React.createElement(useBrick.brick, {
     ref: refCallback
   });
 }

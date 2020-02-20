@@ -295,10 +295,12 @@ export interface DesktopItemDir {
 export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
 
 export interface UseSingleBrickConf {
-  brick: string;
+  brick?: string;
   properties?: Record<string, any>;
   events?: BrickEventsMap;
   lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
   transformFrom?: string | string[];
   transform?: GeneralTransform;
+  template?: string;
+  params?: any[];
 }
