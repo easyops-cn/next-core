@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.20.0...@easyops/brick-types@1.21.0) (2020-02-21)
+
+### Features
+
+- support life cycle of menu ([103b69f](https://git.easyops.local/anyclouds/next-core/commits/103b69f))
+- support template in useBrick ([98305ae](https://git.easyops.local/anyclouds/next-core/commits/98305ae))
+
 # [1.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.19.0...@easyops/brick-types@1.20.0) (2020-02-20)
 
 ### Features
