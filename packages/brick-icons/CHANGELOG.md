@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.12.0...@easyops/brick-icons@1.13.0) (2020-02-21)
+
+### Features
+
+- **brick-icons:** 增加 redeploy 图标 ([fae2a2c](https://git.easyops.local/anyclouds/next-core/commits/fae2a2c))
+
 # [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.11.1...@easyops/brick-icons@1.12.0) (2020-02-07)
 
 ### Features
