@@ -1,7 +1,7 @@
 import { GeneralTransform } from "@easyops/brick-types";
 import { get, set } from "lodash";
 import { isObject } from "./isObject";
-import { processPipes } from "./pipes";
+import { transform } from "./placeholder";
 
 export function transformProperties(
   props: Record<string, any>,
@@ -21,22 +21,7 @@ export function transformProperties(
 
 export function doTransform(data: any, transformTo: any, smart?: boolean): any {
   if (typeof transformTo === "string") {
-    const matches = transformTo.match(
-      /^@\{([^|=}]*)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}$/
-    );
-    if (matches) {
-      // If it's a full match, keep the original type.
-      // If meet `@{}`, return `data`.
-      // return matches[1] ? get(data, matches[1]) : data;
-      return replaceTemplateValue(matches, data);
-    }
-    return transformTo.replace(
-      /@\{([^|=}]*)(?:=([^|}]*))?((?:\|(?:[^|]+))*)\}/g,
-      (raw, field, defaultValue, rawPipes) =>
-        // If the retrieved data is null/undefined, replace it with an empty string.
-        // (field ? get(data, field) : data) ?? ""
-        replaceTemplateValue([raw, field, defaultValue, rawPipes], data, true)
-    );
+    return transform(transformTo, data);
   }
 
   return Array.isArray(transformTo)
@@ -51,22 +36,6 @@ export function doTransform(data: any, transformTo: any, smart?: boolean): any {
         return acc;
       }, {})
     : transformTo;
-}
-
-function replaceTemplateValue(
-  matches: string[],
-  data: any,
-  asString?: boolean
-): any {
-  const [_raw, field, defaultValue, rawPipes] = matches;
-  let result = field ? get(data, field) : data;
-  if (result === undefined) {
-    result = defaultValue;
-  }
-  if (asString && !rawPipes && (result === undefined || result === null)) {
-    return "";
-  }
-  return processPipes(result, rawPipes);
 }
 
 function preprocessTransformProperties(

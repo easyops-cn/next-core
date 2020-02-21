@@ -1,4 +1,5 @@
 import { processPipes } from "./processPipes";
+import { PipeCall } from "../interfaces";
 
 describe("processPipes", () => {
   const circularValue: any = {};
@@ -21,9 +22,24 @@ describe("processPipes", () => {
     [0, "|bool|not", true]
   ];
   it.each(cases)(
-    "processPipes(%j,%j) should return %j",
+    "process %j with pipes %j should return %j",
     (value, rawPipes, result) => {
-      expect(processPipes(value, rawPipes)).toEqual(result);
+      expect(
+        processPipes(
+          value,
+          // Compile the pipes first, in a hacking way.
+          rawPipes
+            ? rawPipes
+                .substr(1)
+                .split("|")
+                .map<PipeCall>(id => ({
+                  type: "PipeCall",
+                  identifier: id,
+                  parameters: []
+                }))
+            : []
+        )
+      ).toEqual(result);
     }
   );
 });
