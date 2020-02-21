@@ -200,8 +200,7 @@ export interface BrickMenuConf {
   injectDeep?: boolean;
   properties?: Record<string, any>;
   events?: BrickEventsMap;
-  template?: string;
-  params?: any[];
+  lifeCycle?: BrickLifeCycle;
 }
 
 export interface SlotsConf {

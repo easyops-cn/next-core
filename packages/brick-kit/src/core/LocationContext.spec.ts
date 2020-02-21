@@ -265,7 +265,12 @@ describe("LocationContext", () => {
                             menu: {
                               type: "brick",
                               brick: "b",
-                              events: {}
+                              events: {},
+                              lifeCycle: {
+                                onPageLoad: {
+                                  action: "console.warn"
+                                }
+                              }
                             }
                           }
                         ]
@@ -371,9 +376,12 @@ describe("LocationContext", () => {
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
       expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
       const consoleLog = jest.spyOn(console, "log");
+      const consoleWarn = jest.spyOn(console, "warn");
       context.handlePageLoad();
       expect(consoleLog.mock.calls[0][0].type).toBe("page.load");
+      expect(consoleWarn.mock.calls[0][0].type).toBe("page.load");
       consoleLog.mockRestore();
+      consoleWarn.mockRestore();
     });
   });
 });
