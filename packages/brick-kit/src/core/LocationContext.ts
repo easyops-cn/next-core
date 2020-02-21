@@ -175,7 +175,11 @@ export class LocationContext {
           }
         }
 
-        this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
+        await this.mountMenu(
+          matched.route.menu,
+          matched.match,
+          mountRoutesResult
+        );
 
         if (matched.route.type === "routes") {
           await this.mountRoutes(
@@ -195,11 +199,11 @@ export class LocationContext {
     return mountRoutesResult;
   }
 
-  private mountMenu(
+  private async mountMenu(
     menuConf: MenuConf,
     match: MatchResult,
     mountRoutesResult: MountRoutesResult
-  ): void {
+  ): Promise<void> {
     if (menuConf === false) {
       // `route.menu` 设置为 `false` 表示不显示顶栏和侧栏。
       mountRoutesResult.flags.barsHidden = true;
@@ -229,6 +233,17 @@ export class LocationContext {
         context,
         children: []
       };
+
+      if (menuConf.lifeCycle?.onPageLoad) {
+        this.pageLoadHandlers.push({
+          brick,
+          onPageLoad: menuConf.lifeCycle.onPageLoad
+        });
+      }
+
+      // Then, resolve the brick.
+      await this.resolver.resolve(menuConf, brick, context);
+
       mountRoutesResult.menuInBg.push(brick);
       return;
     }
