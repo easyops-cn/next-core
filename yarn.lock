@@ -2232,6 +2232,11 @@
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-svg-component/download/@svgr/babel-plugin-transform-svg-component-5.0.1.tgz#31c7c7ad82f12ae09df14bbf9e3ac42a694b0f98"
   integrity sha1-McfHrYLxKuCd8Uu/njrEKmlLD5g=
 
+"@svgr/babel-plugin-transform-svg-component@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-svg-component/download/@svgr/babel-plugin-transform-svg-component-5.2.0.tgz#96bda84be927f01fe37dfaf69572c2357fd97ac6"
+  integrity sha1-lr2oS+kn8B/jffr2lXLCNX/ZesY=
+
 "@svgr/babel-preset@^5.0.1":
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/@svgr/babel-preset/download/@svgr/babel-preset-5.0.1.tgz#16aff48213b83573c2b438457c60a79dc4522e6b"
@@ -2246,12 +2251,35 @@
     "@svgr/babel-plugin-transform-react-native-svg" "^5.0.1"
     "@svgr/babel-plugin-transform-svg-component" "^5.0.1"
 
+"@svgr/babel-preset@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-preset/download/@svgr/babel-preset-5.2.0.tgz#8b1624662efac8a82e2b0f3054dafede9fbff89f"
+  integrity sha1-ixYkZi76yKguKw8wVNr+3p+/+J8=
+  dependencies:
+    "@svgr/babel-plugin-add-jsx-attribute" "^5.0.1"
+    "@svgr/babel-plugin-remove-jsx-attribute" "^5.0.1"
+    "@svgr/babel-plugin-remove-jsx-empty-expression" "^5.0.1"
+    "@svgr/babel-plugin-replace-jsx-attribute-value" "^5.0.1"
+    "@svgr/babel-plugin-svg-dynamic-title" "^5.0.1"
+    "@svgr/babel-plugin-svg-em-dimensions" "^5.0.1"
+    "@svgr/babel-plugin-transform-react-native-svg" "^5.0.1"
+    "@svgr/babel-plugin-transform-svg-component" "^5.2.0"
+
 "@svgr/core@^5.0.1":
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/@svgr/core/download/@svgr/core-5.0.1.tgz#b7ec46665de21248b650fe94a2325a30b25569a9"
   integrity sha1-t+xGZl3iEki2UP6UojJaMLJVaak=
   dependencies:
     "@svgr/plugin-jsx" "^5.0.1"
+    camelcase "^5.3.1"
+    cosmiconfig "^6.0.0"
+
+"@svgr/core@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npm.taobao.org/@svgr/core/download/@svgr/core-5.2.0.tgz#9b12191478960bb6e9a0bc9f8f58c39bbcfc8c82"
+  integrity sha1-mxIZFHiWC7bpoLyfj1jDm7z8jII=
+  dependencies:
+    "@svgr/plugin-jsx" "^5.2.0"
     camelcase "^5.3.1"
     cosmiconfig "^6.0.0"
 
@@ -2272,6 +2300,16 @@
     "@svgr/hast-util-to-babel-ast" "^5.0.1"
     svg-parser "^2.0.2"
 
+"@svgr/plugin-jsx@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npm.taobao.org/@svgr/plugin-jsx/download/@svgr/plugin-jsx-5.2.0.tgz#f81578e5b5ff8728ab72419207f7f73655684eff"
+  integrity sha1-+BV45bX/hyirckGSB/f3NlVoTv8=
+  dependencies:
+    "@babel/core" "^7.7.5"
+    "@svgr/babel-preset" "^5.2.0"
+    "@svgr/hast-util-to-babel-ast" "^5.0.1"
+    svg-parser "^2.0.2"
+
 "@svgr/plugin-svgo@^5.1.0":
   version "5.1.0"
   resolved "https://registry.npm.taobao.org/@svgr/plugin-svgo/download/@svgr/plugin-svgo-5.1.0.tgz?cache=0&sync_timestamp=1579535695327&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fplugin-svgo%2Fdownload%2F%40svgr%2Fplugin-svgo-5.1.0.tgz#6939223f90581cd503b42893e795d659dbd7f7c4"
@@ -2281,18 +2319,27 @@
     merge-deep "^3.0.2"
     svgo "^1.2.2"
 
-"@svgr/rollup@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/@svgr/rollup/download/@svgr/rollup-5.1.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Frollup%2Fdownload%2F%40svgr%2Frollup-5.1.0.tgz#33f4e6e8e36f58ada1e54842a1d7cd7d37575cb1"
-  integrity sha1-M/Tm6ONvWK2h5UhCodfNfTdXXLE=
+"@svgr/plugin-svgo@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npm.taobao.org/@svgr/plugin-svgo/download/@svgr/plugin-svgo-5.2.0.tgz#84162f191a40bd9725a2ff9afdc6cd3ba7e59719"
+  integrity sha1-hBYvGRpAvZclov+a/cbNO6fllxk=
+  dependencies:
+    cosmiconfig "^6.0.0"
+    merge-deep "^3.0.2"
+    svgo "^1.2.2"
+
+"@svgr/rollup@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.npm.taobao.org/@svgr/rollup/download/@svgr/rollup-5.2.0.tgz#382d87239c1f3c0f2efb98adbcee7d371debb02a"
+  integrity sha1-OC2HI5wfPA8u+5itvO59Nx3rsCo=
   dependencies:
     "@babel/core" "^7.7.5"
     "@babel/plugin-transform-react-constant-elements" "^7.7.4"
     "@babel/preset-env" "^7.7.6"
     "@babel/preset-react" "^7.7.4"
-    "@svgr/core" "^5.0.1"
-    "@svgr/plugin-jsx" "^5.0.1"
-    "@svgr/plugin-svgo" "^5.1.0"
+    "@svgr/core" "^5.2.0"
+    "@svgr/plugin-jsx" "^5.2.0"
+    "@svgr/plugin-svgo" "^5.2.0"
     rollup-pluginutils "^2.8.2"
 
 "@svgr/webpack@^5.1.0":
