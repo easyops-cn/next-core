@@ -1,4 +1,4 @@
-import { GeneralTransform } from "@easyops/brick-types";
+import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { get, set } from "lodash";
 import { isObject } from "./isObject";
 import { transform } from "./placeholder";
@@ -6,12 +6,12 @@ import { transform } from "./placeholder";
 export function transformProperties(
   props: Record<string, any>,
   data: any,
-  transform: GeneralTransform,
-  transformFrom?: string | string[]
+  to: GeneralTransform,
+  from?: string | string[]
 ): Record<string, any> {
   const transformedProps = preprocessTransformProperties(
-    transformFrom ? get(data, transformFrom) : data,
-    transform
+    from ? get(data, from) : data,
+    to
   );
   for (const [propName, propValue] of Object.entries(transformedProps)) {
     set(props, propName, propValue);
@@ -19,15 +19,15 @@ export function transformProperties(
   return props;
 }
 
-export function doTransform(data: any, transformTo: any, smart?: boolean): any {
-  if (typeof transformTo === "string") {
-    return transform(transformTo, data);
+export function doTransform(data: any, to: any, smart?: boolean): any {
+  if (typeof to === "string") {
+    return transform(to, data);
   }
 
-  return Array.isArray(transformTo)
-    ? transformTo.map(item => doTransform(data, item, smart))
-    : isObject(transformTo)
-    ? Object.entries(transformTo).reduce<Record<string, any>>((acc, [k, v]) => {
+  return Array.isArray(to)
+    ? to.map(item => doTransform(data, item, smart))
+    : isObject(to)
+    ? Object.entries(to).reduce<Record<string, any>>((acc, [k, v]) => {
         if (smart) {
           set(acc, k, doTransform(data, v, smart));
         } else {
@@ -35,43 +35,67 @@ export function doTransform(data: any, transformTo: any, smart?: boolean): any {
         }
         return acc;
       }, {})
-    : transformTo;
+    : to;
 }
 
 function preprocessTransformProperties(
   data: any,
-  transform: GeneralTransform
+  to: GeneralTransform
 ): Record<string, any> {
-  // Return empty object if transform is falsy.
-  if (!transform) {
-    return {};
-  }
-
-  // A single string `transform` means directly return data to this property.
-  if (typeof transform === "string") {
-    return { [transform]: data };
-  }
-
   const props: Record<string, any> = {};
-  const isArray = Array.isArray(data);
-  for (const [transformedPropName, transformTo] of Object.entries(transform)) {
-    // If data is array, mapping it's items.
-    props[transformedPropName] = isArray
-      ? (data as any[]).map(item => doTransform(item, transformTo, true))
-      : doTransform(data, transformTo, true);
+  if (Array.isArray(to)) {
+    for (const item of to) {
+      pipeableTransform(props, data, item.to, item.from, item.mapArray);
+    }
+  } else {
+    pipeableTransform(props, data, to);
+  }
+  return props;
+}
+
+function pipeableTransform(
+  props: Record<string, any>,
+  data: any,
+  to: string | TransformMap,
+  from?: string | string[],
+  mapArray?: boolean | "auto"
+): void {
+  if (!to) {
+    // Do nothing if `to` is falsy.
+    return;
   }
 
-  return props;
+  let fromData = from ? get(data, from) : data;
+
+  let isArray = Array.isArray(fromData);
+  if (!isArray && mapArray === true) {
+    isArray = true;
+    fromData = [fromData];
+  } else if (isArray && mapArray === false) {
+    isArray = false;
+  }
+
+  if (typeof to === "string") {
+    props[to] = fromData;
+    return;
+  }
+
+  for (const [transformedPropName, transformTo] of Object.entries(to)) {
+    // If `fromData` is an array, mapping it's items.
+    props[transformedPropName] = isArray
+      ? (fromData as any[]).map(item => doTransform(item, transformTo, true))
+      : doTransform(fromData, transformTo, true);
+  }
 }
 
 export function transformIntermediateData(
   data: any,
-  transform: GeneralTransform,
-  transformFrom?: string | string[]
+  to: GeneralTransform,
+  from?: string | string[]
 ): any {
-  const intermediateData = transformFrom ? get(data, transformFrom) : data;
-  if (!transform) {
+  const intermediateData = from ? get(data, from) : data;
+  if (!to) {
     return intermediateData;
   }
-  return transformProperties({}, intermediateData, transform);
+  return transformProperties({}, intermediateData, to);
 }
