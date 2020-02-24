@@ -11,6 +11,18 @@ describe("parseInjectableString", () => {
       }
     ],
     [
+      "good",
+      {
+        type: "InjectableString",
+        elements: [
+          {
+            type: "RawString",
+            value: "good"
+          }
+        ]
+      }
+    ],
+    [
       "#{abc}",
       {
         type: "InjectableString",
@@ -95,7 +107,7 @@ describe("parseInjectableString", () => {
       }
     ],
     [
-      'asc=${QUERY.asc=true|number}&q=${QUERY.quality=good|split:","}',
+      "asc=${QUERY.asc=true|number}&q=${QUERY.quality=good|split:,}",
       {
         type: "InjectableString",
         elements: [
@@ -136,14 +148,14 @@ describe("parseInjectableString", () => {
             ],
             loc: {
               start: 31,
-              end: 62
+              end: 60
             }
           }
         ]
       }
     ],
     [
-      '${ some.field[ 0 ].path = ["complex","value\\n"] | map : {"a":-12.34E+5} : true | slice }',
+      '${ some.field[ 0 ].path = ["complex","value\\n"] | map : {"a":-12.34E+5} : true | join : }',
       {
         type: "InjectableString",
         elements: [
@@ -159,13 +171,13 @@ describe("parseInjectableString", () => {
               },
               {
                 type: "PipeCall",
-                identifier: "slice",
-                parameters: []
+                identifier: "join",
+                parameters: [""]
               }
             ],
             loc: {
               start: 0,
-              end: 88
+              end: 89
             }
           }
         ]
@@ -175,7 +187,7 @@ describe("parseInjectableString", () => {
     expect(parseInjectableString(raw)).toEqual(tree);
   });
 
-  it.each<string>(["${a|b=c}", "${a=[}", "${a|b:}", "${a|0}", "${a=[{}}{]}"])(
+  it.each<string>(["${a|b=c}", "${a=[}", "${a|0}", "${a=[{}}{]}"])(
     "should throw when parsing %j",
     raw => {
       expect(() => {

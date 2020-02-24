@@ -30,7 +30,10 @@ describe("transform", () => {
     expect(transform(raw, data)).toEqual(result);
   });
 
-  it("should throw if a placeholder contains invalid json value", () => {
+  it("should throw if a placeholder is invalid", () => {
+    expect(() => {
+      transform("q=@{", {});
+    });
     expect(() => {
       transform("q=@{quality=[}", {});
     });
@@ -118,7 +121,10 @@ describe("inject", () => {
     expect(inject(raw, data)).toEqual(result);
   });
 
-  it("should throw if a placeholder contains invalid json value", () => {
+  it("should throw if a placeholder is invalid", () => {
+    expect(() => {
+      transform("q=${", context);
+    });
     expect(() => {
       inject("q=${quality=[}", context);
     });

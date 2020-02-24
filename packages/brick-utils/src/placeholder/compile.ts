@@ -34,9 +34,7 @@ function compile(raw: string, symbol: string, compileNode: CompileNode): any {
 }
 
 function isInjectable(raw: string, symbol = "$"): boolean {
-  const indexOfBegin = raw.indexOf(`${symbol}{`);
-  const indexOfEnd = raw.lastIndexOf("}");
-  return indexOfBegin >= 0 && indexOfEnd > indexOfBegin;
+  return raw.includes(`${symbol}{`);
 }
 
 function transformNodeFactory(data: any): CompileNode {

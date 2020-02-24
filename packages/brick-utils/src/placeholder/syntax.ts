@@ -63,7 +63,7 @@ function parseTokens(tokens: Token[]): InjectableString {
       tree.elements.push(placeholder);
 
       if (optionalToken(TokenType.BeginDefault)) {
-        acceptToken([TokenType.LegacyLiteral, TokenType.JsonValue]);
+        acceptToken([TokenType.JsonValue, TokenType.LiteralString]);
         placeholder.defaultValue = token.value;
       }
 
@@ -77,7 +77,7 @@ function parseTokens(tokens: Token[]): InjectableString {
         placeholder.pipes.push(pipe);
 
         while (optionalToken(TokenType.BeginPipeParameter)) {
-          acceptToken(TokenType.JsonValue);
+          acceptToken([TokenType.JsonValue, TokenType.LiteralString]);
           pipe.parameters.push(token.value);
         }
       }
