@@ -165,10 +165,16 @@ export interface RefResolveConf {
   transform?: GeneralTransform;
 }
 
-export type GeneralTransform = string | TransformMap;
+export type GeneralTransform = string | TransformMap | TransformItem[];
 
 export interface TransformMap {
   [propName: string]: any;
+}
+
+export interface TransformItem {
+  from?: string | string[];
+  to: string | TransformMap;
+  mapArray?: boolean | "auto";
 }
 
 export type MenuConf = false | StaticMenuConf | BrickMenuConf;
