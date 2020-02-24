@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.13.0...@easyops/brick-icons@1.14.0) (2020-02-24)
+
+### Features
+
+- add svg refs MONITOR-183 ([a25d8c7](https://git.easyops.local/anyclouds/next-core/commits/a25d8c7))
+
 # [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.12.0...@easyops/brick-icons@1.13.0) (2020-02-21)
 
 ### Features

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.21.0...@easyops/brick-types@1.22.0) (2020-02-24)
+
+### Features
+
+- **transform:** support transform from mixed array and non-array ([19f242b](https://git.easyops.local/anyclouds/next-core/commits/19f242b))
+
 # [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.20.0...@easyops/brick-types@1.21.0) (2020-02-21)
 
 ### Features

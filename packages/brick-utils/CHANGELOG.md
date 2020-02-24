@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.21.0...@easyops/brick-utils@1.22.0) (2020-02-24)
+
+### Bug Fixes
+
+- pipe parameters also support literal string ([8a6c7a2](https://git.easyops.local/anyclouds/next-core/commits/8a6c7a2))
+
+### Features
+
+- **transform:** support transform from mixed array and non-array ([19f242b](https://git.easyops.local/anyclouds/next-core/commits/19f242b))
+
 # [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.20.1...@easyops/brick-utils@1.21.0) (2020-02-24)
 
 ### Features
