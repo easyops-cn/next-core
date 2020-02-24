@@ -15,7 +15,7 @@ export enum TokenType {
   BeginPlaceHolder = "BeginPlaceHolder",
   Field = "Field",
   BeginDefault = "BeginDefault",
-  LegacyLiteral = "LegacyLiteral",
+  LiteralString = "LiteralString",
   BeginPipe = "BeginPipe",
   PipeIdentifier = "PipeIdentifier",
   BeginPipeParameter = "BeginPipeParameter",

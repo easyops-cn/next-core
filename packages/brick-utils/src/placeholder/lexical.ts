@@ -118,7 +118,7 @@ function eatOptionalDefault(context: LexicalContext): void {
 }
 
 function eatDefaultValue(context: LexicalContext): void {
-  eatJsonValueOrLegacyLiteral(context, LexicalStatus.ExpectOptionalBeginPipe);
+  eatJsonValueOrLiteralString(context, LexicalStatus.ExpectOptionalBeginPipe);
 }
 
 function eatOptionalBeginPipe(context: LexicalContext): void {
@@ -164,7 +164,10 @@ function eatOptionalBeginPipeParameter(context: LexicalContext): void {
 }
 
 function eatPipeParameter(context: LexicalContext): void {
-  eatJsonValue(context, LexicalStatus.ExpectOptionalBeginPipeParameter);
+  eatJsonValueOrLiteralString(
+    context,
+    LexicalStatus.ExpectOptionalBeginPipeParameter
+  );
 }
 
 function eatPlaceholderEnd(context: LexicalContext): void {
@@ -187,13 +190,13 @@ function eatPlaceholderEnd(context: LexicalContext): void {
   }
 }
 
-const legacyLiteralMap = new Map([
+const jsonLiteralMap = new Map([
   ["false", false],
   ["null", null],
   ["true", true]
 ]);
 
-function eatJsonValueOrLegacyLiteral(
+function eatJsonValueOrLiteralString(
   context: LexicalContext,
   nextStatus: LexicalStatus
 ): void {
@@ -201,17 +204,17 @@ function eatJsonValueOrLegacyLiteral(
   if (/[0-9[{"]/.test(subRaw.charAt(0)) || /-[0-9]/.test(subRaw.substr(0, 2))) {
     eatJsonValue(context, nextStatus);
   } else {
-    let [value] = subRaw.match(/^[^|:}]*/);
-    value = value.replace(/[ \r\n\t]+$/, "");
+    // Accept any characters except controls and whitespace.
+    const [value] = subRaw.match(/^[^|:} \r\n\t]*/);
 
-    if (legacyLiteralMap.has(value)) {
+    if (jsonLiteralMap.has(value)) {
       context.tokens.push({
         type: TokenType.JsonValue,
-        value: legacyLiteralMap.get(value)
+        value: jsonLiteralMap.get(value)
       });
     } else {
       context.tokens.push({
-        type: TokenType.LegacyLiteral,
+        type: TokenType.LiteralString,
         value
       });
     }

@@ -3,7 +3,7 @@ import { tokenize } from "./lexical";
 describe("tokenize", () => {
   it("should work", () => {
     const tokens = tokenize(
-      '${ some.field[ 0 ].path = ["complex","value"] | map : 1 : true | slice } ${=oops|a:-0.2E+3}'
+      '${ some.field[ 0 ].path = ["complex","value"] | map : id : true | slice } ${=oops|a:-0.2E+3}'
     );
     expect(tokens).toEqual([
       {
@@ -35,8 +35,8 @@ describe("tokenize", () => {
         type: "BeginPipeParameter"
       },
       {
-        value: 1,
-        type: "JsonValue"
+        value: "id",
+        type: "LiteralString"
       },
       {
         type: "BeginPipeParameter"
@@ -55,8 +55,8 @@ describe("tokenize", () => {
       {
         type: "EndPlaceHolder",
         loc: {
-          start: 71,
-          end: 72
+          start: 72,
+          end: 73
         }
       },
       {
@@ -66,8 +66,8 @@ describe("tokenize", () => {
       {
         type: "BeginPlaceHolder",
         loc: {
-          start: 73,
-          end: 75
+          start: 74,
+          end: 76
         }
       },
       {
@@ -79,7 +79,7 @@ describe("tokenize", () => {
       },
       {
         value: "oops",
-        type: "LegacyLiteral"
+        type: "LiteralString"
       },
       {
         type: "BeginPipe"
@@ -98,8 +98,8 @@ describe("tokenize", () => {
       {
         type: "EndPlaceHolder",
         loc: {
-          start: 90,
-          end: 91
+          start: 91,
+          end: 92
         }
       }
     ]);
