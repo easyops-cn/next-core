@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>completed</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <path d="M17,0 C7.61115925,0 0,7.61115925 0,17 C0,26.3888407 7.61115925,34 17,34 C26.3888407,34 34,26.3888407 34,17 C34,12.4913197 32.2089337,8.16730315 29.0208153,4.97918472 C25.8326968,1.79106629 21.5086803,0 17,0 Z M25.6032143,14.3285714 L16.9028571,23.0289286 C16.6188957,23.3159152 16.2319412,23.4773993 15.8282143,23.4773993 C15.4244874,23.4773993 15.0375329,23.3159152 14.7535714,23.0289286 L9.10714286,17.3642857 C8.53270215,16.7679062 8.5422409,15.8211748 9.12858136,15.2364906 C9.71492182,14.6518065 10.6616764,14.644946 11.2564286,15.2210714 L15.8464286,19.8110714 L23.46,12.1853571 C24.0603959,11.648657 24.9754275,11.6742653 25.5448669,12.2437046 C26.1143062,12.8131439 26.1399144,13.7281755 25.6032143,14.3285714 Z" id="path-2"></path>
+        <filter x="-20.6%" y="-14.7%" width="141.2%" height="141.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="迭代1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/代码项目备份" transform="translate(4.000000, 2.000000)" fill-rule="nonzero">
+            <g id="编组">
+                <g id="形状">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
