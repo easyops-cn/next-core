@@ -1,3 +1,5 @@
+import { get } from "lodash";
+
 export const PipeRegistry = new Map<string, Function>();
 
 PipeRegistry.set("string", pipeString);
@@ -7,6 +9,13 @@ PipeRegistry.set("boolean", pipeBoolean);
 PipeRegistry.set("json", pipeJson);
 PipeRegistry.set("jsonStringify", pipeJsonStringify);
 PipeRegistry.set("not", pipeNot);
+PipeRegistry.set("map", map);
+
+function map(value: any[], key: string): any[] {
+  return value.map(item => {
+    return get(item, key);
+  });
+}
 
 function pipeString(value: any): string {
   // Consider `undefined` and `null` as `""`.

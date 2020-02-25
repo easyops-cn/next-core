@@ -42,4 +42,14 @@ describe("processPipes", () => {
       ).toEqual(result);
     }
   );
+  it.each([
+    [[{ key: 123 }], "key", [123]],
+    [[{ key: { name: "xxx" } }, {}], "key.name", ["xxx", undefined]]
+  ])("map should work", (value, param, res) => {
+    expect(
+      processPipes(value, [
+        { type: "PipeCall", identifier: "map", parameters: [param] }
+      ])
+    ).toEqual(res);
+  });
 });
