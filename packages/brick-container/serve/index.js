@@ -15,6 +15,7 @@ const distDir = path.dirname(
 );
 
 const env = getEnv(process.cwd());
+
 const port = env.port;
 
 serveLocal(env, app);
@@ -78,11 +79,16 @@ const WebSocket = require("ws");
 
 const wss = new WebSocket.Server({ port: env.wsPort });
 
-const watcher = chokidar.watch([
-  path.join(env.brickPackagesDir, "*/dist/*.js"),
-  path.join(env.microAppsDir, "*/storyboard.json"),
-  path.join(env.templatePackagesDir, "*/dist/*.js")
-]);
+const watcher = chokidar.watch(
+  [
+    path.join(env.brickPackagesDir, "*/dist/*.js"),
+    path.join(env.microAppsDir, "*/storyboard.json"),
+    path.join(env.templatePackagesDir, "*/dist/*.js")
+  ],
+  {
+    followSymlinks: true
+  }
+);
 
 const throttledOnChange = throttle(
   () => {

@@ -28,6 +28,7 @@ module.exports = cwd => {
         --port              Set local server port, defaults to "8081"
         --ws-port           Set local WebSocket server port, defaults to "8090"
         --offline           Use offline mode
+        --verbose           Print verbose logs
     `,
       {
         flags: {
@@ -68,16 +69,19 @@ module.exports = cwd => {
           },
           server: {
             type: "string"
+          },
+          verbose: {
+            type: "boolean"
           }
         }
       }
     ).flags;
   }
 
-  const useOffline = process.env.OFFLINE === "true" || flags.offline;
-  const useSubdir = process.env.SUBDIR === "true" || flags.subdir;
-  const useRemote = process.env.REMOTE === "true" || flags.remote;
-  const useAutoRemote = process.env.AUTO_REMOTE === "true" || flags.autoRemote;
+  const useOffline = flags.offline || process.env.OFFLINE === "true";
+  const useSubdir = flags.subdir || process.env.SUBDIR === "true";
+  const useRemote = flags.remote || process.env.REMOTE === "true";
+  const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
   const publicPath = useSubdir ? "/next/" : "/";
   let server = process.env.SERVER || flags.server;
   if (server) {
@@ -111,9 +115,9 @@ module.exports = cwd => {
 
   const rootDir = path.join(__dirname, "../../..");
   const useLocalSettings =
-    process.env.LOCAL_SETTINGS === "TRUE" || flags.localSettings;
+    flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
-    process.env.MERGE_SETTINGS === "TRUE" || flags.mergeSettings;
+    flags.mergeSettings || process.env.MERGE_SETTINGS === "true";
 
   function getBrickNextDir() {
     if (cwd) {
@@ -142,9 +146,12 @@ module.exports = cwd => {
   }
 
   const brickNextDir = getBrickNextDir();
-  const microAppsDir = path.join(brickNextDir, "micro-apps");
-  const brickPackagesDir = path.join(brickNextDir, "bricks");
-  const templatePackagesDir = path.join(brickNextDir, "templates");
+  const microAppsDir = path.join(brickNextDir, "node_modules/@micro-apps");
+  const brickPackagesDir = path.join(brickNextDir, "node_modules/@bricks");
+  const templatePackagesDir = path.join(
+    brickNextDir,
+    "node_modules/@templates"
+  );
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
   const appConfig = getAppConfig();
 
@@ -167,14 +174,23 @@ module.exports = cwd => {
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     server,
-    appConfig
+    appConfig,
+    verbose: flags.verbose || process.env.VERBOSE === "true"
   };
 
   if (useAutoRemote) {
     env.useRemote = true;
-    env.localBrickPackages = getNamesOfBrickPackages(env);
-    env.localMicroApps = getNamesOfMicroApps(env);
-    env.localTemplates = getNamesOfTemplatePackages(env);
+    env.localBrickPackages = getNamesOfBrickPackages(env).concat(
+      env.localBrickPackages
+    );
+    env.localMicroApps = getNamesOfMicroApps(env).concat(env.localMicroApps);
+    env.localTemplates = getNamesOfTemplatePackages(env).concat(
+      env.localTemplates
+    );
+  }
+
+  if (env.verbose) {
+    console.log("Configure:", env);
   }
 
   return env;
