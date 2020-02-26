@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.0.6...@easyops/rollup-config-factory@1.0.7) (2020-02-26)
+
+### Bug Fixes
+
+- **rollup:** set inject to false for postcss ([a5eac0a](https://git.easyops.local/anyclouds/next-core/commits/a5eac0a))
+
 ## [1.0.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.0.5...@easyops/rollup-config-factory@1.0.6) (2020-01-29)
 
 **Note:** Version bump only for package @easyops/rollup-config-factory
