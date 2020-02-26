@@ -80,6 +80,10 @@ describe("bindListeners", () => {
               }
             ]
           },
+          {
+            action: "history.pushAnchor",
+            args: ["yes"]
+          },
           { action: "history.goBack" },
           {
             action: "history.goForward"
@@ -128,6 +132,8 @@ describe("bindListeners", () => {
         replace: jest.fn(),
         pushQuery: jest.fn(),
         replaceQuery: jest.fn(),
+        pushAnchor: jest.fn(),
+        reload: jest.fn(),
         goBack: jest.fn(),
         goForward: jest.fn(),
         location: {
@@ -161,14 +167,28 @@ describe("bindListeners", () => {
       sourceElem.dispatchEvent(event2);
 
       expect(history.push).toBeCalledWith("for-good");
-      expect(history.push).toBeCalledWith("?page=1&q=123&list=a&list=b");
+      expect(history.pushQuery).toBeCalledWith(
+        {
+          q: "123",
+          a: undefined,
+          list: ["a", "b"]
+        },
+        {
+          extraQuery: {
+            page: 1
+          }
+        }
+      );
       expect(history.replace).toBeCalledWith(
         "specified args for history.replace"
       );
-      expect(history.replace).toBeCalledWith("?page=1");
+      expect(history.replaceQuery).toBeCalledWith({
+        page: 1
+      });
+      expect(history.pushAnchor).toBeCalledWith("yes");
       expect(history.goBack).toBeCalledWith();
       expect(history.goForward).toBeCalledWith();
-      expect(history.replace).toBeCalledWith(history.location);
+      expect(history.reload).toBeCalled();
 
       expect(window.location.reload).toBeCalledWith();
       expect(window.location.assign).toBeCalledWith("www.baidu.com");

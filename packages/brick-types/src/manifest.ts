@@ -140,6 +140,8 @@ export interface BrickLifeCycle {
   // Before mounting bricks, wait some async tasks to be resolved.
   useResolves?: ResolveConf[];
   onPageLoad?: BrickEventHandler | BrickEventHandler[];
+  onAnchorLoad?: BrickEventHandler | BrickEventHandler[];
+  onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
 }
 
 export type ResolveConf = EntityResolveConf | RefResolveConf;
@@ -237,14 +239,20 @@ export type BrickEventHandler =
   | CustomBrickEventHandler;
 
 export interface BuiltinBrickEventHandler {
-  action:
-    | "history.push"
+  action: // Third Party History
+  | "history.push"
     | "history.replace"
-    | "history.pushQuery"
-    | "history.replaceQuery"
     | "history.goBack"
     | "history.goForward"
+
+    // Extended History
     | "history.reload"
+    | "history.pushQuery"
+    | "history.replaceQuery"
+    | "history.pushAnchor"
+    // | "history.replaceAnchor"
+
+    // Browser method
     | "location.reload"
     | "location.assign"
     | "window.open"

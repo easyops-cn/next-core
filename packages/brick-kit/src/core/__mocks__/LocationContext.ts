@@ -19,6 +19,7 @@ export class LocationContext {
   };
 
   handlePageLoad = jest.fn();
+  handleAnchorLoad = jest.fn();
 
   matchStoryboard(): RuntimeStoryboard {
     return _matchedStoryboard;

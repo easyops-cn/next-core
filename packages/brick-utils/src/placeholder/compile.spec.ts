@@ -99,6 +99,7 @@ describe("inject", () => {
     ["${FLAGS.better-world}", context, true],
     ["${QUERY_ARRAY.array}", context, ["1", "2"]],
     ["${QUERY_ARRAY.arrayNotExisted}", context, undefined],
+    ["${HASH}", context, "#yes"],
     ["${HASH.*}", context, "#yes"],
     ["${EVENT.detail}", context, "world"],
     [
@@ -116,7 +117,8 @@ describe("inject", () => {
         event: undefined
       },
       "${EVENT.detail}"
-    ]
+    ],
+    ["${ANCHOR}", context, "yes"]
   ])("inject(%j, %o) should return %j", (raw, data, result) => {
     expect(inject(raw, data)).toEqual(result);
   });

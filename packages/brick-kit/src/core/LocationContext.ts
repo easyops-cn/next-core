@@ -68,11 +68,23 @@ interface PageLoadHandler {
   onPageLoad: BrickLifeCycle["onPageLoad"];
 }
 
+interface AnchorLoadHandler {
+  brick: RuntimeBrick;
+  onAnchorLoad: BrickLifeCycle["onAnchorLoad"];
+}
+
+interface AnchorUnloadHandler {
+  brick: RuntimeBrick;
+  onAnchorUnload: BrickLifeCycle["onAnchorUnload"];
+}
+
 export class LocationContext {
   readonly location: PluginLocation;
   readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
   private readonly pageLoadHandlers: PageLoadHandler[] = [];
+  private readonly anchorLoadHandlers: AnchorLoadHandler[] = [];
+  private readonly anchorUnloadHandlers: AnchorUnloadHandler[] = [];
 
   constructor(private kernel: Kernel, location: PluginLocation) {
     this.location = location;
@@ -241,6 +253,20 @@ export class LocationContext {
         });
       }
 
+      if (menuConf.lifeCycle?.onAnchorLoad) {
+        this.anchorLoadHandlers.push({
+          brick,
+          onAnchorLoad: menuConf.lifeCycle.onAnchorLoad
+        });
+      }
+
+      if (menuConf.lifeCycle?.onAnchorUnload) {
+        this.anchorUnloadHandlers.push({
+          brick,
+          onAnchorUnload: menuConf.lifeCycle.onAnchorUnload
+        });
+      }
+
       // Then, resolve the brick.
       await this.resolver.resolve(menuConf, brick, context);
 
@@ -375,6 +401,20 @@ export class LocationContext {
       });
     }
 
+    if (brickConf.lifeCycle?.onAnchorLoad) {
+      this.anchorLoadHandlers.push({
+        brick,
+        onAnchorLoad: brickConf.lifeCycle.onAnchorLoad
+      });
+    }
+
+    if (brickConf.lifeCycle?.onAnchorUnload) {
+      this.anchorUnloadHandlers.push({
+        brick,
+        onAnchorUnload: brickConf.lifeCycle.onAnchorUnload
+      });
+    }
+
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
 
@@ -424,6 +464,53 @@ export class LocationContext {
           history,
           this.getContext(null)
         )(event);
+      }
+    }
+  }
+
+  handleAnchorLoad(): void {
+    const history = getHistory();
+    const hash = history.location.hash;
+    if (hash && hash !== "#") {
+      const event = new CustomEvent("anchor.load", {
+        detail: {
+          hash,
+          anchor: hash.substr(1)
+        }
+      });
+      for (const anchorLoadHandler of this.anchorLoadHandlers) {
+        for (const handler of ([] as BrickEventHandler[]).concat(
+          anchorLoadHandler.onAnchorLoad
+        )) {
+          listenerFactory(
+            (handler as CustomBrickEventHandler).target === "_self"
+              ? {
+                  ...handler,
+                  target: anchorLoadHandler.brick.element
+                }
+              : handler,
+            history,
+            this.getContext(null)
+          )(event);
+        }
+      }
+    } else {
+      const event = new CustomEvent("anchor.unload");
+      for (const anchorUnloadHandler of this.anchorUnloadHandlers) {
+        for (const handler of ([] as BrickEventHandler[]).concat(
+          anchorUnloadHandler.onAnchorUnload
+        )) {
+          listenerFactory(
+            (handler as CustomBrickEventHandler).target === "_self"
+              ? {
+                  ...handler,
+                  target: anchorUnloadHandler.brick.element
+                }
+              : handler,
+            history,
+            this.getContext(null)
+          )(event);
+        }
       }
     }
   }

@@ -1,4 +1,4 @@
-import { locationsAreEqual, createPath } from "history";
+import { locationsAreEqual, createPath, Action } from "history";
 import { PluginLocation } from "@easyops/brick-types";
 import {
   loadScript,
@@ -37,14 +37,19 @@ export class Router {
   async bootstrap(): Promise<void> {
     const history = getHistory();
     this.prevLocation = history.location;
-    history.listen(async (location: PluginLocation) => {
+    history.listen(async (location: PluginLocation, action: Action) => {
       let ignoreRendering = false;
       const omittedLocationProps: Partial<PluginLocation> = {
         hash: null
       };
-      // If the new location is triggered by browser pop state, the `key` is undefined.
-      // Then we omit the "key" when checking whether locations are equal.
-      if (location.key === undefined) {
+      // Omit the "key" when checking whether locations are equal in certain situations.
+      if (
+        // When current location is triggered by browser action of hash link.
+        location.key === undefined ||
+        // When current location is triggered by browser action of go-back or go-forward,
+        // and the previous location is triggered by hash link.
+        (action === "POP" && this.prevLocation.key === undefined)
+      ) {
         omittedLocationProps.key = null;
       }
       if (
@@ -52,7 +57,7 @@ export class Router {
           { ...this.prevLocation, ...omittedLocationProps },
           { ...location, ...omittedLocationProps }
         ) ||
-        (location.state && location.state.notify === false)
+        (action !== "POP" && location.state?.notify === false)
       ) {
         // Ignore rendering if location not changed except hash and key.
         // Ignore rendering if notify is `false`.
@@ -272,6 +277,7 @@ export class Router {
         mountTree(main, mountPoints.main as MountableElement);
         if (!failed) {
           this.locationContext.handlePageLoad();
+          this.locationContext.handleAnchorLoad();
           this.locationContext.resolver.scheduleRefreshing();
         }
         this.state = "mounted";
