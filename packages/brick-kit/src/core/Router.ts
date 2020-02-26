@@ -57,7 +57,7 @@ export class Router {
           { ...this.prevLocation, ...omittedLocationProps },
           { ...location, ...omittedLocationProps }
         ) ||
-        (location.state?.notify === false && action !== "POP")
+        (action !== "POP" && location.state?.notify === false)
       ) {
         // Ignore rendering if location not changed except hash and key.
         // Ignore rendering if notify is `false`.
@@ -277,6 +277,7 @@ export class Router {
         mountTree(main, mountPoints.main as MountableElement);
         if (!failed) {
           this.locationContext.handlePageLoad();
+          this.locationContext.handleAnchorLoad();
           this.locationContext.resolver.scheduleRefreshing();
         }
         this.state = "mounted";

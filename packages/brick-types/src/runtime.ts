@@ -40,8 +40,30 @@ export interface SystemInfo {
   userInstanceId: string;
 }
 
-export type PluginHistory = History<PluginHistoryState>;
 export type PluginLocation = Location<PluginHistoryState>;
+export type PluginHistory = History<PluginHistoryState> & ExtendedHistory;
+
+export interface ExtendedHistory {
+  pushQuery: UpdateQueryFunction;
+  replaceQuery: UpdateQueryFunction;
+  pushAnchor: UpdateAnchorFunction;
+  // replaceAnchor: UpdateAnchorFunction;
+  reload: () => void;
+}
+
+export type UpdateQueryFunction = (
+  query: Record<string, any>,
+  options?: UpdateQueryOptions
+) => void;
+
+export interface UpdateQueryOptions extends PluginHistoryState {
+  extraQuery?: Record<string, any>;
+}
+
+export type UpdateAnchorFunction = (
+  hash: string,
+  state?: PluginHistoryState
+) => void;
 
 export interface PluginHistoryState {
   notify?: boolean;
@@ -54,6 +76,7 @@ export interface PluginRuntimeContext {
   event?: CustomEvent;
   app?: MicroApp;
   hash?: string;
+  anchor?: string;
   sys?: SystemInfo;
   flags?: FeatureFlags;
 }

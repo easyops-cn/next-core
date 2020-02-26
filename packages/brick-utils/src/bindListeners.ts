@@ -8,7 +8,8 @@ import {
   PluginRuntimeContext,
   ExecuteCustomBrickEventHandler,
   SetPropsCustomBrickEventHandler,
-  RuntimeBrickElement
+  RuntimeBrickElement,
+  UpdateQueryFunction
 } from "@easyops/brick-types";
 import { computeRealValue, setProperties } from "./setProperties";
 import { isNil, forEach } from "lodash";
@@ -88,6 +89,9 @@ export function listenerFactory(
     switch (handler.action) {
       case "history.push":
       case "history.replace":
+      case "history.pushQuery":
+      case "history.replaceQuery":
+      case "history.pushAnchor":
         return builtinHistoryListenerFactory(
           method,
           handler.args,
@@ -96,19 +100,8 @@ export function listenerFactory(
         );
       case "history.goBack":
       case "history.goForward":
-        return builtinHistoryWithoutArgsListenerFactory(method, history);
-      case "history.pushQuery":
-      case "history.replaceQuery":
-        return builtinQueryListenerFactory(
-          method,
-          handler.args,
-          history,
-          context
-        );
       case "history.reload":
-        return () => {
-          history.replace(history.location);
-        };
+        return builtinHistoryWithoutArgsListenerFactory(method, history);
       case "window.open":
         return builtinWindowListenerFactory(method, handler.args, context);
       case "location.reload":
@@ -207,54 +200,22 @@ function customListenerFactory(
 }
 
 function builtinHistoryListenerFactory(
-  method: "push" | "replace",
+  method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
   args: any[],
   history: PluginHistory,
   context?: PluginRuntimeContext
 ): EventListener {
   return function(event: CustomEvent): void {
-    history[method](...(argsFactory(args, context, event, true) as [Location]));
+    (history[method] as any)(...argsFactory(args, context, event, true));
   } as EventListener;
 }
 
 function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward",
+  method: "goBack" | "goForward" | "reload",
   history: PluginHistory
 ): EventListener {
   return function(): void {
     history[method]();
-  } as EventListener;
-}
-
-function builtinQueryListenerFactory(
-  method: "pushQuery" | "replaceQuery",
-  args: any[],
-  history: PluginHistory,
-  context?: PluginRuntimeContext
-): EventListener {
-  return function(event: CustomEvent): void {
-    const hasArgs = Array.isArray(args);
-    const realMethod = method === "pushQuery" ? "push" : "replace";
-    const urlSearchParams = new URLSearchParams(history.location.search);
-    const assignArgs: Record<string, any> = {};
-    if (hasArgs || isObject(event.detail)) {
-      const realArgs = argsFactory(args, context, event, true);
-      const extraQuery = hasArgs && realArgs[1] ? realArgs[1].extraQuery : {};
-      Object.assign(assignArgs, realArgs[0], extraQuery);
-      forEach(assignArgs, (v, k) => {
-        if (Array.isArray(v)) {
-          urlSearchParams.delete(k);
-          for (const item of v) {
-            urlSearchParams.append(k, item);
-          }
-        } else if (isNil(v) || v === "") {
-          urlSearchParams.delete(k);
-        } else {
-          urlSearchParams.set(k, v);
-        }
-      });
-      history[realMethod](`?${urlSearchParams.toString()}`);
-    }
   } as EventListener;
 }
 

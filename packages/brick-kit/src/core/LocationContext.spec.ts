@@ -3,6 +3,7 @@ import * as brickUtils from "@easyops/brick-utils";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
 import { isLoggedIn, getAuth } from "../auth";
+import * as history from "../history";
 
 jest.mock("../auth");
 
@@ -16,6 +17,12 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (global as any).customElements = {
   get: () => true
 };
+
+jest.spyOn(history, "getHistory").mockReturnValue({
+  location: {
+    hash: ""
+  }
+} as any);
 
 describe("LocationContext", () => {
   let context: LocationContext;
@@ -209,6 +216,12 @@ describe("LocationContext", () => {
                     lifeCycle: {
                       onPageLoad: {
                         action: "console.log"
+                      },
+                      onAnchorLoad: {
+                        action: "console.log"
+                      },
+                      onAnchorUnload: {
+                        action: "console.log"
                       }
                     },
                     slots: {
@@ -268,6 +281,13 @@ describe("LocationContext", () => {
                               events: {},
                               lifeCycle: {
                                 onPageLoad: {
+                                  action: "console.warn"
+                                },
+                                onAnchorLoad: {
+                                  action: "console.warn",
+                                  args: ["${EVENT.detail.anchor}"]
+                                },
+                                onAnchorUnload: {
                                   action: "console.warn"
                                 }
                               }
@@ -375,11 +395,30 @@ describe("LocationContext", () => {
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
       expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
+
       const consoleLog = jest.spyOn(console, "log");
       const consoleWarn = jest.spyOn(console, "warn");
+
       context.handlePageLoad();
+      context.handleAnchorLoad();
+
+      (history.getHistory as jest.Mock).mockReturnValue({
+        location: {
+          hash: "#yes"
+        }
+      });
+      context.handleAnchorLoad();
+
       expect(consoleLog.mock.calls[0][0].type).toBe("page.load");
+      expect(consoleLog.mock.calls[1][0].type).toBe("anchor.unload");
+      expect(consoleLog.mock.calls[2][0].type).toBe("anchor.load");
+      expect(consoleLog.mock.calls[2][0].detail).toEqual({
+        hash: "#yes",
+        anchor: "yes"
+      });
       expect(consoleWarn.mock.calls[0][0].type).toBe("page.load");
+      expect(consoleWarn.mock.calls[1][0].type).toBe("anchor.unload");
+      expect(consoleWarn.mock.calls[2]).toEqual(["yes"]);
       consoleLog.mockRestore();
       consoleWarn.mockRestore();
     });
