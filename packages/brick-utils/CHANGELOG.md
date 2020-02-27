@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.24.1...@easyops/brick-utils@1.25.0) (2020-02-27)
+
+
+### Features
+
+* **pipe:** groupByToIndex ([7a53773](https://git.easyops.local/anyclouds/next-core/commits/7a53773))
+
+
+
+
+
 ## [1.24.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.24.0...@easyops/brick-utils@1.24.1) (2020-02-27)
 
 ### Bug Fixes
