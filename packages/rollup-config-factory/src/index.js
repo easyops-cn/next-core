@@ -69,9 +69,7 @@ exports.rollupFactory = ({ umdName, plugins = [] }) => ({
     postcss({
       modules: {
         generateScopedName
-      },
-      // We use css modules in `@libs/*`.
-      inject: false
+      }
     }),
     json(),
     commonjs(),
