@@ -95,8 +95,8 @@ function eatWhitespace(context: LexicalContext): void {
 }
 
 function eatField(context: LexicalContext): void {
-  let [value] = getSubRaw(context).match(/^[^|=}]*/);
-  value = value.replace(/[ \r\n\t]+$/, "");
+  // Only allow alphanumeric, `_`, `.`, `*`, `[`, `]`, `-` and other non-ascii.
+  const [value] = getSubRaw(context).match(/^[\w.*[\]\-\u{80}-\u{10FFFF}]*/u);
   context.tokens.push({
     type: TokenType.Field,
     value
@@ -205,7 +205,8 @@ function eatJsonValueOrLiteralString(
     eatJsonValue(context, nextStatus);
   } else {
     // Accept any characters except controls and whitespace.
-    const [value] = subRaw.match(/^[^|:} \r\n\t]*/);
+    // Only allow alphanumeric, `_`, `-` and other non-ascii.
+    const [value] = getSubRaw(context).match(/^[\w\-\u{80}-\u{10FFFF}]*/u);
 
     if (jsonLiteralMap.has(value)) {
       context.tokens.push({
