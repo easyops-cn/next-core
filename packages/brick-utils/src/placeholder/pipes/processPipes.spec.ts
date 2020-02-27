@@ -52,4 +52,38 @@ describe("processPipes", () => {
       ])
     ).toEqual(res);
   });
+
+  it.each([
+    [
+      [
+        { a: "3", b: "1" },
+        { a: "1", b: "2" },
+        { a: "1", b: "3" }
+      ],
+      "a",
+      "groupIndex",
+      [
+        { a: "3", b: "1", groupIndex: 1 },
+        { a: "1", b: "2", groupIndex: 0 },
+        { a: "1", b: "3", groupIndex: 0 }
+      ]
+    ],
+    [
+      [{ a: "3" }, { a: "1" }],
+      undefined,
+      "groupIndex",
+      [{ a: "3" }, { a: "1" }]
+    ],
+    [[{ a: "3" }, { a: "1" }], "a", undefined, [{ a: "3" }, { a: "1" }]]
+  ])("groupByToIndex should work", (value, groupField, targetField, res) => {
+    expect(
+      processPipes(value, [
+        {
+          type: "PipeCall",
+          identifier: "groupByToIndex",
+          parameters: [groupField, targetField]
+        }
+      ])
+    ).toEqual(res);
+  });
 });

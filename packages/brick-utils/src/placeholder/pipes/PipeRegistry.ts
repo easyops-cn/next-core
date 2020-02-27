@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { get, groupBy, keys, set, indexOf, isNil } from "lodash";
 
 export const PipeRegistry = new Map<string, Function>();
 
@@ -9,9 +9,10 @@ PipeRegistry.set("boolean", pipeBoolean);
 PipeRegistry.set("json", pipeJson);
 PipeRegistry.set("jsonStringify", pipeJsonStringify);
 PipeRegistry.set("not", pipeNot);
-PipeRegistry.set("map", map);
+PipeRegistry.set("map", pipeMap);
+PipeRegistry.set("groupByToIndex", pipeGroupByToIndex);
 
-function map(value: any[], key: string): any[] {
+function pipeMap(value: any[], key: string): any[] {
   return value.map(item => {
     return get(item, key);
   });
@@ -53,4 +54,23 @@ function pipeJsonStringify(value: any): string {
 
 function pipeNot(value: boolean): boolean {
   return !value;
+}
+
+// 根据 groupField 字段给 value 分组，并且对分组过后的 keys 进行排序，把对应的 index 下标给到 targetField 并返回最终的 value。
+function pipeGroupByToIndex(
+  value: Record<string, any>[],
+  groupField: string,
+  targetField: string
+): Record<string, any>[] {
+  let result = value;
+  if (!isNil(groupField) && !isNil(targetField)) {
+    const groupByValue = groupBy(value, groupField);
+    const allKeys = keys(groupByValue).sort();
+    result = result.map(v => {
+      const item = { ...v };
+      set(item, targetField, indexOf(allKeys, get(v, groupField)));
+      return item;
+    });
+  }
+  return result;
 }
