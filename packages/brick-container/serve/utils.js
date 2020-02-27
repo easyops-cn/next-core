@@ -18,7 +18,7 @@ function getNamesOfMicroApps(env) {
   }
   return fs
     .readdirSync(env.microAppsDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
+    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
     .map(dirent => dirent.name);
 }
 
