@@ -10,10 +10,8 @@ export function createHistory(): PluginHistory {
   const browserHistory = createBrowserHistory({
     basename: baseHref.replace(/\/$/, "")
   });
-  history = {
-    ...browserHistory,
-    ...historyExtended(browserHistory)
-  };
+  Object.assign(browserHistory, historyExtended(browserHistory));
+  history = browserHistory as PluginHistory;
   return history;
 }
 
