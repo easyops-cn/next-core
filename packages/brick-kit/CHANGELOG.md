@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.26.3...@easyops/brick-kit@1.27.0) (2020-02-27)
+
+### Bug Fixes
+
+- **router:** fix `notify: false` and hash change ([245051c](https://git.easyops.local/anyclouds/next-core/commits/245051c))
+
+### Features
+
+- support onAnchorLoad / onAnchorUnload ([40155ff](https://git.easyops.local/anyclouds/next-core/commits/40155ff))
+
 ## [1.26.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.26.2...@easyops/brick-kit@1.26.3) (2020-02-25)
 
 **Note:** Version bump only for package @easyops/brick-kit
