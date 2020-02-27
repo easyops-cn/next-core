@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.24.0...@easyops/brick-utils@1.24.1) (2020-02-27)
+
+### Bug Fixes
+
+- **placeholder:** make placeholders more restricted. ([7741d74](https://git.easyops.local/anyclouds/next-core/commits/7741d74))
+
 # [1.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.23.0...@easyops/brick-utils@1.24.0) (2020-02-27)
 
 ### Features
