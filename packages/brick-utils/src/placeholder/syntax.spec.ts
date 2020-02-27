@@ -107,7 +107,7 @@ describe("parseInjectableString", () => {
       }
     ],
     [
-      "asc=${QUERY.asc=true|number}&q=${QUERY.quality=good|split:,}",
+      "asc=${QUERY.asc=true|number}&q=${QUERY.quality=good|split:-}",
       {
         type: "InjectableString",
         elements: [
@@ -143,7 +143,7 @@ describe("parseInjectableString", () => {
               {
                 type: "PipeCall",
                 identifier: "split",
-                parameters: [","]
+                parameters: ["-"]
               }
             ],
             loc: {
@@ -155,13 +155,13 @@ describe("parseInjectableString", () => {
       }
     ],
     [
-      '${ some.field[ 0 ].path = ["complex","value\\n"] | map : {"a":-12.34E+5} : true | join : }',
+      '${ some.field[0].path = ["complex","value\\n"] | map : {"a":-12.34E+5} : true | join : }',
       {
         type: "InjectableString",
         elements: [
           {
             type: "Placeholder",
-            field: "some.field[ 0 ].path",
+            field: "some.field[0].path",
             defaultValue: ["complex", "value\n"],
             pipes: [
               {
@@ -177,7 +177,7 @@ describe("parseInjectableString", () => {
             ],
             loc: {
               start: 0,
-              end: 89
+              end: 87
             }
           }
         ]

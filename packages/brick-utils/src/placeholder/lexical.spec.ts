@@ -3,7 +3,7 @@ import { tokenize } from "./lexical";
 describe("tokenize", () => {
   it("should work", () => {
     const tokens = tokenize(
-      '${ some.field[ 0 ].path = ["complex","value"] | map : id : true | slice } ${=oops|a:-0.2E+3}'
+      '${ some.field[0].path = ["complex","value"] | map : id : true | slice } ${=oops|a:-0.2E+3}'
     );
     expect(tokens).toEqual([
       {
@@ -14,7 +14,7 @@ describe("tokenize", () => {
         }
       },
       {
-        value: "some.field[ 0 ].path",
+        value: "some.field[0].path",
         type: "Field"
       },
       {
@@ -55,8 +55,8 @@ describe("tokenize", () => {
       {
         type: "EndPlaceHolder",
         loc: {
-          start: 72,
-          end: 73
+          start: 70,
+          end: 71
         }
       },
       {
@@ -66,8 +66,8 @@ describe("tokenize", () => {
       {
         type: "BeginPlaceHolder",
         loc: {
-          start: 74,
-          end: 76
+          start: 72,
+          end: 74
         }
       },
       {
@@ -98,8 +98,8 @@ describe("tokenize", () => {
       {
         type: "EndPlaceHolder",
         loc: {
-          start: 91,
-          end: 92
+          start: 89,
+          end: 90
         }
       }
     ]);
