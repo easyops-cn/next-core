@@ -19,20 +19,16 @@ export function transformProperties(
   return props;
 }
 
-export function doTransform(data: any, to: any, smart?: boolean): any {
+export function doTransform(data: any, to: any): any {
   if (typeof to === "string") {
     return transform(to, data);
   }
 
   return Array.isArray(to)
-    ? to.map(item => doTransform(data, item, smart))
+    ? to.map(item => doTransform(data, item))
     : isObject(to)
     ? Object.entries(to).reduce<Record<string, any>>((acc, [k, v]) => {
-        if (smart) {
-          set(acc, k, doTransform(data, v, smart));
-        } else {
-          acc[k] = doTransform(data, v, smart);
-        }
+        acc[k] = doTransform(data, v);
         return acc;
       }, {})
     : to;
@@ -83,8 +79,8 @@ function pipeableTransform(
   for (const [transformedPropName, transformTo] of Object.entries(to)) {
     // If `fromData` is an array, mapping it's items.
     props[transformedPropName] = isArray
-      ? (fromData as any[]).map(item => doTransform(item, transformTo, true))
-      : doTransform(fromData, transformTo, true);
+      ? (fromData as any[]).map(item => doTransform(item, transformTo))
+      : doTransform(fromData, transformTo);
   }
 }
 
