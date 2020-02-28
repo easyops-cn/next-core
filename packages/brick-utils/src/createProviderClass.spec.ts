@@ -6,6 +6,7 @@ const spyOnDispatchEvent = jest.fn();
     spyOnDispatchEvent(...args);
   }
 };
+const consoleWarn = jest.spyOn(console, "warn");
 
 describe("createProviderClass", () => {
   const spy = jest.fn();
@@ -19,6 +20,7 @@ describe("createProviderClass", () => {
   afterEach(() => {
     spy.mockReset();
     spyOnDispatchEvent.mockClear();
+    consoleWarn.mockClear();
   });
 
   it("should update args", async () => {
@@ -49,6 +51,25 @@ describe("createProviderClass", () => {
     });
     expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.success");
     expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("good");
+    expect(consoleWarn).not.toBeCalled();
+  });
+
+  it("should warn if use updateArgs with non-custom-event", () => {
+    provider.updateArgs({
+      detail: {
+        "[0].query": "needle"
+      }
+    });
+    expect(consoleWarn).toBeCalled();
+  });
+
+  it("should warn if use updateArgsAndExecute with non-custom-event", () => {
+    provider.updateArgsAndExecute({
+      detail: {
+        "[0].query": "needle"
+      }
+    });
+    expect(consoleWarn).toBeCalled();
   });
 
   it("should set args", async () => {
@@ -71,16 +92,19 @@ describe("createProviderClass", () => {
     });
     expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.success");
     expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("good");
+    expect(consoleWarn).not.toBeCalled();
   });
 
   it("should execute with args", async () => {
     spy.mockResolvedValue(3);
 
-    await provider.executeWithArgs(1, 2);
+    const result = await provider.executeWithArgs(1, 2);
     expect(spy).toBeCalledWith(1, 2);
 
+    expect(result).toBe(3);
     expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.success");
     expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe(3);
+    expect(consoleWarn).not.toBeCalled();
   });
 
   it("should resolve", async () => {
@@ -93,8 +117,14 @@ describe("createProviderClass", () => {
 
   it("should reject", async () => {
     spy.mockRejectedValue("oops");
+    expect.assertions(3);
 
-    await provider.execute();
+    try {
+      await provider.execute();
+    } catch (error) {
+      expect(error).toBe("oops");
+    }
+
     expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.error");
     expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("oops");
   });
