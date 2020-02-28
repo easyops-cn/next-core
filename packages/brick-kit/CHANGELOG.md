@@ -3,16 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.27.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.1...@easyops/brick-kit@1.27.2) (2020-02-27)
+## [1.27.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.2...@easyops/brick-kit@1.27.3) (2020-02-28)
 
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.27.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.1...@easyops/brick-kit@1.27.2) (2020-02-27)
 
 ### Bug Fixes
 
-* fix history may not working ([2949e3e](https://git.easyops.local/anyclouds/next-core/commits/2949e3e))
-
-
-
-
+- fix history may not working ([2949e3e](https://git.easyops.local/anyclouds/next-core/commits/2949e3e))
 
 ## [1.27.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.0...@easyops/brick-kit@1.27.1) (2020-02-27)
 
