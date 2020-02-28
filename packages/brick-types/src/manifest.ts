@@ -260,7 +260,10 @@ export interface BuiltinBrickEventHandler {
     | "console.log"
     | "console.error"
     | "console.warn"
-    | "console.info";
+    | "console.info"
+
+    // iframe
+    | "legacy.go";
   args?: any[]; // Defaults to the event itself
 }
 

@@ -98,6 +98,8 @@ export function listenerFactory(
       case "history.goForward":
       case "history.reload":
         return builtinHistoryWithoutArgsListenerFactory(method, history);
+      case "legacy.go":
+        return builtinIframeListenerFactory(method, handler.args, context);
       case "window.open":
         return builtinWindowListenerFactory(method, handler.args, context);
       case "location.reload":
@@ -140,6 +142,38 @@ function builtinLocationListenerFactory(
     } else {
       location[method]();
     }
+  } as EventListener;
+}
+
+function builtinIframeListenerFactory(
+  method: "legacy.go",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  const legacyIframeMountPoint = document.querySelector(
+    "#legacy-iframe-mount-point"
+  );
+
+  const postMessage = (url: string) => {
+    const iframe = legacyIframeMountPoint.firstChild as HTMLIFrameElement;
+    if (
+      iframe &&
+      iframe.contentWindow &&
+      (iframe.contentWindow as any).angular
+    ) {
+      iframe.contentWindow.postMessage(
+        {
+          type: "location.url",
+          url
+        },
+        location.origin
+      );
+    }
+  };
+
+  return function(event: CustomEvent): void {
+    const [url] = argsFactory(args, context, event);
+    postMessage(url);
   } as EventListener;
 }
 
