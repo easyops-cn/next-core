@@ -38,7 +38,7 @@ describe("bindListeners", () => {
   });
 
   describe("bindListeners", () => {
-    it("should work", () => {
+    it("should work", async () => {
       const sourceElem = document.createElement("div");
       const targetElem = document.createElement("div");
       const targetElem2 = document.createElement("div");
@@ -46,6 +46,12 @@ describe("bindListeners", () => {
       targetElem2.id = "target-elem2";
       (targetElem as any).forGood = jest.fn();
       (targetElem2 as any).forGood = jest.fn();
+      (targetElem as any).forAsyncWillSuccess = jest
+        .fn()
+        .mockResolvedValue("yes");
+      (targetElem2 as any).forAsyncWillError = jest
+        .fn()
+        .mockRejectedValue("oops");
       document.body.appendChild(sourceElem);
       document.body.appendChild(targetElem);
       document.body.appendChild(targetElem2);
@@ -117,6 +123,30 @@ describe("bindListeners", () => {
             method: "forGood",
             args: ["specified args for multiple"]
           },
+          {
+            target: "#target-elem",
+            method: "forAsyncWillSuccess",
+            callback: {
+              success: {
+                action: "console.log"
+              },
+              error: {
+                action: "console.error"
+              }
+            }
+          },
+          {
+            target: "#target-elem2",
+            method: "forAsyncWillError",
+            callback: {
+              success: {
+                action: "console.log"
+              },
+              error: {
+                action: "console.error"
+              }
+            }
+          },
           { target: "#target-elem", method: "notExisted" },
           { target: "#not-existed", method: "forGood" },
           {
@@ -166,6 +196,9 @@ describe("bindListeners", () => {
       });
       sourceElem.dispatchEvent(event2);
 
+      await jest.runAllTimers();
+      await (global as any).flushPromises();
+
       expect(history.push).toBeCalledWith("for-good");
       expect(history.pushQuery).toBeCalledWith(
         {
@@ -198,10 +231,23 @@ describe("bindListeners", () => {
       expect(spyOnPreventDefault).toBeCalled();
 
       /* eslint-disable no-console */
-      expect(console.log).toBeCalledWith(event1);
+      expect(console.log).toBeCalledTimes(2);
+      expect(console.log).toHaveBeenNthCalledWith(1, event1);
+      expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
+        "callback.success"
+      );
+      expect((console.log as jest.Mock).mock.calls[1][0].detail).toBe("yes");
       expect(console.info).toBeCalledWith(event1);
       expect(console.warn).toBeCalledWith("specified args for console.warn");
-      expect(console.error).toBeCalledWith("specified args for console.error");
+      expect(console.error).toBeCalledTimes(2);
+      expect(console.error).toHaveBeenNthCalledWith(
+        1,
+        "specified args for console.error"
+      );
+      expect((console.error as jest.Mock).mock.calls[1][0].type).toBe(
+        "callback.error"
+      );
+      expect((console.error as jest.Mock).mock.calls[1][0].detail).toBe("oops");
       expect((targetElem as any).forGood).toBeCalledWith(event2);
       expect((targetElem as any).forGood).toBeCalledWith(
         "specified args for multiple"

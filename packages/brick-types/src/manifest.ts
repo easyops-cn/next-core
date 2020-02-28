@@ -273,11 +273,15 @@ export interface ExecuteCustomBrickEventHandler
   extends BaseCustomBrickEventHandler {
   method: string; // The element's method
   args?: any[]; // Defaults to the event itself
+  callback?: {
+    success?: BrickEventHandler | BrickEventHandler[];
+    error?: BrickEventHandler | BrickEventHandler[];
+  };
 }
 
-export interface SetPropsCustomBrickEventHandler<T = any>
+export interface SetPropsCustomBrickEventHandler
   extends BaseCustomBrickEventHandler {
-  properties: T; // Properties to set
+  properties: Record<string, any>; // Properties to set
   injectDeep?: boolean;
 }
 

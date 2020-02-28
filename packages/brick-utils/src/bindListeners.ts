@@ -1,4 +1,3 @@
-import { Location } from "history";
 import {
   BrickEventHandler,
   BrickEventsMap,
@@ -8,12 +7,9 @@ import {
   PluginRuntimeContext,
   ExecuteCustomBrickEventHandler,
   SetPropsCustomBrickEventHandler,
-  RuntimeBrickElement,
-  UpdateQueryFunction
+  RuntimeBrickElement
 } from "@easyops/brick-types";
 import { computeRealValue, setProperties } from "./setProperties";
-import { isNil, forEach } from "lodash";
-import { isObject } from "./isObject";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -128,7 +124,7 @@ export function listenerFactory(
   }
 
   if (isCustomHandler(handler)) {
-    return customListenerFactory(handler, context);
+    return customListenerFactory(handler, history, context);
   }
 }
 
@@ -160,6 +156,7 @@ function builtinWindowListenerFactory(
 
 function customListenerFactory(
   handler: CustomBrickEventHandler,
+  history: PluginHistory,
   context?: PluginRuntimeContext
 ): EventListener {
   return function(event: CustomEvent): void {
@@ -177,13 +174,40 @@ function customListenerFactory(
       targets.push(handler.target);
     }
     if (targets.length === 0) {
-      // eslint-disable-next-line no-console
-      console.error("target not found:", handler.target);
+      if (process.env.NODE_ENV !== "test") {
+        // eslint-disable-next-line no-console
+        console.error("target not found:", handler.target);
+      }
       return;
     }
     if (isExecuteCustomHandler(handler)) {
-      targets.forEach(target => {
-        target[handler.method]?.(...argsFactory(handler.args, context, event));
+      targets.forEach(async target => {
+        const task = target[handler.method]?.(
+          ...argsFactory(handler.args, context, event)
+        );
+        const { success, error } = handler.callback ?? {};
+        if (success || error) {
+          try {
+            const result = await task;
+            if (success) {
+              const successEvent = new CustomEvent("callback.success", {
+                detail: result
+              });
+              [].concat(success).forEach(eachSuccess => {
+                listenerFactory(eachSuccess, history, context)(successEvent);
+              });
+            }
+          } catch (err) {
+            if (error) {
+              const errorEvent = new CustomEvent("callback.error", {
+                detail: err
+              });
+              [].concat(error).forEach(eachError => {
+                listenerFactory(eachError, history, context)(errorEvent);
+              });
+            }
+          }
+        }
       });
     } else if (isSetPropsCustomHandler(handler)) {
       setProperties(

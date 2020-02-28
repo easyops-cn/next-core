@@ -5,15 +5,15 @@ interface ProviderElement<P extends any[], R> extends HTMLElement {
 
   updateArgs: (event: CustomEvent<Record<string, any>>) => void;
 
-  updateArgsAndExecute: (event: CustomEvent<Record<string, any>>) => void;
+  updateArgsAndExecute: (event: CustomEvent<Record<string, any>>) => R;
 
   setArgs: (patch: Record<string, any>) => void;
 
-  setArgsAndExecute: (patch: Record<string, any>) => void;
+  setArgsAndExecute: (patch: Record<string, any>) => R;
 
-  execute(): Promise<void>;
+  execute(): R;
 
-  executeWithArgs(...args: P): Promise<void>;
+  executeWithArgs(...args: P): R;
 
   resolve(...args: P): R;
 }
@@ -25,12 +25,20 @@ export function createProviderClass(
     args: Parameters<typeof api> = [] as any;
 
     updateArgs(event: CustomEvent<Record<string, any>>): void {
+      if (!(event instanceof CustomEvent)) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "`updateArgs/updateArgsAndExecute` is designed to receive an CustomEvent, if not, please use `setArgs/setArgsAndExecute` instead."
+        );
+      }
       this.setArgs(event.detail);
     }
 
-    updateArgsAndExecute(event: CustomEvent<Record<string, any>>): void {
+    updateArgsAndExecute(
+      event: CustomEvent<Record<string, any>>
+    ): ReturnType<typeof api> {
       this.updateArgs(event);
-      this.execute();
+      return this.execute();
     }
 
     setArgs(patch: Record<string, any>): void {
@@ -39,16 +47,18 @@ export function createProviderClass(
       }
     }
 
-    setArgsAndExecute(patch: Record<string, any>): void {
+    setArgsAndExecute(patch: Record<string, any>): ReturnType<typeof api> {
       this.setArgs(patch);
-      this.execute();
+      return this.execute();
     }
 
-    execute(): Promise<void> {
+    execute(): ReturnType<typeof api> {
       return this.executeWithArgs(...this.args);
     }
 
-    async executeWithArgs(...args: Parameters<typeof api>): Promise<void> {
+    async executeWithArgs(
+      ...args: Parameters<typeof api>
+    ): ReturnType<typeof api> {
       try {
         const result = await api(...args);
         this.dispatchEvent(
@@ -56,12 +66,14 @@ export function createProviderClass(
             detail: result
           })
         );
+        return result;
       } catch (error) {
         this.dispatchEvent(
           new CustomEvent("response.error", {
             detail: error
           })
         );
+        return Promise.reject(error);
       }
     }
 
