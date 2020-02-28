@@ -98,6 +98,10 @@ describe("bindListeners", () => {
             action: "history.reload"
           },
           {
+            action: "legacy.go",
+            args: ["www.google.com"]
+          },
+          {
             action: "window.open",
             args: ["www.google.com"]
           },
@@ -174,6 +178,7 @@ describe("bindListeners", () => {
       const location = window.location;
       delete window.location;
       window.location = ({
+        origin: "http://www.google.com",
         reload: jest.fn(),
         assign: jest.fn()
       } as unknown) as Location;
@@ -183,6 +188,15 @@ describe("bindListeners", () => {
       jest.spyOn(console, "warn");
       jest.spyOn(console, "error");
       window.open = jest.fn();
+
+      const legacyIframeMountPoint = document.createElement("div");
+      legacyIframeMountPoint.id = "legacy-iframe-mount-point";
+      document.body.appendChild(legacyIframeMountPoint);
+      const iframeElement = document.createElement("iframe");
+      legacyIframeMountPoint.appendChild(iframeElement);
+      (iframeElement.contentWindow as any).angular = {};
+
+      iframeElement.contentWindow.postMessage = jest.fn();
 
       bindListeners(sourceElem, eventsMap, history);
 
@@ -198,6 +212,14 @@ describe("bindListeners", () => {
 
       await jest.runAllTimers();
       await (global as any).flushPromises();
+
+      expect(iframeElement.contentWindow.postMessage).toBeCalledWith(
+        {
+          type: "location.url",
+          url: "www.google.com"
+        },
+        "http://www.google.com"
+      );
 
       expect(history.push).toBeCalledWith("for-good");
       expect(history.pushQuery).toBeCalledWith(
