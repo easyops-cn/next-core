@@ -53,13 +53,19 @@ describe("transformProperties", () => {
         },
         transform: {
           label: "hello",
-          required: true,
+          "outer.spread": {
+            "inner.not.spread": true
+          },
           value: "@{}"
         }
       },
       {
         label: "hello",
-        required: true,
+        outer: {
+          spread: {
+            "inner.not.spread": true
+          }
+        },
         value: {
           name: "eve"
         }
@@ -235,20 +241,13 @@ describe("doTransform", () => {
     hello: "good"
   };
 
-  it.each<
-    [
-      Parameters<typeof doTransform>[1],
-      Parameters<typeof doTransform>[2],
-      ReturnType<typeof doTransform>
-    ]
-  >([
+  it.each<[Parameters<typeof doTransform>[1], ReturnType<typeof doTransform>]>([
     [
       {
         "button.click": {
           args: ["@{hello}"]
         }
       },
-      undefined,
       {
         "button.click": {
           args: ["good"]
@@ -259,7 +258,6 @@ describe("doTransform", () => {
       {
         value: "@{notExisted}"
       },
-      undefined,
       {
         value: undefined
       }
@@ -268,15 +266,11 @@ describe("doTransform", () => {
       {
         value: "id=@{notExisted}"
       },
-      undefined,
       {
         value: "id="
       }
     ]
-  ])(
-    'doTransform({hello:"good"}, %j, %j) should return %j',
-    (to, from, result) => {
-      expect(doTransform(data, to, from)).toEqual(result);
-    }
-  );
+  ])('doTransform({hello:"good"}, %j, %j) should return %j', (to, result) => {
+    expect(doTransform(data, to)).toEqual(result);
+  });
 });
