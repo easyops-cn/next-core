@@ -25,6 +25,12 @@ export function createProviderClass(
     args: Parameters<typeof api> = [] as any;
 
     updateArgs(event: CustomEvent<Record<string, any>>): void {
+      if (!(event instanceof CustomEvent)) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "`updateArgs/updateArgsAndExecute` is designed to receive an CustomEvent, if not, please use `setArgs/setArgsAndExecute` instead."
+        );
+      }
       this.setArgs(event.detail);
     }
 
