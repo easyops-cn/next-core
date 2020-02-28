@@ -2,6 +2,11 @@ import { processPipes } from "./processPipes";
 import { PipeCall } from "../interfaces";
 
 describe("processPipes", () => {
+  beforeAll(() => {
+    jest.spyOn(console, "error").mockImplementation(() => null);
+    jest.spyOn(console, "warn").mockImplementation(() => null);
+  });
+
   const circularValue: any = {};
   circularValue.self = circularValue;
   const cases: [any, string, any][] = [
@@ -86,4 +91,47 @@ describe("processPipes", () => {
       ])
     ).toEqual(res);
   });
+
+  const casesWithSingleParameter: [any, string, any][] = [
+    [{ name: "foo" }, "|get:name", "foo"],
+    ["bar", "|equal:bar", true],
+    ["hello, world", "|split:, ", ["hello", "world"]],
+    [null, "|split:, ", []],
+    [[1, 2, 3], "|join:;", "1;2;3"],
+    [[1, 2, 3], "|includes:0", false],
+    [["foo", "bar"], "|includes:foo", true],
+    [1582877669000, "|datetime:YYYY-MM-DD", "2020-02-28"],
+    ["2020/02/28 17:14", "|datetime:YYYY-MM-DD", "2020-02-28"],
+    [24, "|add:0", "240"],
+    [24, "|subtract:1", 23],
+    [24, "|multiply:1.5", 36],
+    [24, "|divide:0", Infinity],
+    [24, "|divide:3", 8],
+    [
+      ["one", "two", "three"],
+      "|groupBy:length",
+      { 3: ["one", "two"], 5: ["three"] }
+    ],
+    [
+      [{ objectId: "HOST" }, { objectId: "APP" }],
+      "|keyBy:objectId",
+      { HOST: { objectId: "HOST" }, APP: { objectId: "APP" } }
+    ]
+  ];
+  it.each(casesWithSingleParameter)(
+    "process %j with pipes %j should return %j",
+    (value, rawPipes, result) => {
+      // Compile the pipes first, in a hacking way.
+      const [identifier, parameter] = rawPipes.substr(1).split(":", 2);
+      const parameters: (number | string)[] = [parameter];
+      const pipeCalls: PipeCall[] = [
+        {
+          type: "PipeCall",
+          identifier,
+          parameters
+        }
+      ];
+      expect(processPipes(value, pipeCalls)).toEqual(result);
+    }
+  );
 });
