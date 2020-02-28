@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.26.0...@easyops/brick-utils@1.26.1) (2020-02-28)
+
+### Bug Fixes
+
+- transform only spread the first level keys ([75ee477](https://git.easyops.local/anyclouds/next-core/commits/75ee477))
+
 # [1.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.25.0...@easyops/brick-utils@1.26.0) (2020-02-28)
 
 ### Bug Fixes
