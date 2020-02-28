@@ -3,13 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.15.18...@easyops/brick-container@1.15.19) (2020-02-28)
+
+### Bug Fixes
+
+- fix auto-remote not working ([5151ffc](https://git.easyops.local/anyclouds/next-core/commits/5151ffc))
+- nodemodule micro-apps is SymbolicLink refs MONITOR-201 ([592127a](https://git.easyops.local/anyclouds/next-core/commits/592127a))
+
 ## [1.15.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.15.17...@easyops/brick-container@1.15.18) (2020-02-27)
 
 **Note:** Version bump only for package @easyops/brick-container
-
-
-
-
 
 ## [1.15.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.15.16...@easyops/brick-container@1.15.17) (2020-02-27)
 
