@@ -58,7 +58,7 @@ function getNamesOfBrickPackages(env) {
   }
   return fs
     .readdirSync(env.brickPackagesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
+    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
     .map(dirent => dirent.name);
 }
 
@@ -96,7 +96,7 @@ function getNamesOfTemplatePackages(env) {
   }
   return fs
     .readdirSync(env.templatePackagesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
+    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
     .map(dirent => dirent.name);
 }
 

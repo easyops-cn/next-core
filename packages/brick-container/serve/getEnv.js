@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const meow = require("meow");
+const chalk = require("chalk");
 const {
   getNamesOfMicroApps,
   getNamesOfBrickPackages,
@@ -192,6 +193,31 @@ module.exports = cwd => {
   if (env.verbose) {
     console.log("Configure:", env);
   }
+
+  if (env.localMicroApps.length > 0) {
+    console.log();
+    console.log("local micro-apps:", env.localMicroApps);
+  }
+
+  if (env.localBrickPackages.length > 0) {
+    console.log();
+    console.log("local bricks:", env.localBrickPackages);
+  }
+
+  if (env.localTemplates.length > 0) {
+    console.log();
+    console.log("local templates:", env.localTemplates);
+  }
+
+  console.log();
+  console.log(
+    chalk.bold.cyan("mode:"),
+    env.useAutoRemote
+      ? chalk.bgYellow("auto-remote")
+      : env.useRemote
+      ? chalk.bgCyan("remote")
+      : chalk.bgWhite("local")
+  );
 
   return env;
 };
