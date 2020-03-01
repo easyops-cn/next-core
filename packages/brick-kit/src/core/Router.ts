@@ -40,15 +40,20 @@ export class Router {
     history.listen(async (location: PluginLocation, action: Action) => {
       let ignoreRendering = false;
       const omittedLocationProps: Partial<PluginLocation> = {
-        hash: null
+        hash: null,
+        state: null
       };
       // Omit the "key" when checking whether locations are equal in certain situations.
       if (
         // When current location is triggered by browser action of hash link.
         location.key === undefined ||
-        // When current location is triggered by browser action of go-back or go-forward,
-        // and the previous location is triggered by hash link.
-        (action === "POP" && this.prevLocation.key === undefined)
+        // When current location is triggered by browser action of non-push-or-replace,
+        // such as goBack or goForward,
+        (action === "POP" &&
+          // and the previous location was triggered by hash link,
+          (this.prevLocation.key === undefined ||
+            // or the previous location specified notify false.
+            this.prevLocation.state?.notify === false))
       ) {
         omittedLocationProps.key = null;
       }
@@ -59,7 +64,7 @@ export class Router {
         ) ||
         (action !== "POP" && location.state?.notify === false)
       ) {
-        // Ignore rendering if location not changed except hash and key.
+        // Ignore rendering if location not changed except hash, state and optional key.
         // Ignore rendering if notify is `false`.
         ignoreRendering = true;
       }

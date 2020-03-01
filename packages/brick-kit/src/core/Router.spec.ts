@@ -30,7 +30,12 @@ const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Moc
 let historyListeners: Function[] = [];
 const mockHistoryPush = (location: any): void => {
   historyListeners.forEach(fn => {
-    fn(location);
+    fn(location, "PUSH");
+  });
+};
+const mockHistoryPop = (location: any): void => {
+  historyListeners.forEach(fn => {
+    fn(location, "POP");
   });
 };
 const spyOnHistoryListen = jest.fn((fn: Function) => {
@@ -228,13 +233,16 @@ describe("Router", () => {
     expect(spyOnMountTree).toBeCalledTimes(1);
   });
 
-  it("should ignore rendering if location not changed except hash and key", async () => {
+  it("should ignore rendering if location not changed except hash, state and key", async () => {
     await router.bootstrap();
     jest.clearAllMocks();
     mockHistoryPush({
       pathname: "/first",
       search: "?ok=1",
-      key: "123"
+      key: "123",
+      state: {
+        from: "earth"
+      }
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
@@ -245,6 +253,30 @@ describe("Router", () => {
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
+  });
+
+  it("should ignore rendering if in situation of goBack after pushAnchor", async () => {
+    await router.bootstrap();
+    jest.clearAllMocks();
+    mockHistoryPush({
+      pathname: "/first",
+      search: "?ok=1",
+      key: "123",
+      hash: "#yes",
+      state: {
+        notify: false
+      }
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(0);
+    mockHistoryPop({
+      pathname: "/first",
+      search: "?ok=1",
+      hash: null,
+      key: "456"
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(0);
   });
 
   it("should render in queue", async () => {

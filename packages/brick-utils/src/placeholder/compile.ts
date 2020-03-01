@@ -63,7 +63,7 @@ function injectNodeFactory(
       return node.value;
     }
     const matches = node.field.match(
-      /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|SYS|FLAGS)\.)?(.+)$/
+      /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|ANCHOR|SYS|FLAGS)\.)?(.+)$/
     );
     if (!matches) {
       // Keep the original raw partial when meet a unknown namespace.
