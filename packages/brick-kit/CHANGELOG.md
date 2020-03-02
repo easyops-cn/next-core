@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.6...@easyops/brick-kit@1.28.0) (2020-03-02)
+
+### Features
+
+- support `if` in `useBrick` ([1c7e8c4](https://git.easyops.local/anyclouds/next-core/commits/1c7e8c4))
+
 ## [1.27.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.5...@easyops/brick-kit@1.27.6) (2020-03-02)
 
 ### Bug Fixes

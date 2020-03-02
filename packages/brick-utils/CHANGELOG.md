@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.28.0...@easyops/brick-utils@1.29.0) (2020-03-02)
+
+### Features
+
+- **placeholder:** add `yaml` and `yamlStringify` pipe, refs BRICK_STORE-1167 ([a261bfd](https://git.easyops.local/anyclouds/next-core/commits/a261bfd))
+
 # [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.27.0...@easyops/brick-utils@1.28.0) (2020-03-02)
 
 ### Bug Fixes
