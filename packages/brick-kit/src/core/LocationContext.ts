@@ -341,16 +341,20 @@ export class LocationContext {
     rawIf: string | ResolveConf,
     context: PluginRuntimeContext
   ): Promise<boolean> {
-    if (rawIf) {
+    if (
+      isObject(rawIf) ||
+      typeof rawIf === "boolean" ||
+      typeof rawIf === "string"
+    ) {
       const ifChecked = computeRealValue(rawIf, context, true);
 
       if (isObject(ifChecked)) {
         const ifConf: IfConf = {};
         await this.resolver.resolveOne("reference", ifChecked, ifConf);
-        if (!ifConf.if) {
+        if (ifConf.if === false) {
           return false;
         }
-      } else if (!ifChecked) {
+      } else if (ifChecked === false) {
         return false;
       }
     }
@@ -376,7 +380,7 @@ export class LocationContext {
       await this.resolver.resolve(brickConf, null, context);
     }
 
-    // Check again for dynamic loaded templates.
+    // Check `if` again for dynamic loaded templates.
     if (!(await this.checkIf(brickConf.if, context))) {
       return;
     }

@@ -59,7 +59,7 @@ describe("BrickAsComponent", () => {
     });
   });
 
-  it("should work for multiple bricks of templates", async () => {
+  it("should work for multiple bricks or templates", async () => {
     const wrapper = mount(
       <BrickAsComponent
         useBrick={[
@@ -82,6 +82,37 @@ describe("BrickAsComponent", () => {
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.title).toBe("better");
     expect(wrapper.find("brick-from-template-a").length).toBe(1);
+  });
+
+  it("should work for `if`", async () => {
+    const wrapper = mount(
+      <BrickAsComponent
+        useBrick={[
+          {
+            brick: "div",
+            if: "@{disabled}",
+            transform: "title",
+            transformFrom: "tips"
+          },
+          {
+            brick: "span",
+            if: "@{enabled}",
+            transform: "title",
+            transformFrom: "tips"
+          }
+        ]}
+        data={{
+          tips: "better",
+          enabled: true,
+          disabled: false
+        }}
+      />
+    );
+
+    await (global as any).flushPromises();
+    const span = wrapper.find("span").getDOMNode() as HTMLDivElement;
+    expect(span.title).toBe("better");
+    expect(wrapper.find("div").length).toBe(0);
   });
 
   it("should resolve", async () => {

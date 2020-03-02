@@ -323,4 +323,5 @@ export interface UseSingleBrickConf {
   transform?: GeneralTransform;
   template?: string;
   params?: any[];
+  if?: string | ResolveConf;
 }
