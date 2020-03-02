@@ -134,4 +134,27 @@ describe("processPipes", () => {
       expect(processPipes(value, pipeCalls)).toEqual(result);
     }
   );
+
+  const yamlCases: [any, string, any][] = [
+    [1, "yaml", 1],
+    ["age: 17", "yaml", { age: 17 }],
+    ["r: 3: * 8", "yaml", undefined],
+    ["3", "yamlStringify", "'3'\n"],
+    [{ name: "foo" }, "yamlStringify", "name: foo\n"],
+    [/re/, "yamlStringify", ""]
+  ];
+  it.each(yamlCases)(
+    "process %j with pipe %j should return %j",
+    (value, pipe, result) => {
+      expect(
+        processPipes(value, [
+          {
+            type: "PipeCall",
+            identifier: pipe,
+            parameters: []
+          }
+        ])
+      ).toEqual(result);
+    }
+  );
 });

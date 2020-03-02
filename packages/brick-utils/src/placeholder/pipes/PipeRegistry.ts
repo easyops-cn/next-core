@@ -9,6 +9,7 @@ import {
   isEqual
 } from "lodash";
 import moment from "moment";
+import yaml from "js-yaml";
 
 export const PipeRegistry = new Map<string, Function>();
 
@@ -33,6 +34,8 @@ PipeRegistry.set("multiply", pipeMultiply);
 PipeRegistry.set("divide", pipeDivide);
 PipeRegistry.set("groupBy", pipeGroupBy);
 PipeRegistry.set("keyBy", pipeKeyBy);
+PipeRegistry.set("yaml", pipeYaml);
+PipeRegistry.set("yamlStringify", pipeYamlStringify);
 
 function pipeMap(value: any[], key: string): any[] {
   return value.map(item => {
@@ -150,4 +153,31 @@ function pipeGroupBy(value: any[], field: string): any {
 
 function pipeKeyBy(value: any[], field: string): any {
   return keyBy(value, field);
+}
+
+function pipeYaml(value: any): any {
+  let result;
+  try {
+    result = yaml.safeLoad(value, { schema: yaml.JSON_SCHEMA, json: true });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+  }
+  return result;
+}
+
+function pipeYamlStringify(value: any): string {
+  let result;
+  try {
+    result = yaml.safeDump(value, {
+      schema: yaml.JSON_SCHEMA,
+      skipInvalid: true,
+      noRefs: true,
+      noCompatMode: true
+    });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+  }
+  return result;
 }
