@@ -5,7 +5,8 @@ import {
   transformProperties,
   doTransform,
   setRealProperties,
-  unbindListeners
+  unbindListeners,
+  isObject
 } from "@easyops/brick-utils";
 import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
 import { getHistory } from "./history";
@@ -108,6 +109,19 @@ function SingleBrickAsComponent(
     },
     [runtimeBrick, useBrick, data]
   );
+
+  if (isObject(useBrick.if)) {
+    // eslint-disable-next-line
+    console.warn("Currently don't support resolvable-if in `useBrick`");
+  } else if (
+    typeof useBrick.if === "boolean" ||
+    typeof useBrick.if === "string"
+  ) {
+    const ifChecked = doTransform(data, useBrick.if);
+    if (ifChecked === false) {
+      return null;
+    }
+  }
 
   return React.createElement(useBrick.brick, {
     ref: refCallback
