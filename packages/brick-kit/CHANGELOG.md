@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.27.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.5...@easyops/brick-kit@1.27.6) (2020-03-02)
+
+### Bug Fixes
+
+- goBack after pushAnchor should not trigger re-rendering ([2cb442c](https://git.easyops.local/anyclouds/next-core/commits/2cb442c))
+
 ## [1.27.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.4...@easyops/brick-kit@1.27.5) (2020-02-28)
 
 **Note:** Version bump only for package @easyops/brick-kit

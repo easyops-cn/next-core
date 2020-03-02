@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.27.0...@easyops/brick-utils@1.28.0) (2020-03-02)
+
+### Bug Fixes
+
+- support `${ANCHOR.x}` ([4498402](https://git.easyops.local/anyclouds/next-core/commits/4498402))
+
+### Features
+
+- **placeholder:** support more pipes, like `get`, `join`, +/-/\*/÷ and others ([5dfc007](https://git.easyops.local/anyclouds/next-core/commits/5dfc007))
+
 # [1.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.26.1...@easyops/brick-utils@1.27.0) (2020-02-28)
 
 ### Features
