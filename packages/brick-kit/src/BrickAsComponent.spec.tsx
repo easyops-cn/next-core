@@ -1,11 +1,11 @@
 import React from "react";
 import { mount } from "enzyme";
-import * as utils from "@easyops/brick-utils";
+import * as listenerUtils from "./bindListeners";
 import { BrickConf } from "@easyops/brick-types";
 import { BrickAsComponent } from "./BrickAsComponent";
 import * as runtime from "./runtime";
 
-const bindListeners = jest.spyOn(utils, "bindListeners");
+const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn((_brickConf: BrickConf, brick: any) => {
   brick.properties.title = "resolved";
 });

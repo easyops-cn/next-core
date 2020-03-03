@@ -1,9 +1,10 @@
 import { mountTree, mountStaticNode, MountableElement } from "./reconciler";
 import { RuntimeBrick } from "./BrickNode";
-import { setRealProperties } from "@easyops/brick-utils";
+import { setRealProperties } from "../setProperties";
 
 jest.mock("./BrickNode");
 jest.mock("@easyops/brick-utils");
+jest.mock("../setProperties");
 
 describe("reconciler", () => {
   it("should mount tree", () => {

@@ -9,7 +9,6 @@ import {
   ResolveConf
 } from "@easyops/brick-types";
 import {
-  computeRealValue,
   asyncProcessBrick,
   scanBricksInBrickConf,
   getDllAndDepsOfBricks,
@@ -17,6 +16,7 @@ import {
   transformProperties,
   transformIntermediateData
 } from "@easyops/brick-utils";
+import { computeRealValue } from "../setProperties";
 import { Kernel, RuntimeBrick } from "./exports";
 import {
   makeProviderRefreshable,

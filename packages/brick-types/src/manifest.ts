@@ -262,6 +262,15 @@ export interface BuiltinBrickEventHandler {
     | "console.warn"
     | "console.info"
 
+    // anted message
+    | "message.success"
+    | "message.error"
+    | "message.info"
+    | "message.warn"
+
+    // handleHttpError
+    | "handleHttpError"
+
     // iframe
     | "legacy.go";
   args?: any[]; // Defaults to the event itself

@@ -20,12 +20,11 @@ import {
 } from "@easyops/brick-types";
 import {
   isObject,
-  computeRealProperties,
   matchPath,
-  computeRealRoutePath,
-  listenerFactory,
-  computeRealValue
+  computeRealRoutePath
 } from "@easyops/brick-utils";
+import { listenerFactory } from "../bindListeners";
+import { computeRealProperties, computeRealValue } from "../setProperties";
 import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
 import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";

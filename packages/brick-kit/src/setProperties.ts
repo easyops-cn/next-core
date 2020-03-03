@@ -1,10 +1,5 @@
-/**
- * 本页相关逻辑已迁移至 brick-kit src/setProperties 文件中
- */
-
 import { PluginRuntimeContext } from "@easyops/brick-types";
-import { isObject } from "./isObject";
-import { inject } from "./placeholder";
+import { isObject, inject } from "@easyops/brick-utils";
 
 export const computeRealValue = (
   value: any,
@@ -40,9 +35,6 @@ export function setProperties(
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): void {
-  // eslint-disable-next-line no-console
-  console.warn("`setProperties` function is deprecated");
-
   const realProps = computeRealProperties(properties, context, injectDeep);
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
@@ -56,9 +48,6 @@ export function setRealProperties(
   brick: HTMLElement,
   realProps: Record<string, any>
 ): void {
-  // eslint-disable-next-line no-console
-  console.warn("`setRealProperties` function is deprecated ");
-
   for (const [propName, propValue] of Object.entries(realProps)) {
     if (propName === "style") {
       for (const [styleName, styleValue] of Object.entries(propValue)) {
@@ -75,9 +64,6 @@ export function computeRealProperties(
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): any {
-  // eslint-disable-next-line no-console
-  console.warn("`computeRealProperties` function is deprecated");
-
   const result: Record<string, any> = {};
 
   if (isObject(properties)) {

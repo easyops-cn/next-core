@@ -1,4 +1,5 @@
-import { setRealProperties, bindListeners } from "@easyops/brick-utils";
+import { bindListeners } from "../bindListeners";
+import { setRealProperties } from "../setProperties";
 import { PluginRuntimeContext, BrickLifeCycle } from "@easyops/brick-types";
 import { getHistory } from "../history";
 
