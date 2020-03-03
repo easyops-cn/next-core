@@ -12,7 +12,7 @@ type FileWithContent = [string, string];
 export function loadTemplate(
   repoName: string,
   targetDir: string,
-  flags: { internal: boolean }
+  flags: { internal?: boolean }
 ): FileWithContent[] {
   const packageJson = getPackageJson();
   const templateDir = path.join(__dirname, "../../template");

@@ -4,15 +4,18 @@ import path from "path";
 import fs from "fs-extra";
 import chalk from "chalk";
 import { loadTemplate } from "./loaders/loadTemplate";
+import { scriptYarnInstall } from "./scripts";
 
-export function create(
+export async function create(
   repoName: string,
   targetDir: string,
-  flags: { internal: boolean }
-): void {
+  flags: { internal?: boolean; install?: boolean }
+): Promise<void> {
   if (fs.existsSync(targetDir)) {
     throw new Error(`Target directory exists: ${targetDir}`);
   }
+
+  console.log(chalk.inverse("[create-next-repo]"));
 
   const cwd = process.cwd();
   const files = loadTemplate(repoName, targetDir, flags);
@@ -22,5 +25,9 @@ export function create(
     console.log(
       `${chalk.bold("File created")}: ./${path.relative(cwd, filePath)}`
     );
+  }
+
+  if (flags.install) {
+    await scriptYarnInstall(targetDir);
   }
 }
