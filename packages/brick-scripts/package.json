@@ -27,6 +27,7 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "change-case": "^4.1.1",
+    "execa": "^4.0.0",
     "fs-extra": "^8.1.0",
     "inquirer": "^7.0.4",
     "klaw-sync": "^6.0.0",

@@ -10,6 +10,7 @@ import { loadTemplate } from "./loaders/loadTemplate";
 import { TargetType, AskFlags } from "./interface";
 import { targetMap } from "./constant";
 import * as changeCase from "change-case";
+import { scriptYarnInstall } from "./scripts";
 
 export async function create(flags: AskFlags): Promise<void> {
   const appRoot = path.join(process.cwd());
@@ -177,6 +178,20 @@ export default storyboard;`,
         srcIndexTs
       )}`
     );
+  }
+
+  if (
+    [
+      TargetType.A_NEW_PACKAGE_OF_BRICKS,
+      TargetType.A_NEW_PACKAGE_OF_LIBS,
+      TargetType.A_NEW_PACKAGE_OF_MICRO_APPS,
+      TargetType.A_NEW_PACKAGE_OF_PROVIDERS,
+      TargetType.A_NEW_PACKAGE_OF_TEMPLATES,
+      TargetType.TRANSFORM_A_MICRO_APP
+    ].includes(targetType)
+  ) {
+    // Run `yarn` after created a new package.
+    await scriptYarnInstall(appRoot);
   }
 
   console.log();

@@ -12,7 +12,12 @@ const { input, flags } = meow({
       type: "boolean"
     },
     update: {
-      type: "boolean"
+      type: "boolean",
+      alias: "u"
+    },
+    install: {
+      type: "boolean",
+      default: true
     }
   }
 });
@@ -32,15 +37,11 @@ export async function main(): Promise<void> {
   const targetDir = path.join(cwd, repoName);
 
   if (flags.update) {
-    update(repoName, targetDir);
+    await update(repoName, targetDir, flags);
   } else {
-    create(repoName, targetDir, flags);
+    await create(repoName, targetDir, flags);
   }
 
   console.log();
-  console.log(
-    chalk.green(
-      "No worries! Please remember to go to your repo dir and run `yarn`."
-    )
-  );
+  console.log(chalk.green("No worries!"));
 }

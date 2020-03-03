@@ -11,10 +11,15 @@ import {
   replaceFileContent,
   devDependenciesCopyMap
 } from "./utils";
+import { scriptYarnInstall, scriptYarnSyncDll } from "./scripts";
 
 const caretRangesRegExp = /^\^\d+\.\d+\.\d+$/;
 
-export function update(repoName: string, targetDir: string): void {
+export async function update(
+  repoName: string,
+  targetDir: string,
+  flags: { install?: boolean }
+): Promise<void> {
   if (!fs.existsSync(targetDir)) {
     throw new Error(`Target directory not exists: ${targetDir}`);
   }
@@ -44,6 +49,8 @@ export function update(repoName: string, targetDir: string): void {
     return;
   }
 
+  console.log(chalk.inverse("[create-next-repo]"));
+
   if (semver.lt(targetCurrentGeneratorVersion, "0.5.0")) {
     addFeatureSyncDll();
     newFilesFromTemplates.push("scripts/sync-dll.js");
@@ -60,6 +67,13 @@ export function update(repoName: string, targetDir: string): void {
   syncPackageJson();
   syncFiles(newFilesFromTemplates, "new");
   syncFiles(overwriteFilesFromTemplates, "overwrite");
+
+  if (flags.install) {
+    await scriptYarnInstall(targetDir);
+    await scriptYarnSyncDll(targetDir);
+    // Run `yarn` again since dll maybe updated.
+    await scriptYarnInstall(targetDir);
+  }
 
   function addFeatureSyncDll(): void {
     targetPackageJson.scripts["sync-dll"] = "node scripts/sync-dll.js";
