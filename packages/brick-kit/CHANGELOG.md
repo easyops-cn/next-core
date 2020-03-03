@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.28.0...@easyops/brick-kit@1.29.0) (2020-03-03)
+
+### Features
+
+- 迁移内置事件相关逻辑到 bric-kit，并新增 message 和 handleHttpError ,handleHttpError action ([6bf4baa](https://git.easyops.local/anyclouds/next-core/commits/6bf4baa))
+
 # [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.6...@easyops/brick-kit@1.28.0) (2020-03-02)
 
 ### Features

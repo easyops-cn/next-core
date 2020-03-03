@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.26.0...@easyops/brick-types@1.27.0) (2020-03-03)
+
+### Bug Fixes
+
+- fix types of state.from ([788f25e](https://git.easyops.local/anyclouds/next-core/commits/788f25e))
+
+### Features
+
+- 迁移内置事件相关逻辑到 bric-kit，并新增 message 和 handleHttpError ,handleHttpError action ([6bf4baa](https://git.easyops.local/anyclouds/next-core/commits/6bf4baa))
+
 # [1.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.25.0...@easyops/brick-types@1.26.0) (2020-03-02)
 
 ### Features

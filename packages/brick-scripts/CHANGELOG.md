@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.5...@easyops/brick-scripts@1.7.0) (2020-03-03)
+
+### Features
+
+- run `yarn` and other scripts when creating packages ([d06771a](https://git.easyops.local/anyclouds/next-core/commits/d06771a))
+
 ## [1.6.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.4...@easyops/brick-scripts@1.6.5) (2020-02-17)
 
 ### Bug Fixes
