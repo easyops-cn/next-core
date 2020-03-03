@@ -1,13 +1,12 @@
 import React from "react";
 import { cloneDeep } from "lodash";
 import {
-  bindListeners,
   transformProperties,
   doTransform,
-  setRealProperties,
-  unbindListeners,
   isObject
 } from "@easyops/brick-utils";
+import { bindListeners, unbindListeners } from "./bindListeners";
+import { setRealProperties } from "./setProperties";
 import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
 import { getHistory } from "./history";
 import { RuntimeBrick } from "./core/exports";

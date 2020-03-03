@@ -1,9 +1,9 @@
 import { get } from "lodash";
 import {
   transformProperties,
-  transformIntermediateData,
-  computeRealValue
+  transformIntermediateData
 } from "@easyops/brick-utils";
+import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { GeneralTransform } from "@easyops/brick-types";

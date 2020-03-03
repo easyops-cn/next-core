@@ -1,7 +1,3 @@
-/**
- * 本页相关逻辑已迁移至 brick-kit src/bindListeners 文件中
- */
-
 import {
   BrickEventHandler,
   BrickEventsMap,
@@ -13,6 +9,8 @@ import {
   SetPropsCustomBrickEventHandler,
   RuntimeBrickElement
 } from "@easyops/brick-types";
+import { message } from "antd";
+import { handleHttpError } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
 
 export function bindListeners(
@@ -21,9 +19,6 @@ export function bindListeners(
   history: PluginHistory,
   context?: PluginRuntimeContext
 ): void {
-  // eslint-disable-next-line no-console
-  console.warn("`bindListeners` function is deprecated");
-
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
       const listener = listenerFactory(handler, history, context);
@@ -34,8 +29,6 @@ export function bindListeners(
 }
 
 export function unbindListeners(brick: HTMLElement): void {
-  // eslint-disable-next-line no-console
-  console.warn("`unbindListeners` function is deprecated");
   if ((brick as RuntimeBrickElement).$$eventListeners) {
     for (const [eventType, listener] of (brick as RuntimeBrickElement)
       .$$eventListeners) {
@@ -123,6 +116,15 @@ export function listenerFactory(
       case "console.warn":
       case "console.info":
         return builtinConsoleListenerFactory(method, handler.args, context);
+      case "message.success":
+      case "message.error":
+      case "message.info":
+      case "message.warn":
+        return builtinMessageListenerFactory(method, handler.args, context);
+      case "handleHttpError":
+        return (event: any) => {
+          handleHttpError(event.detail);
+        };
       default:
         return () => {
           /*global process*/
@@ -294,6 +296,16 @@ function builtinConsoleListenerFactory(
   return function(event: CustomEvent): void {
     // eslint-disable-next-line no-console
     console[method](...argsFactory(args, context, event));
+  } as EventListener;
+}
+
+function builtinMessageListenerFactory(
+  method: "success" | "error" | "info" | "warn",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent) {
+    (message[method] as any)(...argsFactory(args, context, event));
   } as EventListener;
 }
 

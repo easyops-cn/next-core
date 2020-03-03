@@ -1,7 +1,7 @@
-import { bindListeners } from "@easyops/brick-utils";
+import { bindListeners } from "../bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
 
-jest.mock("@easyops/brick-utils");
+jest.mock("../bindListeners");
 const spyOnBindListeners = bindListeners as jest.Mock;
 
 (global as any).customElements = {
