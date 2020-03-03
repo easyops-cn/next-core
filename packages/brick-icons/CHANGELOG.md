@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.14.3...@easyops/brick-icons@1.15.0) (2020-03-03)
+
+
+### Features
+
+* **container:** add app-router and deploy-shortcut icon. Refs CONTAINER-891 ([5a7e17a](https://git.easyops.local/anyclouds/next-core/commits/5a7e17acb6cd52afb558ab43cd579bb7ba475ce4))
+
+
+
+
+
 ## [1.14.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.14.2...@easyops/brick-icons@1.14.3) (2020-03-03)
 
 **Note:** Version bump only for package @easyops/brick-icons
