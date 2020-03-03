@@ -67,7 +67,7 @@ export type UpdateAnchorFunction = (
 
 export interface PluginHistoryState {
   notify?: boolean;
-  from?: LocationDescriptor;
+  from?: LocationDescriptor<PluginHistoryState>;
 }
 
 export interface PluginRuntimeContext {
