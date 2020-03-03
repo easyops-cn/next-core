@@ -84,7 +84,7 @@ module.exports = cwd => {
   const useRemote = flags.remote || process.env.REMOTE === "true";
   const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
   const publicPath = useSubdir ? "/next/" : "/";
-  let server = process.env.SERVER || flags.server;
+  let server = flags.server || process.env.SERVER;
   if (server) {
     if (/^\d+$/.test(server)) {
       server = `http://192.168.100.${server}`;
