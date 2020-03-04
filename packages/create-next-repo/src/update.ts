@@ -11,7 +11,7 @@ import {
   replaceFileContent,
   devDependenciesCopyMap
 } from "./utils";
-import { scriptYarnInstall, scriptYarnSyncDll } from "./scripts";
+import { scriptYarnInstall, scriptYarnAddDependencies } from "./scripts";
 
 const caretRangesRegExp = /^\^\d+\.\d+\.\d+$/;
 
@@ -27,14 +27,23 @@ export async function update(
   const cwd = process.cwd();
   const packageJson = getPackageJson();
   const targetPackageJsonPath = path.join(targetDir, "package.json");
-  const targetPackageJson = JSON.parse(
+  let targetPackageJson = JSON.parse(
     fs.readFileSync(targetPackageJsonPath, "utf8")
   );
   const targetCurrentGeneratorVersion =
     targetPackageJson.easyops?.["create-next-repo"] ?? "0.4.10";
   const newFilesFromTemplates: string[] = [];
   const overwriteFilesFromTemplates: string[] = [];
+  const filesToRemove: string[] = [];
   const templateDir = path.join(__dirname, "../template");
+
+  if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
+    await scriptYarnAddDependencies(targetDir);
+  }
+
+  targetPackageJson = JSON.parse(
+    fs.readFileSync(targetPackageJsonPath, "utf8")
+  );
 
   const translations: Record<string, string> = {
     "$kebab-repo-name$": repoName,
@@ -50,11 +59,6 @@ export async function update(
   }
 
   console.log(chalk.inverse("[create-next-repo]"));
-
-  if (semver.lt(targetCurrentGeneratorVersion, "0.5.0")) {
-    addFeatureSyncDll();
-    newFilesFromTemplates.push("scripts/sync-dll.js");
-  }
 
   if (semver.lt(targetCurrentGeneratorVersion, "0.6.0")) {
     const readmePath = path.join(targetDir, "README.md");
@@ -77,19 +81,25 @@ export async function update(
     fixHomepage();
   }
 
+  if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
+    removeFeatureSyncDll();
+    fixDevDependencies();
+  }
+
   syncPackageJson();
   syncFiles(newFilesFromTemplates, "new");
   syncFiles(overwriteFilesFromTemplates, "overwrite");
+  removeFiles(filesToRemove);
 
   if (flags.install) {
     await scriptYarnInstall(targetDir);
-    await scriptYarnSyncDll(targetDir);
     // Run `yarn` again since dll maybe updated.
     await scriptYarnInstall(targetDir);
   }
 
-  function addFeatureSyncDll(): void {
-    targetPackageJson.scripts["sync-dll"] = "node scripts/sync-dll.js";
+  function removeFeatureSyncDll(): void {
+    delete targetPackageJson.scripts["sync-dll"];
+    filesToRemove.push("scripts/sync-dll.js");
   }
 
   function syncPackageJson() {
@@ -100,23 +110,21 @@ export async function update(
     targetPackageJson.easyops["create-next-repo"] = packageJson.version;
 
     // 1. Update `devDependencies` in `package.json`
-    for (const [type, deps] of Object.entries(devDependenciesCopyMap)) {
-      for (const dep of deps) {
-        const fromVersion = targetPackageJson.devDependencies[dep];
-        const toVersion = packageJson[type][dep];
-        if (fromVersion) {
-          if (
-            caretRangesRegExp.test(fromVersion) &&
-            caretRangesRegExp.test(toVersion)
-          ) {
-            if (semver.gte(fromVersion.substr(1), toVersion.substr(1))) {
-              // Ignore newer dependencies.
-              continue;
-            }
+    for (const dep of devDependenciesCopyMap.templateDependencies) {
+      const fromVersion = targetPackageJson.devDependencies[dep];
+      const toVersion = packageJson.templateDependencies[dep];
+      if (fromVersion) {
+        if (
+          caretRangesRegExp.test(fromVersion) &&
+          caretRangesRegExp.test(toVersion)
+        ) {
+          if (semver.gte(fromVersion.substr(1), toVersion.substr(1))) {
+            // Ignore newer dependencies.
+            continue;
           }
         }
-        targetPackageJson.devDependencies[dep] = toVersion;
       }
+      targetPackageJson.devDependencies[dep] = toVersion;
     }
 
     fs.outputFileSync(
@@ -145,6 +153,15 @@ export async function update(
           type === "new" ? "File created" : "File updated"
         )}: ./${path.relative(cwd, filePath)}`
       );
+    }
+  }
+
+  function removeFiles(files: string[]): void {
+    for (const filePath of files) {
+      const absFilePath = path.join(targetDir, filePath);
+      if (fs.existsSync(absFilePath)) {
+        fs.unlinkSync(absFilePath);
+      }
     }
   }
 
@@ -196,5 +213,22 @@ export async function update(
           }
         });
     });
+  }
+
+  // Remove all packages those are included in `@easyops/dev-dependencies`
+  // from target's `devDependencies`.
+  function fixDevDependencies(): void {
+    const json = require(require.resolve(
+      "@easyops/dev-dependencies/package.json",
+      {
+        paths: [targetDir]
+      }
+    ));
+    for (const pkgName of Object.keys(json.dependencies)) {
+      // Todo(steve): size-limit not working.
+      if (!pkgName.startsWith("@size-limit/")) {
+        delete targetPackageJson.devDependencies[pkgName];
+      }
+    }
   }
 }
