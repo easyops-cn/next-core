@@ -13,20 +13,7 @@ export function getPackageJson(): Record<string, any> {
 }
 
 export const devDependenciesCopyMap = {
-  devDependencies: [
-    "@dll/ace",
-    "@dll/d3",
-    "@dll/echarts",
-    "@easyops/babel-preset-next",
-    "@easyops/brick-container",
-    "@easyops/brick-dll",
-    "@easyops/brick-scripts",
-    "@easyops/brick-types",
-    "@easyops/browserslist-config-next",
-    "@easyops/build-config-factory",
-    "@easyops/eslint-config-next",
-    "@easyops/webpack-config-factory"
-  ],
+  devDependencies: ["@easyops/dev-dependencies"],
   templateDependencies: ["@bricks/basic-bricks"]
 };
 
