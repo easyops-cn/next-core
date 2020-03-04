@@ -2,6 +2,7 @@
   "name": "$kebab-repo-name$",
   "private": true,
   "license": "UNLICENSED",
+  "homepage": "https://git.easyops.local/anyclouds/$kebab-repo-name$",
   "scripts": {
     "prepare": "lerna bootstrap",
     "start": "lerna run start",

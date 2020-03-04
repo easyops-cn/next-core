@@ -5,10 +5,6 @@
   "homepage": "$workspace-homepage$/tree/master/micro-apps/$kebab-package-name$",
   "license": "UNLICENSED",
   "files": ["storyboard.json", "deploy", "icons", "version.ini"],
-  "repository": {
-    "type": "git",
-    "url": "git@git.easyops.local:anyclouds/brick-next.git"
-  },
   "scripts": {
     "build": "echo 'nothing to build but lerna need this to build deps'",
     "postbuild": "node scripts/post-build.js",
