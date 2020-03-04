@@ -1,8 +1,11 @@
 import React from "react";
 import { RecentApps } from "./core/interfaces";
+import { getRuntime } from "./runtime";
 
 export function useRecentApps(): RecentApps {
-  const [recentApps, setRecentApps] = React.useState<RecentApps>({});
+  const [recentApps, setRecentApps] = React.useState<RecentApps>(
+    getRuntime().getRecentApps()
+  );
 
   React.useEffect(() => {
     const listener = ((event: CustomEvent<RecentApps>) => {

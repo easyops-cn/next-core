@@ -3,6 +3,182 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.28.0...@easyops/brick-kit@1.29.0) (2020-03-03)
+
+### Features
+
+- 迁移内置事件相关逻辑到 bric-kit，并新增 message 和 handleHttpError ,handleHttpError action ([6bf4baa](https://git.easyops.local/anyclouds/next-core/commits/6bf4baa))
+
+# [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.6...@easyops/brick-kit@1.28.0) (2020-03-02)
+
+### Features
+
+- support `if` in `useBrick` ([1c7e8c4](https://git.easyops.local/anyclouds/next-core/commits/1c7e8c4))
+
+## [1.27.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.5...@easyops/brick-kit@1.27.6) (2020-03-02)
+
+### Bug Fixes
+
+- goBack after pushAnchor should not trigger re-rendering ([2cb442c](https://git.easyops.local/anyclouds/next-core/commits/2cb442c))
+
+## [1.27.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.4...@easyops/brick-kit@1.27.5) (2020-02-28)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.27.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.3...@easyops/brick-kit@1.27.4) (2020-02-28)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.27.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.2...@easyops/brick-kit@1.27.3) (2020-02-28)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.27.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.1...@easyops/brick-kit@1.27.2) (2020-02-27)
+
+### Bug Fixes
+
+- fix history may not working ([2949e3e](https://git.easyops.local/anyclouds/next-core/commits/2949e3e))
+
+## [1.27.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.27.0...@easyops/brick-kit@1.27.1) (2020-02-27)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.26.3...@easyops/brick-kit@1.27.0) (2020-02-27)
+
+### Bug Fixes
+
+- **router:** fix `notify: false` and hash change ([245051c](https://git.easyops.local/anyclouds/next-core/commits/245051c))
+
+### Features
+
+- support onAnchorLoad / onAnchorUnload ([40155ff](https://git.easyops.local/anyclouds/next-core/commits/40155ff))
+
+## [1.26.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.26.2...@easyops/brick-kit@1.26.3) (2020-02-25)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.26.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.26.1...@easyops/brick-kit@1.26.2) (2020-02-24)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.26.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.26.0...@easyops/brick-kit@1.26.1) (2020-02-24)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.25.2...@easyops/brick-kit@1.26.0) (2020-02-21)
+
+### Features
+
+- support life cycle of menu ([103b69f](https://git.easyops.local/anyclouds/next-core/commits/103b69f))
+- support template in useBrick ([98305ae](https://git.easyops.local/anyclouds/next-core/commits/98305ae))
+
+## [1.25.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.25.1...@easyops/brick-kit@1.25.2) (2020-02-20)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.25.0...@easyops/brick-kit@1.25.1) (2020-02-19)
+
+### Bug Fixes
+
+- do not auto assign a property named match to bricks any more ([7e880bc](https://git.easyops.local/anyclouds/next-core/commits/7e880bc))
+
+# [1.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.24.0...@easyops/brick-kit@1.25.0) (2020-02-19)
+
+### Features
+
+- support multiple bricks in useBrick ([b30b6b4](https://git.easyops.local/anyclouds/next-core/commits/b30b6b4))
+
+# [1.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.23.1...@easyops/brick-kit@1.24.0) (2020-02-18)
+
+### Features
+
+- support if in BrickConf ([a7d9334](https://git.easyops.local/anyclouds/next-core/commits/a7d9334)), closes [anyclouds/brick-next#22](https://git.easyops.local/anyclouds/next-core/issues/22)
+- support injecting feature flags ([dc2a906](https://git.easyops.local/anyclouds/next-core/commits/dc2a906))
+
+## [1.23.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.23.0...@easyops/brick-kit@1.23.1) (2020-02-17)
+
+### Bug Fixes
+
+- two key for error refs MONITOR-194 ([e76b2db](https://git.easyops.local/anyclouds/next-core/commits/e76b2db))
+
+# [1.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.2...@easyops/brick-kit@1.23.0) (2020-02-17)
+
+### Features
+
+- `lifeCycle.transform` can be injected ([a64d960](https://git.easyops.local/anyclouds/next-core/commits/a64d960))
+
+## [1.22.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.1...@easyops/brick-kit@1.22.2) (2020-02-15)
+
+### Bug Fixes
+
+- **useBrick:** fix a bug that event listeners are duplicated ([a1f97f9](https://git.easyops.local/anyclouds/next-core/commits/a1f97f9))
+- warn when meet basic-bricks.script-brick ([5dadea9](https://git.easyops.local/anyclouds/next-core/commits/5dadea9))
+
+## [1.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.22.0...@easyops/brick-kit@1.22.1) (2020-02-13)
+
+### Bug Fixes
+
+- replace MAGIC_BRICK to \_BRICK_MAGIC ([5566051](https://git.easyops.local/anyclouds/next-core/commits/5566051))
+
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.21.1...@easyops/brick-kit@1.22.0) (2020-02-13)
+
+### Features
+
+- 框架提供 instanceId 变量 ([22a04b5](https://git.easyops.local/anyclouds/next-core/commits/22a04b5))
+
+## [1.21.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.21.0...@easyops/brick-kit@1.21.1) (2020-02-12)
+
+### Bug Fixes
+
+- log an error when meet undefined custom element ([0cf2c6b](https://git.easyops.local/anyclouds/next-core/commits/0cf2c6b))
+
+# [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.20.0...@easyops/brick-kit@1.21.0) (2020-02-12)
+
+### Features
+
+- support redirect in routes ([2e290ff](https://git.easyops.local/anyclouds/next-core/commits/2e290ff)), closes [anyclouds/brick-next#20](https://git.easyops.local/anyclouds/next-core/issues/20)
+
+# [1.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.19.0...@easyops/brick-kit@1.20.0) (2020-02-11)
+
+### Bug Fixes
+
+- refine useRecentApps and useCurrentApp ([ca5a2b8](https://git.easyops.local/anyclouds/next-core/commits/ca5a2b8))
+
+### Features
+
+- app config ([85033d0](https://git.easyops.local/anyclouds/next-core/commits/85033d0))
+
+# [1.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.18.1...@easyops/brick-kit@1.19.0) (2020-02-07)
+
+### Features
+
+- 框架提供当前用户的系统变量 ([cff4566](https://git.easyops.local/anyclouds/next-core/commits/cff4566))
+
+## [1.18.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.18.0...@easyops/brick-kit@1.18.1) (2020-02-07)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.17.0...@easyops/brick-kit@1.18.0) (2020-02-05)
+
+### Bug Fixes
+
+- ignore rendering the sub-brick when the router state is initial ([cfb2845](https://git.easyops.local/anyclouds/next-core/commits/cfb2845))
+
+### Features
+
+- support routes in routes ([2ac2a81](https://git.easyops.local/anyclouds/next-core/commits/2ac2a81))
+
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.16.0...@easyops/brick-kit@1.17.0) (2020-02-04)
+
+### Bug Fixes
+
+- fix a bug that sub route public not working ([e4bdd8b](https://git.easyops.local/anyclouds/next-core/commits/e4bdd8b))
+- **kernel:** add tip when provider not defined refs BRICK_STORE-982 ([bd25e32](https://git.easyops.local/anyclouds/next-core/commits/bd25e32))
+
+### Features
+
+- **set-properties:** `injectDeep` default to be true, refs BRICK_STORE-987 ([cd12bb8](https://git.easyops.local/anyclouds/next-core/commits/cd12bb8))
+
 # [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.15.0...@easyops/brick-kit@1.16.0) (2020-01-29)
 
 ### Features

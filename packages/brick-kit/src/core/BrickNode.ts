@@ -1,4 +1,5 @@
-import { setRealProperties, bindListeners } from "@easyops/brick-utils";
+import { bindListeners } from "../bindListeners";
+import { setRealProperties } from "../setProperties";
 import { PluginRuntimeContext, BrickLifeCycle } from "@easyops/brick-types";
 import { getHistory } from "../history";
 
@@ -26,6 +27,18 @@ export class BrickNode {
 
   mount(): HTMLElement {
     const brick = this.currentElement;
+
+    if (brick.type.includes("-") && !customElements.get(brick.type)) {
+      // eslint-disable-next-line no-console
+      console.error(`Undefined custom element: ${brick.type}`);
+    }
+
+    if (brick.type === "basic-bricks.script-brick") {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "`basic-bricks.script-brick` is deprecated, please take caution when using it"
+      );
+    }
 
     const node = document.createElement(brick.type);
     brick.element = node;

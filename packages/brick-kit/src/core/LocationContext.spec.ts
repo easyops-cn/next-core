@@ -2,12 +2,27 @@ import { PluginLocation, RuntimeStoryboard } from "@easyops/brick-types";
 import * as brickUtils from "@easyops/brick-utils";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
-import { isLoggedIn } from "../auth";
+import { isLoggedIn, getAuth } from "../auth";
+import * as history from "../history";
 
 jest.mock("../auth");
 
 const spyOnMatchPath = jest.spyOn(brickUtils, "matchPath");
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
+(getAuth as jest.Mock).mockReturnValue({
+  username: "easyops",
+  userInstanceId: "acbd46b"
+});
+
+(global as any).customElements = {
+  get: () => true
+};
+
+jest.spyOn(history, "getHistory").mockReturnValue({
+  location: {
+    hash: ""
+  }
+} as any);
 
 describe("LocationContext", () => {
   let context: LocationContext;
@@ -33,7 +48,10 @@ describe("LocationContext", () => {
         breadcrumb: []
       }
     },
-    toggleBars: jest.fn()
+    toggleBars: jest.fn(),
+    getFeatureFlags: jest.fn().mockReturnValue({
+      testing: true
+    })
   } as any;
 
   const location: PluginLocation = {
@@ -53,7 +71,9 @@ describe("LocationContext", () => {
       app: kernel.nextApp,
       breadcrumb: kernel.appBar.element.breadcrumb
     },
-    redirect: undefined
+    flags: {
+      redirect: undefined
+    }
   });
 
   beforeEach(() => {
@@ -102,11 +122,13 @@ describe("LocationContext", () => {
         main: [],
         menuBar: {},
         appBar: {},
-        redirect: undefined
+        flags: {
+          redirect: undefined
+        }
       });
     });
 
-    it("should redirect if match redirected", async () => {
+    it("should redirect if not logged in", async () => {
       spyOnMatchPath.mockReturnValueOnce({} as any);
       spyOnIsLoggedIn.mockReturnValueOnce(false);
       const result = await context.mountRoutes(
@@ -123,10 +145,37 @@ describe("LocationContext", () => {
         main: [],
         menuBar: {},
         appBar: {},
-        redirect: {
-          path: "/auth/login",
-          state: {
-            from: location
+        flags: {
+          redirect: {
+            path: "/auth/login",
+            state: {
+              from: location
+            }
+          }
+        }
+      });
+    });
+
+    it("should redirect if match redirected", async () => {
+      spyOnMatchPath.mockReturnValueOnce({} as any);
+      spyOnIsLoggedIn.mockReturnValue(true);
+      const result = await context.mountRoutes(
+        [
+          {
+            path: "/",
+            redirect: "/oops"
+          }
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+      expect(result).toMatchObject({
+        main: [],
+        menuBar: {},
+        appBar: {},
+        flags: {
+          redirect: {
+            path: "/oops"
           }
         }
       });
@@ -148,125 +197,154 @@ describe("LocationContext", () => {
                 }
               }
             ],
-            bricks: [
+            type: "routes",
+            routes: [
               {
-                brick: "div",
-                properties: {
-                  title: "good"
-                },
-                events: {
-                  click: {
-                    action: "history.push"
-                  }
-                },
-                lifeCycle: {
-                  onPageLoad: {
-                    action: "console.log"
-                  }
-                },
-                slots: {
-                  menu: {
-                    type: "bricks",
-                    bricks: [
-                      {
-                        brick: "p"
+                path: "/",
+                bricks: [
+                  {
+                    if: "${FLAGS.testing}",
+                    brick: "div",
+                    properties: {
+                      title: "good"
+                    },
+                    events: {
+                      click: {
+                        action: "history.push"
                       }
-                    ]
-                  },
-                  content: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          sidebarMenu: {
-                            title: "menu title",
-                            menuItems: []
-                          },
-                          pageTitle: "page title",
-                          breadcrumb: {
-                            items: [
-                              {
-                                text: "first breadcrumb"
-                              }
-                            ]
+                    },
+                    lifeCycle: {
+                      onPageLoad: {
+                        action: "console.log"
+                      },
+                      onAnchorLoad: {
+                        action: "console.log"
+                      },
+                      onAnchorUnload: {
+                        action: "console.log"
+                      }
+                    },
+                    slots: {
+                      menu: {
+                        type: "bricks",
+                        bricks: [
+                          {
+                            brick: "p"
                           }
-                        }
-                      }
-                    ]
-                  },
-                  extendA: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          type: "brick",
-                          brick: "a"
-                        }
-                      }
-                    ]
-                  },
-                  extendB: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          type: "brick",
-                          brick: "b",
-                          events: {}
-                        }
-                      }
-                    ]
-                  },
-                  extendC: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {
-                          breadcrumb: {
-                            overwrite: true,
-                            items: [
-                              {
-                                text: "second breadcrumb"
+                        ]
+                      },
+                      content: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              sidebarMenu: {
+                                title: "menu title",
+                                menuItems: []
+                              },
+                              pageTitle: "page title",
+                              breadcrumb: {
+                                items: [
+                                  {
+                                    text: "first breadcrumb"
+                                  }
+                                ]
                               }
-                            ]
+                            }
                           }
-                        }
+                        ]
+                      },
+                      extendA: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              type: "brick",
+                              brick: "a"
+                            }
+                          }
+                        ]
+                      },
+                      extendB: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              type: "brick",
+                              brick: "b",
+                              events: {},
+                              lifeCycle: {
+                                onPageLoad: {
+                                  action: "console.warn"
+                                },
+                                onAnchorLoad: {
+                                  action: "console.warn",
+                                  args: ["${EVENT.detail.anchor}"]
+                                },
+                                onAnchorUnload: {
+                                  action: "console.warn"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      extendC: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {
+                              breadcrumb: {
+                                overwrite: true,
+                                items: [
+                                  {
+                                    text: "second breadcrumb"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      extendD: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: false
+                          }
+                        ]
+                      },
+                      extendE: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [],
+                            menu: {}
+                          }
+                        ]
+                      },
+                      extendF: {
+                        type: "invalid",
+                        routes: []
                       }
-                    ]
+                    }
                   },
-                  extendD: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: false
-                      }
-                    ]
-                  },
-                  extendE: {
-                    type: "routes",
-                    routes: [
-                      {
-                        path: "/",
-                        bricks: [],
-                        menu: {}
-                      }
-                    ]
-                  },
-                  extendF: {
-                    type: "invalid",
-                    routes: []
+                  {
+                    if: "${FLAGS.testing|not}",
+                    brick: "div"
                   }
-                }
+                ]
               }
             ]
           }
@@ -289,15 +367,16 @@ describe("LocationContext", () => {
             }
           ]
         },
-        redirect: undefined
-        // barsHidden: true
+        flags: {
+          barsHidden: true,
+          redirect: undefined
+        }
       });
       expect(result.main).toMatchObject([
         {
           type: "div",
           properties: {
-            title: "good",
-            match: {}
+            title: "good"
           },
           events: {
             click: {
@@ -316,10 +395,32 @@ describe("LocationContext", () => {
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
       expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
+
       const consoleLog = jest.spyOn(console, "log");
+      const consoleWarn = jest.spyOn(console, "warn");
+
       context.handlePageLoad();
+      context.handleAnchorLoad();
+
+      (history.getHistory as jest.Mock).mockReturnValue({
+        location: {
+          hash: "#yes"
+        }
+      });
+      context.handleAnchorLoad();
+
       expect(consoleLog.mock.calls[0][0].type).toBe("page.load");
+      expect(consoleLog.mock.calls[1][0].type).toBe("anchor.unload");
+      expect(consoleLog.mock.calls[2][0].type).toBe("anchor.load");
+      expect(consoleLog.mock.calls[2][0].detail).toEqual({
+        hash: "#yes",
+        anchor: "yes"
+      });
+      expect(consoleWarn.mock.calls[0][0].type).toBe("page.load");
+      expect(consoleWarn.mock.calls[1][0].type).toBe("anchor.unload");
+      expect(consoleWarn.mock.calls[2]).toEqual(["yes"]);
       consoleLog.mockRestore();
+      consoleWarn.mockRestore();
     });
   });
 });

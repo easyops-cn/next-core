@@ -13,19 +13,22 @@ import {
   PluginRuntimeContext,
   BrickLifeCycle,
   BrickEventHandler,
-  CustomBrickEventHandler
+  ResolveConf,
+  RouteConfOfRoutes,
+  RouteConfOfBricks
 } from "@easyops/brick-types";
 import {
   isObject,
-  computeRealProperties,
   matchPath,
-  computeRealRoutePath,
-  listenerFactory
+  computeRealRoutePath
 } from "@easyops/brick-utils";
+import { listenerFactory } from "../bindListeners";
+import { computeRealProperties, computeRealValue } from "../setProperties";
 import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
-import { isLoggedIn } from "../auth";
+import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
+import { RedirectConf, IfConf } from "./interfaces";
 
 export type MatchRoutesResult =
   | {
@@ -36,10 +39,6 @@ export type MatchRoutesResult =
   | "redirect";
 
 export interface MountRoutesResult {
-  redirect?: {
-    path: string;
-    state: PluginHistoryState;
-  };
   main: RuntimeBrick[];
   menuInBg: RuntimeBrick[];
   menuBar: {
@@ -51,21 +50,44 @@ export interface MountRoutesResult {
     pageTitle?: string;
     breadcrumb?: BreadcrumbItemConf[];
   };
-  barsHidden?: boolean;
-  hybrid?: boolean;
-  failed?: boolean;
+  flags: {
+    redirect?: {
+      path: string;
+      state?: PluginHistoryState;
+    };
+    barsHidden?: boolean;
+    hybrid?: boolean;
+    failed?: boolean;
+  };
 }
 
-interface PageLoadHandler {
+interface BrickAndLifeCycleHandler {
   brick: RuntimeBrick;
-  onPageLoad: BrickLifeCycle["onPageLoad"];
+  handler: BrickEventHandler | BrickEventHandler[];
 }
+
+/* interface PageLoadHandler {
+  brick: RuntimeBrick;
+  handler: BrickLifeCycle["onPageLoad"];
+}
+
+interface AnchorLoadHandler {
+  brick: RuntimeBrick;
+  onAnchorLoad: BrickLifeCycle["onAnchorLoad"];
+}
+
+interface AnchorUnloadHandler {
+  brick: RuntimeBrick;
+  onAnchorUnload: BrickLifeCycle["onAnchorUnload"];
+} */
 
 export class LocationContext {
   readonly location: PluginLocation;
   readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
-  private readonly pageLoadHandlers: PageLoadHandler[] = [];
+  private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
 
   constructor(private kernel: Kernel, location: PluginLocation) {
     this.location = location;
@@ -77,7 +99,12 @@ export class LocationContext {
       hash: this.location.hash,
       query: this.query,
       match,
-      app: this.kernel.nextApp
+      app: this.kernel.nextApp,
+      sys: {
+        username: getAuth().username,
+        userInstanceId: getAuth().userInstanceId
+      },
+      flags: this.kernel.getFeatureFlags()
     };
   }
 
@@ -113,11 +140,13 @@ export class LocationContext {
     mountRoutesResult?: MountRoutesResult
   ): Promise<MountRoutesResult> {
     const matched = this.matchRoutes(routes, this.kernel.nextApp);
+    let redirect: string | ResolveConf;
+    const redirectConf: RedirectConf = {};
     switch (matched) {
       case "missed":
         break;
       case "redirect":
-        mountRoutesResult.redirect = {
+        mountRoutesResult.flags.redirect = {
           path: "/auth/login",
           state: {
             from: this.location
@@ -126,7 +155,7 @@ export class LocationContext {
         break;
       default:
         if (matched.route.hybrid) {
-          mountRoutesResult.hybrid = true;
+          mountRoutesResult.flags.hybrid = true;
         }
         this.resolver.defineResolves(matched.route.defineResolves);
         await this.mountProviders(
@@ -135,26 +164,64 @@ export class LocationContext {
           slotId,
           mountRoutesResult
         );
-        this.mountMenu(matched.route.menu, matched.match, mountRoutesResult);
-        await this.mountBricks(
-          matched.route.bricks,
+
+        redirect = computeRealValue(
+          matched.route.redirect,
+          this.getContext(matched.match),
+          true
+        );
+
+        if (redirect) {
+          if (typeof redirect === "string") {
+            // Directly redirect.
+            mountRoutesResult.flags.redirect = {
+              path: redirect
+            };
+            break;
+          } else {
+            // Resolvable redirect.
+            await this.resolver.resolveOne("reference", redirect, redirectConf);
+            if (redirectConf.redirect) {
+              mountRoutesResult.flags.redirect = {
+                path: redirectConf.redirect
+              };
+              break;
+            }
+          }
+        }
+
+        await this.mountMenu(
+          matched.route.menu,
           matched.match,
-          slotId,
           mountRoutesResult
         );
-        break;
+
+        if (matched.route.type === "routes") {
+          await this.mountRoutes(
+            (matched.route as RouteConfOfRoutes).routes,
+            slotId,
+            mountRoutesResult
+          );
+        } else if (Array.isArray((matched.route as RouteConfOfBricks).bricks)) {
+          await this.mountBricks(
+            (matched.route as RouteConfOfBricks).bricks,
+            matched.match,
+            slotId,
+            mountRoutesResult
+          );
+        }
     }
     return mountRoutesResult;
   }
 
-  private mountMenu(
+  private async mountMenu(
     menuConf: MenuConf,
     match: MatchResult,
     mountRoutesResult: MountRoutesResult
-  ): void {
+  ): Promise<void> {
     if (menuConf === false) {
       // `route.menu` 设置为 `false` 表示不显示顶栏和侧栏。
-      mountRoutesResult.barsHidden = true;
+      mountRoutesResult.flags.barsHidden = true;
       return;
     }
 
@@ -175,21 +242,47 @@ export class LocationContext {
         properties: computeRealProperties(
           menuConf.properties,
           context,
-          menuConf.injectDeep
+          menuConf.injectDeep !== false
         ),
         events: isObject(menuConf.events) ? menuConf.events : {},
         context,
         children: []
       };
+
+      if (menuConf.lifeCycle?.onPageLoad) {
+        this.pageLoadHandlers.push({
+          brick,
+          handler: menuConf.lifeCycle.onPageLoad
+        });
+      }
+
+      if (menuConf.lifeCycle?.onAnchorLoad) {
+        this.anchorLoadHandlers.push({
+          brick,
+          handler: menuConf.lifeCycle.onAnchorLoad
+        });
+      }
+
+      if (menuConf.lifeCycle?.onAnchorUnload) {
+        this.anchorUnloadHandlers.push({
+          brick,
+          handler: menuConf.lifeCycle.onAnchorUnload
+        });
+      }
+
+      // Then, resolve the brick.
+      await this.resolver.resolve(menuConf, brick, context);
+
       mountRoutesResult.menuInBg.push(brick);
       return;
     }
 
     // 静态菜单配置，仅在有值时才设置，这样可以让菜单设置也具有按路由层级覆盖的能力。
     const { injectDeep, ...otherMenuConf } = menuConf;
-    const injectedMenuConf = injectDeep
-      ? computeRealProperties(otherMenuConf, context, true)
-      : otherMenuConf;
+    const injectedMenuConf =
+      injectDeep !== false
+        ? computeRealProperties(otherMenuConf, context, true)
+        : otherMenuConf;
     const { sidebarMenu, pageTitle, breadcrumb } = injectedMenuConf;
 
     if (sidebarMenu !== undefined) {
@@ -247,6 +340,31 @@ export class LocationContext {
     }
   }
 
+  private async checkIf(
+    rawIf: string | ResolveConf,
+    context: PluginRuntimeContext
+  ): Promise<boolean> {
+    if (
+      isObject(rawIf) ||
+      typeof rawIf === "boolean" ||
+      typeof rawIf === "string"
+    ) {
+      const ifChecked = computeRealValue(rawIf, context, true);
+
+      if (isObject(ifChecked)) {
+        const ifConf: IfConf = {};
+        await this.resolver.resolveOne("reference", ifChecked, ifConf);
+        if (ifConf.if === false) {
+          return false;
+        }
+      } else if (ifChecked === false) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   async mountBrick(
     brickConf: BrickConf,
     match: MatchResult,
@@ -255,21 +373,28 @@ export class LocationContext {
   ): Promise<void> {
     const context = this.getContext(match);
 
-    // First, resolve the template to a brick.
+    // First, check whether the brick should be rendered.
+    if (!(await this.checkIf(brickConf.if, context))) {
+      return;
+    }
+
+    // Then, resolve the template to a brick.
     if (brickConf.template) {
       await this.resolver.resolve(brickConf, null, context);
     }
 
+    // Check `if` again for dynamic loaded templates.
+    if (!(await this.checkIf(brickConf.if, context))) {
+      return;
+    }
+
     const brick: RuntimeBrick = {
       type: brickConf.brick,
-      properties: {
-        ...computeRealProperties(
-          brickConf.properties,
-          context,
-          brickConf.injectDeep
-        ),
-        match
-      },
+      properties: computeRealProperties(
+        brickConf.properties,
+        context,
+        brickConf.injectDeep !== false
+      ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
       children: [],
@@ -279,7 +404,21 @@ export class LocationContext {
     if (brickConf.lifeCycle?.onPageLoad) {
       this.pageLoadHandlers.push({
         brick,
-        onPageLoad: brickConf.lifeCycle.onPageLoad
+        handler: brickConf.lifeCycle.onPageLoad
+      });
+    }
+
+    if (brickConf.lifeCycle?.onAnchorLoad) {
+      this.anchorLoadHandlers.push({
+        brick,
+        handler: brickConf.lifeCycle.onAnchorLoad
+      });
+    }
+
+    if (brickConf.lifeCycle?.onAnchorUnload) {
+      this.anchorUnloadHandlers.push({
+        brick,
+        handler: brickConf.lifeCycle.onAnchorUnload
       });
     }
 
@@ -316,21 +455,46 @@ export class LocationContext {
   }
 
   handlePageLoad(): void {
+    this.dispatchLifeCycleEvent(
+      new CustomEvent("page.load"),
+      this.pageLoadHandlers
+    );
+  }
+
+  handleAnchorLoad(): void {
+    const hash = getHistory().location.hash;
+    if (hash && hash !== "#") {
+      this.dispatchLifeCycleEvent(
+        new CustomEvent("anchor.load", {
+          detail: {
+            hash,
+            anchor: hash.substr(1)
+          }
+        }),
+        this.anchorLoadHandlers
+      );
+    } else {
+      this.dispatchLifeCycleEvent(
+        new CustomEvent("anchor.unload"),
+        this.anchorUnloadHandlers
+      );
+    }
+  }
+
+  private dispatchLifeCycleEvent(
+    event: CustomEvent,
+    handlers: BrickAndLifeCycleHandler[]
+  ): void {
     const history = getHistory();
-    const event = new CustomEvent("page.load");
-    for (const pageLoadHandler of this.pageLoadHandlers) {
+    for (const brickAndHandler of handlers) {
       for (const handler of ([] as BrickEventHandler[]).concat(
-        pageLoadHandler.onPageLoad
+        brickAndHandler.handler
       )) {
         listenerFactory(
-          (handler as CustomBrickEventHandler).target === "_self"
-            ? {
-                ...handler,
-                target: pageLoadHandler.brick.element
-              }
-            : handler,
+          handler,
           history,
-          this.getContext(null)
+          this.getContext(null),
+          brickAndHandler.brick.element
         )(event);
       }
     }

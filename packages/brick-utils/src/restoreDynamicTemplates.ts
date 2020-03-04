@@ -1,16 +1,22 @@
 import { get } from "lodash";
-import { Storyboard, RouteConf, RuntimeBrickConf } from "@easyops/brick-types";
+import {
+  Storyboard,
+  RouteConf,
+  RuntimeBrickConf,
+  RouteConfOfBricks
+} from "@easyops/brick-types";
 
 function restoreDynamicTemplatesInBrick(brickConf: RuntimeBrickConf): void {
   if (get(brickConf, ["$$lifeCycle", "useResolves"], []).length > 0) {
-    const { $$template, $$params, $$lifeCycle } = brickConf;
+    const { $$template, $$params, $$lifeCycle, $$if } = brickConf;
     Object.keys(brickConf).forEach(key => {
       delete brickConf[key as keyof RuntimeBrickConf];
     });
     Object.assign(brickConf, {
       template: $$template,
       params: $$params,
-      lifeCycle: $$lifeCycle
+      lifeCycle: $$lifeCycle,
+      if: $$if
     });
   }
   if (brickConf.slots) {
@@ -33,7 +39,13 @@ function restoreDynamicTemplatesInBricks(bricks: RuntimeBrickConf[]): void {
 function restoreDynamicTemplatesInRoutes(routes: RouteConf[]): void {
   if (Array.isArray(routes)) {
     routes.forEach(routeConf => {
-      restoreDynamicTemplatesInBricks(routeConf.bricks);
+      if (routeConf.type === "routes") {
+        restoreDynamicTemplatesInRoutes(routeConf.routes);
+      } else {
+        restoreDynamicTemplatesInBricks(
+          (routeConf as RouteConfOfBricks).bricks
+        );
+      }
       const menuBrickConf = routeConf.menu;
       if (menuBrickConf && menuBrickConf.type === "brick") {
         restoreDynamicTemplatesInBrick(menuBrickConf);

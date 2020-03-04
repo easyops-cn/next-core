@@ -1,6 +1,11 @@
 import { Key } from "path-to-regexp";
 import { History, Location, LocationDescriptor } from "history";
-import { BreadcrumbItemConf, MicroApp, BrickConf } from "./manifest";
+import {
+  BreadcrumbItemConf,
+  MicroApp,
+  BrickConf,
+  FeatureFlags
+} from "./manifest";
 import { SidebarMenu } from "./menu";
 
 export interface CompileOptions {
@@ -30,12 +35,39 @@ export interface MatchParams {
   [key: string]: string;
 }
 
-export type PluginHistory = History<PluginHistoryState>;
+export interface SystemInfo {
+  username: string;
+  userInstanceId: string;
+}
+
 export type PluginLocation = Location<PluginHistoryState>;
+export type PluginHistory = History<PluginHistoryState> & ExtendedHistory;
+
+export interface ExtendedHistory {
+  pushQuery: UpdateQueryFunction;
+  replaceQuery: UpdateQueryFunction;
+  pushAnchor: UpdateAnchorFunction;
+  // replaceAnchor: UpdateAnchorFunction;
+  reload: () => void;
+}
+
+export type UpdateQueryFunction = (
+  query: Record<string, any>,
+  options?: UpdateQueryOptions
+) => void;
+
+export interface UpdateQueryOptions extends PluginHistoryState {
+  extraQuery?: Record<string, any>;
+}
+
+export type UpdateAnchorFunction = (
+  hash: string,
+  state?: PluginHistoryState
+) => void;
 
 export interface PluginHistoryState {
   notify?: boolean;
-  from?: LocationDescriptor;
+  from?: LocationDescriptor<PluginHistoryState>;
 }
 
 export interface PluginRuntimeContext {
@@ -44,6 +76,9 @@ export interface PluginRuntimeContext {
   event?: CustomEvent;
   app?: MicroApp;
   hash?: string;
+  anchor?: string;
+  sys?: SystemInfo;
+  flags?: FeatureFlags;
 }
 
 export interface MountPoints {
@@ -94,4 +129,10 @@ export interface MagicBrickConfig {
   resolves?: string;
   scene: "create" | "read" | "update" | "delete";
   transform?: string;
+}
+
+export type rememberedEventListener = [string, EventListener];
+
+export interface RuntimeBrickElement extends HTMLElement {
+  $$eventListeners?: rememberedEventListener[];
 }

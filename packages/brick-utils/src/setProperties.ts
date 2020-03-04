@@ -1,110 +1,37 @@
-import { get } from "lodash";
+/**
+ * 本页相关逻辑已迁移至 brick-kit src/setProperties 文件中
+ */
+
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject } from "./isObject";
-
-const replaceTemplateValue = (
-  matches: string[],
-  context: PluginRuntimeContext,
-  asString?: boolean
-): any => {
-  const [raw, namespace, field, defaultValue, type] = matches;
-  let result;
-
-  if (namespace === "QUERY" || namespace === "query") {
-    if (field === "*") {
-      result = context.query;
-    } else {
-      result = context.query.has(field)
-        ? context.query.get(field)
-        : defaultValue;
-    }
-  } else if (namespace === "EVENT" || namespace === "event") {
-    if (context.event === undefined) {
-      return raw;
-    }
-    result = field === "*" ? context.event : get(context.event, field);
-  } else if (namespace === "APP") {
-    result = get(context.app, field);
-  } else if (namespace === "HASH") {
-    result = context.hash;
-  } else if (context.match) {
-    result = context.match.params[field];
-    if (result === undefined) {
-      result = defaultValue;
-    }
-  }
-  if (result === undefined || result === null) {
-    return asString ? "" : undefined;
-  }
-  switch (type) {
-    case undefined:
-      return result;
-    case "string":
-      return String(result);
-    case "number":
-      return Number(result);
-    case "bool":
-    case "boolean":
-      return Boolean(Number(result));
-    case "json":
-      try {
-        return JSON.parse(result);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e);
-        return;
-      }
-    case "jsonStringify":
-      try {
-        return JSON.stringify(result, null, 2);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e);
-        return;
-      }
-  }
-};
+import { inject } from "./placeholder";
 
 export const computeRealValue = (
   value: any,
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): any => {
-  if (typeof value !== "string") {
-    let newValue = value;
-    if (injectDeep && isObject(value)) {
-      if (Array.isArray(value)) {
-        newValue = value.map(v => computeRealValue(v, context, injectDeep));
-      } else {
-        newValue = Object.entries(value).reduce<Record<string, any>>(
-          (acc, [k, v]) => {
-            k = computeRealValue(k, context, false);
-            acc[k] = computeRealValue(v, context, injectDeep);
-            return acc;
-          },
-          {}
-        );
-      }
+  if (typeof value === "string") {
+    return inject(value, context);
+  }
+
+  let newValue = value;
+  if (injectDeep && isObject(value)) {
+    if (Array.isArray(value)) {
+      newValue = value.map(v => computeRealValue(v, context, injectDeep));
+    } else {
+      newValue = Object.entries(value).reduce<Record<string, any>>(
+        (acc, [k, v]) => {
+          k = computeRealValue(k, context, false);
+          acc[k] = computeRealValue(v, context, injectDeep);
+          return acc;
+        },
+        {}
+      );
     }
-
-    return newValue;
-  }
-  const matches = value.match(
-    /^\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|}]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}$/
-  );
-  if (matches) {
-    return replaceTemplateValue(matches, context);
   }
 
-  return value.replace(
-    /\$\{(?:(QUERY|EVENT|query|event|APP|HASH)\.)?([^|=}]+)(?:=([^|}]*))?(?:\|(string|number|bool(?:ean)?|json|jsonStringify))?\}/g,
-    (raw, query, field, defaultValue, type) =>
-      replaceTemplateValue(
-        [raw, query, field, defaultValue, type],
-        context,
-        true
-      )
-  );
+  return newValue;
 };
 
 export function setProperties(
@@ -113,6 +40,9 @@ export function setProperties(
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): void {
+  // eslint-disable-next-line no-console
+  console.warn("`setProperties` function is deprecated");
+
   const realProps = computeRealProperties(properties, context, injectDeep);
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
@@ -126,6 +56,9 @@ export function setRealProperties(
   brick: HTMLElement,
   realProps: Record<string, any>
 ): void {
+  // eslint-disable-next-line no-console
+  console.warn("`setRealProperties` function is deprecated ");
+
   for (const [propName, propValue] of Object.entries(realProps)) {
     if (propName === "style") {
       for (const [styleName, styleValue] of Object.entries(propValue)) {
@@ -142,6 +75,9 @@ export function computeRealProperties(
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): any {
+  // eslint-disable-next-line no-console
+  console.warn("`computeRealProperties` function is deprecated");
+
   const result: Record<string, any> = {};
 
   if (isObject(properties)) {

@@ -1,4 +1,8 @@
-import { Storyboard, SlotConfOfBricks } from "@easyops/brick-types";
+import {
+  Storyboard,
+  SlotConfOfBricks,
+  RouteConfOfBricks
+} from "@easyops/brick-types";
 import { restoreDynamicTemplates } from "./restoreDynamicTemplates";
 
 describe("restoreDynamicTemplates", () => {
@@ -16,6 +20,7 @@ describe("restoreDynamicTemplates", () => {
                 useResolves: [{}]
               },
               $$resolved: true,
+              $$if: "${FLAGS.testing}",
               brick: "a"
             },
             {
@@ -49,21 +54,35 @@ describe("restoreDynamicTemplates", () => {
             template: "d"
           }
           // `bricks` not set
+        },
+        {
+          type: "routes",
+          routes: [
+            {
+              bricks: [
+                {
+                  brick: "f"
+                }
+              ]
+            }
+          ]
         }
       ]
     } as any;
     restoreDynamicTemplates(storyboard);
-    expect(storyboard.routes[0].bricks[0]).toEqual({
+    expect((storyboard.routes[0] as RouteConfOfBricks).bricks[0]).toEqual({
       template: "a",
       params: {
         hello: "world"
       },
       lifeCycle: {
         useResolves: [{}]
-      }
+      },
+      if: "${FLAGS.testing}"
     });
     expect(
-      (storyboard.routes[0].bricks[1].slots.s as SlotConfOfBricks).bricks[0]
+      ((storyboard.routes[0] as RouteConfOfBricks).bricks[1].slots
+        .s as SlotConfOfBricks).bricks[0]
     ).toEqual({
       template: "c",
       params: {
@@ -71,7 +90,8 @@ describe("restoreDynamicTemplates", () => {
       },
       lifeCycle: {
         useResolves: [{}]
-      }
+      },
+      if: undefined
     });
   });
 });

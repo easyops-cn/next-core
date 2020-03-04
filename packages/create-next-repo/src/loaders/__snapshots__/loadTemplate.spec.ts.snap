@@ -43,6 +43,7 @@ node_modules
 *.log
 report.*.json
 /dev-settings.yaml
+/dev.config.js
 
 /bricks/*/deploy/*
 !/bricks/*/deploy/package.conf.yaml
@@ -452,7 +453,13 @@ declare namespace JSX {
       \\"automerge\\": true
     },
     {
-      \\"packagePatterns\\": [\\"^@bricks/\\", \\"^@libs/\\", \\"^@micro-apps/\\", \\"^@sdk/\\"],
+      \\"packagePatterns\\": [
+        \\"^@bricks/\\",
+        \\"^@libs/\\",
+        \\"^@micro-apps/\\",
+        \\"^@sdk/\\",
+        \\"^@templates/\\"
+      ],
       \\"enabled\\": false
     },
     {
@@ -462,6 +469,13 @@ declare namespace JSX {
     }
   ]
 }
+",
+  ],
+  Array [
+    "/tmp/next/my-repo/scripts/sync-dll.js",
+    "const { syncDllDeps } = require(\\"@easyops/build-config-factory\\");
+
+syncDllDeps();
 ",
   ],
   Array [

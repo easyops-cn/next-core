@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.5...@easyops/brick-scripts@1.7.0) (2020-03-03)
+
+### Features
+
+- run `yarn` and other scripts when creating packages ([d06771a](https://git.easyops.local/anyclouds/next-core/commits/d06771a))
+
+## [1.6.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.4...@easyops/brick-scripts@1.6.5) (2020-02-17)
+
+### Bug Fixes
+
+- generate brick docs only in next-basics ([8e759f4](https://git.easyops.local/anyclouds/next-core/commits/8e759f4))
+
+## [1.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.3...@easyops/brick-scripts@1.6.4) (2020-02-15)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+## [1.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.2...@easyops/brick-scripts@1.6.3) (2020-02-12)
+
+### Bug Fixes
+
+- remove dist before starting micro-apps ([f893ad1](https://git.easyops.local/anyclouds/next-core/commits/f893ad1))
+
+## [1.6.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.1...@easyops/brick-scripts@1.6.2) (2020-02-12)
+
+### Bug Fixes
+
+- concurrently to run tsc and build for micro-apps ([8237581](https://git.easyops.local/anyclouds/next-core/commits/8237581))
+
 ## [1.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.6.0...@easyops/brick-scripts@1.6.1) (2020-01-29)
 
 **Note:** Version bump only for package @easyops/brick-scripts

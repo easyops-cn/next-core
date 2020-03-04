@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const meow = require("meow");
+const chalk = require("chalk");
 const {
   getNamesOfMicroApps,
   getNamesOfBrickPackages,
@@ -28,6 +29,7 @@ module.exports = cwd => {
         --port              Set local server port, defaults to "8081"
         --ws-port           Set local WebSocket server port, defaults to "8090"
         --offline           Use offline mode
+        --verbose           Print verbose logs
     `,
       {
         flags: {
@@ -68,18 +70,21 @@ module.exports = cwd => {
           },
           server: {
             type: "string"
+          },
+          verbose: {
+            type: "boolean"
           }
         }
       }
     ).flags;
   }
 
-  const useOffline = process.env.OFFLINE === "true" || flags.offline;
-  const useSubdir = process.env.SUBDIR === "true" || flags.subdir;
-  const useRemote = process.env.REMOTE === "true" || flags.remote;
-  const useAutoRemote = process.env.AUTO_REMOTE === "true" || flags.autoRemote;
+  const useOffline = flags.offline || process.env.OFFLINE === "true";
+  const useSubdir = flags.subdir || process.env.SUBDIR === "true";
+  const useRemote = flags.remote || process.env.REMOTE === "true";
+  const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
   const publicPath = useSubdir ? "/next/" : "/";
-  let server = process.env.SERVER || flags.server;
+  let server = flags.server || process.env.SERVER;
   if (server) {
     if (/^\d+$/.test(server)) {
       server = `http://192.168.100.${server}`;
@@ -109,28 +114,47 @@ module.exports = cwd => {
     ? process.env.LOCAL_TEMPLATES.split(",")
     : [];
 
+  const rootDir = path.join(__dirname, "../../..");
   const useLocalSettings =
-    process.env.LOCAL_SETTINGS === "TRUE" || flags.localSettings;
+    flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
-    process.env.MERGE_SETTINGS === "TRUE" || flags.mergeSettings;
+    flags.mergeSettings || process.env.MERGE_SETTINGS === "true";
 
   function getBrickNextDir() {
     if (cwd) {
       return cwd;
     }
-    const rootDir = path.join(__dirname, "../../..");
-    const devConfigJs = path.join(rootDir, "dev.config.js");
-    if (fs.existsSync(devConfigJs)) {
-      return require(devConfigJs).brickNextDir;
+    const devConfig = getDevConfig();
+    if (devConfig && devConfig.brickNextDir) {
+      return devConfig.brickNextDir;
     }
     return path.join(rootDir, "../brick-next");
   }
 
+  function getDevConfig() {
+    const devConfigJsPath = path.join(rootDir, "dev.config.js");
+    if (fs.existsSync(devConfigJsPath)) {
+      return require(devConfigJsPath);
+    }
+  }
+
+  function getAppConfig() {
+    const devConfig = getDevConfig();
+    if (devConfig) {
+      return devConfig.appConfig || {};
+    }
+    return {};
+  }
+
   const brickNextDir = getBrickNextDir();
-  const microAppsDir = path.join(brickNextDir, "micro-apps");
-  const brickPackagesDir = path.join(brickNextDir, "bricks");
-  const templatePackagesDir = path.join(brickNextDir, "templates");
+  const microAppsDir = path.join(brickNextDir, "node_modules/@micro-apps");
+  const brickPackagesDir = path.join(brickNextDir, "node_modules/@bricks");
+  const templatePackagesDir = path.join(
+    brickNextDir,
+    "node_modules/@templates"
+  );
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
+  const appConfig = getAppConfig();
 
   const env = {
     useOffline,
@@ -150,15 +174,50 @@ module.exports = cwd => {
     navbarJsonPath,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
-    server
+    server,
+    appConfig,
+    verbose: flags.verbose || process.env.VERBOSE === "true"
   };
 
   if (useAutoRemote) {
     env.useRemote = true;
-    env.localBrickPackages = getNamesOfBrickPackages(env);
-    env.localMicroApps = getNamesOfMicroApps(env);
-    env.localTemplates = getNamesOfTemplatePackages(env);
+    env.localBrickPackages = getNamesOfBrickPackages(env).concat(
+      env.localBrickPackages
+    );
+    env.localMicroApps = getNamesOfMicroApps(env).concat(env.localMicroApps);
+    env.localTemplates = getNamesOfTemplatePackages(env).concat(
+      env.localTemplates
+    );
   }
+
+  if (env.verbose) {
+    console.log("Configure:", env);
+  }
+
+  if (env.localMicroApps.length > 0) {
+    console.log();
+    console.log("local micro-apps:", env.localMicroApps);
+  }
+
+  if (env.localBrickPackages.length > 0) {
+    console.log();
+    console.log("local bricks:", env.localBrickPackages);
+  }
+
+  if (env.localTemplates.length > 0) {
+    console.log();
+    console.log("local templates:", env.localTemplates);
+  }
+
+  console.log();
+  console.log(
+    chalk.bold.cyan("mode:"),
+    env.useAutoRemote
+      ? chalk.bgYellow("auto-remote")
+      : env.useRemote
+      ? chalk.bgCyan("remote")
+      : chalk.bgWhite("local")
+  );
 
   return env;
 };

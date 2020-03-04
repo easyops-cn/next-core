@@ -2,6 +2,7 @@
   "name": "$kebab-repo-name$",
   "private": true,
   "license": "UNLICENSED",
+  "homepage": "https://git.easyops.local/anyclouds/$kebab-repo-name$",
   "scripts": {
     "prepare": "lerna bootstrap",
     "start": "lerna run start",
@@ -15,6 +16,7 @@
     "serve": "brick-container-serve",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --ci",
+    "sync-dll": "node scripts/sync-dll.js",
     "yo": "brick-scripts",
     "yo-debug": "node --inspect-brk ./node_modules/@easyops/brick-scripts/dist/index.js"
   },
@@ -58,6 +60,7 @@
     "@types/yaml": "^1.2.0",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "babel-jest": "^24.9.0",
+    "concurrently": "^5.1.0",
     "cross-env": "^6.0.3",
     "document-register-element": "^1.14.3",
     "enzyme": "^3.10.0",
@@ -82,5 +85,8 @@
   "resolutions": {
     "@types/react": "^16.9.11",
     "lodash": "^4.17.15"
+  },
+  "easyops": {
+    "create-next-repo": "latest"
   }
 }

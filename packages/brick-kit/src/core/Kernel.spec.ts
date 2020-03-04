@@ -73,7 +73,7 @@ describe("Kernel", () => {
     searchAllMagicBrickConfig.mockResolvedValueOnce({
       list: [
         {
-          _object_id: "MAGIC_BRICK",
+          _object_id: "_BRICK_MAGIC",
           _object_version: 11,
           _pre_ts: 1579432390,
           _ts: 1579503251,
@@ -131,6 +131,9 @@ describe("Kernel", () => {
     expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
 
+    expect(kernel.getFeatureFlags()).toEqual({
+      "load-magic-brick-config": true
+    });
     expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
@@ -147,6 +150,14 @@ describe("Kernel", () => {
     kernel.currentUrl = "/a";
     kernel.updateWorkspaceStack();
     expect(kernel.getPreviousWorkspace()).toBe(undefined);
+    expect(kernel.getRecentApps()).toEqual({
+      previousApp: undefined,
+      currentApp: {
+        id: "a",
+        name: "A"
+      },
+      previousWorkspace: undefined
+    });
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {

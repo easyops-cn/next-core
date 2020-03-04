@@ -18,7 +18,7 @@ function getNamesOfMicroApps(env) {
   }
   return fs
     .readdirSync(env.microAppsDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
+    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
     .map(dirent => dirent.name);
 }
 
@@ -32,6 +32,13 @@ function getSingleStoryboard(env, microAppName) {
   if (fs.existsSync(storyboardJsonFile)) {
     try {
       storyboard = JSON.parse(fs.readFileSync(storyboardJsonFile, "utf8"));
+      const app = storyboard.app;
+      if (app && app.id) {
+        const id = app.id;
+        if (env.appConfig[id]) {
+          app.userConfig = env.appConfig[id];
+        }
+      }
     } catch (e) {
       console.error(`JSON.parse() error: ${storyboardJsonFile}`);
     }
@@ -51,7 +58,7 @@ function getNamesOfBrickPackages(env) {
   }
   return fs
     .readdirSync(env.brickPackagesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
+    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
     .map(dirent => dirent.name);
 }
 
@@ -89,7 +96,7 @@ function getNamesOfTemplatePackages(env) {
   }
   return fs
     .readdirSync(env.templatePackagesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
+    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
     .map(dirent => dirent.name);
 }
 

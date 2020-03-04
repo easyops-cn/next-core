@@ -5,7 +5,8 @@ import {
   RuntimeBrickConf,
   BrickTemplateFactory,
   TemplateRegistry,
-  TemplatePackage
+  TemplatePackage,
+  RouteConfOfBricks
 } from "@easyops/brick-types";
 import { loadScript } from "./loadScript";
 import { getDepsOfTemplates } from "./getTemplateDepsOfStoryboard";
@@ -56,14 +57,15 @@ export async function asyncProcessBrick(
         }
       }
       // Cleanup brickConf and remember original data for restore.
-      const { template, lifeCycle, $$params, params } = brickConf;
+      const { template, lifeCycle, $$params, params, if: rawIf } = brickConf;
       Object.keys(brickConf).forEach(key => {
         delete brickConf[key as keyof RuntimeBrickConf];
       });
       Object.assign(brickConf, updatedBrickConf, {
         $$template: template,
         $$params: $$params || cloneDeep(params),
-        $$lifeCycle: lifeCycle
+        $$lifeCycle: lifeCycle,
+        $$if: rawIf
       });
     }
   }
@@ -110,11 +112,19 @@ async function asyncProcessRoutes(
   if (Array.isArray(routes)) {
     await Promise.all(
       routes.map(async routeConf => {
-        await asyncProcessBricks(
-          routeConf.bricks,
-          templateRegistry,
-          templatePackages
-        );
+        if (routeConf.type === "routes") {
+          await asyncProcessRoutes(
+            routeConf.routes,
+            templateRegistry,
+            templatePackages
+          );
+        } else {
+          await asyncProcessBricks(
+            (routeConf as RouteConfOfBricks).bricks,
+            templateRegistry,
+            templatePackages
+          );
+        }
         const menuBrickConf = routeConf.menu;
         if (menuBrickConf && menuBrickConf.type === "brick") {
           await asyncProcessBrick(

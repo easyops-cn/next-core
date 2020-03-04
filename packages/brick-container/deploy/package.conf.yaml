@@ -16,7 +16,7 @@ port_guard: stopStart
 user: easyops:easyops
 dependencies:
   - name: api_gateway
-    version: ^1.7.18
+    version: ^1.7.48
   - name: nginx
     version: ^3.5.5
 start_dependencies:

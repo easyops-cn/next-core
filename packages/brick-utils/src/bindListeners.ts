@@ -1,4 +1,7 @@
-import { Location } from "history";
+/**
+ * 本页相关逻辑已迁移至 brick-kit src/bindListeners 文件中
+ */
+
 import {
   BrickEventHandler,
   BrickEventsMap,
@@ -7,11 +10,10 @@ import {
   PluginHistory,
   PluginRuntimeContext,
   ExecuteCustomBrickEventHandler,
-  SetPropsCustomBrickEventHandler
+  SetPropsCustomBrickEventHandler,
+  RuntimeBrickElement
 } from "@easyops/brick-types";
 import { computeRealValue, setProperties } from "./setProperties";
-import { isNil, forEach } from "lodash";
-import { isObject } from "./isObject";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -19,14 +21,39 @@ export function bindListeners(
   history: PluginHistory,
   context?: PluginRuntimeContext
 ): void {
+  // eslint-disable-next-line no-console
+  console.warn("`bindListeners` function is deprecated");
+
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
-      brick.addEventListener(
-        eventType,
-        listenerFactory(handler, history, context)
-      );
+      const listener = listenerFactory(handler, history, context);
+      brick.addEventListener(eventType, listener);
+      rememberListeners(brick, eventType, listener);
     });
   });
+}
+
+export function unbindListeners(brick: HTMLElement): void {
+  // eslint-disable-next-line no-console
+  console.warn("`unbindListeners` function is deprecated");
+  if ((brick as RuntimeBrickElement).$$eventListeners) {
+    for (const [eventType, listener] of (brick as RuntimeBrickElement)
+      .$$eventListeners) {
+      brick.removeEventListener(eventType, listener);
+    }
+    (brick as RuntimeBrickElement).$$eventListeners = [];
+  }
+}
+
+function rememberListeners(
+  brick: RuntimeBrickElement,
+  eventType: string,
+  listener: EventListener
+): void {
+  if (!brick.$$eventListeners) {
+    brick.$$eventListeners = [];
+  }
+  brick.$$eventListeners.push([eventType, listener]);
 }
 
 export function isBuiltinHandler(
@@ -67,6 +94,9 @@ export function listenerFactory(
     switch (handler.action) {
       case "history.push":
       case "history.replace":
+      case "history.pushQuery":
+      case "history.replaceQuery":
+      case "history.pushAnchor":
         return builtinHistoryListenerFactory(
           method,
           handler.args,
@@ -75,18 +105,18 @@ export function listenerFactory(
         );
       case "history.goBack":
       case "history.goForward":
+      case "history.reload":
         return builtinHistoryWithoutArgsListenerFactory(method, history);
-      case "history.pushQuery":
-      case "history.replaceQuery":
-        return builtinQueryListenerFactory(
-          method,
-          handler.args,
-          history,
-          context
-        );
+      case "legacy.go":
+        return builtinIframeListenerFactory(method, handler.args, context);
+      case "window.open":
+        return builtinWindowListenerFactory(method, handler.args, context);
       case "location.reload":
-        return () => {
-          location.reload();
+      case "location.assign":
+        return builtinLocationListenerFactory(method, handler.args, context);
+      case "event.preventDefault":
+        return event => {
+          event.preventDefault();
         };
       case "console.log":
       case "console.error":
@@ -105,12 +135,71 @@ export function listenerFactory(
   }
 
   if (isCustomHandler(handler)) {
-    return customListenerFactory(handler, context);
+    return customListenerFactory(handler, history, context);
   }
+}
+
+function builtinLocationListenerFactory(
+  method: "assign" | "reload",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    if (method === "assign") {
+      const [url] = argsFactory(args, context, event);
+      location.assign(url);
+    } else {
+      location[method]();
+    }
+  } as EventListener;
+}
+
+function builtinIframeListenerFactory(
+  method: "legacy.go",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  const legacyIframeMountPoint = document.querySelector(
+    "#legacy-iframe-mount-point"
+  );
+
+  const postMessage = (url: string) => {
+    const iframe = legacyIframeMountPoint.firstChild as HTMLIFrameElement;
+    if (
+      iframe &&
+      iframe.contentWindow &&
+      (iframe.contentWindow as any).angular
+    ) {
+      iframe.contentWindow.postMessage(
+        {
+          type: "location.url",
+          url
+        },
+        location.origin
+      );
+    }
+  };
+
+  return function(event: CustomEvent): void {
+    const [url] = argsFactory(args, context, event);
+    postMessage(url);
+  } as EventListener;
+}
+
+function builtinWindowListenerFactory(
+  method: "open",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function(event: CustomEvent): void {
+    const [url, target] = argsFactory(args, context, event);
+    window.open(url, target || "_self");
+  } as EventListener;
 }
 
 function customListenerFactory(
   handler: CustomBrickEventHandler,
+  history: PluginHistory,
   context?: PluginRuntimeContext
 ): EventListener {
   return function(event: CustomEvent): void {
@@ -128,13 +217,40 @@ function customListenerFactory(
       targets.push(handler.target);
     }
     if (targets.length === 0) {
-      // eslint-disable-next-line no-console
-      console.error("target not found:", handler.target);
+      if (process.env.NODE_ENV !== "test") {
+        // eslint-disable-next-line no-console
+        console.error("target not found:", handler.target);
+      }
       return;
     }
     if (isExecuteCustomHandler(handler)) {
-      targets.forEach(target => {
-        target[handler.method]?.(...argsFactory(handler.args, context, event));
+      targets.forEach(async target => {
+        const task = target[handler.method]?.(
+          ...argsFactory(handler.args, context, event)
+        );
+        const { success, error } = handler.callback ?? {};
+        if (success || error) {
+          try {
+            const result = await task;
+            if (success) {
+              const successEvent = new CustomEvent("callback.success", {
+                detail: result
+              });
+              [].concat(success).forEach(eachSuccess => {
+                listenerFactory(eachSuccess, history, context)(successEvent);
+              });
+            }
+          } catch (err) {
+            if (error) {
+              const errorEvent = new CustomEvent("callback.error", {
+                detail: err
+              });
+              [].concat(error).forEach(eachError => {
+                listenerFactory(eachError, history, context)(errorEvent);
+              });
+            }
+          }
+        }
       });
     } else if (isSetPropsCustomHandler(handler)) {
       setProperties(
@@ -144,56 +260,29 @@ function customListenerFactory(
           ...context,
           event
         },
-        handler.injectDeep
+        handler.injectDeep !== false
       );
     }
   } as EventListener;
 }
 
 function builtinHistoryListenerFactory(
-  method: "push" | "replace",
+  method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
   args: any[],
   history: PluginHistory,
   context?: PluginRuntimeContext
 ): EventListener {
   return function(event: CustomEvent): void {
-    history[method](...(argsFactory(args, context, event, true) as [Location]));
+    (history[method] as any)(...argsFactory(args, context, event, true));
   } as EventListener;
 }
 
 function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward",
+  method: "goBack" | "goForward" | "reload",
   history: PluginHistory
 ): EventListener {
   return function(): void {
     history[method]();
-  } as EventListener;
-}
-
-function builtinQueryListenerFactory(
-  method: "pushQuery" | "replaceQuery",
-  args: any[],
-  history: PluginHistory,
-  context?: PluginRuntimeContext
-): EventListener {
-  return function(event: CustomEvent): void {
-    const hasArgs = Array.isArray(args);
-    const realMethod = method === "pushQuery" ? "push" : "replace";
-    const urlSearchParams = new URLSearchParams(history.location.search);
-    const assignArgs = {};
-    if (hasArgs || isObject(event.detail)) {
-      const realArgs = argsFactory(args, context, event, true);
-      const extraQuery = hasArgs && realArgs[1] ? realArgs[1].extraQuery : {};
-      Object.assign(assignArgs, realArgs[0], extraQuery);
-      forEach(assignArgs, (v, k) => {
-        if (isNil(v) || v === "") {
-          urlSearchParams.delete(k);
-        } else {
-          urlSearchParams.set(k, v);
-        }
-      });
-      history[realMethod](`?${urlSearchParams.toString()}`);
-    }
   } as EventListener;
 }
 

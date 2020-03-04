@@ -1,20 +1,28 @@
 // File System, hard to test for now.
 /* istanbul ignore file */
 import path from "path";
-import fs from "fs-extra";
 import chalk from "chalk";
 import meow from "meow";
-import { loadTemplate } from "./loaders/loadTemplate";
+import { update } from "./update";
+import { create } from "./create";
 
 const { input, flags } = meow({
   flags: {
     internal: {
       type: "boolean"
+    },
+    update: {
+      type: "boolean",
+      alias: "u"
+    },
+    install: {
+      type: "boolean",
+      default: true
     }
   }
 });
 
-export async function create(): Promise<void> {
+export async function main(): Promise<void> {
   if (input.length !== 1) {
     throw new Error("Usage: create-next-repo my-repo");
   }
@@ -27,27 +35,13 @@ export async function create(): Promise<void> {
 
   const cwd = process.cwd();
   const targetDir = path.join(cwd, repoName);
-  if (fs.existsSync(targetDir)) {
-    throw new Error(`Target directory exists: ${targetDir}`);
-  }
 
-  const files = loadTemplate(
-    repoName,
-    targetDir,
-    flags as { internal: boolean }
-  );
-
-  for (const [filePath, content] of files) {
-    fs.outputFileSync(filePath, content);
-    console.log(
-      `${chalk.bold("File created")}: ./${path.relative(cwd, filePath)}`
-    );
+  if (flags.update) {
+    await update(repoName, targetDir, flags);
+  } else {
+    await create(repoName, targetDir, flags);
   }
 
   console.log();
-  console.log(
-    chalk.green(
-      "No worries! Please remember to go to your repo dir and run `yarn`."
-    )
-  );
+  console.log(chalk.green("No worries!"));
 }

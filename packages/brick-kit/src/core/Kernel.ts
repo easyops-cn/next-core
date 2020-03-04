@@ -10,12 +10,14 @@ import {
   InterceptorParams,
   MicroApp,
   UserInfo,
-  MagicBrickConfig
+  MagicBrickConfig,
+  FeatureFlags
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
-import { RelatedApp, VisitedWorkspace } from "./interfaces";
+import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
+import { mergeAppConfig } from "./processors";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -25,6 +27,7 @@ export class Kernel {
   public loadingBar: LoadingBar;
   public router: Router;
   public currentApp: MicroApp;
+  public previousApp: MicroApp;
   public nextApp: MicroApp;
   public currentUrl: string;
   public workspaceStack: VisitedWorkspace[] = [];
@@ -93,6 +96,8 @@ export class Kernel {
         interceptorParams
       })
     );
+    // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+    mergeAppConfig(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
       originalStoryboards: cloneDeep(bootstrapResponse.storyboards),
@@ -188,7 +193,7 @@ export class Kernel {
     const allMagicBrickConfiMap: Map<string, MagicBrickConfig> = new Map();
     try {
       const allMagicBrickConfig = (
-        await InstanceApi.postSearch("MAGIC_BRICK", {
+        await InstanceApi.postSearch("_BRICK_MAGIC", {
           page: 1,
           // TODO(Lynette): 暂时设置3000，待后台提供全量接口
           page_size: 3000,
@@ -274,5 +279,17 @@ export class Kernel {
 
   popWorkspaceStack(): void {
     this.workspaceStack.pop();
+  }
+
+  getRecentApps(): RecentApps {
+    return {
+      previousApp: this.previousApp,
+      currentApp: this.currentApp,
+      previousWorkspace: this.getPreviousWorkspace()
+    };
+  }
+
+  getFeatureFlags(): FeatureFlags {
+    return Object.assign({}, this.bootstrapData.settings?.featureFlags);
   }
 }

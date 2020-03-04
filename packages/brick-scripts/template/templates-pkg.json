@@ -2,13 +2,9 @@
   "name": "@templates/$kebab-package-name$",
   "version": "0.1.0",
   "description": "> TODO: description",
-  "homepage": "https://git.easyops.local/anyclouds/brick-next/tree/master/templates/$kebab-package-name$",
+  "homepage": "$workspace-homepage$/tree/master/templates/$kebab-package-name$",
   "license": "UNLICENSED",
   "files": ["dist", "deploy", "version.ini"],
-  "repository": {
-    "type": "git",
-    "url": "git@git.easyops.local:anyclouds/brick-next.git"
-  },
   "scripts": {
     "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",
     "build": "cross-env NODE_ENV='production' webpack --config webpack.config.js",

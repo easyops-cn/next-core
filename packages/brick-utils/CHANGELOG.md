@@ -3,6 +3,170 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.29.0...@easyops/brick-utils@1.30.0) (2020-03-03)
+
+### Features
+
+- 迁移内置事件相关逻辑到 bric-kit，并新增 message 和 handleHttpError ,handleHttpError action ([6bf4baa](https://git.easyops.local/anyclouds/next-core/commits/6bf4baa))
+
+# [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.28.0...@easyops/brick-utils@1.29.0) (2020-03-02)
+
+### Features
+
+- **placeholder:** add `yaml` and `yamlStringify` pipe, refs BRICK_STORE-1167 ([a261bfd](https://git.easyops.local/anyclouds/next-core/commits/a261bfd))
+
+# [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.27.0...@easyops/brick-utils@1.28.0) (2020-03-02)
+
+### Bug Fixes
+
+- support `${ANCHOR.x}` ([4498402](https://git.easyops.local/anyclouds/next-core/commits/4498402))
+
+### Features
+
+- **placeholder:** support more pipes, like `get`, `join`, +/-/\*/÷ and others ([5dfc007](https://git.easyops.local/anyclouds/next-core/commits/5dfc007))
+
+# [1.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.26.1...@easyops/brick-utils@1.27.0) (2020-02-28)
+
+### Features
+
+- build event iframe, Refs INSTANCE-1045 ([a403ec0](https://git.easyops.local/anyclouds/next-core/commits/a403ec0))
+
+## [1.26.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.26.0...@easyops/brick-utils@1.26.1) (2020-02-28)
+
+### Bug Fixes
+
+- transform only spread the first level keys ([75ee477](https://git.easyops.local/anyclouds/next-core/commits/75ee477))
+
+# [1.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.25.0...@easyops/brick-utils@1.26.0) (2020-02-28)
+
+### Bug Fixes
+
+- warn if `updateArgs` received a non-custom-event ([e01bbe8](https://git.easyops.local/anyclouds/next-core/commits/e01bbe8))
+
+### Features
+
+- support callback in event handlers ([3bd551e](https://git.easyops.local/anyclouds/next-core/commits/3bd551e))
+
+# [1.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.24.1...@easyops/brick-utils@1.25.0) (2020-02-27)
+
+### Features
+
+- **pipe:** groupByToIndex ([7a53773](https://git.easyops.local/anyclouds/next-core/commits/7a53773))
+
+## [1.24.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.24.0...@easyops/brick-utils@1.24.1) (2020-02-27)
+
+### Bug Fixes
+
+- **placeholder:** make placeholders more restricted. ([7741d74](https://git.easyops.local/anyclouds/next-core/commits/7741d74))
+
+# [1.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.23.0...@easyops/brick-utils@1.24.0) (2020-02-27)
+
+### Features
+
+- support onAnchorLoad / onAnchorUnload ([40155ff](https://git.easyops.local/anyclouds/next-core/commits/40155ff))
+
+# [1.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.22.0...@easyops/brick-utils@1.23.0) (2020-02-25)
+
+### Features
+
+- add pipe map refs MONITOR-259 ([450e03e](https://git.easyops.local/anyclouds/next-core/commits/450e03e))
+
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.21.0...@easyops/brick-utils@1.22.0) (2020-02-24)
+
+### Bug Fixes
+
+- pipe parameters also support literal string ([8a6c7a2](https://git.easyops.local/anyclouds/next-core/commits/8a6c7a2))
+
+### Features
+
+- **transform:** support transform from mixed array and non-array ([19f242b](https://git.easyops.local/anyclouds/next-core/commits/19f242b))
+
+# [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.20.1...@easyops/brick-utils@1.21.0) (2020-02-24)
+
+### Features
+
+- support pipe parameters and complex value in placeholders ([317e63b](https://git.easyops.local/anyclouds/next-core/commits/317e63b))
+
+## [1.20.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.20.0...@easyops/brick-utils@1.20.1) (2020-02-21)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [1.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.19.0...@easyops/brick-utils@1.20.0) (2020-02-20)
+
+### Features
+
+- add listen event: window open, Refs BRICK_STORE-1131 ([e83e6bc](https://git.easyops.local/anyclouds/next-core/commits/e83e6bc))
+
+# [1.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.18.0...@easyops/brick-utils@1.19.0) (2020-02-19)
+
+### Features
+
+- builtin location assign refs BRICK_STORE-1131 ([9597e79](https://git.easyops.local/anyclouds/next-core/commits/9597e79))
+
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.17.0...@easyops/brick-utils@1.18.0) (2020-02-19)
+
+### Features
+
+- support array values in query ([a4a8544](https://git.easyops.local/anyclouds/next-core/commits/a4a8544))
+
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.16.0...@easyops/brick-utils@1.17.0) (2020-02-18)
+
+### Features
+
+- new method for providers: setArgs/setArgsAndExecute ([b10ca3f](https://git.easyops.local/anyclouds/next-core/commits/b10ca3f))
+- new pipe: not ([b3e5057](https://git.easyops.local/anyclouds/next-core/commits/b3e5057))
+- remove processStoryboard and processBrick ([9f8ac13](https://git.easyops.local/anyclouds/next-core/commits/9f8ac13))
+- support if in BrickConf ([a7d9334](https://git.easyops.local/anyclouds/next-core/commits/a7d9334)), closes [anyclouds/brick-next#22](https://git.easyops.local/anyclouds/next-core/issues/22)
+- support injecting feature flags ([dc2a906](https://git.easyops.local/anyclouds/next-core/commits/dc2a906))
+- transform support default value and pipes ([cd4986c](https://git.easyops.local/anyclouds/next-core/commits/cd4986c))
+
+# [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.15.0...@easyops/brick-utils@1.16.0) (2020-02-15)
+
+### Features
+
+- unbindListeners ([a567cc4](https://git.easyops.local/anyclouds/next-core/commits/a567cc4))
+
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.14.0...@easyops/brick-utils@1.15.0) (2020-02-13)
+
+### Features
+
+- 框架提供 instanceId 变量 ([22a04b5](https://git.easyops.local/anyclouds/next-core/commits/22a04b5))
+
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.13.1...@easyops/brick-utils@1.14.0) (2020-02-12)
+
+### Features
+
+- support redirect in routes ([2e290ff](https://git.easyops.local/anyclouds/next-core/commits/2e290ff)), closes [anyclouds/brick-next#20](https://git.easyops.local/anyclouds/next-core/issues/20)
+
+## [1.13.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.13.0...@easyops/brick-utils@1.13.1) (2020-02-11)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.12.0...@easyops/brick-utils@1.13.0) (2020-02-07)
+
+### Features
+
+- 框架提供当前用户的系统变量 ([cff4566](https://git.easyops.local/anyclouds/next-core/commits/cff4566))
+
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.11.0...@easyops/brick-utils@1.12.0) (2020-02-07)
+
+### Features
+
+- **provider:** support `executeWithArgs` ([ce2eb38](https://git.easyops.local/anyclouds/next-core/commits/ce2eb38))
+
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.10.0...@easyops/brick-utils@1.11.0) (2020-02-05)
+
+### Features
+
+- support routes in routes ([2ac2a81](https://git.easyops.local/anyclouds/next-core/commits/2ac2a81))
+
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.9.2...@easyops/brick-utils@1.10.0) (2020-02-04)
+
+### Features
+
+- add 'history.reload' and 'event.preventDefault' brick event action ([7f8363c](https://git.easyops.local/anyclouds/next-core/commits/7f8363c))
+- **set-properties:** `injectDeep` default to be true, refs BRICK_STORE-987 ([cd12bb8](https://git.easyops.local/anyclouds/next-core/commits/cd12bb8))
+
 ## [1.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.9.1...@easyops/brick-utils@1.9.2) (2020-01-29)
 
 **Note:** Version bump only for package @easyops/brick-utils

@@ -1,8 +1,12 @@
-import { bindListeners } from "@easyops/brick-utils";
+import { bindListeners } from "../bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
 
-jest.mock("@easyops/brick-utils");
+jest.mock("../bindListeners");
 const spyOnBindListeners = bindListeners as jest.Mock;
+
+(global as any).customElements = {
+  get: (name: string) => name === "custom-existed"
+};
 
 describe("BrickNode", () => {
   it("should mount simple brick", () => {
@@ -12,7 +16,9 @@ describe("BrickNode", () => {
         title: "good"
       },
       events: {
-        click: () => {}
+        click: () => {
+          // Do nothing
+        }
       }
     };
     const brickNode = new BrickNode(runtimeBrick);
@@ -56,12 +62,12 @@ describe("BrickNode", () => {
 
   it("should unmount", () => {
     const runtimeBrick: RuntimeBrick = {
-      type: "div",
+      type: "custom-existed",
       properties: {},
       events: {},
       children: [
         {
-          type: "p",
+          type: "custom-not-existed",
           properties: {
             title: "better"
           },
@@ -71,9 +77,13 @@ describe("BrickNode", () => {
         }
       ]
     };
+    const consoleError = jest.spyOn(console, "error");
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount();
     expect(node.childNodes.length).toBe(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError.mock.calls[0][0]).toContain("custom-not-existed");
+    consoleError.mockRestore();
     brickNode.unmount();
     // Currently nothing happened.
     expect(node.childNodes.length).toBe(1);

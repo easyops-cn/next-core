@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="43px" viewBox="0 0 34 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>采集</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <path d="M29,0 C30.1045695,-2.02906125e-16 31,0.8954305 31,2 L31,34.3257828 C31,34.8780676 30.5522847,35.3257828 30,35.3257828 C29.8345109,35.3257828 29.6716086,35.2847123 29.5259002,35.2062539 L18.9481996,29.510569 C18.356247,29.1918253 17.643753,29.1918253 17.0518004,29.510569 L6.47409982,35.2062539 C5.98782906,35.468092 5.381367,35.2861534 5.1195289,34.7998827 C5.04107053,34.6541743 5,34.491272 5,34.3257828 L5,2 C5,0.8954305 5.8954305,2.02906125e-16 7,0 L29,0 Z M18,8 L15.9427516,12.1684405 L11.3426044,12.836881 L14.6713022,16.0815595 L13.8855032,20.663119 L18,18.5 L22.1144968,20.663119 L21.3286978,16.0815595 L24.6573956,12.836881 L20.0572484,12.1684405 L18,8 Z" id="path-2"></path>
+        <filter x="-26.9%" y="-13.9%" width="153.8%" height="137.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="设计稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组" transform="translate(-1.000000, 2.000000)">
+            <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="36" height="36"></rect>
+            <g id="形状结合">
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+        </g>
+    </g>
+</svg>

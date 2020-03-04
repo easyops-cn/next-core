@@ -4,6 +4,7 @@ const express = require("express");
 const httpProxyMiddleware = require("http-proxy-middleware");
 const { throttle } = require("lodash");
 const chokidar = require("chokidar");
+const chalk = require("chalk");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
@@ -15,6 +16,7 @@ const distDir = path.dirname(
 );
 
 const env = getEnv(process.cwd());
+
 const port = env.port;
 
 serveLocal(env, app);
@@ -71,18 +73,26 @@ app.use(serveIndexHtml);
 
 app.listen(port);
 
-console.log(`Started serving at: http://localhost:${port}${env.publicPath}`);
+console.log(
+  chalk.bold.green("Started serving at:"),
+  `http://localhost:${port}${env.publicPath}`
+);
 
 // 建立 websocket 连接支持自动刷新
 const WebSocket = require("ws");
 
 const wss = new WebSocket.Server({ port: env.wsPort });
 
-const watcher = chokidar.watch([
-  path.join(env.brickPackagesDir, "*/dist/*.js"),
-  path.join(env.microAppsDir, "*/storyboard.json"),
-  path.join(env.templatePackagesDir, "*/dist/*.js")
-]);
+const watcher = chokidar.watch(
+  [
+    path.join(env.brickPackagesDir, "*/dist/*.js"),
+    path.join(env.microAppsDir, "*/storyboard.json"),
+    path.join(env.templatePackagesDir, "*/dist/*.js")
+  ],
+  {
+    followSymlinks: true
+  }
+);
 
 const throttledOnChange = throttle(
   () => {

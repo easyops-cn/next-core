@@ -3,6 +3,120 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.26.0...@easyops/brick-types@1.27.0) (2020-03-03)
+
+### Bug Fixes
+
+- fix types of state.from ([788f25e](https://git.easyops.local/anyclouds/next-core/commits/788f25e))
+
+### Features
+
+- 迁移内置事件相关逻辑到 bric-kit，并新增 message 和 handleHttpError ,handleHttpError action ([6bf4baa](https://git.easyops.local/anyclouds/next-core/commits/6bf4baa))
+
+# [1.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.25.0...@easyops/brick-types@1.26.0) (2020-03-02)
+
+### Features
+
+- support `if` in `useBrick` ([1c7e8c4](https://git.easyops.local/anyclouds/next-core/commits/1c7e8c4))
+
+# [1.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.24.0...@easyops/brick-types@1.25.0) (2020-02-28)
+
+### Features
+
+- build event iframe, Refs INSTANCE-1045 ([a403ec0](https://git.easyops.local/anyclouds/next-core/commits/a403ec0))
+
+# [1.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.23.0...@easyops/brick-types@1.24.0) (2020-02-28)
+
+### Features
+
+- support callback in event handlers ([3bd551e](https://git.easyops.local/anyclouds/next-core/commits/3bd551e))
+
+# [1.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.22.0...@easyops/brick-types@1.23.0) (2020-02-27)
+
+### Features
+
+- support onAnchorLoad / onAnchorUnload ([40155ff](https://git.easyops.local/anyclouds/next-core/commits/40155ff))
+
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.21.0...@easyops/brick-types@1.22.0) (2020-02-24)
+
+### Features
+
+- **transform:** support transform from mixed array and non-array ([19f242b](https://git.easyops.local/anyclouds/next-core/commits/19f242b))
+
+# [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.20.0...@easyops/brick-types@1.21.0) (2020-02-21)
+
+### Features
+
+- support life cycle of menu ([103b69f](https://git.easyops.local/anyclouds/next-core/commits/103b69f))
+- support template in useBrick ([98305ae](https://git.easyops.local/anyclouds/next-core/commits/98305ae))
+
+# [1.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.19.0...@easyops/brick-types@1.20.0) (2020-02-20)
+
+### Features
+
+- add listen event: window open, Refs BRICK_STORE-1131 ([e83e6bc](https://git.easyops.local/anyclouds/next-core/commits/e83e6bc))
+
+# [1.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.18.0...@easyops/brick-types@1.19.0) (2020-02-19)
+
+### Features
+
+- builtin location assign refs BRICK_STORE-1131 ([9597e79](https://git.easyops.local/anyclouds/next-core/commits/9597e79))
+
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.17.0...@easyops/brick-types@1.18.0) (2020-02-19)
+
+### Features
+
+- support multiple bricks in useBrick ([b30b6b4](https://git.easyops.local/anyclouds/next-core/commits/b30b6b4))
+
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.16.1...@easyops/brick-types@1.17.0) (2020-02-18)
+
+### Features
+
+- support if in BrickConf ([a7d9334](https://git.easyops.local/anyclouds/next-core/commits/a7d9334)), closes [anyclouds/brick-next#22](https://git.easyops.local/anyclouds/next-core/issues/22)
+- support injecting feature flags ([dc2a906](https://git.easyops.local/anyclouds/next-core/commits/dc2a906))
+
+## [1.16.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.16.0...@easyops/brick-types@1.16.1) (2020-02-15)
+
+### Bug Fixes
+
+- **useBrick:** fix a bug that event listeners are duplicated ([a1f97f9](https://git.easyops.local/anyclouds/next-core/commits/a1f97f9))
+
+# [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.15.0...@easyops/brick-types@1.16.0) (2020-02-13)
+
+### Features
+
+- 框架提供 instanceId 变量 ([22a04b5](https://git.easyops.local/anyclouds/next-core/commits/22a04b5))
+
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.14.0...@easyops/brick-types@1.15.0) (2020-02-12)
+
+### Features
+
+- support redirect in routes ([2e290ff](https://git.easyops.local/anyclouds/next-core/commits/2e290ff)), closes [anyclouds/brick-next#20](https://git.easyops.local/anyclouds/next-core/issues/20)
+
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.13.0...@easyops/brick-types@1.14.0) (2020-02-11)
+
+### Features
+
+- app config ([85033d0](https://git.easyops.local/anyclouds/next-core/commits/85033d0))
+
+# [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.12.0...@easyops/brick-types@1.13.0) (2020-02-07)
+
+### Features
+
+- 框架提供当前用户的系统变量 ([cff4566](https://git.easyops.local/anyclouds/next-core/commits/cff4566))
+
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.11.0...@easyops/brick-types@1.12.0) (2020-02-05)
+
+### Features
+
+- support routes in routes ([2ac2a81](https://git.easyops.local/anyclouds/next-core/commits/2ac2a81))
+
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.10.0...@easyops/brick-types@1.11.0) (2020-02-04)
+
+### Features
+
+- add 'history.reload' and 'event.preventDefault' brick event action ([7f8363c](https://git.easyops.local/anyclouds/next-core/commits/7f8363c))
+
 # [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.9.0...@easyops/brick-types@1.10.0) (2020-01-29)
 
 ### Features

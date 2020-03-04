@@ -1,4 +1,4 @@
-import { locationsAreEqual, createPath } from "history";
+import { locationsAreEqual, createPath, Action } from "history";
 import { PluginLocation } from "@easyops/brick-types";
 import {
   loadScript,
@@ -15,34 +15,46 @@ import {
   MountableElement,
   unmountTree,
   MountRoutesResult,
-  appendBrick
+  appendBrick,
+  Resolver
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { RecentApps } from "./interfaces";
+import { RecentApps, RouterState } from "./interfaces";
 
 export class Router {
   private defaultCollapsed = false;
-  locationContext: LocationContext;
+  private locationContext: LocationContext;
   private rendering = false;
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
+  private state: RouterState = "initial";
 
   constructor(private kernel: Kernel) {}
 
   async bootstrap(): Promise<void> {
     const history = getHistory();
     this.prevLocation = history.location;
-    history.listen(async (location: PluginLocation) => {
+    history.listen(async (location: PluginLocation, action: Action) => {
       let ignoreRendering = false;
       const omittedLocationProps: Partial<PluginLocation> = {
-        hash: null
+        hash: null,
+        state: null
       };
-      // If the new location is triggered by browser pop state, the `key` is undefined.
-      // Then we omit the "key" when checking whether locations are equal.
-      if (location.key === undefined) {
+      // Omit the "key" when checking whether locations are equal in certain situations.
+      if (
+        // When current location is triggered by browser action of hash link.
+        location.key === undefined ||
+        // When current location is triggered by browser action of non-push-or-replace,
+        // such as goBack or goForward,
+        (action === "POP" &&
+          // and the previous location was triggered by hash link,
+          (this.prevLocation.key === undefined ||
+            // or the previous location specified notify false.
+            this.prevLocation.state?.notify === false))
+      ) {
         omittedLocationProps.key = null;
       }
       if (
@@ -50,9 +62,9 @@ export class Router {
           { ...this.prevLocation, ...omittedLocationProps },
           { ...location, ...omittedLocationProps }
         ) ||
-        (location.state && location.state.notify === false)
+        (action !== "POP" && location.state?.notify === false)
       ) {
-        // Ignore rendering if location not changed except hash and key.
+        // Ignore rendering if location not changed except hash, state and optional key.
         // Ignore rendering if notify is `false`.
         ignoreRendering = true;
       }
@@ -153,6 +165,7 @@ export class Router {
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
 
+    this.state = "initial";
     unmountTree(mountPoints.bg as MountableElement);
 
     if (storyboard) {
@@ -166,9 +179,11 @@ export class Router {
           app: this.kernel.nextApp,
           breadcrumb: []
         },
-        redirect: undefined,
-        hybrid: false,
-        failed: false
+        flags: {
+          redirect: undefined,
+          hybrid: false,
+          failed: false
+        }
       };
       try {
         await locationContext.mountRoutes(
@@ -189,7 +204,7 @@ export class Router {
           return;
         }
 
-        mountRoutesResult.failed = true;
+        mountRoutesResult.flags.failed = true;
         mountRoutesResult.main = [
           {
             type: "basic-bricks.page-error",
@@ -201,36 +216,31 @@ export class Router {
         ];
       }
 
-      const {
-        redirect,
-        main,
-        menuInBg,
-        menuBar,
-        appBar,
-        barsHidden,
-        hybrid,
-        failed
-      } = mountRoutesResult;
+      const { main, menuInBg, menuBar, appBar, flags } = mountRoutesResult;
+
+      const { redirect, barsHidden, hybrid, failed } = flags;
 
       if (redirect) {
         history.replace(redirect.path, redirect.state);
         return;
       }
 
+      this.state = "ready-to-mount";
+
       if (appChanged) {
         this.kernel.currentApp = currentApp;
+        this.kernel.previousApp = previousApp;
       }
       this.kernel.currentUrl = createPath(location);
       await this.kernel.updateWorkspaceStack();
 
+      // Unmount main tree to avoid app change fired before new routes mounted.
+      unmountTree(mountPoints.main as MountableElement);
+
       if (appChanged) {
         window.dispatchEvent(
           new CustomEvent<RecentApps>("app.change", {
-            detail: {
-              previousApp,
-              currentApp,
-              previousWorkspace: this.kernel.getPreviousWorkspace()
-            }
+            detail: this.kernel.getRecentApps()
           })
         );
       }
@@ -272,11 +282,15 @@ export class Router {
         mountTree(main, mountPoints.main as MountableElement);
         if (!failed) {
           this.locationContext.handlePageLoad();
+          this.locationContext.handleAnchorLoad();
           this.locationContext.resolver.scheduleRefreshing();
         }
+        this.state = "mounted";
         return;
       }
     }
+
+    this.state = "ready-to-mount";
 
     mountTree(
       [
@@ -290,5 +304,16 @@ export class Router {
       ],
       mountPoints.main as MountableElement
     );
+
+    this.state = "mounted";
+  }
+
+  /* istanbul ignore next */
+  getResolver(): Resolver {
+    return this.locationContext.resolver;
+  }
+
+  getState(): RouterState {
+    return this.state;
   }
 }

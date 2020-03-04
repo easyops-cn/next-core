@@ -39,10 +39,28 @@ describe("scanTemplatesInStoryboard", () => {
             template: "d"
           }
           // `bricks` not set
+        },
+        {
+          type: "routes",
+          routes: [
+            {
+              bricks: [
+                {
+                  template: "f"
+                }
+              ]
+            }
+          ]
         }
       ]
     } as any;
-    expect(scanTemplatesInStoryboard(storyboard)).toEqual(["a", "c", "e", "d"]);
+    expect(scanTemplatesInStoryboard(storyboard)).toEqual([
+      "a",
+      "c",
+      "e",
+      "d",
+      "f"
+    ]);
   });
 });
 
@@ -81,6 +99,18 @@ describe("getTemplateDepsOfStoryboard", () => {
             template: "d"
           }
           // `bricks` not set
+        },
+        {
+          type: "routes",
+          routes: [
+            {
+              bricks: [
+                {
+                  template: "f"
+                }
+              ]
+            }
+          ]
         }
       ]
     } as any;

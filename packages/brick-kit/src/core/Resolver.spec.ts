@@ -10,6 +10,9 @@ describe("Resolver", () => {
   let resolver: Resolver;
 
   beforeEach(() => {
+    (window as any).customElements = {
+      get: (name: string) => true
+    };
     resolver = new Resolver(kernel as any);
   });
 
@@ -24,7 +27,9 @@ describe("Resolver", () => {
         hello: "world"
       }
     });
+    const providerName = "any-provider";
     const provider = {
+      tagName: providerName,
       testMethod,
       interval: {
         delay: 3000,
@@ -42,7 +47,7 @@ describe("Resolver", () => {
         useResolves: [
           {
             name: "testProp",
-            provider: "any-provider",
+            provider: providerName,
             method: "testMethod"
           }
         ]
@@ -57,10 +62,12 @@ describe("Resolver", () => {
       lifeCycle: {
         useResolves: [
           {
-            name: "testProp",
             provider: "any-provider",
             method: "testMethod",
-            field: "data.hello"
+            transformFrom: "data",
+            transform: {
+              testProp: "${quality} @{hello}"
+            }
           }
         ]
       }
@@ -71,14 +78,38 @@ describe("Resolver", () => {
         lifeCycle: brickA.lifeCycle
       },
       brickA,
-      null
+      {
+        match: {
+          params: {
+            quality: "better"
+          }
+        }
+      } as any
     );
     await resolver.resolve(
       {
         lifeCycle: brickB.lifeCycle
       },
       brickB,
-      null
+      {
+        match: {
+          params: {
+            quality: "better"
+          }
+        }
+      } as any
+    );
+    const redirectConf = {};
+    await resolver.resolveOne(
+      "reference",
+      {
+        provider: "any-provider",
+        method: "testMethod",
+        transform: {
+          redirect: "/go/to/@{data.hello}"
+        }
+      },
+      redirectConf
     );
     expect(testMethod).toBeCalledTimes(1);
     expect(brickA.properties).toEqual({
@@ -90,7 +121,10 @@ describe("Resolver", () => {
     });
     expect(brickB.properties).toEqual({
       existedProp: "any",
-      testProp: "world"
+      testProp: "better world"
+    });
+    expect(redirectConf).toEqual({
+      redirect: "/go/to/world"
     });
 
     resolver.scheduleRefreshing();
@@ -100,10 +134,12 @@ describe("Resolver", () => {
   });
 
   it("should use defined resolves", async () => {
+    const providerName = "your-provider";
+
     resolver.defineResolves([
       {
         id: "provider-a",
-        provider: "your-provider",
+        provider: providerName,
         method: "testMethod",
         args: ["good"],
         transformFrom: "data"
@@ -116,6 +152,7 @@ describe("Resolver", () => {
       }
     });
     const provider = {
+      tagName: providerName,
       testMethod
     };
     kernel.mountPoints.bg = {
@@ -172,6 +209,53 @@ describe("Resolver", () => {
         ]
       }
     };
+    expect.assertions(1);
+    try {
+      await resolver.resolve(
+        {
+          brick: brickA.type,
+          lifeCycle: brickA.lifeCycle
+        },
+        brickA,
+        null
+      );
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+    }
+  });
+
+  it("should throw if provider not defined", async () => {
+    (window as any).customElements = {
+      get: (name: string) => false
+    };
+
+    const testMethod = jest.fn().mockResolvedValue({
+      data: {
+        hello: "world"
+      }
+    });
+    const provider = {
+      testMethod
+    };
+    kernel.mountPoints.bg = {
+      querySelector: () => provider
+    } as any;
+
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: "any-provider",
+            method: "testMethod"
+          }
+        ]
+      }
+    };
+
     expect.assertions(1);
     try {
       await resolver.resolve(

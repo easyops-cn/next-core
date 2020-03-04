@@ -23,12 +23,19 @@ describe("makeProviderRefreshable", () => {
   const anotherDependent = {
     brick: {
       element: {},
-      context: {}
+      context: {
+        match: {
+          params: {
+            quality: "good"
+          }
+        }
+      }
     },
     method: "resolve",
     args: [1],
     ref: "ref",
     transform: {
+      quality: "${quality}",
       hallo: "@{}"
     },
     intermediateTransformFrom: "data"
@@ -53,6 +60,7 @@ describe("makeProviderRefreshable", () => {
       hello: "world"
     });
     expect(anotherDependent.brick.element).toEqual({
+      quality: "good",
       hallo: "world"
     });
   });

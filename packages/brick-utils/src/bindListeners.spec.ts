@@ -1,7 +1,8 @@
 import {
   isBuiltinHandler,
   isCustomHandler,
-  bindListeners
+  bindListeners,
+  unbindListeners
 } from "./bindListeners";
 import { BrickEventHandler, BrickEventsMap } from "@easyops/brick-types";
 
@@ -37,7 +38,7 @@ describe("bindListeners", () => {
   });
 
   describe("bindListeners", () => {
-    it("should work", () => {
+    it("should work", async () => {
       const sourceElem = document.createElement("div");
       const targetElem = document.createElement("div");
       const targetElem2 = document.createElement("div");
@@ -45,6 +46,12 @@ describe("bindListeners", () => {
       targetElem2.id = "target-elem2";
       (targetElem as any).forGood = jest.fn();
       (targetElem2 as any).forGood = jest.fn();
+      (targetElem as any).forAsyncWillSuccess = jest
+        .fn()
+        .mockResolvedValue("yes");
+      (targetElem2 as any).forAsyncWillError = jest
+        .fn()
+        .mockRejectedValue("oops");
       document.body.appendChild(sourceElem);
       document.body.appendChild(targetElem);
       document.body.appendChild(targetElem2);
@@ -61,7 +68,8 @@ describe("bindListeners", () => {
             args: [
               {
                 q: "123",
-                a: undefined
+                a: undefined,
+                list: ["a", "b"]
               },
               {
                 extraQuery: {
@@ -78,14 +86,31 @@ describe("bindListeners", () => {
               }
             ]
           },
+          {
+            action: "history.pushAnchor",
+            args: ["yes"]
+          },
           { action: "history.goBack" },
           {
             action: "history.goForward"
           },
           {
+            action: "history.reload"
+          },
+          {
+            action: "legacy.go",
+            args: ["www.google.com"]
+          },
+          {
+            action: "window.open",
+            args: ["www.google.com"]
+          },
+          {
             action: "location.reload",
             args: [true]
           },
+          { action: "location.assign", args: ["www.baidu.com"] },
+          { action: "event.preventDefault" },
           { action: "console.log" },
           { action: "console.info" },
           { action: "console.warn", args: ["specified args for console.warn"] },
@@ -102,6 +127,30 @@ describe("bindListeners", () => {
             method: "forGood",
             args: ["specified args for multiple"]
           },
+          {
+            target: "#target-elem",
+            method: "forAsyncWillSuccess",
+            callback: {
+              success: {
+                action: "console.log"
+              },
+              error: {
+                action: "console.error"
+              }
+            }
+          },
+          {
+            target: "#target-elem2",
+            method: "forAsyncWillError",
+            callback: {
+              success: {
+                action: "console.log"
+              },
+              error: {
+                action: "console.error"
+              }
+            }
+          },
           { target: "#target-elem", method: "notExisted" },
           { target: "#not-existed", method: "forGood" },
           {
@@ -117,6 +166,8 @@ describe("bindListeners", () => {
         replace: jest.fn(),
         pushQuery: jest.fn(),
         replaceQuery: jest.fn(),
+        pushAnchor: jest.fn(),
+        reload: jest.fn(),
         goBack: jest.fn(),
         goForward: jest.fn(),
         location: {
@@ -126,49 +177,117 @@ describe("bindListeners", () => {
 
       const location = window.location;
       delete window.location;
-      window.location = ({ reload: jest.fn() } as unknown) as Location;
+      window.location = ({
+        origin: "http://www.google.com",
+        reload: jest.fn(),
+        assign: jest.fn()
+      } as unknown) as Location;
 
       jest.spyOn(console, "log");
       jest.spyOn(console, "info");
       jest.spyOn(console, "warn");
       jest.spyOn(console, "error");
+      window.open = jest.fn();
+
+      const legacyIframeMountPoint = document.createElement("div");
+      legacyIframeMountPoint.id = "legacy-iframe-mount-point";
+      document.body.appendChild(legacyIframeMountPoint);
+      const iframeElement = document.createElement("iframe");
+      legacyIframeMountPoint.appendChild(iframeElement);
+      (iframeElement.contentWindow as any).angular = {};
+
+      iframeElement.contentWindow.postMessage = jest.fn();
 
       bindListeners(sourceElem, eventsMap, history);
 
       const event1 = new CustomEvent("key1", {
         detail: "for-good"
       });
+      const spyOnPreventDefault = jest.spyOn(event1, "preventDefault");
       sourceElem.dispatchEvent(event1);
       const event2 = new CustomEvent("key2", {
         detail: "for-better"
       });
       sourceElem.dispatchEvent(event2);
 
+      await jest.runAllTimers();
+      await (global as any).flushPromises();
+
+      expect(iframeElement.contentWindow.postMessage).toBeCalledWith(
+        {
+          type: "location.url",
+          url: "www.google.com"
+        },
+        "http://www.google.com"
+      );
+
       expect(history.push).toBeCalledWith("for-good");
-      expect(history.push).toBeCalledWith("?page=1&q=123");
+      expect(history.pushQuery).toBeCalledWith(
+        {
+          q: "123",
+          a: undefined,
+          list: ["a", "b"]
+        },
+        {
+          extraQuery: {
+            page: 1
+          }
+        }
+      );
       expect(history.replace).toBeCalledWith(
         "specified args for history.replace"
       );
-      expect(history.replace).toBeCalledWith("?page=1");
+      expect(history.replaceQuery).toBeCalledWith({
+        page: 1
+      });
+      expect(history.pushAnchor).toBeCalledWith("yes");
       expect(history.goBack).toBeCalledWith();
       expect(history.goForward).toBeCalledWith();
+      expect(history.reload).toBeCalled();
 
       expect(window.location.reload).toBeCalledWith();
+      expect(window.location.assign).toBeCalledWith("www.baidu.com");
+
       window.location = location;
 
+      expect(spyOnPreventDefault).toBeCalled();
+
       /* eslint-disable no-console */
-      expect(console.log).toBeCalledWith(event1);
+      expect(console.log).toBeCalledTimes(2);
+      expect(console.log).toHaveBeenNthCalledWith(1, event1);
+      expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
+        "callback.success"
+      );
+      expect((console.log as jest.Mock).mock.calls[1][0].detail).toBe("yes");
       expect(console.info).toBeCalledWith(event1);
       expect(console.warn).toBeCalledWith("specified args for console.warn");
-      expect(console.error).toBeCalledWith("specified args for console.error");
+      expect(console.error).toBeCalledTimes(2);
+      expect(console.error).toHaveBeenNthCalledWith(
+        1,
+        "specified args for console.error"
+      );
+      expect((console.error as jest.Mock).mock.calls[1][0].type).toBe(
+        "callback.error"
+      );
+      expect((console.error as jest.Mock).mock.calls[1][0].detail).toBe("oops");
       expect((targetElem as any).forGood).toBeCalledWith(event2);
       expect((targetElem as any).forGood).toBeCalledWith(
         "specified args for multiple"
       );
+      expect(window.open).toBeCalledWith("www.google.com", "_self");
       expect((targetElem2 as any).forGood).toBeCalledWith(
         "specified args for multiple"
       );
       expect((targetElem as any).someProperty).toBe(event2.detail);
+
+      (console.log as jest.Mock).mockClear();
+      (console.info as jest.Mock).mockClear();
+      (console.warn as jest.Mock).mockClear();
+      (console.error as jest.Mock).mockClear();
+
+      unbindListeners(sourceElem);
+      sourceElem.dispatchEvent(event1);
+      expect(console.log).not.toBeCalled();
 
       (console.log as jest.Mock).mockRestore();
       (console.info as jest.Mock).mockRestore();

@@ -30,7 +30,12 @@ const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Moc
 let historyListeners: Function[] = [];
 const mockHistoryPush = (location: any): void => {
   historyListeners.forEach(fn => {
-    fn(location);
+    fn(location, "PUSH");
+  });
+};
+const mockHistoryPop = (location: any): void => {
+  historyListeners.forEach(fn => {
+    fn(location, "POP");
   });
 };
 const spyOnHistoryListen = jest.fn((fn: Function) => {
@@ -79,7 +84,8 @@ describe("Router", () => {
     firstRendered: jest.fn(),
     toggleLegacyIframe: jest.fn(),
     updateWorkspaceStack: jest.fn(),
-    getPreviousWorkspace: jest.fn()
+    getPreviousWorkspace: jest.fn(),
+    getRecentApps: jest.fn()
   } as any;
 
   beforeEach(() => {
@@ -118,19 +124,15 @@ describe("Router", () => {
         title: "app"
       }
     } as any);
+    expect(router.getState()).toBe("initial");
     await router.bootstrap();
+    expect(router.getState()).toBe("mounted");
     expect(spyOnHistoryListen).toBeCalled();
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
     expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
     const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
     expect(dispatchedEvent.type).toBe("app.change");
-    expect(dispatchedEvent.detail).toEqual({
-      previousApp: undefined,
-      currentApp: {
-        id: "hello"
-      }
-    });
     expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
     expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);
     expect(spyOnMountStaticNode.mock.calls[0][1]).toEqual({ title: "menu" });
@@ -151,10 +153,12 @@ describe("Router", () => {
       routes: []
     });
     __setMountRoutesResults({
-      redirect: {
-        path: "/auth/login",
-        state: {
-          from: "/private"
+      flags: {
+        redirect: {
+          path: "/auth/login",
+          state: {
+            from: "/private"
+          }
         }
       }
     } as any);
@@ -179,7 +183,9 @@ describe("Router", () => {
       routes: []
     });
     __setMountRoutesResults({
-      barsHidden: true,
+      flags: {
+        barsHidden: true
+      },
       main: []
     } as any);
     await router.bootstrap();
@@ -227,13 +233,16 @@ describe("Router", () => {
     expect(spyOnMountTree).toBeCalledTimes(1);
   });
 
-  it("should ignore rendering if location not changed except hash and key", async () => {
+  it("should ignore rendering if location not changed except hash, state and key", async () => {
     await router.bootstrap();
     jest.clearAllMocks();
     mockHistoryPush({
       pathname: "/first",
       search: "?ok=1",
-      key: "123"
+      key: "123",
+      state: {
+        from: "earth"
+      }
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
@@ -244,6 +253,30 @@ describe("Router", () => {
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
+  });
+
+  it("should ignore rendering if in situation of goBack after pushAnchor", async () => {
+    await router.bootstrap();
+    jest.clearAllMocks();
+    mockHistoryPush({
+      pathname: "/first",
+      search: "?ok=1",
+      key: "123",
+      hash: "#yes",
+      state: {
+        notify: false
+      }
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(0);
+    mockHistoryPop({
+      pathname: "/first",
+      search: "?ok=1",
+      hash: null,
+      key: "456"
+    });
+    await (global as any).flushPromises();
+    expect(spyOnMountTree).toBeCalledTimes(0);
   });
 
   it("should render in queue", async () => {

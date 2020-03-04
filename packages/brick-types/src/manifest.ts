@@ -39,6 +39,9 @@ export interface MicroApp {
   status?: "developing" | "enabled" | "disabled";
   legacy?: "iframe";
   menuIcon?: MenuIcon;
+  defaultConfig?: Record<string, any>;
+  userConfig?: Record<string, any>;
+  config?: Record<string, any>;
 }
 
 export interface BrickPackage {
@@ -54,6 +57,7 @@ export interface TemplatePackage {
 
 export interface AuthInfo {
   username?: string;
+  userInstanceId?: string;
 }
 
 export interface NavbarConf {
@@ -73,22 +77,42 @@ export interface RuntimeStoryboard extends Storyboard {
   $$depsProcessed?: boolean;
 }
 
-export interface RouteConf<B = any, M = any> {
+export type RouteConf =
+  | RouteConfOfBricks
+  | RouteConfOfRoutes
+  | RouteConfOfRedirect;
+
+export interface RouteConfOfBricks extends BaseRouteConf {
+  type?: "bricks";
+  bricks: BrickConf[];
+}
+
+export interface RouteConfOfRoutes extends BaseRouteConf {
+  type: "routes";
+  routes: RouteConf[];
+}
+
+export interface RouteConfOfRedirect extends BaseRouteConf {
+  type?: "redirect";
+  redirect: string | ResolveConf;
+}
+
+export interface BaseRouteConf {
   path: string | string[];
   exact?: boolean;
   public?: boolean;
-  bricks: BrickConf<B>[];
-  menu?: MenuConf<M>;
+  menu?: MenuConf;
   hybrid?: boolean;
   providers?: ProviderConf[];
   defineResolves?: DefineResolveConf[];
+  redirect?: string | ResolveConf;
 }
 
-export interface BrickConf<T = any> {
+export interface BrickConf {
   brick?: string;
   slots?: SlotsConf;
   injectDeep?: boolean;
-  properties?: T;
+  properties?: Record<string, any>;
   events?: BrickEventsMap;
   bg?: boolean;
   lifeCycle?: BrickLifeCycle;
@@ -96,6 +120,7 @@ export interface BrickConf<T = any> {
   internalUsedTemplates?: string[];
   template?: string;
   params?: Record<string, any>;
+  if?: string | ResolveConf;
 }
 
 export type ProviderConf =
@@ -108,12 +133,15 @@ export interface RuntimeBrickConf extends BrickConf {
   $$template?: string;
   $$params?: Record<string, any>;
   $$lifeCycle?: BrickLifeCycle;
+  $$if?: string | ResolveConf;
 }
 
 export interface BrickLifeCycle {
   // Before mounting bricks, wait some async tasks to be resolved.
   useResolves?: ResolveConf[];
   onPageLoad?: BrickEventHandler | BrickEventHandler[];
+  onAnchorLoad?: BrickEventHandler | BrickEventHandler[];
+  onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
 }
 
 export type ResolveConf = EntityResolveConf | RefResolveConf;
@@ -139,13 +167,19 @@ export interface RefResolveConf {
   transform?: GeneralTransform;
 }
 
-export type GeneralTransform = string | TransformMap;
+export type GeneralTransform = string | TransformMap | TransformItem[];
 
 export interface TransformMap {
   [propName: string]: any;
 }
 
-export type MenuConf<T = any> = false | StaticMenuConf | BrickMenuConf<T>;
+export interface TransformItem {
+  from?: string | string[];
+  to: string | TransformMap;
+  mapArray?: boolean | "auto";
+}
+
+export type MenuConf = false | StaticMenuConf | BrickMenuConf;
 
 export interface StaticMenuConf extends StaticMenuProps {
   type?: "static";
@@ -168,14 +202,13 @@ export interface BreadcrumbItemConf {
   to?: LocationDescriptor<PluginHistoryState>;
 }
 
-export interface BrickMenuConf<T = any> {
+export interface BrickMenuConf {
   type: "brick";
   brick: string;
   injectDeep?: boolean;
-  properties?: T;
+  properties?: Record<string, any>;
   events?: BrickEventsMap;
-  template?: string;
-  params?: any[];
+  lifeCycle?: BrickLifeCycle;
 }
 
 export interface SlotsConf {
@@ -206,18 +239,40 @@ export type BrickEventHandler =
   | CustomBrickEventHandler;
 
 export interface BuiltinBrickEventHandler {
-  action:
-    | "history.push"
+  action: // Third Party History
+  | "history.push"
     | "history.replace"
-    | "history.pushQuery"
-    | "history.replaceQuery"
     | "history.goBack"
     | "history.goForward"
+
+    // Extended History
+    | "history.reload"
+    | "history.pushQuery"
+    | "history.replaceQuery"
+    | "history.pushAnchor"
+    // | "history.replaceAnchor"
+
+    // Browser method
     | "location.reload"
+    | "location.assign"
+    | "window.open"
+    | "event.preventDefault"
     | "console.log"
     | "console.error"
     | "console.warn"
-    | "console.info";
+    | "console.info"
+
+    // anted message
+    | "message.success"
+    | "message.error"
+    | "message.info"
+    | "message.warn"
+
+    // handleHttpError
+    | "handleHttpError"
+
+    // iframe
+    | "legacy.go";
   args?: any[]; // Defaults to the event itself
 }
 
@@ -230,11 +285,15 @@ export interface ExecuteCustomBrickEventHandler
   extends BaseCustomBrickEventHandler {
   method: string; // The element's method
   args?: any[]; // Defaults to the event itself
+  callback?: {
+    success?: BrickEventHandler | BrickEventHandler[];
+    error?: BrickEventHandler | BrickEventHandler[];
+  };
 }
 
-export interface SetPropsCustomBrickEventHandler<T = any>
+export interface SetPropsCustomBrickEventHandler
   extends BaseCustomBrickEventHandler {
-  properties: T; // Properties to set
+  properties: Record<string, any>; // Properties to set
   injectDeep?: boolean;
 }
 
@@ -262,11 +321,16 @@ export interface DesktopItemDir {
   items: DesktopItemApp[];
 }
 
-export interface UseBrickConf {
-  brick: string;
+export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
+
+export interface UseSingleBrickConf {
+  brick?: string;
   properties?: Record<string, any>;
   events?: BrickEventsMap;
   lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
   transformFrom?: string | string[];
   transform?: GeneralTransform;
+  template?: string;
+  params?: any[];
+  if?: string | ResolveConf;
 }

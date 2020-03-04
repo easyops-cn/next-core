@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.14.3...@easyops/brick-icons@1.15.0) (2020-03-03)
+
+
+### Features
+
+* **container:** add app-router and deploy-shortcut icon. Refs CONTAINER-891 ([5a7e17a](https://git.easyops.local/anyclouds/next-core/commits/5a7e17acb6cd52afb558ab43cd579bb7ba475ce4))
+
+
+
+
+
+## [1.14.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.14.2...@easyops/brick-icons@1.14.3) (2020-03-03)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+## [1.14.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.14.1...@easyops/brick-icons@1.14.2) (2020-02-27)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+## [1.14.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.14.0...@easyops/brick-icons@1.14.1) (2020-02-25)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.13.0...@easyops/brick-icons@1.14.0) (2020-02-24)
+
+### Features
+
+- add svg refs MONITOR-183 ([a25d8c7](https://git.easyops.local/anyclouds/next-core/commits/a25d8c7))
+
+# [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.12.0...@easyops/brick-icons@1.13.0) (2020-02-21)
+
+### Features
+
+- **brick-icons:** 增加 redeploy 图标 ([fae2a2c](https://git.easyops.local/anyclouds/next-core/commits/fae2a2c))
+
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.11.1...@easyops/brick-icons@1.12.0) (2020-02-07)
+
+### Features
+
+- add monitor icon refs MONITOR-111 ([5f11a1f](https://git.easyops.local/anyclouds/next-core/commits/5f11a1f))
+
+## [1.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.11.0...@easyops/brick-icons@1.11.1) (2020-02-05)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.10.3...@easyops/brick-icons@1.11.0) (2020-02-04)
+
+### Features
+
+- icons of empty result, refs BRICK_STORE-814 ([a27f9b0](https://git.easyops.local/anyclouds/next-core/commits/a27f9b0))
+
 ## [1.10.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.10.2...@easyops/brick-icons@1.10.3) (2020-01-29)
 
 **Note:** Version bump only for package @easyops/brick-icons

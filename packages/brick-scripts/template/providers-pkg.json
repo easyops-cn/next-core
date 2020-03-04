@@ -5,10 +5,6 @@
   "homepage": "$workspace-homepage$/tree/master/bricks/$kebab-package-name$",
   "license": "UNLICENSED",
   "files": ["dist", "deploy"],
-  "repository": {
-    "type": "git",
-    "url": "git@git.easyops.local:anyclouds/brick-next.git"
-  },
   "scripts": {
     "prestart": "node scripts/pre-build.js",
     "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",

@@ -5,9 +5,15 @@ interface ProviderElement<P extends any[], R> extends HTMLElement {
 
   updateArgs: (event: CustomEvent<Record<string, any>>) => void;
 
-  updateArgsAndExecute: (event: CustomEvent<Record<string, any>>) => void;
+  updateArgsAndExecute: (event: CustomEvent<Record<string, any>>) => R;
+
+  setArgs: (patch: Record<string, any>) => void;
+
+  setArgsAndExecute: (patch: Record<string, any>) => R;
 
   execute(): R;
+
+  executeWithArgs(...args: P): R;
 
   resolve(...args: P): R;
 }
@@ -19,30 +25,55 @@ export function createProviderClass(
     args: Parameters<typeof api> = [] as any;
 
     updateArgs(event: CustomEvent<Record<string, any>>): void {
-      for (const [path, value] of Object.entries(event.detail)) {
+      if (!(event instanceof CustomEvent)) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "`updateArgs/updateArgsAndExecute` is designed to receive an CustomEvent, if not, please use `setArgs/setArgsAndExecute` instead."
+        );
+      }
+      this.setArgs(event.detail);
+    }
+
+    updateArgsAndExecute(
+      event: CustomEvent<Record<string, any>>
+    ): ReturnType<typeof api> {
+      this.updateArgs(event);
+      return this.execute();
+    }
+
+    setArgs(patch: Record<string, any>): void {
+      for (const [path, value] of Object.entries(patch)) {
         set(this.args, path, value);
       }
     }
 
-    updateArgsAndExecute(event: CustomEvent<Record<string, any>>): void {
-      this.updateArgs(event);
-      this.execute();
+    setArgsAndExecute(patch: Record<string, any>): ReturnType<typeof api> {
+      this.setArgs(patch);
+      return this.execute();
     }
 
-    async execute(): ReturnType<typeof api> {
+    execute(): ReturnType<typeof api> {
+      return this.executeWithArgs(...this.args);
+    }
+
+    async executeWithArgs(
+      ...args: Parameters<typeof api>
+    ): ReturnType<typeof api> {
       try {
-        const result = await api(...this.args);
+        const result = await api(...args);
         this.dispatchEvent(
           new CustomEvent("response.success", {
             detail: result
           })
         );
+        return result;
       } catch (error) {
         this.dispatchEvent(
           new CustomEvent("response.error", {
             detail: error
           })
         );
+        return Promise.reject(error);
       }
     }
 

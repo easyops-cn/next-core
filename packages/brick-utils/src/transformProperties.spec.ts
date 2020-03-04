@@ -53,13 +53,19 @@ describe("transformProperties", () => {
         },
         transform: {
           label: "hello",
-          required: true,
+          "outer.spread": {
+            "inner.not.spread": true
+          },
           value: "@{}"
         }
       },
       {
         label: "hello",
-        required: true,
+        outer: {
+          spread: {
+            "inner.not.spread": true
+          }
+        },
         value: {
           name: "eve"
         }
@@ -106,11 +112,62 @@ describe("transformProperties", () => {
         props: {},
         data: ["eve", "wall-e"],
         transform: {
-          users: "hi: @{}"
+          greetings: "hi: @{}"
         }
       },
       {
-        users: ["hi: eve", "hi: wall-e"]
+        greetings: ["hi: eve", "hi: wall-e"]
+      }
+    ],
+    // Assign from mixed array and non-array.
+    [
+      {
+        props: {},
+        data: {
+          list: [
+            {
+              name: "eve"
+            },
+            {
+              name: "wall-e"
+            }
+          ],
+          total: 10
+        },
+        transform: [
+          {
+            // Auto map array.
+            from: "list",
+            to: {
+              greetings: "hi: @{name}"
+            }
+          },
+          {
+            // non-array.
+            from: "total",
+            to: "size"
+          },
+          {
+            // Force to not map array.
+            from: "list",
+            to: {
+              usersCount: "@{length}"
+            },
+            mapArray: false
+          },
+          {
+            // Force to map array from non-array.
+            from: "total",
+            to: "sizeList",
+            mapArray: true
+          }
+        ]
+      },
+      {
+        greetings: ["hi: eve", "hi: wall-e"],
+        size: 10,
+        usersCount: 2,
+        sizeList: [10]
       }
     ],
     // No transform
@@ -173,10 +230,8 @@ describe("transformIntermediateData", () => {
     ]
   ])(
     'transformIntermediateData({hello:"good"}, %j, %j) should return %j',
-    (transform, transformFrom, result) => {
-      expect(transformIntermediateData(data, transform, transformFrom)).toEqual(
-        result
-      );
+    (to, from, result) => {
+      expect(transformIntermediateData(data, to, from)).toEqual(result);
     }
   );
 });
@@ -186,20 +241,13 @@ describe("doTransform", () => {
     hello: "good"
   };
 
-  it.each<
-    [
-      Parameters<typeof doTransform>[1],
-      Parameters<typeof doTransform>[2],
-      ReturnType<typeof doTransform>
-    ]
-  >([
+  it.each<[Parameters<typeof doTransform>[1], ReturnType<typeof doTransform>]>([
     [
       {
         "button.click": {
           args: ["@{hello}"]
         }
       },
-      undefined,
       {
         "button.click": {
           args: ["good"]
@@ -210,7 +258,6 @@ describe("doTransform", () => {
       {
         value: "@{notExisted}"
       },
-      undefined,
       {
         value: undefined
       }
@@ -219,15 +266,11 @@ describe("doTransform", () => {
       {
         value: "id=@{notExisted}"
       },
-      undefined,
       {
         value: "id="
       }
     ]
-  ])(
-    'doTransform({hello:"good"}, %j, %j) should return %j',
-    (transform, transformFrom, result) => {
-      expect(doTransform(data, transform, transformFrom)).toEqual(result);
-    }
-  );
+  ])('doTransform({hello:"good"}, %j, %j) should return %j', (to, result) => {
+    expect(doTransform(data, to)).toEqual(result);
+  });
 });

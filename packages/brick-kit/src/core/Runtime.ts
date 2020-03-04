@@ -12,7 +12,7 @@ import {
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
-import { RelatedApp } from "./interfaces";
+import { RelatedApp, RouterState, RecentApps } from "./interfaces";
 
 let kernel: Kernel;
 
@@ -41,6 +41,16 @@ export class Runtime {
 
   get appBar(): AppBar {
     return kernel.appBar;
+  }
+
+  /* istanbul ignore next */
+  getCurrentApp(): MicroApp {
+    return kernel.currentApp;
+  }
+
+  /* istanbul ignore next */
+  getRecentApps(): RecentApps {
+    return kernel.getRecentApps();
   }
 
   getMicroApps({
@@ -119,26 +129,19 @@ export class Runtime {
     document.body.classList.toggle("launchpad-open", open);
   }
 
+  /* istanbul ignore next */
   getFeatureFlags(): FeatureFlags {
-    return Object.assign(
-      {},
-      kernel.bootstrapData.settings &&
-        kernel.bootstrapData.settings.featureFlags
-    );
+    return kernel.getFeatureFlags();
   }
 
   getHomepage(): string {
-    return (
-      (kernel.bootstrapData.settings &&
-        kernel.bootstrapData.settings.homepage) ||
-      "/"
-    );
+    return kernel.bootstrapData.settings?.homepage ?? "/";
   }
 
   getBrandSettings(): Record<string, string> {
     return Object.assign(
       { base_title: "DevOps 管理专家" },
-      kernel.bootstrapData.settings && kernel.bootstrapData.settings.brand
+      kernel.bootstrapData.settings?.brand
     );
   }
 
@@ -148,7 +151,7 @@ export class Runtime {
         columns: 7,
         rows: 4
       },
-      kernel.bootstrapData.settings && kernel.bootstrapData.settings.launchpad
+      kernel.bootstrapData.settings?.launchpad
     );
   }
 
@@ -183,6 +186,11 @@ export class Runtime {
 
   /* istanbul ignore next */
   _internalApiGetResolver(): Resolver {
-    return kernel.router.locationContext.resolver;
+    return kernel.router.getResolver();
+  }
+
+  /* istanbul ignore next */
+  _internalApiGetRouterState(): RouterState {
+    return kernel.router.getState();
   }
 }

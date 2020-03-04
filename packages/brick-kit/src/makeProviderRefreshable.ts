@@ -1,9 +1,9 @@
 import { get } from "lodash";
 import {
   transformProperties,
-  transformIntermediateData,
-  computeRealValue
+  transformIntermediateData
 } from "@easyops/brick-utils";
+import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { GeneralTransform } from "@easyops/brick-types";
@@ -89,7 +89,13 @@ export function makeProviderRefreshable(
               if (ref) {
                 data = transformIntermediateData(
                   data,
-                  intermediateTransform,
+                  brick.context
+                    ? computeRealValue(
+                        intermediateTransform,
+                        brick.context,
+                        true
+                      )
+                    : intermediateTransform,
                   intermediateTransformFrom
                 );
               }
@@ -97,7 +103,9 @@ export function makeProviderRefreshable(
               transformProperties(
                 brick.element,
                 data,
-                transform,
+                brick.context
+                  ? computeRealValue(transform, brick.context, true)
+                  : transform,
                 transformFrom
               );
             }

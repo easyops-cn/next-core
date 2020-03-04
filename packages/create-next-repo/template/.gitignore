@@ -8,6 +8,7 @@ node_modules
 *.log
 report.*.json
 /dev-settings.yaml
+/dev.config.js
 
 /bricks/*/deploy/*
 !/bricks/*/deploy/package.conf.yaml
