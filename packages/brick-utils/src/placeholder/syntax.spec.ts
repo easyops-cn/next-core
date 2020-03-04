@@ -23,6 +23,18 @@ describe("parseInjectableString", () => {
       }
     ],
     [
+      "${{good}}",
+      {
+        type: "InjectableString",
+        elements: [
+          {
+            type: "RawString",
+            value: "${{good}}"
+          }
+        ]
+      }
+    ],
+    [
       "#{abc}",
       {
         type: "InjectableString",

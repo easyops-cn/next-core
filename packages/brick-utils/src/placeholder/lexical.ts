@@ -64,7 +64,10 @@ function eatOptionalRawAndOptionalPlaceholderBegin(
 ): void {
   const subRaw = getSubRaw(context);
   const subCursor = subRaw.indexOf(context.beginPlaceholder);
-  if (subCursor >= 0) {
+  if (
+    subCursor >= 0 &&
+    subRaw.charAt(subCursor + context.beginPlaceholder.length) !== "{"
+  ) {
     const nextCursor = context.cursor + subCursor;
     if (subCursor > 0) {
       context.tokens.push({

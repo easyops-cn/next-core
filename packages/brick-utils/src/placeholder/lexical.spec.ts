@@ -105,6 +105,15 @@ describe("tokenize", () => {
     ]);
   });
 
+  it("should work for `${{...}}`", () => {
+    expect(tokenize("${{appId}}")).toEqual([
+      {
+        type: "Raw",
+        value: "${{appId}}"
+      }
+    ]);
+  });
+
   it("should throw", () => {
     expect(() => {
       tokenize("${");
