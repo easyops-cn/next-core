@@ -22,6 +22,22 @@ module.exports = function syncDllDeps() {
     }
   }
 
+  const kitPackageJson = require(require.resolve(
+    "@easyops/brick-kit/package.json",
+    {
+      paths: [process.cwd()]
+    }
+  ));
+  const kitDeps = ["@easyops/brick-types"];
+  for (const pkg of kitDeps) {
+    const version = kitPackageJson.dependencies[pkg];
+    console.log(pkg, version);
+    devDependencies[pkg] = version;
+    if (rootPackageJson.resolutions) {
+      rootPackageJson.resolutions[pkg] = version;
+    }
+  }
+
   // 根据包名排序
   rootPackageJson.devDependencies = chain(devDependencies)
     .toPairs()
