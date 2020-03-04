@@ -6,14 +6,12 @@ import chalk from "chalk";
 import semver from "semver";
 import prettier from "prettier";
 import * as changeCase from "change-case";
+import { getPackageJson, replaceFileContent } from "./utils";
 import {
-  getPackageJson,
-  replaceFileContent,
-  devDependenciesCopyMap
-} from "./utils";
-import { scriptYarnInstall, scriptYarnAddDependencies } from "./scripts";
-
-const caretRangesRegExp = /^\^\d+\.\d+\.\d+$/;
+  scriptYarnInstall,
+  scriptYarnAddDependencies,
+  scriptYarnSyncDll
+} from "./scripts";
 
 export async function update(
   repoName: string,
@@ -37,14 +35,6 @@ export async function update(
   const filesToRemove: string[] = [];
   const templateDir = path.join(__dirname, "../template");
 
-  if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
-    await scriptYarnAddDependencies(targetDir);
-  }
-
-  targetPackageJson = JSON.parse(
-    fs.readFileSync(targetPackageJsonPath, "utf8")
-  );
-
   const translations: Record<string, string> = {
     "$kebab-repo-name$": repoName,
     "$Title Repo Name$": changeCase.capitalCase(repoName),
@@ -57,6 +47,14 @@ export async function update(
     );
     return;
   }
+
+  if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
+    await scriptYarnAddDependencies(targetDir);
+  }
+
+  targetPackageJson = JSON.parse(
+    fs.readFileSync(targetPackageJsonPath, "utf8")
+  );
 
   console.log(chalk.inverse("[create-next-repo]"));
 
@@ -82,7 +80,7 @@ export async function update(
   }
 
   if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
-    removeFeatureSyncDll();
+    updateFeatureSyncDll();
     fixDevDependencies();
   }
 
@@ -93,12 +91,18 @@ export async function update(
 
   if (flags.install) {
     await scriptYarnInstall(targetDir);
-    // Run `yarn` again since dll maybe updated.
-    await scriptYarnInstall(targetDir);
   }
 
-  function removeFeatureSyncDll(): void {
-    delete targetPackageJson.scripts["sync-dll"];
+  if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
+    if (flags.install) {
+      await scriptYarnSyncDll(targetDir);
+      await scriptYarnInstall(targetDir);
+    }
+  }
+
+  function updateFeatureSyncDll(): void {
+    targetPackageJson.scripts["renew"] = "dev-dependencies-renew";
+    targetPackageJson.scripts["sync-dll"] = "dev-dependencies-sync-dll";
     filesToRemove.push("scripts/sync-dll.js");
   }
 
@@ -108,24 +112,6 @@ export async function update(
       targetPackageJson.easyops = {};
     }
     targetPackageJson.easyops["create-next-repo"] = packageJson.version;
-
-    // 1. Update `devDependencies` in `package.json`
-    for (const dep of devDependenciesCopyMap.templateDependencies) {
-      const fromVersion = targetPackageJson.devDependencies[dep];
-      const toVersion = packageJson.templateDependencies[dep];
-      if (fromVersion) {
-        if (
-          caretRangesRegExp.test(fromVersion) &&
-          caretRangesRegExp.test(toVersion)
-        ) {
-          if (semver.gte(fromVersion.substr(1), toVersion.substr(1))) {
-            // Ignore newer dependencies.
-            continue;
-          }
-        }
-      }
-      targetPackageJson.devDependencies[dep] = toVersion;
-    }
 
     fs.outputFileSync(
       targetPackageJsonPath,
