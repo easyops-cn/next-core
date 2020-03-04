@@ -44,6 +44,7 @@ describe("bindListeners", () => {
       const targetElem2 = document.createElement("div");
       targetElem.id = "target-elem";
       targetElem2.id = "target-elem2";
+      (sourceElem as any).forGood = jest.fn();
       (targetElem as any).forGood = jest.fn();
       (targetElem2 as any).forGood = jest.fn();
       (targetElem as any).forAsyncWillSuccess = jest
@@ -121,6 +122,7 @@ describe("bindListeners", () => {
         ],
         key2: [
           { target: "#target-elem", method: "forGood" },
+          { target: "_self", method: "forGood", args: ["target is _self"] },
           {
             target: "#target-elem,#target-elem2",
             multiple: true,
@@ -270,12 +272,18 @@ describe("bindListeners", () => {
         "callback.error"
       );
       expect((console.error as jest.Mock).mock.calls[1][0].detail).toBe("oops");
-      expect((targetElem as any).forGood).toBeCalledWith(event2);
-      expect((targetElem as any).forGood).toBeCalledWith(
+      expect((sourceElem as any).forGood).toHaveBeenNthCalledWith(
+        1,
+        "target is _self"
+      );
+      expect((targetElem as any).forGood).toHaveBeenNthCalledWith(1, event2);
+      expect((targetElem as any).forGood).toHaveBeenNthCalledWith(
+        2,
         "specified args for multiple"
       );
       expect(window.open).toBeCalledWith("www.google.com", "_self");
-      expect((targetElem2 as any).forGood).toBeCalledWith(
+      expect((targetElem2 as any).forGood).toHaveBeenNthCalledWith(
+        1,
         "specified args for multiple"
       );
       expect((targetElem as any).someProperty).toBe(event2.detail);

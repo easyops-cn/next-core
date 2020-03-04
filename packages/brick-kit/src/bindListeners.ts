@@ -21,7 +21,7 @@ export function bindListeners(
 ): void {
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
-      const listener = listenerFactory(handler, history, context);
+      const listener = listenerFactory(handler, history, context, brick);
       brick.addEventListener(eventType, listener);
       rememberListeners(brick, eventType, listener);
     });
@@ -80,7 +80,8 @@ export function isSetPropsCustomHandler(
 export function listenerFactory(
   handler: BrickEventHandler,
   history: PluginHistory,
-  context?: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  brick: HTMLElement
 ): EventListener {
   if (isBuiltinHandler(handler)) {
     const method = handler.action.split(".")[1] as any;
@@ -137,7 +138,7 @@ export function listenerFactory(
   }
 
   if (isCustomHandler(handler)) {
-    return customListenerFactory(handler, history, context);
+    return customListenerFactory(handler, history, context, brick);
   }
 }
 
@@ -165,7 +166,7 @@ function builtinIframeListenerFactory(
     "#legacy-iframe-mount-point"
   );
 
-  const postMessage = (url: string) => {
+  const postMessage = (url: string): void => {
     const iframe = legacyIframeMountPoint.firstChild as HTMLIFrameElement;
     if (
       iframe &&
@@ -202,12 +203,15 @@ function builtinWindowListenerFactory(
 function customListenerFactory(
   handler: CustomBrickEventHandler,
   history: PluginHistory,
-  context?: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  brick: HTMLElement
 ): EventListener {
   return function(event: CustomEvent): void {
     let targets: any[] = [];
     if (typeof handler.target === "string") {
-      if (handler.multiple) {
+      if (handler.target === "_self") {
+        targets.push(brick);
+      } else if (handler.multiple) {
         targets = Array.from(document.querySelectorAll(handler.target));
       } else {
         const found = document.querySelector(handler.target);
@@ -239,7 +243,12 @@ function customListenerFactory(
                 detail: result
               });
               [].concat(success).forEach(eachSuccess => {
-                listenerFactory(eachSuccess, history, context)(successEvent);
+                listenerFactory(
+                  eachSuccess,
+                  history,
+                  context,
+                  brick
+                )(successEvent);
               });
             }
           } catch (err) {
@@ -248,7 +257,7 @@ function customListenerFactory(
                 detail: err
               });
               [].concat(error).forEach(eachError => {
-                listenerFactory(eachError, history, context)(errorEvent);
+                listenerFactory(eachError, history, context, brick)(errorEvent);
               });
             }
           }
