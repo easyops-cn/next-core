@@ -5,6 +5,7 @@ import zhCN from "antd/es/locale/zh_CN";
 import enUS from "antd/es/locale/en_US";
 
 import { ErrorBoundary } from "./ErrorBoundary";
+import { renderEasyopsEmpty } from "./EasyopsEmpty";
 
 interface BrickWrapperProps {
   children?: React.ReactElement;
@@ -15,7 +16,11 @@ export const BrickWrapper = (props: BrickWrapperProps): React.ReactElement => {
     i18n.language && i18n.language.split("-")[0] === "en" ? enUS : zhCN;
   return (
     <ErrorBoundary>
-      <ConfigProvider locale={locale} autoInsertSpaceInButton={false}>
+      <ConfigProvider
+        locale={locale}
+        autoInsertSpaceInButton={false}
+        renderEmpty={renderEasyopsEmpty}
+      >
         {props.children}
       </ConfigProvider>
     </ErrorBoundary>
