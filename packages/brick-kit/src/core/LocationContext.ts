@@ -13,7 +13,6 @@ import {
   PluginRuntimeContext,
   BrickLifeCycle,
   BrickEventHandler,
-  CustomBrickEventHandler,
   ResolveConf,
   RouteConfOfRoutes,
   RouteConfOfBricks
@@ -62,9 +61,14 @@ export interface MountRoutesResult {
   };
 }
 
-interface PageLoadHandler {
+interface BrickAndLifeCycleHandler {
   brick: RuntimeBrick;
-  onPageLoad: BrickLifeCycle["onPageLoad"];
+  handler: BrickEventHandler | BrickEventHandler[];
+}
+
+/* interface PageLoadHandler {
+  brick: RuntimeBrick;
+  handler: BrickLifeCycle["onPageLoad"];
 }
 
 interface AnchorLoadHandler {
@@ -75,15 +79,15 @@ interface AnchorLoadHandler {
 interface AnchorUnloadHandler {
   brick: RuntimeBrick;
   onAnchorUnload: BrickLifeCycle["onAnchorUnload"];
-}
+} */
 
 export class LocationContext {
   readonly location: PluginLocation;
   readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
-  private readonly pageLoadHandlers: PageLoadHandler[] = [];
-  private readonly anchorLoadHandlers: AnchorLoadHandler[] = [];
-  private readonly anchorUnloadHandlers: AnchorUnloadHandler[] = [];
+  private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
 
   constructor(private kernel: Kernel, location: PluginLocation) {
     this.location = location;
@@ -248,21 +252,21 @@ export class LocationContext {
       if (menuConf.lifeCycle?.onPageLoad) {
         this.pageLoadHandlers.push({
           brick,
-          onPageLoad: menuConf.lifeCycle.onPageLoad
+          handler: menuConf.lifeCycle.onPageLoad
         });
       }
 
       if (menuConf.lifeCycle?.onAnchorLoad) {
         this.anchorLoadHandlers.push({
           brick,
-          onAnchorLoad: menuConf.lifeCycle.onAnchorLoad
+          handler: menuConf.lifeCycle.onAnchorLoad
         });
       }
 
       if (menuConf.lifeCycle?.onAnchorUnload) {
         this.anchorUnloadHandlers.push({
           brick,
-          onAnchorUnload: menuConf.lifeCycle.onAnchorUnload
+          handler: menuConf.lifeCycle.onAnchorUnload
         });
       }
 
@@ -400,21 +404,21 @@ export class LocationContext {
     if (brickConf.lifeCycle?.onPageLoad) {
       this.pageLoadHandlers.push({
         brick,
-        onPageLoad: brickConf.lifeCycle.onPageLoad
+        handler: brickConf.lifeCycle.onPageLoad
       });
     }
 
     if (brickConf.lifeCycle?.onAnchorLoad) {
       this.anchorLoadHandlers.push({
         brick,
-        onAnchorLoad: brickConf.lifeCycle.onAnchorLoad
+        handler: brickConf.lifeCycle.onAnchorLoad
       });
     }
 
     if (brickConf.lifeCycle?.onAnchorUnload) {
       this.anchorUnloadHandlers.push({
         brick,
-        onAnchorUnload: brickConf.lifeCycle.onAnchorUnload
+        handler: brickConf.lifeCycle.onAnchorUnload
       });
     }
 
@@ -451,69 +455,47 @@ export class LocationContext {
   }
 
   handlePageLoad(): void {
-    const history = getHistory();
-    const event = new CustomEvent("page.load");
-    for (const pageLoadHandler of this.pageLoadHandlers) {
-      for (const handler of ([] as BrickEventHandler[]).concat(
-        pageLoadHandler.onPageLoad
-      )) {
-        listenerFactory(
-          (handler as CustomBrickEventHandler).target === "_self"
-            ? {
-                ...handler,
-                target: pageLoadHandler.brick.element
-              }
-            : handler,
-          history,
-          this.getContext(null)
-        )(event);
-      }
-    }
+    this.dispatchLifeCycleEvent(
+      new CustomEvent("page.load"),
+      this.pageLoadHandlers
+    );
   }
 
   handleAnchorLoad(): void {
-    const history = getHistory();
-    const hash = history.location.hash;
+    const hash = getHistory().location.hash;
     if (hash && hash !== "#") {
-      const event = new CustomEvent("anchor.load", {
-        detail: {
-          hash,
-          anchor: hash.substr(1)
-        }
-      });
-      for (const anchorLoadHandler of this.anchorLoadHandlers) {
-        for (const handler of ([] as BrickEventHandler[]).concat(
-          anchorLoadHandler.onAnchorLoad
-        )) {
-          listenerFactory(
-            (handler as CustomBrickEventHandler).target === "_self"
-              ? {
-                  ...handler,
-                  target: anchorLoadHandler.brick.element
-                }
-              : handler,
-            history,
-            this.getContext(null)
-          )(event);
-        }
-      }
+      this.dispatchLifeCycleEvent(
+        new CustomEvent("anchor.load", {
+          detail: {
+            hash,
+            anchor: hash.substr(1)
+          }
+        }),
+        this.anchorLoadHandlers
+      );
     } else {
-      const event = new CustomEvent("anchor.unload");
-      for (const anchorUnloadHandler of this.anchorUnloadHandlers) {
-        for (const handler of ([] as BrickEventHandler[]).concat(
-          anchorUnloadHandler.onAnchorUnload
-        )) {
-          listenerFactory(
-            (handler as CustomBrickEventHandler).target === "_self"
-              ? {
-                  ...handler,
-                  target: anchorUnloadHandler.brick.element
-                }
-              : handler,
-            history,
-            this.getContext(null)
-          )(event);
-        }
+      this.dispatchLifeCycleEvent(
+        new CustomEvent("anchor.unload"),
+        this.anchorUnloadHandlers
+      );
+    }
+  }
+
+  private dispatchLifeCycleEvent(
+    event: CustomEvent,
+    handlers: BrickAndLifeCycleHandler[]
+  ): void {
+    const history = getHistory();
+    for (const brickAndHandler of handlers) {
+      for (const handler of ([] as BrickEventHandler[]).concat(
+        brickAndHandler.handler
+      )) {
+        listenerFactory(
+          handler,
+          history,
+          this.getContext(null),
+          brickAndHandler.brick.element
+        )(event);
       }
     }
   }
