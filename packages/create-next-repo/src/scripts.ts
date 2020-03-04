@@ -28,3 +28,15 @@ export function scriptYarnAddDependencies(targetDir: string) {
     }
   });
 }
+
+export function scriptYarnSyncDll(targetDir: string) {
+  console.log(chalk.inverse("[create-next-repo] $ yarn sync-dll"));
+  return execa("yarn", ["sync-dll"], {
+    cwd: targetDir,
+    stdio: "inherit",
+    env: {
+      // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
+      ESTIMO_DISABLE: "true"
+    }
+  });
+}
