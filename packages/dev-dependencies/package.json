@@ -23,7 +23,6 @@
     "@easyops/brick-container": "^1.15.28",
     "@easyops/brick-dll": "^1.1.4",
     "@easyops/brick-scripts": "^1.8.0",
-    "@easyops/brick-types": "^1.27.0",
     "@easyops/browserslist-config-next": "^0.1.0",
     "@easyops/build-config-factory": "^1.5.19",
     "@easyops/eslint-config-next": "^0.1.5",
