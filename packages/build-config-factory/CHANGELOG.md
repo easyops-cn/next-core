@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.5.18...@easyops/build-config-factory@1.5.19) (2020-03-04)
+
+### Bug Fixes
+
+- refine dev-dependencies ([5bf4844](https://git.easyops.local/anyclouds/next-core/commits/5bf4844))
+
 ## [1.5.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.5.17...@easyops/build-config-factory@1.5.18) (2020-03-04)
 
 **Note:** Version bump only for package @easyops/build-config-factory

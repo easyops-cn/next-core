@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.8.0...@easyops/create-next-repo@0.9.0) (2020-03-04)
+
+### Bug Fixes
+
+- refine dev-dependencies ([5bf4844](https://git.easyops.local/anyclouds/next-core/commits/5bf4844))
+
+### Features
+
+- use @easyops/dev-dependencies ([a0e5725](https://git.easyops.local/anyclouds/next-core/commits/a0e5725))
+
 # [0.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.7.1...@easyops/create-next-repo@0.8.0) (2020-03-04)
 
 ### Features
