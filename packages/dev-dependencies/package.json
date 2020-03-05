@@ -1,6 +1,6 @@
 {
   "name": "@easyops/dev-dependencies",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Dev dependencies for brick-next related packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/dev-dependencies",
   "license": "UNLICENSED",
@@ -20,11 +20,11 @@
     "@dll/echarts": "^1.0.2",
     "@easyops/babel-preset-next": "^0.6.2",
     "@easyops/babel-preset-prismjs": "^0.1.1",
-    "@easyops/brick-container": "^1.15.28",
+    "@easyops/brick-container": "^1.15.29",
     "@easyops/brick-dll": "^1.1.4",
     "@easyops/brick-scripts": "^1.8.1",
     "@easyops/browserslist-config-next": "^0.1.0",
-    "@easyops/build-config-factory": "^1.5.20",
+    "@easyops/build-config-factory": "^1.6.0",
     "@easyops/eslint-config-next": "^0.1.5",
     "@easyops/webpack-config-factory": "^1.7.3",
     "@testing-library/jest-dom": "^5.1.1",
@@ -51,8 +51,8 @@
     "pretty-format": "^25.1.0",
     "rimraf": "^3.0.2",
     "semver": "^7.1.3",
-    "typescript": "~3.8.3",
-    "size-limit": "^4.0.2"
+    "size-limit": "^4.0.2",
+    "typescript": "~3.8.3"
   },
   "devDependencies": {
     "@size-limit/file": "^4.0.2",

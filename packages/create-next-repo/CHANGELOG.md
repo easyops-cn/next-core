@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.9.2...@easyops/create-next-repo@0.10.0) (2020-03-05)
+
+### Bug Fixes
+
+- auto extract after create a new repo ([8538060](https://git.easyops.local/anyclouds/next-core/commits/8538060))
+
+### Features
+
+- fix size-limit ([95dfb66](https://git.easyops.local/anyclouds/next-core/commits/95dfb66))
+
 ## [0.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.9.1...@easyops/create-next-repo@0.9.2) (2020-03-05)
 
 ### Bug Fixes
