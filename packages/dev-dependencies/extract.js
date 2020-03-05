@@ -18,10 +18,38 @@ function shouldUpgrade(fromVersion, toVersion) {
 
 // 将 DLL 的依赖包及其版本都放到仓库根目录的 `package.json` 的 `devDependencies` 中，
 // 以支持 IDE 的 auto-import
-module.exports = function syncDll() {
+module.exports = function extract() {
+  const selfJson = require("./package.json");
+
   const rootPackageJsonPath = path.resolve("package.json");
   const rootPackageJson = require(rootPackageJsonPath);
   const devDependencies = rootPackageJson.devDependencies;
+
+  const toBeExtracted = new Map();
+  const resolutions = ["@easyops/brick-types", "lodash", "@types/react"];
+
+  if (!rootPackageJson.resolutions) {
+    rootPackageJson.resolutions = {};
+  }
+
+  // Remove all packages those are included in `@easyops/dev-dependencies`
+  for (const [name, version] of Object.entries(selfJson.dependencies)) {
+    if (resolutions.includes[name]) {
+      rootPackageJson.resolutions[name] = version;
+    }
+    delete devDependencies[name];
+  }
+
+  // Remove `@size-limit/preset-app` which could cause a problem by `estimo`.
+  // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
+  delete devDependencies["@size-limit/preset-app"];
+
+  // `size-limit` to be present in root package.json.
+  // https://github.com/ai/size-limit/blob/master/packages/size-limit/load-plugins.js#L20
+  // `@types/*` and others require import-helper needs to be present in root package.json.
+  for (const [name, version] of Object.entries(selfJson.devDependencies)) {
+    toBeExtracted.set(name, version);
+  }
 
   const dlls = ["@easyops/brick-dll", "@dll/ace", "@dll/d3", "@dll/echarts"];
   for (const pkg of dlls) {
@@ -30,26 +58,7 @@ module.exports = function syncDll() {
       paths: [process.cwd()]
     }));
     for (const [name, version] of Object.entries(dllPackageJson.dependencies)) {
-      if (shouldUpgrade(devDependencies[name], version)) {
-        console.log(
-          chalk.bold.green("Upgraded:"),
-          name,
-          devDependencies[name] || "",
-          chalk.green("↗"),
-          version
-        );
-        devDependencies[name] = version;
-      } else {
-        console.log(
-          chalk.bold.yellow("Ignored:"),
-          name,
-          devDependencies[name],
-          semver.compare(devDependencies[name].substr(1), version.substr(1))
-            ? chalk.yellow(">")
-            : "=",
-          version
-        );
-      }
+      toBeExtracted.set(name, version);
     }
   }
 
@@ -61,7 +70,10 @@ module.exports = function syncDll() {
   ));
   const kitDeps = ["@easyops/brick-types"];
   for (const name of kitDeps) {
-    const version = kitPackageJson.dependencies[name];
+    toBeExtracted.set(name, kitPackageJson.dependencies[name]);
+  }
+
+  for (const [name, version] of toBeExtracted.entries()) {
     if (shouldUpgrade(devDependencies[name], version)) {
       console.log(
         chalk.bold.green("Upgraded:"),
@@ -71,7 +83,7 @@ module.exports = function syncDll() {
         version
       );
       devDependencies[name] = version;
-      if (rootPackageJson.resolutions) {
+      if (resolutions.includes(name)) {
         rootPackageJson.resolutions[name] = version;
       }
     } else {
@@ -107,14 +119,8 @@ module.exports = function syncDll() {
   );
   const disabledPackageNames = new Set(disabledRule.packageNames);
 
-  for (const pkg of dlls) {
-    // 解决该包在 `npm link` 下使用时报错的问题
-    const dllPackageJson = require(require.resolve(`${pkg}/package.json`, {
-      paths: [process.cwd()]
-    }));
-    for (const name of Object.keys(dllPackageJson.dependencies)) {
-      disabledPackageNames.add(name);
-    }
+  for (const pkg of toBeExtracted.keys()) {
+    disabledPackageNames.add(pkg);
   }
   disabledRule.packageNames = Array.from(disabledPackageNames).sort();
 

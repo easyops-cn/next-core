@@ -10,7 +10,7 @@ import { getPackageJson, replaceFileContent } from "./utils";
 import {
   scriptYarnInstall,
   scriptYarnAddDependencies,
-  scriptYarnSyncDll
+  scriptYarnExtract
 } from "./scripts";
 
 export async function update(
@@ -79,8 +79,8 @@ export async function update(
     fixHomepage();
   }
 
-  if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
-    updateFeatureSyncDll();
+  if (semver.lt(targetCurrentGeneratorVersion, "0.10.0")) {
+    updateFeatureExtract();
     fixDevDependencies();
   }
 
@@ -93,15 +93,16 @@ export async function update(
     await scriptYarnInstall(targetDir);
   }
 
-  if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
+  if (semver.lt(targetCurrentGeneratorVersion, "0.10.0")) {
     if (flags.install) {
-      await scriptYarnSyncDll(targetDir);
+      await scriptYarnExtract(targetDir);
     }
   }
 
-  function updateFeatureSyncDll(): void {
+  function updateFeatureExtract(): void {
+    delete targetPackageJson.scripts["sync-dll"];
     targetPackageJson.scripts["renew"] = "dev-dependencies-renew";
-    targetPackageJson.scripts["sync-dll"] = "dev-dependencies-sync-dll";
+    targetPackageJson.scripts["extract"] = "dev-dependencies-extract";
     filesToRemove.push("scripts/sync-dll.js");
   }
 
@@ -210,10 +211,7 @@ export async function update(
       }
     ));
     for (const pkgName of Object.keys(json.dependencies)) {
-      // Todo(steve): size-limit not working.
-      if (!pkgName.startsWith("@size-limit/")) {
-        delete targetPackageJson.devDependencies[pkgName];
-      }
+      delete targetPackageJson.devDependencies[pkgName];
     }
   }
 }
