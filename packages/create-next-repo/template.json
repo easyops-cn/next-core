@@ -12,14 +12,14 @@
     "build:templates": "if [ -d templates ]; then lerna run build --scope \"@templates/*\"; else echo \"no templates\"; fi",
     "build:micro-apps": "if [ -d micro-apps ]; then lerna run build --scope \"@micro-apps/*\"; else echo \"no micro-apps\"; fi",
     "postbuild": "npm run size-limit",
-    "renew": "dev-dependencies-renew",
     "size-limit": "size-limit",
     "serve": "brick-container-serve",
-    "sync-dll": "dev-dependencies-sync-dll",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --ci",
     "yo": "brick-scripts",
-    "yo-debug": "node --inspect-brk ./node_modules/@easyops/brick-scripts/dist/index.js"
+    "yo-debug": "node --inspect-brk ./node_modules/@easyops/brick-scripts/dist/index.js",
+    "renew": "dev-dependencies-renew",
+    "extract": "dev-dependencies-extract"
   },
   "browserslist": {
     "development": ["extends @easyops/browserslist-config-next/development"],

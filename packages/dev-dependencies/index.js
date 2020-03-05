@@ -2,16 +2,16 @@
 /* istanbul ignore file */
 const chalk = require("chalk");
 const execa = require("execa");
-const syncDll = require("./sync-dll");
+const extract = require("./extract");
 
 exports.renew = async function renew() {
   await updateSelf();
-  await syncDllOnly();
+  await extractOnly();
   await yarnInstall();
 };
 
-exports.syncDllAndInstall = async function syncDllAndInstall() {
-  await syncDllOnly();
+exports.extractAndInstall = async function extractAndInstall() {
+  await extractOnly();
   await yarnInstall();
 };
 
@@ -21,7 +21,7 @@ function updateSelf() {
       "[dev-dependencies-renew] $ yarn add -D -W @easyops/dev-dependencies"
     )
   );
-  return execa("yarn", [], {
+  return execa("yarn", ["add", "-D", "-W", "@easyops/dev-dependencies"], {
     stdio: "inherit",
     env: {
       // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
@@ -30,9 +30,9 @@ function updateSelf() {
   });
 }
 
-function syncDllOnly() {
-  console.log(chalk.inverse("[dev-dependencies-renew] sync dll dependencies"));
-  syncDll();
+function extractOnly() {
+  console.log(chalk.inverse("[dev-dependencies-renew] extract dependencies"));
+  extract();
 }
 
 function yarnInstall() {

@@ -40,8 +40,7 @@ module.exports = function(sizeLimitJson) {
           ? pkgMap.get("providers-of-*")
           : pkgMap.has(pkg)
           ? pkgMap.get(pkg)
-          : pkgMap.get("*"),
-        running: false
+          : pkgMap.get("*")
       });
     });
   });
@@ -50,8 +49,7 @@ module.exports = function(sizeLimitJson) {
   if (limits.length === 0) {
     limits.push({
       path: "package.json",
-      limit: "10 KB",
-      running: false
+      limit: "10 KB"
     });
   }
 

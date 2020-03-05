@@ -29,9 +29,9 @@ export function scriptYarnAddDependencies(targetDir: string) {
   });
 }
 
-export function scriptYarnSyncDll(targetDir: string) {
-  console.log(chalk.inverse("[create-next-repo] $ yarn sync-dll"));
-  return execa("yarn", ["sync-dll"], {
+export function scriptYarnExtract(targetDir: string) {
+  console.log(chalk.inverse("[create-next-repo] $ yarn extract"));
+  return execa("yarn", ["extract"], {
     cwd: targetDir,
     stdio: "inherit",
     env: {
