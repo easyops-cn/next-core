@@ -112,6 +112,8 @@ export async function update(
       targetPackageJson.easyops = {};
     }
     targetPackageJson.easyops["create-next-repo"] = packageJson.version;
+    targetPackageJson.devDependencies["@easyops/dev-dependencies"] =
+      packageJson.devDependencies["@easyops/dev-dependencies"];
 
     fs.outputFileSync(
       targetPackageJsonPath,
