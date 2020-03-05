@@ -2,10 +2,15 @@
 /* istanbul ignore file */
 const chalk = require("chalk");
 const execa = require("execa");
-const { syncDllDeps } = require("@easyops/build-config-factory");
+const syncDll = require("./sync-dll");
 
 exports.renew = async function renew() {
   await updateSelf();
+  await syncDllOnly();
+  await yarnInstall();
+};
+
+exports.syncDllAndInstall = async function syncDllAndInstall() {
   await syncDllOnly();
   await yarnInstall();
 };
@@ -27,7 +32,7 @@ function updateSelf() {
 
 function syncDllOnly() {
   console.log(chalk.inverse("[dev-dependencies-renew] sync dll dependencies"));
-  syncDllDeps();
+  syncDll();
 }
 
 function yarnInstall() {
@@ -40,8 +45,3 @@ function yarnInstall() {
     }
   });
 }
-
-exports.syncDll = async function syncDll() {
-  await syncDllOnly();
-  await yarnInstall();
-};

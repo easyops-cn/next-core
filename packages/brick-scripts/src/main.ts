@@ -161,7 +161,7 @@ export default storyboard;`,
     const storyboardJsonPath = path.join(targetRoot, "storyboard.json");
     fs.unlinkSync(storyboardJsonPath);
     console.log(
-      `${chalk.bold.red("File removed")}: ./${path.relative(
+      `${chalk.bold.yellow("File removed")}: ./${path.relative(
         process.cwd(),
         storyboardJsonPath
       )}`
