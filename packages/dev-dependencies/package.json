@@ -1,6 +1,6 @@
 {
   "name": "@easyops/dev-dependencies",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Dev dependencies for brick-next related packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/dev-dependencies",
   "license": "UNLICENSED",
@@ -22,7 +22,7 @@
     "@easyops/babel-preset-prismjs": "^0.1.1",
     "@easyops/brick-container": "^1.15.28",
     "@easyops/brick-dll": "^1.1.4",
-    "@easyops/brick-scripts": "^1.8.0",
+    "@easyops/brick-scripts": "^1.8.1",
     "@easyops/browserslist-config-next": "^0.1.0",
     "@easyops/build-config-factory": "^1.5.20",
     "@easyops/eslint-config-next": "^0.1.5",
