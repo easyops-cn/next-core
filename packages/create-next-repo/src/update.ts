@@ -58,7 +58,15 @@ export async function update(
 
   console.log(chalk.inverse("[create-next-repo]"));
 
-  if (semver.lt(targetCurrentGeneratorVersion, "0.6.0")) {
+  if (semver.lt(targetCurrentGeneratorVersion, "0.6.2")) {
+    overwriteFilesFromTemplates.push(".gitignore");
+  }
+
+  if (semver.lt(targetCurrentGeneratorVersion, "0.8.0")) {
+    fixHomepage();
+  }
+
+  if (semver.lt(targetCurrentGeneratorVersion, "0.10.0")) {
     const readmePath = path.join(targetDir, "README.md");
     if (fs.existsSync(readmePath)) {
       if (
@@ -69,14 +77,6 @@ export async function update(
         overwriteFilesFromTemplates.push("README.md");
       }
     }
-  }
-
-  if (semver.lt(targetCurrentGeneratorVersion, "0.6.2")) {
-    overwriteFilesFromTemplates.push(".gitignore");
-  }
-
-  if (semver.lt(targetCurrentGeneratorVersion, "0.8.0")) {
-    fixHomepage();
   }
 
   if (semver.lt(targetCurrentGeneratorVersion, "0.10.0")) {
