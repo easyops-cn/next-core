@@ -2,6 +2,11 @@
   &-item {
     border-color: transparent;
     background-color: transparent;
+
+    &:focus,
+    &:hover {
+      border-color: transparent;
+    }
   }
 
   .ant-pagination-item-active {
@@ -12,6 +17,11 @@
   &-next &-item-link {
     border-color: transparent;
     background-color: transparent;
+
+    &:hover,
+    &:focus {
+      border-color: transparent;
+    }
   }
 
   &-options {
@@ -22,5 +32,7 @@
     }
   }
 
-
+.ant-select-selection-selected-value {
+  padding-right: 4px;
+}
 }
