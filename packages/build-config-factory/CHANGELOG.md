@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.5.19...@easyops/build-config-factory@1.5.20) (2020-03-05)
+
+### Bug Fixes
+
+- sync brick-types ([45f6418](https://git.easyops.local/anyclouds/next-core/commits/45f6418))
+
 ## [1.5.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.5.18...@easyops/build-config-factory@1.5.19) (2020-03-04)
 
 ### Bug Fixes
