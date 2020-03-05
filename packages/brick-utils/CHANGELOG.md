@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.30.1...@easyops/brick-utils@1.31.0) (2020-03-05)
+
+### Features
+
+- handle time to timeStamp refs MONITOR-362 ([d9e4f62](https://git.easyops.local/anyclouds/next-core/commits/d9e4f62))
+
 ## [1.30.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.30.0...@easyops/brick-utils@1.30.1) (2020-03-04)
 
 ### Bug Fixes
