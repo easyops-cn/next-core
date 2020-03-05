@@ -96,7 +96,6 @@ export async function update(
   if (semver.lt(targetCurrentGeneratorVersion, "0.9.0")) {
     if (flags.install) {
       await scriptYarnSyncDll(targetDir);
-      await scriptYarnInstall(targetDir);
     }
   }
 
