@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.30](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.15.29...@easyops/brick-container@1.15.30) (2020-03-05)
+
+### Bug Fixes
+
+- fix confirm modal style ([eb5d13c](https://git.easyops.local/anyclouds/next-core/commits/eb5d13c))
+
 ## [1.15.29](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.15.28...@easyops/brick-container@1.15.29) (2020-03-05)
 
 **Note:** Version bump only for package @easyops/brick-container
