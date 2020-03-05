@@ -7,6 +7,7 @@ describe("processPipes", () => {
     jest.spyOn(console, "warn").mockImplementation(() => null);
   });
 
+  Date.now = jest.fn(() => +new Date("2019-05-10 17:51:00"));
   const circularValue: any = {};
   circularValue.self = circularValue;
   const cases: [any, string, any][] = [
@@ -54,6 +55,19 @@ describe("processPipes", () => {
     expect(
       processPipes(value, [
         { type: "PipeCall", identifier: "map", parameters: [param] }
+      ])
+    ).toEqual(res);
+  });
+
+  it.each([
+    ["", 1557481860000],
+    ["1557417600000", 1557417600000],
+    ["now-7d", 1556877060000],
+    ["now/d", 1557417600000]
+  ])("pipeParseTimeRange should work", (value, res) => {
+    expect(
+      processPipes(value, [
+        { type: "PipeCall", identifier: "parseTimeRange", parameters: [] }
       ])
     ).toEqual(res);
   });
