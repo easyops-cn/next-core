@@ -8,8 +8,8 @@ import {
   isNil,
   isEqual
 } from "lodash";
-import moment from "moment";
 import yaml from "js-yaml";
+import moment, { DurationInputArg2 } from "moment";
 
 export const PipeRegistry = new Map<string, Function>();
 
@@ -36,6 +36,7 @@ PipeRegistry.set("groupBy", pipeGroupBy);
 PipeRegistry.set("keyBy", pipeKeyBy);
 PipeRegistry.set("yaml", pipeYaml);
 PipeRegistry.set("yamlStringify", pipeYamlStringify);
+PipeRegistry.set("parseTimeRange", pipeParseTimeRange);
 
 function pipeMap(value: any[], key: string): any[] {
   return value.map(item => {
@@ -180,4 +181,24 @@ function pipeYamlStringify(value: any): string {
     console.error(e);
   }
   return result;
+}
+
+function pipeParseTimeRange(value: any): number {
+  if (value === "now/d") {
+    return +moment().startOf("day");
+  }
+
+  if (value === "now/y") {
+    return +moment().startOf("year");
+  }
+
+  const reg = /^now-(\d+)(\w+)/;
+
+  const matches = reg.exec(value);
+
+  if (matches !== null) {
+    const [, num, unit] = matches;
+    return +moment().subtract(num, unit as DurationInputArg2);
+  }
+  return value ? +value : +moment();
 }
