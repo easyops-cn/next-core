@@ -21,6 +21,8 @@ describe("processPipes", () => {
     ["0", "|bool", false],
     ['{"a":1}', "|json", { a: 1 }],
     ["{", "|json", undefined],
+    [undefined, "|json", undefined],
+    [null, "|json", null],
     [{ a: 1 }, "|jsonStringify", '{\n  "a": 1\n}'],
     [circularValue, "|jsonStringify", undefined],
     [1, "|unknown", undefined],
@@ -63,7 +65,8 @@ describe("processPipes", () => {
     ["", 1557481860000],
     ["1557417600000", 1557417600000],
     ["now-7d", 1556877060000],
-    ["now/d", 1557417600000]
+    ["now/d", 1557417600000],
+    ["now/y", 1546272000000]
   ])("pipeParseTimeRange should work", (value, res) => {
     expect(
       processPipes(value, [
@@ -126,6 +129,7 @@ describe("processPipes", () => {
       "|groupBy:length",
       { 3: ["one", "two"], 5: ["three"] }
     ],
+    [["one", "two", "three"], "|countBy:length", { 3: 2, 5: 1 }],
     [
       [{ objectId: "HOST" }, { objectId: "APP" }],
       "|keyBy:objectId",

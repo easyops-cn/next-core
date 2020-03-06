@@ -1,9 +1,10 @@
 import {
   get,
+  set,
   groupBy,
+  countBy,
   keys,
   keyBy,
-  set,
   indexOf,
   isNil,
   isEqual
@@ -37,6 +38,7 @@ PipeRegistry.set("keyBy", pipeKeyBy);
 PipeRegistry.set("yaml", pipeYaml);
 PipeRegistry.set("yamlStringify", pipeYamlStringify);
 PipeRegistry.set("parseTimeRange", pipeParseTimeRange);
+PipeRegistry.set("countBy", pipeCountBy);
 
 function pipeMap(value: any[], key: string): any[] {
   return value.map(item => {
@@ -59,6 +61,7 @@ function pipeBoolean(value: any): boolean {
 }
 
 function pipeJson(value: any): any {
+  if (isNil(value)) return value;
   try {
     return JSON.parse(value);
   } catch (e) {
@@ -68,9 +71,9 @@ function pipeJson(value: any): any {
   }
 }
 
-function pipeJsonStringify(value: any): string {
+function pipeJsonStringify(value: any, indent = 2): string {
   try {
-    return JSON.stringify(value, null, 2);
+    return JSON.stringify(value, null, indent);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
@@ -152,6 +155,10 @@ function pipeGroupBy(value: any[], field: string): any {
   return groupBy(value, field);
 }
 
+function pipeCountBy(value: any, field: string): any {
+  return countBy(value, field);
+}
+
 function pipeKeyBy(value: any[], field: string): any {
   return keyBy(value, field);
 }
@@ -167,10 +174,11 @@ function pipeYaml(value: any): any {
   return result;
 }
 
-function pipeYamlStringify(value: any): string {
+function pipeYamlStringify(value: any, indent = 2): string {
   let result;
   try {
     result = yaml.safeDump(value, {
+      indent,
       schema: yaml.JSON_SCHEMA,
       skipInvalid: true,
       noRefs: true,
