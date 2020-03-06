@@ -6,6 +6,7 @@ import yaml from "js-yaml";
 import { Api } from "./internal";
 import { Model } from "./internal";
 import { FileWithContent } from "../interface";
+import { normalizeSemver } from "../utils";
 
 export class Context {
   readonly apiMap = new Map<string, Api>();
@@ -73,7 +74,7 @@ export class Context {
         // eslint-disable-next-line @typescript-eslint/camelcase
         depend_contracts: Array.from(this.apiMap.values()).map(api => ({
           name: `easyops.api.${this.serviceSeg}.${api.modelSeg}.${api.originalName}`,
-          version: `^${Number(api.doc.version).toFixed(1)}`
+          version: `^${normalizeSemver(api.doc.version)}`
         }))
       })
     ];
