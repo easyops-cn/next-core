@@ -63,6 +63,7 @@ export interface MountRoutesResult {
 
 interface BrickAndLifeCycleHandler {
   brick: RuntimeBrick;
+  match: MatchResult;
   handler: BrickEventHandler | BrickEventHandler[];
 }
 
@@ -252,6 +253,7 @@ export class LocationContext {
       if (menuConf.lifeCycle?.onPageLoad) {
         this.pageLoadHandlers.push({
           brick,
+          match,
           handler: menuConf.lifeCycle.onPageLoad
         });
       }
@@ -259,6 +261,7 @@ export class LocationContext {
       if (menuConf.lifeCycle?.onAnchorLoad) {
         this.anchorLoadHandlers.push({
           brick,
+          match,
           handler: menuConf.lifeCycle.onAnchorLoad
         });
       }
@@ -266,6 +269,7 @@ export class LocationContext {
       if (menuConf.lifeCycle?.onAnchorUnload) {
         this.anchorUnloadHandlers.push({
           brick,
+          match,
           handler: menuConf.lifeCycle.onAnchorUnload
         });
       }
@@ -404,6 +408,7 @@ export class LocationContext {
     if (brickConf.lifeCycle?.onPageLoad) {
       this.pageLoadHandlers.push({
         brick,
+        match,
         handler: brickConf.lifeCycle.onPageLoad
       });
     }
@@ -411,6 +416,7 @@ export class LocationContext {
     if (brickConf.lifeCycle?.onAnchorLoad) {
       this.anchorLoadHandlers.push({
         brick,
+        match,
         handler: brickConf.lifeCycle.onAnchorLoad
       });
     }
@@ -418,6 +424,7 @@ export class LocationContext {
     if (brickConf.lifeCycle?.onAnchorUnload) {
       this.anchorUnloadHandlers.push({
         brick,
+        match,
         handler: brickConf.lifeCycle.onAnchorUnload
       });
     }
@@ -493,7 +500,7 @@ export class LocationContext {
         listenerFactory(
           handler,
           history,
-          this.getContext(null),
+          this.getContext(brickAndHandler.match),
           brickAndHandler.brick.element
         )(event);
       }
