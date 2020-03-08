@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.4.0...@easyops/dev-dependencies@0.4.1) (2020-03-08)
+
+### Bug Fixes
+
+- run `yarn extract` to get the newly updated `@easyops/dev-dependencies` ([dea88b6](https://git.easyops.local/anyclouds/next-core/commits/dea88b6))
+
 # [0.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.3.2...@easyops/dev-dependencies@0.4.0) (2020-03-08)
 
 ### Features
