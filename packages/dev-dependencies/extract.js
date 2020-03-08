@@ -1,9 +1,8 @@
 const path = require("path");
-const fs = require("fs");
-const prettier = require("prettier");
 const semver = require("semver");
 const chalk = require("chalk");
 const { chain } = require("lodash");
+const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 const patch = require("./patch");
 
 const caretRangesRegExp = /^\^\d+\.\d+\.\d+$/;
@@ -20,10 +19,10 @@ function shouldUpgrade(fromVersion, toVersion) {
 // 将 DLL 的依赖包及其版本都放到仓库根目录的 `package.json` 的 `devDependencies` 中，
 // 以支持 IDE 的 auto-import
 module.exports = function extract() {
-  const selfJson = require("./package.json");
+  const selfJson = readSelfJson();
 
   const rootPackageJsonPath = path.resolve("package.json");
-  const rootPackageJson = require(rootPackageJsonPath);
+  const rootPackageJson = readJson(rootPackageJsonPath);
   const devDependencies = rootPackageJson.devDependencies;
 
   const toBeExtracted = new Map();
@@ -55,20 +54,21 @@ module.exports = function extract() {
   const dlls = ["@easyops/brick-dll", "@dll/ace", "@dll/d3", "@dll/echarts"];
   for (const pkg of dlls) {
     // 解决该包在 `npm link` 下使用时报错的问题
-    const dllPackageJson = require(require.resolve(`${pkg}/package.json`, {
-      paths: [process.cwd()]
-    }));
+    const dllPackageJson = readJson(
+      require.resolve(`${pkg}/package.json`, {
+        paths: [process.cwd()]
+      })
+    );
     for (const [name, version] of Object.entries(dllPackageJson.dependencies)) {
       toBeExtracted.set(name, version);
     }
   }
 
-  const kitPackageJson = require(require.resolve(
-    "@easyops/brick-kit/package.json",
-    {
+  const kitPackageJson = readJson(
+    require.resolve("@easyops/brick-kit/package.json", {
       paths: [process.cwd()]
-    }
-  ));
+    })
+  );
   const kitDeps = ["@easyops/brick-types"];
   for (const name of kitDeps) {
     toBeExtracted.set(name, kitPackageJson.dependencies[name]);
@@ -107,14 +107,11 @@ module.exports = function extract() {
     .fromPairs()
     .value();
 
-  fs.writeFileSync(
-    rootPackageJsonPath,
-    prettier.format(JSON.stringify(rootPackageJson), { parser: "json" })
-  );
+  writeJsonFile(rootPackageJsonPath, rootPackageJson);
 
   // 同时更新 Renovate 配置，DLL 的依赖由 DLL 带动更新，不需要自动更新
   const renovateJsonPath = path.resolve("renovate.json");
-  const renovateJson = require(renovateJsonPath);
+  const renovateJson = readJson(renovateJsonPath);
   const disabledRule = renovateJson.packageRules.find(
     item => item.enabled === false
   );
@@ -125,10 +122,7 @@ module.exports = function extract() {
   }
   disabledRule.packageNames = Array.from(disabledPackageNames).sort();
 
-  fs.writeFileSync(
-    renovateJsonPath,
-    prettier.format(JSON.stringify(renovateJson), { parser: "json" })
-  );
+  writeJsonFile(renovateJsonPath, renovateJson);
 
   patch();
 };

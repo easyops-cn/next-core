@@ -1,12 +1,13 @@
 const path = require("path");
 const fs = require("fs");
 const semver = require("semver");
-const prettier = require("prettier");
 const { chain, pull } = require("lodash");
+const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 
 module.exports = function patch() {
+  const selfJson = readSelfJson();
   const rootPackageJsonPath = path.resolve("package.json");
-  const rootPackageJson = require(rootPackageJsonPath);
+  const rootPackageJson = readJson(rootPackageJsonPath);
   if (!rootPackageJson.easyops) {
     rootPackageJson.easyops = {};
   }
@@ -19,9 +20,7 @@ module.exports = function patch() {
     updateLintstagedrc();
   }
 
-  rootPackageJson.easyops[
-    "dev-dependencies"
-  ] = require("./package.json").version;
+  rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
 };
@@ -29,7 +28,7 @@ module.exports = function patch() {
 function updateLintstagedrc() {
   const filePath = path.resolve(".lintstagedrc");
   if (fs.existsSync(filePath)) {
-    const lintstagedrc = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    const lintstagedrc = readJson(filePath);
     writeJsonFile(
       filePath,
       chain(lintstagedrc)
@@ -48,11 +47,4 @@ function updateLintstagedrc() {
         .value()
     );
   }
-}
-
-function writeJsonFile(filePath, content) {
-  fs.writeFileSync(
-    filePath,
-    prettier.format(JSON.stringify(content), { parser: "json" })
-  );
 }
