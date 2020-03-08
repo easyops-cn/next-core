@@ -4,6 +4,7 @@ const prettier = require("prettier");
 const semver = require("semver");
 const chalk = require("chalk");
 const { chain } = require("lodash");
+const patch = require("./patch");
 
 const caretRangesRegExp = /^\^\d+\.\d+\.\d+$/;
 
@@ -128,4 +129,6 @@ module.exports = function extract() {
     renovateJsonPath,
     prettier.format(JSON.stringify(renovateJson), { parser: "json" })
   );
+
+  patch();
 };
