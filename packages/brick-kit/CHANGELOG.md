@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.31.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.1...@easyops/brick-kit@1.31.2) (2020-03-08)
+
+### Bug Fixes
+
+- fix match params in onPageLoad ([710d50d](https://git.easyops.local/anyclouds/next-core/commits/710d50d))
+
 ## [1.31.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.0...@easyops/brick-kit@1.31.1) (2020-03-05)
 
 **Note:** Version bump only for package @easyops/brick-kit
