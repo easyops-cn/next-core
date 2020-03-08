@@ -176,7 +176,7 @@ export async function update(
             let modified = false;
             if (!pkgJson.homepage || pkgJson.homepage.startsWith("undefined")) {
               // Fix `undefined`-prefixed homepage.
-              pkgJson.homepage = `${targetPackageJson.homepage}/${repoName}/tree/master/${type}/${dirent.name}`;
+              pkgJson.homepage = `${targetPackageJson.homepage}/tree/master/${type}/${dirent.name}`;
               modified = true;
             }
             if (!pkgJson?.repository?.url?.endsWith(`${repoName}.git`)) {
