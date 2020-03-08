@@ -1,3 +1,4 @@
+import semver from "semver";
 import { loadDefaultTypes } from "./loaders/loadDefaultTypes";
 import {
   RefFieldDoc,
@@ -38,15 +39,27 @@ export function isModelType(type: string): boolean {
   return !isPrimitiveType(type) && type !== "object";
 }
 
+export function normalizeSemver(version: string | number): string {
+  let result = version;
+  if (!(typeof result === "string" && result.split(".").length >= 3)) {
+    result = String(Number(result));
+    if (result.includes(".")) {
+      result += ".0";
+    } else {
+      result += ".0.0";
+    }
+  }
+  return result;
+}
+
 export function expectDocVersion({
   _version_: version
 }: {
   _version_: string | number;
 }): void {
-  const numberVersion = Number(version);
-  if (!(numberVersion >= 2 && numberVersion < 2.3)) {
+  if (!semver.satisfies(normalizeSemver(version), "2.0.0 - 2.2")) {
     throw new Error(
-      `Contract version not compatible, expect \`>=2 <2.3\` but given ${version}`
+      `Contract version not compatible, expect \`2.0.0 - 2.2\` but given ${version}`
     );
   }
 }
