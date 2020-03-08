@@ -6,8 +6,7 @@ const extract = require("./extract");
 
 exports.renew = async function renew() {
   await updateSelf();
-  await extractOnly();
-  await yarnInstall();
+  await yarnExtract();
 };
 
 exports.extractAndInstall = async function extractAndInstall() {
@@ -38,6 +37,17 @@ function extractOnly() {
 function yarnInstall() {
   console.log(chalk.inverse("[dev-dependencies-renew] $ yarn"));
   return execa("yarn", [], {
+    stdio: "inherit",
+    env: {
+      // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
+      ESTIMO_DISABLE: "true"
+    }
+  });
+}
+
+function yarnExtract() {
+  console.log(chalk.inverse("[dev-dependencies-renew] $ yarn extract"));
+  return execa("yarn", ["extract"], {
     stdio: "inherit",
     env: {
       // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
