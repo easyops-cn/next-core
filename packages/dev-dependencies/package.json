@@ -1,6 +1,6 @@
 {
   "name": "@easyops/dev-dependencies",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Dev dependencies for brick-next related packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/dev-dependencies",
   "license": "UNLICENSED",
@@ -20,7 +20,7 @@
     "@dll/echarts": "^1.0.2",
     "@easyops/babel-preset-next": "^0.6.2",
     "@easyops/babel-preset-prismjs": "^0.1.1",
-    "@easyops/brick-container": "^1.15.32",
+    "@easyops/brick-container": "^1.16.0",
     "@easyops/brick-dll": "^1.1.6",
     "@easyops/brick-scripts": "^1.8.1",
     "@easyops/browserslist-config-next": "^0.1.0",
