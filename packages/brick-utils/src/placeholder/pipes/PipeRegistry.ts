@@ -41,6 +41,11 @@ PipeRegistry.set("yamlStringify", pipeYamlStringify);
 PipeRegistry.set("parseTimeRange", pipeParseTimeRange);
 PipeRegistry.set("countBy", pipeCountBy);
 PipeRegistry.set("uniq", pipeUniq);
+PipeRegistry.set("ternary", pipeTernary);
+
+function pipeTernary(value: boolean, ...res: any[]): any {
+  return value ? res[0] : res[1];
+}
 
 function pipeMap(value: any[], key: string): any[] {
   return value.map(item => {
