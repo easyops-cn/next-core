@@ -175,4 +175,21 @@ describe("processPipes", () => {
       ).toEqual(result);
     }
   );
+
+  it.each([
+    [
+      ["1", "2", "1", "1"],
+      ["1", "2"]
+    ],
+    [
+      [1, 2],
+      [1, 2]
+    ]
+  ])("uniq should work", (value, res) => {
+    expect(
+      processPipes(value, [
+        { type: "PipeCall", identifier: "uniq", parameters: [] }
+      ])
+    ).toEqual(res);
+  });
 });

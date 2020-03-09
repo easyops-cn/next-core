@@ -7,7 +7,8 @@ import {
   keyBy,
   indexOf,
   isNil,
-  isEqual
+  isEqual,
+  uniq
 } from "lodash";
 import yaml from "js-yaml";
 import moment, { DurationInputArg2 } from "moment";
@@ -39,6 +40,7 @@ PipeRegistry.set("yaml", pipeYaml);
 PipeRegistry.set("yamlStringify", pipeYamlStringify);
 PipeRegistry.set("parseTimeRange", pipeParseTimeRange);
 PipeRegistry.set("countBy", pipeCountBy);
+PipeRegistry.set("uniq", pipeUniq);
 
 function pipeMap(value: any[], key: string): any[] {
   return value.map(item => {
@@ -209,4 +211,8 @@ function pipeParseTimeRange(value: any): number {
     return +moment().subtract(num, unit as DurationInputArg2);
   }
   return value ? +value : +moment();
+}
+
+function pipeUniq(value: any[]): any[] {
+  return uniq(value);
 }
