@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.32.0...@easyops/brick-utils@1.33.0) (2020-03-09)
+
+### Features
+
+- ternary pipe refs MONITOR-302 ([8b6727c](https://git.easyops.local/anyclouds/next-core/commits/8b6727c))
+- **pipe:** uniq ([425c01b](https://git.easyops.local/anyclouds/next-core/commits/425c01b))
+
 # [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.31.0...@easyops/brick-utils@1.32.0) (2020-03-08)
 
 ### Features
