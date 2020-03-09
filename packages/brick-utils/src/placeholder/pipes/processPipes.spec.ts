@@ -75,6 +75,32 @@ describe("processPipes", () => {
     ).toEqual(res);
   });
 
+  it("pipeTernary should work", () => {
+    expect(
+      processPipes(true, [
+        {
+          type: "PipeCall",
+          identifier: "ternary",
+          parameters: [{ a: 1 }, { b: 2 }]
+        }
+      ])
+    ).toEqual({ a: 1 });
+  });
+
+  it.each([
+    ["", 1557481860000],
+    ["1557417600000", 1557417600000],
+    ["now-7d", 1556877060000],
+    ["now/d", 1557417600000],
+    ["now/y", 1546272000000]
+  ])("pipeParseTimeRange should work", (value, res) => {
+    expect(
+      processPipes(value, [
+        { type: "PipeCall", identifier: "parseTimeRange", parameters: [] }
+      ])
+    ).toEqual(res);
+  });
+
   it.each([
     [
       [
