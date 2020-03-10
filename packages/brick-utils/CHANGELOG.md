@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.33.0...@easyops/brick-utils@1.34.0) (2020-03-10)
+
+### Features
+
+- **pipe:** substr and substring, refs BRICK_STORE-1263 ([ac3c14b](https://git.easyops.local/anyclouds/next-core/commits/ac3c14b))
+
 # [1.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.32.0...@easyops/brick-utils@1.33.0) (2020-03-09)
 
 ### Features
