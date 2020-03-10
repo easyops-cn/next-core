@@ -11806,11 +11806,6 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
-reserved-words@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.npm.taobao.org/reserved-words/download/reserved-words-0.1.2.tgz#00a0940f98cd501aeaaac316411d9adc52b31ab1"
-  integrity sha1-AKCUD5jNUBrqqsMWQR2a3FKzGrE=
-
 resize-observer-polyfill@^1.5.0, resize-observer-polyfill@^1.5.1:
   version "1.5.1"
   resolved "http://registry.npm.taobao.org/resize-observer-polyfill/download/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
@@ -11969,10 +11964,10 @@ rollup-plugin-node-resolve@^5.2.0:
     resolve "^1.11.1"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-postcss@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-2.2.0.tgz#cfb510582e287c8bbc3452d42e0331221b305a9c"
-  integrity sha1-z7UQWC4ofIu8NFLULgMxIhswWpw=
+rollup-plugin-postcss@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-2.4.1.tgz#c6ba84dea7a29ed00ce5ddf0d333f9efd96283df"
+  integrity sha1-xrqE3qeintAM5d3w0zP579lig98=
   dependencies:
     chalk "^2.4.2"
     concat-with-sourcemaps "^1.0.5"
@@ -11984,9 +11979,9 @@ rollup-plugin-postcss@^2.2.0:
     postcss-load-config "^2.0.0"
     postcss-modules "^1.4.1"
     promise.series "^0.2.0"
-    reserved-words "^0.1.2"
     resolve "^1.5.0"
     rollup-pluginutils "^2.0.1"
+    safe-identifier "^0.3.1"
     style-inject "^0.3.0"
 
 rollup-plugin-replace@^2.2.0:
@@ -12053,6 +12048,11 @@ safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, 
   version "5.2.0"
   resolved "https://registry.npm.taobao.org/safe-buffer/download/safe-buffer-5.2.0.tgz#b74daec49b1148f88c64b68d49b1e815c1f2f519"
   integrity sha1-t02uxJsRSPiMZLaNSbHoFcHy9Rk=
+
+safe-identifier@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npm.taobao.org/safe-identifier/download/safe-identifier-0.3.1.tgz?cache=0&sync_timestamp=1583568419513&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsafe-identifier%2Fdownload%2Fsafe-identifier-0.3.1.tgz#466b956ef8558b10bbe15b87fedf470ab283cd39"
+  integrity sha1-RmuVbvhVixC74VuH/t9HCrKDzTk=
 
 safe-regex@^1.1.0:
   version "1.1.0"
