@@ -239,6 +239,7 @@ export class Resolver {
       // It's a dynamic brick.
       props = brick.properties;
     }
+
     transformProperties(
       props,
       data,
@@ -252,6 +253,11 @@ export class Resolver {
         : resolveConf.transform || resolveConf.name,
       resolveConf.transformFrom
     );
+
+    if (context?.flags?.["storyboard-debug-mode"]) {
+      // eslint-disable-next-line no-console
+      console.log(`Transform:`, props, data);
+    }
   }
 
   scheduleRefreshing(): void {
