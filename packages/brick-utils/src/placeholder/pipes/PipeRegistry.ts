@@ -42,12 +42,25 @@ PipeRegistry.set("parseTimeRange", pipeParseTimeRange);
 PipeRegistry.set("countBy", pipeCountBy);
 PipeRegistry.set("uniq", pipeUniq);
 PipeRegistry.set("ternary", pipeTernary);
+PipeRegistry.set("substr", pipeSubstr);
+PipeRegistry.set("substring", pipeSubstring);
+
+function pipeSubstr(value: string, start: number, length: number): string {
+  if (typeof value !== "string") return "";
+  return value.substr(start, length);
+}
+
+function pipeSubstring(value: string, start: number, end: number): string {
+  if (typeof value !== "string") return "";
+  return value.substring(start, end);
+}
 
 function pipeTernary(value: boolean, ...res: any[]): any {
   return value ? res[0] : res[1];
 }
 
 function pipeMap(value: any[], key: string): any[] {
+  if (!Array.isArray(value)) return [];
   return value.map(item => {
     return get(item, key);
   });
@@ -128,6 +141,7 @@ function pipeSplit(value: string, separator: string): string[] {
 }
 
 function pipeJoin(value: any[], separator: string): string {
+  if (!Array.isArray(value)) return "";
   return value.join(separator);
 }
 

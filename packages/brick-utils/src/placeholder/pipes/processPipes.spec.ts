@@ -51,6 +51,7 @@ describe("processPipes", () => {
     }
   );
   it.each([
+    [3, "x", []],
     [[{ key: 123 }], "key", [123]],
     [[{ key: { name: "xxx" } }, {}], "key.name", ["xxx", undefined]]
   ])("map should work", (value, param, res) => {
@@ -85,7 +86,38 @@ describe("processPipes", () => {
         }
       ])
     ).toEqual({ a: 1 });
+    expect(
+      processPipes(undefined, [
+        {
+          type: "PipeCall",
+          identifier: "ternary",
+          parameters: ["foo", "bar"]
+        }
+      ])
+    ).toEqual("bar");
   });
+
+  const stringCases: [any, string, string][] = [
+    [null, "substr:1", ""],
+    ["01234", "substr:1:3", "123"],
+    [1234, "substring:1:3", ""],
+    ["01234", "substring:1:3", "12"]
+  ];
+  it.each(stringCases)(
+    "process %j with pipe %j should return %j",
+    (value, parameter, result) => {
+      const [pipe, param1, param2] = parameter.split(":");
+      expect(
+        processPipes(value, [
+          {
+            type: "PipeCall",
+            identifier: pipe,
+            parameters: [+param1, +param2]
+          }
+        ])
+      );
+    }
+  );
 
   it.each([
     ["", 1557481860000],
@@ -141,6 +173,7 @@ describe("processPipes", () => {
     ["hello, world", "|split:, ", ["hello", "world"]],
     [null, "|split:, ", []],
     [[1, 2, 3], "|join:;", "1;2;3"],
+    [undefined, "|join:;", ""],
     [[1, 2, 3], "|includes:0", false],
     [["foo", "bar"], "|includes:foo", true],
     [1582877669000, "|datetime:YYYY-MM-DD", "2020-02-28"],
