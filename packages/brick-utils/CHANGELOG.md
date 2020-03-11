@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.34.0...@easyops/brick-utils@1.35.0) (2020-03-11)
+
+
+### Features
+
+* **pipe:** new pipes, `mapToArray`, `find`, `findLast`, `findIndex`, `findLastIndex` ([ac38f9d](https://git.easyops.local/anyclouds/next-core/commits/ac38f9d))
+
+
+
+
+
 # [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.33.0...@easyops/brick-utils@1.34.0) (2020-03-10)
 
 ### Features
