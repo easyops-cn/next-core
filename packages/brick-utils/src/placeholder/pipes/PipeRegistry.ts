@@ -1,8 +1,14 @@
 import {
+  find,
+  findLast,
+  findIndex,
+  findLastIndex,
   get,
   set,
   groupBy,
   countBy,
+  toPairs,
+  zipObject,
   keys,
   keyBy,
   indexOf,
@@ -44,6 +50,38 @@ PipeRegistry.set("uniq", pipeUniq);
 PipeRegistry.set("ternary", pipeTernary);
 PipeRegistry.set("substr", pipeSubstr);
 PipeRegistry.set("substring", pipeSubstring);
+PipeRegistry.set("mapToArray", pipeMapToArray);
+PipeRegistry.set("find", pipeFind);
+PipeRegistry.set("findLast", pipeFindLast);
+PipeRegistry.set("findIndex", pipeFindIndex);
+PipeRegistry.set("findLastIndex", pipeFindLastIndex);
+
+function pipeMapToArray(
+  value: any,
+  keyField: string,
+  valueField: string
+): any[] {
+  if (typeof value !== "object" || !value) return [];
+  const fields = [keyField, valueField];
+  const pairs = toPairs(value);
+  return pairs.map(pair => zipObject(fields, pair));
+}
+
+function pipeFind<T>(value: T[], item: any): T | undefined {
+  return find(value, item);
+}
+
+function pipeFindLast<T>(value: T[], item: any): T | undefined {
+  return findLast(value, item);
+}
+
+function pipeFindIndex(value: any[], item: any): number {
+  return findIndex(value, item);
+}
+
+function pipeFindLastIndex(value: any[], item: any): number {
+  return findLastIndex(value, item);
+}
 
 function pipeSubstr(value: string, start: number, length: number): string {
   if (typeof value !== "string") return "";

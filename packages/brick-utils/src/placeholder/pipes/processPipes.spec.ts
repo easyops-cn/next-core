@@ -1,6 +1,9 @@
 import { processPipes } from "./processPipes";
 import { PipeCall } from "../interfaces";
 
+type Identifier = string;
+type Parameters = any[];
+
 describe("processPipes", () => {
   beforeAll(() => {
     jest.spyOn(console, "error").mockImplementation(() => null);
@@ -251,4 +254,63 @@ describe("processPipes", () => {
       ])
     ).toEqual(res);
   });
+
+  const paramCases: [any, [Identifier, Parameters], any][] = [
+    [null, ["mapToArray", ["", ""]], []],
+    ["23", ["mapToArray", ["", ""]], []],
+    [
+      { HOST: "主机", APP: "应用" },
+      ["mapToArray", ["id", "label"]],
+      [
+        { id: "HOST", label: "主机" },
+        { id: "APP", label: "应用" }
+      ]
+    ],
+    [
+      [
+        { user: "x1", active: true },
+        { user: "x2", active: true }
+      ],
+      ["find", [{ user: "x1" }]],
+      { user: "x1", active: true }
+    ],
+    [
+      [
+        { user: "x1", active: true },
+        { user: "x2", active: true }
+      ],
+      ["findLast", ["active"]],
+      { user: "x2", active: true }
+    ],
+    [
+      [
+        { user: "x1", active: true },
+        { user: "x2", active: true }
+      ],
+      ["findIndex", ["active"]],
+      0
+    ],
+    [
+      [
+        { user: "x1", active: true },
+        { user: "x2", active: true }
+      ],
+      ["findLastIndex", ["active"]],
+      1
+    ]
+  ];
+  it.each(paramCases)(
+    "process %j with %j should return %j",
+    (value, [identifier, parameters], result) => {
+      expect(
+        processPipes(value, [
+          {
+            type: "PipeCall",
+            identifier,
+            parameters
+          }
+        ])
+      ).toEqual(result);
+    }
+  );
 });
