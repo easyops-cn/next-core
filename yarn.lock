@@ -11928,10 +11928,10 @@ rmc-feedback@^2.0.0:
     babel-runtime "6.x"
     classnames "^2.2.5"
 
-rollup-plugin-babel@^4.3.3:
-  version "4.3.3"
-  resolved "https://registry.npm.taobao.org/rollup-plugin-babel/download/rollup-plugin-babel-4.3.3.tgz#7eb5ac16d9b5831c3fd5d97e8df77ba25c72a2aa"
-  integrity sha1-frWsFtm1gxw/1dl+jfd7olxyoqo=
+rollup-plugin-babel@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npm.taobao.org/rollup-plugin-babel/download/rollup-plugin-babel-4.4.0.tgz?cache=0&sync_timestamp=1583574706684&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup-plugin-babel%2Fdownload%2Frollup-plugin-babel-4.4.0.tgz#d15bd259466a9d1accbdb2fe2fff17c52d030acb"
+  integrity sha1-0VvSWUZqnRrMvbL+L/8XxS0DCss=
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
     rollup-pluginutils "^2.8.1"
