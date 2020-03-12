@@ -5,6 +5,7 @@ import {
   findLastIndex,
   get,
   set,
+  sortBy,
   groupBy,
   countBy,
   toPairs,
@@ -55,6 +56,18 @@ PipeRegistry.set("find", pipeFind);
 PipeRegistry.set("findLast", pipeFindLast);
 PipeRegistry.set("findIndex", pipeFindIndex);
 PipeRegistry.set("findLastIndex", pipeFindLastIndex);
+PipeRegistry.set("sort", pipeSort);
+PipeRegistry.set("reverse", pipeReverse);
+
+function pipeSort(value: any[], fields?: string | string[]): any[] {
+  if (!Array.isArray(value)) return [];
+  return sortBy(value, fields);
+}
+
+function pipeReverse(value: any[]): any[] {
+  if (!Array.isArray(value)) return [];
+  return value.slice().reverse();
+}
 
 function pipeMapToArray(
   value: any,
