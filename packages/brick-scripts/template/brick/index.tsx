@@ -5,7 +5,11 @@ import { $PascalBrickName$ } from "./$PascalBrickName$";
 
 class $PascalBrickName$Element extends UpdatingElement {
   connectedCallback(): void {
-    this.style.display = "block";
+    // Don't override user's style settings.
+    // istanbul ignore else
+    if (!this.style.display) {
+      this.style.display = "block";
+    }
     this._render();
   }
 

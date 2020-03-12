@@ -68,7 +68,11 @@ import { ForBetter } from \\"./ForBetter\\";
 
 class ForBetterElement extends UpdatingElement {
   connectedCallback(): void {
-    this.style.display = \\"block\\";
+    // Don't override user's style settings.
+    // istanbul ignore else
+    if (!this.style.display) {
+      this.style.display = \\"block\\";
+    }
     this._render();
   }
 
@@ -324,7 +328,11 @@ import { ForBetter } from \\"./ForBetter\\";
 
 class ForBetterElement extends UpdatingElement {
   connectedCallback(): void {
-    this.style.display = \\"block\\";
+    // Don't override user's style settings.
+    // istanbul ignore else
+    if (!this.style.display) {
+      this.style.display = \\"block\\";
+    }
     this._render();
   }
 
