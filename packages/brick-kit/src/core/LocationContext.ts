@@ -11,11 +11,11 @@ import {
   MicroApp,
   ProviderConf,
   PluginRuntimeContext,
-  BrickLifeCycle,
   BrickEventHandler,
   ResolveConf,
   RouteConfOfRoutes,
-  RouteConfOfBricks
+  RouteConfOfBricks,
+  RuntimeBrickConf
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -29,6 +29,7 @@ import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
 import { RedirectConf, IfConf } from "./interfaces";
+import { expandCustomTemplate } from "./CustomTemplates";
 
 export type MatchRoutesResult =
   | {
@@ -66,21 +67,6 @@ interface BrickAndLifeCycleHandler {
   match: MatchResult;
   handler: BrickEventHandler | BrickEventHandler[];
 }
-
-/* interface PageLoadHandler {
-  brick: RuntimeBrick;
-  handler: BrickLifeCycle["onPageLoad"];
-}
-
-interface AnchorLoadHandler {
-  brick: RuntimeBrick;
-  onAnchorLoad: BrickLifeCycle["onAnchorLoad"];
-}
-
-interface AnchorUnloadHandler {
-  brick: RuntimeBrick;
-  onAnchorUnload: BrickLifeCycle["onAnchorUnload"];
-} */
 
 export class LocationContext {
   readonly location: PluginLocation;
@@ -394,16 +380,24 @@ export class LocationContext {
 
     const brick: RuntimeBrick = {
       type: brickConf.brick,
-      properties: computeRealProperties(
-        brickConf.properties,
-        context,
-        brickConf.injectDeep !== false
+      properties: Object.assign(
+        computeRealProperties(
+          brickConf.properties,
+          context,
+          brickConf.injectDeep !== false
+        ),
+        (brickConf as RuntimeBrickConf).$$computedPropsFromProxy
       ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
       children: [],
-      slotId
+      slotId,
+      refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy
     };
+
+    if (brick.refForProxy) {
+      brick.refForProxy.brick = brick;
+    }
 
     if (brickConf.lifeCycle?.onPageLoad) {
       this.pageLoadHandlers.push({
@@ -432,11 +426,20 @@ export class LocationContext {
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
 
-    if (brickConf.bg) {
+    const { bg, slots } = expandCustomTemplate(
+      {
+        ...brickConf,
+        // Properties are computed for custom templates.
+        properties: brick.properties
+      },
+      brick
+    );
+
+    if (bg) {
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
     } else {
-      if (isObject(brickConf.slots)) {
-        for (const [slotId, slotConf] of Object.entries(brickConf.slots)) {
+      if (isObject(slots)) {
+        for (const [slotId, slotConf] of Object.entries(slots)) {
           const slottedMountRoutesResult = {
             ...mountRoutesResult,
             main: brick.children

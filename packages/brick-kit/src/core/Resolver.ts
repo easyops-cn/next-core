@@ -50,15 +50,6 @@ export class Resolver {
     }
   }
 
-  // For BrickAsComponent
-  processBrick(brickConf: BrickConf): Promise<void> {
-    return asyncProcessBrick(
-      brickConf,
-      brickTemplateRegistry,
-      this.kernel.bootstrapData.templatePackages
-    );
-  }
-
   async resolve(
     brickConf: BrickConf,
     brick: RuntimeBrick,
@@ -74,7 +65,11 @@ export class Resolver {
       (brickConf as RuntimeBrickConf).$$resolved = true;
 
       // Try to process templates.
-      await this.processBrick(brickConf);
+      await asyncProcessBrick(
+        brickConf,
+        brickTemplateRegistry,
+        this.kernel.bootstrapData.templatePackages
+      );
 
       // Try to load deps for dynamic added bricks.
       const brickCollection = new Set<string>();

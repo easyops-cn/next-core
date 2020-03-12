@@ -71,6 +71,7 @@ export interface Storyboard {
   routes: RouteConf[];
   app?: MicroApp;
   dependsAll?: boolean;
+  meta?: StoryboardMeta;
 }
 
 export interface RuntimeStoryboard extends Storyboard {
@@ -134,6 +135,8 @@ export interface RuntimeBrickConf extends BrickConf {
   $$params?: Record<string, any>;
   $$lifeCycle?: BrickLifeCycle;
   $$if?: string | ResolveConf;
+  $$computedPropsFromProxy?: Record<string, any>;
+  $$refForProxy?: RefForProxy;
 }
 
 export interface BrickLifeCycle {
@@ -212,7 +215,7 @@ export interface BrickMenuConf {
 }
 
 export interface SlotsConf {
-  [slotId: string]: SlotConf;
+  [slotName: string]: SlotConf;
 }
 
 export type SlotConf = SlotConfOfBricks | SlotConfOfRoutes;
@@ -226,6 +229,10 @@ export interface SlotConfOfRoutes {
   type: "routes";
   routes: RouteConf[];
   switch?: boolean;
+}
+
+export interface SlotsConfOfBricks {
+  [slotName: string]: SlotConfOfBricks;
 }
 
 export type SlotType = "bricks" | "routes";
@@ -324,13 +331,93 @@ export interface DesktopItemDir {
 export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
 
 export interface UseSingleBrickConf {
-  brick?: string;
+  brick: string;
   properties?: Record<string, any>;
   events?: BrickEventsMap;
   lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
   transformFrom?: string | string[];
   transform?: GeneralTransform;
-  template?: string;
-  params?: any[];
   if?: string | ResolveConf;
 }
+
+export interface StoryboardMeta {
+  customTemplates?: CustomTemplate[];
+}
+
+/* Custom Template Starts */
+
+export interface CustomTemplate {
+  name: string;
+  bricks?: BrickConfInTemplate[];
+  proxy?: CustomTemplateProxy;
+}
+
+export type BrickConfInTemplate = Omit<
+  BrickConf,
+  "brick" | "slots" | "template" | "params"
+> & {
+  brick: string;
+  ref?: string;
+  slots?: SlotsConfInTemplate;
+};
+
+export interface SlotsConfInTemplate {
+  [slotName: string]: SlotConfInTemplate;
+}
+
+export interface SlotConfInTemplate {
+  type: "bricks";
+  bricks: BrickConfInTemplate[];
+}
+
+export interface CustomTemplateProxy {
+  properties?: CustomTemplateProxyProperties;
+  events?: CustomTemplateProxyEvents;
+  slots?: CustomTemplateProxySlots;
+  methods?: CustomTemplateProxyMethods;
+}
+
+export interface CustomTemplateProxyProperties {
+  [name: string]: CustomTemplateProxyProperty;
+}
+
+export interface CustomTemplateProxyProperty {
+  ref: string;
+  refProperty: string;
+}
+
+export interface CustomTemplateProxyEvents {
+  [name: string]: CustomTemplateProxyEvent;
+}
+
+export interface CustomTemplateProxyEvent {
+  ref: string;
+  refEvent: string;
+}
+
+export interface CustomTemplateProxySlots {
+  [name: string]: CustomTemplateProxySlot;
+}
+
+export interface CustomTemplateProxySlot {
+  ref: string;
+  refSlot: string;
+  refPosition?: number;
+}
+
+export interface CustomTemplateProxyMethods {
+  [name: string]: CustomTemplateProxyMethod;
+}
+
+export interface CustomTemplateProxyMethod {
+  ref: string;
+  refMethod: string;
+}
+
+export interface RefForProxy {
+  brick?: {
+    element?: HTMLElement;
+  };
+}
+
+/* Custom Template Ends */

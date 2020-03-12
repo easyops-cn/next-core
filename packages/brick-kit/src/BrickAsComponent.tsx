@@ -37,9 +37,8 @@ export function BrickAsComponent(
   return <SingleBrickAsComponent useBrick={props.useBrick} data={props.data} />;
 }
 
-interface SingleBrickAsComponentProps {
+interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   useBrick: UseSingleBrickConf;
-  data?: any;
 }
 
 function SingleBrickAsComponent(
@@ -51,13 +50,6 @@ function SingleBrickAsComponent(
     // If the router state is initial, ignore rendering the sub-brick.
     if (getRuntime()._internalApiGetRouterState() === "initial") {
       return;
-    }
-    if (useBrick.template) {
-      delete useBrick.transform;
-      delete useBrick.transformFrom;
-      getRuntime()
-        ._internalApiGetResolver()
-        .processBrick(useBrick);
     }
     const brick: RuntimeBrick = {
       type: useBrick.brick,
@@ -111,7 +103,7 @@ function SingleBrickAsComponent(
 
   if (isObject(useBrick.if)) {
     // eslint-disable-next-line
-    console.warn("Currently don't support resolvable-if in `useBrick`");
+    console.warn("Currently resolvable-if in `useBrick` is not supported.");
   } else if (
     typeof useBrick.if === "boolean" ||
     typeof useBrick.if === "string"
