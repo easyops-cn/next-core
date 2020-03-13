@@ -18,7 +18,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
-    "start": "npm run build:types && rollup --config rollup.config.js --watch",
+    "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
+    "start:rollup": "rollup --watch --config rollup.config.js",
+    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup --config rollup.config.js",
