@@ -297,6 +297,18 @@ describe("processPipes", () => {
       ],
       ["findLastIndex", ["active"]],
       1
+    ],
+    [null, ["sort", []], []],
+    [
+      [{ user: "c" }, { user: "b" }],
+      ["sort", ["user"]],
+      [{ user: "b" }, { user: "c" }]
+    ],
+    [null, ["reverse", []], []],
+    [
+      [3, 2, 1],
+      ["reverse", []],
+      [1, 2, 3]
     ]
   ];
   it.each(paramCases)(
