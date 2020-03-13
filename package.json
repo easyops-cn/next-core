@@ -55,6 +55,7 @@
     "jest-environment-jsdom-fifteen": "^1.0.2",
     "lerna": "^3.20.1",
     "lint-staged": "^10.0.8",
+    "null-loader": "^3.0.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
     "typescript": "~3.8.3"

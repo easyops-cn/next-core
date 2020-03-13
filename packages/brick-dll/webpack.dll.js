@@ -18,13 +18,27 @@ module.exports = {
     path: distPath,
     library: "[name]"
   },
+  module: {
+    rules: [
+      {
+        // - `rc-editor-mention` (which required `draft-js`) is deprecated in `antd Mentions`
+        test: /node_modules\/rc-editor-mention\//,
+        use: "null-loader"
+      }
+    ]
+  },
   plugins: [
     new webpack.DllPlugin({
       name: "[name]",
       path: path.join(distPath, "manifest.json")
     }),
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh|en/),
-    new webpack.HashedModuleIdsPlugin()
+    new webpack.HashedModuleIdsPlugin(),
+    new webpack.IgnorePlugin({
+      // - `esprima` and `buffer` are optional imported by `js-yaml`
+      // we don't need them.
+      resourceRegExp: /^(?:esprima|buffer)$/
+    })
   ],
   resolve: {
     // only resolve .js extension files
