@@ -37,7 +37,7 @@ module.exports = {
     new webpack.IgnorePlugin({
       // - `esprima` and `buffer` are optional imported by `js-yaml`
       // we don't need them.
-      resourceRegExp: /^(?:esprima|buffer)$/
+      resourceRegExp: /^(?:esprima)$/
     })
   ],
   resolve: {
