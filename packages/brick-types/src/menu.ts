@@ -38,20 +38,33 @@ export interface SidebarMenuGroup {
 
 export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 
-export interface AntdIcon {
+export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon;
+
+interface RefinedAntdIcon {
+  lib: "antd";
+  icon: string;
+  theme?: ThemeType;
+  color?: string;
+}
+
+//兼容老的类型
+interface LegacyAntdIcon {
   lib: "antd";
   type: string;
   theme?: ThemeType;
+  color?: string;
 }
 
 export interface FaIcon {
   lib: "fa";
   icon: IconName;
   prefix?: IconPrefix;
+  color?: string;
 }
 
 export interface EasyopsIcon {
   lib: "easyops";
   icon: string;
   category?: string;
+  color?: string;
 }
