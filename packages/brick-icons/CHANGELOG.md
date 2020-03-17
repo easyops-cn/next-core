@@ -3,13 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.15.4...@easyops/brick-icons@1.16.0) (2020-03-17)
+
+### Features
+
+- **gitlab-icon:** add gitlab icon for ci . Refs PIPELINE-735 ([994f8d4](https://git.easyops.local/anyclouds/next-core/commits/994f8d4))
+
 ## [1.15.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.15.3...@easyops/brick-icons@1.15.4) (2020-03-11)
 
 **Note:** Version bump only for package @easyops/brick-icons
-
-
-
-
 
 ## [1.15.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.15.2...@easyops/brick-icons@1.15.3) (2020-03-10)
 
