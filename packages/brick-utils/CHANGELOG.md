@@ -3,16 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.34.0...@easyops/brick-utils@1.35.0) (2020-03-11)
+# [1.36.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.35.0...@easyops/brick-utils@1.36.0) (2020-03-17)
 
+### Bug Fixes
+
+- refine peerDependencies and put `buffer` back to dll ([e58b2a5](https://git.easyops.local/anyclouds/next-core/commits/e58b2a5))
 
 ### Features
 
-* **pipe:** new pipes, `mapToArray`, `find`, `findLast`, `findIndex`, `findLastIndex` ([ac38f9d](https://git.easyops.local/anyclouds/next-core/commits/ac38f9d))
+- **pipe:** new pipes, `sort` and `reverse`, refs BRICK_STORE-1271 ([2d3027a](https://git.easyops.local/anyclouds/next-core/commits/2d3027a))
 
+# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.34.0...@easyops/brick-utils@1.35.0) (2020-03-11)
 
+### Features
 
-
+- **pipe:** new pipes, `mapToArray`, `find`, `findLast`, `findIndex`, `findLastIndex` ([ac38f9d](https://git.easyops.local/anyclouds/next-core/commits/ac38f9d))
 
 # [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.33.0...@easyops/brick-utils@1.34.0) (2020-03-10)
 

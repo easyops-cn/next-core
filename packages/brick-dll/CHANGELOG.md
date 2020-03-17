@@ -3,13 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.1.9...@easyops/brick-dll@1.2.0) (2020-03-17)
+
+### Bug Fixes
+
+- refine peerDependencies and put `buffer` back to dll ([e58b2a5](https://git.easyops.local/anyclouds/next-core/commits/e58b2a5))
+
+### Features
+
+- ignore unused large packages such as esprima and rc-editor-mention ([d80bdac](https://git.easyops.local/anyclouds/next-core/commits/d80bdac))
+
 ## [1.1.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.1.8...@easyops/brick-dll@1.1.9) (2020-03-11)
 
 **Note:** Version bump only for package @easyops/brick-dll
-
-
-
-
 
 ## [1.1.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.1.7...@easyops/brick-dll@1.1.8) (2020-03-10)
 
