@@ -8825,12 +8825,24 @@ mime-db@1.40.0, "mime-db@>= 1.38.0 < 2":
   resolved "https://registry.npm.taobao.org/mime-db/download/mime-db-1.40.0.tgz#a65057e998db090f732a68f6c276d387d4126c32"
   integrity sha1-plBX6ZjbCQ9zKmj2wnbTh9QSbDI=
 
+mime-db@1.43.0:
+  version "1.43.0"
+  resolved "https://registry.npm.taobao.org/mime-db/download/mime-db-1.43.0.tgz?cache=0&sync_timestamp=1578281104943&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmime-db%2Fdownload%2Fmime-db-1.43.0.tgz#0a12e0502650e473d735535050e7c8f4eb4fae58"
+  integrity sha1-ChLgUCZQ5HPXNVNQUOfI9OtPrlg=
+
 mime-types@^2.1.12, mime-types@~2.1.17, mime-types@~2.1.19, mime-types@~2.1.24:
   version "2.1.24"
   resolved "https://registry.npm.taobao.org/mime-types/download/mime-types-2.1.24.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmime-types%2Fdownload%2Fmime-types-2.1.24.tgz#b6f8d0b3e951efb77dedeca194cff6d16f676f81"
   integrity sha1-tvjQs+lR77d97eyhlM/20W9nb4E=
   dependencies:
     mime-db "1.40.0"
+
+mime-types@^2.1.26:
+  version "2.1.26"
+  resolved "https://registry.npm.taobao.org/mime-types/download/mime-types-2.1.26.tgz?cache=0&sync_timestamp=1578282585871&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmime-types%2Fdownload%2Fmime-types-2.1.26.tgz#9c921fc09b7e149a65dfdc0da4d20997200b0a06"
+  integrity sha1-nJIfwJt+FJpl39wNpNIJlyALCgY=
+  dependencies:
+    mime-db "1.43.0"
 
 mime@1.6.0, mime@^1.4.1:
   version "1.6.0"
@@ -13577,14 +13589,14 @@ urix@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
 
-url-loader@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/url-loader/download/url-loader-3.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Furl-loader%2Fdownload%2Furl-loader-3.0.0.tgz#9f1f11b371acf6e51ed15a50db635e02eec18368"
-  integrity sha1-nx8Rs3Gs9uUe0VpQ22NeAu7Bg2g=
+url-loader@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/url-loader/download/url-loader-4.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Furl-loader%2Fdownload%2Furl-loader-4.0.0.tgz#946719464089e35804009270339f21124e8dd27e"
+  integrity sha1-lGcZRkCJ41gEAJJwM58hEk6N0n4=
   dependencies:
-    loader-utils "^1.2.3"
-    mime "^2.4.4"
-    schema-utils "^2.5.0"
+    loader-utils "^2.0.0"
+    mime-types "^2.1.26"
+    schema-utils "^2.6.5"
 
 url-parse@^1.4.3:
   version "1.4.4"
