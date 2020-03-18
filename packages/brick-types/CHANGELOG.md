@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.28.0...@easyops/brick-types@1.29.0) (2020-03-18)
+
+### Features
+
+- **menu:** export LegacyAntdIcon and RefinedAntdIcon ([200e2b5](https://git.easyops.local/anyclouds/next-core/commits/200e2b5))
+
 # [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.27.0...@easyops/brick-types@1.28.0) (2020-03-17)
 
 ### Features
