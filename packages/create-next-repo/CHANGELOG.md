@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.10.13...@easyops/create-next-repo@0.11.0) (2020-03-18)
+
+### Features
+
+- micro-apps rsync exclude ".\*" file ([fd61ab9](https://git.easyops.local/anyclouds/next-core/commits/fd61ab9))
+
 ## [0.10.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.10.12...@easyops/create-next-repo@0.10.13) (2020-03-18)
 
 **Note:** Version bump only for package @easyops/create-next-repo

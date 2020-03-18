@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.37.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.36.1...@easyops/brick-utils@1.37.0) (2020-03-18)
+
+### Features
+
+- pipe for cmdb instance name refs MONITOR-503 ([6d1896a](https://git.easyops.local/anyclouds/next-core/commits/6d1896a))
+
 ## [1.36.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.36.0...@easyops/brick-utils@1.36.1) (2020-03-18)
 
 **Note:** Version bump only for package @easyops/brick-utils
