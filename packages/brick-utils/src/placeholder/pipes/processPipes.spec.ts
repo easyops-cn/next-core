@@ -30,7 +30,14 @@ describe("processPipes", () => {
     [circularValue, "|jsonStringify", undefined],
     [1, "|unknown", undefined],
     [1, "|bool|not", false],
-    [0, "|bool|not", true]
+    [0, "|bool|not", true],
+    [["a"], "|cmdbInstanceShowName", "a"],
+    [["a", "b"], "|cmdbInstanceShowName", "a(b)"],
+    [["a", "b", "c"], "|cmdbInstanceShowName", "a(b,c)"],
+    [[], "|cmdbInstanceShowName", ""],
+    ["asd", "|cmdbInstanceShowName", "asd"],
+    [123, "|cmdbInstanceShowName", 123],
+    [undefined, "|cmdbInstanceShowName", undefined]
   ];
   it.each(cases)(
     "process %j with pipes %j should return %j",

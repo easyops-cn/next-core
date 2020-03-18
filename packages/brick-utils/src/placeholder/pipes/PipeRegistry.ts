@@ -58,6 +58,7 @@ PipeRegistry.set("findIndex", pipeFindIndex);
 PipeRegistry.set("findLastIndex", pipeFindLastIndex);
 PipeRegistry.set("sort", pipeSort);
 PipeRegistry.set("reverse", pipeReverse);
+PipeRegistry.set("cmdbInstanceShowName", pipeCmdbInstanceShowName);
 
 function pipeSort(value: any[], fields?: string | string[]): any[] {
   if (!Array.isArray(value)) return [];
@@ -104,6 +105,17 @@ function pipeSubstr(value: string, start: number, length: number): string {
 function pipeSubstring(value: string, start: number, end: number): string {
   if (typeof value !== "string") return "";
   return value.substring(start, end);
+}
+
+function pipeCmdbInstanceShowName(value: string[]): any {
+  if (Array.isArray(value)) {
+    const firstKey = value[0];
+    const resKey = value.slice(1, value.length).join(",");
+    const res = resKey ? `${firstKey}(${resKey})` : firstKey ?? "";
+    return res;
+  } else {
+    return value;
+  }
 }
 
 function pipeTernary(value: boolean, ...res: any[]): any {
