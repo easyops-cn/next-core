@@ -23,7 +23,7 @@ describe("ask", () => {
     [TargetType.A_NEW_BRICK, "package-a", "brick-a", ""],
     [TargetType.A_NEW_CUSTOM_PROVIDER_BRICK, "package-a", "brick-b", ""],
     [TargetType.A_NEW_PACKAGE_OF_LIBS, "lib-a", "", ""],
-    [TargetType.A_NEW_TEMPLATE, "package-b", "", "template-b"]
+    [TargetType.A_NEW_LEGACY_TEMPLATE, "package-b", "", "template-b"]
   ])(
     "should return { targetType: '%s', packageName: '%s', brickName: '%s', templateName: '%s' }",
     async (targetType, packageName, brickName, templateName) => {

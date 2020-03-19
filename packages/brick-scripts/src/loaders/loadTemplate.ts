@@ -72,6 +72,7 @@ export async function loadTemplate({
 }): Promise<FileWithContent[]> {
   const targetMap: { [key: string]: string } = {
     [TargetType.A_NEW_BRICK]: "brick",
+    [TargetType.A_NEW_CUSTOM_TEMPLATE]: "custom-template",
     [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks-pkg",
     [TargetType.A_NEW_PACKAGE_OF_LIBS]: "libs-pkg",
     [TargetType.A_NEW_PACKAGE_OF_MICRO_APPS]: "micro-apps-pkg",
@@ -79,13 +80,14 @@ export async function loadTemplate({
     [TargetType.A_NEW_PACKAGE_OF_PROVIDERS]: "providers-pkg",
     [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll-pkg",
     [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg",
-    [TargetType.A_NEW_TEMPLATE]: "template",
-    [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "templates-pkg",
-    [TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES]: "i18n-patched-templates-pkg"
+    [TargetType.A_NEW_LEGACY_TEMPLATE]: "template",
+    [TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES]: "templates-pkg",
+    [TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES]:
+      "i18n-patched-templates-pkg"
   };
-  const templatePackageJsonName = targetMap[targetType];
+  const templateDirOfFileName = targetMap[targetType];
   const templateRoot = path.join(__dirname, "../../template");
-  let templateDir = path.join(templateRoot, templatePackageJsonName);
+  let templateDir = path.join(templateRoot, templateDirOfFileName);
 
   const ignores = [".DS_Store"];
   let sdkName: string;
@@ -107,6 +109,7 @@ export async function loadTemplate({
     $CONSTANT_PACKAGE_NAME$: changeCase.constantCase(packageName),
     $PascalBrickName$: changeCase.pascalCase(brickName),
     "$kebab-brick-name$": `${packageName}.${brickName}`,
+    "$kebab-brick-last-name$": brickName,
     "$kebab-custom-provider-brick-name$": `${packageName}.provider-${brickName}`,
     "$generator.version$": `v${packageJson.version}`,
     "$brick.container.version$": brickContainerVersion,
@@ -143,7 +146,7 @@ export async function loadTemplate({
         filter: item => filter(item.path)
       })
     });
-  } else if (targetType === TargetType.A_NEW_PACKAGE_OF_TEMPLATES) {
+  } else if (targetType === TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES) {
     // Also create a new brick for the new bricks-package
     const templateTemplateDir = path.join(templateRoot, "template");
     templateGroups.push({
@@ -218,6 +221,7 @@ export async function loadTemplate({
   // create a new brick markdown for the new brick or the new bricks-package
   if (
     targetType === TargetType.A_NEW_BRICK ||
+    targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
     targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS
   ) {
     // Create brick doc only when doc root exists and workspace is `next-basics`.
@@ -235,16 +239,17 @@ export async function loadTemplate({
 
   if (
     targetType !== TargetType.A_NEW_BRICK &&
+    targetType !== TargetType.A_NEW_CUSTOM_TEMPLATE &&
     targetType !== TargetType.A_NEW_CUSTOM_PROVIDER_BRICK &&
-    targetType !== TargetType.A_NEW_TEMPLATE &&
+    targetType !== TargetType.A_NEW_LEGACY_TEMPLATE &&
     targetType !== TargetType.TRANSFORM_A_MICRO_APP &&
-    targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES
+    targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES
   ) {
     files.push([
       path.join(targetRoot, "package.json"),
       replaceDepsVersion(
         replaceFileContent(
-          path.join(templateRoot, `${templatePackageJsonName}.json`),
+          path.join(templateRoot, `${templateDirOfFileName}.json`),
           translations
         )
       )

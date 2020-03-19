@@ -1,10 +1,15 @@
 import i18next from "i18next";
+import * as kit from "@easyops/brick-kit";
 const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
 
 const spyOnDefine = jest.fn();
 (window as any).customElements = {
   define: spyOnDefine
 };
+
+jest.spyOn(kit, "getRuntime").mockReturnValue({
+  registerCustomTemplate: jest.fn()
+} as any);
 
 // Use `require` instead of `import` to avoid hoisting.
 require("./index");

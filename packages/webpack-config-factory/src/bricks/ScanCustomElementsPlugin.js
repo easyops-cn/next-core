@@ -32,6 +32,30 @@ module.exports = class ScanCustomElementsPlugin {
               }
             }
           });
+        parser.hooks.statement.tap(pluginName, statement => {
+          const { type, expression } = statement;
+          if (
+            type === "ExpressionStatement" &&
+            expression.type === "CallExpression" &&
+            expression.callee.type === "MemberExpression" &&
+            expression.callee.property.name === "registerCustomTemplate" &&
+            expression.arguments.length === 2
+          ) {
+            const { type, value } = expression.arguments[0];
+            if (type === "Literal") {
+              if (!value.startsWith(`${this.packageName}.`)) {
+                throw new Error(
+                  `Invalid custom template: "${value}", expecting prefixed with the package name: "${this.packageName}"`
+                );
+              }
+              brickSet.add(value);
+            } else {
+              throw new Error(
+                "Please call `getRuntime().registerCustomTemplate()` only with literal string"
+              );
+            }
+          }
+        });
       });
     });
     compiler.hooks.emit.tap(pluginName, compilation => {

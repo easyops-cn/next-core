@@ -15,7 +15,6 @@ const program = TJS.getProgramFromFiles(
 );
 
 generateSchema("Storyboard", "storyboard.json");
-generateSchema("CustomTemplate", "customTemplate.json");
 
 function generateSchema(interfaceName, filename) {
   const schema = TJS.generateSchema(program, interfaceName);

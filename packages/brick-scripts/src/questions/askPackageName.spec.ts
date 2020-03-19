@@ -60,7 +60,7 @@ describe("askPackageName", () => {
   });
   it("should validate correctly for new package of templates", () => {
     const { validate } = askPackageName({
-      targetType: TargetType.A_NEW_PACKAGE_OF_TEMPLATES,
+      targetType: TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
       appRoot: process.cwd()
     }) as any;
     expect(validate("good")).toBe(true);
@@ -68,7 +68,7 @@ describe("askPackageName", () => {
   });
   it("should return choices of package for new template", () => {
     const { choices } = askPackageName({
-      targetType: TargetType.A_NEW_TEMPLATE,
+      targetType: TargetType.A_NEW_LEGACY_TEMPLATE,
       appRoot: process.cwd()
     }) as any;
     expect(choices).toEqual(["fake-package-sdk"]);
@@ -82,7 +82,7 @@ describe("askPackageName", () => {
   });
   it("should return choices of template package for patch", () => {
     const { choices } = askPackageName({
-      targetType: TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES,
+      targetType: TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES,
       appRoot: process.cwd()
     }) as any;
     expect(choices).toEqual(["fake-package-sdk"]);

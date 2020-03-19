@@ -8,11 +8,13 @@ import {
   UserInfo,
   BrickPackage,
   Storyboard,
-  MagicBrickConfig
+  MagicBrickConfig,
+  CustomTemplateConstructor
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import { RelatedApp, RouterState, RecentApps } from "./interfaces";
+import { registerCustomTemplate } from "./CustomTemplates";
 
 let kernel: Kernel;
 
@@ -158,6 +160,14 @@ export class Runtime {
   /* istanbul ignore next */
   registerBrickTemplate(name: string, factory: BrickTemplateFactory): void {
     registerBrickTemplate(name, factory);
+  }
+
+  /* istanbul ignore next */
+  registerCustomTemplate(
+    tplName: string,
+    tplConstructor: CustomTemplateConstructor
+  ): void {
+    registerCustomTemplate(tplName, tplConstructor);
   }
 
   /* istanbul ignore next */
