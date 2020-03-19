@@ -78,7 +78,7 @@ export function expandCustomTemplate(
   };
   const reversedEntries: ReversedEntries[] = ["properties", "slots"];
   for (const entry of reversedEntries) {
-    if (proxy[entry]) {
+    if (proxy?.[entry]) {
       for (const [reversedRef, conf] of Object.entries(proxy[entry])) {
         let proxies: any[];
         if (reversedProxies[entry].has(conf.ref)) {
