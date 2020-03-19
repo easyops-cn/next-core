@@ -14,8 +14,7 @@ const mockCustomElements = {
 
 describe("expandCustomTemplate", () => {
   beforeAll(() => {
-    registerCustomTemplate({
-      name: "steve-test.custom-template",
+    registerCustomTemplate("steve-test.custom-template", {
       proxy: {
         properties: {
           button: {

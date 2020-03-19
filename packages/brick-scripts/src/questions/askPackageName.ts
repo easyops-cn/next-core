@@ -14,6 +14,7 @@ export function askPackageName({
 }): inquirer.DistinctQuestion<{ packageName: string }> {
   if (
     targetType === TargetType.A_NEW_BRICK ||
+    targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
     targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
   ) {
     // 读取当前的 `@bricks/*` 作为候选列表。
@@ -26,13 +27,17 @@ export function askPackageName({
     return {
       type: "list",
       name: "packageName",
-      message: "which package do you want to put the new brick in?",
+      message: `which package do you want to put the new ${
+        targetType === TargetType.A_NEW_CUSTOM_TEMPLATE
+          ? "custom template"
+          : "brick"
+      } in?`,
       choices: pkgList,
       default: loadHistory().lastSelectedBrickPackage
     };
   }
 
-  if (targetType === TargetType.A_NEW_TEMPLATE) {
+  if (targetType === TargetType.A_NEW_LEGACY_TEMPLATE) {
     // 读取当前的 `@templates/*` 作为候选列表。
     const root = path.join(appRoot, "templates");
     const pkgList = fs
@@ -87,7 +92,7 @@ export function askPackageName({
     };
   }
 
-  if (targetType === TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES) {
+  if (targetType === TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES) {
     // 读取所有的 `@templates/*` 作为候选列表。
     const root = path.join(appRoot, "templates");
     const microApps = fs

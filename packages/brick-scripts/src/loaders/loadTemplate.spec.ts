@@ -27,6 +27,17 @@ describe("loadTemplate", () => {
     });
     expect(files).toMatchSnapshot();
   });
+  it("should create a new custom template", async () => {
+    const files = await loadTemplate({
+      targetType: TargetType.A_NEW_CUSTOM_TEMPLATE,
+      packageName: "for-good",
+      brickName: "for-better",
+      templateName: "",
+      targetRoot: "dist",
+      docRoot: "doc"
+    });
+    expect(files).toMatchSnapshot();
+  });
   it("should create a new package of bricks", async () => {
     const files = await loadTemplate({
       targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
@@ -110,9 +121,9 @@ describe("loadTemplate", () => {
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
   });
-  it("should create a new template", async () => {
+  it("should create a new legacy template", async () => {
     const files = await loadTemplate({
-      targetType: TargetType.A_NEW_TEMPLATE,
+      targetType: TargetType.A_NEW_LEGACY_TEMPLATE,
       packageName: "for-good",
       brickName: "",
       templateName: "for-better",
@@ -121,9 +132,9 @@ describe("loadTemplate", () => {
     });
     expect(files).toMatchSnapshot();
   });
-  it("should create a new package of templates", async () => {
+  it("should create a new package of legacy templates", async () => {
     const files = await loadTemplate({
-      targetType: TargetType.A_NEW_PACKAGE_OF_TEMPLATES,
+      targetType: TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
       packageName: "for-good",
       brickName: "",
       templateName: "for-better",
@@ -133,9 +144,9 @@ describe("loadTemplate", () => {
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
   });
-  it("should i18n-patch a package of templates", async () => {
+  it("should i18n-patch a package of legacy templates", async () => {
     const files = await loadTemplate({
-      targetType: TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES,
+      targetType: TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES,
       packageName: "for-good",
       brickName: "",
       templateName: "",

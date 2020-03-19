@@ -352,6 +352,8 @@ export interface CustomTemplate {
   proxy?: CustomTemplateProxy;
 }
 
+export type CustomTemplateConstructor = Omit<CustomTemplate, "name">;
+
 export type BrickConfInTemplate = Omit<
   BrickConf,
   "brick" | "slots" | "template" | "params"

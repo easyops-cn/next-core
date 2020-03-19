@@ -22,7 +22,7 @@ module.exports = function generateDeps() {
         .map(([name, version]) => {
           const [scope, pkg] = name.split("/");
           if (!scopeToSuffix.has(scope)) {
-            throw new Error(`unexpected peer dependency: ${name}`);
+            return;
           }
           const suffix = scopeToSuffix.get(scope);
           return {
@@ -30,7 +30,7 @@ module.exports = function generateDeps() {
             version
           };
         })
-        .filter(dep => !existedDeps.has(dep.name))
+        .filter(dep => dep && !existedDeps.has(dep.name))
     );
   const content = yaml.safeDump(conf);
   fs.outputFileSync(

@@ -1,6 +1,7 @@
 import {
   TemplateRegistry,
   CustomTemplate,
+  CustomTemplateConstructor,
   RuntimeBrickConf,
   BrickConfInTemplate,
   SlotsConfOfBricks,
@@ -12,22 +13,28 @@ import { RuntimeBrick } from "./BrickNode";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 
-export function registerCustomTemplate(template: CustomTemplate): void {
-  if (customTemplateRegistry.has(template.name)) {
+export function registerCustomTemplate(
+  tplName: string,
+  tplConstructor: CustomTemplateConstructor
+): void {
+  if (customTemplateRegistry.has(tplName)) {
     // eslint-disable-next-line no-console
-    console.error(`Custom template of "${template.name}" already registered.`);
+    console.error(`Custom template of "${tplName}" already registered.`);
     return;
   }
-  if (customElements.get(template.name)) {
+  if (customElements.get(tplName)) {
     // eslint-disable-next-line no-console
     console.error(
-      `Custom template of "${template.name}" already defined by customElements.`
+      `Custom template of "${tplName}" already defined by customElements.`
     );
     return;
   }
-  customTemplateRegistry.set(template.name, template);
+  customTemplateRegistry.set(tplName, {
+    ...tplConstructor,
+    name: tplName
+  });
   customElements.define(
-    template.name,
+    tplName,
     class TplElement extends HTMLElement {
       connectedCallback(): void {
         // Don't override user's style settings.

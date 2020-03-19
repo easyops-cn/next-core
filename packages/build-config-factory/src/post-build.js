@@ -165,6 +165,7 @@ module.exports = scope => {
     if (pluginName.startsWith(providerPackagePrefix)) {
       generateProviderDocs(pluginName);
     }
+    generateDeps();
   } else if (scope === "micro-apps") {
     ensureMicroApp();
     ensureDeps();
