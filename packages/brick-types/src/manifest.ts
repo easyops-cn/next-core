@@ -344,11 +344,11 @@ export interface StoryboardMeta {
   customTemplates?: CustomTemplate[];
 }
 
-/* Custom Template Starts */
+/* Custom Templates Starts */
 
 export interface CustomTemplate {
   name: string;
-  bricks?: BrickConfInTemplate[];
+  bricks: BrickConfInTemplate[];
   proxy?: CustomTemplateProxy;
 }
 
@@ -420,4 +420,4 @@ export interface RefForProxy {
   };
 }
 
-/* Custom Template Ends */
+/* Custom Templates Ends */
