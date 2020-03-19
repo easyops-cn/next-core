@@ -29,7 +29,7 @@ import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
 import { RedirectConf, IfConf } from "./interfaces";
-import { expandCustomTemplate } from "./CustomTemplates";
+import { expandCustomTemplate, isCustomTemplate } from "./CustomTemplates";
 
 export type MatchRoutesResult =
   | {
@@ -426,20 +426,28 @@ export class LocationContext {
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
 
-    const { bg, slots } = expandCustomTemplate(
-      {
-        ...brickConf,
-        // Properties are computed for custom templates.
-        properties: brick.properties
-      },
-      brick
-    );
+    let expandedBrickConf = brickConf;
+    if (isCustomTemplate(brickConf.brick)) {
+      expandedBrickConf = expandCustomTemplate(
+        {
+          ...brickConf,
+          // Properties are computed for custom templates.
+          properties: brick.properties
+        },
+        brick
+      );
 
-    if (bg) {
+      // Try to load deps for dynamic added bricks.
+      await this.kernel.loadDynamicBricks(expandedBrickConf);
+    }
+
+    if (expandedBrickConf.bg) {
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
     } else {
-      if (isObject(slots)) {
-        for (const [slotId, slotConf] of Object.entries(slots)) {
+      if (isObject(expandedBrickConf.slots)) {
+        for (const [slotId, slotConf] of Object.entries(
+          expandedBrickConf.slots
+        )) {
           const slottedMountRoutesResult = {
             ...mountRoutesResult,
             main: brick.children

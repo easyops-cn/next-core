@@ -158,6 +158,10 @@ export abstract class UpdatingElement extends HTMLElement {
     return Array.from(this._observedAttributes);
   }
 
+  get $$typeof(): string {
+    return "brick";
+  }
+
   attributeChangedCallback(
     name: string,
     old: string | null,

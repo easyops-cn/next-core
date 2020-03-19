@@ -10,9 +10,6 @@ import {
 } from "@easyops/brick-types";
 import {
   asyncProcessBrick,
-  scanBricksInBrickConf,
-  getDllAndDepsOfBricks,
-  loadScript,
   transformProperties,
   transformIntermediateData
 } from "@easyops/brick-utils";
@@ -24,7 +21,6 @@ import {
   IntervalSettings
 } from "../makeProviderRefreshable";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-// import { RedirectConf } from "./interfaces";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -72,17 +68,7 @@ export class Resolver {
       );
 
       // Try to load deps for dynamic added bricks.
-      const brickCollection = new Set<string>();
-      scanBricksInBrickConf(brickConf, brickCollection);
-      const { dll, deps } = getDllAndDepsOfBricks(
-        Array.from(brickCollection).filter(
-          // Only try to load undefined custom elements.
-          element => element.includes("-") && !customElements.get(element)
-        ),
-        this.kernel.bootstrapData.brickPackages
-      );
-      await loadScript(dll);
-      await loadScript(deps);
+      await this.kernel.loadDynamicBricks(brickConf);
     }
   }
 
