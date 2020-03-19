@@ -1,7 +1,13 @@
+import {
+  PluginRuntimeContext,
+  BrickLifeCycle,
+  RefForProxy,
+  CustomTemplateProxy
+} from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
-import { PluginRuntimeContext, BrickLifeCycle } from "@easyops/brick-types";
 import { getHistory } from "../history";
+import { handleProxyOfCustomTemplate } from "./CustomTemplates";
 
 export interface RuntimeBrick {
   type?: string;
@@ -15,6 +21,11 @@ export interface RuntimeBrick {
   lifeCycle?: BrickLifeCycle;
   element?: HTMLElement;
   bg?: boolean;
+  proxy?: CustomTemplateProxy;
+  proxyRefs?: Map<string, RefForProxy>;
+  refForProxy?: {
+    brick?: RuntimeBrick;
+  };
 }
 
 export class BrickNode {
@@ -57,6 +68,8 @@ export class BrickNode {
     } else {
       this.children = [];
     }
+
+    handleProxyOfCustomTemplate(brick);
 
     return node;
   }

@@ -237,6 +237,12 @@ export class Router {
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
 
+      const actualLegacy =
+        (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
+          ? "iframe"
+          : undefined;
+      this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
+
       if (appChanged) {
         window.dispatchEvent(
           new CustomEvent<RecentApps>("app.change", {
@@ -244,12 +250,6 @@ export class Router {
           })
         );
       }
-
-      const actualLegacy =
-        (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
-          ? "iframe"
-          : undefined;
-      this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
 
       if (barsHidden) {
         this.kernel.toggleBars(false);
