@@ -1,7 +1,7 @@
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs-extra");
 const semver = require("semver");
-const { chain, pull } = require("lodash");
+const { chain, pull, escapeRegExp } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 
 module.exports = function patch() {
@@ -18,6 +18,10 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "0.4.0")) {
     updateLintstagedrc();
+  }
+
+  if (semver.lt(currentRenewVersion, "0.5.0")) {
+    moveBricksDeployFiles();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
@@ -47,4 +51,48 @@ function updateLintstagedrc() {
         .value()
     );
   }
+}
+
+// Move `bricks/*/deploy/package.conf.yaml` to `bricks/*/deploy-default/package.conf.yaml`.
+// For managing dependencies of custom templates.
+function moveBricksDeployFiles() {
+  const gitignoreFilePath = path.resolve(".gitignore");
+  const gitignoreContent = fs.readFileSync(gitignoreFilePath, "utf8");
+  const needClear = new RegExp(
+    escapeRegExp("!/bricks/*/deploy/package.conf.yaml") + "[\\r\\n]*"
+  );
+  if (needClear.test(gitignoreContent)) {
+    fs.writeFileSync(
+      gitignoreFilePath,
+      gitignoreContent.replace(needClear, "")
+    );
+  }
+
+  const bricksDir = path.resolve("bricks");
+  if (!fs.existsSync(bricksDir)) {
+    return;
+  }
+
+  fs.readdirSync(bricksDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .forEach(dirent => {
+      const fileInDeployDir = path.join(
+        bricksDir,
+        dirent.name,
+        "deploy/package.conf.yaml"
+      );
+      const fileInDeployDefaultDir = path.join(
+        bricksDir,
+        dirent.name,
+        "deploy-default/package.conf.yaml"
+      );
+      if (
+        !fs.existsSync(fileInDeployDir) ||
+        fs.existsSync(fileInDeployDefaultDir)
+      ) {
+        return;
+      }
+      fs.copySync(fileInDeployDir, fileInDeployDefaultDir);
+      fs.removeSync(path.dirname(fileInDeployDir));
+    });
 }
