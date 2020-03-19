@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.29.0...@easyops/brick-types@1.30.0) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https://git.easyops.local/anyclouds/next-core/commits/92ac31e))
+- generate schema of custom templates ([de3a248](https://git.easyops.local/anyclouds/next-core/commits/de3a248))
+- new custom templates ([0ff9cc1](https://git.easyops.local/anyclouds/next-core/commits/0ff9cc1))
+
 # [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.28.0...@easyops/brick-types@1.29.0) (2020-03-18)
 
 ### Features

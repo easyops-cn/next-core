@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.7.3...@easyops/webpack-config-factory@1.8.0) (2020-03-19)
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https://git.easyops.local/anyclouds/next-core/commits/92ac31e))
+
 ## [1.7.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.7.2...@easyops/webpack-config-factory@1.7.3) (2020-03-04)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory

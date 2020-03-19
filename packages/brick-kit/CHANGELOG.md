@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.8...@easyops/brick-kit@1.32.0) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https://git.easyops.local/anyclouds/next-core/commits/92ac31e))
+- new custom templates ([0ff9cc1](https://git.easyops.local/anyclouds/next-core/commits/0ff9cc1))
+
 ## [1.31.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.7...@easyops/brick-kit@1.31.8) (2020-03-18)
 
 **Note:** Version bump only for package @easyops/brick-kit

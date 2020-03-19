@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-dll",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-dll",
   "license": "UNLICENSED",
@@ -21,11 +21,11 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
   },
   "dependencies": {
-    "@easyops/brick-http": "^1.0.0",
-    "@easyops/brick-icons": "^1.16.0",
-    "@easyops/brick-kit": "^1.31.8",
-    "@easyops/brick-utils": "^1.37.0",
-    "@easyops/fontawesome-library": "^1.1.1",
+    "@easyops/brick-http": "^1.0.1",
+    "@easyops/brick-icons": "^1.16.1",
+    "@easyops/brick-kit": "^1.32.0",
+    "@easyops/brick-utils": "^1.37.1",
+    "@easyops/fontawesome-library": "^1.1.2",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "antd": "^3.26.12",
     "history": "^4.10.1",

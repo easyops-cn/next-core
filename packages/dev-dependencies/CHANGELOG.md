@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.4.9...@easyops/dev-dependencies@0.5.0) (2020-03-19)
+
+### Features
+
+- move bricks deploy files ([de916e0](https://git.easyops.local/anyclouds/next-core/commits/de916e0))
+
 ## [0.4.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.4.8...@easyops/dev-dependencies@0.4.9) (2020-03-18)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

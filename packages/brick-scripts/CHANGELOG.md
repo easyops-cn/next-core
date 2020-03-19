@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.8.2...@easyops/brick-scripts@1.9.0) (2020-03-19)
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https://git.easyops.local/anyclouds/next-core/commits/92ac31e))
+
 ## [1.8.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.8.1...@easyops/brick-scripts@1.8.2) (2020-03-17)
 
 ### Bug Fixes
