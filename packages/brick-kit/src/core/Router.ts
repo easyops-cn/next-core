@@ -23,6 +23,7 @@ import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { RecentApps, RouterState } from "./interfaces";
+import { registerCustomTemplate } from "./CustomTemplates";
 
 export class Router {
   private defaultCollapsed = false;
@@ -150,6 +151,17 @@ export class Router {
         );
         await loadScript(result.dll);
         await loadScript(result.deps);
+
+        // 注册自定义模板
+        if (Array.isArray(storyboard.meta?.customTemplates)) {
+          for (const tpl of storyboard.meta.customTemplates) {
+            registerCustomTemplate(tpl.name, {
+              bricks: tpl.bricks,
+              proxy: tpl.proxy
+            });
+          }
+        }
+
         // 每个 storyboard 仅处理一次依赖
         storyboard.$$depsProcessed = true;
       }
