@@ -1,20 +1,19 @@
 import React from "react";
 import { mount } from "enzyme";
-import * as listenerUtils from "./bindListeners";
 import { BrickConf } from "@easyops/brick-types";
+import * as listenerUtils from "./bindListeners";
 import { BrickAsComponent } from "./BrickAsComponent";
-import * as runtime from "./runtime";
+import * as runtime from "./core/Runtime";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn((_brickConf: BrickConf, brick: any) => {
   brick.properties.title = "resolved";
 });
-const _internalApiGetRouterState = jest.fn().mockReturnValue("mounted");
-jest.spyOn(runtime, "getRuntime").mockReturnValue({
-  _internalApiGetRouterState,
-  _internalApiGetResolver: () => ({
-    resolve: spyOnResolve
-  })
+const _internalApiGetRouterState = jest
+  .spyOn(runtime, "_internalApiGetRouterState")
+  .mockReturnValue("mounted");
+jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+  resolve: spyOnResolve
 } as any);
 
 describe("BrickAsComponent", () => {

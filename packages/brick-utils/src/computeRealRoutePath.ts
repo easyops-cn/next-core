@@ -1,4 +1,3 @@
-import { get } from "lodash";
 import { MicroApp } from "@easyops/brick-types";
 
 export function computeRealRoutePath(
@@ -11,7 +10,5 @@ export function computeRealRoutePath(
   if (typeof path !== "string") {
     return;
   }
-  return path.replace(/\$\{APP(?:.([^}]+))\}/g, (_match, field) => {
-    return get(app, field);
-  });
+  return path.replace("${APP.homepage}", app?.homepage);
 }

@@ -9,7 +9,8 @@ import {
   BrickPackage,
   Storyboard,
   MagicBrickConfig,
-  CustomTemplateConstructor
+  CustomTemplateConstructor,
+  PluginRuntimeContext
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
@@ -193,14 +194,19 @@ export class Runtime {
   resetWorkspaceStack(): void {
     kernel.workspaceStack = [];
   }
+}
 
-  /* istanbul ignore next */
-  _internalApiGetResolver(): Resolver {
-    return kernel.router.getResolver();
-  }
+/* istanbul ignore next */
+export function _internalApiGetResolver(): Resolver {
+  return kernel.router.getResolver();
+}
 
-  /* istanbul ignore next */
-  _internalApiGetRouterState(): RouterState {
-    return kernel.router.getState();
-  }
+/* istanbul ignore next */
+export function _internalApiGetRouterState(): RouterState {
+  return kernel.router.getState();
+}
+
+/* istanbul ignore next */
+export function _internalApiGetCurrentContext(): PluginRuntimeContext {
+  return kernel.router.getCurrentContext();
 }

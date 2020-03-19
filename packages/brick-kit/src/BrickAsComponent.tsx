@@ -1,17 +1,17 @@
 import React from "react";
 import { cloneDeep } from "lodash";
-import {
-  transformProperties,
-  doTransform,
-  isObject
-} from "@easyops/brick-utils";
+import { isObject } from "@easyops/brick-utils";
+import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
-import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
 import { getHistory } from "./history";
-import { RuntimeBrick } from "./core/exports";
-import { getRuntime } from "./runtime";
+import {
+  RuntimeBrick,
+  _internalApiGetResolver,
+  _internalApiGetRouterState
+} from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
+import { transformProperties, doTransform } from "./transformProperties";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -48,7 +48,7 @@ function SingleBrickAsComponent(
 
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.
-    if (getRuntime()._internalApiGetRouterState() === "initial") {
+    if (_internalApiGetRouterState() === "initial") {
       return;
     }
     const brick: RuntimeBrick = {
@@ -62,7 +62,7 @@ function SingleBrickAsComponent(
       useBrick.transformFrom
     );
     if (useBrick.lifeCycle) {
-      const resolver = getRuntime()._internalApiGetResolver();
+      const resolver = _internalApiGetResolver();
       try {
         await resolver.resolve(
           {

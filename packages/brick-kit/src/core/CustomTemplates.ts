@@ -9,6 +9,7 @@ import {
   CustomTemplateProxyProperty,
   CustomTemplateProxySlot
 } from "@easyops/brick-types";
+import { hasOwnProperty } from "@easyops/brick-utils";
 import { RuntimeBrick } from "./BrickNode";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
@@ -276,13 +277,6 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
       }
     }
   }
-}
-
-function hasOwnProperty(
-  object: object,
-  property: string | number | symbol
-): boolean {
-  return Object.prototype.hasOwnProperty.call(object, property);
 }
 
 interface ProxyContext {

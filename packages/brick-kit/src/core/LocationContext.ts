@@ -69,15 +69,14 @@ interface BrickAndLifeCycleHandler {
 }
 
 export class LocationContext {
-  readonly location: PluginLocation;
-  readonly query: URLSearchParams;
+  private readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private currentMatch: MatchResult;
 
-  constructor(private kernel: Kernel, location: PluginLocation) {
-    this.location = location;
+  constructor(private kernel: Kernel, private location: PluginLocation) {
     this.query = new URLSearchParams(location.search);
   }
 
@@ -95,6 +94,10 @@ export class LocationContext {
     };
   }
 
+  getCurrentContext(): PluginRuntimeContext {
+    return this.getContext(this.currentMatch);
+  }
+
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
     for (const route of routes) {
       const computedPath = computeRealRoutePath(route.path, app);
@@ -109,6 +112,7 @@ export class LocationContext {
       });
       if (match !== null) {
         if (route.public || isLoggedIn()) {
+          this.currentMatch = match;
           return { match, route };
         } else {
           return "redirect";

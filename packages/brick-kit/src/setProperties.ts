@@ -1,5 +1,6 @@
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject, inject } from "@easyops/brick-utils";
+import { isCookable, evaluate } from "./evaluate";
 
 export const computeRealValue = (
   value: any,
@@ -7,6 +8,13 @@ export const computeRealValue = (
   injectDeep?: boolean
 ): any => {
   if (typeof value === "string") {
+    if (isCookable(value)) {
+      const runtimeContext: any = {};
+      if (context?.event) {
+        runtimeContext.event = context.event;
+      }
+      return evaluate(value, runtimeContext);
+    }
     return inject(value, context);
   }
 
