@@ -1,8 +1,3 @@
-import {
-  loadScript,
-  getDllAndDepsOfStoryboard,
-  getTemplateDepsOfStoryboard
-} from "@easyops/brick-utils";
 import { getHistory } from "../history";
 import { Router } from "./Router";
 import { Kernel } from "./Kernel";
@@ -14,18 +9,14 @@ import {
 } from "./LocationContext";
 import { mountTree, mountStaticNode } from "./reconciler";
 
-jest.mock("@easyops/brick-utils");
 jest.mock("../history");
 jest.mock("./LocationContext");
 jest.mock("./reconciler");
 
 const spyOnGetHistory = getHistory as jest.Mock;
-const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
-const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
-const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 
 let historyListeners: Function[] = [];
 const mockHistoryPush = (location: any): void => {
@@ -49,10 +40,6 @@ spyOnGetHistory.mockReturnValue({
   createHref: () => "/oops"
 });
 
-(window as any).DLL_HASH = {
-  d3: "fake-hash"
-};
-
 describe("Router", () => {
   let router: Router;
   const kernel: Kernel = {
@@ -61,17 +48,7 @@ describe("Router", () => {
       bg: document.createElement("div")
     },
     bootstrapData: {
-      storyboards: [],
-      brickPackages: [
-        {
-          filePath: "all.js"
-        }
-      ],
-      templatePackages: [
-        {
-          filePath: "layout.js"
-        }
-      ]
+      storyboards: []
     },
     unsetBars: jest.fn(),
     menuBar: {
@@ -85,7 +62,8 @@ describe("Router", () => {
     toggleLegacyIframe: jest.fn(),
     updateWorkspaceStack: jest.fn(),
     getPreviousWorkspace: jest.fn(),
-    getRecentApps: jest.fn()
+    getRecentApps: jest.fn(),
+    loadDepsOfStoryboard: jest.fn()
   } as any;
 
   beforeEach(() => {
@@ -100,11 +78,6 @@ describe("Router", () => {
   });
 
   it("should render matched storyboard", async () => {
-    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
-      dll: ["d3.js"],
-      deps: ["dep.js"]
-    });
-    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
     __setMatchedStoryboard({
       routes: [],
       app: {
@@ -128,9 +101,6 @@ describe("Router", () => {
     await router.bootstrap();
     expect(router.getState()).toBe("mounted");
     expect(spyOnHistoryListen).toBeCalled();
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
-    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
     const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
     expect(dispatchedEvent.type).toBe("app.change");
     expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
@@ -140,14 +110,10 @@ describe("Router", () => {
     expect(spyOnMountStaticNode.mock.calls[1][1]).toEqual({ title: "app" });
     expect(kernel.toggleBars).not.toBeCalled();
     expect(kernel.firstRendered).toBeCalled();
+    expect(kernel.loadDepsOfStoryboard).toBeCalled();
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {
-    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
-      dll: [],
-      deps: []
-    });
-    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
     __setMatchedStoryboard({
       dependsAll: true,
       routes: []
@@ -163,10 +129,6 @@ describe("Router", () => {
       }
     } as any);
     await router.bootstrap();
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([
-      "dll-of-d3.js?fake-hash"
-    ]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["all.js", "layout.js"]);
     expect(spyOnHistoryReplace.mock.calls[0]).toEqual([
       "/auth/login",
       {
@@ -179,7 +141,6 @@ describe("Router", () => {
 
   it("should render matched storyboard with bars hidden and empty main", async () => {
     __setMatchedStoryboard({
-      $$depsProcessed: true,
       routes: []
     });
     __setMountRoutesResults({

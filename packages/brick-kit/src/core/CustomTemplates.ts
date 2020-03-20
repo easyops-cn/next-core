@@ -12,14 +12,21 @@ import {
 import { RuntimeBrick } from "./BrickNode";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
+const appRegistered = new Set<string>();
 
 export function registerCustomTemplate(
   tplName: string,
-  tplConstructor: CustomTemplateConstructor
+  tplConstructor: CustomTemplateConstructor,
+  appId?: string
 ): void {
   if (customTemplateRegistry.has(tplName)) {
-    // eslint-disable-next-line no-console
-    console.error(`Custom template of "${tplName}" already registered.`);
+    // When open launchpad, the storyboard will be updated.
+    // However, we can't *undefine* a custom element.
+    // Just ignore re-registering custom templates.
+    if (!appId || appRegistered.has(appId)) {
+      // eslint-disable-next-line no-console
+      console.error(`Custom template of "${tplName}" already registered.`);
+    }
     return;
   }
   if (customElements.get(tplName)) {
@@ -29,6 +36,19 @@ export function registerCustomTemplate(
     );
     return;
   }
+  if (appId) {
+    const splitTplName = tplName.split(".");
+    if (
+      splitTplName.length !== 2 ||
+      splitTplName[0] !== appId ||
+      !/^[a-z][a-z0-9]*(-[a-z0-9]+)+$/.test(splitTplName[1])
+    ) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Custom template in a storyboard should in a form of "your-app-id.your-tpl-name". Received: "${tplName}" in app "${appId}".`
+      );
+    }
+  }
   customTemplateRegistry.set(tplName, {
     ...tplConstructor,
     name: tplName
@@ -36,6 +56,9 @@ export function registerCustomTemplate(
   customElements.define(
     tplName,
     class TplElement extends HTMLElement {
+      get $$typeof(): string {
+        return "custom-template";
+      }
       connectedCallback(): void {
         // Don't override user's style settings.
         // istanbul ignore else
@@ -45,6 +68,9 @@ export function registerCustomTemplate(
       }
     }
   );
+  if (appId) {
+    appRegistered.add(appId);
+  }
 }
 
 export function isCustomTemplate(brick: string): boolean {
@@ -55,11 +81,6 @@ export function expandCustomTemplate(
   brickConf: RuntimeBrickConf,
   proxyBrick: RuntimeBrick
 ): RuntimeBrickConf {
-  if (!brickConf.brick || !isCustomTemplate(brickConf.brick)) {
-    // It's not a custom template.
-    return brickConf;
-  }
-
   const template = customTemplateRegistry.get(brickConf.brick);
   const { bricks, proxy } = template;
   const {

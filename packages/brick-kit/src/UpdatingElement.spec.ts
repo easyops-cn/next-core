@@ -65,6 +65,7 @@ describe("UpdatingElement", () => {
     ]);
 
     const element = new TestElement() as any;
+    expect(element.$$typeof).toBe("brick");
     expect(element.stringAttr).toBe(null);
     expect(element.numberAttr).toBe(null);
     expect(element.booleanAttr).toBe(false);

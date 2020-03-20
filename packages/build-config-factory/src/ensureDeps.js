@@ -10,15 +10,9 @@ module.exports = function ensureDeps() {
   const packageJson = require(path.resolve("package.json"));
   const storyboardJson = require(path.resolve("storyboard.json"));
 
-  // 排除掉原生的 html 标签，custom-element 都会带 -
-  const requiredBricks = scanBricksInStoryboard(storyboardJson).filter(item =>
-    item.includes("-")
-  );
-
+  const requiredBricks = scanBricksInStoryboard(storyboardJson);
   const requiredTemplates = scanTemplatesInStoryboard(storyboardJson);
-
   const peerDependencies = Object.keys(packageJson.peerDependencies || []);
-
   const importedPackages = storyboardJson.imports || [];
 
   // 校验 imports 字段中 package 是否在 peerDependencies 声明
