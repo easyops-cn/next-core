@@ -97,8 +97,14 @@ export class LocationContext {
 
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
     for (const route of routes) {
+      const computedPath = computeRealRoutePath(route.path, app);
+      if ([].concat(computedPath).includes(undefined)) {
+        // eslint-disable-next-line no-console
+        console.error("Invalid route with invalid path:", route);
+        return "missed";
+      }
       const match = matchPath(this.location.pathname, {
-        path: computeRealRoutePath(route.path, app),
+        path: computedPath,
         exact: route.exact
       });
       if (match !== null) {
