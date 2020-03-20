@@ -316,7 +316,20 @@ describe("processPipes", () => {
       [3, 2, 1],
       ["reverse", []],
       [1, 2, 3]
-    ]
+    ],
+    ["", ["nullish", ["-"]], "-"],
+    ["test", ["nullish", ["-"]], "test"],
+    // now is 2019-05-10 17:51:00
+    ["2019-05-10 17:21:00", ["deltaTime", []], "30 minutes ago"],
+    ["2019-05-10 18:51:00", ["deltaTime", []], "in an hour"],
+    ["", ["deltaTime", []], ""],
+    [
+      { startTime: "2019-05-10", endTime: "2019-06-10" },
+      ["deltaTime", [false]],
+      "a month"
+    ],
+    [{ startTime: "2019-05-10 17:48" }, ["deltaTime", [false]], "3 minutes"],
+    [{ endTime: 1557482040000 }, ["deltaTime", [false]], "3 minutes"]
   ];
   it.each(paramCases)(
     "process %j with %j should return %j",

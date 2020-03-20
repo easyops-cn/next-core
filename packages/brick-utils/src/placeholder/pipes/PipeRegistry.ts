@@ -59,6 +59,42 @@ PipeRegistry.set("findLastIndex", pipeFindLastIndex);
 PipeRegistry.set("sort", pipeSort);
 PipeRegistry.set("reverse", pipeReverse);
 PipeRegistry.set("cmdbInstanceShowName", pipeCmdbInstanceShowName);
+PipeRegistry.set("deltaTime", pipeDeltaTime);
+PipeRegistry.set("nullish", pipeNullish);
+
+function pipeNullish(value: any, defaultValue: any): any {
+  return value || defaultValue;
+}
+
+interface Period {
+  startTime?: number | string;
+  endTime?: number | string;
+}
+
+function isPeriod(time: any): time is Period {
+  return typeof time === "object";
+}
+
+function getMoment(input: number | string, format: string): moment.Moment {
+  return typeof input === "number" ? moment(input) : moment(input, format);
+}
+
+function pipeDeltaTime(
+  time: number | string | Period,
+  withSuffix = true,
+  format = "YYYY-MM-DD HH:mm:ss"
+): string {
+  if (!time) return "";
+  if (isPeriod(time) && time.startTime && time.endTime) {
+    const startTime = getMoment(time.startTime, format);
+    const endTime = getMoment(time.endTime, format);
+    return moment.duration(endTime.diff(startTime)).humanize(withSuffix);
+  }
+
+  const other = isPeriod(time) ? time.startTime || time.endTime : time;
+  const then = getMoment(other, format);
+  return moment.duration(then.diff(moment())).humanize(withSuffix);
+}
 
 function pipeSort(value: any[], fields?: string | string[]): any[] {
   if (!Array.isArray(value)) return [];
