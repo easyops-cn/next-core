@@ -8,6 +8,9 @@ export function computeRealRoutePath(
   if (Array.isArray(path)) {
     return path.map(p => computeRealRoutePath(p, app) as string);
   }
+  if (typeof path !== "string") {
+    return;
+  }
   return path.replace(/\$\{APP(?:.([^}]+))\}/g, (_match, field) => {
     return get(app, field);
   });
