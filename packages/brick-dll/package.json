@@ -35,7 +35,7 @@
     "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.3.3",
+    "react-i18next": "^11.3.4",
     "react-transition-group": "^4.3.0"
   }
 }
