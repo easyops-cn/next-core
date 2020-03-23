@@ -55,7 +55,7 @@
     invariant "^2.2.4"
     semver "^5.5.0"
 
-"@babel/core@^7.1.0", "@babel/core@^7.4.5", "@babel/core@^7.7.5":
+"@babel/core@^7.1.0", "@babel/core@^7.7.5":
   version "7.8.6"
   resolved "https://registry.npm.taobao.org/@babel/core/download/@babel/core-7.8.6.tgz?cache=0&sync_timestamp=1582806192457&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fcore%2Fdownload%2F%40babel%2Fcore-7.8.6.tgz#27d7df9258a45c2e686b6f18b6c659e563aa4636"
   integrity sha1-J9ffklikXC5oa28YtsZZ5WOqRjY=
@@ -871,13 +871,20 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-transform-react-constant-elements@^7.0.0", "@babel/plugin-transform-react-constant-elements@^7.7.4":
+"@babel/plugin-transform-react-constant-elements@^7.7.4":
   version "7.7.4"
   resolved "https://registry.npm.taobao.org/@babel/plugin-transform-react-constant-elements/download/@babel/plugin-transform-react-constant-elements-7.7.4.tgz#499cf732a21ffd62cc4b0016e27c3906097f8982"
   integrity sha1-SZz3MqIf/WLMSwAW4nw5Bgl/iYI=
   dependencies:
     "@babel/helper-annotate-as-pure" "^7.7.4"
     "@babel/helper-plugin-utils" "^7.0.0"
+
+"@babel/plugin-transform-react-constant-elements@^7.9.0":
+  version "7.9.0"
+  resolved "https://registry.npm.taobao.org/@babel/plugin-transform-react-constant-elements/download/@babel/plugin-transform-react-constant-elements-7.9.0.tgz?cache=0&sync_timestamp=1584718622324&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fplugin-transform-react-constant-elements%2Fdownload%2F%40babel%2Fplugin-transform-react-constant-elements-7.9.0.tgz#a75abc936a3819edec42d3386d9f1c93f28d9d9e"
+  integrity sha1-p1q8k2o4Ge3sQtM4bZ8ck/KNnZ4=
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.8.3"
 
 "@babel/plugin-transform-react-display-name@^7.8.3":
   version "7.8.3"
@@ -1021,7 +1028,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.8.3"
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/preset-env@^7.4.5", "@babel/preset-env@^7.7.6":
+"@babel/preset-env@^7.7.6":
   version "7.8.6"
   resolved "https://registry.npm.taobao.org/@babel/preset-env/download/@babel/preset-env-7.8.6.tgz?cache=0&sync_timestamp=1582806215133&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fpreset-env%2Fdownload%2F%40babel%2Fpreset-env-7.8.6.tgz#2a0773b08589ecba4995fc71b1965e4f531af40b"
   integrity sha1-KgdzsIWJ7LpJlfxxsZZeT1Ma9As=
@@ -1161,7 +1168,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-react@^7.0.0", "@babel/preset-react@^7.7.4":
+"@babel/preset-react@^7.7.4":
   version "7.8.3"
   resolved "https://registry.npm.taobao.org/@babel/preset-react/download/@babel/preset-react-7.8.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fpreset-react%2Fdownload%2F%40babel%2Fpreset-react-7.8.3.tgz#23dc63f1b5b0751283e04252e78cf1d6589273d2"
   integrity sha1-I9xj8bWwdRKD4EJS54zx1liSc9I=
@@ -2465,29 +2472,10 @@
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-react-native-svg/download/@svgr/babel-plugin-transform-react-native-svg-5.0.1.tgz#8c593dcfe17179f5a87734a76c9174aac91d2a2b"
   integrity sha1-jFk9z+FxefWodzSnbJF0qskdKis=
 
-"@svgr/babel-plugin-transform-svg-component@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-svg-component/download/@svgr/babel-plugin-transform-svg-component-5.2.0.tgz#96bda84be927f01fe37dfaf69572c2357fd97ac6"
-  integrity sha1-lr2oS+kn8B/jffr2lXLCNX/ZesY=
-
 "@svgr/babel-plugin-transform-svg-component@^5.3.0":
   version "5.3.0"
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-svg-component/download/@svgr/babel-plugin-transform-svg-component-5.3.0.tgz#a75ab70cba06c3cdd0a5b2de9ea81466e2ffdb06"
   integrity sha1-p1q3DLoGw83QpbLenqgUZuL/2wY=
-
-"@svgr/babel-preset@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/@svgr/babel-preset/download/@svgr/babel-preset-5.2.0.tgz#8b1624662efac8a82e2b0f3054dafede9fbff89f"
-  integrity sha1-ixYkZi76yKguKw8wVNr+3p+/+J8=
-  dependencies:
-    "@svgr/babel-plugin-add-jsx-attribute" "^5.0.1"
-    "@svgr/babel-plugin-remove-jsx-attribute" "^5.0.1"
-    "@svgr/babel-plugin-remove-jsx-empty-expression" "^5.0.1"
-    "@svgr/babel-plugin-replace-jsx-attribute-value" "^5.0.1"
-    "@svgr/babel-plugin-svg-dynamic-title" "^5.0.1"
-    "@svgr/babel-plugin-svg-em-dimensions" "^5.0.1"
-    "@svgr/babel-plugin-transform-react-native-svg" "^5.0.1"
-    "@svgr/babel-plugin-transform-svg-component" "^5.2.0"
 
 "@svgr/babel-preset@^5.3.0":
   version "5.3.0"
@@ -2502,15 +2490,6 @@
     "@svgr/babel-plugin-svg-em-dimensions" "^5.0.1"
     "@svgr/babel-plugin-transform-react-native-svg" "^5.0.1"
     "@svgr/babel-plugin-transform-svg-component" "^5.3.0"
-
-"@svgr/core@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/@svgr/core/download/@svgr/core-5.2.0.tgz#9b12191478960bb6e9a0bc9f8f58c39bbcfc8c82"
-  integrity sha1-mxIZFHiWC7bpoLyfj1jDm7z8jII=
-  dependencies:
-    "@svgr/plugin-jsx" "^5.2.0"
-    camelcase "^5.3.1"
-    cosmiconfig "^6.0.0"
 
 "@svgr/core@^5.3.0":
   version "5.3.0"
@@ -2528,16 +2507,6 @@
   dependencies:
     "@babel/types" "^7.4.4"
 
-"@svgr/plugin-jsx@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/@svgr/plugin-jsx/download/@svgr/plugin-jsx-5.2.0.tgz#f81578e5b5ff8728ab72419207f7f73655684eff"
-  integrity sha1-+BV45bX/hyirckGSB/f3NlVoTv8=
-  dependencies:
-    "@babel/core" "^7.7.5"
-    "@svgr/babel-preset" "^5.2.0"
-    "@svgr/hast-util-to-babel-ast" "^5.0.1"
-    svg-parser "^2.0.2"
-
 "@svgr/plugin-jsx@^5.3.0":
   version "5.3.0"
   resolved "https://registry.npm.taobao.org/@svgr/plugin-jsx/download/@svgr/plugin-jsx-5.3.0.tgz#6452bc3adab0d6e83d211c49bd5d539f93c28ca8"
@@ -2547,15 +2516,6 @@
     "@svgr/babel-preset" "^5.3.0"
     "@svgr/hast-util-to-babel-ast" "^5.0.1"
     svg-parser "^2.0.2"
-
-"@svgr/plugin-svgo@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/@svgr/plugin-svgo/download/@svgr/plugin-svgo-5.2.0.tgz#84162f191a40bd9725a2ff9afdc6cd3ba7e59719"
-  integrity sha1-hBYvGRpAvZclov+a/cbNO6fllxk=
-  dependencies:
-    cosmiconfig "^6.0.0"
-    merge-deep "^3.0.2"
-    svgo "^1.2.2"
 
 "@svgr/plugin-svgo@^5.3.0":
   version "5.3.0"
@@ -2580,19 +2540,19 @@
     "@svgr/plugin-svgo" "^5.3.0"
     rollup-pluginutils "^2.8.2"
 
-"@svgr/webpack@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/@svgr/webpack/download/@svgr/webpack-5.2.0.tgz#80fda19af0caf79b715ae916d780bd8aa4c9b9d2"
-  integrity sha1-gP2hmvDK95txWukW14C9iqTJudI=
+"@svgr/webpack@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.npm.taobao.org/@svgr/webpack/download/@svgr/webpack-5.3.0.tgz#172890fbd159bba0c756fb3ade9d9943755236ca"
+  integrity sha1-FyiQ+9FZu6DHVvs63p2ZQ3VSNso=
   dependencies:
-    "@babel/core" "^7.4.5"
-    "@babel/plugin-transform-react-constant-elements" "^7.0.0"
-    "@babel/preset-env" "^7.4.5"
-    "@babel/preset-react" "^7.0.0"
-    "@svgr/core" "^5.2.0"
-    "@svgr/plugin-jsx" "^5.2.0"
-    "@svgr/plugin-svgo" "^5.2.0"
-    loader-utils "^1.2.3"
+    "@babel/core" "^7.9.0"
+    "@babel/plugin-transform-react-constant-elements" "^7.9.0"
+    "@babel/preset-env" "^7.9.0"
+    "@babel/preset-react" "^7.9.1"
+    "@svgr/core" "^5.3.0"
+    "@svgr/plugin-jsx" "^5.3.0"
+    "@svgr/plugin-svgo" "^5.3.0"
+    loader-utils "^2.0.0"
 
 "@types/anymatch@*":
   version "1.3.1"
