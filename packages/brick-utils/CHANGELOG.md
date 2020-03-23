@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.37.1...@easyops/brick-utils@1.38.0) (2020-03-23)
+
+### Bug Fixes
+
+- compatibility with invalid route ([91947b7](https://git.easyops.local/anyclouds/next-core/commits/91947b7))
+
+### Features
+
+- **pipe:** new pipe, `deltaTime` and `nullish`, refs BRICK_STORE-1220 ([de6c936](https://git.easyops.local/anyclouds/next-core/commits/de6c936))
+- load scripts for custom templates ([7e8f029](https://git.easyops.local/anyclouds/next-core/commits/7e8f029))
+
 ## [1.37.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.37.0...@easyops/brick-utils@1.37.1) (2020-03-19)
 
 ### Bug Fixes

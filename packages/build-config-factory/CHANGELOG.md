@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.7.0...@easyops/build-config-factory@1.8.0) (2020-03-23)
+
+### Features
+
+- load scripts for custom templates ([7e8f029](https://git.easyops.local/anyclouds/next-core/commits/7e8f029))
+
 # [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.6.8...@easyops/build-config-factory@1.7.0) (2020-03-19)
 
 ### Features

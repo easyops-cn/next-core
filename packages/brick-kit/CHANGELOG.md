@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.32.0...@easyops/brick-kit@1.33.0) (2020-03-23)
+
+### Bug Fixes
+
+- compatibility with invalid route ([91947b7](https://git.easyops.local/anyclouds/next-core/commits/91947b7))
+
+### Features
+
+- load scripts for custom templates ([7e8f029](https://git.easyops.local/anyclouds/next-core/commits/7e8f029))
+- support custom templates in storyboard ([582b137](https://git.easyops.local/anyclouds/next-core/commits/582b137))
+
 # [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.8...@easyops/brick-kit@1.32.0) (2020-03-19)
 
 ### Bug Fixes
