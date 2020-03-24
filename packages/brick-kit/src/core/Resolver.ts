@@ -8,11 +8,7 @@ import {
   DefineResolveConf,
   ResolveConf
 } from "@easyops/brick-types";
-import {
-  asyncProcessBrick,
-  transformProperties,
-  transformIntermediateData
-} from "@easyops/brick-utils";
+import { asyncProcessBrick } from "@easyops/brick-utils";
 import { computeRealValue } from "../setProperties";
 import { Kernel, RuntimeBrick } from "./exports";
 import {
@@ -21,6 +17,10 @@ import {
   IntervalSettings
 } from "../makeProviderRefreshable";
 import { brickTemplateRegistry } from "./TemplateRegistries";
+import {
+  transformProperties,
+  transformIntermediateData
+} from "../transformProperties";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();

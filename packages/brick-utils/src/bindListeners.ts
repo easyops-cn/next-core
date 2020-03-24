@@ -1,5 +1,7 @@
 /**
- * 本页相关逻辑已迁移至 brick-kit src/bindListeners 文件中
+ * @deprecated
+ * Have been moved to `@easyops/brick-kit`.
+ * The legacy code below is for backward compatibility only.
  */
 
 import {

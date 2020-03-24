@@ -1,13 +1,7 @@
-/**
- * @deprecated
- * Have been moved to `@easyops/brick-kit`.
- * The legacy code below is for backward compatibility only.
- */
-
-import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { get, set } from "lodash";
-import { isObject } from "./isObject";
-import { transform } from "./placeholder";
+import { GeneralTransform, TransformMap } from "@easyops/brick-types";
+import { isObject, transform } from "@easyops/brick-utils";
+import { isCookable, evaluate } from "./evaluate";
 
 export function transformProperties(
   props: Record<string, any>,
@@ -27,6 +21,9 @@ export function transformProperties(
 
 export function doTransform(data: any, to: any): any {
   if (typeof to === "string") {
+    if (isCookable(to)) {
+      return evaluate(to, { data });
+    }
     return transform(to, data);
   }
 

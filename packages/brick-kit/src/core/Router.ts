@@ -1,5 +1,5 @@
 import { locationsAreEqual, createPath, Action } from "history";
-import { PluginLocation } from "@easyops/brick-types";
+import { PluginLocation, PluginRuntimeContext } from "@easyops/brick-types";
 import { restoreDynamicTemplates } from "@easyops/brick-utils";
 import {
   LocationContext,
@@ -214,7 +214,7 @@ export class Router {
       if (barsHidden) {
         this.kernel.toggleBars(false);
       } else {
-        if (menuBar.menu && menuBar.menu.defaultCollapsed) {
+        if (menuBar.menu?.defaultCollapsed) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;
         } else {
@@ -275,5 +275,10 @@ export class Router {
 
   getState(): RouterState {
     return this.state;
+  }
+
+  /* istanbul ignore next */
+  getCurrentContext(): PluginRuntimeContext {
+    return this.locationContext.getCurrentContext();
   }
 }
