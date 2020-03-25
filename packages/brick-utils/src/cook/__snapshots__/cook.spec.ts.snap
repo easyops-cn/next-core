@@ -40,4 +40,8 @@ exports[`cook cook(precook("async () => null"), {...}) should throw 1`] = `"Asyn
 
 exports[`cook cook(precook("delete DATA.for"), {...}) should throw 1`] = `"Unsupported unary operator \`delete\`: \`delete DATA.for\`"`;
 
+exports[`cook cook(precook("location.assign('/')"), {...}) should throw 1`] = `"location.assign is not a function"`;
+
+exports[`cook cook(precook("moment.updateLocale('en', {})"), {...}) should throw 1`] = `"moment.updateLocale is not a function"`;
+
 exports[`cook cook(precook("this.bad"), {...}) should throw 1`] = `"Unexpected node type \`ThisExpression\`: \`this\`"`;
