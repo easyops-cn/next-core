@@ -2713,10 +2713,10 @@
     jest-diff "^25.1.0"
     pretty-format "^25.1.0"
 
-"@types/js-yaml@^3.12.2":
-  version "3.12.2"
-  resolved "https://registry.npm.taobao.org/@types/js-yaml/download/@types/js-yaml-3.12.2.tgz?cache=0&sync_timestamp=1579916727861&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjs-yaml%2Fdownload%2F%40types%2Fjs-yaml-3.12.2.tgz#a35a1809c33a68200fb6403d1ad708363c56470a"
-  integrity sha1-o1oYCcM6aCAPtkA9GtcINjxWRwo=
+"@types/js-yaml@^3.12.3":
+  version "3.12.3"
+  resolved "https://registry.npm.taobao.org/@types/js-yaml/download/@types/js-yaml-3.12.3.tgz#abf383c5b639d0aa8b8c4a420d6a85f703357d6c"
+  integrity sha1-q/ODxbY50KqLjEpCDWqF9wM1fWw=
 
 "@types/json-schema@^7.0.3":
   version "7.0.3"
