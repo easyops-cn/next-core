@@ -7371,10 +7371,10 @@ inquirer@^7.0.0:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-inquirer@^7.0.6:
-  version "7.0.6"
-  resolved "https://registry.npm.taobao.org/inquirer/download/inquirer-7.0.6.tgz?cache=0&sync_timestamp=1583328105956&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Finquirer%2Fdownload%2Finquirer-7.0.6.tgz#ee4ff0ea7ecda5324656fe665878790f66df7d0c"
-  integrity sha1-7k/w6n7NpTJGVv5mWHh5D2bffQw=
+inquirer@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.npm.taobao.org/inquirer/download/inquirer-7.1.0.tgz#1298a01859883e17c7264b82870ae1034f92dd29"
+  integrity sha1-EpigGFmIPhfHJkuChwrhA0+S3Sk=
   dependencies:
     ansi-escapes "^4.2.1"
     chalk "^3.0.0"
