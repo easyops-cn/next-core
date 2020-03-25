@@ -1,3 +1,8 @@
+import {
+  loadScript,
+  getDllAndDepsOfStoryboard,
+  getTemplateDepsOfStoryboard
+} from "@easyops/brick-utils";
 import { checkLogin, bootstrap } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
@@ -10,6 +15,7 @@ import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
 
+jest.mock("@easyops/brick-utils");
 jest.mock("@sdk/auth-sdk");
 jest.mock("@sdk/user-service-sdk");
 jest.mock("@sdk/micro-app-sdk");
@@ -38,6 +44,14 @@ const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi.searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi.postSearch as jest.Mock;
 const getObjectMicroAppList = ObjectMicroAppApi.getObjectMicroAppList as jest.Mock;
+
+const spyOnLoadScript = loadScript as jest.Mock;
+const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
+const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
+
+(window as any).DLL_HASH = {
+  d3: "fake-hash"
+};
 
 describe("Kernel", () => {
   let kernel: Kernel;
@@ -115,7 +129,16 @@ describe("Kernel", () => {
           routes: []
         }
       ],
-      brickPackages: [],
+      brickPackages: [
+        {
+          filePath: "all.js"
+        }
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js"
+        }
+      ],
       settings: {
         featureFlags: {
           "load-magic-brick-config": true
@@ -208,6 +231,31 @@ describe("Kernel", () => {
         pathname: "/from"
       }
     });
+
+    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
+      dll: ["d3.js"],
+      deps: ["dep.js"]
+    });
+    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
+    await kernel.loadDepsOfStoryboard({} as any);
+    expect(spyOnLoadScript).toBeCalledTimes(3);
+    expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
+    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
+    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
+
+    spyOnLoadScript.mockClear();
+
+    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
+      dll: [],
+      deps: []
+    });
+    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
+    await kernel.loadDepsOfStoryboard({ dependsAll: true } as any);
+    expect(spyOnLoadScript).toBeCalledTimes(2);
+    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([
+      "dll-of-d3.js?fake-hash"
+    ]);
+    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["all.js", "layout.js"]);
   });
 
   it("should bootstrap if not loggedIn", async () => {

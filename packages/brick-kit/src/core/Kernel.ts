@@ -1,4 +1,12 @@
 import { sortBy, cloneDeep } from "lodash";
+import {
+  loadScript,
+  getTemplateDepsOfStoryboard,
+  getDllAndDepsOfStoryboard,
+  asyncProcessStoryboard,
+  scanBricksInBrickConf,
+  getDllAndDepsOfBricks
+} from "@easyops/brick-utils";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
@@ -11,13 +19,17 @@ import {
   MicroApp,
   UserInfo,
   MagicBrickConfig,
-  FeatureFlags
+  FeatureFlags,
+  RuntimeStoryboard,
+  BrickConf
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
 import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
 import { mergeAppConfig } from "./processors";
+import { brickTemplateRegistry } from "./TemplateRegistries";
+import { registerCustomTemplate } from "./CustomTemplates";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -105,6 +117,75 @@ export class Kernel {
         .map(storyboard => storyboard.app)
         .filter(Boolean)
     };
+  }
+
+  async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+    const { brickPackages, templatePackages } = this.bootstrapData;
+    if (storyboard.dependsAll) {
+      const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+      await loadScript(
+        Object.entries(dllHash).map(
+          ([name, hash]) => `dll-of-${name}.js?${hash}`
+        )
+      );
+      await loadScript(
+        brickPackages
+          .map(item => item.filePath)
+          .concat(templatePackages.map(item => item.filePath))
+      );
+      return;
+    }
+
+    if (!storyboard.$$depsProcessed) {
+      // 先加载模板
+      const templateDeps = getTemplateDepsOfStoryboard(
+        storyboard,
+        templatePackages
+      );
+      await loadScript(templateDeps);
+      // 加载模板后才能加工得到最终的构件表
+      const result = getDllAndDepsOfStoryboard(
+        await asyncProcessStoryboard(
+          storyboard,
+          brickTemplateRegistry,
+          templatePackages
+        ),
+        brickPackages
+      );
+      await loadScript(result.dll);
+      await loadScript(result.deps);
+
+      // 注册自定义模板
+      if (Array.isArray(storyboard.meta?.customTemplates)) {
+        for (const tpl of storyboard.meta.customTemplates) {
+          registerCustomTemplate(
+            tpl.name,
+            {
+              bricks: tpl.bricks,
+              proxy: tpl.proxy
+            },
+            storyboard.app?.id
+          );
+        }
+      }
+
+      // 每个 storyboard 仅处理一次依赖
+      storyboard.$$depsProcessed = true;
+    }
+  }
+
+  async loadDynamicBricks(brickConf: BrickConf): Promise<void> {
+    // Try to load deps for dynamic added bricks.
+    const bricks = scanBricksInBrickConf(brickConf);
+    const { dll, deps } = getDllAndDepsOfBricks(
+      bricks.filter(
+        // Only try to load undefined custom elements.
+        item => !customElements.get(item)
+      ),
+      this.bootstrapData.brickPackages
+    );
+    await loadScript(dll);
+    await loadScript(deps);
   }
 
   firstRendered(): void {

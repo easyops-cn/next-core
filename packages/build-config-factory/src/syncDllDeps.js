@@ -9,17 +9,32 @@ module.exports = function syncDllDeps() {
   const rootPackageJsonPath = path.resolve("package.json");
   const rootPackageJson = require(rootPackageJsonPath);
   const devDependencies = rootPackageJson.devDependencies;
-  const dllDeps = Object.keys(devDependencies).filter(
-    pkg => pkg === "@easyops/brick-dll" || pkg.startsWith("@dll/")
-  );
 
-  for (const pkg of dllDeps) {
+  const dlls = ["@easyops/brick-dll", "@dll/ace", "@dll/d3", "@dll/echarts"];
+  for (const pkg of dlls) {
     // 解决该包在 `npm link` 下使用时报错的问题
     const dllPackageJson = require(require.resolve(`${pkg}/package.json`, {
       paths: [process.cwd()]
     }));
     for (const [name, version] of Object.entries(dllPackageJson.dependencies)) {
+      console.log(name, version);
       devDependencies[name] = version;
+    }
+  }
+
+  const kitPackageJson = require(require.resolve(
+    "@easyops/brick-kit/package.json",
+    {
+      paths: [process.cwd()]
+    }
+  ));
+  const kitDeps = ["@easyops/brick-types"];
+  for (const pkg of kitDeps) {
+    const version = kitPackageJson.dependencies[pkg];
+    console.log(pkg, version);
+    devDependencies[pkg] = version;
+    if (rootPackageJson.resolutions) {
+      rootPackageJson.resolutions[pkg] = version;
     }
   }
 
@@ -43,7 +58,7 @@ module.exports = function syncDllDeps() {
   );
   const disabledPackageNames = new Set(disabledRule.packageNames);
 
-  for (const pkg of dllDeps) {
+  for (const pkg of dlls) {
     // 解决该包在 `npm link` 下使用时报错的问题
     const dllPackageJson = require(require.resolve(`${pkg}/package.json`, {
       paths: [process.cwd()]

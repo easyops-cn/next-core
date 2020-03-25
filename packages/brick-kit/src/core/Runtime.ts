@@ -8,11 +8,14 @@ import {
   UserInfo,
   BrickPackage,
   Storyboard,
-  MagicBrickConfig
+  MagicBrickConfig,
+  CustomTemplateConstructor,
+  PluginRuntimeContext
 } from "@easyops/brick-types";
 import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import { RelatedApp, RouterState, RecentApps } from "./interfaces";
+import { registerCustomTemplate } from "./CustomTemplates";
 
 let kernel: Kernel;
 
@@ -161,6 +164,14 @@ export class Runtime {
   }
 
   /* istanbul ignore next */
+  registerCustomTemplate(
+    tplName: string,
+    tplConstructor: CustomTemplateConstructor
+  ): void {
+    registerCustomTemplate(tplName, tplConstructor);
+  }
+
+  /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {
     // eslint-disable-next-line no-console
     console.warn(
@@ -183,14 +194,19 @@ export class Runtime {
   resetWorkspaceStack(): void {
     kernel.workspaceStack = [];
   }
+}
 
-  /* istanbul ignore next */
-  _internalApiGetResolver(): Resolver {
-    return kernel.router.getResolver();
-  }
+/* istanbul ignore next */
+export function _internalApiGetResolver(): Resolver {
+  return kernel.router.getResolver();
+}
 
-  /* istanbul ignore next */
-  _internalApiGetRouterState(): RouterState {
-    return kernel.router.getState();
-  }
+/* istanbul ignore next */
+export function _internalApiGetRouterState(): RouterState {
+  return kernel.router.getState();
+}
+
+/* istanbul ignore next */
+export function _internalApiGetCurrentContext(): PluginRuntimeContext {
+  return kernel.router.getCurrentContext();
 }

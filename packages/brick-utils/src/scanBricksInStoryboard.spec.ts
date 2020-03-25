@@ -1,9 +1,35 @@
-import { scanBricksInStoryboard } from "./scanBricksInStoryboard";
-import { Storyboard } from "@easyops/brick-types";
+import { Storyboard, BrickConf } from "@easyops/brick-types";
+import {
+  scanBricksInStoryboard,
+  scanBricksInBrickConf
+} from "./scanBricksInStoryboard";
 
 describe("scanBricksInStoryboard", () => {
   it("should work", () => {
     const storyboard: Storyboard = {
+      meta: {
+        customTemplates: [
+          {
+            name: "ct-a",
+            bricks: [
+              {
+                brick: "b-x"
+              }
+            ]
+          },
+          {
+            name: "ct-b",
+            bricks: [
+              {
+                brick: "b-y"
+              },
+              {
+                brick: "span"
+              }
+            ]
+          }
+        ]
+      },
       routes: [
         {
           providers: [
@@ -14,17 +40,20 @@ describe("scanBricksInStoryboard", () => {
           ],
           bricks: [
             {
-              brick: "a"
+              brick: "b-a"
             },
             {
-              brick: "b",
+              brick: "div"
+            },
+            {
+              brick: "b-b",
               slots: {
                 s: {
                   type: "bricks",
                   bricks: [
                     {
-                      brick: "c",
-                      internalUsedBricks: ["e"]
+                      brick: "b-c",
+                      internalUsedBricks: ["b-e"]
                     }
                   ]
                 },
@@ -39,7 +68,7 @@ describe("scanBricksInStoryboard", () => {
         {
           menu: {
             type: "brick",
-            brick: "d"
+            brick: "b-d"
           }
           // `bricks` not set
         },
@@ -56,7 +85,10 @@ describe("scanBricksInStoryboard", () => {
             {
               bricks: [
                 {
-                  brick: "f"
+                  brick: "b-f"
+                },
+                {
+                  brick: "ct-a"
                 }
               ]
             }
@@ -67,12 +99,55 @@ describe("scanBricksInStoryboard", () => {
     expect(scanBricksInStoryboard(storyboard)).toEqual([
       "p-a",
       "p-b",
-      "a",
-      "b",
-      "c",
-      "e",
-      "d",
-      "f"
+      "b-a",
+      "b-b",
+      "b-c",
+      "b-e",
+      "b-d",
+      "b-f",
+      "b-x",
+      "b-y"
+    ]);
+  });
+});
+
+describe("scanBricksInBrickConf", () => {
+  it("should work", () => {
+    const brickConf: BrickConf = {
+      brick: "b-b",
+      slots: {
+        s: {
+          type: "bricks",
+          bricks: [
+            {
+              brick: "b-c",
+              internalUsedBricks: ["b-e"]
+            },
+            {
+              brick: "div"
+            }
+          ]
+        },
+        l: {
+          type: "routes",
+          routes: [
+            {
+              bricks: [
+                {
+                  brick: "b-f"
+                }
+              ]
+            }
+          ]
+          // `routes` not set
+        }
+      }
+    } as any;
+    expect(scanBricksInBrickConf(brickConf)).toEqual([
+      "b-b",
+      "b-c",
+      "b-e",
+      "b-f"
     ]);
   });
 });

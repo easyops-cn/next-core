@@ -1,12 +1,6 @@
 import { locationsAreEqual, createPath, Action } from "history";
-import { PluginLocation } from "@easyops/brick-types";
-import {
-  loadScript,
-  getTemplateDepsOfStoryboard,
-  getDllAndDepsOfStoryboard,
-  asyncProcessStoryboard,
-  restoreDynamicTemplates
-} from "@easyops/brick-utils";
+import { PluginLocation, PluginRuntimeContext } from "@easyops/brick-types";
+import { restoreDynamicTemplates } from "@easyops/brick-utils";
 import {
   LocationContext,
   mountTree,
@@ -21,7 +15,6 @@ import {
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
-import { brickTemplateRegistry } from "./TemplateRegistries";
 import { RecentApps, RouterState } from "./interfaces";
 
 export class Router {
@@ -110,9 +103,8 @@ export class Router {
       this.kernel,
       location
     ));
-    const { bootstrapData } = this.kernel;
     const storyboard = locationContext.matchStoryboard(
-      bootstrapData.storyboards
+      this.kernel.bootstrapData.storyboards
     );
 
     if (storyboard) {
@@ -120,39 +112,7 @@ export class Router {
       restoreDynamicTemplates(storyboard);
 
       // 如果找到匹配的 storyboard，那么加载它的依赖库。
-      if (storyboard.dependsAll) {
-        const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
-        await loadScript(
-          Object.entries(dllHash).map(
-            ([name, hash]) => `dll-of-${name}.js?${hash}`
-          )
-        );
-        await loadScript(
-          bootstrapData.brickPackages
-            .map(item => item.filePath)
-            .concat(bootstrapData.templatePackages.map(item => item.filePath))
-        );
-      } else if (!storyboard.$$depsProcessed) {
-        // 先加载模板
-        const templateDeps = getTemplateDepsOfStoryboard(
-          storyboard,
-          bootstrapData.templatePackages
-        );
-        await loadScript(templateDeps);
-        // 加载模板后才能加工得到最终的构件表
-        const result = getDllAndDepsOfStoryboard(
-          await asyncProcessStoryboard(
-            storyboard,
-            brickTemplateRegistry,
-            bootstrapData.templatePackages
-          ),
-          bootstrapData.brickPackages
-        );
-        await loadScript(result.dll);
-        await loadScript(result.deps);
-        // 每个 storyboard 仅处理一次依赖
-        storyboard.$$depsProcessed = true;
-      }
+      await this.kernel.loadDepsOfStoryboard(storyboard);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;
@@ -237,6 +197,12 @@ export class Router {
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
 
+      const actualLegacy =
+        (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
+          ? "iframe"
+          : undefined;
+      this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
+
       if (appChanged) {
         window.dispatchEvent(
           new CustomEvent<RecentApps>("app.change", {
@@ -245,16 +211,10 @@ export class Router {
         );
       }
 
-      const actualLegacy =
-        (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
-          ? "iframe"
-          : undefined;
-      this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
-
       if (barsHidden) {
         this.kernel.toggleBars(false);
       } else {
-        if (menuBar.menu && menuBar.menu.defaultCollapsed) {
+        if (menuBar.menu?.defaultCollapsed) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;
         } else {
@@ -315,5 +275,10 @@ export class Router {
 
   getState(): RouterState {
     return this.state;
+  }
+
+  /* istanbul ignore next */
+  getCurrentContext(): PluginRuntimeContext {
+    return this.locationContext.getCurrentContext();
   }
 }

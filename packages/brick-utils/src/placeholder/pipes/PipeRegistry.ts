@@ -1,15 +1,24 @@
 import {
+  find,
+  findLast,
+  findIndex,
+  findLastIndex,
   get,
+  set,
+  sortBy,
   groupBy,
+  countBy,
+  toPairs,
+  zipObject,
   keys,
   keyBy,
-  set,
   indexOf,
   isNil,
-  isEqual
+  isEqual,
+  uniq
 } from "lodash";
-import moment from "moment";
 import yaml from "js-yaml";
+import moment, { DurationInputArg2 } from "moment";
 
 export const PipeRegistry = new Map<string, Function>();
 
@@ -36,8 +45,121 @@ PipeRegistry.set("groupBy", pipeGroupBy);
 PipeRegistry.set("keyBy", pipeKeyBy);
 PipeRegistry.set("yaml", pipeYaml);
 PipeRegistry.set("yamlStringify", pipeYamlStringify);
+PipeRegistry.set("parseTimeRange", pipeParseTimeRange);
+PipeRegistry.set("countBy", pipeCountBy);
+PipeRegistry.set("uniq", pipeUniq);
+PipeRegistry.set("ternary", pipeTernary);
+PipeRegistry.set("substr", pipeSubstr);
+PipeRegistry.set("substring", pipeSubstring);
+PipeRegistry.set("mapToArray", pipeMapToArray);
+PipeRegistry.set("find", pipeFind);
+PipeRegistry.set("findLast", pipeFindLast);
+PipeRegistry.set("findIndex", pipeFindIndex);
+PipeRegistry.set("findLastIndex", pipeFindLastIndex);
+PipeRegistry.set("sort", pipeSort);
+PipeRegistry.set("reverse", pipeReverse);
+PipeRegistry.set("cmdbInstanceShowName", pipeCmdbInstanceShowName);
+PipeRegistry.set("deltaTime", pipeDeltaTime);
+PipeRegistry.set("nullish", pipeNullish);
+
+function pipeNullish(value: any, defaultValue: any): any {
+  return value || defaultValue;
+}
+
+interface Period {
+  startTime?: number | string;
+  endTime?: number | string;
+}
+
+function isPeriod(time: any): time is Period {
+  return typeof time === "object";
+}
+
+function getMoment(input: number | string, format: string): moment.Moment {
+  return typeof input === "number" ? moment(input) : moment(input, format);
+}
+
+function pipeDeltaTime(
+  time: number | string | Period,
+  withSuffix = true,
+  format = "YYYY-MM-DD HH:mm:ss"
+): string {
+  if (!time) return "";
+  if (isPeriod(time) && time.startTime && time.endTime) {
+    const startTime = getMoment(time.startTime, format);
+    const endTime = getMoment(time.endTime, format);
+    return moment.duration(endTime.diff(startTime)).humanize(withSuffix);
+  }
+
+  const other = isPeriod(time) ? time.startTime || time.endTime : time;
+  const then = getMoment(other, format);
+  return moment.duration(then.diff(moment())).humanize(withSuffix);
+}
+
+function pipeSort(value: any[], fields?: string | string[]): any[] {
+  if (!Array.isArray(value)) return [];
+  return sortBy(value, fields);
+}
+
+function pipeReverse(value: any[]): any[] {
+  if (!Array.isArray(value)) return [];
+  return value.slice().reverse();
+}
+
+function pipeMapToArray(
+  value: any,
+  keyField: string,
+  valueField: string
+): any[] {
+  if (typeof value !== "object" || !value) return [];
+  const fields = [keyField, valueField];
+  const pairs = toPairs(value);
+  return pairs.map(pair => zipObject(fields, pair));
+}
+
+function pipeFind<T>(value: T[], item: any): T | undefined {
+  return find(value, item);
+}
+
+function pipeFindLast<T>(value: T[], item: any): T | undefined {
+  return findLast(value, item);
+}
+
+function pipeFindIndex(value: any[], item: any): number {
+  return findIndex(value, item);
+}
+
+function pipeFindLastIndex(value: any[], item: any): number {
+  return findLastIndex(value, item);
+}
+
+function pipeSubstr(value: string, start: number, length: number): string {
+  if (typeof value !== "string") return "";
+  return value.substr(start, length);
+}
+
+function pipeSubstring(value: string, start: number, end: number): string {
+  if (typeof value !== "string") return "";
+  return value.substring(start, end);
+}
+
+function pipeCmdbInstanceShowName(value: string[]): any {
+  if (Array.isArray(value)) {
+    const firstKey = value[0];
+    const resKey = value.slice(1, value.length).join(",");
+    const res = resKey ? `${firstKey}(${resKey})` : firstKey ?? "";
+    return res;
+  } else {
+    return value;
+  }
+}
+
+function pipeTernary(value: boolean, ...res: any[]): any {
+  return value ? res[0] : res[1];
+}
 
 function pipeMap(value: any[], key: string): any[] {
+  if (!Array.isArray(value)) return [];
   return value.map(item => {
     return get(item, key);
   });
@@ -58,6 +180,7 @@ function pipeBoolean(value: any): boolean {
 }
 
 function pipeJson(value: any): any {
+  if (isNil(value)) return value;
   try {
     return JSON.parse(value);
   } catch (e) {
@@ -67,9 +190,9 @@ function pipeJson(value: any): any {
   }
 }
 
-function pipeJsonStringify(value: any): string {
+function pipeJsonStringify(value: any, indent = 2): string {
   try {
-    return JSON.stringify(value, null, 2);
+    return JSON.stringify(value, null, indent);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
@@ -117,6 +240,7 @@ function pipeSplit(value: string, separator: string): string[] {
 }
 
 function pipeJoin(value: any[], separator: string): string {
+  if (!Array.isArray(value)) return "";
   return value.join(separator);
 }
 
@@ -151,6 +275,10 @@ function pipeGroupBy(value: any[], field: string): any {
   return groupBy(value, field);
 }
 
+function pipeCountBy(value: any, field: string): any {
+  return countBy(value, field);
+}
+
 function pipeKeyBy(value: any[], field: string): any {
   return keyBy(value, field);
 }
@@ -166,10 +294,11 @@ function pipeYaml(value: any): any {
   return result;
 }
 
-function pipeYamlStringify(value: any): string {
+function pipeYamlStringify(value: any, indent = 2): string {
   let result;
   try {
     result = yaml.safeDump(value, {
+      indent,
       schema: yaml.JSON_SCHEMA,
       skipInvalid: true,
       noRefs: true,
@@ -180,4 +309,28 @@ function pipeYamlStringify(value: any): string {
     console.error(e);
   }
   return result;
+}
+
+function pipeParseTimeRange(value: any): number {
+  if (value === "now/d") {
+    return +moment().startOf("day");
+  }
+
+  if (value === "now/y") {
+    return +moment().startOf("year");
+  }
+
+  const reg = /^now-(\d+)(\w+)/;
+
+  const matches = reg.exec(value);
+
+  if (matches !== null) {
+    const [, num, unit] = matches;
+    return +moment().subtract(num, unit as DurationInputArg2);
+  }
+  return value ? +value : +moment();
+}
+
+function pipeUniq(value: any[]): any[] {
+  return uniq(value);
 }

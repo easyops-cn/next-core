@@ -11,7 +11,7 @@ _prepare_source_links() {
 }
 
 _package_artifacts() {
-  rsync --archive --stats --exclude="package.json" --exclude="scripts" . "${pkgdir}"
+  rsync --archive --stats --exclude="package.json" --exclude="scripts" --exclude=".*" . "${pkgdir}"
 }
 
 prepare() {

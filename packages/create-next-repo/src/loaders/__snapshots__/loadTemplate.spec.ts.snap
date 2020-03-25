@@ -158,7 +158,7 @@ _prepare_source_links() {
 }
 
 _package_artifacts() {
-  rsync --archive --stats --exclude=\\"package.json\\" --exclude=\\"scripts\\" . \\"\${pkgdir}\\"
+  rsync --archive --stats --exclude=\\"package.json\\" --exclude=\\"scripts\\" --exclude=\\".*\\" . \\"\${pkgdir}\\"
 }
 
 prepare() {
@@ -463,19 +463,12 @@ declare namespace JSX {
       \\"enabled\\": false
     },
     {
-      \\"packagePatterns\\": [\\"^@dll\\", \\"^@easyops/\\"],
+      \\"packagePatterns\\": [\\"^@dll/\\", \\"^@easyops/\\"],
       \\"automerge\\": false,
       \\"groupName\\": \\"next-core packages\\"
     }
   ]
 }
-",
-  ],
-  Array [
-    "/tmp/next/my-repo/scripts/sync-dll.js",
-    "const { syncDllDeps } = require(\\"@easyops/build-config-factory\\");
-
-syncDllDeps();
 ",
   ],
   Array [

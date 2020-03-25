@@ -71,7 +71,11 @@ describe("sdk-scripts utils", () => {
   it("expectDocVersion should work", () => {
     expect(() => expectDocVersion({ _version_: "1.0" })).toThrow();
     expect(() => expectDocVersion({ _version_: "2.0" })).not.toThrow();
+    expect(() => expectDocVersion({ _version_: "2.1.1" })).not.toThrow();
     expect(() => expectDocVersion({ _version_: "2.2" })).not.toThrow();
     expect(() => expectDocVersion({ _version_: "2.3" })).toThrow();
+    expect(() => expectDocVersion({ _version_: 2 })).not.toThrow();
+    expect(() => expectDocVersion({ _version_: 2.1 })).not.toThrow();
+    expect(() => expectDocVersion({ _version_: 2.4 })).toThrow();
   });
 });

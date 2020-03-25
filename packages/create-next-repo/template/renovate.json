@@ -22,7 +22,7 @@
       "enabled": false
     },
     {
-      "packagePatterns": ["^@dll", "^@easyops/"],
+      "packagePatterns": ["^@dll/", "^@easyops/"],
       "automerge": false,
       "groupName": "next-core packages"
     }

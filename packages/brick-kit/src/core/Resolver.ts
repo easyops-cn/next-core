@@ -8,14 +8,7 @@ import {
   DefineResolveConf,
   ResolveConf
 } from "@easyops/brick-types";
-import {
-  asyncProcessBrick,
-  scanBricksInBrickConf,
-  getDllAndDepsOfBricks,
-  loadScript,
-  transformProperties,
-  transformIntermediateData
-} from "@easyops/brick-utils";
+import { asyncProcessBrick } from "@easyops/brick-utils";
 import { computeRealValue } from "../setProperties";
 import { Kernel, RuntimeBrick } from "./exports";
 import {
@@ -24,7 +17,10 @@ import {
   IntervalSettings
 } from "../makeProviderRefreshable";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-// import { RedirectConf } from "./interfaces";
+import {
+  transformProperties,
+  transformIntermediateData
+} from "../transformProperties";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -50,15 +46,6 @@ export class Resolver {
     }
   }
 
-  // For BrickAsComponent
-  processBrick(brickConf: BrickConf): Promise<void> {
-    return asyncProcessBrick(
-      brickConf,
-      brickTemplateRegistry,
-      this.kernel.bootstrapData.templatePackages
-    );
-  }
-
   async resolve(
     brickConf: BrickConf,
     brick: RuntimeBrick,
@@ -74,20 +61,14 @@ export class Resolver {
       (brickConf as RuntimeBrickConf).$$resolved = true;
 
       // Try to process templates.
-      await this.processBrick(brickConf);
+      await asyncProcessBrick(
+        brickConf,
+        brickTemplateRegistry,
+        this.kernel.bootstrapData.templatePackages
+      );
 
       // Try to load deps for dynamic added bricks.
-      const brickCollection = new Set<string>();
-      scanBricksInBrickConf(brickConf, brickCollection);
-      const { dll, deps } = getDllAndDepsOfBricks(
-        Array.from(brickCollection).filter(
-          // Only try to load undefined custom elements.
-          element => element.includes("-") && !customElements.get(element)
-        ),
-        this.kernel.bootstrapData.brickPackages
-      );
-      await loadScript(dll);
-      await loadScript(deps);
+      await this.kernel.loadDynamicBricks(brickConf);
     }
   }
 
@@ -239,6 +220,7 @@ export class Resolver {
       // It's a dynamic brick.
       props = brick.properties;
     }
+
     transformProperties(
       props,
       data,
@@ -252,6 +234,11 @@ export class Resolver {
         : resolveConf.transform || resolveConf.name,
       resolveConf.transformFrom
     );
+
+    if (context?.flags?.["storyboard-debug-mode"]) {
+      // eslint-disable-next-line no-console
+      console.log(`Transform:`, props, data);
+    }
   }
 
   scheduleRefreshing(): void {

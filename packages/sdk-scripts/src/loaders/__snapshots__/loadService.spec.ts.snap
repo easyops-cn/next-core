@@ -371,15 +371,15 @@ export { PackageApi, CdModels };
     "dist/deploy/contracts.yaml",
     "depend_contracts:
   - name: easyops.api.cd.package.Create
-    version: ^1.0
+    version: ^1.0.0
   - name: easyops.api.cd.package.Get
-    version: ^1.0
+    version: ^1.0.0
   - name: easyops.api.cd.package.Retry
-    version: ^1.0
+    version: ^1.0.0
   - name: easyops.api.cd.package.Search
-    version: ^1.0
+    version: ^1.0.0
   - name: easyops.api.cd.package.Upload
-    version: ^1.0
+    version: ^1.0.0
 ",
   ],
 ]

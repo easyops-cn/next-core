@@ -3,10 +3,33 @@ import {
   BrickConf,
   RouteConf,
   ProviderConf,
-  RouteConfOfBricks
+  RouteConfOfBricks,
+  CustomTemplate
 } from "@easyops/brick-types";
 
-export function scanBricksInBrickConf(
+export function scanBricksInStoryboard(storyboard: Storyboard): string[] {
+  const collection = new Set<string>();
+  const selfDefined = new Set<string>();
+  collectBricksInRouteConfs(storyboard.routes, collection);
+  collectBricksInCustomTemplates(
+    storyboard.meta?.customTemplates,
+    collection,
+    selfDefined
+  );
+  // Ignore non-custom-elements and self-defined custom templates.
+  return Array.from(collection).filter(
+    item => item.includes("-") && !selfDefined.has(item)
+  );
+}
+
+export function scanBricksInBrickConf(brickConf: BrickConf): string[] {
+  const collection = new Set<string>();
+  collectBricksInBrickConf(brickConf, collection);
+  // Ignore non-custom-elements.
+  return Array.from(collection).filter(item => item.includes("-"));
+}
+
+function collectBricksInBrickConf(
   brickConf: BrickConf,
   collection: Set<string>
 ): void {
@@ -16,9 +39,9 @@ export function scanBricksInBrickConf(
   if (brickConf.slots) {
     Object.values(brickConf.slots).forEach(slotConf => {
       if (slotConf.type === "bricks") {
-        scanBricksInBrickConfs(slotConf.bricks, collection);
+        collectBricksInBrickConfs(slotConf.bricks, collection);
       } else {
-        scanBricksInRouteConfs(slotConf.routes, collection);
+        collectBricksInRouteConfs(slotConf.routes, collection);
       }
     });
   }
@@ -29,13 +52,13 @@ export function scanBricksInBrickConf(
   }
 }
 
-function scanBricksInBrickConfs(
+function collectBricksInBrickConfs(
   bricks: BrickConf[],
   collection: Set<string>
 ): void {
   if (Array.isArray(bricks)) {
     bricks.forEach(brickConf => {
-      scanBricksInBrickConf(brickConf, collection);
+      collectBricksInBrickConf(brickConf, collection);
     });
   }
 }
@@ -53,7 +76,7 @@ function scanBricksInProviderConfs(
   }
 }
 
-function scanBricksInRouteConfs(
+function collectBricksInRouteConfs(
   routes: RouteConf[],
   collection: Set<string>
 ): void {
@@ -61,9 +84,9 @@ function scanBricksInRouteConfs(
     routes.forEach(routeConf => {
       scanBricksInProviderConfs(routeConf.providers, collection);
       if (routeConf.type === "routes") {
-        scanBricksInRouteConfs(routeConf.routes, collection);
+        collectBricksInRouteConfs(routeConf.routes, collection);
       } else {
-        scanBricksInBrickConfs(
+        collectBricksInBrickConfs(
           (routeConf as RouteConfOfBricks).bricks,
           collection
         );
@@ -79,8 +102,15 @@ function scanBricksInRouteConfs(
   }
 }
 
-export function scanBricksInStoryboard(storyboard: Storyboard): string[] {
-  const collection = new Set<string>();
-  scanBricksInRouteConfs(storyboard.routes, collection);
-  return Array.from(collection);
+function collectBricksInCustomTemplates(
+  customTemplates: CustomTemplate[],
+  collection: Set<string>,
+  selfDefined: Set<string>
+): void {
+  if (Array.isArray(customTemplates)) {
+    customTemplates.forEach(tpl => {
+      selfDefined.add(tpl.name);
+      collectBricksInBrickConfs(tpl.bricks, collection);
+    });
+  }
 }

@@ -13,10 +13,30 @@ export function scriptYarnInstall(targetDir: string) {
   });
 }
 
-export function scriptYarnSyncDll(targetDir: string) {
-  console.log(chalk.inverse("[create-next-repo] $ yarn sync-dll"));
-  return execa("yarn", ["sync-dll"], {
+export function scriptYarnAddDependencies(targetDir: string) {
+  console.log(
+    chalk.inverse(
+      "[create-next-repo] $ yarn add -D -W @easyops/dev-dependencies"
+    )
+  );
+  return execa("yarn", ["add", "-D", "-W", "@easyops/dev-dependencies"], {
     cwd: targetDir,
-    stdio: "inherit"
+    stdio: "inherit",
+    env: {
+      // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
+      ESTIMO_DISABLE: "true"
+    }
+  });
+}
+
+export function scriptYarnExtract(targetDir: string) {
+  console.log(chalk.inverse("[create-next-repo] $ yarn extract"));
+  return execa("yarn", ["extract"], {
+    cwd: targetDir,
+    stdio: "inherit",
+    env: {
+      // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
+      ESTIMO_DISABLE: "true"
+    }
   });
 }

@@ -49,12 +49,13 @@ export async function ask(
 
   switch (targetType) {
     case TargetType.A_NEW_BRICK:
+    case TargetType.A_NEW_CUSTOM_TEMPLATE:
     case TargetType.A_NEW_CUSTOM_PROVIDER_BRICK:
     case TargetType.A_NEW_PACKAGE_OF_BRICKS:
       updateHistory({ lastSelectedBrickPackage: packageName });
       break;
-    case TargetType.A_NEW_TEMPLATE:
-    case TargetType.A_NEW_PACKAGE_OF_TEMPLATES:
+    case TargetType.A_NEW_LEGACY_TEMPLATE:
+    case TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES:
       updateHistory({ lastSelectedTemplatePackage: packageName });
   }
 
@@ -63,11 +64,12 @@ export async function ask(
   if (
     [
       TargetType.A_NEW_BRICK,
+      TargetType.A_NEW_CUSTOM_TEMPLATE,
       TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
       TargetType.A_NEW_PACKAGE_OF_BRICKS
     ].includes(targetType)
   ) {
-    // 如果是新建构件/新建自定义provider构件/构件库，额外询问新构件的名字。
+    // 如果是新建构件/新建自定义模板/新建自定义 Provider 构件/新建构件库，额外询问新构件的名字。
     brickName = (
       await inquirer.prompt(
         askBrickName({
@@ -78,9 +80,10 @@ export async function ask(
       )
     ).brickName;
   } else if (
-    [TargetType.A_NEW_TEMPLATE, TargetType.A_NEW_PACKAGE_OF_TEMPLATES].includes(
-      targetType
-    )
+    [
+      TargetType.A_NEW_LEGACY_TEMPLATE,
+      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES
+    ].includes(targetType)
   ) {
     // 如果是新建模板/模板库，额外询问新模板的名字。
     templateName = (

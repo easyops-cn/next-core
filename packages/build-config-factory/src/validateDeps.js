@@ -24,7 +24,7 @@ module.exports = function validateDeps(scope) {
       throw new Error(
         "`@" +
           scope +
-          "/*` should never depend on `@templates/*` or `@micro-apps/*` or other `@bricks/*`."
+          "/*` should never have devDependencies of `@templates/*` or `@micro-apps/*` or other `@bricks/*`."
       );
     }
     if (
@@ -38,9 +38,15 @@ module.exports = function validateDeps(scope) {
       );
     }
     const peerDependencies = Object.keys(packageJson.peerDependencies || {});
-    if (peerDependencies.some(pkg => !pkg.startsWith("@dll/"))) {
+    if (
+      peerDependencies.some(
+        pkg => !pkg.startsWith("@dll/") && !pkg.startsWith("@bricks/")
+      )
+    ) {
       throw new Error(
-        "`@" + scope + "/*` should only have `peerDependencies` of `@dll/*`."
+        "`@" +
+          scope +
+          "/*` should only have `peerDependencies` of `@dll/*` or `@bricks/*`."
       );
     }
   } else if (scope === "micro-apps" || scope === "templates") {

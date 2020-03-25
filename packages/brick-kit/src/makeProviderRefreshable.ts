@@ -1,12 +1,12 @@
 import { get } from "lodash";
+import { GeneralTransform } from "@easyops/brick-types";
 import {
   transformProperties,
   transformIntermediateData
-} from "@easyops/brick-utils";
+} from "./transformProperties";
 import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
-import { GeneralTransform } from "@easyops/brick-types";
 
 export interface ProviderDependents {
   brick: RuntimeBrick;

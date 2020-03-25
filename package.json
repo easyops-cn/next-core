@@ -12,6 +12,8 @@
     "start": "lerna run start --scope \"@easyops/brick-container\"",
     "remote": "lerna run start --scope \"@easyops/brick-container\" -- --remote",
     "build": "lerna run build",
+    "postbuild": "npm run size-limit",
+    "size-limit": "size-limit",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --ci",
     "yo": "brick-scripts -t dll",
@@ -27,6 +29,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/types": "^7.8.7",
+    "@size-limit/file": "^4.0.2",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/fs-extra": "^8.1.0",
@@ -55,6 +59,7 @@
     "jest-environment-jsdom-fifteen": "^1.0.2",
     "lerna": "^3.20.1",
     "lint-staged": "^10.0.9",
+    "null-loader": "^3.0.0",
     "prettier": "^2.0.2",
     "rimraf": "^3.0.2",
     "typescript": "~3.8.3"

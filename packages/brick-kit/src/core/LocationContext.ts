@@ -11,11 +11,11 @@ import {
   MicroApp,
   ProviderConf,
   PluginRuntimeContext,
-  BrickLifeCycle,
   BrickEventHandler,
   ResolveConf,
   RouteConfOfRoutes,
-  RouteConfOfBricks
+  RouteConfOfBricks,
+  RuntimeBrickConf
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -29,6 +29,7 @@ import { isLoggedIn, getAuth } from "../auth";
 import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
 import { RedirectConf, IfConf } from "./interfaces";
+import { expandCustomTemplate, isCustomTemplate } from "./CustomTemplates";
 
 export type MatchRoutesResult =
   | {
@@ -63,34 +64,19 @@ export interface MountRoutesResult {
 
 interface BrickAndLifeCycleHandler {
   brick: RuntimeBrick;
+  match: MatchResult;
   handler: BrickEventHandler | BrickEventHandler[];
 }
 
-/* interface PageLoadHandler {
-  brick: RuntimeBrick;
-  handler: BrickLifeCycle["onPageLoad"];
-}
-
-interface AnchorLoadHandler {
-  brick: RuntimeBrick;
-  onAnchorLoad: BrickLifeCycle["onAnchorLoad"];
-}
-
-interface AnchorUnloadHandler {
-  brick: RuntimeBrick;
-  onAnchorUnload: BrickLifeCycle["onAnchorUnload"];
-} */
-
 export class LocationContext {
-  readonly location: PluginLocation;
-  readonly query: URLSearchParams;
+  private readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private currentMatch: MatchResult;
 
-  constructor(private kernel: Kernel, location: PluginLocation) {
-    this.location = location;
+  constructor(private kernel: Kernel, private location: PluginLocation) {
     this.query = new URLSearchParams(location.search);
   }
 
@@ -108,14 +94,25 @@ export class LocationContext {
     };
   }
 
+  getCurrentContext(): PluginRuntimeContext {
+    return this.getContext(this.currentMatch);
+  }
+
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
     for (const route of routes) {
+      const computedPath = computeRealRoutePath(route.path, app);
+      if ([].concat(computedPath).includes(undefined)) {
+        // eslint-disable-next-line no-console
+        console.error("Invalid route with invalid path:", route);
+        return "missed";
+      }
       const match = matchPath(this.location.pathname, {
-        path: computeRealRoutePath(route.path, app),
+        path: computedPath,
         exact: route.exact
       });
       if (match !== null) {
         if (route.public || isLoggedIn()) {
+          this.currentMatch = match;
           return { match, route };
         } else {
           return "redirect";
@@ -252,6 +249,7 @@ export class LocationContext {
       if (menuConf.lifeCycle?.onPageLoad) {
         this.pageLoadHandlers.push({
           brick,
+          match,
           handler: menuConf.lifeCycle.onPageLoad
         });
       }
@@ -259,6 +257,7 @@ export class LocationContext {
       if (menuConf.lifeCycle?.onAnchorLoad) {
         this.anchorLoadHandlers.push({
           brick,
+          match,
           handler: menuConf.lifeCycle.onAnchorLoad
         });
       }
@@ -266,6 +265,7 @@ export class LocationContext {
       if (menuConf.lifeCycle?.onAnchorUnload) {
         this.anchorUnloadHandlers.push({
           brick,
+          match,
           handler: menuConf.lifeCycle.onAnchorUnload
         });
       }
@@ -390,20 +390,29 @@ export class LocationContext {
 
     const brick: RuntimeBrick = {
       type: brickConf.brick,
-      properties: computeRealProperties(
-        brickConf.properties,
-        context,
-        brickConf.injectDeep !== false
+      properties: Object.assign(
+        computeRealProperties(
+          brickConf.properties,
+          context,
+          brickConf.injectDeep !== false
+        ),
+        (brickConf as RuntimeBrickConf).$$computedPropsFromProxy
       ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
       children: [],
-      slotId
+      slotId,
+      refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy
     };
+
+    if (brick.refForProxy) {
+      brick.refForProxy.brick = brick;
+    }
 
     if (brickConf.lifeCycle?.onPageLoad) {
       this.pageLoadHandlers.push({
         brick,
+        match,
         handler: brickConf.lifeCycle.onPageLoad
       });
     }
@@ -411,6 +420,7 @@ export class LocationContext {
     if (brickConf.lifeCycle?.onAnchorLoad) {
       this.anchorLoadHandlers.push({
         brick,
+        match,
         handler: brickConf.lifeCycle.onAnchorLoad
       });
     }
@@ -418,6 +428,7 @@ export class LocationContext {
     if (brickConf.lifeCycle?.onAnchorUnload) {
       this.anchorUnloadHandlers.push({
         brick,
+        match,
         handler: brickConf.lifeCycle.onAnchorUnload
       });
     }
@@ -425,11 +436,28 @@ export class LocationContext {
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
 
-    if (brickConf.bg) {
+    let expandedBrickConf = brickConf;
+    if (isCustomTemplate(brickConf.brick)) {
+      expandedBrickConf = expandCustomTemplate(
+        {
+          ...brickConf,
+          // Properties are computed for custom templates.
+          properties: brick.properties
+        },
+        brick
+      );
+
+      // Try to load deps for dynamic added bricks.
+      await this.kernel.loadDynamicBricks(expandedBrickConf);
+    }
+
+    if (expandedBrickConf.bg) {
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
     } else {
-      if (isObject(brickConf.slots)) {
-        for (const [slotId, slotConf] of Object.entries(brickConf.slots)) {
+      if (isObject(expandedBrickConf.slots)) {
+        for (const [slotId, slotConf] of Object.entries(
+          expandedBrickConf.slots
+        )) {
           const slottedMountRoutesResult = {
             ...mountRoutesResult,
             main: brick.children
@@ -493,7 +521,7 @@ export class LocationContext {
         listenerFactory(
           handler,
           history,
-          this.getContext(null),
+          this.getContext(brickAndHandler.match),
           brickAndHandler.brick.element
         )(event);
       }

@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.39.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.38.0...@easyops/brick-utils@1.39.0) (2020-03-24)
+
+### Features
+
+- cook ([e075b64](https://git.easyops.local/anyclouds/next-core/commits/e075b64))
+
+# [1.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.37.1...@easyops/brick-utils@1.38.0) (2020-03-23)
+
+### Bug Fixes
+
+- compatibility with invalid route ([91947b7](https://git.easyops.local/anyclouds/next-core/commits/91947b7))
+
+### Features
+
+- **pipe:** new pipe, `deltaTime` and `nullish`, refs BRICK_STORE-1220 ([de6c936](https://git.easyops.local/anyclouds/next-core/commits/de6c936))
+- load scripts for custom templates ([7e8f029](https://git.easyops.local/anyclouds/next-core/commits/7e8f029))
+
+## [1.37.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.37.0...@easyops/brick-utils@1.37.1) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
+# [1.37.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.36.1...@easyops/brick-utils@1.37.0) (2020-03-18)
+
+### Features
+
+- pipe for cmdb instance name refs MONITOR-503 ([6d1896a](https://git.easyops.local/anyclouds/next-core/commits/6d1896a))
+
+## [1.36.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.36.0...@easyops/brick-utils@1.36.1) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [1.36.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.35.0...@easyops/brick-utils@1.36.0) (2020-03-17)
+
+### Bug Fixes
+
+- refine peerDependencies and put `buffer` back to dll ([e58b2a5](https://git.easyops.local/anyclouds/next-core/commits/e58b2a5))
+
+### Features
+
+- **pipe:** new pipes, `sort` and `reverse`, refs BRICK_STORE-1271 ([2d3027a](https://git.easyops.local/anyclouds/next-core/commits/2d3027a))
+
+# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.34.0...@easyops/brick-utils@1.35.0) (2020-03-11)
+
+### Features
+
+- **pipe:** new pipes, `mapToArray`, `find`, `findLast`, `findIndex`, `findLastIndex` ([ac38f9d](https://git.easyops.local/anyclouds/next-core/commits/ac38f9d))
+
+# [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.33.0...@easyops/brick-utils@1.34.0) (2020-03-10)
+
+### Features
+
+- **pipe:** substr and substring, refs BRICK_STORE-1263 ([ac3c14b](https://git.easyops.local/anyclouds/next-core/commits/ac3c14b))
+
+# [1.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.32.0...@easyops/brick-utils@1.33.0) (2020-03-09)
+
+### Features
+
+- ternary pipe refs MONITOR-302 ([8b6727c](https://git.easyops.local/anyclouds/next-core/commits/8b6727c))
+- **pipe:** uniq ([425c01b](https://git.easyops.local/anyclouds/next-core/commits/425c01b))
+
+# [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.31.0...@easyops/brick-utils@1.32.0) (2020-03-08)
+
+### Features
+
+- **pipe:** support `countBy`, add `indent` parameter for json and yaml ([a0cba12](https://git.easyops.local/anyclouds/next-core/commits/a0cba12))
+
+# [1.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.30.1...@easyops/brick-utils@1.31.0) (2020-03-05)
+
+### Features
+
+- handle time to timeStamp refs MONITOR-362 ([d9e4f62](https://git.easyops.local/anyclouds/next-core/commits/d9e4f62))
+
 ## [1.30.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.30.0...@easyops/brick-utils@1.30.1) (2020-03-04)
 
 ### Bug Fixes

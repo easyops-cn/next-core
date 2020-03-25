@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-utils",
-  "version": "1.30.1",
+  "version": "1.39.0",
   "description": "Pure utility functions for kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-utils",
   "license": "UNLICENSED",
@@ -17,7 +17,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
-    "start": "npm run build:types && rollup --config rollup.config.js --watch",
+    "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
+    "start:rollup": "rollup --watch --config rollup.config.js",
+    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup --config rollup.config.js",
@@ -27,13 +29,18 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@easyops/brick-types": "^1.27.0",
+    "@babel/parser": "^7.8.8",
+    "@easyops/brick-types": "^1.30.0",
     "path-to-regexp": "^6.1.0"
   },
   "devDependencies": {
-    "lodash": "^4.17.15"
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0"
   },
   "peerDependencies": {
-    "lodash": "*"
+    "js-yaml": "*",
+    "lodash": "*",
+    "moment": "*"
   }
 }

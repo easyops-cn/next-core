@@ -53,37 +53,35 @@ module.exports = env => {
             const result = JSON.parse(raw);
             const { data } = result;
             if (localMicroApps.length > 0) {
-              data.storyboards = data.storyboards
-                .filter(
-                  item => !(item.app && localMicroApps.includes(item.app.id))
-                )
+              data.storyboards = localMicroApps
+                .map(id => getSingleStoryboard(env, id))
+                .filter(Boolean)
                 .concat(
-                  localMicroApps
-                    .map(id => getSingleStoryboard(env, id))
-                    .filter(Boolean)
+                  data.storyboards.filter(
+                    item => !(item.app && localMicroApps.includes(item.app.id))
+                  )
                 );
             }
             if (localBrickPackages.length > 0) {
-              data.brickPackages = data.brickPackages
-                .filter(
-                  item =>
-                    !localBrickPackages.includes(item.filePath.split("/")[1])
-                )
+              data.brickPackages = localBrickPackages
+                .map(id => getSingleBrickPackage(env, id))
+                .filter(Boolean)
                 .concat(
-                  localBrickPackages
-                    .map(id => getSingleBrickPackage(env, id))
-                    .filter(Boolean)
+                  data.brickPackages.filter(
+                    item =>
+                      !localBrickPackages.includes(item.filePath.split("/")[1])
+                  )
                 );
             }
             if (localTemplates.length > 0) {
-              data.templatePackages = data.templatePackages
-                .filter(
-                  item => !localTemplates.includes(item.filePath.split("/")[1])
-                )
+              data.templatePackages = localTemplates
+                .map(id => getSingleTemplatePackage(env, id))
+                .filter(Boolean)
                 .concat(
-                  localTemplates
-                    .map(id => getSingleTemplatePackage(env, id))
-                    .filter(Boolean)
+                  data.templatePackages.filter(
+                    item =>
+                      !localTemplates.includes(item.filePath.split("/")[1])
+                  )
                 );
             }
             if (useLocalSettings) {

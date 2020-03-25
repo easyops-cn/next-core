@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.10.4...@easyops/custom-antd-styles@0.11.0) (2020-03-08)
+
+### Features
+
+- **custom-antd-styles:** form ([484754d](https://git.easyops.local/anyclouds/next-core/commits/484754d))
+
+## [0.10.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.10.3...@easyops/custom-antd-styles@0.10.4) (2020-03-05)
+
+### Bug Fixes
+
+- fix confirm modal style ([eb5d13c](https://git.easyops.local/anyclouds/next-core/commits/eb5d13c))
+
+## [0.10.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.10.2...@easyops/custom-antd-styles@0.10.3) (2020-03-05)
+
+### Bug Fixes
+
+- modify pagination style ([adfedfa](https://git.easyops.local/anyclouds/next-core/commits/adfedfa))
+
 ## [0.10.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.10.1...@easyops/custom-antd-styles@0.10.2) (2020-02-15)
 
 ### Bug Fixes

@@ -1,26 +1,19 @@
 import React from "react";
 import { mount } from "enzyme";
-import * as listenerUtils from "./bindListeners";
 import { BrickConf } from "@easyops/brick-types";
+import * as listenerUtils from "./bindListeners";
 import { BrickAsComponent } from "./BrickAsComponent";
-import * as runtime from "./runtime";
+import * as runtime from "./core/Runtime";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn((_brickConf: BrickConf, brick: any) => {
   brick.properties.title = "resolved";
 });
-const spyOnProcessBrick = jest.fn((brickConf: BrickConf) => {
-  brickConf.brick = `brick-from-${brickConf.template}`;
-  delete brickConf.template;
-  delete brickConf.params;
-});
-const _internalApiGetRouterState = jest.fn().mockReturnValue("mounted");
-jest.spyOn(runtime, "getRuntime").mockReturnValue({
-  _internalApiGetRouterState,
-  _internalApiGetResolver: () => ({
-    resolve: spyOnResolve,
-    processBrick: spyOnProcessBrick
-  })
+const _internalApiGetRouterState = jest
+  .spyOn(runtime, "_internalApiGetRouterState")
+  .mockReturnValue("mounted");
+jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+  resolve: spyOnResolve
 } as any);
 
 describe("BrickAsComponent", () => {
@@ -59,7 +52,7 @@ describe("BrickAsComponent", () => {
     });
   });
 
-  it("should work for multiple bricks or templates", async () => {
+  it("should work for multiple bricks", async () => {
     const wrapper = mount(
       <BrickAsComponent
         useBrick={[
@@ -69,7 +62,9 @@ describe("BrickAsComponent", () => {
             transformFrom: "tips"
           },
           {
-            template: "template-a"
+            brick: "span",
+            transform: "title",
+            transformFrom: "tips"
           }
         ]}
         data={{
@@ -81,7 +76,8 @@ describe("BrickAsComponent", () => {
     await (global as any).flushPromises();
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.title).toBe("better");
-    expect(wrapper.find("brick-from-template-a").length).toBe(1);
+    const span = wrapper.find("span").getDOMNode() as HTMLDivElement;
+    expect(span.title).toBe("better");
   });
 
   it("should work for `if`", async () => {

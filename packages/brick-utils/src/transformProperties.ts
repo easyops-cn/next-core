@@ -1,3 +1,9 @@
+/**
+ * @deprecated
+ * Have been moved to `@easyops/brick-kit`.
+ * The legacy code below is for backward compatibility only.
+ */
+
 import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { get, set } from "lodash";
 import { isObject } from "./isObject";

@@ -14,7 +14,8 @@
         "packages/eslint-config-next/*.js",
         "packages/babel-preset-next/*.js",
         "packages/babel-preset-prismjs/*.js",
-        "packages/browserslist-config-next/*.js"
+        "packages/browserslist-config-next/*.js",
+        "packages/dev-dependencies/*.js"
       ],
       "extends": "@easyops/eslint-config-next/node"
     },

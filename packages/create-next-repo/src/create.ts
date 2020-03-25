@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs-extra";
 import chalk from "chalk";
 import { loadTemplate } from "./loaders/loadTemplate";
-import { scriptYarnInstall } from "./scripts";
+import { scriptYarnInstall, scriptYarnExtract } from "./scripts";
 
 export async function create(
   repoName: string,
@@ -29,5 +29,6 @@ export async function create(
 
   if (flags.install) {
     await scriptYarnInstall(targetDir);
+    await scriptYarnExtract(targetDir);
   }
 }

@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.33.0...@easyops/brick-kit@1.34.0) (2020-03-24)
+
+### Features
+
+- cook ([e075b64](https://git.easyops.local/anyclouds/next-core/commits/e075b64))
+
+# [1.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.32.0...@easyops/brick-kit@1.33.0) (2020-03-23)
+
+### Bug Fixes
+
+- compatibility with invalid route ([91947b7](https://git.easyops.local/anyclouds/next-core/commits/91947b7))
+
+### Features
+
+- load scripts for custom templates ([7e8f029](https://git.easyops.local/anyclouds/next-core/commits/7e8f029))
+- support custom templates in storyboard ([582b137](https://git.easyops.local/anyclouds/next-core/commits/582b137))
+
+# [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.8...@easyops/brick-kit@1.32.0) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https://git.easyops.local/anyclouds/next-core/commits/92ac31e))
+- new custom templates ([0ff9cc1](https://git.easyops.local/anyclouds/next-core/commits/0ff9cc1))
+
+## [1.31.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.7...@easyops/brick-kit@1.31.8) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.31.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.6...@easyops/brick-kit@1.31.7) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.31.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.5...@easyops/brick-kit@1.31.6) (2020-03-17)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.31.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.4...@easyops/brick-kit@1.31.5) (2020-03-11)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.31.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.3...@easyops/brick-kit@1.31.4) (2020-03-10)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.31.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.2...@easyops/brick-kit@1.31.3) (2020-03-09)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.31.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.1...@easyops/brick-kit@1.31.2) (2020-03-08)
+
+### Bug Fixes
+
+- fix match params in onPageLoad ([710d50d](https://git.easyops.local/anyclouds/next-core/commits/710d50d))
+
+## [1.31.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.31.0...@easyops/brick-kit@1.31.1) (2020-03-05)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.30.0...@easyops/brick-kit@1.31.0) (2020-03-04)
+
+### Features
+
+- overwrite default empty image from antd ([81e8f91](https://git.easyops.local/anyclouds/next-core/commits/81e8f91))
+
 # [1.30.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.29.0...@easyops/brick-kit@1.30.0) (2020-03-04)
 
 ### Features

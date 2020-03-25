@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-kit",
-  "version": "1.30.0",
+  "version": "1.34.0",
   "description": "Kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-kit",
   "license": "UNLICENSED",
@@ -17,7 +17,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
-    "start": "npm run build:types && rollup --config rollup.config.js --watch",
+    "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
+    "start:rollup": "rollup --watch --config rollup.config.js",
+    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup --config rollup.config.js",
@@ -26,7 +28,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "dependencies": {
-    "@easyops/brick-types": "^1.27.0",
+    "@easyops/brick-types": "^1.30.0",
     "@sdk/auth-sdk": "^0.7.4",
     "@sdk/cmdb-sdk": "^0.12.0",
     "@sdk/micro-app-sdk": "^0.5.0",
@@ -34,8 +36,8 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops/brick-http": "^1.0.0",
-    "@easyops/brick-utils": "^1.30.1",
+    "@easyops/brick-http": "^1.0.1",
+    "@easyops/brick-utils": "^1.39.0",
     "antd": "^3.26.14",
     "history": "^4.10.1",
     "i18next": "^19.3.3",
