@@ -1,4 +1,5 @@
 import lodash from "lodash";
+import moment from "moment";
 import { CookScope } from "./interfaces";
 import { PipeRegistry } from "../placeholder/pipes/PipeRegistry";
 
@@ -57,6 +58,17 @@ const shouldOmitInLodash = new Set([
   "updateWith",
 ]);
 
+// Omit all mutable methods from moment.
+const shouldOmitInMoment = new Set([
+  "lang",
+  "langData",
+  "locale",
+  "localeData",
+  "defineLocale",
+  "updateLocale",
+  "updateOffset",
+]);
+
 const allowedGlobalObjects = new Set([
   "Array",
   "Boolean",
@@ -91,6 +103,15 @@ function supplyIndividual(variableName: string): any {
       return Object.fromEntries(
         Object.entries(lodash).filter(
           (entry) => !shouldOmitInLodash.has(entry[0])
+        )
+      );
+    case "moment":
+      return Object.assign(
+        (...args: any[]) => moment(...args),
+        Object.fromEntries(
+          Object.entries(moment).filter(
+            (entry) => !shouldOmitInMoment.has(entry[0])
+          )
         )
       );
     case "PIPES":

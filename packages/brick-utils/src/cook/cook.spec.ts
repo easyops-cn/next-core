@@ -1,7 +1,16 @@
+import { install, InstalledClock } from "lolex";
 import { cook } from "./cook";
 import { precook } from "./precook";
 
 describe("cook", () => {
+  let clock: InstalledClock;
+  beforeEach(() => {
+    clock = install({ now: +new Date("2020-03-25 17:37:00") });
+  });
+  afterEach(() => {
+    clock.uninstall();
+  });
+
   const getGlobalVariables = (): Record<string, any> => ({
     DATA: {
       for: "good",
@@ -134,6 +143,12 @@ describe("cook", () => {
       `${null},${undefined},${true},${false},${{}},${[]},${[1, 2]}${5},${NaN}`,
     ],
     ["_.get(DATA, 'for')", "good"],
+    ["moment().format()", "2020-03-25T17:37:00+08:00"],
+    ["moment('not a real date').isValid()", false],
+    [
+      "moment('12-25-1995', 'MM-DD-YYYY').format(moment.HTML5_FMT.DATETIME_LOCAL)",
+      "1995-12-25T00:00",
+    ],
     ["[1,2,3].slice(1)", [2, 3]],
     ["[1, ...DATA.for, 2]", [1, "g", "o", "o", "d", 2]],
     ["[-1].concat(0, ...[1, 2], 3)", [-1, 0, 1, 2, 3]],
@@ -205,6 +220,8 @@ describe("cook", () => {
     // Parameters affect the scopes.
     "[undefined].map((i = DATA.number5, DATA) => i)",
     "async () => null",
+    "location.assign('/')",
+    "moment.updateLocale('en', {})",
   ])("cook(precook(%j), {...}) should throw", (input) => {
     expect(() =>
       cook(precook(input), getGlobalVariables())
