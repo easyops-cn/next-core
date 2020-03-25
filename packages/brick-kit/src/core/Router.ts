@@ -16,6 +16,7 @@ import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
+import { resetAllInjected } from "../injected";
 
 export class Router {
   private defaultCollapsed = false;
@@ -94,6 +95,8 @@ export class Router {
   }
 
   private async render(location: PluginLocation): Promise<void> {
+    resetAllInjected();
+
     if (this.locationContext) {
       this.locationContext.resolver.resetRefreshQueue();
     }
