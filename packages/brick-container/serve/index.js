@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const express = require("express");
-const httpProxyMiddleware = require("http-proxy-middleware");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 const { throttle } = require("lodash");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
@@ -56,7 +56,7 @@ if (proxies) {
   for (const [path, options] of Object.entries(proxies)) {
     app.use(
       path,
-      httpProxyMiddleware(
+      createProxyMiddleware(
         Object.assign(
           {
             logLevel: "warn"
