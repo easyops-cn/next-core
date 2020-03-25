@@ -16,6 +16,8 @@ import {
   isNil,
   isEqual,
   uniq,
+  filter,
+  forEach,
 } from "lodash";
 import yaml from "js-yaml";
 import moment, { DurationInputArg2 } from "moment";
@@ -61,6 +63,7 @@ PipeRegistry.set("reverse", pipeReverse);
 PipeRegistry.set("cmdbInstanceShowName", pipeCmdbInstanceShowName);
 PipeRegistry.set("deltaTime", pipeDeltaTime);
 PipeRegistry.set("nullish", pipeNullish);
+PipeRegistry.set("graphTree", pipeGraphTree);
 
 function pipeNullish(value: any, defaultValue: any): any {
   return value ?? defaultValue;
@@ -333,4 +336,37 @@ function pipeParseTimeRange(value: any): number {
 
 function pipeUniq(value: any[]): any[] {
   return uniq(value);
+}
+
+// 图还原管道，对应接口：http://192.168.100.162/next/developers/providers/cmdb/instance-graph-api-traverse-graph
+function pipeGraphTree(value: {
+  edges: Record<string, any>[];
+  topic_vertices: Record<string, any>[];
+  vertices: Record<string, any>[];
+}): Record<string, any>[] {
+  if (!value) {
+    return [];
+  }
+  const groupByEdgeOut = groupBy(value.edges, "out");
+  const findChildren = (node: Record<string, any>): Record<string, any> => {
+    const relationEdges = groupByEdgeOut[node.instanceId];
+    forEach(relationEdges, (edge) => {
+      const key = edge.out_name;
+      const foundInstance = find(value.vertices, ["instanceId", edge.in]);
+      if (foundInstance) {
+        const resultInstance = findChildren(foundInstance);
+        if (node[key]) {
+          node[key].push(resultInstance);
+        } else {
+          node[key] = [resultInstance];
+        }
+      }
+    });
+    return node;
+  };
+  const result =
+    value.topic_vertices?.map((root) => {
+      return findChildren(root);
+    }) ?? [];
+  return result;
 }

@@ -347,3 +347,103 @@ describe("processPipes", () => {
     }
   );
 });
+
+it.each([
+  [
+    {
+      topic_vertices: [
+        {
+          instanceId: "1",
+          name: "1",
+        },
+        {
+          instanceId: "2",
+          name: "2",
+        },
+      ],
+      vertices: [
+        {
+          instanceId: "3",
+          name: "3",
+        },
+        {
+          instanceId: "4",
+          name: "4",
+        },
+        {
+          instanceId: "5",
+          name: "5",
+        },
+        {
+          instanceId: "6",
+          name: "6",
+        },
+      ],
+      edges: [
+        {
+          out: "1",
+          in: "3",
+          out_name: "children",
+        },
+        {
+          out: "1",
+          in: "4",
+          out_name: "children",
+        },
+        {
+          out: "3",
+          in: "5",
+          out_name: "children",
+        },
+        {
+          out: "2",
+          in: "6",
+          out_name: "children",
+        },
+      ],
+    },
+    [
+      {
+        instanceId: "1",
+        name: "1",
+        children: [
+          {
+            instanceId: "3",
+            name: "3",
+            children: [
+              {
+                instanceId: "5",
+                name: "5",
+              },
+            ],
+          },
+          {
+            instanceId: "4",
+            name: "4",
+          },
+        ],
+      },
+      {
+        instanceId: "2",
+        name: "2",
+        children: [
+          {
+            instanceId: "6",
+            name: "6",
+          },
+        ],
+      },
+    ],
+  ],
+  [undefined, []],
+])("graphTree should work", (value, res) => {
+  expect(
+    processPipes(value, [
+      {
+        type: "PipeCall",
+        identifier: "graphTree",
+        parameters: [],
+      },
+    ])
+  ).toEqual(res);
+});
