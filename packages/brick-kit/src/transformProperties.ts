@@ -2,6 +2,7 @@ import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { isObject, transform } from "@easyops/brick-utils";
 import { isCookable, evaluate } from "./evaluate";
+import { rememberInjected, haveBeenInjected } from "./injected";
 
 export function transformProperties(
   props: Record<string, any>,
@@ -21,10 +22,20 @@ export function transformProperties(
 
 export function doTransform(data: any, to: any): any {
   if (typeof to === "string") {
+    let result: any;
     if (isCookable(to)) {
-      return evaluate(to, { data });
+      result = evaluate(to, { data });
+    } else {
+      result = transform(to, data);
     }
-    return transform(to, data);
+    if (isObject(result)) {
+      rememberInjected(result);
+    }
+    return result;
+  }
+
+  if (isObject(to) && haveBeenInjected(to)) {
+    return to;
   }
 
   return Array.isArray(to)
