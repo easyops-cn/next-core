@@ -21,12 +21,12 @@ export function supply(
   }
 
   return new Map(
-    Array.from(globalMap.entries()).map(entry => [
+    Array.from(globalMap.entries()).map((entry) => [
       entry[0],
       {
         cooked: entry[1],
-        initialized: true
-      }
+        initialized: true,
+      },
     ])
   );
 }
@@ -54,7 +54,7 @@ const shouldOmitInLodash = new Set([
   "setWith",
   "unset",
   "update",
-  "updateWith"
+  "updateWith",
 ]);
 
 const allowedGlobalObjects = new Set([
@@ -74,7 +74,7 @@ const allowedGlobalObjects = new Set([
   "isFinite",
   "isNaN",
   "parseFloat",
-  "parseInt"
+  "parseInt",
 ]);
 
 function supplyIndividual(variableName: string): any {
@@ -85,16 +85,18 @@ function supplyIndividual(variableName: string): any {
         "entries",
         "fromEntries",
         "keys",
-        "values"
+        "values",
       ]);
     case "_":
       return Object.fromEntries(
         Object.entries(lodash).filter(
-          entry => !shouldOmitInLodash.has(entry[0])
+          (entry) => !shouldOmitInLodash.has(entry[0])
         )
       );
     case "PIPES":
       return Object.fromEntries(PipeRegistry.entries());
+    case "location":
+      return { href: location.href };
     default:
       if (allowedGlobalObjects.has(variableName)) {
         return window[variableName as keyof Window];
@@ -107,9 +109,9 @@ function delegateMethods(
   methods: string[]
 ): Record<string, Function> {
   return Object.fromEntries(
-    methods.map(method => [
+    methods.map((method) => [
       method,
-      (...args: any[]) => (target[method] as Function).apply(target, args)
+      (...args: any[]) => (target[method] as Function).apply(target, args),
     ])
   );
 }
