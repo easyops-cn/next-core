@@ -37,7 +37,7 @@ describe("processPipes", () => {
     [[], "|cmdbInstanceShowName", ""],
     ["asd", "|cmdbInstanceShowName", "asd"],
     [123, "|cmdbInstanceShowName", 123],
-    [undefined, "|cmdbInstanceShowName", undefined]
+    [undefined, "|cmdbInstanceShowName", undefined],
   ];
   it.each(cases)(
     "process %j with pipes %j should return %j",
@@ -50,10 +50,10 @@ describe("processPipes", () => {
             ? rawPipes
                 .substr(1)
                 .split("|")
-                .map<PipeCall>(id => ({
+                .map<PipeCall>((id) => ({
                   type: "PipeCall",
                   identifier: id,
-                  parameters: []
+                  parameters: [],
                 }))
             : []
         )
@@ -63,11 +63,11 @@ describe("processPipes", () => {
   it.each([
     [3, "x", []],
     [[{ key: 123 }], "key", [123]],
-    [[{ key: { name: "xxx" } }, {}], "key.name", ["xxx", undefined]]
+    [[{ key: { name: "xxx" } }, {}], "key.name", ["xxx", undefined]],
   ])("map should work", (value, param, res) => {
     expect(
       processPipes(value, [
-        { type: "PipeCall", identifier: "map", parameters: [param] }
+        { type: "PipeCall", identifier: "map", parameters: [param] },
       ])
     ).toEqual(res);
   });
@@ -77,11 +77,11 @@ describe("processPipes", () => {
     ["1557417600000", 1557417600000],
     ["now-7d", 1556877060000],
     ["now/d", 1557417600000],
-    ["now/y", 1546272000000]
+    ["now/y", 1546272000000],
   ])("pipeParseTimeRange should work", (value, res) => {
     expect(
       processPipes(value, [
-        { type: "PipeCall", identifier: "parseTimeRange", parameters: [] }
+        { type: "PipeCall", identifier: "parseTimeRange", parameters: [] },
       ])
     ).toEqual(res);
   });
@@ -92,8 +92,8 @@ describe("processPipes", () => {
         {
           type: "PipeCall",
           identifier: "ternary",
-          parameters: [{ a: 1 }, { b: 2 }]
-        }
+          parameters: [{ a: 1 }, { b: 2 }],
+        },
       ])
     ).toEqual({ a: 1 });
     expect(
@@ -101,8 +101,8 @@ describe("processPipes", () => {
         {
           type: "PipeCall",
           identifier: "ternary",
-          parameters: ["foo", "bar"]
-        }
+          parameters: ["foo", "bar"],
+        },
       ])
     ).toEqual("bar");
   });
@@ -111,7 +111,7 @@ describe("processPipes", () => {
     [null, "substr:1", ""],
     ["01234", "substr:1:3", "123"],
     [1234, "substring:1:3", ""],
-    ["01234", "substring:1:3", "12"]
+    ["01234", "substring:1:3", "12"],
   ];
   it.each(stringCases)(
     "process %j with pipe %j should return %j",
@@ -122,8 +122,8 @@ describe("processPipes", () => {
           {
             type: "PipeCall",
             identifier: pipe,
-            parameters: [+param1, +param2]
-          }
+            parameters: [+param1, +param2],
+          },
         ])
       );
     }
@@ -134,11 +134,11 @@ describe("processPipes", () => {
     ["1557417600000", 1557417600000],
     ["now-7d", 1556877060000],
     ["now/d", 1557417600000],
-    ["now/y", 1546272000000]
+    ["now/y", 1546272000000],
   ])("pipeParseTimeRange should work", (value, res) => {
     expect(
       processPipes(value, [
-        { type: "PipeCall", identifier: "parseTimeRange", parameters: [] }
+        { type: "PipeCall", identifier: "parseTimeRange", parameters: [] },
       ])
     ).toEqual(res);
   });
@@ -148,31 +148,31 @@ describe("processPipes", () => {
       [
         { a: "3", b: "1" },
         { a: "1", b: "2" },
-        { a: "1", b: "3" }
+        { a: "1", b: "3" },
       ],
       "a",
       "groupIndex",
       [
         { a: "3", b: "1", groupIndex: 1 },
         { a: "1", b: "2", groupIndex: 0 },
-        { a: "1", b: "3", groupIndex: 0 }
-      ]
+        { a: "1", b: "3", groupIndex: 0 },
+      ],
     ],
     [
       [{ a: "3" }, { a: "1" }],
       undefined,
       "groupIndex",
-      [{ a: "3" }, { a: "1" }]
+      [{ a: "3" }, { a: "1" }],
     ],
-    [[{ a: "3" }, { a: "1" }], "a", undefined, [{ a: "3" }, { a: "1" }]]
+    [[{ a: "3" }, { a: "1" }], "a", undefined, [{ a: "3" }, { a: "1" }]],
   ])("groupByToIndex should work", (value, groupField, targetField, res) => {
     expect(
       processPipes(value, [
         {
           type: "PipeCall",
           identifier: "groupByToIndex",
-          parameters: [groupField, targetField]
-        }
+          parameters: [groupField, targetField],
+        },
       ])
     ).toEqual(res);
   });
@@ -196,14 +196,14 @@ describe("processPipes", () => {
     [
       ["one", "two", "three"],
       "|groupBy:length",
-      { 3: ["one", "two"], 5: ["three"] }
+      { 3: ["one", "two"], 5: ["three"] },
     ],
     [["one", "two", "three"], "|countBy:length", { 3: 2, 5: 1 }],
     [
       [{ objectId: "HOST" }, { objectId: "APP" }],
       "|keyBy:objectId",
-      { HOST: { objectId: "HOST" }, APP: { objectId: "APP" } }
-    ]
+      { HOST: { objectId: "HOST" }, APP: { objectId: "APP" } },
+    ],
   ];
   it.each(casesWithSingleParameter)(
     "process %j with pipes %j should return %j",
@@ -215,8 +215,8 @@ describe("processPipes", () => {
         {
           type: "PipeCall",
           identifier,
-          parameters
-        }
+          parameters,
+        },
       ];
       expect(processPipes(value, pipeCalls)).toEqual(result);
     }
@@ -228,7 +228,7 @@ describe("processPipes", () => {
     ["r: 3: * 8", "yaml", undefined],
     ["3", "yamlStringify", "'3'\n"],
     [{ name: "foo" }, "yamlStringify", "name: foo\n"],
-    [/re/, "yamlStringify", ""]
+    [/re/, "yamlStringify", ""],
   ];
   it.each(yamlCases)(
     "process %j with pipe %j should return %j",
@@ -238,8 +238,8 @@ describe("processPipes", () => {
           {
             type: "PipeCall",
             identifier: pipe,
-            parameters: []
-          }
+            parameters: [],
+          },
         ])
       ).toEqual(result);
     }
@@ -248,16 +248,16 @@ describe("processPipes", () => {
   it.each([
     [
       ["1", "2", "1", "1"],
-      ["1", "2"]
+      ["1", "2"],
     ],
     [
       [1, 2],
-      [1, 2]
-    ]
+      [1, 2],
+    ],
   ])("uniq should work", (value, res) => {
     expect(
       processPipes(value, [
-        { type: "PipeCall", identifier: "uniq", parameters: [] }
+        { type: "PipeCall", identifier: "uniq", parameters: [] },
       ])
     ).toEqual(res);
   });
@@ -270,54 +270,55 @@ describe("processPipes", () => {
       ["mapToArray", ["id", "label"]],
       [
         { id: "HOST", label: "主机" },
-        { id: "APP", label: "应用" }
-      ]
+        { id: "APP", label: "应用" },
+      ],
     ],
     [
       [
         { user: "x1", active: true },
-        { user: "x2", active: true }
+        { user: "x2", active: true },
       ],
       ["find", [{ user: "x1" }]],
-      { user: "x1", active: true }
+      { user: "x1", active: true },
     ],
     [
       [
         { user: "x1", active: true },
-        { user: "x2", active: true }
+        { user: "x2", active: true },
       ],
       ["findLast", ["active"]],
-      { user: "x2", active: true }
+      { user: "x2", active: true },
     ],
     [
       [
         { user: "x1", active: true },
-        { user: "x2", active: true }
+        { user: "x2", active: true },
       ],
       ["findIndex", ["active"]],
-      0
+      0,
     ],
     [
       [
         { user: "x1", active: true },
-        { user: "x2", active: true }
+        { user: "x2", active: true },
       ],
       ["findLastIndex", ["active"]],
-      1
+      1,
     ],
     [null, ["sort", []], []],
     [
       [{ user: "c" }, { user: "b" }],
       ["sort", ["user"]],
-      [{ user: "b" }, { user: "c" }]
+      [{ user: "b" }, { user: "c" }],
     ],
     [null, ["reverse", []], []],
     [
       [3, 2, 1],
       ["reverse", []],
-      [1, 2, 3]
+      [1, 2, 3],
     ],
-    ["", ["nullish", ["-"]], "-"],
+    [null, ["nullish", ["-"]], "-"],
+    ["", ["nullish", ["-"]], ""],
     ["test", ["nullish", ["-"]], "test"],
     // now is 2019-05-10 17:51:00
     ["2019-05-10 17:21:00", ["deltaTime", []], "30 minutes ago"],
@@ -326,10 +327,10 @@ describe("processPipes", () => {
     [
       { startTime: "2019-05-10", endTime: "2019-06-10" },
       ["deltaTime", [false]],
-      "a month"
+      "a month",
     ],
     [{ startTime: "2019-05-10 17:48" }, ["deltaTime", [false]], "3 minutes"],
-    [{ endTime: 1557482040000 }, ["deltaTime", [false]], "3 minutes"]
+    [{ endTime: 1557482040000 }, ["deltaTime", [false]], "3 minutes"],
   ];
   it.each(paramCases)(
     "process %j with %j should return %j",
@@ -339,8 +340,8 @@ describe("processPipes", () => {
           {
             type: "PipeCall",
             identifier,
-            parameters
-          }
+            parameters,
+          },
         ])
       ).toEqual(result);
     }

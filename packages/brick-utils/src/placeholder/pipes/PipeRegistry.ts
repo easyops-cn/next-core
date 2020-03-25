@@ -15,7 +15,7 @@ import {
   indexOf,
   isNil,
   isEqual,
-  uniq
+  uniq,
 } from "lodash";
 import yaml from "js-yaml";
 import moment, { DurationInputArg2 } from "moment";
@@ -63,7 +63,7 @@ PipeRegistry.set("deltaTime", pipeDeltaTime);
 PipeRegistry.set("nullish", pipeNullish);
 
 function pipeNullish(value: any, defaultValue: any): any {
-  return value || defaultValue;
+  return value ?? defaultValue;
 }
 
 interface Period {
@@ -114,7 +114,7 @@ function pipeMapToArray(
   if (typeof value !== "object" || !value) return [];
   const fields = [keyField, valueField];
   const pairs = toPairs(value);
-  return pairs.map(pair => zipObject(fields, pair));
+  return pairs.map((pair) => zipObject(fields, pair));
 }
 
 function pipeFind<T>(value: T[], item: any): T | undefined {
@@ -160,7 +160,7 @@ function pipeTernary(value: boolean, ...res: any[]): any {
 
 function pipeMap(value: any[], key: string): any[] {
   if (!Array.isArray(value)) return [];
-  return value.map(item => {
+  return value.map((item) => {
     return get(item, key);
   });
 }
@@ -214,7 +214,7 @@ function pipeGroupByToIndex(
   if (!isNil(groupField) && !isNil(targetField)) {
     const groupByValue = groupBy(value, groupField);
     const allKeys = keys(groupByValue).sort();
-    result = result.map(v => {
+    result = result.map((v) => {
       const item = { ...v };
       set(item, targetField, indexOf(allKeys, get(v, groupField)));
       return item;
@@ -302,7 +302,7 @@ function pipeYamlStringify(value: any, indent = 2): string {
       schema: yaml.JSON_SCHEMA,
       skipInvalid: true,
       noRefs: true,
-      noCompatMode: true
+      noCompatMode: true,
     });
   } catch (e) {
     // eslint-disable-next-line no-console

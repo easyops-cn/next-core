@@ -12,13 +12,13 @@ describe("cook", () => {
       number5: 5,
       objectA: {
         onlyInA: 1,
-        bothInAB: 2
+        bothInAB: 2,
       },
       objectB: {
         onlyInB: 3,
-        bothInAB: 4
-      }
-    }
+        bothInAB: 4,
+      },
+    },
   });
 
   it.each<[string, any]>([
@@ -46,6 +46,7 @@ describe("cook", () => {
     ["parseInt('5.3good')", 5],
     ["Math.max(1, 2)", 2],
     ["PIPES.string(null)", ""],
+    ["location.href", "http://localhost/"],
     ["DATA.for", "good"],
     ["DATA['for']", "good"],
     ["DATA.other", undefined],
@@ -54,25 +55,25 @@ describe("cook", () => {
       "{ quality: DATA.for, [DATA.true]: 'story' }",
       {
         quality: "good",
-        true: "story"
-      }
+        true: "story",
+      },
     ],
     ["[]", []],
     ["[1, DATA.number5]", [1, 5]],
     [
       // `ArrowFunctionExpression` mixed `CallExpression`
       "(a => a.b)({b: 'c'})",
-      "c"
+      "c",
     ],
     [
       // `MemberExpression`
       "DATA.number5.toFixed(1)",
-      "5.0"
+      "5.0",
     ],
     [
       // `OptionalMemberExpression`
       "DATA.number5?.toFixed(1)",
-      "5.0"
+      "5.0",
     ],
     ["DATA.null || 'oops'", "oops"],
     ["DATA.for || 'oops'", "good"],
@@ -126,11 +127,11 @@ describe("cook", () => {
     [
       // `SequenceExpression`
       "DATA.for, DATA.number5",
-      5
+      5,
     ],
     [
       "`${null},${undefined},${true},${false},${{}},${[]},${[1,2]}${5},${NaN}`",
-      `${null},${undefined},${true},${false},${{}},${[]},${[1, 2]}${5},${NaN}`
+      `${null},${undefined},${true},${false},${{}},${[]},${[1, 2]}${5},${NaN}`,
     ],
     ["_.get(DATA, 'for')", "good"],
     ["[1,2,3].slice(1)", [2, 3]],
@@ -142,8 +143,8 @@ describe("cook", () => {
       {
         onlyInA: 1,
         bothInAB: 4,
-        onlyInB: 3
-      }
+        onlyInB: 3,
+      },
     ],
     ["{...null, ...undefined}", {}],
     ["[1, undefined].map((i = 5) => i)", [1, 5]],
@@ -151,28 +152,28 @@ describe("cook", () => {
     [
       // `j` is not defined, but not evaluated either.
       "[1, 2].map((i = j + 1) => i)",
-      [1, 2]
+      [1, 2],
     ],
     [
       // `j` is not initialized, but not evaluated either.
       "[1, 2].map((i = j + 1, j) => i)",
-      [1, 2]
+      [1, 2],
     ],
     ["[1, 2].map(i => ((i, j = i + 1) => i + j)(i))", [3, 5]],
     [
       "[1, 2].map((...args) => args)",
       [
         [1, 0, [1, 2]],
-        [2, 1, [1, 2]]
-      ]
+        [2, 1, [1, 2]],
+      ],
     ],
     [
       "[1, 2].map((i, ...args) => args)",
       [
         [0, [1, 2]],
-        [1, [1, 2]]
-      ]
-    ]
+        [1, [1, 2]],
+      ],
+    ],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
@@ -203,8 +204,8 @@ describe("cook", () => {
     "[undefined].map((i = j + 1, j) => i)",
     // Parameters affect the scopes.
     "[undefined].map((i = DATA.number5, DATA) => i)",
-    "async () => null"
-  ])("cook(precook(%j), {...}) should throw", input => {
+    "async () => null",
+  ])("cook(precook(%j), {...}) should throw", (input) => {
     expect(() =>
       cook(precook(input), getGlobalVariables())
     ).toThrowErrorMatchingSnapshot();
