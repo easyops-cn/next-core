@@ -221,7 +221,7 @@ export const upload = (
   for (const [key, value] of Object.entries(data)) {
     if (Array.isArray(value)) {
       const k = \`\${key}[]\`;
-      value.forEach(v => {
+      value.forEach((v) => {
         _formData.append(k, v);
       });
     } else {
