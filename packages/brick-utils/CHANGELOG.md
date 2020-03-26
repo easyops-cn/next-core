@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.40.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.39.0...@easyops/brick-utils@1.40.0) (2020-03-26)
+
+### Bug Fixes
+
+- **pipes:** nullish ([751258e](https://git.easyops.local/anyclouds/next-core/commits/751258e))
+
+### Features
+
+- **pipe:** graphTree ([f6b200b](https://git.easyops.local/anyclouds/next-core/commits/f6b200b))
+- support moment for cooking ([515b824](https://git.easyops.local/anyclouds/next-core/commits/515b824))
+- **evaluate:** supply `LOCATION.href`, refs MONITOR-432 ([3702181](https://git.easyops.local/anyclouds/next-core/commits/3702181))
+
 # [1.39.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.38.0...@easyops/brick-utils@1.39.0) (2020-03-24)
 
 ### Features

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.34.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.34.0...@easyops/brick-kit@1.34.1) (2020-03-26)
+
+### Bug Fixes
+
+- remember injected and do not inject again ([b977107](https://git.easyops.local/anyclouds/next-core/commits/b977107))
+
 # [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.33.0...@easyops/brick-kit@1.34.0) (2020-03-24)
 
 ### Features
