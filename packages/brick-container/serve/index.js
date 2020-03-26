@@ -59,7 +59,7 @@ if (proxies) {
       createProxyMiddleware(
         Object.assign(
           {
-            logLevel: "warn"
+            logLevel: "warn",
           },
           options
         )
@@ -71,7 +71,7 @@ if (proxies) {
 // All requests fallback to index.html.
 app.use(serveIndexHtml);
 
-app.listen(port);
+app.listen(port, "localhost");
 
 console.log(
   chalk.bold.green("Started serving at:"),
@@ -87,16 +87,16 @@ const watcher = chokidar.watch(
   [
     path.join(env.brickPackagesDir, "*/dist/*.js"),
     path.join(env.microAppsDir, "*/storyboard.json"),
-    path.join(env.templatePackagesDir, "*/dist/*.js")
+    path.join(env.templatePackagesDir, "*/dist/*.js"),
   ],
   {
-    followSymlinks: true
+    followSymlinks: true,
   }
 );
 
 const throttledOnChange = throttle(
   () => {
-    wss.clients.forEach(client => {
+    wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send("content change");
       }
