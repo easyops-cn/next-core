@@ -15,3 +15,4 @@ export * from "./UpdatingElement";
 export * from "./elements";
 export * from "./core/interfaces";
 export * from "./EasyopsEmpty";
+export * from "./transformProperties";
