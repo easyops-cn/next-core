@@ -43,7 +43,7 @@
     "@types/meow": "^5.0.0",
     "@types/node": "^10.12.18",
     "@types/prettier": "^1.19.1",
-    "@types/react": "^16.9.26",
+    "@types/react": "^16.9.27",
     "@types/react-dom": "^16.9.5",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "babel-jest": "^25.2.3",
@@ -69,7 +69,7 @@
     "dll/*"
   ],
   "resolutions": {
-    "@types/react": "^16.9.26",
+    "@types/react": "^16.9.27",
     "lodash": "^4.17.15"
   }
 }
