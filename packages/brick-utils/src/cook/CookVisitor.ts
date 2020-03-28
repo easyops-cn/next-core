@@ -245,6 +245,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     const calleeState: CookVisitorState<Function> = spawnCookState(state);
     callback(node.callee, calleeState);
 
+    // Sanitize the callee.
+    sanitize(calleeState.cooked);
+
     const cookedArgs = [];
     for (const arg of node.arguments) {
       const argState = spawnCookState(state);
@@ -272,6 +275,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
         : null;
 
     state.cooked = calleeState.cooked.apply(thisArg, cookedArgs);
+
+    // Sanitize the call result.
+    sanitize(state.cooked);
   },
   ConditionalExpression(node: ConditionalExpression, state, callback) {
     const testState = spawnCookState(state);
@@ -370,6 +376,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     const objectState: CookVisitorState<ObjectCooked> = spawnCookState(state);
     callback(node.object, objectState);
 
+    // Sanitize the member object.
+    sanitize(objectState.cooked);
+
     const propertyState: CookVisitorState<PropertyCooked> = spawnCookState(
       state,
       {
@@ -384,6 +393,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     };
 
     state.cooked = objectState.cooked[propertyState.cooked];
+
+    // Sanitize the accessed member.
+    sanitize(state.cooked);
   },
   ObjectExpression(
     node: ObjectExpression,
@@ -464,8 +476,11 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
       optionalRef: {},
     });
     callback(node.callee, calleeState);
-
     const calleeCooked = calleeState.cooked;
+
+    // Sanitize the callee.
+    sanitize(calleeCooked);
+
     if (
       (node.optional || calleeState.optionalRef.ignored) &&
       (calleeCooked === null || calleeCooked === undefined)
@@ -504,14 +519,20 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
         : null;
 
     state.cooked = calleeCooked.apply(thisArg, cookedArgs);
+
+    // Sanitize the call result.
+    sanitize(state.cooked);
   },
   OptionalMemberExpression(node: OptionalMemberExpression, state, callback) {
     const objectState: CookVisitorState<ObjectCooked> = spawnCookState(state, {
       optionalRef: {},
     });
     callback(node.object, objectState);
-
     const objectCooked = objectState.cooked;
+
+    // Sanitize the member object.
+    sanitize(objectCooked);
+
     const objectCookedIsNil =
       objectCooked === null || objectCooked === undefined;
     if (
@@ -546,6 +567,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     }
 
     state.cooked = objectCooked[propertyCooked];
+
+    // Sanitize the accessed member.
+    sanitize(state.cooked);
   },
   Property(
     node: ObjectProperty,
@@ -643,6 +667,30 @@ function isIterable(cooked: any): boolean {
     return false;
   }
   return typeof cooked[Symbol.iterator] === "function";
+}
+
+/**
+ * There are chances to construct a `Function` from a string, etc.
+ * ```
+ * ((a,b)=>a[b])(()=>1, 'constructor')('console.log(`yo`)')()
+ * ```
+ */
+const reservedObjects = new WeakSet([
+  // `Function("...")` is considered *extremely vulnerable*.
+  Function,
+  // `Object.assign()` is considered vulnerable.
+  Object,
+  // `prototype` is considered vulnerable.
+  Function.prototype,
+  Object.prototype,
+  // Global `window` is considered vulnerable, too.
+  window,
+]);
+
+function sanitize(cooked: any): void {
+  if (reservedObjects.has(cooked)) {
+    throw new TypeError("Cannot access reserved objects such as `Function`.");
+  }
 }
 
 export default CookVisitor;

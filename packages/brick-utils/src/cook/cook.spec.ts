@@ -259,6 +259,13 @@ describe("cook", () => {
     "[1, 2].map(([, a]) => a)",
     "/bc\\u{/u.test('dcba')",
     "/bc\\u{13}/u.test('dcba')",
+    "({}).constructor.assign",
+    "((a,b)=>a[b])(()=>1, 'constructor')",
+    "((a,b)=>a[b])(()=>1, 'constructor')('console.log(`yo`)')()",
+    "((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(`yo`)')()",
+    "_.get(()=>1, 'constructor.prototype')",
+    // Todo(steve)
+    // "_.wrap(_.method('constructor.assign',{a:1},{b:2}),(func,...a) => func(...a))({})"
   ])("cook(precook(%j), {...}) should throw", (input) => {
     expect(() =>
       cook(precook(input), getGlobalVariables())
