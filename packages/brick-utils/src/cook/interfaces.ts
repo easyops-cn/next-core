@@ -8,6 +8,7 @@ export interface PrecookVisitorState {
   attemptToVisitGlobals: Set<string>;
   identifierAsLiteralString?: boolean;
   cookedIdentifierName?: string;
+  collectParamNamesOnly?: string[];
 }
 
 export interface PrecookResult {
@@ -29,6 +30,9 @@ export interface CookVisitorState<T = any> {
   closures: CookScope[];
   identifierAsLiteralString?: boolean;
   spreadAsProperties?: boolean;
+  collectParamNamesOnly?: string[];
+  cookParamOnly?: boolean;
+  argReceived?: any;
   optionalRef?: {
     ignored?: boolean;
   };

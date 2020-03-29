@@ -37,6 +37,8 @@ describe("cook", () => {
     ["undefined", undefined],
     ["true", true],
     ["NaN", NaN],
+    ["/bc/.test('abcd')", true],
+    ["/bc/.test('dcba')", false],
     ["isNaN(NaN)", true],
     ["isNaN({})", true],
     ["isNaN(1)", false],
@@ -162,7 +164,7 @@ describe("cook", () => {
       },
     ],
     ["{...null, ...undefined}", {}],
-    ["[1, undefined].map((i = 5) => i)", [1, 5]],
+    ["[1, undefined, null].map((i = 5) => i)", [1, 5, null]],
     ["[1, undefined].map((i = DATA.number5) => i)", [1, 5]],
     [
       // `j` is not defined, but not evaluated either.
@@ -189,6 +191,28 @@ describe("cook", () => {
         [1, [1, 2]],
       ],
     ],
+    // `ArrayPattern`
+    ["[[1, 2]].map(([a, b]) => a + b)", [3]],
+    // `ArrayPattern` with `RestElement`
+    ["[[1, 2, 3]].map(([a, ...b]) => a + b.length)", [3]],
+    // Nested `ArrayPattern`
+    ["[[1, [2, 3]]].map(([a, [b, c]]) => a + b + c)", [6]],
+    // `ArrayPattern` with `AssignmentPattern`
+    ["[[1]].map(([a, [b, c] = [2, 3]]) => a + b + c)", [6]],
+    // `ArrayPattern` with Nested `AssignmentPattern`
+    ["[[1]].map(([a, [b, c = 3] = [2]]) => a + b + c)", [6]],
+    // `ArrayPattern` with parameter scope
+    ["[[1]].map(([a, [b, c = b] = [2]]) => a + b + c)", [5]],
+    // `ObjectPattern`
+    ["[{a: 1, b: 2}].map(({a, b}) => a + b)", [3]],
+    // `ObjectPattern` with `RestElement`
+    ["[{a: 1, b: 2, c: 3}].map(({a, ...b}) => a + b.b + b.c)", [6]],
+    // Nested `ObjectPattern`
+    ["[{a: 1, b: { d: 2 }}].map(({a, b: { d: c }}) => a + c)", [3]],
+    // `ObjectPattern` with `AssignmentPattern` and `RestElement` meet nil
+    ["[undefined].map(({a, ...b}={}) => a + b)", ["undefined[object Object]"]],
+    // `ObjectPattern` with a computed key
+    ["[{'a.b': 1}].map(({'a.b': c}) => c)", [1]],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
@@ -222,6 +246,11 @@ describe("cook", () => {
     "async () => null",
     "location.assign('/')",
     "moment.updateLocale('en', {})",
+    // `ArrayPattern` meets non-iterable.
+    "[[1]].map(([a, [b]]) => a + b)",
+    "[1, 2].map(([, a]) => a)",
+    "/bc\\u{/u.test('dcba')",
+    "/bc\\u{13}/u.test('dcba')",
   ])("cook(precook(%j), {...}) should throw", (input) => {
     expect(() =>
       cook(precook(input), getGlobalVariables())

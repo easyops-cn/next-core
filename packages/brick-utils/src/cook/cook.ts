@@ -11,11 +11,11 @@ export function cook(
   const state: CookVisitorState = {
     source: precooked.source,
     currentScope: new Map(),
-    closures: [supply(precooked.attemptToVisitGlobals, globalVariables)]
+    closures: [supply(precooked.attemptToVisitGlobals, globalVariables)],
   };
   walkFactory(CookVisitor, (node: Node) => {
     throw new SyntaxError(
-      `Unexpected node type \`${node.type}\`: \`${precooked.source.substring(
+      `Unsupported node type \`${node.type}\`: \`${precooked.source.substring(
         node.start,
         node.end
       )}\``
