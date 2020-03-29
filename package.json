@@ -58,7 +58,7 @@
     "jest": "^25.2.3",
     "jest-environment-jsdom-fifteen": "^1.0.2",
     "lerna": "^3.20.1",
-    "lint-staged": "^10.0.9",
+    "lint-staged": "^10.0.10",
     "null-loader": "^3.0.0",
     "prettier": "^2.0.2",
     "rimraf": "^3.0.2",
