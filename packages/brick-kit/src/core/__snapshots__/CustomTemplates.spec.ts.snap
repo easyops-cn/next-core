@@ -43,6 +43,9 @@ Object {
                 Object {
                   "$$computedPropsFromProxy": Object {
                     "buttonType": "default",
+                    "style": Object {
+                      "display": "block",
+                    },
                   },
                   "$$refForProxy": Object {},
                   "brick": "basic-bricks.general-button",
@@ -113,6 +116,9 @@ Object {
         "ref": "button",
         "refTransform": Object {
           "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
+          "style": Object {
+            "display": "<% DATA.isDanger ? 'inline' : 'block' %>",
+          },
         },
       },
       "noGap": Object {

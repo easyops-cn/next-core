@@ -13,6 +13,7 @@ import {
 import { hasOwnProperty } from "@easyops/brick-utils";
 import { RuntimeBrick } from "./BrickNode";
 import { transformProperties } from "../transformProperties";
+import { setRealProperties } from "../setProperties";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 const appRegistered = new Set<string>();
@@ -248,7 +249,8 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
               },
               set: function (value: any) {
                 node[delegatedPropSymbol] = value;
-                const props = Object.entries(
+                setRealProperties(
+                  refElement,
                   transformProperties(
                     {},
                     {
@@ -257,9 +259,6 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
                     propRef.refTransform
                   )
                 );
-                for (const [propName, propValue] of props) {
-                  refElement[propName] = propValue;
-                }
               },
             });
           } else {
