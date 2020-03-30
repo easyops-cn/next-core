@@ -1,7 +1,7 @@
 import {
   expandCustomTemplate,
   registerCustomTemplate,
-  isCustomTemplate,
+  getTagNameOfCustomTemplate,
   handleProxyOfCustomTemplate,
 } from "./CustomTemplates";
 import { RuntimeBrick } from "./BrickNode";
@@ -94,9 +94,16 @@ describe("expandCustomTemplate", () => {
     });
   });
 
-  it("should work for isCustomTemplate", () => {
-    expect(isCustomTemplate("steve-test.custom-template")).toBe(true);
-    expect(isCustomTemplate("steve-test.another-template")).toBe(false);
+  it("should work for getTagNameOfCustomTemplate", () => {
+    expect(getTagNameOfCustomTemplate("steve-test.custom-template")).toBe(
+      "steve-test.custom-template"
+    );
+    expect(getTagNameOfCustomTemplate("custom-template", "steve-test")).toBe(
+      "steve-test.custom-template"
+    );
+    expect(getTagNameOfCustomTemplate("steve-test.another-template")).toBe(
+      false
+    );
   });
 
   it("should expandCustomTemplate", () => {
