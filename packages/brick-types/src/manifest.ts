@@ -182,7 +182,7 @@ export interface TransformItem {
   mapArray?: boolean | "auto";
 }
 
-export type MenuConf = false | StaticMenuConf | BrickMenuConf;
+export type MenuConf = false | StaticMenuConf | BrickMenuConf | ResolveMenuConf;
 
 export interface StaticMenuConf extends StaticMenuProps {
   type?: "static";
@@ -212,6 +212,11 @@ export interface BrickMenuConf {
   properties?: Record<string, any>;
   events?: BrickEventsMap;
   lifeCycle?: BrickLifeCycle;
+}
+
+export interface ResolveMenuConf {
+  type: "resolve";
+  resolve: ResolveConf;
 }
 
 export interface SlotsConf {

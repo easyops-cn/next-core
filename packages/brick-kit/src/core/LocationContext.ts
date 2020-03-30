@@ -1,3 +1,4 @@
+import { omit } from "lodash";
 import {
   PluginLocation,
   MatchResult,
@@ -236,6 +237,10 @@ export class LocationContext {
     const context = this.getContext(match);
 
     if (menuConf.type === "brick") {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "menu type `brick` is deprecated, please use menu type `resolve` instead"
+      );
       // 如果某个路由的菜单无法配置为静态的 json，
       // 那么可以将菜单配置指定为一个构件，这个构件会被装载到背景容器中（不会在界面中显示），
       // 应该在这个构件的 `connectedCallback` 中执行相关菜单设置，
@@ -283,8 +288,14 @@ export class LocationContext {
       return;
     }
 
+    let injectDeep = (menuConf as any).injectDeep;
+    if (menuConf.type === "resolve") {
+      await this.resolver.resolveOne("reference", menuConf.resolve, menuConf);
+      injectDeep = false;
+    }
+
     // 静态菜单配置，仅在有值时才设置，这样可以让菜单设置也具有按路由层级覆盖的能力。
-    const { injectDeep, ...otherMenuConf } = menuConf;
+    const otherMenuConf = omit(menuConf, ["injectDeep", "type"]);
     const injectedMenuConf =
       injectDeep !== false
         ? computeRealProperties(otherMenuConf, context, true)
