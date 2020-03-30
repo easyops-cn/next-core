@@ -10,3 +10,4 @@ export * from "./reconciler";
 export * from "./Resolver";
 export * from "./Router";
 export * from "./Runtime";
+export * from "./CustomTemplates";

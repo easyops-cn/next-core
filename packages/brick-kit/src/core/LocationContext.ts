@@ -15,21 +15,27 @@ import {
   ResolveConf,
   RouteConfOfRoutes,
   RouteConfOfBricks,
-  RuntimeBrickConf
+  RuntimeBrickConf,
 } from "@easyops/brick-types";
 import {
   isObject,
   matchPath,
-  computeRealRoutePath
+  computeRealRoutePath,
 } from "@easyops/brick-utils";
 import { listenerFactory } from "../bindListeners";
 import { computeRealProperties, computeRealValue } from "../setProperties";
-import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
 import { isLoggedIn, getAuth } from "../auth";
-import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
+import {
+  RuntimeBrick,
+  Kernel,
+  appendBrick,
+  Resolver,
+  expandCustomTemplate,
+  MountableElement,
+  getTagNameOfCustomTemplate,
+} from "./exports";
 import { RedirectConf, IfConf } from "./interfaces";
-import { expandCustomTemplate, isCustomTemplate } from "./CustomTemplates";
 
 export type MatchRoutesResult =
   | {
@@ -88,9 +94,9 @@ export class LocationContext {
       app: this.kernel.nextApp,
       sys: {
         username: getAuth().username,
-        userInstanceId: getAuth().userInstanceId
+        userInstanceId: getAuth().userInstanceId,
       },
-      flags: this.kernel.getFeatureFlags()
+      flags: this.kernel.getFeatureFlags(),
     };
   }
 
@@ -108,7 +114,7 @@ export class LocationContext {
       }
       const match = matchPath(this.location.pathname, {
         path: computedPath,
-        exact: route.exact
+        exact: route.exact,
       });
       if (match !== null) {
         if (route.public || isLoggedIn()) {
@@ -146,8 +152,8 @@ export class LocationContext {
         mountRoutesResult.flags.redirect = {
           path: "/auth/login",
           state: {
-            from: this.location
-          }
+            from: this.location,
+          },
         };
         break;
       default:
@@ -172,7 +178,7 @@ export class LocationContext {
           if (typeof redirect === "string") {
             // Directly redirect.
             mountRoutesResult.flags.redirect = {
-              path: redirect
+              path: redirect,
             };
             break;
           } else {
@@ -180,7 +186,7 @@ export class LocationContext {
             await this.resolver.resolveOne("reference", redirect, redirectConf);
             if (redirectConf.redirect) {
               mountRoutesResult.flags.redirect = {
-                path: redirectConf.redirect
+                path: redirectConf.redirect,
               };
               break;
             }
@@ -243,14 +249,14 @@ export class LocationContext {
         ),
         events: isObject(menuConf.events) ? menuConf.events : {},
         context,
-        children: []
+        children: [],
       };
 
       if (menuConf.lifeCycle?.onPageLoad) {
         this.pageLoadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onPageLoad
+          handler: menuConf.lifeCycle.onPageLoad,
         });
       }
 
@@ -258,7 +264,7 @@ export class LocationContext {
         this.anchorLoadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onAnchorLoad
+          handler: menuConf.lifeCycle.onAnchorLoad,
         });
       }
 
@@ -266,7 +272,7 @@ export class LocationContext {
         this.anchorUnloadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onAnchorUnload
+          handler: menuConf.lifeCycle.onAnchorUnload,
         });
       }
 
@@ -297,7 +303,7 @@ export class LocationContext {
       } else {
         mountRoutesResult.appBar.breadcrumb = [
           ...mountRoutesResult.appBar.breadcrumb,
-          ...breadcrumb.items
+          ...breadcrumb.items,
         ];
       }
     }
@@ -315,11 +321,11 @@ export class LocationContext {
           {
             ...(typeof providerConf === "string"
               ? {
-                  brick: providerConf
+                  brick: providerConf,
                 }
               : providerConf),
             bg: true,
-            injectDeep: true
+            injectDeep: true,
           },
           match,
           slotId,
@@ -388,8 +394,15 @@ export class LocationContext {
       return;
     }
 
+    // If it's a custom template, `tplTagName` is the tag name of the template.
+    // Otherwise, `tplTagName` is false.
+    const tplTagName = getTagNameOfCustomTemplate(
+      brickConf.brick,
+      this.kernel.nextApp?.id
+    );
+
     const brick: RuntimeBrick = {
-      type: brickConf.brick,
+      type: tplTagName || brickConf.brick,
       properties: Object.assign(
         computeRealProperties(
           brickConf.properties,
@@ -402,7 +415,7 @@ export class LocationContext {
       context,
       children: [],
       slotId,
-      refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy
+      refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
     };
 
     if (brick.refForProxy) {
@@ -413,7 +426,7 @@ export class LocationContext {
       this.pageLoadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onPageLoad
+        handler: brickConf.lifeCycle.onPageLoad,
       });
     }
 
@@ -421,7 +434,7 @@ export class LocationContext {
       this.anchorLoadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onAnchorLoad
+        handler: brickConf.lifeCycle.onAnchorLoad,
       });
     }
 
@@ -429,7 +442,7 @@ export class LocationContext {
       this.anchorUnloadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onAnchorUnload
+        handler: brickConf.lifeCycle.onAnchorUnload,
       });
     }
 
@@ -437,12 +450,13 @@ export class LocationContext {
     await this.resolver.resolve(brickConf, brick, context);
 
     let expandedBrickConf = brickConf;
-    if (isCustomTemplate(brickConf.brick)) {
+    if (tplTagName) {
       expandedBrickConf = expandCustomTemplate(
         {
           ...brickConf,
+          brick: tplTagName,
           // Properties are computed for custom templates.
-          properties: brick.properties
+          properties: brick.properties,
         },
         brick
       );
@@ -460,7 +474,7 @@ export class LocationContext {
         )) {
           const slottedMountRoutesResult = {
             ...mountRoutesResult,
-            main: brick.children
+            main: brick.children,
           };
           if (slotConf.type === "bricks") {
             await this.mountBricks(
@@ -496,8 +510,8 @@ export class LocationContext {
         new CustomEvent("anchor.load", {
           detail: {
             hash,
-            anchor: hash.substr(1)
-          }
+            anchor: hash.substr(1),
+          },
         }),
         this.anchorLoadHandlers
       );

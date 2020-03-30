@@ -2,12 +2,12 @@ import {
   PluginRuntimeContext,
   BrickLifeCycle,
   RefForProxy,
-  CustomTemplateProxy
+  CustomTemplateProxy,
 } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
 import { getHistory } from "../history";
-import { handleProxyOfCustomTemplate } from "./CustomTemplates";
+import { handleProxyOfCustomTemplate } from "./exports";
 
 export interface RuntimeBrick {
   type?: string;
@@ -38,20 +38,21 @@ export class BrickNode {
 
   mount(): HTMLElement {
     const brick = this.currentElement;
+    const tagName = brick.type;
 
-    if (brick.type.includes("-") && !customElements.get(brick.type)) {
+    if (tagName.includes("-") && !customElements.get(tagName)) {
       // eslint-disable-next-line no-console
-      console.error(`Undefined custom element: ${brick.type}`);
+      console.error(`Undefined custom element: ${tagName}`);
     }
 
-    if (brick.type === "basic-bricks.script-brick") {
+    if (tagName === "basic-bricks.script-brick") {
       // eslint-disable-next-line no-console
       console.warn(
         "`basic-bricks.script-brick` is deprecated, please take caution when using it"
       );
     }
 
-    const node = document.createElement(brick.type);
+    const node = document.createElement(tagName);
     brick.element = node;
 
     if (brick.slotId) {
@@ -62,9 +63,9 @@ export class BrickNode {
     bindListeners(node, brick.events, getHistory(), brick.context);
 
     if (Array.isArray(brick.children)) {
-      this.children = brick.children.map(slot => new BrickNode(slot));
-      const childNodes = this.children.map(slot => slot.mount());
-      childNodes.forEach(slot => node.appendChild(slot));
+      this.children = brick.children.map((slot) => new BrickNode(slot));
+      const childNodes = this.children.map((slot) => slot.mount());
+      childNodes.forEach((slot) => node.appendChild(slot));
     } else {
       this.children = [];
     }
@@ -75,7 +76,7 @@ export class BrickNode {
   }
 
   unmount(): void {
-    this.children.forEach(slot => {
+    this.children.forEach((slot) => {
       slot.unmount();
     });
   }

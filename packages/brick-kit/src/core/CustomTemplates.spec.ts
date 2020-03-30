@@ -1,7 +1,7 @@
 import {
   expandCustomTemplate,
   registerCustomTemplate,
-  isCustomTemplate,
+  getTagNameOfCustomTemplate,
   handleProxyOfCustomTemplate,
 } from "./CustomTemplates";
 import { RuntimeBrick } from "./BrickNode";
@@ -32,6 +32,9 @@ describe("expandCustomTemplate", () => {
             ref: "button",
             refTransform: {
               buttonType: "<% DATA.isDanger ? 'danger' : 'default' %>",
+              style: {
+                display: "<% DATA.isDanger ? 'inline' : 'block' %>",
+              },
             },
           },
         },
@@ -91,9 +94,16 @@ describe("expandCustomTemplate", () => {
     });
   });
 
-  it("should work for isCustomTemplate", () => {
-    expect(isCustomTemplate("steve-test.custom-template")).toBe(true);
-    expect(isCustomTemplate("steve-test.another-template")).toBe(false);
+  it("should work for getTagNameOfCustomTemplate", () => {
+    expect(getTagNameOfCustomTemplate("steve-test.custom-template")).toBe(
+      "steve-test.custom-template"
+    );
+    expect(getTagNameOfCustomTemplate("custom-template", "steve-test")).toBe(
+      "steve-test.custom-template"
+    );
+    expect(getTagNameOfCustomTemplate("steve-test.another-template")).toBe(
+      false
+    );
   });
 
   it("should expandCustomTemplate", () => {
@@ -202,6 +212,7 @@ describe("handleProxyOfCustomTemplate", () => {
 
     button.buttonName = "original button name";
     button.buttonType = "default";
+    button.style.display = "block";
     button.tellStory = jest.fn();
     microView.noGap = false;
     templateElement.dispatchEvent = jest.fn();
@@ -222,6 +233,9 @@ describe("handleProxyOfCustomTemplate", () => {
             ref: "button",
             refTransform: {
               buttonType: "<% DATA.isDanger ? 'danger' : 'default' %>",
+              style: {
+                display: "<% DATA.isDanger ? 'inline' : 'block' %>",
+              },
             },
           },
         },
@@ -276,6 +290,7 @@ describe("handleProxyOfCustomTemplate", () => {
     templateElement.isDanger = true;
     expect(templateElement.isDanger).toEqual(true);
     expect(button.buttonType).toEqual("danger");
+    expect(button.style.display).toEqual("inline");
 
     // Invoke a method.
     templateElement.tell("good", "story");

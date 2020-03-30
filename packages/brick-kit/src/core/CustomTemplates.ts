@@ -11,8 +11,9 @@ import {
   CustomTemplateProxySlot,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
-import { RuntimeBrick } from "./BrickNode";
 import { transformProperties } from "../transformProperties";
+import { setRealProperties } from "../setProperties";
+import { RuntimeBrick } from "./exports";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 const appRegistered = new Set<string>();
@@ -22,42 +23,34 @@ export function registerCustomTemplate(
   tplConstructor: CustomTemplateConstructor,
   appId?: string
 ): void {
-  if (customTemplateRegistry.has(tplName)) {
+  let tagName = tplName;
+  // When a template is registered by an app, it's namespace maybe missed.
+  if (appId && !tplName.includes(".")) {
+    tagName = `${appId}.${tplName}`;
+  }
+  if (customTemplateRegistry.has(tagName)) {
     // When open launchpad, the storyboard will be updated.
     // However, we can't *undefine* a custom element.
     // Just ignore re-registering custom templates.
     if (!appId || appRegistered.has(appId)) {
       // eslint-disable-next-line no-console
-      console.error(`Custom template of "${tplName}" already registered.`);
+      console.error(`Custom template of "${tagName}" already registered.`);
     }
     return;
   }
-  if (customElements.get(tplName)) {
+  if (customElements.get(tagName)) {
     // eslint-disable-next-line no-console
     console.error(
-      `Custom template of "${tplName}" already defined by customElements.`
+      `Custom template of "${tagName}" already defined by customElements.`
     );
     return;
   }
-  if (appId) {
-    const splitTplName = tplName.split(".");
-    if (
-      splitTplName.length !== 2 ||
-      splitTplName[0] !== appId ||
-      !/^[a-z][a-z0-9]*(-[a-z0-9]+)+$/.test(splitTplName[1])
-    ) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Custom template in a storyboard should in a form of "your-app-id.your-tpl-name". Received: "${tplName}" in app "${appId}".`
-      );
-    }
-  }
-  customTemplateRegistry.set(tplName, {
+  customTemplateRegistry.set(tagName, {
     ...tplConstructor,
-    name: tplName,
+    name: tagName,
   });
   customElements.define(
-    tplName,
+    tagName,
     class TplElement extends HTMLElement {
       get $$typeof(): string {
         return "custom-template";
@@ -76,8 +69,23 @@ export function registerCustomTemplate(
   }
 }
 
-export function isCustomTemplate(brick: string): boolean {
-  return customTemplateRegistry.has(brick);
+// If it's a custom template, return the tag name of the template.
+// Otherwise, return false.
+export function getTagNameOfCustomTemplate(
+  brick: string,
+  appId?: string
+): false | string {
+  // When a template is registered by an app, it's namespace maybe missed.
+  if (!brick.includes(".") && appId) {
+    const tagName = `${appId}.${brick}`;
+    if (customTemplateRegistry.has(tagName)) {
+      return tagName;
+    }
+  }
+  if (customTemplateRegistry.has(brick)) {
+    return brick;
+  }
+  return false;
 }
 
 export function expandCustomTemplate(
@@ -248,7 +256,8 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
               },
               set: function (value: any) {
                 node[delegatedPropSymbol] = value;
-                const props = Object.entries(
+                setRealProperties(
+                  refElement,
                   transformProperties(
                     {},
                     {
@@ -257,9 +266,6 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
                     propRef.refTransform
                   )
                 );
-                for (const [propName, propValue] of props) {
-                  refElement[propName] = propValue;
-                }
               },
             });
           } else {

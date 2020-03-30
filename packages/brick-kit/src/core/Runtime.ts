@@ -10,12 +10,17 @@ import {
   Storyboard,
   MagicBrickConfig,
   CustomTemplateConstructor,
-  PluginRuntimeContext
+  PluginRuntimeContext,
 } from "@easyops/brick-types";
-import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
+import {
+  Kernel,
+  MenuBar,
+  AppBar,
+  Resolver,
+  registerCustomTemplate,
+} from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import { RelatedApp, RouterState, RecentApps } from "./interfaces";
-import { registerCustomTemplate } from "./CustomTemplates";
 
 let kernel: Kernel;
 
@@ -58,16 +63,16 @@ export class Runtime {
 
   getMicroApps({
     excludeInstalling = false,
-    includeInternal = false
+    includeInternal = false,
   } = {}): MicroApp[] {
     let apps = kernel.bootstrapData.microApps;
     if (excludeInstalling) {
       apps = apps.filter(
-        app => !(app.installStatus && app.installStatus === "running")
+        (app) => !(app.installStatus && app.installStatus === "running")
       );
     }
     if (!includeInternal) {
-      apps = apps.filter(app => !app.internal);
+      apps = apps.filter((app) => !app.internal);
     }
     return apps;
   }
@@ -75,7 +80,7 @@ export class Runtime {
   reloadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
     return kernel.loadMicroApps(
       {
-        check_login: true
+        check_login: true,
       },
       interceptorParams
     );
@@ -152,7 +157,7 @@ export class Runtime {
     return Object.assign(
       {
         columns: 7,
-        rows: 4
+        rows: 4,
       },
       kernel.bootstrapData.settings?.launchpad
     );
