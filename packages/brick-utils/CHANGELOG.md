@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.41.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.40.0...@easyops/brick-utils@1.41.0) (2020-03-30)
+
+### Features
+
+- support ObjectPattern and ArrayPattern ([6a635a9](https://git.easyops.local/anyclouds/next-core/commits/6a635a9))
+
 # [1.40.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.39.0...@easyops/brick-utils@1.40.0) (2020-03-26)
 
 ### Bug Fixes

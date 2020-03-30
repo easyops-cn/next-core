@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.34.1...@easyops/brick-kit@1.35.0) (2020-03-30)
+
+### Features
+
+- **custom-template:** support transform proxy properties ([015adca](https://git.easyops.local/anyclouds/next-core/commits/015adca))
+- export transform functions ([a8682ab](https://git.easyops.local/anyclouds/next-core/commits/a8682ab))
+
 ## [1.34.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.34.0...@easyops/brick-kit@1.34.1) (2020-03-26)
 
 ### Bug Fixes
