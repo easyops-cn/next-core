@@ -12585,10 +12585,10 @@ rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.5.0, rollup-pluginutils@^2.6.0,
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.npm.taobao.org/rollup/download/rollup-2.3.0.tgz?cache=0&sync_timestamp=1585512962611&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup%2Fdownload%2Frollup-2.3.0.tgz#0b9e1c19bea22464958854dae646b8b40d2d3ed5"
-  integrity sha1-C54cGb6iJGSViFTa5ka4tA0tPtU=
+rollup@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.npm.taobao.org/rollup/download/rollup-2.3.1.tgz#844c5cdf88d212ff7e59212088c37eacc521a2f9"
+  integrity sha1-hExc34jSEv9+WSEgiMN+rMUhovk=
   optionalDependencies:
     fsevents "~2.1.2"
 
