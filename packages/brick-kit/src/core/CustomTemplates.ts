@@ -7,10 +7,12 @@ import {
   SlotsConfOfBricks,
   RefForProxy,
   CustomTemplateProxyProperty,
-  CustomTemplateProxySlot
+  CustomTemplateProxyTransformableProperty,
+  CustomTemplateProxySlot,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
 import { RuntimeBrick } from "./BrickNode";
+import { transformProperties } from "../transformProperties";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 const appRegistered = new Set<string>();
@@ -52,7 +54,7 @@ export function registerCustomTemplate(
   }
   customTemplateRegistry.set(tplName, {
     ...tplConstructor,
-    name: tplName
+    name: tplName,
   });
   customElements.define(
     tplName,
@@ -96,7 +98,7 @@ export function expandCustomTemplate(
 
   const reversedProxies: ReversedProxies = {
     properties: new Map(),
-    slots: new Map()
+    slots: new Map(),
   };
   const reversedEntries: ReversedEntries[] = ["properties", "slots"];
   for (const entry of reversedEntries) {
@@ -111,7 +113,7 @@ export function expandCustomTemplate(
         }
         proxies.push({
           ...conf,
-          reversedRef
+          reversedRef,
         });
       }
     }
@@ -121,14 +123,14 @@ export function expandCustomTemplate(
     reversedProxies,
     templateProperties,
     templateSlots: templateSlots as SlotsConfOfBricks,
-    proxyRefs: proxyBrick.proxyRefs
+    proxyRefs: proxyBrick.proxyRefs,
   };
 
   newBrickConf.slots = {
     "": {
       type: "bricks",
-      bricks: bricks.map(item => expandBrickInTemplate(item, proxyContext))
-    }
+      bricks: bricks.map((item) => expandBrickInTemplate(item, proxyContext)),
+    },
   };
 
   return newBrickConf;
@@ -147,7 +149,7 @@ function expandBrickInTemplate(
     reversedProxies,
     templateProperties,
     templateSlots,
-    proxyRefs
+    proxyRefs,
   } = proxyContext;
   let $$computedPropsFromProxy: Record<string, any>;
   let $$refForProxy: RefForProxy;
@@ -157,10 +159,10 @@ function expandBrickInTemplate(
       slotName,
       {
         type: "bricks",
-        bricks: (slotConf.bricks ?? []).map(item =>
+        bricks: (slotConf.bricks ?? []).map((item) =>
           expandBrickInTemplate(item, proxyContext)
-        )
-      }
+        ),
+      },
     ])
   );
 
@@ -172,11 +174,22 @@ function expandBrickInTemplate(
       $$computedPropsFromProxy = Object.fromEntries(
         reversedProxies.properties
           .get(ref)
-          .map(item => [
-            item.refProperty,
-            templateProperties?.[item.reversedRef]
-          ])
-          .filter(item => item[1] !== undefined)
+          .flatMap((item) => {
+            const propValue = templateProperties?.[item.reversedRef];
+            if (isTransformableProperty(item)) {
+              return Object.entries(
+                transformProperties(
+                  {},
+                  {
+                    [item.reversedRef]: propValue,
+                  },
+                  item.refTransform
+                )
+              );
+            }
+            return [[item.refProperty, propValue]];
+          })
+          .filter((item) => item[1] !== undefined)
       );
     }
 
@@ -185,7 +198,7 @@ function expandBrickInTemplate(
         if (!hasOwnProperty(slots, item.refSlot)) {
           slots[item.refSlot] = {
             type: "bricks",
-            bricks: []
+            bricks: [],
           };
         }
         const slotConf = slots[item.refSlot];
@@ -205,7 +218,7 @@ function expandBrickInTemplate(
     ...restBrickConfInTemplate,
     slots,
     $$computedPropsFromProxy,
-    $$refForProxy
+    $$refForProxy,
   };
 }
 
@@ -214,7 +227,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
     return;
   }
 
-  const node = brick.element;
+  const node = brick.element as any;
   const { properties, events, methods } = brick.proxy;
 
   if (properties) {
@@ -225,14 +238,40 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         // should always have refElement.
         // istanbul ignore else
         if (refElement) {
-          Object.defineProperty(node, propName, {
-            get: function() {
-              return refElement[propRef.refProperty];
-            },
-            set: function(value: any) {
-              refElement[propRef.refProperty] = value;
-            }
-          });
+          if (isTransformableProperty(propRef)) {
+            // Create a non-enumerable symbol property to delegate the tpl root property.
+            const delegatedPropSymbol = Symbol("delegatedProp");
+            node[delegatedPropSymbol] = node[propName];
+            Object.defineProperty(node, propName, {
+              get: function () {
+                return node[delegatedPropSymbol];
+              },
+              set: function (value: any) {
+                node[delegatedPropSymbol] = value;
+                const props = Object.entries(
+                  transformProperties(
+                    {},
+                    {
+                      [propName]: value,
+                    },
+                    propRef.refTransform
+                  )
+                );
+                for (const [propName, propValue] of props) {
+                  refElement[propName] = propValue;
+                }
+              },
+            });
+          } else {
+            Object.defineProperty(node, propName, {
+              get: function () {
+                return refElement[propRef.refProperty];
+              },
+              set: function (value: any) {
+                refElement[propRef.refProperty] = value;
+              },
+            });
+          }
         }
       }
     }
@@ -245,13 +284,13 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         // should always have refElement.
         // istanbul ignore else
         if (refElement) {
-          refElement.addEventListener(eventRef.refEvent, e => {
+          refElement.addEventListener(eventRef.refEvent, (e) => {
             node.dispatchEvent(
               new CustomEvent(eventType, {
                 detail: (e as CustomEvent).detail,
                 bubbles: e.bubbles,
                 cancelable: e.cancelable,
-                composed: e.composed
+                composed: e.composed,
               })
             );
           });
@@ -269,9 +308,9 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         // istanbul ignore else
         if (refElement) {
           Object.defineProperty(node, method, {
-            value: function(...args: any[]) {
+            value: function (...args: any[]) {
               return refElement[methodRef.refMethod](...args);
-            }
+            },
           });
         }
       }
@@ -293,10 +332,16 @@ interface ReversedProxies {
 
 type ReversedEntries = keyof ReversedProxies;
 
-interface PropertyProxy extends CustomTemplateProxyProperty {
+type PropertyProxy = CustomTemplateProxyProperty & {
   reversedRef: string;
-}
+};
 
 interface SlotProxy extends CustomTemplateProxySlot {
   reversedRef: string;
+}
+
+function isTransformableProperty(
+  propRef: CustomTemplateProxyProperty
+): propRef is CustomTemplateProxyTransformableProperty {
+  return !!(propRef as CustomTemplateProxyTransformableProperty).refTransform;
 }

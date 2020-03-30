@@ -383,9 +383,18 @@ export interface CustomTemplateProxyProperties {
   [name: string]: CustomTemplateProxyProperty;
 }
 
-export interface CustomTemplateProxyProperty {
+export type CustomTemplateProxyProperty =
+  | CustomTemplateProxyBasicProperty
+  | CustomTemplateProxyTransformableProperty;
+
+export interface CustomTemplateProxyBasicProperty {
   ref: string;
   refProperty: string;
+}
+
+export interface CustomTemplateProxyTransformableProperty {
+  ref: string;
+  refTransform: GeneralTransform;
 }
 
 export interface CustomTemplateProxyEvents {

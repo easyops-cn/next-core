@@ -2,13 +2,16 @@ import {
   expandCustomTemplate,
   registerCustomTemplate,
   isCustomTemplate,
-  handleProxyOfCustomTemplate
+  handleProxyOfCustomTemplate,
 } from "./CustomTemplates";
 import { RuntimeBrick } from "./BrickNode";
+import * as runtime from "./Runtime";
+
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
 
 const mockCustomElements = {
   get: jest.fn().mockReturnValue(false),
-  define: jest.fn()
+  define: jest.fn(),
 };
 (window as any).customElements = mockCustomElements;
 
@@ -19,43 +22,49 @@ describe("expandCustomTemplate", () => {
         properties: {
           button: {
             ref: "button",
-            refProperty: "buttonName"
+            refProperty: "buttonName",
           },
           noGap: {
             ref: "micro-view",
-            refProperty: "noGap"
-          }
+            refProperty: "noGap",
+          },
+          isDanger: {
+            ref: "button",
+            refTransform: {
+              buttonType: "<% DATA.isDanger ? 'danger' : 'default' %>",
+            },
+          },
         },
         events: {
           "button.click": {
             ref: "button",
-            refEvent: "general.button.click"
-          }
+            refEvent: "general.button.click",
+          },
         },
         slots: {
           tools: {
             ref: "micro-view",
             refSlot: "toolbar",
-            refPosition: 0
+            refPosition: 0,
           },
           extraContent: {
             ref: "micro-view",
-            refSlot: "content"
-          }
+            refSlot: "content",
+          },
         },
         methods: {
           tell: {
             ref: "button",
-            refMethod: "tellStory"
-          }
-        }
+            refMethod: "tellStory",
+          },
+        },
       },
       bricks: [
         {
           brick: "basic-bricks.micro-view",
           ref: "micro-view",
           properties: {
-            pageTitle: "Testing Template"
+            pageTitle: "Testing Template",
           },
           slots: {
             content: {
@@ -65,20 +74,20 @@ describe("expandCustomTemplate", () => {
                   brick: "basic-bricks.general-button",
                   ref: "button",
                   properties: {
-                    buttonType: "dashed"
+                    buttonType: "dashed",
                   },
                   events: {
                     "general.button.click": {
                       action: "console.log",
-                      args: ["source", "${EVENT}"]
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
+                      args: ["source", "${EVENT}"],
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
     });
   });
 
@@ -93,7 +102,7 @@ describe("expandCustomTemplate", () => {
       {
         brick: "steve-test.custom-template",
         properties: {
-          noGap: "${QUERY.gap|bool|not}"
+          noGap: "${QUERY.gap|bool|not}",
         },
         lifeCycle: {
           useResolves: [
@@ -101,16 +110,16 @@ describe("expandCustomTemplate", () => {
               provider: "providers-of-cmdb\\.cmdb-object-api-get-detail",
               args: ["HOST"],
               transform: {
-                button: "@{name}"
-              }
-            }
-          ]
+                button: "@{name}",
+              },
+            },
+          ],
         },
         events: {
           "button.click": {
             action: "console.log",
-            args: ["proxied", "${EVENT}"]
-          }
+            args: ["proxied", "${EVENT}"],
+          },
         },
         slots: {
           tools: {
@@ -119,10 +128,10 @@ describe("expandCustomTemplate", () => {
               {
                 brick: "div",
                 properties: {
-                  textContent: "slotted tools!"
-                }
-              }
-            ]
+                  textContent: "slotted tools!",
+                },
+              },
+            ],
           },
           extraContent: {
             type: "bricks",
@@ -130,12 +139,12 @@ describe("expandCustomTemplate", () => {
               {
                 brick: "div",
                 properties: {
-                  textContent: "slotted extra content!"
-                }
-              }
-            ]
-          }
-        }
+                  textContent: "slotted extra content!",
+                },
+              },
+            ],
+          },
+        },
       },
       proxyBrick
     );
@@ -150,38 +159,38 @@ describe("handleProxyOfCustomTemplate", () => {
     expect(() => {
       handleProxyOfCustomTemplate({});
       handleProxyOfCustomTemplate({
-        proxy: {}
+        proxy: {},
       });
       handleProxyOfCustomTemplate({
         proxy: {},
-        proxyRefs: new Map()
+        proxyRefs: new Map(),
       });
       handleProxyOfCustomTemplate({
         proxy: {
           properties: {
             button: {
               ref: "button",
-              refProperty: "buttonName"
+              refProperty: "buttonName",
             },
             noGap: {
               ref: "micro-view",
-              refProperty: "noGap"
-            }
+              refProperty: "noGap",
+            },
           },
           events: {
             "button.click": {
               ref: "button",
-              refEvent: "general.button.click"
-            }
+              refEvent: "general.button.click",
+            },
           },
           methods: {
             tell: {
               ref: "button",
-              refMethod: "tellStory"
-            }
-          }
+              refMethod: "tellStory",
+            },
+          },
         },
-        proxyRefs: new Map()
+        proxyRefs: new Map(),
       });
     }).not.toThrow();
   });
@@ -192,6 +201,7 @@ describe("handleProxyOfCustomTemplate", () => {
     const microView = document.createElement("div") as any;
 
     button.buttonName = "original button name";
+    button.buttonType = "default";
     button.tellStory = jest.fn();
     microView.noGap = false;
     templateElement.dispatchEvent = jest.fn();
@@ -202,48 +212,54 @@ describe("handleProxyOfCustomTemplate", () => {
         properties: {
           button: {
             ref: "button",
-            refProperty: "buttonName"
+            refProperty: "buttonName",
           },
           noGap: {
             ref: "micro-view",
-            refProperty: "noGap"
-          }
+            refProperty: "noGap",
+          },
+          isDanger: {
+            ref: "button",
+            refTransform: {
+              buttonType: "<% DATA.isDanger ? 'danger' : 'default' %>",
+            },
+          },
         },
         events: {
           "button.click": {
             ref: "button",
-            refEvent: "general.button.click"
-          }
+            refEvent: "general.button.click",
+          },
         },
         methods: {
           tell: {
             ref: "button",
-            refMethod: "tellStory"
-          }
-        }
+            refMethod: "tellStory",
+          },
+        },
       },
       proxyRefs: new Map([
         [
           "button",
           {
             brick: {
-              element: button
-            }
-          }
+              element: button,
+            },
+          },
         ],
         [
           "micro-view",
           {
             brick: {
-              element: microView
-            }
-          }
-        ]
-      ])
+              element: microView,
+            },
+          },
+        ],
+      ]),
     };
     handleProxyOfCustomTemplate(brick);
 
-    // Changed prop name in proxy.
+    // Changed prop in proxy.
     expect(templateElement.button).toEqual("original button name");
     templateElement.button = "new button name";
     expect(templateElement.button).toEqual("new button name");
@@ -255,6 +271,12 @@ describe("handleProxyOfCustomTemplate", () => {
     expect(templateElement.noGap).toEqual(true);
     expect(microView.noGap).toEqual(true);
 
+    // Changed transformable prop in proxy.
+    expect(templateElement.isDanger).toEqual(undefined);
+    templateElement.isDanger = true;
+    expect(templateElement.isDanger).toEqual(true);
+    expect(button.buttonType).toEqual("danger");
+
     // Invoke a method.
     templateElement.tell("good", "story");
     expect(button.tellStory).toBeCalledWith("good", "story");
@@ -263,7 +285,7 @@ describe("handleProxyOfCustomTemplate", () => {
     button.dispatchEvent(
       new CustomEvent("general.button.click", {
         detail: "oops!",
-        cancelable: true
+        cancelable: true,
       })
     );
     const lastCallEvent = templateElement.dispatchEvent.mock.calls[0][0];

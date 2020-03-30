@@ -148,8 +148,8 @@ Array [
     "import { getRuntime } from \\"@easyops/brick-kit\\";
 
 getRuntime().registerCustomTemplate(\\"for-good.for-better\\", {
+  proxy: {},
   bricks: [],
-  proxy: {}
 });
 ",
   ],
