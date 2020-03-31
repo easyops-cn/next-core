@@ -2,7 +2,7 @@ import { get } from "lodash";
 import { GeneralTransform } from "@easyops/brick-types";
 import {
   transformProperties,
-  transformIntermediateData
+  transformIntermediateData,
 } from "./transformProperties";
 import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
@@ -15,9 +15,11 @@ export interface ProviderDependents {
   field?: string | string[];
   transform?: GeneralTransform;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
   ref?: string;
   intermediateTransform?: GeneralTransform;
   intermediateTransformFrom?: string | string[];
+  intermediateTransformMapArray?: boolean | "auto";
 }
 
 export interface IntervalSettings {
@@ -45,9 +47,9 @@ export function makeProviderRefreshable(
 ): void {
   if (!providerBrick.$refresh) {
     providerBrick.$$dependents = [];
-    providerBrick.$refresh = async function({
+    providerBrick.$refresh = async function ({
       ignoreErrors,
-      throwErrors
+      throwErrors,
     } = {}) {
       const cache = new Map();
       try {
@@ -60,13 +62,15 @@ export function makeProviderRefreshable(
               field,
               transform,
               transformFrom,
+              transformMapArray,
               ref,
               intermediateTransform,
-              intermediateTransformFrom
+              intermediateTransformFrom,
+              intermediateTransformMapArray,
             }) => {
               const cacheKey = JSON.stringify({
                 method,
-                args
+                args,
               });
               let promise: Promise<any>;
               if (cache.has(cacheKey)) {
@@ -96,7 +100,8 @@ export function makeProviderRefreshable(
                         true
                       )
                     : intermediateTransform,
-                  intermediateTransformFrom
+                  intermediateTransformFrom,
+                  intermediateTransformMapArray
                 );
               }
 
@@ -106,7 +111,8 @@ export function makeProviderRefreshable(
                 brick.context
                   ? computeRealValue(transform, brick.context, true)
                   : transform,
-                transformFrom
+                transformFrom,
+                transformMapArray
               );
             }
           )

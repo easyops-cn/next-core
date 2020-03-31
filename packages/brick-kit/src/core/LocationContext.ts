@@ -17,6 +17,7 @@ import {
   RouteConfOfRoutes,
   RouteConfOfBricks,
   RuntimeBrickConf,
+  StaticMenuProps,
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -288,9 +289,16 @@ export class LocationContext {
       return;
     }
 
-    let injectDeep = (menuConf as any).injectDeep;
+    let injectDeep = (menuConf as StaticMenuProps).injectDeep;
     if (menuConf.type === "resolve") {
-      await this.resolver.resolveOne("reference", menuConf.resolve, menuConf);
+      await this.resolver.resolveOne(
+        "reference",
+        {
+          transformMapArray: false,
+          ...menuConf.resolve,
+        },
+        menuConf
+      );
       injectDeep = false;
     }
 

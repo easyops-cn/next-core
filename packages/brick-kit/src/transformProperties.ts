@@ -8,11 +8,13 @@ export function transformProperties(
   props: Record<string, any>,
   data: any,
   to: GeneralTransform,
-  from?: string | string[]
+  from?: string | string[],
+  mapArray?: boolean | "auto"
 ): Record<string, any> {
   const transformedProps = preprocessTransformProperties(
     from ? get(data, from) : data,
-    to
+    to,
+    mapArray
   );
   for (const [propName, propValue] of Object.entries(transformedProps)) {
     set(props, propName, propValue);
@@ -39,7 +41,7 @@ export function doTransform(data: any, to: any): any {
   }
 
   return Array.isArray(to)
-    ? to.map(item => doTransform(data, item))
+    ? to.map((item) => doTransform(data, item))
     : isObject(to)
     ? Object.entries(to).reduce<Record<string, any>>((acc, [k, v]) => {
         acc[k] = doTransform(data, v);
@@ -50,7 +52,8 @@ export function doTransform(data: any, to: any): any {
 
 function preprocessTransformProperties(
   data: any,
-  to: GeneralTransform
+  to: GeneralTransform,
+  mapArray?: boolean | "auto"
 ): Record<string, any> {
   const props: Record<string, any> = {};
   if (Array.isArray(to)) {
@@ -58,7 +61,7 @@ function preprocessTransformProperties(
       pipeableTransform(props, data, item.to, item.from, item.mapArray);
     }
   } else {
-    pipeableTransform(props, data, to);
+    pipeableTransform(props, data, to, undefined, mapArray);
   }
   return props;
 }
@@ -93,7 +96,7 @@ function pipeableTransform(
   for (const [transformedPropName, transformTo] of Object.entries(to)) {
     // If `fromData` is an array, mapping it's items.
     props[transformedPropName] = isArray
-      ? (fromData as any[]).map(item => doTransform(item, transformTo))
+      ? (fromData as any[]).map((item) => doTransform(item, transformTo))
       : doTransform(fromData, transformTo);
   }
 }
@@ -101,11 +104,12 @@ function pipeableTransform(
 export function transformIntermediateData(
   data: any,
   to: GeneralTransform,
-  from?: string | string[]
+  from?: string | string[],
+  mapArray?: boolean | "auto"
 ): any {
   const intermediateData = from ? get(data, from) : data;
   if (!to) {
     return intermediateData;
   }
-  return transformProperties({}, intermediateData, to);
+  return transformProperties({}, intermediateData, to, undefined, mapArray);
 }
