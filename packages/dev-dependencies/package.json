@@ -59,7 +59,7 @@
     "@types/classnames": "^2.2.10",
     "@types/d3": "^5.7.2",
     "@types/dompurify": "^2.0.1",
-    "@types/echarts": "^4.4.3",
+    "@types/echarts": "^4.4.4",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/history": "^4.7.5",

@@ -2577,10 +2577,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.4.3":
-  version "4.4.3"
-  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.4.3.tgz#9a04003c3a70cc6feb38de5220cc1d079f19f2cb"
-  integrity sha1-mgQAPDpwzG/rON5SIMwdB58Z8ss=
+"@types/echarts@^4.4.4":
+  version "4.4.4"
+  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.4.4.tgz#458ae23412d295c44b64b90bf4fc9a2d9da5003f"
+  integrity sha1-RYriNBLSlcRLZLkL9PyaLZ2lAD8=
   dependencies:
     "@types/zrender" "*"
 
