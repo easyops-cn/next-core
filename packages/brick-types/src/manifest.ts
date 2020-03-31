@@ -156,6 +156,7 @@ export interface EntityResolveConf {
   field?: string | string[];
   name?: string;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
 }
 
@@ -167,6 +168,7 @@ export interface RefResolveConf {
   ref: string;
   name?: string;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
 }
 

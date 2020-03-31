@@ -7,7 +7,7 @@ const spyOnScanBricksInStoryboard = scanBricksInStoryboard as jest.Mock;
 spyOnScanBricksInStoryboard.mockReturnValue(["a", "c"]);
 
 (window as any).DLL_HASH = {
-  d3: "fake-hash"
+  d3: "fake-hash",
 };
 
 describe("getDllAndDepsOfStoryboard", () => {
@@ -17,20 +17,21 @@ describe("getDllAndDepsOfStoryboard", () => {
       {
         bricks: ["a"],
         dll: ["d3"],
-        filePath: "x"
+        filePath: "x",
       },
       {
         bricks: ["b"],
-        filePath: "y"
+        filePath: "y",
       },
       {
         bricks: ["c"],
-        filePath: "z"
-      }
+        dll: ["d3"],
+        filePath: "z",
+      },
     ];
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.js?fake-hash"],
-      deps: ["x", "z"]
+      deps: ["x", "z"],
     });
   });
 });
