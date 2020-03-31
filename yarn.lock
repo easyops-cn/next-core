@@ -920,7 +920,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.7.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.7.4", "@babel/runtime@^7.9.2":
   version "7.9.2"
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.9.2.tgz#d90df0583a3a252f09aaa619665367bae518db06"
   integrity sha1-2Q3wWDo6JS8JqqYZZlNnuuUY2wY=
@@ -2263,10 +2263,10 @@
     "@svgr/plugin-svgo" "^5.3.0"
     loader-utils "^2.0.0"
 
-"@testing-library/dom@^7.0.2":
-  version "7.1.1"
-  resolved "https://registry.npm.taobao.org/@testing-library/dom/download/@testing-library/dom-7.1.1.tgz#bf890c2468bd717ffd8b336a819686907fbe4daa"
-  integrity sha1-v4kMJGi9cX/9izNqgZaGkH++Tao=
+"@testing-library/dom@^7.1.0":
+  version "7.1.4"
+  resolved "https://registry.npm.taobao.org/@testing-library/dom/download/@testing-library/dom-7.1.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Fdom%2Fdownload%2F%40testing-library%2Fdom-7.1.4.tgz#affb29bd303b01eb0937debbbc5671dac640086b"
+  integrity sha1-r/spvTA7AesJN967vFZx2sZACGs=
   dependencies:
     "@babel/runtime" "^7.9.2"
     "@types/testing-library__dom" "^7.0.0"
@@ -2289,14 +2289,14 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^10.0.1":
-  version "10.0.1"
-  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.0.1.tgz?cache=0&sync_timestamp=1584107244283&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-10.0.1.tgz#4f5e2a8836257c5bd3df640b21d7bea5a0d83ead"
-  integrity sha1-T14qiDYlfFvT32QLIde+paDYPq0=
+"@testing-library/react@^10.0.2":
+  version "10.0.2"
+  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.0.2.tgz?cache=0&sync_timestamp=1585585850409&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-10.0.2.tgz#8eca7aa52d810cf7150048a2829fdc487162006d"
+  integrity sha1-jsp6pS2BDPcVAEiigp/cSHFiAG0=
   dependencies:
-    "@babel/runtime" "^7.8.7"
-    "@testing-library/dom" "^7.0.2"
-    "@types/testing-library__react" "^9.1.3"
+    "@babel/runtime" "^7.9.2"
+    "@testing-library/dom" "^7.1.0"
+    "@types/testing-library__react" "^10.0.0"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -2856,10 +2856,10 @@
   dependencies:
     "@types/jest" "*"
 
-"@types/testing-library__react@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.npm.taobao.org/@types/testing-library__react/download/@types/testing-library__react-9.1.3.tgz?cache=0&sync_timestamp=1583433792469&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Ftesting-library__react%2Fdownload%2F%40types%2Ftesting-library__react-9.1.3.tgz#35eca61cc6ea923543796f16034882a1603d7302"
-  integrity sha1-NeymHMbqkjVDeW8WA0iCoWA9cwI=
+"@types/testing-library__react@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.npm.taobao.org/@types/testing-library__react/download/@types/testing-library__react-10.0.0.tgz#8413a47f435bf7ce50bbc1b6d119300d39aed5bd"
+  integrity sha1-hBOkf0Nb985Qu8G20RkwDTmu1b0=
   dependencies:
     "@types/react-dom" "*"
     "@types/testing-library__dom" "*"
