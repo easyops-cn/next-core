@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-kit",
-  "version": "1.35.0",
+  "version": "1.36.0",
   "description": "Kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-kit",
   "license": "UNLICENSED",
@@ -28,7 +28,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "dependencies": {
-    "@easyops/brick-types": "^1.31.0",
+    "@easyops/brick-types": "^1.32.0",
     "@sdk/auth-sdk": "^0.7.4",
     "@sdk/cmdb-sdk": "^0.12.0",
     "@sdk/micro-app-sdk": "^0.5.0",
@@ -37,7 +37,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@easyops/brick-http": "^1.0.1",
-    "@easyops/brick-utils": "^1.41.0",
+    "@easyops/brick-utils": "^1.42.0",
     "antd": "^3.26.14",
     "history": "^4.10.1",
     "i18next": "^19.3.3",

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.31.0...@easyops/brick-types@1.32.0) (2020-03-31)
+
+### Features
+
+- new menu type, `resolve`, refs BRICK_STORE-1338 ([d92428a](https://git.easyops.local/anyclouds/next-core/commits/d92428a))
+
 # [1.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.30.0...@easyops/brick-types@1.31.0) (2020-03-30)
 
 ### Features

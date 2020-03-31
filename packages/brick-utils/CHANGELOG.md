@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.42.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.41.0...@easyops/brick-utils@1.42.0) (2020-03-31)
+
+### Features
+
+- **utils:** scanBricksInStoryboard and scanTemplatesInStoryboard support isUniq param ([9618160](https://git.easyops.local/anyclouds/next-core/commits/9618160))
+
 # [1.41.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.40.0...@easyops/brick-utils@1.41.0) (2020-03-30)
 
 ### Features

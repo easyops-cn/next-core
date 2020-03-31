@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.36.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.35.0...@easyops/brick-kit@1.36.0) (2020-03-31)
+
+### Bug Fixes
+
+- allow missing namespace for custom templates defined in an app ([defd426](https://git.easyops.local/anyclouds/next-core/commits/defd426))
+- **custom-template:** support set style in proxy properties ([efb8817](https://git.easyops.local/anyclouds/next-core/commits/efb8817))
+
+### Features
+
+- new menu type, `resolve`, refs BRICK_STORE-1338 ([d92428a](https://git.easyops.local/anyclouds/next-core/commits/d92428a))
+
 # [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.34.1...@easyops/brick-kit@1.35.0) (2020-03-30)
 
 ### Features
