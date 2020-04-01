@@ -5,10 +5,10 @@ const chalk = require("chalk");
 const {
   getNamesOfMicroApps,
   getNamesOfBrickPackages,
-  getNamesOfTemplatePackages
+  getNamesOfTemplatePackages,
 } = require("./utils");
 
-module.exports = cwd => {
+module.exports = (cwd) => {
   let flags = {};
   if (cwd) {
     flags = meow(
@@ -34,47 +34,51 @@ module.exports = cwd => {
       {
         flags: {
           offline: {
-            type: "boolean"
+            type: "boolean",
           },
           subdir: {
-            type: "boolean"
+            type: "boolean",
           },
           remote: {
-            type: "boolean"
+            type: "boolean",
           },
           autoRemote: {
-            type: "boolean"
+            type: "boolean",
           },
           localBricks: {
-            type: "string"
+            type: "string",
           },
           localMicroApps: {
-            type: "string"
+            type: "string",
           },
           localTemplates: {
-            type: "string"
+            type: "string",
           },
           localSettings: {
-            type: "boolean"
+            type: "boolean",
           },
           mergeSettings: {
-            type: "boolean"
+            type: "boolean",
+          },
+          host: {
+            type: "string",
+            default: "localhost",
           },
           port: {
             type: "string",
-            default: "8081"
+            default: "8081",
           },
           wsPort: {
             type: "string",
-            default: "8090"
+            default: "8090",
           },
           server: {
-            type: "string"
+            type: "string",
           },
           verbose: {
-            type: "boolean"
-          }
-        }
+            type: "boolean",
+          },
+        },
       }
     ).flags;
   }
@@ -172,11 +176,12 @@ module.exports = cwd => {
     brickPackagesDir,
     templatePackagesDir,
     navbarJsonPath,
+    host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     server,
     appConfig,
-    verbose: flags.verbose || process.env.VERBOSE === "true"
+    verbose: flags.verbose || process.env.VERBOSE === "true",
   };
 
   if (useAutoRemote) {
