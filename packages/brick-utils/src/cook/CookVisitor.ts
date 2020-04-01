@@ -413,6 +413,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
   },
   ObjectPattern(node: ObjectPattern, state, callback) {
     if (state.cookParamOnly) {
+      if (state.argReceived === null || state.argReceived === undefined) {
+        throw new TypeError(`Cannot destructure ${state.argReceived}`);
+      }
       const usedProps = new Set<PropertyCooked>();
       for (const prop of node.properties) {
         if (prop.type === "RestElement") {
@@ -420,14 +423,11 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
             prop,
             spawnCookState(state, {
               cookParamOnly: true,
-              argReceived:
-                state.argReceived === null || state.argReceived === undefined
-                  ? {}
-                  : Object.fromEntries(
-                      Object.entries(state.argReceived).filter(
-                        (entry) => !usedProps.has(entry[0])
-                      )
-                    ),
+              argReceived: Object.fromEntries(
+                Object.entries(state.argReceived).filter(
+                  (entry) => !usedProps.has(entry[0])
+                )
+              ),
             })
           );
         } else {

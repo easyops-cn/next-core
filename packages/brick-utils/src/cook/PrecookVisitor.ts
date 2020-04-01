@@ -96,7 +96,6 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
     }
 
     if (state.identifierAsLiteralString) {
-      state.cookedIdentifierName = node.name;
       return;
     }
 
