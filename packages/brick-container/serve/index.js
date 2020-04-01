@@ -71,11 +71,11 @@ if (proxies) {
 // All requests fallback to index.html.
 app.use(serveIndexHtml);
 
-app.listen(port, "localhost");
+app.listen(port, env.host);
 
 console.log(
   chalk.bold.green("Started serving at:"),
-  `http://localhost:${port}${env.publicPath}`
+  `http://${env.host}:${port}${env.publicPath}`
 );
 
 // 建立 websocket 连接支持自动刷新
