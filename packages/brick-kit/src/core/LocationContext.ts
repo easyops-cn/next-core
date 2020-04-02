@@ -297,7 +297,9 @@ export class LocationContext {
           transformMapArray: false,
           ...menuConf.resolve,
         },
-        menuConf
+        menuConf,
+        null,
+        context
       );
       injectDeep = false;
     }
