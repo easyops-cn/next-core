@@ -55,7 +55,7 @@
     "typescript": "~3.8.3"
   },
   "devDependencies": {
-    "@size-limit/file": "^4.4.4",
+    "@size-limit/file": "^4.4.5",
     "@types/classnames": "^2.2.10",
     "@types/d3": "^5.7.2",
     "@types/dompurify": "^2.0.1",

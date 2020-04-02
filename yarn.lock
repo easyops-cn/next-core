@@ -2139,10 +2139,10 @@
   dependencies:
     type-detect "4.0.8"
 
-"@size-limit/file@^4.4.4":
-  version "4.4.4"
-  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.4.4.tgz#a48e48a18ca94f9b119a1752c862cc175f1f790b"
-  integrity sha1-pI5IoYypT5sRmhdSyGLMF18feQs=
+"@size-limit/file@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.4.5.tgz#e32dab2113ebeb33605f126b6079dddd5c4662e0"
+  integrity sha1-4y2rIRPr6zNgXxJrYHnd3VxGYuA=
   dependencies:
     semver "7.1.3"
 
