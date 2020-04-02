@@ -32,9 +32,9 @@ export function supply(
   );
 }
 
-// Omit all mutable methods from lodash.
 const shouldOmitInLodash = new Set([
-  // Allow sequence methods like `_.chain`.
+  // Omit all mutable methods from lodash.
+  // But allow sequence methods like `_.chain`.
   "fill",
   "pull",
   "pullAll",
@@ -56,6 +56,39 @@ const shouldOmitInLodash = new Set([
   "unset",
   "update",
   "updateWith",
+  /**
+   * Ignore `Function` methods from lodash, too.
+   * There are chances to invoke `Object.assign`, etc.
+   *
+   * E.g.:
+   *
+   * ```
+   * _.wrap(_.method('constructor.assign',{b:2},{b:3}),(func,...a) => func(...a))({})
+   * ```
+   */
+  "after",
+  "ary",
+  "before",
+  "bind",
+  "bindKey",
+  "curry",
+  "curryRight",
+  "debounce",
+  "defer",
+  "delay",
+  "flip",
+  "memoize",
+  "negate",
+  "once",
+  "overArgs",
+  "partial",
+  "partialRight",
+  "rearg",
+  "rest",
+  "spread",
+  "throttle",
+  "unary",
+  "wrap",
 ]);
 
 // Omit all mutable methods from moment.

@@ -7,7 +7,6 @@ export interface PrecookVisitorState {
   closures: PrecookScope[];
   attemptToVisitGlobals: Set<string>;
   identifierAsLiteralString?: boolean;
-  cookedIdentifierName?: string;
   collectParamNamesOnly?: string[];
 }
 

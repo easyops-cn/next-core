@@ -2,6 +2,10 @@ import { install, InstalledClock } from "lolex";
 import { cook } from "./cook";
 import { precook } from "./precook";
 
+jest.mock("../placeholder/pipes/PipeRegistry", () => ({
+  PipeRegistry: new Map([["string", (v: any) => (v == null ? "" : String(v))]]),
+}));
+
 describe("cook", () => {
   let clock: InstalledClock;
   beforeEach(() => {
@@ -209,7 +213,7 @@ describe("cook", () => {
     ["[{a: 1, b: 2, c: 3}].map(({a, ...b}) => a + b.b + b.c)", [6]],
     // Nested `ObjectPattern`
     ["[{a: 1, b: { d: 2 }}].map(({a, b: { d: c }}) => a + c)", [3]],
-    // `ObjectPattern` with `AssignmentPattern` and `RestElement` meet nil
+    // `ObjectPattern` with `AssignmentPattern` and `RestElement`
     ["[undefined].map(({a, ...b}={}) => a + b)", ["undefined[object Object]"]],
     // `ObjectPattern` with a computed key
     ["[{'a.b': 1}].map(({'a.b': c}) => c)", [1]],
@@ -243,6 +247,10 @@ describe("cook", () => {
     "[undefined].map((i = j + 1, j) => i)",
     // Parameters affect the scopes.
     "[undefined].map((i = DATA.number5, DATA) => i)",
+    // `ObjectPattern` meet nil
+    "[undefined].map(({}) => 1)",
+    "[undefined].map(({a}) => a)",
+    "[undefined].map(({...a}) => a)",
     "async () => null",
     "location.assign('/')",
     "moment.updateLocale('en', {})",
@@ -251,6 +259,13 @@ describe("cook", () => {
     "[1, 2].map(([, a]) => a)",
     "/bc\\u{/u.test('dcba')",
     "/bc\\u{13}/u.test('dcba')",
+    "({}).constructor.assign",
+    "((a,b)=>a[b])(()=>1, 'constructor')",
+    "((a,b)=>a[b])(()=>1, 'constructor')('console.log(`yo`)')()",
+    "((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(`yo`)')()",
+    "_.get(()=>1, 'constructor.prototype')",
+    // Todo(steve)
+    // "_.wrap(_.method('constructor.assign',{a:1},{b:2}),(func,...a) => func(...a))({})"
   ])("cook(precook(%j), {...}) should throw", (input) => {
     expect(() =>
       cook(precook(input), getGlobalVariables())
