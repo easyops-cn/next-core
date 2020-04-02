@@ -12945,10 +12945,10 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.4.2.tgz#3086c760a012f6d25a45427219ea7d366599bec7"
-  integrity sha1-MIbHYKAS9tJaRUJyGep9NmWZvsc=
+size-limit@^4.4.4:
+  version "4.4.4"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.4.4.tgz#def5534c1d1727768c1acf26800a1980a06d802a"
+  integrity sha1-3vVTTB0XJ3aMGs8mgAoZgKBtgCo=
   dependencies:
     bytes "^3.1.0"
     chalk "^3.0.0"
