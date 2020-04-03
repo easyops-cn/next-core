@@ -2684,13 +2684,13 @@
     jest-diff "^25.1.0"
     pretty-format "^25.1.0"
 
-"@types/jest@^25.1.5":
-  version "25.1.5"
-  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-25.1.5.tgz?cache=0&sync_timestamp=1585846642565&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-25.1.5.tgz#3c3c078b3cd19c6403e21277f1cfdc0ce5ebf9a9"
-  integrity sha1-PDwHizzRnGQD4hJ38c/cDOXr+ak=
+"@types/jest@^25.2.1":
+  version "25.2.1"
+  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-25.2.1.tgz#9544cd438607955381c1bdbdb97767a249297db5"
+  integrity sha1-lUTNQ4YHlVOBwb29uXdnokkpfbU=
   dependencies:
-    jest-diff "25.1.0"
-    pretty-format "25.1.0"
+    jest-diff "^25.2.1"
+    pretty-format "^25.2.1"
 
 "@types/js-yaml@^3.12.3":
   version "3.12.3"
@@ -8074,7 +8074,7 @@ jest-config@^25.2.6:
     pretty-format "^25.2.6"
     realpath-native "^2.0.0"
 
-jest-diff@25.1.0, jest-diff@^25.1.0:
+jest-diff@^25.1.0:
   version "25.1.0"
   resolved "https://registry.npm.taobao.org/jest-diff/download/jest-diff-25.1.0.tgz#58b827e63edea1bc80c1de952b80cec9ac50e1ad"
   integrity sha1-WLgn5j7eobyAwd6VK4DOyaxQ4a0=
@@ -8084,7 +8084,7 @@ jest-diff@25.1.0, jest-diff@^25.1.0:
     jest-get-type "^25.1.0"
     pretty-format "^25.1.0"
 
-jest-diff@^25.2.6:
+jest-diff@^25.2.1, jest-diff@^25.2.6:
   version "25.2.6"
   resolved "https://registry.npm.taobao.org/jest-diff/download/jest-diff-25.2.6.tgz#a6d70a9ab74507715ea1092ac513d1ab81c1b5e7"
   integrity sha1-ptcKmrdFB3FeoQkqxRPRq4HBtec=
@@ -11222,16 +11222,6 @@ pretty-error@^2.1.1:
     renderkid "^2.0.1"
     utila "~0.4"
 
-pretty-format@25.1.0, pretty-format@^25.1.0:
-  version "25.1.0"
-  resolved "https://registry.npm.taobao.org/pretty-format/download/pretty-format-25.1.0.tgz?cache=0&sync_timestamp=1579655022191&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpretty-format%2Fdownload%2Fpretty-format-25.1.0.tgz#ed869bdaec1356fc5ae45de045e2c8ec7b07b0c8"
-  integrity sha1-7Yab2uwTVvxa5F3gReLI7HsHsMg=
-  dependencies:
-    "@jest/types" "^25.1.0"
-    ansi-regex "^5.0.0"
-    ansi-styles "^4.0.0"
-    react-is "^16.12.0"
-
 pretty-format@^24.3.0:
   version "24.9.0"
   resolved "https://registry.npm.taobao.org/pretty-format/download/pretty-format-24.9.0.tgz?cache=0&sync_timestamp=1579655119245&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpretty-format%2Fdownload%2Fpretty-format-24.9.0.tgz#12fac31b37019a4eea3c11aa9a959eb7628aa7c9"
@@ -11242,7 +11232,17 @@ pretty-format@^24.3.0:
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
 
-pretty-format@^25.2.6:
+pretty-format@^25.1.0:
+  version "25.1.0"
+  resolved "https://registry.npm.taobao.org/pretty-format/download/pretty-format-25.1.0.tgz?cache=0&sync_timestamp=1579655022191&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpretty-format%2Fdownload%2Fpretty-format-25.1.0.tgz#ed869bdaec1356fc5ae45de045e2c8ec7b07b0c8"
+  integrity sha1-7Yab2uwTVvxa5F3gReLI7HsHsMg=
+  dependencies:
+    "@jest/types" "^25.1.0"
+    ansi-regex "^5.0.0"
+    ansi-styles "^4.0.0"
+    react-is "^16.12.0"
+
+pretty-format@^25.2.1, pretty-format@^25.2.6:
   version "25.2.6"
   resolved "https://registry.npm.taobao.org/pretty-format/download/pretty-format-25.2.6.tgz?cache=0&sync_timestamp=1585823722031&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpretty-format%2Fdownload%2Fpretty-format-25.2.6.tgz#542a1c418d019bbf1cca2e3620443bc1323cb8d7"
   integrity sha1-VCocQY0Bm78cyi42IEQ7wTI8uNc=
