@@ -158,9 +158,11 @@ export interface EntityResolveConf {
   transformFrom?: string | string[];
   transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
+  onReject?: HandleReject;
 }
 
-export interface DefineResolveConf extends Omit<EntityResolveConf, "name"> {
+export interface DefineResolveConf
+  extends Omit<EntityResolveConf, "name" | "onReject"> {
   id: string;
 }
 
@@ -170,6 +172,17 @@ export interface RefResolveConf {
   transformFrom?: string | string[];
   transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
+  onReject?: HandleReject;
+}
+
+export type HandleReject = HandleRejectByTransform /*| HandleRejectByCatch*/;
+
+export interface HandleRejectByTransform {
+  transform: GeneralTransform;
+}
+
+export interface HandleRejectByCatch {
+  catch: true;
 }
 
 export type GeneralTransform = string | TransformMap | TransformItem[];
