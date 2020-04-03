@@ -12959,13 +12959,13 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.4.4:
-  version "4.4.4"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.4.4.tgz#def5534c1d1727768c1acf26800a1980a06d802a"
-  integrity sha1-3vVTTB0XJ3aMGs8mgAoZgKBtgCo=
+size-limit@^4.4.5:
+  version "4.4.5"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.4.5.tgz#b700621bf2c2ca0814425d78e530722996caf889"
+  integrity sha1-twBiG/LCyggUQl145TByKZbK+Ik=
   dependencies:
     bytes "^3.1.0"
-    chalk "^3.0.0"
+    chalk "^4.0.0"
     chokidar "^3.3.1"
     ci-job-number "^1.2.1"
     cosmiconfig "^6.0.0"
