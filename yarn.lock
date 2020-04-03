@@ -7152,21 +7152,34 @@ html-escaper@^2.0.0:
   resolved "https://registry.npm.taobao.org/html-escaper/download/html-escaper-2.0.0.tgz#71e87f931de3fe09e56661ab9a29aadec707b491"
   integrity sha1-ceh/kx3j/gnlZmGrmimq3scHtJE=
 
-html-loader@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/html-loader/download/html-loader-1.0.0.tgz?cache=0&sync_timestamp=1584621350148&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhtml-loader%2Fdownload%2Fhtml-loader-1.0.0.tgz#40000ff27bfb4fbf087d37f8438cae0b1d8b53b1"
-  integrity sha1-QAAP8nv7T78IfTf4Q4yuCx2LU7E=
+html-loader@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/html-loader/download/html-loader-1.1.0.tgz#91915f4d274caa9d46d1c3dc847cd82bfc037dbd"
+  integrity sha1-kZFfTSdMqp1G0cPchHzYK/wDfb0=
   dependencies:
-    html-minifier-terser "^5.0.4"
+    html-minifier-terser "^5.0.5"
     htmlparser2 "^4.1.0"
     loader-utils "^2.0.0"
     parse-srcset "^1.0.2"
     schema-utils "^2.6.5"
 
-html-minifier-terser@^5.0.1, html-minifier-terser@^5.0.4:
+html-minifier-terser@^5.0.1:
   version "5.0.4"
   resolved "https://registry.npm.taobao.org/html-minifier-terser/download/html-minifier-terser-5.0.4.tgz#e8cc02748acb983bd7912ea9660bd31c0702ec32"
   integrity sha1-6MwCdIrLmDvXkS6pZgvTHAcC7DI=
+  dependencies:
+    camel-case "^4.1.1"
+    clean-css "^4.2.3"
+    commander "^4.1.1"
+    he "^1.2.0"
+    param-case "^3.0.3"
+    relateurl "^0.2.7"
+    terser "^4.6.3"
+
+html-minifier-terser@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.npm.taobao.org/html-minifier-terser/download/html-minifier-terser-5.0.5.tgz#8f12f639789f04faa9f5cf2ff9b9f65607f21f8b"
+  integrity sha1-jxL2OXifBPqp9c8v+bn2VgfyH4s=
   dependencies:
     camel-case "^4.1.1"
     clean-css "^4.2.3"
