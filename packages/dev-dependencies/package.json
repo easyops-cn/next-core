@@ -31,7 +31,7 @@
     "@testing-library/react": "^10.0.2",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "babel-jest": "^25.2.4",
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "concurrently": "^5.1.0",
     "cross-env": "^7.0.1",
     "document-register-element": "^1.14.3",
