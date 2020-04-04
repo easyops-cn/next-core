@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.42.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.42.0...@easyops/brick-utils@1.42.1) (2020-04-04)
+
+### Bug Fixes
+
+- **cook:** fix ObjectPattern meet nil ([1e311b9](https://git.easyops.local/anyclouds/next-core/commits/1e311b9))
+- **cook:** sanitize ([f85f2a7](https://git.easyops.local/anyclouds/next-core/commits/f85f2a7))
+- **scanDll:** deduplicate scanned dll ([5e623c5](https://git.easyops.local/anyclouds/next-core/commits/5e623c5))
+
 # [1.42.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.41.0...@easyops/brick-utils@1.42.0) (2020-03-31)
 
 ### Features

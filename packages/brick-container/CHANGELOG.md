@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.13...@easyops/brick-container@1.16.14) (2020-04-04)
+
+### Bug Fixes
+
+- tree style ([5ac19f9](https://git.easyops.local/anyclouds/next-core/commits/5ac19f9))
+- **brick-container:** `yarn serve` support to listen on specified host ([aa36721](https://git.easyops.local/anyclouds/next-core/commits/aa36721))
+- **brick-container:** fix `yarn serve` support to listen on specified host ([d50c9b8](https://git.easyops.local/anyclouds/next-core/commits/d50c9b8))
+
 ## [1.16.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.12...@easyops/brick-container@1.16.13) (2020-03-31)
 
 **Note:** Version bump only for package @easyops/brick-container

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.32.0...@easyops/brick-types@1.33.0) (2020-04-04)
+
+### Bug Fixes
+
+- now we can disable transform auto map array ([731395d](https://git.easyops.local/anyclouds/next-core/commits/731395d))
+
+### Features
+
+- handle reject for `useResolves` ([4a4a962](https://git.easyops.local/anyclouds/next-core/commits/4a4a962))
+
 # [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.31.0...@easyops/brick-types@1.32.0) (2020-03-31)
 
 ### Features
