@@ -7,6 +7,7 @@ import {
   EntityResolveConf,
   DefineResolveConf,
   ResolveConf,
+  HandleRejectByTransform,
 } from "@easyops/brick-types";
 import { asyncProcessBrick } from "@easyops/brick-utils";
 import { computeRealValue } from "../setProperties";
@@ -164,6 +165,7 @@ export class Resolver {
               transform: resolveConf.transform,
               transformFrom: resolveConf.transformFrom,
               transformMapArray: resolveConf.transformMapArray,
+              onReject: resolveConf.onReject,
             }
           : {
               transform: transform || name,
@@ -199,18 +201,6 @@ export class Resolver {
       this.cache.set(cacheKey, promise);
     }
 
-    const value = await promise;
-    data = field === null || field === undefined ? value : get(value, field);
-
-    if (ref) {
-      data = transformIntermediateData(
-        data,
-        context ? computeRealValue(transform, context, true) : transform,
-        transformFrom,
-        transformMapArray
-      );
-    }
-
     let props: Record<string, any>;
     if (type === "reference") {
       props = propsReference;
@@ -224,6 +214,42 @@ export class Resolver {
     } else {
       // It's a dynamic brick.
       props = brick.properties;
+    }
+
+    async function fetchData(): Promise<void> {
+      const value = await promise;
+      data = field === null || field === undefined ? value : get(value, field);
+    }
+
+    if (resolveConf.onReject) {
+      // Transform as `onReject.transform` when provider failed.
+      try {
+        await fetchData();
+      } catch (error) {
+        const onRejectTransform = (resolveConf.onReject as HandleRejectByTransform)
+          .transform;
+        if (onRejectTransform) {
+          transformProperties(
+            props,
+            error,
+            context
+              ? computeRealValue(onRejectTransform, context, true)
+              : onRejectTransform
+          );
+        }
+        return;
+      }
+    } else {
+      await fetchData();
+    }
+
+    if (ref) {
+      data = transformIntermediateData(
+        data,
+        context ? computeRealValue(transform, context, true) : transform,
+        transformFrom,
+        transformMapArray
+      );
     }
 
     transformProperties(
