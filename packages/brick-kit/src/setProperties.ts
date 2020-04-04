@@ -1,6 +1,6 @@
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject, inject } from "@easyops/brick-utils";
-import { isCookable, evaluate } from "./evaluate";
+import { isCookable, evaluate, isPreEvaluated } from "./evaluate";
 import { rememberInjected, haveBeenInjected } from "./injected";
 
 export const computeRealValue = (
@@ -8,9 +8,11 @@ export const computeRealValue = (
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): any => {
-  if (typeof value === "string") {
+  const preEvaluated = isPreEvaluated(value);
+
+  if (preEvaluated || typeof value === "string") {
     let result: any;
-    if (isCookable(value)) {
+    if (preEvaluated || isCookable(value)) {
       const runtimeContext: any = {};
       if (context?.event) {
         runtimeContext.event = context.event;
@@ -31,7 +33,7 @@ export const computeRealValue = (
       return value;
     }
     if (Array.isArray(value)) {
-      newValue = value.map(v => computeRealValue(v, context, injectDeep));
+      newValue = value.map((v) => computeRealValue(v, context, injectDeep));
     } else {
       newValue = Object.entries(value).reduce<Record<string, any>>(
         (acc, [k, v]) => {
@@ -57,7 +59,7 @@ export function setProperties(
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
   }
-  bricks.forEach(brick => {
+  bricks.forEach((brick) => {
     setRealProperties(brick, realProps);
   });
 }
