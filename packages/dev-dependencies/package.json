@@ -46,7 +46,7 @@
     "jest": "^25.2.7",
     "jest-environment-jsdom-fourteen": "^1.0.1",
     "lerna": "^3.20.2",
-    "lint-staged": "^10.1.1",
+    "lint-staged": "^10.1.2",
     "prettier": "^1.19.1",
     "pretty-format": "^25.2.6",
     "rimraf": "^3.0.2",
