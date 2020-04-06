@@ -38,14 +38,14 @@ describe("UpdatingElement", () => {
 
     TestElement.createProperty("stringAttr");
     TestElement.createProperty("numberAttr", {
-      type: Number
+      type: Number,
     });
     TestElement.createProperty("booleanAttr", {
       type: Boolean,
-      attribute: "bool-attr"
+      attribute: "bool-attr",
     });
     TestElement.createProperty("complexAttr", {
-      attribute: false
+      attribute: false,
     });
 
     class ChildTestElement extends TestElement {}
@@ -55,13 +55,28 @@ describe("UpdatingElement", () => {
     expect(TestElement.observedAttributes).toEqual([
       "string-attr",
       "number-attr",
-      "bool-attr"
+      "bool-attr",
     ]);
     expect((ChildTestElement as any).observedAttributes).toEqual([
       "string-attr",
       "number-attr",
       "bool-attr",
-      "child-attr"
+      "child-attr",
+    ]);
+
+    expect(UpdatingElement._dev_only_definedProperties).toEqual([]);
+    expect(TestElement._dev_only_definedProperties).toEqual([
+      "stringAttr",
+      "numberAttr",
+      "booleanAttr",
+      "complexAttr",
+    ]);
+    expect((ChildTestElement as any)._dev_only_definedProperties).toEqual([
+      "stringAttr",
+      "numberAttr",
+      "booleanAttr",
+      "complexAttr",
+      "childAttr",
     ]);
 
     const element = new TestElement() as any;

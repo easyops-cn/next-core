@@ -2,14 +2,15 @@ import { setRealProperties } from "../setProperties";
 import { RuntimeBrick, BrickNode } from "./exports";
 
 export interface MountableElement extends HTMLElement {
-  _rootBricks: BrickNode[];
+  $$rootBricks: BrickNode[];
 }
 
 export function unmountTree(mountPoint: MountableElement): void {
-  if (Array.isArray(mountPoint._rootBricks)) {
-    mountPoint._rootBricks.forEach(brick => {
+  if (Array.isArray(mountPoint.$$rootBricks)) {
+    mountPoint.$$rootBricks.forEach((brick) => {
       brick.unmount();
     });
+    mountPoint.$$rootBricks = [];
   }
   mountPoint.innerHTML = "";
 }
@@ -25,14 +26,14 @@ export function mountTree(
   }
 
   // Create the top-level internal instance
-  const rootBricks = bricks.map(brick => new BrickNode(brick));
+  const rootBricks = bricks.map((brick) => new BrickNode(brick));
 
   // Mount the top-level component into the container
-  const nodes = rootBricks.map(brick => brick.mount());
-  nodes.forEach(node => mountPoint.appendChild(node));
+  const nodes = rootBricks.map((brick) => brick.mount());
+  nodes.forEach((node) => mountPoint.appendChild(node));
 
   // Save a reference to the internal instance
-  mountPoint._rootBricks = rootBricks;
+  mountPoint.$$rootBricks = rootBricks;
 
   // eslint-disable-next-line no-console
   console.log("Brick Tree:", bricks);
@@ -51,8 +52,8 @@ export function appendBrick(
 ): void {
   const brickNode = new BrickNode(brick);
   mountPoint.appendChild(brickNode.mount());
-  if (!mountPoint._rootBricks) {
-    mountPoint._rootBricks = [];
+  if (!mountPoint.$$rootBricks) {
+    mountPoint.$$rootBricks = [];
   }
-  mountPoint._rootBricks.push(brickNode);
+  mountPoint.$$rootBricks.push(brickNode);
 }

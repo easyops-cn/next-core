@@ -19,6 +19,14 @@ import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../injected";
 import { getAuth } from "../auth";
 
+interface DevtoolsHookContainer {
+  __BRICK_NEXT_DEVTOOLS_HOOK__?: DevtoolsHook;
+}
+
+interface DevtoolsHook {
+  emit: (message: any) => void;
+}
+
 export class Router {
   private defaultCollapsed = false;
   private locationContext: LocationContext;
@@ -26,13 +34,13 @@ export class Router {
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
-  private featureFlags: any;
+  private featureFlags: Record<string, boolean>;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
   }
 
-  private locationChangeNotify(from: string, to: string) {
+  private locationChangeNotify(from: string, to: string): void {
     if (this.featureFlags["log-location-change"]) {
       const username = getAuth().username;
       const params = new URLSearchParams();
@@ -271,6 +279,8 @@ export class Router {
           this.locationContext.resolver.scheduleRefreshing();
         }
         this.state = "mounted";
+
+        this.devtoolsHookEmitRendered();
         return;
       }
     }
@@ -291,6 +301,16 @@ export class Router {
     );
 
     this.state = "mounted";
+    this.devtoolsHookEmitRendered();
+  }
+
+  /* istanbul ignore next */
+  private devtoolsHookEmitRendered(): void {
+    const devHook = (window as DevtoolsHookContainer)
+      .__BRICK_NEXT_DEVTOOLS_HOOK__;
+    devHook?.emit?.({
+      type: "rendered",
+    });
   }
 
   /* istanbul ignore next */

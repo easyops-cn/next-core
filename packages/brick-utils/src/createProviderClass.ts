@@ -25,6 +25,10 @@ export function createProviderClass(
   api: (...args: any) => Promise<any>
 ): { new (): ProviderElement<Parameters<typeof api>, ReturnType<typeof api>> } {
   return class extends HTMLElement {
+    get $$typeof(): string {
+      return "provider";
+    }
+
     args: Parameters<typeof api> = [] as any;
 
     updateArgs(event: CustomEvent<Record<string, any>>): void {

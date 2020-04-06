@@ -27,6 +27,10 @@ describe("createProviderClass", () => {
     consoleWarn.mockClear();
   });
 
+  it("should be a provider", () => {
+    expect(provider.$$typeof).toBe("provider");
+  });
+
   it("should update args", async () => {
     spy.mockResolvedValue("good");
 

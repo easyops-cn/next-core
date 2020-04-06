@@ -28,15 +28,16 @@ export interface RuntimeBrick {
 }
 
 export class BrickNode {
-  private currentElement: RuntimeBrick;
-  private children: BrickNode[];
+  $$brick: RuntimeBrick;
+
+  private children: BrickNode[] = [];
 
   constructor(brick: RuntimeBrick) {
-    this.currentElement = brick;
+    this.$$brick = brick;
   }
 
   mount(): HTMLElement {
-    const brick = this.currentElement;
+    const brick = this.$$brick;
     const tagName = brick.type;
 
     if (tagName.includes("-") && !customElements.get(tagName)) {
@@ -58,7 +59,6 @@ export class BrickNode {
       node.setAttribute("slot", brick.slotId);
     }
     setRealProperties(node, brick.properties);
-    // Todo(steve): refine
     bindListeners(node, brick.events, brick.context);
 
     if (Array.isArray(brick.children)) {
