@@ -188,6 +188,26 @@ describe("transformProperties", () => {
         sizeList: [10],
       },
     ],
+    // Access `EVENT`
+    [
+      {
+        props: {},
+        data: "good",
+        transform: {
+          label: "<% `${EVENT.detail} is ${DATA}` %>",
+        },
+      },
+      {
+        label: {
+          [Symbol.for(
+            "pre.evaluated.raw"
+          )]: "<% `${EVENT.detail} is ${DATA}` %>",
+          [Symbol.for("pre.evaluated.context")]: {
+            data: "good",
+          },
+        },
+      },
+    ],
     // No transform
     [
       {
