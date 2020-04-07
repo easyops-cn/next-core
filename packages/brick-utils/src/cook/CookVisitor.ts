@@ -669,6 +669,27 @@ function isIterable(cooked: any): boolean {
   return typeof cooked[Symbol.iterator] === "function";
 }
 
+// Ref https://github.com/tc39/proposal-global
+// In addition, the es6-shim had to switch from Function('return this')()
+// due to CSP concerns, such that the current check to handle browsers,
+// node, web workers, and frames is:
+// istanbul ignore next
+function getGlobal(): any {
+  // the only reliable means to get the global object is
+  // `Function('return this')()`
+  // However, this causes CSP violations in Chrome apps.
+  if (typeof self !== "undefined") {
+    return self;
+  }
+  if (typeof window !== "undefined") {
+    return window;
+  }
+  if (typeof global !== "undefined") {
+    return global;
+  }
+  throw new Error("unable to locate global object");
+}
+
 /**
  * There are chances to construct a `Function` from a string, etc.
  * ```
@@ -684,7 +705,7 @@ const reservedObjects = new WeakSet([
   Function.prototype,
   Object.prototype,
   // Global `window` is considered vulnerable, too.
-  window,
+  getGlobal(),
 ]);
 
 function sanitize(cooked: any): void {
