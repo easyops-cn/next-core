@@ -45,7 +45,7 @@
     "@types/prettier": "^1.19.1",
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
-    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
     "babel-jest": "^25.2.6",
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
