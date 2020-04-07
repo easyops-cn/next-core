@@ -6,7 +6,6 @@ import {
 } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
-import { getHistory } from "../history";
 import { handleProxyOfCustomTemplate } from "./exports";
 
 export interface RuntimeBrick {
@@ -60,7 +59,7 @@ export class BrickNode {
     }
     setRealProperties(node, brick.properties);
     // Todo(steve): refine
-    bindListeners(node, brick.events, getHistory(), brick.context);
+    bindListeners(node, brick.events, brick.context);
 
     if (Array.isArray(brick.children)) {
       this.children = brick.children.map((slot) => new BrickNode(slot));

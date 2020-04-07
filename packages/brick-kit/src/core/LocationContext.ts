@@ -548,14 +548,12 @@ export class LocationContext {
     event: CustomEvent,
     handlers: BrickAndLifeCycleHandler[]
   ): void {
-    const history = getHistory();
     for (const brickAndHandler of handlers) {
       for (const handler of ([] as BrickEventHandler[]).concat(
         brickAndHandler.handler
       )) {
         listenerFactory(
           handler,
-          history,
           this.getContext(brickAndHandler.match),
           brickAndHandler.brick.element
         )(event);
