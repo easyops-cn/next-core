@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.14...@easyops/brick-container@1.16.15) (2020-04-07)
+
+**Note:** Version bump only for package @easyops/brick-container
+
 ## [1.16.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.13...@easyops/brick-container@1.16.14) (2020-04-04)
 
 ### Bug Fixes
