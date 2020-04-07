@@ -1,3 +1,4 @@
+import { message } from "antd";
 import {
   BrickEventHandler,
   BrickEventsMap,
@@ -8,10 +9,11 @@ import {
   SetPropsCustomBrickEventHandler,
   RuntimeBrickElement,
 } from "@easyops/brick-types";
-import { message } from "antd";
 import { handleHttpError } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
 import { getHistory } from "./history";
+import { _internalApiGetCurrentContext } from "./core/exports";
+import { getUrlFactory } from "./segue";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -51,7 +53,7 @@ function rememberListeners(
 export function isBuiltinHandler(
   handler: BrickEventHandler
 ): handler is BuiltinBrickEventHandler {
-  return !!(handler as BuiltinBrickEventHandler).action;
+  return typeof (handler as BuiltinBrickEventHandler).action === "string";
 }
 
 export function isCustomHandler(
@@ -95,12 +97,15 @@ export function listenerFactory(
       case "history.reload":
         return builtinHistoryWithoutArgsListenerFactory(method);
       case "legacy.go":
-        return builtinIframeListenerFactory(method, handler.args, context);
+        return builtinIframeListenerFactory(handler.args, context);
       case "window.open":
-        return builtinWindowListenerFactory(method, handler.args, context);
+        return builtinWindowListenerFactory(handler.args, context);
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(method, handler.args, context);
+      case "segue.push":
+      case "segue.replace":
+        return builtinSegueListenerFactory(method, handler.args, context);
       case "event.preventDefault":
         return (event) => {
           event.preventDefault();
@@ -150,8 +155,27 @@ function builtinLocationListenerFactory(
   } as EventListener;
 }
 
+function builtinSegueListenerFactory(
+  method: "push" | "replace",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    const { app, segues } = _internalApiGetCurrentContext();
+    getHistory()[method](
+      getUrlFactory(
+        app,
+        segues
+      )(
+        ...(argsFactory(args, context, event) as Parameters<
+          ReturnType<typeof getUrlFactory>
+        >)
+      )
+    );
+  } as EventListener;
+}
+
 function builtinIframeListenerFactory(
-  method: "legacy.go",
   args: any[],
   context?: PluginRuntimeContext
 ): EventListener {
@@ -183,7 +207,6 @@ function builtinIframeListenerFactory(
 }
 
 function builtinWindowListenerFactory(
-  method: "open",
   args: any[],
   context?: PluginRuntimeContext
 ): EventListener {

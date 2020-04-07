@@ -18,6 +18,7 @@ import {
   RouteConfOfBricks,
   RuntimeBrickConf,
   StaticMenuProps,
+  SeguesConf,
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -82,6 +83,7 @@ export class LocationContext {
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
@@ -99,6 +101,7 @@ export class LocationContext {
         userInstanceId: getAuth().userInstanceId,
       },
       flags: this.kernel.getFeatureFlags(),
+      segues: this.segues,
     };
   }
 
@@ -159,6 +162,9 @@ export class LocationContext {
         };
         break;
       default:
+        if (matched.route.segues) {
+          Object.assign(this.segues, matched.route.segues);
+        }
         if (matched.route.hybrid) {
           mountRoutesResult.flags.hybrid = true;
         }

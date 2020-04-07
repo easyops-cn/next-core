@@ -1,6 +1,7 @@
 import { cloneDeep } from "lodash";
 import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
+import { getUrlFactory } from "./segue";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -96,6 +97,7 @@ export function evaluate(
     sys,
     flags,
     hash,
+    segues,
   } = _internalApiGetCurrentContext();
 
   if (attemptToVisitGlobals.has("QUERY")) {
@@ -134,6 +136,12 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("ANCHOR")) {
     globalVariables.ANCHOR = hash ? hash.substr(1) : null;
+  }
+
+  if (attemptToVisitGlobals.has("SEGUE")) {
+    globalVariables.SEGUE = {
+      getUrl: getUrlFactory(app, segues),
+    };
   }
 
   try {

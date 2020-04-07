@@ -6,6 +6,7 @@ import {
   unbindListeners,
 } from "./bindListeners";
 import { getHistory } from "./history";
+import * as runtime from "./core/Runtime";
 
 jest.mock("./history");
 
@@ -23,6 +24,35 @@ const mockHistory = {
   },
 };
 (getHistory as jest.Mock).mockReturnValue(mockHistory);
+
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  app: {
+    $$routeAliasMap: new Map([
+      [
+        "segue-target-a",
+        {
+          path: "/segue-target-a",
+          alias: "segue-target-a",
+        },
+      ],
+      [
+        "segue-target-b",
+        {
+          path: "/segue-target-b/:id",
+          alias: "segue-target-b",
+        },
+      ],
+    ]),
+  },
+  segues: {
+    testSegueIdA: {
+      target: "segue-target-a",
+    },
+    testSegueIdB: {
+      target: "segue-target-b",
+    },
+  },
+} as any);
 
 describe("bindListeners", () => {
   describe("isBuiltinHandler", () => {
@@ -129,6 +159,11 @@ describe("bindListeners", () => {
             args: [true],
           },
           { action: "location.assign", args: ["www.baidu.com"] },
+          { action: "segue.push", args: ["testSegueIdA"] },
+          {
+            action: "segue.replace",
+            args: ["testSegueIdB", { id: "${EVENT.detail}" }],
+          },
           { action: "event.preventDefault" },
           { action: "console.log" },
           { action: "console.info" },
@@ -190,10 +225,10 @@ describe("bindListeners", () => {
         assign: jest.fn(),
       } as unknown) as Location;
 
-      jest.spyOn(console, "log");
-      jest.spyOn(console, "info");
-      jest.spyOn(console, "warn");
-      jest.spyOn(console, "error");
+      jest.spyOn(console, "log").mockImplementation(() => void 0);
+      jest.spyOn(console, "info").mockImplementation(() => void 0);
+      jest.spyOn(console, "warn").mockImplementation(() => void 0);
+      jest.spyOn(console, "error").mockImplementation(() => void 0);
       window.open = jest.fn();
 
       const legacyIframeMountPoint = document.createElement("div");
@@ -229,7 +264,8 @@ describe("bindListeners", () => {
       );
 
       const history = mockHistory;
-      expect(history.push).toBeCalledWith("for-good");
+      expect(history.push).toHaveBeenNthCalledWith(1, "for-good");
+      expect(history.push).toHaveBeenNthCalledWith(2, "/segue-target-a");
       expect(history.pushQuery).toBeCalledWith(
         {
           q: "123",
@@ -242,8 +278,13 @@ describe("bindListeners", () => {
           },
         }
       );
-      expect(history.replace).toBeCalledWith(
+      expect(history.replace).toHaveBeenNthCalledWith(
+        1,
         "specified args for history.replace"
+      );
+      expect(history.replace).toHaveBeenNthCalledWith(
+        2,
+        "/segue-target-b/for-good"
       );
       expect(history.replaceQuery).toBeCalledWith({
         page: 1,

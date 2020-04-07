@@ -2,7 +2,18 @@ import { isCookable, evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
-  app: { homepage: "/hello" },
+  app: {
+    homepage: "/hello",
+    $$routeAliasMap: new Map([
+      [
+        "segue-target",
+        {
+          path: "/segue-target",
+          alias: "segue-target",
+        },
+      ],
+    ]),
+  },
   query: new URLSearchParams("a=x&b=2&b=1"),
   match: {
     params: {
@@ -16,6 +27,11 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
     test: true,
   },
   hash: "#readme",
+  segues: {
+    testSegueId: {
+      target: "segue-target",
+    },
+  },
 } as any);
 
 describe("isCookable", () => {
@@ -50,6 +66,7 @@ describe("evaluate", () => {
     ["<% FLAGS.test %>", true],
     ["<% HASH %>", "#readme"],
     ["<% ANCHOR %>", "readme"],
+    ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

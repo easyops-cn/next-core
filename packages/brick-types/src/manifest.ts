@@ -42,7 +42,12 @@ export interface MicroApp {
   defaultConfig?: Record<string, any>;
   userConfig?: Record<string, any>;
   config?: Record<string, any>;
+  $$routeAliasMap?: RouteAliasMap;
 }
+
+export type RouteAliasMap = Map<string, RouteAliasConf>;
+
+export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 
 export interface BrickPackage {
   bricks: string[];
@@ -99,7 +104,8 @@ export interface RouteConfOfRedirect extends BaseRouteConf {
 }
 
 export interface BaseRouteConf {
-  path: string | string[];
+  path: string;
+  alias?: string;
   exact?: boolean;
   public?: boolean;
   menu?: MenuConf;
@@ -107,6 +113,15 @@ export interface BaseRouteConf {
   providers?: ProviderConf[];
   defineResolves?: DefineResolveConf[];
   redirect?: string | ResolveConf;
+  segues?: SeguesConf;
+}
+
+export interface SeguesConf {
+  [segueId: string]: SegueConf;
+}
+
+export interface SegueConf {
+  target: string;
 }
 
 export interface BrickConf {
@@ -283,6 +298,8 @@ export interface BuiltinBrickEventHandler {
     | "location.reload"
     | "location.assign"
     | "window.open"
+    | "segue.push"
+    | "segue.replace"
     | "event.preventDefault"
     | "console.log"
     | "console.error"

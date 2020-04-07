@@ -5,7 +5,7 @@ import {
   getDllAndDepsOfStoryboard,
   asyncProcessStoryboard,
   scanBricksInBrickConf,
-  getDllAndDepsOfBricks
+  getDllAndDepsOfBricks,
 } from "@easyops/brick-utils";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
@@ -21,13 +21,13 @@ import {
   MagicBrickConfig,
   FeatureFlags,
   RuntimeStoryboard,
-  BrickConf
+  BrickConf,
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
 import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
-import { mergeAppConfig } from "./processors";
+import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { registerCustomTemplate } from "./CustomTemplates";
 
@@ -65,7 +65,7 @@ export class Kernel {
     await Promise.all([
       await this.menuBar.bootstrap(),
       await this.appBar.bootstrap(),
-      await this.loadingBar.bootstrap()
+      await this.loadingBar.bootstrap(),
     ]);
     // Router need those bars above to be ready.
     await this.router.bootstrap();
@@ -83,7 +83,7 @@ export class Kernel {
       if (data.type === "auth.guard") {
         const history = getHistory();
         history.push("/auth/login", {
-          from: history.location
+          from: history.location,
         });
       }
     });
@@ -102,20 +102,21 @@ export class Kernel {
   ): Promise<void> {
     const bootstrapResponse = Object.assign(
       {
-        templatePackages: []
+        templatePackages: [],
       },
       await AuthSdk.bootstrap<BootstrapData>(params, {
-        interceptorParams
+        interceptorParams,
       })
     );
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
-    mergeAppConfig(bootstrapResponse);
+    // And compute `$$routeAliasMap`.
+    processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
       originalStoryboards: cloneDeep(bootstrapResponse.storyboards),
       microApps: bootstrapResponse.storyboards
-        .map(storyboard => storyboard.app)
-        .filter(Boolean)
+        .map((storyboard) => storyboard.app)
+        .filter(Boolean),
     };
   }
 
@@ -130,8 +131,8 @@ export class Kernel {
       );
       await loadScript(
         brickPackages
-          .map(item => item.filePath)
-          .concat(templatePackages.map(item => item.filePath))
+          .map((item) => item.filePath)
+          .concat(templatePackages.map((item) => item.filePath))
       );
       return;
     }
@@ -162,7 +163,7 @@ export class Kernel {
             tpl.name,
             {
               bricks: tpl.bricks,
-              proxy: tpl.proxy
+              proxy: tpl.proxy,
             },
             storyboard.app?.id
           );
@@ -180,7 +181,7 @@ export class Kernel {
     const { dll, deps } = getDllAndDepsOfBricks(
       bricks.filter(
         // Only try to load undefined custom elements.
-        item => !customElements.get(item)
+        (item) => !customElements.get(item)
       ),
       this.bootstrapData.brickPackages
     );
@@ -207,7 +208,7 @@ export class Kernel {
    */
   unsetBars({
     appChanged,
-    legacy
+    legacy,
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
     if (appChanged) {
@@ -248,12 +249,12 @@ export class Kernel {
         user_email: true,
         user_tel: true,
         user_icon: true,
-        user_memo: true
+        user_memo: true,
       };
       const allUserInfo = (
         await UserAdminApi.searchAllUsersInfo({
           query,
-          fields
+          fields,
         })
       ).list as UserInfo[];
       for (const user of allUserInfo) {
@@ -279,8 +280,8 @@ export class Kernel {
           // TODO(Lynette): 暂时设置3000，待后台提供全量接口
           page_size: 3000,
           fields: {
-            "*": true
-          }
+            "*": true,
+          },
         })
       ).list as MagicBrickConfig[];
       for (const config of allMagicBrickConfig) {
@@ -313,12 +314,12 @@ export class Kernel {
       return [];
     }
     const allRelatedApps = await this.allRelatedAppsPromise;
-    const thisApp = allRelatedApps.find(item => item.microAppId === appId);
+    const thisApp = allRelatedApps.find((item) => item.microAppId === appId);
     if (!thisApp) {
       return [];
     }
     return sortBy(
-      allRelatedApps.filter(item => item.objectId === thisApp.objectId),
+      allRelatedApps.filter((item) => item.objectId === thisApp.objectId),
       ["order"]
     );
   }
@@ -328,7 +329,7 @@ export class Kernel {
       const workspace: VisitedWorkspace = {
         appId: this.currentApp.id,
         appName: this.currentApp.name,
-        url: this.currentUrl
+        url: this.currentUrl,
       };
       if (this.workspaceStack.length > 0) {
         const previousWorkspace = this.workspaceStack[
@@ -337,7 +338,9 @@ export class Kernel {
         const relatedApps = await this.getRelatedAppsAsync(
           previousWorkspace.appId
         );
-        if (relatedApps.some(item => item.microAppId === this.currentApp.id)) {
+        if (
+          relatedApps.some((item) => item.microAppId === this.currentApp.id)
+        ) {
           Object.assign(previousWorkspace, workspace);
           return;
         }
@@ -366,7 +369,7 @@ export class Kernel {
     return {
       previousApp: this.previousApp,
       currentApp: this.currentApp,
-      previousWorkspace: this.getPreviousWorkspace()
+      previousWorkspace: this.getPreviousWorkspace(),
     };
   }
 
