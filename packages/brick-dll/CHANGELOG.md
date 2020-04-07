@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.2.10...@easyops/brick-dll@1.2.11) (2020-04-07)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
 ## [1.2.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.2.9...@easyops/brick-dll@1.2.10) (2020-04-04)
 
 **Note:** Version bump only for package @easyops/brick-dll

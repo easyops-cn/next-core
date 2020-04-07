@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.37.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.37.0...@easyops/brick-kit@1.37.1) (2020-04-07)
+
+### Bug Fixes
+
+- **evaluate:** support using both `EVENT` and `DATA` in evaluate placeholders ([a36fe91](https://git.easyops.local/anyclouds/next-core/commits/a36fe91))
+
 # [1.37.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.36.0...@easyops/brick-kit@1.37.0) (2020-04-04)
 
 ### Bug Fixes
