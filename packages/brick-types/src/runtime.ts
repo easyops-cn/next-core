@@ -4,7 +4,8 @@ import {
   BreadcrumbItemConf,
   MicroApp,
   BrickConf,
-  FeatureFlags
+  FeatureFlags,
+  SeguesConf,
 } from "./manifest";
 import { SidebarMenu } from "./menu";
 
@@ -79,6 +80,7 @@ export interface PluginRuntimeContext {
   anchor?: string;
   sys?: SystemInfo;
   flags?: FeatureFlags;
+  segues?: SeguesConf;
 }
 
 export interface MountPoints {
