@@ -42,7 +42,7 @@
     "@types/lodash": "^4.14.149",
     "@types/meow": "^5.0.0",
     "@types/node": "^10.12.18",
-    "@types/prettier": "^1.19.1",
+    "@types/prettier": "^2.0.0",
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
@@ -60,7 +60,7 @@
     "lerna": "^3.20.1",
     "lint-staged": "^10.1.2",
     "null-loader": "^3.0.0",
-    "prettier": "^2.0.2",
+    "prettier": "^2.0.4",
     "rimraf": "^3.0.2",
     "typescript": "~3.8.3"
   },
