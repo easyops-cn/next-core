@@ -2,7 +2,7 @@
 
 项目为基于 [Lerna] + [Yarn Workspace] 的 Monorepo.
 
-更多文档请查看 《[EasyOps 开发者 - Micro App](http://developers.162.d.easyops.local/micro-app/introduce.html)》
+更多文档请查看 《[EasyOps 开发者中心](http://docs.developers.easyops.cn/)》
 
 ## 文件结构
 
@@ -10,7 +10,7 @@
 
 ```bash
 .
-├── dll/*                 # <小产品>
+├── dll/*                 # <DLL>
 ├── packages              # <平台库>
     ├── brick-container   # 新 Console
     ├── brick-dll         # Vendors dll

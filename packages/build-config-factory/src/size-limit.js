@@ -4,15 +4,16 @@ const path = require("path");
 function getPath(dir, pkg) {
   switch (dir) {
     case "bricks":
-      return `${dir}/${pkg}/dist/index.*.js`;
     case "templates":
       return `${dir}/${pkg}/dist/index.*.js`;
+    case "libs":
+      return `${dir}/${pkg}/dist/index.esm.js`;
     default:
       throw new Error(`Invalid dir: ${dir}`);
   }
 }
 
-module.exports = function(sizeLimitJson) {
+module.exports = function (sizeLimitJson) {
   const dirMap = new Map(Object.entries(sizeLimitJson));
   const limits = [];
 
@@ -29,18 +30,18 @@ module.exports = function(sizeLimitJson) {
 
     const dirs = fs.readdirSync(path.resolve(dir), {
       encoding: "utf8",
-      withFileTypes: true
+      withFileTypes: true,
     });
 
-    const pkgList = dirs.filter(d => d.isDirectory()).map(d => d.name);
-    pkgList.forEach(pkg => {
+    const pkgList = dirs.filter((d) => d.isDirectory()).map((d) => d.name);
+    pkgList.forEach((pkg) => {
       limits.push({
         path: getPath(dir, pkg),
         limit: pkg.startsWith("providers-of-")
           ? pkgMap.get("providers-of-*")
           : pkgMap.has(pkg)
           ? pkgMap.get(pkg)
-          : pkgMap.get("*")
+          : pkgMap.get("*"),
       });
     });
   });
@@ -49,7 +50,7 @@ module.exports = function(sizeLimitJson) {
   if (limits.length === 0) {
     limits.push({
       path: "package.json",
-      limit: "10 KB"
+      limit: "10 KB",
     });
   }
 

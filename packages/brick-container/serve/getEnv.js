@@ -26,8 +26,9 @@ module.exports = (cwd) => {
         --local-templates   Specify local template packages to be used in remote mode
         --local-settings    Use local settings instead of remote settings in remote mode
         --merge-settings    Merge remote settings by local settings in remote mode
-        --port              Set local server port, defaults to "8081"
-        --ws-port           Set local WebSocket server port, defaults to "8090"
+        --port              Set local server listening port, defaults to "8081"
+        --ws-port           Set local WebSocket server listening port, defaults to "8090"
+        --host              Set local server listening host, defaults to "localhost"
         --offline           Use offline mode
         --verbose           Print verbose logs
     `,
