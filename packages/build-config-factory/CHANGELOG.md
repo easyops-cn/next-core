@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.6...@easyops/build-config-factory@1.8.7) (2020-04-08)
+
+### Bug Fixes
+
+- **size-limit:** support size-limit libs/\* ([d483730](https://git.easyops.local/anyclouds/next-core/commits/d483730))
+
 ## [1.8.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.5...@easyops/build-config-factory@1.8.6) (2020-04-07)
 
 **Note:** Version bump only for package @easyops/build-config-factory

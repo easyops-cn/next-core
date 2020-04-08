@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.8...@easyops/dev-dependencies@0.5.9) (2020-04-08)
+
+### Bug Fixes
+
+- **dev-deps:** add @easyops/rollup-config-factory and @easyops/custom-antd-styles ([48470b6](https://git.easyops.local/anyclouds/next-core/commits/48470b6))
+- rollback lerna to the version that atomic-push is working ([8a52625](https://git.easyops.local/anyclouds/next-core/commits/8a52625))
+
 ## [0.5.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.7...@easyops/dev-dependencies@0.5.8) (2020-04-07)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
