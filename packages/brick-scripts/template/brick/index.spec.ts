@@ -1,5 +1,3 @@
-// Ref https://github.com/jsdom/jsdom/issues/1030
-import "document-register-element";
 import ReactDOM from "react-dom";
 import "./";
 

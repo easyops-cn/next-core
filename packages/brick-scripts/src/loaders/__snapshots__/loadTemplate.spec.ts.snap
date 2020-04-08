@@ -31,9 +31,7 @@ export function ForBetter(): React.ReactElement {
   ],
   Array [
     "dist/index.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import ReactDOM from \\"react-dom\\";
+    "import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
 const spyOnRender = jest
@@ -103,11 +101,9 @@ exports[`loadTemplate should create a new custom provider brick 1`] = `
 Array [
   Array [
     "dist/GetData.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import {
+    "import {
   GetData,
-  GetDataParams
+  GetDataParams,
 } from \\"./GetData\\";
 
 describe(\\"GetData\\", () => {
@@ -365,9 +361,7 @@ export function ForBetter(): React.ReactElement {
   ],
   Array [
     "dist/src/for-better/index.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import ReactDOM from \\"react-dom\\";
+    "import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
 const spyOnRender = jest

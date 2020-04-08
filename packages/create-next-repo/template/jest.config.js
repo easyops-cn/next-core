@@ -1,16 +1,13 @@
 module.exports = {
   setupFilesAfterEnv: ["<rootDir>/__jest__/setup.ts"],
-  snapshotSerializers: [
-    "enzyme-to-json/serializer",
-    "<rootDir>/__jest__/customElementsV1Serializer.ts"
-  ],
+  snapshotSerializers: ["enzyme-to-json/serializer"],
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/dist/",
     "\\.spec\\.[jt]sx?$",
     "/scripts/",
     "/__jest__/",
-    "/micro-apps/"
+    "/micro-apps/",
   ],
   collectCoverage: true,
   coverageThreshold: {
@@ -18,13 +15,13 @@ module.exports = {
       statements: 80,
       branches: 50,
       functions: 80,
-      lines: 80
-    }
+      lines: 80,
+    },
   },
   coverageDirectory: "<rootDir>/.coverage",
   coverageReporters: ["lcov", "text-summary"],
   transform: {
-    "^.+\\.[jt]sx?$": "babel-jest"
+    "^.+\\.[jt]sx?$": "babel-jest",
   },
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   moduleNameMapper: {
@@ -38,12 +35,13 @@ module.exports = {
     // Ref http://react-dnd.github.io/react-dnd/docs/testing#setup
     "^dnd-core$": "dnd-core/dist/cjs",
     "^react-dnd$": "react-dnd/dist/cjs",
-    "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs"
+    "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs",
   },
   // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
   // Todo(steve): remove next line when issue fixed.
   modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
-  // Use jsdom@14 which supports MutationObserver
-  testEnvironment: "jest-environment-jsdom-fourteen",
-  timers: "fake"
+  // Use jsdom >= 14 which supports `MutationObserver`
+  // Use jsdom >= 16.2 which supports `CustomElements`
+  testEnvironment: "jest-environment-jsdom-sixteen",
+  timers: "fake",
 };

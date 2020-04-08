@@ -3,6 +3,9 @@ import { RuntimeBrick } from "./BrickNode";
 
 jest.mock("../handleHttpError");
 
+// Mock a custom element of `any-provider`.
+customElements.define("any-provider", class Tmp extends HTMLElement {});
+
 describe("Resolver", () => {
   const kernel = {
     mountPoints: {},
@@ -10,9 +13,6 @@ describe("Resolver", () => {
   let resolver: Resolver;
 
   beforeEach(() => {
-    (window as any).customElements = {
-      get: (name: string) => true,
-    };
     resolver = new Resolver(kernel as any);
   });
 
@@ -217,7 +217,7 @@ describe("Resolver", () => {
   });
 
   it("should use defined resolves", async () => {
-    const providerName = "your-provider";
+    const providerName = "any-provider";
 
     resolver.defineResolves([
       {
