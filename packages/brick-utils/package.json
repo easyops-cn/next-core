@@ -31,6 +31,7 @@
   "dependencies": {
     "@babel/parser": "^7.8.8",
     "@easyops/brick-types": "^1.34.0",
+    "file-saver": "^2.0.2",
     "path-to-regexp": "^6.1.0"
   },
   "devDependencies": {

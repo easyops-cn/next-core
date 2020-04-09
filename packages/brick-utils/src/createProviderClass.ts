@@ -1,4 +1,5 @@
 import { set } from "lodash";
+import { saveAs } from "file-saver";
 
 interface ProviderElement<P extends any[], R> extends HTMLElement {
   args: P;
@@ -14,6 +15,8 @@ interface ProviderElement<P extends any[], R> extends HTMLElement {
   execute(): R;
 
   executeWithArgs(...args: P): R;
+
+  saveAs(filename: string, ...args: P): R;
 
   resolve(...args: P): R;
 }
@@ -56,6 +59,14 @@ export function createProviderClass(
       return this.executeWithArgs(...this.args);
     }
 
+    async saveAs(
+      filename: string,
+      ...args: Parameters<typeof api>
+    ): Promise<void> {
+      const blob = await api(...args);
+      saveAs(blob, filename);
+    }
+
     async executeWithArgs(
       ...args: Parameters<typeof api>
     ): ReturnType<typeof api> {
@@ -63,14 +74,14 @@ export function createProviderClass(
         const result = await api(...args);
         this.dispatchEvent(
           new CustomEvent("response.success", {
-            detail: result
+            detail: result,
           })
         );
         return result;
       } catch (error) {
         this.dispatchEvent(
           new CustomEvent("response.error", {
-            detail: error
+            detail: error,
           })
         );
         return Promise.reject(error);
