@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.11.10...@easyops/create-next-repo@0.12.0) (2020-04-09)
+
+### Features
+
+- use jsdom@16 which supports custom elements ([4243947](https://git.easyops.local/anyclouds/next-core/commits/4243947))
+
 ## [0.11.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.11.9...@easyops/create-next-repo@0.11.10) (2020-04-08)
 
 **Note:** Version bump only for package @easyops/create-next-repo

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.44.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.43.0...@easyops/brick-utils@1.44.0) (2020-04-09)
+
+### Features
+
+- **create-provider:** new method `saveAs`, save blob, refs AGILE_V2-105 ([9f9242c](https://git.easyops.local/anyclouds/next-core/commits/9f9242c))
+
 # [1.43.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.42.2...@easyops/brick-utils@1.43.0) (2020-04-08)
 
 ### Features

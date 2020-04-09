@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.0.10...@easyops/rollup-config-factory@1.1.0) (2020-04-09)
+
+### Features
+
+- support to pass commonjs options ([cf83aec](https://git.easyops.local/anyclouds/next-core/commits/cf83aec))
+
 ## [1.0.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.0.9...@easyops/rollup-config-factory@1.0.10) (2020-03-26)
 
 **Note:** Version bump only for package @easyops/rollup-config-factory
