@@ -10,13 +10,14 @@ import {
   unmountTree,
   MountRoutesResult,
   appendBrick,
-  Resolver
+  Resolver,
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../injected";
+import { getAuth } from "../auth";
 
 export class Router {
   private defaultCollapsed = false;
@@ -25,17 +26,34 @@ export class Router {
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
+  private featureFlags: any;
 
-  constructor(private kernel: Kernel) {}
+  constructor(private kernel: Kernel) {
+    this.featureFlags = this.kernel.getFeatureFlags();
+  }
+
+  private locationChangeNotify(from: string, to: string) {
+    if (this.featureFlags["log-location-change"]) {
+      const username = getAuth().username;
+      const params = new URLSearchParams();
+      params.append("u", username);
+      params.append("f", from);
+      params.append("t", to);
+      params.append("ts", (+new Date()).toString());
+      const image = new Image();
+      image.src = `assets/ea/analytics.jpg?${params.toString()}`;
+    }
+  }
 
   async bootstrap(): Promise<void> {
     const history = getHistory();
     this.prevLocation = history.location;
+    this.locationChangeNotify("", history.location.pathname);
     history.listen(async (location: PluginLocation, action: Action) => {
       let ignoreRendering = false;
       const omittedLocationProps: Partial<PluginLocation> = {
         hash: null,
-        state: null
+        state: null,
       };
       // Omit the "key" when checking whether locations are equal in certain situations.
       if (
@@ -62,10 +80,14 @@ export class Router {
         // Ignore rendering if notify is `false`.
         ignoreRendering = true;
       }
-      this.prevLocation = location;
       if (ignoreRendering) {
+        this.prevLocation = location;
         return;
       }
+
+      this.locationChangeNotify(this.prevLocation.pathname, location.pathname);
+      this.prevLocation = location;
+
       if (this.rendering) {
         this.nextLocation = location;
       } else {
@@ -136,17 +158,17 @@ export class Router {
         main: [],
         menuInBg: [],
         menuBar: {
-          app: this.kernel.nextApp
+          app: this.kernel.nextApp,
         },
         appBar: {
           app: this.kernel.nextApp,
-          breadcrumb: []
+          breadcrumb: [],
         },
         flags: {
           redirect: undefined,
           hybrid: false,
-          failed: false
-        }
+          failed: false,
+        },
       };
       try {
         await locationContext.mountRoutes(
@@ -162,7 +184,7 @@ export class Router {
         if (isUnauthenticatedError(error)) {
           const history = getHistory();
           history.push("/auth/login", {
-            from: location
+            from: location,
           });
           return;
         }
@@ -172,10 +194,10 @@ export class Router {
           {
             type: "basic-bricks.page-error",
             properties: {
-              error: httpErrorToString(error)
+              error: httpErrorToString(error),
             },
-            events: {}
-          }
+            events: {},
+          },
         ];
       }
 
@@ -209,7 +231,7 @@ export class Router {
       if (appChanged) {
         window.dispatchEvent(
           new CustomEvent<RecentApps>("app.change", {
-            detail: this.kernel.getRecentApps()
+            detail: this.kernel.getRecentApps(),
           })
         );
       }
@@ -237,7 +259,7 @@ export class Router {
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
-      menuInBg.forEach(brick => {
+      menuInBg.forEach((brick) => {
         appendBrick(brick, mountPoints.bg as MountableElement);
       });
 
@@ -260,10 +282,10 @@ export class Router {
         {
           type: "basic-bricks.page-not-found",
           properties: {
-            url: history.createHref(location)
+            url: history.createHref(location),
           },
-          events: {}
-        }
+          events: {},
+        },
       ],
       mountPoints.main as MountableElement
     );

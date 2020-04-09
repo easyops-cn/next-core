@@ -5,7 +5,7 @@ import {
   // @ts-ignore
   __setMatchedStoryboard,
   // @ts-ignore
-  __setMountRoutesResults
+  __setMountRoutesResults,
 } from "./LocationContext";
 import { mountTree, mountStaticNode } from "./reconciler";
 
@@ -20,12 +20,12 @@ const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 
 let historyListeners: Function[] = [];
 const mockHistoryPush = (location: any): void => {
-  historyListeners.forEach(fn => {
+  historyListeners.forEach((fn) => {
     fn(location, "PUSH");
   });
 };
 const mockHistoryPop = (location: any): void => {
-  historyListeners.forEach(fn => {
+  historyListeners.forEach((fn) => {
     fn(location, "POP");
   });
 };
@@ -37,33 +37,36 @@ spyOnGetHistory.mockReturnValue({
   location: {},
   listen: spyOnHistoryListen,
   replace: spyOnHistoryReplace,
-  createHref: () => "/oops"
+  createHref: () => "/oops",
 });
+
+const mockFeature = jest.fn().mockReturnValue({});
 
 describe("Router", () => {
   let router: Router;
   const kernel: Kernel = {
     mountPoints: {
       main: document.createElement("div"),
-      bg: document.createElement("div")
+      bg: document.createElement("div"),
     },
     bootstrapData: {
-      storyboards: []
+      storyboards: [],
     },
     unsetBars: jest.fn(),
     menuBar: {
-      element: document.createElement("div")
+      element: document.createElement("div"),
     },
     appBar: {
-      element: document.createElement("div")
+      element: document.createElement("div"),
     },
+    getFeatureFlags: mockFeature,
     toggleBars: jest.fn(),
     firstRendered: jest.fn(),
     toggleLegacyIframe: jest.fn(),
     updateWorkspaceStack: jest.fn(),
     getPreviousWorkspace: jest.fn(),
     getRecentApps: jest.fn(),
-    loadDepsOfStoryboard: jest.fn()
+    loadDepsOfStoryboard: jest.fn(),
   } as any;
 
   beforeEach(() => {
@@ -81,21 +84,21 @@ describe("Router", () => {
     __setMatchedStoryboard({
       routes: [],
       app: {
-        id: "hello"
-      }
+        id: "hello",
+      },
     });
     __setMountRoutesResults({
       main: [
         {
-          type: "p"
-        }
+          type: "p",
+        },
       ],
       menuBar: {
-        title: "menu"
+        title: "menu",
       },
       appBar: {
-        title: "app"
-      }
+        title: "app",
+      },
     } as any);
     expect(router.getState()).toBe("initial");
     await router.bootstrap();
@@ -116,24 +119,24 @@ describe("Router", () => {
   it("should render matched storyboard with dependsAll and redirect", async () => {
     __setMatchedStoryboard({
       dependsAll: true,
-      routes: []
+      routes: [],
     });
     __setMountRoutesResults({
       flags: {
         redirect: {
           path: "/auth/login",
           state: {
-            from: "/private"
-          }
-        }
-      }
+            from: "/private",
+          },
+        },
+      },
     } as any);
     await router.bootstrap();
     expect(spyOnHistoryReplace.mock.calls[0]).toEqual([
       "/auth/login",
       {
-        from: "/private"
-      }
+        from: "/private",
+      },
     ]);
     expect(spyOnMountStaticNode).not.toBeCalled();
     expect(spyOnMountTree).not.toBeCalled();
@@ -141,13 +144,13 @@ describe("Router", () => {
 
   it("should render matched storyboard with bars hidden and empty main", async () => {
     __setMatchedStoryboard({
-      routes: []
+      routes: [],
     });
     __setMountRoutesResults({
       flags: {
-        barsHidden: true
+        barsHidden: true,
       },
-      main: []
+      main: [],
     } as any);
     await router.bootstrap();
     expect(kernel.toggleBars).toBeCalledWith(false);
@@ -157,9 +160,9 @@ describe("Router", () => {
       {
         type: "basic-bricks.page-not-found",
         properties: {
-          url: "/oops"
-        }
-      }
+          url: "/oops",
+        },
+      },
     ]);
   });
 
@@ -170,9 +173,9 @@ describe("Router", () => {
       {
         type: "basic-bricks.page-not-found",
         properties: {
-          url: "/oops"
-        }
-      }
+          url: "/oops",
+        },
+      },
     ]);
   });
 
@@ -180,15 +183,15 @@ describe("Router", () => {
     await router.bootstrap();
     jest.clearAllMocks();
     mockHistoryPush({
-      pathname: "/first"
+      pathname: "/first",
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
     mockHistoryPush({
       pathname: "/second",
       state: {
-        notify: false
-      }
+        notify: false,
+      },
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
@@ -202,15 +205,15 @@ describe("Router", () => {
       search: "?ok=1",
       key: "123",
       state: {
-        from: "earth"
-      }
+        from: "earth",
+      },
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
     mockHistoryPush({
       pathname: "/first",
       search: "?ok=1",
-      hash: "#good"
+      hash: "#good",
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(1);
@@ -225,8 +228,8 @@ describe("Router", () => {
       key: "123",
       hash: "#yes",
       state: {
-        notify: false
-      }
+        notify: false,
+      },
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(0);
@@ -234,7 +237,7 @@ describe("Router", () => {
       pathname: "/first",
       search: "?ok=1",
       hash: null,
-      key: "456"
+      key: "456",
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(0);
@@ -244,16 +247,28 @@ describe("Router", () => {
     await router.bootstrap();
     jest.clearAllMocks();
     mockHistoryPush({
-      pathname: "/first"
+      pathname: "/first",
     });
     // `/second` should be ignored and replaced by `/third`.
     mockHistoryPush({
-      pathname: "/second"
+      pathname: "/second",
     });
     mockHistoryPush({
-      pathname: "/third"
+      pathname: "/third",
     });
     await (global as any).flushPromises();
     expect(spyOnMountTree).toBeCalledTimes(2);
+  });
+
+  it("location change should notify", async () => {
+    const mockImage = jest.spyOn(window, "Image");
+    mockFeature.mockReturnValue({ "log-location-change": true });
+    router = new Router(kernel);
+    await router.bootstrap();
+    jest.clearAllMocks();
+    mockHistoryPush({
+      pathname: "/first",
+    });
+    expect(mockImage).toBeCalled();
   });
 });
