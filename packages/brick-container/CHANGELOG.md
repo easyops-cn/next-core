@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.18...@easyops/brick-container@1.17.0) (2020-04-10)
+
+### Features
+
+- **router:** log location change, refs BRICK_STORE-1307 ([3bf3101](https://git.easyops.local/anyclouds/next-core/commits/3bf3101))
+
 ## [1.16.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.17...@easyops/brick-container@1.16.18) (2020-04-09)
 
 **Note:** Version bump only for package @easyops/brick-container
