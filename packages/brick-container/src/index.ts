@@ -17,6 +17,11 @@ initializeLibrary();
 // @ts-ignore
 window.DLL_HASH = DLL_HASH;
 
+// BRICK_NEXT_VERSIONS is defined by `webpack.DefinePlugin`.
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+window.BRICK_NEXT_VERSIONS = BRICK_NEXT_VERSIONS;
+
 const root = document.body;
 
 const pluginRuntime = createRuntime();
@@ -26,7 +31,7 @@ const mountPoints = {
   appBar: root.querySelector<HTMLElement>("#app-bar-mount-point"),
   loadingBar: root.querySelector<HTMLElement>("#loading-bar-mount-point"),
   main: root.querySelector<HTMLElement>("#main-mount-point"),
-  bg: root.querySelector<HTMLElement>("#bg-mount-point")
+  bg: root.querySelector<HTMLElement>("#bg-mount-point"),
 };
 
 pushInterceptor((req, next, interceptorParams?) => {
