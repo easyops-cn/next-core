@@ -6,6 +6,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const manifest = require("@easyops/brick-dll");
 const packageJson = require("./package.json");
+const brickDllVersion = require("@easyops/brick-dll/package.json").version;
+const brickKitVersion = require("@easyops/brick-kit/package.json").version;
+const brickUtilsVersion = require("@easyops/brick-utils/package.json").version;
 
 const appRoot = path.join(__dirname, "..", "..");
 let baseHref = "/";
@@ -79,7 +82,15 @@ module.exports = {
       manifest: manifest,
     }),
     new webpack.DefinePlugin({
-      // Recording dll hash for long-term cache.
+      // Ref https://webpack.js.org/plugins/define-plugin/
+      // > If the value is a string it will be used as a code fragment.
+      BRICK_NEXT_VERSIONS: JSON.stringify({
+        ["brick-container"]: packageJson.version,
+        ["brick-dll"]: brickDllVersion,
+        ["brick-kit"]: brickKitVersion,
+        ["brick-utils"]: brickUtilsVersion,
+      }),
+      // Recording dll hash for long-term-caching.
       DLL_HASH: JSON.stringify(
         dll.reduce((acc, { baseName, filePath }) => {
           const content = fs.readFileSync(require.resolve(filePath), {
