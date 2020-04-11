@@ -33,7 +33,7 @@
     "klaw-sync": "^6.0.0",
     "meow": "^6.1.0",
     "prettier": "^2.0.4",
-    "semver": "^7.2.1"
+    "semver": "^7.2.2"
   },
   "templateDependencies": {
     "@bricks/basic-bricks": "^1.11.0"
