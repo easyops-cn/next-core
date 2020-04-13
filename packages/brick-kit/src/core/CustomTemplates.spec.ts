@@ -9,12 +9,6 @@ import * as runtime from "./Runtime";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
 
-const mockCustomElements = {
-  get: jest.fn().mockReturnValue(false),
-  define: jest.fn(),
-};
-(window as any).customElements = mockCustomElements;
-
 describe("expandCustomTemplate", () => {
   beforeAll(() => {
     registerCustomTemplate("steve-test.custom-template", {
