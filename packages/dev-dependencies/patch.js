@@ -136,7 +136,7 @@ function updateJsdom() {
     .filter((dirent) => dirent.isDirectory())
     .forEach((dirent) => {
       const srcDir = path.join(bricksDir, dirent.name, "src");
-      if (fs.statSync(srcDir).isDirectory()) {
+      if (fs.existsSync(srcDir) && fs.statSync(srcDir).isDirectory()) {
         removeUnnecessaryCode(srcDir);
       }
     });
