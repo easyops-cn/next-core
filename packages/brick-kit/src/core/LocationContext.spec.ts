@@ -1,7 +1,6 @@
 import {
   PluginLocation,
   RuntimeStoryboard,
-  RouteConf,
   ResolveConf,
 } from "@easyops/brick-types";
 import * as brickUtils from "@easyops/brick-utils";
@@ -18,10 +17,6 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
   username: "easyops",
   userInstanceId: "acbd46b",
 });
-
-(global as any).customElements = {
-  get: () => true,
-};
 
 jest.spyOn(history, "getHistory").mockReturnValue({
   location: {

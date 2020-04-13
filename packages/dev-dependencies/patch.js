@@ -24,7 +24,7 @@ module.exports = function patch() {
     moveBricksDeployFiles();
   }
 
-  if (semver.lt(currentRenewVersion, "0.6.0")) {
+  if (semver.lt(currentRenewVersion, "0.6.4")) {
     updateJsdom();
   }
 
@@ -150,16 +150,42 @@ function updateJsdom() {
         (dirent.isFile() && dirent.name.endsWith(".spec.ts")) ||
         dirent.name.endsWith(".spec.tsx")
       ) {
-        const content = fs.readFileSync(direntFilePath, "utf8");
-        const needClear = new RegExp(
-          "(?:" +
-            escapeRegExp("// Ref https://github.com/jsdom/jsdom/issues/1030") +
-            "[\\r\\n]*)?" +
-            escapeRegExp('import "document-register-element";') +
-            "[\\r\\n]*"
-        );
-        if (needClear.test(content)) {
-          fs.writeFileSync(direntFilePath, content.replace(needClear, ""));
+        let content = fs.readFileSync(direntFilePath, "utf8");
+        const needReplaces = [
+          [
+            new RegExp(
+              "(?:" +
+                escapeRegExp(
+                  "// Ref https://github.com/jsdom/jsdom/issues/1030"
+                ) +
+                "[\\r\\n]*)?" +
+                escapeRegExp('import "document-register-element";') +
+                "[\\r\\n]*"
+            ),
+            "",
+          ],
+          [
+            new RegExp(
+              escapeRegExp("const spyOnDefine = jest.fn();") +
+                "[\\r\\n]*" +
+                escapeRegExp("(window as any).customElements = {") +
+                "[\\r\\n]*" +
+                escapeRegExp("  define: spyOnDefine") +
+                "[\\r\\n]*" +
+                escapeRegExp("};")
+            ),
+            'const spyOnDefine = jest.spyOn(window.customElements, "define");',
+          ],
+        ];
+        let updated = false;
+        for (const [pattern, replacement] of needReplaces) {
+          if (pattern.test(content)) {
+            updated = true;
+            content = content.replace(pattern, replacement);
+          }
+        }
+        if (updated) {
+          fs.writeFileSync(direntFilePath, content);
         }
       }
     });

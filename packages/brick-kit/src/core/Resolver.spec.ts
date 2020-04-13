@@ -308,10 +308,6 @@ describe("Resolver", () => {
   });
 
   it("should throw if provider not defined", async () => {
-    (window as any).customElements = {
-      get: (name: string) => false,
-    };
-
     const testMethod = jest.fn().mockResolvedValue({
       data: {
         hello: "world",
