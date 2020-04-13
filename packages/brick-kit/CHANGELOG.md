@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.39.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.39.1...@easyops/brick-kit@1.39.2) (2020-04-13)
+
+### Bug Fixes
+
+- fix tests after using jsdom@16 ([2d9ed80](https://git.easyops.local/anyclouds/next-core/commits/2d9ed80))
+
 ## [1.39.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.39.0...@easyops/brick-kit@1.39.1) (2020-04-13)
 
 ### Bug Fixes

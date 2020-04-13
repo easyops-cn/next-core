@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.10.0...@easyops/brick-scripts@1.10.1) (2020-04-13)
+
+### Bug Fixes
+
+- fix tests after using jsdom@16 ([2d9ed80](https://git.easyops.local/anyclouds/next-core/commits/2d9ed80))
+
 # [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.9.2...@easyops/brick-scripts@1.10.0) (2020-04-09)
 
 ### Features

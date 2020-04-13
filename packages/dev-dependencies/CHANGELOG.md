@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.3...@easyops/dev-dependencies@0.6.4) (2020-04-13)
+
+### Bug Fixes
+
+- fix tests after using jsdom@16 ([2d9ed80](https://git.easyops.local/anyclouds/next-core/commits/2d9ed80))
+
 ## [0.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.2...@easyops/dev-dependencies@0.6.3) (2020-04-13)
 
 ### Bug Fixes
