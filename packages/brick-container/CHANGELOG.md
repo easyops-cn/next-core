@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.17.0...@easyops/brick-container@1.17.1) (2020-04-13)
+
+### Bug Fixes
+
+- **brick-container:** show versions of core packages ([c271868](https://git.easyops.local/anyclouds/next-core/commits/c271868))
+- **webpack:** fix dll not refreshing after updated in development ([d804aa5](https://git.easyops.local/anyclouds/next-core/commits/d804aa5))
+
 # [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.18...@easyops/brick-container@1.17.0) (2020-04-10)
 
 ### Features
