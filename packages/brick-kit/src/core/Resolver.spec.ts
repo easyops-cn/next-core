@@ -219,15 +219,18 @@ describe("Resolver", () => {
   it("should use defined resolves", async () => {
     const providerName = "any-provider";
 
-    resolver.defineResolves([
-      {
-        id: "provider-a",
-        provider: providerName,
-        method: "testMethod",
-        args: ["good"],
-        transformFrom: "data",
-      },
-    ]);
+    resolver.defineResolves(
+      [
+        {
+          id: "provider-a",
+          provider: providerName,
+          method: "testMethod",
+          args: ["good"],
+          transformFrom: "data",
+        },
+      ],
+      null
+    );
 
     const testMethod = jest.fn().mockResolvedValue({
       data: {
@@ -351,7 +354,7 @@ describe("Resolver", () => {
   });
 
   it("should throw if ref provider not found", async () => {
-    resolver.defineResolves(undefined);
+    resolver.defineResolves(undefined, null);
     const brickA: RuntimeBrick = {
       type: "brick-A",
       properties: {},
