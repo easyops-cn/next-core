@@ -150,6 +150,7 @@ export class LocationContext {
     const matched = this.matchRoutes(routes, this.kernel.nextApp);
     let redirect: string | ResolveConf;
     const redirectConf: RedirectConf = {};
+    let context: PluginRuntimeContext;
     switch (matched) {
       case "missed":
         break;
@@ -168,7 +169,8 @@ export class LocationContext {
         if (matched.route.hybrid) {
           mountRoutesResult.flags.hybrid = true;
         }
-        this.resolver.defineResolves(matched.route.defineResolves);
+        context = this.getContext(matched.match);
+        this.resolver.defineResolves(matched.route.defineResolves, context);
         await this.mountProviders(
           matched.route.providers,
           matched.match,
@@ -176,11 +178,7 @@ export class LocationContext {
           mountRoutesResult
         );
 
-        redirect = computeRealValue(
-          matched.route.redirect,
-          this.getContext(matched.match),
-          true
-        );
+        redirect = computeRealValue(matched.route.redirect, context, true);
 
         if (redirect) {
           if (typeof redirect === "string") {

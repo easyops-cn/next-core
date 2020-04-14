@@ -39,10 +39,16 @@ export class Resolver {
     }
   }
 
-  defineResolves(resolves: DefineResolveConf[]): void {
+  defineResolves(
+    resolves: DefineResolveConf[],
+    context: PluginRuntimeContext
+  ): void {
     if (Array.isArray(resolves)) {
       for (const resolveConf of resolves) {
-        this.definedResolves.set(resolveConf.id, resolveConf);
+        this.definedResolves.set(resolveConf.id, {
+          ...resolveConf,
+          args: computeRealValue(resolveConf.args, context, true),
+        });
       }
     }
   }
@@ -185,7 +191,9 @@ export class Resolver {
       promise = this.cache.get(cacheKey);
     } else {
       const actualArgs = args
-        ? context
+        ? ref
+          ? args // `args` are already computed for `defineResolves`
+          : context
           ? computeRealValue(args, context, true)
           : args
         : providerBrick.args || [];
