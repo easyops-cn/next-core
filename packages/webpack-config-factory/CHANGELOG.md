@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.8.1...@easyops/webpack-config-factory@1.9.0) (2020-04-14)
+
+### Features
+
+- **webpack:** ensure usages of imports of antd ([ec789d7](https://git.easyops.local/anyclouds/next-core/commits/ec789d7))
+
 ## [1.8.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.8.0...@easyops/webpack-config-factory@1.8.1) (2020-03-26)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory
