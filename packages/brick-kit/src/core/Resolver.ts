@@ -22,6 +22,7 @@ import {
   transformProperties,
   transformIntermediateData,
 } from "../transformProperties";
+import { recursiveMarkAsInjected } from "../injected";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -227,6 +228,8 @@ export class Resolver {
     async function fetchData(): Promise<void> {
       const value = await promise;
       data = field === null || field === undefined ? value : get(value, field);
+      // The fetched data and its inner objects should never be *injected* again.
+      recursiveMarkAsInjected(data);
     }
 
     if (resolveConf.onReject) {

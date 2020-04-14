@@ -2,7 +2,7 @@ import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { isObject, transform } from "@easyops/brick-utils";
 import { isCookable, evaluate } from "./evaluate";
-import { rememberInjected, haveBeenInjected } from "./injected";
+import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
 export function transformProperties(
   props: Record<string, any>,
@@ -30,9 +30,7 @@ export function doTransform(data: any, to: any): any {
     } else {
       result = transform(to, data);
     }
-    if (isObject(result)) {
-      rememberInjected(result);
-    }
+    recursiveMarkAsInjected(result);
     return result;
   }
 

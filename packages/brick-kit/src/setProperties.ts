@@ -1,7 +1,7 @@
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject, inject } from "@easyops/brick-utils";
 import { isCookable, evaluate, isPreEvaluated } from "./evaluate";
-import { rememberInjected, haveBeenInjected } from "./injected";
+import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
 export const computeRealValue = (
   value: any,
@@ -21,9 +21,7 @@ export const computeRealValue = (
     } else {
       result = inject(value, context);
     }
-    if (isObject(result)) {
-      rememberInjected(result);
-    }
+    recursiveMarkAsInjected(result);
     return result;
   }
 
