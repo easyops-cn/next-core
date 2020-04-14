@@ -1,7 +1,20 @@
+import { isObject } from "@easyops/brick-utils";
+
 let injected = new WeakSet();
 
-export function rememberInjected(object: any): void {
-  injected.add(object);
+// The injected (or transformed) result should never be *injected* again.
+// So does the fetched data from a remote api.
+export function recursiveMarkAsInjected(value: any): void {
+  if (isObject(value)) {
+    if (!haveBeenInjected(value)) {
+      injected.add(value);
+      if (Array.isArray(value)) {
+        value.forEach(recursiveMarkAsInjected);
+      } else {
+        Object.values(value).forEach(recursiveMarkAsInjected);
+      }
+    }
+  }
 }
 
 export function haveBeenInjected(object: any): boolean {

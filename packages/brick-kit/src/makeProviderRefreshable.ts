@@ -11,6 +11,7 @@ import {
 import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
+import { recursiveMarkAsInjected } from "./injected";
 
 export interface ProviderDependents {
   brick: RuntimeBrick;
@@ -98,6 +99,8 @@ export function makeProviderRefreshable(
                   field === null || field === undefined
                     ? value
                     : get(value, field);
+                // The fetched data and its inner objects should never be *injected* again.
+                recursiveMarkAsInjected(data);
               }
 
               if (onReject) {
