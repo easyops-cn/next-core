@@ -1,6 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`cook cook(precook("((a,b)=>a[b])(()=>1, 'constructor')"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+
+exports[`cook cook(precook("((a,b)=>a[b])(()=>1, 'constructor')('console.log(\`yo\`)')()"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+
+exports[`cook cook(precook("((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(\`yo\`)')()"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+
 exports[`cook cook(precook("() => {}"), {...}) should throw 1`] = `"Only an \`Expression\` is allowed in \`ArrowFunctionExpression\`'s body, but received: \`() => {}\`"`;
+
+exports[`cook cook(precook("({}).constructor.assign"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+
+exports[`cook cook(precook("/bc\\\\u{/u.test('dcba')"), {...}) should throw 1`] = `"Invalid regular expression: /bc\\\\u{/u"`;
+
+exports[`cook cook(precook("/bc\\\\u{13}/u.test('dcba')"), {...}) should throw 1`] = `"Unsupported unicode flag in regular expression: /bc\\\\u{13}/u"`;
 
 exports[`cook cook(precook("[...DATA]"), {...}) should throw 1`] = `"object is not iterable: \`...DATA\`"`;
 
@@ -8,13 +20,25 @@ exports[`cook cook(precook("[...null]"), {...}) should throw 1`] = `"object is n
 
 exports[`cook cook(precook("[...undefined]"), {...}) should throw 1`] = `"undefined is not iterable: \`...undefined\`"`;
 
+exports[`cook cook(precook("[[1]].map(([a, [b]]) => a + b)"), {...}) should throw 1`] = `"undefined is not iterable: \`[b]\`"`;
+
 exports[`cook cook(precook("[1, , 2]"), {...}) should throw 1`] = `"Sparse arrays are not allowed: \`[1, , 2]\`"`;
+
+exports[`cook cook(precook("[1, 2].map(([, a]) => a)"), {...}) should throw 1`] = `"Sparse arrays are not allowed: \`[, a]\`"`;
+
+exports[`cook cook(precook("[undefined].map(({...a}) => a)"), {...}) should throw 1`] = `"Cannot destructure undefined"`;
+
+exports[`cook cook(precook("[undefined].map(({}) => 1)"), {...}) should throw 1`] = `"Cannot destructure undefined"`;
+
+exports[`cook cook(precook("[undefined].map(({a}) => a)"), {...}) should throw 1`] = `"Cannot destructure undefined"`;
 
 exports[`cook cook(precook("[undefined].map((i = DATA.number5, DATA) => i)"), {...}) should throw 1`] = `"Cannot access 'DATA' before initialization"`;
 
 exports[`cook cook(precook("[undefined].map((i = j + 1) => i)"), {...}) should throw 1`] = `"j is not defined"`;
 
 exports[`cook cook(precook("[undefined].map((i = j + 1, j) => i)"), {...}) should throw 1`] = `"Cannot access 'j' before initialization"`;
+
+exports[`cook cook(precook("_.get(()=>1, 'constructor.prototype')"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
 exports[`cook cook(precook("_.reverse([0,1,2])"), {...}) should throw 1`] = `"_.reverse is not a function"`;
 
@@ -40,4 +64,8 @@ exports[`cook cook(precook("async () => null"), {...}) should throw 1`] = `"Asyn
 
 exports[`cook cook(precook("delete DATA.for"), {...}) should throw 1`] = `"Unsupported unary operator \`delete\`: \`delete DATA.for\`"`;
 
-exports[`cook cook(precook("this.bad"), {...}) should throw 1`] = `"Unexpected node type \`ThisExpression\`: \`this\`"`;
+exports[`cook cook(precook("location.assign('/')"), {...}) should throw 1`] = `"location.assign is not a function"`;
+
+exports[`cook cook(precook("moment.updateLocale('en', {})"), {...}) should throw 1`] = `"moment.updateLocale is not a function"`;
+
+exports[`cook cook(precook("this.bad"), {...}) should throw 1`] = `"Unsupported node type \`ThisExpression\`: \`this\`"`;

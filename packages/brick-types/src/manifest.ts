@@ -42,7 +42,12 @@ export interface MicroApp {
   defaultConfig?: Record<string, any>;
   userConfig?: Record<string, any>;
   config?: Record<string, any>;
+  $$routeAliasMap?: RouteAliasMap;
 }
+
+export type RouteAliasMap = Map<string, RouteAliasConf>;
+
+export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 
 export interface BrickPackage {
   bricks: string[];
@@ -99,7 +104,8 @@ export interface RouteConfOfRedirect extends BaseRouteConf {
 }
 
 export interface BaseRouteConf {
-  path: string | string[];
+  path: string;
+  alias?: string;
   exact?: boolean;
   public?: boolean;
   menu?: MenuConf;
@@ -107,6 +113,15 @@ export interface BaseRouteConf {
   providers?: ProviderConf[];
   defineResolves?: DefineResolveConf[];
   redirect?: string | ResolveConf;
+  segues?: SeguesConf;
+}
+
+export interface SeguesConf {
+  [segueId: string]: SegueConf;
+}
+
+export interface SegueConf {
+  target: string;
 }
 
 export interface BrickConf {
@@ -156,10 +171,13 @@ export interface EntityResolveConf {
   field?: string | string[];
   name?: string;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
+  onReject?: HandleReject;
 }
 
-export interface DefineResolveConf extends Omit<EntityResolveConf, "name"> {
+export interface DefineResolveConf
+  extends Omit<EntityResolveConf, "name" | "onReject"> {
   id: string;
 }
 
@@ -167,7 +185,19 @@ export interface RefResolveConf {
   ref: string;
   name?: string;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
+  onReject?: HandleReject;
+}
+
+export type HandleReject = HandleRejectByTransform /*| HandleRejectByCatch*/;
+
+export interface HandleRejectByTransform {
+  transform: GeneralTransform;
+}
+
+export interface HandleRejectByCatch {
+  catch: true;
 }
 
 export type GeneralTransform = string | TransformMap | TransformItem[];
@@ -182,7 +212,7 @@ export interface TransformItem {
   mapArray?: boolean | "auto";
 }
 
-export type MenuConf = false | StaticMenuConf | BrickMenuConf;
+export type MenuConf = false | StaticMenuConf | BrickMenuConf | ResolveMenuConf;
 
 export interface StaticMenuConf extends StaticMenuProps {
   type?: "static";
@@ -212,6 +242,11 @@ export interface BrickMenuConf {
   properties?: Record<string, any>;
   events?: BrickEventsMap;
   lifeCycle?: BrickLifeCycle;
+}
+
+export interface ResolveMenuConf {
+  type: "resolve";
+  resolve: ResolveConf;
 }
 
 export interface SlotsConf {
@@ -263,6 +298,8 @@ export interface BuiltinBrickEventHandler {
     | "location.reload"
     | "location.assign"
     | "window.open"
+    | "segue.push"
+    | "segue.replace"
     | "event.preventDefault"
     | "console.log"
     | "console.error"
@@ -383,9 +420,18 @@ export interface CustomTemplateProxyProperties {
   [name: string]: CustomTemplateProxyProperty;
 }
 
-export interface CustomTemplateProxyProperty {
+export type CustomTemplateProxyProperty =
+  | CustomTemplateProxyBasicProperty
+  | CustomTemplateProxyTransformableProperty;
+
+export interface CustomTemplateProxyBasicProperty {
   ref: string;
   refProperty: string;
+}
+
+export interface CustomTemplateProxyTransformableProperty {
+  ref: string;
+  refTransform: GeneralTransform;
 }
 
 export interface CustomTemplateProxyEvents {

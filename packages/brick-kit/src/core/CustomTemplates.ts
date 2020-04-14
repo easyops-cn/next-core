@@ -7,10 +7,13 @@ import {
   SlotsConfOfBricks,
   RefForProxy,
   CustomTemplateProxyProperty,
-  CustomTemplateProxySlot
+  CustomTemplateProxyTransformableProperty,
+  CustomTemplateProxySlot,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
-import { RuntimeBrick } from "./BrickNode";
+import { transformProperties } from "../transformProperties";
+import { setRealProperties } from "../setProperties";
+import { RuntimeBrick } from "./exports";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 const appRegistered = new Set<string>();
@@ -20,42 +23,34 @@ export function registerCustomTemplate(
   tplConstructor: CustomTemplateConstructor,
   appId?: string
 ): void {
-  if (customTemplateRegistry.has(tplName)) {
+  let tagName = tplName;
+  // When a template is registered by an app, it's namespace maybe missed.
+  if (appId && !tplName.includes(".")) {
+    tagName = `${appId}.${tplName}`;
+  }
+  if (customTemplateRegistry.has(tagName)) {
     // When open launchpad, the storyboard will be updated.
     // However, we can't *undefine* a custom element.
     // Just ignore re-registering custom templates.
     if (!appId || appRegistered.has(appId)) {
       // eslint-disable-next-line no-console
-      console.error(`Custom template of "${tplName}" already registered.`);
+      console.error(`Custom template of "${tagName}" already registered.`);
     }
     return;
   }
-  if (customElements.get(tplName)) {
+  if (customElements.get(tagName)) {
     // eslint-disable-next-line no-console
     console.error(
-      `Custom template of "${tplName}" already defined by customElements.`
+      `Custom template of "${tagName}" already defined by customElements.`
     );
     return;
   }
-  if (appId) {
-    const splitTplName = tplName.split(".");
-    if (
-      splitTplName.length !== 2 ||
-      splitTplName[0] !== appId ||
-      !/^[a-z][a-z0-9]*(-[a-z0-9]+)+$/.test(splitTplName[1])
-    ) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Custom template in a storyboard should in a form of "your-app-id.your-tpl-name". Received: "${tplName}" in app "${appId}".`
-      );
-    }
-  }
-  customTemplateRegistry.set(tplName, {
+  customTemplateRegistry.set(tagName, {
     ...tplConstructor,
-    name: tplName
+    name: tagName,
   });
   customElements.define(
-    tplName,
+    tagName,
     class TplElement extends HTMLElement {
       get $$typeof(): string {
         return "custom-template";
@@ -74,8 +69,23 @@ export function registerCustomTemplate(
   }
 }
 
-export function isCustomTemplate(brick: string): boolean {
-  return customTemplateRegistry.has(brick);
+// If it's a custom template, return the tag name of the template.
+// Otherwise, return false.
+export function getTagNameOfCustomTemplate(
+  brick: string,
+  appId?: string
+): false | string {
+  // When a template is registered by an app, it's namespace maybe missed.
+  if (!brick.includes(".") && appId) {
+    const tagName = `${appId}.${brick}`;
+    if (customTemplateRegistry.has(tagName)) {
+      return tagName;
+    }
+  }
+  if (customTemplateRegistry.has(brick)) {
+    return brick;
+  }
+  return false;
 }
 
 export function expandCustomTemplate(
@@ -96,7 +106,7 @@ export function expandCustomTemplate(
 
   const reversedProxies: ReversedProxies = {
     properties: new Map(),
-    slots: new Map()
+    slots: new Map(),
   };
   const reversedEntries: ReversedEntries[] = ["properties", "slots"];
   for (const entry of reversedEntries) {
@@ -111,7 +121,7 @@ export function expandCustomTemplate(
         }
         proxies.push({
           ...conf,
-          reversedRef
+          reversedRef,
         });
       }
     }
@@ -121,14 +131,14 @@ export function expandCustomTemplate(
     reversedProxies,
     templateProperties,
     templateSlots: templateSlots as SlotsConfOfBricks,
-    proxyRefs: proxyBrick.proxyRefs
+    proxyRefs: proxyBrick.proxyRefs,
   };
 
   newBrickConf.slots = {
     "": {
       type: "bricks",
-      bricks: bricks.map(item => expandBrickInTemplate(item, proxyContext))
-    }
+      bricks: bricks.map((item) => expandBrickInTemplate(item, proxyContext)),
+    },
   };
 
   return newBrickConf;
@@ -147,7 +157,7 @@ function expandBrickInTemplate(
     reversedProxies,
     templateProperties,
     templateSlots,
-    proxyRefs
+    proxyRefs,
   } = proxyContext;
   let $$computedPropsFromProxy: Record<string, any>;
   let $$refForProxy: RefForProxy;
@@ -157,10 +167,10 @@ function expandBrickInTemplate(
       slotName,
       {
         type: "bricks",
-        bricks: (slotConf.bricks ?? []).map(item =>
+        bricks: (slotConf.bricks ?? []).map((item) =>
           expandBrickInTemplate(item, proxyContext)
-        )
-      }
+        ),
+      },
     ])
   );
 
@@ -172,11 +182,22 @@ function expandBrickInTemplate(
       $$computedPropsFromProxy = Object.fromEntries(
         reversedProxies.properties
           .get(ref)
-          .map(item => [
-            item.refProperty,
-            templateProperties?.[item.reversedRef]
-          ])
-          .filter(item => item[1] !== undefined)
+          .flatMap((item) => {
+            const propValue = templateProperties?.[item.reversedRef];
+            if (isTransformableProperty(item)) {
+              return Object.entries(
+                transformProperties(
+                  {},
+                  {
+                    [item.reversedRef]: propValue,
+                  },
+                  item.refTransform
+                )
+              );
+            }
+            return [[item.refProperty, propValue]];
+          })
+          .filter((item) => item[1] !== undefined)
       );
     }
 
@@ -185,7 +206,7 @@ function expandBrickInTemplate(
         if (!hasOwnProperty(slots, item.refSlot)) {
           slots[item.refSlot] = {
             type: "bricks",
-            bricks: []
+            bricks: [],
           };
         }
         const slotConf = slots[item.refSlot];
@@ -205,7 +226,7 @@ function expandBrickInTemplate(
     ...restBrickConfInTemplate,
     slots,
     $$computedPropsFromProxy,
-    $$refForProxy
+    $$refForProxy,
   };
 }
 
@@ -214,7 +235,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
     return;
   }
 
-  const node = brick.element;
+  const node = brick.element as any;
   const { properties, events, methods } = brick.proxy;
 
   if (properties) {
@@ -225,14 +246,38 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         // should always have refElement.
         // istanbul ignore else
         if (refElement) {
-          Object.defineProperty(node, propName, {
-            get: function() {
-              return refElement[propRef.refProperty];
-            },
-            set: function(value: any) {
-              refElement[propRef.refProperty] = value;
-            }
-          });
+          if (isTransformableProperty(propRef)) {
+            // Create a non-enumerable symbol property to delegate the tpl root property.
+            const delegatedPropSymbol = Symbol("delegatedProp");
+            node[delegatedPropSymbol] = node[propName];
+            Object.defineProperty(node, propName, {
+              get: function () {
+                return node[delegatedPropSymbol];
+              },
+              set: function (value: any) {
+                node[delegatedPropSymbol] = value;
+                setRealProperties(
+                  refElement,
+                  transformProperties(
+                    {},
+                    {
+                      [propName]: value,
+                    },
+                    propRef.refTransform
+                  )
+                );
+              },
+            });
+          } else {
+            Object.defineProperty(node, propName, {
+              get: function () {
+                return refElement[propRef.refProperty];
+              },
+              set: function (value: any) {
+                refElement[propRef.refProperty] = value;
+              },
+            });
+          }
         }
       }
     }
@@ -245,13 +290,13 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         // should always have refElement.
         // istanbul ignore else
         if (refElement) {
-          refElement.addEventListener(eventRef.refEvent, e => {
+          refElement.addEventListener(eventRef.refEvent, (e) => {
             node.dispatchEvent(
               new CustomEvent(eventType, {
                 detail: (e as CustomEvent).detail,
                 bubbles: e.bubbles,
                 cancelable: e.cancelable,
-                composed: e.composed
+                composed: e.composed,
               })
             );
           });
@@ -269,9 +314,9 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         // istanbul ignore else
         if (refElement) {
           Object.defineProperty(node, method, {
-            value: function(...args: any[]) {
+            value: function (...args: any[]) {
               return refElement[methodRef.refMethod](...args);
-            }
+            },
           });
         }
       }
@@ -293,10 +338,16 @@ interface ReversedProxies {
 
 type ReversedEntries = keyof ReversedProxies;
 
-interface PropertyProxy extends CustomTemplateProxyProperty {
+type PropertyProxy = CustomTemplateProxyProperty & {
   reversedRef: string;
-}
+};
 
 interface SlotProxy extends CustomTemplateProxySlot {
   reversedRef: string;
+}
+
+function isTransformableProperty(
+  propRef: CustomTemplateProxyProperty
+): propRef is CustomTemplateProxyTransformableProperty {
+  return !!(propRef as CustomTemplateProxyTransformableProperty).refTransform;
 }

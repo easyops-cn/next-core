@@ -2,20 +2,36 @@ import { isCookable, evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
-  app: { homepage: "/hello" },
+  app: {
+    homepage: "/hello",
+    $$routeAliasMap: new Map([
+      [
+        "segue-target",
+        {
+          path: "/segue-target",
+          alias: "segue-target",
+        },
+      ],
+    ]),
+  },
   query: new URLSearchParams("a=x&b=2&b=1"),
   match: {
     params: {
-      objectId: "HOST"
-    }
+      objectId: "HOST",
+    },
   },
   sys: {
-    username: "tester"
+    username: "tester",
   },
   flags: {
-    test: true
+    test: true,
   },
-  hash: "#readme"
+  hash: "#readme",
+  segues: {
+    testSegueId: {
+      target: "segue-target",
+    },
+  },
 } as any);
 
 describe("isCookable", () => {
@@ -27,7 +43,7 @@ describe("isCookable", () => {
     ["<% []%>", false],
     ["<%[] %>", false],
     [" <% [] %>", false],
-    ["<% [] %> ", false]
+    ["<% [] %> ", false],
   ])("isCookable(%j) should return %j", (raw, cookable) => {
     expect(isCookable(raw)).toBe(cookable);
   });
@@ -49,43 +65,58 @@ describe("evaluate", () => {
     ["<% SYS.username %>", "tester"],
     ["<% FLAGS.test %>", true],
     ["<% HASH %>", "#readme"],
-    ["<% ANCHOR %>", "readme"]
+    ["<% ANCHOR %>", "readme"],
+    ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
 
   it.each<[string, any]>([
     ["<% [] %>", []],
-    ["<% EVENT.detail %>", "good"]
+    ["<% EVENT.detail %>", "good"],
   ])("evaluate(%j, { event }) should return %j", (raw, result) => {
     expect(
       evaluate(raw, {
         event: new CustomEvent("something.happen", {
-          detail: "good"
-        })
+          detail: "good",
+        }),
       })
     ).toEqual(result);
   });
 
   it.each<[string, any]>([
     ["<% [] %>", []],
-    ["<% DATA.quality %>", "good"]
+    ["<% DATA.quality %>", "good"],
   ])("evaluate(%j, { data }) should return %j", (raw, result) => {
     expect(
       evaluate(raw, {
         data: {
-          quality: "good"
-        }
+          quality: "good",
+        },
       })
     ).toEqual(result);
   });
 
-  it("should throw if use both `EVENT` and `DATA`", () => {
-    expect(() =>
-      evaluate("<% EVENT.detail + DATA %>")
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"You can't use both \`EVENT\` and \`DATA\`"`
-    );
+  it("should work when using both `EVENT` and `DATA`", () => {
+    // Simulate a transformation with `EVENT`
+    const preEvaluated = evaluate("<% EVENT.detail + DATA %>", {
+      data: 2,
+    });
+    expect(preEvaluated).toEqual({
+      [Symbol.for("pre.evaluated.raw")]: "<% EVENT.detail + DATA %>",
+      [Symbol.for("pre.evaluated.context")]: {
+        data: 2,
+      },
+    });
+
+    // Simulate an event dispatching after a transformation.
+    expect(
+      evaluate(preEvaluated, {
+        event: new CustomEvent("something.happen", {
+          detail: 3,
+        }),
+      })
+    ).toEqual(5);
   });
 
   it("should throw if contains syntax error", () => {

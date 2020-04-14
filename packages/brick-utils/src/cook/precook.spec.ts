@@ -6,7 +6,6 @@ describe("precook", () => {
     ["this.bad", []],
     ["() => {}", []],
     ["[, DATA]", ["DATA"]],
-
     ["'good'", []],
     ["1", []],
     ["null", []],
@@ -19,6 +18,16 @@ describe("precook", () => {
     ["DATA['for']", ["DATA"]],
     ["{}", []],
     ["{ quality: DATA.for, [EVENT.detail]: 'story' }", ["DATA", "EVENT"]],
+    ["{DATA}", ["DATA"]],
+    ["{DATA: EVENT.detail}", ["EVENT"]],
+    ["{'DATA': EVENT.detail}", ["EVENT"]],
+    ["{[DATA.for]: EVENT.detail}", ["DATA", "EVENT"]],
+    ["{[{DATA}]: EVENT.detail}", ["DATA", "EVENT"]],
+    ["{[{DATA: 1}]: EVENT.detail}", ["EVENT"]],
+    ["{QUERY: {DATA: EVENT.detail} }", ["EVENT"]],
+    ["{QUERY: {[DATA]: EVENT.detail} }", ["DATA", "EVENT"]],
+    ["{[QUERY]: {[DATA]: EVENT.detail} }", ["QUERY", "DATA", "EVENT"]],
+    ["{[QUERY]: {DATA: EVENT.detail} }", ["QUERY", "EVENT"]],
     ["[]", []],
     ["[1, DATA.null]", ["DATA"]],
     ["(a => a.b)({b: 'c'})", []],
@@ -34,7 +43,14 @@ describe("precook", () => {
     ["[1, ...DATA]", ["DATA"]],
     ["compact(1, ...DATA)", ["compact", "DATA"]],
     ["{a: 1, ...DATA.objectA, ...EVENT.objectB}", ["DATA", "EVENT"]],
-    ["(i = DATA.number5, j, ...k) => i + EVENT.detail", ["DATA", "EVENT"]]
+    ["(i = DATA.number5, j, ...k) => i + EVENT.detail", ["DATA", "EVENT"]],
+    ["([a, b]) => a + b", []],
+    ["([a, ...b]) => a + b", []],
+    ["([a, b = c]) => a + b + c", ["c"]],
+    ["({a, b}) => a + b", []],
+    ["({a, ...b}) => a + b", []],
+    ["({a, b: c}) => a + b + c", ["b"]],
+    ["({a, b: c = d}) => a + b + c", ["d", "b"]],
   ])("precook(%j).attemptToVisitGlobals should be %j", (input, cooked) => {
     expect(Array.from(precook(input).attemptToVisitGlobals.values())).toEqual(
       cooked

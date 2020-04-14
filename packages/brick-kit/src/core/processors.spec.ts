@@ -1,12 +1,12 @@
-import { mergeAppConfig } from "./processors";
+import { processBootstrapResponse } from "./processors";
 
-describe("mergeAppConfig", () => {
-  it("should merge app config", () => {
+describe("processBootstrapResponse", () => {
+  it("should work", () => {
     const data: any = {
       storyboards: [
         // Empty app.
         {
-          app: {}
+          app: {},
         },
         // No app.
         {},
@@ -14,39 +14,50 @@ describe("mergeAppConfig", () => {
         {
           app: {
             defaultConfig: {
-              quality: "good"
-            }
-          }
+              quality: "good",
+            },
+          },
         },
         // With only `userConfig`.
         {
           app: {
             userConfig: {
-              quality: "bad"
-            }
-          }
+              quality: "bad",
+            },
+          },
         },
         // With both `defaultConfig` and `userConfig`.
         {
           app: {
             defaultConfig: {
-              quality: "good"
+              quality: "good",
             },
             userConfig: {
-              quality: "bad"
-            }
-          }
-        }
-      ]
+              quality: "bad",
+            },
+          },
+        },
+        // Has route alias.
+        {
+          app: {},
+          routes: [
+            {
+              path: "/a",
+              alias: "a",
+            },
+          ],
+        },
+      ],
     };
-    mergeAppConfig(data);
+    processBootstrapResponse(data);
     expect(data).toEqual({
       storyboards: [
         // Empty app.
         {
           app: {
-            config: {}
-          }
+            config: {},
+            $$routeAliasMap: new Map(),
+          },
         },
         // No app.
         {},
@@ -54,39 +65,63 @@ describe("mergeAppConfig", () => {
         {
           app: {
             defaultConfig: {
-              quality: "good"
+              quality: "good",
             },
             config: {
-              quality: "good"
-            }
-          }
+              quality: "good",
+            },
+            $$routeAliasMap: new Map(),
+          },
         },
         // With only `userConfig`.
         {
           app: {
             userConfig: {
-              quality: "bad"
+              quality: "bad",
             },
             config: {
-              quality: "bad"
-            }
-          }
+              quality: "bad",
+            },
+            $$routeAliasMap: new Map(),
+          },
         },
         // With both `defaultConfig` and `userConfig`.
         {
           app: {
             defaultConfig: {
-              quality: "good"
+              quality: "good",
             },
             userConfig: {
-              quality: "bad"
+              quality: "bad",
             },
             config: {
-              quality: "bad"
-            }
-          }
-        }
-      ]
+              quality: "bad",
+            },
+            $$routeAliasMap: new Map(),
+          },
+        },
+        // Has route alias.
+        {
+          app: {
+            config: {},
+            $$routeAliasMap: new Map([
+              [
+                "a",
+                {
+                  path: "/a",
+                  alias: "a",
+                },
+              ],
+            ]),
+          },
+          routes: [
+            {
+              path: "/a",
+              alias: "a",
+            },
+          ],
+        },
+      ],
     });
   });
 });

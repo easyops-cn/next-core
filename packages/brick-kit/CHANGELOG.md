@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.39.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.39.1...@easyops/brick-kit@1.39.2) (2020-04-13)
+
+### Bug Fixes
+
+- fix tests after using jsdom@16 ([2d9ed80](https://git.easyops.local/anyclouds/next-core/commits/2d9ed80))
+
+## [1.39.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.39.0...@easyops/brick-kit@1.39.1) (2020-04-13)
+
+### Bug Fixes
+
+- **devtools:** hooks to support devtools ([456c0ae](https://git.easyops.local/anyclouds/next-core/commits/456c0ae))
+
+# [1.39.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.38.1...@easyops/brick-kit@1.39.0) (2020-04-10)
+
+### Features
+
+- **router:** log location change, refs BRICK_STORE-1307 ([3bf3101](https://git.easyops.local/anyclouds/next-core/commits/3bf3101))
+
+## [1.38.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.38.0...@easyops/brick-kit@1.38.1) (2020-04-09)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.37.1...@easyops/brick-kit@1.38.0) (2020-04-08)
+
+### Features
+
+- **segues:** support segues ([191b2a4](https://git.easyops.local/anyclouds/next-core/commits/191b2a4))
+
+## [1.37.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.37.0...@easyops/brick-kit@1.37.1) (2020-04-07)
+
+### Bug Fixes
+
+- **evaluate:** support using both `EVENT` and `DATA` in evaluate placeholders ([a36fe91](https://git.easyops.local/anyclouds/next-core/commits/a36fe91))
+
+# [1.37.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.36.0...@easyops/brick-kit@1.37.0) (2020-04-04)
+
+### Bug Fixes
+
+- now we can disable transform auto map array ([731395d](https://git.easyops.local/anyclouds/next-core/commits/731395d))
+
+### Features
+
+- handle reject for `useResolves` ([4a4a962](https://git.easyops.local/anyclouds/next-core/commits/4a4a962))
+
+# [1.36.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.35.0...@easyops/brick-kit@1.36.0) (2020-03-31)
+
+### Bug Fixes
+
+- allow missing namespace for custom templates defined in an app ([defd426](https://git.easyops.local/anyclouds/next-core/commits/defd426))
+- **custom-template:** support set style in proxy properties ([efb8817](https://git.easyops.local/anyclouds/next-core/commits/efb8817))
+
+### Features
+
+- new menu type, `resolve`, refs BRICK_STORE-1338 ([d92428a](https://git.easyops.local/anyclouds/next-core/commits/d92428a))
+
+# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.34.1...@easyops/brick-kit@1.35.0) (2020-03-30)
+
+### Features
+
+- **custom-template:** support transform proxy properties ([015adca](https://git.easyops.local/anyclouds/next-core/commits/015adca))
+- export transform functions ([a8682ab](https://git.easyops.local/anyclouds/next-core/commits/a8682ab))
+
+## [1.34.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.34.0...@easyops/brick-kit@1.34.1) (2020-03-26)
+
+### Bug Fixes
+
+- remember injected and do not inject again ([b977107](https://git.easyops.local/anyclouds/next-core/commits/b977107))
+
 # [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.33.0...@easyops/brick-kit@1.34.0) (2020-03-24)
 
 ### Features

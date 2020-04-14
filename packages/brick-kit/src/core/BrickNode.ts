@@ -2,12 +2,11 @@ import {
   PluginRuntimeContext,
   BrickLifeCycle,
   RefForProxy,
-  CustomTemplateProxy
+  CustomTemplateProxy,
 } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
-import { getHistory } from "../history";
-import { handleProxyOfCustomTemplate } from "./CustomTemplates";
+import { handleProxyOfCustomTemplate } from "./exports";
 
 export interface RuntimeBrick {
   type?: string;
@@ -29,42 +28,43 @@ export interface RuntimeBrick {
 }
 
 export class BrickNode {
-  private currentElement: RuntimeBrick;
-  private children: BrickNode[];
+  $$brick: RuntimeBrick;
+
+  private children: BrickNode[] = [];
 
   constructor(brick: RuntimeBrick) {
-    this.currentElement = brick;
+    this.$$brick = brick;
   }
 
   mount(): HTMLElement {
-    const brick = this.currentElement;
+    const brick = this.$$brick;
+    const tagName = brick.type;
 
-    if (brick.type.includes("-") && !customElements.get(brick.type)) {
+    if (tagName.includes("-") && !customElements.get(tagName)) {
       // eslint-disable-next-line no-console
-      console.error(`Undefined custom element: ${brick.type}`);
+      console.error(`Undefined custom element: ${tagName}`);
     }
 
-    if (brick.type === "basic-bricks.script-brick") {
+    if (tagName === "basic-bricks.script-brick") {
       // eslint-disable-next-line no-console
       console.warn(
         "`basic-bricks.script-brick` is deprecated, please take caution when using it"
       );
     }
 
-    const node = document.createElement(brick.type);
+    const node = document.createElement(tagName);
     brick.element = node;
 
     if (brick.slotId) {
       node.setAttribute("slot", brick.slotId);
     }
     setRealProperties(node, brick.properties);
-    // Todo(steve): refine
-    bindListeners(node, brick.events, getHistory(), brick.context);
+    bindListeners(node, brick.events, brick.context);
 
     if (Array.isArray(brick.children)) {
-      this.children = brick.children.map(slot => new BrickNode(slot));
-      const childNodes = this.children.map(slot => slot.mount());
-      childNodes.forEach(slot => node.appendChild(slot));
+      this.children = brick.children.map((slot) => new BrickNode(slot));
+      const childNodes = this.children.map((slot) => slot.mount());
+      childNodes.forEach((slot) => node.appendChild(slot));
     } else {
       this.children = [];
     }
@@ -75,7 +75,7 @@ export class BrickNode {
   }
 
   unmount(): void {
-    this.children.forEach(slot => {
+    this.children.forEach((slot) => {
       slot.unmount();
     });
   }

@@ -4,22 +4,21 @@ import { BrickNode, RuntimeBrick } from "./BrickNode";
 jest.mock("../bindListeners");
 const spyOnBindListeners = bindListeners as jest.Mock;
 
-(global as any).customElements = {
-  get: (name: string) => name === "custom-existed"
-};
+// Mock a custom element of `custom-existed`.
+customElements.define("custom-existed", class Tmp extends HTMLElement {});
 
 describe("BrickNode", () => {
   it("should mount simple brick", () => {
     const runtimeBrick: RuntimeBrick = {
       type: "div",
       properties: {
-        title: "good"
+        title: "good",
       },
       events: {
         click: () => {
           // Do nothing
-        }
-      }
+        },
+      },
     };
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount();
@@ -41,13 +40,13 @@ describe("BrickNode", () => {
         {
           type: "p",
           properties: {
-            title: "better"
+            title: "better",
           },
           events: {},
           children: [],
-          slotId: "content"
-        }
-      ]
+          slotId: "content",
+        },
+      ],
     };
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount();
@@ -69,15 +68,17 @@ describe("BrickNode", () => {
         {
           type: "custom-not-existed",
           properties: {
-            title: "better"
+            title: "better",
           },
           events: {},
           children: [],
-          slotId: "content"
-        }
-      ]
+          slotId: "content",
+        },
+      ],
     };
-    const consoleError = jest.spyOn(console, "error");
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => void 0);
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount();
     expect(node.childNodes.length).toBe(1);

@@ -15,7 +15,9 @@ import {
   indexOf,
   isNil,
   isEqual,
-  uniq
+  uniq,
+  filter,
+  forEach,
 } from "lodash";
 import yaml from "js-yaml";
 import moment, { DurationInputArg2 } from "moment";
@@ -61,9 +63,10 @@ PipeRegistry.set("reverse", pipeReverse);
 PipeRegistry.set("cmdbInstanceShowName", pipeCmdbInstanceShowName);
 PipeRegistry.set("deltaTime", pipeDeltaTime);
 PipeRegistry.set("nullish", pipeNullish);
+PipeRegistry.set("graphTree", pipeGraphTree);
 
 function pipeNullish(value: any, defaultValue: any): any {
-  return value || defaultValue;
+  return value ?? defaultValue;
 }
 
 interface Period {
@@ -114,7 +117,7 @@ function pipeMapToArray(
   if (typeof value !== "object" || !value) return [];
   const fields = [keyField, valueField];
   const pairs = toPairs(value);
-  return pairs.map(pair => zipObject(fields, pair));
+  return pairs.map((pair) => zipObject(fields, pair));
 }
 
 function pipeFind<T>(value: T[], item: any): T | undefined {
@@ -160,7 +163,7 @@ function pipeTernary(value: boolean, ...res: any[]): any {
 
 function pipeMap(value: any[], key: string): any[] {
   if (!Array.isArray(value)) return [];
-  return value.map(item => {
+  return value.map((item) => {
     return get(item, key);
   });
 }
@@ -214,7 +217,7 @@ function pipeGroupByToIndex(
   if (!isNil(groupField) && !isNil(targetField)) {
     const groupByValue = groupBy(value, groupField);
     const allKeys = keys(groupByValue).sort();
-    result = result.map(v => {
+    result = result.map((v) => {
       const item = { ...v };
       set(item, targetField, indexOf(allKeys, get(v, groupField)));
       return item;
@@ -302,7 +305,7 @@ function pipeYamlStringify(value: any, indent = 2): string {
       schema: yaml.JSON_SCHEMA,
       skipInvalid: true,
       noRefs: true,
-      noCompatMode: true
+      noCompatMode: true,
     });
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -333,4 +336,37 @@ function pipeParseTimeRange(value: any): number {
 
 function pipeUniq(value: any[]): any[] {
   return uniq(value);
+}
+
+// 图还原管道，对应接口：http://192.168.100.162/next/developers/providers/cmdb/instance-graph-api-traverse-graph
+function pipeGraphTree(value: {
+  edges: Record<string, any>[];
+  topic_vertices: Record<string, any>[];
+  vertices: Record<string, any>[];
+}): Record<string, any>[] {
+  if (!value) {
+    return [];
+  }
+  const groupByEdgeOut = groupBy(value.edges, "out");
+  const findChildren = (node: Record<string, any>): Record<string, any> => {
+    const relationEdges = groupByEdgeOut[node.instanceId];
+    forEach(relationEdges, (edge) => {
+      const key = edge.out_name;
+      const foundInstance = find(value.vertices, ["instanceId", edge.in]);
+      if (foundInstance) {
+        const resultInstance = findChildren(foundInstance);
+        if (node[key]) {
+          node[key].push(resultInstance);
+        } else {
+          node[key] = [resultInstance];
+        }
+      }
+    });
+    return node;
+  };
+  const result =
+    value.topic_vertices?.map((root) => {
+      return findChildren(root);
+    }) ?? [];
+  return result;
 }

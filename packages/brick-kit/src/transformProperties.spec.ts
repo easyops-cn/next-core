@@ -1,14 +1,18 @@
 import {
   transformProperties,
   transformIntermediateData,
-  doTransform
+  doTransform,
 } from "./transformProperties";
+import * as runtime from "./core/Runtime";
+
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
 
 interface Args {
   props: Parameters<typeof transformProperties>[0];
   data: Parameters<typeof transformProperties>[1];
   transform?: Parameters<typeof transformProperties>[2];
   transformFrom?: Parameters<typeof transformProperties>[3];
+  transformMapArray?: Parameters<typeof transformProperties>[4];
 }
 
 describe("transformProperties", () => {
@@ -17,59 +21,59 @@ describe("transformProperties", () => {
     [
       {
         props: {
-          label: "hello"
+          label: "hello",
         },
         data: "good",
-        transform: "value"
+        transform: "value",
       },
       {
         label: "hello",
-        value: "good"
-      }
+        value: "good",
+      },
     ],
     // Assign with `transformFrom`.
     [
       {
         props: {
-          label: "hello"
+          label: "hello",
         },
         data: {
-          quality: "good"
+          quality: "good",
         },
         transformFrom: "quality",
-        transform: "value"
+        transform: "value",
       },
       {
         label: "hello",
-        value: "good"
-      }
+        value: "good",
+      },
     ],
     // Assign mixed placeholders and literals.
     [
       {
         props: {},
         data: {
-          name: "eve"
+          name: "eve",
         },
         transform: {
           label: "hello",
           "outer.spread": {
-            "inner.not.spread": true
+            "inner.not.spread": true,
           },
-          value: "@{}"
-        }
+          value: "@{}",
+        },
       },
       {
         label: "hello",
         outer: {
           spread: {
-            "inner.not.spread": true
-          }
+            "inner.not.spread": true,
+          },
         },
         value: {
-          name: "eve"
-        }
-      }
+          name: "eve",
+        },
+      },
     ],
     // Assign by array.
     [
@@ -77,34 +81,34 @@ describe("transformProperties", () => {
         props: {},
         data: [
           {
-            name: "eve"
+            name: "eve",
           },
           {
-            name: "wall-e"
-          }
+            name: "wall-e",
+          },
         ],
         transform: {
           descriptions: {
             roles: ["admin"],
             value: "hi: @{name}",
-            email: "@{email}"
-          }
-        }
+            email: "@{email}",
+          },
+        },
       },
       {
         descriptions: [
           {
             roles: ["admin"],
             value: "hi: eve",
-            email: undefined
+            email: undefined,
           },
           {
             roles: ["admin"],
             value: "hi: wall-e",
-            email: undefined
-          }
-        ]
-      }
+            email: undefined,
+          },
+        ],
+      },
     ],
     // Assign string array.
     [
@@ -112,12 +116,26 @@ describe("transformProperties", () => {
         props: {},
         data: ["eve", "wall-e"],
         transform: {
-          greetings: "hi: @{}"
-        }
+          greetings: "hi: @{}",
+        },
       },
       {
-        greetings: ["hi: eve", "hi: wall-e"]
-      }
+        greetings: ["hi: eve", "hi: wall-e"],
+      },
+    ],
+    // Disable auto map array.
+    [
+      {
+        props: {},
+        data: ["eve", "wall-e"],
+        transform: {
+          greetings: "<% DATA.join(' and ') %>",
+        },
+        transformMapArray: false,
+      },
+      {
+        greetings: "eve and wall-e",
+      },
     ],
     // Assign from mixed array and non-array.
     [
@@ -126,67 +144,96 @@ describe("transformProperties", () => {
         data: {
           list: [
             {
-              name: "eve"
+              name: "eve",
             },
             {
-              name: "wall-e"
-            }
+              name: "wall-e",
+            },
           ],
-          total: 10
+          total: 10,
         },
         transform: [
           {
             // Auto map array.
             from: "list",
             to: {
-              greetings: "hi: @{name}"
-            }
+              greetings: "hi: @{name}",
+            },
           },
           {
             // non-array.
             from: "total",
-            to: "size"
+            to: "size",
           },
           {
             // Force to not map array.
             from: "list",
             to: {
-              usersCount: "@{length}"
+              usersCount: "@{length}",
             },
-            mapArray: false
+            mapArray: false,
           },
           {
             // Force to map array from non-array.
             from: "total",
             to: "sizeList",
-            mapArray: true
-          }
-        ]
+            mapArray: true,
+          },
+        ],
       },
       {
         greetings: ["hi: eve", "hi: wall-e"],
         size: 10,
         usersCount: 2,
-        sizeList: [10]
-      }
+        sizeList: [10],
+      },
+    ],
+    // Access `EVENT`
+    [
+      {
+        props: {},
+        data: "good",
+        transform: {
+          label: "<% `${EVENT.detail} is ${DATA}` %>",
+        },
+      },
+      {
+        label: {
+          [Symbol.for(
+            "pre.evaluated.raw"
+          )]: "<% `${EVENT.detail} is ${DATA}` %>",
+          [Symbol.for("pre.evaluated.context")]: {
+            data: "good",
+          },
+        },
+      },
     ],
     // No transform
     [
       {
         props: {
-          label: "hello"
+          label: "hello",
         },
-        data: "good"
+        data: "good",
       },
       {
-        label: "hello"
-      }
-    ]
+        label: "hello",
+      },
+    ],
   ])(
     "transformProperties(%j) should return %j",
-    ({ props, data, transform, transformFrom }, newProps) => {
+    (
+      { props, data, transform, transformFrom, transformMapArray },
+      newProps
+    ) => {
       expect(
-        transformProperties(props, data, transform, transformFrom)
+        transformProperties(
+          props,
+          data,
+          transform,
+          transformFrom,
+          transformMapArray
+        )
       ).toEqual(newProps);
     }
   );
@@ -194,82 +241,111 @@ describe("transformProperties", () => {
 
 describe("transformIntermediateData", () => {
   const data: Parameters<typeof transformIntermediateData>[0] = {
-    hello: "good"
+    hello: "good",
+    list: [1, 2],
   };
 
   it.each<
     [
       Parameters<typeof transformIntermediateData>[1],
       Parameters<typeof transformIntermediateData>[2],
+      Parameters<typeof transformIntermediateData>[3],
       ReturnType<typeof transformIntermediateData>
     ]
   >([
     [
       undefined,
       undefined,
+      undefined,
       {
-        hello: "good"
-      }
+        hello: "good",
+        list: [1, 2],
+      },
     ],
-    [undefined, "hello", "good"],
+    [undefined, "hello", undefined, "good"],
     [
       "value",
       undefined,
+      undefined,
       {
         value: {
-          hello: "good"
-        }
-      }
+          hello: "good",
+          list: [1, 2],
+        },
+      },
     ],
     [
       "value",
       "hello",
+      undefined,
       {
-        value: "good"
-      }
-    ]
+        value: "good",
+      },
+    ],
+    [
+      {
+        item: "<% DATA.toFixed(2) %>",
+      },
+      "list", // Will perform auto map array.
+      undefined,
+      {
+        item: ["1.00", "2.00"],
+      },
+    ],
+    [
+      {
+        item: "<% DATA.join(' and ') %>",
+      },
+      "list",
+      false, // Disable auto map array.
+      {
+        item: "1 and 2",
+      },
+    ],
   ])(
-    'transformIntermediateData({hello:"good"}, %j, %j) should return %j',
-    (to, from, result) => {
-      expect(transformIntermediateData(data, to, from)).toEqual(result);
+    'transformIntermediateData({hello:"good",list:[1,2]}, %j, %j) should return %j',
+    (to, from, mapArray, result) => {
+      expect(transformIntermediateData(data, to, from, mapArray)).toEqual(
+        result
+      );
     }
   );
 });
 
 describe("doTransform", () => {
   const data: Parameters<typeof doTransform>[0] = {
-    hello: "good"
+    hello: "good",
   };
 
   it.each<[Parameters<typeof doTransform>[1], ReturnType<typeof doTransform>]>([
     [
       {
         "button.click": {
-          args: ["@{hello}"]
-        }
+          args: ["@{hello}"],
+        },
       },
       {
         "button.click": {
-          args: ["good"]
-        }
-      }
+          args: ["good"],
+        },
+      },
     ],
     [
       {
-        value: "@{notExisted}"
+        value: "@{notExisted}",
       },
       {
-        value: undefined
-      }
+        value: undefined,
+      },
     ],
     [
       {
-        value: "id=@{notExisted}"
+        value: "id=@{notExisted}",
       },
       {
-        value: "id="
-      }
-    ]
+        value: "id=",
+      },
+    ],
   ])('doTransform({hello:"good"}, %j, %j) should return %j', (to, result) => {
     expect(doTransform(data, to)).toEqual(result);
   });

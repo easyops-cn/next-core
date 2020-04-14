@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.10.0...@easyops/brick-scripts@1.10.1) (2020-04-13)
+
+### Bug Fixes
+
+- fix tests after using jsdom@16 ([2d9ed80](https://git.easyops.local/anyclouds/next-core/commits/2d9ed80))
+
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.9.2...@easyops/brick-scripts@1.10.0) (2020-04-09)
+
+### Features
+
+- use jsdom@16 which supports custom elements ([4243947](https://git.easyops.local/anyclouds/next-core/commits/4243947))
+
+## [1.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.9.1...@easyops/brick-scripts@1.9.2) (2020-03-30)
+
+### Bug Fixes
+
+- **brick-scripts:** move `deploy` to `deploy-default` for bricks package ([b56bd5a](https://git.easyops.local/anyclouds/next-core/commits/b56bd5a))
+- **brick-scripts:** put `proxy` before `bricks` in custom template sample code ([a030657](https://git.easyops.local/anyclouds/next-core/commits/a030657))
+
+## [1.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.9.0...@easyops/brick-scripts@1.9.1) (2020-03-26)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 # [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.8.2...@easyops/brick-scripts@1.9.0) (2020-03-19)
 
 ### Features

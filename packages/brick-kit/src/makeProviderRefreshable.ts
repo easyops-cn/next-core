@@ -1,8 +1,12 @@
 import { get } from "lodash";
-import { GeneralTransform } from "@easyops/brick-types";
+import {
+  GeneralTransform,
+  HandleReject,
+  HandleRejectByTransform,
+} from "@easyops/brick-types";
 import {
   transformProperties,
-  transformIntermediateData
+  transformIntermediateData,
 } from "./transformProperties";
 import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
@@ -15,9 +19,12 @@ export interface ProviderDependents {
   field?: string | string[];
   transform?: GeneralTransform;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
+  onReject?: HandleReject;
   ref?: string;
   intermediateTransform?: GeneralTransform;
   intermediateTransformFrom?: string | string[];
+  intermediateTransformMapArray?: boolean | "auto";
 }
 
 export interface IntervalSettings {
@@ -45,9 +52,9 @@ export function makeProviderRefreshable(
 ): void {
   if (!providerBrick.$refresh) {
     providerBrick.$$dependents = [];
-    providerBrick.$refresh = async function({
+    providerBrick.$refresh = async function ({
       ignoreErrors,
-      throwErrors
+      throwErrors,
     } = {}) {
       const cache = new Map();
       try {
@@ -60,13 +67,16 @@ export function makeProviderRefreshable(
               field,
               transform,
               transformFrom,
+              transformMapArray,
+              onReject,
               ref,
               intermediateTransform,
-              intermediateTransformFrom
+              intermediateTransformFrom,
+              intermediateTransformMapArray,
             }) => {
               const cacheKey = JSON.stringify({
                 method,
-                args
+                args,
               });
               let promise: Promise<any>;
               if (cache.has(cacheKey)) {
@@ -80,11 +90,41 @@ export function makeProviderRefreshable(
                 promise = providerBrick[method](...actualArgs);
                 cache.set(cacheKey, promise);
               }
-              const value = await promise;
-              let data =
-                field === null || field === undefined
-                  ? value
-                  : get(value, field);
+              let data: any;
+
+              async function fetchData(): Promise<void> {
+                const value = await promise;
+                data =
+                  field === null || field === undefined
+                    ? value
+                    : get(value, field);
+              }
+
+              if (onReject) {
+                // Transform as `onReject.transform` when provider failed.
+                try {
+                  await fetchData();
+                } catch (error) {
+                  const onRejectTransform = (onReject as HandleRejectByTransform)
+                    .transform;
+                  if (onRejectTransform) {
+                    transformProperties(
+                      brick.element,
+                      error,
+                      brick.context
+                        ? computeRealValue(
+                            onRejectTransform,
+                            brick.context,
+                            true
+                          )
+                        : onRejectTransform
+                    );
+                  }
+                  return;
+                }
+              } else {
+                await fetchData();
+              }
 
               if (ref) {
                 data = transformIntermediateData(
@@ -96,7 +136,8 @@ export function makeProviderRefreshable(
                         true
                       )
                     : intermediateTransform,
-                  intermediateTransformFrom
+                  intermediateTransformFrom,
+                  intermediateTransformMapArray
                 );
               }
 
@@ -106,7 +147,8 @@ export function makeProviderRefreshable(
                 brick.context
                   ? computeRealValue(transform, brick.context, true)
                   : transform,
-                transformFrom
+                transformFrom,
+                transformMapArray
               );
             }
           )

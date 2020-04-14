@@ -31,9 +31,7 @@ export function ForBetter(): React.ReactElement {
   ],
   Array [
     "dist/index.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import ReactDOM from \\"react-dom\\";
+    "import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
 const spyOnRender = jest
@@ -103,11 +101,9 @@ exports[`loadTemplate should create a new custom provider brick 1`] = `
 Array [
   Array [
     "dist/GetData.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import {
+    "import {
   GetData,
-  GetDataParams
+  GetDataParams,
 } from \\"./GetData\\";
 
 describe(\\"GetData\\", () => {
@@ -148,8 +144,8 @@ Array [
     "import { getRuntime } from \\"@easyops/brick-kit\\";
 
 getRuntime().registerCustomTemplate(\\"for-good.for-better\\", {
+  proxy: {},
   bricks: [],
-  proxy: {}
 });
 ",
   ],
@@ -283,13 +279,10 @@ export default locale;
 import * as kit from \\"@easyops/brick-kit\\";
 const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
 
-const spyOnDefine = jest.fn();
-(window as any).customElements = {
-  define: spyOnDefine
-};
+const spyOnDefine = jest.spyOn(window.customElements, \\"define\\");
 
 jest.spyOn(kit, \\"getRuntime\\").mockReturnValue({
-  registerCustomTemplate: jest.fn()
+  registerCustomTemplate: jest.fn(),
 } as any);
 
 // Use \`require\` instead of \`import\` to avoid hoisting.
@@ -365,9 +358,7 @@ export function ForBetter(): React.ReactElement {
   ],
   Array [
     "dist/src/for-better/index.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import ReactDOM from \\"react-dom\\";
+    "import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
 const spyOnRender = jest

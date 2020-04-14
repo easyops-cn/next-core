@@ -27,7 +27,7 @@ const serveIndexHtml = (_req, res) => {
 
   // 开发环境下增加 websocket 连接的脚本
   content += `<script>
-        const socket = new WebSocket('ws://localhost:' + ${env.wsPort});
+        const socket = new WebSocket('ws://${env.host}:' + ${env.wsPort});
         socket.onmessage = function(event) {
             if (event.data === "content change") {
                 location.reload();
@@ -59,7 +59,7 @@ if (proxies) {
       createProxyMiddleware(
         Object.assign(
           {
-            logLevel: "warn"
+            logLevel: "warn",
           },
           options
         )
@@ -71,11 +71,11 @@ if (proxies) {
 // All requests fallback to index.html.
 app.use(serveIndexHtml);
 
-app.listen(port);
+app.listen(port, env.host);
 
 console.log(
   chalk.bold.green("Started serving at:"),
-  `http://localhost:${port}${env.publicPath}`
+  `http://${env.host}:${port}${env.publicPath}`
 );
 
 // 建立 websocket 连接支持自动刷新
@@ -87,16 +87,16 @@ const watcher = chokidar.watch(
   [
     path.join(env.brickPackagesDir, "*/dist/*.js"),
     path.join(env.microAppsDir, "*/storyboard.json"),
-    path.join(env.templatePackagesDir, "*/dist/*.js")
+    path.join(env.templatePackagesDir, "*/dist/*.js"),
   ],
   {
-    followSymlinks: true
+    followSymlinks: true,
   }
 );
 
 const throttledOnChange = throttle(
   () => {
-    wss.clients.forEach(client => {
+    wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send("content change");
       }

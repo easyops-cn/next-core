@@ -10,6 +10,7 @@ export * from "./loadScript";
 export * from "./matchPath";
 export * from "./restoreDynamicTemplates";
 export * from "./scanBricksInStoryboard";
+export * from "./scanAliasInStoryboard";
 export * from "./setProperties";
 export * from "./transformProperties";
 export * from "./placeholder";

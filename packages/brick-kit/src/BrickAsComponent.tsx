@@ -4,11 +4,10 @@ import { isObject } from "@easyops/brick-utils";
 import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
-import { getHistory } from "./history";
 import {
   RuntimeBrick,
   _internalApiGetResolver,
-  _internalApiGetRouterState
+  _internalApiGetRouterState,
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
@@ -53,7 +52,7 @@ function SingleBrickAsComponent(
     }
     const brick: RuntimeBrick = {
       type: useBrick.brick,
-      properties: cloneDeep(useBrick.properties) || {}
+      properties: cloneDeep(useBrick.properties) || {},
     };
     transformProperties(
       brick.properties,
@@ -67,7 +66,7 @@ function SingleBrickAsComponent(
         await resolver.resolve(
           {
             brick: useBrick.brick,
-            lifeCycle: useBrick.lifeCycle
+            lifeCycle: useBrick.lifeCycle,
           },
           brick
         );
@@ -90,11 +89,7 @@ function SingleBrickAsComponent(
         setRealProperties(element, brick.properties);
         unbindListeners(element);
         if (useBrick.events) {
-          bindListeners(
-            element,
-            doTransform(data, useBrick.events),
-            getHistory()
-          );
+          bindListeners(element, doTransform(data, useBrick.events));
         }
       }
     },
@@ -115,6 +110,6 @@ function SingleBrickAsComponent(
   }
 
   return React.createElement(useBrick.brick, {
-    ref: refCallback
+    ref: refCallback,
   });
 }

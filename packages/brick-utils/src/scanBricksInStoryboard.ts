@@ -4,11 +4,15 @@ import {
   RouteConf,
   ProviderConf,
   RouteConfOfBricks,
-  CustomTemplate
+  CustomTemplate,
 } from "@easyops/brick-types";
+import { uniq } from "lodash";
 
-export function scanBricksInStoryboard(storyboard: Storyboard): string[] {
-  const collection = new Set<string>();
+export function scanBricksInStoryboard(
+  storyboard: Storyboard,
+  isUniq = true
+): string[] {
+  const collection: string[] = [];
   const selfDefined = new Set<string>();
   collectBricksInRouteConfs(storyboard.routes, collection);
   collectBricksInCustomTemplates(
@@ -17,27 +21,31 @@ export function scanBricksInStoryboard(storyboard: Storyboard): string[] {
     selfDefined
   );
   // Ignore non-custom-elements and self-defined custom templates.
-  return Array.from(collection).filter(
-    item => item.includes("-") && !selfDefined.has(item)
+  const result = collection.filter(
+    (item) => item.includes("-") && !selfDefined.has(item)
   );
+  return isUniq ? uniq(result) : result;
 }
 
-export function scanBricksInBrickConf(brickConf: BrickConf): string[] {
-  const collection = new Set<string>();
+export function scanBricksInBrickConf(
+  brickConf: BrickConf,
+  isUniq = true
+): string[] {
+  const collection: string[] = [];
   collectBricksInBrickConf(brickConf, collection);
-  // Ignore non-custom-elements.
-  return Array.from(collection).filter(item => item.includes("-"));
+  const result = collection.filter((item) => item.includes("-"));
+  return isUniq ? uniq(result) : result;
 }
 
 function collectBricksInBrickConf(
   brickConf: BrickConf,
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (brickConf.brick) {
-    collection.add(brickConf.brick);
+    collection.push(brickConf.brick);
   }
   if (brickConf.slots) {
-    Object.values(brickConf.slots).forEach(slotConf => {
+    Object.values(brickConf.slots).forEach((slotConf) => {
       if (slotConf.type === "bricks") {
         collectBricksInBrickConfs(slotConf.bricks, collection);
       } else {
@@ -46,18 +54,18 @@ function collectBricksInBrickConf(
     });
   }
   if (Array.isArray(brickConf.internalUsedBricks)) {
-    brickConf.internalUsedBricks.forEach(brick => {
-      collection.add(brick);
+    brickConf.internalUsedBricks.forEach((brick) => {
+      collection.push(brick);
     });
   }
 }
 
 function collectBricksInBrickConfs(
   bricks: BrickConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(bricks)) {
-    bricks.forEach(brickConf => {
+    bricks.forEach((brickConf) => {
       collectBricksInBrickConf(brickConf, collection);
     });
   }
@@ -65,11 +73,11 @@ function collectBricksInBrickConfs(
 
 function scanBricksInProviderConfs(
   providers: ProviderConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(providers)) {
-    providers.forEach(providerConf => {
-      collection.add(
+    providers.forEach((providerConf) => {
+      collection.push(
         typeof providerConf === "string" ? providerConf : providerConf.brick
       );
     });
@@ -78,10 +86,10 @@ function scanBricksInProviderConfs(
 
 function collectBricksInRouteConfs(
   routes: RouteConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(routes)) {
-    routes.forEach(routeConf => {
+    routes.forEach((routeConf) => {
       scanBricksInProviderConfs(routeConf.providers, collection);
       if (routeConf.type === "routes") {
         collectBricksInRouteConfs(routeConf.routes, collection);
@@ -96,7 +104,7 @@ function collectBricksInRouteConfs(
         routeConf.menu.type === "brick" &&
         routeConf.menu.brick
       ) {
-        collection.add(routeConf.menu.brick);
+        collection.push(routeConf.menu.brick);
       }
     });
   }
@@ -104,11 +112,11 @@ function collectBricksInRouteConfs(
 
 function collectBricksInCustomTemplates(
   customTemplates: CustomTemplate[],
-  collection: Set<string>,
+  collection: string[],
   selfDefined: Set<string>
 ): void {
   if (Array.isArray(customTemplates)) {
-    customTemplates.forEach(tpl => {
+    customTemplates.forEach((tpl) => {
       selfDefined.add(tpl.name);
       collectBricksInBrickConfs(tpl.bricks, collection);
     });

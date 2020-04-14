@@ -1,11 +1,11 @@
 // Ref https://github.com/ReactTraining/react-router/blob/master/packages/react-router/modules/matchPath.js
-import { pathToRegexp, Key } from "path-to-regexp";
+import { pathToRegexp, Key, compile } from "path-to-regexp";
 import {
   CompileResult,
   CompileOptions,
   MatchOptions,
   MatchResult,
-  MatchParams
+  MatchParams,
 } from "@easyops/brick-types";
 
 const cache: Map<string, Map<string, CompileResult>> = new Map();
@@ -53,7 +53,7 @@ export function matchPath(
     const { regexp, keys } = compilePath(path, {
       end: exact,
       strict,
-      sensitive
+      sensitive,
     });
     const match = regexp.exec(pathname);
 
@@ -77,7 +77,11 @@ export function matchPath(
       params: keys.reduce((memo, key, index) => {
         memo[key.name] = values[index];
         return memo;
-      }, initialParams)
+      }, initialParams),
     };
   }, null);
+}
+
+export function toPath(path: string, pathParams: Record<string, any>): string {
+  return compile(path)(pathParams);
 }

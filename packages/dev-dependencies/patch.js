@@ -24,6 +24,10 @@ module.exports = function patch() {
     moveBricksDeployFiles();
   }
 
+  if (semver.lt(currentRenewVersion, "0.6.4")) {
+    updateJsdom();
+  }
+
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
@@ -74,8 +78,8 @@ function moveBricksDeployFiles() {
   }
 
   fs.readdirSync(bricksDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .forEach(dirent => {
+    .filter((dirent) => dirent.isDirectory())
+    .forEach((dirent) => {
       const fileInDeployDir = path.join(
         bricksDir,
         dirent.name,
@@ -95,4 +99,95 @@ function moveBricksDeployFiles() {
       fs.copySync(fileInDeployDir, fileInDeployDefaultDir);
       fs.removeSync(path.dirname(fileInDeployDir));
     });
+}
+
+// We remove the unnecessary code of `document-register-element`
+// since jsdom@16.2.0 started support custom elements.
+// Ref https://github.com/jsdom/jsdom/releases/tag/16.2.0
+function updateJsdom() {
+  const filePath = path.resolve("jest.config.js");
+  if (fs.existsSync(filePath)) {
+    let content = fs.readFileSync(filePath, "utf8");
+    let updated = false;
+    if (content.includes("jest-environment-jsdom-fourteen")) {
+      content = content.replace(
+        "jest-environment-jsdom-fourteen",
+        "jest-environment-jsdom-sixteen"
+      );
+      updated = true;
+    } else if (content.includes("jest-environment-jsdom-fifteen")) {
+      content = content.replace(
+        "jest-environment-jsdom-fifteen",
+        "jest-environment-jsdom-sixteen"
+      );
+      updated = true;
+    }
+    if (updated) {
+      fs.writeFileSync(filePath, content);
+    }
+  }
+
+  const bricksDir = path.resolve("bricks");
+  if (!fs.existsSync(bricksDir)) {
+    return;
+  }
+
+  fs.readdirSync(bricksDir, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .forEach((dirent) => {
+      const srcDir = path.join(bricksDir, dirent.name, "src");
+      if (fs.existsSync(srcDir) && fs.statSync(srcDir).isDirectory()) {
+        removeUnnecessaryCode(srcDir);
+      }
+    });
+
+  function removeUnnecessaryCode(dir) {
+    fs.readdirSync(dir, { withFileTypes: true }).forEach((dirent) => {
+      const direntFilePath = path.join(dir, dirent.name);
+      if (dirent.isDirectory()) {
+        removeUnnecessaryCode(direntFilePath);
+      } else if (
+        (dirent.isFile() && dirent.name.endsWith(".spec.ts")) ||
+        dirent.name.endsWith(".spec.tsx")
+      ) {
+        let content = fs.readFileSync(direntFilePath, "utf8");
+        const needReplaces = [
+          [
+            new RegExp(
+              "(?:" +
+                escapeRegExp(
+                  "// Ref https://github.com/jsdom/jsdom/issues/1030"
+                ) +
+                "[\\r\\n]*)?" +
+                escapeRegExp('import "document-register-element";') +
+                "[\\r\\n]*"
+            ),
+            "",
+          ],
+          [
+            new RegExp(
+              escapeRegExp("const spyOnDefine = jest.fn();") +
+                "[\\r\\n]*" +
+                escapeRegExp("(window as any).customElements = {") +
+                "[\\r\\n]*" +
+                escapeRegExp("  define: spyOnDefine") +
+                "[\\r\\n]*" +
+                escapeRegExp("};")
+            ),
+            'const spyOnDefine = jest.spyOn(window.customElements, "define");',
+          ],
+        ];
+        let updated = false;
+        for (const [pattern, replacement] of needReplaces) {
+          if (pattern.test(content)) {
+            updated = true;
+            content = content.replace(pattern, replacement);
+          }
+        }
+        if (updated) {
+          fs.writeFileSync(direntFilePath, content);
+        }
+      }
+    });
+  }
 }

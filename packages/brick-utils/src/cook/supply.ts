@@ -1,4 +1,5 @@
 import lodash from "lodash";
+import moment from "moment";
 import { CookScope } from "./interfaces";
 import { PipeRegistry } from "../placeholder/pipes/PipeRegistry";
 
@@ -21,19 +22,19 @@ export function supply(
   }
 
   return new Map(
-    Array.from(globalMap.entries()).map(entry => [
+    Array.from(globalMap.entries()).map((entry) => [
       entry[0],
       {
         cooked: entry[1],
-        initialized: true
-      }
+        initialized: true,
+      },
     ])
   );
 }
 
-// Omit all mutable methods from lodash.
 const shouldOmitInLodash = new Set([
-  // Allow sequence methods like `_.chain`.
+  // Omit all mutable methods from lodash.
+  // But allow sequence methods like `_.chain`.
   "fill",
   "pull",
   "pullAll",
@@ -54,7 +55,51 @@ const shouldOmitInLodash = new Set([
   "setWith",
   "unset",
   "update",
-  "updateWith"
+  "updateWith",
+  /**
+   * Ignore `Function` methods from lodash, too.
+   * There are chances to invoke `Object.assign`, etc.
+   *
+   * E.g.:
+   *
+   * ```
+   * _.wrap(_.method('constructor.assign',{b:2},{b:3}),(func,...a) => func(...a))({})
+   * ```
+   */
+  "after",
+  "ary",
+  "before",
+  "bind",
+  "bindKey",
+  "curry",
+  "curryRight",
+  "debounce",
+  "defer",
+  "delay",
+  "flip",
+  "memoize",
+  "negate",
+  "once",
+  "overArgs",
+  "partial",
+  "partialRight",
+  "rearg",
+  "rest",
+  "spread",
+  "throttle",
+  "unary",
+  "wrap",
+]);
+
+// Omit all mutable methods from moment.
+const shouldOmitInMoment = new Set([
+  "lang",
+  "langData",
+  "locale",
+  "localeData",
+  "defineLocale",
+  "updateLocale",
+  "updateOffset",
 ]);
 
 const allowedGlobalObjects = new Set([
@@ -74,7 +119,7 @@ const allowedGlobalObjects = new Set([
   "isFinite",
   "isNaN",
   "parseFloat",
-  "parseInt"
+  "parseInt",
 ]);
 
 function supplyIndividual(variableName: string): any {
@@ -85,16 +130,27 @@ function supplyIndividual(variableName: string): any {
         "entries",
         "fromEntries",
         "keys",
-        "values"
+        "values",
       ]);
     case "_":
       return Object.fromEntries(
         Object.entries(lodash).filter(
-          entry => !shouldOmitInLodash.has(entry[0])
+          (entry) => !shouldOmitInLodash.has(entry[0])
+        )
+      );
+    case "moment":
+      return Object.assign(
+        (...args: any[]) => moment(...args),
+        Object.fromEntries(
+          Object.entries(moment).filter(
+            (entry) => !shouldOmitInMoment.has(entry[0])
+          )
         )
       );
     case "PIPES":
       return Object.fromEntries(PipeRegistry.entries());
+    case "location":
+      return { href: location.href };
     default:
       if (allowedGlobalObjects.has(variableName)) {
         return window[variableName as keyof Window];
@@ -107,9 +163,9 @@ function delegateMethods(
   methods: string[]
 ): Record<string, Function> {
   return Object.fromEntries(
-    methods.map(method => [
+    methods.map((method) => [
       method,
-      (...args: any[]) => (target[method] as Function).apply(target, args)
+      (...args: any[]) => (target[method] as Function).apply(target, args),
     ])
   );
 }

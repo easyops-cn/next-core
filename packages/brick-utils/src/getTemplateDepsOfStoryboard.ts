@@ -3,18 +3,19 @@ import {
   RouteConf,
   BrickConf,
   TemplatePackage,
-  RouteConfOfBricks
+  RouteConfOfBricks,
 } from "@easyops/brick-types";
+import { uniq } from "lodash";
 
 export function scanTemplatesInBrick(
   brickConf: BrickConf,
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (brickConf.template) {
-    collection.add(brickConf.template);
+    collection.push(brickConf.template);
   }
   if (brickConf.slots) {
-    Object.values(brickConf.slots).forEach(slotConf => {
+    Object.values(brickConf.slots).forEach((slotConf) => {
       if (slotConf.type === "bricks") {
         scanTemplatesInBricks(slotConf.bricks, collection);
       } else {
@@ -23,18 +24,18 @@ export function scanTemplatesInBrick(
     });
   }
   if (Array.isArray(brickConf.internalUsedTemplates)) {
-    brickConf.internalUsedTemplates.forEach(template => {
-      collection.add(template);
+    brickConf.internalUsedTemplates.forEach((template) => {
+      collection.push(template);
     });
   }
 }
 
 function scanTemplatesInBricks(
   bricks: BrickConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(bricks)) {
-    bricks.forEach(brickConf => {
+    bricks.forEach((brickConf) => {
       scanTemplatesInBrick(brickConf, collection);
     });
   }
@@ -42,10 +43,10 @@ function scanTemplatesInBricks(
 
 function scanTemplatesInRoutes(
   routes: RouteConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(routes)) {
-    routes.forEach(routeConf => {
+    routes.forEach((routeConf) => {
       if (routeConf.type === "routes") {
         scanTemplatesInRoutes(routeConf.routes, collection);
       } else {
@@ -62,10 +63,13 @@ function scanTemplatesInRoutes(
   }
 }
 
-export function scanTemplatesInStoryboard(storyboard: Storyboard): string[] {
-  const collection = new Set<string>();
+export function scanTemplatesInStoryboard(
+  storyboard: Storyboard,
+  isUniq = true
+): string[] {
+  const collection: string[] = [];
   scanTemplatesInRoutes(storyboard.routes, collection);
-  return Array.from(collection);
+  return isUniq ? uniq(collection) : collection;
 }
 
 export function getDepsOfTemplates(
@@ -74,8 +78,10 @@ export function getDepsOfTemplates(
 ): string[] {
   const templateSet = new Set(templates);
   return templatePackages
-    .filter(pkg => pkg.templates.some(template => templateSet.has(template)))
-    .map(pkg => pkg.filePath);
+    .filter((pkg) =>
+      pkg.templates.some((template) => templateSet.has(template))
+    )
+    .map((pkg) => pkg.filePath);
 }
 
 export function getTemplateDepsOfStoryboard(

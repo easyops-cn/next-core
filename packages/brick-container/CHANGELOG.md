@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.17.1...@easyops/brick-container@1.17.2) (2020-04-13)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.17.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.17.0...@easyops/brick-container@1.17.1) (2020-04-13)
+
+### Bug Fixes
+
+- **brick-container:** show versions of core packages ([c271868](https://git.easyops.local/anyclouds/next-core/commits/c271868))
+- **webpack:** fix dll not refreshing after updated in development ([d804aa5](https://git.easyops.local/anyclouds/next-core/commits/d804aa5))
+
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.18...@easyops/brick-container@1.17.0) (2020-04-10)
+
+### Features
+
+- **router:** log location change, refs BRICK_STORE-1307 ([3bf3101](https://git.easyops.local/anyclouds/next-core/commits/3bf3101))
+
+## [1.16.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.17...@easyops/brick-container@1.16.18) (2020-04-09)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.16.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.16...@easyops/brick-container@1.16.17) (2020-04-08)
+
+### Bug Fixes
+
+- **serve:** print help message about host args ([cc61a16](https://git.easyops.local/anyclouds/next-core/commits/cc61a16))
+
+## [1.16.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.15...@easyops/brick-container@1.16.16) (2020-04-07)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.16.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.14...@easyops/brick-container@1.16.15) (2020-04-07)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.16.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.13...@easyops/brick-container@1.16.14) (2020-04-04)
+
+### Bug Fixes
+
+- tree style ([5ac19f9](https://git.easyops.local/anyclouds/next-core/commits/5ac19f9))
+- **brick-container:** `yarn serve` support to listen on specified host ([aa36721](https://git.easyops.local/anyclouds/next-core/commits/aa36721))
+- **brick-container:** fix `yarn serve` support to listen on specified host ([d50c9b8](https://git.easyops.local/anyclouds/next-core/commits/d50c9b8))
+
+## [1.16.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.12...@easyops/brick-container@1.16.13) (2020-03-31)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.16.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.11...@easyops/brick-container@1.16.12) (2020-03-30)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.16.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.10...@easyops/brick-container@1.16.11) (2020-03-26)
+
+### Bug Fixes
+
+- listen on `localhost` ([b6e401c](https://git.easyops.local/anyclouds/next-core/commits/b6e401c))
+- update after upgrade http-proxy-middleware ([dc39800](https://git.easyops.local/anyclouds/next-core/commits/dc39800))
+
 ## [1.16.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.16.9...@easyops/brick-container@1.16.10) (2020-03-24)
 
 **Note:** Version bump only for package @easyops/brick-container

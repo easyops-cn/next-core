@@ -41,7 +41,12 @@ Object {
             "content": Object {
               "bricks": Array [
                 Object {
-                  "$$computedPropsFromProxy": Object {},
+                  "$$computedPropsFromProxy": Object {
+                    "buttonType": "default",
+                    "style": Object {
+                      "display": "block",
+                    },
+                  },
                   "$$refForProxy": Object {},
                   "brick": "basic-bricks.general-button",
                   "events": Object {
@@ -106,6 +111,15 @@ Object {
       "button": Object {
         "ref": "button",
         "refProperty": "buttonName",
+      },
+      "isDanger": Object {
+        "ref": "button",
+        "refTransform": Object {
+          "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
+          "style": Object {
+            "display": "<% DATA.isDanger ? 'inline' : 'block' %>",
+          },
+        },
       },
       "noGap": Object {
         "ref": "micro-view",
