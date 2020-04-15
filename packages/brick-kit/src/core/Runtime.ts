@@ -8,9 +8,17 @@ import {
   UserInfo,
   BrickPackage,
   Storyboard,
-  MagicBrickConfig
+  MagicBrickConfig,
+  CustomTemplateConstructor,
+  PluginRuntimeContext,
 } from "@easyops/brick-types";
-import { Kernel, MenuBar, AppBar, Resolver } from "./exports";
+import {
+  Kernel,
+  MenuBar,
+  AppBar,
+  Resolver,
+  registerCustomTemplate,
+} from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import { RelatedApp, RouterState, RecentApps } from "./interfaces";
 
@@ -55,16 +63,16 @@ export class Runtime {
 
   getMicroApps({
     excludeInstalling = false,
-    includeInternal = false
+    includeInternal = false,
   } = {}): MicroApp[] {
     let apps = kernel.bootstrapData.microApps;
     if (excludeInstalling) {
       apps = apps.filter(
-        app => !(app.installStatus && app.installStatus === "running")
+        (app) => !(app.installStatus && app.installStatus === "running")
       );
     }
     if (!includeInternal) {
-      apps = apps.filter(app => !app.internal);
+      apps = apps.filter((app) => !app.internal);
     }
     return apps;
   }
@@ -72,7 +80,7 @@ export class Runtime {
   reloadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
     return kernel.loadMicroApps(
       {
-        check_login: true
+        check_login: true,
       },
       interceptorParams
     );
@@ -149,7 +157,7 @@ export class Runtime {
     return Object.assign(
       {
         columns: 7,
-        rows: 4
+        rows: 4,
       },
       kernel.bootstrapData.settings?.launchpad
     );
@@ -158,6 +166,14 @@ export class Runtime {
   /* istanbul ignore next */
   registerBrickTemplate(name: string, factory: BrickTemplateFactory): void {
     registerBrickTemplate(name, factory);
+  }
+
+  /* istanbul ignore next */
+  registerCustomTemplate(
+    tplName: string,
+    tplConstructor: CustomTemplateConstructor
+  ): void {
+    registerCustomTemplate(tplName, tplConstructor);
   }
 
   /* istanbul ignore next */
@@ -183,14 +199,19 @@ export class Runtime {
   resetWorkspaceStack(): void {
     kernel.workspaceStack = [];
   }
+}
 
-  /* istanbul ignore next */
-  _internalApiGetResolver(): Resolver {
-    return kernel.router.getResolver();
-  }
+/* istanbul ignore next */
+export function _internalApiGetResolver(): Resolver {
+  return kernel.router.getResolver();
+}
 
-  /* istanbul ignore next */
-  _internalApiGetRouterState(): RouterState {
-    return kernel.router.getState();
-  }
+/* istanbul ignore next */
+export function _internalApiGetRouterState(): RouterState {
+  return kernel.router.getState();
+}
+
+/* istanbul ignore next */
+export function _internalApiGetCurrentContext(): PluginRuntimeContext {
+  return kernel.router.getCurrentContext();
 }

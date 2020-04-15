@@ -14,14 +14,14 @@ const packageJson = require(path.join(process.cwd(), "package.json"));
 const peerDependencies = Object.keys(packageJson.peerDependencies || {});
 const external = new Set();
 const dllNames = ["@easyops/brick-dll", /^@dll\//];
-peerDependencies.forEach(dep => {
+peerDependencies.forEach((dep) => {
   if (
-    dllNames.some(name =>
+    dllNames.some((name) =>
       typeof name === "string" ? name === dep : name.test(dep)
     )
   ) {
     const dllJson = require(require.resolve(`${dep}/package.json`));
-    Object.keys(dllJson.dependencies).forEach(dllDep => {
+    Object.keys(dllJson.dependencies).forEach((dllDep) => {
       external.add(dllDep);
     });
   } else {
@@ -31,15 +31,17 @@ peerDependencies.forEach(dep => {
 
 // By default, rollup-plugin-postcss use filename hash instead of content hash.
 function generateScopedName(name, filename, css) {
-  const hash = stringHash(css)
-    .toString(36)
-    .substr(0, 8);
+  const hash = stringHash(css).toString(36).substr(0, 8);
   const file = path.basename(filename, ".module.css");
 
   return `${file}--${name}--${hash}`;
 }
 
-exports.rollupFactory = ({ umdName, plugins = [] }) => ({
+exports.rollupFactory = ({
+  umdName,
+  plugins = [],
+  commonjsOptions = undefined,
+}) => ({
   input: "src/index.ts",
   output: [
     {
@@ -47,36 +49,36 @@ exports.rollupFactory = ({ umdName, plugins = [] }) => ({
       format: "umd",
       name: umdName,
       sourcemap: true,
-      exports: "named"
+      exports: "named",
     },
     {
       file: "dist/index.esm.js",
       format: "esm",
       sourcemap: true,
-      exports: "named"
-    }
+      exports: "named",
+    },
   ],
   external: Array.from(external),
   plugins: [
     ...plugins,
     replace({
-      "process.env.NODE_ENV": process.env.NODE_ENV
+      "process.env.NODE_ENV": process.env.NODE_ENV,
     }),
     resolve({
       browser: true,
-      extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"]
+      extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"],
     }),
     postcss({
       modules: {
-        generateScopedName
-      }
+        generateScopedName,
+      },
     }),
     json(),
-    commonjs(),
+    commonjs(commonjsOptions),
     babel({
       // exclude: "node_modules/**",
       configFile: "../../babel.config.js",
-      extensions: ["js", "jsx", "ts", "tsx"]
-    })
-  ]
+      extensions: ["js", "jsx", "ts", "tsx"],
+    }),
+  ],
 });

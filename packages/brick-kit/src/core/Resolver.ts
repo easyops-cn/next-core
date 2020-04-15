@@ -6,25 +6,23 @@ import {
   RefResolveConf,
   EntityResolveConf,
   DefineResolveConf,
-  ResolveConf
+  ResolveConf,
+  HandleRejectByTransform,
 } from "@easyops/brick-types";
-import {
-  asyncProcessBrick,
-  scanBricksInBrickConf,
-  getDllAndDepsOfBricks,
-  loadScript,
-  transformProperties,
-  transformIntermediateData
-} from "@easyops/brick-utils";
+import { asyncProcessBrick } from "@easyops/brick-utils";
 import { computeRealValue } from "../setProperties";
 import { Kernel, RuntimeBrick } from "./exports";
 import {
   makeProviderRefreshable,
   RefreshableProvider,
-  IntervalSettings
+  IntervalSettings,
 } from "../makeProviderRefreshable";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-// import { RedirectConf } from "./interfaces";
+import {
+  transformProperties,
+  transformIntermediateData,
+} from "../transformProperties";
+import { recursiveMarkAsInjected } from "../injected";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -42,21 +40,18 @@ export class Resolver {
     }
   }
 
-  defineResolves(resolves: DefineResolveConf[]): void {
+  defineResolves(
+    resolves: DefineResolveConf[],
+    context: PluginRuntimeContext
+  ): void {
     if (Array.isArray(resolves)) {
       for (const resolveConf of resolves) {
-        this.definedResolves.set(resolveConf.id, resolveConf);
+        this.definedResolves.set(resolveConf.id, {
+          ...resolveConf,
+          args: computeRealValue(resolveConf.args, context, true),
+        });
       }
     }
-  }
-
-  // For BrickAsComponent
-  processBrick(brickConf: BrickConf): Promise<void> {
-    return asyncProcessBrick(
-      brickConf,
-      brickTemplateRegistry,
-      this.kernel.bootstrapData.templatePackages
-    );
   }
 
   async resolve(
@@ -66,7 +61,7 @@ export class Resolver {
   ): Promise<void> {
     const useResolves = brickConf.lifeCycle?.useResolves ?? [];
     await Promise.all(
-      useResolves.map(resolveConf =>
+      useResolves.map((resolveConf) =>
         this.resolveOne("brick", resolveConf, brickConf, brick, context)
       )
     );
@@ -74,20 +69,14 @@ export class Resolver {
       (brickConf as RuntimeBrickConf).$$resolved = true;
 
       // Try to process templates.
-      await this.processBrick(brickConf);
+      await asyncProcessBrick(
+        brickConf,
+        brickTemplateRegistry,
+        this.kernel.bootstrapData.templatePackages
+      );
 
       // Try to load deps for dynamic added bricks.
-      const brickCollection = new Set<string>();
-      scanBricksInBrickConf(brickConf, brickCollection);
-      const { dll, deps } = getDllAndDepsOfBricks(
-        Array.from(brickCollection).filter(
-          // Only try to load undefined custom elements.
-          element => element.includes("-") && !customElements.get(element)
-        ),
-        this.kernel.bootstrapData.brickPackages
-      );
-      await loadScript(dll);
-      await loadScript(deps);
+      await this.kernel.loadDynamicBricks(brickConf);
     }
   }
 
@@ -141,7 +130,8 @@ export class Resolver {
       args,
       field,
       transformFrom,
-      transform
+      transformMapArray,
+      transform,
     } = actualResolveConf as EntityResolveConf;
 
     const providerBrick: RefreshableProvider = this.kernel.mountPoints.bg.querySelector(
@@ -178,27 +168,33 @@ export class Resolver {
               ref,
               intermediateTransform: transform || name,
               intermediateTransformFrom: transformFrom,
+              intermediateTransformMapArray: transformMapArray,
               transform: resolveConf.transform,
-              transformFrom: resolveConf.transformFrom
+              transformFrom: resolveConf.transformFrom,
+              transformMapArray: resolveConf.transformMapArray,
+              onReject: resolveConf.onReject,
             }
           : {
               transform: transform || name,
-              transformFrom
-            })
+              transformFrom,
+              transformMapArray,
+            }),
       });
     }
 
     const cacheKey = JSON.stringify({
       provider,
       method,
-      args
+      args,
     });
     let promise: Promise<any>;
     if (this.cache.has(cacheKey)) {
       promise = this.cache.get(cacheKey);
     } else {
       const actualArgs = args
-        ? context
+        ? ref
+          ? args // `args` are already computed for `defineResolves`
+          : context
           ? computeRealValue(args, context, true)
           : args
         : providerBrick.args || [];
@@ -212,17 +208,6 @@ export class Resolver {
 
       promise = providerBrick[method](...actualArgs);
       this.cache.set(cacheKey, promise);
-    }
-
-    const value = await promise;
-    data = field === null || field === undefined ? value : get(value, field);
-
-    if (ref) {
-      data = transformIntermediateData(
-        data,
-        context ? computeRealValue(transform, context, true) : transform,
-        transformFrom
-      );
     }
 
     let props: Record<string, any>;
@@ -240,6 +225,44 @@ export class Resolver {
       props = brick.properties;
     }
 
+    async function fetchData(): Promise<void> {
+      const value = await promise;
+      data = field === null || field === undefined ? value : get(value, field);
+      // The fetched data and its inner objects should never be *injected* again.
+      recursiveMarkAsInjected(data);
+    }
+
+    if (resolveConf.onReject) {
+      // Transform as `onReject.transform` when provider failed.
+      try {
+        await fetchData();
+      } catch (error) {
+        const onRejectTransform = (resolveConf.onReject as HandleRejectByTransform)
+          .transform;
+        if (onRejectTransform) {
+          transformProperties(
+            props,
+            error,
+            context
+              ? computeRealValue(onRejectTransform, context, true)
+              : onRejectTransform
+          );
+        }
+        return;
+      }
+    } else {
+      await fetchData();
+    }
+
+    if (ref) {
+      data = transformIntermediateData(
+        data,
+        context ? computeRealValue(transform, context, true) : transform,
+        transformFrom,
+        transformMapArray
+      );
+    }
+
     transformProperties(
       props,
       data,
@@ -251,7 +274,8 @@ export class Resolver {
             true
           )
         : resolveConf.transform || resolveConf.name,
-      resolveConf.transformFrom
+      resolveConf.transformFrom,
+      resolveConf.transformMapArray
     );
 
     if (context?.flags?.["storyboard-debug-mode"]) {
@@ -265,7 +289,7 @@ export class Resolver {
       const request = async (): Promise<void> => {
         await providerBrick.$refresh({
           ignoreErrors: interval.ignoreErrors,
-          throwErrors: true
+          throwErrors: true,
         });
         // eslint-disable-next-line require-atomic-updates
         interval.timeoutId = setTimeout(request, interval.delay);

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@1.0.0...@easyops/brick-http@1.0.1) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
 # [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@0.2.3...@easyops/brick-http@1.0.0) (2019-11-03)
 
 **Note:** Version bump only for package @easyops/brick-http

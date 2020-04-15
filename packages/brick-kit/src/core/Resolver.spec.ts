@@ -3,16 +3,16 @@ import { RuntimeBrick } from "./BrickNode";
 
 jest.mock("../handleHttpError");
 
+// Mock a custom element of `any-provider`.
+customElements.define("any-provider", class Tmp extends HTMLElement {});
+
 describe("Resolver", () => {
   const kernel = {
-    mountPoints: {}
+    mountPoints: {},
   } as any;
   let resolver: Resolver;
 
   beforeEach(() => {
-    (window as any).customElements = {
-      get: (name: string) => true
-    };
     resolver = new Resolver(kernel as any);
   });
 
@@ -24,8 +24,8 @@ describe("Resolver", () => {
   it("should resolve bricks", async () => {
     const testMethod = jest.fn().mockResolvedValue({
       data: {
-        hello: "world"
-      }
+        hello: "world",
+      },
     });
     const providerName = "any-provider";
     const provider = {
@@ -33,11 +33,11 @@ describe("Resolver", () => {
       testMethod,
       interval: {
         delay: 3000,
-        ignoreErrors: true
-      }
+        ignoreErrors: true,
+      },
     };
     kernel.mountPoints.bg = {
-      querySelector: () => provider
+      querySelector: () => provider,
     } as any;
     const brickA: RuntimeBrick = {
       type: "brick-A",
@@ -48,15 +48,15 @@ describe("Resolver", () => {
           {
             name: "testProp",
             provider: providerName,
-            method: "testMethod"
-          }
-        ]
-      }
+            method: "testMethod",
+          },
+        ],
+      },
     };
     const brickB: RuntimeBrick = {
       type: "brick-B",
       properties: {
-        existedProp: "any"
+        existedProp: "any",
       },
       events: {},
       lifeCycle: {
@@ -66,37 +66,37 @@ describe("Resolver", () => {
             method: "testMethod",
             transformFrom: "data",
             transform: {
-              testProp: "${quality} @{hello}"
-            }
-          }
-        ]
-      }
+              testProp: "${quality} @{hello}",
+            },
+          },
+        ],
+      },
     };
     resolver.resetRefreshQueue();
     await resolver.resolve(
       {
-        lifeCycle: brickA.lifeCycle
+        lifeCycle: brickA.lifeCycle,
       },
       brickA,
       {
         match: {
           params: {
-            quality: "better"
-          }
-        }
+            quality: "better",
+          },
+        },
       } as any
     );
     await resolver.resolve(
       {
-        lifeCycle: brickB.lifeCycle
+        lifeCycle: brickB.lifeCycle,
       },
       brickB,
       {
         match: {
           params: {
-            quality: "better"
-          }
-        }
+            quality: "better",
+          },
+        },
       } as any
     );
     const redirectConf = {};
@@ -106,8 +106,8 @@ describe("Resolver", () => {
         provider: "any-provider",
         method: "testMethod",
         transform: {
-          redirect: "/go/to/@{data.hello}"
-        }
+          redirect: "/go/to/@{data.hello}",
+        },
       },
       redirectConf
     );
@@ -115,16 +115,16 @@ describe("Resolver", () => {
     expect(brickA.properties).toEqual({
       testProp: {
         data: {
-          hello: "world"
-        }
-      }
+          hello: "world",
+        },
+      },
     });
     expect(brickB.properties).toEqual({
       existedProp: "any",
-      testProp: "better world"
+      testProp: "better world",
     });
     expect(redirectConf).toEqual({
-      redirect: "/go/to/world"
+      redirect: "/go/to/world",
     });
 
     resolver.scheduleRefreshing();
@@ -133,30 +133,116 @@ describe("Resolver", () => {
     resolver.resetRefreshQueue();
   });
 
-  it("should use defined resolves", async () => {
-    const providerName = "your-provider";
-
-    resolver.defineResolves([
+  it("should handle reject", async () => {
+    const testMethod = jest.fn().mockRejectedValue({
+      message: "oops",
+    });
+    const providerName = "any-provider";
+    const provider = {
+      tagName: providerName,
+      testMethod,
+    };
+    kernel.mountPoints.bg = {
+      querySelector: () => provider,
+    } as any;
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: providerName,
+            method: "testMethod",
+            onReject: {
+              transform: {
+                error: "@{message}",
+                errorQuality: "${quality}",
+              },
+            },
+          },
+        ],
+      },
+    };
+    const brickB: RuntimeBrick = {
+      type: "brick-B",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: providerName,
+            method: "testMethod",
+            onReject: {
+              transform: {
+                error: "@{message}",
+              },
+            },
+          },
+        ],
+      },
+    };
+    resolver.resetRefreshQueue();
+    await resolver.resolve(
       {
-        id: "provider-a",
-        provider: providerName,
-        method: "testMethod",
-        args: ["good"],
-        transformFrom: "data"
-      }
-    ]);
+        lifeCycle: brickA.lifeCycle,
+      },
+      brickA,
+      {
+        match: {
+          params: {
+            quality: "bad",
+          },
+        },
+      } as any
+    );
+    await resolver.resolve(
+      {
+        lifeCycle: brickB.lifeCycle,
+      },
+      brickB
+      // No context
+    );
+    expect(testMethod).toBeCalledTimes(1);
+    expect(brickA.properties).toEqual({
+      error: "oops",
+      errorQuality: "bad",
+    });
+    expect(brickB.properties).toEqual({
+      error: "oops",
+    });
+    resolver.resetRefreshQueue();
+  });
+
+  it("should use defined resolves", async () => {
+    const providerName = "any-provider";
+
+    resolver.defineResolves(
+      [
+        {
+          id: "provider-a",
+          provider: providerName,
+          method: "testMethod",
+          args: ["good"],
+          transformFrom: "data",
+        },
+      ],
+      null
+    );
 
     const testMethod = jest.fn().mockResolvedValue({
       data: {
-        hello: "world"
-      }
+        hello: "world",
+      },
     });
     const provider = {
       tagName: providerName,
-      testMethod
+      testMethod,
     };
     kernel.mountPoints.bg = {
-      querySelector: () => provider
+      querySelector: () => provider,
     } as any;
 
     const brickA: RuntimeBrick = {
@@ -167,15 +253,15 @@ describe("Resolver", () => {
         useResolves: [
           {
             name: "testProp",
-            ref: "provider-a"
-          }
-        ]
-      }
+            ref: "provider-a",
+          },
+        ],
+      },
     };
 
     await resolver.resolve(
       {
-        lifeCycle: brickA.lifeCycle
+        lifeCycle: brickA.lifeCycle,
       },
       brickA,
       null
@@ -183,8 +269,8 @@ describe("Resolver", () => {
 
     expect(brickA.properties).toEqual({
       testProp: {
-        hello: "world"
-      }
+        hello: "world",
+      },
     });
     expect(testMethod).toBeCalledWith("good");
   });
@@ -193,7 +279,7 @@ describe("Resolver", () => {
     kernel.mountPoints.bg = {
       querySelector(): any {
         return null;
-      }
+      },
     } as any;
     const brickA: RuntimeBrick = {
       type: "brick-A",
@@ -204,17 +290,17 @@ describe("Resolver", () => {
           {
             name: "testProp",
             provider: "any-provider",
-            method: "testMethod"
-          }
-        ]
-      }
+            method: "testMethod",
+          },
+        ],
+      },
     };
     expect.assertions(1);
     try {
       await resolver.resolve(
         {
           brick: brickA.type,
-          lifeCycle: brickA.lifeCycle
+          lifeCycle: brickA.lifeCycle,
         },
         brickA,
         null
@@ -225,20 +311,16 @@ describe("Resolver", () => {
   });
 
   it("should throw if provider not defined", async () => {
-    (window as any).customElements = {
-      get: (name: string) => false
-    };
-
     const testMethod = jest.fn().mockResolvedValue({
       data: {
-        hello: "world"
-      }
+        hello: "world",
+      },
     });
     const provider = {
-      testMethod
+      testMethod,
     };
     kernel.mountPoints.bg = {
-      querySelector: () => provider
+      querySelector: () => provider,
     } as any;
 
     const brickA: RuntimeBrick = {
@@ -250,10 +332,10 @@ describe("Resolver", () => {
           {
             name: "testProp",
             provider: "any-provider",
-            method: "testMethod"
-          }
-        ]
-      }
+            method: "testMethod",
+          },
+        ],
+      },
     };
 
     expect.assertions(1);
@@ -261,7 +343,7 @@ describe("Resolver", () => {
       await resolver.resolve(
         {
           brick: brickA.type,
-          lifeCycle: brickA.lifeCycle
+          lifeCycle: brickA.lifeCycle,
         },
         brickA,
         null
@@ -272,7 +354,7 @@ describe("Resolver", () => {
   });
 
   it("should throw if ref provider not found", async () => {
-    resolver.defineResolves(undefined);
+    resolver.defineResolves(undefined, null);
     const brickA: RuntimeBrick = {
       type: "brick-A",
       properties: {},
@@ -281,17 +363,17 @@ describe("Resolver", () => {
         useResolves: [
           {
             name: "testProp",
-            ref: "provider-a"
-          }
-        ]
-      }
+            ref: "provider-a",
+          },
+        ],
+      },
     };
     expect.assertions(1);
     try {
       await resolver.resolve(
         {
           brick: brickA.type,
-          lifeCycle: brickA.lifeCycle
+          lifeCycle: brickA.lifeCycle,
         },
         brickA,
         null

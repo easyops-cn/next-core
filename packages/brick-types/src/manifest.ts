@@ -42,7 +42,12 @@ export interface MicroApp {
   defaultConfig?: Record<string, any>;
   userConfig?: Record<string, any>;
   config?: Record<string, any>;
+  $$routeAliasMap?: RouteAliasMap;
 }
+
+export type RouteAliasMap = Map<string, RouteAliasConf>;
+
+export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 
 export interface BrickPackage {
   bricks: string[];
@@ -71,6 +76,7 @@ export interface Storyboard {
   routes: RouteConf[];
   app?: MicroApp;
   dependsAll?: boolean;
+  meta?: StoryboardMeta;
 }
 
 export interface RuntimeStoryboard extends Storyboard {
@@ -98,7 +104,8 @@ export interface RouteConfOfRedirect extends BaseRouteConf {
 }
 
 export interface BaseRouteConf {
-  path: string | string[];
+  path: string;
+  alias?: string;
   exact?: boolean;
   public?: boolean;
   menu?: MenuConf;
@@ -106,6 +113,15 @@ export interface BaseRouteConf {
   providers?: ProviderConf[];
   defineResolves?: DefineResolveConf[];
   redirect?: string | ResolveConf;
+  segues?: SeguesConf;
+}
+
+export interface SeguesConf {
+  [segueId: string]: SegueConf;
+}
+
+export interface SegueConf {
+  target: string;
 }
 
 export interface BrickConf {
@@ -134,6 +150,8 @@ export interface RuntimeBrickConf extends BrickConf {
   $$params?: Record<string, any>;
   $$lifeCycle?: BrickLifeCycle;
   $$if?: string | ResolveConf;
+  $$computedPropsFromProxy?: Record<string, any>;
+  $$refForProxy?: RefForProxy;
 }
 
 export interface BrickLifeCycle {
@@ -153,10 +171,13 @@ export interface EntityResolveConf {
   field?: string | string[];
   name?: string;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
+  onReject?: HandleReject;
 }
 
-export interface DefineResolveConf extends Omit<EntityResolveConf, "name"> {
+export interface DefineResolveConf
+  extends Omit<EntityResolveConf, "name" | "onReject"> {
   id: string;
 }
 
@@ -164,7 +185,19 @@ export interface RefResolveConf {
   ref: string;
   name?: string;
   transformFrom?: string | string[];
+  transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
+  onReject?: HandleReject;
+}
+
+export type HandleReject = HandleRejectByTransform /*| HandleRejectByCatch*/;
+
+export interface HandleRejectByTransform {
+  transform: GeneralTransform;
+}
+
+export interface HandleRejectByCatch {
+  catch: true;
 }
 
 export type GeneralTransform = string | TransformMap | TransformItem[];
@@ -179,7 +212,7 @@ export interface TransformItem {
   mapArray?: boolean | "auto";
 }
 
-export type MenuConf = false | StaticMenuConf | BrickMenuConf;
+export type MenuConf = false | StaticMenuConf | BrickMenuConf | ResolveMenuConf;
 
 export interface StaticMenuConf extends StaticMenuProps {
   type?: "static";
@@ -211,8 +244,13 @@ export interface BrickMenuConf {
   lifeCycle?: BrickLifeCycle;
 }
 
+export interface ResolveMenuConf {
+  type: "resolve";
+  resolve: ResolveConf;
+}
+
 export interface SlotsConf {
-  [slotId: string]: SlotConf;
+  [slotName: string]: SlotConf;
 }
 
 export type SlotConf = SlotConfOfBricks | SlotConfOfRoutes;
@@ -226,6 +264,10 @@ export interface SlotConfOfRoutes {
   type: "routes";
   routes: RouteConf[];
   switch?: boolean;
+}
+
+export interface SlotsConfOfBricks {
+  [slotName: string]: SlotConfOfBricks;
 }
 
 export type SlotType = "bricks" | "routes";
@@ -256,6 +298,8 @@ export interface BuiltinBrickEventHandler {
     | "location.reload"
     | "location.assign"
     | "window.open"
+    | "segue.push"
+    | "segue.replace"
     | "event.preventDefault"
     | "console.log"
     | "console.error"
@@ -277,7 +321,8 @@ export interface BuiltinBrickEventHandler {
 }
 
 export interface BaseCustomBrickEventHandler {
-  target: string | any; // The target element selector or element itself.
+  target?: string | any; // The target element selector or element itself.
+  targetRef?: string; // The target ref inside a custom template.
   multiple?: boolean; // Use `querySelectorAll` or `querySelector`
 }
 
@@ -324,13 +369,104 @@ export interface DesktopItemDir {
 export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
 
 export interface UseSingleBrickConf {
-  brick?: string;
+  brick: string;
   properties?: Record<string, any>;
   events?: BrickEventsMap;
   lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
   transformFrom?: string | string[];
   transform?: GeneralTransform;
-  template?: string;
-  params?: any[];
   if?: string | ResolveConf;
 }
+
+export interface StoryboardMeta {
+  customTemplates?: CustomTemplate[];
+}
+
+/* Custom Templates Starts */
+
+export interface CustomTemplate {
+  name: string;
+  bricks: BrickConfInTemplate[];
+  proxy?: CustomTemplateProxy;
+}
+
+export type CustomTemplateConstructor = Omit<CustomTemplate, "name">;
+
+export type BrickConfInTemplate = Omit<
+  BrickConf,
+  "brick" | "slots" | "template" | "params"
+> & {
+  brick: string;
+  ref?: string;
+  slots?: SlotsConfInTemplate;
+};
+
+export interface SlotsConfInTemplate {
+  [slotName: string]: SlotConfInTemplate;
+}
+
+export interface SlotConfInTemplate {
+  type: "bricks";
+  bricks: BrickConfInTemplate[];
+}
+
+export interface CustomTemplateProxy {
+  properties?: CustomTemplateProxyProperties;
+  events?: CustomTemplateProxyEvents;
+  slots?: CustomTemplateProxySlots;
+  methods?: CustomTemplateProxyMethods;
+}
+
+export interface CustomTemplateProxyProperties {
+  [name: string]: CustomTemplateProxyProperty;
+}
+
+export type CustomTemplateProxyProperty =
+  | CustomTemplateProxyBasicProperty
+  | CustomTemplateProxyTransformableProperty;
+
+export interface CustomTemplateProxyBasicProperty {
+  ref: string;
+  refProperty: string;
+}
+
+export interface CustomTemplateProxyTransformableProperty {
+  ref: string;
+  refTransform: GeneralTransform;
+}
+
+export interface CustomTemplateProxyEvents {
+  [name: string]: CustomTemplateProxyEvent;
+}
+
+export interface CustomTemplateProxyEvent {
+  ref: string;
+  refEvent: string;
+}
+
+export interface CustomTemplateProxySlots {
+  [name: string]: CustomTemplateProxySlot;
+}
+
+export interface CustomTemplateProxySlot {
+  ref: string;
+  refSlot: string;
+  refPosition?: number;
+}
+
+export interface CustomTemplateProxyMethods {
+  [name: string]: CustomTemplateProxyMethod;
+}
+
+export interface CustomTemplateProxyMethod {
+  ref: string;
+  refMethod: string;
+}
+
+export interface RefForProxy {
+  brick?: {
+    element?: HTMLElement;
+  };
+}
+
+/* Custom Templates Ends */

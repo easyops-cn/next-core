@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>zabbix</title>
+    <desc>Created with Sketch.</desc>
+    <g id="设计稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Apple-TV备份" transform="translate(-859.000000, -301.000000)" fill="#FFFFFF">
+            <g id="zabbix" transform="translate(858.000000, 300.000000)">
+                <g transform="translate(1.000000, 1.000000)" fill-rule="nonzero" id="形状">
+                    <path d="M0.0134202454,0 L0.0134202454,13.9570552 L13.9704755,13.9570552 L13.9704755,0 L0.0134202454,0 Z M11.4405982,12.1718405 L2.50464724,12.1718405 L2.50464724,10.7834356 L8.93090491,3.40638037 C8.28819213,3.442057 7.64466402,3.46110222 7.00096626,3.46349693 L2.88470859,3.46349693 L2.88470859,2.07552147 L11.1365491,2.07552147 L11.1365491,3.20668712 L5.67010736,9.61404908 L4.61495399,10.7834356 C5.33297589,10.7282911 6.05279537,10.6997848 6.77292945,10.6979755 L11.4405982,10.6979755 L11.4405982,12.1718405 Z"></path>
+                </g>
+                <rect id="矩形" opacity="0" x="0" y="0" width="16" height="16"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,4 +1,8 @@
-import { PluginLocation, RuntimeStoryboard } from "@easyops/brick-types";
+import {
+  PluginLocation,
+  RuntimeStoryboard,
+  ResolveConf,
+} from "@easyops/brick-types";
 import * as brickUtils from "@easyops/brick-utils";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
@@ -11,17 +15,13 @@ const spyOnMatchPath = jest.spyOn(brickUtils, "matchPath");
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (getAuth as jest.Mock).mockReturnValue({
   username: "easyops",
-  userInstanceId: "acbd46b"
+  userInstanceId: "acbd46b",
 });
-
-(global as any).customElements = {
-  get: () => true
-};
 
 jest.spyOn(history, "getHistory").mockReturnValue({
   location: {
-    hash: ""
-  }
+    hash: "",
+  },
 } as any);
 
 describe("LocationContext", () => {
@@ -29,51 +29,51 @@ describe("LocationContext", () => {
   const kernel: Kernel = {
     mountPoints: {
       main: {},
-      bg: document.createElement("div")
+      bg: document.createElement("div"),
     },
     bootstrapData: {
       storyboards: [],
       brickPackages: [
         {
-          filePath: "all.js"
-        }
-      ]
+          filePath: "all.js",
+        },
+      ],
     },
     unsetBars: jest.fn(),
     menuBar: {
-      element: {}
+      element: {},
     },
     appBar: {
       element: {
-        breadcrumb: []
-      }
+        breadcrumb: [],
+      },
     },
     toggleBars: jest.fn(),
     getFeatureFlags: jest.fn().mockReturnValue({
-      testing: true
-    })
+      testing: true,
+    }),
   } as any;
 
   const location: PluginLocation = {
     pathname: "/",
     search: "",
     hash: "",
-    state: {}
+    state: {},
   };
 
   const getInitialMountResult = (): MountRoutesResult => ({
     main: [],
     menuInBg: [],
     menuBar: {
-      app: kernel.nextApp
+      app: kernel.nextApp,
     },
     appBar: {
       app: kernel.nextApp,
-      breadcrumb: kernel.appBar.element.breadcrumb
+      breadcrumb: kernel.appBar.element.breadcrumb,
     },
     flags: {
-      redirect: undefined
-    }
+      redirect: undefined,
+    },
   });
 
   beforeEach(() => {
@@ -92,10 +92,10 @@ describe("LocationContext", () => {
           {
             path: "",
             public: true,
-            bricks: []
-          }
-        ]
-      }
+            bricks: [],
+          },
+        ],
+      },
     ];
 
     it("should handle match missed", () => {
@@ -123,8 +123,8 @@ describe("LocationContext", () => {
         menuBar: {},
         appBar: {},
         flags: {
-          redirect: undefined
-        }
+          redirect: undefined,
+        },
       });
     });
 
@@ -135,8 +135,8 @@ describe("LocationContext", () => {
         [
           {
             path: "/",
-            bricks: []
-          }
+            bricks: [],
+          },
         ],
         undefined,
         getInitialMountResult()
@@ -149,10 +149,10 @@ describe("LocationContext", () => {
           redirect: {
             path: "/auth/login",
             state: {
-              from: location
-            }
-          }
-        }
+              from: location,
+            },
+          },
+        },
       });
     });
 
@@ -163,8 +163,8 @@ describe("LocationContext", () => {
         [
           {
             path: "/",
-            redirect: "/oops"
-          }
+            redirect: "/oops",
+          },
         ],
         undefined,
         getInitialMountResult()
@@ -175,9 +175,9 @@ describe("LocationContext", () => {
         appBar: {},
         flags: {
           redirect: {
-            path: "/oops"
-          }
-        }
+            path: "/oops",
+          },
+        },
       });
     });
 
@@ -193,9 +193,9 @@ describe("LocationContext", () => {
               {
                 brick: "provider-b",
                 properties: {
-                  args: ["good"]
-                }
-              }
+                  args: ["good"],
+                },
+              },
             ],
             type: "routes",
             routes: [
@@ -206,32 +206,32 @@ describe("LocationContext", () => {
                     if: "${FLAGS.testing}",
                     brick: "div",
                     properties: {
-                      title: "good"
+                      title: "good",
                     },
                     events: {
                       click: {
-                        action: "history.push"
-                      }
+                        action: "history.push",
+                      },
                     },
                     lifeCycle: {
                       onPageLoad: {
-                        action: "console.log"
+                        action: "console.log",
                       },
                       onAnchorLoad: {
-                        action: "console.log"
+                        action: "console.log",
                       },
                       onAnchorUnload: {
-                        action: "console.log"
-                      }
+                        action: "console.log",
+                      },
                     },
                     slots: {
                       menu: {
                         type: "bricks",
                         bricks: [
                           {
-                            brick: "p"
-                          }
-                        ]
+                            brick: "p",
+                          },
+                        ],
                       },
                       content: {
                         type: "routes",
@@ -242,19 +242,19 @@ describe("LocationContext", () => {
                             menu: {
                               sidebarMenu: {
                                 title: "menu title",
-                                menuItems: []
+                                menuItems: [],
                               },
                               pageTitle: "page title",
                               breadcrumb: {
                                 items: [
                                   {
-                                    text: "first breadcrumb"
-                                  }
-                                ]
-                              }
-                            }
-                          }
-                        ]
+                                    text: "first breadcrumb",
+                                  },
+                                ],
+                              },
+                            },
+                          },
+                        ],
                       },
                       extendA: {
                         type: "routes",
@@ -264,10 +264,10 @@ describe("LocationContext", () => {
                             bricks: [],
                             menu: {
                               type: "brick",
-                              brick: "a"
-                            }
-                          }
-                        ]
+                              brick: "a",
+                            },
+                          },
+                        ],
                       },
                       extendB: {
                         type: "routes",
@@ -281,19 +281,19 @@ describe("LocationContext", () => {
                               events: {},
                               lifeCycle: {
                                 onPageLoad: {
-                                  action: "console.warn"
+                                  action: "console.warn",
                                 },
                                 onAnchorLoad: {
                                   action: "console.warn",
-                                  args: ["${EVENT.detail.anchor}"]
+                                  args: ["${EVENT.detail.anchor}"],
                                 },
                                 onAnchorUnload: {
-                                  action: "console.warn"
-                                }
-                              }
-                            }
-                          }
-                        ]
+                                  action: "console.warn",
+                                },
+                              },
+                            },
+                          },
+                        ],
                       },
                       extendC: {
                         type: "routes",
@@ -306,13 +306,13 @@ describe("LocationContext", () => {
                                 overwrite: true,
                                 items: [
                                   {
-                                    text: "second breadcrumb"
-                                  }
-                                ]
-                              }
-                            }
-                          }
-                        ]
+                                    text: "second breadcrumb",
+                                  },
+                                ],
+                              },
+                            },
+                          },
+                        ],
                       },
                       extendD: {
                         type: "routes",
@@ -320,9 +320,9 @@ describe("LocationContext", () => {
                           {
                             path: "/",
                             bricks: [],
-                            menu: false
-                          }
-                        ]
+                            menu: false,
+                          },
+                        ],
                       },
                       extendE: {
                         type: "routes",
@@ -330,24 +330,24 @@ describe("LocationContext", () => {
                           {
                             path: "/",
                             bricks: [],
-                            menu: {}
-                          }
-                        ]
+                            menu: {},
+                          },
+                        ],
                       },
                       extendF: {
                         type: "invalid",
-                        routes: []
-                      }
-                    }
+                        routes: [],
+                      },
+                    },
                   },
                   {
                     if: "${FLAGS.testing|not}",
-                    brick: "div"
-                  }
-                ]
-              }
-            ]
-          }
+                    brick: "div",
+                  },
+                ],
+              },
+            ],
+          },
         ] as any,
         undefined,
         getInitialMountResult()
@@ -356,40 +356,40 @@ describe("LocationContext", () => {
         menuBar: {
           menu: {
             title: "menu title",
-            menuItems: []
-          }
+            menuItems: [],
+          },
         },
         appBar: {
           pageTitle: "page title",
           breadcrumb: [
             {
-              text: "second breadcrumb"
-            }
-          ]
+              text: "second breadcrumb",
+            },
+          ],
         },
         flags: {
           barsHidden: true,
-          redirect: undefined
-        }
+          redirect: undefined,
+        },
       });
       expect(result.main).toMatchObject([
         {
           type: "div",
           properties: {
-            title: "good"
+            title: "good",
           },
           events: {
             click: {
-              action: "history.push"
-            }
+              action: "history.push",
+            },
           },
           children: [
             {
               type: "p",
-              slotId: "menu"
-            }
-          ]
-        }
+              slotId: "menu",
+            },
+          ],
+        },
       ]);
       expect(kernel.mountPoints.bg.children.length).toBe(2);
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
@@ -404,8 +404,8 @@ describe("LocationContext", () => {
 
       (history.getHistory as jest.Mock).mockReturnValue({
         location: {
-          hash: "#yes"
-        }
+          hash: "#yes",
+        },
       });
       context.handleAnchorLoad();
 
@@ -414,13 +414,74 @@ describe("LocationContext", () => {
       expect(consoleLog.mock.calls[2][0].type).toBe("anchor.load");
       expect(consoleLog.mock.calls[2][0].detail).toEqual({
         hash: "#yes",
-        anchor: "yes"
+        anchor: "yes",
       });
       expect(consoleWarn.mock.calls[0][0].type).toBe("page.load");
       expect(consoleWarn.mock.calls[1][0].type).toBe("anchor.unload");
       expect(consoleWarn.mock.calls[2]).toEqual(["yes"]);
       consoleLog.mockRestore();
       consoleWarn.mockRestore();
+    });
+
+    it("resolve menu should work", async () => {
+      spyOnMatchPath.mockReturnValue({} as any);
+      spyOnIsLoggedIn.mockReturnValue(true);
+      jest
+        .spyOn(context.resolver, "resolveOne")
+        .mockImplementationOnce(
+          async (type: any, resolveConf: ResolveConf, conf: object) => {
+            Object.assign(conf, resolveConf.transform);
+          }
+        );
+      const resolveConf = {
+        provider: "provider-a",
+        transform: {
+          pageTitle: "A",
+          sidebarMenu: {
+            title: "title-a",
+            menuItems: [
+              {
+                text: "item-1",
+              },
+            ],
+          },
+        },
+      };
+
+      const result = await context.mountRoutes(
+        [
+          {
+            path: "/",
+            providers: [
+              "provider-a",
+              {
+                brick: "provider-b",
+                properties: {
+                  args: ["good"],
+                },
+              },
+            ],
+            menu: {
+              type: "resolve",
+              resolve: resolveConf,
+            },
+            bricks: [],
+          },
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+
+      expect(result.menuBar).toMatchObject({
+        menu: {
+          title: "title-a",
+          menuItems: [
+            {
+              text: "item-1",
+            },
+          ],
+        },
+      });
     });
   });
 });

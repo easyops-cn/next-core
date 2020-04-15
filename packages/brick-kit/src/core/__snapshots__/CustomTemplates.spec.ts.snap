@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expandCustomTemplate should expandCustomTemplate 1`] = `
+Object {
+  "brick": "steve-test.custom-template",
+  "events": Object {
+    "button.click": Object {
+      "action": "console.log",
+      "args": Array [
+        "proxied",
+        "\${EVENT}",
+      ],
+    },
+  },
+  "lifeCycle": Object {
+    "useResolves": Array [
+      Object {
+        "args": Array [
+          "HOST",
+        ],
+        "provider": "providers-of-cmdb\\\\.cmdb-object-api-get-detail",
+        "transform": Object {
+          "button": "@{name}",
+        },
+      },
+    ],
+  },
+  "slots": Object {
+    "": Object {
+      "bricks": Array [
+        Object {
+          "$$computedPropsFromProxy": Object {
+            "noGap": "\${QUERY.gap|bool|not}",
+          },
+          "$$refForProxy": Object {},
+          "brick": "basic-bricks.micro-view",
+          "properties": Object {
+            "pageTitle": "Testing Template",
+          },
+          "slots": Object {
+            "content": Object {
+              "bricks": Array [
+                Object {
+                  "$$computedPropsFromProxy": Object {
+                    "buttonType": "default",
+                    "style": Object {
+                      "display": "block",
+                    },
+                  },
+                  "$$refForProxy": Object {},
+                  "brick": "basic-bricks.general-button",
+                  "events": Object {
+                    "general.button.click": Object {
+                      "action": "console.log",
+                      "args": Array [
+                        "source",
+                        "\${EVENT}",
+                      ],
+                    },
+                  },
+                  "properties": Object {
+                    "buttonType": "dashed",
+                  },
+                  "slots": Object {},
+                },
+                Object {
+                  "brick": "div",
+                  "properties": Object {
+                    "textContent": "slotted extra content!",
+                  },
+                },
+              ],
+              "type": "bricks",
+            },
+            "toolbar": Object {
+              "bricks": Array [
+                Object {
+                  "brick": "div",
+                  "properties": Object {
+                    "textContent": "slotted tools!",
+                  },
+                },
+              ],
+              "type": "bricks",
+            },
+          },
+        },
+      ],
+      "type": "bricks",
+    },
+  },
+}
+`;
+
+exports[`expandCustomTemplate should expandCustomTemplate 2`] = `
+Object {
+  "proxy": Object {
+    "events": Object {
+      "button.click": Object {
+        "ref": "button",
+        "refEvent": "general.button.click",
+      },
+    },
+    "methods": Object {
+      "tell": Object {
+        "ref": "button",
+        "refMethod": "tellStory",
+      },
+    },
+    "properties": Object {
+      "button": Object {
+        "ref": "button",
+        "refProperty": "buttonName",
+      },
+      "isDanger": Object {
+        "ref": "button",
+        "refTransform": Object {
+          "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
+          "style": Object {
+            "display": "<% DATA.isDanger ? 'inline' : 'block' %>",
+          },
+        },
+      },
+      "noGap": Object {
+        "ref": "micro-view",
+        "refProperty": "noGap",
+      },
+    },
+    "slots": Object {
+      "extraContent": Object {
+        "ref": "micro-view",
+        "refSlot": "content",
+      },
+      "tools": Object {
+        "ref": "micro-view",
+        "refPosition": 0,
+        "refSlot": "toolbar",
+      },
+    },
+  },
+  "proxyRefs": Map {
+    "button" => Object {},
+    "micro-view" => Object {},
+  },
+}
+`;

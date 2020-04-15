@@ -13,9 +13,10 @@ export enum TargetType {
   A_NEW_PACKAGE_OF_PROVIDERS = "providers",
   A_NEW_PACKAGE_OF_DLL = "dll",
   TRANSFORM_A_MICRO_APP = "transform",
-  A_NEW_TEMPLATE = "template",
-  A_NEW_PACKAGE_OF_TEMPLATES = "templates",
-  I18N_PATCH_A_PACKAGE_OF_TEMPLATES = "i18n-patch"
+  A_NEW_CUSTOM_TEMPLATE = "custom-template",
+  A_NEW_LEGACY_TEMPLATE = "legacy-template",
+  A_NEW_PACKAGE_OF_LEGACY_TEMPLATES = "legacy-templates",
+  I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES = "i18n-patch"
 }
 
 export const TargetTypeDisplay = {
@@ -27,8 +28,10 @@ export const TargetTypeDisplay = {
   [TargetType.A_NEW_PACKAGE_OF_PROVIDERS]: "a new package of providers",
   [TargetType.A_NEW_PACKAGE_OF_DLL]: "a new package of dll",
   [TargetType.TRANSFORM_A_MICRO_APP]: "transform a micro-app",
-  [TargetType.A_NEW_TEMPLATE]: "a new template",
-  [TargetType.A_NEW_PACKAGE_OF_TEMPLATES]: "a new package of templates",
-  [TargetType.I18N_PATCH_A_PACKAGE_OF_TEMPLATES]:
-    "i18n-patch a package of templates"
+  [TargetType.A_NEW_CUSTOM_TEMPLATE]: "a new custom template",
+  [TargetType.A_NEW_LEGACY_TEMPLATE]: "a new legacy template",
+  [TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES]:
+    "a new package of legacy templates",
+  [TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES]:
+    "i18n-patch a package of legacy templates"
 };

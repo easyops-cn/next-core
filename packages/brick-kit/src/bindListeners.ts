@@ -1,27 +1,28 @@
+import { message } from "antd";
 import {
   BrickEventHandler,
   BrickEventsMap,
   BuiltinBrickEventHandler,
   CustomBrickEventHandler,
-  PluginHistory,
   PluginRuntimeContext,
   ExecuteCustomBrickEventHandler,
   SetPropsCustomBrickEventHandler,
-  RuntimeBrickElement
+  RuntimeBrickElement,
 } from "@easyops/brick-types";
-import { message } from "antd";
 import { handleHttpError } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
+import { getHistory } from "./history";
+import { _internalApiGetCurrentContext } from "./core/exports";
+import { getUrlFactory } from "./segue";
 
 export function bindListeners(
   brick: HTMLElement,
   eventsMap: BrickEventsMap,
-  history: PluginHistory,
   context?: PluginRuntimeContext
 ): void {
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
-      const listener = listenerFactory(handler, history, context, brick);
+      const listener = listenerFactory(handler, context, brick);
       brick.addEventListener(eventType, listener);
       rememberListeners(brick, eventType, listener);
     });
@@ -52,14 +53,15 @@ function rememberListeners(
 export function isBuiltinHandler(
   handler: BrickEventHandler
 ): handler is BuiltinBrickEventHandler {
-  return !!(handler as BuiltinBrickEventHandler).action;
+  return typeof (handler as BuiltinBrickEventHandler).action === "string";
 }
 
 export function isCustomHandler(
   handler: BrickEventHandler
 ): handler is CustomBrickEventHandler {
   return !!(
-    (handler as CustomBrickEventHandler).target &&
+    ((handler as CustomBrickEventHandler).target ||
+      (handler as CustomBrickEventHandler).targetRef) &&
     ((handler as ExecuteCustomBrickEventHandler).method ||
       (handler as SetPropsCustomBrickEventHandler).properties)
   );
@@ -79,7 +81,6 @@ export function isSetPropsCustomHandler(
 
 export function listenerFactory(
   handler: BrickEventHandler,
-  history: PluginHistory,
   context: PluginRuntimeContext,
   brick: HTMLElement
 ): EventListener {
@@ -91,25 +92,23 @@ export function listenerFactory(
       case "history.pushQuery":
       case "history.replaceQuery":
       case "history.pushAnchor":
-        return builtinHistoryListenerFactory(
-          method,
-          handler.args,
-          history,
-          context
-        );
+        return builtinHistoryListenerFactory(method, handler.args, context);
       case "history.goBack":
       case "history.goForward":
       case "history.reload":
-        return builtinHistoryWithoutArgsListenerFactory(method, history);
+        return builtinHistoryWithoutArgsListenerFactory(method);
       case "legacy.go":
-        return builtinIframeListenerFactory(method, handler.args, context);
+        return builtinIframeListenerFactory(handler.args, context);
       case "window.open":
-        return builtinWindowListenerFactory(method, handler.args, context);
+        return builtinWindowListenerFactory(handler.args, context);
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(method, handler.args, context);
+      case "segue.push":
+      case "segue.replace":
+        return builtinSegueListenerFactory(method, handler.args, context);
       case "event.preventDefault":
-        return event => {
+        return (event) => {
           event.preventDefault();
         };
       case "console.log":
@@ -128,17 +127,14 @@ export function listenerFactory(
         };
       default:
         return () => {
-          /*global process*/
-          if (process.env.NODE_ENV === "development") {
-            // eslint-disable-next-line no-console
-            console.warn("unknown event listener action:", handler.action);
-          }
+          // eslint-disable-next-line no-console
+          console.error("unknown event listener action:", handler.action);
         };
     }
   }
 
   if (isCustomHandler(handler)) {
-    return customListenerFactory(handler, history, context, brick);
+    return customListenerFactory(handler, context, brick);
   }
 }
 
@@ -147,7 +143,7 @@ function builtinLocationListenerFactory(
   args: any[],
   context?: PluginRuntimeContext
 ): EventListener {
-  return function(event: CustomEvent): void {
+  return function (event: CustomEvent): void {
     if (method === "assign") {
       const [url] = argsFactory(args, context, event);
       location.assign(url);
@@ -157,8 +153,27 @@ function builtinLocationListenerFactory(
   } as EventListener;
 }
 
+function builtinSegueListenerFactory(
+  method: "push" | "replace",
+  args: any[],
+  context?: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    const { app, segues } = _internalApiGetCurrentContext();
+    getHistory()[method](
+      getUrlFactory(
+        app,
+        segues
+      )(
+        ...(argsFactory(args, context, event) as Parameters<
+          ReturnType<typeof getUrlFactory>
+        >)
+      )
+    );
+  } as EventListener;
+}
+
 function builtinIframeListenerFactory(
-  method: "legacy.go",
   args: any[],
   context?: PluginRuntimeContext
 ): EventListener {
@@ -176,37 +191,44 @@ function builtinIframeListenerFactory(
       iframe.contentWindow.postMessage(
         {
           type: "location.url",
-          url
+          url,
         },
         location.origin
       );
     }
   };
 
-  return function(event: CustomEvent): void {
+  return function (event: CustomEvent): void {
     const [url] = argsFactory(args, context, event);
     postMessage(url);
   } as EventListener;
 }
 
 function builtinWindowListenerFactory(
-  method: "open",
   args: any[],
   context?: PluginRuntimeContext
 ): EventListener {
-  return function(event: CustomEvent): void {
+  return function (event: CustomEvent): void {
     const [url, target] = argsFactory(args, context, event);
     window.open(url, target || "_self");
   } as EventListener;
 }
 
+function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
+  let tpl = brick;
+  while ((tpl = tpl.parentElement)) {
+    if (tpl.$$typeof === "custom-template") {
+      return tpl.$$getElementByRef?.(ref);
+    }
+  }
+}
+
 function customListenerFactory(
   handler: CustomBrickEventHandler,
-  history: PluginHistory,
   context: PluginRuntimeContext,
   brick: HTMLElement
 ): EventListener {
-  return function(event: CustomEvent): void {
+  return function (event: CustomEvent): void {
     let targets: any[] = [];
     if (typeof handler.target === "string") {
       if (handler.target === "_self") {
@@ -221,17 +243,28 @@ function customListenerFactory(
       }
     } else if (handler.target) {
       targets.push(handler.target);
+    } else if (handler.targetRef) {
+      const found = findRefElement(brick, handler.targetRef);
+      if (found) {
+        targets.push(found);
+      }
     }
     if (targets.length === 0) {
-      if (process.env.NODE_ENV !== "test") {
-        // eslint-disable-next-line no-console
-        console.error("target not found:", handler.target);
-      }
+      // eslint-disable-next-line no-console
+      console.error("target not found:", handler.target || handler.targetRef);
       return;
     }
     if (isExecuteCustomHandler(handler)) {
-      targets.forEach(async target => {
-        const task = target[handler.method]?.(
+      targets.forEach(async (target) => {
+        if (typeof target[handler.method] !== "function") {
+          // eslint-disable-next-line no-console
+          console.error("target has no method:", {
+            target,
+            method: handler.method,
+          });
+          return;
+        }
+        const task = target[handler.method](
           ...argsFactory(handler.args, context, event)
         );
         const { success, error } = handler.callback ?? {};
@@ -240,24 +273,19 @@ function customListenerFactory(
             const result = await task;
             if (success) {
               const successEvent = new CustomEvent("callback.success", {
-                detail: result
+                detail: result,
               });
-              [].concat(success).forEach(eachSuccess => {
-                listenerFactory(
-                  eachSuccess,
-                  history,
-                  context,
-                  brick
-                )(successEvent);
+              [].concat(success).forEach((eachSuccess) => {
+                listenerFactory(eachSuccess, context, brick)(successEvent);
               });
             }
           } catch (err) {
             if (error) {
               const errorEvent = new CustomEvent("callback.error", {
-                detail: err
+                detail: err,
               });
-              [].concat(error).forEach(eachError => {
-                listenerFactory(eachError, history, context, brick)(errorEvent);
+              [].concat(error).forEach((eachError) => {
+                listenerFactory(eachError, context, brick)(errorEvent);
               });
             }
           }
@@ -269,7 +297,7 @@ function customListenerFactory(
         handler.properties,
         {
           ...context,
-          event
+          event,
         },
         handler.injectDeep !== false
       );
@@ -280,20 +308,18 @@ function customListenerFactory(
 function builtinHistoryListenerFactory(
   method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
   args: any[],
-  history: PluginHistory,
   context?: PluginRuntimeContext
 ): EventListener {
-  return function(event: CustomEvent): void {
-    (history[method] as any)(...argsFactory(args, context, event, true));
+  return function (event: CustomEvent): void {
+    (getHistory()[method] as any)(...argsFactory(args, context, event, true));
   } as EventListener;
 }
 
 function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward" | "reload",
-  history: PluginHistory
+  method: "goBack" | "goForward" | "reload"
 ): EventListener {
-  return function(): void {
-    history[method]();
+  return function (): void {
+    getHistory()[method]();
   } as EventListener;
 }
 
@@ -302,7 +328,7 @@ function builtinConsoleListenerFactory(
   args: any[],
   context?: PluginRuntimeContext
 ): EventListener {
-  return function(event: CustomEvent): void {
+  return function (event: CustomEvent): void {
     // eslint-disable-next-line no-console
     console[method](...argsFactory(args, context, event));
   } as EventListener;
@@ -313,7 +339,7 @@ function builtinMessageListenerFactory(
   args: any[],
   context?: PluginRuntimeContext
 ): EventListener {
-  return function(event: CustomEvent) {
+  return function (event: CustomEvent) {
     (message[method] as any)(...argsFactory(args, context, event));
   } as EventListener;
 }
@@ -329,7 +355,7 @@ function argsFactory(
         args,
         {
           ...context,
-          event
+          event,
         },
         true
       )

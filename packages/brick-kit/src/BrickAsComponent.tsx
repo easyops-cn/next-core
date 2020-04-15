@@ -1,17 +1,16 @@
 import React from "react";
 import { cloneDeep } from "lodash";
-import {
-  transformProperties,
-  doTransform,
-  isObject
-} from "@easyops/brick-utils";
+import { isObject } from "@easyops/brick-utils";
+import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
-import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
-import { getHistory } from "./history";
-import { RuntimeBrick } from "./core/exports";
-import { getRuntime } from "./runtime";
+import {
+  RuntimeBrick,
+  _internalApiGetResolver,
+  _internalApiGetRouterState,
+} from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
+import { transformProperties, doTransform } from "./transformProperties";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -37,9 +36,8 @@ export function BrickAsComponent(
   return <SingleBrickAsComponent useBrick={props.useBrick} data={props.data} />;
 }
 
-interface SingleBrickAsComponentProps {
+interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   useBrick: UseSingleBrickConf;
-  data?: any;
 }
 
 function SingleBrickAsComponent(
@@ -49,19 +47,12 @@ function SingleBrickAsComponent(
 
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.
-    if (getRuntime()._internalApiGetRouterState() === "initial") {
+    if (_internalApiGetRouterState() === "initial") {
       return;
-    }
-    if (useBrick.template) {
-      delete useBrick.transform;
-      delete useBrick.transformFrom;
-      getRuntime()
-        ._internalApiGetResolver()
-        .processBrick(useBrick);
     }
     const brick: RuntimeBrick = {
       type: useBrick.brick,
-      properties: cloneDeep(useBrick.properties) || {}
+      properties: cloneDeep(useBrick.properties) || {},
     };
     transformProperties(
       brick.properties,
@@ -70,12 +61,12 @@ function SingleBrickAsComponent(
       useBrick.transformFrom
     );
     if (useBrick.lifeCycle) {
-      const resolver = getRuntime()._internalApiGetResolver();
+      const resolver = _internalApiGetResolver();
       try {
         await resolver.resolve(
           {
             brick: useBrick.brick,
-            lifeCycle: useBrick.lifeCycle
+            lifeCycle: useBrick.lifeCycle,
           },
           brick
         );
@@ -98,11 +89,7 @@ function SingleBrickAsComponent(
         setRealProperties(element, brick.properties);
         unbindListeners(element);
         if (useBrick.events) {
-          bindListeners(
-            element,
-            doTransform(data, useBrick.events),
-            getHistory()
-          );
+          bindListeners(element, doTransform(data, useBrick.events));
         }
       }
     },
@@ -111,7 +98,7 @@ function SingleBrickAsComponent(
 
   if (isObject(useBrick.if)) {
     // eslint-disable-next-line
-    console.warn("Currently don't support resolvable-if in `useBrick`");
+    console.warn("Currently resolvable-if in `useBrick` is not supported.");
   } else if (
     typeof useBrick.if === "boolean" ||
     typeof useBrick.if === "string"
@@ -123,6 +110,6 @@ function SingleBrickAsComponent(
   }
 
   return React.createElement(useBrick.brick, {
-    ref: refCallback
+    ref: refCallback,
   });
 }

@@ -1,12 +1,6 @@
 import { locationsAreEqual, createPath, Action } from "history";
-import { PluginLocation } from "@easyops/brick-types";
-import {
-  loadScript,
-  getTemplateDepsOfStoryboard,
-  getDllAndDepsOfStoryboard,
-  asyncProcessStoryboard,
-  restoreDynamicTemplates
-} from "@easyops/brick-utils";
+import { PluginLocation, PluginRuntimeContext } from "@easyops/brick-types";
+import { restoreDynamicTemplates } from "@easyops/brick-utils";
 import {
   LocationContext,
   mountTree,
@@ -16,13 +10,22 @@ import {
   unmountTree,
   MountRoutesResult,
   appendBrick,
-  Resolver
+  Resolver,
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
-import { brickTemplateRegistry } from "./TemplateRegistries";
 import { RecentApps, RouterState } from "./interfaces";
+import { resetAllInjected } from "../injected";
+import { getAuth } from "../auth";
+
+interface DevtoolsHookContainer {
+  __BRICK_NEXT_DEVTOOLS_HOOK__?: DevtoolsHook;
+}
+
+interface DevtoolsHook {
+  emit: (message: any) => void;
+}
 
 export class Router {
   private defaultCollapsed = false;
@@ -31,17 +34,34 @@ export class Router {
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
+  private featureFlags: Record<string, boolean>;
 
-  constructor(private kernel: Kernel) {}
+  constructor(private kernel: Kernel) {
+    this.featureFlags = this.kernel.getFeatureFlags();
+  }
+
+  private locationChangeNotify(from: string, to: string): void {
+    if (this.featureFlags["log-location-change"]) {
+      const username = getAuth().username;
+      const params = new URLSearchParams();
+      params.append("u", username);
+      params.append("f", from);
+      params.append("t", to);
+      params.append("ts", (+new Date()).toString());
+      const image = new Image();
+      image.src = `assets/ea/analytics.jpg?${params.toString()}`;
+    }
+  }
 
   async bootstrap(): Promise<void> {
     const history = getHistory();
     this.prevLocation = history.location;
+    this.locationChangeNotify("", history.location.pathname);
     history.listen(async (location: PluginLocation, action: Action) => {
       let ignoreRendering = false;
       const omittedLocationProps: Partial<PluginLocation> = {
         hash: null,
-        state: null
+        state: null,
       };
       // Omit the "key" when checking whether locations are equal in certain situations.
       if (
@@ -68,10 +88,14 @@ export class Router {
         // Ignore rendering if notify is `false`.
         ignoreRendering = true;
       }
-      this.prevLocation = location;
       if (ignoreRendering) {
+        this.prevLocation = location;
         return;
       }
+
+      this.locationChangeNotify(this.prevLocation.pathname, location.pathname);
+      this.prevLocation = location;
+
       if (this.rendering) {
         this.nextLocation = location;
       } else {
@@ -101,6 +125,8 @@ export class Router {
   }
 
   private async render(location: PluginLocation): Promise<void> {
+    resetAllInjected();
+
     if (this.locationContext) {
       this.locationContext.resolver.resetRefreshQueue();
     }
@@ -110,9 +136,8 @@ export class Router {
       this.kernel,
       location
     ));
-    const { bootstrapData } = this.kernel;
     const storyboard = locationContext.matchStoryboard(
-      bootstrapData.storyboards
+      this.kernel.bootstrapData.storyboards
     );
 
     if (storyboard) {
@@ -120,39 +145,7 @@ export class Router {
       restoreDynamicTemplates(storyboard);
 
       // 如果找到匹配的 storyboard，那么加载它的依赖库。
-      if (storyboard.dependsAll) {
-        const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
-        await loadScript(
-          Object.entries(dllHash).map(
-            ([name, hash]) => `dll-of-${name}.js?${hash}`
-          )
-        );
-        await loadScript(
-          bootstrapData.brickPackages
-            .map(item => item.filePath)
-            .concat(bootstrapData.templatePackages.map(item => item.filePath))
-        );
-      } else if (!storyboard.$$depsProcessed) {
-        // 先加载模板
-        const templateDeps = getTemplateDepsOfStoryboard(
-          storyboard,
-          bootstrapData.templatePackages
-        );
-        await loadScript(templateDeps);
-        // 加载模板后才能加工得到最终的构件表
-        const result = getDllAndDepsOfStoryboard(
-          await asyncProcessStoryboard(
-            storyboard,
-            brickTemplateRegistry,
-            bootstrapData.templatePackages
-          ),
-          bootstrapData.brickPackages
-        );
-        await loadScript(result.dll);
-        await loadScript(result.deps);
-        // 每个 storyboard 仅处理一次依赖
-        storyboard.$$depsProcessed = true;
-      }
+      await this.kernel.loadDepsOfStoryboard(storyboard);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;
@@ -173,17 +166,17 @@ export class Router {
         main: [],
         menuInBg: [],
         menuBar: {
-          app: this.kernel.nextApp
+          app: this.kernel.nextApp,
         },
         appBar: {
           app: this.kernel.nextApp,
-          breadcrumb: []
+          breadcrumb: [],
         },
         flags: {
           redirect: undefined,
           hybrid: false,
-          failed: false
-        }
+          failed: false,
+        },
       };
       try {
         await locationContext.mountRoutes(
@@ -199,7 +192,7 @@ export class Router {
         if (isUnauthenticatedError(error)) {
           const history = getHistory();
           history.push("/auth/login", {
-            from: location
+            from: location,
           });
           return;
         }
@@ -209,10 +202,10 @@ export class Router {
           {
             type: "basic-bricks.page-error",
             properties: {
-              error: httpErrorToString(error)
+              error: httpErrorToString(error),
             },
-            events: {}
-          }
+            events: {},
+          },
         ];
       }
 
@@ -237,24 +230,24 @@ export class Router {
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
 
-      if (appChanged) {
-        window.dispatchEvent(
-          new CustomEvent<RecentApps>("app.change", {
-            detail: this.kernel.getRecentApps()
-          })
-        );
-      }
-
       const actualLegacy =
         (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
           ? "iframe"
           : undefined;
       this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
 
+      if (appChanged) {
+        window.dispatchEvent(
+          new CustomEvent<RecentApps>("app.change", {
+            detail: this.kernel.getRecentApps(),
+          })
+        );
+      }
+
       if (barsHidden) {
         this.kernel.toggleBars(false);
       } else {
-        if (menuBar.menu && menuBar.menu.defaultCollapsed) {
+        if (menuBar.menu?.defaultCollapsed) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;
         } else {
@@ -274,7 +267,7 @@ export class Router {
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
-      menuInBg.forEach(brick => {
+      menuInBg.forEach((brick) => {
         appendBrick(brick, mountPoints.bg as MountableElement);
       });
 
@@ -286,6 +279,8 @@ export class Router {
           this.locationContext.resolver.scheduleRefreshing();
         }
         this.state = "mounted";
+
+        this.devtoolsHookEmitRendered();
         return;
       }
     }
@@ -297,15 +292,25 @@ export class Router {
         {
           type: "basic-bricks.page-not-found",
           properties: {
-            url: history.createHref(location)
+            url: history.createHref(location),
           },
-          events: {}
-        }
+          events: {},
+        },
       ],
       mountPoints.main as MountableElement
     );
 
     this.state = "mounted";
+    this.devtoolsHookEmitRendered();
+  }
+
+  /* istanbul ignore next */
+  private devtoolsHookEmitRendered(): void {
+    const devHook = (window as DevtoolsHookContainer)
+      .__BRICK_NEXT_DEVTOOLS_HOOK__;
+    devHook?.emit?.({
+      type: "rendered",
+    });
   }
 
   /* istanbul ignore next */
@@ -315,5 +320,10 @@ export class Router {
 
   getState(): RouterState {
     return this.state;
+  }
+
+  /* istanbul ignore next */
+  getCurrentContext(): PluginRuntimeContext {
+    return this.locationContext.getCurrentContext();
   }
 }

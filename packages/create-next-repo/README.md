@@ -10,4 +10,4 @@ The new repo will use npm registry on public network \(http://r.pnpm.easyops.cn/
 
 Pass `--internal` as parameters if you want to create an EasyOps internal repo, which use npm registry on internal network \(http://registry.npm.easyops.local/\) for EasyOps packages.
 
-Pass `--update` to update an existed repo. After that, usually you should also `cd my-repo` and run `yarn` + `yarn sync-dll`.
+Pass `--update` to update an existed repo. After that, usually you should also `cd my-repo` and run `yarn` + `yarn renew`.

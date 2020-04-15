@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.9...@easyops/build-config-factory@1.8.10) (2020-04-14)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.8...@easyops/build-config-factory@1.8.9) (2020-04-13)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.7...@easyops/build-config-factory@1.8.8) (2020-04-09)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.6...@easyops/build-config-factory@1.8.7) (2020-04-08)
+
+### Bug Fixes
+
+- **size-limit:** support size-limit libs/\* ([d483730](https://git.easyops.local/anyclouds/next-core/commits/d483730))
+
+## [1.8.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.5...@easyops/build-config-factory@1.8.6) (2020-04-07)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.4...@easyops/build-config-factory@1.8.5) (2020-04-04)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.3...@easyops/build-config-factory@1.8.4) (2020-03-31)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.2...@easyops/build-config-factory@1.8.3) (2020-03-30)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.1...@easyops/build-config-factory@1.8.2) (2020-03-26)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.8.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.0...@easyops/build-config-factory@1.8.1) (2020-03-24)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+# [1.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.7.0...@easyops/build-config-factory@1.8.0) (2020-03-23)
+
+### Features
+
+- load scripts for custom templates ([7e8f029](https://git.easyops.local/anyclouds/next-core/commits/7e8f029))
+
+# [1.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.6.8...@easyops/build-config-factory@1.7.0) (2020-03-19)
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https://git.easyops.local/anyclouds/next-core/commits/92ac31e))
+
+## [1.6.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.6.7...@easyops/build-config-factory@1.6.8) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.6.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.6.6...@easyops/build-config-factory@1.6.7) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
 ## [1.6.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.6.5...@easyops/build-config-factory@1.6.6) (2020-03-17)
 
 **Note:** Version bump only for package @easyops/build-config-factory

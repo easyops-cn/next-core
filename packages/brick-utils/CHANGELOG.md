@@ -3,6 +3,99 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.44.1...@easyops/brick-utils@1.44.2) (2020-04-14)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [1.44.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.44.0...@easyops/brick-utils@1.44.1) (2020-04-13)
+
+### Bug Fixes
+
+- **devtools:** hooks to support devtools ([456c0ae](https://git.easyops.local/anyclouds/next-core/commits/456c0ae))
+
+# [1.44.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.43.0...@easyops/brick-utils@1.44.0) (2020-04-09)
+
+### Features
+
+- **create-provider:** new method `saveAs`, save blob, refs AGILE_V2-105 ([9f9242c](https://git.easyops.local/anyclouds/next-core/commits/9f9242c))
+
+# [1.43.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.42.2...@easyops/brick-utils@1.43.0) (2020-04-08)
+
+### Features
+
+- **segues:** support segues ([191b2a4](https://git.easyops.local/anyclouds/next-core/commits/191b2a4))
+
+## [1.42.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.42.1...@easyops/brick-utils@1.42.2) (2020-04-07)
+
+### Bug Fixes
+
+- **cook:** fix that brick-utils not working in nodejs ([6368154](https://git.easyops.local/anyclouds/next-core/commits/6368154))
+
+## [1.42.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.42.0...@easyops/brick-utils@1.42.1) (2020-04-04)
+
+### Bug Fixes
+
+- **cook:** fix ObjectPattern meet nil ([1e311b9](https://git.easyops.local/anyclouds/next-core/commits/1e311b9))
+- **cook:** sanitize ([f85f2a7](https://git.easyops.local/anyclouds/next-core/commits/f85f2a7))
+- **scanDll:** deduplicate scanned dll ([5e623c5](https://git.easyops.local/anyclouds/next-core/commits/5e623c5))
+
+# [1.42.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.41.0...@easyops/brick-utils@1.42.0) (2020-03-31)
+
+### Features
+
+- **utils:** scanBricksInStoryboard and scanTemplatesInStoryboard support isUniq param ([9618160](https://git.easyops.local/anyclouds/next-core/commits/9618160))
+
+# [1.41.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.40.0...@easyops/brick-utils@1.41.0) (2020-03-30)
+
+### Features
+
+- support ObjectPattern and ArrayPattern ([6a635a9](https://git.easyops.local/anyclouds/next-core/commits/6a635a9))
+
+# [1.40.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.39.0...@easyops/brick-utils@1.40.0) (2020-03-26)
+
+### Bug Fixes
+
+- **pipes:** nullish ([751258e](https://git.easyops.local/anyclouds/next-core/commits/751258e))
+
+### Features
+
+- **pipe:** graphTree ([f6b200b](https://git.easyops.local/anyclouds/next-core/commits/f6b200b))
+- support moment for cooking ([515b824](https://git.easyops.local/anyclouds/next-core/commits/515b824))
+- **evaluate:** supply `LOCATION.href`, refs MONITOR-432 ([3702181](https://git.easyops.local/anyclouds/next-core/commits/3702181))
+
+# [1.39.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.38.0...@easyops/brick-utils@1.39.0) (2020-03-24)
+
+### Features
+
+- cook ([e075b64](https://git.easyops.local/anyclouds/next-core/commits/e075b64))
+
+# [1.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.37.1...@easyops/brick-utils@1.38.0) (2020-03-23)
+
+### Bug Fixes
+
+- compatibility with invalid route ([91947b7](https://git.easyops.local/anyclouds/next-core/commits/91947b7))
+
+### Features
+
+- **pipe:** new pipe, `deltaTime` and `nullish`, refs BRICK_STORE-1220 ([de6c936](https://git.easyops.local/anyclouds/next-core/commits/de6c936))
+- load scripts for custom templates ([7e8f029](https://git.easyops.local/anyclouds/next-core/commits/7e8f029))
+
+## [1.37.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.37.0...@easyops/brick-utils@1.37.1) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
+# [1.37.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.36.1...@easyops/brick-utils@1.37.0) (2020-03-18)
+
+### Features
+
+- pipe for cmdb instance name refs MONITOR-503 ([6d1896a](https://git.easyops.local/anyclouds/next-core/commits/6d1896a))
+
+## [1.36.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.36.0...@easyops/brick-utils@1.36.1) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
 # [1.36.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.35.0...@easyops/brick-utils@1.36.0) (2020-03-17)
 
 ### Bug Fixes

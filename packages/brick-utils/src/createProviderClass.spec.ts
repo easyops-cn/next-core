@@ -1,4 +1,8 @@
 import { createProviderClass } from "./createProviderClass";
+import { saveAs } from "file-saver";
+
+jest.mock("file-saver");
+const mockSaveAs = saveAs as jest.Mock;
 
 const spyOnDispatchEvent = jest.fn();
 (global as any).HTMLElement = class {
@@ -23,14 +27,18 @@ describe("createProviderClass", () => {
     consoleWarn.mockClear();
   });
 
+  it("should be a provider", () => {
+    expect(provider.$$typeof).toBe("provider");
+  });
+
   it("should update args", async () => {
     spy.mockResolvedValue("good");
 
     provider.updateArgs(
       new CustomEvent("any", {
         detail: {
-          "[0].query": "needle"
-        }
+          "[0].query": "needle",
+        },
       })
     );
     expect(spy).not.toBeCalled();
@@ -38,8 +46,8 @@ describe("createProviderClass", () => {
     provider.updateArgsAndExecute(
       new CustomEvent("any", {
         detail: {
-          "[0].page": 2
-        }
+          "[0].page": 2,
+        },
       })
     );
 
@@ -47,7 +55,7 @@ describe("createProviderClass", () => {
 
     expect(spy).toBeCalledWith({
       query: "needle",
-      page: 2
+      page: 2,
     });
     expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.success");
     expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("good");
@@ -57,8 +65,8 @@ describe("createProviderClass", () => {
   it("should warn if use updateArgs with non-custom-event", () => {
     provider.updateArgs({
       detail: {
-        "[0].query": "needle"
-      }
+        "[0].query": "needle",
+      },
     });
     expect(consoleWarn).toBeCalled();
   });
@@ -66,8 +74,8 @@ describe("createProviderClass", () => {
   it("should warn if use updateArgsAndExecute with non-custom-event", () => {
     provider.updateArgsAndExecute({
       detail: {
-        "[0].query": "needle"
-      }
+        "[0].query": "needle",
+      },
     });
     expect(consoleWarn).toBeCalled();
   });
@@ -76,19 +84,19 @@ describe("createProviderClass", () => {
     spy.mockResolvedValue("good");
 
     provider.setArgs({
-      "[0].query": "needle"
+      "[0].query": "needle",
     });
     expect(spy).not.toBeCalled();
 
     provider.setArgsAndExecute({
-      "[0].page": 2
+      "[0].page": 2,
     });
 
     await (global as any).flushPromises();
 
     expect(spy).toBeCalledWith({
       query: "needle",
-      page: 2
+      page: 2,
     });
     expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.success");
     expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("good");
@@ -127,5 +135,10 @@ describe("createProviderClass", () => {
 
     expect(spyOnDispatchEvent.mock.calls[0][0].type).toBe("response.error");
     expect(spyOnDispatchEvent.mock.calls[0][0].detail).toBe("oops");
+  });
+
+  it("should download", async () => {
+    await provider.saveAs("x.zip");
+    expect(mockSaveAs.mock.calls[0][1]).toBe("x.zip");
   });
 });

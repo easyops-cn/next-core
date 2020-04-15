@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.33.0...@easyops/brick-types@1.34.0) (2020-04-08)
+
+### Features
+
+- **segues:** support segues ([191b2a4](https://git.easyops.local/anyclouds/next-core/commits/191b2a4))
+
+# [1.33.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.32.0...@easyops/brick-types@1.33.0) (2020-04-04)
+
+### Bug Fixes
+
+- now we can disable transform auto map array ([731395d](https://git.easyops.local/anyclouds/next-core/commits/731395d))
+
+### Features
+
+- handle reject for `useResolves` ([4a4a962](https://git.easyops.local/anyclouds/next-core/commits/4a4a962))
+
+# [1.32.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.31.0...@easyops/brick-types@1.32.0) (2020-03-31)
+
+### Features
+
+- new menu type, `resolve`, refs BRICK_STORE-1338 ([d92428a](https://git.easyops.local/anyclouds/next-core/commits/d92428a))
+
+# [1.31.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.30.0...@easyops/brick-types@1.31.0) (2020-03-30)
+
+### Features
+
+- **custom-template:** support transform proxy properties ([015adca](https://git.easyops.local/anyclouds/next-core/commits/015adca))
+
+# [1.30.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.29.0...@easyops/brick-types@1.30.0) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https://git.easyops.local/anyclouds/next-core/commits/92ac31e))
+- generate schema of custom templates ([de3a248](https://git.easyops.local/anyclouds/next-core/commits/de3a248))
+- new custom templates ([0ff9cc1](https://git.easyops.local/anyclouds/next-core/commits/0ff9cc1))
+
+# [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.28.0...@easyops/brick-types@1.29.0) (2020-03-18)
+
+### Features
+
+- **menu:** export LegacyAntdIcon and RefinedAntdIcon ([200e2b5](https://git.easyops.local/anyclouds/next-core/commits/200e2b5))
+
 # [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.27.0...@easyops/brick-types@1.28.0) (2020-03-17)
 
 ### Features

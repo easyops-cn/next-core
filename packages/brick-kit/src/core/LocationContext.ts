@@ -1,3 +1,4 @@
+import { omit } from "lodash";
 import {
   PluginLocation,
   MatchResult,
@@ -11,23 +12,32 @@ import {
   MicroApp,
   ProviderConf,
   PluginRuntimeContext,
-  BrickLifeCycle,
   BrickEventHandler,
   ResolveConf,
   RouteConfOfRoutes,
-  RouteConfOfBricks
+  RouteConfOfBricks,
+  RuntimeBrickConf,
+  StaticMenuProps,
+  SeguesConf,
 } from "@easyops/brick-types";
 import {
   isObject,
   matchPath,
-  computeRealRoutePath
+  computeRealRoutePath,
 } from "@easyops/brick-utils";
 import { listenerFactory } from "../bindListeners";
 import { computeRealProperties, computeRealValue } from "../setProperties";
-import { RuntimeBrick, Kernel, appendBrick, Resolver } from "./exports";
 import { isLoggedIn, getAuth } from "../auth";
-import { MountableElement } from "./reconciler";
 import { getHistory } from "../history";
+import {
+  RuntimeBrick,
+  Kernel,
+  appendBrick,
+  Resolver,
+  expandCustomTemplate,
+  MountableElement,
+  getTagNameOfCustomTemplate,
+} from "./exports";
 import { RedirectConf, IfConf } from "./interfaces";
 
 export type MatchRoutesResult =
@@ -67,31 +77,16 @@ interface BrickAndLifeCycleHandler {
   handler: BrickEventHandler | BrickEventHandler[];
 }
 
-/* interface PageLoadHandler {
-  brick: RuntimeBrick;
-  handler: BrickLifeCycle["onPageLoad"];
-}
-
-interface AnchorLoadHandler {
-  brick: RuntimeBrick;
-  onAnchorLoad: BrickLifeCycle["onAnchorLoad"];
-}
-
-interface AnchorUnloadHandler {
-  brick: RuntimeBrick;
-  onAnchorUnload: BrickLifeCycle["onAnchorUnload"];
-} */
-
 export class LocationContext {
-  readonly location: PluginLocation;
-  readonly query: URLSearchParams;
+  private readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly segues: SeguesConf = {};
+  private currentMatch: MatchResult;
 
-  constructor(private kernel: Kernel, location: PluginLocation) {
-    this.location = location;
+  constructor(private kernel: Kernel, private location: PluginLocation) {
     this.query = new URLSearchParams(location.search);
   }
 
@@ -103,20 +98,32 @@ export class LocationContext {
       app: this.kernel.nextApp,
       sys: {
         username: getAuth().username,
-        userInstanceId: getAuth().userInstanceId
+        userInstanceId: getAuth().userInstanceId,
       },
-      flags: this.kernel.getFeatureFlags()
+      flags: this.kernel.getFeatureFlags(),
+      segues: this.segues,
     };
+  }
+
+  getCurrentContext(): PluginRuntimeContext {
+    return this.getContext(this.currentMatch);
   }
 
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
     for (const route of routes) {
+      const computedPath = computeRealRoutePath(route.path, app);
+      if ([].concat(computedPath).includes(undefined)) {
+        // eslint-disable-next-line no-console
+        console.error("Invalid route with invalid path:", route);
+        return "missed";
+      }
       const match = matchPath(this.location.pathname, {
-        path: computeRealRoutePath(route.path, app),
-        exact: route.exact
+        path: computedPath,
+        exact: route.exact,
       });
       if (match !== null) {
         if (route.public || isLoggedIn()) {
+          this.currentMatch = match;
           return { match, route };
         } else {
           return "redirect";
@@ -143,6 +150,7 @@ export class LocationContext {
     const matched = this.matchRoutes(routes, this.kernel.nextApp);
     let redirect: string | ResolveConf;
     const redirectConf: RedirectConf = {};
+    let context: PluginRuntimeContext;
     switch (matched) {
       case "missed":
         break;
@@ -150,15 +158,19 @@ export class LocationContext {
         mountRoutesResult.flags.redirect = {
           path: "/auth/login",
           state: {
-            from: this.location
-          }
+            from: this.location,
+          },
         };
         break;
       default:
+        if (matched.route.segues) {
+          Object.assign(this.segues, matched.route.segues);
+        }
         if (matched.route.hybrid) {
           mountRoutesResult.flags.hybrid = true;
         }
-        this.resolver.defineResolves(matched.route.defineResolves);
+        context = this.getContext(matched.match);
+        this.resolver.defineResolves(matched.route.defineResolves, context);
         await this.mountProviders(
           matched.route.providers,
           matched.match,
@@ -166,17 +178,13 @@ export class LocationContext {
           mountRoutesResult
         );
 
-        redirect = computeRealValue(
-          matched.route.redirect,
-          this.getContext(matched.match),
-          true
-        );
+        redirect = computeRealValue(matched.route.redirect, context, true);
 
         if (redirect) {
           if (typeof redirect === "string") {
             // Directly redirect.
             mountRoutesResult.flags.redirect = {
-              path: redirect
+              path: redirect,
             };
             break;
           } else {
@@ -184,7 +192,7 @@ export class LocationContext {
             await this.resolver.resolveOne("reference", redirect, redirectConf);
             if (redirectConf.redirect) {
               mountRoutesResult.flags.redirect = {
-                path: redirectConf.redirect
+                path: redirectConf.redirect,
               };
               break;
             }
@@ -234,6 +242,10 @@ export class LocationContext {
     const context = this.getContext(match);
 
     if (menuConf.type === "brick") {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "menu type `brick` is deprecated, please use menu type `resolve` instead"
+      );
       // 如果某个路由的菜单无法配置为静态的 json，
       // 那么可以将菜单配置指定为一个构件，这个构件会被装载到背景容器中（不会在界面中显示），
       // 应该在这个构件的 `connectedCallback` 中执行相关菜单设置，
@@ -247,14 +259,14 @@ export class LocationContext {
         ),
         events: isObject(menuConf.events) ? menuConf.events : {},
         context,
-        children: []
+        children: [],
       };
 
       if (menuConf.lifeCycle?.onPageLoad) {
         this.pageLoadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onPageLoad
+          handler: menuConf.lifeCycle.onPageLoad,
         });
       }
 
@@ -262,7 +274,7 @@ export class LocationContext {
         this.anchorLoadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onAnchorLoad
+          handler: menuConf.lifeCycle.onAnchorLoad,
         });
       }
 
@@ -270,7 +282,7 @@ export class LocationContext {
         this.anchorUnloadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onAnchorUnload
+          handler: menuConf.lifeCycle.onAnchorUnload,
         });
       }
 
@@ -281,8 +293,23 @@ export class LocationContext {
       return;
     }
 
+    let injectDeep = (menuConf as StaticMenuProps).injectDeep;
+    if (menuConf.type === "resolve") {
+      await this.resolver.resolveOne(
+        "reference",
+        {
+          transformMapArray: false,
+          ...menuConf.resolve,
+        },
+        menuConf,
+        null,
+        context
+      );
+      injectDeep = false;
+    }
+
     // 静态菜单配置，仅在有值时才设置，这样可以让菜单设置也具有按路由层级覆盖的能力。
-    const { injectDeep, ...otherMenuConf } = menuConf;
+    const otherMenuConf = omit(menuConf, ["injectDeep", "type"]);
     const injectedMenuConf =
       injectDeep !== false
         ? computeRealProperties(otherMenuConf, context, true)
@@ -301,7 +328,7 @@ export class LocationContext {
       } else {
         mountRoutesResult.appBar.breadcrumb = [
           ...mountRoutesResult.appBar.breadcrumb,
-          ...breadcrumb.items
+          ...breadcrumb.items,
         ];
       }
     }
@@ -319,11 +346,11 @@ export class LocationContext {
           {
             ...(typeof providerConf === "string"
               ? {
-                  brick: providerConf
+                  brick: providerConf,
                 }
               : providerConf),
             bg: true,
-            injectDeep: true
+            injectDeep: true,
           },
           match,
           slotId,
@@ -392,24 +419,39 @@ export class LocationContext {
       return;
     }
 
+    // If it's a custom template, `tplTagName` is the tag name of the template.
+    // Otherwise, `tplTagName` is false.
+    const tplTagName = getTagNameOfCustomTemplate(
+      brickConf.brick,
+      this.kernel.nextApp?.id
+    );
+
     const brick: RuntimeBrick = {
-      type: brickConf.brick,
-      properties: computeRealProperties(
-        brickConf.properties,
-        context,
-        brickConf.injectDeep !== false
+      type: tplTagName || brickConf.brick,
+      properties: Object.assign(
+        computeRealProperties(
+          brickConf.properties,
+          context,
+          brickConf.injectDeep !== false
+        ),
+        (brickConf as RuntimeBrickConf).$$computedPropsFromProxy
       ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
       children: [],
-      slotId
+      slotId,
+      refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
     };
+
+    if (brick.refForProxy) {
+      brick.refForProxy.brick = brick;
+    }
 
     if (brickConf.lifeCycle?.onPageLoad) {
       this.pageLoadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onPageLoad
+        handler: brickConf.lifeCycle.onPageLoad,
       });
     }
 
@@ -417,7 +459,7 @@ export class LocationContext {
       this.anchorLoadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onAnchorLoad
+        handler: brickConf.lifeCycle.onAnchorLoad,
       });
     }
 
@@ -425,21 +467,39 @@ export class LocationContext {
       this.anchorUnloadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onAnchorUnload
+        handler: brickConf.lifeCycle.onAnchorUnload,
       });
     }
 
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
 
-    if (brickConf.bg) {
+    let expandedBrickConf = brickConf;
+    if (tplTagName) {
+      expandedBrickConf = expandCustomTemplate(
+        {
+          ...brickConf,
+          brick: tplTagName,
+          // Properties are computed for custom templates.
+          properties: brick.properties,
+        },
+        brick
+      );
+
+      // Try to load deps for dynamic added bricks.
+      await this.kernel.loadDynamicBricks(expandedBrickConf);
+    }
+
+    if (expandedBrickConf.bg) {
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
     } else {
-      if (isObject(brickConf.slots)) {
-        for (const [slotId, slotConf] of Object.entries(brickConf.slots)) {
+      if (isObject(expandedBrickConf.slots)) {
+        for (const [slotId, slotConf] of Object.entries(
+          expandedBrickConf.slots
+        )) {
           const slottedMountRoutesResult = {
             ...mountRoutesResult,
-            main: brick.children
+            main: brick.children,
           };
           if (slotConf.type === "bricks") {
             await this.mountBricks(
@@ -475,8 +535,8 @@ export class LocationContext {
         new CustomEvent("anchor.load", {
           detail: {
             hash,
-            anchor: hash.substr(1)
-          }
+            anchor: hash.substr(1),
+          },
         }),
         this.anchorLoadHandlers
       );
@@ -492,14 +552,12 @@ export class LocationContext {
     event: CustomEvent,
     handlers: BrickAndLifeCycleHandler[]
   ): void {
-    const history = getHistory();
     for (const brickAndHandler of handlers) {
       for (const handler of ([] as BrickEventHandler[]).concat(
         brickAndHandler.handler
       )) {
         listenerFactory(
           handler,
-          history,
           this.getContext(brickAndHandler.match),
           brickAndHandler.brick.element
         )(event);

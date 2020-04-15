@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-icons",
-  "version": "1.16.0",
+  "version": "1.16.6",
   "description": "Self designed icons",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-icons",
   "license": "UNLICENSED",
@@ -17,7 +17,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean && node scripts/pre-build.js",
-    "start": "npm run build:types && rollup --config rollup.config.js --watch",
+    "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
+    "start:rollup": "rollup --watch --config rollup.config.js",
+    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
     "prebuild": "npm run clean && node scripts/pre-build.js",
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup --config rollup.config.js",
@@ -27,12 +29,12 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@svgr/rollup": "^5.2.0",
+    "@svgr/rollup": "^5.3.1",
     "change-case": "^4.1.1",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "klaw-sync": "^6.0.0",
-    "prettier": "^1.19.1",
-    "react": "^16.13.0"
+    "prettier": "^2.0.4",
+    "react": "^16.13.1"
   },
   "peerDependencies": {
     "react": "*"

@@ -3,67 +3,98 @@ import {
   BrickConf,
   RouteConf,
   ProviderConf,
-  RouteConfOfBricks
+  RouteConfOfBricks,
+  CustomTemplate,
 } from "@easyops/brick-types";
+import { uniq } from "lodash";
+
+export function scanBricksInStoryboard(
+  storyboard: Storyboard,
+  isUniq = true
+): string[] {
+  const collection: string[] = [];
+  const selfDefined = new Set<string>();
+  collectBricksInRouteConfs(storyboard.routes, collection);
+  collectBricksInCustomTemplates(
+    storyboard.meta?.customTemplates,
+    collection,
+    selfDefined
+  );
+  // Ignore non-custom-elements and self-defined custom templates.
+  const result = collection.filter(
+    (item) => item.includes("-") && !selfDefined.has(item)
+  );
+  return isUniq ? uniq(result) : result;
+}
 
 export function scanBricksInBrickConf(
   brickConf: BrickConf,
-  collection: Set<string>
+  isUniq = true
+): string[] {
+  const collection: string[] = [];
+  collectBricksInBrickConf(brickConf, collection);
+  const result = collection.filter((item) => item.includes("-"));
+  return isUniq ? uniq(result) : result;
+}
+
+function collectBricksInBrickConf(
+  brickConf: BrickConf,
+  collection: string[]
 ): void {
   if (brickConf.brick) {
-    collection.add(brickConf.brick);
+    collection.push(brickConf.brick);
   }
   if (brickConf.slots) {
-    Object.values(brickConf.slots).forEach(slotConf => {
+    Object.values(brickConf.slots).forEach((slotConf) => {
       if (slotConf.type === "bricks") {
-        scanBricksInBrickConfs(slotConf.bricks, collection);
+        collectBricksInBrickConfs(slotConf.bricks, collection);
       } else {
-        scanBricksInRouteConfs(slotConf.routes, collection);
+        collectBricksInRouteConfs(slotConf.routes, collection);
       }
     });
   }
   if (Array.isArray(brickConf.internalUsedBricks)) {
-    brickConf.internalUsedBricks.forEach(brick => {
-      collection.add(brick);
+    brickConf.internalUsedBricks.forEach((brick) => {
+      collection.push(brick);
     });
   }
 }
 
-function scanBricksInBrickConfs(
+function collectBricksInBrickConfs(
   bricks: BrickConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(bricks)) {
-    bricks.forEach(brickConf => {
-      scanBricksInBrickConf(brickConf, collection);
+    bricks.forEach((brickConf) => {
+      collectBricksInBrickConf(brickConf, collection);
     });
   }
 }
 
 function scanBricksInProviderConfs(
   providers: ProviderConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(providers)) {
-    providers.forEach(providerConf => {
-      collection.add(
+    providers.forEach((providerConf) => {
+      collection.push(
         typeof providerConf === "string" ? providerConf : providerConf.brick
       );
     });
   }
 }
 
-function scanBricksInRouteConfs(
+function collectBricksInRouteConfs(
   routes: RouteConf[],
-  collection: Set<string>
+  collection: string[]
 ): void {
   if (Array.isArray(routes)) {
-    routes.forEach(routeConf => {
+    routes.forEach((routeConf) => {
       scanBricksInProviderConfs(routeConf.providers, collection);
       if (routeConf.type === "routes") {
-        scanBricksInRouteConfs(routeConf.routes, collection);
+        collectBricksInRouteConfs(routeConf.routes, collection);
       } else {
-        scanBricksInBrickConfs(
+        collectBricksInBrickConfs(
           (routeConf as RouteConfOfBricks).bricks,
           collection
         );
@@ -73,14 +104,21 @@ function scanBricksInRouteConfs(
         routeConf.menu.type === "brick" &&
         routeConf.menu.brick
       ) {
-        collection.add(routeConf.menu.brick);
+        collection.push(routeConf.menu.brick);
       }
     });
   }
 }
 
-export function scanBricksInStoryboard(storyboard: Storyboard): string[] {
-  const collection = new Set<string>();
-  scanBricksInRouteConfs(storyboard.routes, collection);
-  return Array.from(collection);
+function collectBricksInCustomTemplates(
+  customTemplates: CustomTemplate[],
+  collection: string[],
+  selfDefined: Set<string>
+): void {
+  if (Array.isArray(customTemplates)) {
+    customTemplates.forEach((tpl) => {
+      selfDefined.add(tpl.name);
+      collectBricksInBrickConfs(tpl.bricks, collection);
+    });
+  }
 }

@@ -40,7 +40,7 @@ export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 
 export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon;
 
-interface RefinedAntdIcon {
+export interface RefinedAntdIcon {
   lib: "antd";
   icon: string;
   theme?: ThemeType;
@@ -48,7 +48,7 @@ interface RefinedAntdIcon {
 }
 
 //兼容老的类型
-interface LegacyAntdIcon {
+export interface LegacyAntdIcon {
   lib: "antd";
   type: string;
   theme?: ThemeType;

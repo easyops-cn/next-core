@@ -1,16 +1,65 @@
+/* eslint-disable no-console */
+import { BrickEventHandler, BrickEventsMap } from "@easyops/brick-types";
 import {
   isBuiltinHandler,
   isCustomHandler,
   bindListeners,
-  unbindListeners
+  unbindListeners,
 } from "./bindListeners";
-import { BrickEventHandler, BrickEventsMap } from "@easyops/brick-types";
+import { getHistory } from "./history";
+import * as runtime from "./core/Runtime";
+
+jest.mock("./history");
+
+const mockHistory = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  pushQuery: jest.fn(),
+  replaceQuery: jest.fn(),
+  pushAnchor: jest.fn(),
+  reload: jest.fn(),
+  goBack: jest.fn(),
+  goForward: jest.fn(),
+  location: {
+    search: "?page=3",
+  },
+};
+(getHistory as jest.Mock).mockReturnValue(mockHistory);
+
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  app: {
+    $$routeAliasMap: new Map([
+      [
+        "segue-target-a",
+        {
+          path: "/segue-target-a",
+          alias: "segue-target-a",
+        },
+      ],
+      [
+        "segue-target-b",
+        {
+          path: "/segue-target-b/:id",
+          alias: "segue-target-b",
+        },
+      ],
+    ]),
+  },
+  segues: {
+    testSegueIdA: {
+      target: "segue-target-a",
+    },
+    testSegueIdB: {
+      target: "segue-target-b",
+    },
+  },
+} as any);
 
 describe("bindListeners", () => {
   describe("isBuiltinHandler", () => {
     const cases: [BrickEventHandler, boolean][] = [
       [{ target: "", method: "" }, false],
-      [{ action: "history.push" }, true]
+      [{ action: "history.push" }, true],
     ];
 
     it.each(cases)(
@@ -26,7 +75,7 @@ describe("bindListeners", () => {
       [{ target: "", method: "" }, false],
       [{ target: "", method: "method" }, false],
       [{ target: "target", method: "" }, false],
-      [{ target: "target", method: "method" }, true]
+      [{ target: "target", method: "method" }, true],
     ];
 
     it.each(cases)(
@@ -62,7 +111,7 @@ describe("bindListeners", () => {
           { action: "history.push" },
           {
             action: "history.replace",
-            args: ["specified args for history.replace"]
+            args: ["specified args for history.replace"],
           },
           {
             action: "history.pushQuery",
@@ -70,55 +119,60 @@ describe("bindListeners", () => {
               {
                 q: "123",
                 a: undefined,
-                list: ["a", "b"]
+                list: ["a", "b"],
               },
               {
                 extraQuery: {
-                  page: 1
-                }
-              }
-            ]
+                  page: 1,
+                },
+              },
+            ],
           },
           {
             action: "history.replaceQuery",
             args: [
               {
-                page: 1
-              }
-            ]
+                page: 1,
+              },
+            ],
           },
           {
             action: "history.pushAnchor",
-            args: ["yes"]
+            args: ["yes"],
           },
           { action: "history.goBack" },
           {
-            action: "history.goForward"
+            action: "history.goForward",
           },
           {
-            action: "history.reload"
+            action: "history.reload",
           },
           {
             action: "legacy.go",
-            args: ["www.google.com"]
+            args: ["www.google.com"],
           },
           {
             action: "window.open",
-            args: ["www.google.com"]
+            args: ["www.google.com"],
           },
           {
             action: "location.reload",
-            args: [true]
+            args: [true],
           },
           { action: "location.assign", args: ["www.baidu.com"] },
+          { action: "segue.push", args: ["testSegueIdA"] },
+          {
+            action: "segue.replace",
+            args: ["testSegueIdB", { id: "${EVENT.detail}" }],
+          },
           { action: "event.preventDefault" },
           { action: "console.log" },
           { action: "console.info" },
           { action: "console.warn", args: ["specified args for console.warn"] },
           {
             action: "console.error",
-            args: ["specified args for console.error"]
-          }
+            args: ["specified args for console.error"],
+          },
         ],
         key2: [
           { target: "#target-elem", method: "forGood" },
@@ -127,54 +181,41 @@ describe("bindListeners", () => {
             target: "#target-elem,#target-elem2",
             multiple: true,
             method: "forGood",
-            args: ["specified args for multiple"]
+            args: ["specified args for multiple"],
           },
           {
             target: "#target-elem",
             method: "forAsyncWillSuccess",
             callback: {
               success: {
-                action: "console.log"
+                action: "console.log",
               },
               error: {
-                action: "console.error"
-              }
-            }
+                action: "console.error",
+              },
+            },
           },
           {
             target: "#target-elem2",
             method: "forAsyncWillError",
             callback: {
               success: {
-                action: "console.log"
+                action: "console.log",
               },
               error: {
-                action: "console.error"
-              }
-            }
+                action: "console.error",
+              },
+            },
           },
           { target: "#target-elem", method: "notExisted" },
           { target: "#not-existed", method: "forGood" },
           {
             target: "#target-elem",
-            properties: { someProperty: "${EVENT.detail}" }
-          }
+            properties: { someProperty: "${EVENT.detail}" },
+          },
         ],
         key3: { action: "not.existed" },
-        key4: {}
-      } as any;
-      const history = {
-        push: jest.fn(),
-        replace: jest.fn(),
-        pushQuery: jest.fn(),
-        replaceQuery: jest.fn(),
-        pushAnchor: jest.fn(),
-        reload: jest.fn(),
-        goBack: jest.fn(),
-        goForward: jest.fn(),
-        location: {
-          search: "?page=3"
-        }
+        key4: {},
       } as any;
 
       const location = window.location;
@@ -182,13 +223,13 @@ describe("bindListeners", () => {
       window.location = ({
         origin: "http://www.google.com",
         reload: jest.fn(),
-        assign: jest.fn()
+        assign: jest.fn(),
       } as unknown) as Location;
 
-      jest.spyOn(console, "log");
-      jest.spyOn(console, "info");
-      jest.spyOn(console, "warn");
-      jest.spyOn(console, "error");
+      jest.spyOn(console, "log").mockImplementation(() => void 0);
+      jest.spyOn(console, "info").mockImplementation(() => void 0);
+      jest.spyOn(console, "warn").mockImplementation(() => void 0);
+      jest.spyOn(console, "error").mockImplementation(() => void 0);
       window.open = jest.fn();
 
       const legacyIframeMountPoint = document.createElement("div");
@@ -200,15 +241,15 @@ describe("bindListeners", () => {
 
       iframeElement.contentWindow.postMessage = jest.fn();
 
-      bindListeners(sourceElem, eventsMap, history);
+      bindListeners(sourceElem, eventsMap);
 
       const event1 = new CustomEvent("key1", {
-        detail: "for-good"
+        detail: "for-good",
       });
       const spyOnPreventDefault = jest.spyOn(event1, "preventDefault");
       sourceElem.dispatchEvent(event1);
       const event2 = new CustomEvent("key2", {
-        detail: "for-better"
+        detail: "for-better",
       });
       sourceElem.dispatchEvent(event2);
 
@@ -218,29 +259,36 @@ describe("bindListeners", () => {
       expect(iframeElement.contentWindow.postMessage).toBeCalledWith(
         {
           type: "location.url",
-          url: "www.google.com"
+          url: "www.google.com",
         },
         "http://www.google.com"
       );
 
-      expect(history.push).toBeCalledWith("for-good");
+      const history = mockHistory;
+      expect(history.push).toHaveBeenNthCalledWith(1, "for-good");
+      expect(history.push).toHaveBeenNthCalledWith(2, "/segue-target-a");
       expect(history.pushQuery).toBeCalledWith(
         {
           q: "123",
           a: undefined,
-          list: ["a", "b"]
+          list: ["a", "b"],
         },
         {
           extraQuery: {
-            page: 1
-          }
+            page: 1,
+          },
         }
       );
-      expect(history.replace).toBeCalledWith(
+      expect(history.replace).toHaveBeenNthCalledWith(
+        1,
         "specified args for history.replace"
       );
+      expect(history.replace).toHaveBeenNthCalledWith(
+        2,
+        "/segue-target-b/for-good"
+      );
       expect(history.replaceQuery).toBeCalledWith({
-        page: 1
+        page: 1,
       });
       expect(history.pushAnchor).toBeCalledWith("yes");
       expect(history.goBack).toBeCalledWith();
@@ -254,7 +302,6 @@ describe("bindListeners", () => {
 
       expect(spyOnPreventDefault).toBeCalled();
 
-      /* eslint-disable no-console */
       expect(console.log).toBeCalledTimes(2);
       expect(console.log).toHaveBeenNthCalledWith(1, event1);
       expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
@@ -263,15 +310,26 @@ describe("bindListeners", () => {
       expect((console.log as jest.Mock).mock.calls[1][0].detail).toBe("yes");
       expect(console.info).toBeCalledWith(event1);
       expect(console.warn).toBeCalledWith("specified args for console.warn");
-      expect(console.error).toBeCalledTimes(2);
+      expect(console.error).toBeCalledTimes(4);
       expect(console.error).toHaveBeenNthCalledWith(
         1,
         "specified args for console.error"
       );
-      expect((console.error as jest.Mock).mock.calls[1][0].type).toBe(
+      expect((console.error as jest.Mock).mock.calls[1][0]).toBe(
+        "target has no method:"
+      );
+      expect((console.error as jest.Mock).mock.calls[1][1].method).toBe(
+        "notExisted"
+      );
+      expect(console.error).toHaveBeenNthCalledWith(
+        3,
+        "target not found:",
+        "#not-existed"
+      );
+      expect((console.error as jest.Mock).mock.calls[3][0].type).toBe(
         "callback.error"
       );
-      expect((console.error as jest.Mock).mock.calls[1][0].detail).toBe("oops");
+      expect((console.error as jest.Mock).mock.calls[3][0].detail).toBe("oops");
       expect((sourceElem as any).forGood).toHaveBeenNthCalledWith(
         1,
         "target is _self"
@@ -303,7 +361,48 @@ describe("bindListeners", () => {
       (console.error as jest.Mock).mockRestore();
       document.body.removeChild(sourceElem);
       document.body.removeChild(targetElem);
-      /* eslint-enable no-console */
+    });
+
+    it("should work for ref target", () => {
+      // Mocking a custom template with several inside bricks.
+      const tplElement = document.createElement("div") as any;
+      const button = document.createElement("div") as any;
+      const microView = document.createElement("div") as any;
+      const sourceElem = document.createElement("div") as any;
+      tplElement.$$typeof = "custom-template";
+      tplElement.$$getElementByRef = (ref: string) =>
+        ref === "button" ? button : undefined;
+      tplElement.appendChild(button);
+      tplElement.appendChild(microView);
+      microView.appendChild(sourceElem);
+      document.body.appendChild(tplElement);
+
+      button.forGood = jest.fn();
+      jest.spyOn(console, "error").mockImplementation(() => void 0);
+
+      bindListeners(sourceElem, {
+        keyWillFindTarget: {
+          targetRef: "button",
+          method: "forGood",
+        },
+        keyWillNotFindTarget: {
+          targetRef: "not-existed",
+          method: "forGood",
+        },
+      });
+
+      sourceElem.dispatchEvent(new CustomEvent("keyWillNotFindTarget"));
+      expect(button.forGood).not.toBeCalled();
+      expect(console.error as jest.Mock).toBeCalledWith(
+        "target not found:",
+        "not-existed"
+      );
+
+      sourceElem.dispatchEvent(new CustomEvent("keyWillFindTarget"));
+      expect(button.forGood).toBeCalled();
+
+      tplElement.remove();
+      (console.error as jest.Mock).mockRestore();
     });
   });
 });

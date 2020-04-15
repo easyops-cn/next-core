@@ -1,4 +1,12 @@
 import { sortBy, cloneDeep } from "lodash";
+import {
+  loadScript,
+  getTemplateDepsOfStoryboard,
+  getDllAndDepsOfStoryboard,
+  asyncProcessStoryboard,
+  scanBricksInBrickConf,
+  getDllAndDepsOfBricks,
+} from "@easyops/brick-utils";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
@@ -11,13 +19,17 @@ import {
   MicroApp,
   UserInfo,
   MagicBrickConfig,
-  FeatureFlags
+  FeatureFlags,
+  RuntimeStoryboard,
+  BrickConf,
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
 import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
-import { mergeAppConfig } from "./processors";
+import { processBootstrapResponse } from "./processors";
+import { brickTemplateRegistry } from "./TemplateRegistries";
+import { registerCustomTemplate } from "./CustomTemplates";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -53,7 +65,7 @@ export class Kernel {
     await Promise.all([
       await this.menuBar.bootstrap(),
       await this.appBar.bootstrap(),
-      await this.loadingBar.bootstrap()
+      await this.loadingBar.bootstrap(),
     ]);
     // Router need those bars above to be ready.
     await this.router.bootstrap();
@@ -71,7 +83,7 @@ export class Kernel {
       if (data.type === "auth.guard") {
         const history = getHistory();
         history.push("/auth/login", {
-          from: history.location
+          from: history.location,
         });
       }
     });
@@ -90,21 +102,91 @@ export class Kernel {
   ): Promise<void> {
     const bootstrapResponse = Object.assign(
       {
-        templatePackages: []
+        templatePackages: [],
       },
       await AuthSdk.bootstrap<BootstrapData>(params, {
-        interceptorParams
+        interceptorParams,
       })
     );
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
-    mergeAppConfig(bootstrapResponse);
+    // And compute `$$routeAliasMap`.
+    processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
       originalStoryboards: cloneDeep(bootstrapResponse.storyboards),
       microApps: bootstrapResponse.storyboards
-        .map(storyboard => storyboard.app)
-        .filter(Boolean)
+        .map((storyboard) => storyboard.app)
+        .filter(Boolean),
     };
+  }
+
+  async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+    const { brickPackages, templatePackages } = this.bootstrapData;
+    if (storyboard.dependsAll) {
+      const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+      await loadScript(
+        Object.entries(dllHash).map(
+          ([name, hash]) => `dll-of-${name}.js?${hash}`
+        )
+      );
+      await loadScript(
+        brickPackages
+          .map((item) => item.filePath)
+          .concat(templatePackages.map((item) => item.filePath))
+      );
+      return;
+    }
+
+    if (!storyboard.$$depsProcessed) {
+      // 先加载模板
+      const templateDeps = getTemplateDepsOfStoryboard(
+        storyboard,
+        templatePackages
+      );
+      await loadScript(templateDeps);
+      // 加载模板后才能加工得到最终的构件表
+      const result = getDllAndDepsOfStoryboard(
+        await asyncProcessStoryboard(
+          storyboard,
+          brickTemplateRegistry,
+          templatePackages
+        ),
+        brickPackages
+      );
+      await loadScript(result.dll);
+      await loadScript(result.deps);
+
+      // 注册自定义模板
+      if (Array.isArray(storyboard.meta?.customTemplates)) {
+        for (const tpl of storyboard.meta.customTemplates) {
+          registerCustomTemplate(
+            tpl.name,
+            {
+              bricks: tpl.bricks,
+              proxy: tpl.proxy,
+            },
+            storyboard.app?.id
+          );
+        }
+      }
+
+      // 每个 storyboard 仅处理一次依赖
+      storyboard.$$depsProcessed = true;
+    }
+  }
+
+  async loadDynamicBricks(brickConf: BrickConf): Promise<void> {
+    // Try to load deps for dynamic added bricks.
+    const bricks = scanBricksInBrickConf(brickConf);
+    const { dll, deps } = getDllAndDepsOfBricks(
+      bricks.filter(
+        // Only try to load undefined custom elements.
+        (item) => !customElements.get(item)
+      ),
+      this.bootstrapData.brickPackages
+    );
+    await loadScript(dll);
+    await loadScript(deps);
   }
 
   firstRendered(): void {
@@ -126,7 +208,7 @@ export class Kernel {
    */
   unsetBars({
     appChanged,
-    legacy
+    legacy,
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
     if (appChanged) {
@@ -167,12 +249,12 @@ export class Kernel {
         user_email: true,
         user_tel: true,
         user_icon: true,
-        user_memo: true
+        user_memo: true,
       };
       const allUserInfo = (
         await UserAdminApi.searchAllUsersInfo({
           query,
-          fields
+          fields,
         })
       ).list as UserInfo[];
       for (const user of allUserInfo) {
@@ -198,8 +280,8 @@ export class Kernel {
           // TODO(Lynette): 暂时设置3000，待后台提供全量接口
           page_size: 3000,
           fields: {
-            "*": true
-          }
+            "*": true,
+          },
         })
       ).list as MagicBrickConfig[];
       for (const config of allMagicBrickConfig) {
@@ -232,12 +314,12 @@ export class Kernel {
       return [];
     }
     const allRelatedApps = await this.allRelatedAppsPromise;
-    const thisApp = allRelatedApps.find(item => item.microAppId === appId);
+    const thisApp = allRelatedApps.find((item) => item.microAppId === appId);
     if (!thisApp) {
       return [];
     }
     return sortBy(
-      allRelatedApps.filter(item => item.objectId === thisApp.objectId),
+      allRelatedApps.filter((item) => item.objectId === thisApp.objectId),
       ["order"]
     );
   }
@@ -247,7 +329,7 @@ export class Kernel {
       const workspace: VisitedWorkspace = {
         appId: this.currentApp.id,
         appName: this.currentApp.name,
-        url: this.currentUrl
+        url: this.currentUrl,
       };
       if (this.workspaceStack.length > 0) {
         const previousWorkspace = this.workspaceStack[
@@ -256,7 +338,9 @@ export class Kernel {
         const relatedApps = await this.getRelatedAppsAsync(
           previousWorkspace.appId
         );
-        if (relatedApps.some(item => item.microAppId === this.currentApp.id)) {
+        if (
+          relatedApps.some((item) => item.microAppId === this.currentApp.id)
+        ) {
           Object.assign(previousWorkspace, workspace);
           return;
         }
@@ -285,7 +369,7 @@ export class Kernel {
     return {
       previousApp: this.previousApp,
       currentApp: this.currentApp,
-      previousWorkspace: this.getPreviousWorkspace()
+      previousWorkspace: this.getPreviousWorkspace(),
     };
   }
 

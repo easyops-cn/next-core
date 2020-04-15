@@ -31,9 +31,7 @@ export function ForBetter(): React.ReactElement {
   ],
   Array [
     "dist/index.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import ReactDOM from \\"react-dom\\";
+    "import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
 const spyOnRender = jest
@@ -44,16 +42,12 @@ const unmountComponentAtNode = jest
   .mockImplementation(() => null);
 
 describe(\\"for-good.for-better\\", () => {
-  it(\\"should create a custom element\\", async () => {
+  it(\\"should create a custom element\\", () => {
     const element = document.createElement(\\"for-good.for-better\\");
-    // Always waiting for async \`(dis)connectedCallback\`
-    await jest.runAllTimers();
     expect(spyOnRender).not.toBeCalled();
     document.body.appendChild(element);
-    await jest.runAllTimers();
     expect(spyOnRender).toBeCalled();
     document.body.removeChild(element);
-    await jest.runAllTimers();
     expect(unmountComponentAtNode).toBeCalled();
   });
 });
@@ -103,11 +97,9 @@ exports[`loadTemplate should create a new custom provider brick 1`] = `
 Array [
   Array [
     "dist/GetData.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import {
+    "import {
   GetData,
-  GetDataParams
+  GetDataParams,
 } from \\"./GetData\\";
 
 describe(\\"GetData\\", () => {
@@ -135,6 +127,75 @@ export function GetData(
 customElements.define(
   \\"for-good.provider-get-data\\",
   createProviderClass(GetData)
+);
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new custom template 1`] = `
+Array [
+  Array [
+    "dist/for-better.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+
+getRuntime().registerCustomTemplate(\\"for-good.for-better\\", {
+  proxy: {},
+  bricks: [],
+});
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new legacy template 1`] = `
+Array [
+  Array [
+    "dist/for-better.spec.ts",
+    "import { BrickConf } from \\"@easyops/brick-types\\";
+import {
+  forBetterFactory,
+  ForBetterParams
+} from \\"./for-better\\";
+
+jest.mock(\\"@easyops/brick-kit\\", () => ({
+  getRuntime: () => ({
+    registerBrickTemplate: jest.fn()
+  })
+}));
+
+describe(\\"micro-app\\", () => {
+  it.each<[ForBetterParams, BrickConf]>([
+    [
+      {},
+      {
+        brick: \\"your.brick\\"
+      }
+    ]
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
+  });
+});
+",
+  ],
+  Array [
+    "dist/for-better.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+import { BrickConf } from \\"@easyops/brick-types\\";
+
+export interface ForBetterParams {}
+
+export function forBetterFactory(
+  params: ForBetterParams
+): BrickConf {
+  return {
+    brick: \\"your.brick\\"
+  };
+}
+
+getRuntime().registerBrickTemplate(
+  \\"for-good.for-better\\",
+  forBetterFactory
 );
 ",
   ],
@@ -211,12 +272,14 @@ export default locale;
   Array [
     "dist/src/index.spec.ts",
     "import i18next from \\"i18next\\";
+import * as kit from \\"@easyops/brick-kit\\";
 const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
 
-const spyOnDefine = jest.fn();
-(window as any).customElements = {
-  define: spyOnDefine
-};
+const spyOnDefine = jest.spyOn(window.customElements, \\"define\\");
+
+jest.spyOn(kit, \\"getRuntime\\").mockReturnValue({
+  registerCustomTemplate: jest.fn(),
+} as any);
 
 // Use \`require\` instead of \`import\` to avoid hoisting.
 require(\\"./index\\");
@@ -291,9 +354,7 @@ export function ForBetter(): React.ReactElement {
   ],
   Array [
     "dist/src/for-better/index.spec.ts",
-    "// Ref https://github.com/jsdom/jsdom/issues/1030
-import \\"document-register-element\\";
-import ReactDOM from \\"react-dom\\";
+    "import ReactDOM from \\"react-dom\\";
 import \\"./\\";
 
 const spyOnRender = jest
@@ -304,16 +365,12 @@ const unmountComponentAtNode = jest
   .mockImplementation(() => null);
 
 describe(\\"for-good.for-better\\", () => {
-  it(\\"should create a custom element\\", async () => {
+  it(\\"should create a custom element\\", () => {
     const element = document.createElement(\\"for-good.for-better\\");
-    // Always waiting for async \`(dis)connectedCallback\`
-    await jest.runAllTimers();
     expect(spyOnRender).not.toBeCalled();
     document.body.appendChild(element);
-    await jest.runAllTimers();
     expect(spyOnRender).toBeCalled();
     document.body.removeChild(element);
-    await jest.runAllTimers();
     expect(unmountComponentAtNode).toBeCalled();
   });
 });
@@ -366,6 +423,98 @@ Array [
     "const { dll } = require(\\"@easyops/webpack-config-factory\\");
 
 module.exports = dll.webpackDllFactory();
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new package of legacy templates 1`] = `
+Array [
+  Array [
+    "dist/scripts/generate-version-file.js",
+    "const { createVersionFile } = require(\\"@easyops/build-config-factory\\");
+
+createVersionFile();
+",
+  ],
+  Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
+
+postBuild(\\"templates\\");
+",
+  ],
+  Array [
+    "dist/scripts/rename-tar-package.js",
+    "const { renameTarPackage } = require(\\"@easyops/build-config-factory\\");
+
+renameTarPackage();
+",
+  ],
+  Array [
+    "dist/webpack.config.js",
+    "const merge = require(\\"webpack-merge\\");
+const { bricks } = require(\\"@easyops/webpack-config-factory\\");
+
+const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackCommonFactory({
+    scope: \\"templates\\"
+  }),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
+",
+  ],
+  Array [
+    "dist/src/for-better.spec.ts",
+    "import { BrickConf } from \\"@easyops/brick-types\\";
+import {
+  forBetterFactory,
+  ForBetterParams
+} from \\"./for-better\\";
+
+jest.mock(\\"@easyops/brick-kit\\", () => ({
+  getRuntime: () => ({
+    registerBrickTemplate: jest.fn()
+  })
+}));
+
+describe(\\"micro-app\\", () => {
+  it.each<[ForBetterParams, BrickConf]>([
+    [
+      {},
+      {
+        brick: \\"your.brick\\"
+      }
+    ]
+  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
+    expect(forBetterFactory(params)).toEqual(brickConf);
+  });
+});
+",
+  ],
+  Array [
+    "dist/src/for-better.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+import { BrickConf } from \\"@easyops/brick-types\\";
+
+export interface ForBetterParams {}
+
+export function forBetterFactory(
+  params: ForBetterParams
+): BrickConf {
+  return {
+    brick: \\"your.brick\\"
+  };
+}
+
+getRuntime().registerBrickTemplate(
+  \\"for-good.for-better\\",
+  forBetterFactory
+);
 ",
   ],
 ]
@@ -502,153 +651,7 @@ preBuild(\\"providers\\");
 ]
 `;
 
-exports[`loadTemplate should create a new package of templates 1`] = `
-Array [
-  Array [
-    "dist/scripts/generate-version-file.js",
-    "const { createVersionFile } = require(\\"@easyops/build-config-factory\\");
-
-createVersionFile();
-",
-  ],
-  Array [
-    "dist/scripts/post-build.js",
-    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
-
-postBuild(\\"templates\\");
-",
-  ],
-  Array [
-    "dist/scripts/rename-tar-package.js",
-    "const { renameTarPackage } = require(\\"@easyops/build-config-factory\\");
-
-renameTarPackage();
-",
-  ],
-  Array [
-    "dist/webpack.config.js",
-    "const merge = require(\\"webpack-merge\\");
-const { bricks } = require(\\"@easyops/webpack-config-factory\\");
-
-const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
-
-module.exports = merge(
-  webpackCommonFactory({
-    scope: \\"templates\\"
-  }),
-  process.env.NODE_ENV === \\"development\\"
-    ? webpackDevFactory()
-    : webpackProdFactory()
-);
-",
-  ],
-  Array [
-    "dist/src/for-better.spec.ts",
-    "import { BrickConf } from \\"@easyops/brick-types\\";
-import {
-  forBetterFactory,
-  ForBetterParams
-} from \\"./for-better\\";
-
-jest.mock(\\"@easyops/brick-kit\\", () => ({
-  getRuntime: () => ({
-    registerBrickTemplate: jest.fn()
-  })
-}));
-
-describe(\\"micro-app\\", () => {
-  it.each<[ForBetterParams, BrickConf]>([
-    [
-      {},
-      {
-        brick: \\"your.brick\\"
-      }
-    ]
-  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
-    expect(forBetterFactory(params)).toEqual(brickConf);
-  });
-});
-",
-  ],
-  Array [
-    "dist/src/for-better.ts",
-    "import { getRuntime } from \\"@easyops/brick-kit\\";
-import { BrickConf } from \\"@easyops/brick-types\\";
-
-export interface ForBetterParams {}
-
-export function forBetterFactory(
-  params: ForBetterParams
-): BrickConf {
-  return {
-    brick: \\"your.brick\\"
-  };
-}
-
-getRuntime().registerBrickTemplate(
-  \\"for-good.for-better\\",
-  forBetterFactory
-);
-",
-  ],
-]
-`;
-
-exports[`loadTemplate should create a new template 1`] = `
-Array [
-  Array [
-    "dist/for-better.spec.ts",
-    "import { BrickConf } from \\"@easyops/brick-types\\";
-import {
-  forBetterFactory,
-  ForBetterParams
-} from \\"./for-better\\";
-
-jest.mock(\\"@easyops/brick-kit\\", () => ({
-  getRuntime: () => ({
-    registerBrickTemplate: jest.fn()
-  })
-}));
-
-describe(\\"micro-app\\", () => {
-  it.each<[ForBetterParams, BrickConf]>([
-    [
-      {},
-      {
-        brick: \\"your.brick\\"
-      }
-    ]
-  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
-    expect(forBetterFactory(params)).toEqual(brickConf);
-  });
-});
-",
-  ],
-  Array [
-    "dist/for-better.ts",
-    "import { getRuntime } from \\"@easyops/brick-kit\\";
-import { BrickConf } from \\"@easyops/brick-types\\";
-
-export interface ForBetterParams {}
-
-export function forBetterFactory(
-  params: ForBetterParams
-): BrickConf {
-  return {
-    brick: \\"your.brick\\"
-  };
-}
-
-getRuntime().registerBrickTemplate(
-  \\"for-good.for-better\\",
-  forBetterFactory
-);
-",
-  ],
-]
-`;
-
-exports[`loadTemplate should i18n-patch a package of templates 1`] = `
+exports[`loadTemplate should i18n-patch a package of legacy templates 1`] = `
 Array [
   Array [
     "dist/src/i18n/constants.ts",

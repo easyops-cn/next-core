@@ -1,4 +1,3 @@
-import { get } from "lodash";
 import { MicroApp } from "@easyops/brick-types";
 
 export function computeRealRoutePath(
@@ -6,9 +5,12 @@ export function computeRealRoutePath(
   app: MicroApp
 ): string | string[] {
   if (Array.isArray(path)) {
-    return path.map(p => computeRealRoutePath(p, app) as string);
+    // eslint-disable-next-line no-console
+    console.warn("Set route's path to an array is deprecated");
+    return path.map((p) => computeRealRoutePath(p, app) as string);
   }
-  return path.replace(/\$\{APP(?:.([^}]+))\}/g, (_match, field) => {
-    return get(app, field);
-  });
+  if (typeof path !== "string") {
+    return;
+  }
+  return path.replace("${APP.homepage}", app?.homepage);
 }

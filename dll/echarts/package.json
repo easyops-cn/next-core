@@ -1,6 +1,6 @@
 {
   "name": "@dll/echarts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/echarts",
   "license": "UNLICENSED",
@@ -18,6 +18,6 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
   },
   "dependencies": {
-    "echarts": "^4.6.0"
+    "echarts": "^4.7.0"
   }
 }

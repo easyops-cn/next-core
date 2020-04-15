@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.3.2...@easyops/sdk-scripts@1.3.3) (2020-04-14)
+
+**Note:** Version bump only for package @easyops/sdk-scripts
+
+## [1.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.3.1...@easyops/sdk-scripts@1.3.2) (2020-03-26)
+
+**Note:** Version bump only for package @easyops/sdk-scripts
+
+## [1.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.3.0...@easyops/sdk-scripts@1.3.1) (2020-03-19)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://git.easyops.local/anyclouds/next-core/commits/a167a4a))
+
 # [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.2.2...@easyops/sdk-scripts@1.3.0) (2020-03-08)
 
 ### Features

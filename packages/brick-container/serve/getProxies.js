@@ -5,10 +5,10 @@ const {
   getSingleTemplatePackage,
   getSettings,
   mergeSettings,
-  getUserSettings
+  getUserSettings,
 } = require("./utils");
 
-module.exports = env => {
+module.exports = (env) => {
   const {
     useOffline,
     useSubdir,
@@ -19,14 +19,14 @@ module.exports = env => {
     localTemplates,
     useLocalSettings,
     useMergeSettings,
-    server
+    server,
   } = env;
 
-  const pathRewriteFactory = seg =>
+  const pathRewriteFactory = (seg) =>
     useSubdir
       ? undefined
       : {
-          [`^/${seg}`]: `/next/${seg}`
+          [`^/${seg}`]: `/next/${seg}`,
         };
 
   const proxyPaths = ["api"];
@@ -46,44 +46,43 @@ module.exports = env => {
           req.path === "/next/api/auth/bootstrap" ||
           req.path === "/api/auth/bootstrap"
         ) {
-          modifyResponse(res, proxyRes, raw => {
+          modifyResponse(res, proxyRes, (raw) => {
             if (res.statusCode !== 200) {
               return raw;
             }
             const result = JSON.parse(raw);
             const { data } = result;
             if (localMicroApps.length > 0) {
-              data.storyboards = data.storyboards
-                .filter(
-                  item => !(item.app && localMicroApps.includes(item.app.id))
-                )
+              data.storyboards = localMicroApps
+                .map((id) => getSingleStoryboard(env, id))
+                .filter(Boolean)
                 .concat(
-                  localMicroApps
-                    .map(id => getSingleStoryboard(env, id))
-                    .filter(Boolean)
+                  data.storyboards.filter(
+                    (item) =>
+                      !(item.app && localMicroApps.includes(item.app.id))
+                  )
                 );
             }
             if (localBrickPackages.length > 0) {
-              data.brickPackages = data.brickPackages
-                .filter(
-                  item =>
-                    !localBrickPackages.includes(item.filePath.split("/")[1])
-                )
+              data.brickPackages = localBrickPackages
+                .map((id) => getSingleBrickPackage(env, id))
+                .filter(Boolean)
                 .concat(
-                  localBrickPackages
-                    .map(id => getSingleBrickPackage(env, id))
-                    .filter(Boolean)
+                  data.brickPackages.filter(
+                    (item) =>
+                      !localBrickPackages.includes(item.filePath.split("/")[1])
+                  )
                 );
             }
             if (localTemplates.length > 0) {
-              data.templatePackages = data.templatePackages
-                .filter(
-                  item => !localTemplates.includes(item.filePath.split("/")[1])
-                )
+              data.templatePackages = localTemplates
+                .map((id) => getSingleTemplatePackage(env, id))
+                .filter(Boolean)
                 .concat(
-                  localTemplates
-                    .map(id => getSingleTemplatePackage(env, id))
-                    .filter(Boolean)
+                  data.templatePackages.filter(
+                    (item) =>
+                      !localTemplates.includes(item.filePath.split("/")[1])
+                  )
                 );
             }
             if (useLocalSettings) {
@@ -106,9 +105,9 @@ module.exports = env => {
           changeOrigin: true,
           pathRewrite: pathRewriteFactory(seg),
           headers: {
-            "dev-only-login-page": `http://localhost:8081${publicPath}auth/login`
+            "dev-only-login-page": `http://${env.host}:${env.port}${publicPath}auth/login`,
           },
-          ...otherProxyOptions
+          ...otherProxyOptions,
         };
         return acc;
       }, {});

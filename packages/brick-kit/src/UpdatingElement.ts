@@ -111,7 +111,7 @@ export const defaultConverter: ComplexAttributeConverter = {
         return value === null ? null : Number(value);
     }
     return value;
-  }
+  },
 };
 
 export interface HasChanged {
@@ -132,7 +132,7 @@ const defaultPropertyDeclaration: PropertyDeclaration = {
   type: String,
   converter: defaultConverter,
   reflect: true,
-  hasChanged: notEqual
+  hasChanged: notEqual,
 };
 
 function attributeNameForProperty(
@@ -145,17 +145,28 @@ function attributeNameForProperty(
     : typeof attribute === "string"
     ? attribute
     : typeof name === "string"
-    ? name.replace(/[A-Z]/g, char => `-${char.toLowerCase()}`)
+    ? name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`)
     : undefined;
 }
 
 export abstract class UpdatingElement extends HTMLElement {
   private _hasRequestedRender = false;
   private static _observedAttributes = new Set<string>();
+  private static __dev_only_definedProperties = new Set<string>();
 
   static get observedAttributes(): string[] {
     this._ensureObservedAttributes();
     return Array.from(this._observedAttributes);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  static get _dev_only_definedProperties(): string[] {
+    this._ensureDefinedProperties();
+    return Array.from(this.__dev_only_definedProperties);
+  }
+
+  get $$typeof(): string {
+    return "brick";
   }
 
   attributeChangedCallback(
@@ -194,8 +205,23 @@ export abstract class UpdatingElement extends HTMLElement {
     }
   }
 
+  private static _ensureDefinedProperties(): void {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!this.hasOwnProperty("__dev_only_definedProperties")) {
+      const superClass = Object.getPrototypeOf(this);
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.__dev_only_definedProperties = new Set<string>(
+        // eslint-disable-next-line no-prototype-builtins
+        superClass.hasOwnProperty("__dev_only_definedProperties")
+          ? superClass.__dev_only_definedProperties
+          : null
+      );
+    }
+  }
+
   static createProperty(name: string, options?: PropertyDeclaration): void {
     this._ensureObservedAttributes();
+    this._ensureDefinedProperties();
 
     options = Object.assign({}, defaultPropertyDeclaration, options);
 
@@ -204,21 +230,25 @@ export abstract class UpdatingElement extends HTMLElement {
       return;
     }
 
+    this.__dev_only_definedProperties.add(name);
+
     const attr = attributeNameForProperty(name, options);
 
     if (attr === undefined) {
-      const key = `__${name}`;
+      // Create a non-enumerable symbol property to delegate the property.
+      const delegatedPropSymbol = Symbol(`delegatedProp:${name}`);
       Object.defineProperty(this.prototype, name, {
         get(): any {
-          return (this as any)[key];
+          return (this as any)[delegatedPropSymbol];
         },
         set(this: UpdatingElement, value: unknown) {
           const oldValue = (this as any)[name];
           if (options.hasChanged(value, oldValue)) {
-            (this as any)[key] = value;
+            (this as any)[delegatedPropSymbol] = value;
             this._enqueueRender();
           }
-        }
+        },
+        enumerable: true,
       });
       return;
     }
@@ -226,7 +256,6 @@ export abstract class UpdatingElement extends HTMLElement {
     this._observedAttributes.add(attr);
 
     Object.defineProperty(this.prototype, name, {
-      // tslint:disable-next-line:no-any no symbol in index
       get(): any {
         return options.converter.fromAttribute(
           (this as HTMLElement).getAttribute(attr),
@@ -247,8 +276,7 @@ export abstract class UpdatingElement extends HTMLElement {
           }
         }
       },
-      configurable: true,
-      enumerable: true
+      enumerable: true,
     });
   }
 

@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.4...@easyops/dev-dependencies@0.6.5) (2020-04-14)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.3...@easyops/dev-dependencies@0.6.4) (2020-04-13)
+
+### Bug Fixes
+
+- fix tests after using jsdom@16 ([2d9ed80](https://git.easyops.local/anyclouds/next-core/commits/2d9ed80))
+
+## [0.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.2...@easyops/dev-dependencies@0.6.3) (2020-04-13)
+
+### Bug Fixes
+
+- check if `src` exists (provider packages don't have a `src` dir) ([dbff384](https://git.easyops.local/anyclouds/next-core/commits/dbff384))
+
+## [0.6.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.1...@easyops/dev-dependencies@0.6.2) (2020-04-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.0...@easyops/dev-dependencies@0.6.1) (2020-04-10)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [0.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.9...@easyops/dev-dependencies@0.6.0) (2020-04-09)
+
+### Features
+
+- use jsdom@16 which supports custom elements ([4243947](https://git.easyops.local/anyclouds/next-core/commits/4243947))
+
+## [0.5.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.8...@easyops/dev-dependencies@0.5.9) (2020-04-08)
+
+### Bug Fixes
+
+- **dev-deps:** add @easyops/rollup-config-factory and @easyops/custom-antd-styles ([48470b6](https://git.easyops.local/anyclouds/next-core/commits/48470b6))
+- rollback lerna to the version that atomic-push is working ([8a52625](https://git.easyops.local/anyclouds/next-core/commits/8a52625))
+
+## [0.5.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.7...@easyops/dev-dependencies@0.5.8) (2020-04-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.5.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.6...@easyops/dev-dependencies@0.5.7) (2020-04-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.5.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.5...@easyops/dev-dependencies@0.5.6) (2020-04-04)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.5.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.4...@easyops/dev-dependencies@0.5.5) (2020-03-31)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.5.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.3...@easyops/dev-dependencies@0.5.4) (2020-03-30)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.5.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.2...@easyops/dev-dependencies@0.5.3) (2020-03-26)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.5.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.1...@easyops/dev-dependencies@0.5.2) (2020-03-24)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.5.0...@easyops/dev-dependencies@0.5.1) (2020-03-23)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [0.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.4.9...@easyops/dev-dependencies@0.5.0) (2020-03-19)
+
+### Features
+
+- move bricks deploy files ([de916e0](https://git.easyops.local/anyclouds/next-core/commits/de916e0))
+
+## [0.4.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.4.8...@easyops/dev-dependencies@0.4.9) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.4.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.4.7...@easyops/dev-dependencies@0.4.8) (2020-03-18)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [0.4.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.4.6...@easyops/dev-dependencies@0.4.7) (2020-03-17)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

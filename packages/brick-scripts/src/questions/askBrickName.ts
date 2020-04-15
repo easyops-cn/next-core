@@ -18,7 +18,15 @@ export function askBrickName({
     name: "brickName",
     message: `What's the name of your ${
       targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS ? "first" : "new"
-    } brick (in lower-kebab-case)?`,
+    } ${
+      targetType === TargetType.A_NEW_CUSTOM_TEMPLATE
+        ? "custom template"
+        : "brick"
+    } (in lower-kebab-case${
+      targetType === TargetType.A_NEW_CUSTOM_TEMPLATE
+        ? ", recommend prefix with `tpl-`"
+        : ""
+    })?`,
     default() {
       if (packageName.includes("-")) {
         return packageName;
@@ -30,21 +38,22 @@ export function askBrickName({
     validate(value) {
       const pass = /^[a-z][a-z0-9]*(-[a-z0-9]+)+$/.test(value);
       if (!pass) {
-        return "Please enter a lower-kebab-case brick name (and must include a `-`).";
+        return "Please enter a lower-kebab-case name (and must include a `-`).";
       }
-      const relativePath =
+      const pkgRelativeDir = path.join("bricks", packageName);
+      const relativeFilePath =
         targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
           ? path.join(
-              "bricks",
-              packageName,
-              "src",
-              "data-providers",
+              pkgRelativeDir,
+              "src/data-providers",
               `${changeCase.pascalCase(value)}.ts`
             )
-          : path.join("bricks", packageName, "src", value);
-      const root = path.join(appRoot, relativePath);
+          : targetType === TargetType.A_NEW_CUSTOM_TEMPLATE
+          ? path.join(pkgRelativeDir, "src/custom-templates", `${value}.ts`)
+          : path.join(pkgRelativeDir, "src", value);
+      const root = path.join(appRoot, relativeFilePath);
       if (fs.existsSync(root)) {
-        return `Brick "${relativePath}" exists, please enter another name.`;
+        return `Directory or file "${relativeFilePath}" exists, please enter another name.`;
       }
 
       return true;
