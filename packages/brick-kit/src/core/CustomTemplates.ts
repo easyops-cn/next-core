@@ -1,3 +1,4 @@
+import { clamp } from "lodash";
 import {
   TemplateRegistry,
   CustomTemplate,
@@ -9,6 +10,7 @@ import {
   CustomTemplateProxyProperty,
   CustomTemplateProxyTransformableProperty,
   CustomTemplateProxySlot,
+  BrickConf,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
 import { transformProperties } from "../transformProperties";
@@ -201,23 +203,54 @@ function expandBrickInTemplate(
       );
     }
 
+    // Use an approach like template-literal's quasis:
+    // `quasi0${0}quais1${1}quasi2...`
+    // Every quasi (indexed by `refPosition`) can be slotted with multiple bricks.
+    const quasisMap = new Map<string, BrickConf[][]>();
+
     if (reversedProxies.slots.has(ref)) {
       for (const item of reversedProxies.slots.get(ref)) {
-        if (!hasOwnProperty(slots, item.refSlot)) {
-          slots[item.refSlot] = {
-            type: "bricks",
-            bricks: [],
-          };
+        if (!quasisMap.has(item.refSlot)) {
+          const quasis: BrickConf[][] = [];
+          // The size of quasis should be the existed slotted bricks' size plus one.
+          const size = hasOwnProperty(slots, item.refSlot)
+            ? slots[item.refSlot].bricks.length + 1
+            : 1;
+          for (let i = 0; i < size; i += 1) {
+            quasis.push([]);
+          }
+          quasisMap.set(item.refSlot, quasis);
         }
-        const slotConf = slots[item.refSlot];
+        const expandableSlot = quasisMap.get(item.refSlot);
         const refPosition = item.refPosition ?? -1;
-        slotConf.bricks.splice(
-          refPosition < 0
-            ? slotConf.bricks.length + refPosition + 1
-            : refPosition,
-          0,
-          ...(templateSlots?.[item.reversedRef]?.bricks ?? [])
-        );
+        expandableSlot[
+          clamp(
+            refPosition < 0
+              ? expandableSlot.length + refPosition + 1
+              : refPosition,
+            0,
+            expandableSlot.length - 1
+          )
+        ].push(...(templateSlots?.[item.reversedRef]?.bricks ?? []));
+      }
+    }
+
+    for (const [slotName, quasis] of quasisMap.entries()) {
+      if (!hasOwnProperty(slots, slotName)) {
+        slots[slotName] = {
+          type: "bricks",
+          bricks: [],
+        };
+      }
+      const slotConf = slots[slotName];
+      slotConf.bricks = quasis.flatMap((bricks, index) =>
+        index < slotConf.bricks.length
+          ? bricks.concat(slotConf.bricks[index])
+          : bricks
+      );
+
+      if (slotConf.bricks.length === 0) {
+        delete slots[slotName];
       }
     }
   }
@@ -244,7 +277,6 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
     value: (ref: string): HTMLElement => {
       return brick.proxyRefs.get(ref)?.brick?.element;
     },
-    writable: false,
   });
 
   if (properties) {
