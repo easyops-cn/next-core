@@ -33,7 +33,7 @@
     "js-yaml": "^3.13.1",
     "klaw-sync": "^6.0.0",
     "prettier": "^2.0.4",
-    "semver": "^7.2.3"
+    "semver": "^7.3.2"
   },
   "engines": {
     "node": ">=10.10.0"

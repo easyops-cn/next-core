@@ -52,7 +52,7 @@
     "prettier": "^2.0.4",
     "pretty-format": "^25.3.0",
     "rimraf": "^3.0.2",
-    "semver": "^7.2.3",
+    "semver": "^7.3.2",
     "size-limit": "^4.4.5",
     "typescript": "~3.8.3"
   },
