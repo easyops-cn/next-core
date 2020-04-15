@@ -235,18 +235,20 @@ export abstract class UpdatingElement extends HTMLElement {
     const attr = attributeNameForProperty(name, options);
 
     if (attr === undefined) {
-      const key = Symbol(name);
+      // Create a non-enumerable symbol property to delegate the property.
+      const delegatedPropSymbol = Symbol(`delegatedProp:${name}`);
       Object.defineProperty(this.prototype, name, {
         get(): any {
-          return (this as any)[key];
+          return (this as any)[delegatedPropSymbol];
         },
         set(this: UpdatingElement, value: unknown) {
           const oldValue = (this as any)[name];
           if (options.hasChanged(value, oldValue)) {
-            (this as any)[key] = value;
+            (this as any)[delegatedPropSymbol] = value;
             this._enqueueRender();
           }
         },
+        enumerable: true,
       });
       return;
     }
@@ -254,7 +256,6 @@ export abstract class UpdatingElement extends HTMLElement {
     this._observedAttributes.add(attr);
 
     Object.defineProperty(this.prototype, name, {
-      // tslint:disable-next-line:no-any no symbol in index
       get(): any {
         return options.converter.fromAttribute(
           (this as HTMLElement).getAttribute(attr),
@@ -275,7 +276,6 @@ export abstract class UpdatingElement extends HTMLElement {
           }
         }
       },
-      configurable: true,
       enumerable: true,
     });
   }

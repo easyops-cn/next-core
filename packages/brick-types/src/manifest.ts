@@ -321,7 +321,8 @@ export interface BuiltinBrickEventHandler {
 }
 
 export interface BaseCustomBrickEventHandler {
-  target: string | any; // The target element selector or element itself.
+  target?: string | any; // The target element selector or element itself.
+  targetRef?: string; // The target ref inside a custom template.
   multiple?: boolean; // Use `querySelectorAll` or `querySelector`
 }
 

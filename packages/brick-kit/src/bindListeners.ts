@@ -60,7 +60,8 @@ export function isCustomHandler(
   handler: BrickEventHandler
 ): handler is CustomBrickEventHandler {
   return !!(
-    (handler as CustomBrickEventHandler).target &&
+    ((handler as CustomBrickEventHandler).target ||
+      (handler as CustomBrickEventHandler).targetRef) &&
     ((handler as ExecuteCustomBrickEventHandler).method ||
       (handler as SetPropsCustomBrickEventHandler).properties)
   );
@@ -126,11 +127,8 @@ export function listenerFactory(
         };
       default:
         return () => {
-          /*global process*/
-          if (process.env.NODE_ENV === "development") {
-            // eslint-disable-next-line no-console
-            console.warn("unknown event listener action:", handler.action);
-          }
+          // eslint-disable-next-line no-console
+          console.error("unknown event listener action:", handler.action);
         };
     }
   }
@@ -216,6 +214,15 @@ function builtinWindowListenerFactory(
   } as EventListener;
 }
 
+function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
+  let tpl = brick;
+  while ((tpl = tpl.parentElement)) {
+    if (tpl.$$typeof === "custom-template") {
+      return tpl.$$getElementByRef?.(ref);
+    }
+  }
+}
+
 function customListenerFactory(
   handler: CustomBrickEventHandler,
   context: PluginRuntimeContext,
@@ -236,17 +243,28 @@ function customListenerFactory(
       }
     } else if (handler.target) {
       targets.push(handler.target);
+    } else if (handler.targetRef) {
+      const found = findRefElement(brick, handler.targetRef);
+      if (found) {
+        targets.push(found);
+      }
     }
     if (targets.length === 0) {
-      if (process.env.NODE_ENV !== "test") {
-        // eslint-disable-next-line no-console
-        console.error("target not found:", handler.target);
-      }
+      // eslint-disable-next-line no-console
+      console.error("target not found:", handler.target || handler.targetRef);
       return;
     }
     if (isExecuteCustomHandler(handler)) {
       targets.forEach(async (target) => {
-        const task = target[handler.method]?.(
+        if (typeof target[handler.method] !== "function") {
+          // eslint-disable-next-line no-console
+          console.error("target has no method:", {
+            target,
+            method: handler.method,
+          });
+          return;
+        }
+        const task = target[handler.method](
           ...argsFactory(handler.args, context, event)
         );
         const { success, error } = handler.callback ?? {};

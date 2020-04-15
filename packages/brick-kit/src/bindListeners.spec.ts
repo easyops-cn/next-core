@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { BrickEventHandler, BrickEventsMap } from "@easyops/brick-types";
 import {
   isBuiltinHandler,
@@ -301,7 +302,6 @@ describe("bindListeners", () => {
 
       expect(spyOnPreventDefault).toBeCalled();
 
-      /* eslint-disable no-console */
       expect(console.log).toBeCalledTimes(2);
       expect(console.log).toHaveBeenNthCalledWith(1, event1);
       expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
@@ -310,15 +310,26 @@ describe("bindListeners", () => {
       expect((console.log as jest.Mock).mock.calls[1][0].detail).toBe("yes");
       expect(console.info).toBeCalledWith(event1);
       expect(console.warn).toBeCalledWith("specified args for console.warn");
-      expect(console.error).toBeCalledTimes(2);
+      expect(console.error).toBeCalledTimes(4);
       expect(console.error).toHaveBeenNthCalledWith(
         1,
         "specified args for console.error"
       );
-      expect((console.error as jest.Mock).mock.calls[1][0].type).toBe(
+      expect((console.error as jest.Mock).mock.calls[1][0]).toBe(
+        "target has no method:"
+      );
+      expect((console.error as jest.Mock).mock.calls[1][1].method).toBe(
+        "notExisted"
+      );
+      expect(console.error).toHaveBeenNthCalledWith(
+        3,
+        "target not found:",
+        "#not-existed"
+      );
+      expect((console.error as jest.Mock).mock.calls[3][0].type).toBe(
         "callback.error"
       );
-      expect((console.error as jest.Mock).mock.calls[1][0].detail).toBe("oops");
+      expect((console.error as jest.Mock).mock.calls[3][0].detail).toBe("oops");
       expect((sourceElem as any).forGood).toHaveBeenNthCalledWith(
         1,
         "target is _self"
@@ -350,7 +361,48 @@ describe("bindListeners", () => {
       (console.error as jest.Mock).mockRestore();
       document.body.removeChild(sourceElem);
       document.body.removeChild(targetElem);
-      /* eslint-enable no-console */
+    });
+
+    it("should work for ref target", () => {
+      // Mocking a custom template with several inside bricks.
+      const tplElement = document.createElement("div") as any;
+      const button = document.createElement("div") as any;
+      const microView = document.createElement("div") as any;
+      const sourceElem = document.createElement("div") as any;
+      tplElement.$$typeof = "custom-template";
+      tplElement.$$getElementByRef = (ref: string) =>
+        ref === "button" ? button : undefined;
+      tplElement.appendChild(button);
+      tplElement.appendChild(microView);
+      microView.appendChild(sourceElem);
+      document.body.appendChild(tplElement);
+
+      button.forGood = jest.fn();
+      jest.spyOn(console, "error").mockImplementation(() => void 0);
+
+      bindListeners(sourceElem, {
+        keyWillFindTarget: {
+          targetRef: "button",
+          method: "forGood",
+        },
+        keyWillNotFindTarget: {
+          targetRef: "not-existed",
+          method: "forGood",
+        },
+      });
+
+      sourceElem.dispatchEvent(new CustomEvent("keyWillNotFindTarget"));
+      expect(button.forGood).not.toBeCalled();
+      expect(console.error as jest.Mock).toBeCalledWith(
+        "target not found:",
+        "not-existed"
+      );
+
+      sourceElem.dispatchEvent(new CustomEvent("keyWillFindTarget"));
+      expect(button.forGood).toBeCalled();
+
+      tplElement.remove();
+      (console.error as jest.Mock).mockRestore();
     });
   });
 });

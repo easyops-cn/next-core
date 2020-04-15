@@ -24,7 +24,7 @@ export function registerCustomTemplate(
   appId?: string
 ): void {
   let tagName = tplName;
-  // When a template is registered by an app, it's namespace maybe missed.
+  // When a template is registered by an app, its namespace maybe missed.
   if (appId && !tplName.includes(".")) {
     tagName = `${appId}.${tplName}`;
   }
@@ -238,6 +238,15 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
   const node = brick.element as any;
   const { properties, events, methods } = brick.proxy;
 
+  // For usages of `targetRef: "..."`.
+  // `tpl.$$getElementByRef(ref)` will return the ref element inside a custom template.
+  Object.defineProperty(node, "$$getElementByRef", {
+    value: (ref: string): HTMLElement => {
+      return brick.proxyRefs.get(ref)?.brick?.element;
+    },
+    writable: false,
+  });
+
   if (properties) {
     for (const [propName, propRef] of Object.entries(properties)) {
       if (brick.proxyRefs.has(propRef.ref)) {
@@ -248,7 +257,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         if (refElement) {
           if (isTransformableProperty(propRef)) {
             // Create a non-enumerable symbol property to delegate the tpl root property.
-            const delegatedPropSymbol = Symbol("delegatedProp");
+            const delegatedPropSymbol = Symbol(`delegatedProp:${propName}`);
             node[delegatedPropSymbol] = node[propName];
             Object.defineProperty(node, propName, {
               get: function () {
@@ -267,6 +276,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
                   )
                 );
               },
+              enumerable: true,
             });
           } else {
             Object.defineProperty(node, propName, {
@@ -276,6 +286,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
               set: function (value: any) {
                 refElement[propRef.refProperty] = value;
               },
+              enumerable: true,
             });
           }
         }
