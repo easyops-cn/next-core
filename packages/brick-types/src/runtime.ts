@@ -136,5 +136,7 @@ export interface MagicBrickConfig {
 export type rememberedEventListener = [string, EventListener];
 
 export interface RuntimeBrickElement extends HTMLElement {
+  $$typeof?: "brick" | "provider" | "custom-template";
   $$eventListeners?: rememberedEventListener[];
+  $$getElementByRef?: (ref: string) => HTMLElement;
 }
