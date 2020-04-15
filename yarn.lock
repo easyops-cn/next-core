@@ -11235,13 +11235,13 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-raw-loader@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/raw-loader/download/raw-loader-4.0.0.tgz?cache=0&sync_timestamp=1574695692895&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fraw-loader%2Fdownload%2Fraw-loader-4.0.0.tgz#d639c40fb9d72b5c7f8abc1fb2ddb25b29d3d540"
-  integrity sha1-1jnED7nXK1x/irwfst2yWynT1UA=
+raw-loader@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/raw-loader/download/raw-loader-4.0.1.tgz#14e1f726a359b68437e183d5a5b7d33a3eba6933"
+  integrity sha1-FOH3JqNZtoQ34YPVpbfTOj66aTM=
   dependencies:
-    loader-utils "^1.2.3"
-    schema-utils "^2.5.0"
+    loader-utils "^2.0.0"
+    schema-utils "^2.6.5"
 
 rc-align@^2.4.0, rc-align@^2.4.1:
   version "2.4.5"
@@ -12455,7 +12455,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.5.0, schema-utils@^2.6.4, schema-utils@^2.6.5:
+schema-utils@^2.6.4, schema-utils@^2.6.5:
   version "2.6.5"
   resolved "https://registry.npm.taobao.org/schema-utils/download/schema-utils-2.6.5.tgz#c758f0a7e624263073d396e29cd40aa101152d8a"
   integrity sha1-x1jwp+YkJjBz05binNQKoQEVLYo=
