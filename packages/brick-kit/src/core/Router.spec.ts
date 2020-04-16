@@ -48,6 +48,7 @@ describe("Router", () => {
     mountPoints: {
       main: document.createElement("div"),
       bg: document.createElement("div"),
+      portal: document.createElement("div"),
     },
     bootstrapData: {
       storyboards: [],

@@ -89,6 +89,7 @@ export interface MountPoints {
   loadingBar: HTMLElement;
   main: HTMLElement;
   bg: HTMLElement;
+  portal: HTMLElement;
 }
 
 export interface MenuBarBrick extends HTMLElement {
