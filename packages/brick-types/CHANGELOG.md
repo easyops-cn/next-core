@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.34.0...@easyops/brick-types@1.35.0) (2020-04-16)
+
+### Features
+
+- support `if` in events ([4a4423f](https://git.easyops.local/anyclouds/next-core/commits/4a4423f))
+- 增加 portal-mount-point ([3a802b0](https://git.easyops.local/anyclouds/next-core/commits/3a802b0))
+- **custom-template:** support using `targetRef` inside a custom template ([dc162d8](https://git.easyops.local/anyclouds/next-core/commits/dc162d8))
+
 # [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.33.0...@easyops/brick-types@1.34.0) (2020-04-08)
 
 ### Features

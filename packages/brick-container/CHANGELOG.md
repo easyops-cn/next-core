@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.17.3...@easyops/brick-container@1.18.0) (2020-04-16)
+
+### Features
+
+- 增加 portal-mount-point ([3a802b0](https://git.easyops.local/anyclouds/next-core/commits/3a802b0))
+
 ## [1.17.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.17.2...@easyops/brick-container@1.17.3) (2020-04-14)
 
 **Note:** Version bump only for package @easyops/brick-container

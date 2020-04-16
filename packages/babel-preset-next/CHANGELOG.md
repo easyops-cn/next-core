@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-next@0.6.4...@easyops/babel-preset-next@0.6.5) (2020-04-16)
+
+**Note:** Version bump only for package @easyops/babel-preset-next
+
 ## [0.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-next@0.6.3...@easyops/babel-preset-next@0.6.4) (2020-04-14)
 
 **Note:** Version bump only for package @easyops/babel-preset-next
