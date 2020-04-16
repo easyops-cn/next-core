@@ -137,6 +137,7 @@ export interface BrickConf {
   template?: string;
   params?: Record<string, any>;
   if?: string | ResolveConf;
+  portal?: boolean;
 }
 
 export type ProviderConf =

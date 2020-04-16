@@ -1,7 +1,7 @@
 import {
   loadScript,
   getDllAndDepsOfStoryboard,
-  getTemplateDepsOfStoryboard
+  getTemplateDepsOfStoryboard,
 } from "@easyops/brick-utils";
 import { checkLogin, bootstrap } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
@@ -30,8 +30,8 @@ const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
   push: historyPush,
   location: {
-    pathname: "/from"
-  }
+    pathname: "/from",
+  },
 } as any);
 
 const spyOnCheckLogin = checkLogin as jest.Mock;
@@ -50,7 +50,7 @@ const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 
 (window as any).DLL_HASH = {
-  d3: "fake-hash"
+  d3: "fake-hash",
 };
 
 describe("Kernel", () => {
@@ -70,19 +70,20 @@ describe("Kernel", () => {
       menuBar: document.createElement("div") as any,
       loadingBar: document.createElement("div") as any,
       main: document.createElement("div") as any,
-      bg: document.createElement("div") as any
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
     };
     spyOnCheckLogin.mockResolvedValueOnce({
-      loggedIn: true
+      loggedIn: true,
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
     searchAllUsersInfo.mockResolvedValueOnce({
       list: [
         {
           name: "hello",
-          instanceId: "abc"
-        }
-      ]
+          instanceId: "abc",
+        },
+      ],
     });
     searchAllMagicBrickConfig.mockResolvedValueOnce({
       list: [
@@ -103,59 +104,59 @@ describe("Kernel", () => {
           scene: "read",
           selector: "HOST.ip",
           transform:
-            'url: "/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}"\nlabel: "@{ip}"'
-        }
-      ]
+            'url: "/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}"\nlabel: "@{ip}"',
+        },
+      ],
     });
     getObjectMicroAppList.mockResolvedValueOnce({
       list: [
         {
           microAppId: "a",
-          objectId: "App"
+          objectId: "App",
         },
         {
           microAppId: "b",
-          objectId: "App"
+          objectId: "App",
         },
         {
           microAppId: "c",
-          objectId: "Host"
-        }
-      ]
+          objectId: "Host",
+        },
+      ],
     });
     spyOnBootstrap.mockResolvedValueOnce({
       storyboards: [
         {
-          routes: []
-        }
+          routes: [],
+        },
       ],
       brickPackages: [
         {
-          filePath: "all.js"
-        }
+          filePath: "all.js",
+        },
       ],
       templatePackages: [
         {
-          filePath: "layout.js"
-        }
+          filePath: "layout.js",
+        },
       ],
       settings: {
         featureFlags: {
-          "load-magic-brick-config": true
-        }
-      }
+          "load-magic-brick-config": true,
+        },
+      },
     });
     await kernel.bootstrap(mountPoints);
     expect(searchAllMagicBrickConfig).toHaveBeenCalled();
     expect(spyOnAuthenticate.mock.calls[0][0]).toEqual({
-      loggedIn: true
+      loggedIn: true,
     });
     expect(spyOnMenuBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
 
     expect(kernel.getFeatureFlags()).toEqual({
-      "load-magic-brick-config": true
+      "load-magic-brick-config": true,
     });
     expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
@@ -167,7 +168,7 @@ describe("Kernel", () => {
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
       id: "a",
-      name: "A"
+      name: "A",
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/a";
@@ -177,15 +178,15 @@ describe("Kernel", () => {
       previousApp: undefined,
       currentApp: {
         id: "a",
-        name: "A"
+        name: "A",
       },
-      previousWorkspace: undefined
+      previousWorkspace: undefined,
     });
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
       id: "b",
-      name: "B"
+      name: "B",
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/b";
@@ -195,7 +196,7 @@ describe("Kernel", () => {
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
       id: "c",
-      name: "C"
+      name: "C",
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/c";
@@ -203,13 +204,13 @@ describe("Kernel", () => {
     expect(kernel.getPreviousWorkspace()).toEqual({
       appId: "b",
       appName: "B",
-      url: "/b"
+      url: "/b",
     });
 
     // eslint-disable-next-line require-atomic-updates
     kernel.currentApp = {
       id: "x",
-      name: "X"
+      name: "X",
     } as any;
     // eslint-disable-next-line require-atomic-updates
     kernel.currentUrl = "/x";
@@ -222,19 +223,19 @@ describe("Kernel", () => {
       new MessageEvent("message", {
         origin: window.location.origin,
         data: {
-          type: "auth.guard"
-        }
+          type: "auth.guard",
+        },
       })
     );
     expect(historyPush).toBeCalledWith("/auth/login", {
       from: {
-        pathname: "/from"
-      }
+        pathname: "/from",
+      },
     });
 
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
       dll: ["d3.js"],
-      deps: ["dep.js"]
+      deps: ["dep.js"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
     await kernel.loadDepsOfStoryboard({} as any);
@@ -247,13 +248,13 @@ describe("Kernel", () => {
 
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
       dll: [],
-      deps: []
+      deps: [],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
     await kernel.loadDepsOfStoryboard({ dependsAll: true } as any);
     expect(spyOnLoadScript).toBeCalledTimes(2);
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual([
-      "dll-of-d3.js?fake-hash"
+      "dll-of-d3.js?fake-hash",
     ]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["all.js", "layout.js"]);
   });
@@ -264,18 +265,19 @@ describe("Kernel", () => {
       menuBar: document.createElement("div") as any,
       loadingBar: document.createElement("div") as any,
       main: document.createElement("div") as any,
-      bg: document.createElement("div") as any
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
     };
     spyOnCheckLogin.mockResolvedValueOnce({
-      loggedIn: false
+      loggedIn: false,
     });
     spyOnBootstrap.mockResolvedValueOnce({
       storyboards: [
         {
-          routes: []
-        }
+          routes: [],
+        },
       ],
-      brickPackages: []
+      brickPackages: [],
     });
     await kernel.bootstrap(mountPoints);
     expect(spyOnAuthenticate).not.toBeCalled();
@@ -298,11 +300,11 @@ describe("Kernel", () => {
 
   it("should unsetBars", () => {
     kernel.menuBar = {
-      setAppMenu: jest.fn()
+      setAppMenu: jest.fn(),
     } as any;
     kernel.appBar = {
       setPageTitle: jest.fn(),
-      setBreadcrumb: jest.fn()
+      setBreadcrumb: jest.fn(),
     } as any;
     kernel.toggleBars = jest.fn();
     kernel.unsetBars({ appChanged: true });
