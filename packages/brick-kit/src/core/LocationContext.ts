@@ -372,7 +372,7 @@ export class LocationContext {
   }
 
   private async checkIf(
-    rawIf: string | ResolveConf,
+    rawIf: string | boolean | ResolveConf,
     context: PluginRuntimeContext
   ): Promise<boolean> {
     if (

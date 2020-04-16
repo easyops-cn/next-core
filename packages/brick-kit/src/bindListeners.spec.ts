@@ -106,6 +106,15 @@ describe("bindListeners", () => {
       document.body.appendChild(targetElem);
       document.body.appendChild(targetElem2);
 
+      const legacyIframeMountPoint = document.createElement("div");
+      legacyIframeMountPoint.id = "legacy-iframe-mount-point";
+      document.body.appendChild(legacyIframeMountPoint);
+      const iframeElement = document.createElement("iframe");
+      legacyIframeMountPoint.appendChild(iframeElement);
+      (iframeElement.contentWindow as any).angular = {};
+
+      iframeElement.contentWindow.postMessage = jest.fn();
+
       const eventsMap: BrickEventsMap = {
         key1: [
           { action: "history.push" },
@@ -232,15 +241,6 @@ describe("bindListeners", () => {
       jest.spyOn(console, "error").mockImplementation(() => void 0);
       window.open = jest.fn();
 
-      const legacyIframeMountPoint = document.createElement("div");
-      legacyIframeMountPoint.id = "legacy-iframe-mount-point";
-      document.body.appendChild(legacyIframeMountPoint);
-      const iframeElement = document.createElement("iframe");
-      legacyIframeMountPoint.appendChild(iframeElement);
-      (iframeElement.contentWindow as any).angular = {};
-
-      iframeElement.contentWindow.postMessage = jest.fn();
-
       bindListeners(sourceElem, eventsMap);
 
       const event1 = new CustomEvent("key1", {
@@ -359,8 +359,10 @@ describe("bindListeners", () => {
       (console.info as jest.Mock).mockRestore();
       (console.warn as jest.Mock).mockRestore();
       (console.error as jest.Mock).mockRestore();
-      document.body.removeChild(sourceElem);
-      document.body.removeChild(targetElem);
+      sourceElem.remove();
+      targetElem.remove();
+      targetElem2.remove();
+      legacyIframeMountPoint.remove();
     });
 
     it("should work for ref target", () => {
@@ -404,5 +406,56 @@ describe("bindListeners", () => {
       tplElement.remove();
       (console.error as jest.Mock).mockRestore();
     });
+  });
+
+  it("should work for when `if` rejected", () => {
+    jest.spyOn(console, "log").mockImplementation(() => void 0);
+
+    const sourceElem = document.createElement("div");
+    const targetElem = document.createElement("div") as any;
+    targetElem.id = "target-elem";
+    targetElem.forGood = jest.fn();
+    document.body.appendChild(sourceElem);
+    document.body.appendChild(targetElem);
+
+    const handlers: BrickEventHandler[] = [
+      { action: "history.push", if: "<% !EVENT.detail.rejected %>" },
+      { action: "history.reload", if: "<% !EVENT.detail.rejected %>" },
+      {
+        action: "legacy.go",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
+        action: "window.open",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
+        action: "location.reload",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      { action: "segue.push", if: "<% !EVENT.detail.rejected %>" },
+      { action: "event.preventDefault", if: "<% !EVENT.detail.rejected %>" },
+      { action: "console.log", if: "<% !EVENT.detail.rejected %>" },
+      {
+        target: "#target-elem",
+        if: "<% !EVENT.detail.rejected %>",
+        method: "forGood",
+      },
+    ];
+    bindListeners(sourceElem, { ifWillGetRejected: handlers });
+    sourceElem.dispatchEvent(
+      new CustomEvent("ifWillGetRejected", {
+        detail: {
+          rejected: true,
+        },
+      })
+    );
+
+    expect(console.log as jest.Mock).not.toBeCalled();
+    expect(targetElem.forGood).not.toBeCalled();
+
+    (console.log as jest.Mock).mockRestore();
+    sourceElem.remove();
+    targetElem.remove();
   });
 });

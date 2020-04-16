@@ -136,7 +136,7 @@ export interface BrickConf {
   internalUsedTemplates?: string[];
   template?: string;
   params?: Record<string, any>;
-  if?: string | ResolveConf;
+  if?: string | boolean | ResolveConf;
   portal?: boolean;
 }
 
@@ -150,7 +150,7 @@ export interface RuntimeBrickConf extends BrickConf {
   $$template?: string;
   $$params?: Record<string, any>;
   $$lifeCycle?: BrickLifeCycle;
-  $$if?: string | ResolveConf;
+  $$if?: string | boolean | ResolveConf;
   $$computedPropsFromProxy?: Record<string, any>;
   $$refForProxy?: RefForProxy;
 }
@@ -319,12 +319,14 @@ export interface BuiltinBrickEventHandler {
     // iframe
     | "legacy.go";
   args?: any[]; // Defaults to the event itself
+  if?: string | boolean;
 }
 
 export interface BaseCustomBrickEventHandler {
   target?: string | any; // The target element selector or element itself.
   targetRef?: string; // The target ref inside a custom template.
   multiple?: boolean; // Use `querySelectorAll` or `querySelector`
+  if?: string | boolean;
 }
 
 export interface ExecuteCustomBrickEventHandler
@@ -376,7 +378,7 @@ export interface UseSingleBrickConf {
   lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
   transformFrom?: string | string[];
   transform?: GeneralTransform;
-  if?: string | ResolveConf;
+  if?: string | boolean | ResolveConf;
 }
 
 export interface StoryboardMeta {
