@@ -30,6 +30,7 @@ describe("LocationContext", () => {
     mountPoints: {
       main: {},
       bg: document.createElement("div"),
+      portal: document.createElement("div"),
     },
     bootstrapData: {
       storyboards: [],
@@ -338,6 +339,31 @@ describe("LocationContext", () => {
                         type: "invalid",
                         routes: [],
                       },
+                      extendG: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [
+                              {
+                                brick: "modal-a",
+                                portal: true,
+                                properties: {
+                                  args: ["a"],
+                                },
+                              },
+                              {
+                                brick: "modal-b",
+                                portal: true,
+                                properties: {
+                                  args: ["b"],
+                                },
+                              },
+                            ],
+                            menu: {},
+                          },
+                        ],
+                      },
                     },
                   },
                   {
@@ -395,6 +421,13 @@ describe("LocationContext", () => {
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
       expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
+
+      expect(kernel.mountPoints.portal.children.length).toBe(2);
+      expect(kernel.mountPoints.portal.children[0].tagName).toBe("MODAL-A");
+      expect(kernel.mountPoints.portal.children[1].tagName).toBe("MODAL-B");
+      expect((kernel.mountPoints.portal.children[1] as any).args).toEqual([
+        "b",
+      ]);
 
       const consoleLog = jest.spyOn(console, "log");
       const consoleWarn = jest.spyOn(console, "warn");

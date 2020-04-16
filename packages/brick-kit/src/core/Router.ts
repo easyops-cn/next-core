@@ -160,6 +160,7 @@ export class Router {
 
     this.state = "initial";
     unmountTree(mountPoints.bg as MountableElement);
+    unmountTree(mountPoints.portal as MountableElement);
 
     if (storyboard) {
       const mountRoutesResult: MountRoutesResult = {
@@ -268,7 +269,7 @@ export class Router {
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
       menuInBg.forEach((brick) => {
-        appendBrick(brick, mountPoints.bg as MountableElement);
+        appendBrick(brick, mountPoints.portal as MountableElement);
       });
 
       if (main.length > 0) {

@@ -23,7 +23,8 @@ body {
 }
 
 #legacy-iframe-mount-point,
-#bg-mount-point {
+#bg-mount-point,
+#portal-mount-point {
   display: none;
 }
 

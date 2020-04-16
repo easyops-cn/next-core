@@ -372,7 +372,7 @@ export class LocationContext {
   }
 
   private async checkIf(
-    rawIf: string | ResolveConf,
+    rawIf: string | boolean | ResolveConf,
     context: PluginRuntimeContext
   ): Promise<boolean> {
     if (
@@ -492,6 +492,8 @@ export class LocationContext {
 
     if (expandedBrickConf.bg) {
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
+    } else if (expandedBrickConf.portal) {
+      appendBrick(brick, this.kernel.mountPoints.portal as MountableElement);
     } else {
       if (isObject(expandedBrickConf.slots)) {
         for (const [slotId, slotConf] of Object.entries(

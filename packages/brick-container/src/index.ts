@@ -32,6 +32,7 @@ const mountPoints = {
   loadingBar: root.querySelector<HTMLElement>("#loading-bar-mount-point"),
   main: root.querySelector<HTMLElement>("#main-mount-point"),
   bg: root.querySelector<HTMLElement>("#bg-mount-point"),
+  portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
 pushInterceptor((req, next, interceptorParams?) => {
