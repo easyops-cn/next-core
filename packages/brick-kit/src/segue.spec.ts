@@ -4,18 +4,19 @@ import { getUrlFactory } from "./segue";
 describe("getUrlFactory", () => {
   describe("getUrlFactory should work", () => {
     const app = {
+      homepage: "/segue-home",
       $$routeAliasMap: new Map([
         [
           "segue-target-a",
           {
-            path: "/segue-target-a",
+            path: "${APP.homepage}/segue-target-a",
             alias: "segue-target-a",
           },
         ],
         [
           "segue-target-b",
           {
-            path: "/segue-target-b/:id",
+            path: "${APP.homepage}/segue-target-b/:id",
             alias: "segue-target-b",
           },
         ],
@@ -31,14 +32,14 @@ describe("getUrlFactory", () => {
     };
 
     it.each<[string, Record<string, any>, Record<string, any>, string]>([
-      ["testSegueIdA", undefined, undefined, "/segue-target-a"],
+      ["testSegueIdA", undefined, undefined, "/segue-home/segue-target-a"],
       [
         "testSegueIdA",
         undefined,
         {
           for: "good",
         },
-        "/segue-target-a?for=good",
+        "/segue-home/segue-target-a?for=good",
       ],
       [
         "testSegueIdA",
@@ -46,7 +47,7 @@ describe("getUrlFactory", () => {
         {
           shouldIgnore: null,
         },
-        "/segue-target-a",
+        "/segue-home/segue-target-a",
       ],
       [
         "testSegueIdB",
@@ -54,7 +55,7 @@ describe("getUrlFactory", () => {
           id: "quality",
         },
         undefined,
-        "/segue-target-b/quality",
+        "/segue-home/segue-target-b/quality",
       ],
       [
         "testSegueIdB",
@@ -65,7 +66,7 @@ describe("getUrlFactory", () => {
           for: ["good", "better"],
           shouldIgnore: null,
         },
-        "/segue-target-b/quality?for=good&for=better",
+        "/segue-home/segue-target-b/quality?for=good&for=better",
       ],
     ])(
       "getUrlFactory(...)('%js', %j, %j) should return '%s'",
