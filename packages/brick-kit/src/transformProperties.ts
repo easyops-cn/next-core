@@ -3,6 +3,7 @@ import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { isObject, transform } from "@easyops/brick-utils";
 import { isCookable, evaluate } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
+import { devtoolsHookEmit } from "./devtools";
 
 export function transformProperties(
   props: Record<string, any>,
@@ -11,12 +12,18 @@ export function transformProperties(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ): Record<string, any> {
-  const transformedProps = preprocessTransformProperties(
+  const result = preprocessTransformProperties(
     from ? get(data, from) : data,
     to,
     mapArray
   );
-  for (const [propName, propValue] of Object.entries(transformedProps)) {
+  devtoolsHookEmit("transformation", {
+    transform: to,
+    data,
+    options: { from, mapArray },
+    result,
+  });
+  for (const [propName, propValue] of Object.entries(result)) {
     set(props, propName, propValue);
   }
   return props;

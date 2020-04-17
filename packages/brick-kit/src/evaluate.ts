@@ -2,6 +2,7 @@ import { cloneDeep } from "lodash";
 import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlFactory } from "./segue";
+import { devtoolsHookEmit } from "./devtools";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -145,7 +146,9 @@ export function evaluate(
   }
 
   try {
-    return cook(precooked, globalVariables);
+    const result = cook(precooked, globalVariables);
+    devtoolsHookEmit("evaluation", { raw, context: globalVariables, result });
+    return result;
   } catch (error) {
     throw new SyntaxError(`${error.message}, in "${raw}"`);
   }
