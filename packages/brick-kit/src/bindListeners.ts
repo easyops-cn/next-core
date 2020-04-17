@@ -24,7 +24,7 @@ export function bindListeners(
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
       const listener = listenerFactory(handler, context, brick);
       brick.addEventListener(eventType, listener);
-      rememberListeners(brick, eventType, listener);
+      rememberListeners(brick, eventType, listener, handler);
     });
   });
 }
@@ -42,12 +42,13 @@ export function unbindListeners(brick: HTMLElement): void {
 function rememberListeners(
   brick: RuntimeBrickElement,
   eventType: string,
-  listener: EventListener
+  listener: EventListener,
+  handler: BrickEventHandler
 ): void {
   if (!brick.$$eventListeners) {
     brick.$$eventListeners = [];
   }
-  brick.$$eventListeners.push([eventType, listener]);
+  brick.$$eventListeners.push([eventType, listener, handler]);
 }
 
 export function isBuiltinHandler(
