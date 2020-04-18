@@ -262,6 +262,25 @@ describe("processPipes", () => {
     ).toEqual(res);
   });
 
+  const unitFormatParams: [any, [Identifier, Parameters], any][] = [
+    [1024.0, ["unitFormat", ["KBps"]], ["1.00", "MBps"]],
+    [1024.0, ["unitFormat", ["KBps", 3]], ["1.000", "MBps"]],
+  ];
+  it.each(unitFormatParams)(
+    "pipeUnitFormat should work",
+    (value, [identifier, parameters], result) => {
+      expect(
+        processPipes(value, [
+          {
+            type: "PipeCall",
+            identifier,
+            parameters,
+          },
+        ])
+      ).toEqual(result);
+    }
+  );
+
   const paramCases: [any, [Identifier, Parameters], any][] = [
     [null, ["mapToArray", ["", ""]], []],
     ["23", ["mapToArray", ["", ""]], []],

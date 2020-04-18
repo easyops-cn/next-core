@@ -21,6 +21,11 @@ import {
 } from "lodash";
 import yaml from "js-yaml";
 import moment, { DurationInputArg2 } from "moment";
+import {
+  Format,
+  formatValue,
+  convertValueByPrecision,
+} from "./unit/func/valueFormatter";
 
 export const PipeRegistry = new Map<string, Function>();
 
@@ -64,6 +69,7 @@ PipeRegistry.set("cmdbInstanceShowName", pipeCmdbInstanceShowName);
 PipeRegistry.set("deltaTime", pipeDeltaTime);
 PipeRegistry.set("nullish", pipeNullish);
 PipeRegistry.set("graphTree", pipeGraphTree);
+PipeRegistry.set("unitFormat", pipeUnitFormat);
 
 function pipeNullish(value: any, defaultValue: any): any {
   return value ?? defaultValue;
@@ -369,4 +375,12 @@ function pipeGraphTree(value: {
       return findChildren(root);
     }) ?? [];
   return result;
+}
+
+function pipeUnitFormat(
+  value: number,
+  unit: string,
+  precision = 2
+): [string, string] {
+  return formatValue(value, { unit, precision });
 }
