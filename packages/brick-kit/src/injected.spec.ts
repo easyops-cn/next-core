@@ -42,6 +42,15 @@ describe("injected", () => {
     expect(haveBeenInjected(innerObject)).toBe(false);
   });
 
+  it("should ignore properties of elements", () => {
+    const element = document.createElement("div") as any;
+    element.objectProp = {};
+    expect(haveBeenInjected(element)).toBe(false);
+    recursiveMarkAsInjected(element);
+    expect(haveBeenInjected(element)).toBe(true);
+    expect(haveBeenInjected(element.objectProp)).toBe(false);
+  });
+
   it("should work for circular references", () => {
     const value: Record<string, any> = {};
     value.circularRef = value;
