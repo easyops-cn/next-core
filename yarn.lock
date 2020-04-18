@@ -10642,10 +10642,10 @@ postcss-modules-values@^3.0.0:
     icss-utils "^4.0.0"
     postcss "^7.0.6"
 
-postcss-modules@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npm.taobao.org/postcss-modules/download/postcss-modules-1.5.0.tgz#08da6ce43fcfadbc685a021fe6ed30ef929f0bcc"
-  integrity sha1-CNps5D/PrbxoWgIf5u0w75KfC8w=
+postcss-modules@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/postcss-modules/download/postcss-modules-2.0.0.tgz?cache=0&sync_timestamp=1586850009591&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss-modules%2Fdownload%2Fpostcss-modules-2.0.0.tgz#473d0d7326651d8408585c2a154115d5cb36cce0"
+  integrity sha1-Rz0NcyZlHYQIWFwqFUEV1cs2zOA=
   dependencies:
     css-modules-loader-core "^1.1.0"
     generic-names "^2.0.1"
@@ -12191,6 +12191,13 @@ resolve@^1.1.6, resolve@^1.10.0, resolve@^1.11.0, resolve@^1.11.1, resolve@^1.15
   dependencies:
     path-parse "^1.0.6"
 
+resolve@^1.16.1:
+  version "1.16.1"
+  resolved "https://registry.npm.taobao.org/resolve/download/resolve-1.16.1.tgz#49fac5d8bacf1fd53f200fa51247ae736175832c"
+  integrity sha1-SfrF2LrPH9U/IA+lEkeuc2F1gyw=
+  dependencies:
+    path-parse "^1.0.6"
+
 restore-cursor@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/restore-cursor/-/restore-cursor-2.0.0.tgz#9f7ee287f82fd326d4fd162923d62129eee0dfaf"
@@ -12297,10 +12304,10 @@ rollup-plugin-node-resolve@^5.2.0:
     resolve "^1.11.1"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-postcss@^2.6.4:
-  version "2.6.4"
-  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-2.6.4.tgz#d3e35aae95cc91c0319aaa2623b37edcd4928da1"
-  integrity sha1-0+NarpXMkcAxmqomI7N+3NSSjaE=
+rollup-plugin-postcss@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-2.8.1.tgz?cache=0&sync_timestamp=1587233177240&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup-plugin-postcss%2Fdownload%2Frollup-plugin-postcss-2.8.1.tgz#bc85aae4b2a2ad88182d795a89eb130342582913"
+  integrity sha1-vIWq5LKirYgYLXlaiesTA0JYKRM=
   dependencies:
     chalk "^4.0.0"
     concat-with-sourcemaps "^1.1.0"
@@ -12310,9 +12317,9 @@ rollup-plugin-postcss@^2.6.4:
     pify "^5.0.0"
     postcss "^7.0.27"
     postcss-load-config "^2.1.0"
-    postcss-modules "^1.5.0"
+    postcss-modules "^2.0.0"
     promise.series "^0.2.0"
-    resolve "^1.15.1"
+    resolve "^1.16.1"
     rollup-pluginutils "^2.8.2"
     safe-identifier "^0.4.1"
     style-inject "^0.3.0"
