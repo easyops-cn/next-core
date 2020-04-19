@@ -16,16 +16,11 @@ import {
   isNil,
   isEqual,
   uniq,
-  filter,
   forEach,
 } from "lodash";
 import yaml from "js-yaml";
 import moment, { DurationInputArg2 } from "moment";
-import {
-  Format,
-  formatValue,
-  convertValueByPrecision,
-} from "./unit/func/valueFormatter";
+import { formatValue } from "../unit/func/valueFormatter";
 
 export const PipeRegistry = new Map<string, Function>();
 

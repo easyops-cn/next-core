@@ -35,6 +35,7 @@ export function humanizeTimeValue(
               .map((alias) => alias.toLocaleLowerCase())
               .includes(unit))
       );
+      // istanbul ignore else
       if (timeUnitIndex !== -1) {
         baseTimeUnitGroupIndex = i;
         baseTimeUnitIndex = timeUnitIndex;

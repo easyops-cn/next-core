@@ -6,7 +6,6 @@ export const humanizeNumberValue = (
   precision?: number
 ): string => {
   let baseNumberUnitIndex = 0;
-
   if (unit) {
     const numberUnitIndex = numberFormatUnits.findIndex(
       (numberUnit) =>

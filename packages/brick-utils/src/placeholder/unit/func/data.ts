@@ -43,6 +43,7 @@ export function humanizeDataValue(
               .map((alias) => alias.toLocaleLowerCase())
               .includes(unit))
       );
+      // istanbul ignore else
       if (dataUnitIndex !== -1) {
         baseDataUnitGroupIndex = i;
         baseDataUnitIndex = dataUnitIndex;
