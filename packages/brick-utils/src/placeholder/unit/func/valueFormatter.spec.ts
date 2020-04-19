@@ -2,6 +2,7 @@ import {
   FormatType,
   convertValueByPrecision,
   formatValue,
+  Format,
 } from "./valueFormatter";
 
 describe("valueFormatter", () => {
@@ -59,11 +60,12 @@ describe("valueFormatter", () => {
       24,
       {
         unit: "hours",
+        precision: 1,
       },
       ["1.0", "day"],
     ],
   ])("time format", (value, format, res) => {
-    expect(formatValue(value, format)).toEqual(res);
+    expect(formatValue(value, format as Format)).toEqual(res);
   });
 
   it.each([
