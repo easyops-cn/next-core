@@ -10,7 +10,8 @@ export function recursiveMarkAsInjected(value: any): void {
       injected.add(value);
       if (Array.isArray(value)) {
         value.forEach(recursiveMarkAsInjected);
-      } else {
+      } else if (value.constructor === Object) {
+        // Only mark pure objects.
         Object.values(value).forEach(recursiveMarkAsInjected);
       }
     }

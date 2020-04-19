@@ -18,14 +18,7 @@ import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../injected";
 import { getAuth } from "../auth";
-
-interface DevtoolsHookContainer {
-  __BRICK_NEXT_DEVTOOLS_HOOK__?: DevtoolsHook;
-}
-
-interface DevtoolsHook {
-  emit: (message: any) => void;
-}
+import { devtoolsHookEmit } from "../devtools";
 
 export class Router {
   private defaultCollapsed = false;
@@ -159,6 +152,9 @@ export class Router {
     this.kernel.nextApp = currentApp;
 
     this.state = "initial";
+
+    devtoolsHookEmit("rendering");
+
     unmountTree(mountPoints.bg as MountableElement);
     unmountTree(mountPoints.portal as MountableElement);
 
@@ -281,7 +277,7 @@ export class Router {
         }
         this.state = "mounted";
 
-        this.devtoolsHookEmitRendered();
+        devtoolsHookEmit("rendered");
         return;
       }
     }
@@ -302,16 +298,7 @@ export class Router {
     );
 
     this.state = "mounted";
-    this.devtoolsHookEmitRendered();
-  }
-
-  /* istanbul ignore next */
-  private devtoolsHookEmitRendered(): void {
-    const devHook = (window as DevtoolsHookContainer)
-      .__BRICK_NEXT_DEVTOOLS_HOOK__;
-    devHook?.emit?.({
-      type: "rendered",
-    });
+    devtoolsHookEmit("rendered");
   }
 
   /* istanbul ignore next */
