@@ -1,5 +1,9 @@
 import { MicroApp, SeguesConf } from "@easyops/brick-types";
-import { hasOwnProperty, toPath } from "@easyops/brick-utils";
+import {
+  hasOwnProperty,
+  toPath,
+  computeRealRoutePath,
+} from "@easyops/brick-utils";
 
 export function getUrlFactory(app: MicroApp, segues: SeguesConf) {
   return function getUrl(
@@ -17,7 +21,10 @@ export function getUrlFactory(app: MicroApp, segues: SeguesConf) {
       throw new Error(`Route alias not found: ${segue.target}`);
     }
     const routeConf = app.$$routeAliasMap.get(segue.target);
-    let url = toPath(routeConf.path, pathParams);
+    let url = toPath(
+      computeRealRoutePath(routeConf.path, app) as string,
+      pathParams
+    );
     if (query) {
       const urlSearchParams = new URLSearchParams();
       for (const [key, value] of Object.entries(query as Record<string, any>)) {
