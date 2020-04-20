@@ -277,11 +277,6 @@ export class Resolver {
       resolveConf.transformFrom,
       resolveConf.transformMapArray
     );
-
-    if (context?.flags?.["storyboard-debug-mode"]) {
-      // eslint-disable-next-line no-console
-      console.log(`Transform:`, props, data);
-    }
   }
 
   scheduleRefreshing(): void {

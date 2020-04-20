@@ -34,9 +34,6 @@ export function mountTree(
 
   // Save a reference to the internal instance
   mountPoint.$$rootBricks = rootBricks;
-
-  // eslint-disable-next-line no-console
-  console.log("Brick Tree:", bricks);
 }
 
 export function mountStaticNode(
