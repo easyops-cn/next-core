@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.40.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.1...@easyops/brick-kit@1.40.2) (2020-04-20)
+
+### Bug Fixes
+
+- **debug-mode:** no longer log brick tree and transformations to console ([c68e2b1](https://git.easyops.local/anyclouds/next-core/commits/c68e2b1))
+- **segue:** compute real route path for segues ([0f92629](https://git.easyops.local/anyclouds/next-core/commits/0f92629))
+
 ## [1.40.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.0...@easyops/brick-kit@1.40.1) (2020-04-20)
 
 ### Bug Fixes
