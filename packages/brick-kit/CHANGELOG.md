@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.40.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.0...@easyops/brick-kit@1.40.1) (2020-04-20)
+
+### Bug Fixes
+
+- **devtools:** notify evaluations and transformations ([5d0de70](https://git.easyops.local/anyclouds/next-core/commits/5d0de70))
+- **devtools:** refine remembered event listeners ([93e745a](https://git.easyops.local/anyclouds/next-core/commits/93e745a))
+- **inject:** ignore to mark properties of non-pure-objects as injected ([b28181c](https://git.easyops.local/anyclouds/next-core/commits/b28181c))
+
 # [1.40.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.39.3...@easyops/brick-kit@1.40.0) (2020-04-16)
 
 ### Bug Fixes
