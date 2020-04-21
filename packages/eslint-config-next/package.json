@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "@typescript-eslint/parser": "^2.29.0",
-    "eslint-config-prettier": "^6.10.1"
+    "eslint-config-prettier": "^6.11.0"
   }
 }
