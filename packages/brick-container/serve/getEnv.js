@@ -120,6 +120,7 @@ module.exports = (cwd) => {
     : [];
 
   const rootDir = path.join(__dirname, "../../..");
+  const contextDir = cwd || rootDir;
   const useLocalSettings =
     flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
@@ -137,7 +138,7 @@ module.exports = (cwd) => {
   }
 
   function getDevConfig() {
-    const devConfigJsPath = path.join(rootDir, "dev.config.js");
+    const devConfigJsPath = path.join(contextDir, "dev.config.js");
     if (fs.existsSync(devConfigJsPath)) {
       return require(devConfigJsPath);
     }
