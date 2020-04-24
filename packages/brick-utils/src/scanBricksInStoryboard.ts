@@ -5,8 +5,10 @@ import {
   ProviderConf,
   RouteConfOfBricks,
   CustomTemplate,
+  UseSingleBrickConf,
 } from "@easyops/brick-types";
 import { uniq } from "lodash";
+import { isObject } from "./isObject";
 
 export function scanBricksInStoryboard(
   storyboard: Storyboard,
@@ -57,6 +59,28 @@ function collectBricksInBrickConf(
     brickConf.internalUsedBricks.forEach((brick) => {
       collection.push(brick);
     });
+  }
+  collectUsedBricksInProperties(brickConf.properties, collection);
+}
+
+function collectUsedBricksInProperties(value: any, collection: string[]): void {
+  if (Array.isArray(value)) {
+    value.forEach((item) => {
+      collectUsedBricksInProperties(item, collection);
+    });
+  } else if (isObject(value)) {
+    if (value.useBrick) {
+      [].concat(value.useBrick).forEach((useBrickConf: UseSingleBrickConf) => {
+        if (typeof useBrickConf?.brick === "string") {
+          collection.push(useBrickConf.brick);
+          collectUsedBricksInProperties(useBrickConf.properties, collection);
+        }
+      });
+    } else {
+      Object.values(value).forEach((item) => {
+        collectUsedBricksInProperties(item, collection);
+      });
+    }
   }
 }
 
