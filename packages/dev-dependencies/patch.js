@@ -1,4 +1,5 @@
 const path = require("path");
+const os = require("os");
 const fs = require("fs-extra");
 const semver = require("semver");
 const { chain, pull, escapeRegExp } = require("lodash");
@@ -26,6 +27,10 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "0.6.4")) {
     updateJsdom();
+  }
+
+  if (semver.lt(currentRenewVersion, "0.6.11")) {
+    addMockMicroApps();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
@@ -189,5 +194,26 @@ function updateJsdom() {
         }
       }
     });
+  }
+}
+
+function addMockMicroApps() {
+  const gitignoreFilePath = path.resolve(".gitignore");
+  const gitignoreContent = fs.readFileSync(gitignoreFilePath, "utf8");
+  const needAppendAt = new RegExp(
+    `(${escapeRegExp("/dev.config.js")})([\\r\\n]*)`
+  );
+  const needAppend = "/mock-micro-apps";
+  if (
+    needAppendAt.test(gitignoreContent) &&
+    !gitignoreContent.includes(needAppend)
+  ) {
+    fs.writeFileSync(
+      gitignoreFilePath,
+      gitignoreContent.replace(
+        needAppendAt,
+        (match, p1, p2) => `${p1}${os.EOL}${needAppend}${p2}`
+      )
+    );
   }
 }

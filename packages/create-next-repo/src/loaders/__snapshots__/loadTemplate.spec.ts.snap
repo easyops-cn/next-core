@@ -44,6 +44,7 @@ node_modules
 report.*.json
 /dev-settings.yaml
 /dev.config.js
+/mock-micro-apps
 
 /bricks/*/deploy/*
 !/bricks/*/deploy/package.conf.yaml
@@ -60,7 +61,6 @@ report.*.json
 /templates/*/.pkgbuild/
 /templates/*/version.ini
 /templates/*/*.tgz
-
 ",
   ],
   Array [

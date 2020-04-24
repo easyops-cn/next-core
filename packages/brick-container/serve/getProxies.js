@@ -20,6 +20,7 @@ module.exports = (env) => {
     useLocalSettings,
     useMergeSettings,
     server,
+    mockedMicroApps,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -37,6 +38,7 @@ module.exports = (env) => {
       localBrickPackages.length > 0 ||
       localMicroApps.length > 0 ||
       localTemplates.length > 0 ||
+      mockedMicroApps.length > 0 ||
       useLocalSettings ||
       useMergeSettings
     ) {
@@ -52,9 +54,12 @@ module.exports = (env) => {
             }
             const result = JSON.parse(raw);
             const { data } = result;
-            if (localMicroApps.length > 0) {
-              data.storyboards = localMicroApps
-                .map((id) => getSingleStoryboard(env, id))
+            if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
+              data.storyboards = mockedMicroApps
+                .map((id) => getSingleStoryboard(env, id, true))
+                .concat(
+                  localMicroApps.map((id) => getSingleStoryboard(env, id))
+                )
                 .filter(Boolean)
                 .concat(
                   data.storyboards.filter(
