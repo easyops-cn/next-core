@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.18.4...@easyops/brick-container@1.18.5) (2020-04-24)
+
+### Bug Fixes
+
+- fix local dev config not working ([0cdaabb](https://git.easyops.local/anyclouds/next-core/commits/0cdaabb))
+- support mock-micro-apps ([0bb5c22](https://git.easyops.local/anyclouds/next-core/commits/0bb5c22))
+
 ## [1.18.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.18.3...@easyops/brick-container@1.18.4) (2020-04-24)
 
 **Note:** Version bump only for package @easyops/brick-container

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.10...@easyops/create-next-repo@0.12.11) (2020-04-24)
+
+### Bug Fixes
+
+- add `mock-micro-apps` to `.gitignore` ([b2ee45e](https://git.easyops.local/anyclouds/next-core/commits/b2ee45e))
+
 ## [0.12.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.9...@easyops/create-next-repo@0.12.10) (2020-04-24)
 
 **Note:** Version bump only for package @easyops/create-next-repo
