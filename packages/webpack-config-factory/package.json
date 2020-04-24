@@ -33,7 +33,7 @@
     "postcss-preset-env": "^6.7.0",
     "prismjs": "^1.20.0",
     "raw-loader": "^4.0.1",
-    "style-loader": "^1.1.4",
+    "style-loader": "^1.2.0",
     "to-string-loader": "^1.1.6",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
