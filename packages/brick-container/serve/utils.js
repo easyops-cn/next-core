@@ -6,25 +6,26 @@ function getNavbar(env) {
   return JSON.parse(fs.readFileSync(env.navbarJsonPath, "utf8"));
 }
 
-function getStoryboardsByMicroApps(env) {
-  return getNamesOfMicroApps(env)
-    .map(name => getSingleStoryboard(env, name))
+function getStoryboardsByMicroApps(env, mocked) {
+  return getNamesOfMicroApps(env, mocked)
+    .map((name) => getSingleStoryboard(env, name, mocked))
     .filter(Boolean);
 }
 
-function getNamesOfMicroApps(env) {
-  if (!fs.existsSync(env.microAppsDir)) {
+function getNamesOfMicroApps(env, mocked) {
+  const dir = mocked ? env.mockedMicroAppsDir : env.microAppsDir;
+  if (!fs.existsSync(dir)) {
     return [];
   }
   return fs
-    .readdirSync(env.microAppsDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
-    .map(dirent => dirent.name);
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
+    .map((dirent) => dirent.name);
 }
 
-function getSingleStoryboard(env, microAppName) {
+function getSingleStoryboard(env, microAppName, mocked) {
   const storyboardJsonFile = path.join(
-    env.microAppsDir,
+    mocked ? env.mockedMicroAppsDir : env.microAppsDir,
     microAppName,
     "storyboard.json"
   );
@@ -48,7 +49,7 @@ function getSingleStoryboard(env, microAppName) {
 
 function getBrickPackages(env) {
   return getNamesOfBrickPackages(env)
-    .map(name => getSingleBrickPackage(env, name))
+    .map((name) => getSingleBrickPackage(env, name))
     .filter(Boolean);
 }
 
@@ -58,8 +59,8 @@ function getNamesOfBrickPackages(env) {
   }
   return fs
     .readdirSync(env.brickPackagesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
-    .map(dirent => dirent.name);
+    .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
+    .map((dirent) => dirent.name);
 }
 
 function getSingleBrickPackage(env, brickPackageName) {
@@ -78,7 +79,7 @@ function getSingleBrickPackage(env, brickPackageName) {
     if (bricksJson && filePath) {
       return {
         ...bricksJson,
-        filePath
+        filePath,
       };
     }
   }
@@ -86,7 +87,7 @@ function getSingleBrickPackage(env, brickPackageName) {
 
 function getTemplatePackages(env) {
   return getNamesOfTemplatePackages(env)
-    .map(name => getSingleTemplatePackage(env, name))
+    .map((name) => getSingleTemplatePackage(env, name))
     .filter(Boolean);
 }
 
@@ -96,8 +97,8 @@ function getNamesOfTemplatePackages(env) {
   }
   return fs
     .readdirSync(env.templatePackagesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory() || dirent.isSymbolicLink())
-    .map(dirent => dirent.name);
+    .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
+    .map((dirent) => dirent.name);
 }
 
 function getSingleTemplatePackage(env, templatePackageName) {
@@ -120,7 +121,7 @@ function getSingleTemplatePackage(env, templatePackageName) {
     if (templatesJson && filePath) {
       return {
         ...templatesJson,
-        filePath
+        filePath,
       };
     }
   }
@@ -146,7 +147,7 @@ function getSettings() {
   const defaultSettings = {
     featureFlags: {},
     homepage: "/",
-    brand: {}
+    brand: {},
   };
   return mergeSettings(defaultSettings, getUserSettings());
 }

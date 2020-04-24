@@ -16,6 +16,11 @@ exports.before = (app, server) => {
   // 额外监听 storyboard 文件
   server._watch(path.join(env.microAppsDir, "*/storyboard.json"));
 
+  // 额外监听 mocked storyboard 文件
+  if (env.mocked) {
+    server._watch(path.join(env.mockedMicroAppsDir, "*/storyboard.json"));
+  }
+
   serveLocal(env, app);
 };
 
