@@ -12287,10 +12287,10 @@ resolve@^1.1.6, resolve@^1.10.0, resolve@^1.11.0, resolve@^1.11.1, resolve@^1.15
   dependencies:
     path-parse "^1.0.6"
 
-resolve@^1.16.0:
-  version "1.16.1"
-  resolved "https://registry.npm.taobao.org/resolve/download/resolve-1.16.1.tgz?cache=0&sync_timestamp=1587158410035&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fresolve%2Fdownload%2Fresolve-1.16.1.tgz#49fac5d8bacf1fd53f200fa51247ae736175832c"
-  integrity sha1-SfrF2LrPH9U/IA+lEkeuc2F1gyw=
+resolve@^1.16.1:
+  version "1.17.0"
+  resolved "https://registry.npm.taobao.org/resolve/download/resolve-1.17.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fresolve%2Fdownload%2Fresolve-1.17.0.tgz#b25941b54968231cc2d1bb76a79cb7f2c0bf8444"
+  integrity sha1-sllBtUloIxzC0bt2p5y38sC/hEQ=
   dependencies:
     path-parse "^1.0.6"
 
@@ -12400,10 +12400,10 @@ rollup-plugin-node-resolve@^5.2.0:
     resolve "^1.11.1"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-postcss@^2.9.0:
-  version "2.9.0"
-  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-2.9.0.tgz?cache=0&sync_timestamp=1587482254703&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup-plugin-postcss%2Fdownload%2Frollup-plugin-postcss-2.9.0.tgz#e6ea0a1b8fdc4a49fc0385da58804e332750c282"
-  integrity sha1-5uoKG4/cSkn8A4XaWIBOMydQwoI=
+rollup-plugin-postcss@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npm.taobao.org/rollup-plugin-postcss/download/rollup-plugin-postcss-3.1.0.tgz?cache=0&sync_timestamp=1587626857747&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup-plugin-postcss%2Fdownload%2Frollup-plugin-postcss-3.1.0.tgz#ac43c2fb317bca04d2f926bc812c5a3f649e1150"
+  integrity sha1-rEPC+zF7ygTS+Sa8gSxaP2SeEVA=
   dependencies:
     chalk "^4.0.0"
     concat-with-sourcemaps "^1.1.0"
@@ -12415,7 +12415,7 @@ rollup-plugin-postcss@^2.9.0:
     postcss-load-config "^2.1.0"
     postcss-modules "^2.0.0"
     promise.series "^0.2.0"
-    resolve "^1.16.0"
+    resolve "^1.16.1"
     rollup-pluginutils "^2.8.2"
     safe-identifier "^0.4.1"
     style-inject "^0.3.0"
