@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.46.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.45.0...@easyops/brick-utils@1.46.0) (2020-04-24)
+
+### Features
+
+- **pipe:** pipeGraphTree support sort ([fdbcedc](https://git.easyops.local/anyclouds/next-core/commits/fdbcedc))
+
 # [1.45.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.44.4...@easyops/brick-utils@1.45.0) (2020-04-20)
 
 ### Features
