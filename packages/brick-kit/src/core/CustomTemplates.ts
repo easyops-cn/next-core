@@ -51,12 +51,22 @@ export function registerCustomTemplate(
     ...tplConstructor,
     name: tagName,
   });
+
+  // Collect defined properties of the template.
+  const props = Object.keys(tplConstructor.proxy?.properties || {});
+
   customElements.define(
     tagName,
     class TplElement extends HTMLElement {
       get $$typeof(): string {
         return "custom-template";
       }
+
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      static get _dev_only_definedProperties(): string[] {
+        return props;
+      }
+
       connectedCallback(): void {
         // Don't override user's style settings.
         // istanbul ignore else

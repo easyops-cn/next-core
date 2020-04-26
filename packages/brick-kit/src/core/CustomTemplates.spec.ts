@@ -88,6 +88,16 @@ describe("expandCustomTemplate", () => {
     });
   });
 
+  it("should define a custom element", () => {
+    const tpl = customElements.get("steve-test.custom-template");
+    expect((tpl as any)._dev_only_definedProperties).toEqual([
+      "button",
+      "noGap",
+      "isDanger",
+    ]);
+    expect(tpl.prototype.$$typeof).toBe("custom-template");
+  });
+
   it("should work for getTagNameOfCustomTemplate", () => {
     expect(getTagNameOfCustomTemplate("steve-test.custom-template")).toBe(
       "steve-test.custom-template"
