@@ -10,7 +10,9 @@ const spyOnDispatchEvent = jest.fn();
     spyOnDispatchEvent(...args);
   }
 };
-const consoleWarn = jest.spyOn(console, "warn");
+const consoleWarn = jest
+  .spyOn(console, "warn")
+  .mockImplementation(() => void 0);
 
 describe("createProviderClass", () => {
   const spy = jest.fn();
@@ -29,6 +31,7 @@ describe("createProviderClass", () => {
 
   it("should be a provider", () => {
     expect(provider.$$typeof).toBe("provider");
+    expect((Provider as any)._dev_only_definedProperties).toEqual(["args"]);
   });
 
   it("should update args", async () => {
