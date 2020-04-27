@@ -800,7 +800,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.8.3"
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/preset-env@^7.7.6", "@babel/preset-env@^7.9.0", "@babel/preset-env@^7.9.5":
+"@babel/preset-env@^7.7.6", "@babel/preset-env@^7.9.5":
   version "7.9.5"
   resolved "https://registry.npm.taobao.org/@babel/preset-env/download/@babel/preset-env-7.9.5.tgz#8ddc76039bc45b774b19e2fc548f6807d8a8919f"
   integrity sha1-jdx2A5vEW3dLGeL8VI9oB9iokZ8=
@@ -2070,10 +2070,20 @@
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-add-jsx-attribute/download/@svgr/babel-plugin-add-jsx-attribute-5.0.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-add-jsx-attribute%2Fdownload%2F%40svgr%2Fbabel-plugin-add-jsx-attribute-5.0.1.tgz#744853b6533e83ce712d41d1873200b3e0a0b6fc"
   integrity sha1-dEhTtlM+g85xLUHRhzIAs+Cgtvw=
 
+"@svgr/babel-plugin-add-jsx-attribute@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-add-jsx-attribute/download/@svgr/babel-plugin-add-jsx-attribute-5.4.0.tgz?cache=0&sync_timestamp=1588020027332&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-add-jsx-attribute%2Fdownload%2F%40svgr%2Fbabel-plugin-add-jsx-attribute-5.4.0.tgz#81ef61947bb268eb9d50523446f9c638fb355906"
+  integrity sha1-ge9hlHuyaOudUFI0RvnGOPs1WQY=
+
 "@svgr/babel-plugin-remove-jsx-attribute@^5.0.1":
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-remove-jsx-attribute/download/@svgr/babel-plugin-remove-jsx-attribute-5.0.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-remove-jsx-attribute%2Fdownload%2F%40svgr%2Fbabel-plugin-remove-jsx-attribute-5.0.1.tgz#5df0ccf99e4745e105f76059025986d4da8443cd"
   integrity sha1-XfDM+Z5HReEF92BZAlmG1NqEQ80=
+
+"@svgr/babel-plugin-remove-jsx-attribute@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-remove-jsx-attribute/download/@svgr/babel-plugin-remove-jsx-attribute-5.4.0.tgz?cache=0&sync_timestamp=1588020026926&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-remove-jsx-attribute%2Fdownload%2F%40svgr%2Fbabel-plugin-remove-jsx-attribute-5.4.0.tgz#6b2c770c95c874654fd5e1d5ef475b78a0a962ef"
+  integrity sha1-ayx3DJXIdGVP1eHV70dbeKCpYu8=
 
 "@svgr/babel-plugin-remove-jsx-empty-expression@^5.0.1":
   version "5.0.1"
@@ -2090,20 +2100,40 @@
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-svg-dynamic-title/download/@svgr/babel-plugin-svg-dynamic-title-5.0.1.tgz#221abd28898130c6466b018bf19e905648100c38"
   integrity sha1-Ihq9KImBMMZGawGL8Z6QVkgQDDg=
 
+"@svgr/babel-plugin-svg-dynamic-title@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-svg-dynamic-title/download/@svgr/babel-plugin-svg-dynamic-title-5.4.0.tgz?cache=0&sync_timestamp=1588020028325&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-svg-dynamic-title%2Fdownload%2F%40svgr%2Fbabel-plugin-svg-dynamic-title-5.4.0.tgz#139b546dd0c3186b6e5db4fefc26cb0baea729d7"
+  integrity sha1-E5tUbdDDGGtuXbT+/CbLC66nKdc=
+
 "@svgr/babel-plugin-svg-em-dimensions@^5.0.1":
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-svg-em-dimensions/download/@svgr/babel-plugin-svg-em-dimensions-5.0.1.tgz?cache=0&sync_timestamp=1577615101322&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-svg-em-dimensions%2Fdownload%2F%40svgr%2Fbabel-plugin-svg-em-dimensions-5.0.1.tgz#bd77607634deb1d970dbd8c0b1397b41e28c59dd"
   integrity sha1-vXdgdjTesdlw29jAsTl7QeKMWd0=
+
+"@svgr/babel-plugin-svg-em-dimensions@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-svg-em-dimensions/download/@svgr/babel-plugin-svg-em-dimensions-5.4.0.tgz?cache=0&sync_timestamp=1588020010869&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-svg-em-dimensions%2Fdownload%2F%40svgr%2Fbabel-plugin-svg-em-dimensions-5.4.0.tgz#6543f69526632a133ce5cabab965deeaea2234a0"
+  integrity sha1-ZUP2lSZjKhM85cq6uWXe6uoiNKA=
 
 "@svgr/babel-plugin-transform-react-native-svg@^5.0.1":
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-react-native-svg/download/@svgr/babel-plugin-transform-react-native-svg-5.0.1.tgz#8c593dcfe17179f5a87734a76c9174aac91d2a2b"
   integrity sha1-jFk9z+FxefWodzSnbJF0qskdKis=
 
+"@svgr/babel-plugin-transform-react-native-svg@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-react-native-svg/download/@svgr/babel-plugin-transform-react-native-svg-5.4.0.tgz?cache=0&sync_timestamp=1588020027766&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-transform-react-native-svg%2Fdownload%2F%40svgr%2Fbabel-plugin-transform-react-native-svg-5.4.0.tgz#00bf9a7a73f1cad3948cdab1f8dfb774750f8c80"
+  integrity sha1-AL+aenPxytOUjNqx+N+3dHUPjIA=
+
 "@svgr/babel-plugin-transform-svg-component@^5.3.1":
   version "5.3.1"
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-svg-component/download/@svgr/babel-plugin-transform-svg-component-5.3.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-transform-svg-component%2Fdownload%2F%40svgr%2Fbabel-plugin-transform-svg-component-5.3.1.tgz#1c512bc3d1b595cc7c5edcb3ac992f655d2dd6bc"
   integrity sha1-HFErw9G1lcx8XtyzrJkvZV0t1rw=
+
+"@svgr/babel-plugin-transform-svg-component@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-transform-svg-component/download/@svgr/babel-plugin-transform-svg-component-5.4.0.tgz?cache=0&sync_timestamp=1588020010921&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fbabel-plugin-transform-svg-component%2Fdownload%2F%40svgr%2Fbabel-plugin-transform-svg-component-5.4.0.tgz#a2212b4d018e6075a058bb7e220a66959ef7a03c"
+  integrity sha1-oiErTQGOYHWgWLt+IgpmlZ73oDw=
 
 "@svgr/babel-preset@^5.3.1":
   version "5.3.1"
@@ -2119,6 +2149,20 @@
     "@svgr/babel-plugin-transform-react-native-svg" "^5.0.1"
     "@svgr/babel-plugin-transform-svg-component" "^5.3.1"
 
+"@svgr/babel-preset@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/babel-preset/download/@svgr/babel-preset-5.4.0.tgz#da21854643e1c4ad2279239baa7d5a8b128c1f15"
+  integrity sha1-2iGFRkPhxK0ieSObqn1aixKMHxU=
+  dependencies:
+    "@svgr/babel-plugin-add-jsx-attribute" "^5.4.0"
+    "@svgr/babel-plugin-remove-jsx-attribute" "^5.4.0"
+    "@svgr/babel-plugin-remove-jsx-empty-expression" "^5.0.1"
+    "@svgr/babel-plugin-replace-jsx-attribute-value" "^5.0.1"
+    "@svgr/babel-plugin-svg-dynamic-title" "^5.4.0"
+    "@svgr/babel-plugin-svg-em-dimensions" "^5.4.0"
+    "@svgr/babel-plugin-transform-react-native-svg" "^5.4.0"
+    "@svgr/babel-plugin-transform-svg-component" "^5.4.0"
+
 "@svgr/core@^5.3.1":
   version "5.3.1"
   resolved "https://registry.npm.taobao.org/@svgr/core/download/@svgr/core-5.3.1.tgz?cache=0&sync_timestamp=1586075908060&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fcore%2Fdownload%2F%40svgr%2Fcore-5.3.1.tgz#32c2d5146beeb0ca0fadb0549108d0b2512a7b8e"
@@ -2128,12 +2172,28 @@
     camelcase "^5.3.1"
     cosmiconfig "^6.0.0"
 
+"@svgr/core@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/core/download/@svgr/core-5.4.0.tgz#655378ee43679eb94fee3d4e1976e38252dff8e7"
+  integrity sha1-ZVN47kNnnrlP7j1OGXbjglLf+Oc=
+  dependencies:
+    "@svgr/plugin-jsx" "^5.4.0"
+    camelcase "^6.0.0"
+    cosmiconfig "^6.0.0"
+
 "@svgr/hast-util-to-babel-ast@^5.0.1":
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/@svgr/hast-util-to-babel-ast/download/@svgr/hast-util-to-babel-ast-5.0.1.tgz#0dce60a955465f0bd86bcd9c523b21472d6531d3"
   integrity sha1-Dc5gqVVGXwvYa82cUjshRy1lMdM=
   dependencies:
     "@babel/types" "^7.4.4"
+
+"@svgr/hast-util-to-babel-ast@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/hast-util-to-babel-ast/download/@svgr/hast-util-to-babel-ast-5.4.0.tgz?cache=0&sync_timestamp=1588020010886&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fhast-util-to-babel-ast%2Fdownload%2F%40svgr%2Fhast-util-to-babel-ast-5.4.0.tgz#bb5d002e428f510aa5b53ec0a02377a95b367715"
+  integrity sha1-u10ALkKPUQqltT7AoCN3qVs2dxU=
+  dependencies:
+    "@babel/types" "^7.9.5"
 
 "@svgr/plugin-jsx@^5.3.1":
   version "5.3.1"
@@ -2145,10 +2205,29 @@
     "@svgr/hast-util-to-babel-ast" "^5.0.1"
     svg-parser "^2.0.2"
 
+"@svgr/plugin-jsx@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/plugin-jsx/download/@svgr/plugin-jsx-5.4.0.tgz#ab47504c55615833c6db70fca2d7e489f509787c"
+  integrity sha1-q0dQTFVhWDPG23D8otfkifUJeHw=
+  dependencies:
+    "@babel/core" "^7.7.5"
+    "@svgr/babel-preset" "^5.4.0"
+    "@svgr/hast-util-to-babel-ast" "^5.4.0"
+    svg-parser "^2.0.2"
+
 "@svgr/plugin-svgo@^5.3.0":
   version "5.3.0"
   resolved "https://registry.npm.taobao.org/@svgr/plugin-svgo/download/@svgr/plugin-svgo-5.3.0.tgz#a33d45ecd64cb2c1adaab9196faddc10022552a7"
   integrity sha1-oz1F7NZMssGtqrkZb63cEAIlUqc=
+  dependencies:
+    cosmiconfig "^6.0.0"
+    merge-deep "^3.0.2"
+    svgo "^1.2.2"
+
+"@svgr/plugin-svgo@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/plugin-svgo/download/@svgr/plugin-svgo-5.4.0.tgz?cache=0&sync_timestamp=1588020010906&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fplugin-svgo%2Fdownload%2F%40svgr%2Fplugin-svgo-5.4.0.tgz#45d9800b7099a6f7b4d85ebac89ab9abe8592f64"
+  integrity sha1-RdmAC3CZpve02F66yJq5q+hZL2Q=
   dependencies:
     cosmiconfig "^6.0.0"
     merge-deep "^3.0.2"
@@ -2168,18 +2247,18 @@
     "@svgr/plugin-svgo" "^5.3.0"
     rollup-pluginutils "^2.8.2"
 
-"@svgr/webpack@^5.3.1":
-  version "5.3.1"
-  resolved "https://registry.npm.taobao.org/@svgr/webpack/download/@svgr/webpack-5.3.1.tgz#6d185a5407c213b7111c3854a485254de0b1697c"
-  integrity sha1-bRhaVAfCE7cRHDhUpIUlTeCxaXw=
+"@svgr/webpack@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/webpack/download/@svgr/webpack-5.4.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fwebpack%2Fdownload%2F%40svgr%2Fwebpack-5.4.0.tgz#b68bc86e29cf007292b96ced65f80971175632e0"
+  integrity sha1-tovIbinPAHKSuWztZfgJcRdWMuA=
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/plugin-transform-react-constant-elements" "^7.9.0"
-    "@babel/preset-env" "^7.9.0"
+    "@babel/preset-env" "^7.9.5"
     "@babel/preset-react" "^7.9.4"
-    "@svgr/core" "^5.3.1"
-    "@svgr/plugin-jsx" "^5.3.1"
-    "@svgr/plugin-svgo" "^5.3.0"
+    "@svgr/core" "^5.4.0"
+    "@svgr/plugin-jsx" "^5.4.0"
+    "@svgr/plugin-svgo" "^5.4.0"
     loader-utils "^2.0.0"
 
 "@testing-library/dom@^7.1.0":
@@ -4047,6 +4126,11 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   version "5.3.1"
   resolved "http://registry.npm.taobao.org/camelcase/download/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha1-48mzFWnhBoEd8kL3FXJaH0xJQyA=
+
+camelcase@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npm.taobao.org/camelcase/download/camelcase-6.0.0.tgz#5259f7c30e35e278f1bdc2a4d91230b37cad981e"
+  integrity sha1-Uln3ww414njxvcKk2RIws3ytmB4=
 
 caniuse-api@^3.0.0:
   version "3.0.0"
