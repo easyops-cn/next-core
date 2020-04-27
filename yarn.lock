@@ -13858,10 +13858,10 @@ typedoc-default-themes@^0.10.1:
   dependencies:
     lunr "^2.3.8"
 
-typedoc@^0.17.5:
-  version "0.17.5"
-  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.17.5.tgz#5af90933347d06826fa080684a12e93e802b6abd"
-  integrity sha1-WvkJMzR9BoJvoIBoShLpPoArar0=
+typedoc@^0.17.6:
+  version "0.17.6"
+  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.17.6.tgz#cab87a72c10e05429016d659a4c3071a5a3ffb61"
+  integrity sha1-yrh6csEOBUKQFtZZpMMHGlo/+2E=
   dependencies:
     fs-extra "^8.1.0"
     handlebars "^4.7.6"
