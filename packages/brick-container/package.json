@@ -47,7 +47,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "^3.6.5",
     "css-loader": "^3.5.3",
-    "html-webpack-plugin": "^4.2.0",
+    "html-webpack-plugin": "^4.2.1",
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^4.1.1",
     "less": "^3.11.1",
