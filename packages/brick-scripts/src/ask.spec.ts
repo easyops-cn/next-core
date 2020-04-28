@@ -6,6 +6,16 @@ import { askBrickName } from "./questions/askBrickName";
 import { askTemplateName } from "./questions/askTemplateName";
 import { ask } from "./ask";
 
+jest.mock("./getEasyopsConfig", () => (
+  {
+    isEasyopsConfigExists: true,
+    easyopsConfig: {
+      getSdkFromNextSdkRepo: false
+    }
+  }
+))
+
+
 jest.mock("inquirer");
 jest.mock("./questions/askTargetType");
 jest.mock("./questions/askPackageName");

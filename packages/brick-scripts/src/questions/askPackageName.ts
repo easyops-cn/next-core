@@ -4,6 +4,7 @@ import inquirer from "inquirer";
 import { TargetType } from "../interface";
 import { targetMap } from "../constant";
 import { loadHistory } from "../loaders/loadHistory";
+import { isEasyopsConfigExists, easyopsConfig } from "../getEasyopsConfig"
 
 export function askPackageName({
   targetType,
@@ -56,8 +57,7 @@ export function askPackageName({
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
     // 读取所有的 `@sdk/*` 作为候选列表。
-    const easyopsConfig = fs.existsSync(path.join(process.cwd(), ".easyops-yo.json")) && fs.readJsonSync(path.join(process.cwd(), ".easyops-yo.json"))
-    const root = path.join(appRoot, easyopsConfig.getSdkFromNextSdkRepo? "../next-sdk/sdk": 'sdk');
+    const root = path.join(appRoot, (isEasyopsConfigExists && easyopsConfig.getSdkFromNextSdkRepo === false)? "sdk":"../next-sdk/sdk");
     const sdkList = fs
       .readdirSync(root, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory())

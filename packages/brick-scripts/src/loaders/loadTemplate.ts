@@ -5,11 +5,10 @@ import klawSync from "klaw-sync";
 import * as changeCase from "change-case";
 import rp from "request-promise-native";
 import { FileWithContent, TargetType } from "../interface";
+import { isEasyopsConfigExists, easyopsConfig } from "../getEasyopsConfig"
 
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
-const isEasyopsConfigExists = fs.existsSync(path.join(process.cwd(), ".easyops-yo.json"))
-const easyopsConfig = isEasyopsConfigExists && fs.readJsonSync(path.join(process.cwd(), ".easyops-yo.json"))
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
@@ -188,7 +187,7 @@ export async function loadTemplate({
       translations["$sdk.version$"] = sdkVersion;
     }
 
-    if (fs.existsSync(path.join(process.cwd(), ".easyops-yo.json"))) {
+    if (isEasyopsConfigExists) {
       if (easyopsConfig.getSdkFromNextSdkRepo) {
         await getVersion()
       }
@@ -258,7 +257,7 @@ export async function loadTemplate({
     targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES
   ) {
     const templateDirOfFileName =
-      targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS && isEasyopsConfigExists ? (!easyopsConfig.getSdkFromNextSdkRepo ? 'providers-internal-pkg' : targetMap[targetType]) : targetMap[targetType]
+      targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS && isEasyopsConfigExists ? (easyopsConfig.getSdkFromNextSdkRepo ===false ? 'providers-internal-pkg' : targetMap[targetType]) : targetMap[targetType]
     files.push([
       path.join(targetRoot, "package.json"),
       replaceDepsVersion(

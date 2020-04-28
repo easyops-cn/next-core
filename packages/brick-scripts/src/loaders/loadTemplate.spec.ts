@@ -2,7 +2,18 @@ import path from "path";
 import { loadTemplate } from "./loadTemplate";
 import { FileWithContent, TargetType } from "../interface";
 
+jest.mock("../getEasyopsConfig",()=>(
+  {
+    isEasyopsConfigExists: true,
+    easyopsConfig: {
+      getSdkFromNextSdkRepo: false
+    }
+  }
+))
+
+
 jest.mock("request-promise-native");
+
 
 function ignoreVersionRelatedFiles(
   files: FileWithContent[]

@@ -1,6 +1,14 @@
 import fs from "fs";
 import { askPackageName } from "./askPackageName";
 import { TargetType } from "../interface";
+jest.mock("../getEasyopsConfig", () => (
+  {
+    isEasyopsConfigExists: true,
+    easyopsConfig: {
+      getSdkFromNextSdkRepo: false
+    }
+  }
+))
 
 jest.mock("fs");
 
