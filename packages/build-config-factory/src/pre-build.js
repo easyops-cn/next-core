@@ -29,7 +29,6 @@ const generateProviderElements = () => {
     import { ${Array.from(groupSet).join(",")} } from "${!easyopsConfig.getSdkFromNextSdkRepo ? '../../../'+providersJson.sdk:providersJson.sdk}";
 
     ${defines.join(os.EOL)}`;
-    path.join(__dirname)
 
   const indexTsPath = path.join(process.cwd(), "src/index.ts");
   fs.outputFileSync(

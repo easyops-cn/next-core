@@ -8,10 +8,6 @@
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
   "files": ["dist", "deploy"],
-  "repository": {
-    "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-sdk.git"
-  },
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
