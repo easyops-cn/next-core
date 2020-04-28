@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import { BrickConf } from "@easyops/brick-types";
+import { BrickConf, RuntimeBrickElement } from "@easyops/brick-types";
 import * as listenerUtils from "./bindListeners";
 import { BrickAsComponent } from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
@@ -13,8 +13,18 @@ const _internalApiGetRouterState = jest
   .spyOn(runtime, "_internalApiGetRouterState")
   .mockReturnValue("mounted");
 jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
-  resolve: spyOnResolve
+  resolve: spyOnResolve,
 } as any);
+
+// Mock a custom element of `custom-existed`.
+customElements.define(
+  "custom-existed",
+  class Tmp extends HTMLElement {
+    get $$typeof(): string {
+      return "brick";
+    }
+  }
+);
 
 describe("BrickAsComponent", () => {
   afterEach(() => {
@@ -31,12 +41,12 @@ describe("BrickAsComponent", () => {
           events: {
             "button.click": {
               action: "console.log",
-              args: ["@{tips}"]
-            }
-          }
+              args: ["@{tips}"],
+            },
+          },
         }}
         data={{
-          tips: "good"
+          tips: "good",
         }}
       />
     );
@@ -47,9 +57,10 @@ describe("BrickAsComponent", () => {
     expect(bindListeners.mock.calls[0][1]).toEqual({
       "button.click": {
         action: "console.log",
-        args: ["good"]
-      }
+        args: ["good"],
+      },
     });
+    expect((div as RuntimeBrickElement).$$typeof).toBe("native");
   });
 
   it("should work for multiple bricks", async () => {
@@ -57,27 +68,33 @@ describe("BrickAsComponent", () => {
       <BrickAsComponent
         useBrick={[
           {
-            brick: "div",
+            brick: "custom-existed",
             transform: "title",
-            transformFrom: "tips"
+            transformFrom: "tips",
           },
           {
-            brick: "span",
+            brick: "custom-not-existed",
             transform: "title",
-            transformFrom: "tips"
-          }
+            transformFrom: "tips",
+          },
         ]}
         data={{
-          tips: "better"
+          tips: "better",
         }}
       />
     );
 
     await (global as any).flushPromises();
-    const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
-    expect(div.title).toBe("better");
-    const span = wrapper.find("span").getDOMNode() as HTMLDivElement;
-    expect(span.title).toBe("better");
+    const existed = wrapper
+      .find("custom-existed")
+      .getDOMNode() as HTMLDivElement;
+    expect(existed.title).toBe("better");
+    expect((existed as RuntimeBrickElement).$$typeof).toBe("brick");
+    const notExisted = wrapper
+      .find("custom-not-existed")
+      .getDOMNode() as HTMLDivElement;
+    expect(notExisted.title).toBe("better");
+    expect((notExisted as RuntimeBrickElement).$$typeof).toBe("invalid");
   });
 
   it("should work for `if`", async () => {
@@ -88,19 +105,19 @@ describe("BrickAsComponent", () => {
             brick: "div",
             if: "@{disabled}",
             transform: "title",
-            transformFrom: "tips"
+            transformFrom: "tips",
           },
           {
             brick: "span",
             if: "@{enabled}",
             transform: "title",
-            transformFrom: "tips"
-          }
+            transformFrom: "tips",
+          },
         ]}
         data={{
           tips: "better",
           enabled: true,
-          disabled: false
+          disabled: false,
         }}
       />
     );
@@ -119,21 +136,21 @@ describe("BrickAsComponent", () => {
           properties: {
             id: "hello",
             style: {
-              color: "red"
-            }
+              color: "red",
+            },
           },
           transform: "title",
           transformFrom: "tips",
           lifeCycle: {
             useResolves: [
               {
-                ref: "my-provider"
-              }
-            ]
-          }
+                ref: "my-provider",
+              },
+            ],
+          },
         }}
         data={{
-          tips: "good"
+          tips: "good",
         }}
       />
     );
@@ -143,19 +160,19 @@ describe("BrickAsComponent", () => {
       lifeCycle: {
         useResolves: [
           {
-            ref: "my-provider"
-          }
-        ]
-      }
+            ref: "my-provider",
+          },
+        ],
+      },
     });
     expect(spyOnResolve.mock.calls[0][1]).toMatchObject({
       type: "div",
       properties: {
         id: "hello",
         style: {
-          color: "red"
-        }
-      }
+          color: "red",
+        },
+      },
     });
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.id).toBe("hello");
@@ -166,8 +183,8 @@ describe("BrickAsComponent", () => {
     _internalApiGetRouterState.mockReturnValueOnce("initial");
     wrapper.setProps({
       data: {
-        tips: "good"
-      }
+        tips: "good",
+      },
     });
     await (global as any).flushPromises();
     expect(spyOnResolve).toBeCalledTimes(1);
