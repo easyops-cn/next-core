@@ -1,5 +1,6 @@
 const path = require("path");
 const TypeDoc = require("typedoc");
+const fs = require("fs-extra")
 
 module.exports = function generateProviderDocs(packageName) {
   const app = new TypeDoc.Application();
@@ -20,10 +21,12 @@ module.exports = function generateProviderDocs(packageName) {
     includeDeclarations: true
   });
 
+  const easyopsConfig = fs.existsSync(path.join(process.cwd(), ".easyops-yo.json")) && fs.readJsonSync(path.join(process.cwd(), ".easyops-yo.json"))
+  const providerPath = easyopsConfig.getSdkFromNextSdkRepo ? '' : path.join(process.cwd(), `../../${providersJson.sdk}/dist/types/index.d.ts`)
   const project = app.convert(
     app.expandInputFiles([
       path.dirname(
-        require.resolve(`${providersJson.sdk}/dist/types/index.d.ts`, {
+        require.resolve(providerPath||`${providersJson.sdk}/dist/types/index.d.ts`, {
           paths: [process.cwd()]
         })
       )

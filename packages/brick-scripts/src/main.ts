@@ -55,12 +55,13 @@ export async function create(flags: AskFlags): Promise<void> {
     // Providers 库可以覆盖生成。
     // 如果 `providers.json` 不存在时才新建，已存在时不覆盖。
     const providersJsonPath = path.join(targetRoot, "providers.json");
+    const easyopsConfig = fs.existsSync(path.join(process.cwd(), ".easyops-yo.json")) && fs.readJsonSync(path.join(process.cwd(), ".easyops-yo.json"))
     if (!fs.existsSync(providersJsonPath)) {
       files.push([
         providersJsonPath,
         JSON.stringify(
           {
-            sdk: `@sdk/${packageName.replace(/^providers-of-/, "")}-sdk`,
+            sdk: easyopsConfig.getSdkFromNextSdkRepo ? `@sdk/${packageName.replace(/^providers-of-/, "")}-sdk` : `sdk/${packageName.replace(/^providers-of-/, "")}-sdk`,
             providers: []
           },
           null,

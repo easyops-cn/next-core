@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "fs-extra";
 import os from "os";
 import path from "path";
 import klawSync from "klaw-sync";
@@ -8,6 +8,7 @@ import { FileWithContent, TargetType } from "../interface";
 
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
+const easyopsConfig = fs.existsSync(path.join(process.cwd(), ".easyops-yo.json")) && fs.readJsonSync(path.join(process.cwd(), ".easyops-yo.json"))
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
@@ -172,17 +173,21 @@ export async function loadTemplate({
     });
 
     let sdkVersion;
-    try {
-      const sdkPackage = await rp({
-        url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
-        json: true,
-        strictSSL: false
-      });
-      sdkVersion = `^${sdkPackage["dist-tags"].latest}`;
-    } catch {
-      sdkVersion = "FETCH LATEST VERSION ERROR";
+
+
+    if (easyopsConfig.getSdkFromNextSdkRepo) {
+      try {
+        const sdkPackage = await rp({
+          url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
+          json: true,
+          strictSSL: false
+        });
+        sdkVersion = `^${sdkPackage["dist-tags"].latest}`;
+      } catch {
+        sdkVersion = "FETCH LATEST VERSION ERROR";
+      }
+      translations["$sdk.version$"] = sdkVersion;
     }
-    translations["$sdk.version$"] = sdkVersion;
   }
 
   const files: FileWithContent[] = templateGroups.reduce(
@@ -245,6 +250,7 @@ export async function loadTemplate({
     targetType !== TargetType.TRANSFORM_A_MICRO_APP &&
     targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES
   ) {
+    const templateDirOfFileName = (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS && !easyopsConfig.getSdkFromNextSdkRepo) ? 'providers-internal-pkg' : targetMap[targetType];
     files.push([
       path.join(targetRoot, "package.json"),
       replaceDepsVersion(

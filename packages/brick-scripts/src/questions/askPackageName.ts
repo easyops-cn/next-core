@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "fs-extra";
 import path from "path";
 import inquirer from "inquirer";
 import { TargetType } from "../interface";
@@ -56,7 +56,8 @@ export function askPackageName({
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
     // 读取所有的 `@sdk/*` 作为候选列表。
-    const root = path.join(appRoot, "../next-sdk/sdk");
+    const easyopsConfig = fs.existsSync(path.join(process.cwd(), ".easyops-yo.json")) && fs.readJsonSync(path.join(process.cwd(), ".easyops-yo.json"))
+    const root = path.join(appRoot, easyopsConfig.getSdkFromNextSdkRepo? "../next-sdk/sdk": 'sdk');
     const sdkList = fs
       .readdirSync(root, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory())
