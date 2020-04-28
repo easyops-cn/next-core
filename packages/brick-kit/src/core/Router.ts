@@ -156,7 +156,6 @@ export class Router {
     devtoolsHookEmit("rendering");
 
     unmountTree(mountPoints.bg as MountableElement);
-    unmountTree(mountPoints.portal as MountableElement);
 
     if (storyboard) {
       const mountRoutesResult: MountRoutesResult = {
@@ -165,6 +164,7 @@ export class Router {
         menuBar: {
           app: this.kernel.nextApp,
         },
+        portal: [],
         appBar: {
           app: this.kernel.nextApp,
           breadcrumb: [],
@@ -204,9 +204,17 @@ export class Router {
             events: {},
           },
         ];
+        mountRoutesResult.portal = [];
       }
 
-      const { main, menuInBg, menuBar, appBar, flags } = mountRoutesResult;
+      const {
+        main,
+        menuInBg,
+        menuBar,
+        appBar,
+        flags,
+        portal,
+      } = mountRoutesResult;
 
       const { redirect, barsHidden, hybrid, failed } = flags;
 
@@ -226,6 +234,7 @@ export class Router {
 
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
+      unmountTree(mountPoints.portal as MountableElement);
 
       const actualLegacy =
         (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
@@ -268,8 +277,11 @@ export class Router {
         appendBrick(brick, mountPoints.portal as MountableElement);
       });
 
-      if (main.length > 0) {
-        mountTree(main, mountPoints.main as MountableElement);
+      if (main.length > 0 || portal.length > 0) {
+        main.length > 0 &&
+          mountTree(main, mountPoints.main as MountableElement);
+        portal.length > 0 &&
+          mountTree(portal, mountPoints.portal as MountableElement);
         if (!failed) {
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
@@ -296,6 +308,7 @@ export class Router {
       ],
       mountPoints.main as MountableElement
     );
+    unmountTree(mountPoints.portal as MountableElement);
 
     this.state = "mounted";
     devtoolsHookEmit("rendered");

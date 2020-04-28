@@ -30,7 +30,7 @@ describe("LocationContext", () => {
     mountPoints: {
       main: {},
       bg: document.createElement("div"),
-      portal: document.createElement("div"),
+      portal: {},
     },
     bootstrapData: {
       storyboards: [],
@@ -65,6 +65,7 @@ describe("LocationContext", () => {
   const getInitialMountResult = (): MountRoutesResult => ({
     main: [],
     menuInBg: [],
+    portal: [],
     menuBar: {
       app: kernel.nextApp,
     },
@@ -351,12 +352,24 @@ describe("LocationContext", () => {
                                 properties: {
                                   args: ["a"],
                                 },
-                              },
-                              {
-                                brick: "modal-b",
-                                portal: true,
-                                properties: {
-                                  args: ["b"],
+                                slots: {
+                                  content: {
+                                    type: "bricks",
+                                    bricks: [
+                                      {
+                                        brick: "h3",
+                                        properties: {
+                                          textContent: "modal content",
+                                        },
+                                      },
+                                      {
+                                        brick: "h2",
+                                        properties: {
+                                          textContent: "modal content",
+                                        },
+                                      },
+                                    ],
+                                  },
                                 },
                               },
                             ],
@@ -422,11 +435,32 @@ describe("LocationContext", () => {
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
       expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
 
-      expect(kernel.mountPoints.portal.children.length).toBe(2);
-      expect(kernel.mountPoints.portal.children[0].tagName).toBe("MODAL-A");
-      expect(kernel.mountPoints.portal.children[1].tagName).toBe("MODAL-B");
-      expect((kernel.mountPoints.portal.children[1] as any).args).toEqual([
-        "b",
+      expect(result.portal).toMatchObject([
+        {
+          type: "modal-a",
+          properties: {
+            args: ["a"],
+          },
+          children: [
+            {
+              type: "h3",
+              properties: {
+                textContent: "modal content",
+              },
+              children: [],
+              slotId: "content",
+            },
+            {
+              type: "h2",
+              properties: {
+                textContent: "modal content",
+              },
+              children: [],
+              slotId: "content",
+            },
+          ],
+          slotId: "extendG",
+        },
       ]);
 
       const consoleLog = jest.spyOn(console, "log");
