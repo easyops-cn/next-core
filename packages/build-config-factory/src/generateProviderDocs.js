@@ -1,6 +1,5 @@
 const path = require("path");
 const TypeDoc = require("typedoc");
-const getEasyopsConfig = require("../getEasyopsConfig")
 
 module.exports = function generateProviderDocs(packageName) {
   const app = new TypeDoc.Application();
@@ -21,12 +20,10 @@ module.exports = function generateProviderDocs(packageName) {
     includeDeclarations: true
   });
 
-  const easyopsConfig = getEasyopsConfig.easyopsConfig
-  const providerPath = (getEasyopsConfig.isEasyopsConfigExists && easyopsConfig === false) ? path.join(process.cwd(), `../../${providersJson.sdk}/dist/types/index.d.ts`): ''
   const project = app.convert(
     app.expandInputFiles([
       path.dirname(
-        require.resolve(providerPath||`${providersJson.sdk}/dist/types/index.d.ts`, {
+        require.resolve(`${providersJson.sdk}/dist/types/index.d.ts`, {
           paths: [process.cwd()]
         })
       )

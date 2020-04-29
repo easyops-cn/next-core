@@ -1,15 +1,16 @@
 import path from "path";
 import { loadTemplate } from "./loadTemplate";
 import { FileWithContent, TargetType } from "../interface";
+import {getEasyopsConfig} from "../getEasyopsConfig"
 
-jest.mock("../getEasyopsConfig",()=>(
+jest.mock("../getEasyopsConfig");
+(getEasyopsConfig as jest.Mock).mockReturnValue(
   {
-    isEasyopsConfigExists: true,
-    easyopsConfig: {
-      getSdkFromNextSdkRepo: false
-    }
+    "contractYamlDir": "easyops",
+    "contractUrl": "https://github.com/easyops-cn/contract-center.git",
+    "useLocalSdk": true
   }
-))
+)
 
 
 jest.mock("request-promise-native");

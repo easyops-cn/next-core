@@ -3,7 +3,6 @@ const os = require("os");
 const fs = require("fs-extra");
 const changeCase = require("change-case");
 const prettier = require("prettier");
-const getEasyopsConfig = require("../getEasyopsConfig")
 
 const generateProviderElements = () => {
   const providersJson = require(path.join(process.cwd(), "providers.json"));
@@ -25,8 +24,7 @@ const generateProviderElements = () => {
       );`
     );
   }
-  const easyopsConfig = getEasyopsConfig.easyopsConfig
-  const importPath = (getEasyopsConfig.isEasyopsConfigExists && easyopsConfig === false) ? '../../../' + providersJson.sdk : providersJson.sdk
+  const importPath = providersJson.sdk
 
   const content = `import { createProviderClass } from "@easyops/brick-utils";
     import { ${Array.from(groupSet).join(",")} } from "${importPath}";

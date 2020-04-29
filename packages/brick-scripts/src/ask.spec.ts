@@ -5,15 +5,16 @@ import { askPackageName } from "./questions/askPackageName";
 import { askBrickName } from "./questions/askBrickName";
 import { askTemplateName } from "./questions/askTemplateName";
 import { ask } from "./ask";
+import {getEasyopsConfig}  from "./getEasyopsConfig"
 
-jest.mock("./getEasyopsConfig", () => (
+jest.mock("./getEasyopsConfig");
+(getEasyopsConfig as jest.Mock).mockReturnValue(
   {
-    isEasyopsConfigExists: true,
-    easyopsConfig: {
-      getSdkFromNextSdkRepo: false
-    }
+    "contractYamlDir": "easyops",
+    "contractUrl": "https://github.com/easyops-cn/contract-center.git",
+    "useLocalSdk": true
   }
-))
+)
 
 
 jest.mock("inquirer");

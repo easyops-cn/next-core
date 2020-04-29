@@ -1,14 +1,16 @@
 import fs from "fs";
 import { askPackageName } from "./askPackageName";
 import { TargetType } from "../interface";
-jest.mock("../getEasyopsConfig", () => (
+import { getEasyopsConfig } from "../getEasyopsConfig"
+
+jest.mock("../getEasyopsConfig");
+(getEasyopsConfig as jest.Mock).mockReturnValue(
   {
-    isEasyopsConfigExists: true,
-    easyopsConfig: {
-      getSdkFromNextSdkRepo: false
-    }
+    "contractYamlDir": "easyops",
+    "contractUrl": "https://github.com/easyops-cn/contract-center.git",
+    "useLocalSdk": true
   }
-))
+)
 
 jest.mock("fs");
 

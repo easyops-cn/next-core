@@ -11,7 +11,6 @@ import { TargetType, AskFlags } from "./interface";
 import { targetMap } from "./constant";
 import * as changeCase from "change-case";
 import { scriptYarnInstall } from "./scripts";
-import { isEasyopsConfigExists, easyopsConfig } from "./getEasyopsConfig"
 
 export async function create(flags: AskFlags): Promise<void> {
   const appRoot = path.join(process.cwd());
@@ -61,7 +60,7 @@ export async function create(flags: AskFlags): Promise<void> {
         providersJsonPath,
         JSON.stringify(
           {
-            sdk: (isEasyopsConfigExists && easyopsConfig.getSdkFromNextSdkRepo === false) ? `sdk/${packageName.replace(/^providers-of-/, "")}-sdk`:`@sdk/${packageName.replace(/^providers-of-/, "")}-sdk`,
+            sdk: `@sdk/${packageName.replace(/^providers-of-/, "")}-sdk`,
             providers: []
           },
           null,
