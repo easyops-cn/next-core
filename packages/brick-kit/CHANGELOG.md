@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.41.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.4...@easyops/brick-kit@1.41.0) (2020-04-29)
+
+
+### Bug Fixes
+
+* expose defined properties for custom templates ([6e4897f](https://git.easyops.local/anyclouds/next-core/commits/6e4897f))
+* mark native and invalid elements in `useBrick` ([96aa950](https://git.easyops.local/anyclouds/next-core/commits/96aa950))
+* use `textContent` instead of `innerHTML` ([3a1a726](https://git.easyops.local/anyclouds/next-core/commits/3a1a726))
+
+
+### Features
+
+* portal-mount-point支持挂载slots中的brick组件 ([657c8f2](https://git.easyops.local/anyclouds/next-core/commits/657c8f2))
+
+
+
+
+
 ## [1.40.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.3...@easyops/brick-kit@1.40.4) (2020-04-24)
 
 **Note:** Version bump only for package @easyops/brick-kit
