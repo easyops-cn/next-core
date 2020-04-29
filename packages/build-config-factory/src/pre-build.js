@@ -24,8 +24,10 @@ const generateProviderElements = () => {
       );`
     );
   }
+  const importPath = providersJson.sdk
+
   const content = `import { createProviderClass } from "@easyops/brick-utils";
-    import { ${Array.from(groupSet).join(",")} } from "${providersJson.sdk}";
+    import { ${Array.from(groupSet).join(",")} } from "${importPath}";
 
     ${defines.join(os.EOL)}`;
 
