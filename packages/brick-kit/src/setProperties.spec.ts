@@ -272,6 +272,18 @@ describe("setProperties", () => {
         },
       ],
     ],
+    [
+      {
+        innerHTML: "oops",
+      },
+      context,
+      false,
+      false,
+      {
+        style: {},
+        textContent: "oops",
+      },
+    ],
   ];
   it.each(cases)(
     "test setProperties(%s, %s, %s) should work",

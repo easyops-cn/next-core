@@ -71,6 +71,11 @@ export function setRealProperties(
       for (const [styleName, styleValue] of Object.entries(propValue)) {
         (brick.style as any)[styleName] = styleValue;
       }
+    } else if (propName === "innerHTML") {
+      // `innerHTML` is dangerous, use `textContent` instead.
+      // eslint-disable-next-line no-console
+      console.error("Please use `textContent` instead of `innerHTML`.");
+      brick.textContent = propValue;
     } else {
       (brick as any)[propName] = propValue;
     }

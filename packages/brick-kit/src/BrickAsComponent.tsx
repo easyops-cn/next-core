@@ -1,7 +1,11 @@
 import React from "react";
 import { cloneDeep } from "lodash";
 import { isObject } from "@easyops/brick-utils";
-import { UseBrickConf, UseSingleBrickConf } from "@easyops/brick-types";
+import {
+  UseBrickConf,
+  UseSingleBrickConf,
+  RuntimeBrickElement,
+} from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
 import {
@@ -90,6 +94,12 @@ function SingleBrickAsComponent(
         unbindListeners(element);
         if (useBrick.events) {
           bindListeners(element, doTransform(data, useBrick.events));
+        }
+
+        if (!useBrick.brick.includes("-")) {
+          (element as RuntimeBrickElement).$$typeof = "native";
+        } else if (!customElements.get(useBrick.brick)) {
+          (element as RuntimeBrickElement).$$typeof = "invalid";
         }
       }
     },
