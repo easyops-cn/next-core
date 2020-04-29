@@ -4,6 +4,28 @@ import { isObject, transform } from "@easyops/brick-utils";
 import { isCookable, evaluate } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 import { devtoolsHookEmit } from "./devtools";
+import { setRealProperties } from "./setProperties";
+
+export function transformElementProperties(
+  element: HTMLElement,
+  data: any,
+  to: GeneralTransform,
+  from?: string | string[],
+  mapArray?: boolean | "auto"
+): void {
+  const result = preprocessTransformProperties(
+    from ? get(data, from) : data,
+    to,
+    mapArray
+  );
+  devtoolsHookEmit("transformation", {
+    transform: to,
+    data,
+    options: { from, mapArray },
+    result,
+  });
+  setRealProperties(element, result, true);
+}
 
 export function transformProperties(
   props: Record<string, any>,

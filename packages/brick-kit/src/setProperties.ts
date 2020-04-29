@@ -1,3 +1,4 @@
+import { set } from "lodash";
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject, inject } from "@easyops/brick-utils";
 import { isCookable, evaluate, isPreEvaluated } from "./evaluate";
@@ -64,7 +65,8 @@ export function setProperties(
 
 export function setRealProperties(
   brick: HTMLElement,
-  realProps: Record<string, any>
+  realProps: Record<string, any>,
+  extractProps?: boolean
 ): void {
   for (const [propName, propValue] of Object.entries(realProps)) {
     if (propName === "style") {
@@ -77,7 +79,11 @@ export function setRealProperties(
       console.error("Please use `textContent` instead of `innerHTML`.");
       brick.textContent = propValue;
     } else {
-      (brick as any)[propName] = propValue;
+      if (extractProps) {
+        set(brick, propName, propValue);
+      } else {
+        (brick as any)[propName] = propValue;
+      }
     }
   }
 }

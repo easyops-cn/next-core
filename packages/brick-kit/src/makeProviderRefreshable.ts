@@ -5,8 +5,8 @@ import {
   HandleRejectByTransform,
 } from "@easyops/brick-types";
 import {
-  transformProperties,
   transformIntermediateData,
+  transformElementProperties,
 } from "./transformProperties";
 import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
@@ -111,7 +111,7 @@ export function makeProviderRefreshable(
                   const onRejectTransform = (onReject as HandleRejectByTransform)
                     .transform;
                   if (onRejectTransform) {
-                    transformProperties(
+                    transformElementProperties(
                       brick.element,
                       error,
                       brick.context
@@ -144,7 +144,7 @@ export function makeProviderRefreshable(
                 );
               }
 
-              transformProperties(
+              transformElementProperties(
                 brick.element,
                 data,
                 brick.context

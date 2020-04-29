@@ -1,7 +1,9 @@
+import { GeneralTransform } from "@easyops/brick-types";
 import {
   transformProperties,
   transformIntermediateData,
   doTransform,
+  transformElementProperties,
 } from "./transformProperties";
 import * as runtime from "./core/Runtime";
 
@@ -348,5 +350,97 @@ describe("doTransform", () => {
     ],
   ])('doTransform({hello:"good"}, %j, %j) should return %j', (to, result) => {
     expect(doTransform(data, to)).toEqual(result);
+  });
+});
+
+describe("transformElementProperties", () => {
+  it.each<[any, GeneralTransform, Record<string, any>]>([
+    [
+      {
+        quality: "good",
+      },
+      {
+        qa: "<% DATA.quality %>",
+      },
+      {
+        qa: "good",
+      },
+    ],
+    [
+      {
+        quality: "good",
+      },
+      {
+        style: {
+          color: "<% DATA.quality === 'good' ? 'green' : 'red' %>",
+        },
+      },
+      {
+        style: {
+          background: "blue",
+          color: "green",
+        },
+      },
+    ],
+    [
+      {
+        quality: "good",
+      },
+      {
+        "style.color": "<% DATA.quality === 'good' ? 'green' : 'red' %>",
+      },
+      {
+        style: {
+          color: "green",
+        },
+      },
+    ],
+    [
+      {
+        quality: "good",
+      },
+      {
+        "existedProp.qa": "<% DATA.quality %>",
+      },
+      {
+        existedProp: {
+          hello: "world",
+          qa: "good",
+        },
+      },
+    ],
+    [
+      {
+        quality: "good",
+      },
+      {
+        existedProp: {
+          qa: "<% DATA.quality %>",
+        },
+      },
+      {
+        existedProp: {
+          qa: "good",
+        },
+      },
+    ],
+  ])("doTransform(div, %j, %j) should return %j", (data, to, result) => {
+    const div = document.createElement("div") as any;
+    div.style.background = "blue";
+    div.existedProp = {
+      hello: "world",
+    };
+    transformElementProperties(div, data, to);
+    for (const [key, value] of Object.entries(result)) {
+      if (key === "style") {
+        for (const [styleName, styleValue] of Object.entries(value)) {
+          expect(div.style[styleName]).toBe(styleValue);
+        }
+      } else if (typeof value === "object" && value) {
+        expect(div[key]).toEqual(value);
+      } else {
+        expect(div[key]).toBe(value);
+      }
+    }
   });
 });
