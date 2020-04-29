@@ -23,9 +23,12 @@ body {
 }
 
 #legacy-iframe-mount-point,
-#bg-mount-point,
-#portal-mount-point {
+#bg-mount-point {
   display: none;
+}
+
+#portal-mount-point {
+  height: 0;
 }
 
 .bars-hidden #main-mount-point,

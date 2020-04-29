@@ -55,6 +55,7 @@ export interface MountRoutesResult {
     app?: MicroApp;
     menu?: SidebarMenu;
   };
+  portal: RuntimeBrick[];
   appBar: {
     app?: MicroApp;
     pageTitle?: string;
@@ -492,8 +493,6 @@ export class LocationContext {
 
     if (expandedBrickConf.bg) {
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
-    } else if (expandedBrickConf.portal) {
-      appendBrick(brick, this.kernel.mountPoints.portal as MountableElement);
     } else {
       if (isObject(expandedBrickConf.slots)) {
         for (const [slotId, slotConf] of Object.entries(
@@ -519,7 +518,11 @@ export class LocationContext {
           }
         }
       }
-      mountRoutesResult.main.push(brick);
+      if (expandedBrickConf.portal) {
+        mountRoutesResult.portal.push(brick);
+      } else {
+        mountRoutesResult.main.push(brick);
+      }
     }
   }
 
