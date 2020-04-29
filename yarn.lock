@@ -13529,10 +13529,10 @@ style-inject@^0.3.0:
   resolved "https://registry.npm.taobao.org/style-inject/download/style-inject-0.3.0.tgz#d21c477affec91811cc82355832a700d22bf8dd3"
   integrity sha1-0hxHev/skYEcyCNVgypwDSK/jdM=
 
-style-loader@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npm.taobao.org/style-loader/download/style-loader-1.2.0.tgz?cache=0&sync_timestamp=1587731556074&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstyle-loader%2Fdownload%2Fstyle-loader-1.2.0.tgz#f78e4d49caf5018f7c03ae1886e1270124feeb0a"
-  integrity sha1-945NScr1AY98A64YhuEnAST+6wo=
+style-loader@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/style-loader/download/style-loader-1.2.1.tgz#c5cbbfbf1170d076cfdd86e0109c5bba114baa1a"
+  integrity sha1-xcu/vxFw0HbP3YbgEJxbuhFLqho=
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^2.6.6"
