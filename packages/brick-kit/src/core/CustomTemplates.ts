@@ -55,9 +55,7 @@ export function registerCustomTemplate(
   // Collect defined properties of the template.
   const props = Object.keys(tplConstructor.proxy?.properties || {});
 
-  const nativeProp = Object.keys(HTMLElement.prototype).find((prop) =>
-    props.includes(prop)
-  );
+  const nativeProp = props.find((prop) => prop in HTMLElement.prototype);
   // istanbul ignore if
   if (nativeProp !== undefined) {
     // eslint-disable-next-line no-console
