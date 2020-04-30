@@ -14,7 +14,7 @@
     "dev-dependencies-extract": "./cli-extract.js"
   },
   "dependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.9.6",
     "@dll/ace": "^1.0.120",
     "@dll/d3": "^1.1.0",
     "@dll/echarts": "^1.0.3",
