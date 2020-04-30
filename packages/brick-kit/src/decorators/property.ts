@@ -26,6 +26,15 @@ export function property(options?: PropertyDeclaration): any {
     ) {
       throw new Error("`@property()` currently not support initialize value");
     }
+
+    // istanbul ignore if
+    if (Object.keys(HTMLElement.prototype).includes(element.key)) {
+      // eslint-disable-next-line no-console
+      console.error(
+        `"${element.key}" is a native HTMLElement property, and is deprecated to be used as a brick property.`
+      );
+    }
+
     // createProperty() takes care of defining the property, but we still
     // must return some kind of descriptor, so return a descriptor for an
     // unused prototype field. The finisher calls createProperty().
@@ -41,7 +50,7 @@ export function property(options?: PropertyDeclaration): any {
       },
       finisher(Class: typeof UpdatingElement) {
         Class.createProperty(element.key as string, options);
-      }
+      },
     };
   };
 }

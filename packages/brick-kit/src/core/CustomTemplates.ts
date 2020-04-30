@@ -55,6 +55,17 @@ export function registerCustomTemplate(
   // Collect defined properties of the template.
   const props = Object.keys(tplConstructor.proxy?.properties || {});
 
+  const nativeProp = Object.keys(HTMLElement.prototype).find((prop) =>
+    props.includes(prop)
+  );
+  // istanbul ignore if
+  if (nativeProp !== undefined) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and is deprecated to be used as a brick property.`
+    );
+  }
+
   customElements.define(
     tagName,
     class TplElement extends HTMLElement {
