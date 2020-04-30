@@ -5,6 +5,7 @@ import {
   UseBrickConf,
   UseSingleBrickConf,
   RuntimeBrickElement,
+  BrickEventsMap,
 } from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
@@ -93,7 +94,7 @@ function SingleBrickAsComponent(
         setRealProperties(element, brick.properties);
         unbindListeners(element);
         if (useBrick.events) {
-          bindListeners(element, doTransform(data, useBrick.events));
+          bindListeners(element, transformEvents(data, useBrick.events));
         }
 
         if (!useBrick.brick.includes("-")) {
@@ -122,4 +123,20 @@ function SingleBrickAsComponent(
   return React.createElement(useBrick.brick, {
     ref: refCallback,
   });
+}
+
+function transformEvents(data: any, events: BrickEventsMap): BrickEventsMap {
+  const options = {
+    evaluateOptions: {
+      lazy: true,
+    },
+  };
+  return Object.fromEntries(
+    Object.entries(events).map(([eventType, eventConf]) => [
+      eventType,
+      Array.isArray(eventConf)
+        ? eventConf.map((item) => doTransform(data, item, options))
+        : doTransform(data, eventConf, options),
+    ])
+  );
 }

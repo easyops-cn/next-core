@@ -1,7 +1,7 @@
 import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { isObject, transform } from "@easyops/brick-utils";
-import { isCookable, evaluate } from "./evaluate";
+import { isCookable, evaluate, EvaluateOptions } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 import { devtoolsHookEmit } from "./devtools";
 import { setRealProperties } from "./setProperties";
@@ -51,11 +51,17 @@ export function transformProperties(
   return props;
 }
 
-export function doTransform(data: any, to: any): any {
+export function doTransform(
+  data: any,
+  to: any,
+  options?: {
+    evaluateOptions?: EvaluateOptions;
+  }
+): any {
   if (typeof to === "string") {
     let result: any;
     if (isCookable(to)) {
-      result = evaluate(to, { data });
+      result = evaluate(to, { data }, options?.evaluateOptions);
     } else {
       result = transform(to, data);
     }
@@ -68,12 +74,14 @@ export function doTransform(data: any, to: any): any {
   }
 
   return Array.isArray(to)
-    ? to.map((item) => doTransform(data, item))
+    ? to.map((item) => doTransform(data, item, options))
     : isObject(to)
-    ? Object.entries(to).reduce<Record<string, any>>((acc, [k, v]) => {
-        acc[k] = doTransform(data, v);
-        return acc;
-      }, {})
+    ? Object.fromEntries(
+        Object.entries(to).map((entry) => [
+          entry[0],
+          doTransform(data, entry[1], options),
+        ])
+      )
     : to;
 }
 

@@ -351,6 +351,28 @@ describe("doTransform", () => {
   ])('doTransform({hello:"good"}, %j, %j) should return %j', (to, result) => {
     expect(doTransform(data, to)).toEqual(result);
   });
+
+  it("should work when set lazy", () => {
+    const result = doTransform(
+      "<% oops %>",
+      {
+        prop: "<% DATA %>",
+      },
+      {
+        evaluateOptions: {
+          lazy: true,
+        },
+      }
+    );
+    expect(result).toEqual({
+      prop: {
+        [Symbol.for("pre.evaluated.raw")]: "<% DATA %>",
+        [Symbol.for("pre.evaluated.context")]: {
+          data: "<% oops %>",
+        },
+      },
+    });
+  });
 });
 
 describe("transformElementProperties", () => {
