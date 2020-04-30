@@ -24,7 +24,7 @@ export function bindListeners(
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
       const listener = listenerFactory(handler, context, brick);
       brick.addEventListener(eventType, listener);
-      rememberListeners(brick, eventType, listener);
+      rememberListeners(brick, eventType, listener, handler);
     });
   });
 }
@@ -42,12 +42,13 @@ export function unbindListeners(brick: HTMLElement): void {
 function rememberListeners(
   brick: RuntimeBrickElement,
   eventType: string,
-  listener: EventListener
+  listener: EventListener,
+  handler: BrickEventHandler
 ): void {
   if (!brick.$$eventListeners) {
     brick.$$eventListeners = [];
   }
-  brick.$$eventListeners.push([eventType, listener]);
+  brick.$$eventListeners.push([eventType, listener, handler]);
 }
 
 export function isBuiltinHandler(
@@ -60,7 +61,8 @@ export function isCustomHandler(
   handler: BrickEventHandler
 ): handler is CustomBrickEventHandler {
   return !!(
-    (handler as CustomBrickEventHandler).target &&
+    ((handler as CustomBrickEventHandler).target ||
+      (handler as CustomBrickEventHandler).targetRef) &&
     ((handler as ExecuteCustomBrickEventHandler).method ||
       (handler as SetPropsCustomBrickEventHandler).properties)
   );
@@ -91,61 +93,97 @@ export function listenerFactory(
       case "history.pushQuery":
       case "history.replaceQuery":
       case "history.pushAnchor":
-        return builtinHistoryListenerFactory(method, handler.args, context);
+        return builtinHistoryListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       case "history.goBack":
       case "history.goForward":
       case "history.reload":
-        return builtinHistoryWithoutArgsListenerFactory(method);
+        return builtinHistoryWithoutArgsListenerFactory(
+          method,
+          handler.if,
+          context
+        );
       case "legacy.go":
-        return builtinIframeListenerFactory(handler.args, context);
+        return builtinIframeListenerFactory(handler.args, handler.if, context);
       case "window.open":
-        return builtinWindowListenerFactory(handler.args, context);
+        return builtinWindowListenerFactory(handler.args, handler.if, context);
       case "location.reload":
       case "location.assign":
-        return builtinLocationListenerFactory(method, handler.args, context);
+        return builtinLocationListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       case "segue.push":
       case "segue.replace":
-        return builtinSegueListenerFactory(method, handler.args, context);
+        return builtinSegueListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       case "event.preventDefault":
-        return (event) => {
+        return ((event: CustomEvent) => {
+          if (!checkIf(handler.if, { ...context, event })) {
+            return;
+          }
           event.preventDefault();
-        };
+        }) as EventListener;
       case "console.log":
       case "console.error":
       case "console.warn":
       case "console.info":
-        return builtinConsoleListenerFactory(method, handler.args, context);
+        return builtinConsoleListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       case "message.success":
       case "message.error":
       case "message.info":
       case "message.warn":
-        return builtinMessageListenerFactory(method, handler.args, context);
+        return builtinMessageListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       case "handleHttpError":
-        return (event: any) => {
+        return ((event: CustomEvent) => {
+          if (!checkIf(handler.if, { ...context, event })) {
+            return;
+          }
           handleHttpError(event.detail);
-        };
+        }) as EventListener;
       default:
         return () => {
-          /*global process*/
-          if (process.env.NODE_ENV === "development") {
-            // eslint-disable-next-line no-console
-            console.warn("unknown event listener action:", handler.action);
-          }
+          // eslint-disable-next-line no-console
+          console.error("unknown event listener action:", handler.action);
         };
     }
   }
 
   if (isCustomHandler(handler)) {
-    return customListenerFactory(handler, context, brick);
+    return customListenerFactory(handler, handler.if, context, brick);
   }
 }
 
 function builtinLocationListenerFactory(
   method: "assign" | "reload",
   args: any[],
-  context?: PluginRuntimeContext
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     if (method === "assign") {
       const [url] = argsFactory(args, context, event);
       location.assign(url);
@@ -158,9 +196,13 @@ function builtinLocationListenerFactory(
 function builtinSegueListenerFactory(
   method: "push" | "replace",
   args: any[],
-  context?: PluginRuntimeContext
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     const { app, segues } = _internalApiGetCurrentContext();
     getHistory()[method](
       getUrlFactory(
@@ -177,7 +219,8 @@ function builtinSegueListenerFactory(
 
 function builtinIframeListenerFactory(
   args: any[],
-  context?: PluginRuntimeContext
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
   const legacyIframeMountPoint = document.querySelector(
     "#legacy-iframe-mount-point"
@@ -201,6 +244,9 @@ function builtinIframeListenerFactory(
   };
 
   return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     const [url] = argsFactory(args, context, event);
     postMessage(url);
   } as EventListener;
@@ -208,20 +254,37 @@ function builtinIframeListenerFactory(
 
 function builtinWindowListenerFactory(
   args: any[],
-  context?: PluginRuntimeContext
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     const [url, target] = argsFactory(args, context, event);
     window.open(url, target || "_self");
   } as EventListener;
 }
 
+function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
+  let tpl = brick;
+  while ((tpl = tpl.parentElement)) {
+    if (tpl.$$typeof === "custom-template") {
+      return tpl.$$getElementByRef?.(ref);
+    }
+  }
+}
+
 function customListenerFactory(
   handler: CustomBrickEventHandler,
+  rawIf: string | boolean,
   context: PluginRuntimeContext,
   brick: HTMLElement
 ): EventListener {
   return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     let targets: any[] = [];
     if (typeof handler.target === "string") {
       if (handler.target === "_self") {
@@ -236,17 +299,28 @@ function customListenerFactory(
       }
     } else if (handler.target) {
       targets.push(handler.target);
+    } else if (handler.targetRef) {
+      const found = findRefElement(brick, handler.targetRef);
+      if (found) {
+        targets.push(found);
+      }
     }
     if (targets.length === 0) {
-      if (process.env.NODE_ENV !== "test") {
-        // eslint-disable-next-line no-console
-        console.error("target not found:", handler.target);
-      }
+      // eslint-disable-next-line no-console
+      console.error("target not found:", handler.target || handler.targetRef);
       return;
     }
     if (isExecuteCustomHandler(handler)) {
       targets.forEach(async (target) => {
-        const task = target[handler.method]?.(
+        if (typeof target[handler.method] !== "function") {
+          // eslint-disable-next-line no-console
+          console.error("target has no method:", {
+            target,
+            method: handler.method,
+          });
+          return;
+        }
+        const task = target[handler.method](
           ...argsFactory(handler.args, context, event)
         );
         const { success, error } = handler.callback ?? {};
@@ -290,17 +364,26 @@ function customListenerFactory(
 function builtinHistoryListenerFactory(
   method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
   args: any[],
-  context?: PluginRuntimeContext
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     (getHistory()[method] as any)(...argsFactory(args, context, event, true));
   } as EventListener;
 }
 
 function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward" | "reload"
+  method: "goBack" | "goForward" | "reload",
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
-  return function (): void {
+  return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     getHistory()[method]();
   } as EventListener;
 }
@@ -308,9 +391,13 @@ function builtinHistoryWithoutArgsListenerFactory(
 function builtinConsoleListenerFactory(
   method: "log" | "error" | "warn" | "info",
   args: any[],
-  context?: PluginRuntimeContext
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     // eslint-disable-next-line no-console
     console[method](...argsFactory(args, context, event));
   } as EventListener;
@@ -319,9 +406,13 @@ function builtinConsoleListenerFactory(
 function builtinMessageListenerFactory(
   method: "success" | "error" | "info" | "warn",
   args: any[],
-  context?: PluginRuntimeContext
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent) {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
     (message[method] as any)(...argsFactory(args, context, event));
   } as EventListener;
 }
@@ -342,4 +433,17 @@ function argsFactory(
         true
       )
     : [useEventDetailAsDefault ? event.detail : event];
+}
+
+function checkIf(
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
+): boolean {
+  if (typeof rawIf === "boolean" || typeof rawIf === "string") {
+    const ifChecked = computeRealValue(rawIf, context, true);
+    if (ifChecked === false) {
+      return false;
+    }
+  }
+  return true;
 }

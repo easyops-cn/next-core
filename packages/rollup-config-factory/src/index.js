@@ -3,7 +3,6 @@ const babel = require("rollup-plugin-babel");
 const resolve = require("rollup-plugin-node-resolve");
 const commonjs = require("rollup-plugin-commonjs");
 const json = require("rollup-plugin-json");
-const replace = require("rollup-plugin-replace");
 const postcss = require("rollup-plugin-postcss");
 const stringHash = require("string-hash");
 const packageJson = require(path.join(process.cwd(), "package.json"));
@@ -61,9 +60,6 @@ exports.rollupFactory = ({
   external: Array.from(external),
   plugins: [
     ...plugins,
-    replace({
-      "process.env.NODE_ENV": process.env.NODE_ENV,
-    }),
     resolve({
       browser: true,
       extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"],

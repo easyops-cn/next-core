@@ -6,7 +6,7 @@ const {
   getStoryboardsByMicroApps,
   getBrickPackages,
   getSettings,
-  getTemplatePackages
+  getTemplatePackages,
 } = require("./utils");
 
 module.exports = (env, app) => {
@@ -19,7 +19,10 @@ module.exports = (env, app) => {
     localTemplates,
     microAppsDir,
     brickPackagesDir,
-    templatePackagesDir
+    templatePackagesDir,
+    mocked,
+    mockedMicroAppsDir,
+    mockedMicroApps,
   } = env;
   let username;
 
@@ -28,7 +31,7 @@ module.exports = (env, app) => {
   if (useRemote) {
     // 设定透传远端请求时，可以指定特定的 brick packages, micro apps, template packages 使用本地文件。
     if (localBrickPackages.length > 0) {
-      localBrickPackages.map(pkgId => {
+      localBrickPackages.map((pkgId) => {
         // 直接返回插件 js 文件。
         app.get(`${publicPath}bricks/${pkgId}/*`, (req, res) => {
           const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
@@ -41,7 +44,7 @@ module.exports = (env, app) => {
       });
     }
     if (localMicroApps.length > 0) {
-      localMicroApps.map(appId => {
+      localMicroApps.map((appId) => {
         // 直接返回小产品相关文件。
         app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
           const filePath = path.join(microAppsDir, appId, req.params[0]);
@@ -54,10 +57,23 @@ module.exports = (env, app) => {
       });
     }
     if (localTemplates.length > 0) {
-      localTemplates.map(pkgId => {
+      localTemplates.map((pkgId) => {
         // 直接返回模板相关文件。
         app.get(`${publicPath}templates/${pkgId}/*`, (req, res) => {
           const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
+          if (fs.existsSync(filePath)) {
+            res.sendFile(filePath);
+          } else {
+            res.status(404).end();
+          }
+        });
+      });
+    }
+    if (mockedMicroApps.length > 0) {
+      mockedMicroApps.map((appId) => {
+        // 直接返回小产品相关文件。
+        app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
+          const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
           if (fs.existsSync(filePath)) {
             res.sendFile(filePath);
           } else {
@@ -72,11 +88,14 @@ module.exports = (env, app) => {
         code: 0,
         data: {
           navbar: getNavbar(env),
-          storyboards: getStoryboardsByMicroApps(env),
+          storyboards: (mocked
+            ? getStoryboardsByMicroApps(env, true)
+            : []
+          ).concat(getStoryboardsByMicroApps(env)),
           brickPackages: getBrickPackages(env),
           templatePackages: getTemplatePackages(env),
-          settings: getSettings()
-        }
+          settings: getSettings(),
+        },
       });
     });
 
@@ -121,8 +140,8 @@ module.exports = (env, app) => {
         data: {
           loggedIn: !!username,
           username,
-          org: 8888
-        }
+          org: 8888,
+        },
       });
     });
 
@@ -135,15 +154,15 @@ module.exports = (env, app) => {
           data: {
             loggedIn: true,
             username,
-            org: 8888
-          }
+            org: 8888,
+          },
         });
       } else {
         res.json({
           code: 0,
           data: {
-            loggedIn: false
-          }
+            loggedIn: false,
+          },
         });
       }
     });

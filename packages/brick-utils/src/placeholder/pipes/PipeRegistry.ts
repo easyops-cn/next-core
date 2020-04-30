@@ -16,11 +16,14 @@ import {
   isNil,
   isEqual,
   uniq,
-  filter,
+  map,
   forEach,
+  isEmpty,
+  orderBy,
 } from "lodash";
 import yaml from "js-yaml";
 import moment, { DurationInputArg2 } from "moment";
+import { formatValue } from "../unit/func/valueFormatter";
 
 export const PipeRegistry = new Map<string, Function>();
 
@@ -64,6 +67,7 @@ PipeRegistry.set("cmdbInstanceShowName", pipeCmdbInstanceShowName);
 PipeRegistry.set("deltaTime", pipeDeltaTime);
 PipeRegistry.set("nullish", pipeNullish);
 PipeRegistry.set("graphTree", pipeGraphTree);
+PipeRegistry.set("unitFormat", pipeUnitFormat);
 
 function pipeNullish(value: any, defaultValue: any): any {
   return value ?? defaultValue;
@@ -339,14 +343,23 @@ function pipeUniq(value: any[]): any[] {
 }
 
 // 图还原管道，对应接口：http://192.168.100.162/next/developers/providers/cmdb/instance-graph-api-traverse-graph
-function pipeGraphTree(value: {
-  edges: Record<string, any>[];
-  topic_vertices: Record<string, any>[];
-  vertices: Record<string, any>[];
-}): Record<string, any>[] {
+function pipeGraphTree(
+  value: {
+    edges: Record<string, any>[];
+    topic_vertices: Record<string, any>[];
+    vertices: Record<string, any>[];
+  },
+  query?: {
+    sort: {
+      key: string;
+      order: 1 | -1;
+    };
+  }
+): Record<string, any>[] {
   if (!value) {
     return [];
   }
+  const sort = query?.sort;
   const groupByEdgeOut = groupBy(value.edges, "out");
   const findChildren = (node: Record<string, any>): Record<string, any> => {
     const relationEdges = groupByEdgeOut[node.instanceId];
@@ -362,6 +375,18 @@ function pipeGraphTree(value: {
         }
       }
     });
+    if (sort) {
+      const keyList = uniq(map(relationEdges, "out_name"));
+      forEach(keyList, (key) => {
+        if (!isEmpty(node[key])) {
+          node[key] = orderBy(
+            node[key],
+            (item) => get(item, sort.key) ?? -Infinity,
+            sort.order === -1 ? "desc" : "asc"
+          );
+        }
+      });
+    }
     return node;
   };
   const result =
@@ -369,4 +394,12 @@ function pipeGraphTree(value: {
       return findChildren(root);
     }) ?? [];
   return result;
+}
+
+function pipeUnitFormat(
+  value: number,
+  unit: string,
+  precision = 2
+): [string, string] {
+  return formatValue(value, { unit, precision });
 }

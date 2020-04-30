@@ -18,14 +18,7 @@ import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../injected";
 import { getAuth } from "../auth";
-
-interface DevtoolsHookContainer {
-  __BRICK_NEXT_DEVTOOLS_HOOK__?: DevtoolsHook;
-}
-
-interface DevtoolsHook {
-  emit: (message: any) => void;
-}
+import { devtoolsHookEmit } from "../devtools";
 
 export class Router {
   private defaultCollapsed = false;
@@ -159,6 +152,9 @@ export class Router {
     this.kernel.nextApp = currentApp;
 
     this.state = "initial";
+
+    devtoolsHookEmit("rendering");
+
     unmountTree(mountPoints.bg as MountableElement);
 
     if (storyboard) {
@@ -168,6 +164,7 @@ export class Router {
         menuBar: {
           app: this.kernel.nextApp,
         },
+        portal: [],
         appBar: {
           app: this.kernel.nextApp,
           breadcrumb: [],
@@ -207,9 +204,17 @@ export class Router {
             events: {},
           },
         ];
+        mountRoutesResult.portal = [];
       }
 
-      const { main, menuInBg, menuBar, appBar, flags } = mountRoutesResult;
+      const {
+        main,
+        menuInBg,
+        menuBar,
+        appBar,
+        flags,
+        portal,
+      } = mountRoutesResult;
 
       const { redirect, barsHidden, hybrid, failed } = flags;
 
@@ -229,6 +234,7 @@ export class Router {
 
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
+      unmountTree(mountPoints.portal as MountableElement);
 
       const actualLegacy =
         (legacy === "iframe" && !hybrid) || (legacy !== "iframe" && hybrid)
@@ -268,11 +274,14 @@ export class Router {
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
       menuInBg.forEach((brick) => {
-        appendBrick(brick, mountPoints.bg as MountableElement);
+        appendBrick(brick, mountPoints.portal as MountableElement);
       });
 
-      if (main.length > 0) {
-        mountTree(main, mountPoints.main as MountableElement);
+      if (main.length > 0 || portal.length > 0) {
+        main.length > 0 &&
+          mountTree(main, mountPoints.main as MountableElement);
+        portal.length > 0 &&
+          mountTree(portal, mountPoints.portal as MountableElement);
         if (!failed) {
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
@@ -280,7 +289,7 @@ export class Router {
         }
         this.state = "mounted";
 
-        this.devtoolsHookEmitRendered();
+        devtoolsHookEmit("rendered");
         return;
       }
     }
@@ -299,18 +308,10 @@ export class Router {
       ],
       mountPoints.main as MountableElement
     );
+    unmountTree(mountPoints.portal as MountableElement);
 
     this.state = "mounted";
-    this.devtoolsHookEmitRendered();
-  }
-
-  /* istanbul ignore next */
-  private devtoolsHookEmitRendered(): void {
-    const devHook = (window as DevtoolsHookContainer)
-      .__BRICK_NEXT_DEVTOOLS_HOOK__;
-    devHook?.emit?.({
-      type: "rendered",
-    });
+    devtoolsHookEmit("rendered");
   }
 
   /* istanbul ignore next */

@@ -27,6 +27,10 @@ body {
   display: none;
 }
 
+#portal-mount-point {
+  height: 0;
+}
+
 .bars-hidden #main-mount-point,
 .bars-hidden #legacy-iframe-mount-point {
   margin-top: 0;

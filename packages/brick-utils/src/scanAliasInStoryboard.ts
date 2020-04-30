@@ -50,7 +50,7 @@ function collectRouteAliasInRouteConfs(
       if (alias) {
         if (collection.has(alias)) {
           // eslint-disable-next-line no-console
-          console.error(`Duplicated route alias: ${alias}`);
+          console.warn(`Duplicated route alias: ${alias}`);
         }
         collection.set(alias, {
           alias,

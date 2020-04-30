@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.46.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.1...@easyops/brick-utils@1.46.2) (2020-04-29)
+
+
+### Bug Fixes
+
+* expose defined properties for providers ([5e9fbca](https://git.easyops.local/anyclouds/next-core/commits/5e9fbca))
+
+
+
+
+
+## [1.46.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.0...@easyops/brick-utils@1.46.1) (2020-04-24)
+
+### Bug Fixes
+
+- collect bricks in `useBrick` ([9bfdbba](https://git.easyops.local/anyclouds/next-core/commits/9bfdbba))
+
+# [1.46.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.45.0...@easyops/brick-utils@1.46.0) (2020-04-24)
+
+### Features
+
+- **pipe:** pipeGraphTree support sort ([fdbcedc](https://git.easyops.local/anyclouds/next-core/commits/fdbcedc))
+
+# [1.45.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.44.4...@easyops/brick-utils@1.45.0) (2020-04-20)
+
+### Features
+
+- unit format pipe refs MONITOR-471 ([027ad8e](https://git.easyops.local/anyclouds/next-core/commits/027ad8e))
+- unit format pipe refs MONITOR-471 ([8907c7f](https://git.easyops.local/anyclouds/next-core/commits/8907c7f))
+- unit format pipe refs MONITOR-471 ([710db9b](https://git.easyops.local/anyclouds/next-core/commits/710db9b))
+
+## [1.44.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.44.3...@easyops/brick-utils@1.44.4) (2020-04-20)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [1.44.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.44.2...@easyops/brick-utils@1.44.3) (2020-04-16)
+
+### Bug Fixes
+
+- **route-alias:** warn instead error for duplicated route alias ([8a8c8e1](https://git.easyops.local/anyclouds/next-core/commits/8a8c8e1))
+
 ## [1.44.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.44.1...@easyops/brick-utils@1.44.2) (2020-04-14)
 
 **Note:** Version bump only for package @easyops/brick-utils

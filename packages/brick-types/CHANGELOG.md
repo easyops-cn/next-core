@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.35.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.35.1...@easyops/brick-types@1.35.2) (2020-04-29)
+
+
+### Bug Fixes
+
+* mark native and invalid elements in `useBrick` ([96aa950](https://git.easyops.local/anyclouds/next-core/commits/96aa950))
+
+
+
+
+
+## [1.35.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.35.0...@easyops/brick-types@1.35.1) (2020-04-20)
+
+### Bug Fixes
+
+- **devtools:** refine remembered event listeners ([93e745a](https://git.easyops.local/anyclouds/next-core/commits/93e745a))
+
+# [1.35.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.34.0...@easyops/brick-types@1.35.0) (2020-04-16)
+
+### Features
+
+- support `if` in events ([4a4423f](https://git.easyops.local/anyclouds/next-core/commits/4a4423f))
+- 增加 portal-mount-point ([3a802b0](https://git.easyops.local/anyclouds/next-core/commits/3a802b0))
+- **custom-template:** support using `targetRef` inside a custom template ([dc162d8](https://git.easyops.local/anyclouds/next-core/commits/dc162d8))
+
 # [1.34.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.33.0...@easyops/brick-types@1.34.0) (2020-04-08)
 
 ### Features

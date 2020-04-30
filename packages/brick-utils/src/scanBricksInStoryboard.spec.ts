@@ -1,7 +1,7 @@
 import { Storyboard, BrickConf } from "@easyops/brick-types";
 import {
   scanBricksInStoryboard,
-  scanBricksInBrickConf
+  scanBricksInBrickConf,
 } from "./scanBricksInStoryboard";
 
 describe("scanBricksInStoryboard", () => {
@@ -13,37 +13,37 @@ describe("scanBricksInStoryboard", () => {
             name: "ct-a",
             bricks: [
               {
-                brick: "b-x"
-              }
-            ]
+                brick: "b-x",
+              },
+            ],
           },
           {
             name: "ct-b",
             bricks: [
               {
-                brick: "b-y"
+                brick: "b-y",
               },
               {
-                brick: "span"
-              }
-            ]
-          }
-        ]
+                brick: "span",
+              },
+            ],
+          },
+        ],
       },
       routes: [
         {
           providers: [
             "p-a",
             {
-              brick: "p-b"
-            }
+              brick: "p-b",
+            },
           ],
           bricks: [
             {
-              brick: "b-a"
+              brick: "b-a",
             },
             {
-              brick: "div"
+              brick: "div",
             },
             {
               brick: "b-b",
@@ -53,31 +53,31 @@ describe("scanBricksInStoryboard", () => {
                   bricks: [
                     {
                       brick: "b-c",
-                      internalUsedBricks: ["b-e"]
-                    }
-                  ]
+                      internalUsedBricks: ["b-e"],
+                    },
+                  ],
                 },
                 l: {
-                  type: "routes"
+                  type: "routes",
                   // `routes` not set
-                }
-              }
-            }
-          ]
+                },
+              },
+            },
+          ],
         },
         {
           menu: {
             type: "brick",
-            brick: "b-d"
-          }
+            brick: "b-d",
+          },
           // `bricks` not set
         },
         {
           bricks: [
             {
-              template: "t-a"
-            }
-          ]
+              template: "t-a",
+            },
+          ],
         },
         {
           type: "routes",
@@ -85,16 +85,50 @@ describe("scanBricksInStoryboard", () => {
             {
               bricks: [
                 {
-                  brick: "b-f"
+                  brick: "b-f",
+                  properties: {
+                    goods: [
+                      {
+                        useBrick: {
+                          brick: "b-o",
+                        },
+                      },
+                    ],
+                    props: {
+                      useBrick: [
+                        {
+                          brick: "b-p",
+                          properties: {
+                            useBrick: {
+                              brick: "b-q",
+                            },
+                          },
+                        },
+                      ],
+                    },
+                    oops: {
+                      useBrick: "b-ignored",
+                    },
+                    ouch: {
+                      useBrick: {
+                        echo: "b-ignored",
+                      },
+                    },
+                  },
+                  transform: {
+                    useBrick: {
+                      brick: "b-ignored",
+                    },
+                  },
                 },
                 {
-                  brick: "ct-a"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  brick: "ct-a",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     } as any;
     expect(scanBricksInStoryboard(storyboard)).toEqual([
       "p-a",
@@ -105,8 +139,11 @@ describe("scanBricksInStoryboard", () => {
       "b-e",
       "b-d",
       "b-f",
+      "b-o",
+      "b-p",
+      "b-q",
       "b-x",
-      "b-y"
+      "b-y",
     ]);
   });
 });
@@ -121,12 +158,12 @@ describe("scanBricksInBrickConf", () => {
           bricks: [
             {
               brick: "b-c",
-              internalUsedBricks: ["b-e"]
+              internalUsedBricks: ["b-e"],
             },
             {
-              brick: "div"
-            }
-          ]
+              brick: "div",
+            },
+          ],
         },
         l: {
           type: "routes",
@@ -134,20 +171,20 @@ describe("scanBricksInBrickConf", () => {
             {
               bricks: [
                 {
-                  brick: "b-f"
-                }
-              ]
-            }
-          ]
+                  brick: "b-f",
+                },
+              ],
+            },
+          ],
           // `routes` not set
-        }
-      }
+        },
+      },
     } as any;
     expect(scanBricksInBrickConf(brickConf)).toEqual([
       "b-b",
       "b-c",
       "b-e",
-      "b-f"
+      "b-f",
     ]);
   });
 });

@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.12...@easyops/dev-dependencies@0.6.13) (2020-04-30)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.11...@easyops/dev-dependencies@0.6.12) (2020-04-29)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.10...@easyops/dev-dependencies@0.6.11) (2020-04-24)
+
+### Bug Fixes
+
+- add `mock-micro-apps` to `.gitignore` ([b2ee45e](https://git.easyops.local/anyclouds/next-core/commits/b2ee45e))
+
+## [0.6.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.9...@easyops/dev-dependencies@0.6.10) (2020-04-24)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.8...@easyops/dev-dependencies@0.6.9) (2020-04-20)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.7...@easyops/dev-dependencies@0.6.8) (2020-04-20)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.6...@easyops/dev-dependencies@0.6.7) (2020-04-17)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.5...@easyops/dev-dependencies@0.6.6) (2020-04-16)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [0.6.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.4...@easyops/dev-dependencies@0.6.5) (2020-04-14)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

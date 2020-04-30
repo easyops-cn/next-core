@@ -30,6 +30,7 @@ describe("LocationContext", () => {
     mountPoints: {
       main: {},
       bg: document.createElement("div"),
+      portal: {},
     },
     bootstrapData: {
       storyboards: [],
@@ -64,6 +65,7 @@ describe("LocationContext", () => {
   const getInitialMountResult = (): MountRoutesResult => ({
     main: [],
     menuInBg: [],
+    portal: [],
     menuBar: {
       app: kernel.nextApp,
     },
@@ -338,6 +340,43 @@ describe("LocationContext", () => {
                         type: "invalid",
                         routes: [],
                       },
+                      extendG: {
+                        type: "routes",
+                        routes: [
+                          {
+                            path: "/",
+                            bricks: [
+                              {
+                                brick: "modal-a",
+                                portal: true,
+                                properties: {
+                                  args: ["a"],
+                                },
+                                slots: {
+                                  content: {
+                                    type: "bricks",
+                                    bricks: [
+                                      {
+                                        brick: "h3",
+                                        properties: {
+                                          textContent: "modal content",
+                                        },
+                                      },
+                                      {
+                                        brick: "h2",
+                                        properties: {
+                                          textContent: "modal content",
+                                        },
+                                      },
+                                    ],
+                                  },
+                                },
+                              },
+                            ],
+                            menu: {},
+                          },
+                        ],
+                      },
                     },
                   },
                   {
@@ -395,6 +434,34 @@ describe("LocationContext", () => {
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
       expect((kernel.mountPoints.bg.children[1] as any).args).toEqual(["good"]);
+
+      expect(result.portal).toMatchObject([
+        {
+          type: "modal-a",
+          properties: {
+            args: ["a"],
+          },
+          children: [
+            {
+              type: "h3",
+              properties: {
+                textContent: "modal content",
+              },
+              children: [],
+              slotId: "content",
+            },
+            {
+              type: "h2",
+              properties: {
+                textContent: "modal content",
+              },
+              children: [],
+              slotId: "content",
+            },
+          ],
+          slotId: "extendG",
+        },
+      ]);
 
       const consoleLog = jest.spyOn(console, "log");
       const consoleWarn = jest.spyOn(console, "warn");

@@ -2,6 +2,7 @@ import { cloneDeep } from "lodash";
 import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlFactory } from "./segue";
+import { devtoolsHookEmit } from "./devtools";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -11,6 +12,10 @@ interface PreEvaluated {
   [symbolForContext]: {
     data?: any;
   };
+}
+
+export interface EvaluateOptions {
+  lazy?: boolean;
 }
 
 export function isPreEvaluated(raw: any): raw is PreEvaluated {
@@ -26,7 +31,8 @@ export function evaluate(
   runtimeContext: {
     event?: CustomEvent;
     data?: any;
-  } = {}
+  } = {},
+  options?: EvaluateOptions
 ): any {
   if (typeof raw !== "string") {
     // If the `raw` is not a string, it must be a pre-evaluated object.
@@ -55,7 +61,7 @@ export function evaluate(
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
-  let missingEvent = false;
+  let missingEvent = options?.lazy === true;
   if (attemptToVisitEvent) {
     if (hasOwnProperty(runtimeContext, "event")) {
       globalVariables.EVENT = runtimeContext.event;
@@ -145,7 +151,9 @@ export function evaluate(
   }
 
   try {
-    return cook(precooked, globalVariables);
+    const result = cook(precooked, globalVariables);
+    devtoolsHookEmit("evaluation", { raw, context: globalVariables, result });
+    return result;
   } catch (error) {
     throw new SyntaxError(`${error.message}, in "${raw}"`);
   }

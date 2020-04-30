@@ -1,10 +1,12 @@
-import fs from "fs";
+import fs from "fs-extra";
 import path from "path";
 import inquirer from "inquirer";
 import { TargetType } from "../interface";
 import { targetMap } from "../constant";
 import { loadHistory } from "../loaders/loadHistory";
+import {getEasyopsConfig} from "../getEasyopsConfig"
 
+const easyopsConfig = getEasyopsConfig()
 export function askPackageName({
   targetType,
   appRoot
@@ -56,7 +58,7 @@ export function askPackageName({
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
     // 读取所有的 `@sdk/*` 作为候选列表。
-    const root = path.join(appRoot, "../next-sdk/sdk");
+    const root = path.join(appRoot, easyopsConfig?.useLocalSdk? "sdk":"../next-sdk/sdk");
     const sdkList = fs
       .readdirSync(root, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory())

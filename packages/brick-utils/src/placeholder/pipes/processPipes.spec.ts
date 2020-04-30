@@ -262,6 +262,25 @@ describe("processPipes", () => {
     ).toEqual(res);
   });
 
+  const unitFormatParams: [any, [Identifier, Parameters], any][] = [
+    [1024.0, ["unitFormat", ["KBps"]], ["1.00", "MBps"]],
+    [1024.0, ["unitFormat", ["KBps", 3]], ["1.000", "MBps"]],
+  ];
+  it.each(unitFormatParams)(
+    "pipeUnitFormat should work",
+    (value, [identifier, parameters], result) => {
+      expect(
+        processPipes(value, [
+          {
+            type: "PipeCall",
+            identifier,
+            parameters,
+          },
+        ])
+      ).toEqual(result);
+    }
+  );
+
   const paramCases: [any, [Identifier, Parameters], any][] = [
     [null, ["mapToArray", ["", ""]], []],
     ["23", ["mapToArray", ["", ""]], []],
@@ -402,6 +421,7 @@ it.each([
         },
       ],
     },
+    undefined,
     [
       {
         instanceId: "1",
@@ -435,14 +455,87 @@ it.each([
       },
     ],
   ],
-  [undefined, []],
-])("graphTree should work", (value, res) => {
+  [undefined, undefined, []],
+  [
+    {
+      topic_vertices: [
+        {
+          instanceId: "1",
+          name: "1",
+        },
+      ],
+      vertices: [
+        {
+          instanceId: "2",
+          sort: 3,
+          name: "2",
+        },
+        {
+          instanceId: "3",
+          sort: 1,
+          name: "3",
+        },
+        {
+          instanceId: "4",
+          sort: 2,
+          name: "4",
+        },
+      ],
+      edges: [
+        {
+          out: "1",
+          in: "2",
+          out_name: "children",
+        },
+        {
+          out: "1",
+          in: "3",
+          out_name: "children",
+        },
+        {
+          out: "1",
+          in: "4",
+          out_name: "children",
+        },
+      ],
+    },
+    {
+      sort: {
+        key: "sort",
+        order: 1,
+      },
+    },
+    [
+      {
+        instanceId: "1",
+        name: "1",
+        children: [
+          {
+            instanceId: "3",
+            sort: 1,
+            name: "3",
+          },
+          {
+            instanceId: "4",
+            sort: 2,
+            name: "4",
+          },
+          {
+            instanceId: "2",
+            sort: 3,
+            name: "2",
+          },
+        ],
+      },
+    ],
+  ],
+])("graphTree should work", (value, parameters, res) => {
   expect(
     processPipes(value, [
       {
         type: "PipeCall",
         identifier: "graphTree",
-        parameters: [],
+        parameters: [parameters],
       },
     ])
   ).toEqual(res);

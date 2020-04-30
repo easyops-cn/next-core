@@ -31,6 +31,7 @@ module.exports = (cwd) => {
         --host              Set local server listening host, defaults to "localhost"
         --offline           Use offline mode
         --verbose           Print verbose logs
+        --mock              Enable mock-micro-apps
     `,
       {
         flags: {
@@ -79,6 +80,9 @@ module.exports = (cwd) => {
           verbose: {
             type: "boolean",
           },
+          mock: {
+            type: "boolean",
+          },
         },
       }
     ).flags;
@@ -120,6 +124,7 @@ module.exports = (cwd) => {
     : [];
 
   const rootDir = path.join(__dirname, "../../..");
+  const contextDir = cwd || rootDir;
   const useLocalSettings =
     flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
@@ -137,7 +142,7 @@ module.exports = (cwd) => {
   }
 
   function getDevConfig() {
-    const devConfigJsPath = path.join(rootDir, "dev.config.js");
+    const devConfigJsPath = path.join(contextDir, "dev.config.js");
     if (fs.existsSync(devConfigJsPath)) {
       return require(devConfigJsPath);
     }
@@ -160,6 +165,7 @@ module.exports = (cwd) => {
   );
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
   const appConfig = getAppConfig();
+  const mockedMicroAppsDir = path.join(brickNextDir, "mock-micro-apps");
 
   const env = {
     useOffline,
@@ -183,6 +189,8 @@ module.exports = (cwd) => {
     server,
     appConfig,
     verbose: flags.verbose || process.env.VERBOSE === "true",
+    mocked: flags.mock || process.env.MOCK === "true",
+    mockedMicroAppsDir,
   };
 
   if (useAutoRemote) {
@@ -196,8 +204,15 @@ module.exports = (cwd) => {
     );
   }
 
+  env.mockedMicroApps = env.mocked ? getNamesOfMicroApps(env, true) : [];
+
   if (env.verbose) {
     console.log("Configure:", env);
+  }
+
+  if (env.mockedMicroApps.length > 0) {
+    console.log();
+    console.log("mocked micro-apps:", env.mockedMicroApps);
   }
 
   if (env.localMicroApps.length > 0) {

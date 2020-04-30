@@ -6,6 +6,7 @@ import {
   BrickConf,
   FeatureFlags,
   SeguesConf,
+  BrickEventHandler,
 } from "./manifest";
 import { SidebarMenu } from "./menu";
 
@@ -89,6 +90,7 @@ export interface MountPoints {
   loadingBar: HTMLElement;
   main: HTMLElement;
   bg: HTMLElement;
+  portal: HTMLElement;
 }
 
 export interface MenuBarBrick extends HTMLElement {
@@ -133,8 +135,16 @@ export interface MagicBrickConfig {
   transform?: string;
 }
 
-export type rememberedEventListener = [string, EventListener];
+export type rememberedEventListener = [
+  string,
+  EventListener,
+  // For compatibility of legacy api in @easyops/brick-utils,
+  // the third element is optional.
+  BrickEventHandler?
+];
 
 export interface RuntimeBrickElement extends HTMLElement {
+  $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
   $$eventListeners?: rememberedEventListener[];
+  $$getElementByRef?: (ref: string) => HTMLElement;
 }

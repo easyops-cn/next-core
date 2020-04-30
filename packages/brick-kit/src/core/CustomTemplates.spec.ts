@@ -88,6 +88,16 @@ describe("expandCustomTemplate", () => {
     });
   });
 
+  it("should define a custom element", () => {
+    const tpl = customElements.get("steve-test.custom-template");
+    expect((tpl as any)._dev_only_definedProperties).toEqual([
+      "button",
+      "noGap",
+      "isDanger",
+    ]);
+    expect(tpl.prototype.$$typeof).toBe("custom-template");
+  });
+
   it("should work for getTagNameOfCustomTemplate", () => {
     expect(getTagNameOfCustomTemplate("steve-test.custom-template")).toBe(
       "steve-test.custom-template"
@@ -160,16 +170,22 @@ describe("expandCustomTemplate", () => {
 
 describe("handleProxyOfCustomTemplate", () => {
   it("should handleProxyOfCustomTemplate for no proxy", () => {
+    const getElement = (): HTMLElement => document.createElement("div");
     expect(() => {
-      handleProxyOfCustomTemplate({});
       handleProxyOfCustomTemplate({
+        element: getElement(),
+      });
+      handleProxyOfCustomTemplate({
+        element: getElement(),
         proxy: {},
       });
       handleProxyOfCustomTemplate({
+        element: getElement(),
         proxy: {},
         proxyRefs: new Map(),
       });
       handleProxyOfCustomTemplate({
+        element: getElement(),
         proxy: {
           properties: {
             button: {
@@ -200,7 +216,7 @@ describe("handleProxyOfCustomTemplate", () => {
   });
 
   it("should handleProxyOfCustomTemplate", () => {
-    const templateElement = document.createElement("div") as any;
+    const tplElement = document.createElement("div") as any;
     const button = document.createElement("div") as any;
     const microView = document.createElement("div") as any;
 
@@ -209,10 +225,10 @@ describe("handleProxyOfCustomTemplate", () => {
     button.style.display = "block";
     button.tellStory = jest.fn();
     microView.noGap = false;
-    templateElement.dispatchEvent = jest.fn();
+    tplElement.dispatchEvent = jest.fn();
 
     const brick: RuntimeBrick = {
-      element: templateElement,
+      element: tplElement,
       proxy: {
         properties: {
           button: {
@@ -268,26 +284,26 @@ describe("handleProxyOfCustomTemplate", () => {
     handleProxyOfCustomTemplate(brick);
 
     // Changed prop in proxy.
-    expect(templateElement.button).toEqual("original button name");
-    templateElement.button = "new button name";
-    expect(templateElement.button).toEqual("new button name");
+    expect(tplElement.button).toEqual("original button name");
+    tplElement.button = "new button name";
+    expect(tplElement.button).toEqual("new button name");
     expect(button.buttonName).toEqual("new button name");
 
     // Same prop name as proxy.
-    expect(templateElement.noGap).toEqual(false);
-    templateElement.noGap = true;
-    expect(templateElement.noGap).toEqual(true);
+    expect(tplElement.noGap).toEqual(false);
+    tplElement.noGap = true;
+    expect(tplElement.noGap).toEqual(true);
     expect(microView.noGap).toEqual(true);
 
     // Changed transformable prop in proxy.
-    expect(templateElement.isDanger).toEqual(undefined);
-    templateElement.isDanger = true;
-    expect(templateElement.isDanger).toEqual(true);
+    expect(tplElement.isDanger).toEqual(undefined);
+    tplElement.isDanger = true;
+    expect(tplElement.isDanger).toEqual(true);
     expect(button.buttonType).toEqual("danger");
     expect(button.style.display).toEqual("inline");
 
     // Invoke a method.
-    templateElement.tell("good", "story");
+    tplElement.tell("good", "story");
     expect(button.tellStory).toBeCalledWith("good", "story");
 
     // Dispatch an event.
@@ -297,11 +313,14 @@ describe("handleProxyOfCustomTemplate", () => {
         cancelable: true,
       })
     );
-    const lastCallEvent = templateElement.dispatchEvent.mock.calls[0][0];
+    const lastCallEvent = tplElement.dispatchEvent.mock.calls[0][0];
     expect(lastCallEvent.type).toBe("button.click");
     expect(lastCallEvent.detail).toBe("oops!");
     expect(lastCallEvent.cancelable).toBe(true);
     expect(lastCallEvent.bubbles).toBe(false);
     expect(lastCallEvent.composed).toBe(false);
+
+    expect(tplElement.$$getElementByRef("button")).toBe(button);
+    expect(tplElement.$$getElementByRef("not-existed")).toBe(undefined);
   });
 });

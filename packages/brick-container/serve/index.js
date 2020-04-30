@@ -88,6 +88,9 @@ const watcher = chokidar.watch(
     path.join(env.brickPackagesDir, "*/dist/*.js"),
     path.join(env.microAppsDir, "*/storyboard.json"),
     path.join(env.templatePackagesDir, "*/dist/*.js"),
+    ...(env.mocked
+      ? [path.join(env.mockedMicroAppsDir, "*/storyboard.json")]
+      : []),
   ],
   {
     followSymlinks: true,

@@ -1,13 +1,15 @@
-import fs from "fs";
+import fs from "fs-extra";
 import os from "os";
 import path from "path";
 import klawSync from "klaw-sync";
 import * as changeCase from "change-case";
 import rp from "request-promise-native";
 import { FileWithContent, TargetType } from "../interface";
+import {getEasyopsConfig} from "../getEasyopsConfig"
 
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
+const easyopsConfig = getEasyopsConfig()
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
@@ -172,17 +174,25 @@ export async function loadTemplate({
     });
 
     let sdkVersion;
-    try {
-      const sdkPackage = await rp({
-        url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
-        json: true,
-        strictSSL: false
-      });
-      sdkVersion = `^${sdkPackage["dist-tags"].latest}`;
-    } catch {
-      sdkVersion = "FETCH LATEST VERSION ERROR";
+    const getVersion = async() => {
+      try {
+        const sdkPackage = await rp({
+          url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
+          json: true,
+          strictSSL: false
+        });
+        sdkVersion = `^${sdkPackage["dist-tags"].latest}`;
+      } catch {
+        sdkVersion = "FETCH LATEST VERSION ERROR";
+      }
+      translations["$sdk.version$"] = sdkVersion;
     }
-    translations["$sdk.version$"] = sdkVersion;
+
+    if (!easyopsConfig?.useLocalSdk) {
+      await getVersion()
+    } else {
+      translations["$sdk.version$"] = "1.0.0"
+    }
   }
 
   const files: FileWithContent[] = templateGroups.reduce(
@@ -249,7 +259,7 @@ export async function loadTemplate({
       path.join(targetRoot, "package.json"),
       replaceDepsVersion(
         replaceFileContent(
-          path.join(templateRoot, `${templateDirOfFileName}.json`),
+          path.join(templateRoot, `${targetMap[targetType]}.json`),
           translations
         )
       )

@@ -22,6 +22,7 @@ import {
   transformProperties,
   transformIntermediateData,
 } from "../transformProperties";
+import { recursiveMarkAsInjected } from "../injected";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -39,10 +40,16 @@ export class Resolver {
     }
   }
 
-  defineResolves(resolves: DefineResolveConf[]): void {
+  defineResolves(
+    resolves: DefineResolveConf[],
+    context: PluginRuntimeContext
+  ): void {
     if (Array.isArray(resolves)) {
       for (const resolveConf of resolves) {
-        this.definedResolves.set(resolveConf.id, resolveConf);
+        this.definedResolves.set(resolveConf.id, {
+          ...resolveConf,
+          args: computeRealValue(resolveConf.args, context, true),
+        });
       }
     }
   }
@@ -185,7 +192,9 @@ export class Resolver {
       promise = this.cache.get(cacheKey);
     } else {
       const actualArgs = args
-        ? context
+        ? ref
+          ? args // `args` are already computed for `defineResolves`
+          : context
           ? computeRealValue(args, context, true)
           : args
         : providerBrick.args || [];
@@ -219,6 +228,8 @@ export class Resolver {
     async function fetchData(): Promise<void> {
       const value = await promise;
       data = field === null || field === undefined ? value : get(value, field);
+      // The fetched data and its inner objects should never be *injected* again.
+      recursiveMarkAsInjected(data);
     }
 
     if (resolveConf.onReject) {
@@ -266,11 +277,6 @@ export class Resolver {
       resolveConf.transformFrom,
       resolveConf.transformMapArray
     );
-
-    if (context?.flags?.["storyboard-debug-mode"]) {
-      // eslint-disable-next-line no-console
-      console.log(`Transform:`, props, data);
-    }
   }
 
   scheduleRefreshing(): void {

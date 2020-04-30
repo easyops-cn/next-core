@@ -5,12 +5,13 @@ import {
   HandleRejectByTransform,
 } from "@easyops/brick-types";
 import {
-  transformProperties,
   transformIntermediateData,
+  transformElementProperties,
 } from "./transformProperties";
 import { computeRealValue } from "./setProperties";
 import { RuntimeBrick } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
+import { recursiveMarkAsInjected } from "./injected";
 
 export interface ProviderDependents {
   brick: RuntimeBrick;
@@ -98,6 +99,8 @@ export function makeProviderRefreshable(
                   field === null || field === undefined
                     ? value
                     : get(value, field);
+                // The fetched data and its inner objects should never be *injected* again.
+                recursiveMarkAsInjected(data);
               }
 
               if (onReject) {
@@ -108,7 +111,7 @@ export function makeProviderRefreshable(
                   const onRejectTransform = (onReject as HandleRejectByTransform)
                     .transform;
                   if (onRejectTransform) {
-                    transformProperties(
+                    transformElementProperties(
                       brick.element,
                       error,
                       brick.context
@@ -141,7 +144,7 @@ export function makeProviderRefreshable(
                 );
               }
 
-              transformProperties(
+              transformElementProperties(
                 brick.element,
                 data,
                 brick.context

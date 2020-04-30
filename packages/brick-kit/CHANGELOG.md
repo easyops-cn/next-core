@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.42.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.41.0...@easyops/brick-kit@1.42.0) (2020-04-30)
+
+### Bug Fixes
+
+- **use-brick:** evaluate in lazy mode for `useBrick.events` ([5cc660e](https://git.easyops.local/anyclouds/next-core/commits/5cc660e))
+
+### Features
+
+- transformElementProperties ([cc4cb22](https://git.easyops.local/anyclouds/next-core/commits/cc4cb22))
+
+# [1.41.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.4...@easyops/brick-kit@1.41.0) (2020-04-29)
+
+### Bug Fixes
+
+- expose defined properties for custom templates ([6e4897f](https://git.easyops.local/anyclouds/next-core/commits/6e4897f))
+- mark native and invalid elements in `useBrick` ([96aa950](https://git.easyops.local/anyclouds/next-core/commits/96aa950))
+- use `textContent` instead of `innerHTML` ([3a1a726](https://git.easyops.local/anyclouds/next-core/commits/3a1a726))
+
+### Features
+
+- portal-mount-point 支持挂载 slots 中的 brick 组件 ([657c8f2](https://git.easyops.local/anyclouds/next-core/commits/657c8f2))
+
+## [1.40.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.3...@easyops/brick-kit@1.40.4) (2020-04-24)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.40.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.2...@easyops/brick-kit@1.40.3) (2020-04-24)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.40.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.1...@easyops/brick-kit@1.40.2) (2020-04-20)
+
+### Bug Fixes
+
+- **debug-mode:** no longer log brick tree and transformations to console ([c68e2b1](https://git.easyops.local/anyclouds/next-core/commits/c68e2b1))
+- **segue:** compute real route path for segues ([0f92629](https://git.easyops.local/anyclouds/next-core/commits/0f92629))
+
+## [1.40.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.40.0...@easyops/brick-kit@1.40.1) (2020-04-20)
+
+### Bug Fixes
+
+- **devtools:** notify evaluations and transformations ([5d0de70](https://git.easyops.local/anyclouds/next-core/commits/5d0de70))
+- **devtools:** refine remembered event listeners ([93e745a](https://git.easyops.local/anyclouds/next-core/commits/93e745a))
+- **inject:** ignore to mark properties of non-pure-objects as injected ([b28181c](https://git.easyops.local/anyclouds/next-core/commits/b28181c))
+
+# [1.40.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.39.3...@easyops/brick-kit@1.40.0) (2020-04-16)
+
+### Bug Fixes
+
+- refine slot positions inside custom templates ([41d72b6](https://git.easyops.local/anyclouds/next-core/commits/41d72b6))
+- **defineResolves:** support placeholders in defineResolves ([bcea26a](https://git.easyops.local/anyclouds/next-core/commits/bcea26a))
+
+### Features
+
+- support `if` in events ([4a4423f](https://git.easyops.local/anyclouds/next-core/commits/4a4423f))
+- 增加 portal-mount-point ([3a802b0](https://git.easyops.local/anyclouds/next-core/commits/3a802b0))
+- **custom-template:** support using `targetRef` inside a custom template ([dc162d8](https://git.easyops.local/anyclouds/next-core/commits/dc162d8))
+- avoid re-cooking ([fbef55c](https://git.easyops.local/anyclouds/next-core/commits/fbef55c))
+
 ## [1.39.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.39.2...@easyops/brick-kit@1.39.3) (2020-04-14)
 
 **Note:** Version bump only for package @easyops/brick-kit

@@ -49,10 +49,6 @@ export interface ResponseListWrapper<T> {
     \\"dist\\",
     \\"deploy\\"
   ],
-  \\"repository\\": {
-    \\"type\\": \\"git\\",
-    \\"url\\": \\"git@git.easyops.local:anyclouds/next-sdk.git\\"
-  },
   \\"scripts\\": {
     \\"clean\\": \\"rimraf dist\\",
     \\"prestart\\": \\"npm run clean\\",

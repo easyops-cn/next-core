@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.1.2...@easyops/rollup-config-factory@1.1.3) (2020-04-29)
+
+
+### Bug Fixes
+
+* **rollup:** leave `process.env` to be handled by webpack ([8ead888](https://git.easyops.local/anyclouds/next-core/commits/8ead888))
+
+
+
+
+
+## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.1.1...@easyops/rollup-config-factory@1.1.2) (2020-04-16)
+
+**Note:** Version bump only for package @easyops/rollup-config-factory
+
 ## [1.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.1.0...@easyops/rollup-config-factory@1.1.1) (2020-04-14)
 
 **Note:** Version bump only for package @easyops/rollup-config-factory

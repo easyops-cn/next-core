@@ -29,6 +29,11 @@ export function createProviderClass(
       return "provider";
     }
 
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    static get _dev_only_definedProperties(): string[] {
+      return ["args"];
+    }
+
     args: Parameters<typeof api> = [] as any;
 
     updateArgs(event: CustomEvent<Record<string, any>>): void {

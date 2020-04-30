@@ -119,6 +119,25 @@ describe("evaluate", () => {
     ).toEqual(5);
   });
 
+  it("should work when set lazy", () => {
+    const preEvaluated = evaluate(
+      "<% DATA %>",
+      {
+        data: "<% oops %>",
+      },
+      {
+        lazy: true,
+      }
+    );
+    expect(preEvaluated).toEqual({
+      [Symbol.for("pre.evaluated.raw")]: "<% DATA %>",
+      [Symbol.for("pre.evaluated.context")]: {
+        data: "<% oops %>",
+      },
+    });
+    expect(evaluate(preEvaluated, {})).toEqual("<% oops %>");
+  });
+
   it("should throw if contains syntax error", () => {
     expect(() => evaluate("<% oops( %>")).toThrowErrorMatchingInlineSnapshot(
       `"Unexpected token (1:5), in \\"<% oops( %>\\""`
