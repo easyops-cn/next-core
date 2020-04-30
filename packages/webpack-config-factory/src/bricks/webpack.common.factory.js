@@ -7,10 +7,10 @@ const loadLanguages = require("prismjs/components/index");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 
-const getStyleLoaders = cssOptions => [
+const getStyleLoaders = (cssOptions) => [
   {
     loader: "css-loader",
-    options: cssOptions
+    options: cssOptions,
   },
   {
     loader: "postcss-loader",
@@ -18,10 +18,10 @@ const getStyleLoaders = cssOptions => [
       ident: "postcss",
       plugins: () => [
         require("postcss-nested")(),
-        require("postcss-preset-env")()
-      ]
-    }
-  }
+        require("postcss-preset-env")(),
+      ],
+    },
+  },
 ];
 
 loadLanguages(["ts", "tsx", "json"]);
@@ -34,7 +34,7 @@ const highlight = (code, lang) => {
   return code;
 };
 
-const getImageLoaderOptions = distPublicPath => ({
+const getImageLoaderOptions = (distPublicPath) => ({
   use: [
     {
       loader: "url-loader",
@@ -42,10 +42,10 @@ const getImageLoaderOptions = distPublicPath => ({
         name: "assets/[name].[hash:8].[ext]",
         limit: 8192,
         publicPath: distPublicPath,
-        esModule: false
-      }
-    }
-  ]
+        esModule: false,
+      },
+    },
+  ],
 });
 
 module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
@@ -60,7 +60,7 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
 
   const packageJson = require(path.join(cwdDirname, "package.json"));
   const packageName = packageJson.name.split("/")[1];
-  const dll = Object.keys(packageJson.peerDependencies || {}).filter(name =>
+  const dll = Object.keys(packageJson.peerDependencies || {}).filter((name) =>
     name.startsWith("@dll/")
   );
 
@@ -68,12 +68,12 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
     context: appRoot,
     entry: path.join(cwdDirname, "src", "index"),
     output: {
-      path: path.join(cwdDirname, "dist")
+      path: path.join(cwdDirname, "dist"),
       // publicPath: "/"
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
-      symlinks: false
+      symlinks: false,
     },
     module: {
       rules: [
@@ -81,15 +81,15 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
           test: /\.md$/,
           use: [
             {
-              loader: "html-loader"
+              loader: "html-loader",
             },
             {
               loader: "markdown-loader",
               options: {
-                highlight
-              }
-            }
-          ]
+                highlight,
+              },
+            },
+          ],
         },
         {
           // Include ts, tsx, js, and jsx files.
@@ -97,37 +97,37 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
           exclude: /node_modules/,
           loader: "babel-loader",
           options: {
-            rootMode: "upward"
-          }
+            rootMode: "upward",
+          },
         },
         {
           ...imageLoaderOptions,
           test: /\.svg$/,
           issuer: {
-            test: /\.(ts|js)x?$/
+            test: /\.(ts|js)x?$/,
           },
           use: [
             {
               loader: "babel-loader",
               options: {
-                rootMode: "upward"
-              }
+                rootMode: "upward",
+              },
             },
             {
               loader: "@svgr/webpack",
               options: {
-                babel: false
-              }
+                babel: false,
+              },
             },
-            ...imageLoaderOptions.use
-          ]
+            ...imageLoaderOptions.use,
+          ],
         },
         {
           test: /\.svg$/,
           issuer: {
-            exclude: /\.(ts|js)x?$/
+            exclude: /\.(ts|js)x?$/,
           },
-          ...imageLoaderOptions
+          ...imageLoaderOptions,
         },
         {
           test: /\.(woff(2)?|ttf|eot)$/,
@@ -136,20 +136,20 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
               loader: "file-loader",
               options: {
                 name: "assets/[name].[hash:8].[ext]",
-                publicPath: distPublicPath
-              }
-            }
-          ]
+                publicPath: distPublicPath,
+              },
+            },
+          ],
         },
         {
           test: /\.(png|jpg)$/,
-          ...imageLoaderOptions
+          ...imageLoaderOptions,
         },
         {
           test: /\.css$/,
           exclude: /\.(module|shadow)\.css$/,
           sideEffects: true,
-          use: ["style-loader", ...getStyleLoaders()]
+          use: ["style-loader", ...getStyleLoaders()],
         },
         {
           test: /\.module\.css$/,
@@ -157,15 +157,15 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
             "style-loader",
             ...getStyleLoaders({
               modules: {
-                localIdentName: "[local]--[hash:base64:8]"
-              }
-            })
-          ]
+                localIdentName: "[local]--[hash:base64:8]",
+              },
+            }),
+          ],
         },
         {
           test: /\.shadow\.css$/,
           sideEffects: true,
-          use: ["to-string-loader", ...getStyleLoaders()]
+          use: ["to-string-loader", ...getStyleLoaders()],
         },
         {
           test: /\.less$/,
@@ -176,53 +176,55 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
             {
               loader: "less-loader",
               options: {
-                sourceMap: true,
-                javascriptEnabled: true
-              }
-            }
-          ]
+                lessOptions: {
+                  sourceMap: true,
+                  javascriptEnabled: true,
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.html$/,
-          use: "raw-loader"
-        }
-      ]
+          use: "raw-loader",
+        },
+      ],
     },
     plugins: [
       scope === "templates"
         ? new ScanTemplatesPlugin(packageName)
         : new ScanCustomElementsPlugin(
             packageName,
-            dll.map(name => name.substr("@dll/".length))
+            dll.map((name) => name.substr("@dll/".length))
           ),
       new CleanWebpackPlugin(),
       new webpack.DllReferencePlugin({
         context: appRoot,
         // 解决该包在 `npm link` 下引用到错误的包路径的问题
         manifest: require(require.resolve("@easyops/brick-dll", {
-          paths: [cwdDirname]
-        }))
+          paths: [cwdDirname],
+        })),
       }),
       ...dll.map(
-        name =>
+        (name) =>
           new webpack.DllReferencePlugin({
             context: appRoot,
             // 解决该包在 `npm link` 下引用到错误的包路径的问题
             manifest: require(require.resolve(name, {
-              paths: [cwdDirname]
-            }))
+              paths: [cwdDirname],
+            })),
           })
       ),
       ...(copyFiles && copyFiles.length > 0
         ? [
             new CopyPlugin(copyFiles, {
-              context: cwdDirname
-            })
+              context: cwdDirname,
+            }),
           ]
         : []),
       ...(Array.isArray(ignores)
-        ? ignores.map(item => new webpack.IgnorePlugin(item))
-        : [])
-    ]
+        ? ignores.map((item) => new webpack.IgnorePlugin(item))
+        : []),
+    ],
   };
 };
