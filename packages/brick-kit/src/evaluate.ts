@@ -14,6 +14,10 @@ interface PreEvaluated {
   };
 }
 
+export interface EvaluateOptions {
+  lazy?: boolean;
+}
+
 export function isPreEvaluated(raw: any): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
 }
@@ -27,7 +31,8 @@ export function evaluate(
   runtimeContext: {
     event?: CustomEvent;
     data?: any;
-  } = {}
+  } = {},
+  options?: EvaluateOptions
 ): any {
   if (typeof raw !== "string") {
     // If the `raw` is not a string, it must be a pre-evaluated object.
@@ -56,7 +61,7 @@ export function evaluate(
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
-  let missingEvent = false;
+  let missingEvent = options?.lazy === true;
   if (attemptToVisitEvent) {
     if (hasOwnProperty(runtimeContext, "event")) {
       globalVariables.EVENT = runtimeContext.event;
