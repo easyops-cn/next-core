@@ -45,7 +45,7 @@
     "execa": "^4.0.0",
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^25.5.2",
+    "jest": "^25.5.4",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "lerna": "3.20.0",
     "lint-staged": "^10.2.0",
