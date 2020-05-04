@@ -4131,7 +4131,7 @@ chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chokidar@^3.3.1, chokidar@^3.4.0:
+chokidar@^3.4.0:
   version "3.4.0"
   resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.4.0.tgz?cache=0&sync_timestamp=1587911196018&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchokidar%2Fdownload%2Fchokidar-3.4.0.tgz#b30611423ce376357c765b9b8f904b9fba3c0be8"
   integrity sha1-swYRQjzjdjV8dlubj5BLn7o8C+g=
@@ -4161,10 +4161,10 @@ ci-info@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
 
-ci-job-number@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npm.taobao.org/ci-job-number/download/ci-job-number-1.2.1.tgz#42d3c730f227a4128bb0180911d62a818e709254"
-  integrity sha1-QtPHMPInpBKLsBgJEdYqgY5wklQ=
+ci-job-number@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npm.taobao.org/ci-job-number/download/ci-job-number-1.2.2.tgz#f4e5918fcaeeda95b604f214be7d7d4a961fe0c0"
+  integrity sha1-9OWRj8ru2pW2BPIUvn19SpYf4MA=
 
 cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   version "1.0.4"
@@ -9855,10 +9855,10 @@ optionator@^0.8.1, optionator@^0.8.3:
     type-check "~0.3.2"
     word-wrap "~1.2.3"
 
-ora@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/ora/download/ora-4.0.3.tgz#752a1b7b4be4825546a7a3d59256fa523b6b6d05"
-  integrity sha1-dSobe0vkglVGp6PVklb6UjtrbQU=
+ora@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.npm.taobao.org/ora/download/ora-4.0.4.tgz?cache=0&sync_timestamp=1587481470351&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fora%2Fdownload%2Fora-4.0.4.tgz#e8da697cc5b6a47266655bf68e0fb588d29a545d"
+  integrity sha1-6NppfMW2pHJmZVv2jg+1iNKaVF0=
   dependencies:
     chalk "^3.0.0"
     cli-cursor "^3.1.0"
@@ -12749,18 +12749,18 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.4.5:
-  version "4.4.5"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.4.5.tgz#b700621bf2c2ca0814425d78e530722996caf889"
-  integrity sha1-twBiG/LCyggUQl145TByKZbK+Ik=
+size-limit@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.5.0.tgz#926b916ecc0d6dbb150627fef79273a84436aad1"
+  integrity sha1-kmuRbswNbbsVBif+95JzqEQ2qtE=
   dependencies:
     bytes "^3.1.0"
     chalk "^4.0.0"
-    chokidar "^3.3.1"
-    ci-job-number "^1.2.1"
+    chokidar "^3.4.0"
+    ci-job-number "^1.2.2"
     cosmiconfig "^6.0.0"
     globby "^11.0.0"
-    ora "^4.0.3"
+    ora "^4.0.4"
     read-pkg-up "^7.0.1"
 
 slash@^1.0.0:
