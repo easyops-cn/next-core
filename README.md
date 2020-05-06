@@ -21,14 +21,14 @@ http://brick-next.162.d.easyops.local/
 
 `lerna run start --scope=OTHER-PACKAGES`
 
-The dev server will use this repository's sibling director of *brick-next* by default. It means it will work if your projects are like:
+The dev server will use this repository's sibling director of _brick-next_ by default. It means it will work if your projects are like:
 
 ```
 /Users/one/easyops/next-core
 /Users/one/easyops/brick-next
 ```
 
-In case the *brick-next* located in other place, you could add a `dev.config.js` in this repository, E.g.:
+In case the _brick-next_ located in other place, you could add a `dev.config.js` in this repository, E.g.:
 
 ```js
 const path = require("path");
@@ -47,9 +47,5 @@ Prefix `OFFLINE=true` before `yarn start`.
 ### Test
 
 `yarn test`
-
-### Create New Brick-Packages or New Bricks in Existed Packages
-
-`yarn yo`
 
 [@easyops/brick-dll]: packages/brick-dll
