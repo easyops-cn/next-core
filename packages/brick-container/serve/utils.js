@@ -128,7 +128,7 @@ function getSingleTemplatePackage(env, templatePackageName) {
 }
 
 function mergeSettings(defaultSettings, userSettings) {
-  const { feature_flags: featureFlags, homepage, brand } = userSettings;
+  const { featureFlags, homepage, brand } = userSettings;
   Object.assign(defaultSettings.featureFlags, featureFlags);
   Object.assign(defaultSettings, { homepage });
   Object.assign(defaultSettings.brand, brand);
@@ -140,15 +140,33 @@ function getUserSettings() {
   if (!fs.existsSync(yamlPath)) {
     return {};
   }
-  return yaml.safeLoad(fs.readFileSync(yamlPath), "utf8");
+  const { feature_flags: featureFlags, ...rest } = yaml.safeLoad(
+    fs.readFileSync(yamlPath),
+    "utf8"
+  );
+  return {
+    featureFlags,
+    ...rest,
+  };
+}
+
+function getDevSettings() {
+  return {
+    featureFlags: {
+      "development-mode": true,
+    },
+  };
 }
 
 function getSettings() {
-  const defaultSettings = {
-    featureFlags: {},
-    homepage: "/",
-    brand: {},
-  };
+  const defaultSettings = mergeSettings(
+    {
+      featureFlags: {},
+      homepage: "/",
+      brand: {},
+    },
+    getDevSettings()
+  );
   return mergeSettings(defaultSettings, getUserSettings());
 }
 
@@ -160,6 +178,7 @@ exports.getSingleBrickPackage = getSingleBrickPackage;
 exports.getTemplatePackages = getTemplatePackages;
 exports.getSingleTemplatePackage = getSingleTemplatePackage;
 exports.getSettings = getSettings;
+exports.getDevSettings = getDevSettings;
 exports.mergeSettings = mergeSettings;
 exports.getUserSettings = getUserSettings;
 exports.getNamesOfMicroApps = getNamesOfMicroApps;

@@ -1,6 +1,6 @@
 // Inspired by [LitElement](https://github.com/Polymer/lit-element)
-
 import { PropertyDeclaration, UpdatingElement } from "../UpdatingElement";
+import { getRuntime } from "../runtime";
 
 // From the TC39 Decorators proposal
 interface ClassElement {
@@ -30,7 +30,9 @@ export function property(options?: PropertyDeclaration): any {
     // istanbul ignore if
     if (element.key in HTMLElement.prototype) {
       // eslint-disable-next-line no-console
-      console.error(
+      console[
+        getRuntime().getFeatureFlags()["development-mode"] ? "error" : "warn"
+      ](
         `"${element.key}" is a native HTMLElement property, and is deprecated to be used as a brick property.`
       );
     }
