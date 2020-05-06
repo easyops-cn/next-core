@@ -11809,10 +11809,10 @@ react-test-renderer@^16.0.0-0:
     react-is "^16.8.6"
     scheduler "^0.13.6"
 
-react-transition-group@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.npm.taobao.org/react-transition-group/download/react-transition-group-4.4.0.tgz?cache=0&sync_timestamp=1588705612716&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-transition-group%2Fdownload%2Freact-transition-group-4.4.0.tgz#59f1e6ec384a11e245fa6f2ade8e104d752ac87c"
-  integrity sha1-WfHm7DhKEeJF+m8q3o4QTXUqyHw=
+react-transition-group@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.npm.taobao.org/react-transition-group/download/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
+  integrity sha1-Y4aPkyWjjqXulTXYKDJ/hXczRck=
   dependencies:
     "@babel/runtime" "^7.5.5"
     dom-helpers "^5.0.1"
