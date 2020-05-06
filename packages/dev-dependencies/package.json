@@ -53,7 +53,7 @@
     "pretty-format": "^26.0.1",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",
-    "size-limit": "^4.4.5",
+    "size-limit": "^4.5.0",
     "typescript": "~3.8.3"
   },
   "devDependencies": {
