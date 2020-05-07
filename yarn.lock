@@ -8540,10 +8540,10 @@ lerna@3.20.0:
     import-local "^2.0.0"
     npmlog "^4.1.2"
 
-less-loader@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-6.0.0.tgz?cache=0&sync_timestamp=1587746448190&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless-loader%2Fdownload%2Fless-loader-6.0.0.tgz#f7833177c2fc3de5014de072d5c26eca0954c1cb"
-  integrity sha1-94Mxd8L8PeUBTeBy1cJuyglUwcs=
+less-loader@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-6.1.0.tgz#59fd591df408ced89a40fce11a2aea449b005631"
+  integrity sha1-Wf1ZHfQIztiaQPzhGirqRJsAVjE=
   dependencies:
     clone "^2.1.2"
     less "^3.11.1"
