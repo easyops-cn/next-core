@@ -23,61 +23,30 @@
 - `dll/*`'s scope is `@dll`
 - `packages/*`'s scope is `@easyops`
 
-## Nginx Configure
+## 开发调试
 
-Production in local (For debugging production environment):
+如果你希望调试本地版本的、属于 `@easyops/brick-dll` 的包，例如 `@easyops/brick-kit`，那么你需要依次打开三个终端，并分别运行：
 
-```conf
-server {
-    listen 8082;
-    root /PATH/TO/next-core/packages/brick-container/dist;
-    expires -1;
-    location / {
-        try_files $uri $uri/ /index.html;
-        index index.html;
-        ssi on;
-    }
-    location /conf/ {
-        root /PATH/TO/next-core/packages/brick-container/;
-    }
-    location /bricks/ {
-        root /PATH/TO/next-core/;
-    }
-    location /api/ {
-        proxy_pass http://brick-next.162.d.easyops.local;
-    }
-}
-```
+1. `lerna run start --scope @easyops/brick-kit`；
+2. `lerna run start --scope @easyops/brick-dll`；
+3. `REMOTE=true yarn start`。
 
-Production on 162:
+这是由依赖关系决定的 `@easyops/brick-container` ==> `@easyops/brick-dll` ==> `@easyops/brick-kit`。开发其它包如 `@easyops/brick-utils` 同理。
 
-```conf
-server {
-    listen 80;
-    server_name brick-next.162.d.easyops.local;
-    root /usr/local/easyops/brick_next/packages/brick-container/dist;
-    expires -1;
+由于目前不支持为 `yarn start` 传递类似 `yarn serve` 传递的 `--remote` 等参数，需要使用对应的环境变量来设置相关参数。
 
-    set $base_href '/';
-    if ($http_x_base_href) {
-        set $base_href '/next/';
-    }
+- `REMOTE=true` 等于 `--remote`；
+- `LOCAL_BRICKS=abc,xyz` 等于 `--local-bricks=abc,xyz`；
+- `LOCAL_APPS=abc,xyz` 等于 `--local-apps=abc,xyz`；
+- `MERGE_SETTINGS=true` 等于 `--merge-settings`；
+- 以此类推（将 `yarn serve` 支持的参数改为 `大写_常量` 格式作为名称）。
 
-    location / {
-        try_files $uri $uri/ /index.html;
-        index index.html;
-        ssi on;
-    }
-    location /conf/ {
-        root /usr/local/easyops/brick_next/packages/brick-container;
-    }
-    location /bricks/ {
-        root /usr/local/easyops/brick_next/;
-    }
-    location /api/ {
-        proxy_pass http://127.0.0.1:8104;
-    }
-}
+例如：
+
+```sh
+REMOTE=true LOCAL_BRICKS=abc yarn start
+# is similar to
+yarn serve --remote --local-bricks=abc
 ```
 
 [lerna]: https://github.com/lerna/lerna

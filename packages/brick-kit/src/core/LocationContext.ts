@@ -389,8 +389,16 @@ export class LocationContext {
         if (ifConf.if === false) {
           return false;
         }
+        // istanbul ignore if
+        if (typeof ifConf.if !== "boolean") {
+          // eslint-disable-next-line no-console
+          console.warn("Received an unexpected condition result:", ifConf.if);
+        }
       } else if (ifChecked === false) {
         return false;
+      } /* istanbul ignore if */ else if (typeof ifChecked !== "boolean") {
+        // eslint-disable-next-line no-console
+        console.warn("Received an unexpected condition result:", ifChecked);
       }
     }
 
