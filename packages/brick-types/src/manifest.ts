@@ -379,6 +379,16 @@ export interface UseSingleBrickConf {
   transformFrom?: string | string[];
   transform?: GeneralTransform;
   if?: string | boolean | ResolveConf;
+  slots?: UseBrickSlotsConf;
+}
+
+export interface UseBrickSlotsConf {
+  [slotName: string]: UseBrickSlotConf;
+}
+
+export interface UseBrickSlotConf {
+  type?: "bricks";
+  bricks: UseSingleBrickConf[];
 }
 
 export interface StoryboardMeta {

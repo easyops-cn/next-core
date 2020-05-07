@@ -6,6 +6,7 @@ import {
   UseSingleBrickConf,
   RuntimeBrickElement,
   BrickEventsMap,
+  UseBrickSlotsConf,
 } from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
@@ -117,12 +118,40 @@ function SingleBrickAsComponent(
     const ifChecked = doTransform(data, useBrick.if);
     if (ifChecked === false) {
       return null;
+    } /* istanbul ignore if */ else if (typeof ifChecked !== "boolean") {
+      // eslint-disable-next-line no-console
+      console.warn("Received an unexpected condition result:", ifChecked);
     }
   }
 
-  return React.createElement(useBrick.brick, {
-    ref: refCallback,
-  });
+  return React.createElement(
+    useBrick.brick,
+    {
+      ref: refCallback,
+    },
+    ...slotsToChildren(
+      useBrick.slots
+    ).map((item: UseSingleBrickConf, index: number) => (
+      <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+    ))
+  );
+}
+
+function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
+  if (!slots) {
+    return [];
+  }
+  return Object.entries(slots).flatMap(([slot, slotConf]) =>
+    Array.isArray(slotConf.bricks)
+      ? slotConf.bricks.map((child) => ({
+          ...child,
+          properties: {
+            ...child.properties,
+            slot,
+          },
+        }))
+      : []
+  );
 }
 
 function transformEvents(data: any, events: BrickEventsMap): BrickEventsMap {

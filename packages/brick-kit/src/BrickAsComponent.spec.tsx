@@ -15,6 +15,7 @@ const _internalApiGetRouterState = jest
 jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
   resolve: spyOnResolve,
 } as any);
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
 
 // Mock a custom element of `custom-existed`.
 customElements.define(
@@ -188,5 +189,38 @@ describe("BrickAsComponent", () => {
     });
     await (global as any).flushPromises();
     expect(spyOnResolve).toBeCalledTimes(1);
+  });
+
+  it("should work with slots", async () => {
+    const wrapper = mount(
+      <BrickAsComponent
+        useBrick={{
+          brick: "div",
+          slots: {
+            content: {
+              bricks: [
+                {
+                  brick: "span",
+                  transform: {
+                    textContent: "<% DATA.tips %>",
+                  },
+                },
+              ],
+            },
+            toolbar: {} as any,
+          },
+        }}
+        data={{
+          tips: "good",
+        }}
+      />
+    );
+
+    await (global as any).flushPromises();
+    const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
+    const span = div.firstChild as HTMLSpanElement;
+    expect(div.childNodes.length).toBe(1);
+    expect(span.tagName).toBe("SPAN");
+    expect(span.textContent).toBe("good");
   });
 });
