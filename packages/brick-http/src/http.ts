@@ -1,6 +1,10 @@
 import { fetch } from "./fetch";
 import { HttpFetchError, HttpResponseError, HttpParseError } from "./errors";
 
+function isNil(value: any): boolean {
+  return value === undefined || value === null;
+}
+
 const base = document.querySelector("base");
 const fullBaseHref = base ? base.href : location.origin + "/";
 
@@ -61,17 +65,17 @@ const getUrlWithParams = (url: string, params?: HttpParams): string => {
   if (params) {
     const parsedUrl = new URL(url, fullBaseHref);
     if (params instanceof URLSearchParams) {
-      params.forEach(function(value, key) {
+      params.forEach(function (value, key) {
         parsedUrl.searchParams.append(key, value);
       });
     } else {
       Object.entries(params).forEach(([key, value]) => {
         if (Array.isArray(value)) {
-          value.forEach(v => {
-            parsedUrl.searchParams.append(key, v);
+          value.forEach((v) => {
+            parsedUrl.searchParams.append(key, isNil(v) ? "" : v);
           });
         } else {
-          parsedUrl.searchParams.append(key, value);
+          parsedUrl.searchParams.append(key, isNil(value) ? "" : value);
         }
       });
     }
@@ -101,7 +105,7 @@ const getBodyAndHeaders = (
     }
     return {
       body,
-      headers: parsedHeaders
+      headers: parsedHeaders,
     };
   }
   return {};
@@ -117,11 +121,11 @@ const simpleRequest = <T = any>(
     getUrlWithParams(url, params),
     {
       ...requestInit,
-      method
+      method,
     },
     {
       responseType,
-      interceptorParams
+      interceptorParams,
     }
   );
 };
@@ -144,11 +148,11 @@ const requestWithBody = <T = any>(
     {
       ...requestInit,
       method,
-      ...getBodyAndHeaders(data, headers)
+      ...getBodyAndHeaders(data, headers),
     },
     {
       responseType,
-      interceptorParams
+      interceptorParams,
     }
   );
 };
@@ -187,5 +191,5 @@ export const http = {
   patch,
   delete: httpDelete,
   head,
-  request
+  request,
 };

@@ -30,9 +30,9 @@ Array [
 ]
 `;
 
-exports[`http GET http://example.com with [{"params":{"lang":"zh-CN"}}] should work 1`] = `
+exports[`http GET http://example.com with [{"params":{"lang":"zh-CN","type":null}}] should work 1`] = `
 Array [
-  "http://example.com/?lang=zh-CN",
+  "http://example.com/?lang=zh-CN&type=&category=",
   Object {
     "method": "GET",
   },
@@ -40,9 +40,9 @@ Array [
 ]
 `;
 
-exports[`http GET http://example.com with [{"params":{"lang":["zh-CN","en-US"]}}] should work 1`] = `
+exports[`http GET http://example.com with [{"params":{"lang":["zh-CN","en-US"],"type":null}}] should work 1`] = `
 Array [
-  "http://example.com/?lang=zh-CN&lang=en-US",
+  "http://example.com/?lang=zh-CN&lang=en-US&type=&category=",
   Object {
     "method": "GET",
   },
@@ -50,9 +50,9 @@ Array [
 ]
 `;
 
-exports[`http GET http://example.com/for-good?token=secret with [{"params":{"lang":"zh-CN"}}] should work 1`] = `
+exports[`http GET http://example.com/for-good?token=secret with [{"params":{"lang":"zh-CN","type":null}}] should work 1`] = `
 Array [
-  "http://example.com/for-good?token=secret&lang=zh-CN",
+  "http://example.com/for-good?token=secret&lang=zh-CN&type=&category=",
   Object {
     "method": "GET",
   },
@@ -186,9 +186,9 @@ Array [
 ]
 `;
 
-exports[`http POST http://example.com/for-good with [{"for":"the throne"},{"params":{"lang":"zh-CN"}}] should work 1`] = `
+exports[`http POST http://example.com/for-good with [{"for":"the throne"},{"params":{"lang":"zh-CN","type":null}}] should work 1`] = `
 Array [
-  "http://example.com/for-good?lang=zh-CN",
+  "http://example.com/for-good?lang=zh-CN&type=&category=",
   Object {
     "body": "{\\"for\\":\\"the throne\\"}",
     "headers": Headers {
