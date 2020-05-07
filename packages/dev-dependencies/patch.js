@@ -33,6 +33,10 @@ module.exports = function patch() {
     addMockMicroApps();
   }
 
+  if (semver.lt(currentRenewVersion, "0.6.14")) {
+    removeJestEnvJsdomSixteen();
+  }
+
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
@@ -215,5 +219,20 @@ function addMockMicroApps() {
         (match, p1, p2) => `${p1}${os.EOL}${needAppend}${p2}`
       )
     );
+  }
+}
+
+function removeJestEnvJsdomSixteen() {
+  const filePath = path.resolve("jest.config.js");
+  if (fs.existsSync(filePath)) {
+    const content = fs.readFileSync(filePath, "utf8");
+    const needClear = new RegExp(
+      " *" +
+        escapeRegExp('testEnvironment: "jest-environment-jsdom-sixteen"') +
+        ",?[\\r\\n]*"
+    );
+    if (needClear.test(content)) {
+      fs.writeFileSync(filePath, content.replace(needClear, ""));
+    }
   }
 }

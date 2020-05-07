@@ -30,7 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/types": "^7.9.6",
-    "@size-limit/file": "^4.4.5",
+    "@size-limit/file": "^4.5.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.1",
@@ -46,20 +46,19 @@
     "@types/prettier": "^2.0.0",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
-    "@typescript-eslint/eslint-plugin": "^2.30.0",
-    "babel-jest": "^25.5.1",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "babel-jest": "^26.0.1",
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.4",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-react-hooks": "^3.0.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "husky": "^4.2.5",
-    "jest": "^25.5.2",
-    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "jest": "^26.0.1",
     "lerna": "3.20.0",
-    "lint-staged": "^10.2.0",
+    "lint-staged": "^10.2.2",
     "null-loader": "^4.0.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
@@ -71,6 +70,7 @@
   ],
   "resolutions": {
     "@types/react": "^16.9.34",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "moment": "^2.25.3"
   }
 }
