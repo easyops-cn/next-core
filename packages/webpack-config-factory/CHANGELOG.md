@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.9.1...@easyops/webpack-config-factory@1.9.2) (2020-05-07)
+
+### Bug Fixes
+
+- **less-loader:** update config after upgrade less-loader from v5 to v6 ([67f3132](https://git.easyops.local/anyclouds/next-core/commits/67f3132))
+
 ## [1.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.9.0...@easyops/webpack-config-factory@1.9.1) (2020-04-16)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory

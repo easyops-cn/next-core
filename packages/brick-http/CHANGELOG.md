@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@1.0.2...@easyops/brick-http@1.0.3) (2020-05-07)
+
+### Bug Fixes
+
+- **brick-http:** getBodyAndHeaders 将为 null 或 undefined 的值转为空字符串 ([e73489c](https://git.easyops.local/anyclouds/next-core/commits/e73489c))
+
 ## [1.0.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@1.0.1...@easyops/brick-http@1.0.2) (2020-04-16)
 
 **Note:** Version bump only for package @easyops/brick-http

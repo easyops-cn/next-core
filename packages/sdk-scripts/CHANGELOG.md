@@ -3,18 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.3.4...@easyops/sdk-scripts@1.4.0) (2020-04-29)
+## [1.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.4.0...@easyops/sdk-scripts@1.4.1) (2020-05-07)
 
+**Note:** Version bump only for package @easyops/sdk-scripts
+
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.3.4...@easyops/sdk-scripts@1.4.0) (2020-04-29)
 
 ### Features
 
-* generate provider ([2ad3b82](https://git.easyops.local/anyclouds/next-core/commits/2ad3b82))
-* generate sdk and provider brick refs BRICK_STORE-1434 ([d6c212c](https://git.easyops.local/anyclouds/next-core/commits/d6c212c))
-* read .easyops.yo.config refs BRICK_STORE-1434 ([05c310f](https://git.easyops.local/anyclouds/next-core/commits/05c310f))
-
-
-
-
+- generate provider ([2ad3b82](https://git.easyops.local/anyclouds/next-core/commits/2ad3b82))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([d6c212c](https://git.easyops.local/anyclouds/next-core/commits/d6c212c))
+- read .easyops.yo.config refs BRICK_STORE-1434 ([05c310f](https://git.easyops.local/anyclouds/next-core/commits/05c310f))
 
 ## [1.3.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.3.3...@easyops/sdk-scripts@1.3.4) (2020-04-16)
 

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.13...@easyops/dev-dependencies@0.6.14) (2020-05-07)
+
+### Bug Fixes
+
+- remove jest-environment-jsdom-sixteen since jest v26 includes it ([0ee19d5](https://git.easyops.local/anyclouds/next-core/commits/0ee19d5))
+
 ## [0.6.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.12...@easyops/dev-dependencies@0.6.13) (2020-04-30)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

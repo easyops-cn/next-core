@@ -3,16 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.46.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.1...@easyops/brick-utils@1.46.2) (2020-04-29)
+## [1.46.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.2...@easyops/brick-utils@1.46.3) (2020-05-07)
 
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [1.46.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.1...@easyops/brick-utils@1.46.2) (2020-04-29)
 
 ### Bug Fixes
 
-* expose defined properties for providers ([5e9fbca](https://git.easyops.local/anyclouds/next-core/commits/5e9fbca))
-
-
-
-
+- expose defined properties for providers ([5e9fbca](https://git.easyops.local/anyclouds/next-core/commits/5e9fbca))
 
 ## [1.46.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.0...@easyops/brick-utils@1.46.1) (2020-04-24)
 

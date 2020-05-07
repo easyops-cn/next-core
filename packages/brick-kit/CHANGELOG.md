@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.42.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.42.0...@easyops/brick-kit@1.42.1) (2020-05-07)
+
+### Bug Fixes
+
+- log errors for invalid properties of custom elements in dev mode ([a37c645](https://git.easyops.local/anyclouds/next-core/commits/a37c645))
+- refine warning if using a native property as brick's property ([4d9c309](https://git.easyops.local/anyclouds/next-core/commits/4d9c309))
+- warn if using a native property as brick's property ([750b5d4](https://git.easyops.local/anyclouds/next-core/commits/750b5d4))
+- warn unexpected condition result ([a577537](https://git.easyops.local/anyclouds/next-core/commits/a577537))
+
 # [1.42.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.41.0...@easyops/brick-kit@1.42.0) (2020-04-30)
 
 ### Bug Fixes

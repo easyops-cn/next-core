@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.19.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.1...@easyops/brick-container@1.19.2) (2020-05-07)
+
+### Bug Fixes
+
+- log errors for invalid properties of custom elements in dev mode ([a37c645](https://git.easyops.local/anyclouds/next-core/commits/a37c645))
+- **less-loader:** update config after upgrade less-loader from v5 to v6 ([67f3132](https://git.easyops.local/anyclouds/next-core/commits/67f3132))
+
 ## [1.19.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.0...@easyops/brick-container@1.19.1) (2020-04-30)
 
 **Note:** Version bump only for package @easyops/brick-container

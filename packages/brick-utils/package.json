@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-utils",
-  "version": "1.46.2",
+  "version": "1.46.3",
   "description": "Pure utility functions for kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-utils",
   "license": "UNLICENSED",
