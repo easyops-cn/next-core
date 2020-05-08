@@ -290,56 +290,57 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
   const node = brick.element as any;
   const { properties, events, methods } = brick.proxy;
 
+  function getElementByRef(ref: string): HTMLElement {
+    if (brick.proxyRefs.has(ref)) {
+      return brick.proxyRefs.get(ref).brick?.element;
+    }
+  }
+
   // For usages of `targetRef: "..."`.
   // `tpl.$$getElementByRef(ref)` will return the ref element inside a custom template.
   Object.defineProperty(node, "$$getElementByRef", {
-    value: (ref: string): HTMLElement => {
-      return brick.proxyRefs.get(ref)?.brick?.element;
-    },
+    value: getElementByRef,
   });
 
   if (properties) {
     for (const [propName, propRef] of Object.entries(properties)) {
-      if (brick.proxyRefs.has(propRef.ref)) {
-        const refElement = brick.proxyRefs.get(propRef.ref).brick
-          ?.element as any;
-        // should always have refElement.
-        // istanbul ignore else
-        if (refElement) {
-          if (isTransformableProperty(propRef)) {
-            // Create a non-enumerable symbol property to delegate the tpl root property.
-            const delegatedPropSymbol = Symbol(`delegatedProp:${propName}`);
-            node[delegatedPropSymbol] = node[propName];
-            Object.defineProperty(node, propName, {
-              get: function () {
-                return node[delegatedPropSymbol];
-              },
-              set: function (value: any) {
-                node[delegatedPropSymbol] = value;
-                setRealProperties(
-                  refElement,
-                  transformProperties(
-                    {},
-                    {
-                      [propName]: value,
-                    },
-                    propRef.refTransform
-                  )
-                );
-              },
-              enumerable: true,
-            });
-          } else {
-            Object.defineProperty(node, propName, {
-              get: function () {
-                return refElement[propRef.refProperty];
-              },
-              set: function (value: any) {
-                refElement[propRef.refProperty] = value;
-              },
-              enumerable: true,
-            });
-          }
+      const refElement = getElementByRef(propRef.ref) as any;
+      // should always have refElement.
+      // istanbul ignore else
+      if (refElement) {
+        if (isTransformableProperty(propRef)) {
+          // Create a non-enumerable symbol property to delegate the tpl root property.
+          const delegatedPropSymbol = Symbol(`delegatedProp:${propName}`);
+          node[delegatedPropSymbol] = node[propName];
+          Object.defineProperty(node, propName, {
+            get: function () {
+              return node[delegatedPropSymbol];
+            },
+            set: function (value: any) {
+              node[delegatedPropSymbol] = value;
+              setRealProperties(
+                refElement,
+                transformProperties(
+                  {},
+                  {
+                    [propName]: value,
+                  },
+                  propRef.refTransform
+                )
+              );
+            },
+            enumerable: true,
+          });
+        } else {
+          Object.defineProperty(node, propName, {
+            get: function () {
+              return refElement[propRef.refProperty];
+            },
+            set: function (value: any) {
+              refElement[propRef.refProperty] = value;
+            },
+            enumerable: true,
+          });
         }
       }
     }
@@ -347,40 +348,35 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
 
   if (events) {
     for (const [eventType, eventRef] of Object.entries(events)) {
-      if (brick.proxyRefs.has(eventRef.ref)) {
-        const refElement = brick.proxyRefs.get(eventRef.ref).brick?.element;
-        // should always have refElement.
-        // istanbul ignore else
-        if (refElement) {
-          refElement.addEventListener(eventRef.refEvent, (e) => {
-            node.dispatchEvent(
-              new CustomEvent(eventType, {
-                detail: (e as CustomEvent).detail,
-                bubbles: e.bubbles,
-                cancelable: e.cancelable,
-                composed: e.composed,
-              })
-            );
-          });
-        }
+      const refElement = getElementByRef(eventRef.ref);
+      // should always have refElement.
+      // istanbul ignore else
+      if (refElement) {
+        refElement.addEventListener(eventRef.refEvent, (e) => {
+          node.dispatchEvent(
+            new CustomEvent(eventType, {
+              detail: (e as CustomEvent).detail,
+              bubbles: e.bubbles,
+              cancelable: e.cancelable,
+              composed: e.composed,
+            })
+          );
+        });
       }
     }
   }
 
   if (methods) {
     for (const [method, methodRef] of Object.entries(methods)) {
-      if (brick.proxyRefs.has(methodRef.ref)) {
-        const refElement = brick.proxyRefs.get(methodRef.ref).brick
-          ?.element as any;
-        // should always have refElement.
-        // istanbul ignore else
-        if (refElement) {
-          Object.defineProperty(node, method, {
-            value: function (...args: any[]) {
-              return refElement[methodRef.refMethod](...args);
-            },
-          });
-        }
+      const refElement = getElementByRef(methodRef.ref) as any;
+      // should always have refElement.
+      // istanbul ignore else
+      if (refElement) {
+        Object.defineProperty(node, method, {
+          value: function (...args: any[]) {
+            return refElement[methodRef.refMethod](...args);
+          },
+        });
       }
     }
   }
