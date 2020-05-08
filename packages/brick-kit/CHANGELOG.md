@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.43.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.42.1...@easyops/brick-kit@1.43.0) (2020-05-08)
+
+### Bug Fixes
+
+- ignore warn invalid properties of custom elements in test env ([7d12264](https://git.easyops.local/anyclouds/next-core/commits/7d12264))
+
+### Features
+
+- **use-brick:** support slots in useBrick ([96826b1](https://git.easyops.local/anyclouds/next-core/commits/96826b1))
+
 ## [1.42.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.42.0...@easyops/brick-kit@1.42.1) (2020-05-07)
 
 ### Bug Fixes
