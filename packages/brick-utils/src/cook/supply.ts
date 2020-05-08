@@ -150,7 +150,7 @@ function supplyIndividual(variableName: string): any {
     case "PIPES":
       return Object.fromEntries(PipeRegistry.entries());
     case "location":
-      return { href: location.href };
+      return { href: location.href, origin: location.origin };
     default:
       if (allowedGlobalObjects.has(variableName)) {
         return window[variableName as keyof Window];

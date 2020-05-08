@@ -6,26 +6,26 @@ describe("transform", () => {
     [
       "@{}",
       {
-        quality: "good"
+        quality: "good",
       },
       {
-        quality: "good"
-      }
+        quality: "good",
+      },
     ],
     [
       "good",
       {
-        quality: "good"
+        quality: "good",
       },
-      "good"
+      "good",
     ],
     [
       "q=@{quality}&p=@{page}&size=@{size=10}&asc=@{asc|bool | number}",
       {
-        quality: "good"
+        quality: "good",
       },
-      "q=good&p=&size=10&asc=0"
-    ]
+      "q=good&p=&size=10&asc=0",
+    ],
   ])("transform(%j, %j) should return %j", (raw, data, result) => {
     expect(transform(raw, data)).toEqual(result);
   });
@@ -51,28 +51,29 @@ describe("inject", () => {
     hash: "#yes",
     match: {
       params: {
-        objectId: "HOST"
+        objectId: "HOST",
       },
       path: "",
       url: "",
-      isExact: false
+      isExact: false,
     },
     event: {
       type: "hello",
-      detail: "world"
+      detail: "world",
     } as any,
     app: {
       homepage: "/cmdb",
       name: "cmdb",
-      id: "cmdb"
+      id: "cmdb",
     },
     sys: {
+      org: 8888,
       username: "easyops",
-      userInstanceId: "acbd46b"
+      userInstanceId: "acbd46b",
     },
     flags: {
-      "better-world": true
-    }
+      "better-world": true,
+    },
   };
 
   it.each<[string, PluginRuntimeContext, any]>([
@@ -80,7 +81,7 @@ describe("inject", () => {
     [
       "${}", // Invalid placeholder.
       context,
-      "${}"
+      "${}",
     ],
     ["${objectId}", {} as any, "${objectId}"],
     ["${objectId}", context, "HOST"],
@@ -91,7 +92,7 @@ describe("inject", () => {
     [
       "/objects/${objectId=}/instances/${instanceId}",
       context,
-      "/objects/HOST/instances/"
+      "/objects/HOST/instances/",
     ],
     ["${QUERY.*|string}", context, originalQuery],
     ["${APP.homepage}/${objectId}", context, "/cmdb/HOST"],
@@ -107,18 +108,18 @@ describe("inject", () => {
       context,
       {
         type: "hello",
-        detail: "world"
-      }
+        detail: "world",
+      },
     ],
     [
       "${EVENT.detail}",
       {
         ...context,
-        event: undefined
+        event: undefined,
       },
-      "${EVENT.detail}"
+      "${EVENT.detail}",
     ],
-    ["${ANCHOR}", context, "yes"]
+    ["${ANCHOR}", context, "yes"],
   ])("inject(%j, %o) should return %j", (raw, data, result) => {
     expect(inject(raw, data)).toEqual(result);
   });

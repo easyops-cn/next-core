@@ -61,6 +61,7 @@ export interface TemplatePackage {
 }
 
 export interface AuthInfo {
+  org?: number;
   username?: string;
   userInstanceId?: string;
 }

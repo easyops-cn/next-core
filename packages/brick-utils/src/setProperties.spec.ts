@@ -5,21 +5,21 @@ describe("computeRealValue", () => {
   const context: PluginRuntimeContext = {
     event: new CustomEvent("hello", {
       detail: {
-        to: "world"
-      }
+        to: "world",
+      },
     }),
     app: {
       homepage: "/host",
       name: "host",
-      id: "host"
+      id: "host",
     },
     sys: {
       username: "easyops",
-      userInstanceId: "acbd46b"
+      userInstanceId: "acbd46b",
     },
     flags: {
-      "better-world": true
-    }
+      "better-world": true,
+    },
   } as any;
   const cases: [any[], PluginRuntimeContext, any[]][] = [
     [["oops"], context, ["oops"]],
@@ -29,9 +29,9 @@ describe("computeRealValue", () => {
       context,
       [
         {
-          to: "world"
-        }
-      ]
+          to: "world",
+        },
+      ],
     ],
     [["${EVENT.detail.to}"], context, ["world"]],
     [[{ "${EVENT.detail.to}": "1" }], context, [{ world: "1" }]],
@@ -39,23 +39,23 @@ describe("computeRealValue", () => {
       ["${EVENT.detail}"],
       {
         app: context.app,
-        query: null
+        query: null,
       },
-      ["${EVENT.detail}"]
+      ["${EVENT.detail}"],
     ],
     [["${EVENT.detail|jsonStringify}"], context, ['{\n  "to": "world"\n}']],
     [
       ["${HASH.*|string}"],
       {
         hash: "#123",
-        query: null
+        query: null,
       },
-      ["#123"]
+      ["#123"],
     ],
     [["${APP.homepage}"], context, ["/host"]],
     [["${SYS.username}"], context, ["easyops"]],
     [["${SYS.userInstanceId}"], context, ["acbd46b"]],
-    [["${FLAGS.better-world}"], context, [true]]
+    [["${FLAGS.better-world}"], context, [true]],
   ];
   it.each(cases)(
     "test computeRealValue(%s, %s, true) should work",
@@ -73,27 +73,28 @@ describe("setProperties", () => {
     query: new URLSearchParams(originalQuery),
     match: {
       params: {
-        objectId: "HOST"
+        objectId: "HOST",
       },
       path: "",
       url: "",
-      isExact: false
+      isExact: false,
     },
     event: new CustomEvent("hello", {
-      detail: "world"
+      detail: "world",
     }),
     app: {
       homepage: "/cmdb",
       name: "cmdb",
-      id: "cmdb"
+      id: "cmdb",
     },
     sys: {
+      org: 8888,
       username: "easyops",
-      userInstanceId: "acbd46b"
+      userInstanceId: "acbd46b",
     },
     flags: {
-      "better-world": true
-    }
+      "better-world": true,
+    },
   };
   const properties = {
     objectId: "${objectId}",
@@ -107,11 +108,11 @@ describe("setProperties", () => {
     fields: "${QUERY.fields|json}",
     errors: "${QUERY.errors|json}",
     style: {
-      width: "10px"
+      width: "10px",
     },
     items: [] as any[],
     query: {
-      name: { $eq: "${QUERY.name}" }
+      name: { $eq: "${QUERY.name}" },
     },
     selectedKeys: ["${QUERY.key}"],
     url: "/objects/${objectId=}/instances/${instanceId}",
@@ -121,7 +122,7 @@ describe("setProperties", () => {
     userInstanceId: "${SYS.userInstanceId}",
     betterWorld: "${FLAGS.better-world}",
     array: "${QUERY_ARRAY.array}",
-    arrayNotExisted: "${QUERY_ARRAY.arrayNotExisted}"
+    arrayNotExisted: "${QUERY_ARRAY.arrayNotExisted}",
   };
   const cases: [
     Record<string, any>,
@@ -145,11 +146,11 @@ describe("setProperties", () => {
         extra: false,
         fields: {},
         style: {
-          width: "10px"
+          width: "10px",
         },
         items: [],
         query: {
-          name: { $eq: "${QUERY.name}" }
+          name: { $eq: "${QUERY.name}" },
         },
         selectedKeys: ["${QUERY.key}"],
         url: "/objects/HOST/instances/",
@@ -158,8 +159,8 @@ describe("setProperties", () => {
         username: "easyops",
         userInstanceId: "acbd46b",
         betterWorld: true,
-        array: ["1", "2"]
-      }
+        array: ["1", "2"],
+      },
     ],
     [
       properties,
@@ -176,11 +177,11 @@ describe("setProperties", () => {
         extra: false,
         fields: {},
         style: {
-          width: "10px"
+          width: "10px",
         },
         items: [],
         query: {
-          name: { $eq: "abc" }
+          name: { $eq: "abc" },
         },
         selectedKeys: ["K"],
         url: "/objects/HOST/instances/",
@@ -189,8 +190,8 @@ describe("setProperties", () => {
         username: "easyops",
         userInstanceId: "acbd46b",
         betterWorld: true,
-        array: ["1", "2"]
-      }
+        array: ["1", "2"],
+      },
     ],
     [
       properties,
@@ -208,11 +209,11 @@ describe("setProperties", () => {
           extra: false,
           fields: {},
           style: {
-            width: "10px"
+            width: "10px",
           },
           items: [],
           query: {
-            name: { $eq: "${QUERY.name}" }
+            name: { $eq: "${QUERY.name}" },
           },
           selectedKeys: ["${QUERY.key}"],
           url: "/objects/HOST/instances/",
@@ -221,7 +222,7 @@ describe("setProperties", () => {
           username: "easyops",
           userInstanceId: "acbd46b",
           betterWorld: true,
-          array: ["1", "2"]
+          array: ["1", "2"],
         },
         {
           objectId: "HOST",
@@ -233,11 +234,11 @@ describe("setProperties", () => {
           extra: false,
           fields: {},
           style: {
-            width: "10px"
+            width: "10px",
           },
           items: [],
           query: {
-            name: { $eq: "${QUERY.name}" }
+            name: { $eq: "${QUERY.name}" },
           },
           selectedKeys: ["${QUERY.key}"],
           url: "/objects/HOST/instances/",
@@ -246,10 +247,10 @@ describe("setProperties", () => {
           username: "easyops",
           userInstanceId: "acbd46b",
           betterWorld: true,
-          array: ["1", "2"]
-        }
-      ]
-    ]
+          array: ["1", "2"],
+        },
+      ],
+    ],
   ];
   it.each(cases)(
     "test setProperties(%s, %s, %s) should work",
@@ -257,14 +258,14 @@ describe("setProperties", () => {
       const elem: HTMLElement | HTMLElement[] = multiple
         ? ([
             {
-              style: {}
+              style: {},
             },
             {
-              style: {}
-            }
+              style: {},
+            },
           ] as any[])
         : ({
-            style: {}
+            style: {},
           } as any);
       setProperties(elem, props, ctx, injectDeep);
       expect(elem).toEqual(expected);
