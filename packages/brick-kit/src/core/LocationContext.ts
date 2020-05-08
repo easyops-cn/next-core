@@ -92,14 +92,16 @@ export class LocationContext {
   }
 
   private getContext(match: MatchResult): PluginRuntimeContext {
+    const auth = getAuth();
     return {
       hash: this.location.hash,
       query: this.query,
       match,
       app: this.kernel.nextApp,
       sys: {
-        username: getAuth().username,
-        userInstanceId: getAuth().userInstanceId,
+        org: auth.org,
+        username: auth.username,
+        userInstanceId: auth.userInstanceId,
       },
       flags: this.kernel.getFeatureFlags(),
       segues: this.segues,

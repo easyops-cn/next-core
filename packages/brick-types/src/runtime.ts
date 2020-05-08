@@ -38,6 +38,7 @@ export interface MatchParams {
 }
 
 export interface SystemInfo {
+  org: number;
   username: string;
   userInstanceId: string;
 }

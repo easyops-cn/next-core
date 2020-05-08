@@ -110,6 +110,7 @@ describe("setProperties", () => {
       id: "cmdb",
     },
     sys: {
+      org: 8888,
       username: "easyops",
       userInstanceId: "acbd46b",
     },

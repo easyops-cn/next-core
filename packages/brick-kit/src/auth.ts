@@ -4,6 +4,7 @@ const auth: AuthInfo = {};
 
 export function authenticate(newAuth: AuthInfo): void {
   Object.assign(auth, {
+    org: newAuth.org,
     username: newAuth.username,
     userInstanceId: newAuth.userInstanceId,
   });
@@ -16,6 +17,7 @@ export function getAuth(): AuthInfo {
 }
 
 export function logout(): void {
+  auth.org = undefined;
   auth.username = undefined;
   auth.userInstanceId = undefined;
 }
