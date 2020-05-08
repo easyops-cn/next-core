@@ -367,10 +367,17 @@ export class LocationContext {
     bricks: BrickConf[],
     match: MatchResult,
     slotId: string,
-    mountRoutesResult: MountRoutesResult
+    mountRoutesResult: MountRoutesResult,
+    tplStack?: string[]
   ): Promise<void> {
     for (const brickConf of bricks) {
-      await this.mountBrick(brickConf, match, slotId, mountRoutesResult);
+      await this.mountBrick(
+        brickConf,
+        match,
+        slotId,
+        mountRoutesResult,
+        tplStack?.slice()
+      );
     }
   }
 
@@ -411,7 +418,8 @@ export class LocationContext {
     brickConf: BrickConf,
     match: MatchResult,
     slotId: string,
-    mountRoutesResult: MountRoutesResult
+    mountRoutesResult: MountRoutesResult,
+    tplStack: string[] = []
   ): Promise<void> {
     const context = this.getContext(match);
 
@@ -436,6 +444,13 @@ export class LocationContext {
       brickConf.brick,
       this.kernel.nextApp?.id
     );
+
+    if (tplTagName) {
+      if (tplStack.includes(tplTagName)) {
+        throw new Error(`Circular custom template: "${tplTagName}"`);
+      }
+      tplStack.push(tplTagName);
+    }
 
     const brick: RuntimeBrick = {
       type: tplTagName || brickConf.brick,
@@ -517,7 +532,8 @@ export class LocationContext {
               slotConf.bricks,
               match,
               slotId,
-              slottedMountRoutesResult
+              slottedMountRoutesResult,
+              tplStack
             );
           } else if (slotConf.type === "routes") {
             await this.mountRoutes(
