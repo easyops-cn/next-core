@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.44.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.43.0...@easyops/brick-kit@1.44.0) (2020-05-09)
+
+### Bug Fixes
+
+- **auth:** fix userInstanceId ([5677371](https://git.easyops.local/anyclouds/next-core/commits/5677371))
+- **custom-template:** fix ref bricks of portal mode cannot be found ([b31705c](https://git.easyops.local/anyclouds/next-core/commits/b31705c))
+- **custom-template:** handle circular custom template ([7061c38](https://git.easyops.local/anyclouds/next-core/commits/7061c38))
+
+### Features
+
+- **evaluate:** access to `location.origin` and `SYS.org`, refs BRICK_STORE-1471 ([6fa5473](https://git.easyops.local/anyclouds/next-core/commits/6fa5473))
+
 # [1.43.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.42.1...@easyops/brick-kit@1.43.0) (2020-05-08)
 
 ### Bug Fixes

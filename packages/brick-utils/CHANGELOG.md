@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.47.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.4...@easyops/brick-utils@1.47.0) (2020-05-09)
+
+### Features
+
+- **evaluate:** access to `location.origin` and `SYS.org`, refs BRICK_STORE-1471 ([6fa5473](https://git.easyops.local/anyclouds/next-core/commits/6fa5473))
+
 ## [1.46.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.46.3...@easyops/brick-utils@1.46.4) (2020-05-08)
 
 **Note:** Version bump only for package @easyops/brick-utils
