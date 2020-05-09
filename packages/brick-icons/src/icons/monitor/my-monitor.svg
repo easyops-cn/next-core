@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="20px" viewBox="0 0 22 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>my monitor</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Apple-TV备份-5" transform="translate(-1137.000000, -288.000000)">
+            <g id="my-monitor" transform="translate(1137.000000, 287.000000)">
+                <rect id="矩形" opacity="0" x="0" y="0" width="22" height="22"></rect>
+                <path d="M10.9031478,16 L10.9031478,16 L1.94444444,16 C1.42284218,16 1,15.5522847 1,15 L1,3 C1,2.44771525 1.42284218,2 1.94444444,2 L17.0555556,2 C17.5771578,2 18,2.44771525 18,3 L18,8.4481228 L18,8.4481228" id="路径" stroke="#FFFFFF" stroke-linecap="round"></path>
+                <line x1="4.5" y1="18.5" x2="10.5" y2="18.5" id="直线-31" stroke="#FFFFFF" stroke-linecap="round"></line>
+                <line x1="4.5" y1="8.5" x2="4.5" y2="13" id="直线-4" stroke="#FFFFFF" stroke-linecap="round"></line>
+                <line x1="8" y1="5.5" x2="8" y2="13" id="直线-4" stroke="#FFFFFF" stroke-linecap="round"></line>
+                <line x1="11" y1="10" x2="11" y2="13" id="直线-4" stroke="#FFFFFF" stroke-linecap="round"></line>
+                <path d="M21.5652174,20.2276043 L21.5652174,18.7189962 C21.5652174,17.2745842 20.4557721,16.0869565 19.1064468,16.0869565 L14.4587706,16.0869565 C13.1094453,16.0869565 12,17.2745842 12,18.7189962 L12,20.2276043 C12,20.5806828 12.2698651,20.8695652 12.5997001,20.8695652 L20.9655172,20.8695652 C21.2953523,20.8374672 21.5652174,20.5806828 21.5652174,20.2276043 Z" id="路径" fill="#FFFFFF" fill-rule="nonzero"></path>
+                <path d="M16.7826087,15.2173913 C18.2233515,15.2173913 19.3913043,14.0494385 19.3913043,12.6086957 C19.3913043,11.1679528 18.2233515,10 16.7826087,10 C15.3418659,10 14.173913,11.1679528 14.173913,12.6086957 C14.173913,14.0494385 15.3418659,15.2173913 16.7826087,15.2173913 Z" id="椭圆形" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>
