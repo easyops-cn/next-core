@@ -17,6 +17,7 @@ import {
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
+import { checkIfByTransform } from "./checkIf";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -112,16 +113,9 @@ function SingleBrickAsComponent(
     // eslint-disable-next-line
     console.warn("Currently resolvable-if in `useBrick` is not supported.");
   } else if (
-    typeof useBrick.if === "boolean" ||
-    typeof useBrick.if === "string"
+    checkIfByTransform(useBrick.if as string | boolean, data) === false
   ) {
-    const ifChecked = doTransform(data, useBrick.if);
-    if (ifChecked === false) {
-      return null;
-    } /* istanbul ignore if */ else if (typeof ifChecked !== "boolean") {
-      // eslint-disable-next-line no-console
-      console.warn("Received an unexpected condition result:", ifChecked);
-    }
+    return null;
   }
 
   return React.createElement(
