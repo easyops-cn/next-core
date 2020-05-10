@@ -171,7 +171,7 @@ describe("expandCustomTemplate", () => {
 describe("handleProxyOfCustomTemplate", () => {
   it("should handleProxyOfCustomTemplate for no proxy", () => {
     const getElement = (): HTMLElement => document.createElement("div");
-    expect(() => {
+    expect(async () => {
       handleProxyOfCustomTemplate({
         element: getElement(),
       });
@@ -212,10 +212,11 @@ describe("handleProxyOfCustomTemplate", () => {
         },
         proxyRefs: new Map(),
       });
+      await (global as any).flushPromises();
     }).not.toThrow();
   });
 
-  it("should handleProxyOfCustomTemplate", () => {
+  it("should handleProxyOfCustomTemplate", async () => {
     const tplElement = document.createElement("div") as any;
     const button = document.createElement("div") as any;
     const microView = document.createElement("div") as any;
@@ -282,6 +283,7 @@ describe("handleProxyOfCustomTemplate", () => {
       ]),
     };
     handleProxyOfCustomTemplate(brick);
+    await (global as any).flushPromises();
 
     // Changed prop in proxy.
     expect(tplElement.button).toEqual("original button name");

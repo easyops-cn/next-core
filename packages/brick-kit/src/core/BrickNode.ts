@@ -69,10 +69,7 @@ export class BrickNode {
       this.children = [];
     }
 
-    // Handle proxies later after bricks in portal and main both mounted.
-    Promise.resolve().then(() => {
-      handleProxyOfCustomTemplate(brick);
-    });
+    handleProxyOfCustomTemplate(brick);
 
     return node;
   }
