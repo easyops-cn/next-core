@@ -36,6 +36,14 @@ export function mountTree(
   mountPoint.$$rootBricks = rootBricks;
 }
 
+export function afterMountTree(mountPoint: MountableElement): void {
+  if (Array.isArray(mountPoint.$$rootBricks)) {
+    mountPoint.$$rootBricks.forEach((brick) => {
+      brick.afterMount();
+    });
+  }
+}
+
 export function mountStaticNode(
   mountPoint: HTMLElement,
   properties: Record<string, any>

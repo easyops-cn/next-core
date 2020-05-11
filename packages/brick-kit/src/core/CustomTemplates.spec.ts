@@ -171,7 +171,7 @@ describe("expandCustomTemplate", () => {
 describe("handleProxyOfCustomTemplate", () => {
   it("should handleProxyOfCustomTemplate for no proxy", () => {
     const getElement = (): HTMLElement => document.createElement("div");
-    expect(async () => {
+    expect(() => {
       handleProxyOfCustomTemplate({
         element: getElement(),
       });
@@ -212,7 +212,6 @@ describe("handleProxyOfCustomTemplate", () => {
         },
         proxyRefs: new Map(),
       });
-      await (global as any).flushPromises();
     }).not.toThrow();
   });
 
@@ -283,7 +282,6 @@ describe("handleProxyOfCustomTemplate", () => {
       ]),
     };
     handleProxyOfCustomTemplate(brick);
-    await (global as any).flushPromises();
 
     // Changed prop in proxy.
     expect(tplElement.button).toEqual("original button name");

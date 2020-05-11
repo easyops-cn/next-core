@@ -19,6 +19,7 @@ import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../injected";
 import { getAuth } from "../auth";
 import { devtoolsHookEmit } from "../devtools";
+import { afterMountTree } from "./reconciler";
 
 export class Router {
   private defaultCollapsed = false;
@@ -282,6 +283,10 @@ export class Router {
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
           mountTree(portal, mountPoints.portal as MountableElement);
+
+        afterMountTree(mountPoints.main as MountableElement);
+        afterMountTree(mountPoints.portal as MountableElement);
+
         if (!failed) {
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();

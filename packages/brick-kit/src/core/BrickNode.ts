@@ -62,21 +62,27 @@ export class BrickNode {
     bindListeners(node, brick.events, brick.context);
 
     if (Array.isArray(brick.children)) {
-      this.children = brick.children.map((slot) => new BrickNode(slot));
-      const childNodes = this.children.map((slot) => slot.mount());
-      childNodes.forEach((slot) => node.appendChild(slot));
+      this.children = brick.children.map((child) => new BrickNode(child));
+      const childNodes = this.children.map((child) => child.mount());
+      childNodes.forEach((child) => node.appendChild(child));
     } else {
       this.children = [];
     }
-
-    handleProxyOfCustomTemplate(brick);
 
     return node;
   }
 
   unmount(): void {
-    this.children.forEach((slot) => {
-      slot.unmount();
+    this.children.forEach((child) => {
+      child.unmount();
+    });
+  }
+
+  // Handle proxies later after bricks in portal and main both mounted.
+  afterMount(): void {
+    handleProxyOfCustomTemplate(this.$$brick);
+    this.children.forEach((child) => {
+      child.afterMount();
     });
   }
 }
