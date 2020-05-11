@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.1...@easyops/brick-kit@1.44.2) (2020-05-11)
+
+### Bug Fixes
+
+- **custom-template:** handle proxies after bricks mounted ([a5b6089](https://git.easyops.local/anyclouds/next-core/commits/a5b6089))
+
 ## [1.44.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.0...@easyops/brick-kit@1.44.1) (2020-05-11)
 
 ### Bug Fixes
