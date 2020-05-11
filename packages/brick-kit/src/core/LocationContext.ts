@@ -39,6 +39,7 @@ import {
   getTagNameOfCustomTemplate,
 } from "./exports";
 import { RedirectConf, IfConf } from "./interfaces";
+import { checkIf } from "../checkIf";
 
 export type MatchRoutesResult =
   | {
@@ -381,15 +382,11 @@ export class LocationContext {
     }
   }
 
-  private async checkIf(
+  private async checkResolvableIf(
     rawIf: string | boolean | ResolveConf,
     context: PluginRuntimeContext
   ): Promise<boolean> {
-    if (
-      isObject(rawIf) ||
-      typeof rawIf === "boolean" ||
-      typeof rawIf === "string"
-    ) {
+    if (isObject(rawIf)) {
       const ifChecked = computeRealValue(rawIf, context, true);
 
       if (isObject(ifChecked)) {
@@ -399,19 +396,16 @@ export class LocationContext {
           return false;
         }
         // istanbul ignore if
-        if (typeof ifConf.if !== "boolean") {
+        if (ifConf.if !== true) {
           // eslint-disable-next-line no-console
           console.warn("Received an unexpected condition result:", ifConf.if);
         }
-      } else if (ifChecked === false) {
-        return false;
-      } /* istanbul ignore if */ else if (typeof ifChecked !== "boolean") {
-        // eslint-disable-next-line no-console
-        console.warn("Received an unexpected condition result:", ifChecked);
       }
+
+      return true;
     }
 
-    return true;
+    return checkIf(rawIf as string | boolean, context);
   }
 
   async mountBrick(
@@ -424,7 +418,7 @@ export class LocationContext {
     const context = this.getContext(match);
 
     // First, check whether the brick should be rendered.
-    if (!(await this.checkIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf.if, context))) {
       return;
     }
 
@@ -434,7 +428,7 @@ export class LocationContext {
     }
 
     // Check `if` again for dynamic loaded templates.
-    if (!(await this.checkIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf.if, context))) {
       return;
     }
 

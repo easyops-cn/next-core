@@ -129,6 +129,32 @@ describe("BrickAsComponent", () => {
     expect(wrapper.find("div").length).toBe(0);
   });
 
+  it("should work for unsupported `resolvable-if`", async () => {
+    const wrapper = mount(
+      <BrickAsComponent
+        useBrick={[
+          {
+            brick: "div",
+            if: {
+              provider: "not-existed",
+            } as any,
+            transform: "title",
+            transformFrom: "tips",
+          },
+        ]}
+        data={{
+          tips: "better",
+          enabled: true,
+          disabled: false,
+        }}
+      />
+    );
+
+    await (global as any).flushPromises();
+    const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
+    expect(div.title).toBe("better");
+  });
+
   it("should resolve", async () => {
     const wrapper = mount(
       <BrickAsComponent

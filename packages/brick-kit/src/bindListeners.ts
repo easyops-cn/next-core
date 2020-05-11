@@ -14,6 +14,7 @@ import { computeRealValue, setProperties } from "./setProperties";
 import { getHistory } from "./history";
 import { _internalApiGetCurrentContext } from "./core/exports";
 import { getUrlFactory } from "./segue";
+import { checkIf } from "./checkIf";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -433,17 +434,4 @@ function argsFactory(
         true
       )
     : [useEventDetailAsDefault ? event.detail : event];
-}
-
-function checkIf(
-  rawIf: string | boolean,
-  context: PluginRuntimeContext
-): boolean {
-  if (typeof rawIf === "boolean" || typeof rawIf === "string") {
-    const ifChecked = computeRealValue(rawIf, context, true);
-    if (ifChecked === false) {
-      return false;
-    }
-  }
-  return true;
 }
