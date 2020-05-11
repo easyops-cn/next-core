@@ -14371,10 +14371,15 @@ ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.2.3, ws@^7.2.5:
+ws@^7.2.3:
   version "7.2.5"
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.2.5.tgz?cache=0&sync_timestamp=1587811730960&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fws%2Fdownload%2Fws-7.2.5.tgz#abb1370d4626a5a9cd79d8de404aa18b3465d10d"
   integrity sha1-q7E3DUYmpanNedjeQEqhizRl0Q0=
+
+ws@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.npm.taobao.org/ws/download/ws-7.3.0.tgz#4b2f7f219b3d3737bc1a2fbf145d825b94d38ffd"
+  integrity sha1-Sy9/IZs9Nze8Gi+/FF2CW5TTj/0=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
