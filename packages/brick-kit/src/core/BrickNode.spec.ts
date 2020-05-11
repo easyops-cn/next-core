@@ -1,13 +1,19 @@
 import { bindListeners } from "../bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
+import { handleProxyOfCustomTemplate } from "./exports";
 
 jest.mock("../bindListeners");
+jest.mock("./CustomTemplates");
 const spyOnBindListeners = bindListeners as jest.Mock;
 
 // Mock a custom element of `custom-existed`.
 customElements.define("custom-existed", class Tmp extends HTMLElement {});
 
 describe("BrickNode", () => {
+  afterEach(() => {
+    (handleProxyOfCustomTemplate as jest.Mock).mockClear();
+  });
+
   it("should mount simple brick", () => {
     const runtimeBrick: RuntimeBrick = {
       type: "div",
@@ -29,6 +35,9 @@ describe("BrickNode", () => {
     const callArgs = spyOnBindListeners.mock.calls[0];
     expect(callArgs[0]).toBe(node);
     expect(callArgs[1]).toBe(runtimeBrick.events);
+
+    brickNode.afterMount();
+    expect(handleProxyOfCustomTemplate).toBeCalledTimes(1);
   });
 
   it("should mount slotted brick", () => {
@@ -57,6 +66,9 @@ describe("BrickNode", () => {
     expect((node.firstChild as HTMLElement).getAttribute("slot")).toBe(
       "content"
     );
+
+    brickNode.afterMount();
+    expect(handleProxyOfCustomTemplate).toBeCalledTimes(2);
   });
 
   it("should unmount", () => {
