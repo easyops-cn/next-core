@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.0...@easyops/brick-kit@1.44.1) (2020-05-11)
+
+### Bug Fixes
+
+- **custom-template:** fix targetRef not working in onPageLoad and onAnchorLoad ([3a33ff1](https://git.easyops.local/anyclouds/next-core/commits/3a33ff1))
+
 # [1.44.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.43.0...@easyops/brick-kit@1.44.0) (2020-05-09)
 
 ### Bug Fixes
