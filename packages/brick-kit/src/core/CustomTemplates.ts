@@ -152,7 +152,7 @@ export function expandCustomTemplate(
     reversedProxies,
     templateProperties,
     templateSlots: templateSlots as SlotsConfOfBricks,
-    proxyRefs: proxyBrick.proxyRefs,
+    proxyBrick,
   };
 
   newBrickConf.slots = {
@@ -178,10 +178,15 @@ function expandBrickInTemplate(
     reversedProxies,
     templateProperties,
     templateSlots,
-    proxyRefs,
+    proxyBrick: { proxyRefs },
   } = proxyContext;
-  let $$computedPropsFromProxy: Record<string, any>;
+  const $$computedPropsFromProxy: Record<string, any> = {};
   let $$refForProxy: RefForProxy;
+  let $$parentTemplate: RuntimeBrick;
+
+  if (restBrickConfInTemplate.bg || restBrickConfInTemplate.portal) {
+    $$parentTemplate = proxyContext.proxyBrick;
+  }
 
   const slots: SlotsConfOfBricks = Object.fromEntries(
     Object.entries(slotsInTemplate ?? {}).map(([slotName, slotConf]) => [
@@ -200,25 +205,28 @@ function expandBrickInTemplate(
     proxyRefs.set(ref, $$refForProxy);
 
     if (reversedProxies.properties.has(ref)) {
-      $$computedPropsFromProxy = Object.fromEntries(
-        reversedProxies.properties
-          .get(ref)
-          .flatMap((item) => {
-            const propValue = templateProperties?.[item.reversedRef];
-            if (isTransformableProperty(item)) {
-              return Object.entries(
-                transformProperties(
-                  {},
-                  {
-                    [item.reversedRef]: propValue,
-                  },
-                  item.refTransform
-                )
-              );
-            }
-            return [[item.refProperty, propValue]];
-          })
-          .filter((item) => item[1] !== undefined)
+      Object.assign(
+        $$computedPropsFromProxy,
+        Object.fromEntries(
+          reversedProxies.properties
+            .get(ref)
+            .flatMap((item) => {
+              const propValue = templateProperties?.[item.reversedRef];
+              if (isTransformableProperty(item)) {
+                return Object.entries(
+                  transformProperties(
+                    {},
+                    {
+                      [item.reversedRef]: propValue,
+                    },
+                    item.refTransform
+                  )
+                );
+              }
+              return [[item.refProperty, propValue]];
+            })
+            .filter((item) => item[1] !== undefined)
+        )
       );
     }
 
@@ -279,16 +287,16 @@ function expandBrickInTemplate(
     slots,
     $$computedPropsFromProxy,
     $$refForProxy,
+    $$parentTemplate,
   };
 }
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
-  if (!brick.proxy || !brick.proxyRefs) {
+  if (!brick.proxyRefs) {
     return;
   }
 
   const node = brick.element as any;
-  const { properties, events, methods } = brick.proxy;
 
   function getElementByRef(ref: string): HTMLElement {
     if (brick.proxyRefs.has(ref)) {
@@ -302,6 +310,11 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
     value: getElementByRef,
   });
 
+  if (!brick.proxy) {
+    return;
+  }
+
+  const { properties, events, methods } = brick.proxy;
   if (properties) {
     for (const [propName, propRef] of Object.entries(properties)) {
       const refElement = getElementByRef(propRef.ref) as any;
@@ -386,7 +399,7 @@ interface ProxyContext {
   reversedProxies: ReversedProxies;
   templateProperties: Record<string, any>;
   templateSlots: SlotsConfOfBricks;
-  proxyRefs: Map<string, any>;
+  proxyBrick: RuntimeBrick;
 }
 
 interface ReversedProxies {

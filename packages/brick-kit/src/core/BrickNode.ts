@@ -3,6 +3,7 @@ import {
   BrickLifeCycle,
   RefForProxy,
   CustomTemplateProxy,
+  RuntimeBrickElement,
 } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
@@ -25,6 +26,7 @@ export interface RuntimeBrick {
   refForProxy?: {
     brick?: RuntimeBrick;
   };
+  parentTemplate?: RuntimeBrick;
 }
 
 export class BrickNode {
@@ -45,6 +47,7 @@ export class BrickNode {
       console.error(`Undefined custom element: ${tagName}`);
     }
 
+    // istanbul ignore if
     if (tagName === "basic-bricks.script-brick") {
       // eslint-disable-next-line no-console
       console.warn(
@@ -80,7 +83,12 @@ export class BrickNode {
 
   // Handle proxies later after bricks in portal and main both mounted.
   afterMount(): void {
-    handleProxyOfCustomTemplate(this.$$brick);
+    const brick = this.$$brick;
+    if (brick.parentTemplate) {
+      (brick.element as RuntimeBrickElement).$$parentTemplate =
+        brick.parentTemplate.element;
+    }
+    handleProxyOfCustomTemplate(brick);
     this.children.forEach((child) => {
       child.afterMount();
     });

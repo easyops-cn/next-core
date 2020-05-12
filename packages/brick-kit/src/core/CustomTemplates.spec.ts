@@ -80,6 +80,10 @@ describe("expandCustomTemplate", () => {
                     },
                   },
                 },
+                {
+                  brick: "basic-bricks.brick-in-portal",
+                  portal: true,
+                },
               ],
             },
           },
@@ -178,6 +182,10 @@ describe("handleProxyOfCustomTemplate", () => {
       handleProxyOfCustomTemplate({
         element: getElement(),
         proxy: {},
+      });
+      handleProxyOfCustomTemplate({
+        element: getElement(),
+        proxyRefs: new Map(),
       });
       handleProxyOfCustomTemplate({
         element: getElement(),
