@@ -54,7 +54,7 @@
     "enzyme-to-json": "^3.4.4",
     "eslint": "^7.0.0",
     "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-react-hooks": "^4.0.0",
+    "eslint-plugin-react-hooks": "^4.0.1",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "lerna": "3.20.0",
