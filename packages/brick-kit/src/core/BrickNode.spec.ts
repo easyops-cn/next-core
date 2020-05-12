@@ -1,6 +1,7 @@
 import { bindListeners } from "../bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
 import { handleProxyOfCustomTemplate } from "./exports";
+import { RuntimeBrickElement } from "@easyops/brick-types";
 
 jest.mock("../bindListeners");
 jest.mock("./CustomTemplates");
@@ -69,6 +70,22 @@ describe("BrickNode", () => {
 
     brickNode.afterMount();
     expect(handleProxyOfCustomTemplate).toBeCalledTimes(2);
+  });
+
+  it("should remember parent template", () => {
+    const runtimeBrick: RuntimeBrick = {
+      type: "div",
+      properties: {},
+      events: {},
+      children: [],
+      parentTemplate: {
+        element: document.createElement("span"),
+      },
+    };
+    const brickNode = new BrickNode(runtimeBrick);
+    const node = brickNode.mount() as RuntimeBrickElement;
+    brickNode.afterMount();
+    expect(node.$$parentTemplate).toBe(runtimeBrick.parentTemplate.element);
   });
 
   it("should unmount", () => {

@@ -461,6 +461,7 @@ export class LocationContext {
       children: [],
       slotId,
       refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
+      parentTemplate: (brickConf as RuntimeBrickConf).$$parentTemplate,
     };
 
     if (brick.refForProxy) {

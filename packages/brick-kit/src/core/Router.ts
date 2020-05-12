@@ -286,6 +286,7 @@ export class Router {
 
         afterMountTree(mountPoints.main as MountableElement);
         afterMountTree(mountPoints.portal as MountableElement);
+        afterMountTree(mountPoints.bg as MountableElement);
 
         if (!failed) {
           this.locationContext.handlePageLoad();

@@ -154,6 +154,7 @@ export interface RuntimeBrickConf extends BrickConf {
   $$if?: string | boolean | ResolveConf;
   $$computedPropsFromProxy?: Record<string, any>;
   $$refForProxy?: RefForProxy;
+  $$parentTemplate?: ProbablyRuntimeBrick;
 }
 
 export interface BrickLifeCycle {
@@ -478,9 +479,11 @@ export interface CustomTemplateProxyMethod {
 }
 
 export interface RefForProxy {
-  brick?: {
-    element?: HTMLElement;
-  };
+  brick?: ProbablyRuntimeBrick;
+}
+
+export interface ProbablyRuntimeBrick {
+  element?: HTMLElement;
 }
 
 /* Custom Templates Ends */

@@ -269,7 +269,7 @@ function builtinWindowListenerFactory(
 
 function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
   let tpl = brick;
-  while ((tpl = tpl.parentElement)) {
+  while ((tpl = tpl.$$parentTemplate || tpl.parentElement)) {
     if (tpl.$$typeof === "custom-template") {
       return tpl.$$getElementByRef?.(ref);
     }
