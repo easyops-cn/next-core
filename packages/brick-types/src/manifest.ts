@@ -338,6 +338,7 @@ export interface ExecuteCustomBrickEventHandler
   callback?: {
     success?: BrickEventHandler | BrickEventHandler[];
     error?: BrickEventHandler | BrickEventHandler[];
+    finally?: BrickEventHandler | BrickEventHandler[];
   };
 }
 

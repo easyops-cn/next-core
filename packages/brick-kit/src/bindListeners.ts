@@ -324,8 +324,8 @@ function customListenerFactory(
         const task = target[handler.method](
           ...argsFactory(handler.args, context, event)
         );
-        const { success, error } = handler.callback ?? {};
-        if (success || error) {
+        const { success, error, finally: finallyHook } = handler.callback ?? {};
+        if (success || error || finallyHook) {
           try {
             const result = await task;
             if (success) {
@@ -343,6 +343,16 @@ function customListenerFactory(
               });
               [].concat(error).forEach((eachError) => {
                 listenerFactory(eachError, context, brick)(errorEvent);
+              });
+            } else {
+              // eslint-disable-next-line
+              console.error(err);
+            }
+          } finally {
+            if (finallyHook) {
+              const finallyEvent = new CustomEvent("callback.finally");
+              [].concat(finallyHook).forEach((eachFinally) => {
+                listenerFactory(eachFinally, context, brick)(finallyEvent);
               });
             }
           }
