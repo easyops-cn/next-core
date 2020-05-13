@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.2...@easyops/custom-antd-styles@0.11.3) (2020-05-13)
+
+### Bug Fixes
+
+- button remove shadow style ([232aeb1](https://git.easyops.local/anyclouds/next-core/commits/232aeb1))
+
 ## [0.11.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.1...@easyops/custom-antd-styles@0.11.2) (2020-04-16)
 
 **Note:** Version bump only for package @easyops/custom-antd-styles

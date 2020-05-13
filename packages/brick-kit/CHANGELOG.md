@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.2...@easyops/brick-kit@1.44.3) (2020-05-13)
+
+### Bug Fixes
+
+- support targetRef for bricks in portal/bg mode in a custom template ([ceb442a](https://git.easyops.local/anyclouds/next-core/commits/ceb442a))
+
 ## [1.44.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.1...@easyops/brick-kit@1.44.2) (2020-05-11)
 
 ### Bug Fixes
