@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.37.1...@easyops/brick-types@1.38.0) (2020-05-13)
+
+### Features
+
+- **events:** support callback.finally in event handlers ([4cfc15d](https://git.easyops.local/anyclouds/next-core/commits/4cfc15d))
+
 ## [1.37.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.37.0...@easyops/brick-types@1.37.1) (2020-05-13)
 
 ### Bug Fixes

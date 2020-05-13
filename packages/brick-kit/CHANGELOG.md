@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.45.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.3...@easyops/brick-kit@1.45.0) (2020-05-13)
+
+### Features
+
+- **events:** support callback.finally in event handlers ([4cfc15d](https://git.easyops.local/anyclouds/next-core/commits/4cfc15d))
+
 ## [1.44.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.2...@easyops/brick-kit@1.44.3) (2020-05-13)
 
 ### Bug Fixes
