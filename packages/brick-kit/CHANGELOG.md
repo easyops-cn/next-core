@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.46.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.45.0...@easyops/brick-kit@1.46.0) (2020-05-15)
+
+### Bug Fixes
+
+- **custom-template:** handle bubble events in custom template ([97469c2](https://git.easyops.local/anyclouds/next-core/commits/97469c2))
+
+### Features
+
+- **use-brick:** export SingleBrickAsComponent which support ref callback ([c18d2cf](https://git.easyops.local/anyclouds/next-core/commits/c18d2cf))
+
 # [1.45.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.3...@easyops/brick-kit@1.45.0) (2020-05-13)
 
 ### Features
