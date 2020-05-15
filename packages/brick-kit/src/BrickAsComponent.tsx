@@ -45,12 +45,13 @@ export function BrickAsComponent(
 
 interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   useBrick: UseSingleBrickConf;
+  refCallback?: (element: HTMLElement) => void;
 }
 
-function SingleBrickAsComponent(
+export function SingleBrickAsComponent(
   props: SingleBrickAsComponentProps
 ): React.ReactElement {
-  const { useBrick, data } = props;
+  const { useBrick, data, refCallback } = props;
 
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.
@@ -84,7 +85,7 @@ function SingleBrickAsComponent(
     return brick;
   }, [useBrick, data]);
 
-  const refCallback = React.useCallback(
+  const innerRefCallback = React.useCallback(
     async (element: HTMLElement) => {
       if (element) {
         const brick = await runtimeBrick;
@@ -105,8 +106,9 @@ function SingleBrickAsComponent(
           (element as RuntimeBrickElement).$$typeof = "invalid";
         }
       }
+      refCallback?.(element);
     },
-    [runtimeBrick, useBrick, data]
+    [runtimeBrick, useBrick, data, refCallback]
   );
 
   if (isObject(useBrick.if)) {
@@ -121,7 +123,7 @@ function SingleBrickAsComponent(
   return React.createElement(
     useBrick.brick,
     {
-      ref: refCallback,
+      ref: innerRefCallback,
     },
     ...slotsToChildren(
       useBrick.slots
