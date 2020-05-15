@@ -366,6 +366,9 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
       // istanbul ignore else
       if (refElement) {
         refElement.addEventListener(eventRef.refEvent, (e) => {
+          if (e.bubbles) {
+            e.stopPropagation();
+          }
           node.dispatchEvent(
             new CustomEvent(eventType, {
               detail: (e as CustomEvent).detail,
