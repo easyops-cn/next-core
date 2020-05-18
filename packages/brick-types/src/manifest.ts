@@ -82,6 +82,7 @@ export interface Storyboard {
 
 export interface RuntimeStoryboard extends Storyboard {
   $$depsProcessed?: boolean;
+  $$registerCustomTemplateProcessed?: boolean;
 }
 
 export type RouteConf =
