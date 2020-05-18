@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.46.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.46.0...@easyops/brick-kit@1.46.1) (2020-05-18)
+
+### Bug Fixes
+
+- **kernel:** register custom template when dependsAll is true ([0c7c054](https://git.easyops.local/anyclouds/next-core/commits/0c7c054))
+
 # [1.46.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.45.0...@easyops/brick-kit@1.46.0) (2020-05-15)
 
 ### Bug Fixes
