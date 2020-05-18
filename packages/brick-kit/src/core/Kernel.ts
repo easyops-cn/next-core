@@ -122,6 +122,7 @@ export class Kernel {
 
   async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
     const { brickPackages, templatePackages } = this.bootstrapData;
+
     if (storyboard.dependsAll) {
       const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
       await loadScript(
@@ -134,28 +135,30 @@ export class Kernel {
           .map((item) => item.filePath)
           .concat(templatePackages.map((item) => item.filePath))
       );
-      return;
-    }
-
-    if (!storyboard.$$depsProcessed) {
-      // 先加载模板
-      const templateDeps = getTemplateDepsOfStoryboard(
-        storyboard,
-        templatePackages
-      );
-      await loadScript(templateDeps);
-      // 加载模板后才能加工得到最终的构件表
-      const result = getDllAndDepsOfStoryboard(
-        await asyncProcessStoryboard(
+    } else {
+      if (!storyboard.$$depsProcessed) {
+        // 先加载模板
+        const templateDeps = getTemplateDepsOfStoryboard(
           storyboard,
-          brickTemplateRegistry,
           templatePackages
-        ),
-        brickPackages
-      );
-      await loadScript(result.dll);
-      await loadScript(result.deps);
-
+        );
+        await loadScript(templateDeps);
+        // 加载模板后才能加工得到最终的构件表
+        const result = getDllAndDepsOfStoryboard(
+          await asyncProcessStoryboard(
+            storyboard,
+            brickTemplateRegistry,
+            templatePackages
+          ),
+          brickPackages
+        );
+        await loadScript(result.dll);
+        await loadScript(result.deps);
+        // 每个 storyboard 仅处理一次依赖
+        storyboard.$$depsProcessed = true;
+      }
+    }
+    if (!storyboard.$$registerCustomTemplateProcessed) {
       // 注册自定义模板
       if (Array.isArray(storyboard.meta?.customTemplates)) {
         for (const tpl of storyboard.meta.customTemplates) {
@@ -169,9 +172,8 @@ export class Kernel {
           );
         }
       }
-
-      // 每个 storyboard 仅处理一次依赖
-      storyboard.$$depsProcessed = true;
+      // 每个 storyboard 仅注册一次custom-template
+      storyboard.$$registerCustomTemplateProcessed = true;
     }
   }
 
