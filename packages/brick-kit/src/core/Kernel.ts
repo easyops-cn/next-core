@@ -6,6 +6,7 @@ import {
   asyncProcessStoryboard,
   scanBricksInBrickConf,
   getDllAndDepsOfBricks,
+  scanRouteAliasInStoryboard,
 } from "@easyops/brick-utils";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
@@ -115,7 +116,6 @@ export class Kernel {
       )
     );
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
-    // And compute `app.$$routeAliasMap`.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
@@ -132,6 +132,7 @@ export class Kernel {
     }
     const { routes, meta } = await AuthSdk.getAppStoryboard(storyboard.app.id);
     Object.assign(storyboard, { routes, meta, $$fulfilled: true });
+    storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
   }
 
   async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
