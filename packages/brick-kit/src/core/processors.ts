@@ -3,7 +3,7 @@ import { BootstrapData } from "@easyops/brick-types";
 import { scanRouteAliasInStoryboard } from "@easyops/brick-utils";
 
 // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
-// And compute `$$routeAliasMap`.
+// And compute `app.$$routeAliasMap`.
 export function processBootstrapResponse(
   bootstrapResponse: BootstrapData
 ): void {

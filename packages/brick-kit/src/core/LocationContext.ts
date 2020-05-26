@@ -139,9 +139,16 @@ export class LocationContext {
 
   matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
     for (const storyboard of storyboards) {
-      const matched = this.matchRoutes(storyboard.routes, storyboard.app);
-      if (matched !== "missed") {
-        return storyboard;
+      const homepage = storyboard.app?.homepage;
+      if (typeof homepage === "string" && homepage[0] === "/") {
+        if (
+          matchPath(this.location.pathname, {
+            path: homepage,
+            exact: homepage === "/",
+          })
+        ) {
+          return storyboard;
+        }
       }
     }
   }
