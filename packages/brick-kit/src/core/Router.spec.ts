@@ -68,6 +68,7 @@ describe("Router", () => {
     getPreviousWorkspace: jest.fn(),
     getRecentApps: jest.fn(),
     loadDepsOfStoryboard: jest.fn(),
+    fulfilStoryboard: jest.fn(),
   } as any;
 
   beforeEach(() => {
@@ -115,6 +116,7 @@ describe("Router", () => {
     expect(kernel.toggleBars).not.toBeCalled();
     expect(kernel.firstRendered).toBeCalled();
     expect(kernel.loadDepsOfStoryboard).toBeCalled();
+    expect(kernel.fulfilStoryboard).toBeCalled();
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {

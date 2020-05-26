@@ -31,7 +31,8 @@ export function _dev_only_getBrickPackages(): BrickPackage[] {
 
 /* istanbul ignore next */
 export function _dev_only_getStoryboards(): Storyboard[] {
-  return kernel.bootstrapData.originalStoryboards;
+  // Deprecated since the storyboards are probably not fulfilled.
+  return [];
 }
 
 export class Runtime {

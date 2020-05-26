@@ -74,7 +74,7 @@ export interface NavbarConf {
 
 export interface Storyboard {
   imports?: string[];
-  routes: RouteConf[];
+  routes?: RouteConf[];
   app?: MicroApp;
   dependsAll?: boolean;
   meta?: StoryboardMeta;
@@ -83,6 +83,7 @@ export interface Storyboard {
 export interface RuntimeStoryboard extends Storyboard {
   $$depsProcessed?: boolean;
   $$registerCustomTemplateProcessed?: boolean;
+  $$fulfilled?: boolean;
 }
 
 export type RouteConf =

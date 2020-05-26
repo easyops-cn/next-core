@@ -6,9 +6,9 @@ function getNavbar(env) {
   return JSON.parse(fs.readFileSync(env.navbarJsonPath, "utf8"));
 }
 
-function getStoryboardsByMicroApps(env, mocked) {
+function getStoryboardsByMicroApps(env, mocked, options = {}) {
   return getNamesOfMicroApps(env, mocked)
-    .map((name) => getSingleStoryboard(env, name, mocked))
+    .map((name) => getSingleStoryboard(env, name, mocked, options))
     .filter(Boolean);
 }
 
@@ -23,7 +23,7 @@ function getNamesOfMicroApps(env, mocked) {
     .map((dirent) => dirent.name);
 }
 
-function getSingleStoryboard(env, microAppName, mocked) {
+function getSingleStoryboard(env, microAppName, mocked, options = {}) {
   const storyboardJsonFile = path.join(
     mocked ? env.mockedMicroAppsDir : env.microAppsDir,
     microAppName,
@@ -39,6 +39,10 @@ function getSingleStoryboard(env, microAppName, mocked) {
         if (env.appConfig[id]) {
           app.userConfig = env.appConfig[id];
         }
+      }
+      if (options.brief) {
+        delete storyboard.routes;
+        delete storyboard.meta;
       }
     } catch (e) {
       console.error(`JSON.parse() error: ${storyboardJsonFile}`);

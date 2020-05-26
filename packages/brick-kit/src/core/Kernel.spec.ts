@@ -3,7 +3,7 @@ import {
   getDllAndDepsOfStoryboard,
   getTemplateDepsOfStoryboard,
 } from "@easyops/brick-utils";
-import { checkLogin, bootstrap } from "@sdk/auth-sdk";
+import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
 import { InstanceApi } from "@sdk/cmdb-sdk";
@@ -36,6 +36,9 @@ jest.spyOn(mockHistory, "getHistory").mockReturnValue({
 
 const spyOnCheckLogin = checkLogin as jest.Mock;
 const spyOnBootstrap = bootstrap as jest.Mock;
+const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockReturnValue({
+  routes: [],
+});
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 const spyOnMenuBar = MenuBar as jest.Mock;
@@ -257,6 +260,17 @@ describe("Kernel", () => {
       "dll-of-d3.js?fake-hash",
     ]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["all.js", "layout.js"]);
+
+    const fakeStoryboard = {
+      app: {
+        id: "fake",
+      },
+    } as any;
+    await kernel.fulfilStoryboard(fakeStoryboard);
+    expect(spyOnGetAppStoryboard).toBeCalledWith("fake");
+    expect(fakeStoryboard.$$fulfilled).toBe(true);
+    await kernel.fulfilStoryboard(fakeStoryboard);
+    expect(spyOnGetAppStoryboard).toBeCalledTimes(1);
   });
 
   it("should bootstrap if not loggedIn", async () => {

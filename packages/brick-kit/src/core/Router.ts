@@ -135,6 +135,8 @@ export class Router {
     );
 
     if (storyboard) {
+      await this.kernel.fulfilStoryboard(storyboard);
+
       // 将动态解析后的模板还原，以便重新动态解析。
       restoreDynamicTemplates(storyboard);
 
