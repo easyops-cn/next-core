@@ -94,6 +94,7 @@ export class Router {
         this.nextLocation = location;
       } else {
         try {
+          devtoolsHookEmit("locationChange")
           await this.queuedRender(location);
         } catch (e) {
           handleHttpError(e);
