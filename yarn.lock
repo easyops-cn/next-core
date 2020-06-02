@@ -3349,10 +3349,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/history@^4.7.5":
-  version "4.7.5"
-  resolved "https://registry.npm.taobao.org/@types/history/download/@types/history-4.7.5.tgz#527d20ef68571a4af02ed74350164e7a67544860"
-  integrity sha1-Un0g72hXGkrwLtdDUBZOemdUSGA=
+"@types/history@^4.7.6":
+  version "4.7.6"
+  resolved "https://registry.npm.taobao.org/@types/history/download/@types/history-4.7.6.tgz#ed8fc802c45b8e8f54419c2d054e55c9ea344356"
+  integrity sha1-7Y/IAsRbjo9UQZwtBU5Vyeo0Q1Y=
 
 "@types/html-minifier-terser@^5.0.0":
   version "5.0.0"
