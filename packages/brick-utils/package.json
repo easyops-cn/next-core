@@ -35,7 +35,7 @@
     "path-to-regexp": "^6.1.0"
   },
   "devDependencies": {
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.0",
     "lodash": "^4.17.15",
     "moment": "^2.25.3"
   },
