@@ -16,7 +16,7 @@
     "eslint-plugin-react-hooks": ">= 4.0.1"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^2.33.0",
+    "@typescript-eslint/parser": "^2.34.0",
     "eslint-config-prettier": "^6.11.0"
   }
 }
