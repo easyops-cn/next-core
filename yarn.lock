@@ -3402,10 +3402,10 @@
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
 
-"@types/jest@^25.2.2":
-  version "25.2.2"
-  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-25.2.2.tgz?cache=0&sync_timestamp=1589394133658&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-25.2.2.tgz#6a752e7a00f69c3e790ea00c345029d5cefa92bf"
-  integrity sha1-anUuegD2nD55DqAMNFAp1c76kr8=
+"@types/jest@^25.2.3":
+  version "25.2.3"
+  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-25.2.3.tgz?cache=0&sync_timestamp=1589858121470&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-25.2.3.tgz#33d27e4c4716caae4eced355097a47ad363fdcaf"
+  integrity sha1-M9J+TEcWyq5OztNVCXpHrTY/3K8=
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
