@@ -1534,7 +1534,7 @@
     levenary "^1.1.1"
     semver "^5.5.0"
 
-"@babel/preset-env@^7.7.6", "@babel/preset-env@^7.9.5":
+"@babel/preset-env@^7.9.5":
   version "7.9.6"
   resolved "https://registry.npm.taobao.org/@babel/preset-env/download/@babel/preset-env-7.9.6.tgz#df063b276c6455ec6fcfc6e53aacc38da9b0aea6"
   integrity sha1-3wY7J2xkVexvz8blOqzDjamwrqY=
@@ -2904,7 +2904,7 @@
     "@svgr/babel-plugin-transform-react-native-svg" "^5.4.0"
     "@svgr/babel-plugin-transform-svg-component" "^5.4.0"
 
-"@svgr/core@^5.3.1", "@svgr/core@^5.4.0":
+"@svgr/core@^5.4.0":
   version "5.4.0"
   resolved "https://registry.npm.taobao.org/@svgr/core/download/@svgr/core-5.4.0.tgz#655378ee43679eb94fee3d4e1976e38252dff8e7"
   integrity sha1-ZVN47kNnnrlP7j1OGXbjglLf+Oc=
@@ -2920,7 +2920,7 @@
   dependencies:
     "@babel/types" "^7.9.5"
 
-"@svgr/plugin-jsx@^5.3.1", "@svgr/plugin-jsx@^5.4.0":
+"@svgr/plugin-jsx@^5.4.0":
   version "5.4.0"
   resolved "https://registry.npm.taobao.org/@svgr/plugin-jsx/download/@svgr/plugin-jsx-5.4.0.tgz#ab47504c55615833c6db70fca2d7e489f509787c"
   integrity sha1-q0dQTFVhWDPG23D8otfkifUJeHw=
@@ -2930,7 +2930,7 @@
     "@svgr/hast-util-to-babel-ast" "^5.4.0"
     svg-parser "^2.0.2"
 
-"@svgr/plugin-svgo@^5.3.0", "@svgr/plugin-svgo@^5.4.0":
+"@svgr/plugin-svgo@^5.4.0":
   version "5.4.0"
   resolved "https://registry.npm.taobao.org/@svgr/plugin-svgo/download/@svgr/plugin-svgo-5.4.0.tgz?cache=0&sync_timestamp=1588020010906&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Fplugin-svgo%2Fdownload%2F%40svgr%2Fplugin-svgo-5.4.0.tgz#45d9800b7099a6f7b4d85ebac89ab9abe8592f64"
   integrity sha1-RdmAC3CZpve02F66yJq5q+hZL2Q=
@@ -2939,18 +2939,18 @@
     merge-deep "^3.0.2"
     svgo "^1.2.2"
 
-"@svgr/rollup@^5.3.1":
-  version "5.3.1"
-  resolved "https://registry.npm.taobao.org/@svgr/rollup/download/@svgr/rollup-5.3.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40svgr%2Frollup%2Fdownload%2F%40svgr%2Frollup-5.3.1.tgz#6f23cbd3d0ad46e7c27e869b6cbb91500634512f"
-  integrity sha1-byPL09CtRufCfoabbLuRUAY0US8=
+"@svgr/rollup@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@svgr/rollup/download/@svgr/rollup-5.4.0.tgz#b1946c8d2c13870397af014a105d40945b7371e5"
+  integrity sha1-sZRsjSwThwOXrwFKEF1AlFtzceU=
   dependencies:
     "@babel/core" "^7.7.5"
     "@babel/plugin-transform-react-constant-elements" "^7.7.4"
-    "@babel/preset-env" "^7.7.6"
+    "@babel/preset-env" "^7.9.5"
     "@babel/preset-react" "^7.9.4"
-    "@svgr/core" "^5.3.1"
-    "@svgr/plugin-jsx" "^5.3.1"
-    "@svgr/plugin-svgo" "^5.3.0"
+    "@svgr/core" "^5.4.0"
+    "@svgr/plugin-jsx" "^5.4.0"
+    "@svgr/plugin-svgo" "^5.4.0"
     rollup-pluginutils "^2.8.2"
 
 "@svgr/webpack@^5.4.0":
