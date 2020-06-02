@@ -3485,6 +3485,11 @@
   resolved "https://registry.npm.taobao.org/@types/prettier/download/@types/prettier-2.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fprettier%2Fdownload%2F%40types%2Fprettier-2.0.0.tgz#dc85454b953178cc6043df5208b9e949b54a3bc4"
   integrity sha1-3IVFS5UxeMxgQ99SCLnpSbVKO8Q=
 
+"@types/prettier@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/@types/prettier/download/@types/prettier-2.0.1.tgz?cache=0&sync_timestamp=1590093116356&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fprettier%2Fdownload%2F%40types%2Fprettier-2.0.1.tgz#b6e98083f13faa1e5231bfa3bdb1b0feff536b6d"
+  integrity sha1-tumAg/E/qh5SMb+jvbGw/v9Ta20=
+
 "@types/prop-types@*":
   version "15.7.0"
   resolved "http://registry.npm.taobao.org/@types/prop-types/download/@types/prop-types-15.7.0.tgz#4c48fed958d6dcf9487195a0ef6456d5f6e0163a"
