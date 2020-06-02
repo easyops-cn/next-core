@@ -28,8 +28,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/types": "^7.9.6",
+    "@babel/core": "^7.10.2",
+    "@babel/types": "^7.10.2",
     "@size-limit/file": "^4.5.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
