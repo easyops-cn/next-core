@@ -3282,10 +3282,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.6.0":
-  version "4.6.0"
-  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.6.0.tgz?cache=0&sync_timestamp=1587920414018&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fecharts%2Fdownload%2F%40types%2Fecharts-4.6.0.tgz#0dbf5c35db16ed23f9e61370179989fcd62c2678"
-  integrity sha1-Db9cNdsW7SP55hNwF5mJ/NYsJng=
+"@types/echarts@^4.6.1":
+  version "4.6.1"
+  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.6.1.tgz?cache=0&sync_timestamp=1591050625631&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fecharts%2Fdownload%2F%40types%2Fecharts-4.6.1.tgz#de6ede6b8069123150d53f3350f9e38533f1970e"
+  integrity sha1-3m7ea4BpEjFQ1T8zUPnjhTPxlw4=
   dependencies:
     "@types/zrender" "*"
 
@@ -6508,12 +6508,12 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
-echarts@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.7.0.tgz#5b3875a4c2f91e3929425fabab9eace7e4098b3f"
-  integrity sha1-Wzh1pML5HjkpQl+rq56s5+QJiz8=
+echarts@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.8.0.tgz#b2c1cfb9229b13d368ee104fc8eea600b574d4c4"
+  integrity sha1-ssHPuSKbE9No7hBPyO6mALV01MQ=
   dependencies:
-    zrender "4.3.0"
+    zrender "4.3.1"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -15426,7 +15426,7 @@ yargs@^15.3.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.1"
 
-zrender@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.3.0.tgz#9f056121b20bbae44414d287bf6a119ff7042661"
-  integrity sha1-nwVhIbILuuREFNKHv2oRn/cEJmE=
+zrender@4.3.1:
+  version "4.3.1"
+  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.3.1.tgz#baf8aa6dc8187a2f819692d7d5f9bedfa2b90fa3"
+  integrity sha1-uviqbcgYei+BlpLX1fm+36K5D6M=
