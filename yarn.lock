@@ -8165,10 +8165,10 @@ i18next-browser-languagedetector@^4.1.1:
   dependencies:
     "@babel/runtime" "^7.5.5"
 
-i18next@^19.4.4:
-  version "19.4.4"
-  resolved "https://registry.npm.taobao.org/i18next/download/i18next-19.4.4.tgz#c0a18bc2f2be554da636e67bfbf5200c7948b60d"
-  integrity sha1-wKGLwvK+VU2mNuZ7+/UgDHlItg0=
+i18next@^19.4.5:
+  version "19.4.5"
+  resolved "https://registry.npm.taobao.org/i18next/download/i18next-19.4.5.tgz#f9ea8bbb48d1ec66bc3436f0bb74a16b11821e11"
+  integrity sha1-+eqLu0jR7Ga8NDbwu3ShaxGCHhE=
   dependencies:
     "@babel/runtime" "^7.3.1"
 
