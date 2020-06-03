@@ -6,7 +6,7 @@ jest.mock("@easyops/brick-utils");
 
 (getDllAndDepsOfBricks as jest.Mock).mockReturnValue({
   dll: [],
-  deps: ["fake.js"]
+  deps: ["fake.js"],
 });
 const spyOnLoadScript = loadScript as jest.Mock;
 
@@ -15,12 +15,12 @@ describe("MenuBar", () => {
   const kernel: Kernel = {
     bootstrapData: {
       navbar: {
-        menuBar: "p"
-      }
+        menuBar: "p",
+      },
     },
     mountPoints: {
-      menuBar: menuBarElement
-    }
+      menuBar: menuBarElement,
+    },
   } as any;
 
   afterEach(() => {
@@ -41,12 +41,16 @@ describe("MenuBar", () => {
     menuBar.element = document.createElement("a") as any;
     menuBar.setAppMenu({
       title: "hello",
-      menuItems: []
+      menuItems: [],
     });
     expect(menuBar.element.menu).toEqual({
       title: "hello",
-      menuItems: []
+      menuItems: [],
     });
+
+    menuBar.resetAppMenu();
+    expect(menuBar.element.menu).toBe(null);
+    expect(menuBar.element.subMenu).toBe(null);
   });
 
   it("should collapse", async () => {

@@ -8,7 +8,7 @@ import {
   SeguesConf,
   BrickEventHandler,
 } from "./manifest";
-import { SidebarMenu } from "./menu";
+import { SidebarMenu, SidebarSubMenu } from "./menu";
 
 export interface CompileOptions {
   end?: boolean;
@@ -96,6 +96,7 @@ export interface MountPoints {
 
 export interface MenuBarBrick extends HTMLElement {
   menu: SidebarMenu;
+  subMenu: SidebarSubMenu;
   collapsed: boolean;
   softExpanded: boolean;
 }

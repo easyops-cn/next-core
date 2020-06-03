@@ -230,7 +230,7 @@ export class Kernel {
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
     if (appChanged) {
-      this.menuBar.setAppMenu(null);
+      this.menuBar.resetAppMenu();
     }
     if (legacy !== "iframe" || appChanged) {
       // 对于 Legacy 页面，仅当切换应用时重设面包屑。

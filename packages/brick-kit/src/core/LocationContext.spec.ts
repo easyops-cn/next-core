@@ -59,11 +59,8 @@ describe("LocationContext", () => {
     main: [],
     menuInBg: [],
     portal: [],
-    menuBar: {
-      app: kernel.nextApp,
-    },
+    menuBar: {},
     appBar: {
-      app: kernel.nextApp,
       breadcrumb: kernel.appBar.element.breadcrumb,
     },
     flags: {

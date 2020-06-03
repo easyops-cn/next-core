@@ -7,6 +7,7 @@ import {
   BrickConf,
   PluginHistoryState,
   SidebarMenu,
+  SidebarSubMenu,
   MenuConf,
   BreadcrumbItemConf,
   MicroApp,
@@ -53,12 +54,13 @@ export interface MountRoutesResult {
   main: RuntimeBrick[];
   menuInBg: RuntimeBrick[];
   menuBar: {
-    app?: MicroApp;
     menu?: SidebarMenu;
+    subMenu?: SidebarSubMenu;
+    menuId?: string;
+    subMenuId?: string;
   };
   portal: RuntimeBrick[];
   appBar: {
-    app?: MicroApp;
     pageTitle?: string;
     breadcrumb?: BreadcrumbItemConf[];
   };
@@ -321,15 +323,28 @@ export class LocationContext {
       injectDeep !== false
         ? computeRealProperties(otherMenuConf, context, true)
         : otherMenuConf;
-    const { sidebarMenu, pageTitle, breadcrumb } = injectedMenuConf;
+    const {
+      sidebarMenu,
+      pageTitle,
+      breadcrumb,
+      menuId,
+      subMenuId,
+    } = injectedMenuConf;
 
-    if (sidebarMenu !== undefined) {
+    if (menuId) {
+      mountRoutesResult.menuBar.menuId = menuId;
+      mountRoutesResult.menuBar.menu = null;
+    } else if (sidebarMenu) {
       mountRoutesResult.menuBar.menu = sidebarMenu;
+      mountRoutesResult.menuBar.menuId = null;
     }
-    if (pageTitle !== undefined) {
+    if (subMenuId) {
+      mountRoutesResult.menuBar.subMenuId = subMenuId;
+    }
+    if (pageTitle) {
       mountRoutesResult.appBar.pageTitle = pageTitle;
     }
-    if (breadcrumb !== undefined) {
+    if (breadcrumb) {
       if (breadcrumb.overwrite) {
         mountRoutesResult.appBar.breadcrumb = breadcrumb.items;
       } else {

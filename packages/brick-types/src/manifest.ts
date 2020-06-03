@@ -226,6 +226,8 @@ export interface StaticMenuConf extends StaticMenuProps {
 export interface StaticMenuProps {
   pageTitle?: string;
   sidebarMenu?: SidebarMenu;
+  menuId?: string;
+  subMenuId?: string;
   breadcrumb?: BreadcrumbConf;
   injectDeep?: boolean;
 }

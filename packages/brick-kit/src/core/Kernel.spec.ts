@@ -314,7 +314,7 @@ describe("Kernel", () => {
 
   it("should unsetBars", () => {
     kernel.menuBar = {
-      setAppMenu: jest.fn(),
+      resetAppMenu: jest.fn(),
     } as any;
     kernel.appBar = {
       setPageTitle: jest.fn(),
@@ -323,7 +323,7 @@ describe("Kernel", () => {
     kernel.toggleBars = jest.fn();
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalledWith(true);
-    expect(kernel.menuBar.setAppMenu).toBeCalledWith(null);
+    expect(kernel.menuBar.resetAppMenu).toBeCalled();
     expect(kernel.appBar.setPageTitle).toBeCalledWith(null);
     expect(kernel.appBar.setBreadcrumb).toBeCalledWith(null);
   });

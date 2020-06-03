@@ -41,6 +41,9 @@
   --menu-bar-collapse-transition-duration: 250ms;
   --menu-bar-collapse-transition-timing-function: ease-out;
 
+  /* Sub menu along with the menu bar. */
+  --sub-menu-bar-width: 240px;
+
   --app-bar-height: 56px;
 
   --launchpad-backdrop-filter: blur(5px);
@@ -52,6 +55,7 @@
   --page-title-margin-top: 18px;
   --page-title-margin-bottom: 18px;
   --toolbar-button-gap: 8px;
+  /* Sub menu in the main content. */
   --sub-menu-width: 240px;
 
   --card-content-gap: 15px;
