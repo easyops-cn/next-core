@@ -68,7 +68,13 @@ PipeRegistry.set("deltaTime", pipeDeltaTime);
 PipeRegistry.set("nullish", pipeNullish);
 PipeRegistry.set("graphTree", pipeGraphTree);
 PipeRegistry.set("unitFormat", pipeUnitFormat);
+PipeRegistry.set("slice", pipeSlice)
 
+
+
+function pipeSlice(value:any, begin:number, end?:number):any {
+  return value.slice(begin,end);
+}
 function pipeNullish(value: any, defaultValue: any): any {
   return value ?? defaultValue;
 }
