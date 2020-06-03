@@ -2821,10 +2821,10 @@
   resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.8.0.tgz#61fecb0e07346567598ac0903c2b2ca7d74370e2"
   integrity sha1-Yf7LDgc0ZWdZisCQPCssp9dDcOI=
 
-"@sdk/cmdb-sdk@^0.13.0":
-  version "0.13.0"
-  resolved "http://registry.npm.easyops.local/@sdk/cmdb-sdk/download/@sdk/cmdb-sdk-0.13.0.tgz#f1d4c40d00c9ecd600e496bbf48469c0ff3fcba1"
-  integrity sha1-8dTEDQDJ7NYA5Ja79IRpwP8/y6E=
+"@sdk/cmdb-sdk@^0.14.2":
+  version "0.14.2"
+  resolved "http://registry.npm.easyops.local/@sdk/cmdb-sdk/download/@sdk/cmdb-sdk-0.14.2.tgz#88b2957b63de06e4e1dcd9b332c888374222a8f5"
+  integrity sha1-iLKVe2PeBuTh3NmzMsiIN0IiqPU=
 
 "@sdk/micro-app-sdk@^0.8.0":
   version "0.8.0"
