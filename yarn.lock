@@ -6779,10 +6779,10 @@ eslint-plugin-react-hooks@^4.0.1:
   resolved "https://registry.npm.taobao.org/eslint-plugin-react-hooks/download/eslint-plugin-react-hooks-4.0.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-plugin-react-hooks%2Fdownload%2Feslint-plugin-react-hooks-4.0.1.tgz#c90fbb8726e35aadff94c9613ebd5c4de375412b"
   integrity sha1-yQ+7hybjWq3/lMlhPr1cTeN1QSs=
 
-eslint-plugin-react@^7.19.0:
-  version "7.19.0"
-  resolved "https://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.19.0.tgz?cache=0&sync_timestamp=1583559913359&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-plugin-react%2Fdownload%2Feslint-plugin-react-7.19.0.tgz#6d08f9673628aa69c5559d33489e855d83551666"
-  integrity sha1-bQj5ZzYoqmnFVZ0zSJ6FXYNVFmY=
+eslint-plugin-react@^7.20.0:
+  version "7.20.0"
+  resolved "https://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.20.0.tgz?cache=0&sync_timestamp=1589341503516&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-plugin-react%2Fdownload%2Feslint-plugin-react-7.20.0.tgz#f98712f0a5e57dfd3e5542ef0604b8739cd47be3"
+  integrity sha1-+YcS8KXlff0+VULvBgS4c5zUe+M=
   dependencies:
     array-includes "^3.1.1"
     doctrine "^2.1.0"
@@ -6793,7 +6793,6 @@ eslint-plugin-react@^7.19.0:
     object.values "^1.1.1"
     prop-types "^15.7.2"
     resolve "^1.15.1"
-    semver "^6.3.0"
     string.prototype.matchall "^4.0.2"
     xregexp "^4.3.0"
 
