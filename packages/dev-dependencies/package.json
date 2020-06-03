@@ -53,7 +53,7 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",
     "size-limit": "^4.5.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.9.3"
   },
   "devDependencies": {
     "@size-limit/file": "^4.5.0",
