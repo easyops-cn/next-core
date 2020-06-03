@@ -42,7 +42,7 @@
     "eslint": "^7.1.0",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.1",
-    "execa": "^4.0.1",
+    "execa": "^4.0.2",
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.0.1",
