@@ -39,7 +39,7 @@
     "document-register-element": "^1.14.3",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.4",
-    "eslint": "^7.0.0",
+    "eslint": "^7.1.0",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.1",
     "execa": "^4.0.1",
