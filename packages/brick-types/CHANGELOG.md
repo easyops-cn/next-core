@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.39.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.38.1...@easyops/brick-types@1.39.0) (2020-06-03)
+
+
+### Features
+
+* **bootstrap:** fulfill the storyboard only when it's active ([d5d9ce9](https://git.easyops.local/anyclouds/next-core/commits/d5d9ce9))
+
+
+
+
+
 ## [1.38.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.38.0...@easyops/brick-types@1.38.1) (2020-05-18)
 
 ### Bug Fixes

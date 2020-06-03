@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.47.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.46.1...@easyops/brick-kit@1.47.0) (2020-06-03)
+
+
+### Bug Fixes
+
+* fix route alias not found ([39c8746](https://git.easyops.local/anyclouds/next-core/commits/39c8746))
+
+
+### Features
+
+* emit location change refs BRICK_STORE-1486 ([160ef53](https://git.easyops.local/anyclouds/next-core/commits/160ef53))
+* **bootstrap:** fulfill the storyboard only when it's active ([d5d9ce9](https://git.easyops.local/anyclouds/next-core/commits/d5d9ce9))
+
+
+
+
+
 ## [1.46.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.46.0...@easyops/brick-kit@1.46.1) (2020-05-18)
 
 ### Bug Fixes

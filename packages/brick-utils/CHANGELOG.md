@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.48.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.47.3...@easyops/brick-utils@1.48.0) (2020-06-03)
+
+
+### Features
+
+* slice pipe refs BRICK_STORE-1528 ([e2250f5](https://git.easyops.local/anyclouds/next-core/commits/e2250f5))
+
+
+
+
+
 ## [1.47.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.47.2...@easyops/brick-utils@1.47.3) (2020-05-18)
 
 **Note:** Version bump only for package @easyops/brick-utils
