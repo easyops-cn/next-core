@@ -6654,10 +6654,10 @@ enzyme-shallow-equal@^1.0.1:
     has "^1.0.3"
     object-is "^1.0.2"
 
-enzyme-to-json@^3.4.4:
-  version "3.4.4"
-  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.4.4.tgz#b30726c59091d273521b6568c859e8831e94d00e"
-  integrity sha1-swcmxZCR0nNSG2VoyFnogx6U0A4=
+enzyme-to-json@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.5.0.tgz#3d536f1e8fb50d972360014fe2bd64e6a672f7dd"
+  integrity sha1-PVNvHo+1DZcjYAFP4r1k5qZy990=
   dependencies:
     lodash "^4.17.15"
     react-is "^16.12.0"
