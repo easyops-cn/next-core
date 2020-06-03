@@ -47,7 +47,7 @@ export type MatchRoutesResult =
       route: RouteConf;
     }
   | "missed"
-  | "redirect";
+  | "unauthenticated";
 
 export interface MountRoutesResult {
   main: RuntimeBrick[];
@@ -63,6 +63,7 @@ export interface MountRoutesResult {
     breadcrumb?: BreadcrumbItemConf[];
   };
   flags: {
+    unauthenticated?: boolean;
     redirect?: {
       path: string;
       state?: PluginHistoryState;
@@ -130,7 +131,7 @@ export class LocationContext {
           this.currentMatch = match;
           return { match, route };
         } else {
-          return "redirect";
+          return "unauthenticated";
         }
       }
     }
@@ -165,13 +166,8 @@ export class LocationContext {
     switch (matched) {
       case "missed":
         break;
-      case "redirect":
-        mountRoutesResult.flags.redirect = {
-          path: "/auth/login",
-          state: {
-            from: this.location,
-          },
-        };
+      case "unauthenticated":
+        mountRoutesResult.flags.unauthenticated = true;
         break;
       default:
         if (matched.route.segues) {

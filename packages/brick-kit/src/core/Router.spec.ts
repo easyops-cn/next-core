@@ -8,15 +8,19 @@ import {
   __setMountRoutesResults,
 } from "./LocationContext";
 import { mountTree, mountStaticNode } from "./reconciler";
+import { getAuth, isLoggedIn } from "../auth";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
 jest.mock("./reconciler");
+jest.mock("../auth");
 
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
+const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
+(getAuth as jest.Mock).mockReturnValue({});
 
 let historyListeners: Function[] = [];
 const mockHistoryPush = (location: any): void => {
@@ -34,7 +38,9 @@ const spyOnHistoryListen = jest.fn((fn: Function) => {
 });
 const spyOnHistoryReplace = jest.fn();
 spyOnGetHistory.mockReturnValue({
-  location: {},
+  location: {
+    pathname: "/yo",
+  },
   listen: spyOnHistoryListen,
   replace: spyOnHistoryReplace,
   createHref: () => "/oops",
@@ -180,6 +186,17 @@ describe("Router", () => {
         },
       },
     ]);
+  });
+
+  it("should redirect to login when page not found and not logged in", async () => {
+    spyOnIsLoggedIn.mockReturnValueOnce(false);
+    await router.bootstrap();
+    expect(spyOnMountTree).toBeCalledTimes(0);
+    expect(spyOnHistoryReplace).toBeCalledWith("/auth/login", {
+      from: {
+        pathname: "/yo",
+      },
+    });
   });
 
   it("should ignore rendering if notify is false", async () => {

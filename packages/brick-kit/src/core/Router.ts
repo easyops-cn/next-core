@@ -17,7 +17,7 @@ import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../injected";
-import { getAuth } from "../auth";
+import { getAuth, isLoggedIn } from "../auth";
 import { devtoolsHookEmit } from "../devtools";
 import { afterMountTree } from "./reconciler";
 
@@ -94,7 +94,7 @@ export class Router {
         this.nextLocation = location;
       } else {
         try {
-          devtoolsHookEmit("locationChange")
+          devtoolsHookEmit("locationChange");
           await this.queuedRender(location);
         } catch (e) {
           handleHttpError(e);
@@ -161,6 +161,10 @@ export class Router {
 
     unmountTree(mountPoints.bg as MountableElement);
 
+    function redirectToLogin(): void {
+      history.replace("/auth/login", { from: location });
+    }
+
     if (storyboard) {
       const mountRoutesResult: MountRoutesResult = {
         main: [],
@@ -220,7 +224,12 @@ export class Router {
         portal,
       } = mountRoutesResult;
 
-      const { redirect, barsHidden, hybrid, failed } = flags;
+      const { unauthenticated, redirect, barsHidden, hybrid, failed } = flags;
+
+      if (unauthenticated) {
+        redirectToLogin();
+        return;
+      }
 
       if (redirect) {
         history.replace(redirect.path, redirect.state);
@@ -301,6 +310,11 @@ export class Router {
         devtoolsHookEmit("rendered");
         return;
       }
+    } else if (!isLoggedIn()) {
+      // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
+      // Redirect to login if no storyboard is matched.
+      redirectToLogin();
+      return;
     }
 
     this.state = "ready-to-mount";

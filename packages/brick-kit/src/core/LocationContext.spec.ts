@@ -165,12 +165,8 @@ describe("LocationContext", () => {
         menuBar: {},
         appBar: {},
         flags: {
-          redirect: {
-            path: "/auth/login",
-            state: {
-              from: location,
-            },
-          },
+          unauthenticated: true,
+          redirect: undefined,
         },
       });
     });
