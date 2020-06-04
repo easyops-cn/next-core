@@ -9489,6 +9489,23 @@ less@^3.11.1:
     request "^2.83.0"
     source-map "~0.6.0"
 
+less@^3.11.2:
+  version "3.11.2"
+  resolved "https://registry.npm.taobao.org/less/download/less-3.11.2.tgz?cache=0&sync_timestamp=1590976487772&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.11.2.tgz#51a484e9017287f5ac3db921cb86970eb7506e81"
+  integrity sha1-UaSE6QFyh/WsPbkhy4aXDrdQboE=
+  dependencies:
+    clone "^2.1.2"
+    tslib "^1.10.0"
+  optionalDependencies:
+    errno "^0.1.1"
+    graceful-fs "^4.1.2"
+    image-size "~0.5.0"
+    make-dir "^2.1.0"
+    mime "^1.4.1"
+    promise "^7.1.1"
+    request "^2.83.0"
+    source-map "~0.6.0"
+
 leven@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/leven/download/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
