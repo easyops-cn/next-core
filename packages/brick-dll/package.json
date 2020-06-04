@@ -27,15 +27,15 @@
     "@easyops/brick-utils": "^1.48.0",
     "@easyops/fontawesome-library": "^1.1.4",
     "@fortawesome/react-fontawesome": "^0.1.9",
-    "antd": "^3.26.16",
+    "antd": "^3.26.17",
     "history": "^4.10.1",
-    "i18next": "^19.4.4",
-    "js-yaml": "^3.13.1",
+    "i18next": "^19.4.5",
+    "js-yaml": "^3.14.0",
     "lodash": "^4.17.15",
-    "moment": "^2.25.3",
+    "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.4.0",
+    "react-i18next": "^11.5.0",
     "react-transition-group": "^4.4.1"
   }
 }
