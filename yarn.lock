@@ -2999,14 +2999,13 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^10.0.6":
-  version "10.0.6"
-  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.0.6.tgz?cache=0&sync_timestamp=1591136155163&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-10.0.6.tgz#e1e569135badb7367cc6ac9823e376eccb0280e0"
-  integrity sha1-4eVpE1uttzZ8xqyYI+N27MsCgOA=
+"@testing-library/react@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.1.0.tgz?cache=0&sync_timestamp=1591230728802&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-10.1.0.tgz#31af99093b104ffaec877cb29f5249bc33b98204"
+  integrity sha1-Ma+ZCTsQT/rsh3yyn1JJvDO5ggQ=
   dependencies:
     "@babel/runtime" "^7.10.2"
     "@testing-library/dom" "^7.9.0"
-    "@types/testing-library__react" "^10.0.1"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -3504,13 +3503,6 @@
   version "1.5.2"
   resolved "http://registry.npm.taobao.org/@types/q/download/@types/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
 
-"@types/react-dom@*":
-  version "16.9.7"
-  resolved "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-16.9.7.tgz#60844d48ce252d7b2dccf0c7bb937130e27c0cd2"
-  integrity sha1-YIRNSM4lLXstzPDHu5NxMOJ8DNI=
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-dom@^16.9.8":
   version "16.9.8"
   resolved "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"
@@ -3568,28 +3560,12 @@
   resolved "https://registry.npm.taobao.org/@types/tapable/download/@types/tapable-1.0.5.tgz?cache=0&sync_timestamp=1580844951142&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Ftapable%2Fdownload%2F%40types%2Ftapable-1.0.5.tgz#9adbc12950582aa65ead76bffdf39fe0c27a3c02"
   integrity sha1-mtvBKVBYKqZerXa//fOf4MJ6PAI=
 
-"@types/testing-library__dom@*":
-  version "7.0.0"
-  resolved "https://registry.npm.taobao.org/@types/testing-library__dom/download/@types/testing-library__dom-7.0.0.tgz?cache=0&sync_timestamp=1584900949812&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Ftesting-library__dom%2Fdownload%2F%40types%2Ftesting-library__dom-7.0.0.tgz#c0fb7d1c2495a3d26f19342102142d47500f0319"
-  integrity sha1-wPt9HCSVo9JvGTQhAhQtR1APAxk=
-  dependencies:
-    pretty-format "^25.1.0"
-
 "@types/testing-library__jest-dom@^5.0.2":
   version "5.0.2"
   resolved "https://registry.npm.taobao.org/@types/testing-library__jest-dom/download/@types/testing-library__jest-dom-5.0.2.tgz#89b782e0f187fe1e80d6375133da74182ba02065"
   integrity sha1-ibeC4PGH/h6A1jdRM9p0GCugIGU=
   dependencies:
     "@types/jest" "*"
-
-"@types/testing-library__react@^10.0.1":
-  version "10.0.1"
-  resolved "https://registry.npm.taobao.org/@types/testing-library__react/download/@types/testing-library__react-10.0.1.tgz#92bb4a02394bf44428e35f1da2970ed77f803593"
-  integrity sha1-krtKAjlL9EQo418dopcO13+ANZM=
-  dependencies:
-    "@types/react-dom" "*"
-    "@types/testing-library__dom" "*"
-    pretty-format "^25.1.0"
 
 "@types/through@*":
   version "0.0.29"
@@ -11956,7 +11932,7 @@ pretty-error@^2.1.1:
     renderkid "^2.0.1"
     utila "~0.4"
 
-pretty-format@^25.1.0, pretty-format@^25.2.1, pretty-format@^25.5.0:
+pretty-format@^25.2.1, pretty-format@^25.5.0:
   version "25.5.0"
   resolved "https://registry.npm.taobao.org/pretty-format/download/pretty-format-25.5.0.tgz?cache=0&sync_timestamp=1588103498118&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpretty-format%2Fdownload%2Fpretty-format-25.5.0.tgz#7873c1d774f682c34b8d48b6743a2bf2ac55791a"
   integrity sha1-eHPB13T2gsNLjUi2dDor8qxVeRo=
