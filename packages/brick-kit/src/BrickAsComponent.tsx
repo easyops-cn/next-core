@@ -6,6 +6,7 @@ import {
   UseSingleBrickConf,
   RuntimeBrickElement,
   BrickEventsMap,
+  UseBrickSlotsConf,
 } from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
@@ -16,6 +17,7 @@ import {
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
+import { checkIfByTransform } from "./checkIf";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -43,12 +45,13 @@ export function BrickAsComponent(
 
 interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   useBrick: UseSingleBrickConf;
+  refCallback?: (element: HTMLElement) => void;
 }
 
-function SingleBrickAsComponent(
+export function SingleBrickAsComponent(
   props: SingleBrickAsComponentProps
 ): React.ReactElement {
-  const { useBrick, data } = props;
+  const { useBrick, data, refCallback } = props;
 
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.
@@ -82,7 +85,7 @@ function SingleBrickAsComponent(
     return brick;
   }, [useBrick, data]);
 
-  const refCallback = React.useCallback(
+  const innerRefCallback = React.useCallback(
     async (element: HTMLElement) => {
       if (element) {
         const brick = await runtimeBrick;
@@ -103,26 +106,48 @@ function SingleBrickAsComponent(
           (element as RuntimeBrickElement).$$typeof = "invalid";
         }
       }
+      refCallback?.(element);
     },
-    [runtimeBrick, useBrick, data]
+    [runtimeBrick, useBrick, data, refCallback]
   );
 
   if (isObject(useBrick.if)) {
     // eslint-disable-next-line
     console.warn("Currently resolvable-if in `useBrick` is not supported.");
   } else if (
-    typeof useBrick.if === "boolean" ||
-    typeof useBrick.if === "string"
+    checkIfByTransform(useBrick.if as string | boolean, data) === false
   ) {
-    const ifChecked = doTransform(data, useBrick.if);
-    if (ifChecked === false) {
-      return null;
-    }
+    return null;
   }
 
-  return React.createElement(useBrick.brick, {
-    ref: refCallback,
-  });
+  return React.createElement(
+    useBrick.brick,
+    {
+      ref: innerRefCallback,
+    },
+    ...slotsToChildren(
+      useBrick.slots
+    ).map((item: UseSingleBrickConf, index: number) => (
+      <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+    ))
+  );
+}
+
+function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
+  if (!slots) {
+    return [];
+  }
+  return Object.entries(slots).flatMap(([slot, slotConf]) =>
+    Array.isArray(slotConf.bricks)
+      ? slotConf.bricks.map((child) => ({
+          ...child,
+          properties: {
+            ...child.properties,
+            slot,
+          },
+        }))
+      : []
+  );
 }
 
 function transformEvents(data: any, events: BrickEventsMap): BrickEventsMap {

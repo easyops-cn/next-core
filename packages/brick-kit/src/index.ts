@@ -16,3 +16,4 @@ export * from "./elements";
 export * from "./core/interfaces";
 export * from "./EasyopsEmpty";
 export * from "./transformProperties";
+export * from "./checkIf";

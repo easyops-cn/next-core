@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.11...@easyops/brick-container@1.20.0) (2020-06-03)
+
+
+### Features
+
+* **bootstrap:** fulfill the storyboard only when it's active ([d5d9ce9](https://git.easyops.local/anyclouds/next-core/commits/d5d9ce9))
+
+
+
+
+
+## [1.19.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.10...@easyops/brick-container@1.19.11) (2020-05-26)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.9...@easyops/brick-container@1.19.10) (2020-05-18)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.8...@easyops/brick-container@1.19.9) (2020-05-15)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.7...@easyops/brick-container@1.19.8) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.6...@easyops/brick-container@1.19.7) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.5...@easyops/brick-container@1.19.6) (2020-05-11)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.4...@easyops/brick-container@1.19.5) (2020-05-11)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.3...@easyops/brick-container@1.19.4) (2020-05-09)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.2...@easyops/brick-container@1.19.3) (2020-05-08)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.19.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.1...@easyops/brick-container@1.19.2) (2020-05-07)
+
+### Bug Fixes
+
+- log errors for invalid properties of custom elements in dev mode ([a37c645](https://git.easyops.local/anyclouds/next-core/commits/a37c645))
+- **less-loader:** update config after upgrade less-loader from v5 to v6 ([67f3132](https://git.easyops.local/anyclouds/next-core/commits/67f3132))
+
 ## [1.19.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.19.0...@easyops/brick-container@1.19.1) (2020-04-30)
 
 **Note:** Version bump only for package @easyops/brick-container

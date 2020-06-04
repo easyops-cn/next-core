@@ -1,4 +1,9 @@
-import { mountTree, mountStaticNode, MountableElement } from "./reconciler";
+import {
+  mountTree,
+  mountStaticNode,
+  MountableElement,
+  afterMountTree,
+} from "./reconciler";
 import { RuntimeBrick } from "./BrickNode";
 import { setRealProperties } from "../setProperties";
 
@@ -13,8 +18,8 @@ describe("reconciler", () => {
       {
         type: "div",
         properties: {},
-        events: {}
-      }
+        events: {},
+      },
     ];
     mountTree(runtimeBricks, mountPoint);
     expect(mountPoint.children.length).toBe(1);
@@ -27,8 +32,8 @@ describe("reconciler", () => {
       {
         type: "div",
         properties: {},
-        events: {}
-      }
+        events: {},
+      },
     ];
     mountTree(runtimeBricks, mountPoint);
     expect(mountPoint.children[0].tagName).toBe("DIV");
@@ -36,8 +41,8 @@ describe("reconciler", () => {
       {
         type: "p",
         properties: {},
-        events: {}
-      }
+        events: {},
+      },
     ];
     mountTree(newBricks, mountPoint);
     expect(mountPoint.children[0].tagName).toBe("P");
@@ -46,12 +51,27 @@ describe("reconciler", () => {
   it("should mount static node", () => {
     const mountPoint = document.createElement("div");
     const properties = {
-      title: "good"
+      title: "good",
     };
     mountStaticNode(mountPoint, properties);
     expect(setRealProperties as jest.Mock).toBeCalledWith(
       mountPoint,
       properties
     );
+  });
+
+  it("should work after mount tree", () => {
+    const mountPoint: MountableElement = document.createElement("div") as any;
+    expect(() => {
+      afterMountTree(mountPoint);
+    }).not.toThrow();
+    const afterMount = jest.fn();
+    mountPoint.$$rootBricks = [
+      {
+        afterMount,
+      } as any,
+    ];
+    afterMountTree(mountPoint);
+    expect(afterMount).toBeCalled();
   });
 });

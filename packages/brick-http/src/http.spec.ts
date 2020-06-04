@@ -5,7 +5,7 @@ import {
   HttpOptions,
   HttpFetchError,
   HttpParseError,
-  HttpResponseError
+  HttpResponseError,
 } from "./";
 
 jest.mock("./fetch");
@@ -17,10 +17,10 @@ type TestItem =
   | ["POST" | "PUT" | "PATCH", string, [any?, HttpOptions?]];
 
 // Hack for snapshot testing.
-(FormData.prototype as any).toJSON = function() {
+(FormData.prototype as any).toJSON = function () {
   return "<FormData> " + JSON.stringify(Array.from(this.entries()));
 };
-(URLSearchParams.prototype as any).toJSON = function() {
+(URLSearchParams.prototype as any).toJSON = function () {
   return "<URLSearchParams> " + this.toString();
 };
 
@@ -39,23 +39,38 @@ describe("http", () => {
     ["PATCH", "http://example.com", []],
     ["DELETE", "http://example.com", []],
     ["HEAD", "http://example.com", []],
-    ["GET", "http://example.com", [{ params: { lang: "zh-CN" } }]],
     [
       "GET",
       "http://example.com",
-      [{ params: new URLSearchParams("lang=zh-CN") }]
+      [{ params: { lang: "zh-CN", type: null, category: undefined } }],
     ],
-    ["GET", "http://example.com", [{ params: { lang: ["zh-CN", "en-US"] } }]],
+    [
+      "GET",
+      "http://example.com",
+      [{ params: new URLSearchParams("lang=zh-CN") }],
+    ],
+    [
+      "GET",
+      "http://example.com",
+      [
+        {
+          params: { lang: ["zh-CN", "en-US"], type: null, category: undefined },
+        },
+      ],
+    ],
     [
       "GET",
       "http://example.com/for-good?token=secret",
-      [{ params: { lang: "zh-CN" } }]
+      [{ params: { lang: "zh-CN", type: null, category: undefined } }],
     ],
     ["POST", "http://example.com", [{ for: "good" }]],
     [
       "POST",
       "http://example.com/for-good",
-      [{ for: "the throne" }, { params: { lang: "zh-CN" } }]
+      [
+        { for: "the throne" },
+        { params: { lang: "zh-CN", type: null, category: undefined } },
+      ],
     ],
     [
       "POST",
@@ -63,28 +78,28 @@ describe("http", () => {
       [
         { for: "the throne" },
         {
-          params: new URLSearchParams("lang=zh-CN")
-        }
-      ]
+          params: new URLSearchParams("lang=zh-CN"),
+        },
+      ],
     ],
     [
       "POST",
       "http://example.com/for-good",
       [
         { for: "the throne" },
-        { headers: { "x-requested-with": "XMLHttpRequest" } }
-      ]
+        { headers: { "x-requested-with": "XMLHttpRequest" } },
+      ],
     ],
     [
       "POST",
       "http://example.com/for-good",
       [
         { for: "the throne" },
-        { headers: new Headers({ "x-requested-with": "XMLHttpRequest" }) }
-      ]
+        { headers: new Headers({ "x-requested-with": "XMLHttpRequest" }) },
+      ],
     ],
     ["POST", "http://example.com/for-good", ["for=the-throne"]],
-    ["POST", "http://example.com/for-good", [formData]]
+    ["POST", "http://example.com/for-good", [formData]],
   ];
 
   it.each(batchTests)(
@@ -98,7 +113,7 @@ describe("http", () => {
   it("should return raw text", async () => {
     __setReturnValue(Promise.resolve(new Response("raw-text")));
     const result = await http.get("http://example.com", {
-      responseType: "text"
+      responseType: "text",
     });
     expect(result).toBe("raw-text");
   });
@@ -106,7 +121,7 @@ describe("http", () => {
   it("should return blob", async () => {
     __setReturnValue(Promise.resolve(new Response(new Blob())));
     const result = await http.get("http://example.com", {
-      responseType: "blob"
+      responseType: "blob",
     });
     expect(result).toBeInstanceOf(Blob);
   });
@@ -114,7 +129,7 @@ describe("http", () => {
   it("should return array buffer", async () => {
     __setReturnValue(Promise.resolve(new Response(new ArrayBuffer(1))));
     const result = await http.get("http://example.com", {
-      responseType: "arrayBuffer"
+      responseType: "arrayBuffer",
     });
     expect(result).toBeInstanceOf(ArrayBuffer);
   });
@@ -133,7 +148,7 @@ describe("http", () => {
     __setReturnValue(
       Promise.resolve(
         new Response('{"error":"oops"}', {
-          status: 500
+          status: 500,
         })
       )
     );
@@ -143,7 +158,7 @@ describe("http", () => {
     } catch (e) {
       expect(e).toBeInstanceOf(HttpResponseError);
       expect(e.responseJson).toEqual({
-        error: "oops"
+        error: "oops",
       });
     }
   });

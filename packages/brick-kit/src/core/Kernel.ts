@@ -6,6 +6,7 @@ import {
   asyncProcessStoryboard,
   scanBricksInBrickConf,
   getDllAndDepsOfBricks,
+  scanRouteAliasInStoryboard,
 } from "@easyops/brick-utils";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
@@ -104,12 +105,17 @@ export class Kernel {
       {
         templatePackages: [],
       },
-      await AuthSdk.bootstrap<BootstrapData>(params, {
-        interceptorParams,
-      })
+      await AuthSdk.bootstrap<BootstrapData>(
+        {
+          brief: true,
+          ...params,
+        },
+        {
+          interceptorParams,
+        }
+      )
     );
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
-    // And compute `$$routeAliasMap`.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
@@ -120,42 +126,55 @@ export class Kernel {
     };
   }
 
-  async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
-    const { brickPackages, templatePackages } = this.bootstrapData;
-    if (storyboard.dependsAll) {
-      const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
-      await loadScript(
-        Object.entries(dllHash).map(
-          ([name, hash]) => `dll-of-${name}.js?${hash}`
-        )
-      );
-      await loadScript(
-        brickPackages
-          .map((item) => item.filePath)
-          .concat(templatePackages.map((item) => item.filePath))
-      );
+  async fulfilStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+    if (storyboard.$$fulfilled) {
       return;
     }
+    const { routes, meta } = await AuthSdk.getAppStoryboard(storyboard.app.id);
+    Object.assign(storyboard, { routes, meta, $$fulfilled: true });
+    storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
+  }
+
+  async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+    const { brickPackages, templatePackages } = this.bootstrapData;
 
     if (!storyboard.$$depsProcessed) {
-      // 先加载模板
-      const templateDeps = getTemplateDepsOfStoryboard(
-        storyboard,
-        templatePackages
-      );
-      await loadScript(templateDeps);
-      // 加载模板后才能加工得到最终的构件表
-      const result = getDllAndDepsOfStoryboard(
-        await asyncProcessStoryboard(
+      if (storyboard.dependsAll) {
+        const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+        await loadScript(
+          Object.entries(dllHash).map(
+            ([name, hash]) => `dll-of-${name}.js?${hash}`
+          )
+        );
+        await loadScript(
+          brickPackages
+            .map((item) => item.filePath)
+            .concat(templatePackages.map((item) => item.filePath))
+        );
+      } else {
+        // 先加载模板
+        const templateDeps = getTemplateDepsOfStoryboard(
           storyboard,
-          brickTemplateRegistry,
           templatePackages
-        ),
-        brickPackages
-      );
-      await loadScript(result.dll);
-      await loadScript(result.deps);
+        );
+        await loadScript(templateDeps);
+        // 加载模板后才能加工得到最终的构件表
+        const result = getDllAndDepsOfStoryboard(
+          await asyncProcessStoryboard(
+            storyboard,
+            brickTemplateRegistry,
+            templatePackages
+          ),
+          brickPackages
+        );
+        await loadScript(result.dll);
+        await loadScript(result.deps);
+        // 每个 storyboard 仅处理一次依赖
+      }
+      storyboard.$$depsProcessed = true;
+    }
 
+    if (!storyboard.$$registerCustomTemplateProcessed) {
       // 注册自定义模板
       if (Array.isArray(storyboard.meta?.customTemplates)) {
         for (const tpl of storyboard.meta.customTemplates) {
@@ -169,9 +188,8 @@ export class Kernel {
           );
         }
       }
-
-      // 每个 storyboard 仅处理一次依赖
-      storyboard.$$depsProcessed = true;
+      // 每个 storyboard 仅注册一次custom-template
+      storyboard.$$registerCustomTemplateProcessed = true;
     }
   }
 

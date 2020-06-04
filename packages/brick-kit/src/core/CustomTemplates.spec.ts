@@ -80,6 +80,10 @@ describe("expandCustomTemplate", () => {
                     },
                   },
                 },
+                {
+                  brick: "basic-bricks.brick-in-portal",
+                  portal: true,
+                },
               ],
             },
           },
@@ -181,6 +185,10 @@ describe("handleProxyOfCustomTemplate", () => {
       });
       handleProxyOfCustomTemplate({
         element: getElement(),
+        proxyRefs: new Map(),
+      });
+      handleProxyOfCustomTemplate({
+        element: getElement(),
         proxy: {},
         proxyRefs: new Map(),
       });
@@ -215,17 +223,26 @@ describe("handleProxyOfCustomTemplate", () => {
     }).not.toThrow();
   });
 
-  it("should handleProxyOfCustomTemplate", () => {
+  it("should handleProxyOfCustomTemplate", async () => {
     const tplElement = document.createElement("div") as any;
     const button = document.createElement("div") as any;
     const microView = document.createElement("div") as any;
+    tplElement.appendChild(button);
+    tplElement.appendChild(microView);
 
     button.buttonName = "original button name";
     button.buttonType = "default";
     button.style.display = "block";
     button.tellStory = jest.fn();
     microView.noGap = false;
-    tplElement.dispatchEvent = jest.fn();
+    const nonBubbleEvents: CustomEvent[] = [];
+    tplElement.addEventListener("button.click", (event: CustomEvent) => {
+      nonBubbleEvents.push(event);
+    });
+    const bubbleEvents: CustomEvent[] = [];
+    tplElement.addEventListener("bubbles.happen", (event: CustomEvent) => {
+      bubbleEvents.push(event);
+    });
 
     const brick: RuntimeBrick = {
       element: tplElement,
@@ -253,6 +270,10 @@ describe("handleProxyOfCustomTemplate", () => {
           "button.click": {
             ref: "button",
             refEvent: "general.button.click",
+          },
+          "bubbles.happen": {
+            ref: "button",
+            refEvent: "bubbles.happen",
           },
         },
         methods: {
@@ -313,12 +334,26 @@ describe("handleProxyOfCustomTemplate", () => {
         cancelable: true,
       })
     );
-    const lastCallEvent = tplElement.dispatchEvent.mock.calls[0][0];
-    expect(lastCallEvent.type).toBe("button.click");
-    expect(lastCallEvent.detail).toBe("oops!");
-    expect(lastCallEvent.cancelable).toBe(true);
-    expect(lastCallEvent.bubbles).toBe(false);
-    expect(lastCallEvent.composed).toBe(false);
+    expect(nonBubbleEvents.length).toBe(1);
+    expect(nonBubbleEvents[0].type).toBe("button.click");
+    expect(nonBubbleEvents[0].detail).toBe("oops!");
+    expect(nonBubbleEvents[0].cancelable).toBe(true);
+    expect(nonBubbleEvents[0].bubbles).toBe(false);
+    expect(nonBubbleEvents[0].composed).toBe(false);
+
+    // Dispatch an bubble event.
+    button.dispatchEvent(
+      new CustomEvent("bubbles.happen", {
+        detail: "bubbles!",
+        bubbles: true,
+      })
+    );
+    expect(bubbleEvents.length).toBe(1);
+    expect(bubbleEvents[0].type).toBe("bubbles.happen");
+    expect(bubbleEvents[0].detail).toBe("bubbles!");
+    expect(bubbleEvents[0].cancelable).toBe(false);
+    expect(bubbleEvents[0].bubbles).toBe(true);
+    expect(bubbleEvents[0].composed).toBe(false);
 
     expect(tplElement.$$getElementByRef("button")).toBe(button);
     expect(tplElement.$$getElementByRef("not-existed")).toBe(undefined);

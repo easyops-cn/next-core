@@ -3,6 +3,7 @@ import {
   BrickLifeCycle,
   RefForProxy,
   CustomTemplateProxy,
+  RuntimeBrickElement,
 } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
@@ -25,6 +26,7 @@ export interface RuntimeBrick {
   refForProxy?: {
     brick?: RuntimeBrick;
   };
+  parentTemplate?: RuntimeBrick;
 }
 
 export class BrickNode {
@@ -45,6 +47,7 @@ export class BrickNode {
       console.error(`Undefined custom element: ${tagName}`);
     }
 
+    // istanbul ignore if
     if (tagName === "basic-bricks.script-brick") {
       // eslint-disable-next-line no-console
       console.warn(
@@ -62,21 +65,32 @@ export class BrickNode {
     bindListeners(node, brick.events, brick.context);
 
     if (Array.isArray(brick.children)) {
-      this.children = brick.children.map((slot) => new BrickNode(slot));
-      const childNodes = this.children.map((slot) => slot.mount());
-      childNodes.forEach((slot) => node.appendChild(slot));
+      this.children = brick.children.map((child) => new BrickNode(child));
+      const childNodes = this.children.map((child) => child.mount());
+      childNodes.forEach((child) => node.appendChild(child));
     } else {
       this.children = [];
     }
-
-    handleProxyOfCustomTemplate(brick);
 
     return node;
   }
 
   unmount(): void {
-    this.children.forEach((slot) => {
-      slot.unmount();
+    this.children.forEach((child) => {
+      child.unmount();
+    });
+  }
+
+  // Handle proxies later after bricks in portal and main both mounted.
+  afterMount(): void {
+    const brick = this.$$brick;
+    if (brick.parentTemplate) {
+      (brick.element as RuntimeBrickElement).$$parentTemplate =
+        brick.parentTemplate.element;
+    }
+    handleProxyOfCustomTemplate(brick);
+    this.children.forEach((child) => {
+      child.afterMount();
     });
   }
 }

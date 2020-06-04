@@ -14,6 +14,7 @@ import { computeRealValue, setProperties } from "./setProperties";
 import { getHistory } from "./history";
 import { _internalApiGetCurrentContext } from "./core/exports";
 import { getUrlFactory } from "./segue";
+import { checkIf } from "./checkIf";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -268,7 +269,7 @@ function builtinWindowListenerFactory(
 
 function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
   let tpl = brick;
-  while ((tpl = tpl.parentElement)) {
+  while ((tpl = tpl.$$parentTemplate || tpl.parentElement)) {
     if (tpl.$$typeof === "custom-template") {
       return tpl.$$getElementByRef?.(ref);
     }
@@ -323,8 +324,8 @@ function customListenerFactory(
         const task = target[handler.method](
           ...argsFactory(handler.args, context, event)
         );
-        const { success, error } = handler.callback ?? {};
-        if (success || error) {
+        const { success, error, finally: finallyHook } = handler.callback ?? {};
+        if (success || error || finallyHook) {
           try {
             const result = await task;
             if (success) {
@@ -342,6 +343,16 @@ function customListenerFactory(
               });
               [].concat(error).forEach((eachError) => {
                 listenerFactory(eachError, context, brick)(errorEvent);
+              });
+            } else {
+              // eslint-disable-next-line
+              console.error(err);
+            }
+          } finally {
+            if (finallyHook) {
+              const finallyEvent = new CustomEvent("callback.finally");
+              [].concat(finallyHook).forEach((eachFinally) => {
+                listenerFactory(eachFinally, context, brick)(finallyEvent);
               });
             }
           }
@@ -433,17 +444,4 @@ function argsFactory(
         true
       )
     : [useEventDetailAsDefault ? event.detail : event];
-}
-
-function checkIf(
-  rawIf: string | boolean,
-  context: PluginRuntimeContext
-): boolean {
-  if (typeof rawIf === "boolean" || typeof rawIf === "string") {
-    const ifChecked = computeRealValue(rawIf, context, true);
-    if (ifChecked === false) {
-      return false;
-    }
-  }
-  return true;
 }

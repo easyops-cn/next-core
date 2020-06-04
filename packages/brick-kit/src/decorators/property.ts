@@ -28,7 +28,10 @@ export function property(options?: PropertyDeclaration): any {
     }
 
     // istanbul ignore if
-    if (element.key in HTMLElement.prototype) {
+    if (
+      element.key in HTMLElement.prototype &&
+      process.env.NODE_ENV !== "test"
+    ) {
       // eslint-disable-next-line no-console
       console[
         getRuntime().getFeatureFlags()["development-mode"] ? "error" : "warn"

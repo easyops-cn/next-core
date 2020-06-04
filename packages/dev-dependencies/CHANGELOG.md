@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.24](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.23...@easyops/dev-dependencies@0.6.24) (2020-06-03)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+
+
+
+
+## [0.6.23](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.22...@easyops/dev-dependencies@0.6.23) (2020-05-26)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.21...@easyops/dev-dependencies@0.6.22) (2020-05-18)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.20...@easyops/dev-dependencies@0.6.21) (2020-05-15)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.19...@easyops/dev-dependencies@0.6.20) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.18...@easyops/dev-dependencies@0.6.19) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.17...@easyops/dev-dependencies@0.6.18) (2020-05-11)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.16...@easyops/dev-dependencies@0.6.17) (2020-05-11)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.15...@easyops/dev-dependencies@0.6.16) (2020-05-09)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.14...@easyops/dev-dependencies@0.6.15) (2020-05-08)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.13...@easyops/dev-dependencies@0.6.14) (2020-05-07)
+
+### Bug Fixes
+
+- remove jest-environment-jsdom-sixteen since jest v26 includes it ([0ee19d5](https://git.easyops.local/anyclouds/next-core/commits/0ee19d5))
+
 ## [0.6.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.12...@easyops/dev-dependencies@0.6.13) (2020-04-30)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

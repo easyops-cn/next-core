@@ -17,8 +17,9 @@ import { httpErrorToString, handleHttpError } from "../handleHttpError";
 import { isUnauthenticatedError } from "../isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../injected";
-import { getAuth } from "../auth";
+import { getAuth, isLoggedIn } from "../auth";
 import { devtoolsHookEmit } from "../devtools";
+import { afterMountTree } from "./reconciler";
 
 export class Router {
   private defaultCollapsed = false;
@@ -93,6 +94,7 @@ export class Router {
         this.nextLocation = location;
       } else {
         try {
+          devtoolsHookEmit("locationChange");
           await this.queuedRender(location);
         } catch (e) {
           handleHttpError(e);
@@ -134,6 +136,8 @@ export class Router {
     );
 
     if (storyboard) {
+      await this.kernel.fulfilStoryboard(storyboard);
+
       // 将动态解析后的模板还原，以便重新动态解析。
       restoreDynamicTemplates(storyboard);
 
@@ -156,6 +160,10 @@ export class Router {
     devtoolsHookEmit("rendering");
 
     unmountTree(mountPoints.bg as MountableElement);
+
+    function redirectToLogin(): void {
+      history.replace("/auth/login", { from: location });
+    }
 
     if (storyboard) {
       const mountRoutesResult: MountRoutesResult = {
@@ -216,7 +224,12 @@ export class Router {
         portal,
       } = mountRoutesResult;
 
-      const { redirect, barsHidden, hybrid, failed } = flags;
+      const { unauthenticated, redirect, barsHidden, hybrid, failed } = flags;
+
+      if (unauthenticated) {
+        redirectToLogin();
+        return;
+      }
 
       if (redirect) {
         history.replace(redirect.path, redirect.state);
@@ -282,6 +295,11 @@ export class Router {
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
           mountTree(portal, mountPoints.portal as MountableElement);
+
+        afterMountTree(mountPoints.main as MountableElement);
+        afterMountTree(mountPoints.portal as MountableElement);
+        afterMountTree(mountPoints.bg as MountableElement);
+
         if (!failed) {
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
@@ -292,6 +310,11 @@ export class Router {
         devtoolsHookEmit("rendered");
         return;
       }
+    } else if (!isLoggedIn()) {
+      // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
+      // Redirect to login if no storyboard is matched.
+      redirectToLogin();
+      return;
     }
 
     this.state = "ready-to-mount";

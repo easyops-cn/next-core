@@ -1,9 +1,4 @@
-import {
-  PluginLocation,
-  RuntimeStoryboard,
-  ResolveConf,
-} from "@easyops/brick-types";
-import * as brickUtils from "@easyops/brick-utils";
+import { RuntimeStoryboard, ResolveConf } from "@easyops/brick-types";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
 import { isLoggedIn, getAuth } from "../auth";
@@ -11,7 +6,13 @@ import * as history from "../history";
 
 jest.mock("../auth");
 
-const spyOnMatchPath = jest.spyOn(brickUtils, "matchPath");
+const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
+const consoleInfo = jest
+  .spyOn(console, "info")
+  .mockImplementation(() => void 0);
+jest.spyOn(console, "warn").mockImplementation(() => void 0);
+jest.spyOn(console, "error").mockImplementation(() => void 0);
+
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (getAuth as jest.Mock).mockReturnValue({
   username: "easyops",
@@ -25,7 +26,6 @@ jest.spyOn(history, "getHistory").mockReturnValue({
 } as any);
 
 describe("LocationContext", () => {
-  let context: LocationContext;
   const kernel: Kernel = {
     mountPoints: {
       main: {},
@@ -55,13 +55,6 @@ describe("LocationContext", () => {
     }),
   } as any;
 
-  const location: PluginLocation = {
-    pathname: "/",
-    search: "",
-    hash: "",
-    state: {},
-  };
-
   const getInitialMountResult = (): MountRoutesResult => ({
     main: [],
     menuInBg: [],
@@ -78,21 +71,23 @@ describe("LocationContext", () => {
     },
   });
 
-  beforeEach(() => {
-    context = new LocationContext(kernel, location);
-  });
-
   afterEach(() => {
-    spyOnMatchPath.mockReset();
     spyOnIsLoggedIn.mockReset();
+    consoleLog.mockClear();
+    consoleInfo.mockClear();
   });
 
   describe("matchStoryboard", () => {
     const storyboards: RuntimeStoryboard[] = [
       {
+        app: {
+          id: "hello",
+          name: "Hello",
+          homepage: "/hello",
+        },
         routes: [
           {
-            path: "",
+            path: "/hello",
             public: true,
             bricks: [],
           },
@@ -101,13 +96,23 @@ describe("LocationContext", () => {
     ];
 
     it("should handle match missed", () => {
-      spyOnMatchPath.mockReturnValueOnce(null);
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
       const storyboard = context.matchStoryboard(storyboards);
       expect(storyboard).toBe(undefined);
     });
 
     it("should handle match hit", () => {
-      spyOnMatchPath.mockReturnValueOnce({} as any);
+      const context = new LocationContext(kernel, {
+        pathname: "/hello",
+        search: "",
+        hash: "",
+        state: {},
+      });
       const storyboard = context.matchStoryboard(storyboards);
       expect(storyboard).toBe(storyboards[0]);
     });
@@ -115,6 +120,12 @@ describe("LocationContext", () => {
 
   describe("mountRoutes", () => {
     it("should mount nothing if match missed", async () => {
+      const context = new LocationContext(kernel, {
+        pathname: "/hello",
+        search: "",
+        hash: "",
+        state: {},
+      });
       const result = await context.mountRoutes(
         [],
         undefined,
@@ -131,7 +142,13 @@ describe("LocationContext", () => {
     });
 
     it("should redirect if not logged in", async () => {
-      spyOnMatchPath.mockReturnValueOnce({} as any);
+      const location = {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      };
+      const context = new LocationContext(kernel, location);
       spyOnIsLoggedIn.mockReturnValueOnce(false);
       const result = await context.mountRoutes(
         [
@@ -148,23 +165,24 @@ describe("LocationContext", () => {
         menuBar: {},
         appBar: {},
         flags: {
-          redirect: {
-            path: "/auth/login",
-            state: {
-              from: location,
-            },
-          },
+          unauthenticated: true,
+          redirect: undefined,
         },
       });
     });
 
     it("should redirect if match redirected", async () => {
-      spyOnMatchPath.mockReturnValueOnce({} as any);
+      const context = new LocationContext(kernel, {
+        pathname: "/hello",
+        search: "",
+        hash: "",
+        state: {},
+      });
       spyOnIsLoggedIn.mockReturnValue(true);
       const result = await context.mountRoutes(
         [
           {
-            path: "/",
+            path: "/hello",
             redirect: "/oops",
           },
         ],
@@ -184,7 +202,12 @@ describe("LocationContext", () => {
     });
 
     it("should mount if match hit", async () => {
-      spyOnMatchPath.mockReturnValue({} as any);
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
       spyOnIsLoggedIn.mockReturnValue(true);
       const result = await context.mountRoutes(
         [
@@ -283,14 +306,14 @@ describe("LocationContext", () => {
                               events: {},
                               lifeCycle: {
                                 onPageLoad: {
-                                  action: "console.warn",
+                                  action: "console.info",
                                 },
                                 onAnchorLoad: {
-                                  action: "console.warn",
+                                  action: "console.info",
                                   args: ["${EVENT.detail.anchor}"],
                                 },
                                 onAnchorUnload: {
-                                  action: "console.warn",
+                                  action: "console.info",
                                 },
                               },
                             },
@@ -463,9 +486,6 @@ describe("LocationContext", () => {
         },
       ]);
 
-      const consoleLog = jest.spyOn(console, "log");
-      const consoleWarn = jest.spyOn(console, "warn");
-
       context.handlePageLoad();
       context.handleAnchorLoad();
 
@@ -483,15 +503,18 @@ describe("LocationContext", () => {
         hash: "#yes",
         anchor: "yes",
       });
-      expect(consoleWarn.mock.calls[0][0].type).toBe("page.load");
-      expect(consoleWarn.mock.calls[1][0].type).toBe("anchor.unload");
-      expect(consoleWarn.mock.calls[2]).toEqual(["yes"]);
-      consoleLog.mockRestore();
-      consoleWarn.mockRestore();
+      expect(consoleInfo.mock.calls[0][0].type).toBe("page.load");
+      expect(consoleInfo.mock.calls[1][0].type).toBe("anchor.unload");
+      expect(consoleInfo.mock.calls[2]).toEqual(["yes"]);
     });
 
     it("resolve menu should work", async () => {
-      spyOnMatchPath.mockReturnValue({} as any);
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
       spyOnIsLoggedIn.mockReturnValue(true);
       jest
         .spyOn(context.resolver, "resolveOne")

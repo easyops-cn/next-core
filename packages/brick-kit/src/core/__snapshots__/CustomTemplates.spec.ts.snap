@@ -32,6 +32,7 @@ Object {
           "$$computedPropsFromProxy": Object {
             "noGap": "\${QUERY.gap|bool|not}",
           },
+          "$$parentTemplate": undefined,
           "$$refForProxy": Object {},
           "brick": "basic-bricks.micro-view",
           "properties": Object {
@@ -47,6 +48,7 @@ Object {
                       "display": "block",
                     },
                   },
+                  "$$parentTemplate": undefined,
                   "$$refForProxy": Object {},
                   "brick": "basic-bricks.general-button",
                   "events": Object {
@@ -61,6 +63,63 @@ Object {
                   "properties": Object {
                     "buttonType": "dashed",
                   },
+                  "slots": Object {},
+                },
+                Object {
+                  "$$computedPropsFromProxy": Object {},
+                  "$$parentTemplate": Object {
+                    "proxy": Object {
+                      "events": Object {
+                        "button.click": Object {
+                          "ref": "button",
+                          "refEvent": "general.button.click",
+                        },
+                      },
+                      "methods": Object {
+                        "tell": Object {
+                          "ref": "button",
+                          "refMethod": "tellStory",
+                        },
+                      },
+                      "properties": Object {
+                        "button": Object {
+                          "ref": "button",
+                          "refProperty": "buttonName",
+                        },
+                        "isDanger": Object {
+                          "ref": "button",
+                          "refTransform": Object {
+                            "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
+                            "style": Object {
+                              "display": "<% DATA.isDanger ? 'inline' : 'block' %>",
+                            },
+                          },
+                        },
+                        "noGap": Object {
+                          "ref": "micro-view",
+                          "refProperty": "noGap",
+                        },
+                      },
+                      "slots": Object {
+                        "extraContent": Object {
+                          "ref": "micro-view",
+                          "refSlot": "content",
+                        },
+                        "tools": Object {
+                          "ref": "micro-view",
+                          "refPosition": 0,
+                          "refSlot": "toolbar",
+                        },
+                      },
+                    },
+                    "proxyRefs": Map {
+                      "button" => Object {},
+                      "micro-view" => Object {},
+                    },
+                  },
+                  "$$refForProxy": undefined,
+                  "brick": "basic-bricks.brick-in-portal",
+                  "portal": true,
                   "slots": Object {},
                 },
                 Object {

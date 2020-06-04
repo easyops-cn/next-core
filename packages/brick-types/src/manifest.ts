@@ -61,6 +61,7 @@ export interface TemplatePackage {
 }
 
 export interface AuthInfo {
+  org?: number;
   username?: string;
   userInstanceId?: string;
 }
@@ -73,7 +74,7 @@ export interface NavbarConf {
 
 export interface Storyboard {
   imports?: string[];
-  routes: RouteConf[];
+  routes?: RouteConf[];
   app?: MicroApp;
   dependsAll?: boolean;
   meta?: StoryboardMeta;
@@ -81,6 +82,8 @@ export interface Storyboard {
 
 export interface RuntimeStoryboard extends Storyboard {
   $$depsProcessed?: boolean;
+  $$registerCustomTemplateProcessed?: boolean;
+  $$fulfilled?: boolean;
 }
 
 export type RouteConf =
@@ -153,6 +156,7 @@ export interface RuntimeBrickConf extends BrickConf {
   $$if?: string | boolean | ResolveConf;
   $$computedPropsFromProxy?: Record<string, any>;
   $$refForProxy?: RefForProxy;
+  $$parentTemplate?: ProbablyRuntimeBrick;
 }
 
 export interface BrickLifeCycle {
@@ -336,6 +340,7 @@ export interface ExecuteCustomBrickEventHandler
   callback?: {
     success?: BrickEventHandler | BrickEventHandler[];
     error?: BrickEventHandler | BrickEventHandler[];
+    finally?: BrickEventHandler | BrickEventHandler[];
   };
 }
 
@@ -379,6 +384,16 @@ export interface UseSingleBrickConf {
   transformFrom?: string | string[];
   transform?: GeneralTransform;
   if?: string | boolean | ResolveConf;
+  slots?: UseBrickSlotsConf;
+}
+
+export interface UseBrickSlotsConf {
+  [slotName: string]: UseBrickSlotConf;
+}
+
+export interface UseBrickSlotConf {
+  type?: "bricks";
+  bricks: UseSingleBrickConf[];
 }
 
 export interface StoryboardMeta {
@@ -467,9 +482,11 @@ export interface CustomTemplateProxyMethod {
 }
 
 export interface RefForProxy {
-  brick?: {
-    element?: HTMLElement;
-  };
+  brick?: ProbablyRuntimeBrick;
+}
+
+export interface ProbablyRuntimeBrick {
+  element?: HTMLElement;
 }
 
 /* Custom Templates Ends */

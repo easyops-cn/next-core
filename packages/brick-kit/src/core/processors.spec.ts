@@ -37,16 +37,6 @@ describe("processBootstrapResponse", () => {
             },
           },
         },
-        // Has route alias.
-        {
-          app: {},
-          routes: [
-            {
-              path: "/a",
-              alias: "a",
-            },
-          ],
-        },
       ],
     };
     processBootstrapResponse(data);
@@ -56,7 +46,6 @@ describe("processBootstrapResponse", () => {
         {
           app: {
             config: {},
-            $$routeAliasMap: new Map(),
           },
         },
         // No app.
@@ -70,7 +59,6 @@ describe("processBootstrapResponse", () => {
             config: {
               quality: "good",
             },
-            $$routeAliasMap: new Map(),
           },
         },
         // With only `userConfig`.
@@ -82,7 +70,6 @@ describe("processBootstrapResponse", () => {
             config: {
               quality: "bad",
             },
-            $$routeAliasMap: new Map(),
           },
         },
         // With both `defaultConfig` and `userConfig`.
@@ -97,29 +84,7 @@ describe("processBootstrapResponse", () => {
             config: {
               quality: "bad",
             },
-            $$routeAliasMap: new Map(),
           },
-        },
-        // Has route alias.
-        {
-          app: {
-            config: {},
-            $$routeAliasMap: new Map([
-              [
-                "a",
-                {
-                  path: "/a",
-                  alias: "a",
-                },
-              ],
-            ]),
-          },
-          routes: [
-            {
-              path: "/a",
-              alias: "a",
-            },
-          ],
         },
       ],
     });

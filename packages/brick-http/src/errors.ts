@@ -8,6 +8,7 @@ export class HttpFetchError extends Error {
     this.name = "HttpFetchError";
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, HttpFetchError);
     }
@@ -25,6 +26,7 @@ export class HttpResponseError extends Error {
     this.name = "HttpResponseError";
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, HttpResponseError);
     }
@@ -44,6 +46,7 @@ export class HttpParseError extends Error {
     this.name = "HttpParseError";
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, HttpParseError);
     }

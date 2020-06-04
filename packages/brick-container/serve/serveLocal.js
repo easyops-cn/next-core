@@ -7,6 +7,7 @@ const {
   getBrickPackages,
   getSettings,
   getTemplatePackages,
+  getSingleStoryboard,
 } = require("./utils");
 
 module.exports = (env, app) => {
@@ -54,6 +55,12 @@ module.exports = (env, app) => {
             res.status(404).end();
           }
         });
+        app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
+          res.json({
+            code: 0,
+            data: getSingleStoryboard(env, appId, mockedMicroApps.includes(appId)),
+          });
+        });
       });
     }
     if (localTemplates.length > 0) {
@@ -89,13 +96,24 @@ module.exports = (env, app) => {
         data: {
           navbar: getNavbar(env),
           storyboards: (mocked
-            ? getStoryboardsByMicroApps(env, true)
+            ? getStoryboardsByMicroApps(env, true, {
+              brief: req.query.brief === "true",
+            })
             : []
-          ).concat(getStoryboardsByMicroApps(env)),
+          ).concat(getStoryboardsByMicroApps(env, false, {
+            brief: req.query.brief === "true",
+          })),
           brickPackages: getBrickPackages(env),
           templatePackages: getTemplatePackages(env),
           settings: getSettings(),
         },
+      });
+    });
+
+    app.get(`${publicPath}api/auth/bootstrap/:appId`, (req, res) => {
+      res.json({
+        code: 0,
+        data: getSingleStoryboard(env, req.params.appId, mockedMicroApps.includes(req.params.appId)),
       });
     });
 

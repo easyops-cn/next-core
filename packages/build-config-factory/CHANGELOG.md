@@ -3,19 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.15...@easyops/build-config-factory@1.9.0) (2020-04-29)
+## [1.9.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.6...@easyops/build-config-factory@1.9.7) (2020-06-03)
 
+**Note:** Version bump only for package @easyops/build-config-factory
+
+
+
+
+
+## [1.9.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.5...@easyops/build-config-factory@1.9.6) (2020-05-18)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.9.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.4...@easyops/build-config-factory@1.9.5) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.9.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.3...@easyops/build-config-factory@1.9.4) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.9.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.2...@easyops/build-config-factory@1.9.3) (2020-05-09)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.1...@easyops/build-config-factory@1.9.2) (2020-05-08)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [1.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.0...@easyops/build-config-factory@1.9.1) (2020-05-07)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+# [1.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.15...@easyops/build-config-factory@1.9.0) (2020-04-29)
 
 ### Features
 
-* generate provider ([2ad3b82](https://git.easyops.local/anyclouds/next-core/commits/2ad3b82))
-* generate provider ([5ba1be0](https://git.easyops.local/anyclouds/next-core/commits/5ba1be0))
-* generate sdk and provider brick refs BRICK_STORE-1434 ([fe1bce8](https://git.easyops.local/anyclouds/next-core/commits/fe1bce8))
-* generate sdk and provider brick refs BRICK_STORE-1434 ([d6c212c](https://git.easyops.local/anyclouds/next-core/commits/d6c212c))
-
-
-
-
+- generate provider ([2ad3b82](https://git.easyops.local/anyclouds/next-core/commits/2ad3b82))
+- generate provider ([5ba1be0](https://git.easyops.local/anyclouds/next-core/commits/5ba1be0))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([fe1bce8](https://git.easyops.local/anyclouds/next-core/commits/fe1bce8))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([d6c212c](https://git.easyops.local/anyclouds/next-core/commits/d6c212c))
 
 ## [1.8.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.8.14...@easyops/build-config-factory@1.8.15) (2020-04-24)
 

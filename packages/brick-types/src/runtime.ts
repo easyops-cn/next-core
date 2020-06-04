@@ -38,6 +38,7 @@ export interface MatchParams {
 }
 
 export interface SystemInfo {
+  org: number;
   username: string;
   userInstanceId: string;
 }
@@ -147,4 +148,5 @@ export interface RuntimeBrickElement extends HTMLElement {
   $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
   $$eventListeners?: rememberedEventListener[];
   $$getElementByRef?: (ref: string) => HTMLElement;
+  $$parentTemplate?: RuntimeBrickElement;
 }

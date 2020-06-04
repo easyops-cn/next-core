@@ -3,16 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.35.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.35.1...@easyops/brick-types@1.35.2) (2020-04-29)
+# [1.39.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.38.1...@easyops/brick-types@1.39.0) (2020-06-03)
 
+
+### Features
+
+* **bootstrap:** fulfill the storyboard only when it's active ([d5d9ce9](https://git.easyops.local/anyclouds/next-core/commits/d5d9ce9))
+
+
+
+
+
+## [1.38.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.38.0...@easyops/brick-types@1.38.1) (2020-05-18)
 
 ### Bug Fixes
 
-* mark native and invalid elements in `useBrick` ([96aa950](https://git.easyops.local/anyclouds/next-core/commits/96aa950))
+- **kernel:** register custom template when dependsAll is true ([0c7c054](https://git.easyops.local/anyclouds/next-core/commits/0c7c054))
 
+# [1.38.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.37.1...@easyops/brick-types@1.38.0) (2020-05-13)
 
+### Features
 
+- **events:** support callback.finally in event handlers ([4cfc15d](https://git.easyops.local/anyclouds/next-core/commits/4cfc15d))
 
+## [1.37.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.37.0...@easyops/brick-types@1.37.1) (2020-05-13)
+
+### Bug Fixes
+
+- support targetRef for bricks in portal/bg mode in a custom template ([ceb442a](https://git.easyops.local/anyclouds/next-core/commits/ceb442a))
+
+# [1.37.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.36.0...@easyops/brick-types@1.37.0) (2020-05-09)
+
+### Features
+
+- **evaluate:** access to `location.origin` and `SYS.org`, refs BRICK_STORE-1471 ([6fa5473](https://git.easyops.local/anyclouds/next-core/commits/6fa5473))
+
+# [1.36.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.35.2...@easyops/brick-types@1.36.0) (2020-05-08)
+
+### Features
+
+- **use-brick:** support slots in useBrick ([96826b1](https://git.easyops.local/anyclouds/next-core/commits/96826b1))
+
+## [1.35.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.35.1...@easyops/brick-types@1.35.2) (2020-04-29)
+
+### Bug Fixes
+
+- mark native and invalid elements in `useBrick` ([96aa950](https://git.easyops.local/anyclouds/next-core/commits/96aa950))
 
 ## [1.35.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.35.0...@easyops/brick-types@1.35.1) (2020-04-20)
 

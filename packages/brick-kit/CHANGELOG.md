@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.47.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.46.1...@easyops/brick-kit@1.47.0) (2020-06-03)
+
+
+### Bug Fixes
+
+* fix route alias not found ([39c8746](https://git.easyops.local/anyclouds/next-core/commits/39c8746))
+
+
+### Features
+
+* emit location change refs BRICK_STORE-1486 ([160ef53](https://git.easyops.local/anyclouds/next-core/commits/160ef53))
+* **bootstrap:** fulfill the storyboard only when it's active ([d5d9ce9](https://git.easyops.local/anyclouds/next-core/commits/d5d9ce9))
+
+
+
+
+
+## [1.46.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.46.0...@easyops/brick-kit@1.46.1) (2020-05-18)
+
+### Bug Fixes
+
+- **kernel:** register custom template when dependsAll is true ([0c7c054](https://git.easyops.local/anyclouds/next-core/commits/0c7c054))
+
+# [1.46.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.45.0...@easyops/brick-kit@1.46.0) (2020-05-15)
+
+### Bug Fixes
+
+- **custom-template:** handle bubble events in custom template ([97469c2](https://git.easyops.local/anyclouds/next-core/commits/97469c2))
+
+### Features
+
+- **use-brick:** export SingleBrickAsComponent which support ref callback ([c18d2cf](https://git.easyops.local/anyclouds/next-core/commits/c18d2cf))
+
+# [1.45.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.3...@easyops/brick-kit@1.45.0) (2020-05-13)
+
+### Features
+
+- **events:** support callback.finally in event handlers ([4cfc15d](https://git.easyops.local/anyclouds/next-core/commits/4cfc15d))
+
+## [1.44.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.2...@easyops/brick-kit@1.44.3) (2020-05-13)
+
+### Bug Fixes
+
+- support targetRef for bricks in portal/bg mode in a custom template ([ceb442a](https://git.easyops.local/anyclouds/next-core/commits/ceb442a))
+
+## [1.44.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.1...@easyops/brick-kit@1.44.2) (2020-05-11)
+
+### Bug Fixes
+
+- **custom-template:** handle proxies after bricks mounted ([a5b6089](https://git.easyops.local/anyclouds/next-core/commits/a5b6089))
+
+## [1.44.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.44.0...@easyops/brick-kit@1.44.1) (2020-05-11)
+
+### Bug Fixes
+
+- **custom-template:** fix targetRef not working in onPageLoad and onAnchorLoad ([3a33ff1](https://git.easyops.local/anyclouds/next-core/commits/3a33ff1))
+
+# [1.44.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.43.0...@easyops/brick-kit@1.44.0) (2020-05-09)
+
+### Bug Fixes
+
+- **auth:** fix userInstanceId ([5677371](https://git.easyops.local/anyclouds/next-core/commits/5677371))
+- **custom-template:** fix ref bricks of portal mode cannot be found ([b31705c](https://git.easyops.local/anyclouds/next-core/commits/b31705c))
+- **custom-template:** handle circular custom template ([7061c38](https://git.easyops.local/anyclouds/next-core/commits/7061c38))
+
+### Features
+
+- **evaluate:** access to `location.origin` and `SYS.org`, refs BRICK_STORE-1471 ([6fa5473](https://git.easyops.local/anyclouds/next-core/commits/6fa5473))
+
+# [1.43.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.42.1...@easyops/brick-kit@1.43.0) (2020-05-08)
+
+### Bug Fixes
+
+- ignore warn invalid properties of custom elements in test env ([7d12264](https://git.easyops.local/anyclouds/next-core/commits/7d12264))
+
+### Features
+
+- **use-brick:** support slots in useBrick ([96826b1](https://git.easyops.local/anyclouds/next-core/commits/96826b1))
+
+## [1.42.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.42.0...@easyops/brick-kit@1.42.1) (2020-05-07)
+
+### Bug Fixes
+
+- log errors for invalid properties of custom elements in dev mode ([a37c645](https://git.easyops.local/anyclouds/next-core/commits/a37c645))
+- refine warning if using a native property as brick's property ([4d9c309](https://git.easyops.local/anyclouds/next-core/commits/4d9c309))
+- warn if using a native property as brick's property ([750b5d4](https://git.easyops.local/anyclouds/next-core/commits/750b5d4))
+- warn unexpected condition result ([a577537](https://git.easyops.local/anyclouds/next-core/commits/a577537))
+
 # [1.42.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.41.0...@easyops/brick-kit@1.42.0) (2020-04-30)
 
 ### Bug Fixes

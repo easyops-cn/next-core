@@ -1,9 +1,7 @@
 import { merge } from "lodash";
 import { BootstrapData } from "@easyops/brick-types";
-import { scanRouteAliasInStoryboard } from "@easyops/brick-utils";
 
 // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
-// And compute `$$routeAliasMap`.
 export function processBootstrapResponse(
   bootstrapResponse: BootstrapData
 ): void {
@@ -13,7 +11,6 @@ export function processBootstrapResponse(
       storyboard.app = {
         ...app,
         config: merge({}, app.defaultConfig, app.userConfig),
-        $$routeAliasMap: scanRouteAliasInStoryboard(storyboard),
       };
     }
   }

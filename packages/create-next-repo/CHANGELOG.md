@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.24](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.23...@easyops/create-next-repo@0.12.24) (2020-06-03)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+
+
+
+
+## [0.12.23](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.22...@easyops/create-next-repo@0.12.23) (2020-05-26)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.21...@easyops/create-next-repo@0.12.22) (2020-05-18)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.20...@easyops/create-next-repo@0.12.21) (2020-05-15)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.19...@easyops/create-next-repo@0.12.20) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.18...@easyops/create-next-repo@0.12.19) (2020-05-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.17...@easyops/create-next-repo@0.12.18) (2020-05-11)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.16...@easyops/create-next-repo@0.12.17) (2020-05-11)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.15...@easyops/create-next-repo@0.12.16) (2020-05-09)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.14...@easyops/create-next-repo@0.12.15) (2020-05-08)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.12.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.13...@easyops/create-next-repo@0.12.14) (2020-05-07)
+
+### Bug Fixes
+
+- remove jest-environment-jsdom-sixteen since jest v26 includes it ([0ee19d5](https://git.easyops.local/anyclouds/next-core/commits/0ee19d5))
+
 ## [0.12.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.12...@easyops/create-next-repo@0.12.13) (2020-04-30)
 
 **Note:** Version bump only for package @easyops/create-next-repo

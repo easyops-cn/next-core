@@ -39,6 +39,7 @@ import {
   getTagNameOfCustomTemplate,
 } from "./exports";
 import { RedirectConf, IfConf } from "./interfaces";
+import { checkIf } from "../checkIf";
 
 export type MatchRoutesResult =
   | {
@@ -46,7 +47,7 @@ export type MatchRoutesResult =
       route: RouteConf;
     }
   | "missed"
-  | "redirect";
+  | "unauthenticated";
 
 export interface MountRoutesResult {
   main: RuntimeBrick[];
@@ -62,6 +63,7 @@ export interface MountRoutesResult {
     breadcrumb?: BreadcrumbItemConf[];
   };
   flags: {
+    unauthenticated?: boolean;
     redirect?: {
       path: string;
       state?: PluginHistoryState;
@@ -92,14 +94,16 @@ export class LocationContext {
   }
 
   private getContext(match: MatchResult): PluginRuntimeContext {
+    const auth = getAuth();
     return {
       hash: this.location.hash,
       query: this.query,
       match,
       app: this.kernel.nextApp,
       sys: {
-        username: getAuth().username,
-        userInstanceId: getAuth().userInstanceId,
+        org: auth.org,
+        username: auth.username,
+        userInstanceId: auth.userInstanceId,
       },
       flags: this.kernel.getFeatureFlags(),
       segues: this.segues,
@@ -127,7 +131,7 @@ export class LocationContext {
           this.currentMatch = match;
           return { match, route };
         } else {
-          return "redirect";
+          return "unauthenticated";
         }
       }
     }
@@ -136,9 +140,16 @@ export class LocationContext {
 
   matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
     for (const storyboard of storyboards) {
-      const matched = this.matchRoutes(storyboard.routes, storyboard.app);
-      if (matched !== "missed") {
-        return storyboard;
+      const homepage = storyboard.app?.homepage;
+      if (typeof homepage === "string" && homepage[0] === "/") {
+        if (
+          matchPath(this.location.pathname, {
+            path: homepage,
+            exact: homepage === "/",
+          })
+        ) {
+          return storyboard;
+        }
       }
     }
   }
@@ -155,13 +166,8 @@ export class LocationContext {
     switch (matched) {
       case "missed":
         break;
-      case "redirect":
-        mountRoutesResult.flags.redirect = {
-          path: "/auth/login",
-          state: {
-            from: this.location,
-          },
-        };
+      case "unauthenticated":
+        mountRoutesResult.flags.unauthenticated = true;
         break;
       default:
         if (matched.route.segues) {
@@ -365,22 +371,25 @@ export class LocationContext {
     bricks: BrickConf[],
     match: MatchResult,
     slotId: string,
-    mountRoutesResult: MountRoutesResult
+    mountRoutesResult: MountRoutesResult,
+    tplStack?: string[]
   ): Promise<void> {
     for (const brickConf of bricks) {
-      await this.mountBrick(brickConf, match, slotId, mountRoutesResult);
+      await this.mountBrick(
+        brickConf,
+        match,
+        slotId,
+        mountRoutesResult,
+        tplStack?.slice()
+      );
     }
   }
 
-  private async checkIf(
+  private async checkResolvableIf(
     rawIf: string | boolean | ResolveConf,
     context: PluginRuntimeContext
   ): Promise<boolean> {
-    if (
-      isObject(rawIf) ||
-      typeof rawIf === "boolean" ||
-      typeof rawIf === "string"
-    ) {
+    if (isObject(rawIf)) {
       const ifChecked = computeRealValue(rawIf, context, true);
 
       if (isObject(ifChecked)) {
@@ -390,31 +399,29 @@ export class LocationContext {
           return false;
         }
         // istanbul ignore if
-        if (typeof ifConf.if !== "boolean") {
+        if (ifConf.if !== true) {
           // eslint-disable-next-line no-console
           console.warn("Received an unexpected condition result:", ifConf.if);
         }
-      } else if (ifChecked === false) {
-        return false;
-      } /* istanbul ignore if */ else if (typeof ifChecked !== "boolean") {
-        // eslint-disable-next-line no-console
-        console.warn("Received an unexpected condition result:", ifChecked);
       }
+
+      return true;
     }
 
-    return true;
+    return checkIf(rawIf as string | boolean, context);
   }
 
   async mountBrick(
     brickConf: BrickConf,
     match: MatchResult,
     slotId: string,
-    mountRoutesResult: MountRoutesResult
+    mountRoutesResult: MountRoutesResult,
+    tplStack: string[] = []
   ): Promise<void> {
     const context = this.getContext(match);
 
     // First, check whether the brick should be rendered.
-    if (!(await this.checkIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf.if, context))) {
       return;
     }
 
@@ -424,7 +431,7 @@ export class LocationContext {
     }
 
     // Check `if` again for dynamic loaded templates.
-    if (!(await this.checkIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf.if, context))) {
       return;
     }
 
@@ -434,6 +441,13 @@ export class LocationContext {
       brickConf.brick,
       this.kernel.nextApp?.id
     );
+
+    if (tplTagName) {
+      if (tplStack.includes(tplTagName)) {
+        throw new Error(`Circular custom template: "${tplTagName}"`);
+      }
+      tplStack.push(tplTagName);
+    }
 
     const brick: RuntimeBrick = {
       type: tplTagName || brickConf.brick,
@@ -450,6 +464,7 @@ export class LocationContext {
       children: [],
       slotId,
       refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
+      parentTemplate: (brickConf as RuntimeBrickConf).$$parentTemplate,
     };
 
     if (brick.refForProxy) {
@@ -515,7 +530,8 @@ export class LocationContext {
               slotConf.bricks,
               match,
               slotId,
-              slottedMountRoutesResult
+              slottedMountRoutesResult,
+              tplStack
             );
           } else if (slotConf.type === "routes") {
             await this.mountRoutes(
