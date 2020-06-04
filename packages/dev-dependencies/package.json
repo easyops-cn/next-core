@@ -30,7 +30,7 @@
     "@easyops/rollup-config-factory": "^1.1.3",
     "@easyops/webpack-config-factory": "^1.9.1",
     "@testing-library/jest-dom": "^5.9.0",
-    "@testing-library/react": "^10.0.6",
+    "@testing-library/react": "^10.1.0",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "babel-jest": "^26.0.1",
     "chalk": "^4.0.0",
