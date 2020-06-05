@@ -2234,10 +2234,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^10.2.0":
-  version "10.2.0"
-  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.2.0.tgz#dde740cb7374c93cefec4faa750c4b50dca7bf3f"
-  integrity sha1-3edAy3N0yTzv7E+qdQxLUNynvz8=
+"@testing-library/react@^10.2.1":
+  version "10.2.1"
+  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.2.1.tgz#f0c5ac9072ad54c29672150943f35d6617263f26"
+  integrity sha1-8MWskHKtVMKWchUJQ/NdZhcmPyY=
   dependencies:
     "@babel/runtime" "^7.10.2"
     "@testing-library/dom" "^7.9.0"
