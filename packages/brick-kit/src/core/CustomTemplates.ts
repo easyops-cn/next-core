@@ -71,7 +71,6 @@ export function registerCustomTemplate(
         return "custom-template";
       }
 
-      // eslint-disable-next-line @typescript-eslint/camelcase
       static get _dev_only_definedProperties(): string[] {
         return props;
       }

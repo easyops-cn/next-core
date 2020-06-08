@@ -217,8 +217,15 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
       ),
       ...(copyFiles && copyFiles.length > 0
         ? [
-            new CopyPlugin(copyFiles, {
-              context: cwdDirname,
+            new CopyPlugin({
+              patterns: copyFiles.map((item) => ({
+                context: cwdDirname,
+                ...(typeof item === "string"
+                  ? {
+                      from: item,
+                    }
+                  : item),
+              })),
             }),
           ]
         : []),

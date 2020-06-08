@@ -27,7 +27,7 @@ export class Context {
       this.apiByModelExportsMap.entries()
     ).map(([modelSeg, apis]) => ({
       filePath: `./api/${this.serviceSeg}/${modelSeg}/index`,
-      toString: () => apis.map(api => [`export * from "./${api}"`]).join(";")
+      toString: () => apis.map((api) => [`export * from "./${api}"`]).join(";"),
     }));
 
     const modelByServiceIndexes = Array.from(
@@ -35,19 +35,19 @@ export class Context {
     ).map(([serviceSeg, models]) => ({
       filePath: `./model/${serviceSeg}/index`,
       toString: () =>
-        models.map(model => [`export * from "./${model}"`]).join(";")
+        models.map((model) => [`export * from "./${model}"`]).join(";"),
     }));
 
     const sdkIndexImports = this.indexApiExports
       .map(
-        modelSeg =>
+        (modelSeg) =>
           `import * as ${changeCase.pascalCase(
             modelSeg
           )}${apiSuffix} from "./api/${this.serviceSeg}/${modelSeg}";`
       )
       .concat(
         this.indexModelExports.map(
-          serviceSeg =>
+          (serviceSeg) =>
             `import * as ${changeCase.pascalCase(
               serviceSeg
             )}Models from "./model/${serviceSeg}";`
@@ -56,27 +56,27 @@ export class Context {
       .join(os.EOL);
 
     const sdkIndexExports = this.indexApiExports
-      .map(modelSeg => changeCase.pascalCase(modelSeg) + apiSuffix)
+      .map((modelSeg) => changeCase.pascalCase(modelSeg) + apiSuffix)
       .concat(
         this.indexModelExports.map(
-          serviceSeg => `${changeCase.pascalCase(serviceSeg)}Models`
+          (serviceSeg) => `${changeCase.pascalCase(serviceSeg)}Models`
         )
       )
       .join(",");
     const sdkIndex = {
       filePath: "./index",
-      toString: () => `${sdkIndexImports}${os.EOL}export { ${sdkIndexExports} }`
+      toString: () =>
+        `${sdkIndexImports}${os.EOL}export { ${sdkIndexExports} }`,
     };
 
     const contractsYaml: FileWithContent = [
       path.join(sdkRoot, "deploy", "contracts.yaml"),
       yaml.safeDump({
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        depend_contracts: Array.from(this.apiMap.values()).map(api => ({
+        depend_contracts: Array.from(this.apiMap.values()).map((api) => ({
           name: `easyops.api.${this.serviceSeg}.${api.modelSeg}.${api.originalName}`,
-          version: `^${normalizeSemver(api.doc.version)}`
-        }))
-      })
+          version: `^${normalizeSemver(api.doc.version)}`,
+        })),
+      }),
     ];
 
     return [
@@ -84,11 +84,11 @@ export class Context {
       ...Array.from(this.modelMap.values()),
       ...apiByModelIndexes,
       ...modelByServiceIndexes,
-      sdkIndex
+      sdkIndex,
     ]
-      .map<FileWithContent>(file => [
+      .map<FileWithContent>((file) => [
         path.join(sdkRoot, "src", file.filePath + ".ts"),
-        prettier.format(file.toString(), { parser: "typescript" })
+        prettier.format(file.toString(), { parser: "typescript" }),
       ])
       .concat([contractsYaml]);
   }
