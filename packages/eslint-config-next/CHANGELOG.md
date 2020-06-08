@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/eslint-config-next@0.1.10...@easyops/eslint-config-next@0.1.11) (2020-06-08)
+
+### Bug Fixes
+
+- **eslint:** update configs after upgrade typescript-eslint to v3 ([23b5825](https://git.easyops.local/anyclouds/next-core/commits/23b5825))
+- **eslint:** update configs after upgrade typescript-eslint to v3 ([6afda9a](https://git.easyops.local/anyclouds/next-core/commits/6afda9a))
+
 ## [0.1.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/eslint-config-next@0.1.9...@easyops/eslint-config-next@0.1.10) (2020-06-05)
 
 **Note:** Version bump only for package @easyops/eslint-config-next

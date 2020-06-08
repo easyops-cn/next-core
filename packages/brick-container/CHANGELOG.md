@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.20.1...@easyops/brick-container@1.20.2) (2020-06-08)
+
+### Bug Fixes
+
+- fix configs after upgrade copy-webpack-plugin from v5 to v6 ([4664f80](https://git.easyops.local/anyclouds/next-core/commits/4664f80))
+
 ## [1.20.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.20.0...@easyops/brick-container@1.20.1) (2020-06-05)
 
 **Note:** Version bump only for package @easyops/brick-container
