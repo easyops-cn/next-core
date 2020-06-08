@@ -159,7 +159,6 @@ export abstract class UpdatingElement extends HTMLElement {
     return Array.from(this._observedAttributes);
   }
 
-  // eslint-disable-next-line @typescript-eslint/camelcase
   static get _dev_only_definedProperties(): string[] {
     this._ensureDefinedProperties();
     return Array.from(this.__dev_only_definedProperties);
@@ -209,7 +208,6 @@ export abstract class UpdatingElement extends HTMLElement {
     // eslint-disable-next-line no-prototype-builtins
     if (!this.hasOwnProperty("__dev_only_definedProperties")) {
       const superClass = Object.getPrototypeOf(this);
-      // eslint-disable-next-line @typescript-eslint/camelcase
       this.__dev_only_definedProperties = new Set<string>(
         // eslint-disable-next-line no-prototype-builtins
         superClass.hasOwnProperty("__dev_only_definedProperties")
