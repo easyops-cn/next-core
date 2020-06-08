@@ -56,21 +56,22 @@ module.exports = {
     ],
   },
   plugins: [
-    new CopyPlugin(
-      dll
+    new CopyPlugin({
+      patterns: dll
         .map(({ filePath }) => filePath)
         .concat("@easyops/brick-dll/dist/dll.js")
         .map((filePath) => require.resolve(filePath))
         .map((filePath) => [filePath, `${filePath}.map`])
-        .reduce((acc, item) => acc.concat(item), [])
-    ),
-    new CopyPlugin([
-      {
-        from: path.resolve(__dirname, "./assets"),
-        to: "assets",
-        ignore: [".*"],
-      },
-    ]),
+        .reduce((acc, item) => acc.concat(item), []),
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "./assets"),
+          to: "assets",
+        },
+      ],
+    }),
     new HtmlWebpackPlugin({
       title: "DevOps 管理专家",
       baseHref,
