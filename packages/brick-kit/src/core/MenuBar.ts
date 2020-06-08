@@ -28,6 +28,14 @@ export class MenuBar {
   }
 
   /**
+   * 重置应用菜单（左侧菜单）
+   */
+  resetAppMenu(): void {
+    this.element.menu = null;
+    this.element.subMenu = null;
+  }
+
+  /**
    * 折叠/展开应用菜单
    * @param collapsed
    */

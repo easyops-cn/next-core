@@ -11,6 +11,8 @@ export interface SidebarMenu {
   showRelatedApps?: boolean;
 }
 
+export type SidebarSubMenu = Pick<SidebarMenu, "title" | "icon" | "menuItems">;
+
 export type SidebarMenuItemType = "default" | "group" | "subMenu";
 
 export type SidebarMenuItem = SidebarMenuSimpleItem | SidebarMenuGroup;

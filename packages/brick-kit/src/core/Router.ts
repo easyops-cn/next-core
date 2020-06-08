@@ -20,6 +20,7 @@ import { resetAllInjected } from "../injected";
 import { getAuth, isLoggedIn } from "../auth";
 import { devtoolsHookEmit } from "../devtools";
 import { afterMountTree } from "./reconciler";
+import { constructMenu } from "./menu";
 
 export class Router {
   private defaultCollapsed = false;
@@ -169,12 +170,9 @@ export class Router {
       const mountRoutesResult: MountRoutesResult = {
         main: [],
         menuInBg: [],
-        menuBar: {
-          app: this.kernel.nextApp,
-        },
+        menuBar: {},
         portal: [],
         appBar: {
-          app: this.kernel.nextApp,
           breadcrumb: [],
         },
         flags: {
@@ -266,6 +264,7 @@ export class Router {
       if (barsHidden) {
         this.kernel.toggleBars(false);
       } else {
+        await constructMenu(menuBar, this.locationContext.getCurrentContext());
         if (menuBar.menu?.defaultCollapsed) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;

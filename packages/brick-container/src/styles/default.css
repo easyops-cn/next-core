@@ -76,6 +76,10 @@ body.launchpad-open {
   filter: var(--launchpad-backdrop-filter);
 }
 
+body.has-sub-menu #main-mount-point {
+  margin-left: var(--sub-menu-bar-width);
+}
+
 @media print {
   .print-hide {
     display: none;

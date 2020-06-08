@@ -31,64 +31,69 @@ module.exports = (env, app) => {
   // 如果设定 `REMOTE=true`，则透传远端请求。
   if (useRemote) {
     // 设定透传远端请求时，可以指定特定的 brick packages, micro apps, template packages 使用本地文件。
-    if (localBrickPackages.length > 0) {
-      localBrickPackages.map((pkgId) => {
-        // 直接返回插件 js 文件。
-        app.get(`${publicPath}bricks/${pkgId}/*`, (req, res) => {
-          const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
-          if (fs.existsSync(filePath)) {
-            res.sendFile(filePath);
-          } else {
-            res.status(404).end();
-          }
+    localBrickPackages.forEach((pkgId) => {
+      // 直接返回插件 js 文件。
+      app.get(`${publicPath}bricks/${pkgId}/*`, (req, res) => {
+        const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
+        if (fs.existsSync(filePath)) {
+          res.sendFile(filePath);
+        } else {
+          res.status(404).end();
+        }
+      });
+    });
+    localMicroApps.forEach((appId) => {
+      // 直接返回小产品相关文件。
+      app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
+        const filePath = path.join(microAppsDir, appId, req.params[0]);
+        if (fs.existsSync(filePath)) {
+          res.sendFile(filePath);
+        } else {
+          res.status(404).end();
+        }
+      });
+    });
+    localTemplates.forEach((pkgId) => {
+      // 直接返回模板相关文件。
+      app.get(`${publicPath}templates/${pkgId}/*`, (req, res) => {
+        const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
+        if (fs.existsSync(filePath)) {
+          res.sendFile(filePath);
+        } else {
+          res.status(404).end();
+        }
+      });
+    });
+    mockedMicroApps.forEach((appId) => {
+      // 直接返回小产品相关文件。
+      app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
+        const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
+        if (fs.existsSync(filePath)) {
+          res.sendFile(filePath);
+        } else {
+          res.status(404).end();
+        }
+      });
+      app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
+        res.json({
+          code: 0,
+          data: getSingleStoryboard(env, appId, true),
         });
       });
-    }
-    if (localMicroApps.length > 0) {
-      localMicroApps.map((appId) => {
-        // 直接返回小产品相关文件。
-        app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
-          const filePath = path.join(microAppsDir, appId, req.params[0]);
-          if (fs.existsSync(filePath)) {
-            res.sendFile(filePath);
-          } else {
-            res.status(404).end();
-          }
-        });
-        app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
-          res.json({
-            code: 0,
-            data: getSingleStoryboard(env, appId, mockedMicroApps.includes(appId)),
-          });
+    });
+    // API to fulfil the active storyboard.
+    localMicroApps.concat(mockedMicroApps).forEach((appId) => {
+      app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
+        res.json({
+          code: 0,
+          data: getSingleStoryboard(
+            env,
+            appId,
+            mockedMicroApps.includes(appId)
+          ),
         });
       });
-    }
-    if (localTemplates.length > 0) {
-      localTemplates.map((pkgId) => {
-        // 直接返回模板相关文件。
-        app.get(`${publicPath}templates/${pkgId}/*`, (req, res) => {
-          const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
-          if (fs.existsSync(filePath)) {
-            res.sendFile(filePath);
-          } else {
-            res.status(404).end();
-          }
-        });
-      });
-    }
-    if (mockedMicroApps.length > 0) {
-      mockedMicroApps.map((appId) => {
-        // 直接返回小产品相关文件。
-        app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
-          const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
-          if (fs.existsSync(filePath)) {
-            res.sendFile(filePath);
-          } else {
-            res.status(404).end();
-          }
-        });
-      });
-    }
+    });
   } else {
     app.get(`${publicPath}api/auth/bootstrap`, (req, res) => {
       res.json({
@@ -97,12 +102,14 @@ module.exports = (env, app) => {
           navbar: getNavbar(env),
           storyboards: (mocked
             ? getStoryboardsByMicroApps(env, true, {
+                brief: req.query.brief === "true",
+              })
+            : []
+          ).concat(
+            getStoryboardsByMicroApps(env, false, {
               brief: req.query.brief === "true",
             })
-            : []
-          ).concat(getStoryboardsByMicroApps(env, false, {
-            brief: req.query.brief === "true",
-          })),
+          ),
           brickPackages: getBrickPackages(env),
           templatePackages: getTemplatePackages(env),
           settings: getSettings(),
@@ -113,7 +120,11 @@ module.exports = (env, app) => {
     app.get(`${publicPath}api/auth/bootstrap/:appId`, (req, res) => {
       res.json({
         code: 0,
-        data: getSingleStoryboard(env, req.params.appId, mockedMicroApps.includes(req.params.appId)),
+        data: getSingleStoryboard(
+          env,
+          req.params.appId,
+          mockedMicroApps.includes(req.params.appId)
+        ),
       });
     });
 
