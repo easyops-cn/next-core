@@ -19,7 +19,6 @@ module.exports = {
     },
   },
   rules: {
-    "@typescript-eslint/camelcase": ["warn", { ignoreDestructuring: true }],
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-use-before-define": [
       "error",
@@ -55,7 +54,12 @@ module.exports = {
         jest: true,
       },
       rules: {
-        "@typescript-eslint/ban-ts-ignore": "warn",
+        "@typescript-eslint/ban-ts-comment": [
+          "warn",
+          {
+            "ts-ignore": "allow-with-description",
+          },
+        ],
       },
     },
     {
