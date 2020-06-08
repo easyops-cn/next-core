@@ -14,7 +14,7 @@ const generateContracts = () => {
 
   if (dependencies) {
     const contracts = Object.keys(dependencies)
-      .filter(dep => dep.startsWith("@sdk/"))
+      .filter((dep) => dep.startsWith("@sdk/"))
       .reduce((acc, dep) => {
         try {
           const contracts = yaml.safeLoad(
@@ -30,8 +30,7 @@ const generateContracts = () => {
       }, []);
 
     const content = yaml.safeDump({
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      depend_contracts: contracts
+      depend_contracts: contracts,
     });
 
     const filePath = path.join(process.cwd(), "deploy", "contracts.yaml");
@@ -40,7 +39,7 @@ const generateContracts = () => {
 };
 
 const ignores = [".DS_Store"];
-const filter = src => ignores.some(item => !src.includes(item));
+const filter = (src) => ignores.some((item) => !src.includes(item));
 
 function escapeRegExp(str) {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
@@ -52,7 +51,7 @@ function replaceAll(str, find, replace) {
 
 function replaceFileContent(filePath, translations) {
   const content = fs.readFileSync(filePath, "utf8");
-  const contentFinds = Object.keys(translations).filter(key =>
+  const contentFinds = Object.keys(translations).filter((key) =>
     content.includes(key)
   );
   if (contentFinds.length > 0) {
@@ -84,7 +83,7 @@ const writeToFile = (scope, pluginName, templateDir, targetDir) => {
     "$install-path-dir$": dir,
     "$scope-name$": scope,
     "$package-name$": pluginName,
-    "$suffix-name$": suffix
+    "$suffix-name$": suffix,
   };
 
   const templateGroups = [
@@ -94,20 +93,20 @@ const writeToFile = (scope, pluginName, templateDir, targetDir) => {
       files: klawSync(templateDir, {
         depthLimit: 1,
         nodir: true,
-        filter: item => filter(item.path)
-      })
-    }
+        filter: (item) => filter(item.path),
+      }),
+    },
   ];
 
   const files = templateGroups.reduce(
     (acc, group) =>
       acc.concat(
-        group.files.map(file => {
+        group.files.map((file) => {
           const content = replaceFileContent(file.path, translations);
 
           let realPath = file.path;
           const basename = path.basename(file.path);
-          const filenameFinds = Object.keys(translations).filter(key =>
+          const filenameFinds = Object.keys(translations).filter((key) =>
             basename.includes(key)
           );
           if (filenameFinds.length > 0) {
@@ -125,7 +124,7 @@ const writeToFile = (scope, pluginName, templateDir, targetDir) => {
               group.targetDir,
               path.relative(group.templateDir, realPath)
             ),
-            content
+            content,
           ];
         })
       ),
@@ -151,7 +150,7 @@ const generateDeploy = (scope, pluginName, templateRoot) => {
   generate(scope, pluginName, templateRoot, "deploy");
 };
 
-module.exports = scope => {
+module.exports = (scope) => {
   const cwd = process.cwd();
   const pluginName = path.basename(cwd);
   const templateRoot = path.join(__dirname, "../template");
