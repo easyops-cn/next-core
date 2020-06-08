@@ -32,6 +32,7 @@ export interface SidebarMenuSimpleItem {
 export interface SidebarMenuGroup {
   type: "group" | "subMenu";
   title: string;
+  icon?: MenuIcon;
   items: SidebarMenuItem[];
   key?: string;
 }
