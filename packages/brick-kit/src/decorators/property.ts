@@ -3,7 +3,7 @@ import { PropertyDeclaration, UpdatingElement } from "../UpdatingElement";
 import { getRuntime } from "../runtime";
 
 // From the TC39 Decorators proposal
-interface ClassElement {
+export interface ClassElement {
   kind: "field" | "method";
   key: PropertyKey;
   placement: "static" | "prototype" | "own";
