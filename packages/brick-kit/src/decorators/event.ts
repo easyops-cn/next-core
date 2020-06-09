@@ -1,4 +1,5 @@
-import { ClassElement } from "./property";
+import { ClassElement } from "./interfaces";
+import { warnNativeHtmlElementProperty } from "./utils";
 
 export interface EventOptions extends EventInit {
   /**
@@ -8,7 +9,7 @@ export interface EventOptions extends EventInit {
 }
 
 export interface EventEmitter<T = any> {
-  emit: (data?: T) => boolean;
+  emit: (detail?: T) => boolean;
 }
 
 function createEvent(
@@ -33,6 +34,8 @@ export function event(options: EventOptions): any {
     if (typeof element.initializer === "function") {
       throw new Error("`@event()` currently not support initialize value");
     }
+
+    warnNativeHtmlElementProperty(element.key);
 
     return {
       kind: "field",
