@@ -1,5 +1,5 @@
-import { UpdatingElement } from "../UpdatingElement";
-import { event, EventEmitter } from "./event";
+import { UpdatingElement, EventEmitter } from "../UpdatingElement";
+import { event } from "./event";
 
 describe("@event", () => {
   it("should work", async () => {
@@ -7,10 +7,10 @@ describe("@event", () => {
       @event({
         type: "customEvent.beHappy",
       })
-      beHappy: EventEmitter<boolean>;
+      happyEmitter: EventEmitter<boolean>;
 
-      handleHappy = () => {
-        this.beHappy.emit(true);
+      handleHappy = (): void => {
+        this.happyEmitter.emit(true);
       };
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       protected _render(): void {}
@@ -65,9 +65,7 @@ describe("@event", () => {
   });
 
   it("should throw error when decorate has initializer", async () => {
-    const date = new Date();
     expect.assertions(1);
-
     try {
       class TestElement extends UpdatingElement {
         @event({
@@ -75,9 +73,6 @@ describe("@event", () => {
         })
         beHappy = 1;
 
-        handleHappy = () => {
-          (this.beHappy as any).emit(1);
-        };
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         protected _render(): void {}
       }

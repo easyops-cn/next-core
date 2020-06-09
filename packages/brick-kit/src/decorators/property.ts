@@ -12,7 +12,7 @@ export function property(options?: PropertyDeclaration): any {
     }
     if (
       typeof element.initializer === "function" &&
-      !(options && options.attribute === false)
+      options?.attribute !== false
     ) {
       throw new Error("`@property()` currently not support initialize value");
     }

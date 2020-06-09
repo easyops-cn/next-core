@@ -1,6 +1,8 @@
 import { UpdatingElement } from "../UpdatingElement";
 import { method } from "./method";
+
 jest.mock("../UpdatingElement");
+
 describe("@method", () => {
   it("should work", async () => {
     class TestElement extends UpdatingElement {
