@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.40.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.39.1...@easyops/brick-types@1.40.0) (2020-06-10)
+
+### Features
+
+- support sub-menu along with menu bar ([0630823](https://git.easyops.local/anyclouds/next-core/commits/0630823))
+
 ## [1.39.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.39.0...@easyops/brick-types@1.39.1) (2020-06-05)
 
 ### Bug Fixes

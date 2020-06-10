@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.20.2...@easyops/brick-container@1.21.0) (2020-06-10)
+
+### Bug Fixes
+
+- fix fulfilling mocked apps ([e5a3b0f](https://git.easyops.local/anyclouds/next-core/commits/e5a3b0f))
+
+### Features
+
+- support sub-menu along with menu bar ([0630823](https://git.easyops.local/anyclouds/next-core/commits/0630823))
+
 ## [1.20.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.20.1...@easyops/brick-container@1.20.2) (2020-06-08)
 
 ### Bug Fixes

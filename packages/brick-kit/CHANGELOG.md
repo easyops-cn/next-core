@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.48.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.47.2...@easyops/brick-kit@1.48.0) (2020-06-10)
+
+### Bug Fixes
+
+- warn native element property ([52a1e83](https://git.easyops.local/anyclouds/next-core/commits/52a1e83))
+
+### Features
+
+- **decorators:** refine brick decorators ([295affa](https://git.easyops.local/anyclouds/next-core/commits/295affa))
+- support sub-menu along with menu bar ([0630823](https://git.easyops.local/anyclouds/next-core/commits/0630823))
+- 增加[@event](https://git.easyops.local/event),[@method](https://git.easyops.local/method) decorator ([1a40756](https://git.easyops.local/anyclouds/next-core/commits/1a40756))
+
 ## [1.47.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.47.1...@easyops/brick-kit@1.47.2) (2020-06-08)
 
 **Note:** Version bump only for package @easyops/brick-kit
