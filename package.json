@@ -44,7 +44,7 @@
     "@types/meow": "^5.0.0",
     "@types/node": "^10.12.18",
     "@types/prettier": "^2.0.1",
-    "@types/react": "^16.9.35",
+    "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "babel-jest": "^26.0.1",
@@ -69,7 +69,7 @@
     "dll/*"
   ],
   "resolutions": {
-    "@types/react": "^16.9.35",
+    "@types/react": "^16.9.36",
     "lodash": "^4.17.15",
     "moment": "^2.26.0"
   }
