@@ -31,18 +31,27 @@ const mockMenuList: any[] = [
   },
   {
     menuId: "sub-menu-e",
-    title: "Sub Menu E",
+    title: "Sub Menu E (Injected)",
+    type: "inject",
     items: [
       {
-        text: "Menu Item 2",
-      },
-      {
         text: "Menu Item 3",
+        sort: 2,
         children: [
           {
             text: "Menu Item 4",
           },
         ],
+      },
+    ],
+  },
+  {
+    menuId: "sub-menu-e",
+    title: "Sub Menu E",
+    items: [
+      {
+        text: "Menu Item 2",
+        sort: 1,
       },
     ],
   },
@@ -178,6 +187,7 @@ describe("constructMenu", () => {
         menuItems: [
           {
             text: "Menu Item 2",
+            sort: 1,
             children: [],
           },
           {
