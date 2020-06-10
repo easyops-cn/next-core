@@ -15,6 +15,7 @@ export interface MenuRawData {
   icon?: MenuIcon;
   titleDataSource?: TitleDataSource;
   items?: MenuItemRawData[];
+  type?: "main" | "inject";
 }
 
 type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
@@ -54,15 +55,16 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
   if (menuCache.has(menuId)) {
     return menuCache.get(menuId);
   }
-  const menuData = (
+  const menuList = (
     await InstanceApi.postSearch("EASYOPS_STORYBOARD_MENU", {
       page: 1,
-      page_size: 1,
+      page_size: 200,
       fields: {
         menuId: true,
         title: true,
         icon: true,
         titleDataSource: true,
+        type: true,
         items: true,
         "items.children": true,
       },
@@ -72,13 +74,25 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
         },
       },
     })
-  ).list[0] as MenuRawData;
+  ).list as MenuRawData[];
+  const menuData = mergeMenu(menuList);
   if (!menuData) {
     throw new Error(`Menu not found: ${menuId}`);
   }
   reorderMenuItems(menuData);
   menuCache.set(menuId, menuData);
   return menuData;
+}
+
+function mergeMenu(menuList: MenuRawData[]): MenuRawData {
+  const mainMenu = menuList.find((menu) => menu.type !== "inject");
+  if (!mainMenu) {
+    return undefined;
+  }
+  return {
+    ...mainMenu,
+    items: menuList.flatMap((menu) => menu.items ?? []),
+  };
 }
 
 async function processMenu(
