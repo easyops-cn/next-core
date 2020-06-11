@@ -29,7 +29,7 @@
     "@easyops/eslint-config-next": "^0.1.11",
     "@easyops/rollup-config-factory": "^1.1.6",
     "@easyops/webpack-config-factory": "^1.9.4",
-    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/jest-dom": "^5.10.0",
     "@testing-library/react": "^10.2.1",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "babel-jest": "^26.0.1",
