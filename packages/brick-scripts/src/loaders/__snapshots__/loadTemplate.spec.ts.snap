@@ -60,7 +60,15 @@ import ReactDOM from \\"react-dom\\";
 import { BrickWrapper, UpdatingElement } from \\"@easyops/brick-kit\\";
 import { ForBetter } from \\"./ForBetter\\";
 
-class ForBetterElement extends UpdatingElement {
+/**
+ * @id for-good.for-better
+ * @author bot
+ * @history
+ * 1.x.0: 新增构件 \`for-good.for-better\`
+ * @docKind brick
+ * @noInheritDoc
+ */
+export class ForBetterElement extends UpdatingElement {
   connectedCallback(): void {
     // Don't override user's style settings.
     // istanbul ignore else
@@ -383,7 +391,15 @@ import ReactDOM from \\"react-dom\\";
 import { BrickWrapper, UpdatingElement } from \\"@easyops/brick-kit\\";
 import { ForBetter } from \\"./ForBetter\\";
 
-class ForBetterElement extends UpdatingElement {
+/**
+ * @id for-good.for-better
+ * @author bot
+ * @history
+ * 1.x.0: 新增构件 \`for-good.for-better\`
+ * @docKind brick
+ * @noInheritDoc
+ */
+export class ForBetterElement extends UpdatingElement {
   connectedCallback(): void {
     // Don't override user's style settings.
     // istanbul ignore else
