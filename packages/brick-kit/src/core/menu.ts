@@ -13,9 +13,11 @@ export interface MenuRawData {
   menuId: string;
   title: string;
   icon?: MenuIcon;
+  link?: string;
   titleDataSource?: TitleDataSource;
   items?: MenuItemRawData[];
   type?: "main" | "inject";
+  defaultCollapsed?: boolean;
 }
 
 type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
@@ -38,13 +40,11 @@ export async function constructMenu(
   menuBar: MountRoutesResult["menuBar"],
   context: PluginRuntimeContext
 ): Promise<void> {
+  const hasSubMenu = !!menuBar.subMenuId;
   if (menuBar.menuId) {
-    menuBar.menu = {
-      ...(await processMenu(menuBar.menuId, context)),
-      defaultCollapsed: !!menuBar.subMenuId,
-    };
+    menuBar.menu = await processMenu(menuBar.menuId, context, hasSubMenu);
   }
-  if (menuBar.subMenuId) {
+  if (hasSubMenu) {
     menuBar.subMenu = await processMenu(menuBar.subMenuId, context);
   } else {
     menuBar.subMenu = null;
@@ -63,7 +63,9 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
         menuId: true,
         title: true,
         icon: true,
+        link: true,
         titleDataSource: true,
+        defaultCollapsed: true,
         type: true,
         items: true,
         "items.children": true,
@@ -97,7 +99,8 @@ function mergeMenu(menuList: MenuRawData[]): MenuRawData {
 
 async function processMenu(
   menuId: string,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  hasSubMenu?: boolean
 ): Promise<SidebarMenu> {
   const menuData = (await computeRealValue(
     await fetchMenuById(menuId),
@@ -107,6 +110,7 @@ async function processMenu(
   return {
     title: await processMenuTitle(menuData, menuId),
     icon: menuData.icon,
+    link: menuData.link,
     menuItems: menuData.items?.map((item) =>
       item.type === "group"
         ? {
@@ -123,6 +127,7 @@ async function processMenu(
           }
         : (item as SidebarMenuSimpleItem)
     ),
+    defaultCollapsed: menuData.defaultCollapsed || hasSubMenu,
   };
 }
 
