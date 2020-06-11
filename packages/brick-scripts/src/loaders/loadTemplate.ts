@@ -5,11 +5,11 @@ import klawSync from "klaw-sync";
 import * as changeCase from "change-case";
 import rp from "request-promise-native";
 import { FileWithContent, TargetType } from "../interface";
-import {getEasyopsConfig} from "../getEasyopsConfig"
-
+import { getEasyopsConfig } from "../getEasyopsConfig";
+const { exec } = require("child_process");
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
-const easyopsConfig = getEasyopsConfig()
+const easyopsConfig = getEasyopsConfig();
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
@@ -21,6 +21,11 @@ const workspacePackageJson = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8")
 );
 const workspaceHomepage = workspacePackageJson.homepage;
+let userName = "bot";
+exec("git config user.name", { encoding: "utf8" }, function (err, value) {
+  if (err) return;
+  userName = value.trim();
+});
 
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
@@ -35,7 +40,7 @@ function replaceFileContent(
   translations: Record<string, string>
 ): string {
   const content = fs.readFileSync(filePath, "utf8");
-  const contentFinds = Object.keys(translations).filter(key =>
+  const contentFinds = Object.keys(translations).filter((key) =>
     content.includes(key)
   );
   if (contentFinds.length > 0) {
@@ -63,7 +68,7 @@ export async function loadTemplate({
   brickName,
   templateName,
   targetRoot,
-  docRoot
+  docRoot,
 }: {
   targetType: TargetType;
   packageName: string;
@@ -85,7 +90,7 @@ export async function loadTemplate({
     [TargetType.A_NEW_LEGACY_TEMPLATE]: "template",
     [TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES]: "templates-pkg",
     [TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES]:
-      "i18n-patched-templates-pkg"
+      "i18n-patched-templates-pkg",
   };
   const templateDirOfFileName = targetMap[targetType];
   const templateRoot = path.join(__dirname, "../../template");
@@ -117,12 +122,13 @@ export async function loadTemplate({
     "$brick.container.version$": brickContainerVersion,
     "$kebab-sdk-name$": sdkName,
     "$kebab-template-name$": templateName,
+    "$kebab-username$": userName,
     $camelTemplateName$: changeCase.camelCase(templateName),
-    $PascalTemplateName$: changeCase.pascalCase(templateName)
+    $PascalTemplateName$: changeCase.pascalCase(templateName),
   };
 
   const filter = (src: string): boolean =>
-    ignores.every(item => !src.includes(item));
+    ignores.every((item) => !src.includes(item));
 
   const templateGroups: any = [
     {
@@ -131,9 +137,9 @@ export async function loadTemplate({
       files: klawSync(templateDir, {
         depthLimit: 4,
         nodir: true,
-        filter: item => filter(item.path)
-      })
-    }
+        filter: (item) => filter(item.path),
+      }),
+    },
   ];
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS) {
@@ -145,8 +151,8 @@ export async function loadTemplate({
       files: klawSync(brickTemplateDir, {
         depthLimit: 2,
         nodir: true,
-        filter: item => filter(item.path)
-      })
+        filter: (item) => filter(item.path),
+      }),
     });
   } else if (targetType === TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES) {
     // Also create a new brick for the new bricks-package
@@ -157,8 +163,8 @@ export async function loadTemplate({
       files: klawSync(templateTemplateDir, {
         depthLimit: 1,
         nodir: true,
-        filter: item => filter(item.path)
-      })
+        filter: (item) => filter(item.path),
+      }),
     });
   } else if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
     // Providers 库还有专属的一些模板文件。
@@ -169,29 +175,29 @@ export async function loadTemplate({
       files: klawSync(brickTemplateDir, {
         depthLimit: 2,
         nodir: true,
-        filter: item => filter(item.path)
-      })
+        filter: (item) => filter(item.path),
+      }),
     });
 
     let sdkVersion;
-    const getVersion = async() => {
+    const getVersion = async () => {
       try {
         const sdkPackage = await rp({
           url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
           json: true,
-          strictSSL: false
+          strictSSL: false,
         });
         sdkVersion = `^${sdkPackage["dist-tags"].latest}`;
       } catch {
         sdkVersion = "FETCH LATEST VERSION ERROR";
       }
       translations["$sdk.version$"] = sdkVersion;
-    }
+    };
 
     if (!easyopsConfig?.useLocalSdk) {
-      await getVersion()
+      await getVersion();
     } else {
-      translations["$sdk.version$"] = "1.0.0"
+      translations["$sdk.version$"] = "1.0.0";
     }
   }
 
@@ -203,7 +209,7 @@ export async function loadTemplate({
 
           let realPath = file.path;
           const basename = path.basename(file.path);
-          const filenameFinds = Object.keys(translations).filter(key =>
+          const filenameFinds = Object.keys(translations).filter((key) =>
             basename.includes(key)
           );
           if (filenameFinds.length > 0) {
@@ -221,7 +227,7 @@ export async function loadTemplate({
               group.targetDir,
               path.relative(group.templateDir, realPath)
             ),
-            content
+            content,
           ];
         })
       ),
@@ -262,7 +268,7 @@ export async function loadTemplate({
           path.join(templateRoot, `${targetMap[targetType]}.json`),
           translations
         )
-      )
+      ),
     ]);
   }
 

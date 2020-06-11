@@ -3,7 +3,15 @@ import ReactDOM from "react-dom";
 import { BrickWrapper, UpdatingElement } from "@easyops/brick-kit";
 import { $PascalBrickName$ } from "./$PascalBrickName$";
 
-class $PascalBrickName$Element extends UpdatingElement {
+/**
+ * @id $kebab-brick-name$
+ * @author $kebab-username$
+ * @history
+ * 1.x.0: 新增构件 `$kebab-brick-name$`
+ * @docKind brick
+ * @noInheritDoc
+ */
+export class $PascalBrickName$Element extends UpdatingElement {
   connectedCallback(): void {
     // Don't override user's style settings.
     // istanbul ignore else
