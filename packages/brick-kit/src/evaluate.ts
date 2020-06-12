@@ -23,7 +23,7 @@ export function isPreEvaluated(raw: any): raw is PreEvaluated {
 }
 
 export function isCookable(raw: string): boolean {
-  return /^<%\s/.test(raw) && /\s%>$/.test(raw);
+  return /^\s*<%\s/.test(raw) && /\s%>\s*$/.test(raw);
 }
 
 export function evaluate(
@@ -47,7 +47,8 @@ export function evaluate(
   let precooked: ReturnType<typeof precook>;
 
   try {
-    const source = raw.substring(3, raw.length - 3);
+    const trimmed = raw.trim();
+    const source = trimmed.substring(3, trimmed.length - 3);
     precooked = precook(source);
   } catch (error) {
     throw new SyntaxError(`${error.message}, in "${raw}"`);

@@ -42,8 +42,8 @@ describe("isCookable", () => {
     ["<%[]%>", false],
     ["<% []%>", false],
     ["<%[] %>", false],
-    [" <% [] %>", false],
-    ["<% [] %> ", false],
+    [" <% [] %>", true],
+    ["<% [] %> ", true],
   ])("isCookable(%j) should return %j", (raw, cookable) => {
     expect(isCookable(raw)).toBe(cookable);
   });
@@ -56,10 +56,10 @@ describe("evaluate", () => {
     ["<% DATA.cellData %>", "<% DATA.cellData %>"],
     ["<% APP.homepage %>", "/hello"],
     ["<% PATH.objectId %>", "HOST"],
-    ["<% QUERY.a %>", "x"],
-    ["<% QUERY.b %>", "2"],
-    ["<% QUERY_ARRAY.b %>", ["2", "1"]],
-    ["<% PARAMS.get('b') %>", "2"],
+    [" <% QUERY.a %>", "x"],
+    ["<% QUERY.b %> ", "2"],
+    [" <% QUERY_ARRAY.b %> ", ["2", "1"]],
+    ["\n\t<% PARAMS.get('b') %>\n\t", "2"],
     ["<% PARAMS.getAll('b') %>", ["2", "1"]],
     ["<% PARAMS.toString() %>", "a=x&b=2&b=1"],
     ["<% SYS.username %>", "tester"],
