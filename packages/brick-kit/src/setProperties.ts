@@ -1,7 +1,12 @@
 import { set } from "lodash";
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject, inject } from "@easyops/brick-utils";
-import { isCookable, evaluate, isPreEvaluated } from "./evaluate";
+import {
+  isCookable,
+  evaluate,
+  isPreEvaluated,
+  warnPotentialErrorsOfCookable,
+} from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
 export const computeRealValue = (
@@ -20,6 +25,7 @@ export const computeRealValue = (
       }
       result = evaluate(value, runtimeContext);
     } else {
+      warnPotentialErrorsOfCookable(value);
       result = inject(value, context);
     }
     recursiveMarkAsInjected(result);
