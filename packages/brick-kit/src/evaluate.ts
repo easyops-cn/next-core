@@ -3,6 +3,7 @@ import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlFactory } from "./segue";
 import { devtoolsHookEmit } from "./devtools";
+import { getRuntime } from "./runtime";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -24,6 +25,17 @@ export function isPreEvaluated(raw: any): raw is PreEvaluated {
 
 export function isCookable(raw: string): boolean {
   return /^<%\s/.test(raw) && /\s%>$/.test(raw);
+}
+
+export function warnPotentialErrorsOfCookable(raw: string): void {
+  if (/^\s|\s$/.test(raw) && isCookable(raw.trim())) {
+    // eslint-disable-next-line no-console
+    console[
+      getRuntime().getFeatureFlags()["development-mode"] ? "error" : "warn"
+    ](
+      `You have possibly inserted leading or trailing whitespace in the evaluate placeholder: "${raw}"`
+    );
+  }
 }
 
 export function evaluate(
