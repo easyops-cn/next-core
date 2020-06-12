@@ -1,12 +1,5 @@
-import {
-  isCookable,
-  evaluate,
-  warnPotentialErrorsOfCookable,
-} from "./evaluate";
+import { isCookable, evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
-import { getRuntime } from "./runtime";
-
-jest.mock("./runtime");
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
@@ -41,13 +34,6 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   },
 } as any);
 
-const spyOnConsoleWarn = jest
-  .spyOn(console, "warn")
-  .mockImplementation(() => void 0);
-const spyOnConsoleError = jest
-  .spyOn(console, "error")
-  .mockImplementation(() => void 0);
-
 describe("isCookable", () => {
   it.each<[string, boolean]>([
     ["<% [] %>", true],
@@ -60,60 +46,6 @@ describe("isCookable", () => {
     ["<% [] %> ", false],
   ])("isCookable(%j) should return %j", (raw, cookable) => {
     expect(isCookable(raw)).toBe(cookable);
-  });
-});
-
-describe("warnPotentialErrorsOfCookable", () => {
-  beforeAll(() => {
-    (getRuntime as jest.Mock).mockReturnValue({
-      getFeatureFlags: () => ({}),
-    });
-  });
-
-  afterEach(() => {
-    spyOnConsoleWarn.mockClear();
-  });
-
-  it.each<[string, boolean]>([
-    ["abc", false],
-    [" abc", false],
-    ["abc ", false],
-    [" abc ", false],
-    ["<% [] %>", false],
-    [" <% [] %>", true],
-    ["<% [] %> ", true],
-    [" <% [] %> ", true],
-  ])("warnPotentialErrorsOfCookable(%j) should warned: %j", (raw, warned) => {
-    warnPotentialErrorsOfCookable(raw);
-    expect(spyOnConsoleWarn.mock.calls.length).toBe(Number(warned));
-  });
-});
-
-describe("warnPotentialErrorsOfCookable in development mode", () => {
-  beforeAll(() => {
-    (getRuntime as jest.Mock).mockReturnValue({
-      getFeatureFlags: () => ({
-        ["development-mode"]: true,
-      }),
-    });
-  });
-
-  afterEach(() => {
-    spyOnConsoleError.mockClear();
-  });
-
-  it.each<[string, boolean]>([
-    ["abc", false],
-    [" abc", false],
-    ["abc ", false],
-    [" abc ", false],
-    ["<% [] %>", false],
-    [" <% [] %>", true],
-    ["<% [] %> ", true],
-    [" <% [] %> ", true],
-  ])("warnPotentialErrorsOfCookable(%j) should warned: %j", (raw, warned) => {
-    warnPotentialErrorsOfCookable(raw);
-    expect(spyOnConsoleError.mock.calls.length).toBe(Number(warned));
   });
 });
 
