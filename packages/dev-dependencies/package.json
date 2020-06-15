@@ -31,7 +31,7 @@
     "@easyops/webpack-config-factory": "^1.9.4",
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "^10.2.1",
-    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "^3.3.0",
     "babel-jest": "^26.0.1",
     "chalk": "^4.1.0",
     "concurrently": "^5.2.0",
