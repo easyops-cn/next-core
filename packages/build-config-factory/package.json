@@ -28,6 +28,7 @@
     "meow": "^7.0.1",
     "moment": "^2.26.0",
     "prettier": "^2.0.5",
-    "typedoc": "^0.17.7"
+    "typedoc": "^0.17.7",
+    "typedoc-plugin-no-inherit": "^1.1.10"
   }
 }
