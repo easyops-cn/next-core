@@ -30,7 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/types": "^7.10.2",
-    "@size-limit/file": "^4.5.0",
+    "@size-limit/file": "^4.5.1",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.1",
