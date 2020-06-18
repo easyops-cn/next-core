@@ -2216,14 +2216,14 @@
     "@svgr/plugin-svgo" "^5.4.0"
     loader-utils "^2.0.0"
 
-"@testing-library/dom@^7.9.0":
-  version "7.9.0"
-  resolved "https://registry.npm.taobao.org/@testing-library/dom/download/@testing-library/dom-7.9.0.tgz?cache=0&sync_timestamp=1591122711623&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Fdom%2Fdownload%2F%40testing-library%2Fdom-7.9.0.tgz#3805cda47ab691645775c59c93c9044a2cad4c91"
-  integrity sha1-OAXNpHq2kWRXdcWck8kESiytTJE=
+"@testing-library/dom@^7.14.2":
+  version "7.16.2"
+  resolved "https://registry.npm.taobao.org/@testing-library/dom/download/@testing-library/dom-7.16.2.tgz#f7a20b5548817e5c7ed26077913372d977be90af"
+  integrity sha1-96ILVUiBflx+0mB3kTNy2Xe+kK8=
   dependencies:
     "@babel/runtime" "^7.10.2"
     aria-query "^4.0.2"
-    dom-accessibility-api "^0.4.4"
+    dom-accessibility-api "^0.4.5"
     pretty-format "^25.5.0"
 
 "@testing-library/jest-dom@^5.10.1":
@@ -2241,13 +2241,13 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^10.2.1":
-  version "10.2.1"
-  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.2.1.tgz#f0c5ac9072ad54c29672150943f35d6617263f26"
-  integrity sha1-8MWskHKtVMKWchUJQ/NdZhcmPyY=
+"@testing-library/react@^10.3.0":
+  version "10.3.0"
+  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.3.0.tgz?cache=0&sync_timestamp=1592438621541&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-10.3.0.tgz#d615385b8d86ef4d76142a423755d471b3673295"
+  integrity sha1-1hU4W42G7012FCpCN1XUcbNnMpU=
   dependencies:
     "@babel/runtime" "^7.10.2"
-    "@testing-library/dom" "^7.9.0"
+    "@testing-library/dom" "^7.14.2"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -5561,10 +5561,10 @@ document-register-element@^1.14.3:
   dependencies:
     lightercollective "^0.3.0"
 
-dom-accessibility-api@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.npm.taobao.org/dom-accessibility-api/download/dom-accessibility-api-0.4.4.tgz?cache=0&sync_timestamp=1589796624909&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdom-accessibility-api%2Fdownload%2Fdom-accessibility-api-0.4.4.tgz#c2f9fb8b591bc19581e7ef3e6fe35baf1967c498"
-  integrity sha1-wvn7i1kbwZWB5+8+b+NbrxlnxJg=
+dom-accessibility-api@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.npm.taobao.org/dom-accessibility-api/download/dom-accessibility-api-0.4.5.tgz#d9c1cefa89f509d8cf132ab5d250004d755e76e3"
+  integrity sha1-2cHO+on1CdjPEyq10lAATXVeduM=
 
 dom-align@^1.7.0:
   version "1.8.2"
