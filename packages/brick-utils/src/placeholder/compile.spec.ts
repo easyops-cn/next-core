@@ -74,6 +74,27 @@ describe("inject", () => {
     flags: {
       "better-world": true,
     },
+    storyboardContext: new Map<string, any>([
+      [
+        "myFreeContext",
+        {
+          type: "free-variable",
+          value: "good",
+        },
+      ],
+      [
+        "myPropContext",
+        {
+          type: "brick-property",
+          brick: {
+            element: {
+              quality: "better",
+            },
+          },
+          prop: "quality",
+        },
+      ],
+    ]),
   };
 
   it.each<[string, PluginRuntimeContext, any]>([
@@ -120,6 +141,9 @@ describe("inject", () => {
       "${EVENT.detail}",
     ],
     ["${ANCHOR}", context, "yes"],
+    ["${CTX.myFreeContext}", context, "good"],
+    ["${CTX.myPropContext}", context, "better"],
+    ["${CTX.notExisted}", context, undefined],
   ])("inject(%j, %o) should return %j", (raw, data, result) => {
     expect(inject(raw, data)).toEqual(result);
   });

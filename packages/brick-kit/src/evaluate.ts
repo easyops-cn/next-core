@@ -1,8 +1,6 @@
 import { cloneDeep } from "lodash";
-import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
 import i18next from "i18next";
-import { MicroApp } from "@easyops/brick-types";
-
+import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlFactory } from "./segue";
 import { devtoolsHookEmit } from "./devtools";
@@ -108,6 +106,7 @@ export function evaluate(
     flags,
     hash,
     segues,
+    storyboardContext,
   } = _internalApiGetCurrentContext();
 
   if (attemptToVisitGlobals.has("QUERY")) {
@@ -153,8 +152,20 @@ export function evaluate(
       getUrl: getUrlFactory(app, segues),
     };
   }
+
   if (attemptToVisitGlobals.has("I18N")) {
     globalVariables.I18N = i18next.getFixedT(null, `$app-${app.id}`);
+  }
+
+  if (attemptToVisitGlobals.has("CTX")) {
+    globalVariables.CTX = Object.fromEntries(
+      Array.from(storyboardContext.entries()).map(([name, item]) => [
+        name,
+        item.type === "brick-property"
+          ? item.brick.element?.[item.prop as keyof HTMLElement]
+          : item.value,
+      ])
+    );
   }
 
   try {
