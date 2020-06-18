@@ -1,6 +1,8 @@
 import { isCookable, evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
+import i18next from "i18next";
 
+const spyOnT = (i18next.t = jest.fn().mockReturnValue("return value"));
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
     homepage: "/hello",
@@ -67,6 +69,7 @@ describe("evaluate", () => {
     ["<% HASH %>", "#readme"],
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
+    ["<% I18N('a') %>", "return value"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

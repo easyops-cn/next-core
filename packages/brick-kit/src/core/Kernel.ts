@@ -8,6 +8,7 @@ import {
   getDllAndDepsOfBricks,
   scanRouteAliasInStoryboard,
 } from "@easyops/brick-utils";
+import i18next from "i18next";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
@@ -130,9 +131,13 @@ export class Kernel {
     if (storyboard.$$fulfilled) {
       return;
     }
-    const { routes, meta } = await AuthSdk.getAppStoryboard(storyboard.app.id);
+    const { routes, meta, app } = await AuthSdk.getAppStoryboard(
+      storyboard.app.id
+    );
     Object.assign(storyboard, { routes, meta, $$fulfilled: true });
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
+    i18next.addResourceBundle("zh", app.id, meta?.i18n?.zh || {});
+    i18next.addResourceBundle("en", app.id, meta?.i18n?.en || {});
   }
 
   async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
