@@ -1,5 +1,8 @@
 import { cloneDeep } from "lodash";
 import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
+import i18next from "i18next";
+import { MicroApp } from "@easyops/brick-types";
+
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlFactory } from "./segue";
 import { devtoolsHookEmit } from "./devtools";
@@ -148,6 +151,14 @@ export function evaluate(
   if (attemptToVisitGlobals.has("SEGUE")) {
     globalVariables.SEGUE = {
       getUrl: getUrlFactory(app, segues),
+    };
+  }
+  if (attemptToVisitGlobals.has("I18N")) {
+    globalVariables.I18N = handleTransformFactory(app);
+  }
+  function handleTransformFactory(app: MicroApp) {
+    return (key: string, options?: Record<string, string>): string => {
+      return i18next.t(`${app.id}:${key}`, options) || key;
     };
   }
 

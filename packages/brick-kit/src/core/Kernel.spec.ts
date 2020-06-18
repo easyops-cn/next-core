@@ -14,6 +14,7 @@ import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
+import i18next from "i18next";
 
 jest.mock("@easyops/brick-utils");
 jest.mock("@sdk/auth-sdk");
@@ -38,6 +39,7 @@ const spyOnCheckLogin = checkLogin as jest.Mock;
 const spyOnBootstrap = bootstrap as jest.Mock;
 const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockReturnValue({
   routes: [],
+  app: {},
 });
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
@@ -52,6 +54,7 @@ const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 
+const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
 (window as any).DLL_HASH = {
   d3: "fake-hash",
 };
@@ -268,6 +271,7 @@ describe("Kernel", () => {
     } as any;
     await kernel.fulfilStoryboard(fakeStoryboard);
     expect(spyOnGetAppStoryboard).toBeCalledWith("fake");
+    expect(spyOnAddResourceBundle).toBeCalledTimes(2);
     expect(fakeStoryboard.$$fulfilled).toBe(true);
     await kernel.fulfilStoryboard(fakeStoryboard);
     expect(spyOnGetAppStoryboard).toBeCalledTimes(1);
