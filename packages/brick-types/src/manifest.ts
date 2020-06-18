@@ -400,14 +400,12 @@ export interface UseBrickSlotConf {
 
 export interface StoryboardMeta {
   customTemplates?: CustomTemplate[];
-  i18n?: i18n;
+  i18n?: MetaI18n;
 }
 
+export type MetaI18n = Record<string, Record<string, string>>;
+
 /* Custom Templates Starts */
-export interface i18n {
-  zh?: Record<string, string>;
-  en?: Record<string, string>;
-}
 export interface CustomTemplate {
   name: string;
   bricks: BrickConfInTemplate[];

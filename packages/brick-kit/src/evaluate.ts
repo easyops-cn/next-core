@@ -154,12 +154,7 @@ export function evaluate(
     };
   }
   if (attemptToVisitGlobals.has("I18N")) {
-    globalVariables.I18N = handleTransformFactory(app);
-  }
-  function handleTransformFactory(app: MicroApp) {
-    return (key: string, options?: Record<string, string>): string => {
-      return i18next.t(`${app.id}:${key}`, options) || key;
-    };
+    globalVariables.I18N = i18next.getFixedT(null, `$app-${app.id}`);
   }
 
   try {

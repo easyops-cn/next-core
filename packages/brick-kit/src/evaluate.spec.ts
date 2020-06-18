@@ -2,9 +2,17 @@ import { isCookable, evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
 import i18next from "i18next";
 
-const spyOnT = (i18next.t = jest.fn().mockReturnValue("return value"));
+i18next.init({
+  fallbackLng: "en",
+});
+i18next.addResourceBundle("en", "$app-hello", {
+  HELLO: "Hello",
+  COUNT_ITEMS: "Total {{count}} items",
+});
+
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
+    id: "hello",
     homepage: "/hello",
     $$routeAliasMap: new Map([
       [
@@ -69,7 +77,9 @@ describe("evaluate", () => {
     ["<% HASH %>", "#readme"],
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
-    ["<% I18N('a') %>", "return value"],
+    ["<% I18N('HELLO') %>", "Hello"],
+    ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
+    ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
