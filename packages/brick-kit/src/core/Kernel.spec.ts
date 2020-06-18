@@ -16,6 +16,10 @@ import { Router } from "./Router";
 import * as mockHistory from "../history";
 import i18next from "i18next";
 
+i18next.init({
+  fallbackLng: "en",
+});
+
 jest.mock("@easyops/brick-utils");
 jest.mock("@sdk/auth-sdk");
 jest.mock("@sdk/user-service-sdk");
@@ -39,7 +43,16 @@ const spyOnCheckLogin = checkLogin as jest.Mock;
 const spyOnBootstrap = bootstrap as jest.Mock;
 const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockReturnValue({
   routes: [],
-  app: {},
+  app: {
+    id: "fake",
+  },
+  meta: {
+    i18n: {
+      en: {
+        HELLO: "Hello",
+      },
+    },
+  },
 });
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
@@ -54,7 +67,8 @@ const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 
-const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
+const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
+
 (window as any).DLL_HASH = {
   d3: "fake-hash",
 };
@@ -271,7 +285,9 @@ describe("Kernel", () => {
     } as any;
     await kernel.fulfilStoryboard(fakeStoryboard);
     expect(spyOnGetAppStoryboard).toBeCalledWith("fake");
-    expect(spyOnAddResourceBundle).toBeCalledTimes(2);
+    expect(spyOnAddResourceBundle).toBeCalledWith("en", "$app-fake", {
+      HELLO: "Hello",
+    });
     expect(fakeStoryboard.$$fulfilled).toBe(true);
     await kernel.fulfilStoryboard(fakeStoryboard);
     expect(spyOnGetAppStoryboard).toBeCalledTimes(1);
