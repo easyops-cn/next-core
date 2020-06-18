@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.48.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.48.0...@easyops/brick-kit@1.48.1) (2020-06-18)
+
+### Bug Fixes
+
+- allow leading and trailing whitespace in cookable ([20fa3ad](https://git.easyops.local/anyclouds/next-core/commits/20fa3ad))
+- **evaluate:** warn potential errors of cookable ([477f92b](https://git.easyops.local/anyclouds/next-core/commits/477f92b))
+- **menu:** support set defaultCollapsed ([c47d8a6](https://git.easyops.local/anyclouds/next-core/commits/c47d8a6))
+- **sub-menu:** merge menu ([20bd998](https://git.easyops.local/anyclouds/next-core/commits/20bd998))
+
 # [1.48.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.47.2...@easyops/brick-kit@1.48.0) (2020-06-10)
 
 ### Bug Fixes
