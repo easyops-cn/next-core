@@ -117,6 +117,13 @@ export interface BaseRouteConf {
   defineResolves?: DefineResolveConf[];
   redirect?: string | ResolveConf;
   segues?: SeguesConf;
+  context?: ContextConf[];
+}
+
+export interface ContextConf {
+  name: string;
+  value?: any;
+  resolve?: ResolveConf;
 }
 
 export interface SeguesConf {
@@ -141,6 +148,8 @@ export interface BrickConf {
   params?: Record<string, any>;
   if?: string | boolean | ResolveConf;
   portal?: boolean;
+  context?: ContextConf[];
+  exports?: Record<string, string>;
 }
 
 export type ProviderConf =

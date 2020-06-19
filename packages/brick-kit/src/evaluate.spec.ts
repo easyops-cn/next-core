@@ -1,6 +1,6 @@
+import i18next from "i18next";
 import { isCookable, evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
-import i18next from "i18next";
 
 i18next.init({
   fallbackLng: "en",
@@ -42,6 +42,27 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
       target: "segue-target",
     },
   },
+  storyboardContext: new Map<string, any>([
+    [
+      "myFreeContext",
+      {
+        type: "free-variable",
+        value: "good",
+      },
+    ],
+    [
+      "myPropContext",
+      {
+        type: "brick-property",
+        brick: {
+          element: {
+            quality: "better",
+          },
+        },
+        prop: "quality",
+      },
+    ],
+  ]),
 } as any);
 
 describe("isCookable", () => {
@@ -80,6 +101,9 @@ describe("evaluate", () => {
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
+    ["<% CTX.myFreeContext %>", "good"],
+    ["<% CTX.myPropContext %>", "better"],
+    ["<% CTX.notExisted %>", undefined],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

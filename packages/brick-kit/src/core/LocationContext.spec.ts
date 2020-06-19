@@ -3,6 +3,7 @@ import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
 import { isLoggedIn, getAuth } from "../auth";
 import * as history from "../history";
+import * as runtime from "../core/Runtime";
 
 jest.mock("../auth");
 
@@ -24,6 +25,11 @@ jest.spyOn(history, "getHistory").mockReturnValue({
     hash: "",
   },
 } as any);
+
+const spyOnGetCurrentContext = jest.spyOn(
+  runtime,
+  "_internalApiGetCurrentContext"
+);
 
 describe("LocationContext", () => {
   const kernel: Kernel = {
@@ -206,6 +212,21 @@ describe("LocationContext", () => {
         state: {},
       });
       spyOnIsLoggedIn.mockReturnValue(true);
+
+      spyOnGetCurrentContext.mockReturnValueOnce(context.getCurrentContext());
+
+      jest
+        .spyOn(context.resolver, "resolveOne")
+        .mockImplementationOnce(
+          async (
+            type: any,
+            resolveConf: ResolveConf,
+            conf: Record<string, any>
+          ) => {
+            Object.assign(conf, resolveConf.transform);
+          }
+        );
+
       const result = await context.mountRoutes(
         [
           {
@@ -219,6 +240,21 @@ describe("LocationContext", () => {
                 },
               },
             ],
+            context: [
+              {
+                name: "myFreeContext",
+                value: "good",
+              },
+              {
+                name: "myAsyncContext",
+                resolve: {
+                  provider: "provider-c",
+                  transform: {
+                    value: "even better",
+                  },
+                },
+              },
+            ],
             type: "routes",
             routes: [
               {
@@ -228,7 +264,11 @@ describe("LocationContext", () => {
                     if: "${FLAGS.testing}",
                     brick: "div",
                     properties: {
-                      title: "good",
+                      title:
+                        "<% `${CTX.myFreeContext} ${CTX.myAsyncContext}` %>",
+                    },
+                    exports: {
+                      title: "CTX.myPropContext",
                     },
                     events: {
                       click: {
@@ -435,7 +475,7 @@ describe("LocationContext", () => {
         {
           type: "div",
           properties: {
-            title: "good",
+            title: "good even better",
           },
           events: {
             click: {
@@ -516,7 +556,11 @@ describe("LocationContext", () => {
       jest
         .spyOn(context.resolver, "resolveOne")
         .mockImplementationOnce(
-          async (type: any, resolveConf: ResolveConf, conf: object) => {
+          async (
+            type: any,
+            resolveConf: ResolveConf,
+            conf: Record<string, any>
+          ) => {
             Object.assign(conf, resolveConf.transform);
           }
         );

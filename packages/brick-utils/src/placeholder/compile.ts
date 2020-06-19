@@ -1,5 +1,8 @@
 import { get } from "lodash";
-import { PluginRuntimeContext } from "@easyops/brick-types";
+import {
+  PluginRuntimeContext,
+  StoryboardContextItem,
+} from "@easyops/brick-types";
 import { parseInjectableString } from "./syntax";
 import { processPipes } from "./pipes";
 import { RawString, Placeholder } from "./interfaces";
@@ -63,7 +66,7 @@ function injectNodeFactory(
       return node.value;
     }
     const matches = node.field.match(
-      /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|ANCHOR|SYS|FLAGS)\.)?(.+)$/
+      /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|ANCHOR|SYS|FLAGS|CTX)\.)?(.+)$/
     );
     if (!matches) {
       // Keep the original raw partial when meet a unknown namespace.
@@ -84,8 +87,9 @@ function injectNodeFactory(
       APP: "app",
       HASH: "hash",
       SYS: "sys",
-      FLAGS: "flags"
+      FLAGS: "flags",
     };
+    let contextItem: StoryboardContextItem;
 
     switch (namespace) {
       case "QUERY":
@@ -124,6 +128,17 @@ function injectNodeFactory(
       case "ANCHOR":
         anchor = context.hash ? context.hash.substr(1) : null;
         result = subField === "*" ? anchor : get(anchor, subField);
+        break;
+      case "CTX":
+        contextItem = context.storyboardContext?.get(subField);
+        if (contextItem) {
+          result =
+            contextItem.type === "brick-property"
+              ? contextItem.brick.element?.[
+                  contextItem.prop as keyof HTMLElement
+                ]
+              : contextItem.value;
+        }
         break;
       default:
         if (context.match) {

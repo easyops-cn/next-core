@@ -83,6 +83,26 @@ export interface PluginRuntimeContext {
   sys?: SystemInfo;
   flags?: FeatureFlags;
   segues?: SeguesConf;
+  storyboardContext?: StoryboardContext;
+}
+
+export type StoryboardContext = Map<string, StoryboardContextItem>;
+
+export type StoryboardContextItem =
+  | StoryboardContextItemFreeVariable
+  | StoryboardContextItemBrickProperty;
+
+export interface StoryboardContextItemFreeVariable {
+  type: "free-variable";
+  value: any;
+}
+
+export interface StoryboardContextItemBrickProperty {
+  type: "brick-property";
+  brick: {
+    element?: HTMLElement;
+  };
+  prop: string;
 }
 
 export interface MountPoints {
