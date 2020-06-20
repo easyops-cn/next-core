@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { isObject } from "@easyops/brick-utils";
 import {
   BrickEventHandler,
   BrickEventsMap,
@@ -8,6 +9,7 @@ import {
   ExecuteCustomBrickEventHandler,
   SetPropsCustomBrickEventHandler,
   RuntimeBrickElement,
+  StoryboardContextItem,
 } from "@easyops/brick-types";
 import { handleHttpError } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
@@ -162,6 +164,14 @@ export function listenerFactory(
           }
           handleHttpError(event.detail);
         }) as EventListener;
+      case "context.assign":
+      case "context.replace":
+        return builtinContextListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       default:
         return () => {
           // eslint-disable-next-line no-console
@@ -173,6 +183,57 @@ export function listenerFactory(
   if (isCustomHandler(handler)) {
     return customListenerFactory(handler, handler.if, context, brick);
   }
+}
+
+function builtinContextListenerFactory(
+  method: "assign" | "replace",
+  args: any[],
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
+    const [name, value] = argsFactory(args, context, event);
+    if (typeof name !== "string") {
+      // eslint-disable-next-line no-console
+      console.error("Invalid context name:", name);
+      return;
+    }
+    const { storyboardContext } = _internalApiGetCurrentContext();
+    const contextItem: StoryboardContextItem = storyboardContext.get(name);
+    if (!contextItem) {
+      storyboardContext.set(name, {
+        type: "free-variable",
+        value,
+      });
+      return;
+    }
+    if (contextItem.type !== "free-variable") {
+      // eslint-disable-next-line no-console
+      console.error(
+        `Conflict storyboard context "${name}", expected "free-variable", received "${contextItem.type}".`
+      );
+      return;
+    }
+    // `context.replace`
+    if (method === "replace") {
+      contextItem.value = value;
+      return;
+    }
+    // `context.assign`
+    const previousValue = contextItem.value;
+    if (isObject(previousValue)) {
+      Object.assign(previousValue, value);
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Non-object current value of context "${name}" for "context.assign", try "context.replace" instead.`
+      );
+      contextItem.value = value;
+    }
+  } as EventListener;
 }
 
 function builtinLocationListenerFactory(
