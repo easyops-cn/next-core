@@ -322,17 +322,21 @@ export interface BuiltinBrickEventHandler {
     | "console.warn"
     | "console.info"
 
-    // anted message
+    // Antd message
     | "message.success"
     | "message.error"
     | "message.info"
     | "message.warn"
 
-    // handleHttpError
+    // `handleHttpError`
     | "handleHttpError"
 
-    // iframe
-    | "legacy.go";
+    // Iframe
+    | "legacy.go"
+
+    // Storyboard context
+    | "context.assign"
+    | "context.replace";
   args?: any[]; // Defaults to the event itself
   if?: string | boolean;
 }

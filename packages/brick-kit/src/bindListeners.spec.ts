@@ -26,6 +26,7 @@ const mockHistory = {
 };
 (getHistory as jest.Mock).mockReturnValue(mockHistory);
 
+const storyboardContext = new Map<string, any>();
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
     $$routeAliasMap: new Map([
@@ -53,6 +54,7 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
       target: "segue-target-b",
     },
   },
+  storyboardContext,
 } as any);
 
 describe("isBuiltinHandler", () => {
@@ -83,6 +85,50 @@ describe("isCustomHandler", () => {
 });
 
 describe("bindListeners", () => {
+  beforeEach(() => {
+    storyboardContext.clear();
+    const ctx: [string, any][] = [
+      [
+        "myStringContext",
+        {
+          type: "free-variable",
+          value: "good",
+        },
+      ],
+      [
+        "myNumberContext",
+        {
+          type: "free-variable",
+          value: 3,
+        },
+      ],
+      [
+        "myObjectContext",
+        {
+          type: "free-variable",
+          value: {
+            quality: "better",
+          },
+        },
+      ],
+      [
+        "myPropContext",
+        {
+          type: "brick-property",
+          brick: {
+            element: {
+              quality: "better",
+            },
+          },
+          prop: "quality",
+        },
+      ],
+    ];
+    ctx.forEach(([name, value]) => {
+      storyboardContext.set(name, value);
+    });
+  });
+
   it("should work", async () => {
     const sourceElem = document.createElement("div");
     const targetElem = document.createElement("div");
@@ -177,6 +223,55 @@ describe("bindListeners", () => {
         {
           action: "console.error",
           args: ["specified args for console.error"],
+        },
+        {
+          action: "context.replace",
+          args: ["myStringContext", "not-bad"],
+        },
+        {
+          action: "context.assign",
+          args: [
+            "myNumberContext",
+            {
+              number: "<% CTX.myNumberContext %>",
+            },
+          ],
+        },
+        {
+          action: "context.assign",
+          args: [
+            "myObjectContext",
+            {
+              checked: true,
+            },
+          ],
+        },
+        {
+          action: "context.assign",
+          args: [
+            "myNewContext",
+            {
+              hello: "world",
+            },
+          ],
+        },
+        {
+          action: "context.assign",
+          args: [
+            "myPropContext",
+            {
+              something: "wrong",
+            },
+          ],
+        },
+        {
+          action: "context.assign",
+          args: [
+            100,
+            {
+              something: "wrong",
+            },
+          ],
         },
       ],
       key2: [
@@ -313,26 +408,26 @@ describe("bindListeners", () => {
       "callback.finally"
     );
     expect(console.warn).toBeCalledWith("specified args for console.warn");
-    expect(console.error).toBeCalledTimes(4);
+    expect(console.error).toBeCalledTimes(6);
     expect(console.error).toHaveBeenNthCalledWith(
       1,
       "specified args for console.error"
     );
-    expect((console.error as jest.Mock).mock.calls[1][0]).toBe(
+    expect((console.error as jest.Mock).mock.calls[3][0]).toBe(
       "target has no method:"
     );
-    expect((console.error as jest.Mock).mock.calls[1][1].method).toBe(
+    expect((console.error as jest.Mock).mock.calls[3][1].method).toBe(
       "notExisted"
     );
     expect(console.error).toHaveBeenNthCalledWith(
-      3,
+      5,
       "target not found:",
       "#not-existed"
     );
-    expect((console.error as jest.Mock).mock.calls[3][0].type).toBe(
+    expect((console.error as jest.Mock).mock.calls[5][0].type).toBe(
       "callback.error"
     );
-    expect((console.error as jest.Mock).mock.calls[3][0].detail).toBe("oops");
+    expect((console.error as jest.Mock).mock.calls[5][0].detail).toBe("oops");
     expect((sourceElem as any).forGood).toHaveBeenNthCalledWith(
       1,
       "target is _self"
@@ -348,6 +443,18 @@ describe("bindListeners", () => {
       "specified args for multiple"
     );
     expect((targetElem as any).someProperty).toBe(event2.detail);
+
+    expect(storyboardContext.get("myStringContext").value).toBe("not-bad");
+    expect(storyboardContext.get("myNumberContext").value).toEqual({
+      number: 3,
+    });
+    expect(storyboardContext.get("myObjectContext").value).toEqual({
+      quality: "better",
+      checked: true,
+    });
+    expect(storyboardContext.get("myNewContext").value).toEqual({
+      hello: "world",
+    });
 
     (console.log as jest.Mock).mockClear();
     (console.info as jest.Mock).mockClear();
@@ -436,6 +543,7 @@ describe("bindListeners", () => {
         if: "<% !EVENT.detail.rejected %>",
       },
       { action: "segue.push", if: "<% !EVENT.detail.rejected %>" },
+      { action: "context.assign", if: "<% !EVENT.detail.rejected %>" },
       { action: "event.preventDefault", if: "<% !EVENT.detail.rejected %>" },
       { action: "console.log", if: "<% !EVENT.detail.rejected %>" },
       {
