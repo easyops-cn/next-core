@@ -141,7 +141,7 @@ export class LocationContext {
         );
         value = valueConf.value;
       } else {
-        value = contextConf.value;
+        value = computeRealValue(contextConf.value, coreContext, true);
       }
       this.setStoryboardContext(contextConf.name, {
         type: "free-variable",
