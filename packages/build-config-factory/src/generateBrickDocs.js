@@ -3,6 +3,35 @@ const path = require("path");
 const TypeDoc = require("typedoc");
 const { get } = require("lodash");
 
+const brickKindMap = {
+  property: "properties",
+  event: "events",
+  method: "methods",
+};
+const extraScanPaths = ["src/interfaces"];
+
+const supportedDecorators = ["property", "event", "method"];
+const methodComments = ["params", "description"];
+const eventDocComments = ["detail", "description"];
+const propertyDocComments = [
+  "name",
+  "kind",
+  "required",
+  "default",
+  "description",
+];
+const baseDocComments = [
+  "id",
+  "name",
+  "description",
+  "author",
+  "slots",
+  "interface",
+  "memo",
+  "history",
+  "dockind",
+];
+
 function generateBrickDoc(doc, scope) {
   const { name, children = [] } = doc;
   const brickDocs = [];
@@ -40,16 +69,9 @@ function convertTagsToMapByFields(tags, fields) {
 
 function composeBrickDocProperties(brick) {
   const { name, comment } = brick;
-  const builtInProperties = [
-    "name",
-    "kind",
-    "required",
-    "default",
-    "description",
-  ];
   return {
     name,
-    ...convertTagsToMapByFields(comment.tags, builtInProperties),
+    ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
   };
 }
 
@@ -67,21 +89,19 @@ function getEventTypeByDecorators(decorators) {
 
 function composeBrickDocEvents(brick) {
   const { comment, decorators } = brick;
-  const builtInEvents = ["detail", "description"];
 
   return {
     type: getEventTypeByDecorators(decorators),
-    ...convertTagsToMapByFields(comment.tags, builtInEvents),
+    ...convertTagsToMapByFields(get(comment, "tags", []), eventDocComments),
   };
 }
 
 function composeBrickDocMethods(brick) {
   const { name, comment } = brick;
-  const builtInEvents = ["prams", "description"];
 
   return {
     name,
-    ...convertTagsToMapByFields(comment.tags, builtInEvents),
+    ...convertTagsToMapByFields(get(comment, "tags", []), methodComments),
   };
 }
 
@@ -114,18 +134,7 @@ function composeBrickDocHistory(history) {
 }
 
 function extractBrickDocBaseKind(tags) {
-  const kind = [
-    "id",
-    "name",
-    "description",
-    "author",
-    "slots",
-    "interface",
-    "memo",
-    "history",
-    "dockind",
-  ];
-  return convertTagsToMapByFields(tags, kind);
+  return convertTagsToMapByFields(tags, baseDocComments);
 }
 
 function getRealBrickDocCategory(brick) {
@@ -134,7 +143,7 @@ function getRealBrickDocCategory(brick) {
   }
 
   const finder = brick.decorators.find((d) =>
-    ["property", "event", "method"].includes(d.name)
+    supportedDecorators.includes(d.name)
   );
 
   if (finder) {
@@ -143,12 +152,6 @@ function getRealBrickDocCategory(brick) {
 
   return null;
 }
-
-const brickKindMap = {
-  property: "properties",
-  event: "events",
-  method: "methods",
-};
 
 const getComputedDocCategory = (category, brick) => {
   switch (category) {
@@ -239,6 +242,12 @@ function extractRealInterfaceType(type, typeData) {
     case "intrinsic":
     case "typeParameter":
       return typeData.name;
+    case "intersection":
+      return typeData.types
+        .map((type) => extractRealInterfaceType(type.type, type))
+        .join(" & ");
+    case "reflection":
+      return "object";
     default:
       return "";
   }
@@ -280,16 +289,16 @@ function getTypeParameter(finder) {
   );
 }
 
-function extractBrickDocInterface(typeIds, moduleChildren) {
+function extractBrickDocInterface(typeIds, references) {
   if (!typeIds) {
     return {
       interface: null,
     };
   }
   return {
-    interface: typeIds
+    interface: Array.from(typeIds)
       .map((id) => {
-        const finder = moduleChildren.find((child) => child.id === id);
+        const finder = references.find((child) => child.id === id);
 
         if (finder) {
           if (finder.kindString === "Type alias") {
@@ -299,6 +308,7 @@ function extractBrickDocInterface(typeIds, moduleChildren) {
           if (finder.kindString === "Enumeration") {
             return extractBrickDocEnumerations(finder);
           }
+
           return {
             name: finder.name,
             typeParameter: getTypeParameter(finder),
@@ -322,63 +332,154 @@ function extractBrickDocInterface(typeIds, moduleChildren) {
   };
 }
 
+function isExtraScanPath(module) {
+  return (
+    extraScanPaths.some((dir) => module.name.includes(dir)) &&
+    Array.isArray(module.children)
+  );
+}
+
+function traverseReferences(doc, references) {
+  if (Array.isArray(doc.children)) {
+    for (const child of doc.children) {
+      references.set(child.id, child);
+      traverseReferences(child, references);
+    }
+  }
+}
+
+function traverseExtraInterfaceReferences(modules, References) {
+  modules.forEach((module) => {
+    if (!isExtraScanPath(module)) return;
+
+    traverseReferences(module, References);
+  });
+}
+
+function traverseElementUsedInterfaceIds(
+  element,
+  usedReferenceIds,
+  references
+) {
+  element.children.forEach((child) => {
+    traverseUsedReferenceIdsByType(child.type, usedReferenceIds, references);
+  });
+}
+
 function traverseModules(modules, brickDocs) {
+  const extraInterfaceReferences = new Map();
+
+  traverseExtraInterfaceReferences(modules, extraInterfaceReferences);
+
+  const extraInterfaceReferencesValues = Array.from(
+    extraInterfaceReferences.values()
+  );
   modules.forEach((module) => {
     if (!module.children) return;
     const bricks = [];
-    const docGroups = getBrickGroups(module.groups);
+    const elementId = getElementIdByGroups(module.groups);
 
-    const elementId = docGroups.get("class");
-    if (!Array.isArray(elementId)) return;
+    if (!elementId) return;
 
+    const usedReferenceIds = new Set();
     const classElement = module.children.find(
-      (child) => child.id === elementId[0] && existBrickDocId(child)
+      (child) => child.id === elementId && existBrickDocId(child)
     );
     if (!classElement) return;
     const { comment, children, groups } = classElement;
-
-    const interfaceIds = docGroups.get("interfaces");
+    const references = [...module.children, ...extraInterfaceReferencesValues];
+    traverseElementUsedInterfaceIds(classElement, usedReferenceIds, references);
 
     bricks.push({
       ...extractBrickDocBaseKind(comment.tags),
       ...extractBrickDocComplexKind(groups, children),
-      ...extractBrickDocInterface(interfaceIds, module.children),
+      ...extractBrickDocInterface(usedReferenceIds, references),
     });
-
     brickDocs.push(...bricks);
   });
 }
 
-function getBrickGroups(groups) {
-  const map = new Map();
-  const isHasClassElement = !!groups.find((group) => group.title === "Classes");
-  if (!isHasClassElement) return map;
+function traverseUsedReferenceIdsByType(type, usedReferenceIds, references) {
+  if (!type || !type.type) return;
 
-  groups.forEach((group) => {
-    if (!Array.isArray(group.children) && group.children.length === 0) {
-      return;
-    }
-    if (group.title === "Classes") {
-      map.set("class", [...group.children]);
-      return;
-    }
-
-    //  `Interface`, `Type`, `Enume`
-    if (
-      group.title === "Interfaces" ||
-      group.title === "Type aliases" ||
-      group.title === "Enumerations"
-    ) {
-      const interfaces = map.get("interfaces");
-      if (interfaces) {
-        map.set("interfaces", [...interfaces, ...group.children]);
-      } else {
-        map.set("interfaces", [...group.children]);
+  if (type.$$traversed) {
+    return;
+  }
+  type.$$traversed = true;
+  switch (type.type) {
+    case "union":
+    case "intersection":
+      type.types.forEach((item) =>
+        traverseUsedReferenceIdsByType(item, usedReferenceIds, references)
+      );
+      break;
+    case "array":
+      traverseUsedReferenceIdsByType(
+        type.elementType,
+        usedReferenceIds,
+        references
+      );
+      break;
+    case "reference":
+      if (type.id) {
+        usedReferenceIds.add(type.id);
+        traverseUsedReferenceIdsByReflection(
+          references.find((child) => child.id === type.id),
+          usedReferenceIds,
+          references
+        );
       }
-    }
-  });
+      if (type.typeArguments && type.typeArguments.length > 0) {
+        type.typeArguments.forEach((item) =>
+          traverseUsedReferenceIdsByType(item, usedReferenceIds, references)
+        );
+      }
+      break;
+    /* istanbul ignore next */
+    case "indexedAccess":
+      traverseUsedReferenceIdsByType(
+        type.objectType,
+        usedReferenceIds,
+        references
+      );
+      break;
+  }
+}
 
-  return map;
+function traverseUsedReferenceIdsByReflection(
+  reflection,
+  usedReferenceIds,
+  references
+) {
+  if (!reflection) {
+    return;
+  }
+  switch (reflection.kindString) {
+    case "Interface":
+      reflection.children
+        .filter((item) => item.kindString === "Property")
+        .forEach((item) =>
+          traverseUsedReferenceIdsByType(
+            item.type,
+            usedReferenceIds,
+            references
+          )
+        );
+      break;
+    case "Type alias":
+      traverseUsedReferenceIdsByType(
+        reflection.type,
+        usedReferenceIds,
+        references
+      );
+      break;
+  }
+}
+
+function getElementIdByGroups(groups) {
+  const elementClass = groups.find((group) => group.title === "Classes");
+
+  return get(elementClass, "children[0]", null);
 }
 
 module.exports = function generateBrickDocs(packageName, scope) {
@@ -425,6 +526,7 @@ module.exports = function generateBrickDocs(packageName, scope) {
       "dist/",
       "**/__mocks__/",
       "**!/!(index).ts",
+      "**/src/**/!(index).tsx",
       "**/i18n/",
       "**/data-providers/",
       "**/components/",
