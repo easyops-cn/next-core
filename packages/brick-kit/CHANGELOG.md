@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.49.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.48.1...@easyops/brick-kit@1.49.0) (2020-06-22)
+
+### Bug Fixes
+
+- refine i18n ([649a30d](https://git.easyops.local/anyclouds/next-core/commits/649a30d))
+
+### Features
+
+- builtin listeners of storyboard context ([2e313ff](https://git.easyops.local/anyclouds/next-core/commits/2e313ff))
+- i18n translate refs NEXT_BUILDER-181 ([a38d7fd](https://git.easyops.local/anyclouds/next-core/commits/a38d7fd))
+- storyboard context ([ffb4fe7](https://git.easyops.local/anyclouds/next-core/commits/ffb4fe7))
+
 ## [1.48.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.48.0...@easyops/brick-kit@1.48.1) (2020-06-18)
 
 ### Bug Fixes
