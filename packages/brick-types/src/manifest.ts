@@ -336,7 +336,10 @@ export interface BuiltinBrickEventHandler {
 
     // Storyboard context
     | "context.assign"
-    | "context.replace";
+    | "context.replace"
+
+    // Find related tpl and dispatch event.
+    | "tpl.dispatchEvent";
   args?: any[]; // Defaults to the event itself
   if?: string | boolean;
 }
