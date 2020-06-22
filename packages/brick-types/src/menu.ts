@@ -37,6 +37,7 @@ export interface SidebarMenuGroup {
   icon?: MenuIcon;
   items: SidebarMenuItem[];
   key?: string;
+  defaultExpanded?: boolean;
 }
 
 export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
