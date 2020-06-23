@@ -79,7 +79,7 @@ function getEventTypeByDecorators(decorators) {
   const finder = decorators.find((d) => d.name === "event");
   if (finder) {
     // eslint-disable-next-line no-useless-escape
-    const matcher = finder.arguments.options.match(/type\:\s\"([a-zA-Z\.]+)\"/);
+    const matcher = finder.arguments.options.match(/type\:\s\"([\w\.]+)\"/);
 
     return matcher ? matcher[1] : null;
   }
