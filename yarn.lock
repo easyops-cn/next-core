@@ -2422,10 +2422,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^4.5.1":
-  version "4.5.1"
-  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.5.1.tgz#8a35c970ef786361ca85446b80e61d7ce81566c9"
-  integrity sha1-ijXJcO94Y2HKhURrgOYdfOgVZsk=
+"@size-limit/file@^4.5.2":
+  version "4.5.2"
+  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.5.2.tgz#c904c08bed011c297f62637c1c86c6c2c5375185"
+  integrity sha1-yQTAi+0BHCl/YmN8HIbGwsU3UYU=
   dependencies:
     semver "7.3.2"
 
