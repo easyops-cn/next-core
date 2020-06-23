@@ -2,13 +2,36 @@ import path from "path";
 import fs from "fs-extra";
 import os from "os";
 import chalk from "chalk";
+import { escapeRegExp } from "lodash";
 
 const propertyDefinitionReg = (propertyName: string) => {
   return new RegExp(
     "\\|\\s*[\"']?" +
-      propertyName +
+      escapeRegExp(propertyName) +
       "((\\s*[\"']?(?<!\\\\)\\|(((?<=\\\\)\\|)|[^|])*){4}\\|)"
   );
+};
+
+const commentReg = (text: string) => {
+  return new RegExp(
+    "(?<=(\\/\\*\\*(.|@|((?<!\\n)\\s))*\\*\\/\\s*))" + escapeRegExp(text)
+  );
+};
+
+const updateComments = (matchText: string, fileText, newCommentText) => {
+  const testCommentReg = commentReg(matchText);
+  const commentExistMatch = fileText.match(testCommentReg);
+  let newFileText = fileText;
+  if (commentExistMatch?.[1]) {
+    newFileText = newFileText.replace(commentExistMatch?.[1], newCommentText);
+  } else {
+    const matchIndex = newFileText.indexOf(matchText);
+    newFileText =
+      newFileText.slice(0, matchIndex) +
+      newCommentText +
+      newFileText.slice(matchIndex);
+  }
+  return newFileText;
 };
 
 export async function generateDoc(bricks): Promise<void> {
@@ -51,7 +74,7 @@ export async function generateDoc(bricks): Promise<void> {
             // 获得对应的 story
             let description = "";
             let author = "";
-            const storyPathReg = /\[\/\/]: # \((.*)\)/;
+            const storyPathReg = /\[\/\/]: # "(.*)"/;
             const storyPathMatches = doc.match(storyPathReg);
             if (storyPathMatches) {
               const storyPath = path.join(
@@ -156,8 +179,7 @@ export async function generateDoc(bricks): Promise<void> {
             // 处理 Basic Information
             const elementDefinedReg = /(export )?class[\w\s]*\{/;
             const matchClassMatch = indexFile.match(elementDefinedReg);
-            const matchClassIndex = indexFile.indexOf(matchClassMatch[0]);
-            const docTextOfBasicInformation = `${os.EOL}/**${os.EOL}* @id ${
+            const docTextOfBasicInformation = `/**${os.EOL}* @id ${
               packageName + "." + brickName
             }${os.EOL}* @name ${packageName + "." + brickName}${
               os.EOL
@@ -170,10 +192,11 @@ export async function generateDoc(bricks): Promise<void> {
             }${os.EOL}* @memo ${os.EOL}* @noInheritDoc ${os.EOL}*/${os.EOL}${
               matchClassMatch[1] ? "" : "export "
             }`;
-            newIndexFileText =
-              newIndexFileText.slice(0, matchClassIndex) +
-              docTextOfBasicInformation +
-              newIndexFileText.slice(matchClassIndex);
+            newIndexFileText = updateComments(
+              matchClassMatch[0],
+              newIndexFileText,
+              docTextOfBasicInformation
+            );
 
             // 处理 properties
             const propertiesMap = new Map();
@@ -202,7 +225,6 @@ export async function generateDoc(bricks): Promise<void> {
               for (const property of propertiesList) {
                 const matchText = property.matchText;
                 const propertyName = property.propertyName;
-                const matchIndex = newIndexFileText.indexOf(matchText);
                 const findPropertyDefinition = inputsContent.match(
                   propertyDefinitionReg(propertyName)
                 );
@@ -226,11 +248,13 @@ export async function generateDoc(bricks): Promise<void> {
                   default: splitDefinition[3],
                   description: splitDefinition[4],
                 };
-                const docTextOfProperty = `${os.EOL}\t/**${os.EOL}\t* @kind ${propertyInfo.kind}${os.EOL}\t* @required ${propertyInfo.required}${os.EOL}\t* @default ${propertyInfo.default}${os.EOL}\t* @description ${propertyInfo.description}${os.EOL}\t*/${os.EOL}\t`;
-                newIndexFileText =
-                  newIndexFileText.slice(0, matchIndex) +
-                  docTextOfProperty +
-                  newIndexFileText.slice(matchIndex);
+                const docTextOfProperty = `/**${os.EOL}\t* @kind ${propertyInfo.kind}${os.EOL}\t* @required ${propertyInfo.required}${os.EOL}\t* @default ${propertyInfo.default}${os.EOL}\t* @description ${propertyInfo.description}${os.EOL}\t*/${os.EOL}\t`;
+                newIndexFileText = updateComments(
+                  matchText,
+                  newIndexFileText,
+                  docTextOfProperty
+                );
+
                 propertiesMap.set(propertyName, {
                   propertyInfo,
                   docTextOfProperty,
