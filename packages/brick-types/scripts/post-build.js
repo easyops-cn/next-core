@@ -10,7 +10,7 @@ if (!fs.existsSync(schemaDir)) {
 const program = TJS.getProgramFromFiles(
   [path.resolve(__dirname, "../src/manifest.ts")],
   {
-    skipLibCheck: true
+    skipLibCheck: true,
   }
 );
 
