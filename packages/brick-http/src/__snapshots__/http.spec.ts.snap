@@ -74,6 +74,7 @@ exports[`http PATCH http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
+    "headers": undefined,
     "method": "PATCH",
   },
   undefined,
@@ -84,6 +85,7 @@ exports[`http POST http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
+    "headers": undefined,
     "method": "POST",
   },
   undefined,
@@ -206,6 +208,7 @@ exports[`http PUT http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
+    "headers": undefined,
     "method": "PUT",
   },
   undefined,

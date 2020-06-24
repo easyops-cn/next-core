@@ -11,8 +11,8 @@ const fullBaseHref = base ? base.href : location.origin + "/";
 export type HttpParams =
   | URLSearchParams
   | {
-      [key: string]: any;
-    };
+    [key: string]: any;
+  };
 
 export interface RequestCustomOptions {
   responseType?: "json" | "blob" | "arrayBuffer" | "text";
@@ -108,7 +108,7 @@ const getBodyAndHeaders = (
       headers: parsedHeaders,
     };
   }
-  return {};
+  return { headers };
 };
 
 const simpleRequest = <T = any>(
@@ -192,4 +192,6 @@ export const http = {
   delete: httpDelete,
   head,
   request,
+  getBodyAndHeaders,
+  getUrlWithParams
 };
