@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.50.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.1...@easyops/brick-kit@1.50.2) (2020-06-24)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
 ## [1.50.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.0...@easyops/brick-kit@1.50.1) (2020-06-23)
 
 **Note:** Version bump only for package @easyops/brick-kit
