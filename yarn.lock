@@ -4791,6 +4791,11 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
+colorette@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/colorette/download/colorette-1.2.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcolorette%2Fdownload%2Fcolorette-1.2.0.tgz#45306add826d196e8c87236ac05d797f25982e63"
+  integrity sha1-RTBq3YJtGW6MhyNqwF15fyWYLmM=
+
 columnify@^1.5.4:
   version "1.5.4"
   resolved "http://registry.npm.taobao.org/columnify/download/columnify-1.5.4.tgz#4737ddf1c7b69a8a7c340570782e947eec8e78bb"
@@ -8935,11 +8940,6 @@ klaw-sync@^6.0.0:
 kleur@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.2.tgz#83c7ec858a41098b613d5998a7b653962b504f68"
-
-kleur@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/kleur/download/kleur-4.0.0.tgz?cache=0&sync_timestamp=1592361631561&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fkleur%2Fdownload%2Fkleur-4.0.0.tgz#6da4e7a800e33eb28c53fb91902d623450a980d6"
-  integrity sha1-baTnqADjPrKMU/uRkC1iNFCpgNY=
 
 lazy-cache@^0.2.3:
   version "0.2.7"
@@ -13146,17 +13146,17 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.5.1:
-  version "4.5.1"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.5.1.tgz#8773bcd6c8573398787695c52d3e70423195e5c9"
-  integrity sha1-h3O81shXM5h4dpXFLT5wQjGV5ck=
+size-limit@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.5.2.tgz#7448e2a41ad1d335143010409446684819cbcc8a"
+  integrity sha1-dEjipBrR0zUUMBBAlEZoSBnLzIo=
   dependencies:
     bytes "^3.1.0"
     chokidar "^3.4.0"
     ci-job-number "^1.2.2"
+    colorette "^1.2.0"
     cosmiconfig "^6.0.0"
     globby "^11.0.1"
-    kleur "^4.0.0"
     ora "^4.0.4"
     read-pkg-up "^7.0.1"
 
