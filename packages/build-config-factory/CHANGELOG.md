@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.12.0...@easyops/build-config-factory@1.13.0) (2020-06-28)
+
+### Features
+
+- **brick-document:** 修复[@method](https://git.easyops.local/method)获取 param,description 注释,转义 type 类型中的数字等 ([0d463df](https://git.easyops.local/anyclouds/next-core/commits/0d463df))
+
 # [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.11.1...@easyops/build-config-factory@1.12.0) (2020-06-24)
 
 ### Features
