@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.2...@easyops/brick-kit@1.51.0) (2020-06-28)
+
+### Features
+
+- **kit:** hide bars when is in console iframe ([36b05d8](https://git.easyops.local/anyclouds/next-core/commits/36b05d8))
+
 ## [1.50.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.1...@easyops/brick-kit@1.50.2) (2020-06-24)
 
 **Note:** Version bump only for package @easyops/brick-kit
