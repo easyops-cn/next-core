@@ -79,7 +79,7 @@ function getEventTypeByDecorators(decorators) {
   const finder = decorators.find((d) => d.name === "event");
   if (finder) {
     // eslint-disable-next-line no-useless-escape
-    const matcher = finder.arguments.options.match(/type\:\s\"([\w\.]+)\"/);
+    const matcher = finder.arguments.options.match(/type\:\s\"([\w\_\-\.]+)\"/);
 
     return matcher ? matcher[1] : null;
   }
@@ -97,11 +97,14 @@ function composeBrickDocEvents(brick) {
 }
 
 function composeBrickDocMethods(brick) {
-  const { name, comment } = brick;
-
+  const { name, comment, signatures } = brick;
+  const tags =
+    get(comment, "tags", null) ||
+    get(signatures, [0, "comment", "tags"], null) ||
+    [];
   return {
     name,
-    ...convertTagsToMapByFields(get(comment, "tags", []), methodComments),
+    ...convertTagsToMapByFields(tags, methodComments),
   };
 }
 
@@ -169,8 +172,10 @@ const getComputedDocCategory = (category, brick) => {
 function extractBrickDocComplexKind(groups, elementChildren) {
   // 1024 equal to `Properties`
   // 2048 equal to `Methods`
+  // 2097152 equal to `Object literals`
   const finder = groups.filter(
-    (group) => group.kind === 1024 || group.kind === 2048
+    (group) =>
+      group.kind === 1024 || group.kind === 2048 || group.kind === 2097152
   );
   if (finder.length === 0) return {};
 
@@ -241,6 +246,7 @@ function extractRealInterfaceType(type, typeData) {
       return `"${typeData.value}"`;
     case "intrinsic":
     case "typeParameter":
+    case "unknown": // unknown 暂定是`type`中的数字类型,e.g: type t = 0 | 1 | 'string'
       return typeData.name;
     case "intersection":
       return typeData.types
