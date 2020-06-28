@@ -30,9 +30,18 @@ export class Router {
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
   private featureFlags: Record<string, boolean>;
+  private isInConsoleIframe = false;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
+
+    if (window !== window.parent) {
+      try {
+        this.isInConsoleIframe = window.origin === window.parent.origin;
+      } catch (e) {
+        // do nothing
+      }
+    }
   }
 
   private locationChangeNotify(from: string, to: string): void {
@@ -261,7 +270,7 @@ export class Router {
         );
       }
 
-      if (barsHidden) {
+      if (barsHidden || this.isInConsoleIframe) {
         this.kernel.toggleBars(false);
       } else {
         await constructMenu(menuBar, this.locationContext.getCurrentContext());
