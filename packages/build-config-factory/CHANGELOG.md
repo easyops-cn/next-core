@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.14.0...@easyops/build-config-factory@1.15.0) (2020-06-29)
+
+### Features
+
+- **brick-doc:** print log for the bricks ([7e478a6](https://git.easyops.local/anyclouds/next-core/commits/7e478a6))
+
 # [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.13.0...@easyops/build-config-factory@1.14.0) (2020-06-29)
 
 ### Features
