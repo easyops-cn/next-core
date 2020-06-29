@@ -14246,17 +14246,17 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typedoc-default-themes@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.npm.taobao.org/typedoc-default-themes/download/typedoc-default-themes-0.10.1.tgz?cache=0&sync_timestamp=1586663852856&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc-default-themes%2Fdownload%2Ftypedoc-default-themes-0.10.1.tgz#eb27b7d689457c7ec843e47ec0d3e500581296a7"
-  integrity sha1-6ye31olFfH7IQ+R+wNPlAFgSlqc=
+typedoc-default-themes@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.npm.taobao.org/typedoc-default-themes/download/typedoc-default-themes-0.10.2.tgz#743380a80afe62c5ef92ca1bd4abe2ac596be4d2"
+  integrity sha1-dDOAqAr+YsXvksob1KvirFlr5NI=
   dependencies:
     lunr "^2.3.8"
 
-typedoc@^0.17.7:
-  version "0.17.7"
-  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.17.7.tgz?cache=0&sync_timestamp=1589807803729&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc%2Fdownload%2Ftypedoc-0.17.7.tgz#70797401140403a5f91589ed3f4f24c03841bf7a"
-  integrity sha1-cHl0ARQEA6X5FYntP08kwDhBv3o=
+typedoc@^0.17.8:
+  version "0.17.8"
+  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.17.8.tgz?cache=0&sync_timestamp=1593392741540&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc%2Fdownload%2Ftypedoc-0.17.8.tgz#96b67e9454aa7853bfc4dc9a55c8a07adfd5478e"
+  integrity sha1-lrZ+lFSqeFO/xNyaVciget/VR44=
   dependencies:
     fs-extra "^8.1.0"
     handlebars "^4.7.6"
@@ -14267,7 +14267,7 @@ typedoc@^0.17.7:
     minimatch "^3.0.0"
     progress "^2.0.3"
     shelljs "^0.8.4"
-    typedoc-default-themes "^0.10.1"
+    typedoc-default-themes "^0.10.2"
 
 typescript-json-schema@^0.42.0:
   version "0.42.0"
