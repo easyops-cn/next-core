@@ -14,17 +14,40 @@ const propertyDefinitionReg = (propertyName: string) => {
 
 const commentReg = (text: string) => {
   return new RegExp(
-    "(?<=(\\/\\*\\*(.|@|((?<!\\n)\\s))*\\*\\/\\s*))" + escapeRegExp(text)
+    "(?<=(\\/\\*\\*(.|@|\\s)*?\\*\\/\\s*))" + escapeRegExp(text)
   );
+};
+
+const matchEventDecorate = (eventType: string, fileText: string) => {
+  const reg = new RegExp(
+    "(?<=(\\/\\*\\*(.|@|\\s)*?\\*\\/\\s*))" +
+      "@event\\(.*?(type:\\s*(\"|')" +
+      escapeRegExp(eventType) +
+      "(\"|')).*?\\)"
+  );
+  return fileText.match(reg);
+};
+
+const matchMethodDecorate = (methodName: string, fileText: string) => {
+  const reg = new RegExp(
+    "(?<=(\\/\\*\\*(.|@|\\s)*?\\*\\/\\s*))" +
+      "@method\\([^)]*?\\)\\s*" +
+      escapeRegExp(methodName)
+  );
+  return fileText.match(reg);
+};
+
+const getComment = (text: string, fileText) => {
+  const testCommentReg = commentReg(text);
+  const commentExistMatch = fileText.match(testCommentReg);
+  return commentExistMatch?.[1];
 };
 
 const updateComments = (matchText: string, fileText, newCommentText) => {
   const testCommentReg = commentReg(matchText);
   const commentExistMatch = fileText.match(testCommentReg);
   let newFileText = fileText;
-  if (commentExistMatch?.[1]) {
-    newFileText = newFileText.replace(commentExistMatch?.[1], newCommentText);
-  } else {
+  if (!commentExistMatch?.[1]) {
     const matchIndex = newFileText.indexOf(matchText);
     newFileText =
       newFileText.slice(0, matchIndex) +
@@ -124,11 +147,17 @@ export async function generateDoc(bricks): Promise<void> {
               if (methodsContentMatches) {
                 for (const match of methodsContentMatches) {
                   const s = match[0].split("|").map((v) => v?.trim());
-                  if ((s[1] || s[3]) && (s[1] !== "-" || s[3] !== "-")) {
-                    methodList.push({
-                      name: s[1],
-                      description: s[3],
-                    });
+                  if (s[1] && s[1] !== "-") {
+                    const methodMatch = matchMethodDecorate(
+                      s[1],
+                      newIndexFileText
+                    );
+                    if (!methodMatch) {
+                      methodList.push({
+                        name: s[1],
+                        description: s[3],
+                      });
+                    }
                   }
                 }
               }
@@ -146,11 +175,17 @@ export async function generateDoc(bricks): Promise<void> {
               if (eventsContentMatches) {
                 for (const match of eventsContentMatches) {
                   const s = match[0].split("|").map((v) => v?.trim());
-                  if ((s[1] || s[3]) && (s[1] !== "-" || s[3] !== "-")) {
-                    eventList.push({
-                      name: s[1],
-                      description: s[3],
-                    });
+                  if (s[1] && s[1] !== "-") {
+                    const eventMatch = matchEventDecorate(
+                      s[1],
+                      newIndexFileText
+                    );
+                    if (!eventMatch) {
+                      eventList.push({
+                        name: s[1],
+                        description: s[3],
+                      });
+                    }
                   }
                 }
               }
@@ -228,37 +263,38 @@ export async function generateDoc(bricks): Promise<void> {
                 const findPropertyDefinition = inputsContent.match(
                   propertyDefinitionReg(propertyName)
                 );
-                if (!findPropertyDefinition) {
+                const findComment = getComment(matchText, newIndexFileText);
+                if (!findPropertyDefinition && !findComment) {
                   errorPropertiesList.push(propertyName);
-                  continue;
-                }
-                const splitDefinition = findPropertyDefinition[0]
-                  .split(/(?<!\\)\|/)
-                  .slice(1, -1)
-                  .map((v) => v.trim());
-                const propertyInfo = {
-                  name: splitDefinition[0],
-                  kind: splitDefinition[1],
-                  required:
-                    splitDefinition[2] == "✔️"
-                      ? true
-                      : splitDefinition[2] == "-"
-                      ? false
-                      : splitDefinition[2],
-                  default: splitDefinition[3],
-                  description: splitDefinition[4],
-                };
-                const docTextOfProperty = `/**${os.EOL}\t* @kind ${propertyInfo.kind}${os.EOL}\t* @required ${propertyInfo.required}${os.EOL}\t* @default ${propertyInfo.default}${os.EOL}\t* @description ${propertyInfo.description}${os.EOL}\t*/${os.EOL}\t`;
-                newIndexFileText = updateComments(
-                  matchText,
-                  newIndexFileText,
-                  docTextOfProperty
-                );
+                } else if (findPropertyDefinition) {
+                  const splitDefinition = findPropertyDefinition[0]
+                    .split(/(?<!\\)\|/)
+                    .slice(1, -1)
+                    .map((v) => v.trim());
+                  const propertyInfo = {
+                    name: splitDefinition[0],
+                    kind: splitDefinition[1],
+                    required:
+                      splitDefinition[2] == "✔️"
+                        ? true
+                        : splitDefinition[2] == "-"
+                        ? false
+                        : splitDefinition[2],
+                    default: splitDefinition[3],
+                    description: splitDefinition[4],
+                  };
+                  const docTextOfProperty = `/**${os.EOL}\t* @kind ${propertyInfo.kind}${os.EOL}\t* @required ${propertyInfo.required}${os.EOL}\t* @default ${propertyInfo.default}${os.EOL}\t* @description ${propertyInfo.description}${os.EOL}\t*/${os.EOL}\t`;
+                  newIndexFileText = updateComments(
+                    matchText,
+                    newIndexFileText,
+                    docTextOfProperty
+                  );
 
-                propertiesMap.set(propertyName, {
-                  propertyInfo,
-                  docTextOfProperty,
-                });
+                  propertiesMap.set(propertyName, {
+                    propertyInfo,
+                    docTextOfProperty,
+                  });
+                }
               }
             }
 
