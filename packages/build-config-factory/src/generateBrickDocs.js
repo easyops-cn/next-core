@@ -403,7 +403,7 @@ function traverseModules(modules, brickDocs) {
     bricks.push(brick);
     brickDocs.push(...bricks);
     log.heading = path.basename(path.resolve(process.cwd()));
-    log.info("Doc generated:", brick.id);
+    log.info("Doc generated:", "%j", brick.id);
   });
 }
 
