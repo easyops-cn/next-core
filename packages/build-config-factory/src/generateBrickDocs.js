@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const TypeDoc = require("typedoc");
 const { get } = require("lodash");
-
+const log = require("npmlog");
 const brickKindMap = {
   property: "properties",
   event: "events",
@@ -33,12 +33,12 @@ const baseDocComments = [
 ];
 
 function generateBrickDoc(doc, scope) {
-  const { name, children = [] } = doc;
+  const { children = [] } = doc;
   const brickDocs = [];
   traverseModules(children, brickDocs);
 
   return {
-    module: name,
+    module: path.basename(path.resolve(process.cwd())),
     children: brickDocs,
   };
 }
@@ -395,13 +395,15 @@ function traverseModules(modules, brickDocs) {
     const { comment, children, groups } = classElement;
     const references = [...module.children, ...extraInterfaceReferencesValues];
     traverseElementUsedInterfaceIds(classElement, usedReferenceIds, references);
-
-    bricks.push({
+    const brick = {
       ...extractBrickDocBaseKind(comment.tags),
       ...extractBrickDocComplexKind(groups, children),
       ...extractBrickDocInterface(usedReferenceIds, references),
-    });
+    };
+    bricks.push(brick);
     brickDocs.push(...bricks);
+    log.heading = path.basename(path.resolve(process.cwd()));
+    log.info("Doc generated:", brick.id);
   });
 }
 
