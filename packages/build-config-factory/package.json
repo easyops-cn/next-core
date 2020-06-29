@@ -1,6 +1,6 @@
 {
   "name": "@easyops/build-config-factory",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "build scripts",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/build-config-factory",
   "license": "UNLICENSED",
@@ -27,9 +27,9 @@
     "lodash": "^4.17.15",
     "meow": "^7.0.1",
     "moment": "^2.26.0",
+    "npmlog": "^4.1.2",
     "prettier": "^2.0.5",
     "typedoc": "^0.17.7",
-    "typedoc-plugin-no-inherit": "^1.1.10",
-    "npmlog": "^4.1.2"
+    "typedoc-plugin-no-inherit": "^1.1.10"
   }
 }
