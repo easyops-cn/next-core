@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.14.0...@easyops/brick-scripts@1.15.0) (2020-06-29)
+
+### Features
+
+- **doc:** test the properties and methods and events of existing annotations ([88f9928](https://git.easyops.local/anyclouds/next-core/commits/88f9928))
+
 # [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.13.0...@easyops/brick-scripts@1.14.0) (2020-06-23)
 
 ### Features
