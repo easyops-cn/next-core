@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.38](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.37...@easyops/dev-dependencies@0.6.38) (2020-06-29)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.37](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.36...@easyops/dev-dependencies@0.6.37) (2020-06-29)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.36](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.35...@easyops/dev-dependencies@0.6.36) (2020-06-29)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.35](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.34...@easyops/dev-dependencies@0.6.35) (2020-06-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.34](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.33...@easyops/dev-dependencies@0.6.34) (2020-06-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.33](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.32...@easyops/dev-dependencies@0.6.33) (2020-06-24)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.32](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.31...@easyops/dev-dependencies@0.6.32) (2020-06-23)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.31](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.30...@easyops/dev-dependencies@0.6.31) (2020-06-23)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.30](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.29...@easyops/dev-dependencies@0.6.30) (2020-06-22)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.29](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.28...@easyops/dev-dependencies@0.6.29) (2020-06-22)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.28](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.27...@easyops/dev-dependencies@0.6.28) (2020-06-18)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.6.27](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.26...@easyops/dev-dependencies@0.6.27) (2020-06-10)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [0.6.26](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.25...@easyops/dev-dependencies@0.6.26) (2020-06-08)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

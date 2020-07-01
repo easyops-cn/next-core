@@ -20,6 +20,7 @@ import { resetAllInjected } from "../injected";
 import { getAuth, isLoggedIn } from "../auth";
 import { devtoolsHookEmit } from "../devtools";
 import { afterMountTree } from "./reconciler";
+import { constructMenu } from "./menu";
 
 export class Router {
   private defaultCollapsed = false;
@@ -29,9 +30,18 @@ export class Router {
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
   private featureFlags: Record<string, boolean>;
+  private isInConsoleIframe = false;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
+
+    if (window !== window.parent) {
+      try {
+        this.isInConsoleIframe = window.origin === window.parent.origin;
+      } catch (e) {
+        // do nothing
+      }
+    }
   }
 
   private locationChangeNotify(from: string, to: string): void {
@@ -169,12 +179,9 @@ export class Router {
       const mountRoutesResult: MountRoutesResult = {
         main: [],
         menuInBg: [],
-        menuBar: {
-          app: this.kernel.nextApp,
-        },
+        menuBar: {},
         portal: [],
         appBar: {
-          app: this.kernel.nextApp,
           breadcrumb: [],
         },
         flags: {
@@ -263,9 +270,10 @@ export class Router {
         );
       }
 
-      if (barsHidden) {
+      if (barsHidden || this.isInConsoleIframe) {
         this.kernel.toggleBars(false);
       } else {
+        await constructMenu(menuBar, this.locationContext.getCurrentContext());
         if (menuBar.menu?.defaultCollapsed) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;

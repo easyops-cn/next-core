@@ -1,17 +1,7 @@
 // Inspired by [LitElement](https://github.com/Polymer/lit-element)
 import { PropertyDeclaration, UpdatingElement } from "../UpdatingElement";
-import { getRuntime } from "../runtime";
-
-// From the TC39 Decorators proposal
-interface ClassElement {
-  kind: "field" | "method";
-  key: PropertyKey;
-  placement: "static" | "prototype" | "own";
-  initializer?: Function;
-  extras?: ClassElement[];
-  finisher?: (Class: any) => void;
-  descriptor?: PropertyDescriptor;
-}
+import { ClassElement } from "./interfaces";
+import { warnNativeHtmlElementProperty } from "./utils";
 
 export function property(options?: PropertyDeclaration): any {
   return function decorateProperty(element: ClassElement): ClassElement {
@@ -22,23 +12,12 @@ export function property(options?: PropertyDeclaration): any {
     }
     if (
       typeof element.initializer === "function" &&
-      !(options && options.attribute === false)
+      options?.attribute !== false
     ) {
       throw new Error("`@property()` currently not support initialize value");
     }
 
-    // istanbul ignore if
-    if (
-      element.key in HTMLElement.prototype &&
-      process.env.NODE_ENV !== "test"
-    ) {
-      // eslint-disable-next-line no-console
-      console[
-        getRuntime().getFeatureFlags()["development-mode"] ? "error" : "warn"
-      ](
-        `"${element.key}" is a native HTMLElement property, and is deprecated to be used as a brick property.`
-      );
-    }
+    warnNativeHtmlElementProperty(element.key);
 
     // createProperty() takes care of defining the property, but we still
     // must return some kind of descriptor, so return a descriptor for an

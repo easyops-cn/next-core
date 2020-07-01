@@ -8,6 +8,7 @@ import {
   getDllAndDepsOfBricks,
   scanRouteAliasInStoryboard,
 } from "@easyops/brick-utils";
+import i18next from "i18next";
 import * as AuthSdk from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
@@ -133,6 +134,15 @@ export class Kernel {
     const { routes, meta } = await AuthSdk.getAppStoryboard(storyboard.app.id);
     Object.assign(storyboard, { routes, meta, $$fulfilled: true });
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
+
+    if (meta?.i18n) {
+      // Prefix to avoid conflict between brick package's i18n namespace.
+      const i18nNamespace = `$app-${storyboard.app.id}`;
+      // Support any language in `meta.i18n`.
+      Object.entries(meta.i18n).forEach(([lang, resources]) => {
+        i18next.addResourceBundle(lang, i18nNamespace, resources);
+      });
+    }
   }
 
   async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
@@ -230,7 +240,7 @@ export class Kernel {
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
     if (appChanged) {
-      this.menuBar.setAppMenu(null);
+      this.menuBar.resetAppMenu();
     }
     if (legacy !== "iframe" || appChanged) {
       // 对于 Legacy 页面，仅当切换应用时重设面包屑。

@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.2...@easyops/brick-kit@1.51.0) (2020-06-28)
+
+### Features
+
+- **kit:** hide bars when is in console iframe ([36b05d8](https://git.easyops.local/anyclouds/next-core/commits/36b05d8))
+
+## [1.50.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.1...@easyops/brick-kit@1.50.2) (2020-06-24)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [1.50.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.0...@easyops/brick-kit@1.50.1) (2020-06-23)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.50.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.49.0...@easyops/brick-kit@1.50.0) (2020-06-22)
+
+### Features
+
+- support placeholders in context value definitions ([8c1bed1](https://git.easyops.local/anyclouds/next-core/commits/8c1bed1))
+
+# [1.49.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.48.1...@easyops/brick-kit@1.49.0) (2020-06-22)
+
+### Bug Fixes
+
+- refine i18n ([649a30d](https://git.easyops.local/anyclouds/next-core/commits/649a30d))
+
+### Features
+
+- builtin listeners of storyboard context ([2e313ff](https://git.easyops.local/anyclouds/next-core/commits/2e313ff))
+- i18n translate refs NEXT_BUILDER-181 ([a38d7fd](https://git.easyops.local/anyclouds/next-core/commits/a38d7fd))
+- storyboard context ([ffb4fe7](https://git.easyops.local/anyclouds/next-core/commits/ffb4fe7))
+
+## [1.48.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.48.0...@easyops/brick-kit@1.48.1) (2020-06-18)
+
+### Bug Fixes
+
+- allow leading and trailing whitespace in cookable ([20fa3ad](https://git.easyops.local/anyclouds/next-core/commits/20fa3ad))
+- **evaluate:** warn potential errors of cookable ([477f92b](https://git.easyops.local/anyclouds/next-core/commits/477f92b))
+- **menu:** support set defaultCollapsed ([c47d8a6](https://git.easyops.local/anyclouds/next-core/commits/c47d8a6))
+- **sub-menu:** merge menu ([20bd998](https://git.easyops.local/anyclouds/next-core/commits/20bd998))
+
+# [1.48.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.47.2...@easyops/brick-kit@1.48.0) (2020-06-10)
+
+### Bug Fixes
+
+- warn native element property ([52a1e83](https://git.easyops.local/anyclouds/next-core/commits/52a1e83))
+
+### Features
+
+- **decorators:** refine brick decorators ([295affa](https://git.easyops.local/anyclouds/next-core/commits/295affa))
+- support sub-menu along with menu bar ([0630823](https://git.easyops.local/anyclouds/next-core/commits/0630823))
+- 增加[@event](https://git.easyops.local/event),[@method](https://git.easyops.local/method) decorator ([1a40756](https://git.easyops.local/anyclouds/next-core/commits/1a40756))
+
 ## [1.47.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.47.1...@easyops/brick-kit@1.47.2) (2020-06-08)
 
 **Note:** Version bump only for package @easyops/brick-kit

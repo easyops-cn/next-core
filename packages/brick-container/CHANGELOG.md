@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.5...@easyops/brick-container@1.21.6) (2020-06-28)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.21.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.4...@easyops/brick-container@1.21.5) (2020-06-24)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.21.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.3...@easyops/brick-container@1.21.4) (2020-06-23)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.21.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.2...@easyops/brick-container@1.21.3) (2020-06-22)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.21.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.1...@easyops/brick-container@1.21.2) (2020-06-22)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.21.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.0...@easyops/brick-container@1.21.1) (2020-06-18)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [1.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.20.2...@easyops/brick-container@1.21.0) (2020-06-10)
+
+### Bug Fixes
+
+- fix fulfilling mocked apps ([e5a3b0f](https://git.easyops.local/anyclouds/next-core/commits/e5a3b0f))
+
+### Features
+
+- support sub-menu along with menu bar ([0630823](https://git.easyops.local/anyclouds/next-core/commits/0630823))
+
 ## [1.20.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.20.1...@easyops/brick-container@1.20.2) (2020-06-08)
 
 ### Bug Fixes

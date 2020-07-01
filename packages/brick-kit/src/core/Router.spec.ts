@@ -116,7 +116,10 @@ describe("Router", () => {
     expect(dispatchedEvent.type).toBe("app.change");
     expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
     expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);
-    expect(spyOnMountStaticNode.mock.calls[0][1]).toEqual({ title: "menu" });
+    expect(spyOnMountStaticNode.mock.calls[0][1]).toEqual({
+      title: "menu",
+      subMenu: null,
+    });
     expect(spyOnMountStaticNode.mock.calls[1][0]).toBe(kernel.appBar.element);
     expect(spyOnMountStaticNode.mock.calls[1][1]).toEqual({ title: "app" });
     expect(kernel.toggleBars).not.toBeCalled();

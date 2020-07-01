@@ -117,6 +117,13 @@ export interface BaseRouteConf {
   defineResolves?: DefineResolveConf[];
   redirect?: string | ResolveConf;
   segues?: SeguesConf;
+  context?: ContextConf[];
+}
+
+export interface ContextConf {
+  name: string;
+  value?: any;
+  resolve?: ResolveConf;
 }
 
 export interface SeguesConf {
@@ -141,6 +148,8 @@ export interface BrickConf {
   params?: Record<string, any>;
   if?: string | boolean | ResolveConf;
   portal?: boolean;
+  context?: ContextConf[];
+  exports?: Record<string, string>;
 }
 
 export type ProviderConf =
@@ -226,6 +235,8 @@ export interface StaticMenuConf extends StaticMenuProps {
 export interface StaticMenuProps {
   pageTitle?: string;
   sidebarMenu?: SidebarMenu;
+  menuId?: string;
+  subMenuId?: string;
   breadcrumb?: BreadcrumbConf;
   injectDeep?: boolean;
 }
@@ -311,17 +322,21 @@ export interface BuiltinBrickEventHandler {
     | "console.warn"
     | "console.info"
 
-    // anted message
+    // Antd message
     | "message.success"
     | "message.error"
     | "message.info"
     | "message.warn"
 
-    // handleHttpError
+    // `handleHttpError`
     | "handleHttpError"
 
-    // iframe
-    | "legacy.go";
+    // Iframe
+    | "legacy.go"
+
+    // Storyboard context
+    | "context.assign"
+    | "context.replace";
   args?: any[]; // Defaults to the event itself
   if?: string | boolean;
 }
@@ -398,10 +413,12 @@ export interface UseBrickSlotConf {
 
 export interface StoryboardMeta {
   customTemplates?: CustomTemplate[];
+  i18n?: MetaI18n;
 }
 
-/* Custom Templates Starts */
+export type MetaI18n = Record<string, Record<string, string>>;
 
+/* Custom Templates Starts */
 export interface CustomTemplate {
   name: string;
   bricks: BrickConfInTemplate[];

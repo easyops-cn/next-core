@@ -8,7 +8,7 @@ import {
   SeguesConf,
   BrickEventHandler,
 } from "./manifest";
-import { SidebarMenu } from "./menu";
+import { SidebarMenu, SidebarSubMenu } from "./menu";
 
 export interface CompileOptions {
   end?: boolean;
@@ -83,6 +83,26 @@ export interface PluginRuntimeContext {
   sys?: SystemInfo;
   flags?: FeatureFlags;
   segues?: SeguesConf;
+  storyboardContext?: StoryboardContext;
+}
+
+export type StoryboardContext = Map<string, StoryboardContextItem>;
+
+export type StoryboardContextItem =
+  | StoryboardContextItemFreeVariable
+  | StoryboardContextItemBrickProperty;
+
+export interface StoryboardContextItemFreeVariable {
+  type: "free-variable";
+  value: any;
+}
+
+export interface StoryboardContextItemBrickProperty {
+  type: "brick-property";
+  brick: {
+    element?: HTMLElement;
+  };
+  prop: string;
 }
 
 export interface MountPoints {
@@ -96,6 +116,7 @@ export interface MountPoints {
 
 export interface MenuBarBrick extends HTMLElement {
   menu: SidebarMenu;
+  subMenu: SidebarSubMenu;
   collapsed: boolean;
   softExpanded: boolean;
 }

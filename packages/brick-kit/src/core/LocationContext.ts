@@ -7,6 +7,7 @@ import {
   BrickConf,
   PluginHistoryState,
   SidebarMenu,
+  SidebarSubMenu,
   MenuConf,
   BreadcrumbItemConf,
   MicroApp,
@@ -19,6 +20,9 @@ import {
   RuntimeBrickConf,
   StaticMenuProps,
   SeguesConf,
+  ContextConf,
+  StoryboardContext,
+  StoryboardContextItem,
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -53,12 +57,13 @@ export interface MountRoutesResult {
   main: RuntimeBrick[];
   menuInBg: RuntimeBrick[];
   menuBar: {
-    app?: MicroApp;
     menu?: SidebarMenu;
+    subMenu?: SidebarSubMenu;
+    menuId?: string;
+    subMenuId?: string;
   };
   portal: RuntimeBrick[];
   appBar: {
-    app?: MicroApp;
     pageTitle?: string;
     breadcrumb?: BreadcrumbItemConf[];
   };
@@ -88,6 +93,7 @@ export class LocationContext {
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
+  private readonly storyboardContext: StoryboardContext = new Map();
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.query = new URLSearchParams(location.search);
@@ -107,11 +113,54 @@ export class LocationContext {
       },
       flags: this.kernel.getFeatureFlags(),
       segues: this.segues,
+      storyboardContext: this.storyboardContext,
     };
   }
 
   getCurrentContext(): PluginRuntimeContext {
     return this.getContext(this.currentMatch);
+  }
+
+  private async defineStoryboardFreeContext(
+    contextConfs: ContextConf[],
+    coreContext: PluginRuntimeContext
+  ): Promise<void> {
+    for (const contextConf of contextConfs) {
+      let value: any;
+      if (contextConf.resolve) {
+        const valueConf: Record<string, any> = {};
+        await this.resolver.resolveOne(
+          "reference",
+          {
+            transformMapArray: false,
+            ...contextConf.resolve,
+          },
+          valueConf,
+          null,
+          coreContext
+        );
+        value = valueConf.value;
+      } else {
+        value = computeRealValue(contextConf.value, coreContext, true);
+      }
+      this.setStoryboardContext(contextConf.name, {
+        type: "free-variable",
+        value,
+      });
+    }
+  }
+
+  private setStoryboardContext(
+    name: string,
+    item: StoryboardContextItem
+  ): void {
+    if (this.storyboardContext.has(name)) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Storyboard context "${name}" have already existed, it will be replaced.`
+      );
+    }
+    this.storyboardContext.set(name, item);
   }
 
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
@@ -163,6 +212,7 @@ export class LocationContext {
     let redirect: string | ResolveConf;
     const redirectConf: RedirectConf = {};
     let context: PluginRuntimeContext;
+    let route: RouteConf;
     switch (matched) {
       case "missed":
         break;
@@ -170,22 +220,27 @@ export class LocationContext {
         mountRoutesResult.flags.unauthenticated = true;
         break;
       default:
-        if (matched.route.segues) {
-          Object.assign(this.segues, matched.route.segues);
+        route = matched.route;
+        if (route.segues) {
+          Object.assign(this.segues, route.segues);
         }
-        if (matched.route.hybrid) {
+        if (route.hybrid) {
           mountRoutesResult.flags.hybrid = true;
         }
         context = this.getContext(matched.match);
-        this.resolver.defineResolves(matched.route.defineResolves, context);
+        this.resolver.defineResolves(route.defineResolves, context);
         await this.mountProviders(
-          matched.route.providers,
+          route.providers,
           matched.match,
           slotId,
           mountRoutesResult
         );
 
-        redirect = computeRealValue(matched.route.redirect, context, true);
+        if (Array.isArray(route.context)) {
+          await this.defineStoryboardFreeContext(route.context, context);
+        }
+
+        redirect = computeRealValue(route.redirect, context, true);
 
         if (redirect) {
           if (typeof redirect === "string") {
@@ -206,21 +261,17 @@ export class LocationContext {
           }
         }
 
-        await this.mountMenu(
-          matched.route.menu,
-          matched.match,
-          mountRoutesResult
-        );
+        await this.mountMenu(route.menu, matched.match, mountRoutesResult);
 
-        if (matched.route.type === "routes") {
+        if (route.type === "routes") {
           await this.mountRoutes(
-            (matched.route as RouteConfOfRoutes).routes,
+            (route as RouteConfOfRoutes).routes,
             slotId,
             mountRoutesResult
           );
-        } else if (Array.isArray((matched.route as RouteConfOfBricks).bricks)) {
+        } else if (Array.isArray((route as RouteConfOfBricks).bricks)) {
           await this.mountBricks(
-            (matched.route as RouteConfOfBricks).bricks,
+            (route as RouteConfOfBricks).bricks,
             matched.match,
             slotId,
             mountRoutesResult
@@ -321,15 +372,28 @@ export class LocationContext {
       injectDeep !== false
         ? computeRealProperties(otherMenuConf, context, true)
         : otherMenuConf;
-    const { sidebarMenu, pageTitle, breadcrumb } = injectedMenuConf;
+    const {
+      sidebarMenu,
+      pageTitle,
+      breadcrumb,
+      menuId,
+      subMenuId,
+    } = injectedMenuConf;
 
-    if (sidebarMenu !== undefined) {
+    if (menuId) {
+      mountRoutesResult.menuBar.menuId = menuId;
+      mountRoutesResult.menuBar.menu = null;
+    } else if (sidebarMenu) {
       mountRoutesResult.menuBar.menu = sidebarMenu;
+      mountRoutesResult.menuBar.menuId = null;
     }
-    if (pageTitle !== undefined) {
+    if (subMenuId) {
+      mountRoutesResult.menuBar.subMenuId = subMenuId;
+    }
+    if (pageTitle) {
       mountRoutesResult.appBar.pageTitle = pageTitle;
     }
-    if (breadcrumb !== undefined) {
+    if (breadcrumb) {
       if (breadcrumb.overwrite) {
         mountRoutesResult.appBar.breadcrumb = breadcrumb.items;
       } else {
@@ -435,6 +499,10 @@ export class LocationContext {
       return;
     }
 
+    if (Array.isArray(brickConf.context)) {
+      await this.defineStoryboardFreeContext(brickConf.context, context);
+    }
+
     // If it's a custom template, `tplTagName` is the tag name of the template.
     // Otherwise, `tplTagName` is false.
     const tplTagName = getTagNameOfCustomTemplate(
@@ -512,6 +580,18 @@ export class LocationContext {
 
       // Try to load deps for dynamic added bricks.
       await this.kernel.loadDynamicBricks(expandedBrickConf);
+    }
+
+    if (expandedBrickConf.exports) {
+      for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
+        if (typeof ctxName === "string" && /^CTX\..+$/.test(ctxName)) {
+          this.setStoryboardContext(ctxName.substr(4), {
+            type: "brick-property",
+            brick,
+            prop,
+          });
+        }
+      }
     }
 
     if (expandedBrickConf.bg) {

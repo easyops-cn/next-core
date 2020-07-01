@@ -90,19 +90,19 @@ export class Resolver {
   async resolveOne(
     type: "reference",
     resolveConf: ResolveConf,
-    conf: object,
+    conf: Record<string, any>,
     brick?: RuntimeBrick,
     context?: PluginRuntimeContext
   ): Promise<void>;
   async resolveOne(
     type: "brick" | "reference",
     resolveConf: ResolveConf,
-    conf: BrickConf | object,
+    conf: BrickConf | Record<string, any>,
     brick?: RuntimeBrick,
     context?: PluginRuntimeContext
   ): Promise<void> {
     const brickConf = conf as BrickConf;
-    const propsReference = conf as object;
+    const propsReference = conf as Record<string, any>;
     let actualResolveConf: EntityResolveConf;
     const { ref } = resolveConf as RefResolveConf;
     if (ref) {

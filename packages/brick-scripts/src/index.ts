@@ -2,6 +2,7 @@ import { create } from "./main";
 import meow from "meow";
 import { createReleaseRecord } from "./releaseRecord";
 import { AskFlags } from "./interface";
+import { generateDoc } from "./generateDoc";
 
 // 可以从命令行参数中指定生成类型。
 const { flags } = meow({
@@ -10,6 +11,10 @@ const { flags } = meow({
       type: "string",
       alias: "t",
     },
+    bricks: {
+      type: "string",
+      alias: "b",
+    },
   },
 });
 
@@ -17,6 +22,13 @@ const { flags } = meow({
 if (flags.type === "record") {
   // istanbul ignore next (nothing logic)
   createReleaseRecord().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+} else if (flags.type === "doc") {
+  // 生成type docs注释
+  // istanbul ignore next (nothing logic)
+  generateDoc(flags.bricks).catch((error) => {
     console.error(error);
     process.exitCode = 1;
   });

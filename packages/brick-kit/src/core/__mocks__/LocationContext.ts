@@ -1,4 +1,8 @@
-import { RuntimeStoryboard, RouteConf } from "@easyops/brick-types";
+import {
+  RuntimeStoryboard,
+  RouteConf,
+  PluginRuntimeContext,
+} from "@easyops/brick-types";
 import { MountRoutesResult } from "../LocationContext";
 
 let _matchedStoryboard: RuntimeStoryboard;
@@ -15,7 +19,7 @@ export const __setMountRoutesResults = (value: MountRoutesResult): void => {
 export class LocationContext {
   resolver = {
     resetRefreshQueue: jest.fn(),
-    scheduleRefreshing: jest.fn()
+    scheduleRefreshing: jest.fn(),
   };
 
   handlePageLoad = jest.fn();
@@ -32,5 +36,9 @@ export class LocationContext {
   ): Promise<void> {
     Object.assign(result, _mountRoutesResults);
     return Promise.resolve();
+  }
+
+  getCurrentContext(): any {
+    return {};
   }
 }

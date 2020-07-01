@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.14.0...@easyops/build-config-factory@1.15.0) (2020-06-29)
+
+### Features
+
+- **brick-doc:** print log for the bricks ([7e478a6](https://git.easyops.local/anyclouds/next-core/commits/7e478a6))
+
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.13.0...@easyops/build-config-factory@1.14.0) (2020-06-29)
+
+### Features
+
+- **brick-doc:** print log for the bricks ([64bfeb5](https://git.easyops.local/anyclouds/next-core/commits/64bfeb5))
+
+# [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.12.0...@easyops/build-config-factory@1.13.0) (2020-06-28)
+
+### Features
+
+- **brick-document:** 修复[@method](https://git.easyops.local/method)获取 param,description 注释,转义 type 类型中的数字等 ([0d463df](https://git.easyops.local/anyclouds/next-core/commits/0d463df))
+
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.11.1...@easyops/build-config-factory@1.12.0) (2020-06-24)
+
+### Features
+
+- **brick-document:** 支持解析 event decorator type 中包含数字 ([b6e12e7](https://git.easyops.local/anyclouds/next-core/commits/b6e12e7))
+
+## [1.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.11.0...@easyops/build-config-factory@1.11.1) (2020-06-23)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.10.1...@easyops/build-config-factory@1.11.0) (2020-06-22)
+
+### Features
+
+- **build-config-factory:** 扫描 interfaces 文件夹&优化加载速度&追踪构件关联的 interface ([ad0d459](https://git.easyops.local/anyclouds/next-core/commits/ad0d459))
+
+## [1.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.10.0...@easyops/build-config-factory@1.10.1) (2020-06-22)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.10...@easyops/build-config-factory@1.10.0) (2020-06-18)
+
+### Features
+
+- **build-config-factory:** generate brick docs ([33a65e3](https://git.easyops.local/anyclouds/next-core/commits/33a65e3))
+
+## [1.9.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.9...@easyops/build-config-factory@1.9.10) (2020-06-10)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
 ## [1.9.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.9.8...@easyops/build-config-factory@1.9.9) (2020-06-08)
 
 **Note:** Version bump only for package @easyops/build-config-factory

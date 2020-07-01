@@ -1,8 +1,18 @@
+import i18next from "i18next";
 import { isCookable, evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
 
+i18next.init({
+  fallbackLng: "en",
+});
+i18next.addResourceBundle("en", "$app-hello", {
+  HELLO: "Hello",
+  COUNT_ITEMS: "Total {{count}} items",
+});
+
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
+    id: "hello",
     homepage: "/hello",
     $$routeAliasMap: new Map([
       [
@@ -32,6 +42,27 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
       target: "segue-target",
     },
   },
+  storyboardContext: new Map<string, any>([
+    [
+      "myFreeContext",
+      {
+        type: "free-variable",
+        value: "good",
+      },
+    ],
+    [
+      "myPropContext",
+      {
+        type: "brick-property",
+        brick: {
+          element: {
+            quality: "better",
+          },
+        },
+        prop: "quality",
+      },
+    ],
+  ]),
 } as any);
 
 describe("isCookable", () => {
@@ -42,8 +73,8 @@ describe("isCookable", () => {
     ["<%[]%>", false],
     ["<% []%>", false],
     ["<%[] %>", false],
-    [" <% [] %>", false],
-    ["<% [] %> ", false],
+    [" <% [] %>", true],
+    ["<% [] %> ", true],
   ])("isCookable(%j) should return %j", (raw, cookable) => {
     expect(isCookable(raw)).toBe(cookable);
   });
@@ -56,10 +87,10 @@ describe("evaluate", () => {
     ["<% DATA.cellData %>", "<% DATA.cellData %>"],
     ["<% APP.homepage %>", "/hello"],
     ["<% PATH.objectId %>", "HOST"],
-    ["<% QUERY.a %>", "x"],
-    ["<% QUERY.b %>", "2"],
-    ["<% QUERY_ARRAY.b %>", ["2", "1"]],
-    ["<% PARAMS.get('b') %>", "2"],
+    [" <% QUERY.a %>", "x"],
+    ["<% QUERY.b %> ", "2"],
+    [" <% QUERY_ARRAY.b %> ", ["2", "1"]],
+    ["\n\t<% PARAMS.get('b') %>\n\t", "2"],
     ["<% PARAMS.getAll('b') %>", ["2", "1"]],
     ["<% PARAMS.toString() %>", "a=x&b=2&b=1"],
     ["<% SYS.username %>", "tester"],
@@ -67,6 +98,12 @@ describe("evaluate", () => {
     ["<% HASH %>", "#readme"],
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
+    ["<% I18N('HELLO') %>", "Hello"],
+    ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
+    ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
+    ["<% CTX.myFreeContext %>", "good"],
+    ["<% CTX.myPropContext %>", "better"],
+    ["<% CTX.notExisted %>", undefined],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

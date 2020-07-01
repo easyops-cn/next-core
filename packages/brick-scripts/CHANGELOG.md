@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.14.0...@easyops/brick-scripts@1.15.0) (2020-06-29)
+
+### Features
+
+- **doc:** test the properties and methods and events of existing annotations ([88f9928](https://git.easyops.local/anyclouds/next-core/commits/88f9928))
+
+# [1.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.13.0...@easyops/brick-scripts@1.14.0) (2020-06-23)
+
+### Features
+
+- **script:** generate doc ([63b10fd](https://git.easyops.local/anyclouds/next-core/commits/63b10fd))
+
+# [1.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.12.0...@easyops/brick-scripts@1.13.0) (2020-06-23)
+
+### Features
+
+- **script:** generate doc ([c1b2456](https://git.easyops.local/anyclouds/next-core/commits/c1b2456))
+
+# [1.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.11.2...@easyops/brick-scripts@1.12.0) (2020-06-18)
+
+### Features
+
+- **brick-scripts:** 给 html element 模板增加注释 ([993a1c8](https://git.easyops.local/anyclouds/next-core/commits/993a1c8))
+
 ## [1.11.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.11.1...@easyops/brick-scripts@1.11.2) (2020-06-05)
 
 **Note:** Version bump only for package @easyops/brick-scripts

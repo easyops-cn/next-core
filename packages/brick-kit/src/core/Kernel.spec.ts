@@ -14,6 +14,11 @@ import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
+import i18next from "i18next";
+
+i18next.init({
+  fallbackLng: "en",
+});
 
 jest.mock("@easyops/brick-utils");
 jest.mock("@sdk/auth-sdk");
@@ -38,6 +43,16 @@ const spyOnCheckLogin = checkLogin as jest.Mock;
 const spyOnBootstrap = bootstrap as jest.Mock;
 const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockReturnValue({
   routes: [],
+  app: {
+    id: "fake",
+  },
+  meta: {
+    i18n: {
+      en: {
+        HELLO: "Hello",
+      },
+    },
+  },
 });
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
@@ -51,6 +66,8 @@ const getObjectMicroAppList = ObjectMicroAppApi.getObjectMicroAppList as jest.Mo
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
+
+const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
 
 (window as any).DLL_HASH = {
   d3: "fake-hash",
@@ -268,6 +285,9 @@ describe("Kernel", () => {
     } as any;
     await kernel.fulfilStoryboard(fakeStoryboard);
     expect(spyOnGetAppStoryboard).toBeCalledWith("fake");
+    expect(spyOnAddResourceBundle).toBeCalledWith("en", "$app-fake", {
+      HELLO: "Hello",
+    });
     expect(fakeStoryboard.$$fulfilled).toBe(true);
     await kernel.fulfilStoryboard(fakeStoryboard);
     expect(spyOnGetAppStoryboard).toBeCalledTimes(1);
@@ -314,7 +334,7 @@ describe("Kernel", () => {
 
   it("should unsetBars", () => {
     kernel.menuBar = {
-      setAppMenu: jest.fn(),
+      resetAppMenu: jest.fn(),
     } as any;
     kernel.appBar = {
       setPageTitle: jest.fn(),
@@ -323,7 +343,7 @@ describe("Kernel", () => {
     kernel.toggleBars = jest.fn();
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalledWith(true);
-    expect(kernel.menuBar.setAppMenu).toBeCalledWith(null);
+    expect(kernel.menuBar.resetAppMenu).toBeCalled();
     expect(kernel.appBar.setPageTitle).toBeCalledWith(null);
     expect(kernel.appBar.setBreadcrumb).toBeCalledWith(null);
   });

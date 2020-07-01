@@ -1,11 +1,11 @@
 // Inspired by [LitElement](https://github.com/Polymer/lit-element)
 
-export type TypeHint = typeof String | typeof Number | typeof Boolean;
+type TypeHint = typeof String | typeof Number | typeof Boolean;
 
 /**
  * Converts property values to and from attribute values.
  */
-export interface ComplexAttributeConverter<Type = unknown> {
+interface ComplexAttributeConverter<Type = unknown> {
   /**
    * Function called to convert an attribute value to a property
    * value.
@@ -83,18 +83,7 @@ export interface PropertyDeclaration<Type = unknown> {
   readonly noAccessor?: boolean;
 }
 
-/**
- * Map of properties to PropertyDeclaration options. For each property an
- * accessor is made, and the property is processed according to the
- * PropertyDeclaration options.
- */
-export interface PropertyDeclarations {
-  readonly [key: string]: PropertyDeclaration;
-}
-
-export type PropertyValues = Map<PropertyKey, unknown>;
-
-export const defaultConverter: ComplexAttributeConverter = {
+const defaultConverter: ComplexAttributeConverter = {
   toAttribute(value: unknown, type?: TypeHint): unknown {
     switch (type) {
       case Boolean:
@@ -114,7 +103,7 @@ export const defaultConverter: ComplexAttributeConverter = {
   },
 };
 
-export interface HasChanged {
+interface HasChanged {
   (value: unknown, old: unknown): boolean;
 }
 
@@ -122,7 +111,7 @@ export interface HasChanged {
  * Change function that returns true if `value` is different from `oldValue`.
  * This method is used as the default for a property's `hasChanged` function.
  */
-export const notEqual: HasChanged = (value: unknown, old: unknown): boolean => {
+const notEqual: HasChanged = (value: unknown, old: unknown): boolean => {
   // This ensures (old==NaN, value==NaN) always returns false
   return old !== value && (old === old || value === value);
 };
@@ -149,10 +138,23 @@ function attributeNameForProperty(
     : undefined;
 }
 
+export interface EventDeclaration extends EventInit {
+  /**
+   * A string custom event name to override the default.
+   */
+  type: string;
+}
+
+export interface EventEmitter<T = any> {
+  emit: (detail?: T) => boolean;
+}
+
 export abstract class UpdatingElement extends HTMLElement {
   private _hasRequestedRender = false;
   private static _observedAttributes = new Set<string>();
   private static __dev_only_definedProperties = new Set<string>();
+  private static __dev_only_definedMethods = new Set<string>();
+  private static __dev_only_definedEvents = new Set<string>();
 
   static get observedAttributes(): string[] {
     this._ensureObservedAttributes();
@@ -162,6 +164,16 @@ export abstract class UpdatingElement extends HTMLElement {
   static get _dev_only_definedProperties(): string[] {
     this._ensureDefinedProperties();
     return Array.from(this.__dev_only_definedProperties);
+  }
+
+  static get _dev_only_definedMethods(): string[] {
+    this._ensureDefinedMethods();
+    return Array.from(this.__dev_only_definedMethods);
+  }
+
+  static get _dev_only_definedEvents(): string[] {
+    this._ensureDefinedEvents();
+    return Array.from(this.__dev_only_definedEvents);
   }
 
   get $$typeof(): string {
@@ -212,6 +224,32 @@ export abstract class UpdatingElement extends HTMLElement {
         // eslint-disable-next-line no-prototype-builtins
         superClass.hasOwnProperty("__dev_only_definedProperties")
           ? superClass.__dev_only_definedProperties
+          : null
+      );
+    }
+  }
+
+  private static _ensureDefinedMethods(): void {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!this.hasOwnProperty("__dev_only_definedMethods")) {
+      const superClass = Object.getPrototypeOf(this);
+      this.__dev_only_definedMethods = new Set<string>(
+        // eslint-disable-next-line no-prototype-builtins
+        superClass.hasOwnProperty("__dev_only_definedMethods")
+          ? superClass.__dev_only_definedMethods
+          : null
+      );
+    }
+  }
+
+  private static _ensureDefinedEvents(): void {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!this.hasOwnProperty("__dev_only_definedEvents")) {
+      const superClass = Object.getPrototypeOf(this);
+      this.__dev_only_definedEvents = new Set<string>(
+        // eslint-disable-next-line no-prototype-builtins
+        superClass.hasOwnProperty("__dev_only_definedEvents")
+          ? superClass.__dev_only_definedEvents
           : null
       );
     }
@@ -275,6 +313,33 @@ export abstract class UpdatingElement extends HTMLElement {
         }
       },
       enumerable: true,
+    });
+  }
+
+  static createMethod(name: string): void {
+    this._ensureDefinedMethods();
+    this.__dev_only_definedMethods.add(name);
+  }
+
+  static createEventEmitter(name: string, options: EventDeclaration): void {
+    this._ensureDefinedEvents();
+
+    // eslint-disable-next-line no-prototype-builtins
+    if (this.prototype.hasOwnProperty(name)) {
+      return;
+    }
+
+    const { type, ...eventInit } = options;
+    this.__dev_only_definedEvents.add(type);
+
+    // Make event emitter readonly.
+    Object.defineProperty(this.prototype, name, {
+      get(): EventEmitter {
+        return Object.freeze({
+          emit: <T>(detail: T): boolean =>
+            this.dispatchEvent(new CustomEvent(type, { ...eventInit, detail })),
+        });
+      },
     });
   }
 

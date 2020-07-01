@@ -7,6 +7,7 @@ const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
 const validateDeps = require("./validateDeps");
 const generateProviderDocs = require("./generateProviderDocs");
+const generateBrickDocs = require("./generateBrickDocs");
 const { providerPackagePrefix } = require("./constants");
 
 const generateContracts = () => {
@@ -154,7 +155,7 @@ module.exports = (scope) => {
   const cwd = process.cwd();
   const pluginName = path.basename(cwd);
   const templateRoot = path.join(__dirname, "../template");
-
+  const enableGenerateDoc = process.env.ENABLE_GENERATE_DOC || false;
   generatePkgbuild(scope, pluginName, templateRoot);
   generateDeploy(scope, pluginName, templateRoot);
   validateDeps(scope);
@@ -163,6 +164,8 @@ module.exports = (scope) => {
     generateContracts();
     if (pluginName.startsWith(providerPackagePrefix)) {
       generateProviderDocs(pluginName);
+    } else {
+      enableGenerateDoc && generateBrickDocs(pluginName, scope);
     }
     generateDeps();
   } else if (scope === "micro-apps") {
