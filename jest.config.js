@@ -12,10 +12,10 @@ module.exports = {
   collectCoverage: true,
   coverageThreshold: {
     global: {
-      statements: 94.17,
-      branches: 88.12,
-      functions: 96.61,
-      lines: 94.14,
+      statements: 94.1,
+      branches: 88.05,
+      functions: 96.63,
+      lines: 94.07,
     },
   },
   coverageDirectory: "<rootDir>/.coverage",
