@@ -4,7 +4,7 @@ import i18next from "i18next";
 import {
   HttpFetchError,
   HttpResponseError,
-  HttpParseError
+  HttpParseError,
 } from "@easyops/brick-http";
 import { httpErrorToString, handleHttpError } from "./handleHttpError";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
@@ -14,11 +14,11 @@ jest.mock("./isUnauthenticatedError");
 jest.mock("./history");
 
 const spyOnModalError = jest.spyOn(Modal, "error");
-jest.spyOn(i18next, "t").mockImplementation(k => k);
+jest.spyOn(i18next, "t").mockImplementation((k) => k);
 const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
 const spyOnHistoryPush = jest.fn();
 (getHistory as jest.Mock).mockReturnValue({
-  push: spyOnHistoryPush
+  push: spyOnHistoryPush,
 });
 (window as any).Event = class {};
 (window as any).HTMLScriptElement = class {};
@@ -40,7 +40,7 @@ describe("httpErrorToString", () => {
         new HttpResponseError(
           new Response("", {
             status: 500,
-            statusText: "Internal Server Error"
+            statusText: "Internal Server Error",
           }),
           { error: "oops" }
         )
@@ -54,7 +54,7 @@ describe("httpErrorToString", () => {
         new HttpResponseError(
           new Response("", {
             status: 500,
-            statusText: "Internal Server Error"
+            statusText: "Internal Server Error",
           }),
           { msg: "oops" }
         )
@@ -68,7 +68,7 @@ describe("httpErrorToString", () => {
         new HttpResponseError(
           new Response("", {
             status: 500,
-            statusText: "Internal Server Error"
+            statusText: "Internal Server Error",
           })
         )
       )
@@ -76,9 +76,16 @@ describe("httpErrorToString", () => {
   });
 
   it("should return HttpParseErrors", () => {
-    expect(httpErrorToString(new HttpParseError(new Response("")))).toBe(
-      "HttpParseError: OK"
-    );
+    expect(
+      httpErrorToString(
+        new HttpParseError(
+          new Response("", {
+            status: 200,
+            statusText: "OK",
+          })
+        )
+      )
+    ).toBe("HttpParseError: OK");
   });
 
   it("should return script src if load script failed", () => {
@@ -101,7 +108,7 @@ describe("handleHttpError", () => {
     expect(spyOnModalError.mock.calls[0][0]).toEqual({
       title: "brick-kit:REQUEST_FAILED",
       content: "Error: oops",
-      okText: "brick-kit:MODAL_OK"
+      okText: "brick-kit:MODAL_OK",
     });
   });
 
