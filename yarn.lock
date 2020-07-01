@@ -933,10 +933,10 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
-  version "7.10.3"
-  resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.10.3.tgz#670d002655a7c366540c67f6fd3342cd09500364"
-  integrity sha1-Zw0AJlWnw2ZUDGf2/TNCzQlQA2Q=
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.10.4", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+  version "7.10.4"
+  resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.10.4.tgz?cache=0&sync_timestamp=1593522736592&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.10.4.tgz#a6724f1a6b8d2f6ea5236dbfe58c7d7ea9c5eb99"
+  integrity sha1-pnJPGmuNL26lI22/5Yx9fqnF65k=
   dependencies:
     regenerator-runtime "^0.13.4"
 

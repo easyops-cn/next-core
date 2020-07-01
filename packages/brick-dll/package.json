@@ -21,6 +21,7 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
   },
   "dependencies": {
+    "@easyops/babel-runtime-helpers": "^0.0.0",
     "@easyops/brick-http": "^1.1.0",
     "@easyops/brick-icons": "^1.16.13",
     "@easyops/brick-kit": "^1.51.0",
