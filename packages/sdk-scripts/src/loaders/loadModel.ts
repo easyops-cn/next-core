@@ -17,7 +17,7 @@ export function loadModel(
     model = context.modelMap.get(key);
   } else {
     const filePath = path.join(modelDir, `${key}.yaml`);
-    const doc = yaml.safeLoad(fs.readFileSync(filePath, "utf8"));
+    const doc = yaml.safeLoad(fs.readFileSync(filePath, "utf8")) as any;
     expectDocVersion(doc);
     model = new Model(doc, context, serviceSeg, modelSeg);
     context.modelMap.set(key, model);
