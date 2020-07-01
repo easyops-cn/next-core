@@ -10,7 +10,7 @@ export function loadService(serviceSeg: string): Context {
   const context = new Context(serviceSeg);
 
   const serviceDir = path.join(apiDir, serviceSeg);
-  fs.readdirSync(serviceDir, { withFileTypes: true }).forEach(dirent => {
+  fs.readdirSync(serviceDir, { withFileTypes: true }).forEach((dirent) => {
     if (!dirent.isDirectory()) {
       return;
     }
@@ -20,9 +20,9 @@ export function loadService(serviceSeg: string): Context {
     context.indexApiExports.push(modelSeg);
 
     const modelDir = path.join(serviceDir, modelSeg);
-    fs.readdirSync(modelDir).forEach(file => {
+    fs.readdirSync(modelDir).forEach((file) => {
       const filePath = path.join(modelDir, file);
-      const doc = yaml.safeLoad(fs.readFileSync(filePath, "utf8"));
+      const doc = yaml.safeLoad(fs.readFileSync(filePath, "utf8")) as any;
       expectDocVersion(doc);
       const apiSeg = path.basename(file, ".yaml");
       const key = `${serviceSeg}/${modelSeg}/${apiSeg}`;

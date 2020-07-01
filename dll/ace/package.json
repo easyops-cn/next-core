@@ -18,7 +18,7 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
   },
   "dependencies": {
-    "react-ace": "^7.0.4"
+    "react-ace": "^7.0.5"
   },
   "devDependencies": {
     "@easyops/brick-dll": "^1.2.46"

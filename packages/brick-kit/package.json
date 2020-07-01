@@ -29,10 +29,10 @@
   },
   "dependencies": {
     "@easyops/brick-types": "^1.42.0",
-    "@sdk/auth-sdk": "^0.8.0",
-    "@sdk/cmdb-sdk": "^0.14.2",
+    "@sdk/auth-sdk": "^0.8.1",
+    "@sdk/cmdb-sdk": "^0.15.5",
     "@sdk/micro-app-sdk": "^0.8.0",
-    "@sdk/user-service-sdk": "^0.2.2"
+    "@sdk/user-service-sdk": "^0.2.4"
   },
   "sideEffects": false,
   "devDependencies": {
@@ -40,11 +40,11 @@
     "@easyops/brick-utils": "^1.49.1",
     "antd": "^3.26.15",
     "history": "^4.10.1",
-    "i18next": "^19.4.5",
+    "i18next": "^19.5.1",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.5.0"
+    "react-i18next": "^11.7.0"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",

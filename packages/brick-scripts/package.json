@@ -25,11 +25,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "chalk": "^4.0.0",
+    "chalk": "^4.1.0",
     "change-case": "^4.1.1",
     "execa": "^4.0.2",
     "fs-extra": "^9.0.1",
-    "inquirer": "^7.1.0",
+    "inquirer": "^7.2.0",
     "klaw-sync": "^6.0.0",
     "meow": "^7.0.1",
     "prettier": "^2.0.5",
