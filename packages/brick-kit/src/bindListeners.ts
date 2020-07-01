@@ -172,6 +172,13 @@ export function listenerFactory(
           handler.if,
           context
         );
+      case "tpl.dispatchEvent":
+        return builtinTplDispatchEventFactory(
+          brick,
+          handler.args,
+          handler.if,
+          context
+        );
       default:
         return () => {
           // eslint-disable-next-line no-console
@@ -183,6 +190,27 @@ export function listenerFactory(
   if (isCustomHandler(handler)) {
     return customListenerFactory(handler, handler.if, context, brick);
   }
+}
+
+function builtinTplDispatchEventFactory(
+  brick: HTMLElement,
+  args: any[],
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
+    const tpl = getParentTemplate(brick);
+    if (!tpl) {
+      // eslint-disable-next-line no-console
+      console.warn("Parent template not found for brick:", brick);
+      return;
+    }
+    const [type, init] = argsFactory(args, context, event);
+    tpl.dispatchEvent(new CustomEvent(type, init));
+  } as EventListener;
 }
 
 function builtinContextListenerFactory(
@@ -329,10 +357,14 @@ function builtinWindowListenerFactory(
 }
 
 function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
+  return getParentTemplate(brick)?.$$getElementByRef?.(ref);
+}
+
+function getParentTemplate(brick: RuntimeBrickElement): RuntimeBrickElement {
   let tpl = brick;
   while ((tpl = tpl.$$parentTemplate || tpl.parentElement)) {
     if (tpl.$$typeof === "custom-template") {
-      return tpl.$$getElementByRef?.(ref);
+      return tpl;
     }
   }
 }
