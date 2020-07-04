@@ -30,7 +30,7 @@
     "@fortawesome/react-fontawesome": "^0.1.11",
     "antd": "^3.26.18",
     "history": "^4.10.1",
-    "i18next": "^19.5.3",
+    "i18next": "^19.5.4",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
