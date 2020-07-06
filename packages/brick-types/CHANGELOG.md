@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.43.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.43.0...@easyops/brick-types@1.43.1) (2020-07-06)
+
+**Note:** Version bump only for package @easyops/brick-types
+
 # [1.43.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.42.0...@easyops/brick-types@1.43.0) (2020-07-02)
 
 ### Features
