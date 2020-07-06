@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.52.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.51.0...@easyops/brick-kit@1.52.0) (2020-07-02)
+
+### Features
+
+- support builtin event action: tpl.dispatchEvent ([34f1cff](https://git.easyops.local/anyclouds/next-core/commits/34f1cff))
+
 # [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.50.2...@easyops/brick-kit@1.51.0) (2020-06-28)
 
 ### Features

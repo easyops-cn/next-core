@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.43.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.42.0...@easyops/brick-types@1.43.0) (2020-07-02)
+
+### Features
+
+- support builtin event action: tpl.dispatchEvent ([34f1cff](https://git.easyops.local/anyclouds/next-core/commits/34f1cff))
+
 # [1.42.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.41.0...@easyops/brick-types@1.42.0) (2020-06-23)
 
 ### Features

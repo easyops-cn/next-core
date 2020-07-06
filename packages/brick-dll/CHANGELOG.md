@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.2.46...@easyops/brick-dll@1.3.0) (2020-07-02)
+
+### Features
+
+- make all babel runtime helpers available in @easyops/brick-dll ([429b3f4](https://git.easyops.local/anyclouds/next-core/commits/429b3f4))
+
 ## [1.2.46](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.2.45...@easyops/brick-dll@1.2.46) (2020-06-28)
 
 **Note:** Version bump only for package @easyops/brick-dll
