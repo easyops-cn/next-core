@@ -1,8 +1,8 @@
-import { MicroApp, SeguesConf } from "@easyops/brick-types";
-import { getUrlBySegueFactory } from "./segue";
+import { MicroApp } from "@easyops/brick-types";
+import { getUrlByAliasFactory } from "./alias";
 
-describe("getUrlBySegueFactory", () => {
-  describe("getUrlBySegueFactory should work", () => {
+describe("getUrlByAliasFactory", () => {
+  describe("getUrlByAliasFactory should work", () => {
     const app = {
       homepage: "/segue-home",
       $$routeAliasMap: new Map([
@@ -22,19 +22,12 @@ describe("getUrlBySegueFactory", () => {
         ],
       ]),
     } as MicroApp;
-    const segues: SeguesConf = {
-      testSegueIdA: {
-        target: "segue-target-a",
-      },
-      testSegueIdB: {
-        target: "segue-target-b",
-      },
-    };
+    const getUrlByAlias = getUrlByAliasFactory(app);
 
     it.each<[string, Record<string, any>, Record<string, any>, string]>([
-      ["testSegueIdA", undefined, undefined, "/segue-home/segue-target-a"],
+      ["segue-target-a", undefined, undefined, "/segue-home/segue-target-a"],
       [
-        "testSegueIdA",
+        "segue-target-a",
         undefined,
         {
           for: "good",
@@ -42,7 +35,7 @@ describe("getUrlBySegueFactory", () => {
         "/segue-home/segue-target-a?for=good",
       ],
       [
-        "testSegueIdA",
+        "segue-target-a",
         undefined,
         {
           shouldIgnore: null,
@@ -50,7 +43,7 @@ describe("getUrlBySegueFactory", () => {
         "/segue-home/segue-target-a",
       ],
       [
-        "testSegueIdB",
+        "segue-target-b",
         {
           id: "quality",
         },
@@ -58,7 +51,7 @@ describe("getUrlBySegueFactory", () => {
         "/segue-home/segue-target-b/quality",
       ],
       [
-        "testSegueIdB",
+        "segue-target-b",
         {
           id: "quality",
         },
@@ -69,28 +62,15 @@ describe("getUrlBySegueFactory", () => {
         "/segue-home/segue-target-b/quality?for=good&for=better",
       ],
     ])(
-      "getUrlBySegueFactory(...)('%js', %j, %j) should return '%s'",
-      (segueId, pathParams, query, url) => {
-        expect(
-          getUrlBySegueFactory(app, segues)(segueId, pathParams, query)
-        ).toEqual(url);
+      "getUrlByAlias('%js', %j, %j) should return '%s'",
+      (alias, pathParams, query, url) => {
+        expect(getUrlByAlias(alias, pathParams, query)).toEqual(url);
       }
     );
 
-    it("getUrlBySegueFactory should throw if segue not found", () => {
+    it("getUrlByAlias should throw if route alias not found", () => {
       expect(() => {
-        getUrlBySegueFactory(app, segues)("testSegueIdC");
-      }).toThrow();
-    });
-
-    it("getUrlBySegueFactory should throw if route alias not found", () => {
-      expect(() => {
-        getUrlBySegueFactory(
-          {
-            $$routeAliasMap: new Map([]),
-          } as MicroApp,
-          segues
-        )("testSegueIdA");
+        getUrlByAlias("not-existed-alias");
       }).toThrow();
     });
   });
