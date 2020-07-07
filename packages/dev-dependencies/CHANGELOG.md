@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.41](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.40...@easyops/dev-dependencies@0.6.41) (2020-07-07)
+
+### Bug Fixes
+
+- **webpack:** fix after upgraded webpack-merge to v5 ([d0c54d9](https://git.easyops.local/anyclouds/next-core/commits/d0c54d9))
+
 ## [0.6.40](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.39...@easyops/dev-dependencies@0.6.40) (2020-07-06)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
