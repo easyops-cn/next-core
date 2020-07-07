@@ -12,13 +12,12 @@ import "./styles/default.css";
 
 initializeLibrary();
 
-// DLL_HASH is defined by `webpack.DefinePlugin`.
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line
 // @ts-ignore
 window.DLL_HASH = DLL_HASH;
 
 // BRICK_NEXT_VERSIONS is defined by `webpack.DefinePlugin`.
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line
 // @ts-ignore
 window.BRICK_NEXT_VERSIONS = BRICK_NEXT_VERSIONS;
 
@@ -50,7 +49,8 @@ async function bootstrap(): Promise<void> {
     await pluginRuntime.bootstrap(mountPoints);
   } catch (e) {
     handleHttpError(e);
-    return;
+    // eslint-disable-next-line no-console
+    console.error(e);
   }
 }
 

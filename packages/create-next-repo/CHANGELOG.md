@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.0...@easyops/create-next-repo@0.13.1) (2020-07-06)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [0.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.38...@easyops/create-next-repo@0.13.0) (2020-07-02)
+
+### Features
+
+- support web workers in brick packages ([72b5a0a](https://git.easyops.local/anyclouds/next-core/commits/72b5a0a))
+
 ## [0.12.38](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.12.37...@easyops/create-next-repo@0.12.38) (2020-06-29)
 
 **Note:** Version bump only for package @easyops/create-next-repo

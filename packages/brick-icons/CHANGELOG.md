@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.16.13...@easyops/brick-icons@1.17.0) (2020-07-06)
+
+### Features
+
+- **brick-icons:** add icons for the blueprint ([784035a](https://git.easyops.local/anyclouds/next-core/commits/784035a))
+
 ## [1.16.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@1.16.12...@easyops/brick-icons@1.16.13) (2020-06-05)
 
 **Note:** Version bump only for package @easyops/brick-icons

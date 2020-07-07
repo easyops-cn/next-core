@@ -481,16 +481,19 @@ describe("bindListeners", () => {
     const button = document.createElement("div") as any;
     const microView = document.createElement("div") as any;
     const sourceElem = document.createElement("div") as any;
+    const useBrickElem = document.createElement("div") as any;
     tplElement.$$typeof = "custom-template";
     tplElement.$$getElementByRef = (ref: string) =>
       ref === "button" ? button : undefined;
     tplElement.appendChild(button);
     tplElement.appendChild(microView);
     microView.appendChild(sourceElem);
+    microView.appendChild(useBrickElem);
     document.body.appendChild(tplElement);
 
     button.forGood = jest.fn();
     jest.spyOn(console, "error").mockImplementation(() => void 0);
+    const tplDispatchEvent = jest.spyOn(tplElement, "dispatchEvent");
 
     bindListeners(sourceElem, {
       keyWillFindTarget: {
@@ -503,6 +506,18 @@ describe("bindListeners", () => {
       },
     });
 
+    bindListeners(useBrickElem, {
+      triggeredByUseBrick: {
+        action: "tpl.dispatchEvent",
+        args: [
+          "customizedEventFromUseBrick",
+          {
+            detail: "<% `quality is ${EVENT.detail}` %>",
+          },
+        ],
+      },
+    });
+
     sourceElem.dispatchEvent(new CustomEvent("keyWillNotFindTarget"));
     expect(button.forGood).not.toBeCalled();
     expect(console.error as jest.Mock).toBeCalledWith(
@@ -512,6 +527,19 @@ describe("bindListeners", () => {
 
     sourceElem.dispatchEvent(new CustomEvent("keyWillFindTarget"));
     expect(button.forGood).toBeCalled();
+
+    useBrickElem.dispatchEvent(
+      new CustomEvent("triggeredByUseBrick", {
+        detail: "good",
+      })
+    );
+    expect(tplDispatchEvent).toBeCalledTimes(1);
+    expect((tplDispatchEvent.mock.calls[0][0] as CustomEvent).type).toBe(
+      "customizedEventFromUseBrick"
+    );
+    expect((tplDispatchEvent.mock.calls[0][0] as CustomEvent).detail).toBe(
+      "quality is good"
+    );
 
     tplElement.remove();
     (console.error as jest.Mock).mockRestore();

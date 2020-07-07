@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.0...@easyops/webpack-config-factory@1.10.1) (2020-07-06)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
+# [1.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.9.4...@easyops/webpack-config-factory@1.10.0) (2020-07-02)
+
+### Features
+
+- support web workers in brick packages ([72b5a0a](https://git.easyops.local/anyclouds/next-core/commits/72b5a0a))
+
 ## [1.9.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.9.3...@easyops/webpack-config-factory@1.9.4) (2020-06-08)
 
 ### Bug Fixes
