@@ -37,6 +37,10 @@ module.exports = function patch() {
     removeJestEnvJsdomSixteen();
   }
 
+  if (semver.lt(currentRenewVersion, "0.6.41")) {
+    updateWebpackMerge();
+  }
+
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
@@ -235,4 +239,52 @@ function removeJestEnvJsdomSixteen() {
       fs.writeFileSync(filePath, content.replace(needClear, ""));
     }
   }
+}
+
+function updateWebpackMerge() {
+  function updateByScope(scope) {
+    const scopeDir = path.resolve(scope);
+    if (!fs.existsSync(scopeDir)) {
+      return;
+    }
+
+    fs.readdirSync(scopeDir, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .forEach((dirent) => {
+        const webpackConfigJsPath = path.join(
+          scopeDir,
+          dirent.name,
+          "webpack.config.js"
+        );
+        if (!fs.existsSync(webpackConfigJsPath)) {
+          return;
+        }
+        let content = fs.readFileSync(webpackConfigJsPath, "utf8");
+        const needReplaces = [
+          [
+            new RegExp(
+              escapeRegExp('const merge = require("webpack-merge");') +
+                "[\\r\\n]*" +
+                escapeRegExp(
+                  'const { bricks } = require("@easyops/webpack-config-factory");'
+                )
+            ),
+            'const { bricks, merge } = require("@easyops/webpack-config-factory");',
+          ],
+        ];
+        let updated = false;
+        for (const [pattern, replacement] of needReplaces) {
+          if (pattern.test(content)) {
+            updated = true;
+            content = content.replace(pattern, replacement);
+          }
+        }
+        if (updated) {
+          fs.writeFileSync(webpackConfigJsPath, content);
+        }
+      });
+  }
+
+  updateByScope("bricks");
+  updateByScope("templates");
 }

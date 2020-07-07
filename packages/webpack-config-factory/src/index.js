@@ -1,4 +1,3 @@
-module.exports = {
-  bricks: require("./bricks"),
-  dll: require("./dll")
-};
+exports.bricks = require("./bricks");
+exports.dll = require("./dll");
+exports.merge = require("webpack-merge").merge;
