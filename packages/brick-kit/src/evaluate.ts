@@ -2,7 +2,8 @@ import { cloneDeep } from "lodash";
 import i18next from "i18next";
 import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
-import { getUrlFactory } from "./segue";
+import { getUrlBySegueFactory } from "./segue";
+import { getUrlByAliasFactory } from "./alias";
 import { devtoolsHookEmit } from "./devtools";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
@@ -149,7 +150,13 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("SEGUE")) {
     globalVariables.SEGUE = {
-      getUrl: getUrlFactory(app, segues),
+      getUrl: getUrlBySegueFactory(app, segues),
+    };
+  }
+
+  if (attemptToVisitGlobals.has("ALIAS")) {
+    globalVariables.ALIAS = {
+      getUrl: getUrlByAliasFactory(app),
     };
   }
 

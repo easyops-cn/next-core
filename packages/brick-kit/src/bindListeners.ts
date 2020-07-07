@@ -15,8 +15,9 @@ import { handleHttpError } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
 import { getHistory } from "./history";
 import { _internalApiGetCurrentContext } from "./core/exports";
-import { getUrlFactory } from "./segue";
+import { getUrlBySegueFactory } from "./segue";
 import { checkIf } from "./checkIf";
+import { getUrlByAliasFactory } from "./alias";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -110,6 +111,22 @@ export function listenerFactory(
           handler.if,
           context
         );
+      case "segue.push":
+      case "segue.replace":
+        return builtinSegueListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
+      case "alias.push":
+      case "alias.replace":
+        return builtinAliasListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       case "legacy.go":
         return builtinIframeListenerFactory(handler.args, handler.if, context);
       case "window.open":
@@ -117,14 +134,6 @@ export function listenerFactory(
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(
-          method,
-          handler.args,
-          handler.if,
-          context
-        );
-      case "segue.push":
-      case "segue.replace":
-        return builtinSegueListenerFactory(
           method,
           handler.args,
           handler.if,
@@ -295,12 +304,33 @@ function builtinSegueListenerFactory(
     }
     const { app, segues } = _internalApiGetCurrentContext();
     getHistory()[method](
-      getUrlFactory(
+      getUrlBySegueFactory(
         app,
         segues
       )(
         ...(argsFactory(args, context, event) as Parameters<
-          ReturnType<typeof getUrlFactory>
+          ReturnType<typeof getUrlBySegueFactory>
+        >)
+      )
+    );
+  } as EventListener;
+}
+
+function builtinAliasListenerFactory(
+  method: "push" | "replace",
+  args: any[],
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
+    const { app } = _internalApiGetCurrentContext();
+    getHistory()[method](
+      getUrlByAliasFactory(app)(
+        ...(argsFactory(args, context, event) as Parameters<
+          ReturnType<typeof getUrlByAliasFactory>
         >)
       )
     );

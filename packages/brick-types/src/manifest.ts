@@ -310,12 +310,21 @@ export interface BuiltinBrickEventHandler {
     | "history.pushAnchor"
     // | "history.replaceAnchor"
 
+    // Segues
+    | "segue.push"
+    | "segue.replace"
+
+    // Alias
+    | "alias.push"
+    | "alias.replace"
+
+    // Iframe
+    | "legacy.go"
+
     // Browser method
     | "location.reload"
     | "location.assign"
     | "window.open"
-    | "segue.push"
-    | "segue.replace"
     | "event.preventDefault"
     | "console.log"
     | "console.error"
@@ -330,9 +339,6 @@ export interface BuiltinBrickEventHandler {
 
     // `handleHttpError`
     | "handleHttpError"
-
-    // Iframe
-    | "legacy.go"
 
     // Storyboard context
     | "context.assign"

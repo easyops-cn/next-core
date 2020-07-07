@@ -44,6 +44,20 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
           alias: "segue-target-b",
         },
       ],
+      [
+        "mock-alias-a",
+        {
+          path: "/mock/alias/a",
+          alias: "mock-alias-a",
+        },
+      ],
+      [
+        "mock-alias-b",
+        {
+          path: "/mock/alias/b/:type",
+          alias: "mock-alias-b",
+        },
+      ],
     ]),
   },
   segues: {
@@ -216,6 +230,11 @@ describe("bindListeners", () => {
           action: "segue.replace",
           args: ["testSegueIdB", { id: "${EVENT.detail}" }],
         },
+        { action: "alias.push", args: ["mock-alias-a"] },
+        {
+          action: "alias.replace",
+          args: ["mock-alias-b", { type: "${EVENT.detail}" }],
+        },
         { action: "event.preventDefault" },
         { action: "console.log" },
         { action: "console.info" },
@@ -361,6 +380,7 @@ describe("bindListeners", () => {
     const history = mockHistory;
     expect(history.push).toHaveBeenNthCalledWith(1, "for-good");
     expect(history.push).toHaveBeenNthCalledWith(2, "/segue-target-a");
+    expect(history.push).toHaveBeenNthCalledWith(3, "/mock/alias/a");
     expect(history.pushQuery).toBeCalledWith(
       {
         q: "123",
@@ -380,6 +400,10 @@ describe("bindListeners", () => {
     expect(history.replace).toHaveBeenNthCalledWith(
       2,
       "/segue-target-b/for-good"
+    );
+    expect(history.replace).toHaveBeenNthCalledWith(
+      3,
+      "/mock/alias/b/for-good"
     );
     expect(history.replaceQuery).toBeCalledWith({
       page: 1,
@@ -571,6 +595,7 @@ describe("bindListeners", () => {
         if: "<% !EVENT.detail.rejected %>",
       },
       { action: "segue.push", if: "<% !EVENT.detail.rejected %>" },
+      { action: "alias.push", if: "<% !EVENT.detail.rejected %>" },
       { action: "context.assign", if: "<% !EVENT.detail.rejected %>" },
       { action: "event.preventDefault", if: "<% !EVENT.detail.rejected %>" },
       { action: "console.log", if: "<% !EVENT.detail.rejected %>" },
