@@ -70,7 +70,7 @@
   ],
   "resolutions": {
     "@types/react": "^16.9.41",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0"
   }
 }
