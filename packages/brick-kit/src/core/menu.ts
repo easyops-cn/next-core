@@ -108,7 +108,7 @@ async function processMenu(
     true
   )) as MenuRawData;
   return {
-    title: await processMenuTitle(menuData, menuId),
+    title: await processMenuTitle(menuData),
     icon: menuData.icon,
     link: menuData.link,
     menuItems: menuData.items?.map((item) =>
@@ -131,15 +131,13 @@ async function processMenu(
   };
 }
 
-export async function processMenuTitle(
-  menuData: MenuRawData,
-  menuId: string
-): Promise<string> {
+export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
   if (menuData.title || !menuData.titleDataSource) {
     return menuData.title;
   }
-  if (menuTitleCache.has(menuId)) {
-    return menuTitleCache.get(menuId);
+  const cacheKey = JSON.stringify(menuData.titleDataSource);
+  if (menuTitleCache.has(cacheKey)) {
+    return menuTitleCache.get(cacheKey);
   }
   const { objectId, instanceId, attributeId } = menuData.titleDataSource;
   const attr = attributeId ?? "name";
@@ -147,7 +145,7 @@ export async function processMenuTitle(
     fields: attr,
   });
   const title = String(instanceData[attr]);
-  menuTitleCache.set(menuId, title);
+  menuTitleCache.set(cacheKey, title);
   return title;
 }
 
