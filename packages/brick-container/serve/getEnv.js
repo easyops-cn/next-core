@@ -8,6 +8,23 @@ const {
   getNamesOfTemplatePackages,
 } = require("./utils");
 
+function getServerPath(server) {
+  if (server) {
+    if (/^\d+$/.test(server)) {
+      server = `http://192.168.100.${server}`;
+    } else if (
+      !server.startsWith("http://") &&
+      !server.startsWith("https://")
+    ) {
+      server = `http://${server}`;
+    }
+  } else {
+    server = "http://192.168.100.162";
+  }
+
+  return server;
+}
+
 module.exports = (cwd) => {
   let flags = {};
   if (cwd) {
@@ -20,6 +37,7 @@ module.exports = (cwd) => {
         --auto-remote       Use auto remote mode (use all local existed packages, combined with remote packages)
         --remote            Use remote mode (use all remote packages except those specified by \`--local-*\`)
         --server            Set remote server address, defaults to "192.168.100.162"
+        --console-server    Set remote console server address, defaults to remote server address
         --subdir            Set base href to "/next/" instead of "/"
         --local-bricks      Specify local brick packages to be used in remote mode
         --local-micro-apps  Specify local micro apps to be used in remote mode
@@ -77,6 +95,9 @@ module.exports = (cwd) => {
           server: {
             type: "string",
           },
+          consoleServer: {
+            type: "string",
+          },
           verbose: {
             type: "boolean",
           },
@@ -93,19 +114,9 @@ module.exports = (cwd) => {
   const useRemote = flags.remote || process.env.REMOTE === "true";
   const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
   const publicPath = useSubdir ? "/next/" : "/";
-  let server = flags.server || process.env.SERVER;
-  if (server) {
-    if (/^\d+$/.test(server)) {
-      server = `http://192.168.100.${server}`;
-    } else if (
-      !server.startsWith("http://") &&
-      !server.startsWith("https://")
-    ) {
-      server = `http://${server}`;
-    }
-  } else {
-    server = "http://192.168.100.162";
-  }
+  const server = getServerPath(flags.server || process.env.SERVER);
+  let consoleServer = flags.consoleServer || process.env.CONSOLE_SERVER;
+  consoleServer = consoleServer ? getServerPath(consoleServer) : server;
 
   const localBrickPackages = flags.localBricks
     ? flags.localBricks.split(",")
@@ -187,6 +198,7 @@ module.exports = (cwd) => {
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     server,
+    consoleServer,
     appConfig,
     verbose: flags.verbose || process.env.VERBOSE === "true",
     mocked: flags.mock || process.env.MOCK === "true",

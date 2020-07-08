@@ -66,6 +66,17 @@ if (proxies) {
       )
     );
   }
+
+  if (env.useSubdir) {
+    app.all(
+      /^(?!\/next\/).+/,
+      createProxyMiddleware({
+        target: env.consoleServer,
+        changeOrigin: true,
+        logLevel: "warn",
+      })
+    );
+  }
 }
 
 // All requests fallback to index.html.
