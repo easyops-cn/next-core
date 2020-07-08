@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.9...@easyops/brick-container@1.22.0) (2020-07-08)
+
+### Features
+
+- **brick-container:** 当以 subDir 模式 serve 时，将非 next 目录下的请求代理至 console ([b2eda4d](https://git.easyops.local/anyclouds/next-core/commits/b2eda4d))
+
 ## [1.21.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.8...@easyops/brick-container@1.21.9) (2020-07-07)
 
 ### Bug Fixes
