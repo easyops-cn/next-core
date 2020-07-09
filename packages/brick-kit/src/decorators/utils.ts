@@ -1,10 +1,15 @@
 import { getRuntime } from "../runtime";
+import { PropertyDeclaration } from "../UpdatingElement";
 
-export function warnNativeHtmlElementProperty(key: string): void {
+export function warnNativeHtmlElementProperty(
+  key: string,
+  options?: PropertyDeclaration
+): void {
   // Testing env is ignored to simplify dependents testing.
   // istanbul ignore if
   if (
     key in HTMLElement.prototype &&
+    !options?.__deprecated_and_for_compatibility_only &&
     // istanbul ignore next
     process.env.NODE_ENV !== "test"
   ) {
