@@ -41,6 +41,10 @@ module.exports = function patch() {
     updateWebpackMerge();
   }
 
+  if (semver.lt(currentRenewVersion, "0.6.46")) {
+    updateRenovatePostUpgradeTasks();
+  }
+
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
@@ -287,4 +291,26 @@ function updateWebpackMerge() {
 
   updateByScope("bricks");
   updateByScope("templates");
+}
+
+function updateRenovatePostUpgradeTasks() {
+  const renovateJsonPath = path.resolve("renovate.json");
+  const renovateJson = readJson(renovateJsonPath);
+  const nextCoreGroup = renovateJson.packageRules.find(
+    (item) => item.groupName === "next-core packages"
+  );
+  if (nextCoreGroup && !nextCoreGroup.postUpgradeTasks) {
+    Object.assign(nextCoreGroup, {
+      packagePatterns: ["^@easyops/"],
+      postUpgradeTasks: {
+        commands: [
+          "yarn renew",
+          "yarn extract",
+          "./node_modules/.bin/prettier --write package.json",
+        ],
+        fileFilters: ["**/*"],
+      },
+    });
+    writeJsonFile(renovateJsonPath, renovateJson);
+  }
 }
