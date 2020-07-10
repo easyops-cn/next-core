@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.6...@easyops/create-next-repo@0.13.7) (2020-07-10)
+
+### Bug Fixes
+
+- **renovate:** add postUpgradeTasks ([ef17b4c](https://git.easyops.local/anyclouds/next-core/commits/ef17b4c))
+
 ## [0.13.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.5...@easyops/create-next-repo@0.13.6) (2020-07-09)
 
 **Note:** Version bump only for package @easyops/create-next-repo
