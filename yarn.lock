@@ -10733,10 +10733,10 @@ postcss-modules@^2.0.0:
     postcss "^7.0.1"
     string-hash "^1.1.1"
 
-postcss-nested@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.npm.taobao.org/postcss-nested/download/postcss-nested-4.2.2.tgz#68108107f9d49a2a8587625fc8ad2f67eec6dc5b"
-  integrity sha1-aBCBB/nUmiqFh2JfyK0vZ+7G3Fs=
+postcss-nested@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.npm.taobao.org/postcss-nested/download/postcss-nested-4.2.3.tgz#c6f255b0a720549776d220d00c4b70cd244136f6"
+  integrity sha1-xvJVsKcgVJd20iDQDEtwzSRBNvY=
   dependencies:
     postcss "^7.0.32"
     postcss-selector-parser "^6.0.2"
