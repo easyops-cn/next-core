@@ -40,7 +40,7 @@ export interface ResponseListWrapper<T> {
   \\"name\\": \\"@sdk/cd-sdk\\",
   \\"version\\": \\"1.2.3\\",
   \\"description\\": \\"SDK for Cd\\",
-  \\"homepage\\": \\"https://git.easyops.local/anyclouds/next-sdk/tree/master/sdk/cd-sdk\\",
+  \\"homepage\\": \\"https://git.easyops.local/anyclouds/next-core/tree/master/sdk/cd-sdk\\",
   \\"license\\": \\"UNLICENSED\\",
   \\"main\\": \\"dist/index.bundle.js\\",
   \\"module\\": \\"dist/index.esm.js\\",
