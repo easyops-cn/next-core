@@ -2058,10 +2058,10 @@
     universal-user-agent "^3.0.0"
     url-template "^2.0.8"
 
-"@sdk/auth-sdk@^0.8.2":
-  version "0.8.2"
-  resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.8.2.tgz#9b4e03cd1a62f3af2d185342dad757a1259589d8"
-  integrity sha1-m04DzRpi868tGFNC2tdXoSWVidg=
+"@sdk/auth-sdk@^0.8.3":
+  version "0.8.3"
+  resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.8.3.tgz#7b4170eac22bd415e8f30f046bb779394f9b3ae5"
+  integrity sha1-e0Fw6sIr1BXo8w8Ea7d5OU+bOuU=
 
 "@sdk/cmdb-sdk@^0.15.6":
   version "0.15.6"
