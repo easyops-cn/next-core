@@ -5,8 +5,9 @@ import {
   LocationContext,
   mountTree,
   unmountTree,
+  afterMountTree,
   _dev_only_getBrickPackages,
-  _dev_only_getStoryboards
+  _dev_only_getStoryboards,
 } from "./core/exports";
 
 export const developHelper = {
@@ -16,6 +17,7 @@ export const developHelper = {
   LocationContext,
   mountTree,
   unmountTree,
+  afterMountTree,
   getBrickPackages: _dev_only_getBrickPackages,
-  getStoryboards: _dev_only_getStoryboards
+  getStoryboards: _dev_only_getStoryboards,
 };
