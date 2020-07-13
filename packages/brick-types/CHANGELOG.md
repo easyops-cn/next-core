@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.45.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.44.0...@easyops/brick-types@1.45.0) (2020-07-13)
+
+### Features
+
+- add login from refs ([60cdc51](https://git.easyops.local/anyclouds/next-core/commits/60cdc51))
+
 # [1.44.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.43.1...@easyops/brick-types@1.44.0) (2020-07-08)
 
 ### Features

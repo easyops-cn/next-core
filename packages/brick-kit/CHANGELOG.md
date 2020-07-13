@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.54.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.53.3...@easyops/brick-kit@1.54.0) (2020-07-13)
+
+### Bug Fixes
+
+- export afterMountTree in developHelper ([26ded54](https://git.easyops.local/anyclouds/next-core/commits/26ded54))
+
+### Features
+
+- add login from refs ([60cdc51](https://git.easyops.local/anyclouds/next-core/commits/60cdc51))
+
 ## [1.53.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.53.2...@easyops/brick-kit@1.53.3) (2020-07-09)
 
 ### Bug Fixes
