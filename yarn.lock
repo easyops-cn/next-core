@@ -4417,10 +4417,10 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-colorette@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npm.taobao.org/colorette/download/colorette-1.2.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcolorette%2Fdownload%2Fcolorette-1.2.0.tgz#45306add826d196e8c87236ac05d797f25982e63"
-  integrity sha1-RTBq3YJtGW6MhyNqwF15fyWYLmM=
+colorette@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/colorette/download/colorette-1.2.1.tgz?cache=0&sync_timestamp=1593955763917&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcolorette%2Fdownload%2Fcolorette-1.2.1.tgz#4d0b921325c14faf92633086a536db6e89564b1b"
+  integrity sha1-TQuSEyXBT6+SYzCGpTbbbolWSxs=
 
 columnify@^1.5.4:
   version "1.5.4"
@@ -12771,15 +12771,15 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.5.3:
-  version "4.5.3"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.5.3.tgz#7534fc36695e0b526206c706a8a8353ba4f4d58d"
-  integrity sha1-dTT8NmleC1JiBscGqKg1O6T01Y0=
+size-limit@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.5.4.tgz#ee2cbb3d2a9b2c0ab1b7ef10593da03ed85805a6"
+  integrity sha1-7iy7PSqbLAqxt+8QWT2gPthYBaY=
   dependencies:
     bytes "^3.1.0"
     chokidar "^3.4.0"
     ci-job-number "^1.2.2"
-    colorette "^1.2.0"
+    colorette "^1.2.1"
     cosmiconfig "^6.0.0"
     globby "^11.0.1"
     ora "^4.0.4"

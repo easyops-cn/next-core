@@ -52,7 +52,7 @@
     "pretty-format": "^26.1.0",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",
-    "size-limit": "^4.5.3",
+    "size-limit": "^4.5.4",
     "typescript": "~3.9.6"
   },
   "devDependencies": {
