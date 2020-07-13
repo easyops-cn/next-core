@@ -64,6 +64,7 @@ export interface AuthInfo {
   org?: number;
   username?: string;
   userInstanceId?: string;
+  loginFrom?: string;
 }
 
 export interface NavbarConf {

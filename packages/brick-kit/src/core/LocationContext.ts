@@ -110,6 +110,7 @@ export class LocationContext {
         org: auth.org,
         username: auth.username,
         userInstanceId: auth.userInstanceId,
+        loginFrom: auth.loginFrom,
       },
       flags: this.kernel.getFeatureFlags(),
       segues: this.segues,
