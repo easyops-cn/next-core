@@ -7,6 +7,7 @@ export function authenticate(newAuth: AuthInfo): void {
     org: newAuth.org,
     username: newAuth.username,
     userInstanceId: newAuth.userInstanceId,
+    loginFrom: newAuth.loginFrom,
   });
 }
 
