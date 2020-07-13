@@ -1,6 +1,6 @@
 {
   "name": "@easyops/build-config-factory",
-  "version": "1.15.3",
+  "version": "1.16.0",
   "description": "build scripts",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/build-config-factory",
   "license": "UNLICENSED",
@@ -18,7 +18,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "rimraf": "^3.0.2",
     "@easyops/brick-utils": "^1.49.4",
     "change-case": "^4.1.1",
     "chokidar": "^3.4.0",
@@ -30,6 +29,7 @@
     "moment": "^2.27.0",
     "npmlog": "^4.1.2",
     "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "typedoc": "^0.17.8",
     "typedoc-plugin-no-inherit": "^1.1.10"
   }

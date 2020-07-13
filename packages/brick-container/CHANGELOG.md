@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.3...@easyops/brick-container@1.22.4) (2020-07-13)
+
+### Bug Fixes
+
+- add dependencies ucpro_desktop_service ([543d686](https://git.easyops.local/anyclouds/next-core/commits/543d686))
+
 ## [1.22.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.2...@easyops/brick-container@1.22.3) (2020-07-09)
 
 **Note:** Version bump only for package @easyops/brick-container

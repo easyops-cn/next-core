@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.15.3...@easyops/build-config-factory@1.16.0) (2020-07-13)
+
+### Features
+
+- **build-config-factory:** generate brick book ([7b25933](https://git.easyops.local/anyclouds/next-core/commits/7b25933))
+
 ## [1.15.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.15.2...@easyops/build-config-factory@1.15.3) (2020-07-08)
 
 **Note:** Version bump only for package @easyops/build-config-factory
