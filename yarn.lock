@@ -8625,6 +8625,21 @@ less@^3.11.3:
     request "^2.83.0"
     source-map "~0.6.0"
 
+less@^3.12.0:
+  version "3.12.0"
+  resolved "https://registry.npm.taobao.org/less/download/less-3.12.0.tgz?cache=0&sync_timestamp=1594651860362&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.12.0.tgz#f23f9bd94ba72495994865d84e3b5ac6ee8a0363"
+  integrity sha1-8j+b2UunJJWZSGXYTjtaxu6KA2M=
+  dependencies:
+    tslib "^1.10.0"
+  optionalDependencies:
+    errno "^0.1.1"
+    graceful-fs "^4.1.2"
+    image-size "~0.5.0"
+    make-dir "^2.1.0"
+    mime "^1.4.1"
+    native-request "^1.0.5"
+    source-map "~0.6.0"
+
 leven@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/leven/download/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
@@ -9432,6 +9447,11 @@ nanomatch@^1.2.9:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
+
+native-request@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npm.taobao.org/native-request/download/native-request-1.0.5.tgz#da67637c0a0ed0758243d1a688d647612f2d5a0a"
+  integrity sha1-2mdjfAoO0HWCQ9GmiNZHYS8tWgo=
 
 natural-compare@^1.4.0:
   version "1.4.0"
