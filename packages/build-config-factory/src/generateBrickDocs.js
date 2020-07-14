@@ -72,6 +72,7 @@ function composeBrickDocProperties(brick) {
   const { name, comment } = brick;
   return {
     name,
+    type: extractRealInterfaceType(brick.type.type, brick.type),
     ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
   };
 }
