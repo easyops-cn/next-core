@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.45.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.45.0...@easyops/brick-types@1.45.1) (2020-07-14)
+
+### Bug Fixes
+
+- **context:** define brick property as context ([2ada956](https://git.easyops.local/anyclouds/next-core/commits/2ada956))
+
 # [1.45.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.44.0...@easyops/brick-types@1.45.0) (2020-07-13)
 
 ### Features

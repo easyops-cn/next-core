@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.16.1...@easyops/build-config-factory@1.17.0) (2020-07-14)
+
+### Features
+
+- **build-config-factory:** 在 providers 生成 custom elements 时如果有重复就报错 ([35fa7c2](https://git.easyops.local/anyclouds/next-core/commits/35fa7c2))
+- **build-config-factory:** brick doc 构建属性 type 显示默认类型，但是优先使用[@kind](https://git.easyops.local/kind)中的类型 ([cfa9839](https://git.easyops.local/anyclouds/next-core/commits/cfa9839))
+- **build-config-factory:** providers 生成 custom elements 时去重 ([d522bd8](https://git.easyops.local/anyclouds/next-core/commits/d522bd8))
+
 ## [1.16.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.16.0...@easyops/build-config-factory@1.16.1) (2020-07-13)
 
 **Note:** Version bump only for package @easyops/build-config-factory
