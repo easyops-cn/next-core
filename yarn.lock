@@ -2073,10 +2073,10 @@
   resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.8.2.tgz#efc2d233129cfb1af76889a20978669f6370de76"
   integrity sha1-78LSMxKc+xr3aImiCXhmn2Nw3nY=
 
-"@sdk/user-service-sdk@^0.2.6":
-  version "0.2.6"
-  resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.2.6.tgz#dd970660a98e5413d1be571b948a4c2a7797f2d2"
-  integrity sha1-3ZcGYKmOVBPRvlcblIpMKneX8tI=
+"@sdk/user-service-sdk@^0.2.7":
+  version "0.2.7"
+  resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.2.7.tgz#51178395631745747bb248523a4cb3a5dbdfc5b3"
+  integrity sha1-UReDlWMXRXR7skhSOkyzpdvfxbM=
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.0"
