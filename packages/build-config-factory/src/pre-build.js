@@ -12,7 +12,7 @@ const generateProviderElements = () => {
 
   const defines = [];
   const groupSet = new Set();
-  for (const api of providersJson.providers) {
+  for (const api of [...new Set(providersJson.providers)]) {
     const [groupName, apiName] = api.split(".");
     groupSet.add(groupName);
     defines.push(
@@ -24,7 +24,7 @@ const generateProviderElements = () => {
       );`
     );
   }
-  const importPath = providersJson.sdk
+  const importPath = providersJson.sdk;
 
   const content = `import { createProviderClass } from "@easyops/brick-utils";
     import { ${Array.from(groupSet).join(",")} } from "${importPath}";
