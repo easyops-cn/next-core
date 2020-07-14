@@ -4,15 +4,34 @@ const fs = require("fs-extra");
 const changeCase = require("change-case");
 const prettier = require("prettier");
 
+const findDuplicatesProvider = (providers) => {
+  const sortedProviders = providers.slice().sort();
+  const results = [];
+  for (let i = 0; i < sortedProviders.length - 1; i++) {
+    if (sortedProviders[i + 1] === sortedProviders[i]) {
+      results.push(sortedProviders[i]);
+    }
+  }
+  return results;
+};
+
 const generateProviderElements = () => {
   const providersJson = require(path.join(process.cwd(), "providers.json"));
-
   const providersPackage = require(path.join(process.cwd(), "package.json"));
+  const duplicatesProvider = findDuplicatesProvider(providersJson.providers);
+  if (duplicatesProvider.length > 0) {
+    throw new Error(
+      `The duplicate providers are ${duplicatesProvider
+        .map((provider) => `"${provider}"`)
+        .join("，")}. please recheck.`
+    );
+  }
+
   const packageName = providersPackage.name.split("/")[1];
 
   const defines = [];
   const groupSet = new Set();
-  for (const api of [...new Set(providersJson.providers)]) {
+  for (const api of providersJson.providers) {
     const [groupName, apiName] = api.split(".");
     groupSet.add(groupName);
     defines.push(
