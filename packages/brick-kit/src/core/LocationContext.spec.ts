@@ -267,6 +267,12 @@ describe("LocationContext", () => {
                       title:
                         "<% `${CTX.myFreeContext} ${CTX.myAsyncContext}` %>",
                     },
+                    context: [
+                      {
+                        name: "myNewPropContext",
+                        property: "title",
+                      },
+                    ],
                     exports: {
                       title: "CTX.myPropContext",
                     },
