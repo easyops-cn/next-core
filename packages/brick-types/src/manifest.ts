@@ -125,6 +125,7 @@ export interface ContextConf {
   name: string;
   value?: any;
   resolve?: ResolveConf;
+  property?: string;
 }
 
 export interface SeguesConf {
