@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.6...@easyops/brick-container@1.23.0) (2020-07-15)
+
+### Features
+
+- update antd checkbox style ([3a6a505](https://git.easyops.local/anyclouds/next-core/commits/3a6a505))
+
 ## [1.22.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.5...@easyops/brick-container@1.22.6) (2020-07-14)
 
 **Note:** Version bump only for package @easyops/brick-container
