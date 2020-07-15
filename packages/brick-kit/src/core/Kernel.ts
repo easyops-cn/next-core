@@ -53,6 +53,7 @@ export class Kernel {
   > = Promise.resolve(new Map());
 
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
+  private providerRepository = new Map<string, HTMLElement>();
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
@@ -203,9 +204,13 @@ export class Kernel {
     }
   }
 
-  async loadDynamicBricks(brickConf: BrickConf): Promise<void> {
-    // Try to load deps for dynamic added bricks.
+  async loadDynamicBricksInBrickConf(brickConf: BrickConf): Promise<void> {
     const bricks = scanBricksInBrickConf(brickConf);
+    await this.loadDynamicBricks(bricks);
+  }
+
+  async loadDynamicBricks(bricks: string[]): Promise<void> {
+    // Try to load deps for dynamic added bricks.
     const { dll, deps } = getDllAndDepsOfBricks(
       bricks.filter(
         // Only try to load undefined custom elements.
@@ -300,7 +305,7 @@ export class Kernel {
   }
 
   private async loadMagicBrickConfig(): Promise<Map<string, MagicBrickConfig>> {
-    const allMagicBrickConfiMap: Map<string, MagicBrickConfig> = new Map();
+    const allMagicBrickConfigMap: Map<string, MagicBrickConfig> = new Map();
     try {
       const allMagicBrickConfig = (
         await InstanceApi.postSearch("_BRICK_MAGIC", {
@@ -313,13 +318,13 @@ export class Kernel {
         })
       ).list as MagicBrickConfig[];
       for (const config of allMagicBrickConfig) {
-        allMagicBrickConfiMap.set(config.selector, config);
+        allMagicBrickConfigMap.set(config.selector, config);
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("Load magic brick config error:", error);
     }
-    return allMagicBrickConfiMap;
+    return allMagicBrickConfigMap;
   }
 
   private loadRelatedAppsAsync(): void {
@@ -403,5 +408,18 @@ export class Kernel {
 
   getFeatureFlags(): FeatureFlags {
     return Object.assign({}, this.bootstrapData.settings?.featureFlags);
+  }
+
+  async getProviderBrick(provider: string): Promise<HTMLElement> {
+    if (this.providerRepository.has(provider)) {
+      return this.providerRepository.get(provider);
+    }
+    await this.loadDynamicBricks([provider]);
+    if (!customElements.get(provider)) {
+      throw new Error(`Provider not defined: "${provider}".`);
+    }
+    const brick = document.createElement(provider);
+    this.providerRepository.set(provider, brick);
+    return brick;
   }
 }

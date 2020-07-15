@@ -4,11 +4,20 @@ import { RuntimeBrick } from "./BrickNode";
 jest.mock("../handleHttpError");
 
 // Mock a custom element of `any-provider`.
-customElements.define("any-provider", class Tmp extends HTMLElement {});
+customElements.define(
+  "any-provider",
+  class Tmp extends HTMLElement {
+    resolve(): string {
+      return "resolved";
+    }
+  }
+);
 
 describe("Resolver", () => {
+  const anyProvider = document.createElement("any-provider");
   const kernel = {
     mountPoints: {},
+    getProviderBrick: jest.fn().mockResolvedValue(anyProvider),
   } as any;
   let resolver: Resolver;
 
@@ -131,6 +140,30 @@ describe("Resolver", () => {
     await jest.runTimersToTime(3000);
     expect(testMethod).toBeCalledTimes(2);
     resolver.resetRefreshQueue();
+  });
+
+  it("should work for useProvider", async () => {
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            useProvider: "any-provider",
+          },
+        ],
+      },
+    };
+    await resolver.resolve(
+      {
+        lifeCycle: brickA.lifeCycle,
+      },
+      brickA,
+      null
+    );
+    expect(brickA.properties.testProp).toBe("resolved");
   });
 
   it("should handle reject", async () => {
@@ -289,7 +322,7 @@ describe("Resolver", () => {
         useResolves: [
           {
             name: "testProp",
-            provider: "any-provider",
+            provider: "provider-a",
             method: "testMethod",
           },
         ],
@@ -306,18 +339,13 @@ describe("Resolver", () => {
         null
       );
     } catch (error) {
-      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toContain('Provider not found: "provider-a"');
     }
   });
 
   it("should throw if provider not defined", async () => {
-    const testMethod = jest.fn().mockResolvedValue({
-      data: {
-        hello: "world",
-      },
-    });
     const provider = {
-      testMethod,
+      tagName: "provider-not-defined",
     };
     kernel.mountPoints.bg = {
       querySelector: () => provider,
@@ -331,7 +359,7 @@ describe("Resolver", () => {
         useResolves: [
           {
             name: "testProp",
-            provider: "any-provider",
+            provider: "provider-not-defined",
             method: "testMethod",
           },
         ],
@@ -349,7 +377,9 @@ describe("Resolver", () => {
         null
       );
     } catch (error) {
-      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toContain(
+        'Provider not defined: "provider-not-defined"'
+      );
     }
   });
 
@@ -379,7 +409,7 @@ describe("Resolver", () => {
         null
       );
     } catch (error) {
-      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toContain('Provider ref not found: "provider-a"');
     }
   });
 });

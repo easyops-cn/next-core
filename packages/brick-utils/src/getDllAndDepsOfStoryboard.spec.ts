@@ -1,4 +1,7 @@
-import { getDllAndDepsOfStoryboard } from "./getDllAndDepsOfStoryboard";
+import {
+  getDllAndDepsOfStoryboard,
+  getDllAndDepsOfBricks,
+} from "./getDllAndDepsOfStoryboard";
 import { scanBricksInStoryboard } from "./scanBricksInStoryboard";
 import { Storyboard, BrickPackage } from "@easyops/brick-types";
 
@@ -32,6 +35,13 @@ describe("getDllAndDepsOfStoryboard", () => {
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.js?fake-hash"],
       deps: ["x", "z"],
+    });
+  });
+
+  it("should work for empty bricks", () => {
+    expect(getDllAndDepsOfBricks([], [])).toEqual({
+      dll: [],
+      deps: [],
     });
   });
 });

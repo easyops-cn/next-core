@@ -216,3 +216,10 @@ export function _internalApiGetRouterState(): RouterState {
 export function _internalApiGetCurrentContext(): PluginRuntimeContext {
   return kernel.router.getCurrentContext();
 }
+
+/* istanbul ignore next */
+export function _internalApiGetProviderBrick(
+  provider: string
+): Promise<HTMLElement> {
+  return kernel.getProviderBrick(provider);
+}
