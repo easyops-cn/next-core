@@ -42,7 +42,7 @@
     "@easyops/brick-dll": "^1.3.2",
     "@easyops/custom-antd-styles": "^0.11.3",
     "babel-loader": "^8.1.0",
-    "chokidar": "^3.4.0",
+    "chokidar": "^3.4.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
     "core-js": "^3.6.5",
