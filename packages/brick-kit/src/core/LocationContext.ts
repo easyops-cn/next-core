@@ -593,7 +593,7 @@ export class LocationContext {
       );
 
       // Try to load deps for dynamic added bricks.
-      await this.kernel.loadDynamicBricks(expandedBrickConf);
+      await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 
     if (expandedBrickConf.exports) {

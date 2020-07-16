@@ -180,8 +180,19 @@ export interface BrickLifeCycle {
 
 export type ResolveConf = EntityResolveConf | RefResolveConf;
 
-export interface EntityResolveConf {
+export type EntityResolveConf =
+  | UseProviderResolveConf
+  | SelectorProviderResolveConf;
+
+export interface UseProviderResolveConf extends BaseEntityResolveConf {
+  useProvider: string;
+}
+
+export interface SelectorProviderResolveConf extends BaseEntityResolveConf {
   provider: string;
+}
+
+export interface BaseEntityResolveConf {
   method?: string;
   args?: any[];
   field?: string | string[];
@@ -192,10 +203,12 @@ export interface EntityResolveConf {
   onReject?: HandleReject;
 }
 
-export interface DefineResolveConf
-  extends Omit<EntityResolveConf, "name" | "onReject"> {
+export type DefineResolveConf = (
+  | Omit<UseProviderResolveConf, "name" | "onReject">
+  | Omit<SelectorProviderResolveConf, "name" | "onReject">
+) & {
   id: string;
-}
+};
 
 export interface RefResolveConf {
   ref: string;
@@ -296,6 +309,7 @@ export interface BrickEventsMap {
 
 export type BrickEventHandler =
   | BuiltinBrickEventHandler
+  | UseProviderEventHandler
   | CustomBrickEventHandler;
 
 export interface BuiltinBrickEventHandler {
@@ -352,6 +366,13 @@ export interface BuiltinBrickEventHandler {
   if?: string | boolean;
 }
 
+export interface UseProviderEventHandler {
+  useProvider: string;
+  args?: any[];
+  callback?: BrickEventHandlerCallback;
+  if?: string | boolean;
+}
+
 export interface BaseCustomBrickEventHandler {
   target?: string | any; // The target element selector or element itself.
   targetRef?: string; // The target ref inside a custom template.
@@ -363,11 +384,13 @@ export interface ExecuteCustomBrickEventHandler
   extends BaseCustomBrickEventHandler {
   method: string; // The element's method
   args?: any[]; // Defaults to the event itself
-  callback?: {
-    success?: BrickEventHandler | BrickEventHandler[];
-    error?: BrickEventHandler | BrickEventHandler[];
-    finally?: BrickEventHandler | BrickEventHandler[];
-  };
+  callback?: BrickEventHandlerCallback;
+}
+
+export interface BrickEventHandlerCallback {
+  success?: BrickEventHandler | BrickEventHandler[];
+  error?: BrickEventHandler | BrickEventHandler[];
+  finally?: BrickEventHandler | BrickEventHandler[];
 }
 
 export interface SetPropsCustomBrickEventHandler

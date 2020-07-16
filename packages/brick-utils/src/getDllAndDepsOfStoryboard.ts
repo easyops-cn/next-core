@@ -22,24 +22,28 @@ export function getDllAndDepsOfBricks(
 ): DllAndDeps {
   const dll = new Set<string>();
   const deps: string[] = [];
-  const brickSet = new Set(bricks);
-  brickPackages.forEach((pkg) => {
-    if (pkg.bricks.some((brick) => brickSet.has(brick))) {
-      if (pkg.dll) {
-        for (const dllName of pkg.dll) {
-          let file = `dll-of-${dllName}.js`;
-          const dllHash: Record<string, string> = (window as any)["DLL_HASH"];
-          if (dllHash && dllHash[dllName]) {
-            file += `?${dllHash[dllName]}`;
+  if (bricks.length > 0) {
+    const brickSet = new Set(bricks);
+    brickPackages.forEach((pkg) => {
+      if (pkg.bricks.some((brick) => brickSet.has(brick))) {
+        if (pkg.dll) {
+          for (const dllName of pkg.dll) {
+            dll.add(dllName);
           }
-          dll.add(file);
         }
+        deps.push(pkg.filePath);
       }
-      deps.push(pkg.filePath);
-    }
-  });
+    });
+  }
+  const dllHash: Record<string, string> = (window as any)["DLL_HASH"];
   return {
-    dll: Array.from(dll),
+    dll: Array.from(dll).map((dllName) => {
+      let file = `dll-of-${dllName}.js`;
+      if (dllHash?.[dllName]) {
+        file += `?${dllHash[dllName]}`;
+      }
+      return file;
+    }),
     deps,
   };
 }

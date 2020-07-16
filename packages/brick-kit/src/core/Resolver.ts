@@ -8,6 +8,8 @@ import {
   DefineResolveConf,
   ResolveConf,
   HandleRejectByTransform,
+  UseProviderResolveConf,
+  SelectorProviderResolveConf,
 } from "@easyops/brick-types";
 import { asyncProcessBrick } from "@easyops/brick-utils";
 import { computeRealValue } from "../setProperties";
@@ -76,7 +78,7 @@ export class Resolver {
       );
 
       // Try to load deps for dynamic added bricks.
-      await this.kernel.loadDynamicBricks(brickConf);
+      await this.kernel.loadDynamicBricksInBrickConf(brickConf);
     }
   }
 
@@ -126,64 +128,79 @@ export class Resolver {
     const {
       name,
       provider,
+      useProvider,
       method = "resolve",
       args,
       field,
       transformFrom,
       transformMapArray,
       transform,
-    } = actualResolveConf as EntityResolveConf;
+    } = actualResolveConf as UseProviderResolveConf &
+      SelectorProviderResolveConf;
 
-    const providerBrick: RefreshableProvider = this.kernel.mountPoints.bg.querySelector(
-      provider
-    ) as RefreshableProvider;
+    let providerBrick: RefreshableProvider;
 
-    if (!providerBrick) {
-      throw new Error(
-        `Provider not found: "${provider}" in ${
-          type === "reference"
-            ? "reference"
-            : brickConf.template
-            ? `template ${brickConf.template}`
-            : `brick ${brick.type}`
-        }`
-      );
-    }
+    if (useProvider) {
+      providerBrick = (await this.kernel.getProviderBrick(useProvider)) as any;
+    } else {
+      providerBrick = this.kernel.mountPoints.bg.querySelector(provider);
 
-    makeProviderRefreshable(providerBrick);
+      if (!providerBrick) {
+        throw new Error(
+          `Provider not found: "${provider}" in ${
+            type === "reference"
+              ? "reference"
+              : brickConf.template
+              ? `template ${brickConf.template}`
+              : `brick ${brick.type}`
+          }`
+        );
+      }
 
-    if (providerBrick.interval && !this.refreshQueue.has(providerBrick)) {
-      this.refreshQueue.set(providerBrick, { ...providerBrick.interval });
-    }
+      const providerTagName = providerBrick.tagName.toLowerCase();
 
-    // Currently we can't refresh dynamic templates.
-    if (type !== "reference" && !brickConf.template) {
-      providerBrick.$$dependents.push({
-        brick,
-        method,
-        args,
-        field,
-        ...(ref
-          ? {
-              ref,
-              intermediateTransform: transform || name,
-              intermediateTransformFrom: transformFrom,
-              intermediateTransformMapArray: transformMapArray,
-              transform: resolveConf.transform,
-              transformFrom: resolveConf.transformFrom,
-              transformMapArray: resolveConf.transformMapArray,
-              onReject: resolveConf.onReject,
-            }
-          : {
-              transform: transform || name,
-              transformFrom,
-              transformMapArray,
-            }),
-      });
+      if (!customElements.get(providerTagName)) {
+        throw new Error(
+          `Provider not defined: "${providerTagName}", please make sure the related package is installed.`
+        );
+      }
+
+      makeProviderRefreshable(providerBrick);
+
+      if (providerBrick.interval && !this.refreshQueue.has(providerBrick)) {
+        this.refreshQueue.set(providerBrick, { ...providerBrick.interval });
+      }
+
+      // Currently we can't refresh dynamic templates.
+      if (type !== "reference" && !brickConf.template) {
+        providerBrick.$$dependents.push({
+          brick,
+          method,
+          args,
+          field,
+          ...(ref
+            ? {
+                ref,
+                intermediateTransform: transform || name,
+                intermediateTransformFrom: transformFrom,
+                intermediateTransformMapArray: transformMapArray,
+                transform: resolveConf.transform,
+                transformFrom: resolveConf.transformFrom,
+                transformMapArray: resolveConf.transformMapArray,
+                onReject: resolveConf.onReject,
+              }
+            : {
+                transform: transform || name,
+                transformFrom,
+                transformMapArray,
+              }),
+        });
+      }
     }
 
     const cacheKey = JSON.stringify({
       provider,
+      useProvider,
       method,
       args,
     });
@@ -198,13 +215,6 @@ export class Resolver {
           ? computeRealValue(args, context, true)
           : args
         : providerBrick.args || [];
-
-      const providerName = providerBrick.tagName.toLowerCase();
-      if (!customElements.get(providerName)) {
-        throw new Error(
-          `Provider not defined: "${providerName}", make sure that relative package is installed`
-        );
-      }
 
       promise = providerBrick[method](...actualArgs);
       this.cache.set(cacheKey, promise);

@@ -11,6 +11,16 @@ import * as runtime from "./core/Runtime";
 
 jest.mock("./history");
 
+// Mock a custom element of `any-provider`.
+customElements.define(
+  "any-provider",
+  class Tmp extends HTMLElement {
+    resolve(): string {
+      return "resolved";
+    }
+  }
+);
+
 const mockHistory = {
   push: jest.fn(),
   replace: jest.fn(),
@@ -70,6 +80,17 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   },
   storyboardContext,
 } as any);
+
+const anyProvider = document.createElement("any-provider");
+jest.spyOn(runtime, "_internalApiGetProviderBrick").mockImplementation(
+  async (provider: string): Promise<HTMLElement> => {
+    await Promise.resolve();
+    if (provider === "any-provider") {
+      return anyProvider;
+    }
+    throw new Error(`Provider not defined: "${provider}".`);
+  }
+);
 
 describe("isBuiltinHandler", () => {
   const cases: [BrickEventHandler, boolean][] = [
@@ -335,6 +356,23 @@ describe("bindListeners", () => {
           target: "#target-elem",
           properties: { someProperty: "${EVENT.detail}" },
         },
+        {
+          useProvider: "any-provider",
+          args: ["for", "${EVENT.detail}"],
+          callback: {
+            success: {
+              action: "console.log",
+            },
+          },
+        },
+        {
+          useProvider: "not-defined-provider",
+          callback: {
+            success: {
+              action: "console.log",
+            },
+          },
+        },
       ],
       key3: { action: "not.existed" },
       key4: {},
@@ -420,19 +458,23 @@ describe("bindListeners", () => {
 
     expect(spyOnPreventDefault).toBeCalled();
 
-    expect(console.log).toBeCalledTimes(2);
+    expect(console.log).toBeCalledTimes(3);
     expect(console.log).toHaveBeenNthCalledWith(1, event1);
     expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
       "callback.success"
     );
     expect((console.log as jest.Mock).mock.calls[1][0].detail).toBe("yes");
+    expect((console.log as jest.Mock).mock.calls[2][0].type).toBe(
+      "callback.success"
+    );
+    expect((console.log as jest.Mock).mock.calls[2][0].detail).toBe("resolved");
     expect(console.info).toBeCalledTimes(2);
     expect(console.info).toBeCalledWith(event1);
     expect((console.info as jest.Mock).mock.calls[1][0].type).toBe(
       "callback.finally"
     );
     expect(console.warn).toBeCalledWith("specified args for console.warn");
-    expect(console.error).toBeCalledTimes(6);
+    expect(console.error).toBeCalledTimes(7);
     expect(console.error).toHaveBeenNthCalledWith(
       1,
       "specified args for console.error"
@@ -448,15 +490,19 @@ describe("bindListeners", () => {
       "target not found:",
       "#not-existed"
     );
-    expect((console.error as jest.Mock).mock.calls[5][0].type).toBe(
+    expect(console.error).toHaveBeenNthCalledWith(
+      6,
+      'Error: Provider not defined: "not-defined-provider".'
+    );
+    expect((console.error as jest.Mock).mock.calls[6][0].type).toBe(
       "callback.error"
     );
-    expect((console.error as jest.Mock).mock.calls[5][0].detail).toBe("oops");
+    expect((console.error as jest.Mock).mock.calls[6][0].detail).toBe("oops");
     expect((sourceElem as any).forGood).toHaveBeenNthCalledWith(
       1,
       "target is _self"
     );
-    expect((targetElem as any).forGood).toHaveBeenNthCalledWith(1, event2);
+    expect((targetElem as any).forGood).toHaveBeenNthCalledWith(1);
     expect((targetElem as any).forGood).toHaveBeenNthCalledWith(
       2,
       "specified args for multiple"
