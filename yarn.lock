@@ -2191,10 +2191,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^4.5.4":
-  version "4.5.4"
-  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.5.4.tgz#7c05aabfb0c20f8d699f1edae7dd2703e259ae57"
-  integrity sha1-fAWqv7DCD41pnx7a590nA+JZrlc=
+"@size-limit/file@^4.5.5":
+  version "4.5.5"
+  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.5.5.tgz#98a435f68f598d71c6f6e9684a45af10ec9bf37d"
+  integrity sha1-mKQ19o9ZjXHG9uloSkWvEOyb830=
   dependencies:
     semver "7.3.2"
 
