@@ -502,7 +502,7 @@ describe("bindListeners", () => {
       1,
       "target is _self"
     );
-    expect((targetElem as any).forGood).toHaveBeenNthCalledWith(1);
+    expect((targetElem as any).forGood).toHaveBeenNthCalledWith(1, event2);
     expect((targetElem as any).forGood).toHaveBeenNthCalledWith(
       2,
       "specified args for multiple"
