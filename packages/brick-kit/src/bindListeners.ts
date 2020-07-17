@@ -470,7 +470,9 @@ function customListenerFactory(
     }
     if (isExecuteCustomHandler(handler)) {
       targets.forEach((target) => {
-        brickCallback(target, handler, handler.method, context, brick, event);
+        brickCallback(target, handler, handler.method, context, brick, event, {
+          useEventAsDefault: true,
+        });
       });
     } else if (isSetPropsCustomHandler(handler)) {
       setProperties(
@@ -492,7 +494,8 @@ async function brickCallback(
   method: string,
   context: PluginRuntimeContext,
   brick: HTMLElement,
-  event: CustomEvent
+  event: CustomEvent,
+  options?: ArgsFactoryOptions
 ): Promise<void> {
   if (typeof target[method] !== "function") {
     // eslint-disable-next-line no-console
@@ -502,7 +505,9 @@ async function brickCallback(
     });
     return;
   }
-  const task = target[method](...argsFactory(handler.args, context, event));
+  const task = target[method](
+    ...argsFactory(handler.args, context, event, options)
+  );
   const { success, error, finally: finallyHook } = handler.callback ?? {};
   if (success || error || finallyHook) {
     try {
@@ -602,14 +607,16 @@ function builtinMessageListenerFactory(
   } as EventListener;
 }
 
+interface ArgsFactoryOptions {
+  useEventAsDefault?: boolean;
+  useEventDetailAsDefault?: boolean;
+}
+
 function argsFactory(
   args: any[],
   context: PluginRuntimeContext,
   event: CustomEvent,
-  options: {
-    useEventAsDefault?: boolean;
-    useEventDetailAsDefault?: boolean;
-  } = {}
+  options: ArgsFactoryOptions = {}
 ): any {
   return Array.isArray(args)
     ? computeRealValue(
