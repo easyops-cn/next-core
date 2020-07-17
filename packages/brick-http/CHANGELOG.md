@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@1.1.2...@easyops/brick-http@1.1.3) (2020-07-17)
+
+### Bug Fixes
+
+- fix error of `new Headers(undefined)` in older browsers ([6d93308](https://git.easyops.local/anyclouds/next-core/commits/6d93308))
+
 ## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@1.1.1...@easyops/brick-http@1.1.2) (2020-07-06)
 
 **Note:** Version bump only for package @easyops/brick-http
