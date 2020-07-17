@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.23.2...@easyops/brick-container@1.23.3) (2020-07-17)
+
+### Bug Fixes
+
+- **serve:** fix glob patterns not working when watch symlinks ([6fc5c7f](https://git.easyops.local/anyclouds/next-core/commits/6fc5c7f))
+
 ## [1.23.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.23.1...@easyops/brick-container@1.23.2) (2020-07-17)
 
 **Note:** Version bump only for package @easyops/brick-container
