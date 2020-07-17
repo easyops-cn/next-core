@@ -11,8 +11,8 @@ const fullBaseHref = base ? base.href : location.origin + "/";
 export type HttpParams =
   | URLSearchParams
   | {
-    [key: string]: any;
-  };
+      [key: string]: any;
+    };
 
 export interface RequestCustomOptions {
   responseType?: "json" | "blob" | "arrayBuffer" | "text";
@@ -93,7 +93,9 @@ const getBodyAndHeaders = (
   headers: HeadersInit
 ): { body?: BodyInit; headers?: HeadersInit } => {
   if (data !== undefined) {
-    const parsedHeaders = new Headers(headers);
+    // `new Headers(undefined)` will throw a TypeError in older browsers (chrome 58).
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=335871
+    const parsedHeaders = new Headers(headers || {});
     let body = data;
     if (typeof data === "string") {
       parsedHeaders.set("Content-Type", "application/x-www-form-urlencoded");
@@ -193,5 +195,5 @@ export const http = {
   head,
   request,
   getBodyAndHeaders,
-  getUrlWithParams
+  getUrlWithParams,
 };
