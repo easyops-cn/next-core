@@ -5,9 +5,11 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const { throttle } = require("lodash");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
+const WebSocket = require("ws");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
+const { getPatternsToWatch } = require("./utils");
 
 const app = express();
 
@@ -90,23 +92,9 @@ console.log(
 );
 
 // 建立 websocket 连接支持自动刷新
-const WebSocket = require("ws");
-
 const wss = new WebSocket.Server({ port: env.wsPort });
 
-const watcher = chokidar.watch(
-  [
-    path.join(env.brickPackagesDir, "*/dist/*.js"),
-    path.join(env.microAppsDir, "*/storyboard.json"),
-    path.join(env.templatePackagesDir, "*/dist/*.js"),
-    ...(env.mocked
-      ? [path.join(env.mockedMicroAppsDir, "*/storyboard.json")]
-      : []),
-  ],
-  {
-    followSymlinks: true,
-  }
-);
+const watcher = chokidar.watch(getPatternsToWatch(env));
 
 const throttledOnChange = throttle(
   () => {

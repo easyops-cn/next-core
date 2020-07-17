@@ -174,6 +174,33 @@ function getSettings() {
   return mergeSettings(defaultSettings, getUserSettings());
 }
 
+// Resolve all symlinks of subdir to real path.
+function listRealpathOfSubdir(dir) {
+  return fs
+    .readdirSync(dir, {
+      withFileTypes: true,
+    })
+    .filter((dirent) => dirent.isSymbolicLink() || dirent.isDirectory())
+    .map((dirent) => fs.realpathSync(path.join(dir, dirent.name)));
+}
+
+function getPatternsToWatch(env) {
+  return [
+    ...listRealpathOfSubdir(env.brickPackagesDir).map((dir) =>
+      path.join(dir, "dist/*.js")
+    ),
+    ...listRealpathOfSubdir(env.microAppsDir).map((dir) =>
+      path.join(dir, "storyboard.json")
+    ),
+    ...listRealpathOfSubdir(env.templatePackagesDir).map((dir) =>
+      path.join(dir, "dist/*.js")
+    ),
+    ...(env.mocked
+      ? [path.join(env.mockedMicroAppsDir, "*/storyboard.json")]
+      : []),
+  ];
+}
+
 exports.getNavbar = getNavbar;
 exports.getStoryboardsByMicroApps = getStoryboardsByMicroApps;
 exports.getSingleStoryboard = getSingleStoryboard;
@@ -188,3 +215,4 @@ exports.getUserSettings = getUserSettings;
 exports.getNamesOfMicroApps = getNamesOfMicroApps;
 exports.getNamesOfBrickPackages = getNamesOfBrickPackages;
 exports.getNamesOfTemplatePackages = getNamesOfTemplatePackages;
+exports.getPatternsToWatch = getPatternsToWatch;
