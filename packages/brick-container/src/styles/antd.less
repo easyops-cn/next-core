@@ -195,5 +195,21 @@
       background: #f5f5f5;
     }
   }
+}
+/**
+ * 修改 form 的样式
+ * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=89e284e6-ab84-4808-a13b-bb72f6a60825&project_id=89e284e6-ab84-4808-a13b-bb72f6a60825&image_id=e2c7f6f2-4219-4a41-a3ea-4b7bc2ff2516
+*/
+.@{form-prefix-cls}-item {
+  &-label {
+    .anticon {
+      vertical-align: inherit;
+    }
+  }
 
+  &-required::before {
+    vertical-align: middle;
+    position: relative;
+    top: 1px;
+  }
 }
