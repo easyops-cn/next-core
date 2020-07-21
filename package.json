@@ -28,33 +28,33 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/types": "^7.10.4",
-    "@size-limit/file": "^4.5.3",
+    "@babel/core": "^7.10.5",
+    "@babel/types": "^7.10.5",
+    "@size-limit/file": "^4.5.5",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.1",
     "@types/fs-extra": "^9.0.1",
     "@types/history": "^4.7.6",
     "@types/inquirer": "^6.5.0",
-    "@types/jest": "^26.0.4",
+    "@types/jest": "^26.0.5",
     "@types/js-yaml": "^3.12.5",
     "@types/klaw-sync": "^6.0.0",
     "@types/lodash": "^4.14.157",
     "@types/meow": "^5.0.0",
     "@types/node": "^10.12.18",
     "@types/prettier": "^2.0.2",
-    "@types/react": "^16.9.41",
+    "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
-    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
     "babel-jest": "^26.1.0",
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.5.0",
-    "eslint": "^7.4.0",
+    "eslint": "^7.5.0",
     "eslint-plugin-react": "^7.20.3",
-    "eslint-plugin-react-hooks": "^4.0.5",
+    "eslint-plugin-react-hooks": "^4.0.8",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "lerna": "^3.22.1",
@@ -62,15 +62,16 @@
     "null-loader": "^4.0.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "typescript": "~3.9.6"
+    "typescript": "~3.9.7"
   },
   "workspaces": [
     "packages/*",
     "dll/*"
   ],
   "resolutions": {
-    "@types/react": "^16.9.41",
-    "lodash": "^4.17.15",
+    "@babel/runtime": "^7.10.5",
+    "@types/react": "^16.9.43",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0"
   }
 }
