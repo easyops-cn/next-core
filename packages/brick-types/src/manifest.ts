@@ -64,6 +64,7 @@ export interface AuthInfo {
   org?: number;
   username?: string;
   userInstanceId?: string;
+  loginFrom?: string;
 }
 
 export interface NavbarConf {
@@ -124,6 +125,7 @@ export interface ContextConf {
   name: string;
   value?: any;
   resolve?: ResolveConf;
+  property?: string;
 }
 
 export interface SeguesConf {
@@ -178,8 +180,19 @@ export interface BrickLifeCycle {
 
 export type ResolveConf = EntityResolveConf | RefResolveConf;
 
-export interface EntityResolveConf {
+export type EntityResolveConf =
+  | UseProviderResolveConf
+  | SelectorProviderResolveConf;
+
+export interface UseProviderResolveConf extends BaseEntityResolveConf {
+  useProvider: string;
+}
+
+export interface SelectorProviderResolveConf extends BaseEntityResolveConf {
   provider: string;
+}
+
+export interface BaseEntityResolveConf {
   method?: string;
   args?: any[];
   field?: string | string[];
@@ -190,10 +203,12 @@ export interface EntityResolveConf {
   onReject?: HandleReject;
 }
 
-export interface DefineResolveConf
-  extends Omit<EntityResolveConf, "name" | "onReject"> {
+export type DefineResolveConf = (
+  | Omit<UseProviderResolveConf, "name" | "onReject">
+  | Omit<SelectorProviderResolveConf, "name" | "onReject">
+) & {
   id: string;
-}
+};
 
 export interface RefResolveConf {
   ref: string;
@@ -294,6 +309,7 @@ export interface BrickEventsMap {
 
 export type BrickEventHandler =
   | BuiltinBrickEventHandler
+  | UseProviderEventHandler
   | CustomBrickEventHandler;
 
 export interface BuiltinBrickEventHandler {
@@ -310,12 +326,21 @@ export interface BuiltinBrickEventHandler {
     | "history.pushAnchor"
     // | "history.replaceAnchor"
 
+    // Segues
+    | "segue.push"
+    | "segue.replace"
+
+    // Alias
+    | "alias.push"
+    | "alias.replace"
+
+    // Iframe
+    | "legacy.go"
+
     // Browser method
     | "location.reload"
     | "location.assign"
     | "window.open"
-    | "segue.push"
-    | "segue.replace"
     | "event.preventDefault"
     | "console.log"
     | "console.error"
@@ -331,9 +356,6 @@ export interface BuiltinBrickEventHandler {
     // `handleHttpError`
     | "handleHttpError"
 
-    // Iframe
-    | "legacy.go"
-
     // Storyboard context
     | "context.assign"
     | "context.replace"
@@ -341,6 +363,13 @@ export interface BuiltinBrickEventHandler {
     // Find related tpl and dispatch event.
     | "tpl.dispatchEvent";
   args?: any[]; // Defaults to the event itself
+  if?: string | boolean;
+}
+
+export interface UseProviderEventHandler {
+  useProvider: string;
+  args?: any[];
+  callback?: BrickEventHandlerCallback;
   if?: string | boolean;
 }
 
@@ -355,11 +384,13 @@ export interface ExecuteCustomBrickEventHandler
   extends BaseCustomBrickEventHandler {
   method: string; // The element's method
   args?: any[]; // Defaults to the event itself
-  callback?: {
-    success?: BrickEventHandler | BrickEventHandler[];
-    error?: BrickEventHandler | BrickEventHandler[];
-    finally?: BrickEventHandler | BrickEventHandler[];
-  };
+  callback?: BrickEventHandlerCallback;
+}
+
+export interface BrickEventHandlerCallback {
+  success?: BrickEventHandler | BrickEventHandler[];
+  error?: BrickEventHandler | BrickEventHandler[];
+  finally?: BrickEventHandler | BrickEventHandler[];
 }
 
 export interface SetPropsCustomBrickEventHandler

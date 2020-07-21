@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.10...@easyops/brick-dll@1.3.11) (2020-07-20)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.9...@easyops/brick-dll@1.3.10) (2020-07-17)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.8...@easyops/brick-dll@1.3.9) (2020-07-17)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.7...@easyops/brick-dll@1.3.8) (2020-07-14)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.6...@easyops/brick-dll@1.3.7) (2020-07-13)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.5...@easyops/brick-dll@1.3.6) (2020-07-09)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.4...@easyops/brick-dll@1.3.5) (2020-07-09)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.3...@easyops/brick-dll@1.3.4) (2020-07-08)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [1.3.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.2...@easyops/brick-dll@1.3.3) (2020-07-08)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
 ## [1.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.1...@easyops/brick-dll@1.3.2) (2020-07-07)
 
 **Note:** Version bump only for package @easyops/brick-dll

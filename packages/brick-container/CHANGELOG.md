@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.23.3...@easyops/brick-container@1.24.0) (2020-07-20)
+
+### Features
+
+- add icon ([30f26e4](https://git.easyops.local/anyclouds/next-core/commits/30f26e4))
+
+## [1.23.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.23.2...@easyops/brick-container@1.23.3) (2020-07-17)
+
+### Bug Fixes
+
+- **serve:** fix glob patterns not working when watch symlinks ([6fc5c7f](https://git.easyops.local/anyclouds/next-core/commits/6fc5c7f))
+
+## [1.23.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.23.1...@easyops/brick-container@1.23.2) (2020-07-17)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.23.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.23.0...@easyops/brick-container@1.23.1) (2020-07-17)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [1.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.6...@easyops/brick-container@1.23.0) (2020-07-15)
+
+### Features
+
+- update antd checkbox style ([3a6a505](https://git.easyops.local/anyclouds/next-core/commits/3a6a505))
+
+## [1.22.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.5...@easyops/brick-container@1.22.6) (2020-07-14)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.22.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.4...@easyops/brick-container@1.22.5) (2020-07-13)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.22.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.3...@easyops/brick-container@1.22.4) (2020-07-13)
+
+### Bug Fixes
+
+- add dependencies ucpro_desktop_service ([543d686](https://git.easyops.local/anyclouds/next-core/commits/543d686))
+
+## [1.22.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.2...@easyops/brick-container@1.22.3) (2020-07-09)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.22.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.1...@easyops/brick-container@1.22.2) (2020-07-09)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.22.0...@easyops/brick-container@1.22.1) (2020-07-08)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [1.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.9...@easyops/brick-container@1.22.0) (2020-07-08)
+
+### Features
+
+- **brick-container:** 当以 subDir 模式 serve 时，将非 next 目录下的请求代理至 console ([b2eda4d](https://git.easyops.local/anyclouds/next-core/commits/b2eda4d))
+
 ## [1.21.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.21.8...@easyops/brick-container@1.21.9) (2020-07-07)
 
 ### Bug Fixes

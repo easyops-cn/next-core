@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.55.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.55.0...@easyops/brick-kit@1.55.1) (2020-07-17)
+
+### Bug Fixes
+
+- **events:** pass event as default arg for brick method event handlers ([4295b24](https://git.easyops.local/anyclouds/next-core/commits/4295b24))
+
+# [1.55.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.54.1...@easyops/brick-kit@1.55.0) (2020-07-17)
+
+### Features
+
+- **useResolves:** support useProvider ([d31e46b](https://git.easyops.local/anyclouds/next-core/commits/d31e46b))
+
+## [1.54.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.54.0...@easyops/brick-kit@1.54.1) (2020-07-14)
+
+### Bug Fixes
+
+- **context:** define brick property as context ([2ada956](https://git.easyops.local/anyclouds/next-core/commits/2ada956))
+
+# [1.54.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.53.3...@easyops/brick-kit@1.54.0) (2020-07-13)
+
+### Bug Fixes
+
+- export afterMountTree in developHelper ([26ded54](https://git.easyops.local/anyclouds/next-core/commits/26ded54))
+
+### Features
+
+- add login from refs ([60cdc51](https://git.easyops.local/anyclouds/next-core/commits/60cdc51))
+
+## [1.53.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.53.2...@easyops/brick-kit@1.53.3) (2020-07-09)
+
+### Bug Fixes
+
+- throw error at test to avoid new conflicted properties ([227f1aa](https://git.easyops.local/anyclouds/next-core/commits/227f1aa))
+
+## [1.53.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.53.1...@easyops/brick-kit@1.53.2) (2020-07-09)
+
+### Bug Fixes
+
+- ignore to warn native-conflicted properties that explicitly specified ([596cc40](https://git.easyops.local/anyclouds/next-core/commits/596cc40))
+
+## [1.53.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.53.0...@easyops/brick-kit@1.53.1) (2020-07-08)
+
+### Bug Fixes
+
+- **menu:** fix menu title not changed if using titleDataSource ([c32ba5c](https://git.easyops.local/anyclouds/next-core/commits/c32ba5c))
+
+# [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.52.2...@easyops/brick-kit@1.53.0) (2020-07-08)
+
+### Features
+
+- route by alias ([67448fe](https://git.easyops.local/anyclouds/next-core/commits/67448fe))
+
 ## [1.52.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.52.1...@easyops/brick-kit@1.52.2) (2020-07-07)
 
 **Note:** Version bump only for package @easyops/brick-kit

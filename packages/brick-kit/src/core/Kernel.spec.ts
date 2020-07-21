@@ -2,6 +2,8 @@ import {
   loadScript,
   getDllAndDepsOfStoryboard,
   getTemplateDepsOfStoryboard,
+  scanBricksInBrickConf,
+  getDllAndDepsOfBricks,
 } from "@easyops/brick-utils";
 import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
@@ -15,6 +17,7 @@ import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
 import i18next from "i18next";
+import { assert } from "console";
 
 i18next.init({
   fallbackLng: "en",
@@ -66,8 +69,13 @@ const getObjectMicroAppList = ObjectMicroAppApi.getObjectMicroAppList as jest.Mo
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
+const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
+const spyOnGetDllAndDepsOfBricks = getDllAndDepsOfBricks as jest.Mock;
 
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
+
+// Mock a custom element of `my.test-provider`.
+customElements.define("my.test-provider", class Tmp extends HTMLElement {});
 
 (window as any).DLL_HASH = {
   d3: "fake-hash",
@@ -81,7 +89,7 @@ describe("Kernel", () => {
   });
 
   afterEach(() => {
-    spyOnAuthenticate.mockClear();
+    jest.clearAllMocks();
   });
 
   it("should bootstrap", async () => {
@@ -354,5 +362,50 @@ describe("Kernel", () => {
     expect(document.body.classList.contains("show-legacy-iframe")).toBe(true);
     kernel.toggleLegacyIframe(false);
     expect(document.body.classList.contains("show-legacy-iframe")).toBe(false);
+  });
+
+  it("should loadDynamicBricksInBrickConf", async () => {
+    kernel.bootstrapData = {} as any;
+    spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [
+      brickConf.brick,
+    ]);
+    spyOnGetDllAndDepsOfBricks.mockImplementation((bricks: string[]) => ({
+      dll: ["d3"],
+      deps: bricks.map((brick) => brick.split(".")[0]),
+    }));
+    await kernel.loadDynamicBricksInBrickConf({
+      brick: "my.test-brick",
+    });
+    expect(loadScript).toHaveBeenNthCalledWith(1, ["d3"]);
+    expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
+  });
+
+  it("should getProviderBrick", async () => {
+    kernel.bootstrapData = {} as any;
+    spyOnGetDllAndDepsOfBricks.mockImplementation((bricks: string[]) => ({
+      dll: [],
+      deps: bricks.map((brick) => brick.split(".")[0]),
+    }));
+    await kernel.getProviderBrick("my.test-provider");
+    expect(loadScript).toHaveBeenNthCalledWith(1, []);
+    expect(loadScript).toHaveBeenNthCalledWith(2, []);
+  });
+
+  it("should throw if getProviderBrick with not defined provider", async () => {
+    kernel.bootstrapData = {} as any;
+    spyOnGetDllAndDepsOfBricks.mockImplementation((bricks: string[]) => ({
+      dll: [],
+      deps: bricks.map((brick) => brick.split(".")[0]),
+    }));
+    expect.assertions(3);
+    try {
+      await kernel.getProviderBrick("my.not-defined-provider");
+    } catch (error) {
+      expect(error.message).toBe(
+        'Provider not defined: "my.not-defined-provider".'
+      );
+      expect(loadScript).toHaveBeenNthCalledWith(1, []);
+      expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
+    }
   });
 });

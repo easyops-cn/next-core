@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const rimraf = require("rimraf");
 const TypeDoc = require("typedoc");
 const { get } = require("lodash");
 const log = require("npmlog");
@@ -71,6 +72,7 @@ function composeBrickDocProperties(brick) {
   const { name, comment } = brick;
   return {
     name,
+    type: extractRealInterfaceType(brick.type.type, brick.type),
     ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
   };
 }
@@ -490,6 +492,29 @@ function getElementIdByGroups(groups) {
   return get(elementClass, "children[0]", null);
 }
 
+function generateBrickBook(docsJson) {
+  if (!docsJson) return;
+
+  const distPath = path.join(process.cwd(), "dist");
+  const { stories } = require(path.resolve(distPath, "stories"));
+
+  const storiesPath = path.join(distPath, "stories.json");
+  const docsPath = path.join(distPath, "docs.json");
+
+  rimraf.sync(path.join(distPath, "stories"));
+  rimraf.sync(docsPath);
+
+  stories.forEach((story) => {
+    const finder = docsJson.children.find((doc) => doc.id === story.storyId);
+    story.doc = finder || null;
+  });
+
+  fs.writeFileSync(storiesPath, JSON.stringify(stories, null, 2), {
+    encoding: "utf-8",
+  });
+  console.log("Brick book written to doc.json.");
+}
+
 module.exports = function generateBrickDocs(packageName, scope) {
   const app = new TypeDoc.Application();
 
@@ -556,16 +581,20 @@ module.exports = function generateBrickDocs(packageName, scope) {
       const typeDocJson = require(path.resolve(docsJsonPath));
       const bricksDocJson = generateBrickDoc(typeDocJson, scope);
       if (fs.existsSync(docsJsonPath)) {
-        fs.writeFile(
-          docsJsonPath,
-          JSON.stringify(bricksDocJson, null, 2),
-          (err) => {
-            if (err) throw err;
-            console.log("Bricks docs written to doc.json.");
-          }
-        );
+        // 如果构建包内有`stories`文件夹，默认生成构建demo和doc
+        if (fs.existsSync(path.join(process.cwd(), "dist", "stories"))) {
+          console.log("Generating brick book..");
+          generateBrickBook(bricksDocJson);
+          console.log(`Brick books for ${packageName} generated.`);
+        } else {
+          console.log("Generating brick docs..");
+          fs.writeFileSync(
+            docsJsonPath,
+            JSON.stringify(bricksDocJson, null, 2)
+          );
+          console.log(`Bricks docs for ${packageName} generated.`);
+        }
       }
-      console.log(`Bricks docs for ${packageName} generated.`);
     } else {
       throw new Error(`Bricks docs for ${packageName} generate failed.`);
     }

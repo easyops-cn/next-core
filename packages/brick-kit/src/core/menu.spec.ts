@@ -131,7 +131,7 @@ describe("processMenuTitle", () => {
       "Menu C",
     ],
   ])("processMenuTitle(%j) should return %j", async (menuData, title) => {
-    expect(await processMenuTitle(menuData, menuData.menuId)).toBe(title);
+    expect(await processMenuTitle(menuData)).toBe(title);
   });
 });
 

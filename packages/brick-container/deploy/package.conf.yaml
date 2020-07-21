@@ -19,5 +19,7 @@ dependencies:
     version: ^1.11.8
   - name: nginx
     version: ^3.5.5
+  - name: ucpro_desktop_service
+    version: ^1.6.1
 start_dependencies:
   - name: logic.api.gateway   # 依赖服务名

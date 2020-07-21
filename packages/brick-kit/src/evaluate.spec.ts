@@ -22,6 +22,13 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
           alias: "segue-target",
         },
       ],
+      [
+        "mock-alias",
+        {
+          path: "/mock/alias",
+          alias: "mock-alias",
+        },
+      ],
     ]),
   },
   query: new URLSearchParams("a=x&b=2&b=1"),
@@ -98,6 +105,7 @@ describe("evaluate", () => {
     ["<% HASH %>", "#readme"],
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
+    ["<% ALIAS.getUrl('mock-alias') %>", "/mock/alias"],
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],

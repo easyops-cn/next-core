@@ -32,6 +32,11 @@ describe("scanBricksInStoryboard", () => {
       },
       routes: [
         {
+          defineResolves: [
+            {
+              useProvider: "u-q",
+            },
+          ],
           providers: [
             "p-a",
             {
@@ -44,6 +49,55 @@ describe("scanBricksInStoryboard", () => {
             },
             {
               brick: "div",
+              if: {
+                useProvider: "u-k",
+              },
+              context: [
+                {
+                  resolve: {
+                    useProvider: "u-o",
+                  },
+                },
+              ],
+              lifeCycle: {
+                useResolves: [
+                  {
+                    provider: "u-z",
+                  },
+                  {
+                    useProvider: "u-a",
+                  },
+                ],
+                onPageLoad: {
+                  useProvider: "u-b",
+                },
+                onAnchorLoad: {
+                  useProvider: "u-c",
+                },
+                onAnchorUnload: [
+                  {
+                    useProvider: "u-d",
+                  },
+                ],
+              },
+              events: {
+                click: {
+                  useProvider: "u-e",
+                  callback: {
+                    success: {
+                      useProvider: "u-f",
+                    },
+                    error: {
+                      useProvider: "u-g",
+                    },
+                    finally: [
+                      {
+                        useProvider: "u-h",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             {
               brick: "b-b",
@@ -61,6 +115,22 @@ describe("scanBricksInStoryboard", () => {
                   type: "routes",
                   // `routes` not set
                 },
+              },
+            },
+          ],
+          menu: {
+            type: "resolve",
+            resolve: {
+              useProvider: "u-l",
+            },
+          },
+          redirect: {
+            useProvider: "u-m",
+          },
+          context: [
+            {
+              resolve: {
+                useProvider: "u-n",
               },
             },
           ],
@@ -103,6 +173,29 @@ describe("scanBricksInStoryboard", () => {
                               brick: "b-q",
                             },
                           },
+                          events: {
+                            click: {
+                              useProvider: "u-i",
+                              callback: {
+                                success: {
+                                  useProvider: "u-j",
+                                },
+                              },
+                            },
+                            mouseenter: [
+                              {
+                                target: "any",
+                                method: "any",
+                                callback: {
+                                  error: [
+                                    {
+                                      useProvider: "u-p",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
                         },
                       ],
                     },
@@ -130,20 +223,37 @@ describe("scanBricksInStoryboard", () => {
         },
       ],
     } as any;
-    expect(scanBricksInStoryboard(storyboard)).toEqual([
-      "p-a",
-      "p-b",
+    expect(scanBricksInStoryboard(storyboard).sort()).toEqual([
       "b-a",
       "b-b",
       "b-c",
-      "b-e",
       "b-d",
+      "b-e",
       "b-f",
       "b-o",
       "b-p",
       "b-q",
       "b-x",
       "b-y",
+      "p-a",
+      "p-b",
+      "u-a",
+      "u-b",
+      "u-c",
+      "u-d",
+      "u-e",
+      "u-f",
+      "u-g",
+      "u-h",
+      "u-i",
+      "u-j",
+      "u-k",
+      "u-l",
+      "u-m",
+      "u-n",
+      "u-o",
+      "u-p",
+      "u-q",
     ]);
   });
 });
@@ -180,7 +290,7 @@ describe("scanBricksInBrickConf", () => {
         },
       },
     } as any;
-    expect(scanBricksInBrickConf(brickConf)).toEqual([
+    expect(scanBricksInBrickConf(brickConf).sort()).toEqual([
       "b-b",
       "b-c",
       "b-e",

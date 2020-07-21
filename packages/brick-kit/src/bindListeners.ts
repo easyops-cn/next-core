@@ -10,13 +10,18 @@ import {
   SetPropsCustomBrickEventHandler,
   RuntimeBrickElement,
   StoryboardContextItem,
+  UseProviderEventHandler,
 } from "@easyops/brick-types";
-import { handleHttpError } from "./handleHttpError";
+import { handleHttpError, httpErrorToString } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
 import { getHistory } from "./history";
-import { _internalApiGetCurrentContext } from "./core/exports";
-import { getUrlFactory } from "./segue";
+import {
+  _internalApiGetCurrentContext,
+  _internalApiGetProviderBrick,
+} from "./core/exports";
+import { getUrlBySegueFactory } from "./segue";
 import { checkIf } from "./checkIf";
+import { getUrlByAliasFactory } from "./alias";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -58,6 +63,12 @@ export function isBuiltinHandler(
   handler: BrickEventHandler
 ): handler is BuiltinBrickEventHandler {
   return typeof (handler as BuiltinBrickEventHandler).action === "string";
+}
+
+export function isUseProviderHandler(
+  handler: BrickEventHandler
+): handler is UseProviderEventHandler {
+  return typeof (handler as UseProviderEventHandler).useProvider === "string";
 }
 
 export function isCustomHandler(
@@ -110,6 +121,22 @@ export function listenerFactory(
           handler.if,
           context
         );
+      case "segue.push":
+      case "segue.replace":
+        return builtinSegueListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
+      case "alias.push":
+      case "alias.replace":
+        return builtinAliasListenerFactory(
+          method,
+          handler.args,
+          handler.if,
+          context
+        );
       case "legacy.go":
         return builtinIframeListenerFactory(handler.args, handler.if, context);
       case "window.open":
@@ -117,14 +144,6 @@ export function listenerFactory(
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(
-          method,
-          handler.args,
-          handler.if,
-          context
-        );
-      case "segue.push":
-      case "segue.replace":
-        return builtinSegueListenerFactory(
           method,
           handler.args,
           handler.if,
@@ -187,9 +206,33 @@ export function listenerFactory(
     }
   }
 
+  if (isUseProviderHandler(handler)) {
+    return usingProviderFactory(handler, context, brick);
+  }
+
   if (isCustomHandler(handler)) {
     return customListenerFactory(handler, handler.if, context, brick);
   }
+}
+
+function usingProviderFactory(
+  handler: UseProviderEventHandler,
+  context: PluginRuntimeContext,
+  brick: HTMLElement
+): EventListener {
+  return async function (event: CustomEvent): Promise<void> {
+    const { if: rawIf, useProvider } = handler;
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
+    try {
+      const providerBrick = await _internalApiGetProviderBrick(useProvider);
+      brickCallback(providerBrick, handler, "resolve", context, brick, event);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(httpErrorToString(error));
+    }
+  } as any;
 }
 
 function builtinTplDispatchEventFactory(
@@ -295,12 +338,33 @@ function builtinSegueListenerFactory(
     }
     const { app, segues } = _internalApiGetCurrentContext();
     getHistory()[method](
-      getUrlFactory(
+      getUrlBySegueFactory(
         app,
         segues
       )(
         ...(argsFactory(args, context, event) as Parameters<
-          ReturnType<typeof getUrlFactory>
+          ReturnType<typeof getUrlBySegueFactory>
+        >)
+      )
+    );
+  } as EventListener;
+}
+
+function builtinAliasListenerFactory(
+  method: "push" | "replace",
+  args: any[],
+  rawIf: string | boolean,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!checkIf(rawIf, { ...context, event })) {
+      return;
+    }
+    const { app } = _internalApiGetCurrentContext();
+    getHistory()[method](
+      getUrlByAliasFactory(app)(
+        ...(argsFactory(args, context, event) as Parameters<
+          ReturnType<typeof getUrlByAliasFactory>
         >)
       )
     );
@@ -405,51 +469,10 @@ function customListenerFactory(
       return;
     }
     if (isExecuteCustomHandler(handler)) {
-      targets.forEach(async (target) => {
-        if (typeof target[handler.method] !== "function") {
-          // eslint-disable-next-line no-console
-          console.error("target has no method:", {
-            target,
-            method: handler.method,
-          });
-          return;
-        }
-        const task = target[handler.method](
-          ...argsFactory(handler.args, context, event)
-        );
-        const { success, error, finally: finallyHook } = handler.callback ?? {};
-        if (success || error || finallyHook) {
-          try {
-            const result = await task;
-            if (success) {
-              const successEvent = new CustomEvent("callback.success", {
-                detail: result,
-              });
-              [].concat(success).forEach((eachSuccess) => {
-                listenerFactory(eachSuccess, context, brick)(successEvent);
-              });
-            }
-          } catch (err) {
-            if (error) {
-              const errorEvent = new CustomEvent("callback.error", {
-                detail: err,
-              });
-              [].concat(error).forEach((eachError) => {
-                listenerFactory(eachError, context, brick)(errorEvent);
-              });
-            } else {
-              // eslint-disable-next-line
-              console.error(err);
-            }
-          } finally {
-            if (finallyHook) {
-              const finallyEvent = new CustomEvent("callback.finally");
-              [].concat(finallyHook).forEach((eachFinally) => {
-                listenerFactory(eachFinally, context, brick)(finallyEvent);
-              });
-            }
-          }
-        }
+      targets.forEach((target) => {
+        brickCallback(target, handler, handler.method, context, brick, event, {
+          useEventAsDefault: true,
+        });
       });
     } else if (isSetPropsCustomHandler(handler)) {
       setProperties(
@@ -465,6 +488,61 @@ function customListenerFactory(
   } as EventListener;
 }
 
+async function brickCallback(
+  target: any,
+  handler: ExecuteCustomBrickEventHandler | UseProviderEventHandler,
+  method: string,
+  context: PluginRuntimeContext,
+  brick: HTMLElement,
+  event: CustomEvent,
+  options?: ArgsFactoryOptions
+): Promise<void> {
+  if (typeof target[method] !== "function") {
+    // eslint-disable-next-line no-console
+    console.error("target has no method:", {
+      target,
+      method: method,
+    });
+    return;
+  }
+  const task = target[method](
+    ...argsFactory(handler.args, context, event, options)
+  );
+  const { success, error, finally: finallyHook } = handler.callback ?? {};
+  if (success || error || finallyHook) {
+    try {
+      const result = await task;
+      if (success) {
+        const successEvent = new CustomEvent("callback.success", {
+          detail: result,
+        });
+        [].concat(success).forEach((eachSuccess) => {
+          listenerFactory(eachSuccess, context, brick)(successEvent);
+        });
+      }
+    } catch (err) {
+      if (error) {
+        const errorEvent = new CustomEvent("callback.error", {
+          detail: err,
+        });
+        [].concat(error).forEach((eachError) => {
+          listenerFactory(eachError, context, brick)(errorEvent);
+        });
+      } else {
+        // eslint-disable-next-line
+        console.error(err);
+      }
+    } finally {
+      if (finallyHook) {
+        const finallyEvent = new CustomEvent("callback.finally");
+        [].concat(finallyHook).forEach((eachFinally) => {
+          listenerFactory(eachFinally, context, brick)(finallyEvent);
+        });
+      }
+    }
+  }
+}
+
 function builtinHistoryListenerFactory(
   method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
   args: any[],
@@ -475,7 +553,11 @@ function builtinHistoryListenerFactory(
     if (!checkIf(rawIf, { ...context, event })) {
       return;
     }
-    (getHistory()[method] as any)(...argsFactory(args, context, event, true));
+    (getHistory()[method] as any)(
+      ...argsFactory(args, context, event, {
+        useEventDetailAsDefault: true,
+      })
+    );
   } as EventListener;
 }
 
@@ -503,7 +585,11 @@ function builtinConsoleListenerFactory(
       return;
     }
     // eslint-disable-next-line no-console
-    console[method](...argsFactory(args, context, event));
+    console[method](
+      ...argsFactory(args, context, event, {
+        useEventAsDefault: true,
+      })
+    );
   } as EventListener;
 }
 
@@ -521,11 +607,16 @@ function builtinMessageListenerFactory(
   } as EventListener;
 }
 
+interface ArgsFactoryOptions {
+  useEventAsDefault?: boolean;
+  useEventDetailAsDefault?: boolean;
+}
+
 function argsFactory(
   args: any[],
   context: PluginRuntimeContext,
   event: CustomEvent,
-  useEventDetailAsDefault?: boolean
+  options: ArgsFactoryOptions = {}
 ): any {
   return Array.isArray(args)
     ? computeRealValue(
@@ -536,5 +627,9 @@ function argsFactory(
         },
         true
       )
-    : [useEventDetailAsDefault ? event.detail : event];
+    : options.useEventAsDefault
+    ? [event]
+    : options.useEventDetailAsDefault
+    ? [event.detail]
+    : [];
 }
