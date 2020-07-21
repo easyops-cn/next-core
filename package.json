@@ -69,6 +69,7 @@
     "dll/*"
   ],
   "resolutions": {
+    "@babel/runtime": "^7.10.5",
     "@types/react": "^16.9.43",
     "lodash": "^4.17.19",
     "moment": "^2.27.0"
