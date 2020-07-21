@@ -17,7 +17,7 @@ export function property(options?: PropertyDeclaration): any {
       throw new Error("`@property()` currently not support initialize value");
     }
 
-    warnNativeHtmlElementProperty(element.key);
+    warnNativeHtmlElementProperty(element.key, options);
 
     // createProperty() takes care of defining the property, but we still
     // must return some kind of descriptor, so return a descriptor for an

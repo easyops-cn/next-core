@@ -41,6 +41,7 @@ export interface SystemInfo {
   org: number;
   username: string;
   userInstanceId: string;
+  loginFrom?: string;
 }
 
 export type PluginLocation = Location<PluginHistoryState>;

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.50.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.49.6...@easyops/brick-utils@1.50.0) (2020-07-17)
+
+### Features
+
+- scan bricks by useProvider ([e6eb40e](https://git.easyops.local/anyclouds/next-core/commits/e6eb40e))
+- **useResolves:** support useProvider ([d31e46b](https://git.easyops.local/anyclouds/next-core/commits/d31e46b))
+
+## [1.49.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.49.5...@easyops/brick-utils@1.49.6) (2020-07-14)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [1.49.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.49.4...@easyops/brick-utils@1.49.5) (2020-07-13)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [1.49.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.49.3...@easyops/brick-utils@1.49.4) (2020-07-08)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
 ## [1.49.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.49.2...@easyops/brick-utils@1.49.3) (2020-07-06)
 
 **Note:** Version bump only for package @easyops/brick-utils

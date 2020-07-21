@@ -11,6 +11,12 @@ const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
 
+const workspacePackageJson = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8")
+);
+
+const workspaceHomepage = workspacePackageJson.homepage;
+
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
 }
@@ -24,7 +30,7 @@ function replaceFileContent(
   translations: Record<string, string>
 ): string {
   const content = fs.readFileSync(filePath, "utf8");
-  const contentFinds = Object.keys(translations).filter(key =>
+  const contentFinds = Object.keys(translations).filter((key) =>
     content.includes(key)
   );
   if (contentFinds.length > 0) {
@@ -53,22 +59,23 @@ export function loadTemplate(
 
   const ignores = [".DS_Store"];
   const filter = (src: string): boolean =>
-    ignores.some(item => !src.includes(item));
+    ignores.some((item) => !src.includes(item));
 
   const templateFiles = klawSync(templateDir, {
     depthLimit: 2,
     nodir: true,
-    filter: item => filter(item.path)
+    filter: (item) => filter(item.path),
   });
 
   const translations: Record<string, string> = {
+    "$workspace-homepage$": workspaceHomepage,
     "$kebab-service-name$": changeCase.paramCase(serviceName),
     "$Title Service Name$": changeCase.capitalCase(serviceName),
     $PascalServiceName$: changeCase.pascalCase(serviceName),
-    "$generator.version$": `v${packageJson.version}`
+    "$generator.version$": `v${packageJson.version}`,
   };
 
-  const files: FileWithContent[] = templateFiles.map(file => {
+  const files: FileWithContent[] = templateFiles.map((file) => {
     const content = replaceFileContent(file.path, translations);
     return [path.join(sdkRoot, path.relative(templateDir, file.path)), content];
   });
@@ -81,7 +88,7 @@ export function loadTemplate(
         translations
       ),
       sdkVersion
-    )
+    ),
   ]);
 
   return files;

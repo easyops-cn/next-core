@@ -81,6 +81,9 @@ export interface PropertyDeclaration<Type = unknown> {
    * the property changes.
    */
   readonly noAccessor?: boolean;
+
+  // Used for existed properties that are conflicted with html native properties.
+  __deprecated_and_for_compatibility_only?: boolean;
 }
 
 const defaultConverter: ComplexAttributeConverter = {

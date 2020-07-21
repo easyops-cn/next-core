@@ -110,6 +110,7 @@ export class LocationContext {
         org: auth.org,
         username: auth.username,
         userInstanceId: auth.userInstanceId,
+        loginFrom: auth.loginFrom,
       },
       flags: this.kernel.getFeatureFlags(),
       segues: this.segues,
@@ -123,30 +124,41 @@ export class LocationContext {
 
   private async defineStoryboardFreeContext(
     contextConfs: ContextConf[],
-    coreContext: PluginRuntimeContext
+    coreContext: PluginRuntimeContext,
+    brick?: RuntimeBrick
   ): Promise<void> {
     for (const contextConf of contextConfs) {
       let value: any;
-      if (contextConf.resolve) {
-        const valueConf: Record<string, any> = {};
-        await this.resolver.resolveOne(
-          "reference",
-          {
-            transformMapArray: false,
-            ...contextConf.resolve,
-          },
-          valueConf,
-          null,
-          coreContext
-        );
-        value = valueConf.value;
+      if (contextConf.property) {
+        if (brick) {
+          this.setStoryboardContext(contextConf.name, {
+            type: "brick-property",
+            brick,
+            prop: contextConf.property,
+          });
+        }
       } else {
-        value = computeRealValue(contextConf.value, coreContext, true);
+        if (contextConf.resolve) {
+          const valueConf: Record<string, any> = {};
+          await this.resolver.resolveOne(
+            "reference",
+            {
+              transformMapArray: false,
+              ...contextConf.resolve,
+            },
+            valueConf,
+            null,
+            coreContext
+          );
+          value = valueConf.value;
+        } else {
+          value = computeRealValue(contextConf.value, coreContext, true);
+        }
+        this.setStoryboardContext(contextConf.name, {
+          type: "free-variable",
+          value,
+        });
       }
-      this.setStoryboardContext(contextConf.name, {
-        type: "free-variable",
-        value,
-      });
     }
   }
 
@@ -499,10 +511,6 @@ export class LocationContext {
       return;
     }
 
-    if (Array.isArray(brickConf.context)) {
-      await this.defineStoryboardFreeContext(brickConf.context, context);
-    }
-
     // If it's a custom template, `tplTagName` is the tag name of the template.
     // Otherwise, `tplTagName` is false.
     const tplTagName = getTagNameOfCustomTemplate(
@@ -517,7 +525,13 @@ export class LocationContext {
       tplStack.push(tplTagName);
     }
 
-    const brick: RuntimeBrick = {
+    const brick: RuntimeBrick = {};
+
+    if (Array.isArray(brickConf.context)) {
+      await this.defineStoryboardFreeContext(brickConf.context, context, brick);
+    }
+
+    Object.assign(brick, {
       type: tplTagName || brickConf.brick,
       properties: Object.assign(
         computeRealProperties(
@@ -533,7 +547,7 @@ export class LocationContext {
       slotId,
       refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
       parentTemplate: (brickConf as RuntimeBrickConf).$$parentTemplate,
-    };
+    });
 
     if (brick.refForProxy) {
       brick.refForProxy.brick = brick;
@@ -579,7 +593,7 @@ export class LocationContext {
       );
 
       // Try to load deps for dynamic added bricks.
-      await this.kernel.loadDynamicBricks(expandedBrickConf);
+      await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 
     if (expandedBrickConf.exports) {

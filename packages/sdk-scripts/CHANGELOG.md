@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.4.6...@easyops/sdk-scripts@1.5.0) (2020-07-13)
+
+### Features
+
+- **sdk-scripts:** 修改 skd homepage 地址 ([8b17f69](https://git.easyops.local/anyclouds/next-core/commits/8b17f69))
+
 ## [1.4.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@1.4.5...@easyops/sdk-scripts@1.4.6) (2020-07-07)
 
 **Note:** Version bump only for package @easyops/sdk-scripts
