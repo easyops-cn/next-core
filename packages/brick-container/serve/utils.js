@@ -176,12 +176,14 @@ function getSettings() {
 
 // Resolve all symlinks of subdir to real path.
 function listRealpathOfSubdir(dir) {
-  return fs
-    .readdirSync(dir, {
-      withFileTypes: true,
-    })
-    .filter((dirent) => dirent.isSymbolicLink() || dirent.isDirectory())
-    .map((dirent) => fs.realpathSync(path.join(dir, dirent.name)));
+  return fs.existsSync(dir)
+    ? fs
+        .readdirSync(dir, {
+          withFileTypes: true,
+        })
+        .filter((dirent) => dirent.isSymbolicLink() || dirent.isDirectory())
+        .map((dirent) => fs.realpathSync(path.join(dir, dirent.name)))
+    : [];
 }
 
 function getPatternsToWatch(env) {
