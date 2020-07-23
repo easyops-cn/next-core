@@ -3,6 +3,8 @@ import { PropertyDeclaration, UpdatingElement } from "../UpdatingElement";
 import { ClassElement } from "./interfaces";
 import { warnNativeHtmlElementProperty } from "./utils";
 
+// About the (most likely) related version of decorator proposal:
+// https://github.com/tc39/proposal-decorators/blob/master/previous/METAPROGRAMMING.md
 export function property(options?: PropertyDeclaration): any {
   return function decorateProperty(element: ClassElement): ClassElement {
     if (element.kind !== "field" || typeof element.key !== "string") {

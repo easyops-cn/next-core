@@ -4,7 +4,7 @@ import {
   ExtendedHistory,
   UpdateQueryFunction,
   UpdateQueryOptions,
-  UpdateAnchorFunction
+  UpdateAnchorFunction,
 } from "@easyops/brick-types";
 
 export function historyExtended(
@@ -15,11 +15,11 @@ export function historyExtended(
       query: Record<string, any>,
       options: UpdateQueryOptions = {}
     ): void {
+      const { extraQuery, clear, ...state } = options;
       const urlSearchParams = new URLSearchParams(
-        browserHistory.location.search
+        clear ? "" : browserHistory.location.search
       );
       const params: Record<string, any> = {};
-      const { extraQuery, ...state } = options;
       Object.assign(params, query, extraQuery);
       for (const [key, value] of Object.entries(params)) {
         if (Array.isArray(value)) {
@@ -51,8 +51,8 @@ export function historyExtended(
         state: {
           // The default notify is false
           notify: false,
-          ...state
-        }
+          ...state,
+        },
       });
     };
   }
@@ -63,8 +63,8 @@ export function historyExtended(
       state: {
         ...browserHistory.location.state,
         // Always notify
-        notify: true
-      }
+        notify: true,
+      },
     });
   }
 
@@ -73,6 +73,6 @@ export function historyExtended(
     replaceQuery: updateQueryFactory("replace"),
     pushAnchor: updateAnchorFactory("push"),
     // replaceAnchor: updateAnchorFactory("replace"),
-    reload
+    reload,
   };
 }
