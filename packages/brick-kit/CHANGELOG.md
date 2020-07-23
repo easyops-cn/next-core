@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.56.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.55.2...@easyops/brick-kit@1.56.0) (2020-07-23)
+
+
+### Features
+
+* **brick-kit:** custom templates 的 refTransform 支持 path ([2a844ac](https://git.easyops.local/anyclouds/next-core/commits/2a844ac))
+
+
+
+
+
 ## [1.55.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.55.1...@easyops/brick-kit@1.55.2) (2020-07-21)
 
 **Note:** Version bump only for package @easyops/brick-kit
