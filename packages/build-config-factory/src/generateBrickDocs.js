@@ -12,13 +12,14 @@ const brickKindMap = {
 const extraScanPaths = ["src/interfaces"];
 
 const supportedDecorators = ["property", "event", "method"];
-const methodComments = ["params", "description"];
-const eventDocComments = ["detail", "description"];
+const methodComments = ["params", "description", "deprecated"];
+const eventDocComments = ["detail", "description", "deprecated"];
 const propertyDocComments = [
   "name",
   "kind",
   "required",
   "default",
+  "deprecated",
   "description",
 ];
 const baseDocComments = [
@@ -31,6 +32,7 @@ const baseDocComments = [
   "memo",
   "history",
   "dockind",
+  "deprecated",
 ];
 
 function generateBrickDoc(doc, scope) {
