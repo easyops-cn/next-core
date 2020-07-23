@@ -1,4 +1,4 @@
-import { omit } from "lodash";
+import { omit, set } from "lodash";
 import {
   PluginLocation,
   MatchResult,
@@ -533,13 +533,10 @@ export class LocationContext {
 
     Object.assign(brick, {
       type: tplTagName || brickConf.brick,
-      properties: Object.assign(
-        computeRealProperties(
-          brickConf.properties,
-          context,
-          brickConf.injectDeep !== false
-        ),
-        (brickConf as RuntimeBrickConf).$$computedPropsFromProxy
+      properties: computeRealProperties(
+        brickConf.properties,
+        context,
+        brickConf.injectDeep !== false
       ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
@@ -548,6 +545,14 @@ export class LocationContext {
       refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
       parentTemplate: (brickConf as RuntimeBrickConf).$$parentTemplate,
     });
+
+    if ((brickConf as RuntimeBrickConf).$$computedPropsFromProxy) {
+      Object.entries(
+        (brickConf as RuntimeBrickConf).$$computedPropsFromProxy
+      ).forEach(([propName, propValue]) => {
+        set(brick.properties, propName, propValue);
+      });
+    }
 
     if (brick.refForProxy) {
       brick.refForProxy.brick = brick;

@@ -13,8 +13,7 @@ import {
   BrickConf,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
-import { transformProperties } from "../transformProperties";
-import { setRealProperties } from "../setProperties";
+import { transformElementProperties, preprocessTransformProperties } from "../transformProperties";
 import { RuntimeBrick } from "./exports";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
@@ -213,8 +212,7 @@ function expandBrickInTemplate(
               const propValue = templateProperties?.[item.reversedRef];
               if (isTransformableProperty(item)) {
                 return Object.entries(
-                  transformProperties(
-                    {},
+                  preprocessTransformProperties(
                     {
                       [item.reversedRef]: propValue,
                     },
@@ -330,15 +328,12 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
             },
             set: function (value: any) {
               node[delegatedPropSymbol] = value;
-              setRealProperties(
+              transformElementProperties(
                 refElement,
-                transformProperties(
-                  {},
-                  {
-                    [propName]: value,
-                  },
-                  propRef.refTransform
-                )
+                {
+                  [propName]: value,
+                },
+                propRef.refTransform
               );
             },
             enumerable: true,
