@@ -21,9 +21,10 @@ export interface MenuRawData {
 }
 
 type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
-  children?: SidebarMenuSimpleItem[];
+  children?: MenuItemRawData[];
   type?: "default" | "group";
   sort?: number;
+  if?: string | boolean;
 };
 
 interface TitleDataSource {
@@ -111,22 +112,30 @@ async function processMenu(
     title: await processMenuTitle(menuData),
     icon: menuData.icon,
     link: menuData.link,
-    menuItems: menuData.items?.map((item) =>
-      item.type === "group"
-        ? {
-            type: "group",
-            title: item.text,
-            items: item.children,
-          }
-        : item.children?.length
-        ? {
-            type: "subMenu",
-            title: item.text,
-            icon: item.icon,
-            items: item.children,
-          }
-        : (item as SidebarMenuSimpleItem)
-    ),
+    menuItems: menuData.items
+      ?.filter(
+        // `if` is already evaluated.
+        (item) => item.if !== false
+      )
+      .map((item) => {
+        const children = item.children?.filter(
+          (child) => child.if !== false
+        ) as SidebarMenuSimpleItem[];
+        return item.type === "group"
+          ? {
+              type: "group",
+              title: item.text,
+              items: children,
+            }
+          : children?.length
+          ? {
+              type: "subMenu",
+              title: item.text,
+              icon: item.icon,
+              items: children,
+            }
+          : (item as SidebarMenuSimpleItem);
+      }),
     defaultCollapsed: menuData.defaultCollapsed || hasSubMenu,
   };
 }
