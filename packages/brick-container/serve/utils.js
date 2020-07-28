@@ -24,30 +24,45 @@ function getNamesOfMicroApps(env, mocked) {
 }
 
 function getSingleStoryboard(env, microAppName, mocked, options = {}) {
-  const storyboardJsonFile = path.join(
+  const appDir = path.join(
     mocked ? env.mockedMicroAppsDir : env.microAppsDir,
-    microAppName,
-    "storyboard.json"
+    microAppName
   );
+  const storyboardYamlFile = path.join(appDir, "storyboard.yaml");
+  const storyboardJsonFile = path.join(appDir, "storyboard.json");
+
   let storyboard = undefined;
-  if (fs.existsSync(storyboardJsonFile)) {
+  if (fs.existsSync(storyboardYamlFile)) {
+    try {
+      storyboard = yaml.safeLoad(fs.readFileSync(storyboardYamlFile, "utf8"), {
+        schema: yaml.JSON_SCHEMA,
+        json: true,
+      });
+    } catch (e) {
+      console.error(`yaml.safeLoad() error: ${storyboardYamlFile}`);
+    }
+  } else if (fs.existsSync(storyboardJsonFile)) {
     try {
       storyboard = JSON.parse(fs.readFileSync(storyboardJsonFile, "utf8"));
-      const app = storyboard.app;
-      if (app && app.id) {
-        const id = app.id;
-        if (env.appConfig[id]) {
-          app.userConfig = env.appConfig[id];
-        }
-      }
-      if (options.brief) {
-        delete storyboard.routes;
-        delete storyboard.meta;
-      }
     } catch (e) {
       console.error(`JSON.parse() error: ${storyboardJsonFile}`);
     }
   }
+
+  if (storyboard) {
+    const app = storyboard.app;
+    if (app && app.id) {
+      const id = app.id;
+      if (env.appConfig[id]) {
+        app.userConfig = env.appConfig[id];
+      }
+    }
+    if (options.brief) {
+      delete storyboard.routes;
+      delete storyboard.meta;
+    }
+  }
+
   return storyboard;
 }
 
@@ -145,8 +160,11 @@ function getUserSettings() {
     return {};
   }
   const { feature_flags: featureFlags, ...rest } = yaml.safeLoad(
-    fs.readFileSync(yamlPath),
-    "utf8"
+    fs.readFileSync(yamlPath, "utf8"),
+    {
+      schema: yaml.JSON_SCHEMA,
+      json: true,
+    }
   );
   return {
     featureFlags,
@@ -192,13 +210,13 @@ function getPatternsToWatch(env) {
       path.join(dir, "dist/*.js")
     ),
     ...listRealpathOfSubdir(env.microAppsDir).map((dir) =>
-      path.join(dir, "storyboard.json")
+      path.join(dir, "storyboard.*")
     ),
     ...listRealpathOfSubdir(env.templatePackagesDir).map((dir) =>
       path.join(dir, "dist/*.js")
     ),
     ...(env.mocked
-      ? [path.join(env.mockedMicroAppsDir, "*/storyboard.json")]
+      ? [path.join(env.mockedMicroAppsDir, "*/storyboard.*")]
       : []),
   ];
 }
