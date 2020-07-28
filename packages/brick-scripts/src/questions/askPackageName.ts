@@ -4,12 +4,12 @@ import inquirer from "inquirer";
 import { TargetType } from "../interface";
 import { targetMap } from "../constant";
 import { loadHistory } from "../loaders/loadHistory";
-import {getEasyopsConfig} from "../getEasyopsConfig"
+import { getEasyopsConfig } from "../getEasyopsConfig";
 
-const easyopsConfig = getEasyopsConfig()
+const easyopsConfig = getEasyopsConfig();
 export function askPackageName({
   targetType,
-  appRoot
+  appRoot,
 }: {
   targetType: TargetType;
   appRoot: string;
@@ -23,8 +23,8 @@ export function askPackageName({
     const root = path.join(appRoot, "bricks");
     const pkgList = fs
       .readdirSync(root, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
 
     return {
       type: "list",
@@ -35,7 +35,7 @@ export function askPackageName({
           : "brick"
       } in?`,
       choices: pkgList,
-      default: loadHistory().lastSelectedBrickPackage
+      default: loadHistory().lastSelectedBrickPackage,
     };
   }
 
@@ -44,34 +44,37 @@ export function askPackageName({
     const root = path.join(appRoot, "templates");
     const pkgList = fs
       .readdirSync(root, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
 
     return {
       type: "list",
       name: "packageName",
       message: "which package do you want to put the new template in?",
       choices: pkgList,
-      default: loadHistory().lastSelectedTemplatePackage
+      default: loadHistory().lastSelectedTemplatePackage,
     };
   }
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
     // 读取所有的 `@sdk/*` 作为候选列表。
-    const root = path.join(appRoot, easyopsConfig?.useLocalSdk? "sdk":"../next-sdk/sdk");
+    const root = path.join(
+      appRoot,
+      easyopsConfig?.useLocalSdk ? "sdk" : "../next-providers/sdk"
+    );
     const sdkList = fs
       .readdirSync(root, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => ({
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => ({
         name: dirent.name,
-        value: `providers-of-${dirent.name.replace(/-sdk$/, "")}`
+        value: `providers-of-${dirent.name.replace(/-sdk$/, "")}`,
       }));
 
     return {
       type: "list",
       name: "packageName",
       message: "which sdk do you want to create providers for?",
-      choices: sdkList
+      choices: sdkList,
     };
   }
 
@@ -80,17 +83,17 @@ export function askPackageName({
     const root = path.join(appRoot, "micro-apps");
     const microApps = fs
       .readdirSync(root, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
+      .filter((dirent) => dirent.isDirectory())
       .filter(
-        dirent => !fs.existsSync(path.join(root, dirent.name, "src/index.ts"))
+        (dirent) => !fs.existsSync(path.join(root, dirent.name, "src/index.ts"))
       )
-      .map(dirent => dirent.name);
+      .map((dirent) => dirent.name);
 
     return {
       type: "list",
       name: "packageName",
       message: "which micro-app do you want to transform?",
-      choices: microApps
+      choices: microApps,
     };
   }
 
@@ -99,17 +102,17 @@ export function askPackageName({
     const root = path.join(appRoot, "templates");
     const microApps = fs
       .readdirSync(root, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
+      .filter((dirent) => dirent.isDirectory())
       .filter(
-        dirent => !fs.existsSync(path.join(root, dirent.name, "src/i18n"))
+        (dirent) => !fs.existsSync(path.join(root, dirent.name, "src/i18n"))
       )
-      .map(dirent => dirent.name);
+      .map((dirent) => dirent.name);
 
     return {
       type: "list",
       name: "packageName",
       message: "which package do you want to patch?",
-      choices: microApps
+      choices: microApps,
     };
   }
 
@@ -138,6 +141,6 @@ export function askPackageName({
       }
 
       return true;
-    }
+    },
   };
 }
