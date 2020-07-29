@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-scripts",
-  "version": "1.15.3",
+  "version": "1.15.4",
   "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-scripts",
   "license": "UNLICENSED",
@@ -27,9 +27,9 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "change-case": "^4.1.1",
-    "execa": "^4.0.2",
+    "execa": "^4.0.3",
     "fs-extra": "^9.0.1",
-    "inquirer": "^7.3.0",
+    "inquirer": "^7.3.2",
     "klaw-sync": "^6.0.0",
     "meow": "^7.0.1",
     "prettier": "^2.0.5",

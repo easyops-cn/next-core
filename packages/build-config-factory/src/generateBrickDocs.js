@@ -63,6 +63,12 @@ function convertTagsToMapByFields(tags, fields) {
         return prev;
       }
 
+      // 如果有`@deprecated`注解，强制转换为true
+      if (curr.tag === "deprecated") {
+        prev[curr.tag] = true;
+        return prev;
+      }
+
       prev[curr.tag] = curr.text.trim();
     }
 
@@ -508,7 +514,14 @@ function generateBrickBook(docsJson) {
 
   stories.forEach((story) => {
     const finder = docsJson.children.find((doc) => doc.id === story.storyId);
-    story.doc = finder || null;
+    if (finder) {
+      story.doc = finder;
+      if (Object.prototype.hasOwnProperty.call(finder, "deprecated")) {
+        story.deprecated = true;
+      }
+      return;
+    }
+    story.doc = null;
   });
 
   fs.writeFileSync(storiesPath, JSON.stringify(stories, null, 2), {

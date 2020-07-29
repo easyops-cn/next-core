@@ -1,6 +1,6 @@
 {
   "name": "@easyops/babel-runtime-helpers",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Make all babel runtime helpers available in @easyops/brick-dll",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/babel-runtime-helpers",
   "license": "UNLICENSED",
@@ -10,6 +10,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/runtime": "^7.10.4"
+    "@babel/runtime": "^7.10.5"
   }
 }

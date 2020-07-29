@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.57.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.56.0...@easyops/brick-kit@1.57.0) (2020-07-23)
+
+### Features
+
+- **history:** pushQuery/replaceQuery support to clear existed query ([9bc14b8](https://git.easyops.local/anyclouds/next-core/commits/9bc14b8))
+
+# [1.56.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.55.2...@easyops/brick-kit@1.56.0) (2020-07-23)
+
+### Features
+
+- **brick-kit:** custom templates 的 refTransform 支持 path ([2a844ac](https://git.easyops.local/anyclouds/next-core/commits/2a844ac))
+
+## [1.55.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.55.1...@easyops/brick-kit@1.55.2) (2020-07-21)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
 ## [1.55.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.55.0...@easyops/brick-kit@1.55.1) (2020-07-17)
 
 ### Bug Fixes
