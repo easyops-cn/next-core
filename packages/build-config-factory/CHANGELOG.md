@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.17.3...@easyops/build-config-factory@1.18.0) (2020-07-29)
+
+### Features
+
+- **build-config-factory:** convert `[@deprecated](https://git.easyops.local/deprecated)` value to true ([2f94885](https://git.easyops.local/anyclouds/next-core/commits/2f94885))
+- **build-config-factory:** support `[@deprecated](https://git.easyops.local/deprecated)` annotation ([9ba700f](https://git.easyops.local/anyclouds/next-core/commits/9ba700f))
+
 ## [1.17.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@1.17.2...@easyops/build-config-factory@1.17.3) (2020-07-23)
 
 **Note:** Version bump only for package @easyops/build-config-factory

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.24.4...@easyops/brick-container@1.25.0) (2020-07-29)
+
+### Features
+
+- support storyboard.yaml (in mock-micro-apps) ([d46369f](https://git.easyops.local/anyclouds/next-core/commits/d46369f))
+
 ## [1.24.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.24.3...@easyops/brick-container@1.24.4) (2020-07-23)
 
 **Note:** Version bump only for package @easyops/brick-container

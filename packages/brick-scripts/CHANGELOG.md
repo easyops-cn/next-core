@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.15.4...@easyops/brick-scripts@1.15.5) (2020-07-29)
+
+### Bug Fixes
+
+- next-sdk was replaced by next-providers ([1e6b0a3](https://git.easyops.local/anyclouds/next-core/commits/1e6b0a3))
+
 ## [1.15.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.15.3...@easyops/brick-scripts@1.15.4) (2020-07-21)
 
 **Note:** Version bump only for package @easyops/brick-scripts

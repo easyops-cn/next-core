@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/fontawesome-library@1.1.7...@easyops/fontawesome-library@1.1.8) (2020-07-29)
+
+**Note:** Version bump only for package @easyops/fontawesome-library
+
 ## [1.1.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/fontawesome-library@1.1.6...@easyops/fontawesome-library@1.1.7) (2020-07-21)
 
 **Note:** Version bump only for package @easyops/fontawesome-library

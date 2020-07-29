@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.48.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.47.0...@easyops/brick-types@1.48.0) (2020-07-29)
+
+### Features
+
+- **brick-types:** add about story types ([dc2a921](https://git.easyops.local/anyclouds/next-core/commits/dc2a921))
+- **brick-types:** add about story types ([daec6d7](https://git.easyops.local/anyclouds/next-core/commits/daec6d7))
+
 # [1.47.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.46.0...@easyops/brick-types@1.47.0) (2020-07-23)
 
 ### Features
