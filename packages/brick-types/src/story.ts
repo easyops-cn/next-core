@@ -117,7 +117,7 @@ export interface StoryDoc {
   author: string;
   deprecated?: boolean;
   description?: string;
-  memo: MarkdownString;
+  memo?: MarkdownString;
   interface?: (StoryDocInterface | StoryDocType)[];
   history: StoryDocHistory[];
   slots?: StoryDocSlot[];
