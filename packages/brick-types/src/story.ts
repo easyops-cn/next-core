@@ -27,7 +27,7 @@ export interface StoryConf extends BrickConf {
 }
 
 export interface Story {
-  category?: string;
+  category: string;
   storyId: string;
   deprecated?: boolean;
   type: "brick" | "template";
