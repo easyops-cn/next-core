@@ -383,7 +383,7 @@ export class LocationContext {
     const otherMenuConf = omit(menuConf, ["injectDeep", "type"]);
     const injectedMenuConf =
       injectDeep !== false
-        ? computeRealProperties(otherMenuConf, context, true)
+        ? computeRealValue(otherMenuConf, context, true)
         : otherMenuConf;
     const {
       sidebarMenu,
