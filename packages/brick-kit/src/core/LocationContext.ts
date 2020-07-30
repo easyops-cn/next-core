@@ -143,6 +143,7 @@ export class LocationContext {
           await this.resolver.resolveOne(
             "reference",
             {
+              transform: "value",
               transformMapArray: false,
               ...contextConf.resolve,
             },
