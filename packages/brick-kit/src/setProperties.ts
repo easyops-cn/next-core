@@ -4,10 +4,17 @@ import { isObject, inject } from "@easyops/brick-utils";
 import { isCookable, evaluate, isPreEvaluated } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
+interface ComputeOptions {
+  $$lazyForUseBrickEvents?: boolean;
+  $$atUseBrickNow?: boolean;
+  $$inUseBrickEventsNow?: boolean;
+}
+
 export const computeRealValue = (
   value: any,
   context: PluginRuntimeContext,
-  injectDeep?: boolean
+  injectDeep?: boolean,
+  internalOptions?: ComputeOptions
 ): any => {
   const preEvaluated = isPreEvaluated(value);
 
@@ -18,7 +25,11 @@ export const computeRealValue = (
       if (context?.event) {
         runtimeContext.event = context.event;
       }
-      result = evaluate(value, runtimeContext);
+      result = evaluate(value, runtimeContext, {
+        lazy:
+          internalOptions?.$$lazyForUseBrickEvents &&
+          internalOptions.$$inUseBrickEventsNow,
+      });
     } else {
       result = inject(value, context);
     }
@@ -32,12 +43,24 @@ export const computeRealValue = (
       return value;
     }
     if (Array.isArray(value)) {
-      newValue = value.map((v) => computeRealValue(v, context, injectDeep));
+      newValue = value.map((v) =>
+        computeRealValue(v, context, injectDeep, internalOptions)
+      );
     } else {
       newValue = Object.entries(value).reduce<Record<string, any>>(
         (acc, [k, v]) => {
           k = computeRealValue(k, context, false);
-          acc[k] = computeRealValue(v, context, injectDeep);
+          let newOptions = internalOptions;
+          if (internalOptions?.$$lazyForUseBrickEvents) {
+            newOptions = {
+              ...internalOptions,
+              $$atUseBrickNow: k === "useBrick",
+              $$inUseBrickEventsNow:
+                internalOptions.$$inUseBrickEventsNow ||
+                (internalOptions.$$atUseBrickNow && k === "events"),
+            };
+          }
+          acc[k] = computeRealValue(v, context, injectDeep, newOptions);
           return acc;
         },
         {}
@@ -103,7 +126,10 @@ export function computeRealProperties(
         }
       } else {
         // Related: https://github.com/facebook/react/issues/11347
-        const realValue = computeRealValue(propValue, context, injectDeep);
+        const realValue = computeRealValue(propValue, context, injectDeep, {
+          $$lazyForUseBrickEvents: true,
+          $$atUseBrickNow: propName === "useBrick",
+        });
         if (realValue !== undefined) {
           result[propName] = realValue;
         }

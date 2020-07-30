@@ -2,11 +2,7 @@ import { PluginRuntimeContext } from "@easyops/brick-types";
 import { setProperties, computeRealValue } from "./setProperties";
 import * as runtime from "./core/Runtime";
 
-jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
-  flags: {
-    "better-world": true,
-  },
-} as any);
+const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 
 describe("computeRealValue", () => {
   const context: PluginRuntimeContext = {
@@ -28,6 +24,11 @@ describe("computeRealValue", () => {
       "better-world": true,
     },
   } as any;
+
+  beforeEach(() => {
+    mockCurrentContext.mockReturnValue(context);
+  });
+
   const cases: [any, PluginRuntimeContext, any][] = [
     ["oops", context, "oops"],
     ["${EVENT.type}", context, "hello"],
@@ -61,7 +62,7 @@ describe("computeRealValue", () => {
     ["${SYS.username}", context, "easyops"],
     ["${SYS.userInstanceId}", context, "acbd46b"],
     ["${FLAGS.better-world}", context, true],
-    ["<% FLAGS['better-world'] %>", context, true],
+    ["<% FLAGS['better-world'] %>", { ...context, event: undefined }, true],
     [
       {
         label: {
@@ -86,6 +87,50 @@ describe("computeRealValue", () => {
       expect(result).toEqual(expected);
     }
   );
+
+  it("should work for lazy events in useBrick", () => {
+    const result = computeRealValue(
+      {
+        properties: {
+          shouldBeComputed: "<% APP.name %>",
+        },
+        useBrick: {
+          brick: "a",
+          properties: {
+            shouldBeComputed: "<% APP.homepage %>",
+          },
+          events: {
+            click: {
+              action: "console.log",
+              args: ["<% APP.name %>", "<% CTX.memo %>"],
+            },
+          },
+        },
+      },
+      context,
+      true,
+      {
+        $$lazyForUseBrickEvents: true,
+      }
+    );
+    expect(result).toEqual({
+      properties: {
+        shouldBeComputed: "host",
+      },
+      useBrick: {
+        brick: "a",
+        properties: {
+          shouldBeComputed: "/host",
+        },
+        events: {
+          click: {
+            action: "console.log",
+            args: ["<% APP.name %>", "<% CTX.memo %>"],
+          },
+        },
+      },
+    });
+  });
 });
 
 describe("setProperties", () => {
@@ -146,6 +191,11 @@ describe("setProperties", () => {
     array: "${QUERY_ARRAY.array}",
     arrayNotExisted: "${QUERY_ARRAY.arrayNotExisted}",
   };
+
+  beforeEach(() => {
+    mockCurrentContext.mockReturnValue(context);
+  });
+
   const cases: [
     Record<string, any>,
     PluginRuntimeContext,
