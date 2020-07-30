@@ -14,7 +14,7 @@ describe("index", () => {
     jest.isolateModules(() => {
       require("./");
     });
-    expect(spyOnMain).toBeCalledWith("");
+    expect(spyOnMain).toBeCalledWith(undefined, {});
   });
 
   it("should work when a tag specified", () => {
@@ -22,7 +22,15 @@ describe("index", () => {
     jest.isolateModules(() => {
       require("./");
     });
-    expect(spyOnMain).toBeCalledWith("1.0.0");
+    expect(spyOnMain).toBeCalledWith("1.0.0", {});
+  });
+
+  it("should work when a tag specified", () => {
+    process.argv = ["yarn", "yo-sdk", "--sdk=test"];
+    jest.isolateModules(() => {
+      require("./");
+    });
+    expect(spyOnMain).toBeCalledWith(undefined, { sdk: "test" });
   });
 
   it("should work when args invalid", () => {

@@ -8,7 +8,11 @@ import { clone, checkout } from "./contractGit";
 import { promptToChooseSdk, getModules } from "./prompt";
 import { apiDir } from "./loaders/env";
 
-export async function main(tagOrCommit = ""): Promise<void> {
+interface Flags {
+  sdk: string;
+}
+export async function main(tagOrCommit = "", flags?: Flags): Promise<void> {
+  const selectedSdk = flags.sdk;
   console.log("git cloning ...");
   const result = clone();
   if (result.status !== 0) {
@@ -24,9 +28,13 @@ export async function main(tagOrCommit = ""): Promise<void> {
   }
 
   const modules = getModules(apiDir);
-  const choices = await promptToChooseSdk(modules);
-  for (const m of choices) {
-    create(m);
+  if (selectedSdk) {
+    create(changeCase.snakeCase(selectedSdk));
+  } else {
+    const choices = await promptToChooseSdk(modules);
+    for (const m of choices) {
+      create(m);
+    }
   }
 }
 
@@ -42,7 +50,6 @@ export function create(serviceName: string): void {
     const packageJson = fs.readJsonSync(path.join(sdkRoot, "package.json"));
     sdkVersion = packageJson.version;
   }
-
   const files = loadTemplate(serviceName, sdkRoot, sdkVersion).concat(
     loadService(serviceName).toFiles(sdkRoot)
   );
@@ -50,7 +57,7 @@ export function create(serviceName: string): void {
   const changelogMdPath = path.join(sdkRoot, "CHANGELOG.md");
   if (fs.existsSync(changelogMdPath)) {
     const content = fs.readFileSync(changelogMdPath, {
-      encoding: "utf8"
+      encoding: "utf8",
     });
     files.push([changelogMdPath, content]);
   }

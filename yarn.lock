@@ -9067,7 +9067,7 @@ meow@^4.0.0:
 
 meow@^7.0.1:
   version "7.0.1"
-  resolved "https://registry.npm.taobao.org/meow/download/meow-7.0.1.tgz?cache=0&sync_timestamp=1589206013917&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmeow%2Fdownload%2Fmeow-7.0.1.tgz#1ed4a0a50b3844b451369c48362eb0515f04c1dc"
+  resolved "https://registry.npm.taobao.org/meow/download/meow-7.0.1.tgz?cache=0&sync_timestamp=1589682815639&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmeow%2Fdownload%2Fmeow-7.0.1.tgz#1ed4a0a50b3844b451369c48362eb0515f04c1dc"
   integrity sha1-HtSgpQs4RLRRNpxINi6wUV8Ewdw=
   dependencies:
     "@types/minimist" "^1.2.0"
