@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.50.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.4...@easyops/brick-utils@1.50.5) (2020-07-31)
+
+### Bug Fixes
+
+- fix chain expression after upgrade babel to 7.11 ([46988aa](https://git.easyops.local/anyclouds/next-core/commits/46988aa))
+
 ## [1.50.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.3...@easyops/brick-utils@1.50.4) (2020-07-29)
 
 **Note:** Version bump only for package @easyops/brick-utils
