@@ -12,8 +12,6 @@ import {
   ObjectExpression,
   ObjectPattern,
   ObjectProperty,
-  OptionalCallExpression,
-  OptionalMemberExpression,
   RestElement,
   SequenceExpression,
   SpreadElement,
@@ -27,6 +25,7 @@ import {
   PropertyEntryCooked,
   ObjectCooked,
   PropertyCooked,
+  ChainExpression,
 } from "./interfaces";
 import { spawnCookState, getScopes } from "./utils";
 
@@ -100,7 +99,7 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
   },
   ArrowFunctionExpression(
     node: ArrowFunctionExpression,
-    state: CookVisitorState<Function>,
+    state: CookVisitorState<(...args: any[]) => any>,
     callback
   ) {
     if (!node.expression) {
@@ -242,11 +241,25 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     );
   },
   CallExpression(node: CallExpression, state, callback) {
-    const calleeState: CookVisitorState<Function> = spawnCookState(state);
+    const calleeState: CookVisitorState<(
+      ...args: any[]
+    ) => any> = spawnCookState(state, {
+      chainRef: state.chainRef,
+    });
     callback(node.callee, calleeState);
+    const calleeCooked = calleeState.cooked;
 
     // Sanitize the callee.
-    sanitize(calleeState.cooked);
+    sanitize(calleeCooked);
+
+    if (
+      (node.optional || calleeState.chainRef?.skipped) &&
+      (calleeCooked === null || calleeCooked === undefined)
+    ) {
+      state.cooked = undefined;
+      state.chainRef.skipped = true;
+      return;
+    }
 
     const cookedArgs = [];
     for (const arg of node.arguments) {
@@ -259,7 +272,7 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
       }
     }
 
-    if (typeof calleeState.cooked !== "function") {
+    if (typeof calleeCooked !== "function") {
       throw new TypeError(
         `${state.source.substring(
           node.callee.start,
@@ -274,10 +287,17 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
         ? calleeState.memberCooked.object
         : null;
 
-    state.cooked = calleeState.cooked.apply(thisArg, cookedArgs);
+    state.cooked = calleeCooked.apply(thisArg, cookedArgs);
 
     // Sanitize the call result.
     sanitize(state.cooked);
+  },
+  ChainExpression(node: ChainExpression, state, callback) {
+    const chainState = spawnCookState(state, {
+      chainRef: {},
+    });
+    callback(node.expression, chainState);
+    state.cooked = chainState.cooked;
   },
   ConditionalExpression(node: ConditionalExpression, state, callback) {
     const testState = spawnCookState(state);
@@ -373,11 +393,22 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     state.cooked = rightState.cooked;
   },
   MemberExpression(node: MemberExpression, state, callback) {
-    const objectState: CookVisitorState<ObjectCooked> = spawnCookState(state);
+    const objectState: CookVisitorState<ObjectCooked> = spawnCookState(state, {
+      chainRef: state.chainRef,
+    });
     callback(node.object, objectState);
+    const objectCooked = objectState.cooked;
 
     // Sanitize the member object.
-    sanitize(objectState.cooked);
+    sanitize(objectCooked);
+
+    const objectCookedIsNil =
+      objectCooked === null || objectCooked === undefined;
+    if ((node.optional || objectState.chainRef?.skipped) && objectCookedIsNil) {
+      state.cooked = undefined;
+      state.chainRef.skipped = true;
+      return;
+    }
 
     const propertyState: CookVisitorState<PropertyCooked> = spawnCookState(
       state,
@@ -387,12 +418,19 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     );
     callback(node.property, propertyState);
 
+    const propertyCooked = propertyState.cooked;
     state.memberCooked = {
-      object: objectState.cooked,
-      property: propertyState.cooked,
+      object: objectCooked,
+      property: propertyCooked,
     };
 
-    state.cooked = objectState.cooked[propertyState.cooked];
+    if (objectCookedIsNil) {
+      throw new TypeError(
+        `Cannot read property '${propertyCooked}' of ${objectCooked}`
+      );
+    }
+
+    state.cooked = objectCooked[propertyCooked];
 
     // Sanitize the accessed member.
     sanitize(state.cooked);
@@ -470,106 +508,6 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
       }
     }
     // Should nerve reach here.
-  },
-  OptionalCallExpression(node: OptionalCallExpression, state, callback) {
-    const calleeState: CookVisitorState<Function> = spawnCookState(state, {
-      optionalRef: {},
-    });
-    callback(node.callee, calleeState);
-    const calleeCooked = calleeState.cooked;
-
-    // Sanitize the callee.
-    sanitize(calleeCooked);
-
-    if (
-      (node.optional || calleeState.optionalRef.ignored) &&
-      (calleeCooked === null || calleeCooked === undefined)
-    ) {
-      state.cooked = undefined;
-      if (state.optionalRef) {
-        state.optionalRef.ignored = true;
-      }
-      return;
-    }
-
-    const cookedArgs = [];
-    for (const arg of node.arguments) {
-      const argState = spawnCookState(state);
-      callback(arg, argState);
-      if (arg.type === "SpreadElement") {
-        cookedArgs.push(...argState.cooked);
-      } else {
-        cookedArgs.push(argState.cooked);
-      }
-    }
-
-    if (typeof calleeCooked !== "function") {
-      throw new TypeError(
-        `${state.source.substring(
-          node.callee.start,
-          node.callee.end
-        )} is not a function`
-      );
-    }
-
-    const thisArg =
-      node.callee.type === "MemberExpression" ||
-      node.callee.type === "OptionalMemberExpression"
-        ? calleeState.memberCooked.object
-        : null;
-
-    state.cooked = calleeCooked.apply(thisArg, cookedArgs);
-
-    // Sanitize the call result.
-    sanitize(state.cooked);
-  },
-  OptionalMemberExpression(node: OptionalMemberExpression, state, callback) {
-    const objectState: CookVisitorState<ObjectCooked> = spawnCookState(state, {
-      optionalRef: {},
-    });
-    callback(node.object, objectState);
-    const objectCooked = objectState.cooked;
-
-    // Sanitize the member object.
-    sanitize(objectCooked);
-
-    const objectCookedIsNil =
-      objectCooked === null || objectCooked === undefined;
-    if (
-      (node.optional || objectState.optionalRef.ignored) &&
-      objectCookedIsNil
-    ) {
-      state.cooked = undefined;
-      if (state.optionalRef) {
-        state.optionalRef.ignored = true;
-      }
-      return;
-    }
-
-    const propertyState: CookVisitorState<PropertyCooked> = spawnCookState(
-      state,
-      {
-        identifierAsLiteralString: !node.computed,
-      }
-    );
-    callback(node.property, propertyState);
-
-    const propertyCooked = propertyState.cooked;
-    state.memberCooked = {
-      object: objectCooked,
-      property: propertyCooked,
-    };
-
-    if (objectCookedIsNil) {
-      throw new TypeError(
-        `Cannot read property '${propertyCooked}' of ${objectCooked}`
-      );
-    }
-
-    state.cooked = objectCooked[propertyCooked];
-
-    // Sanitize the accessed member.
-    sanitize(state.cooked);
   },
   Property(
     node: ObjectProperty,

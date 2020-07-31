@@ -1,9 +1,11 @@
 import { precook } from "./precook";
 
+const consoleWarn = jest
+  .spyOn(console, "warn")
+  .mockImplementation(() => void 0);
+
 describe("precook", () => {
   it.each<[string, string[]]>([
-    // Partially-unsupported.
-    ["this.bad", []],
     ["() => {}", []],
     ["[, DATA]", ["DATA"]],
     ["'good'", []],
@@ -54,6 +56,16 @@ describe("precook", () => {
   ])("precook(%j).attemptToVisitGlobals should be %j", (input, cooked) => {
     expect(Array.from(precook(input).attemptToVisitGlobals.values())).toEqual(
       cooked
+    );
+  });
+
+  it("should warn unsupported type", () => {
+    expect(
+      Array.from(precook("this.bad").attemptToVisitGlobals.values())
+    ).toEqual([]);
+    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toBeCalledWith(
+      "Unsupported node type `ThisExpression`: `this`"
     );
   });
 });
