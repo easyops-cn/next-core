@@ -20,7 +20,12 @@ import {
   TemplateLiteral,
   UnaryExpression,
 } from "@babel/types";
-import { VisitorFn, PrecookVisitorState, PrecookScope } from "./interfaces";
+import {
+  VisitorFn,
+  PrecookVisitorState,
+  PrecookScope,
+  ChainExpression,
+} from "./interfaces";
 import { spawnPrecookState, getScopes } from "./utils";
 
 const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
@@ -84,6 +89,9 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
       callback(arg, state);
     }
   },
+  ChainExpression(node: ChainExpression, state, callback) {
+    callback(node.expression, state);
+  },
   ConditionalExpression(node: ConditionalExpression, state, callback) {
     callback(node.test, state);
     callback(node.consequent, state);
@@ -133,21 +141,6 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
     for (const prop of node.properties) {
       callback(prop, state);
     }
-  },
-  OptionalCallExpression(node: OptionalCallExpression, state, callback) {
-    callback(node.callee, state);
-    for (const arg of node.arguments) {
-      callback(arg, state);
-    }
-  },
-  OptionalMemberExpression(node: OptionalMemberExpression, state, callback) {
-    callback(node.object, state);
-    callback(
-      node.property,
-      spawnPrecookState(state, {
-        identifierAsLiteralString: !node.computed,
-      })
-    );
   },
   Property(node: ObjectProperty, state, callback) {
     callback(
