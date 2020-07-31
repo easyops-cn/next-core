@@ -1,6 +1,7 @@
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { computeRealValue } from "./setProperties";
 import { doTransform } from "./transformProperties";
+import { isPreEvaluated } from "./evaluate";
 
 type GetIf = (rawIf: string | boolean, ctx: any) => boolean;
 
@@ -19,7 +20,11 @@ export function checkIfByTransform(
 }
 
 function _checkIf(rawIf: string | boolean, ctx: any, fn: GetIf): boolean {
-  if (typeof rawIf === "boolean" || typeof rawIf === "string") {
+  if (
+    typeof rawIf === "boolean" ||
+    typeof rawIf === "string" ||
+    isPreEvaluated(rawIf)
+  ) {
     const ifChecked = fn(rawIf, ctx);
     if (ifChecked === false) {
       return false;

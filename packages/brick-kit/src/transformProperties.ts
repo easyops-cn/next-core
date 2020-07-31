@@ -14,16 +14,11 @@ export function transformElementProperties(
   mapArray?: boolean | "auto"
 ): void {
   const result = preprocessTransformProperties(
-    from ? get(data, from) : data,
+    data,
     to,
+    from,
     mapArray
   );
-  devtoolsHookEmit("transformation", {
-    transform: to,
-    data,
-    options: { from, mapArray },
-    result,
-  });
   setRealProperties(element, result, true);
 }
 
@@ -35,16 +30,11 @@ export function transformProperties(
   mapArray?: boolean | "auto"
 ): Record<string, any> {
   const result = preprocessTransformProperties(
-    from ? get(data, from) : data,
+    data,
     to,
+    from,
     mapArray
   );
-  devtoolsHookEmit("transformation", {
-    transform: to,
-    data,
-    options: { from, mapArray },
-    result,
-  });
   for (const [propName, propValue] of Object.entries(result)) {
     set(props, propName, propValue);
   }
@@ -85,12 +75,16 @@ export function doTransform(
     : to;
 }
 
-function preprocessTransformProperties(
+export function preprocessTransformProperties(
   data: any,
   to: GeneralTransform,
+  from?: string | string[],
   mapArray?: boolean | "auto"
 ): Record<string, any> {
   const props: Record<string, any> = {};
+  if (from) {
+    data = get(data, from);
+  }
   if (Array.isArray(to)) {
     for (const item of to) {
       pipeableTransform(props, data, item.to, item.from, item.mapArray);
@@ -98,6 +92,12 @@ function preprocessTransformProperties(
   } else {
     pipeableTransform(props, data, to, undefined, mapArray);
   }
+  devtoolsHookEmit("transformation", {
+    transform: to,
+    data,
+    options: { from, mapArray },
+    result: props,
+  });
   return props;
 }
 
