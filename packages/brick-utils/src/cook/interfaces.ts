@@ -1,5 +1,10 @@
 import { Expression } from "@babel/types";
 
+export interface ChainExpression {
+  type: "ChainExpression";
+  expression: Expression;
+}
+
 export type PrecookScope = Set<string>;
 
 export interface PrecookVisitorState {
@@ -32,8 +37,8 @@ export interface CookVisitorState<T = any> {
   collectParamNamesOnly?: string[];
   cookParamOnly?: boolean;
   argReceived?: any;
-  optionalRef?: {
-    ignored?: boolean;
+  chainRef?: {
+    skipped?: boolean;
   };
   memberCooked?: {
     object: ObjectCooked;
