@@ -1,5 +1,13 @@
 const pluginName = "ScanCustomElementsPlugin";
 
+const legacyBrickNames = [
+  "presentational-bricks.calendar",
+  "workspace.container.shortcut-searchable-bar",
+  "workspace.container.shortcut-searchable-list",
+  "workspace.container.create-deploy-unit",
+];
+const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+
 module.exports = class ScanCustomElementsPlugin {
   constructor(packageName, dll = []) {
     this.packageName = packageName;
@@ -22,6 +30,15 @@ module.exports = class ScanCustomElementsPlugin {
                 if (!value.startsWith(`${this.packageName}.`)) {
                   throw new Error(
                     `Invalid brick: "${value}", expecting prefixed with the package name: "${this.packageName}"`
+                  );
+                }
+
+                if (
+                  !validBrickName.test(value) &&
+                  !legacyBrickNames.includes(value)
+                ) {
+                  throw new Error(
+                    `Invalid brick: "${value}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
                   );
                 }
                 brickSet.add(value);

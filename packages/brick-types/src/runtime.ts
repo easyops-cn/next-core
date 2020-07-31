@@ -62,6 +62,7 @@ export type UpdateQueryFunction = (
 
 export interface UpdateQueryOptions extends PluginHistoryState {
   extraQuery?: Record<string, any>;
+  clear?: boolean;
 }
 
 export type UpdateAnchorFunction = (

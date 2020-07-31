@@ -12,13 +12,14 @@ const brickKindMap = {
 const extraScanPaths = ["src/interfaces"];
 
 const supportedDecorators = ["property", "event", "method"];
-const methodComments = ["params", "description"];
-const eventDocComments = ["detail", "description"];
+const methodComments = ["params", "description", "deprecated"];
+const eventDocComments = ["detail", "description", "deprecated"];
 const propertyDocComments = [
   "name",
   "kind",
   "required",
   "default",
+  "deprecated",
   "description",
 ];
 const baseDocComments = [
@@ -31,6 +32,7 @@ const baseDocComments = [
   "memo",
   "history",
   "dockind",
+  "deprecated",
 ];
 
 function generateBrickDoc(doc, scope) {
@@ -58,6 +60,12 @@ function convertTagsToMapByFields(tags, fields) {
       // 由于在typedoc中@type为关键字，在注释中以@kind替代，所以在这里会将kind，转换回type
       if (curr.tag === "kind") {
         prev["type"] = curr.text;
+        return prev;
+      }
+
+      // 如果有`@deprecated`注解，强制转换为true
+      if (curr.tag === "deprecated") {
+        prev[curr.tag] = true;
         return prev;
       }
 
@@ -506,7 +514,14 @@ function generateBrickBook(docsJson) {
 
   stories.forEach((story) => {
     const finder = docsJson.children.find((doc) => doc.id === story.storyId);
-    story.doc = finder || null;
+    if (finder) {
+      story.doc = finder;
+      if (Object.prototype.hasOwnProperty.call(finder, "deprecated")) {
+        story.deprecated = true;
+      }
+      return;
+    }
+    story.doc = null;
   });
 
   fs.writeFileSync(storiesPath, JSON.stringify(stories, null, 2), {

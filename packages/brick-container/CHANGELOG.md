@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.25.2...@easyops/brick-container@1.25.3) (2020-07-31)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.25.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.25.1...@easyops/brick-container@1.25.2) (2020-07-30)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.25.0...@easyops/brick-container@1.25.1) (2020-07-29)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [1.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.24.4...@easyops/brick-container@1.25.0) (2020-07-29)
+
+### Features
+
+- support storyboard.yaml (in mock-micro-apps) ([d46369f](https://git.easyops.local/anyclouds/next-core/commits/d46369f))
+
+## [1.24.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.24.3...@easyops/brick-container@1.24.4) (2020-07-23)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.24.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.24.2...@easyops/brick-container@1.24.3) (2020-07-23)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.24.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.24.1...@easyops/brick-container@1.24.2) (2020-07-22)
+
+### Bug Fixes
+
+- **brick-container:** listRealpathOfSubdir 方法在调用 readdirSync 前，先用 existsSync 检查目录是否存在 ([6bcef9f](https://git.easyops.local/anyclouds/next-core/commits/6bcef9f))
+
+## [1.24.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.24.0...@easyops/brick-container@1.24.1) (2020-07-21)
+
+**Note:** Version bump only for package @easyops/brick-container
+
 # [1.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.23.3...@easyops/brick-container@1.24.0) (2020-07-20)
 
 ### Features

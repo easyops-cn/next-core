@@ -2,7 +2,7 @@ import { historyExtended } from "./historyExtended";
 import {
   UpdateQueryFunction,
   UpdateAnchorFunction,
-  PluginLocation
+  PluginLocation,
 } from "@easyops/brick-types";
 
 describe("historyExtended", () => {
@@ -15,9 +15,9 @@ describe("historyExtended", () => {
       hash: "#c",
       key: "d",
       state: {
-        from: "e"
-      }
-    }
+        from: "e",
+      },
+    },
   };
   const ext = historyExtended(history as any);
 
@@ -30,10 +30,21 @@ describe("historyExtended", () => {
     [
       [
         {
-          page: 2
-        }
+          page: 2,
+        },
       ],
-      ["?b=1&page=2", {}]
+      ["?b=1&page=2", {}],
+    ],
+    [
+      [
+        {
+          page: 2,
+        },
+        {
+          clear: true,
+        },
+      ],
+      ["?page=2", {}],
     ],
     [
       [
@@ -43,51 +54,51 @@ describe("historyExtended", () => {
           sort: null,
           q: "",
           emptyArray: [],
-          array: [3, 4]
+          array: [3, 4],
         },
         {
           extraQuery: {
-            pageSize: 10
-          }
-        }
+            pageSize: 10,
+          },
+        },
       ],
-      ["?b=1&page=2&array=3&array=4&pageSize=10", {}]
+      ["?b=1&page=2&array=3&array=4&pageSize=10", {}],
     ],
     [
       [
         {
-          page: 2
+          page: 2,
         },
         {
-          notify: false
-        }
+          notify: false,
+        },
       ],
       [
         "?b=1&page=2",
         {
-          notify: false
-        }
-      ]
+          notify: false,
+        },
+      ],
     ],
     [
       [
         {
-          page: 2
+          page: 2,
         },
         {
           extraQuery: {
-            pageSize: 10
+            pageSize: 10,
           },
-          notify: false
-        }
+          notify: false,
+        },
       ],
       [
         "?b=1&page=2&pageSize=10",
         {
-          notify: false
-        }
-      ]
-    ]
+          notify: false,
+        },
+      ],
+    ],
   ])(
     "history.pushQuery(...%j) should call history.push(...%j)",
     (callerArgs, calleeArgs) => {
@@ -100,22 +111,22 @@ describe("historyExtended", () => {
     [
       [
         {
-          page: 2
+          page: 2,
         },
         {
           extraQuery: {
-            pageSize: 10
+            pageSize: 10,
           },
-          notify: false
-        }
+          notify: false,
+        },
       ],
       [
         "?b=1&page=2&pageSize=10",
         {
-          notify: false
-        }
-      ]
-    ]
+          notify: false,
+        },
+      ],
+    ],
   ])(
     "history.replaceQuery(...%j) should call history.replace(...%j)",
     (callerArgs, calleeArgs) => {
@@ -133,16 +144,16 @@ describe("historyExtended", () => {
         hash: "yes",
         key: undefined,
         state: {
-          notify: false
-        }
-      }
+          notify: false,
+        },
+      },
     ],
     [
       [
         "yes",
         {
-          notify: true
-        }
+          notify: true,
+        },
       ],
       {
         pathname: "/a",
@@ -150,9 +161,9 @@ describe("historyExtended", () => {
         hash: "yes",
         key: undefined,
         state: {
-          notify: true
-        }
-      }
+          notify: true,
+        },
+      },
     ],
     [
       [""],
@@ -162,10 +173,10 @@ describe("historyExtended", () => {
         hash: "",
         key: undefined,
         state: {
-          notify: false
-        }
-      }
-    ]
+          notify: false,
+        },
+      },
+    ],
   ])(
     "history.pushAnchor(...%j) should call history.push(%j)",
     (callerArgs, loc) => {
@@ -183,8 +194,8 @@ describe("historyExtended", () => {
       key: "d",
       state: {
         from: "e",
-        notify: true
-      }
+        notify: true,
+      },
     });
   });
 });

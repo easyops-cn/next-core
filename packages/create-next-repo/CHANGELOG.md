@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.23](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.22...@easyops/create-next-repo@0.13.23) (2020-07-31)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.21...@easyops/create-next-repo@0.13.22) (2020-07-30)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.20...@easyops/create-next-repo@0.13.21) (2020-07-29)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.19...@easyops/create-next-repo@0.13.20) (2020-07-29)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.18...@easyops/create-next-repo@0.13.19) (2020-07-23)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.17...@easyops/create-next-repo@0.13.18) (2020-07-23)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.16...@easyops/create-next-repo@0.13.17) (2020-07-22)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.15...@easyops/create-next-repo@0.13.16) (2020-07-21)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
 ## [0.13.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.14...@easyops/create-next-repo@0.13.15) (2020-07-20)
 
 **Note:** Version bump only for package @easyops/create-next-repo

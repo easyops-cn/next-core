@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.49.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.48.0...@easyops/brick-types@1.49.0) (2020-07-29)
+
+### Features
+
+- **brick-types:** set category of Story to required ([577895f](https://git.easyops.local/anyclouds/next-core/commits/577895f))
+
+# [1.48.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.47.0...@easyops/brick-types@1.48.0) (2020-07-29)
+
+### Features
+
+- **brick-types:** add about story types ([dc2a921](https://git.easyops.local/anyclouds/next-core/commits/dc2a921))
+- **brick-types:** add about story types ([daec6d7](https://git.easyops.local/anyclouds/next-core/commits/daec6d7))
+
+# [1.47.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.46.0...@easyops/brick-types@1.47.0) (2020-07-23)
+
+### Features
+
+- **history:** pushQuery/replaceQuery support to clear existed query ([9bc14b8](https://git.easyops.local/anyclouds/next-core/commits/9bc14b8))
+
 # [1.46.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.45.1...@easyops/brick-types@1.46.0) (2020-07-17)
 
 ### Features
