@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.57.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.57.3...@easyops/brick-kit@1.57.4) (2020-07-31)
+
+### Bug Fixes
+
+- **evaluate:** lazy evaluate for events in properties ([ddcff7f](https://git.easyops.local/anyclouds/next-core/commits/ddcff7f))
+
 ## [1.57.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.57.2...@easyops/brick-kit@1.57.3) (2020-07-30)
 
 ### Bug Fixes

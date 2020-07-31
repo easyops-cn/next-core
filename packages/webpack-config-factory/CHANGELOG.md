@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.4...@easyops/webpack-config-factory@1.10.5) (2020-07-31)
+
+### Bug Fixes
+
+- **webpack:** validate brick name during webpack building ([7306cf8](https://git.easyops.local/anyclouds/next-core/commits/7306cf8))
+
 ## [1.10.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.3...@easyops/webpack-config-factory@1.10.4) (2020-07-29)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory
