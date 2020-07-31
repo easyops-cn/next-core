@@ -2,6 +2,8 @@ import { install, InstalledClock } from "lolex";
 import { cook } from "./cook";
 import { precook } from "./precook";
 
+jest.spyOn(console, "warn").mockImplementation(() => void 0);
+
 jest.mock("../placeholder/pipes/PipeRegistry", () => ({
   PipeRegistry: new Map([["string", (v: any) => (v == null ? "" : String(v))]]),
 }));
@@ -109,6 +111,8 @@ describe("cook", () => {
     ["DATA.notExisted?.length.oops", undefined],
     ["DATA.notExisted?.length()", undefined],
     ["DATA.notExisted?.()()", undefined],
+    ["(DATA.notExisted)?.length", undefined],
+    ["(DATA.notExisted?.length)?.oops", undefined],
     ["!DATA.null", true],
     ["+DATA.true", 1],
     ["-DATA.true", -1],
@@ -237,6 +241,7 @@ describe("cook", () => {
     "DATA?.number5.notExisted.oops",
     "DATA.number5?.toFixed.oo.ps",
     "DATA.number5.toFixed?.().oops()",
+    "(DATA.notExisted?.length).oops",
     "[1, , 2]",
     "[...DATA]",
     "[...null]",
