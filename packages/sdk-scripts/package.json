@@ -32,6 +32,7 @@
     "inquirer": "^7.3.2",
     "js-yaml": "^3.14.0",
     "klaw-sync": "^6.0.0",
+    "meow": "^7.0.1",
     "prettier": "^2.0.5",
     "semver": "^7.3.2"
   },
