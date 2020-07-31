@@ -1,12 +1,17 @@
+import { InstanceApi } from "@sdk/cmdb-sdk";
 import {
   fetchMenuById,
   constructMenu,
   MenuRawData,
   processMenuTitle,
 } from "./menu";
-import { InstanceApi } from "@sdk/cmdb-sdk";
+import * as runtime from "./Runtime";
 
 jest.mock("@sdk/cmdb-sdk");
+
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  flags: {},
+} as any);
 
 const mockMenuList: any[] = [
   {
@@ -52,6 +57,11 @@ const mockMenuList: any[] = [
       {
         text: "Menu Item 2",
         sort: 1,
+      },
+      {
+        text: "Menu Item 0",
+        if: "<% !!FLAGS['flag-not-enabled'] %>",
+        sort: 5,
       },
     ],
   },
