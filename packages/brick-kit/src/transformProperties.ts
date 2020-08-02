@@ -13,12 +13,7 @@ export function transformElementProperties(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ): void {
-  const result = preprocessTransformProperties(
-    data,
-    to,
-    from,
-    mapArray
-  );
+  const result = preprocessTransformProperties(data, to, from, mapArray);
   setRealProperties(element, result, true);
 }
 
@@ -29,12 +24,7 @@ export function transformProperties(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ): Record<string, any> {
-  const result = preprocessTransformProperties(
-    data,
-    to,
-    from,
-    mapArray
-  );
+  const result = preprocessTransformProperties(data, to, from, mapArray);
   for (const [propName, propValue] of Object.entries(result)) {
     set(props, propName, propValue);
   }
@@ -101,7 +91,7 @@ export function preprocessTransformProperties(
   return props;
 }
 
-function pipeableTransform(
+export function pipeableTransform(
   props: Record<string, any>,
   data: any,
   to: string | TransformMap,

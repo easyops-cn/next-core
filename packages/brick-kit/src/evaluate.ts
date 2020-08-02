@@ -18,6 +18,7 @@ interface PreEvaluated {
 
 export interface EvaluateOptions {
   lazy?: boolean;
+  disabledNotifyDevTools?: boolean;
 }
 
 export function isPreEvaluated(raw: any): raw is PreEvaluated {
@@ -177,7 +178,8 @@ export function evaluate(
 
   try {
     const result = cook(precooked, globalVariables);
-    devtoolsHookEmit("evaluation", { raw, context: globalVariables, result });
+    !options?.disabledNotifyDevTools &&
+      devtoolsHookEmit("evaluation", { raw, context: globalVariables, result });
     return result;
   } catch (error) {
     throw new SyntaxError(`${error.message}, in "${raw}"`);

@@ -32,6 +32,7 @@ import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { registerCustomTemplate } from "./CustomTemplates";
+import { listenDevtools } from "../devtools";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -73,6 +74,7 @@ export class Kernel {
     // Router need those bars above to be ready.
     await this.router.bootstrap();
     this.authGuard();
+    listenDevtools();
   }
 
   private authGuard(): void {
