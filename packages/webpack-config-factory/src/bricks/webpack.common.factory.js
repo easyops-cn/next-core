@@ -10,7 +10,11 @@ const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 const getStyleLoaders = (cssOptions) => [
   {
     loader: "css-loader",
-    options: cssOptions,
+    options: {
+      // Todo(steve): based on env.
+      sourceMap: false,
+      ...cssOptions,
+    },
   },
   {
     loader: "postcss-loader",
