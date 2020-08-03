@@ -2795,10 +2795,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-test-renderer@^16.9.2":
-  version "16.9.2"
-  resolved "https://registry.npm.taobao.org/@types/react-test-renderer/download/@types/react-test-renderer-16.9.2.tgz#e1c408831e8183e5ad748fdece02214a7c2ab6c5"
-  integrity sha1-4cQIgx6Bg+WtdI/ezgIhSnwqtsU=
+"@types/react-test-renderer@^16.9.3":
+  version "16.9.3"
+  resolved "https://registry.npm.taobao.org/@types/react-test-renderer/download/@types/react-test-renderer-16.9.3.tgz#96bab1860904366f4e848b739ba0e2f67bcae87e"
+  integrity sha1-lrqxhgkENm9OhItzm6Di9nvK6H4=
   dependencies:
     "@types/react" "*"
 
