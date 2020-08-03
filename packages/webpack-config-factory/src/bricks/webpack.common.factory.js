@@ -31,22 +31,6 @@ const getStyleLoaders = (cssOptions) => [
   },
 ];
 
-const getWorkerLoaders = (distPublicPath, options) => [
-  {
-    loader: "worker-loader",
-    options: {
-      publicPath: `${distPublicPath}/`,
-      ...options,
-    },
-  },
-  {
-    loader: "babel-loader",
-    options: {
-      rootMode: "upward",
-    },
-  },
-];
-
 loadLanguages(["ts", "tsx", "json"]);
 
 const highlight = (code, lang) => {
@@ -113,20 +97,6 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
               },
             },
           ],
-        },
-        {
-          // For inline web workers.
-          // Small workers should use inline.
-          test: /\.inline\.worker\.(ts|js)x?$/,
-          exclude: /node_modules/,
-          use: getWorkerLoaders(distPublicPath, { inline: true }),
-        },
-        {
-          // For web workers.
-          // Large workers should not use inline.
-          test: /\.worker\.(ts|js)x?$/,
-          exclude: /node_modules|\.inline\.worker\./,
-          use: getWorkerLoaders(distPublicPath),
         },
         {
           // Include ts, tsx, js, and jsx files.
