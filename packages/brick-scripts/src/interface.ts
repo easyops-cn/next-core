@@ -2,6 +2,7 @@ export type FileWithContent = [string, string];
 
 export interface AskFlags {
   type?: "libs";
+  provider?: "string";
 }
 
 export enum TargetType {
@@ -16,7 +17,7 @@ export enum TargetType {
   A_NEW_CUSTOM_TEMPLATE = "custom-template",
   A_NEW_LEGACY_TEMPLATE = "legacy-template",
   A_NEW_PACKAGE_OF_LEGACY_TEMPLATES = "legacy-templates",
-  I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES = "i18n-patch"
+  I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES = "i18n-patch",
 }
 
 export const TargetTypeDisplay = {
@@ -33,5 +34,5 @@ export const TargetTypeDisplay = {
   [TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES]:
     "a new package of legacy templates",
   [TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES]:
-    "i18n-patch a package of legacy templates"
+    "i18n-patch a package of legacy templates",
 };

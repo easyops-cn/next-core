@@ -14,10 +14,19 @@ import { scriptYarnInstall } from "./scripts";
 
 export async function create(flags: AskFlags): Promise<void> {
   const appRoot = path.join(process.cwd());
-  const { targetType, packageName, brickName, templateName } = await ask(
-    appRoot,
-    flags
-  );
+  let targetType: TargetType;
+  let packageName = "";
+  let brickName = "";
+  let templateName = "";
+  if (flags.provider) {
+    targetType = TargetType["A_NEW_PACKAGE_OF_PROVIDERS"];
+    packageName = `providers-of-${flags.provider}`;
+  } else {
+    ({ targetType, packageName, brickName, templateName } = await ask(
+      appRoot,
+      flags
+    ));
+  }
 
   const pkgRoot = path.join(appRoot, targetMap[targetType], packageName);
   const docRoot = path.join(
@@ -48,7 +57,7 @@ export async function create(flags: AskFlags): Promise<void> {
     brickName,
     templateName,
     targetRoot,
-    docRoot
+    docRoot,
   });
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
@@ -61,11 +70,11 @@ export async function create(flags: AskFlags): Promise<void> {
         JSON.stringify(
           {
             sdk: `@sdk/${packageName.replace(/^providers-of-/, "")}-sdk`,
-            providers: []
+            providers: [],
           },
           null,
           2
-        )
+        ),
       ]);
     }
   } else if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
@@ -76,12 +85,12 @@ export async function create(flags: AskFlags): Promise<void> {
         'concurrently -k -n tsc,build "tsc -w --preserveWatchOutput" "node scripts/build.js -w"',
       prestart: "rimraf dist",
       prebuild: "rimraf dist && tsc",
-      build: "node scripts/build.js"
+      build: "node scripts/build.js",
     });
 
     files.push([
       microAppPackageJsonPath,
-      JSON.stringify(microAppPackageJson, null, 2)
+      JSON.stringify(microAppPackageJson, null, 2),
     ]);
 
     const storyboardJsonPath = path.join(targetRoot, "storyboard.json");
@@ -97,7 +106,7 @@ const storyboard: Storyboard = ${JSON.stringify(storyboardJson)};
 
 export default storyboard;`,
         { parser: "typescript" }
-      )
+      ),
     ]);
   }
 
@@ -116,7 +125,7 @@ export default storyboard;`,
       TargetType.A_NEW_BRICK,
       TargetType.A_NEW_CUSTOM_TEMPLATE,
       TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
-      TargetType.A_NEW_PACKAGE_OF_BRICKS
+      TargetType.A_NEW_PACKAGE_OF_BRICKS,
     ].includes(targetType)
   ) {
     // 如果是新建构件/自定义provider构件/构件库，需要更新/新建 `index.ts`。
@@ -173,7 +182,7 @@ export default storyboard;`,
   } else if (
     [
       TargetType.A_NEW_LEGACY_TEMPLATE,
-      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES
+      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
     ].includes(targetType)
   ) {
     // 如果是新建模板/模板库，需要更新/新建 `index.ts`。
@@ -220,7 +229,7 @@ export default storyboard;`,
       TargetType.A_NEW_PACKAGE_OF_MICRO_APPS,
       TargetType.A_NEW_PACKAGE_OF_PROVIDERS,
       TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
-      TargetType.TRANSFORM_A_MICRO_APP
+      TargetType.TRANSFORM_A_MICRO_APP,
     ].includes(targetType)
   ) {
     // Run `yarn` after created a new package.

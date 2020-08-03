@@ -15,6 +15,10 @@ const { flags } = meow({
       type: "string",
       alias: "b",
     },
+    provider: {
+      type: "string",
+      alias: "p",
+    },
   },
 });
 
