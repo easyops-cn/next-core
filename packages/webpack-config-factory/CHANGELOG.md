@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.7...@easyops/webpack-config-factory@1.10.8) (2020-08-03)
+
+### Bug Fixes
+
+- **webpack:** disable source map for brick packages ([3846d27](https://git.easyops.local/anyclouds/next-core/commits/3846d27))
+
 ## [1.10.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.6...@easyops/webpack-config-factory@1.10.7) (2020-08-03)
 
 ### Bug Fixes
