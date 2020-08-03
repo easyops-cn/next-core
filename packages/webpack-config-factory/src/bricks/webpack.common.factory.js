@@ -7,19 +7,22 @@ const loadLanguages = require("prismjs/components/index");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 
-const getStyleLoaders = (cssOptions) => [
-  {
-    loader: "css-loader",
-    options: {
-      // Todo(steve): based on env.
-      sourceMap: false,
-      ...cssOptions,
-    },
+const getCssLoader = (cssOptions) => ({
+  loader: "css-loader",
+  options: {
+    // Todo(steve): based on env.
+    sourceMap: false,
+    ...cssOptions,
   },
+});
+
+const getStyleLoaders = (cssOptions) => [
+  getCssLoader(cssOptions),
   {
     loader: "postcss-loader",
     options: {
       ident: "postcss",
+      sourceMap: false,
       plugins: () => [
         require("postcss-nested")(),
         require("postcss-preset-env")(),
@@ -206,12 +209,12 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
           sideEffects: true,
           use: [
             "to-string-loader",
-            "css-loader",
+            getCssLoader(),
             {
               loader: "less-loader",
               options: {
                 lessOptions: {
-                  sourceMap: true,
+                  sourceMap: false,
                   javascriptEnabled: true,
                 },
               },
