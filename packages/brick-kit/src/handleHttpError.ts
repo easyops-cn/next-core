@@ -1,10 +1,10 @@
 import {
   HttpResponseError,
   HttpParseError,
-  HttpFetchError
+  HttpFetchError,
 } from "@easyops/brick-http";
 import { Modal } from "antd";
-import { ModalFunc } from "antd/lib/modal/Modal";
+import { ModalFunc } from "antd/lib/modal/confirm";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "./i18n/constants";
 import { getHistory } from "./history";
@@ -35,7 +35,7 @@ export const handleHttpError = (
   if (isUnauthenticatedError(error)) {
     const history = getHistory();
     history.push("/auth/login", {
-      from: history.location
+      from: history.location,
     });
     return;
   }
@@ -43,6 +43,6 @@ export const handleHttpError = (
   return Modal.error({
     title: i18next.t(`${NS_BRICK_KIT}:${K.REQUEST_FAILED}`),
     content: httpErrorToString(error),
-    okText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_OK}`)
+    okText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_OK}`),
   });
 };

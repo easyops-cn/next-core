@@ -21,6 +21,8 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js"
   },
   "dependencies": {
+    "@ant-design/compatible": "^1.0.5",
+    "@ant-design/icons": "^4.2.1",
     "@easyops/babel-runtime-helpers": "^0.1.4",
     "@easyops/brick-http": "^1.1.5",
     "@easyops/brick-icons": "^1.18.1",
@@ -28,7 +30,7 @@
     "@easyops/brick-utils": "^1.50.5",
     "@easyops/fontawesome-library": "^1.1.8",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "antd": "^3.26.18",
+    "antd": "^4.5.2",
     "history": "^4.10.1",
     "i18next": "^19.6.3",
     "js-yaml": "^3.14.0",
