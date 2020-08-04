@@ -29,6 +29,6 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "whatwg-fetch": "^3.2.0"
+    "whatwg-fetch": "^3.3.1"
   }
 }

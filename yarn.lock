@@ -14387,10 +14387,15 @@ whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.2.0:
+whatwg-fetch@>=0.10.0:
   version "3.2.0"
   resolved "https://registry.npm.taobao.org/whatwg-fetch/download/whatwg-fetch-3.2.0.tgz?cache=0&sync_timestamp=1594307460772&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwhatwg-fetch%2Fdownload%2Fwhatwg-fetch-3.2.0.tgz#8e134f701f0a4ab5fda82626f113e2b647fd16dc"
   integrity sha1-jhNPcB8KSrX9qCYm8RPitkf9Ftw=
+
+whatwg-fetch@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.npm.taobao.org/whatwg-fetch/download/whatwg-fetch-3.3.1.tgz?cache=0&sync_timestamp=1596539123285&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwhatwg-fetch%2Fdownload%2Fwhatwg-fetch-3.3.1.tgz#6c1acf37dec176b0fd6bc9a74b616bec2f612935"
+  integrity sha1-bBrPN97BdrD9a8mnS2Fr7C9hKTU=
 
 whatwg-mimetype@^2.3.0:
   version "2.3.0"
