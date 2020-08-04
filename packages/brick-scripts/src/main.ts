@@ -11,6 +11,7 @@ import { TargetType, AskFlags } from "./interface";
 import { targetMap } from "./constant";
 import * as changeCase from "change-case";
 import { scriptYarnInstall } from "./scripts";
+import { file } from "@babel/types";
 
 export async function create(flags: AskFlags): Promise<void> {
   const appRoot = path.join(process.cwd());
@@ -51,7 +52,7 @@ export async function create(flags: AskFlags): Promise<void> {
     targetRoot = path.join(pkgRoot);
   }
 
-  const files = await loadTemplate({
+  let files = await loadTemplate({
     targetType,
     packageName,
     brickName,
@@ -61,7 +62,12 @@ export async function create(flags: AskFlags): Promise<void> {
   });
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
-    // Providers 库可以覆盖生成。
+    // 不覆盖生成，后续如果需要可以询问时加多一步是否覆盖
+    const packageJson = path.join(targetRoot, "package.json");
+    if (fs.existsSync(packageJson)) {
+      console.log(chalk.yellow(`${packageName} exist provider`));
+      files = [];
+    }
     // 如果 `providers.json` 不存在时才新建，已存在时不覆盖。
     const providersJsonPath = path.join(targetRoot, "providers.json");
     if (!fs.existsSync(providersJsonPath)) {
