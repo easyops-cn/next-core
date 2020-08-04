@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.8...@easyops/webpack-config-factory@1.10.9) (2020-08-04)
+
+### Bug Fixes
+
+- **webpack:** disable esModule of css-loader which follows to-string-loader ([145edba](https://git.easyops.local/anyclouds/next-core/commits/145edba))
+- remove never used worker loader ([55f345c](https://git.easyops.local/anyclouds/next-core/commits/55f345c))
+
 ## [1.10.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.7...@easyops/webpack-config-factory@1.10.8) (2020-08-03)
 
 ### Bug Fixes
