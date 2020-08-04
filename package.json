@@ -28,7 +28,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.11.0",
+    "@babel/core": "^7.11.1",
     "@babel/types": "^7.11.0",
     "@size-limit/file": "^4.5.5",
     "@types/enzyme": "^3.10.5",
@@ -69,8 +69,8 @@
     "dll/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.11.0",
-    "@babel/runtime": "^7.11.0",
+    "@babel/parser": "^7.11.1",
+    "@babel/runtime": "^7.11.1",
     "@types/react": "^16.9.44",
     "lodash": "^4.17.19",
     "moment": "^2.27.0"
