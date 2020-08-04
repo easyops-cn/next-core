@@ -172,14 +172,21 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
         {
           test: /\.shadow\.css$/,
           sideEffects: true,
-          use: ["to-string-loader", ...getStyleLoaders()],
+          use: [
+            "to-string-loader",
+            ...getStyleLoaders({
+              esModule: false,
+            }),
+          ],
         },
         {
           test: /\.less$/,
           sideEffects: true,
           use: [
             "to-string-loader",
-            getCssLoader(),
+            getCssLoader({
+              esModule: false,
+            }),
             {
               loader: "less-loader",
               options: {
