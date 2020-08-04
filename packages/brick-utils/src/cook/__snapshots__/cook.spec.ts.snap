@@ -44,6 +44,8 @@ exports[`cook cook(precook("_.get(()=>1, 'constructor.prototype')"), {...}) shou
 
 exports[`cook cook(precook("_.reverse([0,1,2])"), {...}) should throw 1`] = `"_.reverse is not a function"`;
 
+exports[`cook cook(precook("DATA |> DATA.number5"), {...}) should throw 1`] = `"DATA.number5 is not a function"`;
+
 exports[`cook cook(precook("DATA.number5 ^ 1"), {...}) should throw 1`] = `"Unsupported binary operator \`^\`: \`DATA.number5 ^ 1\`"`;
 
 exports[`cook cook(precook("DATA.number5()"), {...}) should throw 1`] = `"DATA.number5 is not a function"`;
