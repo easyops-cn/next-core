@@ -11,7 +11,7 @@ export function precook(source: string): PrecookResult {
     attemptToVisitGlobals: new Set(),
   };
   const expression = parseExpression(source, {
-    plugins: ["estree"],
+    plugins: ["estree", ["pipelineOperator", { proposal: "minimal" }]],
   });
   walkFactory(PrecookVisitor, (node: Node) => {
     // eslint-disable-next-line no-console
