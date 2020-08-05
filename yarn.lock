@@ -2304,10 +2304,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^10.4.7":
-  version "10.4.7"
-  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.4.7.tgz?cache=0&sync_timestamp=1594817568156&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-10.4.7.tgz#fc14847fb70a5e93576b8f7f0d1490ead02a9061"
-  integrity sha1-/BSEf7cKXpNXa49/DRSQ6tAqkGE=
+"@testing-library/react@^10.4.8":
+  version "10.4.8"
+  resolved "https://registry.npm.taobao.org/@testing-library/react/download/@testing-library/react-10.4.8.tgz?cache=0&sync_timestamp=1596593714888&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-10.4.8.tgz#5eb730291b8fd81cdb2d8877770d060b044ae4a4"
+  integrity sha1-XrcwKRuP2BzbLYh3dw0GCwRK5KQ=
   dependencies:
     "@babel/runtime" "^7.10.3"
     "@testing-library/dom" "^7.17.1"
