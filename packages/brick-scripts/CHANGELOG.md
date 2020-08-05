@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.16.0...@easyops/brick-scripts@1.17.0) (2020-08-05)
+
+### Features
+
+- provider will not cover refs ([776b19e](https://git.easyops.local/anyclouds/next-core/commits/776b19e))
+
 # [1.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.15.6...@easyops/brick-scripts@1.16.0) (2020-08-04)
 
 ### Features

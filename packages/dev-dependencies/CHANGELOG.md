@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.67...@easyops/dev-dependencies@0.7.0) (2020-08-05)
+
+### Features
+
+- **dev-dependencies:** cli-renew 支持 tag 参数 ([a3d3988](https://git.easyops.local/anyclouds/next-core/commits/a3d3988))
+
 ## [0.6.67](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.66...@easyops/dev-dependencies@0.6.67) (2020-08-04)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
