@@ -5,7 +5,7 @@ const { chain } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 const patch = require("./patch");
 
-const caretRangesRegExp = /^\^\d+\.\d+\.\d+$/;
+const caretRangesRegExp = /^\^\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?$/;
 
 function shouldUpgrade(fromVersion, toVersion) {
   return (
@@ -56,7 +56,7 @@ module.exports = function extract() {
     // 解决该包在 `npm link` 下使用时报错的问题
     const dllPackageJson = readJson(
       require.resolve(`${pkg}/package.json`, {
-        paths: [process.cwd()]
+        paths: [process.cwd()],
       })
     );
     for (const [name, version] of Object.entries(dllPackageJson.dependencies)) {
@@ -66,7 +66,7 @@ module.exports = function extract() {
 
   const kitPackageJson = readJson(
     require.resolve("@easyops/brick-kit/package.json", {
-      paths: [process.cwd()]
+      paths: [process.cwd()],
     })
   );
   const kitDeps = ["@easyops/brick-types"];
@@ -113,7 +113,7 @@ module.exports = function extract() {
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = readJson(renovateJsonPath);
   const disabledRule = renovateJson.packageRules.find(
-    item => item.enabled === false
+    (item) => item.enabled === false
   );
   const disabledPackageNames = new Set(disabledRule.packageNames);
 
