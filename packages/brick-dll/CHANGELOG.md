@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.20...@easyops/brick-dll@2.0.0-next.0) (2020-08-05)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
 ## [1.3.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@1.3.19...@easyops/brick-dll@1.3.20) (2020-08-03)
 
 **Note:** Version bump only for package @easyops/brick-dll
