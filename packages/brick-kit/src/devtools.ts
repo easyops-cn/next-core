@@ -1,4 +1,3 @@
-import { GeneralTransform } from "@easyops/brick-types";
 import { evaluate } from "./evaluate";
 import { preprocessTransformProperties } from "./transformProperties";
 
@@ -35,12 +34,18 @@ export function listenDevtools(): void {
       let result;
       const { raw, context, id } = event.data.payload;
       if (context.event && raw.includes("EVENT")) {
-        result = "`EVENT` is not supported debugging temporarily";
+        result = {
+          error: "`EVENT` is not supported debug temporarily",
+        };
       } else {
         try {
-          result = evaluate(raw, context, { disabledNotifyDevTools: true });
+          result = {
+            data: evaluate(raw, context, { disabledNotifyDevTools: true }),
+          };
         } catch (e) {
-          result = e.message;
+          result = {
+            error: e.message,
+          };
         }
       }
 
@@ -59,10 +64,28 @@ export function listenDevtools(): void {
         options: { from, mapArray },
       } = event.data.payload;
       try {
-        result = reProcessTransform(data, transform, from, mapArray);
+        const output = preprocessTransformProperties(
+          data,
+          transform,
+          from,
+          mapArray,
+          {
+            disabledNotifyDevTools: true,
+          }
+        );
+
+        result = {
+          transform,
+          result: {
+            data: output,
+          },
+        };
       } catch (e) {
         result = {
-          result: e.message,
+          transform,
+          result: {
+            error: e.message,
+          },
         };
       }
 
@@ -72,19 +95,4 @@ export function listenDevtools(): void {
       });
     }
   });
-}
-
-export function reProcessTransform(
-  data: any,
-  to: GeneralTransform,
-  from?: string | string[],
-  mapArray?: boolean | "auto"
-) {
-  const output = preprocessTransformProperties(data, to, from, mapArray, {
-    disabledNotifyDevTools: true,
-  });
-  return {
-    transform: to,
-    result: output,
-  };
 }

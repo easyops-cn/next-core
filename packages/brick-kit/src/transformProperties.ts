@@ -102,7 +102,7 @@ export function preprocessTransformProperties(
   return props;
 }
 
-export function pipeableTransform(
+function pipeableTransform(
   props: Record<string, any>,
   data: any,
   to: string | TransformMap,

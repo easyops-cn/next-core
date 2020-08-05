@@ -1,4 +1,4 @@
-import { listenDevtools, reProcessTransform } from "./devtools";
+import { listenDevtools } from "./devtools";
 import {
   TRANSFORMATION_EDIT,
   EVALUATION_EDIT,
@@ -48,7 +48,9 @@ describe("devtools", () => {
           payload: {
             raw: "<% DATA.cellData.title %>",
             id: 0,
-            result: "good",
+            result: {
+              data: "good",
+            },
           },
         },
       ],
@@ -63,7 +65,9 @@ describe("devtools", () => {
           payload: {
             raw: "<% APP.homePage %>",
             id: 3,
-            result: "/easyops",
+            result: {
+              data: "/easyops",
+            },
           },
         },
       ],
@@ -84,8 +88,10 @@ describe("devtools", () => {
           payload: {
             raw: "<% DATA.cellData.title.map(name => name) %>",
             id: 0,
-            result:
-              'DATA.cellData.title.map is not a function, in "<% DATA.cellData.title.map(name => name) %>"',
+            result: {
+              error:
+                'DATA.cellData.title.map is not a function, in "<% DATA.cellData.title.map(name => name) %>"',
+            },
           },
         },
       ],
@@ -111,7 +117,9 @@ describe("devtools", () => {
           payload: {
             raw: "<% EVENT.detail.name %>",
             id: 0,
-            result: "`EVENT` is not supported debugging temporarily",
+            result: {
+              error: "`EVENT` is not supported debug temporarily",
+            },
           },
         },
       ],
@@ -146,7 +154,12 @@ describe("devtools", () => {
           transform: { value: "@{title}" },
           id: 0,
           data: {
-            title: "good",
+            info: {
+              title: "good",
+            },
+          },
+          options: {
+            from: "info",
           },
         },
         {
@@ -154,7 +167,9 @@ describe("devtools", () => {
           payload: {
             id: 0,
             result: {
-              value: "good",
+              data: {
+                value: "good",
+              },
             },
             transform: {
               value: "@{title}",
@@ -169,15 +184,39 @@ describe("devtools", () => {
           data: {
             address: "china",
           },
+          options: {},
         },
         {
           type: "re-transformation",
           payload: {
             id: 0,
             result: {
-              value: "china",
+              data: {
+                value: "china",
+              },
             },
             transform: { value: "<% DATA.address %>" },
+          },
+        },
+      ],
+      [
+        {
+          transform: { value: "<% DATA.address.map() %>" },
+          id: 0,
+          data: {
+            address: "china",
+          },
+          options: {},
+        },
+        {
+          type: "re-transformation",
+          payload: {
+            id: 0,
+            result: {
+              error:
+                'DATA.address.map is not a function, in "<% DATA.address.map() %>"',
+            },
+            transform: { value: "<% DATA.address.map() %>" },
           },
         },
       ],
@@ -203,80 +242,6 @@ describe("devtools", () => {
         expect(
           (window as any).__BRICK_NEXT_DEVTOOLS_HOOK__.emit
         ).toHaveBeenCalledWith(result);
-      }
-    );
-  });
-
-  describe("reProcessTransform", () => {
-    it.each([
-      [
-        {
-          data: {
-            homePage: "/easyops",
-            env: {
-              objectId: "host",
-            },
-          },
-          from: "env",
-          to: {
-            objectId: "@{objectId}",
-          },
-        },
-        {
-          result: {
-            objectId: "host",
-          },
-          transform: {
-            objectId: "@{objectId}",
-          },
-        },
-      ],
-      [
-        {
-          data: {
-            homePage: "/easyops",
-            env: {
-              objectId: "host",
-              name: "主机",
-            },
-          },
-          from: "env",
-          to: [
-            {
-              to: {
-                objectId: "@{objectId}",
-              },
-            },
-            {
-              to: {
-                name: "@{name}",
-              },
-            },
-          ],
-        },
-        {
-          result: {
-            objectId: "host",
-            name: "主机",
-          },
-          transform: [
-            {
-              to: {
-                objectId: "@{objectId}",
-              },
-            },
-            {
-              to: {
-                name: "@{name}",
-              },
-            },
-          ],
-        },
-      ],
-    ])(
-      "transformation params(%j) should return result(%j)",
-      ({ data, to, from }, result) => {
-        expect(reProcessTransform(data, to, from)).toEqual(result);
       }
     );
   });
