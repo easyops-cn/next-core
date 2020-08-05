@@ -29,7 +29,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/parser": "^7.11.1",
+    "@babel/parser": "^7.11.2",
     "@easyops/brick-types": "^1.49.0",
     "file-saver": "^2.0.2",
     "path-to-regexp": "^6.1.0"
