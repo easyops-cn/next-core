@@ -89,6 +89,32 @@ describe("devtools", () => {
           },
         },
       ],
+      [
+        {
+          raw: "<% EVENT.detail.name %>",
+          id: 0,
+          context: {
+            data: {
+              cellData: {
+                title: "good",
+              },
+            },
+            event: {
+              detail: {
+                name: "easyops",
+              },
+            },
+          },
+        },
+        {
+          type: "re-evaluation",
+          payload: {
+            raw: "<% EVENT.detail.name %>",
+            id: 0,
+            result: "`EVENT` is not supported debugging temporarily",
+          },
+        },
+      ],
     ])(
       "evaluation params(%j) should return result %j",
       async (params, result) => {

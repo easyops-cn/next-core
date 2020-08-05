@@ -1,9 +1,6 @@
 import { GeneralTransform } from "@easyops/brick-types";
-import { get } from "lodash";
-import { pipeableTransform } from "./transformProperties";
-import { cook, precook } from "@easyops/brick-utils";
 import { evaluate } from "./evaluate";
-import { _internalApiGetCurrentContext } from "./core/Runtime";
+import { preprocessTransformProperties } from "./transformProperties";
 
 export const MESSAGE_SOURCE_PANEL = "brick-next-devtools-panel";
 export const EVALUATION_EDIT = "devtools-evaluation-edit";
@@ -37,11 +34,16 @@ export function listenDevtools(): void {
     ) {
       let result;
       const { raw, context, id } = event.data.payload;
-      try {
-        result = evaluate(raw, context, { disabledNotifyDevTools: true });
-      } catch (e) {
-        result = e.message;
+      if (context.event && raw.includes("EVENT")) {
+        result = "`EVENT` is not supported debugging temporarily";
+      } else {
+        try {
+          result = evaluate(raw, context, { disabledNotifyDevTools: true });
+        } catch (e) {
+          result = e.message;
+        }
       }
+
       devtoolsHookEmit("re-evaluation", { raw, result, id });
     }
 
@@ -50,9 +52,14 @@ export function listenDevtools(): void {
       event.data.payload?.type === TRANSFORMATION_EDIT
     ) {
       let result;
-      const { data, transform, id } = event.data.payload;
+      const {
+        data,
+        transform,
+        id,
+        options: { from, mapArray },
+      } = event.data.payload;
       try {
-        result = reProcessTransform(data, transform);
+        result = reProcessTransform(data, transform, from, mapArray);
       } catch (e) {
         result = {
           result: e.message,
@@ -73,18 +80,9 @@ export function reProcessTransform(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ) {
-  const output: any = {};
-  if (from) {
-    data = get(data, from);
-  }
-  if (Array.isArray(to)) {
-    for (const item of to) {
-      pipeableTransform(output, data, item.to, item.from, item.mapArray);
-    }
-  } else {
-    pipeableTransform(output, data, to, undefined, mapArray);
-  }
-
+  const output = preprocessTransformProperties(data, to, from, mapArray, {
+    disabledNotifyDevTools: true,
+  });
   return {
     transform: to,
     result: output,
