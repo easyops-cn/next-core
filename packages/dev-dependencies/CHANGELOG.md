@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.0...@easyops/dev-dependencies@0.7.1) (2020-08-05)
+
+### Bug Fixes
+
+- **dev-dependencies:** cli-extract support prerelease identifier ([55ce7bd](https://git.easyops.local/anyclouds/next-core/commits/55ce7bd))
+
 # [0.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.67...@easyops/dev-dependencies@0.7.0) (2020-08-05)
 
 ### Features
