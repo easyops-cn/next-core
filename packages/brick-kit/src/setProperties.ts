@@ -1,7 +1,7 @@
 import { set } from "lodash";
 import { PluginRuntimeContext } from "@easyops/brick-types";
-import { isObject, inject } from "@easyops/brick-utils";
-import { isCookable, evaluate, isPreEvaluated } from "./evaluate";
+import { isObject, inject, isEvaluable } from "@easyops/brick-utils";
+import { evaluate, isPreEvaluated } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
 interface ComputeOptions {
@@ -20,7 +20,7 @@ export const computeRealValue = (
 
   if (preEvaluated || typeof value === "string") {
     let result: any;
-    if (preEvaluated || isCookable(value)) {
+    if (preEvaluated || isEvaluable(value)) {
       const runtimeContext: any = {};
       if (context?.event) {
         runtimeContext.event = context.event;

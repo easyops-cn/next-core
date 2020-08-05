@@ -1,6 +1,7 @@
 import {
   loadScript,
   getDllAndDepsOfStoryboard,
+  getDllAndDepsByResource,
   getTemplateDepsOfStoryboard,
   scanBricksInBrickConf,
   getDllAndDepsOfBricks,
@@ -17,7 +18,6 @@ import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
 import i18next from "i18next";
-import { assert } from "console";
 
 i18next.init({
   fallbackLng: "en",
@@ -68,6 +68,7 @@ const getObjectMicroAppList = ObjectMicroAppApi.getObjectMicroAppList as jest.Mo
 
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
+const spyOnGetDllAndDepsByResource = getDllAndDepsByResource as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
 const spyOnGetDllAndDepsOfBricks = getDllAndDepsOfBricks as jest.Mock;
@@ -369,10 +370,12 @@ describe("Kernel", () => {
     spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [
       brickConf.brick,
     ]);
-    spyOnGetDllAndDepsOfBricks.mockImplementation((bricks: string[]) => ({
-      dll: ["d3"],
-      deps: bricks.map((brick) => brick.split(".")[0]),
-    }));
+    spyOnGetDllAndDepsByResource.mockImplementation(
+      ({ bricks }: { bricks: string[] }) => ({
+        dll: ["d3"],
+        deps: bricks.map((brick) => brick.split(".")[0]),
+      })
+    );
     await kernel.loadDynamicBricksInBrickConf({
       brick: "my.test-brick",
     });
@@ -382,10 +385,12 @@ describe("Kernel", () => {
 
   it("should getProviderBrick", async () => {
     kernel.bootstrapData = {} as any;
-    spyOnGetDllAndDepsOfBricks.mockImplementation((bricks: string[]) => ({
-      dll: [],
-      deps: bricks.map((brick) => brick.split(".")[0]),
-    }));
+    spyOnGetDllAndDepsByResource.mockImplementation(
+      ({ bricks }: { bricks: string[] }) => ({
+        dll: [],
+        deps: bricks.map((brick) => brick.split(".")[0]),
+      })
+    );
     await kernel.getProviderBrick("my.test-provider");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
     expect(loadScript).toHaveBeenNthCalledWith(2, []);

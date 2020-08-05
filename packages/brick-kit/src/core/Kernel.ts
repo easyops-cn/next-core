@@ -5,8 +5,9 @@ import {
   getDllAndDepsOfStoryboard,
   asyncProcessStoryboard,
   scanBricksInBrickConf,
-  getDllAndDepsOfBricks,
   scanRouteAliasInStoryboard,
+  scanProcessorsInAny,
+  getDllAndDepsByResource,
 } from "@easyops/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@sdk/auth-sdk";
@@ -208,16 +209,23 @@ export class Kernel {
 
   async loadDynamicBricksInBrickConf(brickConf: BrickConf): Promise<void> {
     const bricks = scanBricksInBrickConf(brickConf);
-    await this.loadDynamicBricks(bricks);
+    const processors = scanProcessorsInAny(brickConf);
+    await this.loadDynamicBricks(bricks, processors);
   }
 
-  async loadDynamicBricks(bricks: string[]): Promise<void> {
+  async loadDynamicBricks(
+    bricks: string[],
+    processors?: string[]
+  ): Promise<void> {
     // Try to load deps for dynamic added bricks.
-    const { dll, deps } = getDllAndDepsOfBricks(
-      bricks.filter(
-        // Only try to load undefined custom elements.
-        (item) => !customElements.get(item)
-      ),
+    const { dll, deps } = getDllAndDepsByResource(
+      {
+        bricks: bricks.filter(
+          // Only try to load undefined custom elements.
+          (item) => !customElements.get(item)
+        ),
+        processors,
+      },
       this.bootstrapData.brickPackages
     );
     await loadScript(dll);

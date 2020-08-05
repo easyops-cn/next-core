@@ -1,7 +1,7 @@
 import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@easyops/brick-types";
-import { isObject, transform } from "@easyops/brick-utils";
-import { isCookable, evaluate, EvaluateOptions } from "./evaluate";
+import { isObject, transform, isEvaluable } from "@easyops/brick-utils";
+import { evaluate, EvaluateOptions } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 import { devtoolsHookEmit } from "./devtools";
 import { setRealProperties } from "./setProperties";
@@ -45,7 +45,7 @@ export function doTransform(
 ): any {
   if (typeof to === "string") {
     let result: any;
-    if (isCookable(to)) {
+    if (isEvaluable(to)) {
       result = evaluate(to, { data }, options?.evaluateOptions);
     } else {
       result = transform(to, data);

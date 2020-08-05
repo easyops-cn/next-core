@@ -1,10 +1,16 @@
 import { cloneDeep } from "lodash";
 import i18next from "i18next";
-import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
+import {
+  cook,
+  hasOwnProperty,
+  isEvaluable,
+  preevaluate,
+} from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
 import { devtoolsHookEmit } from "./devtools";
+import { customProcessorRegistry } from "./core/exports";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -26,10 +32,7 @@ export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
 }
 
-export function isCookable(raw: string): boolean {
-  return /^\s*<%\s/.test(raw) && /\s%>\s*$/.test(raw);
-}
-
+// `raw` should always be asserted to `isEvaluable` or `isPreEvaluated`.
 export function evaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
   runtimeContext: {
@@ -38,7 +41,10 @@ export function evaluate(
   } = {},
   options: EvaluateOptions = {}
 ): any {
-  if (options.isReEvaluation && !(typeof raw === "string" && isCookable(raw))) {
+  if (
+    options.isReEvaluation &&
+    !(typeof raw === "string" && isEvaluable(raw))
+  ) {
     devtoolsHookEmit("re-evaluation", {
       id: options.evaluationId,
       detail: { raw, context: {} },
@@ -57,15 +63,23 @@ export function evaluate(
     raw = raw[symbolForRaw];
   }
 
-  let precooked: ReturnType<typeof precook>;
-
+  // A `SyntaxError` maybe thrown.
+  let precooked: ReturnType<typeof preevaluate>;
   try {
-    const trimmed = raw.trim();
-    const source = trimmed.substring(3, trimmed.length - 3);
-    precooked = precook(source);
+    precooked = preevaluate(raw);
   } catch (error) {
-    throw new SyntaxError(`${error.message}, in "${raw}"`);
+    if (options.isReEvaluation) {
+      devtoolsHookEmit("re-evaluation", {
+        id: options.evaluationId,
+        detail: { raw, context: {} },
+        error: error.message,
+      });
+      return;
+    } else {
+      throw error;
+    }
   }
+  // const precooked = preevaluate(raw);
 
   const globalVariables: Record<string, any> = {};
   const attemptToVisitGlobals = precooked.attemptToVisitGlobals;
@@ -183,6 +197,12 @@ export function evaluate(
           ? item.brick.element?.[item.prop as keyof HTMLElement]
           : item.value,
       ])
+    );
+  }
+
+  if (attemptToVisitGlobals.has("PROCESSORS")) {
+    globalVariables.PROCESSORS = Object.fromEntries(
+      customProcessorRegistry.entries()
     );
   }
 

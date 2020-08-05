@@ -12,8 +12,6 @@ import {
   ObjectExpression,
   ObjectPattern,
   ObjectProperty,
-  OptionalCallExpression,
-  OptionalMemberExpression,
   RestElement,
   SequenceExpression,
   SpreadElement,

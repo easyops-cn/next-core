@@ -5,13 +5,12 @@ import os from "os";
 import fs from "fs-extra";
 import chalk from "chalk";
 import prettier from "prettier";
+import * as changeCase from "change-case";
 import { ask } from "./ask";
 import { loadTemplate } from "./loaders/loadTemplate";
 import { TargetType, AskFlags } from "./interface";
 import { targetMap } from "./constant";
-import * as changeCase from "change-case";
 import { scriptYarnInstall } from "./scripts";
-import { file } from "@babel/types";
 
 export async function create(flags: AskFlags): Promise<void> {
   const appRoot = path.join(process.cwd());
@@ -19,14 +18,18 @@ export async function create(flags: AskFlags): Promise<void> {
   let packageName = "";
   let brickName = "";
   let templateName = "";
+  let processorName = "";
   if (flags.provider) {
     targetType = TargetType["A_NEW_PACKAGE_OF_PROVIDERS"];
     packageName = `providers-of-${flags.provider}`;
   } else {
-    ({ targetType, packageName, brickName, templateName } = await ask(
-      appRoot,
-      flags
-    ));
+    ({
+      targetType,
+      packageName,
+      brickName,
+      templateName,
+      processorName,
+    } = await ask(appRoot, flags));
   }
 
   const pkgRoot = path.join(appRoot, targetMap[targetType], packageName);
@@ -46,6 +49,8 @@ export async function create(flags: AskFlags): Promise<void> {
     targetRoot = path.join(pkgRoot, "src/custom-templates");
   } else if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK) {
     targetRoot = path.join(pkgRoot, "src/data-providers");
+  } else if (targetType === TargetType.A_NEW_CUSTOM_PROCESSOR) {
+    targetRoot = path.join(pkgRoot, "src/custom-processors");
   } else if (targetType === TargetType.A_NEW_LEGACY_TEMPLATE) {
     targetRoot = path.join(pkgRoot, "src");
   } else {
@@ -57,6 +62,7 @@ export async function create(flags: AskFlags): Promise<void> {
     packageName,
     brickName,
     templateName,
+    processorName,
     targetRoot,
     docRoot,
   });
@@ -131,6 +137,7 @@ export default storyboard;`,
       TargetType.A_NEW_BRICK,
       TargetType.A_NEW_CUSTOM_TEMPLATE,
       TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      TargetType.A_NEW_CUSTOM_PROCESSOR,
       TargetType.A_NEW_PACKAGE_OF_BRICKS,
     ].includes(targetType)
   ) {
@@ -148,6 +155,11 @@ export default storyboard;`,
         srcIndexTs,
         `import "./custom-templates/${brickName}";${os.EOL}`
       );
+    } else if (targetType === TargetType.A_NEW_CUSTOM_PROCESSOR) {
+      fs.appendFileSync(
+        srcIndexTs,
+        `import "./custom-processors/${processorName}";${os.EOL}`
+      );
     } else {
       fs.appendFileSync(srcIndexTs, `import "./${brickName}";${os.EOL}`);
     }
@@ -155,7 +167,8 @@ export default storyboard;`,
     if (
       targetType === TargetType.A_NEW_BRICK ||
       targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
-      targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
+      targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK ||
+      targetType === TargetType.A_NEW_CUSTOM_PROCESSOR
     ) {
       console.log(
         `${chalk.bold("File updated")}: ./${path.relative(
@@ -165,12 +178,15 @@ export default storyboard;`,
       );
     }
 
-    if (targetType === TargetType.A_NEW_CUSTOM_TEMPLATE) {
-      // 如果新增了模板构件，`src/index.spec.ts` 需要更新。
+    if (
+      targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
+      targetType === TargetType.A_NEW_CUSTOM_PROCESSOR
+    ) {
+      // 如果新增了自定义模板或自定义加工函数，`src/index.spec.ts` 需要更新。
       const indexSpecTs = path.join(pkgRoot, "src/index.spec.ts");
       if (fs.existsSync(indexSpecTs)) {
         const currentContent = fs.readFileSync(indexSpecTs, "utf8");
-        if (!currentContent.includes("registerCustomTemplate")) {
+        if (!currentContent.includes("registerCustomProcessor")) {
           const templateContent = fs.readFileSync(
             path.join(__dirname, "../template/bricks-pkg/src/index.spec.ts"),
             "utf8"
