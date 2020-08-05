@@ -6,6 +6,10 @@ import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 import { devtoolsHookEmit } from "./devtools";
 import { setRealProperties } from "./setProperties";
 
+interface TransformOptions {
+  disabledNotifyDevTools?: boolean;
+}
+
 export function transformElementProperties(
   element: HTMLElement,
   data: any,
@@ -69,7 +73,8 @@ export function preprocessTransformProperties(
   data: any,
   to: GeneralTransform,
   from?: string | string[],
-  mapArray?: boolean | "auto"
+  mapArray?: boolean | "auto",
+  options?: TransformOptions
 ): Record<string, any> {
   const props: Record<string, any> = {};
   if (from) {
@@ -82,12 +87,13 @@ export function preprocessTransformProperties(
   } else {
     pipeableTransform(props, data, to, undefined, mapArray);
   }
-  devtoolsHookEmit("transformation", {
-    transform: to,
-    data,
-    options: { from, mapArray },
-    result: props,
-  });
+  !options?.disabledNotifyDevTools &&
+    devtoolsHookEmit("transformation", {
+      transform: to,
+      data,
+      options: { from, mapArray },
+      result: props,
+    });
   return props;
 }
 
