@@ -36,8 +36,17 @@ export function evaluate(
     event?: CustomEvent;
     data?: any;
   } = {},
-  options?: EvaluateOptions
+  options: EvaluateOptions = {}
 ): any {
+  if (options.isReEvaluation && !(typeof raw === "string" && isCookable(raw))) {
+    devtoolsHookEmit("re-evaluation", {
+      id: options.evaluationId,
+      detail: { raw, context: {} },
+      error: "Invalid evaluation code",
+    });
+    return;
+  }
+
   if (typeof raw !== "string") {
     // If the `raw` is not a string, it must be a pre-evaluated object.
     // Then fulfil the context, and restore the original `raw`.
@@ -66,7 +75,7 @@ export function evaluate(
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
-  let missingEvent = options?.lazy === true;
+  let missingEvent = options.lazy === true;
   if (attemptToVisitEvent) {
     if (hasOwnProperty(runtimeContext, "event")) {
       globalVariables.EVENT = runtimeContext.event;
@@ -180,7 +189,7 @@ export function evaluate(
   try {
     const result = cook(precooked, globalVariables);
     const detail = { raw, context: globalVariables, result };
-    if (options?.isReEvaluation) {
+    if (options.isReEvaluation) {
       devtoolsHookEmit("re-evaluation", {
         id: options.evaluationId,
         detail,
@@ -191,7 +200,7 @@ export function evaluate(
     return result;
   } catch (error) {
     const message = `${error.message}, in "${raw}"`;
-    if (options?.isReEvaluation) {
+    if (options.isReEvaluation) {
       devtoolsHookEmit("re-evaluation", {
         id: options.evaluationId,
         detail: { raw, context: globalVariables },
