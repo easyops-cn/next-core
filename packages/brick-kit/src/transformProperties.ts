@@ -7,7 +7,8 @@ import { devtoolsHookEmit } from "./devtools";
 import { setRealProperties } from "./setProperties";
 
 interface TransformOptions {
-  disabledNotifyDevTools?: boolean;
+  isReTransformation?: boolean;
+  transformationId?: number;
 }
 
 export function transformElementProperties(
@@ -69,6 +70,31 @@ export function doTransform(
     : to;
 }
 
+export function reTransformForDevtools(
+  transformationId: number,
+  data: any,
+  to: GeneralTransform,
+  from?: string | string[],
+  mapArray?: boolean | "auto"
+): void {
+  try {
+    preprocessTransformProperties(data, to, from, mapArray, {
+      isReTransformation: true,
+      transformationId,
+    });
+  } catch (error) {
+    devtoolsHookEmit("re-transformation", {
+      id: transformationId,
+      error: error.message,
+      detail: {
+        transform: to,
+        data,
+        options: { from, mapArray },
+      },
+    });
+  }
+}
+
 export function preprocessTransformProperties(
   data: any,
   to: GeneralTransform,
@@ -92,13 +118,20 @@ export function preprocessTransformProperties(
   } else {
     pipeableTransform(props, processedData, to, undefined, mapArray);
   }
-  !options?.disabledNotifyDevTools &&
-    devtoolsHookEmit("transformation", {
-      transform: to,
-      data,
-      options: { from, mapArray },
-      result: props,
+  const detail = {
+    transform: to,
+    data,
+    options: { from, mapArray },
+    result: props,
+  };
+  if (options?.isReTransformation) {
+    devtoolsHookEmit("re-transformation", {
+      id: options.transformationId,
+      detail,
     });
+  } else {
+    devtoolsHookEmit("transformation", detail);
+  }
   return props;
 }
 

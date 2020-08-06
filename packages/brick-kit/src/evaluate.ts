@@ -18,10 +18,11 @@ interface PreEvaluated {
 
 export interface EvaluateOptions {
   lazy?: boolean;
-  disabledNotifyDevTools?: boolean;
+  isReEvaluation?: boolean;
+  evaluationId?: number;
 }
 
-export function isPreEvaluated(raw: any): raw is PreEvaluated {
+export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
 }
 
@@ -178,10 +179,26 @@ export function evaluate(
 
   try {
     const result = cook(precooked, globalVariables);
-    !options?.disabledNotifyDevTools &&
-      devtoolsHookEmit("evaluation", { raw, context: globalVariables, result });
+    const detail = { raw, context: globalVariables, result };
+    if (options?.isReEvaluation) {
+      devtoolsHookEmit("re-evaluation", {
+        id: options.evaluationId,
+        detail,
+      });
+    } else {
+      devtoolsHookEmit("evaluation", detail);
+    }
     return result;
   } catch (error) {
-    throw new SyntaxError(`${error.message}, in "${raw}"`);
+    const message = `${error.message}, in "${raw}"`;
+    if (options?.isReEvaluation) {
+      devtoolsHookEmit("re-evaluation", {
+        id: options.evaluationId,
+        detail: { raw, context: globalVariables },
+        error: message,
+      });
+    } else {
+      throw new SyntaxError(message);
+    }
   }
 }
