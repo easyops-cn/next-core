@@ -26,6 +26,7 @@ describe("devtools", () => {
   beforeEach(() => {
     (window as any).__BRICK_NEXT_DEVTOOLS_HOOK__ = {
       emit: jest.fn(),
+      restoreDehydrated: jest.fn((value) => value),
     };
   });
 
@@ -46,10 +47,17 @@ describe("devtools", () => {
         {
           type: "re-evaluation",
           payload: {
-            raw: "<% DATA.cellData.title %>",
             id: 0,
-            result: {
-              data: "good",
+            detail: {
+              raw: "<% DATA.cellData.title %>",
+              result: "good",
+              context: {
+                DATA: {
+                  cellData: {
+                    title: "good",
+                  },
+                },
+              },
             },
           },
         },
@@ -63,10 +71,15 @@ describe("devtools", () => {
         {
           type: "re-evaluation",
           payload: {
-            raw: "<% APP.homePage %>",
             id: 3,
-            result: {
-              data: "/easyops",
+            detail: {
+              raw: "<% APP.homePage %>",
+              result: "/easyops",
+              context: {
+                APP: {
+                  homePage: "/easyops",
+                },
+              },
             },
           },
         },
@@ -86,11 +99,18 @@ describe("devtools", () => {
         {
           type: "re-evaluation",
           payload: {
-            raw: "<% DATA.cellData.title.map(name => name) %>",
             id: 0,
-            result: {
-              error:
-                'DATA.cellData.title.map is not a function, in "<% DATA.cellData.title.map(name => name) %>"',
+            error:
+              'DATA.cellData.title.map is not a function, in "<% DATA.cellData.title.map(name => name) %>"',
+            detail: {
+              raw: "<% DATA.cellData.title.map(name => name) %>",
+              context: {
+                DATA: {
+                  cellData: {
+                    title: "good",
+                  },
+                },
+              },
             },
           },
         },
@@ -100,53 +120,49 @@ describe("devtools", () => {
           raw: "<% EVENT.detail.name %>",
           id: 0,
           context: {
-            data: {
-              cellData: {
-                title: "good",
-              },
-            },
             event: {
-              detail: {
-                name: "easyops",
-              },
+              detail: null,
             },
           },
         },
         {
           type: "re-evaluation",
           payload: {
-            raw: "<% EVENT.detail.name %>",
             id: 0,
-            result: {
-              error: "`EVENT` is not supported debug temporarily",
+            error:
+              "Cannot read property 'name' of null, in \"<% EVENT.detail.name %>\"",
+            detail: {
+              raw: "<% EVENT.detail.name %>",
+              context: {
+                EVENT: {
+                  detail: null,
+                },
+              },
             },
           },
         },
       ],
-    ])(
-      "evaluation params(%j) should return result %j",
-      async (params, result) => {
-        listenDevtools();
+    ])("evaluation params(%j) should emit %j", async (params, result) => {
+      listenDevtools();
 
-        await act(async () => {
-          window.dispatchEvent(
-            new MessageEvent("message", {
-              data: {
-                source: MESSAGE_SOURCE_PANEL,
-                payload: {
-                  type: EVALUATION_EDIT,
-                  ...params,
-                },
+      await act(async () => {
+        window.dispatchEvent(
+          new MessageEvent("message", {
+            data: {
+              source: MESSAGE_SOURCE_PANEL,
+              payload: {
+                type: EVALUATION_EDIT,
+                ...params,
               },
-            })
-          );
-        });
+            },
+          })
+        );
+      });
 
-        expect(
-          (window as any).__BRICK_NEXT_DEVTOOLS_HOOK__.emit
-        ).toHaveBeenCalledWith(result);
-      }
-    );
+      expect(
+        (window as any).__BRICK_NEXT_DEVTOOLS_HOOK__.emit
+      ).toHaveBeenCalledWith(result);
+    });
 
     it.each([
       [
@@ -166,13 +182,21 @@ describe("devtools", () => {
           type: "re-transformation",
           payload: {
             id: 0,
-            result: {
-              data: {
+            detail: {
+              transform: {
+                value: "@{title}",
+              },
+              result: {
                 value: "good",
               },
-            },
-            transform: {
-              value: "@{title}",
+              data: {
+                info: {
+                  title: "good",
+                },
+              },
+              options: {
+                from: "info",
+              },
             },
           },
         },
@@ -190,12 +214,16 @@ describe("devtools", () => {
           type: "re-transformation",
           payload: {
             id: 0,
-            result: {
-              data: {
+            detail: {
+              transform: { value: "<% DATA.address %>" },
+              result: {
                 value: "china",
               },
+              data: {
+                address: "china",
+              },
+              options: {},
             },
-            transform: { value: "<% DATA.address %>" },
           },
         },
       ],
@@ -212,11 +240,15 @@ describe("devtools", () => {
           type: "re-transformation",
           payload: {
             id: 0,
-            result: {
-              error:
-                'DATA.address.map is not a function, in "<% DATA.address.map() %>"',
+            error:
+              'DATA.address.map is not a function, in "<% DATA.address.map() %>"',
+            detail: {
+              transform: { value: "<% DATA.address.map() %>" },
+              data: {
+                address: "china",
+              },
+              options: {},
             },
-            transform: { value: "<% DATA.address.map() %>" },
           },
         },
       ],
