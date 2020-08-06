@@ -6,6 +6,10 @@ import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 import { devtoolsHookEmit } from "./devtools";
 import { setRealProperties } from "./setProperties";
 
+interface TransformOptions {
+  disabledNotifyDevTools?: boolean;
+}
+
 export function transformElementProperties(
   element: HTMLElement,
   data: any,
@@ -13,12 +17,7 @@ export function transformElementProperties(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ): void {
-  const result = preprocessTransformProperties(
-    data,
-    to,
-    from,
-    mapArray
-  );
+  const result = preprocessTransformProperties(data, to, from, mapArray);
   setRealProperties(element, result, true);
 }
 
@@ -29,12 +28,7 @@ export function transformProperties(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ): Record<string, any> {
-  const result = preprocessTransformProperties(
-    data,
-    to,
-    from,
-    mapArray
-  );
+  const result = preprocessTransformProperties(data, to, from, mapArray);
   for (const [propName, propValue] of Object.entries(result)) {
     set(props, propName, propValue);
   }
@@ -79,25 +73,32 @@ export function preprocessTransformProperties(
   data: any,
   to: GeneralTransform,
   from?: string | string[],
-  mapArray?: boolean | "auto"
+  mapArray?: boolean | "auto",
+  options?: TransformOptions
 ): Record<string, any> {
   const props: Record<string, any> = {};
-  if (from) {
-    data = get(data, from);
-  }
+  const processedData = from ? get(data, from) : data;
+
   if (Array.isArray(to)) {
     for (const item of to) {
-      pipeableTransform(props, data, item.to, item.from, item.mapArray);
+      pipeableTransform(
+        props,
+        processedData,
+        item.to,
+        item.from,
+        item.mapArray
+      );
     }
   } else {
-    pipeableTransform(props, data, to, undefined, mapArray);
+    pipeableTransform(props, processedData, to, undefined, mapArray);
   }
-  devtoolsHookEmit("transformation", {
-    transform: to,
-    data,
-    options: { from, mapArray },
-    result: props,
-  });
+  !options?.disabledNotifyDevTools &&
+    devtoolsHookEmit("transformation", {
+      transform: to,
+      data,
+      options: { from, mapArray },
+      result: props,
+    });
   return props;
 }
 
