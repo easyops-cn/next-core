@@ -50,8 +50,9 @@ export type RouteAliasMap = Map<string, RouteAliasConf>;
 export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 
 export interface BrickPackage {
-  bricks: string[];
   filePath: string;
+  bricks: string[];
+  processors?: string[];
   dll?: string[];
 }
 

@@ -7,6 +7,7 @@ const legacyBrickNames = [
   "workspace.container.create-deploy-unit",
 ];
 const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+const validProcessorName = /^[a-z][a-zA-Z0-9]*$/;
 
 module.exports = class ScanCustomElementsPlugin {
   constructor(packageName, dll = []) {
@@ -16,6 +17,7 @@ module.exports = class ScanCustomElementsPlugin {
 
   apply(compiler) {
     const brickSet = new Set();
+    const processorSet = new Set();
     compiler.hooks.normalModuleFactory.tap(pluginName, (factory) => {
       factory.hooks.parser.for("javascript/auto").tap(pluginName, (parser) => {
         parser.hooks.callAnyMember
@@ -72,6 +74,27 @@ module.exports = class ScanCustomElementsPlugin {
               );
             }
           }
+          if (
+            type === "ExpressionStatement" &&
+            expression.type === "CallExpression" &&
+            expression.callee.type === "MemberExpression" &&
+            expression.callee.property.name === "registerCustomProcessor" &&
+            expression.arguments.length === 2
+          ) {
+            const { type, value } = expression.arguments[0];
+            if (type === "Literal") {
+              if (!validProcessorName.test(value)) {
+                throw new Error(
+                  `Invalid custom processor: "${value}", expecting camelCase`
+                );
+              }
+              processorSet.add(value);
+            } else {
+              throw new Error(
+                "Please call `getRuntime().registerCustomProcessor()` only with literal string"
+              );
+            }
+          }
         });
         parser.hooks.importSpecifier.tap(
           pluginName,
@@ -93,12 +116,18 @@ module.exports = class ScanCustomElementsPlugin {
     });
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const bricks = Array.from(brickSet);
-      const source = JSON.stringify({ bricks, dll: this.dll }, null, 2);
+      const processors = Array.from(processorSet);
+      const source = JSON.stringify(
+        { bricks, processors, dll: this.dll },
+        null,
+        2
+      );
       compilation.assets["bricks.json"] = {
         source: () => source,
         size: () => source.length,
       };
       console.log("Defined bricks:", bricks);
+      console.log("Defined processors:", processors);
     });
   }
 };

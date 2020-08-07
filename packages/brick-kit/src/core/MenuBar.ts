@@ -1,5 +1,4 @@
 import { Kernel } from "./exports";
-import { getDllAndDepsOfBricks, loadScript } from "@easyops/brick-utils";
 import { MenuBarBrick, SidebarMenu } from "@easyops/brick-types";
 
 export class MenuBar {
@@ -8,13 +7,8 @@ export class MenuBar {
   constructor(private kernel: Kernel) {}
 
   async bootstrap(): Promise<void> {
-    const { navbar, brickPackages } = this.kernel.bootstrapData;
-    const { dll, deps } = getDllAndDepsOfBricks(
-      [navbar.menuBar],
-      brickPackages
-    );
-    await loadScript(dll);
-    await loadScript(deps);
+    const { navbar } = this.kernel.bootstrapData;
+    await this.kernel.loadDynamicBricks([navbar.menuBar]);
     this.element = document.createElement(navbar.menuBar) as MenuBarBrick;
     this.kernel.mountPoints.menuBar.appendChild(this.element);
   }

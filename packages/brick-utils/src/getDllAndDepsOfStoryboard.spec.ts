@@ -3,11 +3,15 @@ import {
   getDllAndDepsOfBricks,
 } from "./getDllAndDepsOfStoryboard";
 import { scanBricksInStoryboard } from "./scanBricksInStoryboard";
+import { scanProcessorsInStoryboard } from "./scanProcessorsInStoryboard";
 import { Storyboard, BrickPackage } from "@easyops/brick-types";
 
 jest.mock("./scanBricksInStoryboard");
-const spyOnScanBricksInStoryboard = scanBricksInStoryboard as jest.Mock;
-spyOnScanBricksInStoryboard.mockReturnValue(["a", "c"]);
+jest.mock("./scanProcessorsInStoryboard");
+
+(scanBricksInStoryboard as jest.Mock).mockReturnValue(["a", "c"]);
+
+(scanProcessorsInStoryboard as jest.Mock).mockReturnValue(["doGood"]);
 
 (window as any).DLL_HASH = {
   d3: "fake-hash",
@@ -31,13 +35,21 @@ describe("getDllAndDepsOfStoryboard", () => {
         dll: ["d3"],
         filePath: "z",
       },
+      {
+        bricks: [],
+        dll: [],
+        processors: ["doGood"],
+        filePath: "w",
+      },
     ];
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.js?fake-hash"],
-      deps: ["x", "z"],
+      deps: ["x", "z", "w"],
     });
   });
+});
 
+describe("getDllAndDepsOfBricks", () => {
   it("should work for empty bricks", () => {
     expect(getDllAndDepsOfBricks([], [])).toEqual({
       dll: [],
