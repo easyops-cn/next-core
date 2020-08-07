@@ -6,7 +6,6 @@ import {
   asyncProcessStoryboard,
   scanBricksInBrickConf,
   scanRouteAliasInStoryboard,
-  scanProcessorsInAny,
   getDllAndDepsByResource,
 } from "@easyops/brick-utils";
 import i18next from "i18next";
@@ -209,8 +208,10 @@ export class Kernel {
 
   async loadDynamicBricksInBrickConf(brickConf: BrickConf): Promise<void> {
     const bricks = scanBricksInBrickConf(brickConf);
-    const processors = scanProcessorsInAny(brickConf);
-    await this.loadDynamicBricks(bricks, processors);
+    // Todo(steve): `brickConf` may contains runtime data,
+    // which could cause call stack overflow.
+    // const processors = scanProcessorsInAny(brickConf);
+    await this.loadDynamicBricks(bricks);
   }
 
   async loadDynamicBricks(
