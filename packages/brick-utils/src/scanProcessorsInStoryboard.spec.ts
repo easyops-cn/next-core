@@ -6,6 +6,10 @@ import {
 
 describe("scanProcessorsInStoryboard", () => {
   it("should work", () => {
+    const selfRef: Record<string, any> = {
+      quality: "good",
+    };
+    selfRef.ref = selfRef;
     const storyboard: Storyboard = {
       meta: {
         customTemplates: [
@@ -14,6 +18,7 @@ describe("scanProcessorsInStoryboard", () => {
             bricks: [
               {
                 brick: "b-x",
+                bg: true,
                 properties: {
                   any: "<% PROCESSORS.doGood() %>",
                   notRelevant: "<% some.any %>",
@@ -35,6 +40,7 @@ describe("scanProcessorsInStoryboard", () => {
               properties: {
                 any: "<% DATA |> PROCESSORS.doEvenBetter %>",
                 recursive: "<% PROCESSORS.doGood(PROCESSORS.doRecursive) %>",
+                selfRef,
               },
             },
           ],

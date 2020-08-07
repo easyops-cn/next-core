@@ -166,9 +166,6 @@ export interface RuntimeBrickConf extends BrickConf {
   $$params?: Record<string, any>;
   $$lifeCycle?: BrickLifeCycle;
   $$if?: string | boolean | ResolveConf;
-  $$computedPropsFromProxy?: Record<string, any>;
-  $$refForProxy?: RefForProxy;
-  $$parentTemplate?: ProbablyRuntimeBrick;
 }
 
 export interface BrickLifeCycle {

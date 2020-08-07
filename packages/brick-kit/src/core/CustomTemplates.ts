@@ -11,13 +11,34 @@ import {
   CustomTemplateProxyTransformableProperty,
   CustomTemplateProxySlot,
   BrickConf,
+  ProbablyRuntimeBrick,
+  RuntimeBrickElement,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
-import { transformElementProperties, preprocessTransformProperties } from "../transformProperties";
+import {
+  transformElementProperties,
+  preprocessTransformProperties,
+} from "../transformProperties";
 import { RuntimeBrick } from "./exports";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 const appRegistered = new Set<string>();
+
+export const symbolForComputedPropsFromProxy = Symbol.for(
+  "tpl.computedPropsFromProxy"
+);
+export const symbolForRefForProxy = Symbol.for("tpl.refForProxy");
+export const symbolForParentTemplate = Symbol.for("tpl.parentTemplate");
+
+export interface RuntimeBrickConfWithTplSymbols extends RuntimeBrickConf {
+  [symbolForComputedPropsFromProxy]?: Record<string, any>;
+  [symbolForRefForProxy]?: RefForProxy;
+  [symbolForParentTemplate]?: ProbablyRuntimeBrick;
+}
+
+export interface RuntimeBrickElementWithTplSymbols extends RuntimeBrickElement {
+  [symbolForParentTemplate]?: RuntimeBrickElementWithTplSymbols;
+}
 
 export function registerCustomTemplate(
   tplName: string,
@@ -166,7 +187,7 @@ export function expandCustomTemplate(
 function expandBrickInTemplate(
   brickConfInTemplate: BrickConfInTemplate,
   proxyContext: ProxyContext
-): RuntimeBrickConf {
+): RuntimeBrickConfWithTplSymbols {
   const {
     ref,
     slots: slotsInTemplate,
@@ -178,12 +199,12 @@ function expandBrickInTemplate(
     templateSlots,
     proxyBrick: { proxyRefs },
   } = proxyContext;
-  const $$computedPropsFromProxy: Record<string, any> = {};
-  let $$refForProxy: RefForProxy;
-  let $$parentTemplate: RuntimeBrick;
+  const computedPropsFromProxy: Record<string, any> = {};
+  let refForProxy: RefForProxy;
+  let parentTemplate: RuntimeBrick;
 
   if (restBrickConfInTemplate.bg || restBrickConfInTemplate.portal) {
-    $$parentTemplate = proxyContext.proxyBrick;
+    parentTemplate = proxyContext.proxyBrick;
   }
 
   const slots: SlotsConfOfBricks = Object.fromEntries(
@@ -199,12 +220,12 @@ function expandBrickInTemplate(
   );
 
   if (ref) {
-    $$refForProxy = {};
-    proxyRefs.set(ref, $$refForProxy);
+    refForProxy = {};
+    proxyRefs.set(ref, refForProxy);
 
     if (reversedProxies.properties.has(ref)) {
       Object.assign(
-        $$computedPropsFromProxy,
+        computedPropsFromProxy,
         Object.fromEntries(
           reversedProxies.properties
             .get(ref)
@@ -282,9 +303,9 @@ function expandBrickInTemplate(
   return {
     ...restBrickConfInTemplate,
     slots,
-    $$computedPropsFromProxy,
-    $$refForProxy,
-    $$parentTemplate,
+    [symbolForComputedPropsFromProxy]: computedPropsFromProxy,
+    [symbolForRefForProxy]: refForProxy,
+    [symbolForParentTemplate]: parentTemplate,
   };
 }
 
