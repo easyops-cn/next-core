@@ -2585,10 +2585,10 @@
     "@types/d3-voronoi" "*"
     "@types/d3-zoom" "*"
 
-"@types/dompurify@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/@types/dompurify/download/@types/dompurify-2.0.2.tgz#94b5c05dc9b8a682a0abb4a8d6f0b82df61baeac"
-  integrity sha1-lLXAXcm4poKgq7So1vC4LfYbrqw=
+"@types/dompurify@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/@types/dompurify/download/@types/dompurify-2.0.3.tgz#dfd5601d7356dac8adf20ef23fd3a85359604e58"
+  integrity sha1-39VgHXNW2sit8g7yP9OoU1lgTlg=
   dependencies:
     "@types/trusted-types" "*"
 
