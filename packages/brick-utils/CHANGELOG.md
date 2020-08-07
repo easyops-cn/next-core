@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.52.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.51.0...@easyops/brick-utils@1.52.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+
 # [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.5...@easyops/brick-utils@1.51.0) (2020-08-05)
 
 ### Features

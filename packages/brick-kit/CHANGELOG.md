@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.59.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.58.1...@easyops/brick-kit@1.59.0) (2020-08-07)
+
+### Bug Fixes
+
+- check if cookable in re-evaluations ([1846c8f](https://git.easyops.local/anyclouds/next-core/commits/1846c8f))
+- **devtools:** refine devtools events ([14afe64](https://git.easyops.local/anyclouds/next-core/commits/14afe64))
+- devtools some optimse ([ef866b9](https://git.easyops.local/anyclouds/next-core/commits/ef866b9))
+- result add `data` and `error` field ([e67ab96](https://git.easyops.local/anyclouds/next-core/commits/e67ab96))
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+- brick-next communication with devtools ([b2a53bf](https://git.easyops.local/anyclouds/next-core/commits/b2a53bf))
+
 ## [1.58.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.58.0...@easyops/brick-kit@1.58.1) (2020-08-05)
 
 **Note:** Version bump only for package @easyops/brick-kit

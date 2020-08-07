@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.17.0...@easyops/brick-scripts@1.18.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+
 # [1.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.16.0...@easyops/brick-scripts@1.17.0) (2020-08-05)
 
 ### Features

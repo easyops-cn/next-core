@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.50.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.49.0...@easyops/brick-types@1.50.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+
 # [1.49.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.48.0...@easyops/brick-types@1.49.0) (2020-07-29)
 
 ### Features
