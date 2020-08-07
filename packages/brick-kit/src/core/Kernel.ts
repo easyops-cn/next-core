@@ -7,6 +7,7 @@ import {
   scanBricksInBrickConf,
   scanRouteAliasInStoryboard,
   getDllAndDepsByResource,
+  scanProcessorsInAny,
 } from "@easyops/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@sdk/auth-sdk";
@@ -207,11 +208,12 @@ export class Kernel {
   }
 
   async loadDynamicBricksInBrickConf(brickConf: BrickConf): Promise<void> {
+    // Notice: `brickConf` contains runtime data,
+    // which may contains recursive ref,
+    // which could cause stack overflow while traversing.
     const bricks = scanBricksInBrickConf(brickConf);
-    // Todo(steve): `brickConf` may contains runtime data,
-    // which could cause call stack overflow.
-    // const processors = scanProcessorsInAny(brickConf);
-    await this.loadDynamicBricks(bricks);
+    const processors = scanProcessorsInAny(brickConf);
+    await this.loadDynamicBricks(bricks, processors);
   }
 
   async loadDynamicBricks(

@@ -18,6 +18,8 @@ import { getHistory } from "./history";
 import {
   _internalApiGetCurrentContext,
   _internalApiGetProviderBrick,
+  symbolForParentTemplate,
+  RuntimeBrickElementWithTplSymbols,
 } from "./core/exports";
 import { getUrlBySegueFactory } from "./segue";
 import { checkIf } from "./checkIf";
@@ -426,7 +428,11 @@ function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
 
 function getParentTemplate(brick: RuntimeBrickElement): RuntimeBrickElement {
   let tpl = brick;
-  while ((tpl = tpl.$$parentTemplate || tpl.parentElement)) {
+  while (
+    (tpl =
+      (tpl as RuntimeBrickElementWithTplSymbols)[symbolForParentTemplate] ||
+      tpl.parentElement)
+  ) {
     if (tpl.$$typeof === "custom-template") {
       return tpl;
     }

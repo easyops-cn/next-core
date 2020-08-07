@@ -1,7 +1,11 @@
+import { RuntimeBrickElement } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
-import { handleProxyOfCustomTemplate } from "./exports";
-import { RuntimeBrickElement } from "@easyops/brick-types";
+import {
+  handleProxyOfCustomTemplate,
+  symbolForParentTemplate,
+  RuntimeBrickElementWithTplSymbols,
+} from "./exports";
 
 jest.mock("../bindListeners");
 jest.mock("./CustomTemplates");
@@ -85,7 +89,9 @@ describe("BrickNode", () => {
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount() as RuntimeBrickElement;
     brickNode.afterMount();
-    expect(node.$$parentTemplate).toBe(runtimeBrick.parentTemplate.element);
+    expect(
+      (node as RuntimeBrickElementWithTplSymbols)[symbolForParentTemplate]
+    ).toBe(runtimeBrick.parentTemplate.element);
   });
 
   it("should unmount", () => {

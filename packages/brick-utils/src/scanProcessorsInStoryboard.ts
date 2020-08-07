@@ -23,7 +23,11 @@ export function scanProcessorsInAny(data: unknown, isUniq = true): string[] {
   return isUniq ? uniq(collection) : collection;
 }
 
-function collectProcessors(data: unknown, collection: string[]): void {
+function collectProcessors(
+  data: unknown,
+  collection: string[],
+  memo = new WeakSet()
+): void {
   if (typeof data === "string") {
     if (data.includes(PROCESSORS) && isEvaluable(data)) {
       preevaluate(data, {
@@ -42,13 +46,20 @@ function collectProcessors(data: unknown, collection: string[]): void {
         },
       });
     }
-  } else if (Array.isArray(data)) {
-    for (const item of data) {
-      collectProcessors(item, collection);
-    }
   } else if (isObject(data)) {
-    for (const item of Object.values(data)) {
-      collectProcessors(item, collection);
+    // Avoid call stack overflow.
+    if (memo.has(data as any)) {
+      return;
+    }
+    memo.add(data);
+    if (Array.isArray(data)) {
+      for (const item of data) {
+        collectProcessors(item, collection, memo);
+      }
+    } else {
+      for (const item of Object.values(data)) {
+        collectProcessors(item, collection, memo);
+      }
     }
   }
 }
