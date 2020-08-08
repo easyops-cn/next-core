@@ -30,7 +30,7 @@
   "dependencies": {
     "@easyops/brick-types": "^1.49.0",
     "@sdk/auth-sdk": "^0.8.3",
-    "@sdk/cmdb-sdk": "^0.15.7",
+    "@sdk/cmdb-sdk": "^0.15.8",
     "@sdk/micro-app-sdk": "^0.8.2",
     "@sdk/user-service-sdk": "^0.2.8"
   },
