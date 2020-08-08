@@ -36,7 +36,6 @@
     "chalk": "^4.1.0",
     "concurrently": "^5.2.0",
     "cross-env": "^7.0.1",
-    "document-register-element": "^1.14.3",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.5.0",
     "eslint": "^7.5.0",
