@@ -325,10 +325,10 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.10.4", "@babel/parser@^7.11.0", "@babel/parser@^7.11.1", "@babel/parser@^7.11.2":
-  version "7.11.2"
-  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.11.2.tgz?cache=0&sync_timestamp=1596637739311&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.11.2.tgz#0882ab8a455df3065ea2dcb4c753b2460a24bead"
-  integrity sha1-CIKrikVd8wZeoty0x1OyRgokvq0=
+"@babel/parser@^7.1.0", "@babel/parser@^7.10.4", "@babel/parser@^7.11.0", "@babel/parser@^7.11.1", "@babel/parser@^7.11.3":
+  version "7.11.3"
+  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.11.3.tgz?cache=0&sync_timestamp=1596915985899&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.11.3.tgz#9e1eae46738bcd08e23e867bab43e7b95299a8f9"
+  integrity sha1-nh6uRnOLzQjiPoZ7q0PnuVKZqPk=
 
 "@babel/plugin-proposal-async-generator-functions@^7.10.4":
   version "7.10.4"
