@@ -12,11 +12,11 @@ export function askProcessorName({
   return {
     type: "input",
     name: "processorName",
-    message: `What's the name of your custom processor (in camelCase)?`,
+    message: `What's the name of your custom processor (in camelCase, without pkg namespace)?`,
     validate(value) {
       const pass = /^[a-z][a-zA-Z0-9]*$/.test(value);
       if (!pass) {
-        return "Please enter a camelCase processor name.";
+        return "Please enter a camelCase processor name (without the pkg namespace).";
       }
 
       const relativePath = path.join(

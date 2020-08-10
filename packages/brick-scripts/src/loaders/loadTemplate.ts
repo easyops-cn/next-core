@@ -117,6 +117,7 @@ export async function loadTemplate({
     $PascalPackageName$: changeCase.pascalCase(packageName),
     "$Title Package Name$": changeCase.capitalCase(packageName),
     $CONSTANT_PACKAGE_NAME$: changeCase.constantCase(packageName),
+    $camelCasePackageName$: changeCase.camelCase(packageName),
     $PascalBrickName$: changeCase.pascalCase(brickName),
     "$kebab-brick-name$": `${packageName}.${brickName}`,
     "$kebab-brick-last-name$": brickName,

@@ -5,6 +5,6 @@ export function $camelProcessorName$(): any {
 }
 
 getRuntime().registerCustomProcessor(
-  "$camelProcessorName$",
+  "$camelCasePackageName$.$camelProcessorName$",
   $camelProcessorName$
 );

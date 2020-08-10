@@ -33,13 +33,19 @@ function collectProcessors(
       preevaluate(data, {
         visitors: {
           MemberExpression: (node: MemberExpression, state, callback) => {
+            let accessNamespace: MemberExpression;
             if (
               !node.computed &&
-              node.object.type === "Identifier" &&
-              node.object.name === PROCESSORS &&
-              node.property.type === "Identifier"
+              node.object.type === "MemberExpression" &&
+              node.property.type === "Identifier" &&
+              ((accessNamespace = node.object),
+              accessNamespace.object.type === "Identifier") &&
+              accessNamespace.object.name === PROCESSORS &&
+              accessNamespace.property.type === "Identifier"
             ) {
-              collection.push(node.property.name);
+              collection.push(
+                `${accessNamespace.property.name}.${node.property.name}`
+              );
             }
             PrecookVisitor.MemberExpression(node, state, callback);
           },

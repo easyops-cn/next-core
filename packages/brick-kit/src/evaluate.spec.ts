@@ -79,7 +79,7 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
 function objectEntries(object: Record<string, any>): [string, any][] {
   return Object.entries(object);
 }
-registerCustomProcessor("objectEntries", objectEntries);
+registerCustomProcessor("brickKit.objectEntries", objectEntries);
 
 describe("evaluate", () => {
   afterEach(() => {
@@ -111,7 +111,7 @@ describe("evaluate", () => {
     ["<% CTX.myPropContext %>", "better"],
     ["<% CTX.notExisted %>", undefined],
     [
-      "<% PROCESSORS.objectEntries({quality: 'good'}) %>",
+      "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
       [["quality", "good"]],
     ],
   ])("evaluate(%j) should return %j", (raw, result) => {
