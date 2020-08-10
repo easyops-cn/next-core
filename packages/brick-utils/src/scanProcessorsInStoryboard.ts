@@ -33,13 +33,13 @@ function collectProcessors(
       preevaluate(data, {
         visitors: {
           MemberExpression: (node: MemberExpression, state, callback) => {
-            let accessNamespace: MemberExpression;
+            const accessNamespace = node.object;
             if (
               !node.computed &&
-              node.object.type === "MemberExpression" &&
               node.property.type === "Identifier" &&
-              ((accessNamespace = node.object),
-              accessNamespace.object.type === "Identifier") &&
+              accessNamespace.type === "MemberExpression" &&
+              !accessNamespace.computed &&
+              accessNamespace.object.type === "Identifier" &&
               accessNamespace.object.name === PROCESSORS &&
               accessNamespace.property.type === "Identifier"
             ) {
