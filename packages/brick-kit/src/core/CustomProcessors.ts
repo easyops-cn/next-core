@@ -1,16 +1,26 @@
 type CustomProcessorFunc = (...args: any[]) => any;
 
-export const customProcessorRegistry = new Map<string, CustomProcessorFunc>();
+export const customProcessorRegistry = new Map<
+  string,
+  Map<string, CustomProcessorFunc>
+>();
 
 export function registerCustomProcessor(
-  processorName: string,
+  processorFullName: string,
   processorFunc: CustomProcessorFunc
 ): void {
-  if (customProcessorRegistry.has(processorName)) {
+  // `namespace` should be the camelCase of the package name.
+  const [namespace, processorName] = processorFullName.split(".");
+  let registry = customProcessorRegistry.get(namespace);
+  if (!registry) {
+    registry = new Map();
+    customProcessorRegistry.set(namespace, registry);
+  }
+  if (registry.has(processorName)) {
     // eslint-disable-next-line no-console
     throw new Error(
-      `Custom processor of "${processorName}" already registered`
+      `Custom processor of "${processorFullName}" already registered`
     );
   }
-  customProcessorRegistry.set(processorName, processorFunc);
+  registry.set(processorName, processorFunc);
 }

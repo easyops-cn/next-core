@@ -202,7 +202,12 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("PROCESSORS")) {
     globalVariables.PROCESSORS = Object.fromEntries(
-      customProcessorRegistry.entries()
+      Array.from(
+        customProcessorRegistry.entries()
+      ).map(([namespace, registry]) => [
+        namespace,
+        Object.fromEntries(registry.entries()),
+      ])
     );
   }
 

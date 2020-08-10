@@ -129,7 +129,7 @@ export function doGood(): any {
 }
 
 getRuntime().registerCustomProcessor(
-  \\"doGood\\",
+  \\"forGood.doGood\\",
   doGood
 );
 ",
