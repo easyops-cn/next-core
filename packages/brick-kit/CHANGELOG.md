@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.59.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.59.2...@easyops/brick-kit@1.59.3) (2020-08-10)
+
+### Bug Fixes
+
+- **custom-processors:** use camelPkgName as namespace of custom processors ([d6d5be8](https://git.easyops.local/anyclouds/next-core/commits/d6d5be8))
+
 ## [1.59.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.59.1...@easyops/brick-kit@1.59.2) (2020-08-07)
 
 ### Bug Fixes
