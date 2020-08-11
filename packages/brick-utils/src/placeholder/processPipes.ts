@@ -1,7 +1,7 @@
 import { PipeRegistry } from "./PipeRegistry";
-import { PipeCall } from "../interfaces";
+import { PipeCall } from "./interfaces";
 
-export function processPipes(value: any, pipes: PipeCall[]): any {
+export function processPipes(value: unknown, pipes: PipeCall[]): unknown {
   if (pipes.length === 0) {
     return value;
   }
