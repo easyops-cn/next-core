@@ -2877,13 +2877,6 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
-"@types/yaml@^1.9.6":
-  version "1.9.7"
-  resolved "https://registry.npm.taobao.org/@types/yaml/download/@types/yaml-1.9.7.tgz#2331f36e0aac91311a63d33eb026c21687729679"
-  integrity sha1-IzHzbgqskTEaY9M+sCbCFodylnk=
-  dependencies:
-    yaml "*"
-
 "@types/yargs-parser@*":
   version "13.0.0"
   resolved "https://registry.npm.taobao.org/@types/yargs-parser/download/@types/yargs-parser-13.0.0.tgz#453743c5bbf9f1bed61d959baab5b06be029b2d0"
@@ -14551,7 +14544,7 @@ yallist@^4.0.0:
   resolved "https://registry.npm.taobao.org/yallist/download/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha1-m7knkNnA7/7GO+c1GeEaNQGaOnI=
 
-yaml@*, yaml@^1.7.2:
+yaml@^1.7.2:
   version "1.9.2"
   resolved "https://registry.npm.taobao.org/yaml/download/yaml-1.9.2.tgz?cache=0&sync_timestamp=1587374901084&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fyaml%2Fdownload%2Fyaml-1.9.2.tgz#f0cfa865f003ab707663e4f04b3956957ea564ed"
   integrity sha1-8M+oZfADq3B2Y+TwSzlWlX6lZO0=
