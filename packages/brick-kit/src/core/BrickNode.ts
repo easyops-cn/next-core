@@ -3,11 +3,14 @@ import {
   BrickLifeCycle,
   RefForProxy,
   CustomTemplateProxy,
-  RuntimeBrickElement,
 } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
-import { handleProxyOfCustomTemplate } from "./exports";
+import {
+  handleProxyOfCustomTemplate,
+  symbolForParentTemplate,
+  RuntimeBrickElementWithTplSymbols,
+} from "./exports";
 
 export interface RuntimeBrick {
   type?: string;
@@ -85,8 +88,9 @@ export class BrickNode {
   afterMount(): void {
     const brick = this.$$brick;
     if (brick.parentTemplate) {
-      (brick.element as RuntimeBrickElement).$$parentTemplate =
-        brick.parentTemplate.element;
+      (brick.element as RuntimeBrickElementWithTplSymbols)[
+        symbolForParentTemplate
+      ] = brick.parentTemplate.element;
     }
     handleProxyOfCustomTemplate(brick);
     this.children.forEach((child) => {

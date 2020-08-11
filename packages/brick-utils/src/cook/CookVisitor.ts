@@ -192,7 +192,7 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     callback(node.right, rightState);
     const rightCooked = rightState.cooked;
 
-    switch (node.operator) {
+    switch (node.operator as BinaryExpression["operator"] | "|>") {
       case "+":
         state.cooked = leftCooked + rightCooked;
         return;
@@ -231,6 +231,17 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
         return;
       case "<=":
         state.cooked = leftCooked <= rightCooked;
+        return;
+      case "|>":
+        if (typeof rightCooked !== "function") {
+          throw new TypeError(
+            `${state.source.substring(
+              node.right.start,
+              node.right.end
+            )} is not a function`
+          );
+        }
+        state.cooked = rightCooked(leftCooked);
         return;
     }
 

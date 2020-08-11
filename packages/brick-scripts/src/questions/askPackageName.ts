@@ -17,7 +17,8 @@ export function askPackageName({
   if (
     targetType === TargetType.A_NEW_BRICK ||
     targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
-    targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
+    targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK ||
+    targetType === TargetType.A_NEW_CUSTOM_PROCESSOR
   ) {
     // 读取当前的 `@bricks/*` 作为候选列表。
     const root = path.join(appRoot, "bricks");

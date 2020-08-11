@@ -101,6 +101,42 @@ customElements.define(\\"for-good.for-better\\", ForBetterElement);
 ]
 `;
 
+exports[`loadTemplate should create a new custom processor 1`] = `
+Array [
+  Array [
+    "dist/doGood.spec.ts",
+    "import { doGood } from \\"./doGood\\";
+
+jest.mock(\\"@easyops/brick-kit\\", () => ({
+  getRuntime: () => ({
+    registerCustomProcessor: jest.fn(),
+  }),
+}));
+
+describe(\\"doGood\\", () => {
+  it(\\"should work\\", () => {
+    expect(doGood()).toEqual(undefined);
+  });
+});
+",
+  ],
+  Array [
+    "dist/doGood.ts",
+    "import { getRuntime } from \\"@easyops/brick-kit\\";
+
+export function doGood(): any {
+  // ...
+}
+
+getRuntime().registerCustomProcessor(
+  \\"forGood.doGood\\",
+  doGood
+);
+",
+  ],
+]
+`;
+
 exports[`loadTemplate should create a new custom provider brick 1`] = `
 Array [
   Array [
@@ -287,6 +323,7 @@ const spyOnDefine = jest.spyOn(window.customElements, \\"define\\");
 
 jest.spyOn(kit, \\"getRuntime\\").mockReturnValue({
   registerCustomTemplate: jest.fn(),
+  registerCustomProcessor: jest.fn(),
 } as any);
 
 // Use \`require\` instead of \`import\` to avoid hoisting.

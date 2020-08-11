@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.4...@easyops/dev-dependencies@0.7.5) (2020-08-10)
+
+### Bug Fixes
+
+- remove unused document-register-element ([9d8f761](https://git.easyops.local/anyclouds/next-core/commits/9d8f761))
+
+## [0.7.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.3...@easyops/dev-dependencies@0.7.4) (2020-08-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.2...@easyops/dev-dependencies@0.7.3) (2020-08-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.1...@easyops/dev-dependencies@0.7.2) (2020-08-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.0...@easyops/dev-dependencies@0.7.1) (2020-08-05)
+
+### Bug Fixes
+
+- **dev-dependencies:** cli-extract support prerelease identifier ([55ce7bd](https://git.easyops.local/anyclouds/next-core/commits/55ce7bd))
+
+# [0.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.67...@easyops/dev-dependencies@0.7.0) (2020-08-05)
+
+### Features
+
+- **dev-dependencies:** cli-renew 支持 tag 参数 ([a3d3988](https://git.easyops.local/anyclouds/next-core/commits/a3d3988))
+
 # [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.1...@easyops/dev-dependencies@1.0.0-next.2) (2020-08-05)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

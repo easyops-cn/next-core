@@ -10,8 +10,8 @@
 
 ```bash
 .
-├── dll/*                 # <DLL>
-├── packages              # <平台库>
+├── dll/*                 # <DLL> Scope: `@dll/*`
+├── packages              # <平台库> Scope: `@easyops/*`
     ├── brick-container   # 新 Console
     ├── brick-dll         # Vendors dll
     ├── brick-http        # Http 基础库
@@ -19,9 +19,6 @@
     ├── brick-scripts     # 用于构件开发的脚本工具
     └── sdk-scripts       # 用于 SDK 的脚本工具
 ```
-
-- `dll/*`'s scope is `@dll`
-- `packages/*`'s scope is `@easyops`
 
 ## 开发调试
 
@@ -43,7 +40,7 @@
 
 例如：
 
-```sh
+```shell
 REMOTE=true LOCAL_BRICKS=abc yarn start
 # is similar to
 yarn serve --remote --local-bricks=abc

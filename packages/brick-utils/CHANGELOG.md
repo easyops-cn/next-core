@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.52.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.1...@easyops/brick-utils@1.52.2) (2020-08-10)
+
+### Bug Fixes
+
+- **custom-processors:** use camelPkgName as namespace of custom processors ([d6d5be8](https://git.easyops.local/anyclouds/next-core/commits/d6d5be8))
+
+## [1.52.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.0...@easyops/brick-utils@1.52.1) (2020-08-07)
+
+### Bug Fixes
+
+- **processors:** use symbol for runtime props to avoid accidentally travercing ([201fa56](https://git.easyops.local/anyclouds/next-core/commits/201fa56))
+
+# [1.52.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.51.0...@easyops/brick-utils@1.52.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+
+# [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.5...@easyops/brick-utils@1.51.0) (2020-08-05)
+
+### Features
+
+- **cook:** support minimal pipeline operator in evaluate placeholders ([9d0b65f](https://git.easyops.local/anyclouds/next-core/commits/9d0b65f))
+
 # [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.5...@easyops/brick-utils@2.0.0-next.0) (2020-08-05)
 
 **Note:** Version bump only for package @easyops/brick-utils

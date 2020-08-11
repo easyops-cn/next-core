@@ -1,10 +1,15 @@
 import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@easyops/brick-types";
-import { isObject, transform } from "@easyops/brick-utils";
-import { isCookable, evaluate, EvaluateOptions } from "./evaluate";
+import { isObject, transform, isEvaluable } from "@easyops/brick-utils";
+import { evaluate, EvaluateOptions } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 import { devtoolsHookEmit } from "./devtools";
 import { setRealProperties } from "./setProperties";
+
+interface TransformOptions {
+  isReTransformation?: boolean;
+  transformationId?: number;
+}
 
 export function transformElementProperties(
   element: HTMLElement,
@@ -13,12 +18,7 @@ export function transformElementProperties(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ): void {
-  const result = preprocessTransformProperties(
-    data,
-    to,
-    from,
-    mapArray
-  );
+  const result = preprocessTransformProperties(data, to, from, mapArray);
   setRealProperties(element, result, true);
 }
 
@@ -29,12 +29,7 @@ export function transformProperties(
   from?: string | string[],
   mapArray?: boolean | "auto"
 ): Record<string, any> {
-  const result = preprocessTransformProperties(
-    data,
-    to,
-    from,
-    mapArray
-  );
+  const result = preprocessTransformProperties(data, to, from, mapArray);
   for (const [propName, propValue] of Object.entries(result)) {
     set(props, propName, propValue);
   }
@@ -50,7 +45,7 @@ export function doTransform(
 ): any {
   if (typeof to === "string") {
     let result: any;
-    if (isCookable(to)) {
+    if (isEvaluable(to)) {
       result = evaluate(to, { data }, options?.evaluateOptions);
     } else {
       result = transform(to, data);
@@ -75,29 +70,68 @@ export function doTransform(
     : to;
 }
 
-export function preprocessTransformProperties(
+export function reTransformForDevtools(
+  transformationId: number,
   data: any,
   to: GeneralTransform,
   from?: string | string[],
   mapArray?: boolean | "auto"
+): void {
+  try {
+    preprocessTransformProperties(data, to, from, mapArray, {
+      isReTransformation: true,
+      transformationId,
+    });
+  } catch (error) {
+    devtoolsHookEmit("re-transformation", {
+      id: transformationId,
+      error: error.message,
+      detail: {
+        transform: to,
+        data,
+        options: { from, mapArray },
+      },
+    });
+  }
+}
+
+export function preprocessTransformProperties(
+  data: any,
+  to: GeneralTransform,
+  from?: string | string[],
+  mapArray?: boolean | "auto",
+  options?: TransformOptions
 ): Record<string, any> {
   const props: Record<string, any> = {};
-  if (from) {
-    data = get(data, from);
-  }
+  const processedData = from ? get(data, from) : data;
+
   if (Array.isArray(to)) {
     for (const item of to) {
-      pipeableTransform(props, data, item.to, item.from, item.mapArray);
+      pipeableTransform(
+        props,
+        processedData,
+        item.to,
+        item.from,
+        item.mapArray
+      );
     }
   } else {
-    pipeableTransform(props, data, to, undefined, mapArray);
+    pipeableTransform(props, processedData, to, undefined, mapArray);
   }
-  devtoolsHookEmit("transformation", {
+  const detail = {
     transform: to,
     data,
     options: { from, mapArray },
     result: props,
-  });
+  };
+  if (options?.isReTransformation) {
+    devtoolsHookEmit("re-transformation", {
+      id: options.transformationId,
+      detail,
+    });
+  } else {
+    devtoolsHookEmit("transformation", detail);
+  }
   return props;
 }
 

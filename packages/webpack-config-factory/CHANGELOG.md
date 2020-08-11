@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.11.0...@easyops/webpack-config-factory@1.11.1) (2020-08-10)
+
+### Bug Fixes
+
+- **custom-processors:** use camelPkgName as namespace of custom processors ([d6d5be8](https://git.easyops.local/anyclouds/next-core/commits/d6d5be8))
+
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.9...@easyops/webpack-config-factory@1.11.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+
 ## [1.10.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.8...@easyops/webpack-config-factory@1.10.9) (2020-08-04)
 
 ### Bug Fixes

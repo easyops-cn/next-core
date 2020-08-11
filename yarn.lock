@@ -2897,13 +2897,6 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
-"@types/yaml@^1.9.6":
-  version "1.9.7"
-  resolved "https://registry.npm.taobao.org/@types/yaml/download/@types/yaml-1.9.7.tgz#2331f36e0aac91311a63d33eb026c21687729679"
-  integrity sha1-IzHzbgqskTEaY9M+sCbCFodylnk=
-  dependencies:
-    yaml "*"
-
 "@types/yargs-parser@*":
   version "13.0.0"
   resolved "https://registry.npm.taobao.org/@types/yargs-parser/download/@types/yargs-parser-13.0.0.tgz#453743c5bbf9f1bed61d959baab5b06be029b2d0"
@@ -5582,13 +5575,6 @@ doctrine@^3.0.0:
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-3.0.0.tgz#addebead72a6574db783639dc87a121773973961"
   dependencies:
     esutils "^2.0.2"
-
-document-register-element@^1.14.3:
-  version "1.14.3"
-  resolved "https://registry.npm.taobao.org/document-register-element/download/document-register-element-1.14.3.tgz#3335d4578df6a1536a34595b91cca36dd5db61d7"
-  integrity sha1-MzXUV432oVNqNFlbkcyjbdXbYdc=
-  dependencies:
-    lightercollective "^0.3.0"
 
 dom-accessibility-api@^0.4.5:
   version "0.4.5"
@@ -8706,11 +8692,6 @@ levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
-
-lightercollective@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npm.taobao.org/lightercollective/download/lightercollective-0.3.0.tgz#1f07638642ec645d70bdb69ab2777676f35a28f0"
-  integrity sha1-HwdjhkLsZF1wvbaasnd2dvNaKPA=
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
@@ -14515,7 +14496,7 @@ yallist@^4.0.0:
   resolved "https://registry.npm.taobao.org/yallist/download/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha1-m7knkNnA7/7GO+c1GeEaNQGaOnI=
 
-yaml@*, yaml@^1.7.2:
+yaml@^1.7.2:
   version "1.9.2"
   resolved "https://registry.npm.taobao.org/yaml/download/yaml-1.9.2.tgz?cache=0&sync_timestamp=1587374901084&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fyaml%2Fdownload%2Fyaml-1.9.2.tgz#f0cfa865f003ab707663e4f04b3956957ea564ed"
   integrity sha1-8M+oZfADq3B2Y+TwSzlWlX6lZO0=

@@ -50,8 +50,9 @@ export type RouteAliasMap = Map<string, RouteAliasConf>;
 export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 
 export interface BrickPackage {
-  bricks: string[];
   filePath: string;
+  bricks: string[];
+  processors?: string[];
   dll?: string[];
 }
 
@@ -165,9 +166,6 @@ export interface RuntimeBrickConf extends BrickConf {
   $$params?: Record<string, any>;
   $$lifeCycle?: BrickLifeCycle;
   $$if?: string | boolean | ResolveConf;
-  $$computedPropsFromProxy?: Record<string, any>;
-  $$refForProxy?: RefForProxy;
-  $$parentTemplate?: ProbablyRuntimeBrick;
 }
 
 export interface BrickLifeCycle {

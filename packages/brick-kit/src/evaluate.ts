@@ -1,10 +1,16 @@
 import { cloneDeep } from "lodash";
 import i18next from "i18next";
-import { precook, cook, hasOwnProperty } from "@easyops/brick-utils";
+import {
+  cook,
+  hasOwnProperty,
+  isEvaluable,
+  preevaluate,
+} from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
 import { devtoolsHookEmit } from "./devtools";
+import { customProcessorRegistry } from "./core/exports";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -18,24 +24,35 @@ interface PreEvaluated {
 
 export interface EvaluateOptions {
   lazy?: boolean;
+  isReEvaluation?: boolean;
+  evaluationId?: number;
 }
 
-export function isPreEvaluated(raw: any): raw is PreEvaluated {
+export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
 }
 
-export function isCookable(raw: string): boolean {
-  return /^\s*<%\s/.test(raw) && /\s%>\s*$/.test(raw);
-}
-
+// `raw` should always be asserted to `isEvaluable` or `isPreEvaluated`.
 export function evaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
   runtimeContext: {
     event?: CustomEvent;
     data?: any;
   } = {},
-  options?: EvaluateOptions
+  options: EvaluateOptions = {}
 ): any {
+  if (
+    options.isReEvaluation &&
+    !(typeof raw === "string" && isEvaluable(raw))
+  ) {
+    devtoolsHookEmit("re-evaluation", {
+      id: options.evaluationId,
+      detail: { raw, context: {} },
+      error: "Invalid evaluation code",
+    });
+    return;
+  }
+
   if (typeof raw !== "string") {
     // If the `raw` is not a string, it must be a pre-evaluated object.
     // Then fulfil the context, and restore the original `raw`.
@@ -46,15 +63,23 @@ export function evaluate(
     raw = raw[symbolForRaw];
   }
 
-  let precooked: ReturnType<typeof precook>;
-
+  // A `SyntaxError` maybe thrown.
+  let precooked: ReturnType<typeof preevaluate>;
   try {
-    const trimmed = raw.trim();
-    const source = trimmed.substring(3, trimmed.length - 3);
-    precooked = precook(source);
+    precooked = preevaluate(raw);
   } catch (error) {
-    throw new SyntaxError(`${error.message}, in "${raw}"`);
+    if (options.isReEvaluation) {
+      devtoolsHookEmit("re-evaluation", {
+        id: options.evaluationId,
+        detail: { raw, context: {} },
+        error: error.message,
+      });
+      return;
+    } else {
+      throw error;
+    }
   }
+  // const precooked = preevaluate(raw);
 
   const globalVariables: Record<string, any> = {};
   const attemptToVisitGlobals = precooked.attemptToVisitGlobals;
@@ -64,7 +89,7 @@ export function evaluate(
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
-  let missingEvent = options?.lazy === true;
+  let missingEvent = options.lazy === true;
   if (attemptToVisitEvent) {
     if (hasOwnProperty(runtimeContext, "event")) {
       globalVariables.EVENT = runtimeContext.event;
@@ -175,11 +200,39 @@ export function evaluate(
     );
   }
 
+  if (attemptToVisitGlobals.has("PROCESSORS")) {
+    globalVariables.PROCESSORS = Object.fromEntries(
+      Array.from(
+        customProcessorRegistry.entries()
+      ).map(([namespace, registry]) => [
+        namespace,
+        Object.fromEntries(registry.entries()),
+      ])
+    );
+  }
+
   try {
     const result = cook(precooked, globalVariables);
-    devtoolsHookEmit("evaluation", { raw, context: globalVariables, result });
+    const detail = { raw, context: globalVariables, result };
+    if (options.isReEvaluation) {
+      devtoolsHookEmit("re-evaluation", {
+        id: options.evaluationId,
+        detail,
+      });
+    } else {
+      devtoolsHookEmit("evaluation", detail);
+    }
     return result;
   } catch (error) {
-    throw new SyntaxError(`${error.message}, in "${raw}"`);
+    const message = `${error.message}, in "${raw}"`;
+    if (options.isReEvaluation) {
+      devtoolsHookEmit("re-evaluation", {
+        id: options.evaluationId,
+        detail: { raw, context: globalVariables },
+        error: message,
+      });
+    } else {
+      throw new SyntaxError(message);
+    }
   }
 }

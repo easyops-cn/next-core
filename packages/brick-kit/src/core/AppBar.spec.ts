@@ -1,26 +1,18 @@
-import { getDllAndDepsOfBricks, loadScript } from "@easyops/brick-utils";
 import { AppBar } from "./AppBar";
 import { Kernel } from "./Kernel";
-
-jest.mock("@easyops/brick-utils");
-
-(getDllAndDepsOfBricks as jest.Mock).mockReturnValue({
-  dll: [],
-  deps: ["fake.js"]
-});
-const spyOnLoadScript = loadScript as jest.Mock;
 
 describe("AppBar", () => {
   const appBarElement = document.createElement("div");
   const kernel: Kernel = {
     bootstrapData: {
       navbar: {
-        appBar: "p"
-      }
+        appBar: "p",
+      },
     },
     mountPoints: {
-      appBar: appBarElement
-    }
+      appBar: appBarElement,
+    },
+    loadDynamicBricks: jest.fn(),
   } as any;
 
   afterEach(() => {
@@ -28,11 +20,10 @@ describe("AppBar", () => {
   });
 
   it("should bootstrap", async () => {
+    (kernel.loadDynamicBricks as jest.Mock).mockClear();
     const appBar = new AppBar(kernel);
-    spyOnLoadScript.mockResolvedValueOnce(null);
     await appBar.bootstrap();
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["fake.js"]);
+    expect(kernel.loadDynamicBricks).toBeCalledWith(["p"]);
     expect(appBarElement.firstChild.nodeName).toBe("P");
   });
 
@@ -48,17 +39,17 @@ describe("AppBar", () => {
     appBar.element = document.createElement("a") as any;
     appBar.element.breadcrumb = [
       {
-        text: "first"
-      }
+        text: "first",
+      },
     ];
     appBar.appendBreadcrumb([{ text: "second" }]);
     expect(appBar.element.breadcrumb).toEqual([
       {
-        text: "first"
+        text: "first",
       },
       {
-        text: "second"
-      }
+        text: "second",
+      },
     ]);
   });
 
@@ -67,14 +58,14 @@ describe("AppBar", () => {
     appBar.element = document.createElement("a") as any;
     appBar.element.breadcrumb = [
       {
-        text: "first"
-      }
+        text: "first",
+      },
     ];
     appBar.setBreadcrumb([{ text: "second" }]);
     expect(appBar.element.breadcrumb).toEqual([
       {
-        text: "second"
-      }
+        text: "second",
+      },
     ]);
   });
 });

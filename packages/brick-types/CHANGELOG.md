@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.50.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.0...@easyops/brick-types@1.50.1) (2020-08-07)
+
+### Bug Fixes
+
+- **processors:** use symbol for runtime props to avoid accidentally travercing ([201fa56](https://git.easyops.local/anyclouds/next-core/commits/201fa56))
+
+# [1.50.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.49.0...@easyops/brick-types@1.50.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+
 # [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.49.0...@easyops/brick-types@2.0.0-next.0) (2020-08-05)
 
 ### Features

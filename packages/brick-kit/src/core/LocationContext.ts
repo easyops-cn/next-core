@@ -17,7 +17,6 @@ import {
   ResolveConf,
   RouteConfOfRoutes,
   RouteConfOfBricks,
-  RuntimeBrickConf,
   StaticMenuProps,
   SeguesConf,
   ContextConf,
@@ -41,9 +40,13 @@ import {
   expandCustomTemplate,
   MountableElement,
   getTagNameOfCustomTemplate,
+  symbolForComputedPropsFromProxy,
+  symbolForRefForProxy,
+  symbolForParentTemplate,
 } from "./exports";
 import { RedirectConf, IfConf } from "./interfaces";
 import { checkIf } from "../checkIf";
+import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
 
 export type MatchRoutesResult =
   | {
@@ -471,7 +474,11 @@ export class LocationContext {
 
       if (isObject(ifChecked)) {
         const ifConf: IfConf = {};
-        await this.resolver.resolveOne("reference", ifChecked, ifConf);
+        await this.resolver.resolveOne(
+          "reference",
+          ifChecked as ResolveConf,
+          ifConf
+        );
         if (ifConf.if === false) {
           return false;
         }
@@ -485,7 +492,7 @@ export class LocationContext {
       return true;
     }
 
-    return checkIf(rawIf as string | boolean, context);
+    return checkIf(rawIf, context);
   }
 
   async mountBrick(
@@ -543,13 +550,23 @@ export class LocationContext {
       context,
       children: [],
       slotId,
-      refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
-      parentTemplate: (brickConf as RuntimeBrickConf).$$parentTemplate,
+      refForProxy: (brickConf as RuntimeBrickConfWithTplSymbols)[
+        symbolForRefForProxy
+      ],
+      parentTemplate: (brickConf as RuntimeBrickConfWithTplSymbols)[
+        symbolForParentTemplate
+      ],
     });
 
-    if ((brickConf as RuntimeBrickConf).$$computedPropsFromProxy) {
+    if (
+      (brickConf as RuntimeBrickConfWithTplSymbols)[
+        symbolForComputedPropsFromProxy
+      ]
+    ) {
       Object.entries(
-        (brickConf as RuntimeBrickConf).$$computedPropsFromProxy
+        (brickConf as RuntimeBrickConfWithTplSymbols)[
+          symbolForComputedPropsFromProxy
+        ]
       ).forEach(([propName, propValue]) => {
         set(brick.properties, propName, propValue);
       });
@@ -604,7 +621,7 @@ export class LocationContext {
 
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
-        if (typeof ctxName === "string" && /^CTX\..+$/.test(ctxName)) {
+        if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
           this.setStoryboardContext(ctxName.substr(4), {
             type: "brick-property",
             brick,

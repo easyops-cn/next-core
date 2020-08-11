@@ -221,6 +221,10 @@ describe("cook", () => {
     ["[undefined].map(({a, ...b}={}) => a + b)", ["undefined[object Object]"]],
     // `ObjectPattern` with a computed key
     ["[{'a.b': 1}].map(({'a.b': c}) => c)", [1]],
+    // Pipeline operator.
+    ["DATA.number5 |> PIPES.string", "5"],
+    // Sequential pipeline operators with an arrow function.
+    ["DATA.number5 |> (_ => _ + 1) |> PIPES.string", "6"],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
@@ -269,6 +273,7 @@ describe("cook", () => {
     "((a,b)=>a[b])(()=>1, 'constructor')('console.log(`yo`)')()",
     "((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(`yo`)')()",
     "_.get(()=>1, 'constructor.prototype')",
+    "DATA |> DATA.number5",
     // Todo(steve)
     // "_.wrap(_.method('constructor.assign',{a:1},{b:2}),(func,...a) => func(...a))({})"
   ])("cook(precook(%j), {...}) should throw", (input) => {
