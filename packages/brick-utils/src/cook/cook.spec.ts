@@ -4,7 +4,7 @@ import { precook } from "./precook";
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
-jest.mock("../placeholder/pipes/PipeRegistry", () => ({
+jest.mock("../placeholder/PipeRegistry", () => ({
   PipeRegistry: new Map([["string", (v: any) => (v == null ? "" : String(v))]]),
 }));
 
