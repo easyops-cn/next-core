@@ -17,7 +17,7 @@ import {
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
-import { checkIfByTransform } from "./checkIf";
+import { looseCheckIfByTransform } from "./checkIf";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -114,9 +114,7 @@ export function SingleBrickAsComponent(
   if (isObject(useBrick.if)) {
     // eslint-disable-next-line
     console.warn("Currently resolvable-if in `useBrick` is not supported.");
-  } else if (
-    checkIfByTransform(useBrick.if as string | boolean, data) === false
-  ) {
+  } else if (!looseCheckIfByTransform(useBrick, data)) {
     return null;
   }
 

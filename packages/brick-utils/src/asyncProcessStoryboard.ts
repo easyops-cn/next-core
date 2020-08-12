@@ -6,10 +6,11 @@ import {
   BrickTemplateFactory,
   TemplateRegistry,
   TemplatePackage,
-  RouteConfOfBricks
+  RouteConfOfBricks,
 } from "@easyops/brick-types";
 import { loadScript } from "./loadScript";
 import { getDepsOfTemplates } from "./getTemplateDepsOfStoryboard";
+import { hasOwnProperty } from "./hasOwnProperty";
 
 export async function asyncProcessBrick(
   brickConf: RuntimeBrickConf,
@@ -51,27 +52,33 @@ export async function asyncProcessBrick(
           updatedBrickConf = {
             brick: "basic-bricks.page-error",
             properties: {
-              error: `Template not found: ${brickConf.template}`
-            }
+              error: `Template not found: ${brickConf.template}`,
+            },
           };
         }
       }
       // Cleanup brickConf and remember original data for restore.
-      const { template, lifeCycle, $$params, params, if: rawIf } = brickConf;
-      Object.keys(brickConf).forEach(key => {
+      const { template, lifeCycle, $$params, params } = brickConf;
+      const hasIf = hasOwnProperty(brickConf, "if");
+      const rawIf = brickConf.if;
+      Object.keys(brickConf).forEach((key) => {
         delete brickConf[key as keyof RuntimeBrickConf];
       });
-      Object.assign(brickConf, updatedBrickConf, {
-        $$template: template,
-        $$params: $$params || cloneDeep(params),
-        $$lifeCycle: lifeCycle,
-        $$if: rawIf
-      });
+      Object.assign(
+        brickConf,
+        updatedBrickConf,
+        {
+          $$template: template,
+          $$params: $$params || cloneDeep(params),
+          $$lifeCycle: lifeCycle,
+        },
+        hasIf ? { $$if: rawIf } : {}
+      );
     }
   }
   if (brickConf.slots) {
     await Promise.all(
-      Object.values(brickConf.slots).map(async slotConf => {
+      Object.values(brickConf.slots).map(async (slotConf) => {
         if (slotConf.type === "bricks") {
           await asyncProcessBricks(
             slotConf.bricks,
@@ -97,7 +104,7 @@ async function asyncProcessBricks(
 ): Promise<void> {
   if (Array.isArray(bricks)) {
     await Promise.all(
-      bricks.map(async brickConf => {
+      bricks.map(async (brickConf) => {
         await asyncProcessBrick(brickConf, templateRegistry, templatePackages);
       })
     );
@@ -111,7 +118,7 @@ async function asyncProcessRoutes(
 ): Promise<void> {
   if (Array.isArray(routes)) {
     await Promise.all(
-      routes.map(async routeConf => {
+      routes.map(async (routeConf) => {
         if (routeConf.type === "routes") {
           await asyncProcessRoutes(
             routeConf.routes,

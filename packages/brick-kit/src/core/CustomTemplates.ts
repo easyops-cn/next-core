@@ -188,6 +188,10 @@ function expandBrickInTemplate(
   brickConfInTemplate: BrickConfInTemplate,
   proxyContext: ProxyContext
 ): RuntimeBrickConfWithTplSymbols {
+  // Ignore `if: null` to make `looseCheckIf` working.
+  if (brickConfInTemplate.if === null) {
+    delete brickConfInTemplate.if;
+  }
   const {
     ref,
     slots: slotsInTemplate,
