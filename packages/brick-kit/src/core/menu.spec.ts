@@ -60,7 +60,7 @@ const mockMenuList: any[] = [
       },
       {
         text: "Menu Item 0",
-        if: "<% !!FLAGS['flag-not-enabled'] %>",
+        if: "<% FLAGS['flag-not-enabled'] %>",
         sort: 5,
       },
     ],

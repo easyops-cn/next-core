@@ -8,6 +8,7 @@ import {
 import { InstanceApi } from "@sdk/cmdb-sdk";
 import { MountRoutesResult } from "./LocationContext";
 import { computeRealValue } from "../setProperties";
+import { looseCheckIfOfComputed } from "../checkIf";
 
 export interface MenuRawData {
   menuId: string;
@@ -115,11 +116,12 @@ async function processMenu(
     menuItems: menuData.items
       ?.filter(
         // `if` is already evaluated.
-        (item) => item.if !== false
+        looseCheckIfOfComputed
       )
       .map((item) => {
         const children = item.children?.filter(
-          (child) => child.if !== false
+          // `if` is already evaluated.
+          looseCheckIfOfComputed
         ) as SidebarMenuSimpleItem[];
         return item.type === "group"
           ? {

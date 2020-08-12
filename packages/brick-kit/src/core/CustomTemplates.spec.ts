@@ -69,6 +69,7 @@ describe("expandCustomTemplate", () => {
               bricks: [
                 {
                   brick: "basic-bricks.general-button",
+                  if: null,
                   ref: "button",
                   properties: {
                     buttonType: "dashed",
@@ -260,7 +261,7 @@ describe("handleProxyOfCustomTemplate", () => {
             ref: "button",
             refTransform: {
               buttonType: "<% DATA.isDanger ? 'danger' : 'default' %>",
-              'style.display': "<% DATA.isDanger ? 'inline' : 'block' %>",
+              "style.display": "<% DATA.isDanger ? 'inline' : 'block' %>",
             },
           },
         },

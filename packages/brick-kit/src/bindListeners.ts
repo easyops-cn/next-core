@@ -22,7 +22,7 @@ import {
   RuntimeBrickElementWithTplSymbols,
 } from "./core/exports";
 import { getUrlBySegueFactory } from "./segue";
-import { checkIf } from "./checkIf";
+import { looseCheckIf, IfContainer } from "./checkIf";
 import { getUrlByAliasFactory } from "./alias";
 
 export function bindListeners(
@@ -112,7 +112,7 @@ export function listenerFactory(
         return builtinHistoryListenerFactory(
           method,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       case "history.goBack":
@@ -120,7 +120,7 @@ export function listenerFactory(
       case "history.reload":
         return builtinHistoryWithoutArgsListenerFactory(
           method,
-          handler.if,
+          handler,
           context
         );
       case "segue.push":
@@ -128,7 +128,7 @@ export function listenerFactory(
         return builtinSegueListenerFactory(
           method,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       case "alias.push":
@@ -136,24 +136,24 @@ export function listenerFactory(
         return builtinAliasListenerFactory(
           method,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       case "legacy.go":
-        return builtinIframeListenerFactory(handler.args, handler.if, context);
+        return builtinIframeListenerFactory(handler.args, handler, context);
       case "window.open":
-        return builtinWindowListenerFactory(handler.args, handler.if, context);
+        return builtinWindowListenerFactory(handler.args, handler, context);
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(
           method,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       case "event.preventDefault":
         return ((event: CustomEvent) => {
-          if (!checkIf(handler.if, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event })) {
             return;
           }
           event.preventDefault();
@@ -165,7 +165,7 @@ export function listenerFactory(
         return builtinConsoleListenerFactory(
           method,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       case "message.success":
@@ -175,12 +175,12 @@ export function listenerFactory(
         return builtinMessageListenerFactory(
           method,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       case "handleHttpError":
         return ((event: CustomEvent) => {
-          if (!checkIf(handler.if, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event })) {
             return;
           }
           handleHttpError(event.detail);
@@ -190,14 +190,14 @@ export function listenerFactory(
         return builtinContextListenerFactory(
           method,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       case "tpl.dispatchEvent":
         return builtinTplDispatchEventFactory(
           brick,
           handler.args,
-          handler.if,
+          handler,
           context
         );
       default:
@@ -213,7 +213,7 @@ export function listenerFactory(
   }
 
   if (isCustomHandler(handler)) {
-    return customListenerFactory(handler, handler.if, context, brick);
+    return customListenerFactory(handler, handler, context, brick);
   }
 }
 
@@ -222,29 +222,30 @@ function usingProviderFactory(
   context: PluginRuntimeContext,
   brick: HTMLElement
 ): EventListener {
-  return async function (event: CustomEvent): Promise<void> {
-    const { if: rawIf, useProvider } = handler;
-    if (!checkIf(rawIf, { ...context, event })) {
+  return (async function (event: CustomEvent): Promise<void> {
+    if (!looseCheckIf(handler, { ...context, event })) {
       return;
     }
     try {
-      const providerBrick = await _internalApiGetProviderBrick(useProvider);
+      const providerBrick = await _internalApiGetProviderBrick(
+        handler.useProvider
+      );
       brickCallback(providerBrick, handler, "resolve", context, brick, event);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(httpErrorToString(error));
     }
-  } as any;
+  } as unknown) as EventListener;
 }
 
 function builtinTplDispatchEventFactory(
   brick: HTMLElement,
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
     const tpl = getParentTemplate(brick);
@@ -253,19 +254,22 @@ function builtinTplDispatchEventFactory(
       console.warn("Parent template not found for brick:", brick);
       return;
     }
-    const [type, init] = argsFactory(args, context, event);
+    const [type, init] = argsFactory(args, context, event) as [
+      string,
+      CustomEventInit
+    ];
     tpl.dispatchEvent(new CustomEvent(type, init));
   } as EventListener;
 }
 
 function builtinContextListenerFactory(
   method: "assign" | "replace",
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
     const [name, value] = argsFactory(args, context, event);
@@ -311,16 +315,16 @@ function builtinContextListenerFactory(
 
 function builtinLocationListenerFactory(
   method: "assign" | "reload",
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
     if (method === "assign") {
-      const [url] = argsFactory(args, context, event);
+      const [url] = argsFactory(args, context, event) as [string];
       location.assign(url);
     } else {
       location[method]();
@@ -330,12 +334,12 @@ function builtinLocationListenerFactory(
 
 function builtinSegueListenerFactory(
   method: "push" | "replace",
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
     const { app, segues } = _internalApiGetCurrentContext();
@@ -354,12 +358,12 @@ function builtinSegueListenerFactory(
 
 function builtinAliasListenerFactory(
   method: "push" | "replace",
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
     const { app } = _internalApiGetCurrentContext();
@@ -374,8 +378,8 @@ function builtinAliasListenerFactory(
 }
 
 function builtinIframeListenerFactory(
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   const legacyIframeMountPoint = document.querySelector(
@@ -400,24 +404,24 @@ function builtinIframeListenerFactory(
   };
 
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    const [url] = argsFactory(args, context, event);
+    const [url] = argsFactory(args, context, event) as [string];
     postMessage(url);
   } as EventListener;
 }
 
 function builtinWindowListenerFactory(
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    const [url, target] = argsFactory(args, context, event);
+    const [url, target] = argsFactory(args, context, event) as [string, string];
     window.open(url, target || "_self");
   } as EventListener;
 }
@@ -441,22 +445,22 @@ function getParentTemplate(brick: RuntimeBrickElement): RuntimeBrickElement {
 
 function customListenerFactory(
   handler: CustomBrickEventHandler,
-  rawIf: string | boolean,
+  ifContainer: IfContainer,
   context: PluginRuntimeContext,
   brick: HTMLElement
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    let targets: any[] = [];
+    let targets: HTMLElement[] = [];
     if (typeof handler.target === "string") {
       if (handler.target === "_self") {
         targets.push(brick);
       } else if (handler.multiple) {
         targets = Array.from(document.querySelectorAll(handler.target));
       } else {
-        const found = document.querySelector(handler.target);
+        const found = document.querySelector(handler.target) as HTMLElement;
         if (found !== null) {
           targets.push(found);
         }
@@ -495,7 +499,7 @@ function customListenerFactory(
 }
 
 async function brickCallback(
-  target: any,
+  target: HTMLElement,
   handler: ExecuteCustomBrickEventHandler | UseProviderEventHandler,
   method: string,
   context: PluginRuntimeContext,
@@ -503,7 +507,7 @@ async function brickCallback(
   event: CustomEvent,
   options?: ArgsFactoryOptions
 ): Promise<void> {
-  if (typeof target[method] !== "function") {
+  if (typeof (target as any)[method] !== "function") {
     // eslint-disable-next-line no-console
     console.error("target has no method:", {
       target,
@@ -511,7 +515,7 @@ async function brickCallback(
     });
     return;
   }
-  const task = target[method](
+  const task = (target as any)[method](
     ...argsFactory(handler.args, context, event, options)
   );
   const { success, error, finally: finallyHook } = handler.callback ?? {};
@@ -551,15 +555,15 @@ async function brickCallback(
 
 function builtinHistoryListenerFactory(
   method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    (getHistory()[method] as any)(
+    (getHistory()[method] as (...args: unknown[]) => unknown)(
       ...argsFactory(args, context, event, {
         useEventDetailAsDefault: true,
       })
@@ -569,11 +573,11 @@ function builtinHistoryListenerFactory(
 
 function builtinHistoryWithoutArgsListenerFactory(
   method: "goBack" | "goForward" | "reload",
-  rawIf: string | boolean,
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
     getHistory()[method]();
@@ -582,12 +586,12 @@ function builtinHistoryWithoutArgsListenerFactory(
 
 function builtinConsoleListenerFactory(
   method: "log" | "error" | "warn" | "info",
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
     // eslint-disable-next-line no-console
@@ -601,15 +605,19 @@ function builtinConsoleListenerFactory(
 
 function builtinMessageListenerFactory(
   method: "success" | "error" | "info" | "warn",
-  args: any[],
-  rawIf: string | boolean,
+  args: unknown[],
+  ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent) {
-    if (!checkIf(rawIf, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    (message[method] as any)(...argsFactory(args, context, event));
+    message[method](
+      ...(argsFactory(args, context, event) as Parameters<
+        typeof message[typeof method]
+      >)
+    );
   } as EventListener;
 }
 
@@ -619,11 +627,11 @@ interface ArgsFactoryOptions {
 }
 
 function argsFactory(
-  args: any[],
+  args: unknown[],
   context: PluginRuntimeContext,
   event: CustomEvent,
   options: ArgsFactoryOptions = {}
-): any {
+): unknown[] {
   return Array.isArray(args)
     ? computeRealValue(
         args,

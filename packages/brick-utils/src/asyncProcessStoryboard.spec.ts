@@ -2,10 +2,11 @@ import {
   Storyboard,
   TemplatePackage,
   SlotConfOfBricks,
-  RouteConfOfBricks
+  RouteConfOfBricks,
 } from "@easyops/brick-types";
 import { asyncProcessStoryboard } from "./asyncProcessStoryboard";
 import { loadScript } from "./loadScript";
+import { hasOwnProperty } from "./hasOwnProperty";
 
 jest.mock("./loadScript");
 
@@ -17,7 +18,7 @@ describe("asyncProcessStoryboard", () => {
           bricks: [
             {
               if: "${FLAGS.testing}",
-              template: "a"
+              template: "a",
             },
             {
               brick: "b",
@@ -26,23 +27,23 @@ describe("asyncProcessStoryboard", () => {
                   type: "bricks",
                   bricks: [
                     {
-                      template: "c"
-                    }
-                  ]
+                      template: "c",
+                    },
+                  ],
                 },
                 l: {
-                  type: "routes"
+                  type: "routes",
                   // `routes` not set
-                }
-              }
-            }
-          ]
+                },
+              },
+            },
+          ],
         },
         {
           menu: {
             type: "brick",
-            template: "d"
-          }
+            template: "d",
+          },
           // `bricks` not set
         },
         {
@@ -51,13 +52,13 @@ describe("asyncProcessStoryboard", () => {
             {
               bricks: [
                 {
-                  template: "f"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  template: "f",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     } as any;
     const registry = new Map<string, any>([
       [
@@ -69,26 +70,26 @@ describe("asyncProcessStoryboard", () => {
               type: "bricks",
               bricks: [
                 {
-                  template: "b"
-                }
-              ]
-            }
-          }
-        })
-      ]
+                  template: "b",
+                },
+              ],
+            },
+          },
+        }),
+      ],
     ]);
     const templatePackages: TemplatePackage[] = [
       {
         templates: ["b"],
-        filePath: "b.js"
-      }
+        filePath: "b.js",
+      },
     ];
     (loadScript as jest.Mock).mockImplementationOnce(() => {
       registry.set("b", () => ({
-        brick: "b"
+        brick: "b",
       }));
       registry.set("c", () => ({
-        template: "b"
+        template: "b",
       }));
     });
     await asyncProcessStoryboard(storyboard, registry, templatePackages);
@@ -97,19 +98,18 @@ describe("asyncProcessStoryboard", () => {
       {
         brick: "a",
         $$template: "a",
-        $$params: {},
-        $$if: "${FLAGS.testing}"
+        $$params: undefined,
+        $$if: "${FLAGS.testing}",
       }
     );
     // Cover when a template returns a template.
-    expect(
-      ((storyboard.routes[0] as RouteConfOfBricks).bricks[1].slots
-        .s as SlotConfOfBricks).bricks[0]
-    ).toMatchObject({
+    const innerBrick = ((storyboard.routes[0] as RouteConfOfBricks).bricks[1]
+      .slots.s as SlotConfOfBricks).bricks[0];
+    expect(innerBrick).toMatchObject({
       brick: "b",
       $$template: "c",
-      $$params: {},
-      $$if: undefined
+      $$params: undefined,
     });
+    expect(hasOwnProperty(innerBrick, "$$if")).toBe(false);
   });
 });
