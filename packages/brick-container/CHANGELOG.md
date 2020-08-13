@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.4...@easyops/brick-container@2.0.0-next.2) (2020-08-13)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
 ## [1.27.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@1.27.4) (2020-08-13)
 
 ### Bug Fixes
