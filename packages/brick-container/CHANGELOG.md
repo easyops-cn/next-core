@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.27.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@1.27.4) (2020-08-13)
+
+### Bug Fixes
+
+- **menu:** change sub menu bar width from 240px to 220px ([e61a9c2](https://git.easyops.local/anyclouds/next-core/commits/e61a9c2))
+- **serve:** allow unsecure proxy for https which is probably self-signed ([0a04027](https://git.easyops.local/anyclouds/next-core/commits/0a04027))
+
 # [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@2.0.0-next.1) (2020-08-11)
 
 ### Bug Fixes

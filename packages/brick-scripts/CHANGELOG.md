@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.1...@easyops/brick-scripts@1.18.2) (2020-08-13)
+
+### Bug Fixes
+
+- **provider:** fix types of createProviderClass ([c785a4c](https://git.easyops.local/anyclouds/next-core/commits/c785a4c))
+
 # [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.1...@easyops/brick-scripts@2.0.0-next.1) (2020-08-11)
 
 **Note:** Version bump only for package @easyops/brick-scripts

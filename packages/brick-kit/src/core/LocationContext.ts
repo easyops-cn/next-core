@@ -27,6 +27,7 @@ import {
   isObject,
   matchPath,
   computeRealRoutePath,
+  hasOwnProperty,
 } from "@easyops/brick-utils";
 import { listenerFactory } from "../bindListeners";
 import { computeRealProperties, computeRealValue } from "../setProperties";
@@ -44,8 +45,8 @@ import {
   symbolForRefForProxy,
   symbolForParentTemplate,
 } from "./exports";
-import { RedirectConf, IfConf } from "./interfaces";
-import { checkIf } from "../checkIf";
+import { RedirectConf } from "./interfaces";
+import { looseCheckIf, IfContainer } from "../checkIf";
 import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
 
 export type MatchRoutesResult =
@@ -466,33 +467,22 @@ export class LocationContext {
   }
 
   private async checkResolvableIf(
-    rawIf: string | boolean | ResolveConf,
+    ifContainer: IfContainer,
     context: PluginRuntimeContext
   ): Promise<boolean> {
-    if (isObject(rawIf)) {
-      const ifChecked = computeRealValue(rawIf, context, true);
+    if (isObject(ifContainer.if)) {
+      const ifChecked = computeRealValue(ifContainer.if, context, true);
 
-      if (isObject(ifChecked)) {
-        const ifConf: IfConf = {};
-        await this.resolver.resolveOne(
-          "reference",
-          ifChecked as ResolveConf,
-          ifConf
-        );
-        if (ifConf.if === false) {
-          return false;
-        }
-        // istanbul ignore if
-        if (ifConf.if !== true) {
-          // eslint-disable-next-line no-console
-          console.warn("Received an unexpected condition result:", ifConf.if);
-        }
-      }
-
-      return true;
+      const ifConf: IfContainer = {};
+      await this.resolver.resolveOne(
+        "reference",
+        ifChecked as ResolveConf,
+        ifConf
+      );
+      return !hasOwnProperty(ifConf, "if") || !!ifConf.if;
     }
 
-    return checkIf(rawIf, context);
+    return looseCheckIf(ifContainer, context);
   }
 
   async mountBrick(
@@ -505,7 +495,7 @@ export class LocationContext {
     const context = this.getContext(match);
 
     // First, check whether the brick should be rendered.
-    if (!(await this.checkResolvableIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf, context))) {
       return;
     }
 
@@ -515,7 +505,7 @@ export class LocationContext {
     }
 
     // Check `if` again for dynamic loaded templates.
-    if (!(await this.checkResolvableIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf, context))) {
       return;
     }
 

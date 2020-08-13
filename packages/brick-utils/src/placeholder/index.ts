@@ -1,5 +1,4 @@
 export { inject, transform } from "./compile";
-export {
-  formatValue,
-  convertValueByPrecision,
-} from "./unit/func/valueFormatter";
+
+import { utils } from "./pipes";
+export const { formatValue, convertValueByPrecision } = utils;

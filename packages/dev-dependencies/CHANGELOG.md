@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.5...@easyops/dev-dependencies@0.7.6) (2020-08-13)
+
+### Bug Fixes
+
+- add @types/js-yaml instead of @types/yaml ([fe5c821](https://git.easyops.local/anyclouds/next-core/commits/fe5c821))
+
 # [1.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.5...@easyops/dev-dependencies@1.0.0-next.3) (2020-08-11)
 
 ### Bug Fixes
