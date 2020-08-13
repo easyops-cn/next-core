@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.2...@easyops/brick-utils@1.53.0) (2020-08-13)
+
+### Bug Fixes
+
+- **custom-processors:** assert non-computed when scanning processors ([75f30b0](https://git.easyops.local/anyclouds/next-core/commits/75f30b0))
+- **provider:** fix types of createProviderClass ([c785a4c](https://git.easyops.local/anyclouds/next-core/commits/c785a4c))
+
+### Features
+
+- **check-if:** loose check if ([3626b31](https://git.easyops.local/anyclouds/next-core/commits/3626b31))
+
 ## [1.52.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.1...@easyops/brick-utils@1.52.2) (2020-08-10)
 
 ### Bug Fixes

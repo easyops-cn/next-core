@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.60.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.59.3...@easyops/brick-kit@1.60.0) (2020-08-13)
+
+### Bug Fixes
+
+- **context:** refine context name matching ([0edc083](https://git.easyops.local/anyclouds/next-core/commits/0edc083))
+
+### Features
+
+- **check-if:** loose check if ([3626b31](https://git.easyops.local/anyclouds/next-core/commits/3626b31))
+
 ## [1.59.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.59.2...@easyops/brick-kit@1.59.3) (2020-08-10)
 
 ### Bug Fixes
