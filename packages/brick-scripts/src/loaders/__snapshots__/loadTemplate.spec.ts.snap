@@ -164,7 +164,7 @@ export interface GetDataParams {}
 
 export function GetData(
   params: GetDataParams
-): Promise<any> {
+): Promise<unknown> {
   return null;
 }
 
