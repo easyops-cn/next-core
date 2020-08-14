@@ -1025,6 +1025,11 @@
   resolved "https://registry.npm.taobao.org/@csstools/convert-colors/download/@csstools/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha1-rUldxBsS511YjG24uYNPCPoTHrc=
 
+"@easyops-cn/brick-next-pipes@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.npm.taobao.org/@easyops-cn/brick-next-pipes/download/@easyops-cn/brick-next-pipes-0.3.2.tgz?cache=0&sync_timestamp=1597387756851&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40easyops-cn%2Fbrick-next-pipes%2Fdownload%2F%40easyops-cn%2Fbrick-next-pipes-0.3.2.tgz#16042007186c26dfd47e9e9e0be5352a246d5ea4"
+  integrity sha1-FgQgBxhsJt/Ufp6eC+U1KiRtXqQ=
+
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.npm.taobao.org/@evocateur/libnpmaccess/download/@evocateur/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"

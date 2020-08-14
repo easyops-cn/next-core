@@ -1,5 +1,11 @@
-import { PipeRegistry } from "./PipeRegistry";
+import { pipes } from "@easyops-cn/brick-next-pipes";
 import { PipeCall } from "./interfaces";
+
+type PipeFunction = (...args: unknown[]) => unknown;
+
+export const PipeRegistry = new Map<string, PipeFunction>(
+  Array.from(Object.entries(pipes as Record<string, PipeFunction>))
+);
 
 export function processPipes(value: unknown, pipes: PipeCall[]): unknown {
   if (pipes.length === 0) {

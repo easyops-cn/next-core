@@ -1,1 +1,0 @@
-export { findIndex } from "lodash";

@@ -1,4 +1,4 @@
-import { processPipes } from "./processPipes";
+import { processPipes } from "./pipes";
 import { PipeCall } from "./interfaces";
 
 type Identifier = string;
