@@ -4,7 +4,7 @@ import {
   StoryboardContextItem,
 } from "@easyops/brick-types";
 import { parseInjectableString } from "./syntax";
-import { processPipes } from "./processPipes";
+import { processPipes } from "./pipes";
 import { RawString, Placeholder } from "./interfaces";
 
 export function transform(raw: string, data: any): any {

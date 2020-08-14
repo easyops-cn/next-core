@@ -1,7 +1,7 @@
 import lodash from "lodash";
 import moment from "moment";
 import { CookScope } from "./interfaces";
-import { PipeRegistry } from "../placeholder/PipeRegistry";
+import { PipeRegistry } from "../placeholder/pipes";
 
 export function supply(
   attemptToVisitGlobals: Set<string>,
