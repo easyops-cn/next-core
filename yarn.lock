@@ -2726,10 +2726,10 @@
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
 
-"@types/jest@^26.0.9":
-  version "26.0.9"
-  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-26.0.9.tgz?cache=0&sync_timestamp=1596672276004&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-26.0.9.tgz#0543b57da5f0cd949c5f423a00c56c492289c989"
-  integrity sha1-BUO1faXwzZScX0I6AMVsSSKJyYk=
+"@types/jest@^26.0.10":
+  version "26.0.10"
+  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-26.0.10.tgz#8faf7e9756c033c39014ae76a7329efea00ea607"
+  integrity sha1-j69+l1bAM8OQFK52pzKe/qAOpgc=
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
