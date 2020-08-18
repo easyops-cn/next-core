@@ -139,7 +139,8 @@ export default storyboard;`,
       TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
       TargetType.A_NEW_CUSTOM_PROCESSOR,
       TargetType.A_NEW_PACKAGE_OF_BRICKS,
-    ].includes(targetType)
+    ].includes(targetType) &&
+    brickName
   ) {
     // 如果是新建构件/自定义provider构件/构件库，需要更新/新建 `index.ts`。
     const srcIndexTs = path.join(pkgRoot, "src/index.ts");

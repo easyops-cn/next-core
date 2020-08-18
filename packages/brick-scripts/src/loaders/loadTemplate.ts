@@ -147,7 +147,7 @@ export async function loadTemplate({
     },
   ];
 
-  if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS) {
+  if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS && brickName) {
     // Also create a new brick for the new bricks-package
     const brickTemplateDir = path.join(templateRoot, "brick");
     templateGroups.push({
