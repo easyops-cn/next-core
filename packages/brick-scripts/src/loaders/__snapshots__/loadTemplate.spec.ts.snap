@@ -317,9 +317,10 @@ export default locale;
     "dist/src/index.spec.ts",
     "import i18next from \\"i18next\\";
 import * as kit from \\"@easyops/brick-kit\\";
+
 const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
 
-const spyOnDefine = jest.spyOn(window.customElements, \\"define\\");
+jest.spyOn(window.customElements, \\"define\\");
 
 jest.spyOn(kit, \\"getRuntime\\").mockReturnValue({
   registerCustomTemplate: jest.fn(),
@@ -332,9 +333,6 @@ require(\\"./index\\");
 describe(\\"index\\", () => {
   it(\\"should add i18n resource bundle\\", () => {
     expect(spyOnAddResourceBundle).toBeCalled();
-  });
-  it(\\"should define custom elements\\", () => {
-    expect(spyOnDefine).toBeCalled();
   });
 });
 ",
@@ -463,6 +461,130 @@ export class ForBetterElement extends UpdatingElement {
 }
 
 customElements.define(\\"for-good.for-better\\", ForBetterElement);
+",
+  ],
+]
+`;
+
+exports[`loadTemplate should create a new package of bricks without any bricks 1`] = `
+Array [
+  Array [
+    "dist/scripts/generate-version-file.js",
+    "const { createVersionFile } = require(\\"@easyops/build-config-factory\\");
+
+createVersionFile();
+",
+  ],
+  Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@easyops/build-config-factory\\");
+
+postBuild(\\"bricks\\");
+",
+  ],
+  Array [
+    "dist/scripts/rename-tar-package.js",
+    "const { renameTarPackage } = require(\\"@easyops/build-config-factory\\");
+
+renameTarPackage();
+",
+  ],
+  Array [
+    "dist/src/i18n/constants.ts",
+    "export const NS_FOR_GOOD = \\"for-good\\";
+
+export enum K {
+  FOR_GOOD = \\"FOR_GOOD\\"
+}
+
+export type Locale = { [key in K]: string };
+",
+  ],
+  Array [
+    "dist/src/i18n/index.ts",
+    "import i18next from \\"i18next\\";
+import { NS_FOR_GOOD } from \\"./constants\\";
+import en from \\"./locales/en\\";
+import zh from \\"./locales/zh\\";
+
+i18next.addResourceBundle(\\"en\\", NS_FOR_GOOD, en);
+i18next.addResourceBundle(\\"zh\\", NS_FOR_GOOD, zh);
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/en.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+  Array [
+    "dist/src/i18n/locales/zh.ts",
+    "import { Locale, K } from \\"../constants\\";
+
+const locale: Locale = {
+  [K.FOR_GOOD]: \\"For Good\\"
+};
+
+export default locale;
+",
+  ],
+  Array [
+    "dist/src/index.spec.ts",
+    "import i18next from \\"i18next\\";
+import * as kit from \\"@easyops/brick-kit\\";
+
+const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
+
+jest.spyOn(window.customElements, \\"define\\");
+
+jest.spyOn(kit, \\"getRuntime\\").mockReturnValue({
+  registerCustomTemplate: jest.fn(),
+  registerCustomProcessor: jest.fn(),
+} as any);
+
+// Use \`require\` instead of \`import\` to avoid hoisting.
+require(\\"./index\\");
+
+describe(\\"index\\", () => {
+  it(\\"should add i18n resource bundle\\", () => {
+    expect(spyOnAddResourceBundle).toBeCalled();
+  });
+});
+",
+  ],
+  Array [
+    "dist/src/index.ts",
+    "import \\"./i18n\\";
+",
+  ],
+  Array [
+    "dist/tsconfig.json",
+    "{
+  \\"extends\\": \\"../../tsconfig.json\\",
+  \\"include\\": [
+    \\"./src\\",
+    \\"../../declarations\\"
+  ]
+}
+",
+  ],
+  Array [
+    "dist/webpack.config.js",
+    "const { bricks, merge } = require(\\"@easyops/webpack-config-factory\\");
+
+const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackCommonFactory(),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
 ",
   ],
 ]

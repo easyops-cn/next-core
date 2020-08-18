@@ -147,7 +147,7 @@ export async function loadTemplate({
     },
   ];
 
-  if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS) {
+  if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS && brickName) {
     // Also create a new brick for the new bricks-package
     const brickTemplateDir = path.join(templateRoot, "brick");
     templateGroups.push({
@@ -238,25 +238,6 @@ export async function loadTemplate({
       ),
     []
   );
-
-  // create a new brick markdown for the new brick or the new bricks-package
-  if (
-    targetType === TargetType.A_NEW_BRICK ||
-    targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
-    targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS
-  ) {
-    // Create brick doc only when doc root exists and workspace is `next-basics`.
-    if (fs.existsSync(docRoot) && workspacePackageJson.name === "next-basics") {
-      const brickDocTemplatePath = path.join(
-        templateRoot,
-        "brick-doc",
-        "brick-doc-template.md"
-      );
-      const content = replaceFileContent(brickDocTemplatePath, translations);
-      const targetMd = brickName + ".md";
-      files.push([path.join(docRoot, packageName, targetMd), content]);
-    }
-  }
 
   if (
     targetType !== TargetType.A_NEW_BRICK &&

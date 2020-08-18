@@ -61,6 +61,19 @@ describe("loadTemplate", () => {
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
   });
+  it("should create a new package of bricks without any bricks", async () => {
+    const files = await loadTemplate({
+      targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
+      packageName: "for-good",
+      brickName: "",
+      templateName: "",
+      processorName: "",
+      targetRoot: "dist",
+      docRoot: "doc",
+    });
+    const otherFiles = ignoreVersionRelatedFiles(files);
+    expect(otherFiles).toMatchSnapshot();
+  });
   it("should create a new package of libs", async () => {
     const files = await loadTemplate({
       targetType: TargetType.A_NEW_PACKAGE_OF_LIBS,
