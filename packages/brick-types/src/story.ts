@@ -22,7 +22,7 @@ export type MarkdownString = string;
 export interface StoryConf extends BrickConf {
   description?: {
     title: string;
-    message: MarkdownString;
+    message?: MarkdownString;
   };
 }
 
