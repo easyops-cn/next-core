@@ -7414,10 +7414,10 @@ husky@^4.2.5:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-i18next-browser-languagedetector@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npm.taobao.org/i18next-browser-languagedetector/download/i18next-browser-languagedetector-5.0.0.tgz#9e946ed2ea5514a636913fe020a32455e82946e3"
-  integrity sha1-npRu0upVFKY2kT/gIKMkVegpRuM=
+i18next-browser-languagedetector@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npm.taobao.org/i18next-browser-languagedetector/download/i18next-browser-languagedetector-6.0.1.tgz#83654bc87302be2a6a5a75146ffea97b4ca268cf"
+  integrity sha1-g2VLyHMCvipqWnUUb/6pe0yiaM8=
   dependencies:
     "@babel/runtime" "^7.5.5"
 
