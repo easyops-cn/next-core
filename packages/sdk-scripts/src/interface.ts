@@ -7,6 +7,7 @@ export interface ApiDoc {
     uri: string;
     ext_fields?: ExtField[];
   };
+  detail?: string;
   import?: string[];
   request?: BaseDoc;
   response?: BaseDoc & {
@@ -70,7 +71,7 @@ export interface ExtField {
 
 export enum ExtFieldSource {
   query = "query",
-  body = "body"
+  body = "body",
 }
 
 export interface TypeAndEnum {
