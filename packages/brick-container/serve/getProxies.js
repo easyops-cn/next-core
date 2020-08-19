@@ -110,14 +110,27 @@ module.exports = (env) => {
 
   return useOffline
     ? undefined
-    : proxyPaths.reduce((acc, seg) => {
-        acc[`${publicPath}${seg}`] = {
+    : {
+        "^/api/websocket_service": {
           target: server,
           secure: false,
           changeOrigin: true,
-          pathRewrite: pathRewriteFactory(seg),
-          ...(seg === "api" ? apiProxyOptions : {}),
-        };
-        return acc;
-      }, {});
+          secure: false,
+          ws: true,
+          headers: {
+            Origin: server,
+            referer: server,
+          },
+          pathRewrite: pathRewriteFactory("api"),
+        },
+        ...proxyPaths.reduce((acc, seg) => {
+          acc[`${publicPath}${seg}`] = {
+            target: server,
+            changeOrigin: true,
+            pathRewrite: pathRewriteFactory(seg),
+            ...(seg === "api" ? apiProxyOptions : {}),
+          };
+          return acc;
+        }, {}),
+      };
 };

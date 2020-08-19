@@ -24,6 +24,9 @@ import {
 import { getUrlBySegueFactory } from "./segue";
 import { looseCheckIf, IfContainer } from "./checkIf";
 import { getUrlByAliasFactory } from "./alias";
+import { BrickEventHandlerCallback } from "@easyops/brick-types";
+import { getMessageDispatcher } from "./core/MessageDispatcher";
+import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -200,6 +203,16 @@ export function listenerFactory(
           handler,
           context
         );
+      case "message.subscribe":
+      case "message.unsubscribe":
+        return builtinWebSocketListenerFactory(
+          brick,
+          method,
+          handler.args,
+          handler,
+          handler.callback,
+          context
+        );
       default:
         return () => {
           // eslint-disable-next-line no-console
@@ -373,6 +386,31 @@ function builtinAliasListenerFactory(
           ReturnType<typeof getUrlByAliasFactory>
         >)
       )
+    );
+  } as EventListener;
+}
+
+function builtinWebSocketListenerFactory(
+  brick: HTMLElement,
+  method: "subscribe" | "unsubscribe",
+  args: any[],
+  ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+
+    const [channel] = argsFactory(args, context, event) as [
+      PluginWebSocketMessageTopic
+    ];
+
+    const { system, topic } = channel;
+    getMessageDispatcher()[method](
+      { system, topic },
+      { ...callback, brick, context }
     );
   } as EventListener;
 }

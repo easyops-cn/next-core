@@ -8,8 +8,11 @@ import {
 } from "./bindListeners";
 import { getHistory } from "./history";
 import * as runtime from "./core/Runtime";
+import { getMessageDispatcher } from "./core/MessageDispatcher";
+import { message } from "antd";
 
 jest.mock("./history");
+jest.mock("./core/MessageDispatcher");
 
 // Mock a custom element of `any-provider`.
 customElements.define(
@@ -36,6 +39,17 @@ const mockHistory = {
 };
 (getHistory as jest.Mock).mockReturnValue(mockHistory);
 
+const mockMessageDispatcher = {
+  subscribe: jest.fn(),
+  unsubscribe: jest.fn(),
+} as any;
+
+(getMessageDispatcher as jest.Mock).mockReturnValue(mockMessageDispatcher);
+
+const mockMessageSuccess = jest.spyOn(message, "success");
+const mockMessageError = jest.spyOn(message, "error");
+const mockMessageInfo = jest.spyOn(message, "info");
+const mockMessageWarn = jest.spyOn(message, "warn");
 const storyboardContext = new Map<string, any>();
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
@@ -265,6 +279,18 @@ describe("bindListeners", () => {
           args: ["specified args for console.error"],
         },
         {
+          action: "message.success",
+        },
+        {
+          action: "message.error",
+        },
+        {
+          action: "message.info",
+        },
+        {
+          action: "message.warn",
+        },
+        {
           action: "context.replace",
           args: ["myStringContext", "not-bad"],
         },
@@ -312,6 +338,40 @@ describe("bindListeners", () => {
               something: "wrong",
             },
           ],
+        },
+        {
+          action: "message.subscribe",
+          args: [
+            {
+              system: "pipeline",
+              topic: "pipeline.running.001",
+            },
+          ],
+          callback: {
+            success: {
+              action: "console.log",
+            },
+            error: {
+              action: "console.log",
+            },
+          },
+        },
+        {
+          action: "message.unsubscribe",
+          args: [
+            {
+              system: "pipeline",
+              topic: "pipeline.running.001",
+            },
+          ],
+          callback: {
+            success: {
+              action: "console.log",
+            },
+            error: {
+              action: "console.log",
+            },
+          },
         },
       ],
       key2: [
@@ -498,6 +558,7 @@ describe("bindListeners", () => {
       "callback.error"
     );
     expect((console.error as jest.Mock).mock.calls[6][0].detail).toBe("oops");
+
     expect((sourceElem as any).forGood).toHaveBeenNthCalledWith(
       1,
       "target is _self"
@@ -525,6 +586,36 @@ describe("bindListeners", () => {
     expect(storyboardContext.get("myNewContext").value).toEqual({
       hello: "world",
     });
+
+    expect(mockMessageDispatcher.subscribe).toHaveBeenLastCalledWith(
+      { system: "pipeline", topic: "pipeline.running.001" },
+      expect.objectContaining({
+        brick: sourceElem,
+        error: {
+          action: "console.log",
+        },
+        success: {
+          action: "console.log",
+        },
+      })
+    );
+    expect(mockMessageDispatcher.unsubscribe).toHaveBeenLastCalledWith(
+      { system: "pipeline", topic: "pipeline.running.001" },
+      expect.objectContaining({
+        brick: sourceElem,
+        error: {
+          action: "console.log",
+        },
+        success: {
+          action: "console.log",
+        },
+      })
+    );
+
+    expect(mockMessageSuccess).toHaveBeenCalledTimes(1);
+    expect(mockMessageError).toHaveBeenCalledTimes(1);
+    expect(mockMessageInfo).toHaveBeenCalledTimes(1);
+    expect(mockMessageWarn).toHaveBeenCalledTimes(1);
 
     (console.log as jest.Mock).mockClear();
     (console.info as jest.Mock).mockClear();

@@ -1,6 +1,6 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon } from "./menu";
-import { PluginHistoryState } from "./runtime";
+import { PluginHistoryState, PluginRuntimeContext } from "./runtime";
 
 export interface BootstrapData {
   brickPackages: BrickPackage[];
@@ -168,12 +168,22 @@ export interface RuntimeBrickConf extends BrickConf {
   $$if?: string | boolean | ResolveConf;
 }
 
+export interface MessageConf {
+  channel: {
+    system: string;
+    topic: string;
+  };
+  handlers: BrickEventHandler | BrickEventHandler[];
+}
+
 export interface BrickLifeCycle {
   // Before mounting bricks, wait some async tasks to be resolved.
   useResolves?: ResolveConf[];
   onPageLoad?: BrickEventHandler | BrickEventHandler[];
+  onPageLeave?: BrickEventHandler | BrickEventHandler[];
   onAnchorLoad?: BrickEventHandler | BrickEventHandler[];
   onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
+  onMessage?: MessageConf | MessageConf[];
 }
 
 export type ResolveConf = EntityResolveConf | RefResolveConf;
@@ -359,9 +369,14 @@ export interface BuiltinBrickEventHandler {
     | "context.replace"
 
     // Find related tpl and dispatch event.
-    | "tpl.dispatchEvent";
+    | "tpl.dispatchEvent"
+
+    // Websocket event
+    | "message.subscribe"
+    | "message.unsubscribe";
   args?: any[]; // Defaults to the event itself
   if?: string | boolean;
+  callback?: BrickEventHandlerCallback;
 }
 
 export interface UseProviderEventHandler {

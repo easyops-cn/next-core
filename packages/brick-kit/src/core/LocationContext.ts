@@ -22,6 +22,7 @@ import {
   ContextConf,
   StoryboardContext,
   StoryboardContextItem,
+  MessageConf,
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -48,6 +49,7 @@ import {
 import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
 import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
+import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
 
 export type MatchRoutesResult =
   | {
@@ -89,18 +91,28 @@ interface BrickAndLifeCycleHandler {
   handler: BrickEventHandler | BrickEventHandler[];
 }
 
+export interface BrickAndMessage {
+  brick: RuntimeBrick;
+  match: MatchResult;
+  message: MessageConf | MessageConf[];
+}
+
 export class LocationContext {
   private readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
+  readonly messageDispatcher: MessageDispatcher;
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly pageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly messageHandlers: BrickAndMessage[] = [];
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
   private readonly storyboardContext: StoryboardContext = new Map();
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.query = new URLSearchParams(location.search);
+    this.messageDispatcher = getMessageDispatcher();
   }
 
   private getContext(match: MatchResult): PluginRuntimeContext {
@@ -345,6 +357,14 @@ export class LocationContext {
         });
       }
 
+      if (menuConf.lifeCycle?.onPageLeave) {
+        this.pageLeaveHandlers.push({
+          brick,
+          match,
+          handler: menuConf.lifeCycle.onPageLeave,
+        });
+      }
+
       if (menuConf.lifeCycle?.onAnchorLoad) {
         this.anchorLoadHandlers.push({
           brick,
@@ -358,6 +378,14 @@ export class LocationContext {
           brick,
           match,
           handler: menuConf.lifeCycle.onAnchorUnload,
+        });
+      }
+
+      if (menuConf.lifeCycle?.onMessage) {
+        this.messageHandlers.push({
+          brick,
+          match,
+          message: menuConf.lifeCycle.onMessage,
         });
       }
 
@@ -574,6 +602,14 @@ export class LocationContext {
       });
     }
 
+    if (brickConf.lifeCycle?.onPageLeave) {
+      this.pageLeaveHandlers.push({
+        brick,
+        match,
+        handler: brickConf.lifeCycle.onPageLeave,
+      });
+    }
+
     if (brickConf.lifeCycle?.onAnchorLoad) {
       this.anchorLoadHandlers.push({
         brick,
@@ -587,6 +623,14 @@ export class LocationContext {
         brick,
         match,
         handler: brickConf.lifeCycle.onAnchorUnload,
+      });
+    }
+
+    if (brickConf.lifeCycle?.onMessage) {
+      this.messageHandlers.push({
+        brick,
+        match,
+        message: brickConf.lifeCycle.onMessage,
       });
     }
 
@@ -664,6 +708,13 @@ export class LocationContext {
     );
   }
 
+  handlePageLeave(): void {
+    this.dispatchLifeCycleEvent(
+      new CustomEvent("page.leave"),
+      this.pageLeaveHandlers
+    );
+  }
+
   handleAnchorLoad(): void {
     const hash = getHistory().location.hash;
     if (hash && hash !== "#") {
@@ -682,6 +733,13 @@ export class LocationContext {
         this.anchorUnloadHandlers
       );
     }
+  }
+
+  handleMessage(): void {
+    this.messageDispatcher.create(
+      this.messageHandlers,
+      this.getCurrentContext()
+    );
   }
 
   private dispatchLifeCycleEvent(

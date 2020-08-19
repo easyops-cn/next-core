@@ -32,7 +32,8 @@
     "@sdk/auth-sdk": "^0.8.3",
     "@sdk/cmdb-sdk": "^0.15.7",
     "@sdk/micro-app-sdk": "^0.8.2",
-    "@sdk/user-service-sdk": "^0.2.7"
+    "@sdk/user-service-sdk": "^0.2.7",
+    "minimatch": "^3.0.4"
   },
   "sideEffects": false,
   "devDependencies": {
@@ -44,7 +45,9 @@
     "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.7.0"
+    "react-i18next": "^11.7.0",
+    "jest-websocket-mock": "^2.1.0",
+    "mock-socket": "^9.0.3"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",
