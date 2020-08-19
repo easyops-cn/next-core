@@ -178,7 +178,7 @@ export type SearchResponseItem = ModelPackage & {
 
 export type SearchResponseBody = ResponseListWrapper<SearchResponseItem>;
 
-/** 搜索包 */
+/** 搜索包 (支持模糊搜索) */
 export const search = async (
   params: SearchRequestParams,
   options?: HttpOptions

@@ -45,7 +45,7 @@ export class FunctionBlock {
     }
     return {
       url: `${quote}${url}${quote}`,
-      args: uriParams.map(p => `${p}: string|number`)
+      args: uriParams.map((p) => `${p}: string|number`),
     };
   }
 
@@ -105,9 +105,9 @@ export class FunctionBlock {
       returnBlock = `{ ${FunctionBlock.formDataBlock} return ${returnBlock}; }`;
     }
 
-    return `/** ${api.doc.description} */${os.EOL}export const ${
-      api.displayName
-    } = ${asyncPrefix}(${args.join(
+    return `/** ${api.doc.description}${
+      api.doc.detail ? ` (${api.doc.detail})` : ""
+    } */${os.EOL}export const ${api.displayName} = ${asyncPrefix}(${args.join(
       ","
     )}): Promise<${responseBodyTypeName}> => ${returnBlock}`;
   }

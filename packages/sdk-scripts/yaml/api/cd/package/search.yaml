@@ -3,6 +3,7 @@ _kind_: "interface"
 version: 1.0
 name: "Search"
 description: "搜索包"
+detail: 支持模糊搜索
 
 import:
   - easyops/model/cd/package
