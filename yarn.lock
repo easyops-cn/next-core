@@ -5250,10 +5250,10 @@ d3-ease@1:
   resolved "http://registry.npm.taobao.org/d3-ease/download/d3-ease-1.0.5.tgz#8ce59276d81241b1b72042d6af2d40e76d936ffb"
   integrity sha1-jOWSdtgSQbG3IELWry1A522Tb/s=
 
-d3-force@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/d3-force/download/d3-force-2.0.1.tgz#31750eee8c43535301d571195bf9683beda534e2"
-  integrity sha1-MXUO7oxDU1MB1XEZW/loO+2lNOI=
+d3-force@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npm.taobao.org/d3-force/download/d3-force-2.1.0.tgz?cache=0&sync_timestamp=1597820526903&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3-force%2Fdownload%2Fd3-force-2.1.0.tgz#7bfbee5124199294447524ab90d84b19a00951c9"
+  integrity sha1-e/vuUSQZkpREdSSrkNhLGaAJUck=
   dependencies:
     d3-dispatch "1"
     d3-quadtree "1"
