@@ -11,8 +11,8 @@ export class WebSocketService {
 
   private readonly defaultOptions: PluginWebSocketOptions = {
     url: null,
-    reconnectTimeout: 5000,
-    retryLimit: 5,
+    reconnectTimeout: 1000,
+    retryLimit: 6,
   };
 
   constructor(options: PluginWebSocketOptions) {
@@ -45,6 +45,7 @@ export class WebSocketService {
       }
       this.onOpen();
       this.retryCount = 0;
+      this.options.reconnectTimeout = this.defaultOptions.reconnectTimeout;
     };
 
     this.ws.onclose = (event: CloseEvent) => {
@@ -102,6 +103,7 @@ export class WebSocketService {
     setTimeout(() => {
       this.createWebSocket();
       this.lockReconnect = false;
+      this.options.reconnectTimeout = this.options.reconnectTimeout * 2;
     }, this.options.reconnectTimeout);
   }
 

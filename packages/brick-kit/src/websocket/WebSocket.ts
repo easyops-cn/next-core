@@ -3,10 +3,12 @@ import { WebSocketService } from "./WebSocketService";
 let websocket: WebSocketService;
 
 export const createWebSocket = (): WebSocketService => {
-  websocket = new WebSocketService({
-    url: `ws://${window.location.host}/api/websocket_service/v1/ws`,
-    retryLimit: Infinity,
-  });
+  if (!websocket) {
+    const baseHref = process.env.NODE_ENV === "production" ? "/next/" : "/";
+    websocket = new WebSocketService({
+      url: `ws://${window.location.host}${baseHref}api/websocket_service/v1/ws`,
+    });
+  }
   return websocket;
 };
 

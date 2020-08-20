@@ -100,7 +100,7 @@ const mockBrickAndMessages = [
   },
 ];
 
-const spyOnGetWebSocket = jest.spyOn(WS, "getWebSocket").mockImplementation(
+const spyOnGetWebSocket = jest.spyOn(WS, "createWebSocket").mockImplementation(
   () =>
     ({
       send: mockSend,
