@@ -285,6 +285,9 @@ describe("LocationContext", () => {
                       onPageLoad: {
                         action: "console.log",
                       },
+                      onPageLeave: {
+                        action: "console.log",
+                      },
                       onAnchorLoad: {
                         action: "console.log",
                       },
@@ -349,6 +352,9 @@ describe("LocationContext", () => {
                               events: {},
                               lifeCycle: {
                                 onPageLoad: {
+                                  action: "console.info",
+                                },
+                                onPageLeave: {
                                   action: "console.info",
                                 },
                                 onAnchorLoad: {
@@ -546,6 +552,10 @@ describe("LocationContext", () => {
         hash: "#yes",
         anchor: "yes",
       });
+
+      context.handlePageLeave();
+      expect(consoleLog.mock.calls[3][0].type).toBe("page.leave");
+
       expect(consoleInfo.mock.calls[0][0].type).toBe("page.load");
       expect(consoleInfo.mock.calls[1][0].type).toBe("anchor.unload");
       expect(consoleInfo.mock.calls[2]).toEqual(["yes"]);

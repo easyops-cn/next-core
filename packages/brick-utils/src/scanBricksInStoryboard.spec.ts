@@ -71,12 +71,26 @@ describe("scanBricksInStoryboard", () => {
                 onPageLoad: {
                   useProvider: "u-b",
                 },
+                onPageLeave: {
+                  useProvider: "u-r",
+                },
                 onAnchorLoad: {
                   useProvider: "u-c",
                 },
                 onAnchorUnload: [
                   {
                     useProvider: "u-d",
+                  },
+                ],
+                onMessage: [
+                  {
+                    channel: {
+                      system: "m1",
+                      topic: "m2",
+                    },
+                    handlers: {
+                      useProvider: "u-s",
+                    },
                   },
                 ],
               },
@@ -254,6 +268,8 @@ describe("scanBricksInStoryboard", () => {
       "u-o",
       "u-p",
       "u-q",
+      "u-r",
+      "u-s",
     ]);
   });
 });
