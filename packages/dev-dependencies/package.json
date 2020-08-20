@@ -45,7 +45,7 @@
     "execa": "^4.0.3",
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^26.4.0",
+    "jest": "^26.4.1",
     "lerna": "^3.22.1",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
