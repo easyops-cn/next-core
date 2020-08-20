@@ -5271,10 +5271,10 @@ d3-interpolate@1:
   dependencies:
     d3-color "1"
 
-d3-path@1:
-  version "1.0.7"
-  resolved "http://registry.npm.taobao.org/d3-path/download/d3-path-1.0.7.tgz#8de7cd693a75ac0b5480d3abaccd94793e58aae8"
-  integrity sha1-jefNaTp1rAtUgNOrrM2UeT5Yqug=
+"d3-path@1 - 2":
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/d3-path/download/d3-path-2.0.0.tgz?cache=0&sync_timestamp=1597836666790&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3-path%2Fdownload%2Fd3-path-2.0.0.tgz#55d86ac131a0548adae241eebfb56b4582dd09d8"
+  integrity sha1-VdhqwTGgVIra4kHuv7VrRYLdCdg=
 
 d3-quadtree@1:
   version "1.0.6"
@@ -5286,12 +5286,12 @@ d3-selection@1, d3-selection@^1.1.0, d3-selection@^1.4.2:
   resolved "https://registry.npm.taobao.org/d3-selection/download/d3-selection-1.4.2.tgz?cache=0&sync_timestamp=1595919082314&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3-selection%2Fdownload%2Fd3-selection-1.4.2.tgz#dcaa49522c0dbf32d6c1858afc26b6094555bc5c"
   integrity sha1-3KpJUiwNvzLWwYWK/Ca2CUVVvFw=
 
-d3-shape@^1.3.7:
-  version "1.3.7"
-  resolved "https://registry.npm.taobao.org/d3-shape/download/d3-shape-1.3.7.tgz#df63801be07bc986bc54f63789b4fe502992b5d7"
-  integrity sha1-32OAG+B7yYa8VPY3ibT+UCmStdc=
+d3-shape@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/d3-shape/download/d3-shape-2.0.0.tgz?cache=0&sync_timestamp=1597856388587&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3-shape%2Fdownload%2Fd3-shape-2.0.0.tgz#2331b62fa784a2a1daac47a7233cfd69301381fd"
+  integrity sha1-IzG2L6eEoqHarEenIzz9aTATgf0=
   dependencies:
-    d3-path "1"
+    d3-path "1 - 2"
 
 d3-timer@1:
   version "1.0.9"
