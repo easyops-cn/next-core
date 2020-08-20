@@ -7,7 +7,6 @@ let runtime: Runtime;
 
 export function createRuntime(): Runtime {
   createHistory();
-  createWebSocket();
   createMessageDispatcher();
   runtime = new Runtime();
   return runtime;

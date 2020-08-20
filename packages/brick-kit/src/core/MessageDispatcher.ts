@@ -15,7 +15,7 @@ import {
 } from "../websocket/interfaces";
 import { BrickAndMessage } from "./LocationContext";
 import { listenerFactory } from "../bindListeners";
-import { getWebSocket } from "../websocket/WebSocket";
+import { createWebSocket } from "../websocket/WebSocket";
 import minimatch from "minimatch";
 import { WebSocketService } from "../websocket/WebSocketService";
 
@@ -32,7 +32,7 @@ export function getMessageDispatcher(): MessageDispatcher {
 }
 
 export class MessageDispatcher {
-  private readonly ws: WebSocketService;
+  private ws: WebSocketService;
   private context: PluginRuntimeContext;
   private messages: Map<string, BrickAndMessage[]> = new Map<
     string,
@@ -42,13 +42,6 @@ export class MessageDispatcher {
     string,
     MessageBrickEventHandlerCallback[]
   > = new Map();
-
-  constructor() {
-    this.ws = getWebSocket();
-    this.ws.onMessage = (message) => {
-      this.reducer(message);
-    };
-  }
 
   create(
     brickAndMessages: BrickAndMessage[],
@@ -88,7 +81,7 @@ export class MessageDispatcher {
     );
     this.setMessageCallBackHandlerMap(req.identity, callback);
 
-    this.ws.send(req.data);
+    this.send(req.data);
   }
 
   unsubscribe(
@@ -101,7 +94,21 @@ export class MessageDispatcher {
     );
 
     this.setMessageCallBackHandlerMap(req.identity, callback);
-    this.ws.send(req.data);
+    this.send(req.data);
+  }
+
+  private send(data: string): void {
+    if (!(this.ws instanceof WebSocketService)) {
+      this.createWebsocketService();
+    }
+    this.ws.send(data);
+  }
+
+  private createWebsocketService(): void {
+    this.ws = createWebSocket();
+    this.ws.onMessage = (message) => {
+      this.reducer(message);
+    };
   }
 
   setMessageCallBackHandlerMap(
