@@ -1,3 +1,5 @@
+const changeCase = require("change-case");
+
 const pluginName = "ScanCustomElementsPlugin";
 
 const legacyBrickNames = [
@@ -7,20 +9,24 @@ const legacyBrickNames = [
   "workspace.container.create-deploy-unit",
 ];
 const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
 
 module.exports = class ScanCustomElementsPlugin {
   constructor(packageName, dll = []) {
     this.packageName = packageName;
+    this.camelPackageName = changeCase.camelCase(packageName);
     this.dll = dll;
   }
 
   apply(compiler) {
     const brickSet = new Set();
+    const processorSet = new Set();
     compiler.hooks.normalModuleFactory.tap(pluginName, (factory) => {
       factory.hooks.parser.for("javascript/auto").tap(pluginName, (parser) => {
         parser.hooks.callAnyMember
           .for("customElements")
           .tap(pluginName, (expression) => {
+            // `customElements.define(...)`
             if (
               expression.callee.property.name === "define" &&
               expression.arguments.length === 2
@@ -49,8 +55,11 @@ module.exports = class ScanCustomElementsPlugin {
               }
             }
           });
+
         parser.hooks.statement.tap(pluginName, (statement) => {
           const { type, expression } = statement;
+
+          // `getRuntime().registerCustomTemplate(...)`
           if (
             type === "ExpressionStatement" &&
             expression.type === "CallExpression" &&
@@ -69,6 +78,35 @@ module.exports = class ScanCustomElementsPlugin {
             } else {
               throw new Error(
                 "Please call `getRuntime().registerCustomTemplate()` only with literal string"
+              );
+            }
+          }
+
+          // `getRuntime().registerCustomProcessor(...)`
+          if (
+            type === "ExpressionStatement" &&
+            expression.type === "CallExpression" &&
+            expression.callee.type === "MemberExpression" &&
+            expression.callee.property.name === "registerCustomProcessor" &&
+            expression.arguments.length === 2
+          ) {
+            const { type, value } = expression.arguments[0];
+            if (type === "Literal") {
+              if (!value.startsWith(`${this.camelPackageName}.`)) {
+                throw new Error(
+                  `Invalid custom processor: "${value}", expecting prefixed with the camelCase package name: "${this.camelPackageName}"`
+                );
+              }
+
+              if (!validProcessorName.test(value)) {
+                throw new Error(
+                  `Invalid custom processor: "${value}", expecting format of "camelPackageName.camelProcessorName"`
+                );
+              }
+              processorSet.add(value);
+            } else {
+              throw new Error(
+                "Please call `getRuntime().registerCustomProcessor()` only with literal string"
               );
             }
           }
@@ -93,12 +131,18 @@ module.exports = class ScanCustomElementsPlugin {
     });
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const bricks = Array.from(brickSet);
-      const source = JSON.stringify({ bricks, dll: this.dll }, null, 2);
+      const processors = Array.from(processorSet);
+      const source = JSON.stringify(
+        { bricks, processors, dll: this.dll },
+        null,
+        2
+      );
       compilation.assets["bricks.json"] = {
         source: () => source,
         size: () => source.length,
       };
       console.log("Defined bricks:", bricks);
+      console.log("Defined processors:", processors);
     });
   }
 };

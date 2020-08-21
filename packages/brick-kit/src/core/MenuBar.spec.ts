@@ -1,14 +1,5 @@
-import { getDllAndDepsOfBricks, loadScript } from "@easyops/brick-utils";
 import { MenuBar } from "./MenuBar";
 import { Kernel } from "./Kernel";
-
-jest.mock("@easyops/brick-utils");
-
-(getDllAndDepsOfBricks as jest.Mock).mockReturnValue({
-  dll: [],
-  deps: ["fake.js"],
-});
-const spyOnLoadScript = loadScript as jest.Mock;
 
 describe("MenuBar", () => {
   const menuBarElement = document.createElement("div");
@@ -21,18 +12,18 @@ describe("MenuBar", () => {
     mountPoints: {
       menuBar: menuBarElement,
     },
+    loadDynamicBricks: jest.fn(),
   } as any;
 
   afterEach(() => {
+    (kernel.loadDynamicBricks as jest.Mock).mockClear();
     menuBarElement.innerHTML = "";
   });
 
   it("should bootstrap", async () => {
     const menuBar = new MenuBar(kernel);
-    spyOnLoadScript.mockResolvedValueOnce(null);
     await menuBar.bootstrap();
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["fake.js"]);
+    expect(kernel.loadDynamicBricks).toBeCalledWith(["p"]);
     expect(menuBarElement.firstChild.nodeName).toBe("P");
   });
 

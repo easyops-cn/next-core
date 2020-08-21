@@ -17,17 +17,18 @@ import {
   ResolveConf,
   RouteConfOfRoutes,
   RouteConfOfBricks,
-  RuntimeBrickConf,
   StaticMenuProps,
   SeguesConf,
   ContextConf,
   StoryboardContext,
   StoryboardContextItem,
+  MessageConf,
 } from "@easyops/brick-types";
 import {
   isObject,
   matchPath,
   computeRealRoutePath,
+  hasOwnProperty,
 } from "@easyops/brick-utils";
 import { listenerFactory } from "../bindListeners";
 import { computeRealProperties, computeRealValue } from "../setProperties";
@@ -41,9 +42,14 @@ import {
   expandCustomTemplate,
   MountableElement,
   getTagNameOfCustomTemplate,
+  symbolForComputedPropsFromProxy,
+  symbolForRefForProxy,
+  symbolForParentTemplate,
 } from "./exports";
-import { RedirectConf, IfConf } from "./interfaces";
-import { checkIf } from "../checkIf";
+import { RedirectConf } from "./interfaces";
+import { looseCheckIf, IfContainer } from "../checkIf";
+import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
+import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
 
 export type MatchRoutesResult =
   | {
@@ -85,18 +91,28 @@ interface BrickAndLifeCycleHandler {
   handler: BrickEventHandler | BrickEventHandler[];
 }
 
+export interface BrickAndMessage {
+  brick: RuntimeBrick;
+  match: MatchResult;
+  message: MessageConf | MessageConf[];
+}
+
 export class LocationContext {
   private readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
+  readonly messageDispatcher: MessageDispatcher;
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly pageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly messageHandlers: BrickAndMessage[] = [];
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
   private readonly storyboardContext: StoryboardContext = new Map();
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.query = new URLSearchParams(location.search);
+    this.messageDispatcher = getMessageDispatcher();
   }
 
   private getContext(match: MatchResult): PluginRuntimeContext {
@@ -341,6 +357,14 @@ export class LocationContext {
         });
       }
 
+      if (menuConf.lifeCycle?.onPageLeave) {
+        this.pageLeaveHandlers.push({
+          brick,
+          match,
+          handler: menuConf.lifeCycle.onPageLeave,
+        });
+      }
+
       if (menuConf.lifeCycle?.onAnchorLoad) {
         this.anchorLoadHandlers.push({
           brick,
@@ -354,6 +378,14 @@ export class LocationContext {
           brick,
           match,
           handler: menuConf.lifeCycle.onAnchorUnload,
+        });
+      }
+
+      if (menuConf.lifeCycle?.onMessage) {
+        this.messageHandlers.push({
+          brick,
+          match,
+          message: menuConf.lifeCycle.onMessage,
         });
       }
 
@@ -463,29 +495,22 @@ export class LocationContext {
   }
 
   private async checkResolvableIf(
-    rawIf: string | boolean | ResolveConf,
+    ifContainer: IfContainer,
     context: PluginRuntimeContext
   ): Promise<boolean> {
-    if (isObject(rawIf)) {
-      const ifChecked = computeRealValue(rawIf, context, true);
+    if (isObject(ifContainer.if)) {
+      const ifChecked = computeRealValue(ifContainer.if, context, true);
 
-      if (isObject(ifChecked)) {
-        const ifConf: IfConf = {};
-        await this.resolver.resolveOne("reference", ifChecked, ifConf);
-        if (ifConf.if === false) {
-          return false;
-        }
-        // istanbul ignore if
-        if (ifConf.if !== true) {
-          // eslint-disable-next-line no-console
-          console.warn("Received an unexpected condition result:", ifConf.if);
-        }
-      }
-
-      return true;
+      const ifConf: IfContainer = {};
+      await this.resolver.resolveOne(
+        "reference",
+        ifChecked as ResolveConf,
+        ifConf
+      );
+      return !hasOwnProperty(ifConf, "if") || !!ifConf.if;
     }
 
-    return checkIf(rawIf as string | boolean, context);
+    return looseCheckIf(ifContainer, context);
   }
 
   async mountBrick(
@@ -498,7 +523,7 @@ export class LocationContext {
     const context = this.getContext(match);
 
     // First, check whether the brick should be rendered.
-    if (!(await this.checkResolvableIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf, context))) {
       return;
     }
 
@@ -508,7 +533,7 @@ export class LocationContext {
     }
 
     // Check `if` again for dynamic loaded templates.
-    if (!(await this.checkResolvableIf(brickConf.if, context))) {
+    if (!(await this.checkResolvableIf(brickConf, context))) {
       return;
     }
 
@@ -543,13 +568,23 @@ export class LocationContext {
       context,
       children: [],
       slotId,
-      refForProxy: (brickConf as RuntimeBrickConf).$$refForProxy,
-      parentTemplate: (brickConf as RuntimeBrickConf).$$parentTemplate,
+      refForProxy: (brickConf as RuntimeBrickConfWithTplSymbols)[
+        symbolForRefForProxy
+      ],
+      parentTemplate: (brickConf as RuntimeBrickConfWithTplSymbols)[
+        symbolForParentTemplate
+      ],
     });
 
-    if ((brickConf as RuntimeBrickConf).$$computedPropsFromProxy) {
+    if (
+      (brickConf as RuntimeBrickConfWithTplSymbols)[
+        symbolForComputedPropsFromProxy
+      ]
+    ) {
       Object.entries(
-        (brickConf as RuntimeBrickConf).$$computedPropsFromProxy
+        (brickConf as RuntimeBrickConfWithTplSymbols)[
+          symbolForComputedPropsFromProxy
+        ]
       ).forEach(([propName, propValue]) => {
         set(brick.properties, propName, propValue);
       });
@@ -567,6 +602,14 @@ export class LocationContext {
       });
     }
 
+    if (brickConf.lifeCycle?.onPageLeave) {
+      this.pageLeaveHandlers.push({
+        brick,
+        match,
+        handler: brickConf.lifeCycle.onPageLeave,
+      });
+    }
+
     if (brickConf.lifeCycle?.onAnchorLoad) {
       this.anchorLoadHandlers.push({
         brick,
@@ -580,6 +623,14 @@ export class LocationContext {
         brick,
         match,
         handler: brickConf.lifeCycle.onAnchorUnload,
+      });
+    }
+
+    if (brickConf.lifeCycle?.onMessage) {
+      this.messageHandlers.push({
+        brick,
+        match,
+        message: brickConf.lifeCycle.onMessage,
       });
     }
 
@@ -604,7 +655,7 @@ export class LocationContext {
 
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
-        if (typeof ctxName === "string" && /^CTX\..+$/.test(ctxName)) {
+        if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
           this.setStoryboardContext(ctxName.substr(4), {
             type: "brick-property",
             brick,
@@ -657,6 +708,13 @@ export class LocationContext {
     );
   }
 
+  handlePageLeave(): void {
+    this.dispatchLifeCycleEvent(
+      new CustomEvent("page.leave"),
+      this.pageLeaveHandlers
+    );
+  }
+
   handleAnchorLoad(): void {
     const hash = getHistory().location.hash;
     if (hash && hash !== "#") {
@@ -675,6 +733,13 @@ export class LocationContext {
         this.anchorUnloadHandlers
       );
     }
+  }
+
+  handleMessage(): void {
+    this.messageDispatcher.create(
+      this.messageHandlers,
+      this.getCurrentContext()
+    );
   }
 
   private dispatchLifeCycleEvent(

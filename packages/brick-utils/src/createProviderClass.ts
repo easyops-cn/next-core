@@ -1,29 +1,31 @@
 import { set } from "lodash";
 import { saveAs } from "file-saver";
 
-interface ProviderElement<P extends any[], R> extends HTMLElement {
+interface ProviderElement<P extends unknown[], R> extends HTMLElement {
   args: P;
 
-  updateArgs: (event: CustomEvent<Record<string, any>>) => void;
+  updateArgs: (event: CustomEvent<Record<string, unknown>>) => void;
 
-  updateArgsAndExecute: (event: CustomEvent<Record<string, any>>) => R;
+  updateArgsAndExecute: (
+    event: CustomEvent<Record<string, unknown>>
+  ) => Promise<R>;
 
-  setArgs: (patch: Record<string, any>) => void;
+  setArgs: (patch: Record<string, unknown>) => void;
 
-  setArgsAndExecute: (patch: Record<string, any>) => R;
+  setArgsAndExecute: (patch: Record<string, unknown>) => Promise<R>;
 
-  execute(): R;
+  execute(): Promise<R>;
 
-  executeWithArgs(...args: P): R;
+  executeWithArgs(...args: P): Promise<R>;
 
-  saveAs(filename: string, ...args: P): R;
+  saveAs(filename: string, ...args: P): Promise<void>;
 
   resolve(...args: P): R;
 }
 
-export function createProviderClass(
-  api: (...args: any) => Promise<any>
-): { new (): ProviderElement<Parameters<typeof api>, ReturnType<typeof api>> } {
+export function createProviderClass<T extends unknown[], U>(
+  api: (...args: T) => U
+): { new (): ProviderElement<T, U> } {
   return class extends HTMLElement {
     get $$typeof(): string {
       return "provider";
@@ -33,9 +35,9 @@ export function createProviderClass(
       return ["args"];
     }
 
-    args: Parameters<typeof api> = [] as any;
+    args = [] as T;
 
-    updateArgs(event: CustomEvent<Record<string, any>>): void {
+    updateArgs(event: CustomEvent<Record<string, unknown>>): void {
       if (!(event instanceof CustomEvent)) {
         // eslint-disable-next-line no-console
         console.warn(
@@ -46,38 +48,33 @@ export function createProviderClass(
     }
 
     updateArgsAndExecute(
-      event: CustomEvent<Record<string, any>>
-    ): ReturnType<typeof api> {
+      event: CustomEvent<Record<string, unknown>>
+    ): Promise<U> {
       this.updateArgs(event);
       return this.execute();
     }
 
-    setArgs(patch: Record<string, any>): void {
+    setArgs(patch: Record<string, unknown>): void {
       for (const [path, value] of Object.entries(patch)) {
         set(this.args, path, value);
       }
     }
 
-    setArgsAndExecute(patch: Record<string, any>): ReturnType<typeof api> {
+    setArgsAndExecute(patch: Record<string, unknown>): Promise<U> {
       this.setArgs(patch);
       return this.execute();
     }
 
-    execute(): ReturnType<typeof api> {
+    execute(): Promise<U> {
       return this.executeWithArgs(...this.args);
     }
 
-    async saveAs(
-      filename: string,
-      ...args: Parameters<typeof api>
-    ): Promise<void> {
+    async saveAs(filename: string, ...args: T): Promise<void> {
       const blob = await api(...args);
-      saveAs(blob, filename);
+      saveAs((blob as unknown) as Blob, filename);
     }
 
-    async executeWithArgs(
-      ...args: Parameters<typeof api>
-    ): ReturnType<typeof api> {
+    async executeWithArgs(...args: T): Promise<U> {
       try {
         const result = await api(...args);
         this.dispatchEvent(
@@ -96,7 +93,7 @@ export function createProviderClass(
       }
     }
 
-    resolve(...args: Parameters<typeof api>): ReturnType<typeof api> {
+    resolve(...args: T): U {
       return api(...args);
     }
   };

@@ -29,11 +29,6 @@ Object {
     "": Object {
       "bricks": Array [
         Object {
-          "$$computedPropsFromProxy": Object {
-            "noGap": "\${QUERY.gap|bool|not}",
-          },
-          "$$parentTemplate": undefined,
-          "$$refForProxy": Object {},
           "brick": "basic-bricks.micro-view",
           "properties": Object {
             "pageTitle": "Testing Template",
@@ -42,14 +37,6 @@ Object {
             "content": Object {
               "bricks": Array [
                 Object {
-                  "$$computedPropsFromProxy": Object {
-                    "buttonType": "default",
-                    "style": Object {
-                      "display": "block",
-                    },
-                  },
-                  "$$parentTemplate": undefined,
-                  "$$refForProxy": Object {},
                   "brick": "basic-bricks.general-button",
                   "events": Object {
                     "general.button.click": Object {
@@ -64,10 +51,22 @@ Object {
                     "buttonType": "dashed",
                   },
                   "slots": Object {},
+                  Symbol(tpl.computedPropsFromProxy): Object {
+                    "buttonType": "default",
+                    "style": Object {
+                      "display": "block",
+                    },
+                  },
+                  Symbol(tpl.refForProxy): Object {},
+                  Symbol(tpl.parentTemplate): undefined,
                 },
                 Object {
-                  "$$computedPropsFromProxy": Object {},
-                  "$$parentTemplate": Object {
+                  "brick": "basic-bricks.brick-in-portal",
+                  "portal": true,
+                  "slots": Object {},
+                  Symbol(tpl.computedPropsFromProxy): Object {},
+                  Symbol(tpl.refForProxy): undefined,
+                  Symbol(tpl.parentTemplate): Object {
                     "proxy": Object {
                       "events": Object {
                         "button.click": Object {
@@ -117,10 +116,6 @@ Object {
                       "micro-view" => Object {},
                     },
                   },
-                  "$$refForProxy": undefined,
-                  "brick": "basic-bricks.brick-in-portal",
-                  "portal": true,
-                  "slots": Object {},
                 },
                 Object {
                   "brick": "div",
@@ -143,6 +138,11 @@ Object {
               "type": "bricks",
             },
           },
+          Symbol(tpl.computedPropsFromProxy): Object {
+            "noGap": "\${QUERY.gap|bool|not}",
+          },
+          Symbol(tpl.refForProxy): Object {},
+          Symbol(tpl.parentTemplate): undefined,
         },
       ],
       "type": "bricks",

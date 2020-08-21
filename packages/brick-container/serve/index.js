@@ -74,6 +74,7 @@ if (proxies) {
       /^(?!\/next\/).+/,
       createProxyMiddleware({
         target: env.consoleServer,
+        secure: false,
         changeOrigin: true,
         logLevel: "warn",
       })

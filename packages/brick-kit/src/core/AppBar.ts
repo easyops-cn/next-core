@@ -1,4 +1,3 @@
-import { getDllAndDepsOfBricks, loadScript } from "@easyops/brick-utils";
 import { AppBarBrick, BreadcrumbItemConf } from "@easyops/brick-types";
 import { Kernel } from "./exports";
 
@@ -8,10 +7,8 @@ export class AppBar {
   constructor(private kernel: Kernel) {}
 
   async bootstrap(): Promise<void> {
-    const { navbar, brickPackages } = this.kernel.bootstrapData;
-    const { dll, deps } = getDllAndDepsOfBricks([navbar.appBar], brickPackages);
-    await loadScript(dll);
-    await loadScript(deps);
+    const { navbar } = this.kernel.bootstrapData;
+    await this.kernel.loadDynamicBricks([navbar.appBar]);
     this.element = document.createElement(navbar.appBar) as AppBarBrick;
     this.kernel.mountPoints.appBar.appendChild(this.element);
   }
