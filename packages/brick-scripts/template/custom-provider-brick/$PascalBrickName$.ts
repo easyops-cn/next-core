@@ -4,7 +4,7 @@ export interface $PascalBrickName$Params {}
 
 export function $PascalBrickName$(
   params: $PascalBrickName$Params
-): Promise<any> {
+): Promise<unknown> {
   return null;
 }
 

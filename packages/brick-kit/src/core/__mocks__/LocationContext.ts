@@ -21,9 +21,15 @@ export class LocationContext {
     resetRefreshQueue: jest.fn(),
     scheduleRefreshing: jest.fn(),
   };
+  messageDispatcher = {
+    create: jest.fn(),
+    reset: jest.fn(),
+  };
 
   handlePageLoad = jest.fn();
+  handlePageLeave = jest.fn();
   handleAnchorLoad = jest.fn();
+  handleMessage = jest.fn();
 
   matchStoryboard(): RuntimeStoryboard {
     return _matchedStoryboard;

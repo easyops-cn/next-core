@@ -5,8 +5,9 @@ import {
   getDllAndDepsOfStoryboard,
   asyncProcessStoryboard,
   scanBricksInBrickConf,
-  getDllAndDepsOfBricks,
   scanRouteAliasInStoryboard,
+  getDllAndDepsByResource,
+  scanProcessorsInAny,
 } from "@easyops/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@sdk/auth-sdk";
@@ -32,6 +33,7 @@ import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { registerCustomTemplate } from "./CustomTemplates";
+import { listenDevtools } from "../devtools";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -73,6 +75,7 @@ export class Kernel {
     // Router need those bars above to be ready.
     await this.router.bootstrap();
     this.authGuard();
+    listenDevtools();
   }
 
   private authGuard(): void {
@@ -205,17 +208,27 @@ export class Kernel {
   }
 
   async loadDynamicBricksInBrickConf(brickConf: BrickConf): Promise<void> {
+    // Notice: `brickConf` contains runtime data,
+    // which may contains recursive ref,
+    // which could cause stack overflow while traversing.
     const bricks = scanBricksInBrickConf(brickConf);
-    await this.loadDynamicBricks(bricks);
+    const processors = scanProcessorsInAny(brickConf);
+    await this.loadDynamicBricks(bricks, processors);
   }
 
-  async loadDynamicBricks(bricks: string[]): Promise<void> {
+  async loadDynamicBricks(
+    bricks: string[],
+    processors?: string[]
+  ): Promise<void> {
     // Try to load deps for dynamic added bricks.
-    const { dll, deps } = getDllAndDepsOfBricks(
-      bricks.filter(
-        // Only try to load undefined custom elements.
-        (item) => !customElements.get(item)
-      ),
+    const { dll, deps } = getDllAndDepsByResource(
+      {
+        bricks: bricks.filter(
+          // Only try to load undefined custom elements.
+          (item) => !customElements.get(item)
+        ),
+        processors,
+      },
       this.bootstrapData.brickPackages
     );
     await loadScript(dll);

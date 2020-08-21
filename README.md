@@ -3,7 +3,7 @@
 [![pipeline status](https://git.easyops.local/anyclouds/next-core/badges/master/pipeline.svg)](https://git.easyops.local/anyclouds/next-core/commits/master)
 [![coverage report](https://git.easyops.local/anyclouds/next-core/badges/master/coverage.svg)](https://git.easyops.local/anyclouds/next-core/commits/master)
 
-http://brick-next.162.d.easyops.local/
+http://192.168.100.162/next/
 
 ## Contributing
 
@@ -35,11 +35,6 @@ const path = require("path");
 exports.brickNextDir = path.join(__dirname, "../brick-next");
 ```
 
-### Offline development
-
-For some reason, you maybe are offline, or server is down, don't worry:  
-Prefix `OFFLINE=true` before `yarn start`.
-
 ### Build
 
 `yarn build`
@@ -47,5 +42,11 @@ Prefix `OFFLINE=true` before `yarn start`.
 ### Test
 
 `yarn test`
+
+To test a specified file:
+
+```shell
+yarn test ./path/to/your.spec.ts
+```
 
 [@easyops/brick-dll]: packages/brick-dll

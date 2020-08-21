@@ -16,10 +16,10 @@ port_guard: stopStart
 user: easyops:easyops
 dependencies:
   - name: api_gateway
-    version: ^1.11.8
+    version: ^1.14.1
   - name: nginx
     version: ^3.5.5
   - name: ucpro_desktop_service
-    version: ^1.6.1
+    version: ^1.7.3
 start_dependencies:
   - name: logic.api.gateway   # 依赖服务名

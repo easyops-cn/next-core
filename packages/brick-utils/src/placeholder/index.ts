@@ -1,5 +1,6 @@
+import { utils } from "@easyops-cn/brick-next-pipes";
+
 export { inject, transform } from "./compile";
-export {
-  formatValue,
-  convertValueByPrecision,
-} from "./unit/func/valueFormatter";
+
+// Keep compatibility of these exposed APIs.
+export const { formatUnitValue: formatValue, convertUnitValueByPrecision: convertValueByPrecision } = utils;

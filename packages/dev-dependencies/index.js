@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 const chalk = require("chalk");
 const execa = require("execa");
+const { argv } = require("yargs");
 const extract = require("./extract");
 
 exports.renew = async function renew() {
@@ -15,17 +16,21 @@ exports.extractAndInstall = async function extractAndInstall() {
 };
 
 function updateSelf() {
+  let tag = "";
+  if (argv.tag) {
+    tag = `@${argv.tag}`;
+  }
   console.log(
     chalk.inverse(
-      "[dev-dependencies-renew] $ yarn add -D -W @easyops/dev-dependencies"
+      `[dev-dependencies-renew] $ yarn add -D -W @easyops/dev-dependencies${tag}`
     )
   );
-  return execa("yarn", ["add", "-D", "-W", "@easyops/dev-dependencies"], {
+  return execa("yarn", ["add", "-D", "-W", `@easyops/dev-dependencies${tag}`], {
     stdio: "inherit",
     env: {
       // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
-      ESTIMO_DISABLE: "true"
-    }
+      ESTIMO_DISABLE: "true",
+    },
   });
 }
 
@@ -40,8 +45,8 @@ function yarnInstall() {
     stdio: "inherit",
     env: {
       // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
-      ESTIMO_DISABLE: "true"
-    }
+      ESTIMO_DISABLE: "true",
+    },
   });
 }
 
@@ -51,7 +56,7 @@ function yarnExtract() {
     stdio: "inherit",
     env: {
       // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
-      ESTIMO_DISABLE: "true"
-    }
+      ESTIMO_DISABLE: "true",
+    },
   });
 }

@@ -53,12 +53,18 @@ module.exports = (env) => {
           const { data } = result;
           if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
             data.storyboards = mockedMicroApps
-              .map((id) => getSingleStoryboard(env, id, true, {
-                brief: true
-              }))
-              .concat(localMicroApps.map((id) => getSingleStoryboard(env, id, false, {
-                brief: true
-              })))
+              .map((id) =>
+                getSingleStoryboard(env, id, true, {
+                  brief: true,
+                })
+              )
+              .concat(
+                localMicroApps.map((id) =>
+                  getSingleStoryboard(env, id, false, {
+                    brief: true,
+                  })
+                )
+              )
               .filter(Boolean)
               .concat(
                 data.storyboards.filter(
@@ -104,13 +110,27 @@ module.exports = (env) => {
 
   return useOffline
     ? undefined
-    : proxyPaths.reduce((acc, seg) => {
-        acc[`${publicPath}${seg}`] = {
+    : {
+        "^/api/websocket_service": {
           target: server,
+          secure: false,
           changeOrigin: true,
-          pathRewrite: pathRewriteFactory(seg),
-          ...(seg === "api" ? apiProxyOptions : {}),
-        };
-        return acc;
-      }, {});
+          secure: false,
+          ws: true,
+          headers: {
+            Origin: server,
+            referer: server,
+          },
+          pathRewrite: pathRewriteFactory("api"),
+        },
+        ...proxyPaths.reduce((acc, seg) => {
+          acc[`${publicPath}${seg}`] = {
+            target: server,
+            changeOrigin: true,
+            pathRewrite: pathRewriteFactory(seg),
+            ...(seg === "api" ? apiProxyOptions : {}),
+          };
+          return acc;
+        }, {}),
+      };
 };

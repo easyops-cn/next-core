@@ -1,5 +1,5 @@
-import { processPipes } from "./processPipes";
-import { PipeCall } from "../interfaces";
+import { processPipes } from "./pipes";
+import { PipeCall } from "./interfaces";
 
 type Identifier = string;
 type Parameters = any[];
@@ -130,36 +130,19 @@ describe("processPipes", () => {
   );
 
   it.each([
-    [[1,2,3,4,5],"slice:1:3", [2,3]],
-    [[1,2,3,4,5],"slice:1", [2,3,4,5]]
-  ])(
-    "process %j with pipe %j should return %j",
-    (value, parameter, result) => {
-      const [pipe, param1, param2] = parameter.split(":");
-      expect(
-        processPipes(value, [
-          {
-            type: "PipeCall",
-            identifier: pipe,
-            parameters: [+param1, +param2],
-          },
-        ])
-      );
-    }
-  );
-
-  it.each([
-    ["", 1557481860000],
-    ["1557417600000", 1557417600000],
-    ["now-7d", 1556877060000],
-    ["now/d", 1557417600000],
-    ["now/y", 1546272000000],
-  ])("pipeParseTimeRange should work", (value, res) => {
+    [[1, 2, 3, 4, 5], "slice:1:3", [2, 3]],
+    [[1, 2, 3, 4, 5], "slice:1", [2, 3, 4, 5]],
+  ])("process %j with pipe %j should return %j", (value, parameter, result) => {
+    const [pipe, param1, param2] = parameter.split(":");
     expect(
       processPipes(value, [
-        { type: "PipeCall", identifier: "parseTimeRange", parameters: [] },
+        {
+          type: "PipeCall",
+          identifier: pipe,
+          parameters: [+param1, +param2],
+        },
       ])
-    ).toEqual(res);
+    );
   });
 
   it.each([

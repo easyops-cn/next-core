@@ -1,6 +1,10 @@
 import i18next from "i18next";
-import { isCookable, evaluate } from "./evaluate";
+import { evaluate } from "./evaluate";
 import * as runtime from "./core/Runtime";
+import { registerCustomProcessor } from "./core/exports";
+import { devtoolsHookEmit } from "./devtools";
+
+jest.mock("./devtools");
 
 i18next.init({
   fallbackLng: "en",
@@ -72,22 +76,16 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   ]),
 } as any);
 
-describe("isCookable", () => {
-  it.each<[string, boolean]>([
-    ["<% [] %>", true],
-    ["", false],
-    ["<%%>", false],
-    ["<%[]%>", false],
-    ["<% []%>", false],
-    ["<%[] %>", false],
-    [" <% [] %>", true],
-    ["<% [] %> ", true],
-  ])("isCookable(%j) should return %j", (raw, cookable) => {
-    expect(isCookable(raw)).toBe(cookable);
-  });
-});
+function objectEntries(object: Record<string, any>): [string, any][] {
+  return Object.entries(object);
+}
+registerCustomProcessor("brickKit.objectEntries", objectEntries);
 
 describe("evaluate", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it.each<[string, any]>([
     ["<% [] %>", []],
     ["<% EVENT.detail %>", "<% EVENT.detail %>"],
@@ -112,6 +110,10 @@ describe("evaluate", () => {
     ["<% CTX.myFreeContext %>", "good"],
     ["<% CTX.myPropContext %>", "better"],
     ["<% CTX.notExisted %>", undefined],
+    [
+      "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
+      [["quality", "good"]],
+    ],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
@@ -183,10 +185,39 @@ describe("evaluate", () => {
     expect(evaluate(preEvaluated, {})).toEqual("<% oops %>");
   });
 
-  it("should throw if contains syntax error", () => {
-    expect(() => evaluate("<% oops( %>")).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected token (1:5), in \\"<% oops( %>\\""`
-    );
+  it("should emit for re-evaluation", () => {
+    evaluate("<% [] %>", {}, { isReEvaluation: true, evaluationId: 1 });
+    expect(devtoolsHookEmit).toBeCalledWith("re-evaluation", {
+      id: 1,
+      detail: { raw: "<% [] %>", context: {}, result: [] },
+    });
+  });
+
+  it("should emit syntax error for re-evaluation", () => {
+    evaluate("<% a : b %>", {}, { isReEvaluation: true, evaluationId: 1 });
+    expect(devtoolsHookEmit).toBeCalledWith("re-evaluation", {
+      id: 1,
+      detail: { raw: "<% a : b %>", context: {} },
+      error: 'Unexpected token (1:2), in "<% a : b %>"',
+    });
+  });
+
+  it("should emit evaluation error for re-evaluation", () => {
+    evaluate("<% any %>", {}, { isReEvaluation: true, evaluationId: 1 });
+    expect(devtoolsHookEmit).toBeCalledWith("re-evaluation", {
+      id: 1,
+      detail: { raw: "<% any %>", context: {} },
+      error: 'any is not defined, in "<% any %>"',
+    });
+  });
+
+  it("should emit for invalid code of re-evaluation", () => {
+    evaluate("[]", {}, { isReEvaluation: true, evaluationId: 1 });
+    expect(devtoolsHookEmit).toBeCalledWith("re-evaluation", {
+      id: 1,
+      detail: { raw: "[]", context: {} },
+      error: "Invalid evaluation code",
+    });
   });
 
   it("should throw if contains type error", () => {
@@ -194,6 +225,12 @@ describe("evaluate", () => {
       evaluate("<% [].oops() %>")
     ).toThrowErrorMatchingInlineSnapshot(
       `"[].oops is not a function, in \\"<% [].oops() %>\\""`
+    );
+  });
+
+  it("should throw if contains syntax error", () => {
+    expect(() => evaluate("<% oops( %>")).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected token (1:5), in \\"<% oops( %>\\""`
     );
   });
 });

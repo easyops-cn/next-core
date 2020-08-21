@@ -1,20 +1,16 @@
 import path from "path";
 import { loadTemplate } from "./loadTemplate";
 import { FileWithContent, TargetType } from "../interface";
-import {getEasyopsConfig} from "../getEasyopsConfig"
+import { getEasyopsConfig } from "../getEasyopsConfig";
 
 jest.mock("../getEasyopsConfig");
-(getEasyopsConfig as jest.Mock).mockReturnValue(
-  {
-    "contractYamlDir": "easyops",
-    "contractUrl": "https://github.com/easyops-cn/contract-center.git",
-    "useLocalSdk": true
-  }
-)
-
+(getEasyopsConfig as jest.Mock).mockReturnValue({
+  contractYamlDir: "easyops",
+  contractUrl: "https://github.com/easyops-cn/contract-center.git",
+  useLocalSdk: true,
+});
 
 jest.mock("request-promise-native");
-
 
 function ignoreVersionRelatedFiles(
   files: FileWithContent[]
@@ -34,8 +30,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "for-better",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -45,8 +42,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "for-better",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -56,8 +54,22 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "for-better",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
+    });
+    const otherFiles = ignoreVersionRelatedFiles(files);
+    expect(otherFiles).toMatchSnapshot();
+  });
+  it("should create a new package of bricks without any bricks", async () => {
+    const files = await loadTemplate({
+      targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
+      packageName: "for-good",
+      brickName: "",
+      templateName: "",
+      processorName: "",
+      targetRoot: "dist",
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -68,8 +80,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -80,8 +93,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -92,8 +106,21 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "get-data",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
+    });
+    expect(files).toMatchSnapshot();
+  });
+  it("should create a new custom processor", async () => {
+    const files = await loadTemplate({
+      targetType: TargetType.A_NEW_CUSTOM_PROCESSOR,
+      packageName: "for-good",
+      brickName: "",
+      templateName: "",
+      processorName: "doGood",
+      targetRoot: "dist",
+      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -103,8 +130,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -115,8 +143,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -127,8 +156,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -139,8 +169,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "for-better",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -150,8 +181,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "for-better",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -162,8 +194,9 @@ describe("loadTemplate", () => {
       packageName: "for-good",
       brickName: "",
       templateName: "",
+      processorName: "",
       targetRoot: "dist",
-      docRoot: "doc"
+      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();

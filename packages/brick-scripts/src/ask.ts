@@ -5,6 +5,7 @@ import { askTargetType } from "./questions/askTargetType";
 import { askPackageName } from "./questions/askPackageName";
 import { askBrickName } from "./questions/askBrickName";
 import { askTemplateName } from "./questions/askTemplateName";
+import { askProcessorName } from "./questions/askProcessorName";
 import { updateHistory } from "./loaders/loadHistory";
 
 export async function ask(
@@ -15,6 +16,7 @@ export async function ask(
   packageName: string;
   brickName: string;
   templateName: string;
+  processorName: string;
 }> {
   const questionOfTargetType = askTargetType();
   let targetType: TargetType;
@@ -24,7 +26,7 @@ export async function ask(
       name: string;
       value: string;
     }[] = questionOfTargetType.choices as any;
-    const matchedChoice = choices.find(choice => choice.value === flags.type);
+    const matchedChoice = choices.find((choice) => choice.value === flags.type);
     if (matchedChoice) {
       console.log(
         `${chalk.green("?")} ${chalk.bold(
@@ -34,7 +36,7 @@ export async function ask(
     } else {
       throw new Error(
         `Invalid type, allowed types: ${choices
-          .map(choice => choice.value)
+          .map((choice) => choice.value)
           .join(", ")}`
       );
     }
@@ -51,6 +53,7 @@ export async function ask(
     case TargetType.A_NEW_BRICK:
     case TargetType.A_NEW_CUSTOM_TEMPLATE:
     case TargetType.A_NEW_CUSTOM_PROVIDER_BRICK:
+    case TargetType.A_NEW_CUSTOM_PROCESSOR:
     case TargetType.A_NEW_PACKAGE_OF_BRICKS:
       updateHistory({ lastSelectedBrickPackage: packageName });
       break;
@@ -59,30 +62,41 @@ export async function ask(
       updateHistory({ lastSelectedTemplatePackage: packageName });
   }
 
+  let createABrick = [
+    TargetType.A_NEW_BRICK,
+    TargetType.A_NEW_CUSTOM_TEMPLATE,
+    TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+  ].includes(targetType);
+
+  if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS) {
+    createABrick = (
+      await inquirer.prompt({
+        type: "confirm",
+        name: "createABrick",
+        message: "Would you like to create a brick at the same time?",
+        default: true,
+      })
+    ).createABrick;
+  }
+
   let brickName = "";
   let templateName = "";
-  if (
-    [
-      TargetType.A_NEW_BRICK,
-      TargetType.A_NEW_CUSTOM_TEMPLATE,
-      TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
-      TargetType.A_NEW_PACKAGE_OF_BRICKS
-    ].includes(targetType)
-  ) {
+  let processorName = "";
+  if (createABrick) {
     // 如果是新建构件/新建自定义模板/新建自定义 Provider 构件/新建构件库，额外询问新构件的名字。
     brickName = (
       await inquirer.prompt(
         askBrickName({
           targetType,
           packageName,
-          appRoot
+          appRoot,
         })
       )
     ).brickName;
   } else if (
     [
       TargetType.A_NEW_LEGACY_TEMPLATE,
-      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES
+      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
     ].includes(targetType)
   ) {
     // 如果是新建模板/模板库，额外询问新模板的名字。
@@ -91,16 +105,26 @@ export async function ask(
         askTemplateName({
           targetType,
           packageName,
-          appRoot
+          appRoot,
         })
       )
     ).templateName;
+  } else if (targetType === TargetType.A_NEW_CUSTOM_PROCESSOR) {
+    processorName = (
+      await inquirer.prompt(
+        askProcessorName({
+          packageName,
+          appRoot,
+        })
+      )
+    ).processorName;
   }
 
   return {
     targetType,
     packageName,
     brickName,
-    templateName
+    templateName,
+    processorName,
   };
 }

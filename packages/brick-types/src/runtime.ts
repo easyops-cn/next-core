@@ -171,5 +171,4 @@ export interface RuntimeBrickElement extends HTMLElement {
   $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
   $$eventListeners?: rememberedEventListener[];
   $$getElementByRef?: (ref: string) => HTMLElement;
-  $$parentTemplate?: RuntimeBrickElement;
 }

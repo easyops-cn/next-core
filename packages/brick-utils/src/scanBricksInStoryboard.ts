@@ -11,6 +11,7 @@ import {
   BrickEventsMap,
   ContextConf,
   ResolveConf,
+  MessageConf,
 } from "@easyops/brick-types";
 import { uniq } from "lodash";
 import { isObject } from "./isObject";
@@ -69,8 +70,10 @@ function collectBricksInBrickConf(
     const {
       useResolves,
       onPageLoad,
+      onPageLeave,
       onAnchorLoad,
       onAnchorUnload,
+      onMessage,
     } = brickConf.lifeCycle;
     if (Array.isArray(useResolves)) {
       useResolves.forEach((useResolve) => {
@@ -80,8 +83,24 @@ function collectBricksInBrickConf(
         }
       });
     }
+
+    const messageLifeCycleHandlers = ([] as MessageConf[])
+      .concat(onMessage)
+      .filter(Boolean)
+      .reduce(
+        (previousValue, currentValue) =>
+          previousValue.concat(currentValue.handlers),
+        []
+      );
+
     collectUsedBricksInEventHandlers(
-      { onPageLoad, onAnchorLoad, onAnchorUnload },
+      {
+        onPageLoad,
+        onPageLeave,
+        onAnchorLoad,
+        onAnchorUnload,
+        onMessage: messageLifeCycleHandlers,
+      },
       collection
     );
   }

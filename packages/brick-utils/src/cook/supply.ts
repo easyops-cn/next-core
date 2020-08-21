@@ -1,11 +1,11 @@
 import lodash from "lodash";
 import moment from "moment";
 import { CookScope } from "./interfaces";
-import { PipeRegistry } from "../placeholder/pipes/PipeRegistry";
+import { PipeRegistry } from "../placeholder/pipes";
 
 export function supply(
   attemptToVisitGlobals: Set<string>,
-  globalVariables: Record<string, any> = {}
+  globalVariables: Record<string, unknown> = {}
 ): CookScope {
   const globalMap = new Map(Object.entries(globalVariables));
 
@@ -122,7 +122,7 @@ const allowedGlobalObjects = new Set([
   "parseInt",
 ]);
 
-function supplyIndividual(variableName: string): any {
+function supplyIndividual(variableName: string): unknown {
   switch (variableName) {
     case "Object":
       // Do not allow mutable methods like `Object.assign`.
@@ -140,7 +140,7 @@ function supplyIndividual(variableName: string): any {
       );
     case "moment":
       return Object.assign(
-        (...args: any[]) => moment(...args),
+        (...args: Parameters<typeof moment>) => moment(...args),
         Object.fromEntries(
           Object.entries(moment).filter(
             (entry) => !shouldOmitInMoment.has(entry[0])
@@ -159,13 +159,16 @@ function supplyIndividual(variableName: string): any {
 }
 
 function delegateMethods(
-  target: any,
+  target: unknown,
   methods: string[]
-): Record<string, Function> {
+): Record<string, (...args: unknown[]) => unknown> {
   return Object.fromEntries(
     methods.map((method) => [
       method,
-      (...args: any[]) => (target[method] as Function).apply(target, args),
+      <T>(...args: T[]) =>
+        (target as Record<typeof method, (...args: T[]) => unknown>)[
+          method
+        ].apply(target, args),
     ])
   );
 }

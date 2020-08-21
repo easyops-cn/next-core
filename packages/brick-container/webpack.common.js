@@ -91,6 +91,9 @@ module.exports = {
         ["brick-kit"]: brickKitVersion,
         ["brick-utils"]: brickUtilsVersion,
       }),
+      BRICK_NEXT_FEATURES: JSON.stringify([
+        "edit-evaluations-and-transformations-in-devtools",
+      ]),
       // Recording dll hash for long-term-caching.
       DLL_HASH: JSON.stringify(
         dll.reduce((acc, { baseName, filePath }) => {

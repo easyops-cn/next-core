@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.11.0...@easyops/webpack-config-factory@1.11.1) (2020-08-10)
+
+### Bug Fixes
+
+- **custom-processors:** use camelPkgName as namespace of custom processors ([d6d5be8](https://git.easyops.local/anyclouds/next-core/commits/d6d5be8))
+
+# [1.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.9...@easyops/webpack-config-factory@1.11.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
+
+## [1.10.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.8...@easyops/webpack-config-factory@1.10.9) (2020-08-04)
+
+### Bug Fixes
+
+- **webpack:** disable esModule of css-loader which follows to-string-loader ([145edba](https://git.easyops.local/anyclouds/next-core/commits/145edba))
+- remove never used worker loader ([55f345c](https://git.easyops.local/anyclouds/next-core/commits/55f345c))
+
+## [1.10.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.7...@easyops/webpack-config-factory@1.10.8) (2020-08-03)
+
+### Bug Fixes
+
+- **webpack:** disable source map for brick packages ([3846d27](https://git.easyops.local/anyclouds/next-core/commits/3846d27))
+
+## [1.10.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.6...@easyops/webpack-config-factory@1.10.7) (2020-08-03)
+
+### Bug Fixes
+
+- **webpack:** disable css source map for brick packages ([19d678f](https://git.easyops.local/anyclouds/next-core/commits/19d678f))
+
+## [1.10.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.5...@easyops/webpack-config-factory@1.10.6) (2020-07-31)
+
+**Note:** Version bump only for package @easyops/webpack-config-factory
+
 ## [1.10.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@1.10.4...@easyops/webpack-config-factory@1.10.5) (2020-07-31)
 
 ### Bug Fixes

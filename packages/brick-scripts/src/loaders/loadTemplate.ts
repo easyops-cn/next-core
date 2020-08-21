@@ -67,6 +67,7 @@ export async function loadTemplate({
   packageName,
   brickName,
   templateName,
+  processorName,
   targetRoot,
   docRoot,
 }: {
@@ -74,6 +75,7 @@ export async function loadTemplate({
   packageName: string;
   brickName: string;
   templateName: string;
+  processorName: string;
   targetRoot: string;
   docRoot: string;
 }): Promise<FileWithContent[]> {
@@ -84,6 +86,7 @@ export async function loadTemplate({
     [TargetType.A_NEW_PACKAGE_OF_LIBS]: "libs-pkg",
     [TargetType.A_NEW_PACKAGE_OF_MICRO_APPS]: "micro-apps-pkg",
     [TargetType.A_NEW_CUSTOM_PROVIDER_BRICK]: "custom-provider-brick",
+    [TargetType.A_NEW_CUSTOM_PROCESSOR]: "custom-processor",
     [TargetType.A_NEW_PACKAGE_OF_PROVIDERS]: "providers-pkg",
     [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll-pkg",
     [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg",
@@ -114,6 +117,7 @@ export async function loadTemplate({
     $PascalPackageName$: changeCase.pascalCase(packageName),
     "$Title Package Name$": changeCase.capitalCase(packageName),
     $CONSTANT_PACKAGE_NAME$: changeCase.constantCase(packageName),
+    $camelCasePackageName$: changeCase.camelCase(packageName),
     $PascalBrickName$: changeCase.pascalCase(brickName),
     "$kebab-brick-name$": `${packageName}.${brickName}`,
     "$kebab-brick-last-name$": brickName,
@@ -125,6 +129,7 @@ export async function loadTemplate({
     "$kebab-username$": userName,
     $camelTemplateName$: changeCase.camelCase(templateName),
     $PascalTemplateName$: changeCase.pascalCase(templateName),
+    $camelProcessorName$: changeCase.camelCase(processorName),
   };
 
   const filter = (src: string): boolean =>
@@ -142,7 +147,7 @@ export async function loadTemplate({
     },
   ];
 
-  if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS) {
+  if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS && brickName) {
     // Also create a new brick for the new bricks-package
     const brickTemplateDir = path.join(templateRoot, "brick");
     templateGroups.push({
@@ -234,29 +239,11 @@ export async function loadTemplate({
     []
   );
 
-  // create a new brick markdown for the new brick or the new bricks-package
-  if (
-    targetType === TargetType.A_NEW_BRICK ||
-    targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
-    targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS
-  ) {
-    // Create brick doc only when doc root exists and workspace is `next-basics`.
-    if (fs.existsSync(docRoot) && workspacePackageJson.name === "next-basics") {
-      const brickDocTemplatePath = path.join(
-        templateRoot,
-        "brick-doc",
-        "brick-doc-template.md"
-      );
-      const content = replaceFileContent(brickDocTemplatePath, translations);
-      const targetMd = brickName + ".md";
-      files.push([path.join(docRoot, packageName, targetMd), content]);
-    }
-  }
-
   if (
     targetType !== TargetType.A_NEW_BRICK &&
     targetType !== TargetType.A_NEW_CUSTOM_TEMPLATE &&
     targetType !== TargetType.A_NEW_CUSTOM_PROVIDER_BRICK &&
+    targetType !== TargetType.A_NEW_CUSTOM_PROCESSOR &&
     targetType !== TargetType.A_NEW_LEGACY_TEMPLATE &&
     targetType !== TargetType.TRANSFORM_A_MICRO_APP &&
     targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES

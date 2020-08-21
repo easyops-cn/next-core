@@ -11,3 +11,4 @@ export * from "./Resolver";
 export * from "./Router";
 export * from "./Runtime";
 export * from "./CustomTemplates";
+export * from "./CustomProcessors";

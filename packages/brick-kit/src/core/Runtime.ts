@@ -4,12 +4,10 @@ import {
   InterceptorParams,
   FeatureFlags,
   DesktopData,
-  BrickTemplateFactory,
   UserInfo,
   BrickPackage,
   Storyboard,
   MagicBrickConfig,
-  CustomTemplateConstructor,
   PluginRuntimeContext,
 } from "@easyops/brick-types";
 import {
@@ -18,6 +16,7 @@ import {
   AppBar,
   Resolver,
   registerCustomTemplate,
+  registerCustomProcessor,
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import { RelatedApp, RouterState, RecentApps } from "./interfaces";
@@ -164,18 +163,9 @@ export class Runtime {
     );
   }
 
-  /* istanbul ignore next */
-  registerBrickTemplate(name: string, factory: BrickTemplateFactory): void {
-    registerBrickTemplate(name, factory);
-  }
-
-  /* istanbul ignore next */
-  registerCustomTemplate(
-    tplName: string,
-    tplConstructor: CustomTemplateConstructor
-  ): void {
-    registerCustomTemplate(tplName, tplConstructor);
-  }
+  registerBrickTemplate = registerBrickTemplate;
+  registerCustomTemplate = registerCustomTemplate;
+  registerCustomProcessor = registerCustomProcessor;
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {

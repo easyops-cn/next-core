@@ -12,14 +12,16 @@ import "./styles/default.css";
 
 initializeLibrary();
 
+// These constants bellow are defined by `webpack.DefinePlugin`.
 // eslint-disable-next-line
 // @ts-ignore
 window.DLL_HASH = DLL_HASH;
-
-// BRICK_NEXT_VERSIONS is defined by `webpack.DefinePlugin`.
 // eslint-disable-next-line
 // @ts-ignore
 window.BRICK_NEXT_VERSIONS = BRICK_NEXT_VERSIONS;
+// eslint-disable-next-line
+// @ts-ignore
+window.BRICK_NEXT_FEATURES = BRICK_NEXT_FEATURES;
 
 const root = document.body;
 

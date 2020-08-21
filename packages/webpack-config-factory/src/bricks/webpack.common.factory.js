@@ -7,35 +7,26 @@ const loadLanguages = require("prismjs/components/index");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 
-const getStyleLoaders = (cssOptions) => [
-  {
-    loader: "css-loader",
-    options: cssOptions,
+const getCssLoader = (cssOptions) => ({
+  loader: "css-loader",
+  options: {
+    // Todo(steve): based on env.
+    sourceMap: false,
+    ...cssOptions,
   },
+});
+
+const getStyleLoaders = (cssOptions) => [
+  getCssLoader(cssOptions),
   {
     loader: "postcss-loader",
     options: {
       ident: "postcss",
+      sourceMap: false,
       plugins: () => [
         require("postcss-nested")(),
         require("postcss-preset-env")(),
       ],
-    },
-  },
-];
-
-const getWorkerLoaders = (distPublicPath, options) => [
-  {
-    loader: "worker-loader",
-    options: {
-      publicPath: `${distPublicPath}/`,
-      ...options,
-    },
-  },
-  {
-    loader: "babel-loader",
-    options: {
-      rootMode: "upward",
     },
   },
 ];
@@ -106,20 +97,6 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
               },
             },
           ],
-        },
-        {
-          // For inline web workers.
-          // Small workers should use inline.
-          test: /\.inline\.worker\.(ts|js)x?$/,
-          exclude: /node_modules/,
-          use: getWorkerLoaders(distPublicPath, { inline: true }),
-        },
-        {
-          // For web workers.
-          // Large workers should not use inline.
-          test: /\.worker\.(ts|js)x?$/,
-          exclude: /node_modules|\.inline\.worker\./,
-          use: getWorkerLoaders(distPublicPath),
         },
         {
           // Include ts, tsx, js, and jsx files.
@@ -195,19 +172,26 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
         {
           test: /\.shadow\.css$/,
           sideEffects: true,
-          use: ["to-string-loader", ...getStyleLoaders()],
+          use: [
+            "to-string-loader",
+            ...getStyleLoaders({
+              esModule: false,
+            }),
+          ],
         },
         {
           test: /\.less$/,
           sideEffects: true,
           use: [
             "to-string-loader",
-            "css-loader",
+            getCssLoader({
+              esModule: false,
+            }),
             {
               loader: "less-loader",
               options: {
                 lessOptions: {
-                  sourceMap: true,
+                  sourceMap: false,
                   javascriptEnabled: true,
                 },
               },

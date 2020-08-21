@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.27.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@1.27.4) (2020-08-13)
+
+### Bug Fixes
+
+- **menu:** change sub menu bar width from 240px to 220px ([e61a9c2](https://git.easyops.local/anyclouds/next-core/commits/e61a9c2))
+- **serve:** allow unsecure proxy for https which is probably self-signed ([0a04027](https://git.easyops.local/anyclouds/next-core/commits/0a04027))
+
+## [1.27.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.2...@easyops/brick-container@1.27.3) (2020-08-10)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.27.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.1...@easyops/brick-container@1.27.2) (2020-08-07)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.27.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.0...@easyops/brick-container@1.27.1) (2020-08-07)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [1.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.3...@easyops/brick-container@1.27.0) (2020-08-07)
+
+### Bug Fixes
+
+- **serve:** allow unsecure proxy for https which is probably self-signed ([6d292dd](https://git.easyops.local/anyclouds/next-core/commits/6d292dd))
+
+### Features
+
+- **brick-container:** 页面背景颜色的改变 #F3F4F7 ([bd664d4](https://git.easyops.local/anyclouds/next-core/commits/bd664d4)), closes [#F3F4F7](https://git.easyops.local/anyclouds/next-core/issues/F3F4F7)
+- expose supported features by brick next ([3ca0db1](https://git.easyops.local/anyclouds/next-core/commits/3ca0db1))
+
+## [1.26.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.2...@easyops/brick-container@1.26.3) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.26.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.1...@easyops/brick-container@1.26.2) (2020-08-03)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.26.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.0...@easyops/brick-container@1.26.1) (2020-07-31)
+
+### Bug Fixes
+
+- update dependencies ([3536539](https://git.easyops.local/anyclouds/next-core/commits/3536539))
+
+# [1.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.25.3...@easyops/brick-container@1.26.0) (2020-07-31)
+
+### Features
+
+- **menu:** support `if` in menu ([070b7bc](https://git.easyops.local/anyclouds/next-core/commits/070b7bc))
+
 ## [1.25.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.25.2...@easyops/brick-container@1.25.3) (2020-07-31)
 
 **Note:** Version bump only for package @easyops/brick-container
