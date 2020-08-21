@@ -653,7 +653,7 @@ function builtinMessageListenerFactory(
     }
     message[method](
       ...(argsFactory(args, context, event) as Parameters<
-        typeof message[typeof method]
+        typeof message["success"]
       >)
     );
   } as EventListener;
