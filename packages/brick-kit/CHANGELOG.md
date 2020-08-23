@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.61.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.60.0...@easyops/brick-kit@1.61.0) (2020-08-23)
+
+### Bug Fixes
+
+- fix types after upgrade typescript v4 ([a2ee511](https://git.easyops.local/anyclouds/next-core/commits/a2ee511))
+
+### Features
+
+- 按需初始化 websocket 链接&优化 ws 重试机制 ([67e572c](https://git.easyops.local/anyclouds/next-core/commits/67e572c))
+- 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
+
 # [1.60.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.59.3...@easyops/brick-kit@1.60.0) (2020-08-13)
 
 ### Bug Fixes

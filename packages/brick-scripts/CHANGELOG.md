@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.2...@easyops/brick-scripts@1.18.3) (2020-08-23)
+
+### Bug Fixes
+
+- ask user whether to create a brick when creating a new brick package ([35d51a6](https://git.easyops.local/anyclouds/next-core/commits/35d51a6))
+- no longer create brick doc markdown files ([063bcb5](https://git.easyops.local/anyclouds/next-core/commits/063bcb5))
+
 ## [1.18.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.1...@easyops/brick-scripts@1.18.2) (2020-08-13)
 
 ### Bug Fixes

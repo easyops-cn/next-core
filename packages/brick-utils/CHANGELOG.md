@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.54.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.53.0...@easyops/brick-utils@1.54.0) (2020-08-23)
+
+### Features
+
+- 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
+
 # [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.2...@easyops/brick-utils@1.53.0) (2020-08-13)
 
 ### Bug Fixes

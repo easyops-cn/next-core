@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.4...@easyops/brick-container@1.28.0) (2020-08-23)
+
+### Features
+
+- 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
+
 ## [1.27.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@1.27.4) (2020-08-13)
 
 ### Bug Fixes

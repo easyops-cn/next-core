@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.1...@easyops/brick-types@1.51.0) (2020-08-23)
+
+### Bug Fixes
+
+- **story-conf:** StoryConf.description.message is optional ([40cd9b5](https://git.easyops.local/anyclouds/next-core/commits/40cd9b5))
+
+### Features
+
+- 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
+
 ## [1.50.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.0...@easyops/brick-types@1.50.1) (2020-08-07)
 
 ### Bug Fixes
