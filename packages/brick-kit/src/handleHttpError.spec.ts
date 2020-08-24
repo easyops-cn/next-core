@@ -19,6 +19,12 @@ const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
 const spyOnHistoryPush = jest.fn();
 (getHistory as jest.Mock).mockReturnValue({
   push: spyOnHistoryPush,
+  location: {
+    pathname: "/no-where",
+    state: {
+      notify: false,
+    },
+  },
 });
 (window as any).Event = class {};
 (window as any).HTMLScriptElement = class {};
@@ -105,7 +111,7 @@ describe("handleHttpError", () => {
   it("should handle errors", () => {
     spyOnIsUnauthenticatedError.mockReturnValueOnce(false);
     handleHttpError(new Error("oops"));
-    expect(spyOnModalError.mock.calls[0][0]).toEqual({
+    expect(spyOnModalError).toBeCalledWith({
       title: "brick-kit:REQUEST_FAILED",
       content: "Error: oops",
       okText: "brick-kit:MODAL_OK",
@@ -116,6 +122,10 @@ describe("handleHttpError", () => {
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
     expect(spyOnModalError).not.toBeCalled();
-    expect(spyOnHistoryPush.mock.calls[0][0]).toBe("/auth/login");
+    expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
+      from: {
+        pathname: "/no-where",
+      },
+    });
   });
 });
