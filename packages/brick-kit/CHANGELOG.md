@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.61.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.61.0...@easyops/brick-kit@1.61.1) (2020-08-24)
+
+### Bug Fixes
+
+- **auth:** fix login maybe not redirect back to previous page ([69a5f8c](https://git.easyops.local/anyclouds/next-core/commits/69a5f8c))
+
 # [1.61.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.60.0...@easyops/brick-kit@1.61.0) (2020-08-23)
 
 ### Bug Fixes
