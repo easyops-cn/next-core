@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
+const chalk = require("chalk");
 
 function getNavbar(env) {
   return JSON.parse(fs.readFileSync(env.navbarJsonPath, "utf8"));
@@ -221,6 +222,57 @@ function getPatternsToWatch(env) {
   ];
 }
 
+function checkLocalPackages(env) {
+  for (const item of env.localMicroApps) {
+    if (!fs.existsSync(path.join(env.microAppsDir, item))) {
+      console.log(chalk.red(`Error: Local micro-apps not found: ${item}`));
+    } else if (
+      !fs.existsSync(path.join(env.microAppsDir, item, "package.json"))
+    ) {
+      console.log(chalk.red(`Error: Local micro-apps are empty: ${item}`));
+    } else if (
+      !fs.existsSync(path.join(env.microAppsDir, item, "storyboard.yaml")) &&
+      !fs.existsSync(path.join(env.microAppsDir, item, "storyboard.json"))
+    ) {
+      console.log(
+        chalk.yellow(`Warning: Local micro-apps are not built yet: ${item}`)
+      );
+    }
+  }
+  for (const item of env.localBrickPackages) {
+    if (!fs.existsSync(path.join(env.brickPackagesDir, item))) {
+      console.log(chalk.red(`Error: Local bricks not found: ${item}`));
+    } else if (
+      !fs.existsSync(path.join(env.brickPackagesDir, item, "package.json"))
+    ) {
+      console.log(chalk.red(`Error: Local bricks are empty: ${item}`));
+    } else if (
+      !fs.existsSync(path.join(env.brickPackagesDir, item, "dist/bricks.json"))
+    ) {
+      console.log(
+        chalk.yellow(`Warning: Local bricks are not built yet: ${item}`)
+      );
+    }
+  }
+  for (const item of env.localTemplates) {
+    if (!fs.existsSync(path.join(env.templatePackagesDir, item))) {
+      console.log(chalk.red(`Error: Local templates not found: ${item}`));
+    } else if (
+      !fs.existsSync(path.join(env.templatePackagesDir, item, "package.json"))
+    ) {
+      console.log(chalk.red(`Error: Local templates are empty: ${item}`));
+    } else if (
+      !fs.existsSync(
+        path.join(env.templatePackagesDir, item, "dist/templates.json")
+      )
+    ) {
+      console.log(
+        chalk.yellow(`Warning: Local templates are not built yet: ${item}`)
+      );
+    }
+  }
+}
+
 exports.getNavbar = getNavbar;
 exports.getStoryboardsByMicroApps = getStoryboardsByMicroApps;
 exports.getSingleStoryboard = getSingleStoryboard;
@@ -236,3 +288,4 @@ exports.getNamesOfMicroApps = getNamesOfMicroApps;
 exports.getNamesOfBrickPackages = getNamesOfBrickPackages;
 exports.getNamesOfTemplatePackages = getNamesOfTemplatePackages;
 exports.getPatternsToWatch = getPatternsToWatch;
+exports.checkLocalPackages = checkLocalPackages;

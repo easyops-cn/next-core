@@ -6,6 +6,7 @@ const {
   getNamesOfMicroApps,
   getNamesOfBrickPackages,
   getNamesOfTemplatePackages,
+  checkLocalPackages,
 } = require("./utils");
 
 function getServerPath(server) {
@@ -204,6 +205,8 @@ module.exports = (cwd) => {
     mocked: flags.mock || process.env.MOCK === "true",
     mockedMicroAppsDir,
   };
+
+  checkLocalPackages(env);
 
   if (useAutoRemote) {
     env.useRemote = true;
