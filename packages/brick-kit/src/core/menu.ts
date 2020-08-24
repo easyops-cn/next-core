@@ -26,6 +26,7 @@ type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
   type?: "default" | "group";
   sort?: number;
   if?: string | boolean;
+  defaultExpanded?: boolean;
 };
 
 interface TitleDataSource {
@@ -135,6 +136,7 @@ async function processMenu(
               title: item.text,
               icon: item.icon,
               items: children,
+              defaultExpanded: item.defaultExpanded,
             }
           : (item as SidebarMenuSimpleItem);
       }),
