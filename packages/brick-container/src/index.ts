@@ -8,6 +8,7 @@ import "./i18n";
 import "./antd";
 import "./styles/variables.css";
 import "./styles/antd.less";
+import "./styles/antd-compatible.less";
 import "./styles/default.css";
 
 initializeLibrary();
