@@ -38,10 +38,11 @@ export class MessageDispatcher {
     string,
     BrickAndMessage[]
   >();
-  private messageCallBackHandlerMap: Map<
+  private messageCallbackHandlers: Map<
     string,
     MessageBrickEventHandlerCallback[]
   > = new Map();
+  private channels: Map<string, string> = new Map();
 
   create(
     brickAndMessages: BrickAndMessage[],
@@ -50,15 +51,15 @@ export class MessageDispatcher {
     if (Array.isArray(brickAndMessages)) {
       for (const { brick, match, message } of brickAndMessages) {
         ([] as MessageConf[]).concat(message).forEach((massageConf) => {
-          const topic = JSON.stringify({
-            system: massageConf.channel.system,
-            topic: massageConf.channel.topic,
-          });
+          const channel = massageConf.channel;
           const handler = { brick, match, message };
-          if (this.messages.has(topic)) {
-            this.messages.set(topic, [...this.messages.get(topic), handler]);
+          if (this.messages.has(channel)) {
+            this.messages.set(channel, [
+              ...this.messages.get(channel),
+              handler,
+            ]);
           } else {
-            this.messages.set(topic, [handler]);
+            this.messages.set(channel, [handler]);
           }
         });
       }
@@ -68,10 +69,11 @@ export class MessageDispatcher {
 
   reset(): void {
     this.messages = new Map();
-    this.messageCallBackHandlerMap = new Map();
+    this.messageCallbackHandlers = new Map();
   }
 
   subscribe(
+    channel: string,
     topic: PluginWebSocketMessageTopic,
     callback?: MessageBrickEventHandlerCallback
   ): void {
@@ -79,12 +81,13 @@ export class MessageDispatcher {
       PluginWebSocketMessageEvent.SUB,
       topic
     );
-    this.setMessageCallBackHandlerMap(req.identity, callback);
-
+    this.setMessageCallbackHandlers(req.identity, callback);
+    this.channels.set(req.topic, channel);
     this.send(req.data);
   }
 
   unsubscribe(
+    channel: string,
     topic: PluginWebSocketMessageTopic,
     callback: MessageBrickEventHandlerCallback
   ): void {
@@ -93,7 +96,7 @@ export class MessageDispatcher {
       topic
     );
 
-    this.setMessageCallBackHandlerMap(req.identity, callback);
+    this.setMessageCallbackHandlers(req.identity, callback);
     this.send(req.data);
   }
 
@@ -111,17 +114,17 @@ export class MessageDispatcher {
     };
   }
 
-  setMessageCallBackHandlerMap(
+  setMessageCallbackHandlers(
     identity: string,
     callback: MessageBrickEventHandlerCallback
   ): void {
-    if (this.messageCallBackHandlerMap.get(identity)) {
-      this.messageCallBackHandlerMap.set(identity, [
-        ...this.messageCallBackHandlerMap.get(identity),
+    if (this.messageCallbackHandlers.get(identity)) {
+      this.messageCallbackHandlers.set(identity, [
+        ...this.messageCallbackHandlers.get(identity),
         ...[].concat(callback).filter(Boolean),
       ]);
     } else {
-      this.messageCallBackHandlerMap.set(
+      this.messageCallbackHandlers.set(
         identity,
         [].concat(callback).filter(Boolean)
       );
@@ -188,13 +191,13 @@ export class MessageDispatcher {
   private getMessageHandlersByTopic(
     topic: PluginWebSocketMessageTopic
   ): BrickAndMessage[] {
-    const finder = [...this.messages.keys()].find((key) => {
+    const finder = [...this.channels.keys()].find((key) => {
       const t = JSON.parse(key);
       // Support glob expressions
       return t.system === topic.system && minimatch(topic.topic, t.topic);
     });
 
-    return this.messages.get(finder);
+    return this.messages.get(this.channels.get(finder));
   }
   private messagePushHandler(
     topic: string,
@@ -228,7 +231,7 @@ export class MessageDispatcher {
     method: "success" | "error",
     event: PluginWebSocketMessageEvent
   ): void {
-    const callbacks = this.messageCallBackHandlerMap.get(response.identity);
+    const callbacks = this.messageCallbackHandlers.get(response.identity);
     if (Array.isArray(callbacks)) {
       for (const handler of callbacks) {
         const e = new CustomEvent(event, {

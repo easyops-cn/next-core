@@ -60,10 +60,7 @@ const mockBrickAndMessages = [
     },
     message: [
       {
-        channel: {
-          system: "pipeline",
-          topic: "pipeline.task.running.001",
-        },
+        channel: "channel",
         handlers: [
           {
             action: "console.warn",
@@ -86,10 +83,7 @@ const mockBrickAndMessages = [
     },
     message: [
       {
-        channel: {
-          system: "pipeline",
-          topic: "pipeline.task.running.001",
-        },
+        channel: "channel",
         handlers: [
           {
             action: "console.log",
@@ -134,8 +128,16 @@ describe("MessageDispatcher", () => {
       };
 
       // subscribe message success
-      md.subscribe(topic, callback as MessageBrickEventHandlerCallback);
-      md.subscribe(topic, callback as MessageBrickEventHandlerCallback);
+      md.subscribe(
+        "channel",
+        topic,
+        callback as MessageBrickEventHandlerCallback
+      );
+      md.subscribe(
+        "channel",
+        topic,
+        callback as MessageBrickEventHandlerCallback
+      );
 
       spyOnGetWebSocket.mock.results[0].value.onMessage(
         new WebsocketMessageResponse(
@@ -200,7 +202,11 @@ describe("MessageDispatcher", () => {
       };
 
       // subscribe message success
-      md.unsubscribe(topic, callback as MessageBrickEventHandlerCallback);
+      md.unsubscribe(
+        "channel",
+        topic,
+        callback as MessageBrickEventHandlerCallback
+      );
 
       spyOnGetWebSocket.mock.results[0].value.onMessage(
         new WebsocketMessageResponse(
