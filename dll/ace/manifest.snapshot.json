@@ -1,0 +1,69 @@
+{
+  "name": "DllOfAce",
+  "content": {
+    "./node_modules/prop-types/index.js": {
+      "id": "17x9",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/webpack/buildin/amd-define.js": {
+      "id": "B9Yq",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/brace/index.js": {
+      "id": "Bhyg",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/brace/ext/split.js": {
+      "id": "JTaG",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-ace/lib/split.js": {
+      "id": "N5VM",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-ace/lib/diff.js": {
+      "id": "Uf63",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/lodash.isequal/index.js": {
+      "id": "XaGS",
+      "buildMeta": { "providedExports": true }
+    },
+    "dll-reference dll": {
+      "id": "XuQu",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/webpack/buildin/module.js": {
+      "id": "YuTi",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/diff-match-patch/index.js": {
+      "id": "ZBwS",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-ace/lib/ace.js": {
+      "id": "eF/C",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-ace/lib/index.js": {
+      "id": "lc5D",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react/index.js": {
+      "id": "q1tI",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-ace/lib/editorOptions.js": {
+      "id": "tGEx",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/lodash.get/index.js": {
+      "id": "yDJ3",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/webpack/buildin/global.js": {
+      "id": "yLpj",
+      "buildMeta": { "providedExports": true }
+    }
+  }
+}
