@@ -28,10 +28,11 @@
       }
     },
     {
-      "files": ["cypress/integration/**/*.js"],
+      "files": ["cypress/**/*.js"],
       "extends": "@easyops/eslint-config-next/node",
       "globals": {
-        "cy": true
+        "cy": true,
+        "Cypress": true
       }
     }
   ]
