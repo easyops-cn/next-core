@@ -42,6 +42,7 @@ const mockMenuList: any[] = [
       {
         text: "Menu Item 3",
         sort: 2,
+        defaultExpanded: true,
         children: [
           {
             text: "Menu Item 4",
@@ -204,6 +205,7 @@ describe("constructMenu", () => {
             type: "subMenu",
             title: "Menu Item 3",
             icon: undefined,
+            defaultExpanded: true,
             items: [
               {
                 text: "Menu Item 4",

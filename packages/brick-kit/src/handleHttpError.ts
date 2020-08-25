@@ -35,7 +35,10 @@ export const handleHttpError = (
   if (isUnauthenticatedError(error)) {
     const history = getHistory();
     history.push("/auth/login", {
-      from: history.location,
+      from: {
+        ...history.location,
+        state: undefined,
+      },
     });
     return;
   }

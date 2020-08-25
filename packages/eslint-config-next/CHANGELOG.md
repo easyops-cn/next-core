@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/eslint-config-next@0.1.17...@easyops/eslint-config-next@0.1.18) (2020-08-23)
+
+**Note:** Version bump only for package @easyops/eslint-config-next
+
 ## [0.1.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/eslint-config-next@0.1.16...@easyops/eslint-config-next@0.1.17) (2020-07-31)
 
 **Note:** Version bump only for package @easyops/eslint-config-next

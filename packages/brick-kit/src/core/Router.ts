@@ -99,7 +99,8 @@ export class Router {
 
       this.locationChangeNotify(this.prevLocation.pathname, location.pathname);
       this.prevLocation = location;
-
+      this.locationContext.handlePageLeave();
+      this.locationContext.messageDispatcher.reset();
       if (this.rendering) {
         this.nextLocation = location;
       } else {
@@ -312,6 +313,7 @@ export class Router {
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
           this.locationContext.resolver.scheduleRefreshing();
+          this.locationContext.handleMessage();
         }
         this.state = "mounted";
 

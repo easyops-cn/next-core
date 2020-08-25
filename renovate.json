@@ -10,12 +10,23 @@
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],
-      "automerge": true,
-      "baseBranches": ["master"]
+      "automerge": true
     },
     {
-      "packagePatterns": ["^@bricks/", "^@libs/", "^@micro-apps/", "^@sdk/", "^@dll", "^@easyops/"],
+      "packagePatterns": [
+        "^@bricks/",
+        "^@libs/",
+        "^@micro-apps/",
+        "^@sdk/",
+        "^@dll",
+        "^@easyops/"
+      ],
       "automerge": false
+    },
+    {
+      "packageNames": ["size-limit"],
+      "packagePatterns": ["^@size-limit/"],
+      "groupName": "size-limit packages"
     }
   ]
 }
