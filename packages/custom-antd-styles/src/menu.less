@@ -1,0 +1,16 @@
+/**
+ * 修改 menu 的样式
+ * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=855c88e2-f39d-4997-a629-180e323b54ab
+*/
+.@{menu-prefix-cls} {
+
+  &-vertical,
+  &-vertical-left,
+  &-vertical-right,
+  &-inline {
+    .@{menu-prefix-cls}-item::after {
+      right: auto;
+      left: 0;
+    }
+  }
+}

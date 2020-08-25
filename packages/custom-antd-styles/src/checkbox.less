@@ -1,7 +1,4 @@
-
-
 .@{ant-prefix}-checkbox {
-
   &-inner {
     border-radius: 4px;
   }
@@ -25,6 +22,23 @@
       transform: scale(1);
       opacity: 1;
       border: 1px solid #fff;
+    }
+  }
+
+  /**
+  * 修改 checkbox 的样式
+  * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=89e284e6-ab84-4808-a13b-bb72f6a60825&project_id=89e284e6-ab84-4808-a13b-bb72f6a60825&image_id=6966bded-0b54-4534-878c-478820c09df6
+  */
+  &-wrapper {
+    border-radius: 4px;
+    padding: 4px 6px;
+
+    &:hover {
+      background: #ebf3fd;
+    }
+
+    &-checked {
+      background: #f5f5f5;
     }
   }
 }
