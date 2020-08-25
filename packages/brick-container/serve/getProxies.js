@@ -115,7 +115,6 @@ module.exports = (env) => {
           target: server,
           secure: false,
           changeOrigin: true,
-          secure: false,
           ws: true,
           headers: {
             Origin: server,
@@ -126,6 +125,7 @@ module.exports = (env) => {
         ...proxyPaths.reduce((acc, seg) => {
           acc[`${publicPath}${seg}`] = {
             target: server,
+            secure: false,
             changeOrigin: true,
             pathRewrite: pathRewriteFactory(seg),
             ...(seg === "api" ? apiProxyOptions : {}),

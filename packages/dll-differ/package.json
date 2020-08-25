@@ -1,0 +1,20 @@
+{
+  "name": "@easyops/dll-differ",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Diff a dll package's manifest with snapshot",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/dll-differ",
+  "license": "UNLICENSED",
+  "main": "src/index.js",
+  "bin": {
+    "dll-differ": "./bin/dll-differ.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "dependencies": {
+    "diff": "^4.0.2",
+    "prettier": "^2.1.0"
+  }
+}

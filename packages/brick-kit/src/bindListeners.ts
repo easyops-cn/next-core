@@ -403,12 +403,14 @@ function builtinWebSocketListenerFactory(
       return;
     }
 
-    const [channel] = argsFactory(args, context, event) as [
+    const [channel, messageTopic] = argsFactory(args, context, event) as [
+      string,
       PluginWebSocketMessageTopic
     ];
 
-    const { system, topic } = channel;
+    const { system, topic } = messageTopic;
     getMessageDispatcher()[method](
+      channel,
       { system, topic },
       { ...callback, brick, context }
     );
