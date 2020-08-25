@@ -4,7 +4,6 @@
   "overrides": [
     {
       "files": [
-        "cypress/plugins/**/*.js",
         "packages/brick-container/{dev-server,serve}/**/*.js",
         "packages/rollup-config-factory/src/**/*.{ts,js}",
         "packages/webpack-config-factory/src/**/*.{ts,js}",
@@ -24,13 +23,6 @@
       "files": ["packages/brick-scripts/template/**/*.{js,ts,jsx,tsx}"],
       "rules": {
         "@typescript-eslint/no-empty-interface": "off"
-      }
-    },
-    {
-      "files": ["cypress/integration/**/*.js"],
-      "extends": "@easyops/eslint-config-next/node",
-      "globals": {
-        "cy": true
       }
     }
   ]

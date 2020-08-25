@@ -23,12 +23,7 @@ module.exports = {
   transform: {
     "^.+\\.[jt]sx?$": "babel-jest",
   },
-  testPathIgnorePatterns: [
-    "/node_modules/",
-    "/dist/",
-    "/template/",
-    "/cypress/",
-  ],
+  testPathIgnorePatterns: ["/node_modules/", "/dist/", "/template/"],
   moduleNameMapper: {
     "\\.svg": "<rootDir>/__mocks__/svgrMock.js",
   },
