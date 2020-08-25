@@ -12,7 +12,7 @@ describe("Developers page", () => {
       },
     });
     cy.get("basic-bricks\\.micro-view", {
-      timeout: 10e3,
+      timeout: 20e3,
     });
     cy.contains("graph.general-graph");
     cy.get("graph\\.general-graph");
