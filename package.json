@@ -10,14 +10,18 @@
   "scripts": {
     "prepare": "lerna bootstrap",
     "start": "lerna run start --scope \"@easyops/brick-container\"",
-    "remote": "lerna run start --scope \"@easyops/brick-container\" -- --remote",
+    "serve": "brick-container-serve",
+    "serve:ci": "brick-container-serve --remote --subdir --local-settings",
     "build": "lerna run build",
     "postbuild": "npm run size-limit",
     "size-limit": "size-limit",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --ci",
     "yo": "brick-scripts -t dll",
-    "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll"
+    "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e:ci": "npx start-server-and-test serve:ci http://localhost:8081/next/ cypress:run"
   },
   "browserslist": {
     "development": [
@@ -30,6 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/types": "^7.11.0",
+    "@cypress/browserify-preprocessor": "^3.0.1",
     "@size-limit/file": "^4.5.5",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
@@ -49,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "^3.9.1",
     "babel-jest": "^26.3.0",
     "cross-env": "^7.0.2",
+    "cypress": "^5.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.3",
     "enzyme-to-json": "^3.5.0",

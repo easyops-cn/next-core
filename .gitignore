@@ -9,3 +9,6 @@ node_modules
 report.*.json
 
 /dev.config.js
+
+/cypress/videos
+/cypress/screenshots
