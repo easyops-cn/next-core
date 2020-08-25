@@ -342,6 +342,7 @@ describe("bindListeners", () => {
         {
           action: "message.subscribe",
           args: [
+            "task1",
             {
               system: "pipeline",
               topic: "pipeline.running.001",
@@ -359,6 +360,7 @@ describe("bindListeners", () => {
         {
           action: "message.unsubscribe",
           args: [
+            "task1",
             {
               system: "pipeline",
               topic: "pipeline.running.001",
@@ -588,6 +590,7 @@ describe("bindListeners", () => {
     });
 
     expect(mockMessageDispatcher.subscribe).toHaveBeenLastCalledWith(
+      "task1",
       { system: "pipeline", topic: "pipeline.running.001" },
       expect.objectContaining({
         brick: sourceElem,
@@ -600,6 +603,7 @@ describe("bindListeners", () => {
       })
     );
     expect(mockMessageDispatcher.unsubscribe).toHaveBeenLastCalledWith(
+      "task1",
       { system: "pipeline", topic: "pipeline.running.001" },
       expect.objectContaining({
         brick: sourceElem,
