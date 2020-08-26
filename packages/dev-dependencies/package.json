@@ -46,7 +46,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.4.2",
     "lerna": "^3.22.1",
-    "lint-staged": "^10.2.11",
+    "lint-staged": "^10.2.13",
     "prettier": "^2.1.0",
     "pretty-format": "^26.4.2",
     "rimraf": "^3.0.2",
