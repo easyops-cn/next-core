@@ -7833,10 +7833,10 @@ html-escaper@^2.0.0:
   resolved "https://registry.npm.taobao.org/html-escaper/download/html-escaper-2.0.0.tgz#71e87f931de3fe09e56661ab9a29aadec707b491"
   integrity sha1-ceh/kx3j/gnlZmGrmimq3scHtJE=
 
-html-loader@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npm.taobao.org/html-loader/download/html-loader-1.2.1.tgz?cache=0&sync_timestamp=1597845419386&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhtml-loader%2Fdownload%2Fhtml-loader-1.2.1.tgz#d564cde016d17fe8a2992a64fea314e09fed7fe3"
-  integrity sha1-1WTN4BbRf+iimSpk/qMU4J/tf+M=
+html-loader@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/html-loader/download/html-loader-1.3.0.tgz?cache=0&sync_timestamp=1598374897627&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhtml-loader%2Fdownload%2Fhtml-loader-1.3.0.tgz#2cbca7794702818b60f55b3b7c73ab642236635a"
+  integrity sha1-LLyneUcCgYtg9Vs7fHOrZCI2Y1o=
   dependencies:
     html-minifier-terser "^5.1.1"
     htmlparser2 "^4.1.0"
