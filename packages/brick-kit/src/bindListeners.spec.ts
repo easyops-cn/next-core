@@ -33,6 +33,8 @@ const mockHistory = {
   reload: jest.fn(),
   goBack: jest.fn(),
   goForward: jest.fn(),
+  setBlockMessage: jest.fn(),
+  unblock: jest.fn(),
   location: {
     search: "?page=3",
   },
@@ -247,6 +249,8 @@ describe("bindListeners", () => {
         {
           action: "history.reload",
         },
+        { action: "history.block", args: ["Are you sure to leave?"] },
+        { action: "history.unblock" },
         {
           action: "legacy.go",
           args: ["www.google.com"],
@@ -518,6 +522,8 @@ describe("bindListeners", () => {
     expect(history.goBack).toBeCalledWith();
     expect(history.goForward).toBeCalledWith();
     expect(history.reload).toBeCalled();
+    expect(history.setBlockMessage).toBeCalledWith("Are you sure to leave?");
+    expect(history.unblock).toBeCalled();
 
     expect(window.location.reload).toBeCalledWith();
     expect(window.location.assign).toBeCalledWith("www.baidu.com");

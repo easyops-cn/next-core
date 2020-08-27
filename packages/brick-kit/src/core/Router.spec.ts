@@ -1,10 +1,12 @@
+import { History, Location, LocationListener } from "history";
 import { getHistory } from "../history";
 import { Router } from "./Router";
 import { Kernel } from "./Kernel";
 import {
-  // @ts-ignore
+  LocationContext,
+  // @ts-ignore mocking
   __setMatchedStoryboard,
-  // @ts-ignore
+  // @ts-ignore mocking
   __setMountRoutesResults,
 } from "./LocationContext";
 import { mountTree, mountStaticNode } from "./reconciler";
@@ -22,35 +24,60 @@ const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
 (getAuth as jest.Mock).mockReturnValue({});
 
-let historyListeners: Function[] = [];
-const mockHistoryPush = (location: any): void => {
+let historyListeners: LocationListener[] = [];
+const mockHistoryPush = (location: Partial<Location>): void => {
   historyListeners.forEach((fn) => {
-    fn(location, "PUSH");
+    fn(location as Location, "PUSH");
   });
 };
-const mockHistoryPop = (location: any): void => {
+const mockHistoryPop = (location: Partial<Location>): void => {
   historyListeners.forEach((fn) => {
-    fn(location, "POP");
+    fn(location as Location, "POP");
   });
 };
-const spyOnHistoryListen = jest.fn((fn: Function) => {
-  historyListeners.push(fn);
+
+let blockMessage: string;
+const setBlockMessage = jest.fn((message: string): void => {
+  blockMessage = message;
 });
-const spyOnHistoryReplace = jest.fn();
-spyOnGetHistory.mockReturnValue({
-  location: {
+const getBlockMessage = jest.fn((): string => {
+  return blockMessage;
+});
+const unblock = jest.fn((): void => {
+  blockMessage = undefined;
+});
+
+let blockFn: History.TransitionPromptHook;
+
+const spyOnHistory = {
+  location: ({
     pathname: "/yo",
-  },
-  listen: spyOnHistoryListen,
-  replace: spyOnHistoryReplace,
+  } as unknown) as Location,
+  listen: jest.fn((fn: LocationListener) => {
+    historyListeners.push(fn);
+    return () => {
+      const index = historyListeners.indexOf(fn);
+      if (index >= 0) {
+        historyListeners.splice(index, 1);
+      }
+    };
+  }),
+  replace: jest.fn(),
+  block: jest.fn((fn) => {
+    blockFn = fn;
+  }),
   createHref: () => "/oops",
-});
+  setBlockMessage,
+  getBlockMessage,
+  unblock,
+};
+spyOnGetHistory.mockReturnValue(spyOnHistory);
 
 const mockFeature = jest.fn().mockReturnValue({});
 
 describe("Router", () => {
   let router: Router;
-  const kernel: Kernel = {
+  const kernel = ({
     mountPoints: {
       main: document.createElement("div"),
       bg: document.createElement("div"),
@@ -75,7 +102,7 @@ describe("Router", () => {
     getRecentApps: jest.fn(),
     loadDepsOfStoryboard: jest.fn(),
     fulfilStoryboard: jest.fn(),
-  } as any;
+  } as unknown) as Kernel;
 
   beforeEach(() => {
     router = new Router(kernel);
@@ -107,11 +134,11 @@ describe("Router", () => {
       appBar: {
         title: "app",
       },
-    } as any);
+    });
     expect(router.getState()).toBe("initial");
     await router.bootstrap();
     expect(router.getState()).toBe("mounted");
-    expect(spyOnHistoryListen).toBeCalled();
+    expect(spyOnHistory.listen).toBeCalled();
     const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
     expect(dispatchedEvent.type).toBe("app.change");
     expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
@@ -142,9 +169,9 @@ describe("Router", () => {
           },
         },
       },
-    } as any);
+    });
     await router.bootstrap();
-    expect(spyOnHistoryReplace.mock.calls[0]).toEqual([
+    expect(spyOnHistory.replace.mock.calls[0]).toEqual([
       "/auth/login",
       {
         from: "/private",
@@ -163,7 +190,7 @@ describe("Router", () => {
         barsHidden: true,
       },
       main: [],
-    } as any);
+    });
     await router.bootstrap();
     expect(kernel.toggleBars).toBeCalledWith(false);
     expect(spyOnMountStaticNode).not.toBeCalled();
@@ -195,7 +222,7 @@ describe("Router", () => {
     spyOnIsLoggedIn.mockReturnValueOnce(false);
     await router.bootstrap();
     expect(spyOnMountTree).toBeCalledTimes(0);
-    expect(spyOnHistoryReplace).toBeCalledWith("/auth/login", {
+    expect(spyOnHistory.replace).toBeCalledWith("/auth/login", {
       from: {
         pathname: "/yo",
       },
@@ -283,7 +310,7 @@ describe("Router", () => {
     expect(spyOnMountTree).toBeCalledTimes(2);
   });
 
-  it("location change should notify", async () => {
+  it("should notify when location changed", async () => {
     const mockImage = jest.spyOn(window, "Image");
     mockFeature.mockReturnValue({ "log-location-change": true });
     router = new Router(kernel);
@@ -293,5 +320,46 @@ describe("Router", () => {
       pathname: "/first",
     });
     expect(mockImage).toBeCalled();
+  });
+
+  it("should block", async () => {
+    router = new Router(kernel);
+    jest.clearAllMocks();
+
+    const fireBeforeunload = (): CustomEvent => {
+      const beforeunloadEvent = new CustomEvent("beforeunload");
+      jest.spyOn(beforeunloadEvent, "preventDefault");
+      window.dispatchEvent(beforeunloadEvent);
+      return beforeunloadEvent;
+    };
+
+    const eventTriggeringNothing = fireBeforeunload();
+    expect(eventTriggeringNothing.preventDefault).not.toBeCalled();
+
+    jest.clearAllMocks();
+    spyOnHistory.setBlockMessage("Are you sure to leave?");
+    const eventBlocking = fireBeforeunload();
+    expect(eventBlocking.preventDefault).toBeCalled();
+    expect(spyOnHistory.unblock).not.toBeCalled();
+
+    spyOnHistory.unblock();
+    jest.clearAllMocks();
+    const messageUnblocked = blockFn(
+      {
+        pathname: "/home",
+      } as Location,
+      "PUSH"
+    );
+    expect(messageUnblocked).toBe(undefined);
+
+    jest.clearAllMocks();
+    spyOnHistory.setBlockMessage("Are you sure to leave?");
+    const messageBlocked = blockFn(
+      {
+        pathname: "/home",
+      } as Location,
+      "PUSH"
+    );
+    expect(messageBlocked).toBe("Are you sure to leave?");
   });
 });
