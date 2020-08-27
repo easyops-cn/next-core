@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.41](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.40...@easyops/create-next-repo@0.13.41) (2020-08-27)
+
+### Bug Fixes
+
+- **dev-dependencies:** 新增给 package.json 的 test scripts 打添加 --expose-gc 和 --logHeapUsage 参数的补丁 ([f9b6674](https://git.easyops.local/anyclouds/next-core/commits/f9b6674))
+
 ## [0.13.40](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.39...@easyops/create-next-repo@0.13.40) (2020-08-26)
 
 **Note:** Version bump only for package @easyops/create-next-repo

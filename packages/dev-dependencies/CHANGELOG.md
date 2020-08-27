@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.11...@easyops/dev-dependencies@0.7.12) (2020-08-27)
+
+### Bug Fixes
+
+- **dev-dependencies:** 新增给 package.json 的 test scripts 打添加 --expose-gc 和 --logHeapUsage 参数的补丁 ([f9b6674](https://git.easyops.local/anyclouds/next-core/commits/f9b6674))
+
 ## [0.7.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.10...@easyops/dev-dependencies@0.7.11) (2020-08-26)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

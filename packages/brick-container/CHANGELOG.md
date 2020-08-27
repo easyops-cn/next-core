@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.28.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.4...@easyops/brick-container@1.28.5) (2020-08-27)
+
+### Bug Fixes
+
+- **portal:** make portal container out of flow ([aa7f0b0](https://git.easyops.local/anyclouds/next-core/commits/aa7f0b0))
+
 ## [1.28.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.3...@easyops/brick-container@1.28.4) (2020-08-26)
 
 **Note:** Version bump only for package @easyops/brick-container
