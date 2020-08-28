@@ -1,6 +1,6 @@
 {
   "name": "@easyops/create-next-repo",
-  "version": "1.0.0-next.6",
+  "version": "1.0.0-next.7",
   "description": "Create new brick-next repositories",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/create-next-repo",
   "license": "UNLICENSED",

@@ -1,6 +1,6 @@
 {
   "name": "@easyops/dev-dependencies",
-  "version": "1.0.0-next.6",
+  "version": "1.0.0-next.7",
   "description": "Dev dependencies for brick-next related packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/dev-dependencies",
   "license": "UNLICENSED",
