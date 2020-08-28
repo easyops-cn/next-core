@@ -4,6 +4,7 @@
   "overrides": [
     {
       "files": [
+        "cypress/plugins/**/*.js",
         "packages/brick-container/{dev-server,serve}/**/*.js",
         "packages/rollup-config-factory/src/**/*.{ts,js}",
         "packages/webpack-config-factory/src/**/*.{ts,js}",
@@ -15,7 +16,8 @@
         "packages/babel-preset-next/*.js",
         "packages/babel-preset-prismjs/*.js",
         "packages/browserslist-config-next/*.js",
-        "packages/dev-dependencies/*.js"
+        "packages/dev-dependencies/*.js",
+        "packages/dll-differ/**/*.js"
       ],
       "extends": "@easyops/eslint-config-next/node"
     },
@@ -23,6 +25,14 @@
       "files": ["packages/brick-scripts/template/**/*.{js,ts,jsx,tsx}"],
       "rules": {
         "@typescript-eslint/no-empty-interface": "off"
+      }
+    },
+    {
+      "files": ["cypress/**/*.js"],
+      "extends": "@easyops/eslint-config-next/node",
+      "globals": {
+        "cy": true,
+        "Cypress": true
       }
     }
   ]

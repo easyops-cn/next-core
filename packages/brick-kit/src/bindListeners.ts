@@ -403,12 +403,14 @@ function builtinWebSocketListenerFactory(
       return;
     }
 
-    const [channel] = argsFactory(args, context, event) as [
+    const [channel, messageTopic] = argsFactory(args, context, event) as [
+      string,
       PluginWebSocketMessageTopic
     ];
 
-    const { system, topic } = channel;
+    const { system, topic } = messageTopic;
     getMessageDispatcher()[method](
+      channel,
       { system, topic },
       { ...callback, brick, context }
     );
@@ -561,12 +563,19 @@ async function brickCallback(
     try {
       const result = await task;
       if (success) {
-        const successEvent = new CustomEvent("callback.success", {
-          detail: result,
-        });
-        [].concat(success).forEach((eachSuccess) => {
-          listenerFactory(eachSuccess, context, brick)(successEvent);
-        });
+        try {
+          const successEvent = new CustomEvent("callback.success", {
+            detail: result,
+          });
+          [].concat(success).forEach((eachSuccess) => {
+            listenerFactory(eachSuccess, context, brick)(successEvent);
+          });
+        } catch (err) {
+          // Do not throw errors in `callback.success`,
+          // to avoid the following triggering of `callback.error`.
+          // eslint-disable-next-line
+          console.error(err);
+        }
       }
     } catch (err) {
       if (error) {

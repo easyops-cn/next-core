@@ -37,7 +37,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops/brick-http": "^1.1.6",
+    "@easyops/brick-http": "^2.0.0-next.1",
     "@easyops/brick-utils": "^2.0.0-next.3",
     "antd": "^4.6.1",
     "history": "^4.10.1",

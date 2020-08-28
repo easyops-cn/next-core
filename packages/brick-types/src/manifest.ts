@@ -169,10 +169,7 @@ export interface RuntimeBrickConf extends BrickConf {
 }
 
 export interface MessageConf {
-  channel: {
-    system: string;
-    topic: string;
-  };
+  channel: string;
   handlers: BrickEventHandler | BrickEventHandler[];
 }
 

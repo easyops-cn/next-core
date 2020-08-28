@@ -29,6 +29,7 @@ body {
 
 #portal-mount-point {
   height: 0;
+  position: absolute;
 }
 
 .bars-hidden #main-mount-point,

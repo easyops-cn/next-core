@@ -45,6 +45,10 @@ module.exports = function patch() {
     updateRenovatePostUpgradeTasks();
   }
 
+  if (semver.lt(currentRenewVersion, "0.7.12")) {
+    updatePackageJsonScriptsTestCommand(rootPackageJson);
+  }
+
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
@@ -313,4 +317,11 @@ function updateRenovatePostUpgradeTasks() {
     });
     writeJsonFile(renovateJsonPath, renovateJson);
   }
+}
+
+function updatePackageJsonScriptsTestCommand(packageJson) {
+  packageJson.scripts.test =
+    "cross-env NODE_ENV='test' node --expose-gc ./node_modules/.bin/jest --logHeapUsage";
+  packageJson.scripts["test:ci"] =
+    "cross-env NODE_ENV='test' CI=true node --expose-gc ./node_modules/.bin/jest --logHeapUsage --ci";
 }
