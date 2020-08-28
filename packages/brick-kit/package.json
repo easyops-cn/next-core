@@ -47,7 +47,7 @@
     "mock-socket": "^9.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.7.1"
+    "react-i18next": "^11.7.2"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",
