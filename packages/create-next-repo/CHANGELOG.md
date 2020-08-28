@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.42...@easyops/create-next-repo@1.0.0-next.6) (2020-08-28)
+
+### Bug Fixes
+
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
 ## [0.13.42](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.41...@easyops/create-next-repo@0.13.42) (2020-08-28)
 
 **Note:** Version bump only for package @easyops/create-next-repo
