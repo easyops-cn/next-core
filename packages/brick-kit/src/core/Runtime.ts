@@ -19,7 +19,12 @@ import {
   registerCustomProcessor,
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
-import { RelatedApp, RouterState, RecentApps } from "./interfaces";
+import {
+  RelatedApp,
+  RouterState,
+  RecentApps,
+  CustomApiOrchestration,
+} from "./interfaces";
 
 let kernel: Kernel;
 
@@ -122,6 +127,13 @@ export class Runtime {
   /* istanbul ignore next */
   getMagicBrickConfigMapAsync(): Promise<Map<string, MagicBrickConfig>> {
     return kernel.allMagicBrickConfigMapPromise;
+  }
+
+  /* istanbul ignore next */
+  getMicroAppApiOrchestrationMapAsync(): Promise<
+    WeakMap<{ name: string; namespace: string }, CustomApiOrchestration>
+  > {
+    return kernel.allMicroAppApiOrchestrationPromise;
   }
 
   /**

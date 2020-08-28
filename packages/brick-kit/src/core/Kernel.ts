@@ -29,7 +29,12 @@ import {
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
-import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
+import {
+  RelatedApp,
+  VisitedWorkspace,
+  RecentApps,
+  CustomApiOrchestration,
+} from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { registerCustomTemplate } from "./CustomTemplates";
@@ -55,6 +60,10 @@ export class Kernel {
   > = Promise.resolve(new Map());
 
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
+  // public allMicroAppApiOrchestrationPromise: Promise<WeakMap<{name:string,namespace:string}, CustomApiOrchestration>>  = Promise.resolve(new WeakMap());
+  public allMicroAppApiOrchestrationPromise: Promise<
+    Map<string, CustomApiOrchestration>
+  > = Promise.resolve(new Map());
   private providerRepository = new Map<string, HTMLElement>();
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
@@ -230,6 +239,8 @@ export class Kernel {
       },
       this.bootstrapData.brickPackages
     );
+    // console.log(dll,'dll');
+    // console.log(deps,'deps');
     await loadScript(dll);
     await loadScript(deps);
   }
@@ -273,6 +284,7 @@ export class Kernel {
   loadSharedData(): void {
     this.loadUsersAsync();
     this.loadRelatedAppsAsync();
+    // this.loadMicroAppApiOrchestrationAsync();
     if (
       this.bootstrapData.settings?.featureFlags?.["load-magic-brick-config"]
     ) {
@@ -310,6 +322,53 @@ export class Kernel {
       console.warn("Load users error:", error);
     }
     return allUserMap;
+  }
+
+  public loadMicroAppApiOrchestrationAsync(currentAppId: string): void {
+    // private loadMicroAppApiOrchestrationAsync(): void {
+    this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
+      currentAppId
+    );
+    // console.log(this.allMicroAppApiOrchestrationPromise,'this.allMicroAppApiOrchestrationPromise');
+  }
+
+  private async loadMicroAppApiOrchestration(
+    currentAppId: string
+  ): Promise<Map<string, CustomApiOrchestration>> {
+    // private async loadMicroAppApiOrchestration(currentAppId: string): Promise<WeakMap<{name:string,namespace:string}, CustomApiOrchestration>>{
+
+    const allMicroAppApiOrchestrationMap: Map<
+      string,
+      CustomApiOrchestration
+    > = new Map();
+    // 应该需要确认下this.currentApp.id存在
+    try {
+      const allMicroAppApiOrchestration = (
+        await InstanceApi.postSearch("MICRO_APP_API_ORCHESTRATION", {
+          page: 1,
+          // TODO(Lynette): 暂时设置3000，这里单个app下自定义的api数据不会太多。
+          page_size: 3000,
+          fields: {
+            "*": true,
+          },
+          query: {
+            // "microApp.appId": this.currentApp.id
+            "microApp.appId": currentAppId,
+          },
+        })
+      ).list as CustomApiOrchestration[];
+      for (const api of allMicroAppApiOrchestration) {
+        // allMicroAppApiOrchestrationMap.set({
+        //   name: api.name,
+        //   namespace: api.namespace
+        // }, api);
+        allMicroAppApiOrchestrationMap.set(`${api.namespace}${api.name}`, api);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn("Load custom api orchestration error:", error);
+    }
+    return allMicroAppApiOrchestrationMap;
   }
 
   private loadMagicBrickConfigAsync(): void {
@@ -370,6 +429,7 @@ export class Kernel {
   }
 
   async updateWorkspaceStack(): Promise<void> {
+    // console.log(this.currentApp,'this.currentApp the time');
     if (this.currentApp && this.currentApp.id) {
       const workspace: VisitedWorkspace = {
         appId: this.currentApp.id,
@@ -423,14 +483,27 @@ export class Kernel {
     return Object.assign({}, this.bootstrapData.settings?.featureFlags);
   }
 
+  isCustomApiProvider(provider: string): boolean {
+    return provider?.includes("@");
+  }
+
   async getProviderBrick(provider: string): Promise<HTMLElement> {
+    // console.log(provider,'provider');
+    // console.log(customElements,'customElements');
+    // console.log(this.providerRepository,'this.providerRepository');
     if (this.providerRepository.has(provider)) {
       return this.providerRepository.get(provider);
     }
     await this.loadDynamicBricks([provider]);
+
+    if (this.isCustomApiProvider(provider)) {
+      provider = "basic-providers.provider-custom-api";
+    }
+
     if (!customElements.get(provider)) {
       throw new Error(`Provider not defined: "${provider}".`);
     }
+
     const brick = document.createElement(provider);
     this.providerRepository.set(provider, brick);
     return brick;
