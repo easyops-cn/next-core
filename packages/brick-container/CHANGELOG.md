@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.0.0-next.4...@easyops/brick-container@2.0.0-next.6) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
 # [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.6...@easyops/brick-container@2.0.0-next.4) (2020-08-28)
 
 ### Bug Fixes

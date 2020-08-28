@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.6...@easyops/dev-dependencies@1.0.0-next.8) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
 # [1.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.13...@easyops/dev-dependencies@1.0.0-next.6) (2020-08-28)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

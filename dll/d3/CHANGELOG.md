@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.0-next.2...@dll/d3@2.0.0-next.4) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
 # [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@1.1.3...@dll/d3@2.0.0-next.2) (2020-08-28)
 
 **Note:** Version bump only for package @dll/d3
