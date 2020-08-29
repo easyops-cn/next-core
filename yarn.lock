@@ -9943,10 +9943,10 @@ meow@^4.0.0:
     redent "^2.0.0"
     trim-newlines "^2.0.0"
 
-meow@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.npm.taobao.org/meow/download/meow-7.1.0.tgz?cache=0&sync_timestamp=1597092850825&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmeow%2Fdownload%2Fmeow-7.1.0.tgz#50ecbcdafa16f8b58fb7eb9675b933f6473b3a59"
-  integrity sha1-UOy82voW+LWPt+uWdbkz9kc7Olk=
+meow@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.npm.taobao.org/meow/download/meow-7.1.1.tgz#7c01595e3d337fcb0ec4e8eed1666ea95903d306"
+  integrity sha1-fAFZXj0zf8sOxOju0WZuqVkD0wY=
   dependencies:
     "@types/minimist" "^1.2.0"
     camelcase-keys "^6.2.2"

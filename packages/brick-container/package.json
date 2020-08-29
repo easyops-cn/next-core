@@ -33,7 +33,7 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.5",
     "js-yaml": "^3.14.0",
-    "meow": "^7.1.0"
+    "meow": "^7.1.1"
   },
   "devDependencies": {
     "@dll/ace": "^1.0.178",
