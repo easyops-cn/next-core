@@ -7875,10 +7875,10 @@ html-parse-stringify2@2.0.1:
   dependencies:
     void-elements "^2.0.1"
 
-html-webpack-plugin@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.npm.taobao.org/html-webpack-plugin/download/html-webpack-plugin-4.3.0.tgz?cache=0&sync_timestamp=1588268411154&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhtml-webpack-plugin%2Fdownload%2Fhtml-webpack-plugin-4.3.0.tgz#53bf8f6d696c4637d5b656d3d9863d89ce8174fd"
-  integrity sha1-U7+PbWlsRjfVtlbT2YY9ic6BdP0=
+html-webpack-plugin@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npm.taobao.org/html-webpack-plugin/download/html-webpack-plugin-4.4.0.tgz?cache=0&sync_timestamp=1598790734543&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhtml-webpack-plugin%2Fdownload%2Fhtml-webpack-plugin-4.4.0.tgz#ed6ab2b5e4e476ffa3c5ce52505aa31a42075029"
+  integrity sha1-7WqyteTkdv+jxc5SUFqjGkIHUCk=
   dependencies:
     "@types/html-minifier-terser" "^5.0.0"
     "@types/tapable" "^1.0.5"
