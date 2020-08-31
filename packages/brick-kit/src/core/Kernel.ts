@@ -39,6 +39,7 @@ import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { registerCustomTemplate } from "./CustomTemplates";
 import { listenDevtools } from "../devtools";
+import { isCustomApiProvider } from "./CustomAPIs";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -60,7 +61,6 @@ export class Kernel {
   > = Promise.resolve(new Map());
 
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
-  // public allMicroAppApiOrchestrationPromise: Promise<WeakMap<{name:string,namespace:string}, CustomApiOrchestration>>  = Promise.resolve(new WeakMap());
   public allMicroAppApiOrchestrationPromise: Promise<
     Map<string, CustomApiOrchestration>
   > = Promise.resolve(new Map());
@@ -239,8 +239,6 @@ export class Kernel {
       },
       this.bootstrapData.brickPackages
     );
-    // console.log(dll,'dll');
-    // console.log(deps,'deps');
     await loadScript(dll);
     await loadScript(deps);
   }
@@ -325,18 +323,20 @@ export class Kernel {
   }
 
   public loadMicroAppApiOrchestrationAsync(currentAppId: string): void {
-    // private loadMicroAppApiOrchestrationAsync(): void {
     this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
       currentAppId
     );
-    // console.log(this.allMicroAppApiOrchestrationPromise,'this.allMicroAppApiOrchestrationPromise');
+  }
+
+  async getMicroAppApiOrchestrationMapAsync(): Promise<
+    Map<string, CustomApiOrchestration>
+  > {
+    return await this.allMicroAppApiOrchestrationPromise;
   }
 
   private async loadMicroAppApiOrchestration(
     currentAppId: string
   ): Promise<Map<string, CustomApiOrchestration>> {
-    // private async loadMicroAppApiOrchestration(currentAppId: string): Promise<WeakMap<{name:string,namespace:string}, CustomApiOrchestration>>{
-
     const allMicroAppApiOrchestrationMap: Map<
       string,
       CustomApiOrchestration
@@ -352,16 +352,11 @@ export class Kernel {
             "*": true,
           },
           query: {
-            // "microApp.appId": this.currentApp.id
             "microApp.appId": currentAppId,
           },
         })
       ).list as CustomApiOrchestration[];
       for (const api of allMicroAppApiOrchestration) {
-        // allMicroAppApiOrchestrationMap.set({
-        //   name: api.name,
-        //   namespace: api.namespace
-        // }, api);
         allMicroAppApiOrchestrationMap.set(`${api.namespace}${api.name}`, api);
       }
     } catch (error) {
@@ -429,7 +424,6 @@ export class Kernel {
   }
 
   async updateWorkspaceStack(): Promise<void> {
-    // console.log(this.currentApp,'this.currentApp the time');
     if (this.currentApp && this.currentApp.id) {
       const workspace: VisitedWorkspace = {
         appId: this.currentApp.id,
@@ -483,20 +477,13 @@ export class Kernel {
     return Object.assign({}, this.bootstrapData.settings?.featureFlags);
   }
 
-  isCustomApiProvider(provider: string): boolean {
-    return provider?.includes("@");
-  }
-
   async getProviderBrick(provider: string): Promise<HTMLElement> {
-    // console.log(provider,'provider');
-    // console.log(customElements,'customElements');
-    // console.log(this.providerRepository,'this.providerRepository');
     if (this.providerRepository.has(provider)) {
       return this.providerRepository.get(provider);
     }
     await this.loadDynamicBricks([provider]);
 
-    if (this.isCustomApiProvider(provider)) {
+    if (isCustomApiProvider(provider)) {
       provider = "basic-providers.provider-custom-api";
     }
 

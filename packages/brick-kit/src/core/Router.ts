@@ -171,7 +171,6 @@ export class Router {
 
   private async render(location: PluginLocation): Promise<void> {
     resetAllInjected();
-    // console.log(location,'location');
 
     if (this.locationContext) {
       this.locationContext.resolver.resetRefreshQueue();
@@ -219,8 +218,9 @@ export class Router {
     }
 
     if (storyboard) {
-      // 是否在这里再去获得api？
-      await this.kernel.loadMicroAppApiOrchestrationAsync(currentApp.id);
+      if (appChanged) {
+        await this.kernel.loadMicroAppApiOrchestrationAsync(currentApp.id);
+      }
       const mountRoutesResult: MountRoutesResult = {
         main: [],
         menuInBg: [],

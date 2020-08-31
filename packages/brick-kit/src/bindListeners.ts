@@ -237,6 +237,9 @@ function usingProviderFactory(
   context: PluginRuntimeContext,
   brick: HTMLElement
 ): EventListener {
+  // console.log(handler,'handler');
+  // console.log(context,'context');
+  // console.log(brick,'brick');
   return (async function (event: CustomEvent): Promise<void> {
     if (!looseCheckIf(handler, { ...context, event })) {
       return;

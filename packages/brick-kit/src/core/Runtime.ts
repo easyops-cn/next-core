@@ -131,7 +131,7 @@ export class Runtime {
 
   /* istanbul ignore next */
   getMicroAppApiOrchestrationMapAsync(): Promise<
-    WeakMap<{ name: string; namespace: string }, CustomApiOrchestration>
+    Map<string, CustomApiOrchestration>
   > {
     return kernel.allMicroAppApiOrchestrationPromise;
   }
