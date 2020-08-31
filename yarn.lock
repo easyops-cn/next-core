@@ -9796,10 +9796,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lunr@^2.3.8:
-  version "2.3.8"
-  resolved "https://registry.npm.taobao.org/lunr/download/lunr-2.3.8.tgz#a8b89c31f30b5a044b97d2d28e2da191b6ba2072"
-  integrity sha1-qLicMfMLWgRLl9LSji2hkba6IHI=
+lunr@^2.3.9:
+  version "2.3.9"
+  resolved "https://registry.npm.taobao.org/lunr/download/lunr-2.3.9.tgz#18b123142832337dd6e964df1a5a7707b25d35e1"
+  integrity sha1-GLEjFCgyM33W6WTfGlp3B7JdNeE=
 
 macos-release@^2.0.0:
   version "2.1.0"
@@ -14872,33 +14872,33 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typedoc-default-themes@^0.10.2:
-  version "0.10.2"
-  resolved "https://registry.npm.taobao.org/typedoc-default-themes/download/typedoc-default-themes-0.10.2.tgz#743380a80afe62c5ef92ca1bd4abe2ac596be4d2"
-  integrity sha1-dDOAqAr+YsXvksob1KvirFlr5NI=
+typedoc-default-themes@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.npm.taobao.org/typedoc-default-themes/download/typedoc-default-themes-0.11.1.tgz#1c5d62d973cb1ddf83b724e023c7869ebcded3f2"
+  integrity sha1-HF1i2XPLHd+DtyTgI8eGnrze0/I=
   dependencies:
-    lunr "^2.3.8"
+    lunr "^2.3.9"
 
 typedoc-plugin-no-inherit@^1.1.10:
   version "1.1.10"
   resolved "https://registry.npm.taobao.org/typedoc-plugin-no-inherit/download/typedoc-plugin-no-inherit-1.1.10.tgz#559d2fa68bc5d31052bf058399c2c135f9af2f68"
   integrity sha1-VZ0vpovF0xBSvwWDmcLBNfmvL2g=
 
-typedoc@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.18.0.tgz#8bf53ddd7df5b8966b52c946929a09549d78682b"
-  integrity sha1-i/U93X31uJZrUslGkpoJVJ14aCs=
+typedoc@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.19.0.tgz?cache=0&sync_timestamp=1598844567997&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc%2Fdownload%2Ftypedoc-0.19.0.tgz#438ae5a8e631322e3fc21f6068f2729ff15b18b9"
+  integrity sha1-Q4rlqOYxMi4/wh9gaPJyn/FbGLk=
   dependencies:
     fs-extra "^9.0.1"
     handlebars "^4.7.6"
     highlight.js "^10.0.0"
-    lodash "^4.17.15"
-    lunr "^2.3.8"
+    lodash "^4.17.20"
+    lunr "^2.3.9"
     marked "^1.1.1"
     minimatch "^3.0.0"
     progress "^2.0.3"
     shelljs "^0.8.4"
-    typedoc-default-themes "^0.10.2"
+    typedoc-default-themes "^0.11.1"
 
 typescript-json-schema@^0.43.0:
   version "0.43.0"
