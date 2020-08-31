@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-const { throttle } = require("lodash");
+const { throttle, escapeRegExp } = require("lodash");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
 const WebSocket = require("ws");
@@ -40,7 +40,10 @@ const serveIndexHtml = (_req, res) => {
   // Replace nginx ssi placeholders.
   res.send(
     content.replace(
-      "<!--# echo var='base_href' default='/' -->",
+      new RegExp(
+        escapeRegExp("<!--# echo var='base_href' default='/' -->"),
+        "g"
+      ),
       env.publicPath
     )
   );
