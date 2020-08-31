@@ -1,3 +1,4 @@
+import { Location } from "history";
 import { RuntimeStoryboard, ResolveConf } from "@easyops/brick-types";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
@@ -285,6 +286,9 @@ describe("LocationContext", () => {
                       onPageLoad: {
                         action: "console.log",
                       },
+                      onBeforePageLeave: {
+                        action: "console.log",
+                      },
                       onPageLeave: {
                         action: "console.log",
                       },
@@ -352,6 +356,9 @@ describe("LocationContext", () => {
                               events: {},
                               lifeCycle: {
                                 onPageLoad: {
+                                  action: "console.info",
+                                },
+                                onBeforePageLeave: {
                                   action: "console.info",
                                 },
                                 onPageLeave: {
@@ -537,28 +544,73 @@ describe("LocationContext", () => {
 
       context.handlePageLoad();
       context.handleAnchorLoad();
-
       (history.getHistory as jest.Mock).mockReturnValue({
         location: {
           hash: "#yes",
         },
       });
       context.handleAnchorLoad();
-
-      expect(consoleLog.mock.calls[0][0].type).toBe("page.load");
-      expect(consoleLog.mock.calls[1][0].type).toBe("anchor.unload");
-      expect(consoleLog.mock.calls[2][0].type).toBe("anchor.load");
-      expect(consoleLog.mock.calls[2][0].detail).toEqual({
-        hash: "#yes",
-        anchor: "yes",
+      context.handleBeforePageLeave({
+        location: { pathname: "/home" } as Location,
+        action: "POP",
       });
-
       context.handlePageLeave();
-      expect(consoleLog.mock.calls[3][0].type).toBe("page.leave");
 
-      expect(consoleInfo.mock.calls[0][0].type).toBe("page.load");
-      expect(consoleInfo.mock.calls[1][0].type).toBe("anchor.unload");
-      expect(consoleInfo.mock.calls[2]).toEqual(["yes"]);
+      // Assert `console.log()`.
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        1,
+        new CustomEvent("page.load")
+      );
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        2,
+        new CustomEvent("anchor.unload")
+      );
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        3,
+        new CustomEvent("anchor.load", {
+          detail: {
+            hash: "#yes",
+            anchor: "yes",
+          },
+        })
+      );
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        4,
+        new CustomEvent("page.beforeLeave", {
+          detail: {
+            location: { pathname: "/home" },
+            action: "POP",
+          },
+        })
+      );
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        5,
+        new CustomEvent("page.leave")
+      );
+
+      // Assert `console.info()`.
+      expect(consoleInfo).toHaveBeenNthCalledWith(
+        1,
+        new CustomEvent("page.load")
+      );
+      expect(consoleInfo).toHaveBeenNthCalledWith(
+        2,
+        new CustomEvent("anchor.unload")
+      );
+      expect(consoleInfo).toHaveBeenNthCalledWith(3, "yes");
+      expect(consoleInfo).toHaveBeenNthCalledWith(
+        4,
+        new CustomEvent("page.beforeLeave", {
+          detail: {
+            location: { pathname: "/home" },
+            action: "POP",
+          },
+        })
+      );
+      expect(consoleInfo).toHaveBeenNthCalledWith(
+        5,
+        new CustomEvent("page.leave")
+      );
     });
 
     it("resolve menu should work", async () => {
