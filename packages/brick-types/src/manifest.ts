@@ -1,6 +1,6 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon } from "./menu";
-import { PluginHistoryState, PluginRuntimeContext } from "./runtime";
+import { PluginHistoryState } from "./runtime";
 
 export interface BootstrapData {
   brickPackages: BrickPackage[];
@@ -178,6 +178,7 @@ export interface BrickLifeCycle {
   useResolves?: ResolveConf[];
   onPageLoad?: BrickEventHandler | BrickEventHandler[];
   onPageLeave?: BrickEventHandler | BrickEventHandler[];
+  onBeforePageLeave?: BrickEventHandler | BrickEventHandler[];
   onAnchorLoad?: BrickEventHandler | BrickEventHandler[];
   onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
   onMessage?: MessageConf | MessageConf[];
@@ -330,6 +331,10 @@ export interface BuiltinBrickEventHandler {
     | "history.replaceQuery"
     | "history.pushAnchor"
     // | "history.replaceAnchor"
+
+    // Overridden History
+    | "history.block"
+    | "history.unblock"
 
     // Segues
     | "segue.push"

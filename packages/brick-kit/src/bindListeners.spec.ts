@@ -33,6 +33,8 @@ const mockHistory = {
   reload: jest.fn(),
   goBack: jest.fn(),
   goForward: jest.fn(),
+  setBlockMessage: jest.fn(),
+  unblock: jest.fn(),
   location: {
     search: "?page=3",
   },
@@ -247,6 +249,8 @@ describe("bindListeners", () => {
         {
           action: "history.reload",
         },
+        { action: "history.block", args: ["Are you sure to leave?"] },
+        { action: "history.unblock" },
         {
           action: "legacy.go",
           args: ["www.google.com"],
@@ -389,11 +393,17 @@ describe("bindListeners", () => {
           target: "#target-elem",
           method: "forAsyncWillSuccess",
           callback: {
-            success: {
-              action: "console.log",
-            },
+            success: [
+              {
+                action: "console.log",
+              },
+              {
+                action: "console.log",
+                args: ["<% EVENT.oops() %>"],
+              },
+            ],
             error: {
-              action: "console.error",
+              action: "console.warn",
             },
           },
         },
@@ -405,7 +415,7 @@ describe("bindListeners", () => {
               action: "console.log",
             },
             error: {
-              action: "console.error",
+              action: "console.warn",
             },
             finally: {
               action: "console.info",
@@ -512,6 +522,8 @@ describe("bindListeners", () => {
     expect(history.goBack).toBeCalledWith();
     expect(history.goForward).toBeCalledWith();
     expect(history.reload).toBeCalled();
+    expect(history.setBlockMessage).toBeCalledWith("Are you sure to leave?");
+    expect(history.unblock).toBeCalled();
 
     expect(window.location.reload).toBeCalledWith();
     expect(window.location.assign).toBeCalledWith("www.baidu.com");
@@ -530,12 +542,29 @@ describe("bindListeners", () => {
       "callback.success"
     );
     expect((console.log as jest.Mock).mock.calls[2][0].detail).toBe("resolved");
+
     expect(console.info).toBeCalledTimes(2);
     expect(console.info).toBeCalledWith(event1);
     expect((console.info as jest.Mock).mock.calls[1][0].type).toBe(
       "callback.finally"
     );
-    expect(console.warn).toBeCalledWith("specified args for console.warn");
+
+    expect(console.warn).toBeCalledTimes(3);
+    expect(console.warn).toHaveBeenNthCalledWith(
+      1,
+      "specified args for console.warn"
+    );
+    expect(console.warn).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining("context.assign")
+    );
+    expect(console.warn).toHaveBeenNthCalledWith(
+      3,
+      new CustomEvent("callback.error", {
+        detail: "oops",
+      })
+    );
+
     expect(console.error).toBeCalledTimes(7);
     expect(console.error).toHaveBeenNthCalledWith(
       1,
@@ -556,10 +585,12 @@ describe("bindListeners", () => {
       6,
       'Error: Provider not defined: "not-defined-provider".'
     );
-    expect((console.error as jest.Mock).mock.calls[6][0].type).toBe(
-      "callback.error"
+    expect(console.error).toHaveBeenNthCalledWith(
+      7,
+      expect.objectContaining({
+        message: expect.stringContaining("EVENT.oops is not a function"),
+      })
     );
-    expect((console.error as jest.Mock).mock.calls[6][0].detail).toBe("oops");
 
     expect((sourceElem as any).forGood).toHaveBeenNthCalledWith(
       1,

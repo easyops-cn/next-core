@@ -1,5 +1,9 @@
-import { locationsAreEqual, createPath, Action } from "history";
-import { PluginLocation, PluginRuntimeContext } from "@easyops/brick-types";
+import { locationsAreEqual, createPath, Action, Location } from "history";
+import {
+  PluginHistoryState,
+  PluginLocation,
+  PluginRuntimeContext,
+} from "@easyops/brick-types";
 import { restoreDynamicTemplates } from "@easyops/brick-utils";
 import {
   LocationContext,
@@ -42,6 +46,41 @@ export class Router {
         // do nothing
       }
     }
+
+    const history = getHistory();
+    window.addEventListener("beforeunload", (event) => {
+      const message = this.getBlockMessageBeforePageLave({});
+      // See examples in https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onbeforeunload
+      if (message) {
+        // Cancel the event
+        // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+        event.preventDefault();
+        // Chrome requires returnValue to be set
+        event.returnValue = "";
+      } else {
+        // the absence of a returnValue property on the event will guarantee the browser unload happens
+        delete event.returnValue;
+      }
+    });
+
+    history.block((location, action) =>
+      this.getBlockMessageBeforePageLave({ location, action })
+    );
+  }
+
+  private getBlockMessageBeforePageLave(detail: {
+    location?: Location<PluginHistoryState>;
+    action?: Action;
+  }): string {
+    const history = getHistory();
+    const previousMessage = history.getBlockMessage();
+    this.locationContext?.handleBeforePageLeave(detail);
+    const message = history.getBlockMessage();
+    if (!previousMessage && message) {
+      // Auto unblock only if new block was introduced by `onBeforePageLeave`.
+      history.unblock();
+    }
+    return message;
   }
 
   private locationChangeNotify(from: string, to: string): void {
@@ -138,6 +177,8 @@ export class Router {
     }
 
     const history = getHistory();
+    history.unblock();
+
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
       location

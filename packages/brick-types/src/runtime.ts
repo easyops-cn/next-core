@@ -53,6 +53,9 @@ export interface ExtendedHistory {
   pushAnchor: UpdateAnchorFunction;
   // replaceAnchor: UpdateAnchorFunction;
   reload: () => void;
+  setBlockMessage: (message: string) => void;
+  getBlockMessage: () => string;
+  unblock: () => void;
 }
 
 export type UpdateQueryFunction = (

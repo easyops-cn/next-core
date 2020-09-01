@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.62.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.62.0...@easyops/brick-kit@1.62.1) (2020-08-27)
+
+### Bug Fixes
+
+- **events:** avoid callback.error to be triggered after callback.success throw ([d265042](https://git.easyops.local/anyclouds/next-core/commits/d265042))
+
+# [1.62.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.61.2...@easyops/brick-kit@1.62.0) (2020-08-26)
+
+### Features
+
+- 使用 channel 为 key 实现订阅消息分发 ([2e09abd](https://git.easyops.local/anyclouds/next-core/commits/2e09abd))
+
 ## [1.61.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.61.1...@easyops/brick-kit@1.61.2) (2020-08-24)
 
 ### Bug Fixes

@@ -2,6 +2,7 @@ import { message } from "antd";
 import { isObject } from "@easyops/brick-utils";
 import {
   BrickEventHandler,
+  BrickEventHandlerCallback,
   BrickEventsMap,
   BuiltinBrickEventHandler,
   CustomBrickEventHandler,
@@ -24,7 +25,6 @@ import {
 import { getUrlBySegueFactory } from "./segue";
 import { looseCheckIf, IfContainer } from "./checkIf";
 import { getUrlByAliasFactory } from "./alias";
-import { BrickEventHandlerCallback } from "@easyops/brick-types";
 import { getMessageDispatcher } from "./core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
 
@@ -112,6 +112,7 @@ export function listenerFactory(
       case "history.pushQuery":
       case "history.replaceQuery":
       case "history.pushAnchor":
+      case "history.block":
         return builtinHistoryListenerFactory(
           method,
           handler.args,
@@ -121,6 +122,7 @@ export function listenerFactory(
       case "history.goBack":
       case "history.goForward":
       case "history.reload":
+      case "history.unblock":
         return builtinHistoryWithoutArgsListenerFactory(
           method,
           handler,
@@ -563,12 +565,19 @@ async function brickCallback(
     try {
       const result = await task;
       if (success) {
-        const successEvent = new CustomEvent("callback.success", {
-          detail: result,
-        });
-        [].concat(success).forEach((eachSuccess) => {
-          listenerFactory(eachSuccess, context, brick)(successEvent);
-        });
+        try {
+          const successEvent = new CustomEvent("callback.success", {
+            detail: result,
+          });
+          [].concat(success).forEach((eachSuccess) => {
+            listenerFactory(eachSuccess, context, brick)(successEvent);
+          });
+        } catch (err) {
+          // Do not throw errors in `callback.success`,
+          // to avoid the following triggering of `callback.error`.
+          // eslint-disable-next-line
+          console.error(err);
+        }
       }
     } catch (err) {
       if (error) {
@@ -594,7 +603,13 @@ async function brickCallback(
 }
 
 function builtinHistoryListenerFactory(
-  method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
+  method:
+    | "push"
+    | "replace"
+    | "pushQuery"
+    | "replaceQuery"
+    | "pushAnchor"
+    | "block",
   args: unknown[],
   ifContainer: IfContainer,
   context: PluginRuntimeContext
@@ -603,7 +618,9 @@ function builtinHistoryListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    (getHistory()[method] as (...args: unknown[]) => unknown)(
+    (getHistory()[method === "block" ? "setBlockMessage" : method] as (
+      ...args: unknown[]
+    ) => unknown)(
       ...argsFactory(args, context, event, {
         useEventDetailAsDefault: true,
       })
@@ -612,7 +629,7 @@ function builtinHistoryListenerFactory(
 }
 
 function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward" | "reload",
+  method: "goBack" | "goForward" | "reload" | "unblock",
   ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {

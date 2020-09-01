@@ -30,6 +30,7 @@ import {
   computeRealRoutePath,
   hasOwnProperty,
 } from "@easyops/brick-utils";
+import { Action, Location } from "history";
 import { listenerFactory } from "../bindListeners";
 import { computeRealProperties, computeRealValue } from "../setProperties";
 import { isLoggedIn, getAuth } from "../auth";
@@ -102,6 +103,7 @@ export class LocationContext {
   readonly resolver = new Resolver(this.kernel);
   readonly messageDispatcher: MessageDispatcher;
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly beforePageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly pageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
@@ -349,43 +351,60 @@ export class LocationContext {
         children: [],
       };
 
-      if (menuConf.lifeCycle?.onPageLoad) {
+      const {
+        onPageLoad,
+        onBeforePageLeave,
+        onPageLeave,
+        onAnchorLoad,
+        onAnchorUnload,
+        onMessage,
+      } = menuConf.lifeCycle ?? {};
+
+      if (onPageLoad) {
         this.pageLoadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onPageLoad,
+          handler: onPageLoad,
         });
       }
 
-      if (menuConf.lifeCycle?.onPageLeave) {
+      if (onBeforePageLeave) {
+        this.beforePageLeaveHandlers.push({
+          brick,
+          match,
+          handler: onBeforePageLeave,
+        });
+      }
+
+      if (onPageLeave) {
         this.pageLeaveHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onPageLeave,
+          handler: onPageLeave,
         });
       }
 
-      if (menuConf.lifeCycle?.onAnchorLoad) {
+      if (onAnchorLoad) {
         this.anchorLoadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onAnchorLoad,
+          handler: onAnchorLoad,
         });
       }
 
-      if (menuConf.lifeCycle?.onAnchorUnload) {
+      if (onAnchorUnload) {
         this.anchorUnloadHandlers.push({
           brick,
           match,
-          handler: menuConf.lifeCycle.onAnchorUnload,
+          handler: onAnchorUnload,
         });
       }
 
-      if (menuConf.lifeCycle?.onMessage) {
+      if (onMessage) {
         this.messageHandlers.push({
           brick,
           match,
-          message: menuConf.lifeCycle.onMessage,
+          message: onMessage,
         });
       }
 
@@ -594,43 +613,60 @@ export class LocationContext {
       brick.refForProxy.brick = brick;
     }
 
-    if (brickConf.lifeCycle?.onPageLoad) {
+    const {
+      onPageLoad,
+      onBeforePageLeave,
+      onPageLeave,
+      onAnchorLoad,
+      onAnchorUnload,
+      onMessage,
+    } = brickConf.lifeCycle ?? {};
+
+    if (onPageLoad) {
       this.pageLoadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onPageLoad,
+        handler: onPageLoad,
       });
     }
 
-    if (brickConf.lifeCycle?.onPageLeave) {
+    if (onBeforePageLeave) {
+      this.beforePageLeaveHandlers.push({
+        brick,
+        match,
+        handler: onBeforePageLeave,
+      });
+    }
+
+    if (onPageLeave) {
       this.pageLeaveHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onPageLeave,
+        handler: onPageLeave,
       });
     }
 
-    if (brickConf.lifeCycle?.onAnchorLoad) {
+    if (onAnchorLoad) {
       this.anchorLoadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onAnchorLoad,
+        handler: onAnchorLoad,
       });
     }
 
-    if (brickConf.lifeCycle?.onAnchorUnload) {
+    if (onAnchorUnload) {
       this.anchorUnloadHandlers.push({
         brick,
         match,
-        handler: brickConf.lifeCycle.onAnchorUnload,
+        handler: onAnchorUnload,
       });
     }
 
-    if (brickConf.lifeCycle?.onMessage) {
+    if (onMessage) {
       this.messageHandlers.push({
         brick,
         match,
-        message: brickConf.lifeCycle.onMessage,
+        message: onMessage,
       });
     }
 
@@ -705,6 +741,18 @@ export class LocationContext {
     this.dispatchLifeCycleEvent(
       new CustomEvent("page.load"),
       this.pageLoadHandlers
+    );
+  }
+
+  handleBeforePageLeave(detail: {
+    location?: Location<PluginHistoryState>;
+    action?: Action;
+  }): void {
+    this.dispatchLifeCycleEvent(
+      new CustomEvent("page.beforeLeave", {
+        detail,
+      }),
+      this.beforePageLeaveHandlers
     );
   }
 

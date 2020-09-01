@@ -53,7 +53,7 @@ def collect(install_path):
         if not story_board.get("app"):
             return None
         app_id = story_board["app"]["id"]
-        return {
+        app = {
             "name": story_board["app"]["name"],
             "appId": app_id,
             "icons": story_board["app"].get("icons", {}),
@@ -67,6 +67,13 @@ def collect(install_path):
             "menuIcon": story_board["app"].get("menuIcon", {}),
             "containerId": _find_container_id(app_id, INSTALL_INFO_PATH),
         }
+        apis_path = os.path.join(install_path, "apis/api.json")
+        if os.path.exists(apis_path):
+          with open(apis_path) as apisF:
+               apis_content = apisF.read()
+               apiList = simplejson.loads(apis_content)
+               app["apiList"] = apiList
+        return app
 
 
 def create_or_update_micro_app(app, org):
@@ -75,7 +82,12 @@ def create_or_update_micro_app(app, org):
         raise NameServiceError("get nameservice logic.api.gateway error, session_id={}".format(session_id))
     headers = {"org": str(org), "user": "defaultUser"}
     url = "http://{}:{}/api/micro_app/v1/installed_micro_app/report_result".format(ip, port)
-    rsp = requests.post(url, json={"installedApps": [{"microApp": app, "containerId": app["containerId"]}]}, headers=headers)
+    param = {"installedApps": [{"microApp": app, "containerId": app["containerId"]}]}
+    if app.has_key("apiList") :
+      apiList = app["apiList"]
+      del app["apiList"]
+      param = {"installedApps": [{"microApp": app, "containerId": app["containerId"], "apiList": apiList}]}
+    rsp = requests.post(url, json=param, headers=headers)
     rsp.raise_for_status()
 
 
@@ -85,7 +97,7 @@ def create_or_update_micro_app_to_api_gw(app, org):
     session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.api.gateway")
     if session_id <= 0:
         raise NameServiceError("get nameservice logic.api.gateway error, session_id={}".format(session_id))
-    
+
     headers = {"org": str(org), "user": "defaultUser"}
     url = "http://{}:{}/api/micro_app/v1/installed_micro_app".format(ip, port)
     rsp = requests.post(url, json=app, headers=headers)

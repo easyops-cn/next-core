@@ -68,11 +68,28 @@ export function historyExtended(
     });
   }
 
+  let blockMessage: string;
+
+  function setBlockMessage(message: string): void {
+    blockMessage = message;
+  }
+
+  function getBlockMessage(): string {
+    return blockMessage;
+  }
+
+  function unblock(): void {
+    blockMessage = undefined;
+  }
+
   return {
     pushQuery: updateQueryFactory("push"),
     replaceQuery: updateQueryFactory("replace"),
     pushAnchor: updateAnchorFactory("push"),
     // replaceAnchor: updateAnchorFactory("replace"),
     reload,
+    setBlockMessage,
+    getBlockMessage,
+    unblock,
   };
 }

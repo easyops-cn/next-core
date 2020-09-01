@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-const { throttle } = require("lodash");
+const { throttle, escapeRegExp } = require("lodash");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
 const WebSocket = require("ws");
@@ -27,20 +27,25 @@ const serveIndexHtml = (_req, res) => {
   const indexHtml = path.join(distDir, "index.html");
   let content = fs.readFileSync(indexHtml, "utf8");
 
-  // 开发环境下增加 websocket 连接的脚本
-  content += `<script>
-        const socket = new WebSocket('ws://${env.host}:' + ${env.wsPort});
-        socket.onmessage = function(event) {
-            if (event.data === "content change") {
-                location.reload();
-            }
-        };
-    </script>`;
+  if (env.liveReload) {
+    // 开发环境下增加 websocket 连接的脚本
+    content += `<script>
+  const socket = new WebSocket('ws://${env.host}:' + ${env.wsPort});
+  socket.onmessage = function(event) {
+    if (event.data === "content change") {
+      location.reload();
+    }
+  };
+</script>`;
+  }
 
   // Replace nginx ssi placeholders.
   res.send(
     content.replace(
-      "<!--# echo var='base_href' default='/' -->",
+      new RegExp(
+        escapeRegExp("<!--# echo var='base_href' default='/' -->"),
+        "g"
+      ),
       env.publicPath
     )
   );
@@ -93,20 +98,22 @@ console.log(
 );
 
 // 建立 websocket 连接支持自动刷新
-const wss = new WebSocket.Server({ port: env.wsPort });
+if (env.liveReload) {
+  const wss = new WebSocket.Server({ port: env.wsPort });
 
-const watcher = chokidar.watch(getPatternsToWatch(env));
+  const watcher = chokidar.watch(getPatternsToWatch(env));
 
-const throttledOnChange = throttle(
-  () => {
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send("content change");
-      }
-    });
-  },
-  100,
-  { trailing: false }
-);
+  const throttledOnChange = throttle(
+    () => {
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send("content change");
+        }
+      });
+    },
+    100,
+    { trailing: false }
+  );
 
-watcher.on("change", throttledOnChange);
+  watcher.on("change", throttledOnChange);
+}
