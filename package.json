@@ -11,7 +11,7 @@
     "prepare": "lerna bootstrap",
     "start": "lerna run start --scope \"@easyops/brick-container\"",
     "serve": "brick-container-serve",
-    "serve:ci": "brick-container-serve --remote --subdir --local-settings",
+    "serve:ci": "brick-container-serve --remote --subdir --local-settings --no-live-reload",
     "build": "lerna run build",
     "postbuild": "npm run size-limit",
     "size-limit": "size-limit",
