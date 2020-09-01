@@ -77,6 +77,13 @@ module.exports = {
       baseHref,
       template: path.join(__dirname, "src", "index.ejs"),
     }),
+    new HtmlWebpackPlugin({
+      filename: "browse-happy.html",
+      title: "DevOps 管理专家",
+      baseHref,
+      template: path.join(__dirname, "src", "browse-happy.ejs"),
+      chunks: [],
+    }),
     new webpack.HashedModuleIdsPlugin(),
     new webpack.DllReferencePlugin({
       context: appRoot,
