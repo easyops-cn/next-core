@@ -260,7 +260,6 @@ export class LocationContext {
         }
         context = this.getContext(matched.match);
         this.resolver.defineResolves(route.defineResolves, context);
-        // console.log("mountProviders before");
         await this.mountProviders(
           route.providers,
           matched.match,
@@ -476,7 +475,6 @@ export class LocationContext {
     slotId: string,
     mountRoutesResult: MountRoutesResult
   ): Promise<void> {
-    // console.log(providers,'providers');
     if (Array.isArray(providers)) {
       for (const providerConf of providers) {
         await this.mountBrick(

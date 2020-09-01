@@ -129,13 +129,6 @@ export class Runtime {
     return kernel.allMagicBrickConfigMapPromise;
   }
 
-  /* istanbul ignore next */
-  getMicroAppApiOrchestrationMapAsync(): Promise<
-    Map<string, CustomApiOrchestration>
-  > {
-    return kernel.allMicroAppApiOrchestrationPromise;
-  }
-
   /**
    * 切换主体内容 `filter: blur(...)`;
    * @deprecated
@@ -224,4 +217,11 @@ export function _internalApiGetProviderBrick(
   provider: string
 ): Promise<HTMLElement> {
   return kernel.getProviderBrick(provider);
+}
+
+/* istanbul ignore next */
+export function _internalApiGetMicroAppApiOrchestrationMap(): Promise<
+  Map<string, CustomApiOrchestration>
+> {
+  return kernel.allMicroAppApiOrchestrationPromise;
 }

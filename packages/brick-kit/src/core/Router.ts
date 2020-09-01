@@ -218,7 +218,7 @@ export class Router {
     }
 
     if (storyboard) {
-      if (appChanged) {
+      if (appChanged && currentApp?.id) {
         await this.kernel.loadMicroAppApiOrchestrationAsync(currentApp.id);
       }
       const mountRoutesResult: MountRoutesResult = {
@@ -294,7 +294,6 @@ export class Router {
         this.kernel.currentApp = currentApp;
         this.kernel.previousApp = previousApp;
       }
-
       this.kernel.currentUrl = createPath(location);
       await this.kernel.updateWorkspaceStack();
 

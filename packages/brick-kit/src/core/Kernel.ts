@@ -39,7 +39,8 @@ import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { registerCustomTemplate } from "./CustomTemplates";
 import { listenDevtools } from "../devtools";
-import { isCustomApiProvider } from "./CustomAPIs";
+import { isCustomApiProvider } from "./CustomApis";
+import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -282,7 +283,6 @@ export class Kernel {
   loadSharedData(): void {
     this.loadUsersAsync();
     this.loadRelatedAppsAsync();
-    // this.loadMicroAppApiOrchestrationAsync();
     if (
       this.bootstrapData.settings?.featureFlags?.["load-magic-brick-config"]
     ) {
@@ -322,7 +322,7 @@ export class Kernel {
     return allUserMap;
   }
 
-  public loadMicroAppApiOrchestrationAsync(currentAppId: string): void {
+  loadMicroAppApiOrchestrationAsync(currentAppId: string): void {
     this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
       currentAppId
     );
@@ -341,27 +341,31 @@ export class Kernel {
       string,
       CustomApiOrchestration
     > = new Map();
-    // 应该需要确认下this.currentApp.id存在
-    try {
-      const allMicroAppApiOrchestration = (
-        await InstanceApi.postSearch("MICRO_APP_API_ORCHESTRATION", {
-          page: 1,
-          // TODO(Lynette): 暂时设置3000，这里单个app下自定义的api数据不会太多。
-          page_size: 3000,
-          fields: {
-            "*": true,
-          },
-          query: {
-            "microApp.appId": currentAppId,
-          },
-        })
-      ).list as CustomApiOrchestration[];
-      for (const api of allMicroAppApiOrchestration) {
-        allMicroAppApiOrchestrationMap.set(`${api.namespace}${api.name}`, api);
+    if (currentAppId) {
+      try {
+        const allMicroAppApiOrchestration = (
+          await InstanceApi.postSearch("MICRO_APP_API_ORCHESTRATION", {
+            page: 1,
+            // TODO(Lynette): 暂时设置3000，这里单个app下自定义的api数据不会太多。
+            page_size: 3000,
+            fields: {
+              "*": true,
+            },
+            query: {
+              "microApp.appId": currentAppId,
+            },
+          })
+        ).list as CustomApiOrchestration[];
+        for (const api of allMicroAppApiOrchestration) {
+          allMicroAppApiOrchestrationMap.set(
+            `${api.namespace}@${api.name}`,
+            api
+          );
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn("Load custom api orchestration error:", error);
       }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("Load custom api orchestration error:", error);
     }
     return allMicroAppApiOrchestrationMap;
   }
@@ -478,19 +482,23 @@ export class Kernel {
   }
 
   async getProviderBrick(provider: string): Promise<HTMLElement> {
+    if (isCustomApiProvider(provider)) {
+      provider = CUSTOM_API_PROVIDER;
+    }
+
     if (this.providerRepository.has(provider)) {
       return this.providerRepository.get(provider);
     }
-    await this.loadDynamicBricks([provider]);
 
-    if (isCustomApiProvider(provider)) {
-      provider = "basic-providers.provider-custom-api";
+    if (provider === CUSTOM_API_PROVIDER && !customElements.get(provider)) {
+      registerCustomApi();
     }
+
+    await this.loadDynamicBricks([provider]);
 
     if (!customElements.get(provider)) {
       throw new Error(`Provider not defined: "${provider}".`);
     }
-
     const brick = document.createElement(provider);
     this.providerRepository.set(provider, brick);
     return brick;

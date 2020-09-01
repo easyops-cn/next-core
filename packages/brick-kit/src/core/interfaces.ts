@@ -44,21 +44,12 @@ export interface CustomApiOrchestration {
         | "HEAD"
         | "head";
     };
+    response?: {
+      wrapper?: boolean;
+      [key: string]: any;
+    };
     [key: string]: any;
   };
-  // contract?: Record<string,any>;
-  config?: {
-    schema_version?: string;
-    service?: Record<string, any>;
-    process_flow?: {
-      id: string;
-      action: "parse_req" | "send_http" | "gen_response";
-      parent_steps?: {
-        step_id: string;
-        condition: string;
-      }[];
-      params?: Record<string, any>;
-    }[];
-  };
+  config?: Record<string, any>;
   type?: "emal" | "swagger";
 }
