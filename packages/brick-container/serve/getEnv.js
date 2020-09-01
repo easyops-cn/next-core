@@ -51,6 +51,7 @@ module.exports = (cwd) => {
         --offline           Use offline mode
         --verbose           Print verbose logs
         --mock              Enable mock-micro-apps
+        --no-live-reload    Disable live reload through WebSocket (for E2E tests in CI)
     `,
       {
         flags: {
@@ -104,6 +105,10 @@ module.exports = (cwd) => {
           },
           mock: {
             type: "boolean",
+          },
+          liveReload: {
+            type: "boolean",
+            default: true,
           },
         },
       }
@@ -204,6 +209,7 @@ module.exports = (cwd) => {
     verbose: flags.verbose || process.env.VERBOSE === "true",
     mocked: flags.mock || process.env.MOCK === "true",
     mockedMicroAppsDir,
+    liveReload: flags.liveReload,
   };
 
   checkLocalPackages(env);
@@ -253,6 +259,11 @@ module.exports = (cwd) => {
       : env.useRemote
       ? chalk.bgCyan("remote")
       : chalk.bgWhite("local")
+  );
+
+  console.log(
+    chalk.bold.cyan("live-reload:"),
+    env.liveReload ? chalk.bgGreen("enabled") : chalk.bgGrey("disabled")
   );
 
   return env;
