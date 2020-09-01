@@ -124,7 +124,6 @@ export class Kernel {
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
-      originalStoryboards: cloneDeep(bootstrapResponse.storyboards),
       microApps: bootstrapResponse.storyboards
         .map((storyboard) => storyboard.app)
         .filter(Boolean),
@@ -375,6 +374,7 @@ export class Kernel {
       const workspace: VisitedWorkspace = {
         appId: this.currentApp.id,
         appName: this.currentApp.name,
+        appLocaleName: this.currentApp.localeName,
         url: this.currentUrl,
       };
       if (this.workspaceStack.length > 0) {

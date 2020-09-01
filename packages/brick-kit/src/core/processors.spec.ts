@@ -1,4 +1,9 @@
+import i18next from "i18next";
 import { processBootstrapResponse } from "./processors";
+
+i18next.init({
+  fallbackLng: "en",
+});
 
 describe("processBootstrapResponse", () => {
   it("should work", () => {
@@ -29,11 +34,27 @@ describe("processBootstrapResponse", () => {
         // With both `defaultConfig` and `userConfig`.
         {
           app: {
+            name: "Test Only",
             defaultConfig: {
               quality: "good",
             },
             userConfig: {
               quality: "bad",
+            },
+          },
+        },
+        // With locales.
+        {
+          app: {
+            id: "hello-world",
+            name: "Hola Mundo",
+            locales: {
+              zh: {
+                name: "你好，世界",
+              },
+              en: {
+                name: "Hello World",
+              },
             },
           },
         },
@@ -75,6 +96,8 @@ describe("processBootstrapResponse", () => {
         // With both `defaultConfig` and `userConfig`.
         {
           app: {
+            name: "Test Only",
+            localeName: "Test Only",
             defaultConfig: {
               quality: "good",
             },
@@ -84,6 +107,23 @@ describe("processBootstrapResponse", () => {
             config: {
               quality: "bad",
             },
+          },
+        },
+        // With locales.
+        {
+          app: {
+            id: "hello-world",
+            name: "Hola Mundo",
+            localeName: "Hello World",
+            locales: {
+              zh: {
+                name: "你好，世界",
+              },
+              en: {
+                name: "Hello World",
+              },
+            },
+            config: {},
           },
         },
       ],

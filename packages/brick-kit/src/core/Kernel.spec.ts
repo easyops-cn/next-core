@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import {
   loadScript,
   getDllAndDepsOfStoryboard,
@@ -17,7 +18,6 @@ import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
-import i18next from "i18next";
 
 i18next.init({
   fallbackLng: "en",
