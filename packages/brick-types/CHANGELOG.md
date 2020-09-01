@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.52.0...@easyops/brick-types@1.53.0) (2020-09-01)
+
+### Features
+
+- **onBeforePageLeave:** support lifeCycle.onBeforePageLeave and history.block ([795cff8](https://git.easyops.local/anyclouds/next-core/commits/795cff8))
+
 # [1.52.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.51.0...@easyops/brick-types@1.52.0) (2020-08-26)
 
 ### Features

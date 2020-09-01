@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-utils",
-  "version": "1.54.1",
+  "version": "1.54.2",
   "description": "Pure utility functions for kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-utils",
   "license": "UNLICENSED",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@babel/parser": "^7.11.4",
     "@easyops-cn/brick-next-pipes": "^0.3.2",
-    "@easyops/brick-types": "^1.52.0",
+    "@easyops/brick-types": "^1.53.0",
     "file-saver": "^2.0.2",
     "path-to-regexp": "^6.1.0"
   },

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.63.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.62.1...@easyops/brick-kit@1.63.0) (2020-09-01)
+
+### Features
+
+- **onBeforePageLeave:** support lifeCycle.onBeforePageLeave and history.block ([795cff8](https://git.easyops.local/anyclouds/next-core/commits/795cff8))
+
 ## [1.62.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.62.0...@easyops/brick-kit@1.62.1) (2020-08-27)
 
 ### Bug Fixes
