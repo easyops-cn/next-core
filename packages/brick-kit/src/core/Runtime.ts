@@ -19,7 +19,12 @@ import {
   registerCustomProcessor,
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
-import { RelatedApp, RouterState, RecentApps } from "./interfaces";
+import {
+  RelatedApp,
+  RouterState,
+  RecentApps,
+  CustomApiOrchestration,
+} from "./interfaces";
 
 let kernel: Kernel;
 
@@ -212,4 +217,11 @@ export function _internalApiGetProviderBrick(
   provider: string
 ): Promise<HTMLElement> {
   return kernel.getProviderBrick(provider);
+}
+
+/* istanbul ignore next */
+export function _internalApiGetMicroAppApiOrchestrationMap(): Promise<
+  Map<string, CustomApiOrchestration>
+> {
+  return kernel.allMicroAppApiOrchestrationPromise;
 }

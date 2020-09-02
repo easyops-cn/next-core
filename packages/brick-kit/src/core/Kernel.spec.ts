@@ -18,6 +18,7 @@ import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
 import * as mockHistory from "../history";
+import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 
 i18next.init({
   fallbackLng: "en",
@@ -77,6 +78,10 @@ const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
 
 // Mock a custom element of `my.test-provider`.
 customElements.define("my.test-provider", class Tmp extends HTMLElement {});
+customElements.define(
+  CUSTOM_API_PROVIDER,
+  class ProviderCustomApi extends HTMLElement {}
+);
 
 (window as any).DLL_HASH = {
   d3: "fake-hash",
@@ -394,6 +399,35 @@ describe("Kernel", () => {
     await kernel.getProviderBrick("my.test-provider");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
     expect(loadScript).toHaveBeenNthCalledWith(2, []);
+  });
+
+  it("should getProviderBrick when isCustomApiProvider", async () => {
+    kernel.bootstrapData = {} as any;
+    spyOnGetDllAndDepsByResource.mockImplementation(
+      ({ bricks }: { bricks: string[] }) => ({
+        dll: [],
+        deps: bricks.map((brick) => brick.split(".")[0]),
+      })
+    );
+    await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi");
+    expect(loadScript).toHaveBeenNthCalledWith(1, []);
+    expect(loadScript).toHaveBeenNthCalledWith(2, []);
+    const searchAllMicroAppApiOrchestration = InstanceApi.postSearch as jest.Mock;
+    searchAllMicroAppApiOrchestration.mockResolvedValueOnce({
+      list: [
+        {
+          name: "myAwesomeApi",
+          namespace: "easyops.custom_api",
+        },
+      ],
+    });
+    kernel.loadMicroAppApiOrchestrationAsync(undefined);
+    expect(searchAllMicroAppApiOrchestration).not.toBeCalled();
+    kernel.loadMicroAppApiOrchestrationAsync("appId");
+    const allMicroAppApiOrchestrationMap = await kernel.getMicroAppApiOrchestrationMapAsync();
+    expect(
+      allMicroAppApiOrchestrationMap.has("easyops.custom_api@myAwesomeApi")
+    ).toBe(true);
   });
 
   it("should throw if getProviderBrick with not defined provider", async () => {

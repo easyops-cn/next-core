@@ -10,6 +10,9 @@ import { getHistory } from "./history";
 import * as runtime from "./core/Runtime";
 import { getMessageDispatcher } from "./core/MessageDispatcher";
 import { message } from "antd";
+import { CustomApiOrchestration } from "./core/interfaces";
+import { mockMicroAppApiOrchestrationMap } from "./core/__mocks__/MicroAppApiOrchestrationData";
+import { CUSTOM_API_PROVIDER } from "./providers/CustomApi";
 
 jest.mock("./history");
 jest.mock("./core/MessageDispatcher");
@@ -20,6 +23,15 @@ customElements.define(
   class Tmp extends HTMLElement {
     resolve(): string {
       return "resolved";
+    }
+  }
+);
+
+customElements.define(
+  CUSTOM_API_PROVIDER,
+  class ProviderCustomApi extends HTMLElement {
+    resolve(): string {
+      return "custom api resolved";
     }
   }
 );
@@ -98,15 +110,29 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
 } as any);
 
 const anyProvider = document.createElement("any-provider");
+const customApiProvider = document.createElement(CUSTOM_API_PROVIDER);
+
 jest.spyOn(runtime, "_internalApiGetProviderBrick").mockImplementation(
   async (provider: string): Promise<HTMLElement> => {
     await Promise.resolve();
     if (provider === "any-provider") {
       return anyProvider;
     }
+    if (provider === "easyops.custom_api@myAwesomeApi") {
+      return customApiProvider;
+    }
     throw new Error(`Provider not defined: "${provider}".`);
   }
 );
+
+jest
+  .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
+  .mockImplementation(
+    async (): Promise<Map<string, CustomApiOrchestration>> => {
+      await Promise.resolve();
+      return mockMicroAppApiOrchestrationMap;
+    }
+  );
 
 describe("isBuiltinHandler", () => {
   const cases: [BrickEventHandler, boolean][] = [
@@ -445,6 +471,15 @@ describe("bindListeners", () => {
             },
           },
         },
+        {
+          useProvider: "easyops.custom_api@myAwesomeApi",
+          args: ["myObjectId"],
+          callback: {
+            success: {
+              action: "console.log",
+            },
+          },
+        },
       ],
       key3: { action: "not.existed" },
       key4: {},
@@ -532,7 +567,7 @@ describe("bindListeners", () => {
 
     expect(spyOnPreventDefault).toBeCalled();
 
-    expect(console.log).toBeCalledTimes(3);
+    expect(console.log).toBeCalledTimes(4);
     expect(console.log).toHaveBeenNthCalledWith(1, event1);
     expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
       "callback.success"
@@ -542,6 +577,9 @@ describe("bindListeners", () => {
       "callback.success"
     );
     expect((console.log as jest.Mock).mock.calls[2][0].detail).toBe("resolved");
+    expect((console.log as jest.Mock).mock.calls[3][0].detail).toBe(
+      "custom api resolved"
+    );
 
     expect(console.info).toBeCalledTimes(2);
     expect(console.info).toBeCalledWith(event1);

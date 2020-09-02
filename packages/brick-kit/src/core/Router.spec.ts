@@ -102,6 +102,7 @@ describe("Router", () => {
     getRecentApps: jest.fn(),
     loadDepsOfStoryboard: jest.fn(),
     fulfilStoryboard: jest.fn(),
+    loadMicroAppApiOrchestrationAsync: jest.fn(),
   } as unknown) as Kernel;
 
   beforeEach(() => {
@@ -153,10 +154,14 @@ describe("Router", () => {
     expect(kernel.firstRendered).toBeCalled();
     expect(kernel.loadDepsOfStoryboard).toBeCalled();
     expect(kernel.fulfilStoryboard).toBeCalled();
+    expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {
     __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
       dependsAll: true,
       routes: [],
     });
@@ -183,6 +188,9 @@ describe("Router", () => {
 
   it("should render matched storyboard with bars hidden and empty main", async () => {
     __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
       routes: [],
     });
     __setMountRoutesResults({

@@ -25,6 +25,7 @@ import {
   transformIntermediateData,
 } from "../transformProperties";
 import { recursiveMarkAsInjected } from "../injected";
+import { isCustomApiProvider, getArgsOfCustomApi } from "./CustomApis";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -62,6 +63,7 @@ export class Resolver {
     context?: PluginRuntimeContext
   ): Promise<void> {
     const useResolves = brickConf.lifeCycle?.useResolves ?? [];
+
     await Promise.all(
       useResolves.map((resolveConf) =>
         this.resolveOne("brick", resolveConf, brickConf, brick, context)
@@ -208,13 +210,22 @@ export class Resolver {
     if (this.cache.has(cacheKey)) {
       promise = this.cache.get(cacheKey);
     } else {
-      const actualArgs = args
+      let actualArgs = args
         ? ref
           ? args // `args` are already computed for `defineResolves`
           : context
           ? computeRealValue(args, context, true)
           : args
         : providerBrick.args || [];
+
+      if (useProvider && isCustomApiProvider(useProvider)) {
+        const allMicroAppApiOrchestrationMap = await this.kernel.getMicroAppApiOrchestrationMapAsync();
+        actualArgs = getArgsOfCustomApi(
+          useProvider,
+          allMicroAppApiOrchestrationMap,
+          actualArgs
+        );
+      }
 
       promise = providerBrick[method](...actualArgs);
       this.cache.set(cacheKey, promise);

@@ -21,12 +21,14 @@ import {
   _internalApiGetProviderBrick,
   symbolForParentTemplate,
   RuntimeBrickElementWithTplSymbols,
+  _internalApiGetMicroAppApiOrchestrationMap,
 } from "./core/exports";
 import { getUrlBySegueFactory } from "./segue";
 import { looseCheckIf, IfContainer } from "./checkIf";
 import { getUrlByAliasFactory } from "./alias";
 import { getMessageDispatcher } from "./core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
+import { isCustomApiProvider, getArgsOfCustomApi } from "./core/CustomApis";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -557,9 +559,19 @@ async function brickCallback(
     });
     return;
   }
-  const task = (target as any)[method](
-    ...argsFactory(handler.args, context, event, options)
-  );
+  let argsFactoryResult = argsFactory(handler.args, context, event, options);
+
+  if ((handler as UseProviderEventHandler).useProvider) {
+    if (isCustomApiProvider((handler as UseProviderEventHandler).useProvider)) {
+      const allMicroAppApiOrchestrationMap = await _internalApiGetMicroAppApiOrchestrationMap();
+      argsFactoryResult = getArgsOfCustomApi(
+        (handler as UseProviderEventHandler).useProvider,
+        allMicroAppApiOrchestrationMap,
+        argsFactoryResult
+      );
+    }
+  }
+  const task = (target as any)[method](...argsFactoryResult);
   const { success, error, finally: finallyHook } = handler.callback ?? {};
   if (success || error || finallyHook) {
     try {

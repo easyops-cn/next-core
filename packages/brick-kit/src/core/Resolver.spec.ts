@@ -1,5 +1,7 @@
 import { Resolver } from "./Resolver";
 import { RuntimeBrick } from "./BrickNode";
+import { mockMicroAppApiOrchestrationMap } from "./__mocks__/MicroAppApiOrchestrationData";
+import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 
 jest.mock("../handleHttpError");
 
@@ -15,9 +17,13 @@ customElements.define(
 
 describe("Resolver", () => {
   const anyProvider = document.createElement("any-provider");
+  const customApiProvider = document.createElement(CUSTOM_API_PROVIDER);
   const kernel = {
     mountPoints: {},
     getProviderBrick: jest.fn().mockResolvedValue(anyProvider),
+    getMicroAppApiOrchestrationMapAsync: jest
+      .fn()
+      .mockResolvedValue(mockMicroAppApiOrchestrationMap),
   } as any;
   let resolver: Resolver;
 
@@ -164,6 +170,40 @@ describe("Resolver", () => {
       null
     );
     expect(brickA.properties.testProp).toBe("resolved");
+  });
+
+  it("should work for customApi", async () => {
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            useProvider: "easyops.custom_api@myAwesomeApi",
+            args: ["myObjectId"],
+          },
+        ],
+      },
+    };
+    const mockResolve = jest.fn();
+    kernel.getProviderBrick = jest
+      .fn()
+      .mockResolvedValue({ ...customApiProvider, resolve: mockResolve });
+    await resolver.resolve(
+      {
+        lifeCycle: brickA.lifeCycle,
+      },
+      brickA,
+      null
+    );
+    expect(mockResolve).toBeCalledWith({
+      method: "POST",
+      responseWrapper: true,
+      url:
+        "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
+    });
   });
 
   it("should handle reject", async () => {
