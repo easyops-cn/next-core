@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.64.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.63.0...@easyops/brick-kit@1.64.0) (2020-09-02)
+
+### Features
+
+- **basic-provider:** custom-api ([7c61af5](https://git.easyops.local/anyclouds/next-core/commits/7c61af5))
+- **bind-listeners:** support custom api in bindLiseners ([19e11c5](https://git.easyops.local/anyclouds/next-core/commits/19e11c5))
+- **custom-apis:** resolver ([6bbebc0](https://git.easyops.local/anyclouds/next-core/commits/6bbebc0))
+- **storyboard:** support app locale name ([b3109d7](https://git.easyops.local/anyclouds/next-core/commits/b3109d7))
+
 # [1.63.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.62.1...@easyops/brick-kit@1.63.0) (2020-09-01)
 
 ### Features

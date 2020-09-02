@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.55.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.2...@easyops/brick-utils@1.55.0) (2020-09-02)
+
+### Features
+
+- **scan-bricks-in-storyboard:** ignore custom api ([a190060](https://git.easyops.local/anyclouds/next-core/commits/a190060))
+
 ## [1.54.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.1...@easyops/brick-utils@1.54.2) (2020-09-01)
 
 **Note:** Version bump only for package @easyops/brick-utils
