@@ -21,7 +21,7 @@
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:e2e:ci": "npx start-server-and-test serve:ci http://localhost:8081/next/ cypress:run"
+    "test:e2e:ci": "npx wait-on -r http://localhost:8081/next/ && npx start-server-and-test serve:ci http://localhost:8081/next/ cypress:run"
   },
   "browserslist": {
     "development": [
