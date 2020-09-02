@@ -14,7 +14,6 @@ export interface BootstrapData {
 export interface RuntimeBootstrapData extends BootstrapData {
   storyboards: RuntimeStoryboard[];
   microApps: MicroApp[];
-  originalStoryboards: Storyboard[];
 }
 
 export interface Settings {
@@ -42,7 +41,15 @@ export interface MicroApp {
   defaultConfig?: Record<string, any>;
   userConfig?: Record<string, any>;
   config?: Record<string, any>;
+  locales?: AppLocales;
+  localeName?: string;
   $$routeAliasMap?: RouteAliasMap;
+}
+
+export type AppLocales = Record<string, AppLocale>;
+
+export interface AppLocale {
+  name?: string;
 }
 
 export type RouteAliasMap = Map<string, RouteAliasConf>;
@@ -75,9 +82,9 @@ export interface NavbarConf {
 }
 
 export interface Storyboard {
+  app: MicroApp;
   imports?: string[];
   routes?: RouteConf[];
-  app?: MicroApp;
   dependsAll?: boolean;
   meta?: StoryboardMeta;
 }
