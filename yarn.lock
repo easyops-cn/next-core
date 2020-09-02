@@ -5412,10 +5412,10 @@ copy-to-clipboard@^3.2.0:
   dependencies:
     toggle-selection "^1.0.6"
 
-copy-webpack-plugin@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-6.0.4.tgz?cache=0&sync_timestamp=1598719510510&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcopy-webpack-plugin%2Fdownload%2Fcopy-webpack-plugin-6.0.4.tgz#7b7d7f7f290aa21b3411d02525859b89988a200b"
-  integrity sha1-e31/fykKohs0EdAlJYWbiZiKIAs=
+copy-webpack-plugin@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-6.1.0.tgz?cache=0&sync_timestamp=1598891385026&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcopy-webpack-plugin%2Fdownload%2Fcopy-webpack-plugin-6.1.0.tgz#5bde7f826d87e716d8d5e761ddd34bb675448458"
+  integrity sha1-W95/gm2H5xbY1edh3dNLtnVEhFg=
   dependencies:
     cacache "^15.0.5"
     fast-glob "^3.2.4"
@@ -5425,7 +5425,7 @@ copy-webpack-plugin@^6.0.4:
     loader-utils "^2.0.0"
     normalize-path "^3.0.0"
     p-limit "^3.0.2"
-    schema-utils "^2.7.0"
+    schema-utils "^2.7.1"
     serialize-javascript "^4.0.0"
     webpack-sources "^1.4.3"
 
