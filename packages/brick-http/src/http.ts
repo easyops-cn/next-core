@@ -196,4 +196,6 @@ export const http = {
   request,
   getBodyAndHeaders,
   getUrlWithParams,
+  requestWithBody,
+  simpleRequest,
 };

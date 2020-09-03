@@ -28,9 +28,10 @@ export function scanBricksInStoryboard(
     collection,
     selfDefined
   );
-  // Ignore non-custom-elements and self-defined custom templates.
+  // Ignore non-custom-elements and self-defined custom templates and custom api providers.
   const result = collection.filter(
-    (item) => item.includes("-") && !selfDefined.has(item)
+    (item) =>
+      !item.includes("@") && item.includes("-") && !selfDefined.has(item)
   );
   return isUniq ? uniq(result) : result;
 }
@@ -41,7 +42,9 @@ export function scanBricksInBrickConf(
 ): string[] {
   const collection: string[] = [];
   collectBricksInBrickConf(brickConf, collection);
-  const result = collection.filter((item) => item.includes("-"));
+  const result = collection.filter(
+    (item) => !item.includes("@") && item.includes("-")
+  );
   return isUniq ? uniq(result) : result;
 }
 

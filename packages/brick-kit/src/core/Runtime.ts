@@ -9,6 +9,8 @@ import {
   Storyboard,
   MagicBrickConfig,
   PluginRuntimeContext,
+  BrickConf,
+  TemplatePackage,
 } from "@easyops/brick-types";
 import {
   Kernel,
@@ -19,7 +21,12 @@ import {
   registerCustomProcessor,
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
-import { RelatedApp, RouterState, RecentApps } from "./interfaces";
+import {
+  RelatedApp,
+  RouterState,
+  RecentApps,
+  CustomApiOrchestration,
+} from "./interfaces";
 
 let kernel: Kernel;
 
@@ -29,9 +36,21 @@ export function _dev_only_getBrickPackages(): BrickPackage[] {
 }
 
 /* istanbul ignore next */
+export function _dev_only_getTemplatePackages(): TemplatePackage[] {
+  return kernel.bootstrapData.templatePackages;
+}
+
+/* istanbul ignore next */
 export function _dev_only_getStoryboards(): Storyboard[] {
   // Deprecated since the storyboards are probably not fulfilled.
   return [];
+}
+
+/* istanbul ignore next */
+export function _dev_only_loadDynamicBricksInBrickConf(
+  brickConf: BrickConf
+): Promise<void> {
+  return kernel.loadDynamicBricksInBrickConf(brickConf);
 }
 
 export class Runtime {
@@ -212,4 +231,11 @@ export function _internalApiGetProviderBrick(
   provider: string
 ): Promise<HTMLElement> {
   return kernel.getProviderBrick(provider);
+}
+
+/* istanbul ignore next */
+export function _internalApiGetMicroAppApiOrchestrationMap(): Promise<
+  Map<string, CustomApiOrchestration>
+> {
+  return kernel.allMicroAppApiOrchestrationPromise;
 }

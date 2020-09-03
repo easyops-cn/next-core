@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.29.1...@easyops/brick-container@1.29.2) (2020-09-03)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.29.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.29.0...@easyops/brick-container@1.29.1) (2020-09-02)
+
+### Bug Fixes
+
+- **serve:** enable live reload in local development mode ([ec8bec9](https://git.easyops.local/anyclouds/next-core/commits/ec8bec9))
+
+# [1.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.6...@easyops/brick-container@1.29.0) (2020-09-01)
+
+### Bug Fixes
+
+- **serve:** disable live reload for E2E tests in CI ([5ca5396](https://git.easyops.local/anyclouds/next-core/commits/5ca5396))
+
+### Features
+
+- redirect to browse-happy if browser not compatiple ([262b01e](https://git.easyops.local/anyclouds/next-core/commits/262b01e))
+
 ## [1.28.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.5...@easyops/brick-container@1.28.6) (2020-08-28)
 
 **Note:** Version bump only for package @easyops/brick-container

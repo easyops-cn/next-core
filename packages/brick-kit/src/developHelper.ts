@@ -8,11 +8,17 @@ import {
   afterMountTree,
   _dev_only_getBrickPackages,
   _dev_only_getStoryboards,
+  _dev_only_loadDynamicBricksInBrickConf,
+  _dev_only_getTemplatePackages,
 } from "./core/exports";
 
 export const developHelper = {
   asyncProcessBrick(brickConf: BrickConf): Promise<void> {
-    return asyncProcessBrick(brickConf, brickTemplateRegistry, []);
+    return asyncProcessBrick(
+      brickConf,
+      brickTemplateRegistry,
+      _dev_only_getTemplatePackages()
+    );
   },
   LocationContext,
   mountTree,
@@ -20,4 +26,5 @@ export const developHelper = {
   afterMountTree,
   getBrickPackages: _dev_only_getBrickPackages,
   getStoryboards: _dev_only_getStoryboards,
+  loadDynamicBricksInBrickConf: _dev_only_loadDynamicBricksInBrickConf,
 };

@@ -218,6 +218,9 @@ export class Router {
     }
 
     if (storyboard) {
+      if (appChanged && currentApp?.id) {
+        await this.kernel.loadMicroAppApiOrchestrationAsync(currentApp.id);
+      }
       const mountRoutesResult: MountRoutesResult = {
         main: [],
         menuInBg: [],

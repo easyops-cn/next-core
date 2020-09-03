@@ -209,7 +209,10 @@ module.exports = (cwd) => {
     verbose: flags.verbose || process.env.VERBOSE === "true",
     mocked: flags.mock || process.env.MOCK === "true",
     mockedMicroAppsDir,
-    liveReload: flags.liveReload,
+    liveReload:
+      flags.liveReload === undefined
+        ? process.env.NO_LIVE_RELOAD !== "true"
+        : flags.liveReload,
   };
 
   checkLocalPackages(env);
