@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.64.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.64.0...@easyops/brick-kit@1.64.1) (2020-09-03)
+
+### Bug Fixes
+
+- introduce loadDynamicBricksInBrickConf in developHelper ([9e74dd3](https://git.easyops.local/anyclouds/next-core/commits/9e74dd3))
+
 # [1.64.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.63.0...@easyops/brick-kit@1.64.0) (2020-09-02)
 
 ### Features
