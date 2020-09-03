@@ -9,6 +9,8 @@ import {
   Storyboard,
   MagicBrickConfig,
   PluginRuntimeContext,
+  BrickConf,
+  TemplatePackage,
 } from "@easyops/brick-types";
 import {
   Kernel,
@@ -34,9 +36,21 @@ export function _dev_only_getBrickPackages(): BrickPackage[] {
 }
 
 /* istanbul ignore next */
+export function _dev_only_getTemplatePackages(): TemplatePackage[] {
+  return kernel.bootstrapData.templatePackages;
+}
+
+/* istanbul ignore next */
 export function _dev_only_getStoryboards(): Storyboard[] {
   // Deprecated since the storyboards are probably not fulfilled.
   return [];
+}
+
+/* istanbul ignore next */
+export function _dev_only_loadDynamicBricksInBrickConf(
+  brickConf: BrickConf
+): Promise<void> {
+  return kernel.loadDynamicBricksInBrickConf(brickConf);
 }
 
 export class Runtime {
