@@ -1,7 +1,4 @@
 {
   "baseUrl": "http://localhost:8081",
-  "videoUploadOnPasses": false,
-  "retries": {
-    "runMode": 2
-  }
+  "videoUploadOnPasses": false
 }
