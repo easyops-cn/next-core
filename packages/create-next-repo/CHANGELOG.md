@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.45...@easyops/create-next-repo@1.0.0-next.9) (2020-09-04)
+
+### Bug Fixes
+
+- **create-next-repo:** update snapshot ([88d55c3](https://git.easyops.local/anyclouds/next-core/commits/88d55c3))
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
 ## [0.13.45](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.44...@easyops/create-next-repo@0.13.45) (2020-09-03)
 
 **Note:** Version bump only for package @easyops/create-next-repo
