@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.54.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.53.0...@easyops/brick-types@1.54.0) (2020-09-02)
+
+### Features
+
+- **storyboard:** support app locale name ([b3109d7](https://git.easyops.local/anyclouds/next-core/commits/b3109d7))
+
+# [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.52.0...@easyops/brick-types@1.53.0) (2020-09-01)
+
+### Features
+
+- **onBeforePageLeave:** support lifeCycle.onBeforePageLeave and history.block ([795cff8](https://git.easyops.local/anyclouds/next-core/commits/795cff8))
+
 # [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.0.0-next.3...@easyops/brick-types@2.0.0-next.5) (2020-08-28)
 
 ### Bug Fixes

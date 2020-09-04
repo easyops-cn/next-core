@@ -54,6 +54,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new HtmlWebpackTagsPlugin({
+      files: ["index.html"],
       scripts: [
         {
           path: "dll.js",

@@ -1,8 +1,4 @@
-import {
-  RuntimeStoryboard,
-  RouteConf,
-  PluginRuntimeContext,
-} from "@easyops/brick-types";
+import { RuntimeStoryboard, RouteConf } from "@easyops/brick-types";
 import { MountRoutesResult } from "../LocationContext";
 
 let _matchedStoryboard: RuntimeStoryboard;
@@ -27,6 +23,7 @@ export class LocationContext {
   };
 
   handlePageLoad = jest.fn();
+  handleBeforePageLeave = jest.fn();
   handlePageLeave = jest.fn();
   handleAnchorLoad = jest.fn();
   handleMessage = jest.fn();

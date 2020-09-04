@@ -67,6 +67,9 @@ describe("scanBricksInStoryboard", () => {
                   {
                     useProvider: "u-a",
                   },
+                  {
+                    useProvider: "namespace@customApi",
+                  },
                 ],
                 onPageLoad: {
                   useProvider: "u-b",
@@ -298,6 +301,16 @@ describe("scanBricksInBrickConf", () => {
               bricks: [
                 {
                   brick: "b-f",
+                  lifeCycle: {
+                    useResolves: [
+                      {
+                        useProvider: "b-g",
+                      },
+                      {
+                        useProvider: "namespace-a@customApi",
+                      },
+                    ],
+                  },
                 },
               ],
             },
@@ -311,6 +324,7 @@ describe("scanBricksInBrickConf", () => {
       "b-c",
       "b-e",
       "b-f",
+      "b-g",
     ]);
   });
 });

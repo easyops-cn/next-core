@@ -2,6 +2,7 @@ import { message } from "antd";
 import { isObject } from "@easyops/brick-utils";
 import {
   BrickEventHandler,
+  BrickEventHandlerCallback,
   BrickEventsMap,
   BuiltinBrickEventHandler,
   CustomBrickEventHandler,
@@ -20,13 +21,14 @@ import {
   _internalApiGetProviderBrick,
   symbolForParentTemplate,
   RuntimeBrickElementWithTplSymbols,
+  _internalApiGetMicroAppApiOrchestrationMap,
 } from "./core/exports";
 import { getUrlBySegueFactory } from "./segue";
 import { looseCheckIf, IfContainer } from "./checkIf";
 import { getUrlByAliasFactory } from "./alias";
-import { BrickEventHandlerCallback } from "@easyops/brick-types";
 import { getMessageDispatcher } from "./core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
+import { isCustomApiProvider, getArgsOfCustomApi } from "./core/CustomApis";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -112,6 +114,7 @@ export function listenerFactory(
       case "history.pushQuery":
       case "history.replaceQuery":
       case "history.pushAnchor":
+      case "history.block":
         return builtinHistoryListenerFactory(
           method,
           handler.args,
@@ -121,6 +124,7 @@ export function listenerFactory(
       case "history.goBack":
       case "history.goForward":
       case "history.reload":
+      case "history.unblock":
         return builtinHistoryWithoutArgsListenerFactory(
           method,
           handler,
@@ -555,9 +559,19 @@ async function brickCallback(
     });
     return;
   }
-  const task = (target as any)[method](
-    ...argsFactory(handler.args, context, event, options)
-  );
+  let argsFactoryResult = argsFactory(handler.args, context, event, options);
+
+  if ((handler as UseProviderEventHandler).useProvider) {
+    if (isCustomApiProvider((handler as UseProviderEventHandler).useProvider)) {
+      const allMicroAppApiOrchestrationMap = await _internalApiGetMicroAppApiOrchestrationMap();
+      argsFactoryResult = getArgsOfCustomApi(
+        (handler as UseProviderEventHandler).useProvider,
+        allMicroAppApiOrchestrationMap,
+        argsFactoryResult
+      );
+    }
+  }
+  const task = (target as any)[method](...argsFactoryResult);
   const { success, error, finally: finallyHook } = handler.callback ?? {};
   if (success || error || finallyHook) {
     try {
@@ -601,7 +615,13 @@ async function brickCallback(
 }
 
 function builtinHistoryListenerFactory(
-  method: "push" | "replace" | "pushQuery" | "replaceQuery" | "pushAnchor",
+  method:
+    | "push"
+    | "replace"
+    | "pushQuery"
+    | "replaceQuery"
+    | "pushAnchor"
+    | "block",
   args: unknown[],
   ifContainer: IfContainer,
   context: PluginRuntimeContext
@@ -610,7 +630,9 @@ function builtinHistoryListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    (getHistory()[method] as (...args: unknown[]) => unknown)(
+    (getHistory()[method === "block" ? "setBlockMessage" : method] as (
+      ...args: unknown[]
+    ) => unknown)(
       ...argsFactory(args, context, event, {
         useEventDetailAsDefault: true,
       })
@@ -619,7 +641,7 @@ function builtinHistoryListenerFactory(
 }
 
 function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward" | "reload",
+  method: "goBack" | "goForward" | "reload" | "unblock",
   ifContainer: IfContainer,
   context: PluginRuntimeContext
 ): EventListener {

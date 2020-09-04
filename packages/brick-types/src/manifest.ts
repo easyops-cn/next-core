@@ -1,6 +1,6 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon } from "./menu";
-import { PluginHistoryState, PluginRuntimeContext } from "./runtime";
+import { PluginHistoryState } from "./runtime";
 
 export interface BootstrapData {
   brickPackages: BrickPackage[];
@@ -14,7 +14,6 @@ export interface BootstrapData {
 export interface RuntimeBootstrapData extends BootstrapData {
   storyboards: RuntimeStoryboard[];
   microApps: MicroApp[];
-  originalStoryboards: Storyboard[];
 }
 
 export interface Settings {
@@ -42,7 +41,15 @@ export interface MicroApp {
   defaultConfig?: Record<string, any>;
   userConfig?: Record<string, any>;
   config?: Record<string, any>;
+  locales?: AppLocales;
+  localeName?: string;
   $$routeAliasMap?: RouteAliasMap;
+}
+
+export type AppLocales = Record<string, AppLocale>;
+
+export interface AppLocale {
+  name?: string;
 }
 
 export type RouteAliasMap = Map<string, RouteAliasConf>;
@@ -75,9 +82,9 @@ export interface NavbarConf {
 }
 
 export interface Storyboard {
+  app: MicroApp;
   imports?: string[];
   routes?: RouteConf[];
-  app?: MicroApp;
   dependsAll?: boolean;
   meta?: StoryboardMeta;
 }
@@ -178,6 +185,7 @@ export interface BrickLifeCycle {
   useResolves?: ResolveConf[];
   onPageLoad?: BrickEventHandler | BrickEventHandler[];
   onPageLeave?: BrickEventHandler | BrickEventHandler[];
+  onBeforePageLeave?: BrickEventHandler | BrickEventHandler[];
   onAnchorLoad?: BrickEventHandler | BrickEventHandler[];
   onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
   onMessage?: MessageConf | MessageConf[];
@@ -330,6 +338,10 @@ export interface BuiltinBrickEventHandler {
     | "history.replaceQuery"
     | "history.pushAnchor"
     // | "history.replaceAnchor"
+
+    // Overridden History
+    | "history.block"
+    | "history.unblock"
 
     // Segues
     | "segue.push"

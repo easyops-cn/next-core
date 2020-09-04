@@ -29,11 +29,14 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
+    "chokidar": "^3.4.2",
     "concat-stream": "^2.0.0",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.5",
     "js-yaml": "^3.14.0",
-    "meow": "^7.1.0"
+    "lodash": "^4.17.20",
+    "meow": "^7.1.0",
+    "ws": "^7.3.1"
   },
   "devDependencies": {
     "@dll/ace": "^2.0.0-next.6",
@@ -42,7 +45,6 @@
     "@easyops/brick-dll": "^2.0.0-next.6",
     "@easyops/custom-antd-styles": "^1.0.0-next.1",
     "babel-loader": "^8.1.0",
-    "chokidar": "^3.4.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
     "core-js": "^3.6.5",
@@ -58,7 +60,6 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.1.2",
-    "ws": "^7.3.1"
+    "webpack-merge": "^5.1.2"
   }
 }

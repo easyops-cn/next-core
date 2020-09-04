@@ -29,11 +29,18 @@ import {
 import { authenticate, isLoggedIn } from "../auth";
 import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
 import { getHistory } from "../history";
-import { RelatedApp, VisitedWorkspace, RecentApps } from "./interfaces";
+import {
+  RelatedApp,
+  VisitedWorkspace,
+  RecentApps,
+  CustomApiOrchestration,
+} from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { registerCustomTemplate } from "./CustomTemplates";
 import { listenDevtools } from "../devtools";
+import { isCustomApiProvider } from "./CustomApis";
+import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -55,6 +62,9 @@ export class Kernel {
   > = Promise.resolve(new Map());
 
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
+  public allMicroAppApiOrchestrationPromise: Promise<
+    Map<string, CustomApiOrchestration>
+  > = Promise.resolve(new Map());
   private providerRepository = new Map<string, HTMLElement>();
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
@@ -124,7 +134,6 @@ export class Kernel {
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
-      originalStoryboards: cloneDeep(bootstrapResponse.storyboards),
       microApps: bootstrapResponse.storyboards
         .map((storyboard) => storyboard.app)
         .filter(Boolean),
@@ -313,6 +322,54 @@ export class Kernel {
     return allUserMap;
   }
 
+  loadMicroAppApiOrchestrationAsync(currentAppId: string): void {
+    this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
+      currentAppId
+    );
+  }
+
+  async getMicroAppApiOrchestrationMapAsync(): Promise<
+    Map<string, CustomApiOrchestration>
+  > {
+    return await this.allMicroAppApiOrchestrationPromise;
+  }
+
+  private async loadMicroAppApiOrchestration(
+    currentAppId: string
+  ): Promise<Map<string, CustomApiOrchestration>> {
+    const allMicroAppApiOrchestrationMap: Map<
+      string,
+      CustomApiOrchestration
+    > = new Map();
+    if (currentAppId) {
+      try {
+        const allMicroAppApiOrchestration = (
+          await InstanceApi.postSearch("MICRO_APP_API_ORCHESTRATION", {
+            page: 1,
+            // TODO(Lynette): 暂时设置3000，这里单个app下自定义的api数据不会太多。
+            page_size: 3000,
+            fields: {
+              "*": true,
+            },
+            query: {
+              "microApp.appId": currentAppId,
+            },
+          })
+        ).list as CustomApiOrchestration[];
+        for (const api of allMicroAppApiOrchestration) {
+          allMicroAppApiOrchestrationMap.set(
+            `${api.namespace}@${api.name}`,
+            api
+          );
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn("Load custom api orchestration error:", error);
+      }
+    }
+    return allMicroAppApiOrchestrationMap;
+  }
+
   private loadMagicBrickConfigAsync(): void {
     this.allMagicBrickConfigMapPromise = this.loadMagicBrickConfig();
   }
@@ -375,6 +432,7 @@ export class Kernel {
       const workspace: VisitedWorkspace = {
         appId: this.currentApp.id,
         appName: this.currentApp.name,
+        appLocaleName: this.currentApp.localeName,
         url: this.currentUrl,
       };
       if (this.workspaceStack.length > 0) {
@@ -424,10 +482,20 @@ export class Kernel {
   }
 
   async getProviderBrick(provider: string): Promise<HTMLElement> {
+    if (isCustomApiProvider(provider)) {
+      provider = CUSTOM_API_PROVIDER;
+    }
+
     if (this.providerRepository.has(provider)) {
       return this.providerRepository.get(provider);
     }
+
+    if (provider === CUSTOM_API_PROVIDER && !customElements.get(provider)) {
+      registerCustomApi();
+    }
+
     await this.loadDynamicBricks([provider]);
+
     if (!customElements.get(provider)) {
       throw new Error(`Provider not defined: "${provider}".`);
     }
