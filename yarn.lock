@@ -15091,10 +15091,10 @@ typedoc-plugin-no-inherit@^1.1.10:
   resolved "https://registry.npm.taobao.org/typedoc-plugin-no-inherit/download/typedoc-plugin-no-inherit-1.1.10.tgz#559d2fa68bc5d31052bf058399c2c135f9af2f68"
   integrity sha1-VZ0vpovF0xBSvwWDmcLBNfmvL2g=
 
-typedoc@^0.19.0:
-  version "0.19.0"
-  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.19.0.tgz?cache=0&sync_timestamp=1598844567997&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc%2Fdownload%2Ftypedoc-0.19.0.tgz#438ae5a8e631322e3fc21f6068f2729ff15b18b9"
-  integrity sha1-Q4rlqOYxMi4/wh9gaPJyn/FbGLk=
+typedoc@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.19.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc%2Fdownload%2Ftypedoc-0.19.1.tgz#1c92608fc4944c6e2223cf3a43b603272b4ac94d"
+  integrity sha1-HJJgj8SUTG4iI886Q7YDJytKyU0=
   dependencies:
     fs-extra "^9.0.1"
     handlebars "^4.7.6"
@@ -15104,6 +15104,7 @@ typedoc@^0.19.0:
     marked "^1.1.1"
     minimatch "^3.0.0"
     progress "^2.0.3"
+    semver "^7.3.2"
     shelljs "^0.8.4"
     typedoc-default-themes "^0.11.1"
 
