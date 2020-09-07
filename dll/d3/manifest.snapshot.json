@@ -1,51 +1,6 @@
 {
   "name": "DllOfD3",
   "content": {
-    "./node_modules/d3-ease/src/index.js": {
-      "id": "+3eq",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "easeLinear",
-          "easeQuad",
-          "easeQuadIn",
-          "easeQuadOut",
-          "easeQuadInOut",
-          "easeCubic",
-          "easeCubicIn",
-          "easeCubicOut",
-          "easeCubicInOut",
-          "easePoly",
-          "easePolyIn",
-          "easePolyOut",
-          "easePolyInOut",
-          "easeSin",
-          "easeSinIn",
-          "easeSinOut",
-          "easeSinInOut",
-          "easeExp",
-          "easeExpIn",
-          "easeExpOut",
-          "easeExpInOut",
-          "easeCircle",
-          "easeCircleIn",
-          "easeCircleOut",
-          "easeCircleInOut",
-          "easeBounce",
-          "easeBounceIn",
-          "easeBounceOut",
-          "easeBounceInOut",
-          "easeBack",
-          "easeBackIn",
-          "easeBackOut",
-          "easeBackInOut",
-          "easeElastic",
-          "easeElasticIn",
-          "easeElasticOut",
-          "easeElasticInOut"
-        ]
-      }
-    },
     "./node_modules/d3-selection/src/selection/attr.js": {
       "id": "+HKQ",
       "buildMeta": {
@@ -104,21 +59,17 @@
           "creator",
           "local",
           "matcher",
-          "mouse",
           "namespace",
           "namespaces",
-          "clientPoint",
+          "pointer",
+          "pointers",
           "select",
           "selectAll",
           "selection",
           "selector",
           "selectorAll",
           "style",
-          "touch",
-          "touches",
-          "window",
-          "event",
-          "customEvent"
+          "window"
         ]
       }
     },
@@ -196,13 +147,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-timer/src/interval.js": {
-      "id": "1byx",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/d3-shape/src/curve/basisOpen.js": {
       "id": "1nUc",
       "buildMeta": {
@@ -243,13 +187,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["parseCss", "parseSvg"]
-      }
-    },
-    "./node_modules/d3-dispatch/src/index.js": {
-      "id": "30U6",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["dispatch"]
       }
     },
     "./node_modules/d3-transition/src/transition/text.js": {
@@ -294,13 +231,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-selection/src/mouse.js": {
-      "id": "4k54",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/d3-selection/src/namespaces.js": {
       "id": "4xGt",
       "buildMeta": {
@@ -322,29 +252,8 @@
         "providedExports": ["root", "Selection", "default"]
       }
     },
-    "./node_modules/d3-ease/src/poly.js": {
-      "id": "5Xrj",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["polyIn", "polyOut", "polyInOut"]
-      }
-    },
     "./node_modules/d3-transition/src/transition/interpolate.js": {
       "id": "5aFE",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-ease/src/sin.js": {
-      "id": "62fh",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["sinIn", "sinOut", "sinInOut"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/value.js": {
-      "id": "6h3Y",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -408,13 +317,6 @@
     },
     "./node_modules/d3-force/src/link.js": {
       "id": "89eD",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-selection/src/point.js": {
-      "id": "8H8W",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -493,6 +395,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/d3-selection/src/pointers.js": {
+      "id": "90/1",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/d3-quadtree/src/cover.js": {
       "id": "9ABZ",
       "buildMeta": {
@@ -539,7 +448,7 @@
       "id": "AWXE",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["event", "default", "customEvent"]
+        "providedExports": ["default"]
       }
     },
     "./node_modules/d3-shape/src/symbol/star.js": {
@@ -604,7 +513,7 @@
       "id": "Cnj1",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["default"]
+        "providedExports": ["default", "childMatcher"]
       }
     },
     "./node_modules/d3-selection/src/selection/call.js": {
@@ -656,13 +565,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-interpolate/src/lab.js": {
-      "id": "El5h",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/d3-selection/src/selectAll.js": {
       "id": "Enya",
       "buildMeta": {
@@ -691,13 +593,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-color/src/cubehelix.js": {
-      "id": "Faen",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default", "Cubehelix"]
-      }
-    },
     "./node_modules/d3-color/src/color.js": {
       "id": "FmoU",
       "buildMeta": {
@@ -720,13 +615,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default", "removeAll"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/date.js": {
-      "id": "G21l",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
       }
     },
     "./node_modules/d3-shape/src/identity.js": {
@@ -766,13 +654,6 @@
     },
     "./node_modules/d3-shape/src/symbol/circle.js": {
       "id": "GvAG",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/quantize.js": {
-      "id": "Gvn4",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -848,25 +729,18 @@
         "providedExports": ["point", "default"]
       }
     },
-    "./node_modules/d3-quadtree/src/data.js": {
-      "id": "LMxf",
+    "./node_modules/d3-transition/src/transition/easeVarying.js": {
+      "id": "KpFn",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-ease/src/exp.js": {
-      "id": "LOX7",
+    "./node_modules/d3-quadtree/src/data.js": {
+      "id": "LMxf",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["expIn", "expOut", "expInOut"]
-      }
-    },
-    "./node_modules/d3-ease/src/bounce.js": {
-      "id": "MHiR",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["bounceIn", "bounceOut", "bounceInOut"]
+        "providedExports": ["default"]
       }
     },
     "./node_modules/d3-interpolate/src/transform/decompose.js": {
@@ -923,13 +797,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["CardinalClosed", "default"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/cubehelix.js": {
-      "id": "OHKE",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default", "cubehelixLong"]
       }
     },
     "./node_modules/d3-zoom/src/noevent.js": {
@@ -1026,22 +893,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-color/src/index.js": {
-      "id": "SC+/",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "color",
-          "rgb",
-          "hsl",
-          "lab",
-          "hcl",
-          "lch",
-          "gray",
-          "cubehelix"
-        ]
-      }
-    },
     "./node_modules/d3-shape/src/curve/linear.js": {
       "id": "SDD1",
       "buildMeta": {
@@ -1084,13 +935,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-ease/src/quad.js": {
-      "id": "TXIv",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["quadIn", "quadOut", "quadInOut"]
-      }
-    },
     "./node_modules/d3-selection/src/selection/dispatch.js": {
       "id": "TisH",
       "buildMeta": {
@@ -1098,22 +942,8 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-interpolate/src/hue.js": {
-      "id": "U6M7",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/d3-shape/src/order/reverse.js": {
       "id": "UFbn",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/discrete.js": {
-      "id": "UGGt",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -1131,13 +961,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-color/src/math.js": {
-      "id": "Uwo/",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["deg2rad", "rad2deg"]
       }
     },
     "./node_modules/d3-selection/src/creator.js": {
@@ -1175,25 +998,11 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-interpolate/src/round.js": {
-      "id": "WFeF",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/d3-selection/src/selection/insert.js": {
       "id": "WmHh",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/hcl.js": {
-      "id": "Ws9M",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default", "hclLong"]
       }
     },
     "./node_modules/d3-force/src/radial.js": {
@@ -1210,18 +1019,25 @@
         "providedExports": ["default", "sum"]
       }
     },
+    "./node_modules/d3-transition/src/transition/textTween.js": {
+      "id": "Xl5i",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/d3-selection/src/pointer.js": {
+      "id": "XoFe",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/d3-color/src/define.js": {
       "id": "Y62N",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default", "extend"]
-      }
-    },
-    "./node_modules/d3-selection/src/touch.js": {
-      "id": "YJZE",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
       }
     },
     "./node_modules/d3-selection/src/selection/text.js": {
@@ -1231,23 +1047,9 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-selection/src/touches.js": {
-      "id": "Yp+Y",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/d3-transition/src/selection/index.js": {
       "id": "YrTO",
       "buildMeta": { "exportsType": "namespace", "providedExports": [] }
-    },
-    "./node_modules/d3-color/src/lab.js": {
-      "id": "YvDT",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["gray", "default", "Lab", "lch", "hcl", "Hcl"]
-      }
     },
     "./node_modules/d3-force/src/manyBody.js": {
       "id": "Z9Ww",
@@ -1258,17 +1060,6 @@
     },
     "./node_modules/d3-shape/src/arc.js": {
       "id": "ZQwz",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-ease/src/linear.js": {
-      "id": "ZRP+",
-      "buildMeta": { "exportsType": "namespace", "providedExports": ["linear"] }
-    },
-    "./node_modules/d3-interpolate/src/array.js": {
-      "id": "ZzDG",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -1302,6 +1093,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/d3-selection/src/selection/selectChildren.js": {
+      "id": "bBIG",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/d3-hierarchy/src/hierarchy/sum.js": {
       "id": "bJAQ",
       "buildMeta": {
@@ -1318,20 +1116,6 @@
     },
     "./node_modules/d3-transition/src/transition/selection.js": {
       "id": "cKk/",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/hsl.js": {
-      "id": "cNgm",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default", "hslLong"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/object.js": {
-      "id": "cb2h",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -1384,13 +1168,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default", "stepBefore", "stepAfter"]
-      }
-    },
-    "./node_modules/d3-quadtree/src/index.js": {
-      "id": "gO8D",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["quadtree"]
       }
     },
     "./node_modules/d3-shape/src/array.js": {
@@ -1456,13 +1233,6 @@
         "providedExports": ["cubicIn", "cubicOut", "cubicInOut"]
       }
     },
-    "./node_modules/d3-ease/src/back.js": {
-      "id": "iUY2",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["backIn", "backOut", "backInOut"]
-      }
-    },
     "./node_modules/d3-hierarchy/src/treemap/binary.js": {
       "id": "ivMv",
       "buildMeta": {
@@ -1474,7 +1244,7 @@
       "id": "j1BO",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["slice", "shuffle"]
+        "providedExports": ["default", "shuffle"]
       }
     },
     "./node_modules/d3-shape/src/curve/basis.js": {
@@ -1533,6 +1303,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/d3-hierarchy/src/hierarchy/find.js": {
+      "id": "mfBI",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/d3-selection/src/selection/size.js": {
       "id": "mrS5",
       "buildMeta": {
@@ -1575,6 +1352,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/d3-selection/src/selection/iterator.js": {
+      "id": "oAyw",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/d3-shape/src/symbol/cross.js": {
       "id": "oKyY",
       "buildMeta": {
@@ -1601,40 +1385,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/index.js": {
-      "id": "pD2Y",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "interpolate",
-          "interpolateArray",
-          "interpolateBasis",
-          "interpolateBasisClosed",
-          "interpolateDate",
-          "interpolateDiscrete",
-          "interpolateHue",
-          "interpolateNumber",
-          "interpolateObject",
-          "interpolateRound",
-          "interpolateString",
-          "interpolateTransformCss",
-          "interpolateTransformSvg",
-          "interpolateZoom",
-          "interpolateRgb",
-          "interpolateRgbBasis",
-          "interpolateRgbBasisClosed",
-          "interpolateHsl",
-          "interpolateHslLong",
-          "interpolateLab",
-          "interpolateHcl",
-          "interpolateHclLong",
-          "interpolateCubehelix",
-          "interpolateCubehelixLong",
-          "piecewise",
-          "quantize"
-        ]
       }
     },
     "./node_modules/d3-shape/src/curve/monotone.js": {
@@ -1681,13 +1431,6 @@
     },
     "./node_modules/d3-transition/src/transition/select.js": {
       "id": "r5Py",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-interpolate/src/piecewise.js": {
-      "id": "rAw/",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -1740,18 +1483,18 @@
         "providedExports": ["transition", "active", "interrupt"]
       }
     },
-    "./node_modules/d3-selection/src/selection/html.js": {
-      "id": "skEf",
+    "./node_modules/d3-selection/src/selection/selectChild.js": {
+      "id": "sb9E",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
     },
-    "./node_modules/d3-ease/src/circle.js": {
-      "id": "tIkd",
+    "./node_modules/d3-selection/src/selection/html.js": {
+      "id": "skEf",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["circleIn", "circleOut", "circleInOut"]
+        "providedExports": ["default"]
       }
     },
     "./node_modules/d3-quadtree/src/visitAfter.js": {
@@ -1768,25 +1511,11 @@
         "providedExports": ["default", "yesdrag"]
       }
     },
-    "./node_modules/d3-timer/src/index.js": {
-      "id": "ta7q",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["now", "timer", "timerFlush", "timeout", "interval"]
-      }
-    },
     "./node_modules/d3-hierarchy/src/treemap/index.js": {
       "id": "tvR+",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
-      }
-    },
-    "./node_modules/d3-ease/src/elastic.js": {
-      "id": "uc95",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["elasticIn", "elasticOut", "elasticInOut"]
       }
     },
     "./node_modules/d3-hierarchy/src/hierarchy/sort.js": {
@@ -1812,6 +1541,13 @@
     },
     "./node_modules/d3-shape/src/stack.js": {
       "id": "wIsI",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/d3-selection/src/array.js": {
+      "id": "wibz",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -1847,6 +1583,13 @@
     },
     "./node_modules/d3-selection/src/selection/datum.js": {
       "id": "yAGa",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/d3-hierarchy/src/hierarchy/iterator.js": {
+      "id": "yE6J",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
