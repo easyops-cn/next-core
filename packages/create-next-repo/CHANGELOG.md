@@ -15,6 +15,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
 - **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
 
+## [0.13.47](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.46...@easyops/create-next-repo@0.13.47) (2020-09-08)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.46](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.45...@easyops/create-next-repo@0.13.46) (2020-09-07)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
 ## [0.13.45](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.44...@easyops/create-next-repo@0.13.45) (2020-09-03)
 
 **Note:** Version bump only for package @easyops/create-next-repo
