@@ -2,7 +2,7 @@ const path = require("path");
 const os = require("os");
 const fs = require("fs-extra");
 const semver = require("semver");
-const { chain, pull, escapeRegExp } = require("lodash");
+const { chain, pull, escapeRegExp, isEqual } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 
 module.exports = function patch() {
@@ -49,7 +49,7 @@ module.exports = function patch() {
     updatePackageJsonScriptsTestCommand(rootPackageJson);
   }
 
-  if (semver.lt(currentRenewVersion, "0.7.18")) {
+  if (semver.lt(currentRenewVersion, "0.7.19")) {
     updateRenovateBaseBranches();
   }
 
@@ -333,6 +333,19 @@ function updatePackageJsonScriptsTestCommand(packageJson) {
 function updateRenovateBaseBranches() {
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = readJson(renovateJsonPath);
-  renovateJson.baseBranches = ["master", "antd_v4_migration"];
+  if (isEqual(renovateJson.baseBranches, ["master", "antd_v4_migration"])) {
+    delete renovateJson.baseBranches;
+  }
+
+  const nextCoreGroup = renovateJson.packageRules.find(
+    (item) => item.groupName === "next-core packages"
+  );
+
+  if (nextCoreGroup && !nextCoreGroup.baseBranches) {
+    Object.assign(nextCoreGroup, {
+      baseBranches: ["master", "antd_v4_migration"],
+    });
+  }
+
   writeJsonFile(renovateJsonPath, renovateJson);
 }
