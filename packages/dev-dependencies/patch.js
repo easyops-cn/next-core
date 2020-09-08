@@ -49,6 +49,10 @@ module.exports = function patch() {
     updatePackageJsonScriptsTestCommand(rootPackageJson);
   }
 
+  if (semver.lt(currentRenewVersion, "0.7.18")) {
+    updateRenovateBaseBranches();
+  }
+
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
@@ -324,4 +328,11 @@ function updatePackageJsonScriptsTestCommand(packageJson) {
     "cross-env NODE_ENV='test' node --expose-gc ./node_modules/.bin/jest --logHeapUsage";
   packageJson.scripts["test:ci"] =
     "cross-env NODE_ENV='test' CI=true node --expose-gc ./node_modules/.bin/jest --logHeapUsage --ci";
+}
+
+function updateRenovateBaseBranches() {
+  const renovateJsonPath = path.resolve("renovate.json");
+  const renovateJson = readJson(renovateJsonPath);
+  renovateJson.baseBranches = ["master", "antd_v4_migration"];
+  writeJsonFile(renovateJsonPath, renovateJson);
 }
