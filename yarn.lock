@@ -2483,10 +2483,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^4.5.7":
-  version "4.5.7"
-  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.5.7.tgz#29ce728aa83e3d7ee48421a32894cdf4954405ca"
-  integrity sha1-Kc5yiqg+PX7khCGjKJTN9JVEBco=
+"@size-limit/file@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.6.0.tgz#894d96bf8bb98d2d4129cbe54a067b33133c4d1c"
+  integrity sha1-iU2Wv4u5jS1BKcvlSgZ7MxM8TRw=
   dependencies:
     semver "7.3.2"
 
@@ -11024,10 +11024,10 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-ora@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npm.taobao.org/ora/download/ora-5.0.0.tgz?cache=0&sync_timestamp=1596812605371&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fora%2Fdownload%2Fora-5.0.0.tgz#4f0b34f2994877b49b452a707245ab1e9f6afccb"
-  integrity sha1-Tws08plId7SbRSpwckWrHp9q/Ms=
+ora@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.npm.taobao.org/ora/download/ora-5.1.0.tgz?cache=0&sync_timestamp=1599424857800&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fora%2Fdownload%2Fora-5.1.0.tgz#b188cf8cd2d4d9b13fd25383bc3e5cba352c94f8"
+  integrity sha1-sYjPjNLU2bE/0lODvD5cujUslPg=
   dependencies:
     chalk "^4.1.0"
     cli-cursor "^3.1.0"
@@ -13972,10 +13972,10 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.5.7:
-  version "4.5.7"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.5.7.tgz#0bfb8b3bddad0c38388bd0bd3d98bbd7d5b7daee"
-  integrity sha1-C/uLO92tDDg4i9C9PZi719W32u4=
+size-limit@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.6.0.tgz#1c053f7829d13c9c63c65638eb51a4053ef8465c"
+  integrity sha1-HAU/eCnRPJxjxlY461GkBT74Rlw=
   dependencies:
     bytes "^3.1.0"
     chokidar "^3.4.2"
@@ -13983,7 +13983,7 @@ size-limit@^4.5.7:
     colorette "^1.2.1"
     cosmiconfig "^7.0.0"
     globby "^11.0.1"
-    ora "^5.0.0"
+    ora "^5.1.0"
     read-pkg-up "^7.0.1"
 
 slash@^1.0.0:
