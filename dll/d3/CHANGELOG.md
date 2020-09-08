@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.0-next.4...@dll/d3@2.0.0-next.5) (2020-09-08)
+
+### Features
+
+- upgrade d3-\* to v2 ([453a45a](https://git.easyops.local/anyclouds/next-core/commits/453a45a))
+
+### BREAKING CHANGES
+
+- Upgrade d3-\* to v2
+
+INFRA-721
+
 # [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.0-next.2...@dll/d3@2.0.0-next.4) (2020-08-28)
 
 ### Bug Fixes

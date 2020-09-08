@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.0.0-next.8...@easyops/brick-dll@2.0.0-next.9) (2020-09-08)
+
+### Bug Fixes
+
+- move antd and d3-\* to workspace level to avoid dll manifest breaking ([6e3509f](https://git.easyops.local/anyclouds/next-core/commits/6e3509f))
+
 # [2.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.0.0-next.7...@easyops/brick-dll@2.0.0-next.8) (2020-09-07)
 
 **Note:** Version bump only for package @easyops/brick-dll
