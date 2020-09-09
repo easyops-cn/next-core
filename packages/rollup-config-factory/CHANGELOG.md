@@ -7,6 +7,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @easyops/rollup-config-factory
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.1.13...@easyops/rollup-config-factory@1.2.0) (2020-09-09)
+
+### Features
+
+- **rollup-config-factory:** postcss 增加 nested 插件 ([ff8c8a5](https://git.easyops.local/anyclouds/next-core/commits/ff8c8a5))
+
 ## [1.1.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@1.1.12...@easyops/rollup-config-factory@1.1.13) (2020-08-23)
 
 **Note:** Version bump only for package @easyops/rollup-config-factory

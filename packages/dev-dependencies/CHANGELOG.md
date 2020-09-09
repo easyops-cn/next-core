@@ -19,6 +19,52 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
 
+# [1.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.6...@easyops/dev-dependencies@1.0.0-next.8) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.13...@easyops/dev-dependencies@1.0.0-next.6) (2020-08-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.10...@easyops/dev-dependencies@1.0.0-next.5) (2020-08-25)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.6...@easyops/dev-dependencies@1.0.0-next.4) (2020-08-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.5...@easyops/dev-dependencies@1.0.0-next.3) (2020-08-11)
+
+### Bug Fixes
+
+- add @types/js-yaml instead of @types/yaml ([fe5c821](https://git.easyops.local/anyclouds/next-core/commits/fe5c821))
+
+# [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.1...@easyops/dev-dependencies@1.0.0-next.2) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.0...@easyops/dev-dependencies@1.0.0-next.1) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.67...@easyops/dev-dependencies@1.0.0-next.0) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.19...@easyops/dev-dependencies@0.7.20) (2020-09-09)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.18...@easyops/dev-dependencies@0.7.19) (2020-09-09)
+
+### Bug Fixes
+
+- **renovate:** add antd_v4_migration into base branches only for next-core packages ([1dbe1c9](https://git.easyops.local/anyclouds/next-core/commits/1dbe1c9))
+
 ## [0.7.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.17...@easyops/dev-dependencies@0.7.18) (2020-09-08)
 
 ### Bug Fixes
@@ -41,16 +87,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @easyops/dev-dependencies
 
-# [1.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.6...@easyops/dev-dependencies@1.0.0-next.8) (2020-08-28)
-
-### Bug Fixes
-
-- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
-
-# [1.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.13...@easyops/dev-dependencies@1.0.0-next.6) (2020-08-28)
-
-**Note:** Version bump only for package @easyops/dev-dependencies
-
 ## [0.7.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.12...@easyops/dev-dependencies@0.7.13) (2020-08-28)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
@@ -62,10 +98,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **dev-dependencies:** 新增给 package.json 的 test scripts 打添加 --expose-gc 和 --logHeapUsage 参数的补丁 ([f9b6674](https://git.easyops.local/anyclouds/next-core/commits/f9b6674))
 
 ## [0.7.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.10...@easyops/dev-dependencies@0.7.11) (2020-08-26)
-
-**Note:** Version bump only for package @easyops/dev-dependencies
-
-# [1.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.10...@easyops/dev-dependencies@1.0.0-next.5) (2020-08-25)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
 
@@ -85,17 +117,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @easyops/dev-dependencies
 
-# [1.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.6...@easyops/dev-dependencies@1.0.0-next.4) (2020-08-13)
-
-**Note:** Version bump only for package @easyops/dev-dependencies
-
 ## [0.7.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.5...@easyops/dev-dependencies@0.7.6) (2020-08-13)
-
-### Bug Fixes
-
-- add @types/js-yaml instead of @types/yaml ([fe5c821](https://git.easyops.local/anyclouds/next-core/commits/fe5c821))
-
-# [1.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.5...@easyops/dev-dependencies@1.0.0-next.3) (2020-08-11)
 
 ### Bug Fixes
 
@@ -130,18 +152,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - **dev-dependencies:** cli-renew 支持 tag 参数 ([a3d3988](https://git.easyops.local/anyclouds/next-core/commits/a3d3988))
-
-# [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.1...@easyops/dev-dependencies@1.0.0-next.2) (2020-08-05)
-
-**Note:** Version bump only for package @easyops/dev-dependencies
-
-# [1.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.0...@easyops/dev-dependencies@1.0.0-next.1) (2020-08-05)
-
-**Note:** Version bump only for package @easyops/dev-dependencies
-
-# [1.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.67...@easyops/dev-dependencies@1.0.0-next.0) (2020-08-05)
-
-**Note:** Version bump only for package @easyops/dev-dependencies
 
 ## [0.6.67](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.66...@easyops/dev-dependencies@0.6.67) (2020-08-04)
 
