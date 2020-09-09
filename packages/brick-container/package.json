@@ -48,7 +48,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.1.0",
     "core-js": "^3.6.5",
-    "css-loader": "^4.2.2",
+    "css-loader": "^4.3.0",
     "html-webpack-plugin": "^4.4.1",
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^6.0.1",
