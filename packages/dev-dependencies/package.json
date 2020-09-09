@@ -1,6 +1,6 @@
 {
   "name": "@easyops/dev-dependencies",
-  "version": "0.7.19",
+  "version": "0.7.20",
   "description": "Dev dependencies for brick-next related packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/dev-dependencies",
   "license": "UNLICENSED",
@@ -27,7 +27,7 @@
     "@easyops/build-config-factory": "^1.18.11",
     "@easyops/custom-antd-styles": "^0.11.4",
     "@easyops/eslint-config-next": "^0.1.18",
-    "@easyops/rollup-config-factory": "^1.1.13",
+    "@easyops/rollup-config-factory": "^1.2.0",
     "@easyops/webpack-config-factory": "^1.11.2",
     "@testing-library/jest-dom": "^5.11.3",
     "@testing-library/react": "^10.4.9",
