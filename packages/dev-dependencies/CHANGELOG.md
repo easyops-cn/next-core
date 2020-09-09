@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.18...@easyops/dev-dependencies@0.7.19) (2020-09-09)
+
+### Bug Fixes
+
+- **renovate:** add antd_v4_migration into base branches only for next-core packages ([1dbe1c9](https://git.easyops.local/anyclouds/next-core/commits/1dbe1c9))
+
 ## [0.7.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.17...@easyops/dev-dependencies@0.7.18) (2020-09-08)
 
 ### Bug Fixes
