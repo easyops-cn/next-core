@@ -1,0 +1,40 @@
+.ant-transfer-list {
+  background: #fff;
+  border-radius: 6px;
+}
+
+.ant-transfer-list-header {
+  background: #f5f5f5;
+  border-bottom: none;
+}
+
+.ant-transfer-list-content-item {
+  .ant-checkbox-wrapper {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .ant-checkbox-wrapper-checked
+    + .ant-transfer-list-content-item-text {
+    display: inline-block;
+    background: #f5f5f5;
+    padding: 4px 6px;
+    width: calc(100% - 30px);
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+}
+
+.ant-transfer-operation {
+  button {
+    border-radius: 50%;
+  }
+
+  button:first-child {
+    margin-bottom: 8px;
+  }
+
+  button:not([disabled]) {
+    background: #0071eb;
+    border: none;
+  }
+}
