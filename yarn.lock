@@ -15584,10 +15584,10 @@ webpack-log@^2.0.0:
     ansi-colors "^3.0.0"
     uuid "^3.3.2"
 
-webpack-merge@^5.1.3:
-  version "5.1.3"
-  resolved "https://registry.npm.taobao.org/webpack-merge/download/webpack-merge-5.1.3.tgz#e5570b0bfa654915340f1e348c93a6fd16d7a820"
-  integrity sha1-5VcLC/plSRU0Dx40jJOm/RbXqCA=
+webpack-merge@^5.1.4:
+  version "5.1.4"
+  resolved "https://registry.npm.taobao.org/webpack-merge/download/webpack-merge-5.1.4.tgz?cache=0&sync_timestamp=1599636311422&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-merge%2Fdownload%2Fwebpack-merge-5.1.4.tgz#a2c3a0c38ac2c02055c47bb1d42de1f072f1aea4"
+  integrity sha1-osOgw4rCwCBVxHux1C3h8HLxrqQ=
   dependencies:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
