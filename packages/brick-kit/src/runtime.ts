@@ -1,6 +1,5 @@
 import { Runtime } from "./core/exports";
 import { createHistory } from "./history";
-import { createWebSocket } from "./websocket/WebSocket";
 import { createMessageDispatcher } from "./core/MessageDispatcher";
 
 let runtime: Runtime;

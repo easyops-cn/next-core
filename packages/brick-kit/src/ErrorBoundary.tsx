@@ -1,5 +1,11 @@
 import React from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import {
+  withTranslation,
+  WithTranslation,
+  // `WithTranslationProps` is required for api-extractor.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  WithTranslationProps,
+} from "react-i18next";
 import { httpErrorToString } from "./handleHttpError";
 import { NS_BRICK_KIT, K } from "./i18n/constants";
 
