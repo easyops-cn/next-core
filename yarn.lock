@@ -6777,10 +6777,10 @@ eslint-config-prettier@^6.11.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-plugin-react-hooks@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.npm.taobao.org/eslint-plugin-react-hooks/download/eslint-plugin-react-hooks-4.1.1.tgz?cache=0&sync_timestamp=1599765035868&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-plugin-react-hooks%2Fdownload%2Feslint-plugin-react-hooks-4.1.1.tgz#b37e1ff622b7800cd673901de32db1103d48411d"
-  integrity sha1-s34f9iK3gAzWc5Ad4y2xED1IQR0=
+eslint-plugin-react-hooks@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.npm.taobao.org/eslint-plugin-react-hooks/download/eslint-plugin-react-hooks-4.1.2.tgz?cache=0&sync_timestamp=1599825012833&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-plugin-react-hooks%2Fdownload%2Feslint-plugin-react-hooks-4.1.2.tgz#2eb53731d11c95826ef7a7272303eabb5c9a271e"
+  integrity sha1-LrU3MdEclYJu96cnIwPqu1yaJx4=
 
 eslint-plugin-react@^7.20.6:
   version "7.20.6"

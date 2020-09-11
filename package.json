@@ -61,7 +61,7 @@
     "enzyme-to-json": "^3.5.0",
     "eslint": "^7.8.1",
     "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.1.1",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "jest-websocket-mock": "^2.1.0",
