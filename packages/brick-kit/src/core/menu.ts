@@ -4,11 +4,16 @@ import {
   SidebarMenuSimpleItem,
   PluginRuntimeContext,
   SidebarMenu,
+  ResolveConf,
 } from "@easyops/brick-types";
 import { InstanceApi } from "@sdk/cmdb-sdk";
 import { MountRoutesResult } from "./LocationContext";
 import { computeRealValue } from "../setProperties";
 import { looseCheckIfOfComputed } from "../checkIf";
+import {
+  _internalApiGetCurrentContext,
+  _internalApiGetResolver,
+} from "./exports";
 
 export interface MenuRawData {
   menuId: string;
@@ -19,6 +24,8 @@ export interface MenuRawData {
   items?: MenuItemRawData[];
   type?: "main" | "inject";
   defaultCollapsed?: boolean;
+  dynamicItems?: boolean;
+  itemsResolve?: ResolveConf;
 }
 
 type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
@@ -70,6 +77,8 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
         titleDataSource: true,
         defaultCollapsed: true,
         type: true,
+        dynamicItems: true,
+        itemsResolve: true,
         items: true,
         "items.children": true,
       },
@@ -80,6 +89,7 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
       },
     })
   ).list as MenuRawData[];
+  await Promise.all(menuList.map(loadDynamicMenuItems));
   const menuData = mergeMenu(menuList);
   if (!menuData) {
     throw new Error(`Menu not found: ${menuId}`);
@@ -98,6 +108,24 @@ function mergeMenu(menuList: MenuRawData[]): MenuRawData {
     ...mainMenu,
     items: menuList.flatMap((menu) => menu.items ?? []),
   };
+}
+
+async function loadDynamicMenuItems(menu: MenuRawData): Promise<void> {
+  if (menu.dynamicItems && menu.itemsResolve) {
+    const itemsConf: Partial<{ items: MenuItemRawData[] }> = {};
+    await _internalApiGetResolver().resolveOne(
+      "reference",
+      {
+        transform: "items",
+        transformMapArray: false,
+        ...menu.itemsResolve,
+      },
+      itemsConf,
+      null,
+      _internalApiGetCurrentContext()
+    );
+    menu.items = itemsConf.items;
+  }
 }
 
 async function processMenu(
