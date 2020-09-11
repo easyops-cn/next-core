@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.5...@easyops/custom-antd-styles@0.12.0) (2020-09-11)
+
+### Features
+
+- **table:** 规范嵌套子表格的样式和间距 ([f4ba98f](https://git.easyops.local/anyclouds/next-core/commits/f4ba98f))
+
 ## [0.11.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.4...@easyops/custom-antd-styles@0.11.5) (2020-09-11)
 
 **Note:** Version bump only for package @easyops/custom-antd-styles
