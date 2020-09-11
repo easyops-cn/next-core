@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.4...@easyops/custom-antd-styles@0.11.5) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/custom-antd-styles
+
 ## [0.11.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.3...@easyops/custom-antd-styles@0.11.4) (2020-08-25)
 
 **Note:** Version bump only for package @easyops/custom-antd-styles
