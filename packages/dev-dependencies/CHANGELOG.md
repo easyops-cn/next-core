@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.23](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.22...@easyops/dev-dependencies@0.7.23) (2020-09-12)
+
+### Bug Fixes
+
+- all micro-apps and templates should be compatible with brick_next v2 ([89bd0dd](https://git.easyops.local/anyclouds/next-core/commits/89bd0dd))
+
 ## [0.7.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.21...@easyops/dev-dependencies@0.7.22) (2020-09-11)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
