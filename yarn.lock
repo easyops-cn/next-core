@@ -15094,10 +15094,10 @@ typedoc-default-themes@^0.11.1:
   dependencies:
     lunr "^2.3.9"
 
-typedoc-plugin-no-inherit@^1.1.10:
-  version "1.1.10"
-  resolved "https://registry.npm.taobao.org/typedoc-plugin-no-inherit/download/typedoc-plugin-no-inherit-1.1.10.tgz#559d2fa68bc5d31052bf058399c2c135f9af2f68"
-  integrity sha1-VZ0vpovF0xBSvwWDmcLBNfmvL2g=
+typedoc-plugin-no-inherit@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/typedoc-plugin-no-inherit/download/typedoc-plugin-no-inherit-1.2.0.tgz#7f73809c04cb29c03afe5eea356534968cb717a9"
+  integrity sha1-f3OAnATLKcA6/l7qNWU0loy3F6k=
 
 typedoc@^0.19.1:
   version "0.19.1"

@@ -31,6 +31,6 @@
     "prettier": "^2.1.1",
     "rimraf": "^3.0.2",
     "typedoc": "^0.19.1",
-    "typedoc-plugin-no-inherit": "^1.1.10"
+    "typedoc-plugin-no-inherit": "^1.2.0"
   }
 }
