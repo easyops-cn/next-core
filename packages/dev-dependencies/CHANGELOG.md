@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.13...@easyops/dev-dependencies@1.0.0-next.14) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.25...@easyops/dev-dependencies@1.0.0-next.13) (2020-09-13)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.20...@easyops/dev-dependencies@1.0.0-next.12) (2020-09-09)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.18...@easyops/dev-dependencies@1.0.0-next.11) (2020-09-08)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.9...@easyops/dev-dependencies@1.0.0-next.10) (2020-09-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.16...@easyops/dev-dependencies@1.0.0-next.9) (2020-09-04)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.6...@easyops/dev-dependencies@1.0.0-next.8) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.13...@easyops/dev-dependencies@1.0.0-next.6) (2020-08-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.10...@easyops/dev-dependencies@1.0.0-next.5) (2020-08-25)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.6...@easyops/dev-dependencies@1.0.0-next.4) (2020-08-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.5...@easyops/dev-dependencies@1.0.0-next.3) (2020-08-11)
+
+### Bug Fixes
+
+- add @types/js-yaml instead of @types/yaml ([fe5c821](https://git.easyops.local/anyclouds/next-core/commits/fe5c821))
+
+# [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.1...@easyops/dev-dependencies@1.0.0-next.2) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.0...@easyops/dev-dependencies@1.0.0-next.1) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.67...@easyops/dev-dependencies@1.0.0-next.0) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [0.7.25](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.24...@easyops/dev-dependencies@0.7.25) (2020-09-13)
 
 ### Bug Fixes

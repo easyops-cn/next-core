@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.55.1...@easyops/brick-utils@2.0.0-next.7) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.55.0...@easyops/brick-utils@2.0.0-next.6) (2020-09-04)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.0.0-next.4...@easyops/brick-utils@2.0.0-next.5) (2020-08-28)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.1...@easyops/brick-utils@2.0.0-next.4) (2020-08-28)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.0...@easyops/brick-utils@2.0.0-next.3) (2020-08-25)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.53.0...@easyops/brick-utils@2.0.0-next.2) (2020-08-13)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.2...@easyops/brick-utils@2.0.0-next.1) (2020-08-11)
+
+### Bug Fixes
+
+- **custom-processors:** assert non-computed when scanning processors ([75f30b0](https://git.easyops.local/anyclouds/next-core/commits/75f30b0))
+
+# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.5...@easyops/brick-utils@2.0.0-next.0) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
 ## [1.55.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.55.0...@easyops/brick-utils@1.55.1) (2020-09-11)
 
 **Note:** Version bump only for package @easyops/brick-utils

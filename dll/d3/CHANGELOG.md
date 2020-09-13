@@ -3,7 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.0-next.4...@dll/d3@2.0.0-next.5) (2020-09-08)
+
+### Features
+
+- upgrade d3-\* to v2 ([453a45a](https://git.easyops.local/anyclouds/next-core/commits/453a45a))
+
+### BREAKING CHANGES
+
+- Upgrade d3-\* to v2
+
+INFRA-721
+
+# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.0-next.2...@dll/d3@2.0.0-next.4) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@1.1.3...@dll/d3@2.0.0-next.2) (2020-08-28)
+
+**Note:** Version bump only for package @dll/d3
+
 ## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@1.1.2...@dll/d3@1.1.3) (2020-08-26)
+
+**Note:** Version bump only for package @dll/d3
+
+# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@1.1.2...@dll/d3@2.0.0-next.1) (2020-08-25)
 
 **Note:** Version bump only for package @dll/d3
 
