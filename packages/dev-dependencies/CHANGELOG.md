@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.25](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.24...@easyops/dev-dependencies@0.7.25) (2020-09-13)
+
+### Bug Fixes
+
+- do not throw for unexpected brick next version ([0a650ca](https://git.easyops.local/anyclouds/next-core/commits/0a650ca))
+
 ## [0.7.24](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.23...@easyops/dev-dependencies@0.7.24) (2020-09-13)
 
 ### Bug Fixes
