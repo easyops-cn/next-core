@@ -64,7 +64,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
-    "jest-websocket-mock": "^2.1.0",
+    "jest-websocket-mock": "^2.2.0",
     "lerna": "^3.22.1",
     "lint-staged": "^10.3.0",
     "mock-socket": "^9.0.3",

@@ -42,7 +42,7 @@
     "antd": "^3.26.15",
     "history": "^4.10.1",
     "i18next": "^19.7.0",
-    "jest-websocket-mock": "^2.1.0",
+    "jest-websocket-mock": "^2.2.0",
     "lodash": "^4.17.20",
     "mock-socket": "^9.0.3",
     "react": "^16.13.1",
