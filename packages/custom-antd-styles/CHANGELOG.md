@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.12.1...@easyops/custom-antd-styles@1.0.0-next.2) (2020-09-13)
+
+### Bug Fixes
+
+- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://git.easyops.local/anyclouds/next-core/commits/f6df4dc))
+
 # [1.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.4...@easyops/custom-antd-styles@1.0.0-next.1) (2020-08-25)
 
 ### Bug Fixes

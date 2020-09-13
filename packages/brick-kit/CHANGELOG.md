@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.65.1...@easyops/brick-kit@2.0.0-next.9) (2020-09-13)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
 # [2.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.0-next.7...@easyops/brick-kit@2.0.0-next.8) (2020-09-07)
 
 **Note:** Version bump only for package @easyops/brick-kit
