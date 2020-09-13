@@ -54,7 +54,7 @@ module.exports = function patch() {
     updateRenovateBaseBranches();
   }
 
-  if (semver.lt(currentRenewVersion, "0.7.21")) {
+  if (semver.lt(currentRenewVersion, "0.7.24")) {
     majorBrickNext.updateVersionOfBrickNext();
   }
 
