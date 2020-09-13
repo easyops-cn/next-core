@@ -69,6 +69,26 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @easyops/create-next-repo
 
+## [0.13.54](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.53...@easyops/create-next-repo@0.13.54) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.53](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.52...@easyops/create-next-repo@0.13.53) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.52](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.51...@easyops/create-next-repo@0.13.52) (2020-09-12)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.51](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.50...@easyops/create-next-repo@0.13.51) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.50](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.49...@easyops/create-next-repo@0.13.50) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
 ## [0.13.49](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.48...@easyops/create-next-repo@0.13.49) (2020-09-09)
 
 **Note:** Version bump only for package @easyops/create-next-repo

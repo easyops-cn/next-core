@@ -19,18 +19,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Closes INFRA-706
 
-# [1.54.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.53.0...@easyops/brick-types@1.54.0) (2020-09-02)
-
-### Features
-
-- **storyboard:** support app locale name ([b3109d7](https://git.easyops.local/anyclouds/next-core/commits/b3109d7))
-
-# [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.52.0...@easyops/brick-types@1.53.0) (2020-09-01)
-
-### Features
-
-- **onBeforePageLeave:** support lifeCycle.onBeforePageLeave and history.block ([795cff8](https://git.easyops.local/anyclouds/next-core/commits/795cff8))
-
 # [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.0.0-next.3...@easyops/brick-types@2.0.0-next.5) (2020-08-28)
 
 ### Bug Fixes
@@ -49,12 +37,6 @@ Closes INFRA-706
 
 Closes INFRA-706
 
-# [1.52.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.51.0...@easyops/brick-types@1.52.0) (2020-08-26)
-
-### Features
-
-- 使用 channel 为 key 实现订阅消息分发 ([2e09abd](https://git.easyops.local/anyclouds/next-core/commits/2e09abd))
-
 # [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.51.0...@easyops/brick-types@2.0.0-next.2) (2020-08-25)
 
 ### Features
@@ -66,16 +48,6 @@ Closes INFRA-706
 - Upgrade antd to v4
 
 Closes INFRA-706
-
-# [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.1...@easyops/brick-types@1.51.0) (2020-08-23)
-
-### Bug Fixes
-
-- **story-conf:** StoryConf.description.message is optional ([40cd9b5](https://git.easyops.local/anyclouds/next-core/commits/40cd9b5))
-
-### Features
-
-- 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
 
 # [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.1...@easyops/brick-types@2.0.0-next.1) (2020-08-11)
 
@@ -89,18 +61,6 @@ Closes INFRA-706
 
 Closes INFRA-706
 
-## [1.50.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.0...@easyops/brick-types@1.50.1) (2020-08-07)
-
-### Bug Fixes
-
-- **processors:** use symbol for runtime props to avoid accidentally travercing ([201fa56](https://git.easyops.local/anyclouds/next-core/commits/201fa56))
-
-# [1.50.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.49.0...@easyops/brick-types@1.50.0) (2020-08-07)
-
-### Features
-
-- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
-
 # [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.49.0...@easyops/brick-types@2.0.0-next.0) (2020-08-05)
 
 ### Features
@@ -112,6 +72,50 @@ Closes INFRA-706
 - Upgrade antd to v4
 
 Closes INFRA-706
+
+## [1.54.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.54.0...@easyops/brick-types@1.54.1) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/brick-types
+
+# [1.54.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.53.0...@easyops/brick-types@1.54.0) (2020-09-02)
+
+### Features
+
+- **storyboard:** support app locale name ([b3109d7](https://git.easyops.local/anyclouds/next-core/commits/b3109d7))
+
+# [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.52.0...@easyops/brick-types@1.53.0) (2020-09-01)
+
+### Features
+
+- **onBeforePageLeave:** support lifeCycle.onBeforePageLeave and history.block ([795cff8](https://git.easyops.local/anyclouds/next-core/commits/795cff8))
+
+# [1.52.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.51.0...@easyops/brick-types@1.52.0) (2020-08-26)
+
+### Features
+
+- 使用 channel 为 key 实现订阅消息分发 ([2e09abd](https://git.easyops.local/anyclouds/next-core/commits/2e09abd))
+
+# [1.51.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.1...@easyops/brick-types@1.51.0) (2020-08-23)
+
+### Bug Fixes
+
+- **story-conf:** StoryConf.description.message is optional ([40cd9b5](https://git.easyops.local/anyclouds/next-core/commits/40cd9b5))
+
+### Features
+
+- 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
+
+## [1.50.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.0...@easyops/brick-types@1.50.1) (2020-08-07)
+
+### Bug Fixes
+
+- **processors:** use symbol for runtime props to avoid accidentally travercing ([201fa56](https://git.easyops.local/anyclouds/next-core/commits/201fa56))
+
+# [1.50.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.49.0...@easyops/brick-types@1.50.0) (2020-08-07)
+
+### Features
+
+- **custom-processors:** register custom processors in brick packages ([e409452](https://git.easyops.local/anyclouds/next-core/commits/e409452))
 
 # [1.49.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.48.0...@easyops/brick-types@1.49.0) (2020-07-29)
 

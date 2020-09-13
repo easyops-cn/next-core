@@ -41,6 +41,97 @@ Closes INFRA-706
 
 Closes INFRA-706
 
+# [2.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.0.0-next.4...@easyops/brick-container@2.0.0-next.6) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.6...@easyops/brick-container@2.0.0-next.4) (2020-08-28)
+
+### Bug Fixes
+
+- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://git.easyops.local/anyclouds/next-core/commits/f6df4dc))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.3...@easyops/brick-container@2.0.0-next.3) (2020-08-25)
+
+### Bug Fixes
+
+- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://git.easyops.local/anyclouds/next-core/commits/f6df4dc))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.4...@easyops/brick-container@2.0.0-next.2) (2020-08-13)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@2.0.0-next.1) (2020-08-11)
+
+### Bug Fixes
+
+- **menu:** change sub menu bar width from 240px to 220px ([e61a9c2](https://git.easyops.local/anyclouds/next-core/commits/e61a9c2))
+- **serve:** allow unsecure proxy for https which is probably self-signed ([0a04027](https://git.easyops.local/anyclouds/next-core/commits/0a04027))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.2...@easyops/brick-container@2.0.0-next.0) (2020-08-05)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+## [1.29.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.29.5...@easyops/brick-container@1.29.6) (2020-09-12)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.29.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.29.4...@easyops/brick-container@1.29.5) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [1.29.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.29.3...@easyops/brick-container@1.29.4) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/brick-container
+
 ## [1.29.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.29.2...@easyops/brick-container@1.29.3) (2020-09-07)
 
 **Note:** Version bump only for package @easyops/brick-container
@@ -65,28 +156,6 @@ Closes INFRA-706
 
 - redirect to browse-happy if browser not compatiple ([262b01e](https://git.easyops.local/anyclouds/next-core/commits/262b01e))
 
-# [2.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.0.0-next.4...@easyops/brick-container@2.0.0-next.6) (2020-08-28)
-
-### Bug Fixes
-
-- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
-
-# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.6...@easyops/brick-container@2.0.0-next.4) (2020-08-28)
-
-### Bug Fixes
-
-- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://git.easyops.local/anyclouds/next-core/commits/f6df4dc))
-
-### Features
-
-- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
-
-### BREAKING CHANGES
-
-- Upgrade antd to v4
-
-Closes INFRA-706
-
 ## [1.28.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.5...@easyops/brick-container@1.28.6) (2020-08-28)
 
 **Note:** Version bump only for package @easyops/brick-container
@@ -100,22 +169,6 @@ Closes INFRA-706
 ## [1.28.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.3...@easyops/brick-container@1.28.4) (2020-08-26)
 
 **Note:** Version bump only for package @easyops/brick-container
-
-# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.3...@easyops/brick-container@2.0.0-next.3) (2020-08-25)
-
-### Bug Fixes
-
-- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://git.easyops.local/anyclouds/next-core/commits/f6df4dc))
-
-### Features
-
-- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
-
-### BREAKING CHANGES
-
-- Upgrade antd to v4
-
-Closes INFRA-706
 
 ## [1.28.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.28.2...@easyops/brick-container@1.28.3) (2020-08-25)
 
@@ -137,41 +190,12 @@ Closes INFRA-706
 
 - 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
 
-# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.4...@easyops/brick-container@2.0.0-next.2) (2020-08-13)
-
-### Features
-
-- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
-
-### BREAKING CHANGES
-
-- Upgrade antd to v4
-
-Closes INFRA-706
-
 ## [1.27.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@1.27.4) (2020-08-13)
 
 ### Bug Fixes
 
 - **menu:** change sub menu bar width from 240px to 220px ([e61a9c2](https://git.easyops.local/anyclouds/next-core/commits/e61a9c2))
 - **serve:** allow unsecure proxy for https which is probably self-signed ([0a04027](https://git.easyops.local/anyclouds/next-core/commits/0a04027))
-
-# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.3...@easyops/brick-container@2.0.0-next.1) (2020-08-11)
-
-### Bug Fixes
-
-- **menu:** change sub menu bar width from 240px to 220px ([e61a9c2](https://git.easyops.local/anyclouds/next-core/commits/e61a9c2))
-- **serve:** allow unsecure proxy for https which is probably self-signed ([0a04027](https://git.easyops.local/anyclouds/next-core/commits/0a04027))
-
-### Features
-
-- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
-
-### BREAKING CHANGES
-
-- Upgrade antd to v4
-
-Closes INFRA-706
 
 ## [1.27.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.27.2...@easyops/brick-container@1.27.3) (2020-08-10)
 
@@ -199,18 +223,6 @@ Closes INFRA-706
 ## [1.26.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.2...@easyops/brick-container@1.26.3) (2020-08-05)
 
 **Note:** Version bump only for package @easyops/brick-container
-
-# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.2...@easyops/brick-container@2.0.0-next.0) (2020-08-05)
-
-### Features
-
-- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
-
-### BREAKING CHANGES
-
-- Upgrade antd to v4
-
-Closes INFRA-706
 
 ## [1.26.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@1.26.1...@easyops/brick-container@1.26.2) (2020-08-03)
 

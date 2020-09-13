@@ -7,6 +7,36 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @easyops/brick-utils
 
+# [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.0.0-next.4...@easyops/brick-utils@2.0.0-next.5) (2020-08-28)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.1...@easyops/brick-utils@2.0.0-next.4) (2020-08-28)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.0...@easyops/brick-utils@2.0.0-next.3) (2020-08-25)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.53.0...@easyops/brick-utils@2.0.0-next.2) (2020-08-13)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.2...@easyops/brick-utils@2.0.0-next.1) (2020-08-11)
+
+### Bug Fixes
+
+- **custom-processors:** assert non-computed when scanning processors ([75f30b0](https://git.easyops.local/anyclouds/next-core/commits/75f30b0))
+
+# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.5...@easyops/brick-utils@2.0.0-next.0) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+## [1.55.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.55.0...@easyops/brick-utils@1.55.1) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
 # [1.55.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.2...@easyops/brick-utils@1.55.0) (2020-09-02)
 
 ### Features
@@ -17,19 +47,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @easyops/brick-utils
 
-# [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.0.0-next.4...@easyops/brick-utils@2.0.0-next.5) (2020-08-28)
-
-**Note:** Version bump only for package @easyops/brick-utils
-
-# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.1...@easyops/brick-utils@2.0.0-next.4) (2020-08-28)
-
-**Note:** Version bump only for package @easyops/brick-utils
-
 ## [1.54.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.0...@easyops/brick-utils@1.54.1) (2020-08-26)
-
-**Note:** Version bump only for package @easyops/brick-utils
-
-# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.54.0...@easyops/brick-utils@2.0.0-next.3) (2020-08-25)
 
 **Note:** Version bump only for package @easyops/brick-utils
 
@@ -38,10 +56,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - 框架增加消息推送能力 ([9a71c7d](https://git.easyops.local/anyclouds/next-core/commits/9a71c7d))
-
-# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.53.0...@easyops/brick-utils@2.0.0-next.2) (2020-08-13)
-
-**Note:** Version bump only for package @easyops/brick-utils
 
 # [1.53.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.2...@easyops/brick-utils@1.53.0) (2020-08-13)
 
@@ -53,12 +67,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - **check-if:** loose check if ([3626b31](https://git.easyops.local/anyclouds/next-core/commits/3626b31))
-
-# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.2...@easyops/brick-utils@2.0.0-next.1) (2020-08-11)
-
-### Bug Fixes
-
-- **custom-processors:** assert non-computed when scanning processors ([75f30b0](https://git.easyops.local/anyclouds/next-core/commits/75f30b0))
 
 ## [1.52.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.52.1...@easyops/brick-utils@1.52.2) (2020-08-10)
 
@@ -83,10 +91,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - **cook:** support minimal pipeline operator in evaluate placeholders ([9d0b65f](https://git.easyops.local/anyclouds/next-core/commits/9d0b65f))
-
-# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.5...@easyops/brick-utils@2.0.0-next.0) (2020-08-05)
-
-**Note:** Version bump only for package @easyops/brick-utils
 
 ## [1.50.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@1.50.4...@easyops/brick-utils@1.50.5) (2020-07-31)
 
