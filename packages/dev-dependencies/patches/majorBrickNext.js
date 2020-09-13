@@ -30,8 +30,13 @@ function _updateVersionOfBrickNext(packageDir) {
       if (/^\^1\.\d+\.\d+$/.test(brickNext.version)) {
         brickNext.version += " || ^2.0.0";
         fs.outputFileSync(confYamlPath, yaml.safeDump(conf));
+      } else if (/^\^0\.\d+\.\d+$/.test(brickNext.version)) {
+        brickNext.version += " || ^1.0.0 || ^2.0.0";
+        fs.outputFileSync(confYamlPath, yaml.safeDump(conf));
       } else if (!/\^2\./.test(brickNext.version)) {
-        throw new Error(`Unexpected brick next version: ${brickNext.version}`);
+        console.log(
+          `Unexpected brick next version: "${brickNext.version}", in "${confYamlPath}"`
+        );
       }
     });
 }

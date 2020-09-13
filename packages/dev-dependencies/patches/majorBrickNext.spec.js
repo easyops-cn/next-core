@@ -8,6 +8,10 @@ const tree = {
       name: "app-a",
       isDirectory: () => true,
     },
+    {
+      name: "app-b",
+      isDirectory: () => true,
+    },
   ],
   "/tmp/templates": [
     {
@@ -28,6 +32,13 @@ dependencies:
   - name: brick_next
     version: "^1.0.0"
     local_deploy: true
+`,
+  "/tmp/micro-apps/app-b/deploy-default/package.conf.yaml": `install_path: /usr/local/easyops/applications/app-b-NA
+user: easyops:easyops
+dependencies:
+- name: brick_next
+  version: "^0.1.2"
+  local_deploy: true
 `,
   // This template package has already been patched with ` || ^2.0.0`.
   "/tmp/templates/tpl-a/deploy-default/package.conf.yaml": `install_path: /usr/local/easyops/templates/tpl-a-NT
@@ -73,7 +84,7 @@ const { updateVersionOfBrickNext } = require("./majorBrickNext");
 describe("updateVersionOfBrickNext", () => {
   it("should work", () => {
     updateVersionOfBrickNext();
-    expect(mockOutputFileSync).toHaveBeenCalledTimes(2);
+    expect(mockOutputFileSync).toHaveBeenCalledTimes(3);
     expect(mockOutputFileSync).toHaveBeenNthCalledWith(
       1,
       "/tmp/micro-apps/app-a/deploy-default/package.conf.yaml",
@@ -87,6 +98,17 @@ dependencies:
     );
     expect(mockOutputFileSync).toHaveBeenNthCalledWith(
       2,
+      "/tmp/micro-apps/app-b/deploy-default/package.conf.yaml",
+      `install_path: /usr/local/easyops/applications/app-b-NA
+user: 'easyops:easyops'
+dependencies:
+  - name: brick_next
+    version: ^0.1.2 || ^1.0.0 || ^2.0.0
+    local_deploy: true
+`
+    );
+    expect(mockOutputFileSync).toHaveBeenNthCalledWith(
+      3,
       "/tmp/templates/tpl-b/deploy-default/package.conf.yaml",
       `install_path: /usr/local/easyops/templates/tpl-b-NT
 user: 'easyops:easyops'
