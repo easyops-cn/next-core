@@ -26,7 +26,7 @@
     min-width: 32px;
   }
 
-  &-body {
+  &-tbody {
     tr.@{table-prefix-cls}-row-selected {
       >td {
         background: none;
@@ -52,22 +52,19 @@
 
       .@{table-prefix-cls}-content {
         background: #fafafa;
-        padding: 20px 32px 20px 0;
+        padding: 20px 32px;
+        table {
+          th {
+            background: #fafafa;
+            border-bottom: 1px solid #e8e8e8;
+          }
 
-        .@{table-prefix-cls}-body {
-          table {
-            th {
-              background: #fafafa;
-              border-bottom: 1px solid #e8e8e8;
-            }
+          td {
+            background: #fafafa;
+            padding: 10px 16px;
 
-            td {
-              background: #fafafa;
-              padding: 10px 16px;
-
-              button {
-                max-height: 21px;
-              }
+            button {
+              max-height: 21px;
             }
           }
         }
