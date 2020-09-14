@@ -54,7 +54,7 @@ module.exports = function patch() {
     majorBrickNext.updateVersionOfBrickNext();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.1")) {
+  if (semver.lt(currentRenewVersion, "1.0.2")) {
     updateRenovateBaseBranches();
   }
 
@@ -348,11 +348,10 @@ function updateRenovateBaseBranches() {
     (item) => item.groupName === "next-core packages"
   );
 
-  if (
-    nextCoreGroup &&
-    isEqual(nextCoreGroup.baseBranches, ["master", "antd_v4_migration"])
-  ) {
-    delete nextCoreGroup.baseBranches;
+  if (nextCoreGroup) {
+    nextCoreGroup.baseBranches = ["master", "legacy/brick-next_1.x"];
+    // Ignore major update for each branch.
+    nextCoreGroup.updateTypes = ["patch", "minor"];
     changed = true;
   }
 
