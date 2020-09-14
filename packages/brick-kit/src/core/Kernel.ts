@@ -1,4 +1,4 @@
-import { sortBy, cloneDeep } from "lodash";
+import { sortBy } from "lodash";
 import {
   loadScript,
   getTemplateDepsOfStoryboard,
@@ -70,6 +70,9 @@ export class Kernel {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
+    if (this.bootstrapData.storyboards.length === 0) {
+      throw new Error("Storyboard is empty");
+    }
     if (isLoggedIn()) {
       this.loadSharedData();
     }

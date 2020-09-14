@@ -122,6 +122,10 @@ body.has-sub-menu #main-mount-point {
   display: block;
 }
 
+.bootstrap-error #loading-bar-mount-point {
+  display: none;
+}
+
 @keyframes global-loading {
   from {
     left: -30%;
