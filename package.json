@@ -11,7 +11,7 @@
     "prepare": "lerna bootstrap",
     "start": "lerna run start --scope \"@easyops/brick-container\"",
     "serve": "brick-container-serve",
-    "serve:ci": "brick-container-serve --remote --subdir --local-settings --no-live-reload --server=192.168.100.137",
+    "serve:ci": "brick-container-serve --remote --subdir --local-settings --no-live-reload",
     "build": "lerna run build",
     "docs:run": "lerna run docs:run",
     "docs:run:dev": "lerna run docs:run:dev && npm run docs:gen",
