@@ -1,15 +1,19 @@
 import "moment";
 import "moment/locale/zh-cn";
-import { createRuntime, handleHttpError } from "@easyops/brick-kit";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Result } from "antd";
+import { createRuntime, httpErrorToString } from "@easyops/brick-kit";
 import { pushInterceptor } from "@easyops/brick-http";
 import { initializeLibrary } from "@easyops/fontawesome-library";
-import "./i18n";
 
 import "./antd";
 import "./styles/variables.css";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
 import "./styles/default.css";
+import i18n from "./i18n";
+import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
 
 initializeLibrary();
 
@@ -51,9 +55,20 @@ async function bootstrap(): Promise<void> {
   try {
     await pluginRuntime.bootstrap(mountPoints);
   } catch (e) {
-    handleHttpError(e);
     // eslint-disable-next-line no-console
     console.error(e);
+
+    // `.bootstrap-error` makes loading-bar invisible.
+    document.body.classList.add("bootstrap-error", "bars-hidden");
+
+    ReactDOM.render(
+      <Result
+        status="error"
+        title={i18n.t(`${NS_BRICK_CONTAINER}:${K.BOOTSTRAP_ERROR}`)}
+        subTitle={httpErrorToString(e)}
+      />,
+      mountPoints.main
+    );
   }
 }
 
