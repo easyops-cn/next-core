@@ -36,7 +36,7 @@ module.exports = (cwd) => {
 
       Options
         --auto-remote       Use auto remote mode (use all local existed packages, combined with remote packages)
-        --remote            Use remote mode (use all remote packages except those specified by \`--local-*\`)
+        --no-remote         Disable remote mode (Defaults to remote enabled)
         --server            Set remote server address, defaults to "192.168.100.162"
         --console-server    Set remote console server address, defaults to remote server address
         --subdir            Set base href to "/next/" instead of "/"
@@ -63,6 +63,7 @@ module.exports = (cwd) => {
           },
           remote: {
             type: "boolean",
+            default: true,
           },
           autoRemote: {
             type: "boolean",
@@ -117,7 +118,10 @@ module.exports = (cwd) => {
 
   const useOffline = flags.offline || process.env.OFFLINE === "true";
   const useSubdir = flags.subdir || process.env.SUBDIR === "true";
-  const useRemote = flags.remote || process.env.REMOTE === "true";
+  const useRemote =
+    flags.remote === undefined
+      ? process.env.NO_REMOTE !== "true"
+      : flags.remote;
   const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
   const publicPath = useSubdir ? "/next/" : "/";
   const server = getServerPath(flags.server || process.env.SERVER);
