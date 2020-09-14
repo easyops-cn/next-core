@@ -8,7 +8,7 @@ describe("Login page", () => {
     cy.get('input[placeholder="用户名"]').type("easyops");
     cy.get('input[placeholder="密码"]').type("oops");
     cy.get('button[type="submit"]').click();
-    cy.contains("请求失败");
+    cy.contains("用户名或密码错误");
   });
 
   it("redirect to login page and redirect back to previous page in zh", () => {
