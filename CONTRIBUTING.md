@@ -26,13 +26,13 @@
 
 1. `lerna run start --scope @easyops/brick-kit`；
 2. `lerna run start --scope @easyops/brick-dll`；
-3. `REMOTE=true yarn start`。
+3. `yarn start`。
 
 这是由依赖关系决定的 `@easyops/brick-container` ==> `@easyops/brick-dll` ==> `@easyops/brick-kit`。开发其它包如 `@easyops/brick-utils` 同理。
 
-由于目前不支持为 `yarn start` 传递类似 `yarn serve` 传递的 `--remote` 等参数，需要使用对应的环境变量来设置相关参数。
+由于目前不支持为 `yarn start` 传递类似 `yarn serve` 传递的 `--subdir` 等参数，需要使用对应的环境变量来设置相关参数。
 
-- `REMOTE=true` 等于 `--remote`；
+- `SUBDIR=true` 等于 `--subdir`；
 - `LOCAL_BRICKS=abc,xyz` 等于 `--local-bricks=abc,xyz`；
 - `LOCAL_APPS=abc,xyz` 等于 `--local-apps=abc,xyz`；
 - `MERGE_SETTINGS=true` 等于 `--merge-settings`；
@@ -41,9 +41,9 @@
 例如：
 
 ```shell
-REMOTE=true LOCAL_BRICKS=abc yarn start
+LOCAL_BRICKS=abc yarn start
 # is similar to
-yarn serve --remote --local-bricks=abc
+yarn serve --local-bricks=abc
 ```
 
 [lerna]: https://github.com/lerna/lerna
