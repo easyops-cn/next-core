@@ -50,12 +50,12 @@ module.exports = function patch() {
     updatePackageJsonScriptsTestCommand(rootPackageJson);
   }
 
-  if (semver.lt(currentRenewVersion, "0.7.19")) {
-    updateRenovateBaseBranches();
-  }
-
   if (semver.lt(currentRenewVersion, "0.7.25")) {
     majorBrickNext.updateVersionOfBrickNext();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.0.1")) {
+    updateRenovateBaseBranches();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
@@ -338,19 +338,25 @@ function updatePackageJsonScriptsTestCommand(packageJson) {
 function updateRenovateBaseBranches() {
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = readJson(renovateJsonPath);
+  let changed = false;
   if (isEqual(renovateJson.baseBranches, ["master", "antd_v4_migration"])) {
     delete renovateJson.baseBranches;
+    changed = true;
   }
 
   const nextCoreGroup = renovateJson.packageRules.find(
     (item) => item.groupName === "next-core packages"
   );
 
-  if (nextCoreGroup && !nextCoreGroup.baseBranches) {
-    Object.assign(nextCoreGroup, {
-      baseBranches: ["master", "antd_v4_migration"],
-    });
+  if (
+    nextCoreGroup &&
+    isEqual(nextCoreGroup.baseBranches, ["master", "antd_v4_migration"])
+  ) {
+    delete nextCoreGroup.baseBranches;
+    changed = true;
   }
 
-  writeJsonFile(renovateJsonPath, renovateJson);
+  if (changed) {
+    writeJsonFile(renovateJsonPath, renovateJson);
+  }
 }
