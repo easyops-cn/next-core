@@ -13,6 +13,19 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   flags: {},
 } as any);
 
+const mockResolveOne = jest.fn((_a, resolveConf, itemsConf) => {
+  itemsConf.items = [
+    {
+      text: `Menu Item From ${resolveConf.useProvider}`,
+      sort: 10,
+    },
+  ];
+  return Promise.resolve();
+});
+jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+  resolveOne: mockResolveOne,
+} as any);
+
 const mockMenuList: any[] = [
   {
     menuId: "menu-a",
@@ -63,6 +76,20 @@ const mockMenuList: any[] = [
         text: "Menu Item 0",
         if: "<% FLAGS['flag-not-enabled'] %>",
         sort: 5,
+      },
+    ],
+  },
+  {
+    menuId: "sub-menu-e",
+    title: "Sub Menu E",
+    dynamicItems: true,
+    itemsResolve: {
+      useProvider: "my.fake-provider",
+    },
+    items: [
+      {
+        text: "Menu Item Will Be Ignored",
+        sort: 1,
       },
     ],
   },
@@ -211,6 +238,11 @@ describe("constructMenu", () => {
                 text: "Menu Item 4",
               },
             ],
+          },
+          {
+            text: "Menu Item From my.fake-provider",
+            sort: 10,
+            children: [],
           },
         ],
       },

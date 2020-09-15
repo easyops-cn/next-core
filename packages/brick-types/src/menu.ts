@@ -1,5 +1,5 @@
 import { LocationDescriptor } from "history";
-import { ThemeType } from "antd/lib/icon";
+import { ThemeType } from "@ant-design/compatible/lib/icon";
 import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 
 export interface SidebarMenu {

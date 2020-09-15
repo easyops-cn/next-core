@@ -1,0 +1,1 @@
+exports.majorBrickNext = require("./majorBrickNext");

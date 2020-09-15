@@ -4,7 +4,7 @@ import {
   HttpFetchError,
 } from "@easyops/brick-http";
 import { Modal } from "antd";
-import { ModalFunc } from "antd/lib/modal/Modal";
+import { ModalFunc } from "antd/lib/modal/confirm";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "./i18n/constants";
 import { getHistory } from "./history";

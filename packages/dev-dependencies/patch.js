@@ -2,8 +2,9 @@ const path = require("path");
 const os = require("os");
 const fs = require("fs-extra");
 const semver = require("semver");
-const { chain, pull, escapeRegExp } = require("lodash");
+const { chain, pull, escapeRegExp, isEqual } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
+const { majorBrickNext } = require("./patches");
 
 module.exports = function patch() {
   const selfJson = readSelfJson();
@@ -47,6 +48,14 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "0.7.12")) {
     updatePackageJsonScriptsTestCommand(rootPackageJson);
+  }
+
+  if (semver.lt(currentRenewVersion, "0.7.25")) {
+    majorBrickNext.updateVersionOfBrickNext();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.0.1")) {
+    updateRenovateBaseBranches();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
@@ -324,4 +333,30 @@ function updatePackageJsonScriptsTestCommand(packageJson) {
     "cross-env NODE_ENV='test' node --expose-gc ./node_modules/.bin/jest --logHeapUsage";
   packageJson.scripts["test:ci"] =
     "cross-env NODE_ENV='test' CI=true node --expose-gc ./node_modules/.bin/jest --logHeapUsage --ci";
+}
+
+function updateRenovateBaseBranches() {
+  const renovateJsonPath = path.resolve("renovate.json");
+  const renovateJson = readJson(renovateJsonPath);
+  let changed = false;
+  if (isEqual(renovateJson.baseBranches, ["master", "antd_v4_migration"])) {
+    delete renovateJson.baseBranches;
+    changed = true;
+  }
+
+  const nextCoreGroup = renovateJson.packageRules.find(
+    (item) => item.groupName === "next-core packages"
+  );
+
+  if (
+    nextCoreGroup &&
+    isEqual(nextCoreGroup.baseBranches, ["master", "antd_v4_migration"])
+  ) {
+    delete nextCoreGroup.baseBranches;
+    changed = true;
+  }
+
+  if (changed) {
+    writeJsonFile(renovateJsonPath, renovateJson);
+  }
 }

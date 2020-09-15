@@ -31,6 +31,7 @@ export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
   private refreshQueue: Map<RefreshableProvider, IntervalSettings> = new Map();
   private readonly definedResolves: Map<string, DefineResolveConf> = new Map();
+  private active = true;
 
   constructor(private kernel: Kernel) {}
 
@@ -41,6 +42,7 @@ export class Resolver {
       }
       this.refreshQueue = new Map();
     }
+    this.active = false;
   }
 
   defineResolves(
@@ -307,8 +309,10 @@ export class Resolver {
           ignoreErrors: interval.ignoreErrors,
           throwErrors: true,
         });
-        // eslint-disable-next-line require-atomic-updates
-        interval.timeoutId = setTimeout(request, interval.delay);
+        if (this.active) {
+          // eslint-disable-next-line require-atomic-updates
+          interval.timeoutId = setTimeout(request, interval.delay);
+        }
       };
       interval.timeoutId = setTimeout(request, interval.delay);
     }

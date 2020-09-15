@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.0.0-next.3...@easyops/brick-scripts@2.0.0) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
+# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.3...@easyops/brick-scripts@2.0.0-next.3) (2020-08-25)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 ## [1.18.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.2...@easyops/brick-scripts@1.18.3) (2020-08-23)
 
 ### Bug Fixes
@@ -10,11 +18,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - ask user whether to create a brick when creating a new brick package ([35d51a6](https://git.easyops.local/anyclouds/next-core/commits/35d51a6))
 - no longer create brick doc markdown files ([063bcb5](https://git.easyops.local/anyclouds/next-core/commits/063bcb5))
 
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.2...@easyops/brick-scripts@2.0.0-next.2) (2020-08-13)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 ## [1.18.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.1...@easyops/brick-scripts@1.18.2) (2020-08-13)
 
 ### Bug Fixes
 
 - **provider:** fix types of createProviderClass ([c785a4c](https://git.easyops.local/anyclouds/next-core/commits/c785a4c))
+
+# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.1...@easyops/brick-scripts@2.0.0-next.1) (2020-08-11)
+
+**Note:** Version bump only for package @easyops/brick-scripts
 
 ## [1.18.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@1.18.0...@easyops/brick-scripts@1.18.1) (2020-08-10)
 

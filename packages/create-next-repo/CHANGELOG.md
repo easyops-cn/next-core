@@ -3,6 +3,124 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.0-next.14...@easyops/create-next-repo@1.0.0) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [1.0.0-next.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.0-next.13...@easyops/create-next-repo@1.0.0-next.14) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [1.0.0-next.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.54...@easyops/create-next-repo@1.0.0-next.13) (2020-09-13)
+
+### Bug Fixes
+
+- **create-next-repo:** update snapshot ([88d55c3](https://git.easyops.local/anyclouds/next-core/commits/88d55c3))
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
+# [1.0.0-next.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.49...@easyops/create-next-repo@1.0.0-next.12) (2020-09-09)
+
+### Bug Fixes
+
+- **create-next-repo:** update snapshot ([88d55c3](https://git.easyops.local/anyclouds/next-core/commits/88d55c3))
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
+# [1.0.0-next.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.47...@easyops/create-next-repo@1.0.0-next.11) (2020-09-08)
+
+### Bug Fixes
+
+- **create-next-repo:** update snapshot ([88d55c3](https://git.easyops.local/anyclouds/next-core/commits/88d55c3))
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
+# [1.0.0-next.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.0-next.9...@easyops/create-next-repo@1.0.0-next.10) (2020-09-07)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [1.0.0-next.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.45...@easyops/create-next-repo@1.0.0-next.9) (2020-09-04)
+
+### Bug Fixes
+
+- **create-next-repo:** update snapshot ([88d55c3](https://git.easyops.local/anyclouds/next-core/commits/88d55c3))
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
+# [1.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.0-next.6...@easyops/create-next-repo@1.0.0-next.8) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.42...@easyops/create-next-repo@1.0.0-next.6) (2020-08-28)
+
+### Bug Fixes
+
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
+# [1.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.39...@easyops/create-next-repo@1.0.0-next.5) (2020-08-25)
+
+### Bug Fixes
+
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://git.easyops.local/anyclouds/next-core/commits/73aba1c))
+
+# [1.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.35...@easyops/create-next-repo@1.0.0-next.4) (2020-08-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [1.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.34...@easyops/create-next-repo@1.0.0-next.3) (2020-08-11)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.0-next.1...@easyops/create-next-repo@1.0.0-next.2) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [1.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.0-next.0...@easyops/create-next-repo@1.0.0-next.1) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+# [1.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.28...@easyops/create-next-repo@1.0.0-next.0) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.54](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.53...@easyops/create-next-repo@0.13.54) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.53](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.52...@easyops/create-next-repo@0.13.53) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.52](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.51...@easyops/create-next-repo@0.13.52) (2020-09-12)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.51](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.50...@easyops/create-next-repo@0.13.51) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.50](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.49...@easyops/create-next-repo@0.13.50) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.49](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.48...@easyops/create-next-repo@0.13.49) (2020-09-09)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.48](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.47...@easyops/create-next-repo@0.13.48) (2020-09-09)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.47](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.46...@easyops/create-next-repo@0.13.47) (2020-09-08)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [0.13.46](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.45...@easyops/create-next-repo@0.13.46) (2020-09-07)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
 ## [0.13.45](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@0.13.44...@easyops/create-next-repo@0.13.45) (2020-09-03)
 
 **Note:** Version bump only for package @easyops/create-next-repo

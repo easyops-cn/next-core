@@ -3,6 +3,100 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.0.0-next.7...@easyops/brick-types@2.0.0) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/brick-types
+
+# [2.0.0-next.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.54.1...@easyops/brick-types@2.0.0-next.7) (2020-09-13)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.54.0...@easyops/brick-types@2.0.0-next.6) (2020-09-04)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.0.0-next.3...@easyops/brick-types@2.0.0-next.5) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.52.0...@easyops/brick-types@2.0.0-next.3) (2020-08-28)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.51.0...@easyops/brick-types@2.0.0-next.2) (2020-08-25)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.50.1...@easyops/brick-types@2.0.0-next.1) (2020-08-11)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.49.0...@easyops/brick-types@2.0.0-next.0) (2020-08-05)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+## [1.54.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.54.0...@easyops/brick-types@1.54.1) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/brick-types
+
 # [1.54.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@1.53.0...@easyops/brick-types@1.54.0) (2020-09-02)
 
 ### Features

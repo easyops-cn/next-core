@@ -4,6 +4,7 @@ const resolve = require("rollup-plugin-node-resolve");
 const commonjs = require("rollup-plugin-commonjs");
 const json = require("rollup-plugin-json");
 const postcss = require("rollup-plugin-postcss");
+const postcssNested = require("postcss-nested");
 const stringHash = require("string-hash");
 const packageJson = require(path.join(process.cwd(), "package.json"));
 
@@ -68,6 +69,7 @@ exports.rollupFactory = ({
       modules: {
         generateScopedName,
       },
+      plugins: [postcssNested()],
     }),
     json(),
     commonjs(commonjsOptions),

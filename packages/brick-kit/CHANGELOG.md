@@ -3,6 +3,126 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.0-next.9...@easyops/brick-kit@2.0.0) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [2.0.0-next.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.65.1...@easyops/brick-kit@2.0.0-next.9) (2020-09-13)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.0-next.7...@easyops/brick-kit@2.0.0-next.8) (2020-09-07)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [2.0.0-next.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.64.1...@easyops/brick-kit@2.0.0-next.7) (2020-09-04)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.0-next.4...@easyops/brick-kit@2.0.0-next.6) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [2.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.62.1...@easyops/brick-kit@2.0.0-next.4) (2020-08-28)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.61.2...@easyops/brick-kit@2.0.0-next.3) (2020-08-25)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.60.0...@easyops/brick-kit@2.0.0-next.2) (2020-08-13)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.59.3...@easyops/brick-kit@2.0.0-next.1) (2020-08-11)
+
+### Bug Fixes
+
+- **context:** refine context name matching ([0edc083](https://git.easyops.local/anyclouds/next-core/commits/0edc083))
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+# [2.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.58.0...@easyops/brick-kit@2.0.0-next.0) (2020-08-05)
+
+### Features
+
+- upgrade antd to v4 ([8cf7263](https://git.easyops.local/anyclouds/next-core/commits/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+## [1.65.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.65.0...@easyops/brick-kit@1.65.1) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [1.65.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.64.1...@easyops/brick-kit@1.65.0) (2020-09-11)
+
+### Features
+
+- dynamic menu ([33bf035](https://git.easyops.local/anyclouds/next-core/commits/33bf035))
+
 ## [1.64.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@1.64.0...@easyops/brick-kit@1.64.1) (2020-09-03)
 
 ### Bug Fixes

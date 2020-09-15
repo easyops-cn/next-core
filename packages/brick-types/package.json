@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-types",
-  "version": "1.54.0",
+  "version": "2.0.0",
   "description": "Pure types for kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-types",
   "license": "UNLICENSED",
@@ -26,6 +26,8 @@
     "build:rollup": "rollup --config rollup.config.js",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
     "postbuild": "node scripts/post-build.js",
+    "docs:run": "api-extractor run",
+    "docs:run:dev": "api-extractor run --local --verbose",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },

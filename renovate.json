@@ -13,7 +13,14 @@
       "automerge": true
     },
     {
-      "packagePatterns": ["^@bricks/", "^@libs/", "^@micro-apps/", "^@sdk/", "^@dll", "^@easyops/"],
+      "packagePatterns": [
+        "^@bricks/",
+        "^@libs/",
+        "^@micro-apps/",
+        "^@sdk/",
+        "^@dll",
+        "^@easyops/"
+      ],
       "automerge": false
     },
     {

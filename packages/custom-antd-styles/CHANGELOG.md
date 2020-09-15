@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.0.0-next.3...@easyops/custom-antd-styles@1.0.0) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/custom-antd-styles
+
+# [1.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.0.0-next.2...@easyops/custom-antd-styles@1.0.0-next.3) (2020-09-13)
+
+### Bug Fixes
+
+- **custom-antd-styles:** fix transfer style ([92d9883](https://git.easyops.local/anyclouds/next-core/commits/92d9883))
+
+# [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.12.1...@easyops/custom-antd-styles@1.0.0-next.2) (2020-09-13)
+
+### Bug Fixes
+
+- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://git.easyops.local/anyclouds/next-core/commits/f6df4dc))
+
+# [1.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.4...@easyops/custom-antd-styles@1.0.0-next.1) (2020-08-25)
+
+### Bug Fixes
+
+- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://git.easyops.local/anyclouds/next-core/commits/f6df4dc))
+
+## [0.12.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.12.0...@easyops/custom-antd-styles@0.12.1) (2020-09-12)
+
+### Bug Fixes
+
+- **antd:** 修复 6.0 样式优先级问题 ([15faf42](https://git.easyops.local/anyclouds/next-core/commits/15faf42))
+
+# [0.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.5...@easyops/custom-antd-styles@0.12.0) (2020-09-11)
+
+### Features
+
+- **table:** 规范嵌套子表格的样式和间距 ([f4ba98f](https://git.easyops.local/anyclouds/next-core/commits/f4ba98f))
+
+## [0.11.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.4...@easyops/custom-antd-styles@0.11.5) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/custom-antd-styles
+
 ## [0.11.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@0.11.3...@easyops/custom-antd-styles@0.11.4) (2020-08-25)
 
 **Note:** Version bump only for package @easyops/custom-antd-styles

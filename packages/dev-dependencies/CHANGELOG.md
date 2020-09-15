@@ -3,6 +3,124 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.14...@easyops/dev-dependencies@1.0.0) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.13...@easyops/dev-dependencies@1.0.0-next.14) (2020-09-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.25...@easyops/dev-dependencies@1.0.0-next.13) (2020-09-13)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.20...@easyops/dev-dependencies@1.0.0-next.12) (2020-09-09)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.18...@easyops/dev-dependencies@1.0.0-next.11) (2020-09-08)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.9...@easyops/dev-dependencies@1.0.0-next.10) (2020-09-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.16...@easyops/dev-dependencies@1.0.0-next.9) (2020-09-04)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.6...@easyops/dev-dependencies@1.0.0-next.8) (2020-08-28)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+# [1.0.0-next.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.13...@easyops/dev-dependencies@1.0.0-next.6) (2020-08-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.10...@easyops/dev-dependencies@1.0.0-next.5) (2020-08-25)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.6...@easyops/dev-dependencies@1.0.0-next.4) (2020-08-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.5...@easyops/dev-dependencies@1.0.0-next.3) (2020-08-11)
+
+### Bug Fixes
+
+- add @types/js-yaml instead of @types/yaml ([fe5c821](https://git.easyops.local/anyclouds/next-core/commits/fe5c821))
+
+# [1.0.0-next.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.1...@easyops/dev-dependencies@1.0.0-next.2) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.0...@easyops/dev-dependencies@1.0.0-next.1) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+# [1.0.0-next.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.6.67...@easyops/dev-dependencies@1.0.0-next.0) (2020-08-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.25](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.24...@easyops/dev-dependencies@0.7.25) (2020-09-13)
+
+### Bug Fixes
+
+- do not throw for unexpected brick next version ([0a650ca](https://git.easyops.local/anyclouds/next-core/commits/0a650ca))
+
+## [0.7.24](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.23...@easyops/dev-dependencies@0.7.24) (2020-09-13)
+
+### Bug Fixes
+
+- fix patch version for major brick next ([6344ad1](https://git.easyops.local/anyclouds/next-core/commits/6344ad1))
+
+## [0.7.23](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.22...@easyops/dev-dependencies@0.7.23) (2020-09-12)
+
+### Bug Fixes
+
+- all micro-apps and templates should be compatible with brick_next v2 ([89bd0dd](https://git.easyops.local/anyclouds/next-core/commits/89bd0dd))
+
+## [0.7.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.21...@easyops/dev-dependencies@0.7.22) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.20...@easyops/dev-dependencies@0.7.21) (2020-09-11)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.19...@easyops/dev-dependencies@0.7.20) (2020-09-09)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [0.7.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.18...@easyops/dev-dependencies@0.7.19) (2020-09-09)
+
+### Bug Fixes
+
+- **renovate:** add antd_v4_migration into base branches only for next-core packages ([1dbe1c9](https://git.easyops.local/anyclouds/next-core/commits/1dbe1c9))
+
+## [0.7.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.17...@easyops/dev-dependencies@0.7.18) (2020-09-08)
+
+### Bug Fixes
+
+- **renovate:** add antd_v4_migration into base branches and auto renew [@next](https://git.easyops.local/next) ([43d845c](https://git.easyops.local/anyclouds/next-core/commits/43d845c))
+
+## [0.7.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.16...@easyops/dev-dependencies@0.7.17) (2020-09-07)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [0.7.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@0.7.15...@easyops/dev-dependencies@0.7.16) (2020-09-03)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
