@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.1...@easyops/dev-dependencies@1.0.2) (2020-09-15)
+
+### Bug Fixes
+
+- add legacy/brick-next_1.x into base branches for next-core packages ([efd9723](https://git.easyops.local/anyclouds/next-core/commits/efd9723))
+- make renew work in both master and legacy branches ([ad2c6e3](https://git.easyops.local/anyclouds/next-core/commits/ad2c6e3))
+
 ## [1.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0...@easyops/dev-dependencies@1.0.1) (2020-09-15)
 
 ### Bug Fixes
