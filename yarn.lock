@@ -2257,14 +2257,6 @@
     js-yaml "~3.13.1"
     resolve "~1.17.0"
 
-"@microsoft/api-extractor-model@7.8.21":
-  version "7.8.21"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.8.21.tgz#0d394a3414ff7222fc51ed7e00f9b732bd6a1fd2"
-  integrity sha1-DTlKNBT/ciL8Ue1+APm3Mr1qH9I=
-  dependencies:
-    "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.31.0"
-
 "@microsoft/api-extractor-model@7.9.0":
   version "7.9.0"
   resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.9.0.tgz#9b0c0db3821937454bbd5d1441c0634801dacd31"
@@ -2273,14 +2265,14 @@
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.32.0"
 
-"@microsoft/api-extractor@^7.9.13":
-  version "7.9.13"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.9.13.tgz#33d1cafe4e821096e83f8856da62d2388d025956"
-  integrity sha1-M9HK/k6CEJboP4hW2mLSOI0CWVY=
+"@microsoft/api-extractor@^7.9.15":
+  version "7.9.15"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.9.15.tgz#72fe4ccc2fe40c5114546b11d2aa3e8eb2bd6c19"
+  integrity sha1-cv5MzC/kDFEUVGsR0qo+jrK9bBk=
   dependencies:
-    "@microsoft/api-extractor-model" "7.8.21"
+    "@microsoft/api-extractor-model" "7.9.0"
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.31.0"
+    "@rushstack/node-core-library" "3.32.0"
     "@rushstack/ts-command-line" "4.6.4"
     colors "~1.2.1"
     lodash "~4.17.15"
@@ -2387,21 +2379,6 @@
     once "^1.4.0"
     universal-user-agent "^3.0.0"
     url-template "^2.0.8"
-
-"@rushstack/node-core-library@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.31.0.tgz#80e8f50e5b438e68627a928ab8f45661860dc04f"
-  integrity sha1-gOj1DltDjmhiepKKuPRWYYYNwE8=
-  dependencies:
-    "@types/node" "10.17.13"
-    colors "~1.2.1"
-    fs-extra "~7.0.1"
-    import-lazy "~4.0.0"
-    jju "~1.4.0"
-    resolve "~1.17.0"
-    semver "~7.3.0"
-    timsort "~0.3.0"
-    z-schema "~3.18.3"
 
 "@rushstack/node-core-library@3.32.0":
   version "3.32.0"
