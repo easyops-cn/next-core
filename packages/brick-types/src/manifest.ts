@@ -214,6 +214,7 @@ export interface BaseEntityResolveConf {
   transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
   onReject?: HandleReject;
+  if?: string | boolean;
 }
 
 export type DefineResolveConf = (
@@ -230,6 +231,7 @@ export interface RefResolveConf {
   transformMapArray?: boolean | "auto";
   transform?: GeneralTransform;
   onReject?: HandleReject;
+  if?: string | boolean;
 }
 
 export type HandleReject = HandleRejectByTransform /*| HandleRejectByCatch*/;
