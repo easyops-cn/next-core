@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.0.0...@easyops/custom-antd-styles@1.0.1) (2020-09-15)
+
+### Bug Fixes
+
+- **radio:** forms.general-radio 在 button 模式下，会跟其他 form-item 对不齐 ([08e0cba](https://git.easyops.local/anyclouds/next-core/commits/08e0cba))
+- **style:** style6.0 表格样式修复 ([b730b69](https://git.easyops.local/anyclouds/next-core/commits/b730b69))
+
 # [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.0.0-next.3...@easyops/custom-antd-styles@1.0.0) (2020-09-13)
 
 **Note:** Version bump only for package @easyops/custom-antd-styles

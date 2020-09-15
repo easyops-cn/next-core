@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.0.0...@easyops/brick-container@2.0.1) (2020-09-15)
+
+### Bug Fixes
+
+- **radio:** forms.general-radio 在 button 模式下，会跟其他 form-item 对不齐 ([08e0cba](https://git.easyops.local/anyclouds/next-core/commits/08e0cba))
+- refine bootstrap error ([8d92ec2](https://git.easyops.local/anyclouds/next-core/commits/8d92ec2))
+- **serve:** use remote mode by default ([2ac1be8](https://git.easyops.local/anyclouds/next-core/commits/2ac1be8))
+
 # [2.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.0.0-next.11...@easyops/brick-container@2.0.0) (2020-09-13)
 
 **Note:** Version bump only for package @easyops/brick-container
