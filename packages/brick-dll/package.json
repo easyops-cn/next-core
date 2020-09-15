@@ -19,7 +19,7 @@
     "postbuild": "dll-differ"
   },
   "dependencies": {
-    "@ant-design/compatible": "^1.0.5",
+    "@ant-design/compatible": "^1.0.6",
     "@ant-design/icons": "^4.2.2",
     "@easyops/babel-runtime-helpers": "^1.0.0",
     "@easyops/brick-http": "^2.0.0",
