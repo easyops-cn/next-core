@@ -8,6 +8,8 @@ const {
   getUserSettings,
   getDevSettings,
 } = require("./utils");
+const fs = require("fs");
+const path = require("path");
 
 module.exports = (env) => {
   const {
@@ -22,6 +24,7 @@ module.exports = (env) => {
     useMergeSettings,
     server,
     mockedMicroApps,
+    brickPackagesDir,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -102,6 +105,39 @@ module.exports = (env) => {
               data.settings = mergeSettings(data.settings, getUserSettings());
             }
           }
+          return JSON.stringify(result);
+        });
+      } else if (
+        req.path ===
+          "/next/api/gateway/next_builder.build.GetStoriesJson/api/v1/next-builder/storiesjson" ||
+        req.path ===
+          "/api/gateway/next_builder.build.GetStoriesJson/api/v1/next-builder/storiesjson"
+      ) {
+        modifyResponse(res, proxyRes, (raw) => {
+          if (res.statusCode !== 200) {
+            return raw;
+          }
+          const result = JSON.parse(raw);
+          const { data } = result;
+          localBrickPackages.forEach((pkgId) => {
+            const filePath = path.join(
+              brickPackagesDir,
+              pkgId,
+              "dist",
+              "stories.json"
+            );
+
+            if (fs.existsSync(filePath)) {
+              const story = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+              data.list = [
+                ...data.list.filter(
+                  (v) => !story.some((s) => s.storyId === v.storyId)
+                ),
+                ...story,
+              ];
+            }
+          });
+
           return JSON.stringify(result);
         });
       }
