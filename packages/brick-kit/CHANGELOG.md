@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.1...@easyops/brick-kit@2.1.0) (2020-09-16)
+
+### Features
+
+- **brick-kit:** support if for useResolves ([e8c81a9](https://git.easyops.local/anyclouds/next-core/commits/e8c81a9))
+
 ## [2.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.0...@easyops/brick-kit@2.0.1) (2020-09-15)
 
 ### Bug Fixes
