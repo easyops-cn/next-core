@@ -104,15 +104,20 @@ jest.spyOn(InstanceApi, "postSearch").mockImplementation((objectId, params) => {
 });
 
 jest.spyOn(InstanceApi, "getDetail").mockImplementation((objectId) => {
-  return Promise.resolve(
-    objectId === "OBJECT_B"
-      ? {
-          name: "Menu B",
-        }
-      : {
-          customName: "Menu C",
-        }
-  );
+  switch (objectId) {
+    case "OBJECT_B":
+      return Promise.resolve({ name: "Menu B" });
+    case "OBJECT_C":
+      return Promise.resolve({ customName: "Menu C" });
+    case "OBJECT_D":
+      return Promise.resolve({ "#showKey": "Menu D" });
+    case "OBJECT_E":
+      return Promise.resolve({ "#showKey": ["Menu E"] });
+    case "OBJECT_F":
+      return Promise.resolve({ "#showKey": ["Menu F", "one"] });
+    case "OBJECT_G":
+      return Promise.resolve({ "#showKey": ["Menu G", "one", "two"] });
+  }
 });
 
 describe("fetchMenuById", () => {
@@ -151,7 +156,7 @@ describe("processMenuTitle", () => {
         title: "",
         titleDataSource: {
           objectId: "OBJECT_B",
-          instanceId: "b",
+          instanceId: "any",
         },
       },
       "Menu B",
@@ -162,11 +167,59 @@ describe("processMenuTitle", () => {
         title: "",
         titleDataSource: {
           objectId: "OBJECT_C",
-          instanceId: "c",
+          instanceId: "any",
           attributeId: "customName",
         },
       },
       "Menu C",
+    ],
+    [
+      {
+        menuId: "menu-D",
+        title: "",
+        titleDataSource: {
+          objectId: "OBJECT_D",
+          instanceId: "any",
+          attributeId: "#showKey",
+        },
+      },
+      "Menu D",
+    ],
+    [
+      {
+        menuId: "menu-E",
+        title: "",
+        titleDataSource: {
+          objectId: "OBJECT_E",
+          instanceId: "any",
+          attributeId: "#showKey",
+        },
+      },
+      "Menu E",
+    ],
+    [
+      {
+        menuId: "menu-F",
+        title: "",
+        titleDataSource: {
+          objectId: "OBJECT_F",
+          instanceId: "any",
+          attributeId: "#showKey",
+        },
+      },
+      "Menu F(one)",
+    ],
+    [
+      {
+        menuId: "menu-G",
+        title: "",
+        titleDataSource: {
+          objectId: "OBJECT_G",
+          instanceId: "any",
+          attributeId: "#showKey",
+        },
+      },
+      "Menu G(one,two)",
     ],
   ])("processMenuTitle(%j) should return %j", async (menuData, title) => {
     expect(await processMenuTitle(menuData)).toBe(title);
