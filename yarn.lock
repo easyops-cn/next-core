@@ -2244,10 +2244,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@microsoft/api-documenter@^7.8.48":
-  version "7.8.48"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-documenter/download/@microsoft/api-documenter-7.8.48.tgz#dd55a674ff23813f5a718d5d0aa3ff02ad82840b"
-  integrity sha1-3VWmdP8jgT9acY1dCqP/Aq2ChAs=
+"@microsoft/api-documenter@^7.8.49":
+  version "7.8.49"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-documenter/download/@microsoft/api-documenter-7.8.49.tgz#6031d88813e0ed746bd9f40bb34b83c1431b8a93"
+  integrity sha1-YDHYiBPg7XRr2fQLs0uDwUMbipM=
   dependencies:
     "@microsoft/api-extractor-model" "7.9.0"
     "@microsoft/tsdoc" "0.12.19"
