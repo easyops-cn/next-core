@@ -48,7 +48,7 @@
     "js-yaml": "^3.14.0",
     "lerna": "^3.22.1",
     "lint-staged": "^10.3.0",
-    "prettier": "^2.1.1",
+    "prettier": "^2.1.2",
     "pretty-format": "^26.4.2",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",

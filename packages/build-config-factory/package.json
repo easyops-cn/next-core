@@ -28,7 +28,7 @@
     "meow": "^7.1.1",
     "moment": "^2.28.0",
     "npmlog": "^4.1.2",
-    "prettier": "^2.1.1",
+    "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "typedoc": "^0.19.1",
     "typedoc-plugin-no-inherit": "^1.2.0"

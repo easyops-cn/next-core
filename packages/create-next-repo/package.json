@@ -32,7 +32,7 @@
     "fs-extra": "^9.0.1",
     "klaw-sync": "^6.0.0",
     "meow": "^7.1.1",
-    "prettier": "^2.1.1",
+    "prettier": "^2.1.2",
     "semver": "^7.3.2"
   },
   "templateDependencies": {
