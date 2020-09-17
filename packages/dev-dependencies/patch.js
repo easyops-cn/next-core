@@ -54,7 +54,7 @@ module.exports = function patch() {
     majorBrickNext.updateVersionOfBrickNext();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.2")) {
+  if (semver.lt(currentRenewVersion, "1.0.4")) {
     updateRenovateBaseBranches();
   }
 
@@ -338,24 +338,32 @@ function updatePackageJsonScriptsTestCommand(packageJson) {
 function updateRenovateBaseBranches() {
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = readJson(renovateJsonPath);
-  let changed = false;
-  if (isEqual(renovateJson.baseBranches, ["master", "antd_v4_migration"])) {
-    delete renovateJson.baseBranches;
-    changed = true;
-  }
+  const legacyBranchName = "legacy/brick-next_1.x";
+
+  renovateJson.baseBranches = ["master", legacyBranchName];
 
   const nextCoreGroup = renovateJson.packageRules.find(
     (item) => item.groupName === "next-core packages"
   );
 
   if (nextCoreGroup) {
-    nextCoreGroup.baseBranches = ["master", "legacy/brick-next_1.x"];
+    delete nextCoreGroup.baseBranches;
     // Ignore major update for each branch.
     nextCoreGroup.updateTypes = ["patch", "minor"];
-    changed = true;
   }
 
-  if (changed) {
-    writeJsonFile(renovateJsonPath, renovateJson);
+  const legacyGroup = renovateJson.packageRules.find((item) =>
+    isEqual(item.baseBranchList, [legacyBranchName])
+  );
+
+  if (!legacyGroup) {
+    // Ignore all updates except `@easyops/*` in legacy branch.
+    renovateJson.packageRules.push({
+      baseBranchList: [legacyBranchName],
+      excludePackagePatterns: ["^@easyops/"],
+      enabled: false,
+    });
   }
+
+  writeJsonFile(renovateJsonPath, renovateJson);
 }
