@@ -229,6 +229,7 @@ describe("Router", () => {
   it("should redirect to login when page not found and not logged in", async () => {
     spyOnIsLoggedIn.mockReturnValueOnce(false);
     await router.bootstrap();
+    expect(kernel.loadMicroAppApiOrchestrationAsync).not.toBeCalled();
     expect(spyOnMountTree).toBeCalledTimes(0);
     expect(spyOnHistory.replace).toBeCalledWith("/auth/login", {
       from: {
