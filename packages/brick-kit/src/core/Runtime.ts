@@ -223,6 +223,9 @@ export function _internalApiGetRouterState(): RouterState {
 
 /* istanbul ignore next */
 export function _internalApiGetCurrentContext(): PluginRuntimeContext {
+  if (process.env.NODE_ENV === "test") {
+    return {} as any;
+  }
   return kernel.router.getCurrentContext();
 }
 
