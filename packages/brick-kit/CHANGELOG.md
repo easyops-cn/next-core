@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.1...@easyops/brick-kit@2.2.2) (2020-09-17)
+
+### Bug Fixes
+
+- **routes:** do not load api orchestration instances when not logged in ([76789fc](https://git.easyops.local/anyclouds/next-core/commits/76789fc))
+
 ## [2.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.0...@easyops/brick-kit@2.2.1) (2020-09-17)
 
 ### Bug Fixes
