@@ -54,7 +54,7 @@ module.exports = function patch() {
     majorBrickNext.updateVersionOfBrickNext();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.4")) {
+  if (semver.lt(currentRenewVersion, "1.0.8")) {
     updateRenovateBaseBranches();
   }
 
@@ -340,6 +340,7 @@ function updateRenovateBaseBranches() {
   const renovateJson = readJson(renovateJsonPath);
   const legacyBranchName = "legacy/brick-next_1.x";
 
+  renovateJson.semanticCommits = "enabled";
   renovateJson.baseBranches = ["master", legacyBranchName];
 
   const nextCoreGroup = renovateJson.packageRules.find(
@@ -349,7 +350,8 @@ function updateRenovateBaseBranches() {
   if (nextCoreGroup) {
     delete nextCoreGroup.baseBranches;
     // Ignore major update for each branch.
-    nextCoreGroup.updateTypes = ["patch", "minor"];
+    delete nextCoreGroup.updateTypes;
+    nextCoreGroup.major = { enabled: false };
   }
 
   const legacyGroup = renovateJson.packageRules.find((item) =>

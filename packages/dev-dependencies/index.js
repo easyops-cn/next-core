@@ -33,7 +33,10 @@ function updateSelf() {
         execa.sync("yarn", ["info", selfPackageName, "versions", "--json"])
           .stdout
       ).data;
-      tag = `@^${semver.maxSatisfying(versions, currentRange)}`;
+      tag = `@^${semver.maxSatisfying(
+        versions,
+        currentRange.startsWith("^0.") ? "< 1" : currentRange
+      )}`;
     }
   }
   console.log(
