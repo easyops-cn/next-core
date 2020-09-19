@@ -2244,15 +2244,15 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@microsoft/api-documenter@^7.8.51":
-  version "7.8.51"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-documenter/download/@microsoft/api-documenter-7.8.51.tgz?cache=0&sync_timestamp=1600470528977&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40microsoft%2Fapi-documenter%2Fdownload%2F%40microsoft%2Fapi-documenter-7.8.51.tgz#1238257fd45995684b046a6b21e199b6f55d60c1"
-  integrity sha1-Ejglf9RZlWhLBGprIeGZtvVdYME=
+"@microsoft/api-documenter@^7.8.53":
+  version "7.8.53"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-documenter/download/@microsoft/api-documenter-7.8.53.tgz?cache=0&sync_timestamp=1600492219829&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40microsoft%2Fapi-documenter%2Fdownload%2F%40microsoft%2Fapi-documenter-7.8.53.tgz#e06b6a2d97edaae67b364b404fd4e9792c487815"
+  integrity sha1-4GtqLZftquZ7NktAT9TpeSxIeBU=
   dependencies:
-    "@microsoft/api-extractor-model" "7.9.2"
+    "@microsoft/api-extractor-model" "7.9.4"
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.33.1"
-    "@rushstack/ts-command-line" "4.6.5"
+    "@rushstack/node-core-library" "3.33.3"
+    "@rushstack/ts-command-line" "4.6.7"
     colors "~1.2.1"
     js-yaml "~3.13.1"
     resolve "~1.17.0"
@@ -2265,13 +2265,13 @@
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.32.0"
 
-"@microsoft/api-extractor-model@7.9.2":
-  version "7.9.2"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.9.2.tgz#60c073c586ecc8a435f2ff35a480e5d068b7856c"
-  integrity sha1-YMBzxYbsyKQ18v81pIDl0Gi3hWw=
+"@microsoft/api-extractor-model@7.9.4":
+  version "7.9.4"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.9.4.tgz#d0ae8086a4e4961bf65f5225843cde0781ca49d5"
+  integrity sha1-0K6AhqTklhv2X1IlhDzeB4HKSdU=
   dependencies:
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.33.1"
+    "@rushstack/node-core-library" "3.33.3"
 
 "@microsoft/api-extractor@^7.9.15":
   version "7.9.15"
@@ -2403,10 +2403,10 @@
     timsort "~0.3.0"
     z-schema "~3.18.3"
 
-"@rushstack/node-core-library@3.33.1":
-  version "3.33.1"
-  resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.33.1.tgz#aa369d4b864f790aa47b68217e251f1864daf67b"
-  integrity sha1-qjadS4ZPeQqke2ghfiUfGGTa9ns=
+"@rushstack/node-core-library@3.33.3":
+  version "3.33.3"
+  resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.33.3.tgz#a930515f21ccf941a011f59e1e0060fc3d17ec7b"
+  integrity sha1-qTBRXyHM+UGgEfWeHgBg/D0X7Hs=
   dependencies:
     "@types/node" "10.17.13"
     colors "~1.2.1"
@@ -2428,10 +2428,10 @@
     colors "~1.2.1"
     string-argv "~0.3.1"
 
-"@rushstack/ts-command-line@4.6.5":
-  version "4.6.5"
-  resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.6.5.tgz#2a883dda3277504940dcfa909c12148f091bf6d5"
-  integrity sha1-Kog92jJ3UElA3PqQnBIUjwkb9tU=
+"@rushstack/ts-command-line@4.6.7":
+  version "4.6.7"
+  resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.6.7.tgz#d16eeb529694b01a17cdf621e908903a5e71a001"
+  integrity sha1-0W7rUpaUsBoXzfYh6QiQOl5xoAE=
   dependencies:
     "@types/argparse" "1.0.38"
     argparse "~1.0.9"
