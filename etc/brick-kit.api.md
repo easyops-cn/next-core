@@ -30,7 +30,7 @@ import { MenuBarBrick } from '@easyops/brick-types';
 import { MessageConf } from '@easyops/brick-types';
 import { MicroApp } from '@easyops/brick-types';
 import { MicroAppModels } from '@sdk/micro-app-sdk';
-import { ModalFunc } from 'antd/lib/modal/Modal';
+import { ModalFunc } from 'antd/lib/modal/confirm';
 import { MountPoints } from '@easyops/brick-types';
 import { PluginHistory } from '@easyops/brick-types';
 import { PluginHistoryState } from '@easyops/brick-types';

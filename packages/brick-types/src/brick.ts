@@ -22,12 +22,15 @@ interface CustomEventListener3<
   addEventListener(type: T3, listener: (evt: CustomEvent<D3>) => void): void;
 }
 
+/** @internal */
 export type OmitListener<T> = Pick<T, Exclude<keyof T, "addEventListener">>;
 
+/** @internal */
 export interface BrickRender {
   _render(): void;
 }
 
+/** @internal */
 export enum BrickEvent {
   READ_SORTING_CHANGE = "read.sorting.change",
   READ_SEARCH_CHANGE = "read.search.change",
@@ -61,16 +64,21 @@ export enum BrickEvent {
   UPDATE_SINGLE_SELECT = "update.single.select",
   UPDATE_SINGLE_SELECTED = "update.single.selected",
   READ_CARD_LEFT_BTN_CLICK = "read.card.leftBtn.click",
-  READ_CARD_RIGHT_BTN_CLICK = "read.card.rightBtn.click"
+  READ_CARD_RIGHT_BTN_CLICK = "read.card.rightBtn.click",
 }
+
+/** @internal */
 export interface BrickOfReadPresetConfigs<T = any> {
   presetConfigs: T;
 }
+
+/** @internal */
 export interface ReadSortingChangeDetail {
   sort?: string;
   asc?: boolean;
 }
 
+/** @internal */
 export interface BrickOfReadSorting
   extends CustomEventListener<
       BrickEvent.READ_SORTING_CHANGE,
@@ -78,10 +86,12 @@ export interface BrickOfReadSorting
     >,
     ReadSortingChangeDetail {}
 
+/** @internal */
 export interface ReadSearchChangeDetail {
   q: string;
 }
 
+/** @internal */
 export interface BrickOfReadSearch
   extends CustomEventListener<
       BrickEvent.READ_SEARCH_CHANGE,
@@ -91,10 +101,12 @@ export interface BrickOfReadSearch
   searchDisabled?: boolean;
 }
 
+/** @internal */
 export interface ReadSearchCategoryDetail {
   selected: string;
 }
 
+/** @internal */
 export interface BrickOfCategorySearch
   extends CustomEventListener<
       BrickEvent.READ_CATEGORY_CHANGE,
@@ -102,10 +114,12 @@ export interface BrickOfCategorySearch
     >,
     ReadSearchCategoryDetail {}
 
+/** @internal */
 export interface ReadAdvancedSearchChangeDetail<T = Record<string, any>> {
   aq: T;
 }
 
+/** @internal */
 export interface BrickOfReadAdvancedSearch<T = Record<string, any>>
   extends CustomEventListener<
       BrickEvent.READ_ADVANCED_SEARCH_CHANGE,
@@ -115,11 +129,13 @@ export interface BrickOfReadAdvancedSearch<T = Record<string, any>>
   advancedSearchDisabled?: boolean;
 }
 
+/** @internal */
 export interface ReadPaginationChangeDetail {
   page?: number;
   pageSize?: number;
 }
 
+/** @internal */
 export interface BrickOfReadPagination
   extends CustomEventListener<
       BrickEvent.READ_PAGINATION_CHANGE,
@@ -127,11 +143,13 @@ export interface BrickOfReadPagination
     >,
     ReadPaginationChangeDetail {}
 
+/** @internal */
 export interface ReadSelectionChangeDetail<T = any> {
   selectedKeys?: string[] | number[];
   selectedItems?: T[];
 }
 
+/** @internal */
 export interface BrickOfReadSelection<T = any>
   extends CustomEventListener<
       BrickEvent.READ_SELECTION_CHANGE,
@@ -139,15 +157,18 @@ export interface BrickOfReadSelection<T = any>
     >,
     ReadSelectionChangeDetail<T> {}
 
+/** @internal */
 export interface BrickOfHandleReadSelection<T = any>
   extends ReadSelectionChangeDetail<T> {
   handleReadSelection(e: CustomEvent<ReadSelectionChangeDetail>): void;
 }
 
+/** @internal */
 export interface ReadMultipleClickItemDetail {
   id: string;
 }
 
+/** @internal */
 export interface BrickOfReadMultiple
   extends CustomEventListener<
     BrickEvent.READ_MULTIPLE_CLICK_ITEM,
@@ -156,10 +177,12 @@ export interface BrickOfReadMultiple
   detailUrlTemplates?: Record<string, string>;
 }
 
+/** @internal */
 export interface ReadClickCardBtnDetail {
   data: { instanceId: string; objectId: string };
 }
 
+/** @internal */
 export interface BrickOfCardLeftBtnClick
   extends CustomEventListener<
     BrickEvent.READ_CARD_LEFT_BTN_CLICK,
@@ -167,6 +190,8 @@ export interface BrickOfCardLeftBtnClick
   > {
   data: { instanceId: string; objectId: string };
 }
+
+/** @internal */
 export interface BrickOfCardRightBtnClick
   extends CustomEventListener<
     BrickEvent.READ_CARD_RIGHT_BTN_CLICK,
@@ -175,14 +200,17 @@ export interface BrickOfCardRightBtnClick
   data: { instanceId: string; objectId: string };
 }
 
+/** @internal */
 export interface ReadRelatedToMeChangeDetail {
   relatedToMe?: boolean;
 }
 
+/** @internal */
 export interface ReadAliveHostsChangeDetail {
   aliveHosts?: boolean;
 }
 
+/** @internal */
 export interface BrickOfReadRelatedToMe
   extends CustomEventListener<
       BrickEvent.READ_RELATED_TO_ME_CHANGE,
@@ -192,6 +220,7 @@ export interface BrickOfReadRelatedToMe
   relatedToMeDisabled?: boolean;
 }
 
+/** @internal */
 export interface BrickOfReadAliveHosts
   extends CustomEventListener<
       BrickEvent.READ_ALIVE_HOSTS_CHANGE,
@@ -201,38 +230,46 @@ export interface BrickOfReadAliveHosts
   aliveHostsDisabled?: boolean;
 }
 
+/** @internal */
 export interface BrickOfCmdbObject {
   objectId: string;
 }
 
+/** @internal */
 export interface BrickOfCmdbInstance {
   instanceId: string;
 }
 
+/** @internal */
 export interface AttributeConfig {
   key: string;
   isWholeLine: boolean;
 }
 
+/** @internal */
 export interface CustomBrickConfig<T = Record<string, any>> {
   name: string;
   label: string;
   options?: T;
 }
 
+/** @internal */
 export interface CustomComponent<T = Record<string, any>> {
   brick: string;
   field?: string;
   properties: T;
 }
+/** @internal */
 export interface CustomComponentWrapper<T = Record<string, any>> {
   component: CustomComponent;
 }
 
+/** @internal */
 export interface CustomComponentConfig<T = Record<string, any>> {
   attrId: CustomComponentWrapper;
 }
 
+/** @internal */
 export interface BrickAction {
   label: string;
   type?: "button" | "dropdown";
@@ -242,6 +279,7 @@ export interface BrickAction {
   event?: string;
 }
 
+/** @internal */
 export interface BrickOfCmdbInstanceDetail<T = Record<string, any>> {
   attributeKeys: string[];
   attributeConfigs: Record<string, AttributeConfig>;
@@ -250,14 +288,17 @@ export interface BrickOfCmdbInstanceDetail<T = Record<string, any>> {
   attrCustomConfigs: CustomComponentConfig<T>;
 }
 
+/** @internal */
 export interface BrickOfCmdbInstanceRelation {
   relationSideId: string;
 }
 
+/** @internal */
 export interface BrickOfReadPropertiesCustomDisplay {
   propertyDisplayConfigs?: PropertyDisplayConfig[];
 }
 
+/** @internal */
 export type BrickOfCreateSingle<
   S = any,
   F = any,
@@ -271,6 +312,7 @@ export type BrickOfCreateSingle<
   C
 >;
 
+/** @internal */
 export type BrickOfUpdateSingle<
   S = any,
   F = any,
@@ -284,6 +326,7 @@ export type BrickOfUpdateSingle<
   C
 >;
 
+/** @internal */
 export type BrickOfDeleteSingle<
   S = any,
   F = any,
@@ -297,6 +340,7 @@ export type BrickOfDeleteSingle<
   C
 >;
 
+/** @internal */
 export type BrickOfDeleteMultiple<S = any, C = any> = CustomEventListener2<
   BrickEvent.DELETE_MULTI_SUCCESS,
   S,
@@ -304,10 +348,12 @@ export type BrickOfDeleteMultiple<S = any, C = any> = CustomEventListener2<
   C
 >;
 
+/** @internal */
 export enum PropertyDisplayType {
-  Tag = "tag"
+  Tag = "tag",
 }
 
+/** @internal */
 export interface PropertyDisplayConfig {
   key: string;
   type?: PropertyDisplayType;
@@ -316,20 +362,24 @@ export interface PropertyDisplayConfig {
   properties?: Record<string, any>;
 }
 
+/** @internal */
 export interface CustomDisplay<T = any, O = Record<string, any>> {
   value: T;
   options: O;
 }
 
+/** @internal */
 export interface InstanceDisplay<T = Record<string, any>> {
   object: T;
 }
 
+/** @internal */
 export interface PropertyDisplay {
   key: string;
   isPrimary?: boolean;
 }
 
+/** @internal */
 export type BrickOfUpdateMultiple<S = any, C = any> = CustomEventListener2<
   BrickEvent.UPDATE_MULTI_SUCCESS,
   S,
@@ -337,12 +387,14 @@ export type BrickOfUpdateMultiple<S = any, C = any> = CustomEventListener2<
   C
 >;
 
+/** @internal */
 export interface CategoryConfig {
   field: string;
   theme?: "button" | "tag";
   showCount?: number;
   pageSize?: number;
 }
+/** @internal */
 export interface CardConfig {
   title?: {
     field?: string;
@@ -378,6 +430,7 @@ export interface CardConfig {
   brick?: string;
 }
 
+/** @internal */
 export interface BrickOfCmdbCardList {
   column?: number;
   columnWidth?: number;
@@ -387,6 +440,7 @@ export interface BrickOfCmdbCardList {
   selectedCategory: string;
 }
 
+/** @internal */
 export interface BrickOfCmdbCard<
   T = Record<string, any>,
   O = Record<string, any>
@@ -397,6 +451,7 @@ export interface BrickOfCmdbCard<
   detailUrl?: string;
 }
 
+/** @internal */
 export interface BrickOfModal<T = Record<string, any>> {
   closeOnOk?: boolean;
   isVisible: boolean;
@@ -408,6 +463,7 @@ export interface BrickOfModal<T = Record<string, any>> {
   destroy(): void;
   reset?(): void;
 }
+/** @internal */
 export type BrickOfBatchSetPermissions<S = any, F = any> = CustomEventListener2<
   BrickEvent.UPDATE_MULTI_SUCCESS,
   S,
@@ -415,6 +471,7 @@ export type BrickOfBatchSetPermissions<S = any, F = any> = CustomEventListener2<
   F
 >;
 
+/** @internal */
 export interface BrickOfFeatures<
   T = Record<string, Record<string, any> | boolean>
 > {

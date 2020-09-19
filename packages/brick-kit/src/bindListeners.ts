@@ -510,7 +510,7 @@ function customListenerFactory(
         }
       }
     } else if (handler.target) {
-      targets.push(handler.target);
+      targets.push(handler.target as HTMLElement);
     } else if (handler.targetRef) {
       const found = findRefElement(brick, handler.targetRef);
       if (found) {

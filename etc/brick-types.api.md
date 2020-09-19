@@ -10,9 +10,11 @@ import { IconPrefix } from '@fortawesome/fontawesome-svg-core';
 import { Key } from 'path-to-regexp';
 import { Location as Location_2 } from 'history';
 import { LocationDescriptor } from 'history';
-import { ThemeType } from 'antd/lib/icon';
+import { ThemeType } from '@ant-design/compatible/lib/icon';
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "Action" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface Action {
     // (undocumented)
     args?: any[];
@@ -26,10 +28,12 @@ export interface Action {
     type?: "link" | "ghost" | "default" | "primary" | "dashed" | "danger";
 }
 
-// @public (undocumented)
+// @public
 export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "AppBarBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface AppBarBrick extends HTMLElement {
     // (undocumented)
     appendBreadcrumb: (breadcrumb: BreadcrumbItemConf[]) => void;
@@ -41,16 +45,17 @@ export interface AppBarBrick extends HTMLElement {
     setBreadcrumb: (breadcrumb: BreadcrumbItemConf[]) => void;
 }
 
-// @public (undocumented)
+// @public
 export interface AppLocale {
-    // (undocumented)
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export type AppLocales = Record<string, AppLocale>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "AttributeConfig" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface AttributeConfig {
     // (undocumented)
     isWholeLine: boolean;
@@ -58,7 +63,9 @@ export interface AttributeConfig {
     key: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "AuthInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface AuthInfo {
     // (undocumented)
     loginFrom?: string;
@@ -70,61 +77,43 @@ export interface AuthInfo {
     username?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BaseCustomBrickEventHandler {
-    // (undocumented)
     if?: string | boolean;
-    // (undocumented)
     multiple?: boolean;
-    // (undocumented)
-    target?: string | any;
-    // (undocumented)
+    target?: string | unknown;
     targetRef?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BaseEntityResolveConf {
-    // (undocumented)
-    args?: any[];
-    // (undocumented)
+    args?: unknown[];
+    // @deprecated
     field?: string | string[];
     // (undocumented)
+    if?: string | boolean;
     method?: string;
-    // (undocumented)
+    // @deprecated
     name?: string;
-    // (undocumented)
     onReject?: HandleReject;
-    // (undocumented)
     transform?: GeneralTransform;
-    // (undocumented)
     transformFrom?: string | string[];
-    // (undocumented)
     transformMapArray?: boolean | "auto";
 }
 
-// @public (undocumented)
+// @public
 export interface BaseRouteConf {
-    // (undocumented)
     alias?: string;
-    // (undocumented)
     context?: ContextConf[];
-    // (undocumented)
     defineResolves?: DefineResolveConf[];
-    // (undocumented)
     exact?: boolean;
-    // (undocumented)
     hybrid?: boolean;
-    // (undocumented)
     menu?: MenuConf;
-    // (undocumented)
     path: string;
-    // (undocumented)
+    // @deprecated
     providers?: ProviderConf[];
-    // (undocumented)
     public?: boolean;
-    // (undocumented)
     redirect?: string | ResolveConf;
-    // (undocumented)
     segues?: SeguesConf;
 }
 
@@ -146,23 +135,22 @@ export interface BootstrapData {
     templatePackages: TemplatePackage[];
 }
 
-// @public (undocumented)
+// @public
 export interface BreadcrumbConf {
-    // (undocumented)
     items: BreadcrumbItemConf[];
-    // (undocumented)
     overwrite?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface BreadcrumbItemConf {
-    // (undocumented)
     text: string;
-    // (undocumented)
+    // Warning: (ae-incompatible-release-tags) The symbol "to" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
     to?: LocationDescriptor<PluginHistoryState>;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickAction" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickAction {
     // (undocumented)
     buttonProps?: Record<string, any>;
@@ -178,48 +166,41 @@ export interface BrickAction {
     url?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BrickConf {
-    // (undocumented)
     bg?: boolean;
-    // (undocumented)
     brick?: string;
-    // (undocumented)
     context?: ContextConf[];
-    // (undocumented)
     events?: BrickEventsMap;
-    // (undocumented)
+    // @internal @deprecated
     exports?: Record<string, string>;
-    // (undocumented)
     if?: string | boolean | ResolveConf;
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     injectDeep?: boolean;
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     internalUsedBricks?: string[];
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     internalUsedTemplates?: string[];
-    // (undocumented)
     lifeCycle?: BrickLifeCycle;
-    // (undocumented)
-    params?: Record<string, any>;
-    // (undocumented)
+    // @deprecated
+    params?: Record<string, unknown>;
     portal?: boolean;
-    // (undocumented)
-    properties?: Record<string, any>;
-    // (undocumented)
+    properties?: Record<string, unknown>;
     slots?: SlotsConf;
-    // (undocumented)
+    // @deprecated
     template?: string;
 }
 
-// @public (undocumented)
+// @public
 export type BrickConfInTemplate = Omit<BrickConf, "brick" | "slots" | "template" | "params"> & {
     brick: string;
     ref?: string;
     slots?: SlotsConfInTemplate;
 };
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickEvent" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export enum BrickEvent {
     // (undocumented)
     CREATE_MULTI_CANCELED = "create.multi.canceled",
@@ -289,67 +270,57 @@ export enum BrickEvent {
     UPDATE_SINGLE_SUCCESS = "update.single.success"
 }
 
-// @public (undocumented)
+// @public
 export type BrickEventHandler = BuiltinBrickEventHandler | UseProviderEventHandler | CustomBrickEventHandler;
 
-// @public (undocumented)
+// @public
 export interface BrickEventHandlerCallback {
-    // (undocumented)
     error?: BrickEventHandler | BrickEventHandler[];
-    // (undocumented)
     finally?: BrickEventHandler | BrickEventHandler[];
-    // (undocumented)
     success?: BrickEventHandler | BrickEventHandler[];
 }
 
-// @public (undocumented)
+// @public
 export interface BrickEventsMap {
     // (undocumented)
     [key: string]: BrickEventHandler | BrickEventHandler[];
 }
 
-// @public (undocumented)
+// @public
 export interface BrickLifeCycle {
-    // (undocumented)
     onAnchorLoad?: BrickEventHandler | BrickEventHandler[];
-    // (undocumented)
     onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
-    // (undocumented)
     onBeforePageLeave?: BrickEventHandler | BrickEventHandler[];
-    // (undocumented)
+    // @internal (undocumented)
     onMessage?: MessageConf | MessageConf[];
-    // (undocumented)
+    // @internal (undocumented)
     onPageLeave?: BrickEventHandler | BrickEventHandler[];
-    // (undocumented)
     onPageLoad?: BrickEventHandler | BrickEventHandler[];
-    // (undocumented)
     useResolves?: ResolveConf[];
 }
 
-// @public (undocumented)
+// @public
 export interface BrickMenuConf {
-    // (undocumented)
     brick: string;
-    // (undocumented)
     events?: BrickEventsMap;
     // (undocumented)
     injectDeep?: boolean;
-    // (undocumented)
     lifeCycle?: BrickLifeCycle;
-    // (undocumented)
-    properties?: Record<string, any>;
+    properties?: Record<string, unknown>;
     // (undocumented)
     type: "brick";
 }
 
 // Warning: (ae-forgotten-export) The symbol "CustomEventListener2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-internal-missing-underscore) The name "BrickOfBatchSetPermissions" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @public (undocumented)
+// @internal (undocumented)
 export type BrickOfBatchSetPermissions<S = any, F = any> = CustomEventListener2<BrickEvent.UPDATE_MULTI_SUCCESS, S, BrickEvent.UPDATE_MULTI_FAILED, F>;
 
 // Warning: (ae-forgotten-export) The symbol "CustomEventListener" needs to be exported by the entry point index.d.ts
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCardLeftBtnClick" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @public (undocumented)
+// @internal (undocumented)
 export interface BrickOfCardLeftBtnClick extends CustomEventListener<BrickEvent.READ_CARD_LEFT_BTN_CLICK, ReadClickCardBtnDetail> {
     // (undocumented)
     data: {
@@ -358,7 +329,9 @@ export interface BrickOfCardLeftBtnClick extends CustomEventListener<BrickEvent.
     };
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCardRightBtnClick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCardRightBtnClick extends CustomEventListener<BrickEvent.READ_CARD_RIGHT_BTN_CLICK, ReadClickCardBtnDetail> {
     // (undocumented)
     data: {
@@ -367,11 +340,15 @@ export interface BrickOfCardRightBtnClick extends CustomEventListener<BrickEvent
     };
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCategorySearch" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCategorySearch extends CustomEventListener<BrickEvent.READ_CATEGORY_CHANGE, ReadSearchCategoryDetail>, ReadSearchCategoryDetail {
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCmdbCard" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCmdbCard<T = Record<string, any>, O = Record<string, any>> {
     // (undocumented)
     detailUrl?: string;
@@ -383,7 +360,9 @@ export interface BrickOfCmdbCard<T = Record<string, any>, O = Record<string, any
     objectId?: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCmdbCardList" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCmdbCardList {
     // (undocumented)
     card?: CardConfig;
@@ -399,13 +378,17 @@ export interface BrickOfCmdbCardList {
     showStatistics?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCmdbInstance" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCmdbInstance {
     // (undocumented)
     instanceId: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCmdbInstanceDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCmdbInstanceDetail<T = Record<string, any>> {
     // (undocumented)
     actions: BrickAction[];
@@ -419,42 +402,57 @@ export interface BrickOfCmdbInstanceDetail<T = Record<string, any>> {
     brickConfigList: CustomBrickConfig<T>[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCmdbInstanceRelation" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCmdbInstanceRelation {
     // (undocumented)
     relationSideId: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCmdbObject" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfCmdbObject {
     // (undocumented)
     objectId: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "CustomEventListener3" needs to be exported by the entry point index.d.ts
+// Warning: (ae-internal-missing-underscore) The name "BrickOfCreateSingle" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @public (undocumented)
+// @internal (undocumented)
 export type BrickOfCreateSingle<S = any, F = any, C = any> = CustomEventListener3<BrickEvent.CREATE_SINGLE_SUCCESS, S, BrickEvent.CREATE_SINGLE_FAILED, F, BrickEvent.CREATE_SINGLE_CANCELED, C>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfDeleteMultiple" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type BrickOfDeleteMultiple<S = any, C = any> = CustomEventListener2<BrickEvent.DELETE_MULTI_SUCCESS, S, BrickEvent.DELETE_MULTI_CANCELED, C>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfDeleteSingle" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type BrickOfDeleteSingle<S = any, F = any, C = any> = CustomEventListener3<BrickEvent.DELETE_SINGLE_SUCCESS, S, BrickEvent.DELETE_SINGLE_FAILED, F, BrickEvent.DELETE_SINGLE_CANCELED, C>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfFeatures" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfFeatures<T = Record<string, Record<string, any> | boolean>> {
     // (undocumented)
     features: T;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfHandleReadSelection" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfHandleReadSelection<T = any> extends ReadSelectionChangeDetail<T> {
     // (undocumented)
     handleReadSelection(e: CustomEvent<ReadSelectionChangeDetail>): void;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfModal" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfModal<T = Record<string, any>> {
     // (undocumented)
     close(): void;
@@ -476,67 +474,93 @@ export interface BrickOfModal<T = Record<string, any>> {
     reset?(): void;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadAdvancedSearch" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadAdvancedSearch<T = Record<string, any>> extends CustomEventListener<BrickEvent.READ_ADVANCED_SEARCH_CHANGE, ReadAdvancedSearchChangeDetail<T>>, ReadAdvancedSearchChangeDetail<T> {
     // (undocumented)
     advancedSearchDisabled?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadAliveHosts" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadAliveHosts extends CustomEventListener<BrickEvent.READ_ALIVE_HOSTS_CHANGE, ReadAliveHostsChangeDetail>, ReadAliveHostsChangeDetail {
     // (undocumented)
     aliveHostsDisabled?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadMultiple" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadMultiple extends CustomEventListener<BrickEvent.READ_MULTIPLE_CLICK_ITEM, ReadMultipleClickItemDetail> {
     // (undocumented)
     detailUrlTemplates?: Record<string, string>;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadPagination" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadPagination extends CustomEventListener<BrickEvent.READ_PAGINATION_CHANGE, ReadPaginationChangeDetail>, ReadPaginationChangeDetail {
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadPresetConfigs" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadPresetConfigs<T = any> {
     // (undocumented)
     presetConfigs: T;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadPropertiesCustomDisplay" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadPropertiesCustomDisplay {
     // (undocumented)
     propertyDisplayConfigs?: PropertyDisplayConfig[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadRelatedToMe" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadRelatedToMe extends CustomEventListener<BrickEvent.READ_RELATED_TO_ME_CHANGE, ReadRelatedToMeChangeDetail>, ReadRelatedToMeChangeDetail {
     // (undocumented)
     relatedToMeDisabled?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadSearch" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadSearch extends CustomEventListener<BrickEvent.READ_SEARCH_CHANGE, ReadSearchChangeDetail>, ReadSearchChangeDetail {
     // (undocumented)
     searchDisabled?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadSelection" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadSelection<T = any> extends CustomEventListener<BrickEvent.READ_SELECTION_CHANGE, ReadSelectionChangeDetail<T>>, ReadSelectionChangeDetail<T> {
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfReadSorting" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickOfReadSorting extends CustomEventListener<BrickEvent.READ_SORTING_CHANGE, ReadSortingChangeDetail>, ReadSortingChangeDetail {
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfUpdateMultiple" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type BrickOfUpdateMultiple<S = any, C = any> = CustomEventListener2<BrickEvent.UPDATE_MULTI_SUCCESS, S, BrickEvent.UPDATE_MULTI_CANCELED, C>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickOfUpdateSingle" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type BrickOfUpdateSingle<S = any, F = any, C = any> = CustomEventListener3<BrickEvent.UPDATE_SINGLE_SUCCESS, S, BrickEvent.UPDATE_SINGLE_FAILED, F, BrickEvent.UPDATE_SINGLE_CANCELED, C>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickPackage" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickPackage {
     // (undocumented)
     bricks: string[];
@@ -548,28 +572,30 @@ export interface BrickPackage {
     processors?: string[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "BrickRender" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface BrickRender {
     // (undocumented)
     _render(): void;
 }
 
-// @public (undocumented)
-export type BrickTemplateFactory = (params?: any) => BrickConf;
+// Warning: (ae-internal-missing-underscore) The name "BrickTemplateFactory" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type BrickTemplateFactory = (params?: unknown) => BrickConf;
 
-// @public (undocumented)
+// @public
 export interface BuiltinBrickEventHandler {
-    // (undocumented)
     action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe";
-    // (undocumented)
-    args?: any[];
-    // (undocumented)
+    args?: unknown[];
     callback?: BrickEventHandlerCallback;
-    // (undocumented)
     if?: string | boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CardConfig" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CardConfig {
     // (undocumented)
     badge?: {
@@ -609,7 +635,9 @@ export interface CardConfig {
     };
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CategoryConfig" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CategoryConfig {
     // (undocumented)
     field: string;
@@ -621,7 +649,9 @@ export interface CategoryConfig {
     theme?: "button" | "tag";
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CategoryGroup" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CategoryGroup {
     // (undocumented)
     group: string;
@@ -631,7 +661,9 @@ export interface CategoryGroup {
     title: I18nString;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "Chapter" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface Chapter {
     // (undocumented)
     category: string;
@@ -641,7 +673,9 @@ export interface Chapter {
     title: I18nString;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CompileOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CompileOptions {
     // (undocumented)
     end?: boolean;
@@ -651,7 +685,9 @@ export interface CompileOptions {
     strict?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CompileResult" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CompileResult {
     // (undocumented)
     keys: Key[];
@@ -659,19 +695,17 @@ export interface CompileResult {
     regexp: RegExp;
 }
 
-// @public (undocumented)
+// @public
 export interface ContextConf {
-    // (undocumented)
     name: string;
-    // (undocumented)
     property?: string;
-    // (undocumented)
     resolve?: ResolveConf;
-    // (undocumented)
-    value?: any;
+    value?: unknown;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CustomBrickConfig" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CustomBrickConfig<T = Record<string, any>> {
     // (undocumented)
     label: string;
@@ -681,10 +715,12 @@ export interface CustomBrickConfig<T = Record<string, any>> {
     options?: T;
 }
 
-// @public (undocumented)
+// @public
 export type CustomBrickEventHandler = ExecuteCustomBrickEventHandler | SetPropsCustomBrickEventHandler;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CustomComponent" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CustomComponent<T = Record<string, any>> {
     // (undocumented)
     brick: string;
@@ -694,19 +730,25 @@ export interface CustomComponent<T = Record<string, any>> {
     properties: T;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CustomComponentConfig" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CustomComponentConfig<T = Record<string, any>> {
     // (undocumented)
     attrId: CustomComponentWrapper;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CustomComponentWrapper" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CustomComponentWrapper<T = Record<string, any>> {
     // (undocumented)
     component: CustomComponent;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CustomDisplay" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CustomDisplay<T = any, O = Record<string, any>> {
     // (undocumented)
     options: O;
@@ -714,106 +756,92 @@ export interface CustomDisplay<T = any, O = Record<string, any>> {
     value: T;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplate {
-    // (undocumented)
     bricks: BrickConfInTemplate[];
-    // (undocumented)
     name: string;
-    // (undocumented)
     proxy?: CustomTemplateProxy;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CustomTemplateConstructor" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type CustomTemplateConstructor = Omit<CustomTemplate, "name">;
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxy {
-    // (undocumented)
     events?: CustomTemplateProxyEvents;
-    // (undocumented)
     methods?: CustomTemplateProxyMethods;
-    // (undocumented)
     properties?: CustomTemplateProxyProperties;
-    // (undocumented)
     slots?: CustomTemplateProxySlots;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxyBasicProperty {
-    // (undocumented)
     ref: string;
-    // (undocumented)
     refProperty: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxyEvent {
-    // (undocumented)
     ref: string;
-    // (undocumented)
     refEvent: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxyEvents {
     // (undocumented)
     [name: string]: CustomTemplateProxyEvent;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxyMethod {
-    // (undocumented)
     ref: string;
-    // (undocumented)
     refMethod: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxyMethods {
     // (undocumented)
     [name: string]: CustomTemplateProxyMethod;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxyProperties {
     // (undocumented)
     [name: string]: CustomTemplateProxyProperty;
 }
 
-// @public (undocumented)
+// @public
 export type CustomTemplateProxyProperty = CustomTemplateProxyBasicProperty | CustomTemplateProxyTransformableProperty;
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxySlot {
-    // (undocumented)
     ref: string;
-    // (undocumented)
     refPosition?: number;
-    // (undocumented)
     refSlot: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxySlots {
     // (undocumented)
     [name: string]: CustomTemplateProxySlot;
 }
 
-// @public (undocumented)
+// @public
 export interface CustomTemplateProxyTransformableProperty {
-    // (undocumented)
     ref: string;
-    // (undocumented)
     refTransform: GeneralTransform;
 }
 
-// @public (undocumented)
+// @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {
     id: string;
 };
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "DesktopData" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface DesktopData {
     // (undocumented)
     items: DesktopItem[];
@@ -821,10 +849,14 @@ export interface DesktopData {
     name?: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "DesktopItem" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type DesktopItem = DesktopItemApp | DesktopItemDir;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "DesktopItemApp" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface DesktopItemApp {
     // (undocumented)
     app?: MicroApp;
@@ -834,7 +866,9 @@ export interface DesktopItemApp {
     type: "app";
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "DesktopItemDir" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface DesktopItemDir {
     // (undocumented)
     id: string;
@@ -846,7 +880,7 @@ export interface DesktopItemDir {
     type: "dir";
 }
 
-// @public (undocumented)
+// @public
 export interface EasyopsIcon {
     // (undocumented)
     category?: string;
@@ -858,38 +892,30 @@ export interface EasyopsIcon {
     lib: "easyops";
 }
 
-// @public (undocumented)
+// @public
 export type EntityResolveConf = UseProviderResolveConf | SelectorProviderResolveConf;
 
-// @public (undocumented)
+// @public
 export interface ExecuteCustomBrickEventHandler extends BaseCustomBrickEventHandler {
-    // (undocumented)
-    args?: any[];
-    // (undocumented)
+    args?: unknown[];
     callback?: BrickEventHandlerCallback;
-    // (undocumented)
     method: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedHistory {
-    // (undocumented)
+    // @internal (undocumented)
     getBlockMessage: () => string;
-    // (undocumented)
     pushAnchor: UpdateAnchorFunction;
-    // (undocumented)
     pushQuery: UpdateQueryFunction;
-    // (undocumented)
     reload: () => void;
-    // (undocumented)
     replaceQuery: UpdateQueryFunction;
-    // (undocumented)
+    // @internal (undocumented)
     setBlockMessage: (message: string) => void;
-    // (undocumented)
     unblock: () => void;
 }
 
-// @public (undocumented)
+// @public
 export interface FaIcon {
     // (undocumented)
     color?: string;
@@ -901,28 +927,23 @@ export interface FaIcon {
     prefix?: IconPrefix;
 }
 
-// @public (undocumented)
+// @public
 export type FeatureFlags = Record<string, boolean>;
 
-// @public (undocumented)
+// @public
 export type GeneralTransform = string | TransformMap | TransformItem[];
 
-// @public (undocumented)
+// @public
 export type HandleReject = HandleRejectByTransform;
 
-// @public (undocumented)
-export interface HandleRejectByCatch {
-    // (undocumented)
-    catch: true;
-}
-
-// @public (undocumented)
+// @public
 export interface HandleRejectByTransform {
-    // (undocumented)
     transform: GeneralTransform;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "I18nString" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface I18nString {
     // (undocumented)
     en: string;
@@ -930,19 +951,20 @@ export interface I18nString {
     zh: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "InstanceDisplay" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface InstanceDisplay<T = Record<string, any>> {
     // (undocumented)
     object: T;
 }
 
-// @public (undocumented)
+// @public
 export interface InterceptorParams {
-    // (undocumented)
     ignoreLoadingBar?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface LegacyAntdIcon {
     // (undocumented)
     color?: string;
@@ -954,7 +976,9 @@ export interface LegacyAntdIcon {
     type: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MagicBrickConfig" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface MagicBrickConfig {
     // (undocumented)
     brick: string;
@@ -972,10 +996,14 @@ export interface MagicBrickConfig {
     transform?: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MarkdownString" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type MarkdownString = string;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MatchOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface MatchOptions {
     // (undocumented)
     exact?: boolean;
@@ -983,13 +1011,17 @@ export interface MatchOptions {
     path: string | string[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MatchParams" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface MatchParams {
     // (undocumented)
     [key: string]: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MatchResult" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface MatchResult {
     // (undocumented)
     isExact: boolean;
@@ -1001,7 +1033,9 @@ export interface MatchResult {
     url: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MenuBarBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface MenuBarBrick extends HTMLElement {
     // (undocumented)
     collapsed: boolean;
@@ -1013,13 +1047,15 @@ export interface MenuBarBrick extends HTMLElement {
     subMenu: SidebarSubMenu;
 }
 
-// @public (undocumented)
+// @public
 export type MenuConf = false | StaticMenuConf | BrickMenuConf | ResolveMenuConf;
 
-// @public (undocumented)
+// @public
 export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MessageConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface MessageConf {
     // (undocumented)
     channel: string;
@@ -1027,50 +1063,36 @@ export interface MessageConf {
     handlers: BrickEventHandler | BrickEventHandler[];
 }
 
-// @public (undocumented)
+// @public
 export type MetaI18n = Record<string, Record<string, string>>;
 
-// @public (undocumented)
+// @public
 export interface MicroApp {
-    // @internal (undocumented)
+    // @internal
     $$routeAliasMap?: RouteAliasMap;
-    // (undocumented)
-    config?: Record<string, any>;
-    // (undocumented)
-    defaultConfig?: Record<string, any>;
-    // (undocumented)
+    config?: Record<string, unknown>;
+    defaultConfig?: Record<string, unknown>;
     homepage: string;
-    // (undocumented)
     iconBackground?: "circle" | "square";
-    // (undocumented)
     icons?: {
         large: string;
     };
-    // (undocumented)
     id: string;
-    // (undocumented)
     installStatus?: "ok" | "running";
-    // (undocumented)
     internal?: boolean;
-    // (undocumented)
     legacy?: "iframe";
-    // (undocumented)
     localeName?: string;
-    // (undocumented)
     locales?: AppLocales;
-    // (undocumented)
     menuIcon?: MenuIcon;
-    // (undocumented)
     name: string;
-    // (undocumented)
     private?: boolean;
-    // (undocumented)
     status?: "developing" | "enabled" | "disabled";
-    // (undocumented)
-    userConfig?: Record<string, any>;
+    userConfig?: Record<string, unknown>;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MountPoints" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface MountPoints {
     // (undocumented)
     appBar: HTMLElement;
@@ -1086,7 +1108,9 @@ export interface MountPoints {
     portal: HTMLElement;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "NavbarConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface NavbarConf {
     // (undocumented)
     appBar: string;
@@ -1096,13 +1120,19 @@ export interface NavbarConf {
     menuBar: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type OmitListener<T> = Pick<T, Exclude<keyof T, "addEventListener">>;
 
-// @public (undocumented)
+// Warning: (ae-incompatible-release-tags) The symbol "PluginHistory" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
+//
+// @public
 export type PluginHistory = History_2<PluginHistoryState> & ExtendedHistory;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "PluginHistoryState" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface PluginHistoryState {
     // (undocumented)
     from?: LocationDescriptor<PluginHistoryState>;
@@ -1110,40 +1140,38 @@ export interface PluginHistoryState {
     notify?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "PluginLocation" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type PluginLocation = Location_2<PluginHistoryState>;
 
-// @public (undocumented)
+// @public
 export interface PluginRuntimeContext {
-    // (undocumented)
     anchor?: string;
-    // (undocumented)
     app?: MicroApp;
-    // (undocumented)
     event?: CustomEvent;
-    // (undocumented)
     flags?: FeatureFlags;
-    // (undocumented)
     hash?: string;
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     match?: MatchResult;
-    // (undocumented)
     query: URLSearchParams;
-    // (undocumented)
     segues?: SeguesConf;
-    // (undocumented)
+    // @internal (undocumented)
     storyboardContext?: StoryboardContext;
-    // (undocumented)
     sys?: SystemInfo;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ProbablyRuntimeBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ProbablyRuntimeBrick {
     // (undocumented)
     element?: HTMLElement;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "PropertyDisplay" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface PropertyDisplay {
     // (undocumented)
     isPrimary?: boolean;
@@ -1151,7 +1179,9 @@ export interface PropertyDisplay {
     key: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "PropertyDisplayConfig" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface PropertyDisplayConfig {
     // (undocumented)
     brick?: string;
@@ -1165,28 +1195,36 @@ export interface PropertyDisplayConfig {
     valueColorMap?: Record<string, string>;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "PropertyDisplayType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export enum PropertyDisplayType {
     // (undocumented)
     Tag = "tag"
 }
 
-// @public (undocumented)
+// @public @deprecated
 export type ProviderConf = string | Pick<BrickConf, "brick" | "properties" | "events" | "lifeCycle">;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadAdvancedSearchChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadAdvancedSearchChangeDetail<T = Record<string, any>> {
     // (undocumented)
     aq: T;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadAliveHostsChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadAliveHostsChangeDetail {
     // (undocumented)
     aliveHosts?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadClickCardBtnDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadClickCardBtnDetail {
     // (undocumented)
     data: {
@@ -1195,13 +1233,17 @@ export interface ReadClickCardBtnDetail {
     };
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadMultipleClickItemDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadMultipleClickItemDetail {
     // (undocumented)
     id: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadPaginationChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadPaginationChangeDetail {
     // (undocumented)
     page?: number;
@@ -1209,25 +1251,33 @@ export interface ReadPaginationChangeDetail {
     pageSize?: number;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadRelatedToMeChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadRelatedToMeChangeDetail {
     // (undocumented)
     relatedToMe?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadSearchCategoryDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadSearchCategoryDetail {
     // (undocumented)
     selected: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadSearchChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadSearchChangeDetail {
     // (undocumented)
     q: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadSelectionChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadSelectionChangeDetail<T = any> {
     // (undocumented)
     selectedItems?: T[];
@@ -1235,7 +1285,9 @@ export interface ReadSelectionChangeDetail<T = any> {
     selectedKeys?: string[] | number[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ReadSortingChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface ReadSortingChangeDetail {
     // (undocumented)
     asc?: boolean;
@@ -1243,13 +1295,15 @@ export interface ReadSortingChangeDetail {
     sort?: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RefForProxy" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface RefForProxy {
     // (undocumented)
     brick?: ProbablyRuntimeBrick;
 }
 
-// @public (undocumented)
+// @public
 export interface RefinedAntdIcon {
     // (undocumented)
     color?: string;
@@ -1261,76 +1315,67 @@ export interface RefinedAntdIcon {
     theme?: ThemeType;
 }
 
-// @public (undocumented)
-export interface RefResolveConf {
-    // (undocumented)
-    name?: string;
-    // (undocumented)
-    onReject?: HandleReject;
-    // (undocumented)
+// @public
+export type RefResolveConf = Pick<BaseEntityResolveConf, "name" | "transformFrom" | "transformMapArray" | "transform" | "onReject" | "if"> & {
     ref: string;
-    // (undocumented)
-    transform?: GeneralTransform;
-    // (undocumented)
-    transformFrom?: string | string[];
-    // (undocumented)
-    transformMapArray?: boolean | "auto";
-}
+};
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "rememberedEventListener" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type rememberedEventListener = [
     string,
     EventListener,
     BrickEventHandler?
 ];
 
-// @public (undocumented)
+// @public
 export type ResolveConf = EntityResolveConf | RefResolveConf;
 
-// @public (undocumented)
+// @public
 export interface ResolveMenuConf {
-    // (undocumented)
     resolve: ResolveConf;
     // (undocumented)
     type: "resolve";
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RouteAliasConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RouteAliasMap" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type RouteAliasMap = Map<string, RouteAliasConf>;
 
-// @public (undocumented)
+// @public
 export type RouteConf = RouteConfOfBricks | RouteConfOfRoutes | RouteConfOfRedirect;
 
-// @public (undocumented)
+// @public
 export interface RouteConfOfBricks extends BaseRouteConf {
-    // (undocumented)
     bricks: BrickConf[];
     // (undocumented)
     type?: "bricks";
 }
 
-// @public (undocumented)
+// @public
 export interface RouteConfOfRedirect extends BaseRouteConf {
-    // (undocumented)
     redirect: string | ResolveConf;
     // (undocumented)
     type?: "redirect";
 }
 
-// @public (undocumented)
+// @public
 export interface RouteConfOfRoutes extends BaseRouteConf {
-    // (undocumented)
     routes: RouteConf[];
     // (undocumented)
     type: "routes";
 }
 
-// Warning: (ae-incompatible-release-tags) The symbol "RuntimeBootstrapData" is marked as @public, but its signature references "BootstrapData" which is marked as @internal
+// Warning: (ae-internal-missing-underscore) The name "RuntimeBootstrapData" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @public (undocumented)
+// @internal (undocumented)
 export interface RuntimeBootstrapData extends BootstrapData {
     // (undocumented)
     microApps: MicroApp[];
@@ -1338,7 +1383,9 @@ export interface RuntimeBootstrapData extends BootstrapData {
     storyboards: RuntimeStoryboard[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RuntimeBrickConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface RuntimeBrickConf extends BrickConf {
     // (undocumented)
     $$dynamic?: boolean;
@@ -1347,14 +1394,16 @@ export interface RuntimeBrickConf extends BrickConf {
     // (undocumented)
     $$lifeCycle?: BrickLifeCycle;
     // (undocumented)
-    $$params?: Record<string, any>;
+    $$params?: Record<string, unknown>;
     // (undocumented)
     $$resolved?: boolean;
     // (undocumented)
     $$template?: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RuntimeBrickElement" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface RuntimeBrickElement extends HTMLElement {
     // (undocumented)
     $$eventListeners?: rememberedEventListener[];
@@ -1364,7 +1413,9 @@ export interface RuntimeBrickElement extends HTMLElement {
     $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboard" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface RuntimeStoryboard extends Storyboard {
     // (undocumented)
     $$depsProcessed?: boolean;
@@ -1374,182 +1425,160 @@ export interface RuntimeStoryboard extends Storyboard {
     $$registerCustomTemplateProcessed?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface SegueConf {
-    // (undocumented)
     target: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SeguesConf {
     // (undocumented)
     [segueId: string]: SegueConf;
 }
 
-// @public (undocumented)
+// @public
 export interface SelectorProviderResolveConf extends BaseEntityResolveConf {
-    // (undocumented)
     provider: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SetPropsCustomBrickEventHandler extends BaseCustomBrickEventHandler {
     // (undocumented)
     injectDeep?: boolean;
-    // (undocumented)
-    properties: Record<string, any>;
+    properties: Record<string, unknown>;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "Settings" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface Settings {
     // (undocumented)
-    [key: string]: any;
+    [key: string]: unknown;
     // (undocumented)
     featureFlags: FeatureFlags;
     // (undocumented)
     homepage: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SidebarMenu {
-    // (undocumented)
     defaultCollapsed?: boolean;
-    // (undocumented)
     icon?: MenuIcon;
-    // (undocumented)
     link?: LocationDescriptor;
-    // (undocumented)
     menuItems: SidebarMenuItem[];
-    // (undocumented)
+    // @deprecated
     showRelatedApps?: boolean;
-    // (undocumented)
     title: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SidebarMenuGroup {
-    // (undocumented)
     defaultExpanded?: boolean;
-    // (undocumented)
     icon?: MenuIcon;
-    // (undocumented)
     items: SidebarMenuItem[];
-    // (undocumented)
+    // @internal (undocumented)
     key?: string;
-    // (undocumented)
     title: string;
-    // (undocumented)
     type: "group" | "subMenu";
 }
 
-// @public (undocumented)
+// @public
 export type SidebarMenuItem = SidebarMenuSimpleItem | SidebarMenuGroup;
 
-// @public (undocumented)
+// @public
 export type SidebarMenuItemType = "default" | "group" | "subMenu";
 
-// @public (undocumented)
+// @public
 export interface SidebarMenuSimpleItem {
-    // (undocumented)
     activeExcludes?: string[];
-    // (undocumented)
     activeIncludes?: string[];
-    // (undocumented)
     activeMatchSearch?: boolean;
-    // (undocumented)
     exact?: boolean;
-    // (undocumented)
     href?: string;
-    // (undocumented)
     icon?: MenuIcon;
-    // (undocumented)
+    // @internal (undocumented)
     key?: string;
-    // (undocumented)
     target?: string;
-    // (undocumented)
     text: string;
-    // (undocumented)
     to?: LocationDescriptor;
     // (undocumented)
     type?: "default";
 }
 
-// @public (undocumented)
+// @public
 export type SidebarSubMenu = Pick<SidebarMenu, "title" | "icon" | "menuItems">;
 
-// @public (undocumented)
+// @public
 export type SlotConf = SlotConfOfBricks | SlotConfOfRoutes;
 
-// @public (undocumented)
+// @public
 export interface SlotConfInTemplate {
-    // (undocumented)
     bricks: BrickConfInTemplate[];
     // (undocumented)
     type: "bricks";
 }
 
-// @public (undocumented)
+// @public
 export interface SlotConfOfBricks {
-    // (undocumented)
     bricks: BrickConf[];
     // (undocumented)
     type: "bricks";
 }
 
-// @public (undocumented)
+// @public
 export interface SlotConfOfRoutes {
-    // (undocumented)
     routes: RouteConf[];
-    // (undocumented)
+    // @internal (undocumented)
     switch?: boolean;
     // (undocumented)
     type: "routes";
 }
 
-// @public (undocumented)
+// @public
 export interface SlotsConf {
     // (undocumented)
     [slotName: string]: SlotConf;
 }
 
-// @public (undocumented)
+// @public
 export interface SlotsConfInTemplate {
     // (undocumented)
     [slotName: string]: SlotConfInTemplate;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "SlotsConfOfBricks" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface SlotsConfOfBricks {
     // (undocumented)
     [slotName: string]: SlotConfOfBricks;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "SlotType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type SlotType = "bricks" | "routes";
 
-// @public (undocumented)
+// @public
 export interface StaticMenuConf extends StaticMenuProps {
     // (undocumented)
     type?: "static";
 }
 
-// @public (undocumented)
+// @public
 export interface StaticMenuProps {
-    // (undocumented)
     breadcrumb?: BreadcrumbConf;
-    // (undocumented)
+    // @deprecated
     injectDeep?: boolean;
-    // (undocumented)
     menuId?: string;
-    // (undocumented)
     pageTitle?: string;
-    // (undocumented)
     sidebarMenu?: SidebarMenu;
-    // (undocumented)
     subMenuId?: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "Story" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface Story {
     // (undocumented)
     actions?: Action[];
@@ -1579,27 +1608,30 @@ export interface Story {
     type: "brick" | "template";
 }
 
-// @public (undocumented)
+// @public
 export interface Storyboard {
-    // (undocumented)
     app: MicroApp;
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     dependsAll?: boolean;
-    // (undocumented)
+    // @internal (undocumented)
     imports?: string[];
-    // (undocumented)
     meta?: StoryboardMeta;
-    // (undocumented)
     routes?: RouteConf[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryboardContext" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type StoryboardContext = Map<string, StoryboardContextItem>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryboardContextItem" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type StoryboardContextItem = StoryboardContextItemFreeVariable | StoryboardContextItemBrickProperty;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryboardContextItemBrickProperty" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryboardContextItemBrickProperty {
     // (undocumented)
     brick: {
@@ -1611,23 +1643,25 @@ export interface StoryboardContextItemBrickProperty {
     type: "brick-property";
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryboardContextItemFreeVariable" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryboardContextItemFreeVariable {
     // (undocumented)
     type: "free-variable";
     // (undocumented)
-    value: any;
+    value: unknown;
 }
 
-// @public (undocumented)
+// @public
 export interface StoryboardMeta {
-    // (undocumented)
     customTemplates?: CustomTemplate[];
-    // (undocumented)
     i18n?: MetaI18n;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryConf extends BrickConf {
     // (undocumented)
     description?: {
@@ -1636,7 +1670,9 @@ export interface StoryConf extends BrickConf {
     };
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDoc" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDoc {
     // (undocumented)
     author: string;
@@ -1664,7 +1700,9 @@ export interface StoryDoc {
     slots?: StoryDocSlot[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocEnum" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocEnum {
     // (undocumented)
     description: string;
@@ -1674,7 +1712,9 @@ export interface StoryDocEnum {
     value: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocEvent" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocEvent {
     // (undocumented)
     deprecated?: boolean;
@@ -1686,7 +1726,9 @@ export interface StoryDocEvent {
     type: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocHistory" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocHistory {
     // (undocumented)
     change: string;
@@ -1694,7 +1736,9 @@ export interface StoryDocHistory {
     version: number;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocInterface" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocInterface {
     // (undocumented)
     children: StoryDocTypeAndInterface[] | StoryDocEnum[];
@@ -1706,7 +1750,9 @@ export interface StoryDocInterface {
     typeParameter: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocMethod" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocMethod {
     // (undocumented)
     anchor: string;
@@ -1718,7 +1764,9 @@ export interface StoryDocMethod {
     name: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocProperty" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocProperty {
     // (undocumented)
     default: any;
@@ -1734,7 +1782,9 @@ export interface StoryDocProperty {
     type: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocSlot" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocSlot {
     // (undocumented)
     description: string;
@@ -1742,7 +1792,9 @@ export interface StoryDocSlot {
     name: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocTemplate" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocTemplate {
     // (undocumented)
     children: StoryDoc[];
@@ -1750,7 +1802,9 @@ export interface StoryDocTemplate {
     module: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocType {
     // (undocumented)
     description: string;
@@ -1764,7 +1818,9 @@ export interface StoryDocType {
     typeParameter: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "StoryDocTypeAndInterface" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface StoryDocTypeAndInterface {
     // (undocumented)
     description: string;
@@ -1776,7 +1832,7 @@ export interface StoryDocTypeAndInterface {
     type: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SystemInfo {
     // (undocumented)
     loginFrom?: string;
@@ -1788,7 +1844,9 @@ export interface SystemInfo {
     username: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "TemplatePackage" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface TemplatePackage {
     // (undocumented)
     filePath: string;
@@ -1796,10 +1854,12 @@ export interface TemplatePackage {
     templates: string[];
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "TemplateRegistry" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type TemplateRegistry<T> = Map<string, T>;
 
-// @public (undocumented)
+// @public
 export interface TransformItem {
     // (undocumented)
     from?: string | string[];
@@ -1809,62 +1869,60 @@ export interface TransformItem {
     to: string | TransformMap;
 }
 
-// @public (undocumented)
+// @public
 export interface TransformMap {
     // (undocumented)
-    [propName: string]: any;
+    [propName: string]: unknown;
 }
 
-// @public (undocumented)
+// Warning: (ae-incompatible-release-tags) The symbol "UpdateAnchorFunction" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
+//
+// @public
 export type UpdateAnchorFunction = (hash: string, state?: PluginHistoryState) => void;
 
-// @public (undocumented)
-export type UpdateQueryFunction = (query: Record<string, any>, options?: UpdateQueryOptions) => void;
+// @public
+export type UpdateQueryFunction = (query: Record<string, unknown>, options?: UpdateQueryOptions) => void;
 
-// @public (undocumented)
+// Warning: (ae-incompatible-release-tags) The symbol "UpdateQueryOptions" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
+//
+// @public
 export interface UpdateQueryOptions extends PluginHistoryState {
-    // (undocumented)
     clear?: boolean;
-    // (undocumented)
-    extraQuery?: Record<string, any>;
+    extraQuery?: Record<string, unknown>;
 }
 
-// @public (undocumented)
+// @public
 export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
 
-// @public (undocumented)
+// @public
 export interface UseBrickSlotConf {
-    // (undocumented)
     bricks: UseSingleBrickConf[];
     // (undocumented)
     type?: "bricks";
 }
 
-// @public (undocumented)
+// @public
 export interface UseBrickSlotsConf {
     // (undocumented)
     [slotName: string]: UseBrickSlotConf;
 }
 
-// @public (undocumented)
+// @public
 export interface UseProviderEventHandler {
-    // (undocumented)
-    args?: any[];
-    // (undocumented)
+    args?: unknown[];
     callback?: BrickEventHandlerCallback;
-    // (undocumented)
     if?: string | boolean;
-    // (undocumented)
     useProvider: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UseProviderResolveConf extends BaseEntityResolveConf {
-    // (undocumented)
     useProvider: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "UserInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface UserInfo {
     // (undocumented)
     instanceId: string;
@@ -1884,23 +1942,15 @@ export interface UserInfo {
     user_tel: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UseSingleBrickConf {
-    // (undocumented)
     brick: string;
-    // (undocumented)
     events?: BrickEventsMap;
-    // (undocumented)
     if?: string | boolean | ResolveConf;
-    // (undocumented)
     lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
-    // (undocumented)
-    properties?: Record<string, any>;
-    // (undocumented)
+    properties?: Record<string, unknown>;
     slots?: UseBrickSlotsConf;
-    // (undocumented)
     transform?: GeneralTransform;
-    // (undocumented)
     transformFrom?: string | string[];
 }
 
