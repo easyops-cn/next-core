@@ -7873,10 +7873,10 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.npm.taobao.org/hex-color-regex/download/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha1-TAb8y0YC/iYCs8k9+C1+fb8aio4=
 
-highlight.js@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-10.0.0.tgz#839b831198f0fa6b8dd534ff2cc701466e404c8b"
-  integrity sha1-g5uDEZjw+muN1TT/LMcBRm5ATIs=
+highlight.js@^10.2.0:
+  version "10.2.0"
+  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-10.2.0.tgz#367151bcf813adebc54822f1cb51d2e1e599619f"
+  integrity sha1-NnFRvPgTrevFSCLxy1HS4eWZYZ8=
 
 history@^4.10.1:
   version "4.10.1"
@@ -14988,26 +14988,24 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typedoc-default-themes@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.npm.taobao.org/typedoc-default-themes/download/typedoc-default-themes-0.11.1.tgz#1c5d62d973cb1ddf83b724e023c7869ebcded3f2"
-  integrity sha1-HF1i2XPLHd+DtyTgI8eGnrze0/I=
-  dependencies:
-    lunr "^2.3.9"
+typedoc-default-themes@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.npm.taobao.org/typedoc-default-themes/download/typedoc-default-themes-0.11.4.tgz?cache=0&sync_timestamp=1600653832744&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc-default-themes%2Fdownload%2Ftypedoc-default-themes-0.11.4.tgz#1bc55b7c8d1132844616ff6f570e1e2cd0eb7343"
+  integrity sha1-G8VbfI0RMoRGFv9vVw4eLNDrc0M=
 
 typedoc-plugin-no-inherit@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npm.taobao.org/typedoc-plugin-no-inherit/download/typedoc-plugin-no-inherit-1.2.0.tgz#7f73809c04cb29c03afe5eea356534968cb717a9"
   integrity sha1-f3OAnATLKcA6/l7qNWU0loy3F6k=
 
-typedoc@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.19.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc%2Fdownload%2Ftypedoc-0.19.1.tgz#1c92608fc4944c6e2223cf3a43b603272b4ac94d"
-  integrity sha1-HJJgj8SUTG4iI886Q7YDJytKyU0=
+typedoc@^0.19.2:
+  version "0.19.2"
+  resolved "https://registry.npm.taobao.org/typedoc/download/typedoc-0.19.2.tgz#842a63a581f4920f76b0346bb80eb2a49afc2c28"
+  integrity sha1-hCpjpYH0kg92sDRruA6ypJr8LCg=
   dependencies:
     fs-extra "^9.0.1"
     handlebars "^4.7.6"
-    highlight.js "^10.0.0"
+    highlight.js "^10.2.0"
     lodash "^4.17.20"
     lunr "^2.3.9"
     marked "^1.1.1"
@@ -15015,7 +15013,7 @@ typedoc@^0.19.1:
     progress "^2.0.3"
     semver "^7.3.2"
     shelljs "^0.8.4"
-    typedoc-default-themes "^0.11.1"
+    typedoc-default-themes "^0.11.4"
 
 typescript-json-schema@^0.43.0:
   version "0.43.0"
