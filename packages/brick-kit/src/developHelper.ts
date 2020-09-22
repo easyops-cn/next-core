@@ -12,6 +12,7 @@ import {
   _dev_only_getTemplatePackages,
 } from "./core/exports";
 
+/** @internal */
 export const developHelper = {
   asyncProcessBrick(brickConf: BrickConf): Promise<void> {
     return asyncProcessBrick(

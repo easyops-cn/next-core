@@ -48,4 +48,5 @@ class LegacyErrorBoundary extends React.Component<
   }
 }
 
+/** @internal */
 export const ErrorBoundary = withTranslation(NS_BRICK_KIT)(LegacyErrorBoundary);

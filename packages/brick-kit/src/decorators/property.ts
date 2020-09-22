@@ -5,6 +5,30 @@ import { warnNativeHtmlElementProperty } from "./utils";
 
 // About the (most likely) related version of decorator proposal:
 // https://github.com/tc39/proposal-decorators/blob/master/previous/METAPROGRAMMING.md
+
+/**
+ * 构件属性装饰器。
+ *
+ * @example
+ *
+ * ```ts
+ * class MyBrickElement extends UpdatingElement {
+ *   @property()
+ *   myStringProp: string;
+ *
+ *   @property({ type: Number })
+ *   myNumberProp: number;
+ *
+ *   @property({ type: Boolean })
+ *   myBooleanProperty: boolean;
+ *
+ *   @property({ attribute: false })
+ *   myComplexProperty: MyComplexInterface;
+ * }
+ * ```
+ *
+ * @param options 构件属性的选项。
+ */
 export function property(options?: PropertyDeclaration): any {
   return function decorateProperty(element: ClassElement): ClassElement {
     if (element.kind !== "field" || typeof element.key !== "string") {

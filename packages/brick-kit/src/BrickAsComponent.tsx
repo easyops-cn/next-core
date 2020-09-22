@@ -7,6 +7,7 @@ import {
   RuntimeBrickElement,
   BrickEventsMap,
   UseBrickSlotsConf,
+  BrickEventHandler,
 } from "@easyops/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
@@ -21,9 +22,27 @@ import { looseCheckIfByTransform } from "./checkIf";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
-  data?: any;
+  data?: unknown;
 }
 
+/**
+ * 可以渲染 `useBrick` 的 React 组件。
+ *
+ * @remarks `useBrick` 可以传递单个或多个构件配置。
+ *
+ * @example
+ *
+ * ```tsx
+ * <BrickAsComponent
+ *   useBrick={{
+ *     brick: "your.any-brick"
+ *   }}
+ *   data={yourData}
+ * />
+ * ```
+ *
+ * @param props
+ */
 export function BrickAsComponent(
   props: BrickAsComponentProps
 ): React.ReactElement {
@@ -48,6 +67,22 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   refCallback?: (element: HTMLElement) => void;
 }
 
+/**
+ * 可以渲染单个 `useBrick` 的 React 组件。
+ *
+ * @example
+ *
+ * ```tsx
+ * <BrickAsComponent
+ *   useBrick={{
+ *     brick: "your.any-brick"
+ *   }}
+ *   data={yourData}
+ * />
+ * ```
+ *
+ * @param props
+ */
 export function SingleBrickAsComponent(
   props: SingleBrickAsComponentProps
 ): React.ReactElement {
@@ -148,7 +183,10 @@ function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
   );
 }
 
-function transformEvents(data: any, events: BrickEventsMap): BrickEventsMap {
+function transformEvents(
+  data: unknown,
+  events: BrickEventsMap
+): BrickEventsMap {
   const options = {
     evaluateOptions: {
       lazy: true,
@@ -158,8 +196,10 @@ function transformEvents(data: any, events: BrickEventsMap): BrickEventsMap {
     Object.entries(events).map(([eventType, eventConf]) => [
       eventType,
       Array.isArray(eventConf)
-        ? eventConf.map((item) => doTransform(data, item, options))
-        : doTransform(data, eventConf, options),
+        ? eventConf.map(
+            (item) => doTransform(data, item, options) as BrickEventHandler
+          )
+        : (doTransform(data, eventConf, options) as BrickEventHandler),
     ])
   );
 }

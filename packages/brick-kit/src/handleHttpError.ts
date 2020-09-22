@@ -10,6 +10,17 @@ import { K, NS_BRICK_KIT } from "./i18n/constants";
 import { getHistory } from "./history";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
 
+/**
+ * 将 http 请求错误转换为可读的字符串。
+ *
+ * @remarks
+ *
+ * 将依次尝试读取返回的 JSON 格式数据的字符串类型的 `error` 和 `msg` 字段，如果没有找到则返回 `error.toString()` 的结果。
+ *
+ * @param error 错误对象。
+ *
+ * @returns 转换为字符串的错误信息。
+ */
 export const httpErrorToString = (
   error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event
 ): string => {
@@ -28,6 +39,11 @@ export const httpErrorToString = (
   return error.toString();
 };
 
+/**
+ * 处理 http 请求错误（使用 AntDesign 模态框弹出错误信息）。
+ *
+ * @param error 错误对象。
+ */
 export const handleHttpError = (
   error: Error | HttpFetchError | HttpResponseError | HttpParseError
 ): ReturnType<ModalFunc> => {
