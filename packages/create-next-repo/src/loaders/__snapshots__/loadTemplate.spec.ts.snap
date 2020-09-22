@@ -436,7 +436,7 @@ declare module \\"*.worker.ts\\" {
   \\"command\\": {
     \\"publish\\": {
       \\"npmClient\\": \\"npm\\",
-      \\"allowBranch\\": \\"master\\",
+      \\"allowBranch\\": [\\"master\\", \\"legacy/**\\"],
       \\"verifyAccess\\": false,
       \\"message\\": \\"chore(release): publish\\",
       \\"registry\\": \\"https://registry.npm.easyops.local\\"

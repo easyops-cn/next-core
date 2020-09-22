@@ -4,7 +4,7 @@ const fs = require("fs-extra");
 const semver = require("semver");
 const { chain, pull, escapeRegExp, isEqual } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
-const { majorBrickNext } = require("./patches");
+const { majorBrickNext, updateLernaAllowBranch } = require("./patches");
 
 module.exports = function patch() {
   const selfJson = readSelfJson();
@@ -56,6 +56,10 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "1.0.8")) {
     updateRenovateBaseBranches();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.0.9")) {
+    updateLernaAllowBranch();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
