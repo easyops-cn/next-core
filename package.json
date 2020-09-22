@@ -41,7 +41,7 @@
     "@babel/types": "^7.11.5",
     "@cypress/browserify-preprocessor": "^3.0.1",
     "@microsoft/api-documenter": "^7.8.56",
-    "@microsoft/api-extractor": "^7.9.19",
+    "@microsoft/api-extractor": "^7.9.22",
     "@size-limit/file": "^4.6.0",
     "@types/enzyme": "^3.10.6",
     "@types/enzyme-adapter-react-16": "^1.0.6",
