@@ -2,6 +2,7 @@ import React from "react";
 import { RecentApps } from "./core/interfaces";
 import { getRuntime } from "./runtime";
 
+/** @internal */
 export function useRecentApps(): RecentApps {
   const [recentApps, setRecentApps] = React.useState<RecentApps>(
     getRuntime().getRecentApps()

@@ -141,17 +141,40 @@ function attributeNameForProperty(
     : undefined;
 }
 
+/**
+ * 构件事件的选项。
+ */
 export interface EventDeclaration extends EventInit {
   /**
-   * A string custom event name to override the default.
+   * 事件类型名。
    */
   type: string;
 }
 
-export interface EventEmitter<T = any> {
+/** 事件发送器 */
+export interface EventEmitter<T = unknown> {
+  /** 发出事件。 */
   emit: (detail?: T) => boolean;
 }
 
+/**
+ * 普通构件的抽象基类。
+ *
+ * @example
+ *
+ * ```ts
+ * class MyBrickElement extends UpdatingElement {
+ *   @property()
+ *   myProp: string;
+ *
+ *   _render() {
+ *     if (this.isConnected) {
+ *       // ...
+ *     }
+ *   }
+ * }
+ * ```
+ */
 export abstract class UpdatingElement extends HTMLElement {
   private _hasRequestedRender = false;
   private static _observedAttributes = new Set<string>();
@@ -159,30 +182,36 @@ export abstract class UpdatingElement extends HTMLElement {
   private static __dev_only_definedMethods = new Set<string>();
   private static __dev_only_definedEvents = new Set<string>();
 
+  /** @internal */
   static get observedAttributes(): string[] {
     this._ensureObservedAttributes();
     return Array.from(this._observedAttributes);
   }
 
+  /** @internal */
   static get _dev_only_definedProperties(): string[] {
     this._ensureDefinedProperties();
     return Array.from(this.__dev_only_definedProperties);
   }
 
+  /** @internal */
   static get _dev_only_definedMethods(): string[] {
     this._ensureDefinedMethods();
     return Array.from(this.__dev_only_definedMethods);
   }
 
+  /** @internal */
   static get _dev_only_definedEvents(): string[] {
     this._ensureDefinedEvents();
     return Array.from(this.__dev_only_definedEvents);
   }
 
+  /** @internal */
   get $$typeof(): string {
     return "brick";
   }
 
+  /** @internal */
   attributeChangedCallback(
     name: string,
     old: string | null,
@@ -258,6 +287,7 @@ export abstract class UpdatingElement extends HTMLElement {
     }
   }
 
+  /** @internal */
   static createProperty(name: string, options?: PropertyDeclaration): void {
     this._ensureObservedAttributes();
     this._ensureDefinedProperties();
@@ -319,11 +349,13 @@ export abstract class UpdatingElement extends HTMLElement {
     });
   }
 
+  /** @internal */
   static createMethod(name: string): void {
     this._ensureDefinedMethods();
     this.__dev_only_definedMethods.add(name);
   }
 
+  /** @internal */
   static createEventEmitter(name: string, options: EventDeclaration): void {
     this._ensureDefinedEvents();
 
@@ -346,5 +378,8 @@ export abstract class UpdatingElement extends HTMLElement {
     });
   }
 
+  /**
+   * 当构件的属性改变时，将自动调用 `this._render()` 方法。
+   */
   protected abstract _render(): void;
 }

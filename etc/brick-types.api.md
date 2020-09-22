@@ -763,9 +763,7 @@ export interface CustomTemplate {
     proxy?: CustomTemplateProxy;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "CustomTemplateConstructor" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
+// @public
 export type CustomTemplateConstructor = Omit<CustomTemplate, "name">;
 
 // @public
@@ -1954,7 +1952,5 @@ export interface UseSingleBrickConf {
     transformFrom?: string | string[];
 }
 
-
-// (No @packageDocumentation comment for this package)
 
 ```

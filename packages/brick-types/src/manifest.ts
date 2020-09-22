@@ -684,7 +684,12 @@ export type DefineResolveConf = (
  */
 export type RefResolveConf = Pick<
   BaseEntityResolveConf,
-  "name" | "transformFrom" | "transformMapArray" | "transform" | "onReject" | "if"
+  | "name"
+  | "transformFrom"
+  | "transformMapArray"
+  | "transform"
+  | "onReject"
+  | "if"
 > & {
   /** 设置要引用的预定义的异步数据处理 ID */
   ref: string;
@@ -1159,7 +1164,9 @@ export interface CustomTemplate {
   proxy?: CustomTemplateProxy;
 }
 
-/** @internal */
+/**
+ * 自定义模板构造声明。
+ */
 export type CustomTemplateConstructor = Omit<CustomTemplate, "name">;
 
 /** 自定义模板渲染的构件配置。 */
