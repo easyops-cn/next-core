@@ -11,9 +11,10 @@ interface TransformOptions {
   transformationId?: number;
 }
 
+/** @internal */
 export function transformElementProperties(
   element: HTMLElement,
-  data: any,
+  data: unknown,
   to: GeneralTransform,
   from?: string | string[],
   mapArray?: boolean | "auto"
@@ -22,13 +23,14 @@ export function transformElementProperties(
   setRealProperties(element, result, true);
 }
 
+/** @internal */
 export function transformProperties(
-  props: Record<string, any>,
-  data: any,
+  props: Record<string, unknown>,
+  data: unknown,
   to: GeneralTransform,
   from?: string | string[],
   mapArray?: boolean | "auto"
-): Record<string, any> {
+): Record<string, unknown> {
   const result = preprocessTransformProperties(data, to, from, mapArray);
   for (const [propName, propValue] of Object.entries(result)) {
     set(props, propName, propValue);
@@ -36,15 +38,16 @@ export function transformProperties(
   return props;
 }
 
+/** @internal */
 export function doTransform(
-  data: any,
-  to: any,
+  data: unknown,
+  to: unknown,
   options?: {
     evaluateOptions?: EvaluateOptions;
   }
-): any {
+): unknown {
   if (typeof to === "string") {
-    let result: any;
+    let result: unknown;
     if (isEvaluable(to)) {
       result = evaluate(to, { data }, options?.evaluateOptions);
     } else {
@@ -70,9 +73,10 @@ export function doTransform(
     : to;
 }
 
+/** @internal */
 export function reTransformForDevtools(
   transformationId: number,
-  data: any,
+  data: unknown,
   to: GeneralTransform,
   from?: string | string[],
   mapArray?: boolean | "auto"
@@ -95,14 +99,15 @@ export function reTransformForDevtools(
   }
 }
 
+/** @internal */
 export function preprocessTransformProperties(
-  data: any,
+  data: unknown,
   to: GeneralTransform,
   from?: string | string[],
   mapArray?: boolean | "auto",
   options?: TransformOptions
-): Record<string, any> {
-  const props: Record<string, any> = {};
+): Record<string, unknown> {
+  const props: Record<string, unknown> = {};
   const processedData = from ? get(data, from) : data;
 
   if (Array.isArray(to)) {
@@ -136,8 +141,8 @@ export function preprocessTransformProperties(
 }
 
 function pipeableTransform(
-  props: Record<string, any>,
-  data: any,
+  props: Record<string, unknown>,
+  data: unknown,
   to: string | TransformMap,
   from?: string | string[],
   mapArray?: boolean | "auto"
@@ -165,17 +170,18 @@ function pipeableTransform(
   for (const [transformedPropName, transformTo] of Object.entries(to)) {
     // If `fromData` is an array, mapping it's items.
     props[transformedPropName] = isArray
-      ? (fromData as any[]).map((item) => doTransform(item, transformTo))
+      ? (fromData as unknown[]).map((item) => doTransform(item, transformTo))
       : doTransform(fromData, transformTo);
   }
 }
 
+/** @internal */
 export function transformIntermediateData(
-  data: any,
+  data: unknown,
   to: GeneralTransform,
   from?: string | string[],
   mapArray?: boolean | "auto"
-): any {
+): unknown {
   const intermediateData = from ? get(data, from) : data;
   if (!to) {
     return intermediateData;

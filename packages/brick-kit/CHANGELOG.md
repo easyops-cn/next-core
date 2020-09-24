@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.1...@easyops/brick-kit@2.2.2) (2020-09-17)
+
+### Bug Fixes
+
+- **routes:** do not load api orchestration instances when not logged in ([76789fc](https://git.easyops.local/anyclouds/next-core/commits/76789fc))
+
+## [2.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.0...@easyops/brick-kit@2.2.1) (2020-09-17)
+
+### Bug Fixes
+
+- fix using evaluate placeholders in test ([45c6f9b](https://git.easyops.local/anyclouds/next-core/commits/45c6f9b))
+
+# [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.1.0...@easyops/brick-kit@2.2.0) (2020-09-17)
+
+### Features
+
+- **menu:** support #showKey in menu titleDataSource ([8cbaac3](https://git.easyops.local/anyclouds/next-core/commits/8cbaac3))
+
+# [2.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.1...@easyops/brick-kit@2.1.0) (2020-09-16)
+
+### Features
+
+- **brick-kit:** support if for useResolves ([e8c81a9](https://git.easyops.local/anyclouds/next-core/commits/e8c81a9))
+
+## [2.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.0...@easyops/brick-kit@2.0.1) (2020-09-15)
+
+### Bug Fixes
+
+- catch empty storyboard ([cc0927e](https://git.easyops.local/anyclouds/next-core/commits/cc0927e))
+- fix provider refreshing may be not reset ([228c954](https://git.easyops.local/anyclouds/next-core/commits/228c954))
+
 # [2.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.0.0-next.9...@easyops/brick-kit@2.0.0) (2020-09-13)
 
 **Note:** Version bump only for package @easyops/brick-kit

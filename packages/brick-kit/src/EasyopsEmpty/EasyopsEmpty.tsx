@@ -9,9 +9,13 @@ interface EasyopsEmptyProps {
   imageStyle?: React.CSSProperties;
 }
 
-export const EasyopsEmpty = (props: EasyopsEmptyProps): React.ReactElement => {
+/**
+ * 用于展示空数据的 React 组件。
+ */
+export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
   const background = props.background ?? "white";
-  const emptyImage = background === "white" ? EmptyGreyImage : EmptyLightGreyImage;
+  const emptyImage =
+    background === "white" ? EmptyGreyImage : EmptyLightGreyImage;
   const image = React.createElement(emptyImage);
   return (
     <Empty
@@ -20,8 +24,11 @@ export const EasyopsEmpty = (props: EasyopsEmptyProps): React.ReactElement => {
       description={props.description}
     />
   );
-};
+}
 
-export const renderEasyopsEmpty = (): React.ReactNode => {
+/**
+ * 调用后获得一个默认的展示空数据的 React 组件。
+ */
+export function renderEasyopsEmpty(): React.ReactNode {
   return <EasyopsEmpty />;
-};
+}

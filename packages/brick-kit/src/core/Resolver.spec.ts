@@ -172,6 +172,37 @@ describe("Resolver", () => {
     expect(brickA.properties.testProp).toBe("resolved");
   });
 
+  it("should check if", async () => {
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            if: false,
+            name: "testProp",
+            useProvider: "any-provider",
+          },
+          {
+            if: true,
+            name: "existedProp",
+            useProvider: "any-provider",
+          },
+        ],
+      },
+    };
+    await resolver.resolve(
+      {
+        lifeCycle: brickA.lifeCycle,
+      },
+      brickA,
+      null
+    );
+    expect(brickA.properties.testProp).toBe(undefined);
+    expect(brickA.properties.existedProp).toBe("resolved");
+  });
+
   it("should work for customApi", async () => {
     const brickA: RuntimeBrick = {
       type: "brick-A",

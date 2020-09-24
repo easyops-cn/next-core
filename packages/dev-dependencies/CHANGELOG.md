@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.7...@easyops/dev-dependencies@1.0.8) (2020-09-18)
+
+### Bug Fixes
+
+- **renovate:** refine renovate patches ([5fed7fe](https://git.easyops.local/anyclouds/next-core/commits/5fed7fe))
+
+## [1.0.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.6...@easyops/dev-dependencies@1.0.7) (2020-09-17)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.5...@easyops/dev-dependencies@1.0.6) (2020-09-17)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.4...@easyops/dev-dependencies@1.0.5) (2020-09-17)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.3...@easyops/dev-dependencies@1.0.4) (2020-09-17)
+
+### Bug Fixes
+
+- **renovate:** ignore all updates except `@easyops/*` in legacy branch ([df24565](https://git.easyops.local/anyclouds/next-core/commits/df24565))
+
+## [1.0.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.2...@easyops/dev-dependencies@1.0.3) (2020-09-16)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.1...@easyops/dev-dependencies@1.0.2) (2020-09-15)
+
+### Bug Fixes
+
+- add legacy/brick-next_1.x into base branches for next-core packages ([efd9723](https://git.easyops.local/anyclouds/next-core/commits/efd9723))
+- make renew work in both master and legacy branches ([ad2c6e3](https://git.easyops.local/anyclouds/next-core/commits/ad2c6e3))
+
+## [1.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0...@easyops/dev-dependencies@1.0.1) (2020-09-15)
+
+### Bug Fixes
+
+- **renovate:** revert renovate base branches ([a8d9aee](https://git.easyops.local/anyclouds/next-core/commits/a8d9aee))
+
 # [1.0.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.0-next.14...@easyops/dev-dependencies@1.0.0) (2020-09-13)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

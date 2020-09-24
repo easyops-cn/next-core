@@ -1,3 +1,9 @@
+/**
+ * The core kit of Brick Next.
+ *
+ * @packageDocumentation
+ */
+
 export * from "./runtime";
 export * from "./history";
 export * from "./auth";

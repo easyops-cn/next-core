@@ -185,7 +185,13 @@ export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
   const instanceData = await InstanceApi.getDetail(objectId, instanceId, {
     fields: attr,
   });
-  const title = String(instanceData[attr]);
+  let title: string;
+  if (attributeId === "#showKey" && Array.isArray(instanceData[attr])) {
+    const [primary, ...rest] = instanceData[attr];
+    title = rest.length > 0 ? `${primary}(${rest.join(",")})` : String(primary);
+  } else {
+    title = String(instanceData[attr]);
+  }
   menuTitleCache.set(cacheKey, title);
   return title;
 }

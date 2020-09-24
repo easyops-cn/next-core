@@ -24,25 +24,11 @@
     }
   }
 
-  &-options {
-    &-size-changer.@{ant-prefix}-select {
-      .@{ant-prefix}-select-selection{
-        background-color: transparent;
-      }
-    }
-  }
-
-  .ant-select-selection-selected-value {
-    padding-right: 4px;
-  }
-
   /**
   * 修改nz-pagination的默认顺序
   * 相关连接 https://lanhuapp.com/web/#/item/project/board/detail?pid=6a513040-2585-4e92-a5d5-9fa80ba2642b&project_id=6a513040-2585-4e92-a5d5-9fa80ba2642b&image_id=366ccd08-a802-42e7-af27-0936bc4e5bd3
   */
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
 
   >* {
     order: 1;
@@ -56,16 +42,18 @@
   &-options {
     order: 0;
 
-    .ant-select-selection {
-      border: none;
+    .@{select-prefix-cls}-selector {
+      background-color: transparent!important;
+      border-color: transparent!important;
+      box-shadow: none!important;
     }
-  }
 
-  /**
-  * 修改 pagination 中的 Select 的样式
-  * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=79d453e2-f1b6-4cc6-8b5d-d1afc80e9635
-  */
-  ul.@{select-prefix-cls}-dropdown-menu {
-    padding: 2px;
+    /**
+    * 修改 pagination 中的 Select 的样式
+    * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=79d453e2-f1b6-4cc6-8b5d-d1afc80e9635
+    */
+    .@{select-prefix-cls}-dropdown {
+      padding: 2px;
+    }
   }
 }

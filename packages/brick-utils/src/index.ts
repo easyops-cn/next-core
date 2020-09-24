@@ -1,5 +1,4 @@
 export * from "./asyncProcessStoryboard";
-export * from "./bindListeners";
 export * from "./computeRealRoutePath";
 export * from "./createProviderClass";
 export * from "./getDllAndDepsOfStoryboard";
@@ -12,7 +11,5 @@ export * from "./restoreDynamicTemplates";
 export * from "./scanBricksInStoryboard";
 export * from "./scanProcessorsInStoryboard";
 export * from "./scanAliasInStoryboard";
-export * from "./setProperties";
-export * from "./transformProperties";
 export * from "./placeholder";
 export * from "./cook";

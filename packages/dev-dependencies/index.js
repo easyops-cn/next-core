@@ -4,6 +4,7 @@ const path = require("path");
 const chalk = require("chalk");
 const execa = require("execa");
 const { argv } = require("yargs");
+const semver = require("semver");
 const extract = require("./extract");
 const { readJson } = require("./utils");
 
@@ -18,26 +19,32 @@ exports.extractAndInstall = async function extractAndInstall() {
 };
 
 function updateSelf() {
+  const selfPackageName = "@easyops/dev-dependencies";
   let tag = "";
   if (argv.tag) {
     tag = `@${argv.tag}`;
   } else {
-    // Make the tag to be `next` if it's already in `next`.
+    // Upgrade to the max satisfying version.
     const rootPackageJson = readJson(path.resolve("package.json"));
-    if (
-      rootPackageJson.easyops &&
-      rootPackageJson.easyops["dev-dependencies"] &&
-      rootPackageJson.easyops["dev-dependencies"].includes("next")
-    ) {
-      tag = "@next";
+    const currentRange = rootPackageJson.devDependencies[selfPackageName];
+    if (currentRange) {
+      // https://classic.yarnpkg.com/en/docs/cli/info
+      const versions = JSON.parse(
+        execa.sync("yarn", ["info", selfPackageName, "versions", "--json"])
+          .stdout
+      ).data;
+      tag = `@^${semver.maxSatisfying(
+        versions,
+        currentRange.startsWith("^0.") ? "< 1" : currentRange
+      )}`;
     }
   }
   console.log(
     chalk.inverse(
-      `[dev-dependencies-renew] $ yarn add -D -W @easyops/dev-dependencies${tag}`
+      `[dev-dependencies-renew] $ yarn add -D -W ${selfPackageName}${tag}`
     )
   );
-  return execa("yarn", ["add", "-D", "-W", `@easyops/dev-dependencies${tag}`], {
+  return execa("yarn", ["add", "-D", "-W", `${selfPackageName}${tag}`], {
     stdio: "inherit",
     env: {
       // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1

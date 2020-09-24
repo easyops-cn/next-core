@@ -26,6 +26,7 @@ import {
 } from "../transformProperties";
 import { recursiveMarkAsInjected } from "../injected";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./CustomApis";
+import { looseCheckIf } from "../checkIf";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -64,10 +65,14 @@ export class Resolver {
     brick: RuntimeBrick,
     context?: PluginRuntimeContext
   ): Promise<void> {
-    const useResolves = brickConf.lifeCycle?.useResolves ?? [];
+    const useResolves = (brickConf.lifeCycle?.useResolves ?? []).filter(
+      (r: ResolveConf) => {
+        return looseCheckIf(r, context);
+      }
+    );
 
     await Promise.all(
-      useResolves.map((resolveConf) =>
+      useResolves.map((resolveConf: ResolveConf) =>
         this.resolveOne("brick", resolveConf, brickConf, brick, context)
       )
     );

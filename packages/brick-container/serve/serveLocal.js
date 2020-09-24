@@ -42,6 +42,7 @@ module.exports = (env, app) => {
         }
       });
     });
+
     localMicroApps.forEach((appId) => {
       // 直接返回小产品相关文件。
       app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {

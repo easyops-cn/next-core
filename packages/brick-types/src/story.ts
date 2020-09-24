@@ -1,24 +1,30 @@
 import { BrickConf } from "./manifest";
 import { MenuIcon } from "./menu";
 
+/** @internal */
 export interface I18nString {
   en: string;
   zh: string;
 }
 
+/** @internal */
 export interface CategoryGroup {
   group: string;
   title: I18nString;
   items: Chapter[];
 }
 
+/** @internal */
 export interface Chapter {
   category: string;
   title: I18nString;
   stories: Story[];
 }
+
+/** @internal */
 export type MarkdownString = string;
 
+/** @internal */
 export interface StoryConf extends BrickConf {
   description?: {
     title: string;
@@ -26,6 +32,7 @@ export interface StoryConf extends BrickConf {
   };
 }
 
+/** @internal */
 export interface Story {
   category: string;
   storyId: string;
@@ -42,6 +49,7 @@ export interface Story {
   author?: string;
 }
 
+/** @internal */
 export interface Action {
   text: string;
   method: string;
@@ -50,6 +58,7 @@ export interface Action {
   prompt?: boolean;
 }
 
+/** @internal */
 export interface StoryDocProperty {
   name: string;
   type: string;
@@ -59,6 +68,7 @@ export interface StoryDocProperty {
   deprecated?: boolean;
 }
 
+/** @internal */
 export interface StoryDocEvent {
   type: string;
   detail: string;
@@ -66,6 +76,7 @@ export interface StoryDocEvent {
   deprecated?: boolean;
 }
 
+/** @internal */
 export interface StoryDocMethod {
   name: string;
   anchor: string;
@@ -73,22 +84,26 @@ export interface StoryDocMethod {
   deprecated?: boolean;
 }
 
+/** @internal */
 export interface StoryDocSlot {
   name: string;
   description: string;
 }
 
+/** @internal */
 export interface StoryDocHistory {
   version: number;
   change: string;
 }
 
+/** @internal */
 export interface StoryDocEnum {
   name: string;
   value: string;
   description: string;
 }
 
+/** @internal */
 export interface StoryDocTypeAndInterface {
   name: string;
   type: string;
@@ -96,6 +111,7 @@ export interface StoryDocTypeAndInterface {
   description: string;
 }
 
+/** @internal */
 export interface StoryDocType {
   name: string;
   type: string;
@@ -104,6 +120,7 @@ export interface StoryDocType {
   description: string;
 }
 
+/** @internal */
 export interface StoryDocInterface {
   name: string;
   typeParameter: string;
@@ -111,6 +128,7 @@ export interface StoryDocInterface {
   children: StoryDocTypeAndInterface[] | StoryDocEnum[];
 }
 
+/** @internal */
 export interface StoryDoc {
   id: string;
   name: string;
@@ -126,6 +144,7 @@ export interface StoryDoc {
   properties: StoryDocProperty[];
 }
 
+/** @internal */
 export interface StoryDocTemplate {
   module: string;
   children: StoryDoc[];

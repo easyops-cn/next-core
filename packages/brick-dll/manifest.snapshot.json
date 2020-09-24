@@ -3452,14 +3452,10 @@
         "providedExports": [
           "asyncProcessBrick",
           "asyncProcessStoryboard",
-          "bindListeners",
-          "computeRealProperties",
           "computeRealRoutePath",
-          "computeRealValue",
           "convertValueByPrecision",
           "cook",
           "createProviderClass",
-          "doTransform",
           "formatValue",
           "getDepsOfTemplates",
           "getDllAndDepsByResource",
@@ -3468,13 +3464,8 @@
           "getTemplateDepsOfStoryboard",
           "hasOwnProperty",
           "inject",
-          "isBuiltinHandler",
-          "isCustomHandler",
           "isEvaluable",
-          "isExecuteCustomHandler",
           "isObject",
-          "isSetPropsCustomHandler",
-          "listenerFactory",
           "loadScript",
           "matchPath",
           "precook",
@@ -3487,13 +3478,8 @@
           "scanRouteAliasInStoryboard",
           "scanTemplatesInBrick",
           "scanTemplatesInStoryboard",
-          "setProperties",
-          "setRealProperties",
           "toPath",
-          "transform",
-          "transformIntermediateData",
-          "transformProperties",
-          "unbindListeners"
+          "transform"
         ]
       }
     },

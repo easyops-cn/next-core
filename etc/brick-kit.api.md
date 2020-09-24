@@ -30,7 +30,7 @@ import { MenuBarBrick } from '@easyops/brick-types';
 import { MessageConf } from '@easyops/brick-types';
 import { MicroApp } from '@easyops/brick-types';
 import { MicroAppModels } from '@sdk/micro-app-sdk';
-import { ModalFunc } from 'antd/lib/modal/Modal';
+import { ModalFunc } from 'antd/lib/modal/confirm';
 import { MountPoints } from '@easyops/brick-types';
 import { PluginHistory } from '@easyops/brick-types';
 import { PluginHistoryState } from '@easyops/brick-types';
@@ -51,34 +51,55 @@ import { UseSingleBrickConf } from '@easyops/brick-types';
 import { WithTranslation } from 'react-i18next';
 import { WithTranslationProps } from 'react-i18next';
 
-// @public (undocumented)
+// @public
+export interface AbstractRuntime {
+    getCurrentApp(): MicroApp;
+    getFeatureFlags(): FeatureFlags;
+    getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
+    // Warning: (ae-forgotten-export) The symbol "CustomProcessorFunc" needs to be exported by the entry point index.d.ts
+    registerCustomProcessor(processorFullName: string, processorFunc: CustomProcessorFunc): void;
+    registerCustomTemplate(tplName: string, tplConstructor: CustomTemplateConstructor, appId?: string): void;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "authenticate" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export function authenticate(newAuth: AuthInfo): void;
 
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public
 export function BrickAsComponent(props: BrickAsComponentProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
-export const BrickWrapper: (props: BrickWrapperProps) => React_2.ReactElement;
+// @public
+export function BrickWrapper(props: BrickWrapperProps): React_2.ReactElement;
 
-// @public @deprecated (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "checkIf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal @deprecated (undocumented)
 export function checkIf(rawIf: string | boolean, context: PluginRuntimeContext): boolean;
 
-// @public @deprecated (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "checkIfByTransform" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal @deprecated (undocumented)
 export function checkIfByTransform(rawIf: string | boolean, data: unknown): boolean;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "createHistory" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export function createHistory(): PluginHistory;
 
 // Warning: (ae-forgotten-export) The symbol "Runtime" needs to be exported by the entry point index.d.ts
+// Warning: (ae-internal-missing-underscore) The name "createRuntime" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @public (undocumented)
+// @internal (undocumented)
 export function createRuntime(): Runtime;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "CustomApiOrchestration" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface CustomApiOrchestration {
     // (undocumented)
     config?: Record<string, any>;
@@ -102,7 +123,9 @@ export interface CustomApiOrchestration {
     type?: "emal" | "swagger";
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "developHelper" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const developHelper: {
     asyncProcessBrick(brickConf: BrickConf): Promise<void>;
     LocationContext: typeof LocationContext;
@@ -114,93 +137,107 @@ export const developHelper: {
     loadDynamicBricksInBrickConf: typeof _dev_only_loadDynamicBricksInBrickConf;
 };
 
-// @public (undocumented)
-export function doTransform(data: any, to: any, options?: {
+// Warning: (ae-internal-missing-underscore) The name "doTransform" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function doTransform(data: unknown, to: unknown, options?: {
     evaluateOptions?: EvaluateOptions;
-}): any;
+}): unknown;
 
 // Warning: (ae-forgotten-export) The symbol "EasyopsEmptyProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
-export const EasyopsEmpty: (props: EasyopsEmptyProps) => React_2.ReactElement;
+// @public
+export function EasyopsEmpty(props: EasyopsEmptyProps): React_2.ReactElement;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ErrorBoundary" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const ErrorBoundary: React_2.ComponentType<Pick<WithTranslation, never> & WithTranslationProps>;
 
-// @public (undocumented)
+// @public
 function event_2(options: EventDeclaration): any;
 
 export { event_2 as event }
 
-// @public (undocumented)
+// @public
 export interface EventDeclaration extends EventInit {
     type: string;
 }
 
-// @public (undocumented)
-export interface EventEmitter<T = any> {
-    // (undocumented)
+// @public
+export interface EventEmitter<T = unknown> {
     emit: (detail?: T) => boolean;
 }
 
-// @public (undocumented)
+// @public
 export function getAuth(): AuthInfo;
 
-// @public (undocumented)
+// @public
 export function getHistory(): PluginHistory;
 
-// @public (undocumented)
+// @public
+export interface GetMicroAppsOptions {
+    excludeInstalling?: boolean;
+    includeInternal?: boolean;
+}
+
+// @public
 export function getRuntime(): Runtime;
 
-// @public (undocumented)
-export const handleHttpError: (error: Error | HttpFetchError | HttpResponseError | HttpParseError) => ReturnType<ModalFunc>;
+// @public
+export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError): ReturnType<ModalFunc>;
 
-// @public (undocumented)
-export const httpErrorToString: (error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event) => string;
+// @public
+export function httpErrorToString(error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event): string;
 
-// @public (undocumented)
+// @public
 export interface IfContainer {
-    // (undocumented)
     if?: unknown;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "initI18n" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const initI18n: () => void;
 
-// @public (undocumented)
+// @public
 export function isLoggedIn(): boolean;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "logout" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export function logout(): void;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "looseCheckIf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export function looseCheckIf(ifContainer: IfContainer, context: PluginRuntimeContext): boolean;
 
-// @public (undocumented)
+// @public
 export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown): boolean;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "looseCheckIfOfComputed" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export function looseCheckIfOfComputed(ifContainer: IfContainer): boolean;
 
-// @public (undocumented)
+// @public
 export function method(): any;
 
-// @public (undocumented)
+// @public
 export abstract class ModalElement extends UpdatingElement {
-    // (undocumented)
     closeModal: () => void;
-    // (undocumented)
     isVisible: boolean;
-    // (undocumented)
     openModal: (e?: CustomEvent) => void;
 }
 
 // Warning: (ae-forgotten-export) The symbol "TransformOptions" needs to be exported by the entry point index.d.ts
+// Warning: (ae-internal-missing-underscore) The name "preprocessTransformProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @public (undocumented)
-export function preprocessTransformProperties(data: any, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto", options?: TransformOptions): Record<string, any>;
+// @internal (undocumented)
+export function preprocessTransformProperties(data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto", options?: TransformOptions): Record<string, unknown>;
 
-// @public (undocumented)
+// @public
 export function property(options?: PropertyDeclaration): any;
 
 // @public
@@ -217,7 +254,9 @@ export interface PropertyDeclaration<Type = unknown> {
     readonly type?: TypeHint;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RecentApps" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface RecentApps {
     // (undocumented)
     currentApp?: MicroApp;
@@ -227,72 +266,91 @@ export interface RecentApps {
     previousWorkspace?: VisitedWorkspace;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RedirectConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface RedirectConf {
     // (undocumented)
     redirect?: string;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RelatedApp" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type RelatedApp = MicroAppModels.ModelObjectMicroApp;
 
-// @public (undocumented)
-export const renderEasyopsEmpty: () => React_2.ReactNode;
+// @public
+export function renderEasyopsEmpty(): React_2.ReactNode;
 
-// @public (undocumented)
-export function reTransformForDevtools(transformationId: number, data: any, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): void;
+// Warning: (ae-internal-missing-underscore) The name "reTransformForDevtools" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function reTransformForDevtools(transformationId: number, data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): void;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "RouterState" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export type RouterState = "initial" | "ready-to-mount" | "mounted";
 
 // Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public
 export function SingleBrickAsComponent(props: SingleBrickAsComponentProps): React_2.ReactElement;
 
-// @public (undocumented)
-export function transformElementProperties(element: HTMLElement, data: any, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): void;
+// Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function transformElementProperties(element: HTMLElement, data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): void;
 
-// @public (undocumented)
-export function transformIntermediateData(data: any, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): any;
+// Warning: (ae-internal-missing-underscore) The name "transformIntermediateData" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function transformIntermediateData(data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): unknown;
 
-// @public (undocumented)
-export function transformProperties(props: Record<string, any>, data: any, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): Record<string, any>;
+// Warning: (ae-internal-missing-underscore) The name "transformProperties" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function transformProperties(props: Record<string, unknown>, data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): Record<string, unknown>;
 
-// @public (undocumented)
+// @public
 export abstract class UpdatingElement extends HTMLElement {
-    // (undocumented)
+    // @internal (undocumented)
     get $$typeof(): string;
-    // (undocumented)
+    // @internal (undocumented)
     attributeChangedCallback(name: string, old: string | null, value: string | null): void;
-    // (undocumented)
+    // @internal (undocumented)
     static createEventEmitter(name: string, options: EventDeclaration): void;
-    // (undocumented)
+    // @internal (undocumented)
     static createMethod(name: string): void;
-    // (undocumented)
+    // @internal (undocumented)
     static createProperty(name: string, options?: PropertyDeclaration): void;
-    // (undocumented)
+    // @internal (undocumented)
     static get _dev_only_definedEvents(): string[];
-    // (undocumented)
+    // @internal (undocumented)
     static get _dev_only_definedMethods(): string[];
-    // (undocumented)
+    // @internal (undocumented)
     static get _dev_only_definedProperties(): string[];
-    // (undocumented)
+    // @internal (undocumented)
     static get observedAttributes(): string[];
-    // (undocumented)
     protected abstract _render(): void;
 }
 
-// @public (undocumented)
+// @public
 export function useCurrentApp(): MicroApp;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "useLocation" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export function useLocation(): Location_2<PluginHistoryState>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "useRecentApps" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export function useRecentApps(): RecentApps;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "VisitedWorkspace" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export interface VisitedWorkspace {
     // (undocumented)
     appId: string;
@@ -307,15 +365,13 @@ export interface VisitedWorkspace {
 
 // Warnings were encountered during analysis:
 //
-// src/developHelper.ts:17:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:18:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:19:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:20:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:21:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:22:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/transformProperties.ts:43:5 - (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
-
-// (No @packageDocumentation comment for this package)
+// src/developHelper.ts:18:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:19:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:20:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:21:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:22:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/transformProperties.ts:46:5 - (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
 
 ```

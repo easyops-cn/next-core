@@ -11,7 +11,10 @@ interface BrickWrapperProps {
   children?: React.ReactElement;
 }
 
-export const BrickWrapper = (props: BrickWrapperProps): React.ReactElement => {
+/**
+ * 构件的 React 组件包装器，包含 ErrorBoundary 和 ConfigProvider。
+ */
+export function BrickWrapper(props: BrickWrapperProps): React.ReactElement {
   const locale =
     i18n.language && i18n.language.split("-")[0] === "en" ? enUS : zhCN;
   return (
@@ -25,4 +28,4 @@ export const BrickWrapper = (props: BrickWrapperProps): React.ReactElement => {
       </ConfigProvider>
     </ErrorBoundary>
   );
-};
+}

@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-kit",
-  "version": "2.0.0",
+  "version": "2.2.2",
   "description": "Kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-kit",
   "license": "UNLICENSED",
@@ -19,18 +19,18 @@
     "prestart": "npm run clean",
     "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
     "start:rollup": "rollup --watch --config rollup.config.js",
-    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "start:types": "tsc --watch --project tsconfig.types.json",
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup --config rollup.config.js",
-    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "build:types": "tsc --project tsconfig.types.json",
     "docs:run": "api-extractor run",
     "docs:run:dev": "api-extractor run --local --verbose",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "dependencies": {
-    "@easyops/brick-types": "^2.0.0",
+    "@easyops/brick-types": "^2.1.0",
     "@sdk/auth-sdk": "^0.8.3",
     "@sdk/cmdb-sdk": "^0.15.8",
     "@sdk/micro-app-sdk": "^0.8.2",
@@ -40,7 +40,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@easyops/brick-http": "^2.0.0",
-    "@easyops/brick-utils": "^2.0.0",
+    "@easyops/brick-utils": "^2.0.2",
     "antd": "^4.6.5",
     "history": "^4.10.1",
     "i18next": "^19.7.0",

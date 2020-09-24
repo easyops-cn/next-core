@@ -4,7 +4,7 @@ const fs = require("fs-extra");
 const semver = require("semver");
 const { chain, pull, escapeRegExp, isEqual } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
-const { majorBrickNext } = require("./patches");
+const { majorBrickNext, updateLernaAllowBranch } = require("./patches");
 
 module.exports = function patch() {
   const selfJson = readSelfJson();
@@ -54,8 +54,12 @@ module.exports = function patch() {
     majorBrickNext.updateVersionOfBrickNext();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.1")) {
+  if (semver.lt(currentRenewVersion, "1.0.8")) {
     updateRenovateBaseBranches();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.0.9")) {
+    updateLernaAllowBranch();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
@@ -338,25 +342,34 @@ function updatePackageJsonScriptsTestCommand(packageJson) {
 function updateRenovateBaseBranches() {
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = readJson(renovateJsonPath);
-  let changed = false;
-  if (isEqual(renovateJson.baseBranches, ["master", "antd_v4_migration"])) {
-    delete renovateJson.baseBranches;
-    changed = true;
-  }
+  const legacyBranchName = "legacy/brick-next_1.x";
+
+  renovateJson.semanticCommits = "enabled";
+  renovateJson.baseBranches = ["master", legacyBranchName];
 
   const nextCoreGroup = renovateJson.packageRules.find(
     (item) => item.groupName === "next-core packages"
   );
 
-  if (
-    nextCoreGroup &&
-    isEqual(nextCoreGroup.baseBranches, ["master", "antd_v4_migration"])
-  ) {
+  if (nextCoreGroup) {
     delete nextCoreGroup.baseBranches;
-    changed = true;
+    // Ignore major update for each branch.
+    delete nextCoreGroup.updateTypes;
+    nextCoreGroup.major = { enabled: false };
   }
 
-  if (changed) {
-    writeJsonFile(renovateJsonPath, renovateJson);
+  const legacyGroup = renovateJson.packageRules.find((item) =>
+    isEqual(item.baseBranchList, [legacyBranchName])
+  );
+
+  if (!legacyGroup) {
+    // Ignore all updates except `@easyops/*` in legacy branch.
+    renovateJson.packageRules.push({
+      baseBranchList: [legacyBranchName],
+      excludePackagePatterns: ["^@easyops/"],
+      enabled: false,
+    });
   }
+
+  writeJsonFile(renovateJsonPath, renovateJson);
 }

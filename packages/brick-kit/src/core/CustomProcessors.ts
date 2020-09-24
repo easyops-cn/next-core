@@ -1,4 +1,4 @@
-type CustomProcessorFunc = (...args: any[]) => any;
+export type CustomProcessorFunc = (...args: unknown[]) => unknown;
 
 export const customProcessorRegistry = new Map<
   string,
