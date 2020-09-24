@@ -78,7 +78,7 @@ export interface AbstractRuntime {
   /**
    * 获取微应用列表。
    *
-   * @param options 查询选项。
+   * @param options - 查询选项。
    */
   getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
 
@@ -90,9 +90,9 @@ export interface AbstractRuntime {
   /**
    * 注册一个自定义模板。
    *
-   * @param tplName 模板名。
-   * @param tplConstructor 模板构造器。
-   * @param appId 模板所属应用的 ID。
+   * @param tplName - 模板名。
+   * @param tplConstructor - 模板构造器。
+   * @param appId - 模板所属应用的 ID。
    */
   registerCustomTemplate(
     tplName: string,
@@ -103,8 +103,8 @@ export interface AbstractRuntime {
   /**
    * 注册一个自定义加工函数。
    *
-   * @param processorFullName 自定义加工函数名。
-   * @param processorFunc 自定义加工函数。
+   * @param processorFullName - 自定义加工函数名。
+   * @param processorFunc - 自定义加工函数。
    */
   registerCustomProcessor(
     processorFullName: string,

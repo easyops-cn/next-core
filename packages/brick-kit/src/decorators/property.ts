@@ -27,7 +27,7 @@ import { warnNativeHtmlElementProperty } from "./utils";
  * }
  * ```
  *
- * @param options 构件属性的选项。
+ * @param options - 构件属性的选项。
  */
 export function property(options?: PropertyDeclaration): any {
   return function decorateProperty(element: ClassElement): ClassElement {

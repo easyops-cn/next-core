@@ -96,7 +96,7 @@ export interface ExtendedHistory {
  * 更新指定的 query 参数。
  *
  * @param query - 要更新的 query 参数。
- * @param options - {@inheritDoc UpdateQueryOptions}
+ * @param options - 选项。
  */
 export type UpdateQueryFunction = (
   query: Record<string, unknown>,

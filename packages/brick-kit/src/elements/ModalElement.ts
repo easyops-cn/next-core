@@ -17,7 +17,7 @@ export abstract class ModalElement extends UpdatingElement {
   /**
    * 打开模态框。
    *
-   * @param e
+   * @param e - 事件。
    */
   openModal = (e?: CustomEvent): void => {
     if (e) {
