@@ -74,7 +74,7 @@ export function BrickAsComponent(props: BrickAsComponentProps): React_2.ReactEle
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const BrickWrapper: (props: BrickWrapperProps) => React_2.ReactElement;
+export function BrickWrapper(props: BrickWrapperProps): React_2.ReactElement;
 
 // Warning: (ae-internal-missing-underscore) The name "checkIf" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -147,7 +147,7 @@ export function doTransform(data: unknown, to: unknown, options?: {
 // Warning: (ae-forgotten-export) The symbol "EasyopsEmptyProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const EasyopsEmpty: (props: EasyopsEmptyProps) => React_2.ReactElement;
+export function EasyopsEmpty(props: EasyopsEmptyProps): React_2.ReactElement;
 
 // Warning: (ae-internal-missing-underscore) The name "ErrorBoundary" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -185,14 +185,13 @@ export interface GetMicroAppsOptions {
 export function getRuntime(): Runtime;
 
 // @public
-export const handleHttpError: (error: Error | HttpFetchError | HttpResponseError | HttpParseError) => ReturnType<ModalFunc>;
+export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError): ReturnType<ModalFunc>;
 
 // @public
-export const httpErrorToString: (error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event) => string;
+export function httpErrorToString(error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event): string;
 
-// @public (undocumented)
+// @public
 export interface IfContainer {
-    // (undocumented)
     if?: unknown;
 }
 
@@ -281,7 +280,7 @@ export interface RedirectConf {
 export type RelatedApp = MicroAppModels.ModelObjectMicroApp;
 
 // @public
-export const renderEasyopsEmpty: () => React_2.ReactNode;
+export function renderEasyopsEmpty(): React_2.ReactNode;
 
 // Warning: (ae-internal-missing-underscore) The name "reTransformForDevtools" should be prefixed with an underscore because the declaration is marked as @internal
 //

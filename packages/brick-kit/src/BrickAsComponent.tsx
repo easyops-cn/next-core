@@ -41,7 +41,7 @@ interface BrickAsComponentProps {
  * />
  * ```
  *
- * @param props
+ * @param props - 属性。
  */
 export function BrickAsComponent(
   props: BrickAsComponentProps
@@ -81,7 +81,7 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
  * />
  * ```
  *
- * @param props
+ * @param props - 属性。
  */
 export function SingleBrickAsComponent(
   props: SingleBrickAsComponentProps

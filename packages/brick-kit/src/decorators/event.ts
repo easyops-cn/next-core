@@ -20,7 +20,7 @@ import { warnNativeHtmlElementProperty } from "./utils";
  * }
  * ```
  *
- * @param options 构件事件的选项。
+ * @param options - 构件事件的选项。
  */
 export function event(options: EventDeclaration): any {
   return function decorateEvent(element: ClassElement): ClassElement {

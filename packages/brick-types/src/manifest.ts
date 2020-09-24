@@ -205,7 +205,7 @@ export interface Storyboard {
   routes?: RouteConf[];
 
   /**
-   * @deprecated
+   * @deprecated 不再推荐使用。
    * @internal
    */
   dependsAll?: boolean;

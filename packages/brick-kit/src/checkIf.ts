@@ -6,7 +6,20 @@ import { isPreEvaluated } from "./evaluate";
 
 type GetIf = (rawIf: unknown, ctx: unknown) => unknown;
 
+/**
+ * 包含 `if` 条件判断的对象。
+ */
 export interface IfContainer {
+  /**
+   * 条件判断，可以为表达式字符串。
+   *
+   * @example
+   *
+   * ```yaml
+   * - brick: your.any-brick
+   *   if: '<% FLAGS['your-feature-flag'] %>'
+   * ```
+   */
   if?: unknown;
 }
 
@@ -73,8 +86,8 @@ export function looseCheckIf(
  * // Returns true.
  * ```
  *
- * @param ifContainer 包含 `if` 条件判断的配置对象。
- * @param data 要传递的数据源。
+ * @param ifContainer - 包含 `if` 条件判断的配置对象。
+ * @param data - 要传递的数据源。
  *
  * @returns 条件判断的结果。
  */
@@ -102,7 +115,7 @@ function _looseCheckIf(rawIf: unknown, ctx: unknown, fn: GetIf): boolean {
 }
 
 /**
- * @deprecated
+ * @deprecated 现在使用 `looseCheckIf`。
  * @internal
  */
 export function checkIf(
@@ -113,7 +126,7 @@ export function checkIf(
 }
 
 /**
- * @deprecated
+ * @deprecated 现在使用 `looseCheckIfByTransform`。
  * @internal
  */
 export function checkIfByTransform(
