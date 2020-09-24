@@ -1,19 +1,42 @@
 .@{tree-prefix-cls} {
-  li span.@{tree-prefix-cls}-switcher {
+  .@{tree-prefix-cls}-switcher {
     color: #8c8c8c
   }
 
-  li .@{tree-prefix-cls}-node-content-wrapper {
+  .@{tree-prefix-cls}-node-content-wrapper {
     border-radius: 6px;
     padding: 0 6px;
-    color: #737373;
+    color: #595959;
+
+    &:hover {
+      background-color: #ebf3fd;
+    }
+
+    &.@{tree-prefix-cls}-node-selected {
+      background-color: #f5f5f5;
+    }
   }
-}
 
-.@{ant-prefix}-tree-checkbox-inner {
-  border-radius: 4px;
-}
+  &-checkbox {
+    @checkbox-inner-prefix-cls: ~'@{tree-prefix-cls}-checkbox-inner';
+    &-inner {
+      border-radius: 4px;
+    }
 
-.@{ant-prefix}-tree-checkbox-checked::after {
-  border-radius: 4px;
+    &-checked::after {
+      border-radius: 4px;
+    }
+
+    &-indeterminate {
+      .@{checkbox-inner-prefix-cls} {
+        background-color: @checkbox-color;
+        border-color: @checkbox-color;
+
+        &::after {
+          height: 2px;
+          background-color: #fff;
+        }
+      }
+    }
+  }
 }
