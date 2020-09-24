@@ -29,7 +29,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/parser": "^7.11.4",
+    "@babel/parser": "^7.11.5",
     "@easyops-cn/brick-next-pipes": "^0.3.2",
     "@easyops/brick-types": "^2.1.0",
     "file-saver": "^2.0.2",
@@ -38,7 +38,7 @@
   "devDependencies": {
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",
-    "moment": "^2.27.0"
+    "moment": "^2.29.0"
   },
   "peerDependencies": {
     "js-yaml": "*",
