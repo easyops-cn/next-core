@@ -6143,6 +6143,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@ant-design/compatible/es/CompatibleConsumer.js": {
+      "id": "G1Xp",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/LineChartOutlined.js": {
       "id": "G2Jf",
       "buildMeta": {
