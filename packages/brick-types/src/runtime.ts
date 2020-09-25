@@ -45,11 +45,22 @@ export interface MatchParams {
 /**
  * 系统会话信息。
  */
-export interface SystemInfo {
+export interface SystemInfo extends RuntimeMisc {
   org: number;
   username: string;
   userInstanceId: string;
   loginFrom?: string;
+}
+
+/**
+ * 运行时杂项信息。
+ */
+export interface RuntimeMisc {
+  /** 当前是否处于 iframe 模式。 */
+  isInIframe: boolean;
+
+  /** 当前是否处于老 console 下的 iframe 模式。 */
+  isInIframeOfLegacyConsole: boolean;
 }
 
 /**
@@ -138,7 +149,6 @@ export interface PluginRuntimeContext {
 
   /**
    * @internal
-   * @deprecated For legacy compatibility only.
    */
   match?: MatchResult;
 
