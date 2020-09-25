@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.8...@easyops/create-next-repo@1.0.9) (2020-09-25)
+
+### Bug Fixes
+
+- add legacy branches into lerna allow branches ([4fdf2c8](https://git.easyops.local/anyclouds/next-core/commits/4fdf2c8))
+- upgrade template dependencies ([b4dce22](https://git.easyops.local/anyclouds/next-core/commits/b4dce22))
+
 ## [1.0.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.7...@easyops/create-next-repo@1.0.8) (2020-09-18)
 
 **Note:** Version bump only for package @easyops/create-next-repo
