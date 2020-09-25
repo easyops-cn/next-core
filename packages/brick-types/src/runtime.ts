@@ -149,7 +149,6 @@ export interface PluginRuntimeContext {
 
   /**
    * @internal
-   * @deprecated For legacy compatibility only.
    */
   match?: MatchResult;
 
