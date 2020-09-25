@@ -23,10 +23,10 @@ ln -snf "${install_path}" "${plugins_dir}/${plugin_name}"
 
 # 上报当前安装小产品
 if [[ ${suffix} == "NA" ]]; then
-    org=$(/usr/local/easyops/deploy_init/tools/get_env.py common org)
-    if [[ $? -ne 0 ]]; then
-        echo "get org error"
-        exit 1
+    org=$1
+    if [[ ${org}X == X ]]; then
+        org=$(/usr/local/easyops/deploy_init/tools/get_env.py common org)
+        [[ $? -ne 0 ]] && echo "get org error, exit" && exit 1
     fi
 
     ${install_base}/python/bin/python ${install_base}/brick_next/packages/brick-container/tools/report_installed_micro_app.py ${org} ${install_path}
