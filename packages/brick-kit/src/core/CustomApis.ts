@@ -1,5 +1,7 @@
 import { CustomApiOrchestration } from "./interfaces";
 
+import yaml from "js-yaml";
+
 // We can set `useProvider` to `${namespace}@${name}` to use custom api,so if provider includes "@",it's a custom api.
 export function isCustomApiProvider(provider: string): boolean {
   return provider?.includes("@");
@@ -17,7 +19,11 @@ function getApiInfoFromMicroAppApiOrchestrationMap(
 } {
   const api = allMicroAppApiOrchestrationMap.get(provider);
   if (api) {
-    const { uri, method = "GET" } = api.contract?.endpoint ?? {};
+    const contract: any =
+      typeof api.contract === "string"
+        ? yaml.safeLoad(api.contract, { schema: yaml.JSON_SCHEMA, json: true })
+        : api.contract;
+    const { uri, method = "GET" } = contract?.endpoint ?? {};
     // 框架或sdk会默认在response的object外封装一层{\"code\": 0, \"error\": \"\", \"message\": \"\", \"data\": response}, 如果想自定义整个response_message， 可以在response里面加上wrapper: false参数， wrapper默认为true。
     // 当 responseWrapper 为 true 时，provider 自动返回 data 的数据。
     const responseWrapper = api.contract?.response
