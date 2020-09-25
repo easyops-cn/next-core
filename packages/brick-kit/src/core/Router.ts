@@ -25,6 +25,7 @@ import { getAuth, isLoggedIn } from "../auth";
 import { devtoolsHookEmit } from "../devtools";
 import { afterMountTree } from "./reconciler";
 import { constructMenu } from "./menu";
+import { getRuntimeMisc } from "../misc";
 
 export class Router {
   private defaultCollapsed = false;
@@ -34,18 +35,9 @@ export class Router {
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
   private featureFlags: Record<string, boolean>;
-  private isInConsoleIframe = false;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
-
-    if (window !== window.parent) {
-      try {
-        this.isInConsoleIframe = window.origin === window.parent.origin;
-      } catch (e) {
-        // do nothing
-      }
-    }
 
     const history = getHistory();
     window.addEventListener("beforeunload", (event) => {
@@ -315,7 +307,7 @@ export class Router {
         );
       }
 
-      if (barsHidden || this.isInConsoleIframe) {
+      if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
         this.kernel.toggleBars(false);
       } else {
         await constructMenu(menuBar, this.locationContext.getCurrentContext());
