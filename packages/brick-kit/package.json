@@ -49,7 +49,8 @@
     "mock-socket": "^9.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.7.3"
+    "react-i18next": "^11.7.3",
+    "js-yaml": "^3.14.0"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",
@@ -60,6 +61,7 @@
     "lodash": "*",
     "react": "*",
     "react-dom": "*",
-    "react-i18next": "*"
+    "react-i18next": "*",
+    "js-yaml": "*"
   }
 }
