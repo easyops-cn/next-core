@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-kit",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "description": "Kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-kit",
   "license": "UNLICENSED",
@@ -45,12 +45,12 @@
     "history": "^4.10.1",
     "i18next": "^19.7.0",
     "jest-websocket-mock": "^2.2.0",
+    "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",
     "mock-socket": "^9.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.7.3",
-    "js-yaml": "^3.14.0"
+    "react-i18next": "^11.7.3"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*",
@@ -58,10 +58,10 @@
     "antd": "*",
     "history": "*",
     "i18next": "*",
+    "js-yaml": "*",
     "lodash": "*",
     "react": "*",
     "react-dom": "*",
-    "react-i18next": "*",
-    "js-yaml": "*"
+    "react-i18next": "*"
   }
 }

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.3...@easyops/brick-kit@2.3.0) (2020-09-25)
+
+### Features
+
+- **custom-api:** contract type ([8ff018c](https://git.easyops.local/anyclouds/next-core/commits/8ff018c))
+
 ## [2.2.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.2...@easyops/brick-kit@2.2.3) (2020-09-25)
 
 ### Bug Fixes
