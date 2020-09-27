@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.1.1...@easyops/brick-types@2.2.0) (2020-09-27)
+
+### Bug Fixes
+
+- match in PluginRuntimeContext is not deprecated ([6f473c8](https://git.easyops.local/anyclouds/next-core/commits/6f473c8))
+
+### Features
+
+- **context:** support misc in context ([8a26b4b](https://git.easyops.local/anyclouds/next-core/commits/8a26b4b))
+
 ## [2.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.1.0...@easyops/brick-types@2.1.1) (2020-09-25)
 
 ### Bug Fixes
