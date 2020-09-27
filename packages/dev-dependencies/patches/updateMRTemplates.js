@@ -9,4 +9,4 @@ function updateMRTemplates() {
   );
 }
 
-exports.updateMRTemplates = updateMRTemplates;
+module.exports = updateMRTemplates;

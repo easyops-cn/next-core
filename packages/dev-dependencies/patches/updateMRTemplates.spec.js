@@ -1,4 +1,4 @@
-const { updateMRTemplates } = require("./updateMRTemplates");
+const updateMRTemplates = require("./updateMRTemplates");
 const fs = require("fs-extra");
 
 jest.spyOn(fs, "outputFileSync").mockImplementation(() => void 0);

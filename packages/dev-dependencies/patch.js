@@ -62,11 +62,8 @@ module.exports = function patch() {
     updateRenovateBaseBranches();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.9")) {
+  if (semver.lt(currentRenewVersion, "1.0.12")) {
     updateLernaAllowBranch();
-  }
-
-  if (semver.lt(currentRenewVersion, "1.0.11")) {
     updateMRTemplates();
   }
 
