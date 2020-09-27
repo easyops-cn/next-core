@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.13...@easyops/dev-dependencies@1.0.14) (2020-09-27)
+
+### Bug Fixes
+
+- update build stories to set skipLibCheck ([493976f](https://git.easyops.local/anyclouds/next-core/commits/493976f))
+
 ## [1.0.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.12...@easyops/dev-dependencies@1.0.13) (2020-09-27)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
