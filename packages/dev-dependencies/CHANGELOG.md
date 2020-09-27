@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.11...@easyops/dev-dependencies@1.0.12) (2020-09-27)
+
+### Bug Fixes
+
+- fix patch exports of updateLernaAllowBranch ([7effa1d](https://git.easyops.local/anyclouds/next-core/commits/7effa1d))
+- fix patch exports of updateMRTemplates ([317103c](https://git.easyops.local/anyclouds/next-core/commits/317103c))
+
 ## [1.0.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.10...@easyops/dev-dependencies@1.0.11) (2020-09-27)
 
 ### Bug Fixes
