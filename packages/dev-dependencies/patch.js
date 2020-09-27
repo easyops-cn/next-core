@@ -8,6 +8,7 @@ const {
   majorBrickNext,
   updateLernaAllowBranch,
   updateMRTemplates,
+  updateBuildStories,
 } = require("./patches");
 
 module.exports = function patch() {
@@ -65,6 +66,10 @@ module.exports = function patch() {
   if (semver.lt(currentRenewVersion, "1.0.12")) {
     updateLernaAllowBranch();
     updateMRTemplates();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.0.14")) {
+    updateBuildStories();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
