@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useImperativeHandle } from "react";
 import { mount } from "enzyme";
 import { BrickConf, RuntimeBrickElement } from "@easyops/brick-types";
 import * as listenerUtils from "./bindListeners";

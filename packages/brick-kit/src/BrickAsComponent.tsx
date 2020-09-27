@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { cloneDeep } from "lodash";
 import { isObject } from "@easyops/brick-utils";
 import {
@@ -83,10 +83,19 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
  *
  * @param props - 属性。
  */
-export function SingleBrickAsComponent(
-  props: SingleBrickAsComponentProps
+export const SingleBrickAsComponent = forwardRef<
+  HTMLElement,
+  SingleBrickAsComponentProps
+>(function LegacySingleBrickAsComponent(
+  props: SingleBrickAsComponentProps,
+  ref
 ): React.ReactElement {
   const { useBrick, data, refCallback } = props;
+  const brickRef = useRef<HTMLElement>();
+  /* istanbul ignore next (never reach in test) */
+  useImperativeHandle(ref, () => {
+    return brickRef.current;
+  });
 
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.
@@ -122,6 +131,8 @@ export function SingleBrickAsComponent(
 
   const innerRefCallback = React.useCallback(
     async (element: HTMLElement) => {
+      brickRef.current = element;
+
       if (element) {
         const brick = await runtimeBrick;
         // sub-brick rendering is ignored.
@@ -164,7 +175,7 @@ export function SingleBrickAsComponent(
       <SingleBrickAsComponent key={index} useBrick={item} data={data} />
     ))
   );
-}
+});
 
 function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
   if (!slots) {
