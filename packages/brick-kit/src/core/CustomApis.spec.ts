@@ -49,7 +49,7 @@ describe("CustomApis", () => {
       {
         url: "api/gateway/api_service.easyops.custom_api.test/api/test",
         method: "get",
-        responseWrapper: false,
+        responseWrapper: true,
       },
     ]);
   });

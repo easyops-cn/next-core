@@ -57,6 +57,7 @@ mockMicroAppApiOrchestrationMap.set("easyops.custom_api@test", {
   endpoint:
     method: get
     uri: '/api/test'
+  response: '~'
   name: test`,
   name: "test",
   namespace: "easyops.custom_api",
