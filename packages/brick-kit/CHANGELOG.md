@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.5.1...@easyops/brick-kit@2.6.0) (2020-09-28)
+
+### Features
+
+- **brick-kit:** add forwardRefBrickAsComponent ([b187676](https://git.easyops.local/anyclouds/next-core/commits/b187676))
+
 ## [2.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.5.0...@easyops/brick-kit@2.5.1) (2020-09-28)
 
 ### Bug Fixes
