@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.20...@easyops/dev-dependencies@1.0.21) (2020-09-28)
+
+### Bug Fixes
+
+- update MR templates after update fileFilters ([d763ed1](https://git.easyops.local/anyclouds/next-core/commits/d763ed1))
+
 ## [1.0.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.19...@easyops/dev-dependencies@1.0.20) (2020-09-28)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
