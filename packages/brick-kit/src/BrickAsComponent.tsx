@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { cloneDeep } from "lodash";
 import { isObject } from "@easyops/brick-utils";
 import {
@@ -65,6 +65,7 @@ export function BrickAsComponent(
 interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   useBrick: UseSingleBrickConf;
   refCallback?: (element: HTMLElement) => void;
+  immediatelyRefCallback?: (element: HTMLElement) => void;
 }
 
 /**
@@ -86,7 +87,7 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
 export function SingleBrickAsComponent(
   props: SingleBrickAsComponentProps
 ): React.ReactElement {
-  const { useBrick, data, refCallback } = props;
+  const { useBrick, data, refCallback, immediatelyRefCallback } = props;
 
   const runtimeBrick = React.useMemo(async () => {
     // If the router state is initial, ignore rendering the sub-brick.
@@ -122,6 +123,7 @@ export function SingleBrickAsComponent(
 
   const innerRefCallback = React.useCallback(
     async (element: HTMLElement) => {
+      immediatelyRefCallback?.(element);
       if (element) {
         const brick = await runtimeBrick;
         // sub-brick rendering is ignored.
@@ -141,9 +143,10 @@ export function SingleBrickAsComponent(
           (element as RuntimeBrickElement).$$typeof = "invalid";
         }
       }
+
       refCallback?.(element);
     },
-    [runtimeBrick, useBrick, data, refCallback]
+    [runtimeBrick, useBrick, data, refCallback, immediatelyRefCallback]
   );
 
   if (isObject(useBrick.if)) {
@@ -165,6 +168,27 @@ export function SingleBrickAsComponent(
     ))
   );
 }
+
+export const ForwardRefSingleBrickAsComponent = forwardRef<
+  HTMLElement,
+  SingleBrickAsComponentProps
+>(function LegacyForwardRefSingleBrickAsComponent(props, ref) {
+  const brickRef = useRef<HTMLElement>();
+
+  useImperativeHandle(ref, () => {
+    return brickRef.current;
+  });
+
+  return (
+    <SingleBrickAsComponent
+      useBrick={props.useBrick}
+      data={props.data}
+      immediatelyRefCallback={(ele) => {
+        brickRef.current = ele;
+      }}
+    />
+  );
+});
 
 function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
   if (!slots) {
