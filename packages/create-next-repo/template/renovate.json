@@ -2,7 +2,7 @@
   "$schema": "http://json.schemastore.org/renovate",
   "extends": ["config:base"],
   "rangeStrategy": "bump",
-  "semanticCommits": true,
+  "semanticCommits": "enabled",
   "commitMessagePrefix": "chore(deps):",
   "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
@@ -31,7 +31,7 @@
           "yarn extract",
           "./node_modules/.bin/prettier --write package.json"
         ],
-        "fileFilters": ["**/*"]
+        "fileFilters": ["**/*", ".gitlab/**/*"]
       }
     }
   ]

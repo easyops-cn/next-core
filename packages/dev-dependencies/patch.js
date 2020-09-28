@@ -9,6 +9,7 @@ const {
   updateLernaAllowBranch,
   updateMRTemplates,
   updateBuildStories,
+  updateRenovateFileFilters,
 } = require("./patches");
 
 module.exports = function patch() {
@@ -65,11 +66,15 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "1.0.12")) {
     updateLernaAllowBranch();
-    updateMRTemplates();
+    // updateMRTemplates();
   }
 
   if (semver.lt(currentRenewVersion, "1.0.14")) {
     updateBuildStories();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.0.18")) {
+    updateRenovateFileFilters();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
