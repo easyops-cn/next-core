@@ -217,6 +217,7 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
 ): React.ReactElement {
   const { useBrick, data, refCallback } = props;
   const brickRef = useRef<HTMLElement>();
+
   /* istanbul ignore next (never reach in test) */
   useImperativeHandle(ref, () => {
     return brickRef.current;
