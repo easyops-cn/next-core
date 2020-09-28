@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.2.0...@easyops/brick-types@2.3.0) (2020-09-28)
+
+### Features
+
+- support custom items in desktop ([c85a148](https://git.easyops.local/anyclouds/next-core/commits/c85a148))
+
 # [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.1.1...@easyops/brick-types@2.2.0) (2020-09-27)
 
 ### Bug Fixes
