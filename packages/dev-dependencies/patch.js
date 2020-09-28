@@ -66,7 +66,6 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "1.0.12")) {
     updateLernaAllowBranch();
-    // updateMRTemplates();
   }
 
   if (semver.lt(currentRenewVersion, "1.0.14")) {
@@ -75,6 +74,10 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "1.0.18")) {
     updateRenovateFileFilters();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.0.21")) {
+    updateMRTemplates();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
