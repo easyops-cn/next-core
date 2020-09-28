@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.2.11...@easyops/brick-container@2.2.12) (2020-09-28)
+
+### Bug Fixes
+
+- **custom-api:** response wrapper ([7ca84aa](https://git.easyops.local/anyclouds/next-core/commits/7ca84aa))
+
 ## [2.2.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.2.10...@easyops/brick-container@2.2.11) (2020-09-28)
 
 **Note:** Version bump only for package @easyops/brick-container

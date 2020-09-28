@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.5.0...@easyops/brick-kit@2.5.1) (2020-09-28)
+
+### Bug Fixes
+
+- **custom-api:** response wrapper ([7ca84aa](https://git.easyops.local/anyclouds/next-core/commits/7ca84aa))
+
 # [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.4.3...@easyops/brick-kit@2.5.0) (2020-09-28)
 
 ### Features
