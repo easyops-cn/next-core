@@ -63,7 +63,7 @@
     "babel-jest": "^26.3.0",
     "buffer": "^4.9.2",
     "cross-env": "^7.0.2",
-    "cypress": "^5.2.0",
+    "cypress": "^5.3.0",
     "d3-drag": "^2.0.0",
     "d3-force": "^2.1.1",
     "d3-hierarchy": "^2.0.0",
