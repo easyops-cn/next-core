@@ -1,0 +1,8 @@
+@import './checkbox/mixin';
+@import './tree/mixin';
+
+.customAntCheckboxFn(@checkbox-prefix-cls: ~'@{select-tree-prefix-cls}-checkbox');
+
+.@{select-tree-prefix-cls} {
+  .customAntTreeFn(@select-tree-prefix-cls);
+}
