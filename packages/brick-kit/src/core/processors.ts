@@ -1,15 +1,20 @@
 import { merge } from "lodash";
 import i18next from "i18next";
 import { BootstrapData } from "@easyops/brick-types";
+import { deepFreeze } from "../deepFreeze";
 
-// Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+/**
+ * Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+ *
+ * @param bootstrapResponse - Response of bootstrap API.
+ */
 export function processBootstrapResponse(
   bootstrapResponse: BootstrapData
 ): void {
   for (const storyboard of bootstrapResponse.storyboards) {
     const app = storyboard.app;
     if (app) {
-      app.config = merge({}, app.defaultConfig, app.userConfig);
+      app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
 
       if (app.locales) {
         // Prefix to avoid conflict between brick package's i18n namespace.
@@ -28,5 +33,9 @@ export function processBootstrapResponse(
         app.localeName = app.name;
       }
     }
+  }
+
+  if (bootstrapResponse.settings) {
+    bootstrapResponse.settings = deepFreeze(bootstrapResponse.settings);
   }
 }

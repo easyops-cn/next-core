@@ -88,6 +88,11 @@ export interface AbstractRuntime {
   getFeatureFlags(): FeatureFlags;
 
   /**
+   * 获取杂项配置。
+   */
+  getMiscSettings(): Record<string, unknown>;
+
+  /**
    * 注册一个自定义模板。
    *
    * @param tplName - 模板名。
