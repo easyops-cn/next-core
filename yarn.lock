@@ -2693,6 +2693,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cheerio@^0.22.22":
+  version "0.22.22"
+  resolved "https://registry.npm.taobao.org/@types/cheerio/download/@types/cheerio-0.22.22.tgz#ae71cf4ca59b8bbaf34c99af7a5d6c8894988f5f"
+  integrity sha1-rnHPTKWbi7rzTJmvel1siJSYj18=
+  dependencies:
+    "@types/node" "*"
+
 "@types/classnames@^2.2.10":
   version "2.2.10"
   resolved "https://registry.npm.taobao.org/@types/classnames/download/@types/classnames-2.2.10.tgz#cc658ca319b6355399efc1f5b9e818f1a24bf999"
@@ -6605,11 +6612,12 @@ enzyme-shallow-equal@^1.0.1, enzyme-shallow-equal@^1.0.4:
     has "^1.0.3"
     object-is "^1.1.2"
 
-enzyme-to-json@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.5.0.tgz#3d536f1e8fb50d972360014fe2bd64e6a672f7dd"
-  integrity sha1-PVNvHo+1DZcjYAFP4r1k5qZy990=
+enzyme-to-json@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.npm.taobao.org/enzyme-to-json/download/enzyme-to-json-3.6.1.tgz?cache=0&sync_timestamp=1601291426735&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fenzyme-to-json%2Fdownload%2Fenzyme-to-json-3.6.1.tgz#d60740950bc7ca6384dfe6fe405494ec5df996bc"
+  integrity sha1-1gdAlQvHymOE3+b+QFSU7F35lrw=
   dependencies:
+    "@types/cheerio" "^0.22.22"
     lodash "^4.17.15"
     react-is "^16.12.0"
 
