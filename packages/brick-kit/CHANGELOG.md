@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.7.0...@easyops/brick-kit@2.8.0) (2020-09-30)
+
+### Features
+
+- **runtime:** support getMiscSettings, also freeze app.config and settings ([99dc645](https://git.easyops.local/anyclouds/next-core/commits/99dc645))
+
 # [2.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.6.0...@easyops/brick-kit@2.7.0) (2020-09-28)
 
 ### Features
