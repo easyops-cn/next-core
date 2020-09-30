@@ -2257,13 +2257,13 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@microsoft/api-extractor-model@7.9.7":
-  version "7.9.7"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.9.7.tgz#5e41cee588276979ee2ea9fdec71ab351bff6ab4"
-  integrity sha1-XkHO5YgnaXnuLqn97HGrNRv/arQ=
+"@microsoft/api-extractor-model@7.10.0":
+  version "7.10.0"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.10.0.tgz#9dcdbbaf6fcfa6cb56050c3d64497c031eec9060"
+  integrity sha1-nc27r2/PpstWBQw9ZEl8Ax7skGA=
   dependencies:
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.33.6"
+    "@rushstack/node-core-library" "3.34.0"
 
 "@microsoft/api-extractor-model@~7.8.20":
   version "7.8.22"
@@ -2273,21 +2273,22 @@
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.32.0"
 
-"@microsoft/api-extractor@^7.9.22":
-  version "7.9.22"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.9.22.tgz#6b463fe6dd8eed5ec84476c5eccbd2f1590b8730"
-  integrity sha1-a0Y/5t2O7V7IRHbF7MvS8VkLhzA=
+"@microsoft/api-extractor@^7.10.0":
+  version "7.10.0"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.10.0.tgz#2e08c259d2390c2aa08d06ecbde66fadd6d35a94"
+  integrity sha1-LgjCWdI5DCqgjQbsveZvrdbTWpQ=
   dependencies:
-    "@microsoft/api-extractor-model" "7.9.7"
+    "@microsoft/api-extractor-model" "7.10.0"
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.33.6"
-    "@rushstack/ts-command-line" "4.6.10"
+    "@rushstack/node-core-library" "3.34.0"
+    "@rushstack/rig-package" "0.2.0"
+    "@rushstack/ts-command-line" "4.7.0"
     colors "~1.2.1"
     lodash "~4.17.15"
     resolve "~1.17.0"
     semver "~7.3.0"
     source-map "~0.6.1"
-    typescript "~3.9.5"
+    typescript "~3.9.7"
 
 "@microsoft/tsdoc@0.12.19":
   version "0.12.19"
@@ -2403,10 +2404,10 @@
     timsort "~0.3.0"
     z-schema "~3.18.3"
 
-"@rushstack/node-core-library@3.33.6":
-  version "3.33.6"
-  resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.33.6.tgz?cache=0&sync_timestamp=1600755051671&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40rushstack%2Fnode-core-library%2Fdownload%2F%40rushstack%2Fnode-core-library-3.33.6.tgz#a4983c42bc4242f326eafab8c366dfd448f67e40"
-  integrity sha1-pJg8QrxCQvMm6vq4w2bf1Ej2fkA=
+"@rushstack/node-core-library@3.34.0":
+  version "3.34.0"
+  resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.34.0.tgz#5b248b248a1f77ea15f4647ca7930a38e5b0ff55"
+  integrity sha1-WySLJIofd+oV9GR8p5MKOOWw/1U=
   dependencies:
     "@types/node" "10.17.13"
     colors "~1.2.1"
@@ -2433,7 +2434,26 @@
     timsort "~0.3.0"
     z-schema "~3.18.3"
 
-"@rushstack/ts-command-line@4.6.10", "@rushstack/ts-command-line@~4.6.4":
+"@rushstack/rig-package@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npm.taobao.org/@rushstack/rig-package/download/@rushstack/rig-package-0.2.0.tgz#b12de2c6abd90a71d82e767c54d42905e2c6f28d"
+  integrity sha1-sS3ixqvZCnHYLnZ8VNQpBeLG8o0=
+  dependencies:
+    "@types/node" "10.17.13"
+    resolve "~1.17.0"
+    strip-json-comments "~3.1.1"
+
+"@rushstack/ts-command-line@4.7.0":
+  version "4.7.0"
+  resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.7.0.tgz#681cfcb1248eae175bd3e43fad1636c8418cdca6"
+  integrity sha1-aBz8sSSOrhdb0+Q/rRY2yEGM3KY=
+  dependencies:
+    "@types/argparse" "1.0.38"
+    argparse "~1.0.9"
+    colors "~1.2.1"
+    string-argv "~0.3.1"
+
+"@rushstack/ts-command-line@~4.6.4":
   version "4.6.10"
   resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.6.10.tgz?cache=0&sync_timestamp=1600755054876&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40rushstack%2Fts-command-line%2Fdownload%2F%40rushstack%2Fts-command-line-4.6.10.tgz#dc621ae8868363f0c27baeda582b95aa6eec5ef6"
   integrity sha1-3GIa6IaDY/DCe67aWCuVqm7sXvY=
@@ -14481,9 +14501,9 @@ strip-indent@^3.0.0:
   dependencies:
     min-indent "^1.0.0"
 
-strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
+strip-json-comments@^3.1.0, strip-json-comments@^3.1.1, strip-json-comments@~3.1.1:
   version "3.1.1"
-  resolved "https://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-3.1.1.tgz?cache=0&sync_timestamp=1594567580605&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstrip-json-comments%2Fdownload%2Fstrip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
+  resolved "https://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-3.1.1.tgz?cache=0&sync_timestamp=1594567532500&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstrip-json-comments%2Fdownload%2Fstrip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha1-MfEoGzgyYwQ0gxwxDAHMzajL4AY=
 
 strip-json-comments@~2.0.1:
@@ -15046,9 +15066,9 @@ typescript-json-schema@^0.43.0:
     typescript "~4.0.2"
     yargs "^15.4.1"
 
-typescript@~3.9.5:
+typescript@~3.9.7:
   version "3.9.7"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.7.tgz?cache=0&sync_timestamp=1599634089807&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha1-mNYApevcOPQMsndSLxLcgA6eJfo=
 
 typescript@~4.0.2, typescript@~4.0.3:
