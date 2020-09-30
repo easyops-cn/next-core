@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.6.0...@easyops/brick-kit@2.7.0) (2020-09-28)
+
+### Features
+
+- **brick-kit:** update version ([a26ccf2](https://git.easyops.local/anyclouds/next-core/commits/a26ccf2))
+
+# [2.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.5.1...@easyops/brick-kit@2.6.0) (2020-09-28)
+
+### Features
+
+- **brick-kit:** add forwardRefBrickAsComponent ([b187676](https://git.easyops.local/anyclouds/next-core/commits/b187676))
+
+## [2.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.5.0...@easyops/brick-kit@2.5.1) (2020-09-28)
+
+### Bug Fixes
+
+- **custom-api:** response wrapper ([7ca84aa](https://git.easyops.local/anyclouds/next-core/commits/7ca84aa))
+
+# [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.4.3...@easyops/brick-kit@2.5.0) (2020-09-28)
+
+### Features
+
+- **brick-kit:** add forwardRefBrickAsComponent ([a5b4472](https://git.easyops.local/anyclouds/next-core/commits/a5b4472))
+
+## [2.4.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.4.2...@easyops/brick-kit@2.4.3) (2020-09-28)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [2.4.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.4.1...@easyops/brick-kit@2.4.2) (2020-09-27)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+## [2.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.4.0...@easyops/brick-kit@2.4.1) (2020-09-27)
+
+### Bug Fixes
+
+- **brick-kit:** BrickAsComponent useRef ([81a23d6](https://git.easyops.local/anyclouds/next-core/commits/81a23d6))
+
+# [2.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.3.0...@easyops/brick-kit@2.4.0) (2020-09-27)
+
+### Features
+
+- **context:** support misc in context ([8a26b4b](https://git.easyops.local/anyclouds/next-core/commits/8a26b4b))
+
+# [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.3...@easyops/brick-kit@2.3.0) (2020-09-25)
+
+### Features
+
+- **custom-api:** contract type ([8ff018c](https://git.easyops.local/anyclouds/next-core/commits/8ff018c))
+
+## [2.2.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.2...@easyops/brick-kit@2.2.3) (2020-09-25)
+
+### Bug Fixes
+
+- refine types and comments ([89e741b](https://git.easyops.local/anyclouds/next-core/commits/89e741b))
+
 ## [2.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.2.1...@easyops/brick-kit@2.2.2) (2020-09-17)
 
 ### Bug Fixes

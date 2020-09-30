@@ -70,7 +70,7 @@ describe("inject", () => {
       org: 8888,
       username: "easyops",
       userInstanceId: "acbd46b",
-    },
+    } as any,
     flags: {
       "better-world": true,
     },

@@ -1,4 +1,4 @@
-const { updateLernaAllowBranch } = require("./updateLernaAllowBranch");
+const updateLernaAllowBranch = require("./updateLernaAllowBranch");
 const { writeJsonFile, readJson } = require("../utils");
 
 jest.mock("../utils");

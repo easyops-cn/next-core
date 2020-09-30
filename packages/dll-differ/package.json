@@ -1,6 +1,6 @@
 {
   "name": "@easyops/dll-differ",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Diff a dll package's manifest with snapshot",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/dll-differ",

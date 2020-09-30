@@ -18510,6 +18510,7 @@
           "BrickWrapper",
           "EasyopsEmpty",
           "ErrorBoundary",
+          "ForwardRefSingleBrickAsComponent",
           "ModalElement",
           "SingleBrickAsComponent",
           "UpdatingElement",

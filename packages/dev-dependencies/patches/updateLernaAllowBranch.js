@@ -15,4 +15,4 @@ function updateLernaAllowBranch() {
   }
 }
 
-exports.updateLernaAllowBranch = updateLernaAllowBranch;
+module.exports = updateLernaAllowBranch;

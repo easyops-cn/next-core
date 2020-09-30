@@ -1,8 +1,11 @@
-import React from "react";
+import React, { createRef } from "react";
 import { mount } from "enzyme";
 import { BrickConf, RuntimeBrickElement } from "@easyops/brick-types";
 import * as listenerUtils from "./bindListeners";
-import { BrickAsComponent } from "./BrickAsComponent";
+import {
+  BrickAsComponent,
+  ForwardRefSingleBrickAsComponent,
+} from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
@@ -215,6 +218,23 @@ describe("BrickAsComponent", () => {
     });
     await (global as any).flushPromises();
     expect(spyOnResolve).toBeCalledTimes(1);
+  });
+
+  it("should work with ForwardRefSingleBrickAsComponent", async () => {
+    let ref = null;
+    const wrapper = mount(
+      <ForwardRefSingleBrickAsComponent
+        useBrick={{
+          brick: "input",
+        }}
+        ref={(r) => {
+          ref = r;
+        }}
+      />
+    );
+
+    await (global as any).flushPromises();
+    expect(wrapper.find("input").instance()).toEqual(ref);
   });
 
   it("should work with slots", async () => {

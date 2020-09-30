@@ -1,0 +1,19 @@
+.customAntTreeFn(@custom-tree-prefix-cls) {
+  & &-switcher {
+    color: #8c8c8c;
+  }
+
+  & &-node-content-wrapper {
+    border-radius: 6px;
+    padding: 0 6px;
+    color: #595959;
+
+    &:hover {
+      background-color: #ebf3fd;
+    }
+
+    &.@{custom-tree-prefix-cls}-node-selected {
+      background-color: #f5f5f5;
+    }
+  }
+}

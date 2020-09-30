@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.21...@easyops/dev-dependencies@1.0.22) (2020-09-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.20...@easyops/dev-dependencies@1.0.21) (2020-09-28)
+
+### Bug Fixes
+
+- update MR templates after update fileFilters ([d763ed1](https://git.easyops.local/anyclouds/next-core/commits/d763ed1))
+
+## [1.0.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.19...@easyops/dev-dependencies@1.0.20) (2020-09-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.18...@easyops/dev-dependencies@1.0.19) (2020-09-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.17...@easyops/dev-dependencies@1.0.18) (2020-09-28)
+
+### Bug Fixes
+
+- update renovate file filters ([1310c23](https://git.easyops.local/anyclouds/next-core/commits/1310c23))
+
+## [1.0.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.16...@easyops/dev-dependencies@1.0.17) (2020-09-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.15...@easyops/dev-dependencies@1.0.16) (2020-09-28)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.14...@easyops/dev-dependencies@1.0.15) (2020-09-27)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.13...@easyops/dev-dependencies@1.0.14) (2020-09-27)
+
+### Bug Fixes
+
+- update build stories to set skipLibCheck ([493976f](https://git.easyops.local/anyclouds/next-core/commits/493976f))
+
+## [1.0.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.12...@easyops/dev-dependencies@1.0.13) (2020-09-27)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.11...@easyops/dev-dependencies@1.0.12) (2020-09-27)
+
+### Bug Fixes
+
+- fix patch exports of updateLernaAllowBranch ([7effa1d](https://git.easyops.local/anyclouds/next-core/commits/7effa1d))
+- fix patch exports of updateMRTemplates ([317103c](https://git.easyops.local/anyclouds/next-core/commits/317103c))
+
+## [1.0.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.10...@easyops/dev-dependencies@1.0.11) (2020-09-27)
+
+### Bug Fixes
+
+- update MR templates ([95e2281](https://git.easyops.local/anyclouds/next-core/commits/95e2281))
+
+## [1.0.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.9...@easyops/dev-dependencies@1.0.10) (2020-09-25)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.8...@easyops/dev-dependencies@1.0.9) (2020-09-25)
+
+### Bug Fixes
+
+- add legacy branches into lerna allow branches ([4fdf2c8](https://git.easyops.local/anyclouds/next-core/commits/4fdf2c8))
+
 ## [1.0.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.7...@easyops/dev-dependencies@1.0.8) (2020-09-18)
 
 ### Bug Fixes

@@ -51,6 +51,7 @@ import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
 import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
 import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
+import { getRuntimeMisc } from "../misc";
 
 export type MatchRoutesResult =
   | {
@@ -129,6 +130,7 @@ export class LocationContext {
         username: auth.username,
         userInstanceId: auth.userInstanceId,
         loginFrom: auth.loginFrom,
+        ...getRuntimeMisc(),
       },
       flags: this.kernel.getFeatureFlags(),
       segues: this.segues,

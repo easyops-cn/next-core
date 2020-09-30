@@ -1,10 +1,10 @@
 // istanbul ignore file
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs-extra");
 const prettier = require("prettier");
 
 exports.writeJsonFile = function writeJsonFile(filePath, content) {
-  fs.writeFileSync(
+  fs.outputFileSync(
     filePath,
     prettier.format(JSON.stringify(content), { parser: "json" })
   );

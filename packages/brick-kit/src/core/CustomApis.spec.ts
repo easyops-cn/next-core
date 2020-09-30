@@ -38,6 +38,20 @@ describe("CustomApis", () => {
         responseWrapper: false,
       },
     ]);
+
+    expect(
+      getArgsOfCustomApi(
+        "easyops.custom_api@test",
+        mockMicroAppApiOrchestrationMap,
+        []
+      )
+    ).toEqual([
+      {
+        url: "api/gateway/api_service.easyops.custom_api.test/api/test",
+        method: "get",
+        responseWrapper: true,
+      },
+    ]);
   });
 
   it("getArgsOfCustomApi should throw error", () => {

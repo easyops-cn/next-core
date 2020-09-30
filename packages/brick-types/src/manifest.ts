@@ -1061,7 +1061,7 @@ export interface DesktopData {
 }
 
 /** @internal */
-export type DesktopItem = DesktopItemApp | DesktopItemDir;
+export type DesktopItem = DesktopItemApp | DesktopItemDir | DesktopItemCustom;
 
 /** @internal */
 export interface DesktopItemApp {
@@ -1075,7 +1075,15 @@ export interface DesktopItemDir {
   type: "dir";
   id: string;
   name: string;
-  items: DesktopItemApp[];
+  items: (DesktopItemApp | DesktopItemCustom)[];
+}
+
+/** @internal */
+export interface DesktopItemCustom {
+  type: "custom";
+  id: string;
+  name: string;
+  url: string;
 }
 
 /** 使用 `useBrick` 自行渲染子构件的配置。 */
