@@ -183,6 +183,22 @@ describe("Runtime", () => {
     });
   });
 
+  it("should get misc settings", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.bootstrapData = {
+      settings: {
+        misc: {
+          foo: "bar"
+        }
+      }
+    };
+    expect(runtime.getMiscSettings()).toEqual({
+      foo: "bar"
+    });
+  });
+
   it("should get desktops", async () => {
     const mountPoints: MountPoints = {} as any;
     await runtime.bootstrap(mountPoints);

@@ -148,10 +148,11 @@ function getSingleTemplatePackage(env, templatePackageName) {
 }
 
 function mergeSettings(defaultSettings, userSettings) {
-  const { featureFlags, homepage, brand } = userSettings;
+  const { featureFlags, homepage, brand, misc } = userSettings;
   Object.assign(defaultSettings.featureFlags, featureFlags);
   Object.assign(defaultSettings, { homepage });
   Object.assign(defaultSettings.brand, brand);
+  Object.assign(defaultSettings.misc, misc);
   return defaultSettings;
 }
 
@@ -187,6 +188,7 @@ function getSettings() {
       featureFlags: {},
       homepage: "/",
       brand: {},
+      misc: {}
     },
     getDevSettings()
   );

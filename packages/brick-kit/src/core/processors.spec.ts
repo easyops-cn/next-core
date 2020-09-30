@@ -59,6 +59,11 @@ describe("processBootstrapResponse", () => {
           },
         },
       ],
+      settings: {
+        misc: {
+          hello: "world",
+        },
+      },
     };
     processBootstrapResponse(data);
     expect(data).toEqual({
@@ -127,6 +132,27 @@ describe("processBootstrapResponse", () => {
           },
         },
       ],
+      settings: {
+        misc: {
+          hello: "world",
+        },
+      },
     });
+
+    expect(data.settings).toEqual({
+      misc: {
+        hello: "world",
+      },
+    });
+
+    expect(() => {
+      // Override `app.config`.
+      data.storyboards[0].app.config.foo = "bar";
+    }).toThrowError();
+
+    expect(() => {
+      // Override `misc`.
+      data.settings.misc.hello = "oops";
+    }).toThrowError();
   });
 });

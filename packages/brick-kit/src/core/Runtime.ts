@@ -26,6 +26,7 @@ import {
   RouterState,
   RecentApps,
   CustomApiOrchestration,
+  AbstractRuntime,
 } from "./interfaces";
 
 let kernel: Kernel;
@@ -53,7 +54,7 @@ export function _dev_only_loadDynamicBricksInBrickConf(
   return kernel.loadDynamicBricksInBrickConf(brickConf);
 }
 
-export class Runtime {
+export class Runtime implements AbstractRuntime {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     if (kernel !== undefined) {
       throw new Error("Cannot bootstrap more than once.");
@@ -180,6 +181,10 @@ export class Runtime {
       },
       kernel.bootstrapData.settings?.launchpad
     );
+  }
+
+  getMiscSettings(): Record<string, unknown> {
+    return Object.assign({}, kernel.bootstrapData.settings?.misc);
   }
 
   registerBrickTemplate = registerBrickTemplate;
