@@ -2686,14 +2686,7 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/cheerio@*":
-  version "0.22.11"
-  resolved "http://registry.npm.taobao.org/@types/cheerio/download/@types/cheerio-0.22.11.tgz#61c0facf9636d14ba5f77fc65ed8913aa845d717"
-  integrity sha1-YcD6z5Y20Uul93/GXtiROqhF1xc=
-  dependencies:
-    "@types/node" "*"
-
-"@types/cheerio@^0.22.22":
+"@types/cheerio@*", "@types/cheerio@^0.22.22":
   version "0.22.22"
   resolved "https://registry.npm.taobao.org/@types/cheerio/download/@types/cheerio-0.22.22.tgz#ae71cf4ca59b8bbaf34c99af7a5d6c8894988f5f"
   integrity sha1-rnHPTKWbi7rzTJmvel1siJSYj18=
@@ -2815,12 +2808,7 @@
   dependencies:
     "@types/d3-color" "*"
 
-"@types/d3-path@*":
-  version "1.0.8"
-  resolved "https://registry.npm.taobao.org/@types/d3-path/download/@types/d3-path-1.0.8.tgz#48e6945a8ff43ee0a1ce85c8cfa2337de85c7c79"
-  integrity sha1-SOaUWo/0PuChzoXIz6IzfehcfHk=
-
-"@types/d3-path@^1":
+"@types/d3-path@*", "@types/d3-path@^1":
   version "1.0.9"
   resolved "https://registry.npm.taobao.org/@types/d3-path/download/@types/d3-path-1.0.9.tgz#73526b150d14cd96e701597cbf346cfd1fd4a58c"
   integrity sha1-c1JrFQ0UzZbnAVl8vzRs/R/UpYw=
@@ -2852,12 +2840,7 @@
   dependencies:
     "@types/d3-time" "*"
 
-"@types/d3-selection@*":
-  version "1.4.1"
-  resolved "https://registry.npm.taobao.org/@types/d3-selection/download/@types/d3-selection-1.4.1.tgz#fa1f8710a6b5d7cfe5c6caa61d161be7cae4a022"
-  integrity sha1-+h+HEKa118/lxsqmHRYb58rkoCI=
-
-"@types/d3-selection@^1":
+"@types/d3-selection@*", "@types/d3-selection@^1":
   version "1.4.3"
   resolved "https://registry.npm.taobao.org/@types/d3-selection/download/@types/d3-selection-1.4.3.tgz?cache=0&sync_timestamp=1601424600828&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-selection%2Fdownload%2F%40types%2Fd3-selection-1.4.3.tgz#36928bbe64eb8e0bbcbaa01fb05c21ff6c71fa93"
   integrity sha1-NpKLvmTrjgu8uqAfsFwh/2xx+pM=
@@ -6778,15 +6761,7 @@ eslint-scope@^4.0.3:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-scope@^5.0.0:
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/eslint-scope/download/eslint-scope-5.1.0.tgz#d0f971dfe59c69e0cada684b23d49dbf82600ce5"
-  integrity sha1-0Plx3+WcaeDK2mhLI9Sdv4JgDOU=
-  dependencies:
-    esrecurse "^4.1.0"
-    estraverse "^4.1.1"
-
-eslint-scope@^5.1.1:
+eslint-scope@^5.0.0, eslint-scope@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npm.taobao.org/eslint-scope/download/eslint-scope-5.1.1.tgz?cache=0&sync_timestamp=1599933651660&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-scope%2Fdownload%2Feslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"
   integrity sha1-54blmmbLkrP2wfsNUIqrF0hI9Iw=
@@ -6874,29 +6849,18 @@ esquery@^1.2.0:
   dependencies:
     estraverse "^5.1.0"
 
-esrecurse@^4.1.0:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/esrecurse/-/esrecurse-4.2.1.tgz#007a3b9fdbc2b3bb87e4879ea19c92fdbd3942cf"
-  dependencies:
-    estraverse "^4.1.0"
-
-esrecurse@^4.3.0:
+esrecurse@^4.1.0, esrecurse@^4.3.0:
   version "4.3.0"
   resolved "https://registry.npm.taobao.org/esrecurse/download/esrecurse-4.3.0.tgz?cache=0&sync_timestamp=1598898255610&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fesrecurse%2Fdownload%2Fesrecurse-4.3.0.tgz#7ad7964d679abb28bee72cec63758b1c5d2c9921"
   integrity sha1-eteWTWeauyi+5yzsY3WLHF0smSE=
   dependencies:
     estraverse "^5.2.0"
 
-estraverse@^4.1.0, estraverse@^4.1.1, estraverse@^4.2.0:
+estraverse@^4.1.1, estraverse@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-4.2.0.tgz#0dee3fed31fcd469618ce7342099fc1afa0bdb13"
 
-estraverse@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/estraverse/download/estraverse-5.1.0.tgz?cache=0&sync_timestamp=1586996117385&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Festraverse%2Fdownload%2Festraverse-5.1.0.tgz#374309d39fd935ae500e7b92e8a6b4c720e59642"
-  integrity sha1-N0MJ05/ZNa5QDnuS6Ka0xyDllkI=
-
-estraverse@^5.2.0:
+estraverse@^5.1.0, estraverse@^5.2.0:
   version "5.2.0"
   resolved "https://registry.npm.taobao.org/estraverse/download/estraverse-5.2.0.tgz?cache=0&sync_timestamp=1596642998635&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Festraverse%2Fdownload%2Festraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880"
   integrity sha1-MH30JUfmzHMk088DwVXVzbjFOIA=
