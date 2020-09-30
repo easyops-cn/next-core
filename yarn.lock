@@ -2734,10 +2734,10 @@
   dependencies:
     "@types/d3-selection" "*"
 
-"@types/d3-chord@*":
-  version "1.0.9"
-  resolved "https://registry.npm.taobao.org/@types/d3-chord/download/@types/d3-chord-1.0.9.tgz#ccc5de03ff079025491b7aa6b750670a140b45ae"
-  integrity sha1-zMXeA/8HkCVJG3qmt1BnChQLRa4=
+"@types/d3-chord@^1":
+  version "1.0.10"
+  resolved "https://registry.npm.taobao.org/@types/d3-chord/download/@types/d3-chord-1.0.10.tgz?cache=0&sync_timestamp=1601424598065&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-chord%2Fdownload%2F%40types%2Fd3-chord-1.0.10.tgz#4c14ca40f61b89a3c615d63f5a34fcc81390805c"
+  integrity sha1-TBTKQPYbiaPGFdY/WjT8yBOQgFw=
 
 "@types/d3-collection@*":
   version "1.0.8"
@@ -2803,10 +2803,10 @@
   dependencies:
     "@types/geojson" "*"
 
-"@types/d3-hierarchy@*":
-  version "1.1.6"
-  resolved "https://registry.npm.taobao.org/@types/d3-hierarchy/download/@types/d3-hierarchy-1.1.6.tgz#4c017521900813ea524c9ecb8d7985ec26a9ad9a"
-  integrity sha1-TAF1IZAIE+pSTJ7LjXmF7CaprZo=
+"@types/d3-hierarchy@^1":
+  version "1.1.7"
+  resolved "https://registry.npm.taobao.org/@types/d3-hierarchy/download/@types/d3-hierarchy-1.1.7.tgz#14a57b0539f8929015f8ad96490de50a16211040"
+  integrity sha1-FKV7BTn4kpAV+K2WSQ3lChYhEEA=
 
 "@types/d3-interpolate@*":
   version "1.3.1"
@@ -2820,10 +2820,15 @@
   resolved "https://registry.npm.taobao.org/@types/d3-path/download/@types/d3-path-1.0.8.tgz#48e6945a8ff43ee0a1ce85c8cfa2337de85c7c79"
   integrity sha1-SOaUWo/0PuChzoXIz6IzfehcfHk=
 
-"@types/d3-polygon@*":
-  version "1.0.7"
-  resolved "https://registry.npm.taobao.org/@types/d3-polygon/download/@types/d3-polygon-1.0.7.tgz#7b3947aa2d48287ff535230d3d396668ab17bfdf"
-  integrity sha1-ezlHqi1IKH/1NSMNPTlmaKsXv98=
+"@types/d3-path@^1":
+  version "1.0.9"
+  resolved "https://registry.npm.taobao.org/@types/d3-path/download/@types/d3-path-1.0.9.tgz#73526b150d14cd96e701597cbf346cfd1fd4a58c"
+  integrity sha1-c1JrFQ0UzZbnAVl8vzRs/R/UpYw=
+
+"@types/d3-polygon@^1":
+  version "1.0.8"
+  resolved "https://registry.npm.taobao.org/@types/d3-polygon/download/@types/d3-polygon-1.0.8.tgz#127ee83fccda5bf57384011da90f31367fea1530"
+  integrity sha1-En7oP8zaW/VzhAEdqQ8xNn/qFTA=
 
 "@types/d3-quadtree@*":
   version "1.0.7"
@@ -2852,6 +2857,11 @@
   resolved "https://registry.npm.taobao.org/@types/d3-selection/download/@types/d3-selection-1.4.1.tgz#fa1f8710a6b5d7cfe5c6caa61d161be7cae4a022"
   integrity sha1-+h+HEKa118/lxsqmHRYb58rkoCI=
 
+"@types/d3-selection@^1":
+  version "1.4.3"
+  resolved "https://registry.npm.taobao.org/@types/d3-selection/download/@types/d3-selection-1.4.3.tgz?cache=0&sync_timestamp=1601424600828&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-selection%2Fdownload%2F%40types%2Fd3-selection-1.4.3.tgz#36928bbe64eb8e0bbcbaa01fb05c21ff6c71fa93"
+  integrity sha1-NpKLvmTrjgu8uqAfsFwh/2xx+pM=
+
 "@types/d3-shape@*":
   version "1.3.2"
   resolved "https://registry.npm.taobao.org/@types/d3-shape/download/@types/d3-shape-1.3.2.tgz#a41d9d6b10d02e221696b240caf0b5d0f5a588ec"
@@ -2869,10 +2879,10 @@
   resolved "https://registry.npm.taobao.org/@types/d3-time/download/@types/d3-time-1.0.10.tgz#d338c7feac93a98a32aac875d1100f92c7b61f4f"
   integrity sha1-0zjH/qyTqYoyqsh10RAPkse2H08=
 
-"@types/d3-timer@*":
-  version "1.0.9"
-  resolved "https://registry.npm.taobao.org/@types/d3-timer/download/@types/d3-timer-1.0.9.tgz#aed1bde0cf18920d33f5d44839d73de393633fd3"
-  integrity sha1-rtG94M8Ykg0z9dRIOdc945NjP9M=
+"@types/d3-timer@^1":
+  version "1.0.10"
+  resolved "https://registry.npm.taobao.org/@types/d3-timer/download/@types/d3-timer-1.0.10.tgz?cache=0&sync_timestamp=1601417425052&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-timer%2Fdownload%2F%40types%2Fd3-timer-1.0.10.tgz#329c51c2c931f44ed0acff78b8c84571acf0ed21"
+  integrity sha1-MpxRwskx9E7QrP94uMhFcazw7SE=
 
 "@types/d3-transition@*":
   version "1.1.6"
@@ -2894,15 +2904,15 @@
     "@types/d3-interpolate" "*"
     "@types/d3-selection" "*"
 
-"@types/d3@^5.7.2":
-  version "5.7.2"
-  resolved "https://registry.npm.taobao.org/@types/d3/download/@types/d3-5.7.2.tgz#52235eb71a1d3ca171d6dca52a58f5ccbe0254cc"
-  integrity sha1-UiNetxodPKFx1tylKlj1zL4CVMw=
+"@types/d3@^5.9.1":
+  version "5.9.1"
+  resolved "https://registry.npm.taobao.org/@types/d3/download/@types/d3-5.9.1.tgz#6f97dd094584362c68741900f342ec158d07c28e"
+  integrity sha1-b5fdCUWENixodBkA80LsFY0Hwo4=
   dependencies:
     "@types/d3-array" "^1"
     "@types/d3-axis" "*"
     "@types/d3-brush" "*"
-    "@types/d3-chord" "*"
+    "@types/d3-chord" "^1"
     "@types/d3-collection" "*"
     "@types/d3-color" "*"
     "@types/d3-contour" "*"
@@ -2914,19 +2924,19 @@
     "@types/d3-force" "*"
     "@types/d3-format" "*"
     "@types/d3-geo" "*"
-    "@types/d3-hierarchy" "*"
+    "@types/d3-hierarchy" "^1"
     "@types/d3-interpolate" "*"
-    "@types/d3-path" "*"
-    "@types/d3-polygon" "*"
+    "@types/d3-path" "^1"
+    "@types/d3-polygon" "^1"
     "@types/d3-quadtree" "*"
     "@types/d3-random" "*"
     "@types/d3-scale" "*"
     "@types/d3-scale-chromatic" "*"
-    "@types/d3-selection" "*"
+    "@types/d3-selection" "^1"
     "@types/d3-shape" "*"
     "@types/d3-time" "*"
     "@types/d3-time-format" "*"
-    "@types/d3-timer" "*"
+    "@types/d3-timer" "^1"
     "@types/d3-transition" "*"
     "@types/d3-voronoi" "*"
     "@types/d3-zoom" "*"
