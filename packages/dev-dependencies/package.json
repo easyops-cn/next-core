@@ -59,7 +59,7 @@
   "devDependencies": {
     "@size-limit/file": "^4.6.0",
     "@types/classnames": "^2.2.10",
-    "@types/d3": "^5.9.5",
+    "@types/d3": "^5.16.2",
     "@types/dompurify": "^2.0.4",
     "@types/echarts": "^4.6.5",
     "@types/enzyme": "^3.10.7",
