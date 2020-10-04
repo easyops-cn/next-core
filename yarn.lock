@@ -10069,10 +10069,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-loader@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/markdown-loader/download/markdown-loader-5.1.0.tgz#4efd5006b1514ca966141c661a47e542a9836e6e"
-  integrity sha1-Tv1QBrFRTKlmFBxmGkflQqmDbm4=
+markdown-loader@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npm.taobao.org/markdown-loader/download/markdown-loader-6.0.0.tgz#7f8d40ee98b32d3bb8c5387d58e679600d3edeaa"
+  integrity sha1-f41A7pizLTu4xTh9WOZ5YA0+3qo=
   dependencies:
     loader-utils "^1.2.3"
     marked "^0.7.0"
