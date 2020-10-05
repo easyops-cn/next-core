@@ -19,6 +19,6 @@
     "postbuild": "dll-differ"
   },
   "dependencies": {
-    "echarts": "^4.8.0"
+    "echarts": "^4.9.0"
   }
 }
