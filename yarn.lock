@@ -2257,7 +2257,15 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@microsoft/api-extractor-model@7.10.1", "@microsoft/api-extractor-model@^7.10.1":
+"@microsoft/api-extractor-model@7.10.2":
+  version "7.10.2"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.10.2.tgz#909cacb32c2bf3a58665418f65c088f1ce11c27d"
+  integrity sha1-kJyssywr86WGZUGPZcCI8c4Rwn0=
+  dependencies:
+    "@microsoft/tsdoc" "0.12.19"
+    "@rushstack/node-core-library" "3.34.2"
+
+"@microsoft/api-extractor-model@^7.10.1":
   version "7.10.1"
   resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.10.1.tgz#7e86fa5507f03951482239baa9fd761e9767837b"
   integrity sha1-fob6VQfwOVFIIjm6qf12Hpdng3s=
@@ -2265,16 +2273,16 @@
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.34.1"
 
-"@microsoft/api-extractor@^7.10.2":
-  version "7.10.2"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.10.2.tgz#3879f0308685eb9304b7b38d3bbba551bd2d7d13"
-  integrity sha1-OHnwMIaF65MEt7ONO7ulUb0tfRM=
+"@microsoft/api-extractor@^7.10.3":
+  version "7.10.3"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.10.3.tgz#648fcf854c59abf4da1e39d083b9dd18f38d3e2f"
+  integrity sha1-ZI/PhUxZq/TaHjnQg7ndGPONPi8=
   dependencies:
-    "@microsoft/api-extractor-model" "7.10.1"
+    "@microsoft/api-extractor-model" "7.10.2"
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.34.1"
-    "@rushstack/rig-package" "0.2.2"
-    "@rushstack/ts-command-line" "4.7.1"
+    "@rushstack/node-core-library" "3.34.2"
+    "@rushstack/rig-package" "0.2.3"
+    "@rushstack/ts-command-line" "4.7.2"
     colors "~1.2.1"
     lodash "~4.17.15"
     resolve "~1.17.0"
@@ -2396,16 +2404,41 @@
     timsort "~0.3.0"
     z-schema "~3.18.3"
 
-"@rushstack/rig-package@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.npm.taobao.org/@rushstack/rig-package/download/@rushstack/rig-package-0.2.2.tgz#acd838935176585341f6054ceb553e89f60051f3"
-  integrity sha1-rNg4k1F2WFNB9gVM61U+ifYAUfM=
+"@rushstack/node-core-library@3.34.2":
+  version "3.34.2"
+  resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.34.2.tgz#83959bb3b63703f6ab0e96a805e733861b87dffb"
+  integrity sha1-g5Wbs7Y3A/arDpaoBeczhhuH3/s=
+  dependencies:
+    "@types/node" "10.17.13"
+    colors "~1.2.1"
+    fs-extra "~7.0.1"
+    import-lazy "~4.0.0"
+    jju "~1.4.0"
+    resolve "~1.17.0"
+    semver "~7.3.0"
+    timsort "~0.3.0"
+    z-schema "~3.18.3"
+
+"@rushstack/rig-package@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.npm.taobao.org/@rushstack/rig-package/download/@rushstack/rig-package-0.2.3.tgz#43ada31c82a7828b67c31c7a5bb522f3acc54f3d"
+  integrity sha1-Q62jHIKngotnwxx6W7Ui86zFTz0=
   dependencies:
     "@types/node" "10.17.13"
     resolve "~1.17.0"
     strip-json-comments "~3.1.1"
 
-"@rushstack/ts-command-line@4.7.1", "@rushstack/ts-command-line@^4.7.1":
+"@rushstack/ts-command-line@4.7.2":
+  version "4.7.2"
+  resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.7.2.tgz#3ffa0863899c26fd5ff30ac5d4ccda544403c6c8"
+  integrity sha1-P/oIY4mcJv1f8wrF1MzaVEQDxsg=
+  dependencies:
+    "@types/argparse" "1.0.38"
+    argparse "~1.0.9"
+    colors "~1.2.1"
+    string-argv "~0.3.1"
+
+"@rushstack/ts-command-line@^4.7.1":
   version "4.7.1"
   resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.7.1.tgz?cache=0&sync_timestamp=1601492930836&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40rushstack%2Fts-command-line%2Fdownload%2F%40rushstack%2Fts-command-line-4.7.1.tgz#05ca90825239029065304efaf340c89e076a19c9"
   integrity sha1-BcqQglI5ApBlME7680DIngdqGck=
