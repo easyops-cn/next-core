@@ -56,6 +56,7 @@ export interface AbstractRuntime {
     getCurrentApp(): MicroApp;
     getFeatureFlags(): FeatureFlags;
     getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
+    getMiscSettings(): Record<string, unknown>;
     // Warning: (ae-forgotten-export) The symbol "CustomProcessorFunc" needs to be exported by the entry point index.d.ts
     registerCustomProcessor(processorFullName: string, processorFunc: CustomProcessorFunc): void;
     registerCustomTemplate(tplName: string, tplConstructor: CustomTemplateConstructor, appId?: string): void;
@@ -168,6 +169,11 @@ export interface EventDeclaration extends EventInit {
 export interface EventEmitter<T = unknown> {
     emit: (detail?: T) => boolean;
 }
+
+// Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const ForwardRefSingleBrickAsComponent: React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>;
 
 // @public
 export function getAuth(): AuthInfo;
@@ -292,8 +298,6 @@ export function reTransformForDevtools(transformationId: number, data: unknown, 
 // @internal (undocumented)
 export type RouterState = "initial" | "ready-to-mount" | "mounted";
 
-// Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function SingleBrickAsComponent(props: SingleBrickAsComponentProps): React_2.ReactElement;
 

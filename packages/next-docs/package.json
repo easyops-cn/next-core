@@ -1,0 +1,24 @@
+{
+  "name": "@easyops/next-docs",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/next-docs",
+  "license": "UNLICENSED",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.easyops.local:anyclouds/next-core.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "build": "api-documenter markdown --front-matter --breadcrumb-home \"API Reference\" --input-folder temp --output-folder dist"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@easyops/brick-kit": "^2.8.0",
+    "@easyops/brick-types": "^2.3.0"
+  }
+}

@@ -25,9 +25,9 @@
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup --config rollup.config.js",
     "build:types": "tsc --project tsconfig.types.json",
-    "postbuild": "node scripts/post-build.js",
-    "docs:run": "api-extractor run",
-    "docs:run:dev": "api-extractor run --local --verbose",
+    "postbuild": "node scripts/post-build.js && npm run docs:build",
+    "docs:build": "api-extractor run",
+    "docs:dev": "api-extractor run --local --verbose",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
