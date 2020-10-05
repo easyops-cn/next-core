@@ -2265,15 +2265,15 @@
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.34.1"
 
-"@microsoft/api-extractor@^7.10.1":
-  version "7.10.1"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.10.1.tgz?cache=0&sync_timestamp=1601492924441&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40microsoft%2Fapi-extractor%2Fdownload%2F%40microsoft%2Fapi-extractor-7.10.1.tgz#6b5b293c59a94b5b4516a8e3c8fb8ac31fb0e4fd"
-  integrity sha1-a1spPFmpS1tFFqjjyPuKwx+w5P0=
+"@microsoft/api-extractor@^7.10.2":
+  version "7.10.2"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.10.2.tgz#3879f0308685eb9304b7b38d3bbba551bd2d7d13"
+  integrity sha1-OHnwMIaF65MEt7ONO7ulUb0tfRM=
   dependencies:
     "@microsoft/api-extractor-model" "7.10.1"
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.34.1"
-    "@rushstack/rig-package" "0.2.1"
+    "@rushstack/rig-package" "0.2.2"
     "@rushstack/ts-command-line" "4.7.1"
     colors "~1.2.1"
     lodash "~4.17.15"
@@ -2396,10 +2396,10 @@
     timsort "~0.3.0"
     z-schema "~3.18.3"
 
-"@rushstack/rig-package@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.npm.taobao.org/@rushstack/rig-package/download/@rushstack/rig-package-0.2.1.tgz?cache=0&sync_timestamp=1601492930418&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40rushstack%2Frig-package%2Fdownload%2F%40rushstack%2Frig-package-0.2.1.tgz#45437a88444eb65a825f9cc93f3cd228d4b47934"
-  integrity sha1-RUN6iEROtlqCX5zJPzzSKNS0eTQ=
+"@rushstack/rig-package@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.npm.taobao.org/@rushstack/rig-package/download/@rushstack/rig-package-0.2.2.tgz#acd838935176585341f6054ceb553e89f60051f3"
+  integrity sha1-rNg4k1F2WFNB9gVM61U+ifYAUfM=
   dependencies:
     "@types/node" "10.17.13"
     resolve "~1.17.0"
