@@ -10255,10 +10255,10 @@ min-indent@^1.0.0:
   resolved "https://registry.npm.taobao.org/min-indent/download/min-indent-1.0.0.tgz#cfc45c37e9ec0d8f0a0ec3dd4ef7f7c3abe39256"
   integrity sha1-z8RcN+nsDY8KDsPdTvf3w6vjklY=
 
-mini-css-extract-plugin@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.npm.taobao.org/mini-css-extract-plugin/download/mini-css-extract-plugin-0.11.2.tgz?cache=0&sync_timestamp=1599924125927&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmini-css-extract-plugin%2Fdownload%2Fmini-css-extract-plugin-0.11.2.tgz#e3af4d5e04fbcaaf11838ab230510073060b37bf"
-  integrity sha1-469NXgT7yq8Rg4qyMFEAcwYLN78=
+mini-css-extract-plugin@^0.11.3:
+  version "0.11.3"
+  resolved "https://registry.npm.taobao.org/mini-css-extract-plugin/download/mini-css-extract-plugin-0.11.3.tgz#15b0910a7f32e62ffde4a7430cfefbd700724ea6"
+  integrity sha1-FbCRCn8y5i/95KdDDP771wByTqY=
   dependencies:
     loader-utils "^1.1.0"
     normalize-url "1.9.1"
