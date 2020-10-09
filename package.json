@@ -82,7 +82,7 @@
     "lerna": "^3.22.1",
     "lint-staged": "^10.4.0",
     "mock-socket": "^9.0.3",
-    "null-loader": "^4.0.0",
+    "null-loader": "^4.0.1",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "timers-browserify": "^2.0.11",
