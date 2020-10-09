@@ -120,17 +120,14 @@ export function computeRealProperties(
 
   if (isObject(properties)) {
     for (const [propName, propValue] of Object.entries(properties)) {
-      if (propName === "style") {
-        if (isObject(propValue)) {
-          result.style = propValue;
-        }
-      } else {
-        // Related: https://github.com/facebook/react/issues/11347
-        const realValue = computeRealValue(propValue, context, injectDeep, {
-          $$lazyForUseBrickEvents: true,
-          $$atUseBrickNow: propName === "useBrick",
-        });
-        if (realValue !== undefined) {
+      // Related: https://github.com/facebook/react/issues/11347
+      const realValue = computeRealValue(propValue, context, injectDeep, {
+        $$lazyForUseBrickEvents: true,
+        $$atUseBrickNow: propName === "useBrick",
+      });
+      if (realValue !== undefined) {
+        // For `style`, only object is acceptable.
+        if (propName !== "style" || isObject(realValue)) {
           result[propName] = realValue;
         }
       }
