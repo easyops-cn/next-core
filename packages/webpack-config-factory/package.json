@@ -28,7 +28,7 @@
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
     "markdown-loader": "^6.0.0",
-    "postcss-loader": "^3.0.0",
+    "postcss-loader": "^4.0.4",
     "postcss-nested": "^4.2.3",
     "postcss-preset-env": "^6.7.0",
     "prismjs": "^1.21.0",
