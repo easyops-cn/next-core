@@ -412,7 +412,7 @@ function builtinWebSocketListenerFactory(
       PluginWebSocketMessageTopic
     ];
 
-    const { system, topic } = messageTopic;
+    const { system, topic } = messageTopic || {};
     getMessageDispatcher()[method](
       channel,
       { system, topic },

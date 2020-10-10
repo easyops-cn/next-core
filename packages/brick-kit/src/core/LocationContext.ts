@@ -108,6 +108,7 @@ export class LocationContext {
   private readonly pageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly messageCloseHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly messageHandlers: BrickAndMessage[] = [];
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
@@ -360,6 +361,7 @@ export class LocationContext {
         onAnchorLoad,
         onAnchorUnload,
         onMessage,
+        onMessageClose,
       } = menuConf.lifeCycle ?? {};
 
       if (onPageLoad) {
@@ -407,6 +409,14 @@ export class LocationContext {
           brick,
           match,
           message: onMessage,
+        });
+      }
+
+      if (onMessageClose) {
+        this.messageCloseHandlers.push({
+          brick,
+          match,
+          handler: onMessageClose,
         });
       }
 
@@ -622,6 +632,7 @@ export class LocationContext {
       onAnchorLoad,
       onAnchorUnload,
       onMessage,
+      onMessageClose,
     } = brickConf.lifeCycle ?? {};
 
     if (onPageLoad) {
@@ -669,6 +680,14 @@ export class LocationContext {
         brick,
         match,
         message: onMessage,
+      });
+    }
+
+    if (onMessageClose) {
+      this.messageCloseHandlers.push({
+        brick,
+        match,
+        handler: onMessageClose,
       });
     }
 
@@ -789,6 +808,15 @@ export class LocationContext {
     this.messageDispatcher.create(
       this.messageHandlers,
       this.getCurrentContext()
+    );
+  }
+
+  handleMessageClose(event: CloseEvent): void {
+    this.dispatchLifeCycleEvent(
+      new CustomEvent<any>("message.close", {
+        detail: event,
+      }),
+      this.messageCloseHandlers
     );
   }
 

@@ -77,6 +77,7 @@ function collectBricksInBrickConf(
       onAnchorLoad,
       onAnchorUnload,
       onMessage,
+      onMessageClose,
     } = brickConf.lifeCycle;
     if (Array.isArray(useResolves)) {
       useResolves.forEach((useResolve) => {
@@ -102,6 +103,7 @@ function collectBricksInBrickConf(
         onPageLeave,
         onAnchorLoad,
         onAnchorUnload,
+        onMessageClose,
         onMessage: messageLifeCycleHandlers,
       },
       collection
