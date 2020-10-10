@@ -2938,10 +2938,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.6.5":
-  version "4.6.5"
-  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.6.5.tgz#6aba35e7d5fdb97f0852865a11ad1cd52f0b72fe"
-  integrity sha1-aro159X9uX8IUoZaEa0c1S8Lcv4=
+"@types/echarts@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.8.0.tgz#60499909599ecb08f8e53cfe441e8933396fe0e9"
+  integrity sha1-YEmZCVmeywj45Tz+RB6JMzlv4Ok=
   dependencies:
     "@types/zrender" "*"
 
@@ -6495,12 +6495,12 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
-echarts@^4.8.0:
-  version "4.8.0"
-  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.8.0.tgz#b2c1cfb9229b13d368ee104fc8eea600b574d4c4"
-  integrity sha1-ssHPuSKbE9No7hBPyO6mALV01MQ=
+echarts@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.9.0.tgz?cache=0&sync_timestamp=1598585875261&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fecharts%2Fdownload%2Fecharts-4.9.0.tgz#a9b9baa03f03a2a731e6340c55befb57a9e1347d"
+  integrity sha1-qbm6oD8Doqcx5jQMVb77V6nhNH0=
   dependencies:
-    zrender "4.3.1"
+    zrender "4.3.2"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -15985,7 +15985,7 @@ z-schema@~3.18.3:
   optionalDependencies:
     commander "^2.7.1"
 
-zrender@4.3.1:
-  version "4.3.1"
-  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.3.1.tgz#baf8aa6dc8187a2f819692d7d5f9bedfa2b90fa3"
-  integrity sha1-uviqbcgYei+BlpLX1fm+36K5D6M=
+zrender@4.3.2:
+  version "4.3.2"
+  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.3.2.tgz?cache=0&sync_timestamp=1597683473479&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fzrender%2Fdownload%2Fzrender-4.3.2.tgz#ec7432f9415c82c73584b6b7b8c47e1b016209c6"
+  integrity sha1-7HQy+UFcgsc1hLa3uMR+GwFiCcY=
