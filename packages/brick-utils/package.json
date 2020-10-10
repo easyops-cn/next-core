@@ -38,7 +38,7 @@
   "devDependencies": {
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",
-    "moment": "^2.29.0"
+    "moment": "^2.29.1"
   },
   "peerDependencies": {
     "js-yaml": "*",

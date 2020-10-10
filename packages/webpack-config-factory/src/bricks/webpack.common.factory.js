@@ -21,12 +21,13 @@ const getStyleLoaders = (cssOptions) => [
   {
     loader: "postcss-loader",
     options: {
-      ident: "postcss",
       sourceMap: false,
-      plugins: () => [
-        require("postcss-nested")(),
-        require("postcss-preset-env")(),
-      ],
+      postcssOptions: {
+        plugins: () => [
+          require("postcss-nested")(),
+          require("postcss-preset-env")(),
+        ],
+      },
     },
   },
 ];
