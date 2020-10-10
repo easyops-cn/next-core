@@ -850,7 +850,7 @@ export interface DesktopData {
 // Warning: (ae-internal-missing-underscore) The name "DesktopItem" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type DesktopItem = DesktopItemApp | DesktopItemDir;
+export type DesktopItem = DesktopItemApp | DesktopItemDir | DesktopItemCustom;
 
 // Warning: (ae-internal-missing-underscore) The name "DesktopItemApp" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -864,6 +864,20 @@ export interface DesktopItemApp {
     type: "app";
 }
 
+// Warning: (ae-internal-missing-underscore) The name "DesktopItemCustom" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface DesktopItemCustom {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: "custom";
+    // (undocumented)
+    url: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "DesktopItemDir" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -871,7 +885,7 @@ export interface DesktopItemDir {
     // (undocumented)
     id: string;
     // (undocumented)
-    items: DesktopItemApp[];
+    items: (DesktopItemApp | DesktopItemCustom)[];
     // (undocumented)
     name: string;
     // (undocumented)
@@ -1150,7 +1164,7 @@ export interface PluginRuntimeContext {
     event?: CustomEvent;
     flags?: FeatureFlags;
     hash?: string;
-    // @internal @deprecated (undocumented)
+    // @internal (undocumented)
     match?: MatchResult;
     query: URLSearchParams;
     segues?: SeguesConf;
@@ -1409,6 +1423,12 @@ export interface RuntimeBrickElement extends HTMLElement {
     $$getElementByRef?: (ref: string) => HTMLElement;
     // (undocumented)
     $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
+}
+
+// @public
+export interface RuntimeMisc {
+    isInIframe: boolean;
+    isInIframeOfLegacyConsole: boolean;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboard" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1831,7 +1851,7 @@ export interface StoryDocTypeAndInterface {
 }
 
 // @public
-export interface SystemInfo {
+export interface SystemInfo extends RuntimeMisc {
     // (undocumented)
     loginFrom?: string;
     // (undocumented)

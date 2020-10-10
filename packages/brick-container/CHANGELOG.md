@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.4.0...@easyops/brick-container@2.4.1) (2020-10-09)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [2.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.3.0...@easyops/brick-container@2.4.0) (2020-09-30)
+
+### Features
+
+- **runtime:** support getMiscSettings, also freeze app.config and settings ([99dc645](https://git.easyops.local/anyclouds/next-core/commits/99dc645))
+- **tree-select:** custom styles ([8f4f07d](https://git.easyops.local/anyclouds/next-core/commits/8f4f07d))
+
 # [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.2.14...@easyops/brick-container@2.3.0) (2020-09-28)
 
 ### Features

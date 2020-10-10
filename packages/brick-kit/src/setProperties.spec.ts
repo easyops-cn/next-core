@@ -3,6 +3,7 @@ import { setProperties, computeRealValue } from "./setProperties";
 import * as runtime from "./core/Runtime";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
+jest.spyOn(console, "error").mockImplementation(() => void 0);
 
 describe("computeRealValue", () => {
   const context: PluginRuntimeContext = {
@@ -158,6 +159,8 @@ describe("setProperties", () => {
       org: 8888,
       username: "easyops",
       userInstanceId: "acbd46b",
+      isInIframe: false,
+      isInIframeOfLegacyConsole: false,
     },
     flags: {
       "better-world": true,
@@ -176,6 +179,7 @@ describe("setProperties", () => {
     errors: "${QUERY.errors|json}",
     style: {
       width: "10px",
+      height: "${QUERY.pageSize=20|number}px",
     },
     items: [] as any[],
     query: {
@@ -219,6 +223,7 @@ describe("setProperties", () => {
         fields: {},
         style: {
           width: "10px",
+          height: "${QUERY.pageSize=20|number}px",
         },
         items: [],
         query: {
@@ -250,6 +255,7 @@ describe("setProperties", () => {
         fields: {},
         style: {
           width: "10px",
+          height: "20px",
         },
         items: [],
         query: {
@@ -282,6 +288,7 @@ describe("setProperties", () => {
           fields: {},
           style: {
             width: "10px",
+            height: "${QUERY.pageSize=20|number}px",
           },
           items: [],
           query: {
@@ -307,6 +314,7 @@ describe("setProperties", () => {
           fields: {},
           style: {
             width: "10px",
+            height: "${QUERY.pageSize=20|number}px",
           },
           items: [],
           query: {

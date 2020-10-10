@@ -12,6 +12,3 @@ report.*.json
 
 /cypress/videos
 /cypress/screenshots
-
-/docs
-/temp
