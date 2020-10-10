@@ -9,11 +9,11 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll-of-echarts.js",
-    limit: "285 KB",
+    limit: "290 KB",
   },
   {
     path: "packages/brick-container/dist/dll.js",
-    limit: "1.41 MB",
+    limit: "1.42 MB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
@@ -45,6 +45,6 @@ module.exports = [
   },
   {
     path: "packages/fontawesome-library/dist/index.esm.js",
-    limit: "410 KB",
+    limit: "415 KB",
   },
 ];
