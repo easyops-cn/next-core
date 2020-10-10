@@ -792,6 +792,13 @@
         "providedExports": ["isValidElement", "replaceElement", "cloneElement"]
       }
     },
+    "./node_modules/rc-slider/es/createSliderWithTooltip.js": {
+      "id": "0nJh",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/AlibabaOutlined.js": {
       "id": "0nY6",
       "buildMeta": {
@@ -8898,7 +8905,10 @@
       "id": "PEeC",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["default", "throttleByAnimationFrameDecorator"]
+        "providedExports": [
+          "throttleByAnimationFrame",
+          "throttleByAnimationFrameDecorator"
+        ]
       }
     },
     "./node_modules/component-classes/index.js": {
@@ -9483,7 +9493,7 @@
       "id": "R3zJ",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["isFlexSupported", "default"]
+        "providedExports": ["isStyleSupport", "isFlexSupported"]
       }
     },
     "./node_modules/@ant-design/icons-svg/lib/asn/ExclamationCircleFilled.js": {
@@ -16773,13 +16783,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/antd/es/_util/openAnimation.js": {
-      "id": "n4lo",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/@ant-design/icons-svg/es/asn/HourglassFilled.js": {
       "id": "n5eh",
       "buildMeta": {
@@ -18285,6 +18288,18 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
+      }
+    },
+    "./node_modules/rc-slider/es/index.js": {
+      "id": "siax",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "default",
+          "Range",
+          "Handle",
+          "createSliderWithTooltip"
+        ]
       }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/FunnelPlotFilled.js": {
@@ -20033,6 +20048,13 @@
     },
     "./node_modules/@ant-design/icons-svg/es/asn/DownCircleFilled.js": {
       "id": "yZWw",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/antd/es/collapse/openAnimation.js": {
+      "id": "yZln",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
