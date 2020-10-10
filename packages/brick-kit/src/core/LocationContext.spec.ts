@@ -5,16 +5,21 @@ import { Kernel } from "./Kernel";
 import { isLoggedIn, getAuth } from "../auth";
 import * as history from "../history";
 import * as runtime from "../core/Runtime";
-
+import * as md from "./MessageDispatcher";
 jest.mock("../auth");
-
+jest.mock("./MessageDispatcher");
 const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
 const consoleInfo = jest
   .spyOn(console, "info")
   .mockImplementation(() => void 0);
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 jest.spyOn(console, "error").mockImplementation(() => void 0);
-
+jest.spyOn(md, "getMessageDispatcher").mockImplementation(
+  () =>
+    ({
+      create: jest.fn(),
+    } as any)
+);
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (getAuth as jest.Mock).mockReturnValue({
   username: "easyops",
@@ -298,6 +303,9 @@ describe("LocationContext", () => {
                       onAnchorUnload: {
                         action: "console.log",
                       },
+                      onMessageClose: {
+                        action: "console.log",
+                      },
                     },
                     slots: {
                       menu: {
@@ -369,6 +377,9 @@ describe("LocationContext", () => {
                                   args: ["${EVENT.detail.anchor}"],
                                 },
                                 onAnchorUnload: {
+                                  action: "console.info",
+                                },
+                                onMessageClose: {
                                   action: "console.info",
                                 },
                               },
@@ -555,6 +566,8 @@ describe("LocationContext", () => {
         action: "POP",
       });
       context.handlePageLeave();
+      context.handleMessageClose(new CloseEvent("error"));
+      context.handleMessage();
 
       // Assert `console.log()`.
       expect(consoleLog).toHaveBeenNthCalledWith(
@@ -588,6 +601,11 @@ describe("LocationContext", () => {
         new CustomEvent("page.leave")
       );
 
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        6,
+        new CustomEvent("message.close")
+      );
+
       // Assert `console.info()`.
       expect(consoleInfo).toHaveBeenNthCalledWith(
         1,
@@ -610,6 +628,10 @@ describe("LocationContext", () => {
       expect(consoleInfo).toHaveBeenNthCalledWith(
         5,
         new CustomEvent("page.leave")
+      );
+      expect(consoleInfo).toHaveBeenNthCalledWith(
+        6,
+        new CustomEvent("message.close")
       );
     });
 

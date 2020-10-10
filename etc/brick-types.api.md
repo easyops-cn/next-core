@@ -294,6 +294,8 @@ export interface BrickLifeCycle {
     // @internal (undocumented)
     onMessage?: MessageConf | MessageConf[];
     // @internal (undocumented)
+    onMessageClose?: BrickEventHandler | BrickEventHandler[];
+    // @internal (undocumented)
     onPageLeave?: BrickEventHandler | BrickEventHandler[];
     onPageLoad?: BrickEventHandler | BrickEventHandler[];
     useResolves?: ResolveConf[];

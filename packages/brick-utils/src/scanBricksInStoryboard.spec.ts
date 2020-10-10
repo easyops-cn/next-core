@@ -96,6 +96,7 @@ describe("scanBricksInStoryboard", () => {
                     },
                   },
                 ],
+                onMessageClose: [{ useProvider: "u-y" }],
               },
               events: {
                 click: {
@@ -273,6 +274,7 @@ describe("scanBricksInStoryboard", () => {
       "u-q",
       "u-r",
       "u-s",
+      "u-y",
     ]);
   });
 });

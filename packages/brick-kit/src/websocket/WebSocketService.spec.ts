@@ -7,6 +7,7 @@ import { WebsocketMessageResponse } from "./WebsocketMessageResponse";
 jest.useRealTimers();
 jest.spyOn(console, "error");
 jest.spyOn(console, "log");
+const mockOnClose = jest.fn();
 describe("WebSocket Service", () => {
   let server: WS;
   let client: WebSocketService;
@@ -25,6 +26,8 @@ describe("WebSocket Service", () => {
       url: "ws://localhost:1234",
       retryLimit: 5,
     });
+
+    client.onClose = mockOnClose;
   });
 
   afterEach(() => {
@@ -76,11 +79,32 @@ describe("WebSocket Service", () => {
   });
 
   describe("WebSocket server get in trouble", () => {
+    it("should call onClose function when webSocket server closed", async () => {
+      server.on("connection", (socket) => {
+        socket.close({ wasClean: false, code: 1003, reason: "NOPE" });
+      });
+      client.onReconnect = jest.fn();
+      jest.useFakeTimers();
+
+      await server.connected;
+
+      jest.advanceTimersByTime(2000);
+      expect(client.onReconnect).toHaveBeenCalledTimes(2);
+
+      await server.connected;
+      server.close({ wasClean: false, code: 1003, reason: "NOPE" });
+      jest.advanceTimersByTime(63000);
+      expect(client.onReconnect).toHaveBeenCalledTimes(6);
+      expect(client.state).toBe("finished");
+      expect(mockOnClose).toHaveBeenCalled();
+      jest.useRealTimers();
+    });
+
     it("should resend message to server when websocket onopen", async () => {
-      expect((client as any).unsendMessageSet.size).toBe(0);
+      expect((client as any).messageQueue.size).toBe(0);
       client.send(req.data);
 
-      expect((client as any).unsendMessageSet.size).toBe(1);
+      expect((client as any).messageQueue.size).toBe(1);
       await server.connected;
       await expect(server).toReceiveMessage(req.data);
 
@@ -88,7 +112,7 @@ describe("WebSocket Service", () => {
         `{"event":"TOPIC.SUB_SUCCESS","sessionID":"9336039e-2ae7-4caa-93ea-f1fae213ee3f","payload":{"source":"","system":"pipeline","topic":"pipeline.task.running.001"}}`
       );
 
-      expect((client as any).unsendMessageSet.size).toBe(0);
+      expect((client as any).messageQueue.size).toBe(0);
     });
 
     it("should reconnect to server when webSocket server get in trouble", async () => {
