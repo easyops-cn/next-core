@@ -49,8 +49,8 @@
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",
     "mock-socket": "^9.0.3",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-i18next": "^11.7.3"
   },
   "peerDependencies": {
