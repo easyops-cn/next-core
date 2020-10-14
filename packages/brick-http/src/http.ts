@@ -1,5 +1,27 @@
 import { fetch } from "./fetch";
 import { HttpFetchError, HttpResponseError, HttpParseError } from "./errors";
+import InterceptorManager from "./InterceptorManager";
+
+export interface HttpRequestConfig {
+  url?: string;
+  method?: string;
+  data?: any;
+  meta?: Record<string, any>;
+  options?: HttpOptions;
+}
+
+export interface HttpResponse<T = any> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: Headers;
+  config: HttpRequestConfig;
+}
+
+export interface HttpError {
+  config: HttpRequestConfig;
+  error: HttpFetchError | HttpResponseError | HttpParseError;
+}
 
 function isNil(value: any): boolean {
   return value === undefined || value === null;
@@ -25,40 +47,71 @@ export type HttpCustomOptions = RequestCustomOptions & {
 
 export type HttpOptions = HttpCustomOptions & RequestInit;
 
+const createError = (
+  error: HttpFetchError | HttpResponseError | HttpParseError,
+  config: HttpRequestConfig
+): HttpError => {
+  return {
+    error,
+    config,
+  };
+};
+
 const request = async <T>(
   url: string,
   init?: RequestInit,
-  options: RequestCustomOptions = {}
-): Promise<T> => {
-  let response: Response;
-  let { responseType, interceptorParams } = options;
-  if (!responseType) {
-    // Defaults to `json`
-    responseType = "json";
-  }
-  try {
-    response = await fetch(url, init, interceptorParams);
-  } catch (e) {
-    throw new HttpFetchError(e.toString());
-  }
+  config?: HttpRequestConfig
+): Promise<HttpResponse<T>> => {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    let response: Response;
+    config.url = url;
 
-  if (!response.ok) {
-    let responseJson;
-    try {
-      responseJson = await response.json();
-    } catch (e) {
-      // Do nothing.
+    let { responseType } = config.options || {};
+
+    if (!responseType) {
+      // Defaults to `json`
+      responseType = "json";
     }
-    throw new HttpResponseError(response, responseJson);
-  }
 
-  let result: T;
-  try {
-    result = await response[responseType]();
-  } catch (e) {
-    throw new HttpParseError(response);
-  }
-  return result;
+    try {
+      response = await fetch(url, init);
+    } catch (e) {
+      reject(createError(new HttpFetchError(e.toString()), config));
+      return;
+    }
+
+    if (!response.ok) {
+      let responseJson;
+      try {
+        responseJson = await response.json();
+      } catch (e) {
+        // Do nothing.
+      }
+      reject(
+        createError(new HttpResponseError(response, responseJson), config)
+      );
+      return;
+    }
+
+    let data: T;
+    try {
+      data = await response[responseType]();
+    } catch (e) {
+      reject(createError(new HttpParseError(response), config));
+      return;
+    }
+
+    const res: HttpResponse<T> = {
+      config,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      data,
+    };
+
+    resolve(res);
+  });
 };
 
 const getUrlWithParams = (url: string, params?: HttpParams): string => {
@@ -116,19 +169,17 @@ const getBodyAndHeaders = (
 const simpleRequest = <T = any>(
   method: string,
   url: string,
-  options: HttpOptions = {}
-): Promise<T> => {
-  const { params, responseType, interceptorParams, ...requestInit } = options;
+  config: HttpRequestConfig
+): Promise<HttpResponse<T>> => {
+  const { params, responseType, interceptorParams, ...requestInit } =
+    config.options || {};
   return request<T>(
     getUrlWithParams(url, params),
     {
       ...requestInit,
       method,
     },
-    {
-      responseType,
-      interceptorParams,
-    }
+    config
   );
 };
 
@@ -136,15 +187,10 @@ const requestWithBody = <T = any>(
   method: string,
   url: string,
   data?: any,
-  options: HttpOptions = {}
-): Promise<T> => {
-  const {
-    params,
-    responseType,
-    interceptorParams,
-    headers,
-    ...requestInit
-  } = options;
+  config?: HttpRequestConfig
+): Promise<HttpResponse<T>> => {
+  const { params, responseType, interceptorParams, headers, ...requestInit } =
+    config.options || {};
   return request<T>(
     getUrlWithParams(url, params),
     {
@@ -152,50 +198,119 @@ const requestWithBody = <T = any>(
       method,
       ...getBodyAndHeaders(data, headers),
     },
-    {
-      responseType,
-      interceptorParams,
-    }
+    config
   );
 };
 
-const get = <T = any>(url: string, options?: HttpOptions): Promise<T> =>
-  simpleRequest<T>("GET", url, options);
+class Http {
+  public interceptors: {
+    request: InterceptorManager;
+    response: InterceptorManager;
+  };
 
-const post = <T = any>(
-  url: string,
-  data?: any,
-  options?: HttpOptions
-): Promise<T> => requestWithBody<T>("POST", url, data, options);
+  public defaults = {};
 
-const put = <T = any>(
-  url: string,
-  data?: any,
-  options?: HttpOptions
-): Promise<T> => requestWithBody<T>("PUT", url, data, options);
+  constructor() {
+    this.interceptors = {
+      request: new InterceptorManager(),
+      response: new InterceptorManager(),
+    };
+  }
 
-const patch = <T = any>(
-  url: string,
-  data?: any,
-  options?: HttpOptions
-): Promise<T> => requestWithBody<T>("PATCH", url, data, options);
+  request = async <T>(
+    url: string,
+    init?: RequestInit,
+    options?: RequestCustomOptions
+  ): Promise<T> => {
+    const { body, method, ...requestInit } = init || {};
+    return this.fetch({
+      ...this.defaults,
+      url,
+      data: body,
+      method,
+      options: { ...(options || {}), ...requestInit },
+    });
+  };
 
-const httpDelete = <T = any>(url: string, options?: HttpOptions): Promise<T> =>
-  simpleRequest<T>("DELETE", url, options);
+  simpleRequest = <T = any>(
+    method: string,
+    url: string,
+    options: HttpOptions = {}
+  ): Promise<T> => {
+    return this.fetch({ ...this.defaults, url, method, options });
+  };
 
-const head = <T = any>(url: string, options?: HttpOptions): Promise<T> =>
-  simpleRequest<T>("HEAD", url, options);
+  requestWithBody = <T = any>(
+    method: string,
+    url: string,
+    data?: any,
+    options: HttpOptions = {}
+  ): Promise<T> => {
+    return this.fetch({ ...this.defaults, url, method, data, options });
+  };
 
-export const http = {
-  get,
-  post,
-  put,
-  patch,
-  delete: httpDelete,
-  head,
-  request,
-  getBodyAndHeaders,
-  getUrlWithParams,
-  requestWithBody,
-  simpleRequest,
-};
+  private dispatchRequest<T>(config: HttpRequestConfig): any {
+    const { url, method, data, options = {} } = config;
+
+    // "DELETE", "GET", "HEAD" methods.
+    if (["DELETE", "GET", "HEAD"].includes(config.method)) {
+      return simpleRequest<T>(method, url, config);
+    }
+
+    // "POST", "PUT" , "PATCH" methods.
+    return requestWithBody<T>(method, url, data, config);
+  }
+
+  private fetch(config: HttpRequestConfig): Promise<any> {
+    const chain: any[] = [];
+    let promise = Promise.resolve(config);
+
+    this.interceptors.request.forEach((interceptor) => {
+      chain.push(interceptor.fulfilled, interceptor.rejected);
+    });
+
+    chain.push(this.dispatchRequest, undefined);
+
+    this.interceptors.response.forEach((interceptor) => {
+      chain.push(interceptor.fulfilled, interceptor.rejected);
+    });
+
+    while (chain.length) {
+      promise = promise.then(chain.shift(), chain.shift());
+    }
+
+    return promise;
+  }
+
+  get<T>(url: string, options?: HttpOptions): Promise<T> {
+    return this.fetch({ ...this.defaults, url, method: "GET", options });
+  }
+
+  delete<T>(url: string, options?: HttpOptions): Promise<T> {
+    return this.fetch({ ...this.defaults, url, method: "DELETE", options });
+  }
+
+  head<T>(url: string, options?: HttpOptions): Promise<T> {
+    return this.fetch({ ...this.defaults, url, method: "HEAD", options });
+  }
+
+  post<T>(url: string, data?: any, options?: HttpOptions): Promise<T> {
+    return this.fetch({ ...this.defaults, url, method: "POST", data, options });
+  }
+
+  put<T>(url: string, data?: any, options?: HttpOptions): Promise<T> {
+    return this.fetch({ ...this.defaults, url, method: "PUT", data, options });
+  }
+
+  patch<T>(url: string, data?: any, options?: HttpOptions): Promise<T> {
+    return this.fetch({
+      ...this.defaults,
+      url,
+      method: "PATCH",
+      data,
+      options,
+    });
+  }
+}
+
+export const http = new Http();

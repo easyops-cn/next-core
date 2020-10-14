@@ -25,6 +25,24 @@ type TestItem =
 };
 
 describe("http", () => {
+  http.interceptors.request.use(
+    (config) => {
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  http.interceptors.response.use(
+    (config) => {
+      return config.data;
+    },
+    (error) => {
+      return Promise.reject(error.error);
+    }
+  );
+
   afterEach(() => {
     spyOnFetch.mockClear();
   });
@@ -101,7 +119,6 @@ describe("http", () => {
     ["POST", "http://example.com/for-good", ["for=the-throne"]],
     ["POST", "http://example.com/for-good", [formData]],
   ];
-
   it.each(batchTests)(
     "%s %s with %j should work",
     async (method: string, url: string, args: any[]) => {
@@ -109,6 +126,25 @@ describe("http", () => {
       expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
     }
   );
+
+  it.each(batchTests)(
+    `requestWithBody or simpleRequest %s %s with %j should work`,
+    async (method: string, url: string, args: any[]) => {
+      let requestType = "simpleRequest";
+      ["POST", "PUT", "PATCH"].includes(method) &&
+        (requestType = "requestWithBody");
+      await http[requestType as "post"](method, url, ...args);
+      expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
+    }
+  );
+
+  it("should work with http.request", async () => {
+    await http.request("http://example.com/for-good", {
+      method: "GET",
+    });
+
+    expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
+  });
 
   it("should return raw text", async () => {
     __setReturnValue(Promise.resolve(new Response("raw-text")));
@@ -154,7 +190,7 @@ describe("http", () => {
     );
     expect.assertions(2);
     try {
-      await http.get("http://example.com");
+      await http.post("http://example.com");
     } catch (e) {
       expect(e).toBeInstanceOf(HttpResponseError);
       expect(e.responseJson).toEqual({

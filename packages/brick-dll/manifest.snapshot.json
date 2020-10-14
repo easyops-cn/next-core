@@ -7257,8 +7257,7 @@
           "HttpParseError",
           "HttpResponseError",
           "fetch",
-          "http",
-          "pushInterceptor"
+          "http"
         ]
       }
     },
