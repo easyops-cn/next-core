@@ -4,7 +4,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Result } from "antd";
 import { createRuntime, httpErrorToString } from "@easyops/brick-kit";
-import { pushInterceptor } from "@easyops/brick-http";
+import {
+  http,
+  HttpRequestConfig,
+  HttpResponse,
+  HttpError,
+} from "@easyops/brick-http";
 import { initializeLibrary } from "@easyops/fontawesome-library";
 
 import "./antd";
@@ -41,15 +46,23 @@ const mountPoints = {
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
-pushInterceptor((req, next, interceptorParams?) => {
-  if (interceptorParams && interceptorParams.ignoreLoadingBar) {
-    return next(req);
+http.interceptors.request.use(function (config: HttpRequestConfig) {
+  if (!config.options?.interceptorParams?.ignoreLoadingBar) {
+    window.dispatchEvent(new CustomEvent("request.start"));
   }
-  window.dispatchEvent(new CustomEvent("request.start"));
-  return next(req).finally(() => {
-    window.dispatchEvent(new CustomEvent("request.end"));
-  });
+  return config;
 });
+
+http.interceptors.response.use(
+  function (response: HttpResponse) {
+    window.dispatchEvent(new CustomEvent("request.end"));
+    return response.data;
+  },
+  function (error: HttpError) {
+    window.dispatchEvent(new CustomEvent("request.end"));
+    return Promise.reject(error.error);
+  }
+);
 
 async function bootstrap(): Promise<void> {
   try {
