@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.8.1...@easyops/brick-kit@2.9.0) (2020-10-15)
+
+### Features
+
+- **websocket:** websocket 支持 wss 协议 ([5a42052](https://git.easyops.local/anyclouds/next-core/commits/5a42052))
+- **websocket:** 增加 onMessageClose 生命周期 ([3fd84f2](https://git.easyops.local/anyclouds/next-core/commits/3fd84f2))
+
 ## [2.8.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.8.0...@easyops/brick-kit@2.8.1) (2020-10-09)
 
 ### Bug Fixes
