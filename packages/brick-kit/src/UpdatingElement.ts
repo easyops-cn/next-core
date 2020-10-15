@@ -82,7 +82,11 @@ export interface PropertyDeclaration<Type = unknown> {
    */
   readonly noAccessor?: boolean;
 
-  // Used for existed properties that are conflicted with html native properties.
+  /**
+   * Used for existed properties that are conflicted with html native properties.
+   *
+   * @internal
+   */
   __deprecated_and_for_compatibility_only?: boolean;
 }
 

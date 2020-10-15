@@ -87,9 +87,7 @@ export class Runtime implements AbstractRuntime {
   } = {}): MicroApp[] {
     let apps = kernel.bootstrapData.microApps;
     if (excludeInstalling) {
-      apps = apps.filter(
-        (app) => !(app.installStatus && app.installStatus === "running")
-      );
+      apps = apps.filter((app) => app.installStatus !== "running");
     }
     if (!includeInternal) {
       apps = apps.filter((app) => !app.internal);
