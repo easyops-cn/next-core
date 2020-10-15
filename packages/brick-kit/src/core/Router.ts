@@ -396,4 +396,9 @@ export class Router {
   getCurrentContext(): PluginRuntimeContext {
     return this.locationContext.getCurrentContext();
   }
+
+  /* istanbul ignore next */
+  handleMessageClose(event: CloseEvent): void {
+    return this.locationContext.handleMessageClose(event);
+  }
 }

@@ -5,8 +5,9 @@ let websocket: WebSocketService;
 export const createWebSocket = (): WebSocketService => {
   if (!websocket) {
     const baseHref = process.env.NODE_ENV === "production" ? "/next/" : "/";
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     websocket = new WebSocketService({
-      url: `ws://${window.location.host}${baseHref}api/websocket_service/v1/ws`,
+      url: `${protocol}//${window.location.host}${baseHref}api/websocket_service/v1/ws`,
     });
   }
   return websocket;

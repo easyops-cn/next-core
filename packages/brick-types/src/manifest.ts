@@ -590,6 +590,9 @@ export interface BrickLifeCycle {
 
   /** @internal */
   onMessage?: MessageConf | MessageConf[];
+
+  /** @internal */
+  onMessageClose?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**

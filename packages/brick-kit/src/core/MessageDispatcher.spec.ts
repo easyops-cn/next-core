@@ -9,12 +9,20 @@ import * as BL from "../bindListeners";
 import {
   MessageBrickEventHandlerCallback,
   PluginWebSocketMessageEvent,
+  PluginWebSocketMessageTopic,
 } from "../websocket/interfaces";
 import { WebsocketMessageResponse } from "../websocket";
+import * as runtime from "./Runtime";
 
+jest.mock("./Runtime");
 const spyOnListenerFactory = jest
   .spyOn(BL, "listenerFactory")
   .mockImplementation(() => () => jest.fn());
+
+const spyOnMessageCloseHandler = jest.spyOn(
+  runtime,
+  "_internalApiMessageCloseHandler"
+);
 
 const mockSend = jest.fn();
 const context: PluginRuntimeContext = {
@@ -98,10 +106,11 @@ const spyOnGetWebSocket = jest.spyOn(WS, "createWebSocket").mockImplementation(
   () =>
     ({
       send: mockSend,
+      onClose: jest.fn(),
     } as any)
 );
 
-jest.spyOn(console, "error");
+const spyOnConsoleError = jest.spyOn(console, "error");
 describe("MessageDispatcher", () => {
   let md: MessageDispatcher;
   beforeAll(() => {
@@ -138,6 +147,8 @@ describe("MessageDispatcher", () => {
         topic,
         callback as MessageBrickEventHandlerCallback
       );
+
+      expect(mockSend).toHaveBeenCalledTimes(1);
 
       spyOnGetWebSocket.mock.results[0].value.onMessage(
         new WebsocketMessageResponse(
@@ -189,7 +200,7 @@ describe("MessageDispatcher", () => {
   });
 
   describe("test unsubscribe message", () => {
-    it("should call subscribe message callback handler", async () => {
+    it("should call unsubscribe message callback handler", async () => {
       const topic = {
         system: "pipeline",
         topic: "pipeline.task.running.001",
@@ -230,7 +241,37 @@ describe("MessageDispatcher", () => {
         context,
         mockElement
       );
+
+      spyOnListenerFactory.mockClear();
     });
+
+    it("Do not unsubscribe if the message channel not fund", () => {
+      spyOnConsoleError.mockClear();
+      const callback = {
+        brick: mockElement,
+        context,
+        success: { action: "console.log" },
+        error: { action: "console.error" },
+      };
+
+      // subscribe message success
+      md.unsubscribe(
+        "channel1",
+        {} as PluginWebSocketMessageTopic,
+        callback as MessageBrickEventHandlerCallback
+      );
+
+      expect(spyOnConsoleError).toHaveBeenCalledWith(
+        `Message channel："channel1" not found. `
+      );
+    });
+  });
+
+  it("should dispatch close event ", () => {
+    const closeEvent = new CloseEvent("error");
+    md.onClose(closeEvent);
+
+    expect(spyOnMessageCloseHandler).toHaveBeenCalledWith(closeEvent);
   });
 
   it("print Unknown message event", () => {

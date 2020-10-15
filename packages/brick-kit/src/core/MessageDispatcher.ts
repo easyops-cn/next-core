@@ -18,6 +18,7 @@ import { listenerFactory } from "../bindListeners";
 import { createWebSocket } from "../websocket/WebSocket";
 import minimatch from "minimatch";
 import { WebSocketService } from "../websocket/WebSocketService";
+import { _internalApiMessageCloseHandler } from "./Runtime";
 
 let messageDispatcher: MessageDispatcher;
 
@@ -82,8 +83,12 @@ export class MessageDispatcher {
       topic
     );
     this.setMessageCallbackHandlers(req.identity, callback);
-    this.channels.set(req.topic, channel);
-    this.send(req.data);
+
+    // Prevent repeated subscriptions to the same topic.
+    if (!this.channels.has(req.topic)) {
+      this.channels.set(req.topic, channel);
+      this.send(req.data);
+    }
   }
 
   unsubscribe(
@@ -91,13 +96,26 @@ export class MessageDispatcher {
     topic: PluginWebSocketMessageTopic,
     callback: MessageBrickEventHandlerCallback
   ): void {
+    const t = this.getTopicByChannel(channel);
+    if (!t) {
+      // eslint-disable-next-line no-console
+      console.error(`Message channel："${channel}" not found. `);
+      return;
+    }
     const req = new WebsocketMessageRequest(
       PluginWebSocketMessageEvent.UNSUB,
-      topic
+      JSON.parse(t)
     );
 
     this.setMessageCallbackHandlers(req.identity, callback);
     this.send(req.data);
+    this.channels.delete(t);
+  }
+
+  private getTopicByChannel(channel: string): string | undefined {
+    return [...this.channels.entries()]
+      .filter(([, v]) => v === channel)
+      .map(([v]) => v)[0];
   }
 
   private send(data: string): void {
@@ -112,6 +130,13 @@ export class MessageDispatcher {
     this.ws.onMessage = (message) => {
       this.reducer(message);
     };
+    this.ws.onClose = (event: CloseEvent) => {
+      this.onClose(event);
+    };
+  }
+
+  onClose(event: CloseEvent): void {
+    _internalApiMessageCloseHandler(event);
   }
 
   setMessageCallbackHandlers(

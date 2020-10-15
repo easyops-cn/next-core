@@ -6,8 +6,8 @@ export class WebSocketService {
   private ws: WebSocket = null;
   private lockReconnect = false;
   public options: PluginWebSocketOptions;
-
-  private unsendMessageSet: Set<string> = new Set();
+  private messageQueue: Set<string> = new Set();
+  public state: "initial" | "connecting" | "pending" | "finished" = "initial";
 
   private readonly defaultOptions: PluginWebSocketOptions = {
     url: null,
@@ -27,6 +27,7 @@ export class WebSocketService {
   createWebSocket(): void {
     try {
       this.ws = new WebSocket(this.options.url);
+      this.state = "connecting";
       this.init();
     } catch (e) {
       this.reconnect();
@@ -37,19 +38,19 @@ export class WebSocketService {
 
   private init(): void {
     this.ws.onopen = () => {
-      if (this.unsendMessageSet.size > 0) {
-        [...this.unsendMessageSet].forEach((message) => {
-          this.unsendMessageSet.delete(message);
-          this.send(message);
-        });
-      }
+      this.state = "pending";
+      this.sendQueuedMessages();
       this.onOpen();
       this.retryCount = 0;
       this.options.reconnectTimeout = this.defaultOptions.reconnectTimeout;
     };
 
     this.ws.onclose = (event: CloseEvent) => {
-      this.onClose(event);
+      if (this.state === "finished") {
+        this.onClose(event);
+        // eslint-disable-next-line no-console
+        console.warn("WebSocket was closed.", event);
+      }
       // Error code 1000 means that the connection was closed normally.
       // Try to reconnect.
       if (event.code !== 1000) {
@@ -78,11 +79,20 @@ export class WebSocketService {
     };
   }
 
+  private sendQueuedMessages(): void {
+    if (this.messageQueue.size > 0) {
+      [...this.messageQueue].forEach((message) => {
+        this.messageQueue.delete(message);
+        this.send(message);
+      });
+    }
+  }
+
   send(data: string): void {
     if (this.readyState === WebSocket.OPEN) {
       this.ws.send(data);
     } else {
-      this.unsendMessageSet.add(data);
+      this.messageQueue.add(data);
     }
   }
 
@@ -90,8 +100,10 @@ export class WebSocketService {
     if (
       this.options.retryLimit > 0 &&
       this.options.retryLimit <= this.retryCount
-    )
+    ) {
+      this.state = "finished";
       return;
+    }
     if (this.lockReconnect) return;
 
     this.lockReconnect = true;
@@ -116,6 +128,7 @@ export class WebSocketService {
 
   onOpen(): void {}
 
+  // istanbul ignore next
   onClose(event: CloseEvent): void {}
 
   onError(event: Event): void {}
