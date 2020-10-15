@@ -29,11 +29,11 @@ module.exports = [
   },
   {
     path: "packages/brick-icons/dist/index.esm.js",
-    limit: "152 KB",
+    limit: "155 KB",
   },
   {
     path: "packages/brick-kit/dist/index.esm.js",
-    limit: "61 KB",
+    limit: "65 KB",
   },
   {
     path: "packages/brick-types/dist/index.esm.js",
@@ -41,7 +41,7 @@ module.exports = [
   },
   {
     path: "packages/brick-utils/dist/index.esm.js",
-    limit: "105 KB",
+    limit: "110 KB",
   },
   {
     path: "packages/fontawesome-library/dist/index.esm.js",
