@@ -225,6 +225,7 @@ describe("cook", () => {
     ["DATA.number5 |> PIPES.string", "5"],
     // Sequential pipeline operators with an arrow function.
     ["DATA.number5 |> (_ => _ + 1) |> PIPES.string", "6"],
+    ["new Set([1, 2, 3])", new Set([1, 2, 3])],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
@@ -274,6 +275,9 @@ describe("cook", () => {
     "((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(`yo`)')()",
     "_.get(()=>1, 'constructor.prototype')",
     "DATA |> DATA.number5",
+    "new Boolean()",
+    "new (a = function () {})()",
+    "(Set => new Set())(() => null)",
     // Todo(steve)
     // "_.wrap(_.method('constructor.assign',{a:1},{b:2}),(func,...a) => func(...a))({})"
   ])("cook(precook(%j), {...}) should throw", (input) => {

@@ -12,6 +12,8 @@ exports[`cook cook(precook("({}).constructor.assign"), {...}) should throw 1`] =
 
 exports[`cook cook(precook("(DATA.notExisted?.length).oops"), {...}) should throw 1`] = `"Cannot read property 'oops' of undefined"`;
 
+exports[`cook cook(precook("(Set => new Set())(() => null)"), {...}) should throw 1`] = `"Unsupported non-global constructor \`Set\`: \`new Set()\`"`;
+
 exports[`cook cook(precook("/bc\\\\u{/u.test('dcba')"), {...}) should throw 1`] = `"Invalid regular expression: /bc\\\\u{/u"`;
 
 exports[`cook cook(precook("/bc\\\\u{13}/u.test('dcba')"), {...}) should throw 1`] = `"Unsupported unicode flag in regular expression: /bc\\\\u{13}/u"`;
@@ -71,5 +73,9 @@ exports[`cook cook(precook("delete DATA.for"), {...}) should throw 1`] = `"Unsup
 exports[`cook cook(precook("location.assign('/')"), {...}) should throw 1`] = `"location.assign is not a function"`;
 
 exports[`cook cook(precook("moment.updateLocale('en', {})"), {...}) should throw 1`] = `"moment.updateLocale is not a function"`;
+
+exports[`cook cook(precook("new (a = function () {})()"), {...}) should throw 1`] = `"Unsupported new expression: \`new (a = function () {})()\`"`;
+
+exports[`cook cook(precook("new Boolean()"), {...}) should throw 1`] = `"Unsupported constructor \`Boolean\`: \`new Boolean()\`"`;
 
 exports[`cook cook(precook("this.bad"), {...}) should throw 1`] = `"Unsupported node type \`ThisExpression\`: \`this\`"`;

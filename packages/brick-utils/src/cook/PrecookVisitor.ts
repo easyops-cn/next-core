@@ -9,6 +9,7 @@ import {
   Identifier,
   LogicalExpression,
   MemberExpression,
+  NewExpression,
   ObjectExpression,
   ObjectPattern,
   ObjectProperty,
@@ -167,6 +168,12 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
   },
   UnaryExpression(node: UnaryExpression, state, callback) {
     callback(node.argument, state);
+  },
+  NewExpression(node: NewExpression, state, callback) {
+    callback(node.callee, state);
+    for (const arg of node.arguments) {
+      callback(arg, state);
+    }
   },
 };
 

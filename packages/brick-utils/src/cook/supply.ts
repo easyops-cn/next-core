@@ -120,6 +120,10 @@ const allowedGlobalObjects = new Set([
   "isNaN",
   "parseFloat",
   "parseInt",
+  "Map",
+  "Set",
+  "WeakMap",
+  "WeakSet",
 ]);
 
 function supplyIndividual(variableName: string): unknown {
