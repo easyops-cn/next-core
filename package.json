@@ -39,7 +39,7 @@
     "@babel/core": "^7.12.1",
     "@babel/types": "^7.12.1",
     "@cypress/browserify-preprocessor": "^3.0.1",
-    "@easyops-cn/api-documenter": "^7.9.1",
+    "@easyops-cn/api-documenter": "^7.9.2",
     "@microsoft/api-extractor": "^7.10.4",
     "@size-limit/file": "^4.6.0",
     "@types/enzyme": "^3.10.7",
