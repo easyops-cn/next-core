@@ -13537,6 +13537,15 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.17, postcss@^7.0.2
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
+postcss@^7.0.35:
+  version "7.0.35"
+  resolved "https://registry.npm.taobao.org/postcss/download/postcss-7.0.35.tgz?cache=0&sync_timestamp=1601330112363&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss%2Fdownload%2Fpostcss-7.0.35.tgz#d2be00b998f7f211d8a276974079f2e92b970e24"
+  integrity sha1-0r4AuZj38hHYonaXQHny6SuXDiQ=
+  dependencies:
+    chalk "^2.4.2"
+    source-map "^0.6.1"
+    supports-color "^6.1.0"
+
 postcss@^8.1.1:
   version "8.1.1"
   resolved "https://registry.npm.taobao.org/postcss/download/postcss-8.1.1.tgz?cache=0&sync_timestamp=1601330112363&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss%2Fdownload%2Fpostcss-8.1.1.tgz#c3a287dd10e4f6c84cb3791052b96a5d859c9389"
