@@ -1990,18 +1990,18 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@easyops-cn/api-documenter@^7.9.1":
-  version "7.9.1"
-  resolved "https://registry.npm.taobao.org/@easyops-cn/api-documenter/download/@easyops-cn/api-documenter-7.9.1.tgz?cache=0&sync_timestamp=1601902591051&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40easyops-cn%2Fapi-documenter%2Fdownload%2F%40easyops-cn%2Fapi-documenter-7.9.1.tgz#f44c9332f0736cf659b0520cc285074c03ba8043"
-  integrity sha1-9EyTMvBzbPZZsFIMwoUHTAO6gEM=
+"@easyops-cn/api-documenter@^7.9.2":
+  version "7.9.2"
+  resolved "https://registry.npm.taobao.org/@easyops-cn/api-documenter/download/@easyops-cn/api-documenter-7.9.2.tgz#ba1cb5864301505fc3f915b2e417e6f70e8bbb77"
+  integrity sha1-uhy1hkMBUF/D+RWy5Bfm9w6Lu3c=
   dependencies:
-    "@microsoft/api-extractor-model" "^7.10.1"
-    "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "^3.34.1"
-    "@rushstack/ts-command-line" "^4.7.1"
-    colors "~1.2.1"
-    js-yaml "~3.13.1"
-    resolve "~1.17.0"
+    "@microsoft/api-extractor-model" "^7.10.3"
+    "@microsoft/tsdoc" "^0.12.19"
+    "@rushstack/node-core-library" "^3.34.3"
+    "@rushstack/ts-command-line" "^4.7.3"
+    colors "^1.2.1"
+    js-yaml "^3.13.1"
+    resolve "^1.17.0"
 
 "@easyops-cn/brick-next-pipes@^0.3.5":
   version "0.3.5"
@@ -3003,7 +3003,7 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@microsoft/api-extractor-model@7.10.3", "@microsoft/api-extractor-model@^7.10.1":
+"@microsoft/api-extractor-model@7.10.3", "@microsoft/api-extractor-model@^7.10.3":
   version "7.10.3"
   resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.10.3.tgz#f687f324e940bd71e3e73b5b262a54594b0ea61c"
   integrity sha1-9ofzJOlAvXHj5ztbJipUWUsOphw=
@@ -3032,6 +3032,11 @@
   version "0.12.19"
   resolved "https://registry.npm.taobao.org/@microsoft/tsdoc/download/@microsoft/tsdoc-0.12.19.tgz#2173ccb92469aaf62031fa9499d21b16d07f9b57"
   integrity sha1-IXPMuSRpqvYgMfqUmdIbFtB/m1c=
+
+"@microsoft/tsdoc@^0.12.19":
+  version "0.12.21"
+  resolved "https://registry.npm.taobao.org/@microsoft/tsdoc/download/@microsoft/tsdoc-0.12.21.tgz#1098c393634826ed47386862a1241ce8b7c0cf0d"
+  integrity sha1-EJjDk2NIJu1HOGhioSQc6LfAzw0=
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -3127,7 +3132,7 @@
     universal-user-agent "^3.0.0"
     url-template "^2.0.8"
 
-"@rushstack/node-core-library@3.34.3", "@rushstack/node-core-library@^3.34.1":
+"@rushstack/node-core-library@3.34.3", "@rushstack/node-core-library@^3.34.3":
   version "3.34.3"
   resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.34.3.tgz#a59a1e452dcc79bd4e5f0840b4e9603551668f85"
   integrity sha1-pZoeRS3Meb1OXwhAtOlgNVFmj4U=
@@ -3151,7 +3156,7 @@
     resolve "~1.17.0"
     strip-json-comments "~3.1.1"
 
-"@rushstack/ts-command-line@4.7.3", "@rushstack/ts-command-line@^4.7.1":
+"@rushstack/ts-command-line@4.7.3", "@rushstack/ts-command-line@^4.7.3":
   version "4.7.3"
   resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.7.3.tgz#fa72c637d70aa29c201f8f016f7db626f2d23a2c"
   integrity sha1-+nLGN9cKopwgH48Bb322JvLSOiw=
@@ -6020,7 +6025,7 @@ colors@1.0.3:
   resolved "https://registry.npm.taobao.org/colors/download/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
-colors@^1.1.2:
+colors@^1.1.2, colors@^1.2.1:
   version "1.4.0"
   resolved "https://registry.npm.taobao.org/colors/download/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha1-xQSRR51MG9rtLJztMs98fcI2D3g=
@@ -10556,14 +10561,6 @@ js-yaml@^3.13.1, js-yaml@^3.14.0:
   version "3.14.0"
   resolved "https://registry.npm.taobao.org/js-yaml/download/js-yaml-3.14.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjs-yaml%2Fdownload%2Fjs-yaml-3.14.0.tgz#a7a34170f26a21bb162424d8adacb4113a69e482"
   integrity sha1-p6NBcPJqIbsWJCTYray0ETpp5II=
-  dependencies:
-    argparse "^1.0.7"
-    esprima "^4.0.0"
-
-js-yaml@~3.13.1:
-  version "3.13.1"
-  resolved "https://registry.npm.taobao.org/js-yaml/download/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
-  integrity sha1-r/FRswv9+o5J4F2iLnQV6d+jeEc=
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
