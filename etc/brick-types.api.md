@@ -305,7 +305,7 @@ export interface BrickLifeCycle {
 export interface BrickMenuConf {
     brick: string;
     events?: BrickEventsMap;
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     injectDeep?: boolean;
     lifeCycle?: BrickLifeCycle;
     properties?: Record<string, unknown>;
@@ -1463,7 +1463,7 @@ export interface SelectorProviderResolveConf extends BaseEntityResolveConf {
 
 // @public
 export interface SetPropsCustomBrickEventHandler extends BaseCustomBrickEventHandler {
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     injectDeep?: boolean;
     properties: Record<string, unknown>;
 }
@@ -1548,8 +1548,6 @@ export interface SlotConfOfBricks {
 // @public
 export interface SlotConfOfRoutes {
     routes: RouteConf[];
-    // @internal (undocumented)
-    switch?: boolean;
     // (undocumented)
     type: "routes";
 }
@@ -1588,7 +1586,7 @@ export interface StaticMenuConf extends StaticMenuProps {
 // @public
 export interface StaticMenuProps {
     breadcrumb?: BreadcrumbConf;
-    // @deprecated
+    // @internal @deprecated
     injectDeep?: boolean;
     menuId?: string;
     pageTitle?: string;

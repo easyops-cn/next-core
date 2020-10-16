@@ -58,7 +58,25 @@ export interface MicroApp {
   homepage: string;
 
   /**
-   * 应用图标
+   * 应用图标配置。
+   *
+   * @remarks
+   *
+   * 图标地址相对于应用所在目录，也可以使用 `http://` 或 `https://` 开头的完整 URL。
+   *
+   * @example
+   *
+   * ```yaml
+   * icons:
+   *   large: "icons/large.png"
+   * ```
+   *
+   * @example
+   *
+   * ```yaml
+   * icons:
+   *   large: "http://your.domain/your-icon.png"
+   * ```
    */
   icons?: {
     large: string;
@@ -86,6 +104,10 @@ export interface MicroApp {
 
   /**
    * 应用状态。
+   *
+   * @remarks
+   *
+   * 标记为 `developing` 或 `disabled` 的应用不会出现在 Launchpad 中。
    */
   status?: "developing" | "enabled" | "disabled";
 
@@ -473,14 +495,14 @@ export interface BrickConf {
   /**
    * （老）模板。
    *
-   * @deprecated 建议使用自定义模板代替。
+   * @deprecated 建议使用{@link CustomTemplate | 自定义模板}代替。
    */
   template?: string;
 
   /**
    * （老）模板的参数表。
    *
-   * @deprecated 建议使用自定义模板代替。
+   * @deprecated 建议使用{@link CustomTemplate | 自定义模板}代替。
    */
   params?: Record<string, unknown>;
 
@@ -492,7 +514,7 @@ export interface BrickConf {
   if?: string | boolean | ResolveConf;
 
   /**
-   * 标记 `portal: true` 的构件将被放置到一个“传送门”容器中，它们通常为
+   * 标记 `portal: true` 的构件将被放置到一个“{@link https://reactjs.org/docs/portals.html | 传送门}”容器中，它们通常为
    * *Modal*、*Drawer* 等弹窗容器类型的构件。
    */
   portal?: boolean;
@@ -768,6 +790,7 @@ export interface StaticMenuProps {
   /**
    * 是否对 `pageTitle`, `sidebarMenu`, `breadcrumb` 进行深层递归的参数注入。
    *
+   * @internal
    * @deprecated 系统现在默认 `injectDeep: true`
    */
   injectDeep?: boolean;
@@ -776,7 +799,41 @@ export interface StaticMenuProps {
 /**
  * 面包屑配置。
  *
- * @remarks 系统将始终在面包屑起始位置显示当前应用的名字，无需配置。
+ * @remarks
+ *
+ * 每一层路由都可以按需配置零个、一个或多个面包屑，系统将组合这些面包屑显示在页面顶栏中。
+ *
+ * 通过 `overwrite` 指定是否覆盖上层路由已有的面包屑列表（默认为追加模式）。
+ *
+ * 注意系统将始终在面包屑起始位置显示当前应用的名字。
+ *
+ * @example
+ *
+ * ```yaml
+ * routes:
+ *   - path: "${APP.homepage}/products"
+ *     menu:
+ *       breadcrumb:
+ *         items:
+ *           text: "Products"
+ *           to: "${APP.homepage}/products"
+ *     bricks:
+ *       - brick: "your.brick"
+ *         slots:
+ *           content:
+ *             type: "routes"
+ *             routes:
+ *               - path: "${APP.homepage}/products/:productId"
+ *                 menu:
+ *                   breadcrumb:
+ *                     items:
+ *                       text: "Product Detail"
+ *                       to: "${APP.homepage}/products/${productId}"
+ * ```
+ *
+ * 在页面 `/products` 将显示 `Your App > Products` 面包屑。
+ *
+ * 而在页面 `/products/:productId` 将显示 `Your App > Products > Product Detail` 面包屑。
  */
 export interface BreadcrumbConf {
   /**
@@ -785,7 +842,7 @@ export interface BreadcrumbConf {
   items: BreadcrumbItemConf[];
 
   /**
-   * 是否覆盖上层路由的面包屑列表（默认为追加模式）。
+   * 是否覆盖上层路由已有的面包屑列表（默认为追加模式）。
    */
   overwrite?: boolean;
 }
@@ -810,7 +867,10 @@ export interface BrickMenuConf {
   /** 构件名。 */
   brick: string;
 
-  /** {@inheritDoc BrickConf.injectDeep} */
+  /**
+   * @deprecated 系统默认 `injectDeep: true`。
+   * @internal
+   */
   injectDeep?: boolean;
 
   /** {@inheritDoc BrickConf.properties} */
@@ -833,7 +893,32 @@ export interface ResolveMenuConf {
   resolve: ResolveConf;
 }
 
-/** 插槽配置表。 */
+/**
+ * 插槽配置表。
+ *
+ * @remarks
+ *
+ * 对于容器类构件，会有特定的插槽以供插入子构件，容器构件通常会对这些插槽内的子构件有不同的布局及交互处理。
+ *
+ * `slots` 为 key-value 键值对配置，其中 key 为插槽名称，value 为插槽配置。
+ *
+ * 每个插槽配置有两种模式：构件列表和路由列表。
+ * 对于构件列表，容器将直接插入这些子构件。
+ * 而对于路由构件，系统将根据路由匹配进行渲染。
+ *
+ * @example
+ *
+ * ```yaml
+ * brick: "basic-bricks.micro-view"
+ * slots:
+ *   toolbar:
+ *     type: "bricks"
+ *     bricks: ...
+ *   content:
+ *     type: "routes"
+ *     routes: ...
+ * ```
+ */
 export interface SlotsConf {
   [slotName: string]: SlotConf;
 }
@@ -855,9 +940,6 @@ export interface SlotConfOfRoutes {
 
   /** 在插槽中插入的子路由列表。 */
   routes: RouteConf[];
-
-  /** @internal */
-  switch?: boolean;
 }
 
 /** @internal */
@@ -1048,7 +1130,12 @@ export interface SetPropsCustomBrickEventHandler
   /**
    * 要设置的属性表。
    */
-  properties: Record<string, unknown>; // Properties to set
+  properties: Record<string, unknown>;
+
+  /**
+   * @deprecated 系统默认 `injectDeep: true`。
+   * @internal
+   */
   injectDeep?: boolean;
 }
 
