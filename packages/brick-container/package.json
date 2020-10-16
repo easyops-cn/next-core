@@ -21,7 +21,7 @@
     "url": "git@git.easyops.local:anyclouds/next-core.git"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV='development' webpack-dev-server --open --config webpack.dev.js",
+    "start": "cross-env NODE_ENV='development' webpack serve --config webpack.dev.js",
     "build": "cross-env NODE_ENV='production' webpack --config webpack.prod.js",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"

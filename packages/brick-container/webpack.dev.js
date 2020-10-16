@@ -24,6 +24,7 @@ module.exports = merge(common, {
       // Ref https://github.com/webpack/webpack-dev-server/issues/216#issuecomment-309436276
       index: publicPath,
     },
+    open: true,
     ...devServerOptions,
   },
   module: {
