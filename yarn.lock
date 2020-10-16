@@ -10900,10 +10900,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npm.taobao.org/lines-and-columns/download/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-lint-staged@^10.4.0:
-  version "10.4.0"
-  resolved "https://registry.npm.taobao.org/lint-staged/download/lint-staged-10.4.0.tgz#d18628f737328e0bbbf87d183f4020930e9a984e"
-  integrity sha1-0YYo9zcyjgu7+H0YP0Agkw6amE4=
+lint-staged@^10.4.1:
+  version "10.4.1"
+  resolved "https://registry.npm.taobao.org/lint-staged/download/lint-staged-10.4.1.tgz?cache=0&sync_timestamp=1602850852338&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flint-staged%2Fdownload%2Flint-staged-10.4.1.tgz#579069caf6451296e37bdd19769028b1f976c469"
+  integrity sha1-V5BpyvZFEpbje90ZdpAosfl2xGk=
   dependencies:
     chalk "^4.1.0"
     cli-truncate "^2.1.0"
