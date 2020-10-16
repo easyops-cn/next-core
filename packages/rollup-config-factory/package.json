@@ -18,7 +18,7 @@
   "sideEffects": false,
   "dependencies": {
     "postcss-nested": "^5.0.1",
-    "rollup": "^2.30.0",
+    "rollup": "^2.31.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
