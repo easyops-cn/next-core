@@ -1,6 +1,6 @@
 {
   "name": "@easyops/eslint-config-next",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Eslint recommended config for brick-next related packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/eslint-config-next",
   "license": "UNLICENSED",
