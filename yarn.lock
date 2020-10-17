@@ -3188,10 +3188,10 @@
   resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.8.2.tgz#efc2d233129cfb1af76889a20978669f6370de76"
   integrity sha1-78LSMxKc+xr3aImiCXhmn2Nw3nY=
 
-"@sdk/user-service-sdk@^0.2.8":
-  version "0.2.8"
-  resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.2.8.tgz#5344ecf5c2db670e62dca1f17149ce5bd2cabd84"
-  integrity sha1-U0Ts9cLbZw5i3KHxcUnOW9LKvYQ=
+"@sdk/user-service-sdk@^0.2.9":
+  version "0.2.9"
+  resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.2.9.tgz#c495d1c7422690d21ac2060b1d8fadcd0ed967df"
+  integrity sha1-xJXRx0ImkNIawgYLHY+tzQ7ZZ98=
 
 "@sindresorhus/is@^2.0.0":
   version "2.1.1"
