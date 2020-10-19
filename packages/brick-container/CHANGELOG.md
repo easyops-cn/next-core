@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.5.1...@easyops/brick-container@2.5.2) (2020-10-19)
+
+### Bug Fixes
+
+- revert postcss-\* and css-loader since postcss v8 is not widely supported ([f24f409](https://git.easyops.local/anyclouds/next-core/commits/f24f409))
+
 ## [2.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.5.0...@easyops/brick-container@2.5.1) (2020-10-16)
 
 **Note:** Version bump only for package @easyops/brick-container

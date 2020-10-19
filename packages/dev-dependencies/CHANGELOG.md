@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.27](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.26...@easyops/dev-dependencies@1.0.27) (2020-10-19)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [1.0.26](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.25...@easyops/dev-dependencies@1.0.26) (2020-10-16)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
