@@ -9,6 +9,7 @@ import {
   Identifier,
   LogicalExpression,
   MemberExpression,
+  NewExpression,
   ObjectExpression,
   ObjectPattern,
   ObjectProperty,
@@ -28,6 +29,15 @@ import {
   ChainExpression,
 } from "./interfaces";
 import { spawnCookState, getScopes } from "./utils";
+
+const SupportedConstructorSet = new Set([
+  "Array",
+  "Date",
+  "Map",
+  "Set",
+  "WeakMap",
+  "WeakSet",
+]);
 
 const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
   ArrayExpression(
@@ -605,6 +615,57 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
         node.operator
       }\`: \`${state.source.substring(node.start, node.end)}\``
     );
+  },
+  NewExpression(node: NewExpression, state, callback) {
+    if (node.callee.type === "Identifier") {
+      if (!SupportedConstructorSet.has((node.callee as Identifier).name)) {
+        throw new TypeError(
+          `Unsupported constructor \`${
+            node.callee.name
+          }\`: \`${state.source.substring(node.start, node.end)}\``
+        );
+      }
+
+      const calleeState: CookVisitorState<new (
+        ...args: any[]
+      ) => any> = spawnCookState(state);
+      callback(node.callee, calleeState);
+      const calleeCooked = calleeState.cooked;
+
+      if (
+        calleeCooked !==
+        (window as Record<string, any>)[(node.callee as Identifier).name]
+      ) {
+        throw new TypeError(
+          `Unsupported non-global constructor \`${
+            node.callee.name
+          }\`: \`${state.source.substring(node.start, node.end)}\``
+        );
+      }
+
+      // Sanitize the callee.
+      sanitize(calleeCooked);
+
+      const cookedArgs = [];
+      for (const arg of node.arguments) {
+        const argState = spawnCookState(state);
+        callback(arg, argState);
+        if (arg.type === "SpreadElement") {
+          cookedArgs.push(...argState.cooked);
+        } else {
+          cookedArgs.push(argState.cooked);
+        }
+      }
+
+      state.cooked = new calleeCooked(...cookedArgs);
+    } else {
+      throw new TypeError(
+        `Unsupported new expression: \`${state.source.substring(
+          node.start,
+          node.end
+        )}\``
+      );
+    }
   },
 };
 
