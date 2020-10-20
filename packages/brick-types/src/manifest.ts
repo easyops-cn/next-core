@@ -318,7 +318,7 @@ export interface BaseRouteConf {
   /**
    * 提前声明可供路由内使用的 Provider 列表。
    *
-   * @deprecated 请使用 `useProvider`，而无须提前声明 `providers`。
+   * @remarks 推荐优先使用 `useProvider` 而无须提前声明 `providers`。
    */
   providers?: ProviderConf[];
 
@@ -535,8 +535,6 @@ export interface BrickConf {
 
 /**
  * Provider 配置。
- *
- * @deprecated 推荐使用 `useProvider` 结合 `context`。
  */
 export type ProviderConf =
   | string
