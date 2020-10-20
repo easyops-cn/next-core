@@ -146,6 +146,23 @@ describe("http", () => {
     expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
   });
 
+  it("should work with getUrlWithParams", () => {
+    const result = http.getUrlWithParams("http://example.com/for-good", {
+      name: "monkey",
+    });
+    expect(result).toEqual("http://example.com/for-good?name=monkey");
+  });
+
+  it("should work with getBodyAndHeaders", () => {
+    const result = http.getBodyAndHeaders("row-data", {
+      "Content-Type": "application/json",
+    });
+    const headers = new Headers({
+      "content-type": "application/x-www-form-urlencoded",
+    });
+    expect(result).toEqual({ body: "row-data", headers: headers });
+  });
+
   it("should return raw text", async () => {
     __setReturnValue(Promise.resolve(new Response("raw-text")));
     const result = await http.get("http://example.com", {
