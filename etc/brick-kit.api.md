@@ -53,6 +53,7 @@ import { WithTranslationProps } from 'react-i18next';
 
 // @public
 export interface AbstractRuntime {
+    getBasePath(): string;
     getCurrentApp(): MicroApp;
     getFeatureFlags(): FeatureFlags;
     getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
