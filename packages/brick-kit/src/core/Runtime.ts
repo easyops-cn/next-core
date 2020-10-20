@@ -28,6 +28,7 @@ import {
   CustomApiOrchestration,
   AbstractRuntime,
 } from "./interfaces";
+import { getBasePath } from "../getBasePath";
 
 let kernel: Kernel;
 
@@ -212,6 +213,8 @@ export class Runtime implements AbstractRuntime {
   resetWorkspaceStack(): void {
     kernel.workspaceStack = [];
   }
+
+  getBasePath = getBasePath;
 }
 
 /* istanbul ignore next */

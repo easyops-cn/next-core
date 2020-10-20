@@ -143,6 +143,13 @@ export interface AbstractRuntime {
     processorFullName: string,
     processorFunc: CustomProcessorFunc
   ): void;
+
+  /**
+   * Get site's base path, generally will be `/next/` or `/`.
+   *
+   * @returns Site's base path.
+   */
+  getBasePath(): string;
 }
 
 /** 查询微应用列表时的选项。 */
