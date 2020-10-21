@@ -19,6 +19,7 @@ import "./styles/antd-compatible.less";
 import "./styles/default.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
+import { apiAnalyzer } from "./analytics";
 
 initializeLibrary();
 
@@ -46,7 +47,12 @@ const mountPoints = {
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
+const analyzer = apiAnalyzer.create();
+
 http.interceptors.request.use(function (config: HttpRequestConfig) {
+  config.meta = {
+    st: Date.now(),
+  };
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
     window.dispatchEvent(new CustomEvent("request.start"));
   }
@@ -56,9 +62,11 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
 http.interceptors.response.use(
   function (response: HttpResponse) {
     window.dispatchEvent(new CustomEvent("request.end"));
+    analyzer?.analyses(response);
     return response.data;
   },
   function (error: HttpError) {
+    analyzer?.analyses(error);
     window.dispatchEvent(new CustomEvent("request.end"));
     return Promise.reject(error.error);
   }

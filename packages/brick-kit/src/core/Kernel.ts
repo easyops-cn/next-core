@@ -481,7 +481,7 @@ export class Kernel {
   }
 
   getFeatureFlags(): FeatureFlags {
-    return Object.assign({}, this.bootstrapData.settings?.featureFlags);
+    return Object.assign({}, this.bootstrapData?.settings?.featureFlags);
   }
 
   async getProviderBrick(provider: string): Promise<HTMLElement> {
