@@ -3149,10 +3149,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^4.6.0":
-  version "4.6.0"
-  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.6.0.tgz#894d96bf8bb98d2d4129cbe54a067b33133c4d1c"
-  integrity sha1-iU2Wv4u5jS1BKcvlSgZ7MxM8TRw=
+"@size-limit/file@^4.6.2":
+  version "4.6.2"
+  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.6.2.tgz?cache=0&sync_timestamp=1603257134571&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40size-limit%2Ffile%2Fdownload%2F%40size-limit%2Ffile-4.6.2.tgz#21271022e5cfe671d207519f5b46d1e683b9b02d"
+  integrity sha1-IScQIuXP5nHSB1GfW0bR5oO5sC0=
   dependencies:
     semver "7.3.2"
 
@@ -5502,7 +5502,7 @@ chokidar@^2.0.4, chokidar@^2.1.1, chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.4.3:
+chokidar@^3.4.1, chokidar@^3.4.3:
   version "3.4.3"
   resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.4.3.tgz?cache=0&sync_timestamp=1602585381749&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchokidar%2Fdownload%2Fchokidar-3.4.3.tgz#c1df38231448e45ca4ac588e6c79573ba6a57d5b"
   integrity sha1-wd84IxRI5FykrFiObHlXO6alfVs=
@@ -14600,13 +14600,13 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.6.0.tgz#1c053f7829d13c9c63c65638eb51a4053ef8465c"
-  integrity sha1-HAU/eCnRPJxjxlY461GkBT74Rlw=
+size-limit@^4.6.2:
+  version "4.6.2"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.6.2.tgz#5bf347eea2558d772a90ca07da0d8ff62382ecf0"
+  integrity sha1-W/NH7qJVjXcqkMoH2g2P9iOC7PA=
   dependencies:
     bytes "^3.1.0"
-    chokidar "^3.4.2"
+    chokidar "^3.4.3"
     ci-job-number "^1.2.2"
     colorette "^1.2.1"
     cosmiconfig "^7.0.0"
