@@ -11,7 +11,7 @@
   "sideEffects": false,
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": ">= 4.5.0",
-    "eslint": ">= 7.11.0",
+    "eslint": ">= 7.12.0",
     "eslint-plugin-react": ">= 7.21.4",
     "eslint-plugin-react-hooks": ">= 4.2.0"
   },
