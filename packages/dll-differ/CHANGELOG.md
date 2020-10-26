@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dll-differ@1.0.1...@easyops/dll-differ@1.1.0) (2020-10-26)
+
+### Features
+
+- support update dll manifest ([e94b55f](https://git.easyops.local/anyclouds/next-core/commits/e94b55f))
+
 ## [1.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dll-differ@1.0.0...@easyops/dll-differ@1.0.1) (2020-09-25)
 
 **Note:** Version bump only for package @easyops/dll-differ
