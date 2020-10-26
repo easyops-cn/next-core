@@ -33,18 +33,18 @@
   "dependencies": {
     "@easyops/brick-types": "^2.4.2",
     "@sdk/auth-sdk": "^0.8.3",
-    "@sdk/cmdb-sdk": "^0.15.8",
+    "@sdk/cmdb-sdk": "^0.15.9",
     "@sdk/micro-app-sdk": "^0.8.2",
-    "@sdk/user-service-sdk": "^0.2.8",
+    "@sdk/user-service-sdk": "^0.2.10",
     "minimatch": "^3.0.4"
   },
   "sideEffects": false,
   "devDependencies": {
     "@easyops/brick-http": "^2.2.0",
     "@easyops/brick-utils": "^2.3.1",
-    "antd": "^4.6.6",
+    "antd": "^4.7.3",
     "history": "^4.10.1",
-    "i18next": "^19.8.2",
+    "i18next": "^19.8.3",
     "jest-websocket-mock": "^2.2.0",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",

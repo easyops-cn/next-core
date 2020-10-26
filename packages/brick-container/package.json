@@ -54,11 +54,11 @@
     "i18next-browser-languagedetector": "^6.0.1",
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
-    "mini-css-extract-plugin": "^1.0.0",
+    "mini-css-extract-plugin": "^1.2.0",
     "regenerator-runtime": "^0.13.7",
     "style-loader": "^2.0.0",
     "webpack": "^4.44.2",
-    "webpack-cli": "^4.0.0",
+    "webpack-cli": "^4.1.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.2.0"
   }
