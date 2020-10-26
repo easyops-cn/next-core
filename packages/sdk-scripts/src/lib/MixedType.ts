@@ -3,7 +3,7 @@ import {
   SourceFile,
   ProbablyObjectType,
   PartialModelType,
-  EnumType
+  EnumType,
 } from "./internal";
 import { MixedTypeDoc } from "../interface";
 import { isPrimitiveType, getRealType, isPropertyType } from "../utils";
@@ -23,7 +23,7 @@ export class MixedType extends UnionType {
       }
       this.addUnion(
         new EnumType({
-          enum: enumValues
+          enum: enumValues,
         })
       );
       return;
@@ -39,7 +39,7 @@ export class MixedType extends UnionType {
         new ProbablyObjectType(sourceFile, {
           fields,
           required,
-          requireAll
+          requireAll,
         }).spread()
       );
       return;
@@ -49,13 +49,13 @@ export class MixedType extends UnionType {
       new PartialModelType(sourceFile, {
         type,
         required,
-        requireAll
+        requireAll,
       }).spread()
     );
   }
 
   withName(name: string): string {
-    const useInterface = this.shouldUseInterface();
+    const useInterface = !this.isArray && this.shouldUseInterface();
     if (useInterface) {
       return `interface ${name} ${this.toString()}`;
     }
