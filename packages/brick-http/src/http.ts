@@ -282,6 +282,17 @@ class Http {
     return promise;
   }
 
+  getUrlWithParams(url: string, params?: HttpParams): string {
+    return getUrlWithParams(url, params);
+  }
+
+  getBodyAndHeaders(
+    data: any,
+    headers: HeadersInit
+  ): { body?: BodyInit; headers?: HeadersInit } {
+    return getBodyAndHeaders(data, headers);
+  }
+
   get<T>(url: string, options?: HttpOptions): Promise<T> {
     return this.fetch({ ...this.defaults, url, method: "GET", options });
   }

@@ -13,7 +13,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll.js",
-    limit: "1.42 MB",
+    limit: "1.43 MB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
@@ -29,7 +29,7 @@ module.exports = [
   },
   {
     path: "packages/brick-icons/dist/index.esm.js",
-    limit: "155 KB",
+    limit: "165 KB",
   },
   {
     path: "packages/brick-kit/dist/index.esm.js",

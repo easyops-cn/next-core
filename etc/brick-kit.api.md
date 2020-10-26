@@ -53,6 +53,7 @@ import { WithTranslationProps } from 'react-i18next';
 
 // @public
 export interface AbstractRuntime {
+    getBasePath(): string;
     getCurrentApp(): MicroApp;
     getFeatureFlags(): FeatureFlags;
     getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
@@ -248,7 +249,7 @@ export function property(options?: PropertyDeclaration): any;
 
 // @public
 export interface PropertyDeclaration<Type = unknown> {
-    // (undocumented)
+    // @internal
     __deprecated_and_for_compatibility_only?: boolean;
     readonly attribute?: boolean | string;
     // Warning: (ae-forgotten-export) The symbol "ComplexAttributeConverter" needs to be exported by the entry point index.d.ts

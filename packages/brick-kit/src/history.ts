@@ -1,15 +1,14 @@
 import { createBrowserHistory } from "history";
 import { PluginHistory } from "@easyops/brick-types";
 import { historyExtended } from "./historyExtended";
+import { getBasePath } from "./getBasePath";
 
 let history: PluginHistory;
 
 /** @internal */
 export function createHistory(): PluginHistory {
-  const base = document.querySelector("base");
-  const baseHref = base ? base.getAttribute("href") : "/";
   const browserHistory = createBrowserHistory({
-    basename: baseHref.replace(/\/$/, ""),
+    basename: getBasePath().replace(/\/$/, ""),
   });
   Object.assign(browserHistory, historyExtended(browserHistory));
   history = browserHistory as PluginHistory;

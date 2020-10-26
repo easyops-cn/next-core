@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-container",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Brick Container Server",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-container",
   "license": "UNLICENSED",
@@ -21,7 +21,7 @@
     "url": "git@git.easyops.local:anyclouds/next-core.git"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV='development' webpack-dev-server --open --config webpack.dev.js",
+    "start": "cross-env NODE_ENV='development' webpack serve --config webpack.dev.js",
     "build": "cross-env NODE_ENV='production' webpack --config webpack.prod.js",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
@@ -39,16 +39,16 @@
     "ws": "^7.3.1"
   },
   "devDependencies": {
-    "@dll/ace": "^2.0.18",
+    "@dll/ace": "^2.0.22",
     "@dll/d3": "^2.0.0",
     "@dll/echarts": "^2.0.1",
-    "@easyops/brick-dll": "^2.2.0",
+    "@easyops/brick-dll": "^2.2.4",
     "@easyops/custom-antd-styles": "^1.1.0",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.2.1",
     "core-js": "^3.6.5",
-    "css-loader": "^5.0.0",
+    "css-loader": "^4.3.0",
     "html-webpack-plugin": "^4.5.0",
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^6.0.1",

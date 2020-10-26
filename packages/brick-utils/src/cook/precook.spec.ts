@@ -55,6 +55,7 @@ describe("precook", () => {
     ["({a, b: c = d}) => a + b + c", ["d", "b"]],
     ["a |> b", ["a", "b"]],
     ["a |> (_ => b(_, c)) |> d", ["a", "b", "c", "d"]],
+    ["new Set([1, 2, 3])", ["Set"]],
   ])("precook(%j).attemptToVisitGlobals should be %j", (input, cooked) => {
     expect(Array.from(precook(input).attemptToVisitGlobals.values())).toEqual(
       cooked

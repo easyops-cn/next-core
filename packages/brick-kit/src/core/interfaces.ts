@@ -1,5 +1,4 @@
 import {
-  BrickTemplateFactory,
   CustomTemplateConstructor,
   FeatureFlags,
   MicroApp,
@@ -84,11 +83,40 @@ export interface AbstractRuntime {
 
   /**
    * 获取特性开关字典。
+   *
+   * @example
+   *
+   * ```ts
+   * import { getRuntime } from "@easyops/brick-kit";
+   *
+   * const flags = getRuntime().getFeatureFlags();
+   * // {
+   * //   "your-feature": true,
+   * //   ...
+   * // }
+   * ```
    */
   getFeatureFlags(): FeatureFlags;
 
   /**
    * 获取杂项配置。
+   *
+   * @remarks
+   *
+   * 类似于特性开关，但可以配置普通字符串、数字等其它类型的值。
+   *
+   * @example
+   *
+   * ```ts
+   * import { getRuntime } from "@easyops/brick-kit";
+   *
+   * const misc = getRuntime().getMiscSettings();
+   * // {
+   * //   defaultTableColumns: 5,
+   * //   webhookUrl: "http://localhost/",
+   * //   ...
+   * // }
+   * ```
    */
   getMiscSettings(): Record<string, unknown>;
 
@@ -115,6 +143,13 @@ export interface AbstractRuntime {
     processorFullName: string,
     processorFunc: CustomProcessorFunc
   ): void;
+
+  /**
+   * Get site's base path, generally will be `/next/` or `/`.
+   *
+   * @returns Site's base path.
+   */
+  getBasePath(): string;
 }
 
 /** 查询微应用列表时的选项。 */

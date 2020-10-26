@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@2.1.0...@easyops/brick-http@2.2.0) (2020-10-20)
+
+### Features
+
+- **brick-http:** export `getUrlWithParams` and `getBodyAndHeaders` methods ([0456062](https://git.easyops.local/anyclouds/next-core/commits/0456062))
+
 # [2.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@2.0.1...@easyops/brick-http@2.1.0) (2020-10-15)
 
 ### Features

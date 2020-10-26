@@ -28,6 +28,7 @@ import {
   CustomApiOrchestration,
   AbstractRuntime,
 } from "./interfaces";
+import { getBasePath } from "../getBasePath";
 
 let kernel: Kernel;
 
@@ -87,9 +88,7 @@ export class Runtime implements AbstractRuntime {
   } = {}): MicroApp[] {
     let apps = kernel.bootstrapData.microApps;
     if (excludeInstalling) {
-      apps = apps.filter(
-        (app) => !(app.installStatus && app.installStatus === "running")
-      );
+      apps = apps.filter((app) => app.installStatus !== "running");
     }
     if (!includeInternal) {
       apps = apps.filter((app) => !app.internal);
@@ -214,6 +213,8 @@ export class Runtime implements AbstractRuntime {
   resetWorkspaceStack(): void {
     kernel.workspaceStack = [];
   }
+
+  getBasePath = getBasePath;
 }
 
 /* istanbul ignore next */

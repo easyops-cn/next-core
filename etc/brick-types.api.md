@@ -110,7 +110,6 @@ export interface BaseRouteConf {
     hybrid?: boolean;
     menu?: MenuConf;
     path: string;
-    // @deprecated
     providers?: ProviderConf[];
     public?: boolean;
     redirect?: string | ResolveConf;
@@ -305,7 +304,7 @@ export interface BrickLifeCycle {
 export interface BrickMenuConf {
     brick: string;
     events?: BrickEventsMap;
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     injectDeep?: boolean;
     lifeCycle?: BrickLifeCycle;
     properties?: Record<string, unknown>;
@@ -1217,7 +1216,7 @@ export enum PropertyDisplayType {
     Tag = "tag"
 }
 
-// @public @deprecated
+// @public
 export type ProviderConf = string | Pick<BrickConf, "brick" | "properties" | "events" | "lifeCycle">;
 
 // Warning: (ae-internal-missing-underscore) The name "ReadAdvancedSearchChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1463,7 +1462,7 @@ export interface SelectorProviderResolveConf extends BaseEntityResolveConf {
 
 // @public
 export interface SetPropsCustomBrickEventHandler extends BaseCustomBrickEventHandler {
-    // (undocumented)
+    // @internal @deprecated (undocumented)
     injectDeep?: boolean;
     properties: Record<string, unknown>;
 }
@@ -1548,8 +1547,6 @@ export interface SlotConfOfBricks {
 // @public
 export interface SlotConfOfRoutes {
     routes: RouteConf[];
-    // @internal (undocumented)
-    switch?: boolean;
     // (undocumented)
     type: "routes";
 }
@@ -1588,7 +1585,7 @@ export interface StaticMenuConf extends StaticMenuProps {
 // @public
 export interface StaticMenuProps {
     breadcrumb?: BreadcrumbConf;
-    // @deprecated
+    // @internal @deprecated
     injectDeep?: boolean;
     menuId?: string;
     pageTitle?: string;
