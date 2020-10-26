@@ -22,7 +22,15 @@ if (expected === received) {
     { context: 3 }
   );
   console.log(patch);
-  process.exitCode = 1;
+  if (process.env.UPDATE_DLL_MANIFEST) {
+    console.log("🚨 Manifest snapshot updated!");
+    fs.writeFileSync(path.resolve(expectedPath), received);
+  } else {
+    console.log(
+      "💡 Tips: build with env of `UPDATE_DLL_MANIFEST=true` to update the manifest snapshot."
+    );
+    process.exitCode = 1;
+  }
 }
 
 function prettierJson(filePath) {
