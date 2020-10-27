@@ -22,6 +22,7 @@
     "react-ace": "^7.0.5"
   },
   "devDependencies": {
-    "@easyops/brick-dll": "^2.2.6"
+    "@easyops/brick-dll": "^2.2.6",
+    "@easyops/webpack-config-factory": "^2.0.5"
   }
 }
