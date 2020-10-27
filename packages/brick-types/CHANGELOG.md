@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.4.2...@easyops/brick-types@2.5.0) (2020-10-27)
+
+### Features
+
+- **theme:** support dark theme ([fccc811](https://git.easyops.local/anyclouds/next-core/commits/fccc811))
+
 ## [2.4.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.4.1...@easyops/brick-types@2.4.2) (2020-10-20)
 
 **Note:** Version bump only for package @easyops/brick-types
