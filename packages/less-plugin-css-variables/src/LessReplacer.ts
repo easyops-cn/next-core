@@ -14,6 +14,9 @@ const variableMap = {
 const rawStringMap = {
   "fade(@calendar-item-active-bg, 20%)": "var(--antd-column-active-bg)",
   "darken(@item-active-bg, 2%)": "var(--antd-item-active-bg-darken-2)",
+  "shade(@text-color-secondary, 40%)":
+    "var(--antd-text-color-secondary-shade-40)",
+  "fade(@disabled-color, 10%)": "var(--antd-disabled-color-fade-10)",
 };
 
 const replacements: [RegExp, Replacer][] = [
