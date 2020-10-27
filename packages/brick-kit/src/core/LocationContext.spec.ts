@@ -6,8 +6,11 @@ import { isLoggedIn, getAuth } from "../auth";
 import * as history from "../history";
 import * as runtime from "../core/Runtime";
 import * as md from "./MessageDispatcher";
+import { applyTheme } from "../themeAndMode";
+
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
+jest.mock("../themeAndMode");
 const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
 const consoleInfo = jest
   .spyOn(console, "info")
@@ -288,6 +291,9 @@ describe("LocationContext", () => {
                       },
                     },
                     lifeCycle: {
+                      onBeforePageLoad: {
+                        action: "theme.setDarkTheme",
+                      },
                       onPageLoad: {
                         action: "console.log",
                       },
@@ -553,6 +559,8 @@ describe("LocationContext", () => {
         },
       ]);
 
+      context.handleBeforePageLoad();
+      expect(applyTheme).toBeCalledWith("dark");
       context.handlePageLoad();
       context.handleAnchorLoad();
       (history.getHistory as jest.Mock).mockReturnValue({

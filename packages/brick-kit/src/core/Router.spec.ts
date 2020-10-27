@@ -3,7 +3,6 @@ import { getHistory } from "../history";
 import { Router } from "./Router";
 import { Kernel } from "./Kernel";
 import {
-  LocationContext,
   // @ts-ignore mocking
   __setMatchedStoryboard,
   // @ts-ignore mocking

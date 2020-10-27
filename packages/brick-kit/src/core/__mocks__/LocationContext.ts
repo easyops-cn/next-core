@@ -22,6 +22,7 @@ export class LocationContext {
     reset: jest.fn(),
   };
 
+  handleBeforePageLoad = jest.fn();
   handlePageLoad = jest.fn();
   handleBeforePageLeave = jest.fn();
   handlePageLeave = jest.fn();

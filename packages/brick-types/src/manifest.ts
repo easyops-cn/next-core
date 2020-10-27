@@ -569,9 +569,11 @@ export interface MessageConf {
  *
  * 1. `useResolves`
  *
- * 2. `onPageLoad`
+ * 2. `onBeforePageLoad`
  *
- * 3. `onAnchorLoad` or `onAnchorUnload`
+ * 3. `onPageLoad`
+ *
+ * 4. `onAnchorLoad` or `onAnchorUnload`
  *
  * 当页面离开时：
  *
@@ -584,6 +586,11 @@ export interface BrickLifeCycle {
    * 定义在构件装载前需要进行的异步数据处理，计算结果将作为属性表赋值给构件。
    */
   useResolves?: ResolveConf[];
+
+  /**
+   * 定义构件在页面加载前要执行的动作。
+   */
+  onBeforePageLoad?: BrickEventHandler | BrickEventHandler[];
 
   /**
    * 定义构件在页面加载完成后的动作。
@@ -1026,7 +1033,13 @@ export interface BuiltinBrickEventHandler {
 
     // Websocket event
     | "message.subscribe"
-    | "message.unsubscribe";
+    | "message.unsubscribe"
+
+    // Theme and mode.
+    | "theme.setDarkTheme"
+    | "theme.setLightTheme"
+    | "mode.setDashboardMode"
+    | "mode.setDefaultMode";
 
   /** 传递的参数列表 */
   args?: unknown[];
@@ -1428,3 +1441,13 @@ export interface RefForProxy {
 export interface ProbablyRuntimeBrick {
   element?: HTMLElement;
 }
+
+/**
+ * 站点主题。
+ */
+export type SiteTheme = "light" | "dark";
+
+/**
+ * 站点模式。
+ */
+export type SiteMode = "default" | "dashboard";
