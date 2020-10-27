@@ -26,6 +26,7 @@ import { devtoolsHookEmit } from "../devtools";
 import { afterMountTree } from "./reconciler";
 import { constructMenu } from "./menu";
 import { getRuntimeMisc } from "../misc";
+import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 
 export class Router {
   private defaultCollapsed = false;
@@ -298,6 +299,13 @@ export class Router {
           ? "iframe"
           : undefined;
       this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
+
+      setTheme("light");
+      setMode("default");
+      // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
+      this.locationContext.handleBeforePageLoad();
+      applyTheme();
+      applyMode();
 
       if (appChanged) {
         window.dispatchEvent(

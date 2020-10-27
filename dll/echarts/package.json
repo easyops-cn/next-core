@@ -20,5 +20,8 @@
   },
   "dependencies": {
     "echarts": "^4.9.0"
+  },
+  "devDependencies": {
+    "@easyops/webpack-config-factory": "^2.0.5"
   }
 }

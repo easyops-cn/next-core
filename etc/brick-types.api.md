@@ -290,6 +290,7 @@ export interface BrickLifeCycle {
     onAnchorLoad?: BrickEventHandler | BrickEventHandler[];
     onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
     onBeforePageLeave?: BrickEventHandler | BrickEventHandler[];
+    onBeforePageLoad?: BrickEventHandler | BrickEventHandler[];
     // @internal (undocumented)
     onMessage?: MessageConf | MessageConf[];
     // @internal (undocumented)
@@ -588,7 +589,7 @@ export type BrickTemplateFactory = (params?: unknown) => BrickConf;
 
 // @public
 export interface BuiltinBrickEventHandler {
-    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe";
+    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "mode.setDashboardMode" | "mode.setDefaultMode";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
@@ -1526,6 +1527,12 @@ export interface SidebarMenuSimpleItem {
 
 // @public
 export type SidebarSubMenu = Pick<SidebarMenu, "title" | "icon" | "menuItems">;
+
+// @public
+export type SiteMode = "default" | "dashboard";
+
+// @public
+export type SiteTheme = "light" | "dark";
 
 // @public
 export type SlotConf = SlotConfOfBricks | SlotConfOfRoutes;

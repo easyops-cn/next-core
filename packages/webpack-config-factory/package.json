@@ -17,6 +17,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@easyops/less-plugin-css-variables": "^0.0.0",
     "@svgr/webpack": "^5.4.0",
     "babel-loader": "^8.1.0",
     "change-case": "^4.1.1",

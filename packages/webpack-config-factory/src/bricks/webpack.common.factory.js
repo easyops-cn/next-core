@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const prism = require("prismjs");
 const loadLanguages = require("prismjs/components/index");
+const { lessReplacePlugin } = require("@easyops/less-plugin-css-variables");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 
@@ -193,6 +194,7 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
                 lessOptions: {
                   sourceMap: false,
                   javascriptEnabled: true,
+                  plugins: [lessReplacePlugin],
                 },
               },
             },
