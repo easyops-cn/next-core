@@ -2250,7 +2250,15 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@microsoft/api-extractor-model@7.10.3", "@microsoft/api-extractor-model@^7.10.3":
+"@microsoft/api-extractor-model@7.10.4":
+  version "7.10.4"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.10.4.tgz#13a1f915cbe58b5974d724107a3a42283b6e6bd6"
+  integrity sha1-E6H5Fcvli1l01yQQejpCKDtua9Y=
+  dependencies:
+    "@microsoft/tsdoc" "0.12.19"
+    "@rushstack/node-core-library" "3.34.4"
+
+"@microsoft/api-extractor-model@^7.10.3":
   version "7.10.3"
   resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.10.3.tgz#f687f324e940bd71e3e73b5b262a54594b0ea61c"
   integrity sha1-9ofzJOlAvXHj5ztbJipUWUsOphw=
@@ -2258,14 +2266,14 @@
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.34.3"
 
-"@microsoft/api-extractor@^7.10.4":
-  version "7.10.4"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.10.4.tgz#9055fab0a702d2d74eba05ff369c50012cf41176"
-  integrity sha1-kFX6sKcC0tdOugX/NpxQASz0EXY=
+"@microsoft/api-extractor@^7.10.5":
+  version "7.10.5"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.10.5.tgz#033e94f8482a0aa30f6b923e57fe41671fd44876"
+  integrity sha1-Az6U+EgqCqMPa5I+V/5BZx/USHY=
   dependencies:
-    "@microsoft/api-extractor-model" "7.10.3"
+    "@microsoft/api-extractor-model" "7.10.4"
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.34.3"
+    "@rushstack/node-core-library" "3.34.4"
     "@rushstack/rig-package" "0.2.4"
     "@rushstack/ts-command-line" "4.7.3"
     colors "~1.2.1"
@@ -2383,6 +2391,21 @@
   version "3.34.3"
   resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.34.3.tgz#a59a1e452dcc79bd4e5f0840b4e9603551668f85"
   integrity sha1-pZoeRS3Meb1OXwhAtOlgNVFmj4U=
+  dependencies:
+    "@types/node" "10.17.13"
+    colors "~1.2.1"
+    fs-extra "~7.0.1"
+    import-lazy "~4.0.0"
+    jju "~1.4.0"
+    resolve "~1.17.0"
+    semver "~7.3.0"
+    timsort "~0.3.0"
+    z-schema "~3.18.3"
+
+"@rushstack/node-core-library@3.34.4":
+  version "3.34.4"
+  resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.34.4.tgz#525ee9c19bf74a6d878b79700a6ddad8dd6e2bb2"
+  integrity sha1-Ul7pwZv3Sm2Hi3lwCm3a2N1uK7I=
   dependencies:
     "@types/node" "10.17.13"
     colors "~1.2.1"
