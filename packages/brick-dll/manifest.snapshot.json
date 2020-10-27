@@ -18649,6 +18649,8 @@
           "transformIntermediateData",
           "transformProperties",
           "useCurrentApp",
+          "useCurrentMode",
+          "useCurrentTheme",
           "useLocation",
           "useRecentApps"
         ]
