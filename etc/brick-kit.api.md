@@ -44,6 +44,8 @@ import { RuntimeBootstrapData } from '@easyops/brick-types';
 import { RuntimeStoryboard } from '@easyops/brick-types';
 import { SidebarMenu } from '@easyops/brick-types';
 import { SidebarSubMenu } from '@easyops/brick-types';
+import { SiteMode } from '@easyops/brick-types';
+import { SiteTheme } from '@easyops/brick-types';
 import { Storyboard } from '@easyops/brick-types';
 import { UseBrickConf } from '@easyops/brick-types';
 import { UserInfo } from '@easyops/brick-types';
@@ -55,6 +57,8 @@ import { WithTranslationProps } from 'react-i18next';
 export interface AbstractRuntime {
     getBasePath(): string;
     getCurrentApp(): MicroApp;
+    getCurrentMode(): SiteMode;
+    getCurrentTheme(): SiteTheme;
     getFeatureFlags(): FeatureFlags;
     getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
     getMiscSettings(): Record<string, unknown>;
@@ -342,6 +346,12 @@ export abstract class UpdatingElement extends HTMLElement {
 
 // @public
 export function useCurrentApp(): MicroApp;
+
+// @public (undocumented)
+export function useCurrentMode(): SiteMode;
+
+// @public (undocumented)
+export function useCurrentTheme(): SiteTheme;
 
 // Warning: (ae-internal-missing-underscore) The name "useLocation" should be prefixed with an underscore because the declaration is marked as @internal
 //

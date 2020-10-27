@@ -15,6 +15,7 @@ jest.mock("../history");
 jest.mock("./LocationContext");
 jest.mock("./reconciler");
 jest.mock("../auth");
+jest.mock("../themeAndMode");
 
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;

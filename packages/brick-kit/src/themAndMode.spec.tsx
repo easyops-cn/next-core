@@ -1,3 +1,5 @@
+import React from "react";
+import { mount } from "enzyme";
 import {
   getTheme as _getTheme,
   setTheme as _setTheme,
@@ -5,7 +7,10 @@ import {
   getMode as _getMode,
   setMode as _setMode,
   applyMode as _applyMode,
+  useCurrentTheme,
+  useCurrentMode,
 } from "./themeAndMode";
+import { act } from "react-dom/test-utils";
 
 describe("theme", () => {
   let getTheme: typeof _getTheme;
@@ -50,6 +55,30 @@ describe("theme", () => {
     applyTheme("dark");
     expect(getTheme()).toEqual("dark");
     expect(document.documentElement.dataset.theme).toBe("dark");
+  });
+
+  test("should ignore when the applied theme is unchanged", () => {
+    const dispatchEvent = jest.spyOn(window, "dispatchEvent");
+    expect(getTheme()).toEqual("light");
+    applyTheme("light");
+    expect(dispatchEvent).not.toBeCalled();
+    applyTheme("dark");
+    expect(dispatchEvent).toBeCalled();
+  });
+
+  test("useCurrentTheme should work", () => {
+    function TestComponent(): React.ReactElement {
+      const theme = useCurrentTheme();
+      return <div>{theme}</div>;
+    }
+    const wrapper = mount(<TestComponent />);
+    expect(wrapper.text()).toBe("light");
+    act(() => {
+      applyTheme("dark");
+    });
+    wrapper.update();
+    expect(wrapper.text()).toBe("dark");
+    wrapper.unmount();
   });
 });
 
@@ -96,5 +125,29 @@ describe("mode", () => {
     applyMode("dashboard");
     expect(getMode()).toEqual("dashboard");
     expect(document.documentElement.dataset.mode).toBe("dashboard");
+  });
+
+  test("should ignore when the applied mode is unchanged", () => {
+    const dispatchEvent = jest.spyOn(window, "dispatchEvent");
+    expect(getMode()).toEqual("default");
+    applyMode("default");
+    expect(dispatchEvent).not.toBeCalled();
+    applyMode("dashboard");
+    expect(dispatchEvent).toBeCalled();
+  });
+
+  test("useCurrentMode should work", () => {
+    function TestComponent(): React.ReactElement {
+      const mode = useCurrentMode();
+      return <div>{mode}</div>;
+    }
+    const wrapper = mount(<TestComponent />);
+    expect(wrapper.text()).toBe("default");
+    act(() => {
+      applyMode("dashboard");
+    });
+    wrapper.update();
+    expect(wrapper.text()).toBe("dashboard");
+    wrapper.unmount();
   });
 });

@@ -23,3 +23,4 @@ export * from "./core/interfaces";
 export * from "./EasyopsEmpty";
 export * from "./transformProperties";
 export * from "./checkIf";
+export { useCurrentTheme, useCurrentMode } from "./themeAndMode";
