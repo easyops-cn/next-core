@@ -10170,10 +10170,10 @@ min-indent@^1.0.0:
   resolved "https://registry.npm.taobao.org/min-indent/download/min-indent-1.0.0.tgz#cfc45c37e9ec0d8f0a0ec3dd4ef7f7c3abe39256"
   integrity sha1-z8RcN+nsDY8KDsPdTvf3w6vjklY=
 
-mini-css-extract-plugin@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npm.taobao.org/mini-css-extract-plugin/download/mini-css-extract-plugin-1.2.0.tgz?cache=0&sync_timestamp=1603479684426&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmini-css-extract-plugin%2Fdownload%2Fmini-css-extract-plugin-1.2.0.tgz#f1bdfa7bb6f6a238bc327f813f204283ea33ee36"
-  integrity sha1-8b36e7b2oji8Mn+BPyBCg+oz7jY=
+mini-css-extract-plugin@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/mini-css-extract-plugin/download/mini-css-extract-plugin-1.2.1.tgz?cache=0&sync_timestamp=1603807566472&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmini-css-extract-plugin%2Fdownload%2Fmini-css-extract-plugin-1.2.1.tgz#30ea7dee632b3002b0c77aeed447790408cb247e"
+  integrity sha1-MOp97mMrMAKwx3ru1Ed5BAjLJH4=
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
