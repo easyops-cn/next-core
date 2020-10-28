@@ -2443,10 +2443,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sdk/auth-sdk@^0.8.3":
-  version "0.8.3"
-  resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.8.3.tgz#7b4170eac22bd415e8f30f046bb779394f9b3ae5"
-  integrity sha1-e0Fw6sIr1BXo8w8Ea7d5OU+bOuU=
+"@sdk/auth-sdk@^0.8.4":
+  version "0.8.4"
+  resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.8.4.tgz#fb38e306a5bde6509f04de5cff9aa130075ad6c1"
+  integrity sha1-+zjjBqW95lCfBN5c/5qhMAda1sE=
 
 "@sdk/cmdb-sdk@^0.15.11":
   version "0.15.11"
