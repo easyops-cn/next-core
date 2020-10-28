@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.1...@dll/d3@2.0.2) (2020-10-28)
+
+**Note:** Version bump only for package @dll/d3
+
 ## [2.0.1](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.0...@dll/d3@2.0.1) (2020-10-27)
 
 **Note:** Version bump only for package @dll/d3

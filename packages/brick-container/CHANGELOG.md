@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.0...@easyops/brick-container@2.7.1) (2020-10-28)
+
+### Bug Fixes
+
+- add more css variables ([14396e0](https://git.easyops.local/anyclouds/next-core/commits/14396e0))
+- fix css variables ([1089a17](https://git.easyops.local/anyclouds/next-core/commits/1089a17))
+
 # [2.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.6.2...@easyops/brick-container@2.7.0) (2020-10-27)
 
 ### Features

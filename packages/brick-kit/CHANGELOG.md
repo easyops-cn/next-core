@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.12.0...@easyops/brick-kit@2.13.0) (2020-10-28)
+
+### Features
+
+- **theme:** support get current theme and mode ([4c22eb2](https://git.easyops.local/anyclouds/next-core/commits/4c22eb2))
+
 # [2.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.11.1...@easyops/brick-kit@2.12.0) (2020-10-27)
 
 ### Features

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.2.7...@easyops/brick-dll@2.3.0) (2020-10-28)
+
+### Features
+
+- **theme:** support get current theme and mode ([4c22eb2](https://git.easyops.local/anyclouds/next-core/commits/4c22eb2))
+
 ## [2.2.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.2.6...@easyops/brick-dll@2.2.7) (2020-10-27)
 
 **Note:** Version bump only for package @easyops/brick-dll
