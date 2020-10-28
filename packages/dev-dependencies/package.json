@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "@size-limit/file": "^4.6.2",
-    "@types/classnames": "^2.2.10",
+    "@types/classnames": "^2.2.11",
     "@types/d3": "^5.16.3",
     "@types/dompurify": "^2.0.4",
     "@types/echarts": "^4.9.0",
