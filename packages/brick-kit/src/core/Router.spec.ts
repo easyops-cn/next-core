@@ -3,7 +3,6 @@ import { getHistory } from "../history";
 import { Router } from "./Router";
 import { Kernel } from "./Kernel";
 import {
-  LocationContext,
   // @ts-ignore mocking
   __setMatchedStoryboard,
   // @ts-ignore mocking
@@ -16,6 +15,7 @@ jest.mock("../history");
 jest.mock("./LocationContext");
 jest.mock("./reconciler");
 jest.mock("../auth");
+jest.mock("../themeAndMode");
 
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;

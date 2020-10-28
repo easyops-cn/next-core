@@ -1,5 +1,5 @@
 body {
-  background-color: #f3f4f7;
+  background-color: var(--body-background);
 }
 
 #root-layout {
@@ -33,13 +33,17 @@ body {
 }
 
 .bars-hidden #main-mount-point,
-.bars-hidden #legacy-iframe-mount-point {
+.bars-hidden #legacy-iframe-mount-point,
+html[data-mode="dashboard"] #main-mount-point,
+html[data-mode="dashboard"] #legacy-iframe-mount-point {
   margin-top: 0;
 }
 
 .show-legacy-iframe #main-mount-point,
 .bars-hidden #menu-bar-mount-point,
-.bars-hidden #app-bar-mount-point {
+.bars-hidden #app-bar-mount-point,
+html[data-mode="dashboard"] #menu-bar-mount-point,
+html[data-mode="dashboard"] #app-bar-mount-point {
   display: none;
 }
 

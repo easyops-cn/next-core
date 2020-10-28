@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.0.1...@easyops/sdk-scripts@2.0.2) (2020-10-26)
+
+### Bug Fixes
+
+- use type alias for array types ([08f3151](https://git.easyops.local/anyclouds/next-core/commits/08f3151))
+
 ## [2.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.0.0...@easyops/sdk-scripts@2.0.1) (2020-09-25)
 
 **Note:** Version bump only for package @easyops/sdk-scripts

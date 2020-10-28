@@ -2,6 +2,8 @@ import {
   CustomTemplateConstructor,
   FeatureFlags,
   MicroApp,
+  SiteMode,
+  SiteTheme,
 } from "@easyops/brick-types";
 import { MicroAppModels } from "@sdk/micro-app-sdk";
 import { CustomProcessorFunc } from "./exports";
@@ -150,6 +152,20 @@ export interface AbstractRuntime {
    * @returns Site's base path.
    */
   getBasePath(): string;
+
+  /**
+   * Get site's current theme.
+   *
+   * @returns Current theme.
+   */
+  getCurrentTheme(): SiteTheme;
+
+  /**
+   * Get Site's current mode.
+   *
+   * @returns Current mode.
+   */
+  getCurrentMode(): SiteMode;
 }
 
 /** 查询微应用列表时的选项。 */

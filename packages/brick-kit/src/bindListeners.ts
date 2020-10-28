@@ -29,6 +29,7 @@ import { getUrlByAliasFactory } from "./alias";
 import { getMessageDispatcher } from "./core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./core/CustomApis";
+import { applyTheme, applyMode } from "./themeAndMode";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -217,6 +218,26 @@ export function listenerFactory(
           handler.callback,
           context
         );
+      case "theme.setDarkTheme":
+      case "theme.setLightTheme":
+        return ((event: CustomEvent) => {
+          if (!looseCheckIf(handler, { ...context, event })) {
+            return;
+          }
+          applyTheme(
+            handler.action === "theme.setDarkTheme" ? "dark" : "light"
+          );
+        }) as EventListener;
+      case "mode.setDashboardMode":
+      case "mode.setDefaultMode":
+        return ((event: CustomEvent) => {
+          if (!looseCheckIf(handler, { ...context, event })) {
+            return;
+          }
+          applyMode(
+            handler.action === "mode.setDashboardMode" ? "dashboard" : "default"
+          );
+        }) as EventListener;
       default:
         return () => {
           // eslint-disable-next-line no-console

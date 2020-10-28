@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.0...@easyops/dev-dependencies@1.1.1) (2020-10-28)
+
+### Bug Fixes
+
+- add more css variables ([14396e0](https://git.easyops.local/anyclouds/next-core/commits/14396e0))
+
+# [1.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.31...@easyops/dev-dependencies@1.1.0) (2020-10-27)
+
+### Features
+
+- **patch:** update brick next version for new css variables ([a81cbcc](https://git.easyops.local/anyclouds/next-core/commits/a81cbcc))
+
+## [1.0.31](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.30...@easyops/dev-dependencies@1.0.31) (2020-10-26)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.0.30](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.29...@easyops/dev-dependencies@1.0.30) (2020-10-26)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [1.0.29](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.0.28...@easyops/dev-dependencies@1.0.29) (2020-10-22)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

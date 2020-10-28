@@ -7,7 +7,7 @@
     &:hover:not(&-in-view),
     &:hover:not(&-selected):not(&-range-start):not(&-range-end):not(&-range-hover-start):not(&-range-hover-end) {
       .@{picker-prefix-cls}-cell-inner {
-        background: #ebf3fd;
+        background: var(--antd-picker-basic-cell-active-with-range-color);
       }
     }
 
@@ -18,7 +18,7 @@
     }
 
     &-in-view&-in-range::before {
-      background: #ebf3fd;
+      background: var(--antd-picker-basic-cell-active-with-range-color);
     }
   }
 }

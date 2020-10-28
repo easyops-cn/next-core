@@ -3,6 +3,46 @@
 exports[`loadService should work 1`] = `
 Array [
   Array [
+    "dist/src/api/cd/package/autoDiscovery.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+
+/** 请求体 */
+export type AutoDiscoveryRequestBody = {
+  /** 筛选器 */
+  filter?: Record<string, any>;
+
+  /** 更新数据 */
+  update?: Record<string, any>;
+
+  /** 存在即更新 */
+  upsert?: boolean;
+}[];
+
+export interface AutoDiscoveryResponseBody {
+  /** 返回码 */
+  code: number;
+
+  /** 错误信息 */
+  error: string;
+
+  /** 返回消息 */
+  message: string;
+}
+
+/** 实例自动发现的接口 */
+export const autoDiscovery = (
+  objectId: string | number,
+  data: AutoDiscoveryRequestBody,
+  options?: HttpOptions
+): Promise<AutoDiscoveryResponseBody> =>
+  http.post<AutoDiscoveryResponseBody>(
+    \`api/gateway/cd.package.AutoDiscovery/object/\${objectId}/instance/_import-json\`,
+    data,
+    options
+  );
+",
+  ],
+  Array [
     "dist/src/api/cd/package/create.ts",
     "import { http, HttpOptions } from \\"@easyops/brick-http\\";
 import { ModelPackage } from \\"../../../model/cd\\";
@@ -345,7 +385,8 @@ export interface ModelPackageExt {
   ],
   Array [
     "dist/src/api/cd/package/index.ts",
-    "export * from \\"./create\\";
+    "export * from \\"./autoDiscovery\\";
+export * from \\"./create\\";
 export * from \\"./get\\";
 export * from \\"./retry\\";
 export * from \\"./search\\";
@@ -370,6 +411,8 @@ export { PackageApi, CdModels };
   Array [
     "dist/deploy/contracts.yaml",
     "depend_contracts:
+  - name: easyops.api.cd.package.AutoDiscovery
+    version: ^1.0.0
   - name: easyops.api.cd.package.Create
     version: ^1.0.0
   - name: easyops.api.cd.package.Get

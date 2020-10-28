@@ -23,6 +23,7 @@ import {
   StoryboardContext,
   StoryboardContextItem,
   MessageConf,
+  BrickLifeCycle,
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -103,6 +104,7 @@ export class LocationContext {
   private readonly query: URLSearchParams;
   readonly resolver = new Resolver(this.kernel);
   readonly messageDispatcher: MessageDispatcher;
+  private readonly beforePageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly beforePageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly pageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
@@ -354,71 +356,7 @@ export class LocationContext {
         children: [],
       };
 
-      const {
-        onPageLoad,
-        onBeforePageLeave,
-        onPageLeave,
-        onAnchorLoad,
-        onAnchorUnload,
-        onMessage,
-        onMessageClose,
-      } = menuConf.lifeCycle ?? {};
-
-      if (onPageLoad) {
-        this.pageLoadHandlers.push({
-          brick,
-          match,
-          handler: onPageLoad,
-        });
-      }
-
-      if (onBeforePageLeave) {
-        this.beforePageLeaveHandlers.push({
-          brick,
-          match,
-          handler: onBeforePageLeave,
-        });
-      }
-
-      if (onPageLeave) {
-        this.pageLeaveHandlers.push({
-          brick,
-          match,
-          handler: onPageLeave,
-        });
-      }
-
-      if (onAnchorLoad) {
-        this.anchorLoadHandlers.push({
-          brick,
-          match,
-          handler: onAnchorLoad,
-        });
-      }
-
-      if (onAnchorUnload) {
-        this.anchorUnloadHandlers.push({
-          brick,
-          match,
-          handler: onAnchorUnload,
-        });
-      }
-
-      if (onMessage) {
-        this.messageHandlers.push({
-          brick,
-          match,
-          message: onMessage,
-        });
-      }
-
-      if (onMessageClose) {
-        this.messageCloseHandlers.push({
-          brick,
-          match,
-          handler: onMessageClose,
-        });
-      }
+      this.registerHandlersFromLifeCycle(menuConf.lifeCycle, brick, match);
 
       // Then, resolve the brick.
       await this.resolver.resolve(menuConf, brick, context);
@@ -625,71 +563,7 @@ export class LocationContext {
       brick.refForProxy.brick = brick;
     }
 
-    const {
-      onPageLoad,
-      onBeforePageLeave,
-      onPageLeave,
-      onAnchorLoad,
-      onAnchorUnload,
-      onMessage,
-      onMessageClose,
-    } = brickConf.lifeCycle ?? {};
-
-    if (onPageLoad) {
-      this.pageLoadHandlers.push({
-        brick,
-        match,
-        handler: onPageLoad,
-      });
-    }
-
-    if (onBeforePageLeave) {
-      this.beforePageLeaveHandlers.push({
-        brick,
-        match,
-        handler: onBeforePageLeave,
-      });
-    }
-
-    if (onPageLeave) {
-      this.pageLeaveHandlers.push({
-        brick,
-        match,
-        handler: onPageLeave,
-      });
-    }
-
-    if (onAnchorLoad) {
-      this.anchorLoadHandlers.push({
-        brick,
-        match,
-        handler: onAnchorLoad,
-      });
-    }
-
-    if (onAnchorUnload) {
-      this.anchorUnloadHandlers.push({
-        brick,
-        match,
-        handler: onAnchorUnload,
-      });
-    }
-
-    if (onMessage) {
-      this.messageHandlers.push({
-        brick,
-        match,
-        message: onMessage,
-      });
-    }
-
-    if (onMessageClose) {
-      this.messageCloseHandlers.push({
-        brick,
-        match,
-        handler: onMessageClose,
-      });
-    }
+    this.registerHandlersFromLifeCycle(brickConf.lifeCycle, brick, match);
 
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
@@ -756,6 +630,94 @@ export class LocationContext {
         mountRoutesResult.main.push(brick);
       }
     }
+  }
+
+  private registerHandlersFromLifeCycle(
+    lifeCycle: BrickLifeCycle,
+    brick: RuntimeBrick,
+    match: MatchResult
+  ): void {
+    const {
+      onBeforePageLoad,
+      onPageLoad,
+      onBeforePageLeave,
+      onPageLeave,
+      onAnchorLoad,
+      onAnchorUnload,
+      onMessage,
+      onMessageClose,
+    } = lifeCycle ?? {};
+
+    if (onBeforePageLoad) {
+      this.beforePageLoadHandlers.push({
+        brick,
+        match,
+        handler: onBeforePageLoad,
+      });
+    }
+
+    if (onPageLoad) {
+      this.pageLoadHandlers.push({
+        brick,
+        match,
+        handler: onPageLoad,
+      });
+    }
+
+    if (onBeforePageLeave) {
+      this.beforePageLeaveHandlers.push({
+        brick,
+        match,
+        handler: onBeforePageLeave,
+      });
+    }
+
+    if (onPageLeave) {
+      this.pageLeaveHandlers.push({
+        brick,
+        match,
+        handler: onPageLeave,
+      });
+    }
+
+    if (onAnchorLoad) {
+      this.anchorLoadHandlers.push({
+        brick,
+        match,
+        handler: onAnchorLoad,
+      });
+    }
+
+    if (onAnchorUnload) {
+      this.anchorUnloadHandlers.push({
+        brick,
+        match,
+        handler: onAnchorUnload,
+      });
+    }
+
+    if (onMessage) {
+      this.messageHandlers.push({
+        brick,
+        match,
+        message: onMessage,
+      });
+    }
+
+    if (onMessageClose) {
+      this.messageCloseHandlers.push({
+        brick,
+        match,
+        handler: onMessageClose,
+      });
+    }
+  }
+
+  handleBeforePageLoad(): void {
+    this.dispatchLifeCycleEvent(
+      new CustomEvent("page.beforeLoad"),
+      this.beforePageLoadHandlers
+    );
   }
 
   handlePageLoad(): void {

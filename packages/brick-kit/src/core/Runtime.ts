@@ -29,6 +29,7 @@ import {
   AbstractRuntime,
 } from "./interfaces";
 import { getBasePath } from "../getBasePath";
+import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
 
 let kernel: Kernel;
 
@@ -215,6 +216,8 @@ export class Runtime implements AbstractRuntime {
   }
 
   getBasePath = getBasePath;
+  getCurrentTheme = getCurrentTheme;
+  getCurrentMode = getCurrentMode;
 }
 
 /* istanbul ignore next */

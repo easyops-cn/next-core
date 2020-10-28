@@ -13,9 +13,11 @@ import { message } from "antd";
 import { CustomApiOrchestration } from "./core/interfaces";
 import { mockMicroAppApiOrchestrationMap } from "./core/__mocks__/MicroAppApiOrchestrationData";
 import { CUSTOM_API_PROVIDER } from "./providers/CustomApi";
+import { applyTheme, applyMode } from "./themeAndMode";
 
 jest.mock("./history");
 jest.mock("./core/MessageDispatcher");
+jest.mock("./themeAndMode");
 
 // Mock a custom element of `any-provider`.
 customElements.define(
@@ -405,6 +407,10 @@ describe("bindListeners", () => {
             },
           },
         },
+        { action: "theme.setLightTheme" },
+        { action: "theme.setDarkTheme" },
+        { action: "mode.setDefaultMode" },
+        { action: "mode.setDashboardMode" },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -690,10 +696,17 @@ describe("bindListeners", () => {
     expect(mockMessageInfo).toHaveBeenCalledTimes(1);
     expect(mockMessageWarn).toHaveBeenCalledTimes(1);
 
+    expect(applyTheme).toHaveBeenNthCalledWith(1, "light");
+    expect(applyTheme).toHaveBeenNthCalledWith(2, "dark");
+    expect(applyMode).toHaveBeenNthCalledWith(1, "default");
+    expect(applyMode).toHaveBeenNthCalledWith(2, "dashboard");
+
     (console.log as jest.Mock).mockClear();
     (console.info as jest.Mock).mockClear();
     (console.warn as jest.Mock).mockClear();
     (console.error as jest.Mock).mockClear();
+    (applyTheme as jest.Mock).mockClear();
+    (applyMode as jest.Mock).mockClear();
 
     unbindListeners(sourceElem);
     sourceElem.dispatchEvent(event1);
@@ -810,6 +823,14 @@ describe("bindListeners", () => {
       { action: "event.preventDefault", if: "<% !EVENT.detail.rejected %>" },
       { action: "console.log", if: "<% !EVENT.detail.rejected %>" },
       {
+        action: "theme.setDarkTheme",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
+        action: "mode.setDashboardMode",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
         target: "#target-elem",
         if: "<% !EVENT.detail.rejected %>",
         method: "forGood",
@@ -826,6 +847,8 @@ describe("bindListeners", () => {
 
     expect(console.log as jest.Mock).not.toBeCalled();
     expect(targetElem.forGood).not.toBeCalled();
+    expect(applyTheme).not.toBeCalled();
+    expect(applyMode).not.toBeCalled();
 
     (console.log as jest.Mock).mockRestore();
     sourceElem.remove();
