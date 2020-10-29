@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.1...@easyops/brick-container@2.7.2) (2020-10-29)
+
+
+### Bug Fixes
+
+* **dashboard-mode:** fix styles of `has-sub-menu` in dashboard mode ([db34447](https://git.easyops.local/anyclouds/next-core/commits/db34447c458536212d45ed96b1550062d85bf7f9))
+
+
+
+
+
 ## [2.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.0...@easyops/brick-container@2.7.1) (2020-10-28)
 
 ### Bug Fixes
