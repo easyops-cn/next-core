@@ -7937,6 +7937,13 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.6.0:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
 
+hosted-git-info@^3.0.6:
+  version "3.0.7"
+  resolved "https://registry.npm.taobao.org/hosted-git-info/download/hosted-git-info-3.0.7.tgz?cache=0&sync_timestamp=1602803832496&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhosted-git-info%2Fdownload%2Fhosted-git-info-3.0.7.tgz#a30727385ea85acfcee94e0aad9e368c792e036c"
+  integrity sha1-owcnOF6oWs/O6U4KrZ42jHkuA2w=
+  dependencies:
+    lru-cache "^6.0.0"
+
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "http://registry.npm.taobao.org/hpack.js/download/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -10098,22 +10105,22 @@ meow@^4.0.0:
     redent "^2.0.0"
     trim-newlines "^2.0.0"
 
-meow@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.npm.taobao.org/meow/download/meow-7.1.1.tgz#7c01595e3d337fcb0ec4e8eed1666ea95903d306"
-  integrity sha1-fAFZXj0zf8sOxOju0WZuqVkD0wY=
+meow@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.npm.taobao.org/meow/download/meow-8.0.0.tgz#1aa10ee61046719e334ffdc038bb5069250ec99a"
+  integrity sha1-GqEO5hBGcZ4zT/3AOLtQaSUOyZo=
   dependencies:
     "@types/minimist" "^1.2.0"
     camelcase-keys "^6.2.2"
     decamelize-keys "^1.1.0"
     hard-rejection "^2.1.0"
     minimist-options "4.1.0"
-    normalize-package-data "^2.5.0"
+    normalize-package-data "^3.0.0"
     read-pkg-up "^7.0.1"
     redent "^3.0.0"
     trim-newlines "^3.0.0"
-    type-fest "^0.13.1"
-    yargs-parser "^18.1.3"
+    type-fest "^0.18.0"
+    yargs-parser "^20.2.3"
 
 merge-deep@^3.0.2:
   version "3.0.2"
@@ -10666,6 +10673,16 @@ normalize-package-data@^2.0.0, normalize-package-data@^2.3.0, normalize-package-
     hosted-git-info "^2.1.4"
     resolve "^1.10.0"
     semver "2 || 3 || 4 || 5"
+    validate-npm-package-license "^3.0.1"
+
+normalize-package-data@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/normalize-package-data/download/normalize-package-data-3.0.0.tgz?cache=0&sync_timestamp=1602547447569&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnormalize-package-data%2Fdownload%2Fnormalize-package-data-3.0.0.tgz#1f8a7c423b3d2e85eb36985eaf81de381d01301a"
+  integrity sha1-H4p8Qjs9LoXrNpher4HeOB0BMBo=
+  dependencies:
+    hosted-git-info "^3.0.6"
+    resolve "^1.17.0"
+    semver "^7.3.2"
     validate-npm-package-license "^3.0.1"
 
 normalize-path@^2.1.1:
@@ -14926,10 +14943,10 @@ type-fest@^0.11.0:
   resolved "https://registry.npm.taobao.org/type-fest/download/type-fest-0.11.0.tgz#97abf0872310fed88a5c466b25681576145e33f1"
   integrity sha1-l6vwhyMQ/tiKXEZrJWgVdhReM/E=
 
-type-fest@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.npm.taobao.org/type-fest/download/type-fest-0.13.1.tgz#0172cb5bce80b0bd542ea348db50c7e21834d934"
-  integrity sha1-AXLLW86AsL1ULqNI21DH4hg02TQ=
+type-fest@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.npm.taobao.org/type-fest/download/type-fest-0.18.0.tgz?cache=0&sync_timestamp=1602623859603&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftype-fest%2Fdownload%2Ftype-fest-0.18.0.tgz#2edfa6382d48653707344f7fccdb0443d460e8d6"
+  integrity sha1-Lt+mOC1IZTcHNE9/zNsEQ9Rg6NY=
 
 type-fest@^0.3.0:
   version "0.3.1"
@@ -15796,7 +15813,7 @@ yargs-parser@^15.0.0:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^18.1.2, yargs-parser@^18.1.3:
+yargs-parser@^18.1.2:
   version "18.1.3"
   resolved "https://registry.npm.taobao.org/yargs-parser/download/yargs-parser-18.1.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fyargs-parser%2Fdownload%2Fyargs-parser-18.1.3.tgz#be68c4975c6b2abf469236b0c870362fab09a7b0"
   integrity sha1-vmjEl1xrKr9GkjawyHA2L6sJp7A=
@@ -15808,6 +15825,11 @@ yargs-parser@^20.2.2:
   version "20.2.2"
   resolved "https://registry.npm.taobao.org/yargs-parser/download/yargs-parser-20.2.2.tgz?cache=0&sync_timestamp=1602700236661&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fyargs-parser%2Fdownload%2Fyargs-parser-20.2.2.tgz#84562c6b1c41ccec2f13d346c7dd83f8d1a0dc70"
   integrity sha1-hFYsaxxBzOwvE9NGx92D+NGg3HA=
+
+yargs-parser@^20.2.3:
+  version "20.2.3"
+  resolved "https://registry.npm.taobao.org/yargs-parser/download/yargs-parser-20.2.3.tgz?cache=0&sync_timestamp=1602861397132&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fyargs-parser%2Fdownload%2Fyargs-parser-20.2.3.tgz#92419ba867b858c868acf8bae9bf74af0dd0ce26"
+  integrity sha1-kkGbqGe4WMhorPi66b90rw3QziY=
 
 yargs@^13.3.0, yargs@^13.3.2:
   version "13.3.2"
