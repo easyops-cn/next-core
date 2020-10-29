@@ -85,6 +85,10 @@ body.has-sub-menu #main-mount-point {
   margin-left: var(--sub-menu-bar-width);
 }
 
+html[data-mode="dashboard"] body.has-sub-menu #main-mount-point {
+  margin-left: 0;
+}
+
 @media print {
   .print-hide {
     display: none;
