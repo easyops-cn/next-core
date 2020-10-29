@@ -17,6 +17,8 @@ const rawStringMap = {
   "shade(@text-color-secondary, 40%)":
     "var(--antd-text-color-secondary-shade-40)",
   "fade(@disabled-color, 10%)": "var(--antd-disabled-color-fade-10)",
+  "lighten(@border-color-split, 80%)":
+    "var(--antd-border-color-split-lighten-80)",
 };
 
 const replacements: [RegExp, Replacer][] = [
