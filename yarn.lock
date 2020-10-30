@@ -2454,10 +2454,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.6.2.tgz?cache=0&sync_timestamp=1603257134571&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40size-limit%2Ffile%2Fdownload%2F%40size-limit%2Ffile-4.6.2.tgz#21271022e5cfe671d207519f5b46d1e683b9b02d"
-  integrity sha1-IScQIuXP5nHSB1GfW0bR5oO5sC0=
+"@size-limit/file@^4.7.0":
+  version "4.7.0"
+  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.7.0.tgz#a30567bc707a18cc7d9b589359a4d5d161a8bb64"
+  integrity sha1-owVnvHB6GMx9m1iTWaTV0WGou2Q=
   dependencies:
     semver "7.3.2"
 
@@ -13848,10 +13848,10 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.6.2.tgz#5bf347eea2558d772a90ca07da0d8ff62382ecf0"
-  integrity sha1-W/NH7qJVjXcqkMoH2g2P9iOC7PA=
+size-limit@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.7.0.tgz#dbfdc1fa492d906fcf1e198617526a39b646845d"
+  integrity sha1-2/3B+kktkG/PHhmGF1JqObZGhF0=
   dependencies:
     bytes "^3.1.0"
     chokidar "^3.4.3"
