@@ -1,8 +1,6 @@
-function escapeRegExp(input: string): string {
+function escapeRegExp(input) {
   return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
-
-type Replacer = (substring: string, ...args: any[]) => string;
 
 const variableMap = {
   "table-header-sort-active-bg": true,
@@ -21,13 +19,13 @@ const rawStringMap = {
     "var(--antd-border-color-split-lighten-80)",
 };
 
-const replacements: [RegExp, Replacer][] = [
+const replacements = [
   [
     new RegExp(
       `(?:@(${Object.keys(variableMap).map(escapeRegExp).join("|")})):[^;]+;`,
       "g"
     ),
-    (match, p1: string) => {
+    (match, p1) => {
       return `@${p1}: var(--antd-${p1});`;
     },
   ],
@@ -39,11 +37,13 @@ const replacements: [RegExp, Replacer][] = [
   ],
 ];
 
-export class LessReplacer {
-  process(src: string): string {
+class LessReplacer {
+  process(src) {
     return replacements.reduce(
       (source, item) => source.replace(item[0], item[1]),
       src
     );
   }
 }
+
+exports.LessReplacer = LessReplacer;
