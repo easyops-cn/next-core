@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>f5-pool</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="f5-pool">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="-5.68434189e-14" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(1.000000, 1.000000)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="0 39 0 5 34 5 34 39"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.000000, 2.500000) rotate(180.000000) translate(-20.000000, -2.500000) " points="0 5 6 0 40 0 32.2 5"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.000000, 19.500000) scale(-1, 1) translate(-37.000000, -19.500000) " points="34 33 34 -1.69135539e-17 40 5 40 39"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="31.5 7.5 31.5 36.5 2.5 36.5 2.5 7.5"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="30.5 8.5 30.5 35.5 3.5 35.5 3.5 8.5"></polygon>
+            </g>
+            <g transform="translate(8.000000, 13.000000)">
+                <polygon id="矩形备份-17" points="0 0 20 0 20 20 13.6025995 20 0 20"></polygon>
+                <g id="图形" transform="translate(0.555556, 0.555556)">
+                    <line x1="9.44444444" y1="3.44444444" x2="9.44444444" y2="17.4444444" id="路径" stroke="#FFFFFF"></line>
+                    <line x1="3" y1="13" x2="9.44444444" y2="16.4444444" id="路径" stroke="#FFFFFF"></line>
+                    <line x1="9.444444" y1="12.9444444" x2="15.9999996" y2="16.4444444" id="路径备份-3" stroke="#FFFFFF" transform="translate(12.722222, 14.694444) scale(-1, 1) translate(-12.722222, -14.694444) "></line>
+                    <line x1="9.5" y1="3.44444444" x2="2.22091589" y2="12.9444444" id="路径" stroke="#FFFFFF"></line>
+                    <line x1="17" y1="12.9444444" x2="10" y2="3.44444444" id="路径" stroke="#FFFFFF"></line>
+                    <circle id="椭圆形" fill="#23CCD1" fill-rule="nonzero" cx="9.44444444" cy="3.44444444" r="3"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="9.44444444" cy="16.4444444" r="2"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="2" cy="13" r="2"></circle>
+                    <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="17" cy="13" r="2"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

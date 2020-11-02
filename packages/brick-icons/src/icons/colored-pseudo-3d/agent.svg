@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>agent</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="agent">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="0" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(1.000000, 1.000000)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="0 39 0 5 34 5 34 39"></polygon>
+                <g id="编组" transform="translate(7.000000, 12.000000)">
+                    <polygon id="矩形备份-16" points="0 0 20 0 20 20 13.6025995 20 0 20"></polygon>
+                    <g transform="translate(0.555556, 0.000000)">
+                        <line x1="9.58033033" y1="5.56531532" x2="9.58033033" y2="18.7192192" id="路径" stroke="#FFFFFF" stroke-linecap="round"></line>
+                        <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="9.61111111" cy="18.8010511" r="1"></circle>
+                        <line x1="5.50750751" y1="10.8153153" x2="13.6478979" y2="10.8153153" id="路径" stroke="#FFFFFF" stroke-linecap="round"></line>
+                        <polyline id="路径" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="7.74624625 17.4947447 7.74624625 16.4804805 9.58033033 15.6816817"></polyline>
+                        <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="7.77777778" cy="18.0555556" r="1"></circle>
+                        <polyline id="路径" stroke="#FFFFFF" stroke-linejoin="round" points="11.4144144 16.9429429 11.4144144 15.2297297 9.58033033 14.4256757"></polyline>
+                        <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="11.3888889" cy="17.3506006" r="1"></circle>
+                        <circle id="椭圆形" fill="#23CCD1" fill-rule="nonzero" cx="3.48423423" cy="10.8153153" r="3.04804805"></circle>
+                        <circle id="椭圆形" fill="#23CCD1" fill-rule="nonzero" cx="15.8025526" cy="10.8153153" r="3.04804805"></circle>
+                        <circle id="椭圆形" fill="#23CCD1" fill-rule="nonzero" cx="9.70645646" cy="3.35810811" r="3.04804805"></circle>
+                    </g>
+                </g>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.000000, 2.500000) rotate(180.000000) translate(-20.000000, -2.500000) " points="0 5 6 0 40 0 32.2 5"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.000000, 19.500000) scale(-1, 1) translate(-37.000000, -19.500000) " points="34 33 34 0 40 5 40 39"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="31.5 7.5 31.5 36.5 2.5 36.5 2.5 7.5"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="30.5 8.5 30.5 35.5 3.5 35.5 3.5 8.5"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
