@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/less-plugin-css-variables@0.1.1...@easyops/less-plugin-css-variables@0.1.2) (2020-11-02)
+
+### Bug Fixes
+
+- introduce new css variables ([8b05e28](https://git.easyops.local/anyclouds/next-core/commits/8b05e28))
+
 ## [0.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/less-plugin-css-variables@0.1.0...@easyops/less-plugin-css-variables@0.1.1) (2020-10-28)
 
 ### Bug Fixes
