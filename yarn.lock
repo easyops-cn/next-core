@@ -2911,10 +2911,10 @@
   dependencies:
     "@types/enzyme" "*"
 
-"@types/enzyme@*", "@types/enzyme@^3.10.7":
-  version "3.10.7"
-  resolved "https://registry.npm.taobao.org/@types/enzyme/download/@types/enzyme-3.10.7.tgz#ebdf3b972d293095e09af479e36c772025285e3a"
-  integrity sha1-6987ly0pMJXgmvR542x3ICUoXjo=
+"@types/enzyme@*", "@types/enzyme@^3.10.8":
+  version "3.10.8"
+  resolved "https://registry.npm.taobao.org/@types/enzyme/download/@types/enzyme-3.10.8.tgz#ad7ac9d3af3de6fd0673773123fafbc63db50d42"
+  integrity sha1-rXrJ06895v0Gc3cxI/r7xj21DUI=
   dependencies:
     "@types/cheerio" "*"
     "@types/react" "*"
