@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>app</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="app">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="-5.68434189e-14" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(0.909091, 0.424242)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="0.0909089 39.5757576 0.0909089 5.57575758 34.0909089 5.57575758 34.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.090909, 3.075758) rotate(180.000000) translate(-20.090909, -3.075758) " points="0.0909089 5.57575842 6.0909089 0.57575842 40.0909089 0.57575842 32.2909089 5.57575842"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.090909, 20.075758) scale(-1, 1) translate(-37.090909, -20.075758) " points="34.0909089 33.5757576 34.0909089 0.575757576 40.0909089 5.57575758 40.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="31.5909089 8.07575758 31.5909089 37.0757576 2.5909089 37.0757576 2.5909089 8.07575758"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="30.5909089 9.07575758 30.5909089 36.0757576 3.5909089 36.0757576 3.5909089 9.07575758"></polygon>
+            </g>
+            <g id="Icon/应用" transform="translate(8.000000, 13.000000)">
+                <rect id="矩形" fill="#D8D8D8" fill-rule="nonzero" opacity="0" x="0" y="3.55271368e-15" width="20" height="20"></rect>
+                <g id="服务节点">
+                    <rect id="矩形备份-3" fill="#D8D8D8" fill-rule="nonzero" opacity="0" x="0" y="3.55271368e-15" width="20" height="20"></rect>
+                    <g id="应用备份" transform="translate(1.000000, 1.000000)">
+                        <rect id="矩形1" x="0" y="0" width="18" height="18"></rect>
+                        <g id="编组-31" fill-rule="nonzero">
+                            <g id="编组-4">
+                                <path d="M3.9,-2.7533531e-14 C1.75,-2.7533531e-14 -2.79776202e-14,1.75 -2.79776202e-14,3.9 C-2.79776202e-14,6.05 1.75,7.8 3.9,7.8 L7.35,7.8 C7.6,7.8 7.85,7.6 7.85,7.3 L7.85,3.85 C7.8,1.75 6.05,-2.7533531e-14 3.9,-2.7533531e-14 Z" id="路径" fill="#23CCD1"></path>
+                                <path d="M13.7,-2.7533531e-14 C15.85,-2.7533531e-14 17.6,1.75 17.6,3.9 C17.6,6.05 15.85,7.8 13.7,7.8 L10.25,7.8 C10,7.8 9.75,7.6 9.75,7.3 L9.75,3.85 C9.8,1.75 11.55,-2.7533531e-14 13.7,-2.7533531e-14 Z" id="路径" fill="#EFF3F8"></path>
+                                <path d="M3.9,17.65 C1.75,17.65 -2.79776202e-14,15.9 -2.79776202e-14,13.75 C-2.79776202e-14,11.6 1.75,9.85 3.9,9.85 L7.35,9.85 C7.6,9.85 7.85,10.05 7.85,10.35 L7.85,13.8 C7.8,15.9 6.05,17.65 3.9,17.65 Z" id="路径" fill="#EFF3F8"></path>
+                                <path d="M13.7,17.65 C15.85,17.65 17.6,15.9 17.6,13.75 C17.6,11.6 15.85,9.85 13.7,9.85 L10.25,9.85 C10,9.85 9.75,10.05 9.75,10.35 L9.75,13.8 C9.8,15.9 11.55,17.65 13.7,17.65 Z" id="路径" fill="#EFF3F8"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

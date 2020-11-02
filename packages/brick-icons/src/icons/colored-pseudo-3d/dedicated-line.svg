@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>dedicated-line</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="dedicated-line">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="0" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(1.000000, 1.000000)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="0 39 0 5 34 5 34 39"></polygon>
+                <g id="编组" transform="translate(7.000000, 12.000000)">
+                    <polygon id="矩形备份-19" points="1.39534884 1.86046512 18.1395349 1.86046512 18.1395349 18.6046512 12.7835716 18.6046512 1.39534884 18.6046512"></polygon>
+                    <g id="编组-11" transform="translate(10.071179, 10.071036) rotate(-45.000000) translate(-10.071179, -10.071036) translate(2.571179, 3.571036)">
+                        <path d="M12.6949384,6.12859097 L12.6949384,6.12859097 C13.9037696,6.12859097 14.8837209,5.14863967 14.8837209,3.93980848 C14.8837209,2.73097729 13.9037696,1.75102599 12.6949384,1.75102599" id="路径" stroke="#FFFFFF"></path>
+                        <path d="M2.18878249,6.12859097 C0.9799513,6.12859097 -1.70530257e-13,7.10854227 -1.70530257e-13,8.31737346 C-1.70530257e-13,9.52620465 0.9799513,10.506156 2.18878249,10.506156 L2.18878249,10.506156" id="路径" stroke="#FFFFFF"></path>
+                        <line x1="5.47195622" y1="1.75102599" x2="12.6949384" y2="1.75102599" id="直线" stroke="#FFFFFF" stroke-linecap="round"></line>
+                        <line x1="2.18878249" y1="6.12859097" x2="12.6949384" y2="6.12859097" id="直线" stroke="#FFFFFF" stroke-linecap="round"></line>
+                        <line x1="2.18878249" y1="10.506156" x2="9.63064295" y2="10.506156" id="直线" stroke="#FFFFFF" stroke-linecap="round"></line>
+                        <circle id="椭圆形" stroke="#23CCD1" cx="3.50205198" cy="1.75102599" r="1.75102599"></circle>
+                        <circle id="椭圆形" stroke="#23CCD1" cx="11.3816689" cy="10.506156" r="1.75102599"></circle>
+                    </g>
+                </g>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.000000, 2.500000) rotate(180.000000) translate(-20.000000, -2.500000) " points="0 5 6 0 40 0 32.2 5"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.000000, 19.500000) scale(-1, 1) translate(-37.000000, -19.500000) " points="34 33 34 -1.69135539e-17 40 5 40 39"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="31.5 7.5 31.5 36.5 2.5 36.5 2.5 7.5"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="30.5 8.5 30.5 35.5 3.5 35.5 3.5 8.5"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

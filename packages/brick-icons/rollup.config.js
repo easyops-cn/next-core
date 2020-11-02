@@ -5,19 +5,31 @@ export default rollupFactory({
   umdName: "BrickIcons",
   plugins: [
     svgr({
+      exclude: "src/icons/colored-pseudo-3d/*",
       svgoConfig: {
         plugins: [
           {
             // Keep `viewbox`
-            removeViewBox: false
+            removeViewBox: false,
           },
           {
             convertColors: {
-              currentColor: true
-            }
-          }
-        ]
-      }
-    })
-  ]
+              currentColor: true,
+            },
+          },
+        ],
+      },
+    }),
+    svgr({
+      include: "src/icons/colored-pseudo-3d/*",
+      svgoConfig: {
+        plugins: [
+          {
+            // Keep `viewbox`
+            removeViewBox: false,
+          },
+        ],
+      },
+    }),
+  ],
 });

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>user</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="user">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="0" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(0.909091, 0.424242)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="0.0909089 39.5757576 0.0909089 5.57575758 34.0909089 5.57575758 34.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.090909, 3.075758) rotate(180.000000) translate(-20.090909, -3.075758) " points="0.0909089 5.57575842 6.0909089 0.57575842 40.0909089 0.57575842 32.2909089 5.57575842"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.090909, 20.075758) scale(-1, 1) translate(-37.090909, -20.075758) " points="34.0909089 33.5757576 34.0909089 0.575757576 40.0909089 5.57575758 40.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="31.5909089 8.07575758 31.5909089 37.0757576 2.5909089 37.0757576 2.5909089 8.07575758"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="30.5909089 9.07575758 30.5909089 36.0757576 3.5909089 36.0757576 3.5909089 9.07575758"></polygon>
+            </g>
+            <g id="Icon/用户" transform="translate(8.000000, 13.000000)" fill-rule="nonzero">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="19.3333333" height="19.3333333"></rect>
+                <g id="形状" transform="translate(2.282407, 0.000000)">
+                    <path d="M12.6246667,9.889 C12.0185435,9.53699805 11.292275,9.45630155 10.6236667,9.66666667 C8.8114258,10.1177511 6.91624087,10.1177511 5.104,9.66666667 C4.43539164,9.45630155 3.70912314,9.53699805 3.103,9.889 C1.2478936,10.9360167 0.0720924346,12.8737077 1.24344979e-14,15.0026667 C1.24344979e-14,18.56 3.51866667,18.5793333 7.86866667,18.5793333 C12.2186667,18.5793333 15.7276667,18.5793333 15.7276667,15.0026667 C15.6555742,12.8737077 14.4797731,10.9360167 12.6246667,9.889 Z" id="路径" fill="#EFF3F8"></path>
+                    <circle id="椭圆形" fill="#23CCD1" cx="7.86866667" cy="4.292" r="4.292"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

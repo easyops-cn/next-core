@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>cloud-backup</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="cloud-backup">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="0" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(0.909091, 0.424242)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="0.0909089 39.5757576 0.0909089 5.57575758 34.0909089 5.57575758 34.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.090909, 3.075758) rotate(180.000000) translate(-20.090909, -3.075758) " points="0.0909089 5.57575842 6.0909089 0.57575842 40.0909089 0.57575842 32.2909089 5.57575842"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.090909, 20.075758) scale(-1, 1) translate(-37.090909, -20.075758) " points="34.0909089 33.5757576 34.0909089 0.575757576 40.0909089 5.57575758 40.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="31.5909089 8.07575758 31.5909089 37.0757576 2.5909089 37.0757576 2.5909089 8.07575758"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="30.5909089 9.07575758 30.5909089 36.0757576 3.5909089 36.0757576 3.5909089 9.07575758"></polygon>
+            </g>
+            <g id="Icon/云备份" transform="translate(8.000000, 13.000000)">
+                <rect id="矩形" fill="#D8D8D8" fill-rule="nonzero" opacity="0" x="0" y="3.55271368e-15" width="20" height="20"></rect>
+                <g id="云备份">
+                    <rect id="矩形备份-3" fill="#D8D8D8" fill-rule="nonzero" opacity="0" x="0" y="3.55271368e-15" width="20" height="20"></rect>
+                    <g id="编组" transform="translate(1.000000, 1.000000)">
+                        <polygon id="矩形备份-5" points="0 0 17.5135135 0 17.5135135 18 11.9114655 18 0 18"></polygon>
+                        <path d="M13.921228,14.8655351 L13.9329427,14.8655351 C16.0357358,14.7932943 17.7285135,13.0233946 17.7285135,10.8381104 C17.7285135,8.65282609 16.0357358,6.87690635 13.9270853,6.81670569 L13.921228,6.81670569 C13.7337924,4.51102007 11.8594364,2.705 9.56335036,2.705 C7.14425969,2.705 5.28161846,4.72172241 5.18790066,7.20198997 C5.1820433,7.35851171 5.1351844,7.89429766 5.12932704,8.03877926 L4.94189144,7.95449833 C4.64316596,7.84613712 4.26829477,7.72573579 3.69427325,7.72573579 C1.77891576,7.72573579 0.226714725,9.31503344 0.215,11.2835953 L0.215,11.2956355 C0.215,13.2581773 1.74962894,14.853495 3.65912908,14.8715552 L3.68841589,14.8715552 L13.921228,14.8655351" id="路径" fill="#EFF3F8" fill-rule="nonzero"></path>
+                        <polygon id="形状结合" fill="#23CCD1" fill-rule="nonzero" points="8.97175676 8.87 11.4041892 12.37 10.4303243 12.37 10.4312162 14.87 7.5122973 14.87 7.51132432 12.37 6.53932432 12.37"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

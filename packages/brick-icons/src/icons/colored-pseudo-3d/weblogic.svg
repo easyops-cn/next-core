@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>weblogic</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="weblogic">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="1.42108547e-14" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(1.000000, 1.000000)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="0 39 0 5 34 5 34 39"></polygon>
+                <g id="编组" transform="translate(8.000000, 14.000000)">
+                    <rect id="矩形备份-8" opacity="0.446149554" x="0" y="0" width="18" height="18"></rect>
+                    <path d="M10.6435712,13.2557123 L10.5943937,8.68020659 L5.97170355,13.7969011 L5.97170355,8.92620152 L3.66035848,8.92620152 L3.66035848,7.79462485 L7.10278731,7.79462485 L7.10278731,10.844962 L11.6762999,5.77746643 L11.7254775,10.4513701 L16.9382983,4.99028266 C14.7253083,0.611572928 9.36495483,-1.15959056 4.98815246,1.0543638 C0.611350087,3.26831816 -1.15904188,8.63100761 1.05394808,13.0097173 C3.26693804,17.3884271 8.62729151,19.1595906 13.0040939,16.9456362 C16.9382983,14.9776768 18.8562229,10.3529721 17.4300738,6.17105832 L10.6435712,13.2557123 Z" id="路径" fill="#EFF3F8" fill-rule="nonzero"></path>
+                    <polyline id="路径-33" fill="#23CCD1" fill-rule="nonzero" points="16.9382983 4.99028266 11.7254775 10.4513701 11.6762999 5.77746643 7.10278731 10.844962 7.10278731 7.79462485 3.66035848 7.79462485 3.66035848 8.92620152 5.97170355 8.92620152 5.97170355 13.7969011 10.5943937 8.68020659 10.6435712 13.2557123 17.4300738 6.17105832"></polyline>
+                </g>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.000000, 2.500000) rotate(180.000000) translate(-20.000000, -2.500000) " points="0 5 6 0 40 0 32.2 5"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.000000, 19.500000) scale(-1, 1) translate(-37.000000, -19.500000) " points="34 33 34 -1.69135539e-17 40 5 40 39"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="31.5 7.5 31.5 36.5 2.5 36.5 2.5 7.5"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="30.5 8.5 30.5 35.5 3.5 35.5 3.5 8.5"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
