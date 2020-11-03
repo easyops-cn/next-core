@@ -693,6 +693,8 @@ export interface BaseEntityResolveConf {
 
   /** {@inheritDoc HandleReject} */
   onReject?: HandleReject;
+
+  /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
 }
 
@@ -726,7 +728,7 @@ export type RefResolveConf = Pick<
 };
 
 /** {@inheritDoc HandleRejectByTransform} */
-export type HandleReject = HandleRejectByTransform /*| HandleRejectByCatch*/;
+export type HandleReject = HandleRejectByTransform | HandleRejectByCatch;
 
 /**
  * 当异步数据处理抛出错误时，使用该错误对象作为数据源进行转换来作为最终结果。
@@ -736,9 +738,13 @@ export interface HandleRejectByTransform {
   transform: GeneralTransform;
 }
 
-// export interface HandleRejectByCatch {
-//   catch: true;
-// }
+/**
+ * 当异步数据处理抛出错误时，捕获它，可以设置只对应的构件报错，而不是页面整体报错。
+ */
+export interface HandleRejectByCatch {
+  /** 只让构件报错。 */
+  isolatedCrash: true;
+}
 
 /**
  * 数据转换配置。
