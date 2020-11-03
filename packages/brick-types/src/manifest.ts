@@ -1346,22 +1346,37 @@ export type CustomTemplateProxyProperty =
   | CustomTemplateProxyTransformableProperty;
 
 /** 自定义模板的基本属性代理配置。 */
-export interface CustomTemplateProxyBasicProperty {
+export interface CustomTemplateProxyBasicProperty
+  extends CustomTemplateProxyWithExtra {
   /** 要代理的构件的引用 ID。 */
   ref: string;
 
-  /** 要代理的构件的属性名 */
+  /** 要代理的构件的属性名。 */
   refProperty: string;
 }
 
 /** 自定义模板的可转换的属性代理配置。 */
-export interface CustomTemplateProxyTransformableProperty {
+export interface CustomTemplateProxyTransformableProperty
+  extends CustomTemplateProxyWithExtra {
   /** {@inheritDoc CustomTemplateProxyBasicProperty.ref} */
   ref: string;
 
   /** 要代理的构件的属性转换设置。 */
   refTransform: GeneralTransform;
 }
+
+export interface CustomTemplateProxyWithExtra {
+  /** {@inheritDoc CustomTemplateProxyExtraOneWayRef} */
+  extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
+}
+
+/** 额外的单向（由模板传输给内部构件）属性代理配置。 */
+export type CustomTemplateProxyExtraOneWayRef =
+  | Omit<CustomTemplateProxyBasicProperty, keyof CustomTemplateProxyWithExtra>
+  | Omit<
+      CustomTemplateProxyTransformableProperty,
+      keyof CustomTemplateProxyWithExtra
+    >;
 
 /**
  * 自定义模板的事件代理配置表。
