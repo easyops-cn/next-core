@@ -30,6 +30,10 @@ module.exports = function extract() {
 
   if (!rootPackageJson.resolutions) {
     rootPackageJson.resolutions = {};
+  } else if (rootPackageJson.resolutions.expect) {
+    // Problems of `objectContaining` fixed.
+    // See https://github.com/facebook/jest/pull/10508#issuecomment-720453877
+    delete rootPackageJson.resolutions.expect;
   }
 
   // Remove all packages those are included in `@easyops/dev-dependencies`
