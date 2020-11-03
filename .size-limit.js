@@ -13,7 +13,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll.js",
-    limit: "1.48 MB",
+    limit: "1.49 MB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
