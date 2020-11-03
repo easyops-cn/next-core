@@ -1,6 +1,6 @@
 {
   "name": "@easyops/next-docs",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/next-docs",
   "license": "UNLICENSED",
@@ -18,7 +18,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops/brick-kit": "^2.13.2",
-    "@easyops/brick-types": "^2.5.0"
+    "@easyops/brick-kit": "^2.14.0",
+    "@easyops/brick-types": "^2.6.0"
   }
 }

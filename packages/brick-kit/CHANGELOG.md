@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.13.2...@easyops/brick-kit@2.14.0) (2020-11-03)
+
+### Features
+
+- **custom-template:** support `extraOneWayRefs` ([25abb47](https://git.easyops.local/anyclouds/next-core/commits/25abb47))
+
 ## [2.13.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.13.1...@easyops/brick-kit@2.13.2) (2020-11-03)
 
 **Note:** Version bump only for package @easyops/brick-kit

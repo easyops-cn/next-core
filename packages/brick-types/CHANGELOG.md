@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.5.0...@easyops/brick-types@2.6.0) (2020-11-03)
+
+### Features
+
+- **custom-template:** support `extraOneWayRefs` ([25abb47](https://git.easyops.local/anyclouds/next-core/commits/25abb47))
+
 # [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.4.2...@easyops/brick-types@2.5.0) (2020-10-27)
 
 ### Features
