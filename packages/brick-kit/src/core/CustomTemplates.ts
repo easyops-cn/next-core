@@ -13,6 +13,7 @@ import {
   BrickConf,
   ProbablyRuntimeBrick,
   RuntimeBrickElement,
+  CustomTemplateProxyBasicProperty,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
 import {
@@ -144,6 +145,7 @@ export function expandCustomTemplate(
   proxyBrick.proxy = proxy;
   proxyBrick.proxyRefs = new Map();
 
+  // Reversed proxies are used for expand storyboard before rendering page.
   const reversedProxies: ReversedProxies = {
     properties: new Map(),
     slots: new Map(),
@@ -151,7 +153,9 @@ export function expandCustomTemplate(
   const reversedEntries: ReversedEntries[] = ["properties", "slots"];
   for (const entry of reversedEntries) {
     if (proxy?.[entry]) {
-      for (const [reversedRef, conf] of Object.entries(proxy[entry])) {
+      for (const [reversedRef, conf] of Object.entries<
+        CustomTemplateProxyProperty | CustomTemplateProxySlot
+      >(proxy[entry])) {
         let proxies: any[];
         if (reversedProxies[entry].has(conf.ref)) {
           proxies = reversedProxies[entry].get(conf.ref);
@@ -163,6 +167,27 @@ export function expandCustomTemplate(
           ...conf,
           reversedRef,
         });
+
+        // Properties may have extra refs.
+        if (
+          entry === "properties" &&
+          Array.isArray((conf as CustomTemplateProxyProperty).extraOneWayRefs)
+        ) {
+          for (const extraRef of (conf as CustomTemplateProxyProperty)
+            .extraOneWayRefs) {
+            let extraProxies: any[];
+            if (reversedProxies[entry].has(extraRef.ref)) {
+              extraProxies = reversedProxies[entry].get(extraRef.ref);
+            } else {
+              extraProxies = [];
+              reversedProxies[entry].set(extraRef.ref, extraProxies);
+            }
+            extraProxies.push({
+              ...extraRef,
+              reversedRef,
+            });
+          }
+        }
       }
     }
   }
@@ -227,6 +252,7 @@ function expandBrickInTemplate(
     refForProxy = {};
     proxyRefs.set(ref, refForProxy);
 
+    // Reversed proxies are used for expand storyboard before rendering page.
     if (reversedProxies.properties.has(ref)) {
       Object.assign(
         computedPropsFromProxy,
@@ -336,6 +362,35 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
     return;
   }
 
+  const handleExtraOneWayRefs = (
+    propName: string,
+    propRef: CustomTemplateProxyProperty,
+    value: any
+  ): void => {
+    if (Array.isArray(propRef.extraOneWayRefs)) {
+      for (const extraRef of propRef.extraOneWayRefs) {
+        const extraRefElement = getElementByRef(extraRef.ref) as any;
+        // should always have refElement.
+        // istanbul ignore else
+        if (extraRefElement) {
+          if (isTransformableProperty(extraRef)) {
+            transformElementProperties(
+              extraRefElement,
+              {
+                [propName]: value,
+              },
+              extraRef.refTransform
+            );
+          } else {
+            extraRefElement[
+              (extraRef as CustomTemplateProxyBasicProperty).refProperty
+            ] = value;
+          }
+        }
+      }
+    }
+  };
+
   const { properties, events, methods } = brick.proxy;
   if (properties) {
     for (const [propName, propRef] of Object.entries(properties)) {
@@ -360,6 +415,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
                 },
                 propRef.refTransform
               );
+              handleExtraOneWayRefs(propName, propRef, value);
             },
             enumerable: true,
           });
@@ -370,6 +426,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
             },
             set: function (value: any) {
               refElement[propRef.refProperty] = value;
+              handleExtraOneWayRefs(propName, propRef, value);
             },
             enumerable: true,
           });

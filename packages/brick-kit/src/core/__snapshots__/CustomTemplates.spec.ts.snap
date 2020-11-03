@@ -53,9 +53,28 @@ Object {
                   "slots": Object {},
                   Symbol(tpl.computedPropsFromProxy): Object {
                     "buttonType": "default",
+                    "sharedPropOfButton": "shared",
                     "style": Object {
                       "display": "block",
                     },
+                  },
+                  Symbol(tpl.refForProxy): Object {},
+                  Symbol(tpl.parentTemplate): undefined,
+                },
+                Object {
+                  "brick": "basic-bricks.general-input",
+                  "slots": Object {},
+                  Symbol(tpl.computedPropsFromProxy): Object {
+                    "sharedPropOfInput": "shared",
+                  },
+                  Symbol(tpl.refForProxy): Object {},
+                  Symbol(tpl.parentTemplate): undefined,
+                },
+                Object {
+                  "brick": "basic-bricks.general-link",
+                  "slots": Object {},
+                  Symbol(tpl.computedPropsFromProxy): Object {
+                    "sharedPropOfLink": "linked:shared",
                   },
                   Symbol(tpl.refForProxy): Object {},
                   Symbol(tpl.parentTemplate): undefined,
@@ -98,6 +117,26 @@ Object {
                           "ref": "micro-view",
                           "refProperty": "noGap",
                         },
+                        "sharedProp": Object {
+                          "extraOneWayRefs": Array [
+                            Object {
+                              "ref": "input",
+                              "refProperty": "sharedPropOfInput",
+                            },
+                            Object {
+                              "ref": "link",
+                              "refTransform": Object {
+                                "sharedPropOfLink": "<% \`linked:\${DATA.sharedProp}\` %>",
+                              },
+                            },
+                            Object {
+                              "ref": "micro-view",
+                              "refProperty": "sharedPropOfMicroView",
+                            },
+                          ],
+                          "ref": "button",
+                          "refProperty": "sharedPropOfButton",
+                        },
                       },
                       "slots": Object {
                         "extraContent": Object {
@@ -113,6 +152,8 @@ Object {
                     },
                     "proxyRefs": Map {
                       "button" => Object {},
+                      "input" => Object {},
+                      "link" => Object {},
                       "micro-view" => Object {},
                     },
                   },
@@ -140,6 +181,7 @@ Object {
           },
           Symbol(tpl.computedPropsFromProxy): Object {
             "noGap": "\${QUERY.gap|bool|not}",
+            "sharedPropOfMicroView": "shared",
           },
           Symbol(tpl.refForProxy): Object {},
           Symbol(tpl.parentTemplate): undefined,
@@ -184,6 +226,26 @@ Object {
         "ref": "micro-view",
         "refProperty": "noGap",
       },
+      "sharedProp": Object {
+        "extraOneWayRefs": Array [
+          Object {
+            "ref": "input",
+            "refProperty": "sharedPropOfInput",
+          },
+          Object {
+            "ref": "link",
+            "refTransform": Object {
+              "sharedPropOfLink": "<% \`linked:\${DATA.sharedProp}\` %>",
+            },
+          },
+          Object {
+            "ref": "micro-view",
+            "refProperty": "sharedPropOfMicroView",
+          },
+        ],
+        "ref": "button",
+        "refProperty": "sharedPropOfButton",
+      },
     },
     "slots": Object {
       "extraContent": Object {
@@ -199,6 +261,8 @@ Object {
   },
   "proxyRefs": Map {
     "button" => Object {},
+    "input" => Object {},
+    "link" => Object {},
     "micro-view" => Object {},
   },
 }

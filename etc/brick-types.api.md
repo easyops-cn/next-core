@@ -777,7 +777,7 @@ export interface CustomTemplateProxy {
 }
 
 // @public
-export interface CustomTemplateProxyBasicProperty {
+export interface CustomTemplateProxyBasicProperty extends CustomTemplateProxyWithExtra {
     ref: string;
     refProperty: string;
 }
@@ -793,6 +793,9 @@ export interface CustomTemplateProxyEvents {
     // (undocumented)
     [name: string]: CustomTemplateProxyEvent;
 }
+
+// @public
+export type CustomTemplateProxyExtraOneWayRef = Omit<CustomTemplateProxyBasicProperty, keyof CustomTemplateProxyWithExtra> | Omit<CustomTemplateProxyTransformableProperty, keyof CustomTemplateProxyWithExtra>;
 
 // @public
 export interface CustomTemplateProxyMethod {
@@ -829,9 +832,14 @@ export interface CustomTemplateProxySlots {
 }
 
 // @public
-export interface CustomTemplateProxyTransformableProperty {
+export interface CustomTemplateProxyTransformableProperty extends CustomTemplateProxyWithExtra {
     ref: string;
     refTransform: GeneralTransform;
+}
+
+// @public (undocumented)
+export interface CustomTemplateProxyWithExtra {
+    extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
 }
 
 // @public
