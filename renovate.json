@@ -27,6 +27,10 @@
       "packageNames": ["size-limit"],
       "packagePatterns": ["^@size-limit/"],
       "groupName": "size-limit packages"
+    },
+    {
+      "packageNames": ["antd"],
+      "enabled": false
     }
   ],
   "postUpgradeTasks": {
