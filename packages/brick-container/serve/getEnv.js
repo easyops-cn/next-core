@@ -44,13 +44,13 @@ module.exports = (cwd) => {
         --local-micro-apps  Specify local micro apps to be used in remote mode
         --local-templates   Specify local template packages to be used in remote mode
         --local-settings    Use local settings instead of remote settings in remote mode
-        --no-merge-settings Do not merge remote settings by local settings in remote mode
+        --no-merge-settings Disable merge remote settings by local settings in remote mode
         --port              Set local server listening port, defaults to "8081"
         --ws-port           Set local WebSocket server listening port, defaults to "8090"
         --host              Set local server listening host, defaults to "localhost"
         --offline           Use offline mode
         --verbose           Print verbose logs
-        --mock              Enable mock-micro-apps
+        --no-mock           Disable mock-micro-apps
         --no-live-reload    Disable live reload through WebSocket (for E2E tests in CI)
     `,
       {
@@ -107,6 +107,7 @@ module.exports = (cwd) => {
           },
           mock: {
             type: "boolean",
+            default: true,
           },
           liveReload: {
             type: "boolean",
@@ -150,7 +151,9 @@ module.exports = (cwd) => {
   const useLocalSettings =
     flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
-    flags.mergeSettings || process.env.MERGE_SETTINGS === "true";
+    flags.mergeSettings === undefined
+      ? process.env.NO_MERGE_SETTINGS !== "true"
+      : flags.mergeSettings;
 
   function getBrickNextDir() {
     if (cwd) {
@@ -212,7 +215,8 @@ module.exports = (cwd) => {
     consoleServer,
     appConfig,
     verbose: flags.verbose || process.env.VERBOSE === "true",
-    mocked: flags.mock || process.env.MOCK === "true",
+    mocked:
+      flags.mock === undefined ? process.env.NO_MOCK !== "true" : flags.mock,
     mockedMicroAppsDir,
     liveReload:
       flags.liveReload === undefined
