@@ -35,7 +35,7 @@
 - `SUBDIR=true` 等于 `--subdir`；
 - `LOCAL_BRICKS=abc,xyz` 等于 `--local-bricks=abc,xyz`；
 - `LOCAL_APPS=abc,xyz` 等于 `--local-apps=abc,xyz`；
-- `MERGE_SETTINGS=true` 等于 `--merge-settings`；
+- `NO_MERGE_SETTINGS=true` 等于 `--no-merge-settings`；
 - 以此类推（将 `yarn serve` 支持的参数改为 `大写_常量` 格式作为名称）。
 
 例如：
