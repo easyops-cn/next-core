@@ -2931,10 +2931,10 @@
   resolved "https://registry.npm.taobao.org/@types/file-saver/download/@types/file-saver-2.0.1.tgz#e18eb8b069e442f7b956d313f4fadd3ef887354e"
   integrity sha1-4Y64sGnkQve5VtMT9PrdPviHNU4=
 
-"@types/fs-extra@^9.0.2":
-  version "9.0.2"
-  resolved "https://registry.npm.taobao.org/@types/fs-extra/download/@types/fs-extra-9.0.2.tgz#e1e1b578c48e8d08ae7fc36e552b94c6f4621609"
-  integrity sha1-4eG1eMSOjQiuf8NuVSuUxvRiFgk=
+"@types/fs-extra@^9.0.3":
+  version "9.0.3"
+  resolved "https://registry.npm.taobao.org/@types/fs-extra/download/@types/fs-extra-9.0.3.tgz#9996e5cce993508c32325380b429f04a1327523e"
+  integrity sha1-mZblzOmTUIwyMlOAtCnwShMnUj4=
   dependencies:
     "@types/node" "*"
 
