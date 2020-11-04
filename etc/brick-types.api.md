@@ -90,7 +90,6 @@ export interface BaseEntityResolveConf {
     args?: unknown[];
     // @deprecated
     field?: string | string[];
-    // (undocumented)
     if?: string | boolean;
     method?: string;
     // @deprecated
@@ -956,7 +955,12 @@ export type FeatureFlags = Record<string, boolean>;
 export type GeneralTransform = string | TransformMap | TransformItem[];
 
 // @public
-export type HandleReject = HandleRejectByTransform;
+export type HandleReject = HandleRejectByTransform | HandleRejectByCatch;
+
+// @public
+export interface HandleRejectByCatch {
+    isolatedCrash: true;
+}
 
 // @public
 export interface HandleRejectByTransform {

@@ -36,7 +36,7 @@
     "semver": "^7.3.2"
   },
   "templateDependencies": {
-    "@bricks/basic-bricks": "^1.78.3"
+    "@bricks/basic-bricks": "^1.84.0"
   },
   "devDependencies": {
     "@easyops/dev-dependencies": "^1.1.6"

@@ -47,12 +47,14 @@ import {
   symbolForComputedPropsFromProxy,
   symbolForRefForProxy,
   symbolForParentTemplate,
+  ResolveRequestError,
 } from "./exports";
 import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
 import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
 import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
 import { getRuntimeMisc } from "../misc";
+import { httpErrorToString } from "../handleHttpError";
 
 export type MatchRoutesResult =
   | {
@@ -453,13 +455,39 @@ export class LocationContext {
     tplStack?: string[]
   ): Promise<void> {
     for (const brickConf of bricks) {
-      await this.mountBrick(
-        brickConf,
-        match,
-        slotId,
-        mountRoutesResult,
-        tplStack?.slice()
-      );
+      try {
+        await this.mountBrick(
+          brickConf,
+          match,
+          slotId,
+          mountRoutesResult,
+          tplStack?.slice()
+        );
+      } catch (error) {
+        if (error instanceof ResolveRequestError) {
+          const errorMessage = httpErrorToString(error.rawError);
+          const brickName = brickConf.template || brickConf.brick;
+          const isLegacyTemplate = !!brickConf.template;
+          mountRoutesResult.main.push({
+            type: "basic-bricks.brick-error",
+            properties: {
+              // `textContent` is for compatibility when
+              // `basic-bricks.brick-error` does not exists.
+              textContent: `${
+                isLegacyTemplate ? "Legacy template" : "Brick"
+              } <${brickName}> ResolveRequestError: "${errorMessage}"`,
+              errorType: "ResolveRequestError",
+              errorMessage,
+              brickName,
+              isLegacyTemplate,
+            },
+            events: {},
+            slotId,
+          });
+        } else {
+          throw error;
+        }
+      }
     }
   }
 

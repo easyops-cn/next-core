@@ -7,6 +7,7 @@ import * as history from "../history";
 import * as runtime from "../core/Runtime";
 import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
+import { ResolveRequestError } from "./Resolver";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -235,6 +236,15 @@ describe("LocationContext", () => {
             Object.assign(conf, resolveConf.transform);
           }
         );
+
+      jest
+        .spyOn(context.resolver, "resolve")
+        .mockImplementation((brickConf) => {
+          if (brickConf.lifeCycle?.useResolves?.length > 0) {
+            return Promise.reject(new ResolveRequestError("Invalid request"));
+          }
+          return Promise.resolve();
+        });
 
       const result = await context.mountRoutes(
         [
@@ -479,6 +489,26 @@ describe("LocationContext", () => {
                     if: "${FLAGS.testing|not}",
                     brick: "div",
                   },
+                  {
+                    brick: "brick-will-fail",
+                    lifeCycle: {
+                      useResolves: [
+                        {
+                          useProvider: "provider-will-reject",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    template: "template-will-fail",
+                    lifeCycle: {
+                      useResolves: [
+                        {
+                          useProvider: "provider-will-reject",
+                        },
+                      ],
+                    },
+                  },
                 ],
               },
             ],
@@ -524,6 +554,24 @@ describe("LocationContext", () => {
               slotId: "menu",
             },
           ],
+        },
+        {
+          type: "basic-bricks.brick-error",
+          properties: {
+            brickName: "brick-will-fail",
+            errorType: "ResolveRequestError",
+            errorMessage: "Invalid request",
+            isLegacyTemplate: false,
+          },
+        },
+        {
+          type: "basic-bricks.brick-error",
+          properties: {
+            brickName: "template-will-fail",
+            errorType: "ResolveRequestError",
+            errorMessage: "Invalid request",
+            isLegacyTemplate: true,
+          },
         },
       ]);
       expect(kernel.mountPoints.bg.children.length).toBe(2);
@@ -654,12 +702,9 @@ describe("LocationContext", () => {
       jest
         .spyOn(context.resolver, "resolveOne")
         .mockImplementationOnce(
-          async (
-            type: any,
-            resolveConf: ResolveConf,
-            conf: Record<string, any>
-          ) => {
+          (type: any, resolveConf: ResolveConf, conf: Record<string, any>) => {
             Object.assign(conf, resolveConf.transform);
+            return Promise.resolve();
           }
         );
       const resolveConf = {

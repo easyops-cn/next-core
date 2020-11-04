@@ -10,6 +10,8 @@ import {
   HandleRejectByTransform,
   UseProviderResolveConf,
   SelectorProviderResolveConf,
+  HandleReject,
+  HandleRejectByCatch,
 } from "@easyops/brick-types";
 import { asyncProcessBrick } from "@easyops/brick-utils";
 import { computeRealValue } from "../setProperties";
@@ -265,18 +267,19 @@ export class Resolver {
       try {
         await fetchData();
       } catch (error) {
-        const onRejectTransform = (resolveConf.onReject as HandleRejectByTransform)
-          .transform;
-        if (onRejectTransform) {
+        if (isHandleRejectByTransform(resolveConf.onReject)) {
           transformProperties(
             props,
             error,
             context
-              ? computeRealValue(onRejectTransform, context, true)
-              : onRejectTransform
+              ? computeRealValue(resolveConf.onReject.transform, context, true)
+              : resolveConf.onReject.transform
           );
+        } else if (isHandleRejectByCatch(resolveConf.onReject)) {
+          throw new ResolveRequestError(error);
+        } else {
+          throw error;
         }
-        return;
       }
     } else {
       await fetchData();
@@ -321,5 +324,36 @@ export class Resolver {
       };
       interval.timeoutId = setTimeout(request, interval.delay);
     }
+  }
+}
+
+function isHandleRejectByTransform(
+  onReject: HandleReject
+): onReject is HandleRejectByTransform {
+  return !!(onReject as HandleRejectByTransform).transform;
+}
+
+function isHandleRejectByCatch(
+  onReject: HandleReject
+): onReject is HandleRejectByCatch {
+  return !!(onReject as HandleRejectByCatch).isolatedCrash;
+}
+
+export class ResolveRequestError extends Error {
+  rawError: any;
+
+  constructor(rawError: any) {
+    // Pass remaining arguments (including vendor specific ones) to parent constructor
+    super(rawError.message);
+
+    this.name = "ResolveRequestError";
+
+    // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ResolveRequestError);
+    }
+
+    this.rawError = rawError;
   }
 }
