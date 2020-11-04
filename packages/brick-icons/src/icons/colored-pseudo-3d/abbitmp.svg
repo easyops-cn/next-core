@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>abbitmp</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="abbitmp">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="0" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(1.000000, 1.000000)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="0 39 0 5 34 5 34 39"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.000000, 2.500000) rotate(180.000000) translate(-20.000000, -2.500000) " points="0 5 6 0 40 0 32.2 5"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.000000, 19.500000) scale(-1, 1) translate(-37.000000, -19.500000) " points="34 33 34 -1.69135539e-17 40 5 40 39"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="31.5 7.5 31.5 36.5 2.5 36.5 2.5 7.5"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="30.5 8.5 30.5 35.5 3.5 35.5 3.5 8.5"></polygon>
+            </g>
+            <g id="Rabbitmp" transform="translate(8.000000, 13.000000)">
+                <rect id="bg" opacity="0.446149554" x="0" y="0" width="20" height="20"></rect>
+                <g id="形状" transform="translate(3.000000, 2.000000)" fill-rule="nonzero">
+                    <path d="M8.5909091,1.72265625 C8.5909091,0.779296874 7.8352273,0.0410156249 6.92045455,0 C6.00568181,0 5.28977272,0.779296874 5.25000001,1.72265625 L5.25000001,6.19335936 L3.34090909,6.19335936 L3.34090909,1.72265625 C3.34090909,0.779296874 2.58522728,0.0410156249 1.67045455,0.0410156249 C0.755681818,0.0410156249 0.0397727259,0.820312501 0,1.72265625 L0,15.4628906 C0,15.6269531 0.119318182,15.75 0.27840909,15.75 L13.7215909,15.75 C13.8806818,15.75 14,15.6269531 14,15.4628906 L14,6.43945311 C14,6.27539063 13.8806818,6.15234375 13.7215909,6.15234375 L8.5909091,6.15234375 L8.5909091,6.19335936 L8.5909091,1.72265625 Z" id="形状-path" fill="#FFFFFF"></path>
+                    <path d="M10.7632125,11.1023329 C9.93913844,11.2053422 9.11506433,10.6387912 9.01205511,9.76321254 C8.90904583,8.93913843 9.47559678,8.11506438 10.3511754,8.0120551 C11.1752496,7.90904588 11.9993236,8.47559676 12.1023329,9.35117549 C12.1023329,9.50568938 12.1023329,9.60869865 12.1023329,9.76321254 C11.9993236,10.4327727 11.4327727,10.9993237 10.7632125,11.1023329 L10.7632125,11.1023329 Z" id="形状-path" fill="#23CCD1"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

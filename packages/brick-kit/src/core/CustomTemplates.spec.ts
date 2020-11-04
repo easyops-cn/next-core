@@ -31,6 +31,26 @@ describe("expandCustomTemplate", () => {
               },
             },
           },
+          sharedProp: {
+            ref: "button",
+            refProperty: "sharedPropOfButton",
+            extraOneWayRefs: [
+              {
+                ref: "input",
+                refProperty: "sharedPropOfInput",
+              },
+              {
+                ref: "link",
+                refTransform: {
+                  sharedPropOfLink: "<% `linked:${DATA.sharedProp}` %>",
+                },
+              },
+              {
+                ref: "micro-view",
+                refProperty: "sharedPropOfMicroView",
+              },
+            ],
+          },
         },
         events: {
           "button.click": {
@@ -82,6 +102,14 @@ describe("expandCustomTemplate", () => {
                   },
                 },
                 {
+                  brick: "basic-bricks.general-input",
+                  ref: "input",
+                },
+                {
+                  brick: "basic-bricks.general-link",
+                  ref: "link",
+                },
+                {
                   brick: "basic-bricks.brick-in-portal",
                   portal: true,
                 },
@@ -99,6 +127,7 @@ describe("expandCustomTemplate", () => {
       "button",
       "noGap",
       "isDanger",
+      "sharedProp",
     ]);
     expect(tpl.prototype.$$typeof).toBe("custom-template");
   });
@@ -122,6 +151,7 @@ describe("expandCustomTemplate", () => {
         brick: "steve-test.custom-template",
         properties: {
           noGap: "${QUERY.gap|bool|not}",
+          sharedProp: "shared",
         },
         lifeCycle: {
           useResolves: [
@@ -227,8 +257,12 @@ describe("handleProxyOfCustomTemplate", () => {
   it("should handleProxyOfCustomTemplate", async () => {
     const tplElement = document.createElement("div") as any;
     const button = document.createElement("div") as any;
+    const input = document.createElement("div") as any;
+    const link = document.createElement("div") as any;
     const microView = document.createElement("div") as any;
     tplElement.appendChild(button);
+    tplElement.appendChild(input);
+    tplElement.appendChild(link);
     tplElement.appendChild(microView);
 
     button.buttonName = "original button name";
@@ -264,6 +298,26 @@ describe("handleProxyOfCustomTemplate", () => {
               "style.display": "<% DATA.isDanger ? 'inline' : 'block' %>",
             },
           },
+          sharedProp: {
+            ref: "button",
+            refProperty: "sharedPropOfButton",
+            extraOneWayRefs: [
+              {
+                ref: "input",
+                refProperty: "sharedPropOfInput",
+              },
+              {
+                ref: "link",
+                refTransform: {
+                  sharedPropOfLink: "<% `linked:${DATA.sharedProp}` %>",
+                },
+              },
+              {
+                ref: "micro-view",
+                refProperty: "sharedPropOfMicroView",
+              },
+            ],
+          },
         },
         events: {
           "button.click": {
@@ -292,6 +346,22 @@ describe("handleProxyOfCustomTemplate", () => {
           },
         ],
         [
+          "input",
+          {
+            brick: {
+              element: input,
+            },
+          },
+        ],
+        [
+          "link",
+          {
+            brick: {
+              element: link,
+            },
+          },
+        ],
+        [
           "micro-view",
           {
             brick: {
@@ -304,23 +374,50 @@ describe("handleProxyOfCustomTemplate", () => {
     handleProxyOfCustomTemplate(brick);
 
     // Changed prop in proxy.
-    expect(tplElement.button).toEqual("original button name");
+    expect(tplElement.button).toBe("original button name");
     tplElement.button = "new button name";
-    expect(tplElement.button).toEqual("new button name");
-    expect(button.buttonName).toEqual("new button name");
+    expect(tplElement.button).toBe("new button name");
+    expect(button.buttonName).toBe("new button name");
 
     // Same prop name as proxy.
-    expect(tplElement.noGap).toEqual(false);
+    expect(tplElement.noGap).toBe(false);
     tplElement.noGap = true;
-    expect(tplElement.noGap).toEqual(true);
-    expect(microView.noGap).toEqual(true);
+    expect(tplElement.noGap).toBe(true);
+    expect(microView.noGap).toBe(true);
 
     // Changed transformable prop in proxy.
-    expect(tplElement.isDanger).toEqual(undefined);
+    expect(tplElement.isDanger).toBe(undefined);
     tplElement.isDanger = true;
-    expect(tplElement.isDanger).toEqual(true);
-    expect(button.buttonType).toEqual("danger");
-    expect(button.style.display).toEqual("inline");
+    expect(tplElement.isDanger).toBe(true);
+    expect(button.buttonType).toBe("danger");
+    expect(button.style.display).toBe("inline");
+
+    // Shared props among bricks by `extraOneWayRefs`.
+    expect(tplElement.sharedProp).toBe(undefined);
+    expect(button.sharedPropOfButton).toBe(undefined);
+    expect(input.sharedPropOfInput).toBe(undefined);
+    expect(link.sharedPropOfLink).toBe(undefined);
+    expect(microView.sharedPropOfMicroView).toBe(undefined);
+    tplElement.sharedProp = "shared";
+    expect(button.sharedPropOfButton).toBe("shared");
+    expect(input.sharedPropOfInput).toBe("shared");
+    expect(link.sharedPropOfLink).toBe("linked:shared");
+    expect(microView.sharedPropOfMicroView).toBe("shared");
+
+    // Proxies in `extraOneWayRefs` can't proxy back.
+    link.sharedPropOfLink = "shared-updated-by-link";
+    expect(tplElement.sharedProp).toBe("shared");
+    expect(button.sharedPropOfButton).toBe("shared");
+    expect(input.sharedPropOfInput).toBe("shared");
+    expect(microView.sharedPropOfMicroView).toBe("shared");
+
+    // Normal proxies can still proxy back.
+    button.sharedPropOfButton = "shared-updated-by-button";
+    expect(tplElement.sharedProp).toBe("shared-updated-by-button");
+    // But can't reverse proxy to `extraOneWayRefs` again.
+    expect(input.sharedPropOfInput).toBe("shared");
+    expect(link.sharedPropOfLink).toBe("shared-updated-by-link");
+    expect(microView.sharedPropOfMicroView).toBe("shared");
 
     // Invoke a method.
     tplElement.tell("good", "story");

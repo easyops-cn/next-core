@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>sql-package</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="sql-package">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="0" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(0.909091, 0.424242)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="0.0909089 39.5757576 0.0909089 5.57575758 34.0909089 5.57575758 34.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.090909, 3.075758) rotate(180.000000) translate(-20.090909, -3.075758) " points="0.0909089 5.57575842 6.0909089 0.57575842 40.0909089 0.57575842 32.2909089 5.57575842"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.090909, 20.075758) scale(-1, 1) translate(-37.090909, -20.075758) " points="34.0909089 33.5757576 34.0909089 0.575757576 40.0909089 5.57575758 40.0909089 39.5757576"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="31.5909089 8.07575758 31.5909089 37.0757576 2.5909089 37.0757576 2.5909089 8.07575758"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.090909, 22.575758) scale(-1, 1) translate(-17.090909, -22.575758) " points="30.5909089 9.07575758 30.5909089 36.0757576 3.5909089 36.0757576 3.5909089 9.07575758"></polygon>
+            </g>
+            <g id="Icon/SQL包" transform="translate(8.000000, 13.000000)" fill-rule="nonzero">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="3.55271368e-15" width="20" height="20"></rect>
+                <g id="SQL包">
+                    <rect id="矩形备份-3" fill="#D8D8D8" opacity="0" x="0" y="3.55271368e-15" width="20" height="20"></rect>
+                    <g id="编组-63备份" transform="translate(1.500000, 1.000000)">
+                        <g id="编组-8" transform="translate(0.500000, 0.000000)">
+                            <path d="M14.8473993,12.0054001 C15.4237824,12.5526532 15.75,13.1760286 15.75,13.8375 C15.75,16.0121212 12.2242424,17.775 7.875,17.775 C3.5257576,17.775 0,16.0121212 0,13.8375 C0,13.1760286 0.326217621,12.5526532 0.902600687,12.0054001 C2.53972701,13.1457555 5.07529917,13.825 7.875,13.825 C10.6353808,13.825 13.1389999,13.1647006 14.7779503,12.0547609 L14.8473993,12.0054001 Z" id="形状结合" fill="#EFF3F8"></path>
+                            <path d="M14.7881358,7.00020404 C15.4013711,7.56058187 15.75,8.20368428 15.75,8.8875 C15.75,11.0621212 12.2242424,12.825 7.875,12.825 C3.5257576,12.825 0,11.0621212 0,8.8875 C0,8.20368428 0.348628895,7.56058187 0.961864187,7.00020404 C2.56505089,8.1723332 5.08722643,8.875 7.875,8.875 C10.5815541,8.875 13.0377606,8.21268002 14.6459584,7.10216294 L14.7881358,7.00020404 Z" id="形状结合" fill="#EFF3F8"></path>
+                            <ellipse id="椭圆形" fill="#23CCD1" cx="7.875" cy="3.9375" rx="7.70625" ry="3.9375"></ellipse>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

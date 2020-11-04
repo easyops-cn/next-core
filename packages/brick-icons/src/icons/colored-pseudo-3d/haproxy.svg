@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>haproxy</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="haproxy">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="1.42108547e-14" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(1.000000, 1.000000)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="0 39 0 5 34 5 34 39"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.000000, 2.500000) rotate(180.000000) translate(-20.000000, -2.500000) " points="0 5 6 0 40 0 32.2 5"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.000000, 19.500000) scale(-1, 1) translate(-37.000000, -19.500000) " points="34 33 34 -1.69135539e-17 40 5 40 39"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="31.5 7.5 31.5 36.5 2.5 36.5 2.5 7.5"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="30.5 8.5 30.5 35.5 3.5 35.5 3.5 8.5"></polygon>
+            </g>
+            <g transform="translate(8.000000, 13.000000)">
+                <polygon id="矩形备份-17" points="0 0 20 0 20 20 13.6025995 20 0 20"></polygon>
+                <g id="图形" transform="translate(1.000000, 1.000000)" fill-rule="nonzero">
+                    <rect id="矩形" fill="#23CCD1" x="6.64565069" y="11.0918919" width="4.27535771" height="4.03783784"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="2.37029298" y="7.05405405" width="4.27535771" height="4.03783784"></rect>
+                    <rect id="矩形" fill="#23CCD1" x="6.64565069" y="3.01621622" width="4.27535771" height="4.03783784"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="10.9210084" y="7.05405405" width="4.27535771" height="4.03783784"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="10.9210084" y="0.993822394" width="2.14135816" height="2.02239382"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="4.50429253" y="0.993822394" width="2.14135816" height="2.02239382"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="10.9210084" y="15.1366795" width="2.14135816" height="2.02239382"></rect>
+                    <rect id="矩形" fill="#FFFFFF" x="4.50429253" y="15.1366795" width="2.14135816" height="2.02239382"></rect>
+                    <polygon id="路径" fill="#FFFFFF" points="2.37029298 5.03166023 2.37029298 7.05405405 0.228934817 7.05405405 0.228934817 5.03166023"></polygon>
+                    <polygon id="路径" fill="#FFFFFF" points="2.37029298 11.0918919 2.37029298 13.1142857 0.228934817 13.1142857 0.228934817 11.0918919"></polygon>
+                    <polygon id="路径" fill="#FFFFFF" points="17.3450829 5.03166023 17.3450829 7.05405405 15.2037247 7.05405405 15.2037247 5.03166023"></polygon>
+                    <polygon id="路径" fill="#FFFFFF" points="17.3450829 11.0918919 17.3450829 13.1142857 15.2037247 13.1142857 15.2037247 11.0918919"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

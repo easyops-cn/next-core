@@ -28,5 +28,9 @@
       "packagePatterns": ["^@size-limit/"],
       "groupName": "size-limit packages"
     }
-  ]
+  ],
+  "postUpgradeTasks": {
+    "commands": ["yarn-deduplicate yarn.lock", "yarn"],
+    "fileFilters": ["yarn.lock"]
+  }
 }

@@ -1,13 +1,5 @@
 {
   "name": "@easyops/less-plugin-css-variables",
-  "version": "0.1.1",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "start": "tsc --watch"
-  }
+  "version": "0.1.2",
+  "main": "src/index.js"
 }

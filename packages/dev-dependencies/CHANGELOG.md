@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.5...@easyops/dev-dependencies@1.1.6) (2020-11-03)
+
+### Bug Fixes
+
+- extract fallback of antd 4.7.0 ([f315957](https://git.easyops.local/anyclouds/next-core/commits/f315957))
+- jest `expect.objectContaining` got fixed ([13ba7bb](https://git.easyops.local/anyclouds/next-core/commits/13ba7bb))
+
+## [1.1.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.4...@easyops/dev-dependencies@1.1.5) (2020-11-03)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.3...@easyops/dev-dependencies@1.1.4) (2020-11-02)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.2...@easyops/dev-dependencies@1.1.3) (2020-11-02)
+
+### Bug Fixes
+
+- introduce new css variables ([8b05e28](https://git.easyops.local/anyclouds/next-core/commits/8b05e28))
+
+## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.1...@easyops/dev-dependencies@1.1.2) (2020-10-29)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [1.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.0...@easyops/dev-dependencies@1.1.1) (2020-10-28)
 
 ### Bug Fixes

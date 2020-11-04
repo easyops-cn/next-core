@@ -7,8 +7,10 @@ const patch = require("./patch");
 
 const caretRangesRegExp = /^\^\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?$/;
 
-function shouldUpgrade(fromVersion, toVersion) {
+function shouldUpgrade(fromVersion, toVersion, name) {
   return (
+    // Todo(william): remove this line when antd issues fixed.
+    (name === "antd" && toVersion === "4.6.6") ||
     !fromVersion ||
     (caretRangesRegExp.test(fromVersion) &&
       caretRangesRegExp.test(toVersion) &&
@@ -30,6 +32,10 @@ module.exports = function extract() {
 
   if (!rootPackageJson.resolutions) {
     rootPackageJson.resolutions = {};
+  } else if (rootPackageJson.resolutions.expect) {
+    // Problems of `objectContaining` fixed.
+    // See https://github.com/facebook/jest/pull/10508#issuecomment-720453877
+    delete rootPackageJson.resolutions.expect;
   }
 
   // Remove all packages those are included in `@easyops/dev-dependencies`
@@ -75,7 +81,7 @@ module.exports = function extract() {
   }
 
   for (const [name, version] of toBeExtracted.entries()) {
-    if (shouldUpgrade(devDependencies[name], version)) {
+    if (shouldUpgrade(devDependencies[name], version, name)) {
       console.log(
         chalk.bold.green("Upgraded:"),
         name,
@@ -92,9 +98,12 @@ module.exports = function extract() {
         chalk.bold.yellow("Ignored:"),
         name,
         devDependencies[name],
-        semver.compare(devDependencies[name].substr(1), version.substr(1))
-          ? chalk.yellow(">")
-          : "=",
+        caretRangesRegExp.test(devDependencies[name]) &&
+          caretRangesRegExp.test(version)
+          ? semver.compare(devDependencies[name].substr(1), version.substr(1))
+            ? chalk.yellow(">")
+            : "="
+          : "?",
         version
       );
     }

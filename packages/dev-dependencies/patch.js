@@ -81,7 +81,7 @@ module.exports = function patch() {
     updateMRTemplates();
   }
 
-  if (semver.lt(currentRenewVersion, "1.1.1")) {
+  if (semver.lt(currentRenewVersion, "1.1.3")) {
     updateBrickNextForNewCssVariables();
   }
 

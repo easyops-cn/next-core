@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>f5-vs</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="f5-vs">
+            <g id="背景区域" opacity="0" fill="#D8D8D8" fill-rule="nonzero">
+                <rect id="矩形" x="0" y="0" width="42" height="42"></rect>
+            </g>
+            <g id="底块" transform="translate(1.000000, 1.000000)">
+                <polygon id="路径-7备份-2" fill="#416480" fill-rule="nonzero" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="0 39 0 5 34 5 34 39"></polygon>
+                <polygon id="路径-7备份-6" fill="#EEF3F7" fill-rule="nonzero" transform="translate(20.000000, 2.500000) rotate(180.000000) translate(-20.000000, -2.500000) " points="0 5 6 0 40 0 32.2 5"></polygon>
+                <polygon id="路径-7备份-5" fill="#AFC0C8" fill-rule="nonzero" transform="translate(37.000000, 19.500000) scale(-1, 1) translate(-37.000000, -19.500000) " points="34 33 34 -1.69135539e-17 40 5 40 39"></polygon>
+                <polygon id="路径-7备份-4" stroke="#FFFFFF" opacity="0.25" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="31.5 7.5 31.5 36.5 2.5 36.5 2.5 7.5"></polygon>
+                <polygon id="路径-7备份-4" stroke="#32526B" transform="translate(17.000000, 22.000000) scale(-1, 1) translate(-17.000000, -22.000000) " points="30.5 8.5 30.5 35.5 3.5 35.5 3.5 8.5"></polygon>
+            </g>
+            <g transform="translate(8.000000, 13.000000)">
+                <rect id="矩形备份" x="0" y="0" width="20" height="20"></rect>
+                <g id="图形" transform="translate(2.000000, 1.000000)" fill-rule="nonzero">
+                    <path d="M7.49795019,0.13496251 C7.80573952,-0.0449875034 8.18921477,-0.0449875034 8.50204981,0.13496251 L8.50204981,0.13496251 L15.4954273,4.13385171 C15.8082624,4.31380172 16,4.64371008 16,4.9986115 L16,4.9986115 L16,13.0013885 C16,13.3612885 15.8082624,13.6861983 15.4954273,13.8661483 L15.4954273,13.8661483 L8.50204981,17.8650375 C8.19426048,18.0449875 7.81078523,18.0449875 7.49795019,17.8650375 L7.49795019,17.8650375 L0.50457269,13.8661483 C0.191737622,13.6861983 0,13.3562899 0,13.0013885 L0,13.0013885 L0,4.9986115 C0,4.63871147 0.191737622,4.31380172 0.50457269,4.13385171 L0.50457269,4.13385171 L7.49795019,0.13496251 Z" id="形状结合-path" fill="#FFFFFF"></path>
+                    <g id="VS" transform="translate(1.000000, 3.000000)" fill="#23CCD1" font-family="Helvetica" font-size="10" font-weight="normal">
+                        <text>
+                            <tspan x="0.425" y="10">VS</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -29,6 +29,7 @@ body {
 
 #portal-mount-point {
   height: 0;
+  width: 0;
   position: absolute;
 }
 
@@ -83,6 +84,10 @@ body.launchpad-open {
 
 body.has-sub-menu #main-mount-point {
   margin-left: var(--sub-menu-bar-width);
+}
+
+html[data-mode="dashboard"] body.has-sub-menu #main-mount-point {
+  margin-left: 0;
 }
 
 @media print {

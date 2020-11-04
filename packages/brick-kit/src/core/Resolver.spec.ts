@@ -1,4 +1,4 @@
-import { Resolver } from "./Resolver";
+import { Resolver, ResolveRequestError } from "./Resolver";
 import { RuntimeBrick } from "./BrickNode";
 import { mockMicroAppApiOrchestrationMap } from "./__mocks__/MicroAppApiOrchestrationData";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
@@ -481,6 +481,50 @@ describe("Resolver", () => {
       );
     } catch (error) {
       expect(error.message).toContain('Provider ref not found: "provider-a"');
+    }
+  });
+
+  it("should throw ResolveRequestError", async () => {
+    const testMethod = jest.fn().mockRejectedValue({
+      message: "oops",
+    });
+    const providerName = "any-provider";
+    const provider = {
+      tagName: providerName,
+      testMethod,
+    };
+    kernel.mountPoints.bg = {
+      querySelector: () => provider,
+    } as any;
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: "any-provider",
+            method: "testMethod",
+            onReject: {
+              isolatedCrash: true,
+            },
+          },
+        ],
+      },
+    };
+    expect.assertions(1);
+    try {
+      await resolver.resolve(
+        {
+          brick: brickA.type,
+          lifeCycle: brickA.lifeCycle,
+        },
+        brickA,
+        null
+      );
+    } catch (error) {
+      expect(error).toBeInstanceOf(ResolveRequestError);
     }
   });
 });

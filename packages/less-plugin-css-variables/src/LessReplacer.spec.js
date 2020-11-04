@@ -1,13 +1,13 @@
-import { LessReplacer } from "./LessReplacer";
+const { LessReplacer } = require("./LessReplacer");
 
 describe("LessReplacer", () => {
-  let replacer: LessReplacer;
+  let replacer;
 
   beforeEach(() => {
     replacer = new LessReplacer();
   });
 
-  test.each<[string, string]>([
+  test.each([
     [
       `@table-header-sort-active-bg: fn();
 @table-header-filter-active-bg: fn();

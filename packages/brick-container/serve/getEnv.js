@@ -44,7 +44,7 @@ module.exports = (cwd) => {
         --local-micro-apps  Specify local micro apps to be used in remote mode
         --local-templates   Specify local template packages to be used in remote mode
         --local-settings    Use local settings instead of remote settings in remote mode
-        --merge-settings    Merge remote settings by local settings in remote mode
+        --no-merge-settings Do not merge remote settings by local settings in remote mode
         --port              Set local server listening port, defaults to "8081"
         --ws-port           Set local WebSocket server listening port, defaults to "8090"
         --host              Set local server listening host, defaults to "localhost"
@@ -82,6 +82,7 @@ module.exports = (cwd) => {
           },
           mergeSettings: {
             type: "boolean",
+            default: true,
           },
           host: {
             type: "string",

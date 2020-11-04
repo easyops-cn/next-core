@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>host</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="host" fill-rule="nonzero">
+            <g id="背景区域" opacity="0" fill="#D8D8D8">
+                <rect id="矩形" x="0" y="0" width="54" height="54"></rect>
+            </g>
+            <g id="图形" transform="translate(8.000000, 0.000000)">
+                <polygon id="形状结合" fill="#ABBCC4" points="36.8449421 9.77354545 36.8449421 40.2955455 26.8614641 46.51389 15.9669421 53.2987573 15.9669421 22.9901265"></polygon>
+                <polygon id="形状结合" fill="#416480" points="1 13.516 15.9669421 22.9901265 15.9669421 53.2987573 1 43.977"></polygon>
+                <polygon id="矩形" fill="#FFFFFF" points="3.84573003 21.4545455 12.84573 26.9239768 12.84573 28.9239768 3.84573003 23.4545455"></polygon>
+                <polygon id="矩形备份-23" fill="#23CCD1" points="3.84573003 27.4545455 12.84573 32.9239768 12.84573 34.9239768 3.84573003 29.4545455"></polygon>
+                <path d="M8,43.3392127 C9.65685425,44.3394549 11,43.8471729 11,42.2396701 C11,40.6321673 9.65685425,38.5181723 8,37.5179301 C6.34314575,36.5176879 5,37.0099699 5,38.6174727 C5,40.2249755 6.34314575,42.3389705 8,43.3392127 Z" id="椭圆形" fill="#23CCD1"></path>
+                <polygon id="形状结合" fill="#EEF3F7" points="21.734 0.454545455 36.71 9.85754545 15.9669421 22.9901265 0.968 13.4945455"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
