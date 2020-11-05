@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.14.0...@easyops/brick-kit@2.15.0) (2020-11-05)
+
+### Features
+
+- support isolatedCrash for useResolves ([1bfbfcf](https://git.easyops.local/anyclouds/next-core/commits/1bfbfcf))
+
 # [2.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.13.2...@easyops/brick-kit@2.14.0) (2020-11-03)
 
 ### Features

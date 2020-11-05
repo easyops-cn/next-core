@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.38...@easyops/create-next-repo@1.1.0) (2020-11-05)
+
+### Features
+
+- support isolatedCrash for useResolves ([1bfbfcf](https://git.easyops.local/anyclouds/next-core/commits/1bfbfcf))
+
 ## [1.0.38](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.0.37...@easyops/create-next-repo@1.0.38) (2020-11-03)
 
 **Note:** Version bump only for package @easyops/create-next-repo

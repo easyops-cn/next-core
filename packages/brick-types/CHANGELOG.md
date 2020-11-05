@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.6.0...@easyops/brick-types@2.7.0) (2020-11-05)
+
+### Features
+
+- support isolatedCrash for useResolves ([1bfbfcf](https://git.easyops.local/anyclouds/next-core/commits/1bfbfcf))
+
 # [2.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.5.0...@easyops/brick-types@2.6.0) (2020-11-03)
 
 ### Features
