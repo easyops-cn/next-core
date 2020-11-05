@@ -55,7 +55,7 @@
     "@types/meow": "^5.0.0",
     "@types/node": "^10.12.18",
     "@types/prettier": "^2.1.5",
-    "@types/react": "^16.9.54",
+    "@types/react": "^16.9.55",
     "@types/react-dom": "^16.9.9",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "antd": "4.6.6",
@@ -94,7 +94,7 @@
   "resolutions": {
     "@babel/parser": "^7.12.5",
     "@babel/runtime": "^7.12.5",
-    "@types/react": "^16.9.54",
+    "@types/react": "^16.9.55",
     "lodash": "^4.17.20",
     "moment": "^2.29.1"
   }
