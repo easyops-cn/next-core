@@ -3035,10 +3035,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.164":
-  version "4.14.164"
-  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.164.tgz?cache=0&sync_timestamp=1604048859839&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Flodash%2Fdownload%2F%40types%2Flodash-4.14.164.tgz#52348bcf909ac7b4c1bcbeda5c23135176e5dfa0"
-  integrity sha1-UjSLz5Cax7TBvL7aXCMTUXbl36A=
+"@types/lodash@^4.14.165":
+  version "4.14.165"
+  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.165.tgz#74d55d947452e2de0742bad65270433b63a8c30f"
+  integrity sha1-dNVdlHRS4t4HQrrWUnBDO2Ooww8=
 
 "@types/lolex@^5.1.0":
   version "5.1.0"
