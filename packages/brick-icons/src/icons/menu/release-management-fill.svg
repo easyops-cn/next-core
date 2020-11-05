@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>发布管理</title>
+    <g id="图标" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Apple-TV" transform="translate(-42.000000, -322.000000)">
+            <g id="发布管理" transform="translate(42.000000, 322.000000)">
+                <rect id="矩形备份-30" x="0" y="0" width="16" height="16"></rect>
+                <g transform="translate(1.000000, 1.000000)" fill="#FFFFFF" fill-rule="nonzero" id="路径">
+                    <polygon points="14 0 0 7 3.9998 8.9999 11.074 3.255 5.0008 10.0002 5.0008 13.5002 7.3829 11.851 10.9998 14"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
