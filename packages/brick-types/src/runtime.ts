@@ -7,6 +7,7 @@ import {
   FeatureFlags,
   SeguesConf,
   BrickEventHandler,
+  MetaImage,
 } from "./manifest";
 import { SidebarMenu, SidebarSubMenu } from "./menu";
 
@@ -179,6 +180,8 @@ export interface PluginRuntimeContext {
 
   /** @internal */
   storyboardContext?: StoryboardContext;
+
+  images?: MetaImage[];
 }
 
 /** @internal */

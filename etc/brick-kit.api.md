@@ -47,6 +47,7 @@ import { SidebarSubMenu } from '@easyops/brick-types';
 import { SiteMode } from '@easyops/brick-types';
 import { SiteTheme } from '@easyops/brick-types';
 import { Storyboard } from '@easyops/brick-types';
+import { StoryboardMeta } from '@easyops/brick-types';
 import { UseBrickConf } from '@easyops/brick-types';
 import { UserInfo } from '@easyops/brick-types';
 import { UseSingleBrickConf } from '@easyops/brick-types';

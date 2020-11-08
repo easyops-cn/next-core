@@ -1093,6 +1093,12 @@ export interface MessageConf {
 export type MetaI18n = Record<string, Record<string, string>>;
 
 // @public
+export interface MetaImage {
+    name: string;
+    url: string;
+}
+
+// @public
 export interface MicroApp {
     // @internal
     $$routeAliasMap?: RouteAliasMap;
@@ -1178,6 +1184,8 @@ export interface PluginRuntimeContext {
     event?: CustomEvent;
     flags?: FeatureFlags;
     hash?: string;
+    // (undocumented)
+    images?: MetaImage[];
     // @internal (undocumented)
     match?: MatchResult;
     query: URLSearchParams;
@@ -1693,6 +1701,8 @@ export interface StoryboardContextItemFreeVariable {
 export interface StoryboardMeta {
     customTemplates?: CustomTemplate[];
     i18n?: MetaI18n;
+    // (undocumented)
+    images?: MetaImage[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
