@@ -1237,15 +1237,15 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@easyops-cn/api-documenter@^7.9.2":
-  version "7.9.2"
-  resolved "https://registry.npm.taobao.org/@easyops-cn/api-documenter/download/@easyops-cn/api-documenter-7.9.2.tgz#ba1cb5864301505fc3f915b2e417e6f70e8bbb77"
-  integrity sha1-uhy1hkMBUF/D+RWy5Bfm9w6Lu3c=
+"@easyops-cn/api-documenter@^7.9.3":
+  version "7.9.3"
+  resolved "https://registry.npm.taobao.org/@easyops-cn/api-documenter/download/@easyops-cn/api-documenter-7.9.3.tgz#0fabbc58e2886fb9e9cdc97a38c96a7867ee165b"
+  integrity sha1-D6u8WOKIb7npzcl6OMlqeGfuFls=
   dependencies:
-    "@microsoft/api-extractor-model" "^7.10.3"
+    "@microsoft/api-extractor-model" "^7.10.8"
     "@microsoft/tsdoc" "^0.12.19"
-    "@rushstack/node-core-library" "^3.34.3"
-    "@rushstack/ts-command-line" "^4.7.3"
+    "@rushstack/node-core-library" "^3.34.7"
+    "@rushstack/ts-command-line" "^4.7.6"
     colors "^1.2.1"
     js-yaml "^3.13.1"
     resolve "^1.17.0"
@@ -2250,7 +2250,7 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@microsoft/api-extractor-model@7.10.8", "@microsoft/api-extractor-model@^7.10.3":
+"@microsoft/api-extractor-model@7.10.8", "@microsoft/api-extractor-model@^7.10.8":
   version "7.10.8"
   resolved "https://registry.npm.taobao.org/@microsoft/api-extractor-model/download/@microsoft/api-extractor-model-7.10.8.tgz#12fa3c25f26b5eb1f4799270bf0df12d4113f16e"
   integrity sha1-Evo8JfJrXrH0eZJwvw3xLUET8W4=
@@ -2379,7 +2379,7 @@
     universal-user-agent "^3.0.0"
     url-template "^2.0.8"
 
-"@rushstack/node-core-library@3.34.7", "@rushstack/node-core-library@^3.34.3":
+"@rushstack/node-core-library@3.34.7", "@rushstack/node-core-library@^3.34.7":
   version "3.34.7"
   resolved "https://registry.npm.taobao.org/@rushstack/node-core-library/download/@rushstack/node-core-library-3.34.7.tgz#864c773212ec0fc158576fec0b5ae0535a246886"
   integrity sha1-hkx3MhLsD8FYV2/sC1rgU1okaIY=
@@ -2403,7 +2403,7 @@
     resolve "~1.17.0"
     strip-json-comments "~3.1.1"
 
-"@rushstack/ts-command-line@4.7.6", "@rushstack/ts-command-line@^4.7.3":
+"@rushstack/ts-command-line@4.7.6", "@rushstack/ts-command-line@^4.7.6":
   version "4.7.6"
   resolved "https://registry.npm.taobao.org/@rushstack/ts-command-line/download/@rushstack/ts-command-line-4.7.6.tgz#ce509855b507863ed5e2a9ced8451774b6bfd359"
   integrity sha1-zlCYVbUHhj7V4qnO2EUXdLa/01k=
