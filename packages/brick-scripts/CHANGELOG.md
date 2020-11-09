@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.0.1...@easyops/brick-scripts@2.0.2) (2020-11-09)
+
+### Bug Fixes
+
+- **custom-processors:** update index file ([b0592c8](https://git.easyops.local/anyclouds/next-core/commits/b0592c8))
+
 ## [2.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.0.0...@easyops/brick-scripts@2.0.1) (2020-09-25)
 
 ### Bug Fixes
