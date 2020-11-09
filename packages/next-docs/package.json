@@ -5,7 +5,8 @@
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/next-docs",
   "license": "UNLICENSED",
   "files": [
-    "dist"
+    "dist",
+    "pipes.json"
   ],
   "repository": {
     "type": "git",
