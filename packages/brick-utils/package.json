@@ -30,7 +30,7 @@
   "sideEffects": false,
   "dependencies": {
     "@babel/parser": "^7.12.3",
-    "@easyops-cn/brick-next-pipes": "^0.3.5",
+    "@easyops-cn/brick-next-pipes": "^0.3.6",
     "@easyops/brick-types": "^2.7.0",
     "file-saver": "^2.0.2",
     "path-to-regexp": "^6.2.0"
