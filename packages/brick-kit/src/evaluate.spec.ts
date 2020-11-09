@@ -41,6 +41,12 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
       objectId: "HOST",
     },
   },
+  images: [
+    {
+      name: "a.jpg",
+      url: "api/gateway/object_store.object_store.GetObject/a.jpg",
+    },
+  ],
   sys: {
     username: "tester",
   },
@@ -104,6 +110,11 @@ describe("evaluate", () => {
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
     ["<% ALIAS.getUrl('mock-alias') %>", "/mock/alias"],
+    [
+      "<% IMAGES.getUrl('a.jpg') %>",
+      "api/gateway/object_store.object_store.GetObject/a.jpg",
+    ],
+    ["<% IMAGES.getUrl('none.jpg') %>", undefined],
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],

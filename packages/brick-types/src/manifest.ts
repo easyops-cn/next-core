@@ -1247,6 +1247,8 @@ export interface StoryboardMeta {
 
   /** {@inheritDoc MetaI18n} */
   i18n?: MetaI18n;
+
+  images?: MetaImage[];
 }
 
 /**
@@ -1264,6 +1266,16 @@ export interface StoryboardMeta {
  * ```
  */
 export type MetaI18n = Record<string, Record<string, string>>;
+
+/**
+ * 图片配置。
+ */
+export interface MetaImage {
+  /** 图片名称。 */
+  name: string;
+  /** 图片url。 */
+  url: string;
+}
 
 /**
  * 自定义模板配置。
