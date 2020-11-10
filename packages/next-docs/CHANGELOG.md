@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.14...@easyops/next-docs@1.0.15) (2020-11-10)
+
+### Bug Fixes
+
+- update @easyops-cn/brick-next-pipes ([17fbb76](https://git.easyops.local/anyclouds/next-core/commits/17fbb76))
+
 ## [1.0.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.13...@easyops/next-docs@1.0.14) (2020-11-09)
 
 ### Bug Fixes
