@@ -108,6 +108,7 @@ describe("Router", () => {
     getPreviousWorkspace: jest.fn(),
     getRecentApps: jest.fn(),
     loadDepsOfStoryboard: jest.fn(),
+    registerCustomTemplatesInStoryboard: jest.fn(),
     fulfilStoryboard: jest.fn(),
     loadMicroAppApiOrchestrationAsync: jest.fn(),
   } as unknown) as Kernel;
@@ -161,6 +162,7 @@ describe("Router", () => {
     expect(kernel.toggleBars).not.toBeCalled();
     expect(kernel.firstRendered).toBeCalled();
     expect(kernel.loadDepsOfStoryboard).toBeCalled();
+    expect(kernel.registerCustomTemplatesInStoryboard).toBeCalled();
     expect(kernel.fulfilStoryboard).toBeCalled();
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
   });

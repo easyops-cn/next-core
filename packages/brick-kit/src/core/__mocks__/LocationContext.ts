@@ -1,4 +1,4 @@
-import { RuntimeStoryboard, RouteConf } from "@easyops/brick-types";
+import { RuntimeStoryboard, RouteConf, Storyboard } from "@easyops/brick-types";
 import { MountRoutesResult } from "../LocationContext";
 
 let _matchedStoryboard: RuntimeStoryboard;
@@ -44,5 +44,11 @@ export class LocationContext {
 
   getCurrentContext(): any {
     return {};
+  }
+
+  getSubStoryboardByRoute(storyboard: Storyboard): Storyboard {
+    return {
+      ...storyboard,
+    };
   }
 }

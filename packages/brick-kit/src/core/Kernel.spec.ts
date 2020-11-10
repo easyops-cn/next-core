@@ -11,12 +11,13 @@ import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
 import { InstanceApi } from "@sdk/cmdb-sdk";
-import { MountPoints } from "@easyops/brick-types";
+import { MountPoints, Storyboard } from "@easyops/brick-types";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
+import { registerCustomTemplate } from "./CustomTemplates";
 import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 
@@ -33,6 +34,7 @@ jest.mock("./MenuBar");
 jest.mock("./AppBar");
 jest.mock("./LoadingBar");
 jest.mock("./Router");
+jest.mock("./CustomTemplates");
 jest.mock("../auth");
 
 const historyPush = jest.fn();
@@ -272,11 +274,34 @@ describe("Kernel", () => {
       deps: ["dep.js"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
-    await kernel.loadDepsOfStoryboard({} as any);
+    const storyboard: Storyboard = ({
+      app: {
+        id: "app-a",
+      },
+      meta: {
+        customTemplates: [
+          {
+            name: "tpl-a",
+            proxy: {},
+            bricks: [],
+          },
+        ],
+      },
+    } as Partial<Storyboard>) as Storyboard;
+    await kernel.loadDepsOfStoryboard(storyboard);
+    await kernel.registerCustomTemplatesInStoryboard(storyboard);
     expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
     expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
+    expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
+      "tpl-a",
+      {
+        proxy: {},
+        bricks: [],
+      },
+      "app-a"
+    );
 
     spyOnLoadScript.mockClear();
 
