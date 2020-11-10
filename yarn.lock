@@ -2853,10 +2853,10 @@
     "@types/d3-interpolate" "*"
     "@types/d3-selection" "*"
 
-"@types/d3@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.npm.taobao.org/@types/d3/download/@types/d3-6.0.0.tgz#ec7f9b917f26182def58c0b4c9b3f30c523575a3"
-  integrity sha1-7H+bkX8mGC3vWMC0ybPzDFI1daM=
+"@types/d3@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.npm.taobao.org/@types/d3/download/@types/d3-6.1.0.tgz?cache=0&sync_timestamp=1604967199066&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3%2Fdownload%2F%40types%2Fd3-6.1.0.tgz#d5a12e0678dacef38c9c18a5ffb8a0643e921b98"
+  integrity sha1-1aEuBnjazvOMnBil/7igZD6SG5g=
   dependencies:
     "@types/d3-array" "*"
     "@types/d3-axis" "*"
