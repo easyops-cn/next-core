@@ -1,5 +1,9 @@
 import { Location } from "history";
-import { RuntimeStoryboard, ResolveConf } from "@easyops/brick-types";
+import {
+  RuntimeStoryboard,
+  ResolveConf,
+  Storyboard,
+} from "@easyops/brick-types";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
 import { isLoggedIn, getAuth } from "../auth";
@@ -756,6 +760,44 @@ describe("LocationContext", () => {
           ],
         },
       });
+    });
+  });
+
+  it("getSubStoryboardByRoute should work", () => {
+    const context = new LocationContext(kernel, {
+      pathname: "/1/2",
+      search: "",
+      hash: "",
+      state: {},
+    });
+    const storyboard = {
+      app: {
+        id: "a",
+        homepage: "/1",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/2",
+          bricks: null,
+        },
+        {
+          path: "${APP.homepage}/3",
+          bricks: null,
+        },
+      ],
+    } as Partial<Storyboard>;
+    spyOnIsLoggedIn.mockReturnValue(true);
+    expect(context.getSubStoryboardByRoute(storyboard as Storyboard)).toEqual({
+      app: {
+        id: "a",
+        homepage: "/1",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/2",
+          bricks: null,
+        },
+      ],
     });
   });
 });

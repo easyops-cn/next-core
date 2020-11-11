@@ -1,6 +1,7 @@
 import { sortBy } from "lodash";
 import {
   loadScript,
+  prefetchScript,
   getTemplateDepsOfStoryboard,
   getDllAndDepsOfStoryboard,
   asyncProcessStoryboard,
@@ -165,42 +166,58 @@ export class Kernel {
   async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
     const { brickPackages, templatePackages } = this.bootstrapData;
 
-    if (!storyboard.$$depsProcessed) {
-      if (storyboard.dependsAll) {
-        const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
-        await loadScript(
-          Object.entries(dllHash).map(
-            ([name, hash]) => `dll-of-${name}.js?${hash}`
-          )
-        );
-        await loadScript(
-          brickPackages
-            .map((item) => item.filePath)
-            .concat(templatePackages.map((item) => item.filePath))
-        );
-      } else {
-        // 先加载模板
-        const templateDeps = getTemplateDepsOfStoryboard(
+    if (storyboard.dependsAll) {
+      const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+      await loadScript(
+        Object.entries(dllHash).map(
+          ([name, hash]) => `dll-of-${name}.js?${hash}`
+        )
+      );
+      await loadScript(
+        brickPackages
+          .map((item) => item.filePath)
+          .concat(templatePackages.map((item) => item.filePath))
+      );
+    } else {
+      // 先加载模板
+      const templateDeps = getTemplateDepsOfStoryboard(
+        storyboard,
+        templatePackages
+      );
+      await loadScript(templateDeps);
+      // 加载模板后才能加工得到最终的构件表
+      const result = getDllAndDepsOfStoryboard(
+        await asyncProcessStoryboard(
           storyboard,
+          brickTemplateRegistry,
           templatePackages
-        );
-        await loadScript(templateDeps);
-        // 加载模板后才能加工得到最终的构件表
-        const result = getDllAndDepsOfStoryboard(
-          await asyncProcessStoryboard(
-            storyboard,
-            brickTemplateRegistry,
-            templatePackages
-          ),
-          brickPackages
-        );
-        await loadScript(result.dll);
-        await loadScript(result.deps);
-        // 每个 storyboard 仅处理一次依赖
-      }
-      storyboard.$$depsProcessed = true;
+        ),
+        brickPackages,
+        {
+          ignoreBricksInCustomTemplates: true,
+        }
+      );
+      await loadScript(result.dll);
+      await loadScript(result.deps);
     }
+  }
 
+  prefetchDepsOfStoryboard(storyboard: RuntimeStoryboard): void {
+    if (storyboard.$$depsProcessed) {
+      return;
+    }
+    const { brickPackages, templatePackages } = this.bootstrapData;
+    const templateDeps = getTemplateDepsOfStoryboard(
+      storyboard,
+      templatePackages
+    );
+    prefetchScript(templateDeps);
+    const result = getDllAndDepsOfStoryboard(storyboard, brickPackages);
+    prefetchScript(result.dll.concat(result.deps));
+    storyboard.$$depsProcessed = true;
+  }
+
+  registerCustomTemplatesInStoryboard(storyboard: RuntimeStoryboard): void {
     if (!storyboard.$$registerCustomTemplateProcessed) {
       // 注册自定义模板
       if (Array.isArray(storyboard.meta?.customTemplates)) {

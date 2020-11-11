@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import {
   loadScript,
+  prefetchScript,
   getDllAndDepsOfStoryboard,
   getDllAndDepsByResource,
   getTemplateDepsOfStoryboard,
@@ -11,12 +12,13 @@ import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
 import { InstanceApi } from "@sdk/cmdb-sdk";
-import { MountPoints } from "@easyops/brick-types";
+import { MountPoints, Storyboard } from "@easyops/brick-types";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
+import { registerCustomTemplate } from "./CustomTemplates";
 import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 
@@ -33,6 +35,7 @@ jest.mock("./MenuBar");
 jest.mock("./AppBar");
 jest.mock("./LoadingBar");
 jest.mock("./Router");
+jest.mock("./CustomTemplates");
 jest.mock("../auth");
 
 const historyPush = jest.fn();
@@ -96,6 +99,8 @@ describe("Kernel", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    spyOnGetTemplateDepsOfStoryboard.mockReset();
+    spyOnGetDllAndDepsOfStoryboard.mockReset();
   });
 
   it("should bootstrap", async () => {
@@ -272,11 +277,34 @@ describe("Kernel", () => {
       deps: ["dep.js"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
-    await kernel.loadDepsOfStoryboard({} as any);
+    const storyboard = ({
+      app: {
+        id: "app-a",
+      },
+      meta: {
+        customTemplates: [
+          {
+            name: "tpl-a",
+            proxy: {},
+            bricks: [],
+          },
+        ],
+      },
+    } as Partial<Storyboard>) as Storyboard;
+    await kernel.loadDepsOfStoryboard(storyboard);
+    await kernel.registerCustomTemplatesInStoryboard(storyboard);
     expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
     expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
+    expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
+      "tpl-a",
+      {
+        proxy: {},
+        bricks: [],
+      },
+      "app-a"
+    );
 
     spyOnLoadScript.mockClear();
 
@@ -446,5 +474,25 @@ describe("Kernel", () => {
       expect(loadScript).toHaveBeenNthCalledWith(1, []);
       expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
     }
+  });
+
+  it("should prefetch deps of storyboard", () => {
+    kernel.bootstrapData = {} as any;
+    const storyboard = {} as any;
+    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
+      dll: ["d3.js"],
+      deps: ["dep.js"],
+    });
+    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
+
+    // First prefetch.
+    kernel.prefetchDepsOfStoryboard(storyboard);
+    expect(storyboard.$$depsProcessed).toBe(true);
+    // Prefetch again.
+    kernel.prefetchDepsOfStoryboard(storyboard);
+
+    expect(prefetchScript).toBeCalledTimes(2);
+    expect(prefetchScript).toHaveBeenNthCalledWith(1, ["layout.js"]);
+    expect(prefetchScript).toHaveBeenNthCalledWith(2, ["d3.js", "dep.js"]);
   });
 });

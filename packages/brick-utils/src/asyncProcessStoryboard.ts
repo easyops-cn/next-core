@@ -23,7 +23,7 @@ export async function asyncProcessBrick(
       get(brickConf, ["lifeCycle", "useResolves"], []).length > 0
     ) {
       // Leave these dynamic templates to `LocationContext::resolve()`.
-      // Remember original params, cause it maybe changed when resolving.
+      // Remember original params, since it maybe changed when resolving.
       brickConf.$$params = cloneDeep(brickConf.params);
     } else {
       let updatedBrickConf: Partial<RuntimeBrickConf> = brickConf;
