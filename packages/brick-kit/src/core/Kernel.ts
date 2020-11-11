@@ -1,6 +1,7 @@
 import { sortBy } from "lodash";
 import {
   loadScript,
+  prefetchScript,
   getTemplateDepsOfStoryboard,
   getDllAndDepsOfStoryboard,
   asyncProcessStoryboard,
@@ -199,6 +200,21 @@ export class Kernel {
       await loadScript(result.dll);
       await loadScript(result.deps);
     }
+  }
+
+  prefetchDepsOfStoryboard(storyboard: RuntimeStoryboard): void {
+    if (storyboard.$$depsProcessed) {
+      return;
+    }
+    const { brickPackages, templatePackages } = this.bootstrapData;
+    const templateDeps = getTemplateDepsOfStoryboard(
+      storyboard,
+      templatePackages
+    );
+    prefetchScript(templateDeps);
+    const result = getDllAndDepsOfStoryboard(storyboard, brickPackages);
+    prefetchScript(result.dll.concat(result.deps));
+    storyboard.$$depsProcessed = true;
   }
 
   registerCustomTemplatesInStoryboard(storyboard: RuntimeStoryboard): void {

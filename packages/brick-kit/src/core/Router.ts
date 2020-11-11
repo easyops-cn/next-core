@@ -5,6 +5,7 @@ import {
   PluginRuntimeContext,
 } from "@easyops/brick-types";
 import { restoreDynamicTemplates } from "@easyops/brick-utils";
+import { apiAnalyzer } from "@easyops/easyops-analytics";
 import {
   LocationContext,
   mountTree,
@@ -27,7 +28,6 @@ import { afterMountTree } from "./reconciler";
 import { constructMenu } from "./menu";
 import { getRuntimeMisc } from "../misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
-import { apiAnalyzer } from "@easyops/easyops-analytics";
 import { getRuntime } from "../runtime";
 
 export class Router {
@@ -380,6 +380,18 @@ export class Router {
         this.state = "mounted";
 
         devtoolsHookEmit("rendered");
+
+        // Try to prefetch during a browser's idle periods.
+        // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
+        if (typeof (window as any).requestIdleCallback === "function") {
+          (window as any).requestIdleCallback(() => {
+            this.kernel.prefetchDepsOfStoryboard(storyboard);
+          });
+        } else {
+          Promise.resolve().then(() => {
+            this.kernel.prefetchDepsOfStoryboard(storyboard);
+          });
+        }
         return;
       }
     } else if (!isLoggedIn()) {

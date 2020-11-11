@@ -111,6 +111,7 @@ describe("Router", () => {
     registerCustomTemplatesInStoryboard: jest.fn(),
     fulfilStoryboard: jest.fn(),
     loadMicroAppApiOrchestrationAsync: jest.fn(),
+    prefetchDepsOfStoryboard: jest.fn(),
   } as unknown) as Kernel;
 
   beforeEach(() => {
@@ -165,6 +166,7 @@ describe("Router", () => {
     expect(kernel.registerCustomTemplatesInStoryboard).toBeCalled();
     expect(kernel.fulfilStoryboard).toBeCalled();
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
+    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {

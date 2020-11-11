@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import {
   loadScript,
+  prefetchScript,
   getDllAndDepsOfStoryboard,
   getDllAndDepsByResource,
   getTemplateDepsOfStoryboard,
@@ -98,6 +99,8 @@ describe("Kernel", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    spyOnGetTemplateDepsOfStoryboard.mockReset();
+    spyOnGetDllAndDepsOfStoryboard.mockReset();
   });
 
   it("should bootstrap", async () => {
@@ -274,7 +277,7 @@ describe("Kernel", () => {
       deps: ["dep.js"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
-    const storyboard: Storyboard = ({
+    const storyboard = ({
       app: {
         id: "app-a",
       },
@@ -471,5 +474,25 @@ describe("Kernel", () => {
       expect(loadScript).toHaveBeenNthCalledWith(1, []);
       expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
     }
+  });
+
+  it("should prefetch deps of storyboard", () => {
+    kernel.bootstrapData = {} as any;
+    const storyboard = {} as any;
+    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
+      dll: ["d3.js"],
+      deps: ["dep.js"],
+    });
+    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
+
+    // First prefetch.
+    kernel.prefetchDepsOfStoryboard(storyboard);
+    expect(storyboard.$$depsProcessed).toBe(true);
+    // Prefetch again.
+    kernel.prefetchDepsOfStoryboard(storyboard);
+
+    expect(prefetchScript).toBeCalledTimes(2);
+    expect(prefetchScript).toHaveBeenNthCalledWith(1, ["layout.js"]);
+    expect(prefetchScript).toHaveBeenNthCalledWith(2, ["d3.js", "dep.js"]);
   });
 });
