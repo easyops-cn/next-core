@@ -19204,6 +19204,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@easyops/easyops-analytics/dist/index.esm.js": {
+      "id": "vA6H",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["apiAnalyzer"]
+      }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/AppstoreTwoTone.js": {
       "id": "vC7g",
       "buildMeta": {
