@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.2.2...@easyops/custom-antd-styles@1.2.3) (2020-11-11)
+
+### Bug Fixes
+
+- fix link hover style ([c154664](https://git.easyops.local/anyclouds/next-core/commits/c154664))
+
 ## [1.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.2.1...@easyops/custom-antd-styles@1.2.2) (2020-11-02)
 
 ### Bug Fixes
