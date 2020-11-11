@@ -3,7 +3,12 @@ import "moment/locale/zh-cn";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Result } from "antd";
-import { createRuntime, httpErrorToString } from "@easyops/brick-kit";
+import {
+  createRuntime,
+  getAuth,
+  getRuntime,
+  httpErrorToString,
+} from "@easyops/brick-kit";
 import {
   http,
   HttpRequestConfig,
@@ -19,7 +24,7 @@ import "./styles/antd-compatible.less";
 import "./styles/default.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
-import { apiAnalyzer } from "./analytics";
+import { apiAnalyzer } from "@easyops/easyops-analytics";
 
 initializeLibrary();
 
@@ -47,11 +52,20 @@ const mountPoints = {
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
-const analyzer = apiAnalyzer.create();
+const api = `${getRuntime().getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/insert`;
+
+const analyzer = apiAnalyzer.create({
+  api,
+});
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
+  const { userInstanceId: uid, username } = getAuth();
+  const date = Date.now();
   config.meta = {
-    st: Date.now(),
+    st: date,
+    time: Math.round(date / 1000),
+    uid,
+    username,
   };
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
     window.dispatchEvent(new CustomEvent("request.start"));
@@ -62,11 +76,13 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
 http.interceptors.response.use(
   function (response: HttpResponse) {
     window.dispatchEvent(new CustomEvent("request.end"));
-    analyzer?.analyses(response);
+    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
+      analyzer?.analyses(response);
     return response.data;
   },
   function (error: HttpError) {
-    analyzer?.analyses(error);
+    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
+      analyzer?.analyses(error);
     window.dispatchEvent(new CustomEvent("request.end"));
     return Promise.reject(error.error);
   }

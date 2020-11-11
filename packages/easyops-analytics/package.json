@@ -1,0 +1,33 @@
+{
+  "name": "@easyops/easyops-analytics",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/easyops-analytics",
+  "license": "UNLICENSED",
+  "main": "dist/index.bundle.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
+    "start:rollup": "rollup --watch --config rollup.config.js",
+    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "prebuild": "npm run clean",
+    "build": "npm run build:types && npm run build:rollup",
+    "build:rollup": "rollup --config rollup.config.js",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "test": "cross-env NODE_ENV='test' jest",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@easyops/brick-http": "^2.2.0"
+  },
+  "peerDependencies": {
+    "@easyops/brick-http": "*"
+  }
+}

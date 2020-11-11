@@ -27,6 +27,8 @@ import { afterMountTree } from "./reconciler";
 import { constructMenu } from "./menu";
 import { getRuntimeMisc } from "../misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
+import { apiAnalyzer } from "@easyops/easyops-analytics";
+import { getRuntime } from "../runtime";
 
 export class Router {
   private defaultCollapsed = false;
@@ -172,10 +174,16 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
+    let pageTracker;
+    if (getRuntime().getFeatureFlags()["enable-analyzer"]) {
+      pageTracker = apiAnalyzer.getInstance().pageTracker();
+    }
+
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
       location
     ));
+
     const storyboard = locationContext.matchStoryboard(
       this.kernel.bootstrapData.storyboards
     );
@@ -360,6 +368,9 @@ export class Router {
           this.locationContext.resolver.scheduleRefreshing();
           this.locationContext.handleMessage();
         }
+
+        pageTracker?.();
+
         this.state = "mounted";
 
         devtoolsHookEmit("rendered");
