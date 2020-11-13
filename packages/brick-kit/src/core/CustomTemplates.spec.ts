@@ -6,8 +6,10 @@ import {
 } from "./CustomTemplates";
 import { RuntimeBrick } from "./BrickNode";
 import * as runtime from "./Runtime";
+import * as merge from "./propertyMerge";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
+jest.spyOn(merge, "propertyMerge").mockReturnValue(["merged"]);
 
 describe("expandCustomTemplate", () => {
   beforeAll(() => {
@@ -50,6 +52,12 @@ describe("expandCustomTemplate", () => {
                 refProperty: "sharedPropOfMicroView",
               },
             ],
+          },
+          appendColumns: {
+            ref: "micro-view",
+            mergeProperty: "columns",
+            mergeType: "array",
+            mergeMethod: "append",
           },
         },
         events: {
@@ -128,6 +136,7 @@ describe("expandCustomTemplate", () => {
       "noGap",
       "isDanger",
       "sharedProp",
+      "appendColumns",
     ]);
     expect(tpl.prototype.$$typeof).toBe("custom-template");
   });
@@ -195,7 +204,8 @@ describe("expandCustomTemplate", () => {
           },
         },
       },
-      proxyBrick
+      proxyBrick,
+      {} as any
     );
 
     expect(expanded).toMatchSnapshot();
@@ -270,6 +280,7 @@ describe("handleProxyOfCustomTemplate", () => {
     button.style.display = "block";
     button.tellStory = jest.fn();
     microView.noGap = false;
+    microView.columns = [1];
     const nonBubbleEvents: CustomEvent[] = [];
     tplElement.addEventListener("button.click", (event: CustomEvent) => {
       nonBubbleEvents.push(event);
@@ -317,6 +328,12 @@ describe("handleProxyOfCustomTemplate", () => {
                 refProperty: "sharedPropOfMicroView",
               },
             ],
+          },
+          appendColumns: {
+            ref: "micro-view",
+            mergeProperty: "columns",
+            mergeType: "array",
+            mergeMethod: "append",
           },
         },
         events: {
@@ -403,6 +420,12 @@ describe("handleProxyOfCustomTemplate", () => {
     expect(input.sharedPropOfInput).toBe("shared");
     expect(link.sharedPropOfLink).toBe("linked:shared");
     expect(microView.sharedPropOfMicroView).toBe("shared");
+
+    expect(tplElement.appendColumns).toEqual(undefined);
+    expect(microView.columns).toEqual([1]);
+    tplElement.appendColumns = [2, 3];
+    // Merge function is mocked and always return `["merged"]`.
+    expect(microView.columns).toEqual(["merged"]);
 
     // Proxies in `extraOneWayRefs` can't proxy back.
     link.sharedPropOfLink = "shared-updated-by-link";

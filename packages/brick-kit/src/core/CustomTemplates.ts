@@ -14,6 +14,8 @@ import {
   ProbablyRuntimeBrick,
   RuntimeBrickElement,
   CustomTemplateProxyBasicProperty,
+  CustomTemplateProxyMergeableProperty,
+  PluginRuntimeContext,
 } from "@easyops/brick-types";
 import { hasOwnProperty } from "@easyops/brick-utils";
 import {
@@ -21,6 +23,13 @@ import {
   preprocessTransformProperties,
 } from "../transformProperties";
 import { RuntimeBrick } from "./exports";
+import { MergeBase, PropertyProxy } from "./internalInterfaces";
+import {
+  collectMergeBases,
+  propertyMerge,
+  propertyMergeAll,
+} from "./propertyMerge";
+import { collectRefsInTemplate } from "./collectRefsInTemplate";
 
 const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 const appRegistered = new Set<string>();
@@ -76,12 +85,12 @@ export function registerCustomTemplate(
   // Collect defined properties of the template.
   const props = Object.keys(tplConstructor.proxy?.properties || {});
 
-  const nativeProp = props.find((prop) => prop in HTMLElement.prototype);
+  const nativeProp = props.some((prop) => prop in HTMLElement.prototype);
   // istanbul ignore if
-  if (nativeProp !== undefined) {
+  if (nativeProp) {
     // eslint-disable-next-line no-console
     console.error(
-      `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and is deprecated to be used as a brick property.`
+      `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and should be avoid to be used as a brick property.`
     );
   }
 
@@ -131,7 +140,8 @@ export function getTagNameOfCustomTemplate(
 
 export function expandCustomTemplate(
   brickConf: RuntimeBrickConf,
-  proxyBrick: RuntimeBrick
+  proxyBrick: RuntimeBrick,
+  context: PluginRuntimeContext
 ): RuntimeBrickConf {
   const template = customTemplateRegistry.get(brickConf.brick);
   const { bricks, proxy } = template;
@@ -145,50 +155,70 @@ export function expandCustomTemplate(
   proxyBrick.proxy = proxy;
   proxyBrick.proxyRefs = new Map();
 
+  const refToBrickConf = collectRefsInTemplate(template);
+
   // Reversed proxies are used for expand storyboard before rendering page.
   const reversedProxies: ReversedProxies = {
     properties: new Map(),
     slots: new Map(),
+    mergeBases: new Map(),
   };
-  const reversedEntries: ReversedEntries[] = ["properties", "slots"];
-  for (const entry of reversedEntries) {
-    if (proxy?.[entry]) {
-      for (const [reversedRef, conf] of Object.entries<
-        CustomTemplateProxyProperty | CustomTemplateProxySlot
-      >(proxy[entry])) {
-        let proxies: any[];
-        if (reversedProxies[entry].has(conf.ref)) {
-          proxies = reversedProxies[entry].get(conf.ref);
-        } else {
-          proxies = [];
-          reversedProxies[entry].set(conf.ref, proxies);
-        }
-        proxies.push({
-          ...conf,
-          reversedRef,
-        });
 
-        // Properties may have extra refs.
-        if (
-          entry === "properties" &&
-          Array.isArray((conf as CustomTemplateProxyProperty).extraOneWayRefs)
-        ) {
-          for (const extraRef of (conf as CustomTemplateProxyProperty)
-            .extraOneWayRefs) {
-            let extraProxies: any[];
-            if (reversedProxies[entry].has(extraRef.ref)) {
-              extraProxies = reversedProxies[entry].get(extraRef.ref);
-            } else {
-              extraProxies = [];
-              reversedProxies[entry].set(extraRef.ref, extraProxies);
-            }
-            extraProxies.push({
-              ...extraRef,
-              reversedRef,
-            });
+  if (proxy.properties) {
+    const reversedProperties = reversedProxies.properties;
+
+    for (const [reversedRef, conf] of Object.entries<PropertyProxy>(
+      proxy.properties
+    )) {
+      let proxies: PropertyProxy[];
+      if (reversedProperties.has(conf.ref)) {
+        proxies = reversedProperties.get(conf.ref);
+      } else {
+        proxies = [];
+        reversedProperties.set(conf.ref, proxies);
+      }
+      conf.$$reversedRef = reversedRef;
+
+      if (isMergeableProperty(conf)) {
+        collectMergeBases(
+          conf,
+          reversedProxies.mergeBases,
+          context,
+          refToBrickConf
+        );
+      }
+
+      proxies.push(conf);
+
+      // Properties may have extra refs.
+      if (Array.isArray(conf.extraOneWayRefs)) {
+        for (const extraRef of conf.extraOneWayRefs) {
+          let extraProxies: PropertyProxy[];
+          if (reversedProperties.has(extraRef.ref)) {
+            extraProxies = reversedProperties.get(extraRef.ref);
+          } else {
+            extraProxies = [];
+            reversedProperties.set(extraRef.ref, extraProxies);
           }
+          (extraRef as PropertyProxy).$$reversedRef = reversedRef;
+          extraProxies.push(extraRef);
         }
       }
+    }
+  }
+
+  if (proxy.slots) {
+    const reveredSlots = reversedProxies.slots;
+    for (const [reversedRef, conf] of Object.entries<SlotProxy>(proxy.slots)) {
+      let proxies: SlotProxy[];
+      if (reveredSlots.has(conf.ref)) {
+        proxies = reveredSlots.get(conf.ref);
+      } else {
+        proxies = [];
+        reveredSlots.set(conf.ref, proxies);
+      }
+      conf.$$reversedRef = reversedRef;
+      proxies.push(conf);
     }
   }
 
@@ -260,19 +290,39 @@ function expandBrickInTemplate(
           reversedProxies.properties
             .get(ref)
             .flatMap((item) => {
-              const propValue = templateProperties?.[item.reversedRef];
+              // `propValue` is computed.
+              const propValue = templateProperties?.[item.$$reversedRef];
               if (isTransformableProperty(item)) {
                 return Object.entries(
                   preprocessTransformProperties(
                     {
-                      [item.reversedRef]: propValue,
+                      [item.$$reversedRef]: propValue,
                     },
                     item.refTransform
                   )
                 );
               }
+              if (isMergeableProperty(item)) {
+                // Mergeable properties are processed later.
+                return [];
+              }
               return [[item.refProperty, propValue]];
             })
+            .filter((item) => item[1] !== undefined)
+        )
+      );
+    }
+
+    // Brick properties can be merged multiple times.
+    if (reversedProxies.mergeBases.has(ref)) {
+      Object.assign(
+        computedPropsFromProxy,
+        Object.fromEntries(
+          Array.from(reversedProxies.mergeBases.get(ref).entries())
+            .map(([mergeProperty, mergeBase]) => [
+              mergeProperty,
+              propertyMergeAll(mergeBase, templateProperties ?? {}),
+            ])
             .filter((item) => item[1] !== undefined)
         )
       );
@@ -304,7 +354,7 @@ function expandBrickInTemplate(
             0,
             expandableSlot.length - 1
           )
-        ].push(...(templateSlots?.[item.reversedRef]?.bricks ?? []));
+        ].push(...(templateSlots?.[item.$$reversedRef]?.bricks ?? []));
       }
     }
 
@@ -379,6 +429,12 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
               },
               extraRef.refTransform
             );
+          } else if (isMergeableProperty(extraRef)) {
+            extraRefElement[extraRef.mergeProperty] = propertyMerge(
+              extraRef,
+              value,
+              node
+            );
           } else {
             extraRefElement[
               (extraRef as CustomTemplateProxyBasicProperty).refProperty
@@ -396,7 +452,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
       // should always have refElement.
       // istanbul ignore else
       if (refElement) {
-        if (isTransformableProperty(propRef)) {
+        if (isTransformableProperty(propRef) || isMergeableProperty(propRef)) {
           // Create a non-enumerable symbol property to delegate the tpl root property.
           const delegatedPropSymbol = Symbol(`delegatedProp:${propName}`);
           node[delegatedPropSymbol] = node[propName];
@@ -404,15 +460,23 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
             get: function () {
               return node[delegatedPropSymbol];
             },
-            set: function (value: any) {
+            set: function (value: unknown) {
               node[delegatedPropSymbol] = value;
-              transformElementProperties(
-                refElement,
-                {
-                  [propName]: value,
-                },
-                propRef.refTransform
-              );
+              if (isTransformableProperty(propRef)) {
+                transformElementProperties(
+                  refElement,
+                  {
+                    [propName]: value,
+                  },
+                  propRef.refTransform
+                );
+              } else {
+                refElement[propRef.mergeProperty] = propertyMerge(
+                  propRef,
+                  value,
+                  node
+                );
+              }
               handleExtraOneWayRefs(propName, propRef, value);
             },
             enumerable: true,
@@ -422,7 +486,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
             get: function () {
               return refElement[propRef.refProperty];
             },
-            set: function (value: any) {
+            set: function (value: unknown) {
               refElement[propRef.refProperty] = value;
               handleExtraOneWayRefs(propName, propRef, value);
             },
@@ -482,20 +546,21 @@ interface ProxyContext {
 interface ReversedProxies {
   properties: Map<string, PropertyProxy[]>;
   slots: Map<string, SlotProxy[]>;
+  mergeBases: Map<string, Map<string, MergeBase>>;
 }
 
-type ReversedEntries = keyof ReversedProxies;
-
-type PropertyProxy = CustomTemplateProxyProperty & {
-  reversedRef: string;
-};
-
 interface SlotProxy extends CustomTemplateProxySlot {
-  reversedRef: string;
+  $$reversedRef?: string;
 }
 
 function isTransformableProperty(
   propRef: CustomTemplateProxyProperty
 ): propRef is CustomTemplateProxyTransformableProperty {
   return !!(propRef as CustomTemplateProxyTransformableProperty).refTransform;
+}
+
+function isMergeableProperty(
+  propRef: CustomTemplateProxyProperty
+): propRef is CustomTemplateProxyMergeableProperty {
+  return !!(propRef as CustomTemplateProxyMergeableProperty).mergeProperty;
 }
