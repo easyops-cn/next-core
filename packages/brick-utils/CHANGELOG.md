@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.3.7...@easyops/brick-utils@2.4.0) (2020-11-13)
+
+### Features
+
+- load bricks on demand by route ([ecc5ee2](https://git.easyops.local/anyclouds/next-core/commits/ecc5ee2))
+- prefetch deps of full storyboard during idle time ([9b1eff3](https://git.easyops.local/anyclouds/next-core/commits/9b1eff3))
+
 ## [2.3.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.3.6...@easyops/brick-utils@2.3.7) (2020-11-10)
 
 ### Bug Fixes

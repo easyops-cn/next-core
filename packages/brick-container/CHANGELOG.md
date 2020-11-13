@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.8.0...@easyops/brick-container@2.9.0) (2020-11-13)
+
+### Features
+
+- **report_package:** 安装 NB 包和 NT 包时，也上报 ([19da263](https://git.easyops.local/anyclouds/next-core/commits/19da263))
+
 # [2.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.10...@easyops/brick-container@2.8.0) (2020-11-11)
 
 ### Bug Fixes

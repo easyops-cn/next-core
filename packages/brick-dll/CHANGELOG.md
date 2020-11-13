@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.4.0...@easyops/brick-dll@2.5.0) (2020-11-13)
+
+### Features
+
+- prefetch deps of full storyboard during idle time ([9b1eff3](https://git.easyops.local/anyclouds/next-core/commits/9b1eff3))
+
 # [2.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.3.8...@easyops/brick-dll@2.4.0) (2020-11-11)
 
 ### Features
