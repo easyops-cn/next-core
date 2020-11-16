@@ -300,9 +300,7 @@ function expandBrickInTemplate(
         const refPosition = item.refPosition ?? -1;
         expandableSlot[
           clamp(
-            refPosition < 0
-              ? expandableSlot.length + refPosition + 1
-              : refPosition,
+            refPosition < 0 ? expandableSlot.length + refPosition : refPosition,
             0,
             expandableSlot.length - 1
           )
