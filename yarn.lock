@@ -2589,10 +2589,10 @@
     dom-accessibility-api "^0.5.1"
     pretty-format "^25.5.0"
 
-"@testing-library/jest-dom@^5.11.5":
-  version "5.11.5"
-  resolved "https://registry.npm.taobao.org/@testing-library/jest-dom/download/@testing-library/jest-dom-5.11.5.tgz#44010f37f4b1e15f9d433963b515db0b05182fc8"
-  integrity sha1-RAEPN/Sx4V+dQzljtRXbCwUYL8g=
+"@testing-library/jest-dom@^5.11.6":
+  version "5.11.6"
+  resolved "https://registry.npm.taobao.org/@testing-library/jest-dom/download/@testing-library/jest-dom-5.11.6.tgz?cache=0&sync_timestamp=1605279089736&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Fjest-dom%2Fdownload%2F%40testing-library%2Fjest-dom-5.11.6.tgz#782940e82e5cd17bc0a36f15156ba16f3570ac81"
+  integrity sha1-eClA6C5c0XvAo28VFWuhbzVwrIE=
   dependencies:
     "@babel/runtime" "^7.9.2"
     "@types/testing-library__jest-dom" "^5.9.1"
