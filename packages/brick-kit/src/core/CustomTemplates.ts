@@ -164,7 +164,7 @@ export function expandCustomTemplate(
     mergeBases: new Map(),
   };
 
-  if (proxy.properties) {
+  if (proxy?.properties) {
     const reversedProperties = reversedProxies.properties;
 
     for (const [reversedRef, conf] of Object.entries<PropertyProxy>(
@@ -207,7 +207,7 @@ export function expandCustomTemplate(
     }
   }
 
-  if (proxy.slots) {
+  if (proxy?.slots) {
     const reveredSlots = reversedProxies.slots;
     for (const [reversedRef, conf] of Object.entries<SlotProxy>(proxy.slots)) {
       let proxies: SlotProxy[];

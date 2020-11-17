@@ -314,3 +314,31 @@ Object {
   },
 }
 `;
+
+exports[`expandCustomTemplate should work if proxy is empty 1`] = `
+Object {
+  "brick": "steve-test.custom-template-no-proxy",
+  "events": Object {},
+  "slots": Object {
+    "": Object {
+      "bricks": Array [
+        Object {
+          "brick": "basic-bricks.micro-view",
+          "slots": Object {},
+          Symbol(tpl.computedPropsFromProxy): Object {},
+          Symbol(tpl.refForProxy): undefined,
+          Symbol(tpl.parentTemplate): undefined,
+        },
+      ],
+      "type": "bricks",
+    },
+  },
+}
+`;
+
+exports[`expandCustomTemplate should work if proxy is empty 2`] = `
+Object {
+  "proxy": undefined,
+  "proxyRefs": Map {},
+}
+`;
