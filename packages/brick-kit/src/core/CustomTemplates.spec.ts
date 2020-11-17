@@ -127,6 +127,13 @@ describe("expandCustomTemplate", () => {
         },
       ],
     });
+    registerCustomTemplate("steve-test.custom-template-no-proxy", {
+      bricks: [
+        {
+          brick: "basic-bricks.micro-view",
+        },
+      ],
+    });
   });
 
   it("should define a custom element", () => {
@@ -203,6 +210,22 @@ describe("expandCustomTemplate", () => {
             ],
           },
         },
+      },
+      proxyBrick,
+      {} as any
+    );
+
+    expect(expanded).toMatchSnapshot();
+    expect(proxyBrick).toMatchSnapshot();
+  });
+
+  it("should work if proxy is empty", () => {
+    const proxyBrick: RuntimeBrick = {};
+    const expanded = expandCustomTemplate(
+      {
+        brick: "steve-test.custom-template-no-proxy",
+        properties: {},
+        events: {},
       },
       proxyBrick,
       {} as any
