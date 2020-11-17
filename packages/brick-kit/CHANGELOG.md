@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.0...@easyops/brick-kit@2.19.1) (2020-11-17)
+
+### Bug Fixes
+
+- **custom-templates:** fix when a custom template has no proxy ([261409a](https://git.easyops.local/anyclouds/next-core/commits/261409a))
+
 # [2.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.18.0...@easyops/brick-kit@2.19.0) (2020-11-17)
 
 ### Bug Fixes
