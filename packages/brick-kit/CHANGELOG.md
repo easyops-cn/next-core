@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.18.0...@easyops/brick-kit@2.19.0) (2020-11-17)
+
+### Bug Fixes
+
+- **custom-templates:** fix when refPosition is negative ([786082c](https://git.easyops.local/anyclouds/next-core/commits/786082c))
+
+### Features
+
+- **custom-templates:** support to proxy mergeable properties ([c55aa74](https://git.easyops.local/anyclouds/next-core/commits/c55aa74))
+
 # [2.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.17.0...@easyops/brick-kit@2.18.0) (2020-11-13)
 
 ### Features
