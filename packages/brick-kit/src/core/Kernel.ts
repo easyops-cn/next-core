@@ -68,6 +68,7 @@ export class Kernel {
     Map<string, CustomApiOrchestration>
   > = Promise.resolve(new Map());
   private providerRepository = new Map<string, HTMLElement>();
+  private loadUsersStarted = false;
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
@@ -302,7 +303,6 @@ export class Kernel {
   }
 
   loadSharedData(): void {
-    this.loadUsersAsync();
     this.loadRelatedAppsAsync();
     if (
       this.bootstrapData.settings?.featureFlags?.["load-magic-brick-config"]
@@ -311,8 +311,11 @@ export class Kernel {
     }
   }
 
-  private loadUsersAsync(): void {
-    this.allUserMapPromise = this.loadUsers();
+  loadUsersAsync(): void {
+    if (!this.loadUsersStarted) {
+      this.loadUsersStarted = true;
+      this.allUserMapPromise = this.loadUsers();
+    }
   }
 
   private async loadUsers(): Promise<Map<string, UserInfo>> {

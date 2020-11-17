@@ -116,14 +116,7 @@ describe("Kernel", () => {
       loggedIn: true,
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
-    searchAllUsersInfo.mockResolvedValueOnce({
-      list: [
-        {
-          name: "hello",
-          instanceId: "abc",
-        },
-      ],
-    });
+    expect(searchAllUsersInfo).not.toBeCalled();
     searchAllMagicBrickConfig.mockResolvedValueOnce({
       list: [
         {
@@ -494,5 +487,29 @@ describe("Kernel", () => {
     expect(prefetchScript).toBeCalledTimes(2);
     expect(prefetchScript).toHaveBeenNthCalledWith(1, ["layout.js"]);
     expect(prefetchScript).toHaveBeenNthCalledWith(2, ["d3.js", "dep.js"]);
+  });
+
+  it("should load users async", async () => {
+    searchAllUsersInfo.mockResolvedValueOnce({
+      list: [
+        {
+          name: "hello",
+          instanceId: "abc",
+        },
+      ],
+    });
+    kernel.loadUsersAsync();
+    // Multiple invocations will trigger request only once.
+    kernel.loadUsersAsync();
+    await (global as any).flushPromises();
+    expect(searchAllUsersInfo).toBeCalledTimes(1);
+    expect(await kernel.allUserMapPromise).toMatchInlineSnapshot(`
+      Map {
+        "hello" => Object {
+          "instanceId": "abc",
+          "name": "hello",
+        },
+      }
+    `);
   });
 });

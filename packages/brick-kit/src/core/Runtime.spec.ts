@@ -12,6 +12,7 @@ describe("Runtime", () => {
 
   beforeEach(() => {
     jest.isolateModules(() => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       IsolatedRuntime = require("./Runtime").Runtime;
     });
     runtime = new IsolatedRuntime();
@@ -67,56 +68,56 @@ describe("Runtime", () => {
     mockKernelInstance.bootstrapData = {
       microApps: [
         {
-          name: "a"
+          name: "a",
         },
         {
           name: "b",
-          installStatus: "ok"
+          installStatus: "ok",
         },
         {
-          installStatus: "running"
+          installStatus: "running",
         },
         {
           name: "d",
-          internal: true
-        }
-      ]
+          internal: true,
+        },
+      ],
     };
     expect(runtime.getMicroApps()).toEqual([
       {
-        name: "a"
+        name: "a",
       },
       {
         name: "b",
-        installStatus: "ok"
+        installStatus: "ok",
       },
       {
-        installStatus: "running"
-      }
+        installStatus: "running",
+      },
     ]);
     expect(runtime.getMicroApps({ excludeInstalling: true })).toEqual([
       {
-        name: "a"
+        name: "a",
       },
       {
         name: "b",
-        installStatus: "ok"
-      }
+        installStatus: "ok",
+      },
     ]);
     expect(
       runtime.getMicroApps({ excludeInstalling: true, includeInternal: true })
     ).toEqual([
       {
-        name: "a"
+        name: "a",
       },
       {
         name: "b",
-        installStatus: "ok"
+        installStatus: "ok",
       },
       {
         name: "d",
-        internal: true
-      }
+        internal: true,
+      },
     ]);
     expect(runtime.getMicroApps({ includeInternal: true }).length).toBe(4);
   });
@@ -136,8 +137,8 @@ describe("Runtime", () => {
     const mockKernelInstance = spyOnKernel.mock.instances[0];
     mockKernelInstance.bootstrapData = {
       settings: {
-        homepage: "/search"
-      }
+        homepage: "/search",
+      },
     };
     expect(runtime.getHomepage()).toEqual("/search");
   });
@@ -157,13 +158,13 @@ describe("Runtime", () => {
     mockKernelInstance.bootstrapData = {
       settings: {
         launchpad: {
-          columns: 5
-        }
-      }
+          columns: 5,
+        },
+      },
     };
     expect(runtime.getLaunchpadSettings()).toEqual({
       columns: 5,
-      rows: 4
+      rows: 4,
     });
   });
 
@@ -174,12 +175,12 @@ describe("Runtime", () => {
     mockKernelInstance.bootstrapData = {
       settings: {
         brand: {
-          base_title: "DevOps 管理专家"
-        }
-      }
+          base_title: "DevOps 管理专家",
+        },
+      },
     };
     expect(runtime.getBrandSettings()).toEqual({
-      base_title: "DevOps 管理专家"
+      base_title: "DevOps 管理专家",
     });
   });
 
@@ -190,12 +191,12 @@ describe("Runtime", () => {
     mockKernelInstance.bootstrapData = {
       settings: {
         misc: {
-          foo: "bar"
-        }
-      }
+          foo: "bar",
+        },
+      },
     };
     expect(runtime.getMiscSettings()).toEqual({
-      foo: "bar"
+      foo: "bar",
     });
   });
 
@@ -209,14 +210,14 @@ describe("Runtime", () => {
     mockKernelInstance.bootstrapData = {
       desktops: [
         {
-          items: []
-        }
-      ]
+          items: [],
+        },
+      ],
     };
     expect(runtime.getDesktops()).toEqual([
       {
-        items: []
-      }
+        items: [],
+      },
     ]);
   });
 });
