@@ -5,7 +5,7 @@ export default rollupFactory({
   umdName: "BrickIcons",
   plugins: [
     svgr({
-      exclude: "src/icons/colored-pseudo-3d/*",
+      exclude: ["src/icons/colored-pseudo-3d/*", "src/icons/colored-common/*"],
       svgoConfig: {
         plugins: [
           {
@@ -21,7 +21,7 @@ export default rollupFactory({
       },
     }),
     svgr({
-      include: "src/icons/colored-pseudo-3d/*",
+      include: ["src/icons/colored-pseudo-3d/*", "src/icons/colored-common/*"],
       svgoConfig: {
         plugins: [
           {
