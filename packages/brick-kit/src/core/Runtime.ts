@@ -136,6 +136,7 @@ export class Runtime implements AbstractRuntime {
 
   /* istanbul ignore next */
   getAllUserMapAsync(): Promise<Map<string, UserInfo>> {
+    kernel.loadUsersAsync();
     return kernel.allUserMapPromise;
   }
 
