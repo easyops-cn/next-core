@@ -142,6 +142,7 @@ export class Runtime implements AbstractRuntime {
 
   /* istanbul ignore next */
   getMagicBrickConfigMapAsync(): Promise<Map<string, MagicBrickConfig>> {
+    kernel.loadMagicBrickConfigAsync();
     return kernel.allMagicBrickConfigMapPromise;
   }
 
