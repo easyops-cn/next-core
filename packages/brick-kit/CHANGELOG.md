@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.1...@easyops/brick-kit@2.19.2) (2020-11-17)
+
+### Bug Fixes
+
+- fetch magic brick config only when it's invoked ([19dc231](https://git.easyops.local/anyclouds/next-core/commits/19dc231))
+- fetch user info only when it's invoked ([c34e69c](https://git.easyops.local/anyclouds/next-core/commits/c34e69c))
+
 ## [2.19.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.0...@easyops/brick-kit@2.19.1) (2020-11-17)
 
 ### Bug Fixes
