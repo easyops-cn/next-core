@@ -777,7 +777,6 @@ export interface CustomTemplateProxy {
 
 // @public
 export interface CustomTemplateProxyBasicProperty extends CustomTemplateProxyWithExtra {
-    ref: string;
     refProperty: string;
 }
 
@@ -794,7 +793,28 @@ export interface CustomTemplateProxyEvents {
 }
 
 // @public
-export type CustomTemplateProxyExtraOneWayRef = Omit<CustomTemplateProxyBasicProperty, keyof CustomTemplateProxyWithExtra> | Omit<CustomTemplateProxyTransformableProperty, keyof CustomTemplateProxyWithExtra>;
+export type CustomTemplateProxyExtraOneWayRef = Omit<CustomTemplateProxyBasicProperty, "extraOneWayRefs"> | Omit<CustomTemplateProxyTransformableProperty, "extraOneWayRefs"> | Omit<CustomTemplateProxyMergeablePropertyOfArray, "extraOneWayRefs"> | Omit<CustomTemplateProxyMergeablePropertyOfObject, "extraOneWayRefs">;
+
+// @public
+export type CustomTemplateProxyMergeableProperty = CustomTemplateProxyMergeablePropertyOfArray | CustomTemplateProxyMergeablePropertyOfObject;
+
+// @public
+export interface CustomTemplateProxyMergeablePropertyBase extends CustomTemplateProxyWithExtra {
+    mergeProperty: string;
+}
+
+// @public
+export interface CustomTemplateProxyMergeablePropertyOfArray extends CustomTemplateProxyMergeablePropertyBase {
+    mergeArgs?: unknown[];
+    mergeMethod: "append" | "prepend" | "insertAt";
+    mergeType: "array";
+}
+
+// @public
+export interface CustomTemplateProxyMergeablePropertyOfObject extends CustomTemplateProxyMergeablePropertyBase {
+    mergeMethod: "extend";
+    mergeType: "object";
+}
 
 // @public
 export interface CustomTemplateProxyMethod {
@@ -815,7 +835,7 @@ export interface CustomTemplateProxyProperties {
 }
 
 // @public
-export type CustomTemplateProxyProperty = CustomTemplateProxyBasicProperty | CustomTemplateProxyTransformableProperty;
+export type CustomTemplateProxyProperty = CustomTemplateProxyBasicProperty | CustomTemplateProxyTransformableProperty | CustomTemplateProxyMergeableProperty;
 
 // @public
 export interface CustomTemplateProxySlot {
@@ -832,13 +852,13 @@ export interface CustomTemplateProxySlots {
 
 // @public
 export interface CustomTemplateProxyTransformableProperty extends CustomTemplateProxyWithExtra {
-    ref: string;
     refTransform: GeneralTransform;
 }
 
 // @public (undocumented)
 export interface CustomTemplateProxyWithExtra {
     extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
+    ref: string;
 }
 
 // @public

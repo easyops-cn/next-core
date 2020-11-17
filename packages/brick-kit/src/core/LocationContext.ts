@@ -619,7 +619,8 @@ export class LocationContext {
           // Properties are computed for custom templates.
           properties: brick.properties,
         },
-        brick
+        brick,
+        context
       );
 
       // Try to load deps for dynamic added bricks.
