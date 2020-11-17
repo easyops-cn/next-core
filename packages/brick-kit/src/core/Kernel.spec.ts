@@ -116,30 +116,6 @@ describe("Kernel", () => {
       loggedIn: true,
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
-    expect(searchAllUsersInfo).not.toBeCalled();
-    searchAllMagicBrickConfig.mockResolvedValueOnce({
-      list: [
-        {
-          _object_id: "_BRICK_MAGIC",
-          _object_version: 11,
-          _pre_ts: 1579432390,
-          _ts: 1579503251,
-          _version: 3,
-          brick: "presentational-bricks.brick-link",
-          creator: "easyops",
-          ctime: "2020-01-19 17:43:38",
-          instanceId: "59c7b02603e96",
-          modifier: "easyops",
-          mtime: "2020-01-20 14:54:11",
-          org: 8888,
-          properties: "target: _blank",
-          scene: "read",
-          selector: "HOST.ip",
-          transform:
-            'url: "/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}"\nlabel: "@{ip}"',
-        },
-      ],
-    });
     getObjectMicroAppList.mockResolvedValueOnce({
       list: [
         {
@@ -179,7 +155,8 @@ describe("Kernel", () => {
       },
     });
     await kernel.bootstrap(mountPoints);
-    expect(searchAllMagicBrickConfig).toHaveBeenCalled();
+    expect(searchAllUsersInfo).not.toBeCalled();
+    expect(searchAllMagicBrickConfig).not.toBeCalled();
     expect(spyOnAuthenticate.mock.calls[0][0]).toEqual({
       loggedIn: true,
     });
@@ -508,6 +485,40 @@ describe("Kernel", () => {
         "hello" => Object {
           "instanceId": "abc",
           "name": "hello",
+        },
+      }
+    `);
+  });
+
+  it("should load magic brick config async", async () => {
+    searchAllMagicBrickConfig.mockResolvedValueOnce({
+      list: [
+        {
+          brick: "presentational-bricks.brick-link",
+          instanceId: "59c7b02603e96",
+          properties: "target: _blank",
+          scene: "read",
+          selector: "HOST.ip",
+          transform:
+            'url: "/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}"\nlabel: "@{ip}"',
+        },
+      ],
+    });
+    kernel.loadMagicBrickConfigAsync();
+    // Multiple invocations will trigger request only once.
+    kernel.loadMagicBrickConfigAsync();
+    await (global as any).flushPromises();
+    expect(searchAllMagicBrickConfig).toBeCalledTimes(1);
+    expect(await kernel.allMagicBrickConfigMapPromise).toMatchInlineSnapshot(`
+      Map {
+        "HOST.ip" => Object {
+          "brick": "presentational-bricks.brick-link",
+          "instanceId": "59c7b02603e96",
+          "properties": "target: _blank",
+          "scene": "read",
+          "selector": "HOST.ip",
+          "transform": "url: \\"/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}\\"
+      label: \\"@{ip}\\"",
         },
       }
     `);
