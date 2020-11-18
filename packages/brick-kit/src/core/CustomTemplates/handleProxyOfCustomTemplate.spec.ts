@@ -1,8 +1,10 @@
 import { handleProxyOfCustomTemplate } from "./handleProxyOfCustomTemplate";
 import { RuntimeBrick } from "../BrickNode";
-import * as merge from "./propertyMerge";
+import { propertyMerge } from "./propertyMerge";
 
-jest.spyOn(merge, "propertyMerge").mockReturnValue(["merged"]);
+jest.mock("./propertyMerge");
+
+(propertyMerge as jest.Mock).mockReturnValue(["merged"]);
 
 describe("handleProxyOfCustomTemplate", () => {
   it("should handleProxyOfCustomTemplate for no proxy", () => {

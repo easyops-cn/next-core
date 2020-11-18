@@ -21,7 +21,8 @@ import {
   symbolForParentTemplate,
   symbolForRefForProxy,
 } from "./constants";
-import { collectMergeBases, propertyMergeAll } from "./propertyMerge";
+import { propertyMergeAll } from "./propertyMerge";
+import { collectMergeBases } from "./collectMergeBases";
 
 interface ProxyContext {
   reversedProxies: ReversedProxies;
