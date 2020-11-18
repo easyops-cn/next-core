@@ -2,14 +2,12 @@ import {
   BrickConfInTemplate,
   PluginRuntimeContext,
 } from "@easyops/brick-types";
-import { isObject } from "@easyops/brick-utils";
-import { computeRealValue } from "../../setProperties";
-import { MergeablePropertyProxy, MergeBase } from "../internalInterfaces";
+import { MergeablePropertyProxy, MergeBase } from "./internalInterfaces";
 
 export function collectMergeBases(
   conf: MergeablePropertyProxy,
   mergeBases: Map<string, Map<string, MergeBase>>,
-  context: PluginRuntimeContext,
+  contextInTemplate: PluginRuntimeContext,
   refToBrickConf: Map<string, BrickConfInTemplate>
 ): void {
   let mergeBaseMap: Map<string, MergeBase>;
@@ -33,34 +31,11 @@ export function collectMergeBases(
     const baseValue = refToBrickConf.get(conf.ref).properties?.[
       conf.mergeProperty
     ];
-    let computedBaseValue: unknown;
-    switch (conf.mergeType) {
-      case "array":
-        // If the merge base is not array, replace it with an empty array.
-        computedBaseValue = Object.freeze(
-          Array.isArray(baseValue)
-            ? computeRealValue(baseValue, context, true)
-            : []
-        );
-        break;
-      case "object":
-        // If the merge base is not object, replace it with an empty object.
-        computedBaseValue = Object.freeze(
-          isObject(baseValue) ? computeRealValue(baseValue, context, true) : {}
-        );
-        break;
-      // istanbul ignore next: should never reach
-      default:
-        throw new TypeError(
-          `unsupported mergeType: "${
-            (conf as MergeablePropertyProxy).mergeType
-          }"`
-        );
-    }
     conf.$$mergeBase = {
       proxies: [conf],
       mergeType: conf.mergeType,
-      baseValue: computedBaseValue,
+      baseValue,
+      context: contextInTemplate,
     };
     mergeBaseMap.set(conf.mergeProperty, conf.$$mergeBase);
   }

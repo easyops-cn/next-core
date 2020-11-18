@@ -1,5 +1,5 @@
 import { BrickConfInTemplate } from "@easyops/brick-types";
-import { MergeablePropertyProxy, PropertyProxy } from "../internalInterfaces";
+import { MergeablePropertyProxy } from "./internalInterfaces";
 import { propertyMerge, propertyMergeAll } from "./propertyMerge";
 import { collectMergeBases } from "./collectMergeBases";
 
@@ -59,7 +59,7 @@ describe("propertyMerge", () => {
     const context = {} as any;
 
     for (const [reveredRef, proxy] of Object.entries(proxyProperties)) {
-      (proxy as PropertyProxy).$$reversedRef = reveredRef;
+      proxy.$$reversedRef = reveredRef;
     }
 
     for (const proxy of Object.values(proxyProperties)) {

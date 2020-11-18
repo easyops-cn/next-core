@@ -11,8 +11,18 @@ import { hasOwnProperty } from "@easyops/brick-utils";
 import { clamp } from "lodash";
 import { preprocessTransformProperties } from "../../transformProperties";
 import { RuntimeBrick } from "../BrickNode";
-import { MergeBase, PropertyProxy } from "../internalInterfaces";
-import { isMergeableProperty, isTransformableProperty } from "./assertions";
+import {
+  MergeBase,
+  PropertyProxy,
+  RuntimeCustomTemplateProxy,
+  RuntimeCustomTemplateProxyProperties,
+} from "./internalInterfaces";
+import {
+  isBasicProperty,
+  isMergeableProperty,
+  isTransformableProperty,
+  isVariableProperty,
+} from "./assertions";
 import { collectRefsInTemplate } from "./collectRefsInTemplate";
 import {
   customTemplateRegistry,
@@ -20,14 +30,17 @@ import {
   symbolForComputedPropsFromProxy,
   symbolForParentTemplate,
   symbolForRefForProxy,
+  symbolForTplContextId,
 } from "./constants";
 import { propertyMergeAll } from "./propertyMerge";
 import { collectMergeBases } from "./collectMergeBases";
+import { CustomTemplateContext } from "./CustomTemplateContext";
 
 interface ProxyContext {
   reversedProxies: ReversedProxies;
-  templateProperties: Record<string, any>;
+  templateProperties: Record<string, unknown>;
   templateSlots: SlotsConfOfBricks;
+  templateContextId: string;
   proxyBrick: RuntimeBrick;
 }
 
@@ -44,7 +57,8 @@ interface SlotProxy extends CustomTemplateProxySlot {
 export function expandCustomTemplate(
   brickConf: RuntimeBrickConf,
   proxyBrick: RuntimeBrick,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  tplContext: CustomTemplateContext
 ): RuntimeBrickConf {
   const template = customTemplateRegistry.get(brickConf.brick);
   const { bricks, proxy } = template;
@@ -55,7 +69,11 @@ export function expandCustomTemplate(
   } = brickConf;
   const newBrickConf = restBrickConf as RuntimeBrickConf;
 
-  proxyBrick.proxy = proxy;
+  // Get a copy of proxy for each instance of custom template.
+  const proxyCopy: RuntimeCustomTemplateProxy = {
+    ...proxy,
+  };
+  proxyBrick.proxy = proxyCopy;
   proxyBrick.proxyRefs = new Map();
 
   const refToBrickConf = collectRefsInTemplate(template);
@@ -67,12 +85,33 @@ export function expandCustomTemplate(
     mergeBases: new Map(),
   };
 
-  if (proxy?.properties) {
-    const reversedProperties = reversedProxies.properties;
+  const tplVariables: Record<string, unknown> = {};
+  const templateContextId = tplContext.createContext();
+  const getTplVariables = (): Record<string, unknown> =>
+    tplContext.getContext(templateContextId);
 
-    for (const [reversedRef, conf] of Object.entries<PropertyProxy>(
-      proxy.properties
-    )) {
+  if (proxy?.properties) {
+    const refPropertiesCopy = {} as RuntimeCustomTemplateProxyProperties;
+    proxyCopy.$$properties = refPropertiesCopy;
+
+    for (const [reversedRef, conf] of Object.entries(proxy.properties)) {
+      if (isVariableProperty(conf)) {
+        tplVariables[reversedRef] = templateProperties?.[reversedRef];
+      } else {
+        // Variable property proxies have no refs.
+        refPropertiesCopy[reversedRef] = {
+          ...conf,
+          extraOneWayRefs: Array.isArray(conf.extraOneWayRefs)
+            ? conf.extraOneWayRefs.map((extraConf) => ({ ...extraConf }))
+            : undefined,
+        };
+      }
+    }
+
+    tplContext.sealContext(templateContextId, tplVariables, proxyBrick);
+
+    const reversedProperties = reversedProxies.properties;
+    for (const [reversedRef, conf] of Object.entries(refPropertiesCopy)) {
       let proxies: PropertyProxy[];
       if (reversedProperties.has(conf.ref)) {
         proxies = reversedProperties.get(conf.ref);
@@ -86,7 +125,10 @@ export function expandCustomTemplate(
         collectMergeBases(
           conf,
           reversedProxies.mergeBases,
-          context,
+          {
+            ...context,
+            getTplVariables,
+          },
           refToBrickConf
         );
       }
@@ -129,6 +171,7 @@ export function expandCustomTemplate(
     reversedProxies,
     templateProperties,
     templateSlots: templateSlots as SlotsConfOfBricks,
+    templateContextId,
     proxyBrick,
   };
 
@@ -159,9 +202,10 @@ function expandBrickInTemplate(
     reversedProxies,
     templateProperties,
     templateSlots,
+    templateContextId,
     proxyBrick: { proxyRefs },
   } = proxyContext;
-  const computedPropsFromProxy: Record<string, any> = {};
+  const computedPropsFromProxy: Record<string, unknown> = {};
   let refForProxy: RefForProxy;
   let parentTemplate: RuntimeBrick;
 
@@ -205,11 +249,12 @@ function expandBrickInTemplate(
                   )
                 );
               }
-              if (isMergeableProperty(item)) {
-                // Mergeable properties are processed later.
-                return [];
+              if (isBasicProperty(item)) {
+                return [[item.refProperty, propValue]];
               }
-              return [[item.refProperty, propValue]];
+              // Ignore Variable properties.
+              // And mergeable properties are processed later.
+              return [];
             })
             .filter((item) => item[1] !== undefined)
         )
@@ -287,5 +332,6 @@ function expandBrickInTemplate(
     [symbolForComputedPropsFromProxy]: computedPropsFromProxy,
     [symbolForRefForProxy]: refForProxy,
     [symbolForParentTemplate]: parentTemplate,
+    [symbolForTplContextId]: templateContextId,
   };
 }

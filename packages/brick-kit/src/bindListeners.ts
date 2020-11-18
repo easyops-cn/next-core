@@ -723,14 +723,14 @@ function argsFactory(
   options: ArgsFactoryOptions = {}
 ): unknown[] {
   return Array.isArray(args)
-    ? computeRealValue(
+    ? (computeRealValue(
         args,
         {
           ...context,
           event,
         },
         true
-      )
+      ) as unknown[])
     : options.useEventAsDefault
     ? [event]
     : options.useEventDetailAsDefault

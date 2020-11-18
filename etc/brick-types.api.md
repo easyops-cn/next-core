@@ -835,7 +835,10 @@ export interface CustomTemplateProxyProperties {
 }
 
 // @public
-export type CustomTemplateProxyProperty = CustomTemplateProxyBasicProperty | CustomTemplateProxyTransformableProperty | CustomTemplateProxyMergeableProperty;
+export type CustomTemplateProxyProperty = CustomTemplateProxyRefProperty | CustomTemplateProxyVariableProperty;
+
+// @public
+export type CustomTemplateProxyRefProperty = CustomTemplateProxyBasicProperty | CustomTemplateProxyTransformableProperty | CustomTemplateProxyMergeableProperty;
 
 // @public
 export interface CustomTemplateProxySlot {
@@ -853,6 +856,12 @@ export interface CustomTemplateProxySlots {
 // @public
 export interface CustomTemplateProxyTransformableProperty extends CustomTemplateProxyWithExtra {
     refTransform: GeneralTransform;
+}
+
+// @public
+export interface CustomTemplateProxyVariableProperty {
+    // (undocumented)
+    asVariable: true;
 }
 
 // @public (undocumented)
@@ -1203,6 +1212,8 @@ export interface PluginRuntimeContext {
     app?: MicroApp;
     event?: CustomEvent;
     flags?: FeatureFlags;
+    // (undocumented)
+    getTplVariables?: () => Record<string, unknown>;
     hash?: string;
     // (undocumented)
     images?: MetaImage[];

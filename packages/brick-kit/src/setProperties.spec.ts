@@ -90,6 +90,7 @@ describe("computeRealValue", () => {
   );
 
   it("should work for lazy events in useBrick", () => {
+    const { event, ...contextWithoutEvent } = context;
     const result = computeRealValue(
       {
         properties: {
@@ -108,7 +109,7 @@ describe("computeRealValue", () => {
           },
         },
       },
-      context,
+      contextWithoutEvent,
       true,
       {
         $$lazyForUseBrickEvents: true,
@@ -165,6 +166,9 @@ describe("setProperties", () => {
     flags: {
       "better-world": true,
     },
+    getTplVariables: () => ({
+      quality: "good",
+    }),
   };
   const properties = {
     objectId: "${objectId}",
@@ -194,6 +198,7 @@ describe("setProperties", () => {
     betterWorld: "${FLAGS.better-world}",
     array: "${QUERY_ARRAY.array}",
     arrayNotExisted: "${QUERY_ARRAY.arrayNotExisted}",
+    fromTpl: "<% TPL.quality %>",
   };
 
   beforeEach(() => {
@@ -237,6 +242,7 @@ describe("setProperties", () => {
         userInstanceId: "acbd46b",
         betterWorld: true,
         array: ["1", "2"],
+        fromTpl: "good",
       },
     ],
     [
@@ -269,6 +275,7 @@ describe("setProperties", () => {
         userInstanceId: "acbd46b",
         betterWorld: true,
         array: ["1", "2"],
+        fromTpl: "good",
       },
     ],
     [
@@ -302,6 +309,7 @@ describe("setProperties", () => {
           userInstanceId: "acbd46b",
           betterWorld: true,
           array: ["1", "2"],
+          fromTpl: "good",
         },
         {
           objectId: "HOST",
@@ -328,6 +336,7 @@ describe("setProperties", () => {
           userInstanceId: "acbd46b",
           betterWorld: true,
           array: ["1", "2"],
+          fromTpl: "good",
         },
       ],
     ],
