@@ -14,7 +14,7 @@
     "src"
   ],
   "dependencies": {
-    "diff": "^4.0.2",
+    "diff": "^5.0.0",
     "prettier": "^2.1.2"
   }
 }

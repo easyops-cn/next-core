@@ -29,6 +29,10 @@
       "groupName": "size-limit packages"
     },
     {
+      "packageNames": ["antd"],
+      "enabled": false
+    },
+    {
       "packagePatterns": ["^@svgr/"],
       "groupName": "svgr packages"
     }
