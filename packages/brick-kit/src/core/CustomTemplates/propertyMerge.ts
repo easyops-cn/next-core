@@ -4,12 +4,12 @@ import {
 } from "@easyops/brick-types";
 import { isObject } from "@easyops/brick-utils";
 import { clamp } from "lodash";
-import { computeRealValue } from "../setProperties";
+import { computeRealValue } from "../../setProperties";
 import {
   MergeablePropertyProxy,
   MergeablePropertyProxyOfArray,
   MergeBase,
-} from "./internalInterfaces";
+} from "./../internalInterfaces";
 
 export function propertyMerge(
   conf: MergeablePropertyProxy,

@@ -1,5 +1,5 @@
 import { BrickConfInTemplate } from "@easyops/brick-types";
-import { MergeablePropertyProxy, MergeBase, PropertyProxy } from "./interfaces";
+import { MergeablePropertyProxy, PropertyProxy } from "../internalInterfaces";
 import {
   collectMergeBases,
   propertyMerge,

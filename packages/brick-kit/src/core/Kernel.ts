@@ -29,7 +29,13 @@ import {
   StoryboardMeta,
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
-import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
+import {
+  Router,
+  MenuBar,
+  AppBar,
+  LoadingBar,
+  registerCustomTemplate,
+} from "./exports";
 import { getHistory } from "../history";
 import {
   RelatedApp,
@@ -39,7 +45,6 @@ import {
 } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { registerCustomTemplate } from "./CustomTemplates";
 import { listenDevtools } from "../devtools";
 import { isCustomApiProvider } from "./CustomApis";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";

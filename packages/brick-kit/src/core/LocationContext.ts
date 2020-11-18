@@ -49,10 +49,10 @@ import {
   symbolForRefForProxy,
   symbolForParentTemplate,
   ResolveRequestError,
+  RuntimeBrickConfWithTplSymbols,
 } from "./exports";
 import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
-import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
 import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
 import { getRuntimeMisc } from "../misc";
 import { httpErrorToString } from "../handleHttpError";
