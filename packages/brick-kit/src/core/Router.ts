@@ -5,6 +5,7 @@ import {
   PluginRuntimeContext,
 } from "@easyops/brick-types";
 import { restoreDynamicTemplates } from "@easyops/brick-utils";
+import { apiAnalyzer } from "@easyops/easyops-analytics";
 import {
   LocationContext,
   mountTree,
@@ -27,6 +28,7 @@ import { afterMountTree } from "./reconciler";
 import { constructMenu } from "./menu";
 import { getRuntimeMisc } from "../misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
+import { getRuntime } from "../runtime";
 
 export class Router {
   private defaultCollapsed = false;
@@ -172,10 +174,16 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
+    let pageTracker;
+    if (getRuntime().getFeatureFlags()["enable-analyzer"]) {
+      pageTracker = apiAnalyzer.getInstance().pageTracker();
+    }
+
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
       location
     ));
+
     const storyboard = locationContext.matchStoryboard(
       this.kernel.bootstrapData.storyboards
     );
@@ -186,8 +194,14 @@ export class Router {
       // 将动态解析后的模板还原，以便重新动态解析。
       restoreDynamicTemplates(storyboard);
 
-      // 如果找到匹配的 storyboard，那么加载它的依赖库。
-      await this.kernel.loadDepsOfStoryboard(storyboard);
+      // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
+      const subStoryboard = this.locationContext.getSubStoryboardByRoute(
+        storyboard
+      );
+      await this.kernel.loadDepsOfStoryboard(subStoryboard);
+
+      // 注册 Storyboard 中定义的自定义模板。
+      this.kernel.registerCustomTemplatesInStoryboard(storyboard);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;
@@ -199,6 +213,7 @@ export class Router {
         : previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
+    this.kernel.nextAppMeta = storyboard?.meta;
 
     this.state = "initial";
 
@@ -359,9 +374,24 @@ export class Router {
           this.locationContext.resolver.scheduleRefreshing();
           this.locationContext.handleMessage();
         }
+
+        pageTracker?.();
+
         this.state = "mounted";
 
         devtoolsHookEmit("rendered");
+
+        // Try to prefetch during a browser's idle periods.
+        // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
+        if (typeof (window as any).requestIdleCallback === "function") {
+          (window as any).requestIdleCallback(() => {
+            this.kernel.prefetchDepsOfStoryboard(storyboard);
+          });
+        } else {
+          Promise.resolve().then(() => {
+            this.kernel.prefetchDepsOfStoryboard(storyboard);
+          });
+        }
         return;
       }
     } else if (!isLoggedIn()) {

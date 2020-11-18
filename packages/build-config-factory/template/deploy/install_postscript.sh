@@ -21,6 +21,18 @@ function report_micro_app() {
   fi
 }
 
+function report_package() {
+  install_base=$1
+  install_path=$2
+  if [[ -f ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ]];then
+      ${install_base}/python/bin/python ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ${install_path}
+      if [[ $? -ne 0 ]]; then
+          echo "report installed micro app error"
+          exit 1
+      fi
+  fi
+}
+
 # 优先取环境变量里面的org
 if [[ ${org}X == X ]]; then
     org=$(/usr/local/easyops/deploy_init/tools/get_env.py common org)
@@ -32,6 +44,10 @@ if [[ ${cloned_install_path}X != X ]]; then
   # 上报当前安装小产品
   if [[ ${suffix} == "NA" ]]; then
     report_micro_app ${install_base} ${org} ${cloned_install_path}
+  fi
+  # 上报当前安装小产品
+  if [[ ${suffix} == "NB" || ${suffix} == "NT" ]]; then
+    report_package ${install_base} ${cloned_install_path}
   fi
 else
   # 构件目录
@@ -49,6 +65,12 @@ else
   if [[ ${suffix} == "NA" ]]; then
     report_micro_app ${install_base} ${org} ${install_path}
   fi
+
+  # 上报当前安装小产品
+  if [[ ${suffix} == "NB" || ${suffix} == "NT" ]]; then
+    report_package ${install_base} ${install_path}
+  fi
+
 fi
 
 exit 0

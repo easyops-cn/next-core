@@ -6,31 +6,26 @@ import {
 } from "@easyops/brick-http";
 import "whatwg-fetch";
 
-import * as kit from "@easyops/brick-kit";
-
-jest.spyOn(kit, "getRuntime").mockReturnValue({
-  getFeatureFlags: jest.fn().mockReturnValue({ "enable-analyzer": true }),
-  getBasePath: jest.fn().mockReturnValue("/"),
-} as any);
-
 jest.spyOn(window, "addEventListener");
 const mockSendBeacon = jest.fn();
 (global as any).navigator.sendBeacon = mockSendBeacon;
+
 describe("ApiAnalysis", () => {
   let analyzer: ReturnType<typeof apiAnalyzer.create>;
+  let pageTracker: any;
   beforeEach(() => {
-    kit.authenticate({
-      org: 8888,
-      username: "mock-user",
-      userInstanceId: "abc",
+    analyzer = apiAnalyzer.create({
+      api: "fakeapi.com",
     });
-    analyzer = apiAnalyzer.create();
     Date.now = jest.fn(() => 1603109440807);
+    Math.random = jest.fn(() => 0.2);
     process.env.NODE_ENV = "production";
+    pageTracker = analyzer.pageTracker();
   });
 
   afterEach(() => {
     mockSendBeacon.mockClear();
+    pageTracker = null;
     process.env.NODE_ENV = "test";
   });
 
@@ -41,13 +36,20 @@ describe("ApiAnalysis", () => {
         method: "GET",
         meta: {
           st: 1603109440805,
+          time: 1603109440807,
           type: "api",
           page: "http://localhost:8081/developers/brick-book?category=",
+          org: 8888,
+          username: "mock-user",
+          uid: "abc",
         },
       },
       status: 200,
       statusText: "OK",
-      headers: new Headers({ "x-b3-traceid": "fake-trace-id" }),
+      headers: new Headers({
+        "x-b3-traceid": "fake-trace-id",
+        "content-length": "28",
+      }),
       data: {
         code: 0,
         error: "",
@@ -63,16 +65,22 @@ describe("ApiAnalysis", () => {
       },
     };
     analyzer.analyses(response as any);
+    pageTracker();
     const data = {
       model: "easyops.FRONTEND_STAT",
       columns: [
+        "_ver",
         "st",
         "et",
+        "lt",
+        "size",
+        "time",
         "traceId",
         "code",
         "duration",
         "page",
         "uid",
+        "username",
         "api",
         "type",
         "msg",
@@ -84,8 +92,10 @@ describe("ApiAnalysis", () => {
       type: "application/json",
     };
     const blob = new Blob([JSON.stringify(data)], headers);
+
     window.dispatchEvent(new Event("beforeunload"));
     //const d = await blob.text()
+    expect(apiAnalyzer.getInstance()).toBeTruthy();
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
@@ -93,13 +103,19 @@ describe("ApiAnalysis", () => {
         code: 0,
         duration: 2,
         et: 1603109440807,
+        lt: 0,
         msg: "",
         page: "http://localhost/",
+        pageId: "page-0-0-200",
+        size: 28,
         st: 1603109440805,
+        _ver: 1603109440805,
         status: 200,
+        time: 1603109440807,
         traceId: "fake-trace-id",
         type: "api",
         uid: "abc",
+        username: "mock-user",
       },
     ]);
   });
@@ -116,8 +132,12 @@ describe("ApiAnalysis", () => {
         method: "GET",
         meta: {
           st: 1603109440805,
+          time: 1603109440807,
           type: "api",
           page: "http://localhost:8081/developers/brick-book?category=",
+          org: 8888,
+          username: "mock-user",
+          userInstanceId: "abc",
         },
       },
       error: err,
@@ -126,13 +146,18 @@ describe("ApiAnalysis", () => {
     const data = {
       model: "easyops.FRONTEND_STAT",
       columns: [
+        "_ver",
         "st",
         "et",
+        "lt",
+        "size",
+        "time",
         "traceId",
         "code",
         "duration",
         "page",
         "uid",
+        "username",
         "api",
         "type",
         "msg",
@@ -148,17 +173,23 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
-        st: 1603109440805,
-        type: "api",
-        page: "http://localhost/",
-        et: 1603109440807,
-        duration: 2,
         api: "api/auth/login",
-        uid: "abc",
-        code: "",
+        code: 0,
+        duration: 2,
+        et: 1603109440807,
+        lt: 0,
         msg: "",
-        status: 500,
-        traceId: null,
+        page: "http://localhost/",
+        pageId: "page-0-0-200",
+        size: 28,
+        st: 1603109440805,
+        _ver: 1603109440805,
+        status: 200,
+        time: 1603109440807,
+        traceId: "fake-trace-id",
+        type: "api",
+        uid: "abc",
+        username: "mock-user",
       },
     ]);
   });
@@ -171,8 +202,12 @@ describe("ApiAnalysis", () => {
         method: "GET",
         meta: {
           st: 1603109440805,
+          time: 1603109440807,
           type: "api",
           page: "http://localhost:8081/developers/brick-book?category=",
+          org: 8888,
+          username: "mock-user",
+          userInstanceId: "abc",
         },
       },
       error: err,
@@ -181,13 +216,18 @@ describe("ApiAnalysis", () => {
     const data = {
       model: "easyops.FRONTEND_STAT",
       columns: [
+        "_ver",
         "st",
         "et",
+        "lt",
+        "size",
+        "time",
         "traceId",
         "code",
         "duration",
         "page",
         "uid",
+        "username",
         "api",
         "type",
         "msg",
@@ -203,17 +243,23 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
-        st: 1603109440805,
-        type: "api",
-        code: "",
+        api: "api/auth/login",
+        code: 0,
+        duration: 2,
+        et: 1603109440807,
+        lt: 0,
         msg: "",
         page: "http://localhost/",
-        et: 1603109440807,
-        duration: 2,
-        api: "api/auth/login",
-        uid: "abc",
+        pageId: "page-0-0-200",
+        size: 28,
+        st: 1603109440805,
+        _ver: 1603109440805,
         status: 200,
-        traceId: null,
+        time: 1603109440807,
+        traceId: "fake-trace-id",
+        type: "api",
+        uid: "abc",
+        username: "mock-user",
       },
     ]);
   });

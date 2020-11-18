@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.5.2...@easyops/brick-dll@2.5.3) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.5.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.5.1...@easyops/brick-dll@2.5.2) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.5.0...@easyops/brick-dll@2.5.1) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+# [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.4.0...@easyops/brick-dll@2.5.0) (2020-11-13)
+
+### Features
+
+- prefetch deps of full storyboard during idle time ([9b1eff3](https://git.easyops.local/anyclouds/next-core/commits/9b1eff3))
+
+# [2.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.3.8...@easyops/brick-dll@2.4.0) (2020-11-11)
+
+### Features
+
+- new ApiAnalysis ([b183635](https://git.easyops.local/anyclouds/next-core/commits/b183635))
+
+## [2.3.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.3.7...@easyops/brick-dll@2.3.8) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.3.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.3.6...@easyops/brick-dll@2.3.7) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.3.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.3.5...@easyops/brick-dll@2.3.6) (2020-11-09)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.3.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.3.4...@easyops/brick-dll@2.3.5) (2020-11-05)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
 ## [2.3.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.3.3...@easyops/brick-dll@2.3.4) (2020-11-03)
 
 **Note:** Version bump only for package @easyops/brick-dll

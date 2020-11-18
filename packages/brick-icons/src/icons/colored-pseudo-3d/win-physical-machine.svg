@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="56px" height="56px" viewBox="0 0 56 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>821630A0-AE55-4EE7-90E1-01D154F0DC66</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="win-physical-machine" fill-rule="nonzero">
+            <g id="背景区域" opacity="0" fill="#D8D8D8">
+                <rect id="矩形" x="0" y="0" width="56" height="56"></rect>
+            </g>
+            <g id="图形" transform="translate(4.000000, 2.000000)">
+                <polygon id="路径-7" fill="#ABBCC4" points="24 36.5 24 30 34.705521 23.1922161 48 15 48 21.5 34.8306997 29.5330494"></polygon>
+                <polygon id="路径-7备份-2" fill="#416480" transform="translate(12.000000, 25.750000) scale(-1, 1) translate(-12.000000, -25.750000) " points="0 36.5 0 30 24 15 24 21.5"></polygon>
+                <polygon id="路径-7备份-10" fill="#ABBCC4" points="24 52.5 24 38 48 23 48 37.5 34.8614641 45.51389"></polygon>
+                <polygon id="路径-7备份-9" fill="#416480" transform="translate(12.000000, 37.750000) scale(-1, 1) translate(-12.000000, -37.750000) " points="-2.84217094e-13 52.5 -2.84217094e-13 38 24 23 24 37.5"></polygon>
+                <g id="Windows备份" transform="translate(11.922172, 38.067725) rotate(27.000000) translate(-11.922172, -38.067725) translate(4.922172, 32.934391)" fill="#23CCD1">
+                    <polygon id="路径" points="0.00231835266 1.51882459 1.277729 4.02195892 5.12478138 4.37677274 3.42988351 1.05034838"></polygon>
+                    <polygon id="路径" points="8.30824555 0.345456403 3.94305285 0.959156665 5.66770176 4.41439233 10.5963577 4.83612929"></polygon>
+                    <polygon id="路径" points="1.4768795 4.41281378 2.87093299 7.14879781 7.09510015 8.24374106 5.31545739 4.75099548"></polygon>
+                    <polygon id="路径" points="5.85837777 4.78861507 7.7015792 8.40610156 13.1598907 9.86734613 10.7870337 5.21035203"></polygon>
+                </g>
+                <path d="M20,29.75 L22,31 L22,33 L20,31.75 L20,29.75 Z" id="形状结合" fill="#FFFFFF"></path>
+                <polygon id="路径-8" fill="#EEF3F7" points="24 30 48 15 24 0 -2.80693742e-14 15"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -100,11 +100,27 @@ Object {
                         },
                       },
                       "properties": Object {
+                        "appendColumns": Object {
+                          "$$mergeBase": Object {
+                            "baseValue": Array [],
+                            "mergeType": "array",
+                            "proxies": Array [
+                              [Circular],
+                            ],
+                          },
+                          "$$reversedRef": "appendColumns",
+                          "mergeMethod": "append",
+                          "mergeProperty": "columns",
+                          "mergeType": "array",
+                          "ref": "micro-view",
+                        },
                         "button": Object {
+                          "$$reversedRef": "button",
                           "ref": "button",
                           "refProperty": "buttonName",
                         },
                         "isDanger": Object {
+                          "$$reversedRef": "isDanger",
                           "ref": "button",
                           "refTransform": Object {
                             "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
@@ -114,22 +130,27 @@ Object {
                           },
                         },
                         "noGap": Object {
+                          "$$reversedRef": "noGap",
                           "ref": "micro-view",
                           "refProperty": "noGap",
                         },
                         "sharedProp": Object {
+                          "$$reversedRef": "sharedProp",
                           "extraOneWayRefs": Array [
                             Object {
+                              "$$reversedRef": "sharedProp",
                               "ref": "input",
                               "refProperty": "sharedPropOfInput",
                             },
                             Object {
+                              "$$reversedRef": "sharedProp",
                               "ref": "link",
                               "refTransform": Object {
                                 "sharedPropOfLink": "<% \`linked:\${DATA.sharedProp}\` %>",
                               },
                             },
                             Object {
+                              "$$reversedRef": "sharedProp",
                               "ref": "micro-view",
                               "refProperty": "sharedPropOfMicroView",
                             },
@@ -140,10 +161,12 @@ Object {
                       },
                       "slots": Object {
                         "extraContent": Object {
+                          "$$reversedRef": "extraContent",
                           "ref": "micro-view",
                           "refSlot": "content",
                         },
                         "tools": Object {
+                          "$$reversedRef": "tools",
                           "ref": "micro-view",
                           "refPosition": 0,
                           "refSlot": "toolbar",
@@ -180,6 +203,7 @@ Object {
             },
           },
           Symbol(tpl.computedPropsFromProxy): Object {
+            "columns": Array [],
             "noGap": "\${QUERY.gap|bool|not}",
             "sharedPropOfMicroView": "shared",
           },
@@ -209,11 +233,27 @@ Object {
       },
     },
     "properties": Object {
+      "appendColumns": Object {
+        "$$mergeBase": Object {
+          "baseValue": Array [],
+          "mergeType": "array",
+          "proxies": Array [
+            [Circular],
+          ],
+        },
+        "$$reversedRef": "appendColumns",
+        "mergeMethod": "append",
+        "mergeProperty": "columns",
+        "mergeType": "array",
+        "ref": "micro-view",
+      },
       "button": Object {
+        "$$reversedRef": "button",
         "ref": "button",
         "refProperty": "buttonName",
       },
       "isDanger": Object {
+        "$$reversedRef": "isDanger",
         "ref": "button",
         "refTransform": Object {
           "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
@@ -223,22 +263,27 @@ Object {
         },
       },
       "noGap": Object {
+        "$$reversedRef": "noGap",
         "ref": "micro-view",
         "refProperty": "noGap",
       },
       "sharedProp": Object {
+        "$$reversedRef": "sharedProp",
         "extraOneWayRefs": Array [
           Object {
+            "$$reversedRef": "sharedProp",
             "ref": "input",
             "refProperty": "sharedPropOfInput",
           },
           Object {
+            "$$reversedRef": "sharedProp",
             "ref": "link",
             "refTransform": Object {
               "sharedPropOfLink": "<% \`linked:\${DATA.sharedProp}\` %>",
             },
           },
           Object {
+            "$$reversedRef": "sharedProp",
             "ref": "micro-view",
             "refProperty": "sharedPropOfMicroView",
           },
@@ -249,10 +294,12 @@ Object {
     },
     "slots": Object {
       "extraContent": Object {
+        "$$reversedRef": "extraContent",
         "ref": "micro-view",
         "refSlot": "content",
       },
       "tools": Object {
+        "$$reversedRef": "tools",
         "ref": "micro-view",
         "refPosition": 0,
         "refSlot": "toolbar",
@@ -265,5 +312,33 @@ Object {
     "link" => Object {},
     "micro-view" => Object {},
   },
+}
+`;
+
+exports[`expandCustomTemplate should work if proxy is empty 1`] = `
+Object {
+  "brick": "steve-test.custom-template-no-proxy",
+  "events": Object {},
+  "slots": Object {
+    "": Object {
+      "bricks": Array [
+        Object {
+          "brick": "basic-bricks.micro-view",
+          "slots": Object {},
+          Symbol(tpl.computedPropsFromProxy): Object {},
+          Symbol(tpl.refForProxy): undefined,
+          Symbol(tpl.parentTemplate): undefined,
+        },
+      ],
+      "type": "bricks",
+    },
+  },
+}
+`;
+
+exports[`expandCustomTemplate should work if proxy is empty 2`] = `
+Object {
+  "proxy": undefined,
+  "proxyRefs": Map {},
 }
 `;

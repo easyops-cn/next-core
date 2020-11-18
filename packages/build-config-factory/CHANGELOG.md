@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.1.0...@easyops/build-config-factory@2.1.1) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+# [2.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.0.18...@easyops/build-config-factory@2.1.0) (2020-11-13)
+
+### Features
+
+- **report_package:** 安装 NB 包和 NT 包时，也上报 ([19da263](https://git.easyops.local/anyclouds/next-core/commits/19da263))
+
+## [2.0.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.0.17...@easyops/build-config-factory@2.0.18) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [2.0.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.0.16...@easyops/build-config-factory@2.0.17) (2020-11-09)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
+## [2.0.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.0.15...@easyops/build-config-factory@2.0.16) (2020-11-05)
+
+**Note:** Version bump only for package @easyops/build-config-factory
+
 ## [2.0.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.0.14...@easyops/build-config-factory@2.0.15) (2020-11-03)
 
 **Note:** Version bump only for package @easyops/build-config-factory

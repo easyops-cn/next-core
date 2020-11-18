@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.14...@easyops/dev-dependencies@1.1.15) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.13...@easyops/dev-dependencies@1.1.14) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.12...@easyops/dev-dependencies@1.1.13) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.11...@easyops/dev-dependencies@1.1.12) (2020-11-13)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.10...@easyops/dev-dependencies@1.1.11) (2020-11-11)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.9...@easyops/dev-dependencies@1.1.10) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.8...@easyops/dev-dependencies@1.1.9) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.7...@easyops/dev-dependencies@1.1.8) (2020-11-09)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
+## [1.1.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.6...@easyops/dev-dependencies@1.1.7) (2020-11-05)
+
+**Note:** Version bump only for package @easyops/dev-dependencies
+
 ## [1.1.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.5...@easyops/dev-dependencies@1.1.6) (2020-11-03)
 
 ### Bug Fixes

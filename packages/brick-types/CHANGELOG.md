@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.8.0...@easyops/brick-types@2.9.0) (2020-11-17)
+
+### Features
+
+- **custom-templates:** support to proxy mergeable properties ([c55aa74](https://git.easyops.local/anyclouds/next-core/commits/c55aa74))
+
+# [2.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.7.0...@easyops/brick-types@2.8.0) (2020-11-09)
+
+### Features
+
+- support IMAGES variable ([798c90a](https://git.easyops.local/anyclouds/next-core/commits/798c90a))
+
+# [2.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.6.0...@easyops/brick-types@2.7.0) (2020-11-05)
+
+### Features
+
+- support isolatedCrash for useResolves ([1bfbfcf](https://git.easyops.local/anyclouds/next-core/commits/1bfbfcf))
+
 # [2.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.5.0...@easyops/brick-types@2.6.0) (2020-11-03)
 
 ### Features

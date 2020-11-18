@@ -31,6 +31,10 @@
     {
       "packageNames": ["antd"],
       "enabled": false
+    },
+    {
+      "packagePatterns": ["^@svgr/"],
+      "groupName": "svgr packages"
     }
   ],
   "postUpgradeTasks": {

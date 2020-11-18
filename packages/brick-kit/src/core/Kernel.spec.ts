@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import {
   loadScript,
+  prefetchScript,
   getDllAndDepsOfStoryboard,
   getDllAndDepsByResource,
   getTemplateDepsOfStoryboard,
@@ -11,12 +12,13 @@ import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
 import { InstanceApi } from "@sdk/cmdb-sdk";
-import { MountPoints } from "@easyops/brick-types";
+import { MountPoints, Storyboard } from "@easyops/brick-types";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar } from "./MenuBar";
 import { AppBar } from "./AppBar";
 import { Router } from "./Router";
+import { registerCustomTemplate } from "./CustomTemplates";
 import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 
@@ -33,6 +35,7 @@ jest.mock("./MenuBar");
 jest.mock("./AppBar");
 jest.mock("./LoadingBar");
 jest.mock("./Router");
+jest.mock("./CustomTemplates");
 jest.mock("../auth");
 
 const historyPush = jest.fn();
@@ -96,6 +99,8 @@ describe("Kernel", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    spyOnGetTemplateDepsOfStoryboard.mockReset();
+    spyOnGetDllAndDepsOfStoryboard.mockReset();
   });
 
   it("should bootstrap", async () => {
@@ -111,37 +116,6 @@ describe("Kernel", () => {
       loggedIn: true,
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
-    searchAllUsersInfo.mockResolvedValueOnce({
-      list: [
-        {
-          name: "hello",
-          instanceId: "abc",
-        },
-      ],
-    });
-    searchAllMagicBrickConfig.mockResolvedValueOnce({
-      list: [
-        {
-          _object_id: "_BRICK_MAGIC",
-          _object_version: 11,
-          _pre_ts: 1579432390,
-          _ts: 1579503251,
-          _version: 3,
-          brick: "presentational-bricks.brick-link",
-          creator: "easyops",
-          ctime: "2020-01-19 17:43:38",
-          instanceId: "59c7b02603e96",
-          modifier: "easyops",
-          mtime: "2020-01-20 14:54:11",
-          org: 8888,
-          properties: "target: _blank",
-          scene: "read",
-          selector: "HOST.ip",
-          transform:
-            'url: "/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}"\nlabel: "@{ip}"',
-        },
-      ],
-    });
     getObjectMicroAppList.mockResolvedValueOnce({
       list: [
         {
@@ -181,7 +155,8 @@ describe("Kernel", () => {
       },
     });
     await kernel.bootstrap(mountPoints);
-    expect(searchAllMagicBrickConfig).toHaveBeenCalled();
+    expect(searchAllUsersInfo).not.toBeCalled();
+    expect(searchAllMagicBrickConfig).not.toBeCalled();
     expect(spyOnAuthenticate.mock.calls[0][0]).toEqual({
       loggedIn: true,
     });
@@ -272,11 +247,34 @@ describe("Kernel", () => {
       deps: ["dep.js"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
-    await kernel.loadDepsOfStoryboard({} as any);
+    const storyboard = ({
+      app: {
+        id: "app-a",
+      },
+      meta: {
+        customTemplates: [
+          {
+            name: "tpl-a",
+            proxy: {},
+            bricks: [],
+          },
+        ],
+      },
+    } as Partial<Storyboard>) as Storyboard;
+    await kernel.loadDepsOfStoryboard(storyboard);
+    await kernel.registerCustomTemplatesInStoryboard(storyboard);
     expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
     expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
     expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
+    expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
+      "tpl-a",
+      {
+        proxy: {},
+        bricks: [],
+      },
+      "app-a"
+    );
 
     spyOnLoadScript.mockClear();
 
@@ -446,5 +444,83 @@ describe("Kernel", () => {
       expect(loadScript).toHaveBeenNthCalledWith(1, []);
       expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
     }
+  });
+
+  it("should prefetch deps of storyboard", () => {
+    kernel.bootstrapData = {} as any;
+    const storyboard = {} as any;
+    spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
+      dll: ["d3.js"],
+      deps: ["dep.js"],
+    });
+    spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
+
+    // First prefetch.
+    kernel.prefetchDepsOfStoryboard(storyboard);
+    expect(storyboard.$$depsProcessed).toBe(true);
+    // Prefetch again.
+    kernel.prefetchDepsOfStoryboard(storyboard);
+
+    expect(prefetchScript).toBeCalledTimes(2);
+    expect(prefetchScript).toHaveBeenNthCalledWith(1, ["layout.js"]);
+    expect(prefetchScript).toHaveBeenNthCalledWith(2, ["d3.js", "dep.js"]);
+  });
+
+  it("should load users async", async () => {
+    searchAllUsersInfo.mockResolvedValueOnce({
+      list: [
+        {
+          name: "hello",
+          instanceId: "abc",
+        },
+      ],
+    });
+    kernel.loadUsersAsync();
+    // Multiple invocations will trigger request only once.
+    kernel.loadUsersAsync();
+    await (global as any).flushPromises();
+    expect(searchAllUsersInfo).toBeCalledTimes(1);
+    expect(await kernel.allUserMapPromise).toMatchInlineSnapshot(`
+      Map {
+        "hello" => Object {
+          "instanceId": "abc",
+          "name": "hello",
+        },
+      }
+    `);
+  });
+
+  it("should load magic brick config async", async () => {
+    searchAllMagicBrickConfig.mockResolvedValueOnce({
+      list: [
+        {
+          brick: "presentational-bricks.brick-link",
+          instanceId: "59c7b02603e96",
+          properties: "target: _blank",
+          scene: "read",
+          selector: "HOST.ip",
+          transform:
+            'url: "/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}"\nlabel: "@{ip}"',
+        },
+      ],
+    });
+    kernel.loadMagicBrickConfigAsync();
+    // Multiple invocations will trigger request only once.
+    kernel.loadMagicBrickConfigAsync();
+    await (global as any).flushPromises();
+    expect(searchAllMagicBrickConfig).toBeCalledTimes(1);
+    expect(await kernel.allMagicBrickConfigMapPromise).toMatchInlineSnapshot(`
+      Map {
+        "HOST.ip" => Object {
+          "brick": "presentational-bricks.brick-link",
+          "instanceId": "59c7b02603e96",
+          "properties": "target: _blank",
+          "scene": "read",
+          "selector": "HOST.ip",
+          "transform": "url: \\"/next/legacy/cmdb-instance-management/HOST/instance/@{instanceId}\\"
+      label: \\"@{ip}\\"",
+        },
+      }
+    `);
   });
 });

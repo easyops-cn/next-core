@@ -1,5 +1,8 @@
 import { Storyboard, BrickPackage } from "@easyops/brick-types";
-import { scanBricksInStoryboard } from "./scanBricksInStoryboard";
+import {
+  scanBricksInStoryboard,
+  ScanBricksOptions,
+} from "./scanBricksInStoryboard";
 import { scanProcessorsInStoryboard } from "./scanProcessorsInStoryboard";
 
 interface DllAndDeps {
@@ -9,11 +12,12 @@ interface DllAndDeps {
 
 export function getDllAndDepsOfStoryboard(
   storyboard: Storyboard,
-  brickPackages: BrickPackage[]
+  brickPackages: BrickPackage[],
+  options?: ScanBricksOptions
 ): DllAndDeps {
   return getDllAndDepsByResource(
     {
-      bricks: scanBricksInStoryboard(storyboard),
+      bricks: scanBricksInStoryboard(storyboard, options),
       processors: scanProcessorsInStoryboard(storyboard),
     },
     brickPackages

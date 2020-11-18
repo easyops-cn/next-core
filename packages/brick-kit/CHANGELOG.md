@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.1...@easyops/brick-kit@2.19.2) (2020-11-17)
+
+### Bug Fixes
+
+- fetch magic brick config only when it's invoked ([19dc231](https://git.easyops.local/anyclouds/next-core/commits/19dc231))
+- fetch user info only when it's invoked ([c34e69c](https://git.easyops.local/anyclouds/next-core/commits/c34e69c))
+
+## [2.19.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.0...@easyops/brick-kit@2.19.1) (2020-11-17)
+
+### Bug Fixes
+
+- **custom-templates:** fix when a custom template has no proxy ([261409a](https://git.easyops.local/anyclouds/next-core/commits/261409a))
+
+# [2.19.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.18.0...@easyops/brick-kit@2.19.0) (2020-11-17)
+
+### Bug Fixes
+
+- **custom-templates:** fix when refPosition is negative ([786082c](https://git.easyops.local/anyclouds/next-core/commits/786082c))
+
+### Features
+
+- **custom-templates:** support to proxy mergeable properties ([c55aa74](https://git.easyops.local/anyclouds/next-core/commits/c55aa74))
+
+# [2.18.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.17.0...@easyops/brick-kit@2.18.0) (2020-11-13)
+
+### Features
+
+- load bricks on demand by route ([ecc5ee2](https://git.easyops.local/anyclouds/next-core/commits/ecc5ee2))
+- prefetch deps of full storyboard during idle time ([9b1eff3](https://git.easyops.local/anyclouds/next-core/commits/9b1eff3))
+
+# [2.17.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.16.1...@easyops/brick-kit@2.17.0) (2020-11-11)
+
+### Features
+
+- new ApiAnalysis ([b183635](https://git.easyops.local/anyclouds/next-core/commits/b183635))
+
+## [2.16.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.16.0...@easyops/brick-kit@2.16.1) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [2.16.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.15.0...@easyops/brick-kit@2.16.0) (2020-11-09)
+
+### Features
+
+- support IMAGES variable ([798c90a](https://git.easyops.local/anyclouds/next-core/commits/798c90a))
+
+# [2.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.14.0...@easyops/brick-kit@2.15.0) (2020-11-05)
+
+### Features
+
+- support isolatedCrash for useResolves ([1bfbfcf](https://git.easyops.local/anyclouds/next-core/commits/1bfbfcf))
+
 # [2.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.13.2...@easyops/brick-kit@2.14.0) (2020-11-03)
 
 ### Features

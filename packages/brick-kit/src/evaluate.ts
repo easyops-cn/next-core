@@ -9,6 +9,7 @@ import {
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
+import { getUrlByImageFactory } from "./image";
 import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "./core/exports";
 
@@ -132,6 +133,7 @@ export function evaluate(
     flags,
     hash,
     segues,
+    images,
     storyboardContext,
   } = _internalApiGetCurrentContext();
 
@@ -182,6 +184,12 @@ export function evaluate(
   if (attemptToVisitGlobals.has("ALIAS")) {
     globalVariables.ALIAS = {
       getUrl: getUrlByAliasFactory(app),
+    };
+  }
+
+  if (attemptToVisitGlobals.has("IMAGES")) {
+    globalVariables.IMAGES = {
+      getUrl: getUrlByImageFactory(images),
     };
   }
 

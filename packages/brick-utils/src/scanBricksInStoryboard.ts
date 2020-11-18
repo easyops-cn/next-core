@@ -16,24 +16,49 @@ import {
 import { uniq } from "lodash";
 import { isObject } from "./isObject";
 
+export interface ScanBricksOptions {
+  keepDuplicates?: boolean;
+  ignoreBricksInCustomTemplates?: boolean;
+}
+
+/**
+ * Scan bricks in storyboard.
+ *
+ * @param storyboard - Storyboard.
+ * @param options - If options is a boolean, it means `isUniq` or `de-duplicate`.
+ */
 export function scanBricksInStoryboard(
   storyboard: Storyboard,
-  isUniq = true
+  options: boolean | ScanBricksOptions = true
 ): string[] {
+  const { keepDuplicates, ignoreBricksInCustomTemplates } = isObject(options)
+    ? options
+    : ({
+        keepDuplicates: !options,
+      } as ScanBricksOptions);
+
   const collection: string[] = [];
-  const selfDefined = new Set<string>();
   collectBricksInRouteConfs(storyboard.routes, collection);
+
+  // When ignoring bricks in custom templates,
+  // just collect them into a different collection.
+  const collectionForCustomTemplates = ignoreBricksInCustomTemplates
+    ? []
+    : collection;
+
+  const selfDefined = new Set<string>();
   collectBricksInCustomTemplates(
     storyboard.meta?.customTemplates,
-    collection,
+    collectionForCustomTemplates,
     selfDefined
   );
+
   // Ignore non-custom-elements and self-defined custom templates and custom api providers.
   const result = collection.filter(
     (item) =>
       !item.includes("@") && item.includes("-") && !selfDefined.has(item)
   );
-  return isUniq ? uniq(result) : result;
+  return keepDuplicates ? result : uniq(result);
 }
 
 export function scanBricksInBrickConf(

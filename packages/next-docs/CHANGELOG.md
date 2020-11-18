@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.19...@easyops/next-docs@1.0.20) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/next-docs
+
+## [1.0.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.18...@easyops/next-docs@1.0.19) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/next-docs
+
+## [1.0.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.17...@easyops/next-docs@1.0.18) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/next-docs
+
+## [1.0.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.16...@easyops/next-docs@1.0.17) (2020-11-13)
+
+**Note:** Version bump only for package @easyops/next-docs
+
+## [1.0.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.15...@easyops/next-docs@1.0.16) (2020-11-11)
+
+**Note:** Version bump only for package @easyops/next-docs
+
+## [1.0.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.14...@easyops/next-docs@1.0.15) (2020-11-10)
+
+### Bug Fixes
+
+- update @easyops-cn/brick-next-pipes ([17fbb76](https://git.easyops.local/anyclouds/next-core/commits/17fbb76))
+
+## [1.0.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.13...@easyops/next-docs@1.0.14) (2020-11-09)
+
+### Bug Fixes
+
+- integrate with pipe docs ([ed7acb3](https://git.easyops.local/anyclouds/next-core/commits/ed7acb3))
+- integrate with pipe list ([36c0a9d](https://git.easyops.local/anyclouds/next-core/commits/36c0a9d))
+
+## [1.0.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.12...@easyops/next-docs@1.0.13) (2020-11-05)
+
+**Note:** Version bump only for package @easyops/next-docs
+
 ## [1.0.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.0.11...@easyops/next-docs@1.0.12) (2020-11-03)
 
 **Note:** Version bump only for package @easyops/next-docs

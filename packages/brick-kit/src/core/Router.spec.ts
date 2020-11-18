@@ -10,19 +10,26 @@ import {
 } from "./LocationContext";
 import { mountTree, mountStaticNode } from "./reconciler";
 import { getAuth, isLoggedIn } from "../auth";
+import { getRuntime } from "../runtime";
+import { apiAnalyzer } from "@easyops/easyops-analytics";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
 jest.mock("./reconciler");
 jest.mock("../auth");
 jest.mock("../themeAndMode");
-
+jest.mock("../runtime");
+jest.mock("@easyops/easyops-analytics");
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
 (getAuth as jest.Mock).mockReturnValue({});
+
+(getRuntime as jest.Mock).mockImplementation(() => ({
+  getFeatureFlags: () => ({ "enable-analyzer": false }),
+}));
 
 let historyListeners: LocationListener[] = [];
 const mockHistoryPush = (location: Partial<Location>): void => {
@@ -101,12 +108,15 @@ describe("Router", () => {
     getPreviousWorkspace: jest.fn(),
     getRecentApps: jest.fn(),
     loadDepsOfStoryboard: jest.fn(),
+    registerCustomTemplatesInStoryboard: jest.fn(),
     fulfilStoryboard: jest.fn(),
     loadMicroAppApiOrchestrationAsync: jest.fn(),
+    prefetchDepsOfStoryboard: jest.fn(),
   } as unknown) as Kernel;
 
   beforeEach(() => {
     router = new Router(kernel);
+    apiAnalyzer.create({ api: "fake-api" });
   });
 
   afterEach(() => {
@@ -153,8 +163,10 @@ describe("Router", () => {
     expect(kernel.toggleBars).not.toBeCalled();
     expect(kernel.firstRendered).toBeCalled();
     expect(kernel.loadDepsOfStoryboard).toBeCalled();
+    expect(kernel.registerCustomTemplatesInStoryboard).toBeCalled();
     expect(kernel.fulfilStoryboard).toBeCalled();
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
+    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {

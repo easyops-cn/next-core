@@ -24,6 +24,7 @@ import {
   StoryboardContextItem,
   MessageConf,
   BrickLifeCycle,
+  Storyboard,
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -55,6 +56,10 @@ import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
 import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
 import { getRuntimeMisc } from "../misc";
 import { httpErrorToString } from "../handleHttpError";
+import {
+  getSubStoryboardByRoute,
+  SubStoryboardMatcher,
+} from "./getSubStoryboardByRoute";
 
 export type MatchRoutesResult =
   | {
@@ -130,6 +135,7 @@ export class LocationContext {
       query: this.query,
       match,
       app: this.kernel.nextApp,
+      images: this.kernel.nextAppMeta?.images,
       sys: {
         org: auth.org,
         username: auth.username,
@@ -239,6 +245,14 @@ export class LocationContext {
         }
       }
     }
+  }
+
+  getSubStoryboardByRoute(storyboard: Storyboard): Storyboard {
+    const matcher: SubStoryboardMatcher = (routes) => {
+      const matched = this.matchRoutes(routes, storyboard.app);
+      return isObject(matched) ? [matched.route] : [];
+    };
+    return getSubStoryboardByRoute(storyboard, matcher);
   }
 
   async mountRoutes(
@@ -605,7 +619,8 @@ export class LocationContext {
           // Properties are computed for custom templates.
           properties: brick.properties,
         },
-        brick
+        brick,
+        context
       );
 
       // Try to load deps for dynamic added bricks.

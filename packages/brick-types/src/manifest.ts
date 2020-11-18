@@ -1247,6 +1247,8 @@ export interface StoryboardMeta {
 
   /** {@inheritDoc MetaI18n} */
   i18n?: MetaI18n;
+
+  images?: MetaImage[];
 }
 
 /**
@@ -1264,6 +1266,16 @@ export interface StoryboardMeta {
  * ```
  */
 export type MetaI18n = Record<string, Record<string, string>>;
+
+/**
+ * 图片配置。
+ */
+export interface MetaImage {
+  /** 图片名称。 */
+  name: string;
+  /** 图片url。 */
+  url: string;
+}
 
 /**
  * 自定义模板配置。
@@ -1349,14 +1361,12 @@ export interface CustomTemplateProxyProperties {
 /** 自定义模板的属性代理配置。 */
 export type CustomTemplateProxyProperty =
   | CustomTemplateProxyBasicProperty
-  | CustomTemplateProxyTransformableProperty;
+  | CustomTemplateProxyTransformableProperty
+  | CustomTemplateProxyMergeableProperty;
 
 /** 自定义模板的基本属性代理配置。 */
 export interface CustomTemplateProxyBasicProperty
   extends CustomTemplateProxyWithExtra {
-  /** 要代理的构件的引用 ID。 */
-  ref: string;
-
   /** 要代理的构件的属性名。 */
   refProperty: string;
 }
@@ -1364,25 +1374,59 @@ export interface CustomTemplateProxyBasicProperty
 /** 自定义模板的可转换的属性代理配置。 */
 export interface CustomTemplateProxyTransformableProperty
   extends CustomTemplateProxyWithExtra {
-  /** {@inheritDoc CustomTemplateProxyBasicProperty.ref} */
-  ref: string;
-
   /** 要代理的构件的属性转换设置。 */
   refTransform: GeneralTransform;
 }
 
+/** 自定义模板的可合并的属性代理配置。 */
+export type CustomTemplateProxyMergeableProperty =
+  | CustomTemplateProxyMergeablePropertyOfArray
+  | CustomTemplateProxyMergeablePropertyOfObject;
+
+/** 自定义模板的可合并的属性代理配置基类型。 */
+export interface CustomTemplateProxyMergeablePropertyBase
+  extends CustomTemplateProxyWithExtra {
+  /** 要合并到的构件的属性名。 */
+  mergeProperty: string;
+}
+
+/** 自定义模板的可合并的数组属性代理配置。 */
+export interface CustomTemplateProxyMergeablePropertyOfArray
+  extends CustomTemplateProxyMergeablePropertyBase {
+  /** 合并类型。 */
+  mergeType: "array";
+
+  /** 合并方法。 */
+  mergeMethod: "append" | "prepend" | "insertAt";
+
+  /** 合并参数。 */
+  mergeArgs?: unknown[];
+}
+
+/** 自定义模板的可合并的对象属性代理配置。 */
+export interface CustomTemplateProxyMergeablePropertyOfObject
+  extends CustomTemplateProxyMergeablePropertyBase {
+  /** {@inheritDoc CustomTemplateProxyMergeablePropertyOfArray.mergeType} */
+  mergeType: "object";
+
+  /** {@inheritDoc CustomTemplateProxyMergeablePropertyOfArray.mergeMethod} */
+  mergeMethod: "extend";
+}
+
 export interface CustomTemplateProxyWithExtra {
+  /** 要代理的构件的引用 ID。 */
+  ref: string;
+
   /** {@inheritDoc CustomTemplateProxyExtraOneWayRef} */
   extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
 }
 
 /** 额外的单向（由模板传输给内部构件）属性代理配置。 */
 export type CustomTemplateProxyExtraOneWayRef =
-  | Omit<CustomTemplateProxyBasicProperty, keyof CustomTemplateProxyWithExtra>
-  | Omit<
-      CustomTemplateProxyTransformableProperty,
-      keyof CustomTemplateProxyWithExtra
-    >;
+  | Omit<CustomTemplateProxyBasicProperty, "extraOneWayRefs">
+  | Omit<CustomTemplateProxyTransformableProperty, "extraOneWayRefs">
+  | Omit<CustomTemplateProxyMergeablePropertyOfArray, "extraOneWayRefs">
+  | Omit<CustomTemplateProxyMergeablePropertyOfObject, "extraOneWayRefs">;
 
 /**
  * 自定义模板的事件代理配置表。
@@ -1399,7 +1443,7 @@ export interface CustomTemplateProxyEvents {
  * 自定义模板的事件代理配置。
  */
 export interface CustomTemplateProxyEvent {
-  /** {@inheritDoc CustomTemplateProxyBasicProperty.ref} */
+  /** {@inheritDoc CustomTemplateProxyWithExtra.ref} */
   ref: string;
 
   /** 要代理的事件类型名。 */
@@ -1421,7 +1465,7 @@ export interface CustomTemplateProxySlots {
  * 自定义模板的插槽代理配置。
  */
 export interface CustomTemplateProxySlot {
-  /** {@inheritDoc CustomTemplateProxyBasicProperty.ref} */
+  /** {@inheritDoc CustomTemplateProxyWithExtra.ref} */
   ref: string;
 
   /** 要代理的插槽名。 */
@@ -1446,7 +1490,7 @@ export interface CustomTemplateProxyMethods {
  * 自定义模板的方法代理配置。
  */
 export interface CustomTemplateProxyMethod {
-  /** {@inheritDoc CustomTemplateProxyBasicProperty.ref} */
+  /** {@inheritDoc CustomTemplateProxyWithExtra.ref} */
   ref: string;
 
   /** 要代理的方法名。 */

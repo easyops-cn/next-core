@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.2...@easyops/brick-container@2.9.3) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.9.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.1...@easyops/brick-container@2.9.2) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.9.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.0...@easyops/brick-container@2.9.1) (2020-11-17)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [2.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.8.0...@easyops/brick-container@2.9.0) (2020-11-13)
+
+### Features
+
+- **report_package:** 安装 NB 包和 NT 包时，也上报 ([19da263](https://git.easyops.local/anyclouds/next-core/commits/19da263))
+
+# [2.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.10...@easyops/brick-container@2.8.0) (2020-11-11)
+
+### Bug Fixes
+
+- fix link hover style ([c154664](https://git.easyops.local/anyclouds/next-core/commits/c154664))
+
+### Features
+
+- new ApiAnalysis ([b183635](https://git.easyops.local/anyclouds/next-core/commits/b183635))
+
+## [2.7.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.9...@easyops/brick-container@2.7.10) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.7.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.8...@easyops/brick-container@2.7.9) (2020-11-10)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.7.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.7...@easyops/brick-container@2.7.8) (2020-11-09)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.7.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.6...@easyops/brick-container@2.7.7) (2020-11-05)
+
+### Bug Fixes
+
+- **serve:** enable merge-settings by default in remote mode ([3e6c3f8](https://git.easyops.local/anyclouds/next-core/commits/3e6c3f8))
+- **serve:** fix when remote has no `misc` ([9e82e13](https://git.easyops.local/anyclouds/next-core/commits/9e82e13))
+
 ## [2.7.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.7.5...@easyops/brick-container@2.7.6) (2020-11-03)
 
 **Note:** Version bump only for package @easyops/brick-container
