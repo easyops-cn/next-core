@@ -52,12 +52,12 @@
     "pretty-format": "^26.6.2",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",
-    "size-limit": "^4.7.0",
+    "size-limit": "^4.8.0",
     "typescript": "~4.0.5",
     "yargs": "^16.1.1"
   },
   "devDependencies": {
-    "@size-limit/file": "^4.7.0",
+    "@size-limit/file": "^4.8.0",
     "@types/classnames": "^2.2.11",
     "@types/d3": "^6.2.0",
     "@types/dompurify": "^2.0.4",
