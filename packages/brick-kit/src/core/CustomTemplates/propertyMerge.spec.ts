@@ -1,10 +1,7 @@
 import { BrickConfInTemplate } from "@easyops/brick-types";
-import { MergeablePropertyProxy, MergeBase, PropertyProxy } from "./interfaces";
-import {
-  collectMergeBases,
-  propertyMerge,
-  propertyMergeAll,
-} from "./propertyMerge";
+import { MergeablePropertyProxy, PropertyProxy } from "../internalInterfaces";
+import { propertyMerge, propertyMergeAll } from "./propertyMerge";
+import { collectMergeBases } from "./collectMergeBases";
 
 describe("propertyMerge", () => {
   let proxyProperties: Record<string, MergeablePropertyProxy>;
