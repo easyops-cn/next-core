@@ -224,11 +224,17 @@ export class Runtime implements AbstractRuntime {
 
 /* istanbul ignore next */
 export function _internalApiGetResolver(): Resolver {
+  if (process.env.NODE_ENV === "test") {
+    return { resolve: () => Promise.resolve() } as any;
+  }
   return kernel.router.getResolver();
 }
 
 /* istanbul ignore next */
 export function _internalApiGetRouterState(): RouterState {
+  if (process.env.NODE_ENV === "test") {
+    return "mounted";
+  }
   return kernel.router.getState();
 }
 
