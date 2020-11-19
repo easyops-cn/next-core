@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.2.3...@easyops/custom-antd-styles@1.3.0) (2020-11-19)
+
+### Features
+
+- **modal:** UI 6.1 样式 ([8fcb40b](https://git.easyops.local/anyclouds/next-core/commits/8fcb40b))
+
 ## [1.2.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.2.2...@easyops/custom-antd-styles@1.2.3) (2020-11-11)
 
 ### Bug Fixes
