@@ -20,7 +20,7 @@ dependencies:
   - name: nginx
     version: ^3.5.5
   - name: ucpro_desktop_service
-    version: ^1.13.0
+    version: ^1.13.1
   - name: api_service
     version: ^1.0.6
   - name: api_service-R
