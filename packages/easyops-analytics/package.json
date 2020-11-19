@@ -1,6 +1,6 @@
 {
   "name": "@easyops/easyops-analytics",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/easyops-analytics",
   "license": "UNLICENSED",
@@ -25,7 +25,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops/brick-http": "^2.2.0"
+    "@easyops/brick-http": "^2.2.1"
   },
   "peerDependencies": {
     "@easyops/brick-http": "*"
