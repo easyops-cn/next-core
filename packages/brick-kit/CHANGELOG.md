@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.3...@easyops/brick-kit@2.20.0) (2020-11-20)
+
+### Bug Fixes
+
+- fix not loading bricks in useBrick.slots ([46b1e05](https://git.easyops.local/anyclouds/next-core/commits/46b1e05))
+
+### Features
+
+- **api-orchestration:** set fields ([747ad72](https://git.easyops.local/anyclouds/next-core/commits/747ad72))
+
 ## [2.19.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.2...@easyops/brick-kit@2.19.3) (2020-11-19)
 
 **Note:** Version bump only for package @easyops/brick-kit
