@@ -1,7 +1,7 @@
 import { set } from "lodash";
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject, inject, isEvaluable } from "@easyops/brick-utils";
-import { evaluate, isPreEvaluated } from "./evaluate";
+import { evaluate, EvaluateRuntimeContext, isPreEvaluated } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
 interface ComputeOptions {
@@ -11,27 +11,30 @@ interface ComputeOptions {
 }
 
 export const computeRealValue = (
-  value: any,
+  value: unknown,
   context: PluginRuntimeContext,
   injectDeep?: boolean,
   internalOptions?: ComputeOptions
-): any => {
+): unknown => {
   const preEvaluated = isPreEvaluated(value);
 
   if (preEvaluated || typeof value === "string") {
-    let result: any;
-    if (preEvaluated || isEvaluable(value)) {
-      const runtimeContext: any = {};
+    let result: unknown;
+    if (preEvaluated || isEvaluable(value as string)) {
+      const runtimeContext: EvaluateRuntimeContext = {};
       if (context?.event) {
         runtimeContext.event = context.event;
       }
-      result = evaluate(value, runtimeContext, {
+      if (context?.getTplVariables) {
+        runtimeContext.getTplVariables = context.getTplVariables;
+      }
+      result = evaluate(value as string, runtimeContext, {
         lazy:
           internalOptions?.$$lazyForUseBrickEvents &&
           internalOptions.$$inUseBrickEventsNow,
       });
     } else {
-      result = inject(value, context);
+      result = inject(value as string, context);
     }
     recursiveMarkAsInjected(result);
     return result;
@@ -47,9 +50,9 @@ export const computeRealValue = (
         computeRealValue(v, context, injectDeep, internalOptions)
       );
     } else {
-      newValue = Object.entries(value).reduce<Record<string, any>>(
+      newValue = Object.entries(value).reduce<Record<string, unknown>>(
         (acc, [k, v]) => {
-          k = computeRealValue(k, context, false);
+          k = computeRealValue(k, context, false) as string;
           let newOptions = internalOptions;
           if (internalOptions?.$$lazyForUseBrickEvents) {
             newOptions = {
@@ -73,7 +76,7 @@ export const computeRealValue = (
 
 export function setProperties(
   bricks: HTMLElement | HTMLElement[],
-  properties: Record<string, any>,
+  properties: Record<string, unknown>,
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): void {
@@ -88,35 +91,37 @@ export function setProperties(
 
 export function setRealProperties(
   brick: HTMLElement,
-  realProps: Record<string, any>,
+  realProps: Record<string, unknown>,
   extractProps?: boolean
 ): void {
   for (const [propName, propValue] of Object.entries(realProps)) {
     if (propName === "style") {
       for (const [styleName, styleValue] of Object.entries(propValue)) {
-        (brick.style as any)[styleName] = styleValue;
+        ((brick.style as unknown) as Record<string, unknown>)[
+          styleName
+        ] = styleValue;
       }
     } else if (propName === "innerHTML") {
       // `innerHTML` is dangerous, use `textContent` instead.
       // eslint-disable-next-line no-console
       console.error("Please use `textContent` instead of `innerHTML`.");
-      brick.textContent = propValue;
+      brick.textContent = propValue as string;
     } else {
       if (extractProps) {
         set(brick, propName, propValue);
       } else {
-        (brick as any)[propName] = propValue;
+        ((brick as unknown) as Record<string, unknown>)[propName] = propValue;
       }
     }
   }
 }
 
 export function computeRealProperties(
-  properties: Record<string, any>,
+  properties: Record<string, unknown>,
   context: PluginRuntimeContext,
   injectDeep?: boolean
-): any {
-  const result: Record<string, any> = {};
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
 
   if (isObject(properties)) {
     for (const [propName, propValue] of Object.entries(properties)) {

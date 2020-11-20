@@ -182,6 +182,8 @@ export interface PluginRuntimeContext {
   storyboardContext?: StoryboardContext;
 
   images?: MetaImage[];
+
+  getTplVariables?: () => Record<string, unknown>;
 }
 
 /** @internal */

@@ -4,7 +4,11 @@ import {
 } from "@easyops/brick-types";
 import { transformElementProperties } from "../../transformProperties";
 import { RuntimeBrick } from "../BrickNode";
-import { isMergeableProperty, isTransformableProperty } from "./assertions";
+import {
+  isMergeableProperty,
+  isRefProperty,
+  isTransformableProperty,
+} from "./assertions";
 import { propertyMerge } from "./propertyMerge";
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
@@ -33,9 +37,9 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
   const handleExtraOneWayRefs = (
     propName: string,
     propRef: CustomTemplateProxyProperty,
-    value: any
+    value: unknown
   ): void => {
-    if (Array.isArray(propRef.extraOneWayRefs)) {
+    if (isRefProperty(propRef) && Array.isArray(propRef.extraOneWayRefs)) {
       for (const extraRef of propRef.extraOneWayRefs) {
         const extraRefElement = getElementByRef(extraRef.ref) as any;
         // should always have refElement.
@@ -43,7 +47,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
         if (extraRefElement) {
           if (isTransformableProperty(extraRef)) {
             transformElementProperties(
-              extraRefElement,
+              extraRefElement as HTMLElement,
               {
                 [propName]: value,
               },
@@ -65,7 +69,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
     }
   };
 
-  const { properties, events, methods } = brick.proxy;
+  const { $$properties: properties, events, methods } = brick.proxy;
   if (properties) {
     for (const [propName, propRef] of Object.entries(properties)) {
       const refElement = getElementByRef(propRef.ref) as any;
@@ -127,7 +131,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
           if (e.bubbles) {
             e.stopPropagation();
           }
-          node.dispatchEvent(
+          (node as HTMLElement).dispatchEvent(
             new CustomEvent(eventType, {
               detail: (e as CustomEvent).detail,
               bubbles: e.bubbles,
@@ -147,7 +151,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
       // istanbul ignore else
       if (refElement) {
         Object.defineProperty(node, method, {
-          value: function (...args: any[]) {
+          value: function (...args: unknown[]) {
             return refElement[methodRef.refMethod](...args);
           },
         });

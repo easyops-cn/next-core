@@ -6,6 +6,7 @@ import {
   transformElementProperties,
 } from "./transformProperties";
 import * as runtime from "./core/Runtime";
+import { PreEvaluated } from "./evaluate";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
 
@@ -347,6 +348,19 @@ describe("doTransform", () => {
       {
         value: "id=",
       },
+    ],
+    [
+      {
+        [Symbol.for(
+          "pre.evaluated.raw"
+        )]: "<% `${TPL.label}: ${DATA.hello}` %>",
+        [Symbol.for("pre.evaluated.context")]: {
+          getTplVariables: () => ({
+            label: "quality",
+          }),
+        },
+      },
+      "quality: good",
     ],
   ])('doTransform({hello:"good"}, %j, %j) should return %j', (to, result) => {
     expect(doTransform(data, to)).toEqual(result);

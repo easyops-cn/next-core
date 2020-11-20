@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import { evaluate } from "./evaluate";
+import { evaluate, PreEvaluated } from "./evaluate";
 import * as runtime from "./core/Runtime";
 import { registerCustomProcessor } from "./core/exports";
 import { devtoolsHookEmit } from "./devtools";
@@ -13,6 +13,8 @@ i18next.addResourceBundle("en", "$app-hello", {
   HELLO: "Hello",
   COUNT_ITEMS: "Total {{count}} items",
 });
+
+jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
@@ -59,7 +61,7 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
       target: "segue-target",
     },
   },
-  storyboardContext: new Map<string, any>([
+  storyboardContext: new Map<string, unknown>([
     [
       "myFreeContext",
       {
@@ -155,11 +157,24 @@ describe("evaluate", () => {
     ).toEqual(result);
   });
 
+  it.each<[string, any]>([
+    ["<% [] %>", []],
+    ["<% TPL.quality %>", "good"],
+  ])("evaluate(%j, { getTplVariables }) should return %j", (raw, result) => {
+    expect(
+      evaluate(raw, {
+        getTplVariables: () => ({
+          quality: "good",
+        }),
+      })
+    ).toEqual(result);
+  });
+
   it("should work when using both `EVENT` and `DATA`", () => {
     // Simulate a transformation with `EVENT`
     const preEvaluated = evaluate("<% EVENT.detail + DATA %>", {
       data: 2,
-    });
+    }) as PreEvaluated;
     expect(preEvaluated).toEqual({
       [Symbol.for("pre.evaluated.raw")]: "<% EVENT.detail + DATA %>",
       [Symbol.for("pre.evaluated.context")]: {
@@ -177,6 +192,60 @@ describe("evaluate", () => {
     ).toEqual(5);
   });
 
+  it("should work when using both `EVENT` and `TPL`", () => {
+    const preEvaluated = evaluate("<% EVENT.detail + TPL.num %>", {
+      getTplVariables: () => ({
+        num: 2,
+      }),
+    }) as PreEvaluated;
+
+    // Simulate an event dispatching after a transformation.
+    expect(
+      evaluate(preEvaluated, {
+        event: new CustomEvent("something.happen", {
+          detail: 3,
+        }),
+      })
+    ).toEqual(5);
+  });
+
+  it("should work when using both `DATA` and `TPL`", () => {
+    const preEvaluated = evaluate("<% DATA + TPL.num %>", {
+      getTplVariables: () => ({
+        num: 2,
+      }),
+    }) as PreEvaluated;
+
+    // Simulate an event dispatching after a transformation.
+    expect(
+      evaluate(preEvaluated, {
+        data: 3,
+      })
+    ).toEqual(5);
+  });
+
+  it("should work when using all `EVENT`, `DATA` and `TPL`", () => {
+    const preEvaluated = evaluate("<% EVENT.detail + DATA + TPL.num %>", {
+      getTplVariables: () => ({
+        num: 2,
+      }),
+    }) as PreEvaluated;
+
+    // Simulate an event dispatching after a transformation.
+    expect(
+      evaluate(
+        evaluate(preEvaluated, {
+          data: 3,
+        }) as PreEvaluated,
+        {
+          event: new CustomEvent("something.happen", {
+            detail: 4,
+          }),
+        }
+      )
+    ).toEqual(9);
+  });
+
   it("should work when set lazy", () => {
     const preEvaluated = evaluate(
       "<% DATA %>",
@@ -186,7 +255,7 @@ describe("evaluate", () => {
       {
         lazy: true,
       }
-    );
+    ) as PreEvaluated;
     expect(preEvaluated).toEqual({
       [Symbol.for("pre.evaluated.raw")]: "<% DATA %>",
       [Symbol.for("pre.evaluated.context")]: {

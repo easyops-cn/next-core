@@ -1,26 +1,38 @@
 import {
+  CustomTemplateProxy,
   CustomTemplateProxyMergeableProperty,
   CustomTemplateProxyMergeablePropertyOfArray,
   CustomTemplateProxyMergeablePropertyOfObject,
-  CustomTemplateProxyProperty,
+  CustomTemplateProxyRefProperty,
+  PluginRuntimeContext,
 } from "@easyops/brick-types";
 
 /** @internal */
-interface RuntimeExtraPropertyProxy {
+export interface RuntimeCustomTemplateProxy extends CustomTemplateProxy {
+  $$properties?: RuntimeCustomTemplateProxyProperties;
+}
+
+/** @internal */
+export interface RuntimeCustomTemplateProxyProperties {
+  [name: string]: PropertyProxy;
+}
+
+/** @internal */
+export interface RuntimeExtraPropertyProxy {
   $$reversedRef?: string;
   $$mergeBase?: MergeBase;
 }
 
-export type PropertyProxy = CustomTemplateProxyProperty & {
-  $$reversedRef?: string;
-  $$mergeBase?: MergeBase;
-};
+/** @internal */
+export type PropertyProxy = CustomTemplateProxyRefProperty &
+  RuntimeExtraPropertyProxy;
 
 /** @internal */
 export interface MergeBase {
   proxies: MergeablePropertyProxy[];
   mergeType: CustomTemplateProxyMergeableProperty["mergeType"];
   baseValue: unknown;
+  context: PluginRuntimeContext;
 }
 
 /** @internal */

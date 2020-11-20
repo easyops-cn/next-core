@@ -1,5 +1,6 @@
 import { RuntimeBrick } from "../BrickNode";
 import * as runtime from "../Runtime";
+import { CustomTemplateContext } from "./CustomTemplateContext";
 import { expandCustomTemplate } from "./expandCustomTemplate";
 import { getTagNameOfCustomTemplate } from "./getTagNameOfCustomTemplate";
 import { registerCustomTemplate } from "./registerCustomTemplate";
@@ -207,7 +208,8 @@ describe("expandCustomTemplate", () => {
         },
       },
       proxyBrick,
-      {} as any
+      {} as any,
+      new CustomTemplateContext()
     );
 
     expect(expanded).toMatchSnapshot();
@@ -223,7 +225,8 @@ describe("expandCustomTemplate", () => {
         events: {},
       },
       proxyBrick,
-      {} as any
+      {} as any,
+      new CustomTemplateContext()
     );
 
     expect(expanded).toMatchSnapshot();

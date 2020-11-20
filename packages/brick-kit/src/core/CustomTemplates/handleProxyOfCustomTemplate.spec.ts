@@ -38,6 +38,9 @@ describe("handleProxyOfCustomTemplate", () => {
               ref: "micro-view",
               refProperty: "noGap",
             },
+            quality: {
+              asVariable: true,
+            },
           },
           events: {
             "button.click": {
@@ -86,7 +89,7 @@ describe("handleProxyOfCustomTemplate", () => {
     const brick: RuntimeBrick = {
       element: tplElement,
       proxy: {
-        properties: {
+        $$properties: {
           button: {
             ref: "button",
             refProperty: "buttonName",

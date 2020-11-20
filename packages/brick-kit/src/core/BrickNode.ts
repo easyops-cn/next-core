@@ -2,10 +2,10 @@ import {
   PluginRuntimeContext,
   BrickLifeCycle,
   RefForProxy,
-  CustomTemplateProxy,
 } from "@easyops/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
+import { RuntimeCustomTemplateProxy } from "./CustomTemplates/internalInterfaces";
 import {
   handleProxyOfCustomTemplate,
   symbolForParentTemplate,
@@ -24,7 +24,7 @@ export interface RuntimeBrick {
   lifeCycle?: BrickLifeCycle;
   element?: HTMLElement;
   bg?: boolean;
-  proxy?: CustomTemplateProxy;
+  proxy?: RuntimeCustomTemplateProxy;
   proxyRefs?: Map<string, RefForProxy>;
   refForProxy?: {
     brick?: RuntimeBrick;

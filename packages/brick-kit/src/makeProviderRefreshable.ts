@@ -115,11 +115,11 @@ export function makeProviderRefreshable(
                       brick.element,
                       error,
                       brick.context
-                        ? computeRealValue(
+                        ? (computeRealValue(
                             onRejectTransform,
                             brick.context,
                             true
-                          )
+                          ) as GeneralTransform)
                         : onRejectTransform
                     );
                   }
@@ -133,11 +133,11 @@ export function makeProviderRefreshable(
                 data = transformIntermediateData(
                   data,
                   brick.context
-                    ? computeRealValue(
+                    ? (computeRealValue(
                         intermediateTransform,
                         brick.context,
                         true
-                      )
+                      ) as GeneralTransform)
                     : intermediateTransform,
                   intermediateTransformFrom,
                   intermediateTransformMapArray
@@ -148,7 +148,11 @@ export function makeProviderRefreshable(
                 brick.element,
                 data,
                 brick.context
-                  ? computeRealValue(transform, brick.context, true)
+                  ? (computeRealValue(
+                      transform,
+                      brick.context,
+                      true
+                    ) as GeneralTransform)
                   : transform,
                 transformFrom,
                 transformMapArray

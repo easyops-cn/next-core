@@ -1360,6 +1360,11 @@ export interface CustomTemplateProxyProperties {
 
 /** 自定义模板的属性代理配置。 */
 export type CustomTemplateProxyProperty =
+  | CustomTemplateProxyRefProperty
+  | CustomTemplateProxyVariableProperty;
+
+/** 自定义模板引用内部构件属性的属性代理配置 */
+export type CustomTemplateProxyRefProperty =
   | CustomTemplateProxyBasicProperty
   | CustomTemplateProxyTransformableProperty
   | CustomTemplateProxyMergeableProperty;
@@ -1427,6 +1432,11 @@ export type CustomTemplateProxyExtraOneWayRef =
   | Omit<CustomTemplateProxyTransformableProperty, "extraOneWayRefs">
   | Omit<CustomTemplateProxyMergeablePropertyOfArray, "extraOneWayRefs">
   | Omit<CustomTemplateProxyMergeablePropertyOfObject, "extraOneWayRefs">;
+
+/** 自定义模板的当作变量供内部构件引用的属性代理配置。 */
+export interface CustomTemplateProxyVariableProperty {
+  asVariable: true;
+}
 
 /**
  * 自定义模板的事件代理配置表。

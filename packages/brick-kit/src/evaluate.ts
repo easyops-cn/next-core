@@ -16,17 +16,21 @@ import { customProcessorRegistry } from "./core/exports";
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
 
-interface PreEvaluated {
+export interface PreEvaluated {
   [symbolForRaw]: string;
-  [symbolForContext]: {
-    data?: any;
-  };
+  [symbolForContext]: EvaluateRuntimeContext;
 }
 
 export interface EvaluateOptions {
   lazy?: boolean;
   isReEvaluation?: boolean;
   evaluationId?: number;
+}
+
+export interface EvaluateRuntimeContext {
+  event?: CustomEvent;
+  data?: unknown;
+  getTplVariables?: () => Record<string, unknown>;
 }
 
 export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
@@ -36,12 +40,9 @@ export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
 // `raw` should always be asserted to `isEvaluable` or `isPreEvaluated`.
 export function evaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
-  runtimeContext: {
-    event?: CustomEvent;
-    data?: any;
-  } = {},
+  runtimeContext: EvaluateRuntimeContext = {},
   options: EvaluateOptions = {}
-): any {
+): unknown {
   if (
     options.isReEvaluation &&
     !(typeof raw === "string" && isEvaluable(raw))
@@ -80,13 +81,13 @@ export function evaluate(
       throw error;
     }
   }
-  // const precooked = preevaluate(raw);
 
-  const globalVariables: Record<string, any> = {};
+  const globalVariables: Record<string, unknown> = {};
   const attemptToVisitGlobals = precooked.attemptToVisitGlobals;
 
   const attemptToVisitEvent = attemptToVisitGlobals.has("EVENT");
   const attemptToVisitData = attemptToVisitGlobals.has("DATA");
+  const attemptToVisitTpl = attemptToVisitGlobals.has("TPL");
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
@@ -100,29 +101,34 @@ export function evaluate(
     }
   }
 
-  // Ignore evaluating if `data` is missing in context.
-  // Since it should be evaluated during transforming.
-  if (attemptToVisitData) {
-    if (hasOwnProperty(runtimeContext, "data")) {
-      globalVariables.DATA = runtimeContext.data;
-    } else {
-      return raw;
-    }
+  const missingTpl =
+    attemptToVisitTpl && !hasOwnProperty(runtimeContext, "getTplVariables");
+  const missingData =
+    attemptToVisitData && !hasOwnProperty(runtimeContext, "data");
 
-    // If attempt to visit both `EVENT` and `DATA`,
-    // since `event` and `data` will always be provided in different context,
-    // and `event` should always be provided at last,
-    // thus we return a pre-evaluated object which contains current context,
-    // and let the context to be fulfilled during events handling.
-    if (missingEvent) {
-      return {
-        [symbolForRaw]: raw,
-        [symbolForContext]: runtimeContext,
-      } as PreEvaluated;
-    }
-  } else if (missingEvent) {
-    // Or if it's a simple event case, leave it to events handling.
-    return raw;
+  const rawWithContext =
+    Object.keys(runtimeContext).length > 0
+      ? ({
+          [symbolForRaw]: raw,
+          [symbolForContext]: runtimeContext,
+        } as PreEvaluated)
+      : raw;
+
+  // Since `EVENT`, `DATA` and `TPL` are provided in different context,
+  // whenever missing one of them, memorize the current context for later consuming.
+  if (missingEvent || missingData || missingTpl) {
+    return rawWithContext;
+  }
+
+  if (attemptToVisitData) {
+    globalVariables.DATA = runtimeContext.data;
+  }
+
+  if (
+    attemptToVisitTpl &&
+    typeof runtimeContext.getTplVariables === "function"
+  ) {
+    globalVariables.TPL = runtimeContext.getTplVariables();
   }
 
   const {
