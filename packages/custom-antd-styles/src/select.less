@@ -4,7 +4,16 @@
 */
 .has-error {
   .ant-select-selector {
-    border-color: red !important;
+    border-color: #ff4d4f !important;
+
+    &:hover {
+      border-color: #ff4d4f !important;
+    }
+  }
+
+  .ant-select-focused:not(.ant-select-disabled).ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: #ff7875 !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2) !important;
   }
 
   .ant-select-arrow {
