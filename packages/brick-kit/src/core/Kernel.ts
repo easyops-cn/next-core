@@ -374,7 +374,11 @@ export class Kernel {
             // TODO(Lynette): 暂时设置3000，这里单个app下自定义的api数据不会太多。
             page_size: 3000,
             fields: {
-              "*": true,
+              name: true,
+              namespace: true,
+              contract: true,
+              config: true,
+              type: true,
             },
             query: {
               "microApp.appId": currentAppId,
