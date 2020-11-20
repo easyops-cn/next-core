@@ -18,7 +18,7 @@ import { isObject } from "./isObject";
 
 export interface ScanBricksOptions {
   keepDuplicates?: boolean;
-  ignoreBricksInCustomTemplates?: boolean;
+  ignoreBricksInUnusedCustomTemplates?: boolean;
 }
 
 /**
@@ -31,7 +31,9 @@ export function scanBricksInStoryboard(
   storyboard: Storyboard,
   options: boolean | ScanBricksOptions = true
 ): string[] {
-  const { keepDuplicates, ignoreBricksInCustomTemplates } = isObject(options)
+  const { keepDuplicates, ignoreBricksInUnusedCustomTemplates } = isObject(
+    options
+  )
     ? options
     : ({
         keepDuplicates: !options,
@@ -40,19 +42,26 @@ export function scanBricksInStoryboard(
   const collection: string[] = [];
   collectBricksInRouteConfs(storyboard.routes, collection);
 
-  // When ignoring bricks in custom templates,
-  // just collect them into a different collection.
-  const collectionForCustomTemplates = ignoreBricksInCustomTemplates
-    ? []
-    : collection;
-
   const selfDefined = new Set<string>();
-  collectBricksInCustomTemplates(
-    storyboard.meta?.customTemplates,
-    collectionForCustomTemplates,
-    selfDefined
-  );
 
+  if (ignoreBricksInUnusedCustomTemplates) {
+    // Only collect bricks in used custom templates.
+    const collectionByTpl = collectBricksByCustomTemplates(
+      storyboard.meta?.customTemplates
+    );
+    for (const item of collection) {
+      if (collectionByTpl.has(item) && !selfDefined.has(item)) {
+        selfDefined.add(item);
+        collection.push(...collectionByTpl.get(item));
+      }
+    }
+  } else {
+    collectBricksInCustomTemplates(
+      storyboard.meta?.customTemplates,
+      collection,
+      selfDefined
+    );
+  }
   // Ignore non-custom-elements and self-defined custom templates and custom api providers.
   const result = collection.filter(
     (item) =>
@@ -82,10 +91,10 @@ function collectBricksInBrickConf(
   }
   if (brickConf.slots) {
     Object.values(brickConf.slots).forEach((slotConf) => {
-      if (slotConf.type === "bricks") {
-        collectBricksInBrickConfs(slotConf.bricks, collection);
-      } else {
+      if (slotConf.type === "routes") {
         collectBricksInRouteConfs(slotConf.routes, collection);
+      } else {
+        collectBricksInBrickConfs(slotConf.bricks, collection);
       }
     });
   }
@@ -198,6 +207,15 @@ function collectUsedBricksInProperties(value: any, collection: string[]): void {
           collection.push(useBrickConf.brick);
           collectUsedBricksInProperties(useBrickConf.properties, collection);
           collectUsedBricksInEventHandlers(useBrickConf.events, collection);
+
+          if (useBrickConf.slots) {
+            Object.values(useBrickConf.slots).forEach((slotConf) => {
+              collectBricksInBrickConfs(
+                slotConf.bricks as BrickConf[],
+                collection
+              );
+            });
+          }
         }
       });
     } else {
@@ -276,4 +294,18 @@ function collectBricksInCustomTemplates(
       collectBricksInBrickConfs(tpl.bricks, collection);
     });
   }
+}
+
+function collectBricksByCustomTemplates(
+  customTemplates: CustomTemplate[]
+): Map<string, string[]> {
+  const collectionByTpl = new Map<string, string[]>();
+  if (Array.isArray(customTemplates)) {
+    customTemplates.forEach((tpl) => {
+      const collection = [] as string[];
+      collectionByTpl.set(tpl.name, collection);
+      collectBricksInBrickConfs(tpl.bricks, collection);
+    });
+  }
+  return collectionByTpl;
 }

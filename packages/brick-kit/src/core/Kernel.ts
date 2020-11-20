@@ -201,7 +201,7 @@ export class Kernel {
         ),
         brickPackages,
         {
-          ignoreBricksInCustomTemplates: true,
+          ignoreBricksInUnusedCustomTemplates: true,
         }
       );
       await loadScript(result.dll);
