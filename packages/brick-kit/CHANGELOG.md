@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.20.0...@easyops/brick-kit@2.21.0) (2020-11-20)
+
+### Features
+
+- **custom-template:** support template properties as variables ([44e3b6b](https://git.easyops.local/anyclouds/next-core/commits/44e3b6b))
+
 # [2.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.3...@easyops/brick-kit@2.20.0) (2020-11-20)
 
 ### Bug Fixes
