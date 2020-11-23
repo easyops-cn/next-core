@@ -101,12 +101,14 @@ export interface MountRoutesResult {
 interface BrickAndLifeCycleHandler {
   brick: RuntimeBrick;
   match: MatchResult;
+  tplContextId?: string;
   handler: BrickEventHandler | BrickEventHandler[];
 }
 
 export interface BrickAndMessage {
   brick: RuntimeBrick;
   match: MatchResult;
+  tplContextId?: string;
   message: MessageConf | MessageConf[];
 }
 
@@ -549,11 +551,12 @@ export class LocationContext {
     mountRoutesResult: MountRoutesResult,
     tplStack: string[] = []
   ): Promise<void> {
+    const tplContextId = (brickConf as RuntimeBrickConfWithTplSymbols)[
+      symbolForTplContextId
+    ];
     const context = this.getContext({
       match,
-      tplContextId: (brickConf as RuntimeBrickConfWithTplSymbols)[
-        symbolForTplContextId
-      ],
+      tplContextId,
     });
 
     // First, check whether the brick should be rendered.
@@ -628,7 +631,12 @@ export class LocationContext {
       brick.refForProxy.brick = brick;
     }
 
-    this.registerHandlersFromLifeCycle(brickConf.lifeCycle, brick, match);
+    this.registerHandlersFromLifeCycle(
+      brickConf.lifeCycle,
+      brick,
+      match,
+      tplContextId
+    );
 
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
@@ -702,7 +710,8 @@ export class LocationContext {
   private registerHandlersFromLifeCycle(
     lifeCycle: BrickLifeCycle,
     brick: RuntimeBrick,
-    match: MatchResult
+    match: MatchResult,
+    tplContextId?: string
   ): void {
     const {
       onBeforePageLoad,
@@ -719,6 +728,7 @@ export class LocationContext {
       this.beforePageLoadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onBeforePageLoad,
       });
     }
@@ -727,6 +737,7 @@ export class LocationContext {
       this.pageLoadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onPageLoad,
       });
     }
@@ -735,6 +746,7 @@ export class LocationContext {
       this.beforePageLeaveHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onBeforePageLeave,
       });
     }
@@ -743,6 +755,7 @@ export class LocationContext {
       this.pageLeaveHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onPageLeave,
       });
     }
@@ -751,6 +764,7 @@ export class LocationContext {
       this.anchorLoadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onAnchorLoad,
       });
     }
@@ -759,6 +773,7 @@ export class LocationContext {
       this.anchorUnloadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onAnchorUnload,
       });
     }
@@ -767,6 +782,7 @@ export class LocationContext {
       this.messageHandlers.push({
         brick,
         match,
+        tplContextId,
         message: onMessage,
       });
     }
@@ -775,6 +791,7 @@ export class LocationContext {
       this.messageCloseHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onMessageClose,
       });
     }
@@ -861,6 +878,7 @@ export class LocationContext {
           handler,
           this.getContext({
             match: brickAndHandler.match,
+            tplContextId: brickAndHandler.tplContextId,
           }),
           brickAndHandler.brick.element
         )(event);
