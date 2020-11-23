@@ -196,6 +196,10 @@ export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
   return title;
 }
 
+export function clearMenuTitleCache(): void {
+  menuTitleCache.clear();
+}
+
 function reorderMenuItems(menuData: MenuRawData): void {
   menuData.items = sortMenuItems(menuData.items).map((item) => ({
     ...item,
