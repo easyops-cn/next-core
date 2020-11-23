@@ -14,10 +14,12 @@ import { CustomApiOrchestration } from "./core/interfaces";
 import { mockMicroAppApiOrchestrationMap } from "./core/__mocks__/MicroAppApiOrchestrationData";
 import { CUSTOM_API_PROVIDER } from "./providers/CustomApi";
 import { applyTheme, applyMode } from "./themeAndMode";
+import { clearMenuTitleCache } from "./core/menu";
 
 jest.mock("./history");
 jest.mock("./core/MessageDispatcher");
 jest.mock("./themeAndMode");
+jest.mock("./core/menu");
 
 // Mock a custom element of `any-provider`.
 customElements.define(
@@ -411,6 +413,7 @@ describe("bindListeners", () => {
         { action: "theme.setDarkTheme" },
         { action: "mode.setDefaultMode" },
         { action: "mode.setDashboardMode" },
+        { action: "menu.clearMenuTitleCache" },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -701,12 +704,15 @@ describe("bindListeners", () => {
     expect(applyMode).toHaveBeenNthCalledWith(1, "default");
     expect(applyMode).toHaveBeenNthCalledWith(2, "dashboard");
 
+    expect(clearMenuTitleCache).toHaveBeenCalledTimes(1);
+
     (console.log as jest.Mock).mockClear();
     (console.info as jest.Mock).mockClear();
     (console.warn as jest.Mock).mockClear();
     (console.error as jest.Mock).mockClear();
     (applyTheme as jest.Mock).mockClear();
     (applyMode as jest.Mock).mockClear();
+    (clearMenuTitleCache as jest.Mock).mockClear();
 
     unbindListeners(sourceElem);
     sourceElem.dispatchEvent(event1);
@@ -831,6 +837,10 @@ describe("bindListeners", () => {
         if: "<% !EVENT.detail.rejected %>",
       },
       {
+        action: "menu.clearMenuTitleCache",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
         target: "#target-elem",
         if: "<% !EVENT.detail.rejected %>",
         method: "forGood",
@@ -849,6 +859,7 @@ describe("bindListeners", () => {
     expect(targetElem.forGood).not.toBeCalled();
     expect(applyTheme).not.toBeCalled();
     expect(applyMode).not.toBeCalled();
+    expect(clearMenuTitleCache).not.toBeCalled();
 
     (console.log as jest.Mock).mockRestore();
     sourceElem.remove();
