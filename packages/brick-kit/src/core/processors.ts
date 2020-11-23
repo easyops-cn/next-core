@@ -38,4 +38,9 @@ export function processBootstrapResponse(
   if (bootstrapResponse.settings) {
     bootstrapResponse.settings = deepFreeze(bootstrapResponse.settings);
   }
+
+  bootstrapResponse.brickPackages = deepFreeze(bootstrapResponse.brickPackages);
+  bootstrapResponse.templatePackages = deepFreeze(
+    bootstrapResponse.templatePackages
+  );
 }
