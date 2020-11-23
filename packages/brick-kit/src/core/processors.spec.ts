@@ -64,6 +64,18 @@ describe("processBootstrapResponse", () => {
           hello: "world",
         },
       },
+      brickPackages: [
+        {
+          filePath: "/tmp/brick-a.js",
+          bricks: ["my.brick-a"],
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "/tmp/template-a.js",
+          templates: ["my.template-a"],
+        },
+      ],
     };
     processBootstrapResponse(data);
     expect(data).toEqual({
@@ -137,6 +149,18 @@ describe("processBootstrapResponse", () => {
           hello: "world",
         },
       },
+      brickPackages: [
+        {
+          filePath: "/tmp/brick-a.js",
+          bricks: ["my.brick-a"],
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "/tmp/template-a.js",
+          templates: ["my.template-a"],
+        },
+      ],
     });
 
     expect(data.settings).toEqual({
@@ -153,6 +177,19 @@ describe("processBootstrapResponse", () => {
     expect(() => {
       // Override `misc`.
       data.settings.misc.hello = "oops";
+    }).toThrowError();
+
+    expect(() => {
+      // Override `brickPackages`.
+      data.brickPackages.push({
+        filePath: "/tmp/brick-b.js",
+        bricks: ["my.brick-b"],
+      });
+    }).toThrowError();
+
+    expect(() => {
+      // Override `templatePackages`.
+      data.templatePackages[0].templates.push("my.template-b");
     }).toThrowError();
   });
 });

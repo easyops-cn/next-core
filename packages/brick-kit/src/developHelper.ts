@@ -10,6 +10,7 @@ import {
   _dev_only_getStoryboards,
   _dev_only_loadDynamicBricksInBrickConf,
   _dev_only_getTemplatePackages,
+  _dev_only_getFakeKernel,
 } from "./core/exports";
 
 /** @internal */
@@ -28,4 +29,5 @@ export const developHelper = {
   getBrickPackages: _dev_only_getBrickPackages,
   getStoryboards: _dev_only_getStoryboards,
   loadDynamicBricksInBrickConf: _dev_only_loadDynamicBricksInBrickConf,
+  getFakeKernel: _dev_only_getFakeKernel,
 };

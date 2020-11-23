@@ -56,6 +56,21 @@ export function _dev_only_loadDynamicBricksInBrickConf(
   return kernel.loadDynamicBricksInBrickConf(brickConf);
 }
 
+/* istanbul ignore next */
+export function _dev_only_getFakeKernel(
+  overrides?: Record<string, unknown>
+): Kernel {
+  return {
+    bootstrapData: kernel.bootstrapData,
+    getFeatureFlags: kernel.getFeatureFlags.bind(kernel),
+    loadDynamicBricksInBrickConf: kernel.loadDynamicBricksInBrickConf.bind(
+      kernel
+    ),
+    getProviderBrick: kernel.getProviderBrick.bind(kernel),
+    ...overrides,
+  } as Kernel;
+}
+
 export class Runtime implements AbstractRuntime {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     if (kernel !== undefined) {
