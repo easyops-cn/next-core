@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.21.0...@easyops/brick-kit@2.22.0) (2020-11-23)
+
+### Features
+
+- **develop-helper:** support useProvider and template lifeCycle in developer preview ([2e3122c](https://git.easyops.local/anyclouds/next-core/commits/2e3122c))
+- **event:** add a new event action: "menu.clearMenuTitleCache" ([3892e1a](https://git.easyops.local/anyclouds/next-core/commits/3892e1a))
+
 # [2.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.20.0...@easyops/brick-kit@2.21.0) (2020-11-20)
 
 ### Features

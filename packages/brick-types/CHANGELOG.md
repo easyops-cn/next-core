@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.10.0...@easyops/brick-types@2.11.0) (2020-11-23)
+
+### Features
+
+- **event:** add a new event action: "menu.clearMenuTitleCache" ([3892e1a](https://git.easyops.local/anyclouds/next-core/commits/3892e1a))
+
 # [2.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.9.0...@easyops/brick-types@2.10.0) (2020-11-20)
 
 ### Features
