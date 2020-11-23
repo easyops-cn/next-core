@@ -82,8 +82,15 @@ export class Api extends SourceFile {
       this.requestBodyType,
       this.responseItemType,
       this.responseBodyType,
-      this.functionBlock
+      this.functionBlock,
     ]);
-    return this.joinBlocks([this.importsToString(), mainBlockString]);
+    const internalBlocksString = this.joinBlocks(
+      this.getInternalInterfaceBlocks()
+    );
+    return this.joinBlocks([
+      this.importsToString(),
+      mainBlockString,
+      internalBlocksString,
+    ]);
   }
 }

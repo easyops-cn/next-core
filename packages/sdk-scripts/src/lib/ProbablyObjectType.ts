@@ -6,21 +6,21 @@ import { PartialModelType } from "./internal";
 
 export class ProbablyObjectType extends UnionType {
   constructor(sourceFile: SourceFile, doc: ObjectTypeDoc) {
-    super();
+    super(sourceFile);
     const globFields = doc.fields.filter(
-      f => (f as RefFieldDoc).ref && (f as RefFieldDoc).ref.endsWith(".*")
+      (f) => (f as RefFieldDoc).ref && (f as RefFieldDoc).ref.endsWith(".*")
     );
-    const plainFields = doc.fields.filter(f => !globFields.includes(f));
-    const unionTypes = globFields.map(f =>
+    const plainFields = doc.fields.filter((f) => !globFields.includes(f));
+    const unionTypes = globFields.map((f) =>
       (f as RefFieldDoc).ref.replace(".*", "")
     );
 
-    unionTypes.forEach(type => {
+    unionTypes.forEach((type) => {
       this.addUnions(
         new PartialModelType(sourceFile, {
           type,
           required: doc.required,
-          requireAll: doc.requireAll
+          requireAll: doc.requireAll,
         }).spread()
       );
     });
@@ -30,7 +30,7 @@ export class ProbablyObjectType extends UnionType {
         new ObjectType(sourceFile, {
           fields: plainFields,
           required: doc.required,
-          requireAll: doc.requireAll
+          requireAll: doc.requireAll,
         })
       );
     }

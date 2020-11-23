@@ -4,11 +4,15 @@ import {
   ObjectTypeDoc,
   FieldDoc,
   RefFieldDoc,
-  NormalFieldDoc
+  NormalFieldDoc,
 } from "../interface";
 
 export class ObjectType {
-  constructor(private sourceFile: SourceFile, private doc: ObjectTypeDoc) {}
+  private interfaceName: string;
+
+  constructor(private sourceFile: SourceFile, private doc: ObjectTypeDoc) {
+    this.interfaceName = this.sourceFile.internalInterfaces.createOne(this);
+  }
 
   private fieldToString(field: FieldDoc): string {
     const { requireAll, required } = this.doc;
@@ -23,9 +27,9 @@ export class ObjectType {
       (Array.isArray(required) &&
         (isRefFieldDoc
           ? required.some(
-              r => r === `${refModel}.*` || r === (field as RefFieldDoc).ref
+              (r) => r === `${refModel}.*` || r === (field as RefFieldDoc).ref
             )
-          : required.some(r => r === (field as NormalFieldDoc).name)));
+          : required.some((r) => r === (field as NormalFieldDoc).name)));
     if (isRefFieldDoc) {
       const ref = this.sourceFile.namespace.get(refModel);
       if (ref === undefined) {
@@ -42,7 +46,7 @@ export class ObjectType {
       `${normalField.name}`,
       isRequired ? "" : "?",
       ":",
-      this.fieldValueToString(normalField)
+      this.fieldValueToString(normalField),
     ].join("");
   }
 
@@ -50,17 +54,21 @@ export class ObjectType {
     return new MixedType(this.sourceFile, {
       type: field.type,
       fields: field.fields,
-      enum: field.enum
+      enum: field.enum,
     }).toString();
   }
 
   toString(): string {
+    return this.interfaceName;
+  }
+
+  toDefinitionString(): string {
     return [
       "{",
       this.doc.fields
-        .map(field => this.fieldToString(field))
+        .map((field) => this.fieldToString(field))
         .join(";" + os.EOL + os.EOL),
-      "}"
+      "}",
     ].join(os.EOL);
   }
 }

@@ -12,7 +12,7 @@ export class MixedType extends UnionType {
   readonly isArray: boolean;
 
   constructor(sourceFile: SourceFile, doc: MixedTypeDoc) {
-    super();
+    super(sourceFile);
     const { fields, required, requireAll } = doc;
     const { type, isArray, enum: enumValues } = getRealType(doc);
     this.isArray = isArray;
@@ -55,9 +55,9 @@ export class MixedType extends UnionType {
   }
 
   withName(name: string): string {
-    const useInterface = !this.isArray && this.shouldUseInterface();
-    if (useInterface) {
-      return `interface ${name} ${this.toString()}`;
+    const definition = !this.isArray && this.generateDefinitionIfAvailable();
+    if (definition) {
+      return `interface ${name} ${definition};`;
     }
     return `type ${name} = ${this.toString()};`;
   }

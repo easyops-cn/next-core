@@ -53,7 +53,7 @@ export class Model extends SourceFile {
       }
     }
 
-    const field = this.doc.fields.find(f =>
+    const field = this.doc.fields.find((f) =>
       (f as RefFieldDoc).ref
         ? (f as RefFieldDoc).ref.split(".")[1] === refKey
         : (f as NormalFieldDoc).name === refKey
@@ -84,7 +84,7 @@ export class Model extends SourceFile {
     return {
       ...(field as NormalFieldDoc),
       // It's a property type!
-      type: `${this.displayName}["${refKey}"]`
+      type: `${this.displayName}["${refKey}"]`,
     };
   }
 
@@ -92,6 +92,13 @@ export class Model extends SourceFile {
     // Generate main block string before imports,
     // Because imports could be manipulated when main block generating.
     const mainBlockString = this.typeBlock.toString();
-    return this.joinBlocks([this.importsToString(), mainBlockString]);
+    const internalBlocksString = this.joinBlocks(
+      this.getInternalInterfaceBlocks()
+    );
+    return this.joinBlocks([
+      this.importsToString(),
+      mainBlockString,
+      internalBlocksString,
+    ]);
   }
 }
