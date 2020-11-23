@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.22.0...@easyops/brick-kit@2.22.1) (2020-11-23)
+
+### Bug Fixes
+
+- **custom-template:** fix TPL.\* not working in lifeCycle events ([2445e19](https://git.easyops.local/anyclouds/next-core/commits/2445e19))
+
 # [2.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.21.0...@easyops/brick-kit@2.22.0) (2020-11-23)
 
 ### Features
