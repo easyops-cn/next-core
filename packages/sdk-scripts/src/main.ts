@@ -7,6 +7,7 @@ import { loadTemplate } from "./loaders/loadTemplate";
 import { clone, checkout } from "./contractGit";
 import { promptToChooseSdk, getModules } from "./prompt";
 import { apiDir } from "./loaders/env";
+import { clearGlobalInterfaces } from "./lib/internal";
 
 interface Flags {
   sdk: string;
@@ -39,6 +40,8 @@ export async function main(tagOrCommit = "", flags?: Flags): Promise<void> {
 }
 
 export function create(serviceName: string): void {
+  clearGlobalInterfaces();
+
   const sdkRoot = path.join(
     process.cwd(),
     "sdk",

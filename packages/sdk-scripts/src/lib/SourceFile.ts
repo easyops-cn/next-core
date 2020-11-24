@@ -1,8 +1,12 @@
 import path from "path";
 import os from "os";
-import { Context } from "./internal";
-import { FileImports } from "./internal";
-import { Model } from "./internal";
+import {
+  Context,
+  FileImports,
+  Model,
+  InternalInterfaces,
+  ObjectType,
+} from "./internal";
 import { loadModel } from "../loaders/loadModel";
 
 type SourceBlock =
@@ -17,6 +21,7 @@ export class SourceFile {
   readonly context: Context;
   readonly imports: FileImports = new FileImports();
   namespace: Map<string, Model>;
+  readonly internalInterfaces = new InternalInterfaces();
 
   constructor(context: Context) {
     this.context = context;
@@ -37,7 +42,7 @@ export class SourceFile {
         }
         return {
           ports,
-          from: relative
+          from: relative,
         };
       })
       .sort((a, b) => {
@@ -60,8 +65,8 @@ export class SourceFile {
 
   joinBlocks(blocks: SourceBlock[], sep: string = os.EOL + os.EOL): string {
     return blocks
-      .map(b => (b ? (typeof b === "string" ? b : b.toString()) : false))
-      .filter(b => b)
+      .map((b) => (b ? (typeof b === "string" ? b : b.toString()) : false))
+      .filter((b) => b)
       .join(sep);
   }
 
@@ -71,7 +76,7 @@ export class SourceFile {
   ): Map<string, Model> {
     const namespace = new Map();
     if (Array.isArray(imports)) {
-      imports.forEach(port => {
+      imports.forEach((port) => {
         const segments = port.split("/");
         const [orgSeg, categorySeg, serviceSeg, modelSeg] = segments;
         if (
@@ -87,5 +92,19 @@ export class SourceFile {
       });
     }
     return namespace;
+  }
+
+  getInternalInterfaceBlocks(): SourceBlock[] {
+    let entries: [string, ObjectType][];
+    let blocks = [] as SourceBlock[];
+    while ((entries = this.internalInterfaces.getInterfaceEntries())) {
+      blocks = blocks.concat(
+        entries.map(
+          ([interfaceName, objectType]) =>
+            `export interface ${interfaceName} ${objectType.toDefinitionString()}`
+        )
+      );
+    }
+    return blocks;
   }
 }
