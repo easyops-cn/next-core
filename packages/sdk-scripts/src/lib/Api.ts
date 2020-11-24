@@ -1,10 +1,12 @@
 import * as changeCase from "change-case";
-import { SourceFile } from "./internal";
+import {
+  SourceFile,
+  ApiMethod,
+  Context,
+  TypeDefinition,
+  FunctionBlock,
+} from "./internal";
 import { ApiDoc } from "../interface";
-import { ApiMethod } from "./internal";
-import { Context } from "./internal";
-import { TypeDefinition } from "./internal";
-import { FunctionBlock } from "./internal";
 import { refineRequest } from "../utils";
 
 export class Api extends SourceFile {

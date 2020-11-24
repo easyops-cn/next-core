@@ -89,9 +89,11 @@ export class SourceFile {
   }
 
   getInternalInterfaceBlocks(): SourceBlock[] {
-    return Array.from(this.internalInterfaces.interfaces).map(
-      ([interfaceName, objectType]) =>
-        `export interface ${interfaceName} ${objectType.toDefinitionString()}`
-    );
+    return this.internalInterfaces
+      .getInterfaceEntries()
+      .map(
+        ([interfaceName, objectType]) =>
+          `export interface ${interfaceName} ${objectType.toDefinitionString()}`
+      );
   }
 }

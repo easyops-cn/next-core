@@ -1,14 +1,15 @@
-import { UnionType } from "./internal";
-import { Model } from "./internal";
-import { SourceFile } from "./internal";
+import { UnionType, Model, SourceFile, MixedType } from "./internal";
 import { PartialModelTypeDoc } from "../interface";
-import { MixedType } from "./internal";
 
 export class PartialModelType extends UnionType {
   private model: Model;
   private requireAll: boolean;
 
-  constructor(sourceFile: SourceFile, doc: PartialModelTypeDoc) {
+  constructor(
+    sourceFile: SourceFile,
+    doc: PartialModelTypeDoc,
+    guessName: string
+  ) {
     super(sourceFile);
     this.model = sourceFile.namespace.get(doc.type);
     if (this.model === undefined) {
@@ -31,11 +32,15 @@ export class PartialModelType extends UnionType {
         .map((ref) => ({ ref }));
       if (extraFields.length > 0) {
         this.addUnions(
-          new MixedType(sourceFile, {
-            type: "object",
-            fields: extraFields,
-            requireAll: true,
-          }).spread()
+          new MixedType(
+            sourceFile,
+            {
+              type: "object",
+              fields: extraFields,
+              requireAll: true,
+            },
+            guessName
+          ).spread()
         );
       }
     }

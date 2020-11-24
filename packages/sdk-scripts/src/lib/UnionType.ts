@@ -19,25 +19,11 @@ export class UnionType {
     });
   }
 
-  getObjectTypeIfAvailable(): ObjectType {
-    if (this.unions.size === 1) {
-      const type = Array.from(this.unions.values())[0];
-      if (type instanceof ObjectType) {
-        return type;
-      }
-    }
-  }
-
   generateDefinitionIfAvailable(): string {
     if (this.unions.size === 1) {
       const type = Array.from(this.unions.values())[0];
       if (type instanceof ObjectType) {
-        const { interfaces, reversedMap } = this.sourceFile.internalInterfaces;
-        if (reversedMap.has(type)) {
-          const interfaceName = reversedMap.get(type);
-          interfaces.delete(interfaceName);
-          reversedMap.delete(type);
-        }
+        this.sourceFile.internalInterfaces.removeOne(type);
         return type.toDefinitionString();
       }
     }

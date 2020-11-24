@@ -3,8 +3,7 @@ import path from "path";
 import * as changeCase from "change-case";
 import prettier from "prettier";
 import yaml from "js-yaml";
-import { Api } from "./internal";
-import { Model } from "./internal";
+import { Api, Model } from "./internal";
 import { FileWithContent } from "../interface";
 import { normalizeSemver } from "../utils";
 

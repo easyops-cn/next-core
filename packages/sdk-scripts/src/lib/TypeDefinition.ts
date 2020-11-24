@@ -1,6 +1,5 @@
 import os from "os";
-import { MixedType } from "./internal";
-import { SourceFile } from "./internal";
+import { MixedType, SourceFile } from "./internal";
 import { BaseDoc, NormalFieldDoc } from "../interface";
 
 export class TypeDefinition {
@@ -13,11 +12,12 @@ export class TypeDefinition {
     this.name = name;
     this.isFormData = false;
     this.isFile = false;
+    sourceFile.internalInterfaces.markUsedInterface(name);
     if (doc) {
-      this.value = new MixedType(sourceFile, doc);
+      this.value = new MixedType(sourceFile, doc, name);
       if (
         doc.type === "object" &&
-        doc.fields.some(f =>
+        doc.fields.some((f) =>
           ["file", "file[]"].includes((f as NormalFieldDoc).type)
         )
       ) {

@@ -10,8 +10,15 @@ import {
 export class ObjectType {
   private interfaceName: string;
 
-  constructor(private sourceFile: SourceFile, private doc: ObjectTypeDoc) {
-    this.interfaceName = this.sourceFile.internalInterfaces.createOne(this);
+  constructor(
+    private sourceFile: SourceFile,
+    private doc: ObjectTypeDoc,
+    private guessName: string
+  ) {
+    this.interfaceName = this.sourceFile.internalInterfaces.createOne(
+      this,
+      guessName
+    );
   }
 
   private fieldToString(field: FieldDoc): string {
@@ -51,11 +58,15 @@ export class ObjectType {
   }
 
   private fieldValueToString(field: NormalFieldDoc): string {
-    return new MixedType(this.sourceFile, {
-      type: field.type,
-      fields: field.fields,
-      enum: field.enum,
-    }).toString();
+    return new MixedType(
+      this.sourceFile,
+      {
+        type: field.type,
+        fields: field.fields,
+        enum: field.enum,
+      },
+      `${this.interfaceName}_${field.name}`
+    ).toString();
   }
 
   toString(): string {

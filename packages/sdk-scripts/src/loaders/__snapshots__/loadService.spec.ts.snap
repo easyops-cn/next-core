@@ -7,16 +7,7 @@ Array [
     "import { http, HttpOptions } from \\"@easyops/brick-http\\";
 
 /** 请求体 */
-export type AutoDiscoveryRequestBody = {
-  /** 筛选器 */
-  filter?: Record<string, any>;
-
-  /** 更新数据 */
-  update?: Record<string, any>;
-
-  /** 存在即更新 */
-  upsert?: boolean;
-}[];
+export type AutoDiscoveryRequestBody = AutoDiscoveryRequestBody_item[];
 
 export interface AutoDiscoveryResponseBody {
   /** 返回码 */
@@ -40,6 +31,17 @@ export const autoDiscovery = (
     data,
     options
   );
+
+export interface AutoDiscoveryRequestBody_item {
+  /** 筛选器 */
+  filter?: Record<string, any>;
+
+  /** 更新数据 */
+  update?: Record<string, any>;
+
+  /** 存在即更新 */
+  upsert?: boolean;
+}
 ",
   ],
   Array [
@@ -79,7 +81,20 @@ export interface CreateRequestBody {
   style?: string;
 }
 
-export type CreateResponseBody = Partial<ModelPackage> & {
+export type CreateResponseBody = Partial<ModelPackage> & CreateResponseBody_2;
+
+/** 创建包 */
+export const create = (
+  data: CreateRequestBody,
+  options?: HttpOptions
+): Promise<CreateResponseBody> =>
+  http.post<CreateResponseBody>(
+    \\"api/gateway/cd.package.Create/package\\",
+    data,
+    options
+  );
+
+export interface CreateResponseBody_2 {
   /** 包Id */
   packageId: string;
 
@@ -112,18 +127,7 @@ export type CreateResponseBody = Partial<ModelPackage> & {
 
   /** 包图标样式(颜色) */
   style: string;
-};
-
-/** 创建包 */
-export const create = (
-  data: CreateRequestBody,
-  options?: HttpOptions
-): Promise<CreateResponseBody> =>
-  http.post<CreateResponseBody>(
-    \\"api/gateway/cd.package.Create/package\\",
-    data,
-    options
-  );
+}
 ",
   ],
   Array [
@@ -211,10 +215,7 @@ export interface SearchRequestParams {
   order?: string;
 }
 
-export type SearchResponseItem = ModelPackage & {
-  /** 最新版本信息 */
-  lastVersionInfo: ModelPackageExt[\\"lastVersionInfo\\"];
-};
+export type SearchResponseItem = ModelPackage & SearchResponseItem_2;
 
 export type SearchResponseBody = ResponseListWrapper<SearchResponseItem>;
 
@@ -229,6 +230,11 @@ export const search = async (
       { ...options, params }
     )
   ).data;
+
+export interface SearchResponseItem_2 {
+  /** 最新版本信息 */
+  lastVersionInfo: ModelPackageExt[\\"lastVersionInfo\\"];
+}
 ",
   ],
   Array [
@@ -364,22 +370,24 @@ export interface ModelPackageWithVersion {
     "/** 包模型 */
 export interface ModelPackageExt {
   /** 最新版本信息 */
-  lastVersionInfo: {
-    /** 创建时间 */
-    ctime?: string;
-
-    /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
-    env_type?: 1 | 3 | 7 | 15;
-
-    /** 版本名称 */
-    name?: string;
-
-    /** 版本Id */
-    versionId?: string;
-  };
+  lastVersionInfo: ModelPackageExt_2_lastVersionInfo;
 
   /** 包实例数量 */
   instanceCount: number;
+}
+
+export interface ModelPackageExt_2_lastVersionInfo {
+  /** 创建时间 */
+  ctime?: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  env_type?: 1 | 3 | 7 | 15;
+
+  /** 版本名称 */
+  name?: string;
+
+  /** 版本Id */
+  versionId?: string;
 }
 ",
   ],

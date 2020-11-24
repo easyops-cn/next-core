@@ -11,11 +11,13 @@ import { isPrimitiveType, getRealType, isPropertyType } from "../utils";
 export class MixedType extends UnionType {
   readonly isArray: boolean;
 
-  constructor(sourceFile: SourceFile, doc: MixedTypeDoc) {
+  constructor(sourceFile: SourceFile, doc: MixedTypeDoc, guessName: string) {
     super(sourceFile);
     const { fields, required, requireAll } = doc;
     const { type, isArray, enum: enumValues } = getRealType(doc);
     this.isArray = isArray;
+
+    const guessNameWithArray = isArray ? `${guessName}_item` : guessName;
 
     if (Array.isArray(enumValues) && enumValues.length > 0) {
       if (!["string", "number", "boolean"].includes(type)) {
@@ -36,21 +38,29 @@ export class MixedType extends UnionType {
 
     if (type === "object") {
       this.addUnions(
-        new ProbablyObjectType(sourceFile, {
-          fields,
-          required,
-          requireAll,
-        }).spread()
+        new ProbablyObjectType(
+          sourceFile,
+          {
+            fields,
+            required,
+            requireAll,
+          },
+          guessNameWithArray
+        ).spread()
       );
       return;
     }
 
     this.addUnions(
-      new PartialModelType(sourceFile, {
-        type,
-        required,
-        requireAll,
-      }).spread()
+      new PartialModelType(
+        sourceFile,
+        {
+          type,
+          required,
+          requireAll,
+        },
+        guessNameWithArray
+      ).spread()
     );
   }
 

@@ -1,11 +1,13 @@
-import { UnionType } from "./internal";
-import { SourceFile } from "./internal";
+import {
+  UnionType,
+  SourceFile,
+  ObjectType,
+  PartialModelType,
+} from "./internal";
 import { ObjectTypeDoc, RefFieldDoc } from "../interface";
-import { ObjectType } from "./internal";
-import { PartialModelType } from "./internal";
 
 export class ProbablyObjectType extends UnionType {
-  constructor(sourceFile: SourceFile, doc: ObjectTypeDoc) {
+  constructor(sourceFile: SourceFile, doc: ObjectTypeDoc, guessName: string) {
     super(sourceFile);
     const globFields = doc.fields.filter(
       (f) => (f as RefFieldDoc).ref && (f as RefFieldDoc).ref.endsWith(".*")
@@ -17,21 +19,29 @@ export class ProbablyObjectType extends UnionType {
 
     unionTypes.forEach((type) => {
       this.addUnions(
-        new PartialModelType(sourceFile, {
-          type,
-          required: doc.required,
-          requireAll: doc.requireAll,
-        }).spread()
+        new PartialModelType(
+          sourceFile,
+          {
+            type,
+            required: doc.required,
+            requireAll: doc.requireAll,
+          },
+          guessName
+        ).spread()
       );
     });
 
     if (plainFields.length > 0) {
       this.addUnion(
-        new ObjectType(sourceFile, {
-          fields: plainFields,
-          required: doc.required,
-          requireAll: doc.requireAll,
-        })
+        new ObjectType(
+          sourceFile,
+          {
+            fields: plainFields,
+            required: doc.required,
+            requireAll: doc.requireAll,
+          },
+          guessName
+        )
       );
     }
   }
