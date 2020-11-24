@@ -1,0 +1,69 @@
+_version_: 2.0
+_kind_: interface
+
+version: 1.0.0
+name: ListNameService
+description: 获取全量名字服务列表
+
+import: []
+
+endpoint:
+  method: GET
+  uri: /api/v1/name_service/config
+
+
+request:
+  type: object
+  fields:
+    - name: page
+      type: int
+      description: page
+    - name: page_size
+      type: int
+      description: page_size, 最大1000
+
+response:
+  wrapper: false
+  type: object
+  fields:
+    - name: code
+      type: int
+      description: 返回码
+    - name: msg
+      type: string
+      description: 消息
+    - name: page
+      type: page
+      description: 页码
+    - name: page_size
+      type: page_size
+      description: 分页大小
+    - name: total
+      type: int
+      description: 总数
+    - name: data
+      type: object[]
+      description: '名字服务列表'
+      fields:
+        - name: service_name
+          type: string
+          description: 服务名
+        - name: hosts
+          type: object[]
+          description: host列表
+          fields:
+            - name: ip
+              type: string
+              description: ip
+            - name: port
+              type: int
+              description: 端口
+            - name: weight
+              type: int
+              description: 权重
+        - name: ctime
+          type: int
+          description: 创建时间
+        - name: mtime
+          type: int
+          description: 修改时间

@@ -1,4 +1,5 @@
 import * as changeCase from "change-case";
+import chalk from "chalk";
 import {
   SourceFile,
   ApiMethod,
@@ -77,22 +78,32 @@ export class Api extends SourceFile {
   }
 
   toString(): string {
-    // Generate main block string before imports,
-    // Because imports could be manipulated when main block generating.
-    const mainBlockString = this.joinBlocks([
-      this.requestParamsType,
-      this.requestBodyType,
-      this.responseItemType,
-      this.responseBodyType,
-      this.functionBlock,
-    ]);
-    const internalBlocksString = this.joinBlocks(
-      this.getInternalInterfaceBlocks()
-    );
-    return this.joinBlocks([
-      this.importsToString(),
-      mainBlockString,
-      internalBlocksString,
-    ]);
+    try {
+      // Generate main block string before imports,
+      // Because imports could be manipulated when main block generating.
+      const mainBlockString = this.joinBlocks([
+        this.requestParamsType,
+        this.requestBodyType,
+        this.responseItemType,
+        this.responseBodyType,
+        this.functionBlock,
+      ]);
+      // And generate internal blocks string after main block generated,
+      // Because internal blocks could be manipulated when main block generating.
+      const internalBlocksString = this.joinBlocks(
+        this.getInternalInterfaceBlocks()
+      );
+      return this.joinBlocks([
+        this.importsToString(),
+        mainBlockString,
+        internalBlocksString,
+      ]);
+    } catch (error) {
+      console.log(
+        chalk.red("Generating sdk failed for contract of api:"),
+        chalk.bgRed(this.serviceName)
+      );
+      throw error;
+    }
   }
 }

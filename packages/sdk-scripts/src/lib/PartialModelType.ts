@@ -5,11 +5,7 @@ export class PartialModelType extends UnionType {
   private model: Model;
   private requireAll: boolean;
 
-  constructor(
-    sourceFile: SourceFile,
-    doc: PartialModelTypeDoc,
-    guessName: string
-  ) {
+  constructor(sourceFile: SourceFile, doc: PartialModelTypeDoc) {
     super(sourceFile);
     this.model = sourceFile.namespace.get(doc.type);
     if (this.model === undefined) {
@@ -39,7 +35,7 @@ export class PartialModelType extends UnionType {
               fields: extraFields,
               requireAll: true,
             },
-            guessName
+            [this.model, "partial"]
           ).spread()
         );
       }

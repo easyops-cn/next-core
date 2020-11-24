@@ -1,6 +1,9 @@
 import os from "os";
-import { MixedType, SourceFile } from "./internal";
+import { MixedType, SourceFile, Model } from "./internal";
 import { BaseDoc, NormalFieldDoc } from "../interface";
+
+export type TypePathItem = TypeDefinition | Model | string;
+export type TypePath = TypePathItem[];
 
 export class TypeDefinition {
   readonly value: MixedType;
@@ -14,7 +17,7 @@ export class TypeDefinition {
     this.isFile = false;
     sourceFile.internalInterfaces.markUsedInterface(name);
     if (doc) {
-      this.value = new MixedType(sourceFile, doc, name);
+      this.value = new MixedType(sourceFile, doc, [this]);
       if (
         doc.type === "object" &&
         doc.fields.some((f) =>
@@ -32,7 +35,7 @@ export class TypeDefinition {
     if (!this.doc || this.isFile) {
       return "";
     }
-    let content = `export ${this.value.withName(this.name)}`;
+    let content = `export ${this.value.toDefinitionStringWithName(this.name)}`;
     if (this.doc.description) {
       content = `/** ${this.doc.description} */${os.EOL}${content}`;
     }

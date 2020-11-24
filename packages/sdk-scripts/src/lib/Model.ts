@@ -1,4 +1,5 @@
 import * as changeCase from "change-case";
+import chalk from "chalk";
 import { SourceFile, Context, TypeDefinition } from "./internal";
 import { ModelDoc, NormalFieldDoc, RefFieldDoc } from "../interface";
 import { isPrimitiveType, getRealType } from "../utils";
@@ -9,6 +10,7 @@ export class Model extends SourceFile {
   readonly displayName: string;
   readonly modelSeg: string;
   readonly typeBlock: TypeDefinition;
+  readonly modelPath: string;
 
   constructor(
     doc: ModelDoc,
@@ -24,6 +26,7 @@ export class Model extends SourceFile {
     this.dir = [".", "model", serviceSeg].join("/");
     this.filePath = [this.dir, this.displayName].join("/");
     this.namespace = this.getNamespaceByImports(doc.import, context);
+    this.modelPath = [serviceSeg, modelSeg, this.originalName].join("/");
     this.typeBlock = new TypeDefinition(
       this,
       { ...doc, type: "object", requireAll: true },
@@ -89,16 +92,26 @@ export class Model extends SourceFile {
   }
 
   toString(): string {
-    // Generate main block string before imports,
-    // Because imports could be manipulated when main block generating.
-    const mainBlockString = this.typeBlock.toString();
-    const internalBlocksString = this.joinBlocks(
-      this.getInternalInterfaceBlocks()
-    );
-    return this.joinBlocks([
-      this.importsToString(),
-      mainBlockString,
-      internalBlocksString,
-    ]);
+    try {
+      // Generate main block string before imports,
+      // Because imports could be manipulated when main block generating.
+      const mainBlockString = this.typeBlock.toString();
+      // And generate internal blocks string after main block generated,
+      // Because internal blocks could be manipulated when main block generating.
+      const internalBlocksString = this.joinBlocks(
+        this.getInternalInterfaceBlocks()
+      );
+      return this.joinBlocks([
+        this.importsToString(),
+        mainBlockString,
+        internalBlocksString,
+      ]);
+    } catch (error) {
+      console.log(
+        chalk.red("Generating sdk failed for contract of model:"),
+        chalk.bgRed(this.modelPath)
+      );
+      throw error;
+    }
   }
 }

@@ -1,5 +1,5 @@
 import os from "os";
-import { SourceFile, MixedType } from "./internal";
+import { SourceFile, MixedType, TypePath } from "./internal";
 import {
   ObjectTypeDoc,
   FieldDoc,
@@ -8,18 +8,13 @@ import {
 } from "../interface";
 
 export class ObjectType {
-  private interfaceName: string;
+  private _name: string;
 
   constructor(
     private sourceFile: SourceFile,
     private doc: ObjectTypeDoc,
-    private guessName: string
-  ) {
-    this.interfaceName = this.sourceFile.internalInterfaces.createOne(
-      this,
-      guessName
-    );
-  }
+    private typePath: TypePath
+  ) {}
 
   private fieldToString(field: FieldDoc): string {
     const { requireAll, required } = this.doc;
@@ -65,12 +60,18 @@ export class ObjectType {
         fields: field.fields,
         enum: field.enum,
       },
-      `${this.interfaceName}_${field.name}`
+      this.typePath.concat(field.name)
     ).toString();
   }
 
   toString(): string {
-    return this.interfaceName;
+    if (!this._name) {
+      this._name = this.sourceFile.internalInterfaces.createOne(
+        this,
+        this.typePath
+      );
+    }
+    return this._name;
   }
 
   toDefinitionString(): string {

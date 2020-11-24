@@ -19,14 +19,23 @@ export class UnionType {
     });
   }
 
-  generateDefinitionIfAvailable(): string {
-    if (this.unions.size === 1) {
+  /**
+   * When generating a definition,
+   * if the UnionType consists of a single `ObjectType`,
+   * its interface definition should be used instead of type alias.
+   */
+  generateInterfaceDefinitionOrTypeAlias(
+    name: string,
+    isArray: boolean
+  ): string {
+    if (!isArray && this.unions.size === 1) {
       const type = Array.from(this.unions.values())[0];
       if (type instanceof ObjectType) {
         this.sourceFile.internalInterfaces.removeOne(type);
-        return type.toDefinitionString();
+        return `interface ${name} ${type.toDefinitionString()}`;
       }
     }
+    return `type ${name} = ${this.withArray(isArray)};`;
   }
 
   withArray(isArray: boolean): string {

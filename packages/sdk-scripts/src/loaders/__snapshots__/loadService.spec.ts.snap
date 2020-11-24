@@ -81,7 +81,7 @@ export interface CreateRequestBody {
   style?: string;
 }
 
-export type CreateResponseBody = Partial<ModelPackage> & CreateResponseBody_2;
+export type CreateResponseBody = Partial<ModelPackage> & ModelPackage_partial;
 
 /** 创建包 */
 export const create = (
@@ -94,7 +94,7 @@ export const create = (
     options
   );
 
-export interface CreateResponseBody_2 {
+export interface ModelPackage_partial {
   /** 包Id */
   packageId: string;
 
@@ -169,6 +169,74 @@ export const get = async (
       { ...options, params }
     )
   ).data;
+",
+  ],
+  Array [
+    "dist/src/api/cd/package/listNameService.ts",
+    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+
+export interface ListNameServiceRequestParams {
+  /** page */
+  page?: number;
+
+  /** page_size, 最大1000 */
+  page_size?: number;
+}
+
+export interface ListNameServiceResponseBody {
+  /** 返回码 */
+  code?: number;
+
+  /** 消息 */
+  msg?: string;
+
+  /** 页码 */
+  page?: number;
+
+  /** 分页大小 */
+  page_size?: number;
+
+  /** 总数 */
+  total?: number;
+
+  /** 名字服务列表 */
+  data?: ListNameServiceResponseBody_data_item[];
+}
+
+/** 获取全量名字服务列表 */
+export const listNameService = (
+  params: ListNameServiceRequestParams,
+  options?: HttpOptions
+): Promise<ListNameServiceResponseBody> =>
+  http.get<ListNameServiceResponseBody>(
+    \\"api/gateway/cd.package.ListNameService/api/v1/name_service/config\\",
+    { ...options, params }
+  );
+
+export interface ListNameServiceResponseBody_data_item {
+  /** 服务名 */
+  service_name?: string;
+
+  /** host列表 */
+  hosts?: ListNameServiceResponseBody_data_item_hosts_item[];
+
+  /** 创建时间 */
+  ctime?: number;
+
+  /** 修改时间 */
+  mtime?: number;
+}
+
+export interface ListNameServiceResponseBody_data_item_hosts_item {
+  /** ip */
+  ip?: string;
+
+  /** 端口 */
+  port?: number;
+
+  /** 权重 */
+  weight?: number;
+}
 ",
   ],
   Array [
@@ -370,13 +438,13 @@ export interface ModelPackageWithVersion {
     "/** 包模型 */
 export interface ModelPackageExt {
   /** 最新版本信息 */
-  lastVersionInfo: ModelPackageExt_2_lastVersionInfo;
+  lastVersionInfo: ModelPackageExt_lastVersionInfo;
 
   /** 包实例数量 */
   instanceCount: number;
 }
 
-export interface ModelPackageExt_2_lastVersionInfo {
+export interface ModelPackageExt_lastVersionInfo {
   /** 创建时间 */
   ctime?: string;
 
@@ -396,6 +464,7 @@ export interface ModelPackageExt_2_lastVersionInfo {
     "export * from \\"./autoDiscovery\\";
 export * from \\"./create\\";
 export * from \\"./get\\";
+export * from \\"./listNameService\\";
 export * from \\"./retry\\";
 export * from \\"./search\\";
 export * from \\"./upload\\";
@@ -424,6 +493,8 @@ export { PackageApi, CdModels };
   - name: easyops.api.cd.package.Create
     version: ^1.0.0
   - name: easyops.api.cd.package.Get
+    version: ^1.0.0
+  - name: easyops.api.cd.package.ListNameService
     version: ^1.0.0
   - name: easyops.api.cd.package.Retry
     version: ^1.0.0

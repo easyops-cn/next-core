@@ -1,6 +1,12 @@
 import path from "path";
 import os from "os";
-import { Context, FileImports, Model, InternalInterfaces } from "./internal";
+import {
+  Context,
+  FileImports,
+  Model,
+  InternalInterfaces,
+  ObjectType,
+} from "./internal";
 import { loadModel } from "../loaders/loadModel";
 
 type SourceBlock =
@@ -89,11 +95,16 @@ export class SourceFile {
   }
 
   getInternalInterfaceBlocks(): SourceBlock[] {
-    return this.internalInterfaces
-      .getInterfaceEntries()
-      .map(
-        ([interfaceName, objectType]) =>
-          `export interface ${interfaceName} ${objectType.toDefinitionString()}`
+    let entries: [string, ObjectType][];
+    let blocks = [] as SourceBlock[];
+    while ((entries = this.internalInterfaces.getInterfaceEntries())) {
+      blocks = blocks.concat(
+        entries.map(
+          ([interfaceName, objectType]) =>
+            `export interface ${interfaceName} ${objectType.toDefinitionString()}`
+        )
       );
+    }
+    return blocks;
   }
 }

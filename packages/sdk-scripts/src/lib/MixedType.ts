@@ -4,6 +4,7 @@ import {
   ProbablyObjectType,
   PartialModelType,
   EnumType,
+  TypePath,
 } from "./internal";
 import { MixedTypeDoc } from "../interface";
 import { isPrimitiveType, getRealType, isPropertyType } from "../utils";
@@ -11,13 +12,13 @@ import { isPrimitiveType, getRealType, isPropertyType } from "../utils";
 export class MixedType extends UnionType {
   readonly isArray: boolean;
 
-  constructor(sourceFile: SourceFile, doc: MixedTypeDoc, guessName: string) {
+  constructor(sourceFile: SourceFile, doc: MixedTypeDoc, typePath: TypePath) {
     super(sourceFile);
     const { fields, required, requireAll } = doc;
     const { type, isArray, enum: enumValues } = getRealType(doc);
     this.isArray = isArray;
 
-    const guessNameWithArray = isArray ? `${guessName}_item` : guessName;
+    const typePathWithArray = isArray ? typePath.concat("item") : typePath;
 
     if (Array.isArray(enumValues) && enumValues.length > 0) {
       if (!["string", "number", "boolean"].includes(type)) {
@@ -45,31 +46,23 @@ export class MixedType extends UnionType {
             required,
             requireAll,
           },
-          guessNameWithArray
+          typePathWithArray
         ).spread()
       );
       return;
     }
 
     this.addUnions(
-      new PartialModelType(
-        sourceFile,
-        {
-          type,
-          required,
-          requireAll,
-        },
-        guessNameWithArray
-      ).spread()
+      new PartialModelType(sourceFile, {
+        type,
+        required,
+        requireAll,
+      }).spread()
     );
   }
 
-  withName(name: string): string {
-    const definition = !this.isArray && this.generateDefinitionIfAvailable();
-    if (definition) {
-      return `interface ${name} ${definition};`;
-    }
-    return `type ${name} = ${this.toString()};`;
+  toDefinitionStringWithName(name: string): string {
+    return this.generateInterfaceDefinitionOrTypeAlias(name, this.isArray);
   }
 
   toString(): string {
