@@ -2896,10 +2896,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.9.1":
-  version "4.9.1"
-  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.9.1.tgz#e21ea327af62b1148a7ab69a039f8fa002506de2"
-  integrity sha1-4h6jJ69isRSKeraaA5+PoAJQbeI=
+"@types/echarts@^4.9.2":
+  version "4.9.2"
+  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.9.2.tgz?cache=0&sync_timestamp=1606158628837&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fecharts%2Fdownload%2F%40types%2Fecharts-4.9.2.tgz#305d250aabf3cb4c47e26ef6b335aab5354339f6"
+  integrity sha1-MF0lCqvzy0xH4m72szWqtTVDOfY=
   dependencies:
     "@types/zrender" "*"
 
