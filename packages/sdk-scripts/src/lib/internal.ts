@@ -15,3 +15,4 @@ export * from "./ProbablyObjectType";
 export * from "./SimpleType";
 export * from "./TypeDefinition";
 export * from "./EnumType";
+export * from "./InternalInterfaces";

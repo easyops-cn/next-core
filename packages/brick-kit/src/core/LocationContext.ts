@@ -25,6 +25,7 @@ import {
   MessageConf,
   BrickLifeCycle,
   Storyboard,
+  StaticMenuConf,
 } from "@easyops/brick-types";
 import {
   isObject,
@@ -49,10 +50,11 @@ import {
   symbolForRefForProxy,
   symbolForParentTemplate,
   ResolveRequestError,
+  RuntimeBrickConfWithTplSymbols,
+  CustomTemplateContext,
 } from "./exports";
 import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
-import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates";
 import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
 import { getRuntimeMisc } from "../misc";
 import { httpErrorToString } from "../handleHttpError";
@@ -60,6 +62,7 @@ import {
   getSubStoryboardByRoute,
   SubStoryboardMatcher,
 } from "./getSubStoryboardByRoute";
+import { symbolForTplContextId } from "./CustomTemplates";
 
 export type MatchRoutesResult =
   | {
@@ -98,12 +101,14 @@ export interface MountRoutesResult {
 interface BrickAndLifeCycleHandler {
   brick: RuntimeBrick;
   match: MatchResult;
+  tplContextId?: string;
   handler: BrickEventHandler | BrickEventHandler[];
 }
 
 export interface BrickAndMessage {
   brick: RuntimeBrick;
   match: MatchResult;
+  tplContextId?: string;
   message: MessageConf | MessageConf[];
 }
 
@@ -122,15 +127,22 @@ export class LocationContext {
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
   private readonly storyboardContext: StoryboardContext = new Map();
+  private readonly tplContext = new CustomTemplateContext();
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.query = new URLSearchParams(location.search);
     this.messageDispatcher = getMessageDispatcher();
   }
 
-  private getContext(match: MatchResult): PluginRuntimeContext {
+  private getContext({
+    match,
+    tplContextId,
+  }: {
+    match: MatchResult;
+    tplContextId?: string;
+  }): PluginRuntimeContext {
     const auth = getAuth();
-    return {
+    const context: PluginRuntimeContext = {
       hash: this.location.hash,
       query: this.query,
       match,
@@ -147,10 +159,16 @@ export class LocationContext {
       segues: this.segues,
       storyboardContext: this.storyboardContext,
     };
+    if (tplContextId) {
+      context.getTplVariables = () => this.tplContext.getContext(tplContextId);
+    }
+    return context;
   }
 
   getCurrentContext(): PluginRuntimeContext {
-    return this.getContext(this.currentMatch);
+    return this.getContext({
+      match: this.currentMatch,
+    });
   }
 
   private async defineStoryboardFreeContext(
@@ -159,7 +177,7 @@ export class LocationContext {
     brick?: RuntimeBrick
   ): Promise<void> {
     for (const contextConf of contextConfs) {
-      let value: any;
+      let value: unknown;
       if (contextConf.property) {
         if (brick) {
           this.setStoryboardContext(contextConf.name, {
@@ -170,7 +188,7 @@ export class LocationContext {
         }
       } else {
         if (contextConf.resolve) {
-          const valueConf: Record<string, any> = {};
+          const valueConf: Record<string, unknown> = {};
           await this.resolver.resolveOne(
             "reference",
             {
@@ -279,7 +297,7 @@ export class LocationContext {
         if (route.hybrid) {
           mountRoutesResult.flags.hybrid = true;
         }
-        context = this.getContext(matched.match);
+        context = this.getContext({ match: matched.match });
         this.resolver.defineResolves(route.defineResolves, context);
         await this.mountProviders(
           route.providers,
@@ -292,7 +310,9 @@ export class LocationContext {
           await this.defineStoryboardFreeContext(route.context, context);
         }
 
-        redirect = computeRealValue(route.redirect, context, true);
+        redirect = computeRealValue(route.redirect, context, true) as
+          | string
+          | ResolveConf;
 
         if (redirect) {
           if (typeof redirect === "string") {
@@ -349,7 +369,7 @@ export class LocationContext {
       return;
     }
 
-    const context = this.getContext(match);
+    const context = this.getContext({ match });
 
     if (menuConf.type === "brick") {
       // eslint-disable-next-line no-console
@@ -408,7 +428,7 @@ export class LocationContext {
       breadcrumb,
       menuId,
       subMenuId,
-    } = injectedMenuConf;
+    } = injectedMenuConf as StaticMenuConf;
 
     if (menuId) {
       mountRoutesResult.menuBar.menuId = menuId;
@@ -531,7 +551,13 @@ export class LocationContext {
     mountRoutesResult: MountRoutesResult,
     tplStack: string[] = []
   ): Promise<void> {
-    const context = this.getContext(match);
+    const tplContextId = (brickConf as RuntimeBrickConfWithTplSymbols)[
+      symbolForTplContextId
+    ];
+    const context = this.getContext({
+      match,
+      tplContextId,
+    });
 
     // First, check whether the brick should be rendered.
     if (!(await this.checkResolvableIf(brickConf, context))) {
@@ -605,7 +631,12 @@ export class LocationContext {
       brick.refForProxy.brick = brick;
     }
 
-    this.registerHandlersFromLifeCycle(brickConf.lifeCycle, brick, match);
+    this.registerHandlersFromLifeCycle(
+      brickConf.lifeCycle,
+      brick,
+      match,
+      tplContextId
+    );
 
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
@@ -620,7 +651,8 @@ export class LocationContext {
           properties: brick.properties,
         },
         brick,
-        context
+        context,
+        this.tplContext
       );
 
       // Try to load deps for dynamic added bricks.
@@ -678,7 +710,8 @@ export class LocationContext {
   private registerHandlersFromLifeCycle(
     lifeCycle: BrickLifeCycle,
     brick: RuntimeBrick,
-    match: MatchResult
+    match: MatchResult,
+    tplContextId?: string
   ): void {
     const {
       onBeforePageLoad,
@@ -695,6 +728,7 @@ export class LocationContext {
       this.beforePageLoadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onBeforePageLoad,
       });
     }
@@ -703,6 +737,7 @@ export class LocationContext {
       this.pageLoadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onPageLoad,
       });
     }
@@ -711,6 +746,7 @@ export class LocationContext {
       this.beforePageLeaveHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onBeforePageLeave,
       });
     }
@@ -719,6 +755,7 @@ export class LocationContext {
       this.pageLeaveHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onPageLeave,
       });
     }
@@ -727,6 +764,7 @@ export class LocationContext {
       this.anchorLoadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onAnchorLoad,
       });
     }
@@ -735,6 +773,7 @@ export class LocationContext {
       this.anchorUnloadHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onAnchorUnload,
       });
     }
@@ -743,6 +782,7 @@ export class LocationContext {
       this.messageHandlers.push({
         brick,
         match,
+        tplContextId,
         message: onMessage,
       });
     }
@@ -751,6 +791,7 @@ export class LocationContext {
       this.messageCloseHandlers.push({
         brick,
         match,
+        tplContextId,
         handler: onMessageClose,
       });
     }
@@ -818,7 +859,7 @@ export class LocationContext {
 
   handleMessageClose(event: CloseEvent): void {
     this.dispatchLifeCycleEvent(
-      new CustomEvent<any>("message.close", {
+      new CustomEvent<CloseEvent>("message.close", {
         detail: event,
       }),
       this.messageCloseHandlers
@@ -835,7 +876,10 @@ export class LocationContext {
       )) {
         listenerFactory(
           handler,
-          this.getContext(brickAndHandler.match),
+          this.getContext({
+            match: brickAndHandler.match,
+            tplContextId: brickAndHandler.tplContextId,
+          }),
           brickAndHandler.brick.element
         )(event);
       }

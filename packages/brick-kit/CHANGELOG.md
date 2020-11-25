@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.22.0...@easyops/brick-kit@2.22.1) (2020-11-23)
+
+### Bug Fixes
+
+- **custom-template:** fix TPL.\* not working in lifeCycle events ([2445e19](https://git.easyops.local/anyclouds/next-core/commits/2445e19))
+
+# [2.22.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.21.0...@easyops/brick-kit@2.22.0) (2020-11-23)
+
+### Features
+
+- **develop-helper:** support useProvider and template lifeCycle in developer preview ([2e3122c](https://git.easyops.local/anyclouds/next-core/commits/2e3122c))
+- **event:** add a new event action: "menu.clearMenuTitleCache" ([3892e1a](https://git.easyops.local/anyclouds/next-core/commits/3892e1a))
+
+# [2.21.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.20.0...@easyops/brick-kit@2.21.0) (2020-11-20)
+
+### Features
+
+- **custom-template:** support template properties as variables ([44e3b6b](https://git.easyops.local/anyclouds/next-core/commits/44e3b6b))
+
+# [2.20.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.3...@easyops/brick-kit@2.20.0) (2020-11-20)
+
+### Bug Fixes
+
+- fix not loading bricks in useBrick.slots ([46b1e05](https://git.easyops.local/anyclouds/next-core/commits/46b1e05))
+
+### Features
+
+- **api-orchestration:** set fields ([747ad72](https://git.easyops.local/anyclouds/next-core/commits/747ad72))
+
+## [2.19.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.2...@easyops/brick-kit@2.19.3) (2020-11-19)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
 ## [2.19.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.19.1...@easyops/brick-kit@2.19.2) (2020-11-17)
 
 ### Bug Fixes

@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.0.3...@easyops/sdk-scripts@2.1.0) (2020-11-24)
+
+### Bug Fixes
+
+- refine exported names of literal interfaces ([b0dd5f4](https://git.easyops.local/anyclouds/next-core/commits/b0dd5f4))
+
+### Features
+
+- export anonymous interfaces ([7e2f77f](https://git.easyops.local/anyclouds/next-core/commits/7e2f77f))
+- export named literal interfaces ([091a8c9](https://git.easyops.local/anyclouds/next-core/commits/091a8c9))
+
+## [2.0.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.0.2...@easyops/sdk-scripts@2.0.3) (2020-11-19)
+
+**Note:** Version bump only for package @easyops/sdk-scripts
+
 ## [2.0.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.0.1...@easyops/sdk-scripts@2.0.2) (2020-10-26)
 
 ### Bug Fixes

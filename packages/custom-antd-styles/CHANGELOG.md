@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.3.0...@easyops/custom-antd-styles@1.3.1) (2020-11-20)
+
+### Bug Fixes
+
+- **select:** 修复表单中验证失败是 select 变红样式不对问题 ([2783266](https://git.easyops.local/anyclouds/next-core/commits/2783266))
+- **select:** 修复表单中验证失败是 select 变红样式不对问题 ([55fecdd](https://git.easyops.local/anyclouds/next-core/commits/55fecdd))
+
+# [1.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.2.3...@easyops/custom-antd-styles@1.3.0) (2020-11-19)
+
+### Features
+
+- **modal:** UI 6.1 样式 ([8fcb40b](https://git.easyops.local/anyclouds/next-core/commits/8fcb40b))
+
 ## [1.2.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.2.2...@easyops/custom-antd-styles@1.2.3) (2020-11-11)
 
 ### Bug Fixes

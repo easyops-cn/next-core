@@ -12,6 +12,7 @@ import {
   SelectorProviderResolveConf,
   HandleReject,
   HandleRejectByCatch,
+  GeneralTransform,
 } from "@easyops/brick-types";
 import { asyncProcessBrick } from "@easyops/brick-utils";
 import { computeRealValue } from "../setProperties";
@@ -56,7 +57,7 @@ export class Resolver {
       for (const resolveConf of resolves) {
         this.definedResolves.set(resolveConf.id, {
           ...resolveConf,
-          args: computeRealValue(resolveConf.args, context, true),
+          args: computeRealValue(resolveConf.args, context, true) as unknown[],
         });
       }
     }
@@ -272,7 +273,11 @@ export class Resolver {
             props,
             error,
             context
-              ? computeRealValue(resolveConf.onReject.transform, context, true)
+              ? (computeRealValue(
+                  resolveConf.onReject.transform,
+                  context,
+                  true
+                ) as GeneralTransform)
               : resolveConf.onReject.transform
           );
         } else if (isHandleRejectByCatch(resolveConf.onReject)) {
@@ -288,7 +293,9 @@ export class Resolver {
     if (ref) {
       data = transformIntermediateData(
         data,
-        context ? computeRealValue(transform, context, true) : transform,
+        context
+          ? (computeRealValue(transform, context, true) as GeneralTransform)
+          : transform,
         transformFrom,
         transformMapArray
       );
@@ -299,11 +306,11 @@ export class Resolver {
       data,
       // Also support legacy `name`
       context
-        ? computeRealValue(
+        ? (computeRealValue(
             resolveConf.transform || resolveConf.name,
             context,
             true
-          )
+          ) as GeneralTransform)
         : resolveConf.transform || resolveConf.name,
       resolveConf.transformFrom,
       resolveConf.transformMapArray

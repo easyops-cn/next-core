@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@2.4.2...@easyops/brick-icons@2.4.3) (2020-11-23)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
+## [2.4.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@2.4.1...@easyops/brick-icons@2.4.2) (2020-11-19)
+
+**Note:** Version bump only for package @easyops/brick-icons
+
 ## [2.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@2.4.0...@easyops/brick-icons@2.4.1) (2020-11-17)
 
 **Note:** Version bump only for package @easyops/brick-icons

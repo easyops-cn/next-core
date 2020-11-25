@@ -213,6 +213,25 @@ describe("scanBricksInStoryboard", () => {
                             },
                           ],
                         },
+                        slots: {
+                          items: {
+                            type: "bricks",
+                            bricks: [
+                              {
+                                brick: "b-r",
+                                slots: {
+                                  content: {
+                                    bricks: [
+                                      {
+                                        brick: "b-s",
+                                      },
+                                    ],
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
                       },
                     ],
                   },
@@ -252,6 +271,8 @@ describe("scanBricksInStoryboard", () => {
       "b-o",
       "b-p",
       "b-q",
+      "b-r",
+      "b-s",
       "b-x",
       "b-y",
       "p-a",
@@ -282,7 +303,7 @@ describe("scanBricksInStoryboard", () => {
   it("should ignore bricks in custom templates", () => {
     expect(
       scanBricksInStoryboard(storyboard, {
-        ignoreBricksInCustomTemplates: true,
+        ignoreBricksInUnusedCustomTemplates: true,
       }).sort()
     ).toEqual([
       "b-a",
@@ -294,7 +315,9 @@ describe("scanBricksInStoryboard", () => {
       "b-o",
       "b-p",
       "b-q",
-      // "b-x",
+      "b-r",
+      "b-s",
+      "b-x",
       // "b-y",
       "p-a",
       "p-b",

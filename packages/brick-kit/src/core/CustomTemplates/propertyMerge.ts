@@ -1,10 +1,6 @@
-import {
-  BrickConfInTemplate,
-  PluginRuntimeContext,
-} from "@easyops/brick-types";
 import { isObject } from "@easyops/brick-utils";
 import { clamp } from "lodash";
-import { computeRealValue } from "../setProperties";
+import { computeRealValue } from "../../setProperties";
 import {
   MergeablePropertyProxy,
   MergeablePropertyProxyOfArray,
@@ -41,85 +37,27 @@ export function propertyMergeAll(
   throw new TypeError(`unsupported mergeType: "${mergeBase.mergeType}"`);
 }
 
-export function collectMergeBases(
-  conf: MergeablePropertyProxy,
-  mergeBases: Map<string, Map<string, MergeBase>>,
-  context: PluginRuntimeContext,
-  refToBrickConf: Map<string, BrickConfInTemplate>
-): void {
-  let mergeBaseMap: Map<string, MergeBase>;
-  if (mergeBases.has(conf.ref)) {
-    mergeBaseMap = mergeBases.get(conf.ref);
-  } else {
-    mergeBaseMap = new Map();
-    mergeBases.set(conf.ref, mergeBaseMap);
-  }
-
-  if (mergeBaseMap.has(conf.mergeProperty)) {
-    conf.$$mergeBase = mergeBaseMap.get(conf.mergeProperty);
-    // istanbul ignore if: should never reach
-    if (conf.mergeType !== conf.$$mergeBase.mergeType) {
-      throw new Error(
-        `Properties proxy contained different mergeTypes of "${conf.$$mergeBase.mergeType}" and "${conf.mergeType}"`
-      );
-    }
-    conf.$$mergeBase.proxies.push(conf);
-  } else {
-    const baseValue = refToBrickConf.get(conf.ref).properties?.[
-      conf.mergeProperty
-    ];
-    let computedBaseValue: unknown;
-    switch (conf.mergeType) {
-      case "array":
-        // If the merge base is not array, replace it with an empty array.
-        computedBaseValue = Object.freeze(
-          Array.isArray(baseValue)
-            ? computeRealValue(baseValue, context, true)
-            : []
-        );
-        break;
-      case "object":
-        // If the merge base is not object, replace it with an empty object.
-        computedBaseValue = Object.freeze(
-          isObject(baseValue) ? computeRealValue(baseValue, context, true) : {}
-        );
-        break;
-      // istanbul ignore next: should never reach
-      default:
-        throw new TypeError(
-          `unsupported mergeType: "${
-            (conf as MergeablePropertyProxy).mergeType
-          }"`
-        );
-    }
-    conf.$$mergeBase = {
-      proxies: [conf],
-      mergeType: conf.mergeType,
-      baseValue: computedBaseValue,
-    };
-    mergeBaseMap.set(conf.mergeProperty, conf.$$mergeBase);
-  }
-}
-
 function propertyMergeAllOfArray(
-  mergeBase: MergeBase,
+  { baseValue, context, proxies }: MergeBase,
   object: Record<string, unknown>
 ): unknown[] {
   // Use an approach like template-literal's quasis:
   // `quasi0${0}quais1${1}quasi2...`
   // Every quasi can be merged with multiple items.
-  const baseValue = mergeBase.baseValue as unknown[];
+  const computedBaseValue = Array.isArray(baseValue)
+    ? (computeRealValue(baseValue, context, true) as unknown[])
+    : [];
   const quasis: unknown[][] = [];
-  const size = baseValue.length + 1;
+  const size = computedBaseValue.length + 1;
   for (let i = 0; i < size; i += 1) {
     quasis.push([]);
   }
 
-  for (const proxy of mergeBase.proxies as MergeablePropertyProxyOfArray[]) {
+  for (const proxy of proxies as MergeablePropertyProxyOfArray[]) {
     let position: number;
     switch (proxy.mergeMethod) {
       case "append":
-        position = baseValue.length;
+        position = computedBaseValue.length;
         break;
       case "prepend":
         position = 0;
@@ -131,7 +69,7 @@ function propertyMergeAllOfArray(
           // It's counted from the end if position is negative.
           position += quasis.length;
         }
-        position = clamp(position, 0, baseValue.length);
+        position = clamp(position, 0, computedBaseValue.length);
         break;
       // istanbul ignore next: should never reach
       default:
@@ -147,16 +85,20 @@ function propertyMergeAllOfArray(
   }
 
   return quasis.flatMap((item, index) =>
-    index < baseValue.length ? item.concat(baseValue[index]) : item
+    index < computedBaseValue.length
+      ? item.concat(computedBaseValue[index])
+      : item
   );
 }
 
 function propertyMergeAllOfObject(
-  mergeBase: MergeBase,
+  { baseValue, proxies, context }: MergeBase,
   object: Record<string, unknown>
 ): Record<string, unknown> {
-  const baseValue = mergeBase.baseValue as Record<string, unknown>;
-  return mergeBase.proxies.reduce((acc, proxy) => {
+  const computedBaseValue = isObject(baseValue)
+    ? (computeRealValue(baseValue, context, true) as Record<string, unknown>)
+    : {};
+  return proxies.reduce((acc, proxy) => {
     switch (proxy.mergeMethod) {
       case "extend":
         return {
@@ -169,5 +111,5 @@ function propertyMergeAllOfObject(
           `unsupported mergeMethod: "${proxy.mergeMethod}" for mergeType "${proxy.mergeType}"`
         );
     }
-  }, baseValue);
+  }, computedBaseValue);
 }

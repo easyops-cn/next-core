@@ -2,6 +2,43 @@
  * 修改 Select 的样式
  * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=2afae1c2-4839-410f-82fb-8f048c706a09
 */
+
+// 表单验证错误时select样式
+.has-error {
+  .ant-select-selector {
+    border-color: #ff4d4f !important;
+
+    &:hover {
+      border-color: #ff4d4f !important;
+    }
+  }
+
+  .ant-select-focused:not(.ant-select-disabled).ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: #ff7875 !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2) !important;
+  }
+
+  .ant-select-arrow {
+    color: inherit !important;
+  }
+}
+
+// 修改select样式
+.ant-select-dropdown {
+  padding: 2px;
+  
+  .ant-select-item-option {
+    border-radius: 6px;
+
+    &.ant-select-item-option-active {
+      background-color: #EBF3FD;
+    }
+    &.ant-select-item-option-selected {
+      background-color: #f5f5f5;
+    }
+  }
+}
+
 .@{select-prefix-cls} {
   &-dropdown-menu {
     padding: 2px;

@@ -1,14 +1,20 @@
 import os from "os";
-import { SourceFile, MixedType } from "./internal";
+import { SourceFile, MixedType, TypePath } from "./internal";
 import {
   ObjectTypeDoc,
   FieldDoc,
   RefFieldDoc,
-  NormalFieldDoc
+  NormalFieldDoc,
 } from "../interface";
 
 export class ObjectType {
-  constructor(private sourceFile: SourceFile, private doc: ObjectTypeDoc) {}
+  private _name: string;
+
+  constructor(
+    private sourceFile: SourceFile,
+    private doc: ObjectTypeDoc,
+    private typePath: TypePath
+  ) {}
 
   private fieldToString(field: FieldDoc): string {
     const { requireAll, required } = this.doc;
@@ -23,9 +29,9 @@ export class ObjectType {
       (Array.isArray(required) &&
         (isRefFieldDoc
           ? required.some(
-              r => r === `${refModel}.*` || r === (field as RefFieldDoc).ref
+              (r) => r === `${refModel}.*` || r === (field as RefFieldDoc).ref
             )
-          : required.some(r => r === (field as NormalFieldDoc).name)));
+          : required.some((r) => r === (field as NormalFieldDoc).name)));
     if (isRefFieldDoc) {
       const ref = this.sourceFile.namespace.get(refModel);
       if (ref === undefined) {
@@ -42,25 +48,39 @@ export class ObjectType {
       `${normalField.name}`,
       isRequired ? "" : "?",
       ":",
-      this.fieldValueToString(normalField)
+      this.fieldValueToString(normalField),
     ].join("");
   }
 
   private fieldValueToString(field: NormalFieldDoc): string {
-    return new MixedType(this.sourceFile, {
-      type: field.type,
-      fields: field.fields,
-      enum: field.enum
-    }).toString();
+    return new MixedType(
+      this.sourceFile,
+      {
+        type: field.type,
+        fields: field.fields,
+        enum: field.enum,
+      },
+      this.typePath.concat(field.name)
+    ).toString();
   }
 
   toString(): string {
+    if (!this._name) {
+      this._name = this.sourceFile.internalInterfaces.createOne(
+        this,
+        this.typePath
+      );
+    }
+    return this._name;
+  }
+
+  toDefinitionString(): string {
     return [
       "{",
       this.doc.fields
-        .map(field => this.fieldToString(field))
+        .map((field) => this.fieldToString(field))
         .join(";" + os.EOL + os.EOL),
-      "}"
+      "}",
     ].join(os.EOL);
   }
 }

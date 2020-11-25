@@ -19,6 +19,7 @@ import {
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
 import { looseCheckIfByTransform } from "./checkIf";
+import { isPreEvaluated } from "./evaluate";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -149,7 +150,7 @@ export function SingleBrickAsComponent(
     [runtimeBrick, useBrick, data, refCallback, immediatelyRefCallback]
   );
 
-  if (isObject(useBrick.if)) {
+  if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
     // eslint-disable-next-line
     console.warn("Currently resolvable-if in `useBrick` is not supported.");
   } else if (!looseCheckIfByTransform(useBrick, data)) {
@@ -283,7 +284,7 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
     [runtimeBrick, useBrick, data, refCallback]
   );
 
-  if (isObject(useBrick.if)) {
+  if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
     // eslint-disable-next-line
     console.warn("Currently resolvable-if in `useBrick` is not supported.");
   } else if (!looseCheckIfByTransform(useBrick, data)) {

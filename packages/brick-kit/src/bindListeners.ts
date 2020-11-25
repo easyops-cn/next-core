@@ -30,6 +30,7 @@ import { getMessageDispatcher } from "./core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./core/CustomApis";
 import { applyTheme, applyMode } from "./themeAndMode";
+import { clearMenuTitleCache } from "./core/menu";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -237,6 +238,13 @@ export function listenerFactory(
           applyMode(
             handler.action === "mode.setDashboardMode" ? "dashboard" : "default"
           );
+        }) as EventListener;
+      case "menu.clearMenuTitleCache":
+        return ((event: CustomEvent) => {
+          if (!looseCheckIf(handler, { ...context, event })) {
+            return;
+          }
+          clearMenuTitleCache();
         }) as EventListener;
       default:
         return () => {
@@ -723,14 +731,14 @@ function argsFactory(
   options: ArgsFactoryOptions = {}
 ): unknown[] {
   return Array.isArray(args)
-    ? computeRealValue(
+    ? (computeRealValue(
         args,
         {
           ...context,
           event,
         },
         true
-      )
+      ) as unknown[])
     : options.useEventAsDefault
     ? [event]
     : options.useEventDetailAsDefault

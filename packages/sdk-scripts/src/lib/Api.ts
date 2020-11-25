@@ -1,10 +1,13 @@
 import * as changeCase from "change-case";
-import { SourceFile } from "./internal";
+import chalk from "chalk";
+import {
+  SourceFile,
+  ApiMethod,
+  Context,
+  TypeDefinition,
+  FunctionBlock,
+} from "./internal";
 import { ApiDoc } from "../interface";
-import { ApiMethod } from "./internal";
-import { Context } from "./internal";
-import { TypeDefinition } from "./internal";
-import { FunctionBlock } from "./internal";
 import { refineRequest } from "../utils";
 
 export class Api extends SourceFile {
@@ -75,15 +78,32 @@ export class Api extends SourceFile {
   }
 
   toString(): string {
-    // Generate main block string before imports,
-    // Because imports could be manipulated when main block generating.
-    const mainBlockString = this.joinBlocks([
-      this.requestParamsType,
-      this.requestBodyType,
-      this.responseItemType,
-      this.responseBodyType,
-      this.functionBlock
-    ]);
-    return this.joinBlocks([this.importsToString(), mainBlockString]);
+    try {
+      // Generate main block string before imports,
+      // Because imports could be manipulated when main block generating.
+      const mainBlockString = this.joinBlocks([
+        this.requestParamsType,
+        this.requestBodyType,
+        this.responseItemType,
+        this.responseBodyType,
+        this.functionBlock,
+      ]);
+      // And generate internal blocks string after main block generated,
+      // Because internal blocks could be manipulated when main block generating.
+      const internalBlocksString = this.joinBlocks(
+        this.getInternalInterfaceBlocks()
+      );
+      return this.joinBlocks([
+        this.importsToString(),
+        mainBlockString,
+        internalBlocksString,
+      ]);
+    } catch (error) {
+      console.log(
+        chalk.red("Generating sdk failed for contract of api:"),
+        chalk.bgRed(this.serviceName)
+      );
+      throw error;
+    }
   }
 }

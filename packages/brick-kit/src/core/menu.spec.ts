@@ -4,6 +4,7 @@ import {
   constructMenu,
   MenuRawData,
   processMenuTitle,
+  clearMenuTitleCache,
 } from "./menu";
 import * as runtime from "./Runtime";
 
@@ -121,6 +122,10 @@ jest.spyOn(InstanceApi, "getDetail").mockImplementation((objectId) => {
 });
 
 describe("fetchMenuById", () => {
+  beforeEach(() => {
+    clearMenuTitleCache();
+  });
+
   it("should work", async () => {
     const menu1 = await fetchMenuById("menu-a");
     expect(menu1).toEqual({

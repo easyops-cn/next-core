@@ -29,7 +29,13 @@ import {
   StoryboardMeta,
 } from "@easyops/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
-import { Router, MenuBar, AppBar, LoadingBar } from "./exports";
+import {
+  Router,
+  MenuBar,
+  AppBar,
+  LoadingBar,
+  registerCustomTemplate,
+} from "./exports";
 import { getHistory } from "../history";
 import {
   RelatedApp,
@@ -39,7 +45,6 @@ import {
 } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { registerCustomTemplate } from "./CustomTemplates";
 import { listenDevtools } from "../devtools";
 import { isCustomApiProvider } from "./CustomApis";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
@@ -196,7 +201,7 @@ export class Kernel {
         ),
         brickPackages,
         {
-          ignoreBricksInCustomTemplates: true,
+          ignoreBricksInUnusedCustomTemplates: true,
         }
       );
       await loadScript(result.dll);
@@ -369,7 +374,11 @@ export class Kernel {
             // TODO(Lynette): 暂时设置3000，这里单个app下自定义的api数据不会太多。
             page_size: 3000,
             fields: {
-              "*": true,
+              name: true,
+              namespace: true,
+              contract: true,
+              config: true,
+              type: true,
             },
             query: {
               "microApp.appId": currentAppId,
