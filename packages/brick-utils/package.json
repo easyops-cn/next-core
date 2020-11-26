@@ -29,10 +29,10 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/parser": "^7.12.5",
+    "@babel/parser": "^7.12.7",
     "@easyops-cn/brick-next-pipes": "^0.3.7",
     "@easyops/brick-types": "^2.11.0",
-    "file-saver": "^2.0.2",
+    "file-saver": "^2.0.5",
     "path-to-regexp": "^6.2.0"
   },
   "devDependencies": {

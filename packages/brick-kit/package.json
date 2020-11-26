@@ -45,7 +45,7 @@
     "@easyops/easyops-analytics": "^0.1.1",
     "antd": "4.6.6",
     "history": "^4.10.1",
-    "i18next": "^19.8.3",
+    "i18next": "^19.8.4",
     "jest-websocket-mock": "^2.2.0",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",
