@@ -1,9 +1,11 @@
+import React from "react";
 import {
   HttpResponseError,
   HttpParseError,
   HttpFetchError,
 } from "@easyops/brick-http";
 import { Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { ModalFunc } from "antd/lib/modal/confirm";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "./i18n/constants";
@@ -39,6 +41,8 @@ export function httpErrorToString(
   return error.toString();
 }
 
+let unauthenticatedConfirmModal: ReturnType<ModalFunc>;
+
 /**
  * 处理 http 请求错误（使用 AntDesign 模态框弹出错误信息）。
  *
@@ -49,11 +53,23 @@ export function handleHttpError(
 ): ReturnType<ModalFunc> {
   // Redirect to login page if not logged in.
   if (isUnauthenticatedError(error)) {
-    const history = getHistory();
-    history.push("/auth/login", {
-      from: {
-        ...history.location,
-        state: undefined,
+    // Do not show multiple confirm modals.
+    if (unauthenticatedConfirmModal) {
+      return;
+    }
+    unauthenticatedConfirmModal = Modal.confirm({
+      icon: <ExclamationCircleOutlined />,
+      content: <LoginTimeoutMessage />,
+      okText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_OK}`),
+      cancelText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_CANCEL}`),
+      onOk: () => {
+        const history = getHistory();
+        history.push("/auth/login", {
+          from: {
+            ...history.location,
+            state: undefined,
+          },
+        });
       },
     });
     return;
@@ -64,4 +80,14 @@ export function handleHttpError(
     content: httpErrorToString(error),
     okText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_OK}`),
   });
+}
+
+export function LoginTimeoutMessage(): React.ReactElement {
+  React.useEffect(() => {
+    // Unset confirm modal when it's destroyed.
+    return () => {
+      unauthenticatedConfirmModal = undefined;
+    };
+  }, []);
+  return <div>{i18next.t(`${NS_BRICK_KIT}:${K.LOGIN_TIMEOUT_MESSAGE}`)}</div>;
 }
