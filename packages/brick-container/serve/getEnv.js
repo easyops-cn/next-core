@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const meow = require("meow");
 const chalk = require("chalk");
+const { difference } = require("lodash");
 const {
   getNamesOfMicroApps,
   getNamesOfBrickPackages,
@@ -29,7 +30,67 @@ function getServerPath(server) {
 module.exports = (cwd) => {
   let flags = {};
   if (cwd) {
-    flags = meow(
+    const flagOptions = {
+      offline: {
+        type: "boolean",
+      },
+      subdir: {
+        type: "boolean",
+      },
+      remote: {
+        type: "boolean",
+        default: true,
+      },
+      autoRemote: {
+        type: "boolean",
+      },
+      localBricks: {
+        type: "string",
+      },
+      localMicroApps: {
+        type: "string",
+      },
+      localTemplates: {
+        type: "string",
+      },
+      localSettings: {
+        type: "boolean",
+      },
+      mergeSettings: {
+        type: "boolean",
+        default: true,
+      },
+      host: {
+        type: "string",
+        default: "localhost",
+      },
+      port: {
+        type: "string",
+        default: "8081",
+      },
+      wsPort: {
+        type: "string",
+        default: "8090",
+      },
+      server: {
+        type: "string",
+      },
+      consoleServer: {
+        type: "string",
+      },
+      verbose: {
+        type: "boolean",
+      },
+      mock: {
+        type: "boolean",
+        default: true,
+      },
+      liveReload: {
+        type: "boolean",
+        default: true,
+      },
+    };
+    const cli = meow(
       `
       Usage
         $ yarn serve [options]
@@ -52,70 +113,38 @@ module.exports = (cwd) => {
         --verbose           Print verbose logs
         --no-mock           Disable mock-micro-apps
         --no-live-reload    Disable live reload through WebSocket (for E2E tests in CI)
-    `,
+        --help              Show help message
+        --version           Show brick container version
+      `,
       {
-        flags: {
-          offline: {
-            type: "boolean",
-          },
-          subdir: {
-            type: "boolean",
-          },
-          remote: {
-            type: "boolean",
-            default: true,
-          },
-          autoRemote: {
-            type: "boolean",
-          },
-          localBricks: {
-            type: "string",
-          },
-          localMicroApps: {
-            type: "string",
-          },
-          localTemplates: {
-            type: "string",
-          },
-          localSettings: {
-            type: "boolean",
-          },
-          mergeSettings: {
-            type: "boolean",
-            default: true,
-          },
-          host: {
-            type: "string",
-            default: "localhost",
-          },
-          port: {
-            type: "string",
-            default: "8081",
-          },
-          wsPort: {
-            type: "string",
-            default: "8090",
-          },
-          server: {
-            type: "string",
-          },
-          consoleServer: {
-            type: "string",
-          },
-          verbose: {
-            type: "boolean",
-          },
-          mock: {
-            type: "boolean",
-            default: true,
-          },
-          liveReload: {
-            type: "boolean",
-            default: true,
-          },
-        },
+        flags: flagOptions,
       }
-    ).flags;
+    );
+
+    flags = cli.flags;
+    let invalidInput = false;
+
+    if (cli.input.length > 0) {
+      console.error(chalk.red("Unexpected args received"));
+      invalidInput = true;
+    } else {
+      const acceptKeys = Object.keys(flagOptions);
+      const receivedKeys = Object.keys(flags);
+      const unknownKeys = difference(receivedKeys, acceptKeys);
+      if (unknownKeys.length > 0) {
+        console.error(
+          `${chalk.red(
+            `Unknown option${unknownKeys.length > 1 ? "s" : ""}:`
+          )} ${unknownKeys.join(", ")}`
+        );
+        invalidInput = true;
+      }
+    }
+
+    if (invalidInput) {
+      cli.showHelp();
+      process.exit(1);
+    }
   }
 
   const useOffline = flags.offline || process.env.OFFLINE === "true";
