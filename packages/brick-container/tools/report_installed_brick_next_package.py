@@ -84,10 +84,29 @@ def create_or_update_package(org, installed_package, install_path):
       rsp = requests.put(url, json=installed_package, headers=headers)
       rsp.raise_for_status()
 
+def check_org():
+    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.cmdb")
+    if session_id <= 0:
+        raise NameServiceError("get nameservice logic.cmdb error, session_id={}".format(session_id))
+
+    url = 'http://%s:%s/org/list' % (ip, port)
+    resp = requests.get(url=url, headers={'Host': "cmdb.easyops-only.com"})
+    resp.raise_for_status()
+    payload = resp.json()
+    data = payload['data']
+    if len(data) == 0:
+      return False
+    else:
+      return True
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print "Usage: ./report_installed_brick_next_package.py $install_path"
         sys.exit(1)
+
+    # 检查org是否存在
+    if not check_org():
+      sys.exit(0)
 
     (status, org) = commands.getstatusoutput('/usr/local/easyops/deploy_init/tools/get_env.py common org')
     if status != 0:
