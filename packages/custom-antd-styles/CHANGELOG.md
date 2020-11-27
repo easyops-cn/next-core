@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.3.1...@easyops/custom-antd-styles@1.3.2) (2020-11-27)
+
+### Bug Fixes
+
+- **select:** 所有下拉框增加与卡片 2px 间距，选项增加圆角，选项颜色改变 ([5a80b63](https://git.easyops.local/anyclouds/next-core/commits/5a80b63))
+
 ## [1.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.3.0...@easyops/custom-antd-styles@1.3.1) (2020-11-20)
 
 ### Bug Fixes

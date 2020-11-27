@@ -1,6 +1,6 @@
 {
   "name": "@easyops/sdk-scripts",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Generate new brick-packages or new bricks in existed packages",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/sdk-scripts",
   "license": "UNLICENSED",

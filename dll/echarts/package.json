@@ -1,6 +1,6 @@
 {
   "name": "@dll/echarts",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/echarts",
   "license": "UNLICENSED",
@@ -22,6 +22,6 @@
     "echarts": "^4.9.0"
   },
   "devDependencies": {
-    "@easyops/webpack-config-factory": "^2.1.4"
+    "@easyops/webpack-config-factory": "^2.1.5"
   }
 }

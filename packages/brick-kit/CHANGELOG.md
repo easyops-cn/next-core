@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.22.1...@easyops/brick-kit@2.22.2) (2020-11-27)
+
+### Bug Fixes
+
+- handle login session timeout ([829d518](https://git.easyops.local/anyclouds/next-core/commits/829d518))
+
 ## [2.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.22.0...@easyops/brick-kit@2.22.1) (2020-11-23)
 
 ### Bug Fixes

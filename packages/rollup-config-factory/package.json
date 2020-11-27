@@ -1,6 +1,6 @@
 {
   "name": "@easyops/rollup-config-factory",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "basic rollup config to pack @libs or @easyops in next-core",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/rollup-config-factory",
   "license": "UNLICENSED",
