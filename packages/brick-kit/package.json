@@ -34,7 +34,7 @@
     "@easyops/brick-types": "^2.11.0",
     "@sdk/auth-sdk": "^0.8.4",
     "@sdk/cmdb-sdk": "^0.15.13",
-    "@sdk/micro-app-sdk": "^0.8.2",
+    "@sdk/micro-app-sdk": "^0.8.3",
     "@sdk/user-service-sdk": "^0.2.10",
     "minimatch": "^3.0.4"
   },
