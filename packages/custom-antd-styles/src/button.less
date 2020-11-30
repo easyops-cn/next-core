@@ -49,14 +49,14 @@
   &-default {
     &:hover,
     &:focus {
-      color: #53a7fb;
-      border-color: #53a7fb;
+      color: var(--antd-btn-default-hover-color);
+      border-color: var(--antd-btn-default-hover-border-color);
     }
 
     &.active,
     &:active {
-      color: #116ac2;
-      border-color: #0063ce;
+      color: var(--antd-btn-default-active-color);
+      border-color: var(--antd-btn-default-active-border-color);
     }
   }
 
@@ -74,5 +74,13 @@
 
   &-sm {
     height: 28px;
+  }
+}
+
+html[data-theme="dark"] {
+  .@{btn-prefix-cls} {
+    &-primary {
+      background-image: none;
+    }
   }
 }
