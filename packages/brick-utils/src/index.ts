@@ -10,6 +10,7 @@ export * from "./matchPath";
 export * from "./restoreDynamicTemplates";
 export * from "./scanBricksInStoryboard";
 export * from "./scanProcessorsInStoryboard";
+export * from "./scanPermissionActionsInStoryboard";
 export * from "./scanAliasInStoryboard";
 export * from "./placeholder";
 export * from "./cook";

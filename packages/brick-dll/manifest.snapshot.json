@@ -3545,6 +3545,8 @@
           "restoreDynamicTemplates",
           "scanBricksInBrickConf",
           "scanBricksInStoryboard",
+          "scanPermissionActionsInAny",
+          "scanPermissionActionsInStoryboard",
           "scanProcessorsInAny",
           "scanProcessorsInStoryboard",
           "scanRouteAliasInStoryboard",
