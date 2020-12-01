@@ -2430,10 +2430,10 @@
   resolved "http://registry.npm.easyops.local/@sdk/cmdb-sdk/download/@sdk/cmdb-sdk-0.15.11.tgz#4443fc02fbc81732e02a59e5df249d1c4ca7e948"
   integrity sha1-REP8AvvIFzLgKlnl3ySdHEyn6Ug=
 
-"@sdk/micro-app-sdk@^0.8.2":
-  version "0.8.2"
-  resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.8.2.tgz#efc2d233129cfb1af76889a20978669f6370de76"
-  integrity sha1-78LSMxKc+xr3aImiCXhmn2Nw3nY=
+"@sdk/micro-app-sdk@^0.8.4":
+  version "0.8.4"
+  resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.8.4.tgz#aee70d4d2cae95209d387e14dd0b6e94f308baac"
+  integrity sha1-rucNTSyulSCdOH4U3QtulPMIuqw=
 
 "@sdk/user-service-sdk@^0.2.10":
   version "0.2.10"
