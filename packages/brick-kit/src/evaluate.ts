@@ -12,6 +12,7 @@ import { getUrlByAliasFactory } from "./alias";
 import { getUrlByImageFactory } from "./image";
 import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "./core/exports";
+import { checkPermissions } from "./core/checkPermissions";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -223,6 +224,12 @@ export function evaluate(
         Object.fromEntries(registry.entries()),
       ])
     );
+  }
+
+  if (attemptToVisitGlobals.has("PERMISSIONS")) {
+    globalVariables.PERMISSIONS = {
+      check: checkPermissions,
+    };
   }
 
   try {

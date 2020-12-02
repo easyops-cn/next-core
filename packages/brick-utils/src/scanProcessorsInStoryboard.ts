@@ -54,7 +54,7 @@ function collectProcessors(
     }
   } else if (isObject(data)) {
     // Avoid call stack overflow.
-    if (memo.has(data as any)) {
+    if (memo.has(data)) {
       return;
     }
     memo.add(data);
