@@ -149,14 +149,21 @@ const getBodyAndHeaders = (
     // `new Headers(undefined)` will throw a TypeError in older browsers (chrome 58).
     // https://bugs.chromium.org/p/chromium/issues/detail?id=335871
     const parsedHeaders = new Headers(headers || {});
+    const contentTypeHeader = "Content-Type";
     let body = data;
-    if (typeof data === "string") {
-      parsedHeaders.set("Content-Type", "application/x-www-form-urlencoded");
-    } else if (data instanceof FormData) {
-      // Do nothing
-    } else {
-      parsedHeaders.set("Content-Type", "application/json");
-      body = JSON.stringify(data);
+    // If `Content-Type` already provided, ignore detecting content type.
+    if (!parsedHeaders.has(contentTypeHeader)) {
+      if (typeof data === "string") {
+        parsedHeaders.set(
+          contentTypeHeader,
+          "application/x-www-form-urlencoded"
+        );
+      } else if (data instanceof FormData) {
+        // Do nothing
+      } else {
+        parsedHeaders.set(contentTypeHeader, "application/json");
+        body = JSON.stringify(data);
+      }
     }
     return {
       body,
