@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.10...@easyops/brick-container@2.10.0) (2020-12-02)
+
+### Bug Fixes
+
+- fix dark theme styles ([633cb89](https://git.easyops.local/anyclouds/next-core/commits/633cb89))
+
+### Features
+
+- support `PERMISSIONS.check(...)` ([a581c34](https://git.easyops.local/anyclouds/next-core/commits/a581c34))
+
 ## [2.9.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.9...@easyops/brick-container@2.9.10) (2020-11-27)
 
 ### Bug Fixes

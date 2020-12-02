@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@2.2.1...@easyops/brick-http@2.2.2) (2020-12-02)
+
+### Bug Fixes
+
+- fix content type detected and body modified twice ([590a81b](https://git.easyops.local/anyclouds/next-core/commits/590a81b))
+
 ## [2.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@2.2.0...@easyops/brick-http@2.2.1) (2020-11-19)
 
 **Note:** Version bump only for package @easyops/brick-http
