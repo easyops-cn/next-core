@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-ignore mocked
 import { fetch, __setReturnValue } from "./fetch";
 import {
   http,
@@ -154,13 +154,21 @@ describe("http", () => {
   });
 
   it("should work with getBodyAndHeaders", () => {
-    const result = http.getBodyAndHeaders("row-data", {
-      "Content-Type": "application/json",
-    });
+    const result = http.getBodyAndHeaders("row-data", {});
     const headers = new Headers({
       "content-type": "application/x-www-form-urlencoded",
     });
     expect(result).toEqual({ body: "row-data", headers: headers });
+  });
+
+  it("should work with getBodyAndHeaders when provided content-type header", () => {
+    const result = http.getBodyAndHeaders('"row-data"', {
+      "content-type": "application/json",
+    });
+    const headers = new Headers({
+      "content-type": "application/json",
+    });
+    expect(result).toEqual({ body: '"row-data"', headers: headers });
   });
 
   it("should return raw text", async () => {
