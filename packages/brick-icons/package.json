@@ -30,7 +30,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@svgr/rollup": "^5.5.0",
-    "change-case": "^4.1.1",
+    "change-case": "^4.1.2",
     "fs-extra": "^9.0.1",
     "klaw-sync": "^6.0.0",
     "prettier": "^2.2.1",
