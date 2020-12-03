@@ -29,7 +29,7 @@
     "@easyops/easyops-analytics": "^0.1.2",
     "@easyops/fontawesome-library": "^1.1.9",
     "@fortawesome/react-fontawesome": "^0.1.13",
-    "antd": "4.6.6",
+    "antd": "^4.9.1",
     "history": "^4.10.1",
     "i18next": "^19.8.4",
     "js-yaml": "^3.14.0",
