@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.10.1...@easyops/brick-container@2.10.2) (2020-12-04)
+
+### Bug Fixes
+
+- passing route alias path to app bar ([815427a](https://git.easyops.local/anyclouds/next-core/commits/815427a))
+
 ## [2.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.10.0...@easyops/brick-container@2.10.1) (2020-12-03)
 
 **Note:** Version bump only for package @easyops/brick-container
