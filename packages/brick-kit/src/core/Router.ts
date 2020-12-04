@@ -240,7 +240,7 @@ export class Router {
         portal: [],
         appBar: {
           breadcrumb: [],
-          routeAliasPath: [],
+          documentId: null,
         },
         flags: {
           redirect: undefined,
