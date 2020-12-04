@@ -84,7 +84,9 @@ export interface MountRoutesResult {
   portal: RuntimeBrick[];
   appBar: {
     pageTitle?: string;
-    breadcrumb?: BreadcrumbItemConf[];
+    breadcrumb: BreadcrumbItemConf[];
+    // Route alias path is used for getting the relevant app document.
+    routeAliasPath: string[];
   };
   flags: {
     unauthenticated?: boolean;
@@ -334,6 +336,10 @@ export class LocationContext {
         }
 
         await this.mountMenu(route.menu, matched.match, mountRoutesResult);
+
+        if (route.alias) {
+          mountRoutesResult.appBar.routeAliasPath.push(route.alias);
+        }
 
         if (route.type === "routes") {
           await this.mountRoutes(
