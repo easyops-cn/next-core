@@ -43,6 +43,7 @@
     "@dll/d3": "^2.0.6",
     "@dll/echarts": "^2.0.7",
     "@easyops/brick-dll": "^2.6.2",
+    "@easyops/brick-icons": "^2.4.5",
     "@easyops/custom-antd-styles": "^1.3.3",
     "@easyops/less-plugin-css-variables": "^0.1.2",
     "babel-loader": "^8.2.1",

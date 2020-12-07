@@ -96,10 +96,6 @@ html[data-mode="dashboard"] body.has-sub-menu #main-mount-point {
   }
 }
 
-.easyops-icon {
-  width: 1em;
-}
-
 /* Ref https://mika-el.github.io/angular-loading-page/#/animations */
 /* Will be used in basic-bricks.loading-bar, too */
 .global-loading-bar {

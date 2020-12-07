@@ -1,5 +1,6 @@
 import { rollupFactory } from "@easyops/rollup-config-factory";
 import svgr from "@svgr/rollup";
+import copy from "rollup-plugin-copy";
 
 export default rollupFactory({
   umdName: "BrickIcons",
@@ -30,6 +31,14 @@ export default rollupFactory({
           },
         ],
       },
+    }),
+    copy({
+      targets: [
+        {
+          src: "src/styles",
+          dest: "dist",
+        },
+      ],
     }),
   ],
 });

@@ -22,6 +22,7 @@ import "./styles/variables.css";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
 import "./styles/default.css";
+import "@easyops/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
 import { apiAnalyzer } from "@easyops/easyops-analytics";
