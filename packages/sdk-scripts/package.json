@@ -30,7 +30,7 @@
     "change-case": "^4.1.2",
     "fs-extra": "^9.0.1",
     "inquirer": "^7.3.3",
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
     "meow": "^8.0.0",
     "prettier": "^2.2.1",
