@@ -339,6 +339,11 @@ export interface BaseRouteConf {
    * 上下文配置列表。
    */
   context?: ContextConf[];
+
+  /**
+   * 关联的文档 ID。
+   */
+  documentId?: string;
 }
 
 /**

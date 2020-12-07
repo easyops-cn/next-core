@@ -105,6 +105,7 @@ export interface BaseRouteConf {
     alias?: string;
     context?: ContextConf[];
     defineResolves?: DefineResolveConf[];
+    documentId?: string;
     exact?: boolean;
     hybrid?: boolean;
     menu?: MenuConf;

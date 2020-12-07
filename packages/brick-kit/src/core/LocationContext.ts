@@ -85,8 +85,7 @@ export interface MountRoutesResult {
   appBar: {
     pageTitle?: string;
     breadcrumb: BreadcrumbItemConf[];
-    // Route alias path is used for getting the relevant app document.
-    routeAliasPath: string[];
+    documentId?: string;
   };
   flags: {
     unauthenticated?: boolean;
@@ -337,8 +336,8 @@ export class LocationContext {
 
         await this.mountMenu(route.menu, matched.match, mountRoutesResult);
 
-        if (route.alias) {
-          mountRoutesResult.appBar.routeAliasPath.push(route.alias);
+        if (route.documentId) {
+          mountRoutesResult.appBar.documentId = route.documentId;
         }
 
         if (route.type === "routes") {
