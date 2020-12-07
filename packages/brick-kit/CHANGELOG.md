@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.23.2...@easyops/brick-kit@2.23.3) (2020-12-07)
+
+### Bug Fixes
+
+- passing current route document id to app bar ([4197578](https://git.easyops.local/anyclouds/next-core/commits/4197578))
+
 ## [2.23.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.23.1...@easyops/brick-kit@2.23.2) (2020-12-04)
 
 ### Bug Fixes

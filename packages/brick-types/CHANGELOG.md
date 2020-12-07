@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.11.1...@easyops/brick-types@2.11.2) (2020-12-07)
+
+### Bug Fixes
+
+- passing current route document id to app bar ([4197578](https://git.easyops.local/anyclouds/next-core/commits/4197578))
+
 ## [2.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.11.0...@easyops/brick-types@2.11.1) (2020-11-27)
 
 **Note:** Version bump only for package @easyops/brick-types
