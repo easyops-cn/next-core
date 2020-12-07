@@ -9,6 +9,7 @@ const caretRangesRegExp = /^\^\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?$/;
 
 function shouldUpgrade(fromVersion, toVersion, name) {
   return (
+    (name === "antd" && fromVersion === "4.6.6" && toVersion !== "4.6.6") ||
     !fromVersion ||
     (caretRangesRegExp.test(fromVersion) &&
       caretRangesRegExp.test(toVersion) &&
