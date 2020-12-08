@@ -14983,10 +14983,10 @@ typedoc@^0.19.2:
     shelljs "^0.8.4"
     typedoc-default-themes "^0.11.4"
 
-typescript-json-schema@^0.44.1:
-  version "0.44.1"
-  resolved "https://registry.npm.taobao.org/typescript-json-schema/download/typescript-json-schema-0.44.1.tgz#eeac4ffc6ec271a699e7958038ff49810402698b"
-  integrity sha1-7qxP/G7CcaaZ55WAOP9JgQQCaYs=
+typescript-json-schema@^0.45.0:
+  version "0.45.0"
+  resolved "https://registry.npm.taobao.org/typescript-json-schema/download/typescript-json-schema-0.45.0.tgz#2f244e99518e589a442ee5f9c1d2c85a1ec7dc84"
+  integrity sha1-LyROmVGOWJpELuX5wdLIWh7H3IQ=
   dependencies:
     "@types/json-schema" "^7.0.6"
     glob "^7.1.6"
