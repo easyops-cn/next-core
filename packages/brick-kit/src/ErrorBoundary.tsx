@@ -15,10 +15,10 @@ interface ErrorBoundaryState {
 
 // Ref https://reactjs.org/docs/error-boundaries.html
 class LegacyErrorBoundary extends React.Component<
-  WithTranslation,
+  WithTranslation<typeof NS_BRICK_KIT>,
   ErrorBoundaryState
 > {
-  constructor(props: WithTranslation) {
+  constructor(props: WithTranslation<typeof NS_BRICK_KIT>) {
     super(props);
     this.state = { error: null };
   }
