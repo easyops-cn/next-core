@@ -41,6 +41,6 @@
     "react-transition-group": "^4.4.1"
   },
   "devDependencies": {
-    "source-map-loader": "^1.1.2"
+    "source-map-loader": "^1.1.3"
   }
 }
