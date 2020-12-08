@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",
-    "@ant-design/icons": "^4.2.2",
+    "@ant-design/icons": "^4.3.0",
     "@easyops/babel-runtime-helpers": "^1.0.2",
     "@easyops/brick-http": "^2.2.2",
     "@easyops/brick-icons": "^2.4.6",
