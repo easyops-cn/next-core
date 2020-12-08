@@ -47,7 +47,7 @@
     "history": "^4.10.1",
     "i18next": "^19.8.4",
     "jest-websocket-mock": "^2.2.0",
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^3.14.1",
     "lodash": "^4.17.20",
     "mock-socket": "^9.0.3",
     "react": "^16.14.0",
