@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.10.3...@easyops/brick-container@2.10.4) (2020-12-07)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.10.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.10.2...@easyops/brick-container@2.10.3) (2020-12-07)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.10.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.10.1...@easyops/brick-container@2.10.2) (2020-12-04)
+
+### Bug Fixes
+
+- passing route alias path to app bar ([815427a](https://git.easyops.local/anyclouds/next-core/commits/815427a))
+
+## [2.10.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.10.0...@easyops/brick-container@2.10.1) (2020-12-03)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+# [2.10.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.10...@easyops/brick-container@2.10.0) (2020-12-02)
+
+### Bug Fixes
+
+- fix dark theme styles ([633cb89](https://git.easyops.local/anyclouds/next-core/commits/633cb89))
+
+### Features
+
+- support `PERMISSIONS.check(...)` ([a581c34](https://git.easyops.local/anyclouds/next-core/commits/a581c34))
+
+## [2.9.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.9...@easyops/brick-container@2.9.10) (2020-11-27)
+
+### Bug Fixes
+
+- **report_brick_next_package:** 上报 NB 包时，先检查 org 是否存在 ([a574176](https://git.easyops.local/anyclouds/next-core/commits/a574176))
+- **serve:** fail on unknown options ([0091dca](https://git.easyops.local/anyclouds/next-core/commits/0091dca))
+
 ## [2.9.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.9.8...@easyops/brick-container@2.9.9) (2020-11-23)
 
 **Note:** Version bump only for package @easyops/brick-container

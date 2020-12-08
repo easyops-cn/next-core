@@ -1,4 +1,6 @@
 import "whatwg-fetch";
+import React from "react";
+import { mount } from "enzyme";
 import { Modal } from "antd";
 import i18next from "i18next";
 import {
@@ -6,7 +8,11 @@ import {
   HttpResponseError,
   HttpParseError,
 } from "@easyops/brick-http";
-import { httpErrorToString, handleHttpError } from "./handleHttpError";
+import {
+  httpErrorToString,
+  handleHttpError,
+  LoginTimeoutMessage,
+} from "./handleHttpError";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
 import { getHistory } from "./history";
 
@@ -14,6 +20,8 @@ jest.mock("./isUnauthenticatedError");
 jest.mock("./history");
 
 const spyOnModalError = jest.spyOn(Modal, "error");
+const spyOnModalConfirm = jest.spyOn(Modal, "confirm");
+
 jest.spyOn(i18next, "t").mockImplementation((k) => k);
 const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
 const spyOnHistoryPush = jest.fn();
@@ -105,7 +113,7 @@ describe("httpErrorToString", () => {
 
 describe("handleHttpError", () => {
   afterEach(() => {
-    spyOnModalError.mockClear();
+    jest.clearAllMocks();
   });
 
   it("should handle errors", () => {
@@ -121,11 +129,31 @@ describe("handleHttpError", () => {
   it("should handle unauthenticated errors", () => {
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
+    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
+    handleHttpError(new Error("oops"));
     expect(spyOnModalError).not.toBeCalled();
+    expect(spyOnModalConfirm).toBeCalledTimes(1);
+    expect(spyOnModalConfirm).toHaveBeenCalledWith(
+      expect.objectContaining({
+        okText: "brick-kit:MODAL_OK",
+        cancelText: "brick-kit:MODAL_CANCEL",
+      })
+    );
+    expect(spyOnHistoryPush).not.toBeCalled();
+
+    spyOnModalConfirm.mock.calls[0][0].onOk();
     expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
       from: {
         pathname: "/no-where",
       },
     });
+  });
+});
+
+describe("LoginTimeoutMessage", () => {
+  it("should work", () => {
+    const wrapper = mount(<LoginTimeoutMessage />);
+    expect(wrapper.text()).toBe("brick-kit:LOGIN_TIMEOUT_MESSAGE");
+    wrapper.unmount();
   });
 });

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.5.0...@easyops/brick-utils@2.5.1) (2020-12-07)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
+# [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.4.6...@easyops/brick-utils@2.5.0) (2020-12-02)
+
+### Features
+
+- scanPermissionActionsInStoryboard ([5765c6f](https://git.easyops.local/anyclouds/next-core/commits/5765c6f))
+
+## [2.4.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.4.5...@easyops/brick-utils@2.4.6) (2020-11-27)
+
+**Note:** Version bump only for package @easyops/brick-utils
+
 ## [2.4.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.4.4...@easyops/brick-utils@2.4.5) (2020-11-23)
 
 **Note:** Version bump only for package @easyops/brick-utils

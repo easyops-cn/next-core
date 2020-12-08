@@ -84,7 +84,8 @@ export interface MountRoutesResult {
   portal: RuntimeBrick[];
   appBar: {
     pageTitle?: string;
-    breadcrumb?: BreadcrumbItemConf[];
+    breadcrumb: BreadcrumbItemConf[];
+    documentId?: string;
   };
   flags: {
     unauthenticated?: boolean;
@@ -334,6 +335,10 @@ export class LocationContext {
         }
 
         await this.mountMenu(route.menu, matched.match, mountRoutesResult);
+
+        if (route.documentId) {
+          mountRoutesResult.appBar.documentId = route.documentId;
+        }
 
         if (route.type === "routes") {
           await this.mountRoutes(

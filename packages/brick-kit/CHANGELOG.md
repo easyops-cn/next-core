@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.23.2...@easyops/brick-kit@2.23.3) (2020-12-07)
+
+### Bug Fixes
+
+- passing current route document id to app bar ([4197578](https://git.easyops.local/anyclouds/next-core/commits/4197578))
+
+## [2.23.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.23.1...@easyops/brick-kit@2.23.2) (2020-12-04)
+
+### Bug Fixes
+
+- passing route alias path to app bar ([815427a](https://git.easyops.local/anyclouds/next-core/commits/815427a))
+
+## [2.23.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.23.0...@easyops/brick-kit@2.23.1) (2020-12-03)
+
+**Note:** Version bump only for package @easyops/brick-kit
+
+# [2.23.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.22.2...@easyops/brick-kit@2.23.0) (2020-12-02)
+
+### Features
+
+- support `PERMISSIONS.check(...)` ([a581c34](https://git.easyops.local/anyclouds/next-core/commits/a581c34))
+
+## [2.22.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.22.1...@easyops/brick-kit@2.22.2) (2020-11-27)
+
+### Bug Fixes
+
+- handle login session timeout ([829d518](https://git.easyops.local/anyclouds/next-core/commits/829d518))
+
 ## [2.22.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.22.0...@easyops/brick-kit@2.22.1) (2020-11-23)
 
 ### Bug Fixes

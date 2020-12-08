@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.6.3...@easyops/brick-dll@2.6.4) (2020-12-07)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.6.2...@easyops/brick-dll@2.6.3) (2020-12-07)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.6.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.6.1...@easyops/brick-dll@2.6.2) (2020-12-04)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+## [2.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.6.0...@easyops/brick-dll@2.6.1) (2020-12-03)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
+# [2.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.5.9...@easyops/brick-dll@2.6.0) (2020-12-02)
+
+### Features
+
+- scanPermissionActionsInStoryboard ([5765c6f](https://git.easyops.local/anyclouds/next-core/commits/5765c6f))
+
+## [2.5.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.5.8...@easyops/brick-dll@2.5.9) (2020-11-27)
+
+**Note:** Version bump only for package @easyops/brick-dll
+
 ## [2.5.8](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.5.7...@easyops/brick-dll@2.5.8) (2020-11-23)
 
 **Note:** Version bump only for package @easyops/brick-dll

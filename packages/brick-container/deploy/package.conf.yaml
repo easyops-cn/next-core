@@ -27,5 +27,7 @@ dependencies:
     version: ^1.0.4
   - name: cmdb_service
     version: ~2.31.1 || ^2.32.1
+  - name: micro_app_service
+    version: ^1.10.2
 start_dependencies:
   - name: logic.api.gateway   # 依赖服务名

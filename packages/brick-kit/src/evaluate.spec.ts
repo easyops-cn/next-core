@@ -3,8 +3,10 @@ import { evaluate, PreEvaluated } from "./evaluate";
 import * as runtime from "./core/Runtime";
 import { registerCustomProcessor } from "./core/exports";
 import { devtoolsHookEmit } from "./devtools";
+import { checkPermissions } from "./core/checkPermissions";
 
 jest.mock("./devtools");
+jest.mock("./core/checkPermissions");
 
 i18next.init({
   fallbackLng: "en",
@@ -15,6 +17,12 @@ i18next.addResourceBundle("en", "$app-hello", {
 });
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
+
+(checkPermissions as jest.MockedFunction<
+  typeof checkPermissions
+>).mockImplementation((...actions) => {
+  return !actions.includes("my:action-b");
+});
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
@@ -127,6 +135,8 @@ describe("evaluate", () => {
       "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
       [["quality", "good"]],
     ],
+    ["<% PERMISSIONS.check('my:action-a') %>", true],
+    ["<% PERMISSIONS.check('my:action-b') %>", false],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

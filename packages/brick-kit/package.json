@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-kit",
-  "version": "2.22.1",
+  "version": "2.23.3",
   "description": "Kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-kit",
   "license": "UNLICENSED",
@@ -31,19 +31,20 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "dependencies": {
-    "@easyops/brick-types": "^2.11.0",
+    "@easyops/brick-types": "^2.11.2",
     "@sdk/auth-sdk": "^0.8.4",
     "@sdk/cmdb-sdk": "^0.15.13",
-    "@sdk/micro-app-sdk": "^0.8.3",
+    "@sdk/micro-app-sdk": "^0.8.4",
     "@sdk/user-service-sdk": "^0.2.10",
     "minimatch": "^3.0.4"
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops/brick-http": "^2.2.1",
-    "@easyops/brick-utils": "^2.4.5",
-    "@easyops/easyops-analytics": "^0.1.1",
-    "antd": "4.6.6",
+    "@ant-design/icons": "^4.2.2",
+    "@easyops/brick-http": "^2.2.2",
+    "@easyops/brick-utils": "^2.5.1",
+    "@easyops/easyops-analytics": "^0.1.2",
+    "antd": "^4.9.1",
     "history": "^4.10.1",
     "i18next": "^19.8.4",
     "jest-websocket-mock": "^2.2.0",
@@ -55,6 +56,7 @@
     "react-i18next": "^11.7.3"
   },
   "peerDependencies": {
+    "@ant-design/icons": "^4.2.2",
     "@easyops/brick-http": "*",
     "@easyops/brick-utils": "*",
     "@easyops/easyops-analytics": "*",

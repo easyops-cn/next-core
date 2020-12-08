@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-icons",
-  "version": "2.4.3",
+  "version": "2.4.6",
   "description": "Self designed icons",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-icons",
   "license": "UNLICENSED",
@@ -34,7 +34,8 @@
     "fs-extra": "^9.0.1",
     "klaw-sync": "^6.0.0",
     "prettier": "^2.2.1",
-    "react": "^16.14.0"
+    "react": "^16.14.0",
+    "rollup-plugin-copy": "^3.3.0"
   },
   "peerDependencies": {
     "react": "*"

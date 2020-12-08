@@ -11,6 +11,7 @@ import {
 import { mountTree, mountStaticNode } from "./reconciler";
 import { getAuth, isLoggedIn } from "../auth";
 import { getRuntime } from "../runtime";
+import { preCheckPermissions } from "./checkPermissions";
 import { apiAnalyzer } from "@easyops/easyops-analytics";
 
 jest.mock("../history");
@@ -19,6 +20,7 @@ jest.mock("./reconciler");
 jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
+jest.mock("./checkPermissions");
 jest.mock("@easyops/easyops-analytics");
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
@@ -167,6 +169,7 @@ describe("Router", () => {
     expect(kernel.fulfilStoryboard).toBeCalled();
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
     expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
+    expect(preCheckPermissions).toBeCalled();
   });
 
   it("should render matched storyboard with dependsAll and redirect", async () => {
