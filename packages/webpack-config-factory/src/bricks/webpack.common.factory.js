@@ -56,7 +56,12 @@ const getImageLoaderOptions = (distPublicPath) => ({
   ],
 });
 
-module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
+module.exports = ({
+  scope = "bricks",
+  copyFiles = [],
+  ignores = [],
+  enableEditorBricks = false,
+} = {}) => {
   const cwdDirname = process.cwd();
   const appRoot = path.join(cwdDirname, "..", "..");
   const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
@@ -72,9 +77,17 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
     name.startsWith("@dll/")
   );
 
+  const entry = {
+    index: path.join(cwdDirname, "src/index"),
+  };
+
+  if (enableEditorBricks) {
+    entry["editors/editors"] = path.join(cwdDirname, "src/editor-bricks/index");
+  }
+
   return {
     context: appRoot,
-    entry: path.join(cwdDirname, "src", "index"),
+    entry,
     output: {
       path: path.join(cwdDirname, "dist"),
       // publicPath: "/"
