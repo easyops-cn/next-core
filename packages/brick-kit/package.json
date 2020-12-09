@@ -40,7 +40,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@ant-design/icons": "^4.2.2",
+    "@ant-design/icons": "^4.3.0",
     "@easyops/brick-http": "^2.2.2",
     "@easyops/brick-utils": "^2.5.1",
     "@easyops/easyops-analytics": "^0.1.2",
@@ -56,7 +56,7 @@
     "react-i18next": "^11.8.1"
   },
   "peerDependencies": {
-    "@ant-design/icons": "^4.2.2",
+    "@ant-design/icons": "^4.3.0",
     "@easyops/brick-http": "*",
     "@easyops/brick-utils": "*",
     "@easyops/easyops-analytics": "*",
