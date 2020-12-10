@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  e2e:
+    image: cypress/included:6.1.0
+    working_dir: /app
+    volumes:
+      - '.:/app'
+    entrypoint: npx start-server-and-test serve:ci http://localhost:8081/next/ cypress:run

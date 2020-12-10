@@ -23,7 +23,8 @@
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:e2e:ci": "npx wait-on -r http://localhost:8081/next/ && npx start-server-and-test serve:ci http://localhost:8081/next/ cypress:run"
+    "test:e2e:ci": "npx wait-on -r http://localhost:8081/next/ && npx start-server-and-test serve:ci http://localhost:8081/next/ cypress:run",
+    "test:e2e:docker": "docker-compose run --user $(id -u):$(id -g) e2e"
   },
   "browserslist": {
     "development": [
@@ -84,6 +85,7 @@
     "null-loader": "^4.0.1",
     "prettier": "^2.2.0",
     "rimraf": "^3.0.2",
+    "start-server-and-test": "^1.11.6",
     "timers-browserify": "^2.0.12",
     "typescript": "~4.1.2"
   },
