@@ -36,8 +36,8 @@
   "devDependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.3.0",
-    "@babel/core": "^7.12.9",
-    "@babel/types": "^7.12.7",
+    "@babel/core": "^7.12.10",
+    "@babel/types": "^7.12.10",
     "@cypress/browserify-preprocessor": "^3.0.1",
     "@easyops-cn/api-documenter": "^7.9.3",
     "@microsoft/api-extractor": "^7.12.0",
@@ -92,7 +92,7 @@
     "dll/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.12.7",
+    "@babel/parser": "^7.12.10",
     "@babel/runtime": "^7.12.5",
     "@types/react": "^16.14.2",
     "lodash": "^4.17.20",
