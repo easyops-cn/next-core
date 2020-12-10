@@ -1,5 +1,8 @@
+const baseFactory = require("./webpack.base.factory");
+
 module.exports = {
-  webpackCommonFactory: require("./webpack.common.factory"),
+  webpackCommonFactory: baseFactory(),
+  webpackEditorsFactory: baseFactory(true),
   webpackDevFactory: require("./webpack.dev.factory"),
-  webpackProdFactory: require("./webpack.prod.factory")
+  webpackProdFactory: require("./webpack.prod.factory"),
 };

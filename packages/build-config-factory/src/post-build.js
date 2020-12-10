@@ -151,6 +151,42 @@ const generateDeploy = (scope, pluginName, templateRoot) => {
   generate(scope, pluginName, templateRoot, "deploy");
 };
 
+/**
+ * Building of normal bricks and editor bricks are separated,
+ * their assets are also separated. So we merge them during
+ * post-building. This includes three steps:
+ *
+ * 1. Merge `dist-editors/editors.json` into `dist/bricks.json`.
+ * 2. Copy `dist-editors/*` to `dist/editors/` (except `editors.json`).
+ * 3. Remove `dist-editors`.
+ */
+const mergeEditors = () => {
+  const brickDir = process.cwd();
+  const distEditorsDir = path.join(brickDir, "dist-editors");
+  const distEditorsJsonPath = path.join(distEditorsDir, "editors.json");
+  if (fs.existsSync(distEditorsJsonPath)) {
+    const distDir = path.join(brickDir, "dist");
+    const bricksJsonPath = path.join(distDir, "bricks.json");
+    const bricksJson = fs.readJsonSync(bricksJsonPath);
+    fs.writeJsonSync(
+      bricksJsonPath,
+      {
+        ...bricksJson,
+        ...fs.readJsonSync(distEditorsJsonPath),
+      },
+      {
+        spaces: 2,
+      }
+    );
+    fs.copySync(distEditorsDir, path.join(distDir, "editors"), {
+      filter: (src) => {
+        return !src.endsWith("editors.json");
+      },
+    });
+    fs.removeSync(distEditorsDir);
+  }
+};
+
 module.exports = (scope) => {
   const cwd = process.cwd();
   const pluginName = path.basename(cwd);
@@ -168,6 +204,7 @@ module.exports = (scope) => {
       enableGenerateDoc && generateBrickDocs(pluginName, scope);
     }
     generateDeps();
+    mergeEditors();
   } else if (scope === "micro-apps") {
     ensureMicroApp();
     ensureDeps();

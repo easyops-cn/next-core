@@ -59,28 +59,43 @@ export function getDllAndDepsOfBricks(
 interface StoryboardResource {
   bricks?: string[];
   processors?: string[];
+  editorBricks?: string[];
 }
 
 export function getDllAndDepsByResource(
-  { bricks, processors }: StoryboardResource,
+  { bricks, processors, editorBricks }: StoryboardResource,
   brickPackages: BrickPackage[]
 ): DllAndDeps {
   const dll = new Set<string>();
   const deps: string[] = [];
-  if (bricks?.length > 0 || processors?.length > 0) {
+  if (
+    bricks?.length > 0 ||
+    processors?.length > 0 ||
+    editorBricks?.length > 0
+  ) {
     const brickSet = new Set(bricks || []);
     const processorSet = new Set(processors || []);
+    const editorBrickSet = new Set(editorBricks || []);
     brickPackages.forEach((pkg) => {
-      if (
-        pkg.bricks.some((brick) => brickSet.has(brick)) ||
-        pkg.processors?.some((item) => processorSet.has(item))
-      ) {
+      const hasBricks = pkg.bricks.some((brick) => brickSet.has(brick));
+      const hasProcessors = pkg.processors?.some((item) =>
+        processorSet.has(item)
+      );
+      const hasEditorBricks = pkg.editors?.some((item) =>
+        editorBrickSet.has(item)
+      );
+      if (hasBricks || hasProcessors) {
         if (pkg.dll) {
           for (const dllName of pkg.dll) {
             dll.add(dllName);
           }
         }
         deps.push(pkg.filePath);
+      }
+      if (hasEditorBricks) {
+        // Editor bricks have a constant dll of `@dll/editor-bricks-helper`.
+        dll.add("editor-bricks-helper");
+        deps.push(pkg.editorsJsFilePath);
       }
     });
   }

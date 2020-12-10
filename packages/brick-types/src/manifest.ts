@@ -186,6 +186,8 @@ export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 export interface BrickPackage {
   filePath: string;
   bricks: string[];
+  editors?: string[];
+  editorsJsFilePath?: string;
   processors?: string[];
   dll?: string[];
 }

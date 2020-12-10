@@ -10,7 +10,6 @@ const legacyBrickNames = [
 ];
 const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
 const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
-const validEditorName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+--editor$/;
 
 module.exports = class ScanCustomElementsPlugin {
   constructor(packageName, dll = []) {
@@ -21,7 +20,6 @@ module.exports = class ScanCustomElementsPlugin {
 
   apply(compiler) {
     const brickSet = new Set();
-    const editorSet = new Set();
     const processorSet = new Set();
     compiler.hooks.normalModuleFactory.tap(pluginName, (factory) => {
       factory.hooks.parser.for("javascript/auto").tap(pluginName, (parser) => {
@@ -41,9 +39,7 @@ module.exports = class ScanCustomElementsPlugin {
                   );
                 }
 
-                if (validEditorName.test(value)) {
-                  editorSet.add(value);
-                } else if (
+                if (
                   validBrickName.test(value) ||
                   legacyBrickNames.includes(value)
                 ) {
@@ -136,19 +132,10 @@ module.exports = class ScanCustomElementsPlugin {
     });
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const bricks = Array.from(brickSet);
-      const editors = Array.from(editorSet);
       const processors = Array.from(processorSet);
 
-      const editorsAssetFilePath = Object.keys(compilation.assets).find(
-        (filePath) =>
-          filePath.startsWith("editors/editors.") && filePath.endsWith(".js")
-      );
-      const editorsJsFilePath =
-        editorsAssetFilePath &&
-        `bricks/${this.packageName}/dist/${editorsAssetFilePath}`;
-
       const source = JSON.stringify(
-        { bricks, editors, editorsJsFilePath, processors, dll: this.dll },
+        { bricks, processors, dll: this.dll },
         null,
         2
       );

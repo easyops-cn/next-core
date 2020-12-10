@@ -34,12 +34,25 @@ module.exports = (env, app) => {
     localBrickPackages.forEach((pkgId) => {
       // 直接返回插件 js 文件。
       app.get(`${publicPath}bricks/${pkgId}/*`, (req, res) => {
+        const relativePath = req.params[0];
         const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
-        } else {
-          res.status(404).end();
+          return;
         }
+        if (relativePath.startsWith("dist/editors/")) {
+          const devPath = path.join(
+            brickPackagesDir,
+            pkgId,
+            "dist-editors/",
+            relativePath.substr("dist/editors/".length)
+          );
+          if (fs.existsSync(devPath)) {
+            res.sendFile(devPath);
+            return;
+          }
+        }
+        res.status(404).end();
       });
     });
 

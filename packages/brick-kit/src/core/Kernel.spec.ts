@@ -6,7 +6,6 @@ import {
   getDllAndDepsByResource,
   getTemplateDepsOfStoryboard,
   scanBricksInBrickConf,
-  getDllAndDepsOfBricks,
 } from "@easyops/brick-utils";
 import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
@@ -75,9 +74,26 @@ const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetDllAndDepsByResource = getDllAndDepsByResource as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
 const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
-const spyOnGetDllAndDepsOfBricks = getDllAndDepsOfBricks as jest.Mock;
 
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
+
+spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [brickConf.brick]);
+
+spyOnGetDllAndDepsByResource.mockImplementation(
+  ({
+    bricks,
+    editorBricks,
+  }: {
+    bricks?: string[];
+    editorBricks?: string[];
+  }) => ({
+    dll: [],
+    deps: [
+      ...(bricks?.map((brick) => brick.split(".")[0]) ?? []),
+      ...(editorBricks?.map((brick) => `${brick.split(".")[0]}/editors`) ?? []),
+    ],
+  })
+);
 
 // Mock a custom element of `my.test-provider`.
 customElements.define("my.test-provider", class Tmp extends HTMLElement {});
@@ -370,10 +386,7 @@ describe("Kernel", () => {
 
   it("should loadDynamicBricksInBrickConf", async () => {
     kernel.bootstrapData = {} as any;
-    spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [
-      brickConf.brick,
-    ]);
-    spyOnGetDllAndDepsByResource.mockImplementation(
+    spyOnGetDllAndDepsByResource.mockImplementationOnce(
       ({ bricks }: { bricks: string[] }) => ({
         dll: ["d3"],
         deps: bricks.map((brick) => brick.split(".")[0]),
@@ -386,14 +399,15 @@ describe("Kernel", () => {
     expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
   });
 
+  it("should loadEditorBricks", async () => {
+    kernel.bootstrapData = {} as any;
+    await kernel.loadEditorBricks(["my.test-brick--editor"]);
+    expect(loadScript).toHaveBeenNthCalledWith(1, []);
+    expect(loadScript).toHaveBeenNthCalledWith(2, ["my/editors"]);
+  });
+
   it("should getProviderBrick", async () => {
     kernel.bootstrapData = {} as any;
-    spyOnGetDllAndDepsByResource.mockImplementation(
-      ({ bricks }: { bricks: string[] }) => ({
-        dll: [],
-        deps: bricks.map((brick) => brick.split(".")[0]),
-      })
-    );
     await kernel.getProviderBrick("my.test-provider");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
     expect(loadScript).toHaveBeenNthCalledWith(2, []);
@@ -401,12 +415,6 @@ describe("Kernel", () => {
 
   it("should getProviderBrick when isCustomApiProvider", async () => {
     kernel.bootstrapData = {} as any;
-    spyOnGetDllAndDepsByResource.mockImplementation(
-      ({ bricks }: { bricks: string[] }) => ({
-        dll: [],
-        deps: bricks.map((brick) => brick.split(".")[0]),
-      })
-    );
     await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
     expect(loadScript).toHaveBeenNthCalledWith(2, []);
@@ -430,10 +438,6 @@ describe("Kernel", () => {
 
   it("should throw if getProviderBrick with not defined provider", async () => {
     kernel.bootstrapData = {} as any;
-    spyOnGetDllAndDepsOfBricks.mockImplementation((bricks: string[]) => ({
-      dll: [],
-      deps: bricks.map((brick) => brick.split(".")[0]),
-    }));
     expect.assertions(3);
     try {
       await kernel.getProviderBrick("my.not-defined-provider");

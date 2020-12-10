@@ -569,6 +569,10 @@ export interface BrickPackage {
     // (undocumented)
     dll?: string[];
     // (undocumented)
+    editors?: string[];
+    // (undocumented)
+    editorsJsFilePath?: string;
+    // (undocumented)
     filePath: string;
     // (undocumented)
     processors?: string[];
