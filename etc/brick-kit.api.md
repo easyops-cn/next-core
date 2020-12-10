@@ -26,6 +26,7 @@ import { GeneralTransform } from '@easyops/brick-types';
 import { HttpFetchError } from '@easyops/brick-http';
 import { HttpParseError } from '@easyops/brick-http';
 import { HttpResponseError } from '@easyops/brick-http';
+import { IllustrationProps } from '@easyops/illustrations';
 import { InterceptorParams } from '@easyops/brick-types';
 import { Location as Location_2 } from 'history';
 import { MagicBrickConfig } from '@easyops/brick-types';
@@ -156,10 +157,20 @@ export function doTransform(data: unknown, to: unknown, options?: {
     evaluateOptions?: EvaluateOptions;
 }): unknown;
 
-// Warning: (ae-forgotten-export) The symbol "EasyopsEmptyProps" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function EasyopsEmpty(props: EasyopsEmptyProps): React_2.ReactElement;
+
+// @public (undocumented)
+export interface EasyopsEmptyProps {
+    // (undocumented)
+    background?: string;
+    // (undocumented)
+    description?: string | React_2.ReactNode;
+    // (undocumented)
+    illustration?: IllustrationProps;
+    // (undocumented)
+    imageStyle?: React_2.CSSProperties;
+}
 
 // Warning: (ae-internal-missing-underscore) The name "ErrorBoundary" should be prefixed with an underscore because the declaration is marked as @internal
 //

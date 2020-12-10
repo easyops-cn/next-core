@@ -15,3 +15,8 @@ declare module "*.svg" {
   const svgValue: SvgrComponent;
   export default svgValue;
 }
+
+declare module "*.png" {
+  const value: any;
+  export = value;
+}

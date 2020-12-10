@@ -5,10 +5,13 @@ import zhCN from "antd/es/locale/zh_CN";
 import enUS from "antd/es/locale/en_US";
 
 import { ErrorBoundary } from "./ErrorBoundary";
-import { renderEasyopsEmpty } from "./EasyopsEmpty";
+import { EasyopsEmpty, EasyopsEmptyProps } from "./EasyopsEmpty";
 
 interface BrickWrapperProps {
   children?: React.ReactElement;
+  wrapperConfig?: {
+    empty?: EasyopsEmptyProps;
+  };
 }
 
 /**
@@ -22,7 +25,7 @@ export function BrickWrapper(props: BrickWrapperProps): React.ReactElement {
       <ConfigProvider
         locale={locale}
         autoInsertSpaceInButton={false}
-        renderEmpty={renderEasyopsEmpty}
+        renderEmpty={() => <EasyopsEmpty {...props.wrapperConfig?.empty} />}
       >
         {props.children}
       </ConfigProvider>
