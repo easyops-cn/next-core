@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.23.3...@easyops/brick-kit@2.24.0) (2020-12-10)
+
+### Features
+
+- **illustrations:** brick-container support illustrations ([e15facb](https://git.easyops.local/anyclouds/next-core/commits/e15facb))
+
 ## [2.23.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.23.2...@easyops/brick-kit@2.23.3) (2020-12-07)
 
 ### Bug Fixes

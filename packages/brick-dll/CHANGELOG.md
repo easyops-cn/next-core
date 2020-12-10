@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.6.4...@easyops/brick-dll@2.7.0) (2020-12-10)
+
+### Features
+
+- **illustrations:** brick-container support illustrations ([e15facb](https://git.easyops.local/anyclouds/next-core/commits/e15facb))
+
 ## [2.6.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.6.3...@easyops/brick-dll@2.6.4) (2020-12-07)
 
 **Note:** Version bump only for package @easyops/brick-dll
