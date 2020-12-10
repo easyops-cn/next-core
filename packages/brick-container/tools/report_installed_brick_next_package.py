@@ -61,28 +61,18 @@ def collect(install_path):
 
 
 def create_or_update_package(org, installed_package, install_path):
-    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.cmdb.service")
+    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
     if session_id <= 0:
-        raise NameServiceError("get nameservice logic.cmdb.service error, session_id={}".format(session_id))
+        raise NameServiceError("get nameservice logic.micro_app_service error, session_id={}".format(session_id))
     headers = {"org": str(org), "user": "defaultUser"}
     package_name = os.path.basename(install_path)
 
-    # search
-    url = "http://{}:{}/v3/object/{}/instance/_search".format(ip, port, OBJECT_ID)
-    searchParam = {"page":1, "page_size":1, "query": {"name": package_name}, "fields":["instanceId"]}
-    rsp = requests.post(url, json=searchParam, headers=headers)
+    req = {"installedPackages": [installed_package]}
+
+    # report
+    url = "http://{}:{}/api/micro_app/v1/installed_bricks_next_package/report_result".format(ip, port)
+    rsp = requests.post(url, json=req, headers=headers)
     rsp.raise_for_status()
-    data = rsp.json()["data"]
-    if len(data["list"]) == 0:
-      # create
-      url = "http://{}:{}/v2/object/{}/instance".format(ip, port, OBJECT_ID)
-      rsp = requests.post(url, json=installed_package, headers=headers)
-      rsp.raise_for_status()
-    else:
-      # update
-      url = "http://{}:{}/v2/object/{}/instance/{}".format(ip, port, OBJECT_ID, data["list"][0]["instanceId"])
-      rsp = requests.put(url, json=installed_package, headers=headers)
-      rsp.raise_for_status()
 
 def check_org():
     session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.cmdb")
