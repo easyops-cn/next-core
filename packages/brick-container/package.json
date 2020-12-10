@@ -39,6 +39,7 @@
     "ws": "^7.4.0"
   },
   "devDependencies": {
+    "@easyops/illustrations": "^0.1.0",
     "@dll/ace": "^2.0.51",
     "@dll/d3": "^2.0.6",
     "@dll/echarts": "^2.0.7",

@@ -8059,6 +8059,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@easyops/illustrations/dist/index.esm.js": {
+      "id": "M7uQ",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["getIllustration", "illustrationsByCategory"]
+      }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/YuqueFilled.js": {
       "id": "M9T1",
       "buildMeta": {
