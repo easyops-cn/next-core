@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.11.0...@easyops/brick-container@2.11.1) (2020-12-11)
+
+### Bug Fixes
+
+- fix table body sort bg in dark theme ([1081a96](https://git.easyops.local/anyclouds/next-core/commits/1081a96))
+
 # [2.11.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.10.5...@easyops/brick-container@2.11.0) (2020-12-10)
 
 ### Bug Fixes

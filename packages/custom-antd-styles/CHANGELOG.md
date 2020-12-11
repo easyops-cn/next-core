@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.3.3...@easyops/custom-antd-styles@1.3.4) (2020-12-11)
+
+### Bug Fixes
+
+- fix table body sort bg in dark theme ([1081a96](https://git.easyops.local/anyclouds/next-core/commits/1081a96))
+
 ## [1.3.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.3.2...@easyops/custom-antd-styles@1.3.3) (2020-12-02)
 
 ### Bug Fixes
