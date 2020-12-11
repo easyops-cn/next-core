@@ -29,8 +29,8 @@
       "groupName": "size-limit packages"
     },
     {
-      "packageNames": ["antd"],
-      "enabled": false
+      "packageNames": ["copy-webpack-plugin"],
+      "major": { "enabled": false }
     },
     {
       "packagePatterns": ["^@svgr/"],
