@@ -128,7 +128,7 @@ def upload_micro_app_images(install_path, org):
   if session_id <= 0:
     raise NameServiceError("get nameservice logic.object_store_service error, session_id={}".format(session_id))
   headers = {"org": str(org), "user": "defaultUser"}
-  url = "http://{}:{}/api/v1/objectStore/bucket/wwbtest/object".format(ip, port)
+  url = "http://{}:{}/api/v1/objectStore/bucket/next-builder/object".format(ip, port)
   for root, dirs, files in os.walk(install_path + "/images"):
     for f in files:
       fileName = os.path.basename(f)
