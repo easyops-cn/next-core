@@ -135,7 +135,7 @@ def upload_micro_app_images(install_path, org):
       if fileName[0] == ".":
         continue
       param = {"objectName": fileName}
-      fileData = {'file': open(f, 'rb')}
+      fileData = {'file': open(install_path + "/images/" + fileName, 'rb')}
       rsp = requests.put(url, data=param, files=fileData, headers=headers)
       rsp.raise_for_status()
 
