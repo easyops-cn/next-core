@@ -8153,10 +8153,10 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^4.3.5:
-  version "4.3.5"
-  resolved "https://registry.npm.taobao.org/husky/download/husky-4.3.5.tgz?cache=0&sync_timestamp=1607327428235&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-4.3.5.tgz#ab8d2a0eb6b62fef2853ee3d442c927d89290902"
-  integrity sha1-q40qDra2L+8oU+49RCySfYkpCQI=
+husky@^4.3.6:
+  version "4.3.6"
+  resolved "https://registry.npm.taobao.org/husky/download/husky-4.3.6.tgz?cache=0&sync_timestamp=1607911184594&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-4.3.6.tgz#ebd9dd8b9324aa851f1587318db4cccb7665a13c"
+  integrity sha1-69ndi5MkqoUfFYcxjbTMy3ZloTw=
   dependencies:
     chalk "^4.0.0"
     ci-info "^2.0.0"
