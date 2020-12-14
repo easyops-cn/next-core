@@ -122,15 +122,18 @@ def create_or_update_micro_app_to_api_gw(app, org):
     rsp.raise_for_status()
     print 'create app: {}'.format(app["appId"])
 
+
 def upload_micro_app_images(install_path, org):
   session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.object_store_service")
   if session_id <= 0:
     raise NameServiceError("get nameservice logic.object_store_service error, session_id={}".format(session_id))
   headers = {"org": str(org), "user": "defaultUser"}
   url = "http://{}:{}/api/v1/objectStore/bucket/wwbtest/object".format(ip, port)
-  for root, dirs, files in os.walk(install_path+"/images"):
+  for root, dirs, files in os.walk(install_path + "/images"):
     for f in files:
       fileName = os.path.basename(f)
+      if fileName[0] == ".":
+        continue
       param = {"objectName": fileName}
       fileData = {'file': open(f, 'rb')}
       rsp = requests.put(url, data=param, files=fileData, headers=headers)
