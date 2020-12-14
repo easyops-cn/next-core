@@ -9557,10 +9557,10 @@ less-loader@^7.1.0:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-less@^3.12.2:
-  version "3.12.2"
-  resolved "https://registry.npm.taobao.org/less/download/less-3.12.2.tgz?cache=0&sync_timestamp=1594915630430&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.12.2.tgz#157e6dd32a68869df8859314ad38e70211af3ab4"
-  integrity sha1-FX5t0ypohp34hZMUrTjnAhGvOrQ=
+less@^3.13.0:
+  version "3.13.0"
+  resolved "https://registry.npm.taobao.org/less/download/less-3.13.0.tgz?cache=0&sync_timestamp=1607751951189&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.13.0.tgz#6a47bb19d97edcf7a53d444b099275dd6b17c85a"
+  integrity sha1-ake7Gdl+3PelPURLCZJ13WsXyFo=
   dependencies:
     tslib "^1.10.0"
   optionalDependencies:
