@@ -16,7 +16,6 @@ import {
   HttpError,
 } from "@easyops/brick-http";
 import { initializeLibrary } from "@easyops/fontawesome-library";
-
 import "./antd";
 import "./styles/variables.css";
 import "./styles/antd.less";
