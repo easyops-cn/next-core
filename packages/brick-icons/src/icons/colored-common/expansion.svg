@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>6303FB6F-5E46-4196-89C9-F35480097D4F</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="扩容/缩容" transform="translate(1.000000, 1.000000)">
+            <g id="编组-3">
+                <path d="M32.922,38 L5.078,38 C2.285,38 0,35.715 0,32.922 L0,5.078 C0,2.285 2.285,0 5.078,0 L32.922,0 C35.715,0 38,2.285 38,5.078 L38,32.922 C38,35.715 35.715,38 32.922,38 Z" id="Stroke-1" stroke="#000000" stroke-width="2"></path>
+                <polyline id="Stroke-3" stroke="#167BE0" stroke-width="1.5" points="6 13 6 6 13 6"></polyline>
+                <line x1="7" y1="6" x2="13" y2="12" id="Stroke-5" stroke="#167BE0" stroke-width="1.5"></line>
+                <polyline id="Stroke-7" stroke="#167BE0" stroke-width="1.5" points="6 25 13 25 13 32"></polyline>
+                <line x1="13" y1="26" x2="7" y2="32" id="Stroke-9" stroke="#167BE0" stroke-width="1.5"></line>
+                <line x1="23.5" y1="1" x2="23.5" y2="37" id="Stroke-11" stroke="#000000" stroke-width="2"></line>
+            </g>
+        </g>
+    </g>
+</svg>
