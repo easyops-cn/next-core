@@ -3,8 +3,6 @@
 [![pipeline status](https://git.easyops.local/anyclouds/next-core/badges/master/pipeline.svg)](https://git.easyops.local/anyclouds/next-core/commits/master)
 [![coverage report](https://git.easyops.local/anyclouds/next-core/badges/master/coverage.svg)](https://git.easyops.local/anyclouds/next-core/commits/master)
 
-http://192.168.100.162/next/
-
 ## Contributing
 
 [Contribution Guide](CONTRIBUTING.md)
