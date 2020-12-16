@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.3.5...@easyops/custom-antd-styles@1.4.0) (2020-12-16)
+
+### Features
+
+- **styles:** add collapse styles ([f0b64a3](https://git.easyops.local/anyclouds/next-core/commits/f0b64a3))
+
 ## [1.3.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.3.4...@easyops/custom-antd-styles@1.3.5) (2020-12-15)
 
 ### Bug Fixes

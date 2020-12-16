@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@2.4.6...@easyops/brick-icons@2.5.0) (2020-12-16)
+
+### Features
+
+- **bbrick-icons:** add icon Closed BRICK_STORE-1927 ([473e509](https://git.easyops.local/anyclouds/next-core/commits/473e509))
+
 ## [2.4.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@2.4.5...@easyops/brick-icons@2.4.6) (2020-12-07)
 
 **Note:** Version bump only for package @easyops/brick-icons

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.11.7...@easyops/brick-container@2.12.0) (2020-12-16)
+
+### Features
+
+- **styles:** add collapse styles ([f0b64a3](https://git.easyops.local/anyclouds/next-core/commits/f0b64a3))
+
 ## [2.11.7](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.11.6...@easyops/brick-container@2.11.7) (2020-12-15)
 
 **Note:** Version bump only for package @easyops/brick-container
