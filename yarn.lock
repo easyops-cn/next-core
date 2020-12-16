@@ -5407,10 +5407,10 @@ copy-to-clipboard@^3.2.0:
   dependencies:
     toggle-selection "^1.0.6"
 
-copy-webpack-plugin@^6.4.0:
-  version "6.4.0"
-  resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-6.4.0.tgz?cache=0&sync_timestamp=1607353814973&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcopy-webpack-plugin%2Fdownload%2Fcopy-webpack-plugin-6.4.0.tgz#7fd397af78e0d310dbf6575d1a0f2fe10efd4d59"
-  integrity sha1-f9OXr3jg0xDb9lddGg8v4Q79TVk=
+copy-webpack-plugin@^6.4.0, copy-webpack-plugin@^6.4.1:
+  version "6.4.1"
+  resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-6.4.1.tgz#138cd9b436dbca0a6d071720d5414848992ec47e"
+  integrity sha1-E4zZtDbbygptBxcg1UFISJkuxH4=
   dependencies:
     cacache "^15.0.5"
     fast-glob "^3.2.4"
