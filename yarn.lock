@@ -15461,10 +15461,10 @@ webpack-merge@^4.2.2:
   dependencies:
     lodash "^4.17.15"
 
-webpack-merge@^5.7.0:
-  version "5.7.0"
-  resolved "https://registry.npm.taobao.org/webpack-merge/download/webpack-merge-5.7.0.tgz#004dec31f7a875e590c9731e5bdcd3efad0f2715"
-  integrity sha1-AE3sMfeodeWQyXMeW9zT760PJxU=
+webpack-merge@^5.7.2:
+  version "5.7.2"
+  resolved "https://registry.npm.taobao.org/webpack-merge/download/webpack-merge-5.7.2.tgz?cache=0&sync_timestamp=1608125747291&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-merge%2Fdownload%2Fwebpack-merge-5.7.2.tgz#55320baf05d8be068ff8112be72c04d7c14a9abd"
+  integrity sha1-VTILrwXYvgaP+BEr5ywE18FKmr0=
   dependencies:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
