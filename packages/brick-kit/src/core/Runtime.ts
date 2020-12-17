@@ -57,6 +57,13 @@ export function _dev_only_loadDynamicBricksInBrickConf(
 }
 
 /* istanbul ignore next */
+export function _dev_only_loadEditorBricks(
+  editorBricks: string[]
+): Promise<void> {
+  return kernel.loadEditorBricks(editorBricks);
+}
+
+/* istanbul ignore next */
 export function _dev_only_getFakeKernel(
   overrides?: Record<string, unknown>
 ): Kernel {

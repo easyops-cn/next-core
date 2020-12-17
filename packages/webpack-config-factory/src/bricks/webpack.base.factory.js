@@ -7,6 +7,7 @@ const loadLanguages = require("prismjs/components/index");
 const { lessReplacePlugin } = require("@easyops/less-plugin-css-variables");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
+const ScanEditorBricksPlugin = require("./ScanEditorBricksPlugin");
 
 const getCssLoader = (cssOptions) => ({
   loader: "css-loader",
@@ -56,27 +57,39 @@ const getImageLoaderOptions = (distPublicPath) => ({
   ],
 });
 
-module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
+module.exports = (isForEditors) => ({
+  scope = "bricks",
+  copyFiles = [],
+  ignores = [],
+} = {}) => {
   const cwdDirname = process.cwd();
   const appRoot = path.join(cwdDirname, "..", "..");
   const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
   const distPublicPath = pkgRelativeRoot
     .split(path.sep)
-    .concat("dist")
+    .concat(isForEditors ? ["dist", "editors"] : ["dist"])
     .join("/");
   const imageLoaderOptions = getImageLoaderOptions(distPublicPath);
 
   const packageJson = require(path.join(cwdDirname, "package.json"));
   const packageName = packageJson.name.split("/")[1];
-  const dll = Object.keys(packageJson.peerDependencies || {}).filter((name) =>
-    name.startsWith("@dll/")
-  );
+  const dll = isForEditors
+    ? ["@dll/editor-bricks-helper"]
+    : Object.keys(packageJson.peerDependencies || {}).filter((name) =>
+        name.startsWith("@dll/")
+      );
+  const entryName = isForEditors ? "editors" : "index";
 
   return {
     context: appRoot,
-    entry: path.join(cwdDirname, "src", "index"),
+    entry: {
+      [entryName]: path.join(cwdDirname, "src", entryName),
+    },
     output: {
-      path: path.join(cwdDirname, "dist"),
+      // During webpack building, assets are written into
+      // a temporary directory `dist-editors`.
+      // And later to be merged into `dist/editors` during post-building.
+      path: path.join(cwdDirname, isForEditors ? "dist-editors" : "dist"),
       // publicPath: "/"
     },
     resolve: {
@@ -207,7 +220,9 @@ module.exports = ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
       ],
     },
     plugins: [
-      scope === "templates"
+      isForEditors
+        ? new ScanEditorBricksPlugin(packageName)
+        : scope === "templates"
         ? new ScanTemplatesPlugin(packageName)
         : new ScanCustomElementsPlugin(
             packageName,

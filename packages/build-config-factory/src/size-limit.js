@@ -1,15 +1,17 @@
 const fs = require("fs");
 const path = require("path");
 
-function getPath(dir, pkg) {
-  switch (dir) {
+function getPath(type, pkg) {
+  switch (type) {
     case "bricks":
     case "templates":
-      return `${dir}/${pkg}/dist/index.*.js`;
+      return `${type}/${pkg}/dist/index.*.js`;
     case "libs":
-      return `${dir}/${pkg}/dist/index.esm.js`;
+      return `${type}/${pkg}/dist/index.esm.js`;
+    case "editors":
+      return `bricks/${pkg}/dist/editors/editors.*.js`;
     default:
-      throw new Error(`Invalid dir: ${dir}`);
+      throw new Error(`Invalid size-limit type: ${type}`);
   }
 }
 
@@ -17,11 +19,12 @@ module.exports = function (sizeLimitJson) {
   const dirMap = new Map(Object.entries(sizeLimitJson));
   const limits = [];
 
-  dirMap.forEach((conf, dir) => {
+  dirMap.forEach((conf, type) => {
     const pkgMap = new Map(Object.entries(conf));
+    const dir = type === "editors" ? "bricks" : type;
 
     if (!pkgMap.has("*")) {
-      throw new Error(`'*' is required for ${dir}`);
+      throw new Error(`'*' is required for ${type}`);
     }
 
     if (!fs.existsSync(path.resolve(dir))) {
@@ -36,7 +39,7 @@ module.exports = function (sizeLimitJson) {
     const pkgList = dirs.filter((d) => d.isDirectory()).map((d) => d.name);
     pkgList.forEach((pkg) => {
       limits.push({
-        path: getPath(dir, pkg),
+        path: getPath(type, pkg),
         limit: pkg.startsWith("providers-of-")
           ? pkgMap.get("providers-of-*")
           : pkgMap.has(pkg)

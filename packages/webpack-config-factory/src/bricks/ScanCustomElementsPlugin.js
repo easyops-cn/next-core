@@ -40,14 +40,15 @@ module.exports = class ScanCustomElementsPlugin {
                 }
 
                 if (
-                  !validBrickName.test(value) &&
-                  !legacyBrickNames.includes(value)
+                  validBrickName.test(value) ||
+                  legacyBrickNames.includes(value)
                 ) {
+                  brickSet.add(value);
+                } else {
                   throw new Error(
                     `Invalid brick: "${value}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
                   );
                 }
-                brickSet.add(value);
               } else {
                 throw new Error(
                   "Please call `customElements.define()` only with literal string"
@@ -132,11 +133,13 @@ module.exports = class ScanCustomElementsPlugin {
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const bricks = Array.from(brickSet);
       const processors = Array.from(processorSet);
+
       const source = JSON.stringify(
         { bricks, processors, dll: this.dll },
         null,
         2
       );
+
       compilation.assets["bricks.json"] = {
         source: () => source,
         size: () => source.length,

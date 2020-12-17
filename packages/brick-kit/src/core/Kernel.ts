@@ -272,6 +272,20 @@ export class Kernel {
     await loadScript(deps);
   }
 
+  async loadEditorBricks(editorBricks: string[]): Promise<void> {
+    const { dll, deps } = getDllAndDepsByResource(
+      {
+        editorBricks: editorBricks.filter(
+          // Only try to load undefined custom elements.
+          (item) => !customElements.get(item)
+        ),
+      },
+      this.bootstrapData.brickPackages
+    );
+    await loadScript(dll);
+    await loadScript(deps);
+  }
+
   firstRendered(): void {
     setTimeout(() => {
       document.body.classList.add("first-rendered");

@@ -86,7 +86,7 @@ function getNamesOfBrickPackages(env) {
 function getSingleBrickPackage(env, brickPackageName) {
   const distDir = path.join(env.brickPackagesDir, brickPackageName, "dist");
   if (fs.existsSync(distDir)) {
-    let filePath, bricksJson;
+    let filePath, bricksJson, editorsJson;
     for (const file of fs.readdirSync(distDir)) {
       if (file.endsWith(".js")) {
         filePath = `bricks/${brickPackageName}/dist/${file}`;
@@ -96,10 +96,20 @@ function getSingleBrickPackage(env, brickPackageName) {
         );
       }
     }
+    const distEditorsDir = path.join(
+      env.brickPackagesDir,
+      brickPackageName,
+      "dist-editors/editors.json"
+    );
+    if (fs.existsSync(distEditorsDir)) {
+      editorsJson = JSON.parse(fs.readFileSync(distEditorsDir, "utf8"));
+    }
+
     if (bricksJson && filePath) {
       return {
         ...bricksJson,
         filePath,
+        ...editorsJson,
       };
     }
   }
