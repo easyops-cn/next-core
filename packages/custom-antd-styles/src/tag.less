@@ -1,7 +1,35 @@
 .@{tag-prefix-cls} {
   line-height: 22px;
+  padding: 0 9px;
   border-radius: 12px;
   border-color: transparent !important;
+  background: var(--theme-gray-background);
+  color: var(--text-color-default);
+
+  &:hover {
+    opacity: inherit;
+  }
+
+  &-has-color {
+    color: #fff;
+  }
+
+  &-checkable-checked {
+    color: #ffffff;
+    background: var(--theme-blue-color);
+  }
+
+  &-checkable:not(&-checkable-checked):hover {
+    color: var(--theme-blue-color);
+  }
+
+  &-close-icon {
+    color: var(--text-color-secondary);
+
+    &:hover {
+      color: var(--text-color-default);
+    }
+  }
 
   &-green {
     color: var(--theme-green-color);
@@ -34,9 +62,9 @@
   }
 
   &-geekblue {
-     color: var(--theme-geekblue-color);
-     background: var(--theme-geekblue-background);
-   }
+    color: var(--theme-geekblue-color);
+    background: var(--theme-geekblue-background);
+  }
 
   &-gray {
     color: var(--theme-gray-color);
