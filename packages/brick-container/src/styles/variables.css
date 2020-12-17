@@ -107,10 +107,10 @@
   --theme-geekblue-background: #ecf1fb;
   --theme-geekblue-border-color: #d9e3f6;
 
-  --theme-gray-color-rgb-channel: 104, 104, 104;
+  --theme-gray-color-rgb-channel: 191, 191, 191;
   --theme-gray-color: rgb(var(--theme-gray-color-rgb-channel));
   --theme-gray-background: #f5f5f5;
-  --theme-gray-border-color: #c7c7c773;
+  --theme-gray-border-color: #d9d9d9;
 
   --body-background: #f3f4f7;
 
