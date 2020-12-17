@@ -14,3 +14,4 @@ export * from "./scanPermissionActionsInStoryboard";
 export * from "./scanAliasInStoryboard";
 export * from "./placeholder";
 export * from "./cook";
+export * from "./resolveContextConcurrently";

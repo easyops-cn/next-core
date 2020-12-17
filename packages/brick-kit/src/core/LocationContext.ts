@@ -32,6 +32,7 @@ import {
   matchPath,
   computeRealRoutePath,
   hasOwnProperty,
+  resolveContextConcurrently,
 } from "@easyops/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../bindListeners";
@@ -177,39 +178,47 @@ export class LocationContext {
     coreContext: PluginRuntimeContext,
     brick?: RuntimeBrick
   ): Promise<void> {
-    for (const contextConf of contextConfs) {
-      let value: unknown;
-      if (contextConf.property) {
-        if (brick) {
-          this.setStoryboardContext(contextConf.name, {
-            type: "brick-property",
-            brick,
-            prop: contextConf.property,
-          });
-        }
-      } else {
-        if (contextConf.resolve) {
-          const valueConf: Record<string, unknown> = {};
-          await this.resolver.resolveOne(
-            "reference",
-            {
-              transform: "value",
-              transformMapArray: false,
-              ...contextConf.resolve,
-            },
-            valueConf,
-            null,
-            coreContext
-          );
-          value = valueConf.value;
-        } else {
-          value = computeRealValue(contextConf.value, coreContext, true);
-        }
+    await resolveContextConcurrently(contextConfs, (contextConf: ContextConf) =>
+      this.resolveStoryboardContext(contextConf, coreContext, brick)
+    );
+  }
+
+  private async resolveStoryboardContext(
+    contextConf: ContextConf,
+    coreContext: PluginRuntimeContext,
+    brick?: RuntimeBrick
+  ): Promise<void> {
+    let value: unknown;
+    if (contextConf.property) {
+      if (brick) {
         this.setStoryboardContext(contextConf.name, {
-          type: "free-variable",
-          value,
+          type: "brick-property",
+          brick,
+          prop: contextConf.property,
         });
       }
+    } else {
+      if (contextConf.resolve) {
+        const valueConf: Record<string, unknown> = {};
+        await this.resolver.resolveOne(
+          "reference",
+          {
+            transform: "value",
+            transformMapArray: false,
+            ...contextConf.resolve,
+          },
+          valueConf,
+          null,
+          coreContext
+        );
+        value = valueConf.value;
+      } else {
+        value = computeRealValue(contextConf.value, coreContext, true);
+      }
+      this.setStoryboardContext(contextConf.name, {
+        type: "free-variable",
+        value,
+      });
     }
   }
 
