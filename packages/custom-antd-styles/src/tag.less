@@ -3,8 +3,11 @@
   padding: 0 9px;
   border-radius: 12px;
   border-color: transparent !important;
-  background: var(--theme-gray-background);
-  color: var(--text-color-default);
+
+  &:not([class*="@{tag-prefix-cls}-"]) {
+    background: var(--theme-gray-background);
+    color: var(--text-color-default);
+  }
 
   &:hover {
     opacity: inherit;
@@ -12,6 +15,7 @@
 
   &-has-color {
     color: #fff;
+    background: var(--theme-gray-background);
   }
 
   &-checkable-checked {
@@ -66,8 +70,4 @@
     background: var(--theme-geekblue-background);
   }
 
-  &-gray {
-    color: var(--theme-gray-color);
-    background: var(--theme-gray-background);
-  }
 }
