@@ -9,6 +9,16 @@
 
   &-group-addon {
     color: #595959;
+    background-color: var(--theme-gray-background);
+
+    &:first-child {
+      z-index: 1;
+      right: -1px;
+    }
+
+    &:last-child {
+      left: -1px;
+    }
   }
 
   &-search-button {
