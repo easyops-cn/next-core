@@ -27,5 +27,16 @@
 .@{input-number-prefix-cls} {
   &-handler-wrap {
     width: 20px;
+    border-left-color: transparent;
+    background-clip: content-box;
+    background-color: var(--theme-gray-background);
+  }
+
+  &-handler:hover {
+    background-color: var(--theme-blue-background);
+  }
+
+  &-handler-down {
+    border-top-color: transparent;
   }
 }
