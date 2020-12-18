@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.24.2...@easyops/brick-kit@2.25.0) (2020-12-18)
+
+### Features
+
+- support loading editor bricks ([92f9e04](https://git.easyops.local/anyclouds/next-core/commits/92f9e04))
+- support to resolve context concurrently ([8983973](https://git.easyops.local/anyclouds/next-core/commits/8983973))
+
 ## [2.24.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.24.1...@easyops/brick-kit@2.24.2) (2020-12-16)
 
 **Note:** Version bump only for package @easyops/brick-kit

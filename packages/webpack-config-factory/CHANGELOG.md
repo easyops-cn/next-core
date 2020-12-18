@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.1.5...@easyops/webpack-config-factory@2.2.0) (2020-12-18)
+
+### Features
+
+- support editors entry for brick pakcages ([d03b1e5](https://git.easyops.local/anyclouds/next-core/commits/d03b1e5))
+- support loading editor bricks ([92f9e04](https://git.easyops.local/anyclouds/next-core/commits/92f9e04))
+
 ## [2.1.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.1.4...@easyops/webpack-config-factory@2.1.5) (2020-11-27)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory

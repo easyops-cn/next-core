@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.11.2...@easyops/brick-types@2.12.0) (2020-12-18)
+
+### Features
+
+- support loading editor bricks ([92f9e04](https://git.easyops.local/anyclouds/next-core/commits/92f9e04))
+
 ## [2.11.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.11.1...@easyops/brick-types@2.11.2) (2020-12-07)
 
 ### Bug Fixes

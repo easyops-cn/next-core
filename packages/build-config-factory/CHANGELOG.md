@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.1.9...@easyops/build-config-factory@2.2.0) (2020-12-18)
+
+### Features
+
+- support editors entry for brick pakcages ([d03b1e5](https://git.easyops.local/anyclouds/next-core/commits/d03b1e5))
+- support loading editor bricks ([92f9e04](https://git.easyops.local/anyclouds/next-core/commits/92f9e04))
+
 ## [2.1.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.1.8...@easyops/build-config-factory@2.1.9) (2020-12-15)
 
 **Note:** Version bump only for package @easyops/build-config-factory
