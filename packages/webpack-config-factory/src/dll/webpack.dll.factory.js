@@ -17,7 +17,7 @@ module.exports = () => {
     dllReferences.push(
       new webpack.DllReferencePlugin({
         context: appRoot,
-        manifest: require("@easyops/brick-dll")
+        manifest: require("@easyops/brick-dll"),
       })
     );
   }
@@ -27,31 +27,40 @@ module.exports = () => {
     devtool: "source-map",
     mode: isProd ? "production" : "development",
     entry: {
-      [changeCase.pascalCase(filename)]: Object.keys(dependencies)
+      [changeCase.pascalCase(filename)]: Object.keys(dependencies),
     },
     output: {
       filename: `${filename}.js`,
       path: distPath,
-      library: "[name]"
+      library: "[name]",
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          enforce: "pre",
+          use: ["source-map-loader"],
+        },
+      ],
     },
     plugins: [
       ...dllReferences,
       new webpack.DllPlugin({
         name: "[name]",
-        path: path.join(distPath, "manifest.json")
+        path: path.join(distPath, "manifest.json"),
       }),
-      new webpack.HashedModuleIdsPlugin()
+      new webpack.HashedModuleIdsPlugin(),
     ],
     resolve: {
       // only resolve .js extension files
       // Note that we does not resolve .json for significantly lower IO requests
       extensions: [".ts", ".js"],
       // modules: [path.join(appRoot, "node_modules")],
-      symlinks: false
+      symlinks: false,
       // alias: resolverAlias
     },
     performance: {
-      hints: false
-    }
+      hints: false,
+    },
   };
 };
