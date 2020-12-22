@@ -37,7 +37,7 @@ class LegacyErrorBoundary extends React.Component<
     if (this.state.error) {
       // You can render any custom fallback UI
       return (
-        <div>
+        <div data-testid="error-boundary">
           <h3>{this.props.t(K.SOMETHING_WENT_WRONG)}</h3>
           <p>{httpErrorToString(this.state.error)}</p>
         </div>
