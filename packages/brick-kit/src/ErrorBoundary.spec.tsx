@@ -14,9 +14,11 @@ describe("ErrorBoundary", () => {
         <Child />
       </ErrorBoundary>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.exists(Child)).toBe(true);
+    expect(wrapper.exists("[data-testid='error-boundary']")).toBe(false);
     const error = new Error("oops");
     wrapper.find(Child).simulateError(error);
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.exists(Child)).toBe(false);
+    expect(wrapper.exists("[data-testid='error-boundary']")).toBe(true);
   });
 });
