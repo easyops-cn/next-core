@@ -8,6 +8,7 @@ import {
   ObjectType,
 } from "./internal";
 import { loadModel } from "../loaders/loadModel";
+import { contractYamlDir } from "../loaders/env";
 
 type SourceBlock =
   | string
@@ -81,7 +82,7 @@ export class SourceFile {
         const [orgSeg, categorySeg, serviceSeg, modelSeg] = segments;
         if (
           segments.length !== 4 ||
-          orgSeg !== "easyops" ||
+          orgSeg !== contractYamlDir ||
           categorySeg !== "model"
         ) {
           throw new Error(`Unknown import: ${port}`);
