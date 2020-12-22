@@ -15,3 +15,5 @@ export * from "./scanAliasInStoryboard";
 export * from "./placeholder";
 export * from "./cook";
 export * from "./resolveContextConcurrently";
+export * from "./scanCustomApisInStoryboard";
+export { scanStoryboard } from "./scanStoryboard";

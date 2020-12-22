@@ -4,7 +4,12 @@ import {
   PluginLocation,
   PluginRuntimeContext,
 } from "@easyops/brick-types";
-import { restoreDynamicTemplates } from "@easyops/brick-utils";
+import {
+  restoreDynamicTemplates,
+  scanCustomApisInStoryboard,
+  mapCustomApisToNameAndNamespace,
+  CustomApiInfo,
+} from "@easyops/brick-utils";
 import { apiAnalyzer } from "@easyops/easyops-analytics";
 import {
   LocationContext,
@@ -231,7 +236,12 @@ export class Router {
 
     if (storyboard) {
       if (appChanged && currentApp?.id && isLoggedIn()) {
-        await this.kernel.loadMicroAppApiOrchestrationAsync(currentApp.id);
+        const usedCustomApis: CustomApiInfo[] = mapCustomApisToNameAndNamespace(
+          scanCustomApisInStoryboard(storyboard)
+        );
+        if (usedCustomApis?.length) {
+          await this.kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
+        }
       }
       const mountRoutesResult: MountRoutesResult = {
         main: [],
