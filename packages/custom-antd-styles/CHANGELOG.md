@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.4.1...@easyops/custom-antd-styles@1.4.2) (2020-12-22)
+
+### Bug Fixes
+
+- **input-group-addon:** 修改底色和边框 ([791bd7e](https://git.easyops.local/anyclouds/next-core/commits/791bd7e))
+- **input-number:** 调节器修改底色，去除边框 ([7e13c3b](https://git.easyops.local/anyclouds/next-core/commits/7e13c3b))
+- **tag:** 修改可选择标签样式 ([844ee5e](https://git.easyops.local/anyclouds/next-core/commits/844ee5e))
+
 ## [1.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/custom-antd-styles@1.4.0...@easyops/custom-antd-styles@1.4.1) (2020-12-18)
 
 ### Bug Fixes
