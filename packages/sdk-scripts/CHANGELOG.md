@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.1.1...@easyops/sdk-scripts@2.1.2) (2020-12-23)
+
+### Bug Fixes
+
+- **sdk-scripts:** 修复不能使用配置的契约目录 ([7affd8f](https://git.easyops.local/anyclouds/next-core/commits/7affd8f))
+
 ## [2.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.1.0...@easyops/sdk-scripts@2.1.1) (2020-11-27)
 
 **Note:** Version bump only for package @easyops/sdk-scripts

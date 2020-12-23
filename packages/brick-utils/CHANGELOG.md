@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.7.0...@easyops/brick-utils@2.8.0) (2020-12-23)
+
+### Features
+
+- scan custom apis in storyboard and request api instances on demand ([5e47f47](https://git.easyops.local/anyclouds/next-core/commits/5e47f47))
+
 # [2.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.6.0...@easyops/brick-utils@2.7.0) (2020-12-18)
 
 ### Features

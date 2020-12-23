@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.26.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.25.1...@easyops/brick-kit@2.26.0) (2020-12-23)
+
+### Features
+
+- scan custom apis in storyboard and request api instances on demand ([5e47f47](https://git.easyops.local/anyclouds/next-core/commits/5e47f47))
+
 ## [2.25.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.25.0...@easyops/brick-kit@2.25.1) (2020-12-22)
 
 **Note:** Version bump only for package @easyops/brick-kit

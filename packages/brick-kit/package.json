@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-kit",
-  "version": "2.25.1",
+  "version": "2.26.0",
   "description": "Kernel",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-kit",
   "license": "UNLICENSED",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@ant-design/icons": "^4.2.2",
     "@easyops/brick-http": "^2.2.2",
-    "@easyops/brick-utils": "^2.7.0",
+    "@easyops/brick-utils": "^2.8.0",
     "@easyops/easyops-analytics": "^0.1.2",
     "@easyops/illustrations": "^0.3.0",
     "antd": "^4.9.1",
