@@ -9,6 +9,7 @@ import {
   scanRouteAliasInStoryboard,
   getDllAndDepsByResource,
   scanProcessorsInAny,
+  CustomApiInfo,
 } from "@easyops/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@sdk/auth-sdk";
@@ -361,9 +362,9 @@ export class Kernel {
     return allUserMap;
   }
 
-  loadMicroAppApiOrchestrationAsync(currentAppId: string): void {
+  loadMicroAppApiOrchestrationAsync(usedCustomApis: CustomApiInfo[]): void {
     this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
-      currentAppId
+      usedCustomApis
     );
   }
 
@@ -374,19 +375,18 @@ export class Kernel {
   }
 
   private async loadMicroAppApiOrchestration(
-    currentAppId: string
+    usedCustomApis: CustomApiInfo[]
   ): Promise<Map<string, CustomApiOrchestration>> {
     const allMicroAppApiOrchestrationMap: Map<
       string,
       CustomApiOrchestration
     > = new Map();
-    if (currentAppId) {
+    if (usedCustomApis.length) {
       try {
         const allMicroAppApiOrchestration = (
           await InstanceApi.postSearch("MICRO_APP_API_ORCHESTRATION", {
             page: 1,
-            // TODO(Lynette): 暂时设置3000，这里单个app下自定义的api数据不会太多。
-            page_size: 3000,
+            page_size: usedCustomApis.length,
             fields: {
               name: true,
               namespace: true,
@@ -395,7 +395,7 @@ export class Kernel {
               type: true,
             },
             query: {
-              "microApp.appId": currentAppId,
+              $or: usedCustomApis,
             },
           })
         ).list as CustomApiOrchestration[];

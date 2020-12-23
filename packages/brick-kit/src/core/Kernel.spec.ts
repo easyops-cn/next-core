@@ -419,18 +419,36 @@ describe("Kernel", () => {
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
     expect(loadScript).toHaveBeenNthCalledWith(2, []);
     const searchAllMicroAppApiOrchestration = InstanceApi.postSearch as jest.Mock;
+    const usedCustomApis = [
+      {
+        name: "myAwesomeApi",
+        namespace: "easyops.custom_api",
+      },
+    ];
     searchAllMicroAppApiOrchestration.mockResolvedValueOnce({
-      list: [
-        {
-          name: "myAwesomeApi",
-          namespace: "easyops.custom_api",
-        },
-      ],
+      list: usedCustomApis,
     });
-    kernel.loadMicroAppApiOrchestrationAsync(undefined);
+    kernel.loadMicroAppApiOrchestrationAsync([]);
     expect(searchAllMicroAppApiOrchestration).not.toBeCalled();
-    kernel.loadMicroAppApiOrchestrationAsync("appId");
+    kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
     const allMicroAppApiOrchestrationMap = await kernel.getMicroAppApiOrchestrationMapAsync();
+    expect(searchAllMicroAppApiOrchestration).toBeCalledWith(
+      "MICRO_APP_API_ORCHESTRATION",
+      {
+        page: 1,
+        page_size: 1,
+        fields: {
+          name: true,
+          namespace: true,
+          contract: true,
+          config: true,
+          type: true,
+        },
+        query: {
+          $or: usedCustomApis,
+        },
+      }
+    );
     expect(
       allMicroAppApiOrchestrationMap.has("easyops.custom_api@myAwesomeApi")
     ).toBe(true);

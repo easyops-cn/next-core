@@ -13,6 +13,7 @@ import { BrickEventHandlerCallback } from '@easyops/brick-types';
 import { BrickLifeCycle } from '@easyops/brick-types';
 import { BrickPackage } from '@easyops/brick-types';
 import { BrickTemplateFactory } from '@easyops/brick-types';
+import { CustomApiInfo } from '@easyops/brick-utils';
 import { CustomTemplateConstructor } from '@easyops/brick-types';
 import { CustomTemplateProxy } from '@easyops/brick-types';
 import { CustomTemplateProxyMergeableProperty } from '@easyops/brick-types';

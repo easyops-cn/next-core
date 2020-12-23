@@ -13,6 +13,10 @@ import { getAuth, isLoggedIn } from "../auth";
 import { getRuntime } from "../runtime";
 import { preCheckPermissions } from "./checkPermissions";
 import { apiAnalyzer } from "@easyops/easyops-analytics";
+import {
+  scanCustomApisInStoryboard,
+  mapCustomApisToNameAndNamespace,
+} from "@easyops/brick-utils";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -22,6 +26,20 @@ jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("./checkPermissions");
 jest.mock("@easyops/easyops-analytics");
+jest.mock("@easyops/brick-utils");
+
+const spyOnScanCustomApisInStoryboard = scanCustomApisInStoryboard as jest.Mock;
+spyOnScanCustomApisInStoryboard.mockReturnValue([
+  "easyops.custom_api@myAwesomeApi",
+]);
+const spyOnMapCustomApisToNameAndNamespace = mapCustomApisToNameAndNamespace as jest.Mock;
+spyOnMapCustomApisToNameAndNamespace.mockReturnValue([
+  {
+    name: "myAwesomeApi",
+    namespace: "easyops.custom_api",
+  },
+]);
+
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
