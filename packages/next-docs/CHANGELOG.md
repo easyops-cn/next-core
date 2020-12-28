@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.1.4...@easyops/next-docs@1.1.5) (2020-12-28)
+
+**Note:** Version bump only for package @easyops/next-docs
+
 ## [1.1.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.1.3...@easyops/next-docs@1.1.4) (2020-12-23)
 
 **Note:** Version bump only for package @easyops/next-docs
