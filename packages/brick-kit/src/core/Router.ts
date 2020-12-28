@@ -171,6 +171,8 @@ export class Router {
   }
 
   private async render(location: PluginLocation): Promise<void> {
+    this.state = "initial";
+
     resetAllInjected();
 
     if (this.locationContext) {
@@ -223,8 +225,6 @@ export class Router {
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
     this.kernel.nextAppMeta = storyboard?.meta;
-
-    this.state = "initial";
 
     devtoolsHookEmit("rendering");
 
