@@ -51,7 +51,7 @@ export class FunctionBlock {
 
   toString(): string {
     const api = this.api;
-    let { requestParamsType, requestBodyType, responseBodyTypeName } = api;
+    let { requestParamsType, requestBodyType, responseBodyTypeName, doc } = api;
     const { url, args } = this.getApiUrlAndParams();
 
     const { isFormData } = requestBodyType;
@@ -105,9 +105,22 @@ export class FunctionBlock {
       returnBlock = `{ ${FunctionBlock.formDataBlock} return ${returnBlock}; }`;
     }
 
-    return `/** ${api.doc.description}${
-      api.doc.detail ? ` (${api.doc.detail})` : ""
-    } */${os.EOL}export const ${api.displayName} = ${asyncPrefix}(${args.join(
+    const annotations = [];
+    const { description, endpoint, detail } = doc;
+
+    annotations.push(
+      `@description ${description}${detail ? ` (${detail})` : ""}`
+    );
+
+    annotations.push(`@endpoint ${endpoint.method} ${endpoint.uri}`);
+
+    const content = `/** ${os.EOL} * ${annotations.join(`${os.EOL}* `)} ${
+      os.EOL
+    } */`;
+
+    return `${content}${os.EOL}export const ${
+      api.displayName
+    } = ${asyncPrefix}(${args.join(
       ","
     )}): Promise<${responseBodyTypeName}> => ${returnBlock}`;
   }

@@ -20,7 +20,10 @@ export interface AutoDiscoveryResponseBody {
   message: string;
 }
 
-/** 实例自动发现的接口 */
+/**
+ * @description 实例自动发现的接口
+ * @endpoint POST /object/:objectId/instance/_import-json
+ */
 export const autoDiscovery = (
   objectId: string | number,
   data: AutoDiscoveryRequestBody,
@@ -83,7 +86,10 @@ export interface CreateRequestBody {
 
 export type CreateResponseBody = Partial<ModelPackage> & ModelPackage_partial;
 
-/** 创建包 */
+/**
+ * @description 创建包
+ * @endpoint POST /package
+ */
 export const create = (
   data: CreateRequestBody,
   options?: HttpOptions
@@ -158,7 +164,10 @@ export interface GetResponseBody {
   mapsField?: Record<string, any>[];
 }
 
-/** 获取包 */
+/**
+ * @description 获取包
+ * @endpoint GET /packages/pkg
+ */
 export const get = async (
   params: GetRequestParams,
   options?: HttpOptions
@@ -203,7 +212,10 @@ export interface ListNameServiceResponseBody {
   data?: ListNameServiceResponseBody_data_item[];
 }
 
-/** 获取全量名字服务列表 */
+/**
+ * @description 获取全量名字服务列表
+ * @endpoint GET /api/v1/name_service/config
+ */
 export const listNameService = (
   params: ListNameServiceRequestParams,
   options?: HttpOptions
@@ -249,7 +261,10 @@ export interface RetryResponseBody {
   id?: string;
 }
 
-/** 重试 */
+/**
+ * @description 重试
+ * @endpoint POST /api/pipeline/v1/builds/:build_id/retry
+ */
 export const retry = async (
   build_id: string | number,
   options?: HttpOptions
@@ -287,7 +302,10 @@ export type SearchResponseItem = ModelPackage & SearchResponseItem_2;
 
 export type SearchResponseBody = ResponseListWrapper<SearchResponseItem>;
 
-/** 搜索包 (支持模糊搜索) */
+/**
+ * @description 搜索包 (支持模糊搜索)
+ * @endpoint LIST /packages/search
+ */
 export const search = async (
   params: SearchRequestParams,
   options?: HttpOptions
@@ -324,7 +342,10 @@ export interface UploadRequestBody {
   encoding?: string[];
 }
 
-/** 上传包 */
+/**
+ * @description 上传包
+ * @endpoint POST /packages/pkg/:packageId/upload
+ */
 export const upload = (
   packageId: string | number,
   params: UploadRequestParams,
