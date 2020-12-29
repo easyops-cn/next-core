@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.1.2...@easyops/sdk-scripts@2.2.0) (2020-12-29)
+
+### Features
+
+- **sdk-scripts:** 生成 sdk 显示 endpoint ([175caf0](https://git.easyops.local/anyclouds/next-core/commits/175caf0))
+
 ## [2.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.1.1...@easyops/sdk-scripts@2.1.2) (2020-12-23)
 
 ### Bug Fixes
