@@ -1,0 +1,24 @@
+.slotContainer {
+  position: relative;
+  /* padding-top: 10px; */
+}
+
+.slotName {
+  position: absolute;
+  top: -11px;
+  left: 20px;
+  height: 20px;
+  line-height: 20px;
+  color: var(--text-color-secondary);
+  /* background-color: var(--antd-component-background); */
+  padding: 0 5px;
+  /* text-shadow: var(--antd-component-background) 1px 0 10px; */
+  text-shadow: -2px 0 3px #fff, 0 2px 3px #fff, 2px 0 3px #fff, 0 -2px 3px #fff,
+    -2px 0 3px #fff, 0 2px 3px #fff, 2px 0 3px #fff, 0 -2px 3px #fff;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.slotContainer.dropping > .slotName {
+  visibility: visible;
+}

@@ -1,0 +1,112 @@
+.dropZone {
+  position: relative;
+  min-height: 40px;
+}
+
+.isSlot {
+  border-radius: var(--card-inner-border-radius);
+  /* background-color: rgba(223, 219, 229, 0.67);
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); */
+}
+
+.isSlot.dropping {
+  box-shadow: inset 2px 2px lightblue, inset -2px -2px lightblue;
+}
+
+.showOutlineIfEmpty:not(.dropping) {
+  border: 1px dashed rgba(256, 151, 148);
+}
+
+.isRoot > .dropZoneGrid {
+  padding: 18px 6px;
+  height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
+.isSlot > .dropZoneGrid {
+  padding: 12px;
+}
+
+.slotContentLayoutBlock > .dropZoneGrid {
+  display: grid;
+  grid-gap: var(--editor-brick-gap);
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--editor-brick-inline-width), 1fr)
+  );
+}
+
+.slotContentLayoutInline > .dropZoneGrid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(var(--editor-brick-gap-half) * -1);
+}
+
+.slotContentLayoutGrid > .dropZoneGrid {
+  display: grid;
+  grid-gap: var(--editor-brick-gap);
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--editor-brick-grid-width), 1fr)
+  );
+}
+
+.dropCursor {
+  position: absolute;
+  background-color: lightblue;
+  display: none;
+  pointer-events: none;
+}
+
+.dropping > .dropCursor {
+  display: block;
+}
+
+.dropCursorHorizontal {
+  height: 2px;
+  left: 10px;
+  right: 10px;
+  margin-top: -1px;
+}
+
+.dropCursorVertical {
+  width: 2px;
+  margin-left: -1px;
+}
+
+.dropCursor::before,
+.dropCursor::after {
+  position: absolute;
+  content: "";
+  background-color: lightblue;
+}
+
+.dropCursorHorizontal::before,
+.dropCursorHorizontal::after {
+  top: -4px;
+  height: 10px;
+  width: 2px;
+}
+
+.dropCursorHorizontal::before {
+  left: 0;
+}
+
+.dropCursorHorizontal::after {
+  right: 0;
+}
+
+.dropCursorVertical::before,
+.dropCursorVertical::after {
+  left: -4px;
+  width: 10px;
+  height: 2px;
+}
+
+.dropCursorVertical::before {
+  top: 0;
+}
+
+.dropCursorVertical::after {
+  bottom: 0;
+}

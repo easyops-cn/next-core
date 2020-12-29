@@ -1,4 +1,5 @@
 dist
+dist-editors
 node_modules
 .coverage
 .vscode

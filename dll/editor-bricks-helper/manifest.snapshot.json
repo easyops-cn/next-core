@@ -1,0 +1,94 @@
+{
+  "name": "DllOfEditorBricksHelper",
+  "content": {
+    "./node_modules/lodash/lodash.js": {
+      "id": "LvDl",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/@easyops/editor-bricks-helper/dist/index.esm.js": {
+      "id": "WnDu",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "BuilderDataTransferType",
+          "BuilderEventType",
+          "DropZone",
+          "DroppingStatusContext",
+          "EditorBrickType",
+          "EditorContainer",
+          "EditorElementFactory",
+          "EditorSelfLayout",
+          "EditorSlotContentLayout",
+          "SlotContainer",
+          "clearBuilderEventListeners",
+          "getDataOfDataTransfer",
+          "getTypeOfDataTransfer",
+          "initializeBuilderEventListeners",
+          "setDataOfDataTransfer",
+          "useBuilderNode",
+          "useDroppingStatusContext"
+        ]
+      }
+    },
+    "dll-reference dll": {
+      "id": "XuQu",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dom/index.js": {
+      "id": "i8i4",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react/index.js": {
+      "id": "q1tI",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/@easyops/brick-kit/dist/index.esm.js": {
+      "id": "tYg3",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "BrickAsComponent",
+          "BrickWrapper",
+          "EasyopsEmpty",
+          "ErrorBoundary",
+          "ForwardRefSingleBrickAsComponent",
+          "ModalElement",
+          "SingleBrickAsComponent",
+          "UpdatingElement",
+          "authenticate",
+          "checkIf",
+          "checkIfByTransform",
+          "createHistory",
+          "createRuntime",
+          "developHelper",
+          "doTransform",
+          "event",
+          "getAuth",
+          "getHistory",
+          "getRuntime",
+          "handleHttpError",
+          "httpErrorToString",
+          "initI18n",
+          "isLoggedIn",
+          "logout",
+          "looseCheckIf",
+          "looseCheckIfByTransform",
+          "looseCheckIfOfComputed",
+          "method",
+          "preprocessTransformProperties",
+          "property",
+          "reTransformForDevtools",
+          "renderEasyopsEmpty",
+          "transformElementProperties",
+          "transformIntermediateData",
+          "transformProperties",
+          "useCurrentApp",
+          "useCurrentMode",
+          "useCurrentTheme",
+          "useLocation",
+          "useRecentApps"
+        ]
+      }
+    }
+  }
+}
