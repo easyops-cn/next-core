@@ -5,6 +5,7 @@ import {
   MenuRawData,
   processMenuTitle,
   clearMenuTitleCache,
+  clearMenuCache,
 } from "./menu";
 import * as runtime from "./Runtime";
 
@@ -124,6 +125,8 @@ jest.spyOn(InstanceApi, "getDetail").mockImplementation((objectId) => {
 describe("fetchMenuById", () => {
   beforeEach(() => {
     clearMenuTitleCache();
+    clearMenuCache();
+    jest.clearAllMocks();
   });
 
   it("should work", async () => {
@@ -143,6 +146,20 @@ describe("fetchMenuById", () => {
       items: [],
     });
     await expect(fetchMenuById("menu-x")).rejects.toBeInstanceOf(Error);
+  });
+
+  it("test clear menu cache", async () => {
+    const menu1 = await fetchMenuById("menu-a");
+    expect(menu1).toEqual({
+      menuId: "menu-a",
+      items: [],
+    });
+    expect(InstanceApi.postSearch).toHaveBeenCalledTimes(1);
+    await fetchMenuById("menu-a");
+    expect(InstanceApi.postSearch).toHaveBeenCalledTimes(1);
+    clearMenuCache();
+    await fetchMenuById("menu-a");
+    expect(InstanceApi.postSearch).toHaveBeenCalledTimes(2);
   });
 });
 
