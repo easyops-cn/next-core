@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.2.0...@easyops/webpack-config-factory@2.3.0) (2020-12-30)
+
+### Bug Fixes
+
+- use source-map-loader for dll ([b3f3695](https://git.easyops.local/anyclouds/next-core/commits/b3f3695))
+
+### Features
+
+- editor bricks helper ([0d63f7d](https://git.easyops.local/anyclouds/next-core/commits/0d63f7d))
+
 # [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.1.5...@easyops/webpack-config-factory@2.2.0) (2020-12-18)
 
 ### Features
