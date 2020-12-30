@@ -30,7 +30,7 @@ import { getMessageDispatcher } from "./core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./core/CustomApis";
 import { applyTheme, applyMode } from "./themeAndMode";
-import { clearMenuTitleCache } from "./core/menu";
+import { clearMenuTitleCache, clearMenuCache } from "./core/menu";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -245,6 +245,13 @@ export function listenerFactory(
             return;
           }
           clearMenuTitleCache();
+        }) as EventListener;
+      case "menu.clearMenuCache":
+        return ((event: CustomEvent) => {
+          if (!looseCheckIf(handler, { ...context, event })) {
+            return;
+          }
+          clearMenuCache();
         }) as EventListener;
       default:
         return () => {

@@ -1053,7 +1053,8 @@ export interface BuiltinBrickEventHandler {
     | "theme.setLightTheme"
     | "mode.setDashboardMode"
     | "mode.setDefaultMode"
-    | "menu.clearMenuTitleCache";
+    | "menu.clearMenuTitleCache"
+    | "menu.clearMenuCache";
 
   /** 传递的参数列表 */
   args?: unknown[];

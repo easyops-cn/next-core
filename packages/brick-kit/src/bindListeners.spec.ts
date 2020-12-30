@@ -14,7 +14,7 @@ import { CustomApiOrchestration } from "./core/interfaces";
 import { mockMicroAppApiOrchestrationMap } from "./core/__mocks__/MicroAppApiOrchestrationData";
 import { CUSTOM_API_PROVIDER } from "./providers/CustomApi";
 import { applyTheme, applyMode } from "./themeAndMode";
-import { clearMenuTitleCache } from "./core/menu";
+import { clearMenuTitleCache, clearMenuCache } from "./core/menu";
 
 jest.mock("./history");
 jest.mock("./core/MessageDispatcher");
@@ -414,6 +414,7 @@ describe("bindListeners", () => {
         { action: "mode.setDefaultMode" },
         { action: "mode.setDashboardMode" },
         { action: "menu.clearMenuTitleCache" },
+        { action: "menu.clearMenuCache" },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -705,6 +706,7 @@ describe("bindListeners", () => {
     expect(applyMode).toHaveBeenNthCalledWith(2, "dashboard");
 
     expect(clearMenuTitleCache).toHaveBeenCalledTimes(1);
+    expect(clearMenuCache).toHaveBeenCalledTimes(1);
 
     (console.log as jest.Mock).mockClear();
     (console.info as jest.Mock).mockClear();
@@ -713,6 +715,7 @@ describe("bindListeners", () => {
     (applyTheme as jest.Mock).mockClear();
     (applyMode as jest.Mock).mockClear();
     (clearMenuTitleCache as jest.Mock).mockClear();
+    (clearMenuCache as jest.Mock).mockClear();
 
     unbindListeners(sourceElem);
     sourceElem.dispatchEvent(event1);
@@ -841,6 +844,10 @@ describe("bindListeners", () => {
         if: "<% !EVENT.detail.rejected %>",
       },
       {
+        action: "menu.clearMenuCache",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
         target: "#target-elem",
         if: "<% !EVENT.detail.rejected %>",
         method: "forGood",
@@ -860,6 +867,7 @@ describe("bindListeners", () => {
     expect(applyTheme).not.toBeCalled();
     expect(applyMode).not.toBeCalled();
     expect(clearMenuTitleCache).not.toBeCalled();
+    expect(clearMenuCache).not.toBeCalled();
 
     (console.log as jest.Mock).mockRestore();
     sourceElem.remove();

@@ -200,6 +200,10 @@ export function clearMenuTitleCache(): void {
   menuTitleCache.clear();
 }
 
+export function clearMenuCache(): void {
+  menuCache.clear();
+}
+
 function reorderMenuItems(menuData: MenuRawData): void {
   menuData.items = sortMenuItems(menuData.items).map((item) => ({
     ...item,
