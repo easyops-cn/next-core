@@ -12,6 +12,10 @@ module.exports = [
     limit: "290 KB",
   },
   {
+    path: "packages/brick-container/dist/dll-of-editor-bricks-helper.js",
+    limit: "10 KB",
+  },
+  {
     path: "packages/brick-container/dist/dll.js",
     limit: "1.50 MB",
   },
@@ -42,6 +46,10 @@ module.exports = [
   {
     path: "packages/brick-utils/dist/index.esm.js",
     limit: "110 KB",
+  },
+  {
+    path: "packages/editor-bricks-helper/dist/index.esm.js",
+    limit: "15 KB",
   },
   {
     path: "packages/fontawesome-library/dist/index.esm.js",

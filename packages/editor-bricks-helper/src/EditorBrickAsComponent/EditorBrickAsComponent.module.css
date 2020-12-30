@@ -1,0 +1,25 @@
+.slotContentLayoutBlock.selfLayoutBlock,
+.slotContentLayoutBlock.selfLayoutContainer {
+  grid-column: 1 / -1;
+}
+
+.slotContentLayoutInline {
+  margin: 6px;
+}
+
+.slotContentLayoutInline.selfLayoutInline {
+  width: 150px;
+}
+
+.slotContentLayoutInline.selfLayoutContainer {
+  width: 100%;
+}
+
+.dragging {
+  opacity: 0.3;
+}
+
+.microView {
+  height: 100%;
+  min-height: 100%;
+}

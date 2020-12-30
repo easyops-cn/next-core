@@ -78,12 +78,14 @@ module.exports = (isForEditors) => ({
     : Object.keys(packageJson.peerDependencies || {}).filter((name) =>
         name.startsWith("@dll/")
       );
-  const entryName = isForEditors ? "editors" : "index";
+  const entryPair = isForEditors
+    ? ["editors", "editor-bricks/index"]
+    : ["index", "index"];
 
   return {
     context: appRoot,
     entry: {
-      [entryName]: path.join(cwdDirname, "src", entryName),
+      [entryPair[0]]: path.join(cwdDirname, "src", entryPair[1]),
     },
     output: {
       // During webpack building, assets are written into

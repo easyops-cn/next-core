@@ -34,6 +34,7 @@ dist
   Array [
     "/tmp/next/my-repo/.gitignore",
     "dist
+dist-editors
 node_modules
 .coverage
 .vscode
@@ -212,11 +213,14 @@ package() {
 
 module.exports = sizeLimit({
   bricks: {
-    \\"*\\": \\"50 KB\\"
+    \\"*\\": \\"50 KB\\",
   },
   templates: {
-    \\"*\\": \\"5 KB\\"
-  }
+    \\"*\\": \\"5 KB\\",
+  },
+  editors: {
+    \\"*\\": \\"10 KB\\",
+  },
 });
 ",
   ],

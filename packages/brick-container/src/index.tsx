@@ -18,6 +18,7 @@ import {
 import { initializeLibrary } from "@easyops/fontawesome-library";
 import "./antd";
 import "./styles/variables.css";
+import "./styles/editor-bricks-variables.css";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
 import "./styles/default.css";

@@ -591,6 +591,61 @@ export interface BrickRender {
 // @internal (undocumented)
 export type BrickTemplateFactory = (params?: unknown) => BrickConf;
 
+// Warning: (ae-internal-missing-underscore) The name "BuilderBaseNode" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface BuilderBaseNode {
+    // (undocumented)
+    [key: string]: unknown;
+    // (undocumented)
+    alias?: string;
+    // (undocumented)
+    children?: BuilderRouteOrBrickNode[];
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    instanceId?: string;
+    // (undocumented)
+    mountPoint?: string;
+    // (undocumented)
+    parent?: BuilderBaseNode[];
+}
+
+// Warning: (ae-internal-missing-underscore) The name "BuilderBrickNode" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface BuilderBrickNode extends BuilderBaseNode {
+    // (undocumented)
+    brick: string;
+    // (undocumented)
+    type: "brick" | "template";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "BuilderRouteNode" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface BuilderRouteNode extends BuilderBaseNode {
+    // (undocumented)
+    defineResolves?: string;
+    // (undocumented)
+    menu?: string;
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    providers?: string;
+    // (undocumented)
+    redirect?: string;
+    // (undocumented)
+    segues?: string;
+    // (undocumented)
+    type: "bricks" | "routes" | "redirect";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "BuilderRouteOrBrickNode" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode;
+
 // @public
 export interface BuiltinBrickEventHandler {
     action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache";

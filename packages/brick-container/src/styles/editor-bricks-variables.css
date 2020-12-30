@@ -1,0 +1,6 @@
+:root {
+  --editor-brick-gap: 12px;
+  --editor-brick-gap-half: 6px;
+  --editor-brick-inline-width: 150px;
+  --editor-brick-grid-width: 300px; /* calc(var(--editor-brick-inline-width) * 2) */
+}

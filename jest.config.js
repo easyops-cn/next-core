@@ -12,10 +12,10 @@ module.exports = {
   collectCoverage: true,
   coverageThreshold: {
     global: {
-      statements: 94.1,
-      branches: 87.98,
-      functions: 96.59,
-      lines: 94.07,
+      statements: 94.9,
+      branches: 89.4,
+      functions: 96.9,
+      lines: 94.9,
     },
   },
   coverageDirectory: "<rootDir>/.coverage",
@@ -30,6 +30,7 @@ module.exports = {
     "/cypress/",
   ],
   moduleNameMapper: {
+    "\\.module\\.css$": "identity-obj-proxy",
     "\\.svg": "<rootDir>/__mocks__/svgrMock.js",
     "^[./a-zA-Z0-9$_-]+\\.(bmp|gif|jpg|jpeg|png|psd|svg|webp)$":
       "<rootDir>/__mocks__/fileMock.js",
