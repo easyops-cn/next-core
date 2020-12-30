@@ -18,7 +18,6 @@ export function handleBuilderNodeMove(detail: EventDetailOfNodeMove): void {
           sort: undefined,
         }),
       parentUid,
-      nodeData.mountPoint,
       nodeUids
     ),
   });

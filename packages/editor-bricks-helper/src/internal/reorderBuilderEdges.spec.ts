@@ -25,8 +25,7 @@ describe("reorderBuilderEdges", () => {
           },
         ],
         1,
-        "toolbar",
-        [3, 2]
+        [3, 2, 4]
       )
     ).toEqual([
       {
@@ -45,7 +44,7 @@ describe("reorderBuilderEdges", () => {
         parent: 1,
         child: 4,
         mountPoint: "content",
-        sort: 0,
+        sort: 2,
       },
     ]);
   });

@@ -6,10 +6,10 @@ export function handleBuilderNodeReorder(
   detail: EventDetailOfNodeReorder
 ): void {
   const { rootId, nodes, edges } = getCachedCanvasData();
-  const { nodeUids, parentUid, mountPoint } = detail;
+  const { nodeUids, parentUid } = detail;
   setCachedCanvasData({
     rootId,
     nodes,
-    edges: reorderBuilderEdges(edges, parentUid, mountPoint, nodeUids),
+    edges: reorderBuilderEdges(edges, parentUid, nodeUids),
   });
 }

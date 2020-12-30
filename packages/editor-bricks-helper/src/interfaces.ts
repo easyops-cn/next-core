@@ -17,6 +17,11 @@ export interface BuilderRuntimeEdge {
   sort: number;
 }
 
+export interface BuilderGroupedChildNode {
+  mountPoint: string;
+  childNodes: BuilderRuntimeNode[];
+}
+
 export enum BuilderEventType {
   DATA_INIT = "builder.data.init",
   DATA_UPDATE = "builder.data.update",

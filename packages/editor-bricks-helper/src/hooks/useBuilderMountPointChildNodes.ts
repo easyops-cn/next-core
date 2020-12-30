@@ -3,7 +3,7 @@ import { sortBy } from "lodash";
 import { BuilderRuntimeNode } from "../interfaces";
 import { useBuilderData } from "./useBuilderData";
 
-export function useBuilderChildNodes({
+export function useBuilderMountPointChildNodes({
   nodeUid,
   isRoot,
   mountPoint,
