@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.13.0...@easyops/brick-types@2.14.0) (2020-12-30)
+
+### Features
+
+- menu.clearMenuCache ([f353be4](https://git.easyops.local/anyclouds/next-core/commits/f353be4))
+
 # [2.13.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.12.0...@easyops/brick-types@2.13.0) (2020-12-30)
 
 ### Features
