@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.61](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.60...@dll/ace@2.0.61) (2020-12-31)
+
+**Note:** Version bump only for package @dll/ace
+
 ## [2.0.60](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.59...@dll/ace@2.0.60) (2020-12-30)
 
 **Note:** Version bump only for package @dll/ace

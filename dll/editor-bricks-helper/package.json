@@ -1,6 +1,6 @@
 {
   "name": "@dll/editor-bricks-helper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "> TODO: description",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/dll/editor-bricks-helper",
   "license": "UNLICENSED",
@@ -18,7 +18,7 @@
     "@easyops/editor-bricks-helper": "^0.1.1"
   },
   "devDependencies": {
-    "@easyops/brick-dll": "^2.9.3",
+    "@easyops/brick-dll": "^2.9.4",
     "@easyops/webpack-config-factory": "^2.3.0"
   }
 }
