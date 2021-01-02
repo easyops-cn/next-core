@@ -18,6 +18,7 @@
     "@easyops/editor-bricks-helper": "^0.1.1"
   },
   "devDependencies": {
+    "@dll/react-dnd": "^0.0.0",
     "@easyops/brick-dll": "^2.9.4",
     "@easyops/webpack-config-factory": "^2.3.0"
   }

@@ -115,7 +115,6 @@ describe("processDrop", () => {
         type: BuilderEventType.NODE_REORDER,
         detail: {
           parentUid: 100,
-          mountPoint: "content",
           nodeUids: [1, 2, 4, 3, 5],
           nodeIds: ["B-001", "B-002", "B-004", "B-003", "B-005"],
         },

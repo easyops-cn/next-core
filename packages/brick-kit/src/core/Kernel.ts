@@ -49,6 +49,7 @@ import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools } from "../devtools";
 import { isCustomApiProvider } from "./CustomApis";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
+import { load } from "js-yaml";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -176,6 +177,12 @@ export class Kernel {
 
     if (storyboard.dependsAll) {
       const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+      const reactDnd = "react-dnd";
+      // istanbul ignore else
+      if (dllHash[reactDnd]) {
+        await loadScript(`dll-of-${reactDnd}.js?${dllHash[reactDnd]}`);
+      }
+      // `loadScript` is auto cached, no need to filter out `react-dnd`.
       await loadScript(
         Object.entries(dllHash).map(
           ([name, hash]) => `dll-of-${name}.js?${hash}`
@@ -205,7 +212,7 @@ export class Kernel {
           ignoreBricksInUnusedCustomTemplates: true,
         }
       );
-      await loadScript(result.dll);
+      await loadScriptOfDll(result.dll);
       await loadScript(result.deps);
     }
   }
@@ -269,7 +276,7 @@ export class Kernel {
       },
       this.bootstrapData.brickPackages
     );
-    await loadScript(dll);
+    await loadScriptOfDll(dll);
     await loadScript(deps);
   }
 
@@ -283,7 +290,7 @@ export class Kernel {
       },
       this.bootstrapData.brickPackages
     );
-    await loadScript(dll);
+    await loadScriptOfDll(dll);
     await loadScript(deps);
   }
 
@@ -549,4 +556,15 @@ export class Kernel {
     this.providerRepository.set(provider, brick);
     return brick;
   }
+}
+
+// Since `@dll/editor-bricks-helper` depends on `@dll/react-dnd`,
+// always load react-dnd before loading editor-bricks-helper.
+async function loadScriptOfDll(dlls: string[]): Promise<void> {
+  if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper.js"))) {
+    const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+    await loadScript(`dll-of-react-dnd.js?${dllHash["react-dnd"]}`);
+  }
+  // `loadScript` is auto cached, no need to filter out `react-dnd`.
+  await loadScript(dlls);
 }

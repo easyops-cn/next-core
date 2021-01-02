@@ -90,7 +90,6 @@ export function processDrop({
                   groupedChildNodes,
                 }),
                 parentUid,
-                mountPoint,
               },
             }
           )

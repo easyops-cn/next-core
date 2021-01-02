@@ -33,7 +33,6 @@ describe("handleBuilderNodeReorder", () => {
     handleBuilderNodeReorder({
       parentUid: 1,
       nodeUids: [3, 2],
-      mountPoint: "toolbar",
       nodeIds: null,
     });
     expect(getCachedCanvasData()).toMatchInlineSnapshot(`

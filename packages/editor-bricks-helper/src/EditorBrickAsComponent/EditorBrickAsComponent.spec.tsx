@@ -1,16 +1,22 @@
 import React from "react";
 import { act } from "react-dom/test-utils";
-import { HTMLAttributes, mount, ReactWrapper } from "enzyme";
+import { mount } from "enzyme";
+import { useDrag } from "react-dnd";
 import { BrickAsComponent } from "@easyops/brick-kit";
 import { UseSingleBrickConf } from "@easyops/brick-types";
 import { EditorBrickAsComponent } from "./EditorBrickAsComponent";
 import { getEditorBrick } from "./getEditorBrick";
 import { BuilderRuntimeNode, EditorSelfLayout } from "../interfaces";
-import { setDataOfDataTransfer } from "../DataTransferHelper";
 
+jest.mock("react-dnd");
 jest.mock("@easyops/brick-kit");
 jest.mock("./getEditorBrick");
-jest.mock("../DataTransferHelper");
+
+(useDrag as jest.MockedFunction<typeof useDrag>).mockReturnValue([
+  { isDragging: false },
+  undefined,
+  undefined,
+]);
 
 (getEditorBrick as jest.MockedFunction<
   typeof getEditorBrick
@@ -27,10 +33,6 @@ jest.mock("../DataTransferHelper");
     </span>
   );
 });
-
-const mockSetDataOfDataTransfer = setDataOfDataTransfer as jest.MockedFunction<
-  typeof setDataOfDataTransfer
->;
 
 customElements.define(
   "any-brick--editor",
@@ -63,52 +65,8 @@ describe("EditorBrickAsComponent", () => {
       "BrickAsComponent(any-brick--editor,1,any-brick)"
     );
 
-    const getContainer = (): ReactWrapper<HTMLAttributes> =>
-      wrapper.find("div").at(0);
-    const getDragZone = (): ReactWrapper<HTMLAttributes> =>
-      wrapper.find("[draggable]");
-
-    expect(getContainer().prop("className")).not.toContain("dragging");
-
-    // Trigger a dragstart event which target to other than itself,
-    // which should result in event ignored.
-    getDragZone().invoke("onDragStart")({
-      target: "fake",
-    } as any);
-    expect(mockSetDataOfDataTransfer).not.toBeCalled();
-    expect(getContainer().prop("className")).not.toContain("dragging");
-
-    // Trigger a dragstart event which target to itself.
-    const mockDragStartEvent = {
-      target: getDragZone().getDOMNode(),
-      dataTransfer: {},
-    } as any;
-    getDragZone().invoke("onDragStart")(mockDragStartEvent);
-    expect(mockSetDataOfDataTransfer).toBeCalledWith({}, "text/node-to-move", {
-      nodeUid: 1,
-      nodeInstanceId: "instance-a",
-      nodeId: "B-1",
-    });
-    expect(mockDragStartEvent.effectAllowed).toBe("move");
-    expect(getContainer().prop("className")).toContain("dragging");
-
-    // Trigger a dragend event which target to other than itself,
-    // which should result in event ignored.
-    getDragZone().invoke("onDragEnd")({
-      target: "fake",
-    } as any);
-    expect(getContainer().prop("className")).toContain("dragging");
-
-    // Trigger a dragend event which target to itself.
-    const mockClearData = jest.fn();
-    const mockDragEndEvent = {
-      target: getDragZone().getDOMNode(),
-      dataTransfer: {
-        clearData: mockClearData,
-      },
-    } as any;
-    getDragZone().invoke("onDragEnd")(mockDragEndEvent);
-    expect(getContainer().prop("className")).not.toContain("dragging");
-    expect(mockClearData).toBeCalled();
+    expect(wrapper.find("div").at(0).prop("className")).not.toContain(
+      "dragging"
+    );
   });
 });

@@ -1,17 +1,15 @@
 import React from "react";
 import classNames from "classnames";
+import { useDrag } from "react-dnd";
 import { BrickAsComponent } from "@easyops/brick-kit";
 import { BuilderBrickNode, UseBrickConf } from "@easyops/brick-types";
 import { getEditorBrick } from "./getEditorBrick";
 import {
   BuilderDataTransferType,
-  BuilderEventType,
   BuilderRuntimeNode,
   EditorSelfLayout,
   EditorSlotContentLayout,
-  EventDetailOfNodeDragStart,
 } from "../interfaces";
-import { setDataOfDataTransfer } from "../DataTransferHelper";
 import { EditorBrickElementConstructor } from "../EditorElementFactory";
 
 import styles from "./EditorBrickAsComponent.module.css";
@@ -27,8 +25,6 @@ export function EditorBrickAsComponent({
 }: EditorBrickAsComponentProps): React.ReactElement {
   const [initialized, setInitialized] = React.useState(false);
   const [editorBrick, setEditorBrick] = React.useState<string>();
-  const [dragging, setDragging] = React.useState(false);
-  const dragZone = React.useRef<HTMLDivElement>();
 
   React.useEffect(() => {
     (async () => {
@@ -60,44 +56,20 @@ export function EditorBrickAsComponent({
     return layout ?? EditorSelfLayout.INLINE;
   }, [initialized, editorBrick]);
 
-  const handleDragStart = React.useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
-      if (event.target === dragZone.current) {
-        setDragging(true);
-        setDataOfDataTransfer(
-          event.dataTransfer,
-          BuilderDataTransferType.NODE_TO_MOVE,
-          {
-            nodeUid: node.$$uid,
-            nodeInstanceId: node.instanceId,
-            nodeId: node.id,
-          }
-        );
-        (event as any).effectAllowed = "move";
-        window.dispatchEvent(
-          new CustomEvent<EventDetailOfNodeDragStart>(
-            BuilderEventType.NODE_DRAG_START,
-            {
-              detail: {
-                nodeUid: node.$$uid,
-              },
-            }
-          )
-        );
-      }
+  const [{ isDragging }, dragRef] = useDrag({
+    item: {
+      type: BuilderDataTransferType.NODE_TO_MOVE,
+      nodeUid: node.$$uid,
+      nodeInstanceId: node.instanceId,
+      nodeId: node.id,
     },
-    [node]
-  );
-
-  const handleDragEnd = React.useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
-      if (event.target === dragZone.current) {
-        setDragging(false);
-        event.dataTransfer.clearData();
-      }
+    options: {
+      dropEffect: "move",
     },
-    []
-  );
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   return initialized ? (
     editorBrick ? (
@@ -113,14 +85,12 @@ export function EditorBrickAsComponent({
           [styles.selfLayoutBlock]: selfLayout === EditorSelfLayout.BLOCK,
           [styles.selfLayoutContainer]:
             selfLayout === EditorSelfLayout.CONTAINER,
-          [styles.dragging]: dragging,
+          [styles.dragging]: isDragging,
         })}
       >
         <div
-          ref={dragZone}
+          ref={dragRef}
           draggable
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
           className={classNames({
             [styles.microView]:
               node.brick === "basic-bricks.micro-view" ||

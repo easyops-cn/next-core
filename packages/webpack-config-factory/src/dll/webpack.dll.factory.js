@@ -13,13 +13,17 @@ module.exports = () => {
   const filename = `dll-of-${name.split("/").slice(-1)[0]}`;
 
   const dllReferences = [];
-  if (devDependencies && devDependencies["@easyops/brick-dll"]) {
-    dllReferences.push(
-      new webpack.DllReferencePlugin({
-        context: appRoot,
-        manifest: require("@easyops/brick-dll"),
-      })
-    );
+  if (devDependencies) {
+    for (const dep of Object.keys(devDependencies)) {
+      if (dep === "@easyops/brick-dll" || dep.startsWith("@dll/")) {
+        dllReferences.push(
+          new webpack.DllReferencePlugin({
+            context: appRoot,
+            manifest: require(dep),
+          })
+        );
+      }
+    }
   }
 
   return {

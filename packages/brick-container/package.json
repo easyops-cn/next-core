@@ -43,6 +43,7 @@
     "@dll/d3": "^2.0.8",
     "@dll/echarts": "^2.0.9",
     "@dll/editor-bricks-helper": "^0.1.2",
+    "@dll/react-dnd": "^0.0.0",
     "@easyops/brick-dll": "^2.9.4",
     "@easyops/brick-icons": "^2.5.1",
     "@easyops/custom-antd-styles": "^1.4.2",
