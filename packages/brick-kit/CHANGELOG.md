@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.27.0...@easyops/brick-kit@2.28.0) (2021-01-04)
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://git.easyops.local/anyclouds/next-core/commits/d259f2b))
+
 # [2.27.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.26.2...@easyops/brick-kit@2.27.0) (2020-12-30)
 
 ### Features

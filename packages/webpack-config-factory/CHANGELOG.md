@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.3.0...@easyops/webpack-config-factory@2.4.0) (2021-01-04)
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://git.easyops.local/anyclouds/next-core/commits/d259f2b))
+
 # [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.2.0...@easyops/webpack-config-factory@2.3.0) (2020-12-30)
 
 ### Bug Fixes

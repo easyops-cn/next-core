@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.44...@easyops/dev-dependencies@1.2.0) (2021-01-04)
+
+### Bug Fixes
+
+- **editor-bricks:** refine node reorder ([a9ee6df](https://git.easyops.local/anyclouds/next-core/commits/a9ee6df))
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://git.easyops.local/anyclouds/next-core/commits/d259f2b))
+
 ## [1.1.44](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.1.43...@easyops/dev-dependencies@1.1.44) (2020-12-31)
 
 **Note:** Version bump only for package @easyops/dev-dependencies
