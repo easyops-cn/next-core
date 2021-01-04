@@ -211,17 +211,18 @@ export function getDropPositions(
 }
 
 export function getDropPosition(
-  event: React.DragEvent<HTMLElement>,
+  x: number,
+  y: number,
   dropZone: HTMLElement,
   dropZoneGrid: HTMLElement
 ): DropPositionCursor {
   const positions = getDropPositions(dropZone, dropZoneGrid);
   for (const { rect, cursor } of positions) {
     if (
-      event.clientX >= rect.left &&
-      event.clientX <= rect.right &&
-      event.clientY >= rect.top &&
-      event.clientY <= rect.bottom
+      x >= rect.left &&
+      x <= rect.right &&
+      y >= rect.top &&
+      y <= rect.bottom
     ) {
       // console.log((event.target as HTMLElement).tagName, cursor.isVertical, cursor.index);
       return cursor;

@@ -18,6 +18,8 @@
     "@dll/ace": "^2.0.61",
     "@dll/d3": "^2.0.8",
     "@dll/echarts": "^2.0.9",
+    "@dll/editor-bricks-helper": "^0.1.2",
+    "@dll/react-dnd": "^0.0.0",
     "@easyops/babel-preset-next": "^0.6.16",
     "@easyops/babel-preset-prismjs": "^1.0.1",
     "@easyops/brick-container": "^2.14.2",

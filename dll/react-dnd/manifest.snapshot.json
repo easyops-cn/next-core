@@ -1,0 +1,679 @@
+{
+  "name": "DllOfReactDnd",
+  "content": {
+    "./node_modules/dnd-core/dist/esm/index.js": {
+      "id": "+QcU",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["HandlerRole", "createDragDropManager"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/interfaces/options.js": {
+      "id": "+vnL",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/NativeDragSources/NativeDragSource.js": {
+      "id": "/1ws",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["NativeDragSource"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/createSourceFactory.js": {
+      "id": "/mPh",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createSourceFactory"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/createTargetFactory.js": {
+      "id": "0YBk",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createTargetFactory"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/index.js": {
+      "id": "20er",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "useDrag",
+          "useDrop",
+          "useDragLayer",
+          "useDragDropManager"
+        ]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/utils/matchesType.js": {
+      "id": "22Yn",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["matchesType"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/utils/getNextUniqueId.js": {
+      "id": "2SzT",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["getNextUniqueId"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/hover.js": {
+      "id": "2hHC",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createHover"]
+      }
+    },
+    "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js": {
+      "id": "2mql",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/internal/useIsomorphicLayoutEffect.js": {
+      "id": "2mtm",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useIsomorphicLayoutEffect"]
+      }
+    },
+    "./node_modules/webpack/buildin/harmony-module.js": {
+      "id": "3UD+",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/interfaces/connectors.js": {
+      "id": "3oNi",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/dnd-core/dist/esm/DragDropManagerImpl.js": {
+      "id": "4bCr",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DragDropManagerImpl"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/HTML5BackendImpl.js": {
+      "id": "5s0F",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["HTML5BackendImpl"]
+      }
+    },
+    "./node_modules/@react-dnd/asap/dist/esm/browser/asap.js": {
+      "id": "7BOM",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["asap"] }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/local/setClientOffset.js": {
+      "id": "8Ldn",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["setClientOffset"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/utils/equality.js": {
+      "id": "8hHo",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "strictEquality",
+          "areCoordsEqual",
+          "areArraysEqual"
+        ]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/reducers/dragOffset.js": {
+      "id": "9gYU",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["reduce"] }
+    },
+    "./node_modules/redux/es/redux.js": {
+      "id": "ANjH",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "__DO_NOT_USE__ActionTypes",
+          "applyMiddleware",
+          "bindActionCreators",
+          "combineReducers",
+          "compose",
+          "createStore"
+        ]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/index.js": {
+      "id": "AjZM",
+      "buildMeta": { "exportsType": "namespace", "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/interfaces/hooksApi.js": {
+      "id": "BBm8",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/useDrag.js": {
+      "id": "CLjb",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useDrag"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/HandlerRegistryImpl.js": {
+      "id": "Dbh6",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["HandlerRegistryImpl"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/utils/js_utils.js": {
+      "id": "ER6U",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "get",
+          "without",
+          "isString",
+          "isObject",
+          "xor",
+          "intersection"
+        ]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/factories.js": {
+      "id": "Etnk",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createDragDropManager"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/internal/drop.js": {
+      "id": "FpyL",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useDropTargetMonitor", "useDropHandler"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/utils/dirtiness.js": {
+      "id": "GQI+",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["NONE", "ALL", "areDirty"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/useDragLayer.js": {
+      "id": "H0kk",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useDragLayer"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/registry.js": {
+      "id": "H5eG",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "ADD_SOURCE",
+          "ADD_TARGET",
+          "REMOVE_SOURCE",
+          "REMOVE_TARGET",
+          "addSource",
+          "addTarget",
+          "removeSource",
+          "removeTarget"
+        ]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/DragDropMonitorImpl.js": {
+      "id": "H8QW",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DragDropMonitorImpl"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/interfaces/monitors.js": {
+      "id": "HPWZ",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/dnd-core/dist/esm/reducers/stateId.js": {
+      "id": "HW82",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["reduce"] }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/interfaces.js": {
+      "id": "IUv2",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/index.js": {
+      "id": "IYwU",
+      "buildMeta": { "exportsType": "namespace", "providedExports": true }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/OffsetUtils.js": {
+      "id": "JtJG",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "getNodeClientOffset",
+          "getEventClientOffset",
+          "getDragPreviewOffset"
+        ]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/useDragDropManager.js": {
+      "id": "K/u7",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useDragDropManager"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/internal/useCollector.js": {
+      "id": "LAAB",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useCollector"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/DndContext.js": {
+      "id": "Lmng",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DndContext", "createDndContext"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/getEmptyImage.js": {
+      "id": "NCd1",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["getEmptyImage"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/disposables.js": {
+      "id": "NOaJ",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "Disposable",
+          "CompositeDisposable",
+          "SerialDisposable"
+        ]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/index.js": {
+      "id": "POdJ",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "INIT_COORDS",
+          "BEGIN_DRAG",
+          "PUBLISH_DRAG_SOURCE",
+          "HOVER",
+          "DROP",
+          "END_DRAG",
+          "createDragDropActions"
+        ]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/utils/js_utils.js": {
+      "id": "PPjH",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["isFunction", "noop", "isPlainObject"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/DragLayer.js": {
+      "id": "QSzV",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DragLayer"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/decorateHandler.js": {
+      "id": "QZfq",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["decorateHandler"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/DragPreviewImage.js": {
+      "id": "RJb5",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DragPreviewImage"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/internal/useMonitorOutput.js": {
+      "id": "RQA8",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useMonitorOutput"]
+      }
+    },
+    "./node_modules/symbol-observable/es/ponyfill.js": {
+      "id": "SLVX",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/reducers/dirtyHandlerIds.js": {
+      "id": "Tut6",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["reduce"] }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/NativeDragSources/index.js": {
+      "id": "U1Kn",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createNativeDragSource", "matchNativeItemType"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/utils/isRef.js": {
+      "id": "V5iW",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["isRef"] }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/drop.js": {
+      "id": "Wbvb",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createDrop"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/utils/js_utils.js": {
+      "id": "XG+e",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["memoize", "without", "union"]
+      }
+    },
+    "dll-reference dll": {
+      "id": "XuQu",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/common/index.js": {
+      "id": "Y1QC",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "DndContext",
+          "createDndContext",
+          "DndProvider",
+          "DragPreviewImage"
+        ]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/internal/drag.js": {
+      "id": "YCbe",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useDragSourceMonitor", "useDragHandler"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/endDrag.js": {
+      "id": "Z02E",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createEndDrag"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/NativeDragSources/getDataFromDataTransfer.js": {
+      "id": "ZKxx",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["getDataFromDataTransfer"]
+      }
+    },
+    "./node_modules/@react-dnd/invariant/dist/invariant.esm.js": {
+      "id": "aKzv",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["invariant"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/hooks/useDrop.js": {
+      "id": "aMZS",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useDrop"]
+      }
+    },
+    "./node_modules/@react-dnd/asap/dist/esm/browser/raw.js": {
+      "id": "b7DX",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["rawAsap"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/SourceConnector.js": {
+      "id": "bAlF",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["SourceConnector"]
+      }
+    },
+    "./node_modules/symbol-observable/es/index.js": {
+      "id": "bCCX",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/DragSourceMonitorImpl.js": {
+      "id": "bO3s",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DragSourceMonitorImpl"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/NativeTypes.js": {
+      "id": "bgvK",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["FILE", "URL", "TEXT"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/utils.js": {
+      "id": "dKk1",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "getDecoratedComponent",
+          "isClassComponent",
+          "isRefForwardingComponent",
+          "isRefable",
+          "checkDecoratorArguments"
+        ]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/utils/isValidType.js": {
+      "id": "dOW7",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["isValidType"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/publishDragSource.js": {
+      "id": "dqcp",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createPublishDragSource"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/reducers/dragOperation.js": {
+      "id": "e4Cm",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["reduce"] }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/types.js": {
+      "id": "hbeG",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "INIT_COORDS",
+          "BEGIN_DRAG",
+          "PUBLISH_DRAG_SOURCE",
+          "HOVER",
+          "DROP",
+          "END_DRAG"
+        ]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/NativeDragSources/nativeTypesConfig.js": {
+      "id": "hwfq",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["nativeTypesConfig"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/utils/coords.js": {
+      "id": "inl6",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "add",
+          "subtract",
+          "getSourceClientOffset",
+          "getDifferenceFromInitialOffset"
+        ]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/DropTarget.js": {
+      "id": "jA2l",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DropTarget"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/OptionsReader.js": {
+      "id": "jUX6",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["OptionsReader"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/contracts.js": {
+      "id": "jbMM",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "validateSourceContract",
+          "validateTargetContract",
+          "validateType"
+        ]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/decorators/DragSource.js": {
+      "id": "jkD3",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DragSource"]
+      }
+    },
+    "./node_modules/@react-dnd/shallowequal/dist/shallowequal.esm.js": {
+      "id": "khz9",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["shallowEqual"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/DndProvider.js": {
+      "id": "kvAW",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DndProvider"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/interfaces/index.js": {
+      "id": "lD74",
+      "buildMeta": { "exportsType": "namespace", "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/common/wrapConnectorHooks.js": {
+      "id": "mDht",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["wrapConnectorHooks"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/interfaces.js": {
+      "id": "momK",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["HandlerRole"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/TargetConnector.js": {
+      "id": "oQVV",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["TargetConnector"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/DropTargetMonitorImpl.js": {
+      "id": "pdp2",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["DropTargetMonitorImpl"]
+      }
+    },
+    "./node_modules/react/index.js": {
+      "id": "q1tI",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/index.js": {
+      "id": "qJlv",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["getEmptyImage", "NativeTypes", "HTML5Backend"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/reducers/index.js": {
+      "id": "qWO2",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["reduce"] }
+    },
+    "./node_modules/react-dnd/dist/esm/utils/cloneWithRef.js": {
+      "id": "roBy",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["cloneWithRef"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/actions/dragDrop/beginDrag.js": {
+      "id": "t/Em",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["createBeginDrag"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/EnterLeaveCounter.js": {
+      "id": "uxz9",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["EnterLeaveCounter"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/BrowserDetector.js": {
+      "id": "vj+x",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["isFirefox", "isSafari"]
+      }
+    },
+    "./node_modules/react-dnd/dist/esm/common/registration.js": {
+      "id": "wSlI",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["registerTarget", "registerSource"]
+      }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/MonotonicInterpolant.js": {
+      "id": "wVPC",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["MonotonicInterpolant"]
+      }
+    },
+    "./node_modules/dnd-core/dist/esm/reducers/refCount.js": {
+      "id": "xDv7",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["reduce"] }
+    },
+    "./node_modules/webpack/buildin/global.js": {
+      "id": "yLpj",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/@react-dnd/asap/dist/esm/browser/index.js": {
+      "id": "z4n3",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["asap"] }
+    }
+  }
+}

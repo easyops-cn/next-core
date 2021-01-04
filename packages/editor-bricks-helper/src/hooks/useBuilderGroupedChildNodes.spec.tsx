@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { range } from "lodash";
-import { useBuilderChildNodes } from "./useBuilderChildNodes";
+import { useBuilderGroupedChildNodes } from "./useBuilderGroupedChildNodes";
 import { useBuilderData } from "./useBuilderData";
 import { BuilderRuntimeNode } from "../interfaces";
 
@@ -53,34 +53,36 @@ jest.mock("./useBuilderData");
 });
 
 function TestComponent(
-  props: Parameters<typeof useBuilderChildNodes>[0]
+  props: Parameters<typeof useBuilderGroupedChildNodes>[0]
 ): React.ReactElement {
-  const childNodes = useBuilderChildNodes(props);
-  return <div>{childNodes.map((node) => node.$$uid).join(",")}</div>;
+  const mountPoints = useBuilderGroupedChildNodes(props);
+  return (
+    <div>
+      {mountPoints
+        .map(
+          (item) =>
+            `${item.mountPoint}:${item.childNodes
+              .map((node) => node.$$uid)
+              .join(",")}`
+        )
+        .join(";")}
+    </div>
+  );
 }
 
-describe("useBuilderChildNodes", () => {
-  it.each<[Parameters<typeof useBuilderChildNodes>[0], string]>([
+describe("useBuilderGroupedChildNodes", () => {
+  it.each<[Parameters<typeof useBuilderGroupedChildNodes>[0], string]>([
     [
       {
         isRoot: true,
-        mountPoint: "content",
       },
-      "3,4",
-    ],
-    [
-      {
-        isRoot: true,
-        mountPoint: "toolbar",
-      },
-      "2",
+      "toolbar:2;content:3,4",
     ],
     [
       {
         nodeUid: 3,
-        mountPoint: "content",
       },
-      "5",
+      "content:5",
     ],
   ])("should work", (props, stringUid) => {
     const wrapper = shallow(<TestComponent {...props} />);

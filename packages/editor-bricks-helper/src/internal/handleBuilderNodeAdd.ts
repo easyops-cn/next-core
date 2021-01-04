@@ -20,7 +20,6 @@ export function handleBuilderNodeAdd(detail: EventDetailOfNodeAdd): void {
         sort: undefined,
       }),
       parentUid,
-      nodeData.mountPoint,
       nodeUids
     ),
   });

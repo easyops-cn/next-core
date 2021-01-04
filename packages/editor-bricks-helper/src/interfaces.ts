@@ -17,6 +17,11 @@ export interface BuilderRuntimeEdge {
   sort: number;
 }
 
+export interface BuilderGroupedChildNode {
+  mountPoint: string;
+  childNodes: BuilderRuntimeNode[];
+}
+
 export enum BuilderEventType {
   DATA_INIT = "builder.data.init",
   DATA_UPDATE = "builder.data.update",
@@ -25,7 +30,6 @@ export enum BuilderEventType {
   NODE_MOVE = "builder.node.move",
   NODE_MOVE_STORED = "builder.node.move.stored",
   NODE_REORDER = "builder.node.reorder",
-  NODE_DRAG_START = "builder.node.drag.start",
 }
 
 export interface EventDetailOfNodeAdd {
@@ -64,7 +68,6 @@ export type EventDetailOfNodeMove = Omit<
 export interface EventDetailOfNodeReorder {
   nodeUids: number[];
   parentUid: number;
-  mountPoint: string;
   nodeIds: string[];
 }
 
@@ -73,8 +76,8 @@ export interface EventDetailOfNodeDragStart {
 }
 
 export enum BuilderDataTransferType {
-  NODE_TO_ADD = "text/node-to-add",
-  NODE_TO_MOVE = "text/node-to-move",
+  NODE_TO_ADD = "builder/node-to-add",
+  NODE_TO_MOVE = "builder/node-to-move",
 }
 
 export interface BuilderDataTransferPayloadOfNodeToAdd {

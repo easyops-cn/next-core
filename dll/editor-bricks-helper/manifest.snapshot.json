@@ -1,6 +1,14 @@
 {
   "name": "DllOfEditorBricksHelper",
   "content": {
+    "dll-reference DllOfReactDnd": {
+      "id": "/8r5",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd/dist/esm/index.js": {
+      "id": "IYwU",
+      "buildMeta": { "exportsType": "namespace", "providedExports": true }
+    },
     "./node_modules/lodash/lodash.js": {
       "id": "LvDl",
       "buildMeta": { "providedExports": true }
@@ -21,11 +29,10 @@
           "EditorSlotContentLayout",
           "SlotContainer",
           "clearBuilderEventListeners",
-          "getDataOfDataTransfer",
-          "getTypeOfDataTransfer",
           "initializeBuilderEventListeners",
-          "setDataOfDataTransfer",
+          "useBuilderGroupedChildNodes",
           "useBuilderNode",
+          "useBuilderNodeMountPoints",
           "useDroppingStatusContext"
         ]
       }
@@ -41,6 +48,13 @@
     "./node_modules/react/index.js": {
       "id": "q1tI",
       "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-dnd-html5-backend/dist/esm/index.js": {
+      "id": "qJlv",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["getEmptyImage", "NativeTypes", "HTML5Backend"]
+      }
     },
     "./node_modules/@easyops/brick-kit/dist/index.esm.js": {
       "id": "tYg3",

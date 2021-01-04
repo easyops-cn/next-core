@@ -16,6 +16,10 @@ module.exports = [
     limit: "10 KB",
   },
   {
+    path: "packages/brick-container/dist/dll-of-react-dnd.js",
+    limit: "25 KB",
+  },
+  {
     path: "packages/brick-container/dist/dll.js",
     limit: "1.50 MB",
   },

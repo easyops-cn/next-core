@@ -103,7 +103,9 @@ customElements.define(
 );
 
 (window as any).DLL_HASH = {
-  d3: "fake-hash",
+  d3: "fake-hash-of-d3",
+  "editor-bricks-helper": "fake-hash-of-editor",
+  "react-dnd": "fake-hash-of-dnd",
 };
 
 describe("Kernel", () => {
@@ -259,7 +261,7 @@ describe("Kernel", () => {
     });
 
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
-      dll: ["d3.js"],
+      dll: ["d3.js", "dll-of-editor-bricks-helper.js?x"],
       deps: ["dep.js"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
@@ -279,10 +281,16 @@ describe("Kernel", () => {
     } as Partial<Storyboard>) as Storyboard;
     await kernel.loadDepsOfStoryboard(storyboard);
     await kernel.registerCustomTemplatesInStoryboard(storyboard);
-    expect(spyOnLoadScript).toBeCalledTimes(3);
+    expect(spyOnLoadScript).toBeCalledTimes(4);
     expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["d3.js"]);
-    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["dep.js"]);
+    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(
+      "dll-of-react-dnd.js?fake-hash-of-dnd"
+    );
+    expect(spyOnLoadScript.mock.calls[2][0]).toEqual([
+      "d3.js",
+      "dll-of-editor-bricks-helper.js?x",
+    ]);
+    expect(spyOnLoadScript.mock.calls[3][0]).toEqual(["dep.js"]);
     expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
       "tpl-a",
       {
@@ -300,11 +308,16 @@ describe("Kernel", () => {
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
     await kernel.loadDepsOfStoryboard({ dependsAll: true } as any);
-    expect(spyOnLoadScript).toBeCalledTimes(2);
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual([
-      "dll-of-d3.js?fake-hash",
+    expect(spyOnLoadScript).toBeCalledTimes(3);
+    expect(spyOnLoadScript.mock.calls[0][0]).toEqual(
+      "dll-of-react-dnd.js?fake-hash-of-dnd"
+    );
+    expect(spyOnLoadScript.mock.calls[1][0]).toEqual([
+      "dll-of-d3.js?fake-hash-of-d3",
+      "dll-of-editor-bricks-helper.js?fake-hash-of-editor",
+      "dll-of-react-dnd.js?fake-hash-of-dnd",
     ]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual(["all.js", "layout.js"]);
+    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["all.js", "layout.js"]);
 
     const fakeStoryboard = {
       app: {

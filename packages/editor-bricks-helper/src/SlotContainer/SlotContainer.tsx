@@ -25,11 +25,13 @@ export function SlotContainer({
   slotContentLayout,
   showOutlineIfEmpty,
 }: SlotContainerProps): React.ReactElement {
-  const { dropping, droppingMountPoint } = useDroppingStatusContext();
+  const { droppingStatus } = useDroppingStatusContext();
   return (
     <div
       className={classNames(styles.slotContainer, {
-        [styles.dropping]: dropping && droppingMountPoint === slotName,
+        [styles.dropping]:
+          Object.prototype.hasOwnProperty.call(droppingStatus, slotName) &&
+          droppingStatus[slotName],
       })}
       style={slotContainerStyle}
     >
