@@ -8,6 +8,7 @@ export interface BuilderCanvasData {
 
 export type BuilderRuntimeNode = BuilderRouteOrBrickNode & {
   $$uid?: number;
+  parsedProperties?: Record<string, unknown>;
 };
 
 export interface BuilderRuntimeEdge {
@@ -20,16 +21,6 @@ export interface BuilderRuntimeEdge {
 export interface BuilderGroupedChildNode {
   mountPoint: string;
   childNodes: BuilderRuntimeNode[];
-}
-
-export enum BuilderEventType {
-  DATA_INIT = "builder.data.init",
-  DATA_UPDATE = "builder.data.update",
-  NODE_ADD = "builder.node.add",
-  NODE_ADD_STORED = "builder.node.add.stored",
-  NODE_MOVE = "builder.node.move",
-  NODE_MOVE_STORED = "builder.node.move.stored",
-  NODE_REORDER = "builder.node.reorder",
 }
 
 export interface EventDetailOfNodeAdd {
@@ -106,4 +97,22 @@ export enum EditorSlotContentLayout {
   BLOCK = "block",
   INLINE = "inline",
   GRID = "grid",
+}
+
+export interface AbstractBuilderDataManager {
+  getData(): BuilderCanvasData;
+  dataInit(root: BuilderRuntimeNode): void;
+  nodeAdd(detail: EventDetailOfNodeAdd): void;
+  nodeAddStored(detail: EventDetailOfNodeAddStored): void;
+  nodeMove(detail: EventDetailOfNodeMove): void;
+  nodeReorder(detail: EventDetailOfNodeReorder): void;
+  nodeClick(detail: BuilderRuntimeNode): void;
+  onNodeAdd(fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void): () => void;
+  onNodeReorder(
+    fn: (event: CustomEvent<EventDetailOfNodeReorder>) => void
+  ): () => void;
+  onNodeMove(
+    fn: (event: CustomEvent<EventDetailOfNodeMove>) => void
+  ): () => void;
+  onNodeClick(fn: (event: CustomEvent<BuilderRuntimeNode>) => void): () => void;
 }

@@ -2,15 +2,18 @@
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
 import React from "react";
 import ReactDOM from "react-dom";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { UpdatingElement, property, BrickWrapper } from "@easyops/brick-kit";
 import { EditorSelfLayout } from "./interfaces";
+import { BuilderProvider } from "./BuilderProvider";
 
 export interface EditorComponentProps {
   nodeUid: number;
   brick: string;
 }
 
-export type EditorComponent = React.FunctionComponent<EditorComponentProps>;
+export type EditorComponentType = React.FunctionComponent<EditorComponentProps>;
 
 export interface EditorBrickElement extends HTMLElement {
   nodeUid: number;
@@ -28,7 +31,7 @@ export interface EditorElementOptions {
 }
 
 export function EditorElementFactory(
-  editorComponent: EditorComponent,
+  EditorComponent: EditorComponentType,
   options?: EditorElementOptions
 ): EditorBrickElementConstructor {
   class NewEditorElement extends UpdatingElement {
@@ -64,14 +67,13 @@ export function EditorElementFactory(
       // istanbul ignore else
       if (this.isConnected && this.nodeUid && this.brick) {
         ReactDOM.render(
-          React.createElement(
-            BrickWrapper,
-            null,
-            React.createElement(editorComponent, {
-              nodeUid: this.nodeUid,
-              brick: this.brick,
-            })
-          ),
+          <BrickWrapper>
+            <BuilderProvider>
+              <DndProvider backend={HTML5Backend}>
+                <EditorComponent nodeUid={this.nodeUid} brick={this.brick} />
+              </DndProvider>
+            </BuilderProvider>
+          </BrickWrapper>,
           this
         );
       }

@@ -18,6 +18,7 @@ import { DropPositionCursor, getDropPosition } from "./getDropPosition";
 import { processDrop } from "./processDrop";
 
 import styles from "./DropZone.module.css";
+import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 
 export interface DropZoneProps {
   nodeUid?: number;
@@ -43,6 +44,7 @@ export function DropZone({
     setDropPositionCursor,
   ] = React.useState<DropPositionCursor>(null);
   const dropPositionCursorRef = React.useRef<DropPositionCursor>();
+  const manager = useBuilderDataManager();
   const node = useBuilderNode({ nodeUid, isRoot });
   const groupedChildNodes = useBuilderGroupedChildNodes({
     nodeUid,
@@ -103,6 +105,7 @@ export function DropZone({
           mountPoint,
           selfChildNodes,
           groupedChildNodes,
+          manager,
         });
       }
     },

@@ -19,7 +19,7 @@
         "exportsType": "namespace",
         "providedExports": [
           "BuilderDataTransferType",
-          "BuilderEventType",
+          "BuilderProvider",
           "DropZone",
           "DroppingStatusContext",
           "EditorBrickType",
@@ -28,8 +28,7 @@
           "EditorSelfLayout",
           "EditorSlotContentLayout",
           "SlotContainer",
-          "clearBuilderEventListeners",
-          "initializeBuilderEventListeners",
+          "useBuilderDataManager",
           "useBuilderGroupedChildNodes",
           "useBuilderNode",
           "useBuilderNodeMountPoints",

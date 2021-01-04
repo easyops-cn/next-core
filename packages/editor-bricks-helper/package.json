@@ -26,6 +26,7 @@
   "sideEffects": false,
   "dependencies": {
     "@easyops/brick-types": "^2.14.0",
+    "@ungap/event-target": "^0.2.2",
     "classnames": "^2.2.6"
   },
   "devDependencies": {

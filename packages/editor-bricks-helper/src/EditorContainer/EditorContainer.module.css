@@ -1,41 +1,50 @@
 .editorContainer {
   position: relative;
-  border-radius: var(--card-inner-border-radius);
+  /* border-radius: var(--card-inner-border-radius); */
   /* padding: 6px; */
 }
 
-.editorContainer:hover,
+/* .editorContainer:hover,
 .editorContainer.persistentBackground,
 .editorContainer.dropping {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.editorOfDefault,
 .editorOfContainer {
   padding: 6px;
-}
+} */
 
 .nodeAlias {
   position: absolute;
-  top: -15px;
-  left: 10px;
-  height: 15px;
-  line-height: 15px;
-  font-size: 10px;
-  background-color: var(--theme-blue-background);
+  top: -25px;
+  height: 34px;
+  background-color: #d6d6d6;
+  border: 1px solid var(--editor-brick-stroke-color);
   padding: 0 5px;
-  border-radius: 3px 3px 0 0;
+  border-radius: 2px;
+  color: #737373;
   white-space: nowrap;
   visibility: hidden;
   pointer-events: none;
 }
 
-.editorContainer:hover > .nodeAlias,
+.editorContainer.hover > .nodeAlias,
 .editorContainer.dropping > .nodeAlias {
   visibility: visible;
 }
 
-.editorOfDefault > .editorBox {
-  border-radius: var(--card-inner-border-radius);
-  background-color: #ccc;
+.editorBox {
+  position: relative;
+  border-radius: var(--editor-brick-border-radius);
+  background: #fff;
+}
+
+.transparentContainer > .editorBox {
+  margin: -1px;
+}
+
+.nodeAlias,
+.editorContainer.hover > .editorBox,
+.editorContainer.dropping > .editorBox {
+  box-shadow: 0 0 0 1px var(--editor-brick-stroke-color-active);
 }

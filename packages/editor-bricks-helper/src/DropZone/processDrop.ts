@@ -2,17 +2,15 @@ import {
   BuilderDataTransferPayloadOfNodeToAdd,
   BuilderDataTransferPayloadOfNodeToMove,
   BuilderDataTransferType,
-  BuilderEventType,
   BuilderGroupedChildNode,
   BuilderRuntimeNode,
-  EventDetailOfNodeAdd,
-  EventDetailOfNodeMove,
-  EventDetailOfNodeReorder,
 } from "../interfaces";
+import { BuilderDataManager } from "../internal/BuilderDataManager";
 import { getUniqueNodeId } from "../internal/getUniqueNodeId";
 import { getSortedIdsAfterDropped } from "./getSortedIdsAfterDropped";
 
 export interface HandleDropParams {
+  manager: BuilderDataManager;
   type: BuilderDataTransferType;
   data:
     | BuilderDataTransferPayloadOfNodeToAdd
@@ -26,6 +24,7 @@ export interface HandleDropParams {
 }
 
 export function processDrop({
+  manager,
   type,
   data,
   dropIndex,
@@ -39,28 +38,24 @@ export function processDrop({
     // Drag a new node into canvas.
     const brick = (data as BuilderDataTransferPayloadOfNodeToAdd).brick;
     const draggingNodeUid = getUniqueNodeId();
-    window.dispatchEvent(
-      new CustomEvent<EventDetailOfNodeAdd>(BuilderEventType.NODE_ADD, {
-        detail: {
-          ...getSortedIdsAfterDropped({
-            draggingNodeUid,
-            draggingNodeId: null,
-            dropIndex,
-            mountPoint,
-            groupedChildNodes,
-          }),
-          nodeUid: draggingNodeUid,
-          parentUid,
-          nodeAlias: brick.split(".").pop(),
-          nodeData: {
-            parent: parentInstanceId,
-            type: "brick",
-            brick,
-            mountPoint,
-          },
-        },
-      })
-    );
+    manager.nodeAdd({
+      ...getSortedIdsAfterDropped({
+        draggingNodeUid,
+        draggingNodeId: null,
+        dropIndex,
+        mountPoint,
+        groupedChildNodes,
+      }),
+      nodeUid: draggingNodeUid,
+      parentUid,
+      nodeAlias: brick.split(".").pop(),
+      nodeData: {
+        parent: parentInstanceId,
+        type: "brick",
+        brick,
+        mountPoint,
+      },
+    });
   } else if (type === BuilderDataTransferType.NODE_TO_MOVE) {
     const {
       nodeUid: draggingNodeUid,
@@ -76,46 +71,35 @@ export function processDrop({
     if (originalIndex >= 0) {
       // If the index is not changed, then there is nothing to do.
       if (dropIndex !== originalIndex && dropIndex !== originalIndex + 1) {
-        window.dispatchEvent(
-          new CustomEvent<EventDetailOfNodeReorder>(
-            BuilderEventType.NODE_REORDER,
-            {
-              detail: {
-                ...getSortedIdsAfterDropped({
-                  draggingNodeUid,
-                  draggingNodeId,
-                  dropIndex,
-                  originalIndex,
-                  mountPoint,
-                  groupedChildNodes,
-                }),
-                parentUid,
-              },
-            }
-          )
-        );
+        manager.nodeReorder({
+          ...getSortedIdsAfterDropped({
+            draggingNodeUid,
+            draggingNodeId,
+            dropIndex,
+            originalIndex,
+            mountPoint,
+            groupedChildNodes,
+          }),
+          parentUid,
+        });
       }
     } else {
-      window.dispatchEvent(
-        new CustomEvent<EventDetailOfNodeMove>(BuilderEventType.NODE_MOVE, {
-          detail: {
-            ...getSortedIdsAfterDropped({
-              draggingNodeUid,
-              draggingNodeId,
-              dropIndex,
-              mountPoint,
-              groupedChildNodes,
-            }),
-            nodeUid: draggingNodeUid,
-            parentUid,
-            nodeInstanceId,
-            nodeData: {
-              parent: parentInstanceId,
-              mountPoint,
-            },
-          },
-        })
-      );
+      manager.nodeMove({
+        ...getSortedIdsAfterDropped({
+          draggingNodeUid,
+          draggingNodeId,
+          dropIndex,
+          mountPoint,
+          groupedChildNodes,
+        }),
+        nodeUid: draggingNodeUid,
+        parentUid,
+        nodeInstanceId,
+        nodeData: {
+          parent: parentInstanceId,
+          mountPoint,
+        },
+      });
     }
   }
 }

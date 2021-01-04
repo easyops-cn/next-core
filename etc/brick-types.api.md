@@ -618,6 +618,8 @@ export interface BuilderBrickNode extends BuilderBaseNode {
     // (undocumented)
     brick: string;
     // (undocumented)
+    properties?: string;
+    // (undocumented)
     type: "brick" | "template";
 }
 

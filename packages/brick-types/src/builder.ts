@@ -27,4 +27,5 @@ export interface BuilderRouteNode extends BuilderBaseNode {
 export interface BuilderBrickNode extends BuilderBaseNode {
   type: "brick" | "template";
   brick: string;
+  properties?: string;
 }

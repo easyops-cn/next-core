@@ -2,8 +2,6 @@
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
 import React from "react";
 import classNames from "classnames";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { useBuilderNode } from "../hooks/useBuilderNode";
 import { EditorBrickType } from "../interfaces";
 import {
@@ -12,14 +10,14 @@ import {
 } from "../DroppingStatusContext";
 
 import styles from "./EditorContainer.module.css";
+import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 
 interface EditorContainerProps {
   nodeUid: number;
   brick: string;
   type?: EditorBrickType;
-  persistentBackground?: boolean;
+  isTransparentContainer?: boolean;
   editorContainerStyle?: React.CSSProperties;
-  nodeAliasStyle?: React.CSSProperties;
   editorBoxStyle?: React.CSSProperties;
 }
 
@@ -27,9 +25,8 @@ export function EditorContainer({
   nodeUid,
   brick,
   type,
-  persistentBackground,
+  isTransparentContainer,
   editorContainerStyle,
-  nodeAliasStyle,
   editorBoxStyle,
   children,
 }: React.PropsWithChildren<EditorContainerProps>): React.ReactElement {
@@ -39,31 +36,66 @@ export function EditorContainer({
   const editorContainerRef = React.useRef<HTMLDivElement>();
   const node = useBuilderNode({ nodeUid });
   const editorType = type ?? EditorBrickType.DEFAULT;
+  const [hover, setHover] = React.useState(false);
+  const manager = useBuilderDataManager();
+
+  const handleMouseEnter = React.useCallback((event: React.MouseEvent) => {
+    event.stopPropagation();
+    setHover(true);
+  }, []);
+
+  const handleMouseLeave = React.useCallback((event: React.MouseEvent) => {
+    event.stopPropagation();
+    setHover(false);
+  }, []);
+
+  const isCurrentTarget = React.useCallback((event: React.MouseEvent) => {
+    let element = event.target as HTMLElement;
+    while (element) {
+      if (element === editorContainerRef.current) {
+        return true;
+      }
+      if (element.classList.contains(styles.editorContainer)) {
+        return false;
+      }
+      element = element.parentElement;
+    }
+  }, []);
+
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent) => {
+      // `event.stopPropagation()` not working here.
+      if (isCurrentTarget(event)) {
+        manager.nodeClick(node);
+      }
+    },
+    [isCurrentTarget, manager, node]
+  );
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <DroppingStatusContext.Provider
-        value={{
-          droppingStatus,
-          setDroppingStatus,
-        }}
+    <DroppingStatusContext.Provider
+      value={{
+        droppingStatus,
+        setDroppingStatus,
+      }}
+    >
+      <div
+        className={classNames(styles.editorContainer, styles[editorType], {
+          [styles.transparentContainer]: isTransparentContainer,
+          [styles.dropping]: Object.values(droppingStatus).some(Boolean),
+          [styles.hover]: hover,
+        })}
+        style={editorContainerStyle}
+        ref={editorContainerRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
       >
-        <div
-          className={classNames(styles.editorContainer, styles[editorType], {
-            [styles.dropping]: Object.values(droppingStatus).some(Boolean),
-            [styles.persistentBackground]: persistentBackground,
-          })}
-          style={editorContainerStyle}
-          ref={editorContainerRef}
-        >
-          <div className={styles.nodeAlias} style={nodeAliasStyle}>
-            {node.alias || node.brick}
-          </div>
-          <div className={styles.editorBox} style={editorBoxStyle}>
-            {children}
-          </div>
+        <div className={styles.nodeAlias}>{node.alias || node.brick}</div>
+        <div className={styles.editorBox} style={editorBoxStyle}>
+          {children}
         </div>
-      </DroppingStatusContext.Provider>
-    </DndProvider>
+      </div>
+    </DroppingStatusContext.Provider>
   );
 }
