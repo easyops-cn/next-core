@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.0...@easyops/brick-container@2.15.1) (2021-01-06)
+
+### Bug Fixes
+
+- **websocket:** 支持 subDir 模式 serve ([d6add3f](https://git.easyops.local/anyclouds/next-core/commits/d6add3f))
+
 # [2.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.14.2...@easyops/brick-container@2.15.0) (2021-01-04)
 
 ### Features
