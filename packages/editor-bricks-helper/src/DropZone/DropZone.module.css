@@ -4,27 +4,23 @@
 }
 
 .isSlot {
-  border-radius: var(--card-inner-border-radius);
-  /* background-color: rgba(223, 219, 229, 0.67);
-  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); */
+  border-radius: var(--editor-brick-border-radius);
+  border: 1px dashed transparent;
 }
 
 .isSlot.dropping {
-  box-shadow: inset 2px 2px lightblue, inset -2px -2px lightblue;
+  background: #f2f5fc;
+  border-color: #52a6f9;
 }
 
 .showOutlineIfEmpty:not(.dropping) {
-  border: 1px dashed rgba(256, 151, 148);
+  background: var(--editor-brick-skeleton-bg-light);
 }
 
 .isRoot > .dropZoneGrid {
-  padding: 18px 6px;
-  height: calc(100vh - 110px);
+  padding: 27px 20px 20px;
+  height: calc(100vh - var(--page-card-gap) * 2);
   overflow-y: auto;
-}
-
-.isSlot > .dropZoneGrid {
-  padding: 12px;
 }
 
 .slotContentLayoutBlock > .dropZoneGrid {
@@ -53,7 +49,7 @@
 
 .dropCursor {
   position: absolute;
-  background-color: lightblue;
+  background: #bb79bb;
   display: none;
   pointer-events: none;
 }
@@ -78,7 +74,7 @@
 .dropCursor::after {
   position: absolute;
   content: "";
-  background-color: lightblue;
+  background: #bb79bb;
 }
 
 .dropCursorHorizontal::before,
