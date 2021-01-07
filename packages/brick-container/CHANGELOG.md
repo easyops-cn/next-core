@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.1...@easyops/brick-container@2.15.2) (2021-01-07)
+
+### Bug Fixes
+
+- support override theme ([4b76fe7](https://git.easyops.local/anyclouds/next-core/commits/4b76fe7))
+
 ## [2.15.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.0...@easyops/brick-container@2.15.1) (2021-01-06)
 
 ### Bug Fixes
