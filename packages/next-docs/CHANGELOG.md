@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.1.9...@easyops/next-docs@1.2.0) (2021-01-07)
+
+### Features
+
+- **pipes:** add randomString pipe ([fa50510](https://git.easyops.local/anyclouds/next-core/commits/fa50510))
+
 ## [1.1.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.1.8...@easyops/next-docs@1.1.9) (2021-01-06)
 
 **Note:** Version bump only for package @easyops/next-docs

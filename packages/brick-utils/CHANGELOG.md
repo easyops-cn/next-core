@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.8.3...@easyops/brick-utils@2.9.0) (2021-01-07)
+
+### Features
+
+- **pipes:** add randomString pipe ([fa50510](https://git.easyops.local/anyclouds/next-core/commits/fa50510))
+
 ## [2.8.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-utils@2.8.2...@easyops/brick-utils@2.8.3) (2021-01-06)
 
 **Note:** Version bump only for package @easyops/brick-utils
