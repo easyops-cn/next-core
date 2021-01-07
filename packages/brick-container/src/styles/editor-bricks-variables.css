@@ -1,14 +1,17 @@
 :root {
   --editor-brick-gap: 12px;
   --editor-brick-gap-half: 6px;
+  --editor-brick-base-height: 32px;
   --editor-brick-inline-width: 150px;
   --editor-brick-grid-width: 300px; /* calc(var(--editor-brick-inline-width) * 2) */
 
   --editor-brick-border-radius: 4px;
 
   --editor-brick-stroke-color: #d9d9d9;
+  --editor-brick-stroke-color-active: #b7b0fe;
   --editor-brick-skeleton-bg: #d8d8d8;
   --editor-brick-skeleton-bg-light: #e8e8e8;
   --editor-brick-skeleton-bg-blue: #c7e3ff;
-  --editor-brick-stroke-color-active: #b7b0fe;
+  --editor-brick-slot-bg: #f2f5fc;
+  --editor-brick-slot-stroke-color: #52a6f9;
 }

@@ -31,7 +31,7 @@ export interface DropGridCell extends DropPositionRect {
   index: number;
 }
 
-const defaultGap = 12;
+const defaultGapHalf = 6;
 
 export function getDropPositions(
   dropZone: HTMLElement,
@@ -114,7 +114,7 @@ export function getDropPositions(
               index: cell.index + 1,
               y:
                 Math.min(
-                  cell.bottom + defaultGap,
+                  cell.bottom + defaultGapHalf,
                   (cell.bottom + zoneRect.bottom) / 2
                 ) - zoneRect.top,
             },
@@ -182,7 +182,9 @@ export function getDropPositions(
                 cursor: {
                   ...cursorDefault,
                   index: cell.index + 1,
-                  x: nextCursorLeft + defaultGap - zoneRect.left,
+                  x:
+                    Math.min(nextCursorLeft + defaultGapHalf, zoneRect.right) -
+                    zoneRect.left,
                 },
               });
             } else {
@@ -196,7 +198,9 @@ export function getDropPositions(
                 cursor: {
                   ...cursorDefault,
                   index: cell.index + 1,
-                  x: nextCursorLeft + defaultGap - zoneRect.left,
+                  x:
+                    Math.min(nextCursorLeft + defaultGapHalf, zoneRect.right) -
+                    zoneRect.left,
                 },
               });
             }
@@ -231,7 +235,7 @@ export function getDropPosition(
 
   return {
     index: 0,
-    y: defaultGap,
+    y: 0,
   };
 }
 

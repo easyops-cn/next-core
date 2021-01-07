@@ -35,6 +35,7 @@ export function SlotContainer({
       })}
       style={slotContainerStyle}
     >
+      <div className={styles.slotName}>{slotName}</div>
       <DropZone
         nodeUid={nodeUid}
         mountPoint={slotName}
@@ -42,7 +43,6 @@ export function SlotContainer({
         slotContentLayout={slotContentLayout}
         showOutlineIfEmpty={showOutlineIfEmpty}
       />
-      <div className={styles.slotName}>{slotName}</div>
     </div>
   );
 }
