@@ -7,7 +7,7 @@ import {
 } from "../interfaces";
 import { BuilderDataManager } from "../internal/BuilderDataManager";
 import { getUniqueNodeId } from "../internal/getUniqueNodeId";
-import { getSortedIdsAfterDropped } from "./getSortedIdsAfterDropped";
+import { getSortedIdsAfterDropped } from "../processors/getSortedIdsAfterDropped";
 
 export interface HandleDropParams {
   manager: BuilderDataManager;
