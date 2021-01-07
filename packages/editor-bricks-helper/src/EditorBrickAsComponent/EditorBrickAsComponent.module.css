@@ -4,10 +4,11 @@
 }
 
 .slotContentLayoutInline {
-  margin: 6px;
+  margin: 0 var(--editor-brick-gap-half);
 }
 
-.slotContentLayoutInline.selfLayoutInline {
+.slotContentLayoutInline.selfLayoutInline,
+.slotContentLayoutInline.selfLayoutBlock {
   width: 150px;
 }
 

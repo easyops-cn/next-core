@@ -1,18 +1,6 @@
 .editorContainer {
   position: relative;
-  /* border-radius: var(--card-inner-border-radius); */
-  /* padding: 6px; */
 }
-
-/* .editorContainer:hover,
-.editorContainer.persistentBackground,
-.editorContainer.dropping {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.editorOfContainer {
-  padding: 6px;
-} */
 
 .nodeAlias {
   position: absolute;
@@ -41,6 +29,10 @@
 
 .transparentContainer > .editorBox {
   margin: -1px;
+}
+
+.transparentContainer > .nodeAlias {
+  left: -1px;
 }
 
 .nodeAlias,

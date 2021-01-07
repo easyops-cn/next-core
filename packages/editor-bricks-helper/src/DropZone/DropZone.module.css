@@ -1,6 +1,6 @@
 .dropZone {
   position: relative;
-  min-height: 40px;
+  min-height: calc(var(--editor-brick-base-height) + 2px);
 }
 
 .isSlot {
@@ -9,8 +9,8 @@
 }
 
 .isSlot.dropping {
-  background: #f2f5fc;
-  border-color: #52a6f9;
+  background: var(--editor-brick-slot-bg);
+  border-color: var(--editor-brick-slot-stroke-color);
 }
 
 .showOutlineIfEmpty:not(.dropping) {
@@ -35,7 +35,7 @@
 .slotContentLayoutInline > .dropZoneGrid {
   display: flex;
   flex-wrap: wrap;
-  margin: calc(var(--editor-brick-gap-half) * -1);
+  margin: 0 calc(var(--editor-brick-gap-half) * -1);
 }
 
 .slotContentLayoutGrid > .dropZoneGrid {
