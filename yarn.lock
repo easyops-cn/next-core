@@ -1248,10 +1248,10 @@
     js-yaml "^3.13.1"
     resolve "^1.17.0"
 
-"@easyops-cn/brick-next-pipes@^0.3.9":
-  version "0.3.9"
-  resolved "https://registry.npm.taobao.org/@easyops-cn/brick-next-pipes/download/@easyops-cn/brick-next-pipes-0.3.9.tgz?cache=0&sync_timestamp=1610015440336&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40easyops-cn%2Fbrick-next-pipes%2Fdownload%2F%40easyops-cn%2Fbrick-next-pipes-0.3.9.tgz#5d8483376733d871dbc820d2d929290598bcb108"
-  integrity sha1-XYSDN2cz2HHbyCDS2SkpBZi8sQg=
+"@easyops-cn/brick-next-pipes@^0.3.10":
+  version "0.3.10"
+  resolved "https://registry.npm.taobao.org/@easyops-cn/brick-next-pipes/download/@easyops-cn/brick-next-pipes-0.3.10.tgz#a98b5903ef64578966b33fc0eac54c0f840af06c"
+  integrity sha1-qYtZA+9kV4lmsz/A6sVMD4QK8Gw=
 
 "@eslint/eslintrc@^0.2.1":
   version "0.2.1"
