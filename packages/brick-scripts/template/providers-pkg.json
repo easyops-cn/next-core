@@ -1,6 +1,6 @@
 {
   "name": "@bricks/$kebab-package-name$",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/bricks/$kebab-package-name$",
   "license": "UNLICENSED",
