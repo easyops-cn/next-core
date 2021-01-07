@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.2.1...@easyops/editor-bricks-helper@0.2.2) (2021-01-07)
+
+### Bug Fixes
+
+- refine canvas style ([32d697a](https://git.easyops.local/anyclouds/next-core/commits/32d697a))
+
 ## [0.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.2.0...@easyops/editor-bricks-helper@0.2.1) (2021-01-06)
 
 **Note:** Version bump only for package @easyops/editor-bricks-helper

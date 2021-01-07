@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.0.4...@easyops/brick-scripts@2.1.0) (2021-01-07)
+
+### Features
+
+- **brick-scripts:** 新的 providers 包默认版本号为`1.0.0` ([2c7df3c](https://git.easyops.local/anyclouds/next-core/commits/2c7df3c))
+
 ## [2.0.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.0.3...@easyops/brick-scripts@2.0.4) (2020-11-27)
 
 **Note:** Version bump only for package @easyops/brick-scripts
