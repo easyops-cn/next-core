@@ -1,4 +1,5 @@
-:root {
+:root,
+[data-override-theme="light"] {
   --color-brand: #0071eb;
 
   --bg-color-table-head: var(--antd-table-header-bg);
@@ -170,7 +171,8 @@
   --antd-text-color-secondary-shade-40: rgba(0, 0, 0, 0.78);
 }
 
-html[data-theme="dark"] {
+html[data-theme="dark"],
+[data-override-theme="dark"] {
   --bg-color-button-primary-hover: #2580c8;
   --bg-color-button-primary: var(--antd-primary-color);
   --bg-color-button-primary-pressed: #4daffa;
