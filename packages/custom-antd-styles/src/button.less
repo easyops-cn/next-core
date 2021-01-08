@@ -72,6 +72,21 @@
     }
   }
 
+  &-text {
+    color: var(--antd-btn-default-color);
+    &:hover,
+    &:focus {
+      color: var(--bg-color-button-link-hover);
+      background-color: transparent;
+    }
+
+    &.active,
+    &:active {
+      color: var(--bg-color-button-link-pressed);
+      background-color: transparent;
+    }
+  }
+
   &-sm {
     height: 28px;
   }
