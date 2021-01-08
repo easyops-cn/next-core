@@ -26,11 +26,33 @@ export interface DroppingInfo {
  * mount points. So we also keep the original order among sibling mount
  * points at the same time.
  *
+ * `draggingNodeId` will be `null` when adding a node.
+ *
  * Params `droppingInfo.dropIndex` and `droppingInfo.originalIndex`
  * is relative to the belonged mount point.
  *
  * And `droppingInfo.originalIndex` is required when moving a node
  * inside a mount point.
+ *
+ * ```
+ * ▸ micro-view
+ *   ├ toolbar
+ *   │ │              ←─ [0]
+ *   │ ├ button-a <0>
+ *   │ │              ←─ [1]
+ *   │ └ input-b  <1>
+ *   │                ←─ [2]
+ *   └ content
+ *     │              ←─ [0]
+ *     ├ table-a <0>
+ *     │              ←─ [1]
+ *     ├ grid-b  <1>
+ *     │              ←─ [2]
+ *     └ tabs-c  <2>
+ *                    ←─ [3]
+ * <m>: originalIndex
+ * [n]: dropIndex
+ * ```
  *
  * @param droppingInfo - Dropping info.
  *

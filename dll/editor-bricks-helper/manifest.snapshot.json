@@ -28,10 +28,13 @@
           "EditorSelfLayout",
           "EditorSlotContentLayout",
           "SlotContainer",
+          "getSortedIdsAfterDropped",
           "useBuilderDataManager",
           "useBuilderGroupedChildNodes",
           "useBuilderNode",
           "useBuilderNodeMountPoints",
+          "useBuilderParentNode",
+          "useCanDrop",
           "useDroppingStatusContext"
         ]
       }
