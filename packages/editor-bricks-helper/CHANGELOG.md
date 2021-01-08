@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.2.4...@easyops/editor-bricks-helper@0.3.0) (2021-01-08)
+
+### Features
+
+- add a hook of useBuilderParentNode ([6367ebe](https://git.easyops.local/anyclouds/next-core/commits/6367ebe))
+
 ## [0.2.4](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.2.3...@easyops/editor-bricks-helper@0.2.4) (2021-01-07)
 
 **Note:** Version bump only for package @easyops/editor-bricks-helper
