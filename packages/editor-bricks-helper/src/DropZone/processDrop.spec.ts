@@ -12,7 +12,7 @@ jest.mock("../internal/getUniqueNodeId");
 >).mockReturnValue(200);
 
 describe("processDrop", () => {
-  const groupedChildNodes: BuilderGroupedChildNode[] = [
+  const droppingSiblingGroups: BuilderGroupedChildNode[] = [
     {
       mountPoint: "toolbar",
       childNodes: [
@@ -71,12 +71,12 @@ describe("processDrop", () => {
       data: {
         brick: "basic-bricks.new-brick",
       },
-      dropIndex: 1,
-      parentUid: 100,
-      parentInstanceId: "instance-a",
-      mountPoint: "toolbar",
-      selfChildNodes: groupedChildNodes[0].childNodes,
-      groupedChildNodes,
+      droppingIndex: 1,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "toolbar",
+      droppingChildNodes: droppingSiblingGroups[0].childNodes,
+      droppingSiblingGroups,
       manager,
     });
     expect(manager.nodeAdd).toBeCalledWith({
@@ -102,12 +102,12 @@ describe("processDrop", () => {
         nodeId: "B-004",
         nodeInstanceId: "instance-b",
       },
-      dropIndex: 0,
-      parentUid: 100,
-      parentInstanceId: "instance-a",
-      mountPoint: "content",
-      selfChildNodes: groupedChildNodes[1].childNodes,
-      groupedChildNodes,
+      droppingIndex: 0,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "content",
+      droppingChildNodes: droppingSiblingGroups[1].childNodes,
+      droppingSiblingGroups,
       manager,
     });
     expect(manager.nodeReorder).toBeCalledWith({
@@ -117,7 +117,7 @@ describe("processDrop", () => {
     });
   });
 
-  it("should do nothing if order is not changed (dropIndex === originalIndex)", () => {
+  it("should do nothing if order is not changed (droppingIndex === originalIndex)", () => {
     processDrop({
       type: BuilderDataTransferType.NODE_TO_MOVE,
       data: {
@@ -125,12 +125,12 @@ describe("processDrop", () => {
         nodeId: "B-004",
         nodeInstanceId: "instance-b",
       },
-      dropIndex: 1,
-      parentUid: 100,
-      parentInstanceId: "instance-a",
-      mountPoint: "content",
-      selfChildNodes: groupedChildNodes[1].childNodes,
-      groupedChildNodes,
+      droppingIndex: 1,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "content",
+      droppingChildNodes: droppingSiblingGroups[1].childNodes,
+      droppingSiblingGroups,
       manager,
     });
     expect(manager.nodeAdd).not.toBeCalled();
@@ -138,7 +138,7 @@ describe("processDrop", () => {
     expect(manager.nodeReorder).not.toBeCalled();
   });
 
-  it("should do nothing if order is not changed (dropIndex === originalIndex + 1)", () => {
+  it("should do nothing if order is not changed (droppingIndex === originalIndex + 1)", () => {
     processDrop({
       type: BuilderDataTransferType.NODE_TO_MOVE,
       data: {
@@ -146,12 +146,12 @@ describe("processDrop", () => {
         nodeId: "B-004",
         nodeInstanceId: "instance-b",
       },
-      dropIndex: 2,
-      parentUid: 100,
-      parentInstanceId: "instance-a",
-      mountPoint: "content",
-      selfChildNodes: groupedChildNodes[1].childNodes,
-      groupedChildNodes,
+      droppingIndex: 2,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "content",
+      droppingChildNodes: droppingSiblingGroups[1].childNodes,
+      droppingSiblingGroups,
       manager,
     });
     expect(manager.nodeAdd).not.toBeCalled();
@@ -167,12 +167,12 @@ describe("processDrop", () => {
         nodeId: "B-004",
         nodeInstanceId: "instance-b",
       },
-      dropIndex: 1,
-      parentUid: 100,
-      parentInstanceId: "instance-a",
-      mountPoint: "toolbar",
-      selfChildNodes: groupedChildNodes[0].childNodes,
-      groupedChildNodes,
+      droppingIndex: 1,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "toolbar",
+      droppingChildNodes: droppingSiblingGroups[0].childNodes,
+      droppingSiblingGroups,
       manager,
     });
     expect(manager.nodeMove).toBeCalledWith({
@@ -196,12 +196,12 @@ describe("processDrop", () => {
         nodeId: "B-004",
         nodeInstanceId: "instance-b",
       },
-      dropIndex: 2,
-      parentUid: 100,
-      parentInstanceId: "instance-a",
-      mountPoint: "content",
-      selfChildNodes: groupedChildNodes[1].childNodes,
-      groupedChildNodes,
+      droppingIndex: 2,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "content",
+      droppingChildNodes: droppingSiblingGroups[1].childNodes,
+      droppingSiblingGroups,
       manager,
     });
     expect(manager.nodeAdd).not.toBeCalled();

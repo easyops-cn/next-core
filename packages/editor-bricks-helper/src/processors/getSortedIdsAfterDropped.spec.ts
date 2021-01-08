@@ -2,7 +2,7 @@ import { BuilderGroupedChildNode } from "../interfaces";
 import { getSortedIdsAfterDropped } from "./getSortedIdsAfterDropped";
 
 describe("getSortedIdsAfterDropped", () => {
-  const groupedChildNodes: BuilderGroupedChildNode[] = [
+  const droppingSiblingGroups: BuilderGroupedChildNode[] = [
     {
       mountPoint: "toolbar",
       childNodes: [
@@ -50,10 +50,10 @@ describe("getSortedIdsAfterDropped", () => {
       getSortedIdsAfterDropped({
         draggingNodeUid: 4,
         draggingNodeId: "B-004",
-        dropIndex: 0,
-        originalIndex: 1,
-        mountPoint: "content",
-        groupedChildNodes,
+        draggingIndex: 1,
+        droppingMountPoint: "content",
+        droppingSiblingGroups,
+        droppingIndex: 0,
       })
     ).toEqual({
       nodeUids: [1, 2, 4, 3, 5],
@@ -66,10 +66,10 @@ describe("getSortedIdsAfterDropped", () => {
       getSortedIdsAfterDropped({
         draggingNodeUid: 4,
         draggingNodeId: "B-004",
-        dropIndex: 3,
-        originalIndex: 1,
-        mountPoint: "content",
-        groupedChildNodes,
+        draggingIndex: 1,
+        droppingMountPoint: "content",
+        droppingSiblingGroups,
+        droppingIndex: 3,
       })
     ).toEqual({
       nodeUids: [1, 2, 3, 5, 4],
@@ -82,9 +82,9 @@ describe("getSortedIdsAfterDropped", () => {
       getSortedIdsAfterDropped({
         draggingNodeUid: 4,
         draggingNodeId: "B-004",
-        dropIndex: 1,
-        mountPoint: "toolbar",
-        groupedChildNodes,
+        droppingMountPoint: "toolbar",
+        droppingSiblingGroups,
+        droppingIndex: 1,
       })
     ).toEqual({
       nodeUids: [1, 4, 2, 3, 5],
@@ -97,9 +97,9 @@ describe("getSortedIdsAfterDropped", () => {
       getSortedIdsAfterDropped({
         draggingNodeUid: 6,
         draggingNodeId: null,
-        dropIndex: 1,
-        mountPoint: "toolbar",
-        groupedChildNodes,
+        droppingMountPoint: "toolbar",
+        droppingSiblingGroups,
+        droppingIndex: 1,
       })
     ).toEqual({
       nodeUids: [1, 6, 2, 3, 4, 5],

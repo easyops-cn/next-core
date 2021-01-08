@@ -99,12 +99,12 @@ export function DropZone({
         processDrop({
           type: type as BuilderDataTransferType,
           data,
-          dropIndex: dropPositionCursorRef.current.index,
-          parentUid: node.$$uid,
-          parentInstanceId: node.instanceId,
-          mountPoint,
-          selfChildNodes,
-          groupedChildNodes,
+          droppingIndex: dropPositionCursorRef.current.index,
+          droppingParentUid: node.$$uid,
+          droppingParentInstanceId: node.instanceId,
+          droppingMountPoint: mountPoint,
+          droppingChildNodes: selfChildNodes,
+          droppingSiblingGroups: groupedChildNodes,
           manager,
         });
       }
