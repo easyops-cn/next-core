@@ -15,24 +15,24 @@ export interface HandleDropParams {
   data:
     | BuilderDataTransferPayloadOfNodeToAdd
     | BuilderDataTransferPayloadOfNodeToMove;
-  dropIndex: number;
-  parentUid: number;
-  parentInstanceId: string;
-  mountPoint: string;
-  selfChildNodes: BuilderRuntimeNode[];
-  groupedChildNodes: BuilderGroupedChildNode[];
+  droppingIndex: number;
+  droppingParentUid: number;
+  droppingParentInstanceId: string;
+  droppingMountPoint: string;
+  droppingChildNodes: BuilderRuntimeNode[];
+  droppingSiblingGroups: BuilderGroupedChildNode[];
 }
 
 export function processDrop({
   manager,
   type,
   data,
-  dropIndex,
-  parentUid,
-  parentInstanceId,
-  mountPoint,
-  selfChildNodes,
-  groupedChildNodes,
+  droppingIndex,
+  droppingParentUid,
+  droppingParentInstanceId,
+  droppingMountPoint,
+  droppingChildNodes,
+  droppingSiblingGroups,
 }: HandleDropParams): void {
   if (type === BuilderDataTransferType.NODE_TO_ADD) {
     // Drag a new node into canvas.
@@ -42,45 +42,48 @@ export function processDrop({
       ...getSortedIdsAfterDropped({
         draggingNodeUid,
         draggingNodeId: null,
-        dropIndex,
-        mountPoint,
-        groupedChildNodes,
+        droppingIndex,
+        droppingMountPoint,
+        droppingSiblingGroups,
       }),
       nodeUid: draggingNodeUid,
-      parentUid,
+      parentUid: droppingParentUid,
       nodeAlias: brick.split(".").pop(),
       nodeData: {
-        parent: parentInstanceId,
+        parent: droppingParentInstanceId,
         type: "brick",
         brick,
-        mountPoint,
+        mountPoint: droppingMountPoint,
       },
     });
   } else if (type === BuilderDataTransferType.NODE_TO_MOVE) {
     const {
       nodeUid: draggingNodeUid,
-      nodeInstanceId,
       nodeId: draggingNodeId,
+      nodeInstanceId: draggingNodeInstanceId,
     } = data as BuilderDataTransferPayloadOfNodeToMove;
 
-    const originalIndex = selfChildNodes.findIndex(
+    const draggingIndex = droppingChildNodes.findIndex(
       (item) => item.$$uid === draggingNodeUid
     );
     // If found dragging node in the same drop zone,
     // then apply a node reorder, else apply a node move.
-    if (originalIndex >= 0) {
+    if (draggingIndex >= 0) {
       // If the index is not changed, then there is nothing to do.
-      if (dropIndex !== originalIndex && dropIndex !== originalIndex + 1) {
+      if (
+        droppingIndex !== draggingIndex &&
+        droppingIndex !== draggingIndex + 1
+      ) {
         manager.nodeReorder({
           ...getSortedIdsAfterDropped({
             draggingNodeUid,
             draggingNodeId,
-            dropIndex,
-            originalIndex,
-            mountPoint,
-            groupedChildNodes,
+            draggingIndex,
+            droppingIndex,
+            droppingMountPoint,
+            droppingSiblingGroups,
           }),
-          parentUid,
+          parentUid: droppingParentUid,
         });
       }
     } else {
@@ -88,16 +91,16 @@ export function processDrop({
         ...getSortedIdsAfterDropped({
           draggingNodeUid,
           draggingNodeId,
-          dropIndex,
-          mountPoint,
-          groupedChildNodes,
+          droppingIndex,
+          droppingMountPoint,
+          droppingSiblingGroups,
         }),
         nodeUid: draggingNodeUid,
-        parentUid,
-        nodeInstanceId,
+        parentUid: droppingParentUid,
+        nodeInstanceId: draggingNodeInstanceId,
         nodeData: {
-          parent: parentInstanceId,
-          mountPoint,
+          parent: droppingParentInstanceId,
+          mountPoint: droppingMountPoint,
         },
       });
     }

@@ -7,11 +7,11 @@ export interface SortedIdsAfterDropped {
 
 export interface DroppingInfo {
   draggingNodeUid: number;
-  draggingNodeId: string;
-  dropIndex: number;
-  originalIndex?: number;
-  mountPoint: string;
-  groupedChildNodes: BuilderGroupedChildNode[];
+  draggingNodeId: string | null;
+  draggingIndex?: number;
+  droppingMountPoint: string;
+  droppingSiblingGroups: BuilderGroupedChildNode[];
+  droppingIndex: number;
 }
 
 /**
@@ -28,10 +28,10 @@ export interface DroppingInfo {
  *
  * `draggingNodeId` will be `null` when adding a node.
  *
- * Params `droppingInfo.dropIndex` and `droppingInfo.originalIndex`
+ * Params `droppingInfo.droppingIndex` and `droppingInfo.draggingIndex`
  * is relative to the belonged mount point.
  *
- * And `droppingInfo.originalIndex` is required when moving a node
+ * And `droppingInfo.draggingIndex` is required when moving a node
  * inside a mount point.
  *
  * ```
@@ -50,8 +50,8 @@ export interface DroppingInfo {
  *     │              ←─ [2]
  *     └ tabs-c  <2>
  *                    ←─ [3]
- * <m>: originalIndex
- * [n]: dropIndex
+ * <m>: draggingIndex
+ * [n]: droppingIndex
  * ```
  *
  * @param droppingInfo - Dropping info.
@@ -64,21 +64,23 @@ export function getSortedIdsAfterDropped(
   const {
     draggingNodeUid,
     draggingNodeId,
-    dropIndex,
-    originalIndex,
-    mountPoint,
-    groupedChildNodes,
+    draggingIndex,
+    droppingMountPoint,
+    droppingSiblingGroups,
+    droppingIndex,
   } = droppingInfo;
-  const fullChildNodes = groupedChildNodes.flatMap((group) => group.childNodes);
-  const nodeUids = groupedChildNodes.flatMap((group) => {
+  const fullChildNodes = droppingSiblingGroups.flatMap(
+    (group) => group.childNodes
+  );
+  const nodeUids = droppingSiblingGroups.flatMap((group) => {
     const uids = group.childNodes
       .map((item) => item.$$uid)
       .filter((uid) => uid !== draggingNodeUid);
-    if (group.mountPoint === mountPoint) {
+    if (group.mountPoint === droppingMountPoint) {
       uids.splice(
-        (originalIndex ?? -1) >= 0 && dropIndex > originalIndex
-          ? dropIndex - 1
-          : dropIndex,
+        (draggingIndex ?? -1) >= 0 && droppingIndex > draggingIndex
+          ? droppingIndex - 1
+          : droppingIndex,
         0,
         draggingNodeUid
       );
