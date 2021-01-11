@@ -408,6 +408,6 @@ export interface VisitedWorkspace {
 // src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/transformProperties.ts:46:5 - (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
+// src/transformProperties.ts:51:5 - (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
 
 ```

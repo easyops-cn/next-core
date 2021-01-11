@@ -5,6 +5,7 @@ import {
   hasOwnProperty,
   isEvaluable,
   preevaluate,
+  shouldAllowRecursiveEvaluations,
 } from "@easyops/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
@@ -36,6 +37,15 @@ export interface EvaluateRuntimeContext {
 
 export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
+}
+
+export function shouldDismissRecursiveMarkingInjected(
+  raw: string | PreEvaluated
+): boolean {
+  if (typeof raw === "string") {
+    return shouldAllowRecursiveEvaluations(raw);
+  }
+  return shouldAllowRecursiveEvaluations(raw[symbolForRaw]);
 }
 
 // `raw` should always be asserted to `isEvaluable` or `isPreEvaluated`.

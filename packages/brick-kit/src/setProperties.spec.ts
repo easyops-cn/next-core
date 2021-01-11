@@ -63,7 +63,12 @@ describe("computeRealValue", () => {
     ["${SYS.username}", context, "easyops"],
     ["${SYS.userInstanceId}", context, "acbd46b"],
     ["${FLAGS.better-world}", context, true],
-    ["<% FLAGS['better-world'] %>", { ...context, event: undefined }, true],
+    ["<% !!FLAGS['better-world'] %>", { ...context, event: undefined }, true],
+    [
+      "<%~ !!FLAGS['perfect-world'] %>",
+      { ...context, event: undefined },
+      false,
+    ],
     [
       {
         label: {
@@ -132,6 +137,28 @@ describe("computeRealValue", () => {
         },
       },
     });
+  });
+
+  it("should disallow recursive evaluations by default", () => {
+    const dataWithEvaluation = ['<% !!FLAGS["better-world"] %>'];
+    const result = computeRealValue(
+      `<% ${JSON.stringify(dataWithEvaluation)} %>`,
+      context,
+      true
+    ) as string[];
+    expect(result).toEqual(dataWithEvaluation);
+    expect(computeRealValue(result, context, true)).toEqual(dataWithEvaluation);
+  });
+
+  it("should allow recursive evaluations with recursive flag", () => {
+    const dataWithEvaluation = ['<% !!FLAGS["better-world"] %>'];
+    const result = computeRealValue(
+      `<%~ ${JSON.stringify(dataWithEvaluation)} %>`,
+      context,
+      true
+    ) as string[];
+    expect(result).toEqual(dataWithEvaluation);
+    expect(computeRealValue(result, context, true)).toEqual([true]);
   });
 });
 

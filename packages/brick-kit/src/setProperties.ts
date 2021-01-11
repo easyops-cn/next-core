@@ -1,7 +1,12 @@
 import { set } from "lodash";
 import { PluginRuntimeContext } from "@easyops/brick-types";
 import { isObject, inject, isEvaluable } from "@easyops/brick-utils";
-import { evaluate, EvaluateRuntimeContext, isPreEvaluated } from "./evaluate";
+import {
+  evaluate,
+  EvaluateRuntimeContext,
+  isPreEvaluated,
+  shouldDismissRecursiveMarkingInjected,
+} from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
 interface ComputeOptions {
@@ -20,6 +25,7 @@ export const computeRealValue = (
 
   if (preEvaluated || typeof value === "string") {
     let result: unknown;
+    let dismissRecursiveMarkingInjected = false;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
       if (context?.event) {
@@ -33,10 +39,15 @@ export const computeRealValue = (
           internalOptions?.$$lazyForUseBrickEvents &&
           internalOptions.$$inUseBrickEventsNow,
       });
+      dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
+        value as string
+      );
     } else {
       result = inject(value as string, context);
     }
-    recursiveMarkAsInjected(result);
+    if (!dismissRecursiveMarkingInjected) {
+      recursiveMarkAsInjected(result);
+    }
     return result;
   }
 

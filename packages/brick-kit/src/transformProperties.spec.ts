@@ -6,7 +6,6 @@ import {
   transformElementProperties,
 } from "./transformProperties";
 import * as runtime from "./core/Runtime";
-import { PreEvaluated } from "./evaluate";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
 
@@ -349,6 +348,7 @@ describe("doTransform", () => {
         value: "id=",
       },
     ],
+    ["<%~ `quality: ${DATA.hello}` %>", "quality: good"],
     [
       {
         [Symbol.for(
@@ -460,23 +460,26 @@ describe("transformElementProperties", () => {
         },
       },
     ],
-  ])("doTransform(div, %j, %j) should return %j", (data, to, result) => {
-    const div = document.createElement("div") as any;
-    div.style.background = "blue";
-    div.existedProp = {
-      hello: "world",
-    };
-    transformElementProperties(div, data, to);
-    for (const [key, value] of Object.entries(result)) {
-      if (key === "style") {
-        for (const [styleName, styleValue] of Object.entries(value)) {
-          expect(div.style[styleName]).toBe(styleValue);
+  ])(
+    "transformElementProperties(div, %j, %j) should update div by %j",
+    (data, to, result) => {
+      const div = document.createElement("div") as any;
+      div.style.background = "blue";
+      div.existedProp = {
+        hello: "world",
+      };
+      transformElementProperties(div, data, to);
+      for (const [key, value] of Object.entries(result)) {
+        if (key === "style") {
+          for (const [styleName, styleValue] of Object.entries(value)) {
+            expect(div.style[styleName]).toBe(styleValue);
+          }
+        } else if (typeof value === "object" && value) {
+          expect(div[key]).toEqual(value);
+        } else {
+          expect(div[key]).toBe(value);
         }
-      } else if (typeof value === "object" && value) {
-        expect(div[key]).toEqual(value);
-      } else {
-        expect(div[key]).toBe(value);
       }
     }
-  });
+  );
 });
