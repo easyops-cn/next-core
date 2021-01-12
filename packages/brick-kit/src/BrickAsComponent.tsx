@@ -12,6 +12,7 @@ import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
 import {
   RuntimeBrick,
+  _internalApiGetCurrentContext,
   _internalApiGetResolver,
   _internalApiGetRouterState,
 } from "./core/exports";
@@ -113,7 +114,8 @@ export function SingleBrickAsComponent(
             brick: useBrick.brick,
             lifeCycle: useBrick.lifeCycle,
           },
-          brick
+          brick,
+          _internalApiGetCurrentContext()
         );
       } catch (e) {
         handleHttpError(e);
@@ -247,7 +249,8 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
             brick: useBrick.brick,
             lifeCycle: useBrick.lifeCycle,
           },
-          brick
+          brick,
+          _internalApiGetCurrentContext()
         );
       } catch (e) {
         handleHttpError(e);
