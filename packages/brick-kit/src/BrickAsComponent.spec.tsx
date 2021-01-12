@@ -1,4 +1,4 @@
-import React, { createRef } from "react";
+import React from "react";
 import { mount } from "enzyme";
 import { BrickConf, RuntimeBrickElement } from "@easyops/brick-types";
 import * as listenerUtils from "./bindListeners";
@@ -9,16 +9,21 @@ import {
 import * as runtime from "./core/Runtime";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
-const spyOnResolve = jest.fn((_brickConf: BrickConf, brick: any) => {
-  brick.properties.title = "resolved";
-});
+const spyOnResolve = jest.fn(
+  (_brickConf: BrickConf, brick: any, context: any) => {
+    brick.properties.title = "resolved";
+  }
+);
 const _internalApiGetRouterState = jest
   .spyOn(runtime, "_internalApiGetRouterState")
   .mockReturnValue("mounted");
 jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
   resolve: spyOnResolve,
 } as any);
-jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  hash: "#test",
+} as any);
+jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 // Mock a custom element of `custom-existed`.
 customElements.define(
@@ -203,6 +208,9 @@ describe("BrickAsComponent", () => {
           color: "red",
         },
       },
+    });
+    expect(spyOnResolve.mock.calls[0][2]).toEqual({
+      hash: "#test",
     });
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.id).toBe("hello");

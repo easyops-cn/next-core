@@ -1,4 +1,5 @@
 import { isObject } from "@easyops/brick-utils";
+import { isPreEvaluated } from "./evaluate";
 
 let injected = new WeakSet();
 
@@ -24,4 +25,22 @@ export function haveBeenInjected(object: any): boolean {
 
 export function resetAllInjected(): void {
   injected = new WeakSet();
+}
+
+export function cloneDeepWithInjectedMark<T>(value: T): T {
+  if (isObject(value) && !isPreEvaluated(value)) {
+    const clone = Array.isArray(value)
+      ? (value as unknown[]).map((item) => cloneDeepWithInjectedMark(item))
+      : Object.fromEntries(
+          Object.entries(value).map(([k, v]) => [
+            k,
+            cloneDeepWithInjectedMark(v),
+          ])
+        );
+    if (haveBeenInjected(value)) {
+      injected.add(clone);
+    }
+    return clone as typeof value;
+  }
+  return value;
 }

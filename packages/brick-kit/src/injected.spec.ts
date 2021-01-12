@@ -1,4 +1,5 @@
 import {
+  cloneDeepWithInjectedMark,
   haveBeenInjected,
   recursiveMarkAsInjected,
   resetAllInjected,
@@ -64,5 +65,36 @@ describe("injected", () => {
     expect(haveBeenInjected(value)).toBe(false);
     recursiveMarkAsInjected(value);
     expect(haveBeenInjected(value)).toBe(false);
+  });
+});
+
+describe("cloneDeepWithInjectedMark", () => {
+  it("should work", () => {
+    const innerArray = ["quality", "good"];
+    const innerObject = { quality: "good" };
+    const object = {
+      innerArray,
+      innerObject,
+    };
+
+    const cloneOfObject1 = cloneDeepWithInjectedMark(object);
+    expect(cloneOfObject1).toEqual(object);
+    expect(cloneOfObject1).not.toBe(object);
+    expect(cloneOfObject1.innerArray).not.toBe(object.innerArray);
+    expect(cloneOfObject1.innerObject).not.toBe(object.innerObject);
+    expect(haveBeenInjected(cloneOfObject1)).toBe(false);
+    expect(haveBeenInjected(cloneOfObject1.innerArray)).toBe(false);
+    expect(haveBeenInjected(cloneOfObject1.innerObject)).toBe(false);
+
+    recursiveMarkAsInjected(object);
+
+    const cloneOfObject2 = cloneDeepWithInjectedMark(object);
+    expect(cloneOfObject1).toEqual(object);
+    expect(cloneOfObject1).not.toBe(object);
+    expect(cloneOfObject1.innerArray).not.toBe(object.innerArray);
+    expect(cloneOfObject1.innerObject).not.toBe(object.innerObject);
+    expect(haveBeenInjected(cloneOfObject2)).toBe(true);
+    expect(haveBeenInjected(cloneOfObject2.innerArray)).toBe(true);
+    expect(haveBeenInjected(cloneOfObject2.innerObject)).toBe(true);
   });
 });
