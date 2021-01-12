@@ -21,4 +21,22 @@
       background: var(--antd-picker-basic-cell-active-with-range-color);
     }
   }
+
+  // time-panel
+  li&-time-panel-cell&-time-panel-cell-selected {
+    .@{picker-prefix-cls}-time-panel-cell-inner {
+      background: var(--theme-gray-background);
+    }
+  }
+
+  li&-time-panel-cell:not(&-time-panel-cell-selected) {
+    .@{picker-prefix-cls}-time-panel-cell-inner:hover {
+      background: var(--theme-blue-background);
+    }
+  }
+
+  // footer
+  &-footer {
+    background-color: var(--body-background);
+  }
 }
