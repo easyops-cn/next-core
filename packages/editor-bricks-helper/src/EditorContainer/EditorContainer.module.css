@@ -21,13 +21,13 @@
   visibility: visible;
 }
 
-.editorBox {
+.editorBody {
   position: relative;
   border-radius: var(--editor-brick-border-radius);
   background: #fff;
 }
 
-.transparentContainer > .editorBox {
+.transparentContainer > .editorBody {
   margin: -1px;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .nodeAlias,
-.editorContainer.hover > .editorBox,
-.editorContainer.dropping > .editorBox {
+.editorContainer.hover > .editorBody,
+.editorContainer.dropping > .editorBody {
   box-shadow: 0 0 0 1px var(--editor-brick-stroke-color-active);
 }

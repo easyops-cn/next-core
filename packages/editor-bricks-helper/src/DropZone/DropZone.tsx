@@ -25,6 +25,7 @@ export interface DropZoneProps {
   isRoot?: boolean;
   mountPoint: string;
   dropZoneStyle?: React.CSSProperties;
+  dropZoneBodyStyle?: React.CSSProperties;
   slotContentLayout?: EditorSlotContentLayout;
   showOutlineIfEmpty?: boolean;
 }
@@ -34,11 +35,12 @@ export function DropZone({
   isRoot,
   mountPoint,
   dropZoneStyle,
+  dropZoneBodyStyle,
   slotContentLayout,
   showOutlineIfEmpty,
 }: DropZoneProps): React.ReactElement {
   const { setDroppingStatus } = useDroppingStatusContext();
-  const dropZoneGrid = React.useRef<HTMLDivElement>();
+  const dropZoneBody = React.useRef<HTMLDivElement>();
   const [
     dropPositionCursor,
     setDropPositionCursor,
@@ -87,8 +89,8 @@ export function DropZone({
         dropPositionCursorRef.current = getDropPosition(
           x,
           y,
-          dropZoneGrid.current.parentElement,
-          dropZoneGrid.current
+          dropZoneBody.current.parentElement,
+          dropZoneBody.current
         );
         setDropPositionCursor(dropPositionCursorRef.current);
       }
@@ -139,7 +141,11 @@ export function DropZone({
       )}
       style={dropZoneStyle}
     >
-      <div ref={dropZoneGrid} className={styles.dropZoneGrid}>
+      <div
+        ref={dropZoneBody}
+        className={styles.dropZoneBody}
+        style={dropZoneBodyStyle}
+      >
         {selfChildNodes?.map((child) => (
           <EditorBrickAsComponent
             key={child.$$uid}

@@ -18,7 +18,9 @@ interface EditorContainerProps {
   type?: EditorBrickType;
   isTransparentContainer?: boolean;
   editorContainerStyle?: React.CSSProperties;
+  /** @deprecated Use `editorBodyStyle` instead. */
   editorBoxStyle?: React.CSSProperties;
+  editorBodyStyle?: React.CSSProperties;
 }
 
 export function EditorContainer({
@@ -28,6 +30,7 @@ export function EditorContainer({
   isTransparentContainer,
   editorContainerStyle,
   editorBoxStyle,
+  editorBodyStyle,
   children,
 }: React.PropsWithChildren<EditorContainerProps>): React.ReactElement {
   const [droppingStatus, setDroppingStatus] = React.useState<DroppingStatus>(
@@ -92,7 +95,10 @@ export function EditorContainer({
         onClick={handleClick}
       >
         <div className={styles.nodeAlias}>{node.alias || node.brick}</div>
-        <div className={styles.editorBox} style={editorBoxStyle}>
+        <div
+          className={styles.editorBody}
+          style={editorBodyStyle || editorBoxStyle}
+        >
           {children}
         </div>
       </div>

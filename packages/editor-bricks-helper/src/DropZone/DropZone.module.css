@@ -17,13 +17,13 @@
   background: var(--editor-brick-skeleton-bg-light);
 }
 
-.isRoot > .dropZoneGrid {
+.isRoot > .dropZoneBody {
   padding: 27px 20px 20px;
   height: calc(100vh - var(--page-card-gap) * 2);
   overflow-y: auto;
 }
 
-.slotContentLayoutBlock > .dropZoneGrid {
+.slotContentLayoutBlock > .dropZoneBody {
   display: grid;
   grid-gap: var(--editor-brick-gap);
   grid-template-columns: repeat(
@@ -32,13 +32,13 @@
   );
 }
 
-.slotContentLayoutInline > .dropZoneGrid {
+.slotContentLayoutInline > .dropZoneBody {
   display: flex;
   flex-wrap: wrap;
   margin: 0 calc(var(--editor-brick-gap-half) * -1);
 }
 
-.slotContentLayoutGrid > .dropZoneGrid {
+.slotContentLayoutGrid > .dropZoneBody {
   display: grid;
   grid-gap: var(--editor-brick-gap);
   grid-template-columns: repeat(

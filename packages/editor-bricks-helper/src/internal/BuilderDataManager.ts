@@ -1,4 +1,4 @@
-import { sortBy } from "lodash";
+import { omit, sortBy } from "lodash";
 import EventTarget from "@ungap/event-target";
 import { BuilderRouteOrBrickNode } from "@easyops/brick-types";
 import {
@@ -74,11 +74,15 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     const { nodeUid, parentUid, nodeUids, nodeAlias, nodeData } = detail;
     this.data = {
       rootId,
-      nodes: nodes.concat({
-        ...(nodeData as any),
-        alias: nodeAlias,
-        $$uid: nodeUid,
-      }),
+      nodes: nodes.concat(
+        getBuilderNode(
+          (omit(nodeData, [
+            "parent",
+          ]) as Partial<BuilderRouteOrBrickNode>) as BuilderRouteOrBrickNode,
+          nodeUid,
+          nodeAlias
+        )
+      ),
       edges: reorderBuilderEdges(
         edges.concat({
           parent: parentUid,
