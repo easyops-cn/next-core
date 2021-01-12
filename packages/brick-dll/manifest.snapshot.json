@@ -3522,6 +3522,7 @@
           "scanStoryboard",
           "scanTemplatesInBrick",
           "scanTemplatesInStoryboard",
+          "shouldAllowRecursiveEvaluations",
           "toPath",
           "transform"
         ]

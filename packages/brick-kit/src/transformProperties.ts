@@ -1,7 +1,12 @@
 import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@easyops/brick-types";
 import { isObject, transform, isEvaluable } from "@easyops/brick-utils";
-import { evaluate, EvaluateOptions, isPreEvaluated } from "./evaluate";
+import {
+  evaluate,
+  EvaluateOptions,
+  isPreEvaluated,
+  shouldDismissRecursiveMarkingInjected,
+} from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 import { devtoolsHookEmit } from "./devtools";
 import { setRealProperties } from "./setProperties";
@@ -49,12 +54,18 @@ export function doTransform(
   const preEvaluated = isPreEvaluated(to);
   if (preEvaluated || typeof to === "string") {
     let result: unknown;
+    let dismissRecursiveMarkingInjected = false;
     if (preEvaluated || isEvaluable(to as string)) {
       result = evaluate(to as string, { data }, options?.evaluateOptions);
+      dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
+        to as string
+      );
     } else {
       result = transform(to as string, data);
     }
-    recursiveMarkAsInjected(result);
+    if (!dismissRecursiveMarkingInjected) {
+      recursiveMarkAsInjected(result);
+    }
     return result;
   }
 

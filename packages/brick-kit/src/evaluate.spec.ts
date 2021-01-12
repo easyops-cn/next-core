@@ -1,5 +1,9 @@
 import i18next from "i18next";
-import { evaluate, PreEvaluated } from "./evaluate";
+import {
+  evaluate,
+  PreEvaluated,
+  shouldDismissRecursiveMarkingInjected,
+} from "./evaluate";
 import * as runtime from "./core/Runtime";
 import { registerCustomProcessor } from "./core/exports";
 import { devtoolsHookEmit } from "./devtools";
@@ -96,6 +100,28 @@ function objectEntries(object: Record<string, any>): [string, any][] {
   return Object.entries(object);
 }
 registerCustomProcessor("brickKit.objectEntries", objectEntries);
+
+describe("shouldDismissRecursiveMarkingInjected", () => {
+  it("should work with string", () => {
+    expect(shouldDismissRecursiveMarkingInjected("<% DATA %>")).toBe(false);
+    expect(shouldDismissRecursiveMarkingInjected("<%~ DATA %>")).toBe(true);
+  });
+
+  it("should work with pre-evaluated", () => {
+    expect(
+      shouldDismissRecursiveMarkingInjected(({
+        [Symbol.for("pre.evaluated.raw")]: "<% DATA %>",
+        [Symbol.for("pre.evaluated.context")]: {},
+      } as unknown) as PreEvaluated)
+    ).toBe(false);
+    expect(
+      shouldDismissRecursiveMarkingInjected(({
+        [Symbol.for("pre.evaluated.raw")]: "<%~ DATA %>",
+        [Symbol.for("pre.evaluated.context")]: {},
+      } as unknown) as PreEvaluated)
+    ).toBe(true);
+  });
+});
 
 describe("evaluate", () => {
   afterEach(() => {
