@@ -32,7 +32,17 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
+    });
+    expect(files).toMatchSnapshot();
+  });
+  it("should create a new editor brick", async () => {
+    const files = await loadTemplate({
+      targetType: TargetType.A_NEW_EDITOR_BRICK,
+      packageName: "for-good",
+      brickName: "for-better",
+      templateName: "",
+      processorName: "",
+      targetRoot: "dist",
     });
     expect(files).toMatchSnapshot();
   });
@@ -44,7 +54,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -56,7 +65,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -69,7 +77,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -82,7 +89,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -95,7 +101,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -108,7 +113,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -120,7 +124,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "doGood",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -132,7 +135,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -145,7 +147,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -158,7 +159,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -171,7 +171,6 @@ describe("loadTemplate", () => {
       templateName: "for-better",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     expect(files).toMatchSnapshot();
   });
@@ -183,7 +182,6 @@ describe("loadTemplate", () => {
       templateName: "for-better",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
@@ -196,7 +194,6 @@ describe("loadTemplate", () => {
       templateName: "",
       processorName: "",
       targetRoot: "dist",
-      docRoot: "doc",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();

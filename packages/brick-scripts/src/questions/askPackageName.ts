@@ -15,10 +15,13 @@ export function askPackageName({
   appRoot: string;
 }): inquirer.DistinctQuestion<{ packageName: string }> {
   if (
-    targetType === TargetType.A_NEW_BRICK ||
-    targetType === TargetType.A_NEW_CUSTOM_TEMPLATE ||
-    targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK ||
-    targetType === TargetType.A_NEW_CUSTOM_PROCESSOR
+    [
+      TargetType.A_NEW_BRICK,
+      TargetType.A_NEW_EDITOR_BRICK,
+      TargetType.A_NEW_CUSTOM_TEMPLATE,
+      TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      TargetType.A_NEW_CUSTOM_PROCESSOR,
+    ].includes(targetType)
   ) {
     // 读取当前的 `@bricks/*` 作为候选列表。
     const root = path.join(appRoot, "bricks");
@@ -33,6 +36,8 @@ export function askPackageName({
       message: `which package do you want to put the new ${
         targetType === TargetType.A_NEW_CUSTOM_TEMPLATE
           ? "custom template"
+          : targetType === TargetType.A_NEW_EDITOR_BRICK
+          ? "editor brick"
           : "brick"
       } in?`,
       choices: pkgList,

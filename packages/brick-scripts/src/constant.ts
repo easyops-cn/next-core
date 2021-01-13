@@ -2,6 +2,7 @@ import { TargetType } from "./interface";
 
 export const targetMap = {
   [TargetType.A_NEW_BRICK]: "bricks",
+  [TargetType.A_NEW_EDITOR_BRICK]: "bricks",
   [TargetType.A_NEW_CUSTOM_TEMPLATE]: "bricks",
   [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks",
   [TargetType.A_NEW_PACKAGE_OF_LIBS]: "libs",
