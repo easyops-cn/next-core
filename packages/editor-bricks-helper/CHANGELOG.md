@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.3.1...@easyops/editor-bricks-helper@0.3.2) (2021-01-13)
+
+### Bug Fixes
+
+- **editors:** fix node.parsedProperties ([e37657a](https://git.easyops.local/anyclouds/next-core/commits/e37657a))
+
 ## [0.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.3.0...@easyops/editor-bricks-helper@0.3.1) (2021-01-13)
 
 **Note:** Version bump only for package @easyops/editor-bricks-helper

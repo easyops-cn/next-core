@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.1.1...@easyops/brick-scripts@2.2.0) (2021-01-13)
+
+### Features
+
+- run `yarn yo` to create a editor brick ([8a3f6e5](https://git.easyops.local/anyclouds/next-core/commits/8a3f6e5))
+
 ## [2.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.1.0...@easyops/brick-scripts@2.1.1) (2021-01-13)
 
 ### Bug Fixes
