@@ -13,6 +13,7 @@ export interface SlotContainerProps {
   slotName: string;
   slotContainerStyle?: React.CSSProperties;
   dropZoneStyle?: React.CSSProperties;
+  dropZoneBodyStyle?: React.CSSProperties;
   slotContentLayout?: EditorSlotContentLayout;
   showOutlineIfEmpty?: boolean;
 }
@@ -22,6 +23,7 @@ export function SlotContainer({
   slotName,
   slotContainerStyle,
   dropZoneStyle,
+  dropZoneBodyStyle,
   slotContentLayout,
   showOutlineIfEmpty,
 }: SlotContainerProps): React.ReactElement {
@@ -40,6 +42,7 @@ export function SlotContainer({
         nodeUid={nodeUid}
         mountPoint={slotName}
         dropZoneStyle={dropZoneStyle}
+        dropZoneBodyStyle={dropZoneBodyStyle}
         slotContentLayout={slotContentLayout}
         showOutlineIfEmpty={showOutlineIfEmpty}
       />

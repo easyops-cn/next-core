@@ -24,7 +24,7 @@ export function getBuilderNode(
       .concat([
         ["alias", nodeAlias ?? nodeData.alias],
         ["$$uid", nodeUid],
-        ["parsedProperties", parsedProperties],
+        ["parsedProperties", parsedProperties ?? {}],
       ])
   ) as BuilderRuntimeNode;
 }

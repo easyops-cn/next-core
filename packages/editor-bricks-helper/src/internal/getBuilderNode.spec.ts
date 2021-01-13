@@ -20,6 +20,7 @@ describe("getBuilderNode", () => {
       brick: "any-brick",
       id: "B-001",
       $$uid: 1,
+      parsedProperties: {},
     });
   });
 
@@ -44,6 +45,7 @@ describe("getBuilderNode", () => {
       id: "B-001",
       $$uid: 1,
       alias: "any-alias",
+      parsedProperties: {},
     });
   });
 });

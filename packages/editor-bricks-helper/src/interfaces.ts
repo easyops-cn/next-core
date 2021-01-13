@@ -6,9 +6,11 @@ export interface BuilderCanvasData {
   edges: BuilderRuntimeEdge[];
 }
 
-export type BuilderRuntimeNode = BuilderRouteOrBrickNode & {
+export type BuilderRuntimeNode<
+  P = Record<string, unknown>
+> = BuilderRouteOrBrickNode & {
   $$uid?: number;
-  parsedProperties?: Record<string, unknown>;
+  parsedProperties?: P;
 };
 
 export interface BuilderRuntimeEdge {

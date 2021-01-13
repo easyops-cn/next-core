@@ -104,7 +104,7 @@ describe("BuilderDataManager", () => {
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
-            "parsedProperties": undefined,
+            "parsedProperties": Object {},
             "path": "/home",
             "type": "bricks",
           },
@@ -113,7 +113,7 @@ describe("BuilderDataManager", () => {
             "alias": "alias-a",
             "brick": "brick-a",
             "id": "B-002",
-            "parsedProperties": undefined,
+            "parsedProperties": Object {},
             "sort": 0,
             "type": "brick",
           },
@@ -122,7 +122,7 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-b",
             "id": "B-003",
-            "parsedProperties": undefined,
+            "parsedProperties": Object {},
             "sort": 1,
             "type": "brick",
           },
@@ -131,7 +131,7 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-c",
             "id": "B-004",
-            "parsedProperties": undefined,
+            "parsedProperties": Object {},
             "type": "brick",
           },
           Object {
@@ -139,7 +139,7 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-d",
             "id": "B-005",
-            "parsedProperties": undefined,
+            "parsedProperties": Object {},
             "type": "brick",
           },
           Object {
@@ -147,7 +147,7 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-e",
             "id": "B-006",
-            "parsedProperties": undefined,
+            "parsedProperties": Object {},
             "sort": 1,
             "type": "brick",
           },
@@ -213,7 +213,7 @@ describe("BuilderDataManager", () => {
       Object {
         "$$uid": 7,
         "alias": "new-brick",
-        "mountPoint": "toolbar",
+        "parsedProperties": Object {},
       }
     `);
   });
