@@ -184,7 +184,7 @@ export async function loadTemplate({
       }),
     });
 
-    let sdkVersion;
+    let sdkVersion = "1.0.0";
     const getVersion = async () => {
       try {
         const sdkPackage = await rp({
@@ -196,14 +196,26 @@ export async function loadTemplate({
       } catch {
         sdkVersion = "FETCH LATEST VERSION ERROR";
       }
-      translations["$sdk.version$"] = sdkVersion;
     };
 
     if (!easyopsConfig?.useLocalSdk) {
       await getVersion();
     } else {
-      translations["$sdk.version$"] = "1.0.0";
+      const sdkPackagePath = path.resolve(
+        targetRoot,
+        "..",
+        "..",
+        "sdk",
+        sdkName,
+        "package.json"
+      );
+      if (fs.existsSync(sdkPackagePath)) {
+        sdkVersion = JSON.parse(fs.readFileSync(sdkPackagePath, "utf8"))
+          .version;
+      }
     }
+
+    translations["$sdk.version$"] = sdkVersion;
   }
 
   const files: FileWithContent[] = templateGroups.reduce(
