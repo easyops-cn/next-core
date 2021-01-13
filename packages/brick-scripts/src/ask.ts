@@ -7,6 +7,7 @@ import { askBrickName } from "./questions/askBrickName";
 import { askTemplateName } from "./questions/askTemplateName";
 import { askProcessorName } from "./questions/askProcessorName";
 import { updateHistory } from "./loaders/loadHistory";
+import { askEditorBrickName } from "./questions/askEditorBrickName";
 
 export async function ask(
   appRoot: string,
@@ -51,6 +52,7 @@ export async function ask(
 
   switch (targetType) {
     case TargetType.A_NEW_BRICK:
+    case TargetType.A_NEW_EDITOR_BRICK:
     case TargetType.A_NEW_CUSTOM_TEMPLATE:
     case TargetType.A_NEW_CUSTOM_PROVIDER_BRICK:
     case TargetType.A_NEW_CUSTOM_PROCESSOR:
@@ -118,6 +120,15 @@ export async function ask(
         })
       )
     ).processorName;
+  } else if (targetType === TargetType.A_NEW_EDITOR_BRICK) {
+    brickName = (
+      await inquirer.prompt(
+        askEditorBrickName({
+          packageName,
+          appRoot,
+        })
+      )
+    ).brickName;
   }
 
   return {

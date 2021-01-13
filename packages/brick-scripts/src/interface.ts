@@ -7,6 +7,7 @@ export interface AskFlags {
 
 export enum TargetType {
   A_NEW_BRICK = "brick",
+  A_NEW_EDITOR_BRICK = "editor-brick",
   A_NEW_PACKAGE_OF_BRICKS = "bricks",
   A_NEW_PACKAGE_OF_LIBS = "libs",
   A_NEW_PACKAGE_OF_MICRO_APPS = "micro-apps",
@@ -23,6 +24,7 @@ export enum TargetType {
 
 export const TargetTypeDisplay = {
   [TargetType.A_NEW_BRICK]: "a new brick",
+  [TargetType.A_NEW_EDITOR_BRICK]: "a new editor brick",
   [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "a new package of bricks",
   [TargetType.A_NEW_PACKAGE_OF_LIBS]: "a new package of libs",
   [TargetType.A_NEW_PACKAGE_OF_MICRO_APPS]: "a new package of micro-apps",

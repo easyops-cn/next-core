@@ -1,12 +1,13 @@
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
+import { exec } from "child_process";
 import klawSync from "klaw-sync";
 import * as changeCase from "change-case";
 import rp from "request-promise-native";
 import { FileWithContent, TargetType } from "../interface";
 import { getEasyopsConfig } from "../getEasyopsConfig";
-const { exec } = require("child_process");
+
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
 const easyopsConfig = getEasyopsConfig();
@@ -69,7 +70,6 @@ export async function loadTemplate({
   templateName,
   processorName,
   targetRoot,
-  docRoot,
 }: {
   targetType: TargetType;
   packageName: string;
@@ -77,10 +77,10 @@ export async function loadTemplate({
   templateName: string;
   processorName: string;
   targetRoot: string;
-  docRoot: string;
 }): Promise<FileWithContent[]> {
   const targetMap: { [key: string]: string } = {
     [TargetType.A_NEW_BRICK]: "brick",
+    [TargetType.A_NEW_EDITOR_BRICK]: "editor-brick",
     [TargetType.A_NEW_CUSTOM_TEMPLATE]: "custom-template",
     [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks-pkg",
     [TargetType.A_NEW_PACKAGE_OF_LIBS]: "libs-pkg",
@@ -252,13 +252,14 @@ export async function loadTemplate({
   );
 
   if (
-    targetType !== TargetType.A_NEW_BRICK &&
-    targetType !== TargetType.A_NEW_CUSTOM_TEMPLATE &&
-    targetType !== TargetType.A_NEW_CUSTOM_PROVIDER_BRICK &&
-    targetType !== TargetType.A_NEW_CUSTOM_PROCESSOR &&
-    targetType !== TargetType.A_NEW_LEGACY_TEMPLATE &&
-    targetType !== TargetType.TRANSFORM_A_MICRO_APP &&
-    targetType !== TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES
+    [
+      TargetType.A_NEW_PACKAGE_OF_BRICKS,
+      TargetType.A_NEW_PACKAGE_OF_LIBS,
+      TargetType.A_NEW_PACKAGE_OF_MICRO_APPS,
+      TargetType.A_NEW_PACKAGE_OF_PROVIDERS,
+      TargetType.A_NEW_PACKAGE_OF_DLL,
+      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
+    ].includes(targetType)
   ) {
     files.push([
       path.join(targetRoot, "package.json"),
