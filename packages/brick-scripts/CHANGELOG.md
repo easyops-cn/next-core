@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.1.0...@easyops/brick-scripts@2.1.1) (2021-01-13)
+
+### Bug Fixes
+
+- **brick-scripts:** useLocalSdk 时获取本地 sdk 版本号 ([cd5def7](https://git.easyops.local/anyclouds/next-core/commits/cd5def7))
+
 # [2.1.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.0.4...@easyops/brick-scripts@2.1.0) (2021-01-07)
 
 ### Features

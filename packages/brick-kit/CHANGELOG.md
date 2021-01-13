@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.28.3...@easyops/brick-kit@2.29.0) (2021-01-13)
+
+### Bug Fixes
+
+- clone with injected-mark for useBrick.properties ([0d3339f](https://git.easyops.local/anyclouds/next-core/commits/0d3339f))
+- pass context when resolve useBrick.lifeCycle ([da6c185](https://git.easyops.local/anyclouds/next-core/commits/da6c185))
+
+### Features
+
+- support allow recursive evaluations flag ([aa66297](https://git.easyops.local/anyclouds/next-core/commits/aa66297))
+
 ## [2.28.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-kit@2.28.2...@easyops/brick-kit@2.28.3) (2021-01-07)
 
 **Note:** Version bump only for package @easyops/brick-kit
