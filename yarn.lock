@@ -3695,7 +3695,7 @@ ansi-escapes@^3.0.0, ansi-escapes@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
 
-ansi-escapes@^4.2.1, ansi-escapes@^4.3.0:
+ansi-escapes@^4.2.1, ansi-escapes@^4.3.0, ansi-escapes@^4.3.1:
   version "4.3.1"
   resolved "https://registry.npm.taobao.org/ansi-escapes/download/ansi-escapes-4.3.1.tgz#a5c47cc43181f1f38ffd7076837700d395522a61"
   integrity sha1-pcR8xDGB8fOP/XB2g3cA05VSKmE=
@@ -8510,6 +8510,17 @@ inline-source-map@~0.6.0:
   integrity sha1-+Tk0ccGKedFyT4Y/o4tYY3Ct4qU=
   dependencies:
     source-map "~0.5.3"
+
+inquirer-autocomplete-prompt@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/inquirer-autocomplete-prompt/download/inquirer-autocomplete-prompt-1.3.0.tgz#fcbba926be2d3cf338e3dd24380ae7c408113b46"
+  integrity sha1-/LupJr4tPPM4490kOArnxAgRO0Y=
+  dependencies:
+    ansi-escapes "^4.3.1"
+    chalk "^4.0.0"
+    figures "^3.2.0"
+    run-async "^2.4.0"
+    rxjs "^6.6.2"
 
 inquirer@^6.2.0:
   version "6.5.0"
@@ -13682,7 +13693,7 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^6.3.3, rxjs@^6.4.0, rxjs@^6.5.2, rxjs@^6.5.5, rxjs@^6.6.0, rxjs@^6.6.3:
+rxjs@^6.3.3, rxjs@^6.4.0, rxjs@^6.5.2, rxjs@^6.5.5, rxjs@^6.6.0, rxjs@^6.6.2, rxjs@^6.6.3:
   version "6.6.3"
   resolved "https://registry.npm.taobao.org/rxjs/download/rxjs-6.6.3.tgz?cache=0&sync_timestamp=1602770834162&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frxjs%2Fdownload%2Frxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
   integrity sha1-jKhGNcTaqQDA05Z6buesYCce5VI=
