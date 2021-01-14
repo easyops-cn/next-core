@@ -211,16 +211,17 @@ import { shallow } from \\"enzyme\\";
 import * as helper from \\"@easyops/editor-bricks-helper\\";
 import { ForBetterEditor } from \\"./for-better.editor\\";
 
-jest.spyOn(helper, \\"useBuilderNode\\").mockReturnValue({
-  type: \\"brick\\",
-  id: \\"B-001\\",
-  brick: \\"for-better\\",
-  alias: \\"my-brick\\",
-  parsedProperties: {},
-});
+const mockUseBuilderNode = jest.spyOn(helper, \\"useBuilderNode\\");
 
 describe(\\"ForBetterEditor\\", () => {
   it(\\"should work\\", () => {
+    mockUseBuilderNode.mockReturnValueOnce({
+      type: \\"brick\\",
+      id: \\"B-001\\",
+      brick: \\"for-better\\",
+      alias: \\"my-brick\\",
+      parsedProperties: {},
+    });
     const wrapper = shallow(
       <ForBetterEditor nodeUid={1} brick=\\"for-better\\" />
     );

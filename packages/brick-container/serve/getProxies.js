@@ -18,6 +18,7 @@ module.exports = (env) => {
     useRemote,
     publicPath,
     localBrickPackages,
+    localEditorPackages,
     localMicroApps,
     localTemplates,
     useLocalSettings,
@@ -75,14 +76,19 @@ module.exports = (env) => {
                 )
               );
           }
-          if (localBrickPackages.length > 0) {
-            data.brickPackages = localBrickPackages
-              .map((id) => getSingleBrickPackage(env, id))
+          const combinedLocalBrickPackages = Array.from(
+            new Set(localBrickPackages.concat(localEditorPackages))
+          );
+          if (combinedLocalBrickPackages.length > 0) {
+            data.brickPackages = combinedLocalBrickPackages
+              .map((id) => getSingleBrickPackage(env, id, data.brickPackages))
               .filter(Boolean)
               .concat(
                 data.brickPackages.filter(
                   (item) =>
-                    !localBrickPackages.includes(item.filePath.split("/")[1])
+                    !combinedLocalBrickPackages.includes(
+                      item.filePath.split("/")[1]
+                    )
                 )
               );
           }
