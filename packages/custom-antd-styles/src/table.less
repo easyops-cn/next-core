@@ -8,6 +8,11 @@
     .@{table-prefix-cls}-column-sorter .@{table-prefix-cls}-column-sorter-inner-full {
       margin-top: -0.6em;
     }
+
+    &.@{table-prefix-cls}-column-sort.@{table-prefix-cls}-column-has-sorters {
+      background-color: #e0e5ec;
+    }
+
   }
 
   &-pagination.@{ant-prefix}-pagination {
@@ -26,12 +31,12 @@
   }
 
   &-tbody {
-    > tr > td {
+    >tr>td {
       border-bottom-color: var(--antd-table-border-color);
     }
 
-    > tr:nth-child(2n) > td {
-      background: var(--antd-table-even-bg);
+    >tr>td.@{table-prefix-cls}-column-sort {
+      background-color: #f4f5f7;
     }
 
     tr.@{table-prefix-cls}-row-selected {
