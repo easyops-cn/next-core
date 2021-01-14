@@ -61,6 +61,8 @@ describe("askEditorBrickName", () => {
     }) as any;
 
     expect(await source()).toEqual(["brick-x", "brick-y", "brick-z"]);
+    // Search for `y`.
+    expect(await source({}, "y")).toEqual(["brick-y"]);
   });
 
   it("should throw if no bricks found", () => {

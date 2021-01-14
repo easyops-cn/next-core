@@ -6,8 +6,9 @@ import { $PascalBrickName$Editor } from "./$kebab-brick-last-name$.editor";
 jest.spyOn(helper, "useBuilderNode").mockReturnValue({
   type: "brick",
   id: "B-001",
-  brick: "agent-status",
+  brick: "$kebab-brick-last-name$",
   alias: "my-brick",
+  parsedProperties: {},
 });
 
 describe("$PascalBrickName$Editor", () => {

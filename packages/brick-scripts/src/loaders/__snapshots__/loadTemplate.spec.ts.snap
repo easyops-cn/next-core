@@ -214,8 +214,9 @@ import { ForBetterEditor } from \\"./for-better.editor\\";
 jest.spyOn(helper, \\"useBuilderNode\\").mockReturnValue({
   type: \\"brick\\",
   id: \\"B-001\\",
-  brick: \\"agent-status\\",
+  brick: \\"for-better\\",
   alias: \\"my-brick\\",
+  parsedProperties: {},
 });
 
 describe(\\"ForBetterEditor\\", () => {
