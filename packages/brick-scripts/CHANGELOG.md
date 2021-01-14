@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.2.0...@easyops/brick-scripts@2.3.0) (2021-01-14)
+
+### Bug Fixes
+
+- fix editor brick test template ([e19bc39](https://git.easyops.local/anyclouds/next-core/commits/e19bc39))
+- refine editor template ([eac2605](https://git.easyops.local/anyclouds/next-core/commits/eac2605))
+
+### Features
+
+- support autocomplete in some questions ([ca2baa4](https://git.easyops.local/anyclouds/next-core/commits/ca2baa4))
+
 # [2.2.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.1.1...@easyops/brick-scripts@2.2.0) (2021-01-13)
 
 ### Features
