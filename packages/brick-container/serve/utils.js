@@ -83,35 +83,59 @@ function getNamesOfBrickPackages(env) {
     .map((dirent) => dirent.name);
 }
 
-function getSingleBrickPackage(env, brickPackageName) {
-  const distDir = path.join(env.brickPackagesDir, brickPackageName, "dist");
+function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
+  const { brickPackagesDir, localBrickPackages, localEditorPackages } = env;
+  const distDir = path.join(brickPackagesDir, brickPackageName, "dist");
+  let remoteJson;
+  // `remoteBrickPackages` is passed only in remote-local-mixed mode.
+  if (remoteBrickPackages) {
+    remoteJson = remoteBrickPackages.find(
+      (item) => item.filePath.split("/")[1] === brickPackageName
+    );
+    if (!remoteJson) {
+      throw new Error(`Remote brick package not found: ${brickPackageName}`);
+    }
+  } else {
+    remoteJson = {};
+  }
   if (fs.existsSync(distDir)) {
-    let filePath, bricksJson, editorsJson;
-    for (const file of fs.readdirSync(distDir)) {
-      if (file.endsWith(".js")) {
-        filePath = `bricks/${brickPackageName}/dist/${file}`;
-      } else if (file === "bricks.json") {
-        bricksJson = JSON.parse(
-          fs.readFileSync(path.join(distDir, "bricks.json"), "utf8")
-        );
+    if (!remoteBrickPackages || localBrickPackages.includes(brickPackageName)) {
+      let filePath, bricksJson;
+      for (const file of fs.readdirSync(distDir)) {
+        if (file.endsWith(".js")) {
+          filePath = `bricks/${brickPackageName}/dist/${file}`;
+        } else if (file === "bricks.json") {
+          bricksJson = JSON.parse(
+            fs.readFileSync(path.join(distDir, "bricks.json"), "utf8")
+          );
+        }
+      }
+      if (!filePath || !bricksJson) {
+        return;
+      }
+      Object.assign(
+        remoteJson,
+        {
+          filePath,
+        },
+        bricksJson
+      );
+    }
+    if (
+      !remoteBrickPackages ||
+      localEditorPackages.includes(brickPackageName)
+    ) {
+      const distEditorsDir = path.join(
+        brickPackagesDir,
+        brickPackageName,
+        "dist-editors/editors.json"
+      );
+      if (fs.existsSync(distEditorsDir)) {
+        const editorsJson = JSON.parse(fs.readFileSync(distEditorsDir, "utf8"));
+        Object.assign(remoteJson, editorsJson);
       }
     }
-    const distEditorsDir = path.join(
-      env.brickPackagesDir,
-      brickPackageName,
-      "dist-editors/editors.json"
-    );
-    if (fs.existsSync(distEditorsDir)) {
-      editorsJson = JSON.parse(fs.readFileSync(distEditorsDir, "utf8"));
-    }
-
-    if (bricksJson && filePath) {
-      return {
-        ...bricksJson,
-        filePath,
-        ...editorsJson,
-      };
-    }
+    return remoteJson;
   }
 }
 

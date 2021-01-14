@@ -47,6 +47,9 @@ module.exports = (cwd) => {
       localBricks: {
         type: "string",
       },
+      localEditors: {
+        type: "string",
+      },
       localMicroApps: {
         type: "string",
       },
@@ -102,6 +105,7 @@ module.exports = (cwd) => {
         --console-server    Set remote console server address, defaults to remote server address
         --subdir            Set base href to "/next/" instead of "/"
         --local-bricks      Specify local brick packages to be used in remote mode
+        --local-editors     Specify local editor packages to be used in remote mode
         --local-micro-apps  Specify local micro apps to be used in remote mode
         --local-templates   Specify local template packages to be used in remote mode
         --local-settings    Use local settings instead of remote settings in remote mode
@@ -163,6 +167,11 @@ module.exports = (cwd) => {
     ? flags.localBricks.split(",")
     : process.env.LOCAL_BRICKS
     ? process.env.LOCAL_BRICKS.split(",")
+    : [];
+  const localEditorPackages = flags.localEditors
+    ? flags.localEditors.split(",")
+    : process.env.LOCAL_EDITORS
+    ? process.env.LOCAL_EDITORS.split(",")
     : [];
   const localMicroApps = flags.localMicroApps
     ? flags.localMicroApps.split(",")
@@ -228,6 +237,7 @@ module.exports = (cwd) => {
     useAutoRemote,
     publicPath,
     localBrickPackages,
+    localEditorPackages,
     localMicroApps,
     localTemplates,
     useLocalSettings,
@@ -260,6 +270,9 @@ module.exports = (cwd) => {
     env.localBrickPackages = getNamesOfBrickPackages(env).concat(
       env.localBrickPackages
     );
+    env.localEditorPackages = getNamesOfBrickPackages(env).concat(
+      env.localEditorPackages
+    );
     env.localMicroApps = getNamesOfMicroApps(env).concat(env.localMicroApps);
     env.localTemplates = getNamesOfTemplatePackages(env).concat(
       env.localTemplates
@@ -285,6 +298,11 @@ module.exports = (cwd) => {
   if (env.localBrickPackages.length > 0) {
     console.log();
     console.log("local bricks:", env.localBrickPackages);
+  }
+
+  if (env.localEditorPackages.length > 0) {
+    console.log();
+    console.log("local editors:", env.localEditorPackages);
   }
 
   if (env.localTemplates.length > 0) {

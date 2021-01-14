@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
+const { escapeRegExp } = require("lodash");
 const {
   getNavbar,
   getStoryboardsByMicroApps,
@@ -16,6 +17,7 @@ module.exports = (env, app) => {
     useRemote,
     publicPath,
     localBrickPackages,
+    localEditorPackages,
     localMicroApps,
     localTemplates,
     microAppsDir,
@@ -31,33 +33,44 @@ module.exports = (env, app) => {
   // 如果设定 `REMOTE=true`，则透传远端请求。
   if (useRemote) {
     // 设定透传远端请求时，可以指定特定的 brick packages, micro apps, template packages 使用本地文件。
-    localBrickPackages.forEach((pkgId) => {
-      // 直接返回插件 js 文件。
-      app.get(`${publicPath}bricks/${pkgId}/*`, (req, res) => {
-        const relativePath = req.params[0];
-        const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
+    localEditorPackages.forEach((pkgId) => {
+      // 直接返回本地构件库编辑器相关文件。
+      app.get(`${publicPath}bricks/${pkgId}/dist/editors/*`, (req, res) => {
+        const filePath = path.join(
+          brickPackagesDir,
+          pkgId,
+          "dist-editors",
+          req.params[0]
+        );
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
-          return;
+        } else {
+          res.status(404).end();
         }
-        if (relativePath.startsWith("dist/editors/")) {
-          const devPath = path.join(
-            brickPackagesDir,
-            pkgId,
-            "dist-editors/",
-            relativePath.substr("dist/editors/".length)
-          );
-          if (fs.existsSync(devPath)) {
-            res.sendFile(devPath);
-            return;
-          }
-        }
-        res.status(404).end();
       });
     });
 
+    localBrickPackages.forEach((pkgId) => {
+      // 直接返回本地构件库相关文件（但排除编辑器相关文件）。
+      app.get(
+        new RegExp(
+          `^${escapeRegExp(
+            `${publicPath}bricks/${pkgId}/`
+          )}(?!dist\\/editors\\/)(.+)`
+        ),
+        (req, res) => {
+          const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
+          if (fs.existsSync(filePath)) {
+            res.sendFile(filePath);
+          } else {
+            res.status(404).end();
+          }
+        }
+      );
+    });
+
     localMicroApps.forEach((appId) => {
-      // 直接返回小产品相关文件。
+      // 直接返回本地小产品相关文件。
       app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
         const filePath = path.join(microAppsDir, appId, req.params[0]);
         if (fs.existsSync(filePath)) {
@@ -68,7 +81,7 @@ module.exports = (env, app) => {
       });
     });
     localTemplates.forEach((pkgId) => {
-      // 直接返回模板相关文件。
+      // 直接返回本地模板相关文件。
       app.get(`${publicPath}templates/${pkgId}/*`, (req, res) => {
         const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
         if (fs.existsSync(filePath)) {
@@ -79,7 +92,7 @@ module.exports = (env, app) => {
       });
     });
     mockedMicroApps.forEach((appId) => {
-      // 直接返回小产品相关文件。
+      // 直接返回本地小产品相关文件。
       app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
         const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
         if (fs.existsSync(filePath)) {
