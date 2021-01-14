@@ -177,7 +177,7 @@ export interface EasyopsEmptyProps {
 // Warning: (ae-internal-missing-underscore) The name "ErrorBoundary" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export const ErrorBoundary: React_2.ComponentType<Pick<WithTranslation, never> & WithTranslationProps>;
+export const ErrorBoundary: React_2.ComponentType<Pick<WithTranslation<"brick-kit">, never> & WithTranslationProps>;
 
 // @public
 function event_2(options: EventDeclaration): any;

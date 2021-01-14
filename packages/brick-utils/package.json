@@ -29,14 +29,14 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/parser": "^7.12.7",
+    "@babel/parser": "^7.12.11",
     "@easyops-cn/brick-next-pipes": "^0.3.10",
     "@easyops/brick-types": "^2.14.1",
     "file-saver": "^2.0.5",
     "path-to-regexp": "^6.2.0"
   },
   "devDependencies": {
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^3.14.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1"
   },

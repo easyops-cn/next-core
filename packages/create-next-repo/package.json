@@ -27,13 +27,13 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "change-case": "^4.1.1",
-    "execa": "^4.1.0",
+    "change-case": "^4.1.2",
+    "execa": "^5.0.0",
     "fs-extra": "^9.0.1",
     "klaw-sync": "^6.0.0",
     "meow": "^8.0.0",
-    "prettier": "^2.2.0",
-    "semver": "^7.3.2"
+    "prettier": "^2.2.1",
+    "semver": "^7.3.4"
   },
   "templateDependencies": {
     "@bricks/basic-bricks": "^1.84.0"
