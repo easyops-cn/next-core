@@ -1,3 +1,11 @@
-.@{radio-group-prefix-cls}{
-    line-height: 1;
+.@{radio-group-prefix-cls} {
+  line-height: 1;
+}
+
+.@{radio-prefix-cls} {
+  &-button-wrapper {
+    &-checked:not(&-disabled)&:first-child {
+      border-right-color: transparent;
+    }
+  }
 }
