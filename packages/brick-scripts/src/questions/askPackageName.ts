@@ -3,17 +3,20 @@ import path from "path";
 import inquirer from "inquirer";
 import { TargetType } from "../interface";
 import { targetMap } from "../constant";
-import { loadHistory } from "../loaders/loadHistory";
 import { getEasyopsConfig } from "../getEasyopsConfig";
+import { translateListToAutocomplete } from "./translateListToAutocomplete";
 
 const easyopsConfig = getEasyopsConfig();
-export function askPackageName({
-  targetType,
-  appRoot,
-}: {
+
+interface AskPackageNameOptions {
   targetType: TargetType;
   appRoot: string;
-}): inquirer.DistinctQuestion<{ packageName: string }> {
+}
+
+function legacyAskPackageName({
+  targetType,
+  appRoot,
+}: AskPackageNameOptions): inquirer.DistinctQuestion<{ packageName: string }> {
   if (
     [
       TargetType.A_NEW_BRICK,
@@ -41,7 +44,7 @@ export function askPackageName({
           : "brick"
       } in?`,
       choices: pkgList,
-      default: loadHistory().lastSelectedBrickPackage,
+      // default: loadHistory().lastSelectedBrickPackage,
     };
   }
 
@@ -58,7 +61,7 @@ export function askPackageName({
       name: "packageName",
       message: "which package do you want to put the new template in?",
       choices: pkgList,
-      default: loadHistory().lastSelectedTemplatePackage,
+      // default: loadHistory().lastSelectedTemplatePackage,
     };
   }
 
@@ -149,4 +152,10 @@ export function askPackageName({
       return true;
     },
   };
+}
+
+export function askPackageName(
+  options: AskPackageNameOptions
+): inquirer.DistinctQuestion<{ packageName: string }> {
+  return translateListToAutocomplete(legacyAskPackageName(options));
 }

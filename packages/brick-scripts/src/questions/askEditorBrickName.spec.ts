@@ -45,22 +45,24 @@ jest.mock("klaw-sync", () => (filePath: string) =>
 );
 
 describe("askEditorBrickName", () => {
-  it("should scan bricks in bricks.json", () => {
-    const { choices } = askEditorBrickName({
+  it("should scan bricks in bricks.json", async () => {
+    const { source } = askEditorBrickName({
       packageName: "test-pkg-a",
       appRoot: "/tmp",
     }) as any;
 
-    expect(choices).toEqual(["brick-a", "brick-b"]);
+    expect(await source()).toEqual(["brick-a", "brick-b"]);
   });
 
-  it("should scan bricks in source code", () => {
-    const { choices } = askEditorBrickName({
+  it("should scan bricks in source code", async () => {
+    const { source } = askEditorBrickName({
       packageName: "test-pkg-b",
       appRoot: "/tmp",
     }) as any;
 
-    expect(choices).toEqual(["brick-x", "brick-y", "brick-z"]);
+    expect(await source()).toEqual(["brick-x", "brick-y", "brick-z"]);
+    // Search for `y`.
+    expect(await source({}, "y")).toEqual(["brick-y"]);
   });
 
   it("should throw if no bricks found", () => {

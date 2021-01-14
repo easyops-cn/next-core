@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import klawSync from "klaw-sync";
+import { translateListToAutocomplete } from "./translateListToAutocomplete";
 
 export function askEditorBrickName({
   packageName,
@@ -43,10 +44,10 @@ export function askEditorBrickName({
     throw new Error("No bricks found, please create a brick first.");
   }
 
-  return {
+  return translateListToAutocomplete({
     type: "list",
     name: "brickName",
     message: `which editor of brick do you want to create?`,
     choices: brickNameList,
-  };
+  });
 }
