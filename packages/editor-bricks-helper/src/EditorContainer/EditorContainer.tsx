@@ -2,15 +2,17 @@
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
 import React from "react";
 import classNames from "classnames";
-import { useBuilderNode } from "../hooks/useBuilderNode";
 import { EditorBrickType } from "../interfaces";
 import {
   DroppingStatusContext,
   DroppingStatus,
 } from "../DroppingStatusContext";
+import { useBuilderNode } from "../hooks/useBuilderNode";
+import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
+import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatus";
+import { isCurrentTargetByClassName } from "./isCurrentTargetByClassName";
 
 import styles from "./EditorContainer.module.css";
-import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 
 interface EditorContainerProps {
   nodeUid: number;
@@ -18,8 +20,6 @@ interface EditorContainerProps {
   type?: EditorBrickType;
   isTransparentContainer?: boolean;
   editorContainerStyle?: React.CSSProperties;
-  /** @deprecated Use `editorBodyStyle` instead. */
-  editorBoxStyle?: React.CSSProperties;
   editorBodyStyle?: React.CSSProperties;
 }
 
@@ -29,7 +29,6 @@ export function EditorContainer({
   type,
   isTransparentContainer,
   editorContainerStyle,
-  editorBoxStyle,
   editorBodyStyle,
   children,
 }: React.PropsWithChildren<EditorContainerProps>): React.ReactElement {
@@ -38,9 +37,10 @@ export function EditorContainer({
   );
   const editorContainerRef = React.useRef<HTMLDivElement>();
   const node = useBuilderNode({ nodeUid });
-  const editorType = type ?? EditorBrickType.DEFAULT;
   const [hover, setHover] = React.useState(false);
+  const contextMenuStatus = useBuilderContextMenuStatus();
   const manager = useBuilderDataManager();
+  const editorType = type ?? EditorBrickType.DEFAULT;
 
   const handleMouseEnter = React.useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
@@ -52,24 +52,37 @@ export function EditorContainer({
     setHover(false);
   }, []);
 
-  const isCurrentTarget = React.useCallback((event: React.MouseEvent) => {
-    let element = event.target as HTMLElement;
-    while (element) {
-      if (element === editorContainerRef.current) {
-        return true;
-      }
-      if (element.classList.contains(styles.editorContainer)) {
-        return false;
-      }
-      element = element.parentElement;
-    }
-  }, []);
+  const isCurrentTarget = React.useCallback(
+    (event: React.MouseEvent) =>
+      isCurrentTargetByClassName(
+        event.target as HTMLElement,
+        editorContainerRef.current,
+        styles.editorContainer
+      ),
+    []
+  );
 
   const handleClick = React.useCallback(
     (event: React.MouseEvent) => {
-      // `event.stopPropagation()` not working here.
+      // `event.stopPropagation()` not working across bricks.
       if (isCurrentTarget(event)) {
         manager.nodeClick(node);
+      }
+    },
+    [isCurrentTarget, manager, node]
+  );
+
+  const handleContextMenu = React.useCallback(
+    (event: React.MouseEvent) => {
+      // `event.stopPropagation()` not working across bricks.
+      if (isCurrentTarget(event)) {
+        event.preventDefault();
+        manager.contextMenuChange({
+          active: true,
+          node,
+          x: event.clientX,
+          y: event.clientY,
+        });
       }
     },
     [isCurrentTarget, manager, node]
@@ -86,19 +99,20 @@ export function EditorContainer({
         className={classNames(styles.editorContainer, styles[editorType], {
           [styles.transparentContainer]: isTransparentContainer,
           [styles.dropping]: Object.values(droppingStatus).some(Boolean),
-          [styles.hover]: hover,
+          [styles.hover]:
+            hover ||
+            (contextMenuStatus.active &&
+              contextMenuStatus.node.$$uid === nodeUid),
         })}
         style={editorContainerStyle}
         ref={editorContainerRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
+        onContextMenu={handleContextMenu}
       >
         <div className={styles.nodeAlias}>{node.alias || node.brick}</div>
-        <div
-          className={styles.editorBody}
-          style={editorBodyStyle || editorBoxStyle}
-        >
+        <div className={styles.editorBody} style={editorBodyStyle}>
           {children}
         </div>
       </div>

@@ -68,6 +68,15 @@ export interface EventDetailOfNodeDragStart {
   nodeUid: number;
 }
 
+export interface BuilderContextMenuStatus {
+  active: boolean;
+  node?: BuilderRuntimeNode;
+  /** `x` is relative to the viewport. */
+  x?: number;
+  /** `y` is relative to the viewport. */
+  y?: number;
+}
+
 export enum BuilderDataTransferType {
   NODE_TO_ADD = "builder/node-to-add",
   NODE_TO_MOVE = "builder/node-to-move",

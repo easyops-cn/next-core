@@ -29,6 +29,7 @@
           "EditorSlotContentLayout",
           "SlotContainer",
           "getSortedIdsAfterDropped",
+          "useBuilderContextMenuStatus",
           "useBuilderDataManager",
           "useBuilderGroupedChildNodes",
           "useBuilderNode",
