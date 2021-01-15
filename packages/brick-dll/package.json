@@ -30,7 +30,7 @@
     "@easyops/fontawesome-library": "^1.1.9",
     "@easyops/illustrations": "^0.3.0",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "antd": "^4.9.1",
+    "antd": "^4.10.2",
     "history": "^4.10.1",
     "i18next": "^19.8.4",
     "js-yaml": "^3.14.1",
