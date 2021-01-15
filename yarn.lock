@@ -2260,10 +2260,10 @@
     "@microsoft/tsdoc" "0.12.24"
     "@rushstack/node-core-library" "3.35.2"
 
-"@microsoft/api-extractor@^7.12.1":
-  version "7.12.1"
-  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.12.1.tgz#4204be6c9f845d7d1796b6d51c58bcb25e7267e9"
-  integrity sha1-QgS+bJ+EXX0XlrbVHFi8sl5yZ+k=
+"@microsoft/api-extractor@^7.13.0":
+  version "7.13.0"
+  resolved "https://registry.npm.taobao.org/@microsoft/api-extractor/download/@microsoft/api-extractor-7.13.0.tgz?cache=0&sync_timestamp=1610505237117&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40microsoft%2Fapi-extractor%2Fdownload%2F%40microsoft%2Fapi-extractor-7.13.0.tgz#13900fc7596c29daeecd3f33ed8960cfc5250107"
+  integrity sha1-E5APx1lsKdruzT8z7Ylgz8UlAQc=
   dependencies:
     "@microsoft/api-extractor-model" "7.12.1"
     "@microsoft/tsdoc" "0.12.24"
@@ -2275,7 +2275,7 @@
     resolve "~1.17.0"
     semver "~7.3.0"
     source-map "~0.6.1"
-    typescript "~4.0.5"
+    typescript "~4.1.3"
 
 "@microsoft/tsdoc@0.12.24", "@microsoft/tsdoc@^0.12.19":
   version "0.12.24"
@@ -15230,11 +15230,6 @@ typescript@^4.1.2, typescript@~4.1.3:
   version "4.1.3"
   resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.3.tgz?cache=0&sync_timestamp=1607757005490&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.1.3.tgz#519d582bd94cba0cf8934c7d8e8467e473f53bb7"
   integrity sha1-UZ1YK9lMugz4k0x9joRn5HP1O7c=
-
-typescript@~4.0.5:
-  version "4.0.5"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.0.5.tgz?cache=0&sync_timestamp=1603752960442&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.0.5.tgz#ae9dddfd1069f1cb5beb3ef3b2170dd7c1332389"
-  integrity sha1-rp3d/RBp8ctb6z7zshcN18EzI4k=
 
 typical@^5.0.0, typical@^5.2.0:
   version "5.2.0"
