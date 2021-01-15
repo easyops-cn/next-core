@@ -99,6 +99,8 @@
     "@types/react": "^16.14.2",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
-    "rc-form": "^2.4.12-alpha.0"
+    "rc-tabs": "~11.7.3",
+    "rc-textarea": "~0.3.4",
+    "rc-virtual-list": "^3.2.5"
   }
 }
