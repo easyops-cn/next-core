@@ -29,8 +29,8 @@
     "@easyops/easyops-analytics": "^0.1.2",
     "@easyops/fontawesome-library": "^1.1.9",
     "@easyops/illustrations": "^0.3.0",
-    "@fortawesome/react-fontawesome": "^0.1.13",
-    "antd": "^4.9.1",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "antd": "^4.10.2",
     "history": "^4.10.1",
     "i18next": "^19.8.4",
     "js-yaml": "^3.14.1",
@@ -38,7 +38,7 @@
     "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.8.2",
+    "react-i18next": "^11.8.5",
     "react-transition-group": "^4.4.1"
   },
   "devDependencies": {
