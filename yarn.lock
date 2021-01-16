@@ -2936,10 +2936,10 @@
     "@types/d3-transition" "*"
     "@types/d3-zoom" "*"
 
-"@types/dompurify@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.npm.taobao.org/@types/dompurify/download/@types/dompurify-2.0.4.tgz#25fce15f1f4b1bc0df0ad957040cf226416ac2d7"
-  integrity sha1-JfzhXx9LG8DfCtlXBAzyJkFqwtc=
+"@types/dompurify@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npm.taobao.org/@types/dompurify/download/@types/dompurify-2.2.1.tgz#eebf3af8afe2f577a53acab9d98a3a4cb04bbbe7"
+  integrity sha1-7r86+K/i9XelOsq52Yo6TLBLu+c=
   dependencies:
     "@types/trusted-types" "*"
 
