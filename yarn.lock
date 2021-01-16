@@ -6829,10 +6829,10 @@ eslint-plugin-react-hooks@^4.2.0:
   resolved "https://registry.npm.taobao.org/eslint-plugin-react-hooks/download/eslint-plugin-react-hooks-4.2.0.tgz#8c229c268d468956334c943bb45fc860280f5556"
   integrity sha1-jCKcJo1GiVYzTJQ7tF/IYCgPVVY=
 
-eslint-plugin-react@^7.21.5:
-  version "7.21.5"
-  resolved "https://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.21.5.tgz?cache=0&sync_timestamp=1603161576406&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-plugin-react%2Fdownload%2Feslint-plugin-react-7.21.5.tgz#50b21a412b9574bfe05b21db176e8b7b3b15bff3"
-  integrity sha1-ULIaQSuVdL/gWyHbF26LezsVv/M=
+eslint-plugin-react@^7.22.0:
+  version "7.22.0"
+  resolved "https://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.22.0.tgz?cache=0&sync_timestamp=1609302315237&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-plugin-react%2Fdownload%2Feslint-plugin-react-7.22.0.tgz#3d1c542d1d3169c45421c1215d9470e341707269"
+  integrity sha1-PRxULR0xacRUIcEhXZRw40Fwcmk=
   dependencies:
     array-includes "^3.1.1"
     array.prototype.flatmap "^1.2.3"
