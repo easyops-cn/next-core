@@ -35,7 +35,7 @@
     "@sdk/auth-sdk": "^0.8.4",
     "@sdk/cmdb-sdk": "^0.15.20",
     "@sdk/micro-app-sdk": "^0.8.4",
-    "@sdk/user-service-sdk": "^0.2.10",
+    "@sdk/user-service-sdk": "^0.2.14",
     "minimatch": "^3.0.4"
   },
   "sideEffects": false,

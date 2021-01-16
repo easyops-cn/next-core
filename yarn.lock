@@ -2465,10 +2465,10 @@
   resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.8.4.tgz#aee70d4d2cae95209d387e14dd0b6e94f308baac"
   integrity sha1-rucNTSyulSCdOH4U3QtulPMIuqw=
 
-"@sdk/user-service-sdk@^0.2.10":
-  version "0.2.10"
-  resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.2.10.tgz#f3f621da0828d077f274923a0cd1a56ed3e2b0df"
-  integrity sha1-8/Yh2ggo0HfydJI6DNGlbtPisN8=
+"@sdk/user-service-sdk@^0.2.14":
+  version "0.2.14"
+  resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.2.14.tgz#d003b0fcb78e75aeb38ac3eb8203d7a9891b894f"
+  integrity sha1-0AOw/LeOda6zisPrggPXqYkbiU8=
 
 "@sideway/address@^4.1.0":
   version "4.1.0"
