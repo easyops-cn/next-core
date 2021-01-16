@@ -2455,10 +2455,10 @@
   resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.8.4.tgz#fb38e306a5bde6509f04de5cff9aa130075ad6c1"
   integrity sha1-+zjjBqW95lCfBN5c/5qhMAda1sE=
 
-"@sdk/cmdb-sdk@^0.15.13":
-  version "0.15.13"
-  resolved "http://registry.npm.easyops.local/@sdk/cmdb-sdk/download/@sdk/cmdb-sdk-0.15.13.tgz#e7c552e378575c230cacb4c18a392d6ca34c90b7"
-  integrity sha1-58VS43hXXCMMrLTBijktbKNMkLc=
+"@sdk/cmdb-sdk@^0.15.20":
+  version "0.15.20"
+  resolved "http://registry.npm.easyops.local/@sdk/cmdb-sdk/download/@sdk/cmdb-sdk-0.15.20.tgz#83826c069c251004468a7b27bf83f6b9c8914951"
+  integrity sha1-g4JsBpwlEARGinsnv4P2uciRSVE=
 
 "@sdk/micro-app-sdk@^0.8.4":
   version "0.8.4"
