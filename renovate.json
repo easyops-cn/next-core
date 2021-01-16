@@ -1,6 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/renovate",
   "extends": ["config:base"],
+  "prHourlyLimit": 0,
   "rangeStrategy": "bump",
   "semanticCommits": true,
   "commitMessagePrefix": "chore(deps):",
