@@ -15263,18 +15263,18 @@ typedoc@^0.19.2:
     shelljs "^0.8.4"
     typedoc-default-themes "^0.11.4"
 
-typescript-json-schema@^0.45.0:
-  version "0.45.0"
-  resolved "https://registry.npm.taobao.org/typescript-json-schema/download/typescript-json-schema-0.45.0.tgz#2f244e99518e589a442ee5f9c1d2c85a1ec7dc84"
-  integrity sha1-LyROmVGOWJpELuX5wdLIWh7H3IQ=
+typescript-json-schema@^0.47.0:
+  version "0.47.0"
+  resolved "https://registry.npm.taobao.org/typescript-json-schema/download/typescript-json-schema-0.47.0.tgz#84dde5460b127c6774da81bf70b23c7e04857b13"
+  integrity sha1-hN3lRgsSfGd02oG/cLI8fgSFexM=
   dependencies:
     "@types/json-schema" "^7.0.6"
     glob "^7.1.6"
     json-stable-stringify "^1.0.1"
-    typescript "^4.1.2"
-    yargs "^16.1.1"
+    typescript "^4.1.3"
+    yargs "^16.2.0"
 
-typescript@^4.1.2, typescript@~4.1.3:
+typescript@^4.1.3, typescript@~4.1.3:
   version "4.1.3"
   resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.3.tgz?cache=0&sync_timestamp=1607757005490&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.1.3.tgz#519d582bd94cba0cf8934c7d8e8467e473f53bb7"
   integrity sha1-UZ1YK9lMugz4k0x9joRn5HP1O7c=
@@ -16130,7 +16130,7 @@ yargs@^15.4.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yargs@^16.1.1, yargs@^16.2.0:
+yargs@^16.2.0:
   version "16.2.0"
   resolved "https://registry.npm.taobao.org/yargs/download/yargs-16.2.0.tgz?cache=0&sync_timestamp=1607207963779&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fyargs%2Fdownload%2Fyargs-16.2.0.tgz#1c82bf0f6b6a66eafce7ef30e376f49a12477f66"
   integrity sha1-HIK/D2tqZur85+8w43b0mhJHf2Y=
