@@ -62,7 +62,7 @@
     "@size-limit/file": "^4.9.1",
     "@types/classnames": "^2.2.11",
     "@types/d3": "^6.2.0",
-    "@types/dompurify": "^2.0.4",
+    "@types/dompurify": "^2.2.1",
     "@types/echarts": "^4.9.2",
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
