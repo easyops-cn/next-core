@@ -158,6 +158,10 @@ describe("BuilderDataManager", () => {
   });
 
   it("should add node", () => {
+    const listenOnNodeAdd = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeAdd = manager.onNodeAdd(listenOnNodeAdd);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
@@ -216,9 +220,15 @@ describe("BuilderDataManager", () => {
         "parsedProperties": Object {},
       }
     `);
+    expect(listenOnNodeAdd).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeAdd();
+    unlistenOnDataChange();
   });
 
   it("should update stored node", () => {
+    const listenOnDataChange = jest.fn();
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
@@ -239,9 +249,15 @@ describe("BuilderDataManager", () => {
     expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
       "B-007"
     );
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnDataChange();
   });
 
   it("should move nodes inside a mount point", () => {
+    const listenOnNodeMove = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeMove = manager.onNodeMove(listenOnNodeMove);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeMove({
       nodeUid: 6,
       parentUid: 3,
@@ -287,9 +303,17 @@ describe("BuilderDataManager", () => {
         },
       ]
     `);
+    expect(listenOnNodeMove).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeMove();
+    unlistenOnDataChange();
   });
 
   it("should move nodes across mount points", () => {
+    const listenOnNodeMove = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeMove = manager.onNodeMove(listenOnNodeMove);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeMove({
       nodeUid: 5,
       parentUid: 3,
@@ -335,9 +359,17 @@ describe("BuilderDataManager", () => {
         },
       ]
     `);
+    expect(listenOnNodeMove).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeMove();
+    unlistenOnDataChange();
   });
 
   it("should reorder nodes", () => {
+    const listenOnNodeReorder = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeReorder = manager.onNodeReorder(listenOnNodeReorder);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeReorder({
       parentUid: 1,
       nodeUids: [3, 2],
@@ -377,5 +409,37 @@ describe("BuilderDataManager", () => {
         },
       ]
     `);
+    expect(listenOnNodeReorder).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeReorder();
+    unlistenOnDataChange();
+  });
+
+  it("should trigger node click", () => {
+    const listenOnNodeClick = jest.fn();
+    const unlisten = manager.onNodeClick(listenOnNodeClick);
+    manager.nodeClick({
+      type: "brick",
+      id: "B-001",
+      brick: "my-brick",
+    });
+    expect(listenOnNodeClick).toBeCalled();
+    unlisten();
+  });
+
+  it("should change context menu", () => {
+    const listenOnContextMenuChange = jest.fn();
+    const unlisten = manager.onContextMenuChange(listenOnContextMenuChange);
+    expect(manager.getContextMenuStatus()).toEqual({
+      active: false,
+    });
+    manager.contextMenuChange({
+      active: true,
+    });
+    expect(manager.getContextMenuStatus()).toEqual({
+      active: true,
+    });
+    expect(listenOnContextMenuChange).toBeCalled();
+    unlisten();
   });
 });
