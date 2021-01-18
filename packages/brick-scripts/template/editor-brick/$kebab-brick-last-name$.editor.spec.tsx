@@ -12,7 +12,7 @@ describe("$PascalBrickName$Editor", () => {
       id: "B-001",
       brick: "$kebab-brick-last-name$",
       alias: "my-brick",
-      parsedProperties: {},
+      $$parsedProperties: {},
     });
     const wrapper = shallow(
       <$PascalBrickName$Editor nodeUid={1} brick="$kebab-brick-last-name$" />

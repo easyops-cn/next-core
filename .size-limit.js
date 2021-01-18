@@ -13,7 +13,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll-of-editor-bricks-helper.js",
-    limit: "10 KB",
+    limit: "15 KB",
   },
   {
     path: "packages/brick-container/dist/dll-of-react-dnd.js",

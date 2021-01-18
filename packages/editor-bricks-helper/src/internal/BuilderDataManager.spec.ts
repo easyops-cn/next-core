@@ -101,6 +101,7 @@ describe("BuilderDataManager", () => {
         ],
         "nodes": Array [
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
@@ -109,6 +110,7 @@ describe("BuilderDataManager", () => {
             "type": "bricks",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 2,
             "alias": "alias-a",
             "brick": "brick-a",
@@ -118,6 +120,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 3,
             "alias": undefined,
             "brick": "brick-b",
@@ -127,6 +130,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 4,
             "alias": undefined,
             "brick": "brick-c",
@@ -135,6 +139,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 5,
             "alias": undefined,
             "brick": "brick-d",
@@ -143,6 +148,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 6,
             "alias": undefined,
             "brick": "brick-e",
@@ -215,6 +221,7 @@ describe("BuilderDataManager", () => {
     `);
     expect(newData.nodes[newData.nodes.length - 1]).toMatchInlineSnapshot(`
       Object {
+        "$$parsedProperties": Object {},
         "$$uid": 7,
         "alias": "new-brick",
         "parsedProperties": Object {},
@@ -413,6 +420,54 @@ describe("BuilderDataManager", () => {
     expect(listenOnDataChange).toBeCalled();
     unlistenOnNodeReorder();
     unlistenOnDataChange();
+  });
+
+  it("should delete a node", () => {
+    const listenOnDataChange = jest.fn();
+    const unlisten = manager.onDataChange(listenOnDataChange);
+    manager.nodeDelete({
+      $$uid: 3,
+      id: "B-003",
+      type: "brick",
+      brick: "brick-b",
+      sort: 1,
+    });
+    expect(manager.getData()).toMatchInlineSnapshot(`
+      Object {
+        "edges": Array [
+          Object {
+            "child": 2,
+            "mountPoint": "bricks",
+            "parent": 1,
+            "sort": 0,
+          },
+        ],
+        "nodes": Array [
+          Object {
+            "$$parsedProperties": Object {},
+            "$$uid": 1,
+            "alias": undefined,
+            "id": "B-001",
+            "parsedProperties": Object {},
+            "path": "/home",
+            "type": "bricks",
+          },
+          Object {
+            "$$parsedProperties": Object {},
+            "$$uid": 2,
+            "alias": "alias-a",
+            "brick": "brick-a",
+            "id": "B-002",
+            "parsedProperties": Object {},
+            "sort": 0,
+            "type": "brick",
+          },
+        ],
+        "rootId": 1,
+      }
+    `);
+    expect(listenOnDataChange).toBeCalled();
+    unlisten();
   });
 
   it("should trigger node click", () => {

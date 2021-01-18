@@ -23,6 +23,7 @@ describe("getBuilderNode", () => {
       id: "B-001",
       $$uid: 1,
       parsedProperties: {},
+      $$parsedProperties: {},
     });
   });
 
@@ -48,6 +49,7 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       alias: "any-alias",
       parsedProperties: {},
+      $$parsedProperties: {},
     });
   });
 
@@ -75,6 +77,9 @@ describe("getBuilderNode", () => {
       parsedProperties: {
         pageTitle: "Hello",
       },
+      $$parsedProperties: {
+        pageTitle: "Hello",
+      },
     });
   });
 
@@ -100,6 +105,7 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       properties: "oops",
       parsedProperties: {},
+      $$parsedProperties: {},
     });
   });
 });
