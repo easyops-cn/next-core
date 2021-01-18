@@ -122,33 +122,17 @@ module.exports = (cwd) => {
       `,
       {
         flags: flagOptions,
+        allowUnknownFlags: false,
       }
     );
 
-    flags = cli.flags;
-    let invalidInput = false;
-
     if (cli.input.length > 0) {
       console.error(chalk.red("Unexpected args received"));
-      invalidInput = true;
-    } else {
-      const acceptKeys = Object.keys(flagOptions);
-      const receivedKeys = Object.keys(flags);
-      const unknownKeys = difference(receivedKeys, acceptKeys);
-      if (unknownKeys.length > 0) {
-        console.error(
-          `${chalk.red(
-            `Unknown option${unknownKeys.length > 1 ? "s" : ""}:`
-          )} ${unknownKeys.join(", ")}`
-        );
-        invalidInput = true;
-      }
+      // `process.exit(2)` will be called in `cli.showHelp()`.
+      cli.showHelp();
     }
 
-    if (invalidInput) {
-      cli.showHelp();
-      process.exit(1);
-    }
+    flags = cli.flags;
   }
 
   const useOffline = flags.offline || process.env.OFFLINE === "true";
