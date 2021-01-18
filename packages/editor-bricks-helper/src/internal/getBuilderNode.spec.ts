@@ -22,7 +22,6 @@ describe("getBuilderNode", () => {
       brick: "any-brick",
       id: "B-001",
       $$uid: 1,
-      parsedProperties: {},
       $$parsedProperties: {},
     });
   });
@@ -48,7 +47,6 @@ describe("getBuilderNode", () => {
       id: "B-001",
       $$uid: 1,
       alias: "any-alias",
-      parsedProperties: {},
       $$parsedProperties: {},
     });
   });
@@ -74,9 +72,6 @@ describe("getBuilderNode", () => {
       id: "B-001",
       $$uid: 1,
       properties: '{"pageTitle":"Hello"}',
-      parsedProperties: {
-        pageTitle: "Hello",
-      },
       $$parsedProperties: {
         pageTitle: "Hello",
       },
@@ -104,7 +99,6 @@ describe("getBuilderNode", () => {
       id: "B-001",
       $$uid: 1,
       properties: "oops",
-      parsedProperties: {},
       $$parsedProperties: {},
     });
   });

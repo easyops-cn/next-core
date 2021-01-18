@@ -105,7 +105,6 @@ describe("BuilderDataManager", () => {
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
-            "parsedProperties": Object {},
             "path": "/home",
             "type": "bricks",
           },
@@ -115,7 +114,6 @@ describe("BuilderDataManager", () => {
             "alias": "alias-a",
             "brick": "brick-a",
             "id": "B-002",
-            "parsedProperties": Object {},
             "sort": 0,
             "type": "brick",
           },
@@ -125,7 +123,6 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-b",
             "id": "B-003",
-            "parsedProperties": Object {},
             "sort": 1,
             "type": "brick",
           },
@@ -135,7 +132,6 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-c",
             "id": "B-004",
-            "parsedProperties": Object {},
             "type": "brick",
           },
           Object {
@@ -144,7 +140,6 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-d",
             "id": "B-005",
-            "parsedProperties": Object {},
             "type": "brick",
           },
           Object {
@@ -153,7 +148,6 @@ describe("BuilderDataManager", () => {
             "alias": undefined,
             "brick": "brick-e",
             "id": "B-006",
-            "parsedProperties": Object {},
             "sort": 1,
             "type": "brick",
           },
@@ -224,7 +218,6 @@ describe("BuilderDataManager", () => {
         "$$parsedProperties": Object {},
         "$$uid": 7,
         "alias": "new-brick",
-        "parsedProperties": Object {},
       }
     `);
     expect(listenOnNodeAdd).toBeCalled();
@@ -448,7 +441,6 @@ describe("BuilderDataManager", () => {
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
-            "parsedProperties": Object {},
             "path": "/home",
             "type": "bricks",
           },
@@ -458,7 +450,6 @@ describe("BuilderDataManager", () => {
             "alias": "alias-a",
             "brick": "brick-a",
             "id": "B-002",
-            "parsedProperties": Object {},
             "sort": 0,
             "type": "brick",
           },
