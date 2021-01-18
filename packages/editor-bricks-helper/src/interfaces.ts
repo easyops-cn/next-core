@@ -114,12 +114,15 @@ export enum EditorSlotContentLayout {
 
 export interface AbstractBuilderDataManager {
   getData(): BuilderCanvasData;
+  getContextMenuStatus(): BuilderContextMenuStatus;
   dataInit(root: BuilderRuntimeNode): void;
   nodeAdd(detail: EventDetailOfNodeAdd): void;
   nodeAddStored(detail: EventDetailOfNodeAddStored): void;
   nodeMove(detail: EventDetailOfNodeMove): void;
   nodeReorder(detail: EventDetailOfNodeReorder): void;
+  nodeDelete(detail: BuilderRuntimeNode): void;
   nodeClick(detail: BuilderRuntimeNode): void;
+  onDataChange(fn: EventListener): () => void;
   onNodeAdd(fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void): () => void;
   onNodeReorder(
     fn: (event: CustomEvent<EventDetailOfNodeReorder>) => void
@@ -128,4 +131,7 @@ export interface AbstractBuilderDataManager {
     fn: (event: CustomEvent<EventDetailOfNodeMove>) => void
   ): () => void;
   onNodeClick(fn: (event: CustomEvent<BuilderRuntimeNode>) => void): () => void;
+  onContextMenuChange(
+    fn: (event: CustomEvent<BuilderContextMenuStatus>) => void
+  ): () => void;
 }

@@ -15,6 +15,7 @@ import {
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
+import { deleteNodeFromTree } from "./deleteNodeFromTree";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -40,6 +41,10 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   getData(): BuilderCanvasData {
     return this.data;
+  }
+
+  getContextMenuStatus(): BuilderContextMenuStatus {
+    return this.contextMenuStatus;
   }
 
   dataInit(root: BuilderRuntimeNode): void {
@@ -73,10 +78,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
     );
-  }
-
-  getContextMenuStatus(): BuilderContextMenuStatus {
-    return this.contextMenuStatus;
   }
 
   nodeAdd(detail: EventDetailOfNodeAdd): void {
@@ -169,6 +170,13 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_REORDER, { detail })
+    );
+  }
+
+  nodeDelete(detail: BuilderRuntimeNode): void {
+    this.data = deleteNodeFromTree(detail.$$uid, this.data);
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
     );
   }
 

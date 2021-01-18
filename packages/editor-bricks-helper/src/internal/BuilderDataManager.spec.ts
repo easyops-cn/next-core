@@ -422,6 +422,54 @@ describe("BuilderDataManager", () => {
     unlistenOnDataChange();
   });
 
+  it("should delete a node", () => {
+    const listenOnDataChange = jest.fn();
+    const unlisten = manager.onDataChange(listenOnDataChange);
+    manager.nodeDelete({
+      $$uid: 3,
+      id: "B-003",
+      type: "brick",
+      brick: "brick-b",
+      sort: 1,
+    });
+    expect(manager.getData()).toMatchInlineSnapshot(`
+      Object {
+        "edges": Array [
+          Object {
+            "child": 2,
+            "mountPoint": "bricks",
+            "parent": 1,
+            "sort": 0,
+          },
+        ],
+        "nodes": Array [
+          Object {
+            "$$parsedProperties": Object {},
+            "$$uid": 1,
+            "alias": undefined,
+            "id": "B-001",
+            "parsedProperties": Object {},
+            "path": "/home",
+            "type": "bricks",
+          },
+          Object {
+            "$$parsedProperties": Object {},
+            "$$uid": 2,
+            "alias": "alias-a",
+            "brick": "brick-a",
+            "id": "B-002",
+            "parsedProperties": Object {},
+            "sort": 0,
+            "type": "brick",
+          },
+        ],
+        "rootId": 1,
+      }
+    `);
+    expect(listenOnDataChange).toBeCalled();
+    unlisten();
+  });
+
   it("should trigger node click", () => {
     const listenOnNodeClick = jest.fn();
     const unlisten = manager.onNodeClick(listenOnNodeClick);
