@@ -29,6 +29,9 @@ export function httpErrorToString(
   if (error instanceof Event && error.target instanceof HTMLScriptElement) {
     return error.target.src;
   }
+  if (error instanceof HttpFetchError) {
+    return i18next.t(`${NS_BRICK_KIT}:${K.NETWORK_ERROR}`);
+  }
   if (error instanceof HttpResponseError) {
     if (error.responseJson) {
       if (typeof error.responseJson.error === "string") {

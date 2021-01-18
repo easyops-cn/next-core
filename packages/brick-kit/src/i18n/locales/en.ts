@@ -7,6 +7,7 @@ const locale: Locale = {
   [K.SOMETHING_WENT_WRONG]: "Something went wrong!",
   [K.LOGIN_TIMEOUT_MESSAGE]:
     "You haven't logged in or your login session has expired. Login right now?",
+  [K.NETWORK_ERROR]: "Network error, please check your network.",
 };
 
 export default locale;
