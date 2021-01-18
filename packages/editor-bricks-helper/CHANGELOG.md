@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.4.0...@easyops/editor-bricks-helper@0.5.0) (2021-01-18)
+
+### Bug Fixes
+
+- prefix parsed properties with `$$` to distinguish ([e4a31d5](https://git.easyops.local/anyclouds/next-core/commits/e4a31d5))
+
+### Features
+
+- support deleting node ([0463f7b](https://git.easyops.local/anyclouds/next-core/commits/0463f7b))
+
 # [0.4.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.3.2...@easyops/editor-bricks-helper@0.4.0) (2021-01-18)
 
 ### Features

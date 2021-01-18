@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.3.1...@easyops/brick-scripts@2.3.2) (2021-01-18)
+
+### Bug Fixes
+
+- prefix parsed properties with `$$` to distinguish ([e4a31d5](https://git.easyops.local/anyclouds/next-core/commits/e4a31d5))
+
 ## [2.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.3.0...@easyops/brick-scripts@2.3.1) (2021-01-18)
 
 **Note:** Version bump only for package @easyops/brick-scripts
