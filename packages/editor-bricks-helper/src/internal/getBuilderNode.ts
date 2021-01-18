@@ -24,7 +24,9 @@ export function getBuilderNode(
       .concat([
         ["alias", nodeAlias ?? nodeData.alias],
         ["$$uid", nodeUid],
+        // Todo(steve): remove deprecated `parsedProperties`.
         ["parsedProperties", parsedProperties ?? {}],
+        ["$$parsedProperties", parsedProperties ?? {}],
       ])
   ) as BuilderRuntimeNode;
 }

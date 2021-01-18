@@ -22,7 +22,7 @@ export function $PascalBrickName$Editor({
    * 提示：使用构件的属性配置来呈现该构件的关键 UI 特征。
    * 例如：对于按钮构件，根据 `buttonType` 来显示对应的背景色。
    */
-  // const { someProps } = node.parsedProperties;
+  // const { someProps } = node.$$parsedProperties;
   return (
     <EditorContainer nodeUid={nodeUid} brick={brick}>
       <div className={styles.wrapper}>{node.alias}</div>

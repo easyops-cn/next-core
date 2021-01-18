@@ -10,7 +10,9 @@ export type BuilderRuntimeNode<
   P = Record<string, unknown>
 > = BuilderRouteOrBrickNode & {
   $$uid?: number;
+  /** @deprecated use $$parsedProperties instead. */
   parsedProperties?: P;
+  $$parsedProperties?: P;
 };
 
 export interface BuilderRuntimeEdge {

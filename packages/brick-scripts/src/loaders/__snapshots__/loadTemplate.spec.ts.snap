@@ -220,7 +220,7 @@ describe(\\"ForBetterEditor\\", () => {
       id: \\"B-001\\",
       brick: \\"for-better\\",
       alias: \\"my-brick\\",
-      parsedProperties: {},
+      $$parsedProperties: {},
     });
     const wrapper = shallow(
       <ForBetterEditor nodeUid={1} brick=\\"for-better\\" />
@@ -256,7 +256,7 @@ export function ForBetterEditor({
    * 提示：使用构件的属性配置来呈现该构件的关键 UI 特征。
    * 例如：对于按钮构件，根据 \`buttonType\` 来显示对应的背景色。
    */
-  // const { someProps } = node.parsedProperties;
+  // const { someProps } = node.$$parsedProperties;
   return (
     <EditorContainer nodeUid={nodeUid} brick={brick}>
       <div className={styles.wrapper}>{node.alias}</div>

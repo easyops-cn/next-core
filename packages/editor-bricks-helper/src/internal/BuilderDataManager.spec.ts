@@ -101,6 +101,7 @@ describe("BuilderDataManager", () => {
         ],
         "nodes": Array [
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
@@ -109,6 +110,7 @@ describe("BuilderDataManager", () => {
             "type": "bricks",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 2,
             "alias": "alias-a",
             "brick": "brick-a",
@@ -118,6 +120,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 3,
             "alias": undefined,
             "brick": "brick-b",
@@ -127,6 +130,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 4,
             "alias": undefined,
             "brick": "brick-c",
@@ -135,6 +139,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 5,
             "alias": undefined,
             "brick": "brick-d",
@@ -143,6 +148,7 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 6,
             "alias": undefined,
             "brick": "brick-e",
@@ -215,6 +221,7 @@ describe("BuilderDataManager", () => {
     `);
     expect(newData.nodes[newData.nodes.length - 1]).toMatchInlineSnapshot(`
       Object {
+        "$$parsedProperties": Object {},
         "$$uid": 7,
         "alias": "new-brick",
         "parsedProperties": Object {},
