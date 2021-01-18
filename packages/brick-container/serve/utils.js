@@ -93,7 +93,12 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
       (item) => item.filePath.split("/")[1] === brickPackageName
     );
     if (!remoteJson) {
-      throw new Error(`Remote brick package not found: ${brickPackageName}`);
+      console.warn(
+        chalk.yellow(
+          `Warning: remote brick package not found: ${brickPackageName}`
+        )
+      );
+      remoteJson = {};
     }
   } else {
     remoteJson = {};
