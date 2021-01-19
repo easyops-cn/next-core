@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.5.0...@easyops/editor-bricks-helper@0.6.0) (2021-01-19)
+
+### Features
+
+- remove deprecated parsedProperties ([36900a6](https://git.easyops.local/anyclouds/next-core/commits/36900a6))
+
 # [0.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.4.0...@easyops/editor-bricks-helper@0.5.0) (2021-01-18)
 
 ### Bug Fixes

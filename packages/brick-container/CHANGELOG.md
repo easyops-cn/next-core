@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.15...@easyops/brick-container@2.15.16) (2021-01-19)
+
+### Bug Fixes
+
+- **serve:** meow supports reporting unknown flags now ([0a0d624](https://git.easyops.local/anyclouds/next-core/commits/0a0d624))
+
 ## [2.15.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.14...@easyops/brick-container@2.15.15) (2021-01-18)
 
 ### Bug Fixes
