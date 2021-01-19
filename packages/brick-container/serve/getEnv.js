@@ -92,6 +92,13 @@ module.exports = (cwd) => {
         type: "boolean",
         default: true,
       },
+      // Todo(steve): remove `help` and `version` after meow fixed it.
+      help: {
+        type: "boolean",
+      },
+      version: {
+        type: "boolean",
+      },
     };
     const cli = meow(
       `
