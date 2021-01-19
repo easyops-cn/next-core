@@ -5,7 +5,7 @@
 .nodeAlias {
   position: absolute;
   top: -25px;
-  height: 34px;
+  height: calc(25px + var(--editor-brick-border-radius));
   background-color: #d6d6d6;
   border: 1px solid var(--editor-brick-stroke-color);
   padding: 0 5px;

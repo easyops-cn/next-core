@@ -576,6 +576,8 @@ export interface BrickPackage {
     filePath: string;
     // (undocumented)
     processors?: string[];
+    // (undocumented)
+    providers?: string[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "BrickRender" should be prefixed with an underscore because the declaration is marked as @internal
@@ -616,11 +618,15 @@ export interface BuilderBaseNode {
 // @internal (undocumented)
 export interface BuilderBrickNode extends BuilderBaseNode {
     // (undocumented)
+    bg?: boolean;
+    // (undocumented)
     brick: string;
+    // (undocumented)
+    portal?: boolean;
     // (undocumented)
     properties?: string;
     // (undocumented)
-    type: "brick" | "template";
+    type: "brick" | "provider" | "template";
 }
 
 // Warning: (ae-internal-missing-underscore) The name "BuilderRouteNode" should be prefixed with an underscore because the declaration is marked as @internal

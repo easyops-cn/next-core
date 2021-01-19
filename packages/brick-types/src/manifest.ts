@@ -189,6 +189,7 @@ export interface BrickPackage {
   editors?: string[];
   editorsJsFilePath?: string;
   processors?: string[];
+  providers?: string[];
   dll?: string[];
 }
 
