@@ -25,7 +25,9 @@ export interface BuilderRouteNode extends BuilderBaseNode {
 
 /** @internal */
 export interface BuilderBrickNode extends BuilderBaseNode {
-  type: "brick" | "template";
+  type: "brick" | "provider" | "template";
   brick: string;
   properties?: string;
+  bg?: boolean;
+  portal?: boolean;
 }
