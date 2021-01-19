@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.16...@easyops/brick-container@2.15.17) (2021-01-19)
+
+### Bug Fixes
+
+- **serve:** add `help` and `version` in flags ([51ac793](https://git.easyops.local/anyclouds/next-core/commits/51ac793))
+
 ## [2.15.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.15...@easyops/brick-container@2.15.16) (2021-01-19)
 
 ### Bug Fixes
