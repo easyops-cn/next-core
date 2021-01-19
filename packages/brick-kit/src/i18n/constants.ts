@@ -6,6 +6,7 @@ export enum K {
   MODAL_CANCEL = "MODAL_CANCEL",
   SOMETHING_WENT_WRONG = "SOMETHING_WENT_WRONG",
   LOGIN_TIMEOUT_MESSAGE = "LOGIN_TIMEOUT_MESSAGE",
+  NETWORK_ERROR = "NETWORK_ERROR",
 }
 
 export type Locale = { [key in K]: string };
