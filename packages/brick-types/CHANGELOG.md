@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.14.2...@easyops/brick-types@2.15.0) (2021-01-19)
+
+### Bug Fixes
+
+- refine builder node types ([e9fcfa4](https://git.easyops.local/anyclouds/next-core/commits/e9fcfa4))
+
+### Features
+
+- **webpack:** scan custom providers ([3ad7dfe](https://git.easyops.local/anyclouds/next-core/commits/3ad7dfe))
+
 ## [2.14.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-types@2.14.1...@easyops/brick-types@2.14.2) (2021-01-18)
 
 **Note:** Version bump only for package @easyops/brick-types

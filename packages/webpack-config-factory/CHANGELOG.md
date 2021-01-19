@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.4.1...@easyops/webpack-config-factory@2.5.0) (2021-01-19)
+
+### Features
+
+- **webpack:** scan custom providers ([3ad7dfe](https://git.easyops.local/anyclouds/next-core/commits/3ad7dfe))
+
 ## [2.4.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.4.0...@easyops/webpack-config-factory@2.4.1) (2021-01-18)
 
 **Note:** Version bump only for package @easyops/webpack-config-factory

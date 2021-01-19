@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.12](https://git.easyops.local/anyclouds/next-core/compare/@dll/echarts@2.0.11...@dll/echarts@2.0.12) (2021-01-19)
+
+**Note:** Version bump only for package @dll/echarts
+
 ## [2.0.11](https://git.easyops.local/anyclouds/next-core/compare/@dll/echarts@2.0.10...@dll/echarts@2.0.11) (2021-01-18)
 
 **Note:** Version bump only for package @dll/echarts
