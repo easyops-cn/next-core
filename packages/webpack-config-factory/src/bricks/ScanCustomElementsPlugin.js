@@ -21,6 +21,7 @@ module.exports = class ScanCustomElementsPlugin {
   apply(compiler) {
     const brickSet = new Set();
     const processorSet = new Set();
+    const providerSet = new Set();
     compiler.hooks.normalModuleFactory.tap(pluginName, (factory) => {
       factory.hooks.parser.for("javascript/auto").tap(pluginName, (parser) => {
         parser.hooks.callAnyMember
@@ -53,6 +54,19 @@ module.exports = class ScanCustomElementsPlugin {
                 throw new Error(
                   "Please call `customElements.define()` only with literal string"
                 );
+              }
+
+              // `customElements.define(..., createProviderClass(...))`.
+              // Ignore `providers-of-*.*` since they are all providers.
+              if (!this.packageName.startsWith("providers-of-")) {
+                const elementFactory = expression.arguments[1];
+                if (
+                  elementFactory.type === "CallExpression" &&
+                  elementFactory.callee.type === "Identifier" &&
+                  elementFactory.callee.name === "createProviderClass"
+                ) {
+                  providerSet.add(value);
+                }
               }
             }
           });
@@ -133,9 +147,10 @@ module.exports = class ScanCustomElementsPlugin {
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const bricks = Array.from(brickSet);
       const processors = Array.from(processorSet);
+      const providers = Array.from(providerSet);
 
       const source = JSON.stringify(
-        { bricks, processors, dll: this.dll },
+        { bricks, processors, providers, dll: this.dll },
         null,
         2
       );
@@ -146,6 +161,7 @@ module.exports = class ScanCustomElementsPlugin {
       };
       console.log("Defined bricks:", bricks);
       console.log("Defined processors:", processors);
+      console.log("Defined providers:", providers);
     });
   }
 };
