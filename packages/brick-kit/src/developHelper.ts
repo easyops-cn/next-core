@@ -28,6 +28,7 @@ export const developHelper = {
   unmountTree,
   afterMountTree,
   getBrickPackages: _dev_only_getBrickPackages,
+  getTemplatePackages: _dev_only_getTemplatePackages,
   getStoryboards: _dev_only_getStoryboards,
   loadEditorBricks: _dev_only_loadEditorBricks,
   loadDynamicBricksInBrickConf: _dev_only_loadDynamicBricksInBrickConf,

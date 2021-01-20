@@ -54,6 +54,7 @@ import { SiteMode } from '@easyops/brick-types';
 import { SiteTheme } from '@easyops/brick-types';
 import { Storyboard } from '@easyops/brick-types';
 import { StoryboardMeta } from '@easyops/brick-types';
+import { TemplatePackage } from '@easyops/brick-types';
 import { UseBrickConf } from '@easyops/brick-types';
 import { UserInfo } from '@easyops/brick-types';
 import { UseSingleBrickConf } from '@easyops/brick-types';
@@ -146,6 +147,7 @@ export const developHelper: {
     unmountTree: typeof unmountTree;
     afterMountTree: typeof afterMountTree;
     getBrickPackages: typeof _dev_only_getBrickPackages;
+    getTemplatePackages: typeof _dev_only_getTemplatePackages;
     getStoryboards: typeof _dev_only_getStoryboards;
     loadEditorBricks: typeof _dev_only_loadEditorBricks;
     loadDynamicBricksInBrickConf: typeof _dev_only_loadDynamicBricksInBrickConf;
@@ -404,10 +406,11 @@ export interface VisitedWorkspace {
 // src/developHelper.ts:22:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
 // src/transformProperties.ts:51:5 - (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
 
 ```
