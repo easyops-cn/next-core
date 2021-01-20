@@ -1,6 +1,6 @@
 {
   "name": "@easyops/brick-container",
-  "version": "2.15.19",
+  "version": "2.15.20",
   "description": "Brick Container Server",
   "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-container",
   "license": "UNLICENSED",
@@ -42,7 +42,7 @@
     "@dll/ace": "^2.0.73",
     "@dll/d3": "^2.0.11",
     "@dll/echarts": "^2.0.12",
-    "@dll/editor-bricks-helper": "^0.4.5",
+    "@dll/editor-bricks-helper": "^0.4.6",
     "@dll/react-dnd": "^0.1.11",
     "@easyops/brick-dll": "^2.10.5",
     "@easyops/brick-icons": "^2.6.3",

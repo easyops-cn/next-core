@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.7.0...@easyops/editor-bricks-helper@0.7.1) (2021-01-20)
+
+### Bug Fixes
+
+- support to toggle fullscreen ([38993de](https://git.easyops.local/anyclouds/next-core/commits/38993de))
+
 # [0.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.6.1...@easyops/editor-bricks-helper@0.7.0) (2021-01-20)
 
 ### Features
