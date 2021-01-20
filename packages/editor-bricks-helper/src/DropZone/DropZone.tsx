@@ -24,6 +24,7 @@ export interface DropZoneProps {
   nodeUid?: number;
   isRoot?: boolean;
   mountPoint: string;
+  fullscreen?: boolean;
   dropZoneStyle?: React.CSSProperties;
   dropZoneBodyStyle?: React.CSSProperties;
   slotContentLayout?: EditorSlotContentLayout;
@@ -34,6 +35,7 @@ export function DropZone({
   nodeUid,
   isRoot,
   mountPoint,
+  fullscreen,
   dropZoneStyle,
   dropZoneBodyStyle,
   slotContentLayout,
@@ -125,7 +127,11 @@ export function DropZone({
       ref={dropRef}
       className={classNames(
         styles.dropZone,
-        isRoot ? styles.isRoot : styles.isSlot,
+        isRoot
+          ? classNames(styles.isRoot, {
+              [styles.fullscreen]: fullscreen,
+            })
+          : styles.isSlot,
         {
           [styles.dropping]: isDraggingOverCurrent,
           [styles.showOutlineIfEmpty]:
