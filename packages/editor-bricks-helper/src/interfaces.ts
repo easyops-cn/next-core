@@ -36,9 +36,10 @@ export interface EventDetailOfNodeAdd {
 
 export interface NodeInstance {
   parent: string;
-  type: "brick";
+  type: "brick" | "provider" | "template";
   brick: string;
   mountPoint: string;
+  bg?: boolean;
 }
 
 export interface EventDetailOfNodeAddStored {
@@ -83,6 +84,7 @@ export enum BuilderDataTransferType {
 }
 
 export interface BuilderDataTransferPayloadOfNodeToAdd {
+  brickType?: "brick" | "provider" | "template";
   brick: string;
 }
 

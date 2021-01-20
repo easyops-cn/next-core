@@ -36,7 +36,10 @@ export function processDrop({
 }: HandleDropParams): void {
   if (type === BuilderDataTransferType.NODE_TO_ADD) {
     // Drag a new node into canvas.
-    const brick = (data as BuilderDataTransferPayloadOfNodeToAdd).brick;
+    const {
+      brickType = "brick",
+      brick,
+    } = data as BuilderDataTransferPayloadOfNodeToAdd;
     const draggingNodeUid = getUniqueNodeId();
     manager.nodeAdd({
       ...getSortedIdsAfterDropped({
@@ -51,9 +54,10 @@ export function processDrop({
       nodeAlias: brick.split(".").pop(),
       nodeData: {
         parent: droppingParentInstanceId,
-        type: "brick",
+        type: brickType,
         brick,
         mountPoint: droppingMountPoint,
+        bg: brickType === "provider" ? true : undefined,
       },
     });
   } else if (type === BuilderDataTransferType.NODE_TO_MOVE) {

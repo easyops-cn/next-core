@@ -65,7 +65,7 @@ describe("processDrop", () => {
     jest.clearAllMocks();
   });
 
-  it("should add a node", () => {
+  it("should add a node of brick", () => {
     processDrop({
       type: BuilderDataTransferType.NODE_TO_ADD,
       data: {
@@ -88,6 +88,67 @@ describe("processDrop", () => {
         type: "brick",
         brick: "basic-bricks.new-brick",
         mountPoint: "toolbar",
+      },
+      nodeUids: [1, 200, 2, 3, 4, 5],
+      nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
+    });
+  });
+
+  it("should add a node of legacy template", () => {
+    processDrop({
+      type: BuilderDataTransferType.NODE_TO_ADD,
+      data: {
+        brick: "basic-bricks.new-brick",
+        brickType: "template",
+      },
+      droppingIndex: 1,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "toolbar",
+      droppingChildNodes: droppingSiblingGroups[0].childNodes,
+      droppingSiblingGroups,
+      manager,
+    });
+    expect(manager.nodeAdd).toBeCalledWith({
+      nodeUid: 200,
+      parentUid: 100,
+      nodeAlias: "new-brick",
+      nodeData: {
+        parent: "instance-a",
+        type: "template",
+        brick: "basic-bricks.new-brick",
+        mountPoint: "toolbar",
+      },
+      nodeUids: [1, 200, 2, 3, 4, 5],
+      nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
+    });
+  });
+
+  it("should add a node of provider", () => {
+    processDrop({
+      type: BuilderDataTransferType.NODE_TO_ADD,
+      data: {
+        brick: "basic-bricks.new-brick",
+        brickType: "provider",
+      },
+      droppingIndex: 1,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "toolbar",
+      droppingChildNodes: droppingSiblingGroups[0].childNodes,
+      droppingSiblingGroups,
+      manager,
+    });
+    expect(manager.nodeAdd).toBeCalledWith({
+      nodeUid: 200,
+      parentUid: 100,
+      nodeAlias: "new-brick",
+      nodeData: {
+        parent: "instance-a",
+        type: "provider",
+        brick: "basic-bricks.new-brick",
+        mountPoint: "toolbar",
+        bg: true,
       },
       nodeUids: [1, 200, 2, 3, 4, 5],
       nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
