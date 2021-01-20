@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.6.1...@easyops/editor-bricks-helper@0.7.0) (2021-01-20)
+
+### Features
+
+- distinguish bricks among brick/provider/template ([0f7db3c](https://git.easyops.local/anyclouds/next-core/commits/0f7db3c))
+
 ## [0.6.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.6.0...@easyops/editor-bricks-helper@0.6.1) (2021-01-19)
 
 ### Bug Fixes
