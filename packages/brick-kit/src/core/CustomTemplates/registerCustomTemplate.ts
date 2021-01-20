@@ -1,4 +1,4 @@
-import { CustomTemplateConstructor } from "@easyops/brick-types";
+import { CustomTemplateConstructor } from "@next-core/brick-types";
 import { appRegistered, customTemplateRegistry } from "./constants";
 
 export function registerCustomTemplate(

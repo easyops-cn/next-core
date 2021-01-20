@@ -19,8 +19,8 @@
         "^@libs/",
         "^@micro-apps/",
         "^@sdk/",
-        "^@dll",
-        "^@easyops/"
+        "^@next-dll/",
+        "^@next-core/"
       ],
       "automerge": false
     },

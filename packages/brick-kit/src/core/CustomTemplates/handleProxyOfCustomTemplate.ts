@@ -1,7 +1,7 @@
 import {
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxyProperty,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { transformElementProperties } from "../../transformProperties";
 import { RuntimeBrick } from "../BrickNode";
 import {

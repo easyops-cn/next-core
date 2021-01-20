@@ -1,3 +1,3 @@
-const { renameTarPackage } = require("@easyops/build-config-factory");
+const { renameTarPackage } = require("@next-core/build-config-factory");
 
 renameTarPackage();

@@ -1,3 +1,3 @@
-const { postBuild } = require("@easyops/build-config-factory");
+const { postBuild } = require("@next-core/build-config-factory");
 
 postBuild("templates");

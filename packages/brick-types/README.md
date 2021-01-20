@@ -1,3 +1,3 @@
-# @easyops/brick-types
+# @next-core/brick-types
 
 Pure types for kernel.

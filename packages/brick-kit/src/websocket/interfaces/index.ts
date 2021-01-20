@@ -1,7 +1,7 @@
 import {
   BrickEventHandlerCallback,
   PluginRuntimeContext,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 export interface PluginWebSocketOptions {
   url: string;

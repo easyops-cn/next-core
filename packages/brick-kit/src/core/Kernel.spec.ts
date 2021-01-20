@@ -6,12 +6,12 @@ import {
   getDllAndDepsByResource,
   getTemplateDepsOfStoryboard,
   scanBricksInBrickConf,
-} from "@easyops/brick-utils";
+} from "@next-core/brick-utils";
 import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
 import { UserAdminApi } from "@sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
 import { InstanceApi } from "@sdk/cmdb-sdk";
-import { MountPoints, Storyboard } from "@easyops/brick-types";
+import { MountPoints, Storyboard } from "@next-core/brick-types";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar } from "./MenuBar";
@@ -25,7 +25,7 @@ i18next.init({
   fallbackLng: "en",
 });
 
-jest.mock("@easyops/brick-utils");
+jest.mock("@next-core/brick-utils");
 jest.mock("@sdk/auth-sdk");
 jest.mock("@sdk/user-service-sdk");
 jest.mock("@sdk/micro-app-sdk");

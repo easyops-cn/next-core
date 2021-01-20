@@ -1,4 +1,4 @@
-import { createProviderClass } from "@easyops/brick-utils";
+import { createProviderClass } from "@next-core/brick-utils";
 
 export interface $PascalBrickName$Params {}
 

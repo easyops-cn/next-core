@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SiteMode, SiteTheme } from "@easyops/brick-types";
+import { SiteMode, SiteTheme } from "@next-core/brick-types";
 
 // Themes.
 const DEFAULT_THEME = "light";

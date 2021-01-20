@@ -1,12 +1,12 @@
 {
-  "name": "@easyops/browserslist-config-next",
+  "name": "@next-core/browserslist-config-next",
   "version": "0.1.0",
   "description": "browserslist config for brick-next related packages",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/browserslist-config-next",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/browserslist-config-next",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "sideEffects": false
 }

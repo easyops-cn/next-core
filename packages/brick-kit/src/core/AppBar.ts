@@ -1,4 +1,4 @@
-import { AppBarBrick, BreadcrumbItemConf } from "@easyops/brick-types";
+import { AppBarBrick, BreadcrumbItemConf } from "@next-core/brick-types";
 import { Kernel } from "./exports";
 
 export class AppBar {

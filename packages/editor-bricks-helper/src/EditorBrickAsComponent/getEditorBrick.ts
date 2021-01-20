@@ -1,4 +1,4 @@
-import { developHelper } from "@easyops/brick-kit";
+import { developHelper } from "@next-core/brick-kit";
 
 const ANY_BRICK_EDITOR = "basic-bricks.any-brick--editor";
 

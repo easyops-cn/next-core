@@ -1,7 +1,7 @@
 import {
   BrickConfInTemplate,
   PluginRuntimeContext,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { MergeablePropertyProxy, MergeBase } from "./internalInterfaces";
 
 export function collectMergeBases(

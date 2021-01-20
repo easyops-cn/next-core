@@ -1,6 +1,6 @@
 import React from "react";
 import { Location } from "history";
-import { PluginHistoryState } from "@easyops/brick-types";
+import { PluginHistoryState } from "@next-core/brick-types";
 import { getHistory } from "./history";
 
 /** @internal */

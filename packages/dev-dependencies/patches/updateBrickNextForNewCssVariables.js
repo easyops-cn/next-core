@@ -4,7 +4,7 @@ const yaml = require("js-yaml");
 
 /**
  * Update `brick_next` version for brick packages which depends on
- * `@easyops/custom-antd-styles` to the latest version which contains
+ * `@next-core/custom-antd-styles` to the latest version which contains
  * newly introduced css variables.
  */
 function updateBrickNextForNewCssVariables() {
@@ -14,7 +14,7 @@ function updateBrickNextForNewCssVariables() {
     return;
   }
 
-  const brickNextVersion = require("@easyops/brick-container/package.json")
+  const brickNextVersion = require("@next-core/brick-container/package.json")
     .version;
 
   fs.readdirSync(packageDir, { withFileTypes: true })
@@ -28,7 +28,7 @@ function updateBrickNextForNewCssVariables() {
       const packageJson = fs.readJsonSync(packageJsonPath);
       if (
         packageJson.devDependencies &&
-        packageJson.devDependencies["@easyops/custom-antd-styles"]
+        packageJson.devDependencies["@next-core/custom-antd-styles"]
       ) {
         const confYamlPath = path.join(
           packageDir,

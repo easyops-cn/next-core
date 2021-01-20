@@ -1,5 +1,5 @@
-import { PluginRuntimeContext } from "@easyops/brick-types";
-import { hasOwnProperty } from "@easyops/brick-utils";
+import { PluginRuntimeContext } from "@next-core/brick-types";
+import { hasOwnProperty } from "@next-core/brick-utils";
 import { computeRealValue } from "./setProperties";
 import { doTransform } from "./transformProperties";
 import { isPreEvaluated } from "./evaluate";

@@ -1,12 +1,10 @@
 import path from "path";
+import { getEasyopsConfig } from "@next-core/repo-config";
 import { loadTemplate } from "./loadTemplate";
 import { FileWithContent, TargetType } from "../interface";
-import { getEasyopsConfig } from "../getEasyopsConfig";
 
-jest.mock("../getEasyopsConfig");
+jest.mock("@next-core/repo-config");
 (getEasyopsConfig as jest.Mock).mockReturnValue({
-  contractYamlDir: "easyops",
-  contractUrl: "https://github.com/easyops-cn/contract-center.git",
   useLocalSdk: true,
 });
 

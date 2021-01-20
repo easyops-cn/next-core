@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../node_modules/@easyops/brick-types/.schema/storyboard.json",
+  "$schema": "../../../node_modules/@next-core/brick-types/.schema/storyboard.json",
   "menuBar": "basic-bricks.menu-bar",
   "appBar": "basic-bricks.app-bar",
   "loadingBar": "basic-bricks.loading-bar"

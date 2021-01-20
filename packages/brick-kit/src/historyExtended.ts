@@ -5,7 +5,7 @@ import {
   UpdateQueryFunction,
   UpdateQueryOptions,
   UpdateAnchorFunction,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 export function historyExtended(
   browserHistory: History<PluginHistoryState>

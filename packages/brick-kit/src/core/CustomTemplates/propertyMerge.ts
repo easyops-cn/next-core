@@ -1,4 +1,4 @@
-import { isObject } from "@easyops/brick-utils";
+import { isObject } from "@next-core/brick-utils";
 import { clamp } from "lodash";
 import { computeRealValue } from "../../setProperties";
 import {

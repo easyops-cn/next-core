@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrickWrapper, UpdatingElement } from "@easyops/brick-kit";
+import { BrickWrapper, UpdatingElement } from "@next-core/brick-kit";
 import { $PascalBrickName$ } from "./$PascalBrickName$";
 
 /**

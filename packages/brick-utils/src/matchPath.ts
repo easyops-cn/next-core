@@ -6,7 +6,7 @@ import {
   MatchOptions,
   MatchResult,
   MatchParams,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 const cache: Map<string, Map<string, CompileResult>> = new Map();
 const cacheLimit = 10000;

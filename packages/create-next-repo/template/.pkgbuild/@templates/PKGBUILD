@@ -1,5 +1,5 @@
-# The common PKGBUILD of all @templates/*
-# Keep in mind that the actual PKGBUILD execution context is @templates/[plugin-name]
+# The common PKGBUILD of all $npm-scope-of-templates$/*
+# Keep in mind that the actual PKGBUILD execution context is $npm-scope-of-templates$/[plugin-name]
 pkgver() {
   jq -r '.version' < "${srcdir}/src/package.json"
 }

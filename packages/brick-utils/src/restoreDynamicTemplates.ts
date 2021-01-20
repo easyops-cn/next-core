@@ -4,7 +4,7 @@ import {
   RouteConf,
   RuntimeBrickConf,
   RouteConfOfBricks,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { hasOwnProperty } from "./hasOwnProperty";
 
 function restoreDynamicTemplatesInBrick(brickConf: RuntimeBrickConf): void {

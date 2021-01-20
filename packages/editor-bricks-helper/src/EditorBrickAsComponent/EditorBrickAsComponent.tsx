@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 import { useDrag } from "react-dnd";
-import { BrickAsComponent } from "@easyops/brick-kit";
-import { BuilderBrickNode, UseBrickConf } from "@easyops/brick-types";
+import { BrickAsComponent } from "@next-core/brick-kit";
+import { BuilderBrickNode, UseBrickConf } from "@next-core/brick-types";
 import { getEditorBrick } from "./getEditorBrick";
 import {
   BuilderDataTransferType,

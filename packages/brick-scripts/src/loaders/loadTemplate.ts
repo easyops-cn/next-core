@@ -1,22 +1,20 @@
 import fs from "fs-extra";
-import os from "os";
 import path from "path";
 import { exec } from "child_process";
 import klawSync from "klaw-sync";
 import * as changeCase from "change-case";
 import rp from "request-promise-native";
+import { getEasyopsConfig } from "@next-core/repo-config";
 import { FileWithContent, TargetType } from "../interface";
-import { getEasyopsConfig } from "../getEasyopsConfig";
 
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
-const easyopsConfig = getEasyopsConfig();
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
 );
 const { templateDependencies } = packageJson;
-const basicBricksVersion = templateDependencies["@bricks/basic-bricks"];
-const brickContainerVersion = templateDependencies["@easyops/brick-container"];
+const brickContainerVersion =
+  templateDependencies["@next-core/brick-container"];
 
 const workspacePackageJson = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8")
@@ -53,16 +51,6 @@ function replaceFileContent(
   return content;
 }
 
-function replaceDepsVersion(jsonString: string): string {
-  const pkg = JSON.parse(jsonString);
-
-  const peerDeps = pkg.peerDependencies || {};
-  if (peerDeps["@bricks/basic-bricks"]) {
-    peerDeps["@bricks/basic-bricks"] = basicBricksVersion;
-  }
-  return JSON.stringify(pkg, null, 2) + os.EOL;
-}
-
 export async function loadTemplate({
   targetType,
   packageName,
@@ -78,6 +66,27 @@ export async function loadTemplate({
   processorName: string;
   targetRoot: string;
 }): Promise<FileWithContent[]> {
+  const { useLocalSdk, usePublicScope } = getEasyopsConfig();
+
+  const npmScopeOfBricks = usePublicScope ? "@next-bricks" : "@bricks";
+  const npmScopeOfMicroApps = usePublicScope
+    ? "@next-micro-apps"
+    : "@micro-apps";
+  const npmScopeOfTemplates = usePublicScope
+    ? "@next-legacy-templates"
+    : "@templates";
+  const npmScopeOfLibs = usePublicScope ? "@next-libs" : "@libs";
+  const npmScopeOfSdk = usePublicScope ? "@next-sdk" : "@sdk";
+  const repoOrgUrl = usePublicScope
+    ? "https://github.com/easyops-cn"
+    : "https://git.easyops.local/anyclouds";
+  const repoGitUrl = usePublicScope
+    ? "github.com:easyops-cn"
+    : "git.easyops.local:anyclouds";
+  const npmRegistryUrl = usePublicScope
+    ? "https://registry.npmjs.org"
+    : "https://registry.npm.easyops.local";
+
   const targetMap: { [key: string]: string } = {
     [TargetType.A_NEW_BRICK]: "brick",
     [TargetType.A_NEW_EDITOR_BRICK]: "editor-brick",
@@ -112,6 +121,13 @@ export async function loadTemplate({
   }
 
   const translations: Record<string, string> = {
+    "$npm-scope-of-bricks$": npmScopeOfBricks,
+    "$npm-scope-of-micro-apps$": npmScopeOfMicroApps,
+    "$npm-scope-of-templates$": npmScopeOfTemplates,
+    "$npm-scope-of-libs$": npmScopeOfLibs,
+    "$npm-scope-of-sdk$": npmScopeOfSdk,
+    "$repo-org-url$": repoOrgUrl,
+    "$repo-git-url$": repoGitUrl,
     "$workspace-homepage$": workspaceHomepage,
     "$kebab-package-name$": packageName,
     $PascalPackageName$: changeCase.pascalCase(packageName),
@@ -188,7 +204,7 @@ export async function loadTemplate({
     const getVersion = async () => {
       try {
         const sdkPackage = await rp({
-          url: `https://registry.npm.easyops.local/@sdk/${sdkName}`,
+          url: `${npmRegistryUrl}/${npmScopeOfSdk}/${sdkName}`,
           json: true,
           strictSSL: false,
         });
@@ -198,7 +214,7 @@ export async function loadTemplate({
       }
     };
 
-    if (!easyopsConfig?.useLocalSdk) {
+    if (!useLocalSdk) {
       await getVersion();
     } else {
       const sdkPackagePath = path.resolve(
@@ -263,11 +279,9 @@ export async function loadTemplate({
   ) {
     files.push([
       path.join(targetRoot, "package.json"),
-      replaceDepsVersion(
-        replaceFileContent(
-          path.join(templateRoot, `${targetMap[targetType]}.json`),
-          translations
-        )
+      replaceFileContent(
+        path.join(templateRoot, `${targetMap[targetType]}.json`),
+        translations
       ),
     ]);
   }

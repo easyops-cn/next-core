@@ -1,5 +1,5 @@
 {
-  "name": "@dll/$kebab-package-name$",
+  "name": "@next-dll/$kebab-package-name$",
   "version": "0.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/dll/$kebab-package-name$",

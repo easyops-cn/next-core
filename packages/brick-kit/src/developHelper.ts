@@ -1,5 +1,5 @@
-import { asyncProcessBrick } from "@easyops/brick-utils";
-import { BrickConf } from "@easyops/brick-types";
+import { asyncProcessBrick } from "@next-core/brick-utils";
+import { BrickConf } from "@next-core/brick-types";
 import { brickTemplateRegistry } from "./core/TemplateRegistries";
 import {
   LocationContext,

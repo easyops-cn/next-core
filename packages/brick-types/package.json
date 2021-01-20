@@ -1,8 +1,8 @@
 {
-  "name": "@easyops/brick-types",
+  "name": "@next-core/brick-types",
   "version": "2.15.0",
   "description": "Pure types for kernel",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-types",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-types",
   "license": "UNLICENSED",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "scripts": {
     "clean": "rimraf dist",

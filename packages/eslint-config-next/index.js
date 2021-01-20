@@ -69,7 +69,7 @@ module.exports = {
         "**/scripts/**/*.{ts,js}",
         "**/bin/*.js",
       ],
-      extends: "@easyops/eslint-config-next/node",
+      extends: "@next-core/eslint-config-next/node",
     },
     {
       files: ["**/*.tsx"],

@@ -1,4 +1,4 @@
-import { RuntimeMisc } from "@easyops/brick-types";
+import { RuntimeMisc } from "@next-core/brick-types";
 
 describe("getRuntimeMisc", () => {
   let getRuntimeMisc: () => RuntimeMisc;

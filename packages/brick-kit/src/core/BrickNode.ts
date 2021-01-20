@@ -2,7 +2,7 @@ import {
   PluginRuntimeContext,
   BrickLifeCycle,
   RefForProxy,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { bindListeners } from "../bindListeners";
 import { setRealProperties } from "../setProperties";
 import { RuntimeCustomTemplateProxy } from "./CustomTemplates/internalInterfaces";

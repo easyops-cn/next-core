@@ -51,7 +51,7 @@ const mockReadJsonSync = jest.fn((filePath) =>
     ? {}
     : {
         devDependencies: {
-          "@easyops/custom-antd-styles": "*",
+          "@next-core/custom-antd-styles": "*",
         },
       }
 );
@@ -69,7 +69,7 @@ jest.mock("path", () => ({
   join: (...paths) => paths.join("/"),
 }));
 
-jest.mock("@easyops/brick-container/package.json", () => ({
+jest.mock("@next-core/brick-container/package.json", () => ({
   version: "2.3.4",
 }));
 

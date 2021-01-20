@@ -15,7 +15,7 @@ const generateContracts = () => {
 
   if (dependencies) {
     const contracts = Object.keys(dependencies)
-      .filter((dep) => dep.startsWith("@sdk/"))
+      .filter((dep) => dep.startsWith("@next-sdk/") || dep.startsWith("@sdk"))
       .reduce((acc, dep) => {
         try {
           const contracts = yaml.safeLoad(

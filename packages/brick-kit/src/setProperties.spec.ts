@@ -1,4 +1,4 @@
-import { PluginRuntimeContext } from "@easyops/brick-types";
+import { PluginRuntimeContext } from "@next-core/brick-types";
 import { setProperties, computeRealValue } from "./setProperties";
 import * as runtime from "./core/Runtime";
 

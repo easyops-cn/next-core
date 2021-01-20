@@ -1,4 +1,4 @@
-import { RuntimeBrickElement } from "@easyops/brick-types";
+import { RuntimeBrickElement } from "@next-core/brick-types";
 import { bindListeners } from "../bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
 import {

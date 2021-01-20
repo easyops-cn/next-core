@@ -3,7 +3,7 @@ import {
   TemplatePackage,
   SlotConfOfBricks,
   RouteConfOfBricks,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { asyncProcessStoryboard } from "./asyncProcessStoryboard";
 import { loadScript } from "./loadScript";
 import { hasOwnProperty } from "./hasOwnProperty";

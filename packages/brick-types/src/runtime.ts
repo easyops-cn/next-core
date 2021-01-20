@@ -278,7 +278,7 @@ export interface MagicBrickConfig {
 export type rememberedEventListener = [
   string,
   EventListener,
-  // For compatibility of legacy api in @easyops/brick-utils,
+  // For compatibility of legacy api in @next-core/brick-utils,
   // the third element is optional.
   BrickEventHandler?
 ];

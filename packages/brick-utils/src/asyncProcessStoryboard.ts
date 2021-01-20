@@ -7,7 +7,7 @@ import {
   TemplateRegistry,
   TemplatePackage,
   RouteConfOfBricks,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { loadScript } from "./loadScript";
 import { getDepsOfTemplates } from "./getTemplateDepsOfStoryboard";
 import { hasOwnProperty } from "./hasOwnProperty";

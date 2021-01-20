@@ -1,4 +1,4 @@
-import { BuilderRouteOrBrickNode } from "@easyops/brick-types";
+import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
 
 const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];

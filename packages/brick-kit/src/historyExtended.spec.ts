@@ -3,7 +3,7 @@ import {
   UpdateQueryFunction,
   UpdateAnchorFunction,
   PluginLocation,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 describe("historyExtended", () => {
   const history = {

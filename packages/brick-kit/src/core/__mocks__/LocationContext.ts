@@ -1,4 +1,8 @@
-import { RuntimeStoryboard, RouteConf, Storyboard } from "@easyops/brick-types";
+import {
+  RuntimeStoryboard,
+  RouteConf,
+  Storyboard,
+} from "@next-core/brick-types";
 import { MountRoutesResult } from "../LocationContext";
 
 let _matchedStoryboard: RuntimeStoryboard;

@@ -1,7 +1,7 @@
-import { Storyboard } from "@easyops/brick-types";
+import { Storyboard } from "@next-core/brick-types";
 import {
   scanTemplatesInStoryboard,
-  getTemplateDepsOfStoryboard
+  getTemplateDepsOfStoryboard,
 } from "./getTemplateDepsOfStoryboard";
 
 describe("scanTemplatesInStoryboard", () => {
@@ -11,7 +11,7 @@ describe("scanTemplatesInStoryboard", () => {
         {
           bricks: [
             {
-              template: "a"
+              template: "a",
             },
             {
               brick: "b",
@@ -21,23 +21,23 @@ describe("scanTemplatesInStoryboard", () => {
                   bricks: [
                     {
                       template: "c",
-                      internalUsedTemplates: ["e"]
-                    }
-                  ]
+                      internalUsedTemplates: ["e"],
+                    },
+                  ],
                 },
                 l: {
-                  type: "routes"
+                  type: "routes",
                   // `routes` not set
-                }
-              }
-            }
-          ]
+                },
+              },
+            },
+          ],
         },
         {
           menu: {
             type: "brick",
-            template: "d"
-          }
+            template: "d",
+          },
           // `bricks` not set
         },
         {
@@ -46,20 +46,20 @@ describe("scanTemplatesInStoryboard", () => {
             {
               bricks: [
                 {
-                  template: "f"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  template: "f",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     } as any;
     expect(scanTemplatesInStoryboard(storyboard)).toEqual([
       "a",
       "c",
       "e",
       "d",
-      "f"
+      "f",
     ]);
   });
 });
@@ -71,7 +71,7 @@ describe("getTemplateDepsOfStoryboard", () => {
         {
           bricks: [
             {
-              template: "a"
+              template: "a",
             },
             {
               brick: "b",
@@ -81,23 +81,23 @@ describe("getTemplateDepsOfStoryboard", () => {
                   bricks: [
                     {
                       template: "c",
-                      internalUsedTemplates: ["e"]
-                    }
-                  ]
+                      internalUsedTemplates: ["e"],
+                    },
+                  ],
                 },
                 l: {
-                  type: "routes"
+                  type: "routes",
                   // `routes` not set
-                }
-              }
-            }
-          ]
+                },
+              },
+            },
+          ],
         },
         {
           menu: {
             type: "brick",
-            template: "d"
-          }
+            template: "d",
+          },
           // `bricks` not set
         },
         {
@@ -106,20 +106,20 @@ describe("getTemplateDepsOfStoryboard", () => {
             {
               bricks: [
                 {
-                  template: "f"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  template: "f",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     } as any;
     expect(
       getTemplateDepsOfStoryboard(storyboard, [
         {
           templates: ["a"],
-          filePath: "a.js"
-        }
+          filePath: "a.js",
+        },
       ])
     ).toEqual(["a.js"]);
   });

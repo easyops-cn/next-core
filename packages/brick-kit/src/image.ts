@@ -1,4 +1,4 @@
-import { MetaImage } from "@easyops/brick-types";
+import { MetaImage } from "@next-core/brick-types";
 import { isEmpty } from "lodash";
 
 export function getUrlByImageFactory(images: MetaImage[]) {

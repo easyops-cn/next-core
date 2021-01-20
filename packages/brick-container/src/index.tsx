@@ -8,24 +8,24 @@ import {
   getAuth,
   getRuntime,
   httpErrorToString,
-} from "@easyops/brick-kit";
+} from "@next-core/brick-kit";
 import {
   http,
   HttpRequestConfig,
   HttpResponse,
   HttpError,
-} from "@easyops/brick-http";
-import { initializeLibrary } from "@easyops/fontawesome-library";
+} from "@next-core/brick-http";
+import { initializeLibrary } from "@next-core/fontawesome-library";
 import "./antd";
 import "./styles/variables.css";
 import "./styles/editor-bricks-variables.css";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
 import "./styles/default.css";
-import "@easyops/brick-icons/dist/styles/index.css";
+import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
-import { apiAnalyzer } from "@easyops/easyops-analytics";
+import { apiAnalyzer } from "@next-core/easyops-analytics";
 
 initializeLibrary();
 

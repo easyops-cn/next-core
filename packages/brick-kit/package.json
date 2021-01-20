@@ -1,8 +1,8 @@
 {
-  "name": "@easyops/brick-kit",
+  "name": "@next-core/brick-kit",
   "version": "2.30.0",
   "description": "Kernel",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-kit",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-kit",
   "license": "UNLICENSED",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -31,7 +31,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "dependencies": {
-    "@easyops/brick-types": "^2.15.0",
+    "@next-core/brick-types": "^2.15.0",
     "@sdk/auth-sdk": "^0.8.4",
     "@sdk/cmdb-sdk": "^0.15.20",
     "@sdk/micro-app-sdk": "^0.8.4",
@@ -41,10 +41,10 @@
   "sideEffects": false,
   "devDependencies": {
     "@ant-design/icons": "^4.3.0",
-    "@easyops/brick-http": "^2.2.2",
-    "@easyops/brick-utils": "^2.10.2",
-    "@easyops/easyops-analytics": "^0.1.2",
-    "@easyops/illustrations": "^0.3.0",
+    "@next-core/brick-http": "^2.2.2",
+    "@next-core/brick-utils": "^2.10.2",
+    "@next-core/easyops-analytics": "^0.1.2",
+    "@next-core/illustrations": "^0.3.0",
     "antd": "^4.10.2",
     "history": "^4.10.1",
     "i18next": "^19.8.4",
@@ -57,11 +57,11 @@
     "react-i18next": "^11.8.5"
   },
   "peerDependencies": {
-    "@ant-design/icons": "^4.3.0",
-    "@easyops/brick-http": "*",
-    "@easyops/brick-utils": "*",
-    "@easyops/easyops-analytics": "*",
-    "@easyops/illustrations": "*",
+    "@ant-design/icons": "*",
+    "@next-core/brick-http": "*",
+    "@next-core/brick-utils": "*",
+    "@next-core/easyops-analytics": "*",
+    "@next-core/illustrations": "*",
     "antd": "*",
     "history": "*",
     "i18next": "*",

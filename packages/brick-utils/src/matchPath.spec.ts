@@ -3,7 +3,7 @@ import {
   MatchOptions,
   CompileOptions,
   MatchResult,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 describe("matchPath", () => {
   it.each<[string, MatchOptions & CompileOptions, MatchResult]>([

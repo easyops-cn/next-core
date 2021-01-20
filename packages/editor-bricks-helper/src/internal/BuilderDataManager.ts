@@ -1,6 +1,6 @@
 import { omit, sortBy } from "lodash";
 import EventTarget from "@ungap/event-target";
-import { BuilderRouteOrBrickNode } from "@easyops/brick-types";
+import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import {
   AbstractBuilderDataManager,
   BuilderCanvasData,

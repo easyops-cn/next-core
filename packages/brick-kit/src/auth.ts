@@ -1,4 +1,4 @@
-import { AuthInfo } from "@easyops/brick-types";
+import { AuthInfo } from "@next-core/brick-types";
 
 const auth: AuthInfo = {};
 

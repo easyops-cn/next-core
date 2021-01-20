@@ -1,6 +1,6 @@
 import { CustomApi, CustomApiParams } from "./CustomApi";
 
-jest.mock("@easyops/brick-http", () => ({
+jest.mock("@next-core/brick-http", () => ({
   http: {
     simpleRequest: jest
       .fn()

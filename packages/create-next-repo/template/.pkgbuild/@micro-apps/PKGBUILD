@@ -1,5 +1,5 @@
-# The common PKGBUILD of all @bricks/*
-# Keep in mind that the actual PKGBUILD execution context is @bricks/[plugin-name]
+# The common PKGBUILD of all $npm-scope-of-micro-apps$/*
+# Keep in mind that the actual PKGBUILD execution context is $npm-scope-of-micro-apps$/[plugin-name]
 arch=('x86_64')
 pkgrel=1
 source=()

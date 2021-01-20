@@ -1,4 +1,4 @@
-import { Storyboard } from "@easyops/brick-types";
+import { Storyboard } from "@next-core/brick-types";
 import { scanStoryboard } from "./scanStoryboard";
 
 describe("scanStoryboard", () => {

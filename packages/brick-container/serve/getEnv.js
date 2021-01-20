@@ -189,10 +189,10 @@ module.exports = (cwd) => {
       return cwd;
     }
     const devConfig = getDevConfig();
-    if (devConfig && devConfig.brickNextDir) {
-      return devConfig.brickNextDir;
+    if (devConfig && devConfig.nextRepoDir) {
+      return devConfig.nextRepoDir;
     }
-    return path.join(rootDir, "../brick-next");
+    return path.join(rootDir, "../next-basics");
   }
 
   function getDevConfig() {
@@ -210,16 +210,13 @@ module.exports = (cwd) => {
     return {};
   }
 
-  const brickNextDir = getBrickNextDir();
-  const microAppsDir = path.join(brickNextDir, "node_modules/@micro-apps");
-  const brickPackagesDir = path.join(brickNextDir, "node_modules/@bricks");
-  const templatePackagesDir = path.join(
-    brickNextDir,
-    "node_modules/@templates"
-  );
+  const nextRepoDir = getBrickNextDir();
+  const microAppsDir = path.join(nextRepoDir, "node_modules/@micro-apps");
+  const brickPackagesDir = path.join(nextRepoDir, "node_modules/@bricks");
+  const templatePackagesDir = path.join(nextRepoDir, "node_modules/@templates");
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
   const appConfig = getAppConfig();
-  const mockedMicroAppsDir = path.join(brickNextDir, "mock-micro-apps");
+  const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
 
   const env = {
     useOffline,
@@ -233,7 +230,7 @@ module.exports = (cwd) => {
     localTemplates,
     useLocalSettings,
     useMergeSettings,
-    brickNextDir,
+    nextRepoDir,
     microAppsDir,
     brickPackagesDir,
     templatePackagesDir,

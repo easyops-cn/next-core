@@ -5,7 +5,7 @@ import {
   EditorElementFactory,
   EditorSelfLayout,
   useBuilderNode,
-} from "@easyops/editor-bricks-helper";
+} from "@next-core/editor-bricks-helper";
 import styles from "./$kebab-brick-last-name$.editor.module.css";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

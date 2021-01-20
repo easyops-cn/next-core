@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { isObject } from "@easyops/brick-utils";
+import { isObject } from "@next-core/brick-utils";
 import {
   BrickEventHandler,
   BrickEventHandlerCallback,
@@ -12,7 +12,7 @@ import {
   RuntimeBrickElement,
   StoryboardContextItem,
   UseProviderEventHandler,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { handleHttpError, httpErrorToString } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
 import { getHistory } from "./history";

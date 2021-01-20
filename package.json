@@ -1,15 +1,15 @@
 {
   "name": "next-core",
   "private": true,
-  "homepage": "https://git.easyops.local/anyclouds/next-core",
+  "homepage": "https://github.com/easyops-cn/next-core",
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "license": "UNLICENSED",
   "scripts": {
     "prepare": "lerna bootstrap",
-    "start": "lerna run start --scope \"@easyops/brick-container\"",
+    "start": "lerna run start --scope \"@next-core/brick-container\"",
     "serve": "brick-container-serve",
     "serve:ci": "brick-container-serve --subdir --local-settings --no-live-reload",
     "build": "lerna run build",
@@ -28,10 +28,10 @@
   },
   "browserslist": {
     "development": [
-      "extends @easyops/browserslist-config-next/development"
+      "extends @next-core/browserslist-config-next/development"
     ],
     "production": [
-      "extends @easyops/browserslist-config-next/production"
+      "extends @next-core/browserslist-config-next/production"
     ]
   },
   "devDependencies": {

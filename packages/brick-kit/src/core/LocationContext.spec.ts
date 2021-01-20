@@ -3,7 +3,7 @@ import {
   RuntimeStoryboard,
   ResolveConf,
   Storyboard,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { LocationContext, MountRoutesResult } from "./LocationContext";
 import { Kernel } from "./Kernel";
 import { isLoggedIn, getAuth } from "../auth";

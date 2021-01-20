@@ -6,7 +6,7 @@ import {
   isEvaluable,
   preevaluate,
   shouldAllowRecursiveEvaluations,
-} from "@easyops/brick-utils";
+} from "@next-core/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";

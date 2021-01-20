@@ -34,6 +34,7 @@ module.exports = {
     "\\.svg": "<rootDir>/__mocks__/svgrMock.js",
     "^[./a-zA-Z0-9$_-]+\\.(bmp|gif|jpg|jpeg|png|psd|svg|webp)$":
       "<rootDir>/__mocks__/fileMock.js",
+    "^@easyops/brick-http$": "@next-core/brick-http",
   },
   // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
   // Todo(steve): remove next line when issue fixed.

@@ -1,0 +1,13 @@
+{
+  "name": "@next-core/repo-config",
+  "version": "0.1.0",
+  "description": "> TODO: description",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/repo-config",
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  }
+}

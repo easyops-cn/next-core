@@ -1,8 +1,8 @@
 {
-  "name": "@easyops/brick-icons",
+  "name": "@next-core/brick-icons",
   "version": "2.6.3",
   "description": "Self designed icons",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-icons",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-icons",
   "license": "UNLICENSED",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "scripts": {
     "clean": "rimraf dist",

@@ -1,6 +1,6 @@
 import { get, set } from "lodash";
-import { GeneralTransform, TransformMap } from "@easyops/brick-types";
-import { isObject, transform, isEvaluable } from "@easyops/brick-utils";
+import { GeneralTransform, TransformMap } from "@next-core/brick-types";
+import { isObject, transform, isEvaluable } from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateOptions,

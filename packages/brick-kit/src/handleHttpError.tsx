@@ -3,7 +3,7 @@ import {
   HttpResponseError,
   HttpParseError,
   HttpFetchError,
-} from "@easyops/brick-http";
+} from "@next-core/brick-http";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { ModalFunc } from "antd/lib/modal/confirm";

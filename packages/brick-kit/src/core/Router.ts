@@ -3,14 +3,14 @@ import {
   PluginHistoryState,
   PluginLocation,
   PluginRuntimeContext,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import {
   restoreDynamicTemplates,
   scanCustomApisInStoryboard,
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
-} from "@easyops/brick-utils";
-import { apiAnalyzer } from "@easyops/easyops-analytics";
+} from "@next-core/brick-utils";
+import { apiAnalyzer } from "@next-core/easyops-analytics";
 import {
   LocationContext,
   mountTree,

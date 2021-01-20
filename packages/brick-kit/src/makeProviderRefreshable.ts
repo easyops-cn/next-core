@@ -3,7 +3,7 @@ import {
   GeneralTransform,
   HandleReject,
   HandleRejectByTransform,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import {
   transformIntermediateData,
   transformElementProperties,

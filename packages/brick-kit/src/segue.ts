@@ -1,5 +1,5 @@
-import { MicroApp, SeguesConf } from "@easyops/brick-types";
-import { hasOwnProperty } from "@easyops/brick-utils";
+import { MicroApp, SeguesConf } from "@next-core/brick-types";
+import { hasOwnProperty } from "@next-core/brick-utils";
 import { getUrlByAliasFactory } from "./alias";
 
 export function getUrlBySegueFactory(app: MicroApp, segues: SeguesConf) {
