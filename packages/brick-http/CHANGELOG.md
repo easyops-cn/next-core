@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.2.3 (2021-01-22)
+
+### Bug Fixes
+
+- fix content type detected and body modified twice ([590a81b](https://github.com/easyops-cn/next-core/commit/590a81b))
+- fix error of `new Headers(undefined)` in older browsers ([6d93308](https://github.com/easyops-cn/next-core/commit/6d93308))
+- **brick-http:** getBodyAndHeaders 将为 null 或 undefined 的值转为空字符串 ([e73489c](https://github.com/easyops-cn/next-core/commit/e73489c))
+- refine scripts for concurrently process ([a167a4a](https://github.com/easyops-cn/next-core/commit/a167a4a))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **brick-http:** export `getUrlWithParams` and `getBodyAndHeaders` methods ([0456062](https://github.com/easyops-cn/next-core/commit/0456062))
+- **brick-http:** new brick-http ([6602136](https://github.com/easyops-cn/next-core/commit/6602136))
+- **brick-http:** 支持通用 http provider ([eb29663](https://github.com/easyops-cn/next-core/commit/eb29663))
+- **custom-apis:** resolver ([6bbebc0](https://github.com/easyops-cn/next-core/commit/6bbebc0))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+
 ## [2.2.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-http@2.2.1...@easyops/brick-http@2.2.2) (2020-12-02)
 
 ### Bug Fixes

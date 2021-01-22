@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.10 (2021-01-22)
+
+### Bug Fixes
+
+- revert postcss-\* and css-loader since postcss v8 is not widely supported ([f24f409](https://github.com/easyops-cn/next-core/commit/f24f409))
+- **rollup:** leave `process.env` to be handled by webpack ([8ead888](https://github.com/easyops-cn/next-core/commit/8ead888))
+- **rollup:** set inject to false for postcss ([a5eac0a](https://github.com/easyops-cn/next-core/commit/a5eac0a))
+- use content hash instead of default for postcss modules ([792fc60](https://github.com/easyops-cn/next-core/commit/792fc60))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **rollup-config-factory:** postcss 增加 nested 插件 ([ff8c8a5](https://github.com/easyops-cn/next-core/commit/ff8c8a5))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- support add custom plugins ([677d83b](https://github.com/easyops-cn/next-core/commit/677d83b))
+- support to pass commonjs options ([cf83aec](https://github.com/easyops-cn/next-core/commit/cf83aec))
+
 ## [2.0.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/rollup-config-factory@2.0.8...@easyops/rollup-config-factory@2.0.9) (2021-01-18)
 
 **Note:** Version bump only for package @easyops/rollup-config-factory

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.13 (2021-01-22)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+
 ## [2.0.12](https://git.easyops.local/anyclouds/next-core/compare/@dll/echarts@2.0.11...@dll/echarts@2.0.12) (2021-01-19)
 
 **Note:** Version bump only for package @dll/echarts

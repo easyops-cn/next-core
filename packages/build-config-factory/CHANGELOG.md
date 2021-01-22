@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.2.10 (2021-01-22)
+
+### Bug Fixes
+
+- **size-limit:** support size-limit libs/\* ([d483730](https://github.com/easyops-cn/next-core/commit/d483730))
+- **update_deploy_script:** 回滚更新脚本，去掉错误处理 ([dac30d4](https://github.com/easyops-cn/next-core/commit/dac30d4))
+- ensure micro-apps and templates peerDependencies version contains a `^` or `>=` ([d5ac4ee](https://github.com/easyops-cn/next-core/commit/d5ac4ee))
+- ensure reserved directories ([af320eb](https://github.com/easyops-cn/next-core/commit/af320eb))
+- fix an error when no devDependencies ([5e9f16a](https://github.com/easyops-cn/next-core/commit/5e9f16a))
+- refine dev-dependencies ([5bf4844](https://github.com/easyops-cn/next-core/commit/5bf4844))
+- rename validateDeps ([debcd76](https://github.com/easyops-cn/next-core/commit/debcd76))
+- sync brick-types ([45f6418](https://github.com/easyops-cn/next-core/commit/45f6418))
+- throw error if found unexpected peer dependencies ([c812818](https://github.com/easyops-cn/next-core/commit/c812818))
+- use prettier to format json file ([5de4b0c](https://github.com/easyops-cn/next-core/commit/5de4b0c))
+- **build-config-factory:** generateDeps 兼容没有 peerDependencies 的场景 ([24f99e0](https://github.com/easyops-cn/next-core/commit/24f99e0))
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://github.com/easyops-cn/next-core/commit/fef31e4))
+- validate dependencies in package.conf.yaml ([7290d87](https://github.com/easyops-cn/next-core/commit/7290d87))
+- **size-limit:** Size Limit requires non-empty config ([3495ddb](https://github.com/easyops-cn/next-core/commit/3495ddb))
+- use chokidar to watch files ([adabb26](https://github.com/easyops-cn/next-core/commit/adabb26))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- support editors entry for brick pakcages ([d03b1e5](https://github.com/easyops-cn/next-core/commit/d03b1e5))
+- support loading editor bricks ([92f9e04](https://github.com/easyops-cn/next-core/commit/92f9e04))
+- **brick-doc:** print log for the bricks ([7e478a6](https://github.com/easyops-cn/next-core/commit/7e478a6))
+- **brick-doc:** print log for the bricks ([64bfeb5](https://github.com/easyops-cn/next-core/commit/64bfeb5))
+- **brick-document:** 修复[@method](https://github.com/method)获取 param,description 注释,转义 type 类型中的数字等 ([0d463df](https://github.com/easyops-cn/next-core/commit/0d463df))
+- **brick-document:** 支持解析 event decorator type 中包含数字 ([b6e12e7](https://github.com/easyops-cn/next-core/commit/b6e12e7))
+- **build-config-factory:** brick doc 构建属性 type 显示默认类型，但是优先使用[@kind](https://github.com/kind)中的类型 ([cfa9839](https://github.com/easyops-cn/next-core/commit/cfa9839))
+- **build-config-factory:** convert `[@deprecated](https://github.com/deprecated)` value to true ([2f94885](https://github.com/easyops-cn/next-core/commit/2f94885))
+- **build-config-factory:** generate brick book ([7b25933](https://github.com/easyops-cn/next-core/commit/7b25933))
+- **build-config-factory:** generate brick docs ([33a65e3](https://github.com/easyops-cn/next-core/commit/33a65e3))
+- **build-config-factory:** providers 生成 custom elements 时去重 ([d522bd8](https://github.com/easyops-cn/next-core/commit/d522bd8))
+- **build-config-factory:** support `[@deprecated](https://github.com/deprecated)` annotation ([9ba700f](https://github.com/easyops-cn/next-core/commit/9ba700f))
+- **build-config-factory:** 在 providers 生成 custom elements 时如果有重复就报错 ([35fa7c2](https://github.com/easyops-cn/next-core/commit/35fa7c2))
+- **build-config-factory:** 扫描 interfaces 文件夹&优化加载速度&追踪构件关联的 interface ([ad0d459](https://github.com/easyops-cn/next-core/commit/ad0d459))
+- **report_package:** 安装 NB 包和 NT 包时，也上报 ([19da263](https://github.com/easyops-cn/next-core/commit/19da263))
+- `yarn yo` to register a new custom template ([92ac31e](https://github.com/easyops-cn/next-core/commit/92ac31e))
+- add missing files ([0e4aa21](https://github.com/easyops-cn/next-core/commit/0e4aa21))
+- common size limit factory ([d44676d](https://github.com/easyops-cn/next-core/commit/d44676d))
+- ensure a micro-app's id always be the same as its directory name ([565a795](https://github.com/easyops-cn/next-core/commit/565a795))
+- ensure and generate templates deps ([47c3b19](https://github.com/easyops-cn/next-core/commit/47c3b19))
+- fix size-limit ([95dfb66](https://github.com/easyops-cn/next-core/commit/95dfb66))
+- generate provider ([2ad3b82](https://github.com/easyops-cn/next-core/commit/2ad3b82))
+- generate provider ([5ba1be0](https://github.com/easyops-cn/next-core/commit/5ba1be0))
+- generate provider docs ([b1653cd](https://github.com/easyops-cn/next-core/commit/b1653cd))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([fe1bce8](https://github.com/easyops-cn/next-core/commit/fe1bce8))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([d6c212c](https://github.com/easyops-cn/next-core/commit/d6c212c))
+- load scripts for custom templates ([7e8f029](https://github.com/easyops-cn/next-core/commit/7e8f029))
+- pack:tar 打包后需重命名为平台要求的名称 ([8145458](https://github.com/easyops-cn/next-core/commit/8145458))
+- post build of templates ([4da32a2](https://github.com/easyops-cn/next-core/commit/4da32a2))
+- refine updating deps after refine dependencies management ([cd757ea](https://github.com/easyops-cn/next-core/commit/cd757ea))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- 将 DLL 的依赖包及其版本都放到仓库根目录的 `devDependencies` 中。 ([dc56c8a](https://github.com/easyops-cn/next-core/commit/dc56c8a))
+- **post-build:** validate dependencies in post-build ([4492864](https://github.com/easyops-cn/next-core/commit/4492864))
+- revert using bricks as peer dependencies of micro-apps ([fd3e7a1](https://github.com/easyops-cn/next-core/commit/fd3e7a1))
+- 调整构件库及小产品的依赖声明方式，以支持构件库拆分 git 仓库 ([b5a552d](https://github.com/easyops-cn/next-core/commit/b5a552d))
+
 ## [2.2.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/build-config-factory@2.2.8...@easyops/build-config-factory@2.2.9) (2021-01-19)
 
 **Note:** Version bump only for package @easyops/build-config-factory

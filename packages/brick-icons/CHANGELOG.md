@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.6.4 (2021-01-22)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+- **ci:** add ci icon ([686104f](https://github.com/easyops-cn/next-core/commit/686104f))
+- fix a problem when category is falsy but other than undefined ([c02292b](https://github.com/easyops-cn/next-core/commit/c02292b))
+- lint icon category and filename ([f5e6fcd](https://github.com/easyops-cn/next-core/commit/f5e6fcd))
+- refine scripts for concurrently process ([a167a4a](https://github.com/easyops-cn/next-core/commit/a167a4a))
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://github.com/easyops-cn/next-core/commit/fef31e4))
+- use string as easyops icon type ([0ff3ac2](https://github.com/easyops-cn/next-core/commit/0ff3ac2))
+- **brick-icons:** use auto generated icon list ([61bbf85](https://github.com/easyops-cn/next-core/commit/61bbf85))
+
+### Features
+
+- empty icon ([5ebc526](https://github.com/easyops-cn/next-core/commit/5ebc526))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **bbrick-icons:** add icon Closed BRICK_STORE-1927 ([473e509](https://github.com/easyops-cn/next-core/commit/473e509))
+- **brick-icon:** add file-pkgs icon ([9e23688](https://github.com/easyops-cn/next-core/commit/9e23688))
+- **brick-icon:** updata name style ([f22e149](https://github.com/easyops-cn/next-core/commit/f22e149))
+- **brick-icon:** 添加 launchpad 大小图标 ([5603f69](https://github.com/easyops-cn/next-core/commit/5603f69))
+- **brick-icon:** 添加巡检图标 ([0c0a69f](https://github.com/easyops-cn/next-core/commit/0c0a69f))
+- **brick-icons:** add icon ([f278a42](https://github.com/easyops-cn/next-core/commit/f278a42))
+- **brick-icons:** add icons for the blueprint ([784035a](https://github.com/easyops-cn/next-core/commit/784035a))
+- **brick-icons:** 增加 redeploy 图标 ([fae2a2c](https://github.com/easyops-cn/next-core/commit/fae2a2c))
+- **brick-icons:** 添加删除图标 ([cdae638](https://github.com/easyops-cn/next-core/commit/cdae638))
+- **colored-pseudo-3d:** icons ([85916d2](https://github.com/easyops-cn/next-core/commit/85916d2))
+- **container:** add app-router and deploy-shortcut icon. Refs CONTAINER-891 ([5a7e17a](https://github.com/easyops-cn/next-core/commit/5a7e17a))
+- **gitlab-icon:** add gitlab icon for ci . Refs PIPELINE-735 ([994f8d4](https://github.com/easyops-cn/next-core/commit/994f8d4))
+- **icon:** add a template icon ([80a82e8](https://github.com/easyops-cn/next-core/commit/80a82e8))
+- **icons:** add container-config icon ([4b1fa60](https://github.com/easyops-cn/next-core/commit/4b1fa60))
+- **icons:** add icon to model category ([856d447](https://github.com/easyops-cn/next-core/commit/856d447))
+- **icons:** add k8s icon ([8c7d696](https://github.com/easyops-cn/next-core/commit/8c7d696))
+- **icons:** colored pseudo 3d icons ([eeafe87](https://github.com/easyops-cn/next-core/commit/eeafe87))
+- **icons:** icons ([90f9cc5](https://github.com/easyops-cn/next-core/commit/90f9cc5))
+- add icon ([30f26e4](https://github.com/easyops-cn/next-core/commit/30f26e4))
+- add icon refs ATM-535 ([3eaac14](https://github.com/easyops-cn/next-core/commit/3eaac14))
+- add monitor icon refs MONITOR-111 ([5f11a1f](https://github.com/easyops-cn/next-core/commit/5f11a1f))
+- add package: brick-icons ([9c8c000](https://github.com/easyops-cn/next-core/commit/9c8c000))
+- add program language icons BRICK_STORE-1742 ([3e0c750](https://github.com/easyops-cn/next-core/commit/3e0c750))
+- add program language icons BRICK_STORE-1742 ([3c2cbca](https://github.com/easyops-cn/next-core/commit/3c2cbca))
+- add svg refs MONITOR-183 ([a25d8c7](https://github.com/easyops-cn/next-core/commit/a25d8c7))
+- export category ([92689f4](https://github.com/easyops-cn/next-core/commit/92689f4))
+- icons of empty result, refs BRICK_STORE-814 ([a27f9b0](https://github.com/easyops-cn/next-core/commit/a27f9b0))
+- **icons:** add assets-inventory icon ([ccc00f9](https://github.com/easyops-cn/next-core/commit/ccc00f9))
+- **user:** user permisson icon Refs THE_PRODUCTS-69 ([ffe4743](https://github.com/easyops-cn/next-core/commit/ffe4743))
+- move mysql icon to app dir ([17a7b90](https://github.com/easyops-cn/next-core/commit/17a7b90))
+- support for custom icon directory ([7b9ddf7](https://github.com/easyops-cn/next-core/commit/7b9ddf7))
+
 ## [2.6.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-icons@2.6.2...@easyops/brick-icons@2.6.3) (2021-01-18)
 
 **Note:** Version bump only for package @easyops/brick-icons

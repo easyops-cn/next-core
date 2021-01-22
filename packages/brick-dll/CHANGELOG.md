@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.10.6 (2021-01-22)
+
+### Bug Fixes
+
+- drop deprecated api ([9560180](https://github.com/easyops-cn/next-core/commit/9560180))
+- make dll manifest not changed ([6f58536](https://github.com/easyops-cn/next-core/commit/6f58536))
+- move antd and d3-\* to workspace level to avoid dll manifest breaking ([6e3509f](https://github.com/easyops-cn/next-core/commit/6e3509f))
+- refine peerDependencies and put `buffer` back to dll ([e58b2a5](https://github.com/easyops-cn/next-core/commit/e58b2a5))
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+- use source-map-loader to correct brick-dll source mapping ([9de97d8](https://github.com/easyops-cn/next-core/commit/9de97d8))
+
+### Features
+
+- add `js-yaml` lib ([93643d6](https://github.com/easyops-cn/next-core/commit/93643d6))
+- add package: brick-icons ([9c8c000](https://github.com/easyops-cn/next-core/commit/9c8c000))
+- ignore unused large packages such as esprima and rc-editor-mention ([d80bdac](https://github.com/easyops-cn/next-core/commit/d80bdac))
+- make all babel runtime helpers available in @easyops/brick-dll ([429b3f4](https://github.com/easyops-cn/next-core/commit/429b3f4))
+- new ApiAnalysis ([b183635](https://github.com/easyops-cn/next-core/commit/b183635))
+- prefetch deps of full storyboard during idle time ([9b1eff3](https://github.com/easyops-cn/next-core/commit/9b1eff3))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- scan custom apis in storyboard and request api instances on demand ([5e47f47](https://github.com/easyops-cn/next-core/commit/5e47f47))
+- scanPermissionActionsInStoryboard ([5765c6f](https://github.com/easyops-cn/next-core/commit/5765c6f))
+- support allow recursive evaluations flag ([aa66297](https://github.com/easyops-cn/next-core/commit/aa66297))
+- support to resolve context concurrently ([8983973](https://github.com/easyops-cn/next-core/commit/8983973))
+- **brick-http:** new brick-http ([6602136](https://github.com/easyops-cn/next-core/commit/6602136))
+- **brick-kit:** add forwardRefBrickAsComponent ([a5b4472](https://github.com/easyops-cn/next-core/commit/a5b4472))
+- **illustrations:** brick-container support illustrations ([e15facb](https://github.com/easyops-cn/next-core/commit/e15facb))
+- **theme:** support get current theme and mode ([4c22eb2](https://github.com/easyops-cn/next-core/commit/4c22eb2))
+- upgrade antd to v4 ([8cf7263](https://github.com/easyops-cn/next-core/commit/8cf7263))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
 ## [2.10.5](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-dll@2.10.4...@easyops/brick-dll@2.10.5) (2021-01-20)
 
 **Note:** Version bump only for package @easyops/brick-dll

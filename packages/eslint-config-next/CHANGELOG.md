@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.10 (2021-01-22)
+
+### Bug Fixes
+
+- **eslint:** update configs after upgrade typescript-eslint to v3 ([23b5825](https://github.com/easyops-cn/next-core/commit/23b5825))
+- **eslint:** update configs after upgrade typescript-eslint to v3 ([6afda9a](https://github.com/easyops-cn/next-core/commit/6afda9a))
+- turn off eslint(react/prop-types) for \*.tsx ([901043f](https://github.com/easyops-cn/next-core/commit/901043f))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- shareable eslint config ([d5ee1a9](https://github.com/easyops-cn/next-core/commit/d5ee1a9))
+
 ## [1.0.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/eslint-config-next@1.0.8...@easyops/eslint-config-next@1.0.9) (2021-01-18)
 
 **Note:** Version bump only for package @easyops/eslint-config-next

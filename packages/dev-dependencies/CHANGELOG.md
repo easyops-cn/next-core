@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.21 (2021-01-22)
+
+### Bug Fixes
+
+- **editor-bricks:** refine node reorder ([a9ee6df](https://github.com/easyops-cn/next-core/commit/a9ee6df))
+- add @types/js-yaml instead of @types/yaml ([fe5c821](https://github.com/easyops-cn/next-core/commit/fe5c821))
+- add `mock-micro-apps` to `.gitignore` ([b2ee45e](https://github.com/easyops-cn/next-core/commit/b2ee45e))
+- add legacy branches into lerna allow branches ([4fdf2c8](https://github.com/easyops-cn/next-core/commit/4fdf2c8))
+- add legacy/brick-next_1.x into base branches for next-core packages ([efd9723](https://github.com/easyops-cn/next-core/commit/efd9723))
+- add more css variables ([14396e0](https://github.com/easyops-cn/next-core/commit/14396e0))
+- all micro-apps and templates should be compatible with brick_next v2 ([89bd0dd](https://github.com/easyops-cn/next-core/commit/89bd0dd))
+- check if `src` exists (provider packages don't have a `src` dir) ([dbff384](https://github.com/easyops-cn/next-core/commit/dbff384))
+- do not throw for unexpected brick next version ([0a650ca](https://github.com/easyops-cn/next-core/commit/0a650ca))
+- extract fallback of antd 4.7.0 ([f315957](https://github.com/easyops-cn/next-core/commit/f315957))
+- fix patch exports of updateLernaAllowBranch ([7effa1d](https://github.com/easyops-cn/next-core/commit/7effa1d))
+- fix patch exports of updateMRTemplates ([317103c](https://github.com/easyops-cn/next-core/commit/317103c))
+- fix patch version for major brick next ([6344ad1](https://github.com/easyops-cn/next-core/commit/6344ad1))
+- fix tests after using jsdom@16 ([2d9ed80](https://github.com/easyops-cn/next-core/commit/2d9ed80))
+- introduce new css variables ([8b05e28](https://github.com/easyops-cn/next-core/commit/8b05e28))
+- jest `expect.objectContaining` got fixed ([13ba7bb](https://github.com/easyops-cn/next-core/commit/13ba7bb))
+- make renew work in both master and legacy branches ([ad2c6e3](https://github.com/easyops-cn/next-core/commit/ad2c6e3))
+- patch antd ([b60e224](https://github.com/easyops-cn/next-core/commit/b60e224))
+- refine dev-dependencies ([5bf4844](https://github.com/easyops-cn/next-core/commit/5bf4844))
+- remove jest-environment-jsdom-sixteen since jest v26 includes it ([0ee19d5](https://github.com/easyops-cn/next-core/commit/0ee19d5))
+- sync brick-types ([45f6418](https://github.com/easyops-cn/next-core/commit/45f6418))
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+- update build stories to set skipLibCheck ([493976f](https://github.com/easyops-cn/next-core/commit/493976f))
+- update MR templates ([95e2281](https://github.com/easyops-cn/next-core/commit/95e2281))
+- update MR templates after update fileFilters ([d763ed1](https://github.com/easyops-cn/next-core/commit/d763ed1))
+- update renovate file filters ([1310c23](https://github.com/easyops-cn/next-core/commit/1310c23))
+- **dev-dependencies:** cli-extract support prerelease identifier ([55ce7bd](https://github.com/easyops-cn/next-core/commit/55ce7bd))
+- **dev-dependencies:** 新增给 package.json 的 test scripts 打添加 --expose-gc 和 --logHeapUsage 参数的补丁 ([f9b6674](https://github.com/easyops-cn/next-core/commit/f9b6674))
+- **dev-deps:** add @easyops/rollup-config-factory and @easyops/custom-antd-styles ([48470b6](https://github.com/easyops-cn/next-core/commit/48470b6))
+- **renovate:** add antd_v4_migration into base branches and auto renew [@next](https://github.com/next) ([43d845c](https://github.com/easyops-cn/next-core/commit/43d845c))
+- **renovate:** add antd_v4_migration into base branches only for next-core packages ([1dbe1c9](https://github.com/easyops-cn/next-core/commit/1dbe1c9))
+- **renovate:** add postUpgradeTasks ([ef17b4c](https://github.com/easyops-cn/next-core/commit/ef17b4c))
+- **renovate:** ignore all updates except `@easyops/*` in legacy branch ([df24565](https://github.com/easyops-cn/next-core/commit/df24565))
+- **renovate:** refine renovate patches ([5fed7fe](https://github.com/easyops-cn/next-core/commit/5fed7fe))
+- **renovate:** revert renovate base branches ([a8d9aee](https://github.com/easyops-cn/next-core/commit/a8d9aee))
+- remove unused document-register-element ([9d8f761](https://github.com/easyops-cn/next-core/commit/9d8f761))
+- **webpack:** fix after upgraded webpack-merge to v5 ([d0c54d9](https://github.com/easyops-cn/next-core/commit/d0c54d9))
+- rollback lerna to the version that atomic-push is working ([8a52625](https://github.com/easyops-cn/next-core/commit/8a52625))
+- run `yarn extract` to get the newly updated `@easyops/dev-dependencies` ([dea88b6](https://github.com/easyops-cn/next-core/commit/dea88b6))
+- update deps ([d076b50](https://github.com/easyops-cn/next-core/commit/d076b50))
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://github.com/easyops-cn/next-core/commit/d259f2b))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **dev-dependencies:** cli-renew 支持 tag 参数 ([a3d3988](https://github.com/easyops-cn/next-core/commit/a3d3988))
+- **patch:** update brick next version for new css variables ([a81cbcc](https://github.com/easyops-cn/next-core/commit/a81cbcc))
+- fix size-limit ([95dfb66](https://github.com/easyops-cn/next-core/commit/95dfb66))
+- move bricks deploy files ([de916e0](https://github.com/easyops-cn/next-core/commit/de916e0))
+- new package dev-dependencies ([c3a9920](https://github.com/easyops-cn/next-core/commit/c3a9920))
+- patch in @easyops/dev-dependencies ([dbc8d3c](https://github.com/easyops-cn/next-core/commit/dbc8d3c))
+- use jsdom@16 which supports custom elements ([4243947](https://github.com/easyops-cn/next-core/commit/4243947))
+
 ## [1.2.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dev-dependencies@1.2.19...@easyops/dev-dependencies@1.2.20) (2021-01-20)
 
 **Note:** Version bump only for package @easyops/dev-dependencies

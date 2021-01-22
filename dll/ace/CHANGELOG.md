@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.74 (2021-01-22)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+- use `@easyops/brick-dll` in `@dll/*` only if specified ([607a172](https://github.com/easyops-cn/next-core/commit/607a172))
+
+### Features
+
+- add @dll/ace ([546560b](https://github.com/easyops-cn/next-core/commit/546560b))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+
 ## [2.0.73](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.72...@dll/ace@2.0.73) (2021-01-20)
 
 **Note:** Version bump only for package @dll/ace

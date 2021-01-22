@@ -7,11 +7,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- add @easyops/browserslist-config-next ([589b630](https://github.com/easyops-cn/next-core/commit/589b630))
 - rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
-
-# 0.1.0 (2019-11-27)
-
-### Features
-
-- add @easyops/browserslist-config-next ([589b630](https://git.easyops.local/anyclouds/next-core/commits/589b630))

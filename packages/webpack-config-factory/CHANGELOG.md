@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.5.1 (2021-01-22)
+
+### Bug Fixes
+
+- downgrade postcss to v7 ([cdbcf32](https://github.com/easyops-cn/next-core/commit/cdbcf32))
+- fix postcss loader after dependencies upgraded ([9c17326](https://github.com/easyops-cn/next-core/commit/9c17326))
+- remove never used worker loader ([55f345c](https://github.com/easyops-cn/next-core/commit/55f345c))
+- revert postcss-\* and css-loader since postcss v8 is not widely supported ([f24f409](https://github.com/easyops-cn/next-core/commit/f24f409))
+- use source-map-loader for dll ([b3f3695](https://github.com/easyops-cn/next-core/commit/b3f3695))
+- **custom-processors:** use camelPkgName as namespace of custom processors ([d6d5be8](https://github.com/easyops-cn/next-core/commit/d6d5be8))
+- **less-loader:** update config after upgrade less-loader from v5 to v6 ([67f3132](https://github.com/easyops-cn/next-core/commit/67f3132))
+- **webpack:** disable css source map for brick packages ([19d678f](https://github.com/easyops-cn/next-core/commit/19d678f))
+- **webpack:** disable esModule of css-loader which follows to-string-loader ([145edba](https://github.com/easyops-cn/next-core/commit/145edba))
+- **webpack:** disable source map for brick packages ([3846d27](https://github.com/easyops-cn/next-core/commit/3846d27))
+- **webpack:** fix after upgraded webpack-merge to v5 ([d0c54d9](https://github.com/easyops-cn/next-core/commit/d0c54d9))
+- **webpack:** validate brick name during webpack building ([7306cf8](https://github.com/easyops-cn/next-core/commit/7306cf8))
+- all legacy invalid bricks renamed ([b995843](https://github.com/easyops-cn/next-core/commit/b995843))
+- ensure scanned bricks and templates are unique when building ([9e55400](https://github.com/easyops-cn/next-core/commit/9e55400))
+- fix configs after upgrade copy-webpack-plugin from v5 to v6 ([4664f80](https://github.com/easyops-cn/next-core/commit/4664f80))
+- fix errors when building templates ([789c1f1](https://github.com/easyops-cn/next-core/commit/789c1f1))
+- fix errors when building templates ([67dbf15](https://github.com/easyops-cn/next-core/commit/67dbf15))
+- fix loading dll errors ([2b4ed46](https://github.com/easyops-cn/next-core/commit/2b4ed46))
+- revert style-loader from 1.1.1 to 1.0.2 ([5014442](https://github.com/easyops-cn/next-core/commit/5014442))
+- set esModule to false for url-loader which is required by @svgr/webpack ([d7f7300](https://github.com/easyops-cn/next-core/commit/d7f7300))
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://github.com/easyops-cn/next-core/commit/fef31e4))
+- use `@easyops/brick-dll` in `@dll/*` only if specified ([607a172](https://github.com/easyops-cn/next-core/commit/607a172))
+- use `@easyops/brick-dll` in `@dll/ace` too ([f2b99ca](https://github.com/easyops-cn/next-core/commit/f2b99ca))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **webpack:** scan custom providers ([3ad7dfe](https://github.com/easyops-cn/next-core/commit/3ad7dfe))
+- `yarn yo` to register a new custom template ([92ac31e](https://github.com/easyops-cn/next-core/commit/92ac31e))
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://github.com/easyops-cn/next-core/commit/d259f2b))
+- auto detect used dlls ([e070f6b](https://github.com/easyops-cn/next-core/commit/e070f6b))
+- drop `useToStringLoaderInsteadOfStyleLoader` ([33a6989](https://github.com/easyops-cn/next-core/commit/33a6989))
+- editor bricks helper ([0d63f7d](https://github.com/easyops-cn/next-core/commit/0d63f7d))
+- ensure bricks and templates are prefixed by the package name ([7cc0557](https://github.com/easyops-cn/next-core/commit/7cc0557))
+- move brick package's `@dll/*` from `devDependencies` to peerDependencies ([d96990c](https://github.com/easyops-cn/next-core/commit/d96990c))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- scan registered templates in template packages when building ([3a3aaed](https://github.com/easyops-cn/next-core/commit/3a3aaed))
+- support copy files for brick packages ([93d6974](https://github.com/easyops-cn/next-core/commit/93d6974))
+- support editors entry for brick pakcages ([d03b1e5](https://github.com/easyops-cn/next-core/commit/d03b1e5))
+- support loading editor bricks ([92f9e04](https://github.com/easyops-cn/next-core/commit/92f9e04))
+- **babel-preset-next:** babel-plugin-prismjs ([294ba10](https://github.com/easyops-cn/next-core/commit/294ba10))
+- **custom-processors:** register custom processors in brick packages ([e409452](https://github.com/easyops-cn/next-core/commit/e409452))
+- **theme:** support dark theme ([fccc811](https://github.com/easyops-cn/next-core/commit/fccc811))
+- support web workers in brick packages ([72b5a0a](https://github.com/easyops-cn/next-core/commit/72b5a0a))
+- **webpack:** ensure usages of imports of antd ([ec789d7](https://github.com/easyops-cn/next-core/commit/ec789d7))
+- support less (for custom antd styles) in @bricks/\* ([21fc734](https://github.com/easyops-cn/next-core/commit/21fc734))
+- support options for `webpack.IgnorePlugin` ([13adf77](https://github.com/easyops-cn/next-core/commit/13adf77))
+- 调整构件库及小产品的依赖声明方式，以支持构件库拆分 git 仓库 ([b5a552d](https://github.com/easyops-cn/next-core/commit/b5a552d))
+
 # [2.5.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/webpack-config-factory@2.4.1...@easyops/webpack-config-factory@2.5.0) (2021-01-19)
 
 ### Features
