@@ -160,6 +160,14 @@ export function listenerFactory(
           handler,
           context
         );
+      case "localStorage.setItem":
+      case "localStorage.removeItem":
+        return builtinLocalStorageListenerFactory(
+          method,
+          handler.args,
+          handler,
+          context
+        );
       case "event.preventDefault":
         return ((event: CustomEvent) => {
           if (!looseCheckIf(handler, { ...context, event })) {
@@ -723,6 +731,27 @@ function builtinMessageListenerFactory(
         typeof message["success"]
       >)
     );
+  } as EventListener;
+}
+
+function builtinLocalStorageListenerFactory(
+  method: "setItem" | "removeItem",
+  args: unknown[],
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+    const [name, value] = argsFactory(args, context, event);
+    if (method === "setItem") {
+      if (value !== undefined) {
+        localStorage.setItem(name as string, JSON.stringify(value));
+      }
+    } else if (method === "removeItem") {
+      localStorage.removeItem(name as string);
+    }
   } as EventListener;
 }
 

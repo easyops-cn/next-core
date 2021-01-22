@@ -14,6 +14,7 @@ import { getUrlByImageFactory } from "./image";
 import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "./core/exports";
 import { checkPermissions } from "./core/checkPermissions";
+import { getItem } from "./core/localStorage";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -239,6 +240,12 @@ export function evaluate(
   if (attemptToVisitGlobals.has("PERMISSIONS")) {
     globalVariables.PERMISSIONS = {
       check: checkPermissions,
+    };
+  }
+
+  if (attemptToVisitGlobals.has("LOCAL_STORAGE")) {
+    globalVariables.LOCAL_STORAGE = {
+      getItem,
     };
   }
 

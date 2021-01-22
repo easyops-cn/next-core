@@ -1016,6 +1016,10 @@ export interface BuiltinBrickEventHandler {
     | "alias.push"
     | "alias.replace"
 
+    // localStorage
+    | "localStorage.setItem"
+    | "localStorage.removeItem"
+
     // Iframe
     | "legacy.go"
 
