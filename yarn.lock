@@ -2898,10 +2898,10 @@
     "@types/d3-interpolate" "*"
     "@types/d3-selection" "*"
 
-"@types/d3@^6.2.0":
-  version "6.2.0"
-  resolved "https://registry.npm.taobao.org/@types/d3/download/@types/d3-6.2.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3%2Fdownload%2F%40types%2Fd3-6.2.0.tgz#db3c70ad6479cf79b15840a3d15338a9754384e7"
-  integrity sha1-2zxwrWR5z3mxWECj0VM4qXVDhOc=
+"@types/d3@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.npm.taobao.org/@types/d3/download/@types/d3-6.3.0.tgz#28d1bfd4e5ef6a38535d8ef0884d452192719528"
+  integrity sha1-KNG/1OXvajhTXY7wiE1FIZJxlSg=
   dependencies:
     "@types/d3-array" "*"
     "@types/d3-axis" "*"
