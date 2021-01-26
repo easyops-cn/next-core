@@ -19,7 +19,7 @@
     "postbuild": "dll-differ"
   },
   "dependencies": {
-    "echarts": "^4.9.0"
+    "echarts": "^5.0.1"
   },
   "devDependencies": {
     "@easyops/webpack-config-factory": "^2.4.0"
