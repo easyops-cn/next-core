@@ -2,12 +2,14 @@ import path from "path";
 import fs from "fs-extra";
 import chalk from "chalk";
 import * as changeCase from "change-case";
+import { getEasyopsConfig } from "@next-core/repo-config";
 import { loadService } from "./loaders/loadService";
 import { loadTemplate } from "./loaders/loadTemplate";
 import { clone, checkout } from "./contractGit";
 import { promptToChooseSdk, getModules } from "./prompt";
 import { apiDir } from "./loaders/env";
 import { clearGlobalInterfaces } from "./lib/internal";
+import { PUBLIC_SCOPED_SDK } from "./constants";
 
 interface Flags {
   sdk: string;
@@ -40,13 +42,21 @@ export async function main(tagOrCommit = "", flags?: Flags): Promise<void> {
 }
 
 export function create(serviceName: string): void {
+  const paramCaseSdkName = changeCase.paramCase(serviceName);
+  const { usePublicScope } = getEasyopsConfig();
+  const isPublicScopedSdk = PUBLIC_SCOPED_SDK.includes(paramCaseSdkName);
+  const allowed = usePublicScope ? isPublicScopedSdk : !isPublicScopedSdk;
+  if (!allowed) {
+    throw new Error(
+      usePublicScope
+        ? `${paramCaseSdkName}-sdk are only allowed in the public repository`
+        : `${paramCaseSdkName}-sdk are only allowed in the private repository`
+    );
+  }
+
   clearGlobalInterfaces();
 
-  const sdkRoot = path.join(
-    process.cwd(),
-    "sdk",
-    changeCase.paramCase(serviceName) + "-sdk"
-  );
+  const sdkRoot = path.join(process.cwd(), "sdk", paramCaseSdkName + "-sdk");
 
   let sdkVersion;
   if (fs.existsSync(path.join(sdkRoot, "package.json"))) {
