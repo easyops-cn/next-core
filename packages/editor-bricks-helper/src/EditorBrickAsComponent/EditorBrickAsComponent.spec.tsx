@@ -2,14 +2,14 @@ import React from "react";
 import { act } from "react-dom/test-utils";
 import { mount } from "enzyme";
 import { useDrag } from "react-dnd";
-import { BrickAsComponent } from "@easyops/brick-kit";
-import { UseSingleBrickConf } from "@easyops/brick-types";
+import { BrickAsComponent } from "@next-core/brick-kit";
+import { UseSingleBrickConf } from "@next-core/brick-types";
 import { EditorBrickAsComponent } from "./EditorBrickAsComponent";
 import { getEditorBrick } from "./getEditorBrick";
 import { BuilderRuntimeNode, EditorSelfLayout } from "../interfaces";
 
 jest.mock("react-dnd");
-jest.mock("@easyops/brick-kit");
+jest.mock("@next-core/brick-kit");
 jest.mock("./getEditorBrick");
 
 (useDrag as jest.MockedFunction<typeof useDrag>).mockReturnValue([

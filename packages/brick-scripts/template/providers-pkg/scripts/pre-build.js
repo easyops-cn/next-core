@@ -1,3 +1,3 @@
-const { preBuild } = require("@easyops/build-config-factory");
+const { preBuild } = require("@next-core/build-config-factory");
 
 preBuild("providers");

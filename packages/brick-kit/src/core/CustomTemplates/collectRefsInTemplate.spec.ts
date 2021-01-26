@@ -1,4 +1,4 @@
-import { CustomTemplate } from "@easyops/brick-types";
+import { CustomTemplate } from "@next-core/brick-types";
 import { collectRefsInTemplate } from "./collectRefsInTemplate";
 
 describe("collectRefsInTemplate", () => {

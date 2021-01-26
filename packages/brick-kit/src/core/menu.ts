@@ -5,7 +5,7 @@ import {
   PluginRuntimeContext,
   SidebarMenu,
   ResolveConf,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { InstanceApi } from "@sdk/cmdb-sdk";
 import { MountRoutesResult } from "./LocationContext";
 import { computeRealValue } from "../setProperties";

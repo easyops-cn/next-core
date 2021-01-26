@@ -2,9 +2,8 @@
   "$schema": "http://json.schemastore.org/renovate",
   "extends": ["config:base"],
   "rangeStrategy": "bump",
-  "semanticCommits": "enabled",
+  "semanticCommits": true,
   "commitMessagePrefix": "chore(deps):",
-  "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
   "packageRules": [
     {
@@ -17,12 +16,17 @@
         "^@libs/",
         "^@micro-apps/",
         "^@sdk/",
-        "^@templates/"
+        "^@templates/",
+        "^@next-bricks/",
+        "^@next-libs/",
+        "^@next-micro-apps/",
+        "^@next-sdk/",
+        "^@next-legacy-templates/"
       ],
       "enabled": false
     },
     {
-      "packagePatterns": ["^@easyops/"],
+      "packagePatterns": ["^@next-core/"],
       "automerge": false,
       "groupName": "next-core packages",
       "postUpgradeTasks": {
@@ -31,7 +35,7 @@
           "yarn extract",
           "./node_modules/.bin/prettier --write package.json"
         ],
-        "fileFilters": ["**/*", ".gitlab/**/*"]
+        "fileFilters": ["**/*", ".gitlab/**/*", ".github/**/*"]
       }
     }
   ]

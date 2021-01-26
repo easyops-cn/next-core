@@ -1,4 +1,4 @@
-import { BuilderRouteOrBrickNode } from "@easyops/brick-types";
+import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
   rootId: number;

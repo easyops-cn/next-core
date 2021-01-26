@@ -3,7 +3,7 @@ import {
   HttpParseError,
   HttpResponse,
   HttpResponseError,
-} from "@easyops/brick-http";
+} from "@next-core/brick-http";
 
 let instance: ApiAnalysisService;
 

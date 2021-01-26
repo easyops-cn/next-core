@@ -1,3 +1,3 @@
 module.exports = {
-  presets: ["@easyops/babel-preset-next"]
+  presets: ["@next-core/babel-preset-next"],
 };

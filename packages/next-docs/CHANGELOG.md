@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.7 (2021-01-22)
+
+### Bug Fixes
+
+- **pipes:** add export randomString ([414c732](https://github.com/easyops-cn/next-core/commit/414c732))
+- integrate with pipe docs ([ed7acb3](https://github.com/easyops-cn/next-core/commit/ed7acb3))
+- integrate with pipe list ([36c0a9d](https://github.com/easyops-cn/next-core/commit/36c0a9d))
+- update @easyops-cn/brick-next-pipes ([17fbb76](https://github.com/easyops-cn/next-core/commit/17fbb76))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **pipes:** add randomString pipe ([fa50510](https://github.com/easyops-cn/next-core/commit/fa50510))
+- add new pipe `mergeArrayByKey` ([b4b2c6a](https://github.com/easyops-cn/next-core/commit/b4b2c6a))
+
 ## [1.2.6](https://git.easyops.local/anyclouds/next-core/compare/@easyops/next-docs@1.2.5...@easyops/next-docs@1.2.6) (2021-01-20)
 
 **Note:** Version bump only for package @easyops/next-docs

@@ -13,8 +13,7 @@ export function getPackageJson(): Record<string, any> {
 }
 
 export const devDependenciesCopyMap = {
-  devDependencies: ["@easyops/dev-dependencies"],
-  templateDependencies: ["@bricks/basic-bricks"]
+  devDependencies: ["@next-core/dev-dependencies"],
 };
 
 export function escapeRegExp(str: string): string {
@@ -30,7 +29,7 @@ export function replaceFileContent(
   translations: Record<string, string>
 ): string {
   const content = fs.readFileSync(filePath, "utf8");
-  const contentFinds = Object.keys(translations).filter(key =>
+  const contentFinds = Object.keys(translations).filter((key) =>
     content.includes(key)
   );
   if (contentFinds.length > 0) {

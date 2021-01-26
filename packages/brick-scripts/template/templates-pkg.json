@@ -1,5 +1,5 @@
 {
-  "name": "@templates/$kebab-package-name$",
+  "name": "$npm-scope-of-templates$/$kebab-package-name$",
   "version": "0.1.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/templates/$kebab-package-name$",
@@ -15,8 +15,5 @@
     "pack:tar": "npm pack",
     "postpack:tar": "node scripts/rename-tar-package.js"
   },
-  "sideEffects": true,
-  "peerDependencies": {
-    "@bricks/basic-bricks": "latest"
-  }
+  "sideEffects": true
 }

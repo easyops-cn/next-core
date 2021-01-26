@@ -1,8 +1,6 @@
-import { BrickTemplateFactory, TemplateRegistry } from "@easyops/brick-types";
+import { BrickTemplateFactory, TemplateRegistry } from "@next-core/brick-types";
 
-export const brickTemplateRegistry: TemplateRegistry<
-  BrickTemplateFactory
-> = new Map();
+export const brickTemplateRegistry: TemplateRegistry<BrickTemplateFactory> = new Map();
 
 export function registerBrickTemplate(
   name: string,

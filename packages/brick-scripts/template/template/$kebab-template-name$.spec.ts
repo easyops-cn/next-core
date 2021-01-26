@@ -1,13 +1,13 @@
-import { BrickConf } from "@easyops/brick-types";
+import { BrickConf } from "@next-core/brick-types";
 import {
   $camelTemplateName$Factory,
-  $PascalTemplateName$Params
+  $PascalTemplateName$Params,
 } from "./$kebab-template-name$";
 
-jest.mock("@easyops/brick-kit", () => ({
+jest.mock("@next-core/brick-kit", () => ({
   getRuntime: () => ({
-    registerBrickTemplate: jest.fn()
-  })
+    registerBrickTemplate: jest.fn(),
+  }),
 }));
 
 describe("micro-app", () => {
@@ -15,9 +15,9 @@ describe("micro-app", () => {
     [
       {},
       {
-        brick: "your.brick"
-      }
-    ]
+        brick: "your.brick",
+      },
+    ],
   ])("$camelTemplateName$Factory(%j) should work", (params, brickConf) => {
     expect($camelTemplateName$Factory(params)).toEqual(brickConf);
   });

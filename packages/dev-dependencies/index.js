@@ -19,7 +19,7 @@ exports.extractAndInstall = async function extractAndInstall() {
 };
 
 function updateSelf() {
-  const selfPackageName = "@easyops/dev-dependencies";
+  const selfPackageName = "@next-core/dev-dependencies";
   let tag = "";
   if (argv.tag) {
     tag = `@${argv.tag}`;

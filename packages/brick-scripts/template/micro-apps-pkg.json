@@ -1,5 +1,5 @@
 {
-  "name": "@micro-apps/$kebab-package-name$",
+  "name": "$npm-scope-of-micro-apps$/$kebab-package-name$",
   "version": "0.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/micro-apps/$kebab-package-name$",
@@ -11,8 +11,5 @@
     "prepack:tar": "node scripts/generate-version-file.js && npm run build",
     "pack:tar": "npm pack",
     "postpack:tar": "node scripts/rename-tar-package.js"
-  },
-  "peerDependencies": {
-    "@bricks/basic-bricks": "latest"
   }
 }

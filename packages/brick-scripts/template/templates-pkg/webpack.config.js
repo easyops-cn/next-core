@@ -1,4 +1,4 @@
-const { bricks, merge } = require("@easyops/webpack-config-factory");
+const { bricks, merge } = require("@next-core/webpack-config-factory");
 
 const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
 

@@ -13,7 +13,15 @@ const packageJson = require(path.join(process.cwd(), "package.json"));
 //   other peerDependencies.
 const peerDependencies = Object.keys(packageJson.peerDependencies || {});
 const external = new Set();
-const dllNames = ["@easyops/brick-dll", /^@dll\//];
+const dllNames = [
+  // Internal:
+  "@easyops/brick-dll",
+  /^@dll\//,
+
+  // Public:
+  "@next-core/brick-dll",
+  /^@next-dll\//,
+];
 peerDependencies.forEach((dep) => {
   if (
     dllNames.some((name) =>
@@ -28,6 +36,12 @@ peerDependencies.forEach((dep) => {
     external.add(dep);
   }
 });
+
+for (const ext of external) {
+  if (ext.startsWith("@next-core/")) {
+    external.add(ext.replace("@next-core/", "@easyops/"));
+  }
+}
 
 // By default, rollup-plugin-postcss use filename hash instead of content hash.
 function generateScopedName(name, filename, css) {

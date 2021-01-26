@@ -7,72 +7,89 @@ module.exports = function validateDeps(scope) {
   if (scope === "bricks") {
     if (!isEmpty(packageJson.dependencies)) {
       throw new Error(
-        "`@" +
-          scope +
-          "/*` should not have any `dependencies`, use `peerDependencies` for `@dll/*` and `devDependencies` for others instead."
+        scope +
+          "/*` should not have any `dependencies`, use `peerDependencies` for `@next-dll/*` and `devDependencies` for others instead."
       );
     }
     const devDependencies = Object.keys(packageJson.devDependencies || {});
     if (
       devDependencies.some(
-        name =>
+        (name) =>
+          name.startsWith("@next-bricks/") ||
+          name.startsWith("@next-legacy-templates/") ||
+          name.startsWith("@next-micro-apps/") ||
           name.startsWith("@bricks/") ||
           name.startsWith("@templates/") ||
           name.startsWith("@micro-apps/")
       )
     ) {
       throw new Error(
-        "`@" +
-          scope +
-          "/*` should never have devDependencies of `@templates/*` or `@micro-apps/*` or other `@bricks/*`."
+        scope +
+          "/*` should never have devDependencies of templates or micro-apps or other bricks."
+      );
+    }
+    if (
+      devDependencies.includes("@next-core/brick-dll") ||
+      devDependencies.some((pkg) => pkg.startsWith("@next-dll/"))
+    ) {
+      throw new Error(
+        scope +
+          "/*` should never have `devDependencies` of `@next-core/brick-dll` or `@next-dll/*`."
       );
     }
     if (
       devDependencies.includes("@easyops/brick-dll") ||
-      devDependencies.some(pkg => pkg.startsWith("@dll/"))
+      devDependencies.some((pkg) => pkg.startsWith("@dll/"))
     ) {
       throw new Error(
-        "`@" +
-          scope +
+        scope +
           "/*` should never have `devDependencies` of `@easyops/brick-dll` or `@dll/*`."
       );
     }
     const peerDependencies = Object.keys(packageJson.peerDependencies || {});
     if (
       peerDependencies.some(
-        pkg => !pkg.startsWith("@dll/") && !pkg.startsWith("@bricks/")
+        (pkg) =>
+          !pkg.startsWith("@next-dll/") &&
+          !pkg.startsWith("@next-bricks/") &&
+          !pkg.startsWith("@bricks/")
       )
     ) {
       throw new Error(
         "`@" +
           scope +
-          "/*` should only have `peerDependencies` of `@dll/*` or `@bricks/*`."
+          "/*` should only have `peerDependencies` of `@next-dll/*` or `@next-bricks/*`(`@bricks/*`)."
       );
     }
   } else if (scope === "micro-apps" || scope === "templates") {
     if (!isEmpty(packageJson.dependencies)) {
       throw new Error(
-        "`@" +
-          scope +
-          "/*` should not have any `dependencies`, use `peerDependencies` for `@bricks/*` and `@templates/*`, use `devDependencies` for others."
+        scope +
+          "/*` should not have any `dependencies`, use `peerDependencies` for bricks and templates, use `devDependencies` for others."
       );
     }
     const peerDependencies = Object.keys(packageJson.peerDependencies || {});
     if (
       peerDependencies.some(
-        name => !(name.startsWith("@bricks/") || name.startsWith("@templates/"))
+        (name) =>
+          !(
+            name.startsWith("@next-bricks/") ||
+            name.startsWith("@next-legacy-templates/") ||
+            name.startsWith("@bricks/") ||
+            name.startsWith("@templates/")
+          )
       )
     ) {
       throw new Error(
         "`@" +
           scope +
-          "/*` should only contain `@bricks/*` and `@templates/*` in `peerDependencies`, use `devDependencies` for others."
+          "/*` should only contain bricks and templates in `peerDependencies`, use `devDependencies` for others."
       );
     }
     const peerDependenciesVersions = Object.values(
       packageJson.peerDependencies || {}
     );
-    if (peerDependenciesVersions.some(version => !/[>^]/.test(version))) {
+    if (peerDependenciesVersions.some((version) => !/[>^]/.test(version))) {
       throw new Error(
         "`@" +
           scope +
@@ -82,13 +99,17 @@ module.exports = function validateDeps(scope) {
     const devDependencies = Object.keys(packageJson.devDependencies || {});
     if (
       devDependencies.some(
-        name => name.startsWith("@bricks/") || name.startsWith("@templates/")
+        (name) =>
+          name.startsWith("@next-bricks/") ||
+          name.startsWith("@next-legacy-templates/") ||
+          name.startsWith("@bricks/") ||
+          name.startsWith("@templates/")
       )
     ) {
       throw new Error(
         "`@" +
           scope +
-          "/*` should only contain `@bricks/*` and `@templates/*` in `peerDependencies`."
+          "/*` should only contain bricks and templates in `peerDependencies`."
       );
     }
   }

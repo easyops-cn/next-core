@@ -27,7 +27,7 @@ module.exports = function extract() {
   const devDependencies = rootPackageJson.devDependencies;
 
   const toBeExtracted = new Map();
-  const resolutions = ["@easyops/brick-types", "lodash", "@types/react"];
+  const resolutions = ["@next-core/brick-types", "lodash", "@types/react"];
 
   if (!rootPackageJson.resolutions) {
     rootPackageJson.resolutions = {};
@@ -37,7 +37,7 @@ module.exports = function extract() {
     delete rootPackageJson.resolutions.expect;
   }
 
-  // Remove all packages those are included in `@easyops/dev-dependencies`
+  // Remove all packages those are included in `@next-core/dev-dependencies`
   for (const [name, version] of Object.entries(selfJson.dependencies)) {
     if (resolutions.includes[name]) {
       rootPackageJson.resolutions[name] = version;
@@ -56,7 +56,12 @@ module.exports = function extract() {
     toBeExtracted.set(name, version);
   }
 
-  const dlls = ["@easyops/brick-dll", "@dll/ace", "@dll/d3", "@dll/echarts"];
+  const dlls = [
+    "@next-core/brick-dll",
+    "@next-dll/ace",
+    "@next-dll/d3",
+    "@next-dll/echarts",
+  ];
   for (const pkg of dlls) {
     // 解决该包在 `npm link` 下使用时报错的问题
     const dllPackageJson = readJson(
@@ -70,11 +75,11 @@ module.exports = function extract() {
   }
 
   const kitPackageJson = readJson(
-    require.resolve("@easyops/brick-kit/package.json", {
+    require.resolve("@next-core/brick-kit/package.json", {
       paths: [process.cwd()],
     })
   );
-  const kitDeps = ["@easyops/brick-types"];
+  const kitDeps = ["@next-core/brick-types"];
   for (const name of kitDeps) {
     toBeExtracted.set(name, kitPackageJson.dependencies[name]);
   }

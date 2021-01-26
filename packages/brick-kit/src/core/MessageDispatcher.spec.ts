@@ -3,7 +3,7 @@ import {
   getMessageDispatcher,
   MessageDispatcher,
 } from "./MessageDispatcher";
-import { MessageConf, PluginRuntimeContext } from "@easyops/brick-types";
+import { MessageConf, PluginRuntimeContext } from "@next-core/brick-types";
 import * as WS from "../websocket/WebSocket";
 import * as BL from "../bindListeners";
 import {

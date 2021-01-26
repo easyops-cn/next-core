@@ -1,5 +1,5 @@
 {
-  "name": "@libs/$kebab-package-name$",
+  "name": "$npm-scope-of-libs$/$kebab-package-name$",
   "version": "0.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/libs/$kebab-package-name$",

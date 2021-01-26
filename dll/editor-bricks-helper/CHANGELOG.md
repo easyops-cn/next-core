@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.4.7 (2021-01-22)
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://git.easyops.local/anyclouds/next-core/commits/d259f2b))
+- add a hook of useBuilderParentNode ([6367ebe](https://git.easyops.local/anyclouds/next-core/commits/6367ebe))
+- editor bricks helper ([0d63f7d](https://git.easyops.local/anyclouds/next-core/commits/0d63f7d))
+- rename [@easyops](https://git.easyops.local/easyops) by [@next-core](https://git.easyops.local/next-core), and [@dll](https://git.easyops.local/dll) by [@next-dll](https://git.easyops.local/next-dll) ([d87ed1e](https://git.easyops.local/anyclouds/next-core/commits/d87ed1e))
+- support context menu ([ed01175](https://git.easyops.local/anyclouds/next-core/commits/ed01175))
+
 ## [0.4.6](https://git.easyops.local/anyclouds/next-core/compare/@dll/editor-bricks-helper@0.4.5...@dll/editor-bricks-helper@0.4.6) (2021-01-20)
 
 **Note:** Version bump only for package @dll/editor-bricks-helper

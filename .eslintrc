@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": "@easyops/eslint-config-next",
+  "extends": "@next-core/eslint-config-next",
   "overrides": [
     {
       "files": [
@@ -18,9 +18,10 @@
         "packages/browserslist-config-next/*.js",
         "packages/dev-dependencies/**/*.js",
         "packages/dll-differ/**/*.js",
-        "packages/less-plugin-css-variables/**/*.js"
+        "packages/less-plugin-css-variables/**/*.js",
+        "packages/repo-config/**/*.js"
       ],
-      "extends": "@easyops/eslint-config-next/node"
+      "extends": "@next-core/eslint-config-next/node"
     },
     {
       "files": ["packages/brick-scripts/template/**/*.{js,ts,jsx,tsx}"],
@@ -30,7 +31,7 @@
     },
     {
       "files": ["cypress/**/*.js"],
-      "extends": "@easyops/eslint-config-next/node",
+      "extends": "@next-core/eslint-config-next/node",
       "globals": {
         "cy": true,
         "Cypress": true

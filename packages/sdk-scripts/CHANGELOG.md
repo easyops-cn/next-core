@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.2.2 (2021-01-22)
+
+### Bug Fixes
+
+- **sdk-scripts:** 修复不能使用配置的契约目录 ([7affd8f](https://github.com/easyops-cn/next-core/commit/7affd8f))
+- fix a problem when a complex request has no body ([99d4dad](https://github.com/easyops-cn/next-core/commit/99d4dad))
+- fix a problem when an api use a refed-refed-ref ([d131686](https://github.com/easyops-cn/next-core/commit/d131686))
+- include api detail in comments ([33910f3](https://github.com/easyops-cn/next-core/commit/33910f3))
+- refine exported names of literal interfaces ([b0dd5f4](https://github.com/easyops-cn/next-core/commit/b0dd5f4))
+- refine scripts for concurrently process ([a167a4a](https://github.com/easyops-cn/next-core/commit/a167a4a))
+- support use a ref of another model field in a model field ([07b486f](https://github.com/easyops-cn/next-core/commit/07b486f))
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://github.com/easyops-cn/next-core/commit/fef31e4))
+- use type alias for array types ([08f3151](https://github.com/easyops-cn/next-core/commit/08f3151))
+
+### Features
+
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **sdk-scripts:** 生成 sdk 显示 endpoint ([175caf0](https://github.com/easyops-cn/next-core/commit/175caf0))
+- export anonymous interfaces ([7e2f77f](https://github.com/easyops-cn/next-core/commit/7e2f77f))
+- export named literal interfaces ([091a8c9](https://github.com/easyops-cn/next-core/commit/091a8c9))
+- move certain dev dependencies to root ([ab25738](https://github.com/easyops-cn/next-core/commit/ab25738))
+- move sdk's dep of `@easyops/brick-http` out to workspace ([3176980](https://github.com/easyops-cn/next-core/commit/3176980))
+- read .easyops.yo.config refs BRICK_STORE-1434 ([05c310f](https://github.com/easyops-cn/next-core/commit/05c310f))
+- sdk-scripts support --sdk refs ([0fa40f9](https://github.com/easyops-cn/next-core/commit/0fa40f9))
+- **sdk-scripts:** 修改 skd homepage 地址 ([8b17f69](https://github.com/easyops-cn/next-core/commit/8b17f69))
+- generate provider ([2ad3b82](https://github.com/easyops-cn/next-core/commit/2ad3b82))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([d6c212c](https://github.com/easyops-cn/next-core/commit/d6c212c))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- support enum ([c776768](https://github.com/easyops-cn/next-core/commit/c776768))
+- support semver ([0dbe232](https://github.com/easyops-cn/next-core/commit/0dbe232))
+
 ## [2.2.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/sdk-scripts@2.2.0...@easyops/sdk-scripts@2.2.1) (2021-01-18)
 
 **Note:** Version bump only for package @easyops/sdk-scripts

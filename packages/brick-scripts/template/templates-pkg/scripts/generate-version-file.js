@@ -1,3 +1,3 @@
-const { createVersionFile } = require("@easyops/build-config-factory");
+const { createVersionFile } = require("@next-core/build-config-factory");
 
 createVersionFile();

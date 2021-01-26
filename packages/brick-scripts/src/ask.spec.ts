@@ -1,4 +1,5 @@
 import inquirer from "inquirer";
+import { getEasyopsConfig } from "@next-core/repo-config";
 import { TargetType } from "./interface";
 import { askTargetType } from "./questions/askTargetType";
 import { askPackageName } from "./questions/askPackageName";
@@ -7,22 +8,19 @@ import { askTemplateName } from "./questions/askTemplateName";
 import { askProcessorName } from "./questions/askProcessorName";
 import { askEditorBrickName } from "./questions/askEditorBrickName";
 import { ask } from "./ask";
-import { getEasyopsConfig } from "./getEasyopsConfig";
-
-jest.mock("./getEasyopsConfig");
-(getEasyopsConfig as jest.Mock).mockReturnValue({
-  contractYamlDir: "easyops",
-  contractUrl: "https://github.com/easyops-cn/contract-center.git",
-  useLocalSdk: true,
-});
 
 jest.mock("inquirer");
+jest.mock("@next-core/repo-config");
 jest.mock("./questions/askTargetType");
 jest.mock("./questions/askPackageName");
 jest.mock("./questions/askBrickName");
 jest.mock("./questions/askTemplateName");
 jest.mock("./questions/askProcessorName");
 jest.mock("./questions/askEditorBrickName");
+
+(getEasyopsConfig as jest.Mock).mockReturnValue({
+  useLocalSdk: true,
+});
 
 const spyOnAskTargetType = askTargetType as jest.Mock;
 const spyOnAskPackageName = askPackageName as jest.Mock;

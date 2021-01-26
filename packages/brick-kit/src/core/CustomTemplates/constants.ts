@@ -5,7 +5,7 @@ import {
   RuntimeBrickConf,
   RuntimeBrickElement,
   TemplateRegistry,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 export const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
 export const appRegistered = new Set<string>();

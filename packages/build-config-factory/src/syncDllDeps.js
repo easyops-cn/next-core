@@ -10,11 +10,16 @@ module.exports = function syncDllDeps() {
   const rootPackageJson = require(rootPackageJsonPath);
   const devDependencies = rootPackageJson.devDependencies;
 
-  const dlls = ["@easyops/brick-dll", "@dll/ace", "@dll/d3", "@dll/echarts"];
+  const dlls = [
+    "@next-core/brick-dll",
+    "@next-dll/ace",
+    "@next-dll/d3",
+    "@next-dll/echarts",
+  ];
   for (const pkg of dlls) {
     // 解决该包在 `npm link` 下使用时报错的问题
     const dllPackageJson = require(require.resolve(`${pkg}/package.json`, {
-      paths: [process.cwd()]
+      paths: [process.cwd()],
     }));
     for (const [name, version] of Object.entries(dllPackageJson.dependencies)) {
       console.log(name, version);
@@ -23,12 +28,12 @@ module.exports = function syncDllDeps() {
   }
 
   const kitPackageJson = require(require.resolve(
-    "@easyops/brick-kit/package.json",
+    "@next-core/brick-kit/package.json",
     {
-      paths: [process.cwd()]
+      paths: [process.cwd()],
     }
   ));
-  const kitDeps = ["@easyops/brick-types"];
+  const kitDeps = ["@next-core/brick-types"];
   for (const pkg of kitDeps) {
     const version = kitPackageJson.dependencies[pkg];
     console.log(pkg, version);
@@ -54,14 +59,14 @@ module.exports = function syncDllDeps() {
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = require(renovateJsonPath);
   const disabledRule = renovateJson.packageRules.find(
-    item => item.enabled === false
+    (item) => item.enabled === false
   );
   const disabledPackageNames = new Set(disabledRule.packageNames);
 
   for (const pkg of dlls) {
     // 解决该包在 `npm link` 下使用时报错的问题
     const dllPackageJson = require(require.resolve(`${pkg}/package.json`, {
-      paths: [process.cwd()]
+      paths: [process.cwd()],
     }));
     for (const name of Object.keys(dllPackageJson.dependencies)) {
       disabledPackageNames.add(name);

@@ -1,4 +1,4 @@
-import { Storyboard, BrickPackage } from "@easyops/brick-types";
+import { Storyboard, BrickPackage } from "@next-core/brick-types";
 import {
   scanBricksInStoryboard,
   ScanBricksOptions,
@@ -93,7 +93,7 @@ export function getDllAndDepsByResource(
         deps.push(pkg.filePath);
       }
       if (hasEditorBricks) {
-        // Editor bricks have a constant dll of `@dll/editor-bricks-helper`.
+        // Editor bricks have a constant dll of `@next-dll/editor-bricks-helper`.
         dll.add("editor-bricks-helper");
         deps.push(pkg.editorsJsFilePath);
       }

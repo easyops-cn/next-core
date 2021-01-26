@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": "@easyops/eslint-config-next"
+  "extends": "@next-core/eslint-config-next"
 }

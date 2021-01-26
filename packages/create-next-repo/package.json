@@ -1,8 +1,8 @@
 {
-  "name": "@easyops/create-next-repo",
-  "version": "1.2.23",
+  "name": "@next-core/create-next-repo",
+  "version": "1.2.24",
   "description": "Create new brick-next repositories",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/create-next-repo",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-next-repo",
   "license": "UNLICENSED",
   "main": "dist/index.js",
   "bin": {
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -35,13 +35,10 @@
     "prettier": "^2.2.1",
     "semver": "^7.3.4"
   },
-  "templateDependencies": {
-    "@bricks/basic-bricks": "^1.84.0"
-  },
   "devDependencies": {
-    "@easyops/dev-dependencies": "^1.2.20"
+    "@next-core/dev-dependencies": "^1.2.21"
   },
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=12.0.0"
   }
 }

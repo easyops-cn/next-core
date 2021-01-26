@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Empty } from "antd";
 import EmptyGreyImage from "./empty-grey-image.svg";
 import EmptyLightGreyImage from "./empty-light-grey-image.svg";
-import { getIllustration, IllustrationProps } from "@easyops/illustrations";
+import { getIllustration, IllustrationProps } from "@next-core/illustrations";
 // @internal
 export interface EasyopsEmptyProps {
   background?: string;

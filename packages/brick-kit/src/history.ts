@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history";
-import { PluginHistory } from "@easyops/brick-types";
+import { PluginHistory } from "@next-core/brick-types";
 import { historyExtended } from "./historyExtended";
 import { getBasePath } from "./getBasePath";
 

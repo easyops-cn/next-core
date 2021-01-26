@@ -1,4 +1,4 @@
-import { Storyboard, BrickConf } from "@easyops/brick-types";
+import { Storyboard, BrickConf } from "@next-core/brick-types";
 import { uniq } from "lodash";
 import { scanStoryboard, collectBricksInBrickConf } from "./scanStoryboard";
 

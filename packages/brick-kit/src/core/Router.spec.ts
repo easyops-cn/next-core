@@ -12,11 +12,11 @@ import { mountTree, mountStaticNode } from "./reconciler";
 import { getAuth, isLoggedIn } from "../auth";
 import { getRuntime } from "../runtime";
 import { preCheckPermissions } from "./checkPermissions";
-import { apiAnalyzer } from "@easyops/easyops-analytics";
+import { apiAnalyzer } from "@next-core/easyops-analytics";
 import {
   scanCustomApisInStoryboard,
   mapCustomApisToNameAndNamespace,
-} from "@easyops/brick-utils";
+} from "@next-core/brick-utils";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -25,8 +25,8 @@ jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("./checkPermissions");
-jest.mock("@easyops/easyops-analytics");
-jest.mock("@easyops/brick-utils");
+jest.mock("@next-core/easyops-analytics");
+jest.mock("@next-core/brick-utils");
 
 const spyOnScanCustomApisInStoryboard = scanCustomApisInStoryboard as jest.Mock;
 spyOnScanCustomApisInStoryboard.mockReturnValue([

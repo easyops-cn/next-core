@@ -5,7 +5,7 @@ import {
   CustomTemplateProxyMergeablePropertyOfObject,
   CustomTemplateProxyRefProperty,
   PluginRuntimeContext,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 /** @internal */
 export interface RuntimeCustomTemplateProxy extends CustomTemplateProxy {

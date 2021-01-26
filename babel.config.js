@@ -5,7 +5,7 @@ module.exports = {
     ".",
 
     // Also consider monorepo packages "root" and load their .babelrc files.
-    "./packages/*"
+    "./packages/*",
   ],
-  presets: ["@easyops/babel-preset-next"]
+  presets: ["@next-core/babel-preset-next"],
 };

@@ -5,7 +5,7 @@ import {
   CustomTemplateProxyRefProperty,
   CustomTemplateProxyTransformableProperty,
   CustomTemplateProxyVariableProperty,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 export function isBasicProperty(
   propRef: CustomTemplateProxyProperty

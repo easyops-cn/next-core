@@ -7,7 +7,7 @@ import {
   HttpFetchError,
   HttpResponseError,
   HttpParseError,
-} from "@easyops/brick-http";
+} from "@next-core/brick-http";
 import {
   httpErrorToString,
   handleHttpError,

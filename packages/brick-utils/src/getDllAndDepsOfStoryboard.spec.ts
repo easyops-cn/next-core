@@ -1,4 +1,4 @@
-import { Storyboard, BrickPackage } from "@easyops/brick-types";
+import { Storyboard, BrickPackage } from "@next-core/brick-types";
 import {
   getDllAndDepsOfStoryboard,
   getDllAndDepsOfBricks,

@@ -11,7 +11,7 @@
       "allowBranch": ["master", "legacy/**"],
       "verifyAccess": false,
       "message": "chore(release): publish",
-      "registry": "https://registry.npm.easyops.local"
+      "registry": "https://registry.npmjs.org"
     }
   }
 }

@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import { isObject } from "@easyops/brick-utils";
+import { isObject } from "@next-core/brick-utils";
 import {
   UseBrickConf,
   UseSingleBrickConf,
@@ -7,7 +7,7 @@ import {
   BrickEventsMap,
   UseBrickSlotsConf,
   BrickEventHandler,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
 import {

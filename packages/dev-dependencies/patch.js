@@ -310,10 +310,10 @@ function updateWebpackMerge() {
               escapeRegExp('const merge = require("webpack-merge");') +
                 "[\\r\\n]*" +
                 escapeRegExp(
-                  'const { bricks } = require("@easyops/webpack-config-factory");'
+                  'const { bricks } = require("@next-core/webpack-config-factory");'
                 )
             ),
-            'const { bricks, merge } = require("@easyops/webpack-config-factory");',
+            'const { bricks, merge } = require("@next-core/webpack-config-factory");',
           ],
         ];
         let updated = false;
@@ -341,7 +341,7 @@ function updateRenovatePostUpgradeTasks() {
   );
   if (nextCoreGroup && !nextCoreGroup.postUpgradeTasks) {
     Object.assign(nextCoreGroup, {
-      packagePatterns: ["^@easyops/"],
+      packagePatterns: ["^@next-core/"],
       postUpgradeTasks: {
         commands: [
           "yarn renew",
@@ -386,10 +386,10 @@ function updateRenovateBaseBranches() {
   );
 
   if (!legacyGroup) {
-    // Ignore all updates except `@easyops/*` in legacy branch.
+    // Ignore all updates except `@next-core/*` in legacy branch.
     renovateJson.packageRules.push({
       baseBranchList: [legacyBranchName],
-      excludePackagePatterns: ["^@easyops/"],
+      excludePackagePatterns: ["^@next-core/"],
       enabled: false,
     });
   }

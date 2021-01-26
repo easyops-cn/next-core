@@ -1,4 +1,4 @@
-import { BrickConfInTemplate } from "@easyops/brick-types";
+import { BrickConfInTemplate } from "@next-core/brick-types";
 import { MergeablePropertyProxy } from "./internalInterfaces";
 import { propertyMerge, propertyMergeAll } from "./propertyMerge";
 import { collectMergeBases } from "./collectMergeBases";

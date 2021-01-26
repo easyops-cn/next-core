@@ -1,12 +1,10 @@
 import fs from "fs-extra";
 import path from "path";
 import inquirer from "inquirer";
+import { getEasyopsConfig } from "@next-core/repo-config";
 import { TargetType } from "../interface";
 import { targetMap } from "../constant";
-import { getEasyopsConfig } from "../getEasyopsConfig";
 import { translateListToAutocomplete } from "./translateListToAutocomplete";
-
-const easyopsConfig = getEasyopsConfig();
 
 interface AskPackageNameOptions {
   targetType: TargetType;
@@ -17,6 +15,8 @@ function legacyAskPackageName({
   targetType,
   appRoot,
 }: AskPackageNameOptions): inquirer.DistinctQuestion<{ packageName: string }> {
+  const { useLocalSdk } = getEasyopsConfig();
+
   if (
     [
       TargetType.A_NEW_BRICK,
@@ -26,7 +26,7 @@ function legacyAskPackageName({
       TargetType.A_NEW_CUSTOM_PROCESSOR,
     ].includes(targetType)
   ) {
-    // 读取当前的 `@bricks/*` 作为候选列表。
+    // 读取当前的 `bricks/*` 作为候选列表。
     const root = path.join(appRoot, "bricks");
     const pkgList = fs
       .readdirSync(root, { withFileTypes: true })
@@ -49,7 +49,7 @@ function legacyAskPackageName({
   }
 
   if (targetType === TargetType.A_NEW_LEGACY_TEMPLATE) {
-    // 读取当前的 `@templates/*` 作为候选列表。
+    // 读取当前的 `templates/*` 作为候选列表。
     const root = path.join(appRoot, "templates");
     const pkgList = fs
       .readdirSync(root, { withFileTypes: true })
@@ -66,10 +66,10 @@ function legacyAskPackageName({
   }
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
-    // 读取所有的 `@sdk/*` 作为候选列表。
+    // 读取所有的 `sdk/*` 作为候选列表。
     const root = path.join(
       appRoot,
-      easyopsConfig?.useLocalSdk ? "sdk" : "../next-providers/sdk"
+      useLocalSdk ? "sdk" : "../next-providers/sdk"
     );
     const sdkList = fs
       .readdirSync(root, { withFileTypes: true })
@@ -88,7 +88,7 @@ function legacyAskPackageName({
   }
 
   if (targetType === TargetType.TRANSFORM_A_MICRO_APP) {
-    // 读取所有的 `@micro-apps/*` 作为候选列表。
+    // 读取所有的 `micro-apps/*` 作为候选列表。
     const root = path.join(appRoot, "micro-apps");
     const microApps = fs
       .readdirSync(root, { withFileTypes: true })
@@ -107,7 +107,7 @@ function legacyAskPackageName({
   }
 
   if (targetType === TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES) {
-    // 读取所有的 `@templates/*` 作为候选列表。
+    // 读取所有的 `templates/*` 作为候选列表。
     const root = path.join(appRoot, "templates");
     const microApps = fs
       .readdirSync(root, { withFileTypes: true })

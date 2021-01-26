@@ -3,8 +3,8 @@ import {
   RouteConf,
   RouteConfOfBricks,
   Storyboard,
-} from "@easyops/brick-types";
-import { isObject } from "@easyops/brick-utils";
+} from "@next-core/brick-types";
+import { isObject } from "@next-core/brick-utils";
 
 export type SubStoryboardMatcher = (routes: RouteConf[]) => RouteConf[];
 

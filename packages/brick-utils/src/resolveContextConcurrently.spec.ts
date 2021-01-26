@@ -1,4 +1,4 @@
-import { ContextConf, EntityResolveConf } from "@easyops/brick-types";
+import { ContextConf, EntityResolveConf } from "@next-core/brick-types";
 import {
   resolveContextConcurrently,
   getDependencyMapOfContext,

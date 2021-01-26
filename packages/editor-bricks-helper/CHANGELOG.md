@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.7.2 (2021-01-22)
+
+### Bug Fixes
+
+- prefix parsed properties with `$$` to distinguish ([e4a31d5](https://git.easyops.local/anyclouds/next-core/commits/e4a31d5))
+- refine canvas style ([32d697a](https://git.easyops.local/anyclouds/next-core/commits/32d697a))
+- refine editor styles ([facfd40](https://git.easyops.local/anyclouds/next-core/commits/facfd40))
+- support to toggle fullscreen ([38993de](https://git.easyops.local/anyclouds/next-core/commits/38993de))
+- **editor-bricks:** refine node reorder ([a9ee6df](https://git.easyops.local/anyclouds/next-core/commits/a9ee6df))
+- **editors:** fix node.parsedProperties ([e37657a](https://git.easyops.local/anyclouds/next-core/commits/e37657a))
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://git.easyops.local/anyclouds/next-core/commits/d259f2b))
+- add a hook of useBuilderParentNode ([6367ebe](https://git.easyops.local/anyclouds/next-core/commits/6367ebe))
+- distinguish bricks among brick/provider/template ([0f7db3c](https://git.easyops.local/anyclouds/next-core/commits/0f7db3c))
+- editor bricks helper ([0d63f7d](https://git.easyops.local/anyclouds/next-core/commits/0d63f7d))
+- remove deprecated parsedProperties ([36900a6](https://git.easyops.local/anyclouds/next-core/commits/36900a6))
+- rename [@easyops](https://git.easyops.local/easyops) by [@next-core](https://git.easyops.local/next-core), and [@dll](https://git.easyops.local/dll) by [@next-dll](https://git.easyops.local/next-dll) ([d87ed1e](https://git.easyops.local/anyclouds/next-core/commits/d87ed1e))
+- support context menu ([ed01175](https://git.easyops.local/anyclouds/next-core/commits/ed01175))
+- support deleting node ([0463f7b](https://git.easyops.local/anyclouds/next-core/commits/0463f7b))
+
 ## [0.7.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/editor-bricks-helper@0.7.0...@easyops/editor-bricks-helper@0.7.1) (2021-01-20)
 
 ### Bug Fixes

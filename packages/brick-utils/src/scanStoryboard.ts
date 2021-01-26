@@ -12,7 +12,7 @@ import {
   ContextConf,
   ResolveConf,
   MessageConf,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { uniq } from "lodash";
 import { isObject } from "./isObject";
 

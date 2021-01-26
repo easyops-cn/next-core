@@ -1,4 +1,4 @@
-# @easyops/brick-icons
+# @next-core/brick-icons
 
 自研图标库。
 
@@ -35,8 +35,8 @@
 
 ## Development
 
-`lerna run start --scope=@easyops/brick-dll`
-`lerna run start --scope=@easyops/brick-icons`
+`lerna run start --scope=@next-core/brick-dll`
+`lerna run start --scope=@next-core/brick-icons`
 
 ## New Icons
 

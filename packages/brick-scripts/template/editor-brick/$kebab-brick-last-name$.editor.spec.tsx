@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import * as helper from "@easyops/editor-bricks-helper";
+import * as helper from "@next-core/editor-bricks-helper";
 import { $PascalBrickName$Editor } from "./$kebab-brick-last-name$.editor";
 
 const mockUseBuilderNode = jest.spyOn(helper, "useBuilderNode");

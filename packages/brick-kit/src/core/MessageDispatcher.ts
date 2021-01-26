@@ -2,7 +2,7 @@ import {
   BrickEventHandler,
   MessageConf,
   PluginRuntimeContext,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import {
   WebsocketMessageRequest,
   WebsocketMessageResponse,

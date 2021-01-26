@@ -27,7 +27,7 @@ dist
     "/tmp/next/my-repo/.eslintrc",
     "{
   \\"root\\": true,
-  \\"extends\\": \\"@easyops/eslint-config-next\\"
+  \\"extends\\": \\"@next-core/eslint-config-next\\"
 }
 ",
   ],
@@ -103,20 +103,20 @@ report.*.json
   Array [
     "/tmp/next/my-repo/.npmrc",
     "registry=https://registry.npm.taobao.org
-@easyops:registry=http://r.pnpm.easyops.cn
-@bricks:registry=http://r.pnpm.easyops.cn
-@dll:registry=http://r.pnpm.easyops.cn
-@libs:registry=http://r.pnpm.easyops.cn
-@micro-apps:registry=http://r.pnpm.easyops.cn
-@sdk:registry=http://r.pnpm.easyops.cn
-@templates:registry=http://r.pnpm.easyops.cn
+@easyops:registry=http://registry.npm.easyops.local
+@bricks:registry=http://registry.npm.easyops.local
+@dll:registry=http://registry.npm.easyops.local
+@libs:registry=http://registry.npm.easyops.local
+@micro-apps:registry=http://registry.npm.easyops.local
+@sdk:registry=http://registry.npm.easyops.local
+@templates:registry=http://registry.npm.easyops.local
 tag-version-prefix=
 ",
   ],
   Array [
     "/tmp/next/my-repo/.pkgbuild/@bricks/PKGBUILD",
-    "# The common PKGBUILD of all @bricks/*
-# Keep in mind that the actual PKGBUILD execution context is @bricks/[plugin-name]
+    "# The common PKGBUILD of all @next-bricks/*
+# Keep in mind that the actual PKGBUILD execution context is @next-bricks/[plugin-name]
 pkgver() {
   jq -r '.version' < \\"\${srcdir}/src/package.json\\"
 }
@@ -146,8 +146,8 @@ package() {
   ],
   Array [
     "/tmp/next/my-repo/.pkgbuild/@micro-apps/PKGBUILD",
-    "# The common PKGBUILD of all @bricks/*
-# Keep in mind that the actual PKGBUILD execution context is @bricks/[plugin-name]
+    "# The common PKGBUILD of all @next-micro-apps/*
+# Keep in mind that the actual PKGBUILD execution context is @next-micro-apps/[plugin-name]
 arch=('x86_64')
 pkgrel=1
 source=()
@@ -178,8 +178,8 @@ package() {
   ],
   Array [
     "/tmp/next/my-repo/.pkgbuild/@templates/PKGBUILD",
-    "# The common PKGBUILD of all @templates/*
-# Keep in mind that the actual PKGBUILD execution context is @templates/[plugin-name]
+    "# The common PKGBUILD of all @next-legacy-templates/*
+# Keep in mind that the actual PKGBUILD execution context is @next-legacy-templates/[plugin-name]
 pkgver() {
   jq -r '.version' < \\"\${srcdir}/src/package.json\\"
 }
@@ -209,7 +209,7 @@ package() {
   ],
   Array [
     "/tmp/next/my-repo/.size-limit.js",
-    "const { sizeLimit } = require(\\"@easyops/build-config-factory\\");
+    "const { sizeLimit } = require(\\"@next-core/build-config-factory\\");
 
 module.exports = sizeLimit({
   bricks: {
@@ -227,13 +227,13 @@ module.exports = sizeLimit({
   Array [
     "/tmp/next/my-repo/.yarnrc",
     "registry \\"https://registry.npm.taobao.org\\"
-\\"@easyops:registry\\" \\"http://r.pnpm.easyops.cn\\"
-\\"@bricks:registry\\" \\"http://r.pnpm.easyops.cn\\"
-\\"@dll:registry\\" \\"http://r.pnpm.easyops.cn\\"
-\\"@libs:registry\\" \\"http://r.pnpm.easyops.cn\\"
-\\"@micro-apps:registry\\" \\"http://r.pnpm.easyops.cn\\"
-\\"@sdk:registry\\" \\"http://r.pnpm.easyops.cn\\"
-\\"@templates:registry\\" \\"http://r.pnpm.easyops.cn\\"
+\\"@easyops:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@bricks:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@dll:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@libs:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@micro-apps:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@sdk:registry\\" \\"http://registry.npm.easyops.local\\"
+\\"@templates:registry\\" \\"http://registry.npm.easyops.local\\"
 ",
   ],
   Array [
@@ -318,7 +318,7 @@ export const ReactComponent = \\"svgr-mock\\";
   Array [
     "/tmp/next/my-repo/babel.config.js",
     "module.exports = {
-  presets: [\\"@easyops/babel-preset-next\\"]
+  presets: [\\"@next-core/babel-preset-next\\"],
 };
 ",
   ],
@@ -443,7 +443,7 @@ declare module \\"*.worker.ts\\" {
       \\"allowBranch\\": [\\"master\\", \\"legacy/**\\"],
       \\"verifyAccess\\": false,
       \\"message\\": \\"chore(release): publish\\",
-      \\"registry\\": \\"https://registry.npm.easyops.local\\"
+      \\"registry\\": \\"https://registry.npmjs.org\\"
     }
   }
 }
@@ -455,9 +455,8 @@ declare module \\"*.worker.ts\\" {
   \\"$schema\\": \\"http://json.schemastore.org/renovate\\",
   \\"extends\\": [\\"config:base\\"],
   \\"rangeStrategy\\": \\"bump\\",
-  \\"semanticCommits\\": \\"enabled\\",
+  \\"semanticCommits\\": true,
   \\"commitMessagePrefix\\": \\"chore(deps):\\",
-  \\"assignees\\": [\\"weareoutman\\"],
   \\"ignorePresets\\": [\\":ignoreModulesAndTests\\"],
   \\"packageRules\\": [
     {
@@ -470,12 +469,17 @@ declare module \\"*.worker.ts\\" {
         \\"^@libs/\\",
         \\"^@micro-apps/\\",
         \\"^@sdk/\\",
-        \\"^@templates/\\"
+        \\"^@templates/\\",
+        \\"^@next-bricks/\\",
+        \\"^@next-libs/\\",
+        \\"^@next-micro-apps/\\",
+        \\"^@next-sdk/\\",
+        \\"^@next-legacy-templates/\\"
       ],
       \\"enabled\\": false
     },
     {
-      \\"packagePatterns\\": [\\"^@easyops/\\"],
+      \\"packagePatterns\\": [\\"^@next-core/\\"],
       \\"automerge\\": false,
       \\"groupName\\": \\"next-core packages\\",
       \\"postUpgradeTasks\\": {
@@ -484,7 +488,7 @@ declare module \\"*.worker.ts\\" {
           \\"yarn extract\\",
           \\"./node_modules/.bin/prettier --write package.json\\"
         ],
-        \\"fileFilters\\": [\\"**/*\\", \\".gitlab/**/*\\"]
+        \\"fileFilters\\": [\\"**/*\\", \\".gitlab/**/*\\", \\".github/**/*\\"]
       }
     }
   ]

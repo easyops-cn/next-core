@@ -2,7 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import moment from "moment";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { initI18n } from "@easyops/brick-kit";
+import { initI18n } from "@next-core/brick-kit";
 
 import { NS_BRICK_CONTAINER } from "./constants";
 import en from "./locales/en";

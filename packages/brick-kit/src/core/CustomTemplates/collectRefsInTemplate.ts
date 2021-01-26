@@ -1,4 +1,4 @@
-import { BrickConfInTemplate, CustomTemplate } from "@easyops/brick-types";
+import { BrickConfInTemplate, CustomTemplate } from "@next-core/brick-types";
 
 type RefToBrickConfMap = Map<string, BrickConfInTemplate>;
 

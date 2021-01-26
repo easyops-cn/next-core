@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { BrickEventHandler, BrickEventsMap } from "@easyops/brick-types";
+import { BrickEventHandler, BrickEventsMap } from "@next-core/brick-types";
 import {
   isBuiltinHandler,
   isCustomHandler,
