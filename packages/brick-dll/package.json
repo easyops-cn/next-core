@@ -31,7 +31,7 @@
     "@easyops/illustrations": "^0.3.0",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "antd": "^4.10.2",
-    "history": "^4.10.1",
+    "history": "^5.0.0",
     "i18next": "^19.8.4",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.20",
