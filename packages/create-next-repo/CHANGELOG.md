@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.29](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.28...@next-core/create-next-repo@1.2.29) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
 ## [1.2.28](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.27...@next-core/create-next-repo@1.2.28) (2021-01-26)
 
 **Note:** Version bump only for package @next-core/create-next-repo
