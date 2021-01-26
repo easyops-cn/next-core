@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.6.5...@next-core/brick-icons@2.7.0) (2021-01-26)
+
+### Features
+
+- **icon:** permission setting icon ([22ccbd6](https://github.com/easyops-cn/next-core/commit/22ccbd6))
+
 ## [2.6.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.6.4...@next-core/brick-icons@2.6.5) (2021-01-26)
 
 **Note:** Version bump only for package @next-core/brick-icons

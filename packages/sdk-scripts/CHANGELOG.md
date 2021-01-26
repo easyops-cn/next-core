@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.2.3...@next-core/sdk-scripts@2.3.0) (2021-01-26)
+
+### Features
+
+- support manage sdks in different scopes ([94fc08e](https://github.com/easyops-cn/next-core/commit/94fc08e))
+
 ## [2.2.3](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.2.2...@next-core/sdk-scripts@2.2.3) (2021-01-26)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
