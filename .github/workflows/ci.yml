@@ -65,7 +65,7 @@ jobs:
         echo "::set-output name=with-tags::$(git tag --points-at HEAD)"
 
     - name: Lerna Publish
-      run: lerna publish from-git --dist-tag latest --yes
+      run: npx lerna publish from-git --dist-tag latest --yes
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       if: steps.check-tags.outputs.with-tags != ''
