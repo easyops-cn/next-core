@@ -19,7 +19,7 @@
     "postbuild": "dll-differ"
   },
   "dependencies": {
-    "react-ace": "^7.0.5"
+    "react-ace": "^9.2.1"
   },
   "devDependencies": {
     "@easyops/brick-dll": "^2.10.0",
