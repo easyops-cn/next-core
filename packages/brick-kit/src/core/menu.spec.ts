@@ -1,4 +1,4 @@
-import { InstanceApi } from "@sdk/cmdb-sdk";
+import { InstanceApi } from "@next-sdk/cmdb-sdk";
 import {
   fetchMenuById,
   constructMenu,
@@ -9,7 +9,7 @@ import {
 } from "./menu";
 import * as runtime from "./Runtime";
 
-jest.mock("@sdk/cmdb-sdk");
+jest.mock("@next-sdk/cmdb-sdk");
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   flags: {},

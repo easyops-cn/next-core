@@ -7,10 +7,10 @@ import {
   getTemplateDepsOfStoryboard,
   scanBricksInBrickConf,
 } from "@next-core/brick-utils";
-import { checkLogin, bootstrap, getAppStoryboard } from "@sdk/auth-sdk";
-import { UserAdminApi } from "@sdk/user-service-sdk";
-import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
-import { InstanceApi } from "@sdk/cmdb-sdk";
+import { checkLogin, bootstrap, getAppStoryboard } from "@next-sdk/auth-sdk";
+import { UserAdminApi } from "@next-sdk/user-service-sdk";
+import { ObjectMicroAppApi } from "@next-sdk/micro-app-sdk";
+import { InstanceApi } from "@next-sdk/cmdb-sdk";
 import { MountPoints, Storyboard } from "@next-core/brick-types";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
@@ -26,10 +26,10 @@ i18next.init({
 });
 
 jest.mock("@next-core/brick-utils");
-jest.mock("@sdk/auth-sdk");
-jest.mock("@sdk/user-service-sdk");
-jest.mock("@sdk/micro-app-sdk");
-jest.mock("@sdk/cmdb-sdk");
+jest.mock("@next-sdk/auth-sdk");
+jest.mock("@next-sdk/user-service-sdk");
+jest.mock("@next-sdk/micro-app-sdk");
+jest.mock("@next-sdk/cmdb-sdk");
 jest.mock("./MenuBar");
 jest.mock("./AppBar");
 jest.mock("./LoadingBar");

@@ -1,12 +1,12 @@
 import { scanPermissionActionsInStoryboard } from "@next-core/brick-utils";
-import { PermissionApi } from "@sdk/micro-app-sdk";
+import { PermissionApi } from "@next-sdk/micro-app-sdk";
 import {
   preCheckPermissions as _preCheckPermissions,
   checkPermissions as _checkPermissions,
 } from "./checkPermissions";
 
 jest.mock("@next-core/brick-utils");
-jest.mock("@sdk/micro-app-sdk");
+jest.mock("@next-sdk/micro-app-sdk");
 
 const mockScanPermissionActionsInStoryboard = scanPermissionActionsInStoryboard as jest.MockedFunction<
   typeof scanPermissionActionsInStoryboard
