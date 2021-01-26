@@ -12,10 +12,10 @@ import {
   CustomApiInfo,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
-import * as AuthSdk from "@sdk/auth-sdk";
-import { UserAdminApi } from "@sdk/user-service-sdk";
-import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
-import { InstanceApi } from "@sdk/cmdb-sdk";
+import * as AuthSdk from "@next-sdk/auth-sdk";
+import { UserAdminApi } from "@next-sdk/user-service-sdk";
+import { ObjectMicroAppApi } from "@next-sdk/micro-app-sdk";
+import { InstanceApi } from "@next-sdk/cmdb-sdk";
 import {
   MountPoints,
   BootstrapData,

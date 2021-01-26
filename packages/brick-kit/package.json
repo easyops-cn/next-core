@@ -32,10 +32,10 @@
   },
   "dependencies": {
     "@next-core/brick-types": "^2.16.0",
-    "@sdk/auth-sdk": "^0.8.4",
-    "@sdk/cmdb-sdk": "^0.15.20",
-    "@sdk/micro-app-sdk": "^0.8.4",
-    "@sdk/user-service-sdk": "^0.2.14",
+    "@next-sdk/auth-sdk": "^1.0.0",
+    "@next-sdk/cmdb-sdk": "^1.0.0",
+    "@next-sdk/micro-app-sdk": "^1.0.0",
+    "@next-sdk/user-service-sdk": "^1.0.0",
     "minimatch": "^3.0.4"
   },
   "sideEffects": false,

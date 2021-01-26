@@ -5,7 +5,7 @@ import {
   SiteMode,
   SiteTheme,
 } from "@next-core/brick-types";
-import { MicroAppModels } from "@sdk/micro-app-sdk";
+import { MicroAppModels } from "@next-sdk/micro-app-sdk";
 import { CustomProcessorFunc } from "./exports";
 
 /** @internal */

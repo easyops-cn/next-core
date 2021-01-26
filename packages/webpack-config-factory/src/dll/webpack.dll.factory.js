@@ -63,11 +63,6 @@ module.exports = () => {
       extensions: [".ts", ".js"],
       // modules: [path.join(appRoot, "node_modules")],
       symlinks: false,
-      alias: {
-        // This alias is a temporary fix for legacy of
-        // `@easyops/brick-http <- @sdk/* <- @next-core/brick-kit`.
-        "@easyops": "@next-core",
-      },
     },
     performance: {
       hints: false,

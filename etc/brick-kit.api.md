@@ -35,7 +35,7 @@ import { MatchResult } from '@next-core/brick-types';
 import { MenuBarBrick } from '@next-core/brick-types';
 import { MessageConf } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
-import { MicroAppModels } from '@sdk/micro-app-sdk';
+import { MicroAppModels } from '@next-sdk/micro-app-sdk';
 import { ModalFunc } from 'antd/lib/modal/confirm';
 import { MountPoints } from '@next-core/brick-types';
 import { PluginHistory } from '@next-core/brick-types';
