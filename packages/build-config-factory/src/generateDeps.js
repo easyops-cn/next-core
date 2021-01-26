@@ -4,7 +4,8 @@ const yaml = require("js-yaml");
 
 const scopeToSuffix = new Map([
   ["@next-bricks", "NB"],
-  ["@next-templates", "NT"][("@bricks", "NB")],
+  ["@next-legacy-templates", "NT"],
+  ["@bricks", "NB"],
   ["@templates", "NT"],
 ]);
 

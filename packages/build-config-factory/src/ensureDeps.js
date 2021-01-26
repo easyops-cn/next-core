@@ -29,7 +29,8 @@ module.exports = function ensureDeps() {
   const importedAllTemplates = new Set();
   importedPackages.forEach((pkg) => {
     const isTemplates =
-      pkg.startsWith("@next-templates/") || pkg.startsWith("@templates/");
+      pkg.startsWith("@next-legacy-templates/") ||
+      pkg.startsWith("@templates/");
     const isBricks =
       pkg.startsWith("@next-bricks/") || pkg.startsWith("@bricks/");
     if (isTemplates) {
