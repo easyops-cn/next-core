@@ -38,6 +38,7 @@
       "groupName": "svgr packages"
     }
   ],
+  "postUpdateOptions": ["yarnDedupeHighest"],
   "postUpgradeTasks": {
     "commands": ["yarn-deduplicate yarn.lock", "yarn"],
     "fileFilters": ["yarn.lock"]
