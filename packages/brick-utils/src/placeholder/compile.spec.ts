@@ -1,4 +1,4 @@
-import { PluginRuntimeContext } from "@easyops/brick-types";
+import { PluginRuntimeContext } from "@next-core/brick-types";
 import { transform, inject } from "./compile";
 
 describe("transform", () => {

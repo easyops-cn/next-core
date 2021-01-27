@@ -1,6 +1,6 @@
 const { merge } = require("webpack-merge");
 const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
-const { lessReplacePlugin } = require("@easyops/less-plugin-css-variables");
+const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
 const common = require("./webpack.common.js");
 const devServerOptions = require("./dev-server");
 

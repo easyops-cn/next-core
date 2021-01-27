@@ -4,7 +4,7 @@ import {
   RouteConf,
   RouteConfOfBricks,
   RouteAliasMap,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 
 export function scanRouteAliasInStoryboard(
   storyboard: Storyboard

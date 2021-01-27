@@ -2,7 +2,7 @@ import {
   Storyboard,
   SlotConfOfBricks,
   RouteConfOfBricks,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { restoreDynamicTemplates } from "./restoreDynamicTemplates";
 
 describe("restoreDynamicTemplates", () => {

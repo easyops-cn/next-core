@@ -1,7 +1,7 @@
-# @easyops/brick-kit
+# @next-core/brick-kit
 
 ## Usage
 
 ```bash
-yarn add @easyops/brick-kit
+yarn add @next-core/brick-kit
 ```

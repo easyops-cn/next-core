@@ -1,4 +1,4 @@
-import { BuilderRouteOrBrickNode } from "@easyops/brick-types";
+import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
 
 const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];
@@ -24,7 +24,7 @@ export function getBuilderNode(
       .concat([
         ["alias", nodeAlias ?? nodeData.alias],
         ["$$uid", nodeUid],
-        ["parsedProperties", parsedProperties ?? {}],
+        ["$$parsedProperties", parsedProperties ?? {}],
       ])
   ) as BuilderRuntimeNode;
 }

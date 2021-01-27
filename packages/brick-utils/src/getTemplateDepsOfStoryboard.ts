@@ -4,7 +4,7 @@ import {
   BrickConf,
   TemplatePackage,
   RouteConfOfBricks,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { uniq } from "lodash";
 
 export function scanTemplatesInBrick(

@@ -1,6 +1,6 @@
 import { merge } from "lodash";
 import i18next from "i18next";
-import { BootstrapData } from "@easyops/brick-types";
+import { BootstrapData } from "@next-core/brick-types";
 import { deepFreeze } from "../deepFreeze";
 
 /**

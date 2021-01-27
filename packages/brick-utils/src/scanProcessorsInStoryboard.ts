@@ -1,6 +1,6 @@
 import { uniq } from "lodash";
 import { MemberExpression } from "@babel/types";
-import { Storyboard } from "@easyops/brick-types";
+import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
 import { isEvaluable, preevaluate } from "./cook/preevaluate";
 import PrecookVisitor from "./cook/PrecookVisitor";

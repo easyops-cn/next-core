@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.80](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.79...@next-dll/ace@2.0.80) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.79](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.78...@next-dll/ace@2.0.79) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.78](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.77...@next-dll/ace@2.0.78) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.77](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.76...@next-dll/ace@2.0.77) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.76](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.75...@next-dll/ace@2.0.76) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.75](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.74...@next-dll/ace@2.0.75) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## 2.0.74 (2021-01-22)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+- use `@easyops/brick-dll` in `@dll/*` only if specified ([607a172](https://github.com/easyops-cn/next-core/commit/607a172))
+
+### Features
+
+- add @dll/ace ([546560b](https://github.com/easyops-cn/next-core/commit/546560b))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+
+## [2.0.73](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.72...@dll/ace@2.0.73) (2021-01-20)
+
+**Note:** Version bump only for package @dll/ace
+
+## [2.0.72](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.71...@dll/ace@2.0.72) (2021-01-19)
+
+**Note:** Version bump only for package @dll/ace
+
+## [2.0.71](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.70...@dll/ace@2.0.71) (2021-01-19)
+
+**Note:** Version bump only for package @dll/ace
+
+## [2.0.70](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.69...@dll/ace@2.0.70) (2021-01-18)
+
+**Note:** Version bump only for package @dll/ace
+
+## [2.0.69](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.68...@dll/ace@2.0.69) (2021-01-18)
+
+**Note:** Version bump only for package @dll/ace
+
 ## [2.0.68](https://git.easyops.local/anyclouds/next-core/compare/@dll/ace@2.0.67...@dll/ace@2.0.68) (2021-01-13)
 
 **Note:** Version bump only for package @dll/ace

@@ -1,4 +1,4 @@
-import { rollupFactory } from "@easyops/rollup-config-factory";
+import { rollupFactory } from "@next-core/rollup-config-factory";
 import svgr from "@svgr/rollup";
 import copy from "rollup-plugin-copy";
 

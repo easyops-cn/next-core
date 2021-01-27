@@ -2284,6 +2284,26 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@next-sdk/auth-sdk@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/@next-sdk/auth-sdk/download/@next-sdk/auth-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645549211&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fauth-sdk%2Fdownload%2F%40next-sdk%2Fauth-sdk-1.0.1.tgz#dc217556d6eddee4c143b419a25d7b3972fb06e2"
+  integrity sha1-3CF1Vtbt3uTBQ7QZol17OXL7BuI=
+
+"@next-sdk/cmdb-sdk@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/@next-sdk/cmdb-sdk/download/@next-sdk/cmdb-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645609190&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fcmdb-sdk%2Fdownload%2F%40next-sdk%2Fcmdb-sdk-1.0.1.tgz#69ed7830a9fe1f3070068b3af3f3476ab22363e2"
+  integrity sha1-ae14MKn+HzBwBos68/NHarIjY+I=
+
+"@next-sdk/micro-app-sdk@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/@next-sdk/micro-app-sdk/download/@next-sdk/micro-app-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645614211&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fmicro-app-sdk%2Fdownload%2F%40next-sdk%2Fmicro-app-sdk-1.0.1.tgz#df4ed61ee056b8dee0bbb69c08ef1cd184dc1c0d"
+  integrity sha1-307WHuBWuN7gu7acCO8c0YTcHA0=
+
+"@next-sdk/user-service-sdk@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/@next-sdk/user-service-sdk/download/@next-sdk/user-service-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645624206&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fuser-service-sdk%2Fdownload%2F%40next-sdk%2Fuser-service-sdk-1.0.1.tgz#6b70da1d1ae61ecb0243d50b06acb6744ef4cad8"
+  integrity sha1-a3DaHRrmHssCQ9ULBqy2dE70ytg=
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.npm.taobao.org/@nodelib/fs.scandir/download/@nodelib/fs.scandir-2.1.3.tgz?cache=0&sync_timestamp=1570174072797&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40nodelib%2Ffs.scandir%2Fdownload%2F%40nodelib%2Ffs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -2444,26 +2464,6 @@
   integrity sha1-ohEXsZ7pvnDDeewYd1N+8uHGMwE=
   dependencies:
     any-observable "^0.3.0"
-
-"@sdk/auth-sdk@^0.8.4":
-  version "0.8.4"
-  resolved "http://registry.npm.easyops.local/@sdk/auth-sdk/download/@sdk/auth-sdk-0.8.4.tgz#fb38e306a5bde6509f04de5cff9aa130075ad6c1"
-  integrity sha1-+zjjBqW95lCfBN5c/5qhMAda1sE=
-
-"@sdk/cmdb-sdk@^0.15.20":
-  version "0.15.20"
-  resolved "http://registry.npm.easyops.local/@sdk/cmdb-sdk/download/@sdk/cmdb-sdk-0.15.20.tgz#83826c069c251004468a7b27bf83f6b9c8914951"
-  integrity sha1-g4JsBpwlEARGinsnv4P2uciRSVE=
-
-"@sdk/micro-app-sdk@^0.8.4":
-  version "0.8.4"
-  resolved "http://registry.npm.easyops.local/@sdk/micro-app-sdk/download/@sdk/micro-app-sdk-0.8.4.tgz#aee70d4d2cae95209d387e14dd0b6e94f308baac"
-  integrity sha1-rucNTSyulSCdOH4U3QtulPMIuqw=
-
-"@sdk/user-service-sdk@^0.2.14":
-  version "0.2.14"
-  resolved "http://registry.npm.easyops.local/@sdk/user-service-sdk/download/@sdk/user-service-sdk-0.2.14.tgz#d003b0fcb78e75aeb38ac3eb8203d7a9891b894f"
-  integrity sha1-0AOw/LeOda6zisPrggPXqYkbiU8=
 
 "@sideway/address@^4.1.0":
   version "4.1.0"
@@ -5490,7 +5490,7 @@ copy-to-clipboard@^3.2.0:
   dependencies:
     toggle-selection "^1.0.6"
 
-copy-webpack-plugin@^6.4.0, copy-webpack-plugin@^6.4.1:
+copy-webpack-plugin@^6.4.1:
   version "6.4.1"
   resolved "https://registry.npm.taobao.org/copy-webpack-plugin/download/copy-webpack-plugin-6.4.1.tgz#138cd9b436dbca0a6d071720d5414848992ec47e"
   integrity sha1-E4zZtDbbygptBxcg1UFISJkuxH4=
@@ -9758,7 +9758,7 @@ less-loader@^7.2.1:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-less@^3.13.0, less@^3.13.1:
+less@^3.13.1:
   version "3.13.1"
   resolved "https://registry.npm.taobao.org/less/download/less-3.13.1.tgz?cache=0&sync_timestamp=1610244863145&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.13.1.tgz#0ebc91d2a0e9c0c6735b83d496b0ab0583077909"
   integrity sha1-DryR0qDpwMZzW4PUlrCrBYMHeQk=
@@ -15783,7 +15783,7 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.44.2, webpack@^4.46.0:
+webpack@^4.46.0:
   version "4.46.0"
   resolved "https://registry.npm.taobao.org/webpack/download/webpack-4.46.0.tgz?cache=0&sync_timestamp=1610727436730&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack%2Fdownload%2Fwebpack-4.46.0.tgz#bf9b4404ea20a073605e0a011d188d77cb6ad542"
   integrity sha1-v5tEBOogoHNgXgoBHRiNd8tq1UI=

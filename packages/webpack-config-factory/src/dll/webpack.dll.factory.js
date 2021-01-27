@@ -1,6 +1,8 @@
 const path = require("path");
-const webpack = require("webpack");
 const changeCase = require("change-case");
+const NextDllPlugin = require("./NextDllPlugin");
+const NextDllReferencePlugin = require("./NextDllReferencePlugin");
+const NextHashedModuleIdsPlugin = require("./NextHashedModuleIdsPlugin");
 
 module.exports = () => {
   const isProd = process.env.NODE_ENV === "production";
@@ -15,9 +17,9 @@ module.exports = () => {
   const dllReferences = [];
   if (devDependencies) {
     for (const dep of Object.keys(devDependencies)) {
-      if (dep === "@easyops/brick-dll" || dep.startsWith("@dll/")) {
+      if (dep === "@next-core/brick-dll" || dep.startsWith("@next-dll/")) {
         dllReferences.push(
-          new webpack.DllReferencePlugin({
+          new NextDllReferencePlugin({
             context: appRoot,
             manifest: require(dep),
           })
@@ -49,11 +51,11 @@ module.exports = () => {
     },
     plugins: [
       ...dllReferences,
-      new webpack.DllPlugin({
+      new NextDllPlugin({
         name: "[name]",
         path: path.join(distPath, "manifest.json"),
       }),
-      new webpack.HashedModuleIdsPlugin(),
+      new NextHashedModuleIdsPlugin(),
     ],
     resolve: {
       // only resolve .js extension files
@@ -61,7 +63,6 @@ module.exports = () => {
       extensions: [".ts", ".js"],
       // modules: [path.join(appRoot, "node_modules")],
       symlinks: false,
-      // alias: resolverAlias
     },
     performance: {
       hints: false,

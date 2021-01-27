@@ -6,11 +6,16 @@ import fs from "fs-extra";
 import chalk from "chalk";
 import prettier from "prettier";
 import * as changeCase from "change-case";
+import { getEasyopsConfig } from "@next-core/repo-config";
 import { ask } from "./ask";
 import { loadTemplate } from "./loaders/loadTemplate";
 import { TargetType, AskFlags } from "./interface";
 import { targetMap } from "./constant";
 import { scriptYarnInstall } from "./scripts";
+
+const { usePublicScope } = getEasyopsConfig();
+
+const npmScopeOfSdk = usePublicScope ? "@next-sdk" : "@sdk";
 
 export async function create(flags: AskFlags): Promise<void> {
   const appRoot = path.join(process.cwd());
@@ -83,7 +88,10 @@ export async function create(flags: AskFlags): Promise<void> {
             providersJsonPath,
             JSON.stringify(
               {
-                sdk: `@sdk/${packageName.replace(/^providers-of-/, "")}-sdk`,
+                sdk: `${npmScopeOfSdk}/${packageName.replace(
+                  /^providers-of-/,
+                  ""
+                )}-sdk`,
                 providers: [],
               },
               null,
@@ -117,7 +125,7 @@ export async function create(flags: AskFlags): Promise<void> {
         files.push([
           srcIndexTs,
           prettier.format(
-            `import { Storyboard } from "@easyops/brick-types";
+            `import { Storyboard } from "@next-core/brick-types";
 
 const storyboard: Storyboard = ${JSON.stringify(storyboardJson)};
 

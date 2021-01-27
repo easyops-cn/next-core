@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import * as kit from "@easyops/brick-kit";
+import * as kit from "@next-core/brick-kit";
 
 const spyOnAddResourceBundle = (i18next.addResourceBundle = jest.fn());
 

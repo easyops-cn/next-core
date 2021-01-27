@@ -1,6 +1,6 @@
 import { $camelProcessorName$ } from "./$camelProcessorName$";
 
-jest.mock("@easyops/brick-kit", () => ({
+jest.mock("@next-core/brick-kit", () => ({
   getRuntime: () => ({
     registerCustomProcessor: jest.fn(),
   }),

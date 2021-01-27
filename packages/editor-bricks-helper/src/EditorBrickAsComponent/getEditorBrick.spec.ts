@@ -1,7 +1,7 @@
-import { developHelper } from "@easyops/brick-kit";
+import { developHelper } from "@next-core/brick-kit";
 import { getEditorBrick } from "./getEditorBrick";
 
-jest.mock("@easyops/brick-kit");
+jest.mock("@next-core/brick-kit");
 
 const mockConsolError = jest
   .spyOn(console, "error")

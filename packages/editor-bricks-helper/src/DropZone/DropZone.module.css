@@ -19,8 +19,12 @@
 
 .isRoot > .dropZoneBody {
   padding: 27px 20px 20px;
-  height: calc(100vh - var(--page-card-gap) * 2);
+  height: calc(100vh - 148px);
   overflow-y: auto;
+}
+
+.fullscreen > .dropZoneBody {
+  height: calc(100vh - var(--page-card-gap) * 2);
 }
 
 .slotContentLayoutBlock > .dropZoneBody {

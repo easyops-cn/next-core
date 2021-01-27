@@ -2,7 +2,7 @@ import { get } from "lodash";
 import {
   PluginRuntimeContext,
   StoryboardContextItem,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { parseInjectableString } from "./syntax";
 import { processPipes } from "./pipes";
 import { RawString, Placeholder } from "./interfaces";

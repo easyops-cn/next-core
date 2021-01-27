@@ -1,8 +1,8 @@
 {
-  "name": "@easyops/build-config-factory",
-  "version": "2.2.7",
+  "name": "@next-core/build-config-factory",
+  "version": "2.2.11",
   "description": "build scripts",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/build-config-factory",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-config-factory",
   "license": "UNLICENSED",
   "main": "src/index.js",
   "files": [
@@ -11,14 +11,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "scripts": {
     "build": "echo 'nothing to build but lerna need this to build deps'"
   },
   "sideEffects": false,
   "dependencies": {
-    "@easyops/brick-utils": "^2.10.0",
+    "@next-core/brick-utils": "^2.10.4",
+    "@next-core/repo-config": "^0.1.2",
     "change-case": "^4.1.2",
     "chokidar": "^3.5.1",
     "fs-extra": "^9.1.0",

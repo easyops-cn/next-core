@@ -2,8 +2,8 @@ const { merge } = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { lessReplacePlugin } = require("@easyops/less-plugin-css-variables");
-const dllPackageJson = require("@easyops/brick-dll/package.json");
+const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
+const dllPackageJson = require("@next-core/brick-dll/package.json");
 const common = require("./webpack.common.js");
 
 const publicPath = "";

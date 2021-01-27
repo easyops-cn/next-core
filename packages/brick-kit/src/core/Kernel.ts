@@ -10,12 +10,12 @@ import {
   getDllAndDepsByResource,
   scanProcessorsInAny,
   CustomApiInfo,
-} from "@easyops/brick-utils";
+} from "@next-core/brick-utils";
 import i18next from "i18next";
-import * as AuthSdk from "@sdk/auth-sdk";
-import { UserAdminApi } from "@sdk/user-service-sdk";
-import { ObjectMicroAppApi } from "@sdk/micro-app-sdk";
-import { InstanceApi } from "@sdk/cmdb-sdk";
+import * as AuthSdk from "@next-sdk/auth-sdk";
+import { UserAdminApi } from "@next-sdk/user-service-sdk";
+import { ObjectMicroAppApi } from "@next-sdk/micro-app-sdk";
+import { InstanceApi } from "@next-sdk/cmdb-sdk";
 import {
   MountPoints,
   BootstrapData,
@@ -28,7 +28,7 @@ import {
   RuntimeStoryboard,
   BrickConf,
   StoryboardMeta,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
   Router,
@@ -130,19 +130,20 @@ export class Kernel {
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
+    const d = await AuthSdk.bootstrap<BootstrapData>(
+      {
+        brief: true,
+        ...params,
+      },
+      {
+        interceptorParams,
+      }
+    );
     const bootstrapResponse = Object.assign(
       {
         templatePackages: [],
       },
-      await AuthSdk.bootstrap<BootstrapData>(
-        {
-          brief: true,
-          ...params,
-        },
-        {
-          interceptorParams,
-        }
-      )
+      d
     );
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
     processBootstrapResponse(bootstrapResponse);
@@ -558,7 +559,7 @@ export class Kernel {
   }
 }
 
-// Since `@dll/editor-bricks-helper` depends on `@dll/react-dnd`,
+// Since `@next-dll/editor-bricks-helper` depends on `@next-dll/react-dnd`,
 // always load react-dnd before loading editor-bricks-helper.
 async function loadScriptOfDll(dlls: string[]): Promise<void> {
   if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper.js"))) {

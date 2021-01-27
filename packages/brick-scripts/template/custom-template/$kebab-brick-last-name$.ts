@@ -1,4 +1,4 @@
-import { getRuntime } from "@easyops/brick-kit";
+import { getRuntime } from "@next-core/brick-kit";
 
 getRuntime().registerCustomTemplate("$kebab-brick-name$", {
   proxy: {},

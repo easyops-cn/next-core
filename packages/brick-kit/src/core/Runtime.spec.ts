@@ -1,6 +1,6 @@
 import { Kernel } from "./Kernel";
 import { Runtime } from "./Runtime";
-import { MountPoints } from "@easyops/brick-types";
+import { MountPoints } from "@next-core/brick-types";
 
 jest.mock("./Kernel");
 

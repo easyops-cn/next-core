@@ -1,7 +1,7 @@
 # Brick Demo
 
-[![pipeline status](https://git.easyops.local/anyclouds/next-core/badges/master/pipeline.svg)](https://git.easyops.local/anyclouds/next-core/commits/master)
-[![coverage report](https://git.easyops.local/anyclouds/next-core/badges/master/coverage.svg)](https://git.easyops.local/anyclouds/next-core/commits/master)
+[![CI Status](https://github.com/easyops-cn/next-core/workflows/CI/badge.svg?event=push)](https://github.com/easyops-cn/next-core/actions?query=workflow%3ACI)
+[![Coverage Status](https://coveralls.io/repos/github/easyops-cn/next-core/badge.svg?branch=master)](https://coveralls.io/github/easyops-cn/next-core?branch=master)
 
 ## Contributing
 
@@ -15,22 +15,22 @@
 
 `yarn start`
 
-> `yarn start` equals `lerna run start --scope=@easyops/brick-container`.
+> `yarn start` equals `lerna run start --scope=@next-core/brick-container`.
 
 `lerna run start --scope=OTHER-PACKAGES`
 
-The dev server will use this repository's sibling director of _brick-next_ by default. It means it will work if your projects are like:
+The dev server will use this repository's sibling director of _next-basics_ by default. It means it will work if your projects are like:
 
 ```
 /Users/one/easyops/next-core
-/Users/one/easyops/brick-next
+/Users/one/easyops/next-basics
 ```
 
-In case the _brick-next_ located in other place, you could add a `dev.config.js` in this repository, E.g.:
+In case the _next-basics_ located in other place, you could add a `dev.config.js` in this repository, E.g.:
 
 ```js
 const path = require("path");
-exports.brickNextDir = path.join(__dirname, "../brick-next");
+exports.nextRepoDir = path.join(__dirname, "../next-basics");
 ```
 
 ### Build
@@ -47,4 +47,4 @@ To test a specified file:
 yarn test ./path/to/your.spec.ts
 ```
 
-[@easyops/brick-dll]: packages/brick-dll
+[@next-core/brick-dll]: packages/brick-dll

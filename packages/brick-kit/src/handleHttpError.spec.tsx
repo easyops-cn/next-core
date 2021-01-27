@@ -7,7 +7,7 @@ import {
   HttpFetchError,
   HttpResponseError,
   HttpParseError,
-} from "@easyops/brick-http";
+} from "@next-core/brick-http";
 import {
   httpErrorToString,
   handleHttpError,
@@ -42,9 +42,9 @@ describe("httpErrorToString", () => {
     expect(httpErrorToString(new Error("oops"))).toBe("Error: oops");
   });
 
-  it("should return HttpFetchErrors", () => {
+  it("should return network error for HttpFetchErrors", () => {
     expect(httpErrorToString(new HttpFetchError("oops"))).toBe(
-      "HttpFetchError: oops"
+      "brick-kit:NETWORK_ERROR"
     );
   });
 

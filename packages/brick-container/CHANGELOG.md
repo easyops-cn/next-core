@@ -3,6 +3,239 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.27](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.26...@next-core/brick-container@2.15.27) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.15.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.25...@next-core/brick-container@2.15.26) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.15.25](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.24...@next-core/brick-container@2.15.25) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.15.24](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.23...@next-core/brick-container@2.15.24) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.15.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.22...@next-core/brick-container@2.15.23) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.15.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.21...@next-core/brick-container@2.15.22) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## 2.15.21 (2021-01-22)
+
+### Bug Fixes
+
+- **serve:** add `help` and `version` in flags ([51ac793](https://github.com/easyops-cn/next-core/commit/51ac793))
+- **serve:** meow supports reporting unknown flags now ([0a0d624](https://github.com/easyops-cn/next-core/commit/0a0d624))
+- add more css variables ([14396e0](https://github.com/easyops-cn/next-core/commit/14396e0))
+- fix css variables ([1089a17](https://github.com/easyops-cn/next-core/commit/1089a17))
+- fix dark theme styles ([633cb89](https://github.com/easyops-cn/next-core/commit/633cb89))
+- fix error when remote package not found ([d276330](https://github.com/easyops-cn/next-core/commit/d276330))
+- fix link hover style ([c154664](https://github.com/easyops-cn/next-core/commit/c154664))
+- fix local dev config not working ([0cdaabb](https://github.com/easyops-cn/next-core/commit/0cdaabb))
+- fix table body sort bg in dark theme ([1081a96](https://github.com/easyops-cn/next-core/commit/1081a96))
+- hidden portal mount point :see_no_evil: ([43754da](https://github.com/easyops-cn/next-core/commit/43754da))
+- introduce new css variables ([8b05e28](https://github.com/easyops-cn/next-core/commit/8b05e28))
+- passing route alias path to app bar ([815427a](https://github.com/easyops-cn/next-core/commit/815427a))
+- refine bootstrap error ([8d92ec2](https://github.com/easyops-cn/next-core/commit/8d92ec2))
+- refine canvas style ([32d697a](https://github.com/easyops-cn/next-core/commit/32d697a))
+- serve local bricks and editors separately ([323ea2b](https://github.com/easyops-cn/next-core/commit/323ea2b))
+- support override theme ([4b76fe7](https://github.com/easyops-cn/next-core/commit/4b76fe7))
+- **brick-container:** ant-legacy-form 自定义样式 ([f6df4dc](https://github.com/easyops-cn/next-core/commit/f6df4dc))
+- **brick-container:** listRealpathOfSubdir 方法在调用 readdirSync 前，先用 existsSync 检查目录是否存在 ([6bcef9f](https://github.com/easyops-cn/next-core/commit/6bcef9f))
+- **custom-api:** response wrapper ([7ca84aa](https://github.com/easyops-cn/next-core/commit/7ca84aa))
+- **dashboard-mode:** fix styles of `has-sub-menu` in dashboard mode ([db34447](https://github.com/easyops-cn/next-core/commit/db34447))
+- **less-loader:** update config after upgrade less-loader from v5 to v6 ([67f3132](https://github.com/easyops-cn/next-core/commit/67f3132))
+- **menu:** change sub menu bar width from 240px to 220px ([e61a9c2](https://github.com/easyops-cn/next-core/commit/e61a9c2))
+- **nb_report:** 删除 NB 包特性 ([014f5bf](https://github.com/easyops-cn/next-core/commit/014f5bf))
+- **portal:** make portal container out of flow ([aa7f0b0](https://github.com/easyops-cn/next-core/commit/aa7f0b0))
+- **radio:** forms.general-radio 在 button 模式下，会跟其他 form-item 对不齐 ([08e0cba](https://github.com/easyops-cn/next-core/commit/08e0cba))
+- **report_brick_next_package:** 上报 NB 包时，先检查 org 是否存在 ([52f1893](https://github.com/easyops-cn/next-core/commit/52f1893))
+- **report_brick_next_package:** 上报 NB 包时，先检查 org 是否存在 ([a574176](https://github.com/easyops-cn/next-core/commit/a574176))
+- **serve:** allow unsecure proxy for https which is probably self-signed ([0a04027](https://github.com/easyops-cn/next-core/commit/0a04027))
+- **serve:** allow unsecure proxy for https which is probably self-signed ([6d292dd](https://github.com/easyops-cn/next-core/commit/6d292dd))
+- **serve:** disable live reload for E2E tests in CI ([5ca5396](https://github.com/easyops-cn/next-core/commit/5ca5396))
+- **serve:** enable live reload in local development mode ([ec8bec9](https://github.com/easyops-cn/next-core/commit/ec8bec9))
+- **serve:** enable merge-settings by default in remote mode ([3e6c3f8](https://github.com/easyops-cn/next-core/commit/3e6c3f8))
+- **serve:** fail on unknown options ([0091dca](https://github.com/easyops-cn/next-core/commit/0091dca))
+- **serve:** fix when remote has no `misc` ([9e82e13](https://github.com/easyops-cn/next-core/commit/9e82e13))
+- **serve:** log errors when local packages are not found ([b08dc6e](https://github.com/easyops-cn/next-core/commit/b08dc6e))
+- **websocket:** 支持 subDir 模式 serve ([d6add3f](https://github.com/easyops-cn/next-core/commit/d6add3f))
+- add dependencies ucpro_desktop_service ([543d686](https://github.com/easyops-cn/next-core/commit/543d686))
+- fix configs after upgrade copy-webpack-plugin from v5 to v6 ([4664f80](https://github.com/easyops-cn/next-core/commit/4664f80))
+- fix fulfilling mocked apps ([e5a3b0f](https://github.com/easyops-cn/next-core/commit/e5a3b0f))
+- revert postcss-\* and css-loader since postcss v8 is not widely supported ([f24f409](https://github.com/easyops-cn/next-core/commit/f24f409))
+- **serve:** use remote mode by default ([2ac1be8](https://github.com/easyops-cn/next-core/commit/2ac1be8))
+- log errors for invalid properties of custom elements in dev mode ([a37c645](https://github.com/easyops-cn/next-core/commit/a37c645))
+- support mock-micro-apps ([0bb5c22](https://github.com/easyops-cn/next-core/commit/0bb5c22))
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+- update dependencies ([3536539](https://github.com/easyops-cn/next-core/commit/3536539))
+- **brick-container:** `yarn serve` support to listen on specified host ([aa36721](https://github.com/easyops-cn/next-core/commit/aa36721))
+- **brick-container:** fix `yarn serve` support to listen on specified host ([d50c9b8](https://github.com/easyops-cn/next-core/commit/d50c9b8))
+- **brick-container:** show versions of core packages ([c271868](https://github.com/easyops-cn/next-core/commit/c271868))
+- **serve:** fix glob patterns not working when watch symlinks ([6fc5c7f](https://github.com/easyops-cn/next-core/commit/6fc5c7f))
+- **serve:** print help message about host args ([cc61a16](https://github.com/easyops-cn/next-core/commit/cc61a16))
+- **webpack:** fix after upgraded webpack-merge to v5 ([d0c54d9](https://github.com/easyops-cn/next-core/commit/d0c54d9))
+- **webpack:** fix dll not refreshing after updated in development ([d804aa5](https://github.com/easyops-cn/next-core/commit/d804aa5))
+- add bin scripts ([43b3b56](https://github.com/easyops-cn/next-core/commit/43b3b56))
+- compatibility with invalid route ([91947b7](https://github.com/easyops-cn/next-core/commit/91947b7))
+- copy dll js map ([11a7945](https://github.com/easyops-cn/next-core/commit/11a7945))
+- disable backdrop scroll when launchpad is open ([cd8e43a](https://github.com/easyops-cn/next-core/commit/cd8e43a))
+- dropdown menu item, padding and radius, refs BRICK_STORE-694 ([09505e6](https://github.com/easyops-cn/next-core/commit/09505e6))
+- fix auto-remote not working ([5151ffc](https://github.com/easyops-cn/next-core/commit/5151ffc))
+- fix card styles ([551b69e](https://github.com/easyops-cn/next-core/commit/551b69e))
+- fix confirm modal style ([eb5d13c](https://github.com/easyops-cn/next-core/commit/eb5d13c))
+- fix local bricks and local micro apps not working in remote mode ([d99f0e3](https://github.com/easyops-cn/next-core/commit/d99f0e3))
+- fix table styles ([51ff311](https://github.com/easyops-cn/next-core/commit/51ff311))
+- listen on `localhost` ([b6e401c](https://github.com/easyops-cn/next-core/commit/b6e401c))
+- log errors if bootstrap failed ([94128cc](https://github.com/easyops-cn/next-core/commit/94128cc))
+- message 全局样式调整 ([cb98567](https://github.com/easyops-cn/next-core/commit/cb98567))
+- message 按照规范调整样式 ([ea16231](https://github.com/easyops-cn/next-core/commit/ea16231))
+- nodemodule micro-apps is SymbolicLink refs MONITOR-201 ([592127a](https://github.com/easyops-cn/next-core/commit/592127a))
+- refine server ([73c8ae8](https://github.com/easyops-cn/next-core/commit/73c8ae8))
+- require api gateway ^1.4.0 which support app.menuIcon ([2f0227e](https://github.com/easyops-cn/next-core/commit/2f0227e))
+- require api_gateway ^1.7.18 ([d0ad29f](https://github.com/easyops-cn/next-core/commit/d0ad29f))
+- revert style-loader from 1.1.1 to 1.0.2 ([5014442](https://github.com/easyops-cn/next-core/commit/5014442))
+- silent errors when parsing local storyboards ([e45532f](https://github.com/easyops-cn/next-core/commit/e45532f))
+- tree style ([5ac19f9](https://github.com/easyops-cn/next-core/commit/5ac19f9))
+- update after upgrade http-proxy-middleware ([dc39800](https://github.com/easyops-cn/next-core/commit/dc39800))
+- update nginx to ^3.5.5 which support templates ([541abfd](https://github.com/easyops-cn/next-core/commit/541abfd))
+- update page padding ([246fddf](https://github.com/easyops-cn/next-core/commit/246fddf))
+- use node_modules to find local bricks and templates ([5a5480b](https://github.com/easyops-cn/next-core/commit/5a5480b))
+- **dev:** support using local package that does not existed in remote ([9ecc15d](https://github.com/easyops-cn/next-core/commit/9ecc15d))
+- **dev-server:** return raw response if status code is other than 200 ([eb266ab](https://github.com/easyops-cn/next-core/commit/eb266ab))
+- **report-installed-micro-app:** uc 安装， 非应用商店安装小产品的话，编排小产品的状态没有扫上来 refs MICRO_APP-28 ([04ea575](https://github.com/easyops-cn/next-core/commit/04ea575))
+- **ui-5.0:** DatePicker styles refs BRICK_STORE-574 ([5e66fe7](https://github.com/easyops-cn/next-core/commit/5e66fe7))
+- **ui-5.0:** Input styles refs BRICK_STORE-572 ([65eb824](https://github.com/easyops-cn/next-core/commit/65eb824))
+- **ui-5.0:** Input styles refs BRICK_STORE-572 ([72fc36f](https://github.com/easyops-cn/next-core/commit/72fc36f))
+- **ui-5.0:** modal styles ([183921a](https://github.com/easyops-cn/next-core/commit/183921a))
+- **ui-5.0:** Select styles refs BRICK_STORE-573 ([1efdb6b](https://github.com/easyops-cn/next-core/commit/1efdb6b))
+- **ui-5.0:** set card (without border) border radius to 6px ([75e1fc0](https://github.com/easyops-cn/next-core/commit/75e1fc0))
+- **ui-5.0:** tabs styles ([cf9c5f6](https://github.com/easyops-cn/next-core/commit/cf9c5f6))
+- support templates when remote-developing ([d8f225c](https://github.com/easyops-cn/next-core/commit/d8f225c))
+- ui-5.0 styles for buttons ([1f4bef9](https://github.com/easyops-cn/next-core/commit/1f4bef9))
+- use @easyops/custom-antd-styles ([a039f59](https://github.com/easyops-cn/next-core/commit/a039f59))
+- use api gateway ^1.5.1 ([b09cc8a](https://github.com/easyops-cn/next-core/commit/b09cc8a))
+- using @libs/custom-antd-styles ([63e92e0](https://github.com/easyops-cn/next-core/commit/63e92e0))
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://github.com/easyops-cn/next-core/commit/d259f2b))
+- api analytics ([45b1967](https://github.com/easyops-cn/next-core/commit/45b1967))
+- editor bricks helper ([0d63f7d](https://github.com/easyops-cn/next-core/commit/0d63f7d))
+- new ApiAnalysis ([b183635](https://github.com/easyops-cn/next-core/commit/b183635))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- support `PERMISSIONS.check(...)` ([a581c34](https://github.com/easyops-cn/next-core/commit/a581c34))
+- support loading editor bricks ([92f9e04](https://github.com/easyops-cn/next-core/commit/92f9e04))
+- **bootstrap:** fulfill the storyboard only when it's active ([d5d9ce9](https://github.com/easyops-cn/next-core/commit/d5d9ce9))
+- **brick-container:** restore container conf deps version ([afa2500](https://github.com/easyops-cn/next-core/commit/afa2500))
+- **brick-container:** 当以 subDir 模式 serve 时，将非 next 目录下的请求代理至 console ([b2eda4d](https://github.com/easyops-cn/next-core/commit/b2eda4d))
+- **brick-container:** 页面背景颜色的改变 #F3F4F7 ([bd664d4](https://github.com/easyops-cn/next-core/commit/bd664d4)), closes [#F3F4F7](https://github.com/easyops-cn/next-core/issues/F3F4F7)
+- **brick-http:** new brick-http ([6602136](https://github.com/easyops-cn/next-core/commit/6602136))
+- **custom-antd-styles:** form ([484754d](https://github.com/easyops-cn/next-core/commit/484754d))
+- **illustrations:** brick-container support illustrations ([e15facb](https://github.com/easyops-cn/next-core/commit/e15facb))
+- **menu:** support #showKey in menu titleDataSource ([8cbaac3](https://github.com/easyops-cn/next-core/commit/8cbaac3))
+- **report_package:** 安装 NB 包和 NT 包时，也上报 ([19da263](https://github.com/easyops-cn/next-core/commit/19da263))
+- **router:** log location change, refs BRICK_STORE-1307 ([3bf3101](https://github.com/easyops-cn/next-core/commit/3bf3101))
+- **runtime:** support getMiscSettings, also freeze app.config and settings ([99dc645](https://github.com/easyops-cn/next-core/commit/99dc645))
+- **styles:** add collapse styles ([f0b64a3](https://github.com/easyops-cn/next-core/commit/f0b64a3))
+- **theme:** support dark theme ([fccc811](https://github.com/easyops-cn/next-core/commit/fccc811))
+- **tree-select:** custom styles ([8f4f07d](https://github.com/easyops-cn/next-core/commit/8f4f07d))
+- add link color style ([ebdf813](https://github.com/easyops-cn/next-core/commit/ebdf813))
+- add @dll/ace ([546560b](https://github.com/easyops-cn/next-core/commit/546560b))
+- add css variables like page padding and card border radius ([1c278d6](https://github.com/easyops-cn/next-core/commit/1c278d6))
+- add icon ([30f26e4](https://github.com/easyops-cn/next-core/commit/30f26e4))
+- add package: brick-icons ([9c8c000](https://github.com/easyops-cn/next-core/commit/9c8c000))
+- add tag component style ([c09075a](https://github.com/easyops-cn/next-core/commit/c09075a))
+- app config ([85033d0](https://github.com/easyops-cn/next-core/commit/85033d0))
+- checkbox style modification ([65dafb4](https://github.com/easyops-cn/next-core/commit/65dafb4))
+- descriptions style ([ff5609c](https://github.com/easyops-cn/next-core/commit/ff5609c))
+- dev server support templates in storyboards ([70302a7](https://github.com/easyops-cn/next-core/commit/70302a7))
+- expose supported features by brick next ([3ca0db1](https://github.com/easyops-cn/next-core/commit/3ca0db1))
+- fetch all user info, refs BRICK_STORE-428 ([ad7ee8b](https://github.com/easyops-cn/next-core/commit/ad7ee8b))
+- initial root css variables ([7144b84](https://github.com/easyops-cn/next-core/commit/7144b84))
+- now we can use specified server ([7802aa4](https://github.com/easyops-cn/next-core/commit/7802aa4))
+- pagination 样式调整 ([9e2d784](https://github.com/easyops-cn/next-core/commit/9e2d784))
+- portal-mount-point 支持挂载 slots 中的 brick 组件 ([657c8f2](https://github.com/easyops-cn/next-core/commit/657c8f2))
+- redirect to browse-happy if browser not compatiple ([262b01e](https://github.com/easyops-cn/next-core/commit/262b01e))
+- refine fontawesome library ([4675bf9](https://github.com/easyops-cn/next-core/commit/4675bf9))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- select style in pagination ([f8e9a6c](https://github.com/easyops-cn/next-core/commit/f8e9a6c))
+- serve brick container as a CLI tool ([168069b](https://github.com/easyops-cn/next-core/commit/168069b))
+- show loading bar at initial ([352ac91](https://github.com/easyops-cn/next-core/commit/352ac91))
+- split css variable of theme color into rgb channels ([a936dc4](https://github.com/easyops-cn/next-core/commit/a936dc4))
+- support `yarn serve --auto-remote` ([d87cd79](https://github.com/easyops-cn/next-core/commit/d87cd79))
+- support app config ([1ac1492](https://github.com/easyops-cn/next-core/commit/1ac1492))
+- support remote mode ([339e0d9](https://github.com/easyops-cn/next-core/commit/339e0d9))
+- support storyboard.yaml (in mock-micro-apps) ([d46369f](https://github.com/easyops-cn/next-core/commit/d46369f))
+- support sub-menu along with menu bar ([0630823](https://github.com/easyops-cn/next-core/commit/0630823))
+- support use local settings or merge settings when serve by remote ([b2e1e89](https://github.com/easyops-cn/next-core/commit/b2e1e89))
+- update antd checkbox style ([3a6a505](https://github.com/easyops-cn/next-core/commit/3a6a505))
+- upgrade antd to v4 ([8cf7263](https://github.com/easyops-cn/next-core/commit/8cf7263))
+- 增加 portal-mount-point ([3a802b0](https://github.com/easyops-cn/next-core/commit/3a802b0))
+- 支持构建包中的 stories 本地预览 ([1bc9ab2](https://github.com/easyops-cn/next-core/commit/1bc9ab2))
+- 框架增加消息推送能力 ([9a71c7d](https://github.com/easyops-cn/next-core/commit/9a71c7d))
+- **brand:** brand favicon config2 Refs INSTANCE-851 ([5a0dc32](https://github.com/easyops-cn/next-core/commit/5a0dc32))
+- **brand:** brand title config Refs INSTANCE-851 ([08f3202](https://github.com/easyops-cn/next-core/commit/08f3202))
+- **custom-style:** custom style of antd alert, refs BRICK_STORE-642 ([4846378](https://github.com/easyops-cn/next-core/commit/4846378))
+- **menu:** support `if` in menu ([070b7bc](https://github.com/easyops-cn/next-core/commit/070b7bc))
+- 框架提供 instanceId 变量 ([22a04b5](https://github.com/easyops-cn/next-core/commit/22a04b5))
+- **variables:** card-content-gap ([a122ba9](https://github.com/easyops-cn/next-core/commit/a122ba9))
+
+### BREAKING CHANGES
+
+- Upgrade antd to v4
+
+Closes INFRA-706
+
+## [2.15.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.19...@easyops/brick-container@2.15.20) (2021-01-20)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.15.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.18...@easyops/brick-container@2.15.19) (2021-01-20)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.15.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.17...@easyops/brick-container@2.15.18) (2021-01-19)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.15.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.16...@easyops/brick-container@2.15.17) (2021-01-19)
+
+### Bug Fixes
+
+- **serve:** add `help` and `version` in flags ([51ac793](https://git.easyops.local/anyclouds/next-core/commits/51ac793))
+
+## [2.15.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.15...@easyops/brick-container@2.15.16) (2021-01-19)
+
+### Bug Fixes
+
+- **serve:** meow supports reporting unknown flags now ([0a0d624](https://git.easyops.local/anyclouds/next-core/commits/0a0d624))
+
+## [2.15.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.14...@easyops/brick-container@2.15.15) (2021-01-18)
+
+### Bug Fixes
+
+- fix error when remote package not found ([d276330](https://git.easyops.local/anyclouds/next-core/commits/d276330))
+
+## [2.15.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.13...@easyops/brick-container@2.15.14) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.15.13](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.12...@easyops/brick-container@2.15.13) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/brick-container
+
+## [2.15.12](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.11...@easyops/brick-container@2.15.12) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/brick-container
+
 ## [2.15.11](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-container@2.15.10...@easyops/brick-container@2.15.11) (2021-01-14)
 
 ### Bug Fixes

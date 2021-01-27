@@ -1,5 +1,5 @@
-import { MicroApp } from "@easyops/brick-types";
-import { toPath, computeRealRoutePath } from "@easyops/brick-utils";
+import { MicroApp } from "@next-core/brick-types";
+import { toPath, computeRealRoutePath } from "@next-core/brick-utils";
 
 export function getUrlByAliasFactory(app: MicroApp) {
   return function getUrlByAlias(

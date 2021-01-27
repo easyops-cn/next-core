@@ -1,12 +1,22 @@
 import fs from "fs";
 import inquirer from "inquirer";
+import * as changeCase from "change-case";
+import { getEasyopsConfig } from "@next-core/repo-config";
+import { PUBLIC_SCOPED_SDK } from "./constants";
 
 export const getModules = (apiDir: string): string[] => {
+  const { usePublicScope } = getEasyopsConfig();
   const modules: string[] = [];
 
-  fs.readdirSync(apiDir, { withFileTypes: true }).forEach(dirent => {
+  fs.readdirSync(apiDir, { withFileTypes: true }).forEach((dirent) => {
     if (dirent.isDirectory()) {
-      modules.push(dirent.name);
+      const isPublicScopedSdk = PUBLIC_SCOPED_SDK.includes(
+        changeCase.paramCase(dirent.name)
+      );
+      const allowed = usePublicScope ? isPublicScopedSdk : !isPublicScopedSdk;
+      if (allowed) {
+        modules.push(dirent.name);
+      }
     }
   });
 
@@ -21,10 +31,10 @@ export const promptToChooseSdk = async (
       type: "list",
       name: "service",
       message:
-        "Which sdk would you like to update? (ALL to update all @sdk/*-sdk)",
+        "Which sdk would you like to update? (ALL to update all sdk/*-sdk)",
       choices: [...modules, "ALL"],
-      default: 0
-    }
+      default: 0,
+    },
   ]);
 
   return props.service === "ALL" ? modules : [props.service];

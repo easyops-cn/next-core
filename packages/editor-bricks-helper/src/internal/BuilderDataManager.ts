@@ -1,9 +1,10 @@
 import { omit, sortBy } from "lodash";
 import EventTarget from "@ungap/event-target";
-import { BuilderRouteOrBrickNode } from "@easyops/brick-types";
+import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import {
   AbstractBuilderDataManager,
   BuilderCanvasData,
+  BuilderContextMenuStatus,
   BuilderRuntimeEdge,
   BuilderRuntimeNode,
   EventDetailOfNodeAdd,
@@ -14,12 +15,14 @@ import {
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
+import { deleteNodeFromTree } from "./deleteNodeFromTree";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
   NODE_CLICK = "builder.node.click",
+  CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
 }
 
@@ -32,8 +35,16 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private eventTarget = new EventTarget();
 
+  private contextMenuStatus: BuilderContextMenuStatus = {
+    active: false,
+  };
+
   getData(): BuilderCanvasData {
     return this.data;
+  }
+
+  getContextMenuStatus(): BuilderContextMenuStatus {
+    return this.contextMenuStatus;
   }
 
   dataInit(root: BuilderRuntimeNode): void {
@@ -117,9 +128,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
     );
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
-    );
   }
 
   nodeMove(detail: EventDetailOfNodeMove): void {
@@ -165,9 +173,23 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
+  nodeDelete(detail: BuilderRuntimeNode): void {
+    this.data = deleteNodeFromTree(detail.$$uid, this.data);
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
+    );
+  }
+
   nodeClick(detail: BuilderRuntimeNode): void {
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_CLICK, { detail })
+    );
+  }
+
+  contextMenuChange(detail: BuilderContextMenuStatus): void {
+    this.contextMenuStatus = detail;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.CONTEXT_MENU_CHANGE)
     );
   }
 
@@ -236,6 +258,21 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return () => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.NODE_CLICK,
+        fn as EventListener
+      );
+    };
+  }
+
+  onContextMenuChange(
+    fn: (event: CustomEvent<BuilderContextMenuStatus>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.CONTEXT_MENU_CHANGE,
+      fn as EventListener
+    );
+    return () => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.CONTEXT_MENU_CHANGE,
         fn as EventListener
       );
     };

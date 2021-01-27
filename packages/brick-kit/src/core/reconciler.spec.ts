@@ -8,7 +8,7 @@ import { RuntimeBrick } from "./BrickNode";
 import { setRealProperties } from "../setProperties";
 
 jest.mock("./BrickNode");
-jest.mock("@easyops/brick-utils");
+jest.mock("@next-core/brick-utils");
 jest.mock("../setProperties");
 
 describe("reconciler", () => {

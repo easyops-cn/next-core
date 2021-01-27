@@ -1,5 +1,5 @@
 import { Kernel } from "./exports";
-import { MenuBarBrick, SidebarMenu } from "@easyops/brick-types";
+import { MenuBarBrick, SidebarMenu } from "@next-core/brick-types";
 
 export class MenuBar {
   public element: MenuBarBrick;

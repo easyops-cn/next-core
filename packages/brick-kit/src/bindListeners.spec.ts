@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { BrickEventHandler, BrickEventsMap } from "@easyops/brick-types";
+import { BrickEventHandler, BrickEventsMap } from "@next-core/brick-types";
 import {
   isBuiltinHandler,
   isCustomHandler,
@@ -415,6 +415,23 @@ describe("bindListeners", () => {
         { action: "mode.setDashboardMode" },
         { action: "menu.clearMenuTitleCache" },
         { action: "menu.clearMenuCache" },
+        {
+          action: "localStorage.setItem",
+          args: ["visit-history", undefined],
+        },
+        {
+          action: "localStorage.setItem",
+          args: [
+            "visit-history",
+            {
+              id: "mockId",
+            },
+          ],
+        },
+        {
+          action: "localStorage.removeItem",
+          args: ["visit-history"],
+        },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -509,6 +526,9 @@ describe("bindListeners", () => {
     jest.spyOn(console, "error").mockImplementation(() => void 0);
     window.open = jest.fn();
 
+    jest.spyOn(Storage.prototype, "setItem");
+    jest.spyOn(Storage.prototype, "removeItem");
+
     bindListeners(sourceElem, eventsMap);
 
     const event1 = new CustomEvent("key1", {
@@ -531,6 +551,13 @@ describe("bindListeners", () => {
       },
       "http://www.google.com"
     );
+
+    expect(localStorage.setItem).toBeCalledWith(
+      "visit-history",
+      '{"id":"mockId"}'
+    );
+    expect(localStorage.setItem).toBeCalledTimes(1);
+    expect(localStorage.removeItem).toBeCalledWith("visit-history");
 
     const history = mockHistory;
     expect(history.push).toHaveBeenNthCalledWith(1, "for-good");
@@ -716,6 +743,8 @@ describe("bindListeners", () => {
     (applyMode as jest.Mock).mockClear();
     (clearMenuTitleCache as jest.Mock).mockClear();
     (clearMenuCache as jest.Mock).mockClear();
+    (localStorage.setItem as jest.Mock).mockClear();
+    (localStorage.removeItem as jest.Mock).mockClear();
 
     unbindListeners(sourceElem);
     sourceElem.dispatchEvent(event1);
@@ -852,6 +881,11 @@ describe("bindListeners", () => {
         if: "<% !EVENT.detail.rejected %>",
         method: "forGood",
       },
+      {
+        action: "localStorage.removeItem",
+        args: ["visit-history"],
+        if: "<% !EVENT.detail.rejected %>",
+      },
     ];
     bindListeners(sourceElem, { ifWillGetRejected: handlers });
     sourceElem.dispatchEvent(
@@ -868,6 +902,7 @@ describe("bindListeners", () => {
     expect(applyMode).not.toBeCalled();
     expect(clearMenuTitleCache).not.toBeCalled();
     expect(clearMenuCache).not.toBeCalled();
+    expect(localStorage.removeItem).not.toBeCalled();
 
     (console.log as jest.Mock).mockRestore();
     sourceElem.remove();

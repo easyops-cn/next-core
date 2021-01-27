@@ -1,4 +1,4 @@
-import { BuilderRouteOrBrickNode } from "@easyops/brick-types";
+import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { NodeInstance } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -101,53 +101,53 @@ describe("BuilderDataManager", () => {
         ],
         "nodes": Array [
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
-            "parsedProperties": Object {},
             "path": "/home",
             "type": "bricks",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 2,
             "alias": "alias-a",
             "brick": "brick-a",
             "id": "B-002",
-            "parsedProperties": Object {},
             "sort": 0,
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 3,
             "alias": undefined,
             "brick": "brick-b",
             "id": "B-003",
-            "parsedProperties": Object {},
             "sort": 1,
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 4,
             "alias": undefined,
             "brick": "brick-c",
             "id": "B-004",
-            "parsedProperties": Object {},
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 5,
             "alias": undefined,
             "brick": "brick-d",
             "id": "B-005",
-            "parsedProperties": Object {},
             "type": "brick",
           },
           Object {
+            "$$parsedProperties": Object {},
             "$$uid": 6,
             "alias": undefined,
             "brick": "brick-e",
             "id": "B-006",
-            "parsedProperties": Object {},
             "sort": 1,
             "type": "brick",
           },
@@ -158,6 +158,10 @@ describe("BuilderDataManager", () => {
   });
 
   it("should add node", () => {
+    const listenOnNodeAdd = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeAdd = manager.onNodeAdd(listenOnNodeAdd);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
@@ -211,14 +215,20 @@ describe("BuilderDataManager", () => {
     `);
     expect(newData.nodes[newData.nodes.length - 1]).toMatchInlineSnapshot(`
       Object {
+        "$$parsedProperties": Object {},
         "$$uid": 7,
         "alias": "new-brick",
-        "parsedProperties": Object {},
       }
     `);
+    expect(listenOnNodeAdd).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeAdd();
+    unlistenOnDataChange();
   });
 
   it("should update stored node", () => {
+    const listenOnDataChange = jest.fn();
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
@@ -239,9 +249,15 @@ describe("BuilderDataManager", () => {
     expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
       "B-007"
     );
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnDataChange();
   });
 
   it("should move nodes inside a mount point", () => {
+    const listenOnNodeMove = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeMove = manager.onNodeMove(listenOnNodeMove);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeMove({
       nodeUid: 6,
       parentUid: 3,
@@ -287,9 +303,17 @@ describe("BuilderDataManager", () => {
         },
       ]
     `);
+    expect(listenOnNodeMove).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeMove();
+    unlistenOnDataChange();
   });
 
   it("should move nodes across mount points", () => {
+    const listenOnNodeMove = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeMove = manager.onNodeMove(listenOnNodeMove);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeMove({
       nodeUid: 5,
       parentUid: 3,
@@ -335,9 +359,17 @@ describe("BuilderDataManager", () => {
         },
       ]
     `);
+    expect(listenOnNodeMove).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeMove();
+    unlistenOnDataChange();
   });
 
   it("should reorder nodes", () => {
+    const listenOnNodeReorder = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnNodeReorder = manager.onNodeReorder(listenOnNodeReorder);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeReorder({
       parentUid: 1,
       nodeUids: [3, 2],
@@ -377,5 +409,83 @@ describe("BuilderDataManager", () => {
         },
       ]
     `);
+    expect(listenOnNodeReorder).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeReorder();
+    unlistenOnDataChange();
+  });
+
+  it("should delete a node", () => {
+    const listenOnDataChange = jest.fn();
+    const unlisten = manager.onDataChange(listenOnDataChange);
+    manager.nodeDelete({
+      $$uid: 3,
+      id: "B-003",
+      type: "brick",
+      brick: "brick-b",
+      sort: 1,
+    });
+    expect(manager.getData()).toMatchInlineSnapshot(`
+      Object {
+        "edges": Array [
+          Object {
+            "child": 2,
+            "mountPoint": "bricks",
+            "parent": 1,
+            "sort": 0,
+          },
+        ],
+        "nodes": Array [
+          Object {
+            "$$parsedProperties": Object {},
+            "$$uid": 1,
+            "alias": undefined,
+            "id": "B-001",
+            "path": "/home",
+            "type": "bricks",
+          },
+          Object {
+            "$$parsedProperties": Object {},
+            "$$uid": 2,
+            "alias": "alias-a",
+            "brick": "brick-a",
+            "id": "B-002",
+            "sort": 0,
+            "type": "brick",
+          },
+        ],
+        "rootId": 1,
+      }
+    `);
+    expect(listenOnDataChange).toBeCalled();
+    unlisten();
+  });
+
+  it("should trigger node click", () => {
+    const listenOnNodeClick = jest.fn();
+    const unlisten = manager.onNodeClick(listenOnNodeClick);
+    manager.nodeClick({
+      type: "brick",
+      id: "B-001",
+      brick: "my-brick",
+    });
+    expect(listenOnNodeClick).toBeCalled();
+    unlisten();
+  });
+
+  it("should change context menu", () => {
+    const listenOnContextMenuChange = jest.fn();
+    const unlisten = manager.onContextMenuChange(listenOnContextMenuChange);
+    expect(manager.getContextMenuStatus()).toEqual({
+      active: false,
+    });
+    manager.contextMenuChange({
+      active: true,
+    });
+    expect(manager.getContextMenuStatus()).toEqual({
+      active: true,
+    });
+    expect(listenOnContextMenuChange).toBeCalled();
+    unlisten();
   });
 });

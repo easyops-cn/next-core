@@ -4,11 +4,15 @@ const crypto = require("crypto");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const manifest = require("@easyops/brick-dll");
+const manifest = require("@next-core/brick-dll");
+const {
+  dll: { NextHashedModuleIdsPlugin, NextDllReferencePlugin },
+} = require("@next-core/webpack-config-factory");
 const packageJson = require("./package.json");
-const brickDllVersion = require("@easyops/brick-dll/package.json").version;
-const brickKitVersion = require("@easyops/brick-kit/package.json").version;
-const brickUtilsVersion = require("@easyops/brick-utils/package.json").version;
+const brickDllVersion = require("@next-core/brick-dll/package.json").version;
+const brickKitVersion = require("@next-core/brick-kit/package.json").version;
+const brickUtilsVersion = require("@next-core/brick-utils/package.json")
+  .version;
 
 const appRoot = path.join(__dirname, "..", "..");
 let baseHref = "/";
@@ -18,9 +22,9 @@ if (process.env.SUBDIR === "true") {
   baseHref = "<!--# echo var='base_href' default='/' -->";
 }
 
-// Find all `@dll/*`.
+// Find all `@next-dll/*`.
 const dll = Object.keys(packageJson.devDependencies)
-  .filter((name) => name.startsWith("@dll/"))
+  .filter((name) => name.startsWith("@next-dll/"))
   .map((name) => {
     const baseName = name.split("/").slice(-1)[0];
     return {
@@ -59,7 +63,7 @@ module.exports = {
     new CopyPlugin({
       patterns: dll
         .map(({ filePath }) => filePath)
-        .concat("@easyops/brick-dll/dist/dll.js")
+        .concat("@next-core/brick-dll/dist/dll.js")
         .map((filePath) => require.resolve(filePath))
         .map((filePath) => [filePath, `${filePath}.map`])
         .reduce((acc, item) => acc.concat(item), []),
@@ -76,7 +80,7 @@ module.exports = {
       patterns: [
         {
           from: `${path.resolve(
-            require.resolve("@easyops/illustrations/package.json"),
+            require.resolve("@next-core/illustrations/package.json"),
             "../dist/illustrations"
           )}`,
           to: "assets/illustrations",
@@ -95,8 +99,8 @@ module.exports = {
       template: path.join(__dirname, "src", "browse-happy.ejs"),
       chunks: [],
     }),
-    new webpack.HashedModuleIdsPlugin(),
-    new webpack.DllReferencePlugin({
+    new NextHashedModuleIdsPlugin(),
+    new NextDllReferencePlugin({
       context: appRoot,
       manifest: manifest,
     }),

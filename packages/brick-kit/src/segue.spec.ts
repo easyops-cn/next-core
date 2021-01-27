@@ -1,4 +1,4 @@
-import { MicroApp, SeguesConf } from "@easyops/brick-types";
+import { MicroApp, SeguesConf } from "@next-core/brick-types";
 import { getUrlBySegueFactory } from "./segue";
 
 describe("getUrlBySegueFactory", () => {

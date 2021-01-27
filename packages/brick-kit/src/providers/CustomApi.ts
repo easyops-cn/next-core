@@ -1,5 +1,5 @@
-import { createProviderClass } from "@easyops/brick-utils";
-import { http, HttpOptions } from "@easyops/brick-http";
+import { createProviderClass } from "@next-core/brick-utils";
+import { http, HttpOptions } from "@next-core/brick-http";
 
 export const CUSTOM_API_PROVIDER = "brick-kit.provider-custom-api";
 

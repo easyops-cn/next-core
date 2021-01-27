@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-prismjs@1.0.3...@next-core/babel-preset-prismjs@1.0.4) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/babel-preset-prismjs
+
+## 1.0.3 (2021-01-22)
+
+### Bug Fixes
+
+- make prismjs as a peer dependency of @easyops/babel-preset-prismjs ([f6d8342](https://github.com/easyops-cn/next-core/commit/f6d8342))
+
+### Features
+
+- make babel-plugin-prismjs to a independent preset ([dca4584](https://github.com/easyops-cn/next-core/commit/dca4584))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+
+## [1.0.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-prismjs@1.0.1...@easyops/babel-preset-prismjs@1.0.2) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/babel-preset-prismjs
+
 ## [1.0.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-prismjs@1.0.0...@easyops/babel-preset-prismjs@1.0.1) (2020-10-16)
 
 **Note:** Version bump only for package @easyops/babel-preset-prismjs

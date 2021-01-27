@@ -11,7 +11,7 @@ import {
   PluginRuntimeContext,
   BrickConf,
   TemplatePackage,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import {
   Kernel,
   MenuBar,

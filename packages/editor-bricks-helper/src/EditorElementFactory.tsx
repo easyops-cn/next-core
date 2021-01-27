@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { UpdatingElement, property, BrickWrapper } from "@easyops/brick-kit";
+import { UpdatingElement, property, BrickWrapper } from "@next-core/brick-kit";
 import { EditorSelfLayout } from "./interfaces";
 import { BuilderProvider } from "./BuilderProvider";
 

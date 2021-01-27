@@ -3,7 +3,7 @@ import {
   HttpResponseError,
   HttpParseError,
   HttpFetchError,
-} from "@easyops/brick-http";
+} from "@next-core/brick-http";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { ModalFunc } from "antd/lib/modal/confirm";
@@ -28,6 +28,9 @@ export function httpErrorToString(
 ): string {
   if (error instanceof Event && error.target instanceof HTMLScriptElement) {
     return error.target.src;
+  }
+  if (error instanceof HttpFetchError) {
+    return i18next.t(`${NS_BRICK_KIT}:${K.NETWORK_ERROR}`);
   }
   if (error instanceof HttpResponseError) {
     if (error.responseJson) {

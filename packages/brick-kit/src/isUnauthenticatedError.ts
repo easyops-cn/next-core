@@ -1,4 +1,4 @@
-import { HttpResponseError } from "@easyops/brick-http";
+import { HttpResponseError } from "@next-core/brick-http";
 
 export function isUnauthenticatedError(error: any): boolean {
   return (

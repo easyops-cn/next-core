@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/@easyops/brick-types/.schema/storyboard.json",
-  "imports": ["@bricks/basic-bricks"],
+  "$schema": "../../node_modules/@next-core/brick-types/.schema/storyboard.json",
+  "imports": [],
   "app": {
     "name": "$Title Package Name$",
     "id": "$kebab-package-name$",

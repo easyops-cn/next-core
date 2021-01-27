@@ -1,4 +1,4 @@
-import { GeneralTransform } from "@easyops/brick-types";
+import { GeneralTransform } from "@next-core/brick-types";
 import {
   transformProperties,
   transformIntermediateData,

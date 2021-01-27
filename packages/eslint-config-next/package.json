@@ -1,12 +1,12 @@
 {
-  "name": "@easyops/eslint-config-next",
-  "version": "1.0.8",
+  "name": "@next-core/eslint-config-next",
+  "version": "1.0.11",
   "description": "Eslint recommended config for brick-next related packages",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/eslint-config-next",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/eslint-config-next",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "sideEffects": false,
   "peerDependencies": {

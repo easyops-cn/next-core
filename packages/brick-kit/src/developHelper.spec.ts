@@ -1,9 +1,9 @@
-import { asyncProcessBrick } from "@easyops/brick-utils";
-import { BrickConf } from "@easyops/brick-types";
+import { asyncProcessBrick } from "@next-core/brick-utils";
+import { BrickConf } from "@next-core/brick-types";
 import { developHelper } from "./developHelper";
 import { _dev_only_getTemplatePackages } from "./core/Runtime";
 
-jest.mock("@easyops/brick-utils");
+jest.mock("@next-core/brick-utils");
 jest.mock("./core/Runtime");
 
 (asyncProcessBrick as jest.Mock).mockImplementation((brickConf: BrickConf) => {

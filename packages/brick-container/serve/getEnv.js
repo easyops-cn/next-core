@@ -92,6 +92,13 @@ module.exports = (cwd) => {
         type: "boolean",
         default: true,
       },
+      // Todo(steve): remove `help` and `version` after meow fixed it.
+      help: {
+        type: "boolean",
+      },
+      version: {
+        type: "boolean",
+      },
     };
     const cli = meow(
       `
@@ -122,33 +129,17 @@ module.exports = (cwd) => {
       `,
       {
         flags: flagOptions,
+        allowUnknownFlags: false,
       }
     );
 
-    flags = cli.flags;
-    let invalidInput = false;
-
     if (cli.input.length > 0) {
       console.error(chalk.red("Unexpected args received"));
-      invalidInput = true;
-    } else {
-      const acceptKeys = Object.keys(flagOptions);
-      const receivedKeys = Object.keys(flags);
-      const unknownKeys = difference(receivedKeys, acceptKeys);
-      if (unknownKeys.length > 0) {
-        console.error(
-          `${chalk.red(
-            `Unknown option${unknownKeys.length > 1 ? "s" : ""}:`
-          )} ${unknownKeys.join(", ")}`
-        );
-        invalidInput = true;
-      }
+      // `process.exit(2)` will be called in `cli.showHelp()`.
+      cli.showHelp();
     }
 
-    if (invalidInput) {
-      cli.showHelp();
-      process.exit(1);
-    }
+    flags = cli.flags;
   }
 
   const useOffline = flags.offline || process.env.OFFLINE === "true";
@@ -198,10 +189,10 @@ module.exports = (cwd) => {
       return cwd;
     }
     const devConfig = getDevConfig();
-    if (devConfig && devConfig.brickNextDir) {
-      return devConfig.brickNextDir;
+    if (devConfig && devConfig.nextRepoDir) {
+      return devConfig.nextRepoDir;
     }
-    return path.join(rootDir, "../brick-next");
+    return path.join(rootDir, "../next-basics");
   }
 
   function getDevConfig() {
@@ -219,16 +210,13 @@ module.exports = (cwd) => {
     return {};
   }
 
-  const brickNextDir = getBrickNextDir();
-  const microAppsDir = path.join(brickNextDir, "node_modules/@micro-apps");
-  const brickPackagesDir = path.join(brickNextDir, "node_modules/@bricks");
-  const templatePackagesDir = path.join(
-    brickNextDir,
-    "node_modules/@templates"
-  );
+  const nextRepoDir = getBrickNextDir();
+  const microAppsDir = path.join(nextRepoDir, "node_modules/@micro-apps");
+  const brickPackagesDir = path.join(nextRepoDir, "node_modules/@bricks");
+  const templatePackagesDir = path.join(nextRepoDir, "node_modules/@templates");
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
   const appConfig = getAppConfig();
-  const mockedMicroAppsDir = path.join(brickNextDir, "mock-micro-apps");
+  const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
 
   const env = {
     useOffline,
@@ -242,7 +230,7 @@ module.exports = (cwd) => {
     localTemplates,
     useLocalSettings,
     useMergeSettings,
-    brickNextDir,
+    nextRepoDir,
     microAppsDir,
     brickPackagesDir,
     templatePackagesDir,

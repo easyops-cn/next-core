@@ -3,6 +3,7 @@ import os from "os";
 import path from "path";
 import klawSync from "klaw-sync";
 import * as changeCase from "change-case";
+import { getEasyopsConfig } from "@next-core/repo-config";
 import { FileWithContent } from "../interface";
 
 // `tsc` will compile files which `import` or `require`,
@@ -55,6 +56,8 @@ export function loadTemplate(
   sdkRoot: string,
   sdkVersion: string
 ): FileWithContent[] {
+  const { usePublicScope } = getEasyopsConfig();
+
   const templateDir = path.join(__dirname, "../../template");
 
   const ignores = [".DS_Store"];
@@ -68,6 +71,7 @@ export function loadTemplate(
   });
 
   const translations: Record<string, string> = {
+    "$npm-scope-of-sdk$": usePublicScope ? "@next-sdk" : "@sdk",
     "$workspace-homepage$": workspaceHomepage,
     "$kebab-service-name$": changeCase.paramCase(serviceName),
     "$Title Service Name$": changeCase.capitalCase(serviceName),

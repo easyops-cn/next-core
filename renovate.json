@@ -1,6 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/renovate",
   "extends": ["config:base"],
+  "prHourlyLimit": 2,
   "rangeStrategy": "bump",
   "semanticCommits": true,
   "commitMessagePrefix": "chore(deps):",
@@ -18,8 +19,8 @@
         "^@libs/",
         "^@micro-apps/",
         "^@sdk/",
-        "^@dll",
-        "^@easyops/"
+        "^@next-dll/",
+        "^@next-core/"
       ],
       "automerge": false
     },

@@ -1,8 +1,8 @@
 {
-  "name": "@easyops/custom-antd-styles",
-  "version": "1.5.2",
+  "name": "@next-core/custom-antd-styles",
+  "version": "1.6.2",
   "description": "> TODO: description",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/custom-antd-styles",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/custom-antd-styles",
   "license": "UNLICENSED",
   "files": [
     "src"
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git"
   },
   "sideEffects": true
 }

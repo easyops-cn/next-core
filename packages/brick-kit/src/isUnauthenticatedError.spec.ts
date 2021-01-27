@@ -1,5 +1,5 @@
 import "whatwg-fetch";
-import { HttpResponseError } from "@easyops/brick-http";
+import { HttpResponseError } from "@next-core/brick-http";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
 
 describe("isUnauthenticatedError", () => {
@@ -9,10 +9,10 @@ describe("isUnauthenticatedError", () => {
     [new HttpResponseError(new Response("", { status: 401 })), false],
     [
       new HttpResponseError(new Response("", { status: 401 }), {
-        code: 100003
+        code: 100003,
       }),
-      true
-    ]
+      true,
+    ],
   ])("isUnauthenticatedError(%j) should return %s", (error, result) => {
     expect(isUnauthenticatedError(error)).toBe(result);
   });

@@ -13,8 +13,8 @@ import {
   HandleReject,
   HandleRejectByCatch,
   GeneralTransform,
-} from "@easyops/brick-types";
-import { asyncProcessBrick } from "@easyops/brick-utils";
+} from "@next-core/brick-types";
+import { asyncProcessBrick } from "@next-core/brick-utils";
 import { computeRealValue } from "../setProperties";
 import { Kernel, RuntimeBrick } from "./exports";
 import {

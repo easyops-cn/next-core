@@ -3,6 +3,101 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.4](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.3...@next-core/brick-scripts@2.3.4) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/brick-scripts
+
+## 2.3.3 (2021-01-22)
+
+### Bug Fixes
+
+- fix editor brick test template ([e19bc39](https:///$repo-git-url$/next-core/commits/e19bc39))
+- prefix parsed properties with `$$` to distinguish ([e4a31d5](https:///$repo-git-url$/next-core/commits/e4a31d5))
+- refine editor template ([eac2605](https:///$repo-git-url$/next-core/commits/eac2605))
+- **brick-scripts:** useLocalSdk 时获取本地 sdk 版本号 ([cd5def7](https:///$repo-git-url$/next-core/commits/cd5def7))
+- **custom-processors:** update index file ([b0592c8](https:///$repo-git-url$/next-core/commits/b0592c8))
+- add `icons` in npm files ([49d34e0](https:///$repo-git-url$/next-core/commits/49d34e0))
+- always show the history block of a new brick cause it's a new brick ([93bc94f](https:///$repo-git-url$/next-core/commits/93bc94f))
+- ask user whether to create a brick when creating a new brick package ([35d51a6](https:///$repo-git-url$/next-core/commits/35d51a6))
+- bump deps of @bricks/basic-bricks and @easyops/brick-container ([3e0b982](https:///$repo-git-url$/next-core/commits/3e0b982))
+- concurrently to run tsc and build for micro-apps ([8237581](https:///$repo-git-url$/next-core/commits/8237581))
+- Create brick doc only when doc root exists ([4c0e6ed](https:///$repo-git-url$/next-core/commits/4c0e6ed))
+- custom provider brick template ([66afb16](https:///$repo-git-url$/next-core/commits/66afb16))
+- fix tests after using jsdom@16 ([2d9ed80](https:///$repo-git-url$/next-core/commits/2d9ed80))
+- fix wrong filenames of templates ([34e7892](https:///$repo-git-url$/next-core/commits/34e7892))
+- fix wrong templates ([1b8e126](https:///$repo-git-url$/next-core/commits/1b8e126))
+- generate brick docs only in next-basics ([8e759f4](https:///$repo-git-url$/next-core/commits/8e759f4))
+- istanbul ignore else of `isConnected` in `_render` ([552de82](https:///$repo-git-url$/next-core/commits/552de82))
+- no longer create brick doc markdown files ([063bcb5](https:///$repo-git-url$/next-core/commits/063bcb5))
+- refine scripts for concurrently process ([133a760](https:///$repo-git-url$/next-core/commits/133a760))
+- remove dist before starting micro-apps ([f893ad1](https:///$repo-git-url$/next-core/commits/f893ad1))
+- update deps ([d076b50](https:///$repo-git-url$/next-core/commits/d076b50))
+- upgrade template dependencies ([b4dce22](https:///$repo-git-url$/next-core/commits/b4dce22))
+- **brick:** don't override user's style settings when brick connect ([a9cb3ba](https:///$repo-git-url$/next-core/commits/a9cb3ba))
+- **brick-scripts:** request sdk version at runtime ([6c29138](https:///$repo-git-url$/next-core/commits/6c29138))
+- **brick-scripts:** upate template to meet @typescript-eslint/no-empty-function ([a2680b4](https:///$repo-git-url$/next-core/commits/a2680b4))
+- **custom-processors:** use camelPkgName as namespace of custom processors ([d6d5be8](https:///$repo-git-url$/next-core/commits/d6d5be8))
+- **provider:** fix types of createProviderClass ([c785a4c](https:///$repo-git-url$/next-core/commits/c785a4c))
+- next-sdk was replaced by next-providers ([1e6b0a3](https:///$repo-git-url$/next-core/commits/1e6b0a3))
+- **webpack:** fix after upgraded webpack-merge to v5 ([d0c54d9](https:///$repo-git-url$/next-core/commits/d0c54d9))
+- set transformed micro app's tsconfig.json skipLibCheck to true ([9c734b9](https:///$repo-git-url$/next-core/commits/9c734b9))
+- update test templates after upgraded jsdom@16 ([10557ec](https:///$repo-git-url$/next-core/commits/10557ec))
+- **brick-scripts:** move `deploy` to `deploy-default` for bricks package ([b56bd5a](https:///$repo-git-url$/next-core/commits/b56bd5a))
+- **brick-scripts:** put `proxy` before `bricks` in custom template sample code ([a030657](https:///$repo-git-url$/next-core/commits/a030657))
+- require new brick-container which has BrickWrapper ([bb3678c](https:///$repo-git-url$/next-core/commits/bb3678c))
+- show the new brick name in the new brick doc ([443e4c0](https:///$repo-git-url$/next-core/commits/443e4c0))
+- transfer flags ([48b5b98](https:///$repo-git-url$/next-core/commits/48b5b98))
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https:///$repo-git-url$/next-core/commits/fef31e4))
+- upgrade template dep version of basic-bricks ([45086d7](https:///$repo-git-url$/next-core/commits/45086d7))
+- upgrade template dep version of brick-container ([9b99971](https:///$repo-git-url$/next-core/commits/9b99971))
+
+### Features
+
+- `yarn yo` to register a new custom template ([92ac31e](https:///$repo-git-url$/next-core/commits/92ac31e))
+- generate provider ([5ba1be0](https:///$repo-git-url$/next-core/commits/5ba1be0))
+- generate templates ([43c72d8](https:///$repo-git-url$/next-core/commits/43c72d8))
+- i18n-patch a package of template ([e4c66b3](https:///$repo-git-url$/next-core/commits/e4c66b3))
+- move certain dev dependencies to root ([0cbdd34](https:///$repo-git-url$/next-core/commits/0cbdd34))
+- move next-core dependencies out to workspace ([3f5a689](https:///$repo-git-url$/next-core/commits/3f5a689))
+- pack:tar 打包后需重命名为平台要求的名称 ([8145458](https:///$repo-git-url$/next-core/commits/8145458))
+- provider will not cover refs ([776b19e](https:///$repo-git-url$/next-core/commits/776b19e))
+- publish script ([eeb2d23](https:///$repo-git-url$/next-core/commits/eeb2d23))
+- recommend not using snapshot for test ([2d56bd0](https:///$repo-git-url$/next-core/commits/2d56bd0))
+- rename @easyops by @next-core, and @dll by @next-dll ([d87ed1e](https:///$repo-git-url$/next-core/commits/d87ed1e))
+- repo moved ([19b02c7](https:///$repo-git-url$/next-core/commits/19b02c7))
+- run `yarn yo` to create a editor brick ([8a3f6e5](https:///$repo-git-url$/next-core/commits/8a3f6e5))
+- support autocomplete in some questions ([ca2baa4](https:///$repo-git-url$/next-core/commits/ca2baa4))
+- **brick-scripts:** 新的 providers 包默认版本号为`1.0.0` ([2c7df3c](https:///$repo-git-url$/next-core/commits/2c7df3c))
+- **brick-scripts:** 给 html element 模板增加注释 ([993a1c8](https:///$repo-git-url$/next-core/commits/993a1c8))
+- **custom-processors:** register custom processors in brick packages ([e409452](https:///$repo-git-url$/next-core/commits/e409452))
+- run `yarn` and other scripts when creating packages ([d06771a](https:///$repo-git-url$/next-core/commits/d06771a))
+- support provider flag refs NEXT_BUILDER-285 ([1bc4099](https:///$repo-git-url$/next-core/commits/1bc4099))
+- **doc:** test the properties and methods and events of existing annotations ([88f9928](https:///$repo-git-url$/next-core/commits/88f9928))
+- **script:** generate doc ([63b10fd](https:///$repo-git-url$/next-core/commits/63b10fd))
+- **script:** generate doc ([c1b2456](https:///$repo-git-url$/next-core/commits/c1b2456))
+- fix repo homepage ([ee52eaa](https:///$repo-git-url$/next-core/commits/ee52eaa))
+- generate provider ([2ad3b82](https:///$repo-git-url$/next-core/commits/2ad3b82))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([fe1bce8](https:///$repo-git-url$/next-core/commits/fe1bce8))
+- generate sdk and provider brick refs BRICK_STORE-1434 ([d6c212c](https:///$repo-git-url$/next-core/commits/d6c212c))
+- support create a new custom provider brick by `yarn yo` ([eff0f47](https:///$repo-git-url$/next-core/commits/eff0f47))
+- use jsdom@16 which supports custom elements ([4243947](https:///$repo-git-url$/next-core/commits/4243947))
+- **brick-dpc:** add history block and make some blocks optional ([aa79915](https:///$repo-git-url$/next-core/commits/aa79915))
+- remember last selected packages ([0f053be](https:///$repo-git-url$/next-core/commits/0f053be))
+- revert using bricks as peer dependencies of micro-apps ([fd3e7a1](https:///$repo-git-url$/next-core/commits/fd3e7a1))
+- update template, change `ErrorBoundary` to `BrickWrapper` ([581aad3](https:///$repo-git-url$/next-core/commits/581aad3))
+- use UpdatingElement by default ([2f47b28](https:///$repo-git-url$/next-core/commits/2f47b28))
+- 调整构件库及小产品的依赖声明方式，以支持构件库拆分 git 仓库 ([b5a552d](https:///$repo-git-url$/next-core/commits/b5a552d))
+
+## [2.3.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.3.1...@easyops/brick-scripts@2.3.2) (2021-01-18)
+
+### Bug Fixes
+
+- prefix parsed properties with `$$` to distinguish ([e4a31d5](https://git.easyops.local/anyclouds/next-core/commits/e4a31d5))
+
+## [2.3.1](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.3.0...@easyops/brick-scripts@2.3.1) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/brick-scripts
+
 # [2.3.0](https://git.easyops.local/anyclouds/next-core/compare/@easyops/brick-scripts@2.2.0...@easyops/brick-scripts@2.3.0) (2021-01-14)
 
 ### Bug Fixes

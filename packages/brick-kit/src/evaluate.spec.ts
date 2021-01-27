@@ -8,9 +8,11 @@ import * as runtime from "./core/Runtime";
 import { registerCustomProcessor } from "./core/exports";
 import { devtoolsHookEmit } from "./devtools";
 import { checkPermissions } from "./core/checkPermissions";
+import { getItem } from "./core/localStorage";
 
 jest.mock("./devtools");
 jest.mock("./core/checkPermissions");
+jest.mock("./core/localStorage");
 
 i18next.init({
   fallbackLng: "en",
@@ -21,6 +23,10 @@ i18next.addResourceBundle("en", "$app-hello", {
 });
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
+
+(getItem as jest.MockedFunction<typeof getItem>).mockImplementation(() => {
+  return { id: "mockId" };
+});
 
 (checkPermissions as jest.MockedFunction<
   typeof checkPermissions
@@ -163,6 +169,7 @@ describe("evaluate", () => {
     ],
     ["<% PERMISSIONS.check('my:action-a') %>", true],
     ["<% PERMISSIONS.check('my:action-b') %>", false],
+    ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

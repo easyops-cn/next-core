@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.12](https://github.com/easyops-cn/next-core/compare/@next-core/fontawesome-library@1.1.11...@next-core/fontawesome-library@1.1.12) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/fontawesome-library
+
+## 1.1.11 (2021-01-22)
+
+### Bug Fixes
+
+- refine scripts for concurrently process ([a167a4a](https://github.com/easyops-cn/next-core/commit/a167a4a))
+
+### Features
+
+- refine fontawesome library ([4675bf9](https://github.com/easyops-cn/next-core/commit/4675bf9))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- use all free icons ([9929a91](https://github.com/easyops-cn/next-core/commit/9929a91))
+
+## [1.1.10](https://git.easyops.local/anyclouds/next-core/compare/@easyops/fontawesome-library@1.1.9...@easyops/fontawesome-library@1.1.10) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/fontawesome-library
+
 ## [1.1.9](https://git.easyops.local/anyclouds/next-core/compare/@easyops/fontawesome-library@1.1.8...@easyops/fontawesome-library@1.1.9) (2020-10-15)
 
 **Note:** Version bump only for package @easyops/fontawesome-library

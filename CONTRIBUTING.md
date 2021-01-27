@@ -10,8 +10,8 @@
 
 ```bash
 .
-├── dll/*                 # <DLL> Scope: `@dll/*`
-├── packages              # <平台库> Scope: `@easyops/*`
+├── dll/*                 # <DLL> Scope: `@next-dll/*`
+├── packages              # <平台库> Scope: `@next-core/*`
     ├── brick-container   # 新 Console
     ├── brick-dll         # Vendors dll
     ├── brick-http        # Http 基础库
@@ -22,13 +22,13 @@
 
 ## 开发调试
 
-如果你希望调试本地版本的、属于 `@easyops/brick-dll` 的包，例如 `@easyops/brick-kit`，那么你需要依次打开三个终端，并分别运行：
+如果你希望调试本地版本的、属于 `@next-core/brick-dll` 的包，例如 `@next-core/brick-kit`，那么你需要依次打开三个终端，并分别运行：
 
-1. `lerna run start --scope @easyops/brick-kit`；
-2. `lerna run start --scope @easyops/brick-dll`；
+1. `lerna run start --scope @next-core/brick-kit`；
+2. `lerna run start --scope @next-core/brick-dll`；
 3. `yarn start`。
 
-这是由依赖关系决定的 `@easyops/brick-container` ==> `@easyops/brick-dll` ==> `@easyops/brick-kit`。开发其它包如 `@easyops/brick-utils` 同理。
+这是由依赖关系决定的 `@next-core/brick-container` ==> `@next-core/brick-dll` ==> `@next-core/brick-kit`。开发其它包如 `@next-core/brick-utils` 同理。
 
 由于目前不支持为 `yarn start` 传递类似 `yarn serve` 传递的 `--subdir` 等参数，需要使用对应的环境变量来设置相关参数。
 

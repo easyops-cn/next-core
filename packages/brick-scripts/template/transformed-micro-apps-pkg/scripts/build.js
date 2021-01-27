@@ -1,3 +1,3 @@
-const { build } = require("@easyops/build-config-factory");
+const { build } = require("@next-core/build-config-factory");
 
 build("micro-apps");

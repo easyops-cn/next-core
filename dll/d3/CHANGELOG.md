@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.14](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.13...@next-dll/d3@2.0.14) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/d3
+
+## [2.0.13](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.12...@next-dll/d3@2.0.13) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/d3
+
+## 2.0.12 (2021-01-22)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+
+### Features
+
+- add d3-hierarchy into @dll/d3 ([82a1e54](https://github.com/easyops-cn/next-core/commit/82a1e54))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- repo moved ([19b02c7](https://github.com/easyops-cn/next-core/commit/19b02c7))
+- upgrade d3-\* to v2 ([453a45a](https://github.com/easyops-cn/next-core/commit/453a45a))
+
+### BREAKING CHANGES
+
+- Upgrade d3-\* to v2
+
+INFRA-721
+
+## [2.0.11](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.10...@dll/d3@2.0.11) (2021-01-19)
+
+**Note:** Version bump only for package @dll/d3
+
+## [2.0.10](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.9...@dll/d3@2.0.10) (2021-01-18)
+
+**Note:** Version bump only for package @dll/d3
+
 ## [2.0.9](https://git.easyops.local/anyclouds/next-core/compare/@dll/d3@2.0.8...@dll/d3@2.0.9) (2021-01-04)
 
 **Note:** Version bump only for package @dll/d3

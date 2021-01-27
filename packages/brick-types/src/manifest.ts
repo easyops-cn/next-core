@@ -189,6 +189,7 @@ export interface BrickPackage {
   editors?: string[];
   editorsJsFilePath?: string;
   processors?: string[];
+  providers?: string[];
   dll?: string[];
 }
 
@@ -1014,6 +1015,10 @@ export interface BuiltinBrickEventHandler {
     // Alias
     | "alias.push"
     | "alias.replace"
+
+    // localStorage
+    | "localStorage.setItem"
+    | "localStorage.removeItem"
 
     // Iframe
     | "legacy.go"

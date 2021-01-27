@@ -1,8 +1,8 @@
 {
-  "name": "@easyops/brick-scripts",
-  "version": "2.3.0",
+  "name": "@next-core/brick-scripts",
+  "version": "2.3.4",
   "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
-  "homepage": "https://git.easyops.local/anyclouds/next-core/tree/master/packages/brick-scripts",
+  "homepage": "$repo-org-url$/next-core/tree/master/packages/brick-scripts",
   "license": "UNLICENSED",
   "main": "dist/index.js",
   "bin": {
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@git.easyops.local:anyclouds/next-core.git"
+    "url": "git@$repo-git-url$/next-core.git"
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -25,6 +25,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@next-core/repo-config": "^0.1.2",
     "chalk": "^4.1.0",
     "change-case": "^4.1.2",
     "execa": "^5.0.0",
@@ -38,10 +39,9 @@
     "request-promise-native": "^1.0.9"
   },
   "templateDependencies": {
-    "@bricks/basic-bricks": "^1.78.3",
-    "@easyops/brick-container": "^2.0.0"
+    "@next-core/brick-container": "^2.0.0"
   },
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=12.0.0"
   }
 }

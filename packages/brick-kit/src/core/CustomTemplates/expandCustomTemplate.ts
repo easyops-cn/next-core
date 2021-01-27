@@ -6,8 +6,8 @@ import {
   RefForProxy,
   RuntimeBrickConf,
   SlotsConfOfBricks,
-} from "@easyops/brick-types";
-import { hasOwnProperty } from "@easyops/brick-utils";
+} from "@next-core/brick-types";
+import { hasOwnProperty } from "@next-core/brick-utils";
 import { clamp } from "lodash";
 import { preprocessTransformProperties } from "../../transformProperties";
 import { RuntimeBrick } from "../BrickNode";

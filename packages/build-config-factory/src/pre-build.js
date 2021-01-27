@@ -45,7 +45,7 @@ const generateProviderElements = () => {
   }
   const importPath = providersJson.sdk;
 
-  const content = `import { createProviderClass } from "@easyops/brick-utils";
+  const content = `import { createProviderClass } from "@next-core/brick-utils";
     import { ${Array.from(groupSet).join(",")} } from "${importPath}";
 
     ${defines.join(os.EOL)}`;

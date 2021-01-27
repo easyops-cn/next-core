@@ -1,4 +1,4 @@
-import { rollupFactory } from "@easyops/rollup-config-factory";
+import { rollupFactory } from "@next-core/rollup-config-factory";
 
 export default rollupFactory({
   umdName: "BrickUtils",

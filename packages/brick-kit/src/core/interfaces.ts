@@ -4,8 +4,8 @@ import {
   MicroApp,
   SiteMode,
   SiteTheme,
-} from "@easyops/brick-types";
-import { MicroAppModels } from "@sdk/micro-app-sdk";
+} from "@next-core/brick-types";
+import { MicroAppModels } from "@next-sdk/micro-app-sdk";
 import { CustomProcessorFunc } from "./exports";
 
 /** @internal */
@@ -89,7 +89,7 @@ export interface AbstractRuntime {
    * @example
    *
    * ```ts
-   * import { getRuntime } from "@easyops/brick-kit";
+   * import { getRuntime } from "@next-core/brick-kit";
    *
    * const flags = getRuntime().getFeatureFlags();
    * // {
@@ -110,7 +110,7 @@ export interface AbstractRuntime {
    * @example
    *
    * ```ts
-   * import { getRuntime } from "@easyops/brick-kit";
+   * import { getRuntime } from "@next-core/brick-kit";
    *
    * const misc = getRuntime().getMiscSettings();
    * // {

@@ -4,7 +4,7 @@ exports[`loadService should work 1`] = `
 Array [
   Array [
     "dist/src/api/cd/package/autoDiscovery.ts",
-    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
 /** 请求体 */
 export type AutoDiscoveryRequestBody = AutoDiscoveryRequestBody_item[];
@@ -49,7 +49,7 @@ export interface AutoDiscoveryRequestBody_item {
   ],
   Array [
     "dist/src/api/cd/package/create.ts",
-    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 import { ModelPackage } from \\"../../../model/cd\\";
 
 export interface CreateRequestBody {
@@ -138,7 +138,7 @@ export interface ModelPackage_partial {
   ],
   Array [
     "dist/src/api/cd/package/get.ts",
-    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 import { ModelPackageWithVersion } from \\"../../../model/cd\\";
 import { ResponseBodyWrapper } from \\"../../../wrapper\\";
 
@@ -182,7 +182,7 @@ export const get = async (
   ],
   Array [
     "dist/src/api/cd/package/listNameService.ts",
-    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
 export interface ListNameServiceRequestParams {
   /** page */
@@ -253,7 +253,7 @@ export interface ListNameServiceResponseBody_data_item_hosts_item {
   ],
   Array [
     "dist/src/api/cd/package/retry.ts",
-    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 import { ResponseBodyWrapper } from \\"../../../wrapper\\";
 
 export interface RetryResponseBody {
@@ -280,7 +280,7 @@ export const retry = async (
   ],
   Array [
     "dist/src/api/cd/package/search.ts",
-    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 import { ModelPackage, ModelPackageExt } from \\"../../../model/cd\\";
 import { ResponseListWrapper, ResponseBodyWrapper } from \\"../../../wrapper\\";
 
@@ -325,7 +325,7 @@ export interface SearchResponseItem_2 {
   ],
   Array [
     "dist/src/api/cd/package/upload.ts",
-    "import { http, HttpOptions } from \\"@easyops/brick-http\\";
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
 /** params */
 export interface UploadRequestParams {

@@ -4,10 +4,11 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const prism = require("prismjs");
 const loadLanguages = require("prismjs/components/index");
-const { lessReplacePlugin } = require("@easyops/less-plugin-css-variables");
+const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 const ScanEditorBricksPlugin = require("./ScanEditorBricksPlugin");
+const NextDllReferencePlugin = require("../dll/NextDllReferencePlugin");
 
 const getCssLoader = (cssOptions) => ({
   loader: "css-loader",
@@ -74,9 +75,9 @@ module.exports = (isForEditors) => ({
   const packageJson = require(path.join(cwdDirname, "package.json"));
   const packageName = packageJson.name.split("/")[1];
   const dll = isForEditors
-    ? ["@dll/editor-bricks-helper"]
+    ? ["@next-dll/editor-bricks-helper"]
     : Object.keys(packageJson.peerDependencies || {}).filter((name) =>
-        name.startsWith("@dll/")
+        name.startsWith("@next-dll/")
       );
   const entryPair = isForEditors
     ? ["editors", "editor-bricks/index"]
@@ -228,19 +229,19 @@ module.exports = (isForEditors) => ({
         ? new ScanTemplatesPlugin(packageName)
         : new ScanCustomElementsPlugin(
             packageName,
-            dll.map((name) => name.substr("@dll/".length))
+            dll.map((name) => name.substr("@next-dll/".length))
           ),
       new CleanWebpackPlugin(),
-      new webpack.DllReferencePlugin({
+      new NextDllReferencePlugin({
         context: appRoot,
         // 解决该包在 `npm link` 下引用到错误的包路径的问题
-        manifest: require(require.resolve("@easyops/brick-dll", {
+        manifest: require(require.resolve("@next-core/brick-dll", {
           paths: [cwdDirname],
         })),
       }),
       ...dll.map(
         (name) =>
-          new webpack.DllReferencePlugin({
+          new NextDllReferencePlugin({
             context: appRoot,
             // 解决该包在 `npm link` 下引用到错误的包路径的问题
             manifest: require(require.resolve(name, {

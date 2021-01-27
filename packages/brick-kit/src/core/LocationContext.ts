@@ -26,14 +26,14 @@ import {
   BrickLifeCycle,
   Storyboard,
   StaticMenuConf,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import {
   isObject,
   matchPath,
   computeRealRoutePath,
   hasOwnProperty,
   resolveContextConcurrently,
-} from "@easyops/brick-utils";
+} from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../bindListeners";
 import { computeRealProperties, computeRealValue } from "../setProperties";

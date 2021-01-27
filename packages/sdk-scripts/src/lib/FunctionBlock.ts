@@ -19,7 +19,7 @@ export class FunctionBlock {
   }`;
 
   constructor(private api: Api) {
-    api.imports.add(["http", "HttpOptions"], "@easyops/brick-http");
+    api.imports.add(["http", "HttpOptions"], "@next-core/brick-http");
     if (api.method.isSugar) {
       api.imports.add("ResponseListWrapper", "./wrapper");
     }

@@ -6,6 +6,7 @@ const locale: Locale = {
   [K.MODAL_CANCEL]: "取消",
   [K.SOMETHING_WENT_WRONG]: "出现了一些问题！",
   [K.LOGIN_TIMEOUT_MESSAGE]: "您还未登录或登录信息已过期，现在重新登录？",
+  [K.NETWORK_ERROR]: "网络错误，请检查您的网络连接。",
 };
 
 export default locale;

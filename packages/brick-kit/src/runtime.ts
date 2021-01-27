@@ -18,7 +18,7 @@ export function createRuntime(): Runtime {
  * @example
  *
  * ```ts
- * import { getRuntime } from "@easyops/brick-kit";
+ * import { getRuntime } from "@next-core/brick-kit";
  *
  * const flags = getRuntime.getFeatureFlags();
  * ```

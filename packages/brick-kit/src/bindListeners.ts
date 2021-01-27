@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { isObject } from "@easyops/brick-utils";
+import { isObject } from "@next-core/brick-utils";
 import {
   BrickEventHandler,
   BrickEventHandlerCallback,
@@ -12,7 +12,7 @@ import {
   RuntimeBrickElement,
   StoryboardContextItem,
   UseProviderEventHandler,
-} from "@easyops/brick-types";
+} from "@next-core/brick-types";
 import { handleHttpError, httpErrorToString } from "./handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
 import { getHistory } from "./history";
@@ -155,6 +155,14 @@ export function listenerFactory(
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(
+          method,
+          handler.args,
+          handler,
+          context
+        );
+      case "localStorage.setItem":
+      case "localStorage.removeItem":
+        return builtinLocalStorageListenerFactory(
           method,
           handler.args,
           handler,
@@ -723,6 +731,27 @@ function builtinMessageListenerFactory(
         typeof message["success"]
       >)
     );
+  } as EventListener;
+}
+
+function builtinLocalStorageListenerFactory(
+  method: "setItem" | "removeItem",
+  args: unknown[],
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent) {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+    const [name, value] = argsFactory(args, context, event);
+    if (method === "setItem") {
+      if (value !== undefined) {
+        localStorage.setItem(name as string, JSON.stringify(value));
+      }
+    } else if (method === "removeItem") {
+      localStorage.removeItem(name as string);
+    }
   } as EventListener;
 }
 

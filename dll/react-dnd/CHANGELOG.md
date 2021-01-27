@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.18](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.17...@next-dll/react-dnd@0.1.18) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
+## [0.1.17](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.16...@next-dll/react-dnd@0.1.17) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
+## [0.1.16](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.15...@next-dll/react-dnd@0.1.16) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
+## [0.1.15](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.14...@next-dll/react-dnd@0.1.15) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
+## [0.1.14](https://git.easyops.local/anyclouds/next-core/compare/@next-dll/react-dnd@0.1.13...@next-dll/react-dnd@0.1.14) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
+## [0.1.13](https://git.easyops.local/anyclouds/next-core/compare/@next-dll/react-dnd@0.1.12...@next-dll/react-dnd@0.1.13) (2021-01-26)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
+## 0.1.12 (2021-01-22)
+
+### Features
+
+- add @dll/react-dnd and using react-dnd for editor-bricks-helper ([d259f2b](https://git.easyops.local/anyclouds/next-core/commits/d259f2b))
+- rename [@easyops](https://git.easyops.local/easyops) by [@next-core](https://git.easyops.local/next-core), and [@dll](https://git.easyops.local/dll) by [@next-dll](https://git.easyops.local/next-dll) ([d87ed1e](https://git.easyops.local/anyclouds/next-core/commits/d87ed1e))
+
+## [0.1.11](https://git.easyops.local/anyclouds/next-core/compare/@dll/react-dnd@0.1.10...@dll/react-dnd@0.1.11) (2021-01-20)
+
+**Note:** Version bump only for package @dll/react-dnd
+
+## [0.1.10](https://git.easyops.local/anyclouds/next-core/compare/@dll/react-dnd@0.1.9...@dll/react-dnd@0.1.10) (2021-01-19)
+
+**Note:** Version bump only for package @dll/react-dnd
+
+## [0.1.9](https://git.easyops.local/anyclouds/next-core/compare/@dll/react-dnd@0.1.8...@dll/react-dnd@0.1.9) (2021-01-19)
+
+**Note:** Version bump only for package @dll/react-dnd
+
+## [0.1.8](https://git.easyops.local/anyclouds/next-core/compare/@dll/react-dnd@0.1.7...@dll/react-dnd@0.1.8) (2021-01-18)
+
+**Note:** Version bump only for package @dll/react-dnd
+
+## [0.1.7](https://git.easyops.local/anyclouds/next-core/compare/@dll/react-dnd@0.1.6...@dll/react-dnd@0.1.7) (2021-01-18)
+
+**Note:** Version bump only for package @dll/react-dnd
+
 ## [0.1.6](https://git.easyops.local/anyclouds/next-core/compare/@dll/react-dnd@0.1.5...@dll/react-dnd@0.1.6) (2021-01-13)
 
 **Note:** Version bump only for package @dll/react-dnd

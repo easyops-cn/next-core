@@ -1,7 +1,7 @@
 import { difference } from "lodash";
-import { scanPermissionActionsInStoryboard } from "@easyops/brick-utils";
-import { Storyboard } from "@easyops/brick-types";
-import { PermissionApi } from "@sdk/micro-app-sdk";
+import { scanPermissionActionsInStoryboard } from "@next-core/brick-utils";
+import { Storyboard } from "@next-core/brick-types";
+import { PermissionApi } from "@next-sdk/micro-app-sdk";
 
 type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 

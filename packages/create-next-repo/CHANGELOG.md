@@ -3,6 +3,111 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.30](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.29...@next-core/create-next-repo@1.2.30) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## [1.2.29](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.28...@next-core/create-next-repo@1.2.29) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## [1.2.28](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.27...@next-core/create-next-repo@1.2.28) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## [1.2.27](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.26...@next-core/create-next-repo@1.2.27) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## [1.2.26](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.25...@next-core/create-next-repo@1.2.26) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## [1.2.25](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.24...@next-core/create-next-repo@1.2.25) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## 1.2.24 (2021-01-22)
+
+### Bug Fixes
+
+- add `/dev.config.js` in .gitignore ([75e13ac](https://github.com/easyops-cn/next-core/commit/75e13ac))
+- add `mock-micro-apps` to `.gitignore` ([b2ee45e](https://github.com/easyops-cn/next-core/commit/b2ee45e))
+- add legacy branches into lerna allow branches ([4fdf2c8](https://github.com/easyops-cn/next-core/commit/4fdf2c8))
+- auto extract after create a new repo ([8538060](https://github.com/easyops-cn/next-core/commit/8538060))
+- bump deps of @bricks/basic-bricks and @easyops/brick-container ([3e0b982](https://github.com/easyops-cn/next-core/commit/3e0b982))
+- concurrently to run tsc and build for micro-apps ([8237581](https://github.com/easyops-cn/next-core/commit/8237581))
+- fix homepage ([7caf80b](https://github.com/easyops-cn/next-core/commit/7caf80b))
+- ignore @templates/\* in renovate.json ([a575302](https://github.com/easyops-cn/next-core/commit/a575302))
+- refine dev-dependencies ([5bf4844](https://github.com/easyops-cn/next-core/commit/5bf4844))
+- remove jest-environment-jsdom-sixteen since jest v26 includes it ([0ee19d5](https://github.com/easyops-cn/next-core/commit/0ee19d5))
+- update `@easyops/dev-dependencies` too ([3c1a880](https://github.com/easyops-cn/next-core/commit/3c1a880))
+- update brick-dll manifest.snapshot.json ([a258079](https://github.com/easyops-cn/next-core/commit/a258079))
+- update change-case usage after upgrade change-case to v4 ([fef31e4](https://github.com/easyops-cn/next-core/commit/fef31e4))
+- update deps ([d076b50](https://github.com/easyops-cn/next-core/commit/d076b50))
+- update MR templates ([95e2281](https://github.com/easyops-cn/next-core/commit/95e2281))
+- update renovate file filters ([1310c23](https://github.com/easyops-cn/next-core/commit/1310c23))
+- upgrade template dependencies ([b4dce22](https://github.com/easyops-cn/next-core/commit/b4dce22))
+- **create-next-repo:** jest setup template add window.matchMedia mock ([73aba1c](https://github.com/easyops-cn/next-core/commit/73aba1c))
+- **create-next-repo:** update snapshot ([88d55c3](https://github.com/easyops-cn/next-core/commit/88d55c3))
+- **dev-dependencies:** 新增给 package.json 的 test scripts 打添加 --expose-gc 和 --logHeapUsage 参数的补丁 ([f9b6674](https://github.com/easyops-cn/next-core/commit/f9b6674))
+- **renovate:** add postUpgradeTasks ([ef17b4c](https://github.com/easyops-cn/next-core/commit/ef17b4c))
+
+### Features
+
+- `create-next-repo` supports updating an existed repo ([e9e853e](https://github.com/easyops-cn/next-core/commit/e9e853e))
+- add badges of new next-repo ([a345734](https://github.com/easyops-cn/next-core/commit/a345734))
+- create next repo ([5c926e9](https://github.com/easyops-cn/next-core/commit/5c926e9))
+- editor bricks helper ([0d63f7d](https://github.com/easyops-cn/next-core/commit/0d63f7d))
+- fix repo homepage ([ee52eaa](https://github.com/easyops-cn/next-core/commit/ee52eaa))
+- fix size-limit ([95dfb66](https://github.com/easyops-cn/next-core/commit/95dfb66))
+- micro-apps rsync exclude ".\*" file ([fd61ab9](https://github.com/easyops-cn/next-core/commit/fd61ab9))
+- move next-core dependencies out to workspace ([3f5a689](https://github.com/easyops-cn/next-core/commit/3f5a689))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- run `yarn` and other scripts when creating packages ([d06771a](https://github.com/easyops-cn/next-core/commit/d06771a))
+- support isolatedCrash for useResolves ([1bfbfcf](https://github.com/easyops-cn/next-core/commit/1bfbfcf))
+- support web workers in brick packages ([72b5a0a](https://github.com/easyops-cn/next-core/commit/72b5a0a))
+- use @easyops/browserslist-config-next ([1ac7fdc](https://github.com/easyops-cn/next-core/commit/1ac7fdc))
+- use @easyops/dev-dependencies ([a0e5725](https://github.com/easyops-cn/next-core/commit/a0e5725))
+- use jsdom@16 which supports custom elements ([4243947](https://github.com/easyops-cn/next-core/commit/4243947))
+- use npm registry on public network by default ([ef1ae98](https://github.com/easyops-cn/next-core/commit/ef1ae98))
+
+## [1.2.23](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.22...@easyops/create-next-repo@1.2.23) (2021-01-20)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.22](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.21...@easyops/create-next-repo@1.2.22) (2021-01-20)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.21](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.20...@easyops/create-next-repo@1.2.21) (2021-01-19)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.20](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.19...@easyops/create-next-repo@1.2.20) (2021-01-19)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.19](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.18...@easyops/create-next-repo@1.2.19) (2021-01-19)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.18](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.17...@easyops/create-next-repo@1.2.18) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.16...@easyops/create-next-repo@1.2.17) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.15...@easyops/create-next-repo@1.2.16) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
+## [1.2.15](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.14...@easyops/create-next-repo@1.2.15) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/create-next-repo
+
 ## [1.2.14](https://git.easyops.local/anyclouds/next-core/compare/@easyops/create-next-repo@1.2.13...@easyops/create-next-repo@1.2.14) (2021-01-14)
 
 **Note:** Version bump only for package @easyops/create-next-repo

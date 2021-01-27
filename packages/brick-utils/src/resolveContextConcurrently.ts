@@ -1,5 +1,5 @@
 import { MemberExpression } from "@babel/types";
-import { ContextConf } from "@easyops/brick-types";
+import { ContextConf } from "@next-core/brick-types";
 import { isEvaluable, preevaluate } from "./cook";
 import PrecookVisitor from "./cook/PrecookVisitor";
 import { isObject } from "./isObject";

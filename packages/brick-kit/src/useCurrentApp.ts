@@ -1,4 +1,4 @@
-import { MicroApp } from "@easyops/brick-types";
+import { MicroApp } from "@next-core/brick-types";
 import { useRecentApps } from "./useRecentApps";
 
 /**

@@ -1,4 +1,4 @@
-const { sizeLimit } = require("@easyops/build-config-factory");
+const { sizeLimit } = require("@next-core/build-config-factory");
 
 module.exports = sizeLimit({
   bricks: {

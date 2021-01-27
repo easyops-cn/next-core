@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.19](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.18...@next-core/babel-preset-next@0.6.19) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/babel-preset-next
+
+## 0.6.18 (2021-01-22)
+
+### Features
+
+- make babel-plugin-prismjs to a independent preset ([dca4584](https://github.com/easyops-cn/next-core/commit/dca4584))
+- rename [@easyops](https://github.com/easyops) by [@next-core](https://github.com/next-core), and [@dll](https://github.com/dll) by [@next-dll](https://github.com/next-dll) ([d87ed1e](https://github.com/easyops-cn/next-core/commit/d87ed1e))
+- **babel-preset-next:** babel-plugin-prismjs ([294ba10](https://github.com/easyops-cn/next-core/commit/294ba10))
+- **prismjs:** support ini ([4360be3](https://github.com/easyops-cn/next-core/commit/4360be3))
+- **prismjs:** support json ([054be7f](https://github.com/easyops-cn/next-core/commit/054be7f))
+- Add optional chaining and nullish coalescing operators support ([aebdc1b](https://github.com/easyops-cn/next-core/commit/aebdc1b))
+- babel preset for brick-next ([3cf521e](https://github.com/easyops-cn/next-core/commit/3cf521e))
+
+## [0.6.17](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-next@0.6.16...@easyops/babel-preset-next@0.6.17) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/babel-preset-next
+
 ## [0.6.16](https://git.easyops.local/anyclouds/next-core/compare/@easyops/babel-preset-next@0.6.15...@easyops/babel-preset-next@0.6.16) (2020-11-27)
 
 **Note:** Version bump only for package @easyops/babel-preset-next

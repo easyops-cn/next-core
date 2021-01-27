@@ -1,6 +1,6 @@
 import { set } from "lodash";
-import { PluginRuntimeContext } from "@easyops/brick-types";
-import { isObject, inject, isEvaluable } from "@easyops/brick-utils";
+import { PluginRuntimeContext } from "@next-core/brick-types";
+import { isObject, inject, isEvaluable } from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateRuntimeContext,

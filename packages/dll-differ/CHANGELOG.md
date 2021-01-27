@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://git.easyops.local/anyclouds/next-core/compare/@next-core/dll-differ@1.1.4...@next-core/dll-differ@1.1.5) (2021-01-26)
+
+**Note:** Version bump only for package @next-core/dll-differ
+
+## 1.1.4 (2021-01-22)
+
+### Bug Fixes
+
+- update brick-dll manifest.snapshot.json ([a258079](https://git.easyops.local/anyclouds/next-core/commits/a258079))
+
+### Features
+
+- rename [@easyops](https://git.easyops.local/easyops) by [@next-core](https://git.easyops.local/next-core), and [@dll](https://git.easyops.local/dll) by [@next-dll](https://git.easyops.local/next-dll) ([d87ed1e](https://git.easyops.local/anyclouds/next-core/commits/d87ed1e))
+- support update dll manifest ([e94b55f](https://git.easyops.local/anyclouds/next-core/commits/e94b55f))
+
+## [1.1.3](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dll-differ@1.1.2...@easyops/dll-differ@1.1.3) (2021-01-18)
+
+**Note:** Version bump only for package @easyops/dll-differ
+
 ## [1.1.2](https://git.easyops.local/anyclouds/next-core/compare/@easyops/dll-differ@1.1.1...@easyops/dll-differ@1.1.2) (2020-11-27)
 
 **Note:** Version bump only for package @easyops/dll-differ

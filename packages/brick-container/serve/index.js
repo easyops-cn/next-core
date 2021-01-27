@@ -14,7 +14,7 @@ const { getPatternsToWatch } = require("./utils");
 const app = express();
 
 const distDir = path.dirname(
-  require.resolve("@easyops/brick-container/dist/index.html")
+  require.resolve("@next-core/brick-container/dist/index.html")
 );
 
 const env = getEnv(process.cwd());

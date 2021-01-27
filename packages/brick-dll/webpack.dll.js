@@ -1,5 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
+const {
+  dll: { NextDllPlugin, NextHashedModuleIdsPlugin },
+} = require("@next-core/webpack-config-factory");
 const packageJson = require("./package.json");
 
 const isProd = process.env.NODE_ENV === "production";
@@ -11,7 +14,7 @@ module.exports = {
   devtool: "source-map",
   mode: isProd ? "production" : "development",
   entry: {
-    dll: Object.keys(packageJson.dependencies),
+    dll: Object.keys(packageJson.dependencies), //.map(k => k.replace("@next-core/", "@easyops/")),
   },
   output: {
     filename: "[name].js",
@@ -33,12 +36,13 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.DllPlugin({
+    new NextDllPlugin({
       name: "[name]",
       path: path.join(distPath, "manifest.json"),
+      format: !isProd,
     }),
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh|en/),
-    new webpack.HashedModuleIdsPlugin(),
+    new NextHashedModuleIdsPlugin(),
     new webpack.IgnorePlugin({
       // - `esprima` and `buffer` are optional imported by `js-yaml`
       // we don't need them.
@@ -51,7 +55,6 @@ module.exports = {
     extensions: [".ts", ".js"],
     // modules: [path.join(appRoot, "node_modules")],
     symlinks: false,
-    // alias: resolverAlias
   },
   performance: {
     hints: false,
