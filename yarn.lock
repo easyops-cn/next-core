@@ -9749,10 +9749,10 @@ lerna@^3.22.1:
     import-local "^2.0.0"
     npmlog "^4.1.2"
 
-less-loader@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-7.2.1.tgz?cache=0&sync_timestamp=1609160680592&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless-loader%2Fdownload%2Fless-loader-7.2.1.tgz#a923df8567256751b0ab4e0c3eecff10fd0a5876"
-  integrity sha1-qSPfhWclZ1Gwq04MPuz/EP0KWHY=
+less-loader@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-7.3.0.tgz?cache=0&sync_timestamp=1611232458328&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless-loader%2Fdownload%2Fless-loader-7.3.0.tgz#f9d6d36d18739d642067a05fb5bd70c8c61317e5"
+  integrity sha1-+dbTbRhznWQgZ6Bftb1wyMYTF+U=
   dependencies:
     klona "^2.0.4"
     loader-utils "^2.0.0"
