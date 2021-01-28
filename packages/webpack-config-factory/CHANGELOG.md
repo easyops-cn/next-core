@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.3...@next-core/webpack-config-factory@2.5.4) (2021-01-28)
+
+**Note:** Version bump only for package @next-core/webpack-config-factory
+
 ## [2.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.2...@next-core/webpack-config-factory@2.5.3) (2021-01-26)
 
 ### Bug Fixes
