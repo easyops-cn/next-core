@@ -1,1 +1,6 @@
-export const PUBLIC_SCOPED_SDK = ["cmdb", "micro-app", "user-service"];
+export const PUBLIC_SCOPED_SDK = [
+  "cmdb",
+  "micro-app",
+  "user-service",
+  "permission",
+];
