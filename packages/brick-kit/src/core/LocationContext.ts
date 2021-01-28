@@ -64,6 +64,7 @@ import {
   SubStoryboardMatcher,
 } from "./getSubStoryboardByRoute";
 import { symbolForTplContextId } from "./CustomTemplates";
+import { validatePermissions } from "./checkPermissions";
 
 export type MatchRoutesResult =
   | {
@@ -319,6 +320,7 @@ export class LocationContext {
         if (Array.isArray(route.context)) {
           await this.defineStoryboardFreeContext(route.context, context);
         }
+        await this.preCheckPermissions(route, context);
 
         redirect = computeRealValue(route.redirect, context, true) as
           | string
@@ -558,6 +560,23 @@ export class LocationContext {
     return looseCheckIf(ifContainer, context);
   }
 
+  private async preCheckPermissions(
+    container: BrickConf | RouteConf,
+    context: PluginRuntimeContext
+  ): Promise<void> {
+    if (
+      container.permissionsPreCheck &&
+      Array.isArray(container.permissionsPreCheck)
+    ) {
+      const usedActions = computeRealValue(
+        container.permissionsPreCheck,
+        context,
+        true
+      );
+      await validatePermissions(usedActions as string[]);
+    }
+  }
+
   async mountBrick(
     brickConf: BrickConf,
     match: MatchResult,
@@ -607,6 +626,8 @@ export class LocationContext {
     if (Array.isArray(brickConf.context)) {
       await this.defineStoryboardFreeContext(brickConf.context, context, brick);
     }
+
+    await this.preCheckPermissions(brickConf, context);
 
     Object.assign(brick, {
       type: tplTagName || brickConf.brick,

@@ -11,6 +11,10 @@ export async function preCheckPermissions(
   storyboard: Storyboard
 ): Promise<void> {
   const usedActions = scanPermissionActionsInStoryboard(storyboard);
+  await validatePermissions(usedActions);
+}
+
+export async function validatePermissions(usedActions: string[]) {
   // Do not request known actions.
   const actions = difference(usedActions, Array.from(permissionMap.keys()));
   if (actions.length === 0) {
@@ -52,7 +56,9 @@ export function checkPermissions(...actions: string[]): boolean {
         return false;
       case undefined:
         // eslint-disable-next-line no-console
-        console.error(`Un-checked permission action: "${action}"`);
+        console.error(
+          `Un-checked permission action: "${action}", please make sure the permission to check is defined in permissionsPreCheck.`
+        );
         return false;
     }
   }

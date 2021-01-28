@@ -12,10 +12,12 @@ import * as runtime from "../core/Runtime";
 import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
+import { validatePermissions } from "./checkPermissions";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
 jest.mock("../themeAndMode");
+jest.mock("./checkPermissions");
 const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
 const consoleInfo = jest
   .spyOn(console, "info")
@@ -216,6 +218,37 @@ describe("LocationContext", () => {
           },
         },
       });
+    });
+
+    it("should validate permissions when permissionsPreCheck has been defined", async () => {
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      spyOnIsLoggedIn.mockReturnValue(true);
+      spyOnGetCurrentContext.mockReturnValueOnce(context.getCurrentContext());
+      const result = await context.mountRoutes(
+        [
+          {
+            path: "/",
+            permissionsPreCheck: ["<% CTX.instanceUpdateAction %>"],
+            bricks: [],
+            context: [
+              {
+                name: "instanceUpdateAction",
+                value: "cmdb_HOST_instance_update",
+              },
+            ],
+          },
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+      expect(validatePermissions).toHaveBeenCalledWith([
+        "cmdb_HOST_instance_update",
+      ]);
     });
 
     it("should mount if match hit", async () => {
