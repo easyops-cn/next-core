@@ -1,0 +1,38 @@
+name: Manually release
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.LERNA_VERSION_TOKEN }}
+        fetch-depth: 0
+
+    - run: |
+        git config --global user.name 'easyops-eve'
+        git config --global user.email 'easyops-eve@users.noreply.github.com'
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-lerna
+        restore-keys: |
+          ${{ runner.os }}-lerna
+
+    - name: Lerna Version
+      run: npx lerna version --yes
