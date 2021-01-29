@@ -35,7 +35,7 @@
     "@next-sdk/auth-sdk": "^1.0.0",
     "@next-sdk/cmdb-sdk": "^1.0.0",
     "@next-sdk/micro-app-sdk": "^1.0.0",
-    "@next-sdk/user-service-sdk": "^1.0.0",
+    "@next-sdk/user-service-sdk": "^1.1.0",
     "minimatch": "^3.0.4"
   },
   "sideEffects": false,

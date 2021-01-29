@@ -2299,10 +2299,10 @@
   resolved "https://registry.npm.taobao.org/@next-sdk/micro-app-sdk/download/@next-sdk/micro-app-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645614211&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fmicro-app-sdk%2Fdownload%2F%40next-sdk%2Fmicro-app-sdk-1.0.1.tgz#df4ed61ee056b8dee0bbb69c08ef1cd184dc1c0d"
   integrity sha1-307WHuBWuN7gu7acCO8c0YTcHA0=
 
-"@next-sdk/user-service-sdk@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/@next-sdk/user-service-sdk/download/@next-sdk/user-service-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645624206&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fuser-service-sdk%2Fdownload%2F%40next-sdk%2Fuser-service-sdk-1.0.1.tgz#6b70da1d1ae61ecb0243d50b06acb6744ef4cad8"
-  integrity sha1-a3DaHRrmHssCQ9ULBqy2dE70ytg=
+"@next-sdk/user-service-sdk@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/@next-sdk/user-service-sdk/download/@next-sdk/user-service-sdk-1.1.0.tgz#4b409c6ff2ea116428659013d62baef893dcefd5"
+  integrity sha1-S0Ccb/LqEWQoZZAT1iuu+JPc79U=
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
