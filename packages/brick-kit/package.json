@@ -33,7 +33,7 @@
   "dependencies": {
     "@next-core/brick-types": "^2.16.0",
     "@next-sdk/auth-sdk": "^1.0.0",
-    "@next-sdk/cmdb-sdk": "^1.0.0",
+    "@next-sdk/cmdb-sdk": "^1.0.2",
     "@next-sdk/micro-app-sdk": "^1.0.0",
     "@next-sdk/user-service-sdk": "^1.0.0",
     "minimatch": "^3.0.4"

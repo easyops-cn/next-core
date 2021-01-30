@@ -2289,10 +2289,10 @@
   resolved "https://registry.npm.taobao.org/@next-sdk/auth-sdk/download/@next-sdk/auth-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645549211&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fauth-sdk%2Fdownload%2F%40next-sdk%2Fauth-sdk-1.0.1.tgz#dc217556d6eddee4c143b419a25d7b3972fb06e2"
   integrity sha1-3CF1Vtbt3uTBQ7QZol17OXL7BuI=
 
-"@next-sdk/cmdb-sdk@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/@next-sdk/cmdb-sdk/download/@next-sdk/cmdb-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645609190&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fcmdb-sdk%2Fdownload%2F%40next-sdk%2Fcmdb-sdk-1.0.1.tgz#69ed7830a9fe1f3070068b3af3f3476ab22363e2"
-  integrity sha1-ae14MKn+HzBwBos68/NHarIjY+I=
+"@next-sdk/cmdb-sdk@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/@next-sdk/cmdb-sdk/download/@next-sdk/cmdb-sdk-1.0.2.tgz#3a4a600ee9fca9fd6b6cd56d18f4c996ec6535c3"
+  integrity sha1-OkpgDun8qf1rbNVtGPTJluxlNcM=
 
 "@next-sdk/micro-app-sdk@^1.0.0":
   version "1.0.1"
