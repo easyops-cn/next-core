@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const rimraf = require("rimraf");
-const TypeDoc = require("typedoc");
+const TypeDoc = require("typedoc019");
 const { get } = require("lodash");
 const log = require("npmlog");
 const brickKindMap = {
