@@ -1,1 +1,10 @@
-exports.PUBLIC_SCOPED_SDK = ["cmdb", "micro-app", "permission", "user-service"];
+exports.PUBLIC_SCOPED_SDK = [
+  "cmdb",
+  "micro-app",
+  "monitor",
+  "msgsender",
+  "next-builder",
+  "object-store",
+  "permission",
+  "user-service",
+];
