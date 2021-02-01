@@ -2,7 +2,7 @@ import fs from "fs";
 import inquirer from "inquirer";
 import * as changeCase from "change-case";
 import { getEasyopsConfig } from "@next-core/repo-config";
-import { PUBLIC_SCOPED_SDK } from "./constants";
+import { PUBLIC_SCOPED_SDK } from "@next-core/public-scoped-sdk";
 
 export const getModules = (apiDir: string): string[] => {
   const { usePublicScope } = getEasyopsConfig();
