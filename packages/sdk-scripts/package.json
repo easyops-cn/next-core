@@ -26,6 +26,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@next-core/public-scoped-sdk": "^0.1.0",
     "@next-core/repo-config": "^0.1.2",
     "chalk": "^4.1.0",
     "change-case": "^4.1.2",
