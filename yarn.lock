@@ -11878,7 +11878,7 @@ postcss-lab-function@^2.0.1:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
 
-postcss-load-config@^2.0.0, postcss-load-config@^2.1.0:
+postcss-load-config@^2.1.0:
   version "2.1.2"
   resolved "https://registry.npm.taobao.org/postcss-load-config/download/postcss-load-config-2.1.2.tgz?cache=0&sync_timestamp=1601607876353&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss-load-config%2Fdownload%2Fpostcss-load-config-2.1.2.tgz#c5ea504f2c4aef33c7359a34de3573772ad7502a"
   integrity sha1-xepQTyxK7zPHNZo03jVzdyrXUCo=
@@ -11886,15 +11886,14 @@ postcss-load-config@^2.0.0, postcss-load-config@^2.1.0:
     cosmiconfig "^5.0.0"
     import-cwd "^2.0.0"
 
-postcss-loader@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/postcss-loader/download/postcss-loader-3.0.0.tgz#6b97943e47c72d845fa9e03f273773d4e8dd6c2d"
-  integrity sha1-a5eUPkfHLYRfqeA/Jzdz1OjdbC0=
+postcss-loader@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/postcss-loader/download/postcss-loader-5.0.0.tgz?cache=0&sync_timestamp=1612278205512&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss-loader%2Fdownload%2Fpostcss-loader-5.0.0.tgz#bea95363dcb550d72ceb612ce44663356b7782d7"
+  integrity sha1-vqlTY9y1UNcs62Es5EZjNWt3gtc=
   dependencies:
-    loader-utils "^1.1.0"
-    postcss "^7.0.0"
-    postcss-load-config "^2.0.0"
-    schema-utils "^1.0.0"
+    cosmiconfig "^7.0.0"
+    klona "^2.0.4"
+    semver "^7.3.4"
 
 postcss-logical@^3.0.0:
   version "3.0.0"
