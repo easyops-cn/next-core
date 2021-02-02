@@ -8983,6 +8983,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@ant-design/icons/es/components/Context.js": {
+      "id": "Pw59",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/@ant-design/icons/es/icons/UpSquareFilled.js": {
       "id": "Pzr/",
       "buildMeta": {
@@ -10122,7 +10129,8 @@
           "setTwoToneColor",
           "getTwoToneColor",
           "createFromIconfontCN",
-          "default"
+          "default",
+          "IconProvider"
         ]
       }
     },
@@ -16200,13 +16208,6 @@
         "providedExports": ["setTime", "getLowerBoundTime", "getLastDay"]
       }
     },
-    "./node_modules/@ant-design/compatible/node_modules/omit.js/es/index.js": {
-      "id": "mc7T",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["default"]
-      }
-    },
     "./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js": {
       "id": "md7G",
       "buildMeta": {
@@ -18247,6 +18248,13 @@
     },
     "./node_modules/@ant-design/icons-svg/es/asn/EnvironmentOutlined.js": {
       "id": "tvrd",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/rc-menu/node_modules/omit.js/es/index.js": {
+      "id": "txRS",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
