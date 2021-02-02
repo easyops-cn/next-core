@@ -17,6 +17,8 @@ const rawStringMap = {
   "fade(@disabled-color, 10%)": "var(--antd-disabled-color-fade-10)",
   "lighten(@border-color-split, 80%)":
     "var(--antd-border-color-split-lighten-80)",
+  "lighten(@table-border-color, 80%)":
+    "var(--antd-border-color-split-lighten-80)",
 };
 
 const replacements = [
