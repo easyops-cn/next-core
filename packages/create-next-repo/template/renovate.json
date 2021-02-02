@@ -38,5 +38,6 @@
         "fileFilters": ["**/*", ".gitlab/**/*", ".github/**/*"]
       }
     }
-  ]
+  ],
+  "postUpdateOptions": ["yarnDedupeHighest"]
 }

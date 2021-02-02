@@ -3,6 +3,7 @@ import { PermissionApi } from "@next-sdk/micro-app-sdk";
 import {
   preCheckPermissions as _preCheckPermissions,
   checkPermissions as _checkPermissions,
+  validatePermissions as _validatePermissions,
 } from "./checkPermissions";
 
 jest.mock("@next-core/brick-utils");
@@ -21,6 +22,7 @@ const mockConsoleError = jest
 describe("checkPermissions", () => {
   let preCheckPermissions: typeof _preCheckPermissions;
   let checkPermissions: typeof _checkPermissions;
+  let validatePermissions: typeof _validatePermissions;
 
   beforeEach(() => {
     jest.isolateModules(() => {
@@ -28,6 +30,7 @@ describe("checkPermissions", () => {
       const m = require("./checkPermissions");
       preCheckPermissions = m.preCheckPermissions;
       checkPermissions = m.checkPermissions;
+      validatePermissions = m.validatePermissions;
     });
   });
 
@@ -41,7 +44,7 @@ describe("checkPermissions", () => {
     expect(mockValidatePermissions).not.toBeCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
     expect(mockConsoleError).toBeCalledWith(
-      'Un-checked permission action: "my:action-a"'
+      'Un-checked permission action: "my:action-a", please make sure the permission to check is defined in permissionsPreCheck.'
     );
   });
 
@@ -55,8 +58,31 @@ describe("checkPermissions", () => {
     );
     expect(checkPermissions("my:action-a")).toBe(false);
     expect(mockConsoleError).toBeCalledWith(
-      'Un-checked permission action: "my:action-a"'
+      'Un-checked permission action: "my:action-a", please make sure the permission to check is defined in permissionsPreCheck.'
     );
+  });
+
+  it("should not check permissions repeatedly", async () => {
+    mockValidatePermissions.mockResolvedValueOnce({
+      actions: [
+        {
+          action: "my:action-a",
+          authorizationStatus: "authorized",
+        },
+        {
+          action: "my:action-b",
+          authorizationStatus: "unauthorized",
+        },
+      ],
+    });
+    await validatePermissions(["my:action-a", "my:action-b"]);
+    expect(mockValidatePermissions).toBeCalledWith({
+      actions: ["my:action-a", "my:action-b"],
+    });
+    await validatePermissions(["my:action-a", "my:action-c"]);
+    expect(mockValidatePermissions).toBeCalledWith({
+      actions: ["my:action-c"],
+    });
   });
 
   it("should validate permissions", async () => {
@@ -121,7 +147,7 @@ describe("checkPermissions", () => {
 
     expect(checkPermissions("my:action-x")).toBe(false);
     expect(mockConsoleError).toBeCalledWith(
-      'Un-checked permission action: "my:action-x"'
+      'Un-checked permission action: "my:action-x", please make sure the permission to check is defined in permissionsPreCheck.'
     );
   });
 });

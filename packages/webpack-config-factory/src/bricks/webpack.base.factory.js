@@ -98,6 +98,11 @@ module.exports = (isForEditors) => ({
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
       symlinks: false,
+      alias: {
+        // This alias is a temporary fix for legacy of
+        // `@easyops/brick-http <- @sdk/* <- @next-core/brick-kit`.
+        "@easyops": "@next-core",
+      },
     },
     module: {
       rules: [

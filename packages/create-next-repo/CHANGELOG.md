@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.34](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.33...@next-core/create-next-repo@1.2.34) (2021-01-30)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## [1.2.33](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.32...@next-core/create-next-repo@1.2.33) (2021-01-29)
+
+### Bug Fixes
+
+- update renovate and jest ([f826173](https://github.com/easyops-cn/next-core/commit/f8261733396aa574a94d4131e692f8b3da8cd6e1))
+
+## [1.2.32](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.31...@next-core/create-next-repo@1.2.32) (2021-01-28)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
+## [1.2.31](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.30...@next-core/create-next-repo@1.2.31) (2021-01-28)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
 ## [1.2.30](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.2.29...@next-core/create-next-repo@1.2.30) (2021-01-26)
 
 **Note:** Version bump only for package @next-core/create-next-repo

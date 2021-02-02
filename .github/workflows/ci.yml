@@ -12,6 +12,7 @@ on:
     branches:
     - master
     - next
+    - renovate/*
 
 jobs:
   build:

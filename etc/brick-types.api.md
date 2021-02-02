@@ -110,6 +110,7 @@ export interface BaseRouteConf {
     hybrid?: boolean;
     menu?: MenuConf;
     path: string;
+    permissionsPreCheck?: string[];
     providers?: ProviderConf[];
     public?: boolean;
     redirect?: string | ResolveConf;
@@ -183,6 +184,7 @@ export interface BrickConf {
     lifeCycle?: BrickLifeCycle;
     // @deprecated
     params?: Record<string, unknown>;
+    permissionsPreCheck?: string[];
     portal?: boolean;
     properties?: Record<string, unknown>;
     slots?: SlotsConf;

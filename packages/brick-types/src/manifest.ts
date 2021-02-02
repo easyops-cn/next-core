@@ -344,6 +344,14 @@ export interface BaseRouteConf {
   context?: ContextConf[];
 
   /**
+   * 预校验的动态权限列表，在编排中可以通过 `<% PERMISSIONS.check("your-action") %>`来校验权限点。
+   * 当被校验的权限点为已知字符串，则框架会扫描收集统一校验，不需要在此处声明；
+   * 当被校验的权限点需要动态获得，例如通过 `QUERY`,`PATH`,`CTX` 等参数动态计算得到，则需要在 `permissionsPreCheck` 中提前声明。
+   * 如果某个权限点需要在接口中获得，也只需要在 Context 中通过异步 Resolve 提前赋值给 Context 即可。
+   */
+  permissionsPreCheck?: string[];
+
+  /**
    * 关联的文档 ID。
    */
   documentId?: string;
@@ -531,6 +539,11 @@ export interface BrickConf {
    * {@inheritDoc BaseRouteConf.context}
    */
   context?: ContextConf[];
+
+  /**
+   * {@inheritDoc BaseRouteConf.permissionsPreCheck}
+   */
+  permissionsPreCheck?: string[];
 
   /**
    * 将构件的属性导出到上下文。

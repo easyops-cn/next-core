@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.5](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.4...@next-core/brick-scripts@2.3.5) (2021-01-28)
+
+**Note:** Version bump only for package @next-core/brick-scripts
+
 ## [2.3.4](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.3...@next-core/brick-scripts@2.3.4) (2021-01-26)
 
 **Note:** Version bump only for package @next-core/brick-scripts

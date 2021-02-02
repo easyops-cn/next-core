@@ -3,13 +3,13 @@ import fs from "fs-extra";
 import chalk from "chalk";
 import * as changeCase from "change-case";
 import { getEasyopsConfig } from "@next-core/repo-config";
+import { PUBLIC_SCOPED_SDK } from "@next-core/public-scoped-sdk";
 import { loadService } from "./loaders/loadService";
 import { loadTemplate } from "./loaders/loadTemplate";
 import { clone, checkout } from "./contractGit";
 import { promptToChooseSdk, getModules } from "./prompt";
 import { apiDir } from "./loaders/env";
 import { clearGlobalInterfaces } from "./lib/internal";
-import { PUBLIC_SCOPED_SDK } from "./constants";
 
 interface Flags {
   sdk: string;

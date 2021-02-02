@@ -1,6 +1,7 @@
 import chalk from "chalk";
-import { main } from "./main";
 import meow from "meow";
+import { main } from "./main";
+
 const cli = meow(
   `
  Usage
