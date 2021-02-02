@@ -1,10 +1,11 @@
 import React from "react";
+import { mount } from "enzyme";
+import { Empty } from "antd";
 import {
   renderEasyopsEmpty,
   EasyopsEmpty,
   EasyopsEmptyProps,
 } from "./EasyopsEmpty";
-import { mount } from "enzyme";
 
 describe("Empty", () => {
   it("EasyopsEmpty should work", () => {
@@ -21,10 +22,10 @@ describe("Empty", () => {
     };
     const wrapper = mount(<EasyopsEmpty {...props} />);
     expect(wrapper.find(EasyopsEmpty).length).toBe(1);
-    expect(wrapper.find("img").prop("src").endsWith(".png")).toBe(true);
-    expect(wrapper.find("p[className='ant-empty-description']").text()).toBe(
-      props.description
+    expect((wrapper.find(Empty).prop("image") as string).endsWith(".png")).toBe(
+      true
     );
+    expect(wrapper.find(Empty).prop("description")).toBe("No content");
   });
 
   it("renderEasyopsEmpty should work", () => {
