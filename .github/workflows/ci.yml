@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: CI
 
 on:
@@ -22,7 +19,6 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - name: Setup timezone
@@ -31,8 +27,6 @@ jobs:
         timezone: Asia/Shanghai
 
     - uses: actions/checkout@v2
-
-    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
@@ -45,7 +39,7 @@ jobs:
       run: echo "::set-output name=dir::$(yarn cache dir)"
 
     - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      id: yarn-cache
       with:
         path: |
           ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -56,7 +50,7 @@ jobs:
           ${{ runner.os }}-yarn-
     - run: yarn install --frozen-lockfile
     - run: yarn build
-    - run: yarn test
+    - run: yarn test:ci
     # - run: yarn test:e2e:ci
 
     - name: Coveralls
@@ -65,13 +59,7 @@ jobs:
         github-token: ${{ secrets.github_token }}
         path-to-lcov: ./.coverage/lcov.info
 
-    - name: Check tags
-      id: check-tags
-      run: |
-        echo "::set-output name=with-tags::$(git tag --points-at HEAD)"
-
-    - name: Lerna Publish
-      run: npx lerna publish from-git --dist-tag latest --yes
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      if: steps.check-tags.outputs.with-tags != ''
+    - uses: easyops-cn/actions-next-publish-from-tags@master
+      with:
+        npm-token: ${{ secrets.NPM_TOKEN }}
+      if: github.event_name == 'push'
