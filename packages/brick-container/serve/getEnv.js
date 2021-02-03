@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const meow = require("meow");
 const chalk = require("chalk");
-const { difference } = require("lodash");
+const { getEasyopsConfig } = require("@next-core/repo-config");
 const {
   getNamesOfMicroApps,
   getNamesOfBrickPackages,
@@ -211,9 +211,19 @@ module.exports = (cwd) => {
   }
 
   const nextRepoDir = getBrickNextDir();
-  const microAppsDir = path.join(nextRepoDir, "node_modules/@micro-apps");
-  const brickPackagesDir = path.join(nextRepoDir, "node_modules/@bricks");
-  const templatePackagesDir = path.join(nextRepoDir, "node_modules/@templates");
+  const { usePublicScope } = getEasyopsConfig();
+  const microAppsDir = path.join(
+    nextRepoDir,
+    `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
+  );
+  const brickPackagesDir = path.join(
+    nextRepoDir,
+    `node_modules/${usePublicScope ? "@next-bricks" : "@bricks"}`
+  );
+  const templatePackagesDir = path.join(
+    nextRepoDir,
+    `node_modules/${usePublicScope ? "@next-legacy-templates" : "@templates"}`
+  );
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
   const appConfig = getAppConfig();
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
