@@ -9323,7 +9323,11 @@
       "id": "R3zJ",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["isStyleSupport", "isFlexSupported"]
+        "providedExports": [
+          "canUseDocElement",
+          "isStyleSupport",
+          "detectFlexGapSupported"
+        ]
       }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/PlayCircleTwoTone.js": {
@@ -13351,6 +13355,13 @@
     },
     "./node_modules/@ant-design/icons/es/icons/UsbTwoTone.js": {
       "id": "cBYc",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/antd/es/badge/SingleNumber.js": {
+      "id": "cBkz",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
