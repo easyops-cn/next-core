@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-dll",
-  "version": "2.10.15",
+  "version": "2.10.16",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-dll",
   "license": "UNLICENSED",
@@ -25,11 +25,11 @@
     "@next-core/babel-runtime-helpers": "^1.0.4",
     "@next-core/brick-http": "^2.2.4",
     "@next-core/brick-icons": "^2.7.4",
-    "@next-core/brick-kit": "^2.32.0",
+    "@next-core/brick-kit": "^2.32.1",
     "@next-core/brick-utils": "^2.10.6",
     "@next-core/easyops-analytics": "^0.1.4",
     "@next-core/fontawesome-library": "^1.1.12",
-    "@next-core/illustrations": "^0.3.3",
+    "@next-core/illustrations": "^0.3.4",
     "antd": "^4.12.2",
     "history": "^4.10.1",
     "i18next": "^19.8.6",
@@ -42,7 +42,7 @@
     "react-transition-group": "^4.4.1"
   },
   "devDependencies": {
-    "@next-core/webpack-config-factory": "^2.5.5",
+    "@next-core/webpack-config-factory": "^2.5.6",
     "source-map-loader": "^1.1.3"
   }
 }

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.32](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.31...@next-core/brick-container@2.15.32) (2021-02-04)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.15.31](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.30...@next-core/brick-container@2.15.31) (2021-02-03)
+
+### Bug Fixes
+
+- fix serving local in a public scoped repo ([4275bc2](https://github.com/easyops-cn/next-core/commit/4275bc2f88116280f2a1de4f1cafadbf57bf9423))
+
 ## [2.15.30](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.29...@next-core/brick-container@2.15.30) (2021-01-30)
 
 **Note:** Version bump only for package @next-core/brick-container

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.1.4...@next-core/less-plugin-css-variables@0.1.5) (2021-02-03)
+
+
+### Bug Fixes
+
+* **less:** parse lighten of table-border-color ([5f1b3fe](https://github.com/easyops-cn/next-core/commit/5f1b3fe210e86790b4aeca577c61371cc1ff10e4))
+
+
+
+
+
 ## [0.1.4](https://git.easyops.local/anyclouds/next-core/compare/@next-core/less-plugin-css-variables@0.1.3...@next-core/less-plugin-css-variables@0.1.4) (2021-01-26)
 
 **Note:** Version bump only for package @next-core/less-plugin-css-variables
