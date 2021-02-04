@@ -11,6 +11,7 @@ describe("getEasyopsConfig", () => {
       usePublicScope: false,
       contractYamlDir: "easyops",
       contractUrl: "git@git.easyops.local:anyclouds/contract-center.git",
+      standalone: false,
     });
   });
 
@@ -20,6 +21,7 @@ describe("getEasyopsConfig", () => {
       JSON.stringify({
         useLocalSdk: true,
         usePublicScope: true,
+        standalone: true,
       })
     );
     expect(getEasyopsConfig()).toEqual({
@@ -27,6 +29,7 @@ describe("getEasyopsConfig", () => {
       usePublicScope: true,
       contractYamlDir: "easyops",
       contractUrl: "git@git.easyops.local:anyclouds/contract-center.git",
+      standalone: true,
     });
   });
 });

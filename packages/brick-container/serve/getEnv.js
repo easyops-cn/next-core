@@ -142,6 +142,7 @@ module.exports = (cwd) => {
     flags = cli.flags;
   }
 
+  const { usePublicScope, standalone } = getEasyopsConfig();
   const useOffline = flags.offline || process.env.OFFLINE === "true";
   const useSubdir = flags.subdir || process.env.SUBDIR === "true";
   const useRemote =
@@ -211,7 +212,6 @@ module.exports = (cwd) => {
   }
 
   const nextRepoDir = getBrickNextDir();
-  const { usePublicScope } = getEasyopsConfig();
   const microAppsDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
@@ -229,6 +229,7 @@ module.exports = (cwd) => {
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
 
   const env = {
+    standalone,
     useOffline,
     useSubdir,
     useRemote,
@@ -263,13 +264,22 @@ module.exports = (cwd) => {
 
   checkLocalPackages(env);
 
+  if (standalone) {
+    env.useOffline = true;
+    env.useRemote = false;
+    env.useAutoRemote = false;
+  }
+
   if (useAutoRemote) {
     env.useRemote = true;
-    env.localBrickPackages = getNamesOfBrickPackages(env).concat(
-      env.localBrickPackages
-    );
     env.localEditorPackages = getNamesOfBrickPackages(env).concat(
       env.localEditorPackages
+    );
+  }
+
+  if (useAutoRemote || standalone) {
+    env.localBrickPackages = getNamesOfBrickPackages(env).concat(
+      env.localBrickPackages
     );
     env.localMicroApps = getNamesOfMicroApps(env).concat(env.localMicroApps);
     env.localTemplates = getNamesOfTemplatePackages(env).concat(
@@ -311,7 +321,9 @@ module.exports = (cwd) => {
   console.log();
   console.log(
     chalk.bold.cyan("mode:"),
-    env.useAutoRemote
+    env.standalone
+      ? chalk.bgBlueBright("standalone")
+      : env.useAutoRemote
       ? chalk.bgYellow("auto-remote")
       : env.useRemote
       ? chalk.bgCyan("remote")
