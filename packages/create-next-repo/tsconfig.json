@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "declaration": true,
+    "declaration": false,
     "outDir": "./dist"
   },
   "exclude": [

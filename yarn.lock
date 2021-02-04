@@ -3611,6 +3611,13 @@ agent-base@4, agent-base@^4.1.0, agent-base@~4.2.1:
   dependencies:
     es6-promisify "^5.0.0"
 
+agent-base@6:
+  version "6.0.2"
+  resolved "https://registry.npm.taobao.org/agent-base/download/agent-base-6.0.2.tgz?cache=0&sync_timestamp=1603480100923&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fagent-base%2Fdownload%2Fagent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
+  integrity sha1-Sf/1hXfP7j83F2/qtMIuAPhtf3c=
+  dependencies:
+    debug "4"
+
 agentkeepalive@^3.4.1:
   version "3.5.2"
   resolved "http://registry.npm.taobao.org/agentkeepalive/download/agentkeepalive-3.5.2.tgz#a113924dd3fa24a0bc3b78108c450c2abee00f67"
@@ -6124,18 +6131,18 @@ debug@3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
-  dependencies:
-    ms "^2.1.1"
-
-debug@4.3.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0:
+debug@4, debug@4.3.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0:
   version "4.3.1"
   resolved "https://registry.npm.taobao.org/debug/download/debug-4.3.1.tgz?cache=0&sync_timestamp=1606566568533&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdebug%2Fdownload%2Fdebug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha1-8NIpxQXgxtjEmsVT0bE9wYP2su4=
   dependencies:
     ms "2.1.2"
+
+debug@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  dependencies:
+    ms "^2.1.1"
 
 debug@^3.1.0, debug@^3.1.1, debug@^3.2.6:
   version "3.2.6"
@@ -8310,6 +8317,14 @@ https-proxy-agent@^2.2.1:
   dependencies:
     agent-base "^4.1.0"
     debug "^3.1.0"
+
+https-proxy-agent@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/https-proxy-agent/download/https-proxy-agent-5.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhttps-proxy-agent%2Fdownload%2Fhttps-proxy-agent-5.0.0.tgz#e2a90542abb68a762e0a0850f6c9edadfd8506b2"
+  integrity sha1-4qkFQqu2inYuCghQ9sntrf2FBrI=
+  dependencies:
+    agent-base "6"
+    debug "4"
 
 human-signals@^1.1.1:
   version "1.1.1"
@@ -10849,6 +10864,11 @@ node-releases@^1.1.67:
   version "1.1.67"
   resolved "https://registry.npm.taobao.org/node-releases/download/node-releases-1.1.67.tgz?cache=0&sync_timestamp=1605581400705&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnode-releases%2Fdownload%2Fnode-releases-1.1.67.tgz#28ebfcccd0baa6aad8e8d4d8fe4cbc49ae239c12"
   integrity sha1-KOv8zNC6pqrY6NTY/ky8Sa4jnBI=
+
+node-stream-zip@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.npm.taobao.org/node-stream-zip/download/node-stream-zip-1.12.0.tgz?cache=0&sync_timestamp=1605452071952&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnode-stream-zip%2Fdownload%2Fnode-stream-zip-1.12.0.tgz#f69af78799531b928662f4900d345387fa0b3777"
+  integrity sha1-9pr3h5lTG5KGYvSQDTRTh/oLN3c=
 
 "nopt@2 || 3":
   version "3.0.6"
@@ -13474,6 +13494,15 @@ repeating@^2.0.0:
   resolved "http://registry.npm.taobao.org/repeating/download/repeating-2.0.1.tgz#5214c53a926d3552707527fbab415dbc08d06dda"
   dependencies:
     is-finite "^1.0.0"
+
+replace-in-file@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.npm.taobao.org/replace-in-file/download/replace-in-file-6.2.0.tgz#9c0e381b0e02f27f83d5ba500bb4046f63d18566"
+  integrity sha1-nA44Gw4C8n+D1bpQC7QEb2PRhWY=
+  dependencies:
+    chalk "^4.1.0"
+    glob "^7.1.6"
+    yargs "^16.2.0"
 
 request-progress@^3.0.0:
   version "3.0.0"
