@@ -37,7 +37,7 @@
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.20",
     "meow": "^9.0.0",
-    "ws": "^7.4.2"
+    "ws": "^7.4.3"
   },
   "devDependencies": {
     "@next-core/brick-dll": "^2.10.16",
@@ -65,7 +65,7 @@
     "regenerator-runtime": "^0.13.7",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
-    "webpack-cli": "^4.4.0",
+    "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
   }

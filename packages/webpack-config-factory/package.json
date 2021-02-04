@@ -41,7 +41,7 @@
     "to-string-loader": "^1.1.6",
     "url-loader": "^4.1.1",
     "webpack": "^4.46.0",
-    "webpack-cli": "^4.4.0",
+    "webpack-cli": "^4.5.0",
     "webpack-merge": "^5.7.3"
   },
   "peerDependencies": {

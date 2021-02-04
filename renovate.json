@@ -3,47 +3,41 @@
   "extends": ["config:base"],
   "prHourlyLimit": 2,
   "rangeStrategy": "bump",
-  "semanticCommits": true,
+  "semanticCommits": "enabled",
   "commitMessagePrefix": "chore(deps):",
   "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
   "baseBranches": ["next"],
   "packageRules": [
     {
-      "depTypeList": ["devDependencies"],
-      "automerge": true,
-      "major": {
-        "automerge": false
-      }
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
-      "packagePatterns": [
-        "^@bricks/",
-        "^@libs/",
-        "^@micro-apps/",
-        "^@sdk/",
-        "^@next-dll/",
-        "^@next-core/"
+      "matchPackagePatterns": ["^@next-sdk/"],
+      "enabled": false
+    },
+    {
+      "groupName": "size-limit packages",
+      "matchPackageNames": ["size-limit"],
+      "matchPackagePatterns": ["^@size-limit/"]
+    },
+    {
+      "matchPackageNames": [
+        "webpack",
+        "copy-webpack-plugin",
+        "html-webpack-plugin",
+        "html-webpack-tags-plugin",
+        "source-map-loader"
       ],
-      "automerge": false
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     },
     {
-      "packageNames": ["size-limit"],
-      "packagePatterns": ["^@size-limit/"],
-      "groupName": "size-limit packages"
-    },
-    {
-      "packageNames": ["copy-webpack-plugin"],
-      "major": { "enabled": false }
-    },
-    {
-      "packagePatterns": ["^@svgr/"],
-      "groupName": "svgr packages"
+      "groupName": "svgr packages",
+      "matchPackagePatterns": ["^@svgr/"]
     }
   ],
-  "postUpdateOptions": ["yarnDedupeHighest"],
-  "postUpgradeTasks": {
-    "commands": ["yarn-deduplicate yarn.lock", "yarn"],
-    "fileFilters": ["yarn.lock"]
-  }
+  "postUpdateOptions": ["yarnDedupeHighest"]
 }
