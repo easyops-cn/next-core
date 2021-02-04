@@ -36,10 +36,15 @@ describe("index", () => {
   it("should work when args invalid", () => {
     process.argv = ["yarn", "yo-sdk", "1.0.0", "2.0.0"];
     const spyOnExit = jest.spyOn(process, "exit").mockImplementation();
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementationOnce(() => void 0);
     jest.isolateModules(() => {
       require("./");
     });
-    expect(spyOnExit).toBeCalledWith(1);
+    expect(spyOnExit).toBeCalledWith(2);
+    expect(consoleError).toBeCalled();
     spyOnExit.mockRestore();
+    consoleError.mockRestore();
   });
 });

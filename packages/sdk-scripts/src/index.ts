@@ -20,8 +20,8 @@ const cli = meow(
 );
 
 if (cli.input.length > 1) {
-  console.log(chalk.green("run it with `yarn yo-sdk [tagOrCommit]`"));
-  process.exit(1);
+  console.error(chalk.red("Run it with `yarn yo-sdk [tagOrCommit]`"));
+  process.exit(2);
 }
 const tagOrCommit = cli.input[0];
 main(tagOrCommit, cli.flags);
