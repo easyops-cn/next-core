@@ -110,7 +110,10 @@ const spyOnGetWebSocket = jest.spyOn(WS, "createWebSocket").mockImplementation(
     } as any)
 );
 
-const spyOnConsoleError = jest.spyOn(console, "error");
+const spyOnConsoleError = jest
+  .spyOn(console, "error")
+  .mockImplementation(() => void 0);
+
 describe("MessageDispatcher", () => {
   let md: MessageDispatcher;
   beforeAll(() => {
