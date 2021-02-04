@@ -45,7 +45,7 @@
     "@next-core/brick-utils": "^2.10.6",
     "@next-core/easyops-analytics": "^0.1.4",
     "@next-core/illustrations": "^0.3.3",
-    "antd": "^4.11.2",
+    "antd": "^4.12.2",
     "history": "^4.10.1",
     "i18next": "^19.8.6",
     "jest-websocket-mock": "^2.2.0",
