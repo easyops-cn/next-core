@@ -10,10 +10,6 @@
   "baseBranches": ["next"],
   "packageRules": [
     {
-      "depTypeList": ["devDependencies"],
-      "automerge": true
-    },
-    {
       "packagePatterns": [
         "^@bricks/",
         "^@libs/",
