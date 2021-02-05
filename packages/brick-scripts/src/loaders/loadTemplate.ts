@@ -5,7 +5,7 @@ import klawSync from "klaw-sync";
 import * as changeCase from "change-case";
 import rp from "request-promise-native";
 import { getEasyopsConfig } from "@next-core/repo-config";
-import { FileWithContent, TargetType } from "../interface";
+import { FileWithContent, StoryboardFormat, TargetType } from "../interface";
 
 // `tsc` will compile files which `import` or `require`,
 // thus, we read file content instead of importing.
@@ -58,6 +58,7 @@ export async function loadTemplate({
   templateName,
   processorName,
   targetRoot,
+  storyboardFormat,
 }: {
   targetType: TargetType;
   packageName: string;
@@ -65,6 +66,7 @@ export async function loadTemplate({
   templateName: string;
   processorName: string;
   targetRoot: string;
+  storyboardFormat: StoryboardFormat;
 }): Promise<FileWithContent[]> {
   const { useLocalSdk, usePublicScope } = getEasyopsConfig();
 

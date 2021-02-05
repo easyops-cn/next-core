@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 import chalk from "chalk";
-import { TargetType, AskFlags } from "./interface";
+import { TargetType, AskFlags, StoryboardFormat } from "./interface";
 import { askTargetType } from "./questions/askTargetType";
 import { askPackageName } from "./questions/askPackageName";
 import { askBrickName } from "./questions/askBrickName";
@@ -8,6 +8,7 @@ import { askTemplateName } from "./questions/askTemplateName";
 import { askProcessorName } from "./questions/askProcessorName";
 import { updateHistory } from "./loaders/loadHistory";
 import { askEditorBrickName } from "./questions/askEditorBrickName";
+import { askStoryboardFormat } from "./questions/askStoryboardFormat";
 
 export async function ask(
   appRoot: string,
@@ -18,6 +19,7 @@ export async function ask(
   brickName: string;
   templateName: string;
   processorName: string;
+  storyboardFormat: StoryboardFormat;
 }> {
   const questionOfTargetType = askTargetType();
   let targetType: TargetType;
@@ -44,6 +46,19 @@ export async function ask(
     targetType = flags.type as TargetType;
   } else {
     targetType = (await inquirer.prompt(questionOfTargetType)).targetType;
+  }
+
+  let storyboardFormat: StoryboardFormat;
+  if (targetType === TargetType.A_NEW_PACKAGE_OF_MICRO_APPS) {
+    switch (flags.format) {
+      case StoryboardFormat.YAML:
+      case StoryboardFormat.JSON:
+      case StoryboardFormat.TYPESCRIPT:
+        storyboardFormat = flags.format;
+        break;
+      default:
+        ({ storyboardFormat } = await inquirer.prompt(askStoryboardFormat()));
+    }
   }
 
   const { packageName } = await inquirer.prompt(
@@ -137,5 +152,6 @@ export async function ask(
     brickName,
     templateName,
     processorName,
+    storyboardFormat,
   };
 }

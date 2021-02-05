@@ -19,7 +19,19 @@ const { flags } = meow({
       type: "string",
       alias: "p",
     },
+    format: {
+      type: "string",
+      alias: "f",
+    },
+    // Todo(steve): remove `help` and `version` after meow fixed it.
+    help: {
+      type: "boolean",
+    },
+    version: {
+      type: "boolean",
+    },
   },
+  allowUnknownFlags: false,
 });
 
 // 生成开发者中心构件发布记录

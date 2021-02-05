@@ -9,7 +9,7 @@ import * as changeCase from "change-case";
 import { getEasyopsConfig } from "@next-core/repo-config";
 import { ask } from "./ask";
 import { loadTemplate } from "./loaders/loadTemplate";
-import { TargetType, AskFlags } from "./interface";
+import { TargetType, AskFlags, StoryboardFormat } from "./interface";
 import { targetMap } from "./constant";
 import { scriptYarnInstall } from "./scripts";
 
@@ -24,6 +24,7 @@ export async function create(flags: AskFlags): Promise<void> {
   let brickName = "";
   let templateName = "";
   let processorName = "";
+  let storyboardFormat = StoryboardFormat.JSON;
   if (flags.provider) {
     targetType = TargetType["A_NEW_PACKAGE_OF_PROVIDERS"];
     packageName = `providers-of-${flags.provider}`;
@@ -34,6 +35,7 @@ export async function create(flags: AskFlags): Promise<void> {
       brickName,
       templateName,
       processorName,
+      storyboardFormat,
     } = await ask(appRoot, flags));
   }
 
@@ -70,6 +72,7 @@ export async function create(flags: AskFlags): Promise<void> {
     templateName,
     processorName,
     targetRoot,
+    storyboardFormat,
   });
 
   switch (targetType) {
