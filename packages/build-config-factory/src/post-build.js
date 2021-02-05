@@ -2,6 +2,7 @@ const path = require("path");
 const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
+const { getEasyopsConfig } = require("@next-core/repo-config");
 const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
@@ -189,6 +190,16 @@ const mergeEditors = () => {
 
 module.exports = (scope) => {
   const cwd = process.cwd();
+  const repoRoot = path.resolve(cwd, "../..");
+  const { standalone, noPostBuildMicroApps } = getEasyopsConfig(repoRoot);
+
+  // For a standalone next-repo, which probably would be a demo repo
+  // for new users, ignore post-build checks for simplicity if needed.
+  if (scope === "micro-apps" && standalone && noPostBuildMicroApps) {
+    console.log("Warn: ignore post-build micro-apps.");
+    return;
+  }
+
   const pluginName = path.basename(cwd);
   const templateRoot = path.join(__dirname, "../template");
   const enableGenerateDoc = process.env.ENABLE_GENERATE_DOC || false;

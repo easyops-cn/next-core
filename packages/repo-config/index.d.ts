@@ -4,4 +4,5 @@ export const getEasyopsConfig: () => {
   contractUrl: string;
   contractYamlDir: string;
   standalone: boolean;
+  noPostBuildMicroApps: boolean;
 };
