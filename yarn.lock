@@ -3108,10 +3108,10 @@
   resolved "https://registry.npm.taobao.org/@types/parse-json/download/@types/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha1-L4u0QUNNFjs1+4/9zNcTiSf/uMA=
 
-"@types/prettier@^2.0.0", "@types/prettier@^2.1.6":
-  version "2.1.6"
-  resolved "https://registry.npm.taobao.org/@types/prettier/download/@types/prettier-2.1.6.tgz?cache=0&sync_timestamp=1608765267219&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fprettier%2Fdownload%2F%40types%2Fprettier-2.1.6.tgz#f4b1efa784e8db479cdb8b14403e2144b1e9ff03"
-  integrity sha1-9LHvp4To20ec24sUQD4hRLHp/wM=
+"@types/prettier@^2.0.0", "@types/prettier@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.npm.taobao.org/@types/prettier/download/@types/prettier-2.2.0.tgz#a4e8205a4955690eef712a6d0394a1d2e121e721"
+  integrity sha1-pOggWklVaQ7vcSptA5Sh0uEh5yE=
 
 "@types/prop-types@*":
   version "15.7.0"
