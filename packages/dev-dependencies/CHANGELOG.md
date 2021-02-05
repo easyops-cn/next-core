@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.34](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.33...@next-core/dev-dependencies@1.2.34) (2021-02-05)
+
+
+### Bug Fixes
+
+* **extract:** fix migrated renovate.json ([9be3cdd](https://github.com/easyops-cn/next-core/commit/9be3cdd0dcd81a86bf4be8eea7b09469bef25040))
+
+
+
+
+
 ## [1.2.33](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.32...@next-core/dev-dependencies@1.2.33) (2021-02-04)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

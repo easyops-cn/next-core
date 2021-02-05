@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.2.13...@next-core/build-config-factory@2.3.0) (2021-02-05)
+
+
+### Features
+
+* support to ignore post-build micro-apps ([c1b5e55](https://github.com/easyops-cn/next-core/commit/c1b5e5510c8184cdf0af595eafe9827ba25c43b1))
+
+
+
+
+
 ## [2.2.13](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.2.12...@next-core/build-config-factory@2.2.13) (2021-01-30)
 
 **Note:** Version bump only for package @next-core/build-config-factory
