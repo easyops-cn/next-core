@@ -1,4 +1,4 @@
-# Brick Demo
+# Brick Next Core
 
 [![CI Status](https://github.com/easyops-cn/next-core/workflows/CI/badge.svg?event=push)](https://github.com/easyops-cn/next-core/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/easyops-cn/next-core/badge.svg?branch=master)](https://coveralls.io/github/easyops-cn/next-core?branch=master)

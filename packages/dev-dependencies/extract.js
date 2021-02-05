@@ -61,6 +61,8 @@ module.exports = function extract() {
     "@next-dll/ace",
     "@next-dll/d3",
     "@next-dll/echarts",
+    "@next-dll/editor-bricks-helper",
+    "@next-dll/react-dnd",
   ];
   for (const pkg of dlls) {
     // 解决该包在 `npm link` 下使用时报错的问题
@@ -128,12 +130,20 @@ module.exports = function extract() {
   const disabledRule = renovateJson.packageRules.find(
     (item) => item.enabled === false
   );
-  const disabledPackageNames = new Set(disabledRule.packageNames);
+  const keyOfPackageNames = disabledRule.matchPackageNames
+    ? "matchPackageNames"
+    : "packageNames";
+  const disabledPackageNames = new Set(disabledRule[keyOfPackageNames]);
 
   for (const pkg of toBeExtracted.keys()) {
     disabledPackageNames.add(pkg);
   }
-  disabledRule.packageNames = Array.from(disabledPackageNames).sort();
+  disabledRule[keyOfPackageNames] = Array.from(disabledPackageNames).sort();
+
+  // Fix a previous problem.
+  if (keyOfPackageNames === "matchPackageNames" && disabledRule.packageNames) {
+    delete disabledRule.packageNames;
+  }
 
   writeJsonFile(renovateJsonPath, renovateJson);
 

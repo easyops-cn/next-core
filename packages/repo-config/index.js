@@ -7,6 +7,7 @@ exports.getEasyopsConfig = () => {
     usePublicScope: false,
     contractYamlDir: "easyops",
     contractUrl: "git@git.easyops.local:anyclouds/contract-center.git",
+    standalone: false,
   };
   const configPath = path.resolve(".easyops-yo.json");
   if (fs.existsSync(configPath)) {

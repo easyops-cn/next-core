@@ -188,6 +188,8 @@ module.exports = (env, app) => {
 
   if (useOffline) {
     // 离线开发模式下，mock API 请求
+    const mockUsername = "easyops";
+    const mockPassword = "easyops";
 
     // 校验登录。
     app.get(`${publicPath}api/auth/login`, (req, res) => {
@@ -203,7 +205,10 @@ module.exports = (env, app) => {
 
     // 执行登录。
     app.post(`${publicPath}api/auth/login`, bodyParser.json(), (req, res) => {
-      if (req.body.username === "easyops" && req.body.password === "easyops") {
+      if (
+        req.body.username === mockUsername &&
+        req.body.password === mockPassword
+      ) {
         username = req.body.username;
         res.json({
           code: 0,
@@ -227,6 +232,48 @@ module.exports = (env, app) => {
     app.post(`${publicPath}api/auth/logout`, (req, res) => {
       username = undefined;
       res.json({ code: 0 });
+    });
+
+    // 关联菜单。
+    app.get(
+      `${publicPath}api/gateway/micro_app.object_micro_app.GetObjectMicroAppList/api/micro_app/v1/object_micro_app`,
+      (req, res) => {
+        res.json({
+          code: 0,
+          data: {
+            list: [],
+          },
+        });
+      }
+    );
+
+    // 用户头像。
+    app.get(
+      `${publicPath}api/gateway/user_service.user_admin.GetUserInfoV2/api/v1/users/detail/${mockUsername}`,
+      (req, res) => {
+        res.json({
+          code: 0,
+          data: {},
+        });
+      }
+    );
+
+    // Launchpad 收藏夹。
+    app.get(
+      `${publicPath}api/gateway/user_service.launchpad.ListCollection/api/v1/launchpad/collection`,
+      (req, res) => {
+        res.json({
+          code: 0,
+          data: {
+            list: [],
+          },
+        });
+      }
+    );
+
+    // 其它 API。
+    app.get(`${publicPath}api/*`, (req, res) => {
+      res.status(404).end();
     });
   }
 };
