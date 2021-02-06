@@ -3,7 +3,7 @@
   "version": "2.3.0",
   "description": "build scripts",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-config-factory",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "src/index.js",
   "files": [
     "src",

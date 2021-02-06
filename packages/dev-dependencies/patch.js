@@ -10,6 +10,7 @@ const {
   updateMRTemplates,
   updateBuildStories,
   updateRenovateFileFilters,
+  updateLicense,
 } = require("./patches");
 const updateBrickNextForNewCssVariables = require("./patches/updateBrickNextForNewCssVariables");
 
@@ -83,6 +84,10 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "1.1.3")) {
     updateBrickNextForNewCssVariables();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.2.35")) {
+    updateLicense(rootPackageJsonPath, rootPackageJson);
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;

@@ -3,7 +3,7 @@
   "version": "0.4.18",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/editor-bricks-helper",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/manifest.json",
   "files": [
     "dist"

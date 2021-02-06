@@ -3,7 +3,7 @@
   "version": "2.16.0",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-container",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.html",
   "bin": {
     "brick-container-serve": "./bin/brick-container-serve.js"

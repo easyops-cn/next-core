@@ -3,7 +3,7 @@
   "version": "0.3.4",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/easyops-illustrations",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",

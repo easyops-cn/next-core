@@ -3,7 +3,7 @@
   "version": "2.3.7",
   "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
   "homepage": "$repo-org-url$/next-core/tree/master/packages/brick-scripts",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.js",
   "bin": {
     "brick-scripts": "./bin/brick-scripts.js"
