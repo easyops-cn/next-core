@@ -187,10 +187,7 @@ module.exports = (env, app) => {
   }
 
   if (useOffline) {
-    // 离线开发模式下，mock API 请求
-    const mockUsername = "easyops";
-    const mockPassword = "easyops";
-
+    // 离线开发模式下，mock API 请求。
     // 校验登录。
     app.get(`${publicPath}api/auth/login`, (req, res) => {
       res.json({
@@ -205,10 +202,9 @@ module.exports = (env, app) => {
 
     // 执行登录。
     app.post(`${publicPath}api/auth/login`, bodyParser.json(), (req, res) => {
-      if (
-        req.body.username === mockUsername &&
-        req.body.password === mockPassword
-      ) {
+      // Enter any username and the same as password to get logged in,
+      // such as `duck` / `duck`.
+      if (req.body.username && req.body.username === req.body.password) {
         username = req.body.username;
         res.json({
           code: 0,
@@ -219,11 +215,11 @@ module.exports = (env, app) => {
           },
         });
       } else {
+        res.status(401);
         res.json({
-          code: 0,
-          data: {
-            loggedIn: false,
-          },
+          code: 133001,
+          error: "用户名（邮箱）或密码错误",
+          data: null,
         });
       }
     });
@@ -249,7 +245,7 @@ module.exports = (env, app) => {
 
     // 用户头像。
     app.get(
-      `${publicPath}api/gateway/user_service.user_admin.GetUserInfoV2/api/v1/users/detail/${mockUsername}`,
+      `${publicPath}api/gateway/user_service.user_admin.GetUserInfoV2/api/v1/users/detail/:username`,
       (req, res) => {
         res.json({
           code: 0,
