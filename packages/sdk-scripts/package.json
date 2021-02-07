@@ -3,7 +3,7 @@
   "version": "2.4.3",
   "description": "Generate new brick-packages or new bricks in existed packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/sdk-scripts",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/main.js",
   "bin": {
     "sdk-scripts": "./bin/sdk-scripts.js"

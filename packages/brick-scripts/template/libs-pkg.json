@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/libs/$kebab-package-name$",
-  "license": "UNLICENSED",
+  "license": "$open-source-license$",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",

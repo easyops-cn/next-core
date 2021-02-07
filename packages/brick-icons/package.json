@@ -3,7 +3,7 @@
   "version": "2.8.0",
   "description": "Self designed icons",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-icons",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",

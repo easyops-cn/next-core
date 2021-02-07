@@ -3,7 +3,7 @@
   "version": "1.0.13",
   "description": "Eslint recommended config for brick-next related packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/eslint-config-next",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"

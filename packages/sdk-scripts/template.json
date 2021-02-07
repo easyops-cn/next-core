@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "SDK for $Title Service Name$",
   "homepage": "$workspace-homepage$/tree/master/sdk/$kebab-service-name$-sdk",
-  "license": "UNLICENSED",
+  "license": "$open-source-license$",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
