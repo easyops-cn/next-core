@@ -4,19 +4,19 @@ const { writeJsonFile, readJson } = require("../utils");
 
 function updateLicense(rootPackageJsonPath, rootPackageJson) {
   const license = rootPackageJson.license;
-  if (!license || license !== "UNLICENSED") {
+  if (license === "UNLICENSED") {
     return;
   }
 
-  replaceLicense(rootPackageJsonPath, rootPackageJson);
+  replaceLicense(rootPackageJsonPath, rootPackageJson, license);
 
   const dirs = ["bricks", "libs", "micro-apps", "templates"];
   for (const dir of dirs) {
-    _updateLicense(path.resolve(dir));
+    _updateLicense(path.resolve(dir), license);
   }
 }
 
-function _updateLicense(packageDir) {
+function _updateLicense(packageDir, license) {
   if (!fs.existsSync(packageDir)) {
     return;
   }
@@ -30,18 +30,15 @@ function _updateLicense(packageDir) {
         "package.json"
       );
       const packageJson = readJson(packageJsonPath);
-      replaceLicense(packageJsonPath, packageJson);
+      replaceLicense(packageJsonPath, packageJson, license);
     });
 }
 
-function replaceLicense(jsonPath, json) {
-  writeJsonFile(
-    jsonPath,
-    {
-      ...json,
-      license: "GPL-3.0"
-    }
-  )
+function replaceLicense(jsonPath, json, license) {
+  writeJsonFile(jsonPath, {
+    ...json,
+    license,
+  });
 }
 
 module.exports = updateLicense;
