@@ -77,13 +77,11 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
 http.interceptors.response.use(
   function (response: HttpResponse) {
     window.dispatchEvent(new CustomEvent("request.end"));
-    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
-      analyzer?.analyses(response);
+    analyzer?.analyses(response);
     return response.data;
   },
   function (error: HttpError) {
-    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
-      analyzer?.analyses(error);
+    analyzer?.analyses(error);
     window.dispatchEvent(new CustomEvent("request.end"));
     return Promise.reject(error.error);
   }

@@ -182,10 +182,7 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
-    let pageTracker;
-    if (getRuntime().getFeatureFlags()["enable-analyzer"]) {
-      pageTracker = apiAnalyzer.getInstance().pageTracker();
-    }
+    const pageTracker = apiAnalyzer.getInstance().pageTracker();
 
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
