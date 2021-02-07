@@ -1,6 +1,6 @@
 {
   "name": "@next-core/sdk-scripts",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "Generate new brick-packages or new bricks in existed packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/sdk-scripts",
   "license": "GPL-3.0",
@@ -26,8 +26,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@next-core/public-scoped-sdk": "^0.2.1",
-    "@next-core/repo-config": "^0.2.0",
+    "@next-core/public-scoped-sdk": "^0.2.2",
+    "@next-core/repo-config": "^0.2.1",
     "chalk": "^4.1.0",
     "change-case": "^4.1.2",
     "fs-extra": "^9.1.0",

@@ -3,16 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.7.4...@next-core/brick-icons@2.8.0) (2021-02-05)
+## [2.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.8.0...@next-core/brick-icons@2.8.1) (2021-02-07)
 
+### Bug Fixes
+
+- using GPL license ([f9e7bd9](https://github.com/easyops-cn/next-core/commit/f9e7bd9))
+
+# [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.7.4...@next-core/brick-icons@2.8.0) (2021-02-05)
 
 ### Features
 
-* **brick-icons:** add icon ([7b529cd](https://github.com/easyops-cn/next-core/commit/7b529cd332239f0611989f414342e224096c434d))
-
-
-
-
+- **brick-icons:** add icon ([7b529cd](https://github.com/easyops-cn/next-core/commit/7b529cd332239f0611989f414342e224096c434d))
 
 ## [2.7.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.7.3...@next-core/brick-icons@2.7.4) (2021-01-28)
 

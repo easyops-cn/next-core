@@ -1,6 +1,6 @@
 {
   "name": "@next-core/build-config-factory",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "build scripts",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-config-factory",
   "license": "GPL-3.0",
@@ -18,8 +18,8 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-utils": "^2.10.7",
-    "@next-core/repo-config": "^0.2.0",
+    "@next-core/brick-utils": "^2.10.8",
+    "@next-core/repo-config": "^0.2.1",
     "change-case": "^4.1.2",
     "chokidar": "^3.5.1",
     "fs-extra": "^9.1.0",
