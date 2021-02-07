@@ -70,51 +70,59 @@ jest.mock("../utils", () => ({
 const updateLicense = require("./updateLicense");
 
 describe("updateVersionOfBrickNext", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should work", () => {
     updateLicense("/tmp/package.json", {
       name: "tmp",
-      license: "UNLICENSED",
+      license: "GPL-3.0",
     });
     expect(mockWriteJsonFile).toHaveBeenCalledTimes(5);
-    expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
-      1,
-      "/tmp/package.json",
-      {
-        "name": "tmp",
-        "license": "GPL-3.0"
-      }
-    );
+    expect(mockWriteJsonFile).toHaveBeenNthCalledWith(1, "/tmp/package.json", {
+      name: "tmp",
+      license: "GPL-3.0",
+    });
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
       2,
       "/tmp/bricks/bricks-a/package.json",
       {
-        "name": "bricks-a",
-        "license": "GPL-3.0"
+        name: "bricks-a",
+        license: "GPL-3.0",
       }
     );
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
       3,
       "/tmp/bricks/bricks-b/package.json",
       {
-        "name": "bricks-b",
-        "license": "GPL-3.0",
+        name: "bricks-b",
+        license: "GPL-3.0",
       }
     );
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
       4,
       "/tmp/micro-apps/app-a/package.json",
       {
-        "name": "app-a",
-        "license": "GPL-3.0",
+        name: "app-a",
+        license: "GPL-3.0",
       }
     );
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
       5,
       "/tmp/micro-apps/app-b/package.json",
       {
-        "name": "app-b",
-        "license": "GPL-3.0"
+        name: "app-b",
+        license: "GPL-3.0",
       }
     );
+  });
+
+  it("should ignore if root is unlicensed", () => {
+    updateLicense("/tmp/package.json", {
+      name: "tmp",
+      license: "UNLICENSED",
+    });
+    expect(mockWriteJsonFile).not.toBeCalled();
   });
 });
