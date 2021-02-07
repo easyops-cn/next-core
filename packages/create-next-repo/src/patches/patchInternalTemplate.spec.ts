@@ -6,6 +6,7 @@ jest.mock("fs-extra");
 jest.mock("../customConsole");
 
 const mockFsCopy = fs.copy as jest.Mock;
+const mockFsReadJSONSync = fs.readJSONSync as jest.Mock;
 
 describe("patchInternalTemplate", () => {
   afterEach(() => {
@@ -19,6 +20,10 @@ describe("patchInternalTemplate", () => {
         callback(null);
       }, 100);
     });
+    mockFsReadJSONSync.mockReturnValueOnce({
+      name: "my-repo",
+      license: "GPL-3.0",
+    });
 
     const promise = patchInternalTemplate(filePath);
 
@@ -29,6 +34,12 @@ describe("patchInternalTemplate", () => {
     );
     expect(fs.removeSync).toBeCalledWith("/tmp/my-repo/.github");
     expect(fs.removeSync).toBeCalledWith("/tmp/my-repo/.easyops-yo.json");
+    expect(fs.removeSync).toBeCalledWith("/tmp/my-repo/COPYING");
+    expect(fs.readJSONSync).toBeCalledWith("/tmp/my-repo/package.json");
+    expect(fs.writeJSONSync).toBeCalledWith("/tmp/my-repo/package.json", {
+      name: "my-repo",
+      license: "UNLICENSED",
+    });
     expect(customConsole.log).toHaveBeenNthCalledWith(
       2,
       LogLevel.VERBOSE,
