@@ -1,4 +1,4 @@
-name: Manually release
+name: Lerna version
 
 on: workflow_dispatch
 
