@@ -31,7 +31,5 @@ dependencies:
     version: ^1.11.2
   - name: object_store_service
     version: ^1.0.12
-  - name: data-exchang
-    version: ^1.0.4
 start_dependencies:
   - name: logic.api.gateway   # 依赖服务名
