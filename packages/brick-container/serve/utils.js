@@ -220,6 +220,7 @@ function getDevSettings() {
   return {
     featureFlags: {
       "development-mode": true,
+      "enable-analyzer": false,
     },
   };
 }
