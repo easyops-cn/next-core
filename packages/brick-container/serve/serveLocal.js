@@ -268,7 +268,7 @@ module.exports = (env, app) => {
     );
 
     // 其它 API。
-    app.get(`${publicPath}api/*`, (req, res) => {
+    app.all(`${publicPath}api/*`, (req, res) => {
       res.status(404).end();
     });
   }
