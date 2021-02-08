@@ -29,7 +29,7 @@
   resolved "https://registry.npm.taobao.org/@ant-design/icons-svg/download/@ant-design/icons-svg-4.1.0.tgz#480b025f4b20ef7fe8f47d4a4846e4fee84ea06c"
   integrity sha1-SAsCX0sg73/o9H1KSEbk/uhOoGw=
 
-"@ant-design/icons@^4.0.0", "@ant-design/icons@^4.3.0", "@ant-design/icons@^4.4.0":
+"@ant-design/icons@^4.0.0", "@ant-design/icons@^4.4.0":
   version "4.4.0"
   resolved "https://registry.npm.taobao.org/@ant-design/icons/download/@ant-design/icons-4.4.0.tgz#d4e4ba5910454e1d3f67a802d2aad9ee75a51dea"
   integrity sha1-1OS6WRBFTh0/Z6gC0qrZ7nWlHeo=
