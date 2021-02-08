@@ -7,11 +7,18 @@
 
 ## Introduction
 
-_Easy Bricks_ (formerly named _Brick Next_) is a front-end framework to build a highly-pluggable and highly-configurable enterprise user interface solution, a.k.a a low-code framework, which scales and for enterprise.
+_Easy Bricks_ (formerly named _Brick Next_) is a front-end framework to build highly-pluggable and highly-configurable enterprise user interface solutions, a.k.a a low-code framework, which scales and for enterprise.
 
 The front-end of UWinTech's brand new DevOps platform _EasyOps_ is fully built on Easy Bricks. Hundreds of micro-apps are rapidly and continuously delivered to our enterprise clients. Building enterprise productivity tools has never been easier.
 
 This repository is the core of Easy Bricks, to play with Easy Bricks, please refer to [easyops-cn/next-demo](https://github.com/easyops-cn/next-demo) which is a ready-to-run repository, which demonstrate how to build micro-apps, as well as how to make custom bricks.
+
+Table of contents:
+
+- [Easy Bricks Under the Hood](#easy-bricks-under-the-hood)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Easy Bricks Under the Hood
 
@@ -51,6 +58,10 @@ On the other hand, advanced developers can also create new bricks for complex bu
   - [ ] Auto testing for micro-apps.
   - [ ] Online coding on Easy MA Builder (for advanced developers).
 
+_Easy MA Builder_ - a visualization builder for micro-apps, is just on the way to public soon, please stay tuned.
+
+![Visual builder](https://github.com/easyops-cn/next-demo/raw/master/assets/visual-builder.png)
+
 ## Contributing
 
 See [Contribution Guide](./CONTRIBUTING.md).
@@ -68,6 +79,13 @@ _Easy Bricks_ （以前称为 _Brick Next_ ）是优维科技的新一代前端�
 优维科技全新的 DevOps 平台 _EasyOps_ 的前端整个基于 Easy Bricks 搭建。数百个企业级的微应用得以快速地、持续地交付给我们的企业客户。搭建企业级生产力工具从未如此简单。
 
 本仓库是 Easy Bricks 的核心库，如果希望体验 Easy Bricks，可以参考 [easyops-cn/next-demo](https://github.com/easyops-cn/next-demo)，这是一个准备就绪的仓库，用以演示如何编排微应用，以及如何创建自定义构件。
+
+目录：
+
+- [Easy Bricks 揭秘](#easy-bricks-揭秘)
+- [路线图](#路线图)
+- [贡献指南](#贡献指南)
+- [许可协议](#许可协议)
 
 ## Easy Bricks 揭秘
 
@@ -107,7 +125,11 @@ _Easy Bricks_ （以前称为 _Brick Next_ ）是优维科技的新一代前端�
   - [ ] 针对微应用的自动化测试能力；
   - [ ] 在 Easy MA Builder 上集成代码开发能力（针对高级开发者）。
 
-## 贡献
+_Easy MA Builder_ -- 可视化的微应用编排工具不久后就将公开，敬请期待。
+
+![Visual builder](https://github.com/easyops-cn/next-demo/raw/master/assets/visual-builder.png)
+
+## 贡献指南
 
 请查看[贡献指南](./CONTRIBUTING.md)。
 
