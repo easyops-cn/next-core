@@ -15295,10 +15295,10 @@ typescript-json-schema@^0.48.0:
     typescript "^4.1.3"
     yargs "^16.2.0"
 
-typescript@^4.1.3, typescript@~4.1.3, typescript@~4.1.4:
-  version "4.1.4"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.4.tgz?cache=0&sync_timestamp=1612896680871&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.1.4.tgz#f058636e2f4f83f94ddaae07b20fd5e14598432f"
-  integrity sha1-8Fhjbi9Pg/lN2q4Hsg/V4UWYQy8=
+typescript@^4.1.3, typescript@~4.1.3, typescript@~4.1.5:
+  version "4.1.5"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.5.tgz?cache=0&sync_timestamp=1612991167365&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
+  integrity sha1-Ejo7IUqv874ykm8Njx9ucE64mnI=
 
 ua-parser-js@^0.7.18:
   version "0.7.19"
