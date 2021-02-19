@@ -55,7 +55,10 @@ jobs:
         restore-keys: |
           cypress-${{ runner.os }}-cypress-
 
-    - run: yarn install --frozen-lockfile
+    # Run `cypress install` to fix existed cache.
+    - run: |
+        yarn install --frozen-lockfile
+        $(yarn bin cypress) install
       env:
         CYPRESS_INSTALL_BINARY: ''
         CYPRESS_DOWNLOAD_MIRROR: ''
