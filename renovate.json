@@ -29,14 +29,20 @@
         "copy-webpack-plugin",
         "html-webpack-plugin",
         "html-webpack-tags-plugin",
-        "source-map-loader"
+        "source-map-loader",
+        "html-loader"
       ],
+      "matchPackagePatterns": ["react"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
       "groupName": "svgr packages",
       "matchPackagePatterns": ["^@svgr/"]
+    },
+    {
+      "depTypeList": ["engines"],
+      "enabled": false
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]

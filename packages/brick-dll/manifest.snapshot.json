@@ -11378,13 +11378,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/@ctrl/tinycolor/dist/module/index.js": {
-      "id": "VJFB",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["TinyColor", "tinycolor"]
-      }
-    },
     "./node_modules/@ant-design/icons/es/icons/ReconciliationFilled.js": {
       "id": "VKPJ",
       "buildMeta": {
