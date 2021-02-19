@@ -47,6 +47,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
 
+    - name: Cache npx packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-wait-on--start-serve-and-test
+        restore-keys: |
+          ${{ runner.os }}-wait-on--start-serve-and-test
+      if: |
+        (github.event_name == 'push') ||
+        (github.event_name == 'pull_request' && github.base_ref == 'master')
+
     - name: Cache Cypress binary
       uses: actions/cache@v2
       with:
@@ -68,6 +79,9 @@ jobs:
     - run: yarn test:e2e:ci
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      if: |
+        (github.event_name == 'push') ||
+        (github.event_name == 'pull_request' && github.base_ref == 'master')
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
