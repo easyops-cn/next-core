@@ -3133,12 +3133,12 @@
   version "1.5.2"
   resolved "http://registry.npm.taobao.org/@types/q/download/@types/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
 
-"@types/react-dom@^17.0.0":
-  version "17.0.0"
-  resolved "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-17.0.0.tgz#b3b691eb956c4b3401777ee67b900cb28415d95a"
-  integrity sha1-s7aR65VsSzQBd37me5AMsoQV2Vo=
+"@types/react-dom@^16.9.11":
+  version "16.9.11"
+  resolved "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-16.9.11.tgz?cache=0&sync_timestamp=1613153480532&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact-dom%2Fdownload%2F%40types%2Freact-dom-16.9.11.tgz#752e223a1592a2c10f2668b215a0e0667f4faab1"
+  integrity sha1-dS4iOhWSosEPJmiyFaDgZn9PqrE=
   dependencies:
-    "@types/react" "*"
+    "@types/react" "^16"
 
 "@types/react-test-renderer@^17.0.1":
   version "17.0.1"
@@ -3154,7 +3154,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.14.4":
+"@types/react@*", "@types/react@^16", "@types/react@^16.14.4":
   version "16.14.4"
   resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.14.4.tgz?cache=0&sync_timestamp=1613155380024&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-16.14.4.tgz#365f6a1e117d1eec960ba792c7e1e91ecad38e6f"
   integrity sha1-Nl9qHhF9HuyWC6eSx+HpHsrTjm8=
