@@ -3133,10 +3133,10 @@
   version "1.5.2"
   resolved "http://registry.npm.taobao.org/@types/q/download/@types/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
 
-"@types/react-dom@^17.0.0":
-  version "17.0.0"
-  resolved "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-17.0.0.tgz#b3b691eb956c4b3401777ee67b900cb28415d95a"
-  integrity sha1-s7aR65VsSzQBd37me5AMsoQV2Vo=
+"@types/react-dom@^17.0.1":
+  version "17.0.1"
+  resolved "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-17.0.1.tgz#d92d77d020bfb083e07cc8e0ac9f933599a4d56a"
+  integrity sha1-2S130CC/sIPgfMjgrJ+TNZmk1Wo=
   dependencies:
     "@types/react" "*"
 
