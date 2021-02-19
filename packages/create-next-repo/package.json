@@ -1,9 +1,9 @@
 {
   "name": "@next-core/create-next-repo",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "description": "Create new brick-next repositories",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-next-repo",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.js",
   "bin": {
     "create-next-repo": "./bin/create-next-repo.js"

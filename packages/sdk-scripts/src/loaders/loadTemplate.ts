@@ -17,6 +17,7 @@ const workspacePackageJson = JSON.parse(
 );
 
 const workspaceHomepage = workspacePackageJson.homepage;
+const workspaceLicense = workspacePackageJson.license || "UNLICENSED";
 
 function escapeRegExp(str: string): string {
   return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
@@ -77,6 +78,7 @@ export function loadTemplate(
     "$Title Service Name$": changeCase.capitalCase(serviceName),
     $PascalServiceName$: changeCase.pascalCase(serviceName),
     "$generator.version$": `v${packageJson.version}`,
+    "$open-source-license$": workspaceLicense,
   };
 
   const files: FileWithContent[] = templateFiles.map((file) => {

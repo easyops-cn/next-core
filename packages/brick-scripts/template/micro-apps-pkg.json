@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/micro-apps/$kebab-package-name$",
-  "license": "UNLICENSED",
+  "license": "$open-source-license$",
   "files": ["storyboard.json", "deploy", "icons", "version.ini"],
   "scripts": {
     "build": "echo 'nothing to build but lerna need this to build deps'",

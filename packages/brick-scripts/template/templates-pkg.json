@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/templates/$kebab-package-name$",
-  "license": "UNLICENSED",
+  "license": "$open-source-license$",
   "files": ["dist", "deploy", "version.ini"],
   "scripts": {
     "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",

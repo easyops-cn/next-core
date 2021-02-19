@@ -5,8 +5,9 @@ import { WebSocketService } from "./WebSocketService";
 import { WebsocketMessageResponse } from "./WebsocketMessageResponse";
 
 jest.useRealTimers();
-jest.spyOn(console, "error");
-jest.spyOn(console, "log");
+jest.spyOn(console, "warn").mockImplementation(() => void 0);
+jest.spyOn(console, "log").mockImplementation(() => void 0);
+
 const mockOnClose = jest.fn();
 describe("WebSocket Service", () => {
   let server: WS;

@@ -3,13 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.32.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.32.0...@next-core/brick-kit@2.32.1) (2021-02-03)
+# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.32.2...@next-core/brick-kit@2.33.0) (2021-02-07)
+
+### Bug Fixes
+
+- using GPL license ([f9e7bd9](https://github.com/easyops-cn/next-core/commit/f9e7bd9))
+
+### Features
+
+- remove feature flag for api analyzer ([72bdf5c](https://github.com/easyops-cn/next-core/commit/72bdf5c))
+
+## [2.32.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.32.1...@next-core/brick-kit@2.32.2) (2021-02-05)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
+## [2.32.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.32.0...@next-core/brick-kit@2.32.1) (2021-02-03)
 
-
-
+**Note:** Version bump only for package @next-core/brick-kit
 
 # [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.31.2...@next-core/brick-kit@2.32.0) (2021-01-30)
 

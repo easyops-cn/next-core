@@ -4,6 +4,40 @@
 
 更多文档请查看 《[EasyOps 开发者中心](http://docs.developers.easyops.cn/)》
 
+## 安装依赖
+
+`yarn`
+
+## 开发
+
+`yarn start`
+
+> `yarn start` 等同于 `lerna run start --scope=@next-core/brick-container`。
+
+开发服务默认会使用本仓库所在目录的兄弟目录中的 `next-basics` 目录作为构件仓库。也就是默认工作在类似：
+
+```
+/Users/one/easyops/next-core
+/Users/one/easyops/next-basics
+```
+
+如果你希望调试其它地方的构件仓库，你可以在本项目的根目录中添加一个 `dev.config.js` 来配置构件仓库的位置，例如：
+
+```js
+const path = require("path");
+exports.nextRepoDir = path.join(__dirname, "../next-basics");
+```
+
+## 构建
+
+`yarn build`
+
+## 测试
+
+`yarn test`
+
+测试单个文件使用 `yarn test` 加上文件路径即可，例如 `yarn test ./path/to/your.spec.ts`。
+
 ## 文件结构
 
 项目包含两个多包工作区：

@@ -3,4 +3,6 @@ export const getEasyopsConfig: () => {
   useLocalSdk: boolean;
   contractUrl: string;
   contractYamlDir: string;
+  standalone: boolean;
+  noPostBuildMicroApps: boolean;
 };

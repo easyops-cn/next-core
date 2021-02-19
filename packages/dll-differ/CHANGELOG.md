@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://github.com/easyops-cn/next-core/compare/@next-core/dll-differ@1.1.5...@next-core/dll-differ@1.1.6) (2021-02-07)
+
+### Bug Fixes
+
+- using GPL license ([f9e7bd9](https://github.com/easyops-cn/next-core/commit/f9e7bd9))
+
 ## [1.1.5](https://git.easyops.local/anyclouds/next-core/compare/@next-core/dll-differ@1.1.4...@next-core/dll-differ@1.1.5) (2021-01-26)
 
 **Note:** Version bump only for package @next-core/dll-differ

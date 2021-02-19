@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
   },
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "scripts": {
     "prepare": "lerna bootstrap",
     "start": "lerna run start --scope \"@next-core/brick-container\"",

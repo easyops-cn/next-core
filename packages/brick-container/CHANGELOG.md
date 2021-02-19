@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.17.0...@next-core/brick-container@2.17.1) (2021-02-07)
+
+### Bug Fixes
+
+- disable analyzer in dev mode ([93b8966](https://github.com/easyops-cn/next-core/commit/93b8966))
+
+# [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.16.0...@next-core/brick-container@2.17.0) (2021-02-07)
+
+### Bug Fixes
+
+- catch all methods for missed APIs ([5325a68](https://github.com/easyops-cn/next-core/commit/5325a68))
+- refine standalone login api ([18e8078](https://github.com/easyops-cn/next-core/commit/18e8078))
+- using GPL license ([f9e7bd9](https://github.com/easyops-cn/next-core/commit/f9e7bd9))
+
+### Features
+
+- remove feature flag for api analyzer ([7b65860](https://github.com/easyops-cn/next-core/commit/7b65860))
+- remove feature flag for api analyzer ([72bdf5c](https://github.com/easyops-cn/next-core/commit/72bdf5c))
+
+# [2.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.32...@next-core/brick-container@2.16.0) (2021-02-05)
+
+### Features
+
+- support to serve standalone ([c4e20a8](https://github.com/easyops-cn/next-core/commit/c4e20a830e56b5bcbdbc38eb682aee5405471c7d))
+
+### Reverts
+
+- Revert "chore(deps): Update dependency html-webpack-tags-plugin to v3" ([0091e85](https://github.com/easyops-cn/next-core/commit/0091e85da811f04d7265e45b219b860a2d87e4fe))
+
 ## [2.15.32](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.15.31...@next-core/brick-container@2.15.32) (2021-02-04)
 
 **Note:** Version bump only for package @next-core/brick-container

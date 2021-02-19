@@ -20,6 +20,7 @@ const workspacePackageJson = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8")
 );
 const workspaceHomepage = workspacePackageJson.homepage;
+const workspaceLicense = workspacePackageJson.license || "UNLICENSED";
 let userName = "bot";
 exec("git config user.name", { encoding: "utf8" }, function (err, value) {
   if (err) return;
@@ -146,6 +147,7 @@ export async function loadTemplate({
     $camelTemplateName$: changeCase.camelCase(templateName),
     $PascalTemplateName$: changeCase.pascalCase(templateName),
     $camelProcessorName$: changeCase.camelCase(processorName),
+    "$open-source-license$": workspaceLicense,
   };
 
   const filter = (src: string): boolean =>

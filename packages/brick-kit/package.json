@@ -1,9 +1,9 @@
 {
   "name": "@next-core/brick-kit",
-  "version": "2.32.1",
+  "version": "2.33.0",
   "description": "Kernel",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-kit",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
@@ -31,7 +31,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "dependencies": {
-    "@next-core/brick-types": "^2.17.0",
+    "@next-core/brick-types": "^2.17.1",
     "@next-sdk/auth-sdk": "^1.0.0",
     "@next-sdk/cmdb-sdk": "^1.0.0",
     "@next-sdk/micro-app-sdk": "^1.0.0",
@@ -41,10 +41,10 @@
   "sideEffects": false,
   "devDependencies": {
     "@ant-design/icons": "^4.5.0",
-    "@next-core/brick-http": "^2.2.4",
-    "@next-core/brick-utils": "^2.10.6",
-    "@next-core/easyops-analytics": "^0.1.4",
-    "@next-core/illustrations": "^0.3.4",
+    "@next-core/brick-http": "^2.2.5",
+    "@next-core/brick-utils": "^2.10.8",
+    "@next-core/easyops-analytics": "^0.1.5",
+    "@next-core/illustrations": "^0.3.5",
     "antd": "^4.12.3",
     "history": "^4.10.1",
     "i18next": "^19.8.9",

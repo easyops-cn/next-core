@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/bricks/$kebab-package-name$",
-  "license": "UNLICENSED",
+  "license": "$open-source-license$",
   "files": ["dist", "deploy"],
   "scripts": {
     "prestart": "node scripts/pre-build.js",

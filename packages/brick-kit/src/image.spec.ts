@@ -30,7 +30,9 @@ describe("getUrlByImageFactory", () => {
 
   it("should printf log if no images upload", () => {
     const images = [] as any;
-    const consoleSpy = jest.spyOn(console, "warn");
+    const consoleSpy = jest
+      .spyOn(console, "warn")
+      .mockImplementation(() => void 0);
 
     getUrlByImageFactory(images)("1.jpg");
     expect(consoleSpy.mock.calls[0][0]).toEqual(
@@ -46,7 +48,9 @@ describe("getUrlByImageFactory", () => {
       },
     ];
 
-    const consoleSpy = jest.spyOn(console, "warn");
+    const consoleSpy = jest
+      .spyOn(console, "warn")
+      .mockImplementation(() => void 0);
     getUrlByImageFactory(images)("xxx.jpg");
     expect(consoleSpy.mock.calls[1][0]).toEqual(
       "the name of the image was not found:"

@@ -25,9 +25,15 @@ jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("./checkPermissions");
-jest.mock("@next-core/easyops-analytics");
+jest.mock("@next-core/easyops-analytics", () => ({
+  apiAnalyzer: {
+    create: () => jest.mock,
+    getInstance: () => ({
+      pageTracker: jest.fn,
+    }),
+  },
+}));
 jest.mock("@next-core/brick-utils");
-
 const spyOnScanCustomApisInStoryboard = scanCustomApisInStoryboard as jest.Mock;
 spyOnScanCustomApisInStoryboard.mockReturnValue([
   "easyops.custom_api@myAwesomeApi",

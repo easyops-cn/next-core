@@ -3,16 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.1...@next-core/sdk-scripts@2.4.2) (2021-02-04)
-
+## [2.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.3...@next-core/sdk-scripts@2.4.4) (2021-02-07)
 
 ### Bug Fixes
 
-* set babel targets of node to 12 ([e782f4f](https://github.com/easyops-cn/next-core/commit/e782f4f5f978f7303b6d769b201f202ecba1446b))
+- using GPL license ([f9e7bd9](https://github.com/easyops-cn/next-core/commit/f9e7bd9))
 
+## [2.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.2...@next-core/sdk-scripts@2.4.3) (2021-02-05)
 
+**Note:** Version bump only for package @next-core/sdk-scripts
 
+## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.1...@next-core/sdk-scripts@2.4.2) (2021-02-04)
 
+### Bug Fixes
+
+- set babel targets of node to 12 ([e782f4f](https://github.com/easyops-cn/next-core/commit/e782f4f5f978f7303b6d769b201f202ecba1446b))
 
 ## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.0...@next-core/sdk-scripts@2.4.1) (2021-02-01)
 

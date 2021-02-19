@@ -1,9 +1,9 @@
 {
   "name": "@next-core/custom-antd-styles",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/custom-antd-styles",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "files": [
     "src"
   ],

@@ -1,9 +1,9 @@
 {
   "name": "@next-core/easyops-analytics",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/easyops-analytics",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
@@ -25,7 +25,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/brick-http": "^2.2.4"
+    "@next-core/brick-http": "^2.2.5"
   },
   "peerDependencies": {
     "@next-core/brick-http": "*"

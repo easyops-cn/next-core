@@ -1,9 +1,9 @@
 {
   "name": "@next-core/brick-container",
-  "version": "2.15.32",
+  "version": "2.17.1",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-container",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "main": "dist/index.html",
   "bin": {
     "brick-container-serve": "./bin/brick-container-serve.js"
@@ -27,7 +27,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "dependencies": {
-    "@next-core/repo-config": "^0.1.2",
+    "@next-core/repo-config": "^0.2.1",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
@@ -40,17 +40,17 @@
     "ws": "^7.4.3"
   },
   "devDependencies": {
-    "@next-core/brick-dll": "^2.10.16",
-    "@next-core/brick-icons": "^2.7.4",
-    "@next-core/custom-antd-styles": "^1.6.2",
-    "@next-core/illustrations": "^0.3.4",
+    "@next-core/brick-dll": "^2.10.18",
+    "@next-core/brick-icons": "^2.8.1",
+    "@next-core/custom-antd-styles": "^1.6.3",
+    "@next-core/illustrations": "^0.3.5",
     "@next-core/less-plugin-css-variables": "^0.1.5",
-    "@next-core/webpack-config-factory": "^2.5.6",
-    "@next-dll/ace": "^2.0.84",
-    "@next-dll/d3": "^2.0.17",
-    "@next-dll/echarts": "^2.0.18",
-    "@next-dll/editor-bricks-helper": "^0.4.17",
-    "@next-dll/react-dnd": "^0.1.22",
+    "@next-core/webpack-config-factory": "^2.5.8",
+    "@next-dll/ace": "^2.0.86",
+    "@next-dll/d3": "^2.0.19",
+    "@next-dll/echarts": "^2.0.20",
+    "@next-dll/editor-bricks-helper": "^0.4.19",
+    "@next-dll/react-dnd": "^0.1.24",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.4.1",

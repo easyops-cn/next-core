@@ -70,11 +70,14 @@ def collect(install_path):
 
 
 def create_or_update_micro_app(app, org):
-  session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.ucpro_desktop_service")
-  if session_id <= 0:
-    raise NameServiceError("get nameservice logic.ucpro_desktop_service error, session_id={}".format(session_id))
+  address = os.environ.get("UCPRO_DESKTOP_SERVICE", "")
+  if address == "":
+    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.ucpro_desktop_service")
+    if session_id <= 0:
+      raise NameServiceError("get nameservice logic.ucpro_desktop_service error, session_id={}".format(session_id))
+    address = "{}:{}".format(ip, port)
   headers = {"org": str(org), "user": "defaultUser"}
-  url = "http://{}:{}/api/micro_app/v1/installed_micro_app/report_result".format(ip, port)
+  url = "http://{}/api/micro_app/v1/installed_micro_app/report_result".format(address)
   param = {"installedApps": [{"microApp": app, "containerId": app["containerId"]}]}
   if app.has_key("apiList"):
     apiList = app["apiList"]
@@ -124,11 +127,14 @@ def create_or_update_micro_app_to_api_gw(app, org):
 
 
 def upload_micro_app_images(install_path, org):
-  session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.object_store_service")
-  if session_id <= 0:
-    raise NameServiceError("get nameservice logic.object_store_service error, session_id={}".format(session_id))
+  address = os.environ.get("OBJECT_STORE_SERVICE", "")
+  if address == "":
+    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.object_store_service")
+    if session_id <= 0:
+      raise NameServiceError("get nameservice logic.object_store_service error, session_id={}".format(session_id))
+    address = "{}:{}".format(ip, port)
   headers = {"org": str(org), "user": "defaultUser"}
-  url = "http://{}:{}/api/v1/objectStore/bucket/next-builder/object".format(ip, port)
+  url = "http://{}/api/v1/objectStore/bucket/next-builder/object".format(address)
   for root, dirs, files in os.walk(install_path + "/images"):
     for f in files:
       fileName = os.path.basename(f)

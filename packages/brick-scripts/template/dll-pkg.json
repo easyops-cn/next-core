@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "homepage": "$workspace-homepage$/tree/master/dll/$kebab-package-name$",
-  "license": "UNLICENSED",
+  "license": "$open-source-license$",
   "main": "dist/manifest.json",
   "files": ["dist"],
   "scripts": {

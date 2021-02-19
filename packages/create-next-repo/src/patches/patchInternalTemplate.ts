@@ -12,10 +12,17 @@ export function patchInternalTemplate(dest: string): Promise<void> {
     // Remove `.github`, etc.
     fs.removeSync(path.join(dest, ".github"));
     fs.removeSync(path.join(dest, ".easyops-yo.json"));
+    fs.removeSync(path.join(dest, "COPYING"));
     customConsole.log(
       LogLevel.VERBOSE,
       chalk.gray(`  > Removed successfully!`)
     );
+
+    const packageJsonPath = path.join(dest, "package.json");
+    fs.writeJsonSync(packageJsonPath, {
+      ...fs.readJSONSync(packageJsonPath),
+      license: "UNLICENSED",
+    });
 
     customConsole.log(
       LogLevel.VERBOSE,

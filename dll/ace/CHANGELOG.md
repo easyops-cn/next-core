@@ -3,13 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.0.84](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.83...@next-dll/ace@2.0.84) (2021-02-03)
+## [2.0.86](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.85...@next-dll/ace@2.0.86) (2021-02-07)
+
+### Bug Fixes
+
+- using GPL license ([f9e7bd9](https://github.com/easyops-cn/next-core/commit/f9e7bd9))
+
+## [2.0.85](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.84...@next-dll/ace@2.0.85) (2021-02-05)
 
 **Note:** Version bump only for package @next-dll/ace
 
+## [2.0.84](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.83...@next-dll/ace@2.0.84) (2021-02-03)
 
-
-
+**Note:** Version bump only for package @next-dll/ace
 
 ## [2.0.83](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.82...@next-dll/ace@2.0.83) (2021-01-30)
 

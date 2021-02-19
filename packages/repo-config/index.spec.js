@@ -1,5 +1,5 @@
-const { getEasyopsConfig } = require(".");
 const fs = require("fs");
+const { getEasyopsConfig } = require(".");
 
 jest.mock("fs");
 
@@ -11,6 +11,8 @@ describe("getEasyopsConfig", () => {
       usePublicScope: false,
       contractYamlDir: "easyops",
       contractUrl: "git@git.easyops.local:anyclouds/contract-center.git",
+      standalone: false,
+      noPostBuildMicroApps: false,
     });
   });
 
@@ -20,6 +22,8 @@ describe("getEasyopsConfig", () => {
       JSON.stringify({
         useLocalSdk: true,
         usePublicScope: true,
+        standalone: true,
+        noPostBuildMicroApps: true,
       })
     );
     expect(getEasyopsConfig()).toEqual({
@@ -27,6 +31,8 @@ describe("getEasyopsConfig", () => {
       usePublicScope: true,
       contractYamlDir: "easyops",
       contractUrl: "git@git.easyops.local:anyclouds/contract-center.git",
+      standalone: true,
+      noPostBuildMicroApps: true,
     });
   });
 });
