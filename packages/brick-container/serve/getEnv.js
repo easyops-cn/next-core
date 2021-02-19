@@ -27,6 +27,8 @@ function getServerPath(server) {
   return server;
 }
 
+// When start webpack-dev-server for brick-container,
+// the `cwd` is empty.
 module.exports = (cwd) => {
   let flags = {};
   if (cwd) {

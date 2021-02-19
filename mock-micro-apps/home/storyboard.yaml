@@ -1,0 +1,35 @@
+app:
+  name: Home
+  id: home
+  homepage: /
+imports:
+- '@next-bricks/basic-bricks'
+routes:
+- path: ${APP.homepage}
+  bricks:
+  - brick: basic-bricks.micro-view
+    properties:
+      pageTitle: Hello World
+    slots:
+      content:
+        type: bricks
+        bricks:
+        - brick: basic-bricks.general-button
+          properties:
+            buttonName: Check My Todos
+          events:
+            general.button.click:
+              action: history.push
+              args: [/todo]
+
+        - brick: basic-bricks.general-button
+          properties:
+            buttonName: Check Car Store
+          events:
+            general.button.click:
+              action: history.push
+              args: [/car-store]
+
+  menu:
+    sidebarMenu:
+      defaultCollapsed: true

@@ -30,3 +30,7 @@ Cypress.Commands.add("login", () => {
     password: "easyops",
   });
 });
+
+Cypress.Commands.add("logout", () => {
+  cy.request("POST", "/next/api/auth/logout");
+});
