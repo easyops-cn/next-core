@@ -13707,10 +13707,10 @@ rollup-plugin-commonjs@^10.1.0:
     resolve "^1.11.0"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-copy@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.npm.taobao.org/rollup-plugin-copy/download/rollup-plugin-copy-3.3.0.tgz?cache=0&sync_timestamp=1600356953306&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup-plugin-copy%2Fdownload%2Frollup-plugin-copy-3.3.0.tgz#5ba230047f86b9f703a29288f242948a5580e7b9"
-  integrity sha1-W6IwBH+GufcDopKI8kKUilWA57k=
+rollup-plugin-copy@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.npm.taobao.org/rollup-plugin-copy/download/rollup-plugin-copy-3.4.0.tgz#f1228a3ffb66ffad8606e2f3fb7ff23141ed3286"
+  integrity sha1-8SKKP/tm/62GBuLz+3/yMUHtMoY=
   dependencies:
     "@types/fs-extra" "^8.0.1"
     colorette "^1.1.0"
