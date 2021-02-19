@@ -3105,10 +3105,10 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.12.50.tgz?cache=0&sync_timestamp=1613331309201&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.12.50.tgz#e9b2e85fafc15f2a8aa8fdd41091b983da5fd6ee"
   integrity sha1-6bLoX6/BXyqKqP3UEJG5g9pf1u4=
 
-"@types/node@^10.17.51":
-  version "10.17.51"
-  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-10.17.51.tgz#639538575befbcf3d3861f95c41de8e47124d674"
-  integrity sha1-Y5U4V1vvvPPThh+VxB3o5HEk1nQ=
+"@types/node@^10.17.53":
+  version "10.17.53"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-10.17.53.tgz?cache=0&sync_timestamp=1613695492183&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-10.17.53.tgz#95953f6eaf7e7002ee91762ade945484a4674aac"
+  integrity sha1-lZU/bq9+cALukXYq3pRUhKRnSqw=
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
