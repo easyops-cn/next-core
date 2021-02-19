@@ -36,8 +36,8 @@ jobs:
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - uses: actions/cache@v2
-      id: yarn-cache
+    - name: Cache node modules
+      uses: actions/cache@v2
       with:
         path: |
           ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -46,15 +46,30 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
+
+    - name: Cache Cypress binary
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/Cypress
+        key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+        restore-keys: |
+          cypress-${{ runner.os }}-cypress-
+
     - run: yarn install --frozen-lockfile
+      env:
+        CYPRESS_INSTALL_BINARY: ''
+        CYPRESS_DOWNLOAD_MIRROR: ''
+
     - run: yarn build
     - run: yarn test:ci
-    # - run: yarn test:e2e:ci
+    - run: yarn test:e2e:ci
+      env:
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.github_token }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./.coverage/lcov.info
 
     - uses: easyops-cn/actions-next-publish-from-tags@master

@@ -1,6 +1,10 @@
 /// <reference types="Cypress" />
 
 describe("Login page", () => {
+  beforeEach(() => {
+    cy.logout();
+  });
+
   it("show error message if username or password is not matched", () => {
     // We test as the real world with `--subdir`.
     cy.visit("/next/?lng=zh");
