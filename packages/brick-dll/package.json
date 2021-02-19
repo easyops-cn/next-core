@@ -30,7 +30,7 @@
     "@next-core/easyops-analytics": "^0.1.4",
     "@next-core/fontawesome-library": "^1.1.12",
     "@next-core/illustrations": "^0.3.4",
-    "antd": "^4.12.2",
+    "antd": "^4.12.3",
     "history": "^4.10.1",
     "i18next": "^19.8.9",
     "js-yaml": "^3.14.1",
