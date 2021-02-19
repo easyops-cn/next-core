@@ -2254,6 +2254,21 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@next-bricks/basic-bricks@^1.105.0":
+  version "1.105.0"
+  resolved "https://registry.npm.taobao.org/@next-bricks/basic-bricks/download/@next-bricks/basic-bricks-1.105.0.tgz#c11792bebe2a8c1a0a0f28f9a1117f214f962488"
+  integrity sha1-wReSvr4qjBoKDyj5oRF/IU+WJIg=
+
+"@next-bricks/general-auth@^1.4.12":
+  version "1.4.12"
+  resolved "https://registry.npm.taobao.org/@next-bricks/general-auth/download/@next-bricks/general-auth-1.4.12.tgz#6c7892b4c69c3c40b8c0fa79dc8bbf55037832a5"
+  integrity sha1-bHiStMacPEC4wPp53Iu/VQN4MqU=
+
+"@next-micro-apps/general-auth@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.npm.taobao.org/@next-micro-apps/general-auth/download/@next-micro-apps/general-auth-1.0.9.tgz#ad18f28303ef44829228b297c646f51da60aa31d"
+  integrity sha1-rRjygwPvRIKSKLKXxkb1HaYKox0=
+
 "@next-sdk/auth-sdk@^1.0.0":
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/@next-sdk/auth-sdk/download/@next-sdk/auth-sdk-1.0.1.tgz?cache=0&sync_timestamp=1611645549211&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-sdk%2Fauth-sdk%2Fdownload%2F%40next-sdk%2Fauth-sdk-1.0.1.tgz#dc217556d6eddee4c143b419a25d7b3972fb06e2"
