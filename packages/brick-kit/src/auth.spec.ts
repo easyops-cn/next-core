@@ -1,4 +1,7 @@
 import { authenticate, getAuth, logout } from "./auth";
+import { resetPermissionPreChecks } from "./core/checkPermissions";
+
+jest.mock("./core/checkPermissions");
 
 describe("auth", () => {
   it("should work", () => {
@@ -13,7 +16,10 @@ describe("auth", () => {
       username: "mock-user",
       userInstanceId: "abc",
     });
+
+    expect(resetPermissionPreChecks).not.toBeCalled();
     logout();
     expect(getAuth()).toEqual({});
+    expect(resetPermissionPreChecks).toBeCalled();
   });
 });

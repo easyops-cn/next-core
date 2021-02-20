@@ -565,6 +565,7 @@ export class LocationContext {
     context: PluginRuntimeContext
   ): Promise<void> {
     if (
+      isLoggedIn() &&
       container.permissionsPreCheck &&
       Array.isArray(container.permissionsPreCheck)
     ) {
