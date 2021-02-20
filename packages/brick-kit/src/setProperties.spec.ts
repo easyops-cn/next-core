@@ -226,6 +226,9 @@ describe("setProperties", () => {
     array: "${QUERY_ARRAY.array}",
     arrayNotExisted: "${QUERY_ARRAY.arrayNotExisted}",
     fromTpl: "<% TPL.quality %>",
+    dataset: {
+      testid: "my-button",
+    },
   };
 
   beforeEach(() => {
@@ -270,6 +273,9 @@ describe("setProperties", () => {
         betterWorld: true,
         array: ["1", "2"],
         fromTpl: "good",
+        dataset: {
+          testid: "my-button",
+        },
       },
     ],
     [
@@ -303,6 +309,9 @@ describe("setProperties", () => {
         betterWorld: true,
         array: ["1", "2"],
         fromTpl: "good",
+        dataset: {
+          testid: "my-button",
+        },
       },
     ],
     [
@@ -337,6 +346,9 @@ describe("setProperties", () => {
           betterWorld: true,
           array: ["1", "2"],
           fromTpl: "good",
+          dataset: {
+            testid: "my-button",
+          },
         },
         {
           objectId: "HOST",
@@ -364,37 +376,46 @@ describe("setProperties", () => {
           betterWorld: true,
           array: ["1", "2"],
           fromTpl: "good",
+          dataset: {
+            testid: "my-button",
+          },
         },
       ],
     ],
     [
       {
-        innerHTML: "oops",
+        innerHTML: "<a>oops</a>",
       },
       context,
       false,
       false,
       {
         style: {},
-        textContent: "oops",
+        dataset: {},
+        textContent: "<a>oops</a>",
       },
     ],
   ];
   it.each(cases)(
     "test setProperties(%s, %s, %s) should work",
     (props, ctx, injectDeep, multiple, expected) => {
+      const createFakeElement = (): HTMLElement => {
+        const element = {} as any;
+        Object.defineProperty(element, "style", {
+          value: {},
+          writable: false,
+          enumerable: true,
+        });
+        Object.defineProperty(element, "dataset", {
+          value: {},
+          writable: false,
+          enumerable: true,
+        });
+        return element;
+      };
       const elem: HTMLElement | HTMLElement[] = multiple
-        ? ([
-            {
-              style: {},
-            },
-            {
-              style: {},
-            },
-          ] as any[])
-        : ({
-            style: {},
-          } as any);
+        ? [createFakeElement(), createFakeElement()]
+        : createFakeElement();
       setProperties(elem, props, ctx, injectDeep);
       expect(elem).toEqual(expected);
     }
