@@ -33,7 +33,6 @@ import { afterMountTree } from "./reconciler";
 import { constructMenu } from "./menu";
 import { getRuntimeMisc } from "../misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
-import { getRuntime } from "../runtime";
 import { preCheckPermissions } from "./checkPermissions";
 
 export class Router {
@@ -200,7 +199,9 @@ export class Router {
       restoreDynamicTemplates(storyboard);
 
       // 预加载权限信息
-      await preCheckPermissions(storyboard);
+      if (isLoggedIn()) {
+        await preCheckPermissions(storyboard);
+      }
 
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
       const subStoryboard = this.locationContext.getSubStoryboardByRoute(

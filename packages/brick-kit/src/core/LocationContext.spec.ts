@@ -92,8 +92,7 @@ describe("LocationContext", () => {
 
   afterEach(() => {
     spyOnIsLoggedIn.mockReset();
-    consoleLog.mockClear();
-    consoleInfo.mockClear();
+    jest.clearAllMocks();
   });
 
   describe("matchStoryboard", () => {
@@ -229,7 +228,7 @@ describe("LocationContext", () => {
       });
       spyOnIsLoggedIn.mockReturnValue(true);
       spyOnGetCurrentContext.mockReturnValueOnce(context.getCurrentContext());
-      const result = await context.mountRoutes(
+      await context.mountRoutes(
         [
           {
             path: "/",
@@ -249,6 +248,28 @@ describe("LocationContext", () => {
       expect(validatePermissions).toHaveBeenCalledWith([
         "cmdb_HOST_instance_update",
       ]);
+    });
+
+    it("should ignore validating permissions if not logged in", async () => {
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      spyOnIsLoggedIn.mockReturnValue(false);
+      await context.mountRoutes(
+        [
+          {
+            path: "/",
+            permissionsPreCheck: ["<% CTX.instanceUpdateAction %>"],
+            bricks: [],
+          },
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+      expect(validatePermissions).not.toBeCalled();
     });
 
     it("should mount if match hit", async () => {
