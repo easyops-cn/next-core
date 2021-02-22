@@ -94,6 +94,9 @@ module.exports = (cwd) => {
         type: "boolean",
         default: true,
       },
+      standalone: {
+        type: "boolean",
+      },
       // Todo(steve): remove `help` and `version` after meow fixed it.
       help: {
         type: "boolean",
@@ -144,7 +147,10 @@ module.exports = (cwd) => {
     flags = cli.flags;
   }
 
-  const { usePublicScope, standalone } = getEasyopsConfig();
+  const { usePublicScope, standalone: confStandalone } = getEasyopsConfig();
+
+  const standalone = confStandalone || flags.standalone;
+
   const useOffline = flags.offline || process.env.OFFLINE === "true";
   const useSubdir = flags.subdir || process.env.SUBDIR === "true";
   const useRemote =

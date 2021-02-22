@@ -2247,6 +2247,11 @@
   resolved "https://registry.npm.taobao.org/@next-bricks/basic-bricks/download/@next-bricks/basic-bricks-1.105.0.tgz#c11792bebe2a8c1a0a0f28f9a1117f214f962488"
   integrity sha1-wReSvr4qjBoKDyj5oRF/IU+WJIg=
 
+"@next-bricks/basic-providers@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.npm.taobao.org/@next-bricks/basic-providers/download/@next-bricks/basic-providers-1.2.4.tgz#39192ec2ac17f654337d6395357959d694cde828"
+  integrity sha1-ORkuwqwX9lQzfWOVNXlZ1pTN6Cg=
+
 "@next-bricks/general-auth@^1.4.12":
   version "1.4.12"
   resolved "https://registry.npm.taobao.org/@next-bricks/general-auth/download/@next-bricks/general-auth-1.4.12.tgz#6c7892b4c69c3c40b8c0fa79dc8bbf55037832a5"
