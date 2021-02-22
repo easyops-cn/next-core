@@ -25,7 +25,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/brick-http": "^2.2.5"
+    "@next-core/brick-http": "^2.2.6"
   },
   "peerDependencies": {
     "@next-core/brick-http": "*"

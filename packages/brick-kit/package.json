@@ -41,7 +41,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@ant-design/icons": "^4.5.0",
-    "@next-core/brick-http": "^2.2.5",
+    "@next-core/brick-http": "^2.2.6",
     "@next-core/brick-utils": "^2.10.8",
     "@next-core/easyops-analytics": "^0.1.5",
     "@next-core/illustrations": "^0.3.5",
