@@ -106,11 +106,9 @@ export function setRealProperties(
   extractProps?: boolean
 ): void {
   for (const [propName, propValue] of Object.entries(realProps)) {
-    if (propName === "style") {
-      for (const [styleName, styleValue] of Object.entries(propValue)) {
-        ((brick.style as unknown) as Record<string, unknown>)[
-          styleName
-        ] = styleValue;
+    if (propName === "style" || propName === "dataset") {
+      for (const [k, v] of Object.entries(propValue)) {
+        ((brick[propName] as unknown) as Record<string, unknown>)[k] = v;
       }
     } else if (propName === "innerHTML") {
       // `innerHTML` is dangerous, use `textContent` instead.
@@ -142,8 +140,11 @@ export function computeRealProperties(
         $$atUseBrickNow: propName === "useBrick",
       });
       if (realValue !== undefined) {
-        // For `style`, only object is acceptable.
-        if (propName !== "style" || isObject(realValue)) {
+        // For `style` and `dataset`, only object is acceptable.
+        if (
+          (propName !== "style" && propName !== "dataset") ||
+          isObject(realValue)
+        ) {
           result[propName] = realValue;
         }
       }
