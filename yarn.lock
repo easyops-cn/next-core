@@ -2252,6 +2252,13 @@
   resolved "https://registry.npm.taobao.org/@next-bricks/general-auth/download/@next-bricks/general-auth-1.4.12.tgz#6c7892b4c69c3c40b8c0fa79dc8bbf55037832a5"
   integrity sha1-bHiStMacPEC4wPp53Iu/VQN4MqU=
 
+"@next-core/babel-runtime-helpers@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.npm.taobao.org/@next-core/babel-runtime-helpers/download/@next-core/babel-runtime-helpers-1.0.7.tgz?cache=0&sync_timestamp=1613960485244&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-core%2Fbabel-runtime-helpers%2Fdownload%2F%40next-core%2Fbabel-runtime-helpers-1.0.7.tgz#55780d246edbe912289241e544cf9a8580536835"
+  integrity sha1-VXgNJG7b6RIokkHlRM+ahYBTaDU=
+  dependencies:
+    "@babel/runtime" "^7.12.18"
+
 "@next-micro-apps/general-auth@^1.0.9":
   version "1.0.9"
   resolved "https://registry.npm.taobao.org/@next-micro-apps/general-auth/download/@next-micro-apps/general-auth-1.0.9.tgz#ad18f28303ef44829228b297c646f51da60aa31d"
