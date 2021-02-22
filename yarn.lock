@@ -2252,6 +2252,21 @@
   resolved "https://registry.npm.taobao.org/@next-bricks/general-auth/download/@next-bricks/general-auth-1.4.12.tgz#6c7892b4c69c3c40b8c0fa79dc8bbf55037832a5"
   integrity sha1-bHiStMacPEC4wPp53Iu/VQN4MqU=
 
+"@next-core/babel-preset-next@^0.6.22":
+  version "0.6.22"
+  resolved "https://registry.npm.taobao.org/@next-core/babel-preset-next/download/@next-core/babel-preset-next-0.6.22.tgz?cache=0&sync_timestamp=1613960488216&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-core%2Fbabel-preset-next%2Fdownload%2F%40next-core%2Fbabel-preset-next-0.6.22.tgz#cc3a78cdf8783680971610c261c59998b46697ea"
+  integrity sha1-zDp4zfh4NoCXFhDCYcWZmLRml+o=
+  dependencies:
+    "@babel/plugin-proposal-class-properties" "^7.12.13"
+    "@babel/plugin-proposal-decorators" "^7.12.13"
+    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.12.13"
+    "@babel/plugin-proposal-optional-chaining" "^7.12.17"
+    "@babel/plugin-proposal-unicode-property-regex" "^7.12.13"
+    "@babel/preset-env" "^7.12.17"
+    "@babel/preset-react" "^7.12.13"
+    "@babel/preset-typescript" "^7.12.17"
+    babel-plugin-import "^1.13.3"
+
 "@next-micro-apps/general-auth@^1.0.9":
   version "1.0.9"
   resolved "https://registry.npm.taobao.org/@next-micro-apps/general-auth/download/@next-micro-apps/general-auth-1.0.9.tgz#ad18f28303ef44829228b297c646f51da60aa31d"

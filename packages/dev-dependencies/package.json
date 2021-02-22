@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.17",
-    "@next-core/babel-preset-next": "^0.6.21",
+    "@next-core/babel-preset-next": "^0.6.22",
     "@next-core/babel-preset-prismjs": "^1.0.5",
     "@next-core/brick-container": "^2.17.1",
     "@next-core/brick-dll": "^2.10.18",
