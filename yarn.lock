@@ -2252,6 +2252,23 @@
   resolved "https://registry.npm.taobao.org/@next-bricks/general-auth/download/@next-bricks/general-auth-1.4.12.tgz#6c7892b4c69c3c40b8c0fa79dc8bbf55037832a5"
   integrity sha1-bHiStMacPEC4wPp53Iu/VQN4MqU=
 
+"@next-core/brick-container@^2.17.2":
+  version "2.17.2"
+  resolved "https://registry.npm.taobao.org/@next-core/brick-container/download/@next-core/brick-container-2.17.2.tgz#f5564200f02de0d2a6ca09e55e8d7ffa63fdb63b"
+  integrity sha1-9VZCAPAt4NKmygnlXo1/+mP9tjs=
+  dependencies:
+    "@next-core/repo-config" "^0.2.1"
+    body-parser "^1.19.0"
+    chalk "^4.1.0"
+    chokidar "^3.5.1"
+    concat-stream "^2.0.0"
+    express "^4.17.1"
+    http-proxy-middleware "^1.0.6"
+    js-yaml "^3.14.1"
+    lodash "^4.17.20"
+    meow "^9.0.0"
+    ws "^7.4.3"
+
 "@next-micro-apps/general-auth@^1.0.9":
   version "1.0.9"
   resolved "https://registry.npm.taobao.org/@next-micro-apps/general-auth/download/@next-micro-apps/general-auth-1.0.9.tgz#ad18f28303ef44829228b297c646f51da60aa31d"
