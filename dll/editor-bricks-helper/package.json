@@ -18,7 +18,7 @@
     "@next-core/editor-bricks-helper": "^0.7.9"
   },
   "devDependencies": {
-    "@next-core/brick-dll": "^2.10.18",
+    "@next-core/brick-dll": "^2.10.19",
     "@next-core/webpack-config-factory": "^2.5.8",
     "@next-dll/react-dnd": "^0.1.24"
   }

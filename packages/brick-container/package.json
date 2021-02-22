@@ -40,7 +40,7 @@
     "ws": "^7.4.3"
   },
   "devDependencies": {
-    "@next-core/brick-dll": "^2.10.18",
+    "@next-core/brick-dll": "^2.10.19",
     "@next-core/brick-icons": "^2.8.1",
     "@next-core/custom-antd-styles": "^1.6.3",
     "@next-core/illustrations": "^0.3.5",
