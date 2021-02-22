@@ -2252,6 +2252,17 @@
   resolved "https://registry.npm.taobao.org/@next-bricks/general-auth/download/@next-bricks/general-auth-1.4.12.tgz#6c7892b4c69c3c40b8c0fa79dc8bbf55037832a5"
   integrity sha1-bHiStMacPEC4wPp53Iu/VQN4MqU=
 
+"@next-core/brick-utils@^2.10.9":
+  version "2.10.9"
+  resolved "https://registry.npm.taobao.org/@next-core/brick-utils/download/@next-core/brick-utils-2.10.9.tgz?cache=0&sync_timestamp=1613960510226&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40next-core%2Fbrick-utils%2Fdownload%2F%40next-core%2Fbrick-utils-2.10.9.tgz#b70cadb64086092cda9ecb4b9f04d3f106046d3a"
+  integrity sha1-twyttkCGCSzanstLnwTT8QYEbTo=
+  dependencies:
+    "@babel/parser" "^7.12.17"
+    "@easyops-cn/brick-next-pipes" "^0.3.10"
+    "@next-core/brick-types" "^2.17.1"
+    file-saver "^2.0.5"
+    path-to-regexp "^6.2.0"
+
 "@next-micro-apps/general-auth@^1.0.9":
   version "1.0.9"
   resolved "https://registry.npm.taobao.org/@next-micro-apps/general-auth/download/@next-micro-apps/general-auth-1.0.9.tgz#ad18f28303ef44829228b297c646f51da60aa31d"
