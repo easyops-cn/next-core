@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.37](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.36...@next-core/dev-dependencies@1.2.37) (2021-02-22)
+
+
+### Bug Fixes
+
+* revert @types/react-dom to v16 ([6a64320](https://github.com/easyops-cn/next-core/commit/6a64320d1b03622db16dacd2ab50416bc9b7b6ab))
+
+
+
+
+
 ## [1.2.36](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.35...@next-core/dev-dependencies@1.2.36) (2021-02-07)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

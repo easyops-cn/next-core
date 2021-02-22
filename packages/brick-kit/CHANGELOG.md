@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.33.0...@next-core/brick-kit@2.33.1) (2021-02-22)
+
+
+### Bug Fixes
+
+* ignore permission pre-checks if not logged in ([a103cd4](https://github.com/easyops-cn/next-core/commit/a103cd49d4959674ab88d0f26963ececd2f2663b))
+* reset permission pre-checks after logged out ([3858869](https://github.com/easyops-cn/next-core/commit/3858869b4987dfe045fb636af5daa5e48d074a6f))
+* support dataset in properties ([babe2b6](https://github.com/easyops-cn/next-core/commit/babe2b68531b6626680ab7f5669b9a4f4cecfaa9))
+
+
+
+
+
 # [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.32.2...@next-core/brick-kit@2.33.0) (2021-02-07)
 
 ### Bug Fixes
