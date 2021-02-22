@@ -46,7 +46,7 @@
     "@next-core/illustrations": "^0.3.5",
     "@next-core/less-plugin-css-variables": "^0.1.5",
     "@next-core/webpack-config-factory": "^2.5.8",
-    "@next-dll/ace": "^2.0.86",
+    "@next-dll/ace": "^2.0.87",
     "@next-dll/d3": "^2.0.19",
     "@next-dll/echarts": "^2.0.20",
     "@next-dll/editor-bricks-helper": "^0.4.19",
