@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.7.11...@next-core/editor-bricks-helper@0.8.0) (2021-02-23)
+
+
+### Features
+
+* **builder-data:** analyse matched selectors for bricks ([d533a3c](https://github.com/easyops-cn/next-core/commit/d533a3c7ad2017d69e85661b4cb897399a7caa27))
+* **builder-data:** parse events ([ffd445b](https://github.com/easyops-cn/next-core/commit/ffd445bc3bf40e7fa356f11a95fc3babd1742f0a))
+
+
+
+
+
 ## [0.7.11](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.7.10...@next-core/editor-bricks-helper@0.7.11) (2021-02-23)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
