@@ -2242,10 +2242,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@next-bricks/basic-bricks@^1.105.0":
-  version "1.105.0"
-  resolved "https://registry.npm.taobao.org/@next-bricks/basic-bricks/download/@next-bricks/basic-bricks-1.105.0.tgz#c11792bebe2a8c1a0a0f28f9a1117f214f962488"
-  integrity sha1-wReSvr4qjBoKDyj5oRF/IU+WJIg=
+"@next-bricks/basic-bricks@^1.106.0":
+  version "1.106.0"
+  resolved "https://registry.npm.taobao.org/@next-bricks/basic-bricks/download/@next-bricks/basic-bricks-1.106.0.tgz#0996c6808b278b0b65aa568dcf443cc460a6821e"
+  integrity sha1-CZbGgIsniwtlqlaNz0Q8xGCmgh4=
 
 "@next-bricks/general-auth@^1.4.12":
   version "1.4.12"
