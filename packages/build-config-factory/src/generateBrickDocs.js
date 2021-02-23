@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const rimraf = require("rimraf");
 const TypeDoc = require("typedoc");
-const { get } = require("lodash");
+const { get,sortBy } = require("lodash");
 const log = require("npmlog");
 const brickKindMap = {
   property: "properties",
@@ -21,6 +21,7 @@ const propertyDocComments = [
   "default",
   "deprecated",
   "description",
+  "group"
 ];
 const baseDocComments = [
   "id",
@@ -190,7 +191,7 @@ function extractBrickDocComplexKind(groups, elementChildren) {
   if (finder.length === 0) return {};
 
   return finder
-    .map((find) => [...find.children])
+    .map((find) => [...sortBy(find.children)])
     .flat()
     .reduce((prev, curr) => {
       const brick = elementChildren.find((e) => e.id === curr);
