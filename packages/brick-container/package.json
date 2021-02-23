@@ -50,7 +50,7 @@
     "@next-dll/d3": "^2.0.19",
     "@next-dll/echarts": "^2.0.20",
     "@next-dll/editor-bricks-helper": "^0.4.19",
-    "@next-dll/react-dnd": "^0.1.24",
+    "@next-dll/react-dnd": "^0.1.25",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.4.1",
