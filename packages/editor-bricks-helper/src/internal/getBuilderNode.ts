@@ -13,6 +13,11 @@ export function getBuilderNode(
 ): BuilderRuntimeNode {
   let parsedProperties: Record<string, unknown>;
   let parsedEvents: BrickEventsMap;
+  const matchedSelectors: string[] = [];
+
+  if (nodeData.brick) {
+    matchedSelectors.push((nodeData.brick as string).replace(/\./g, "\\."));
+  }
 
   if (nodeData.properties) {
     try {
@@ -20,6 +25,14 @@ export function getBuilderNode(
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Parsing properties failed:", nodeData.properties);
+    }
+
+    if (
+      parsedProperties?.id &&
+      typeof parsedProperties.id === "string" &&
+      !/[<{]/.test(parsedProperties.id)
+    ) {
+      matchedSelectors.push(`#${parsedProperties.id}`);
     }
   }
 
@@ -40,6 +53,7 @@ export function getBuilderNode(
         ["$$uid", nodeUid],
         ["$$parsedProperties", parsedProperties ?? {}],
         ["$$parsedEvents", parsedEvents ?? {}],
+        ["$$matchedSelectors", matchedSelectors],
       ])
   ) as BuilderRuntimeNode;
 }

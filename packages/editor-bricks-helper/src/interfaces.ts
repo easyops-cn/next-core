@@ -15,6 +15,7 @@ export type BuilderRuntimeNode<
   $$uid?: number;
   $$parsedProperties?: P;
   $$parsedEvents?: BrickEventsMap;
+  $$matchedSelectors?: string[];
 };
 
 export interface BuilderRuntimeEdge {
