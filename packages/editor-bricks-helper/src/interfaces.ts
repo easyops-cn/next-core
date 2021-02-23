@@ -1,4 +1,7 @@
-import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
+import {
+  BrickEventsMap,
+  BuilderRouteOrBrickNode,
+} from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
   rootId: number;
@@ -11,6 +14,8 @@ export type BuilderRuntimeNode<
 > = BuilderRouteOrBrickNode & {
   $$uid?: number;
   $$parsedProperties?: P;
+  $$parsedEvents?: BrickEventsMap;
+  $$matchedSelectors?: string[];
 };
 
 export interface BuilderRuntimeEdge {
