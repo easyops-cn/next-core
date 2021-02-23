@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.33.1...@next-core/brick-kit@2.34.0) (2021-02-23)
+
+
+### Features
+
+* support if in context ([68c9f34](https://github.com/easyops-cn/next-core/commit/68c9f34f0d427595328b3f5a4974b10e2c72a808))
+
+
+
+
+
 ## [2.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.33.0...@next-core/brick-kit@2.33.1) (2021-02-22)
 
 
