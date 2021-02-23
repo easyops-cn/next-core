@@ -10769,10 +10769,10 @@ node-releases@^1.1.67:
   resolved "https://registry.npm.taobao.org/node-releases/download/node-releases-1.1.67.tgz?cache=0&sync_timestamp=1605581400705&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnode-releases%2Fdownload%2Fnode-releases-1.1.67.tgz#28ebfcccd0baa6aad8e8d4d8fe4cbc49ae239c12"
   integrity sha1-KOv8zNC6pqrY6NTY/ky8Sa4jnBI=
 
-node-stream-zip@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.npm.taobao.org/node-stream-zip/download/node-stream-zip-1.13.1.tgz#2f8f9a360ec7ae23a80744c4c3862bf3aa3e7892"
-  integrity sha1-L4+aNg7HriOoB0TEw4Yr86o+eJI=
+node-stream-zip@^1.13.2:
+  version "1.13.2"
+  resolved "https://registry.npm.taobao.org/node-stream-zip/download/node-stream-zip-1.13.2.tgz?cache=0&sync_timestamp=1614099817501&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnode-stream-zip%2Fdownload%2Fnode-stream-zip-1.13.2.tgz#2fce9d001fa7fda943a906eff239eb83fda124ba"
+  integrity sha1-L86dAB+n/alDqQbv8jnrg/2hJLo=
 
 "nopt@2 || 3":
   version "3.0.6"
