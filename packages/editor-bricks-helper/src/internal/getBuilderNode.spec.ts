@@ -23,6 +23,7 @@ describe("getBuilderNode", () => {
       id: "B-001",
       $$uid: 1,
       $$parsedProperties: {},
+      $$parsedEvents: {},
     });
   });
 
@@ -48,6 +49,7 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       alias: "any-alias",
       $$parsedProperties: {},
+      $$parsedEvents: {},
     });
   });
 
@@ -75,6 +77,7 @@ describe("getBuilderNode", () => {
       $$parsedProperties: {
         pageTitle: "Hello",
       },
+      $$parsedEvents: {},
     });
   });
 
@@ -100,6 +103,63 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       properties: "oops",
       $$parsedProperties: {},
+      $$parsedEvents: {},
+    });
+  });
+
+  it("should parse events successfully", () => {
+    expect(
+      getBuilderNode(
+        {
+          type: "brick",
+          brick: "any-brick",
+          id: "B-001",
+          parent: [],
+          children: [],
+          graphInfo: {},
+          mountPoint: "brick",
+          events: '{"click":{"action":"console.log"}}',
+        },
+        1
+      )
+    ).toEqual({
+      type: "brick",
+      brick: "any-brick",
+      id: "B-001",
+      $$uid: 1,
+      events: '{"click":{"action":"console.log"}}',
+      $$parsedProperties: {},
+      $$parsedEvents: {
+        click: {
+          action: "console.log",
+        },
+      },
+    });
+  });
+
+  it("should cache error if parse events failed", () => {
+    expect(
+      getBuilderNode(
+        {
+          type: "brick",
+          brick: "any-brick",
+          id: "B-001",
+          parent: [],
+          children: [],
+          graphInfo: {},
+          mountPoint: "brick",
+          events: "oops",
+        },
+        1
+      )
+    ).toEqual({
+      type: "brick",
+      brick: "any-brick",
+      id: "B-001",
+      $$uid: 1,
+      events: "oops",
+      $$parsedProperties: {},
+      $$parsedEvents: {},
     });
   });
 });
