@@ -45,7 +45,9 @@ module.exports = (env, app) => {
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
         } else {
-          res.status(404).end();
+          res.status(404).json({
+            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+          });
         }
       });
     });
@@ -63,7 +65,9 @@ module.exports = (env, app) => {
           if (fs.existsSync(filePath)) {
             res.sendFile(filePath);
           } else {
-            res.status(404).end();
+            res.status(404).json({
+              error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+            });
           }
         }
       );
@@ -76,7 +80,9 @@ module.exports = (env, app) => {
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
         } else {
-          res.status(404).end();
+          res.status(404).json({
+            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+          });
         }
       });
     });
@@ -87,7 +93,9 @@ module.exports = (env, app) => {
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
         } else {
-          res.status(404).end();
+          res.status(404).json({
+            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+          });
         }
       });
     });
@@ -98,7 +106,9 @@ module.exports = (env, app) => {
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
         } else {
-          res.status(404).end();
+          res.status(404).json({
+            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+          });
         }
       });
       app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
@@ -161,7 +171,9 @@ module.exports = (env, app) => {
       if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
       } else {
-        res.status(404).end();
+        res.status(404).json({
+          error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+        });
       }
     });
 
@@ -171,7 +183,9 @@ module.exports = (env, app) => {
       if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
       } else {
-        res.status(404).end();
+        res.status(404).json({
+          error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+        });
       }
     });
 
@@ -181,7 +195,9 @@ module.exports = (env, app) => {
       if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
       } else {
-        res.status(404).end();
+        res.status(404).json({
+          error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+        });
       }
     });
   }
@@ -269,7 +285,9 @@ module.exports = (env, app) => {
 
     // 其它 API。
     app.all(`${publicPath}api/*`, (req, res) => {
-      res.status(404).end();
+      res.status(404).json({
+        error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+      });
     });
   }
 };

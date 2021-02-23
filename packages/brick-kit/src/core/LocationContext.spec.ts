@@ -281,7 +281,7 @@ describe("LocationContext", () => {
       });
       spyOnIsLoggedIn.mockReturnValue(true);
 
-      spyOnGetCurrentContext.mockReturnValueOnce(context.getCurrentContext());
+      spyOnGetCurrentContext.mockReturnValue(context.getCurrentContext());
 
       jest
         .spyOn(context.resolver, "resolveOne")
@@ -329,6 +329,16 @@ describe("LocationContext", () => {
                   transform: {
                     value: "even better",
                   },
+                },
+              },
+              {
+                name: "myAsyncContext",
+                resolve: {
+                  provider: "provider-d",
+                  transform: {
+                    value: "turns worse",
+                  },
+                  if: "<% CTX.myFreeContext === 'bad' %>",
                 },
               },
             ],

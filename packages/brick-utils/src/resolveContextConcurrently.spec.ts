@@ -1,4 +1,4 @@
-import { ContextConf, EntityResolveConf } from "@next-core/brick-types";
+import { ContextConf, UseProviderResolveConf } from "@next-core/brick-types";
 import {
   resolveContextConcurrently,
   getDependencyMapOfContext,
@@ -6,30 +6,41 @@ import {
 
 describe("resolveContextConcurrently", () => {
   const fnRequest = jest.fn();
-  const asyncProcess = (contextConf: ContextConf): Promise<void> => {
-    fnRequest(contextConf.name);
+  const asyncProcess = (contextConf: ContextConf): Promise<boolean> => {
+    const contextResolve = contextConf.resolve as UseProviderResolveConf;
+    fnRequest(contextConf.name, contextResolve.useProvider);
     return new Promise((resolve) => {
-      setTimeout(
-        resolve,
-        (contextConf.resolve as EntityResolveConf).args[0] as number
-      );
+      if (contextResolve.if !== false) {
+        setTimeout(() => resolve(true), contextResolve.args[0] as number);
+      } else {
+        resolve(false);
+      }
     });
   };
 
   afterEach(() => {
-    fnRequest.mockClear();
+    jest.clearAllMocks();
   });
 
   it("should resolve context concurrently", async () => {
     // Dependency map:
     //
     // ```
-    //     d
-    //    ↙ ↘
-    //   b   c  f
-    //    ↘ ↙   ↓
-    //     a    e
+    //      d
+    //     ↙ ↘
+    //   b′|b  c  f
+    //  ↙ ↘ ↓ ↙   ↓
+    // x  a′|a    e
     // ```
+    //
+    // Explain:
+    //   - d depends on b(or b′) and c.
+    //   - b′ depends on x and a′.
+    //   - b depends on a(or a′).
+    //   - c depends on a(or a′).
+    //   - f depends on e.
+    //
+    // a′ and b′ will be ignored (by a falsy result of `if`).
     //
     // Resolve in waterfall:
     //
@@ -42,77 +53,104 @@ describe("resolveContextConcurrently", () => {
     //   d                   |====>
     //   e |========>
     //   f           |====>
+    //   x |==>
     // ```
     resolveContextConcurrently(
       [
         {
           name: "a",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeUnresolved",
+            args: [100],
+            if: false,
+          },
+        },
+        {
+          name: "a",
+          resolve: {
+            useProvider: "willBeResolved",
             args: [100],
           },
         },
         {
           name: "b",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeUnresolved",
+            args: [100, "<% CTX.a + CTX.x %>"],
+            if: false,
+          },
+        },
+        {
+          name: "b",
+          resolve: {
+            useProvider: "willBeResolved",
             args: [100, "<% CTX.a + 1 %>"],
           },
         },
         {
           name: "c",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [200, "<% CTX.a + 3 %>"],
           },
         },
         {
           name: "d",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100, "<% CTX.b + CTX.c %>"],
           },
         },
         {
           name: "e",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [150],
           },
         },
         {
           name: "f",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100, "<% CTX.e + 5 %>"],
+          },
+        },
+        {
+          name: "x",
+          resolve: {
+            useProvider: "willBeResolved",
+            args: [50],
           },
         },
       ],
       asyncProcess
     );
 
-    expect(fnRequest).toBeCalledTimes(2);
-    expect(fnRequest).toHaveBeenNthCalledWith(1, "a");
-    expect(fnRequest).toHaveBeenNthCalledWith(2, "e");
+    expect(fnRequest).toBeCalledTimes(4);
+    expect(fnRequest).toHaveBeenNthCalledWith(1, "a", "willBeUnresolved");
+    expect(fnRequest).toHaveBeenNthCalledWith(2, "a", "willBeResolved");
+    expect(fnRequest).toHaveBeenNthCalledWith(3, "e", "willBeResolved");
+    expect(fnRequest).toHaveBeenNthCalledWith(4, "x", "willBeResolved");
 
     jest.advanceTimersByTime(100);
     await (global as any).flushPromises();
 
-    expect(fnRequest).toBeCalledTimes(4);
-    expect(fnRequest).toHaveBeenNthCalledWith(3, "b");
-    expect(fnRequest).toHaveBeenNthCalledWith(4, "c");
+    expect(fnRequest).toBeCalledTimes(7);
+    expect(fnRequest).toHaveBeenNthCalledWith(5, "b", "willBeUnresolved");
+    expect(fnRequest).toHaveBeenNthCalledWith(6, "b", "willBeResolved");
+    expect(fnRequest).toHaveBeenNthCalledWith(7, "c", "willBeResolved");
 
     jest.advanceTimersByTime(50);
     await (global as any).flushPromises();
 
-    expect(fnRequest).toBeCalledTimes(5);
-    expect(fnRequest).toHaveBeenNthCalledWith(5, "f");
+    expect(fnRequest).toBeCalledTimes(8);
+    expect(fnRequest).toHaveBeenNthCalledWith(8, "f", "willBeResolved");
 
     jest.advanceTimersByTime(150);
     await (global as any).flushPromises();
 
-    expect(fnRequest).toBeCalledTimes(6);
-    expect(fnRequest).toHaveBeenNthCalledWith(6, "d");
+    expect(fnRequest).toBeCalledTimes(9);
+    expect(fnRequest).toHaveBeenNthCalledWith(9, "d", "willBeResolved");
   });
 
   it("should resolve context sequentially if computed CTX accesses detected", async () => {
@@ -128,21 +166,21 @@ describe("resolveContextConcurrently", () => {
         {
           name: "a",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100],
           },
         },
         {
           name: "b",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100, "<% CTX.a + 1 %>"],
           },
         },
         {
           name: "c",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100, "<% CTX['x'] + 3 %>"],
           },
         },
@@ -151,19 +189,19 @@ describe("resolveContextConcurrently", () => {
     );
 
     expect(fnRequest).toBeCalledTimes(1);
-    expect(fnRequest).toHaveBeenNthCalledWith(1, "a");
+    expect(fnRequest).toHaveBeenNthCalledWith(1, "a", "willBeResolved");
 
     jest.advanceTimersByTime(100);
     await (global as any).flushPromises();
 
     expect(fnRequest).toBeCalledTimes(2);
-    expect(fnRequest).toHaveBeenNthCalledWith(2, "b");
+    expect(fnRequest).toHaveBeenNthCalledWith(2, "b", "willBeResolved");
 
     jest.advanceTimersByTime(100);
     await (global as any).flushPromises();
 
     expect(fnRequest).toBeCalledTimes(3);
-    expect(fnRequest).toHaveBeenNthCalledWith(3, "c");
+    expect(fnRequest).toHaveBeenNthCalledWith(3, "c", "willBeResolved");
   });
 
   it("should throw if circular CTX detected", async () => {
@@ -173,21 +211,21 @@ describe("resolveContextConcurrently", () => {
         {
           name: "a",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100],
           },
         },
         {
           name: "b",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100, "<% CTX.c + 1 %>"],
           },
         },
         {
           name: "c",
           resolve: {
-            useProvider: "setTimeout",
+            useProvider: "willBeResolved",
             args: [100, "<% CTX.b + 3 %>"],
           },
         },
@@ -196,6 +234,35 @@ describe("resolveContextConcurrently", () => {
     ).catch((error) => {
       expect(error).toMatchInlineSnapshot(
         `[ReferenceError: Circular CTX detected: b, c]`
+      );
+    });
+    jest.advanceTimersByTime(100);
+    await (global as any).flushPromises();
+  });
+
+  it("should throw if duplicated context defined", async () => {
+    expect.assertions(1);
+    resolveContextConcurrently(
+      [
+        {
+          name: "a",
+          resolve: {
+            useProvider: "willBeResolved",
+            args: [100],
+          },
+        },
+        {
+          name: "a",
+          resolve: {
+            useProvider: "willBeResolved",
+            args: [100],
+          },
+        },
+      ],
+      asyncProcess
+    ).catch((error) => {
+      expect(error).toMatchInlineSnapshot(
+        `[Error: Duplicated context defined: a]`
       );
     });
     jest.advanceTimersByTime(100);
@@ -245,49 +312,49 @@ describe("getDependencyMapOfContext", () => {
     ).toEqual(
       new Map([
         [
-          "a",
+          expect.objectContaining({ name: "a" }),
           expect.objectContaining({
             dependencies: [],
             includesComputed: false,
           }),
         ],
         [
-          "b",
+          expect.objectContaining({ name: "b" }),
           expect.objectContaining({
             dependencies: ["a"],
             includesComputed: false,
           }),
         ],
         [
-          "c",
+          expect.objectContaining({ name: "c" }),
           expect.objectContaining({
             dependencies: ["a"],
             includesComputed: false,
           }),
         ],
         [
-          "d",
+          expect.objectContaining({ name: "d" }),
           expect.objectContaining({
             dependencies: ["b", "c"],
             includesComputed: false,
           }),
         ],
         [
-          "e",
+          expect.objectContaining({ name: "e" }),
           expect.objectContaining({
             dependencies: [],
             includesComputed: false,
           }),
         ],
         [
-          "f",
+          expect.objectContaining({ name: "f" }),
           expect.objectContaining({
             dependencies: ["e"],
             includesComputed: true,
           }),
         ],
         [
-          "g",
+          expect.objectContaining({ name: "g" }),
           expect.objectContaining({
             dependencies: ["x"],
             includesComputed: false,

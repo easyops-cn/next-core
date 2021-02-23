@@ -6,6 +6,23 @@ imports:
 - '@next-bricks/basic-bricks'
 routes:
 - path: ${APP.homepage}
+  context:
+  - name: myExtData
+    value: '<% CTX.myData.quality %>'
+  - name: myData
+    resolve:
+      useProvider: 'basic-providers.provider-http-proxy'
+      args:
+      - serviceName: 'testService'
+        api: 'testApiOne'
+      if: '<% FLAGS["my-flag"] %>'
+  - name: myData
+    resolve:
+      useProvider: 'basic-providers.provider-http-proxy'
+      args:
+      - serviceName: 'testService'
+        api: 'testApiTwo'
+      if: '<% !FLAGS["my-flag"] %>'
   bricks:
   - brick: basic-bricks.micro-view
     properties:
@@ -29,6 +46,10 @@ routes:
             general.button.click:
               action: history.push
               args: [/car-store]
+
+        - brick: pre
+          properties:
+            textContent: '<% JSON.stringify(CTX.myExtData ?? "undefined", null, 2) %>'
 
   menu:
     sidebarMenu:
