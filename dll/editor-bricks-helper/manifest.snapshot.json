@@ -30,6 +30,7 @@
           "SlotContainer",
           "getSortedIdsAfterDropped",
           "useBuilderContextMenuStatus",
+          "useBuilderData",
           "useBuilderDataManager",
           "useBuilderGroupedChildNodes",
           "useBuilderNode",
