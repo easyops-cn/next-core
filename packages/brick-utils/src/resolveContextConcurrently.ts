@@ -29,12 +29,14 @@ export async function resolveContextConcurrently(
     await scheduleNext();
   };
 
+  let scheduleAsSerial = includesComputed;
+
   async function scheduleNext(): Promise<void> {
     const readyContexts = Array.from(dependencyMap.entries())
       .filter((entry, index) =>
         // When contexts contain computed CTX accesses, it implies a dynamic dependency map.
         // So make them process sequentially, keep the same behavior as before.
-        includesComputed
+        scheduleAsSerial
           ? index === 0
           : // A context is ready when it has no pending dependencies.
             !entry[1].dependencies.some((dep) => pendingDeps.has(dep))
@@ -46,13 +48,17 @@ export async function resolveContextConcurrently(
 
   await scheduleNext();
 
-  // If there are still contexts left, it implies circular CTXs.
+  // If there are still contexts left, it implies one of these situations:
+  //   - Circular contexts.
+  //     Such as: a depends on b, while b depends on a.
+  //   - Related contexts are all ignored.
+  //     Such as: a depends on b,
+  //     while both them are ignore by a falsy result of `if`.
   if (dependencyMap.size > 0) {
-    throw new ReferenceError(
-      `Circular CTX detected: ${Array.from(dependencyMap.keys())
-        .map((contextConf) => contextConf.name)
-        .join(", ")}`
-    );
+    // This will throw if circular contexts detected.
+    detectCircularContexts(dependencyMap);
+    scheduleAsSerial = true;
+    await scheduleNext();
   }
 }
 
@@ -119,5 +125,36 @@ function collectContexts(
         collectContexts(item, stats, memo);
       }
     }
+  }
+}
+
+function detectCircularContexts(
+  dependencyMap: Map<ContextConf, ContextStatistics>
+): void {
+  const duplicatedMap = new Map(dependencyMap);
+  const pendingDeps = new Set<string>(
+    Array.from(duplicatedMap.keys()).map((contextConf) => contextConf.name)
+  );
+  const next = (): void => {
+    let processedAtLeastOne = false;
+    for (const [contextConf, stats] of duplicatedMap.entries()) {
+      if (!stats.dependencies.some((dep) => pendingDeps.has(dep))) {
+        duplicatedMap.delete(contextConf);
+        pendingDeps.delete(contextConf.name);
+        processedAtLeastOne = true;
+      }
+    }
+    if (processedAtLeastOne) {
+      next();
+    }
+  };
+  next();
+
+  if (duplicatedMap.size > 0) {
+    throw new ReferenceError(
+      `Circular CTX detected: ${Array.from(duplicatedMap.keys())
+        .map((contextConf) => contextConf.name)
+        .join(", ")}`
+    );
   }
 }

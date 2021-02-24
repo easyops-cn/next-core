@@ -204,6 +204,34 @@ describe("resolveContextConcurrently", () => {
     expect(fnRequest).toHaveBeenNthCalledWith(3, "c", "willBeResolved");
   });
 
+  it("should work when related contexts are all ignored", async () => {
+    resolveContextConcurrently(
+      [
+        {
+          name: "a",
+          resolve: {
+            useProvider: "willBeUnresolved",
+            args: [100],
+            if: false,
+          },
+        },
+        {
+          name: "b",
+          resolve: {
+            useProvider: "willBeUnresolved",
+            args: [100, "<% CTX.a + 1 %>"],
+            if: false,
+          },
+        },
+      ],
+      asyncProcess
+    );
+    await (global as any).flushPromises();
+    expect(fnRequest).toBeCalledTimes(2);
+    expect(fnRequest).toHaveBeenNthCalledWith(1, "a", "willBeUnresolved");
+    expect(fnRequest).toHaveBeenNthCalledWith(2, "b", "willBeUnresolved");
+  });
+
   it("should throw if circular CTX detected", async () => {
     expect.assertions(1);
     resolveContextConcurrently(
