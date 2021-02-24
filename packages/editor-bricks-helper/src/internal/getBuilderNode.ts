@@ -1,7 +1,5 @@
-import {
-  BrickEventsMap,
-  BuilderRouteOrBrickNode,
-} from "@next-core/brick-types";
+import { upperFirst } from "lodash";
+import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
 
 const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];
@@ -11,37 +9,37 @@ export function getBuilderNode(
   nodeUid: number,
   nodeAlias?: string
 ): BuilderRuntimeNode {
-  let parsedProperties: Record<string, unknown>;
-  let parsedEvents: BrickEventsMap;
   const matchedSelectors: string[] = [];
 
   if (nodeData.brick) {
     matchedSelectors.push((nodeData.brick as string).replace(/\./g, "\\."));
   }
 
-  if (nodeData.properties) {
-    try {
-      parsedProperties = JSON.parse(nodeData.properties as string);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Parsing properties failed:", nodeData.properties);
+  const jsonFieldsInBrick = ["properties", "events", "proxy"];
+  const parsedFields: [string, unknown][] = [];
+
+  for (const field of jsonFieldsInBrick) {
+    let parsed;
+    const value = nodeData[field] as string;
+    if (value) {
+      try {
+        parsed = JSON.parse(value);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(`Parsing ${field} failed:`, value);
+      }
     }
+    parsedFields.push([`$$parsed${upperFirst(field)}`, parsed ?? {}]);
 
     if (
-      parsedProperties?.id &&
-      typeof parsedProperties.id === "string" &&
-      !/[<{]/.test(parsedProperties.id)
+      field === "properties" &&
+      parsed?.id &&
+      typeof parsed.id === "string" &&
+      // Ignore evaluations and placeholders,
+      // E.g.: `<% QUERY.x %>` or `${QUERY.x}`.
+      !/[<{]/.test(parsed.id)
     ) {
-      matchedSelectors.push(`#${parsedProperties.id}`);
-    }
-  }
-
-  if (nodeData.events) {
-    try {
-      parsedEvents = JSON.parse(nodeData.events as string);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Parsing events failed:", nodeData.events);
+      matchedSelectors.push(`#${parsed.id}`);
     }
   }
 
@@ -51,9 +49,8 @@ export function getBuilderNode(
       .concat([
         ["alias", nodeAlias ?? nodeData.alias],
         ["$$uid", nodeUid],
-        ["$$parsedProperties", parsedProperties ?? {}],
-        ["$$parsedEvents", parsedEvents ?? {}],
         ["$$matchedSelectors", matchedSelectors],
       ])
+      .concat(parsedFields)
   ) as BuilderRuntimeNode;
 }

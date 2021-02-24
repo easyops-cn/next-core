@@ -624,11 +624,25 @@ export interface BuilderBrickNode extends BuilderBaseNode {
     // (undocumented)
     brick: string;
     // (undocumented)
+    events?: string;
+    // (undocumented)
     portal?: boolean;
     // (undocumented)
     properties?: string;
     // (undocumented)
     type: "brick" | "provider" | "template";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "BuilderCustomTemplateNode" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface BuilderCustomTemplateNode extends BuilderBaseNode {
+    // (undocumented)
+    proxy?: string;
+    // (undocumented)
+    templateId: string;
+    // (undocumented)
+    type: "custom-template";
 }
 
 // Warning: (ae-internal-missing-underscore) The name "BuilderRouteNode" should be prefixed with an underscore because the declaration is marked as @internal
@@ -654,7 +668,7 @@ export interface BuilderRouteNode extends BuilderBaseNode {
 // Warning: (ae-internal-missing-underscore) The name "BuilderRouteOrBrickNode" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode;
+export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode | BuilderCustomTemplateNode;
 
 // @public
 export interface BuiltinBrickEventHandler {

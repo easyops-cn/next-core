@@ -1,6 +1,7 @@
 import {
   BrickEventsMap,
   BuilderRouteOrBrickNode,
+  CustomTemplateProxy,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
@@ -15,6 +16,7 @@ export type BuilderRuntimeNode<
   $$uid?: number;
   $$parsedProperties?: P;
   $$parsedEvents?: BrickEventsMap;
+  $$parsedProxy?: CustomTemplateProxy;
   $$matchedSelectors?: string[];
 };
 

@@ -1,5 +1,8 @@
 /** @internal */
-export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode;
+export type BuilderRouteOrBrickNode =
+  | BuilderBrickNode
+  | BuilderRouteNode
+  | BuilderCustomTemplateNode;
 
 /** @internal */
 export interface BuilderBaseNode {
@@ -28,6 +31,14 @@ export interface BuilderBrickNode extends BuilderBaseNode {
   type: "brick" | "provider" | "template";
   brick: string;
   properties?: string;
+  events?: string;
   bg?: boolean;
   portal?: boolean;
+}
+
+/** @internal */
+export interface BuilderCustomTemplateNode extends BuilderBaseNode {
+  type: "custom-template";
+  templateId: string;
+  proxy?: string;
 }
