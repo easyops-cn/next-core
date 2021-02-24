@@ -175,7 +175,7 @@ class ApiAnalysisService {
     const { config, error: err } = error;
     const et = Date.now();
     const duration = et - config.meta.st;
-    const code = "" as any;
+    const code = -1 as any;
     const msg = "";
     let status = "" as any;
     let traceId = "";
