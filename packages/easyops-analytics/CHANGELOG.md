@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.1.6...@next-core/easyops-analytics@0.1.7) (2021-02-24)
+
+
+### Bug Fixes
+
+* set `code` default value as -1 ([4cdf39b](https://github.com/easyops-cn/next-core/commit/4cdf39bdb7268c756b8f22c7f41939d5aed1cafd))
+
+
+
+
+
 ## [0.1.6](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.1.5...@next-core/easyops-analytics@0.1.6) (2021-02-22)
 
 **Note:** Version bump only for package @next-core/easyops-analytics

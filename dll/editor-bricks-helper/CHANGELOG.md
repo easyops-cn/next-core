@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.4.23...@next-dll/editor-bricks-helper@0.5.0) (2021-02-24)
+
+
+### Features
+
+* support nodes of custom template ([633e673](https://github.com/easyops-cn/next-core/commit/633e6735ee26669b3261e431fb0a3985c3ac8ba7))
+
+
+
+
+
 ## [0.4.23](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.4.22...@next-dll/editor-bricks-helper@0.4.23) (2021-02-24)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
