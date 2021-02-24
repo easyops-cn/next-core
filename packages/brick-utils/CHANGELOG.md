@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.11.0...@next-core/brick-utils@2.11.1) (2021-02-24)
+
+
+### Bug Fixes
+
+* fix detecting circular contexts ([446fe13](https://github.com/easyops-cn/next-core/commit/446fe13e7023e446b5e5d0c3ad6a754f086b1b95))
+
+
+
+
+
 # [2.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.10.9...@next-core/brick-utils@2.11.0) (2021-02-23)
 
 
