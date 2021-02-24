@@ -6804,10 +6804,10 @@ escodegen@^1.14.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-prettier@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.npm.taobao.org/eslint-config-prettier/download/eslint-config-prettier-8.0.0.tgz?cache=0&sync_timestamp=1613905146074&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-prettier%2Fdownload%2Feslint-config-prettier-8.0.0.tgz#024d661444319686c588c8849c8da33815dbdb1c"
-  integrity sha1-Ak1mFEQxlobFiMiEnI2jOBXb2xw=
+eslint-config-prettier@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.npm.taobao.org/eslint-config-prettier/download/eslint-config-prettier-8.1.0.tgz?cache=0&sync_timestamp=1614187161066&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-prettier%2Fdownload%2Feslint-config-prettier-8.1.0.tgz#4ef1eaf97afe5176e6a75ddfb57c335121abc5a6"
+  integrity sha1-TvHq+Xr+UXbmp13ftXwzUSGrxaY=
 
 eslint-plugin-react-hooks@^4.2.0:
   version "4.2.0"
