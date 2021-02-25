@@ -190,8 +190,8 @@ function extractBrickDocComplexKind(groups, elementChildren) {
   );
   if (finder.length === 0) return {};
 
-  return finder
-    .map((find) => [...sortBy(find.children)])
+  const brickConf = finder
+    .map((find) => [...find.children])
     .flat()
     .reduce((prev, curr) => {
       const brick = elementChildren.find((e) => e.id === curr);
@@ -210,6 +210,15 @@ function extractBrickDocComplexKind(groups, elementChildren) {
 
       return prev;
     }, {});
+
+    // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
+   const propertieList = brickConf[brickKindMap.property];
+   return !!propertieList ? {
+     ...brickConf,
+     [brickKindMap.property]: sortBy(propertieList, (item) => {
+      return elementChildren.find(child => child.name === item.name)?.id
+    })
+   } : brickConf
 }
 
 function existBrickDocId(element) {
