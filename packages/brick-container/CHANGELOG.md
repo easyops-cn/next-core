@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.4...@next-core/brick-container@2.18.5) (2021-02-25)
+
+
+### Bug Fixes
+
+* **serve:** getEnv path ([a9e70bb](https://github.com/easyops-cn/next-core/commit/a9e70bb8de33a33ab6873e82aa26fd645f619588))
+
+
+
+
+
 ## [2.18.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.3...@next-core/brick-container@2.18.4) (2021-02-25)
 
 **Note:** Version bump only for package @next-core/brick-container
