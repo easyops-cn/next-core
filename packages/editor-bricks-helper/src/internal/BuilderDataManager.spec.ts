@@ -284,6 +284,63 @@ describe("BuilderDataManager", () => {
     unlistenOnDataChange();
   });
 
+  it("should update context", () => {
+    const listenOnDataChange = jest.fn();
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
+    manager.contextUpdated({
+      context: [
+        {
+          name: "data-1",
+          value: "<% QUERY.id %>",
+        },
+        {
+          name: "data-2",
+          resolve: {
+            useProvider: "provider-a",
+            args: ["arg1"],
+            transform: {
+              value: "<% DATA %>",
+            },
+          },
+        },
+      ],
+    });
+    const newData = manager.getData();
+    expect(newData.nodes[0]).toMatchInlineSnapshot(`
+      Object {
+        "$$matchedSelectors": Array [],
+        "$$parsedEvents": Object {},
+        "$$parsedProperties": Object {},
+        "$$parsedProxy": Object {},
+        "$$uid": 1,
+        "alias": undefined,
+        "context": Array [
+          Object {
+            "name": "data-1",
+            "value": "<% QUERY.id %>",
+          },
+          Object {
+            "name": "data-2",
+            "resolve": Object {
+              "args": Array [
+                "arg1",
+              ],
+              "transform": Object {
+                "value": "<% DATA %>",
+              },
+              "useProvider": "provider-a",
+            },
+          },
+        ],
+        "id": "B-001",
+        "path": "/home",
+        "type": "bricks",
+      }
+    `);
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnDataChange();
+  });
+
   it("should move nodes inside a mount point", () => {
     const listenOnNodeMove = jest.fn();
     const listenOnDataChange = jest.fn();

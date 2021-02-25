@@ -1,3 +1,5 @@
+import { ContextConf } from "./manifest";
+
 /** @internal */
 export type BuilderRouteOrBrickNode =
   | BuilderBrickNode
@@ -24,6 +26,7 @@ export interface BuilderRouteNode extends BuilderBaseNode {
   segues?: string;
   defineResolves?: string;
   redirect?: string;
+  context?: ContextConf[];
 }
 
 /** @internal */
@@ -34,6 +37,7 @@ export interface BuilderBrickNode extends BuilderBaseNode {
   events?: string;
   bg?: boolean;
   portal?: boolean;
+  context?: ContextConf[];
 }
 
 /** @internal */
