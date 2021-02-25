@@ -147,7 +147,13 @@ module.exports = (cwd) => {
     flags = cli.flags;
   }
 
-  const { usePublicScope, standalone: confStandalone } = getEasyopsConfig();
+  const rootDir = path.join(__dirname, "../../..");
+  const contextDir = cwd || rootDir;
+  const nextRepoDir = getBrickNextDir();
+
+  const { usePublicScope, standalone: confStandalone } = getEasyopsConfig(
+    nextRepoDir
+  );
 
   const standalone = confStandalone || flags.standalone;
 
@@ -184,8 +190,6 @@ module.exports = (cwd) => {
     ? process.env.LOCAL_TEMPLATES.split(",")
     : [];
 
-  const rootDir = path.join(__dirname, "../../..");
-  const contextDir = cwd || rootDir;
   const useLocalSettings =
     flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
@@ -219,7 +223,6 @@ module.exports = (cwd) => {
     return {};
   }
 
-  const nextRepoDir = getBrickNextDir();
   const microAppsDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
