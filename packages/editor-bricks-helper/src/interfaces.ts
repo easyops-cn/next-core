@@ -2,6 +2,7 @@ import {
   BrickEventsMap,
   BuilderRouteOrBrickNode,
   CustomTemplateProxy,
+  ContextConf,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
@@ -39,6 +40,10 @@ export interface EventDetailOfNodeAdd {
   nodeIds: string[];
   nodeAlias: string;
   nodeData: NodeInstance;
+}
+
+export interface EventDetailOfContextUpdated {
+  context: ContextConf[];
 }
 
 export interface NodeInstance {

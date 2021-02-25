@@ -11,6 +11,7 @@ import {
   EventDetailOfNodeAddStored,
   EventDetailOfNodeMove,
   EventDetailOfNodeReorder,
+  EventDetailOfContextUpdated,
 } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -154,6 +155,18 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_MOVE, { detail })
+    );
+  }
+
+  contextUpdated(detail: EventDetailOfContextUpdated): void {
+    const { rootId, nodes } = this.data;
+    const rootNode = nodes.find((node) => node.$$uid === rootId);
+    rootNode.context = detail.context;
+    this.data = {
+      ...this.data,
+    };
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
     );
   }
 

@@ -624,6 +624,8 @@ export interface BuilderBrickNode extends BuilderBaseNode {
     // (undocumented)
     brick: string;
     // (undocumented)
+    context?: ContextConf[];
+    // (undocumented)
     events?: string;
     // (undocumented)
     portal?: boolean;
@@ -649,6 +651,8 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
 //
 // @internal (undocumented)
 export interface BuilderRouteNode extends BuilderBaseNode {
+    // (undocumented)
+    context?: ContextConf[];
     // (undocumented)
     defineResolves?: string;
     // (undocumented)
