@@ -216,7 +216,8 @@ function extractBrickDocComplexKind(groups, elementChildren) {
    return !!propertieList ? {
      ...brickConf,
      [brickKindMap.property]: sortBy(propertieList, (item) => {
-      return elementChildren.find(child => child.name === item.name)?.id
+       const find = elementChildren.find(child => child.name === item.name);
+      return find && find.id;
     })
    } : brickConf
 }
