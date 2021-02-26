@@ -159,11 +159,13 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   contextUpdated(detail: EventDetailOfContextUpdated): void {
-    const { rootId, nodes } = this.data;
-    const rootNode = nodes.find((node) => node.$$uid === rootId);
-    rootNode.context = detail.context;
+    const { rootId, nodes, edges } = this.data;
     this.data = {
-      ...this.data,
+      rootId,
+      edges,
+      nodes: nodes.map((node) =>
+        node.$$uid === rootId ? { ...node, context: detail.context } : node
+      ),
     };
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
