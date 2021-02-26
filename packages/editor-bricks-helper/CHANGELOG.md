@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.10.0...@next-core/editor-bricks-helper@0.10.1) (2021-02-26)
+
+
+### Bug Fixes
+
+* **builder-date-manager:** update nodes when context is updated ([5181890](https://github.com/easyops-cn/next-core/commit/5181890d7c0f62af81737161b07d9c4925a62721))
+
+
+
+
+
 # [0.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.9.0...@next-core/editor-bricks-helper@0.10.0) (2021-02-25)
 
 
