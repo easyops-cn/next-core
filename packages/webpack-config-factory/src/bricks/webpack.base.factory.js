@@ -44,14 +44,13 @@ const highlight = (code, lang) => {
   return code;
 };
 
-const getImageLoaderOptions = (distPublicPath) => ({
+const getImageLoaderOptions = () => ({
   use: [
     {
       loader: "url-loader",
       options: {
         name: "assets/[name].[hash:8].[ext]",
         limit: 8192,
-        publicPath: distPublicPath,
         esModule: false,
       },
     },
@@ -68,9 +67,9 @@ module.exports = (isForEditors) => ({
   const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
   const distPublicPath = pkgRelativeRoot
     .split(path.sep)
-    .concat(isForEditors ? ["dist", "editors"] : ["dist"])
+    .concat(isForEditors ? ["dist", "editors/"] : ["dist/"])
     .join("/");
-  const imageLoaderOptions = getImageLoaderOptions(distPublicPath);
+  const imageLoaderOptions = getImageLoaderOptions();
 
   const packageJson = require(path.join(cwdDirname, "package.json"));
   const packageName = packageJson.name.split("/")[1];
@@ -93,7 +92,7 @@ module.exports = (isForEditors) => ({
       // a temporary directory `dist-editors`.
       // And later to be merged into `dist/editors` during post-building.
       path: path.join(cwdDirname, isForEditors ? "dist-editors" : "dist"),
-      // publicPath: "/"
+      publicPath: distPublicPath,
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
@@ -165,7 +164,6 @@ module.exports = (isForEditors) => ({
               loader: "file-loader",
               options: {
                 name: "assets/[name].[hash:8].[ext]",
-                publicPath: distPublicPath,
               },
             },
           ],
