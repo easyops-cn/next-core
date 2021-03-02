@@ -3461,6 +3461,8 @@
           "scanBricksInBrickConf",
           "scanBricksInStoryboard",
           "scanCustomApisInStoryboard",
+          "scanI18NInAny",
+          "scanI18NInStoryboard",
           "scanPermissionActionsInAny",
           "scanPermissionActionsInStoryboard",
           "scanProcessorsInAny",
