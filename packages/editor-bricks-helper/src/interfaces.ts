@@ -134,6 +134,7 @@ export interface AbstractBuilderDataManager {
   nodeReorder(detail: EventDetailOfNodeReorder): void;
   nodeDelete(detail: BuilderRuntimeNode): void;
   nodeClick(detail: BuilderRuntimeNode): void;
+  contextUpdated(detail: EventDetailOfContextUpdated): void;
   onDataChange(fn: EventListener): () => void;
   onNodeAdd(fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void): () => void;
   onNodeReorder(
