@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.10.25...@next-core/brick-dll@2.11.0) (2021-03-02)
+
+
+### Features
+
+* export pipes from brick-utils ([6a69309](https://github.com/easyops-cn/next-core/commit/6a69309432e7234dba1e6e4a843d174e4f7dc81a))
+* scan i18n in storyboard ([57f18ad](https://github.com/easyops-cn/next-core/commit/57f18ad94da2e080631d218934ea5c77b9933b62))
+
+
+
+
+
 ## [2.10.25](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.10.24...@next-core/brick-dll@2.10.25) (2021-03-02)
 
 **Note:** Version bump only for package @next-core/brick-dll
