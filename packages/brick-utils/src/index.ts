@@ -17,4 +17,5 @@ export * from "./placeholder";
 export * from "./cook";
 export * from "./resolveContextConcurrently";
 export * from "./scanCustomApisInStoryboard";
+export * from "./smartDisplayForEvaluableString";
 export { scanStoryboard } from "./scanStoryboard";
