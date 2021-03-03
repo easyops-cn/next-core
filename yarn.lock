@@ -2974,10 +2974,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/fs-extra@^9.0.7":
-  version "9.0.7"
-  resolved "https://registry.npm.taobao.org/@types/fs-extra/download/@types/fs-extra-9.0.7.tgz#a9ef2ffdab043def080c5bec94c03402f793577f"
-  integrity sha1-qe8v/asEPe8IDFvslMA0AveTV38=
+"@types/fs-extra@^9.0.8":
+  version "9.0.8"
+  resolved "https://registry.npm.taobao.org/@types/fs-extra/download/@types/fs-extra-9.0.8.tgz?cache=0&sync_timestamp=1614593358023&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Ffs-extra%2Fdownload%2F%40types%2Ffs-extra-9.0.8.tgz#32c3c07ddf8caa5020f84b5f65a48470519f78ba"
+  integrity sha1-MsPAfd+MqlAg+EtfZaSEcFGfeLo=
   dependencies:
     "@types/node" "*"
 
