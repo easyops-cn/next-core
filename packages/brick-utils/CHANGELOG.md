@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.12.0...@next-core/brick-utils@2.12.1) (2021-03-03)
+
+
+### Bug Fixes
+
+* **i18n:** scan i18n in menus ([34f615d](https://github.com/easyops-cn/next-core/commit/34f615d6d7322efbcccf08f7355d09adb0999c02))
+
+
+
+
+
 # [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.11.3...@next-core/brick-utils@2.12.0) (2021-03-02)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.10.2...@next-core/editor-bricks-helper@0.10.3) (2021-03-03)
+
+
+### Bug Fixes
+
+* add a missing api of AbstractBuilderDataManager ([0d7906c](https://github.com/easyops-cn/next-core/commit/0d7906cd72b3a8788bf397a6103e3eca20a4000e))
+
+
+
+
+
 ## [0.10.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.10.1...@next-core/editor-bricks-helper@0.10.2) (2021-03-02)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
