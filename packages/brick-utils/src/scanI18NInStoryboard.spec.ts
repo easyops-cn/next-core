@@ -39,6 +39,16 @@ describe("scanI18NInStoryboard", () => {
             ],
           },
         ],
+        menus: [
+          {
+            menuId: "menu-a",
+            items: [
+              {
+                text: "<% I18N('MY_KEY_M') %>",
+              },
+            ],
+          },
+        ],
       },
       app: {
         defaultConfig: {
@@ -55,6 +65,7 @@ describe("scanI18NInStoryboard", () => {
       ["MY_KEY_C", ["My key c", "My key c v2"]],
       ["MY_KEY_D", []],
       ["MY_KEY_A", []],
+      ["MY_KEY_M", []],
     ]);
   });
 });
