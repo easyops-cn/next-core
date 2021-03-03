@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.11.1...@next-core/brick-dll@2.12.0) (2021-03-03)
+
+
+### Features
+
+* get smart display for an evaluable string ([474c181](https://github.com/easyops-cn/next-core/commit/474c1815c6c35c53d8c7b2c54aed9d1a15a267de))
+
+
+
+
+
 ## [2.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.11.0...@next-core/brick-dll@2.11.1) (2021-03-03)
 
 **Note:** Version bump only for package @next-core/brick-dll
