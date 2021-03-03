@@ -3473,6 +3473,7 @@
           "scanTemplatesInBrick",
           "scanTemplatesInStoryboard",
           "shouldAllowRecursiveEvaluations",
+          "smartDisplayForEvaluableString",
           "toPath",
           "transform"
         ]
