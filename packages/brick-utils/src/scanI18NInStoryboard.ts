@@ -9,12 +9,25 @@ interface ESTreeStringLiteral {
   value: string;
 }
 
+interface MetaOfStoryboardToBuild {
+  // The storyboard built by `nextBuilder.buildStoryboard` contains
+  // data of menus, which will be passed to the build-&-push API.
+  menus?: Record<string, unknown>[];
+}
+
 const I18N = "I18N";
 
 export function scanI18NInStoryboard(
   storyboard: Storyboard
 ): Map<string, Set<string>> {
-  return scanI18NInAny([storyboard.routes, storyboard.meta?.customTemplates]);
+  // Notice: `menus` may contain evaluations of I18N too.
+  return scanI18NInAny([
+    storyboard.routes,
+    storyboard.meta && [
+      storyboard.meta.customTemplates,
+      ((storyboard.meta as unknown) as MetaOfStoryboardToBuild).menus,
+    ],
+  ]);
 }
 
 export function scanI18NInAny(data: unknown): Map<string, Set<string>> {
@@ -33,15 +46,16 @@ function collectProcessors(
       preevaluate(data, {
         visitors: {
           CallExpression: (node: CallExpression, state, callback) => {
-            let keyNode: ESTreeStringLiteral;
-            let defaultNode: ESTreeStringLiteral;
+            const [
+              keyNode,
+              defaultNode,
+            ] = (node.arguments as unknown) as ESTreeStringLiteral[];
             if (
               node.callee.type === "Identifier" &&
               node.callee.name === I18N &&
-              node.arguments.length > 0 &&
-              ((keyNode = (node
-                .arguments[0] as unknown) as ESTreeStringLiteral),
-              keyNode.type === "Literal" && typeof keyNode.value === "string")
+              keyNode &&
+              keyNode.type === "Literal" &&
+              typeof keyNode.value === "string"
             ) {
               let valueSet = collection.get(keyNode.value);
               if (!valueSet) {
@@ -49,11 +63,9 @@ function collectProcessors(
                 collection.set(keyNode.value, valueSet);
               }
               if (
-                node.arguments.length > 1 &&
-                ((defaultNode = (node
-                  .arguments[1] as unknown) as ESTreeStringLiteral),
+                defaultNode &&
                 defaultNode.type === "Literal" &&
-                  typeof defaultNode.value === "string")
+                typeof defaultNode.value === "string"
               ) {
                 valueSet.add(defaultNode.value);
               }
