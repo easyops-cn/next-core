@@ -1,6 +1,9 @@
 import { omit, sortBy } from "lodash";
 import EventTarget from "@ungap/event-target";
-import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
+import {
+  BuilderRouteOrBrickNode,
+  BuilderRouteNode,
+} from "@next-core/brick-types";
 import {
   AbstractBuilderDataManager,
   BuilderCanvasData,
@@ -25,6 +28,7 @@ enum BuilderInternalEventType {
   NODE_CLICK = "builder.node.click",
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
+  ROUTE_LIST_CHANGE = "builder.route.list.change",
 }
 
 export class BuilderDataManager implements AbstractBuilderDataManager {
@@ -33,6 +37,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     nodes: [],
     edges: [],
   };
+
+  private routeList: BuilderRouteNode[] = [];
 
   private eventTarget = new EventTarget();
 
@@ -46,6 +52,30 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   getContextMenuStatus(): BuilderContextMenuStatus {
     return this.contextMenuStatus;
+  }
+
+  routeListInit(data: BuilderRouteNode[]): void {
+    this.routeList = data;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.ROUTE_LIST_CHANGE)
+    );
+  }
+
+  getRouteList(): BuilderRouteNode[] {
+    return this.routeList;
+  }
+
+  onRouteListChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.ROUTE_LIST_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.ROUTE_LIST_CHANGE,
+        fn
+      );
+    };
   }
 
   dataInit(root: BuilderRuntimeNode): void {

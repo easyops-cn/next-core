@@ -585,3 +585,50 @@ describe("BuilderDataManager", () => {
     unlisten();
   });
 });
+
+describe("route list", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    const listenOnRouteListChange = jest.fn();
+    const unlistenOnRouteListChange = manager.onRouteListChange(
+      listenOnRouteListChange
+    );
+    manager.routeListInit([
+      {
+        type: "routes",
+        path: "/homepage",
+        id: "R-01",
+      },
+      {
+        type: "bricks",
+        path: "/homepage/b",
+        id: "R-02",
+      },
+    ]);
+    expect(listenOnRouteListChange).toBeCalled();
+    unlistenOnRouteListChange();
+  });
+
+  it("should init route list data", () => {
+    expect(manager.getRouteList()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "id": "R-01",
+          "path": "/homepage",
+          "type": "routes",
+        },
+        Object {
+          "id": "R-02",
+          "path": "/homepage/b",
+          "type": "bricks",
+        },
+      ]
+    `);
+  });
+});
