@@ -2,10 +2,11 @@ const fs = require("fs");
 const path = require("path");
 const rimraf = require("rimraf");
 const TypeDoc = require("typedoc");
-const { get,sortBy } = require("lodash");
+const { get, sortBy } = require("lodash");
 const log = require("npmlog");
 const brickKindMap = {
   property: "properties",
+  accessor: "properties", //兼容老版的通过 set get 访问器声明属性的方式
   event: "events",
   method: "methods",
 };
@@ -21,7 +22,7 @@ const propertyDocComments = [
   "default",
   "deprecated",
   "description",
-  "group"
+  "group",
 ];
 const baseDocComments = [
   "id",
@@ -82,6 +83,14 @@ function composeBrickDocProperties(brick) {
   return {
     name,
     type: extractRealInterfaceType(brick.type.type, brick.type),
+    ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
+  };
+}
+
+function composeBrickDocAccessor(brick) {
+  const { name, comment } = brick;
+  return {
+    name,
     ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
   };
 }
@@ -152,6 +161,10 @@ function extractBrickDocBaseKind(tags) {
 }
 
 function getRealBrickDocCategory(brick) {
+  // only process has commonet Accessor and ingnore inherited accessor
+  if (!!brick.comment && !brick.inheritedFrom && brick.kind === 262144)
+    return "accessor";
+
   if (!Object.prototype.hasOwnProperty.call(brick, "decorators")) {
     return null;
   }
@@ -171,6 +184,8 @@ const getComputedDocCategory = (category, brick) => {
   switch (category) {
     case "property":
       return composeBrickDocProperties(brick);
+    case "accessor":
+      return composeBrickDocAccessor(brick);
     case "event":
       return composeBrickDocEvents(brick);
     case "method":
@@ -184,9 +199,9 @@ function extractBrickDocComplexKind(groups, elementChildren) {
   // 1024 equal to `Properties`
   // 2048 equal to `Methods`
   // 2097152 equal to `Object literals`
-  const finder = groups.filter(
-    (group) =>
-      group.kind === 1024 || group.kind === 2048 || group.kind === 2097152
+  // 262144 equal to `Accessor` 兼容之前通过访问器声明属性的方式(只获取有文档注释的属性)
+  const finder = groups.filter((group) =>
+    [1024, 2048, 2097152, 262144].includes(group.kind)
   );
   if (finder.length === 0) return {};
 
@@ -211,15 +226,19 @@ function extractBrickDocComplexKind(groups, elementChildren) {
       return prev;
     }, {});
 
-    // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
-   const propertieList = brickConf[brickKindMap.property];
-   return !!propertieList ? {
-     ...brickConf,
-     [brickKindMap.property]: sortBy(propertieList, (item) => {
-       const find = elementChildren.find(child => child.name === item.name);
-      return find && find.id;
-    })
-   } : brickConf
+  // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
+  const propertieList = brickConf[brickKindMap.property];
+  return propertieList
+    ? {
+        ...brickConf,
+        [brickKindMap.property]: sortBy(propertieList, (item) => {
+          const find = elementChildren.find(
+            (child) => child.name === item.name
+          );
+          return find && find.id;
+        }),
+      }
+    : brickConf;
 }
 
 function existBrickDocId(element) {
