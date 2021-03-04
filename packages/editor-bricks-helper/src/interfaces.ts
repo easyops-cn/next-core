@@ -3,6 +3,7 @@ import {
   BuilderRouteOrBrickNode,
   CustomTemplateProxy,
   ContextConf,
+  BuilderRouteNode,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
@@ -126,8 +127,10 @@ export enum EditorSlotContentLayout {
 
 export interface AbstractBuilderDataManager {
   getData(): BuilderCanvasData;
+  getRouteList(): BuilderRouteNode[];
   getContextMenuStatus(): BuilderContextMenuStatus;
   dataInit(root: BuilderRuntimeNode): void;
+  routeListInit(data: BuilderRouteNode[]): void;
   nodeAdd(detail: EventDetailOfNodeAdd): void;
   nodeAddStored(detail: EventDetailOfNodeAddStored): void;
   nodeMove(detail: EventDetailOfNodeMove): void;
@@ -136,6 +139,7 @@ export interface AbstractBuilderDataManager {
   nodeClick(detail: BuilderRuntimeNode): void;
   contextUpdated(detail: EventDetailOfContextUpdated): void;
   onDataChange(fn: EventListener): () => void;
+  onRouteListChange(fn: EventListener): () => void;
   onNodeAdd(fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void): () => void;
   onNodeReorder(
     fn: (event: CustomEvent<EventDetailOfNodeReorder>) => void
