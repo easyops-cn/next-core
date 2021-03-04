@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.5.7...@next-dll/editor-bricks-helper@0.6.0) (2021-03-04)
+
+
+### Features
+
+* **builder-data-manager:** useRouteList ([fdc8976](https://github.com/easyops-cn/next-core/commit/fdc8976c287082f9d507b6e8cd564a1b90556aac))
+
+
+
+
+
 ## [0.5.7](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.5.6...@next-dll/editor-bricks-helper@0.5.7) (2021-03-04)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
