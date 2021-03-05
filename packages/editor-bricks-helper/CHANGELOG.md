@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.11.0...@next-core/editor-bricks-helper@0.12.0) (2021-03-05)
+
+
+### Features
+
+* parse lifeCycle ([aab75d3](https://github.com/easyops-cn/next-core/commit/aab75d3c89408c3fd14128cb48e0c743f555fe56))
+
+
+
+
+
 # [0.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.10.5...@next-core/editor-bricks-helper@0.11.0) (2021-03-04)
 
 
