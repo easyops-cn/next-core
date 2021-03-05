@@ -15,7 +15,7 @@ export function getBuilderNode(
     matchedSelectors.push((nodeData.brick as string).replace(/\./g, "\\."));
   }
 
-  const jsonFieldsInBrick = ["properties", "events", "proxy"];
+  const jsonFieldsInBrick = ["properties", "events", "proxy", "lifeCycle"];
   const parsedFields: [string, unknown][] = [];
 
   for (const field of jsonFieldsInBrick) {

@@ -25,6 +25,7 @@ describe("getBuilderNode", () => {
       $$parsedProperties: {},
       $$parsedEvents: {},
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
   });
@@ -53,6 +54,7 @@ describe("getBuilderNode", () => {
       $$parsedProperties: {},
       $$parsedEvents: {},
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
   });
@@ -89,6 +91,7 @@ describe("getBuilderNode", () => {
         },
       },
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
   });
@@ -119,6 +122,7 @@ describe("getBuilderNode", () => {
       $$parsedProperties: {},
       $$parsedEvents: {},
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
   });
@@ -155,6 +159,7 @@ describe("getBuilderNode", () => {
           },
         },
       },
+      $$parsedLifeCycle: {},
       $$matchedSelectors: [],
     });
   });
@@ -182,6 +187,68 @@ describe("getBuilderNode", () => {
       $$parsedProperties: {},
       $$parsedEvents: {},
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
+      $$matchedSelectors: [],
+    });
+  });
+
+  it("should parse lifeCycle successfully", () => {
+    expect(
+      getBuilderNode(
+        {
+          type: "custom-template",
+          templateId: "tpl-my-template",
+          id: "B-001",
+          parent: [],
+          children: [],
+          graphInfo: {},
+          lifeCycle: '{"onPageLoad":{"target":"#modal","method":"open"}}',
+        },
+        1
+      )
+    ).toEqual({
+      type: "custom-template",
+      templateId: "tpl-my-template",
+      id: "B-001",
+      $$uid: 1,
+      lifeCycle: '{"onPageLoad":{"target":"#modal","method":"open"}}',
+      $$parsedProperties: {},
+      $$parsedEvents: {},
+      $$parsedProxy: {},
+      $$parsedLifeCycle: {
+        onPageLoad: {
+          target: "#modal",
+          method: "open",
+        },
+      },
+      $$matchedSelectors: [],
+    });
+  });
+
+  it("should cache error if parse lifeCycle failed", () => {
+    expect(
+      getBuilderNode(
+        {
+          type: "custom-template",
+          templateId: "tpl-my-template",
+          id: "B-001",
+          parent: [],
+          children: [],
+          graphInfo: {},
+          lifeCycle: "oops",
+        },
+        1
+      )
+    ).toEqual({
+      type: "custom-template",
+      templateId: "tpl-my-template",
+      id: "B-001",
+      $$uid: 1,
+      lifeCycle: "oops",
+      $$parsedProperties: {},
+      $$parsedEvents: {},
+      $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: [],
     });
   });
@@ -212,6 +279,7 @@ describe("getBuilderNode", () => {
       },
       $$parsedEvents: {},
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick", "#myBrick"],
     });
   });
@@ -242,6 +310,7 @@ describe("getBuilderNode", () => {
       },
       $$parsedEvents: {},
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
   });
@@ -268,6 +337,7 @@ describe("getBuilderNode", () => {
       $$parsedProperties: {},
       $$parsedEvents: {},
       $$parsedProxy: {},
+      $$parsedLifeCycle: {},
       $$matchedSelectors: [],
     });
   });

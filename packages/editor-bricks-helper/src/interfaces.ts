@@ -4,6 +4,7 @@ import {
   CustomTemplateProxy,
   ContextConf,
   BuilderRouteNode,
+  BrickLifeCycle,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
@@ -19,6 +20,7 @@ export type BuilderRuntimeNode<
   $$parsedProperties?: P;
   $$parsedEvents?: BrickEventsMap;
   $$parsedProxy?: CustomTemplateProxy;
+  $$parsedLifeCycle?: BrickLifeCycle;
   $$matchedSelectors?: string[];
 };
 
