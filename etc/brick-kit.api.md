@@ -58,7 +58,6 @@ import { TemplatePackage } from '@next-core/brick-types';
 import { UseBrickConf } from '@next-core/brick-types';
 import { UserInfo } from '@next-core/brick-types';
 import { UseSingleBrickConf } from '@next-core/brick-types';
-import { WithTranslation } from 'react-i18next';
 import { WithTranslationProps } from 'react-i18next';
 
 // @public
@@ -179,7 +178,7 @@ export interface EasyopsEmptyProps {
 // Warning: (ae-internal-missing-underscore) The name "ErrorBoundary" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export const ErrorBoundary: React_2.ComponentType<Pick<Pick<WithTranslation<"brick-kit">, "t" | "tReady">, never> & WithTranslationProps>;
+export const ErrorBoundary: React_2.ComponentType<WithTranslationProps>;
 
 // @public
 function event_2(options: EventDeclaration): any;
