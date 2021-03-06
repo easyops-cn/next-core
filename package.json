@@ -48,7 +48,7 @@
     "@next-bricks/basic-providers": "^1.2.4",
     "@next-bricks/general-auth": "^1.4.12",
     "@next-micro-apps/general-auth": "^1.0.9",
-    "@size-limit/file": "^4.9.2",
+    "@size-limit/file": "^4.10.0",
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.1",
