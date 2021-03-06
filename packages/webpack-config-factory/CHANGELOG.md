@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.8...@next-core/webpack-config-factory@2.6.0) (2021-03-02)
+
+
+### Features
+
+* **webpack:** publicPath ([4bde766](https://github.com/easyops-cn/next-core/commit/4bde7663e661055fc8725bc2525d8d851aee2a6b))
+
+
+
+
+
 ## [2.5.8](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.7...@next-core/webpack-config-factory@2.5.8) (2021-02-07)
 
 ### Bug Fixes

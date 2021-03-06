@@ -3,6 +3,100 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.6...@next-core/build-config-factory@2.4.7) (2021-03-04)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.5...@next-core/build-config-factory@2.4.6) (2021-03-03)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.4...@next-core/build-config-factory@2.4.5) (2021-03-03)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.3...@next-core/build-config-factory@2.4.4) (2021-03-02)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.2...@next-core/build-config-factory@2.4.3) (2021-02-26)
+
+
+### Bug Fixes
+
+* fix syntax ([0a96fb7](https://github.com/easyops-cn/next-core/commit/0a96fb7656a4909ac4ac83c5fbb21193e40863f9))
+
+
+
+
+
+## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.1...@next-core/build-config-factory@2.4.2) (2021-02-25)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.0...@next-core/build-config-factory@2.4.1) (2021-02-25)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+# [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.4...@next-core/build-config-factory@2.4.0) (2021-02-24)
+
+
+### Features
+
+* doc add group field and sort properties ([8fbb2db](https://github.com/easyops-cn/next-core/commit/8fbb2dbb3ed85ac8aca85fdbd055289b7db5fabb))
+
+
+
+
+
+## [2.3.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.3...@next-core/build-config-factory@2.3.4) (2021-02-24)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.2...@next-core/build-config-factory@2.3.3) (2021-02-23)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.1...@next-core/build-config-factory@2.3.2) (2021-02-22)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
 ## [2.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.0...@next-core/build-config-factory@2.3.1) (2021-02-07)
 
 ### Bug Fixes

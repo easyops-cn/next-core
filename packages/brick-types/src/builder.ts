@@ -1,5 +1,10 @@
+import { ContextConf } from "./manifest";
+
 /** @internal */
-export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode;
+export type BuilderRouteOrBrickNode =
+  | BuilderBrickNode
+  | BuilderRouteNode
+  | BuilderCustomTemplateNode;
 
 /** @internal */
 export interface BuilderBaseNode {
@@ -21,6 +26,7 @@ export interface BuilderRouteNode extends BuilderBaseNode {
   segues?: string;
   defineResolves?: string;
   redirect?: string;
+  context?: ContextConf[];
 }
 
 /** @internal */
@@ -28,6 +34,15 @@ export interface BuilderBrickNode extends BuilderBaseNode {
   type: "brick" | "provider" | "template";
   brick: string;
   properties?: string;
+  events?: string;
   bg?: boolean;
   portal?: boolean;
+  context?: ContextConf[];
+}
+
+/** @internal */
+export interface BuilderCustomTemplateNode extends BuilderBaseNode {
+  type: "custom-template";
+  templateId: string;
+  proxy?: string;
 }

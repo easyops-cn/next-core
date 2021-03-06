@@ -188,8 +188,7 @@ export class LocationContext {
     contextConf: ContextConf,
     coreContext: PluginRuntimeContext,
     brick?: RuntimeBrick
-  ): Promise<void> {
-    let value: unknown;
+  ): Promise<boolean> {
     if (contextConf.property) {
       if (brick) {
         this.setStoryboardContext(contextConf.name, {
@@ -199,7 +198,11 @@ export class LocationContext {
         });
       }
     } else {
+      let value: unknown;
       if (contextConf.resolve) {
+        if (!looseCheckIf(contextConf.resolve, coreContext)) {
+          return false;
+        }
         const valueConf: Record<string, unknown> = {};
         await this.resolver.resolveOne(
           "reference",
@@ -221,6 +224,7 @@ export class LocationContext {
         value,
       });
     }
+    return true;
   }
 
   private setStoryboardContext(
@@ -565,6 +569,7 @@ export class LocationContext {
     context: PluginRuntimeContext
   ): Promise<void> {
     if (
+      isLoggedIn() &&
       container.permissionsPreCheck &&
       Array.isArray(container.permissionsPreCheck)
     ) {

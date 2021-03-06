@@ -1,3 +1,4 @@
+import { upperFirst } from "lodash";
 import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
 
@@ -8,13 +9,37 @@ export function getBuilderNode(
   nodeUid: number,
   nodeAlias?: string
 ): BuilderRuntimeNode {
-  let parsedProperties: Record<string, unknown>;
-  if (nodeData.properties) {
-    try {
-      parsedProperties = JSON.parse(nodeData.properties as string);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Parsing properties failed:", nodeData.properties);
+  const matchedSelectors: string[] = [];
+
+  if (nodeData.brick) {
+    matchedSelectors.push((nodeData.brick as string).replace(/\./g, "\\."));
+  }
+
+  const jsonFieldsInBrick = ["properties", "events", "proxy", "lifeCycle"];
+  const parsedFields: [string, unknown][] = [];
+
+  for (const field of jsonFieldsInBrick) {
+    let parsed;
+    const value = nodeData[field] as string;
+    if (value) {
+      try {
+        parsed = JSON.parse(value);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(`Parsing ${field} failed:`, value);
+      }
+    }
+    parsedFields.push([`$$parsed${upperFirst(field)}`, parsed ?? {}]);
+
+    if (
+      field === "properties" &&
+      parsed?.id &&
+      typeof parsed.id === "string" &&
+      // Ignore evaluations and placeholders,
+      // E.g.: `<% QUERY.x %>` or `${QUERY.x}`.
+      !/[<{]/.test(parsed.id)
+    ) {
+      matchedSelectors.push(`#${parsed.id}`);
     }
   }
 
@@ -24,7 +49,8 @@ export function getBuilderNode(
       .concat([
         ["alias", nodeAlias ?? nodeData.alias],
         ["$$uid", nodeUid],
-        ["$$parsedProperties", parsedProperties ?? {}],
+        ["$$matchedSelectors", matchedSelectors],
       ])
+      .concat(parsedFields)
   ) as BuilderRuntimeNode;
 }

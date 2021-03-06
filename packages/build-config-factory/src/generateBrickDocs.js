@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const rimraf = require("rimraf");
 const TypeDoc = require("typedoc");
-const { get } = require("lodash");
+const { get,sortBy } = require("lodash");
 const log = require("npmlog");
 const brickKindMap = {
   property: "properties",
@@ -21,6 +21,7 @@ const propertyDocComments = [
   "default",
   "deprecated",
   "description",
+  "group"
 ];
 const baseDocComments = [
   "id",
@@ -189,7 +190,7 @@ function extractBrickDocComplexKind(groups, elementChildren) {
   );
   if (finder.length === 0) return {};
 
-  return finder
+  const brickConf = finder
     .map((find) => [...find.children])
     .flat()
     .reduce((prev, curr) => {
@@ -209,6 +210,16 @@ function extractBrickDocComplexKind(groups, elementChildren) {
 
       return prev;
     }, {});
+
+    // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
+   const propertieList = brickConf[brickKindMap.property];
+   return !!propertieList ? {
+     ...brickConf,
+     [brickKindMap.property]: sortBy(propertieList, (item) => {
+       const find = elementChildren.find(child => child.name === item.name);
+      return find && find.id;
+    })
+   } : brickConf
 }
 
 function existBrickDocId(element) {

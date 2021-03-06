@@ -4,6 +4,7 @@ import {
   preCheckPermissions as _preCheckPermissions,
   checkPermissions as _checkPermissions,
   validatePermissions as _validatePermissions,
+  resetPermissionPreChecks as _resetPermissionPreChecks,
 } from "./checkPermissions";
 
 jest.mock("@next-core/brick-utils");
@@ -23,6 +24,7 @@ describe("checkPermissions", () => {
   let preCheckPermissions: typeof _preCheckPermissions;
   let checkPermissions: typeof _checkPermissions;
   let validatePermissions: typeof _validatePermissions;
+  let resetPermissionPreChecks: typeof _resetPermissionPreChecks;
 
   beforeEach(() => {
     jest.isolateModules(() => {
@@ -31,6 +33,7 @@ describe("checkPermissions", () => {
       preCheckPermissions = m.preCheckPermissions;
       checkPermissions = m.checkPermissions;
       validatePermissions = m.validatePermissions;
+      resetPermissionPreChecks = m.resetPermissionPreChecks;
     });
   });
 
@@ -149,5 +152,20 @@ describe("checkPermissions", () => {
     expect(mockConsoleError).toBeCalledWith(
       'Un-checked permission action: "my:action-x", please make sure the permission to check is defined in permissionsPreCheck.'
     );
+  });
+
+  it("should clear permission pre-checks", async () => {
+    mockValidatePermissions.mockResolvedValueOnce({
+      actions: [
+        {
+          action: "my:action-a",
+          authorizationStatus: "authorized",
+        },
+      ],
+    });
+    await validatePermissions(["my:action-a"]);
+    expect(checkPermissions("my:action-a")).toBe(true);
+    resetPermissionPreChecks();
+    expect(checkPermissions("my:action-a")).toBe(false);
   });
 });

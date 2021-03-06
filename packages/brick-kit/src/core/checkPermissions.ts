@@ -14,7 +14,9 @@ export async function preCheckPermissions(
   await validatePermissions(usedActions);
 }
 
-export async function validatePermissions(usedActions: string[]) {
+export async function validatePermissions(
+  usedActions: string[]
+): Promise<void> {
   // Do not request known actions.
   const actions = difference(usedActions, Array.from(permissionMap.keys()));
   if (actions.length === 0) {
@@ -63,4 +65,11 @@ export function checkPermissions(...actions: string[]): boolean {
     }
   }
   return true;
+}
+
+/**
+ * Reset permission pre-checks after logged-out.
+ */
+export function resetPermissionPreChecks(): void {
+  permissionMap.clear();
 }

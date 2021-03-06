@@ -2,10 +2,12 @@
   line-height: 1;
 }
 
-.@{radio-prefix-cls} {
-  &-button-wrapper {
-    &-checked:not(&-disabled)&:first-child {
-      border-right-color: transparent;
+.@{radio-group-prefix-cls}-solid {
+  .@{radio-prefix-cls} {
+    &-button-wrapper {
+      &-checked:not(&-disabled)&:first-child {
+        border-right-color: transparent;
+      }
     }
   }
 }

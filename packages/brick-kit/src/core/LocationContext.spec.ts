@@ -92,8 +92,7 @@ describe("LocationContext", () => {
 
   afterEach(() => {
     spyOnIsLoggedIn.mockReset();
-    consoleLog.mockClear();
-    consoleInfo.mockClear();
+    jest.clearAllMocks();
   });
 
   describe("matchStoryboard", () => {
@@ -229,7 +228,7 @@ describe("LocationContext", () => {
       });
       spyOnIsLoggedIn.mockReturnValue(true);
       spyOnGetCurrentContext.mockReturnValueOnce(context.getCurrentContext());
-      const result = await context.mountRoutes(
+      await context.mountRoutes(
         [
           {
             path: "/",
@@ -251,6 +250,28 @@ describe("LocationContext", () => {
       ]);
     });
 
+    it("should ignore validating permissions if not logged in", async () => {
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      spyOnIsLoggedIn.mockReturnValue(false);
+      await context.mountRoutes(
+        [
+          {
+            path: "/",
+            permissionsPreCheck: ["<% CTX.instanceUpdateAction %>"],
+            bricks: [],
+          },
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+      expect(validatePermissions).not.toBeCalled();
+    });
+
     it("should mount if match hit", async () => {
       const context = new LocationContext(kernel, {
         pathname: "/",
@@ -260,7 +281,7 @@ describe("LocationContext", () => {
       });
       spyOnIsLoggedIn.mockReturnValue(true);
 
-      spyOnGetCurrentContext.mockReturnValueOnce(context.getCurrentContext());
+      spyOnGetCurrentContext.mockReturnValue(context.getCurrentContext());
 
       jest
         .spyOn(context.resolver, "resolveOne")
@@ -308,6 +329,16 @@ describe("LocationContext", () => {
                   transform: {
                     value: "even better",
                   },
+                },
+              },
+              {
+                name: "myAsyncContext",
+                resolve: {
+                  provider: "provider-d",
+                  transform: {
+                    value: "turns worse",
+                  },
+                  if: "<% CTX.myFreeContext === 'bad' %>",
                 },
               },
             ],

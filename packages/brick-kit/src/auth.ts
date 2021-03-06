@@ -1,4 +1,5 @@
 import { AuthInfo } from "@next-core/brick-types";
+import { resetPermissionPreChecks } from "./core/checkPermissions";
 
 const auth: AuthInfo = {};
 
@@ -28,6 +29,7 @@ export function logout(): void {
   auth.org = undefined;
   auth.username = undefined;
   auth.userInstanceId = undefined;
+  resetPermissionPreChecks();
 }
 
 /**

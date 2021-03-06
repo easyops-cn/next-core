@@ -1,4 +1,11 @@
-import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
+import {
+  BrickEventsMap,
+  BuilderRouteOrBrickNode,
+  CustomTemplateProxy,
+  ContextConf,
+  BuilderRouteNode,
+  BrickLifeCycle,
+} from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
   rootId: number;
@@ -11,6 +18,10 @@ export type BuilderRuntimeNode<
 > = BuilderRouteOrBrickNode & {
   $$uid?: number;
   $$parsedProperties?: P;
+  $$parsedEvents?: BrickEventsMap;
+  $$parsedProxy?: CustomTemplateProxy;
+  $$parsedLifeCycle?: BrickLifeCycle;
+  $$matchedSelectors?: string[];
 };
 
 export interface BuilderRuntimeEdge {
@@ -32,6 +43,10 @@ export interface EventDetailOfNodeAdd {
   nodeIds: string[];
   nodeAlias: string;
   nodeData: NodeInstance;
+}
+
+export interface EventDetailOfContextUpdated {
+  context: ContextConf[];
 }
 
 export interface NodeInstance {
@@ -114,15 +129,19 @@ export enum EditorSlotContentLayout {
 
 export interface AbstractBuilderDataManager {
   getData(): BuilderCanvasData;
+  getRouteList(): BuilderRouteNode[];
   getContextMenuStatus(): BuilderContextMenuStatus;
   dataInit(root: BuilderRuntimeNode): void;
+  routeListInit(data: BuilderRouteNode[]): void;
   nodeAdd(detail: EventDetailOfNodeAdd): void;
   nodeAddStored(detail: EventDetailOfNodeAddStored): void;
   nodeMove(detail: EventDetailOfNodeMove): void;
   nodeReorder(detail: EventDetailOfNodeReorder): void;
   nodeDelete(detail: BuilderRuntimeNode): void;
   nodeClick(detail: BuilderRuntimeNode): void;
+  contextUpdated(detail: EventDetailOfContextUpdated): void;
   onDataChange(fn: EventListener): () => void;
+  onRouteListChange(fn: EventListener): () => void;
   onNodeAdd(fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void): () => void;
   onNodeReorder(
     fn: (event: CustomEvent<EventDetailOfNodeReorder>) => void

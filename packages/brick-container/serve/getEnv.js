@@ -94,6 +94,9 @@ module.exports = (cwd) => {
         type: "boolean",
         default: true,
       },
+      standalone: {
+        type: "boolean",
+      },
       // Todo(steve): remove `help` and `version` after meow fixed it.
       help: {
         type: "boolean",
@@ -144,7 +147,16 @@ module.exports = (cwd) => {
     flags = cli.flags;
   }
 
-  const { usePublicScope, standalone } = getEasyopsConfig();
+  const rootDir = path.join(__dirname, "../../..");
+  const contextDir = cwd || rootDir;
+  const nextRepoDir = getBrickNextDir();
+
+  const { usePublicScope, standalone: confStandalone } = getEasyopsConfig(
+    nextRepoDir
+  );
+
+  const standalone = confStandalone || flags.standalone;
+
   const useOffline = flags.offline || process.env.OFFLINE === "true";
   const useSubdir = flags.subdir || process.env.SUBDIR === "true";
   const useRemote =
@@ -178,8 +190,6 @@ module.exports = (cwd) => {
     ? process.env.LOCAL_TEMPLATES.split(",")
     : [];
 
-  const rootDir = path.join(__dirname, "../../..");
-  const contextDir = cwd || rootDir;
   const useLocalSettings =
     flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
@@ -213,7 +223,6 @@ module.exports = (cwd) => {
     return {};
   }
 
-  const nextRepoDir = getBrickNextDir();
   const microAppsDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`

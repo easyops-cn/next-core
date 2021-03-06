@@ -30,13 +30,15 @@
           "SlotContainer",
           "getSortedIdsAfterDropped",
           "useBuilderContextMenuStatus",
+          "useBuilderData",
           "useBuilderDataManager",
           "useBuilderGroupedChildNodes",
           "useBuilderNode",
           "useBuilderNodeMountPoints",
           "useBuilderParentNode",
           "useCanDrop",
-          "useDroppingStatusContext"
+          "useDroppingStatusContext",
+          "useRouteList"
         ]
       }
     },

@@ -29,7 +29,6 @@ describe("scanPermissionActionsInStoryboard", () => {
       },
       routes: [
         {
-          if: "<% PROCESSORS.one.doBetter() %>",
           bricks: [
             {
               brick: "b-a",

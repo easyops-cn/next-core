@@ -3,6 +3,132 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.12...@next-core/brick-container@2.18.13) (2021-03-05)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.11...@next-core/brick-container@2.18.12) (2021-03-04)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.10...@next-core/brick-container@2.18.11) (2021-03-04)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.9...@next-core/brick-container@2.18.10) (2021-03-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.8...@next-core/brick-container@2.18.9) (2021-03-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.7...@next-core/brick-container@2.18.8) (2021-03-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.6...@next-core/brick-container@2.18.7) (2021-03-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.5...@next-core/brick-container@2.18.6) (2021-02-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.4...@next-core/brick-container@2.18.5) (2021-02-25)
+
+
+### Bug Fixes
+
+* **serve:** getEnv path ([a9e70bb](https://github.com/easyops-cn/next-core/commit/a9e70bb8de33a33ab6873e82aa26fd645f619588))
+
+
+
+
+
+## [2.18.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.3...@next-core/brick-container@2.18.4) (2021-02-25)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.2...@next-core/brick-container@2.18.3) (2021-02-24)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.1...@next-core/brick-container@2.18.2) (2021-02-24)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [2.18.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.0...@next-core/brick-container@2.18.1) (2021-02-23)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+# [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.17.2...@next-core/brick-container@2.18.0) (2021-02-23)
+
+
+### Features
+
+* support if in context ([68c9f34](https://github.com/easyops-cn/next-core/commit/68c9f34f0d427595328b3f5a4974b10e2c72a808))
+
+
+
+
+
+## [2.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.17.1...@next-core/brick-container@2.17.2) (2021-02-22)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.17.0...@next-core/brick-container@2.17.1) (2021-02-07)
 
 ### Bug Fixes

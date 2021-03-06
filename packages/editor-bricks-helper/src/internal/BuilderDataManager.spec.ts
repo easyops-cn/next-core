@@ -101,7 +101,11 @@ describe("BuilderDataManager", () => {
         ],
         "nodes": Array [
           Object {
+            "$$matchedSelectors": Array [],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
@@ -109,7 +113,13 @@ describe("BuilderDataManager", () => {
             "type": "bricks",
           },
           Object {
+            "$$matchedSelectors": Array [
+              "brick-a",
+            ],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 2,
             "alias": "alias-a",
             "brick": "brick-a",
@@ -118,7 +128,13 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$matchedSelectors": Array [
+              "brick-b",
+            ],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 3,
             "alias": undefined,
             "brick": "brick-b",
@@ -127,7 +143,13 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$matchedSelectors": Array [
+              "brick-c",
+            ],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 4,
             "alias": undefined,
             "brick": "brick-c",
@@ -135,7 +157,13 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$matchedSelectors": Array [
+              "brick-d",
+            ],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 5,
             "alias": undefined,
             "brick": "brick-d",
@@ -143,7 +171,13 @@ describe("BuilderDataManager", () => {
             "type": "brick",
           },
           Object {
+            "$$matchedSelectors": Array [
+              "brick-e",
+            ],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 6,
             "alias": undefined,
             "brick": "brick-e",
@@ -215,7 +249,11 @@ describe("BuilderDataManager", () => {
     `);
     expect(newData.nodes[newData.nodes.length - 1]).toMatchInlineSnapshot(`
       Object {
+        "$$matchedSelectors": Array [],
+        "$$parsedEvents": Object {},
+        "$$parsedLifeCycle": Object {},
         "$$parsedProperties": Object {},
+        "$$parsedProxy": Object {},
         "$$uid": 7,
         "alias": "new-brick",
       }
@@ -249,6 +287,64 @@ describe("BuilderDataManager", () => {
     expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
       "B-007"
     );
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnDataChange();
+  });
+
+  it("should update context", () => {
+    const listenOnDataChange = jest.fn();
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
+    manager.contextUpdated({
+      context: [
+        {
+          name: "data-1",
+          value: "<% QUERY.id %>",
+        },
+        {
+          name: "data-2",
+          resolve: {
+            useProvider: "provider-a",
+            args: ["arg1"],
+            transform: {
+              value: "<% DATA %>",
+            },
+          },
+        },
+      ],
+    });
+    const newData = manager.getData();
+    expect(newData.nodes[0]).toMatchInlineSnapshot(`
+      Object {
+        "$$matchedSelectors": Array [],
+        "$$parsedEvents": Object {},
+        "$$parsedLifeCycle": Object {},
+        "$$parsedProperties": Object {},
+        "$$parsedProxy": Object {},
+        "$$uid": 1,
+        "alias": undefined,
+        "context": Array [
+          Object {
+            "name": "data-1",
+            "value": "<% QUERY.id %>",
+          },
+          Object {
+            "name": "data-2",
+            "resolve": Object {
+              "args": Array [
+                "arg1",
+              ],
+              "transform": Object {
+                "value": "<% DATA %>",
+              },
+              "useProvider": "provider-a",
+            },
+          },
+        ],
+        "id": "B-001",
+        "path": "/home",
+        "type": "bricks",
+      }
+    `);
     expect(listenOnDataChange).toBeCalled();
     unlistenOnDataChange();
   });
@@ -437,7 +533,11 @@ describe("BuilderDataManager", () => {
         ],
         "nodes": Array [
           Object {
+            "$$matchedSelectors": Array [],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
@@ -445,7 +545,13 @@ describe("BuilderDataManager", () => {
             "type": "bricks",
           },
           Object {
+            "$$matchedSelectors": Array [
+              "brick-a",
+            ],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
             "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
             "$$uid": 2,
             "alias": "alias-a",
             "brick": "brick-a",
@@ -487,5 +593,52 @@ describe("BuilderDataManager", () => {
     });
     expect(listenOnContextMenuChange).toBeCalled();
     unlisten();
+  });
+});
+
+describe("route list", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    const listenOnRouteListChange = jest.fn();
+    const unlistenOnRouteListChange = manager.onRouteListChange(
+      listenOnRouteListChange
+    );
+    manager.routeListInit([
+      {
+        type: "routes",
+        path: "/homepage",
+        id: "R-01",
+      },
+      {
+        type: "bricks",
+        path: "/homepage/b",
+        id: "R-02",
+      },
+    ]);
+    expect(listenOnRouteListChange).toBeCalled();
+    unlistenOnRouteListChange();
+  });
+
+  it("should init route list data", () => {
+    expect(manager.getRouteList()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "id": "R-01",
+          "path": "/homepage",
+          "type": "routes",
+        },
+        Object {
+          "id": "R-02",
+          "path": "/homepage/b",
+          "type": "bricks",
+        },
+      ]
+    `);
   });
 });
