@@ -2490,10 +2490,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^4.9.2":
-  version "4.9.2"
-  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.9.2.tgz#bd8553da2ce104e6f1c403e9f2a429ddb5fd9eb1"
-  integrity sha1-vYVT2izhBObxxAPp8qQp3bX9nrE=
+"@size-limit/file@^4.10.0":
+  version "4.10.0"
+  resolved "https://registry.npm.taobao.org/@size-limit/file/download/@size-limit/file-4.10.0.tgz#b09d70bdf476cbff84938c7a7afb163fc4b92c23"
+  integrity sha1-sJ1wvfR2y/+Ek4x6evsWP8S5LCM=
   dependencies:
     semver "7.3.4"
 
@@ -5151,10 +5151,10 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-colorette@^1.1.0, colorette@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npm.taobao.org/colorette/download/colorette-1.2.1.tgz?cache=0&sync_timestamp=1593955763917&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcolorette%2Fdownload%2Fcolorette-1.2.1.tgz#4d0b921325c14faf92633086a536db6e89564b1b"
-  integrity sha1-TQuSEyXBT6+SYzCGpTbbbolWSxs=
+colorette@^1.1.0, colorette@^1.2.1, colorette@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npm.taobao.org/colorette/download/colorette-1.2.2.tgz?cache=0&sync_timestamp=1614259623635&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcolorette%2Fdownload%2Fcolorette-1.2.2.tgz#cbcc79d5e99caea2dbf10eb3a26fd8b3e6acfa94"
+  integrity sha1-y8x51emcrqLb8Q6zom/Ys+as+pQ=
 
 colors@^1.1.2, colors@^1.2.1:
   version "1.4.0"
@@ -14138,15 +14138,15 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^4.9.2:
-  version "4.9.2"
-  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.9.2.tgz#b078c2841d6b6bcc576e066b4a6f7b6dd02c124c"
-  integrity sha1-sHjChB1ra8xXbgZrSm97bdAsEkw=
+size-limit@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.npm.taobao.org/size-limit/download/size-limit-4.10.0.tgz#5b8bc1e40993bd12593c032d8be807c0eed54893"
+  integrity sha1-W4vB5AmTvRJZPAMti+gHwO7VSJM=
   dependencies:
     bytes "^3.1.0"
     chokidar "^3.5.1"
     ci-job-number "^1.2.2"
-    colorette "^1.2.1"
+    colorette "^1.2.2"
     globby "^11.0.2"
     lilconfig "^2.0.2"
     ora "^5.3.0"
