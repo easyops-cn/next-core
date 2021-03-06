@@ -79,9 +79,6 @@ jobs:
     - run: yarn test:e2e:ci
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      if: |
-        (github.event_name == 'push') ||
-        (github.event_name == 'pull_request' && github.base_ref == 'master')
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
