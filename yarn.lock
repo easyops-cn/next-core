@@ -15219,10 +15219,10 @@ typedoc-default-themes@^0.11.4:
   resolved "https://registry.npm.taobao.org/typedoc-default-themes/download/typedoc-default-themes-0.11.4.tgz?cache=0&sync_timestamp=1600653832744&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypedoc-default-themes%2Fdownload%2Ftypedoc-default-themes-0.11.4.tgz#1bc55b7c8d1132844616ff6f570e1e2cd0eb7343"
   integrity sha1-G8VbfI0RMoRGFv9vVw4eLNDrc0M=
 
-typedoc-plugin-no-inherit@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npm.taobao.org/typedoc-plugin-no-inherit/download/typedoc-plugin-no-inherit-1.2.0.tgz#7f73809c04cb29c03afe5eea356534968cb717a9"
-  integrity sha1-f3OAnATLKcA6/l7qNWU0loy3F6k=
+typedoc-plugin-no-inherit@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npm.taobao.org/typedoc-plugin-no-inherit/download/typedoc-plugin-no-inherit-1.2.2.tgz#bcd44256ec80773250baf2b4e4dc50261a33b791"
+  integrity sha1-vNRCVuyAdzJQuvK05NxQJhozt5E=
 
 typedoc@^0.19.2:
   version "0.19.2"
