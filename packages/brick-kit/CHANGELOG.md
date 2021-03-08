@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.7...@next-core/brick-kit@2.35.0) (2021-03-08)
+
+
+### Bug Fixes
+
+* fix types after upgraded typescript to 4.2 ([83508a8](https://github.com/easyops-cn/next-core/commit/83508a822a8b0e3ab2984c634a1fa1030311ec35))
+
+
+### Features
+
+* support to manually stop interval of providers ([97520df](https://github.com/easyops-cn/next-core/commit/97520dffb1decd2ed6738cd21d718a4e37ce32c2))
+
+
+
+
+
 ## [2.34.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.6...@next-core/brick-kit@2.34.7) (2021-03-04)
 
 **Note:** Version bump only for package @next-core/brick-kit
