@@ -14,7 +14,7 @@ jobs:
         node-version: [14.x]
 
     # Only if it's a PR from renovate and contains a certain label.
-    if: github.event.sender.login == 'renovate[bot]' && contains( github.event.pull_request.labels.*.name, 'update dll manifest')
+    if: contains( github.event.pull_request.labels.*.name, 'update dll manifest')
 
     steps:
 
