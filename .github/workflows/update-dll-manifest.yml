@@ -5,7 +5,7 @@ on:
     types: [labeled]
 
 jobs:
-  renew:
+  update:
 
     runs-on: ubuntu-latest
 
@@ -33,7 +33,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
-            labels: ['eve: updated dll manifest'],
+            labels: ['eve: updating dll manifest'],
           });
 
     - uses: actions/checkout@v2
@@ -81,3 +81,15 @@ jobs:
         git add -A
         git commit -m "chore(): update dll manifest"
         git push
+
+    - name: Post update labels
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            labels: ['eve: updated dll manifest'],
+          });
