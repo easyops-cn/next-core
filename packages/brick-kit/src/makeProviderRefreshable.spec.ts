@@ -4,15 +4,11 @@ import { handleHttpError } from "./handleHttpError";
 jest.mock("./handleHttpError");
 
 describe("makeProviderRefreshable", () => {
+  let provider: any;
   const resolve = jest.fn();
   const willReject = jest.fn().mockRejectedValue({
     message: "oops",
   });
-  const provider = {
-    resolve,
-    willReject,
-  } as any;
-  makeProviderRefreshable(provider);
 
   const dependent = {
     brick: {
@@ -80,10 +76,19 @@ describe("makeProviderRefreshable", () => {
       },
     },
   };
-  provider.$$dependents.push(dependent);
-  provider.$$dependents.push(anotherDependent);
-  provider.$$dependents.push(rejectionHandledDependent);
-  provider.$$dependents.push(rejectionHandledDependentWithoutContext);
+
+  beforeEach(() => {
+    provider = {
+      resolve,
+      willReject,
+    } as any;
+    makeProviderRefreshable(provider);
+
+    provider.$$dependents.push(dependent);
+    provider.$$dependents.push(anotherDependent);
+    provider.$$dependents.push(rejectionHandledDependent);
+    provider.$$dependents.push(rejectionHandledDependentWithoutContext);
+  });
 
   afterEach(() => {
     dependent.brick.element = {};
@@ -114,6 +119,12 @@ describe("makeProviderRefreshable", () => {
     expect(rejectionHandledDependentWithoutContext.brick.element).toEqual({
       error: "oops",
     });
+  });
+
+  it("should stop interval", async () => {
+    provider.$stopInterval();
+    await provider.$refresh({ $$scheduled: true });
+    expect(resolve).toBeCalledTimes(0);
   });
 
   it("should handle errors", async () => {
