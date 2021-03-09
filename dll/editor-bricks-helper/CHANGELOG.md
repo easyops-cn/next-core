@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.6.5...@next-dll/editor-bricks-helper@0.7.0) (2021-03-09)
+
+
+### Features
+
+* **visual-builder:** support route nodes ([8729884](https://github.com/easyops-cn/next-core/commit/8729884615bb37fb70080824aafdeb91ca3b3d03))
+
+
+
+
+
 ## [0.6.5](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.6.4...@next-dll/editor-bricks-helper@0.6.5) (2021-03-09)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
