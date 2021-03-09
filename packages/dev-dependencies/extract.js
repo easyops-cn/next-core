@@ -5,7 +5,7 @@ const { chain } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 const patch = require("./patch");
 
-const caretOrTildeRangesRegExp = /^[^~]\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?$/;
+const caretOrTildeRangesRegExp = /^[~^]\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?$/;
 
 function shouldUpgrade(fromVersion, toVersion, name) {
   return (
