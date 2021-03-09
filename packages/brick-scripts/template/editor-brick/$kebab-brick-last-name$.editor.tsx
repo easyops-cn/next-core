@@ -15,7 +15,6 @@ interface $PascalBrickName$Properties {
 
 export function $PascalBrickName$Editor({
   nodeUid,
-  brick,
 }: EditorComponentProps): React.ReactElement {
   const node = useBuilderNode<$PascalBrickName$Properties>({ nodeUid });
   /**
@@ -24,7 +23,7 @@ export function $PascalBrickName$Editor({
    */
   // const { someProps } = node.$$parsedProperties;
   return (
-    <EditorContainer nodeUid={nodeUid} brick={brick}>
+    <EditorContainer nodeUid={nodeUid}>
       <div className={styles.wrapper}>{node.alias}</div>
     </EditorContainer>
   );
