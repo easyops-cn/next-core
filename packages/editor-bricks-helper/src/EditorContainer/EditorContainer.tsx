@@ -16,7 +16,6 @@ import styles from "./EditorContainer.module.css";
 
 interface EditorContainerProps {
   nodeUid: number;
-  brick: string;
   type?: EditorBrickType;
   isTransparentContainer?: boolean;
   editorContainerStyle?: React.CSSProperties;
@@ -25,7 +24,6 @@ interface EditorContainerProps {
 
 export function EditorContainer({
   nodeUid,
-  brick,
   type,
   isTransparentContainer,
   editorContainerStyle,
