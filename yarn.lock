@@ -2940,10 +2940,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.9.4":
-  version "4.9.4"
-  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.9.4.tgz#5076ba17b0635b420fc7fd4df7daf5bb42e8240f"
-  integrity sha1-UHa6F7BjW0IPx/1N99r1u0LoJA8=
+"@types/echarts@^4.9.5":
+  version "4.9.5"
+  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.9.5.tgz#c3f1527f205fa46423751fc925e0dd5c44e7a742"
+  integrity sha1-w/FSfyBfpGQjdR/JJeDdXETnp0I=
   dependencies:
     "@types/zrender" "*"
 
