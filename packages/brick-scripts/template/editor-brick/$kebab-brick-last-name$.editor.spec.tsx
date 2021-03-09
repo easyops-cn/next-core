@@ -14,9 +14,7 @@ describe("$PascalBrickName$Editor", () => {
       alias: "my-brick",
       $$parsedProperties: {},
     });
-    const wrapper = shallow(
-      <$PascalBrickName$Editor nodeUid={1} brick="$kebab-brick-last-name$" />
-    );
+    const wrapper = shallow(<$PascalBrickName$Editor nodeUid={1} />);
     expect(wrapper.find("div").text()).toBe("my-brick");
   });
 });
