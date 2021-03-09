@@ -1,35 +1,50 @@
 import { developHelper } from "@next-core/brick-kit";
+import { isBrickNode, isRouteNode } from "../assertions";
+import { BuilderRuntimeNode } from "../interfaces";
 
 const ANY_BRICK_EDITOR = "basic-bricks.any-brick--editor";
+const ANY_ROUTE_EDITOR = "basic-bricks.any-route--editor";
 
 /**
- * Get editor brick name by brick name.
+ * Get editor brick name by node.
  *
- * @param brick - Brick name.
+ * @param node - Builder node.
  *
  * @returns
  *
- * Returns editor brick name, will fallback to `basic-bricks.any-brick--editor`
+ * Returns editor brick name if the node is a brick, will fallback to `basic-bricks.any-brick--editor`
  * if the relevant editor brick is not found.
+ *
+ * Or returns `basic-bricks.any-route--editor` if the node is a route.
  *
  * And returns undefined if load failed.
  */
-export async function getEditorBrick(brick: string): Promise<string> {
-  try {
-    if (brick.includes("-")) {
-      const actualEditorBrick = `${brick}--editor`;
-      await developHelper.loadEditorBricks([actualEditorBrick]);
-      if (customElements.get(actualEditorBrick)) {
-        return actualEditorBrick;
-      }
+export async function getEditorBrick(
+  node: BuilderRuntimeNode
+): Promise<string> {
+  const tryEditorBricks: string[] = [];
+  if (isRouteNode(node)) {
+    tryEditorBricks.push(ANY_ROUTE_EDITOR);
+  } else if (isBrickNode(node)) {
+    if (node.brick.includes("-")) {
+      tryEditorBricks.push(`${node.brick}--editor`);
     }
-    const fallbackEditorBrick = ANY_BRICK_EDITOR;
-    await developHelper.loadEditorBricks([fallbackEditorBrick]);
-    if (customElements.get(fallbackEditorBrick)) {
-      return fallbackEditorBrick;
-    }
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(`Load editor brick for "${brick}" failed:`, error);
+    tryEditorBricks.push(ANY_BRICK_EDITOR);
+  } else {
+    // Currently there should be no custom-template nodes to be rendered as editor.
+    throw new Error(`Unsupported node type: ${node.type}`);
   }
+
+  for (const editorBrick of tryEditorBricks) {
+    try {
+      await developHelper.loadEditorBricks([editorBrick]);
+    } catch (error) {
+      throw new Error(`Load editor brick "${editorBrick}" failed`);
+    }
+    if (customElements.get(editorBrick)) {
+      return editorBrick;
+    }
+  }
+
+  throw new Error(`Editor brick "${tryEditorBricks.join(", ")}" not found`);
 }

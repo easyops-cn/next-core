@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { useDrag } from "react-dnd";
 import { BrickAsComponent } from "@next-core/brick-kit";
-import { BuilderBrickNode, UseBrickConf } from "@next-core/brick-types";
+import { UseBrickConf } from "@next-core/brick-types";
 import { getEditorBrick } from "./getEditorBrick";
 import {
   BuilderDataTransferType,
@@ -25,24 +25,34 @@ export function EditorBrickAsComponent({
 }: EditorBrickAsComponentProps): React.ReactElement {
   const [initialized, setInitialized] = React.useState(false);
   const [editorBrick, setEditorBrick] = React.useState<string>();
+  const [loadEditorError, setLoadEditorError] = React.useState<string>();
 
   React.useEffect(() => {
     (async () => {
       setInitialized(false);
-      setEditorBrick(await getEditorBrick((node as BuilderBrickNode).brick));
+      let editorName: string;
+      let editorError: string;
+      try {
+        editorName = await getEditorBrick(node);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        editorError = (error as Error).message;
+      }
+      setEditorBrick(editorName);
+      setLoadEditorError(editorError);
       setInitialized(true);
     })();
-  }, [(node as BuilderBrickNode).brick]);
+  }, [node]);
 
   const brickConf = React.useMemo<UseBrickConf>(
     () => ({
       brick: editorBrick,
       properties: {
         nodeUid: node.$$uid,
-        brick: node.brick,
       },
     }),
-    [editorBrick, node.$$uid, node.brick]
+    [editorBrick, node.$$uid]
   );
 
   const selfLayout = React.useMemo(() => {
@@ -101,7 +111,7 @@ export function EditorBrickAsComponent({
         </div>
       </div>
     ) : (
-      <span>{`Load editor failed for "${node.brick}"`}</span>
+      <span>{loadEditorError}</span>
     )
   ) : (
     <span>Loading...</span>
