@@ -5,15 +5,17 @@ const { chain } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 const patch = require("./patch");
 
-const caretRangesRegExp = /^\^\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?$/;
+const caretOrTildeRangesRegExp = /^[^~]\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?$/;
 
 function shouldUpgrade(fromVersion, toVersion, name) {
   return (
     (name === "antd" && fromVersion === "4.6.6" && toVersion !== "4.6.6") ||
     !fromVersion ||
-    (caretRangesRegExp.test(fromVersion) &&
-      caretRangesRegExp.test(toVersion) &&
-      semver.lt(fromVersion.substr(1), toVersion.substr(1)))
+    (caretOrTildeRangesRegExp.test(fromVersion) &&
+      caretOrTildeRangesRegExp.test(toVersion) &&
+      // Also update deps like `antd: ^4.12.3` to `antd: ~4.12.3` and vice versa
+      fromVersion !== toVersion &&
+      semver.lte(fromVersion.substr(1), toVersion.substr(1)))
   );
 }
 
@@ -104,8 +106,8 @@ module.exports = function extract() {
         chalk.bold.yellow("Ignored:"),
         name,
         devDependencies[name],
-        caretRangesRegExp.test(devDependencies[name]) &&
-          caretRangesRegExp.test(version)
+        caretOrTildeRangesRegExp.test(devDependencies[name]) &&
+          caretOrTildeRangesRegExp.test(version)
           ? semver.compare(devDependencies[name].substr(1), version.substr(1))
             ? chalk.yellow(">")
             : "="

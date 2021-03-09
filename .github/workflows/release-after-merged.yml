@@ -1,0 +1,31 @@
+name: Release after merged
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+
+    # Only if it is merged and contains a certain label.
+    if: |
+      ${{
+        github.event.pull_request.merged &&
+        contains( github.event.pull_request.labels.*.name, 'eve: release after merged')
+      }}
+
+    steps:
+
+    - name: Trigger lerna version
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GH_TOKEN_EVE }}
+        script: |
+          github.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'lerna-version.yml',
+            ref: 'master',
+          })
