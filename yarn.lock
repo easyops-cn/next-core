@@ -3733,7 +3733,7 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
 
-antd@^4.12.3:
+antd@~4.12.3:
   version "4.12.3"
   resolved "https://registry.npm.taobao.org/antd/download/antd-4.12.3.tgz#b9f1401e4f2899a3b33c1953491775efbbaa4da3"
   integrity sha1-ufFAHk8omaOzPBlTSRd177uqTaM=
