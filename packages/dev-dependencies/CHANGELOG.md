@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.56](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.55...@next-core/dev-dependencies@1.2.56) (2021-03-09)
+
+
+### Bug Fixes
+
+* renew versions between caret version ranges and tilde ones ([2697c27](https://github.com/easyops-cn/next-core/commit/2697c27bcef2b2f89b61daa28b2ab4f52f2cf5e7))
+
+
+
+
+
 ## [1.2.55](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.54...@next-core/dev-dependencies@1.2.55) (2021-03-09)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
