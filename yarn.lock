@@ -6042,10 +6042,10 @@ d3-selection@2, d3-selection@^2.0.0:
   resolved "https://registry.npm.taobao.org/d3-selection/download/d3-selection-2.0.0.tgz#94a11638ea2141b7565f883780dabc7ef6a61066"
   integrity sha1-lKEWOOohQbdWX4g3gNq8fvamEGY=
 
-d3-shape@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npm.taobao.org/d3-shape/download/d3-shape-2.0.0.tgz?cache=0&sync_timestamp=1597856388587&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3-shape%2Fdownload%2Fd3-shape-2.0.0.tgz#2331b62fa784a2a1daac47a7233cfd69301381fd"
-  integrity sha1-IzG2L6eEoqHarEenIzz9aTATgf0=
+d3-shape@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npm.taobao.org/d3-shape/download/d3-shape-2.1.0.tgz?cache=0&sync_timestamp=1615407641736&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3-shape%2Fdownload%2Fd3-shape-2.1.0.tgz#3b6a82ccafbc45de55b57fcf956c584ded3b666f"
+  integrity sha1-O2qCzK+8Rd5VtX/PlWxYTe07Zm8=
   dependencies:
     d3-path "1 - 2"
 
