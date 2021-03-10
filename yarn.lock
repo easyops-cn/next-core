@@ -2175,10 +2175,10 @@
   resolved "https://registry.npm.taobao.org/@microsoft/tsdoc/download/@microsoft/tsdoc-0.12.24.tgz#30728e34ebc90351dd3aff4e18d038eed2c3e098"
   integrity sha1-MHKONOvJA1HdOv9OGNA47tLD4Jg=
 
-"@next-bricks/basic-bricks@^1.106.3":
-  version "1.106.3"
-  resolved "https://registry.npm.taobao.org/@next-bricks/basic-bricks/download/@next-bricks/basic-bricks-1.106.3.tgz#7d43cd21393fc5e6deeb1f4e7583367d2d72b458"
-  integrity sha1-fUPNITk/xebe6x9OdYM2fS1ytFg=
+"@next-bricks/basic-bricks@^1.106.4":
+  version "1.106.4"
+  resolved "https://registry.npm.taobao.org/@next-bricks/basic-bricks/download/@next-bricks/basic-bricks-1.106.4.tgz#5aa116395bb9f3bb324a1a06f1799f05a4dc0543"
+  integrity sha1-WqEWOVu587syShoG8XmfBaTcBUM=
 
 "@next-bricks/basic-providers@^1.2.4":
   version "1.2.4"
