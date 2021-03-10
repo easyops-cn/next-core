@@ -11,10 +11,8 @@ jobs:
 
     # Only if it is merged and contains a certain label.
     if: |
-      ${{
-        github.event.pull_request.merged &&
-        contains( github.event.pull_request.labels.*.name, 'eve: release after merged')
-      }}
+      github.event.pull_request.merged &&
+      contains( github.event.pull_request.labels.*.name, 'eve: release after merged')
 
     steps:
 
