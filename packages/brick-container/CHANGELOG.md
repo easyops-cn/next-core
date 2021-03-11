@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.18...@next-core/brick-container@2.19.0) (2021-03-11)
+
+
+### Features
+
+* **drop-zone:** height ([5f7d642](https://github.com/easyops-cn/next-core/commit/5f7d6422e81b42a4c614a032afe6fc2bce2fe2d3))
+
+
+
+
+
 ## [2.18.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.18.17...@next-core/brick-container@2.18.18) (2021-03-09)
 
 **Note:** Version bump only for package @next-core/brick-container

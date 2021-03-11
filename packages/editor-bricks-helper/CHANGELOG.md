@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.13.0...@next-core/editor-bricks-helper@0.14.0) (2021-03-11)
+
+
+### Features
+
+* **drop-zone:** height ([5f7d642](https://github.com/easyops-cn/next-core/commit/5f7d6422e81b42a4c614a032afe6fc2bce2fe2d3))
+
+
+
+
+
 # [0.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.12.4...@next-core/editor-bricks-helper@0.13.0) (2021-03-09)
 
 
