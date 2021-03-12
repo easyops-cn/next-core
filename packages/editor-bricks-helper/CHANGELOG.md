@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.1...@next-core/editor-bricks-helper@0.14.2) (2021-03-12)
+
+
+### Bug Fixes
+
+* **builder:** fix root drop-zone style which let canvas to handle outer margin ([8ea1670](https://github.com/easyops-cn/next-core/commit/8ea1670cf5e500adbee4316a48f8b89d4fb366c9))
+
+
+
+
+
 ## [0.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.0...@next-core/editor-bricks-helper@0.14.1) (2021-03-12)
 
 
