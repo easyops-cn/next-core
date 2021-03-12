@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.2...@next-core/editor-bricks-helper@0.14.3) (2021-03-12)
+
+
+### Bug Fixes
+
+* **builder:** auto determine layout of bricks with no editors ([baffa9e](https://github.com/easyops-cn/next-core/commit/baffa9e061fd277e30b70ed5d8c3c8459078fc9a))
+
+
+
+
+
 ## [0.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.1...@next-core/editor-bricks-helper@0.14.2) (2021-03-12)
 
 
