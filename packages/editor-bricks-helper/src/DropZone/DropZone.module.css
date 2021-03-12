@@ -22,7 +22,6 @@
   height: calc(
     100vh - 148px - var(--editor-brick-toolbar-height) - var(--page-card-gap)
   );
-  margin-top: var(--page-card-gap);
   overflow-y: auto;
 }
 
