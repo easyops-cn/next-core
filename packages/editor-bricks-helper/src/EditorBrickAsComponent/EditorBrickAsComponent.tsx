@@ -11,6 +11,7 @@ import {
   EditorSlotContentLayout,
 } from "../interfaces";
 import { EditorBrickElementConstructor } from "../EditorElementFactory";
+import { useBuilderData } from "../hooks/useBuilderData";
 
 import styles from "./EditorBrickAsComponent.module.css";
 
@@ -26,6 +27,11 @@ export function EditorBrickAsComponent({
   const [initialized, setInitialized] = React.useState(false);
   const [editorBrick, setEditorBrick] = React.useState<string>();
   const [loadEditorError, setLoadEditorError] = React.useState<string>();
+  const { edges } = useBuilderData();
+  const hasChildren = React.useMemo(
+    () => edges.some((edge) => edge.parent === node.$$uid),
+    [node, edges]
+  );
 
   React.useEffect(() => {
     (async () => {
@@ -63,8 +69,12 @@ export function EditorBrickAsComponent({
       ) as EditorBrickElementConstructor;
       layout = editorConstructor.selfLayout;
     }
-    return layout ?? EditorSelfLayout.INLINE;
-  }, [initialized, editorBrick]);
+    // For bricks with no editors, display as a container if it has children.
+    return (
+      layout ??
+      (hasChildren ? EditorSelfLayout.CONTAINER : EditorSelfLayout.INLINE)
+    );
+  }, [initialized, editorBrick, hasChildren]);
 
   const [{ isDragging }, dragRef] = useDrag({
     item: {
