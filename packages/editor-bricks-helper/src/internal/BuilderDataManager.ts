@@ -84,6 +84,21 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     const walk = (node: BuilderRouteOrBrickNode): number => {
       const currentUid = getUniqueNodeId();
       nodes.push(getBuilderNode(node, currentUid));
+
+      // For routes and custom-templates, their children are fixed
+      // and mount points should be ignored. To unify tree edge
+      // data structure, just override their mount points.
+      let overrideChildrenMountPoint: string;
+      switch (node.type) {
+        case "bricks":
+        case "custom-template":
+          overrideChildrenMountPoint = "bricks";
+          break;
+        case "routes":
+          overrideChildrenMountPoint = "routes";
+          break;
+      }
+
       if (Array.isArray(node.children)) {
         const sortedChildren = sortBy(node.children, [
           (item) => item.sort ?? -Infinity,
@@ -93,7 +108,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
           edges.push({
             child: childUid,
             parent: currentUid,
-            mountPoint: child.mountPoint,
+            mountPoint: overrideChildrenMountPoint ?? child.mountPoint,
             sort: index,
           });
         });

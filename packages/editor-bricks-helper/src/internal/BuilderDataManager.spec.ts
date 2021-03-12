@@ -3,14 +3,14 @@ import { NodeInstance } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
 // Given a tree:
-//       1
+//       1 <route>
 //      ↙ ↘
 //     2   3
 //       ↙   ↘
 // (content) (toolbar)
 //    ↙ ↘        ↓
 //   4   6       5
-describe("BuilderDataManager", () => {
+describe("BuilderDataManager for route of bricks", () => {
   let manager: BuilderDataManagerType;
   let BuilderDataManager: typeof BuilderDataManagerType;
 
@@ -37,7 +37,7 @@ describe("BuilderDataManager", () => {
           type: "brick",
           brick: "brick-b",
           sort: 1,
-          mountPoint: "bricks",
+          mountPoint: "undefined",
           children: [
             {
               id: "B-004",
@@ -593,6 +593,164 @@ describe("BuilderDataManager", () => {
     });
     expect(listenOnContextMenuChange).toBeCalled();
     unlisten();
+  });
+});
+
+// Given a tree:
+//            1 <routes>
+//           ↙ ↘
+// <bricks> 2   3 <routes>
+//         ↙     ↘
+//        4       5
+describe("BuilderDataManager for route of routes", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    manager.dataInit({
+      id: "B-001",
+      type: "routes",
+      path: "/home",
+      children: [
+        {
+          id: "B-002",
+          type: "bricks",
+          path: "/home/a",
+          sort: 0,
+          mountPoint: "routes",
+          alias: "alias-a",
+          children: [
+            {
+              id: "B-003",
+              type: "brick",
+              brick: "brick-b",
+              sort: 0,
+              mountPoint: "content",
+            },
+          ],
+        },
+        {
+          id: "B-004",
+          type: "routes",
+          path: "/home/c",
+          sort: 1,
+          mountPoint: "undefined",
+          children: [
+            {
+              id: "B-005",
+              type: "bricks",
+              path: "/home/c/d",
+              mountPoint: "content",
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it("should init data", () => {
+    expect(manager.getData()).toMatchInlineSnapshot(`
+      Object {
+        "edges": Array [
+          Object {
+            "child": 3,
+            "mountPoint": "bricks",
+            "parent": 2,
+            "sort": 0,
+          },
+          Object {
+            "child": 2,
+            "mountPoint": "routes",
+            "parent": 1,
+            "sort": 0,
+          },
+          Object {
+            "child": 5,
+            "mountPoint": "routes",
+            "parent": 4,
+            "sort": 0,
+          },
+          Object {
+            "child": 4,
+            "mountPoint": "routes",
+            "parent": 1,
+            "sort": 1,
+          },
+        ],
+        "nodes": Array [
+          Object {
+            "$$matchedSelectors": Array [],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
+            "$$uid": 1,
+            "alias": undefined,
+            "id": "B-001",
+            "path": "/home",
+            "type": "routes",
+          },
+          Object {
+            "$$matchedSelectors": Array [],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
+            "$$uid": 2,
+            "alias": "alias-a",
+            "id": "B-002",
+            "path": "/home/a",
+            "sort": 0,
+            "type": "bricks",
+          },
+          Object {
+            "$$matchedSelectors": Array [
+              "brick-b",
+            ],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
+            "$$uid": 3,
+            "alias": undefined,
+            "brick": "brick-b",
+            "id": "B-003",
+            "sort": 0,
+            "type": "brick",
+          },
+          Object {
+            "$$matchedSelectors": Array [],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
+            "$$uid": 4,
+            "alias": undefined,
+            "id": "B-004",
+            "path": "/home/c",
+            "sort": 1,
+            "type": "routes",
+          },
+          Object {
+            "$$matchedSelectors": Array [],
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$parsedProxy": Object {},
+            "$$uid": 5,
+            "alias": undefined,
+            "id": "B-005",
+            "path": "/home/c/d",
+            "type": "bricks",
+          },
+        ],
+        "rootId": 1,
+      }
+    `);
   });
 });
 
