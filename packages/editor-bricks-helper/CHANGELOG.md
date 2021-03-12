@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.0...@next-core/editor-bricks-helper@0.14.1) (2021-03-12)
+
+
+### Bug Fixes
+
+* **builder:** override children mount point for routes ([27a6aea](https://github.com/easyops-cn/next-core/commit/27a6aea096e832f9c505f2e9347db0256d4e2c5e))
+
+
+
+
+
 # [0.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.13.0...@next-core/editor-bricks-helper@0.14.0) (2021-03-11)
 
 
