@@ -275,7 +275,9 @@ export function property(options?: PropertyDeclaration): any;
 // @public
 export interface PropertyDeclaration<Type = unknown> {
     // @internal
-    __deprecated_and_for_compatibility_only?: boolean;
+    readonly __deprecated_and_for_compatibility_only?: boolean;
+    // @internal
+    readonly __unstable_doNotDecorate?: boolean;
     readonly attribute?: boolean | string;
     // Warning: (ae-forgotten-export) The symbol "ComplexAttributeConverter" needs to be exported by the entry point index.d.ts
     readonly converter?: ComplexAttributeConverter<Type>;

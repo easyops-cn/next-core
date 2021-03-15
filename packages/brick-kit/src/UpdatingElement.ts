@@ -83,11 +83,19 @@ export interface PropertyDeclaration<Type = unknown> {
   readonly noAccessor?: boolean;
 
   /**
+   * Used for existed properties which require `@property` do not decorate.
+   * This should be used for legacy props only.
+   *
+   * @internal
+   */
+  readonly __unstable_doNotDecorate?: boolean;
+
+  /**
    * Used for existed properties that are conflicted with html native properties.
    *
    * @internal
    */
-  __deprecated_and_for_compatibility_only?: boolean;
+  readonly __deprecated_and_for_compatibility_only?: boolean;
 }
 
 const defaultConverter: ComplexAttributeConverter = {
