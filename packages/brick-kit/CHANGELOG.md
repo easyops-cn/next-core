@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.3...@next-core/brick-kit@2.36.0) (2021-03-15)
+
+
+### Features
+
+* **property:** support to ignore decorate for properties ([e9dc005](https://github.com/easyops-cn/next-core/commit/e9dc005ac9f7197909b5e1dfd9a9d84e2752b0c0))
+
+
+
+
+
 ## [2.35.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.2...@next-core/brick-kit@2.35.3) (2021-03-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
