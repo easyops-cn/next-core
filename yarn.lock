@@ -5942,10 +5942,10 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
-cypress@^6.6.0:
-  version "6.6.0"
-  resolved "https://registry.npm.taobao.org/cypress/download/cypress-6.6.0.tgz?cache=0&sync_timestamp=1614627107905&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcypress%2Fdownload%2Fcypress-6.6.0.tgz#659c64cdb06e51b6be18fdac39d8f192deb54fa0"
-  integrity sha1-ZZxkzbBuUba+GP2sOdjxkt61T6A=
+cypress@^6.7.1:
+  version "6.7.1"
+  resolved "https://registry.npm.taobao.org/cypress/download/cypress-6.7.1.tgz#6b8e1ba9badbded284ddc8575873b64211250ea6"
+  integrity sha1-a44bqbrb3tKE3chXWHO2QhElDqY=
   dependencies:
     "@cypress/listr-verbose-renderer" "^0.4.1"
     "@cypress/request" "^2.88.5"
