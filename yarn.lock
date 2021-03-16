@@ -330,10 +330,10 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.12.13", "@babel/parser@^7.13.0", "@babel/parser@^7.13.10", "@babel/parser@^7.4.5":
-  version "7.13.10"
-  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.13.10.tgz?cache=0&sync_timestamp=1615243067115&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.13.10.tgz#8f8f9bf7b3afa3eabd061f7a5bcdf4fec3c48409"
-  integrity sha1-j4+b97Ovo+q9Bh96W830/sPEhAk=
+"@babel/parser@^7.1.0", "@babel/parser@^7.12.13", "@babel/parser@^7.13.0", "@babel/parser@^7.13.10", "@babel/parser@^7.13.11", "@babel/parser@^7.4.5":
+  version "7.13.11"
+  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.13.11.tgz#f93ebfc99d21c1772afbbaa153f47e7ce2f50b88"
+  integrity sha1-+T6/yZ0hwXcq+7qhU/R+fOL1C4g=
 
 "@babel/plugin-proposal-async-generator-functions@^7.13.8", "@babel/plugin-proposal-async-generator-functions@^7.2.0":
   version "7.13.8"
