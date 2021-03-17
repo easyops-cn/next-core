@@ -32,6 +32,7 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "typedoc": "^0.19.2",
-    "typedoc-plugin-no-inherit": "^1.2.2"
+    "typedoc-plugin-no-inherit": "^1.2.2",
+    "@next-core/typedoc-plugin-filter-inherit": "^1.0.0"
   }
 }
