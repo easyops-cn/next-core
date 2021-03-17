@@ -222,6 +222,7 @@ export class LocationContext {
       this.setStoryboardContext(contextConf.name, {
         type: "free-variable",
         value,
+        onChange: contextConf.onChange,
       });
     }
     return true;
