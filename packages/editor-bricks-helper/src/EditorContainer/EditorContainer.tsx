@@ -1,6 +1,6 @@
 /* istanbul-ignore-file */
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 import { EditorBrickType } from "../interfaces";
 import {
@@ -11,6 +11,7 @@ import { useBuilderNode } from "../hooks/useBuilderNode";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatus";
 import { isCurrentTargetByClassName } from "./isCurrentTargetByClassName";
+import { useHoverNodeUid } from "../hooks/useHoverNodeUid";
 
 import styles from "./EditorContainer.module.css";
 
@@ -37,18 +38,29 @@ export function EditorContainer({
   const node = useBuilderNode({ nodeUid });
   const [hover, setHover] = React.useState(false);
   const contextMenuStatus = useBuilderContextMenuStatus();
+  const hoverNodeUid = useHoverNodeUid();
   const manager = useBuilderDataManager();
   const editorType = type ?? EditorBrickType.DEFAULT;
 
   const handleMouseEnter = React.useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
     setHover(true);
+    if (hoverNodeUid !== nodeUid) {
+      manager.setHoverNodeUid(nodeUid);
+    }
   }, []);
 
   const handleMouseLeave = React.useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
     setHover(false);
+    if (hoverNodeUid === nodeUid) {
+      manager.setHoverNodeUid(undefined);
+    }
   }, []);
+
+  useEffect(() => {
+    setHover(hoverNodeUid === nodeUid);
+  }, [hoverNodeUid]);
 
   const isCurrentTarget = React.useCallback(
     (event: React.MouseEvent) =>

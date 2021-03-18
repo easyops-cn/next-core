@@ -14,5 +14,6 @@ export * from "./hooks/useBuilderNodeMountPoints";
 export * from "./hooks/useBuilderParentNode";
 export * from "./hooks/useCanDrop";
 export * from "./hooks/useRouteList";
+export * from "./hooks/useHoverNodeUid";
 export * from "./processors/getSortedIdsAfterDropped";
 export * from "./assertions";
