@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.6...@next-core/editor-bricks-helper@0.15.0) (2021-03-18)
+
+
+### Features
+
+* **editor-bricks-helper:** useHoverNodeUid ([bfdc38d](https://github.com/easyops-cn/next-core/commit/bfdc38dd31b07cd0bac873c7fc24db5ba0643466))
+
+
+
+
+
 ## [0.14.6](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.5...@next-core/editor-bricks-helper@0.14.6) (2021-03-18)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
