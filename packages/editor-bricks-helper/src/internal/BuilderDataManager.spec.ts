@@ -800,3 +800,26 @@ describe("route list", () => {
     `);
   });
 });
+
+describe("test hoverNodeUid", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    const listenOnHoverNodeChange = jest.fn();
+    const unlistenOnHoverNodeChange = manager.onHoverNodeChange(
+      listenOnHoverNodeChange
+    );
+    manager.setHoverNodeUid(1);
+    expect(listenOnHoverNodeChange).toBeCalled();
+    unlistenOnHoverNodeChange();
+  });
+
+  it("should get hover node uid", () => {
+    expect(manager.getHoverNodeUid()).toBe(1);
+  });
+});

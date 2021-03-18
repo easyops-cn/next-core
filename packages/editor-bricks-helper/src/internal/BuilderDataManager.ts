@@ -29,6 +29,7 @@ enum BuilderInternalEventType {
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
   ROUTE_LIST_CHANGE = "builder.route.list.change",
+  HOVER_NODE_CHANGE = "builder.hoverNode.change",
 }
 
 export class BuilderDataManager implements AbstractBuilderDataManager {
@@ -37,6 +38,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     nodes: [],
     edges: [],
   };
+
+  private hoverNodeUid: number;
 
   private routeList: BuilderRouteNode[] = [];
 
@@ -334,6 +337,32 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.CONTEXT_MENU_CHANGE,
         fn as EventListener
+      );
+    };
+  }
+
+  setHoverNodeUid(uid: number) {
+    if (this.hoverNodeUid !== uid) {
+      this.hoverNodeUid = uid;
+      this.eventTarget.dispatchEvent(
+        new CustomEvent(BuilderInternalEventType.HOVER_NODE_CHANGE)
+      );
+    }
+  }
+
+  getHoverNodeUid() {
+    return this.hoverNodeUid;
+  }
+
+  onHoverNodeChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.HOVER_NODE_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.HOVER_NODE_CHANGE,
+        fn
       );
     };
   }
