@@ -226,6 +226,10 @@ describe("cook", () => {
     // Sequential pipeline operators with an arrow function.
     ["DATA.number5 |> (_ => _ + 1) |> PIPES.string", "6"],
     ["new Set([1, 2, 3])", new Set([1, 2, 3])],
+    [
+      "String(new URLSearchParams({q: 'hello,world', age: 18}))",
+      "q=hello%2Cworld&age=18",
+    ],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
