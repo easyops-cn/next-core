@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.19.9...@next-core/brick-container@2.19.10) (2021-03-19)
+
+
+### Bug Fixes
+
+* css style variable ([bfaa8e5](https://github.com/easyops-cn/next-core/commit/bfaa8e566946ce8f32f182fbc7372be8c4ff6b68))
+
+
+
+
+
 ## [2.19.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.19.8...@next-core/brick-container@2.19.9) (2021-03-18)
 
 **Note:** Version bump only for package @next-core/brick-container
