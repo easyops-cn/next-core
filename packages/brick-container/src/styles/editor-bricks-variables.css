@@ -16,5 +16,7 @@
   --editor-brick-slot-stroke-color: #52a6f9;
   --editor-brick-footer-color: #f5f6f8;
 
+  /* These variables below are for builder-container only. */
   --editor-brick-toolbar-height: 42px;
+  --editor-brick-overlay-padding: 20px;
 }

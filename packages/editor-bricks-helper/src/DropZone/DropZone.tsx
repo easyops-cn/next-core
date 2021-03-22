@@ -55,6 +55,8 @@ export function DropZone({
     isRoot,
   });
   const canDrop = useCanDrop();
+  const refinedSlotContentLayout =
+    slotContentLayout ?? EditorSlotContentLayout.BLOCK;
 
   const selfChildNodes = React.useMemo(
     () =>
@@ -137,12 +139,11 @@ export function DropZone({
           [styles.showOutlineIfEmpty]:
             !isRoot && showOutlineIfEmpty && selfChildNodes.length === 0,
           [styles.slotContentLayoutBlock]:
-            !slotContentLayout ||
-            slotContentLayout === EditorSlotContentLayout.BLOCK,
+            refinedSlotContentLayout === EditorSlotContentLayout.BLOCK,
           [styles.slotContentLayoutInline]:
-            slotContentLayout === EditorSlotContentLayout.INLINE,
+            refinedSlotContentLayout === EditorSlotContentLayout.INLINE,
           [styles.slotContentLayoutGrid]:
-            slotContentLayout === EditorSlotContentLayout.GRID,
+            refinedSlotContentLayout === EditorSlotContentLayout.GRID,
         }
       )}
       style={dropZoneStyle}
@@ -156,7 +157,7 @@ export function DropZone({
           <EditorBrickAsComponent
             key={child.$$uid}
             node={child}
-            slotContentLayout={slotContentLayout}
+            slotContentLayout={refinedSlotContentLayout}
           />
         ))}
       </div>

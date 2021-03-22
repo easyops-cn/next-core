@@ -96,7 +96,6 @@ export function EditorBrickAsComponent({
       <div
         className={classNames({
           [styles.slotContentLayoutBlock]:
-            !slotContentLayout ||
             slotContentLayout === EditorSlotContentLayout.BLOCK,
           [styles.slotContentLayoutInline]:
             slotContentLayout === EditorSlotContentLayout.INLINE,

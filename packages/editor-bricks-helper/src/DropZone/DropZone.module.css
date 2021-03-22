@@ -27,7 +27,8 @@
 
 .fullscreen > .dropZoneBody {
   height: calc(
-    100vh - var(--page-card-gap) * 2 - var(--editor-brick-toolbar-height)
+    100vh - var(--editor-brick-overlay-padding) * 2 - var(--page-card-gap) * 2 -
+      var(--editor-brick-toolbar-height)
   );
 }
 
