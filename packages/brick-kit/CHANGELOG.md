@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.1...@next-core/brick-kit@2.37.2) (2021-03-22)
+
+
+### Bug Fixes
+
+* fix z-index of portal bricks ([aa051d4](https://github.com/easyops-cn/next-core/commit/aa051d40cc50615ed4c83d9b9e3c6274c498832a))
+
+
+
+
+
 ## [2.37.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.0...@next-core/brick-kit@2.37.1) (2021-03-18)
 
 **Note:** Version bump only for package @next-core/brick-kit

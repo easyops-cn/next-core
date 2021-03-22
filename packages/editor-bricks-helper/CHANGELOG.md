@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.15.0...@next-core/editor-bricks-helper@0.15.1) (2021-03-22)
+
+
+### Bug Fixes
+
+* **builder:** make builder container as a modal ([9bf618a](https://github.com/easyops-cn/next-core/commit/9bf618aff41ec1f30f903375c91d23064df5e759))
+* **builder:** refine slotContentLayout passing through ([9f72ecf](https://github.com/easyops-cn/next-core/commit/9f72ecffa8f3b9edddc21fa34c5ad8000c157c84))
+
+
+
+
+
 # [0.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.6...@next-core/editor-bricks-helper@0.15.0) (2021-03-18)
 
 

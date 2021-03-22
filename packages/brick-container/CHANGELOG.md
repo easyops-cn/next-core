@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.19.10...@next-core/brick-container@2.19.11) (2021-03-22)
+
+
+### Bug Fixes
+
+* **builder:** make builder container as a modal ([9bf618a](https://github.com/easyops-cn/next-core/commit/9bf618aff41ec1f30f903375c91d23064df5e759))
+
+
+
+
+
 ## [2.19.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.19.9...@next-core/brick-container@2.19.10) (2021-03-19)
 
 
