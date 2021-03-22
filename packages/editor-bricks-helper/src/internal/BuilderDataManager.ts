@@ -20,6 +20,7 @@ import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
 import { deleteNodeFromTree } from "./deleteNodeFromTree";
+import { RelatedNodesBasedOnEventsMap } from "../processors/getRelatedNodesBasedOnEvents";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -30,6 +31,7 @@ enum BuilderInternalEventType {
   DATA_CHANGE = "builder.data.change",
   ROUTE_LIST_CHANGE = "builder.route.list.change",
   HOVER_NODE_CHANGE = "builder.hoverNode.change",
+  SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
 }
 
 export class BuilderDataManager implements AbstractBuilderDataManager {
@@ -49,12 +51,24 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     active: false,
   };
 
+  private showRelatedNodesBasedOnEvents: boolean;
+
+  private relatedNodesBasedOnEventsMap: RelatedNodesBasedOnEventsMap;
+
   getData(): BuilderCanvasData {
     return this.data;
   }
 
   getContextMenuStatus(): BuilderContextMenuStatus {
     return this.contextMenuStatus;
+  }
+
+  getRelatedNodesBasedOnEventsMap(): RelatedNodesBasedOnEventsMap {
+    return this.relatedNodesBasedOnEventsMap;
+  }
+
+  setRelatedNodesBasedOnEventsMap(value: RelatedNodesBasedOnEventsMap): void {
+    this.relatedNodesBasedOnEventsMap = value;
   }
 
   routeListInit(data: BuilderRouteNode[]): void {
@@ -341,7 +355,33 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     };
   }
 
-  setHoverNodeUid(uid: number) {
+  setShowRelatedNodesBasedOnEvents(show: boolean): void {
+    this.showRelatedNodesBasedOnEvents = show;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(
+        BuilderInternalEventType.SHOW_RELATED_NODES_BASED_ON_EVENTS
+      )
+    );
+  }
+
+  getShowRelatedNodesBasedOnEvents(): boolean {
+    return this.showRelatedNodesBasedOnEvents;
+  }
+
+  onShowRelatedNodesBasedOnEventsChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.SHOW_RELATED_NODES_BASED_ON_EVENTS,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.SHOW_RELATED_NODES_BASED_ON_EVENTS,
+        fn
+      );
+    };
+  }
+
+  setHoverNodeUid(uid: number): void {
     if (this.hoverNodeUid !== uid) {
       this.hoverNodeUid = uid;
       this.eventTarget.dispatchEvent(
@@ -350,7 +390,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     }
   }
 
-  getHoverNodeUid() {
+  getHoverNodeUid(): number {
     return this.hoverNodeUid;
   }
 

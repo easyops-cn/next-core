@@ -42,7 +42,8 @@
           "useCanDrop",
           "useDroppingStatusContext",
           "useHoverNodeUid",
-          "useRouteList"
+          "useRouteList",
+          "useShowRelatedNodesBasedOnEvents"
         ]
       }
     },

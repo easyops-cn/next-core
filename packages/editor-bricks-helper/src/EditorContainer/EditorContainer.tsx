@@ -10,6 +10,7 @@ import {
 import { useBuilderNode } from "../hooks/useBuilderNode";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatus";
+import { useShowRelatedNodesBasedOnEvents } from "../hooks/useShowRelatedNodesBasedOnEvents";
 import { isCurrentTargetByClassName } from "./isCurrentTargetByClassName";
 import { useHoverNodeUid } from "../hooks/useHoverNodeUid";
 
@@ -37,8 +38,11 @@ export function EditorContainer({
   const editorContainerRef = React.useRef<HTMLDivElement>();
   const node = useBuilderNode({ nodeUid });
   const [hover, setHover] = React.useState(false);
+  const [isUpstreamNode, setIsUpstreamNode] = React.useState(false);
+  const [isDownstreamNode, setIsDownstreamNode] = React.useState(false);
   const contextMenuStatus = useBuilderContextMenuStatus();
   const hoverNodeUid = useHoverNodeUid();
+  const showRelatedEvents = useShowRelatedNodesBasedOnEvents();
   const manager = useBuilderDataManager();
   const editorType = type ?? EditorBrickType.DEFAULT;
 
@@ -66,7 +70,18 @@ export function EditorContainer({
 
   useEffect(() => {
     setHover(hoverNodeUid === nodeUid);
-  }, [hoverNodeUid, nodeUid]);
+    if (showRelatedEvents) {
+      const relatedNodes = manager.getRelatedNodesBasedOnEventsMap();
+      const isUpstreamNode = relatedNodes
+        .get(hoverNodeUid)
+        ?.upstreamNodes.has(nodeUid);
+      setIsUpstreamNode(isUpstreamNode);
+      const isDownstreamNode = relatedNodes
+        .get(hoverNodeUid)
+        ?.downstreamNodes.has(nodeUid);
+      setIsDownstreamNode(isDownstreamNode);
+    }
+  }, [hoverNodeUid, nodeUid, showRelatedEvents, manager]);
 
   const isCurrentTarget = React.useCallback(
     (event: React.MouseEvent) =>
@@ -119,6 +134,8 @@ export function EditorContainer({
             hover ||
             (contextMenuStatus.active &&
               contextMenuStatus.node.$$uid === nodeUid),
+          [styles.isDownstreamNode]: !hover && isDownstreamNode,
+          [styles.isUpstreamNode]: !hover && isUpstreamNode,
         })}
         style={editorContainerStyle}
         ref={editorContainerRef}
@@ -127,7 +144,15 @@ export function EditorContainer({
         onClick={handleClick}
         onContextMenu={handleContextMenu}
       >
-        <div className={styles.nodeAlias}>{node.alias || node.brick}</div>
+        <div className={styles.nodeAlias}>
+          {!hover &&
+            (isDownstreamNode ? (
+              <span className={styles.arrow}>↓</span>
+            ) : isUpstreamNode ? (
+              <span className={styles.arrow}>↑</span>
+            ) : null)}
+          {node.alias || node.brick}
+        </div>
         <div className={styles.editorBody} style={editorBodyStyle}>
           {children}
         </div>
