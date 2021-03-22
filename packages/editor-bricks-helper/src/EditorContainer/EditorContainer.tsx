@@ -42,25 +42,31 @@ export function EditorContainer({
   const manager = useBuilderDataManager();
   const editorType = type ?? EditorBrickType.DEFAULT;
 
-  const handleMouseEnter = React.useCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
-    setHover(true);
-    if (hoverNodeUid !== nodeUid) {
-      manager.setHoverNodeUid(nodeUid);
-    }
-  }, []);
+  const handleMouseEnter = React.useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      setHover(true);
+      if (hoverNodeUid !== nodeUid) {
+        manager.setHoverNodeUid(nodeUid);
+      }
+    },
+    [hoverNodeUid, nodeUid, manager]
+  );
 
-  const handleMouseLeave = React.useCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
-    setHover(false);
-    if (hoverNodeUid === nodeUid) {
-      manager.setHoverNodeUid(undefined);
-    }
-  }, []);
+  const handleMouseLeave = React.useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      setHover(false);
+      if (hoverNodeUid === nodeUid) {
+        manager.setHoverNodeUid(undefined);
+      }
+    },
+    [hoverNodeUid, nodeUid, manager]
+  );
 
   useEffect(() => {
     setHover(hoverNodeUid === nodeUid);
-  }, [hoverNodeUid]);
+  }, [hoverNodeUid, nodeUid]);
 
   const isCurrentTarget = React.useCallback(
     (event: React.MouseEvent) =>
