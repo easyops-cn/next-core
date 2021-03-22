@@ -715,6 +715,13 @@ export class LocationContext {
     if (expandedBrickConf.bg) {
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
     } else {
+      if (expandedBrickConf.portal) {
+        // A portal brick has no slotId.
+        brick.slotId = undefined;
+        // Make parent portal bricks appear before child bricks.
+        // This makes z-index of a child brick be higher than its parent.
+        mountRoutesResult.portal.push(brick);
+      }
       if (isObject(expandedBrickConf.slots)) {
         for (const [slotId, slotConf] of Object.entries(
           expandedBrickConf.slots
@@ -740,9 +747,7 @@ export class LocationContext {
           }
         }
       }
-      if (expandedBrickConf.portal) {
-        mountRoutesResult.portal.push(brick);
-      } else {
+      if (!expandedBrickConf.portal) {
         mountRoutesResult.main.push(brick);
       }
     }
