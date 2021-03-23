@@ -107,7 +107,7 @@ export interface MicroApp {
    *
    * @remarks
    *
-   * 标记为 `developing` 或 `disabled` 的应用不会出现在 Launchpad 中。
+   * 标记为 `disabled` 的应用不会出现在 Launchpad 中。
    */
   status?: "developing" | "enabled" | "disabled";
 
