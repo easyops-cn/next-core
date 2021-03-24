@@ -69,16 +69,20 @@ describe("Runtime", () => {
       microApps: [
         {
           name: "a",
+          id: "app-a",
         },
         {
           name: "b",
+          id: "app-b",
           installStatus: "ok",
         },
         {
+          id: "app-c",
           installStatus: "running",
         },
         {
           name: "d",
+          id: "app-d",
           internal: true,
         },
       ],
@@ -86,21 +90,26 @@ describe("Runtime", () => {
     expect(runtime.getMicroApps()).toEqual([
       {
         name: "a",
+        id: "app-a",
       },
       {
         name: "b",
+        id: "app-b",
         installStatus: "ok",
       },
       {
+        id: "app-c",
         installStatus: "running",
       },
     ]);
     expect(runtime.getMicroApps({ excludeInstalling: true })).toEqual([
       {
         name: "a",
+        id: "app-a",
       },
       {
         name: "b",
+        id: "app-b",
         installStatus: "ok",
       },
     ]);
@@ -109,17 +118,25 @@ describe("Runtime", () => {
     ).toEqual([
       {
         name: "a",
+        id: "app-a",
       },
       {
         name: "b",
+        id: "app-b",
         installStatus: "ok",
       },
       {
         name: "d",
+        id: "app-d",
         internal: true,
       },
     ]);
     expect(runtime.getMicroApps({ includeInternal: true }).length).toBe(4);
+
+    expect(runtime.hasInstalledApp("app-a")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b")).toBe(true);
+    expect(runtime.hasInstalledApp("app-c")).toBe(false);
+    expect(runtime.hasInstalledApp("app-d")).toBe(true);
   });
 
   it("should reload micro apps", async () => {
