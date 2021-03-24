@@ -23,9 +23,16 @@ describe("replaceInternalUrls", () => {
       expect.stringContaining("Replacing")
     );
     expect(replaceInFile).toBeCalledWith({
-      files: ["/tmp/my-repo/package.json", "/tmp/my-repo/README.md"],
-      from: "https://github.com/easyops-cn/",
-      to: "https://git.easyops.local/anyclouds/",
+      files: [
+        "/tmp/my-repo/package.json",
+        "/tmp/my-repo/README.md",
+        "/tmp/my-repo/lerna.json",
+      ],
+      from: ["https://github.com/easyops-cn/", "https://registry.npmjs.org"],
+      to: [
+        "https://git.easyops.local/anyclouds/",
+        "https://registry.npm.easyops.local",
+      ],
     });
     expect(customConsole.log).toHaveBeenNthCalledWith(
       2,
