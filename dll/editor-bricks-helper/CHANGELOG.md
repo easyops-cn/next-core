@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.8.2...@next-dll/editor-bricks-helper@0.9.0) (2021-03-24)
+
+
+### Features
+
+* **editor-container:** get related nodes based on events ([832b0b2](https://github.com/easyops-cn/next-core/commit/832b0b23713598067051659dda4fe61cf8fdaabf))
+
+
+
+
+
 ## [0.8.2](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.8.1...@next-dll/editor-bricks-helper@0.8.2) (2021-03-23)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
