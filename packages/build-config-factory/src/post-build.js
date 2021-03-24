@@ -188,7 +188,7 @@ const mergeEditors = () => {
   }
 };
 
-module.exports = (scope) => {
+async function postBuild(scope) {
   const cwd = process.cwd();
   const repoRoot = path.resolve(cwd, "../..");
   const { standalone, noPostBuildMicroApps } = getEasyopsConfig(repoRoot);
@@ -210,7 +210,7 @@ module.exports = (scope) => {
   if (scope === "bricks") {
     generateContracts();
     if (pluginName.startsWith(providerPackagePrefix)) {
-      generateProviderDocs(pluginName);
+      await generateProviderDocs(pluginName);
     } else {
       enableGenerateDoc && generateBrickDocs(pluginName, scope);
     }
@@ -223,4 +223,8 @@ module.exports = (scope) => {
   } else if (scope === "templates") {
     generateDeps();
   }
+}
+
+module.exports = (scope) => {
+  postBuild(scope).catch(console.error);
 };
