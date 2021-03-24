@@ -40,3 +40,26 @@
 .editorContainer.dropping > .editorBody {
   box-shadow: 0 0 0 1px var(--editor-brick-stroke-color-active);
 }
+
+.editorContainer.isUpstreamNode > .nodeAlias,
+.editorContainer.isDownstreamNode > .nodeAlias {
+  visibility: visible;
+  background-color: rgba(230, 230, 230, 0.3);
+}
+
+.editorContainer.isDownstreamNode > .editorBody,
+.editorContainer.isDownstreamNode > .nodeAlias {
+  box-shadow: 0 0 0 1px rgba(22, 224, 57, 0.3);
+}
+
+.editorContainer.isUpstreamNode > .editorBody,
+.editorContainer.isUpstreamNode > .nodeAlias {
+  box-shadow: 0 0 0 1px rgba(224, 88, 22, 0.3);
+}
+
+.arrow {
+  font-size: 10px;
+  padding: 0 4px;
+  position: relative;
+  bottom: 1px;
+}
