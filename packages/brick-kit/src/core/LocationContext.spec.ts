@@ -531,15 +531,16 @@ describe("LocationContext", () => {
                                     type: "bricks",
                                     bricks: [
                                       {
-                                        brick: "h3",
+                                        brick: "h2",
                                         properties: {
-                                          textContent: "modal content",
+                                          textContent: "modal heading",
                                         },
                                       },
                                       {
-                                        brick: "h2",
+                                        brick: "p",
+                                        portal: true,
                                         properties: {
-                                          textContent: "modal content",
+                                          textContent: "portal in portal",
                                         },
                                       },
                                     ],
@@ -655,23 +656,23 @@ describe("LocationContext", () => {
           },
           children: [
             {
-              type: "h3",
-              properties: {
-                textContent: "modal content",
-              },
-              children: [],
-              slotId: "content",
-            },
-            {
               type: "h2",
               properties: {
-                textContent: "modal content",
+                textContent: "modal heading",
               },
               children: [],
               slotId: "content",
             },
           ],
-          slotId: "extendG",
+          slotId: undefined,
+        },
+        {
+          type: "p",
+          properties: {
+            textContent: "portal in portal",
+          },
+          children: [],
+          slotId: undefined,
         },
       ]);
 

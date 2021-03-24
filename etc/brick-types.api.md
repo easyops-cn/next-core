@@ -787,6 +787,7 @@ export interface CompileResult {
 // @public
 export interface ContextConf {
     name: string;
+    onChange?: BrickEventHandler | BrickEventHandler[];
     property?: string;
     resolve?: ResolveConf;
     value?: unknown;
@@ -1810,6 +1811,8 @@ export interface StoryboardContextItemBrickProperty {
 //
 // @internal (undocumented)
 export interface StoryboardContextItemFreeVariable {
+    // (undocumented)
+    onChange?: BrickEventHandler | BrickEventHandler[];
     // (undocumented)
     type: "free-variable";
     // (undocumented)

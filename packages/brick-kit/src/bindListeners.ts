@@ -342,6 +342,10 @@ function builtinContextListenerFactory(
     const { storyboardContext } = _internalApiGetCurrentContext();
     const contextItem: StoryboardContextItem = storyboardContext.get(name);
     if (!contextItem) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Context "${name}" is not declared, we recommend declaring it first.`
+      );
       storyboardContext.set(name, {
         type: "free-variable",
         value,
@@ -358,18 +362,33 @@ function builtinContextListenerFactory(
     // `context.replace`
     if (method === "replace") {
       contextItem.value = value;
-      return;
-    }
-    // `context.assign`
-    const previousValue = contextItem.value;
-    if (isObject(previousValue)) {
-      Object.assign(previousValue, value);
     } else {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Non-object current value of context "${name}" for "context.assign", try "context.replace" instead.`
-      );
-      contextItem.value = value;
+      // `context.assign`
+      const previousValue = contextItem.value;
+      if (isObject(previousValue)) {
+        Object.assign(previousValue, value);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Non-object current value of context "${name}" for "context.assign", try "context.replace" instead.`
+        );
+        contextItem.value = value;
+      }
+    }
+    if (contextItem.onChange) {
+      for (const handler of ([] as BrickEventHandler[]).concat(
+        contextItem.onChange
+      )) {
+        listenerFactory(
+          handler,
+          context,
+          null
+        )(
+          new CustomEvent("context.change", {
+            detail: contextItem.value,
+          })
+        );
+      }
     }
   } as EventListener;
 }

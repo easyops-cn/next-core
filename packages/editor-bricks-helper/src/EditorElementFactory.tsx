@@ -10,14 +10,12 @@ import { BuilderProvider } from "./BuilderProvider";
 
 export interface EditorComponentProps {
   nodeUid: number;
-  brick: string;
 }
 
 export type EditorComponentType = React.FunctionComponent<EditorComponentProps>;
 
 export interface EditorBrickElement extends HTMLElement {
   nodeUid: number;
-  brick: string;
 }
 
 export interface EditorBrickElementConstructor {
@@ -42,9 +40,6 @@ export function EditorElementFactory(
     @property({ type: Number })
     nodeUid: number;
 
-    @property()
-    brick: string;
-
     connectedCallback(): void {
       // Don't override user's style settings.
       // istanbul ignore else
@@ -65,12 +60,12 @@ export function EditorElementFactory(
 
     protected _render(): void {
       // istanbul ignore else
-      if (this.isConnected && this.nodeUid && this.brick) {
+      if (this.isConnected && this.nodeUid) {
         ReactDOM.render(
           <BrickWrapper>
             <BuilderProvider>
               <DndProvider backend={HTML5Backend}>
-                <EditorComponent nodeUid={this.nodeUid} brick={this.brick} />
+                <EditorComponent nodeUid={this.nodeUid} />
               </DndProvider>
             </BuilderProvider>
           </BrickWrapper>,

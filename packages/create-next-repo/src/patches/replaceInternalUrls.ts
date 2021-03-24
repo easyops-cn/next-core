@@ -10,9 +10,21 @@ export function replaceInternalUrls(dest: string): Promise<void> {
       chalk.gray(`  > Replacing by internal URLs ...`)
     );
     replaceInFile({
-      files: [path.join(dest, "package.json"), path.join(dest, "README.md")],
-      from: "https://github.com/easyops-cn/",
-      to: "https://git.easyops.local/anyclouds/",
+      files: [
+        path.join(dest, "package.json"),
+        path.join(dest, "README.md"),
+        path.join(dest, "lerna.json"),
+      ],
+      from: [
+        "https://github.com/easyops-cn/",
+        // This is lerna publish registry.
+        "https://registry.npmjs.org",
+      ],
+      to: [
+        "https://git.easyops.local/anyclouds/",
+        // For internal repositories, publish packages to internal registry.
+        "https://registry.npm.easyops.local",
+      ],
     })
       .then(() => {
         customConsole.log(

@@ -35,6 +35,7 @@ const SupportedConstructorSet = new Set([
   "Date",
   "Map",
   "Set",
+  "URLSearchParams",
   "WeakMap",
   "WeakSet",
 ]);
@@ -262,9 +263,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     );
   },
   CallExpression(node: CallExpression, state, callback) {
-    const calleeState: CookVisitorState<(
-      ...args: any[]
-    ) => any> = spawnCookState(state, {
+    const calleeState: CookVisitorState<
+      (...args: any[]) => any
+    > = spawnCookState(state, {
       chainRef: state.chainRef,
     });
     callback(node.callee, calleeState);
@@ -626,9 +627,9 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
         );
       }
 
-      const calleeState: CookVisitorState<new (
-        ...args: any[]
-      ) => any> = spawnCookState(state);
+      const calleeState: CookVisitorState<
+        new (...args: any[]) => any
+      > = spawnCookState(state);
       callback(node.callee, calleeState);
       const calleeCooked = calleeState.cooked;
 

@@ -222,9 +222,7 @@ describe(\\"ForBetterEditor\\", () => {
       alias: \\"my-brick\\",
       $$parsedProperties: {},
     });
-    const wrapper = shallow(
-      <ForBetterEditor nodeUid={1} brick=\\"for-better\\" />
-    );
+    const wrapper = shallow(<ForBetterEditor nodeUid={1} />);
     expect(wrapper.find(\\"div\\").text()).toBe(\\"my-brick\\");
   });
 });
@@ -249,7 +247,6 @@ interface ForBetterProperties {
 
 export function ForBetterEditor({
   nodeUid,
-  brick,
 }: EditorComponentProps): React.ReactElement {
   const node = useBuilderNode<ForBetterProperties>({ nodeUid });
   /**
@@ -258,7 +255,7 @@ export function ForBetterEditor({
    */
   // const { someProps } = node.$$parsedProperties;
   return (
-    <EditorContainer nodeUid={nodeUid} brick={brick}>
+    <EditorContainer nodeUid={nodeUid}>
       <div className={styles.wrapper}>{node.alias}</div>
     </EditorContainer>
   );

@@ -107,7 +107,7 @@ export interface MicroApp {
    *
    * @remarks
    *
-   * 标记为 `developing` 或 `disabled` 的应用不会出现在 Launchpad 中。
+   * 标记为 `disabled` 的应用不会出现在 Launchpad 中。
    */
   status?: "developing" | "enabled" | "disabled";
 
@@ -358,7 +358,7 @@ export interface BaseRouteConf {
 }
 
 /**
- * 上下文配置
+ * 上下文（数据）配置
  *
  * @remarks
  *
@@ -406,7 +406,7 @@ export interface BaseRouteConf {
  */
 export interface ContextConf {
   /**
-   * 上下文名称。
+   * 上下文（数据）名称。
    */
   name: string;
 
@@ -424,6 +424,11 @@ export interface ContextConf {
    * 要绑定的构件属性名。
    */
   property?: string;
+
+  /**
+   * 当数据发生变化时触发的事件。注意，该事件仅适用于自由变量或异步处理的数据，不适用于绑定构件属性的数据。
+   */
+  onChange?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**

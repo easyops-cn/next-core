@@ -3,6 +3,95 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.2...@next-core/brick-kit@2.37.3) (2021-03-24)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+
+
+
+
+## [2.37.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.1...@next-core/brick-kit@2.37.2) (2021-03-22)
+
+
+### Bug Fixes
+
+* fix z-index of portal bricks ([aa051d4](https://github.com/easyops-cn/next-core/commit/aa051d40cc50615ed4c83d9b9e3c6274c498832a))
+
+
+
+
+
+## [2.37.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.0...@next-core/brick-kit@2.37.1) (2021-03-18)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+
+
+
+
+# [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.36.0...@next-core/brick-kit@2.37.0) (2021-03-17)
+
+
+### Features
+
+* support context onChange ([09bd098](https://github.com/easyops-cn/next-core/commit/09bd098dba3b3319ecad39be0f7cfd877cb70c5a))
+
+
+
+
+
+# [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.3...@next-core/brick-kit@2.36.0) (2021-03-15)
+
+
+### Features
+
+* **property:** support to ignore decorate for properties ([e9dc005](https://github.com/easyops-cn/next-core/commit/e9dc005ac9f7197909b5e1dfd9a9d84e2752b0c0))
+
+
+
+
+
+## [2.35.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.2...@next-core/brick-kit@2.35.3) (2021-03-09)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+
+
+
+
+## [2.35.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.1...@next-core/brick-kit@2.35.2) (2021-03-09)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+
+
+
+
+## [2.35.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.0...@next-core/brick-kit@2.35.1) (2021-03-09)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+
+
+
+
+# [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.7...@next-core/brick-kit@2.35.0) (2021-03-08)
+
+
+### Bug Fixes
+
+* fix types after upgraded typescript to 4.2 ([83508a8](https://github.com/easyops-cn/next-core/commit/83508a822a8b0e3ab2984c634a1fa1030311ec35))
+
+
+### Features
+
+* support to manually stop interval of providers ([97520df](https://github.com/easyops-cn/next-core/commit/97520dffb1decd2ed6738cd21d718a4e37ce32c2))
+
+
+
+
+
 ## [2.34.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.6...@next-core/brick-kit@2.34.7) (2021-03-04)
 
 **Note:** Version bump only for package @next-core/brick-kit

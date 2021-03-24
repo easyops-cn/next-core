@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const rimraf = require("rimraf");
 const TypeDoc = require("typedoc");
-const { get,sortBy } = require("lodash");
+const { get, sortBy } = require("lodash");
 const log = require("npmlog");
 const brickKindMap = {
   property: "properties",
@@ -21,7 +21,7 @@ const propertyDocComments = [
   "default",
   "deprecated",
   "description",
-  "group"
+  "group",
 ];
 const baseDocComments = [
   "id",
@@ -79,9 +79,10 @@ function convertTagsToMapByFields(tags, fields) {
 
 function composeBrickDocProperties(brick) {
   const { name, comment } = brick;
+  const type = brick.type && brick.type.type;
   return {
     name,
-    type: extractRealInterfaceType(brick.type.type, brick.type),
+    type: extractRealInterfaceType(type, brick.type),
     ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
   };
 }
@@ -153,6 +154,14 @@ function extractBrickDocBaseKind(tags) {
 
 function getRealBrickDocCategory(brick) {
   if (!Object.prototype.hasOwnProperty.call(brick, "decorators")) {
+    //当继承的属性来自于 node_modeule 时，相关的 @propert decorators 已经被转成低版本的代码，typedoc 获取不到相关 decorators 信息，
+    // 这里通过 comment tag 来标识是否使用了 @property, 以便继承的属性也能生成到文档的 property 类别中显示
+    if (
+      get(brick, "comment.tags", []).find((item) => item.tag === "property")
+    ) {
+      return "property";
+    }
+
     return null;
   }
 
@@ -184,9 +193,13 @@ function extractBrickDocComplexKind(groups, elementChildren) {
   // 1024 equal to `Properties`
   // 2048 equal to `Methods`
   // 2097152 equal to `Object literals`
-  const finder = groups.filter(
-    (group) =>
-      group.kind === 1024 || group.kind === 2048 || group.kind === 2097152
+  const finder = groups.filter((group) =>
+    [
+      TypeDoc.ReflectionKind.Property,
+      TypeDoc.ReflectionKind.Method,
+      TypeDoc.ReflectionKind.ObjectLiteral,
+      TypeDoc.ReflectionKind.Accessor,
+    ].includes(group.kind)
   );
   if (finder.length === 0) return {};
 
@@ -211,15 +224,19 @@ function extractBrickDocComplexKind(groups, elementChildren) {
       return prev;
     }, {});
 
-    // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
-   const propertieList = brickConf[brickKindMap.property];
-   return !!propertieList ? {
-     ...brickConf,
-     [brickKindMap.property]: sortBy(propertieList, (item) => {
-       const find = elementChildren.find(child => child.name === item.name);
-      return find && find.id;
-    })
-   } : brickConf
+  // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
+  const propertieList = brickConf[brickKindMap.property];
+  return propertieList
+    ? {
+        ...brickConf,
+        [brickKindMap.property]: sortBy(propertieList, (item) => {
+          const find = elementChildren.find(
+            (child) => child.name === item.name
+          );
+          return find && find.id;
+        }),
+      }
+    : brickConf;
 }
 
 function existBrickDocId(element) {
@@ -579,6 +596,7 @@ module.exports = function generateBrickDocs(packageName, scope) {
     // disableSources: true,
     hideGenerator: true,
     categoryOrder: ["property", "event", "method", "Other"],
+    allowInheritedDoc: ["FormItemElement"],
     exclude: [
       "node_modules",
       "**/*.spec.ts?(x)",

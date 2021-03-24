@@ -3,6 +3,162 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.15.2...@next-core/editor-bricks-helper@0.16.0) (2021-03-24)
+
+
+### Features
+
+* **editor-container:** get related nodes based on events ([832b0b2](https://github.com/easyops-cn/next-core/commit/832b0b23713598067051659dda4fe61cf8fdaabf))
+
+
+
+
+
+## [0.15.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.15.1...@next-core/editor-bricks-helper@0.15.2) (2021-03-23)
+
+
+### Bug Fixes
+
+* **editor-container:** set dependencies of hoverNodeUid ([1095ac0](https://github.com/easyops-cn/next-core/commit/1095ac0f26019f0c17604f8fcd513fa7016c7089))
+
+
+
+
+
+## [0.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.15.0...@next-core/editor-bricks-helper@0.15.1) (2021-03-22)
+
+
+### Bug Fixes
+
+* **builder:** make builder container as a modal ([9bf618a](https://github.com/easyops-cn/next-core/commit/9bf618aff41ec1f30f903375c91d23064df5e759))
+* **builder:** refine slotContentLayout passing through ([9f72ecf](https://github.com/easyops-cn/next-core/commit/9f72ecffa8f3b9edddc21fa34c5ad8000c157c84))
+
+
+
+
+
+# [0.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.6...@next-core/editor-bricks-helper@0.15.0) (2021-03-18)
+
+
+### Features
+
+* **editor-bricks-helper:** useHoverNodeUid ([bfdc38d](https://github.com/easyops-cn/next-core/commit/bfdc38dd31b07cd0bac873c7fc24db5ba0643466))
+
+
+
+
+
+## [0.14.6](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.5...@next-core/editor-bricks-helper@0.14.6) (2021-03-18)
+
+**Note:** Version bump only for package @next-core/editor-bricks-helper
+
+
+
+
+
+## [0.14.5](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.4...@next-core/editor-bricks-helper@0.14.5) (2021-03-17)
+
+**Note:** Version bump only for package @next-core/editor-bricks-helper
+
+
+
+
+
+## [0.14.4](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.3...@next-core/editor-bricks-helper@0.14.4) (2021-03-15)
+
+**Note:** Version bump only for package @next-core/editor-bricks-helper
+
+
+
+
+
+## [0.14.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.2...@next-core/editor-bricks-helper@0.14.3) (2021-03-12)
+
+
+### Bug Fixes
+
+* **builder:** auto determine layout of bricks with no editors ([baffa9e](https://github.com/easyops-cn/next-core/commit/baffa9e061fd277e30b70ed5d8c3c8459078fc9a))
+
+
+
+
+
+## [0.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.1...@next-core/editor-bricks-helper@0.14.2) (2021-03-12)
+
+
+### Bug Fixes
+
+* **builder:** fix root drop-zone style which let canvas to handle outer margin ([8ea1670](https://github.com/easyops-cn/next-core/commit/8ea1670cf5e500adbee4316a48f8b89d4fb366c9))
+
+
+
+
+
+## [0.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.14.0...@next-core/editor-bricks-helper@0.14.1) (2021-03-12)
+
+
+### Bug Fixes
+
+* **builder:** override children mount point for routes ([27a6aea](https://github.com/easyops-cn/next-core/commit/27a6aea096e832f9c505f2e9347db0256d4e2c5e))
+
+
+
+
+
+# [0.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.13.0...@next-core/editor-bricks-helper@0.14.0) (2021-03-11)
+
+
+### Features
+
+* **drop-zone:** height ([5f7d642](https://github.com/easyops-cn/next-core/commit/5f7d6422e81b42a4c614a032afe6fc2bce2fe2d3))
+
+
+
+
+
+# [0.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.12.4...@next-core/editor-bricks-helper@0.13.0) (2021-03-09)
+
+
+### Features
+
+* **visual-builder:** support route nodes ([8729884](https://github.com/easyops-cn/next-core/commit/8729884615bb37fb70080824aafdeb91ca3b3d03))
+
+
+
+
+
+## [0.12.4](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.12.3...@next-core/editor-bricks-helper@0.12.4) (2021-03-09)
+
+**Note:** Version bump only for package @next-core/editor-bricks-helper
+
+
+
+
+
+## [0.12.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.12.2...@next-core/editor-bricks-helper@0.12.3) (2021-03-09)
+
+**Note:** Version bump only for package @next-core/editor-bricks-helper
+
+
+
+
+
+## [0.12.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.12.1...@next-core/editor-bricks-helper@0.12.2) (2021-03-09)
+
+**Note:** Version bump only for package @next-core/editor-bricks-helper
+
+
+
+
+
+## [0.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.12.0...@next-core/editor-bricks-helper@0.12.1) (2021-03-08)
+
+**Note:** Version bump only for package @next-core/editor-bricks-helper
+
+
+
+
+
 # [0.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.11.0...@next-core/editor-bricks-helper@0.12.0) (2021-03-05)
 
 

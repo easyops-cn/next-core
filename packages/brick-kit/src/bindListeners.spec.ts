@@ -1,5 +1,9 @@
 /* eslint-disable no-console */
-import { BrickEventHandler, BrickEventsMap } from "@next-core/brick-types";
+import {
+  BrickEventHandler,
+  BrickEventsMap,
+  StoryboardContextItem,
+} from "@next-core/brick-types";
 import {
   isBuiltinHandler,
   isCustomHandler,
@@ -168,7 +172,7 @@ describe("isCustomHandler", () => {
 describe("bindListeners", () => {
   beforeEach(() => {
     storyboardContext.clear();
-    const ctx: [string, any][] = [
+    const ctx: [string, StoryboardContextItem][] = [
       [
         "myStringContext",
         {
@@ -190,6 +194,10 @@ describe("bindListeners", () => {
           value: {
             quality: "better",
           },
+          onChange: {
+            action: "console.info",
+            args: ["<% EVENT.type %>", "<% EVENT.detail %>"],
+          },
         },
       ],
       [
@@ -199,7 +207,7 @@ describe("bindListeners", () => {
           brick: {
             element: {
               quality: "better",
-            },
+            } as any,
           },
           prop: "quality",
         },
@@ -333,7 +341,7 @@ describe("bindListeners", () => {
           args: [
             "myNumberContext",
             {
-              number: "<% CTX.myNumberContext %>",
+              number: "<% CTX.myNumberContext + 1 %>",
             },
           ],
         },
@@ -618,23 +626,33 @@ describe("bindListeners", () => {
       "custom api resolved"
     );
 
-    expect(console.info).toBeCalledTimes(2);
-    expect(console.info).toBeCalledWith(event1);
-    expect((console.info as jest.Mock).mock.calls[1][0].type).toBe(
-      "callback.finally"
+    expect(console.info).toBeCalledTimes(3);
+    // expect(console.info).toBeCalledWith(event1);
+    expect(console.info).toHaveBeenNthCalledWith(1, event1);
+    expect(console.info).toHaveBeenNthCalledWith(2, "context.change", {
+      checked: true,
+      quality: "better",
+    });
+    expect(console.info).toHaveBeenNthCalledWith(
+      3,
+      new CustomEvent("callback.finally")
     );
 
-    expect(console.warn).toBeCalledTimes(3);
+    expect(console.warn).toBeCalledTimes(4);
     expect(console.warn).toHaveBeenNthCalledWith(
       1,
       "specified args for console.warn"
     );
     expect(console.warn).toHaveBeenNthCalledWith(
       2,
-      expect.stringContaining("context.assign")
+      'Non-object current value of context "myNumberContext" for "context.assign", try "context.replace" instead.'
     );
     expect(console.warn).toHaveBeenNthCalledWith(
       3,
+      'Context "myNewContext" is not declared, we recommend declaring it first.'
+    );
+    expect(console.warn).toHaveBeenNthCalledWith(
+      4,
       new CustomEvent("callback.error", {
         detail: "oops",
       })
@@ -685,7 +703,7 @@ describe("bindListeners", () => {
 
     expect(storyboardContext.get("myStringContext").value).toBe("not-bad");
     expect(storyboardContext.get("myNumberContext").value).toEqual({
-      number: 3,
+      number: 4,
     });
     expect(storyboardContext.get("myObjectContext").value).toEqual({
       quality: "better",

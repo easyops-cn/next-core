@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.9.1...@next-core/brick-icons@2.9.2) (2021-03-22)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+
+
+
+
+## [2.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.9.0...@next-core/brick-icons@2.9.1) (2021-03-16)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+
+
+
+
+# [2.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.8.6...@next-core/brick-icons@2.9.0) (2021-03-11)
+
+
+### Features
+
+* **icons:** add phone wechat wework custom-title icons ([76e191b](https://github.com/easyops-cn/next-core/commit/76e191b376e8287013aa894b979a7e5f937f5cae))
+
+
+
+
+
+## [2.8.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.8.5...@next-core/brick-icons@2.8.6) (2021-03-08)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+
+
+
+
 ## [2.8.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.8.4...@next-core/brick-icons@2.8.5) (2021-03-05)
 
 **Note:** Version bump only for package @next-core/brick-icons
