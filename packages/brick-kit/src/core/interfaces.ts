@@ -84,6 +84,11 @@ export interface AbstractRuntime {
   getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
 
   /**
+   * 查看是否已安装某应用。
+   */
+  hasInstalledApp(appId: string): boolean;
+
+  /**
    * 获取特性开关字典。
    *
    * @example

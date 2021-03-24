@@ -70,6 +70,7 @@ export interface AbstractRuntime {
     getFeatureFlags(): FeatureFlags;
     getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
     getMiscSettings(): Record<string, unknown>;
+    hasInstalledApp(appId: string): boolean;
     // Warning: (ae-forgotten-export) The symbol "CustomProcessorFunc" needs to be exported by the entry point index.d.ts
     registerCustomProcessor(processorFullName: string, processorFunc: CustomProcessorFunc): void;
     registerCustomTemplate(tplName: string, tplConstructor: CustomTemplateConstructor, appId?: string): void;

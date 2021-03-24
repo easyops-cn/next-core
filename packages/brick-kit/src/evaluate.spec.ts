@@ -9,8 +9,10 @@ import { registerCustomProcessor } from "./core/exports";
 import { devtoolsHookEmit } from "./devtools";
 import { checkPermissions } from "./core/checkPermissions";
 import { getItem } from "./core/localStorage";
+import { getRuntime } from "./runtime";
 
 jest.mock("./devtools");
+jest.mock("./runtime");
 jest.mock("./core/checkPermissions");
 jest.mock("./core/localStorage");
 
@@ -32,6 +34,13 @@ jest.spyOn(console, "warn").mockImplementation(() => void 0);
   typeof checkPermissions
 >).mockImplementation((...actions) => {
   return !actions.includes("my:action-b");
+});
+
+const mockInstalledApps = ["my-app-id"];
+(getRuntime as jest.Mock).mockReturnValue({
+  hasInstalledApp(appId: string) {
+    return mockInstalledApps.includes(appId);
+  },
 });
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
@@ -170,6 +179,8 @@ describe("evaluate", () => {
     ["<% PERMISSIONS.check('my:action-a') %>", true],
     ["<% PERMISSIONS.check('my:action-b') %>", false],
     ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
+    ["<% INSTALLED_APPS.has('my-app-id') %>", true],
+    ["<% INSTALLED_APPS.has('my-another-app-id') %>", false],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

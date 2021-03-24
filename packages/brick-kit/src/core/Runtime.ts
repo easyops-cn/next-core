@@ -119,6 +119,12 @@ export class Runtime implements AbstractRuntime {
     return apps;
   }
 
+  hasInstalledApp(appId: string): boolean {
+    return kernel.bootstrapData.microApps.some(
+      (app) => app.id === appId && app.installStatus !== "running"
+    );
+  }
+
   reloadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
     return kernel.loadMicroApps(
       {
