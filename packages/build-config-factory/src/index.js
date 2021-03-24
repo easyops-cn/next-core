@@ -5,5 +5,4 @@ module.exports = {
   sizeLimit: require("./size-limit"),
   createVersionFile: require("./generateVersionFile"),
   renameTarPackage: require("./rename-tar-package"),
-  syncDllDeps: require("./syncDllDeps")
 };

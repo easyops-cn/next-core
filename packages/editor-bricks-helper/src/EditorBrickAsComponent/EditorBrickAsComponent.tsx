@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { useDrag } from "react-dnd";
 import { BrickAsComponent } from "@next-core/brick-kit";
-import { BuilderBrickNode, UseBrickConf } from "@next-core/brick-types";
+import { UseBrickConf } from "@next-core/brick-types";
 import { getEditorBrick } from "./getEditorBrick";
 import {
   BuilderDataTransferType,
@@ -11,6 +11,7 @@ import {
   EditorSlotContentLayout,
 } from "../interfaces";
 import { EditorBrickElementConstructor } from "../EditorElementFactory";
+import { useBuilderData } from "../hooks/useBuilderData";
 
 import styles from "./EditorBrickAsComponent.module.css";
 
@@ -25,24 +26,39 @@ export function EditorBrickAsComponent({
 }: EditorBrickAsComponentProps): React.ReactElement {
   const [initialized, setInitialized] = React.useState(false);
   const [editorBrick, setEditorBrick] = React.useState<string>();
+  const [loadEditorError, setLoadEditorError] = React.useState<string>();
+  const { edges } = useBuilderData();
+  const hasChildren = React.useMemo(
+    () => edges.some((edge) => edge.parent === node.$$uid),
+    [node, edges]
+  );
 
   React.useEffect(() => {
     (async () => {
       setInitialized(false);
-      setEditorBrick(await getEditorBrick((node as BuilderBrickNode).brick));
+      let editorName: string;
+      let editorError: string;
+      try {
+        editorName = await getEditorBrick(node);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        editorError = (error as Error).message;
+      }
+      setEditorBrick(editorName);
+      setLoadEditorError(editorError);
       setInitialized(true);
     })();
-  }, [(node as BuilderBrickNode).brick]);
+  }, [node]);
 
   const brickConf = React.useMemo<UseBrickConf>(
     () => ({
       brick: editorBrick,
       properties: {
         nodeUid: node.$$uid,
-        brick: node.brick,
       },
     }),
-    [editorBrick, node.$$uid, node.brick]
+    [editorBrick, node.$$uid]
   );
 
   const selfLayout = React.useMemo(() => {
@@ -53,8 +69,12 @@ export function EditorBrickAsComponent({
       ) as EditorBrickElementConstructor;
       layout = editorConstructor.selfLayout;
     }
-    return layout ?? EditorSelfLayout.INLINE;
-  }, [initialized, editorBrick]);
+    // For bricks with no editors, display as a container if it has children.
+    return (
+      layout ??
+      (hasChildren ? EditorSelfLayout.CONTAINER : EditorSelfLayout.INLINE)
+    );
+  }, [initialized, editorBrick, hasChildren]);
 
   const [{ isDragging }, dragRef] = useDrag({
     item: {
@@ -76,7 +96,6 @@ export function EditorBrickAsComponent({
       <div
         className={classNames({
           [styles.slotContentLayoutBlock]:
-            !slotContentLayout ||
             slotContentLayout === EditorSlotContentLayout.BLOCK,
           [styles.slotContentLayoutInline]:
             slotContentLayout === EditorSlotContentLayout.INLINE,
@@ -101,7 +120,7 @@ export function EditorBrickAsComponent({
         </div>
       </div>
     ) : (
-      <span>{`Load editor failed for "${node.brick}"`}</span>
+      <span>{loadEditorError}</span>
     )
   ) : (
     <span>Loading...</span>

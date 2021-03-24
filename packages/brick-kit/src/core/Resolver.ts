@@ -323,6 +323,7 @@ export class Resolver {
         await providerBrick.$refresh({
           ignoreErrors: interval.ignoreErrors,
           throwErrors: true,
+          $$scheduled: true,
         });
         if (this.active) {
           // eslint-disable-next-line require-atomic-updates

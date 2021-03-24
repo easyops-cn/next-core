@@ -20,6 +20,7 @@ import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
 import { deleteNodeFromTree } from "./deleteNodeFromTree";
+import { RelatedNodesBasedOnEventsMap } from "../processors/getRelatedNodesBasedOnEvents";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -29,6 +30,8 @@ enum BuilderInternalEventType {
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
   ROUTE_LIST_CHANGE = "builder.route.list.change",
+  HOVER_NODE_CHANGE = "builder.hoverNode.change",
+  SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
 }
 
 export class BuilderDataManager implements AbstractBuilderDataManager {
@@ -38,6 +41,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     edges: [],
   };
 
+  private hoverNodeUid: number;
+
   private routeList: BuilderRouteNode[] = [];
 
   private eventTarget = new EventTarget();
@@ -46,12 +51,24 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     active: false,
   };
 
+  private showRelatedNodesBasedOnEvents: boolean;
+
+  private relatedNodesBasedOnEventsMap: RelatedNodesBasedOnEventsMap;
+
   getData(): BuilderCanvasData {
     return this.data;
   }
 
   getContextMenuStatus(): BuilderContextMenuStatus {
     return this.contextMenuStatus;
+  }
+
+  getRelatedNodesBasedOnEventsMap(): RelatedNodesBasedOnEventsMap {
+    return this.relatedNodesBasedOnEventsMap;
+  }
+
+  setRelatedNodesBasedOnEventsMap(value: RelatedNodesBasedOnEventsMap): void {
+    this.relatedNodesBasedOnEventsMap = value;
   }
 
   routeListInit(data: BuilderRouteNode[]): void {
@@ -84,6 +101,21 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     const walk = (node: BuilderRouteOrBrickNode): number => {
       const currentUid = getUniqueNodeId();
       nodes.push(getBuilderNode(node, currentUid));
+
+      // For routes and custom-templates, their children are fixed
+      // and mount points should be ignored. To unify tree edge
+      // data structure, just override their mount points.
+      let overrideChildrenMountPoint: string;
+      switch (node.type) {
+        case "bricks":
+        case "custom-template":
+          overrideChildrenMountPoint = "bricks";
+          break;
+        case "routes":
+          overrideChildrenMountPoint = "routes";
+          break;
+      }
+
       if (Array.isArray(node.children)) {
         const sortedChildren = sortBy(node.children, [
           (item) => item.sort ?? -Infinity,
@@ -93,7 +125,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
           edges.push({
             child: childUid,
             parent: currentUid,
-            mountPoint: child.mountPoint,
+            mountPoint: overrideChildrenMountPoint ?? child.mountPoint,
             sort: index,
           });
         });
@@ -319,6 +351,58 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.CONTEXT_MENU_CHANGE,
         fn as EventListener
+      );
+    };
+  }
+
+  setShowRelatedNodesBasedOnEvents(show: boolean): void {
+    this.showRelatedNodesBasedOnEvents = show;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(
+        BuilderInternalEventType.SHOW_RELATED_NODES_BASED_ON_EVENTS
+      )
+    );
+  }
+
+  getShowRelatedNodesBasedOnEvents(): boolean {
+    return this.showRelatedNodesBasedOnEvents;
+  }
+
+  onShowRelatedNodesBasedOnEventsChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.SHOW_RELATED_NODES_BASED_ON_EVENTS,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.SHOW_RELATED_NODES_BASED_ON_EVENTS,
+        fn
+      );
+    };
+  }
+
+  setHoverNodeUid(uid: number): void {
+    if (this.hoverNodeUid !== uid) {
+      this.hoverNodeUid = uid;
+      this.eventTarget.dispatchEvent(
+        new CustomEvent(BuilderInternalEventType.HOVER_NODE_CHANGE)
+      );
+    }
+  }
+
+  getHoverNodeUid(): number {
+    return this.hoverNodeUid;
+  }
+
+  onHoverNodeChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.HOVER_NODE_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.HOVER_NODE_CHANGE,
+        fn
       );
     };
   }

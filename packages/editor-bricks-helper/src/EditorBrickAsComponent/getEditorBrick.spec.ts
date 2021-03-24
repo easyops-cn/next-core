@@ -1,25 +1,24 @@
-import { developHelper } from "@next-core/brick-kit";
 import { getEditorBrick } from "./getEditorBrick";
 
-jest.mock("@next-core/brick-kit");
-
-const mockConsolError = jest
-  .spyOn(console, "error")
-  .mockImplementation(() => void 0);
-
-(developHelper.loadEditorBricks as jest.MockedFunction<
-  typeof developHelper.loadEditorBricks
->).mockImplementation((bricks) => {
-  if (bricks.includes("will-fail--editor")) {
-    return Promise.reject("oops");
-  }
-  return Promise.resolve();
-});
+jest.mock("@next-core/brick-kit", () => ({
+  developHelper: {
+    loadEditorBricks(bricks: string[]) {
+      if (bricks.includes("will-fail--editor")) {
+        return Promise.reject("oops");
+      }
+      return Promise.resolve();
+    },
+  },
+}));
 
 // Mock some editor bricks.
 customElements.define("micro-view--editor", class Tmp extends HTMLElement {});
 customElements.define(
   "basic-bricks.any-brick--editor",
+  class Tmp extends HTMLElement {}
+);
+customElements.define(
+  "basic-bricks.any-route--editor",
   class Tmp extends HTMLElement {}
 );
 
@@ -29,24 +28,64 @@ describe("getEditorBrick", () => {
   });
 
   it("should get specified editor brick if it is defined", async () => {
-    expect(await getEditorBrick("micro-view")).toBe("micro-view--editor");
+    expect(
+      await getEditorBrick({
+        type: "brick",
+        brick: "micro-view",
+        id: "B-001",
+      })
+    ).toBe("micro-view--editor");
   });
 
   it("should get fallback editor brick if it is not defined", async () => {
-    expect(await getEditorBrick("not-defined")).toBe(
-      "basic-bricks.any-brick--editor"
-    );
+    expect(
+      await getEditorBrick({
+        type: "brick",
+        brick: "not-defined",
+        id: "B-001",
+      })
+    ).toBe("basic-bricks.any-brick--editor");
   });
 
   it("should get fallback editor brick if it is not a custom element", async () => {
-    expect(await getEditorBrick("div")).toBe("basic-bricks.any-brick--editor");
+    expect(
+      await getEditorBrick({
+        type: "brick",
+        brick: "div",
+        id: "B-001",
+      })
+    ).toBe("basic-bricks.any-brick--editor");
   });
 
-  it("should return undefined if load editor brick failed", async () => {
-    expect(await getEditorBrick("will-fail")).toBe(undefined);
-    expect(mockConsolError).toBeCalledWith(
-      'Load editor brick for "will-fail" failed:',
-      "oops"
+  it("should get route editor if it is a route node", async () => {
+    expect(
+      await getEditorBrick({
+        type: "bricks",
+        path: "/",
+        id: "B-001",
+      })
+    ).toBe("basic-bricks.any-route--editor");
+  });
+
+  it("should throw error if load editor brick failed", () => {
+    return expect(
+      getEditorBrick({
+        type: "brick",
+        brick: "will-fail",
+        id: "B-001",
+      })
+    ).rejects.toEqual(
+      new Error('Load editor brick "will-fail--editor" failed')
     );
+  });
+
+  it("should throw error if it is a custom template node", () => {
+    return expect(
+      getEditorBrick({
+        type: "custom-template",
+        templateId: "tpl-test",
+        id: "B-001",
+      })
+    ).rejects.toEqual(new Error("Unsupported node type: custom-template"));
   });
 });

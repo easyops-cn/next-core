@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.10](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.9...@next-core/brick-scripts@2.3.10) (2021-03-09)
+
+
+### Bug Fixes
+
+* remove prop of brick from editor brick component ([e2fb251](https:///$repo-git-url$/next-core/commits/e2fb251c76f24d1e0316b619ba1abad62b5e01ce))
+
+
+
+
+
+## [2.3.9](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.8...@next-core/brick-scripts@2.3.9) (2021-03-08)
+
+**Note:** Version bump only for package @next-core/brick-scripts
+
+
+
+
+
 ## [2.3.8](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.7...@next-core/brick-scripts@2.3.8) (2021-02-07)
 
 ### Bug Fixes

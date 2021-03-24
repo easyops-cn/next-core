@@ -4,7 +4,7 @@ import { ClassElement } from "./interfaces";
 import { warnNativeHtmlElementProperty } from "./utils";
 
 // About the (most likely) related version of decorator proposal:
-// https://github.com/tc39/proposal-decorators/blob/master/previous/METAPROGRAMMING.md
+// https://github.com/tc39/proposal-decorators/blob/691d95e67052e125239a725d2756cb8a039c5fb9/previous/METAPROGRAMMING.md
 
 /**
  * 构件属性装饰器。
@@ -31,6 +31,9 @@ import { warnNativeHtmlElementProperty } from "./utils";
  */
 export function property(options?: PropertyDeclaration): any {
   return function decorateProperty(element: ClassElement): ClassElement {
+    if (options?.__unstable_doNotDecorate) {
+      return element;
+    }
     if (element.kind !== "field" || typeof element.key !== "string") {
       throw new Error(
         "`@property()` only support decorate class string property"

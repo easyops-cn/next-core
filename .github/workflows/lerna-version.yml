@@ -35,6 +35,3 @@ jobs:
 
     - name: Lerna Version
       run: npx lerna version --yes
-
-    - name: Sync taobao npm mirror
-      run: npx lerna exec -- curl -sX PUT 'https://npm.taobao.org/sync/\$LERNA_PACKAGE_NAME?sync_upstream=true'

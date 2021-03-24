@@ -49,7 +49,6 @@ import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools } from "../devtools";
 import { isCustomApiProvider } from "./CustomApis";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
-import { load } from "js-yaml";
 
 export class Kernel {
   public mountPoints: MountPoints;

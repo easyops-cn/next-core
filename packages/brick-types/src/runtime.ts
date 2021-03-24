@@ -198,6 +198,7 @@ export type StoryboardContextItem =
 export interface StoryboardContextItemFreeVariable {
   type: "free-variable";
   value: unknown;
+  onChange?: BrickEventHandler | BrickEventHandler[];
 }
 
 /** @internal */

@@ -58,6 +58,7 @@ import { TemplatePackage } from '@next-core/brick-types';
 import { UseBrickConf } from '@next-core/brick-types';
 import { UserInfo } from '@next-core/brick-types';
 import { UseSingleBrickConf } from '@next-core/brick-types';
+import { WithTranslation } from 'react-i18next';
 import { WithTranslationProps } from 'react-i18next';
 
 // @public
@@ -178,7 +179,7 @@ export interface EasyopsEmptyProps {
 // Warning: (ae-internal-missing-underscore) The name "ErrorBoundary" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export const ErrorBoundary: React_2.ComponentType<WithTranslationProps>;
+export const ErrorBoundary: React_2.ComponentType<Pick<Pick<WithTranslation<"brick-kit">, "t" | "tReady">, never> & WithTranslationProps>;
 
 // @public
 function event_2(options: EventDeclaration): any;
@@ -274,7 +275,9 @@ export function property(options?: PropertyDeclaration): any;
 // @public
 export interface PropertyDeclaration<Type = unknown> {
     // @internal
-    __deprecated_and_for_compatibility_only?: boolean;
+    readonly __deprecated_and_for_compatibility_only?: boolean;
+    // @internal
+    readonly __unstable_doNotDecorate?: boolean;
     readonly attribute?: boolean | string;
     // Warning: (ae-forgotten-export) The symbol "ComplexAttributeConverter" needs to be exported by the entry point index.d.ts
     readonly converter?: ComplexAttributeConverter<Type>;

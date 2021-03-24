@@ -1,6 +1,6 @@
 /* istanbul-ignore-file */
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 import { DragObjectWithType, useDrop } from "react-dnd";
 import { EditorBrickAsComponent } from "../EditorBrickAsComponent/EditorBrickAsComponent";
@@ -19,6 +19,8 @@ import { processDrop } from "./processDrop";
 
 import styles from "./DropZone.module.css";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
+import { useBuilderData } from "../hooks/useBuilderData";
+import { getRelatedNodesBasedOnEvents } from "../processors/getRelatedNodesBasedOnEvents";
 
 export interface DropZoneProps {
   nodeUid?: number;
@@ -54,7 +56,22 @@ export function DropZone({
     nodeUid,
     isRoot,
   });
+  const { nodes } = useBuilderData();
+
+  useEffect(() => {
+    if (isRoot) {
+      const rootNodeIsCustomTemplate = node.type === "custom-template";
+      const relatedNodesBasedOnEvents = getRelatedNodesBasedOnEvents(
+        nodes,
+        rootNodeIsCustomTemplate
+      );
+      manager.setRelatedNodesBasedOnEventsMap(relatedNodesBasedOnEvents);
+    }
+  }, [isRoot, nodes]);
+
   const canDrop = useCanDrop();
+  const refinedSlotContentLayout =
+    slotContentLayout ?? EditorSlotContentLayout.BLOCK;
 
   const selfChildNodes = React.useMemo(
     () =>
@@ -137,12 +154,11 @@ export function DropZone({
           [styles.showOutlineIfEmpty]:
             !isRoot && showOutlineIfEmpty && selfChildNodes.length === 0,
           [styles.slotContentLayoutBlock]:
-            !slotContentLayout ||
-            slotContentLayout === EditorSlotContentLayout.BLOCK,
+            refinedSlotContentLayout === EditorSlotContentLayout.BLOCK,
           [styles.slotContentLayoutInline]:
-            slotContentLayout === EditorSlotContentLayout.INLINE,
+            refinedSlotContentLayout === EditorSlotContentLayout.INLINE,
           [styles.slotContentLayoutGrid]:
-            slotContentLayout === EditorSlotContentLayout.GRID,
+            refinedSlotContentLayout === EditorSlotContentLayout.GRID,
         }
       )}
       style={dropZoneStyle}
@@ -156,7 +172,7 @@ export function DropZone({
           <EditorBrickAsComponent
             key={child.$$uid}
             node={child}
-            slotContentLayout={slotContentLayout}
+            slotContentLayout={refinedSlotContentLayout}
           />
         ))}
       </div>

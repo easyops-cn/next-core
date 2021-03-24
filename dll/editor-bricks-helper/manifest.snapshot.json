@@ -29,6 +29,9 @@
           "EditorSlotContentLayout",
           "SlotContainer",
           "getSortedIdsAfterDropped",
+          "isBrickNode",
+          "isCustomTemplateNode",
+          "isRouteNode",
           "useBuilderContextMenuStatus",
           "useBuilderData",
           "useBuilderDataManager",
@@ -38,7 +41,9 @@
           "useBuilderParentNode",
           "useCanDrop",
           "useDroppingStatusContext",
-          "useRouteList"
+          "useHoverNodeUid",
+          "useRouteList",
+          "useShowRelatedNodesBasedOnEvents"
         ]
       }
     },
