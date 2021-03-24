@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.3...@next-core/brick-kit@2.38.0) (2021-03-24)
+
+
+### Features
+
+* support to check if a micro-app is installed ([99f5a0d](https://github.com/easyops-cn/next-core/commit/99f5a0dcc0eda47b356837f9f56ddfeb18eaac8d))
+
+
+
+
+
 ## [2.37.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.2...@next-core/brick-kit@2.37.3) (2021-03-24)
 
 **Note:** Version bump only for package @next-core/brick-kit
