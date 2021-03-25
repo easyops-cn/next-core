@@ -16,6 +16,7 @@
   pointer-events: none;
 }
 
+.editorContainer.highlight > .nodeAlias,
 .editorContainer.hover > .nodeAlias,
 .editorContainer.dropping > .nodeAlias {
   visibility: visible;
@@ -55,6 +56,11 @@
 .editorContainer.isUpstreamNode > .editorBody,
 .editorContainer.isUpstreamNode > .nodeAlias {
   box-shadow: 0 0 0 1px rgba(224, 88, 22, 0.3);
+}
+
+.editorContainer.highlight > .editorBody,
+.editorContainer.highlight > .nodeAlias {
+  box-shadow: 0 0 0 1px var(--theme-orange-color);
 }
 
 .arrow {

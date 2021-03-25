@@ -32,6 +32,7 @@ enum BuilderInternalEventType {
   ROUTE_LIST_CHANGE = "builder.route.list.change",
   HOVER_NODE_CHANGE = "builder.hoverNode.change",
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
+  HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
 }
 
 export class BuilderDataManager implements AbstractBuilderDataManager {
@@ -54,6 +55,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   private showRelatedNodesBasedOnEvents: boolean;
 
   private relatedNodesBasedOnEventsMap: RelatedNodesBasedOnEventsMap;
+
+  private highlightNodes: Set<number> = new Set();
 
   getData(): BuilderCanvasData {
     return this.data;
@@ -402,6 +405,30 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.HOVER_NODE_CHANGE,
+        fn
+      );
+    };
+  }
+
+  setHighlightNodes(nodeUids: Set<number>): void {
+    this.highlightNodes = nodeUids;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.HIGHLIGHT_NODES_CHANGE)
+    );
+  }
+
+  getHighlightNodes(): Set<number> {
+    return this.highlightNodes;
+  }
+
+  onHighlightNodesChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.HIGHLIGHT_NODES_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.HIGHLIGHT_NODES_CHANGE,
         fn
       );
     };
