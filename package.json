@@ -39,8 +39,8 @@
   "devDependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.5.0",
-    "@babel/core": "^7.13.13",
-    "@babel/types": "^7.13.13",
+    "@babel/core": "^7.13.14",
+    "@babel/types": "^7.13.14",
     "@cypress/browserify-preprocessor": "^3.0.1",
     "@easyops-cn/api-documenter": "^7.9.3",
     "@microsoft/api-extractor": "^7.13.1",
