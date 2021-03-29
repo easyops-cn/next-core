@@ -45,7 +45,7 @@
 .editorContainer.isUpstreamNode > .nodeAlias,
 .editorContainer.isDownstreamNode > .nodeAlias {
   visibility: visible;
-  background-color: rgba(230, 230, 230, 0.3);
+  background-color: #f7f7f7;
 }
 
 .editorContainer.isDownstreamNode > .editorBody,
