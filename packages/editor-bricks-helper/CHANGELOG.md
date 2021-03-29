@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.17.0...@next-core/editor-bricks-helper@0.17.1) (2021-03-29)
+
+
+### Bug Fixes
+
+* **editor-container:** background color ([1e035c5](https://github.com/easyops-cn/next-core/commit/1e035c5ca591feb8b2213b9484314ff9fd586f2a))
+
+
+
+
+
 # [0.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.16.1...@next-core/editor-bricks-helper@0.17.0) (2021-03-25)
 
 
