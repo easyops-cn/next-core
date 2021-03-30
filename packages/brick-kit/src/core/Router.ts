@@ -42,7 +42,7 @@ export class Router {
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
-  private featureFlags: Record<string, boolean>;
+  private readonly featureFlags: Record<string, boolean>;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
@@ -228,8 +228,9 @@ export class Router {
 
     unmountTree(mountPoints.bg as MountableElement);
 
-    function redirectToLogin(): void {
-      history.replace("/auth/login", { from: location });
+    function redirectToLogin(ssoEnabled: boolean): void {
+      localStorage.setItem("from", window.location.href)
+      history.replace(ssoEnabled ? "/sso-auth/login" : "/auth/login", {from: location});
     }
 
     if (storyboard) {
@@ -269,7 +270,9 @@ export class Router {
         // Redirect to login page if not logged in.
         if (isUnauthenticatedError(error)) {
           const history = getHistory();
-          history.push("/auth/login", {
+          localStorage.setItem("from", window.location.href)
+          const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
+          history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
             from: location,
           });
           return;
@@ -300,7 +303,7 @@ export class Router {
       const { unauthenticated, redirect, barsHidden, hybrid, failed } = flags;
 
       if (unauthenticated) {
-        redirectToLogin();
+        redirectToLogin(this.featureFlags["sso-enabled"]);
         return;
       }
 
@@ -410,7 +413,7 @@ export class Router {
     } else if (!isLoggedIn()) {
       // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
       // Redirect to login if no storyboard is matched.
-      redirectToLogin();
+      redirectToLogin(this.featureFlags["sso-enabled"]);
       return;
     }
 

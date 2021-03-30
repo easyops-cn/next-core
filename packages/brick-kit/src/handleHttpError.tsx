@@ -11,6 +11,7 @@ import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "./i18n/constants";
 import { getHistory } from "./history";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
+import { getRuntime } from "./runtime";
 
 /**
  * 将 http 请求错误转换为可读的字符串。
@@ -66,8 +67,10 @@ export function handleHttpError(
       okText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_OK}`),
       cancelText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_CANCEL}`),
       onOk: () => {
+        const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
+        localStorage.setItem("from", window.location.href)
         const history = getHistory();
-        history.push("/auth/login", {
+        history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
           from: {
             ...history.location,
             state: undefined,

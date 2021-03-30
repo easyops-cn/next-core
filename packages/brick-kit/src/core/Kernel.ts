@@ -111,7 +111,9 @@ export class Kernel {
       const data = Object.assign({}, event.data);
       if (data.type === "auth.guard") {
         const history = getHistory();
-        history.push("/auth/login", {
+        const ssoEnabled = this.getFeatureFlags()["sso-enabled"];
+        localStorage.setItem("from", window.location.href)
+        history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
           from: history.location,
         });
       }

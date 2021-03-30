@@ -15,9 +15,11 @@ import {
 } from "./handleHttpError";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
 import { getHistory } from "./history";
+import { getRuntime } from "./runtime";
 
 jest.mock("./isUnauthenticatedError");
 jest.mock("./history");
+jest.mock("./runtime");
 
 const spyOnModalError = jest.spyOn(Modal, "error");
 const spyOnModalConfirm = jest.spyOn(Modal, "confirm");
@@ -34,6 +36,10 @@ const spyOnHistoryPush = jest.fn();
     },
   },
 });
+
+(getRuntime as jest.Mock).mockImplementation(() => ({
+  getFeatureFlags: () => ({ "sso-enabled": false }),
+}));
 (window as any).Event = class {};
 (window as any).HTMLScriptElement = class {};
 
