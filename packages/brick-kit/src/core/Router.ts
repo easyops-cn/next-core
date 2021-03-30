@@ -34,6 +34,7 @@ import { constructMenu } from "./menu";
 import { getRuntimeMisc } from "../misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 import { preCheckPermissions } from "./checkPermissions";
+import { getRuntime } from "../runtime";
 
 export class Router {
   private defaultCollapsed = false;
