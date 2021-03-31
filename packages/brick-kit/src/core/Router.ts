@@ -268,11 +268,8 @@ export class Router {
 
         // Redirect to login page if not logged in.
         if (isUnauthenticatedError(error)) {
-          const history = getHistory();
           const ssoEnabled = this.featureFlags["sso-enabled"];
-          history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
-            from: location,
-          });
+          redirectToLogin(ssoEnabled);
           return;
         }
 
