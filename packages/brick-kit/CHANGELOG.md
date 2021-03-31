@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.38.0...@next-core/brick-kit@2.39.0) (2021-03-31)
+
+
+### Bug Fixes
+
+* **localStorage:** remove local storage ([5c582b5](https://github.com/easyops-cn/next-core/commit/5c582b51dc0d6dd81c54084cf72bf4f0e06138dc))
+* add import ([20e5c9a](https://github.com/easyops-cn/next-core/commit/20e5c9a3424f0ac1bea86d11a95a627592740ecc))
+
+
+### Features
+
+* **sso:** support redirect to sso-auth ([f65a8b6](https://github.com/easyops-cn/next-core/commit/f65a8b6b1cf194eaf5c4a3870366fdbb5f86259a))
+
+
+
+
+
 # [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.3...@next-core/brick-kit@2.38.0) (2021-03-24)
 
 
