@@ -137,9 +137,6 @@ describe("handleHttpError", () => {
   });
 
   it("should handle unauthenticated errors and redirect to general login page", () => {
-    (getRuntime as jest.Mock).mockImplementation(() => ({
-      getFeatureFlags: () => ({ "sso-enabled": false }),
-    }));
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
@@ -163,9 +160,9 @@ describe("handleHttpError", () => {
   });
 
   it("should handle unauthenticated errors and redirect to sso login page", () => {
-    (getRuntime as jest.Mock).mockImplementation(() => ({
-      getFeatureFlags: () => ({ "sso-enabled": true }),
-    }));
+    spyOnGetRuntime.mockReturnValue({
+      getFeatureFlags: () => ({ "sso-enabled": true }),}
+    )
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
