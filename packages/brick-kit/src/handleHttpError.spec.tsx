@@ -135,8 +135,8 @@ describe("handleHttpError", () => {
 
   it("should handle unauthenticated errors and redirect to general login page", () => {
     spyOnGetRuntime.mockReturnValueOnce({
-      getFeatureFlags: () => ({ "sso-enabled": false }),}
-    )
+      getFeatureFlags: () => ({ "sso-enabled": false }),
+    });
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
@@ -157,12 +157,14 @@ describe("handleHttpError", () => {
         pathname: "/no-where",
       },
     });
+
+    mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
   });
 
   it("should handle unauthenticated errors and redirect to sso login page", () => {
     spyOnGetRuntime.mockReturnValueOnce({
-      getFeatureFlags: () => ({ "sso-enabled": true }),}
-    )
+      getFeatureFlags: () => ({ "sso-enabled": true }),
+    });
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
@@ -183,6 +185,8 @@ describe("handleHttpError", () => {
         pathname: "/no-where",
       },
     });
+
+    mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
   });
 });
 
