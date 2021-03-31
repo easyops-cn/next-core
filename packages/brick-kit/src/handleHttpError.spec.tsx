@@ -15,13 +15,16 @@ import {
 } from "./handleHttpError";
 import { isUnauthenticatedError } from "./isUnauthenticatedError";
 import { getHistory } from "./history";
+import { getRuntime } from "./runtime";
 
 jest.mock("./isUnauthenticatedError");
 jest.mock("./history");
+jest.mock("./runtime");
 
 const spyOnModalError = jest.spyOn(Modal, "error");
 const spyOnModalConfirm = jest.spyOn(Modal, "confirm");
 
+const spyOnGetRuntime = getRuntime as jest.Mock;
 jest.spyOn(i18next, "t").mockImplementation((k) => k);
 const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
 const spyOnHistoryPush = jest.fn();
@@ -34,10 +37,14 @@ const spyOnHistoryPush = jest.fn();
     },
   },
 });
+
 (window as any).Event = class {};
 (window as any).HTMLScriptElement = class {};
 
 describe("httpErrorToString", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("should return Errors", () => {
     expect(httpErrorToString(new Error("oops"))).toBe("Error: oops");
   });
@@ -126,7 +133,10 @@ describe("handleHttpError", () => {
     });
   });
 
-  it("should handle unauthenticated errors", () => {
+  it("should handle unauthenticated errors and redirect to general login page", () => {
+    spyOnGetRuntime.mockReturnValueOnce({
+      getFeatureFlags: () => ({ "sso-enabled": false }),
+    });
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
@@ -147,6 +157,36 @@ describe("handleHttpError", () => {
         pathname: "/no-where",
       },
     });
+
+    mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
+  });
+
+  it("should handle unauthenticated errors and redirect to sso login page", () => {
+    spyOnGetRuntime.mockReturnValueOnce({
+      getFeatureFlags: () => ({ "sso-enabled": true }),
+    });
+    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
+    handleHttpError(new Error("oops"));
+    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
+    handleHttpError(new Error("oops"));
+    expect(spyOnModalError).not.toBeCalled();
+    expect(spyOnModalConfirm).toBeCalledTimes(1);
+    expect(spyOnModalConfirm).toHaveBeenCalledWith(
+      expect.objectContaining({
+        okText: "brick-kit:MODAL_OK",
+        cancelText: "brick-kit:MODAL_CANCEL",
+      })
+    );
+    expect(spyOnHistoryPush).not.toBeCalled();
+
+    spyOnModalConfirm.mock.calls[0][0].onOk();
+    expect(spyOnHistoryPush).toBeCalledWith("/sso-auth/login", {
+      from: {
+        pathname: "/no-where",
+      },
+    });
+
+    mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
   });
 });
 

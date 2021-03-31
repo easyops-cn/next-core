@@ -1,3 +1,4 @@
+import "whatwg-fetch";
 import { History, Location, LocationListener } from "history";
 import { getHistory } from "../history";
 import { Router } from "./Router";
@@ -17,11 +18,14 @@ import {
   scanCustomApisInStoryboard,
   mapCustomApisToNameAndNamespace,
 } from "@next-core/brick-utils";
+import { isUnauthenticatedError } from "../isUnauthenticatedError";
+import { HttpResponseError } from "@next-core/brick-http";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
 jest.mock("./reconciler");
 jest.mock("../auth");
+jest.mock("../isUnauthenticatedError");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("./checkPermissions");
@@ -45,7 +49,8 @@ spyOnMapCustomApisToNameAndNamespace.mockReturnValue([
     namespace: "easyops.custom_api",
   },
 ]);
-
+const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
+spyOnIsUnauthenticatedError.mockReturnValue(false)
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
@@ -171,7 +176,7 @@ describe("Router", () => {
       appBar: {
         title: "app",
       },
-    });
+    }, null);
     expect(router.getState()).toBe("initial");
     await router.bootstrap();
     expect(router.getState()).toBe("mounted");
@@ -196,6 +201,59 @@ describe("Router", () => {
     expect(preCheckPermissions).toBeCalled();
   });
 
+  it("should redirect to login page if not logged in.", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      dependsAll: true,
+      routes: [],
+    });
+    __setMountRoutesResults(null, new HttpResponseError(new Response("", {status: 401}), {
+      code: 100003,
+    }));
+    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
+    await router.bootstrap();
+    expect(spyOnHistory.replace.mock.calls[0]).toEqual([
+      "/auth/login",
+      {
+        "from": {
+          "pathname": "/yo",
+        },
+      },
+    ]);
+  });
+
+  it("should redirect to login page if redirect exists.", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      dependsAll: true,
+      routes: [],
+    });
+    __setMountRoutesResults({
+      flags: {
+        unauthenticated: true,
+        redirect: {
+          path: "/auth/login",
+          state: {
+            from: "/private",
+          },
+        },
+      },
+    }, null);
+    await router.bootstrap();
+    expect(spyOnHistory.replace.mock.calls[0]).toEqual([
+      "/auth/login",
+      {
+        from: {
+          pathname: "/yo",
+        },
+      },
+    ]);
+  });
+
   it("should render matched storyboard with dependsAll and redirect", async () => {
     __setMatchedStoryboard({
       app: {
@@ -213,7 +271,7 @@ describe("Router", () => {
           },
         },
       },
-    });
+    }, null);
     await router.bootstrap();
     expect(spyOnHistory.replace.mock.calls[0]).toEqual([
       "/auth/login",
@@ -237,7 +295,7 @@ describe("Router", () => {
         barsHidden: true,
       },
       main: [],
-    });
+    }, null);
     await router.bootstrap();
     expect(kernel.toggleBars).toBeCalledWith(false);
     expect(spyOnMountStaticNode).not.toBeCalled();

@@ -6,14 +6,16 @@ import {
 import { MountRoutesResult } from "../LocationContext";
 
 let _matchedStoryboard: RuntimeStoryboard;
-let _mountRoutesResults: MountRoutesResult;
+let _mountRoutesResultsData: MountRoutesResult;
+let _mountRoutesResultsError: Error;
 
 export const __setMatchedStoryboard = (value: RuntimeStoryboard): void => {
   _matchedStoryboard = value;
 };
 
-export const __setMountRoutesResults = (value: MountRoutesResult): void => {
-  _mountRoutesResults = value;
+export const __setMountRoutesResults = (value: MountRoutesResult, err: Error): void => {
+  _mountRoutesResultsError = err;
+  _mountRoutesResultsData = value;
 };
 
 export class LocationContext {
@@ -42,7 +44,10 @@ export class LocationContext {
     slotId: string,
     result: MountRoutesResult
   ): Promise<void> {
-    Object.assign(result, _mountRoutesResults);
+    Object.assign(result, _mountRoutesResultsData);
+    if (_mountRoutesResultsError !== null){
+      throw _mountRoutesResultsError;
+    }
     return Promise.resolve();
   }
 
