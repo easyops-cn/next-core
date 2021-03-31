@@ -25,9 +25,6 @@ const spyOnModalError = jest.spyOn(Modal, "error");
 const spyOnModalConfirm = jest.spyOn(Modal, "confirm");
 
 const spyOnGetRuntime = getRuntime as jest.Mock;
-spyOnGetRuntime.mockReturnValue({
-    getFeatureFlags: () => ({ "sso-enabled": true }),}
-)
 jest.spyOn(i18next, "t").mockImplementation((k) => k);
 const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
 const spyOnHistoryPush = jest.fn();
@@ -137,6 +134,9 @@ describe("handleHttpError", () => {
   });
 
   it("should handle unauthenticated errors and redirect to general login page", () => {
+    spyOnGetRuntime.mockReturnValueOnce({
+      getFeatureFlags: () => ({ "sso-enabled": false }),}
+    )
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
     handleHttpError(new Error("oops"));
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
@@ -160,7 +160,7 @@ describe("handleHttpError", () => {
   });
 
   it("should handle unauthenticated errors and redirect to sso login page", () => {
-    spyOnGetRuntime.mockReturnValue({
+    spyOnGetRuntime.mockReturnValueOnce({
       getFeatureFlags: () => ({ "sso-enabled": true }),}
     )
     spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
