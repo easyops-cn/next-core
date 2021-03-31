@@ -230,7 +230,6 @@ export class Router {
     unmountTree(mountPoints.bg as MountableElement);
 
     function redirectToLogin(ssoEnabled: boolean): void {
-      localStorage.setItem("from", window.location.href)
       history.replace(ssoEnabled ? "/sso-auth/login" : "/auth/login", {from: location});
     }
 
@@ -271,8 +270,7 @@ export class Router {
         // Redirect to login page if not logged in.
         if (isUnauthenticatedError(error)) {
           const history = getHistory();
-          localStorage.setItem("from", window.location.href)
-          const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
+          const ssoEnabled = this.featureFlags["sso-enabled"];
           history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
             from: location,
           });

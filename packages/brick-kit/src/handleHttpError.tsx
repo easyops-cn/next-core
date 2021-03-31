@@ -68,7 +68,6 @@ export function handleHttpError(
       cancelText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_CANCEL}`),
       onOk: () => {
         const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
-        localStorage.setItem("from", window.location.href)
         const history = getHistory();
         history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
           from: {
