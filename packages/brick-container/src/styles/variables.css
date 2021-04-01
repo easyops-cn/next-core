@@ -56,6 +56,27 @@
   --page-title-margin-top: 18px;
   --page-title-margin-bottom: 18px;
   --toolbar-button-gap: 8px;
+
+  /* tag */
+  --tag-gray-color: #8c8c8c;
+  --tag-gray-background: #f5f5f5;
+  --tag-green-color: #2fc25b;
+  --tag-green-background: #eaf8ec;
+  --tag-red-color: #f0493c;
+  --tag-red-background: #fdf0ef;
+  --tag-blue-color: #0071eb;
+  --tag-blue-background: #ebf3fd;
+  --tag-orange-color: #ffa235;
+  --tag-orange-background: #fff5ea;
+  --tag-cyan-color: #29c7cc;
+  --tag-cyan-background: #e9fafa;
+  --tag-purple-color: #9760e4;
+  --tag-purple-background: #f2eafd;
+  --tag-geekblue-color: #1452cc;
+  --tag-geekblue-background: #ecf1fb;
+  --tag-yellow-color: #d4b106;
+  --tag-yellow-background: #feffe6;
+
   /* Sub menu in the main content. */
   --sub-menu-width: 240px;
 
@@ -182,6 +203,26 @@ html[data-theme="dark"],
   --text-color-disabled: rgba(255, 255, 255, 0.3);
   --text-color-secondary: #c6cfd9;
   --text-color-title: var(--text-color-default);
+
+  /* tag */
+  --tag-gray-color: #ffffff33;
+  --tag-gray-background: #ffffff14;
+  --tag-green-color: #24cd4a;
+  --tag-green-background: #24cd4a1a;
+  --tag-red-color: #fd5c5c;
+  --tag-red-background: #fd5c5c1a;
+  --tag-blue-color: #2fa1fa;
+  --tag-blue-background: #2fa1fa1a;
+  --tag-orange-color: #ffa400;
+  --tag-orange-background: #ffcf541a;
+  --tag-cyan-color: #54c6b0;
+  --tag-cyan-background: #54c6b01a;
+  --tag-purple-color: #ac5bff;
+  --tag-purple-background: #ac5bff1a;
+  --tag-geekblue-color: #5c86ff;
+  --tag-geekblue-background: #5c86ff1a;
+  --tag-yellow-color: #edcd61;
+  --tag-yellow-background: #edcd611a;
 
   /* antd basics */
   --antd-background-color-base: rgba(255, 255, 255, 0.08);
