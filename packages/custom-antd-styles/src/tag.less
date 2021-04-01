@@ -1,3 +1,5 @@
+@tag-color-list: green, red, blue, orange, cyan, purple, geekblue, yellow;
+
 .@{tag-prefix-cls} {
   line-height: 22px;
   padding: 0 9px;
@@ -51,39 +53,30 @@
   }
 
   // 多彩标签样式
-  &-green {
-    color: var(--theme-green-color);
-    background: var(--theme-green-background);
-  }
+  each(@tag-color-list, {
+      &-@{value} {
+        color: e('var(--tag-@{value}-color)');
+        background: e('var(--tag-@{value}-background)');
+      }
+    }
 
-  &-red {
-    color: var(--theme-red-color);
-    background: var(--theme-red-background);
-  }
+  );
+}
 
-  &-blue {
-    color: var(--theme-blue-color);
-    background: var(--theme-blue-background);
-  }
+/**
+ * 暗黑模式
+ * 蓝湖链接：https://lanhuapp.com/web/#/item/project/detailDetach?pid=0d13ee14-e7eb-4cde-9a23-5e095583dab5&project_id=0d13ee14-e7eb-4cde-9a23-5e095583dab5&image_id=3783cf98-1e1c-433b-86ed-7d850a363a57&fromEditor=true
+*/
+html[data-theme="dark"] {
+  .@{tag-prefix-cls} {
 
-  &-orange {
-    color: var(--theme-orange-color);
-    background: var(--theme-orange-background);
-  }
+    // 多彩标签样式
+    each(@tag-color-list, {
+        &-@{value} {
+          border: e('1px solid var(--tag-@{value}-color) !important');
+        }
+      }
 
-  &-cyan {
-    color: var(--theme-cyan-color);
-    background: var(--theme-cyan-background);
+    );
   }
-
-  &-purple {
-    color: var(--theme-purple-color);
-    background: var(--theme-purple-background);
-  }
-
-  &-geekblue {
-    color: var(--theme-geekblue-color);
-    background: var(--theme-geekblue-background);
-  }
-
 }
