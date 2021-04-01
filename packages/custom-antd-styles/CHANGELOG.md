@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.6.6...@next-core/custom-antd-styles@1.7.0) (2021-04-01)
+
+
+### Features
+
+* **tag:** tag标签黑暗模式样式 ([def420a](https://github.com/easyops-cn/next-core/commit/def420a992ccedc39df4c5efe90b81e534c2072d))
+
+
+
+
+
 ## [1.6.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.6.5...@next-core/custom-antd-styles@1.6.6) (2021-03-26)
 
 

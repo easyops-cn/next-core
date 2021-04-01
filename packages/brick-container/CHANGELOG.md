@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.19.20...@next-core/brick-container@2.20.0) (2021-04-01)
+
+
+### Features
+
+* **tag:** tag标签黑暗模式样式 ([def420a](https://github.com/easyops-cn/next-core/commit/def420a992ccedc39df4c5efe90b81e534c2072d))
+
+
+
+
+
 ## [2.19.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.19.19...@next-core/brick-container@2.19.20) (2021-03-31)
 
 **Note:** Version bump only for package @next-core/brick-container
