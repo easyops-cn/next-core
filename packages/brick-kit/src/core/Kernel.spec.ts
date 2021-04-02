@@ -11,11 +11,15 @@ import { checkLogin, bootstrap, getAppStoryboard } from "@next-sdk/auth-sdk";
 import { UserAdminApi } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi } from "@next-sdk/micro-app-sdk";
 import { InstanceApi } from "@next-sdk/cmdb-sdk";
-import { MountPoints, Storyboard } from "@next-core/brick-types";
+import {
+  LayoutType,
+  MountPoints,
+  RuntimeBootstrapData,
+  Storyboard,
+} from "@next-core/brick-types";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
-import { MenuBar } from "./MenuBar";
-import { AppBar } from "./AppBar";
+import { MenuBar, AppBar, BaseBar } from "./Bars";
 import { Router } from "./Router";
 import { registerCustomTemplate } from "./CustomTemplates";
 import * as mockHistory from "../history";
@@ -30,9 +34,7 @@ jest.mock("@next-sdk/auth-sdk");
 jest.mock("@next-sdk/user-service-sdk");
 jest.mock("@next-sdk/micro-app-sdk");
 jest.mock("@next-sdk/cmdb-sdk");
-jest.mock("./MenuBar");
-jest.mock("./AppBar");
-jest.mock("./LoadingBar");
+jest.mock("./Bars");
 jest.mock("./Router");
 jest.mock("./CustomTemplates");
 jest.mock("../auth");
@@ -129,6 +131,8 @@ describe("Kernel", () => {
       main: document.createElement("div") as any,
       bg: document.createElement("div") as any,
       portal: document.createElement("div") as any,
+      header: document.createElement("div") as any,
+      footer: document.createElement("div") as any,
     };
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
@@ -178,8 +182,8 @@ describe("Kernel", () => {
     expect(spyOnAuthenticate.mock.calls[0][0]).toEqual({
       loggedIn: true,
     });
-    expect(spyOnMenuBar.mock.instances[0].bootstrap).toBeCalled();
-    expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
+    // expect(spyOnMenuBar.mock.instances[0].bootstrap).toBeCalled();
+    // expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
 
     expect(kernel.getFeatureFlags()).toEqual({
@@ -342,6 +346,8 @@ describe("Kernel", () => {
       main: document.createElement("div") as any,
       bg: document.createElement("div") as any,
       portal: document.createElement("div") as any,
+      header: document.createElement("div") as any,
+      footer: document.createElement("div") as any,
     };
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: false,
@@ -365,6 +371,83 @@ describe("Kernel", () => {
     expect(document.body.classList.contains("first-rendered")).toBe(true);
   });
 
+  it("should work for easyops layout", async () => {
+    kernel.bootstrapData = {
+      navbar: {
+        menuBar: "basic-bricks.menu-bar",
+        appBar: "basic-bricks.app-bar",
+        loadingBar: "basic-bricks.loading-bar",
+      },
+    } as RuntimeBootstrapData;
+    kernel.menuBar = ({
+      bootstrap: jest.fn(),
+    } as unknown) as MenuBar;
+    kernel.appBar = ({
+      bootstrap: jest.fn(),
+    } as unknown) as AppBar;
+    kernel.loadingBar = ({
+      bootstrap: jest.fn(),
+    } as unknown) as BaseBar;
+    kernel.header = ({
+      bootstrap: jest.fn(),
+    } as unknown) as BaseBar;
+    kernel.footer = ({
+      bootstrap: jest.fn(),
+    } as unknown) as BaseBar;
+    await kernel.layoutBootstrap("console");
+    expect(kernel.currentLayout).toBe("console");
+    expect(kernel.presetBricks).toMatchObject({
+      pageNotFound: "basic-bricks.page-not-found",
+      pageError: "basic-bricks.page-error",
+    });
+    expect(document.body.classList.contains("layout-console")).toBe(true);
+    expect(document.body.classList.contains("layout-business")).toBe(false);
+    expect(kernel.menuBar.bootstrap).toBeCalledWith("basic-bricks.menu-bar");
+    expect(kernel.appBar.bootstrap).toBeCalledWith("basic-bricks.app-bar");
+    expect(kernel.loadingBar.bootstrap).toBeCalledWith(
+      "basic-bricks.loading-bar"
+    );
+    expect(kernel.header.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
+  });
+
+  it("should work for business layout", async () => {
+    kernel.menuBar = ({
+      bootstrap: jest.fn(),
+    } as unknown) as MenuBar;
+    kernel.appBar = ({
+      bootstrap: jest.fn(),
+    } as unknown) as AppBar;
+    kernel.loadingBar = ({
+      bootstrap: jest.fn(),
+    } as unknown) as BaseBar;
+    kernel.header = ({
+      bootstrap: jest.fn(),
+    } as unknown) as BaseBar;
+    kernel.footer = ({
+      bootstrap: jest.fn(),
+    } as unknown) as BaseBar;
+    await kernel.layoutBootstrap("business");
+    expect(kernel.currentLayout).toBe("business");
+    expect(kernel.presetBricks).toMatchObject({
+      pageNotFound: "business.page-not-found",
+      pageError: "business.page-error",
+    });
+    expect(document.body.classList.contains("layout-business")).toBe(true);
+    expect(document.body.classList.contains("layout-console")).toBe(false);
+    expect(kernel.menuBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.loadingBar.bootstrap).toBeCalledWith("business.loading-bar");
+    expect(kernel.header.bootstrap).toBeCalledWith("business.basic-header");
+    expect(kernel.footer.bootstrap).toBeCalledWith("business.basic-footer");
+  });
+
+  it("should throw for unknown layout", async () => {
+    await expect(
+      kernel.layoutBootstrap(("oops" as unknown) as LayoutType)
+    ).rejects.toEqual(new Error("Unknown layout: oops"));
+  });
+
   it("should toggleBars", () => {
     expect(document.body.classList.contains("bars-hidden")).toBe(false);
     kernel.toggleBars(false);
@@ -373,7 +456,7 @@ describe("Kernel", () => {
     expect(document.body.classList.contains("bars-hidden")).toBe(false);
   });
 
-  it("should unsetBars", () => {
+  it("should unset bars", () => {
     kernel.menuBar = {
       resetAppMenu: jest.fn(),
     } as any;
@@ -382,11 +465,29 @@ describe("Kernel", () => {
       setBreadcrumb: jest.fn(),
     } as any;
     kernel.toggleBars = jest.fn();
+    kernel.currentLayout = "console";
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalledWith(true);
     expect(kernel.menuBar.resetAppMenu).toBeCalled();
     expect(kernel.appBar.setPageTitle).toBeCalledWith(null);
     expect(kernel.appBar.setBreadcrumb).toBeCalledWith(null);
+  });
+
+  it("should not unset bars for the business layout", () => {
+    kernel.menuBar = {
+      resetAppMenu: jest.fn(),
+    } as any;
+    kernel.appBar = {
+      setPageTitle: jest.fn(),
+      setBreadcrumb: jest.fn(),
+    } as any;
+    kernel.toggleBars = jest.fn();
+    kernel.currentLayout = "business";
+    kernel.unsetBars({ appChanged: true });
+    expect(kernel.toggleBars).not.toBeCalled();
+    expect(kernel.menuBar.resetAppMenu).not.toBeCalled();
+    expect(kernel.appBar.setPageTitle).not.toBeCalled();
+    expect(kernel.appBar.setBreadcrumb).not.toBeCalled();
   });
 
   it("should toggleLegacyIframe", () => {

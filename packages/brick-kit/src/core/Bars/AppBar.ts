@@ -1,17 +1,8 @@
 import { AppBarBrick, BreadcrumbItemConf } from "@next-core/brick-types";
-import { Kernel } from "./exports";
+import { BaseBar } from "./BaseBar";
 
-export class AppBar {
+export class AppBar extends BaseBar {
   public element: AppBarBrick;
-
-  constructor(private kernel: Kernel) {}
-
-  async bootstrap(): Promise<void> {
-    const { navbar } = this.kernel.bootstrapData;
-    await this.kernel.loadDynamicBricks([navbar.appBar]);
-    this.element = document.createElement(navbar.appBar) as AppBarBrick;
-    this.kernel.mountPoints.appBar.appendChild(this.element);
-  }
 
   /**
    * 设置页面标题（顶部）

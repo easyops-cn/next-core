@@ -2,11 +2,11 @@ body {
   background-color: var(--body-background);
 }
 
-#root-layout {
+.layout-console #root-layout {
   display: flex;
 }
 
-#root-content {
+.layout-console #root-content {
   flex: 1;
   min-width: 0;
   min-height: 0;
@@ -16,15 +16,10 @@ body {
   width: var(--menu-bar-width);
 }
 
-#main-mount-point,
-#legacy-iframe-mount-point {
+.layout-console #main-mount-point,
+.layout-console #legacy-iframe-mount-point {
   margin-top: var(--app-bar-height);
   transition: var(--launchpad-backdrop-transition);
-}
-
-#legacy-iframe-mount-point,
-#bg-mount-point {
-  display: none;
 }
 
 #portal-mount-point {
@@ -40,14 +35,22 @@ html[data-mode="dashboard"] #legacy-iframe-mount-point {
   margin-top: 0;
 }
 
+#header-mount-point,
+#footer-mount-point,
+#legacy-iframe-mount-point,
+#bg-mount-point,
 .show-legacy-iframe #main-mount-point,
 .bars-hidden #menu-bar-mount-point,
 .bars-hidden #app-bar-mount-point,
+.layout-business #menu-bar-mount-point,
+.layout-business #app-bar-mount-point,
 html[data-mode="dashboard"] #menu-bar-mount-point,
 html[data-mode="dashboard"] #app-bar-mount-point {
   display: none;
 }
 
+.layout-business #header-mount-point,
+.layout-business #footer-mount-point,
 .show-legacy-iframe #legacy-iframe-mount-point {
   display: block;
 }
