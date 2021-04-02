@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.21.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.21.0...@next-core/brick-container@2.21.1) (2021-04-02)
+
+
+### Bug Fixes
+
+* **tag:** tag style fix ([e69d74e](https://github.com/easyops-cn/next-core/commit/e69d74eea7b1ca35ea1639c095e1944c040f0e74))
+
+
+
+
+
 # [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.20.0...@next-core/brick-container@2.21.0) (2021-04-02)
 
 
