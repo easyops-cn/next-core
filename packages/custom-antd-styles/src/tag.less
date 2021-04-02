@@ -1,4 +1,7 @@
+// 非填充色
 @tag-color-list: green, red, blue, orange, cyan, purple, geekblue, yellow;
+// 填充色
+@tag-inverse-color-list: green-inverse, red-inverse, blue-inverse, orange-inverse, cyan-inverse, purple-inverse, geekblue-inverse, yellow-inverse;
 
 .@{tag-prefix-cls} {
   line-height: 22px;
@@ -57,6 +60,15 @@
       &-@{value} {
         color: e('var(--tag-@{value}-color)');
         background: e('var(--tag-@{value}-background)');
+      }
+    }
+
+  );
+
+  each(@tag-inverse-color-list, {
+      &-@{value} {
+        color: var(--tag-inverse-text-color);
+        background: e('var(--tag-@{value}-color)');
       }
     }
 
