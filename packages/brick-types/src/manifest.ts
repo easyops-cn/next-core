@@ -10,6 +10,7 @@ export interface BootstrapData {
   storyboards: Storyboard[];
   settings: Settings;
   desktops: DesktopData[];
+  siteSort: SiteMapItem[];
 }
 
 /** @internal */
@@ -1197,6 +1198,17 @@ export type CustomBrickEventHandler =
 export interface DesktopData {
   items: DesktopItem[];
   name?: string;
+}
+
+/** @internal */
+export interface SiteMapItem {
+  id: string;
+  name: string;
+  order: string;
+  apps: {
+    id?: string;
+    sort?: string;
+  }[];
 }
 
 /** @internal */
