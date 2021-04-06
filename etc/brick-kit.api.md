@@ -50,6 +50,7 @@ import { RuntimeBootstrapData } from '@next-core/brick-types';
 import { RuntimeStoryboard } from '@next-core/brick-types';
 import { SidebarMenu } from '@next-core/brick-types';
 import { SidebarSubMenu } from '@next-core/brick-types';
+import { SiteMapItem } from '@next-core/brick-types';
 import { SiteMode } from '@next-core/brick-types';
 import { SiteTheme } from '@next-core/brick-types';
 import { Storyboard } from '@next-core/brick-types';

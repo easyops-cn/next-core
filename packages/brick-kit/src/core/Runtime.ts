@@ -11,6 +11,7 @@ import {
   PluginRuntimeContext,
   BrickConf,
   TemplatePackage,
+  SiteMapItem,
 } from "@next-core/brick-types";
 import {
   Kernel,
@@ -142,6 +143,11 @@ export class Runtime implements AbstractRuntime {
   /* istanbul ignore next */
   getDesktops(): DesktopData[] {
     return kernel.bootstrapData.desktops || [];
+  }
+
+  /* istanbul ignore next */
+  getLaunchpadSiteMap(): SiteMapItem[] {
+    return kernel.bootstrapData.siteSort || [];
   }
 
   /* istanbul ignore next */

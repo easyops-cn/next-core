@@ -130,6 +130,8 @@ export interface BootstrapData {
     // (undocumented)
     settings: Settings;
     // (undocumented)
+    siteSort: SiteMapItem[];
+    // (undocumented)
     storyboards: Storyboard[];
     // (undocumented)
     templatePackages: TemplatePackage[];
@@ -1667,6 +1669,23 @@ export interface SidebarMenuSimpleItem {
 
 // @public
 export type SidebarSubMenu = Pick<SidebarMenu, "title" | "icon" | "menuItems">;
+
+// Warning: (ae-internal-missing-underscore) The name "SiteMapItem" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SiteMapItem {
+    // (undocumented)
+    apps: {
+        id?: string;
+        sort?: string;
+    }[];
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    order: string;
+}
 
 // @public
 export type SiteMode = "default" | "dashboard";
