@@ -12,6 +12,29 @@ body {
   min-height: 0;
 }
 
+/* Lines below: make a sticky-footer. */
+/* See https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers#alternate_method */
+/* See also https://css-tricks.com/couple-takes-sticky-footer/#there-is-flexbox */
+.layout-business #root-layout {
+  height: 100%;
+}
+
+.layout-business #root-content {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-business #main-mount-point {
+  flex-grow: 1;
+}
+
+.layout-business #header-mount-point,
+.layout-business #footer-mount-point {
+  flex-shrink: 0;
+}
+/* Lines above: make a sticky-footer. */
+
 #menu-bar-mount-point {
   width: var(--menu-bar-width);
 }
