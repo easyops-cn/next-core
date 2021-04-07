@@ -122,6 +122,9 @@ export interface MicroApp {
    */
   menuIcon?: MenuIcon;
 
+  /** {@inheritDoc LayoutType} */
+  layoutType?: LayoutType;
+
   /**
    * 应用的默认配置，在开发环境由应用开发者维护。
    */
@@ -152,6 +155,11 @@ export interface MicroApp {
    */
   $$routeAliasMap?: RouteAliasMap;
 }
+
+/**
+ * 页面整体布局类型。
+ */
+export type LayoutType = "console" | "business";
 
 /**
  * 应用的基本信息的本地化配置。
@@ -213,6 +221,14 @@ export interface NavbarConf {
   menuBar: string;
   appBar: string;
   loadingBar: string;
+}
+
+/** @internal */
+export interface PresetBricksConf extends Partial<NavbarConf> {
+  header?: string;
+  footer?: string;
+  pageNotFound: string;
+  pageError: string;
 }
 
 /**

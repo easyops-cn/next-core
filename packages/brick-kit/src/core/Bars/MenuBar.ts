@@ -1,17 +1,8 @@
-import { Kernel } from "./exports";
 import { MenuBarBrick, SidebarMenu } from "@next-core/brick-types";
+import { BaseBar } from "./BaseBar";
 
-export class MenuBar {
+export class MenuBar extends BaseBar {
   public element: MenuBarBrick;
-
-  constructor(private kernel: Kernel) {}
-
-  async bootstrap(): Promise<void> {
-    const { navbar } = this.kernel.bootstrapData;
-    await this.kernel.loadDynamicBricks([navbar.menuBar]);
-    this.element = document.createElement(navbar.menuBar) as MenuBarBrick;
-    this.kernel.mountPoints.menuBar.appendChild(this.element);
-  }
 
   /**
    * 设置应用菜单（左侧菜单）

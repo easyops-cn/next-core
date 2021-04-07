@@ -1,5 +1,6 @@
 import { locationsAreEqual, createPath, Action, Location } from "history";
 import {
+  LayoutType,
   PluginHistoryState,
   PluginLocation,
   PluginRuntimeContext,
@@ -223,17 +224,23 @@ export class Router {
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
     this.kernel.nextAppMeta = storyboard?.meta;
+    const layoutType: LayoutType = currentApp?.layoutType ?? "console";
 
     devtoolsHookEmit("rendering");
 
     unmountTree(mountPoints.bg as MountableElement);
 
-    function redirectToLogin(ssoEnabled: boolean): void {
-      history.replace(ssoEnabled ? "/sso-auth/login" : "/auth/login", {from: location});
-    }
+    const redirectToLogin = (): void => {
+      history.replace(
+        this.featureFlags["sso-enabled"] ? "/sso-auth/login" : "/auth/login",
+        {
+          from: location,
+        }
+      );
+    };
 
     if (storyboard) {
-      if (appChanged && currentApp?.id && isLoggedIn()) {
+      if (appChanged && currentApp.id && isLoggedIn()) {
         const usedCustomApis: CustomApiInfo[] = mapCustomApisToNameAndNamespace(
           scanCustomApisInStoryboard(storyboard)
         );
@@ -241,6 +248,7 @@ export class Router {
           await this.kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
         }
       }
+
       const mountRoutesResult: MountRoutesResult = {
         main: [],
         menuInBg: [],
@@ -268,22 +276,24 @@ export class Router {
 
         // Redirect to login page if not logged in.
         if (isUnauthenticatedError(error)) {
-          const ssoEnabled = this.featureFlags["sso-enabled"];
-          redirectToLogin(ssoEnabled);
-          return;
-        }
+          mountRoutesResult.flags.unauthenticated = true;
+        } else {
+          await this.kernel.layoutBootstrap(layoutType);
+          const brickPageError = this.kernel.presetBricks.pageError;
+          await this.kernel.loadDynamicBricks([brickPageError]);
 
-        mountRoutesResult.flags.failed = true;
-        mountRoutesResult.main = [
-          {
-            type: "basic-bricks.page-error",
-            properties: {
-              error: httpErrorToString(error),
+          mountRoutesResult.flags.failed = true;
+          mountRoutesResult.main = [
+            {
+              type: brickPageError,
+              properties: {
+                error: httpErrorToString(error),
+              },
+              events: {},
             },
-            events: {},
-          },
-        ];
-        mountRoutesResult.portal = [];
+          ];
+          mountRoutesResult.portal = [];
+        }
       }
 
       const {
@@ -298,7 +308,7 @@ export class Router {
       const { unauthenticated, redirect, barsHidden, hybrid, failed } = flags;
 
       if (unauthenticated) {
-        redirectToLogin(this.featureFlags["sso-enabled"]);
+        redirectToLogin();
         return;
       }
 
@@ -314,7 +324,10 @@ export class Router {
         this.kernel.previousApp = previousApp;
       }
       this.kernel.currentUrl = createPath(location);
-      await this.kernel.updateWorkspaceStack();
+      await Promise.all([
+        this.kernel.updateWorkspaceStack(),
+        this.kernel.layoutBootstrap(layoutType),
+      ]);
 
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
@@ -341,26 +354,31 @@ export class Router {
         );
       }
 
-      if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
-        this.kernel.toggleBars(false);
-      } else {
-        await constructMenu(menuBar, this.locationContext.getCurrentContext());
-        if (menuBar.menu?.defaultCollapsed) {
-          this.kernel.menuBar.collapse(true);
-          this.defaultCollapsed = true;
+      if (this.kernel.currentLayout === "console") {
+        if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
+          this.kernel.toggleBars(false);
         } else {
-          if (this.defaultCollapsed) {
-            this.kernel.menuBar.collapse(false);
+          await constructMenu(
+            menuBar,
+            this.locationContext.getCurrentContext()
+          );
+          if (menuBar.menu?.defaultCollapsed) {
+            this.kernel.menuBar.collapse(true);
+            this.defaultCollapsed = true;
+          } else {
+            if (this.defaultCollapsed) {
+              this.kernel.menuBar.collapse(false);
+            }
+            this.defaultCollapsed = false;
           }
-          this.defaultCollapsed = false;
+          if (actualLegacy === "iframe") {
+            // Do not modify breadcrumb in iframe mode,
+            // it will be *popped* from iframe automatically.
+            delete appBar.breadcrumb;
+          }
+          mountStaticNode(this.kernel.menuBar.element, menuBar);
+          mountStaticNode(this.kernel.appBar.element, appBar);
         }
-        if (actualLegacy === "iframe") {
-          // Do not modify breadcrumb in iframe mode,
-          // it will be *popped* from iframe automatically.
-          delete appBar.breadcrumb;
-        }
-        mountStaticNode(this.kernel.menuBar.element, menuBar);
-        mountStaticNode(this.kernel.appBar.element, appBar);
       }
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
@@ -408,16 +426,20 @@ export class Router {
     } else if (!isLoggedIn()) {
       // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
       // Redirect to login if no storyboard is matched.
-      redirectToLogin(this.featureFlags["sso-enabled"]);
+      redirectToLogin();
       return;
     }
 
     this.state = "ready-to-mount";
 
+    await this.kernel.layoutBootstrap(layoutType);
+    const brickPageNotFound = this.kernel.presetBricks.pageNotFound;
+    await this.kernel.loadDynamicBricks([brickPageNotFound]);
+
     mountTree(
       [
         {
-          type: "basic-bricks.page-not-found",
+          type: brickPageNotFound,
           properties: {
             url: history.createHref(location),
           },
