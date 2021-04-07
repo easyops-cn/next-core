@@ -7,4 +7,5 @@ exports.PUBLIC_SCOPED_SDK = [
   "object-store",
   "permission",
   "user-service",
+  "air-admin-service",
 ];
