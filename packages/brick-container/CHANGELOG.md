@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.21.2...@next-core/brick-container@2.22.0) (2021-04-07)
+
+
+### Features
+
+* support business layout ([56f3eb1](https://github.com/easyops-cn/next-core/commit/56f3eb1940a2d2902a56d1758c61127c00b1af16))
+
+
+
+
+
 ## [2.21.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.21.1...@next-core/brick-container@2.21.2) (2021-04-06)
 
 **Note:** Version bump only for package @next-core/brick-container
