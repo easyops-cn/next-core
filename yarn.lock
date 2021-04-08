@@ -10855,10 +10855,10 @@ node-releases@^1.1.70:
   resolved "https://registry.npmjs.org/node-releases/-/node-releases-1.1.70.tgz#66e0ed0273aa65666d7fe78febe7634875426a08"
   integrity sha1-ZuDtAnOqZWZtf+eP6+djSHVCagg=
 
-node-stream-zip@^1.13.2:
-  version "1.13.2"
-  resolved "https://registry.npmjs.org/node-stream-zip/-/node-stream-zip-1.13.2.tgz#2fce9d001fa7fda943a906eff239eb83fda124ba"
-  integrity sha1-L86dAB+n/alDqQbv8jnrg/2hJLo=
+node-stream-zip@^1.13.3:
+  version "1.13.3"
+  resolved "https://registry.npmjs.org/node-stream-zip/-/node-stream-zip-1.13.3.tgz#63235337abebcef408b244b4e28f28961e6e86f0"
+  integrity sha512-Vv95ug+8Jfug4AxcqNV7TeGEk2antNidj+YBOyP8SS8LTHJmjsE3d9h6L831eJtO8p7jesJ3CDtgkwmLO/wcSw==
 
 "nopt@2 || 3":
   version "3.0.6"
