@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-dll",
-  "version": "2.12.20",
+  "version": "2.12.21",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-dll",
   "license": "GPL-3.0",
@@ -24,7 +24,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@next-core/babel-runtime-helpers": "^1.0.8",
     "@next-core/brick-http": "^2.2.7",
-    "@next-core/brick-icons": "^2.10.1",
+    "@next-core/brick-icons": "^2.10.2",
     "@next-core/brick-kit": "^2.41.1",
     "@next-core/brick-utils": "^2.14.3",
     "@next-core/easyops-analytics": "^0.1.8",
