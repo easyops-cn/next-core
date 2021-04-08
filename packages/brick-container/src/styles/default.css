@@ -2,6 +2,13 @@ body {
   background-color: var(--body-background);
 }
 
+#header-mount-point,
+#footer-mount-point,
+#legacy-iframe-mount-point,
+#bg-mount-point {
+  display: none;
+}
+
 .layout-console #root-layout {
   display: flex;
 }
@@ -32,6 +39,7 @@ body {
 .layout-business #header-mount-point,
 .layout-business #footer-mount-point {
   flex-shrink: 0;
+  display: block;
 }
 /* Lines above: make a sticky-footer. */
 
@@ -58,13 +66,11 @@ html[data-mode="dashboard"] #legacy-iframe-mount-point {
   margin-top: 0;
 }
 
-#header-mount-point,
-#footer-mount-point,
-#legacy-iframe-mount-point,
-#bg-mount-point,
 .show-legacy-iframe #main-mount-point,
 .bars-hidden #menu-bar-mount-point,
 .bars-hidden #app-bar-mount-point,
+.bars-hidden #header-mount-point,
+.bars-hidden #footer-mount-point,
 .layout-business #menu-bar-mount-point,
 .layout-business #app-bar-mount-point,
 html[data-mode="dashboard"] #menu-bar-mount-point,
@@ -72,8 +78,6 @@ html[data-mode="dashboard"] #app-bar-mount-point {
   display: none;
 }
 
-.layout-business #header-mount-point,
-.layout-business #footer-mount-point,
 .show-legacy-iframe #legacy-iframe-mount-point {
   display: block;
 }
