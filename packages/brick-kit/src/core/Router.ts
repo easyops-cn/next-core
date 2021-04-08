@@ -354,31 +354,26 @@ export class Router {
         );
       }
 
-      if (this.kernel.currentLayout === "console") {
-        if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
-          this.kernel.toggleBars(false);
+      if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
+        this.kernel.toggleBars(false);
+      } else if (this.kernel.currentLayout === "console") {
+        await constructMenu(menuBar, this.locationContext.getCurrentContext());
+        if (menuBar.menu?.defaultCollapsed) {
+          this.kernel.menuBar.collapse(true);
+          this.defaultCollapsed = true;
         } else {
-          await constructMenu(
-            menuBar,
-            this.locationContext.getCurrentContext()
-          );
-          if (menuBar.menu?.defaultCollapsed) {
-            this.kernel.menuBar.collapse(true);
-            this.defaultCollapsed = true;
-          } else {
-            if (this.defaultCollapsed) {
-              this.kernel.menuBar.collapse(false);
-            }
-            this.defaultCollapsed = false;
+          if (this.defaultCollapsed) {
+            this.kernel.menuBar.collapse(false);
           }
-          if (actualLegacy === "iframe") {
-            // Do not modify breadcrumb in iframe mode,
-            // it will be *popped* from iframe automatically.
-            delete appBar.breadcrumb;
-          }
-          mountStaticNode(this.kernel.menuBar.element, menuBar);
-          mountStaticNode(this.kernel.appBar.element, appBar);
+          this.defaultCollapsed = false;
         }
+        if (actualLegacy === "iframe") {
+          // Do not modify breadcrumb in iframe mode,
+          // it will be *popped* from iframe automatically.
+          delete appBar.breadcrumb;
+        }
+        mountStaticNode(this.kernel.menuBar.element, menuBar);
+        mountStaticNode(this.kernel.appBar.element, appBar);
       }
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");

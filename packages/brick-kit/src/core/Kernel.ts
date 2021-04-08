@@ -357,11 +357,11 @@ export class Kernel {
     appChanged,
     legacy,
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
+    this.toggleBars(true);
     if (this.currentLayout !== "console") {
       // No bars should be unset for the business layout.
       return;
     }
-    this.toggleBars(true);
     if (appChanged) {
       this.menuBar.resetAppMenu();
     }

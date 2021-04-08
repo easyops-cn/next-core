@@ -484,7 +484,7 @@ describe("Kernel", () => {
     kernel.toggleBars = jest.fn();
     kernel.currentLayout = "business";
     kernel.unsetBars({ appChanged: true });
-    expect(kernel.toggleBars).not.toBeCalled();
+    expect(kernel.toggleBars).toBeCalled();
     expect(kernel.menuBar.resetAppMenu).not.toBeCalled();
     expect(kernel.appBar.setPageTitle).not.toBeCalled();
     expect(kernel.appBar.setBreadcrumb).not.toBeCalled();
