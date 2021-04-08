@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.0...@next-core/brick-kit@2.41.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* **business:** support set menu to false in business layout ([a5a0de2](https://github.com/easyops-cn/next-core/commit/a5a0de2c4ea409c0774f10ceed07eefe8e389152))
+* **layout:** support an empty string as layoutType ([e1363d8](https://github.com/easyops-cn/next-core/commit/e1363d8dac1b45aaaf91066d85f432f053f7e660))
+
+
+
+
+
 # [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.40.0...@next-core/brick-kit@2.41.0) (2021-04-07)
 
 
