@@ -3,6 +3,7 @@ const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
 const { getEasyopsConfig } = require("@next-core/repo-config");
+const { getContractDepsByBrick } = require("@next-core/contract-analysis");
 const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
@@ -12,32 +13,21 @@ const generateBrickDocs = require("./generateBrickDocs");
 const { providerPackagePrefix } = require("./constants");
 
 const generateContracts = () => {
-  const { dependencies } = require(path.join(process.cwd(), "package.json"));
+  const cwd = process.cwd();
+  const depsByBrick = getContractDepsByBrick(cwd);
 
-  if (dependencies) {
-    const contracts = Object.keys(dependencies)
-      .filter((dep) => dep.startsWith("@next-sdk/") || dep.startsWith("@sdk"))
-      .reduce((acc, dep) => {
-        try {
-          const contracts = yaml.safeLoad(
-            fs.readFileSync(require.resolve(`${dep}/deploy/contracts.yaml`))
-          );
-          if (Array.isArray(contracts.depend_contracts)) {
-            acc.push(...contracts.depend_contracts);
-          }
-        } catch (e) {
-          console.error(e);
-        }
-        return acc;
-      }, []);
+  const content = yaml.safeDump({
+    contracts: Array.from(depsByBrick.entries()).map(([brick, deps]) => ({
+      brick,
+      deps: Array.from(deps).map((contract) => ({
+        contract,
+        version: "*",
+      })),
+    })),
+  });
 
-    const content = yaml.safeDump({
-      depend_contracts: contracts,
-    });
-
-    const filePath = path.join(process.cwd(), "deploy", "contracts.yaml");
-    fs.outputFileSync(filePath, content);
-  }
+  const filePath = path.join(cwd, "deploy/contract.yaml");
+  fs.outputFileSync(filePath, content);
 };
 
 const ignores = [".DS_Store"];
