@@ -21,7 +21,7 @@
         "packages/less-plugin-css-variables/**/*.js",
         "packages/public-scoped-sdk/**/*.js",
         "packages/repo-config/**/*.js",
-        "packages/contract-analysis/**/*.{ts,js}"
+        "packages/contract-analysis/src/**/*.{ts,js}"
       ],
       "extends": "@next-core/eslint-config-next/node"
     },

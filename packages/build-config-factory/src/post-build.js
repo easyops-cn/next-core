@@ -14,20 +14,29 @@ const { providerPackagePrefix } = require("./constants");
 
 const generateContracts = () => {
   const cwd = process.cwd();
-  const depsByBrick = getContractDepsByBrick(cwd);
+  const brickEntriesFilePath = path.join(cwd, "dist/brick-entries.json");
+  const depsByBrick = getContractDepsByBrick(
+    cwd,
+    fs.readJsonSync(brickEntriesFilePath)
+  );
 
   const content = yaml.safeDump({
     contracts: Array.from(depsByBrick.entries()).map(([brick, deps]) => ({
       brick,
-      deps: Array.from(deps).map((contract) => ({
+      deps: deps.map((contract) => ({
         contract,
         version: "*",
       })),
     })),
   });
 
-  const filePath = path.join(cwd, "deploy/contract.yaml");
-  fs.outputFileSync(filePath, content);
+  console.log("contract.yaml:", content);
+
+  // Todo(steve): Ignore file rendering temporarily.
+  // const filePath = path.join(cwd, "deploy/contract.yaml");
+  // fs.outputFileSync(filePath, content);
+
+  fs.rmSync(brickEntriesFilePath);
 };
 
 const ignores = [".DS_Store"];

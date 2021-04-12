@@ -5,6 +5,7 @@
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/contract-analysis",
   "license": "GPL-3.0",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -24,7 +25,9 @@
     "@babel/traverse": "^7.13.0",
     "@babel/types": "^7.13.0",
     "change-case": "^4.1.2",
-    "fs-extra": "^9.1.0"
+    "chalk": "^4.1.0",
+    "fs-extra": "^9.1.0",
+    "resolve": "^1.20.0"
   },
   "engines": {
     "node": ">=12.0.0"
