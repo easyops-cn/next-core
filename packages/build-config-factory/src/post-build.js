@@ -3,7 +3,10 @@ const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
 const { getEasyopsConfig } = require("@next-core/repo-config");
-const { getContractDepsByBrick } = require("@next-core/contract-analysis");
+const {
+  getContractDepsByBrick,
+  getContractDeps,
+} = require("@next-core/contract-analysis");
 const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
@@ -30,13 +33,36 @@ const generateContracts = () => {
     })),
   });
 
-  console.log("contract.yaml:", content);
+  console.log(content);
 
   // Todo(steve): Ignore file rendering temporarily.
   // const filePath = path.join(cwd, "deploy/contract.yaml");
   // fs.outputFileSync(filePath, content);
 
   fs.removeSync(brickEntriesFilePath);
+};
+
+const generateContractsForLibs = () => {
+  const cwd = process.cwd();
+  const deps = getContractDeps(cwd, "src/index.ts");
+
+  const content = yaml.safeDump({
+    contracts: [
+      {
+        lib: fs.readJsonSync(path.join(cwd, "package.json")).name,
+        deps: deps.map((contract) => ({
+          contract,
+          version: "*",
+        })),
+      },
+    ],
+  });
+
+  console.log(content);
+
+  // Todo(steve): Ignore file rendering temporarily.
+  // const filePath = path.join(cwd, "dist/contract.yaml");
+  // fs.outputFileSync(filePath, content);
 };
 
 const ignores = [".DS_Store"];
@@ -196,6 +222,11 @@ module.exports = (scope) => {
   // for new users, ignore post-build checks for simplicity if needed.
   if (scope === "micro-apps" && standalone && noPostBuildMicroApps) {
     console.log("Warn: ignore post-build micro-apps.");
+    return;
+  }
+
+  if (scope === "libs") {
+    generateContractsForLibs();
     return;
   }
 
