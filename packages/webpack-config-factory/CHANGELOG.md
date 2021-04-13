@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.6.0...@next-core/webpack-config-factory@2.7.0) (2021-04-13)
+
+
+### Features
+
+* emit brick-entries.json which describe contract deps ([4e547ce](https://github.com/easyops-cn/next-core/commit/4e547ceef5ce1528726fcf5b31c248ffcb0cf277))
+
+
+
+
+
 # [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.8...@next-core/webpack-config-factory@2.6.0) (2021-03-02)
 
 

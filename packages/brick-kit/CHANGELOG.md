@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.1...@next-core/brick-kit@2.41.2) (2021-04-13)
+
+
+### Bug Fixes
+
+* match app with longer homepage before shorter ones ([6b4138a](https://github.com/easyops-cn/next-core/commit/6b4138ab9aab5053bdd82a01d3f491fcefb61ed3))
+
+
+
+
+
 ## [2.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.0...@next-core/brick-kit@2.41.1) (2021-04-08)
 
 

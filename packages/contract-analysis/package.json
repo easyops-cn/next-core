@@ -1,6 +1,6 @@
 {
   "name": "@next-core/contract-analysis",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Create new brick-next repositories",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/contract-analysis",
   "license": "GPL-3.0",
@@ -24,8 +24,8 @@
     "@babel/parser": "^7.13.9",
     "@babel/traverse": "^7.13.0",
     "@babel/types": "^7.13.0",
-    "change-case": "^4.1.2",
     "chalk": "^4.1.0",
+    "change-case": "^4.1.2",
     "fs-extra": "^9.1.0",
     "resolve": "^1.20.0"
   },
