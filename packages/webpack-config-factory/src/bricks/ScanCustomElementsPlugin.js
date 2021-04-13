@@ -1,3 +1,4 @@
+const path = require("path");
 const changeCase = require("change-case");
 
 const pluginName = "ScanCustomElementsPlugin";
@@ -22,6 +23,8 @@ module.exports = class ScanCustomElementsPlugin {
     const brickSet = new Set();
     const processorSet = new Set();
     const providerSet = new Set();
+    const brickEntries = new Map();
+
     compiler.hooks.normalModuleFactory.tap(pluginName, (factory) => {
       factory.hooks.parser.for("javascript/auto").tap(pluginName, (parser) => {
         parser.hooks.callAnyMember
@@ -45,6 +48,10 @@ module.exports = class ScanCustomElementsPlugin {
                   legacyBrickNames.includes(value)
                 ) {
                   brickSet.add(value);
+                  brickEntries.set(
+                    value,
+                    path.relative(process.cwd(), parser.state.module.resource)
+                  );
                 } else {
                   throw new Error(
                     `Invalid brick: "${value}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
@@ -126,6 +133,7 @@ module.exports = class ScanCustomElementsPlugin {
             }
           }
         });
+
         parser.hooks.importSpecifier.tap(
           pluginName,
           (statement, source, exportName, identifierName) => {
@@ -144,6 +152,7 @@ module.exports = class ScanCustomElementsPlugin {
         );
       });
     });
+
     compiler.hooks.emit.tap(pluginName, (compilation) => {
       const bricks = Array.from(brickSet);
       const processors = Array.from(processorSet);
@@ -155,13 +164,21 @@ module.exports = class ScanCustomElementsPlugin {
         2
       );
 
-      compilation.assets["bricks.json"] = {
+      compilation.emitAsset("bricks.json", {
         source: () => source,
         size: () => source.length,
-      };
+      });
       console.log("Defined bricks:", bricks);
       console.log("Defined processors:", processors);
       console.log("Defined providers:", providers);
+
+      const entries = Object.fromEntries(brickEntries);
+      const brickEntriesSource = JSON.stringify(entries, null, 2);
+      compilation.emitAsset("brick-entries.json", {
+        source: () => brickEntriesSource,
+        size: () => brickEntriesSource.length,
+      });
+      console.log("Brick entries:", entries);
     });
   }
 };
