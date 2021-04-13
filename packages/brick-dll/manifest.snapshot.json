@@ -12030,10 +12030,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/html-parse-stringify2/lib/stringify.js": {
-      "id": "XYOB",
-      "buildMeta": { "providedExports": true }
-    },
     "./node_modules/mini-store/esm/Provider.js": {
       "id": "XYXW",
       "buildMeta": {
@@ -13660,6 +13656,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/html-parse-stringify/dist/html-parse-stringify.module.js": {
+      "id": "dBhH",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/PlusOutlined.js": {
       "id": "dCqo",
       "buildMeta": {
@@ -14929,10 +14932,6 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
-    },
-    "./node_modules/html-parse-stringify2/lib/parse.js": {
-      "id": "hh3C",
-      "buildMeta": { "providedExports": true }
     },
     "./node_modules/antd/es/date-picker/generatePicker/generateRangePicker.js": {
       "id": "hiZo",
@@ -18621,10 +18620,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/html-parse-stringify2/index.js": {
-      "id": "vM4K",
-      "buildMeta": { "providedExports": true }
-    },
     "./node_modules/babel-runtime/node_modules/core-js/library/fn/object/create.js": {
       "id": "vNbC",
       "buildMeta": { "providedExports": true }
@@ -19259,10 +19254,6 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
-    },
-    "./node_modules/html-parse-stringify2/lib/parse-tag.js": {
-      "id": "xOyo",
-      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/FilePdfTwoTone.js": {
       "id": "xR5e",
