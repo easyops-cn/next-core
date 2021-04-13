@@ -34,7 +34,14 @@ export class FunctionBlock {
   private getApiUrlAndParams(): { url: string; args: string[] } {
     const uri = this.api.doc.endpoint.uri.replace(/^\//, "");
     const uriParams = getParamsInUri(uri);
-    let url = `${FunctionBlock.uriPrefix}/${this.api.serviceName}/`;
+
+    // If the sdk is for api_gateway itself,
+    // the url prefix and service name should be ignored.
+    let url =
+      this.api.context.serviceSeg === "api_gateway"
+        ? ""
+        : `${FunctionBlock.uriPrefix}/${this.api.serviceName}/`;
+
     let quote: string;
     if (uriParams.length > 0) {
       quote = "`";
