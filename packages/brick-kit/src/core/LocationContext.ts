@@ -1,4 +1,4 @@
-import { omit, set } from "lodash";
+import { omit, orderBy, set } from "lodash";
 import {
   PluginLocation,
   MatchResult,
@@ -266,7 +266,15 @@ export class LocationContext {
   }
 
   matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
-    for (const storyboard of storyboards) {
+    // Put apps with longer homepage before shorter ones.
+    // E.g., `/legacy/tool` will match first before `/legacy`.
+    // This enables two apps with relationship of parent-child of homepage.
+    const sortedStoryboards = orderBy(
+      storyboards,
+      (storyboard) => storyboard.app?.homepage?.length ?? 0,
+      "desc"
+    );
+    for (const storyboard of sortedStoryboards) {
       const homepage = storyboard.app?.homepage;
       if (typeof homepage === "string" && homepage[0] === "/") {
         if (
