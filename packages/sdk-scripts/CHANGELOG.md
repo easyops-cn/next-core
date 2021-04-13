@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.7...@next-core/sdk-scripts@2.4.8) (2021-04-13)
+
+
+### Bug Fixes
+
+* ignore url prefix for api of api_gateway ([a856163](https://github.com/easyops-cn/next-core/commit/a856163ff0f80010d538a348f948704bde854c44))
+
+
+
+
+
 ## [2.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.6...@next-core/sdk-scripts@2.4.7) (2021-04-07)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
