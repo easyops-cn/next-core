@@ -527,3 +527,51 @@ export { PackageApi, CdModels };
   ],
 ]
 `;
+
+exports[`loadService should work for api_gateway 1`] = `
+Array [
+  Array [
+    "dist/src/api/api_gateway/auth/checkLogin.ts",
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
+import { ResponseBodyWrapper } from \\"../../../wrapper\\";
+
+export interface CheckLoginResponseBody {
+  /** 是否已经登录 */
+  loggedIn?: boolean;
+}
+
+/**
+ * @description 判断用户是否登录
+ * @endpoint GET /api/auth/login
+ */
+export const checkLogin = async (
+  options?: HttpOptions
+): Promise<CheckLoginResponseBody> =>
+  (
+    await http.get<ResponseBodyWrapper<CheckLoginResponseBody>>(
+      \\"api/auth/login\\",
+      options
+    )
+  ).data;
+",
+  ],
+  Array [
+    "dist/src/api/api_gateway/auth/index.ts",
+    "export * from \\"./checkLogin\\";
+",
+  ],
+  Array [
+    "dist/src/index.ts",
+    "import * as AuthApi from \\"./api/api_gateway/auth\\";
+export { AuthApi };
+",
+  ],
+  Array [
+    "dist/deploy/contracts.yaml",
+    "depend_contracts:
+  - name: easyops.api.api_gateway.auth.CheckLogin
+    version: ^1.0.0
+",
+  ],
+]
+`;
