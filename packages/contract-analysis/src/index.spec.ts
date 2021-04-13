@@ -1,9 +1,23 @@
 import path from "path";
-import { getContractDepsByBrick } from ".";
+import { getContractDeps, getContractDepsByBrick } from ".";
 
 const mockConsoleError = jest
   .spyOn(console, "error")
   .mockImplementation(() => void 0);
+
+describe("getContractDeps", () => {
+  it("should work", () => {
+    const contracts = getContractDeps(
+      path.join(__dirname, ".."),
+      "fixtures/FixtureA.tsx"
+    );
+    expect(contracts).toEqual([
+      "easyops.api.api_gateway.bootstrap.Bootstrap",
+      "easyops.api.cmdb.cmdb_object.GetDetail",
+      "easyops.api.cmdb.instance.PostSearchV3",
+    ]);
+  });
+});
 
 describe("getContractDepsByBrick", () => {
   afterEach(() => {

@@ -7,18 +7,26 @@ import traverse from "@babel/traverse";
 import resolve from "resolve";
 import chalk from "chalk";
 
+export function getContractDeps(
+  packageDir: string,
+  relativeEntryPath: string
+): string[] {
+  const deps = new Set<string>();
+  collectContracts(path.join(packageDir, relativeEntryPath), deps, new Set());
+  return Array.from(deps);
+}
+
 export function getContractDepsByBrick(
   brickPackageDir: string,
   brickEntries: Record<string, string>
 ): Map<string, string[]> {
   const brickContractDeps = new Map<string, string[]>();
-
-  for (const [brick, relativePath] of Object.entries(brickEntries)) {
-    const deps = new Set<string>();
-    collectContracts(path.join(brickPackageDir, relativePath), deps, new Set());
-    brickContractDeps.set(brick, Array.from(deps));
+  for (const [brick, relativeEntryPath] of Object.entries(brickEntries)) {
+    brickContractDeps.set(
+      brick,
+      getContractDeps(brickPackageDir, relativeEntryPath)
+    );
   }
-
   return brickContractDeps;
 }
 
