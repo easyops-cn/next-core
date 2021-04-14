@@ -36,7 +36,7 @@ const generateContracts = () => {
   // const filePath = path.join(cwd, "deploy/contract.yaml");
   // fs.outputFileSync(filePath, content);
 
-  fs.rmSync(brickEntriesFilePath);
+  fs.removeSync(brickEntriesFilePath);
 };
 
 const ignores = [".DS_Store"];
