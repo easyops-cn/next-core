@@ -29,7 +29,7 @@ export const autoDiscovery = (
   data: AutoDiscoveryRequestBody,
   options?: HttpOptions
 ): Promise<AutoDiscoveryResponseBody> =>
-  http.post<AutoDiscoveryResponseBody>(
+  /**! @contract easyops.api.cd.package.AutoDiscovery */ http.post<AutoDiscoveryResponseBody>(
     \`api/gateway/cd.package.AutoDiscovery/object/\${objectId}/instance/_import-json\`,
     data,
     options
@@ -94,7 +94,7 @@ export const create = (
   data: CreateRequestBody,
   options?: HttpOptions
 ): Promise<CreateResponseBody> =>
-  http.post<CreateResponseBody>(
+  /**! @contract easyops.api.cd.package.Create */ http.post<CreateResponseBody>(
     \\"api/gateway/cd.package.Create/package\\",
     data,
     options
@@ -172,7 +172,7 @@ export const get = async (
   params: GetRequestParams,
   options?: HttpOptions
 ): Promise<GetResponseBody> =>
-  (
+  /**! @contract easyops.api.cd.package.Get */ (
     await http.get<ResponseBodyWrapper<GetResponseBody>>(
       \\"api/gateway/cd.package.Get/packages/pkg\\",
       { ...options, params }
@@ -220,7 +220,7 @@ export const listNameService = (
   params: ListNameServiceRequestParams,
   options?: HttpOptions
 ): Promise<ListNameServiceResponseBody> =>
-  http.get<ListNameServiceResponseBody>(
+  /**! @contract easyops.api.cd.package.ListNameService */ http.get<ListNameServiceResponseBody>(
     \\"api/gateway/cd.package.ListNameService/api/v1/name_service/config\\",
     { ...options, params }
   );
@@ -269,7 +269,7 @@ export const retry = async (
   build_id: string | number,
   options?: HttpOptions
 ): Promise<RetryResponseBody> =>
-  (
+  /**! @contract easyops.api.cd.package.Retry */ (
     await http.post<ResponseBodyWrapper<RetryResponseBody>>(
       \`api/gateway/cd.package.Retry/api/pipeline/v1/builds/\${build_id}/retry\`,
       undefined,
@@ -310,7 +310,7 @@ export const search = async (
   params: SearchRequestParams,
   options?: HttpOptions
 ): Promise<SearchResponseBody> =>
-  (
+  /**! @contract easyops.api.cd.package.Search */ (
     await http.get<ResponseBodyWrapper<SearchResponseBody>>(
       \\"api/gateway/cd.package.Search/packages/search\\",
       { ...options, params }
@@ -352,7 +352,7 @@ export const upload = (
   data: UploadRequestBody,
   options?: HttpOptions
 ): Promise<Blob> => {
-  const _formData = new FormData();
+  /**! @contract easyops.api.cd.package.Upload */ const _formData = new FormData();
   for (const [key, value] of Object.entries(data)) {
     if (Array.isArray(value)) {
       const k = \`\${key}[]\`;
@@ -547,7 +547,7 @@ export interface CheckLoginResponseBody {
 export const checkLogin = async (
   options?: HttpOptions
 ): Promise<CheckLoginResponseBody> =>
-  (
+  /**! @contract easyops.api.api_gateway.auth.CheckLogin */ (
     await http.get<ResponseBodyWrapper<CheckLoginResponseBody>>(
       \\"api/auth/login\\",
       options
