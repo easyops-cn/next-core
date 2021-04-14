@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.91...@next-core/dev-dependencies@1.3.0) (2021-04-14)
+
+
+### Features
+
+* add post-build script for libs ([a0b1728](https://github.com/easyops-cn/next-core/commit/a0b17284c98b0f8be2655650fbbd6b5013bc5435))
+
+
+
+
+
 ## [1.2.91](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.2.90...@next-core/dev-dependencies@1.2.91) (2021-04-13)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

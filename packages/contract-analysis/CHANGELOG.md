@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/contract-analysis@0.1.0...@next-core/contract-analysis@0.2.0) (2021-04-14)
+
+
+### Features
+
+* support post-build for libs ([d93934e](https://github.com/easyops-cn/next-core/commit/d93934e256f077d2230c5d1aae8dde264a77fd68))
+* support to get contract deps from any entry ([d5216d8](https://github.com/easyops-cn/next-core/commit/d5216d8d900e2d227233741766f56dfa68c4fc86))
+
+
+
+
+
 # 0.1.0 (2021-04-13)
 
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.6.0...@next-core/build-config-factory@2.7.0) (2021-04-14)
+
+
+### Bug Fixes
+
+* do not use fs.rmSync which is added in node v14.14 ([9c55fb4](https://github.com/easyops-cn/next-core/commit/9c55fb4c411ff393da207ebc7fba4aad199a5e48))
+
+
+### Features
+
+* support post-build for libs ([d93934e](https://github.com/easyops-cn/next-core/commit/d93934e256f077d2230c5d1aae8dde264a77fd68))
+
+
+
+
+
 # [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.7...@next-core/build-config-factory@2.6.0) (2021-04-13)
 
 

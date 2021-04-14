@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.10...@next-core/brick-scripts@2.4.0) (2021-04-14)
+
+
+### Features
+
+* support post-build for libs ([d93934e](https:///$repo-git-url$/next-core/commits/d93934e256f077d2230c5d1aae8dde264a77fd68))
+
+
+
+
+
 ## [2.3.10](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.9...@next-core/brick-scripts@2.3.10) (2021-03-09)
 
 

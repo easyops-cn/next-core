@@ -1,6 +1,6 @@
 {
   "name": "@next-core/contract-analysis",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Create new brick-next repositories",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/contract-analysis",
   "license": "GPL-3.0",
