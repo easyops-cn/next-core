@@ -7,7 +7,7 @@ import wrappedBootstrap from "./wrappedBootstrap";
 // @ts-ignore for test.
 import styles from "./FixtureA.module.css";
 
-export async function FixtureA(): Promise<unknown> {
+export async function FixtureA(): Promise<InstanceApi.PostSearchV3ResponseBody> {
   const r = RenamedApi.getDetail;
   wrappedBootstrap();
   return InstanceApi.postSearchV3("HOST", {

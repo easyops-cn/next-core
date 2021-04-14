@@ -7,18 +7,26 @@ import traverse from "@babel/traverse";
 import resolve from "resolve";
 import chalk from "chalk";
 
+export function getContractDeps(
+  packageDir: string,
+  relativeEntryPath: string
+): string[] {
+  const deps = new Set<string>();
+  collectContracts(path.join(packageDir, relativeEntryPath), deps, new Set());
+  return Array.from(deps);
+}
+
 export function getContractDepsByBrick(
   brickPackageDir: string,
   brickEntries: Record<string, string>
 ): Map<string, string[]> {
   const brickContractDeps = new Map<string, string[]>();
-
-  for (const [brick, relativePath] of Object.entries(brickEntries)) {
-    const deps = new Set<string>();
-    collectContracts(path.join(brickPackageDir, relativePath), deps, new Set());
-    brickContractDeps.set(brick, Array.from(deps));
+  for (const [brick, relativeEntryPath] of Object.entries(brickEntries)) {
+    brickContractDeps.set(
+      brick,
+      getContractDeps(brickPackageDir, relativeEntryPath)
+    );
   }
-
   return brickContractDeps;
 }
 
@@ -39,6 +47,7 @@ function collectContracts(
 
   const plugins: ParserPlugin[] = [
     ["decorators", { decoratorsBeforeExport: true }],
+    "classProperties",
   ];
   if (entryPath.endsWith(".ts") || entryPath.endsWith(".tsx")) {
     plugins.push("typescript");
@@ -63,6 +72,7 @@ function collectContracts(
 
   traverse(ast, {
     enter({ node }) {
+      let sourcePath: string;
       // First, collect sdk imports of each file.
 
       // Match import declarations, such as:
@@ -70,7 +80,7 @@ function collectContracts(
       //   import { ObjectApi } from "@next-sdk/cmdb-sdk";
       // ```
       if (t.isImportDeclaration(node) && t.isStringLiteral(node.source)) {
-        const sourcePath = node.source.value;
+        sourcePath = node.source.value;
         if (
           sourcePath.startsWith("@next-sdk/") ||
           sourcePath.startsWith("@sdk/")
@@ -90,24 +100,38 @@ function collectContracts(
               sdkImportMap.set(spec.local.name, contract);
             }
           }
-        } else if (/^\.\.?(?:\/|$)/.test(sourcePath)) {
-          // Collect sdk usages from relative imports.
-          // Todo(steve): handle imports from `@next-libs/*`.
-          let resolvedPath: string;
-          try {
-            resolvedPath = resolve.sync(sourcePath, {
-              basedir: path.dirname(entryPath),
-              extensions: [".ts", ".tsx", ".js", ".jsx"],
-            });
-          } catch (e) {
-            console.error(
-              chalk.red(`Failed to resolve '${sourcePath}' in '${entryPath}':`)
-            );
-            console.error(e);
-          }
-          if (resolvedPath) {
-            collectContracts(resolvedPath, deps, memo);
-          }
+        }
+      }
+
+      // Math export declarations, such as:
+      // ```js
+      //   export * from "./utils";
+      //   export { useAny } from "./hooks";
+      // ```
+      if (
+        (t.isExportAllDeclaration(node) || t.isExportNamedDeclaration(node)) &&
+        t.isStringLiteral(node.source)
+      ) {
+        sourcePath = node.source.value;
+      }
+
+      // Collect sdk usages from relative imports.
+      // Todo(steve): handle imports from `@next-libs/*`.
+      if (/^\.\.?(?:\/|$)/.test(sourcePath)) {
+        let resolvedPath: string;
+        try {
+          resolvedPath = resolve.sync(sourcePath, {
+            basedir: path.dirname(entryPath),
+            extensions: [".ts", ".tsx", ".js", ".jsx"],
+          });
+        } catch (e) {
+          console.error(
+            chalk.red(`Failed to resolve '${sourcePath}' in '${entryPath}':`)
+          );
+          console.error(e);
+        }
+        if (resolvedPath) {
+          collectContracts(resolvedPath, deps, memo);
         }
       }
 

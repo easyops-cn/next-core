@@ -783,6 +783,13 @@ export default rollupFactory({ umdName: \\"ForGood\\" });
 ",
   ],
   Array [
+    "dist/scripts/post-build.js",
+    "const { postBuild } = require(\\"@next-core/build-config-factory\\");
+
+postBuild(\\"libs\\");
+",
+  ],
+  Array [
     "dist/src/index.ts",
     "",
   ],
