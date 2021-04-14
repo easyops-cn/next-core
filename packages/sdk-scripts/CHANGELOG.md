@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.8...@next-core/sdk-scripts@2.5.0) (2021-04-14)
+
+
+### Features
+
+* print contract as comment for sdk ([94da50f](https://github.com/easyops-cn/next-core/commit/94da50f3466b46b9c812a109c61eec45bda20f39))
+
+
+
+
+
 ## [2.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.7...@next-core/sdk-scripts@2.4.8) (2021-04-13)
 
 
