@@ -61,7 +61,9 @@ export function create(serviceName: string): void {
   let sdkVersion;
   if (fs.existsSync(path.join(sdkRoot, "package.json"))) {
     const packageJson = fs.readJsonSync(path.join(sdkRoot, "package.json"));
-    sdkVersion = packageJson.version;
+    const major = packageJson.version.split(".")[0];
+    // Make a major version bump.
+    sdkVersion = [Number(major) + 1, 0, 0].join(".");
   }
   const files = loadTemplate(serviceName, sdkRoot, sdkVersion).concat(
     loadService(serviceName).toFiles(sdkRoot)

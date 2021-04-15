@@ -130,7 +130,7 @@ export class FunctionBlock {
     } */`;
 
     return `${content}${os.EOL}export const ${
-      api.displayName
+      api.exportName
     } = ${asyncPrefix}(${args.join(
       ","
     )}): Promise<${responseBodyTypeName}> => ${returnBlock}`;

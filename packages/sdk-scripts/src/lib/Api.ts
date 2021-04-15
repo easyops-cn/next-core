@@ -13,7 +13,8 @@ import { refineRequest } from "../utils";
 export class Api extends SourceFile {
   readonly doc: ApiDoc;
   readonly originalName: string;
-  readonly displayName: string;
+  readonly exportName: string;
+  readonly filename: string;
   readonly modelSeg: string;
   readonly method: ApiMethod;
   readonly serviceName: string;
@@ -30,10 +31,11 @@ export class Api extends SourceFile {
     super(context);
     this.doc = doc;
     this.originalName = doc.name;
-    this.displayName = changeCase.camelCase(doc.name);
+    this.filename = changeCase.camelCase(doc.name);
+    this.exportName = `${changeCase.pascalCase(modelSeg)}Api_${this.filename}`;
     this.modelSeg = modelSeg;
     this.dir = [".", "api", context.serviceSeg, modelSeg].join("/");
-    this.filePath = [this.dir, this.displayName].join("/");
+    this.filePath = [this.dir, this.filename].join("/");
     this.serviceName = [context.serviceSeg, modelSeg, this.originalName].join(
       "."
     );
