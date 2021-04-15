@@ -21,7 +21,6 @@ export class Context {
   }
 
   toFiles(sdkRoot: string): FileWithContent[] {
-    const apiSuffix = "Api";
     const apiByModelIndexes = Array.from(
       this.apiByModelExportsMap.entries()
     ).map(([modelSeg, apis]) => ({
@@ -37,35 +36,23 @@ export class Context {
         models.map((model) => [`export * from "./${model}"`]).join(";"),
     }));
 
-    const sdkIndexImports = this.indexApiExports
+    const sdkIndexExports = this.indexApiExports
       .map(
-        (modelSeg) =>
-          `import * as ${changeCase.pascalCase(
-            modelSeg
-          )}${apiSuffix} from "./api/${this.serviceSeg}/${modelSeg}";`
+        (modelSeg) => `export * from "./api/${this.serviceSeg}/${modelSeg}";`
       )
       .concat(
         this.indexModelExports.map(
           (serviceSeg) =>
-            `import * as ${changeCase.pascalCase(
+            `export * as ${changeCase.pascalCase(
               serviceSeg
             )}Models from "./model/${serviceSeg}";`
         )
       )
       .join(os.EOL);
 
-    const sdkIndexExports = this.indexApiExports
-      .map((modelSeg) => changeCase.pascalCase(modelSeg) + apiSuffix)
-      .concat(
-        this.indexModelExports.map(
-          (serviceSeg) => `${changeCase.pascalCase(serviceSeg)}Models`
-        )
-      )
-      .join(",");
     const sdkIndex = {
       filePath: "./index",
-      toString: () =>
-        `${sdkIndexImports}${os.EOL}export { ${sdkIndexExports} }`,
+      toString: () => sdkIndexExports,
     };
 
     const contractsYaml: FileWithContent = [

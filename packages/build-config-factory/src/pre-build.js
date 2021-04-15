@@ -18,35 +18,30 @@ const findDuplicatesProvider = (providers) => {
 const generateProviderElements = () => {
   const providersJson = require(path.join(process.cwd(), "providers.json"));
   const providersPackage = require(path.join(process.cwd(), "package.json"));
-  const duplicatesProvider = findDuplicatesProvider(providersJson.providers);
-  if (duplicatesProvider.length > 0) {
-    throw new Error(
-      `The duplicate providers are ${duplicatesProvider
-        .map((provider) => `"${provider}"`)
-        .join("，")}. please recheck.`
-    );
+  const duplicatedProviders = findDuplicatesProvider(providersJson.providers);
+  if (duplicatedProviders.length > 0) {
+    throw new Error(`Duplicate providers: ${duplicatedProviders.join(", ")}`);
   }
 
   const packageName = providersPackage.name.split("/")[1];
 
   const defines = [];
-  const groupSet = new Set();
+  // const groupSet = new Set();
+  const apiSet = new Set();
   for (const api of providersJson.providers) {
-    const [groupName, apiName] = api.split(".");
-    groupSet.add(groupName);
+    const apiName = api.replace(".", "_");
+    apiSet.add(apiName);
     defines.push(
       `customElements.define(
-        "${packageName}.${changeCase.paramCase(
-        groupName
-      )}-${changeCase.paramCase(apiName)}",
-        createProviderClass(${groupName}.${apiName})
+        "${packageName}.${changeCase.paramCase(apiName)}",
+        createProviderClass(${apiName})
       );`
     );
   }
   const importPath = providersJson.sdk;
 
   const content = `import { createProviderClass } from "@next-core/brick-utils";
-    import { ${Array.from(groupSet).join(",")} } from "${importPath}";
+    import { ${Array.from(apiSet).join(",")} } from "${importPath}";
 
     ${defines.join(os.EOL)}`;
 

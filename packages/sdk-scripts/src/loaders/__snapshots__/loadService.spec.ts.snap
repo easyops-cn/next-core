@@ -24,7 +24,7 @@ export interface AutoDiscoveryResponseBody {
  * @description 实例自动发现的接口
  * @endpoint POST /object/:objectId/instance/_import-json
  */
-export const autoDiscovery = (
+export const PackageApi_autoDiscovery = (
   objectId: string | number,
   data: AutoDiscoveryRequestBody,
   options?: HttpOptions
@@ -90,7 +90,7 @@ export type CreateResponseBody = Partial<ModelPackage> & ModelPackage_partial;
  * @description 创建包
  * @endpoint POST /package
  */
-export const create = (
+export const PackageApi_create = (
   data: CreateRequestBody,
   options?: HttpOptions
 ): Promise<CreateResponseBody> =>
@@ -168,7 +168,7 @@ export interface GetResponseBody {
  * @description 获取包
  * @endpoint GET /packages/pkg
  */
-export const get = async (
+export const PackageApi_get = async (
   params: GetRequestParams,
   options?: HttpOptions
 ): Promise<GetResponseBody> =>
@@ -216,7 +216,7 @@ export interface ListNameServiceResponseBody {
  * @description 获取全量名字服务列表
  * @endpoint GET /api/v1/name_service/config
  */
-export const listNameService = (
+export const PackageApi_listNameService = (
   params: ListNameServiceRequestParams,
   options?: HttpOptions
 ): Promise<ListNameServiceResponseBody> =>
@@ -265,7 +265,7 @@ export interface RetryResponseBody {
  * @description 重试
  * @endpoint POST /api/pipeline/v1/builds/:build_id/retry
  */
-export const retry = async (
+export const PackageApi_retry = async (
   build_id: string | number,
   options?: HttpOptions
 ): Promise<RetryResponseBody> =>
@@ -306,7 +306,7 @@ export type SearchResponseBody = ResponseListWrapper<SearchResponseItem>;
  * @description 搜索包 (支持模糊搜索)
  * @endpoint LIST /packages/search
  */
-export const search = async (
+export const PackageApi_search = async (
   params: SearchRequestParams,
   options?: HttpOptions
 ): Promise<SearchResponseBody> =>
@@ -346,7 +346,7 @@ export interface UploadRequestBody {
  * @description 上传包
  * @endpoint POST /packages/pkg/:packageId/upload
  */
-export const upload = (
+export const PackageApi_upload = (
   packageId: string | number,
   params: UploadRequestParams,
   data: UploadRequestBody,
@@ -501,9 +501,8 @@ export * from \\"./ModelPackageExt\\";
   ],
   Array [
     "dist/src/index.ts",
-    "import * as PackageApi from \\"./api/cd/package\\";
-import * as CdModels from \\"./model/cd\\";
-export { PackageApi, CdModels };
+    "export * from \\"./api/cd/package\\";
+export * as CdModels from \\"./model/cd\\";
 ",
   ],
   Array [
@@ -544,7 +543,7 @@ export interface CheckLoginResponseBody {
  * @description 判断用户是否登录
  * @endpoint GET /api/auth/login
  */
-export const checkLogin = async (
+export const AuthApi_checkLogin = async (
   options?: HttpOptions
 ): Promise<CheckLoginResponseBody> =>
   /**! @contract easyops.api.api_gateway.auth.CheckLogin */ (
@@ -562,8 +561,7 @@ export const checkLogin = async (
   ],
   Array [
     "dist/src/index.ts",
-    "import * as AuthApi from \\"./api/api_gateway/auth\\";
-export { AuthApi };
+    "export * from \\"./api/api_gateway/auth\\";
 ",
   ],
   Array [

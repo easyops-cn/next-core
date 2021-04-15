@@ -27,7 +27,7 @@ export function loadService(serviceSeg: string): Context {
       const apiSeg = path.basename(file, ".yaml");
       const key = `${serviceSeg}/${modelSeg}/${apiSeg}`;
       const api = new Api(doc, context, modelSeg);
-      exportApiDisplayNames.push(api.displayName);
+      exportApiDisplayNames.push(api.filename);
       context.apiMap.set(key, api);
     });
   });
