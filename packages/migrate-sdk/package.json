@@ -1,0 +1,38 @@
+{
+  "name": "@next-core/migrate-sdk",
+  "version": "0.0.0",
+  "description": "Migrate sdk usage",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/migrate-sdk",
+  "license": "GPL-3.0",
+  "main": "dist/index.js",
+  "bin": {
+    "migrate-sdk": "./bin/migrate-sdk.js"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "tsc -w",
+    "prebuild": "npm run clean",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.13.9",
+    "@babel/generator": "^7.13.0",
+    "@babel/traverse": "^7.13.0",
+    "@babel/types": "^7.13.0",
+    "chalk": "^4.1.0",
+    "fs-extra": "^9.1.0",
+    "globby": "^11.0.3"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
