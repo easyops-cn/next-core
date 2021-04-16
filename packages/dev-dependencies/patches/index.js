@@ -6,3 +6,4 @@ exports.updateRenovateFileFilters = require("./updateRenovateFileFilters");
 exports.updateLicense = require("./updateLicense");
 exports.addPostBuildScriptForLibs = require("./addPostBuildScriptForLibs");
 exports.enableSdkRenovate = require("./enableSdkRenovate");
+exports.groupSdkRenovate = require("./groupSdkRenovate");
