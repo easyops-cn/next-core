@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.7.0...@next-core/build-config-factory@2.8.0) (2021-04-16)
+
+
+### Features
+
+* refactory sdk exports, make tree-shaking possible ([df55437](https://github.com/easyops-cn/next-core/commit/df55437f631ed99407c8eb7b918c5c599397bb1a))
+
+
+
+
+
 # [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.6.0...@next-core/build-config-factory@2.7.0) (2021-04-14)
 
 

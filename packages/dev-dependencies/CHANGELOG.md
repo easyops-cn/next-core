@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.4.0...@next-core/dev-dependencies@1.5.0) (2021-04-16)
+
+
+### Features
+
+* **renovate:** group sdk packages ([40d4576](https://github.com/easyops-cn/next-core/commit/40d4576fe5b4dae8202e9cec5440f13bcd9cfc20))
+
+
+
+
+
 # [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.3.0...@next-core/dev-dependencies@1.4.0) (2021-04-15)
 
 
