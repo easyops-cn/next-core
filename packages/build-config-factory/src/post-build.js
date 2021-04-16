@@ -8,6 +8,7 @@ const ensureDeps = require("./ensureDeps");
 const validateDeps = require("./validateDeps");
 const generateProviderDocs = require("./generateProviderDocs");
 const generateBrickDocs = require("./generateBrickDocs");
+const generateBrickContracts = require("./generateBrickContracts");
 const { providerPackagePrefix } = require("./constants");
 
 const ignores = [".DS_Store"];
@@ -186,6 +187,7 @@ module.exports = (scope) => {
       generateProviderDocs(pluginName);
     } else {
       enableGenerateDoc && generateBrickDocs(pluginName, scope);
+      generateBrickContracts(cwd);
     }
     generateDeps();
     mergeEditors();

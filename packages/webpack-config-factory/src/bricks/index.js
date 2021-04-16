@@ -5,4 +5,5 @@ module.exports = {
   webpackEditorsFactory: baseFactory(true),
   webpackDevFactory: require("./webpack.dev.factory"),
   webpackProdFactory: require("./webpack.prod.factory"),
+  webpackContractsFactory: require("./webpack.contracts.factory"),
 };
