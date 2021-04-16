@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.8.0...@next-core/build-config-factory@2.8.1) (2021-04-16)
+
+
+### Bug Fixes
+
+* remove deprecated contract-analysis ([d89076a](https://github.com/easyops-cn/next-core/commit/d89076a5e7c4d79ec2d860b63908ae1086716d34))
+
+
+
+
+
 # [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.7.0...@next-core/build-config-factory@2.8.0) (2021-04-16)
 
 

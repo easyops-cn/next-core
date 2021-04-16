@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.1...@next-core/sdk-scripts@2.6.2) (2021-04-16)
+
+
+### Bug Fixes
+
+* bump sdk version by manual commit message instead of automatically ([c03c5cd](https://github.com/easyops-cn/next-core/commit/c03c5cd0f17fcb298e6d305ed45aaac8f63c67b0))
+
+
+
+
+
 ## [2.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.0...@next-core/sdk-scripts@2.6.1) (2021-04-16)
 
 
