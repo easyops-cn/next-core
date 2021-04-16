@@ -19,7 +19,7 @@
   "sideEffects": false,
   "dependencies": {
     "@next-core/brick-utils": "^2.14.3",
-    "@next-core/repo-config": "^0.2.1",
+    "@next-core/repo-config": "^0.1.1",
     "@next-core/typedoc-plugin-filter-inherit": "^1.0.0",
     "change-case": "^4.1.2",
     "chokidar": "^3.5.1",
