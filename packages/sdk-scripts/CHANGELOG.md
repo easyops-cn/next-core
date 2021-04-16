@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.0...@next-core/sdk-scripts@2.6.1) (2021-04-16)
+
+
+### Bug Fixes
+
+* add prefix for interfaces too ([2d23331](https://github.com/easyops-cn/next-core/commit/2d2333157a79e7146cdcfc1e7ac08a91b4c65128))
+
+
+
+
+
 # [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.5.0...@next-core/sdk-scripts@2.6.0) (2021-04-16)
 
 
