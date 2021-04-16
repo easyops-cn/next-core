@@ -19,7 +19,6 @@
   "sideEffects": false,
   "dependencies": {
     "@next-core/brick-utils": "^2.14.3",
-    "@next-core/contract-analysis": "^0.2.0",
     "@next-core/repo-config": "^0.2.1",
     "@next-core/typedoc-plugin-filter-inherit": "^1.0.0",
     "change-case": "^4.1.2",
