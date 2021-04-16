@@ -7,9 +7,9 @@ Array [
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
 /** 请求体 */
-export type AutoDiscoveryRequestBody = AutoDiscoveryRequestBody_item[];
+export type PackageApi_AutoDiscoveryRequestBody = PackageApi_AutoDiscoveryRequestBody_item[];
 
-export interface AutoDiscoveryResponseBody {
+export interface PackageApi_AutoDiscoveryResponseBody {
   /** 返回码 */
   code: number;
 
@@ -26,16 +26,16 @@ export interface AutoDiscoveryResponseBody {
  */
 export const PackageApi_autoDiscovery = (
   objectId: string | number,
-  data: AutoDiscoveryRequestBody,
+  data: PackageApi_AutoDiscoveryRequestBody,
   options?: HttpOptions
-): Promise<AutoDiscoveryResponseBody> =>
-  /**! @contract easyops.api.cd.package.AutoDiscovery */ http.post<AutoDiscoveryResponseBody>(
+): Promise<PackageApi_AutoDiscoveryResponseBody> =>
+  /**! @contract easyops.api.cd.package.AutoDiscovery */ http.post<PackageApi_AutoDiscoveryResponseBody>(
     \`api/gateway/cd.package.AutoDiscovery/object/\${objectId}/instance/_import-json\`,
     data,
     options
   );
 
-export interface AutoDiscoveryRequestBody_item {
+export interface PackageApi_AutoDiscoveryRequestBody_item {
   /** 筛选器 */
   filter?: Record<string, any>;
 
@@ -52,7 +52,7 @@ export interface AutoDiscoveryRequestBody_item {
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 import { ModelPackage } from \\"../../../model/cd\\";
 
-export interface CreateRequestBody {
+export interface PackageApi_CreateRequestBody {
   /** 包名称 */
   name: string;
 
@@ -84,17 +84,18 @@ export interface CreateRequestBody {
   style?: string;
 }
 
-export type CreateResponseBody = Partial<ModelPackage> & ModelPackage_partial;
+export type PackageApi_CreateResponseBody = Partial<ModelPackage> &
+  ModelPackage_partial;
 
 /**
  * @description 创建包
  * @endpoint POST /package
  */
 export const PackageApi_create = (
-  data: CreateRequestBody,
+  data: PackageApi_CreateRequestBody,
   options?: HttpOptions
-): Promise<CreateResponseBody> =>
-  /**! @contract easyops.api.cd.package.Create */ http.post<CreateResponseBody>(
+): Promise<PackageApi_CreateResponseBody> =>
+  /**! @contract easyops.api.cd.package.Create */ http.post<PackageApi_CreateResponseBody>(
     \\"api/gateway/cd.package.Create/package\\",
     data,
     options
@@ -142,7 +143,7 @@ export interface ModelPackage_partial {
 import { ModelPackageWithVersion } from \\"../../../model/cd\\";
 import { ResponseBodyWrapper } from \\"../../../wrapper\\";
 
-export interface GetRequestParams {
+export interface PackageApi_GetRequestParams {
   /** 包Id */
   packageId?: string;
 
@@ -153,7 +154,7 @@ export interface GetRequestParams {
   lang?: string;
 }
 
-export interface GetResponseBody {
+export interface PackageApi_GetResponseBody {
   /** 最新版本信息 */
   lastVersionInfo?: ModelPackageWithVersion[\\"lastVersionInfo\\"];
 
@@ -169,11 +170,11 @@ export interface GetResponseBody {
  * @endpoint GET /packages/pkg
  */
 export const PackageApi_get = async (
-  params: GetRequestParams,
+  params: PackageApi_GetRequestParams,
   options?: HttpOptions
-): Promise<GetResponseBody> =>
+): Promise<PackageApi_GetResponseBody> =>
   /**! @contract easyops.api.cd.package.Get */ (
-    await http.get<ResponseBodyWrapper<GetResponseBody>>(
+    await http.get<ResponseBodyWrapper<PackageApi_GetResponseBody>>(
       \\"api/gateway/cd.package.Get/packages/pkg\\",
       { ...options, params }
     )
@@ -184,7 +185,7 @@ export const PackageApi_get = async (
     "dist/src/api/cd/package/listNameService.ts",
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
-export interface ListNameServiceRequestParams {
+export interface PackageApi_ListNameServiceRequestParams {
   /** page */
   page?: number;
 
@@ -192,7 +193,7 @@ export interface ListNameServiceRequestParams {
   page_size?: number;
 }
 
-export interface ListNameServiceResponseBody {
+export interface PackageApi_ListNameServiceResponseBody {
   /** 返回码 */
   code?: number;
 
@@ -209,7 +210,7 @@ export interface ListNameServiceResponseBody {
   total?: number;
 
   /** 名字服务列表 */
-  data?: ListNameServiceResponseBody_data_item[];
+  data?: PackageApi_ListNameServiceResponseBody_data_item[];
 }
 
 /**
@@ -217,20 +218,20 @@ export interface ListNameServiceResponseBody {
  * @endpoint GET /api/v1/name_service/config
  */
 export const PackageApi_listNameService = (
-  params: ListNameServiceRequestParams,
+  params: PackageApi_ListNameServiceRequestParams,
   options?: HttpOptions
-): Promise<ListNameServiceResponseBody> =>
-  /**! @contract easyops.api.cd.package.ListNameService */ http.get<ListNameServiceResponseBody>(
+): Promise<PackageApi_ListNameServiceResponseBody> =>
+  /**! @contract easyops.api.cd.package.ListNameService */ http.get<PackageApi_ListNameServiceResponseBody>(
     \\"api/gateway/cd.package.ListNameService/api/v1/name_service/config\\",
     { ...options, params }
   );
 
-export interface ListNameServiceResponseBody_data_item {
+export interface PackageApi_ListNameServiceResponseBody_data_item {
   /** 服务名 */
   service_name?: string;
 
   /** host列表 */
-  hosts?: ListNameServiceResponseBody_data_item_hosts_item[];
+  hosts?: PackageApi_ListNameServiceResponseBody_data_item_hosts_item[];
 
   /** 创建时间 */
   ctime?: number;
@@ -239,7 +240,7 @@ export interface ListNameServiceResponseBody_data_item {
   mtime?: number;
 }
 
-export interface ListNameServiceResponseBody_data_item_hosts_item {
+export interface PackageApi_ListNameServiceResponseBody_data_item_hosts_item {
   /** ip */
   ip?: string;
 
@@ -256,7 +257,7 @@ export interface ListNameServiceResponseBody_data_item_hosts_item {
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 import { ResponseBodyWrapper } from \\"../../../wrapper\\";
 
-export interface RetryResponseBody {
+export interface PackageApi_RetryResponseBody {
   /** build id */
   id?: string;
 }
@@ -268,9 +269,9 @@ export interface RetryResponseBody {
 export const PackageApi_retry = async (
   build_id: string | number,
   options?: HttpOptions
-): Promise<RetryResponseBody> =>
+): Promise<PackageApi_RetryResponseBody> =>
   /**! @contract easyops.api.cd.package.Retry */ (
-    await http.post<ResponseBodyWrapper<RetryResponseBody>>(
+    await http.post<ResponseBodyWrapper<PackageApi_RetryResponseBody>>(
       \`api/gateway/cd.package.Retry/api/pipeline/v1/builds/\${build_id}/retry\`,
       undefined,
       options
@@ -284,7 +285,7 @@ export const PackageApi_retry = async (
 import { ModelPackage, ModelPackageExt } from \\"../../../model/cd\\";
 import { ResponseListWrapper, ResponseBodyWrapper } from \\"../../../wrapper\\";
 
-export interface SearchRequestParams {
+export interface PackageApi_SearchRequestParams {
   /** 包名称 */
   name: string;
 
@@ -298,26 +299,27 @@ export interface SearchRequestParams {
   order?: string;
 }
 
-export type SearchResponseItem = ModelPackage & SearchResponseItem_2;
+export type PackageApi_SearchResponseItem = ModelPackage &
+  PackageApi_SearchResponseItem_2;
 
-export type SearchResponseBody = ResponseListWrapper<SearchResponseItem>;
+export type PackageApi_SearchResponseBody = ResponseListWrapper<PackageApi_SearchResponseItem>;
 
 /**
  * @description 搜索包 (支持模糊搜索)
  * @endpoint LIST /packages/search
  */
 export const PackageApi_search = async (
-  params: SearchRequestParams,
+  params: PackageApi_SearchRequestParams,
   options?: HttpOptions
-): Promise<SearchResponseBody> =>
+): Promise<PackageApi_SearchResponseBody> =>
   /**! @contract easyops.api.cd.package.Search */ (
-    await http.get<ResponseBodyWrapper<SearchResponseBody>>(
+    await http.get<ResponseBodyWrapper<PackageApi_SearchResponseBody>>(
       \\"api/gateway/cd.package.Search/packages/search\\",
       { ...options, params }
     )
   ).data;
 
-export interface SearchResponseItem_2 {
+export interface PackageApi_SearchResponseItem_2 {
   /** 最新版本信息 */
   lastVersionInfo: ModelPackageExt[\\"lastVersionInfo\\"];
 }
@@ -328,13 +330,13 @@ export interface SearchResponseItem_2 {
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
 /** params */
-export interface UploadRequestParams {
+export interface PackageApi_UploadRequestParams {
   /** 版本 ID */
   versionId?: string;
 }
 
 /** others */
-export interface UploadRequestBody {
+export interface PackageApi_UploadRequestBody {
   /** 文件 */
   sourceFile?: File[];
 
@@ -348,8 +350,8 @@ export interface UploadRequestBody {
  */
 export const PackageApi_upload = (
   packageId: string | number,
-  params: UploadRequestParams,
-  data: UploadRequestBody,
+  params: PackageApi_UploadRequestParams,
+  data: PackageApi_UploadRequestBody,
   options?: HttpOptions
 ): Promise<Blob> => {
   /**! @contract easyops.api.cd.package.Upload */ const _formData = new FormData();
@@ -534,7 +536,7 @@ Array [
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 import { ResponseBodyWrapper } from \\"../../../wrapper\\";
 
-export interface CheckLoginResponseBody {
+export interface AuthApi_CheckLoginResponseBody {
   /** 是否已经登录 */
   loggedIn?: boolean;
 }
@@ -545,9 +547,9 @@ export interface CheckLoginResponseBody {
  */
 export const AuthApi_checkLogin = async (
   options?: HttpOptions
-): Promise<CheckLoginResponseBody> =>
+): Promise<AuthApi_CheckLoginResponseBody> =>
   /**! @contract easyops.api.api_gateway.auth.CheckLogin */ (
-    await http.get<ResponseBodyWrapper<CheckLoginResponseBody>>(
+    await http.get<ResponseBodyWrapper<AuthApi_CheckLoginResponseBody>>(
       \\"api/auth/login\\",
       options
     )
