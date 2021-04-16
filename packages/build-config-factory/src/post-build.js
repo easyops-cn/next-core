@@ -1,12 +1,7 @@
 const path = require("path");
-const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
 const { getEasyopsConfig } = require("@next-core/repo-config");
-const {
-  getContractDepsByBrick,
-  getContractDeps,
-} = require("@next-core/contract-analysis");
 const generateDeps = require("./generateDeps");
 const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
@@ -14,56 +9,6 @@ const validateDeps = require("./validateDeps");
 const generateProviderDocs = require("./generateProviderDocs");
 const generateBrickDocs = require("./generateBrickDocs");
 const { providerPackagePrefix } = require("./constants");
-
-const generateContracts = () => {
-  const cwd = process.cwd();
-  const brickEntriesFilePath = path.join(cwd, "dist/brick-entries.json");
-  const depsByBrick = getContractDepsByBrick(
-    cwd,
-    fs.readJsonSync(brickEntriesFilePath)
-  );
-
-  const content = yaml.safeDump({
-    contracts: Array.from(depsByBrick.entries()).map(([brick, deps]) => ({
-      brick,
-      deps: deps.map((contract) => ({
-        contract,
-        version: "*",
-      })),
-    })),
-  });
-
-  console.log(content);
-
-  // Todo(steve): Ignore file rendering temporarily.
-  // const filePath = path.join(cwd, "deploy/contract.yaml");
-  // fs.outputFileSync(filePath, content);
-
-  fs.removeSync(brickEntriesFilePath);
-};
-
-const generateContractsForLibs = () => {
-  const cwd = process.cwd();
-  const deps = getContractDeps(cwd, "src/index.ts");
-
-  const content = yaml.safeDump({
-    contracts: [
-      {
-        lib: fs.readJsonSync(path.join(cwd, "package.json")).name,
-        deps: deps.map((contract) => ({
-          contract,
-          version: "*",
-        })),
-      },
-    ],
-  });
-
-  console.log(content);
-
-  // Todo(steve): Ignore file rendering temporarily.
-  // const filePath = path.join(cwd, "dist/contract.yaml");
-  // fs.outputFileSync(filePath, content);
-};
 
 const ignores = [".DS_Store"];
 const filter = (src) => ignores.some((item) => !src.includes(item));
@@ -214,6 +159,10 @@ const mergeEditors = () => {
 };
 
 module.exports = (scope) => {
+  if (scope === "libs") {
+    return;
+  }
+
   const cwd = process.cwd();
   const repoRoot = path.resolve(cwd, "../..");
   const { standalone, noPostBuildMicroApps } = getEasyopsConfig(repoRoot);
@@ -225,11 +174,6 @@ module.exports = (scope) => {
     return;
   }
 
-  if (scope === "libs") {
-    generateContractsForLibs();
-    return;
-  }
-
   const pluginName = path.basename(cwd);
   const templateRoot = path.join(__dirname, "../template");
   const enableGenerateDoc = process.env.ENABLE_GENERATE_DOC || false;
@@ -238,7 +182,6 @@ module.exports = (scope) => {
   validateDeps(scope);
 
   if (scope === "bricks") {
-    generateContracts();
     if (pluginName.startsWith(providerPackagePrefix)) {
       generateProviderDocs(pluginName);
     } else {
