@@ -6,7 +6,10 @@ import {
   SidebarMenu,
   ResolveConf,
 } from "@next-core/brick-types";
-import { InstanceApi } from "@next-sdk/cmdb-sdk";
+import {
+  InstanceApi_postSearch,
+  InstanceApi_getDetail,
+} from "@next-sdk/cmdb-sdk";
 import { MountRoutesResult } from "./LocationContext";
 import { computeRealValue } from "../setProperties";
 import { looseCheckIfOfComputed } from "../checkIf";
@@ -66,7 +69,7 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
     return menuCache.get(menuId);
   }
   const menuList = (
-    await InstanceApi.postSearch("EASYOPS_STORYBOARD_MENU", {
+    await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
       page: 1,
       page_size: 200,
       fields: {
@@ -182,7 +185,7 @@ export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
   }
   const { objectId, instanceId, attributeId } = menuData.titleDataSource;
   const attr = attributeId ?? "name";
-  const instanceData = await InstanceApi.getDetail(objectId, instanceId, {
+  const instanceData = await InstanceApi_getDetail(objectId, instanceId, {
     fields: attr,
   });
   let title: string;
