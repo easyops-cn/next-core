@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.11.0...@next-core/brick-icons@2.12.0) (2021-04-20)
+
+
+### Features
+
+* **brick-icons:** add service-discovery icon ([521ea82](https://github.com/easyops-cn/next-core/commit/521ea82e0afc19c1460a0585b5cc8fd534bf6901))
+
+
+
+
+
 # [2.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.10.2...@next-core/brick-icons@2.11.0) (2021-04-19)
 
 
