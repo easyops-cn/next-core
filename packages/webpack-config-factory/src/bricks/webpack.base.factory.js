@@ -158,7 +158,7 @@ module.exports = (isForEditors) => ({
           ...imageLoaderOptions,
         },
         {
-          test: /\.(woff(2)?|ttf|eot)$/,
+          test: /\.(woff(2)?|ttf|eot|svga)$/,
           use: [
             {
               loader: "file-loader",
