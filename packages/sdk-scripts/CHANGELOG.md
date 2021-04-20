@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.2...@next-core/sdk-scripts@2.6.3) (2021-04-20)
+
+
+### Bug Fixes
+
+* no need to generate contracts for sdk packages ([ea52bb3](https://github.com/easyops-cn/next-core/commit/ea52bb33b652405c11e578a42f2830188dd7eeae))
+
+
+
+
+
 ## [2.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.1...@next-core/sdk-scripts@2.6.2) (2021-04-16)
 
 
