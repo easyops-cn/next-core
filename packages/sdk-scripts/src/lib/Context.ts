@@ -2,10 +2,8 @@ import os from "os";
 import path from "path";
 import * as changeCase from "change-case";
 import prettier from "prettier";
-import yaml from "js-yaml";
 import { Api, Model } from "./internal";
 import { FileWithContent } from "../interface";
-import { normalizeSemver } from "../utils";
 
 export class Context {
   readonly apiMap = new Map<string, Api>();
@@ -55,27 +53,15 @@ export class Context {
       toString: () => sdkIndexExports,
     };
 
-    const contractsYaml: FileWithContent = [
-      path.join(sdkRoot, "deploy", "contracts.yaml"),
-      yaml.safeDump({
-        depend_contracts: Array.from(this.apiMap.values()).map((api) => ({
-          name: `easyops.api.${this.serviceSeg}.${api.modelSeg}.${api.originalName}`,
-          version: `^${normalizeSemver(api.doc.version)}`,
-        })),
-      }),
-    ];
-
     return [
       ...Array.from(this.apiMap.values()),
       ...Array.from(this.modelMap.values()),
       ...apiByModelIndexes,
       ...modelByServiceIndexes,
       sdkIndex,
-    ]
-      .map<FileWithContent>((file) => [
-        path.join(sdkRoot, "src", file.filePath + ".ts"),
-        prettier.format(file.toString(), { parser: "typescript" }),
-      ])
-      .concat([contractsYaml]);
+    ].map<FileWithContent>((file) => [
+      path.join(sdkRoot, "src", file.filePath + ".ts"),
+      prettier.format(file.toString(), { parser: "typescript" }),
+    ]);
   }
 }

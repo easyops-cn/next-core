@@ -507,25 +507,6 @@ export * from \\"./ModelPackageExt\\";
 export * as CdModels from \\"./model/cd\\";
 ",
   ],
-  Array [
-    "dist/deploy/contracts.yaml",
-    "depend_contracts:
-  - name: easyops.api.cd.package.AutoDiscovery
-    version: ^1.0.0
-  - name: easyops.api.cd.package.Create
-    version: ^1.0.0
-  - name: easyops.api.cd.package.Get
-    version: ^1.0.0
-  - name: easyops.api.cd.package.ListNameService
-    version: ^1.0.0
-  - name: easyops.api.cd.package.Retry
-    version: ^1.0.0
-  - name: easyops.api.cd.package.Search
-    version: ^1.0.0
-  - name: easyops.api.cd.package.Upload
-    version: ^1.0.0
-",
-  ],
 ]
 `;
 
@@ -564,13 +545,6 @@ export const AuthApi_checkLogin = async (
   Array [
     "dist/src/index.ts",
     "export * from \\"./api/api_gateway/auth\\";
-",
-  ],
-  Array [
-    "dist/deploy/contracts.yaml",
-    "depend_contracts:
-  - name: easyops.api.api_gateway.auth.CheckLogin
-    version: ^1.0.0
 ",
   ],
 ]
