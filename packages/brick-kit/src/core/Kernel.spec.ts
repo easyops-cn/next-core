@@ -8,9 +8,9 @@ import {
   scanBricksInBrickConf,
 } from "@next-core/brick-utils";
 import { checkLogin, bootstrap, getAppStoryboard } from "@next-sdk/auth-sdk";
-import { UserAdminApi } from "@next-sdk/user-service-sdk";
-import { ObjectMicroAppApi } from "@next-sdk/micro-app-sdk";
-import { InstanceApi } from "@next-sdk/cmdb-sdk";
+import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
+import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
+import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   LayoutType,
   MountPoints,
@@ -67,9 +67,9 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 const spyOnMenuBar = MenuBar as jest.Mock;
 const spyOnAppBar = AppBar as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
-const searchAllUsersInfo = UserAdminApi.searchAllUsersInfo as jest.Mock;
-const searchAllMagicBrickConfig = InstanceApi.postSearch as jest.Mock;
-const getObjectMicroAppList = ObjectMicroAppApi.getObjectMicroAppList as jest.Mock;
+const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
+const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
+const getObjectMicroAppList = ObjectMicroAppApi_getObjectMicroAppList as jest.Mock;
 
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
@@ -532,7 +532,7 @@ describe("Kernel", () => {
     await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
     expect(loadScript).toHaveBeenNthCalledWith(2, []);
-    const searchAllMicroAppApiOrchestration = InstanceApi.postSearch as jest.Mock;
+    const searchAllMicroAppApiOrchestration = InstanceApi_postSearch as jest.Mock;
     const usedCustomApis = [
       {
         name: "myAwesomeApi",

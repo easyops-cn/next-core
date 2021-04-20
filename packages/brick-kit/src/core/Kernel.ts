@@ -13,9 +13,9 @@ import {
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
-import { UserAdminApi } from "@next-sdk/user-service-sdk";
-import { ObjectMicroAppApi } from "@next-sdk/micro-app-sdk";
-import { InstanceApi } from "@next-sdk/cmdb-sdk";
+import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
+import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
+import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   MountPoints,
   BootstrapData,
@@ -400,7 +400,7 @@ export class Kernel {
         user_memo: true,
       };
       const allUserInfo = (
-        await UserAdminApi.searchAllUsersInfo({
+        await UserAdminApi_searchAllUsersInfo({
           query,
           fields,
         })
@@ -437,7 +437,7 @@ export class Kernel {
     if (usedCustomApis.length) {
       try {
         const allMicroAppApiOrchestration = (
-          await InstanceApi.postSearch("MICRO_APP_API_ORCHESTRATION", {
+          await InstanceApi_postSearch("MICRO_APP_API_ORCHESTRATION", {
             page: 1,
             page_size: usedCustomApis.length,
             fields: {
@@ -477,7 +477,7 @@ export class Kernel {
     const allMagicBrickConfigMap: Map<string, MagicBrickConfig> = new Map();
     try {
       const allMagicBrickConfig = (
-        await InstanceApi.postSearch("_BRICK_MAGIC", {
+        await InstanceApi_postSearch("_BRICK_MAGIC", {
           page: 1,
           // TODO(Lynette): 暂时设置3000，待后台提供全量接口
           page_size: 3000,
@@ -503,7 +503,7 @@ export class Kernel {
   private async loadRelatedApps(): Promise<RelatedApp[]> {
     let relatedApps: RelatedApp[] = [];
     try {
-      relatedApps = (await ObjectMicroAppApi.getObjectMicroAppList()).list;
+      relatedApps = (await ObjectMicroAppApi_getObjectMicroAppList()).list;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("Load related apps error:", error);
