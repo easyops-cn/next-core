@@ -5,6 +5,5 @@ exports.updateBuildStories = require("./updateBuildStories");
 exports.updateRenovateFileFilters = require("./updateRenovateFileFilters");
 exports.updateLicense = require("./updateLicense");
 exports.addPostBuildScriptForLibs = require("./addPostBuildScriptForLibs");
-exports.enableSdkRenovate = require("./enableSdkRenovate");
-exports.groupSdkRenovate = require("./groupSdkRenovate");
+exports.disableSdkRenovate = require("./disableSdkRenovate");
 exports.migrateOfficialRenovate = require("./migrateOfficialRenovate");

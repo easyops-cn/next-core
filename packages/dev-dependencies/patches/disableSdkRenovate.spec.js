@@ -1,29 +1,24 @@
-const mockExistsSync = jest.fn(() => false);
-
-jest.mock("fs-extra", () => ({
-  existsSync: mockExistsSync,
-}));
 jest.mock("../utils");
 
-const enableSdkRenovate = require("./enableSdkRenovate");
+const disableSdkRenovate = require("./disableSdkRenovate");
 const { writeJsonFile, readJson } = require("../utils");
 
-describe("enableSdkRenovate", () => {
+describe("disableSdkRenovate", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should ignore if no disabled group", () => {
+  it("should ignore if no updates group", () => {
     readJson.mockReturnValueOnce({
-      packageRules: [{}],
+      packageRules: [
+        {
+          matchDepTypes: ["devDependencies"],
+          matchUpdateTypes: ["minor", "patch"],
+          automerge: true,
+        },
+      ],
     });
-    enableSdkRenovate();
-    expect(writeJsonFile).not.toBeCalled();
-  });
-
-  it("should ignore if it has sdk packages", () => {
-    mockExistsSync.mockReturnValueOnce(true);
-    enableSdkRenovate();
+    disableSdkRenovate();
     expect(writeJsonFile).not.toBeCalled();
   });
 
@@ -35,12 +30,7 @@ describe("enableSdkRenovate", () => {
           automerge: true,
         },
         {
-          matchPackagePatterns: [
-            "^@next-bricks/",
-            "^@next-sdk/",
-            "^@bricks/",
-            "^@sdk/",
-          ],
+          matchPackagePatterns: ["^@next-bricks/", "^@next-sdk/", "^@bricks/"],
           matchPackageNames: ["react"],
           enabled: false,
         },
@@ -48,19 +38,36 @@ describe("enableSdkRenovate", () => {
           matchUpdateTypes: ["major"],
           enabled: false,
         },
+        {
+          groupName: "sdk packages",
+          matchPackagePatterns: ["^@next-sdk/", "^@sdk/"],
+          automerge: false,
+        },
       ],
     });
-    enableSdkRenovate();
+    disableSdkRenovate();
     expect(writeJsonFile).toBeCalledWith(
       expect.stringContaining("renovate.json"),
       {
         packageRules: [
           {
             matchDepTypes: ["devDependencies"],
+            matchUpdateTypes: ["minor", "patch"],
             automerge: true,
           },
           {
-            matchPackagePatterns: ["^@next-bricks/", "^@bricks/"],
+            matchPackagePatterns: [
+              "^@next-bricks/",
+              "^@next-sdk/",
+              "^@bricks/",
+              "^@libs/",
+              "^@micro-apps/",
+              "^@sdk/",
+              "^@templates/",
+              "^@next-libs/",
+              "^@next-micro-apps/",
+              "^@next-legacy-templates/",
+            ],
             matchPackageNames: ["react"],
             enabled: false,
           },
