@@ -12,9 +12,8 @@ const {
   updateRenovateFileFilters,
   updateLicense,
   addPostBuildScriptForLibs,
-  enableSdkRenovate,
-  groupSdkRenovate,
   migrateOfficialRenovate,
+  disableSdkRenovate,
 } = require("./patches");
 const updateBrickNextForNewCssVariables = require("./patches/updateBrickNextForNewCssVariables");
 
@@ -98,13 +97,12 @@ module.exports = function patch() {
     addPostBuildScriptForLibs();
   }
 
-  if (semver.lt(currentRenewVersion, "1.5.0")) {
-    groupSdkRenovate();
-  }
-
   if (semver.lt(currentRenewVersion, "1.6.0")) {
     migrateOfficialRenovate();
-    enableSdkRenovate();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.7.0")) {
+    disableSdkRenovate();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
