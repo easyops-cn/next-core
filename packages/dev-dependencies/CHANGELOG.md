@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.6.6...@next-core/dev-dependencies@1.7.0) (2021-04-22)
+
+
+### Features
+
+* disable sdk renovate ([bf944ad](https://github.com/easyops-cn/next-core/commit/bf944add1266245d0ba36800ff362ff483e72625))
+
+
+
+
+
 ## [1.6.6](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.6.5...@next-core/dev-dependencies@1.6.6) (2021-04-22)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.1...@next-core/custom-antd-styles@1.8.2) (2021-04-22)
+
+
+### Bug Fixes
+
+* lmodify bussiness input css ([ba65176](https://github.com/easyops-cn/next-core/commit/ba651765d8e1313b9bb0ef8ef1c7394ee0cc61da))
+
+
+
+
+
 ## [1.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.0...@next-core/custom-antd-styles@1.8.1) (2021-04-02)
 
 
