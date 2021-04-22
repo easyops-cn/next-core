@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.12.0...@next-core/brick-icons@2.13.0) (2021-04-22)
+
+
+### Features
+
+* **brick-icons:** add itsc-workbench & model-center icon ([ac2f4fe](https://github.com/easyops-cn/next-core/commit/ac2f4fe86bae5629b8f9237a9d976a2634c2c11b))
+
+
+
+
+
 # [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.11.0...@next-core/brick-icons@2.12.0) (2021-04-20)
 
 
