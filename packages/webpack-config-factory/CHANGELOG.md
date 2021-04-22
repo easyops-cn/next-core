@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.8.0...@next-core/webpack-config-factory@2.8.1) (2021-04-22)
+
+
+### Bug Fixes
+
+* workaround for a bug of terser with yield ([065c1aa](https://github.com/easyops-cn/next-core/commit/065c1aab2e7dcabcd7c05527123a5e66061c6552))
+
+
+
+
+
 # [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.7.1...@next-core/webpack-config-factory@2.8.0) (2021-04-20)
 
 
