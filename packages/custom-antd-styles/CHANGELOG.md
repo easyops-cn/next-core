@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.2...@next-core/custom-antd-styles@1.8.3) (2021-04-22)
+
+
+### Bug Fixes
+
+* add select style ([7eeef86](https://github.com/easyops-cn/next-core/commit/7eeef86c8ccc16c15d5bd68ae69b72fadfaaa7ee))
+
+
+
+
+
 ## [1.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.1...@next-core/custom-antd-styles@1.8.2) (2021-04-22)
 
 
