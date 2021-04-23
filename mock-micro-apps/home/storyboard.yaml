@@ -10,6 +10,10 @@ routes:
   - name: myExtData
     value: '<% CTX.myData.quality %>'
   - name: myData
+    value:
+      quality: "conditional context works"
+    if: '<% FLAGS["my-flag"] %>'
+  - name: myData
     resolve:
       useProvider: 'basic-providers.provider-http-proxy'
       args:
