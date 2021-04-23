@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.3...@next-core/brick-kit@2.42.0) (2021-04-23)
+
+
+### Features
+
+* support conditional context of free variable ([5650a15](https://github.com/easyops-cn/next-core/commit/5650a1522a5b4b14112b2a173b3b13354841aa07))
+
+
+
+
+
 ## [2.41.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.2...@next-core/brick-kit@2.41.3) (2021-04-20)
 
 

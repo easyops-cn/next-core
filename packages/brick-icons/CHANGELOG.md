@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.13.0...@next-core/brick-icons@2.14.0) (2021-04-23)
+
+
+### Features
+
+* **brick-icon:** add app-bar icon ([aa223f9](https://github.com/easyops-cn/next-core/commit/aa223f934238ffbbb56dd4e139110219a0687651))
+
+
+
+
+
 # [2.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.12.0...@next-core/brick-icons@2.13.0) (2021-04-22)
 
 
