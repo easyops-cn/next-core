@@ -1,7 +1,7 @@
 import { difference } from "lodash";
 import { scanPermissionActionsInStoryboard } from "@next-core/brick-utils";
 import { Storyboard } from "@next-core/brick-types";
-import { PermissionApi } from "@next-sdk/micro-app-sdk";
+import { PermissionApi_validatePermissions } from "@next-sdk/micro-app-sdk";
 
 type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 
@@ -23,7 +23,7 @@ export async function validatePermissions(
     return;
   }
   try {
-    const result = await PermissionApi.validatePermissions({ actions });
+    const result = await PermissionApi_validatePermissions({ actions });
     for (const item of result.actions) {
       permissionMap.set(item.action, item.authorizationStatus);
       if (item.authorizationStatus === "undefined") {

@@ -10,6 +10,7 @@ export interface BootstrapData {
   storyboards: Storyboard[];
   settings: Settings;
   desktops: DesktopData[];
+  siteSort: SiteMapItem[];
 }
 
 /** @internal */
@@ -121,6 +122,9 @@ export interface MicroApp {
    */
   menuIcon?: MenuIcon;
 
+  /** {@inheritDoc LayoutType} */
+  layoutType?: LayoutType;
+
   /**
    * 应用的默认配置，在开发环境由应用开发者维护。
    */
@@ -151,6 +155,11 @@ export interface MicroApp {
    */
   $$routeAliasMap?: RouteAliasMap;
 }
+
+/**
+ * 页面整体布局类型。
+ */
+export type LayoutType = "console" | "business";
 
 /**
  * 应用的基本信息的本地化配置。
@@ -212,6 +221,14 @@ export interface NavbarConf {
   menuBar: string;
   appBar: string;
   loadingBar: string;
+}
+
+/** @internal */
+export interface PresetBricksConf extends Partial<NavbarConf> {
+  header?: string;
+  footer?: string;
+  pageNotFound: string;
+  pageError: string;
 }
 
 /**
@@ -424,6 +441,11 @@ export interface ContextConf {
    * 要绑定的构件属性名。
    */
   property?: string;
+
+  /**
+   * 条件配置，根据 `if` 的计算结果来决定是否启用该上下文。不适用于绑定构件属性的数据。
+   */
+  if?: string | boolean;
 
   /**
    * 当数据发生变化时触发的事件。注意，该事件仅适用于自由变量或异步处理的数据，不适用于绑定构件属性的数据。
@@ -1197,6 +1219,17 @@ export type CustomBrickEventHandler =
 export interface DesktopData {
   items: DesktopItem[];
   name?: string;
+}
+
+/** @internal */
+export interface SiteMapItem {
+  id: string;
+  name: string;
+  order: string;
+  apps: {
+    id?: string;
+    sort?: string;
+  }[];
 }
 
 /** @internal */

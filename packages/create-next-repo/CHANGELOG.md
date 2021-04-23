@@ -3,21 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.4...@next-core/create-next-repo@1.3.5) (2021-03-24)
+
+### Bug Fixes
+
+- use original npm instead of mirror from taobao ([472deeb](https://github.com/easyops-cn/next-core/commit/472deeb68c63223dab15957037f1b264886daafb))
+
 ## [1.3.4](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.3...@next-core/create-next-repo@1.3.4) (2021-03-08)
 
 **Note:** Version bump only for package @next-core/create-next-repo
 
-
-
-
-
 ## [1.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.2...@next-core/create-next-repo@1.3.3) (2021-02-22)
 
 **Note:** Version bump only for package @next-core/create-next-repo
-
-
-
-
 
 ## [1.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.1...@next-core/create-next-repo@1.3.2) (2021-02-07)
 

@@ -3,16 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.8...@next-core/webpack-config-factory@2.6.0) (2021-03-02)
+## [2.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.8.0...@next-core/webpack-config-factory@2.8.1) (2021-04-22)
 
+### Bug Fixes
+
+- workaround for a bug of terser with yield ([065c1aa](https://github.com/easyops-cn/next-core/commit/065c1aab2e7dcabcd7c05527123a5e66061c6552))
+
+# [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.7.1...@next-core/webpack-config-factory@2.8.0) (2021-04-20)
 
 ### Features
 
-* **webpack:** publicPath ([4bde766](https://github.com/easyops-cn/next-core/commit/4bde7663e661055fc8725bc2525d8d851aee2a6b))
+- support to generate brick contracts ([6b25814](https://github.com/easyops-cn/next-core/commit/6b258141e796fe66c8c30df26d945ca83b7cfda5))
 
+## [2.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.7.0...@next-core/webpack-config-factory@2.7.1) (2021-04-20)
 
+**Note:** Version bump only for package @next-core/webpack-config-factory
 
+# [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.6.0...@next-core/webpack-config-factory@2.7.0) (2021-04-13)
 
+### Features
+
+- emit brick-entries.json which describe contract deps ([4e547ce](https://github.com/easyops-cn/next-core/commit/4e547ceef5ce1528726fcf5b31c248ffcb0cf277))
+
+# [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.8...@next-core/webpack-config-factory@2.6.0) (2021-03-02)
+
+### Features
+
+- **webpack:** publicPath ([4bde766](https://github.com/easyops-cn/next-core/commit/4bde7663e661055fc8725bc2525d8d851aee2a6b))
 
 ## [2.5.8](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.5.7...@next-core/webpack-config-factory@2.5.8) (2021-02-07)
 

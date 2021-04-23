@@ -1,3 +1,10 @@
+import "whatwg-fetch";
+import { apiAnalyzer } from "@next-core/easyops-analytics";
+import {
+  scanCustomApisInStoryboard,
+  mapCustomApisToNameAndNamespace,
+} from "@next-core/brick-utils";
+import { HttpResponseError } from "@next-core/brick-http";
 import { History, Location, LocationListener } from "history";
 import { getHistory } from "../history";
 import { Router } from "./Router";
@@ -12,11 +19,6 @@ import { mountTree, mountStaticNode } from "./reconciler";
 import { getAuth, isLoggedIn } from "../auth";
 import { getRuntime } from "../runtime";
 import { preCheckPermissions } from "./checkPermissions";
-import { apiAnalyzer } from "@next-core/easyops-analytics";
-import {
-  scanCustomApisInStoryboard,
-  mapCustomApisToNameAndNamespace,
-} from "@next-core/brick-utils";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -34,6 +36,11 @@ jest.mock("@next-core/easyops-analytics", () => ({
   },
 }));
 jest.mock("@next-core/brick-utils");
+
+const mockConsoleError = jest
+  .spyOn(console, "error")
+  .mockImplementation(() => void 0);
+
 const spyOnScanCustomApisInStoryboard = scanCustomApisInStoryboard as jest.Mock;
 spyOnScanCustomApisInStoryboard.mockReturnValue([
   "easyops.custom_api@myAwesomeApi",
@@ -45,7 +52,6 @@ spyOnMapCustomApisToNameAndNamespace.mockReturnValue([
     namespace: "easyops.custom_api",
   },
 ]);
-
 const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
@@ -138,6 +144,13 @@ describe("Router", () => {
     fulfilStoryboard: jest.fn(),
     loadMicroAppApiOrchestrationAsync: jest.fn(),
     prefetchDepsOfStoryboard: jest.fn(),
+    loadDynamicBricks: jest.fn(),
+    layoutBootstrap: jest.fn(),
+    presetBricks: {
+      pageNotFound: "basic-bricks.page-not-found",
+      pageError: "basic-bricks.page-error",
+    },
+    currentLayout: "console",
   } as unknown) as Kernel;
 
   beforeEach(() => {
@@ -159,19 +172,22 @@ describe("Router", () => {
         id: "hello",
       },
     });
-    __setMountRoutesResults({
-      main: [
-        {
-          type: "p",
+    __setMountRoutesResults(
+      {
+        main: [
+          {
+            type: "p",
+          },
+        ],
+        menuBar: {
+          title: "menu",
         },
-      ],
-      menuBar: {
-        title: "menu",
+        appBar: {
+          title: "app",
+        },
       },
-      appBar: {
-        title: "app",
-      },
-    });
+      null
+    );
     expect(router.getState()).toBe("initial");
     await router.bootstrap();
     expect(router.getState()).toBe("mounted");
@@ -196,6 +212,90 @@ describe("Router", () => {
     expect(preCheckPermissions).toBeCalled();
   });
 
+  it("should redirect to login page if not logged in.", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      dependsAll: true,
+      routes: [],
+    });
+    __setMountRoutesResults(
+      null,
+      new HttpResponseError(new Response("", { status: 401 }), {
+        code: 100003,
+      })
+    );
+    await router.bootstrap();
+    expect(spyOnHistory.replace.mock.calls[0]).toEqual([
+      "/auth/login",
+      {
+        from: {
+          pathname: "/yo",
+        },
+      },
+    ]);
+    expect(mockConsoleError).toBeCalled();
+  });
+
+  it("should show page error.", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      routes: [],
+    });
+    __setMountRoutesResults(null, new Error("oops"));
+    await router.bootstrap();
+    expect(spyOnHistory.replace).not.toBeCalled();
+    expect(kernel.layoutBootstrap).toBeCalledWith("console");
+    expect(kernel.loadDynamicBricks).toBeCalledWith([
+      "basic-bricks.page-error",
+    ]);
+    expect(spyOnMountTree).toBeCalledTimes(1);
+    expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
+      {
+        type: "basic-bricks.page-error",
+        properties: {
+          error: "Error: oops",
+        },
+      },
+    ]);
+  });
+
+  it("should redirect to login page if redirect exists.", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      dependsAll: true,
+      routes: [],
+    });
+    __setMountRoutesResults(
+      {
+        flags: {
+          unauthenticated: true,
+          redirect: {
+            path: "/auth/login",
+            state: {
+              from: "/private",
+            },
+          },
+        },
+      },
+      null
+    );
+    await router.bootstrap();
+    expect(spyOnHistory.replace.mock.calls[0]).toEqual([
+      "/auth/login",
+      {
+        from: {
+          pathname: "/yo",
+        },
+      },
+    ]);
+  });
+
   it("should render matched storyboard with dependsAll and redirect", async () => {
     __setMatchedStoryboard({
       app: {
@@ -204,16 +304,19 @@ describe("Router", () => {
       dependsAll: true,
       routes: [],
     });
-    __setMountRoutesResults({
-      flags: {
-        redirect: {
-          path: "/auth/login",
-          state: {
-            from: "/private",
+    __setMountRoutesResults(
+      {
+        flags: {
+          redirect: {
+            path: "/auth/login",
+            state: {
+              from: "/private",
+            },
           },
         },
       },
-    });
+      null
+    );
     await router.bootstrap();
     expect(spyOnHistory.replace.mock.calls[0]).toEqual([
       "/auth/login",
@@ -232,13 +335,19 @@ describe("Router", () => {
       },
       routes: [],
     });
-    __setMountRoutesResults({
-      flags: {
-        barsHidden: true,
+    __setMountRoutesResults(
+      {
+        flags: {
+          barsHidden: true,
+        },
+        main: [],
       },
-      main: [],
-    });
+      null
+    );
     await router.bootstrap();
+    expect(kernel.loadDynamicBricks).toBeCalledWith([
+      "basic-bricks.page-not-found",
+    ]);
     expect(kernel.toggleBars).toBeCalledWith(false);
     expect(spyOnMountStaticNode).not.toBeCalled();
     expect(spyOnMountTree).toBeCalledTimes(1);
@@ -254,6 +363,9 @@ describe("Router", () => {
 
   it("should handle when page not found", async () => {
     await router.bootstrap();
+    expect(kernel.loadDynamicBricks).toBeCalledWith([
+      "basic-bricks.page-not-found",
+    ]);
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {

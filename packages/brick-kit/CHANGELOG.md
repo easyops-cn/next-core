@@ -3,174 +3,149 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.3...@next-core/brick-kit@2.42.0) (2021-04-23)
+
+### Features
+
+- support conditional context of free variable ([5650a15](https://github.com/easyops-cn/next-core/commit/5650a1522a5b4b14112b2a173b3b13354841aa07))
+
+## [2.41.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.2...@next-core/brick-kit@2.41.3) (2021-04-20)
+
+### Bug Fixes
+
+- use new sdk ([d83ecac](https://github.com/easyops-cn/next-core/commit/d83ecac2eda11570b2171f43619b9bb76f141948))
+
+## [2.41.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.1...@next-core/brick-kit@2.41.2) (2021-04-13)
+
+### Bug Fixes
+
+- match app with longer homepage before shorter ones ([6b4138a](https://github.com/easyops-cn/next-core/commit/6b4138ab9aab5053bdd82a01d3f491fcefb61ed3))
+
+## [2.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.0...@next-core/brick-kit@2.41.1) (2021-04-08)
+
+### Bug Fixes
+
+- **business:** support set menu to false in business layout ([a5a0de2](https://github.com/easyops-cn/next-core/commit/a5a0de2c4ea409c0774f10ceed07eefe8e389152))
+- **layout:** support an empty string as layoutType ([e1363d8](https://github.com/easyops-cn/next-core/commit/e1363d8dac1b45aaaf91066d85f432f053f7e660))
+
+# [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.40.0...@next-core/brick-kit@2.41.0) (2021-04-07)
+
+### Features
+
+- support business layout ([56f3eb1](https://github.com/easyops-cn/next-core/commit/56f3eb1940a2d2902a56d1758c61127c00b1af16))
+
+# [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.39.0...@next-core/brick-kit@2.40.0) (2021-04-06)
+
+### Features
+
+- support sitemap data ([065ab22](https://github.com/easyops-cn/next-core/commit/065ab22d6ae21f002afd1f614cc3368a84262dd3))
+
+# [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.38.0...@next-core/brick-kit@2.39.0) (2021-03-31)
+
+### Bug Fixes
+
+- **localStorage:** remove local storage ([5c582b5](https://github.com/easyops-cn/next-core/commit/5c582b51dc0d6dd81c54084cf72bf4f0e06138dc))
+- add import ([20e5c9a](https://github.com/easyops-cn/next-core/commit/20e5c9a3424f0ac1bea86d11a95a627592740ecc))
+
+### Features
+
+- **sso:** support redirect to sso-auth ([f65a8b6](https://github.com/easyops-cn/next-core/commit/f65a8b6b1cf194eaf5c4a3870366fdbb5f86259a))
+
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.3...@next-core/brick-kit@2.38.0) (2021-03-24)
+
+### Features
+
+- support to check if a micro-app is installed ([99f5a0d](https://github.com/easyops-cn/next-core/commit/99f5a0dcc0eda47b356837f9f56ddfeb18eaac8d))
+
 ## [2.37.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.2...@next-core/brick-kit@2.37.3) (2021-03-24)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.37.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.1...@next-core/brick-kit@2.37.2) (2021-03-22)
-
 
 ### Bug Fixes
 
-* fix z-index of portal bricks ([aa051d4](https://github.com/easyops-cn/next-core/commit/aa051d40cc50615ed4c83d9b9e3c6274c498832a))
-
-
-
-
+- fix z-index of portal bricks ([aa051d4](https://github.com/easyops-cn/next-core/commit/aa051d40cc50615ed4c83d9b9e3c6274c498832a))
 
 ## [2.37.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.37.0...@next-core/brick-kit@2.37.1) (2021-03-18)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.36.0...@next-core/brick-kit@2.37.0) (2021-03-17)
-
 
 ### Features
 
-* support context onChange ([09bd098](https://github.com/easyops-cn/next-core/commit/09bd098dba3b3319ecad39be0f7cfd877cb70c5a))
-
-
-
-
+- support context onChange ([09bd098](https://github.com/easyops-cn/next-core/commit/09bd098dba3b3319ecad39be0f7cfd877cb70c5a))
 
 # [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.3...@next-core/brick-kit@2.36.0) (2021-03-15)
 
-
 ### Features
 
-* **property:** support to ignore decorate for properties ([e9dc005](https://github.com/easyops-cn/next-core/commit/e9dc005ac9f7197909b5e1dfd9a9d84e2752b0c0))
-
-
-
-
+- **property:** support to ignore decorate for properties ([e9dc005](https://github.com/easyops-cn/next-core/commit/e9dc005ac9f7197909b5e1dfd9a9d84e2752b0c0))
 
 ## [2.35.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.2...@next-core/brick-kit@2.35.3) (2021-03-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.35.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.1...@next-core/brick-kit@2.35.2) (2021-03-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.35.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.35.0...@next-core/brick-kit@2.35.1) (2021-03-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.7...@next-core/brick-kit@2.35.0) (2021-03-08)
-
 
 ### Bug Fixes
 
-* fix types after upgraded typescript to 4.2 ([83508a8](https://github.com/easyops-cn/next-core/commit/83508a822a8b0e3ab2984c634a1fa1030311ec35))
-
+- fix types after upgraded typescript to 4.2 ([83508a8](https://github.com/easyops-cn/next-core/commit/83508a822a8b0e3ab2984c634a1fa1030311ec35))
 
 ### Features
 
-* support to manually stop interval of providers ([97520df](https://github.com/easyops-cn/next-core/commit/97520dffb1decd2ed6738cd21d718a4e37ce32c2))
-
-
-
-
+- support to manually stop interval of providers ([97520df](https://github.com/easyops-cn/next-core/commit/97520dffb1decd2ed6738cd21d718a4e37ce32c2))
 
 ## [2.34.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.6...@next-core/brick-kit@2.34.7) (2021-03-04)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.34.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.5...@next-core/brick-kit@2.34.6) (2021-03-03)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.34.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.4...@next-core/brick-kit@2.34.5) (2021-03-03)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.34.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.3...@next-core/brick-kit@2.34.4) (2021-03-02)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.34.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.2...@next-core/brick-kit@2.34.3) (2021-02-25)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.34.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.1...@next-core/brick-kit@2.34.2) (2021-02-24)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.34.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.34.0...@next-core/brick-kit@2.34.1) (2021-02-24)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.33.1...@next-core/brick-kit@2.34.0) (2021-02-23)
-
 
 ### Features
 
-* support if in context ([68c9f34](https://github.com/easyops-cn/next-core/commit/68c9f34f0d427595328b3f5a4974b10e2c72a808))
-
-
-
-
+- support if in context ([68c9f34](https://github.com/easyops-cn/next-core/commit/68c9f34f0d427595328b3f5a4974b10e2c72a808))
 
 ## [2.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.33.0...@next-core/brick-kit@2.33.1) (2021-02-22)
 
-
 ### Bug Fixes
 
-* ignore permission pre-checks if not logged in ([a103cd4](https://github.com/easyops-cn/next-core/commit/a103cd49d4959674ab88d0f26963ececd2f2663b))
-* reset permission pre-checks after logged out ([3858869](https://github.com/easyops-cn/next-core/commit/3858869b4987dfe045fb636af5daa5e48d074a6f))
-* support dataset in properties ([babe2b6](https://github.com/easyops-cn/next-core/commit/babe2b68531b6626680ab7f5669b9a4f4cecfaa9))
-
-
-
-
+- ignore permission pre-checks if not logged in ([a103cd4](https://github.com/easyops-cn/next-core/commit/a103cd49d4959674ab88d0f26963ececd2f2663b))
+- reset permission pre-checks after logged out ([3858869](https://github.com/easyops-cn/next-core/commit/3858869b4987dfe045fb636af5daa5e48d074a6f))
+- support dataset in properties ([babe2b6](https://github.com/easyops-cn/next-core/commit/babe2b68531b6626680ab7f5669b9a4f4cecfaa9))
 
 # [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.32.2...@next-core/brick-kit@2.33.0) (2021-02-07)
 

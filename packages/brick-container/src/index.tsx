@@ -16,8 +16,10 @@ import {
   HttpError,
 } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
+import { apiAnalyzer } from "@next-core/easyops-analytics";
 import "./antd";
 import "./styles/variables.css";
+import "./styles/business-variables.css";
 import "./styles/editor-bricks-variables.css";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
@@ -25,7 +27,6 @@ import "./styles/default.css";
 import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
-import { apiAnalyzer } from "@next-core/easyops-analytics";
 
 initializeLibrary();
 
@@ -51,6 +52,8 @@ const mountPoints = {
   main: root.querySelector<HTMLElement>("#main-mount-point"),
   bg: root.querySelector<HTMLElement>("#bg-mount-point"),
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
+  header: root.querySelector<HTMLElement>("#header-mount-point"),
+  footer: root.querySelector<HTMLElement>("#footer-mount-point"),
 };
 
 const api = `${getRuntime().getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;

@@ -15,6 +15,7 @@ import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "./core/exports";
 import { checkPermissions } from "./core/checkPermissions";
 import { getItem } from "./core/localStorage";
+import { getRuntime } from "./runtime";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -246,6 +247,12 @@ export function evaluate(
   if (attemptToVisitGlobals.has("LOCAL_STORAGE")) {
     globalVariables.LOCAL_STORAGE = {
       getItem,
+    };
+  }
+
+  if (attemptToVisitGlobals.has("INSTALLED_APPS")) {
+    globalVariables.INSTALLED_APPS = {
+      has: (appId: string) => getRuntime().hasInstalledApp(appId),
     };
   }
 

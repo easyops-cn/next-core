@@ -111,6 +111,28 @@ describe("LocationContext", () => {
           },
         ],
       },
+      {
+        app: {
+          id: "hello-world",
+          name: "Hello World",
+          homepage: "/hello/world",
+        },
+        routes: [
+          {
+            path: "/hello/world",
+            public: true,
+            bricks: [],
+          },
+        ],
+      },
+      {
+        app: {
+          id: "oops",
+          name: "OOPS",
+          // Legacy storyboard with no homepage.
+          homepage: null,
+        },
+      },
     ];
 
     it("should handle match missed", () => {
@@ -132,7 +154,29 @@ describe("LocationContext", () => {
         state: {},
       });
       const storyboard = context.matchStoryboard(storyboards);
-      expect(storyboard).toBe(storyboards[0]);
+      expect(storyboard.app.id).toBe("hello");
+    });
+
+    it("should handle match hit sub-path", () => {
+      const context = new LocationContext(kernel, {
+        pathname: "/hello/everyone",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      const storyboard = context.matchStoryboard(storyboards);
+      expect(storyboard.app.id).toBe("hello");
+    });
+
+    it("should handle match more precisely", () => {
+      const context = new LocationContext(kernel, {
+        pathname: "/hello/world",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      const storyboard = context.matchStoryboard(storyboards);
+      expect(storyboard.app.id).toBe("hello-world");
     });
   });
 
@@ -320,7 +364,13 @@ describe("LocationContext", () => {
             context: [
               {
                 name: "myFreeContext",
+                value: "bad",
+                if: "<% FLAGS['should-not-enabled'] %>",
+              },
+              {
+                name: "myFreeContext",
                 value: "good",
+                if: "<% !FLAGS['should-not-enabled'] %>",
               },
               {
                 name: "myAsyncContext",

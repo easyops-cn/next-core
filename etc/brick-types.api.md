@@ -130,6 +130,8 @@ export interface BootstrapData {
     // (undocumented)
     settings: Settings;
     // (undocumented)
+    siteSort: SiteMapItem[];
+    // (undocumented)
     storyboards: Storyboard[];
     // (undocumented)
     templatePackages: TemplatePackage[];
@@ -786,6 +788,7 @@ export interface CompileResult {
 
 // @public
 export interface ContextConf {
+    if?: string | boolean;
     name: string;
     onChange?: BrickEventHandler | BrickEventHandler[];
     property?: string;
@@ -1109,6 +1112,9 @@ export interface InterceptorParams {
 }
 
 // @public
+export type LayoutType = "console" | "business";
+
+// @public
 export interface LegacyAntdIcon {
     // (undocumented)
     color?: string;
@@ -1230,6 +1236,7 @@ export interface MicroApp {
     id: string;
     installStatus?: "ok" | "running";
     internal?: boolean;
+    layoutType?: LayoutType;
     legacy?: "iframe";
     localeName?: string;
     locales?: AppLocales;
@@ -1248,6 +1255,10 @@ export interface MountPoints {
     appBar: HTMLElement;
     // (undocumented)
     bg: HTMLElement;
+    // (undocumented)
+    footer: HTMLElement;
+    // (undocumented)
+    header: HTMLElement;
     // (undocumented)
     loadingBar: HTMLElement;
     // (undocumented)
@@ -1313,6 +1324,20 @@ export interface PluginRuntimeContext {
     // @internal (undocumented)
     storyboardContext?: StoryboardContext;
     sys?: SystemInfo;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PresetBricksConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PresetBricksConf extends Partial<NavbarConf> {
+    // (undocumented)
+    footer?: string;
+    // (undocumented)
+    header?: string;
+    // (undocumented)
+    pageError: string;
+    // (undocumented)
+    pageNotFound: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "ProbablyRuntimeBrick" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1667,6 +1692,23 @@ export interface SidebarMenuSimpleItem {
 
 // @public
 export type SidebarSubMenu = Pick<SidebarMenu, "title" | "icon" | "menuItems">;
+
+// Warning: (ae-internal-missing-underscore) The name "SiteMapItem" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SiteMapItem {
+    // (undocumented)
+    apps: {
+        id?: string;
+        sort?: string;
+    }[];
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    order: string;
+}
 
 // @public
 export type SiteMode = "default" | "dashboard";

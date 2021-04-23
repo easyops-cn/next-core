@@ -1,35 +1,15 @@
+import { MenuBarBrick } from "@next-core/brick-types";
 import { MenuBar } from "./MenuBar";
-import { Kernel } from "./Kernel";
 
 describe("MenuBar", () => {
-  const menuBarElement = document.createElement("div");
-  const kernel: Kernel = {
-    bootstrapData: {
-      navbar: {
-        menuBar: "p",
-      },
-    },
-    mountPoints: {
-      menuBar: menuBarElement,
-    },
-    loadDynamicBricks: jest.fn(),
-  } as any;
+  let menuBar: MenuBar;
 
-  afterEach(() => {
-    (kernel.loadDynamicBricks as jest.Mock).mockClear();
-    menuBarElement.innerHTML = "";
-  });
-
-  it("should bootstrap", async () => {
-    const menuBar = new MenuBar(kernel);
-    await menuBar.bootstrap();
-    expect(kernel.loadDynamicBricks).toBeCalledWith(["p"]);
-    expect(menuBarElement.firstChild.nodeName).toBe("P");
+  beforeEach(() => {
+    menuBar = new MenuBar(null, "appBar");
   });
 
   it("should setAppMenu", async () => {
-    const menuBar = new MenuBar(kernel);
-    menuBar.element = document.createElement("a") as any;
+    menuBar.element = (document.createElement("a") as unknown) as MenuBarBrick;
     menuBar.setAppMenu({
       title: "hello",
       menuItems: [],
@@ -45,8 +25,7 @@ describe("MenuBar", () => {
   });
 
   it("should collapse", async () => {
-    const menuBar = new MenuBar(kernel);
-    menuBar.element = document.createElement("a") as any;
+    menuBar.element = (document.createElement("a") as unknown) as MenuBarBrick;
     menuBar.element.collapsed = false;
     expect(menuBar.isCollapsed()).toBe(false);
 
@@ -56,8 +35,7 @@ describe("MenuBar", () => {
   });
 
   it("should softExpand", async () => {
-    const menuBar = new MenuBar(kernel);
-    menuBar.element = document.createElement("a") as any;
+    menuBar.element = (document.createElement("a") as unknown) as MenuBarBrick;
     menuBar.element.softExpanded = false;
     expect(menuBar.isSoftExpanded()).toBe(false);
 

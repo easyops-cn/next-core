@@ -16,11 +16,11 @@
   }
 
   &-item-content {
-    color:  #262626;
+    color: #262626;
   }
 
   &-row {
-    > td {
+    >td {
       padding-bottom: 10px;
     }
 
@@ -30,4 +30,19 @@
       }
     }
   }
+}
+
+html[data-theme="dark"] .@{descriptions-prefix-cls} {
+  &-title {
+    color: #FFFFFF;
+  }
+
+  &-item-label {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  &-item-content {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
 }

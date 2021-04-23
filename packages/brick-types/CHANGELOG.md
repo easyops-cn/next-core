@@ -3,54 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.22.0...@next-core/brick-types@2.23.0) (2021-04-23)
+
+### Features
+
+- support conditional context of free variable ([5650a15](https://github.com/easyops-cn/next-core/commit/5650a1522a5b4b14112b2a173b3b13354841aa07))
+
+# [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.21.0...@next-core/brick-types@2.22.0) (2021-04-07)
+
+### Features
+
+- support business layout ([56f3eb1](https://github.com/easyops-cn/next-core/commit/56f3eb1940a2d2902a56d1758c61127c00b1af16))
+
+# [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.20.1...@next-core/brick-types@2.21.0) (2021-04-06)
+
+### Features
+
+- support sitemap data ([065ab22](https://github.com/easyops-cn/next-core/commit/065ab22d6ae21f002afd1f614cc3368a84262dd3))
+
 ## [2.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.20.0...@next-core/brick-types@2.20.1) (2021-03-24)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 # [2.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.19.1...@next-core/brick-types@2.20.0) (2021-03-17)
-
 
 ### Features
 
-* support context onChange ([09bd098](https://github.com/easyops-cn/next-core/commit/09bd098dba3b3319ecad39be0f7cfd877cb70c5a))
-
-
-
-
+- support context onChange ([09bd098](https://github.com/easyops-cn/next-core/commit/09bd098dba3b3319ecad39be0f7cfd877cb70c5a))
 
 ## [2.19.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.19.0...@next-core/brick-types@2.19.1) (2021-03-08)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 # [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.18.0...@next-core/brick-types@2.19.0) (2021-02-25)
-
 
 ### Features
 
-* **editor-bricks-helper:** add contextUpdated to BuilderDataManager ([81de311](https://github.com/easyops-cn/next-core/commit/81de31122db24ff91115a5811ee2a069a21d14e3))
-
-
-
-
+- **editor-bricks-helper:** add contextUpdated to BuilderDataManager ([81de311](https://github.com/easyops-cn/next-core/commit/81de31122db24ff91115a5811ee2a069a21d14e3))
 
 # [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.17.1...@next-core/brick-types@2.18.0) (2021-02-24)
 
-
 ### Features
 
-* support nodes of custom template ([633e673](https://github.com/easyops-cn/next-core/commit/633e6735ee26669b3261e431fb0a3985c3ac8ba7))
-
-
-
-
+- support nodes of custom template ([633e673](https://github.com/easyops-cn/next-core/commit/633e6735ee26669b3261e431fb0a3985c3ac8ba7))
 
 ## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.17.0...@next-core/brick-types@2.17.1) (2021-02-07)
 

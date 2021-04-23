@@ -875,3 +875,26 @@ describe("test relatedNodesBasedOnEventsMap", () => {
     expect(manager.getRelatedNodesBasedOnEventsMap()).toEqual(data);
   });
 });
+
+describe("test highlightNodes", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    const listenOnHighlightNodesChange = jest.fn();
+    const unlistenOnHighlightNodesChange = manager.onHighlightNodesChange(
+      listenOnHighlightNodesChange
+    );
+    manager.setHighlightNodes(new Set([1]));
+    expect(listenOnHighlightNodesChange).toBeCalled();
+    unlistenOnHighlightNodesChange();
+  });
+
+  it("should get highlightNodes", () => {
+    expect(manager.getHighlightNodes()).toEqual(new Set([1]));
+  });
+});

@@ -1,5 +1,6 @@
 import { locationsAreEqual, createPath, Action, Location } from "history";
 import {
+  LayoutType,
   PluginHistoryState,
   PluginLocation,
   PluginRuntimeContext,
@@ -42,7 +43,7 @@ export class Router {
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
-  private featureFlags: Record<string, boolean>;
+  private readonly featureFlags: Record<string, boolean>;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
@@ -223,17 +224,23 @@ export class Router {
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
     this.kernel.nextAppMeta = storyboard?.meta;
+    const layoutType: LayoutType = currentApp?.layoutType || "console";
 
     devtoolsHookEmit("rendering");
 
     unmountTree(mountPoints.bg as MountableElement);
 
-    function redirectToLogin(): void {
-      history.replace("/auth/login", { from: location });
-    }
+    const redirectToLogin = (): void => {
+      history.replace(
+        this.featureFlags["sso-enabled"] ? "/sso-auth/login" : "/auth/login",
+        {
+          from: location,
+        }
+      );
+    };
 
     if (storyboard) {
-      if (appChanged && currentApp?.id && isLoggedIn()) {
+      if (appChanged && currentApp.id && isLoggedIn()) {
         const usedCustomApis: CustomApiInfo[] = mapCustomApisToNameAndNamespace(
           scanCustomApisInStoryboard(storyboard)
         );
@@ -241,6 +248,7 @@ export class Router {
           await this.kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
         }
       }
+
       const mountRoutesResult: MountRoutesResult = {
         main: [],
         menuInBg: [],
@@ -268,24 +276,24 @@ export class Router {
 
         // Redirect to login page if not logged in.
         if (isUnauthenticatedError(error)) {
-          const history = getHistory();
-          history.push("/auth/login", {
-            from: location,
-          });
-          return;
-        }
+          mountRoutesResult.flags.unauthenticated = true;
+        } else {
+          await this.kernel.layoutBootstrap(layoutType);
+          const brickPageError = this.kernel.presetBricks.pageError;
+          await this.kernel.loadDynamicBricks([brickPageError]);
 
-        mountRoutesResult.flags.failed = true;
-        mountRoutesResult.main = [
-          {
-            type: "basic-bricks.page-error",
-            properties: {
-              error: httpErrorToString(error),
+          mountRoutesResult.flags.failed = true;
+          mountRoutesResult.main = [
+            {
+              type: brickPageError,
+              properties: {
+                error: httpErrorToString(error),
+              },
+              events: {},
             },
-            events: {},
-          },
-        ];
-        mountRoutesResult.portal = [];
+          ];
+          mountRoutesResult.portal = [];
+        }
       }
 
       const {
@@ -316,7 +324,10 @@ export class Router {
         this.kernel.previousApp = previousApp;
       }
       this.kernel.currentUrl = createPath(location);
-      await this.kernel.updateWorkspaceStack();
+      await Promise.all([
+        this.kernel.updateWorkspaceStack(),
+        this.kernel.layoutBootstrap(layoutType),
+      ]);
 
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
@@ -345,7 +356,7 @@ export class Router {
 
       if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
         this.kernel.toggleBars(false);
-      } else {
+      } else if (this.kernel.currentLayout === "console") {
         await constructMenu(menuBar, this.locationContext.getCurrentContext());
         if (menuBar.menu?.defaultCollapsed) {
           this.kernel.menuBar.collapse(true);
@@ -416,10 +427,14 @@ export class Router {
 
     this.state = "ready-to-mount";
 
+    await this.kernel.layoutBootstrap(layoutType);
+    const brickPageNotFound = this.kernel.presetBricks.pageNotFound;
+    await this.kernel.loadDynamicBricks([brickPageNotFound]);
+
     mountTree(
       [
         {
-          type: "basic-bricks.page-not-found",
+          type: brickPageNotFound,
           properties: {
             url: history.createHref(location),
           },

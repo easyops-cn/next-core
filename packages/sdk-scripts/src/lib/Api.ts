@@ -13,7 +13,8 @@ import { refineRequest } from "../utils";
 export class Api extends SourceFile {
   readonly doc: ApiDoc;
   readonly originalName: string;
-  readonly displayName: string;
+  readonly exportName: string;
+  readonly filename: string;
   readonly modelSeg: string;
   readonly method: ApiMethod;
   readonly serviceName: string;
@@ -30,37 +31,39 @@ export class Api extends SourceFile {
     super(context);
     this.doc = doc;
     this.originalName = doc.name;
-    this.displayName = changeCase.camelCase(doc.name);
+    this.filename = changeCase.camelCase(doc.name);
+    const exportPrefix = `${changeCase.pascalCase(modelSeg)}Api_`;
+    this.exportName = `${exportPrefix}${this.filename}`;
     this.modelSeg = modelSeg;
     this.dir = [".", "api", context.serviceSeg, modelSeg].join("/");
-    this.filePath = [this.dir, this.displayName].join("/");
+    this.filePath = [this.dir, this.filename].join("/");
     this.serviceName = [context.serviceSeg, modelSeg, this.originalName].join(
       "."
     );
     this.method = new ApiMethod(doc);
     this.namespace = this.getNamespaceByImports(doc.import, context);
-    const pascalName = changeCase.pascalCase(doc.name);
+    const interfacePrefix = `${exportPrefix}${changeCase.pascalCase(doc.name)}`;
 
     const { requestParams, requestBody } = refineRequest(this);
     this.requestParamsType = new TypeDefinition(
       this,
       requestParams,
-      `${pascalName}RequestParams`
+      `${interfacePrefix}RequestParams`
     );
     this.requestBodyType = new TypeDefinition(
       this,
       requestBody,
-      `${pascalName}RequestBody`
+      `${interfacePrefix}RequestBody`
     );
 
     this.responseBodyTypeName = doc.response
-      ? pascalName + "ResponseBody"
+      ? interfacePrefix + "ResponseBody"
       : "void";
     this.responseWrapper = doc.response
       ? doc.response.wrapper !== false
       : false;
     if (this.method.isSugar) {
-      const responseItemTypeName = pascalName + "ResponseItem";
+      const responseItemTypeName = interfacePrefix + "ResponseItem";
       this.responseItemType = new TypeDefinition(
         this,
         doc.response,

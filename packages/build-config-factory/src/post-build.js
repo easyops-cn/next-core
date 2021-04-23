@@ -1,5 +1,4 @@
 const path = require("path");
-const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const klawSync = require("klaw-sync");
 const { getEasyopsConfig } = require("@next-core/repo-config");
@@ -9,36 +8,8 @@ const ensureDeps = require("./ensureDeps");
 const validateDeps = require("./validateDeps");
 const generateProviderDocs = require("./generateProviderDocs");
 const generateBrickDocs = require("./generateBrickDocs");
+const generateBrickContracts = require("./generateBrickContracts");
 const { providerPackagePrefix } = require("./constants");
-
-const generateContracts = () => {
-  const { dependencies } = require(path.join(process.cwd(), "package.json"));
-
-  if (dependencies) {
-    const contracts = Object.keys(dependencies)
-      .filter((dep) => dep.startsWith("@next-sdk/") || dep.startsWith("@sdk"))
-      .reduce((acc, dep) => {
-        try {
-          const contracts = yaml.safeLoad(
-            fs.readFileSync(require.resolve(`${dep}/deploy/contracts.yaml`))
-          );
-          if (Array.isArray(contracts.depend_contracts)) {
-            acc.push(...contracts.depend_contracts);
-          }
-        } catch (e) {
-          console.error(e);
-        }
-        return acc;
-      }, []);
-
-    const content = yaml.safeDump({
-      depend_contracts: contracts,
-    });
-
-    const filePath = path.join(process.cwd(), "deploy", "contracts.yaml");
-    fs.outputFileSync(filePath, content);
-  }
-};
 
 const ignores = [".DS_Store"];
 const filter = (src) => ignores.some((item) => !src.includes(item));
@@ -189,6 +160,10 @@ const mergeEditors = () => {
 };
 
 module.exports = (scope) => {
+  if (scope === "libs") {
+    return;
+  }
+
   const cwd = process.cwd();
   const repoRoot = path.resolve(cwd, "../..");
   const { standalone, noPostBuildMicroApps } = getEasyopsConfig(repoRoot);
@@ -208,11 +183,11 @@ module.exports = (scope) => {
   validateDeps(scope);
 
   if (scope === "bricks") {
-    generateContracts();
     if (pluginName.startsWith(providerPackagePrefix)) {
       generateProviderDocs(pluginName);
     } else {
       enableGenerateDoc && generateBrickDocs(pluginName, scope);
+      generateBrickContracts(cwd);
     }
     generateDeps();
     mergeEditors();

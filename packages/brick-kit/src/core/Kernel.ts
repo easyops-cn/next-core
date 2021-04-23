@@ -13,9 +13,9 @@ import {
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
-import { UserAdminApi } from "@next-sdk/user-service-sdk";
-import { ObjectMicroAppApi } from "@next-sdk/micro-app-sdk";
-import { InstanceApi } from "@next-sdk/cmdb-sdk";
+import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
+import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
+import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   MountPoints,
   BootstrapData,
@@ -28,13 +28,15 @@ import {
   RuntimeStoryboard,
   BrickConf,
   StoryboardMeta,
+  LayoutType,
+  PresetBricksConf,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
   Router,
   MenuBar,
   AppBar,
-  LoadingBar,
+  BaseBar,
   registerCustomTemplate,
 } from "./exports";
 import { getHistory } from "../history";
@@ -53,15 +55,19 @@ import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 export class Kernel {
   public mountPoints: MountPoints;
   public bootstrapData: RuntimeBootstrapData;
+  public presetBricks: PresetBricksConf;
   public menuBar: MenuBar;
   public appBar: AppBar;
-  public loadingBar: LoadingBar;
+  public loadingBar: BaseBar;
+  public header: BaseBar;
+  public footer: BaseBar;
   public router: Router;
   public currentApp: MicroApp;
   public previousApp: MicroApp;
   public nextApp: MicroApp;
   public currentUrl: string;
   public workspaceStack: VisitedWorkspace[] = [];
+  public currentLayout: LayoutType;
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
@@ -81,24 +87,59 @@ export class Kernel {
     this.mountPoints = mountPoints;
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
     if (this.bootstrapData.storyboards.length === 0) {
-      throw new Error("Storyboard is empty");
+      throw new Error("No storyboard were found.");
     }
     if (isLoggedIn()) {
       this.loadSharedData();
     }
-    this.menuBar = new MenuBar(this);
-    this.appBar = new AppBar(this);
-    this.loadingBar = new LoadingBar(this);
+    this.menuBar = new MenuBar(this, "menuBar");
+    this.appBar = new AppBar(this, "appBar");
+    this.loadingBar = new BaseBar(this, "loadingBar");
+    this.header = new BaseBar(this, "header");
+    this.footer = new BaseBar(this, "footer");
     this.router = new Router(this);
-    await Promise.all([
-      await this.menuBar.bootstrap(),
-      await this.appBar.bootstrap(),
-      await this.loadingBar.bootstrap(),
-    ]);
-    // Router need those bars above to be ready.
     await this.router.bootstrap();
     this.authGuard();
     listenDevtools();
+  }
+
+  async layoutBootstrap(layout: LayoutType): Promise<void> {
+    const supportedLayouts: LayoutType[] = ["console", "business"];
+    if (!supportedLayouts.includes(layout)) {
+      throw new Error(`Unknown layout: ${layout}`);
+    }
+    this.currentLayout = layout;
+
+    this.presetBricks =
+      layout === "business"
+        ? {
+            header: "business.basic-header",
+            footer: "business.basic-footer",
+            loadingBar: "business.loading-bar",
+            pageNotFound: "business.page-not-found",
+            pageError: "business.page-error",
+          }
+        : {
+            ...this.bootstrapData.navbar,
+            pageNotFound: "basic-bricks.page-not-found",
+            pageError: "basic-bricks.page-error",
+          };
+
+    for (const item of supportedLayouts) {
+      if (item === layout) {
+        document.body.classList.add(`layout-${item}`);
+      } else {
+        document.body.classList.remove(`layout-${item}`);
+      }
+    }
+
+    await Promise.all([
+      this.menuBar.bootstrap(this.presetBricks.menuBar),
+      this.appBar.bootstrap(this.presetBricks.appBar),
+      this.loadingBar.bootstrap(this.presetBricks.loadingBar),
+      this.header.bootstrap(this.presetBricks.header),
+      this.footer.bootstrap(this.presetBricks.footer),
+    ]);
   }
 
   private authGuard(): void {
@@ -111,7 +152,8 @@ export class Kernel {
       const data = Object.assign({}, event.data);
       if (data.type === "auth.guard") {
         const history = getHistory();
-        history.push("/auth/login", {
+        const ssoEnabled = this.getFeatureFlags()["sso-enabled"];
+        history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
           from: history.location,
         });
       }
@@ -316,6 +358,10 @@ export class Kernel {
     legacy,
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
+    if (this.currentLayout !== "console") {
+      // No bars should be unset for the business layout.
+      return;
+    }
     if (appChanged) {
       this.menuBar.resetAppMenu();
     }
@@ -354,7 +400,7 @@ export class Kernel {
         user_memo: true,
       };
       const allUserInfo = (
-        await UserAdminApi.searchAllUsersInfo({
+        await UserAdminApi_searchAllUsersInfo({
           query,
           fields,
         })
@@ -391,7 +437,7 @@ export class Kernel {
     if (usedCustomApis.length) {
       try {
         const allMicroAppApiOrchestration = (
-          await InstanceApi.postSearch("MICRO_APP_API_ORCHESTRATION", {
+          await InstanceApi_postSearch("MICRO_APP_API_ORCHESTRATION", {
             page: 1,
             page_size: usedCustomApis.length,
             fields: {
@@ -431,7 +477,7 @@ export class Kernel {
     const allMagicBrickConfigMap: Map<string, MagicBrickConfig> = new Map();
     try {
       const allMagicBrickConfig = (
-        await InstanceApi.postSearch("_BRICK_MAGIC", {
+        await InstanceApi_postSearch("_BRICK_MAGIC", {
           page: 1,
           // TODO(Lynette): 暂时设置3000，待后台提供全量接口
           page_size: 3000,
@@ -457,7 +503,7 @@ export class Kernel {
   private async loadRelatedApps(): Promise<RelatedApp[]> {
     let relatedApps: RelatedApp[] = [];
     try {
-      relatedApps = (await ObjectMicroAppApi.getObjectMicroAppList()).list;
+      relatedApps = (await ObjectMicroAppApi_getObjectMicroAppList()).list;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("Load related apps error:", error);

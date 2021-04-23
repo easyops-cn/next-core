@@ -1,4 +1,7 @@
-import { InstanceApi } from "@next-sdk/cmdb-sdk";
+import {
+  InstanceApi_getDetail,
+  InstanceApi_postSearch,
+} from "@next-sdk/cmdb-sdk";
 import {
   fetchMenuById,
   constructMenu,
@@ -97,7 +100,7 @@ const mockMenuList: any[] = [
   },
 ];
 
-jest.spyOn(InstanceApi, "postSearch").mockImplementation((objectId, params) => {
+(InstanceApi_postSearch as jest.Mock).mockImplementation((objectId, params) => {
   return Promise.resolve({
     list: mockMenuList.filter(
       (item) => item.menuId === params.query.menuId.$eq
@@ -105,7 +108,7 @@ jest.spyOn(InstanceApi, "postSearch").mockImplementation((objectId, params) => {
   });
 });
 
-jest.spyOn(InstanceApi, "getDetail").mockImplementation((objectId) => {
+(InstanceApi_getDetail as jest.Mock).mockImplementation((objectId) => {
   switch (objectId) {
     case "OBJECT_B":
       return Promise.resolve({ name: "Menu B" });
@@ -154,12 +157,12 @@ describe("fetchMenuById", () => {
       menuId: "menu-a",
       items: [],
     });
-    expect(InstanceApi.postSearch).toHaveBeenCalledTimes(1);
+    expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
     await fetchMenuById("menu-a");
-    expect(InstanceApi.postSearch).toHaveBeenCalledTimes(1);
+    expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
     clearMenuCache();
     await fetchMenuById("menu-a");
-    expect(InstanceApi.postSearch).toHaveBeenCalledTimes(2);
+    expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });
 });
 
