@@ -5,93 +5,51 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.2...@next-core/sdk-scripts@2.6.3) (2021-04-20)
 
-
 ### Bug Fixes
 
-* no need to generate contracts for sdk packages ([ea52bb3](https://github.com/easyops-cn/next-core/commit/ea52bb33b652405c11e578a42f2830188dd7eeae))
-
-
-
-
+- no need to generate contracts for sdk packages ([ea52bb3](https://github.com/easyops-cn/next-core/commit/ea52bb33b652405c11e578a42f2830188dd7eeae))
 
 ## [2.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.1...@next-core/sdk-scripts@2.6.2) (2021-04-16)
 
-
 ### Bug Fixes
 
-* bump sdk version by manual commit message instead of automatically ([c03c5cd](https://github.com/easyops-cn/next-core/commit/c03c5cd0f17fcb298e6d305ed45aaac8f63c67b0))
-
-
-
-
+- bump sdk version by manual commit message instead of automatically ([c03c5cd](https://github.com/easyops-cn/next-core/commit/c03c5cd0f17fcb298e6d305ed45aaac8f63c67b0))
 
 ## [2.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.0...@next-core/sdk-scripts@2.6.1) (2021-04-16)
 
-
 ### Bug Fixes
 
-* add prefix for interfaces too ([2d23331](https://github.com/easyops-cn/next-core/commit/2d2333157a79e7146cdcfc1e7ac08a91b4c65128))
-
-
-
-
+- add prefix for interfaces too ([2d23331](https://github.com/easyops-cn/next-core/commit/2d2333157a79e7146cdcfc1e7ac08a91b4c65128))
 
 # [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.5.0...@next-core/sdk-scripts@2.6.0) (2021-04-16)
 
-
 ### Features
 
-* refactory sdk exports, make tree-shaking possible ([df55437](https://github.com/easyops-cn/next-core/commit/df55437f631ed99407c8eb7b918c5c599397bb1a))
-
-
-
-
+- refactory sdk exports, make tree-shaking possible ([df55437](https://github.com/easyops-cn/next-core/commit/df55437f631ed99407c8eb7b918c5c599397bb1a))
 
 # [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.8...@next-core/sdk-scripts@2.5.0) (2021-04-14)
 
-
 ### Features
 
-* print contract as comment for sdk ([94da50f](https://github.com/easyops-cn/next-core/commit/94da50f3466b46b9c812a109c61eec45bda20f39))
-
-
-
-
+- print contract as comment for sdk ([94da50f](https://github.com/easyops-cn/next-core/commit/94da50f3466b46b9c812a109c61eec45bda20f39))
 
 ## [2.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.7...@next-core/sdk-scripts@2.4.8) (2021-04-13)
 
-
 ### Bug Fixes
 
-* ignore url prefix for api of api_gateway ([a856163](https://github.com/easyops-cn/next-core/commit/a856163ff0f80010d538a348f948704bde854c44))
-
-
-
-
+- ignore url prefix for api of api_gateway ([a856163](https://github.com/easyops-cn/next-core/commit/a856163ff0f80010d538a348f948704bde854c44))
 
 ## [2.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.6...@next-core/sdk-scripts@2.4.7) (2021-04-07)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
 
-
-
-
-
 ## [2.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.5...@next-core/sdk-scripts@2.4.6) (2021-03-08)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
 
-
-
-
-
 ## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.4...@next-core/sdk-scripts@2.4.5) (2021-02-22)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
-
-
-
-
 
 ## [2.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.4.3...@next-core/sdk-scripts@2.4.4) (2021-02-07)
 

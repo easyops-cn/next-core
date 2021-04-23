@@ -14,7 +14,7 @@ module.exports = () => ({
         parallel: true,
         terserOptions: {
           output: {
-              comments:(astNode, comment) =>
+            comments: (astNode, comment) =>
               // Keep certain comments except `@contract`,
               // which will currently cause a problem of minification.
               // Invalid code generated:
@@ -31,7 +31,7 @@ module.exports = () => ({
               // ```
               /^\**!|@preserve|@license|@cc_on/i.test(comment.value) &&
               !/@contract/.test(comment.value),
-          }
+          },
         },
         extractComments: false,
       }),

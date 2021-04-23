@@ -7,247 +7,130 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.0...@next-core/build-config-factory@2.9.1) (2021-04-22)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 # [2.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.8.1...@next-core/build-config-factory@2.9.0) (2021-04-20)
-
 
 ### Features
 
-* support to generate brick contracts ([6b25814](https://github.com/easyops-cn/next-core/commit/6b258141e796fe66c8c30df26d945ca83b7cfda5))
-
-
-
-
+- support to generate brick contracts ([6b25814](https://github.com/easyops-cn/next-core/commit/6b258141e796fe66c8c30df26d945ca83b7cfda5))
 
 ## [2.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.8.0...@next-core/build-config-factory@2.8.1) (2021-04-16)
 
-
 ### Bug Fixes
 
-* remove deprecated contract-analysis ([d89076a](https://github.com/easyops-cn/next-core/commit/d89076a5e7c4d79ec2d860b63908ae1086716d34))
-
-
-
-
+- remove deprecated contract-analysis ([d89076a](https://github.com/easyops-cn/next-core/commit/d89076a5e7c4d79ec2d860b63908ae1086716d34))
 
 # [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.7.0...@next-core/build-config-factory@2.8.0) (2021-04-16)
 
-
 ### Features
 
-* refactory sdk exports, make tree-shaking possible ([df55437](https://github.com/easyops-cn/next-core/commit/df55437f631ed99407c8eb7b918c5c599397bb1a))
-
-
-
-
+- refactory sdk exports, make tree-shaking possible ([df55437](https://github.com/easyops-cn/next-core/commit/df55437f631ed99407c8eb7b918c5c599397bb1a))
 
 # [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.6.0...@next-core/build-config-factory@2.7.0) (2021-04-14)
 
-
 ### Bug Fixes
 
-* do not use fs.rmSync which is added in node v14.14 ([9c55fb4](https://github.com/easyops-cn/next-core/commit/9c55fb4c411ff393da207ebc7fba4aad199a5e48))
-
+- do not use fs.rmSync which is added in node v14.14 ([9c55fb4](https://github.com/easyops-cn/next-core/commit/9c55fb4c411ff393da207ebc7fba4aad199a5e48))
 
 ### Features
 
-* support post-build for libs ([d93934e](https://github.com/easyops-cn/next-core/commit/d93934e256f077d2230c5d1aae8dde264a77fd68))
-
-
-
-
+- support post-build for libs ([d93934e](https://github.com/easyops-cn/next-core/commit/d93934e256f077d2230c5d1aae8dde264a77fd68))
 
 # [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.7...@next-core/build-config-factory@2.6.0) (2021-04-13)
 
-
 ### Features
 
-* get contract deps by brick recursively ([b43f02b](https://github.com/easyops-cn/next-core/commit/b43f02bf431d05040fb4b3a0732b7801563a3663))
-* init new package of contract-analysis ([81a90f1](https://github.com/easyops-cn/next-core/commit/81a90f18d26c70bced08c075072acbe7705943b4))
-
-
-
-
+- get contract deps by brick recursively ([b43f02b](https://github.com/easyops-cn/next-core/commit/b43f02bf431d05040fb4b3a0732b7801563a3663))
+- init new package of contract-analysis ([81a90f1](https://github.com/easyops-cn/next-core/commit/81a90f18d26c70bced08c075072acbe7705943b4))
 
 ## [2.5.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.6...@next-core/build-config-factory@2.5.7) (2021-04-07)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.5...@next-core/build-config-factory@2.5.6) (2021-04-06)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.4...@next-core/build-config-factory@2.5.5) (2021-03-24)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.3...@next-core/build-config-factory@2.5.4) (2021-03-18)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.2...@next-core/build-config-factory@2.5.3) (2021-03-17)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.1...@next-core/build-config-factory@2.5.2) (2021-03-17)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.5.0...@next-core/build-config-factory@2.5.1) (2021-03-16)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 # [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.8...@next-core/build-config-factory@2.5.0) (2021-03-12)
-
 
 ### Features
 
-* remove unused api of syncDllDeps ([2250ede](https://github.com/easyops-cn/next-core/commit/2250edeb58190ec4ad3b885b4df88fec8977046d))
-
-
-
-
+- remove unused api of syncDllDeps ([2250ede](https://github.com/easyops-cn/next-core/commit/2250edeb58190ec4ad3b885b4df88fec8977046d))
 
 ## [2.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.7...@next-core/build-config-factory@2.4.8) (2021-03-08)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.6...@next-core/build-config-factory@2.4.7) (2021-03-04)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.5...@next-core/build-config-factory@2.4.6) (2021-03-03)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.4...@next-core/build-config-factory@2.4.5) (2021-03-03)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.3...@next-core/build-config-factory@2.4.4) (2021-03-02)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.2...@next-core/build-config-factory@2.4.3) (2021-02-26)
-
 
 ### Bug Fixes
 
-* fix syntax ([0a96fb7](https://github.com/easyops-cn/next-core/commit/0a96fb7656a4909ac4ac83c5fbb21193e40863f9))
-
-
-
-
+- fix syntax ([0a96fb7](https://github.com/easyops-cn/next-core/commit/0a96fb7656a4909ac4ac83c5fbb21193e40863f9))
 
 ## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.1...@next-core/build-config-factory@2.4.2) (2021-02-25)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.4.0...@next-core/build-config-factory@2.4.1) (2021-02-25)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 # [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.4...@next-core/build-config-factory@2.4.0) (2021-02-24)
-
 
 ### Features
 
-* doc add group field and sort properties ([8fbb2db](https://github.com/easyops-cn/next-core/commit/8fbb2dbb3ed85ac8aca85fdbd055289b7db5fabb))
-
-
-
-
+- doc add group field and sort properties ([8fbb2db](https://github.com/easyops-cn/next-core/commit/8fbb2dbb3ed85ac8aca85fdbd055289b7db5fabb))
 
 ## [2.3.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.3...@next-core/build-config-factory@2.3.4) (2021-02-24)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.2...@next-core/build-config-factory@2.3.3) (2021-02-23)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.1...@next-core/build-config-factory@2.3.2) (2021-02-22)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.3.0...@next-core/build-config-factory@2.3.1) (2021-02-07)
 

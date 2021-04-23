@@ -1,0 +1,101 @@
+name: Update dll manifest
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  update:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    # Only if it contains a certain label.
+    if: "contains( github.event.pull_request.labels.*.name, 'eve: update dll manifest')"
+
+    steps:
+
+    - name: Update labels
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GH_TOKEN_EVE }}
+        script: |
+          await github.issues.removeLabel({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            name: 'eve: update dll manifest',
+          });
+          await github.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            labels: ['eve: updating dll manifest'],
+          });
+
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GH_TOKEN_EVE }}
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - run: git checkout --track origin/${{ github.event.pull_request.head.ref }}
+
+    - run: |
+        git config --global user.name 'easyops-eve'
+        git config --global user.email 'easyops-eve@users.noreply.github.com'
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - uses: actions/cache@v2
+      id: yarn-cache
+      with:
+        path: |
+          ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          node_modules
+          */*/node_modules
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Build to update dll manifest
+      run: |
+        yarn install --frozen-lockfile
+        yarn build
+      env:
+        UPDATE_DLL_MANIFEST: 'true'
+
+    - name: Git commit and push
+      run: |
+        git add -A
+        git commit -m "chore(): update dll manifest"
+        git push
+
+    - name: Post update labels
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GH_TOKEN_EVE }}
+        script: |
+          await github.issues.removeLabel({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            name: 'eve: updating dll manifest',
+          });
+          await github.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            labels: ['eve: updated dll manifest'],
+          });

@@ -13,7 +13,10 @@ export const __setMatchedStoryboard = (value: RuntimeStoryboard): void => {
   _matchedStoryboard = value;
 };
 
-export const __setMountRoutesResults = (value: MountRoutesResult, err: Error): void => {
+export const __setMountRoutesResults = (
+  value: MountRoutesResult,
+  err: Error
+): void => {
   _mountRoutesResultsError = err;
   _mountRoutesResultsData = value;
 };
@@ -45,7 +48,7 @@ export class LocationContext {
     result: MountRoutesResult
   ): Promise<void> {
     Object.assign(result, _mountRoutesResultsData);
-    if (_mountRoutesResultsError !== null){
+    if (_mountRoutesResultsError !== null) {
       throw _mountRoutesResultsError;
     }
     return Promise.resolve();

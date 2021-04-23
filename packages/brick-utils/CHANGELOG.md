@@ -7,151 +7,80 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.14.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.2...@next-core/brick-utils@2.14.3) (2021-04-07)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.1...@next-core/brick-utils@2.14.2) (2021-04-06)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.0...@next-core/brick-utils@2.14.1) (2021-03-24)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 # [2.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.13.3...@next-core/brick-utils@2.14.0) (2021-03-18)
-
 
 ### Features
 
-* **evaluations:** support URLSearchParams ([3433233](https://github.com/easyops-cn/next-core/commit/3433233446c52778e904d7a96ccb8d6d33419043))
-
-
-
-
+- **evaluations:** support URLSearchParams ([3433233](https://github.com/easyops-cn/next-core/commit/3433233446c52778e904d7a96ccb8d6d33419043))
 
 ## [2.13.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.13.2...@next-core/brick-utils@2.13.3) (2021-03-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.13.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.13.1...@next-core/brick-utils@2.13.2) (2021-03-08)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.13.0...@next-core/brick-utils@2.13.1) (2021-03-04)
-
 
 ### Bug Fixes
 
-* fix smart display for evaluable string ([a188875](https://github.com/easyops-cn/next-core/commit/a188875618475f895876e6981b79902cceecffdc))
-
-
-
-
+- fix smart display for evaluable string ([a188875](https://github.com/easyops-cn/next-core/commit/a188875618475f895876e6981b79902cceecffdc))
 
 # [2.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.12.1...@next-core/brick-utils@2.13.0) (2021-03-03)
 
-
 ### Features
 
-* get smart display for an evaluable string ([474c181](https://github.com/easyops-cn/next-core/commit/474c1815c6c35c53d8c7b2c54aed9d1a15a267de))
-
-
-
-
+- get smart display for an evaluable string ([474c181](https://github.com/easyops-cn/next-core/commit/474c1815c6c35c53d8c7b2c54aed9d1a15a267de))
 
 ## [2.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.12.0...@next-core/brick-utils@2.12.1) (2021-03-03)
 
-
 ### Bug Fixes
 
-* **i18n:** scan i18n in menus ([34f615d](https://github.com/easyops-cn/next-core/commit/34f615d6d7322efbcccf08f7355d09adb0999c02))
-
-
-
-
+- **i18n:** scan i18n in menus ([34f615d](https://github.com/easyops-cn/next-core/commit/34f615d6d7322efbcccf08f7355d09adb0999c02))
 
 # [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.11.3...@next-core/brick-utils@2.12.0) (2021-03-02)
 
-
 ### Features
 
-* export pipes from brick-utils ([6a69309](https://github.com/easyops-cn/next-core/commit/6a69309432e7234dba1e6e4a843d174e4f7dc81a))
-* scan i18n in storyboard ([57f18ad](https://github.com/easyops-cn/next-core/commit/57f18ad94da2e080631d218934ea5c77b9933b62))
-
-
-
-
+- export pipes from brick-utils ([6a69309](https://github.com/easyops-cn/next-core/commit/6a69309432e7234dba1e6e4a843d174e4f7dc81a))
+- scan i18n in storyboard ([57f18ad](https://github.com/easyops-cn/next-core/commit/57f18ad94da2e080631d218934ea5c77b9933b62))
 
 ## [2.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.11.2...@next-core/brick-utils@2.11.3) (2021-02-25)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.11.1...@next-core/brick-utils@2.11.2) (2021-02-24)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.11.0...@next-core/brick-utils@2.11.1) (2021-02-24)
-
 
 ### Bug Fixes
 
-* fix detecting circular contexts ([446fe13](https://github.com/easyops-cn/next-core/commit/446fe13e7023e446b5e5d0c3ad6a754f086b1b95))
-
-
-
-
+- fix detecting circular contexts ([446fe13](https://github.com/easyops-cn/next-core/commit/446fe13e7023e446b5e5d0c3ad6a754f086b1b95))
 
 # [2.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.10.9...@next-core/brick-utils@2.11.0) (2021-02-23)
 
-
 ### Features
 
-* support if in context ([68c9f34](https://github.com/easyops-cn/next-core/commit/68c9f34f0d427595328b3f5a4974b10e2c72a808))
-
-
-
-
+- support if in context ([68c9f34](https://github.com/easyops-cn/next-core/commit/68c9f34f0d427595328b3f5a4974b10e2c72a808))
 
 ## [2.10.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.10.8...@next-core/brick-utils@2.10.9) (2021-02-22)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.10.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.10.7...@next-core/brick-utils@2.10.8) (2021-02-07)
 

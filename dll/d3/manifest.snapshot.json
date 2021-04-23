@@ -252,6 +252,13 @@
         "providedExports": ["root", "Selection", "default"]
       }
     },
+    "./node_modules/d3-shape/src/curve/bump.js": {
+      "id": "5NTL",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["bumpX", "bumpY"]
+      }
+    },
     "./node_modules/d3-transition/src/transition/interpolate.js": {
       "id": "5aFE",
       "buildMeta": {
@@ -351,6 +358,8 @@
           "curveBasisClosed",
           "curveBasisOpen",
           "curveBasis",
+          "curveBumpX",
+          "curveBumpY",
           "curveBundle",
           "curveCardinalClosed",
           "curveCardinalOpen",
