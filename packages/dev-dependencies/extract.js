@@ -51,6 +51,9 @@ module.exports = function extract() {
   // https://github.com/mbalabash/estimo/blob/master/scripts/findChrome.js#L1
   delete devDependencies["@size-limit/preset-app"];
 
+  // `classnames` now ships with its own types since v2.3.0.
+  delete devDependencies["@types/classnames"];
+
   // `size-limit` to be present in root package.json.
   // https://github.com/ai/size-limit/blob/master/packages/size-limit/load-plugins.js#L20
   // `@types/*` and others require import-helper needs to be present in root package.json.
@@ -132,20 +135,12 @@ module.exports = function extract() {
   const disabledRule = renovateJson.packageRules.find(
     (item) => item.enabled === false
   );
-  const keyOfPackageNames = disabledRule.matchPackageNames
-    ? "matchPackageNames"
-    : "packageNames";
-  const disabledPackageNames = new Set(disabledRule[keyOfPackageNames]);
+  const disabledPackageNames = new Set(disabledRule.matchPackageNames);
 
   for (const pkg of toBeExtracted.keys()) {
     disabledPackageNames.add(pkg);
   }
-  disabledRule[keyOfPackageNames] = Array.from(disabledPackageNames).sort();
-
-  // Fix a previous problem.
-  if (keyOfPackageNames === "matchPackageNames" && disabledRule.packageNames) {
-    delete disabledRule.packageNames;
-  }
+  disabledRule.matchPackageNames = Array.from(disabledPackageNames).sort();
 
   writeJsonFile(renovateJsonPath, renovateJson);
 
