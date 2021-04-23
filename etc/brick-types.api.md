@@ -788,6 +788,7 @@ export interface CompileResult {
 
 // @public
 export interface ContextConf {
+    if?: string | boolean;
     name: string;
     onChange?: BrickEventHandler | BrickEventHandler[];
     property?: string;

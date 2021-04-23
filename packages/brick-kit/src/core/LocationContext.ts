@@ -198,6 +198,9 @@ export class LocationContext {
         });
       }
     } else {
+      if (!looseCheckIf(contextConf, coreContext)) {
+        return false;
+      }
       let value: unknown;
       if (contextConf.resolve) {
         if (!looseCheckIf(contextConf.resolve, coreContext)) {

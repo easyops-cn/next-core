@@ -443,6 +443,11 @@ export interface ContextConf {
   property?: string;
 
   /**
+   * 条件配置，根据 `if` 的计算结果来决定是否启用该上下文。不适用于绑定构件属性的数据。
+   */
+  if?: string | boolean;
+
+  /**
    * 当数据发生变化时触发的事件。注意，该事件仅适用于自由变量或异步处理的数据，不适用于绑定构件属性的数据。
    */
   onChange?: BrickEventHandler | BrickEventHandler[];

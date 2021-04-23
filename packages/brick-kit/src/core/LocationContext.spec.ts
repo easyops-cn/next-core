@@ -364,7 +364,13 @@ describe("LocationContext", () => {
             context: [
               {
                 name: "myFreeContext",
+                value: "bad",
+                if: "<% FLAGS['should-not-enabled'] %>",
+              },
+              {
+                name: "myFreeContext",
                 value: "good",
+                if: "<% !FLAGS['should-not-enabled'] %>",
               },
               {
                 name: "myAsyncContext",
