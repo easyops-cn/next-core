@@ -16,15 +16,17 @@ import { useBuilderGroupedChildNodes } from "../hooks/useBuilderGroupedChildNode
 import { useCanDrop } from "../hooks/useCanDrop";
 import { DropPositionCursor, getDropPosition } from "./getDropPosition";
 import { processDrop } from "./processDrop";
-
-import styles from "./DropZone.module.css";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useBuilderData } from "../hooks/useBuilderData";
 import { getRelatedNodesBasedOnEvents } from "../processors/getRelatedNodesBasedOnEvents";
 
+import styles from "./DropZone.module.css";
+
 export interface DropZoneProps {
   nodeUid?: number;
   isRoot?: boolean;
+  separateCanvas?: boolean;
+  isPortalCanvas?: boolean;
   mountPoint: string;
   fullscreen?: boolean;
   dropZoneStyle?: React.CSSProperties;
@@ -36,6 +38,8 @@ export interface DropZoneProps {
 export function DropZone({
   nodeUid,
   isRoot,
+  separateCanvas,
+  isPortalCanvas,
   mountPoint,
   fullscreen,
   dropZoneStyle,
@@ -80,6 +84,45 @@ export function DropZone({
     [groupedChildNodes, mountPoint]
   );
 
+  const selfChildNodesInCurrentCanvas = React.useMemo(
+    () =>
+      isRoot && separateCanvas
+        ? selfChildNodes.filter((child) =>
+            Boolean(Number(Boolean(isPortalCanvas)) ^ Number(!child.portal))
+          )
+        : selfChildNodes,
+    [isPortalCanvas, isRoot, selfChildNodes, separateCanvas]
+  );
+
+  const getDroppingIndexInFullCanvas = React.useCallback(
+    (droppingIndexInCurrentCanvas: number) => {
+      if (!separateCanvas) {
+        return droppingIndexInCurrentCanvas;
+      }
+      if (selfChildNodesInCurrentCanvas.length > 0) {
+        const cursorNode =
+          selfChildNodesInCurrentCanvas[
+            droppingIndexInCurrentCanvas === 0
+              ? 0
+              : droppingIndexInCurrentCanvas - 1
+          ];
+        return (
+          selfChildNodes.findIndex((child) => child === cursorNode) +
+          (droppingIndexInCurrentCanvas === 0 ? 0 : 1)
+        );
+      }
+      return isPortalCanvas
+        ? selfChildNodes.length - selfChildNodesInCurrentCanvas.length
+        : 0;
+    },
+    [
+      separateCanvas,
+      selfChildNodesInCurrentCanvas,
+      isPortalCanvas,
+      selfChildNodes,
+    ]
+  );
+
   const [{ isDraggingOverCurrent }, dropRef] = useDrop({
     accept: [
       BuilderDataTransferType.NODE_TO_ADD,
@@ -120,12 +163,15 @@ export function DropZone({
         processDrop({
           type: type as BuilderDataTransferType,
           data,
-          droppingIndex: dropPositionCursorRef.current.index,
+          droppingIndex: getDroppingIndexInFullCanvas(
+            dropPositionCursorRef.current.index
+          ),
           droppingParentUid: node.$$uid,
           droppingParentInstanceId: node.instanceId,
           droppingMountPoint: mountPoint,
           droppingChildNodes: selfChildNodes,
           droppingSiblingGroups: groupedChildNodes,
+          isPortalCanvas,
           manager,
         });
       }
@@ -147,9 +193,11 @@ export function DropZone({
         isRoot
           ? classNames(styles.isRoot, {
               [styles.fullscreen]: fullscreen,
+              [styles.hasTabs]: separateCanvas,
             })
           : styles.isSlot,
         {
+          [styles.isPortalCanvas]: isPortalCanvas,
           [styles.dropping]: isDraggingOverCurrent,
           [styles.showOutlineIfEmpty]:
             !isRoot && showOutlineIfEmpty && selfChildNodes.length === 0,
@@ -168,7 +216,7 @@ export function DropZone({
         className={styles.dropZoneBody}
         style={dropZoneBodyStyle}
       >
-        {selfChildNodes?.map((child) => (
+        {selfChildNodesInCurrentCanvas?.map((child) => (
           <EditorBrickAsComponent
             key={child.$$uid}
             node={child}

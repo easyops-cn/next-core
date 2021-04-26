@@ -55,6 +55,7 @@ export interface NodeInstance {
   brick: string;
   mountPoint: string;
   bg?: boolean;
+  portal?: boolean;
 }
 
 export interface EventDetailOfNodeAddStored {
