@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const globby = require("globby");
 
 function getPath(type, pkg) {
   switch (type) {
@@ -38,8 +39,12 @@ module.exports = function (sizeLimitJson) {
 
     const pkgList = dirs.filter((d) => d.isDirectory()).map((d) => d.name);
     pkgList.forEach((pkg) => {
+      const filePath = getPath(type, pkg);
+      if (filePath.includes("*") && globby.sync(filePath).length === 0) {
+        return;
+      }
       limits.push({
-        path: getPath(type, pkg),
+        path: filePath,
         limit: pkg.startsWith("providers-of-")
           ? pkgMap.get("providers-of-*")
           : pkgMap.has(pkg)
