@@ -2099,6 +2099,7 @@ export type UpdateQueryFunction = (query: Record<string, unknown>, options?: Upd
 export interface UpdateQueryOptions extends PluginHistoryState {
     clear?: boolean;
     extraQuery?: Record<string, unknown>;
+    keepHash?: boolean;
 }
 
 // @public
