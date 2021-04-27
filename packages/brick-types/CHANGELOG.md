@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.23.1...@next-core/brick-types@2.24.0) (2021-04-27)
+
+
+### Features
+
+* support to keep hash in push/replace query ([c883e7a](https://github.com/easyops-cn/next-core/commit/c883e7a852dc070bc6ba43a6bde220666218c36c))
+
+
+
+
+
 ## [2.23.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.23.0...@next-core/brick-types@2.23.1) (2021-04-26)
 
 **Note:** Version bump only for package @next-core/brick-types
