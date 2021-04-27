@@ -19,8 +19,10 @@ import { processDrop } from "./processDrop";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useBuilderData } from "../hooks/useBuilderData";
 import { getRelatedNodesBasedOnEvents } from "../processors/getRelatedNodesBasedOnEvents";
+import { isCurrentTargetByClassName } from "../processors/isCurrentTargetByClassName";
 
 import styles from "./DropZone.module.css";
+import editorContainerStyles from "../EditorContainer/EditorContainer.module.css";
 
 export interface DropZoneProps {
   nodeUid?: number;
@@ -185,9 +187,41 @@ export function DropZone({
     }));
   }, [isDraggingOverCurrent, mountPoint, setDroppingStatus]);
 
+  const dropZoneRef = React.useRef<HTMLElement>();
+
+  const dropZoneRefCallback = React.useCallback(
+    (element: HTMLElement) => {
+      dropZoneRef.current = element;
+      dropRef(element);
+    },
+    [dropRef]
+  );
+
+  const handleContextMenu = React.useCallback(
+    (event: React.MouseEvent) => {
+      // `event.stopPropagation()` not working across bricks.
+      if (
+        isCurrentTargetByClassName(
+          event.target as HTMLElement,
+          dropZoneRef.current,
+          editorContainerStyles.editorContainer
+        )
+      ) {
+        event.preventDefault();
+        manager.contextMenuChange({
+          active: true,
+          node,
+          x: event.clientX,
+          y: event.clientY,
+        });
+      }
+    },
+    [manager, node]
+  );
+
   return (
     <div
-      ref={dropRef}
+      ref={dropZoneRefCallback}
       className={classNames(
         styles.dropZone,
         isRoot
@@ -210,6 +244,7 @@ export function DropZone({
         }
       )}
       style={dropZoneStyle}
+      onContextMenu={isRoot ? handleContextMenu : null}
     >
       <div
         ref={dropZoneBody}

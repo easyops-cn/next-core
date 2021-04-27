@@ -11,7 +11,7 @@ import { useBuilderNode } from "../hooks/useBuilderNode";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatus";
 import { useShowRelatedNodesBasedOnEvents } from "../hooks/useShowRelatedNodesBasedOnEvents";
-import { isCurrentTargetByClassName } from "./isCurrentTargetByClassName";
+import { isCurrentTargetByClassName } from "../processors/isCurrentTargetByClassName";
 import { useHoverNodeUid } from "../hooks/useHoverNodeUid";
 import { useHighlightNodes } from "../hooks/useHighlightNodes";
 
