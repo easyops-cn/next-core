@@ -15,7 +15,7 @@ export function historyExtended(
       query: Record<string, any>,
       options: UpdateQueryOptions = {}
     ): void {
-      const { extraQuery, clear, ...state } = options;
+      const { extraQuery, clear, keepHash, ...state } = options;
       const urlSearchParams = new URLSearchParams(
         clear ? "" : browserHistory.location.search
       );
@@ -33,7 +33,12 @@ export function historyExtended(
           urlSearchParams.set(key, value);
         }
       }
-      browserHistory[method](`?${urlSearchParams.toString()}`, state);
+      browserHistory[method](
+        `?${urlSearchParams.toString()}${
+          keepHash ? browserHistory.location.hash : ""
+        }`,
+        state
+      );
     };
   }
 

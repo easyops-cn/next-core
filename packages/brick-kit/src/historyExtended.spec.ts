@@ -99,6 +99,17 @@ describe("historyExtended", () => {
         },
       ],
     ],
+    [
+      [
+        {
+          page: 2,
+        },
+        {
+          keepHash: true,
+        },
+      ],
+      ["?b=1&page=2#c", {}],
+    ],
   ])(
     "history.pushQuery(...%j) should call history.push(...%j)",
     (callerArgs, calleeArgs) => {
