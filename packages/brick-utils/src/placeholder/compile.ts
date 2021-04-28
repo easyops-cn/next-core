@@ -83,8 +83,7 @@ function injectNodeFactory(
 
     let result;
     let anchor: string;
-    const SimpleContextMap: Record<string, "app" | "hash" | "sys" | "flags"> = {
-      APP: "app",
+    const SimpleContextMap: Record<string, "hash" | "sys" | "flags"> = {
       HASH: "hash",
       SYS: "sys",
       FLAGS: "flags",
@@ -117,6 +116,11 @@ function injectNodeFactory(
           subField === "*" ? context.event : get(context.event, subField);
         break;
       case "APP":
+        result =
+          subField === "*"
+            ? context.overrideApp ?? context.app
+            : get(context.overrideApp ?? context.app, subField);
+        break;
       case "HASH":
       case "SYS":
       case "FLAGS":

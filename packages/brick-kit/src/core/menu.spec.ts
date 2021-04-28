@@ -1,7 +1,10 @@
+import i18next from "i18next";
+import { PluginRuntimeContext } from "@next-core/brick-types";
 import {
   InstanceApi_getDetail,
   InstanceApi_postSearch,
 } from "@next-sdk/cmdb-sdk";
+import { Kernel } from "./Kernel";
 import {
   fetchMenuById,
   constructMenu,
@@ -14,8 +17,25 @@ import * as runtime from "./Runtime";
 
 jest.mock("@next-sdk/cmdb-sdk");
 
+i18next.init({
+  fallbackLng: "en",
+});
+i18next.addResourceBundle("en", "$app-hello", {
+  HELLO: "Hello",
+  MENU_ITEM: "Menu item",
+});
+i18next.addResourceBundle("en", "$app-hola", {
+  HELLO: "Hola",
+  MENU_ITEM: "Opción del menú",
+});
+
+const currentApp = {
+  id: "hello",
+  homepage: "/hello",
+};
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   flags: {},
+  app: currentApp,
 } as any);
 
 const mockResolveOne = jest.fn((_a, resolveConf, itemsConf) => {
@@ -42,6 +62,11 @@ const mockMenuList: any[] = [
     menuId: "menu-c",
     title: "Menu C",
     items: [],
+    app: [
+      {
+        appId: "hello",
+      },
+    ],
   },
   {
     menuId: "menu-d",
@@ -49,6 +74,11 @@ const mockMenuList: any[] = [
     items: [
       {
         text: "Menu Item 1",
+      },
+    ],
+    app: [
+      {
+        appId: "hello",
       },
     ],
   },
@@ -68,6 +98,11 @@ const mockMenuList: any[] = [
         ],
       },
     ],
+    app: [
+      {
+        appId: "hello",
+      },
+    ],
   },
   {
     menuId: "sub-menu-e",
@@ -83,6 +118,11 @@ const mockMenuList: any[] = [
         sort: 5,
       },
     ],
+    app: [
+      {
+        appId: "hello",
+      },
+    ],
   },
   {
     menuId: "sub-menu-e",
@@ -95,6 +135,51 @@ const mockMenuList: any[] = [
       {
         text: "Menu Item Will Be Ignored",
         sort: 1,
+      },
+    ],
+    app: [
+      {
+        appId: "hello",
+      },
+    ],
+  },
+  {
+    menuId: "menu-f",
+    title: "<% I18N('HELLO') %>",
+    items: [
+      {
+        text: "<% I18N('MENU_ITEM') %>",
+        to: "${APP.homepage}",
+        sort: 1,
+      },
+    ],
+    app: [
+      {
+        appId: "hello",
+      },
+    ],
+  },
+  {
+    menuId: "menu-f",
+    title: "<% I18N('HELLO') %>",
+    type: "inject",
+    items: [
+      {
+        text: "<% I18N('MENU_ITEM') %>",
+        to: "${APP.homepage}/1",
+        sort: 2,
+      },
+      {
+        if: "<% !FLAGS['flag-not-enabled'] %>",
+        text: "Fixed item",
+        activeIncludes: ["/any"],
+        sort: 3,
+        to: "${APP.homepage}/2",
+      },
+    ],
+    app: [
+      {
+        appId: "hola",
       },
     ],
   },
@@ -252,9 +337,13 @@ describe("processMenuTitle", () => {
 });
 
 describe("constructMenu", () => {
+  const context = ({
+    app: currentApp,
+  } as unknown) as PluginRuntimeContext;
+
   it("should ignore if no menuId", async () => {
     const menuBar = {};
-    await constructMenu(menuBar, null);
+    await constructMenu(menuBar, context, null);
     expect(menuBar).toEqual({
       subMenu: null,
     });
@@ -264,7 +353,7 @@ describe("constructMenu", () => {
     const menuBar = {
       menuId: "menu-c",
     };
-    await constructMenu(menuBar, null);
+    await constructMenu(menuBar, context, null);
     expect(menuBar).toEqual({
       menuId: "menu-c",
       menu: {
@@ -282,7 +371,7 @@ describe("constructMenu", () => {
       menuId: "menu-d",
       subMenuId: "sub-menu-e",
     };
-    await constructMenu(menuBar, null);
+    await constructMenu(menuBar, context, null);
     expect(menuBar).toEqual({
       menuId: "menu-d",
       subMenuId: "sub-menu-e",
@@ -324,6 +413,57 @@ describe("constructMenu", () => {
           },
         ],
       },
+    });
+  });
+
+  it("should construct menu with override app", async () => {
+    const menuBar = {
+      menuId: "menu-f",
+    };
+    const fakeKernel = ({
+      bootstrapData: {
+        storyboards: [
+          {
+            app: {
+              id: "hola",
+              homepage: "/hola",
+            },
+          },
+        ],
+      },
+      fulfilStoryboard: jest.fn(),
+    } as unknown) as Kernel;
+    await constructMenu(menuBar, context, fakeKernel);
+    expect(menuBar).toEqual({
+      menuId: "menu-f",
+      menu: {
+        title: "Hello",
+        icon: undefined,
+        defaultCollapsed: false,
+        menuItems: [
+          {
+            text: "Menu item",
+            to: "/hello",
+            children: [],
+            sort: 1,
+          },
+          {
+            text: "Opción del menú",
+            to: "/hola/1",
+            children: [],
+            sort: 2,
+          },
+          {
+            if: true,
+            text: "Fixed item",
+            activeIncludes: ["/any"],
+            sort: 3,
+            to: "/hola/2",
+            children: [],
+          },
+        ],
+      },
+      subMenu: null,
     });
   });
 });
