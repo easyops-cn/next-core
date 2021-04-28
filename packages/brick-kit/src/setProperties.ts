@@ -28,11 +28,11 @@ export const computeRealValue = (
     let dismissRecursiveMarkingInjected = false;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
-      if (context?.event) {
-        runtimeContext.event = context.event;
-      }
-      if (context?.getTplVariables) {
-        runtimeContext.getTplVariables = context.getTplVariables;
+      const keys = ["event", "getTplVariables", "overrideApp"] as const;
+      for (const key of keys) {
+        if (context?.[key]) {
+          runtimeContext[key as "event"] = context[key as "event"];
+        }
       }
       result = evaluate(value as string, runtimeContext, {
         lazy:

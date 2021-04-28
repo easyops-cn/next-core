@@ -1319,6 +1319,7 @@ export interface PluginRuntimeContext {
     images?: MetaImage[];
     // @internal (undocumented)
     match?: MatchResult;
+    overrideApp?: MicroApp;
     query: URLSearchParams;
     segues?: SeguesConf;
     // @internal (undocumented)
@@ -1606,6 +1607,8 @@ export interface RuntimeStoryboard extends Storyboard {
     $$depsProcessed?: boolean;
     // (undocumented)
     $$fulfilled?: boolean;
+    // (undocumented)
+    $$fulfilling?: Promise<void>;
     // (undocumented)
     $$registerCustomTemplateProcessed?: boolean;
 }

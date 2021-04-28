@@ -261,6 +261,7 @@ export interface RuntimeStoryboard extends Storyboard {
   $$depsProcessed?: boolean;
   $$registerCustomTemplateProcessed?: boolean;
   $$fulfilled?: boolean;
+  $$fulfilling?: Promise<void>;
 }
 
 /**

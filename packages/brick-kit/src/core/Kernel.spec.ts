@@ -49,23 +49,23 @@ jest.spyOn(mockHistory, "getHistory").mockReturnValue({
 
 const spyOnCheckLogin = checkLogin as jest.Mock;
 const spyOnBootstrap = bootstrap as jest.Mock;
-const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockReturnValue({
-  routes: [],
-  app: {
-    id: "fake",
-  },
-  meta: {
-    i18n: {
-      en: {
-        HELLO: "Hello",
+const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockResolvedValue(
+  {
+    routes: [],
+    app: {
+      id: "fake",
+    },
+    meta: {
+      i18n: {
+        en: {
+          HELLO: "Hello",
+        },
       },
     },
-  },
-});
+  }
+);
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
-const spyOnMenuBar = MenuBar as jest.Mock;
-const spyOnAppBar = AppBar as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
@@ -328,7 +328,13 @@ describe("Kernel", () => {
         id: "fake",
       },
     } as any;
-    await kernel.fulfilStoryboard(fakeStoryboard);
+
+    // Make two parallel invocations at the same time,
+    // it should only fulfil once.
+    await Promise.all([
+      kernel.fulfilStoryboard(fakeStoryboard),
+      kernel.fulfilStoryboard(fakeStoryboard),
+    ]);
     expect(spyOnGetAppStoryboard).toBeCalledWith("fake");
     expect(spyOnAddResourceBundle).toBeCalledWith("en", "$app-fake", {
       HELLO: "Hello",

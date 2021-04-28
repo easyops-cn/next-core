@@ -357,7 +357,11 @@ export class Router {
       if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
         this.kernel.toggleBars(false);
       } else if (this.kernel.currentLayout === "console") {
-        await constructMenu(menuBar, this.locationContext.getCurrentContext());
+        await constructMenu(
+          menuBar,
+          this.locationContext.getCurrentContext(),
+          this.kernel
+        );
         if (menuBar.menu?.defaultCollapsed) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;

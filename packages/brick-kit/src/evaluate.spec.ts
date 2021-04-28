@@ -23,6 +23,9 @@ i18next.addResourceBundle("en", "$app-hello", {
   HELLO: "Hello",
   COUNT_ITEMS: "Total {{count}} items",
 });
+i18next.addResourceBundle("en", "$app-hola", {
+  HELLO: "Hola",
+});
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
@@ -298,6 +301,18 @@ describe("evaluate", () => {
         }
       )
     ).toEqual(9);
+  });
+
+  it("should work when using `overrideApp`", () => {
+    expect(
+      evaluate("<% `${APP.homepage}:${I18N('HELLO')}` %>", {
+        overrideApp: {
+          id: "hola",
+          name: "Hola",
+          homepage: "/hola",
+        },
+      })
+    ).toEqual("/hola:Hola");
   });
 
   it("should work when set lazy", () => {

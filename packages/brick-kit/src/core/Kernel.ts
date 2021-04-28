@@ -200,6 +200,15 @@ export class Kernel {
     if (storyboard.$$fulfilled) {
       return;
     }
+    if (!storyboard.$$fulfilling) {
+      storyboard.$$fulfilling = this.doFulfilStoryboard(storyboard);
+    }
+    return storyboard.$$fulfilling;
+  }
+
+  private async doFulfilStoryboard(
+    storyboard: RuntimeStoryboard
+  ): Promise<void> {
     const { routes, meta } = await AuthSdk.getAppStoryboard(storyboard.app.id);
     Object.assign(storyboard, { routes, meta, $$fulfilled: true });
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);

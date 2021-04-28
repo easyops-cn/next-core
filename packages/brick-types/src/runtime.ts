@@ -165,6 +165,11 @@ export interface PluginRuntimeContext {
    */
   app?: MicroApp;
 
+  /**
+   * 用于跨应用菜单注入等场景的应用重载。
+   */
+  overrideApp?: MicroApp;
+
   /** 当前的 hash 参数 */
   hash?: string;
 
