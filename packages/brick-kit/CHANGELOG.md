@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.43.0...@next-core/brick-kit@2.44.0) (2021-04-28)
+
+
+### Features
+
+* support to override app in shared menus ([5734a45](https://github.com/easyops-cn/next-core/commit/5734a455a06b757d7096db8504d614a785c813c9))
+
+
+
+
+
 # [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.42.1...@next-core/brick-kit@2.43.0) (2021-04-27)
 
 
