@@ -1,5 +1,3 @@
-/* istanbul-ignore-file */
-// Todo(steve): Ignore tests temporarily for potential breaking change in the future.
 import React, { useEffect } from "react";
 import classNames from "classnames";
 import { EditorBrickType } from "../interfaces";
