@@ -102,9 +102,7 @@ function collectRelatedNodes(
       }
     }
     if (handler.callback) {
-      for (const [callbackType, callbackHandlers] of Object.entries(
-        handler.callback
-      )) {
+      for (const callbackHandlers of Object.values(handler.callback)) {
         collectRelatedNodes(
           node,
           [].concat(callbackHandlers),
