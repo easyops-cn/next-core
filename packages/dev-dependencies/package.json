@@ -61,7 +61,7 @@
   "devDependencies": {
     "@size-limit/file": "^4.10.1",
     "@types/d3": "^6.3.0",
-    "@types/dompurify": "^2.2.1",
+    "@types/dompurify": "^2.2.2",
     "@types/echarts": "^4.9.7",
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
