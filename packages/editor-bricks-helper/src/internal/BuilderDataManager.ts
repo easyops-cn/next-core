@@ -20,7 +20,10 @@ import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
 import { deleteNodeFromTree } from "./deleteNodeFromTree";
-import { RelatedNodesBasedOnEventsMap } from "../processors/getRelatedNodesBasedOnEvents";
+import {
+  getRelatedNodesBasedOnEvents,
+  RelatedNodesBasedOnEventsMap,
+} from "../processors/getRelatedNodesBasedOnEvents";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -46,7 +49,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private routeList: BuilderRouteNode[] = [];
 
-  private eventTarget = new EventTarget();
+  private readonly eventTarget = new EventTarget();
 
   private contextMenuStatus: BuilderContextMenuStatus = {
     active: false,
@@ -68,10 +71,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   getRelatedNodesBasedOnEventsMap(): RelatedNodesBasedOnEventsMap {
     return this.relatedNodesBasedOnEventsMap;
-  }
-
-  setRelatedNodesBasedOnEventsMap(value: RelatedNodesBasedOnEventsMap): void {
-    this.relatedNodesBasedOnEventsMap = value;
   }
 
   routeListInit(data: BuilderRouteNode[]): void {
@@ -141,6 +140,17 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       nodes,
       edges,
     };
+    this.triggerDataChange();
+  }
+
+  private triggerDataChange(): void {
+    const { rootId, nodes } = this.data;
+    const rootNode = nodes.find((node) => node.$$uid === rootId);
+    const rootNodeIsCustomTemplate = rootNode.type === "custom-template";
+    this.relatedNodesBasedOnEventsMap = getRelatedNodesBasedOnEvents(
+      nodes,
+      rootNodeIsCustomTemplate
+    );
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
     );
@@ -171,9 +181,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
         nodeUids
       ),
     };
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
-    );
+    this.triggerDataChange();
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_ADD, { detail })
     );
@@ -191,9 +199,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       ),
       edges,
     };
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
-    );
+    this.triggerDataChange();
   }
 
   nodeMove(detail: EventDetailOfNodeMove): void {
@@ -215,9 +221,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
         nodeUids
       ),
     };
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
-    );
+    this.triggerDataChange();
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_MOVE, { detail })
     );
@@ -232,9 +236,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
         node.$$uid === rootId ? { ...node, context: detail.context } : node
       ),
     };
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
-    );
+    this.triggerDataChange();
   }
 
   nodeReorder(detail: EventDetailOfNodeReorder): void {
@@ -245,9 +247,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       nodes,
       edges: reorderBuilderEdges(edges, parentUid, nodeUids),
     };
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
-    );
+    this.triggerDataChange();
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_REORDER, { detail })
     );
@@ -255,9 +255,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   nodeDelete(detail: BuilderRuntimeNode): void {
     this.data = deleteNodeFromTree(detail.$$uid, this.data);
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
-    );
+    this.triggerDataChange();
   }
 
   nodeClick(detail: BuilderRuntimeNode): void {
