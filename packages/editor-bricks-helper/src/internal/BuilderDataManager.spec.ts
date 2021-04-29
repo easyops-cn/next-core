@@ -849,35 +849,6 @@ describe("test showRelatedNodesBasedOnEvents", () => {
   });
 });
 
-// describe("test relatedNodesBasedOnEventsMap", () => {
-//   let manager: BuilderDataManagerType;
-//   let BuilderDataManager: typeof BuilderDataManagerType;
-
-//   beforeEach(() => {
-//     jest.resetModules();
-//     // eslint-disable-next-line @typescript-eslint/no-var-requires
-//     BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
-//     manager = new BuilderDataManager();
-//     const listenOnShowRelatedNodesBasedOnEventsChange = jest.fn();
-//     const unlistenOnShowRelatedNodesBasedOnEventsChange = manager.onShowRelatedNodesBasedOnEventsChange(
-//       listenOnShowRelatedNodesBasedOnEventsChange
-//     );
-//     manager.setShowRelatedNodesBasedOnEvents(true);
-//     expect(listenOnShowRelatedNodesBasedOnEventsChange).toBeCalled();
-//     unlistenOnShowRelatedNodesBasedOnEventsChange();
-//   });
-
-//   it("should get showRelatedNodesBasedOnEvents", () => {
-//     const data = new Map();
-//     data.set(1, {
-//       upstreamNodes: new Set([2, 3]),
-//       downstreamNodes: new Set([4]),
-//     });
-//     manager.setRelatedNodesBasedOnEventsMap(data);
-//     expect(manager.getRelatedNodesBasedOnEventsMap()).toEqual(data);
-//   });
-// });
-
 describe("test highlightNodes", () => {
   let manager: BuilderDataManagerType;
   let BuilderDataManager: typeof BuilderDataManagerType;
