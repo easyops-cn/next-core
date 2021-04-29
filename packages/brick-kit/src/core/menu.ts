@@ -106,6 +106,11 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
         menuId: {
           $eq: menuId,
         },
+        app: {
+          $size: {
+            $gt: 0,
+          },
+        },
       },
     })
   ).list as MenuRawData[];
