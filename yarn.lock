@@ -2224,10 +2224,10 @@
   resolved "https://registry.npmjs.org/@next-bricks/basic-bricks/-/basic-bricks-1.111.3.tgz#8fc95ffcbc42dd2fdc676359b775ea5d7f8d93be"
   integrity sha512-oNMbWxzznH4X6zDVzqjKuASIHLUdR8z/8SMcg8S45e3D7g6IuTBeiWU4BRy7yLrqCbplNncqtFZAFSxtxvdsCw==
 
-"@next-bricks/basic-providers@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.npmjs.org/@next-bricks/basic-providers/-/basic-providers-1.2.4.tgz#39192ec2ac17f654337d6395357959d694cde828"
-  integrity sha1-ORkuwqwX9lQzfWOVNXlZ1pTN6Cg=
+"@next-bricks/basic-providers@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@next-bricks/basic-providers/-/basic-providers-1.3.0.tgz#5d0961aa77b985f45e26614ad9cb53609a1f848a"
+  integrity sha512-M9rE8CDKw/49zlxj0kkZTUFtr3JJPg9tyHjefne9Pb+Qb9X7c0W4fL9Lc23Q4tx9xSmjsUVfUJnyoRzYUWEgfA==
 
 "@next-bricks/general-auth@^1.4.12":
   version "1.4.12"
