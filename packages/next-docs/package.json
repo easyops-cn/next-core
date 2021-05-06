@@ -23,6 +23,6 @@
     "@easyops-cn/brick-next-pipes": "^0.3.10",
     "@next-core/brick-kit": "^2.42.0",
     "@next-core/brick-types": "^2.23.0",
-    "fs-extra": "^9.1.0"
+    "fs-extra": "^10.0.0"
   }
 }
