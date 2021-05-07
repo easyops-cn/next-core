@@ -13,6 +13,7 @@ export * from "./hooks/useBuilderNode";
 export * from "./hooks/useBuilderNodeMountPoints";
 export * from "./hooks/useBuilderParentNode";
 export * from "./hooks/useCanDrop";
+export * from "./hooks/useCanvasList";
 export * from "./hooks/useRouteList";
 export * from "./hooks/useHoverNodeUid";
 export * from "./hooks/useShowRelatedNodesBasedOnEvents";
