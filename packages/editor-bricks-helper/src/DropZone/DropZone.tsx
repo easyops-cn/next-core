@@ -1,6 +1,7 @@
 /* istanbul-ignore-file */
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
 import React from "react";
+import { clamp } from "lodash";
 import classNames from "classnames";
 import { DragObjectWithType, useDrop } from "react-dnd";
 import { EditorBrickAsComponent } from "../EditorBrickAsComponent/EditorBrickAsComponent";
@@ -19,12 +20,15 @@ import { processDrop } from "./processDrop";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 
 import styles from "./DropZone.module.css";
+import { useCanvasList } from "../hooks/useCanvasList";
 
 export interface DropZoneProps {
   nodeUid?: number;
   isRoot?: boolean;
   separateCanvas?: boolean;
   isPortalCanvas?: boolean;
+  independentPortalCanvas?: boolean;
+  canvasIndex?: number;
   mountPoint: string;
   fullscreen?: boolean;
   dropZoneStyle?: React.CSSProperties;
@@ -38,6 +42,8 @@ export function DropZone({
   isRoot,
   separateCanvas,
   isPortalCanvas,
+  independentPortalCanvas,
+  canvasIndex,
   mountPoint,
   fullscreen,
   dropZoneStyle,
@@ -58,6 +64,9 @@ export function DropZone({
     nodeUid,
     isRoot,
   });
+  const isGeneralizedPortalCanvas = independentPortalCanvas
+    ? canvasIndex > 0
+    : isPortalCanvas;
 
   const canDrop = useCanDrop();
   const refinedSlotContentLayout =
@@ -70,19 +79,30 @@ export function DropZone({
     [groupedChildNodes, mountPoint]
   );
 
+  const canvasList = useCanvasList(selfChildNodes);
+
   const selfChildNodesInCurrentCanvas = React.useMemo(
     () =>
-      isRoot && separateCanvas
+      separateCanvas
         ? selfChildNodes.filter((child) =>
             Boolean(Number(Boolean(isPortalCanvas)) ^ Number(!child.portal))
           )
+        : independentPortalCanvas
+        ? canvasList[clamp(canvasIndex ?? 0, 0, canvasList.length - 1)]
         : selfChildNodes,
-    [isPortalCanvas, isRoot, selfChildNodes, separateCanvas]
+    [
+      canvasIndex,
+      independentPortalCanvas,
+      isPortalCanvas,
+      selfChildNodes,
+      canvasList,
+      separateCanvas,
+    ]
   );
 
   const getDroppingIndexInFullCanvas = React.useCallback(
     (droppingIndexInCurrentCanvas: number) => {
-      if (!separateCanvas) {
+      if (!separateCanvas && !independentPortalCanvas) {
         return droppingIndexInCurrentCanvas;
       }
       if (selfChildNodesInCurrentCanvas.length > 0) {
@@ -97,14 +117,13 @@ export function DropZone({
           (droppingIndexInCurrentCanvas === 0 ? 0 : 1)
         );
       }
-      return isPortalCanvas
-        ? selfChildNodes.length - selfChildNodesInCurrentCanvas.length
-        : 0;
+      return isGeneralizedPortalCanvas ? selfChildNodes.length : 0;
     },
     [
       separateCanvas,
+      independentPortalCanvas,
       selfChildNodesInCurrentCanvas,
-      isPortalCanvas,
+      isGeneralizedPortalCanvas,
       selfChildNodes,
     ]
   );
@@ -121,12 +140,14 @@ export function DropZone({
           | BuilderDataTransferPayloadOfNodeToMove
         )
     ) =>
-      item.type === BuilderDataTransferType.NODE_TO_ADD ||
-      isRoot ||
-      canDrop(
-        (item as BuilderDataTransferPayloadOfNodeToMove).nodeUid,
-        nodeUid
-      ),
+      independentPortalCanvas && isGeneralizedPortalCanvas
+        ? selfChildNodesInCurrentCanvas.length === 0
+        : item.type === BuilderDataTransferType.NODE_TO_ADD ||
+          isRoot ||
+          canDrop(
+            (item as BuilderDataTransferPayloadOfNodeToMove).nodeUid,
+            nodeUid
+          ),
     collect: (monitor) => ({
       isDraggingOverCurrent:
         monitor.isOver({ shallow: true }) && monitor.canDrop(),
@@ -157,7 +178,7 @@ export function DropZone({
           droppingMountPoint: mountPoint,
           droppingChildNodes: selfChildNodes,
           droppingSiblingGroups: groupedChildNodes,
-          isPortalCanvas,
+          isPortalCanvas: isGeneralizedPortalCanvas,
           manager,
         });
       }
@@ -183,7 +204,7 @@ export function DropZone({
             })
           : styles.isSlot,
         {
-          [styles.isPortalCanvas]: isPortalCanvas,
+          [styles.isPortalCanvas]: isGeneralizedPortalCanvas,
           [styles.dropping]: isDraggingOverCurrent,
           [styles.showOutlineIfEmpty]:
             !isRoot && showOutlineIfEmpty && selfChildNodes.length === 0,

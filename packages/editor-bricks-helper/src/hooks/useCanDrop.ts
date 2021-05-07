@@ -10,7 +10,6 @@ export type CanDrop = (draggingUid: number, nodeUid: number) => boolean;
  * This is useful for checking available drop zone and preventing
  * dragging a node into its internal mount points.
  */
-
 export function useCanDrop(): CanDrop {
   const { edges } = useBuilderData();
   return useCallback(
