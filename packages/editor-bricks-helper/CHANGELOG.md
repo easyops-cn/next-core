@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.18.4...@next-core/editor-bricks-helper@0.19.0) (2021-05-07)
+
+
+### Bug Fixes
+
+* refine builder data manager ([7c44b66](https://github.com/easyops-cn/next-core/commit/7c44b66359ea98b4701d5cea1fc6f3ce80e37dfa))
+
+
+### Features
+
+* support independent portal canvas ([682dc55](https://github.com/easyops-cn/next-core/commit/682dc55f56751eea3b7eb62f43074949d3a8c525))
+
+
+
+
+
 ## [0.18.4](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.18.3...@next-core/editor-bricks-helper@0.18.4) (2021-04-29)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
