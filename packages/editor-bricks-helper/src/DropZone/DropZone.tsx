@@ -67,6 +67,7 @@ export function DropZone({
   const isGeneralizedPortalCanvas = independentPortalCanvas
     ? canvasIndex > 0
     : isPortalCanvas;
+  const hasTabs = separateCanvas || independentPortalCanvas;
 
   const canDrop = useCanDrop();
   const refinedSlotContentLayout =
@@ -102,7 +103,7 @@ export function DropZone({
 
   const getDroppingIndexInFullCanvas = React.useCallback(
     (droppingIndexInCurrentCanvas: number) => {
-      if (!separateCanvas && !independentPortalCanvas) {
+      if (!hasTabs) {
         return droppingIndexInCurrentCanvas;
       }
       if (selfChildNodesInCurrentCanvas.length > 0) {
@@ -120,8 +121,7 @@ export function DropZone({
       return isGeneralizedPortalCanvas ? selfChildNodes.length : 0;
     },
     [
-      separateCanvas,
-      independentPortalCanvas,
+      hasTabs,
       selfChildNodesInCurrentCanvas,
       isGeneralizedPortalCanvas,
       selfChildNodes,
@@ -200,7 +200,7 @@ export function DropZone({
         isRoot
           ? classNames(styles.isRoot, {
               [styles.fullscreen]: fullscreen,
-              [styles.hasTabs]: separateCanvas,
+              [styles.hasTabs]: hasTabs,
             })
           : styles.isSlot,
         {
