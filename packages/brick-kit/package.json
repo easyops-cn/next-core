@@ -47,14 +47,14 @@
     "@next-core/illustrations": "^0.3.5",
     "antd": "~4.12.3",
     "history": "^4.10.1",
-    "i18next": "^20.2.1",
+    "i18next": "^20.2.2",
     "jest-websocket-mock": "^2.2.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "mock-socket": "^9.0.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.8.13"
+    "react-i18next": "^11.8.15"
   },
   "peerDependencies": {
     "@ant-design/icons": "*",

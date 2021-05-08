@@ -5,30 +5,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.6...@next-core/brick-utils@2.15.0) (2021-04-28)
 
-
 ### Features
 
-* support to override app in shared menus ([5734a45](https://github.com/easyops-cn/next-core/commit/5734a455a06b757d7096db8504d614a785c813c9))
-
-
-
-
+- support to override app in shared menus ([5734a45](https://github.com/easyops-cn/next-core/commit/5734a455a06b757d7096db8504d614a785c813c9))
 
 ## [2.14.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.5...@next-core/brick-utils@2.14.6) (2021-04-27)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.14.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.4...@next-core/brick-utils@2.14.5) (2021-04-26)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.14.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.3...@next-core/brick-utils@2.14.4) (2021-04-23)
 

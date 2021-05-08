@@ -7,28 +7,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-icons
 
-
-
-
-
 # [2.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.14.1...@next-core/brick-icons@2.15.0) (2021-04-26)
-
 
 ### Features
 
-* add icon ([3b002d0](https://github.com/easyops-cn/next-core/commit/3b002d099560299d6fe9172e00c55ac9e75a7bb9))
-
-
-
-
+- add icon ([3b002d0](https://github.com/easyops-cn/next-core/commit/3b002d099560299d6fe9172e00c55ac9e75a7bb9))
 
 ## [2.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.14.0...@next-core/brick-icons@2.14.1) (2021-04-26)
 
 **Note:** Version bump only for package @next-core/brick-icons
-
-
-
-
 
 # [2.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.13.0...@next-core/brick-icons@2.14.0) (2021-04-23)
 

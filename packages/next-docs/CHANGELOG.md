@@ -7,33 +7,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.43](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.42...@next-core/next-docs@1.2.43) (2021-04-28)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.42](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.41...@next-core/next-docs@1.2.42) (2021-04-27)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.41](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.40...@next-core/next-docs@1.2.41) (2021-04-26)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.40](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.39...@next-core/next-docs@1.2.40) (2021-04-23)
 

@@ -1,7 +1,7 @@
 module.exports = [
   {
     path: "packages/brick-container/dist/dll-of-ace.js",
-    limit: "120 KB",
+    limit: "125 KB",
   },
   {
     path: "packages/brick-container/dist/dll-of-d3.js",
@@ -9,7 +9,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll-of-echarts.js",
-    limit: "290 KB",
+    limit: "295 KB",
   },
   {
     path: "packages/brick-container/dist/dll-of-editor-bricks-helper.js",
@@ -21,7 +21,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll.js",
-    limit: "1.50 MB",
+    limit: "1.58 MB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
@@ -37,7 +37,7 @@ module.exports = [
   },
   {
     path: "packages/brick-icons/dist/index.esm.js",
-    limit: "245 KB",
+    limit: "250 KB",
   },
   {
     path: "packages/brick-kit/dist/index.esm.js",
@@ -49,7 +49,7 @@ module.exports = [
   },
   {
     path: "packages/brick-utils/dist/index.esm.js",
-    limit: "115 KB",
+    limit: "120 KB",
   },
   {
     path: "packages/editor-bricks-helper/dist/index.esm.js",
@@ -57,6 +57,6 @@ module.exports = [
   },
   {
     path: "packages/fontawesome-library/dist/index.esm.js",
-    limit: "415 KB",
+    limit: "425 KB",
   },
 ];

@@ -7,25 +7,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/babel-preset-next
 
-
-
-
-
 ## [0.6.23](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.22...@next-core/babel-preset-next@0.6.23) (2021-03-08)
 
 **Note:** Version bump only for package @next-core/babel-preset-next
 
-
-
-
-
 ## [0.6.22](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.21...@next-core/babel-preset-next@0.6.22) (2021-02-22)
 
 **Note:** Version bump only for package @next-core/babel-preset-next
-
-
-
-
 
 ## [0.6.21](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.20...@next-core/babel-preset-next@0.6.21) (2021-02-07)
 
