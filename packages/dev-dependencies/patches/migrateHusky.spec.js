@@ -21,36 +21,26 @@ describe("migrateHusky", () => {
       },
     });
 
-    readJson.mockReturnValueOnce({
+    const rootPackageJson = {
       scripts: {
         start: "webpack",
       },
+    };
+
+    await migrateHusky(rootPackageJson);
+
+    expect(writeJsonFile).toBeCalledWith(expect.stringContaining(".huskyrc"), {
+      hooks: {
+        "pre-commit": "npm run lint-staged",
+      },
     });
 
-    await migrateHusky();
-
-    expect(writeJsonFile).toBeCalledTimes(2);
-
-    expect(writeJsonFile).toHaveBeenNthCalledWith(
-      1,
-      expect.stringContaining(".huskyrc"),
-      {
-        hooks: {
-          "pre-commit": "npm run lint-staged",
-        },
-      }
-    );
-
-    expect(writeJsonFile).toHaveBeenNthCalledWith(
-      2,
-      expect.stringContaining("package.json"),
-      {
-        scripts: {
-          start: "webpack",
-          "lint-staged": "lint-staged",
-        },
-      }
-    );
+    expect(rootPackageJson).toEqual({
+      scripts: {
+        start: "webpack",
+        "lint-staged": "lint-staged",
+      },
+    });
 
     expect(execa).toBeCalledTimes(2);
   });
@@ -58,26 +48,22 @@ describe("migrateHusky", () => {
   it("should work when huskyrc not existed", async () => {
     fs.existsSync.mockReturnValueOnce(false);
 
-    readJson.mockReturnValueOnce({
+    const rootPackageJson = {
       scripts: {
         start: "webpack",
       },
+    };
+
+    await migrateHusky(rootPackageJson);
+
+    expect(writeJsonFile).not.toBeCalled();
+
+    expect(rootPackageJson).toEqual({
+      scripts: {
+        start: "webpack",
+        "lint-staged": "lint-staged",
+      },
     });
-
-    await migrateHusky();
-
-    expect(writeJsonFile).toBeCalledTimes(1);
-
-    expect(writeJsonFile).toHaveBeenNthCalledWith(
-      1,
-      expect.stringContaining("package.json"),
-      {
-        scripts: {
-          start: "webpack",
-          "lint-staged": "lint-staged",
-        },
-      }
-    );
 
     expect(execa).toBeCalledTimes(2);
   });
@@ -91,26 +77,22 @@ describe("migrateHusky", () => {
       },
     });
 
-    readJson.mockReturnValueOnce({
+    const rootPackageJson = {
       scripts: {
         start: "webpack",
       },
+    };
+
+    await migrateHusky(rootPackageJson);
+
+    expect(writeJsonFile).not.toBeCalled();
+
+    expect(rootPackageJson).toEqual({
+      scripts: {
+        start: "webpack",
+        "lint-staged": "lint-staged",
+      },
     });
-
-    await migrateHusky();
-
-    expect(writeJsonFile).toBeCalledTimes(1);
-
-    expect(writeJsonFile).toHaveBeenNthCalledWith(
-      1,
-      expect.stringContaining("package.json"),
-      {
-        scripts: {
-          start: "webpack",
-          "lint-staged": "lint-staged",
-        },
-      }
-    );
 
     expect(execa).toBeCalledTimes(2);
   });
@@ -124,26 +106,20 @@ describe("migrateHusky", () => {
       },
     });
 
-    readJson.mockReturnValueOnce({
-      scripts: {
+    const rootPackageJson = Object.freeze({
+      scripts: Object.freeze({
         start: "webpack",
         "lint-staged": "lint-staged",
-      },
+      }),
     });
 
-    await migrateHusky();
+    await migrateHusky(rootPackageJson);
 
-    expect(writeJsonFile).toBeCalledTimes(1);
-
-    expect(writeJsonFile).toHaveBeenNthCalledWith(
-      1,
-      expect.stringContaining(".huskyrc"),
-      {
-        hooks: {
-          "pre-commit": "npm run lint-staged",
-        },
-      }
-    );
+    expect(writeJsonFile).toBeCalledWith(expect.stringContaining(".huskyrc"), {
+      hooks: {
+        "pre-commit": "npm run lint-staged",
+      },
+    });
 
     expect(execa).toBeCalledTimes(2);
   });

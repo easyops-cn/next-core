@@ -75,17 +75,13 @@ describe("updateLicense", () => {
   });
 
   it("should work", () => {
-    updateLicense("/tmp/package.json", {
+    updateLicense({
       name: "tmp",
       license: "GPL-3.0",
     });
-    expect(mockWriteJsonFile).toHaveBeenCalledTimes(5);
-    expect(mockWriteJsonFile).toHaveBeenNthCalledWith(1, "/tmp/package.json", {
-      name: "tmp",
-      license: "GPL-3.0",
-    });
+    expect(mockWriteJsonFile).toHaveBeenCalledTimes(4);
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
-      2,
+      1,
       "/tmp/bricks/bricks-a/package.json",
       {
         name: "bricks-a",
@@ -93,7 +89,7 @@ describe("updateLicense", () => {
       }
     );
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
-      3,
+      2,
       "/tmp/bricks/bricks-b/package.json",
       {
         name: "bricks-b",
@@ -101,7 +97,7 @@ describe("updateLicense", () => {
       }
     );
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
-      4,
+      3,
       "/tmp/micro-apps/app-a/package.json",
       {
         name: "app-a",
@@ -109,7 +105,7 @@ describe("updateLicense", () => {
       }
     );
     expect(mockWriteJsonFile).toHaveBeenNthCalledWith(
-      5,
+      4,
       "/tmp/micro-apps/app-b/package.json",
       {
         name: "app-b",
@@ -119,7 +115,7 @@ describe("updateLicense", () => {
   });
 
   it("should ignore if root is unlicensed", () => {
-    updateLicense("/tmp/package.json", {
+    updateLicense({
       name: "tmp",
       license: "UNLICENSED",
     });

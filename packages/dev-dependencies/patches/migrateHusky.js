@@ -3,7 +3,7 @@ const fs = require("fs");
 const execa = require("execa");
 const { readJson, writeJsonFile } = require("../utils");
 
-async function migrateHusky() {
+async function migrateHusky(rootPackageJson) {
   const huskyrcPath = path.resolve(".huskyrc");
   if (fs.existsSync(huskyrcPath)) {
     const huskyrc = readJson(huskyrcPath);
@@ -13,11 +13,8 @@ async function migrateHusky() {
     }
   }
 
-  const packageJsonPath = path.resolve("package.json");
-  const packageJson = readJson(packageJsonPath);
-  if (!packageJson.scripts["lint-staged"]) {
-    packageJson.scripts["lint-staged"] = "lint-staged";
-    writeJsonFile(packageJsonPath, packageJson);
+  if (!rootPackageJson.scripts["lint-staged"]) {
+    rootPackageJson.scripts["lint-staged"] = "lint-staged";
   }
 
   await execa("npx", ["husky-init"], {
