@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.19.0...@next-core/editor-bricks-helper@0.19.1) (2021-05-08)
+
+
+### Bug Fixes
+
+* fix canvas style when has tabs ([5012249](https://github.com/easyops-cn/next-core/commit/5012249e82be3cc064f61a1ba795b486b108ba36))
+
+
+
+
+
 # [0.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.18.4...@next-core/editor-bricks-helper@0.19.0) (2021-05-07)
 
 
