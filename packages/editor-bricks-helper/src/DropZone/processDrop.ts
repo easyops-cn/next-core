@@ -21,6 +21,7 @@ export interface HandleDropParams {
   droppingMountPoint: string;
   droppingChildNodes: BuilderRuntimeNode[];
   droppingSiblingGroups: BuilderGroupedChildNode[];
+  isPortalCanvas?: boolean;
 }
 
 export function processDrop({
@@ -33,6 +34,7 @@ export function processDrop({
   droppingMountPoint,
   droppingChildNodes,
   droppingSiblingGroups,
+  isPortalCanvas,
 }: HandleDropParams): void {
   if (type === BuilderDataTransferType.NODE_TO_ADD) {
     // Drag a new node into canvas.
@@ -57,7 +59,8 @@ export function processDrop({
         type: brickType,
         brick,
         mountPoint: droppingMountPoint,
-        bg: brickType === "provider" ? true : undefined,
+        bg: !isPortalCanvas && brickType === "provider" ? true : undefined,
+        portal: isPortalCanvas,
       },
     });
   } else if (type === BuilderDataTransferType.NODE_TO_MOVE) {
@@ -71,7 +74,7 @@ export function processDrop({
       (item) => item.$$uid === draggingNodeUid
     );
     // If found dragging node in the same drop zone,
-    // then apply a node reorder, else apply a node move.
+    // then apply a node reorder, otherwise apply a node move.
     if (draggingIndex >= 0) {
       // If the index is not changed, then there is nothing to do.
       if (

@@ -6,7 +6,7 @@ describe("askBrickName", () => {
     const { default: defaultFn } = askBrickName({
       targetType: TargetType.A_NEW_BRICK,
       packageName: "for-good",
-      appRoot: "dist"
+      appRoot: "dist",
     }) as any;
     expect(defaultFn()).toBe("for-good");
   });
@@ -15,7 +15,7 @@ describe("askBrickName", () => {
     const { default: defaultFn } = askBrickName({
       targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
       packageName: "for-good",
-      appRoot: "dist"
+      appRoot: "dist",
     }) as any;
     expect(defaultFn()).toBe("for-good");
   });
@@ -24,7 +24,7 @@ describe("askBrickName", () => {
     const { default: defaultFn } = askBrickName({
       targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
       packageName: "good",
-      appRoot: "dist"
+      appRoot: "dist",
     }) as any;
     expect(defaultFn()).toBe("good-index");
   });
@@ -33,9 +33,19 @@ describe("askBrickName", () => {
     const { validate } = askBrickName({
       targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
       packageName: "general-auth",
-      appRoot: process.cwd()
+      appRoot: process.cwd(),
     }) as any;
     expect(validate("bad")).not.toBe(true);
     expect(validate("for-good")).toBe(true);
+  });
+
+  it("should allow brick name without a hyphen for provider", () => {
+    const { validate } = askBrickName({
+      targetType: TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      packageName: "general-auth",
+      appRoot: process.cwd(),
+    }) as any;
+    expect(validate("good")).toBe(true);
+    expect(validate("howeverBad")).not.toBe(true);
   });
 });

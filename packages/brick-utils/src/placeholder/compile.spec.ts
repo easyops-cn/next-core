@@ -117,6 +117,16 @@ describe("inject", () => {
     ],
     ["${QUERY.*|string}", context, originalQuery],
     ["${APP.homepage}/${objectId}", context, "/cmdb/HOST"],
+    [
+      "${APP.homepage}/${objectId}",
+      {
+        ...context,
+        overrideApp: {
+          homepage: "/override",
+        },
+      },
+      "/override/HOST",
+    ],
     ["${SYS.username}", context, "easyops"],
     ["${FLAGS.better-world}", context, true],
     ["${QUERY_ARRAY.array}", context, ["1", "2"]],

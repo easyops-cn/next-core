@@ -7,6 +7,7 @@ import {
   preevaluate,
   shouldAllowRecursiveEvaluations,
 } from "@next-core/brick-utils";
+import { MicroApp } from "@next-core/brick-types";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
@@ -35,6 +36,7 @@ export interface EvaluateRuntimeContext {
   event?: CustomEvent;
   data?: unknown;
   getTplVariables?: () => Record<string, unknown>;
+  overrideApp?: MicroApp;
 }
 
 export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
@@ -145,7 +147,7 @@ export function evaluate(
   }
 
   const {
-    app,
+    app: currentApp,
     query,
     match,
     sys,
@@ -155,6 +157,8 @@ export function evaluate(
     images,
     storyboardContext,
   } = _internalApiGetCurrentContext();
+
+  const app = runtimeContext.overrideApp ?? currentApp;
 
   if (attemptToVisitGlobals.has("QUERY")) {
     globalVariables.QUERY = Object.fromEntries(

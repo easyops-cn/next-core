@@ -144,5 +144,5 @@ module.exports = function extract() {
 
   writeJsonFile(renovateJsonPath, renovateJson);
 
-  patch();
+  return patch();
 };

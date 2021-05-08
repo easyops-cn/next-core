@@ -121,6 +121,8 @@ export interface UpdateQueryOptions extends PluginHistoryState {
   extraQuery?: Record<string, unknown>;
   /** 是否同时清除当前的所有其它 query 参数。 */
   clear?: boolean;
+  /** 是否保留当前 hash 参数。 */
+  keepHash?: boolean;
 }
 
 /**
@@ -162,6 +164,11 @@ export interface PluginRuntimeContext {
    * 当前的应用信息。
    */
   app?: MicroApp;
+
+  /**
+   * 用于跨应用菜单注入等场景的应用重载。
+   */
+  overrideApp?: MicroApp;
 
   /** 当前的 hash 参数 */
   hash?: string;

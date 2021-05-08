@@ -1319,6 +1319,7 @@ export interface PluginRuntimeContext {
     images?: MetaImage[];
     // @internal (undocumented)
     match?: MatchResult;
+    overrideApp?: MicroApp;
     query: URLSearchParams;
     segues?: SeguesConf;
     // @internal (undocumented)
@@ -1606,6 +1607,8 @@ export interface RuntimeStoryboard extends Storyboard {
     $$depsProcessed?: boolean;
     // (undocumented)
     $$fulfilled?: boolean;
+    // (undocumented)
+    $$fulfilling?: Promise<void>;
     // (undocumented)
     $$registerCustomTemplateProcessed?: boolean;
 }
@@ -2099,6 +2102,7 @@ export type UpdateQueryFunction = (query: Record<string, unknown>, options?: Upd
 export interface UpdateQueryOptions extends PluginHistoryState {
     clear?: boolean;
     extraQuery?: Record<string, unknown>;
+    keepHash?: boolean;
 }
 
 // @public

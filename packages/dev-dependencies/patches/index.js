@@ -1,9 +1,11 @@
 exports.majorBrickNext = require("./majorBrickNext");
 exports.updateLernaAllowBranch = require("./updateLernaAllowBranch");
 exports.updateMRTemplates = require("./updateMRTemplates");
+exports.updateBrickNextForNewCssVariables = require("./updateBrickNextForNewCssVariables");
 exports.updateBuildStories = require("./updateBuildStories");
 exports.updateRenovateFileFilters = require("./updateRenovateFileFilters");
 exports.updateLicense = require("./updateLicense");
 exports.addPostBuildScriptForLibs = require("./addPostBuildScriptForLibs");
 exports.disableSdkRenovate = require("./disableSdkRenovate");
 exports.migrateOfficialRenovate = require("./migrateOfficialRenovate");
+exports.migrateHusky = require("./migrateHusky");

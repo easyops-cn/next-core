@@ -6,21 +6,30 @@ import {
   SidebarMenu,
   ResolveConf,
 } from "@next-core/brick-types";
+import { isEvaluable, isObject, preevaluate } from "@next-core/brick-utils";
 import {
   InstanceApi_postSearch,
   InstanceApi_getDetail,
 } from "@next-sdk/cmdb-sdk";
-import { MountRoutesResult } from "./LocationContext";
 import { computeRealValue } from "../setProperties";
 import { looseCheckIfOfComputed } from "../checkIf";
 import {
   _internalApiGetCurrentContext,
   _internalApiGetResolver,
+  MountRoutesResult,
+  Kernel,
 } from "./exports";
+
+const symbolAppId = Symbol("appId");
 
 export interface MenuRawData {
   menuId: string;
   title: string;
+  app?: [
+    {
+      appId: string;
+    }
+  ];
   icon?: MenuIcon;
   link?: string;
   titleDataSource?: TitleDataSource;
@@ -37,6 +46,7 @@ type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
   sort?: number;
   if?: string | boolean;
   defaultExpanded?: boolean;
+  [symbolAppId]?: string;
 };
 
 interface TitleDataSource {
@@ -51,14 +61,20 @@ const menuTitleCache = new Map<string, string>();
 
 export async function constructMenu(
   menuBar: MountRoutesResult["menuBar"],
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  kernel: Kernel
 ): Promise<void> {
   const hasSubMenu = !!menuBar.subMenuId;
   if (menuBar.menuId) {
-    menuBar.menu = await processMenu(menuBar.menuId, context, hasSubMenu);
+    menuBar.menu = await processMenu(
+      menuBar.menuId,
+      context,
+      kernel,
+      hasSubMenu
+    );
   }
   if (hasSubMenu) {
-    menuBar.subMenu = await processMenu(menuBar.subMenuId, context);
+    menuBar.subMenu = await processMenu(menuBar.subMenuId, context, kernel);
   } else {
     menuBar.subMenu = null;
   }
@@ -84,10 +100,16 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
         itemsResolve: true,
         items: true,
         "items.children": true,
+        "app.appId": true,
       },
       query: {
         menuId: {
           $eq: menuId,
+        },
+        app: {
+          $size: {
+            $gt: 0,
+          },
         },
       },
     })
@@ -109,7 +131,12 @@ function mergeMenu(menuList: MenuRawData[]): MenuRawData {
   }
   return {
     ...mainMenu,
-    items: menuList.flatMap((menu) => menu.items ?? []),
+    items: menuList.flatMap((menu) =>
+      (Array.isArray(menu.items) ? menu.items : []).map((item) => ({
+        ...item,
+        [symbolAppId]: menu.app[0].appId,
+      }))
+    ),
   };
 }
 
@@ -134,13 +161,30 @@ async function loadDynamicMenuItems(menu: MenuRawData): Promise<void> {
 async function processMenu(
   menuId: string,
   context: PluginRuntimeContext,
+  kernel: Kernel,
   hasSubMenu?: boolean
 ): Promise<SidebarMenu> {
-  const menuData = (await computeRealValue(
-    await fetchMenuById(menuId),
-    context,
-    true
-  )) as MenuRawData;
+  const { items, app, ...restMenuData } = await fetchMenuById(menuId);
+
+  const menuData = {
+    ...(await computeRealValueWithOverrideApp(
+      restMenuData,
+      app[0].appId,
+      context,
+      kernel
+    )),
+    items: await Promise.all(
+      items.map((item) =>
+        computeRealValueWithOverrideApp(
+          item,
+          item[symbolAppId],
+          context,
+          kernel
+        )
+      )
+    ),
+  };
+
   return {
     title: await processMenuTitle(menuData),
     icon: menuData.icon,
@@ -216,4 +260,57 @@ function reorderMenuItems(menuData: MenuRawData): void {
 
 function sortMenuItems(list: MenuItemRawData[]): MenuItemRawData[] {
   return sortBy(list, (item) => item.sort ?? -Infinity);
+}
+
+const overriddenGlobals = ["APP", "I18N"];
+
+/**
+ * If the menu contains evaluations which use `APP` or `I18N`,
+ * we have to override app in context when computing real values.
+ */
+function requireOverrideApp(data: unknown, memo = new WeakSet()): boolean {
+  if (typeof data === "string") {
+    if (isEvaluable(data)) {
+      if (overriddenGlobals.some((key) => data.includes(key))) {
+        const { attemptToVisitGlobals } = preevaluate(data);
+        return overriddenGlobals.some((key) => attemptToVisitGlobals.has(key));
+      }
+    } else {
+      return /\${\s*APP\s*\./.test(data);
+    }
+  } else if (isObject(data)) {
+    // Avoid call stack overflow.
+    // istanbul ignore next
+    if (memo.has(data)) {
+      return false;
+    }
+    memo.add(data);
+    return (Array.isArray(data) ? data : Object.values(data)).some((item) =>
+      requireOverrideApp(item, memo)
+    );
+  }
+
+  return false;
+}
+
+async function computeRealValueWithOverrideApp<T>(
+  data: T,
+  overrideAppId: string,
+  context: PluginRuntimeContext,
+  kernel: Kernel
+): Promise<T> {
+  let newContext = context;
+  if (overrideAppId !== context.app.id && requireOverrideApp(data)) {
+    const storyboard = kernel.bootstrapData.storyboards.find(
+      (story) => story.app.id === overrideAppId
+    );
+    if (storyboard) {
+      await kernel.fulfilStoryboard(storyboard);
+      newContext = {
+        ...context,
+        overrideApp: storyboard.app,
+      };
+    }
+  }
+  return computeRealValue(data, newContext, true) as T;
 }

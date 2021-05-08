@@ -19,16 +19,37 @@
 
 .isRoot > .dropZoneBody {
   padding: 27px 20px 20px;
+}
+
+.isPortalCanvas,
+.isRoot:not(.isPortalCanvas) > .dropZoneBody {
   height: calc(
     100vh - 148px - var(--editor-brick-toolbar-height) - var(--page-card-gap)
   );
   overflow-y: auto;
 }
 
-.fullscreen > .dropZoneBody {
+.fullscreen.isPortalCanvas,
+.fullscreen:not(.isPortalCanvas) > .dropZoneBody {
   height: calc(
     100vh - var(--editor-brick-overlay-padding) * 2 - var(--page-card-gap) * 2 -
       var(--editor-brick-toolbar-height)
+  );
+}
+
+.hasTabs.isPortalCanvas,
+.hasTabs.isRoot:not(.isPortalCanvas) > .dropZoneBody {
+  height: calc(
+    100vh - 158px - var(--editor-brick-toolbar-height) - var(--page-card-gap)
+  );
+  overflow-y: auto;
+}
+
+.hasTabs.fullscreen.isPortalCanvas,
+.hasTabs.fullscreen:not(.isPortalCanvas) > .dropZoneBody {
+  height: calc(
+    100vh - var(--editor-brick-overlay-padding) * 2 - var(--page-card-gap) * 2 -
+      10px - var(--editor-brick-toolbar-height)
   );
 }
 
