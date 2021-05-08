@@ -1,5 +1,3 @@
-/* istanbul-ignore-file */
-// Todo(steve): Ignore tests temporarily for potential breaking change in the future.
 import React, { useEffect } from "react";
 import classNames from "classnames";
 import { EditorBrickType } from "../interfaces";
@@ -39,13 +37,13 @@ export function EditorContainer({
   const editorContainerRef = React.useRef<HTMLDivElement>();
   const highlightNodes = useHighlightNodes();
   const node = useBuilderNode({ nodeUid });
-  const [hover, setHover] = React.useState(false);
   const [isUpstreamNode, setIsUpstreamNode] = React.useState(false);
   const [isDownstreamNode, setIsDownstreamNode] = React.useState(false);
   const contextMenuStatus = useBuilderContextMenuStatus();
   const hoverNodeUid = useHoverNodeUid();
   const showRelatedEvents = useShowRelatedNodesBasedOnEvents();
   const manager = useBuilderDataManager();
+  const [hover, setHover] = React.useState(hoverNodeUid === nodeUid);
   const editorType = type ?? EditorBrickType.DEFAULT;
 
   const handleMouseEnter = React.useCallback(

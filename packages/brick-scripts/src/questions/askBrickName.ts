@@ -7,7 +7,7 @@ import * as changeCase from "change-case";
 export function askBrickName({
   targetType,
   packageName,
-  appRoot
+  appRoot,
 }: {
   targetType: TargetType;
   packageName: string;
@@ -36,9 +36,14 @@ export function askBrickName({
       }
     },
     validate(value) {
-      const pass = /^[a-z][a-z0-9]*(-[a-z0-9]+)+$/.test(value);
-      if (!pass) {
-        return "Please enter a lower-kebab-case name (and must include a `-`).";
+      if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK) {
+        if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(value)) {
+          return "Please enter a lower-kebab-case name.";
+        }
+      } else {
+        if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)+$/.test(value)) {
+          return "Please enter a lower-kebab-case name (and must include a `-`).";
+        }
       }
       const pkgRelativeDir = path.join("bricks", packageName);
       const relativeFilePath =
@@ -63,6 +68,6 @@ export function askBrickName({
         return `provider-${value}`;
       }
       return value;
-    }
+    },
   };
 }

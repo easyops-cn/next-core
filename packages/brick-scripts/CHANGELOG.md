@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.4.1...@next-core/brick-scripts@2.4.2) (2021-04-28)
+
+### Bug Fixes
+
+- allow brick name without a hyphen for provider ([20b8047](https:///$repo-git-url$/next-core/commits/20b8047b70260fa7d40f61437db519dc7d3f0700))
+
+## [2.4.1](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.4.0...@next-core/brick-scripts@2.4.1) (2021-04-26)
+
+**Note:** Version bump only for package @next-core/brick-scripts
+
 # [2.4.0](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.3.10...@next-core/brick-scripts@2.4.0) (2021-04-14)
 
 ### Features

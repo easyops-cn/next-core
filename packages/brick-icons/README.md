@@ -36,6 +36,7 @@
 ## Development
 
 `lerna run start --scope=@next-core/brick-dll`
+
 `lerna run start --scope=@next-core/brick-icons`
 
 ## New Icons

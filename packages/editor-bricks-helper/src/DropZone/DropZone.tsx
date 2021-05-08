@@ -1,6 +1,7 @@
 /* istanbul-ignore-file */
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
-import React, { useEffect } from "react";
+import React from "react";
+import { clamp } from "lodash";
 import classNames from "classnames";
 import { DragObjectWithType, useDrop } from "react-dnd";
 import { EditorBrickAsComponent } from "../EditorBrickAsComponent/EditorBrickAsComponent";
@@ -16,15 +17,18 @@ import { useBuilderGroupedChildNodes } from "../hooks/useBuilderGroupedChildNode
 import { useCanDrop } from "../hooks/useCanDrop";
 import { DropPositionCursor, getDropPosition } from "./getDropPosition";
 import { processDrop } from "./processDrop";
+import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 
 import styles from "./DropZone.module.css";
-import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
-import { useBuilderData } from "../hooks/useBuilderData";
-import { getRelatedNodesBasedOnEvents } from "../processors/getRelatedNodesBasedOnEvents";
+import { useCanvasList } from "../hooks/useCanvasList";
 
 export interface DropZoneProps {
   nodeUid?: number;
   isRoot?: boolean;
+  separateCanvas?: boolean;
+  isPortalCanvas?: boolean;
+  independentPortalCanvas?: boolean;
+  canvasIndex?: number;
   mountPoint: string;
   fullscreen?: boolean;
   dropZoneStyle?: React.CSSProperties;
@@ -36,6 +40,10 @@ export interface DropZoneProps {
 export function DropZone({
   nodeUid,
   isRoot,
+  separateCanvas,
+  isPortalCanvas,
+  independentPortalCanvas,
+  canvasIndex,
   mountPoint,
   fullscreen,
   dropZoneStyle,
@@ -56,18 +64,10 @@ export function DropZone({
     nodeUid,
     isRoot,
   });
-  const { nodes } = useBuilderData();
-
-  useEffect(() => {
-    if (isRoot) {
-      const rootNodeIsCustomTemplate = node.type === "custom-template";
-      const relatedNodesBasedOnEvents = getRelatedNodesBasedOnEvents(
-        nodes,
-        rootNodeIsCustomTemplate
-      );
-      manager.setRelatedNodesBasedOnEventsMap(relatedNodesBasedOnEvents);
-    }
-  }, [isRoot, nodes]);
+  const isGeneralizedPortalCanvas = independentPortalCanvas
+    ? canvasIndex > 0
+    : isPortalCanvas;
+  const hasTabs = separateCanvas || independentPortalCanvas;
 
   const canDrop = useCanDrop();
   const refinedSlotContentLayout =
@@ -78,6 +78,54 @@ export function DropZone({
       groupedChildNodes.find((group) => group.mountPoint === mountPoint)
         ?.childNodes ?? [],
     [groupedChildNodes, mountPoint]
+  );
+
+  const canvasList = useCanvasList(selfChildNodes);
+
+  const selfChildNodesInCurrentCanvas = React.useMemo(
+    () =>
+      separateCanvas
+        ? selfChildNodes.filter((child) =>
+            Boolean(Number(Boolean(isPortalCanvas)) ^ Number(!child.portal))
+          )
+        : independentPortalCanvas
+        ? canvasList[clamp(canvasIndex ?? 0, 0, canvasList.length - 1)]
+        : selfChildNodes,
+    [
+      canvasIndex,
+      independentPortalCanvas,
+      isPortalCanvas,
+      selfChildNodes,
+      canvasList,
+      separateCanvas,
+    ]
+  );
+
+  const getDroppingIndexInFullCanvas = React.useCallback(
+    (droppingIndexInCurrentCanvas: number) => {
+      if (!hasTabs) {
+        return droppingIndexInCurrentCanvas;
+      }
+      if (selfChildNodesInCurrentCanvas.length > 0) {
+        const cursorNode =
+          selfChildNodesInCurrentCanvas[
+            droppingIndexInCurrentCanvas === 0
+              ? 0
+              : droppingIndexInCurrentCanvas - 1
+          ];
+        return (
+          selfChildNodes.findIndex((child) => child === cursorNode) +
+          (droppingIndexInCurrentCanvas === 0 ? 0 : 1)
+        );
+      }
+      return isGeneralizedPortalCanvas ? selfChildNodes.length : 0;
+    },
+    [
+      hasTabs,
+      selfChildNodesInCurrentCanvas,
+      isGeneralizedPortalCanvas,
+      selfChildNodes,
+    ]
   );
 
   const [{ isDraggingOverCurrent }, dropRef] = useDrop({
@@ -92,12 +140,14 @@ export function DropZone({
           | BuilderDataTransferPayloadOfNodeToMove
         )
     ) =>
-      item.type === BuilderDataTransferType.NODE_TO_ADD ||
-      isRoot ||
-      canDrop(
-        (item as BuilderDataTransferPayloadOfNodeToMove).nodeUid,
-        nodeUid
-      ),
+      independentPortalCanvas && isGeneralizedPortalCanvas
+        ? selfChildNodesInCurrentCanvas.length === 0
+        : item.type === BuilderDataTransferType.NODE_TO_ADD ||
+          isRoot ||
+          canDrop(
+            (item as BuilderDataTransferPayloadOfNodeToMove).nodeUid,
+            nodeUid
+          ),
     collect: (monitor) => ({
       isDraggingOverCurrent:
         monitor.isOver({ shallow: true }) && monitor.canDrop(),
@@ -120,12 +170,15 @@ export function DropZone({
         processDrop({
           type: type as BuilderDataTransferType,
           data,
-          droppingIndex: dropPositionCursorRef.current.index,
+          droppingIndex: getDroppingIndexInFullCanvas(
+            dropPositionCursorRef.current.index
+          ),
           droppingParentUid: node.$$uid,
           droppingParentInstanceId: node.instanceId,
           droppingMountPoint: mountPoint,
           droppingChildNodes: selfChildNodes,
           droppingSiblingGroups: groupedChildNodes,
+          isPortalCanvas: isGeneralizedPortalCanvas,
           manager,
         });
       }
@@ -147,9 +200,11 @@ export function DropZone({
         isRoot
           ? classNames(styles.isRoot, {
               [styles.fullscreen]: fullscreen,
+              [styles.hasTabs]: hasTabs,
             })
           : styles.isSlot,
         {
+          [styles.isPortalCanvas]: isGeneralizedPortalCanvas,
           [styles.dropping]: isDraggingOverCurrent,
           [styles.showOutlineIfEmpty]:
             !isRoot && showOutlineIfEmpty && selfChildNodes.length === 0,
@@ -168,7 +223,7 @@ export function DropZone({
         className={styles.dropZoneBody}
         style={dropZoneBodyStyle}
       >
-        {selfChildNodes?.map((child) => (
+        {selfChildNodesInCurrentCanvas?.map((child) => (
           <EditorBrickAsComponent
             key={child.$$uid}
             node={child}

@@ -40,6 +40,7 @@
           "useBuilderNodeMountPoints",
           "useBuilderParentNode",
           "useCanDrop",
+          "useCanvasList",
           "useDroppingStatusContext",
           "useHoverNodeUid",
           "useRouteList",

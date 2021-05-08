@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.44.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.44.0...@next-core/brick-kit@2.44.1) (2021-04-29)
+
+### Bug Fixes
+
+- **menu:** restrict menu with app linked ([11cecf2](https://github.com/easyops-cn/next-core/commit/11cecf2095392f1d36b1ad785bd584ed910a7283))
+
+# [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.43.0...@next-core/brick-kit@2.44.0) (2021-04-28)
+
+### Features
+
+- support to override app in shared menus ([5734a45](https://github.com/easyops-cn/next-core/commit/5734a455a06b757d7096db8504d614a785c813c9))
+
+# [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.42.1...@next-core/brick-kit@2.43.0) (2021-04-27)
+
+### Features
+
+- support to keep hash in push/replace query ([c883e7a](https://github.com/easyops-cn/next-core/commit/c883e7a852dc070bc6ba43a6bde220666218c36c))
+
+## [2.42.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.42.0...@next-core/brick-kit@2.42.1) (2021-04-26)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
 # [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.41.3...@next-core/brick-kit@2.42.0) (2021-04-23)
 
 ### Features

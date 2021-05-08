@@ -235,7 +235,7 @@ export function getDropPosition(
 
   return {
     index: 0,
-    y: 0,
+    y: 5,
   };
 }
 
