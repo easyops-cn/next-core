@@ -69,7 +69,7 @@ jest.mock("../utils", () => ({
 
 const updateLicense = require("./updateLicense");
 
-describe("updateVersionOfBrickNext", () => {
+describe("updateLicense", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });

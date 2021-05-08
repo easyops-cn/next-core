@@ -55,7 +55,7 @@ function updateSelf() {
 
 function extractOnly() {
   console.log(chalk.inverse("[dev-dependencies-renew] extract dependencies"));
-  extract();
+  return extract();
 }
 
 function yarnInstall() {

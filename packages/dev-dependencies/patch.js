@@ -8,16 +8,17 @@ const {
   majorBrickNext,
   updateLernaAllowBranch,
   updateMRTemplates,
+  updateBrickNextForNewCssVariables,
   updateBuildStories,
   updateRenovateFileFilters,
   updateLicense,
   addPostBuildScriptForLibs,
   migrateOfficialRenovate,
   disableSdkRenovate,
+  migrateHusky,
 } = require("./patches");
-const updateBrickNextForNewCssVariables = require("./patches/updateBrickNextForNewCssVariables");
 
-module.exports = function patch() {
+module.exports = async function patch() {
   const selfJson = readSelfJson();
   const rootPackageJsonPath = path.resolve("package.json");
   const rootPackageJson = readJson(rootPackageJsonPath);
@@ -103,6 +104,10 @@ module.exports = function patch() {
 
   if (semver.lt(currentRenewVersion, "1.7.0")) {
     disableSdkRenovate();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.8.0")) {
+    await migrateHusky();
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
