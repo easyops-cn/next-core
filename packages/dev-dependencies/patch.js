@@ -91,7 +91,7 @@ module.exports = async function patch() {
   }
 
   if (semver.lt(currentRenewVersion, "1.2.35")) {
-    updateLicense(rootPackageJsonPath, rootPackageJson);
+    updateLicense(rootPackageJson);
   }
 
   if (semver.lt(currentRenewVersion, "1.3.0")) {
@@ -106,8 +106,8 @@ module.exports = async function patch() {
     disableSdkRenovate();
   }
 
-  if (semver.lt(currentRenewVersion, "1.8.0")) {
-    await migrateHusky();
+  if (semver.lt(currentRenewVersion, "1.8.1")) {
+    await migrateHusky(rootPackageJson);
   }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
