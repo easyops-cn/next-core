@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.7.13...@next-core/dev-dependencies@1.8.0) (2021-05-08)
+
+
+### Features
+
+* support to migrate husky from v4 to v6 ([e4f3b46](https://github.com/easyops-cn/next-core/commit/e4f3b46f5bbeea0fc8702480d358653ea700f4af))
+
+
+
+
+
 ## [1.7.13](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.7.12...@next-core/dev-dependencies@1.7.13) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

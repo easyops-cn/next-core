@@ -1,6 +1,6 @@
 {
   "name": "@next-core/editor-bricks-helper",
-  "version": "0.19.1",
+  "version": "0.19.2",
   "description": "Editor bricks helper",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/editor-bricks-helper",
   "license": "GPL-3.0",
@@ -25,12 +25,12 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.25.0",
+    "@next-core/brick-types": "^2.25.1",
     "@ungap/event-target": "^0.2.2",
     "classnames": "^2.3.1"
   },
   "devDependencies": {
-    "@next-core/brick-kit": "^2.44.1",
+    "@next-core/brick-kit": "^2.44.2",
     "lodash": "^4.17.21",
     "react": "^16.14.0",
     "react-dnd": "^11.1.3",
