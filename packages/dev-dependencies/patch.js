@@ -78,10 +78,6 @@ module.exports = async function patch() {
     updateBuildStories();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.18")) {
-    updateRenovateFileFilters();
-  }
-
   if (semver.lt(currentRenewVersion, "1.0.21")) {
     updateMRTemplates();
   }
@@ -106,9 +102,14 @@ module.exports = async function patch() {
     disableSdkRenovate();
   }
 
-  if (semver.lt(currentRenewVersion, "1.8.1")) {
-    await migrateHusky(rootPackageJson);
+  if (semver.lt(currentRenewVersion, "1.8.2")) {
+    updateRenovateFileFilters();
   }
+
+  // Wait until renovate updated.
+  // if (semver.lt(currentRenewVersion, "1.8.3")) {
+  //   await migrateHusky(rootPackageJson);
+  // }
 
   rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
 
