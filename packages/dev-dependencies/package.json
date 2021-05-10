@@ -50,7 +50,7 @@
     "js-yaml": "^3.14.1",
     "lerna": "^4.0.0",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "pretty-format": "^26.6.2",
     "rimraf": "^3.0.2",
     "semver": "^7.3.4",
