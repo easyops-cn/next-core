@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.2...@next-core/dev-dependencies@1.8.3) (2021-05-10)
+
+
+### Bug Fixes
+
+* patch and write package.json immediately ([39075eb](https://github.com/easyops-cn/next-core/commit/39075ebb510a18ec189eefceea18d715835ef28c))
+
+
+
+
+
 ## [1.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.1...@next-core/dev-dependencies@1.8.2) (2021-05-10)
 
 
