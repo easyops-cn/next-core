@@ -19,10 +19,16 @@ export function patchInternalTemplate(dest: string): Promise<void> {
     );
 
     const packageJsonPath = path.join(dest, "package.json");
-    fs.writeJsonSync(packageJsonPath, {
-      ...fs.readJSONSync(packageJsonPath),
-      license: "UNLICENSED",
-    });
+    fs.writeJsonSync(
+      packageJsonPath,
+      {
+        ...fs.readJsonSync(packageJsonPath),
+        license: "UNLICENSED",
+      },
+      {
+        spaces: 2,
+      }
+    );
 
     customConsole.log(
       LogLevel.VERBOSE,
