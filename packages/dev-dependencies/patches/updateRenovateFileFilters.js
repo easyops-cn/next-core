@@ -14,6 +14,7 @@ function updateRenovateFileFilters() {
       "**/*",
       ".gitlab/**/*",
       ".huskyrc",
+      ".husky/.gitignore",
       ".husky/**/*",
     ];
 
