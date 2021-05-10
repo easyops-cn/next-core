@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { patchInternalRenovate } from "./patchInternalRenovate";
 import { patchInternalTemplate } from "./patchInternalTemplate";
 import { replaceCommentSectionsInReadme } from "./replaceCommentSectionsInReadme";
 import { replaceCommentSectionsInWorkflows } from "./replaceCommentSectionsInWorkflows";
@@ -40,6 +41,7 @@ async function patchInternal(dest: string): Promise<void> {
   await replaceInternalScopes(dest);
   await replaceYourRepository(dest);
   await patchInternalTemplate(dest);
+  await patchInternalRenovate(dest);
 }
 
 async function patchPublic(dest: string): Promise<void> {
