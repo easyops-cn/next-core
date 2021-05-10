@@ -119,13 +119,14 @@ module.exports = async function patch() {
     disableSdkRenovate();
   }
 
-  if (semver.lt(currentRenewVersion, "1.8.2")) {
+  if (semver.lt(currentRenewVersion, "1.8.4")) {
     updateRenovateFileFilters();
   }
 
-  if (semver.lt(currentRenewVersion, "1.8.3")) {
-    await migrateHusky();
-  }
+  // Wait until renovate updated.
+  // if (semver.lt(currentRenewVersion, "1.8.5")) {
+  //   await migrateHusky();
+  // }
 
   updateDevDependenciesVersion();
 };
