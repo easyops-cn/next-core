@@ -2,7 +2,9 @@ const path = require("path");
 const fs = require("fs-extra");
 const { writeJsonFile, readJson } = require("../utils");
 
-function updateLicense(rootPackageJson) {
+function updateLicense() {
+  const rootPackageJsonPath = path.resolve("package.json");
+  const rootPackageJson = readJson(rootPackageJsonPath);
   const license = rootPackageJson.license;
   if (license === "UNLICENSED") {
     return;
