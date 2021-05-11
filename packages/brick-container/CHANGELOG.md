@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.22.23...@next-core/brick-container@2.23.0) (2021-05-11)
+
+
+### Features
+
+* remove header and footer mountpoint ([8ae56ed](https://github.com/easyops-cn/next-core/commit/8ae56eda2d07b7497421a3e44d44244102434178))
+
+
+
+
+
 ## [2.22.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.22.22...@next-core/brick-container@2.22.23) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/brick-container

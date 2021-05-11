@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.44.2...@next-core/brick-kit@2.45.0) (2021-05-11)
+
+
+### Features
+
+* remove header and footer mountpoint ([8ae56ed](https://github.com/easyops-cn/next-core/commit/8ae56eda2d07b7497421a3e44d44244102434178))
+
+
+
+
+
 ## [2.44.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.44.1...@next-core/brick-kit@2.44.2) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/brick-kit
