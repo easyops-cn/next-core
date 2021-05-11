@@ -225,8 +225,6 @@ export interface NavbarConf {
 
 /** @internal */
 export interface PresetBricksConf extends Partial<NavbarConf> {
-  header?: string;
-  footer?: string;
   pageNotFound: string;
   pageError: string;
 }

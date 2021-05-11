@@ -59,8 +59,6 @@ export class Kernel {
   public menuBar: MenuBar;
   public appBar: AppBar;
   public loadingBar: BaseBar;
-  public header: BaseBar;
-  public footer: BaseBar;
   public router: Router;
   public currentApp: MicroApp;
   public previousApp: MicroApp;
@@ -95,8 +93,6 @@ export class Kernel {
     this.menuBar = new MenuBar(this, "menuBar");
     this.appBar = new AppBar(this, "appBar");
     this.loadingBar = new BaseBar(this, "loadingBar");
-    this.header = new BaseBar(this, "header");
-    this.footer = new BaseBar(this, "footer");
     this.router = new Router(this);
     await this.router.bootstrap();
     this.authGuard();
@@ -113,8 +109,6 @@ export class Kernel {
     this.presetBricks =
       layout === "business"
         ? {
-            header: "business.basic-header",
-            footer: "business.basic-footer",
             loadingBar: "business.loading-bar",
             pageNotFound: "business.page-not-found",
             pageError: "business.page-error",
@@ -137,8 +131,6 @@ export class Kernel {
       this.menuBar.bootstrap(this.presetBricks.menuBar),
       this.appBar.bootstrap(this.presetBricks.appBar),
       this.loadingBar.bootstrap(this.presetBricks.loadingBar),
-      this.header.bootstrap(this.presetBricks.header),
-      this.footer.bootstrap(this.presetBricks.footer),
     ]);
   }
 

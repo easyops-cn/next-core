@@ -1256,10 +1256,6 @@ export interface MountPoints {
     // (undocumented)
     bg: HTMLElement;
     // (undocumented)
-    footer: HTMLElement;
-    // (undocumented)
-    header: HTMLElement;
-    // (undocumented)
     loadingBar: HTMLElement;
     // (undocumented)
     main: HTMLElement;
@@ -1331,10 +1327,6 @@ export interface PluginRuntimeContext {
 //
 // @internal (undocumented)
 export interface PresetBricksConf extends Partial<NavbarConf> {
-    // (undocumented)
-    footer?: string;
-    // (undocumented)
-    header?: string;
     // (undocumented)
     pageError: string;
     // (undocumented)

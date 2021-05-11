@@ -225,8 +225,6 @@ export interface MountPoints {
   main: HTMLElement;
   bg: HTMLElement;
   portal: HTMLElement;
-  header: HTMLElement;
-  footer: HTMLElement;
 }
 
 /** @internal */
