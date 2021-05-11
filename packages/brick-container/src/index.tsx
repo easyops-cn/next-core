@@ -52,8 +52,6 @@ const mountPoints = {
   main: root.querySelector<HTMLElement>("#main-mount-point"),
   bg: root.querySelector<HTMLElement>("#bg-mount-point"),
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
-  header: root.querySelector<HTMLElement>("#header-mount-point"),
-  footer: root.querySelector<HTMLElement>("#footer-mount-point"),
 };
 
 const api = `${getRuntime().getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;

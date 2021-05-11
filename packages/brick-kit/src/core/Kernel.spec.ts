@@ -131,8 +131,6 @@ describe("Kernel", () => {
       main: document.createElement("div") as any,
       bg: document.createElement("div") as any,
       portal: document.createElement("div") as any,
-      header: document.createElement("div") as any,
-      footer: document.createElement("div") as any,
     };
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
@@ -352,8 +350,6 @@ describe("Kernel", () => {
       main: document.createElement("div") as any,
       bg: document.createElement("div") as any,
       portal: document.createElement("div") as any,
-      header: document.createElement("div") as any,
-      footer: document.createElement("div") as any,
     };
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: false,
@@ -394,12 +390,6 @@ describe("Kernel", () => {
     kernel.loadingBar = ({
       bootstrap: jest.fn(),
     } as unknown) as BaseBar;
-    kernel.header = ({
-      bootstrap: jest.fn(),
-    } as unknown) as BaseBar;
-    kernel.footer = ({
-      bootstrap: jest.fn(),
-    } as unknown) as BaseBar;
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
     expect(kernel.presetBricks).toMatchObject({
@@ -413,8 +403,6 @@ describe("Kernel", () => {
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "basic-bricks.loading-bar"
     );
-    expect(kernel.header.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
   });
 
   it("should work for business layout", async () => {
@@ -425,12 +413,6 @@ describe("Kernel", () => {
       bootstrap: jest.fn(),
     } as unknown) as AppBar;
     kernel.loadingBar = ({
-      bootstrap: jest.fn(),
-    } as unknown) as BaseBar;
-    kernel.header = ({
-      bootstrap: jest.fn(),
-    } as unknown) as BaseBar;
-    kernel.footer = ({
       bootstrap: jest.fn(),
     } as unknown) as BaseBar;
     await kernel.layoutBootstrap("business");
@@ -444,8 +426,6 @@ describe("Kernel", () => {
     expect(kernel.menuBar.bootstrap).toBeCalledWith(undefined);
     expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith("business.loading-bar");
-    expect(kernel.header.bootstrap).toBeCalledWith("business.basic-header");
-    expect(kernel.footer.bootstrap).toBeCalledWith("business.basic-footer");
   });
 
   it("should throw for unknown layout", async () => {
