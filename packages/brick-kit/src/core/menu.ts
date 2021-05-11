@@ -158,7 +158,7 @@ async function loadDynamicMenuItems(menu: MenuRawData): Promise<void> {
   }
 }
 
-async function processMenu(
+export async function processMenu(
   menuId: string,
   context: PluginRuntimeContext,
   kernel: Kernel,

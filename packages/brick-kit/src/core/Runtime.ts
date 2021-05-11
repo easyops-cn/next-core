@@ -12,6 +12,7 @@ import {
   BrickConf,
   TemplatePackage,
   SiteMapItem,
+  SidebarMenu,
 } from "@next-core/brick-types";
 import {
   Kernel,
@@ -31,6 +32,7 @@ import {
 } from "./interfaces";
 import { getBasePath } from "../getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
+import { processMenu } from "./menu";
 
 let kernel: Kernel;
 
@@ -178,6 +180,11 @@ export class Runtime implements AbstractRuntime {
   getMagicBrickConfigMapAsync(): Promise<Map<string, MagicBrickConfig>> {
     kernel.loadMagicBrickConfigAsync();
     return kernel.allMagicBrickConfigMapPromise;
+  }
+
+  /* istanbul ignore next */
+  fetchMenu(menuId: string): Promise<SidebarMenu> {
+    return processMenu(menuId, kernel.router.getCurrentContext(), kernel);
   }
 
   /**
