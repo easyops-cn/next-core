@@ -66,6 +66,7 @@ import { WithTranslationProps } from 'react-i18next';
 
 // @public
 export interface AbstractRuntime {
+    fetchMenu(menuId: string): Promise<SidebarMenu>;
     getBasePath(): string;
     getCurrentApp(): MicroApp;
     getCurrentMode(): SiteMode;

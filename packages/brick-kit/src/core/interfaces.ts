@@ -2,6 +2,7 @@ import {
   CustomTemplateConstructor,
   FeatureFlags,
   MicroApp,
+  SidebarMenu,
   SiteMode,
   SiteTheme,
 } from "@next-core/brick-types";
@@ -171,6 +172,15 @@ export interface AbstractRuntime {
    * @returns Current mode.
    */
   getCurrentMode(): SiteMode;
+
+  /**
+   * Fetch menu by ID.
+   *
+   * @param menuId - The menu ID.
+   *
+   * @returns The menu data.
+   */
+  fetchMenu(menuId: string): Promise<SidebarMenu>;
 }
 
 /** 查询微应用列表时的选项。 */
