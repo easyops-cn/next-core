@@ -29,3 +29,21 @@
     top: 1px;
   }
 }
+
+
+//去掉 antd label 右外边距，
+.ant-legacy-form-item-label > label::after{
+  margin: 0 0 0 2px;
+}
+// 改成使用这个类名的左外边距
+.ant-legacy-form-item-control-wrapper{
+  margin-left: 8px;
+  color: red;
+}
+//使label过长自动换行
+.ant-legacy-form-item-label{
+  white-space: pre-wrap !important;
+}
+.ant-legacy-form-item{
+  align-items: center;
+}

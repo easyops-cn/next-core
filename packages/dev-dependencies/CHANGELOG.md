@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.5](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.4...@next-core/dev-dependencies@1.8.5) (2021-05-11)
+
+
+### Bug Fixes
+
+* fix migation of husky ([2065596](https://github.com/easyops-cn/next-core/commit/2065596408c30dd3686a80645ed7cf4b7840ac34))
+
+
+
+
+
 ## [1.8.4](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.3...@next-core/dev-dependencies@1.8.4) (2021-05-10)
 
 
