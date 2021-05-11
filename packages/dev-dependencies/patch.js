@@ -123,10 +123,9 @@ module.exports = async function patch() {
     updateRenovateFileFilters();
   }
 
-  // Wait until renovate updated.
-  // if (semver.lt(currentRenewVersion, "1.8.5")) {
-  //   await migrateHusky();
-  // }
+  if (semver.lt(currentRenewVersion, "1.8.5")) {
+    await migrateHusky();
+  }
 
   updateDevDependenciesVersion();
 };
