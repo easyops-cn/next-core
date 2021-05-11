@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.45.0...@next-core/brick-kit@2.46.0) (2021-05-11)
+
+
+### Features
+
+* support to fetch menu by menu id ([55d9f8c](https://github.com/easyops-cn/next-core/commit/55d9f8c1eb678ae13b0446fd24751039181a0d71))
+
+
+
+
+
 # [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.44.2...@next-core/brick-kit@2.45.0) (2021-05-11)
 
 
