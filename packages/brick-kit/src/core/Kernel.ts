@@ -69,9 +69,8 @@ export class Kernel {
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
-  public allMagicBrickConfigMapPromise: Promise<
-    Map<string, MagicBrickConfig>
-  > = Promise.resolve(new Map());
+  public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
+    Promise.resolve(new Map());
   public nextAppMeta: StoryboardMeta;
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
@@ -109,9 +108,9 @@ export class Kernel {
     this.presetBricks =
       layout === "business"
         ? {
-            loadingBar: "business.loading-bar",
-            pageNotFound: "business.page-not-found",
-            pageError: "business.page-error",
+            loadingBar: "business-website.loading-bar",
+            pageNotFound: "business-website.page-not-found",
+            pageError: "business-website.page-error",
           }
         : {
             ...this.bootstrapData.navbar,
@@ -417,9 +416,8 @@ export class Kernel {
   }
 
   loadMicroAppApiOrchestrationAsync(usedCustomApis: CustomApiInfo[]): void {
-    this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
-      usedCustomApis
-    );
+    this.allMicroAppApiOrchestrationPromise =
+      this.loadMicroAppApiOrchestration(usedCustomApis);
   }
 
   async getMicroAppApiOrchestrationMapAsync(): Promise<
@@ -431,10 +429,8 @@ export class Kernel {
   private async loadMicroAppApiOrchestration(
     usedCustomApis: CustomApiInfo[]
   ): Promise<Map<string, CustomApiOrchestration>> {
-    const allMicroAppApiOrchestrationMap: Map<
-      string,
-      CustomApiOrchestration
-    > = new Map();
+    const allMicroAppApiOrchestrationMap: Map<string, CustomApiOrchestration> =
+      new Map();
     if (usedCustomApis.length) {
       try {
         const allMicroAppApiOrchestration = (
@@ -536,9 +532,8 @@ export class Kernel {
         url: this.currentUrl,
       };
       if (this.workspaceStack.length > 0) {
-        const previousWorkspace = this.workspaceStack[
-          this.workspaceStack.length - 1
-        ];
+        const previousWorkspace =
+          this.workspaceStack[this.workspaceStack.length - 1];
         const relatedApps = await this.getRelatedAppsAsync(
           previousWorkspace.appId
         );
