@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.46.0...@next-core/brick-kit@2.46.1) (2021-05-12)
+
+
+### Bug Fixes
+
+* use new business-website bricks ([489c8fc](https://github.com/easyops-cn/next-core/commit/489c8fcd57b588f9c1291905b94b365a10c448a5))
+
+
+
+
+
 # [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.45.0...@next-core/brick-kit@2.46.0) (2021-05-11)
 
 

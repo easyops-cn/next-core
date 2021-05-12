@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.5...@next-core/custom-antd-styles@1.8.6) (2021-05-12)
+
+
+### Bug Fixes
+
+* edit antd-form-labele-defaultCss Closes BRICK_STORE-2091 ([c088499](https://github.com/easyops-cn/next-core/commit/c08849965c24e5177ac1e00bd81f074c5a56f9e4))
+
+
+
+
+
 ## [1.8.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.4...@next-core/custom-antd-styles@1.8.5) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
