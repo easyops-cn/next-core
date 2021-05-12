@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.6](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.5...@next-core/sdk-scripts@2.6.6) (2021-05-12)
+
+**Note:** Version bump only for package @next-core/sdk-scripts
+
+
+
+
+
 ## [2.6.5](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.4...@next-core/sdk-scripts@2.6.5) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
