@@ -8,4 +8,5 @@ exports.PUBLIC_SCOPED_SDK = [
   "permission",
   "user-service",
   "air-admin-service",
+  "api-gateway",
 ];
