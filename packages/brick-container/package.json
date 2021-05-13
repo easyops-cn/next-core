@@ -60,7 +60,7 @@
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^6.1.1",
     "less": "^3.13.1",
-    "less-loader": "^7.3.0",
+    "less-loader": "^9.0.0",
     "mini-css-extract-plugin": "^1.6.0",
     "regenerator-runtime": "^0.13.7",
     "style-loader": "^2.0.0",
