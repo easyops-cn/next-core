@@ -3,7 +3,7 @@ import svgr from "@svgr/rollup";
 import copy from "rollup-plugin-copy";
 
 export default rollupFactory({
-  umdName: "BrickIcons",
+  disableUmd: true,
   plugins: [
     svgr({
       exclude: ["src/icons/colored-pseudo-3d/*", "src/icons/colored-common/*"],

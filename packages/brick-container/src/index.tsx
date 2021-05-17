@@ -33,7 +33,7 @@ initializeLibrary();
 // These constants bellow are defined by `webpack.DefinePlugin`.
 // eslint-disable-next-line
 // @ts-ignore
-window.DLL_HASH = DLL_HASH;
+window.DLL_PATH = DLL_PATH;
 // eslint-disable-next-line
 // @ts-ignore
 window.BRICK_NEXT_VERSIONS = BRICK_NEXT_VERSIONS;

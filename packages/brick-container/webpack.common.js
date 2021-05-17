@@ -1,8 +1,8 @@
 const path = require("path");
 const fs = require("fs");
-const crypto = require("crypto");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const manifest = require("@next-core/brick-dll");
 const {
@@ -22,16 +22,30 @@ if (process.env.SUBDIR === "true") {
   baseHref = "<!--# echo var='base_href' default='/' -->";
 }
 
+function getDllJsName(packageName, regExp) {
+  return fs
+    .readdirSync(
+      path.join(require.resolve(`${packageName}/package.json`), "../dist"),
+      {
+        withFileTypes: true,
+      }
+    )
+    .find((dirent) => dirent.isFile() && regExp.test(dirent.name)).name;
+}
+
 // Find all `@next-dll/*`.
 const dll = Object.keys(packageJson.devDependencies)
-  .filter((name) => name.startsWith("@next-dll/"))
-  .map((name) => {
-    const baseName = name.split("/").slice(-1)[0];
+  .filter((packageName) => packageName.startsWith("@next-dll/"))
+  .map((packageName) => {
+    const dllName = packageName.split("/").slice(-1)[0];
     return {
-      baseName,
-      filePath: `${name}/dist/dll-of-${baseName}.js`,
+      packageName,
+      dllName,
+      jsName: getDllJsName(packageName, /^dll-of-[-\w]+\.\w+\.js$/),
     };
   });
+
+const brickDllJsName = getDllJsName("@next-core/brick-dll", /^dll\.\w+\.js$/);
 
 module.exports = {
   context: appRoot,
@@ -62,11 +76,19 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: dll
-        .map(({ filePath }) => filePath)
-        .concat("@next-core/brick-dll/dist/dll.js")
-        .map((filePath) => require.resolve(filePath))
-        .map((filePath) => [filePath, `${filePath}.map`])
-        .reduce((acc, item) => acc.concat(item), []),
+        .map((d) => d.packageName)
+        .concat("@next-core/brick-dll")
+        .map((packageName) =>
+          path.join(
+            require.resolve(`${packageName}/package.json`),
+            "../dist/*.js"
+          )
+        )
+        .flatMap((filePath) => [filePath, `${filePath}.map`])
+        .map((from) => ({
+          from,
+          to: "[name].[ext]",
+        })),
     }),
     new CopyPlugin({
       patterns: [
@@ -99,6 +121,16 @@ module.exports = {
       template: path.join(__dirname, "src", "browse-happy.ejs"),
       chunks: [],
     }),
+    new HtmlWebpackTagsPlugin({
+      files: ["index.html"],
+      scripts: [
+        {
+          path: brickDllJsName,
+          // Always append the `dll` before any other scripts.
+          append: false,
+        },
+      ],
+    }),
     new NextHashedModuleIdsPlugin(),
     new NextDllReferencePlugin({
       context: appRoot,
@@ -116,20 +148,9 @@ module.exports = {
       BRICK_NEXT_FEATURES: JSON.stringify([
         "edit-evaluations-and-transformations-in-devtools",
       ]),
-      // Recording dll hash for long-term-caching.
-      DLL_HASH: JSON.stringify(
-        dll.reduce((acc, { baseName, filePath }) => {
-          const content = fs.readFileSync(require.resolve(filePath), {
-            encoding: "utf8",
-          });
-          const hash = crypto
-            .createHash("sha1")
-            .update(content, "utf8")
-            .digest("hex")
-            .substring(0, 8);
-          acc[baseName] = hash;
-          return acc;
-        }, {})
+      // Recording dll js path which contains hash for long-term-caching.
+      DLL_PATH: JSON.stringify(
+        Object.fromEntries(dll.map(({ dllName, jsName }) => [dllName, jsName]))
       ),
     }),
   ],
