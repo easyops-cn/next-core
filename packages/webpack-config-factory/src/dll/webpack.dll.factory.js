@@ -1,5 +1,6 @@
 const path = require("path");
 const changeCase = require("change-case");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const NextDllPlugin = require("./NextDllPlugin");
 const NextDllReferencePlugin = require("./NextDllReferencePlugin");
 const NextHashedModuleIdsPlugin = require("./NextHashedModuleIdsPlugin");
@@ -36,9 +37,10 @@ module.exports = () => {
       [changeCase.pascalCase(filename)]: Object.keys(dependencies),
     },
     output: {
-      filename: `${filename}.js`,
+      filename: `${filename}.[contenthash].js`,
       path: distPath,
       library: "[name]",
+      hashDigestLength: 8,
     },
     module: {
       rules: [
@@ -50,6 +52,7 @@ module.exports = () => {
       ],
     },
     plugins: [
+      new CleanWebpackPlugin(),
       ...dllReferences,
       new NextDllPlugin({
         name: "[name]",

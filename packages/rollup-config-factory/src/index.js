@@ -54,24 +54,34 @@ function generateScopedName(name, filename, css) {
 exports.rollupFactory = ({
   umdName,
   plugins = [],
-  commonjsOptions = undefined,
+  commonjsOptions,
+  disableUmd,
+  disableEsm,
 }) => ({
   input: "src/index.ts",
   output: [
     {
-      file: "dist/index.bundle.js",
+      dir: "dist",
+      entryFileNames: "index.bundle.js",
       format: "umd",
       name: umdName,
       sourcemap: true,
       exports: "named",
     },
     {
-      file: "dist/index.esm.js",
+      dir: "dist",
+      entryFileNames: "index.esm.js",
       format: "esm",
       sourcemap: true,
       exports: "named",
     },
-  ],
+  ].filter(
+    (item) =>
+      !(
+        (disableUmd && item.format === "umd") ||
+        (disableEsm && item.format === "esm")
+      )
+  ),
   external: Array.from(external),
   plugins: [
     ...plugins,

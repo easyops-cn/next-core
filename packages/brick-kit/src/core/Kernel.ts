@@ -69,8 +69,9 @@ export class Kernel {
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
-  public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
-    Promise.resolve(new Map());
+  public allMagicBrickConfigMapPromise: Promise<
+    Map<string, MagicBrickConfig>
+  > = Promise.resolve(new Map());
   public nextAppMeta: StoryboardMeta;
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
@@ -218,18 +219,14 @@ export class Kernel {
     const { brickPackages, templatePackages } = this.bootstrapData;
 
     if (storyboard.dependsAll) {
-      const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+      const dllPath: Record<string, string> = (window as any).DLL_PATH || {};
       const reactDnd = "react-dnd";
       // istanbul ignore else
-      if (dllHash[reactDnd]) {
-        await loadScript(`dll-of-${reactDnd}.js?${dllHash[reactDnd]}`);
+      if (dllPath[reactDnd]) {
+        await loadScript(dllPath[reactDnd]);
       }
       // `loadScript` is auto cached, no need to filter out `react-dnd`.
-      await loadScript(
-        Object.entries(dllHash).map(
-          ([name, hash]) => `dll-of-${name}.js?${hash}`
-        )
-      );
+      await loadScript(Object.values(dllPath));
       await loadScript(
         brickPackages
           .map((item) => item.filePath)
@@ -416,8 +413,9 @@ export class Kernel {
   }
 
   loadMicroAppApiOrchestrationAsync(usedCustomApis: CustomApiInfo[]): void {
-    this.allMicroAppApiOrchestrationPromise =
-      this.loadMicroAppApiOrchestration(usedCustomApis);
+    this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
+      usedCustomApis
+    );
   }
 
   async getMicroAppApiOrchestrationMapAsync(): Promise<
@@ -429,8 +427,10 @@ export class Kernel {
   private async loadMicroAppApiOrchestration(
     usedCustomApis: CustomApiInfo[]
   ): Promise<Map<string, CustomApiOrchestration>> {
-    const allMicroAppApiOrchestrationMap: Map<string, CustomApiOrchestration> =
-      new Map();
+    const allMicroAppApiOrchestrationMap: Map<
+      string,
+      CustomApiOrchestration
+    > = new Map();
     if (usedCustomApis.length) {
       try {
         const allMicroAppApiOrchestration = (
@@ -532,8 +532,9 @@ export class Kernel {
         url: this.currentUrl,
       };
       if (this.workspaceStack.length > 0) {
-        const previousWorkspace =
-          this.workspaceStack[this.workspaceStack.length - 1];
+        const previousWorkspace = this.workspaceStack[
+          this.workspaceStack.length - 1
+        ];
         const relatedApps = await this.getRelatedAppsAsync(
           previousWorkspace.appId
         );
@@ -603,9 +604,9 @@ export class Kernel {
 // Since `@next-dll/editor-bricks-helper` depends on `@next-dll/react-dnd`,
 // always load react-dnd before loading editor-bricks-helper.
 async function loadScriptOfDll(dlls: string[]): Promise<void> {
-  if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper.js"))) {
-    const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
-    await loadScript(`dll-of-react-dnd.js?${dllHash["react-dnd"]}`);
+  if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper."))) {
+    const dllPath: Record<string, string> = (window as any).DLL_PATH || {};
+    await loadScript(dllPath["react-dnd"]);
   }
   // `loadScript` is auto cached, no need to filter out `react-dnd`.
   await loadScript(dlls);

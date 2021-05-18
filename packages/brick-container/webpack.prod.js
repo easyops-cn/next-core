@@ -1,9 +1,7 @@
 const { merge } = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
-const dllPackageJson = require("@next-core/brick-dll/package.json");
 const common = require("./webpack.common.js");
 
 const publicPath = "";
@@ -45,21 +43,6 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackTagsPlugin({
-      files: ["index.html"],
-      scripts: [
-        {
-          path: "dll.js",
-          // Always append the `dll` before any other scripts.
-          append: false,
-          hash: function (assetName) {
-            // This plugin does not support content hash.
-            // So just use the package version as a long-term-caching key.
-            return `${assetName}?v=${dllPackageJson.version}`;
-          },
-        },
-      ],
-    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
