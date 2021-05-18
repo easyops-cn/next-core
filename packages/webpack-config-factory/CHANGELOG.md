@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.8.3...@next-core/webpack-config-factory@2.9.0) (2021-05-18)
+
+
+### Features
+
+* support to async load icons and refine dll js name ([43b783b](https://github.com/easyops-cn/next-core/commit/43b783baaf570eaaf711860dceab8da913abc5f0))
+
+
+
+
+
 ## [2.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.8.2...@next-core/webpack-config-factory@2.8.3) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory

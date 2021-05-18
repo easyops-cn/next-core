@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.12.40...@next-core/brick-dll@2.13.0) (2021-05-18)
+
+
+### Features
+
+* support to async load icons and refine dll js name ([43b783b](https://github.com/easyops-cn/next-core/commit/43b783baaf570eaaf711860dceab8da913abc5f0))
+
+
+
+
+
 ## [2.12.40](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.12.39...@next-core/brick-dll@2.12.40) (2021-05-12)
 
 **Note:** Version bump only for package @next-core/brick-dll

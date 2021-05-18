@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.46.1...@next-core/brick-kit@2.47.0) (2021-05-18)
+
+
+### Bug Fixes
+
+* fix warn of native prop in tpl ([870d714](https://github.com/easyops-cn/next-core/commit/870d7143eb1a185848c497713a3891cf69a865a6))
+
+
+### Features
+
+* support to async load icons and refine dll js name ([43b783b](https://github.com/easyops-cn/next-core/commit/43b783baaf570eaaf711860dceab8da913abc5f0))
+
+
+
+
+
 ## [2.46.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.46.0...@next-core/brick-kit@2.46.1) (2021-05-12)
 
 
