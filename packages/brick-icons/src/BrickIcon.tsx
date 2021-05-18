@@ -1,4 +1,5 @@
 import React from "react";
+import { hasOwnProperty } from "@next-core/brick-utils";
 import categories from "./generated/categories";
 
 export interface BrickIconProps {
@@ -16,11 +17,22 @@ export const BrickIcon = ({
 
   React.useEffect(() => {
     (async () => {
-      const loadCategory = categories[actualCategory];
-      if (typeof loadCategory === "function") {
-        const categoryIcons = await loadCategory();
-        setIconComponent(() => categoryIcons[icon]);
+      let component: SvgrComponent;
+      // Avoid prototype collisions, such as `actualCategory: "toString"`.
+      if (hasOwnProperty(categories, actualCategory)) {
+        let categoryIcons: Record<string, SvgrComponent> = {};
+        try {
+          categoryIcons = await categories[actualCategory]();
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error("Load icons failed:", error);
+        }
+        // Avoid prototype collisions, such as `icon: "toString"`.
+        if (hasOwnProperty(categoryIcons, icon)) {
+          component = categoryIcons[icon];
+        }
       }
+      setIconComponent(() => component);
     })();
   }, [icon, actualCategory]);
 
