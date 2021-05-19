@@ -22,6 +22,7 @@ import {
   symbolForParentTemplate,
   RuntimeBrickElementWithTplSymbols,
   _internalApiGetMicroAppApiOrchestrationMap,
+  symbolForParentRefForUseBrickInPortal,
 } from "./core/exports";
 import { getUrlBySegueFactory } from "./segue";
 import { looseCheckIf, IfContainer } from "./checkIf";
@@ -542,6 +543,9 @@ function getParentTemplate(brick: RuntimeBrickElement): RuntimeBrickElement {
   while (
     (tpl =
       (tpl as RuntimeBrickElementWithTplSymbols)[symbolForParentTemplate] ||
+      (tpl as RuntimeBrickElementWithTplSymbols)[
+        symbolForParentRefForUseBrickInPortal
+      ]?.current ||
       tpl.parentElement)
   ) {
     if (tpl.$$typeof === "custom-template") {
