@@ -403,6 +403,10 @@ export class Router {
           this.locationContext.handleMessage();
         }
 
+        // Scroll to top after each rendering.
+        // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
+        window.scrollTo(0, 0);
+
         pageTracker?.();
 
         this.state = "mounted";
@@ -448,6 +452,9 @@ export class Router {
       mountPoints.main as MountableElement
     );
     unmountTree(mountPoints.portal as MountableElement);
+
+    // Scroll to top after each rendering.
+    window.scrollTo(0, 0);
 
     this.state = "mounted";
     devtoolsHookEmit("rendered");
