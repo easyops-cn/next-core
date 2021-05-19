@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.47.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.47.0...@next-core/brick-kit@2.47.1) (2021-05-19)
+
+
+### Bug Fixes
+
+* **BrickAsComponent:** skip invoke transformProperties when if is false ([6c85cb2](https://github.com/easyops-cn/next-core/commit/6c85cb291b4ceac3837091a91f39c469e3105816))
+
+
+
+
+
 # [2.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.46.1...@next-core/brick-kit@2.47.0) (2021-05-18)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.16.0...@next-core/brick-icons@2.17.0) (2021-05-19)
+
+
+### Features
+
+* add easy-website icon ([2683bb6](https://github.com/easyops-cn/next-core/commit/2683bb6f9cfa5275d806d3b0db7bd1b8f860e579))
+
+
+
+
+
 # [2.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.15.3...@next-core/brick-icons@2.16.0) (2021-05-18)
 
 
