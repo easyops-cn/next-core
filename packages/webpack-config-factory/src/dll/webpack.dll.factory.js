@@ -37,7 +37,9 @@ module.exports = () => {
       [changeCase.pascalCase(filename)]: Object.keys(dependencies),
     },
     output: {
-      filename: `${filename}.[contenthash].js`,
+      filename: isProd
+        ? `${filename}.[contenthash].js`
+        : `${filename}.bundle.js`,
       path: distPath,
       library: "[name]",
       hashDigestLength: 8,

@@ -18,7 +18,7 @@ module.exports = {
     dll: Object.keys(packageJson.dependencies), //.map(k => k.replace("@next-core/", "@easyops/")),
   },
   output: {
-    filename: "[name].[contenthash].js",
+    filename: isProd ? "[name].[contenthash].js" : "[name].bundle.js",
     path: distPath,
     library: "[name]",
     hashDigestLength: 8,

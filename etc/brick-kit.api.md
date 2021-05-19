@@ -88,7 +88,7 @@ export function authenticate(newAuth: AuthInfo): void;
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function BrickAsComponent(props: BrickAsComponentProps): React_2.ReactElement;
+export function BrickAsComponent({ useBrick, data, parentRefForUseBrickInPortal, }: BrickAsComponentProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
@@ -332,7 +332,7 @@ export function reTransformForDevtools(transformationId: number, data: unknown, 
 export type RouterState = "initial" | "ready-to-mount" | "mounted";
 
 // @public
-export function SingleBrickAsComponent(props: SingleBrickAsComponentProps): React_2.ReactElement;
+export function SingleBrickAsComponent({ useBrick, data, parentRefForUseBrickInPortal, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps): React_2.ReactElement;
 
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //

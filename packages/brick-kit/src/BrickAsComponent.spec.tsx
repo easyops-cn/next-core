@@ -8,6 +8,10 @@ import {
 } from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
 import * as transformProperties from "./transformProperties";
+import {
+  RuntimeBrickElementWithTplSymbols,
+  symbolForParentRefForUseBrickInPortal,
+} from "./core/exports";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn(
@@ -46,6 +50,7 @@ describe("BrickAsComponent", () => {
   });
 
   it("should work", async () => {
+    const mockRef = {} as React.RefObject<HTMLElement>;
     const wrapper = mount(
       <BrickAsComponent
         useBrick={{
@@ -62,6 +67,7 @@ describe("BrickAsComponent", () => {
         data={{
           tips: "good",
         }}
+        parentRefForUseBrickInPortal={mockRef}
       />
     );
 
@@ -75,6 +81,11 @@ describe("BrickAsComponent", () => {
       },
     });
     expect((div as RuntimeBrickElement).$$typeof).toBe("native");
+    expect(
+      (div as RuntimeBrickElementWithTplSymbols)[
+        symbolForParentRefForUseBrickInPortal
+      ]
+    ).toBe(mockRef);
   });
 
   it("should work for multiple bricks", async () => {
