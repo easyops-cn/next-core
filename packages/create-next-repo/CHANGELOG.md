@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.9](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.8...@next-core/create-next-repo@1.3.9) (2021-05-19)
+
+
+### Bug Fixes
+
+* change mode for husky hooks ([123f496](https://github.com/easyops-cn/next-core/commit/123f496d0521b6847d976e2860fe5b996eeed89d))
+
+
+
+
+
 ## [1.3.8](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.7...@next-core/create-next-repo@1.3.8) (2021-05-10)
 
 
