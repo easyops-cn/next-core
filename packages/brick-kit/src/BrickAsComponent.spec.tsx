@@ -7,6 +7,7 @@ import {
   ForwardRefSingleBrickAsComponent,
 } from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
+import * as transformProperties from "./transformProperties";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn(
@@ -17,6 +18,10 @@ const spyOnResolve = jest.fn(
 const _internalApiGetRouterState = jest
   .spyOn(runtime, "_internalApiGetRouterState")
   .mockReturnValue("mounted");
+const sypOnTransformProperties = jest.spyOn(
+  transformProperties,
+  "transformProperties"
+);
 jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
   resolve: spyOnResolve,
 } as any);
@@ -107,6 +112,7 @@ describe("BrickAsComponent", () => {
   });
 
   it("should work for `if`", async () => {
+    sypOnTransformProperties.mockClear();
     const wrapper = mount(
       <BrickAsComponent
         useBrick={[
@@ -135,6 +141,7 @@ describe("BrickAsComponent", () => {
     const span = wrapper.find("span").getDOMNode() as HTMLDivElement;
     expect(span.title).toBe("better");
     expect(wrapper.find("div").length).toBe(0);
+    expect(sypOnTransformProperties).toBeCalledTimes(1);
   });
 
   it("should work for unsupported `resolvable-if`", async () => {

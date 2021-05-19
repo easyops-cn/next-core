@@ -90,8 +90,22 @@ export function SingleBrickAsComponent(
   props: SingleBrickAsComponentProps
 ): React.ReactElement {
   const { useBrick, data, refCallback, immediatelyRefCallback } = props;
+  const isBrickAvailable = React.useMemo(() => {
+    if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
+      // eslint-disable-next-line
+      console.warn("Currently resolvable-if in `useBrick` is not supported.");
+    } else if (!looseCheckIfByTransform(useBrick, data)) {
+      return false;
+    }
+
+    return true;
+  }, [useBrick, data]);
 
   const runtimeBrick = React.useMemo(async () => {
+    if (!isBrickAvailable) {
+      return null;
+    }
+
     // If the router state is initial, ignore rendering the sub-brick.
     if (_internalApiGetRouterState() === "initial") {
       return;
@@ -122,7 +136,7 @@ export function SingleBrickAsComponent(
       }
     }
     return brick;
-  }, [useBrick, data]);
+  }, [useBrick, data, isBrickAvailable]);
 
   const innerRefCallback = React.useCallback(
     async (element: HTMLElement) => {
@@ -152,10 +166,7 @@ export function SingleBrickAsComponent(
     [runtimeBrick, useBrick, data, refCallback, immediatelyRefCallback]
   );
 
-  if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
-    // eslint-disable-next-line
-    console.warn("Currently resolvable-if in `useBrick` is not supported.");
-  } else if (!looseCheckIfByTransform(useBrick, data)) {
+  if (!isBrickAvailable) {
     return null;
   }
 
@@ -220,6 +231,16 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
 ): React.ReactElement {
   const { useBrick, data, refCallback } = props;
   const brickRef = useRef<HTMLElement>();
+  const isBrickAvailable = React.useMemo(() => {
+    if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
+      // eslint-disable-next-line
+      console.warn("Currently resolvable-if in `useBrick` is not supported.");
+    } else if (!looseCheckIfByTransform(useBrick, data)) {
+      return false;
+    }
+
+    return true;
+  }, [useBrick, data]);
 
   /* istanbul ignore next (never reach in test) */
   useImperativeHandle(ref, () => {
@@ -227,6 +248,10 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
   });
 
   const runtimeBrick = React.useMemo(async () => {
+    if (!isBrickAvailable) {
+      return null;
+    }
+
     // If the router state is initial, ignore rendering the sub-brick.
     if (_internalApiGetRouterState() === "initial") {
       return;
@@ -257,7 +282,7 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
       }
     }
     return brick;
-  }, [useBrick, data]);
+  }, [useBrick, data, isBrickAvailable]);
 
   const innerRefCallback = React.useCallback(
     async (element: HTMLElement) => {
@@ -287,10 +312,7 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
     [runtimeBrick, useBrick, data, refCallback]
   );
 
-  if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
-    // eslint-disable-next-line
-    console.warn("Currently resolvable-if in `useBrick` is not supported.");
-  } else if (!looseCheckIfByTransform(useBrick, data)) {
+  if (!isBrickAvailable) {
     return null;
   }
 
