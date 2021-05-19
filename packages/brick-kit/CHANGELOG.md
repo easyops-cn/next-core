@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.47.1...@next-core/brick-kit@2.48.0) (2021-05-19)
+
+
+### Bug Fixes
+
+* scroll to top after each rendering ([aa049cd](https://github.com/easyops-cn/next-core/commit/aa049cd27c13942ea3731f2d94396a8bc6980bb8))
+
+
+### Features
+
+* support passing parent ref for use brick in portal ([4c37ed9](https://github.com/easyops-cn/next-core/commit/4c37ed9f855b01c53492002d12fef167cf3ce31a))
+
+
+
+
+
 ## [2.47.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.47.0...@next-core/brick-kit@2.47.1) (2021-05-19)
 
 

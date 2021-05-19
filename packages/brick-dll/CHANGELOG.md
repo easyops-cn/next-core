@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.13.1...@next-core/brick-dll@2.13.2) (2021-05-19)
+
+
+### Bug Fixes
+
+* **webpack:** use fixed output name in dev mode ([586de18](https://github.com/easyops-cn/next-core/commit/586de182070781a01c62680cb44692e69c2fb954))
+
+
+
+
+
 ## [2.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.13.0...@next-core/brick-dll@2.13.1) (2021-05-19)
 
 **Note:** Version bump only for package @next-core/brick-dll
