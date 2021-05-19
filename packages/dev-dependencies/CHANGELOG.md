@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.12](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.11...@next-core/dev-dependencies@1.8.12) (2021-05-19)
+
+
+### Bug Fixes
+
+* add mocks for brick-icons ([0dc3f74](https://github.com/easyops-cn/next-core/commit/0dc3f74a3d46c847a4f9e9f56184fd9b08f87404))
+
+
+
+
+
 ## [1.8.11](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.10...@next-core/dev-dependencies@1.8.11) (2021-05-19)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
