@@ -3392,7 +3392,13 @@
           "setI18n",
           "getI18n",
           "composeInitialProps",
-          "getInitialProps"
+          "getInitialProps",
+          "date",
+          "time",
+          "number",
+          "select",
+          "plural",
+          "selectOrdinal"
         ]
       }
     },
