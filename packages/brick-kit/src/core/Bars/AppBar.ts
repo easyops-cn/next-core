@@ -2,7 +2,7 @@ import { AppBarBrick, BreadcrumbItemConf } from "@next-core/brick-types";
 import { BaseBar } from "./BaseBar";
 
 export class AppBar extends BaseBar {
-  public element: AppBarBrick;
+  public declare element: AppBarBrick;
 
   /**
    * 设置页面标题（顶部）

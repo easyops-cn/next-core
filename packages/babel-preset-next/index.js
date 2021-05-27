@@ -9,6 +9,22 @@ const proposalOptionalChaining = require("@babel/plugin-proposal-optional-chaini
 const proposalClassProperties = require("@babel/plugin-proposal-class-properties");
 const proposalUnicodePropertyRegex = require("@babel/plugin-proposal-unicode-property-regex");
 
+// https://babeljs.io/docs/en/plugins/#plugin-ordering
+// > * Plugins run before Presets.
+// > * Plugin ordering is first to last.
+// > * Preset ordering is reversed (last to first).
+const customPresetOfPluginsAfterTypescript = {
+  plugins: [
+    [
+      proposalDecorators,
+      {
+        decoratorsBeforeExport: true,
+      },
+    ],
+    proposalClassProperties,
+  ],
+};
+
 module.exports = () => {
   const envTest = {
     presets: [
@@ -16,31 +32,30 @@ module.exports = () => {
         presetEnv,
         {
           targets: {
-            node: "current"
-          }
-        }
+            node: "current",
+          },
+        },
       ],
       presetReact,
-      presetTypescript
+      customPresetOfPluginsAfterTypescript,
+      [
+        presetTypescript,
+        {
+          allowDeclareFields: true,
+        },
+      ],
     ],
     plugins: [
       [
         antdImport,
         {
-          libraryName: "antd"
-        }
-      ],
-      [
-        proposalDecorators,
-        {
-          decoratorsBeforeExport: true
-        }
+          libraryName: "antd",
+        },
       ],
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
-      proposalClassProperties,
-      proposalUnicodePropertyRegex
-    ]
+      proposalUnicodePropertyRegex,
+    ],
   };
 
   const envOthers = {
@@ -51,32 +66,31 @@ module.exports = () => {
           modules: false,
           useBuiltIns: "entry",
           corejs: {
-            version: 3
-          }
-        }
+            version: 3,
+          },
+        },
       ],
       presetReact,
-      presetTypescript
+      customPresetOfPluginsAfterTypescript,
+      [
+        presetTypescript,
+        {
+          allowDeclareFields: true,
+        },
+      ],
     ],
     plugins: [
-      [
-        proposalDecorators,
-        {
-          decoratorsBeforeExport: true
-        }
-      ],
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
-      proposalClassProperties,
-      proposalUnicodePropertyRegex
-    ]
+      proposalUnicodePropertyRegex,
+    ],
   };
 
   return {
     env: {
       test: envTest,
       development: envOthers,
-      production: envOthers
-    }
+      production: envOthers,
+    },
   };
 };

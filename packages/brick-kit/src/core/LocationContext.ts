@@ -117,7 +117,7 @@ export interface BrickAndMessage {
 
 export class LocationContext {
   private readonly query: URLSearchParams;
-  readonly resolver = new Resolver(this.kernel);
+  readonly resolver: Resolver;
   readonly messageDispatcher: MessageDispatcher;
   private readonly beforePageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
@@ -133,6 +133,7 @@ export class LocationContext {
   private readonly tplContext = new CustomTemplateContext();
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
+    this.resolver = new Resolver(kernel);
     this.query = new URLSearchParams(location.search);
     this.messageDispatcher = getMessageDispatcher();
   }
@@ -454,13 +455,8 @@ export class LocationContext {
       injectDeep !== false
         ? computeRealValue(otherMenuConf, context, true)
         : otherMenuConf;
-    const {
-      sidebarMenu,
-      pageTitle,
-      breadcrumb,
-      menuId,
-      subMenuId,
-    } = injectedMenuConf as StaticMenuConf;
+    const { sidebarMenu, pageTitle, breadcrumb, menuId, subMenuId } =
+      injectedMenuConf as StaticMenuConf;
 
     if (menuId) {
       mountRoutesResult.menuBar.menuId = menuId;
