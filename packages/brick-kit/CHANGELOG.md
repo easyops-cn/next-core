@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.48.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.48.0...@next-core/brick-kit@2.48.1) (2021-05-27)
+
+
+### Bug Fixes
+
+* fix types after upgraded ts to 4.3 ([0c944ed](https://github.com/easyops-cn/next-core/commit/0c944ed12bde0a6add9dbbb8fe6c512e05628206))
+* fix types after upgraded ts to 4.3 ([76a9313](https://github.com/easyops-cn/next-core/commit/76a9313382d230abc3d277288e35266ed8773e16))
+
+
+
+
+
 # [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.47.1...@next-core/brick-kit@2.48.0) (2021-05-19)
 
 ### Bug Fixes
