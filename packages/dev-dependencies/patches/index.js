@@ -10,3 +10,4 @@ exports.disableSdkRenovate = require("./disableSdkRenovate");
 exports.migrateOfficialRenovate = require("./migrateOfficialRenovate");
 exports.migrateHusky = require("./migrateHusky");
 exports.addMocksForBrickIcons = require("./addMocksForBrickIcons");
+exports.migrateJest = require("./migrateJest");
