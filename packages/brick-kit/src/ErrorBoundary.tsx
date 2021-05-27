@@ -2,9 +2,9 @@ import React from "react";
 import {
   withTranslation,
   WithTranslation,
-  // `WithTranslationProps` is required for api-extractor.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // `WithTranslationProps` and `Subtract` is required for api-extractor.
   WithTranslationProps,
+  Subtract,
 } from "react-i18next";
 import { httpErrorToString } from "./handleHttpError";
 import { NS_BRICK_KIT, K } from "./i18n/constants";
@@ -49,4 +49,10 @@ class LegacyErrorBoundary extends React.Component<
 }
 
 /** @internal */
-export const ErrorBoundary = withTranslation(NS_BRICK_KIT)(LegacyErrorBoundary);
+export const ErrorBoundary: React.ComponentType<
+  Omit<
+    Subtract<WithTranslation<typeof NS_BRICK_KIT>, WithTranslationProps>,
+    keyof WithTranslation<typeof NS_BRICK_KIT>
+  > &
+    WithTranslationProps
+> = withTranslation(NS_BRICK_KIT)(LegacyErrorBoundary);

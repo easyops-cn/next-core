@@ -7,25 +7,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-dll/d3
 
-
-
-
-
 ## [2.0.27](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.26...@next-dll/d3@2.0.27) (2021-05-18)
 
 **Note:** Version bump only for package @next-dll/d3
 
-
-
-
-
 ## [2.0.26](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.25...@next-dll/d3@2.0.26) (2021-05-08)
 
 **Note:** Version bump only for package @next-dll/d3
-
-
-
-
 
 ## [2.0.25](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.24...@next-dll/d3@2.0.25) (2021-04-26)
 

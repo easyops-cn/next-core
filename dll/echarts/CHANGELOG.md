@@ -7,25 +7,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-dll/echarts
 
-
-
-
-
 ## [2.0.28](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.27...@next-dll/echarts@2.0.28) (2021-05-18)
 
 **Note:** Version bump only for package @next-dll/echarts
 
-
-
-
-
 ## [2.0.27](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.26...@next-dll/echarts@2.0.27) (2021-05-08)
 
 **Note:** Version bump only for package @next-dll/echarts
-
-
-
-
 
 ## [2.0.26](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.25...@next-dll/echarts@2.0.26) (2021-04-26)
 

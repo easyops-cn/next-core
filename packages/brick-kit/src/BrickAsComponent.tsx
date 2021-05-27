@@ -207,11 +207,11 @@ export function SingleBrickAsComponent({
     {
       ref: innerRefCallback,
     },
-    ...slotsToChildren(
-      useBrick.slots
-    ).map((item: UseSingleBrickConf, index: number) => (
-      <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-    ))
+    ...slotsToChildren(useBrick.slots).map(
+      (item: UseSingleBrickConf, index: number) => (
+        <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+      )
+    )
   );
 }
 
@@ -362,10 +362,10 @@ export const ForwardRefSingleBrickAsComponent = forwardRef<
     {
       ref: innerRefCallback,
     },
-    ...slotsToChildren(
-      useBrick.slots
-    ).map((item: UseSingleBrickConf, index: number) => (
-      <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-    ))
+    ...slotsToChildren(useBrick.slots).map(
+      (item: UseSingleBrickConf, index: number) => (
+        <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+      )
+    )
   );
 });

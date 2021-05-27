@@ -5,22 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.4.4](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.4.3...@next-core/brick-scripts@2.4.4) (2021-05-12)
 
-
 ### Bug Fixes
 
-* add scripts of building stories and editors ([ba435d1](https:///$repo-git-url$/next-core/commits/ba435d161e2aca65463bf9339658bfe5b3fce1da))
-
-
-
-
+- add scripts of building stories and editors ([ba435d1](https:///$repo-git-url$/next-core/commits/ba435d161e2aca65463bf9339658bfe5b3fce1da))
 
 ## [2.4.3](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.4.2...@next-core/brick-scripts@2.4.3) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/brick-scripts
-
-
-
-
 
 ## [2.4.2](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.4.1...@next-core/brick-scripts@2.4.2) (2021-04-28)
 

@@ -7,33 +7,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.9.10](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.9...@next-core/build-config-factory@2.9.10) (2021-05-18)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.9.9](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.8...@next-core/build-config-factory@2.9.9) (2021-05-11)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.9.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.7...@next-core/build-config-factory@2.9.8) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.9.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.6...@next-core/build-config-factory@2.9.7) (2021-04-28)
 

@@ -8,7 +8,8 @@ import {
 } from "@next-core/brick-types";
 import { RefObject } from "react";
 
-export const customTemplateRegistry: TemplateRegistry<CustomTemplate> = new Map();
+export const customTemplateRegistry: TemplateRegistry<CustomTemplate> =
+  new Map();
 export const appRegistered = new Set<string>();
 
 export const symbolForComputedPropsFromProxy = Symbol.for(

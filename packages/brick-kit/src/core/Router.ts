@@ -205,9 +205,8 @@ export class Router {
       }
 
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
-      const subStoryboard = this.locationContext.getSubStoryboardByRoute(
-        storyboard
-      );
+      const subStoryboard =
+        this.locationContext.getSubStoryboardByRoute(storyboard);
       await this.kernel.loadDepsOfStoryboard(subStoryboard);
 
       // 注册 Storyboard 中定义的自定义模板。
@@ -296,14 +295,8 @@ export class Router {
         }
       }
 
-      const {
-        main,
-        menuInBg,
-        menuBar,
-        appBar,
-        flags,
-        portal,
-      } = mountRoutesResult;
+      const { main, menuInBg, menuBar, appBar, flags, portal } =
+        mountRoutesResult;
 
       const { unauthenticated, redirect, barsHidden, hybrid, failed } = flags;
 

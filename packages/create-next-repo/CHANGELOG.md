@@ -5,33 +5,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.3.9](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.8...@next-core/create-next-repo@1.3.9) (2021-05-19)
 
-
 ### Bug Fixes
 
-* change mode for husky hooks ([123f496](https://github.com/easyops-cn/next-core/commit/123f496d0521b6847d976e2860fe5b996eeed89d))
-
-
-
-
+- change mode for husky hooks ([123f496](https://github.com/easyops-cn/next-core/commit/123f496d0521b6847d976e2860fe5b996eeed89d))
 
 ## [1.3.8](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.7...@next-core/create-next-repo@1.3.8) (2021-05-10)
 
-
 ### Bug Fixes
 
-* patch renovate for internal repos ([4bc3e7e](https://github.com/easyops-cn/next-core/commit/4bc3e7ed43a786c015096f0f78f47c262da7454f))
-
-
-
-
+- patch renovate for internal repos ([4bc3e7e](https://github.com/easyops-cn/next-core/commit/4bc3e7ed43a786c015096f0f78f47c262da7454f))
 
 ## [1.3.7](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.6...@next-core/create-next-repo@1.3.7) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/create-next-repo
-
-
-
-
 
 ## [1.3.6](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.5...@next-core/create-next-repo@1.3.6) (2021-04-26)
 

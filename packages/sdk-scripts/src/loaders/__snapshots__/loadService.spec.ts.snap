@@ -7,7 +7,8 @@ Array [
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
 /** 请求体 */
-export type PackageApi_AutoDiscoveryRequestBody = PackageApi_AutoDiscoveryRequestBody_item[];
+export type PackageApi_AutoDiscoveryRequestBody =
+  PackageApi_AutoDiscoveryRequestBody_item[];
 
 export interface PackageApi_AutoDiscoveryResponseBody {
   /** 返回码 */
@@ -302,7 +303,8 @@ export interface PackageApi_SearchRequestParams {
 export type PackageApi_SearchResponseItem = ModelPackage &
   PackageApi_SearchResponseItem_2;
 
-export type PackageApi_SearchResponseBody = ResponseListWrapper<PackageApi_SearchResponseItem>;
+export type PackageApi_SearchResponseBody =
+  ResponseListWrapper<PackageApi_SearchResponseItem>;
 
 /**
  * @description 搜索包 (支持模糊搜索)
@@ -354,7 +356,8 @@ export const PackageApi_upload = (
   data: PackageApi_UploadRequestBody,
   options?: HttpOptions
 ): Promise<Blob> => {
-  /**! @contract easyops.api.cd.package.Upload */ const _formData = new FormData();
+  /**! @contract easyops.api.cd.package.Upload */ const _formData =
+    new FormData();
   for (const [key, value] of Object.entries(data)) {
     if (Array.isArray(value)) {
       const k = \`\${key}[]\`;

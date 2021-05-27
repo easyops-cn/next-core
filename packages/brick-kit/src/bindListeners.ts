@@ -284,7 +284,7 @@ function usingProviderFactory(
   context: PluginRuntimeContext,
   brick: HTMLElement
 ): EventListener {
-  return (async function (event: CustomEvent): Promise<void> {
+  return async function (event: CustomEvent): Promise<void> {
     if (!looseCheckIf(handler, { ...context, event })) {
       return;
     }
@@ -297,7 +297,7 @@ function usingProviderFactory(
       // eslint-disable-next-line no-console
       console.error(httpErrorToString(error));
     }
-  } as unknown) as EventListener;
+  } as unknown as EventListener;
 }
 
 function builtinTplDispatchEventFactory(
@@ -630,7 +630,8 @@ async function brickCallback(
 
   if ((handler as UseProviderEventHandler).useProvider) {
     if (isCustomApiProvider((handler as UseProviderEventHandler).useProvider)) {
-      const allMicroAppApiOrchestrationMap = await _internalApiGetMicroAppApiOrchestrationMap();
+      const allMicroAppApiOrchestrationMap =
+        await _internalApiGetMicroAppApiOrchestrationMap();
       argsFactoryResult = getArgsOfCustomApi(
         (handler as UseProviderEventHandler).useProvider,
         allMicroAppApiOrchestrationMap,
@@ -697,9 +698,11 @@ function builtinHistoryListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    (getHistory()[method === "block" ? "setBlockMessage" : method] as (
-      ...args: unknown[]
-    ) => unknown)(
+    (
+      getHistory()[method === "block" ? "setBlockMessage" : method] as (
+        ...args: unknown[]
+      ) => unknown
+    )(
       ...argsFactory(args, context, event, {
         useEventDetailAsDefault: true,
       })

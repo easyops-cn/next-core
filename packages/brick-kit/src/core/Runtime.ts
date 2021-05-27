@@ -73,9 +73,8 @@ export function _dev_only_getFakeKernel(
   return {
     bootstrapData: kernel.bootstrapData,
     getFeatureFlags: kernel.getFeatureFlags.bind(kernel),
-    loadDynamicBricksInBrickConf: kernel.loadDynamicBricksInBrickConf.bind(
-      kernel
-    ),
+    loadDynamicBricksInBrickConf:
+      kernel.loadDynamicBricksInBrickConf.bind(kernel),
     getProviderBrick: kernel.getProviderBrick.bind(kernel),
     ...overrides,
   } as Kernel;

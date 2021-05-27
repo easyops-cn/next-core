@@ -11,8 +11,8 @@ const {
 const packageJson = require("./package.json");
 const brickDllVersion = require("@next-core/brick-dll/package.json").version;
 const brickKitVersion = require("@next-core/brick-kit/package.json").version;
-const brickUtilsVersion = require("@next-core/brick-utils/package.json")
-  .version;
+const brickUtilsVersion =
+  require("@next-core/brick-utils/package.json").version;
 
 const appRoot = path.join(__dirname, "..", "..");
 let baseHref = "/";

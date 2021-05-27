@@ -143,7 +143,7 @@ describe("Resolver", () => {
     });
 
     resolver.scheduleRefreshing();
-    await jest.runTimersToTime(3000);
+    await jest.advanceTimersByTime(3000);
     expect(testMethod).toBeCalledTimes(2);
     resolver.resetRefreshQueue();
   });
@@ -232,8 +232,7 @@ describe("Resolver", () => {
     expect(mockResolve).toBeCalledWith({
       method: "POST",
       responseWrapper: true,
-      url:
-        "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
+      url: "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
     });
   });
 

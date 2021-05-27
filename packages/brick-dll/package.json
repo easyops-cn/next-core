@@ -32,13 +32,13 @@
     "@next-core/illustrations": "^0.3.6",
     "antd": "~4.12.3",
     "history": "^4.10.1",
-    "i18next": "^20.2.2",
+    "i18next": "^20.3.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.8.15",
+    "react-i18next": "^11.9.0",
     "react-transition-group": "^4.4.1"
   },
   "devDependencies": {

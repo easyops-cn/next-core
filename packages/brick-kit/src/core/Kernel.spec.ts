@@ -69,12 +69,14 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
-const getObjectMicroAppList = ObjectMicroAppApi_getObjectMicroAppList as jest.Mock;
+const getObjectMicroAppList =
+  ObjectMicroAppApi_getObjectMicroAppList as jest.Mock;
 
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
 const spyOnGetDllAndDepsByResource = getDllAndDepsByResource as jest.Mock;
-const spyOnGetTemplateDepsOfStoryboard = getTemplateDepsOfStoryboard as jest.Mock;
+const spyOnGetTemplateDepsOfStoryboard =
+  getTemplateDepsOfStoryboard as jest.Mock;
 const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
 
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
@@ -267,7 +269,7 @@ describe("Kernel", () => {
       deps: ["dep.js"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
-    const storyboard = ({
+    const storyboard = {
       app: {
         id: "app-a",
       },
@@ -280,7 +282,7 @@ describe("Kernel", () => {
           },
         ],
       },
-    } as Partial<Storyboard>) as Storyboard;
+    } as Partial<Storyboard> as Storyboard;
     await kernel.loadDepsOfStoryboard(storyboard);
     await kernel.registerCustomTemplatesInStoryboard(storyboard);
     expect(spyOnLoadScript).toBeCalledTimes(4);
@@ -377,15 +379,15 @@ describe("Kernel", () => {
         loadingBar: "basic-bricks.loading-bar",
       },
     } as RuntimeBootstrapData;
-    kernel.menuBar = ({
+    kernel.menuBar = {
       bootstrap: jest.fn(),
-    } as unknown) as MenuBar;
-    kernel.appBar = ({
+    } as unknown as MenuBar;
+    kernel.appBar = {
       bootstrap: jest.fn(),
-    } as unknown) as AppBar;
-    kernel.loadingBar = ({
+    } as unknown as AppBar;
+    kernel.loadingBar = {
       bootstrap: jest.fn(),
-    } as unknown) as BaseBar;
+    } as unknown as BaseBar;
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
     expect(kernel.presetBricks).toMatchObject({
@@ -402,15 +404,15 @@ describe("Kernel", () => {
   });
 
   it("should work for business layout", async () => {
-    kernel.menuBar = ({
+    kernel.menuBar = {
       bootstrap: jest.fn(),
-    } as unknown) as MenuBar;
-    kernel.appBar = ({
+    } as unknown as MenuBar;
+    kernel.appBar = {
       bootstrap: jest.fn(),
-    } as unknown) as AppBar;
-    kernel.loadingBar = ({
+    } as unknown as AppBar;
+    kernel.loadingBar = {
       bootstrap: jest.fn(),
-    } as unknown) as BaseBar;
+    } as unknown as BaseBar;
     await kernel.layoutBootstrap("business");
     expect(kernel.currentLayout).toBe("business");
     expect(kernel.presetBricks).toMatchObject({
@@ -428,7 +430,7 @@ describe("Kernel", () => {
 
   it("should throw for unknown layout", async () => {
     await expect(
-      kernel.layoutBootstrap(("oops" as unknown) as LayoutType)
+      kernel.layoutBootstrap("oops" as unknown as LayoutType)
     ).rejects.toEqual(new Error("Unknown layout: oops"));
   });
 
@@ -516,7 +518,8 @@ describe("Kernel", () => {
     await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
     expect(loadScript).toHaveBeenNthCalledWith(2, []);
-    const searchAllMicroAppApiOrchestration = InstanceApi_postSearch as jest.Mock;
+    const searchAllMicroAppApiOrchestration =
+      InstanceApi_postSearch as jest.Mock;
     const usedCustomApis = [
       {
         name: "myAwesomeApi",
@@ -529,7 +532,8 @@ describe("Kernel", () => {
     kernel.loadMicroAppApiOrchestrationAsync([]);
     expect(searchAllMicroAppApiOrchestration).not.toBeCalled();
     kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
-    const allMicroAppApiOrchestrationMap = await kernel.getMicroAppApiOrchestrationMapAsync();
+    const allMicroAppApiOrchestrationMap =
+      await kernel.getMicroAppApiOrchestrationMapAsync();
     expect(searchAllMicroAppApiOrchestration).toBeCalledWith(
       "MICRO_APP_API_ORCHESTRATION",
       {

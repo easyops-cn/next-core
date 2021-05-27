@@ -17,6 +17,7 @@ const {
   disableSdkRenovate,
   migrateHusky,
   addMocksForBrickIcons,
+  migrateJest,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -130,6 +131,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.8.12")) {
     addMocksForBrickIcons();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.8.15")) {
+    migrateJest();
   }
 
   updateDevDependenciesVersion();

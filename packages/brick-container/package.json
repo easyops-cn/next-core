@@ -37,7 +37,7 @@
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "meow": "^9.0.0",
-    "ws": "^7.4.5"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@next-core/brick-dll": "^2.13.2",
@@ -54,11 +54,11 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.4.1",
-    "core-js": "^3.12.0",
+    "core-js": "^3.13.0",
     "css-loader": "^4.3.0",
     "html-webpack-plugin": "^4.5.2",
     "html-webpack-tags-plugin": "^2.0.17",
-    "i18next-browser-languagedetector": "^6.1.0",
+    "i18next-browser-languagedetector": "^6.1.1",
     "less": "^3.13.1",
     "less-loader": "^7.3.0",
     "mini-css-extract-plugin": "^1.6.0",

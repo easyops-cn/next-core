@@ -2,7 +2,7 @@ import { MenuBarBrick, SidebarMenu } from "@next-core/brick-types";
 import { BaseBar } from "./BaseBar";
 
 export class MenuBar extends BaseBar {
-  public element: MenuBarBrick;
+  public declare element: MenuBarBrick;
 
   /**
    * 设置应用菜单（左侧菜单）
