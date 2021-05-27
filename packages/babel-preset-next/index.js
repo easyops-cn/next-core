@@ -9,6 +9,22 @@ const proposalOptionalChaining = require("@babel/plugin-proposal-optional-chaini
 const proposalClassProperties = require("@babel/plugin-proposal-class-properties");
 const proposalUnicodePropertyRegex = require("@babel/plugin-proposal-unicode-property-regex");
 
+// https://babeljs.io/docs/en/plugins/#plugin-ordering
+// > * Plugins run before Presets.
+// > * Plugin ordering is first to last.
+// > * Preset ordering is reversed (last to first).
+const customPresetOfPluginsAfterTypescript = {
+  plugins: [
+    [
+      proposalDecorators,
+      {
+        decoratorsBeforeExport: true,
+      },
+    ],
+    proposalClassProperties,
+  ],
+};
+
 module.exports = () => {
   const envTest = {
     presets: [
@@ -21,6 +37,7 @@ module.exports = () => {
         },
       ],
       presetReact,
+      customPresetOfPluginsAfterTypescript,
       [
         presetTypescript,
         {
@@ -35,15 +52,8 @@ module.exports = () => {
           libraryName: "antd",
         },
       ],
-      [
-        proposalDecorators,
-        {
-          decoratorsBeforeExport: true,
-        },
-      ],
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
-      proposalClassProperties,
       proposalUnicodePropertyRegex,
     ],
   };
@@ -61,6 +71,7 @@ module.exports = () => {
         },
       ],
       presetReact,
+      customPresetOfPluginsAfterTypescript,
       [
         presetTypescript,
         {
@@ -69,15 +80,8 @@ module.exports = () => {
       ],
     ],
     plugins: [
-      [
-        proposalDecorators,
-        {
-          decoratorsBeforeExport: true,
-        },
-      ],
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
-      proposalClassProperties,
       proposalUnicodePropertyRegex,
     ],
   };
