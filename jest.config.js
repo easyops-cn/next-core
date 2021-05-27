@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/__jest__/setup.ts"],
   snapshotSerializers: ["enzyme-to-json/serializer"],
   coveragePathIgnorePatterns: [
