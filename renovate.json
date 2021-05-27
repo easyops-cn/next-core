@@ -30,7 +30,8 @@
         "html-webpack-plugin",
         "html-webpack-tags-plugin",
         "source-map-loader",
-        "html-loader"
+        "html-loader",
+        "less-loader"
       ],
       "matchPackagePatterns": ["react"],
       "matchUpdateTypes": ["major"],

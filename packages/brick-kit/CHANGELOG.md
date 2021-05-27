@@ -3,13 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.47.1...@next-core/brick-kit@2.48.0) (2021-05-19)
+
+### Bug Fixes
+
+- scroll to top after each rendering ([aa049cd](https://github.com/easyops-cn/next-core/commit/aa049cd27c13942ea3731f2d94396a8bc6980bb8))
+
+### Features
+
+- support passing parent ref for use brick in portal ([4c37ed9](https://github.com/easyops-cn/next-core/commit/4c37ed9f855b01c53492002d12fef167cf3ce31a))
+
+## [2.47.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.47.0...@next-core/brick-kit@2.47.1) (2021-05-19)
+
+### Bug Fixes
+
+- **BrickAsComponent:** skip invoke transformProperties when if is false ([6c85cb2](https://github.com/easyops-cn/next-core/commit/6c85cb291b4ceac3837091a91f39c469e3105816))
+
+# [2.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.46.1...@next-core/brick-kit@2.47.0) (2021-05-18)
+
+### Bug Fixes
+
+- fix warn of native prop in tpl ([870d714](https://github.com/easyops-cn/next-core/commit/870d7143eb1a185848c497713a3891cf69a865a6))
+
+### Features
+
+- support to async load icons and refine dll js name ([43b783b](https://github.com/easyops-cn/next-core/commit/43b783baaf570eaaf711860dceab8da913abc5f0))
+
+## [2.46.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.46.0...@next-core/brick-kit@2.46.1) (2021-05-12)
+
+### Bug Fixes
+
+- use new business-website bricks ([489c8fc](https://github.com/easyops-cn/next-core/commit/489c8fcd57b588f9c1291905b94b365a10c448a5))
+
+# [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.45.0...@next-core/brick-kit@2.46.0) (2021-05-11)
+
+### Features
+
+- support to fetch menu by menu id ([55d9f8c](https://github.com/easyops-cn/next-core/commit/55d9f8c1eb678ae13b0446fd24751039181a0d71))
+
+# [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.44.2...@next-core/brick-kit@2.45.0) (2021-05-11)
+
+### Features
+
+- remove header and footer mountpoint ([8ae56ed](https://github.com/easyops-cn/next-core/commit/8ae56eda2d07b7497421a3e44d44244102434178))
+
 ## [2.44.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.44.1...@next-core/brick-kit@2.44.2) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.44.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.44.0...@next-core/brick-kit@2.44.1) (2021-04-29)
 

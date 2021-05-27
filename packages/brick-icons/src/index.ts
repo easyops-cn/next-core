@@ -1,2 +1,2 @@
 export * from "./BrickIcon";
-export * from "./iconsByCategory";
+export * from "./generated/iconsByCategory";

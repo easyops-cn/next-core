@@ -43,15 +43,9 @@ export function getDllAndDepsOfBricks(
       }
     });
   }
-  const dllHash: Record<string, string> = (window as any)["DLL_HASH"];
+  const dllPath: Record<string, string> = (window as any)["DLL_PATH"];
   return {
-    dll: Array.from(dll).map((dllName) => {
-      let file = `dll-of-${dllName}.js`;
-      if (dllHash?.[dllName]) {
-        file += `?${dllHash[dllName]}`;
-      }
-      return file;
-    }),
+    dll: Array.from(dll).map((dllName) => dllPath[dllName]),
     deps,
   };
 }
@@ -99,15 +93,9 @@ export function getDllAndDepsByResource(
       }
     });
   }
-  const dllHash: Record<string, string> = (window as any)["DLL_HASH"];
+  const dllPath: Record<string, string> = (window as any)["DLL_PATH"];
   return {
-    dll: Array.from(dll).map((dllName) => {
-      let file = `dll-of-${dllName}.js`;
-      if (dllHash?.[dllName]) {
-        file += `?${dllHash[dllName]}`;
-      }
-      return file;
-    }),
+    dll: Array.from(dll).map((dllName) => dllPath[dllName]),
     deps,
   };
 }

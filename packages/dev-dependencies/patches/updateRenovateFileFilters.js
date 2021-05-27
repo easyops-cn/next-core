@@ -10,7 +10,13 @@ function updateRenovateFileFilters() {
   );
 
   if (nextCoreGroup && nextCoreGroup.postUpgradeTasks) {
-    nextCoreGroup.postUpgradeTasks.fileFilters = ["**/*", ".gitlab/**/*"];
+    nextCoreGroup.postUpgradeTasks.fileFilters = [
+      "**/*",
+      ".gitlab/**/*",
+      ".huskyrc",
+      ".husky/.gitignore",
+      ".husky/**/*",
+    ];
 
     writeJsonFile(renovateJsonPath, renovateJson);
   }

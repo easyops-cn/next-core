@@ -54,9 +54,6 @@ jobs:
         key: ${{ runner.os }}-wait-on--start-serve-and-test
         restore-keys: |
           ${{ runner.os }}-wait-on--start-serve-and-test
-      if: |
-        (github.event_name == 'push') ||
-        (github.event_name == 'pull_request' && github.base_ref == 'master')
 
     - name: Cache Cypress binary
       uses: actions/cache@v2
@@ -72,10 +69,7 @@ jobs:
       id: yarn-lock-check-before
       run: echo "::set-output name=sum::$(cksum yarn.lock)"
 
-    # Run `cypress install` to fix existed cache.
-    - run: |
-        yarn install --frozen-lockfile
-        $(yarn bin cypress) install
+    - run: yarn install --frozen-lockfile
       env:
         CYPRESS_INSTALL_BINARY: ''
         CYPRESS_DOWNLOAD_MIRROR: ''

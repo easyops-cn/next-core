@@ -3,16 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.7.13...@next-core/dev-dependencies@1.8.0) (2021-05-08)
+## [1.8.14](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.13...@next-core/dev-dependencies@1.8.14) (2021-05-24)
 
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.13](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.12...@next-core/dev-dependencies@1.8.13) (2021-05-19)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.12](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.11...@next-core/dev-dependencies@1.8.12) (2021-05-19)
+
+### Bug Fixes
+
+- add mocks for brick-icons ([0dc3f74](https://github.com/easyops-cn/next-core/commit/0dc3f74a3d46c847a4f9e9f56184fd9b08f87404))
+
+## [1.8.11](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.10...@next-core/dev-dependencies@1.8.11) (2021-05-19)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.10](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.9...@next-core/dev-dependencies@1.8.10) (2021-05-18)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.9](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.8...@next-core/dev-dependencies@1.8.9) (2021-05-12)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.8](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.7...@next-core/dev-dependencies@1.8.8) (2021-05-12)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.7](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.6...@next-core/dev-dependencies@1.8.7) (2021-05-11)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.6](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.5...@next-core/dev-dependencies@1.8.6) (2021-05-11)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.8.5](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.4...@next-core/dev-dependencies@1.8.5) (2021-05-11)
+
+### Bug Fixes
+
+- fix migation of husky ([2065596](https://github.com/easyops-cn/next-core/commit/2065596408c30dd3686a80645ed7cf4b7840ac34))
+
+## [1.8.4](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.3...@next-core/dev-dependencies@1.8.4) (2021-05-10)
+
+### Bug Fixes
+
+- fix renovate patch ([d50fc67](https://github.com/easyops-cn/next-core/commit/d50fc67b256d3ecadd0cd3c5b5c9adc7571c28d6))
+
+## [1.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.2...@next-core/dev-dependencies@1.8.3) (2021-05-10)
+
+### Bug Fixes
+
+- patch and write package.json immediately ([39075eb](https://github.com/easyops-cn/next-core/commit/39075ebb510a18ec189eefceea18d715835ef28c))
+
+## [1.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.1...@next-core/dev-dependencies@1.8.2) (2021-05-10)
+
+### Bug Fixes
+
+- update renovate to allow husky migration ([e1cc548](https://github.com/easyops-cn/next-core/commit/e1cc5486add8e3094bb3d5a329cbc1eb30219850))
+
+## [1.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.0...@next-core/dev-dependencies@1.8.1) (2021-05-08)
+
+### Bug Fixes
+
+- write root package.json at last ([97184c1](https://github.com/easyops-cn/next-core/commit/97184c1d37407da3f2af38c084965e1b6dcc0350))
+
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.7.13...@next-core/dev-dependencies@1.8.0) (2021-05-08)
 
 ### Features
 
-* support to migrate husky from v4 to v6 ([e4f3b46](https://github.com/easyops-cn/next-core/commit/e4f3b46f5bbeea0fc8702480d358653ea700f4af))
-
-
-
-
+- support to migrate husky from v4 to v6 ([e4f3b46](https://github.com/easyops-cn/next-core/commit/e4f3b46f5bbeea0fc8702480d358653ea700f4af))
 
 ## [1.7.13](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.7.12...@next-core/dev-dependencies@1.7.13) (2021-05-08)
 

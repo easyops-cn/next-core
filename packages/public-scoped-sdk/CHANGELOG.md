@@ -3,13 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](https://github.com/easyops-cn/next-core/compare/@next-core/public-scoped-sdk@0.2.5...@next-core/public-scoped-sdk@0.2.6) (2021-05-12)
+
+### Bug Fixes
+
+- set api-gateway as public scoped sdk ([c9517e3](https://github.com/easyops-cn/next-core/commit/c9517e3fd55f9ec25861e9129c36ae51461875d6))
+
 ## [0.2.5](https://github.com/easyops-cn/next-core/compare/@next-core/public-scoped-sdk@0.2.4...@next-core/public-scoped-sdk@0.2.5) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/public-scoped-sdk
-
-
-
-
 
 ## [0.2.4](https://github.com/easyops-cn/next-core/compare/@next-core/public-scoped-sdk@0.2.3...@next-core/public-scoped-sdk@0.2.4) (2021-04-26)
 

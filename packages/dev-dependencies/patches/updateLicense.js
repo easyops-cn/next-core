@@ -2,13 +2,13 @@ const path = require("path");
 const fs = require("fs-extra");
 const { writeJsonFile, readJson } = require("../utils");
 
-function updateLicense(rootPackageJsonPath, rootPackageJson) {
+function updateLicense() {
+  const rootPackageJsonPath = path.resolve("package.json");
+  const rootPackageJson = readJson(rootPackageJsonPath);
   const license = rootPackageJson.license;
   if (license === "UNLICENSED") {
     return;
   }
-
-  replaceLicense(rootPackageJsonPath, rootPackageJson, license);
 
   const dirs = ["bricks", "libs", "micro-apps", "templates"];
   for (const dir of dirs) {

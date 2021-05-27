@@ -14,9 +14,9 @@ jest.mock("./scanProcessorsInStoryboard");
 
 (scanProcessorsInStoryboard as jest.Mock).mockReturnValue(["doGood"]);
 
-(window as any).DLL_HASH = {
-  d3: "fake-hash",
-  "editor-bricks-helper": "fake-hash-of-editors",
+(window as any).DLL_PATH = {
+  d3: "dll-of-d3.123.js",
+  "editor-bricks-helper": "dll-of-editor-bricks-helper.456.js",
 };
 
 const brickPackages: BrickPackage[] = [
@@ -42,21 +42,32 @@ const brickPackages: BrickPackage[] = [
     processors: ["doGood"],
     filePath: "w",
   },
+  {
+    bricks: ["m"],
+    filePath: "n",
+  },
 ];
 
 describe("getDllAndDepsOfStoryboard", () => {
   it("should work", () => {
     const storyboard: Storyboard = {} as any;
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
-      dll: ["dll-of-d3.js?fake-hash"],
+      dll: ["dll-of-d3.123.js"],
       deps: ["x", "z", "w"],
     });
   });
 });
 
 describe("getDllAndDepsOfBricks", () => {
+  it("should work", () => {
+    expect(getDllAndDepsOfBricks(["a", "c", "m"], brickPackages)).toEqual({
+      dll: ["dll-of-d3.123.js"],
+      deps: ["x", "z", "n"],
+    });
+  });
+
   it("should work for empty bricks", () => {
-    expect(getDllAndDepsOfBricks([], [])).toEqual({
+    expect(getDllAndDepsOfBricks([], brickPackages)).toEqual({
       dll: [],
       deps: [],
     });
@@ -73,8 +84,30 @@ describe("getDllAndDepsByResource", () => {
         brickPackages
       )
     ).toEqual({
-      dll: ["dll-of-editor-bricks-helper.js?fake-hash-of-editors"],
+      dll: ["dll-of-editor-bricks-helper.456.js"],
       deps: ["z/editors"],
+    });
+  });
+
+  it("should work for bricks and editor bricks", () => {
+    expect(
+      getDllAndDepsByResource(
+        {
+          bricks: ["m"],
+          editorBricks: ["b--editor", "c--editor"],
+        },
+        brickPackages
+      )
+    ).toEqual({
+      dll: ["dll-of-editor-bricks-helper.456.js"],
+      deps: ["z/editors", "n"],
+    });
+  });
+
+  it("should work for empty resource", () => {
+    expect(getDllAndDepsByResource({}, brickPackages)).toEqual({
+      dll: [],
+      deps: [],
     });
   });
 });

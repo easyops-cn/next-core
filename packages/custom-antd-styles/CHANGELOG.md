@@ -3,13 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.7...@next-core/custom-antd-styles@1.8.8) (2021-05-24)
+
+### Bug Fixes
+
+- fix antd style Refs BRICK_STORE-2091 ([fb4da4b](https://github.com/easyops-cn/next-core/commit/fb4da4b11f7ad823e1d1ca5c13e1a44671b09feb))
+- fix antdStyle Refs BRICK_STORE-2091 ([b879643](https://github.com/easyops-cn/next-core/commit/b8796439b941ad3e0d61905f6a95b29299c76c0a))
+- **legacy-form:** 修复 label 内图标不对齐问题 ([82b2861](https://github.com/easyops-cn/next-core/commit/82b28610d442863433f6af78c5cec23c7bbf0777))
+
+## [1.8.7](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.6...@next-core/custom-antd-styles@1.8.7) (2021-05-18)
+
+### Bug Fixes
+
+- Fix the antd style impact button Closes BRICK_STORE-2091 ([0cde002](https://github.com/easyops-cn/next-core/commit/0cde00289c7c11f40cc0e60a1fe1cef114106783))
+- Fixed 8px influence style issue Closes BRICK_STORE-2091 ([7bdbe82](https://github.com/easyops-cn/next-core/commit/7bdbe82c908e72c57d3e40f56a6e5a3d865ceb7b))
+
+## [1.8.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.5...@next-core/custom-antd-styles@1.8.6) (2021-05-12)
+
+### Bug Fixes
+
+- edit antd-form-labele-defaultCss Closes BRICK_STORE-2091 ([c088499](https://github.com/easyops-cn/next-core/commit/c08849965c24e5177ac1e00bd81f074c5a56f9e4))
+
 ## [1.8.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.4...@next-core/custom-antd-styles@1.8.5) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
-
-
-
-
 
 ## [1.8.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.3...@next-core/custom-antd-styles@1.8.4) (2021-04-26)
 

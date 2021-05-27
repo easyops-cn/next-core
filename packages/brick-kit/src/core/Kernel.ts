@@ -59,8 +59,6 @@ export class Kernel {
   public menuBar: MenuBar;
   public appBar: AppBar;
   public loadingBar: BaseBar;
-  public header: BaseBar;
-  public footer: BaseBar;
   public router: Router;
   public currentApp: MicroApp;
   public previousApp: MicroApp;
@@ -71,9 +69,8 @@ export class Kernel {
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
-  public allMagicBrickConfigMapPromise: Promise<
-    Map<string, MagicBrickConfig>
-  > = Promise.resolve(new Map());
+  public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
+    Promise.resolve(new Map());
   public nextAppMeta: StoryboardMeta;
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
@@ -95,8 +92,6 @@ export class Kernel {
     this.menuBar = new MenuBar(this, "menuBar");
     this.appBar = new AppBar(this, "appBar");
     this.loadingBar = new BaseBar(this, "loadingBar");
-    this.header = new BaseBar(this, "header");
-    this.footer = new BaseBar(this, "footer");
     this.router = new Router(this);
     await this.router.bootstrap();
     this.authGuard();
@@ -113,11 +108,9 @@ export class Kernel {
     this.presetBricks =
       layout === "business"
         ? {
-            header: "business.basic-header",
-            footer: "business.basic-footer",
-            loadingBar: "business.loading-bar",
-            pageNotFound: "business.page-not-found",
-            pageError: "business.page-error",
+            loadingBar: "business-website.loading-bar",
+            pageNotFound: "business-website.page-not-found",
+            pageError: "business-website.page-error",
           }
         : {
             ...this.bootstrapData.navbar,
@@ -137,8 +130,6 @@ export class Kernel {
       this.menuBar.bootstrap(this.presetBricks.menuBar),
       this.appBar.bootstrap(this.presetBricks.appBar),
       this.loadingBar.bootstrap(this.presetBricks.loadingBar),
-      this.header.bootstrap(this.presetBricks.header),
-      this.footer.bootstrap(this.presetBricks.footer),
     ]);
   }
 
@@ -227,18 +218,14 @@ export class Kernel {
     const { brickPackages, templatePackages } = this.bootstrapData;
 
     if (storyboard.dependsAll) {
-      const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
+      const dllPath: Record<string, string> = (window as any).DLL_PATH || {};
       const reactDnd = "react-dnd";
       // istanbul ignore else
-      if (dllHash[reactDnd]) {
-        await loadScript(`dll-of-${reactDnd}.js?${dllHash[reactDnd]}`);
+      if (dllPath[reactDnd]) {
+        await loadScript(dllPath[reactDnd]);
       }
       // `loadScript` is auto cached, no need to filter out `react-dnd`.
-      await loadScript(
-        Object.entries(dllHash).map(
-          ([name, hash]) => `dll-of-${name}.js?${hash}`
-        )
-      );
+      await loadScript(Object.values(dllPath));
       await loadScript(
         brickPackages
           .map((item) => item.filePath)
@@ -425,9 +412,8 @@ export class Kernel {
   }
 
   loadMicroAppApiOrchestrationAsync(usedCustomApis: CustomApiInfo[]): void {
-    this.allMicroAppApiOrchestrationPromise = this.loadMicroAppApiOrchestration(
-      usedCustomApis
-    );
+    this.allMicroAppApiOrchestrationPromise =
+      this.loadMicroAppApiOrchestration(usedCustomApis);
   }
 
   async getMicroAppApiOrchestrationMapAsync(): Promise<
@@ -439,10 +425,8 @@ export class Kernel {
   private async loadMicroAppApiOrchestration(
     usedCustomApis: CustomApiInfo[]
   ): Promise<Map<string, CustomApiOrchestration>> {
-    const allMicroAppApiOrchestrationMap: Map<
-      string,
-      CustomApiOrchestration
-    > = new Map();
+    const allMicroAppApiOrchestrationMap: Map<string, CustomApiOrchestration> =
+      new Map();
     if (usedCustomApis.length) {
       try {
         const allMicroAppApiOrchestration = (
@@ -544,9 +528,8 @@ export class Kernel {
         url: this.currentUrl,
       };
       if (this.workspaceStack.length > 0) {
-        const previousWorkspace = this.workspaceStack[
-          this.workspaceStack.length - 1
-        ];
+        const previousWorkspace =
+          this.workspaceStack[this.workspaceStack.length - 1];
         const relatedApps = await this.getRelatedAppsAsync(
           previousWorkspace.appId
         );
@@ -616,9 +599,9 @@ export class Kernel {
 // Since `@next-dll/editor-bricks-helper` depends on `@next-dll/react-dnd`,
 // always load react-dnd before loading editor-bricks-helper.
 async function loadScriptOfDll(dlls: string[]): Promise<void> {
-  if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper.js"))) {
-    const dllHash: Record<string, string> = (window as any).DLL_HASH || {};
-    await loadScript(`dll-of-react-dnd.js?${dllHash["react-dnd"]}`);
+  if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper."))) {
+    const dllPath: Record<string, string> = (window as any).DLL_PATH || {};
+    await loadScript(dllPath["react-dnd"]);
   }
   // `loadScript` is auto cached, no need to filter out `react-dnd`.
   await loadScript(dlls);

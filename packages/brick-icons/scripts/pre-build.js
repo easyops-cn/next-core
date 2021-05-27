@@ -11,9 +11,9 @@ const iconsDir = path.join(process.cwd(), "src/icons");
 const flattenIcons = klawSync(iconsDir, {
   depthLimit: 2,
   nodir: true,
-  filter: item => item.path.endsWith(".svg"),
-  traverseAll: true
-}).map(item => {
+  filter: (item) => item.path.endsWith(".svg"),
+  traverseAll: true,
+}).map((item) => {
   const relativePath = path
     .relative(iconsDir, item.path)
     .split(path.sep)
@@ -33,56 +33,65 @@ const flattenIcons = klawSync(iconsDir, {
 
 const groupedIcons = Object.entries(_.groupBy(flattenIcons, "category"));
 
-const content = [
-  ...groupedIcons.map(([category, icons]) =>
-    icons
+for (const [category, icons] of groupedIcons) {
+  const imports = icons.map(
+    (icon) =>
+      `import ${changeCase.pascalCase(category)}${changeCase.pascalCase(
+        icon.basename
+      )} from "../../icons/${icon.relativePath}";`
+  );
+  const exports = `export const ${changeCase.camelCase(category)}Category = {
+    ${icons
       .map(
-        icon =>
-          `import ${changeCase.pascalCase(category)}${changeCase.pascalCase(
-            icon.basename
-          )} from "./icons/${icon.relativePath}";`
+        (icon) =>
+          `  "${changeCase.paramCase(icon.basename)}": ${changeCase.pascalCase(
+            category
+          )}${changeCase.pascalCase(icon.basename)},`
       )
-      .join(os.EOL)
-  ),
-  ...groupedIcons.map(
-    ([category, icons]) =>
-      `export const ${changeCase.camelCase(category)}Category = {
-      ${icons
-        .map(
-          icon =>
-            `  "${changeCase.paramCase(
-              icon.basename
-            )}": ${changeCase.pascalCase(category)}${changeCase.pascalCase(
-              icon.basename
-            )},`
-        )
-        .join(os.EOL)}
-    };`
-  ),
-  `export default {
+      .join(os.EOL)}
+  };`;
+  const content = imports.concat(exports).join(os.EOL);
+
+  const categoryTsPath = path.join(
+    process.cwd(),
+    "src/generated/icons",
+    `${category}.ts`
+  );
+  fs.outputFileSync(
+    categoryTsPath,
+    prettier.format(content, { parser: "typescript" })
+  );
+}
+
+const content = `export default {
     ${groupedIcons
       .map(
         ([category]) =>
-          `"${changeCase.paramCase(category)}": ${changeCase.camelCase(
-            category
-          ) + "Category"}`
+          `"${category}": async () => (await import(/* webpackChunkName: "icons--${category}" */ "./icons/${category}")).${
+            changeCase.camelCase(category) + "Category"
+          }`
       )
       .join(",")}
-  };`
-].join(os.EOL + os.EOL);
+  } as Record<string, () => Promise<Record<string, SvgrComponent>>>;`;
 
-const indexTsPath = path.join(process.cwd(), "src/categories.ts");
+const categoriesTsPath = path.join(
+  process.cwd(),
+  "src/generated/categories.ts"
+);
 fs.outputFileSync(
-  indexTsPath,
+  categoriesTsPath,
   prettier.format(content, { parser: "typescript" })
 );
 
 let mapContent = {};
 groupedIcons.forEach(([category, icons]) => {
-  mapContent[category] = icons.map(icon => icon.basename);
+  mapContent[category] = icons.map((icon) => icon.basename);
 });
-mapContent = `export const  iconsByCategory = ${JSON.stringify(mapContent)}`;
-const iconsByCategory = path.join(process.cwd(), "src/iconsByCategory.ts");
+mapContent = `export const iconsByCategory = ${JSON.stringify(mapContent)}`;
+const iconsByCategory = path.join(
+  process.cwd(),
+  "src/generated/iconsByCategory.ts"
+);
 fs.outputFileSync(
   iconsByCategory,
   prettier.format(mapContent, { parser: "typescript" })

@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const {
   dll: { NextDllPlugin, NextHashedModuleIdsPlugin },
+  CleanWebpackPlugin,
 } = require("@next-core/webpack-config-factory");
 const packageJson = require("./package.json");
 
@@ -17,9 +18,10 @@ module.exports = {
     dll: Object.keys(packageJson.dependencies), //.map(k => k.replace("@next-core/", "@easyops/")),
   },
   output: {
-    filename: "[name].js",
+    filename: isProd ? "[name].[contenthash].js" : "[name].bundle.js",
     path: distPath,
     library: "[name]",
+    hashDigestLength: 8,
   },
   module: {
     rules: [
@@ -35,7 +37,15 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: false,
+      },
+    },
+  },
   plugins: [
+    new CleanWebpackPlugin(),
     new NextDllPlugin({
       name: "[name]",
       path: path.join(distPath, "manifest.json"),

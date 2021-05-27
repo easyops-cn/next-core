@@ -16,19 +16,37 @@ const {
   migrateOfficialRenovate,
   disableSdkRenovate,
   migrateHusky,
+  addMocksForBrickIcons,
 } = require("./patches");
 
-module.exports = async function patch() {
-  const selfJson = readSelfJson();
+function initAndGetDevDependenciesVersion() {
   const rootPackageJsonPath = path.resolve("package.json");
   const rootPackageJson = readJson(rootPackageJsonPath);
+  let updated = false;
   if (!rootPackageJson.easyops) {
     rootPackageJson.easyops = {};
+    updated = true;
   }
   if (!rootPackageJson.easyops["dev-dependencies"]) {
     rootPackageJson.easyops["dev-dependencies"] = "0.3.2";
+    updated = true;
   }
-  const currentRenewVersion = rootPackageJson.easyops["dev-dependencies"];
+  if (updated) {
+    writeJsonFile(rootPackageJsonPath, rootPackageJson);
+  }
+  return rootPackageJson.easyops["dev-dependencies"];
+}
+
+function updateDevDependenciesVersion() {
+  const selfJson = readSelfJson();
+  const rootPackageJsonPath = path.resolve("package.json");
+  const rootPackageJson = readJson(rootPackageJsonPath);
+  rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
+  writeJsonFile(rootPackageJsonPath, rootPackageJson);
+}
+
+module.exports = async function patch() {
+  const currentRenewVersion = initAndGetDevDependenciesVersion();
 
   if (semver.lt(currentRenewVersion, "0.4.0")) {
     updateLintstagedrc();
@@ -59,7 +77,7 @@ module.exports = async function patch() {
   }
 
   if (semver.lt(currentRenewVersion, "0.7.12")) {
-    updatePackageJsonScriptsTestCommand(rootPackageJson);
+    updatePackageJsonScriptsTestCommand();
   }
 
   if (semver.lt(currentRenewVersion, "0.7.25")) {
@@ -78,10 +96,6 @@ module.exports = async function patch() {
     updateBuildStories();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.18")) {
-    updateRenovateFileFilters();
-  }
-
   if (semver.lt(currentRenewVersion, "1.0.21")) {
     updateMRTemplates();
   }
@@ -91,7 +105,7 @@ module.exports = async function patch() {
   }
 
   if (semver.lt(currentRenewVersion, "1.2.35")) {
-    updateLicense(rootPackageJsonPath, rootPackageJson);
+    updateLicense();
   }
 
   if (semver.lt(currentRenewVersion, "1.3.0")) {
@@ -106,13 +120,19 @@ module.exports = async function patch() {
     disableSdkRenovate();
   }
 
-  if (semver.lt(currentRenewVersion, "1.8.0")) {
+  if (semver.lt(currentRenewVersion, "1.8.4")) {
+    updateRenovateFileFilters();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.8.5")) {
     await migrateHusky();
   }
 
-  rootPackageJson.easyops["dev-dependencies"] = selfJson.version;
+  if (semver.lt(currentRenewVersion, "1.8.12")) {
+    addMocksForBrickIcons();
+  }
 
-  writeJsonFile(rootPackageJsonPath, rootPackageJson);
+  updateDevDependenciesVersion();
 };
 
 function updateLintstagedrc() {
@@ -380,11 +400,14 @@ function updateRenovatePostUpgradeTasks() {
   }
 }
 
-function updatePackageJsonScriptsTestCommand(packageJson) {
-  packageJson.scripts.test =
+function updatePackageJsonScriptsTestCommand() {
+  const rootPackageJsonPath = path.resolve("package.json");
+  const rootPackageJson = readJson(rootPackageJsonPath);
+  rootPackageJson.scripts.test =
     "cross-env NODE_ENV='test' node --expose-gc ./node_modules/.bin/jest --logHeapUsage";
-  packageJson.scripts["test:ci"] =
+  rootPackageJson.scripts["test:ci"] =
     "cross-env NODE_ENV='test' CI=true node --expose-gc ./node_modules/.bin/jest --logHeapUsage --ci";
+  writeJsonFile(rootPackageJsonPath, rootPackageJson);
 }
 
 function updateRenovateBaseBranches() {

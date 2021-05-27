@@ -5,5 +5,6 @@ export enum LogLevel {
 
 export const customConsole = {
   log: jest.fn(),
+  warn: jest.fn(),
   error: jest.fn(),
 };

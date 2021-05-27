@@ -49,7 +49,13 @@ describe("updateRenovateFileFilters", () => {
             groupName: "next-core packages",
             postUpgradeTasks: {
               commands: [],
-              fileFilters: ["**/*", ".gitlab/**/*"],
+              fileFilters: [
+                "**/*",
+                ".gitlab/**/*",
+                ".huskyrc",
+                ".husky/.gitignore",
+                ".husky/**/*",
+              ],
             },
           },
         ],

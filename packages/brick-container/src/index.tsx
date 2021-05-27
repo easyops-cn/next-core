@@ -33,7 +33,7 @@ initializeLibrary();
 // These constants bellow are defined by `webpack.DefinePlugin`.
 // eslint-disable-next-line
 // @ts-ignore
-window.DLL_HASH = DLL_HASH;
+window.DLL_PATH = DLL_PATH;
 // eslint-disable-next-line
 // @ts-ignore
 window.BRICK_NEXT_VERSIONS = BRICK_NEXT_VERSIONS;
@@ -52,8 +52,6 @@ const mountPoints = {
   main: root.querySelector<HTMLElement>("#main-mount-point"),
   bg: root.querySelector<HTMLElement>("#bg-mount-point"),
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
-  header: root.querySelector<HTMLElement>("#header-mount-point"),
-  footer: root.querySelector<HTMLElement>("#footer-mount-point"),
 };
 
 const api = `${getRuntime().getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
