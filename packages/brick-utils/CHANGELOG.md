@@ -3,13 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.15.0...@next-core/brick-utils@2.15.1) (2021-05-08)
+# [2.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.15.2...@next-core/brick-utils@2.16.0) (2021-05-18)
+
+### Features
+
+- support to async load icons and refine dll js name ([43b783b](https://github.com/easyops-cn/next-core/commit/43b783baaf570eaaf711860dceab8da913abc5f0))
+
+## [2.15.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.15.1...@next-core/brick-utils@2.15.2) (2021-05-11)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
+## [2.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.15.0...@next-core/brick-utils@2.15.1) (2021-05-08)
 
-
-
+**Note:** Version bump only for package @next-core/brick-utils
 
 # [2.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.14.6...@next-core/brick-utils@2.15.0) (2021-04-28)
 

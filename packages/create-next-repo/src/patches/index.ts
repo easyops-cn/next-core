@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { patchInternalRenovate } from "./patchInternalRenovate";
 import { patchInternalTemplate } from "./patchInternalTemplate";
 import { replaceCommentSectionsInReadme } from "./replaceCommentSectionsInReadme";
 import { replaceCommentSectionsInWorkflows } from "./replaceCommentSectionsInWorkflows";
@@ -6,6 +7,7 @@ import { replaceInternalBadges } from "./replaceInternalBadges";
 import { replaceInternalScopes } from "./replaceInternalScopes";
 import { replaceInternalUrls } from "./replaceInternalUrls";
 import { replaceYourRepository } from "./replaceYourRepository";
+import { changeMode } from "./changeMode";
 import { customConsole, LogLevel } from "../customConsole";
 
 export interface PatchOptions {
@@ -40,10 +42,13 @@ async function patchInternal(dest: string): Promise<void> {
   await replaceInternalScopes(dest);
   await replaceYourRepository(dest);
   await patchInternalTemplate(dest);
+  await patchInternalRenovate(dest);
+  await changeMode(dest);
 }
 
 async function patchPublic(dest: string): Promise<void> {
   await replaceCommentSectionsInReadme(dest);
   await replaceCommentSectionsInWorkflows(dest);
   await replaceYourRepository(dest);
+  await changeMode(dest);
 }

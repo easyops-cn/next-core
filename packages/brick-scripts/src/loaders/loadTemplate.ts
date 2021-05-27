@@ -112,12 +112,14 @@ export async function loadTemplate({
   const ignores = [".DS_Store"];
   let sdkName: string;
   if (targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS) {
-    // Providers 库直接使用构件库的模板文件，但忽略其 `src` 目录。
+    // Providers 库直接使用构件库的模板文件，但忽略其中部分文件。
     templateDir = path.join(
       templateRoot,
       targetMap[TargetType.A_NEW_PACKAGE_OF_BRICKS]
     );
+    // Providers 库不需要 `src` 及 `webpack.editors.js`。
     ignores.push("template/bricks-pkg/src/");
+    ignores.push("template/bricks-pkg/webpack.editors.js");
     sdkName = `${packageName.replace(/^providers-of-/, "")}-sdk`;
   }
 
@@ -228,8 +230,9 @@ export async function loadTemplate({
         "package.json"
       );
       if (fs.existsSync(sdkPackagePath)) {
-        sdkVersion = JSON.parse(fs.readFileSync(sdkPackagePath, "utf8"))
-          .version;
+        sdkVersion = JSON.parse(
+          fs.readFileSync(sdkPackagePath, "utf8")
+        ).version;
       }
     }
 

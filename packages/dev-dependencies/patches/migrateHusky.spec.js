@@ -16,21 +16,20 @@ describe("migrateHusky", () => {
     fs.existsSync.mockReturnValueOnce(true);
 
     readJson.mockReturnValueOnce({
-      hooks: {
-        "pre-commit": "lint-staged",
+      scripts: {
+        start: "webpack",
       },
     });
 
     readJson.mockReturnValueOnce({
-      scripts: {
-        start: "webpack",
+      hooks: {
+        "pre-commit": "lint-staged",
       },
     });
 
     await migrateHusky();
 
     expect(writeJsonFile).toBeCalledTimes(2);
-
     expect(writeJsonFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining(".huskyrc"),
@@ -40,7 +39,6 @@ describe("migrateHusky", () => {
         },
       }
     );
-
     expect(writeJsonFile).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining("package.json"),
@@ -67,7 +65,6 @@ describe("migrateHusky", () => {
     await migrateHusky();
 
     expect(writeJsonFile).toBeCalledTimes(1);
-
     expect(writeJsonFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining("package.json"),
@@ -86,21 +83,20 @@ describe("migrateHusky", () => {
     fs.existsSync.mockReturnValueOnce(true);
 
     readJson.mockReturnValueOnce({
-      hooks: {
-        "pre-commit": "npm run lint-staged",
+      scripts: {
+        start: "webpack",
       },
     });
 
     readJson.mockReturnValueOnce({
-      scripts: {
-        start: "webpack",
+      hooks: {
+        "pre-commit": "npm run lint-staged",
       },
     });
 
     await migrateHusky();
 
     expect(writeJsonFile).toBeCalledTimes(1);
-
     expect(writeJsonFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining("package.json"),
@@ -119,22 +115,21 @@ describe("migrateHusky", () => {
     fs.existsSync.mockReturnValueOnce(true);
 
     readJson.mockReturnValueOnce({
-      hooks: {
-        "pre-commit": "lint-staged",
-      },
-    });
-
-    readJson.mockReturnValueOnce({
       scripts: {
         start: "webpack",
         "lint-staged": "lint-staged",
       },
     });
 
+    readJson.mockReturnValueOnce({
+      hooks: {
+        "pre-commit": "lint-staged",
+      },
+    });
+
     await migrateHusky();
 
     expect(writeJsonFile).toBeCalledTimes(1);
-
     expect(writeJsonFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining(".huskyrc"),

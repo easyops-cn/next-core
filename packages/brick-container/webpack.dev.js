@@ -1,5 +1,4 @@
 const { merge } = require("webpack-merge");
-const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
 const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
 const common = require("./webpack.common.js");
 const devServerOptions = require("./dev-server");
@@ -55,16 +54,4 @@ module.exports = merge(common, {
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackTagsPlugin({
-      files: ["index.html"],
-      scripts: [
-        {
-          path: "dll.js",
-          // Always append the `dll` before any other scripts.
-          append: false,
-        },
-      ],
-    }),
-  ],
 });

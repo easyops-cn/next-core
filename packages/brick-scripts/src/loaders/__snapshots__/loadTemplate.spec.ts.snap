@@ -350,6 +350,10 @@ renameTarPackage();
 ",
   ],
   Array [
+    "dist/src/editor-bricks/index.ts",
+    "",
+  ],
+  Array [
     "dist/src/i18n/constants.ts",
     "export const NS_FOR_GOOD = \\"for-good\\";
 
@@ -441,6 +445,20 @@ const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
 
 module.exports = merge(
   webpackCommonFactory(),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
+",
+  ],
+  Array [
+    "dist/webpack.editors.js",
+    "const { bricks, merge } = require(\\"@next-core/webpack-config-factory\\");
+
+const { webpackEditorsFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackEditorsFactory(),
   process.env.NODE_ENV === \\"development\\"
     ? webpackDevFactory()
     : webpackProdFactory()
@@ -570,6 +588,10 @@ renameTarPackage();
 ",
   ],
   Array [
+    "dist/src/editor-bricks/index.ts",
+    "",
+  ],
+  Array [
     "dist/src/i18n/constants.ts",
     "export const NS_FOR_GOOD = \\"for-good\\";
 
@@ -661,6 +683,20 @@ const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
 
 module.exports = merge(
   webpackCommonFactory(),
+  process.env.NODE_ENV === \\"development\\"
+    ? webpackDevFactory()
+    : webpackProdFactory()
+);
+",
+  ],
+  Array [
+    "dist/webpack.editors.js",
+    "const { bricks, merge } = require(\\"@next-core/webpack-config-factory\\");
+
+const { webpackEditorsFactory, webpackDevFactory, webpackProdFactory } = bricks;
+
+module.exports = merge(
+  webpackEditorsFactory(),
   process.env.NODE_ENV === \\"development\\"
     ? webpackDevFactory()
     : webpackProdFactory()
