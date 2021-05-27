@@ -16,31 +16,36 @@ module.exports = () => {
         presetEnv,
         {
           targets: {
-            node: "current"
-          }
-        }
+            node: "current",
+          },
+        },
       ],
       presetReact,
-      presetTypescript
+      [
+        presetTypescript,
+        {
+          allowDeclareFields: true,
+        },
+      ],
     ],
     plugins: [
       [
         antdImport,
         {
-          libraryName: "antd"
-        }
+          libraryName: "antd",
+        },
       ],
       [
         proposalDecorators,
         {
-          decoratorsBeforeExport: true
-        }
+          decoratorsBeforeExport: true,
+        },
       ],
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
       proposalClassProperties,
-      proposalUnicodePropertyRegex
-    ]
+      proposalUnicodePropertyRegex,
+    ],
   };
 
   const envOthers = {
@@ -51,32 +56,37 @@ module.exports = () => {
           modules: false,
           useBuiltIns: "entry",
           corejs: {
-            version: 3
-          }
-        }
+            version: 3,
+          },
+        },
       ],
       presetReact,
-      presetTypescript
+      [
+        presetTypescript,
+        {
+          allowDeclareFields: true,
+        },
+      ],
     ],
     plugins: [
       [
         proposalDecorators,
         {
-          decoratorsBeforeExport: true
-        }
+          decoratorsBeforeExport: true,
+        },
       ],
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
       proposalClassProperties,
-      proposalUnicodePropertyRegex
-    ]
+      proposalUnicodePropertyRegex,
+    ],
   };
 
   return {
     env: {
       test: envTest,
       development: envOthers,
-      production: envOthers
-    }
+      production: envOthers,
+    },
   };
 };
