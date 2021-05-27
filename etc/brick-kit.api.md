@@ -57,6 +57,7 @@ import { SiteMode } from '@next-core/brick-types';
 import { SiteTheme } from '@next-core/brick-types';
 import { Storyboard } from '@next-core/brick-types';
 import { StoryboardMeta } from '@next-core/brick-types';
+import { Subtract } from 'react-i18next';
 import { TemplatePackage } from '@next-core/brick-types';
 import { UseBrickConf } from '@next-core/brick-types';
 import { UserInfo } from '@next-core/brick-types';
@@ -180,10 +181,11 @@ export interface EasyopsEmptyProps {
     imageStyle?: React_2.CSSProperties;
 }
 
+// Warning: (ae-forgotten-export) The symbol "NS_BRICK_KIT" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "ErrorBoundary" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export const ErrorBoundary: React_2.ComponentType<Pick<Pick<WithTranslation<"brick-kit">, "t" | "tReady">, never> & WithTranslationProps>;
+export const ErrorBoundary: React_2.ComponentType<Omit<Subtract<WithTranslation<typeof NS_BRICK_KIT>, WithTranslationProps>, keyof WithTranslation<typeof NS_BRICK_KIT>> & WithTranslationProps>;
 
 // @public
 function event_2(options: EventDeclaration): any;
