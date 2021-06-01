@@ -12,7 +12,7 @@ export class BaseBar {
    *
    * @param brick -
    */
-  async bootstrap(brick?: string): Promise<void> {
+  async bootstrap(brick?: string, options?: { testid: string }): Promise<void> {
     // Ignore if the brick is not changed.
     if (this.brick === brick) {
       return;
@@ -24,11 +24,13 @@ export class BaseBar {
       this.element.remove();
       this.element = null;
     }
-
     // The new brick may be undefined, which indicates no bar element in current layout.
     if (brick) {
       await this.kernel.loadDynamicBricks([brick]);
       this.element = document.createElement(brick);
+      if (options?.testid) {
+        this.element.dataset.testid = options.testid;
+      }
       this.kernel.mountPoints[this.mountPoint as keyof MountPoints].appendChild(
         this.element
       );

@@ -28,7 +28,7 @@ describe("BaseBar", () => {
     expect(loadingBarMountPoint.firstChild.nodeName.toLowerCase()).toBe("p");
 
     // This simulates bootstrapping with a new brick.
-    await loadingBar.bootstrap("div");
+    await loadingBar.bootstrap("div", { testid: "testid" });
     expect(mockLoadDynamicBricks).toBeCalledTimes(2);
     expect(mockLoadDynamicBricks).toBeCalledWith(["div"]);
     expect(loadingBarMountPoint.firstChild.nodeName.toLowerCase()).toBe("div");

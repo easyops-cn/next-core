@@ -396,7 +396,9 @@ describe("Kernel", () => {
     });
     expect(document.body.classList.contains("layout-console")).toBe(true);
     expect(document.body.classList.contains("layout-business")).toBe(false);
-    expect(kernel.menuBar.bootstrap).toBeCalledWith("basic-bricks.menu-bar");
+    expect(kernel.menuBar.bootstrap).toBeCalledWith("basic-bricks.menu-bar", {
+      testid: "brick-next-menu-bar",
+    });
     expect(kernel.appBar.bootstrap).toBeCalledWith("basic-bricks.app-bar");
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "basic-bricks.loading-bar"
@@ -421,7 +423,9 @@ describe("Kernel", () => {
     });
     expect(document.body.classList.contains("layout-business")).toBe(true);
     expect(document.body.classList.contains("layout-console")).toBe(false);
-    expect(kernel.menuBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.menuBar.bootstrap).toBeCalledWith(undefined, {
+      testid: "brick-next-menu-bar",
+    });
     expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "business-website.loading-bar"
