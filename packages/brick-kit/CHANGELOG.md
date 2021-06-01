@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.48.1...@next-core/brick-kit@2.49.0) (2021-06-01)
+
+
+### Features
+
+* brick:basic-bricks.menu-bar add testid ([b5b5553](https://github.com/easyops-cn/next-core/commit/b5b5553b188f33a9f1866096bff89d7a5564e04a))
+
+
+
+
+
 ## [2.48.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.48.0...@next-core/brick-kit@2.48.1) (2021-05-27)
 
 
