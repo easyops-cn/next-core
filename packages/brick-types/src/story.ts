@@ -142,6 +142,7 @@ export interface StoryDoc {
   events?: StoryDocEvent[];
   methods?: StoryDocMethod[];
   properties: StoryDocProperty[];
+  editor?: string;
 }
 
 /** @internal */

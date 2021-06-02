@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 import { useDrag } from "react-dnd";
 import { BrickAsComponent } from "@next-core/brick-kit";
@@ -14,6 +14,8 @@ import { EditorBrickElementConstructor } from "../EditorElementFactory";
 import { useBuilderData } from "../hooks/useBuilderData";
 
 import styles from "./EditorBrickAsComponent.module.css";
+import { useStoryList } from "../hooks/useStoryList";
+import { getBrickDoc } from "./getBrickDoc";
 
 interface EditorBrickAsComponentProps {
   node: BuilderRuntimeNode;
@@ -28,9 +30,14 @@ export function EditorBrickAsComponent({
   const [editorBrick, setEditorBrick] = React.useState<string>();
   const [loadEditorError, setLoadEditorError] = React.useState<string>();
   const { edges } = useBuilderData();
+  const storyList = useStoryList();
   const hasChildren = React.useMemo(
     () => edges.some((edge) => edge.parent === node.$$uid),
     [node, edges]
+  );
+  const brickDoc = useMemo(
+    () => getBrickDoc(node, storyList),
+    [node, storyList]
   );
 
   React.useEffect(() => {
@@ -39,7 +46,7 @@ export function EditorBrickAsComponent({
       let editorName: string;
       let editorError: string;
       try {
-        editorName = await getEditorBrick(node);
+        editorName = await getEditorBrick(node, brickDoc);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);

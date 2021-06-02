@@ -3,6 +3,7 @@ import EventTarget from "@ungap/event-target";
 import {
   BuilderRouteOrBrickNode,
   BuilderRouteNode,
+  Story,
 } from "@next-core/brick-types";
 import {
   AbstractBuilderDataManager,
@@ -49,6 +50,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private routeList: BuilderRouteNode[] = [];
 
+  private storyList: Story[] = [];
+
   private readonly eventTarget = new EventTarget();
 
   private contextMenuStatus: BuilderContextMenuStatus = {
@@ -82,6 +85,14 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   getRouteList(): BuilderRouteNode[] {
     return this.routeList;
+  }
+
+  storyListInit(data: Story[]): void {
+    this.storyList = data;
+  }
+
+  getStoryList(): Story[] {
+    return this.storyList;
   }
 
   onRouteListChange(fn: EventListener): () => void {
@@ -163,9 +174,9 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       rootId,
       nodes: nodes.concat(
         getBuilderNode(
-          (omit(nodeData, [
+          omit(nodeData, [
             "parent",
-          ]) as Partial<BuilderRouteOrBrickNode>) as BuilderRouteOrBrickNode,
+          ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
           nodeUid,
           nodeAlias
         )

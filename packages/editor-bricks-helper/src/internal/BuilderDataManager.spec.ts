@@ -1,4 +1,4 @@
-import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
+import { BuilderRouteOrBrickNode, Story } from "@next-core/brick-types";
 import { NodeInstance } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -201,9 +201,9 @@ describe("BuilderDataManager for route of bricks", () => {
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
       nodeAlias: "new-brick",
-      nodeData: ({
+      nodeData: {
         mountPoint: "toolbar",
-      } as Partial<NodeInstance>) as NodeInstance,
+      } as Partial<NodeInstance> as NodeInstance,
       nodeIds: null,
     });
     const newData = manager.getData();
@@ -272,17 +272,17 @@ describe("BuilderDataManager for route of bricks", () => {
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
       nodeAlias: "new-brick",
-      nodeData: ({
+      nodeData: {
         mountPoint: "toolbar",
-      } as Partial<NodeInstance>) as NodeInstance,
+      } as Partial<NodeInstance> as NodeInstance,
       nodeIds: null,
     });
     manager.nodeAddStored({
       nodeUid: 7,
       nodeAlias: "new-brick",
-      nodeData: ({
+      nodeData: {
         id: "B-007",
-      } as Partial<BuilderRouteOrBrickNode>) as BuilderRouteOrBrickNode,
+      } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
     });
     expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
       "B-007"
@@ -836,9 +836,10 @@ describe("test showRelatedNodesBasedOnEvents", () => {
     BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
     manager = new BuilderDataManager();
     const listenOnShowRelatedNodesBasedOnEventsChange = jest.fn();
-    const unlistenOnShowRelatedNodesBasedOnEventsChange = manager.onShowRelatedNodesBasedOnEventsChange(
-      listenOnShowRelatedNodesBasedOnEventsChange
-    );
+    const unlistenOnShowRelatedNodesBasedOnEventsChange =
+      manager.onShowRelatedNodesBasedOnEventsChange(
+        listenOnShowRelatedNodesBasedOnEventsChange
+      );
     manager.setShowRelatedNodesBasedOnEvents(true);
     expect(listenOnShowRelatedNodesBasedOnEventsChange).toBeCalled();
     unlistenOnShowRelatedNodesBasedOnEventsChange();
@@ -869,5 +870,100 @@ describe("test highlightNodes", () => {
 
   it("should get highlightNodes", () => {
     expect(manager.getHighlightNodes()).toEqual(new Set([1]));
+  });
+});
+
+describe("test storyList", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    manager.storyListInit([
+      {
+        category: "form-input",
+        icon: {
+          icon: "pencil-alt",
+          lib: "fa",
+        },
+        storyId: "forms.general-input",
+        text: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        description: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        doc: {
+          name: "forms.general-input",
+          editor: "forms.general-input--editor",
+          author: "easyops",
+        },
+      },
+      {
+        category: "card",
+        icon: {
+          icon: "chevron-down",
+          lib: "fa",
+        },
+        storyId: "basic-bricks.general-card",
+        text: {
+          en: "general-card",
+          zh: "卡片",
+        },
+        doc: {
+          name: "basic-bricks.general-card",
+          editor: "base-card--editor",
+          author: "easyops",
+        },
+      },
+    ] as Story[]);
+  });
+
+  it("should init data", () => {
+    expect(manager.getStoryList()).toEqual([
+      {
+        category: "form-input",
+        icon: {
+          icon: "pencil-alt",
+          lib: "fa",
+        },
+        storyId: "forms.general-input",
+        text: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        description: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        doc: {
+          name: "forms.general-input",
+          editor: "forms.general-input--editor",
+          author: "easyops",
+        },
+      },
+      {
+        category: "card",
+        icon: {
+          icon: "chevron-down",
+          lib: "fa",
+        },
+        storyId: "basic-bricks.general-card",
+        text: {
+          en: "general-card",
+          zh: "卡片",
+        },
+        doc: {
+          name: "basic-bricks.general-card",
+          editor: "base-card--editor",
+          author: "easyops",
+        },
+      },
+    ]);
   });
 });
