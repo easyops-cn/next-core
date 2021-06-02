@@ -6,6 +6,9 @@ const antdImport = require("babel-plugin-import");
 const proposalDecorators = require("@babel/plugin-proposal-decorators");
 const proposalClassProperties = require("@babel/plugin-proposal-class-properties");
 const proposalPrivateMethods = require("@babel/plugin-proposal-private-methods");
+const proposalNullishCoalescingOperator = require("@babel/plugin-proposal-nullish-coalescing-operator");
+const proposalOptionalChaining = require("@babel/plugin-proposal-optional-chaining");
+const proposalUnicodePropertyRegex = require("@babel/plugin-proposal-unicode-property-regex");
 
 // https://babeljs.io/docs/en/plugins/#plugin-ordering
 // > * Plugins run before Presets.
@@ -60,6 +63,15 @@ module.exports = () => {
           libraryName: "antd",
         },
       ],
+      // Even though the three plugins below are included in @babel/preset-env,
+      // but webpack@4 doesn't support these syntax.
+      // See https://github.com/webpack/webpack/issues/10227
+      // So we still put them here.
+      // By the way, there is a possible workaround to specify resolutions of acorn@8,
+      // See https://github.com/webpack/webpack/issues/10227#issuecomment-706752571
+      proposalNullishCoalescingOperator,
+      proposalOptionalChaining,
+      proposalUnicodePropertyRegex,
     ],
   };
 
@@ -83,6 +95,11 @@ module.exports = () => {
           allowDeclareFields: true,
         },
       ],
+    ],
+    plugins: [
+      proposalNullishCoalescingOperator,
+      proposalOptionalChaining,
+      proposalUnicodePropertyRegex,
     ],
   };
 
