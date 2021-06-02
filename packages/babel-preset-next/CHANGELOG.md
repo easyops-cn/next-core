@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.26...@next-core/babel-preset-next@0.7.0) (2021-06-02)
+
+
+### Features
+
+* **babel:** enable private methods, refine preset ([1c5fc85](https://github.com/easyops-cn/next-core/commit/1c5fc85fe911a847115d1baa5604a61b2f3675c2))
+
+
+
+
+
 ## [0.6.26](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.25...@next-core/babel-preset-next@0.6.26) (2021-05-27)
 
 
