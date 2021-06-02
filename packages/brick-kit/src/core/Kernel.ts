@@ -127,7 +127,9 @@ export class Kernel {
     }
 
     await Promise.all([
-      this.menuBar.bootstrap(this.presetBricks.menuBar),
+      this.menuBar.bootstrap(this.presetBricks.menuBar, {
+        testid: "brick-next-menu-bar",
+      }),
       this.appBar.bootstrap(this.presetBricks.appBar),
       this.loadingBar.bootstrap(this.presetBricks.loadingBar),
     ]);
