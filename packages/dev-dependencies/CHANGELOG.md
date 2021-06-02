@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.16](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.15...@next-core/dev-dependencies@1.8.16) (2021-06-01)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.15](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.14...@next-core/dev-dependencies@1.8.15) (2021-05-27)
+
+
+### Bug Fixes
+
+* migrate jest v27 ([d489eef](https://github.com/easyops-cn/next-core/commit/d489eefad0b2f5601fbfa9a0791c6e689347d8a9))
+
+
+
+
+
 ## [1.8.14](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.13...@next-core/dev-dependencies@1.8.14) (2021-05-24)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

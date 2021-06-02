@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.26](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.25...@next-core/babel-preset-next@0.6.26) (2021-05-27)
+
+
+### Bug Fixes
+
+* refine babel plugins ordering ([5d7a5c0](https://github.com/easyops-cn/next-core/commit/5d7a5c05ac3fffcaa0a0a59681dee16a5f485e8a))
+* **babel:** enable allowDeclareFields ([11e00f1](https://github.com/easyops-cn/next-core/commit/11e00f193a22bc859a0ee89b68b7f4149e993104))
+
+
+
+
+
 ## [0.6.25](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.6.24...@next-core/babel-preset-next@0.6.25) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/babel-preset-next
