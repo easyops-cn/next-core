@@ -20,7 +20,7 @@
   opacity: 0.3;
 }
 
-.microView {
+.baseView {
   height: 100%;
   min-height: 100%;
 }

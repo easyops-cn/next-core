@@ -118,9 +118,10 @@ export function EditorBrickAsComponent({
           ref={dragRef}
           draggable
           className={classNames({
-            [styles.microView]:
+            [styles.baseView]:
               node.brick === "basic-bricks.micro-view" ||
-              node.brick === "basic-bricks.micro-app",
+              node.brick === "basic-bricks.micro-app" ||
+              node.brick === "basic-bricks.easy-view",
           })}
         >
           <BrickAsComponent useBrick={brickConf} />
