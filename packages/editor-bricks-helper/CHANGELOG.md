@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.0...@next-core/editor-bricks-helper@0.20.1) (2021-06-03)
+
+
+### Bug Fixes
+
+* consider easy-view as a base view brick ([b2bd3a0](https://github.com/easyops-cn/next-core/commit/b2bd3a0ead90486b42e2cb5653214a794f599bc3))
+
+
+
+
+
 # [0.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.19.11...@next-core/editor-bricks-helper@0.20.0) (2021-06-03)
 
 

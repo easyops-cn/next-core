@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.24.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.24.7...@next-core/brick-container@2.24.8) (2021-06-03)
+
+
+### Bug Fixes
+
+* watch brick editors in dev mode ([265403f](https://github.com/easyops-cn/next-core/commit/265403fc9ca8dc8f7e0bed8dffe6e2d85c426a3d))
+
+
+
+
+
 ## [2.24.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.24.6...@next-core/brick-container@2.24.7) (2021-06-03)
 
 **Note:** Version bump only for package @next-core/brick-container
