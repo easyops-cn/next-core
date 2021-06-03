@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.13...@next-core/build-config-factory@2.10.0) (2021-06-03)
+
+
+### Features
+
+* 支持在文档中声明编辑器 ([1714fa4](https://github.com/easyops-cn/next-core/commit/1714fa42fbabd3918edf719c74405909a5e29c5d))
+
+
+
+
+
 ## [2.9.13](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.12...@next-core/build-config-factory@2.9.13) (2021-06-02)
 
 **Note:** Version bump only for package @next-core/build-config-factory

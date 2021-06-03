@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.26.2...@next-core/brick-types@2.27.0) (2021-06-03)
+
+
+### Features
+
+* 支持在文档中声明编辑器 ([1714fa4](https://github.com/easyops-cn/next-core/commit/1714fa42fbabd3918edf719c74405909a5e29c5d))
+
+
+
+
+
 ## [2.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.26.1...@next-core/brick-types@2.26.2) (2021-06-02)
 
 **Note:** Version bump only for package @next-core/brick-types
