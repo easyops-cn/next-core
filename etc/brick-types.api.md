@@ -1886,6 +1886,8 @@ export interface StoryDoc {
     // (undocumented)
     description?: string;
     // (undocumented)
+    editor?: string;
+    // (undocumented)
     events?: StoryDocEvent[];
     // (undocumented)
     history: StoryDocHistory[];

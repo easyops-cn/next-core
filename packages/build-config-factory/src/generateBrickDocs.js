@@ -34,6 +34,7 @@ const baseDocComments = [
   "history",
   "dockind",
   "deprecated",
+  "editor",
 ];
 
 function generateBrickDoc(doc, scope) {

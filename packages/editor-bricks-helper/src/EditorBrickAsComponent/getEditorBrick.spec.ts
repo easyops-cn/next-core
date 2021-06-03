@@ -1,3 +1,4 @@
+import { StoryDoc } from "@next-core/brick-types";
 import { getEditorBrick } from "./getEditorBrick";
 
 jest.mock("@next-core/brick-kit", () => ({
@@ -15,6 +16,10 @@ jest.mock("@next-core/brick-kit", () => ({
 customElements.define("micro-view--editor", class Tmp extends HTMLElement {});
 customElements.define(
   "basic-bricks.any-brick--editor",
+  class Tmp extends HTMLElement {}
+);
+customElements.define(
+  "common-container--editor",
   class Tmp extends HTMLElement {}
 );
 customElements.define(
@@ -87,5 +92,21 @@ describe("getEditorBrick", () => {
         id: "B-001",
       })
     ).rejects.toEqual(new Error("Unsupported node type: custom-template"));
+  });
+
+  it("should get specified editor brick from doc", async () => {
+    expect(
+      await getEditorBrick(
+        {
+          type: "brick",
+          brick: "list-container",
+          id: "B-001",
+        },
+        {
+          name: "list-container",
+          editor: "common-container--editor",
+        } as StoryDoc
+      )
+    ).toBe("common-container--editor");
   });
 });

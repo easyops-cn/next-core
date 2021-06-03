@@ -1,4 +1,5 @@
 import { developHelper } from "@next-core/brick-kit";
+import { StoryDoc } from "@next-core/brick-types";
 import { isBrickNode, isRouteNode } from "../assertions";
 import { BuilderRuntimeNode } from "../interfaces";
 
@@ -20,7 +21,8 @@ const ANY_ROUTE_EDITOR = "basic-bricks.any-route--editor";
  * And returns undefined if load failed.
  */
 export async function getEditorBrick(
-  node: BuilderRuntimeNode
+  node: BuilderRuntimeNode,
+  brickDoc?: StoryDoc
 ): Promise<string> {
   const tryEditorBricks: string[] = [];
   if (isRouteNode(node)) {
@@ -29,6 +31,11 @@ export async function getEditorBrick(
     if (node.brick.includes("-")) {
       tryEditorBricks.push(`${node.brick}--editor`);
     }
+
+    if (brickDoc?.editor) {
+      tryEditorBricks.push(brickDoc.editor);
+    }
+
     tryEditorBricks.push(ANY_BRICK_EDITOR);
   } else {
     // Currently there should be no custom-template nodes to be rendered as editor.
