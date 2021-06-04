@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.27.0...@next-core/brick-types@2.28.0) (2021-06-04)
+
+
+### Features
+
+* **brick-types:** menuIcon.color support gradient color ([a422801](https://github.com/easyops-cn/next-core/commit/a4228013fb1299a7396cbddf8221f09bbd3be1fd))
+
+
+
+
+
 # [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.26.2...@next-core/brick-types@2.27.0) (2021-06-03)
 
 
