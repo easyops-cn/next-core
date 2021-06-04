@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.3...@next-core/editor-bricks-helper@0.21.0) (2021-06-04)
+
+
+### Features
+
+* support to add bricks with properties ([10db276](https://github.com/easyops-cn/next-core/commit/10db276079e24e5bef5d10c6446ab83265a0df40))
+
+
+
+
+
 ## [0.20.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.2...@next-core/editor-bricks-helper@0.20.3) (2021-06-04)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
