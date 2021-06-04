@@ -103,6 +103,7 @@ export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 export interface GradientColor {
   startColor: string;
   endColor: string;
+  direction?: "top-to-bottom" | "left-to-right";
 }
 
 /** Antd 图标配置。 */
