@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.28.0...@next-core/brick-types@2.29.0) (2021-06-04)
+
+
+### Features
+
+* **brick-types:** GradientColor support direction ([fe7eff2](https://github.com/easyops-cn/next-core/commit/fe7eff2088debbab01196f3024c72b3a5936ac65))
+
+
+
+
+
 # [2.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.27.0...@next-core/brick-types@2.28.0) (2021-06-04)
 
 
