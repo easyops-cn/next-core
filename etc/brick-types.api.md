@@ -1078,6 +1078,8 @@ export type GeneralTransform = string | TransformMap | TransformItem[];
 // @public
 export interface GradientColor {
     // (undocumented)
+    direction?: "top-to-bottom" | "left-to-right";
+    // (undocumented)
     endColor: string;
     // (undocumented)
     startColor: string;
