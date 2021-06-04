@@ -7,9 +7,9 @@ import { getUniqueNodeId } from "../internal/getUniqueNodeId";
 
 jest.mock("../internal/getUniqueNodeId");
 
-(getUniqueNodeId as jest.MockedFunction<
-  typeof getUniqueNodeId
->).mockReturnValue(200);
+(
+  getUniqueNodeId as jest.MockedFunction<typeof getUniqueNodeId>
+).mockReturnValue(200);
 
 describe("processDrop", () => {
   const droppingSiblingGroups: BuilderGroupedChildNode[] = [
@@ -70,6 +70,9 @@ describe("processDrop", () => {
       type: BuilderDataTransferType.NODE_TO_ADD,
       data: {
         brick: "basic-bricks.new-brick",
+        properties: {
+          quality: "good",
+        },
       },
       droppingIndex: 1,
       droppingParentUid: 100,
@@ -90,6 +93,7 @@ describe("processDrop", () => {
         brick: "basic-bricks.new-brick",
         mountPoint: "toolbar",
         portal: false,
+        properties: '{"quality":"good"}',
       },
       nodeUids: [1, 200, 2, 3, 4, 5],
       nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],

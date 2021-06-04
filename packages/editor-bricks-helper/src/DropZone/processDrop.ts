@@ -41,6 +41,7 @@ export function processDrop({
     const {
       brickType = "brick",
       brick,
+      properties,
     } = data as BuilderDataTransferPayloadOfNodeToAdd;
     const draggingNodeUid = getUniqueNodeId();
     manager.nodeAdd({
@@ -61,6 +62,8 @@ export function processDrop({
         mountPoint: droppingMountPoint,
         bg: !isPortalCanvas && brickType === "provider" ? true : undefined,
         portal: isPortalCanvas,
+        // Preset-bricks may have properties.
+        properties: properties ? JSON.stringify(properties) : undefined,
       },
     });
   } else if (type === BuilderDataTransferType.NODE_TO_MOVE) {

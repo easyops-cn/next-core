@@ -13,16 +13,15 @@ export interface BuilderCanvasData {
   edges: BuilderRuntimeEdge[];
 }
 
-export type BuilderRuntimeNode<
-  P = Record<string, unknown>
-> = BuilderRouteOrBrickNode & {
-  $$uid?: number;
-  $$parsedProperties?: P;
-  $$parsedEvents?: BrickEventsMap;
-  $$parsedProxy?: CustomTemplateProxy;
-  $$parsedLifeCycle?: BrickLifeCycle;
-  $$matchedSelectors?: string[];
-};
+export type BuilderRuntimeNode<P = Record<string, unknown>> =
+  BuilderRouteOrBrickNode & {
+    $$uid?: number;
+    $$parsedProperties?: P;
+    $$parsedEvents?: BrickEventsMap;
+    $$parsedProxy?: CustomTemplateProxy;
+    $$parsedLifeCycle?: BrickLifeCycle;
+    $$matchedSelectors?: string[];
+  };
 
 export interface BuilderRuntimeEdge {
   child: number;
@@ -56,6 +55,7 @@ export interface NodeInstance {
   mountPoint: string;
   bg?: boolean;
   portal?: boolean;
+  properties?: string;
 }
 
 export interface EventDetailOfNodeAddStored {
@@ -102,6 +102,7 @@ export enum BuilderDataTransferType {
 export interface BuilderDataTransferPayloadOfNodeToAdd {
   brickType?: "brick" | "provider" | "template";
   brick: string;
+  properties?: Record<string, unknown>;
 }
 
 export interface BuilderDataTransferPayloadOfNodeToMove {
