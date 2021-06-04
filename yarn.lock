@@ -6070,10 +6070,10 @@ d3-force@^2.1.1:
     d3-quadtree "1 - 2"
     d3-timer "1 - 2"
 
-d3-hierarchy@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/d3-hierarchy/-/d3-hierarchy-2.0.0.tgz#dab88a58ca3e7a1bc6cab390e89667fcc6d20218"
-  integrity sha1-2riKWMo+ehvGyrOQ6JZn/MbSAhg=
+d3-hierarchy@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/d3-hierarchy/-/d3-hierarchy-3.0.0.tgz#dedd5a0f5dd46494229c9da73aa254f3627119c3"
+  integrity sha512-vJfouQ06V71rSK6YYnhfybog7SUJjDP7GMhgbl/4FC6g23U6v2Zs5n8dxYePbIgjSS9iXvE50h6p2M058y06Dg==
 
 "d3-interpolate@1 - 2":
   version "2.0.1"
