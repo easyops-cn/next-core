@@ -31,7 +31,7 @@
     "@next-dll/echarts": "^2.0.30",
     "@next-dll/editor-bricks-helper": "^0.10.11",
     "@next-dll/react-dnd": "^0.1.79",
-    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "babel-jest": "^27.0.2",
