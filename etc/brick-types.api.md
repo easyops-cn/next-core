@@ -1027,7 +1027,7 @@ export interface EasyopsIcon {
     // (undocumented)
     category?: string;
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     icon: string;
     // (undocumented)
@@ -1060,7 +1060,7 @@ export interface ExtendedHistory {
 // @public
 export interface FaIcon {
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     icon: IconName;
     // (undocumented)
@@ -1074,6 +1074,14 @@ export type FeatureFlags = Record<string, boolean>;
 
 // @public
 export type GeneralTransform = string | TransformMap | TransformItem[];
+
+// @public
+export interface GradientColor {
+    // (undocumented)
+    endColor: string;
+    // (undocumented)
+    startColor: string;
+}
 
 // @public
 export type HandleReject = HandleRejectByTransform | HandleRejectByCatch;
@@ -1117,7 +1125,7 @@ export type LayoutType = "console" | "business";
 // @public
 export interface LegacyAntdIcon {
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     lib: "antd";
     // (undocumented)
@@ -1478,7 +1486,7 @@ export interface RefForProxy {
 // @public
 export interface RefinedAntdIcon {
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     icon: string;
     // (undocumented)
