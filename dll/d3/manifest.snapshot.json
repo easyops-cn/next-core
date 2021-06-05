@@ -1618,6 +1618,7 @@
         "providedExports": [
           "cluster",
           "hierarchy",
+          "Node",
           "pack",
           "packSiblings",
           "packEnclose",
