@@ -72,7 +72,7 @@
     "cross-env": "^7.0.3",
     "cypress": "^7.4.0",
     "d3-drag": "^2.0.0",
-    "d3-force": "^2.1.1",
+    "d3-force": "^3.0.0",
     "d3-hierarchy": "^2.0.0",
     "d3-selection": "^2.0.0",
     "d3-shape": "^2.1.0",
