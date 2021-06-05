@@ -6082,10 +6082,10 @@ d3-hierarchy@^2.0.0:
   dependencies:
     d3-color "1 - 2"
 
-"d3-path@1 - 2":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/d3-path/-/d3-path-2.0.0.tgz#55d86ac131a0548adae241eebfb56b4582dd09d8"
-  integrity sha1-VdhqwTGgVIra4kHuv7VrRYLdCdg=
+"d3-path@1 - 3":
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/d3-path/-/d3-path-3.0.1.tgz#f09dec0aaffd770b7995f1a399152bf93052321e"
+  integrity sha512-gq6gZom9AFZby0YLduxT1qmrp4xpBA1YZr19OI717WIdKE2OM5ETq5qrHLb301IgxhLwcuxvGZVLeeWc/k1I6w==
 
 "d3-quadtree@1 - 2":
   version "2.0.0"
@@ -6097,12 +6097,12 @@ d3-selection@2, d3-selection@^2.0.0:
   resolved "https://registry.npmjs.org/d3-selection/-/d3-selection-2.0.0.tgz#94a11638ea2141b7565f883780dabc7ef6a61066"
   integrity sha1-lKEWOOohQbdWX4g3gNq8fvamEGY=
 
-d3-shape@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/d3-shape/-/d3-shape-2.1.0.tgz#3b6a82ccafbc45de55b57fcf956c584ded3b666f"
-  integrity sha1-O2qCzK+8Rd5VtX/PlWxYTe07Zm8=
+d3-shape@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/d3-shape/-/d3-shape-3.0.1.tgz#9ccdfb28fd9b0d12f2d8aec234cd5c4a9ea27931"
+  integrity sha512-HNZNEQoDhuCrDWEc/BMbF/hKtzMZVoe64TvisFLDp2Iyj0UShB/E6/lBsLlJTfBMbYgftHj90cXJ0SEitlE6Xw==
   dependencies:
-    d3-path "1 - 2"
+    d3-path "1 - 3"
 
 "d3-timer@1 - 2":
   version "2.0.0"
