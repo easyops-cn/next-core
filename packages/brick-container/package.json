@@ -54,7 +54,7 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.4.1",
-    "core-js": "^3.13.1",
+    "core-js": "^3.14.0",
     "css-loader": "^4.3.0",
     "html-webpack-plugin": "^4.5.2",
     "html-webpack-tags-plugin": "^2.0.17",
