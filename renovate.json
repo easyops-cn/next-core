@@ -44,6 +44,10 @@
     {
       "depTypeList": ["engines"],
       "enabled": false
+    },
+    {
+      "groupName": "d3 packages",
+      "matchPackagePatterns": ["^d3-"]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]
