@@ -94,6 +94,7 @@
           "useCanDrop",
           "useCanvasList",
           "useDroppingStatusContext",
+          "useHighlightNodes",
           "useHoverNodeUid",
           "useOutlineEnabled",
           "useRouteList",
