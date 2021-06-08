@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.11.0...@next-dll/editor-bricks-helper@0.12.0) (2021-06-08)
+
+
+### Features
+
+* export useHighlightNodes ([23a7090](https://github.com/easyops-cn/next-core/commit/23a7090be5b737352c27aaa10630b4c9ad390fc6))
+
+
+
+
+
 # [0.11.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.10.17...@next-dll/editor-bricks-helper@0.11.0) (2021-06-08)
 
 
