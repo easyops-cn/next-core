@@ -3439,6 +3439,7 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": [
+          "JsonStorage",
           "asyncProcessBrick",
           "asyncProcessStoryboard",
           "computeRealRoutePath",
