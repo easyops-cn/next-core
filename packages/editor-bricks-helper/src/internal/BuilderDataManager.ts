@@ -470,8 +470,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
-  getHighlightNodes(): Set<number> {
-    return this.highlightNodes;
+  isHighlighted(nodeUid: number): boolean {
+    return this.highlightNodes.has(nodeUid);
   }
 
   onHighlightNodesChange(fn: EventListener): () => void {

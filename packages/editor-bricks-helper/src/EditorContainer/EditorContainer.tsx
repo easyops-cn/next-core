@@ -11,7 +11,7 @@ import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatu
 import { useShowRelatedNodesBasedOnEvents } from "../hooks/useShowRelatedNodesBasedOnEvents";
 import { isCurrentTargetByClassName } from "./isCurrentTargetByClassName";
 import { useHoverNodeUid } from "../hooks/useHoverNodeUid";
-import { useHighlightNodes } from "../hooks/useHighlightNodes";
+import { useHighlighted } from "../hooks/useHighlighted";
 
 import styles from "./EditorContainer.module.css";
 
@@ -35,7 +35,7 @@ export function EditorContainer({
     {}
   );
   const editorContainerRef = React.useRef<HTMLDivElement>();
-  const highlightNodes = useHighlightNodes();
+  const highlighted = useHighlighted(nodeUid);
   const node = useBuilderNode({ nodeUid });
   const [isUpstreamNode, setIsUpstreamNode] = React.useState(false);
   const [isDownstreamNode, setIsDownstreamNode] = React.useState(false);
@@ -136,7 +136,7 @@ export function EditorContainer({
               contextMenuStatus.node.$$uid === nodeUid),
           [styles.isDownstreamNode]: !hover && isDownstreamNode,
           [styles.isUpstreamNode]: !hover && isUpstreamNode,
-          [styles.highlight]: highlightNodes.has(nodeUid),
+          [styles.highlighted]: highlighted,
         })}
         style={editorContainerStyle}
         ref={editorContainerRef}

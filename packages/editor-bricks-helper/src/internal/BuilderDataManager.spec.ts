@@ -850,7 +850,7 @@ describe("test showRelatedNodesBasedOnEvents", () => {
   });
 });
 
-describe("test highlightNodes", () => {
+describe("test setHighlightNodes", () => {
   let manager: BuilderDataManagerType;
   let BuilderDataManager: typeof BuilderDataManagerType;
 
@@ -868,8 +868,9 @@ describe("test highlightNodes", () => {
     unlistenOnHighlightNodesChange();
   });
 
-  it("should get highlightNodes", () => {
-    expect(manager.getHighlightNodes()).toEqual(new Set([1]));
+  it("should check if a specific node is highlighted", () => {
+    expect(manager.isHighlighted(1)).toBe(true);
+    expect(manager.isHighlighted(2)).toBe(false);
   });
 });
 

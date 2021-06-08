@@ -5,7 +5,7 @@ import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatus";
 import { useShowRelatedNodesBasedOnEvents } from "../hooks/useShowRelatedNodesBasedOnEvents";
 import { useHoverNodeUid } from "../hooks/useHoverNodeUid";
-import { useHighlightNodes } from "../hooks/useHighlightNodes";
+import { useHighlighted } from "../hooks/useHighlighted";
 import { EditorContainer } from "./EditorContainer";
 import { DroppingStatusContext } from "../DroppingStatusContext";
 import { BuilderRuntimeNode } from "../interfaces";
@@ -17,7 +17,7 @@ jest.mock("../hooks/useBuilderDataManager");
 jest.mock("../hooks/useBuilderContextMenuStatus");
 jest.mock("../hooks/useShowRelatedNodesBasedOnEvents");
 jest.mock("../hooks/useHoverNodeUid");
-jest.mock("../hooks/useHighlightNodes");
+jest.mock("../hooks/useHighlighted");
 jest.mock("./isCurrentTargetByClassName");
 
 const currentNode: BuilderRuntimeNode = {
@@ -30,21 +30,25 @@ const currentNode: BuilderRuntimeNode = {
   currentNode
 );
 
-const mockUseBuilderContextMenuStatus = (useBuilderContextMenuStatus as jest.MockedFunction<
-  typeof useBuilderContextMenuStatus
->).mockReturnValue({ active: false });
+const mockUseBuilderContextMenuStatus = (
+  useBuilderContextMenuStatus as jest.MockedFunction<
+    typeof useBuilderContextMenuStatus
+  >
+).mockReturnValue({ active: false });
 
-const mockUseShowRelatedNodesBasedOnEvents = (useShowRelatedNodesBasedOnEvents as jest.MockedFunction<
-  typeof useShowRelatedNodesBasedOnEvents
->).mockReturnValue(true);
+const mockUseShowRelatedNodesBasedOnEvents = (
+  useShowRelatedNodesBasedOnEvents as jest.MockedFunction<
+    typeof useShowRelatedNodesBasedOnEvents
+  >
+).mockReturnValue(true);
 
-(useHoverNodeUid as jest.MockedFunction<
-  typeof useHoverNodeUid
->).mockReturnValue(2);
+(
+  useHoverNodeUid as jest.MockedFunction<typeof useHoverNodeUid>
+).mockReturnValue(2);
 
-(useHighlightNodes as jest.MockedFunction<
-  typeof useHighlightNodes
->).mockReturnValue(new Set([7]));
+(
+  useHighlighted as jest.MockedFunction<typeof useHighlighted>
+).mockImplementation((nodeUid) => nodeUid === 7);
 
 const mockSetHoverNodeUid = jest.fn();
 const mockContextMenuChange = jest.fn();
@@ -60,18 +64,19 @@ const mockGetRelatedNodesBasedOnEventsMap = jest.fn().mockReturnValue(
     ],
   ])
 );
-(useBuilderDataManager as jest.MockedFunction<
-  typeof useBuilderDataManager
->).mockReturnValue(({
+(
+  useBuilderDataManager as jest.MockedFunction<typeof useBuilderDataManager>
+).mockReturnValue({
   setHoverNodeUid: mockSetHoverNodeUid,
   contextMenuChange: mockContextMenuChange,
   nodeClick: mockNodeClick,
   getRelatedNodesBasedOnEventsMap: mockGetRelatedNodesBasedOnEventsMap,
-} as unknown) as BuilderDataManager);
+} as unknown as BuilderDataManager);
 
-const mockIsCurrentTargetByClassName = isCurrentTargetByClassName as jest.MockedFunction<
-  typeof isCurrentTargetByClassName
->;
+const mockIsCurrentTargetByClassName =
+  isCurrentTargetByClassName as jest.MockedFunction<
+    typeof isCurrentTargetByClassName
+  >;
 
 describe("EditorContainer", () => {
   afterEach(() => {
@@ -81,7 +86,9 @@ describe("EditorContainer", () => {
   it("should work", () => {
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
     expect(wrapper.find(".editorContainer").hasClass("hover")).toBe(false);
-    expect(wrapper.find(".editorContainer").hasClass("highlight")).toBe(false);
+    expect(wrapper.find(".editorContainer").hasClass("highlighted")).toBe(
+      false
+    );
     expect(wrapper.find(".nodeAlias").text()).toBe("my-brick");
   });
 
@@ -97,9 +104,9 @@ describe("EditorContainer", () => {
     expect(wrapper.find(".editorContainer").hasClass("dropping")).toBe(true);
   });
 
-  it("should apply highlight class", () => {
+  it("should apply highlighted class", () => {
     const wrapper = shallow(<EditorContainer nodeUid={7} />);
-    expect(wrapper.find(".editorContainer").hasClass("highlight")).toBe(true);
+    expect(wrapper.find(".editorContainer").hasClass("highlighted")).toBe(true);
   });
 
   it("should apply hover class when context menu is active", () => {
@@ -115,18 +122,18 @@ describe("EditorContainer", () => {
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
     expect(wrapper.find(".editorContainer").hasClass("hover")).toBe(false);
 
-    const mockMouseLeaveEvent = ({
+    const mockMouseLeaveEvent = {
       stopPropagation: jest.fn(),
-    } as unknown) as React.MouseEvent;
+    } as unknown as React.MouseEvent;
     wrapper.find(".editorContainer").invoke("onMouseLeave")(
       mockMouseLeaveEvent
     );
     expect(mockMouseLeaveEvent.stopPropagation).toBeCalled();
     expect(mockSetHoverNodeUid).not.toBeCalled();
 
-    const mockMouseEnterEvent = ({
+    const mockMouseEnterEvent = {
       stopPropagation: jest.fn(),
-    } as unknown) as React.MouseEvent;
+    } as unknown as React.MouseEvent;
     wrapper.find(".editorContainer").invoke("onMouseEnter")(
       mockMouseEnterEvent
     );
@@ -139,18 +146,18 @@ describe("EditorContainer", () => {
     const wrapper = shallow(<EditorContainer nodeUid={2} />);
     expect(wrapper.find(".editorContainer").hasClass("hover")).toBe(true);
 
-    const mockMouseEnterEvent = ({
+    const mockMouseEnterEvent = {
       stopPropagation: jest.fn(),
-    } as unknown) as React.MouseEvent;
+    } as unknown as React.MouseEvent;
     wrapper.find(".editorContainer").invoke("onMouseEnter")(
       mockMouseEnterEvent
     );
     expect(mockMouseEnterEvent.stopPropagation).toBeCalled();
     expect(mockSetHoverNodeUid).not.toBeCalled();
 
-    const mockMouseLeaveEvent = ({
+    const mockMouseLeaveEvent = {
       stopPropagation: jest.fn(),
-    } as unknown) as React.MouseEvent;
+    } as unknown as React.MouseEvent;
     wrapper.find(".editorContainer").invoke("onMouseLeave")(
       mockMouseLeaveEvent
     );
@@ -161,9 +168,9 @@ describe("EditorContainer", () => {
 
   it("should handle context menu on current target", () => {
     mockIsCurrentTargetByClassName.mockReturnValueOnce(true);
-    const mockContextMenuEvent = ({
+    const mockContextMenuEvent = {
       preventDefault: jest.fn(),
-    } as unknown) as React.MouseEvent;
+    } as unknown as React.MouseEvent;
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
     wrapper.find(".editorContainer").invoke("onContextMenu")(
       mockContextMenuEvent
@@ -179,9 +186,9 @@ describe("EditorContainer", () => {
 
   it("should handle context menu on non-current target", () => {
     mockIsCurrentTargetByClassName.mockReturnValueOnce(false);
-    const mockContextMenuEvent = ({
+    const mockContextMenuEvent = {
       preventDefault: jest.fn(),
-    } as unknown) as React.MouseEvent;
+    } as unknown as React.MouseEvent;
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
     wrapper.find(".editorContainer").invoke("onContextMenu")(
       mockContextMenuEvent
@@ -194,7 +201,7 @@ describe("EditorContainer", () => {
     mockIsCurrentTargetByClassName.mockReturnValueOnce(true);
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
     wrapper.find(".editorContainer").invoke("onClick")(
-      ({} as unknown) as React.MouseEvent
+      {} as unknown as React.MouseEvent
     );
     expect(mockNodeClick).toBeCalledWith(currentNode);
   });
@@ -203,7 +210,7 @@ describe("EditorContainer", () => {
     mockIsCurrentTargetByClassName.mockReturnValueOnce(false);
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
     wrapper.find(".editorContainer").invoke("onClick")(
-      ({} as unknown) as React.MouseEvent
+      {} as unknown as React.MouseEvent
     );
     expect(mockNodeClick).not.toBeCalled();
   });

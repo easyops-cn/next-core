@@ -1,12 +1,12 @@
 import React from "react";
 import { act } from "react-dom/test-utils";
 import { mount } from "enzyme";
-import { useHighlightNodes } from "./useHighlightNodes";
+import { useHighlighted } from "./useHighlighted";
 import { useBuilderDataManager } from "./useBuilderDataManager";
 
 jest.mock("./useBuilderDataManager");
 
-let mockHighlight = new Set([1, 2]);
+const mockHighlightNodes = new Set();
 
 const onHighlightNodesChangeListeners = new Set<() => void>();
 const mockManager = {
@@ -14,27 +14,27 @@ const mockManager = {
     onHighlightNodesChangeListeners.add(fn);
     return () => onHighlightNodesChangeListeners.delete(fn);
   }),
-  getHighlightNodes: () => mockHighlight,
+  isHighlighted: (nodeUid: number) => mockHighlightNodes.has(nodeUid),
 };
 (useBuilderDataManager as jest.Mock).mockReturnValue(mockManager);
 
-function TestComponent(): React.ReactElement {
-  const data = useHighlightNodes();
-  return <div>{data}</div>;
+function TestComponent(props: { nodeUid: number }): React.ReactElement {
+  const highlighted = useHighlighted(props.nodeUid);
+  return <div>{highlighted ? "yes" : "no"}</div>;
 }
 
-describe("useHighlightNodes", () => {
+describe("useHighlighted", () => {
   it("should work", () => {
-    const wrapper = mount(<TestComponent />);
-    expect(wrapper.text()).toBe("12");
+    const wrapper = mount(<TestComponent nodeUid={1} />);
+    expect(wrapper.text()).toBe("no");
 
-    mockHighlight = new Set([2, 3]);
+    mockHighlightNodes.add(1);
 
     act(() => {
       onHighlightNodesChangeListeners.forEach((fn) => fn());
     });
 
-    expect(wrapper.text()).toBe("23");
+    expect(wrapper.text()).toBe("yes");
 
     // It should remove the registered listener when component unmounted.
     wrapper.unmount();

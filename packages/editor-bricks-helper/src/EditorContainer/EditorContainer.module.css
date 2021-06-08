@@ -16,7 +16,7 @@
   pointer-events: none;
 }
 
-.editorContainer.highlight > .nodeAlias,
+.editorContainer.highlighted > .nodeAlias,
 .editorContainer.hover > .nodeAlias,
 .editorContainer.dropping > .nodeAlias {
   visibility: visible;
@@ -58,8 +58,8 @@
   box-shadow: 0 0 0 1px rgba(224, 88, 22, 0.3);
 }
 
-.editorContainer.highlight > .editorBody,
-.editorContainer.highlight > .nodeAlias {
+.editorContainer.highlighted > .editorBody,
+.editorContainer.highlighted > .nodeAlias {
   box-shadow: 0 0 0 1px var(--theme-orange-color);
 }
 
