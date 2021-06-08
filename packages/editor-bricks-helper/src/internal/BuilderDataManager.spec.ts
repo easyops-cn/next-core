@@ -967,3 +967,28 @@ describe("test storyList", () => {
     ]);
   });
 });
+
+describe("test toggleOutline", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+  });
+
+  it("should check if the outline of a specific node is enabled", () => {
+    const listenOnOutlineEnabledNodesChange = jest.fn();
+    const unlistenOnOutlineEnabledNodesChange =
+      manager.onOutlineEnabledNodesChange(listenOnOutlineEnabledNodesChange);
+    expect(manager.isOutlineEnabled("instance-a")).toBe(true);
+    manager.toggleOutline("instance-a");
+    expect(manager.isOutlineEnabled("instance-a")).toBe(false);
+    manager.toggleOutline("instance-a");
+    expect(manager.isOutlineEnabled("instance-a")).toBe(true);
+    expect(listenOnOutlineEnabledNodesChange).toBeCalledTimes(2);
+    unlistenOnOutlineEnabledNodesChange();
+  });
+});

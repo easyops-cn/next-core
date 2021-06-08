@@ -5,6 +5,58 @@
       "id": "/8r5",
       "buildMeta": { "providedExports": true }
     },
+    "./node_modules/@easyops/brick-utils/dist/index.esm.js": {
+      "id": "A+yw",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "JsonStorage",
+          "asyncProcessBrick",
+          "asyncProcessStoryboard",
+          "computeRealRoutePath",
+          "convertValueByPrecision",
+          "cook",
+          "createProviderClass",
+          "formatValue",
+          "getDependencyMapOfContext",
+          "getDepsOfTemplates",
+          "getDllAndDepsByResource",
+          "getDllAndDepsOfBricks",
+          "getDllAndDepsOfStoryboard",
+          "getTemplateDepsOfStoryboard",
+          "hasOwnProperty",
+          "inject",
+          "isEvaluable",
+          "isObject",
+          "loadScript",
+          "mapCustomApisToNameAndNamespace",
+          "matchPath",
+          "pipes",
+          "precook",
+          "preevaluate",
+          "prefetchScript",
+          "resolveContextConcurrently",
+          "restoreDynamicTemplates",
+          "scanBricksInBrickConf",
+          "scanBricksInStoryboard",
+          "scanCustomApisInStoryboard",
+          "scanI18NInAny",
+          "scanI18NInStoryboard",
+          "scanPermissionActionsInAny",
+          "scanPermissionActionsInStoryboard",
+          "scanProcessorsInAny",
+          "scanProcessorsInStoryboard",
+          "scanRouteAliasInStoryboard",
+          "scanStoryboard",
+          "scanTemplatesInBrick",
+          "scanTemplatesInStoryboard",
+          "shouldAllowRecursiveEvaluations",
+          "smartDisplayForEvaluableString",
+          "toPath",
+          "transform"
+        ]
+      }
+    },
     "./node_modules/react-dnd/dist/esm/index.js": {
       "id": "IYwU",
       "buildMeta": { "exportsType": "namespace", "providedExports": true }
@@ -43,6 +95,7 @@
           "useCanvasList",
           "useDroppingStatusContext",
           "useHoverNodeUid",
+          "useOutlineEnabled",
           "useRouteList",
           "useShowRelatedNodesBasedOnEvents"
         ]

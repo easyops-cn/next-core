@@ -5,6 +5,7 @@ import {
   BuilderRouteNode,
   Story,
 } from "@next-core/brick-types";
+import { JsonStorage } from "@next-core/brick-utils";
 import {
   AbstractBuilderDataManager,
   BuilderCanvasData,
@@ -37,7 +38,10 @@ enum BuilderInternalEventType {
   HOVER_NODE_CHANGE = "builder.hoverNode.change",
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
+  OUTLINE_DISABLED_NODES_CHANGE = "builder.outlineDisabledNodes.change",
 }
+
+const storageKeyOfOutlineDisabledNodes = "builder-outline-disabled-nodes";
 
 export class BuilderDataManager implements AbstractBuilderDataManager {
   private data: BuilderCanvasData = {
@@ -63,6 +67,14 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   private relatedNodesBasedOnEventsMap: RelatedNodesBasedOnEventsMap;
 
   private highlightNodes: Set<number> = new Set();
+
+  private readonly localJsonStorage = new JsonStorage<{
+    [storageKeyOfOutlineDisabledNodes]: string[];
+  }>(localStorage);
+
+  private readonly outlineDisabledNodes: Set<string> = new Set(
+    this.localJsonStorage.getItem(storageKeyOfOutlineDisabledNodes) ?? []
+  );
 
   getData(): BuilderCanvasData {
     return this.data;
@@ -414,6 +426,38 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.HOVER_NODE_CHANGE,
+        fn
+      );
+    };
+  }
+
+  toggleOutline(nodeInstanceId: string): void {
+    if (this.outlineDisabledNodes.has(nodeInstanceId)) {
+      this.outlineDisabledNodes.delete(nodeInstanceId);
+    } else {
+      this.outlineDisabledNodes.add(nodeInstanceId);
+    }
+    this.localJsonStorage.setItem(
+      storageKeyOfOutlineDisabledNodes,
+      Array.from(this.outlineDisabledNodes)
+    );
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.OUTLINE_DISABLED_NODES_CHANGE)
+    );
+  }
+
+  isOutlineEnabled(nodeInstanceId: string): boolean {
+    return !this.outlineDisabledNodes.has(nodeInstanceId);
+  }
+
+  onOutlineEnabledNodesChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.OUTLINE_DISABLED_NODES_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.OUTLINE_DISABLED_NODES_CHANGE,
         fn
       );
     };
