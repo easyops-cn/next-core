@@ -15,6 +15,7 @@ export * from "./hooks/useBuilderParentNode";
 export * from "./hooks/useCanDrop";
 export * from "./hooks/useCanvasList";
 export * from "./hooks/useRouteList";
+export * from "./hooks/useHighlighted";
 export * from "./hooks/useHoverNodeUid";
 export * from "./hooks/useOutlineEnabled";
 export * from "./hooks/useShowRelatedNodesBasedOnEvents";
