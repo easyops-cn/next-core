@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.5...@next-core/brick-utils@2.17.0) (2021-06-08)
+
+
+### Features
+
+* JsonStorage ([cd8c868](https://github.com/easyops-cn/next-core/commit/cd8c86861682a669b8aa0f3d70e66fec3d878a74))
+
+
+
+
+
 ## [2.16.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.4...@next-core/brick-utils@2.16.5) (2021-06-04)
 
 **Note:** Version bump only for package @next-core/brick-utils

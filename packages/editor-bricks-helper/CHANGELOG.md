@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.21.0...@next-core/editor-bricks-helper@0.22.0) (2021-06-08)
+
+
+### Features
+
+* support to toggle outline of nodes ([730f4ae](https://github.com/easyops-cn/next-core/commit/730f4ae6bc21a396ea8fa73226778ccaf10329b8))
+
+
+
+
+
 # [0.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.3...@next-core/editor-bricks-helper@0.21.0) (2021-06-04)
 
 
