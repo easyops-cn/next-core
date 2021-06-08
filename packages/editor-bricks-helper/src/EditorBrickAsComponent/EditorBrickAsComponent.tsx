@@ -63,6 +63,7 @@ export function EditorBrickAsComponent({
       brick: editorBrick,
       properties: {
         nodeUid: node.$$uid,
+        editorProps: brickDoc?.editorProps,
       },
     }),
     [editorBrick, node.$$uid]

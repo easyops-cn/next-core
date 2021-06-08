@@ -5,11 +5,13 @@ import ReactDOM from "react-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { UpdatingElement, property, BrickWrapper } from "@next-core/brick-kit";
+import { StoryDoc } from "@next-core/brick-types";
 import { EditorSelfLayout } from "./interfaces";
 import { BuilderProvider } from "./BuilderProvider";
 
 export interface EditorComponentProps {
   nodeUid: number;
+  editorProps?: StoryDoc["editorProps"];
 }
 
 export type EditorComponentType = React.FunctionComponent<EditorComponentProps>;
@@ -40,6 +42,9 @@ export function EditorElementFactory(
     @property({ type: Number })
     nodeUid: number;
 
+    @property({ attribute: false })
+    editorProps: StoryDoc["editorProps"];
+
     connectedCallback(): void {
       // Don't override user's style settings.
       // istanbul ignore else
@@ -48,7 +53,7 @@ export function EditorElementFactory(
       }
       if (options?.brickStyle) {
         for (const [key, value] of Object.entries(options.brickStyle)) {
-          ((this.style as unknown) as Record<string, string>)[key] = value;
+          (this.style as unknown as Record<string, string>)[key] = value;
         }
       }
       this._render();
@@ -65,7 +70,10 @@ export function EditorElementFactory(
           <BrickWrapper>
             <BuilderProvider>
               <DndProvider backend={HTML5Backend}>
-                <EditorComponent nodeUid={this.nodeUid} />
+                <EditorComponent
+                  nodeUid={this.nodeUid}
+                  editorProps={this.editorProps}
+                />
               </DndProvider>
             </BuilderProvider>
           </BrickWrapper>,
