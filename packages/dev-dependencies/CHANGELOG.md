@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.26](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.25...@next-core/dev-dependencies@1.8.26) (2021-06-09)
+
+
+### Bug Fixes
+
+* add a resolution of @testing-library/dom ([02221a6](https://github.com/easyops-cn/next-core/commit/02221a68c1f69598b05f1156c5252ca35d26af96))
+
+
+
+
+
 ## [1.8.25](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.24...@next-core/dev-dependencies@1.8.25) (2021-06-08)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
