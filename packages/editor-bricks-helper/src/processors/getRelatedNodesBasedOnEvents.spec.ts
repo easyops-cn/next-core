@@ -219,6 +219,7 @@ describe("getRelatedNodesBasedOnEvents", () => {
                     method: "open",
                   },
                 ],
+                finally: null,
               },
             },
           ],
