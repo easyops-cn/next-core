@@ -1,20 +1,14 @@
 const path = require("path");
-const babel = require("rollup-plugin-babel");
-const resolve = require("rollup-plugin-node-resolve");
-const commonjs = require("rollup-plugin-commonjs");
-const json = require("rollup-plugin-json");
+const { babel } = require("@rollup/plugin-babel");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const commonjs = require("@rollup/plugin-commonjs");
+const json = require("@rollup/plugin-json");
 const postcss = require("rollup-plugin-postcss");
 const image = require("@rollup/plugin-image");
 const postcssNested = require("postcss-nested");
 const stringHash = require("string-hash");
 
-exports.rollupFactory = ({
-  umdName,
-  plugins = [],
-  commonjsOptions,
-  disableUmd,
-  disableEsm,
-}) => {
+exports.rollupFactory = ({ umdName, plugins = [], disableUmd, disableEsm }) => {
   const packageJson = require(path.join(process.cwd(), "package.json"));
   // Find peer dependencies include:
   //   dependencies of dll peerDependencies;
@@ -87,7 +81,7 @@ exports.rollupFactory = ({
     external: Array.from(external),
     plugins: [
       ...plugins,
-      resolve({
+      nodeResolve({
         browser: true,
         extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"],
       }),
@@ -98,7 +92,7 @@ exports.rollupFactory = ({
         plugins: [postcssNested()],
       }),
       json(),
-      commonjs(commonjsOptions),
+      commonjs(),
       babel({
         // exclude: "node_modules/**",
         configFile: "../../babel.config.js",
@@ -115,7 +109,7 @@ exports.rollupFactoryForSnippets = () => ({
     format: "cjs",
   },
   plugins: [
-    resolve({
+    nodeResolve({
       extensions: [".ts"],
     }),
     babel({
