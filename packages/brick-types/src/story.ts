@@ -143,6 +143,7 @@ export interface StoryDoc {
   methods?: StoryDocMethod[];
   properties: StoryDocProperty[];
   editor?: string;
+  editorProps?: Record<string, unknown>;
 }
 
 /** @internal */

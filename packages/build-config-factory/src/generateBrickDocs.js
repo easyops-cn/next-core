@@ -35,6 +35,7 @@ const baseDocComments = [
   "dockind",
   "deprecated",
   "editor",
+  "editorprops",
 ];
 
 function generateBrickDoc(doc, scope) {
@@ -69,6 +70,16 @@ function convertTagsToMapByFields(tags, fields) {
       if (curr.tag === "deprecated") {
         prev[curr.tag] = true;
         return prev;
+      }
+
+      if (curr.tag === "editorprops") {
+        try {
+          prev["editorProps"] = JSON.parse(curr.text);
+          return prev;
+        } catch {
+          const brick = tags?.find((item) => item.tag === "name")?.text;
+          throw new Error(`editorProps of ${brick} parse error`);
+        }
       }
 
       prev[curr.tag] = curr.text.trim();
