@@ -17,6 +17,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@rollup/plugin-image": "^2.0.6",
     "postcss-nested": "^4.2.3",
     "rollup": "^2.50.5",
     "rollup-plugin-babel": "^4.4.0",

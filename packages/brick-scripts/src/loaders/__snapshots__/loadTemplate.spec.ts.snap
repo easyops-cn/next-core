@@ -329,6 +329,13 @@ getRuntime().registerBrickTemplate(
 exports[`loadTemplate should create a new package of bricks 1`] = `
 Array [
   Array [
+    "dist/rollup.snippets.js",
+    "import { rollupFactoryForSnippets } from \\"@next-core/rollup-config-factory\\";
+
+export default rollupFactoryForSnippets();
+",
+  ],
+  Array [
     "dist/scripts/generate-version-file.js",
     "const { createVersionFile } = require(\\"@next-core/build-config-factory\\");
 
@@ -566,6 +573,13 @@ customElements.define(\\"for-good.for-better\\", ForBetterElement);
 
 exports[`loadTemplate should create a new package of bricks without any bricks 1`] = `
 Array [
+  Array [
+    "dist/rollup.snippets.js",
+    "import { rollupFactoryForSnippets } from \\"@next-core/rollup-config-factory\\";
+
+export default rollupFactoryForSnippets();
+",
+  ],
   Array [
     "dist/scripts/generate-version-file.js",
     "const { createVersionFile } = require(\\"@next-core/build-config-factory\\");
@@ -885,6 +899,13 @@ renameTarPackage();
 
 exports[`loadTemplate should create a new package of providers 1`] = `
 Array [
+  Array [
+    "dist/rollup.snippets.js",
+    "import { rollupFactoryForSnippets } from \\"@next-core/rollup-config-factory\\";
+
+export default rollupFactoryForSnippets();
+",
+  ],
   Array [
     "dist/scripts/generate-version-file.js",
     "const { createVersionFile } = require(\\"@next-core/build-config-factory\\");

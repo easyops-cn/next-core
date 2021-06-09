@@ -37,7 +37,7 @@ const baseDocComments = [
   "editor",
 ];
 
-function generateBrickDoc(doc, scope) {
+function generateBrickDoc(doc) {
   const { children = [] } = doc;
   const brickDocs = [];
   traverseModules(children, brickDocs);
@@ -559,7 +559,7 @@ function generateBrickBook(docsJson) {
   console.log("Brick book written to doc.json.");
 }
 
-module.exports = function generateBrickDocs(packageName, scope) {
+module.exports = function generateBrickDocs(packageName) {
   const app = new TypeDoc.Application();
 
   app.bootstrap({
@@ -624,7 +624,7 @@ module.exports = function generateBrickDocs(packageName, scope) {
     const json = app.generateJson(project, "dist/docs.json");
     if (json) {
       const typeDocJson = require(path.resolve(docsJsonPath));
-      const bricksDocJson = generateBrickDoc(typeDocJson, scope);
+      const bricksDocJson = generateBrickDoc(typeDocJson);
       if (fs.existsSync(docsJsonPath)) {
         // 如果构建包内有`stories`文件夹，默认生成构建demo和doc
         if (fs.existsSync(path.join(process.cwd(), "dist", "stories"))) {
