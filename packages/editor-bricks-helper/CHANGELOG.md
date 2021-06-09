@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.23.0...@next-core/editor-bricks-helper@0.24.0) (2021-06-09)
+
+
+### Features
+
+* editor 支持属性设置 ([581c10c](https://github.com/easyops-cn/next-core/commit/581c10c00110d2310ecf16ac7389bae82fd2d9c4))
+
+
+
+
+
 # [0.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.22.0...@next-core/editor-bricks-helper@0.23.0) (2021-06-08)
 
 
