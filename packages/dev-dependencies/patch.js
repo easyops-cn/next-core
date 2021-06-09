@@ -18,6 +18,7 @@ const {
   migrateHusky,
   addMocksForBrickIcons,
   migrateJest,
+  updateResolutions,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -135,6 +136,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.8.15")) {
     migrateJest();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.8.26")) {
+    updateResolutions();
   }
 
   updateDevDependenciesVersion();
