@@ -77,8 +77,8 @@ function convertTagsToMapByFields(tags, fields) {
           prev["editorProps"] = JSON.parse(curr.text);
           return prev;
         } catch {
-          const brick = tags?.find((item) => item.tag === "name")?.text;
-          throw new Error(`editorProps of ${brick} parse error`);
+          const find = tags.find((item) => item.tag === "name");
+          throw new Error(`editorProps of ${find && find.text} parse error`);
         }
       }
 
