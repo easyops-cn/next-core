@@ -9,6 +9,7 @@ const validateDeps = require("./validateDeps");
 const generateProviderDocs = require("./generateProviderDocs");
 const generateBrickDocs = require("./generateBrickDocs");
 const generateBrickContracts = require("./generateBrickContracts");
+const generateSnippets = require("./generateSnippets");
 const { providerPackagePrefix } = require("./constants");
 
 const ignores = [".DS_Store"];
@@ -186,11 +187,12 @@ module.exports = (scope) => {
     if (pluginName.startsWith(providerPackagePrefix)) {
       generateProviderDocs(pluginName);
     } else {
-      enableGenerateDoc && generateBrickDocs(pluginName, scope);
+      enableGenerateDoc && generateBrickDocs(pluginName);
       generateBrickContracts(cwd);
     }
     generateDeps();
     mergeEditors();
+    generateSnippets();
   } else if (scope === "micro-apps") {
     ensureMicroApp();
     ensureDeps();

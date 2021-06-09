@@ -592,6 +592,26 @@ export interface BrickRender {
     _render(): void;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "BrickSnippet" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface BrickSnippet {
+    // (undocumented)
+    bricks: BrickConf[];
+    // (undocumented)
+    category?: string;
+    // (undocumented)
+    description?: I18nString;
+    // (undocumented)
+    snippetId: string;
+    // (undocumented)
+    subCategory?: string;
+    // (undocumented)
+    text?: I18nString;
+    // (undocumented)
+    thumbnail?: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "BrickTemplateFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
