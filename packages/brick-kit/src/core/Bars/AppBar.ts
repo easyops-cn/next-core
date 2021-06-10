@@ -2,6 +2,7 @@ import { AppBarBrick, BreadcrumbItemConf } from "@next-core/brick-types";
 import { BaseBar } from "./BaseBar";
 
 export class AppBar extends BaseBar {
+  // `element` is not available in business layout.
   public declare element: AppBarBrick;
 
   /**
@@ -9,6 +10,9 @@ export class AppBar extends BaseBar {
    * @param pageTitle 标题
    */
   setPageTitle(pageTitle: string): void {
+    if (!this.element) {
+      return;
+    }
     this.element.pageTitle = pageTitle;
   }
 
@@ -17,6 +21,9 @@ export class AppBar extends BaseBar {
    * @param breadcrumb 面包屑配置
    */
   appendBreadcrumb(breadcrumb: BreadcrumbItemConf[]): void {
+    if (!this.element) {
+      return;
+    }
     this.element.breadcrumb = [...this.element.breadcrumb, ...breadcrumb];
   }
 
@@ -25,6 +32,9 @@ export class AppBar extends BaseBar {
    * @param breadcrumb 面包屑配置
    */
   setBreadcrumb(breadcrumb: BreadcrumbItemConf[]): void {
+    if (!this.element) {
+      return;
+    }
     this.element.breadcrumb = breadcrumb;
   }
 }

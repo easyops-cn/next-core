@@ -5,11 +5,11 @@ describe("MenuBar", () => {
   let menuBar: MenuBar;
 
   beforeEach(() => {
-    menuBar = new MenuBar(null, "appBar");
+    menuBar = new MenuBar(null, "menuBar");
+    menuBar.element = document.createElement("a") as unknown as MenuBarBrick;
   });
 
   it("should setAppMenu", async () => {
-    menuBar.element = (document.createElement("a") as unknown) as MenuBarBrick;
     menuBar.setAppMenu({
       title: "hello",
       menuItems: [],
@@ -25,7 +25,6 @@ describe("MenuBar", () => {
   });
 
   it("should collapse", async () => {
-    menuBar.element = (document.createElement("a") as unknown) as MenuBarBrick;
     menuBar.element.collapsed = false;
     expect(menuBar.isCollapsed()).toBe(false);
 
@@ -35,12 +34,27 @@ describe("MenuBar", () => {
   });
 
   it("should softExpand", async () => {
-    menuBar.element = (document.createElement("a") as unknown) as MenuBarBrick;
     menuBar.element.softExpanded = false;
     expect(menuBar.isSoftExpanded()).toBe(false);
 
     menuBar.softExpand(true);
     expect(menuBar.element.softExpanded).toBe(true);
     expect(menuBar.isSoftExpanded()).toBe(true);
+  });
+});
+
+describe("MenuBar with no element", () => {
+  it("should not throw error", async () => {
+    const menuBar = new MenuBar(null, "menuBar");
+    menuBar.setAppMenu({
+      title: "hello",
+      menuItems: [],
+    });
+    menuBar.resetAppMenu();
+    menuBar.collapse(true);
+    menuBar.softExpand(true);
+    expect(menuBar.isCollapsed()).toBe(undefined);
+    expect(menuBar.isSoftExpanded()).toBe(undefined);
+    expect(menuBar.element).toBe(undefined);
   });
 });
