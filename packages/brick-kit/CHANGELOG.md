@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.8...@next-core/brick-kit@2.50.0) (2021-06-10)
+
+
+### Features
+
+* **evaluate:** support I18N_TEXT(data) ([465e61c](https://github.com/easyops-cn/next-core/commit/465e61c7566e2b8ccb410669ee3f23976809d3e6))
+
+
+
+
+
 ## [2.49.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.7...@next-core/brick-kit@2.49.8) (2021-06-10)
 
 
