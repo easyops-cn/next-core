@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.50.0...@next-core/brick-kit@2.51.0) (2021-06-10)
+
+
+### Features
+
+* **storyboard context:** onChange handler of free-variable context add support for targetRef ([4a428d2](https://github.com/easyops-cn/next-core/commit/4a428d2006fe5c0c595015a37fb0c3bf8dc53712))
+
+
+
+
+
 # [2.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.8...@next-core/brick-kit@2.50.0) (2021-06-10)
 
 
