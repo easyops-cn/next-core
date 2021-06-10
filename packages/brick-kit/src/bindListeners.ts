@@ -383,7 +383,7 @@ function builtinContextListenerFactory(
         listenerFactory(
           handler,
           context,
-          null
+          contextItem.brick?.element
         )(
           new CustomEvent("context.change", {
             detail: contextItem.value,
