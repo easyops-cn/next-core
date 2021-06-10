@@ -11856,7 +11856,7 @@ postcss-lab-function@^2.0.1:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
 
-postcss-load-config@^2.0.0, postcss-load-config@^2.1.0:
+postcss-load-config@^2.1.0:
   version "2.1.2"
   resolved "https://registry.npmjs.org/postcss-load-config/-/postcss-load-config-2.1.2.tgz#c5ea504f2c4aef33c7359a34de3573772ad7502a"
   integrity sha1-xepQTyxK7zPHNZo03jVzdyrXUCo=
@@ -11864,15 +11864,14 @@ postcss-load-config@^2.0.0, postcss-load-config@^2.1.0:
     cosmiconfig "^5.0.0"
     import-cwd "^2.0.0"
 
-postcss-loader@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/postcss-loader/-/postcss-loader-3.0.0.tgz#6b97943e47c72d845fa9e03f273773d4e8dd6c2d"
-  integrity sha1-a5eUPkfHLYRfqeA/Jzdz1OjdbC0=
+postcss-loader@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.npmjs.org/postcss-loader/-/postcss-loader-6.1.0.tgz#13c800a00b3c7d434a1319a73d85e2df0714cdde"
+  integrity sha512-yA/cXBfACkthZNA2hQxOnaReVfQ6uLmvbEDQzNafpbK40URZJvP/28dL1DG174Gvz3ptkkHbbwDBCh+gXR94CA==
   dependencies:
-    loader-utils "^1.1.0"
-    postcss "^7.0.0"
-    postcss-load-config "^2.0.0"
-    schema-utils "^1.0.0"
+    cosmiconfig "^7.0.0"
+    klona "^2.0.4"
+    semver "^7.3.5"
 
 postcss-logical@^3.0.0:
   version "3.0.0"
