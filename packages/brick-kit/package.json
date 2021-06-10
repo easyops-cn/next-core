@@ -48,7 +48,7 @@
     "antd": "~4.12.3",
     "history": "^4.10.1",
     "i18next": "^20.3.1",
-    "jest-websocket-mock": "^2.2.0",
+    "jest-websocket-mock": "^2.2.1",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "mock-socket": "^9.0.3",
