@@ -409,6 +409,10 @@ describe("LocationContext", () => {
                         name: "myNewPropContext",
                         property: "title",
                       },
+                      {
+                        name: "myFreeContextDefinedOnBrick",
+                        value: "some value",
+                      },
                     ],
                     exports: {
                       title: "CTX.myPropContext",
@@ -693,6 +697,10 @@ describe("LocationContext", () => {
           },
         },
       ]);
+      const brick = result.main[0];
+      expect(
+        brick.context.storyboardContext.get("myFreeContextDefinedOnBrick").brick
+      ).toBe(brick);
       expect(kernel.mountPoints.bg.children.length).toBe(2);
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
