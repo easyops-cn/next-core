@@ -9483,10 +9483,12 @@ jest-watcher@^27.0.2:
     jest-util "^27.0.2"
     string-length "^4.0.1"
 
-jest-websocket-mock@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/jest-websocket-mock/-/jest-websocket-mock-2.2.0.tgz#0eed73eb3c14d48b15dd046c9e40e9571377d06e"
-  integrity sha1-Du1z6zwU1IsV3QRsnkDpVxN30G4=
+jest-websocket-mock@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/jest-websocket-mock/-/jest-websocket-mock-2.2.1.tgz#db4fc63733c9fc549c1fd0f79e6db8b3f947af1d"
+  integrity sha512-fhsGLXrPfs06PhHoxqOSA9yZ6Rb4qYrf4Wcm7/nfRzjlrf1gIeuhYUkzMRjjE0TMQ37SwkmeLanwrZY4ZaNp8g==
+  dependencies:
+    jest-diff "^27.0.2"
 
 jest-worker@^27.0.2:
   version "27.0.2"
