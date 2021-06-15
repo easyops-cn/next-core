@@ -50,4 +50,10 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
 export interface BuilderSnippetNode extends BuilderBaseNode {
   type: "snippet";
   snippetId: string;
+  id: string;
+  category: string;
+  subCategory?: string;
+  text?: string | Record<string, string>;
+  description?: string | Record<string, string>;
+  thumbnail?: string;
 }
