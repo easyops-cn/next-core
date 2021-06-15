@@ -46,3 +46,8 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
   templateId: string;
   proxy?: string;
 }
+
+export interface BuilderSnippetNode extends BuilderBaseNode {
+  type: "snippet";
+  snippetId: string;
+}
