@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.1...@next-core/brick-kit@2.51.2) (2021-06-16)
+
+
+### Bug Fixes
+
+* refine types and process drop ([cc125a4](https://github.com/easyops-cn/next-core/commit/cc125a4ffc08ec126cd695a60082c216a222af88))
+
+
+
+
+
 ## [2.51.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.0...@next-core/brick-kit@2.51.1) (2021-06-16)
 
 **Note:** Version bump only for package @next-core/brick-kit

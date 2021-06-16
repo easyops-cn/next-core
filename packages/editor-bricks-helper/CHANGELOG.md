@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.0...@next-core/editor-bricks-helper@0.25.1) (2021-06-16)
+
+
+### Bug Fixes
+
+* refine types and process drop ([cc125a4](https://github.com/easyops-cn/next-core/commit/cc125a4ffc08ec126cd695a60082c216a222af88))
+
+
+
+
+
 # [0.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.24.5...@next-core/editor-bricks-helper@0.25.0) (2021-06-16)
 
 
