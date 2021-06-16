@@ -28,71 +28,6 @@ export interface HandleDropParams {
   isPortalCanvas?: boolean;
 }
 
-export function stringifyJsonFieldsInBrickConf(brickConf: BrickConf): {
-  properties?: string;
-  events?: string;
-  lifeCycle?: string;
-} {
-  const jsonFieldsInBrick = ["properties", "events", "lifeCycle"] as const;
-  return Object.fromEntries(
-    jsonFieldsInBrick
-      .filter((field) => brickConf[field])
-      .map((field) => [field, JSON.stringify(brickConf[field])])
-  );
-}
-
-export function getSnippetNodeDescription({
-  parent,
-  parentUid,
-  mountPoint,
-  nodeUid,
-  brickConf,
-  isPortalCanvas,
-  sort,
-}: {
-  parent?: string;
-  parentUid: number;
-  mountPoint: string;
-  nodeUid: number;
-  brickConf: BrickConf;
-  isPortalCanvas?: boolean;
-  sort?: number;
-}): SnippetNodeDetail {
-  return {
-    nodeUid,
-    nodeAlias: brickConf.brick.split(".").pop(),
-    parentUid,
-    nodeData: {
-      parent,
-      type: "brick",
-      brick: brickConf.brick,
-      mountPoint,
-      bg: brickConf.bg,
-      portal: isPortalCanvas || brickConf.portal,
-      sort,
-      ...stringifyJsonFieldsInBrickConf(brickConf),
-    },
-    children: brickConf.slots
-      ? Object.entries(brickConf.slots)
-          .flatMap(([mountPoint, slotConf]) =>
-            (slotConf as SlotConfOfBricks).bricks.map((childBrickConf) => ({
-              childBrickConf,
-              mountPoint,
-            }))
-          )
-          .map(({ childBrickConf, mountPoint }, index) =>
-            getSnippetNodeDescription({
-              parentUid: nodeUid,
-              mountPoint,
-              nodeUid: getUniqueNodeId(),
-              brickConf: childBrickConf,
-              sort: index,
-            })
-          )
-      : [],
-  };
-}
-
 export function processDrop({
   manager,
   type,
@@ -205,4 +140,77 @@ export function processDrop({
       });
     }
   }
+}
+
+function stringifyJsonFieldsInBrickConf(brickConf: BrickConf): {
+  properties?: string;
+  events?: string;
+  lifeCycle?: string;
+} {
+  const jsonFieldsInBrick = ["properties", "events", "lifeCycle"] as const;
+  return Object.fromEntries(
+    jsonFieldsInBrick
+      .filter((field) => brickConf[field])
+      .map((field) => [field, JSON.stringify(brickConf[field])])
+  );
+}
+
+function getSnippetNodeDescription({
+  parent,
+  parentUid,
+  mountPoint,
+  nodeUid,
+  brickConf,
+  isPortalCanvas,
+  sort,
+}: {
+  parent?: string;
+  parentUid: number;
+  mountPoint: string;
+  nodeUid: number;
+  brickConf: BrickConf;
+  isPortalCanvas?: boolean;
+  sort?: number;
+}): SnippetNodeDetail {
+  const type = brickConf.template
+    ? "template"
+    : brickConf.bg
+    ? "provider"
+    : "brick";
+
+  return {
+    nodeUid,
+    nodeAlias: (type === "template" ? brickConf.template : brickConf.brick)
+      .split(".")
+      .pop(),
+    parentUid,
+    nodeData: {
+      parent,
+      type,
+      brick: type === "template" ? brickConf.template : brickConf.brick,
+      mountPoint,
+      bg: brickConf.bg,
+      portal: isPortalCanvas || brickConf.portal,
+      sort,
+      ...stringifyJsonFieldsInBrickConf(brickConf),
+    },
+    children: brickConf.slots
+      ? Object.entries(brickConf.slots)
+          .flatMap(([mountPoint, slotConf]) =>
+            (slotConf as SlotConfOfBricks).bricks.map((childBrickConf) => ({
+              childBrickConf,
+              mountPoint,
+            }))
+          )
+          .map(({ childBrickConf, mountPoint }, index) =>
+            getSnippetNodeDescription({
+              parentUid: nodeUid,
+              mountPoint,
+              nodeUid: getUniqueNodeId(),
+              brickConf: childBrickConf,
+              sort: index,
+            })
+          )
+      : [],
+  };
 }

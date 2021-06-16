@@ -1,9 +1,6 @@
 import i18next from "i18next";
 import { hasOwnProperty } from "@next-core/brick-utils";
-
-export interface I18nData {
-  [language: string]: string;
-}
+import { I18nData } from "@next-core/brick-types";
 
 export function i18nText(data: I18nData): string {
   if (!data) {
