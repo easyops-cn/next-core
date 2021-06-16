@@ -291,6 +291,196 @@ describe("BuilderDataManager for route of bricks", () => {
     unlistenOnDataChange();
   });
 
+  it("should apply snippet", () => {
+    const listenOnSnippetApply = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnSnippetApply = manager.onSnippetApply(listenOnSnippetApply);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
+    manager.snippetApply({
+      parentUid: 3,
+      nodeUids: [4, 6, 7, 5],
+      nodeIds: null,
+      nodeDetails: [
+        {
+          nodeUid: 7,
+          parentUid: 3,
+          nodeAlias: "easy-view",
+          nodeData: {
+            parent: "instance-a",
+            type: "brick",
+            brick: "basic-bricks.easy-view",
+            mountPoint: "toolbar",
+            properties: '{"containerStyle":{"gap":"var(--page-card-gap)"}}',
+          },
+          children: [
+            {
+              nodeUid: 8,
+              parentUid: 7,
+              nodeAlias: "general-button",
+              nodeData: {
+                type: "brick",
+                brick: "basic-bricks.general-button",
+                mountPoint: "header",
+                events: '{"click":{"action":"console.log"}}',
+                sort: 0,
+              },
+              children: [],
+            },
+          ],
+        },
+      ],
+    });
+    const newData = manager.getData();
+    expect(newData.edges).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "child": 2,
+          "mountPoint": "bricks",
+          "parent": 1,
+          "sort": 0,
+        },
+        Object {
+          "child": 4,
+          "mountPoint": "content",
+          "parent": 3,
+          "sort": 0,
+        },
+        Object {
+          "child": 5,
+          "mountPoint": "toolbar",
+          "parent": 3,
+          "sort": 3,
+        },
+        Object {
+          "child": 6,
+          "mountPoint": "content",
+          "parent": 3,
+          "sort": 1,
+        },
+        Object {
+          "child": 3,
+          "mountPoint": "bricks",
+          "parent": 1,
+          "sort": 1,
+        },
+        Object {
+          "child": 7,
+          "mountPoint": "toolbar",
+          "parent": 3,
+          "sort": 2,
+        },
+        Object {
+          "child": 8,
+          "mountPoint": "header",
+          "parent": 7,
+          "sort": 0,
+        },
+      ]
+    `);
+    expect(newData.nodes.slice(-2)).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.easy-view",
+          ],
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {
+            "containerStyle": Object {
+              "gap": "var(--page-card-gap)",
+            },
+          },
+          "$$parsedProxy": Object {},
+          "$$uid": 7,
+          "alias": "easy-view",
+          "brick": "basic-bricks.easy-view",
+          "properties": "{\\"containerStyle\\":{\\"gap\\":\\"var(--page-card-gap)\\"}}",
+          "type": "brick",
+        },
+        Object {
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.general-button",
+          ],
+          "$$parsedEvents": Object {
+            "click": Object {
+              "action": "console.log",
+            },
+          },
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$parsedProxy": Object {},
+          "$$uid": 8,
+          "alias": "general-button",
+          "brick": "basic-bricks.general-button",
+          "events": "{\\"click\\":{\\"action\\":\\"console.log\\"}}",
+          "sort": 0,
+          "type": "brick",
+        },
+      ]
+    `);
+    expect(listenOnSnippetApply).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnSnippetApply();
+    unlistenOnDataChange();
+  });
+
+  it("should update stored nodes from snippet", () => {
+    const listenOnDataChange = jest.fn();
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
+    manager.snippetApply({
+      parentUid: 3,
+      nodeUids: [4, 6, 7, 5],
+      nodeIds: null,
+      nodeDetails: [
+        {
+          nodeUid: 7,
+          parentUid: 3,
+          nodeAlias: "easy-view",
+          nodeData: {
+            mountPoint: "toolbar",
+          } as Partial<NodeInstance> as NodeInstance,
+          children: [
+            {
+              nodeUid: 8,
+              parentUid: 7,
+              nodeAlias: "general-button",
+              nodeData: {
+                mountPoint: "header",
+              } as Partial<NodeInstance> as NodeInstance,
+              children: [],
+            },
+          ],
+        },
+      ],
+    });
+    manager.snippetApplyStored({
+      flattenNodeDetails: [
+        {
+          nodeUid: 7,
+          nodeAlias: "easy-view",
+          nodeData: {
+            id: "B-007",
+          } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+        },
+        {
+          nodeUid: 8,
+          nodeAlias: "general-button",
+          nodeData: {
+            id: "B-008",
+          } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+        },
+      ],
+    });
+    expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
+      "B-007"
+    );
+    expect(manager.getData().nodes.find((node) => node.$$uid === 8).id).toBe(
+      "B-008"
+    );
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnDataChange();
+  });
+
   it("should update context", () => {
     const listenOnDataChange = jest.fn();
     const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);

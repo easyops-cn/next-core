@@ -592,26 +592,6 @@ export interface BrickRender {
     _render(): void;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "BrickSnippet" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface BrickSnippet {
-    // (undocumented)
-    bricks: BrickConf[];
-    // (undocumented)
-    category?: string;
-    // (undocumented)
-    description?: I18nString;
-    // (undocumented)
-    snippetId: string;
-    // (undocumented)
-    subCategory?: string;
-    // (undocumented)
-    text?: I18nString;
-    // (undocumented)
-    thumbnail?: string;
-}
-
 // Warning: (ae-internal-missing-underscore) The name "BrickTemplateFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -694,26 +674,20 @@ export interface BuilderRouteNode extends BuilderBaseNode {
 // Warning: (ae-internal-missing-underscore) The name "BuilderRouteOrBrickNode" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode | BuilderCustomTemplateNode;
+export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode | BuilderCustomTemplateNode | BuilderSnippetNode;
 
-// Warning: (ae-incompatible-release-tags) The symbol "BuilderSnippetNode" is marked as @public, but its signature references "BuilderBaseNode" which is marked as @internal
+// Warning: (ae-internal-missing-underscore) The name "BuilderSnippetNode" should be prefixed with an underscore because the declaration is marked as @internal
 //
-// @public (undocumented)
+// @internal (undocumented)
 export interface BuilderSnippetNode extends BuilderBaseNode {
     // (undocumented)
     category?: string;
-    // Warning: (ae-incompatible-release-tags) The symbol "description" is marked as @public, but its signature references "I18nString" which is marked as @internal
-    //
     // (undocumented)
     description?: I18nString;
-    // (undocumented)
-    id: string;
     // (undocumented)
     snippetId: string;
     // (undocumented)
     subCategory?: string;
-    // Warning: (ae-incompatible-release-tags) The symbol "text" is marked as @public, but its signature references "I18nString" which is marked as @internal
-    //
     // (undocumented)
     text?: I18nString;
     // (undocumented)

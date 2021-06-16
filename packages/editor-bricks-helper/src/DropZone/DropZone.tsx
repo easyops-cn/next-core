@@ -53,10 +53,8 @@ export function DropZone({
 }: DropZoneProps): React.ReactElement {
   const { setDroppingStatus } = useDroppingStatusContext();
   const dropZoneBody = React.useRef<HTMLDivElement>();
-  const [
-    dropPositionCursor,
-    setDropPositionCursor,
-  ] = React.useState<DropPositionCursor>(null);
+  const [dropPositionCursor, setDropPositionCursor] =
+    React.useState<DropPositionCursor>(null);
   const dropPositionCursorRef = React.useRef<DropPositionCursor>();
   const manager = useBuilderDataManager();
   const node = useBuilderNode({ nodeUid, isRoot });
@@ -132,6 +130,7 @@ export function DropZone({
     accept: [
       BuilderDataTransferType.NODE_TO_ADD,
       BuilderDataTransferType.NODE_TO_MOVE,
+      BuilderDataTransferType.SNIPPET_TO_APPLY,
     ],
     canDrop: (
       item: DragObjectWithType &
@@ -143,6 +142,7 @@ export function DropZone({
       independentPortalCanvas && isGeneralizedPortalCanvas
         ? selfChildNodesInCurrentCanvas.length === 0
         : item.type === BuilderDataTransferType.NODE_TO_ADD ||
+          item.type === BuilderDataTransferType.SNIPPET_TO_APPLY ||
           isRoot ||
           canDrop(
             (item as BuilderDataTransferPayloadOfNodeToMove).nodeUid,

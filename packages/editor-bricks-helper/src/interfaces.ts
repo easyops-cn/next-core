@@ -5,6 +5,7 @@ import {
   ContextConf,
   BuilderRouteNode,
   BrickLifeCycle,
+  BrickConf,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
@@ -56,12 +57,40 @@ export interface NodeInstance {
   bg?: boolean;
   portal?: boolean;
   properties?: string;
+  events?: string;
+  lifeCycle?: string;
+  sort?: number;
 }
 
 export interface EventDetailOfNodeAddStored {
   nodeUid: number;
   nodeData: BuilderRouteOrBrickNode;
   nodeAlias: string;
+}
+
+export interface EventDetailOfSnippetApply {
+  parentUid: number;
+  /** First level node only. */
+  nodeUids: number[];
+  /** First level node only. */
+  nodeIds: string[];
+  nodeDetails: SnippetNodeDetail[];
+}
+
+export interface SnippetNodeDetail {
+  nodeUid: number;
+  nodeAlias: string;
+  parentUid: number;
+  nodeData: SnippetNodeInstance;
+  children: SnippetNodeDetail[];
+}
+
+export type SnippetNodeInstance = Omit<NodeInstance, "parent"> & {
+  parent?: string;
+};
+
+export interface EventDetailOfSnippetApplyStored {
+  flattenNodeDetails: EventDetailOfNodeAddStored[];
 }
 
 export type EventDetailOfNodeMove = Omit<
@@ -97,18 +126,22 @@ export interface BuilderContextMenuStatus {
 export enum BuilderDataTransferType {
   NODE_TO_ADD = "builder/node-to-add",
   NODE_TO_MOVE = "builder/node-to-move",
+  SNIPPET_TO_APPLY = "builder/snippet-to-apply",
 }
 
 export interface BuilderDataTransferPayloadOfNodeToAdd {
   brickType?: "brick" | "provider" | "template";
   brick: string;
-  properties?: Record<string, unknown>;
 }
 
 export interface BuilderDataTransferPayloadOfNodeToMove {
   nodeUid: number;
   nodeInstanceId: string;
   nodeId: string;
+}
+
+export interface BuilderDataTransferPayloadOfSnippetToApply {
+  bricks: BrickConf[];
 }
 
 export enum EditorBrickType {
@@ -137,6 +170,8 @@ export interface AbstractBuilderDataManager {
   routeListInit(data: BuilderRouteNode[]): void;
   nodeAdd(detail: EventDetailOfNodeAdd): void;
   nodeAddStored(detail: EventDetailOfNodeAddStored): void;
+  snippetApply(detail: EventDetailOfSnippetApply): void;
+  snippetApplyStored(detail: EventDetailOfSnippetApplyStored): void;
   nodeMove(detail: EventDetailOfNodeMove): void;
   nodeReorder(detail: EventDetailOfNodeReorder): void;
   nodeDelete(detail: BuilderRuntimeNode): void;
