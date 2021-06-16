@@ -1,4 +1,5 @@
 import { ContextConf } from "./manifest";
+import { I18nString } from "./story";
 
 /** @internal */
 export type BuilderRouteOrBrickNode =
@@ -51,9 +52,9 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
   type: "snippet";
   snippetId: string;
   id: string;
-  category: string;
+  category?: string;
   subCategory?: string;
-  text?: string | Record<string, string>;
-  description?: string | Record<string, string>;
+  text?: I18nString;
+  description?: I18nString;
   thumbnail?: string;
 }
