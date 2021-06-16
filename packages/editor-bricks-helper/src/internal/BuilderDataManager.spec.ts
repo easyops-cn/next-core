@@ -1,4 +1,8 @@
-import { BuilderRouteOrBrickNode, Story } from "@next-core/brick-types";
+import {
+  BuilderRouteOrBrickNode,
+  Story,
+  StoryDoc,
+} from "@next-core/brick-types";
 import { NodeInstance } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -1092,7 +1096,7 @@ describe("test storyList", () => {
           name: "forms.general-input",
           editor: "forms.general-input--editor",
           author: "easyops",
-        },
+        } as Partial<StoryDoc> as StoryDoc,
       },
       {
         category: "card",
@@ -1111,7 +1115,7 @@ describe("test storyList", () => {
           author: "easyops",
         },
       },
-    ] as Story[]);
+    ] as Partial<Story>[] as Story[]);
   });
 
   it("should init data", () => {

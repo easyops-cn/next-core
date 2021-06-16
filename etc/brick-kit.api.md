@@ -27,6 +27,7 @@ import { GeneralTransform } from '@next-core/brick-types';
 import { HttpFetchError } from '@next-core/brick-http';
 import { HttpParseError } from '@next-core/brick-http';
 import { HttpResponseError } from '@next-core/brick-http';
+import { I18nData } from '@next-core/brick-types';
 import { IllustrationProps } from '@next-core/illustrations';
 import { InterceptorParams } from '@next-core/brick-types';
 import { LayoutType } from '@next-core/brick-types';
@@ -228,12 +229,6 @@ export function handleHttpError(error: Error | HttpFetchError | HttpResponseErro
 
 // @public
 export function httpErrorToString(error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event): string;
-
-// @public (undocumented)
-export interface I18nData {
-    // (undocumented)
-    [language: string]: string;
-}
 
 // @public (undocumented)
 export function i18nText(data: I18nData): string;

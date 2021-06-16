@@ -192,6 +192,7 @@ describe("processDrop", () => {
   it("should apply a snippet", () => {
     mockGetUniqueNodeId.mockReturnValueOnce(200);
     mockGetUniqueNodeId.mockReturnValueOnce(201);
+    mockGetUniqueNodeId.mockReturnValueOnce(202);
     processDrop({
       type: BuilderDataTransferType.SNIPPET_TO_APPLY,
       data: {
@@ -213,8 +214,13 @@ describe("processDrop", () => {
                         action: "console.log",
                       },
                     },
+                    bg: true,
                   },
                 ],
+                type: "bricks",
+              },
+              footer: {
+                bricks: [{ template: "my.legacy-template" }],
                 type: "bricks",
               },
             },
@@ -249,11 +255,24 @@ describe("processDrop", () => {
               parentUid: 200,
               nodeAlias: "general-button",
               nodeData: {
-                type: "brick",
+                type: "provider",
                 brick: "basic-bricks.general-button",
                 mountPoint: "header",
+                bg: true,
                 events: '{"click":{"action":"console.log"}}',
                 sort: 0,
+              },
+              children: [],
+            },
+            {
+              nodeUid: 202,
+              parentUid: 200,
+              nodeAlias: "legacy-template",
+              nodeData: {
+                type: "template",
+                brick: "my.legacy-template",
+                mountPoint: "footer",
+                sort: 1,
               },
               children: [],
             },

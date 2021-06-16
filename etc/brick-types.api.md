@@ -683,13 +683,13 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
     // (undocumented)
     category?: string;
     // (undocumented)
-    description?: I18nString;
+    description?: I18nData;
     // (undocumented)
     snippetId: string;
     // (undocumented)
     subCategory?: string;
     // (undocumented)
-    text?: I18nString;
+    text?: I18nData;
     // (undocumented)
     thumbnail?: string;
     // (undocumented)
@@ -769,7 +769,7 @@ export interface CategoryGroup {
     // (undocumented)
     items: Chapter[];
     // (undocumented)
-    title: I18nString;
+    title: I18nData;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "Chapter" should be prefixed with an underscore because the declaration is marked as @internal
@@ -781,7 +781,7 @@ export interface Chapter {
     // (undocumented)
     stories: Story[];
     // (undocumented)
-    title: I18nString;
+    title: I18nData;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "CompileOptions" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1118,14 +1118,10 @@ export interface HandleRejectByTransform {
     transform: GeneralTransform;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "I18nString" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface I18nString {
+// @public
+export interface I18nData {
     // (undocumented)
-    en: string;
-    // (undocumented)
-    zh: string;
+    [language: string]: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "InstanceDisplay" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1822,7 +1818,7 @@ export interface Story {
     // (undocumented)
     deprecated?: boolean;
     // (undocumented)
-    description?: I18nString;
+    description?: I18nData;
     // (undocumented)
     doc?: string | StoryDoc;
     // (undocumented)
@@ -1832,9 +1828,9 @@ export interface Story {
     // (undocumented)
     storyId: string;
     // (undocumented)
-    tags?: I18nString[];
+    tags?: I18nData[];
     // (undocumented)
-    text: I18nString;
+    text: I18nData;
     // (undocumented)
     type: "brick" | "template";
 }
