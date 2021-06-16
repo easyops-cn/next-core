@@ -4,6 +4,7 @@ import os
 import requests
 import ens_api
 import simplejson
+import subprocess
 
 
 # 1. 获取到当前的需要处理的包处理到包名
@@ -36,7 +37,7 @@ def collect(install_path):
 def report_bricks_atom(org, package_name, bricks_content, stories_content):
   session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
   if session_id <= 0:
-    raise NameServiceError("get nameservice logic.ucpro_desktop_service error, session_id={}".format(session_id))
+    raise NameServiceError("get nameservice logic.micro_app_service error, session_id={}".format(session_id))
   address = "{}:{}".format(ip, port)
   headers = {"org": str(org), "user": "defaultUser"}
   url = "http://{}/api/v1/brick/atom/import".format(address)
@@ -47,11 +48,18 @@ def report_bricks_atom(org, package_name, bricks_content, stories_content):
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:
-    print("Usage: ./report_installed_brick_next_package.py $install_path")
+    print("Usage: ./report_installed_brick_next_package.py $org $install_path")
     sys.exit(1)
 
-  org = sys.argv[1]
-  install_path = sys.argv[2]
-  package_name, bricks_content, stories_content = collect(install_path)
-  if package_name and bricks_content:
-    report_bricks_atom(org, package_name, bricks_content, stories_content)
+  cmd = "/usr/local/easyops/deploy_init/tools/get_env.py micro_app_service report_brick_info"
+  try:
+    result = subprocess.check_output(cmd, shell=True)
+    result_text = result.decode('utf-8')
+    if result_text == "true\n":
+      org = sys.argv[1]
+      install_path = sys.argv[2]
+      package_name, bricks_content, stories_content = collect(install_path)
+      if package_name and bricks_content:
+        report_bricks_atom(org, package_name, bricks_content, stories_content)
+  except Exception:
+    pass

@@ -25,7 +25,7 @@ function report_package() {
   install_base=$1
   install_path=$2
   if [[ -f ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ]];then
-      ${install_base}/python/bin/python ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ${install_path}
+      ${install_base}/python/bin/python ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ${org} ${install_path}
       if [[ $? -ne 0 ]]; then
           echo "report installed micro app error"
           exit 1
@@ -36,7 +36,7 @@ function report_package() {
 # 优先取环境变量里面的org
 if [[ ${org}X == X ]]; then
     org=$(/usr/local/easyops/deploy_init/tools/get_env.py common org)
-    [[ $? -ne 0 ]] && echo "get org error, exit" && exit 1
+    [[ $? -ne 0 ]] && echo "get org error, .exit" && exit 1
 fi
 
 # 是否以克隆模式部署(小产品支持多org部署)，如果是的话，不用删除上一个版本的组件目录
