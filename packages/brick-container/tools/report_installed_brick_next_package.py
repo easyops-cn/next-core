@@ -5,12 +5,14 @@ import requests
 import ens_api
 import simplejson
 
+
 # 1. 获取到当前的需要处理的包处理到包名
 # 2. 拿到包下面的两个文件 bricks.json stories.json
 # 3. 读取两个文件的内容
 # 4. 调用接口，发送文件内容
 class NameServiceError(Exception):
   pass
+
 
 def collect(install_path):
   if not os.path.exists(install_path):
@@ -22,12 +24,13 @@ def collect(install_path):
   if not os.path.exists(bricks_path):
     raise Exception("could not find bricks.json path {}".format(bricks_path))
   stories_path = os.path.join(install_path, "dist", "stories.json")
-  if not os.path.exists(stories_path):
-    raise Exception("could not find stories.json path {}".format(stories_path))
-  with open(bricks_path) as bricks_file,open(stories_path) as stories_file:
-      bricks_content = simplejson.load(bricks_file)
+  with open(bricks_path) as bricks_file:
+    bricks_content = simplejson.load(bricks_file)
+  stories_content = []
+  if os.path.exists(stories_path):
+    with open(stories_path) as stories_file:
       stories_content = simplejson.load(stories_file)
-      return package_name, bricks_content, stories_content
+  return package_name, bricks_content, stories_content
 
 
 def report_bricks_atom(org, package_name, bricks_content, stories_content):
@@ -50,6 +53,5 @@ if __name__ == "__main__":
   org = sys.argv[1]
   install_path = sys.argv[2]
   package_name, bricks_content, stories_content = collect(install_path)
-  if package_name and bricks_content and stories_content:
+  if package_name and bricks_content:
     report_bricks_atom(org, package_name, bricks_content, stories_content)
-
