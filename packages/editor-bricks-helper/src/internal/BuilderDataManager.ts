@@ -17,6 +17,9 @@ import {
   EventDetailOfNodeMove,
   EventDetailOfNodeReorder,
   EventDetailOfContextUpdated,
+  SnippetNodeDetail,
+  EventDetailOfSnippetApply,
+  EventDetailOfSnippetApplyStored,
 } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -32,6 +35,7 @@ enum BuilderInternalEventType {
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
   NODE_CLICK = "builder.node.click",
+  SNIPPET_APPLY = "builder.snippet.apply",
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
   ROUTE_LIST_CHANGE = "builder.route.list.change",
@@ -225,6 +229,71 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.triggerDataChange();
   }
 
+  snippetApply(detail: EventDetailOfSnippetApply): void {
+    const { rootId, nodes, edges } = this.data;
+    const { nodeDetails, parentUid, nodeUids } = detail;
+
+    const newNodes: BuilderRuntimeNode[] = [];
+    const newEdges: BuilderRuntimeEdge[] = [];
+
+    const walk = ({
+      parentUid,
+      nodeUid,
+      nodeAlias,
+      nodeData,
+      children,
+    }: SnippetNodeDetail): void => {
+      newNodes.push(
+        getBuilderNode(
+          omit(nodeData, [
+            "parent",
+          ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+          nodeUid,
+          nodeAlias
+        )
+      );
+      newEdges.push({
+        parent: parentUid,
+        child: nodeUid,
+        mountPoint: nodeData.mountPoint,
+        sort: nodeData.sort,
+      });
+      for (const item of children) {
+        walk(item);
+      }
+    };
+
+    for (const item of nodeDetails) {
+      walk(item);
+    }
+
+    this.data = {
+      rootId,
+      nodes: nodes.concat(newNodes),
+      edges: reorderBuilderEdges(edges.concat(newEdges), parentUid, nodeUids),
+    };
+    this.triggerDataChange();
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.SNIPPET_APPLY, { detail })
+    );
+  }
+
+  snippetApplyStored(detail: EventDetailOfSnippetApplyStored): void {
+    const { rootId, nodes, edges } = this.data;
+    const { flattenNodeDetails } = detail;
+    this.data = {
+      rootId,
+      nodes: nodes.map((node) => {
+        const found = flattenNodeDetails.find((n) => n.nodeUid === node.$$uid);
+        return found
+          ? getBuilderNode(found.nodeData, found.nodeUid, found.nodeAlias)
+          : node;
+      }),
+      edges,
+    };
+    this.triggerDataChange();
+  }
+
   nodeMove(detail: EventDetailOfNodeMove): void {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
@@ -314,6 +383,21 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.NODE_ADD,
+        fn as EventListener
+      );
+    };
+  }
+
+  onSnippetApply(
+    fn: (event: CustomEvent<EventDetailOfSnippetApply>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.SNIPPET_APPLY,
+      fn as EventListener
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.SNIPPET_APPLY,
         fn as EventListener
       );
     };

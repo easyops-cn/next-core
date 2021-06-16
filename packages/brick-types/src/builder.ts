@@ -5,7 +5,8 @@ import { I18nString } from "./story";
 export type BuilderRouteOrBrickNode =
   | BuilderBrickNode
   | BuilderRouteNode
-  | BuilderCustomTemplateNode;
+  | BuilderCustomTemplateNode
+  | BuilderSnippetNode;
 
 /** @internal */
 export interface BuilderBaseNode {
@@ -48,10 +49,10 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
   proxy?: string;
 }
 
+/** @internal */
 export interface BuilderSnippetNode extends BuilderBaseNode {
   type: "snippet";
   snippetId: string;
-  id: string;
   category?: string;
   subCategory?: string;
   text?: I18nString;

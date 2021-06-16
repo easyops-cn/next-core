@@ -7,7 +7,7 @@ import { getUniqueNodeId } from "../internal/getUniqueNodeId";
 
 jest.mock("../internal/getUniqueNodeId");
 
-(
+const mockGetUniqueNodeId = (
   getUniqueNodeId as jest.MockedFunction<typeof getUniqueNodeId>
 ).mockReturnValue(200);
 
@@ -59,6 +59,7 @@ describe("processDrop", () => {
     nodeAdd: jest.fn(),
     nodeMove: jest.fn(),
     nodeReorder: jest.fn(),
+    snippetApply: jest.fn(),
   } as any;
 
   afterEach(() => {
@@ -70,9 +71,6 @@ describe("processDrop", () => {
       type: BuilderDataTransferType.NODE_TO_ADD,
       data: {
         brick: "basic-bricks.new-brick",
-        properties: {
-          quality: "good",
-        },
       },
       droppingIndex: 1,
       droppingParentUid: 100,
@@ -93,7 +91,6 @@ describe("processDrop", () => {
         brick: "basic-bricks.new-brick",
         mountPoint: "toolbar",
         portal: false,
-        properties: '{"quality":"good"}',
       },
       nodeUids: [1, 200, 2, 3, 4, 5],
       nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
@@ -187,6 +184,82 @@ describe("processDrop", () => {
         mountPoint: "toolbar",
         bg: true,
       },
+      nodeUids: [1, 200, 2, 3, 4, 5],
+      nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
+    });
+  });
+
+  it("should apply a snippet", () => {
+    mockGetUniqueNodeId.mockReturnValueOnce(200);
+    mockGetUniqueNodeId.mockReturnValueOnce(201);
+    processDrop({
+      type: BuilderDataTransferType.SNIPPET_TO_APPLY,
+      data: {
+        bricks: [
+          {
+            brick: "basic-bricks.easy-view",
+            properties: {
+              containerStyle: {
+                gap: "var(--page-card-gap)",
+              },
+            },
+            slots: {
+              header: {
+                bricks: [
+                  {
+                    brick: "basic-bricks.general-button",
+                    events: {
+                      click: {
+                        action: "console.log",
+                      },
+                    },
+                  },
+                ],
+                type: "bricks",
+              },
+            },
+          },
+        ],
+      },
+      droppingIndex: 1,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "toolbar",
+      droppingChildNodes: droppingSiblingGroups[0].childNodes,
+      droppingSiblingGroups,
+      manager,
+    });
+    expect(manager.snippetApply).toBeCalledWith({
+      parentUid: 100,
+      nodeDetails: [
+        {
+          nodeUid: 200,
+          parentUid: 100,
+          nodeAlias: "easy-view",
+          nodeData: {
+            parent: "instance-a",
+            type: "brick",
+            brick: "basic-bricks.easy-view",
+            mountPoint: "toolbar",
+            properties: '{"containerStyle":{"gap":"var(--page-card-gap)"}}',
+          },
+          children: [
+            {
+              nodeUid: 201,
+              parentUid: 200,
+              nodeAlias: "general-button",
+              nodeData: {
+                type: "brick",
+                brick: "basic-bricks.general-button",
+                mountPoint: "header",
+                events: '{"click":{"action":"console.log"}}',
+                sort: 0,
+              },
+              children: [],
+            },
+          ],
+        },
+      ],
       nodeUids: [1, 200, 2, 3, 4, 5],
       nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
     });

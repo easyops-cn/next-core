@@ -6,7 +6,7 @@ export interface SortedIdsAfterDropped {
 }
 
 export interface DroppingInfo {
-  draggingNodeUid: number;
+  draggingNodeUid: number | number[];
   draggingNodeId: string | null;
   draggingIndex?: number;
   droppingMountPoint: string;
@@ -69,26 +69,30 @@ export function getSortedIdsAfterDropped(
     droppingSiblingGroups,
     droppingIndex,
   } = droppingInfo;
+  // When applying a snippet, the dragging nodes will be an array.
+  const draggingNodeUids = Array.isArray(draggingNodeUid)
+    ? draggingNodeUid
+    : [draggingNodeUid];
   const fullChildNodes = droppingSiblingGroups.flatMap(
     (group) => group.childNodes
   );
   const nodeUids = droppingSiblingGroups.flatMap((group) => {
     const uids = group.childNodes
       .map((item) => item.$$uid)
-      .filter((uid) => uid !== draggingNodeUid);
+      .filter((uid) => !draggingNodeUids.includes(uid));
     if (group.mountPoint === droppingMountPoint) {
       uids.splice(
         (draggingIndex ?? -1) >= 0 && droppingIndex > draggingIndex
           ? droppingIndex - 1
           : droppingIndex,
         0,
-        draggingNodeUid
+        ...draggingNodeUids
       );
     }
     return uids;
   });
   const nodeIds = nodeUids.map((uid) =>
-    uid === draggingNodeUid
+    draggingNodeUids.includes(uid)
       ? draggingNodeId
       : fullChildNodes.find((item) => item.$$uid === uid).id
   );

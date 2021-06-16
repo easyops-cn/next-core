@@ -1,9 +1,12 @@
+import { BrickConf, SlotConfOfBricks } from "@next-core/brick-types/dist/types";
 import {
   BuilderDataTransferPayloadOfNodeToAdd,
   BuilderDataTransferPayloadOfNodeToMove,
+  BuilderDataTransferPayloadOfSnippetToApply,
   BuilderDataTransferType,
   BuilderGroupedChildNode,
   BuilderRuntimeNode,
+  SnippetNodeDetail,
 } from "../interfaces";
 import { BuilderDataManager } from "../internal/BuilderDataManager";
 import { getUniqueNodeId } from "../internal/getUniqueNodeId";
@@ -14,7 +17,8 @@ export interface HandleDropParams {
   type: BuilderDataTransferType;
   data:
     | BuilderDataTransferPayloadOfNodeToAdd
-    | BuilderDataTransferPayloadOfNodeToMove;
+    | BuilderDataTransferPayloadOfNodeToMove
+    | BuilderDataTransferPayloadOfSnippetToApply;
   droppingIndex: number;
   droppingParentUid: number;
   droppingParentInstanceId: string;
@@ -22,6 +26,71 @@ export interface HandleDropParams {
   droppingChildNodes: BuilderRuntimeNode[];
   droppingSiblingGroups: BuilderGroupedChildNode[];
   isPortalCanvas?: boolean;
+}
+
+export function stringifyJsonFieldsInBrickConf(brickConf: BrickConf): {
+  properties?: string;
+  events?: string;
+  lifeCycle?: string;
+} {
+  const jsonFieldsInBrick = ["properties", "events", "lifeCycle"] as const;
+  return Object.fromEntries(
+    jsonFieldsInBrick
+      .filter((field) => brickConf[field])
+      .map((field) => [field, JSON.stringify(brickConf[field])])
+  );
+}
+
+export function getSnippetNodeDescription({
+  parent,
+  parentUid,
+  mountPoint,
+  nodeUid,
+  brickConf,
+  isPortalCanvas,
+  sort,
+}: {
+  parent?: string;
+  parentUid: number;
+  mountPoint: string;
+  nodeUid: number;
+  brickConf: BrickConf;
+  isPortalCanvas?: boolean;
+  sort?: number;
+}): SnippetNodeDetail {
+  return {
+    nodeUid,
+    nodeAlias: brickConf.brick.split(".").pop(),
+    parentUid,
+    nodeData: {
+      parent,
+      type: "brick",
+      brick: brickConf.brick,
+      mountPoint,
+      bg: brickConf.bg,
+      portal: isPortalCanvas || brickConf.portal,
+      sort,
+      ...stringifyJsonFieldsInBrickConf(brickConf),
+    },
+    children: brickConf.slots
+      ? Object.entries(brickConf.slots)
+          .flatMap(([mountPoint, slotConf]) =>
+            (slotConf as SlotConfOfBricks).bricks.map((childBrickConf) => ({
+              childBrickConf,
+              mountPoint,
+            }))
+          )
+          .map(({ childBrickConf, mountPoint }, index) =>
+            getSnippetNodeDescription({
+              parentUid: nodeUid,
+              mountPoint,
+              nodeUid: getUniqueNodeId(),
+              brickConf: childBrickConf,
+              sort: index,
+            })
+          )
+      : [],
+  };
 }
 
 export function processDrop({
@@ -38,11 +107,8 @@ export function processDrop({
 }: HandleDropParams): void {
   if (type === BuilderDataTransferType.NODE_TO_ADD) {
     // Drag a new node into canvas.
-    const {
-      brickType = "brick",
-      brick,
-      properties,
-    } = data as BuilderDataTransferPayloadOfNodeToAdd;
+    const { brickType = "brick", brick } =
+      data as BuilderDataTransferPayloadOfNodeToAdd;
     const draggingNodeUid = getUniqueNodeId();
     manager.nodeAdd({
       ...getSortedIdsAfterDropped({
@@ -62,9 +128,33 @@ export function processDrop({
         mountPoint: droppingMountPoint,
         bg: !isPortalCanvas && brickType === "provider" ? true : undefined,
         portal: isPortalCanvas,
-        // Preset-bricks may have properties.
-        properties: properties ? JSON.stringify(properties) : undefined,
       },
+    });
+  } else if (type === BuilderDataTransferType.SNIPPET_TO_APPLY) {
+    const { bricks } = data as BuilderDataTransferPayloadOfSnippetToApply;
+    // https://stackoverflow.com/questions/5501581/javascript-new-arrayn-and-array-prototype-map-weirdness
+    const draggingNodeUids = [...new Array(bricks.length)].map(() =>
+      getUniqueNodeId()
+    );
+    manager.snippetApply({
+      ...getSortedIdsAfterDropped({
+        draggingNodeUid: draggingNodeUids,
+        draggingNodeId: null,
+        droppingIndex,
+        droppingMountPoint,
+        droppingSiblingGroups,
+      }),
+      parentUid: droppingParentUid,
+      nodeDetails: bricks.map((brickConf, index) =>
+        getSnippetNodeDescription({
+          parent: droppingParentInstanceId,
+          parentUid: droppingParentUid,
+          mountPoint: droppingMountPoint,
+          nodeUid: draggingNodeUids[index],
+          brickConf,
+          isPortalCanvas,
+        })
+      ),
     });
   } else if (type === BuilderDataTransferType.NODE_TO_MOVE) {
     const {
