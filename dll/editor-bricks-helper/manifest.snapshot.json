@@ -147,6 +147,7 @@
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",
+          "i18nText",
           "initI18n",
           "isLoggedIn",
           "logout",
