@@ -696,6 +696,32 @@ export interface BuilderRouteNode extends BuilderBaseNode {
 // @internal (undocumented)
 export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode | BuilderCustomTemplateNode;
 
+// Warning: (ae-incompatible-release-tags) The symbol "BuilderSnippetNode" is marked as @public, but its signature references "BuilderBaseNode" which is marked as @internal
+//
+// @public (undocumented)
+export interface BuilderSnippetNode extends BuilderBaseNode {
+    // (undocumented)
+    category?: string;
+    // Warning: (ae-incompatible-release-tags) The symbol "description" is marked as @public, but its signature references "I18nString" which is marked as @internal
+    //
+    // (undocumented)
+    description?: I18nString;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    snippetId: string;
+    // (undocumented)
+    subCategory?: string;
+    // Warning: (ae-incompatible-release-tags) The symbol "text" is marked as @public, but its signature references "I18nString" which is marked as @internal
+    //
+    // (undocumented)
+    text?: I18nString;
+    // (undocumented)
+    thumbnail?: string;
+    // (undocumented)
+    type: "snippet";
+}
+
 // @public
 export interface BuiltinBrickEventHandler {
     action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache";

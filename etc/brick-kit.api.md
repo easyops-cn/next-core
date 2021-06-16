@@ -229,6 +229,15 @@ export function handleHttpError(error: Error | HttpFetchError | HttpResponseErro
 // @public
 export function httpErrorToString(error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event): string;
 
+// @public (undocumented)
+export interface I18nData {
+    // (undocumented)
+    [language: string]: string;
+}
+
+// @public (undocumented)
+export function i18nText(data: I18nData): string;
+
 // @public
 export interface IfContainer {
     if?: unknown;

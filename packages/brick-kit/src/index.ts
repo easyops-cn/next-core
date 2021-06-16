@@ -8,6 +8,7 @@ export * from "./runtime";
 export * from "./history";
 export * from "./auth";
 export * from "./i18n";
+export * from "./i18nText";
 export { handleHttpError, httpErrorToString } from "./handleHttpError";
 export * from "./ErrorBoundary";
 export * from "./decorators";
