@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.12.0...@next-core/build-config-factory@2.12.1) (2021-06-17)
+
+
+### Bug Fixes
+
+* fix snippets.json ([04cb701](https://github.com/easyops-cn/next-core/commit/04cb701c820bcde4e456a94b7834c67af354515f))
+
+
+
+
+
 # [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.5...@next-core/build-config-factory@2.12.0) (2021-06-17)
 
 
