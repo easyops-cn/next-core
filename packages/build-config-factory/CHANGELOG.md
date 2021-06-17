@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.5...@next-core/build-config-factory@2.12.0) (2021-06-17)
+
+
+### Features
+
+* **micro_app_service:** 改造brick_next扫描-NB包脚本，把构建信息扫描调用micro_app_service的上报接口 ([d9baf4e](https://github.com/easyops-cn/next-core/commit/d9baf4eca1101bdcf654fbc90e3e27088e04062b))
+
+
+
+
+
 ## [2.11.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.4...@next-core/build-config-factory@2.11.5) (2021-06-16)
 
 **Note:** Version bump only for package @next-core/build-config-factory
