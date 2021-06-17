@@ -4,7 +4,7 @@ import os
 import requests
 import ens_api
 import simplejson
-import subprocess
+import commands
 
 
 # 1. 获取到当前的需要处理的包处理到包名
@@ -52,14 +52,15 @@ if __name__ == "__main__":
     sys.exit(1)
 
   cmd = "/usr/local/easyops/deploy_init/tools/get_env.py micro_app_service report_brick_info"
-  try:
-    result = subprocess.check_output(cmd, shell=True)
-    result_text = result.decode('utf-8')
-    if result_text == "true\n":
-      org = sys.argv[1]
-      install_path = sys.argv[2]
-      package_name, bricks_content, stories_content = collect(install_path)
-      if package_name and bricks_content:
-        report_bricks_atom(org, package_name, bricks_content, stories_content)
-  except Exception:
-    pass
+  status_code, res = commands.getstatusoutput(cmd)
+  status_code >>= 8
+  if status_code == 0 and res == "true":
+    org = sys.argv[1]
+    install_path = sys.argv[2]
+    package_name, bricks_content, stories_content = collect(install_path)
+    if package_name and bricks_content:
+      report_bricks_atom(org, package_name, bricks_content, stories_content)
+  elif status_code == 2:
+    sys.exit(0)
+  else:
+    raise Exception("%s exec fail;status_code: %s;output: %s" % (cmd, status_code, res))
