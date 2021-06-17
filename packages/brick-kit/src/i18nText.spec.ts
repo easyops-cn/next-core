@@ -1,5 +1,6 @@
 import i18next from "i18next";
-import { I18nData, i18nText } from "./i18nText";
+import { I18nData } from "@next-core/brick-types";
+import { i18nText } from "./i18nText";
 
 i18next.init();
 

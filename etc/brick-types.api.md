@@ -1786,6 +1786,26 @@ export interface SlotsConfOfBricks {
 // @internal (undocumented)
 export type SlotType = "bricks" | "routes";
 
+// Warning: (ae-internal-missing-underscore) The name "SnippetDefinition" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface SnippetDefinition {
+    // (undocumented)
+    bricks: BrickConf[];
+    // (undocumented)
+    category: string;
+    // (undocumented)
+    description?: I18nData;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    subCategory?: string;
+    // (undocumented)
+    text?: I18nData;
+    // (undocumented)
+    thumbnail?: string;
+}
+
 // @public
 export interface StaticMenuConf extends StaticMenuProps {
     // (undocumented)
