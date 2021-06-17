@@ -25,7 +25,7 @@ function report_package() {
   install_base=$1
   install_path=$2
   if [[ -f ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ]];then
-      ${install_base}/python/bin/python ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ${install_path}
+      ${install_base}/python/bin/python ${install_base}/brick_next/packages/brick-container/tools/report_installed_brick_next_package.py ${org} ${install_path}
       if [[ $? -ne 0 ]]; then
           echo "report installed micro app error"
           exit 1
