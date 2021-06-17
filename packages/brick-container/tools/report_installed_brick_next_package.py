@@ -47,13 +47,16 @@ def report_bricks_atom(org, package_name, bricks_content, stories_content):
 
 
 if __name__ == "__main__":
+  if len(sys.argv) == 2:
+    sys.exit(0)
+
   if len(sys.argv) != 3:
     print("Usage: ./report_installed_brick_next_package.py $org $install_path")
     sys.exit(1)
 
   cmd = "/usr/local/easyops/deploy_init/tools/get_env.py micro_app_service report_brick_info"
   status_code, res = commands.getstatusoutput(cmd)
-  status_code >>= 8
+  status_code = os.WEXITSTATUS(status_code)
   if status_code == 0 and res == "true":
     org = sys.argv[1]
     install_path = sys.argv[2]
