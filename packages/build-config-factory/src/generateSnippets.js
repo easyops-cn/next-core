@@ -6,8 +6,8 @@ module.exports = function generateSnippets() {
   if (!fs.existsSync(distSnippetsPath)) {
     return;
   }
-  const { snippets } = require(distSnippetsPath);
-  fs.writeJsonSync(path.resolve("dist/snippets.json"), snippets, {
+  const data = require(distSnippetsPath);
+  fs.writeJsonSync(path.resolve("dist/snippets.json"), data, {
     spaces: 2,
   });
 };
