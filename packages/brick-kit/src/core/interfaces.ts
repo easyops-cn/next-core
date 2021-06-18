@@ -181,6 +181,13 @@ export interface AbstractRuntime {
    * @returns The menu data.
    */
   fetchMenu(menuId: string): Promise<SidebarMenu>;
+
+  /**
+   * Apply the page title in browser.
+   *
+   * @param pageTitle - The page title.
+   */
+  applyPageTitle(pageTitle: string): void;
 }
 
 /** 查询微应用列表时的选项。 */

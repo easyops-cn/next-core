@@ -7,7 +7,8 @@ export class AppBar extends BaseBar {
 
   /**
    * 设置页面标题（顶部）
-   * @param pageTitle 标题
+   * @param pageTitle - 标题
+   * @deprecated Use `getRuntime().applyPageTitle(...)` or `useApplyPageTitle(...)` instead.
    */
   setPageTitle(pageTitle: string): void {
     if (!this.element) {
@@ -18,7 +19,7 @@ export class AppBar extends BaseBar {
 
   /**
    * 追加面包屑
-   * @param breadcrumb 面包屑配置
+   * @param breadcrumb - 面包屑配置
    */
   appendBreadcrumb(breadcrumb: BreadcrumbItemConf[]): void {
     if (!this.element) {
@@ -29,7 +30,7 @@ export class AppBar extends BaseBar {
 
   /**
    * 设置面包屑
-   * @param breadcrumb 面包屑配置
+   * @param breadcrumb - 面包屑配置
    */
   setBreadcrumb(breadcrumb: BreadcrumbItemConf[]): void {
     if (!this.element) {

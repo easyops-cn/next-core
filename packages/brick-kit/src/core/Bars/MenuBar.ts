@@ -7,7 +7,7 @@ export class MenuBar extends BaseBar {
 
   /**
    * 设置应用菜单（左侧菜单）
-   * @param menu 菜单
+   * @param menu - 菜单
    */
   setAppMenu(menu: SidebarMenu): void {
     if (!this.element) {
