@@ -639,11 +639,12 @@ async function brickCallback(
       );
     }
   }
-  const task = (target as any)[method](...argsFactoryResult);
+  const task = (): unknown => (target as any)[method](...argsFactoryResult);
   const { success, error, finally: finallyHook } = handler.callback ?? {};
   if (success || error || finallyHook) {
     try {
-      const result = await task;
+      // Try to catch synchronized tasks too.
+      const result = await task();
       if (success) {
         try {
           const successEvent = new CustomEvent("callback.success", {
@@ -679,6 +680,8 @@ async function brickCallback(
         });
       }
     }
+  } else {
+    task();
   }
 }
 
