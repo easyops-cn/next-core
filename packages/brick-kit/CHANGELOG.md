@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.3...@next-core/brick-kit@2.52.0) (2021-06-18)
+
+
+### Features
+
+* support to apply page title ([6198a59](https://github.com/easyops-cn/next-core/commit/6198a597ebf68da59f660699c85fa6aaeb73d679))
+
+
+
+
+
 ## [2.51.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.2...@next-core/brick-kit@2.51.3) (2021-06-17)
 
 
