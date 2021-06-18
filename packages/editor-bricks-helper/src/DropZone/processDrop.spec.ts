@@ -224,6 +224,7 @@ describe("processDrop", () => {
                 type: "bricks",
               },
             },
+            permissionsPreCheck: ["admin"],
           },
         ],
       },
@@ -248,6 +249,7 @@ describe("processDrop", () => {
             brick: "basic-bricks.easy-view",
             mountPoint: "toolbar",
             properties: '{"containerStyle":{"gap":"var(--page-card-gap)"}}',
+            permissionsPreCheck: "- admin\n",
           },
           children: [
             {
