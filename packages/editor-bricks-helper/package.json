@@ -32,6 +32,7 @@
   "devDependencies": {
     "@next-core/brick-kit": "^2.52.0",
     "@next-core/brick-utils": "^2.17.6",
+    "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "react": "^16.14.0",
     "react-dnd": "^11.1.3",
@@ -41,6 +42,7 @@
   "peerDependencies": {
     "@next-core/brick-kit": "*",
     "@next-core/brick-utils": "*",
+    "js-yaml": "*",
     "lodash": "*",
     "react": "*",
     "react-dnd": "*",
