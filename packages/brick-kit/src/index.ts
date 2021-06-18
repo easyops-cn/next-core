@@ -12,6 +12,7 @@ export * from "./i18nText";
 export { handleHttpError, httpErrorToString } from "./handleHttpError";
 export * from "./ErrorBoundary";
 export * from "./decorators";
+export * from "./useApplyPageTitle";
 export * from "./useCurrentApp";
 export * from "./useLocation";
 export * from "./useRecentApps";

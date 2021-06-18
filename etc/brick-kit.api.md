@@ -68,6 +68,7 @@ import { WithTranslationProps } from 'react-i18next';
 
 // @public
 export interface AbstractRuntime {
+    applyPageTitle(pageTitle: string): void;
     fetchMenu(menuId: string): Promise<SidebarMenu>;
     getBasePath(): string;
     getCurrentApp(): MicroApp;
@@ -377,6 +378,9 @@ export abstract class UpdatingElement extends HTMLElement {
     static get observedAttributes(): string[];
     protected abstract _render(): void;
 }
+
+// @public
+export function useApplyPageTitle(pageTitle: string): void;
 
 // @public
 export function useCurrentApp(): MicroApp;

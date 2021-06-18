@@ -10,7 +10,7 @@ export class BaseBar {
   /**
    * Bars will be bootstrapped every time the layout changes.
    *
-   * @param brick -
+   * @param brick - The brick name.
    */
   async bootstrap(brick?: string, options?: { testid: string }): Promise<void> {
     // Ignore if the brick is not changed.

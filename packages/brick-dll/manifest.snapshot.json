@@ -18178,6 +18178,7 @@
           "transformElementProperties",
           "transformIntermediateData",
           "transformProperties",
+          "useApplyPageTitle",
           "useCurrentApp",
           "useCurrentMode",
           "useCurrentTheme",
