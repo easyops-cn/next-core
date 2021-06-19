@@ -8496,10 +8496,10 @@ inline-source-map@~0.6.0:
   dependencies:
     source-map "~0.5.3"
 
-inquirer-autocomplete-prompt@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/inquirer-autocomplete-prompt/-/inquirer-autocomplete-prompt-1.3.0.tgz#fcbba926be2d3cf338e3dd24380ae7c408113b46"
-  integrity sha1-/LupJr4tPPM4490kOArnxAgRO0Y=
+inquirer-autocomplete-prompt@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/inquirer-autocomplete-prompt/-/inquirer-autocomplete-prompt-1.4.0.tgz#e767592f747e3d5bb6336fe71fb4094352e4c317"
+  integrity sha512-qHgHyJmbULt4hI+kCmwX92MnSxDs/Yhdt4wPA30qnoa01OF6uTXV8yvH4hKXgdaTNmkZ9D01MHjqKYEuJN+ONw==
   dependencies:
     ansi-escapes "^4.3.1"
     chalk "^4.0.0"
