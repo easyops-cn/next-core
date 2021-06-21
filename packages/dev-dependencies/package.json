@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@size-limit/file": "^4.12.0",
-    "@types/d3": "^6.7.0",
+    "@types/d3": "^6.7.1",
     "@types/dompurify": "^2.2.2",
     "@types/echarts": "^4.9.8",
     "@types/enzyme": "^3.10.8",
