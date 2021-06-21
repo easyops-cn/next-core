@@ -31,18 +31,29 @@ def collect(install_path):
   if os.path.exists(stories_path):
     with open(stories_path) as stories_file:
       stories_content = simplejson.load(stories_file)
-  return package_name, bricks_content, stories_content
+  snippets_path = os.path.join(install_path, "dist", "snippets.json")
+  snippets_content = {"snippets": []}
+  if os.path.exists(snippets_path):
+    with open(snippets_path) as snippets_file:
+      snippets_content = simplejson.load(snippets_file)
+  return package_name, bricks_content, stories_content, snippets_content
 
 
-def report_bricks_atom(org, package_name, bricks_content, stories_content):
+def report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content):
   session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
   if session_id <= 0:
     raise NameServiceError("get nameservice logic.micro_app_service error, session_id={}".format(session_id))
   address = "{}:{}".format(ip, port)
   headers = {"org": str(org), "user": "defaultUser"}
-  url = "http://{}/api/v1/brick/atom/import".format(address)
-  param = {"packageName": package_name, "data": {"stories": stories_content, "bricks": bricks_content}}
-  rsp = requests.post(url, json=param, headers=headers)
+  # report atom
+  atom_url = "http://{}/api/v1/brick/atom/import".format(address)
+  atom_param = {"packageName": package_name, "data": {"stories": stories_content, "bricks": bricks_content}}
+  rsp = requests.post(atom_url, json=atom_param, headers=headers)
+  rsp.raise_for_status()
+  # report snippet
+  snippet_url = "http://{}/api/v1/brick/snippet/import".format(address)
+  snippet_param = {"packageName": package_name, "snippets": snippets_content}
+  rsp = requests.post(snippet_url, json=snippet_param, headers=headers)
   rsp.raise_for_status()
 
 
@@ -61,9 +72,9 @@ if __name__ == "__main__":
   if status_code == 0 and res == "true":
     org = sys.argv[1]
     install_path = sys.argv[2]
-    package_name, bricks_content, stories_content = collect(install_path)
-    if package_name and bricks_content:
-      report_bricks_atom(org, package_name, bricks_content, stories_content)
+    package_name, bricks_content, stories_content, snippets_content = collect(install_path)
+    if package_name and bricks_content and snippets_content:
+      report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
   elif status_code == 2:
     sys.exit(0)
   else:
