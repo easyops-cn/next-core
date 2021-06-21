@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.17.12...@next-core/brick-icons@2.18.0) (2021-06-21)
+
+
+### Features
+
+* **brick-icons:** add azure-icon ([751d065](https://github.com/easyops-cn/next-core/commit/751d065996d24b3de65d5870d1ec15856d7a8d0d))
+
+
+
+
+
 ## [2.17.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.17.11...@next-core/brick-icons@2.17.12) (2021-06-17)
 
 **Note:** Version bump only for package @next-core/brick-icons
