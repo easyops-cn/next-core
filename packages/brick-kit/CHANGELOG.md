@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.0...@next-core/brick-kit@2.52.1) (2021-06-21)
+
+
+### Bug Fixes
+
+* handle synchronized callback error ([c416fc9](https://github.com/easyops-cn/next-core/commit/c416fc9c149b881df9d169cd8fd94e2ee5de2b97))
+
+
+
+
+
 # [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.3...@next-core/brick-kit@2.52.0) (2021-06-18)
 
 
