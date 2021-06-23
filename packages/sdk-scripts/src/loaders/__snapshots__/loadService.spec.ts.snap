@@ -328,6 +328,53 @@ export interface PackageApi_SearchResponseItem_2 {
 ",
   ],
   Array [
+    "dist/src/api/cd/package/sendMessageWithAppendix.ts",
+    "import { http, HttpOptions } from \\"@next-core/brick-http\\";
+import { ModelSendMessageWithAppendixRequest } from \\"../../../model/msgsender\\";
+
+export type PackageApi_SendMessageWithAppendixRequestBody =
+  Partial<ModelSendMessageWithAppendixRequest> &
+    ModelSendMessageWithAppendixRequest_partial;
+
+export interface PackageApi_SendMessageWithAppendixResponseBody {
+  /** some id */
+  id?: string;
+}
+
+/**
+ * @description 处理带附件的通知消息
+ * @endpoint post /api/v1/message_sender/mail_with_appendix
+ */
+export const PackageApi_sendMessageWithAppendix = (
+  data: PackageApi_SendMessageWithAppendixRequestBody,
+  options?: HttpOptions
+): Promise<PackageApi_SendMessageWithAppendixResponseBody> => {
+  /**! @contract easyops.api.cd.package.SendMessageWithAppendix */ const _formData =
+    new FormData();
+  for (const [key, value] of Object.entries(data)) {
+    if (Array.isArray(value)) {
+      const k = \`\${key}[]\`;
+      value.forEach((v) => {
+        _formData.append(k, v);
+      });
+    } else {
+      _formData.append(key, value);
+    }
+  }
+  return http.post<PackageApi_SendMessageWithAppendixResponseBody>(
+    \\"api/gateway/cd.package.SendMessageWithAppendix/api/v1/message_sender/mail_with_appendix\\",
+    _formData,
+    options
+  );
+};
+
+export interface ModelSendMessageWithAppendixRequest_partial {
+  /** 附件的二进制数据 */
+  files: File;
+}
+",
+  ],
+  Array [
     "dist/src/api/cd/package/upload.ts",
     "import { http, HttpOptions } from \\"@next-core/brick-http\\";
 
@@ -486,6 +533,15 @@ export interface ModelPackageExt_lastVersionInfo {
 ",
   ],
   Array [
+    "dist/src/model/msgsender/ModelSendMessageWithAppendixRequest.ts",
+    "/** 发送带附件的通知的请求body */
+export interface ModelSendMessageWithAppendixRequest {
+  /** 附件的二进制数据 */
+  files: File;
+}
+",
+  ],
+  Array [
     "dist/src/api/cd/package/index.ts",
     "export * from \\"./autoDiscovery\\";
 export * from \\"./create\\";
@@ -493,6 +549,7 @@ export * from \\"./get\\";
 export * from \\"./listNameService\\";
 export * from \\"./retry\\";
 export * from \\"./search\\";
+export * from \\"./sendMessageWithAppendix\\";
 export * from \\"./upload\\";
 ",
   ],
@@ -505,9 +562,15 @@ export * from \\"./ModelPackageExt\\";
 ",
   ],
   Array [
+    "dist/src/model/msgsender/index.ts",
+    "export * from \\"./ModelSendMessageWithAppendixRequest\\";
+",
+  ],
+  Array [
     "dist/src/index.ts",
     "export * from \\"./api/cd/package\\";
 export * as CdModels from \\"./model/cd\\";
+export * as MsgsenderModels from \\"./model/msgsender\\";
 ",
   ],
 ]

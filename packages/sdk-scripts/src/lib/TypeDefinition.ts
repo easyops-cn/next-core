@@ -1,6 +1,6 @@
 import os from "os";
 import { MixedType, SourceFile, Model } from "./internal";
-import { BaseDoc, NormalFieldDoc } from "../interface";
+import { BaseDoc } from "../interface";
 
 export type TypePathItem = TypeDefinition | Model | string;
 export type TypePath = TypePathItem[];
@@ -18,12 +18,7 @@ export class TypeDefinition {
     sourceFile.internalInterfaces.markUsedInterface(name);
     if (doc) {
       this.value = new MixedType(sourceFile, doc, [this]);
-      if (
-        doc.type === "object" &&
-        doc.fields.some((f) =>
-          ["file", "file[]"].includes((f as NormalFieldDoc).type)
-        )
-      ) {
+      if (this.value.containsFileField()) {
         this.isFormData = true;
       } else if (doc.type === "file") {
         this.isFile = true;
