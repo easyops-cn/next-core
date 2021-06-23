@@ -1,0 +1,10 @@
+_version_: 2.0
+_kind_: model
+
+name: SendMessageWithAppendixRequest
+description: 发送带附件的通知的请求body
+
+fields:
+  - name: files
+    type: file
+    description: 附件的二进制数据

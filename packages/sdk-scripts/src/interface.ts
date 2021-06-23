@@ -62,6 +62,13 @@ export interface NormalFieldDoc {
   enum?: string[] | number[];
 }
 
+export interface NormalFieldContext {
+  normalField: NormalFieldDoc;
+  isRefFieldDoc: boolean;
+  refModel?: string;
+  refKey?: string;
+}
+
 export type FileWithContent = [string, string];
 
 export interface ExtField {

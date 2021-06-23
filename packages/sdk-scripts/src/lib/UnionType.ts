@@ -6,7 +6,7 @@ export class UnionType {
   constructor(private sourceFile: SourceFile) {}
 
   spread(): SimpleType[] {
-    return Array.from(this.unions.values());
+    return Array.from(this.unions);
   }
 
   protected addUnion(type: SimpleType): void {
@@ -29,7 +29,7 @@ export class UnionType {
     isArray: boolean
   ): string {
     if (!isArray && this.unions.size === 1) {
-      const type = Array.from(this.unions.values())[0];
+      const type = Array.from(this.unions)[0];
       if (type instanceof ObjectType) {
         this.sourceFile.internalInterfaces.removeOne(type);
         return `interface ${name} ${type.toDefinitionString()}`;
@@ -46,5 +46,11 @@ export class UnionType {
       displayType = `(${displayType})`;
     }
     return displayType + (isArray ? "[]" : "");
+  }
+
+  containsFileField(): boolean {
+    return Array.from(this.unions).some(
+      (type) => type instanceof ObjectType && type.containsFileField()
+    );
   }
 }
