@@ -14,6 +14,10 @@ export interface BuilderCanvasData {
   edges: BuilderRuntimeEdge[];
 }
 
+export interface BuilderCanvasSettings {
+  mode: "page" | "dialog";
+}
+
 export type BuilderRuntimeNode<P = Record<string, unknown>> =
   BuilderRouteOrBrickNode & {
     $$uid?: number;
