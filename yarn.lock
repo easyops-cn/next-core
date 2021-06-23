@@ -2754,64 +2754,64 @@
   resolved "https://registry.npmjs.org/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha1-HBJhu+qhCoBVu8XYq4S3sq/IRqA=
 
-"@types/d3-array@*", "@types/d3-array@^2":
+"@types/d3-array@^2":
   version "2.12.2"
   resolved "https://registry.npmjs.org/@types/d3-array/-/d3-array-2.12.2.tgz#e381839b7cbfdb247ec1e608a8ffc73b5eb4d1f3"
   integrity sha512-lAm2UUZaAUDnaRYwsS1z9LjDNSvDlgoNBatFGmc2Gn46dWkDkaH4G8Dx9gaB4ISVv8HKv2OZ6RhyvGoW7viZJg==
 
-"@types/d3-axis@*":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/d3-axis/-/d3-axis-2.0.0.tgz#a3e7534d3c399c20ba42ec3093dd2a385659366e"
-  integrity sha1-o+dTTTw5nCC6Quwwk90qOFZZNm4=
+"@types/d3-axis@^2":
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/@types/d3-axis/-/d3-axis-2.1.1.tgz#34bdf0091e80f86b8b234e29c106356737a53226"
+  integrity sha512-pYXPgwWwhl3yEIkeozh6NTJ0cd3tUPNUHhMEeCnCpdeSIQmCf2EKiRwntipnhHeZ8dU3K8P4MomxcK4Hrzit4g==
   dependencies:
     "@types/d3-selection" "*"
 
-"@types/d3-brush@*":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@types/d3-brush/-/d3-brush-2.1.0.tgz#c51ad1ab93887b23be7637d2100540f1df0dac00"
-  integrity sha1-xRrRq5OIeyO+djfSEAVA8d8NrAA=
+"@types/d3-brush@^2":
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/@types/d3-brush/-/d3-brush-2.1.1.tgz#a5cffe00955cdb400e0f34230b3c78dcfe6e8f0e"
+  integrity sha512-Q2Ou628q5VLSLWXH/JxHtXI2jen/NiOB1KrRC6QR/hT8NrjzU604FDdJ8P1rt/xW+WED5mImfip09hVz0Fuylg==
   dependencies:
     "@types/d3-selection" "*"
 
-"@types/d3-chord@*":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/d3-chord/-/d3-chord-2.0.0.tgz#8d7085e2828418f2c5087e512f276559499bacfd"
-  integrity sha1-jXCF4oKEGPLFCH5RLydlWUmbrP0=
+"@types/d3-chord@^2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@types/d3-chord/-/d3-chord-2.0.2.tgz#a9ceb21ce540321bf7eb309484bec6af7fcb0ab2"
+  integrity sha512-TPI2Z9W88S5hCbEPO/y9rDrTWpi3FI0DEW5eD+qH37GAT9ExzhB6j1fj+BXk6cN07oFMKkVzAuWpo6RY/qlXYA==
 
-"@types/d3-color@*":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/d3-color/-/d3-color-2.0.0.tgz#febdfadade56e215a4c3f612fe3000d92999f5d5"
-  integrity sha1-/r362t5W4hWkw/YS/jAA2SmZ9dU=
+"@types/d3-color@*", "@types/d3-color@^2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@types/d3-color/-/d3-color-2.0.2.tgz#4d77dc4304966b23e42878e2978fcdf50c969eb5"
+  integrity sha512-5zl/UNuZTK/7nGWjK2xDifBJ4CE2amKqS6Qnea+IwGNKAQ8Csh1ppakVHSO+uAdwLOmVHUjdoinmNG5OUUOfsw==
 
-"@types/d3-contour@*":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/d3-contour/-/d3-contour-2.0.0.tgz#6e079f281b29a8df3fcbd3ec193f2cf1d0b4a584"
-  integrity sha1-bgefKBspqN8/y9PsGT8s8dC0pYQ=
+"@types/d3-contour@^2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@types/d3-contour/-/d3-contour-2.0.2.tgz#fe4cfce87a80859b15bbaa0546358dac3b2cee6a"
+  integrity sha512-+OUXgpCjdG/ez7iGoAqPRaa/mNqDZ6xdx4mCnH9Wwf4RF1YBBfapT13k4dQ2u7rxQZgLXKeMES98cBwMvXN1XA==
   dependencies:
-    "@types/d3-array" "*"
+    "@types/d3-array" "^2"
     "@types/geojson" "*"
 
-"@types/d3-delaunay@*":
-  version "5.3.0"
-  resolved "https://registry.npmjs.org/@types/d3-delaunay/-/d3-delaunay-5.3.0.tgz#416169bb5c67a510c87b55d092a404fcab49def3"
-  integrity sha1-QWFpu1xnpRDIe1XQkqQE/KtJ3vM=
+"@types/d3-delaunay@^5":
+  version "5.3.1"
+  resolved "https://registry.npmjs.org/@types/d3-delaunay/-/d3-delaunay-5.3.1.tgz#47ae03af6b78cb3aa39d3d3c42ca71daca488aef"
+  integrity sha512-F6itHi2DxdatHil1rJ2yEFUNhejj8+0Acd55LZ6Ggwbdoks0+DxVY2cawNj16sjCBiWvubVlh6eBMVsYRNGLew==
 
-"@types/d3-dispatch@*":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/d3-dispatch/-/d3-dispatch-2.0.0.tgz#1f8803041b73b81f2c751e026b7bb63dd5f24ce0"
-  integrity sha1-H4gDBBtzuB8sdR4Ca3u2PdXyTOA=
+"@types/d3-dispatch@^2":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@types/d3-dispatch/-/d3-dispatch-2.0.1.tgz#d7dc50f9b679996ccf70f3c79dbbf99505a93107"
+  integrity sha512-eT2K8uG3rXkmRiCpPn0rNrekuSLdBfV83vbTvfZliA5K7dbeaqWS/CBHtJ9SQoF8aDTsWSY4A0RU67U/HcKdJQ==
 
-"@types/d3-drag@*":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/d3-drag/-/d3-drag-2.0.0.tgz#ef66acc422576fbe10b8bd66af45a9fb8525199a"
-  integrity sha1-72asxCJXb74QuL1mr0Wp+4UlGZo=
+"@types/d3-drag@^2":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@types/d3-drag/-/d3-drag-2.0.1.tgz#fdee55f871a5a56292f5d46198caf5e89c971de5"
+  integrity sha512-0e/Wu9Tb4rxEz7afba3OhCOXUnj8WcjZccE7TRZGuS6QB+BK80i4PgMIUWQgkg2RSGnjwBGuzV+N1slOoinrlA==
   dependencies:
     "@types/d3-selection" "*"
 
-"@types/d3-dsv@*":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/d3-dsv/-/d3-dsv-2.0.0.tgz#c9fb8b2f0f7168d21a6bbd29492141bfd1b8db16"
-  integrity sha1-yfuLLw9xaNIaa70pSSFBv9G42xY=
+"@types/d3-dsv@*", "@types/d3-dsv@^2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@types/d3-dsv/-/d3-dsv-2.0.2.tgz#e10fa57576b50ded27e261db9984b9a92efec2f3"
+  integrity sha512-T4aL2ZzaILkLGKbxssipYVRs8334PSR9FQzTGftZbc3jIPGkiXXS7qUCh8/q8UWFzxBZQ92dvR0v7+AM9wL2PA==
 
 "@types/d3-ease@*":
   version "2.0.0"
@@ -2933,21 +2933,21 @@
     "@types/d3-interpolate" "*"
     "@types/d3-selection" "*"
 
-"@types/d3@^6.7.1":
-  version "6.7.1"
-  resolved "https://registry.npmjs.org/@types/d3/-/d3-6.7.1.tgz#b0b0ae65ca680d1d46721c6bd4d6ae40e186a72a"
-  integrity sha512-fS9Mtutt/LKmS06r/mWH23yB1jetc58WLqCjlJAMMKeHl3P2V2kAQM6pImj0I2crCT1awcAku3XUVGKyDX4ChQ==
+"@types/d3@^6.7.3":
+  version "6.7.3"
+  resolved "https://registry.npmjs.org/@types/d3/-/d3-6.7.3.tgz#2651785fcc6d2e939cb27285d4f68e9f925296d4"
+  integrity sha512-1PvtX7MXEN0wFtras9wsurq8AjkcrZ9f0d8s+/OP0W8xymKs4DqtpBx/GEYjjif1rPlozVJZmY2SgyeunkSBSA==
   dependencies:
     "@types/d3-array" "^2"
-    "@types/d3-axis" "*"
-    "@types/d3-brush" "*"
-    "@types/d3-chord" "*"
-    "@types/d3-color" "*"
-    "@types/d3-contour" "*"
-    "@types/d3-delaunay" "*"
-    "@types/d3-dispatch" "*"
-    "@types/d3-drag" "*"
-    "@types/d3-dsv" "*"
+    "@types/d3-axis" "^2"
+    "@types/d3-brush" "^2"
+    "@types/d3-chord" "^2"
+    "@types/d3-color" "^2"
+    "@types/d3-contour" "^2"
+    "@types/d3-delaunay" "^5"
+    "@types/d3-dispatch" "^2"
+    "@types/d3-drag" "^2"
+    "@types/d3-dsv" "^2"
     "@types/d3-ease" "*"
     "@types/d3-fetch" "*"
     "@types/d3-force" "*"
