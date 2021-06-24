@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.2...@next-core/brick-types@2.32.3) (2021-06-24)
+
+
+### Bug Fixes
+
+* add types of layer type ([4387d6f](https://github.com/easyops-cn/next-core/commit/4387d6fad295b6ae3c1d4c1e312ab7d7fb97059a))
+
+
+
+
+
 ## [2.32.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.1...@next-core/brick-types@2.32.2) (2021-06-17)
 
 
