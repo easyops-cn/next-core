@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.5...@next-core/editor-bricks-helper@0.25.6) (2021-06-24)
+
+
+### Bug Fixes
+
+* **builder:** support to initialize alias of brick nodes ([e6573f1](https://github.com/easyops-cn/next-core/commit/e6573f13de583fa298909008050c925cc3d992d7))
+* **builder:** support to set canvas mode ([a524c44](https://github.com/easyops-cn/next-core/commit/a524c44c776e8471e4ed7573648946e1567be757))
+
+
+
+
+
 ## [0.25.5](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.4...@next-core/editor-bricks-helper@0.25.5) (2021-06-21)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
