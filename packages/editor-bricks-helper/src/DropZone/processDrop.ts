@@ -54,7 +54,6 @@ export function processDrop({
       }),
       nodeUid: draggingNodeUid,
       parentUid: droppingParentUid,
-      nodeAlias: brick.split(".").pop(),
       nodeData: {
         parent: droppingParentInstanceId,
         type: brickType,

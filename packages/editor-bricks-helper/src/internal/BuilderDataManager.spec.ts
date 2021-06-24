@@ -140,7 +140,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 3,
-            "alias": undefined,
+            "alias": "brick-b",
             "brick": "brick-b",
             "id": "B-003",
             "sort": 1,
@@ -155,7 +155,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 4,
-            "alias": undefined,
+            "alias": "brick-c",
             "brick": "brick-c",
             "id": "B-004",
             "type": "brick",
@@ -169,7 +169,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 5,
-            "alias": undefined,
+            "alias": "brick-d",
             "brick": "brick-d",
             "id": "B-005",
             "type": "brick",
@@ -183,7 +183,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 6,
-            "alias": undefined,
+            "alias": "brick-e",
             "brick": "brick-e",
             "id": "B-006",
             "sort": 1,
@@ -204,8 +204,9 @@ describe("BuilderDataManager for route of bricks", () => {
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
-      nodeAlias: "new-brick",
       nodeData: {
+        type: "brick",
+        brick: "my.any-brick",
         mountPoint: "toolbar",
       } as Partial<NodeInstance> as NodeInstance,
       nodeIds: null,
@@ -253,13 +254,17 @@ describe("BuilderDataManager for route of bricks", () => {
     `);
     expect(newData.nodes[newData.nodes.length - 1]).toMatchInlineSnapshot(`
       Object {
-        "$$matchedSelectors": Array [],
+        "$$matchedSelectors": Array [
+          "my\\\\.any-brick",
+        ],
         "$$parsedEvents": Object {},
         "$$parsedLifeCycle": Object {},
         "$$parsedProperties": Object {},
         "$$parsedProxy": Object {},
         "$$uid": 7,
-        "alias": "new-brick",
+        "alias": "any-brick",
+        "brick": "my.any-brick",
+        "type": "brick",
       }
     `);
     expect(listenOnNodeAdd).toBeCalled();
@@ -275,7 +280,6 @@ describe("BuilderDataManager for route of bricks", () => {
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
-      nodeAlias: "new-brick",
       nodeData: {
         mountPoint: "toolbar",
       } as Partial<NodeInstance> as NodeInstance,
@@ -283,7 +287,6 @@ describe("BuilderDataManager for route of bricks", () => {
     });
     manager.nodeAddStored({
       nodeUid: 7,
-      nodeAlias: "new-brick",
       nodeData: {
         id: "B-007",
       } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
@@ -308,7 +311,6 @@ describe("BuilderDataManager for route of bricks", () => {
         {
           nodeUid: 7,
           parentUid: 3,
-          nodeAlias: "easy-view",
           nodeData: {
             parent: "instance-a",
             type: "brick",
@@ -320,7 +322,6 @@ describe("BuilderDataManager for route of bricks", () => {
             {
               nodeUid: 8,
               parentUid: 7,
-              nodeAlias: "general-button",
               nodeData: {
                 type: "brick",
                 brick: "basic-bricks.general-button",
@@ -439,7 +440,6 @@ describe("BuilderDataManager for route of bricks", () => {
         {
           nodeUid: 7,
           parentUid: 3,
-          nodeAlias: "easy-view",
           nodeData: {
             mountPoint: "toolbar",
           } as Partial<NodeInstance> as NodeInstance,
@@ -447,7 +447,6 @@ describe("BuilderDataManager for route of bricks", () => {
             {
               nodeUid: 8,
               parentUid: 7,
-              nodeAlias: "general-button",
               nodeData: {
                 mountPoint: "header",
               } as Partial<NodeInstance> as NodeInstance,
@@ -461,14 +460,12 @@ describe("BuilderDataManager for route of bricks", () => {
       flattenNodeDetails: [
         {
           nodeUid: 7,
-          nodeAlias: "easy-view",
           nodeData: {
             id: "B-007",
           } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
         },
         {
           nodeUid: 8,
-          nodeAlias: "general-button",
           nodeData: {
             id: "B-008",
           } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
@@ -910,7 +907,7 @@ describe("BuilderDataManager for route of routes", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 3,
-            "alias": undefined,
+            "alias": "brick-b",
             "brick": "brick-b",
             "id": "B-003",
             "sort": 0,

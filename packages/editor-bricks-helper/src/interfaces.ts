@@ -45,7 +45,6 @@ export interface EventDetailOfNodeAdd {
   parentUid: number;
   nodeUids: number[];
   nodeIds: string[];
-  nodeAlias: string;
   nodeData: NodeInstance;
 }
 
@@ -69,7 +68,6 @@ export interface NodeInstance {
 export interface EventDetailOfNodeAddStored {
   nodeUid: number;
   nodeData: BuilderRouteOrBrickNode;
-  nodeAlias: string;
 }
 
 export interface EventDetailOfSnippetApply {
@@ -83,7 +81,6 @@ export interface EventDetailOfSnippetApply {
 
 export interface SnippetNodeDetail {
   nodeUid: number;
-  nodeAlias: string;
   parentUid: number;
   nodeData: SnippetNodeInstance;
   children: SnippetNodeDetail[];
@@ -97,10 +94,7 @@ export interface EventDetailOfSnippetApplyStored {
   flattenNodeDetails: EventDetailOfNodeAddStored[];
 }
 
-export type EventDetailOfNodeMove = Omit<
-  EventDetailOfNodeAdd,
-  "nodeAlias" | "nodeData"
-> & {
+export type EventDetailOfNodeMove = Omit<EventDetailOfNodeAdd, "nodeData"> & {
   nodeInstanceId: string;
   nodeData: {
     parent: string;
