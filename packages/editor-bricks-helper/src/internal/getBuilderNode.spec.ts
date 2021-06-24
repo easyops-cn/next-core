@@ -21,6 +21,7 @@ describe("getBuilderNode", () => {
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
+      alias: "any-brick",
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
@@ -36,21 +37,21 @@ describe("getBuilderNode", () => {
         {
           type: "brick",
           brick: "my.any-brick",
+          alias: "preset-alias",
           id: "B-001",
           parent: [],
           children: [],
           graphInfo: {},
           mountPoint: "brick",
         },
-        1,
-        "any-alias"
+        1
       )
     ).toEqual({
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
+      alias: "preset-alias",
       $$uid: 1,
-      alias: "any-alias",
       $$parsedProperties: {},
       $$parsedEvents: {},
       $$parsedProxy: {},
@@ -79,6 +80,7 @@ describe("getBuilderNode", () => {
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
+      alias: "any-brick",
       $$uid: 1,
       properties: '{"pageTitle":"Hello"}',
       events: '{"click":{"action":"console.log"}}',
@@ -116,6 +118,7 @@ describe("getBuilderNode", () => {
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
+      alias: "any-brick",
       $$uid: 1,
       properties: "oops",
       events: "ouch",
@@ -272,6 +275,7 @@ describe("getBuilderNode", () => {
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
+      alias: "any-brick",
       $$uid: 1,
       properties: '{"id":"myBrick"}',
       $$parsedProperties: {
@@ -303,6 +307,7 @@ describe("getBuilderNode", () => {
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
+      alias: "any-brick",
       $$uid: 1,
       properties: '{"id":"<% QUERY.x %>"}',
       $$parsedProperties: {

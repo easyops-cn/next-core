@@ -185,7 +185,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   nodeAdd(detail: EventDetailOfNodeAdd): void {
     const { rootId, nodes, edges } = this.data;
-    const { nodeUid, parentUid, nodeUids, nodeAlias, nodeData } = detail;
+    const { nodeUid, parentUid, nodeUids, nodeData } = detail;
     this.data = {
       rootId,
       nodes: nodes.concat(
@@ -193,8 +193,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
           omit(nodeData, [
             "parent",
           ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
-          nodeUid,
-          nodeAlias
+          nodeUid
         )
       ),
       edges: reorderBuilderEdges(
@@ -216,13 +215,11 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   nodeAddStored(detail: EventDetailOfNodeAddStored): void {
     const { rootId, nodes, edges } = this.data;
-    const { nodeUid, nodeAlias, nodeData } = detail;
+    const { nodeUid, nodeData } = detail;
     this.data = {
       rootId,
       nodes: nodes.map((node) =>
-        node.$$uid === nodeUid
-          ? getBuilderNode(nodeData, nodeUid, nodeAlias)
-          : node
+        node.$$uid === nodeUid ? getBuilderNode(nodeData, nodeUid) : node
       ),
       edges,
     };
@@ -239,7 +236,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     const walk = ({
       parentUid,
       nodeUid,
-      nodeAlias,
       nodeData,
       children,
     }: SnippetNodeDetail): void => {
@@ -248,8 +244,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
           omit(nodeData, [
             "parent",
           ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
-          nodeUid,
-          nodeAlias
+          nodeUid
         )
       );
       newEdges.push({
@@ -285,9 +280,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       rootId,
       nodes: nodes.map((node) => {
         const found = flattenNodeDetails.find((n) => n.nodeUid === node.$$uid);
-        return found
-          ? getBuilderNode(found.nodeData, found.nodeUid, found.nodeAlias)
-          : node;
+        return found ? getBuilderNode(found.nodeData, found.nodeUid) : node;
       }),
       edges,
     };

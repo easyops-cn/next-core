@@ -84,7 +84,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "brick",
@@ -115,7 +114,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "brick",
@@ -146,7 +144,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "template",
@@ -176,7 +173,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "provider",
@@ -242,7 +238,6 @@ describe("processDrop", () => {
         {
           nodeUid: 200,
           parentUid: 100,
-          nodeAlias: "easy-view",
           nodeData: {
             parent: "instance-a",
             type: "brick",
@@ -255,7 +250,6 @@ describe("processDrop", () => {
             {
               nodeUid: 201,
               parentUid: 200,
-              nodeAlias: "general-button",
               nodeData: {
                 type: "provider",
                 brick: "basic-bricks.general-button",
@@ -269,7 +263,6 @@ describe("processDrop", () => {
             {
               nodeUid: 202,
               parentUid: 200,
-              nodeAlias: "legacy-template",
               nodeData: {
                 type: "template",
                 brick: "my.legacy-template",

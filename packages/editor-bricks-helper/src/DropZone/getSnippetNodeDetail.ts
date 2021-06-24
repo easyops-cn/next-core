@@ -28,9 +28,6 @@ export function getSnippetNodeDetail({
 
   return {
     nodeUid,
-    nodeAlias: (type === "template" ? brickConf.template : brickConf.brick)
-      .split(".")
-      .pop(),
     parentUid,
     nodeData: reverseNormalize(brickConf, {
       isPortalCanvas,

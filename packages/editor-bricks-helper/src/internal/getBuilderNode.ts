@@ -1,13 +1,13 @@
 import { upperFirst } from "lodash";
 import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
+import { isBrickNode } from "../assertions";
 
 const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];
 
 export function getBuilderNode(
   nodeData: BuilderRouteOrBrickNode,
-  nodeUid: number,
-  nodeAlias?: string
+  nodeUid: number
 ): BuilderRuntimeNode {
   const matchedSelectors: string[] = [];
 
@@ -47,7 +47,13 @@ export function getBuilderNode(
     Object.entries(nodeData)
       .filter((entry) => !nodeIgnoreFields.includes(entry[0]))
       .concat([
-        ["alias", nodeAlias ?? nodeData.alias],
+        [
+          "alias",
+          nodeData.alias ??
+            (isBrickNode(nodeData)
+              ? nodeData.brick.split(".").pop()
+              : undefined),
+        ],
         ["$$uid", nodeUid],
         ["$$matchedSelectors", matchedSelectors],
       ])
