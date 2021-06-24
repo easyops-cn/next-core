@@ -14631,13 +14631,10 @@ style-inject@^0.3.0:
   resolved "https://registry.npmjs.org/style-inject/-/style-inject-0.3.0.tgz#d21c477affec91811cc82355832a700d22bf8dd3"
   integrity sha1-0hxHev/skYEcyCNVgypwDSK/jdM=
 
-style-loader@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/style-loader/-/style-loader-2.0.0.tgz#9669602fd4690740eaaec137799a03addbbc393c"
-  integrity sha1-lmlgL9RpB0DqrsE3eZoDrdu8OTw=
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
+style-loader@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/style-loader/-/style-loader-3.0.0.tgz#2eafcd0dbe70b07438e0256a9714ea94dd63cbe0"
+  integrity sha512-pqJTDiCtLr8D2eyVWXPiwNkLsAMDuvPHnu+Z/Edo9hu+DzdJwdO5eZv9zUBF6tWI8GJGhAkenWJaVjXI+sHnuQ==
 
 stylehacks@^4.0.0:
   version "4.0.3"
