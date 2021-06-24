@@ -52,6 +52,7 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
 export interface BuilderSnippetNode extends BuilderBaseNode {
   type: "snippet";
   snippetId: string;
+  layerType?: LayerType;
   category?: string;
   subCategory?: string;
   text?: I18nData;
@@ -67,8 +68,12 @@ export interface SnippetDefinition {
   id: string;
   bricks: BrickConf[];
   category: string;
+  layerType?: LayerType;
   subCategory?: string;
   text?: I18nData;
   description?: I18nData;
   thumbnail?: string;
 }
+
+/** @internal */
+export type LayerType = "layout" | "widget" | "brick";

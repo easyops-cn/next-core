@@ -685,6 +685,8 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
     // (undocumented)
     description?: I18nData;
     // (undocumented)
+    layerType?: LayerType;
+    // (undocumented)
     snippetId: string;
     // (undocumented)
     subCategory?: string;
@@ -1136,6 +1138,11 @@ export interface InstanceDisplay<T = Record<string, any>> {
 export interface InterceptorParams {
     ignoreLoadingBar?: boolean;
 }
+
+// Warning: (ae-internal-missing-underscore) The name "LayerType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type LayerType = "layout" | "widget" | "brick";
 
 // @public
 export type LayoutType = "console" | "business";
@@ -1798,6 +1805,8 @@ export interface SnippetDefinition {
     description?: I18nData;
     // (undocumented)
     id: string;
+    // (undocumented)
+    layerType?: LayerType;
     // (undocumented)
     subCategory?: string;
     // (undocumented)
