@@ -69,12 +69,13 @@ if __name__ == "__main__":
   cmd = "/usr/local/easyops/deploy_init/tools/get_env.py micro_app_service report_brick_info"
   status_code, res = commands.getstatusoutput(cmd)
   status_code = os.WEXITSTATUS(status_code)
-  if status_code == 0 and res == "true":
-    org = sys.argv[1]
-    install_path = sys.argv[2]
-    package_name, bricks_content, stories_content, snippets_content = collect(install_path)
-    if package_name and bricks_content and snippets_content:
-      report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
+  if status_code == 0:
+    if res == "true":
+      org = sys.argv[1]
+      install_path = sys.argv[2]
+      package_name, bricks_content, stories_content, snippets_content = collect(install_path)
+      if package_name and bricks_content and snippets_content:
+        report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
   elif status_code == 2:
     sys.exit(0)
   else:
