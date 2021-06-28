@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.2...@next-core/brick-kit@2.52.3) (2021-06-28)
+
+
+### Bug Fixes
+
+* fix onReject when resolving context ([b8c3ffd](https://github.com/easyops-cn/next-core/commit/b8c3ffd167ef5f319b97583294d9c61c76cae9bc))
+
+
+
+
+
 ## [2.52.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.1...@next-core/brick-kit@2.52.2) (2021-06-24)
 
 **Note:** Version bump only for package @next-core/brick-kit

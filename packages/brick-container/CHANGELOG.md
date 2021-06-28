@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.26.3...@next-core/brick-container@2.27.0) (2021-06-28)
+
+
+### Features
+
+* **micro_app_service:** 修复环境开关的判断条件 ([c3397b8](https://github.com/easyops-cn/next-core/commit/c3397b85a32001d7928222749ddde39ff201fdd8))
+
+
+
+
+
 ## [2.26.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.26.2...@next-core/brick-container@2.26.3) (2021-06-24)
 
 **Note:** Version bump only for package @next-core/brick-container
