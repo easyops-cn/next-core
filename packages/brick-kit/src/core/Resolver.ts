@@ -118,7 +118,7 @@ export class Resolver {
     const brickConf = conf as BrickConf;
     const propsReference = conf as Record<string, any>;
     let actualResolveConf: EntityResolveConf;
-    const { ref } = resolveConf as RefResolveConf;
+    const { ref, onReject } = resolveConf as RefResolveConf;
     if (ref) {
       if (!this.definedResolves.has(ref)) {
         throw new Error(
@@ -199,7 +199,7 @@ export class Resolver {
                 transform: resolveConf.transform,
                 transformFrom: resolveConf.transformFrom,
                 transformMapArray: resolveConf.transformMapArray,
-                onReject: resolveConf.onReject,
+                onReject,
               }
             : {
                 transform: transform || name,
@@ -229,7 +229,8 @@ export class Resolver {
         : providerBrick.args || [];
 
       if (useProvider && isCustomApiProvider(useProvider)) {
-        const allMicroAppApiOrchestrationMap = await this.kernel.getMicroAppApiOrchestrationMapAsync();
+        const allMicroAppApiOrchestrationMap =
+          await this.kernel.getMicroAppApiOrchestrationMapAsync();
         actualArgs = getArgsOfCustomApi(
           useProvider,
           allMicroAppApiOrchestrationMap,
@@ -263,24 +264,25 @@ export class Resolver {
       recursiveMarkAsInjected(data);
     }
 
-    if (resolveConf.onReject) {
+    if (onReject) {
       // Transform as `onReject.transform` when provider failed.
       try {
         await fetchData();
       } catch (error) {
-        if (isHandleRejectByTransform(resolveConf.onReject)) {
+        if (isHandleRejectByTransform(onReject)) {
           transformProperties(
             props,
             error,
             context
               ? (computeRealValue(
-                  resolveConf.onReject.transform,
+                  onReject.transform,
                   context,
                   true
                 ) as GeneralTransform)
-              : resolveConf.onReject.transform
+              : onReject.transform
           );
-        } else if (isHandleRejectByCatch(resolveConf.onReject)) {
+          return;
+        } else if (isHandleRejectByCatch(onReject)) {
           throw new ResolveRequestError(error);
         } else {
           throw error;
