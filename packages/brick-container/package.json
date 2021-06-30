@@ -61,7 +61,7 @@
     "i18next-browser-languagedetector": "^6.1.2",
     "less": "^3.13.1",
     "less-loader": "^7.3.0",
-    "mini-css-extract-plugin": "^1.6.2",
+    "mini-css-extract-plugin": "^2.0.0",
     "regenerator-runtime": "^0.13.7",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
