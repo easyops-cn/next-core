@@ -582,7 +582,7 @@ describe("Kernel", () => {
             method: "get",
             uri: "api/gateway/xxx",
           },
-          package: [{ name: "easyops.custom_api" }],
+          namespace: [{ name: "easyops.custom_api" }],
         },
       ],
     });
@@ -592,14 +592,14 @@ describe("Kernel", () => {
     const allMicroAppApiOrchestrationMap =
       await kernel.getMicroAppApiOrchestrationMapAsync();
     expect(searchAllMicroAppApiOrchestration).toBeCalledWith(
-      "_INTERFACE_CONTRACT@easyops",
+      "_INTERFACE_CONTRACT@EASYOPS",
       {
         page: 1,
         page_size: 1,
         fields: {
           name: true,
           endpoint: true,
-          "package.name": true,
+          "namespace.name": true,
           response: true,
           version: true,
         },
@@ -608,7 +608,7 @@ describe("Kernel", () => {
             {
               name: "myAwesomeApi",
               version: "1.2.0",
-              "package.name": "easyops.custom_api",
+              "namespace.name": "easyops.custom_api",
             },
           ],
         },
