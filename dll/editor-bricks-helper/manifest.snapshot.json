@@ -84,6 +84,7 @@
           "isBrickNode",
           "isCustomTemplateNode",
           "isRouteNode",
+          "isSnippetNode",
           "useBuilderContextMenuStatus",
           "useBuilderData",
           "useBuilderDataManager",

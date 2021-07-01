@@ -1,5 +1,4 @@
 import { developHelper } from "@next-core/brick-kit";
-import { StoryDoc } from "@next-core/brick-types";
 import { isBrickNode, isRouteNode } from "../assertions";
 import { BuilderRuntimeNode } from "../interfaces";
 
@@ -10,6 +9,7 @@ const ANY_ROUTE_EDITOR = "basic-bricks.any-route--editor";
  * Get editor brick name by node.
  *
  * @param node - Builder node.
+ * @param editor - Using shared editor.
  *
  * @returns
  *
@@ -22,7 +22,7 @@ const ANY_ROUTE_EDITOR = "basic-bricks.any-route--editor";
  */
 export async function getEditorBrick(
   node: BuilderRuntimeNode,
-  brickDoc?: StoryDoc
+  editor?: string
 ): Promise<string> {
   const tryEditorBricks: string[] = [];
   if (isRouteNode(node)) {
@@ -32,8 +32,8 @@ export async function getEditorBrick(
       tryEditorBricks.push(`${node.brick}--editor`);
     }
 
-    if (brickDoc?.editor) {
-      tryEditorBricks.push(brickDoc.editor);
+    if (editor) {
+      tryEditorBricks.push(editor);
     }
 
     tryEditorBricks.push(ANY_BRICK_EDITOR);

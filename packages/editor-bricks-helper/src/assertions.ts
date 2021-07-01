@@ -3,6 +3,7 @@ import {
   BuilderCustomTemplateNode,
   BuilderRouteNode,
   BuilderRouteOrBrickNode,
+  BuilderSnippetNode,
 } from "@next-core/brick-types";
 
 export function isRouteNode(
@@ -35,4 +36,10 @@ export function isCustomTemplateNode(
   node: BuilderRouteOrBrickNode
 ): node is BuilderCustomTemplateNode {
   return node.type === "custom-template";
+}
+
+export function isSnippetNode(
+  node: BuilderRouteOrBrickNode
+): node is BuilderSnippetNode {
+  return node.type === "snippet";
 }

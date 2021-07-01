@@ -20,6 +20,7 @@ import {
   SnippetNodeDetail,
   EventDetailOfSnippetApply,
   EventDetailOfSnippetApplyStored,
+  SharedEditorConf,
 } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -38,7 +39,8 @@ enum BuilderInternalEventType {
   SNIPPET_APPLY = "builder.snippet.apply",
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
-  ROUTE_LIST_CHANGE = "builder.route.list.change",
+  SHARED_EDITOR_LIST_CHANGE = "builder.sharedEditorList.change",
+  ROUTE_LIST_CHANGE = "builder.routeList.change",
   HOVER_NODE_CHANGE = "builder.hoverNode.change",
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
@@ -56,9 +58,11 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private hoverNodeUid: number;
 
-  private routeList: BuilderRouteNode[] = [];
+  private sharedEditorList: SharedEditorConf[];
 
-  private storyList: Story[] = [];
+  private routeList: BuilderRouteNode[];
+
+  private storyList: Story[];
 
   private readonly eventTarget = new EventTarget();
 
@@ -92,6 +96,30 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return this.relatedNodesBasedOnEventsMap;
   }
 
+  sharedEditorListInit(data: SharedEditorConf[]): void {
+    this.sharedEditorList = data;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE)
+    );
+  }
+
+  getSharedEditorList(): SharedEditorConf[] {
+    return this.sharedEditorList ?? [];
+  }
+
+  onSharedEditorListChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE,
+        fn
+      );
+    };
+  }
+
   routeListInit(data: BuilderRouteNode[]): void {
     this.routeList = data;
     this.eventTarget.dispatchEvent(
@@ -100,7 +128,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   getRouteList(): BuilderRouteNode[] {
-    return this.routeList;
+    return this.routeList ?? [];
   }
 
   storyListInit(data: Story[]): void {
