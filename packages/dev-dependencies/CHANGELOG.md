@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.44](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.43...@next-core/dev-dependencies@1.8.44) (2021-07-01)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
 ## [1.8.43](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.42...@next-core/dev-dependencies@1.8.43) (2021-06-28)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

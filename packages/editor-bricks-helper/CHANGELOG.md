@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.8...@next-core/editor-bricks-helper@0.26.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* refine route list initialization ([7a32d85](https://github.com/easyops-cn/next-core/commit/7a32d85b1cb8b7246a60d27a3abd293461d5a272))
+
+
+### Features
+
+* support to check snippet node ([064056e](https://github.com/easyops-cn/next-core/commit/064056e47fc6c9d7ac606f646a86dfec124564bd))
+* support to load editors from installed bricks ([997f466](https://github.com/easyops-cn/next-core/commit/997f4669e1a7968c8e249ecfe2dd3ac515624673))
+
+
+
+
+
 ## [0.25.8](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.7...@next-core/editor-bricks-helper@0.25.8) (2021-06-28)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
