@@ -468,27 +468,27 @@ export class Kernel {
     if (customApisV2.length) {
       try {
         const allMicroAppApiOrchestrationV2 = (
-          await InstanceApi_postSearch("_INTERFACE_CONTRACT@easyops", {
+          await InstanceApi_postSearch("_INTERFACE_CONTRACT@EASYOPS", {
             page: 1,
             page_size: customApisV2.length,
             fields: {
               name: true,
               endpoint: true,
               response: true,
-              "package.name": true,
+              "namespace.name": true,
               version: true,
             },
             query: {
               $or: customApisV2.map((item) => ({
                 name: item.name.split(":")[0],
                 version: item.name.split(":")[1],
-                "package.name": item.namespace,
+                "namespace.name": item.namespace,
               })),
             },
           })
         ).list.map((item) => ({
           name: item.name,
-          namespace: item.package[0].name,
+          namespace: item.namespace[0].name,
           version: item.version,
           contract: {
             endpoint: item.endpoint,
