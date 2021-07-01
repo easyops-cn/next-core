@@ -1,8 +1,13 @@
 import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
-import { isBrickNode, isCustomTemplateNode, isRouteNode } from "./assertions";
+import {
+  isBrickNode,
+  isCustomTemplateNode,
+  isRouteNode,
+  isSnippetNode,
+} from "./assertions";
 
 describe("assertions", () => {
-  it.each<[BuilderRouteOrBrickNode, boolean, boolean, boolean]>([
+  it.each<[BuilderRouteOrBrickNode, boolean, boolean, boolean, boolean]>([
     [
       {
         type: "bricks",
@@ -10,6 +15,7 @@ describe("assertions", () => {
         id: "B-001",
       },
       true,
+      false,
       false,
       false,
     ],
@@ -22,6 +28,7 @@ describe("assertions", () => {
       true,
       false,
       false,
+      false,
     ],
     [
       {
@@ -30,6 +37,7 @@ describe("assertions", () => {
         id: "B-001",
       },
       true,
+      false,
       false,
       false,
     ],
@@ -42,6 +50,7 @@ describe("assertions", () => {
       false,
       true,
       false,
+      false,
     ],
     [
       {
@@ -51,6 +60,7 @@ describe("assertions", () => {
       },
       false,
       true,
+      false,
       false,
     ],
     [
@@ -62,6 +72,7 @@ describe("assertions", () => {
       false,
       true,
       false,
+      false,
     ],
     [
       {
@@ -72,10 +83,26 @@ describe("assertions", () => {
       false,
       false,
       true,
+      false,
     ],
-  ])("should work with node %j", (node, isRoute, isBrick, isCustomTemplate) => {
-    expect(isRouteNode(node)).toBe(isRoute);
-    expect(isBrickNode(node)).toBe(isBrick);
-    expect(isCustomTemplateNode(node)).toBe(isCustomTemplate);
-  });
+    [
+      {
+        type: "snippet",
+        snippetId: "snippet-any",
+        id: "B-001",
+      },
+      false,
+      false,
+      false,
+      true,
+    ],
+  ])(
+    "should work with node %j",
+    (node, isRoute, isBrick, isCustomTemplate, isSnippet) => {
+      expect(isRouteNode(node)).toBe(isRoute);
+      expect(isBrickNode(node)).toBe(isBrick);
+      expect(isCustomTemplateNode(node)).toBe(isCustomTemplate);
+      expect(isSnippetNode(node)).toBe(isSnippet);
+    }
+  );
 });
