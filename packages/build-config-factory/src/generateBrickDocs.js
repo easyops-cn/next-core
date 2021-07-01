@@ -608,7 +608,7 @@ module.exports = function generateBrickDocs(packageName) {
     // disableSources: true,
     hideGenerator: true,
     categoryOrder: ["property", "event", "method", "Other"],
-    allowInheritedDoc: ["FormItemElement", "BaseChartElement"],
+    allowInheritedDoc: ["FormItemElement", "BaseChartElement", "GraphElement"],
     exclude: [
       "node_modules",
       "**/*.spec.ts?(x)",
