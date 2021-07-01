@@ -560,6 +560,67 @@ describe("Kernel", () => {
     ).toBe(true);
   });
 
+  it("should getProviderBrick when isCustomApiV2 Provider", async () => {
+    kernel.bootstrapData = {} as any;
+    await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi:1.2.0");
+    expect(loadScript).toHaveBeenNthCalledWith(1, []);
+    expect(loadScript).toHaveBeenNthCalledWith(2, []);
+    const searchAllMicroAppApiOrchestration =
+      InstanceApi_postSearch as jest.Mock;
+    const usedCustomApis = [
+      {
+        name: "myAwesomeApi:1.2.0",
+        namespace: "easyops.custom_api",
+      },
+    ];
+    searchAllMicroAppApiOrchestration.mockResolvedValueOnce({
+      list: [
+        {
+          name: "myAwesomeApi",
+          version: "1.2.0",
+          endpoint: {
+            method: "get",
+            uri: "api/gateway/xxx",
+          },
+          package: [{ name: "easyops.custom_api" }],
+        },
+      ],
+    });
+    kernel.loadMicroAppApiOrchestrationAsync([]);
+    expect(searchAllMicroAppApiOrchestration).not.toBeCalled();
+    kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
+    const allMicroAppApiOrchestrationMap =
+      await kernel.getMicroAppApiOrchestrationMapAsync();
+    expect(searchAllMicroAppApiOrchestration).toBeCalledWith(
+      "_INTERFACE_CONTRACT@easyops",
+      {
+        page: 1,
+        page_size: 1,
+        fields: {
+          name: true,
+          endpoint: true,
+          "package.name": true,
+          response: true,
+          version: true,
+        },
+        query: {
+          $or: [
+            {
+              name: "myAwesomeApi",
+              version: "1.2.0",
+              "package.name": "easyops.custom_api",
+            },
+          ],
+        },
+      }
+    );
+    expect(
+      allMicroAppApiOrchestrationMap.has(
+        "easyops.custom_api@myAwesomeApi:1.2.0"
+      )
+    ).toBe(true);
+  });
+
   it("should throw if getProviderBrick with not defined provider", async () => {
     kernel.bootstrapData = {} as any;
     expect.assertions(3);

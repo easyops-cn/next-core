@@ -143,6 +143,8 @@ export interface CustomApiOrchestration {
     namespace: string;
     // (undocumented)
     type?: "emal" | "swagger";
+    // (undocumented)
+    version?: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "developHelper" should be prefixed with an underscore because the declaration is marked as @internal

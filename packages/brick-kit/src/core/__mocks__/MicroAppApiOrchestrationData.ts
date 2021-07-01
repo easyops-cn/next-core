@@ -63,3 +63,16 @@ mockMicroAppApiOrchestrationMap.set("easyops.custom_api@test", {
   namespace: "easyops.custom_api",
   type: "emal",
 });
+
+mockMicroAppApiOrchestrationMap.set("easyops.custom_api@getStatus:1.0.0", {
+  _object_id: "_INTERFACE_CONTRACT@easyops",
+  name: "getStatus",
+  version: "1.0.0",
+  contract: {
+    endpoint: {
+      method: "get",
+      uri: "/api/status",
+    },
+  },
+  namespace: "easyops.custom_api",
+});
