@@ -60,9 +60,9 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private sharedEditorList: SharedEditorConf[];
 
-  private routeList: BuilderRouteNode[] = [];
+  private routeList: BuilderRouteNode[];
 
-  private storyList: Story[] = [];
+  private storyList: Story[];
 
   private readonly eventTarget = new EventTarget();
 
@@ -128,7 +128,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   getRouteList(): BuilderRouteNode[] {
-    return this.routeList;
+    return this.routeList ?? [];
   }
 
   storyListInit(data: Story[]): void {

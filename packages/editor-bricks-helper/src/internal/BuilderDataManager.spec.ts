@@ -956,6 +956,13 @@ describe("route list", () => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
     manager = new BuilderDataManager();
+  });
+
+  it("should return an empty array if data is not set", () => {
+    expect(manager.getRouteList()).toEqual([]);
+  });
+
+  it("should init route list data", () => {
     const listenOnRouteListChange = jest.fn();
     const unlistenOnRouteListChange = manager.onRouteListChange(
       listenOnRouteListChange
@@ -966,31 +973,16 @@ describe("route list", () => {
         path: "/homepage",
         id: "R-01",
       },
-      {
-        type: "bricks",
-        path: "/homepage/b",
-        id: "R-02",
-      },
     ]);
     expect(listenOnRouteListChange).toBeCalled();
     unlistenOnRouteListChange();
-  });
-
-  it("should init route list data", () => {
-    expect(manager.getRouteList()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "id": "R-01",
-          "path": "/homepage",
-          "type": "routes",
-        },
-        Object {
-          "id": "R-02",
-          "path": "/homepage/b",
-          "type": "bricks",
-        },
-      ]
-    `);
+    expect(manager.getRouteList()).toEqual([
+      {
+        type: "routes",
+        path: "/homepage",
+        id: "R-01",
+      },
+    ]);
   });
 });
 
