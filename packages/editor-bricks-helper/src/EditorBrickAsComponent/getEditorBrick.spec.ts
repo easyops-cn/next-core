@@ -102,10 +102,7 @@ describe("getEditorBrick", () => {
           brick: "list-container",
           id: "B-001",
         },
-        {
-          name: "list-container",
-          editor: "common-container--editor",
-        } as StoryDoc
+        "common-container--editor"
       )
     ).toBe("common-container--editor");
   });

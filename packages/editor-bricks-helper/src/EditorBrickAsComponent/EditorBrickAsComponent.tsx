@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import classNames from "classnames";
 import { useDrag } from "react-dnd";
-import { BrickAsComponent } from "@next-core/brick-kit";
+import { BrickAsComponent, getRuntime } from "@next-core/brick-kit";
 import { UseBrickConf } from "@next-core/brick-types";
 import { getEditorBrick } from "./getEditorBrick";
 import {
@@ -12,10 +12,12 @@ import {
 } from "../interfaces";
 import { EditorBrickElementConstructor } from "../EditorElementFactory";
 import { useBuilderData } from "../hooks/useBuilderData";
-
-import styles from "./EditorBrickAsComponent.module.css";
 import { useStoryList } from "../hooks/useStoryList";
 import { getBrickDoc } from "./getBrickDoc";
+import { useSharedEditorMap } from "../hooks/useSharedEditorMap";
+import { isBrickNode } from "../assertions";
+
+import styles from "./EditorBrickAsComponent.module.css";
 
 interface EditorBrickAsComponentProps {
   node: BuilderRuntimeNode;
@@ -35,9 +37,24 @@ export function EditorBrickAsComponent({
     () => edges.some((edge) => edge.parent === node.$$uid),
     [node, edges]
   );
+
+  const installedBricksEnabled = useMemo(
+    () => getRuntime().getFeatureFlags()["next-builder-installed-bricks"],
+    []
+  );
+
   const brickDoc = useMemo(
-    () => getBrickDoc(node, storyList),
-    [node, storyList]
+    () => (installedBricksEnabled ? null : getBrickDoc(node, storyList)),
+    [installedBricksEnabled, node, storyList]
+  );
+
+  const editorMap = useSharedEditorMap();
+  const editorConf = useMemo(
+    () =>
+      installedBricksEnabled && isBrickNode(node)
+        ? editorMap.get(node.brick)
+        : null,
+    [editorMap, installedBricksEnabled, node]
   );
 
   React.useEffect(() => {
@@ -46,7 +63,10 @@ export function EditorBrickAsComponent({
       let editorName: string;
       let editorError: string;
       try {
-        editorName = await getEditorBrick(node, brickDoc);
+        editorName = await getEditorBrick(
+          node,
+          installedBricksEnabled ? editorConf?.editor : brickDoc?.editor
+        );
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
@@ -56,17 +76,19 @@ export function EditorBrickAsComponent({
       setLoadEditorError(editorError);
       setInitialized(true);
     })();
-  }, [node]);
+  }, [brickDoc, editorConf, installedBricksEnabled, node]);
 
   const brickConf = React.useMemo<UseBrickConf>(
     () => ({
       brick: editorBrick,
       properties: {
         nodeUid: node.$$uid,
-        editorProps: brickDoc?.editorProps,
+        editorProps: installedBricksEnabled
+          ? editorConf?.editorProps
+          : brickDoc?.editorProps,
       },
     }),
-    [editorBrick, node.$$uid]
+    [brickDoc, editorBrick, editorConf, installedBricksEnabled, node.$$uid]
   );
 
   const selfLayout = React.useMemo(() => {

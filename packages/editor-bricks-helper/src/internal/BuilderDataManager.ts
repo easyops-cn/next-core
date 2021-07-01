@@ -20,6 +20,7 @@ import {
   SnippetNodeDetail,
   EventDetailOfSnippetApply,
   EventDetailOfSnippetApplyStored,
+  SharedEditorConf,
 } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -38,7 +39,8 @@ enum BuilderInternalEventType {
   SNIPPET_APPLY = "builder.snippet.apply",
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
-  ROUTE_LIST_CHANGE = "builder.route.list.change",
+  SHARED_EDITOR_LIST_CHANGE = "builder.sharedEditorList.change",
+  ROUTE_LIST_CHANGE = "builder.routeList.change",
   HOVER_NODE_CHANGE = "builder.hoverNode.change",
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
@@ -55,6 +57,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   };
 
   private hoverNodeUid: number;
+
+  private sharedEditorList: SharedEditorConf[];
 
   private routeList: BuilderRouteNode[] = [];
 
@@ -90,6 +94,30 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   getRelatedNodesBasedOnEventsMap(): RelatedNodesBasedOnEventsMap {
     return this.relatedNodesBasedOnEventsMap;
+  }
+
+  sharedEditorListInit(data: SharedEditorConf[]): void {
+    this.sharedEditorList = data;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE)
+    );
+  }
+
+  getSharedEditorList(): SharedEditorConf[] {
+    return this.sharedEditorList ?? [];
+  }
+
+  onSharedEditorListChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE,
+        fn
+      );
+    };
   }
 
   routeListInit(data: BuilderRouteNode[]): void {

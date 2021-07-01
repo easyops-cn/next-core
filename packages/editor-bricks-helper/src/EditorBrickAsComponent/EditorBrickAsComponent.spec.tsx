@@ -2,12 +2,14 @@ import React from "react";
 import { act } from "react-dom/test-utils";
 import { mount } from "enzyme";
 import { useDrag } from "react-dnd";
+import { getRuntime } from "@next-core/brick-kit";
 import { UseSingleBrickConf } from "@next-core/brick-types";
 import { EditorBrickAsComponent } from "./EditorBrickAsComponent";
 import { getEditorBrick } from "./getEditorBrick";
 import { BuilderRuntimeNode, EditorSelfLayout } from "../interfaces";
 import { useBuilderData } from "../hooks/useBuilderData";
 import { useStoryList } from "../hooks/useStoryList";
+import { useSharedEditorMap } from "../hooks/useSharedEditorMap";
 
 jest.mock("react-dnd");
 jest.mock("@next-core/brick-kit", () => ({
@@ -18,10 +20,17 @@ jest.mock("@next-core/brick-kit", () => ({
       </span>
     );
   },
+  getRuntime: jest.fn(),
 }));
 jest.mock("./getEditorBrick");
 jest.mock("../hooks/useBuilderData");
 jest.mock("../hooks/useStoryList");
+jest.mock("../hooks/useSharedEditorMap");
+
+const mockGetFeatureFlags = jest.fn(); /* .mockReturnValue({}) */
+(getRuntime as jest.Mock).mockReturnValue({
+  getFeatureFlags: mockGetFeatureFlags,
+});
 
 (useDrag as jest.MockedFunction<typeof useDrag>).mockReturnValue([
   { isDragging: false },
@@ -37,9 +46,26 @@ jest.mock("../hooks/useStoryList");
   },
 ]);
 
+(useSharedEditorMap as jest.Mock).mockReturnValue(
+  new Map([
+    [
+      "test.brick-a",
+      {
+        id: "test.brick-a",
+        editor: "shared.test-brick--editor",
+        editorProps: {
+          quality: "good",
+        },
+      },
+    ],
+  ])
+);
+
 (
   getEditorBrick as jest.MockedFunction<typeof getEditorBrick>
-).mockResolvedValue("any-brick--editor");
+).mockImplementation((node, editor) =>
+  Promise.resolve(editor ?? "any-brick--editor")
+);
 
 const mockUseBuilderData = useBuilderData as jest.Mock;
 
@@ -52,11 +78,21 @@ customElements.define(
   }
 );
 
+customElements.define(
+  "shared.test-brick--editor",
+  class Tmp extends HTMLElement {
+    static get selfLayout(): EditorSelfLayout {
+      return undefined;
+    }
+  }
+);
+
 describe("EditorBrickAsComponent", () => {
   it("should work", async () => {
     mockUseBuilderData.mockReturnValue({
       edges: [],
     });
+    mockGetFeatureFlags.mockReturnValue({});
     const wrapper = mount(
       <EditorBrickAsComponent
         node={
@@ -88,6 +124,7 @@ describe("EditorBrickAsComponent", () => {
         },
       ],
     });
+    mockGetFeatureFlags.mockReturnValue({});
     const wrapper = mount(
       <EditorBrickAsComponent
         node={
@@ -107,5 +144,32 @@ describe("EditorBrickAsComponent", () => {
 
     const element = wrapper.find("div").at(0);
     expect(element.hasClass("selfLayoutContainer")).toBe(true);
+  });
+
+  it("should work when enabled installed-bricks", async () => {
+    mockUseBuilderData.mockReturnValue({
+      edges: [],
+    });
+    mockGetFeatureFlags.mockReturnValue({
+      "next-builder-installed-bricks": true,
+    });
+    const wrapper = mount(
+      <EditorBrickAsComponent
+        node={{
+          $$uid: 1,
+          instanceId: "instance-a",
+          id: "B-1",
+          brick: "test.brick-a",
+          type: "brick",
+        }}
+      />
+    );
+    await act(async () => {
+      await (global as any).flushPromises();
+    });
+    wrapper.update();
+    expect(wrapper.text()).toBe(
+      "BrickAsComponent(shared.test-brick--editor,1)"
+    );
   });
 });

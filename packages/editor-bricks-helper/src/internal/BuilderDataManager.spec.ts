@@ -1183,3 +1183,40 @@ describe("test toggleOutline", () => {
     unlistenOnOutlineEnabledNodesChange();
   });
 });
+
+describe("test sharedEditorList", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+  });
+
+  it("should return an empty array if data is not set", () => {
+    expect(manager.getSharedEditorList()).toEqual([]);
+  });
+
+  it("should init shared editor list", () => {
+    const listenOnSharedEditorListChange = jest.fn();
+    const unlistenOnRouteListChange = manager.onSharedEditorListChange(
+      listenOnSharedEditorListChange
+    );
+    manager.sharedEditorListInit([
+      {
+        id: "test.brick-a",
+        editor: "shared.test-brick--editor",
+      },
+    ]);
+    expect(listenOnSharedEditorListChange).toBeCalled();
+    unlistenOnRouteListChange();
+    expect(manager.getSharedEditorList()).toEqual([
+      {
+        id: "test.brick-a",
+        editor: "shared.test-brick--editor",
+      },
+    ]);
+  });
+});
