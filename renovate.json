@@ -33,7 +33,7 @@
         "html-loader",
         "less-loader",
         "style-loader",
-        "mini-css-extract-plugin",
+        "mini-css-extract-plugin"
       ],
       "matchPackagePatterns": ["react"],
       "matchUpdateTypes": ["major"],
