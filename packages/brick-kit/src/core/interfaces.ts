@@ -39,6 +39,7 @@ export interface RedirectConf {
 export interface CustomApiOrchestration {
   name: string;
   namespace: string;
+  version?: string;
   contract?: {
     endpoint: {
       uri: string;

@@ -17,8 +17,7 @@ describe("CustomApis", () => {
       )
     ).toEqual([
       {
-        url:
-          "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
+        url: "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
         method: "POST",
         responseWrapper: true,
       },
@@ -50,6 +49,20 @@ describe("CustomApis", () => {
         url: "api/gateway/api_service.easyops.custom_api.test/api/test",
         method: "get",
         responseWrapper: true,
+      },
+    ]);
+
+    expect(
+      getArgsOfCustomApi(
+        "easyops.custom_api@getStatus:1.0.0",
+        mockMicroAppApiOrchestrationMap,
+        []
+      )
+    ).toEqual([
+      {
+        url: "api/gateway/easyops.custom_api.getStatus@1.0.0/api/status",
+        method: "get",
+        responseWrapper: false,
       },
     ]);
   });

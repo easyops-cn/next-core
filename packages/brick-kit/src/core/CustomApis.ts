@@ -16,6 +16,7 @@ function getApiInfoFromMicroAppApiOrchestrationMap(
   name: string;
   namespace: string;
   responseWrapper: boolean;
+  version?: string;
 } {
   const api = allMicroAppApiOrchestrationMap.get(provider);
   if (api) {
@@ -41,6 +42,7 @@ function getApiInfoFromMicroAppApiOrchestrationMap(
         method: method.toLowerCase() === "list" ? "get" : method,
         name: api.name,
         namespace: api.namespace,
+        version: api.version,
         responseWrapper,
       };
     }
@@ -55,10 +57,13 @@ function getTransformedUriAndRestArgs(
   uri: string,
   actualArgs: any[],
   name: string,
-  namespace: string
+  namespace: string,
+  version?: string
 ): { url: string; args: any[] } {
   let i = 0;
-  const prefix = `api/gateway/api_service.${namespace}.${name}`;
+  const prefix = version
+    ? `api/gateway/${namespace}.${name}@${version}`
+    : `api/gateway/api_service.${namespace}.${name}`;
   const transformedUri = uri.replace(/:([^/]+)/g, (_m, p) => {
     const realArg = actualArgs[i];
     i++;
@@ -75,22 +80,18 @@ export function getArgsOfCustomApi(
   allMicroAppApiOrchestrationMap: Map<string, CustomApiOrchestration>,
   actualArgs: any[]
 ): any {
-  const {
-    uri,
-    method,
-    name,
-    namespace,
-    responseWrapper,
-  } = getApiInfoFromMicroAppApiOrchestrationMap(
-    provider,
-    allMicroAppApiOrchestrationMap
-  );
+  const { uri, method, name, namespace, responseWrapper, version } =
+    getApiInfoFromMicroAppApiOrchestrationMap(
+      provider,
+      allMicroAppApiOrchestrationMap
+    );
 
   const { url, args } = getTransformedUriAndRestArgs(
     uri,
     actualArgs,
     name,
-    namespace
+    namespace,
+    version
   );
   return [
     {
