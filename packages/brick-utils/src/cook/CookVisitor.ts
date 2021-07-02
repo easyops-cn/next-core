@@ -16,6 +16,7 @@ import {
   RestElement,
   SequenceExpression,
   SpreadElement,
+  TaggedTemplateExpression,
   TemplateLiteral,
   UnaryExpression,
 } from "@babel/types";
@@ -263,11 +264,10 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     );
   },
   CallExpression(node: CallExpression, state, callback) {
-    const calleeState: CookVisitorState<
-      (...args: any[]) => any
-    > = spawnCookState(state, {
-      chainRef: state.chainRef,
-    });
+    const calleeState: CookVisitorState<(...args: any[]) => any> =
+      spawnCookState(state, {
+        chainRef: state.chainRef,
+      });
     callback(node.callee, calleeState);
     const calleeCooked = calleeState.cooked;
 
@@ -576,6 +576,34 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
     }
     state.cooked = cooked;
   },
+  TaggedTemplateExpression(node: TaggedTemplateExpression, state, callback) {
+    const tagState: CookVisitorState<(...args: unknown[]) => unknown> =
+      spawnCookState(state);
+    callback(node.tag, tagState);
+    const tagCooked = tagState.cooked;
+
+    sanitize(tagCooked);
+
+    const tagArgs: [string[], ...unknown[]] = [
+      node.quasi.quasis.map((quasi) => quasi.value.cooked),
+    ];
+    for (const expression of node.quasi.expressions) {
+      const expressionState = spawnCookState(state);
+      callback(expression, expressionState);
+      tagArgs.push(expressionState.cooked);
+    }
+
+    if (typeof tagCooked !== "function") {
+      throw new TypeError(
+        `${state.source.substring(
+          node.tag.start,
+          node.tag.end
+        )} is not a function`
+      );
+    }
+
+    state.cooked = tagCooked(...tagArgs);
+  },
   TemplateLiteral(node: TemplateLiteral, state, callback) {
     let index = 0;
     const chunk: string[] = [node.quasis[index].value.cooked];
@@ -627,9 +655,8 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
         );
       }
 
-      const calleeState: CookVisitorState<
-        new (...args: any[]) => any
-      > = spawnCookState(state);
+      const calleeState: CookVisitorState<new (...args: any[]) => any> =
+        spawnCookState(state);
       callback(node.callee, calleeState);
       const calleeCooked = calleeState.cooked;
 

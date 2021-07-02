@@ -16,6 +16,7 @@ import {
   RestElement,
   SequenceExpression,
   SpreadElement,
+  TaggedTemplateExpression,
   TemplateLiteral,
   UnaryExpression,
 } from "@babel/types";
@@ -160,6 +161,10 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
   },
   SpreadElement(node: SpreadElement, state, callback) {
     callback(node.argument, state);
+  },
+  TaggedTemplateExpression(node: TaggedTemplateExpression, state, callback) {
+    callback(node.tag, state);
+    callback(node.quasi, state);
   },
   TemplateLiteral(node: TemplateLiteral, state, callback) {
     for (const expression of node.expressions) {

@@ -230,6 +230,8 @@ describe("cook", () => {
       "String(new URLSearchParams({q: 'hello,world', age: 18}))",
       "q=hello%2Cworld&age=18",
     ],
+    // Tagged template.
+    ["((s,...k) => `${s.join('-')}:${k.join(',')}`)`a${1}b${2}c`", "a-b-c:1,2"],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
@@ -282,6 +284,8 @@ describe("cook", () => {
     "new Boolean()",
     "new (a = function () {})()",
     "(Set => new Set())(() => null)",
+    "1`a${1}b`",
+    "c`a${1}b`",
     // Todo(steve)
     // "_.wrap(_.method('constructor.assign',{a:1},{b:2}),(func,...a) => func(...a))({})"
   ])("cook(precook(%j), {...}) should throw", (input) => {
