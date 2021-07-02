@@ -135,12 +135,12 @@ jest
 
 jest
   .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
-  .mockImplementation(async (): Promise<
-    Map<string, CustomApiOrchestration>
-  > => {
-    await Promise.resolve();
-    return mockMicroAppApiOrchestrationMap;
-  });
+  .mockImplementation(
+    async (): Promise<Map<string, CustomApiOrchestration>> => {
+      await Promise.resolve();
+      return mockMicroAppApiOrchestrationMap;
+    }
+  );
 
 describe("isBuiltinHandler", () => {
   const cases: [BrickEventHandler, boolean][] = [

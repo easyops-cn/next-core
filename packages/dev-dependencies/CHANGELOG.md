@@ -7,247 +7,125 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.43](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.42...@next-core/dev-dependencies@1.8.43) (2021-06-28)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.42](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.41...@next-core/dev-dependencies@1.8.42) (2021-06-24)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.41](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.40...@next-core/dev-dependencies@1.8.41) (2021-06-24)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.40](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.39...@next-core/dev-dependencies@1.8.40) (2021-06-22)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.39](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.38...@next-core/dev-dependencies@1.8.39) (2021-06-21)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.38](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.37...@next-core/dev-dependencies@1.8.38) (2021-06-21)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.37](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.36...@next-core/dev-dependencies@1.8.37) (2021-06-18)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.36](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.35...@next-core/dev-dependencies@1.8.36) (2021-06-17)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.35](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.34...@next-core/dev-dependencies@1.8.35) (2021-06-17)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.34](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.33...@next-core/dev-dependencies@1.8.34) (2021-06-16)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.33](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.32...@next-core/dev-dependencies@1.8.33) (2021-06-16)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.32](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.31...@next-core/dev-dependencies@1.8.32) (2021-06-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.31](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.30...@next-core/dev-dependencies@1.8.31) (2021-06-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.30](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.29...@next-core/dev-dependencies@1.8.30) (2021-06-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.29](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.28...@next-core/dev-dependencies@1.8.29) (2021-06-09)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.28](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.27...@next-core/dev-dependencies@1.8.28) (2021-06-09)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.27](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.26...@next-core/dev-dependencies@1.8.27) (2021-06-09)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.26](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.25...@next-core/dev-dependencies@1.8.26) (2021-06-09)
-
 
 ### Bug Fixes
 
-* add a resolution of @testing-library/dom ([02221a6](https://github.com/easyops-cn/next-core/commit/02221a68c1f69598b05f1156c5252ca35d26af96))
-
-
-
-
+- add a resolution of @testing-library/dom ([02221a6](https://github.com/easyops-cn/next-core/commit/02221a68c1f69598b05f1156c5252ca35d26af96))
 
 ## [1.8.25](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.24...@next-core/dev-dependencies@1.8.25) (2021-06-08)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.24](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.23...@next-core/dev-dependencies@1.8.24) (2021-06-08)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.23](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.22...@next-core/dev-dependencies@1.8.23) (2021-06-04)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.22](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.21...@next-core/dev-dependencies@1.8.22) (2021-06-04)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.21](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.20...@next-core/dev-dependencies@1.8.21) (2021-06-04)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.20](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.19...@next-core/dev-dependencies@1.8.20) (2021-06-03)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.19](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.18...@next-core/dev-dependencies@1.8.19) (2021-06-03)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.18](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.17...@next-core/dev-dependencies@1.8.18) (2021-06-02)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.8.17](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.16...@next-core/dev-dependencies@1.8.17) (2021-06-02)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.16](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.15...@next-core/dev-dependencies@1.8.16) (2021-06-01)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.8.15](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.14...@next-core/dev-dependencies@1.8.15) (2021-05-27)
-
 
 ### Bug Fixes
 
-* migrate jest v27 ([d489eef](https://github.com/easyops-cn/next-core/commit/d489eefad0b2f5601fbfa9a0791c6e689347d8a9))
-
-
-
-
+- migrate jest v27 ([d489eef](https://github.com/easyops-cn/next-core/commit/d489eefad0b2f5601fbfa9a0791c6e689347d8a9))
 
 ## [1.8.14](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.13...@next-core/dev-dependencies@1.8.14) (2021-05-24)
 

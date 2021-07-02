@@ -5,254 +5,137 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [0.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.8...@next-core/editor-bricks-helper@0.26.0) (2021-07-01)
 
-
 ### Bug Fixes
 
-* refine route list initialization ([7a32d85](https://github.com/easyops-cn/next-core/commit/7a32d85b1cb8b7246a60d27a3abd293461d5a272))
-
+- refine route list initialization ([7a32d85](https://github.com/easyops-cn/next-core/commit/7a32d85b1cb8b7246a60d27a3abd293461d5a272))
 
 ### Features
 
-* support to check snippet node ([064056e](https://github.com/easyops-cn/next-core/commit/064056e47fc6c9d7ac606f646a86dfec124564bd))
-* support to load editors from installed bricks ([997f466](https://github.com/easyops-cn/next-core/commit/997f4669e1a7968c8e249ecfe2dd3ac515624673))
-
-
-
-
+- support to check snippet node ([064056e](https://github.com/easyops-cn/next-core/commit/064056e47fc6c9d7ac606f646a86dfec124564bd))
+- support to load editors from installed bricks ([997f466](https://github.com/easyops-cn/next-core/commit/997f4669e1a7968c8e249ecfe2dd3ac515624673))
 
 ## [0.25.8](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.7...@next-core/editor-bricks-helper@0.25.8) (2021-06-28)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.25.7](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.6...@next-core/editor-bricks-helper@0.25.7) (2021-06-24)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.5...@next-core/editor-bricks-helper@0.25.6) (2021-06-24)
-
 
 ### Bug Fixes
 
-* **builder:** support to initialize alias of brick nodes ([e6573f1](https://github.com/easyops-cn/next-core/commit/e6573f13de583fa298909008050c925cc3d992d7))
-* **builder:** support to set canvas mode ([a524c44](https://github.com/easyops-cn/next-core/commit/a524c44c776e8471e4ed7573648946e1567be757))
-
-
-
-
+- **builder:** support to initialize alias of brick nodes ([e6573f1](https://github.com/easyops-cn/next-core/commit/e6573f13de583fa298909008050c925cc3d992d7))
+- **builder:** support to set canvas mode ([a524c44](https://github.com/easyops-cn/next-core/commit/a524c44c776e8471e4ed7573648946e1567be757))
 
 ## [0.25.5](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.4...@next-core/editor-bricks-helper@0.25.5) (2021-06-21)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.25.4](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.3...@next-core/editor-bricks-helper@0.25.4) (2021-06-21)
-
 
 ### Bug Fixes
 
-* refine brick conf to brick node ([eee1b12](https://github.com/easyops-cn/next-core/commit/eee1b12d3bd2f535f3c5fb36ffb6201bf770dd53))
-
-
-
-
+- refine brick conf to brick node ([eee1b12](https://github.com/easyops-cn/next-core/commit/eee1b12d3bd2f535f3c5fb36ffb6201bf770dd53))
 
 ## [0.25.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.2...@next-core/editor-bricks-helper@0.25.3) (2021-06-18)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.1...@next-core/editor-bricks-helper@0.25.2) (2021-06-17)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.0...@next-core/editor-bricks-helper@0.25.1) (2021-06-16)
-
 
 ### Bug Fixes
 
-* refine types and process drop ([cc125a4](https://github.com/easyops-cn/next-core/commit/cc125a4ffc08ec126cd695a60082c216a222af88))
-
-
-
-
+- refine types and process drop ([cc125a4](https://github.com/easyops-cn/next-core/commit/cc125a4ffc08ec126cd695a60082c216a222af88))
 
 # [0.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.24.5...@next-core/editor-bricks-helper@0.25.0) (2021-06-16)
 
-
 ### Features
 
-* support to apply snippets ([e68a888](https://github.com/easyops-cn/next-core/commit/e68a8886f83e6d5d4f9cb67f42a5b6e4edec2a9c))
-
-
-
-
+- support to apply snippets ([e68a888](https://github.com/easyops-cn/next-core/commit/e68a8886f83e6d5d4f9cb67f42a5b6e4edec2a9c))
 
 ## [0.24.5](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.24.4...@next-core/editor-bricks-helper@0.24.5) (2021-06-10)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.24.4](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.24.3...@next-core/editor-bricks-helper@0.24.4) (2021-06-10)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.24.2...@next-core/editor-bricks-helper@0.24.3) (2021-06-10)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.24.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.24.1...@next-core/editor-bricks-helper@0.24.2) (2021-06-09)
-
 
 ### Bug Fixes
 
-* **collectRelatedNodes:** prevent throwing error when handler is null or undefined ([95d2e76](https://github.com/easyops-cn/next-core/commit/95d2e76e41c5d914f3a7edf9bd1bacb63af9eb30))
-
-
-
-
+- **collectRelatedNodes:** prevent throwing error when handler is null or undefined ([95d2e76](https://github.com/easyops-cn/next-core/commit/95d2e76e41c5d914f3a7edf9bd1bacb63af9eb30))
 
 ## [0.24.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.24.0...@next-core/editor-bricks-helper@0.24.1) (2021-06-09)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 # [0.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.23.0...@next-core/editor-bricks-helper@0.24.0) (2021-06-09)
-
 
 ### Features
 
-* editor 支持属性设置 ([581c10c](https://github.com/easyops-cn/next-core/commit/581c10c00110d2310ecf16ac7389bae82fd2d9c4))
-
-
-
-
+- editor 支持属性设置 ([581c10c](https://github.com/easyops-cn/next-core/commit/581c10c00110d2310ecf16ac7389bae82fd2d9c4))
 
 # [0.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.22.0...@next-core/editor-bricks-helper@0.23.0) (2021-06-08)
 
-
 ### Features
 
-* export useHighlightNodes ([23a7090](https://github.com/easyops-cn/next-core/commit/23a7090be5b737352c27aaa10630b4c9ad390fc6))
-
-
-
-
+- export useHighlightNodes ([23a7090](https://github.com/easyops-cn/next-core/commit/23a7090be5b737352c27aaa10630b4c9ad390fc6))
 
 # [0.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.21.0...@next-core/editor-bricks-helper@0.22.0) (2021-06-08)
 
-
 ### Features
 
-* support to toggle outline of nodes ([730f4ae](https://github.com/easyops-cn/next-core/commit/730f4ae6bc21a396ea8fa73226778ccaf10329b8))
-
-
-
-
+- support to toggle outline of nodes ([730f4ae](https://github.com/easyops-cn/next-core/commit/730f4ae6bc21a396ea8fa73226778ccaf10329b8))
 
 # [0.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.3...@next-core/editor-bricks-helper@0.21.0) (2021-06-04)
 
-
 ### Features
 
-* support to add bricks with properties ([10db276](https://github.com/easyops-cn/next-core/commit/10db276079e24e5bef5d10c6446ab83265a0df40))
-
-
-
-
+- support to add bricks with properties ([10db276](https://github.com/easyops-cn/next-core/commit/10db276079e24e5bef5d10c6446ab83265a0df40))
 
 ## [0.20.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.2...@next-core/editor-bricks-helper@0.20.3) (2021-06-04)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.20.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.1...@next-core/editor-bricks-helper@0.20.2) (2021-06-04)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.20.0...@next-core/editor-bricks-helper@0.20.1) (2021-06-03)
-
 
 ### Bug Fixes
 
-* consider easy-view as a base view brick ([b2bd3a0](https://github.com/easyops-cn/next-core/commit/b2bd3a0ead90486b42e2cb5653214a794f599bc3))
-
-
-
-
+- consider easy-view as a base view brick ([b2bd3a0](https://github.com/easyops-cn/next-core/commit/b2bd3a0ead90486b42e2cb5653214a794f599bc3))
 
 # [0.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.19.11...@next-core/editor-bricks-helper@0.20.0) (2021-06-03)
 
-
 ### Features
 
-* 支持在文档中声明编辑器 ([1714fa4](https://github.com/easyops-cn/next-core/commit/1714fa42fbabd3918edf719c74405909a5e29c5d))
-
-
-
-
+- 支持在文档中声明编辑器 ([1714fa4](https://github.com/easyops-cn/next-core/commit/1714fa42fbabd3918edf719c74405909a5e29c5d))
 
 ## [0.19.11](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.19.10...@next-core/editor-bricks-helper@0.19.11) (2021-06-02)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.19.10](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.19.9...@next-core/editor-bricks-helper@0.19.10) (2021-06-01)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.19.9](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.19.8...@next-core/editor-bricks-helper@0.19.9) (2021-05-27)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.19.8](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.19.7...@next-core/editor-bricks-helper@0.19.8) (2021-05-19)
 
