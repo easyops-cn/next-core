@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.53.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.0...@next-core/brick-kit@2.53.1) (2021-07-02)
+
+
+### Bug Fixes
+
+* refine contract ([56855dd](https://github.com/easyops-cn/next-core/commit/56855ddbefb55e78cea764c707818bf0911779aa))
+
+
+
+
+
 # [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.3...@next-core/brick-kit@2.53.0) (2021-07-01)
 
 ### Features
