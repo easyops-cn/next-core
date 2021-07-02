@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { DragObjectWithType, useDrop } from "react-dnd";
 import { EditorBrickAsComponent } from "../EditorBrickAsComponent/EditorBrickAsComponent";
 import {
+  BuilderCanvasSettings,
   BuilderDataTransferPayloadOfNodeToAdd,
   BuilderDataTransferPayloadOfNodeToMove,
   BuilderDataTransferType,
@@ -53,10 +54,8 @@ export function DropZone({
 }: DropZoneProps): React.ReactElement {
   const { setDroppingStatus } = useDroppingStatusContext();
   const dropZoneBody = React.useRef<HTMLDivElement>();
-  const [
-    dropPositionCursor,
-    setDropPositionCursor,
-  ] = React.useState<DropPositionCursor>(null);
+  const [dropPositionCursor, setDropPositionCursor] =
+    React.useState<DropPositionCursor>(null);
   const dropPositionCursorRef = React.useRef<DropPositionCursor>();
   const manager = useBuilderDataManager();
   const node = useBuilderNode({ nodeUid, isRoot });
@@ -101,6 +100,13 @@ export function DropZone({
     ]
   );
 
+  const canvasSettings = React.useMemo(
+    () =>
+      selfChildNodesInCurrentCanvas[0]?.$$parsedProperties
+        ._canvas_ as BuilderCanvasSettings,
+    [selfChildNodesInCurrentCanvas]
+  );
+
   const getDroppingIndexInFullCanvas = React.useCallback(
     (droppingIndexInCurrentCanvas: number) => {
       if (!hasTabs) {
@@ -132,6 +138,7 @@ export function DropZone({
     accept: [
       BuilderDataTransferType.NODE_TO_ADD,
       BuilderDataTransferType.NODE_TO_MOVE,
+      BuilderDataTransferType.SNIPPET_TO_APPLY,
     ],
     canDrop: (
       item: DragObjectWithType &
@@ -143,6 +150,7 @@ export function DropZone({
       independentPortalCanvas && isGeneralizedPortalCanvas
         ? selfChildNodesInCurrentCanvas.length === 0
         : item.type === BuilderDataTransferType.NODE_TO_ADD ||
+          item.type === BuilderDataTransferType.SNIPPET_TO_APPLY ||
           isRoot ||
           canDrop(
             (item as BuilderDataTransferPayloadOfNodeToMove).nodeUid,
@@ -198,10 +206,17 @@ export function DropZone({
       className={classNames(
         styles.dropZone,
         isRoot
-          ? classNames(styles.isRoot, {
-              [styles.fullscreen]: fullscreen,
-              [styles.hasTabs]: hasTabs,
-            })
+          ? classNames(
+              styles.isRoot,
+              canvasSettings?.mode &&
+                String(canvasSettings.mode)
+                  .split(/\s+/g)
+                  .map((mode) => styles[`mode-${mode}`]),
+              {
+                [styles.fullscreen]: fullscreen,
+                [styles.hasTabs]: hasTabs,
+              }
+            )
           : styles.isSlot,
         {
           [styles.isPortalCanvas]: isGeneralizedPortalCanvas,
@@ -223,7 +238,7 @@ export function DropZone({
         className={styles.dropZoneBody}
         style={dropZoneBodyStyle}
       >
-        {selfChildNodesInCurrentCanvas?.map((child) => (
+        {selfChildNodesInCurrentCanvas.map((child) => (
           <EditorBrickAsComponent
             key={child.$$uid}
             node={child}

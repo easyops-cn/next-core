@@ -31,7 +31,9 @@
         "html-webpack-tags-plugin",
         "source-map-loader",
         "html-loader",
-        "less-loader"
+        "less-loader",
+        "style-loader",
+        "mini-css-extract-plugin"
       ],
       "matchPackagePatterns": ["react"],
       "matchUpdateTypes": ["major"],
@@ -44,6 +46,10 @@
     {
       "depTypeList": ["engines"],
       "enabled": false
+    },
+    {
+      "groupName": "d3 packages",
+      "matchPackagePatterns": ["^d3-"]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]

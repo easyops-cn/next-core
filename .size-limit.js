@@ -57,7 +57,7 @@ module.exports = [
   },
   {
     path: "packages/editor-bricks-helper/dist/index.esm.js",
-    limit: "20 KB",
+    limit: "25 KB",
   },
   {
     path: "packages/fontawesome-library/dist/index.esm.js",

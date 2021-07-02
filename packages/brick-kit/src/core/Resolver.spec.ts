@@ -15,12 +15,27 @@ customElements.define(
   }
 );
 
+// Mock a custom element of `any-provider`.
+customElements.define(
+  "error-provider",
+  class Tmp extends HTMLElement {
+    resolve(): Promise<unknown> {
+      return Promise.reject(new Error("oops"));
+    }
+  }
+);
+
 describe("Resolver", () => {
   const anyProvider = document.createElement("any-provider");
+  const errorProvider = document.createElement("error-provider");
   const customApiProvider = document.createElement(CUSTOM_API_PROVIDER);
   const kernel = {
     mountPoints: {},
-    getProviderBrick: jest.fn().mockResolvedValue(anyProvider),
+    getProviderBrick: jest
+      .fn()
+      .mockImplementation((brick: string) =>
+        brick === "error-provider" ? errorProvider : anyProvider
+      ),
     getMicroAppApiOrchestrationMapAsync: jest
       .fn()
       .mockResolvedValue(mockMicroAppApiOrchestrationMap),
@@ -219,6 +234,7 @@ describe("Resolver", () => {
       },
     };
     const mockResolve = jest.fn();
+    const _getProviderBrick = kernel.getProviderBrick;
     kernel.getProviderBrick = jest
       .fn()
       .mockResolvedValue({ ...customApiProvider, resolve: mockResolve });
@@ -234,6 +250,7 @@ describe("Resolver", () => {
       responseWrapper: true,
       url: "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
     });
+    kernel.getProviderBrick = _getProviderBrick;
   });
 
   it("should handle reject", async () => {
@@ -317,6 +334,29 @@ describe("Resolver", () => {
       error: "oops",
     });
     resolver.resetRefreshQueue();
+  });
+
+  it("should handle reject when resolving context", async () => {
+    const valueConf: Record<string, unknown> = {};
+    await resolver.resolveOne(
+      "reference",
+      {
+        transform: "value",
+        transformMapArray: false,
+        useProvider: "error-provider",
+        onReject: {
+          transform: {
+            value: "@{message}",
+          },
+        },
+      },
+      valueConf,
+      null,
+      null
+    );
+    expect(valueConf).toEqual({
+      value: "oops",
+    });
   });
 
   it("should use defined resolves", async () => {

@@ -12,11 +12,11 @@
     "clean": "rimraf dist",
     "prestart": "npm run clean",
     "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
-    "start:rollup": "rollup --watch --config rollup.config.js",
+    "start:rollup": "cross-env NODE_ENV='development' rollup --watch --config rollup.config.js",
     "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:rollup",
-    "build:rollup": "rollup --config rollup.config.js",
+    "build:rollup": "cross-env NODE_ENV='production' rollup --config rollup.config.js",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"

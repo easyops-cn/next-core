@@ -1,6 +1,8 @@
 .dropZone {
   position: relative;
   min-height: calc(var(--editor-brick-base-height) + 2px);
+
+  --drop-zone-padding: 20px;
 }
 
 .isSlot {
@@ -18,7 +20,8 @@
 }
 
 .isRoot > .dropZoneBody {
-  padding: 27px 20px 20px;
+  padding: calc(var(--drop-zone-padding) + 7px) var(--drop-zone-padding)
+    var(--drop-zone-padding);
 }
 
 .isPortalCanvas,
@@ -75,6 +78,32 @@
     auto-fill,
     minmax(var(--editor-brick-grid-width), 1fr)
   );
+}
+
+.mode-dialog > .dropZoneBody {
+  margin: 0 auto;
+  max-width: calc(600px + var(--drop-zone-padding) * 2);
+}
+
+.mode-dialog.mode-large > .dropZoneBody {
+  max-width: calc(800px + var(--drop-zone-padding) * 2);
+}
+
+.mode-dialog.mode-small > .dropZoneBody {
+  max-width: calc(400px + var(--drop-zone-padding) * 2);
+}
+
+.mode-drawer > .dropZoneBody {
+  margin: 0 auto;
+  max-width: calc(900px + var(--drop-zone-padding) * 2);
+}
+
+.mode-drawer.mode-large > .dropZoneBody {
+  max-width: calc(1200px + var(--drop-zone-padding) * 2);
+}
+
+.mode-drawer.mode-small > .dropZoneBody {
+  max-width: calc(600px + var(--drop-zone-padding) * 2);
 }
 
 .dropCursor {

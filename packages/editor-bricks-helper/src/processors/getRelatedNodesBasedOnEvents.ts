@@ -88,28 +88,30 @@ function collectRelatedNodes(
   targetRefMap: Map<string, number>
 ): void {
   for (const handler of handlers as ExecuteCustomBrickEventHandler[]) {
-    if (handler.target) {
-      const targetNodeUid = targetMap.get(handler.target as string);
-      if (targetNodeUid) {
-        nodesMap.get(node.$$uid).downstreamNodes.add(targetNodeUid);
-        nodesMap.get(targetNodeUid).upstreamNodes.add(node.$$uid);
+    if (handler) {
+      if (handler.target) {
+        const targetNodeUid = targetMap.get(handler.target as string);
+        if (targetNodeUid) {
+          nodesMap.get(node.$$uid).downstreamNodes.add(targetNodeUid);
+          nodesMap.get(targetNodeUid).upstreamNodes.add(node.$$uid);
+        }
+      } else if (handler.targetRef) {
+        const targetRefNodeUid = targetRefMap.get(handler.targetRef);
+        if (targetRefNodeUid) {
+          nodesMap.get(node.$$uid).downstreamNodes.add(targetRefNodeUid);
+          nodesMap.get(targetRefNodeUid).upstreamNodes.add(node.$$uid);
+        }
       }
-    } else if (handler.targetRef) {
-      const targetRefNodeUid = targetRefMap.get(handler.targetRef);
-      if (targetRefNodeUid) {
-        nodesMap.get(node.$$uid).downstreamNodes.add(targetRefNodeUid);
-        nodesMap.get(targetRefNodeUid).upstreamNodes.add(node.$$uid);
-      }
-    }
-    if (handler.callback) {
-      for (const callbackHandlers of Object.values(handler.callback)) {
-        collectRelatedNodes(
-          node,
-          [].concat(callbackHandlers),
-          nodesMap,
-          targetMap,
-          targetRefMap
-        );
+      if (handler.callback) {
+        for (const callbackHandlers of Object.values(handler.callback)) {
+          collectRelatedNodes(
+            node,
+            [].concat(callbackHandlers),
+            nodesMap,
+            targetMap,
+            targetRefMap
+          );
+        }
       }
     }
   }

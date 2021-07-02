@@ -33,7 +33,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
-            labels: ['eve: updating dll manifest'],
+            labels: ['[bot]: updating dll manifest'],
           });
 
     - uses: actions/checkout@v2
@@ -91,11 +91,11 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
-            name: 'eve: updating dll manifest',
+            name: '[bot]: updating dll manifest',
           });
           await github.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
-            labels: ['eve: updated dll manifest'],
+            labels: ['[bot]: updated dll manifest'],
           });

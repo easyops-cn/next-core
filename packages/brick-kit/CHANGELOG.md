@@ -3,28 +3,108 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.48.1...@next-core/brick-kit@2.49.0) (2021-06-01)
-
+# [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.3...@next-core/brick-kit@2.53.0) (2021-07-01)
 
 ### Features
 
-* brick:basic-bricks.menu-bar add testid ([b5b5553](https://github.com/easyops-cn/next-core/commit/b5b5553b188f33a9f1866096bff89d7a5564e04a))
+- support contract v2 ([76465d6](https://github.com/easyops-cn/next-core/commit/76465d65ef9ef92c3ab7e9c7ba0bcc3ab96d10cf))
 
-
-
-
-
-## [2.48.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.48.0...@next-core/brick-kit@2.48.1) (2021-05-27)
-
+## [2.52.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.2...@next-core/brick-kit@2.52.3) (2021-06-28)
 
 ### Bug Fixes
 
-* fix types after upgraded ts to 4.3 ([0c944ed](https://github.com/easyops-cn/next-core/commit/0c944ed12bde0a6add9dbbb8fe6c512e05628206))
-* fix types after upgraded ts to 4.3 ([76a9313](https://github.com/easyops-cn/next-core/commit/76a9313382d230abc3d277288e35266ed8773e16))
+- fix onReject when resolving context ([b8c3ffd](https://github.com/easyops-cn/next-core/commit/b8c3ffd167ef5f319b97583294d9c61c76cae9bc))
 
+## [2.52.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.1...@next-core/brick-kit@2.52.2) (2021-06-24)
 
+**Note:** Version bump only for package @next-core/brick-kit
 
+## [2.52.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.0...@next-core/brick-kit@2.52.1) (2021-06-21)
 
+### Bug Fixes
+
+- handle synchronized callback error ([c416fc9](https://github.com/easyops-cn/next-core/commit/c416fc9c149b881df9d169cd8fd94e2ee5de2b97))
+
+# [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.3...@next-core/brick-kit@2.52.0) (2021-06-18)
+
+### Features
+
+- support to apply page title ([6198a59](https://github.com/easyops-cn/next-core/commit/6198a597ebf68da59f660699c85fa6aaeb73d679))
+
+## [2.51.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.2...@next-core/brick-kit@2.51.3) (2021-06-17)
+
+### Bug Fixes
+
+- refine types for snippets ([efbdbcf](https://github.com/easyops-cn/next-core/commit/efbdbcf8f310a6b5a24a21884ae271e213712163))
+
+## [2.51.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.1...@next-core/brick-kit@2.51.2) (2021-06-16)
+
+### Bug Fixes
+
+- refine types and process drop ([cc125a4](https://github.com/easyops-cn/next-core/commit/cc125a4ffc08ec126cd695a60082c216a222af88))
+
+## [2.51.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.51.0...@next-core/brick-kit@2.51.1) (2021-06-16)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.50.0...@next-core/brick-kit@2.51.0) (2021-06-10)
+
+### Features
+
+- **storyboard context:** onChange handler of free-variable context add support for targetRef ([4a428d2](https://github.com/easyops-cn/next-core/commit/4a428d2006fe5c0c595015a37fb0c3bf8dc53712))
+
+# [2.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.8...@next-core/brick-kit@2.50.0) (2021-06-10)
+
+### Features
+
+- **evaluate:** support I18N_TEXT(data) ([465e61c](https://github.com/easyops-cn/next-core/commit/465e61c7566e2b8ccb410669ee3f23976809d3e6))
+
+## [2.49.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.7...@next-core/brick-kit@2.49.8) (2021-06-10)
+
+### Bug Fixes
+
+- fix errors of page title and menu in business layout ([177810f](https://github.com/easyops-cn/next-core/commit/177810f4339fda66b2c6d76af9bdf60d535f9dbb))
+
+## [2.49.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.6...@next-core/brick-kit@2.49.7) (2021-06-09)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.49.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.5...@next-core/brick-kit@2.49.6) (2021-06-09)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.49.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.4...@next-core/brick-kit@2.49.5) (2021-06-08)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.49.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.3...@next-core/brick-kit@2.49.4) (2021-06-04)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.49.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.2...@next-core/brick-kit@2.49.3) (2021-06-04)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.49.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.1...@next-core/brick-kit@2.49.2) (2021-06-03)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.49.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.49.0...@next-core/brick-kit@2.49.1) (2021-06-02)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.48.1...@next-core/brick-kit@2.49.0) (2021-06-01)
+
+### Features
+
+- brick:basic-bricks.menu-bar add testid ([b5b5553](https://github.com/easyops-cn/next-core/commit/b5b5553b188f33a9f1866096bff89d7a5564e04a))
+
+## [2.48.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.48.0...@next-core/brick-kit@2.48.1) (2021-05-27)
+
+### Bug Fixes
+
+- fix types after upgraded ts to 4.3 ([0c944ed](https://github.com/easyops-cn/next-core/commit/0c944ed12bde0a6add9dbbb8fe6c512e05628206))
+- fix types after upgraded ts to 4.3 ([76a9313](https://github.com/easyops-cn/next-core/commit/76a9313382d230abc3d277288e35266ed8773e16))
 
 # [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.47.1...@next-core/brick-kit@2.48.0) (2021-05-19)
 

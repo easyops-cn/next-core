@@ -1,4 +1,8 @@
-import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
+import {
+  BuilderRouteOrBrickNode,
+  Story,
+  StoryDoc,
+} from "@next-core/brick-types";
 import { NodeInstance } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -136,7 +140,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 3,
-            "alias": undefined,
+            "alias": "brick-b",
             "brick": "brick-b",
             "id": "B-003",
             "sort": 1,
@@ -151,7 +155,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 4,
-            "alias": undefined,
+            "alias": "brick-c",
             "brick": "brick-c",
             "id": "B-004",
             "type": "brick",
@@ -165,7 +169,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 5,
-            "alias": undefined,
+            "alias": "brick-d",
             "brick": "brick-d",
             "id": "B-005",
             "type": "brick",
@@ -179,7 +183,7 @@ describe("BuilderDataManager for route of bricks", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 6,
-            "alias": undefined,
+            "alias": "brick-e",
             "brick": "brick-e",
             "id": "B-006",
             "sort": 1,
@@ -200,10 +204,11 @@ describe("BuilderDataManager for route of bricks", () => {
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
-      nodeAlias: "new-brick",
-      nodeData: ({
+      nodeData: {
+        type: "brick",
+        brick: "my.any-brick",
         mountPoint: "toolbar",
-      } as Partial<NodeInstance>) as NodeInstance,
+      } as Partial<NodeInstance> as NodeInstance,
       nodeIds: null,
     });
     const newData = manager.getData();
@@ -249,13 +254,17 @@ describe("BuilderDataManager for route of bricks", () => {
     `);
     expect(newData.nodes[newData.nodes.length - 1]).toMatchInlineSnapshot(`
       Object {
-        "$$matchedSelectors": Array [],
+        "$$matchedSelectors": Array [
+          "my\\\\.any-brick",
+        ],
         "$$parsedEvents": Object {},
         "$$parsedLifeCycle": Object {},
         "$$parsedProperties": Object {},
         "$$parsedProxy": Object {},
         "$$uid": 7,
-        "alias": "new-brick",
+        "alias": "any-brick",
+        "brick": "my.any-brick",
+        "type": "brick",
       }
     `);
     expect(listenOnNodeAdd).toBeCalled();
@@ -271,21 +280,203 @@ describe("BuilderDataManager for route of bricks", () => {
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
-      nodeAlias: "new-brick",
-      nodeData: ({
+      nodeData: {
         mountPoint: "toolbar",
-      } as Partial<NodeInstance>) as NodeInstance,
+      } as Partial<NodeInstance> as NodeInstance,
       nodeIds: null,
     });
     manager.nodeAddStored({
       nodeUid: 7,
-      nodeAlias: "new-brick",
-      nodeData: ({
+      nodeData: {
         id: "B-007",
-      } as Partial<BuilderRouteOrBrickNode>) as BuilderRouteOrBrickNode,
+      } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
     });
     expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
       "B-007"
+    );
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnDataChange();
+  });
+
+  it("should apply snippet", () => {
+    const listenOnSnippetApply = jest.fn();
+    const listenOnDataChange = jest.fn();
+    const unlistenOnSnippetApply = manager.onSnippetApply(listenOnSnippetApply);
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
+    manager.snippetApply({
+      parentUid: 3,
+      nodeUids: [4, 6, 7, 5],
+      nodeIds: null,
+      nodeDetails: [
+        {
+          nodeUid: 7,
+          parentUid: 3,
+          nodeData: {
+            parent: "instance-a",
+            type: "brick",
+            brick: "basic-bricks.easy-view",
+            mountPoint: "toolbar",
+            properties: '{"containerStyle":{"gap":"var(--page-card-gap)"}}',
+          },
+          children: [
+            {
+              nodeUid: 8,
+              parentUid: 7,
+              nodeData: {
+                type: "brick",
+                brick: "basic-bricks.general-button",
+                mountPoint: "header",
+                events: '{"click":{"action":"console.log"}}',
+                sort: 0,
+              },
+              children: [],
+            },
+          ],
+        },
+      ],
+    });
+    const newData = manager.getData();
+    expect(newData.edges).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "child": 2,
+          "mountPoint": "bricks",
+          "parent": 1,
+          "sort": 0,
+        },
+        Object {
+          "child": 4,
+          "mountPoint": "content",
+          "parent": 3,
+          "sort": 0,
+        },
+        Object {
+          "child": 5,
+          "mountPoint": "toolbar",
+          "parent": 3,
+          "sort": 3,
+        },
+        Object {
+          "child": 6,
+          "mountPoint": "content",
+          "parent": 3,
+          "sort": 1,
+        },
+        Object {
+          "child": 3,
+          "mountPoint": "bricks",
+          "parent": 1,
+          "sort": 1,
+        },
+        Object {
+          "child": 7,
+          "mountPoint": "toolbar",
+          "parent": 3,
+          "sort": 2,
+        },
+        Object {
+          "child": 8,
+          "mountPoint": "header",
+          "parent": 7,
+          "sort": 0,
+        },
+      ]
+    `);
+    expect(newData.nodes.slice(-2)).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.easy-view",
+          ],
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {
+            "containerStyle": Object {
+              "gap": "var(--page-card-gap)",
+            },
+          },
+          "$$parsedProxy": Object {},
+          "$$uid": 7,
+          "alias": "easy-view",
+          "brick": "basic-bricks.easy-view",
+          "properties": "{\\"containerStyle\\":{\\"gap\\":\\"var(--page-card-gap)\\"}}",
+          "type": "brick",
+        },
+        Object {
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.general-button",
+          ],
+          "$$parsedEvents": Object {
+            "click": Object {
+              "action": "console.log",
+            },
+          },
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$parsedProxy": Object {},
+          "$$uid": 8,
+          "alias": "general-button",
+          "brick": "basic-bricks.general-button",
+          "events": "{\\"click\\":{\\"action\\":\\"console.log\\"}}",
+          "sort": 0,
+          "type": "brick",
+        },
+      ]
+    `);
+    expect(listenOnSnippetApply).toBeCalled();
+    expect(listenOnDataChange).toBeCalled();
+    unlistenOnSnippetApply();
+    unlistenOnDataChange();
+  });
+
+  it("should update stored nodes from snippet", () => {
+    const listenOnDataChange = jest.fn();
+    const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
+    manager.snippetApply({
+      parentUid: 3,
+      nodeUids: [4, 6, 7, 5],
+      nodeIds: null,
+      nodeDetails: [
+        {
+          nodeUid: 7,
+          parentUid: 3,
+          nodeData: {
+            mountPoint: "toolbar",
+          } as Partial<NodeInstance> as NodeInstance,
+          children: [
+            {
+              nodeUid: 8,
+              parentUid: 7,
+              nodeData: {
+                mountPoint: "header",
+              } as Partial<NodeInstance> as NodeInstance,
+              children: [],
+            },
+          ],
+        },
+      ],
+    });
+    manager.snippetApplyStored({
+      flattenNodeDetails: [
+        {
+          nodeUid: 7,
+          nodeData: {
+            id: "B-007",
+          } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+        },
+        {
+          nodeUid: 8,
+          nodeData: {
+            id: "B-008",
+          } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+        },
+      ],
+    });
+    expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
+      "B-007"
+    );
+    expect(manager.getData().nodes.find((node) => node.$$uid === 8).id).toBe(
+      "B-008"
     );
     expect(listenOnDataChange).toBeCalled();
     unlistenOnDataChange();
@@ -716,7 +907,7 @@ describe("BuilderDataManager for route of routes", () => {
             "$$parsedProperties": Object {},
             "$$parsedProxy": Object {},
             "$$uid": 3,
-            "alias": undefined,
+            "alias": "brick-b",
             "brick": "brick-b",
             "id": "B-003",
             "sort": 0,
@@ -765,6 +956,13 @@ describe("route list", () => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
     manager = new BuilderDataManager();
+  });
+
+  it("should return an empty array if data is not set", () => {
+    expect(manager.getRouteList()).toEqual([]);
+  });
+
+  it("should init route list data", () => {
     const listenOnRouteListChange = jest.fn();
     const unlistenOnRouteListChange = manager.onRouteListChange(
       listenOnRouteListChange
@@ -775,31 +973,16 @@ describe("route list", () => {
         path: "/homepage",
         id: "R-01",
       },
-      {
-        type: "bricks",
-        path: "/homepage/b",
-        id: "R-02",
-      },
     ]);
     expect(listenOnRouteListChange).toBeCalled();
     unlistenOnRouteListChange();
-  });
-
-  it("should init route list data", () => {
-    expect(manager.getRouteList()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "id": "R-01",
-          "path": "/homepage",
-          "type": "routes",
-        },
-        Object {
-          "id": "R-02",
-          "path": "/homepage/b",
-          "type": "bricks",
-        },
-      ]
-    `);
+    expect(manager.getRouteList()).toEqual([
+      {
+        type: "routes",
+        path: "/homepage",
+        id: "R-01",
+      },
+    ]);
   });
 });
 
@@ -836,9 +1019,10 @@ describe("test showRelatedNodesBasedOnEvents", () => {
     BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
     manager = new BuilderDataManager();
     const listenOnShowRelatedNodesBasedOnEventsChange = jest.fn();
-    const unlistenOnShowRelatedNodesBasedOnEventsChange = manager.onShowRelatedNodesBasedOnEventsChange(
-      listenOnShowRelatedNodesBasedOnEventsChange
-    );
+    const unlistenOnShowRelatedNodesBasedOnEventsChange =
+      manager.onShowRelatedNodesBasedOnEventsChange(
+        listenOnShowRelatedNodesBasedOnEventsChange
+      );
     manager.setShowRelatedNodesBasedOnEvents(true);
     expect(listenOnShowRelatedNodesBasedOnEventsChange).toBeCalled();
     unlistenOnShowRelatedNodesBasedOnEventsChange();
@@ -869,5 +1053,162 @@ describe("test highlightNodes", () => {
 
   it("should get highlightNodes", () => {
     expect(manager.getHighlightNodes()).toEqual(new Set([1]));
+  });
+});
+
+describe("test storyList", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    manager.storyListInit([
+      {
+        category: "form-input",
+        icon: {
+          icon: "pencil-alt",
+          lib: "fa",
+        },
+        storyId: "forms.general-input",
+        text: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        description: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        doc: {
+          name: "forms.general-input",
+          editor: "forms.general-input--editor",
+          author: "easyops",
+        } as Partial<StoryDoc> as StoryDoc,
+      },
+      {
+        category: "card",
+        icon: {
+          icon: "chevron-down",
+          lib: "fa",
+        },
+        storyId: "basic-bricks.general-card",
+        text: {
+          en: "general-card",
+          zh: "卡片",
+        },
+        doc: {
+          name: "basic-bricks.general-card",
+          editor: "base-card--editor",
+          author: "easyops",
+        },
+      },
+    ] as Partial<Story>[] as Story[]);
+  });
+
+  it("should init data", () => {
+    expect(manager.getStoryList()).toEqual([
+      {
+        category: "form-input",
+        icon: {
+          icon: "pencil-alt",
+          lib: "fa",
+        },
+        storyId: "forms.general-input",
+        text: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        description: {
+          en: "general input",
+          zh: "普通输入框",
+        },
+        doc: {
+          name: "forms.general-input",
+          editor: "forms.general-input--editor",
+          author: "easyops",
+        },
+      },
+      {
+        category: "card",
+        icon: {
+          icon: "chevron-down",
+          lib: "fa",
+        },
+        storyId: "basic-bricks.general-card",
+        text: {
+          en: "general-card",
+          zh: "卡片",
+        },
+        doc: {
+          name: "basic-bricks.general-card",
+          editor: "base-card--editor",
+          author: "easyops",
+        },
+      },
+    ]);
+  });
+});
+
+describe("test toggleOutline", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+  });
+
+  it("should check if the outline of a specific node is enabled", () => {
+    const listenOnOutlineEnabledNodesChange = jest.fn();
+    const unlistenOnOutlineEnabledNodesChange =
+      manager.onOutlineEnabledNodesChange(listenOnOutlineEnabledNodesChange);
+    expect(manager.isOutlineEnabled("instance-a")).toBe(true);
+    manager.toggleOutline("instance-a");
+    expect(manager.isOutlineEnabled("instance-a")).toBe(false);
+    manager.toggleOutline("instance-a");
+    expect(manager.isOutlineEnabled("instance-a")).toBe(true);
+    expect(listenOnOutlineEnabledNodesChange).toBeCalledTimes(2);
+    unlistenOnOutlineEnabledNodesChange();
+  });
+});
+
+describe("test sharedEditorList", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+  });
+
+  it("should return an empty array if data is not set", () => {
+    expect(manager.getSharedEditorList()).toEqual([]);
+  });
+
+  it("should init shared editor list", () => {
+    const listenOnSharedEditorListChange = jest.fn();
+    const unlistenOnRouteListChange = manager.onSharedEditorListChange(
+      listenOnSharedEditorListChange
+    );
+    manager.sharedEditorListInit([
+      {
+        id: "test.brick-a",
+        editor: "shared.test-brick--editor",
+      },
+    ]);
+    expect(listenOnSharedEditorListChange).toBeCalled();
+    unlistenOnRouteListChange();
+    expect(manager.getSharedEditorList()).toEqual([
+      {
+        id: "test.brick-a",
+        editor: "shared.test-brick--editor",
+      },
+    ]);
   });
 });

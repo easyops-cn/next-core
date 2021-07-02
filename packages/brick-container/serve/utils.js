@@ -252,9 +252,10 @@ function listRealpathOfSubdir(dir) {
 
 function getPatternsToWatch(env) {
   return [
-    ...listRealpathOfSubdir(env.brickPackagesDir).map((dir) =>
-      path.join(dir, "dist/*.js")
-    ),
+    ...listRealpathOfSubdir(env.brickPackagesDir).flatMap((dir) => [
+      path.join(dir, "dist/*.js"),
+      path.join(dir, "dist-editors/*.js"),
+    ]),
     ...listRealpathOfSubdir(env.microAppsDir).map((dir) =>
       path.join(dir, "storyboard.*")
     ),

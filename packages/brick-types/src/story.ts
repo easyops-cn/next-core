@@ -1,23 +1,17 @@
-import { BrickConf } from "./manifest";
+import { BrickConf, I18nData } from "./manifest";
 import { MenuIcon } from "./menu";
-
-/** @internal */
-export interface I18nString {
-  en: string;
-  zh: string;
-}
 
 /** @internal */
 export interface CategoryGroup {
   group: string;
-  title: I18nString;
+  title: I18nData;
   items: Chapter[];
 }
 
 /** @internal */
 export interface Chapter {
   category: string;
-  title: I18nString;
+  title: I18nData;
   stories: Story[];
 }
 
@@ -38,10 +32,10 @@ export interface Story {
   storyId: string;
   deprecated?: boolean;
   type: "brick" | "template";
-  text: I18nString;
+  text: I18nData;
   conf: StoryConf | StoryConf[];
-  description?: I18nString;
-  tags?: I18nString[];
+  description?: I18nData;
+  tags?: I18nData[];
   doc?: string | StoryDoc;
   actions?: Action[];
   icon?: MenuIcon;
@@ -142,6 +136,8 @@ export interface StoryDoc {
   events?: StoryDocEvent[];
   methods?: StoryDocMethod[];
   properties: StoryDocProperty[];
+  editor?: string;
+  editorProps?: Record<string, unknown>;
 }
 
 /** @internal */

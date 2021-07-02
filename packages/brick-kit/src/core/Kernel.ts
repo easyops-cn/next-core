@@ -429,12 +429,18 @@ export class Kernel {
   ): Promise<Map<string, CustomApiOrchestration>> {
     const allMicroAppApiOrchestrationMap: Map<string, CustomApiOrchestration> =
       new Map();
-    if (usedCustomApis.length) {
+    const customApisV2 = usedCustomApis.filter((item) =>
+      item.name.includes(":")
+    );
+    const customApisV1 = usedCustomApis.filter(
+      (item) => !item.name.includes(":")
+    );
+    if (customApisV1.length) {
       try {
         const allMicroAppApiOrchestration = (
           await InstanceApi_postSearch("MICRO_APP_API_ORCHESTRATION", {
             page: 1,
-            page_size: usedCustomApis.length,
+            page_size: customApisV1.length,
             fields: {
               name: true,
               namespace: true,
@@ -443,7 +449,7 @@ export class Kernel {
               type: true,
             },
             query: {
-              $or: usedCustomApis,
+              $or: customApisV1,
             },
           })
         ).list as CustomApiOrchestration[];
@@ -458,6 +464,50 @@ export class Kernel {
         console.warn("Load custom api orchestration error:", error);
       }
     }
+
+    if (customApisV2.length) {
+      try {
+        const allMicroAppApiOrchestrationV2 = (
+          await InstanceApi_postSearch("_INTERFACE_CONTRACT@EASYOPS", {
+            page: 1,
+            page_size: customApisV2.length,
+            fields: {
+              name: true,
+              endpoint: true,
+              response: true,
+              "namespace.name": true,
+              version: true,
+            },
+            query: {
+              $or: customApisV2.map((item) => ({
+                name: item.name.split(":")[0],
+                version: item.name.split(":")[1],
+                "namespace.name": item.namespace,
+              })),
+            },
+          })
+        ).list.map((item) => ({
+          name: item.name,
+          namespace: item.namespace[0].name,
+          version: item.version,
+          contract: {
+            endpoint: item.endpoint,
+            response: item.response,
+          },
+        }));
+
+        for (const api of allMicroAppApiOrchestrationV2) {
+          allMicroAppApiOrchestrationMap.set(
+            `${api.namespace}@${api.name}:${api.version}`,
+            api
+          );
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn("Load custom api V2 orchestration error:", error);
+      }
+    }
+
     return allMicroAppApiOrchestrationMap;
   }
 

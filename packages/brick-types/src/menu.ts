@@ -99,6 +99,13 @@ export interface SidebarMenuGroup {
 /** 图标配置。 */
 export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 
+/** 渐变颜色配置 */
+export interface GradientColor {
+  startColor: string;
+  endColor: string;
+  direction?: "top-to-bottom" | "left-to-right";
+}
+
 /** Antd 图标配置。 */
 export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon;
 
@@ -107,7 +114,7 @@ export interface RefinedAntdIcon {
   lib: "antd";
   icon: string;
   theme?: ThemeType;
-  color?: string;
+  color?: string | GradientColor;
 }
 
 /** 历史遗留的 Antd 图标配置。 */
@@ -115,7 +122,7 @@ export interface LegacyAntdIcon {
   lib: "antd";
   type: string;
   theme?: ThemeType;
-  color?: string;
+  color?: string | GradientColor;
 }
 
 /** FontAwesome 图标配置。 */
@@ -123,7 +130,7 @@ export interface FaIcon {
   lib: "fa";
   icon: IconName;
   prefix?: IconPrefix;
-  color?: string;
+  color?: string | GradientColor;
 }
 
 /** EasyOps 图标配置。 */
@@ -131,5 +138,5 @@ export interface EasyopsIcon {
   lib: "easyops";
   icon: string;
   category?: string;
-  color?: string;
+  color?: string | GradientColor;
 }

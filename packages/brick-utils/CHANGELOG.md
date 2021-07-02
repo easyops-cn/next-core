@@ -3,13 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.16.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.0...@next-core/brick-utils@2.16.1) (2021-05-27)
+## [2.17.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.6...@next-core/brick-utils@2.17.7) (2021-06-24)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
+## [2.17.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.5...@next-core/brick-utils@2.17.6) (2021-06-17)
 
+**Note:** Version bump only for package @next-core/brick-utils
 
+## [2.17.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.4...@next-core/brick-utils@2.17.5) (2021-06-16)
 
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.17.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.3...@next-core/brick-utils@2.17.4) (2021-06-16)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.17.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.2...@next-core/brick-utils@2.17.3) (2021-06-10)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.1...@next-core/brick-utils@2.17.2) (2021-06-09)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.0...@next-core/brick-utils@2.17.1) (2021-06-09)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+# [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.5...@next-core/brick-utils@2.17.0) (2021-06-08)
+
+### Features
+
+- JsonStorage ([cd8c868](https://github.com/easyops-cn/next-core/commit/cd8c86861682a669b8aa0f3d70e66fec3d878a74))
+
+## [2.16.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.4...@next-core/brick-utils@2.16.5) (2021-06-04)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.16.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.3...@next-core/brick-utils@2.16.4) (2021-06-04)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.16.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.2...@next-core/brick-utils@2.16.3) (2021-06-03)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.16.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.1...@next-core/brick-utils@2.16.2) (2021-06-02)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.16.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.16.0...@next-core/brick-utils@2.16.1) (2021-05-27)
+
+**Note:** Version bump only for package @next-core/brick-utils
 
 # [2.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.15.2...@next-core/brick-utils@2.16.0) (2021-05-18)
 

@@ -3439,6 +3439,7 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": [
+          "JsonStorage",
           "asyncProcessBrick",
           "asyncProcessStoryboard",
           "computeRealRoutePath",
@@ -18162,6 +18163,7 @@
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",
+          "i18nText",
           "initI18n",
           "isLoggedIn",
           "logout",
@@ -18176,6 +18178,7 @@
           "transformElementProperties",
           "transformIntermediateData",
           "transformProperties",
+          "useApplyPageTitle",
           "useCurrentApp",
           "useCurrentMode",
           "useCurrentTheme",

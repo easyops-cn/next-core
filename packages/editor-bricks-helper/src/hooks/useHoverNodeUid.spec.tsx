@@ -26,7 +26,7 @@ function TestComponent(): React.ReactElement {
 describe("useHoverNodeUid", () => {
   it("should work", () => {
     const wrapper = mount(<TestComponent />);
-    expect(wrapper.text()).toMatchInlineSnapshot(`"1"`);
+    expect(wrapper.text()).toBe("1");
 
     mockHoverUid = 2;
 
@@ -34,7 +34,7 @@ describe("useHoverNodeUid", () => {
       onHoverNodeChangeListeners.forEach((fn) => fn());
     });
 
-    expect(wrapper.text()).toMatchInlineSnapshot(`"2"`);
+    expect(wrapper.text()).toBe("2");
 
     // It should remove the registered listener when component unmounted.
     wrapper.unmount();

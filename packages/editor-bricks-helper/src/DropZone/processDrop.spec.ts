@@ -7,9 +7,9 @@ import { getUniqueNodeId } from "../internal/getUniqueNodeId";
 
 jest.mock("../internal/getUniqueNodeId");
 
-(getUniqueNodeId as jest.MockedFunction<
-  typeof getUniqueNodeId
->).mockReturnValue(200);
+const mockGetUniqueNodeId = (
+  getUniqueNodeId as jest.MockedFunction<typeof getUniqueNodeId>
+).mockReturnValue(200);
 
 describe("processDrop", () => {
   const droppingSiblingGroups: BuilderGroupedChildNode[] = [
@@ -59,6 +59,7 @@ describe("processDrop", () => {
     nodeAdd: jest.fn(),
     nodeMove: jest.fn(),
     nodeReorder: jest.fn(),
+    snippetApply: jest.fn(),
   } as any;
 
   afterEach(() => {
@@ -83,7 +84,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "brick",
@@ -114,7 +114,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "brick",
@@ -145,7 +144,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "template",
@@ -175,7 +173,6 @@ describe("processDrop", () => {
     expect(manager.nodeAdd).toBeCalledWith({
       nodeUid: 200,
       parentUid: 100,
-      nodeAlias: "new-brick",
       nodeData: {
         parent: "instance-a",
         type: "provider",
@@ -183,6 +180,100 @@ describe("processDrop", () => {
         mountPoint: "toolbar",
         bg: true,
       },
+      nodeUids: [1, 200, 2, 3, 4, 5],
+      nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
+    });
+  });
+
+  it("should apply a snippet", () => {
+    mockGetUniqueNodeId.mockReturnValueOnce(200);
+    mockGetUniqueNodeId.mockReturnValueOnce(201);
+    mockGetUniqueNodeId.mockReturnValueOnce(202);
+    processDrop({
+      type: BuilderDataTransferType.SNIPPET_TO_APPLY,
+      data: {
+        bricks: [
+          {
+            brick: "basic-bricks.easy-view",
+            properties: {
+              containerStyle: {
+                gap: "var(--page-card-gap)",
+              },
+            },
+            slots: {
+              header: {
+                bricks: [
+                  {
+                    brick: "basic-bricks.general-button",
+                    events: {
+                      click: {
+                        action: "console.log",
+                      },
+                    },
+                    bg: true,
+                  },
+                ],
+                type: "bricks",
+              },
+              footer: {
+                bricks: [{ template: "my.legacy-template" }],
+                type: "bricks",
+              },
+            },
+            permissionsPreCheck: ["admin"],
+          },
+        ],
+      },
+      droppingIndex: 1,
+      droppingParentUid: 100,
+      droppingParentInstanceId: "instance-a",
+      droppingMountPoint: "toolbar",
+      droppingChildNodes: droppingSiblingGroups[0].childNodes,
+      droppingSiblingGroups,
+      manager,
+    });
+    expect(manager.snippetApply).toBeCalledWith({
+      parentUid: 100,
+      nodeDetails: [
+        {
+          nodeUid: 200,
+          parentUid: 100,
+          nodeData: {
+            parent: "instance-a",
+            type: "brick",
+            brick: "basic-bricks.easy-view",
+            mountPoint: "toolbar",
+            properties: '{"containerStyle":{"gap":"var(--page-card-gap)"}}',
+            permissionsPreCheck: "- admin\n",
+          },
+          children: [
+            {
+              nodeUid: 201,
+              parentUid: 200,
+              nodeData: {
+                type: "provider",
+                brick: "basic-bricks.general-button",
+                mountPoint: "header",
+                bg: true,
+                events: '{"click":{"action":"console.log"}}',
+                sort: 0,
+              },
+              children: [],
+            },
+            {
+              nodeUid: 202,
+              parentUid: 200,
+              nodeData: {
+                type: "template",
+                brick: "my.legacy-template",
+                mountPoint: "footer",
+                sort: 1,
+              },
+              children: [],
+            },
+          ],
+        },
+      ],
       nodeUids: [1, 200, 2, 3, 4, 5],
       nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
     });

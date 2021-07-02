@@ -34,9 +34,11 @@ const baseDocComments = [
   "history",
   "dockind",
   "deprecated",
+  "editor",
+  "editorprops",
 ];
 
-function generateBrickDoc(doc, scope) {
+function generateBrickDoc(doc) {
   const { children = [] } = doc;
   const brickDocs = [];
   traverseModules(children, brickDocs);
@@ -68,6 +70,16 @@ function convertTagsToMapByFields(tags, fields) {
       if (curr.tag === "deprecated") {
         prev[curr.tag] = true;
         return prev;
+      }
+
+      if (curr.tag === "editorprops") {
+        try {
+          prev["editorProps"] = JSON.parse(curr.text);
+          return prev;
+        } catch {
+          const find = tags.find((item) => item.tag === "name");
+          throw new Error(`editorProps of ${find && find.text} parse error`);
+        }
       }
 
       prev[curr.tag] = curr.text.trim();
@@ -558,7 +570,7 @@ function generateBrickBook(docsJson) {
   console.log("Brick book written to doc.json.");
 }
 
-module.exports = function generateBrickDocs(packageName, scope) {
+module.exports = function generateBrickDocs(packageName) {
   const app = new TypeDoc.Application();
 
   app.bootstrap({
@@ -596,7 +608,7 @@ module.exports = function generateBrickDocs(packageName, scope) {
     // disableSources: true,
     hideGenerator: true,
     categoryOrder: ["property", "event", "method", "Other"],
-    allowInheritedDoc: ["FormItemElement"],
+    allowInheritedDoc: ["FormItemElement", "BaseChartElement", "GraphElement"],
     exclude: [
       "node_modules",
       "**/*.spec.ts?(x)",
@@ -623,7 +635,7 @@ module.exports = function generateBrickDocs(packageName, scope) {
     const json = app.generateJson(project, "dist/docs.json");
     if (json) {
       const typeDocJson = require(path.resolve(docsJsonPath));
-      const bricksDocJson = generateBrickDoc(typeDocJson, scope);
+      const bricksDocJson = generateBrickDoc(typeDocJson);
       if (fs.existsSync(docsJsonPath)) {
         // 如果构建包内有`stories`文件夹，默认生成构建demo和doc
         if (fs.existsSync(path.join(process.cwd(), "dist", "stories"))) {

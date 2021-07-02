@@ -237,4 +237,15 @@ describe("Runtime", () => {
       },
     ]);
   });
+
+  it("should apply page title", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.bootstrapData = {};
+    runtime.applyPageTitle(null);
+    expect(document.title).toBe("DevOps 管理专家");
+    runtime.applyPageTitle("Hello");
+    expect(document.title).toBe("Hello - DevOps 管理专家");
+  });
 });

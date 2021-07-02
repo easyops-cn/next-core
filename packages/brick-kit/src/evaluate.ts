@@ -17,6 +17,7 @@ import { customProcessorRegistry } from "./core/exports";
 import { checkPermissions } from "./core/checkPermissions";
 import { getItem } from "./core/localStorage";
 import { getRuntime } from "./runtime";
+import { i18nText } from "./i18nText";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -220,6 +221,10 @@ export function evaluate(
     globalVariables.I18N = i18next.getFixedT(null, `$app-${app.id}`);
   }
 
+  if (attemptToVisitGlobals.has("I18N_TEXT")) {
+    globalVariables.I18N_TEXT = i18nText;
+  }
+
   if (attemptToVisitGlobals.has("CTX")) {
     globalVariables.CTX = Object.fromEntries(
       Array.from(storyboardContext.entries()).map(([name, item]) => [
@@ -233,12 +238,12 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("PROCESSORS")) {
     globalVariables.PROCESSORS = Object.fromEntries(
-      Array.from(
-        customProcessorRegistry.entries()
-      ).map(([namespace, registry]) => [
-        namespace,
-        Object.fromEntries(registry.entries()),
-      ])
+      Array.from(customProcessorRegistry.entries()).map(
+        ([namespace, registry]) => [
+          namespace,
+          Object.fromEntries(registry.entries()),
+        ]
+      )
     );
   }
 

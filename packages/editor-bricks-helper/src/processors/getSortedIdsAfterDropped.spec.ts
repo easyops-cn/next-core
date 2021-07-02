@@ -106,4 +106,19 @@ describe("getSortedIdsAfterDropped", () => {
       nodeIds: ["B-001", null, "B-002", "B-003", "B-004", "B-005"],
     });
   });
+
+  it("should apply a snippet of nodes", () => {
+    expect(
+      getSortedIdsAfterDropped({
+        draggingNodeUid: [6, 7],
+        draggingNodeId: null,
+        droppingMountPoint: "toolbar",
+        droppingSiblingGroups,
+        droppingIndex: 1,
+      })
+    ).toEqual({
+      nodeUids: [1, 6, 7, 2, 3, 4, 5],
+      nodeIds: ["B-001", null, null, "B-002", "B-003", "B-004", "B-005"],
+    });
+  });
 });

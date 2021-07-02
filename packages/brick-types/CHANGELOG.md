@@ -3,13 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.26.0...@next-core/brick-types@2.26.1) (2021-05-27)
+## [2.32.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.2...@next-core/brick-types@2.32.3) (2021-06-24)
+
+### Bug Fixes
+
+- add types of layer type ([4387d6f](https://github.com/easyops-cn/next-core/commit/4387d6fad295b6ae3c1d4c1e312ab7d7fb97059a))
+
+## [2.32.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.1...@next-core/brick-types@2.32.2) (2021-06-17)
+
+### Bug Fixes
+
+- refine types for snippets ([efbdbcf](https://github.com/easyops-cn/next-core/commit/efbdbcf8f310a6b5a24a21884ae271e213712163))
+
+## [2.32.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.0...@next-core/brick-types@2.32.1) (2021-06-16)
+
+### Bug Fixes
+
+- refine types and process drop ([cc125a4](https://github.com/easyops-cn/next-core/commit/cc125a4ffc08ec126cd695a60082c216a222af88))
+
+# [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.31.0...@next-core/brick-types@2.32.0) (2021-06-16)
+
+### Features
+
+- support to apply snippets ([e68a888](https://github.com/easyops-cn/next-core/commit/e68a8886f83e6d5d4f9cb67f42a5b6e4edec2a9c))
+
+# [2.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.30.0...@next-core/brick-types@2.31.0) (2021-06-10)
+
+### Features
+
+- **storyboard context:** onChange handler of free-variable context add support for targetRef ([4a428d2](https://github.com/easyops-cn/next-core/commit/4a428d2006fe5c0c595015a37fb0c3bf8dc53712))
+
+# [2.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.29.0...@next-core/brick-types@2.30.0) (2021-06-09)
+
+### Features
+
+- editor 支持属性设置 ([581c10c](https://github.com/easyops-cn/next-core/commit/581c10c00110d2310ecf16ac7389bae82fd2d9c4))
+- support brick snippets ([7018ac2](https://github.com/easyops-cn/next-core/commit/7018ac24d6aac8e5052c6550f89b0a51a527f1cf))
+
+# [2.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.28.0...@next-core/brick-types@2.29.0) (2021-06-04)
+
+### Features
+
+- **brick-types:** GradientColor support direction ([fe7eff2](https://github.com/easyops-cn/next-core/commit/fe7eff2088debbab01196f3024c72b3a5936ac65))
+
+# [2.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.27.0...@next-core/brick-types@2.28.0) (2021-06-04)
+
+### Features
+
+- **brick-types:** menuIcon.color support gradient color ([a422801](https://github.com/easyops-cn/next-core/commit/a4228013fb1299a7396cbddf8221f09bbd3be1fd))
+
+# [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.26.2...@next-core/brick-types@2.27.0) (2021-06-03)
+
+### Features
+
+- 支持在文档中声明编辑器 ([1714fa4](https://github.com/easyops-cn/next-core/commit/1714fa42fbabd3918edf719c74405909a5e29c5d))
+
+## [2.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.26.1...@next-core/brick-types@2.26.2) (2021-06-02)
 
 **Note:** Version bump only for package @next-core/brick-types
 
+## [2.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.26.0...@next-core/brick-types@2.26.1) (2021-05-27)
 
-
-
+**Note:** Version bump only for package @next-core/brick-types
 
 # [2.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.25.1...@next-core/brick-types@2.26.0) (2021-05-11)
 

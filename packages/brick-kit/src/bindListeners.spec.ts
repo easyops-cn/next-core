@@ -120,8 +120,9 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
 const anyProvider = document.createElement("any-provider");
 const customApiProvider = document.createElement(CUSTOM_API_PROVIDER);
 
-jest.spyOn(runtime, "_internalApiGetProviderBrick").mockImplementation(
-  async (provider: string): Promise<HTMLElement> => {
+jest
+  .spyOn(runtime, "_internalApiGetProviderBrick")
+  .mockImplementation(async (provider: string): Promise<HTMLElement> => {
     await Promise.resolve();
     if (provider === "any-provider") {
       return anyProvider;
@@ -130,8 +131,7 @@ jest.spyOn(runtime, "_internalApiGetProviderBrick").mockImplementation(
       return customApiProvider;
     }
     throw new Error(`Provider not defined: "${provider}".`);
-  }
-);
+  });
 
 jest
   .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
@@ -233,6 +233,9 @@ describe("bindListeners", () => {
     (targetElem2 as any).forAsyncWillError = jest
       .fn()
       .mockRejectedValue("oops");
+    (targetElem2 as any).forSyncWillError = jest.fn().mockImplementation(() => {
+      throw new Error("sync oops");
+    });
     document.body.appendChild(sourceElem);
     document.body.appendChild(targetElem);
     document.body.appendChild(targetElem2);
@@ -483,6 +486,15 @@ describe("bindListeners", () => {
             },
           },
         },
+        {
+          target: "#target-elem2",
+          method: "forSyncWillError",
+          callback: {
+            error: {
+              action: "console.warn",
+            },
+          },
+        },
         { target: "#target-elem", method: "notExisted" },
         { target: "#not-existed", method: "forGood" },
         {
@@ -522,11 +534,11 @@ describe("bindListeners", () => {
 
     const location = window.location;
     delete window.location;
-    window.location = ({
+    window.location = {
       origin: "http://www.google.com",
       reload: jest.fn(),
       assign: jest.fn(),
-    } as unknown) as Location;
+    } as unknown as Location;
 
     jest.spyOn(console, "log").mockImplementation(() => void 0);
     jest.spyOn(console, "info").mockImplementation(() => void 0);
@@ -638,7 +650,7 @@ describe("bindListeners", () => {
       new CustomEvent("callback.finally")
     );
 
-    expect(console.warn).toBeCalledTimes(4);
+    expect(console.warn).toBeCalledTimes(5);
     expect(console.warn).toHaveBeenNthCalledWith(
       1,
       "specified args for console.warn"
@@ -655,6 +667,12 @@ describe("bindListeners", () => {
       4,
       new CustomEvent("callback.error", {
         detail: "oops",
+      })
+    );
+    expect(console.warn).toHaveBeenNthCalledWith(
+      5,
+      new CustomEvent("callback.error", {
+        detail: "sync oops",
       })
     );
 

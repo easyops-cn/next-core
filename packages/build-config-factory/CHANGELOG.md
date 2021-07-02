@@ -3,13 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.9.12](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.11...@next-core/build-config-factory@2.9.12) (2021-05-27)
+## [2.12.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.12.1...@next-core/build-config-factory@2.12.2) (2021-06-24)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
+## [2.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.12.0...@next-core/build-config-factory@2.12.1) (2021-06-17)
 
+### Bug Fixes
 
+- fix snippets.json ([04cb701](https://github.com/easyops-cn/next-core/commit/04cb701c820bcde4e456a94b7834c67af354515f))
 
+# [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.5...@next-core/build-config-factory@2.12.0) (2021-06-17)
+
+### Features
+
+- **micro_app_service:** 改造 brick_next 扫描-NB 包脚本，把构建信息扫描调用 micro_app_service 的上报接口 ([d9baf4e](https://github.com/easyops-cn/next-core/commit/d9baf4eca1101bdcf654fbc90e3e27088e04062b))
+
+## [2.11.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.4...@next-core/build-config-factory@2.11.5) (2021-06-16)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.11.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.3...@next-core/build-config-factory@2.11.4) (2021-06-16)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.2...@next-core/build-config-factory@2.11.3) (2021-06-10)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.1...@next-core/build-config-factory@2.11.2) (2021-06-09)
+
+### Bug Fixes
+
+- fix syntax ([e5b7c3e](https://github.com/easyops-cn/next-core/commit/e5b7c3ea7f29905035e847cf7eddd05f315a0efe))
+
+## [2.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.11.0...@next-core/build-config-factory@2.11.1) (2021-06-09)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+# [2.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.10.3...@next-core/build-config-factory@2.11.0) (2021-06-09)
+
+### Features
+
+- editor 支持属性设置 ([581c10c](https://github.com/easyops-cn/next-core/commit/581c10c00110d2310ecf16ac7389bae82fd2d9c4))
+- support brick snippets ([7018ac2](https://github.com/easyops-cn/next-core/commit/7018ac24d6aac8e5052c6550f89b0a51a527f1cf))
+
+## [2.10.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.10.2...@next-core/build-config-factory@2.10.3) (2021-06-08)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.10.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.10.1...@next-core/build-config-factory@2.10.2) (2021-06-04)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.10.0...@next-core/build-config-factory@2.10.1) (2021-06-04)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+# [2.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.13...@next-core/build-config-factory@2.10.0) (2021-06-03)
+
+### Features
+
+- 支持在文档中声明编辑器 ([1714fa4](https://github.com/easyops-cn/next-core/commit/1714fa42fbabd3918edf719c74405909a5e29c5d))
+
+## [2.9.13](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.12...@next-core/build-config-factory@2.9.13) (2021-06-02)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.9.12](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.11...@next-core/build-config-factory@2.9.12) (2021-05-27)
+
+**Note:** Version bump only for package @next-core/build-config-factory
 
 ## [2.9.11](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.9.10...@next-core/build-config-factory@2.9.11) (2021-05-19)
 

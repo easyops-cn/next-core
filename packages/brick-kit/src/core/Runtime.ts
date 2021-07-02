@@ -260,6 +260,11 @@ export class Runtime implements AbstractRuntime {
   getBasePath = getBasePath;
   getCurrentTheme = getCurrentTheme;
   getCurrentMode = getCurrentMode;
+
+  applyPageTitle(pageTitle: string): void {
+    const baseTitle = this.getBrandSettings().base_title;
+    document.title = pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle;
+  }
 }
 
 /* istanbul ignore next */

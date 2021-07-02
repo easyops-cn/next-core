@@ -9,6 +9,7 @@ const ANY_ROUTE_EDITOR = "basic-bricks.any-route--editor";
  * Get editor brick name by node.
  *
  * @param node - Builder node.
+ * @param editor - Using shared editor.
  *
  * @returns
  *
@@ -20,7 +21,8 @@ const ANY_ROUTE_EDITOR = "basic-bricks.any-route--editor";
  * And returns undefined if load failed.
  */
 export async function getEditorBrick(
-  node: BuilderRuntimeNode
+  node: BuilderRuntimeNode,
+  editor?: string
 ): Promise<string> {
   const tryEditorBricks: string[] = [];
   if (isRouteNode(node)) {
@@ -29,6 +31,11 @@ export async function getEditorBrick(
     if (node.brick.includes("-")) {
       tryEditorBricks.push(`${node.brick}--editor`);
     }
+
+    if (editor) {
+      tryEditorBricks.push(editor);
+    }
+
     tryEditorBricks.push(ANY_BRICK_EDITOR);
   } else {
     // Currently there should be no custom-template nodes to be rendered as editor.

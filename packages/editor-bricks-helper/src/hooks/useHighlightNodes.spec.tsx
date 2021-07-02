@@ -26,7 +26,7 @@ function TestComponent(): React.ReactElement {
 describe("useHighlightNodes", () => {
   it("should work", () => {
     const wrapper = mount(<TestComponent />);
-    expect(wrapper.text()).toMatchInlineSnapshot(`"12"`);
+    expect(wrapper.text()).toBe("12");
 
     mockHighlight = new Set([2, 3]);
 
@@ -34,7 +34,7 @@ describe("useHighlightNodes", () => {
       onHighlightNodesChangeListeners.forEach((fn) => fn());
     });
 
-    expect(wrapper.text()).toMatchInlineSnapshot(`"23"`);
+    expect(wrapper.text()).toBe("23");
 
     // It should remove the registered listener when component unmounted.
     wrapper.unmount();

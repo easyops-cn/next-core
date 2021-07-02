@@ -1,10 +1,11 @@
-import { ContextConf } from "./manifest";
+import { BrickConf, ContextConf, I18nData } from "./manifest";
 
 /** @internal */
 export type BuilderRouteOrBrickNode =
   | BuilderBrickNode
   | BuilderRouteNode
-  | BuilderCustomTemplateNode;
+  | BuilderCustomTemplateNode
+  | BuilderSnippetNode;
 
 /** @internal */
 export interface BuilderBaseNode {
@@ -46,3 +47,33 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
   templateId: string;
   proxy?: string;
 }
+
+/** @internal */
+export interface BuilderSnippetNode extends BuilderBaseNode {
+  type: "snippet";
+  snippetId: string;
+  layerType?: LayerType;
+  category?: string;
+  subCategory?: string;
+  text?: I18nData;
+  description?: I18nData;
+  thumbnail?: string;
+}
+
+/**
+ * For snippets defined in brick packages.
+ * @internal
+ */
+export interface SnippetDefinition {
+  id: string;
+  bricks: BrickConf[];
+  category: string;
+  layerType?: LayerType;
+  subCategory?: string;
+  text?: I18nData;
+  description?: I18nData;
+  thumbnail?: string;
+}
+
+/** @internal */
+export type LayerType = "layout" | "widget" | "brick";

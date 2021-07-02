@@ -3,13 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.1.0...@next-core/rollup-config-factory@2.1.1) (2021-05-27)
+## [2.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.2.0...@next-core/rollup-config-factory@2.2.1) (2021-06-09)
 
 **Note:** Version bump only for package @next-core/rollup-config-factory
 
+# [2.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.1.2...@next-core/rollup-config-factory@2.2.0) (2021-06-09)
 
+### Features
 
+- support brick snippets ([7018ac2](https://github.com/easyops-cn/next-core/commit/7018ac24d6aac8e5052c6550f89b0a51a527f1cf))
 
+## [2.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.1.1...@next-core/rollup-config-factory@2.1.2) (2021-06-02)
+
+**Note:** Version bump only for package @next-core/rollup-config-factory
+
+## [2.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.1.0...@next-core/rollup-config-factory@2.1.1) (2021-05-27)
+
+**Note:** Version bump only for package @next-core/rollup-config-factory
 
 # [2.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.0.18...@next-core/rollup-config-factory@2.1.0) (2021-05-18)
 

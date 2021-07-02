@@ -6,16 +6,15 @@ describe("AppBar", () => {
 
   beforeEach(() => {
     appBar = new AppBar(null, "appBar");
+    appBar.element = document.createElement("a") as unknown as AppBarBrick;
   });
 
   it("should setPageTitle", async () => {
-    appBar.element = (document.createElement("a") as unknown) as AppBarBrick;
     appBar.setPageTitle("hello");
     expect(appBar.element.pageTitle).toBe("hello");
   });
 
   it("should appendBreadcrumb", async () => {
-    appBar.element = (document.createElement("a") as unknown) as AppBarBrick;
     appBar.element.breadcrumb = [
       {
         text: "first",
@@ -33,7 +32,6 @@ describe("AppBar", () => {
   });
 
   it("should appendBreadcrumb", async () => {
-    appBar.element = (document.createElement("a") as unknown) as AppBarBrick;
     appBar.element.breadcrumb = [
       {
         text: "first",
@@ -45,5 +43,15 @@ describe("AppBar", () => {
         text: "second",
       },
     ]);
+  });
+});
+
+describe("AppBar with no element", () => {
+  it("should not throw error", async () => {
+    const appBar = new AppBar(null, "appBar");
+    appBar.setPageTitle("hello");
+    appBar.appendBreadcrumb([{ text: "second" }]);
+    appBar.setBreadcrumb([{ text: "second" }]);
+    expect(appBar.element).toBe(undefined);
   });
 });

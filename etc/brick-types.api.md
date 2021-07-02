@@ -674,7 +674,29 @@ export interface BuilderRouteNode extends BuilderBaseNode {
 // Warning: (ae-internal-missing-underscore) The name "BuilderRouteOrBrickNode" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode | BuilderCustomTemplateNode;
+export type BuilderRouteOrBrickNode = BuilderBrickNode | BuilderRouteNode | BuilderCustomTemplateNode | BuilderSnippetNode;
+
+// Warning: (ae-internal-missing-underscore) The name "BuilderSnippetNode" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface BuilderSnippetNode extends BuilderBaseNode {
+    // (undocumented)
+    category?: string;
+    // (undocumented)
+    description?: I18nData;
+    // (undocumented)
+    layerType?: LayerType;
+    // (undocumented)
+    snippetId: string;
+    // (undocumented)
+    subCategory?: string;
+    // (undocumented)
+    text?: I18nData;
+    // (undocumented)
+    thumbnail?: string;
+    // (undocumented)
+    type: "snippet";
+}
 
 // @public
 export interface BuiltinBrickEventHandler {
@@ -749,7 +771,7 @@ export interface CategoryGroup {
     // (undocumented)
     items: Chapter[];
     // (undocumented)
-    title: I18nString;
+    title: I18nData;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "Chapter" should be prefixed with an underscore because the declaration is marked as @internal
@@ -761,7 +783,7 @@ export interface Chapter {
     // (undocumented)
     stories: Story[];
     // (undocumented)
-    title: I18nString;
+    title: I18nData;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "CompileOptions" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1027,7 +1049,7 @@ export interface EasyopsIcon {
     // (undocumented)
     category?: string;
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     icon: string;
     // (undocumented)
@@ -1060,7 +1082,7 @@ export interface ExtendedHistory {
 // @public
 export interface FaIcon {
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     icon: IconName;
     // (undocumented)
@@ -1076,6 +1098,16 @@ export type FeatureFlags = Record<string, boolean>;
 export type GeneralTransform = string | TransformMap | TransformItem[];
 
 // @public
+export interface GradientColor {
+    // (undocumented)
+    direction?: "top-to-bottom" | "left-to-right";
+    // (undocumented)
+    endColor: string;
+    // (undocumented)
+    startColor: string;
+}
+
+// @public
 export type HandleReject = HandleRejectByTransform | HandleRejectByCatch;
 
 // @public
@@ -1088,14 +1120,10 @@ export interface HandleRejectByTransform {
     transform: GeneralTransform;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "I18nString" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface I18nString {
+// @public
+export interface I18nData {
     // (undocumented)
-    en: string;
-    // (undocumented)
-    zh: string;
+    [language: string]: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "InstanceDisplay" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1111,13 +1139,18 @@ export interface InterceptorParams {
     ignoreLoadingBar?: boolean;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "LayerType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type LayerType = "layout" | "widget" | "brick";
+
 // @public
 export type LayoutType = "console" | "business";
 
 // @public
 export interface LegacyAntdIcon {
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     lib: "antd";
     // (undocumented)
@@ -1478,7 +1511,7 @@ export interface RefForProxy {
 // @public
 export interface RefinedAntdIcon {
     // (undocumented)
-    color?: string;
+    color?: string | GradientColor;
     // (undocumented)
     icon: string;
     // (undocumented)
@@ -1760,6 +1793,28 @@ export interface SlotsConfOfBricks {
 // @internal (undocumented)
 export type SlotType = "bricks" | "routes";
 
+// Warning: (ae-internal-missing-underscore) The name "SnippetDefinition" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface SnippetDefinition {
+    // (undocumented)
+    bricks: BrickConf[];
+    // (undocumented)
+    category: string;
+    // (undocumented)
+    description?: I18nData;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    layerType?: LayerType;
+    // (undocumented)
+    subCategory?: string;
+    // (undocumented)
+    text?: I18nData;
+    // (undocumented)
+    thumbnail?: string;
+}
+
 // @public
 export interface StaticMenuConf extends StaticMenuProps {
     // (undocumented)
@@ -1792,7 +1847,7 @@ export interface Story {
     // (undocumented)
     deprecated?: boolean;
     // (undocumented)
-    description?: I18nString;
+    description?: I18nData;
     // (undocumented)
     doc?: string | StoryDoc;
     // (undocumented)
@@ -1802,9 +1857,9 @@ export interface Story {
     // (undocumented)
     storyId: string;
     // (undocumented)
-    tags?: I18nString[];
+    tags?: I18nData[];
     // (undocumented)
-    text: I18nString;
+    text: I18nData;
     // (undocumented)
     type: "brick" | "template";
 }
@@ -1849,6 +1904,10 @@ export interface StoryboardContextItemBrickProperty {
 // @internal (undocumented)
 export interface StoryboardContextItemFreeVariable {
     // (undocumented)
+    brick?: {
+        element?: HTMLElement;
+    };
+    // (undocumented)
     onChange?: BrickEventHandler | BrickEventHandler[];
     // (undocumented)
     type: "free-variable";
@@ -1885,6 +1944,10 @@ export interface StoryDoc {
     deprecated?: boolean;
     // (undocumented)
     description?: string;
+    // (undocumented)
+    editor?: string;
+    // (undocumented)
+    editorProps?: Record<string, unknown>;
     // (undocumented)
     events?: StoryDocEvent[];
     // (undocumented)

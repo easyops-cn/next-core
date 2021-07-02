@@ -3,7 +3,9 @@ import EventTarget from "@ungap/event-target";
 import {
   BuilderRouteOrBrickNode,
   BuilderRouteNode,
+  Story,
 } from "@next-core/brick-types";
+import { JsonStorage } from "@next-core/brick-utils";
 import {
   AbstractBuilderDataManager,
   BuilderCanvasData,
@@ -15,6 +17,10 @@ import {
   EventDetailOfNodeMove,
   EventDetailOfNodeReorder,
   EventDetailOfContextUpdated,
+  SnippetNodeDetail,
+  EventDetailOfSnippetApply,
+  EventDetailOfSnippetApplyStored,
+  SharedEditorConf,
 } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -30,13 +36,18 @@ enum BuilderInternalEventType {
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
   NODE_CLICK = "builder.node.click",
+  SNIPPET_APPLY = "builder.snippet.apply",
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
-  ROUTE_LIST_CHANGE = "builder.route.list.change",
+  SHARED_EDITOR_LIST_CHANGE = "builder.sharedEditorList.change",
+  ROUTE_LIST_CHANGE = "builder.routeList.change",
   HOVER_NODE_CHANGE = "builder.hoverNode.change",
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
+  OUTLINE_DISABLED_NODES_CHANGE = "builder.outlineDisabledNodes.change",
 }
+
+const storageKeyOfOutlineDisabledNodes = "builder-outline-disabled-nodes";
 
 export class BuilderDataManager implements AbstractBuilderDataManager {
   private data: BuilderCanvasData = {
@@ -47,7 +58,11 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private hoverNodeUid: number;
 
-  private routeList: BuilderRouteNode[] = [];
+  private sharedEditorList: SharedEditorConf[];
+
+  private routeList: BuilderRouteNode[];
+
+  private storyList: Story[];
 
   private readonly eventTarget = new EventTarget();
 
@@ -61,6 +76,14 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private highlightNodes: Set<number> = new Set();
 
+  private readonly localJsonStorage = new JsonStorage<{
+    [storageKeyOfOutlineDisabledNodes]: string[];
+  }>(localStorage);
+
+  private readonly outlineDisabledNodes: Set<string> = new Set(
+    this.localJsonStorage.getItem(storageKeyOfOutlineDisabledNodes) ?? []
+  );
+
   getData(): BuilderCanvasData {
     return this.data;
   }
@@ -73,6 +96,30 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return this.relatedNodesBasedOnEventsMap;
   }
 
+  sharedEditorListInit(data: SharedEditorConf[]): void {
+    this.sharedEditorList = data;
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE)
+    );
+  }
+
+  getSharedEditorList(): SharedEditorConf[] {
+    return this.sharedEditorList ?? [];
+  }
+
+  onSharedEditorListChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.SHARED_EDITOR_LIST_CHANGE,
+        fn
+      );
+    };
+  }
+
   routeListInit(data: BuilderRouteNode[]): void {
     this.routeList = data;
     this.eventTarget.dispatchEvent(
@@ -81,7 +128,15 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   getRouteList(): BuilderRouteNode[] {
-    return this.routeList;
+    return this.routeList ?? [];
+  }
+
+  storyListInit(data: Story[]): void {
+    this.storyList = data;
+  }
+
+  getStoryList(): Story[] {
+    return this.storyList;
   }
 
   onRouteListChange(fn: EventListener): () => void {
@@ -158,16 +213,15 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   nodeAdd(detail: EventDetailOfNodeAdd): void {
     const { rootId, nodes, edges } = this.data;
-    const { nodeUid, parentUid, nodeUids, nodeAlias, nodeData } = detail;
+    const { nodeUid, parentUid, nodeUids, nodeData } = detail;
     this.data = {
       rootId,
       nodes: nodes.concat(
         getBuilderNode(
-          (omit(nodeData, [
+          omit(nodeData, [
             "parent",
-          ]) as Partial<BuilderRouteOrBrickNode>) as BuilderRouteOrBrickNode,
-          nodeUid,
-          nodeAlias
+          ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+          nodeUid
         )
       ),
       edges: reorderBuilderEdges(
@@ -189,14 +243,73 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   nodeAddStored(detail: EventDetailOfNodeAddStored): void {
     const { rootId, nodes, edges } = this.data;
-    const { nodeUid, nodeAlias, nodeData } = detail;
+    const { nodeUid, nodeData } = detail;
     this.data = {
       rootId,
       nodes: nodes.map((node) =>
-        node.$$uid === nodeUid
-          ? getBuilderNode(nodeData, nodeUid, nodeAlias)
-          : node
+        node.$$uid === nodeUid ? getBuilderNode(nodeData, nodeUid) : node
       ),
+      edges,
+    };
+    this.triggerDataChange();
+  }
+
+  snippetApply(detail: EventDetailOfSnippetApply): void {
+    const { rootId, nodes, edges } = this.data;
+    const { nodeDetails, parentUid, nodeUids } = detail;
+
+    const newNodes: BuilderRuntimeNode[] = [];
+    const newEdges: BuilderRuntimeEdge[] = [];
+
+    const walk = ({
+      parentUid,
+      nodeUid,
+      nodeData,
+      children,
+    }: SnippetNodeDetail): void => {
+      newNodes.push(
+        getBuilderNode(
+          omit(nodeData, [
+            "parent",
+          ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+          nodeUid
+        )
+      );
+      newEdges.push({
+        parent: parentUid,
+        child: nodeUid,
+        mountPoint: nodeData.mountPoint,
+        sort: nodeData.sort,
+      });
+      for (const item of children) {
+        walk(item);
+      }
+    };
+
+    for (const item of nodeDetails) {
+      walk(item);
+    }
+
+    this.data = {
+      rootId,
+      nodes: nodes.concat(newNodes),
+      edges: reorderBuilderEdges(edges.concat(newEdges), parentUid, nodeUids),
+    };
+    this.triggerDataChange();
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.SNIPPET_APPLY, { detail })
+    );
+  }
+
+  snippetApplyStored(detail: EventDetailOfSnippetApplyStored): void {
+    const { rootId, nodes, edges } = this.data;
+    const { flattenNodeDetails } = detail;
+    this.data = {
+      rootId,
+      nodes: nodes.map((node) => {
+        const found = flattenNodeDetails.find((n) => n.nodeUid === node.$$uid);
+        return found ? getBuilderNode(found.nodeData, found.nodeUid) : node;
+      }),
       edges,
     };
     this.triggerDataChange();
@@ -291,6 +404,21 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.NODE_ADD,
+        fn as EventListener
+      );
+    };
+  }
+
+  onSnippetApply(
+    fn: (event: CustomEvent<EventDetailOfSnippetApply>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.SNIPPET_APPLY,
+      fn as EventListener
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.SNIPPET_APPLY,
         fn as EventListener
       );
     };
@@ -403,6 +531,38 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.HOVER_NODE_CHANGE,
+        fn
+      );
+    };
+  }
+
+  toggleOutline(nodeInstanceId: string): void {
+    if (this.outlineDisabledNodes.has(nodeInstanceId)) {
+      this.outlineDisabledNodes.delete(nodeInstanceId);
+    } else {
+      this.outlineDisabledNodes.add(nodeInstanceId);
+    }
+    this.localJsonStorage.setItem(
+      storageKeyOfOutlineDisabledNodes,
+      Array.from(this.outlineDisabledNodes)
+    );
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.OUTLINE_DISABLED_NODES_CHANGE)
+    );
+  }
+
+  isOutlineEnabled(nodeInstanceId: string): boolean {
+    return !this.outlineDisabledNodes.has(nodeInstanceId);
+  }
+
+  onOutlineEnabledNodesChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.OUTLINE_DISABLED_NODES_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.OUTLINE_DISABLED_NODES_CHANGE,
         fn
       );
     };

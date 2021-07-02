@@ -33,9 +33,9 @@ jest.spyOn(console, "warn").mockImplementation(() => void 0);
   return { id: "mockId" };
 });
 
-(checkPermissions as jest.MockedFunction<
-  typeof checkPermissions
->).mockImplementation((...actions) => {
+(
+  checkPermissions as jest.MockedFunction<typeof checkPermissions>
+).mockImplementation((...actions) => {
   return !actions.includes("my:action-b");
 });
 
@@ -127,16 +127,16 @@ describe("shouldDismissRecursiveMarkingInjected", () => {
 
   it("should work with pre-evaluated", () => {
     expect(
-      shouldDismissRecursiveMarkingInjected(({
+      shouldDismissRecursiveMarkingInjected({
         [Symbol.for("pre.evaluated.raw")]: "<% DATA %>",
         [Symbol.for("pre.evaluated.context")]: {},
-      } as unknown) as PreEvaluated)
+      } as unknown as PreEvaluated)
     ).toBe(false);
     expect(
-      shouldDismissRecursiveMarkingInjected(({
+      shouldDismissRecursiveMarkingInjected({
         [Symbol.for("pre.evaluated.raw")]: "<%~ DATA %>",
         [Symbol.for("pre.evaluated.context")]: {},
-      } as unknown) as PreEvaluated)
+      } as unknown as PreEvaluated)
     ).toBe(true);
   });
 });
@@ -172,6 +172,7 @@ describe("evaluate", () => {
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
+    ["<% I18N_TEXT({ en: 'hello', zh: '你好' }) %>", "你好"],
     ["<% CTX.myFreeContext %>", "good"],
     ["<% CTX.myPropContext %>", "better"],
     ["<% CTX.notExisted %>", undefined],

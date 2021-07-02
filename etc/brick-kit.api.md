@@ -27,6 +27,7 @@ import { GeneralTransform } from '@next-core/brick-types';
 import { HttpFetchError } from '@next-core/brick-http';
 import { HttpParseError } from '@next-core/brick-http';
 import { HttpResponseError } from '@next-core/brick-http';
+import { I18nData } from '@next-core/brick-types';
 import { IllustrationProps } from '@next-core/illustrations';
 import { InterceptorParams } from '@next-core/brick-types';
 import { LayoutType } from '@next-core/brick-types';
@@ -67,6 +68,7 @@ import { WithTranslationProps } from 'react-i18next';
 
 // @public
 export interface AbstractRuntime {
+    applyPageTitle(pageTitle: string): void;
     fetchMenu(menuId: string): Promise<SidebarMenu>;
     getBasePath(): string;
     getCurrentApp(): MicroApp;
@@ -141,6 +143,8 @@ export interface CustomApiOrchestration {
     namespace: string;
     // (undocumented)
     type?: "emal" | "swagger";
+    // (undocumented)
+    version?: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "developHelper" should be prefixed with an underscore because the declaration is marked as @internal
@@ -228,6 +232,9 @@ export function handleHttpError(error: Error | HttpFetchError | HttpResponseErro
 
 // @public
 export function httpErrorToString(error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event): string;
+
+// @public (undocumented)
+export function i18nText(data: I18nData): string;
 
 // @public
 export interface IfContainer {
@@ -373,6 +380,9 @@ export abstract class UpdatingElement extends HTMLElement {
     static get observedAttributes(): string[];
     protected abstract _render(): void;
 }
+
+// @public
+export function useApplyPageTitle(pageTitle: string): void;
 
 // @public
 export function useCurrentApp(): MicroApp;
