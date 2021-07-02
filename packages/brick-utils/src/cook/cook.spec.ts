@@ -33,6 +33,12 @@ describe("cook", () => {
         onlyInB: 3,
         bothInAB: 4,
       },
+      q: "a&b",
+      redirect: "/r/s?t=u&v=w",
+      path: "x/y.zip",
+    },
+    APP: {
+      homepage: "/hello/world",
     },
   });
 
@@ -226,12 +232,18 @@ describe("cook", () => {
     // Sequential pipeline operators with an arrow function.
     ["DATA.number5 |> (_ => _ + 1) |> PIPES.string", "6"],
     ["new Set([1, 2, 3])", new Set([1, 2, 3])],
+    ["new Array(1, ...[2, 3])", [1, 2, 3]],
     [
       "String(new URLSearchParams({q: 'hello,world', age: 18}))",
       "q=hello%2Cworld&age=18",
     ],
     // Tagged template.
     ["((s,...k) => `${s.join('-')}:${k.join(',')}`)`a${1}b${2}c`", "a-b-c:1,2"],
+    [
+      "TAG_URL`${APP.homepage}/list?q=${DATA.q}&redirect=${DATA.redirect}`",
+      "/hello/world/list?q=a%26b&redirect=/r/s%3Ft%3Du%26v%3Dw",
+    ],
+    ["SAFE_TAG_URL`file/${DATA.path}?q=${DATA.q}`", "file/x%2Fy.zip?q=a%26b"],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
