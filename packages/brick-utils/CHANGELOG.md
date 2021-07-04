@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.8...@next-core/brick-utils@2.18.0) (2021-07-04)
+
+
+### Features
+
+* **cook:** support tagged template ([3342610](https://github.com/easyops-cn/next-core/commit/33426101fadb2a8a4c6ad601f6ae3f53aaa8003a))
+* **evaluate:** support TAG_URL ([053b817](https://github.com/easyops-cn/next-core/commit/053b817136e85648ab9b88d5719be5efa660a887))
+
+
+
+
+
 ## [2.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.7...@next-core/brick-utils@2.17.8) (2021-07-02)
 
 **Note:** Version bump only for package @next-core/brick-utils
