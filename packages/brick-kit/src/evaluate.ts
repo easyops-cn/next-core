@@ -15,7 +15,7 @@ import { getUrlByImageFactory } from "./image";
 import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "./core/exports";
 import { checkPermissions } from "./core/checkPermissions";
-import { getItem } from "./core/localStorage";
+import { getItemFactory } from "./core/Storage";
 import { getRuntime } from "./runtime";
 import { i18nText } from "./i18nText";
 
@@ -255,7 +255,13 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("LOCAL_STORAGE")) {
     globalVariables.LOCAL_STORAGE = {
-      getItem,
+      getItem: getItemFactory("local"),
+    };
+  }
+
+  if (attemptToVisitGlobals.has("SESSION_STORAGE")) {
+    globalVariables.SESSION_STORAGE = {
+      getItem: getItemFactory("session"),
     };
   }
 
