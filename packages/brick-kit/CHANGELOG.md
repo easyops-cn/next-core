@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.2...@next-core/brick-kit@2.54.0) (2021-07-06)
+
+
+### Features
+
+* support sessionStorage.getItem,sessionStorage.setItem and SESSION_STORAGE ([f094ab4](https://github.com/easyops-cn/next-core/commit/f094ab4140f4aabcd12370896f42bc8318199c4e))
+
+
+
+
+
 ## [2.53.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.1...@next-core/brick-kit@2.53.2) (2021-07-04)
 
 **Note:** Version bump only for package @next-core/brick-kit
