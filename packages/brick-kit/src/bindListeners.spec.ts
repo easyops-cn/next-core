@@ -443,6 +443,23 @@ describe("bindListeners", () => {
           action: "localStorage.removeItem",
           args: ["visit-history"],
         },
+        {
+          action: "sessionStorage.setItem",
+          args: ["foo", undefined],
+        },
+        {
+          action: "sessionStorage.setItem",
+          args: [
+            "foo",
+            {
+              name: "bar",
+            },
+          ],
+        },
+        {
+          action: "sessionStorage.removeItem",
+          args: ["foo"],
+        },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -576,8 +593,12 @@ describe("bindListeners", () => {
       "visit-history",
       '{"id":"mockId"}'
     );
-    expect(localStorage.setItem).toBeCalledTimes(1);
+    expect(localStorage.setItem).toBeCalledTimes(2);
     expect(localStorage.removeItem).toBeCalledWith("visit-history");
+
+    expect(sessionStorage.setItem).toBeCalledWith("foo", '{"name":"bar"}');
+    expect(sessionStorage.setItem).toBeCalledTimes(2);
+    expect(sessionStorage.removeItem).toBeCalledWith("foo");
 
     const history = mockHistory;
     expect(history.push).toHaveBeenNthCalledWith(1, "for-good");
@@ -781,6 +802,8 @@ describe("bindListeners", () => {
     (clearMenuCache as jest.Mock).mockClear();
     (localStorage.setItem as jest.Mock).mockClear();
     (localStorage.removeItem as jest.Mock).mockClear();
+    (sessionStorage.setItem as jest.Mock).mockClear();
+    (sessionStorage.removeItem as jest.Mock).mockClear();
 
     unbindListeners(sourceElem);
     sourceElem.dispatchEvent(event1);
@@ -922,6 +945,11 @@ describe("bindListeners", () => {
         args: ["visit-history"],
         if: "<% !EVENT.detail.rejected %>",
       },
+      {
+        action: "sessionStorage.removeItem",
+        args: ["visit-history"],
+        if: "<% !EVENT.detail.rejected %>",
+      },
     ];
     bindListeners(sourceElem, { ifWillGetRejected: handlers });
     sourceElem.dispatchEvent(
@@ -939,6 +967,7 @@ describe("bindListeners", () => {
     expect(clearMenuTitleCache).not.toBeCalled();
     expect(clearMenuCache).not.toBeCalled();
     expect(localStorage.removeItem).not.toBeCalled();
+    expect(sessionStorage.removeItem).not.toBeCalled();
 
     (console.log as jest.Mock).mockRestore();
     sourceElem.remove();

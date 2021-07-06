@@ -163,7 +163,17 @@ export function listenerFactory(
         );
       case "localStorage.setItem":
       case "localStorage.removeItem":
-        return builtinLocalStorageListenerFactory(
+        return builtinWebStorageListenerFactory(
+          "local",
+          method,
+          handler.args,
+          handler,
+          context
+        );
+      case "sessionStorage.setItem":
+      case "sessionStorage.removeItem":
+        return builtinWebStorageListenerFactory(
+          "session",
           method,
           handler.args,
           handler,
@@ -763,7 +773,8 @@ function builtinMessageListenerFactory(
   } as EventListener;
 }
 
-function builtinLocalStorageListenerFactory(
+function builtinWebStorageListenerFactory(
+  storageType: "local" | "session",
   method: "setItem" | "removeItem",
   args: unknown[],
   ifContainer: IfContainer,
@@ -773,13 +784,14 @@ function builtinLocalStorageListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
+    const storage = storageType === "local" ? localStorage : sessionStorage;
     const [name, value] = argsFactory(args, context, event);
     if (method === "setItem") {
       if (value !== undefined) {
-        localStorage.setItem(name as string, JSON.stringify(value));
+        storage.setItem(name as string, JSON.stringify(value));
       }
     } else if (method === "removeItem") {
-      localStorage.removeItem(name as string);
+      storage.removeItem(name as string);
     }
   } as EventListener;
 }
