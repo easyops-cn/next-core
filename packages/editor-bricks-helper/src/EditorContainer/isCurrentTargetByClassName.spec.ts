@@ -24,7 +24,8 @@ describe("isCurrentTargetByClassName", () => {
       isCurrentTargetByClassName(
         targetElement,
         currentElement,
-        "editorContainer"
+        "editorContainer",
+        "isTemplateInternal"
       )
     ).toBe(result);
   });

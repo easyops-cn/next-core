@@ -25,7 +25,6 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
@@ -44,7 +43,8 @@ describe("getBuilderNode", () => {
           graphInfo: {},
           mountPoint: "brick",
         },
-        1
+        1,
+        true
       )
     ).toEqual({
       type: "brick",
@@ -54,9 +54,9 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
+      $$isTemplateInternalNode: true,
     });
   });
 
@@ -92,7 +92,6 @@ describe("getBuilderNode", () => {
           action: "console.log",
         },
       },
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
@@ -124,46 +123,8 @@ describe("getBuilderNode", () => {
       events: "ouch",
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
-    });
-  });
-
-  it("should parse proxy successfully", () => {
-    expect(
-      getBuilderNode(
-        {
-          type: "custom-template",
-          templateId: "tpl-my-template",
-          id: "B-001",
-          parent: [],
-          children: [],
-          graphInfo: {},
-          proxy:
-            '{"properties":{"testProp":{"ref":"test-ref","refProperty":"anyProp"}}}',
-        },
-        1
-      )
-    ).toEqual({
-      type: "custom-template",
-      templateId: "tpl-my-template",
-      id: "B-001",
-      $$uid: 1,
-      proxy:
-        '{"properties":{"testProp":{"ref":"test-ref","refProperty":"anyProp"}}}',
-      $$parsedProperties: {},
-      $$parsedEvents: {},
-      $$parsedProxy: {
-        properties: {
-          testProp: {
-            ref: "test-ref",
-            refProperty: "anyProp",
-          },
-        },
-      },
-      $$parsedLifeCycle: {},
-      $$matchedSelectors: [],
     });
   });
 
@@ -189,7 +150,6 @@ describe("getBuilderNode", () => {
       proxy: "oops",
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: [],
     });
@@ -217,7 +177,6 @@ describe("getBuilderNode", () => {
       lifeCycle: '{"onPageLoad":{"target":"#modal","method":"open"}}',
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {
         onPageLoad: {
           target: "#modal",
@@ -250,7 +209,6 @@ describe("getBuilderNode", () => {
       lifeCycle: "oops",
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: [],
     });
@@ -282,7 +240,6 @@ describe("getBuilderNode", () => {
         id: "myBrick",
       },
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick", "#myBrick"],
     });
@@ -314,7 +271,6 @@ describe("getBuilderNode", () => {
         id: "<% QUERY.x %>",
       },
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
     });
@@ -341,7 +297,6 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: [],
     });

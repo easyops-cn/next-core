@@ -8,7 +8,7 @@ jest.mock("./useBuilderData");
 
 (useBuilderData as jest.MockedFunction<typeof useBuilderData>).mockReturnValue({
   rootId: 1,
-  nodes: ([
+  nodes: [
     {
       $$uid: 1,
     },
@@ -18,7 +18,10 @@ jest.mock("./useBuilderData");
     {
       $$uid: 3,
     },
-  ] as Partial<BuilderRuntimeNode>[]) as BuilderRuntimeNode[],
+    {
+      $$uid: 4,
+    },
+  ] as Partial<BuilderRuntimeNode>[] as BuilderRuntimeNode[],
   edges: [
     {
       parent: 1,
@@ -28,9 +31,16 @@ jest.mock("./useBuilderData");
     },
     {
       parent: 2,
-      child: 3,
+      child: 4,
       mountPoint: "content",
       sort: 0,
+      $$isTemplateExpanded: true,
+    },
+    {
+      parent: 2,
+      child: 3,
+      mountPoint: "content",
+      sort: 1,
     },
   ],
 });

@@ -7,7 +7,8 @@ const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];
 
 export function getBuilderNode(
   nodeData: BuilderRouteOrBrickNode,
-  nodeUid: number
+  nodeUid: number,
+  isTemplateInternalNode?: boolean
 ): BuilderRuntimeNode {
   const matchedSelectors: string[] = [];
 
@@ -15,7 +16,7 @@ export function getBuilderNode(
     matchedSelectors.push((nodeData.brick as string).replace(/\./g, "\\."));
   }
 
-  const jsonFieldsInBrick = ["properties", "events", "proxy", "lifeCycle"];
+  const jsonFieldsInBrick = ["properties", "events", "lifeCycle"];
   const parsedFields: [string, unknown][] = [];
 
   for (const field of jsonFieldsInBrick) {
@@ -56,6 +57,7 @@ export function getBuilderNode(
         ],
         ["$$uid", nodeUid],
         ["$$matchedSelectors", matchedSelectors],
+        ["$$isTemplateInternalNode", isTemplateInternalNode],
       ])
       .concat(parsedFields)
   ) as BuilderRuntimeNode;

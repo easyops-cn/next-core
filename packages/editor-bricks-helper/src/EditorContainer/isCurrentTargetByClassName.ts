@@ -1,7 +1,8 @@
 export function isCurrentTargetByClassName(
   targetElement: HTMLElement,
   currentElement: HTMLElement,
-  className: string
+  className: string,
+  excludeClassName: string
 ): boolean {
   // Traverse DOM from bottom to top.
   let element = targetElement;
@@ -9,7 +10,10 @@ export function isCurrentTargetByClassName(
     if (element === currentElement) {
       return true;
     }
-    if (element.classList.contains(className)) {
+    if (
+      element.classList.contains(className) &&
+      !element.classList.contains(excludeClassName)
+    ) {
       // It's not the current target if
       // matches another editor container first.
       return false;

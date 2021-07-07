@@ -6,16 +6,24 @@ import { useBuilderData } from "./useBuilderData";
 export function useBuilderGroupedChildNodes({
   nodeUid,
   isRoot,
+  doNotExpandTemplates,
 }: {
   nodeUid?: number;
   isRoot?: boolean;
+  doNotExpandTemplates?: boolean;
 }): BuilderGroupedChildNode[] {
   const { rootId, nodes, edges } = useBuilderData();
   const currentUid = isRoot ? rootId : nodeUid;
   return useMemo(() => {
     const groups = new Map<string, BuilderRuntimeNode[]>();
     const relatedEdges = sortBy(
-      edges.filter((edge) => edge.parent === currentUid),
+      edges.filter(
+        (edge) =>
+          edge.parent === currentUid &&
+          (doNotExpandTemplates
+            ? !edge.$$isTemplateInternal
+            : !edge.$$isTemplateDelegated)
+      ),
       [(edge) => edge.sort]
     );
     for (const edge of relatedEdges) {
@@ -30,5 +38,5 @@ export function useBuilderGroupedChildNodes({
       mountPoint,
       childNodes,
     }));
-  }, [edges, nodes, currentUid]);
+  }, [edges, currentUid, doNotExpandTemplates, nodes]);
 }
