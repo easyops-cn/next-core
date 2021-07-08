@@ -63,6 +63,7 @@ export function DropZone({
     nodeUid,
     isRoot,
   });
+
   const isGeneralizedPortalCanvas = independentPortalCanvas
     ? canvasIndex > 0
     : isPortalCanvas;
@@ -200,9 +201,13 @@ export function DropZone({
     }));
   }, [isDraggingOverCurrent, mountPoint, setDroppingStatus]);
 
+  // Ignore dropping for internal nodes
+  const shouldIgnoreDropping =
+    node.$$isExpandableTemplate || node.$$isTemplateInternalNode;
+
   return (
     <div
-      ref={dropRef}
+      ref={shouldIgnoreDropping ? null : dropRef}
       className={classNames(
         styles.dropZone,
         isRoot

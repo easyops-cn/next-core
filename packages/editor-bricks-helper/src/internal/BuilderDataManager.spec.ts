@@ -70,129 +70,139 @@ describe("BuilderDataManager for route of bricks", () => {
 
   it("should init data", () => {
     expect(manager.getData()).toMatchInlineSnapshot(`
-      Object {
-        "edges": Array [
-          Object {
-            "child": 2,
-            "mountPoint": "bricks",
-            "parent": 1,
-            "sort": 0,
-          },
-          Object {
-            "child": 4,
-            "mountPoint": "content",
-            "parent": 3,
-            "sort": 0,
-          },
-          Object {
-            "child": 5,
-            "mountPoint": "toolbar",
-            "parent": 3,
-            "sort": 1,
-          },
-          Object {
-            "child": 6,
-            "mountPoint": "content",
-            "parent": 3,
-            "sort": 2,
-          },
-          Object {
-            "child": 3,
-            "mountPoint": "bricks",
-            "parent": 1,
-            "sort": 1,
-          },
-        ],
-        "nodes": Array [
-          Object {
-            "$$matchedSelectors": Array [],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 1,
-            "alias": undefined,
-            "id": "B-001",
-            "path": "/home",
-            "type": "bricks",
-          },
-          Object {
-            "$$matchedSelectors": Array [
-              "brick-a",
-            ],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 2,
-            "alias": "alias-a",
-            "brick": "brick-a",
-            "id": "B-002",
-            "sort": 0,
-            "type": "brick",
-          },
-          Object {
-            "$$matchedSelectors": Array [
-              "brick-b",
-            ],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 3,
-            "alias": "brick-b",
-            "brick": "brick-b",
-            "id": "B-003",
-            "sort": 1,
-            "type": "brick",
-          },
-          Object {
-            "$$matchedSelectors": Array [
-              "brick-c",
-            ],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 4,
-            "alias": "brick-c",
-            "brick": "brick-c",
-            "id": "B-004",
-            "type": "brick",
-          },
-          Object {
-            "$$matchedSelectors": Array [
-              "brick-d",
-            ],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 5,
-            "alias": "brick-d",
-            "brick": "brick-d",
-            "id": "B-005",
-            "type": "brick",
-          },
-          Object {
-            "$$matchedSelectors": Array [
-              "brick-e",
-            ],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 6,
-            "alias": "brick-e",
-            "brick": "brick-e",
-            "id": "B-006",
-            "sort": 1,
-            "type": "brick",
-          },
-        ],
-        "rootId": 1,
-      }
-    `);
+Object {
+  "edges": Array [
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 2,
+      "mountPoint": "bricks",
+      "parent": 1,
+      "sort": 0,
+    },
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 4,
+      "mountPoint": "content",
+      "parent": 3,
+      "sort": 0,
+    },
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 5,
+      "mountPoint": "toolbar",
+      "parent": 3,
+      "sort": 1,
+    },
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 6,
+      "mountPoint": "content",
+      "parent": 3,
+      "sort": 2,
+    },
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 3,
+      "mountPoint": "bricks",
+      "parent": 1,
+      "sort": 1,
+    },
+  ],
+  "nodes": Array [
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 1,
+      "alias": undefined,
+      "id": "B-001",
+      "path": "/home",
+      "type": "bricks",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [
+        "brick-a",
+      ],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 2,
+      "alias": "alias-a",
+      "brick": "brick-a",
+      "id": "B-002",
+      "sort": 0,
+      "type": "brick",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [
+        "brick-b",
+      ],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 3,
+      "alias": "brick-b",
+      "brick": "brick-b",
+      "id": "B-003",
+      "sort": 1,
+      "type": "brick",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [
+        "brick-c",
+      ],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 4,
+      "alias": "brick-c",
+      "brick": "brick-c",
+      "id": "B-004",
+      "type": "brick",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [
+        "brick-d",
+      ],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 5,
+      "alias": "brick-d",
+      "brick": "brick-d",
+      "id": "B-005",
+      "type": "brick",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [
+        "brick-e",
+      ],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 6,
+      "alias": "brick-e",
+      "brick": "brick-e",
+      "id": "B-006",
+      "sort": 1,
+      "type": "brick",
+    },
+  ],
+  "rootId": 1,
+}
+`);
   });
 
   it("should add node", () => {
@@ -213,60 +223,71 @@ describe("BuilderDataManager for route of bricks", () => {
     });
     const newData = manager.getData();
     expect(newData.edges).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "child": 2,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 0,
-        },
-        Object {
-          "child": 4,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 0,
-        },
-        Object {
-          "child": 5,
-          "mountPoint": "toolbar",
-          "parent": 3,
-          "sort": 3,
-        },
-        Object {
-          "child": 6,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 1,
-        },
-        Object {
-          "child": 3,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 1,
-        },
-        Object {
-          "child": 7,
-          "mountPoint": "toolbar",
-          "parent": 3,
-          "sort": 2,
-        },
-      ]
-    `);
+Array [
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 2,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 4,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 5,
+    "mountPoint": "toolbar",
+    "parent": 3,
+    "sort": 3,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 6,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 3,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "child": 7,
+    "mountPoint": "toolbar",
+    "parent": 3,
+    "sort": 2,
+  },
+]
+`);
     expect(newData.nodes[newData.nodes.length - 1]).toMatchInlineSnapshot(`
-      Object {
-        "$$matchedSelectors": Array [
-          "my\\\\.any-brick",
-        ],
-        "$$parsedEvents": Object {},
-        "$$parsedLifeCycle": Object {},
-        "$$parsedProperties": Object {},
-        "$$parsedProxy": Object {},
-        "$$uid": 7,
-        "alias": "any-brick",
-        "brick": "my.any-brick",
-        "type": "brick",
-      }
-    `);
+Object {
+  "$$isTemplateInternalNode": undefined,
+  "$$matchedSelectors": Array [
+    "my\\\\.any-brick",
+  ],
+  "$$parsedEvents": Object {},
+  "$$parsedLifeCycle": Object {},
+  "$$parsedProperties": Object {},
+  "$$uid": 7,
+  "alias": "any-brick",
+  "brick": "my.any-brick",
+  "type": "brick",
+}
+`);
     expect(listenOnNodeAdd).toBeCalled();
     expect(listenOnDataChange).toBeCalled();
     unlistenOnNodeAdd();
@@ -337,92 +358,104 @@ describe("BuilderDataManager for route of bricks", () => {
     });
     const newData = manager.getData();
     expect(newData.edges).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "child": 2,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 0,
-        },
-        Object {
-          "child": 4,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 0,
-        },
-        Object {
-          "child": 5,
-          "mountPoint": "toolbar",
-          "parent": 3,
-          "sort": 3,
-        },
-        Object {
-          "child": 6,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 1,
-        },
-        Object {
-          "child": 3,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 1,
-        },
-        Object {
-          "child": 7,
-          "mountPoint": "toolbar",
-          "parent": 3,
-          "sort": 2,
-        },
-        Object {
-          "child": 8,
-          "mountPoint": "header",
-          "parent": 7,
-          "sort": 0,
-        },
-      ]
-    `);
+Array [
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 2,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 4,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 5,
+    "mountPoint": "toolbar",
+    "parent": 3,
+    "sort": 3,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 6,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 3,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "child": 7,
+    "mountPoint": "toolbar",
+    "parent": 3,
+    "sort": 2,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "child": 8,
+    "mountPoint": "header",
+    "parent": 7,
+    "sort": 0,
+  },
+]
+`);
     expect(newData.nodes.slice(-2)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "$$matchedSelectors": Array [
-            "basic-bricks\\\\.easy-view",
-          ],
-          "$$parsedEvents": Object {},
-          "$$parsedLifeCycle": Object {},
-          "$$parsedProperties": Object {
-            "containerStyle": Object {
-              "gap": "var(--page-card-gap)",
-            },
-          },
-          "$$parsedProxy": Object {},
-          "$$uid": 7,
-          "alias": "easy-view",
-          "brick": "basic-bricks.easy-view",
-          "properties": "{\\"containerStyle\\":{\\"gap\\":\\"var(--page-card-gap)\\"}}",
-          "type": "brick",
-        },
-        Object {
-          "$$matchedSelectors": Array [
-            "basic-bricks\\\\.general-button",
-          ],
-          "$$parsedEvents": Object {
-            "click": Object {
-              "action": "console.log",
-            },
-          },
-          "$$parsedLifeCycle": Object {},
-          "$$parsedProperties": Object {},
-          "$$parsedProxy": Object {},
-          "$$uid": 8,
-          "alias": "general-button",
-          "brick": "basic-bricks.general-button",
-          "events": "{\\"click\\":{\\"action\\":\\"console.log\\"}}",
-          "sort": 0,
-          "type": "brick",
-        },
-      ]
-    `);
+Array [
+  Object {
+    "$$isTemplateInternalNode": undefined,
+    "$$matchedSelectors": Array [
+      "basic-bricks\\\\.easy-view",
+    ],
+    "$$parsedEvents": Object {},
+    "$$parsedLifeCycle": Object {},
+    "$$parsedProperties": Object {
+      "containerStyle": Object {
+        "gap": "var(--page-card-gap)",
+      },
+    },
+    "$$uid": 7,
+    "alias": "easy-view",
+    "brick": "basic-bricks.easy-view",
+    "properties": "{\\"containerStyle\\":{\\"gap\\":\\"var(--page-card-gap)\\"}}",
+    "type": "brick",
+  },
+  Object {
+    "$$isTemplateInternalNode": undefined,
+    "$$matchedSelectors": Array [
+      "basic-bricks\\\\.general-button",
+    ],
+    "$$parsedEvents": Object {
+      "click": Object {
+        "action": "console.log",
+      },
+    },
+    "$$parsedLifeCycle": Object {},
+    "$$parsedProperties": Object {},
+    "$$uid": 8,
+    "alias": "general-button",
+    "brick": "basic-bricks.general-button",
+    "events": "{\\"click\\":{\\"action\\":\\"console.log\\"}}",
+    "sort": 0,
+    "type": "brick",
+  },
+]
+`);
     expect(listenOnSnippetApply).toBeCalled();
     expect(listenOnDataChange).toBeCalled();
     unlistenOnSnippetApply();
@@ -505,37 +538,37 @@ describe("BuilderDataManager for route of bricks", () => {
     });
     const newData = manager.getData();
     expect(newData.nodes[0]).toMatchInlineSnapshot(`
-      Object {
-        "$$matchedSelectors": Array [],
-        "$$parsedEvents": Object {},
-        "$$parsedLifeCycle": Object {},
-        "$$parsedProperties": Object {},
-        "$$parsedProxy": Object {},
-        "$$uid": 1,
-        "alias": undefined,
-        "context": Array [
-          Object {
-            "name": "data-1",
-            "value": "<% QUERY.id %>",
-          },
-          Object {
-            "name": "data-2",
-            "resolve": Object {
-              "args": Array [
-                "arg1",
-              ],
-              "transform": Object {
-                "value": "<% DATA %>",
-              },
-              "useProvider": "provider-a",
-            },
-          },
+Object {
+  "$$isTemplateInternalNode": undefined,
+  "$$matchedSelectors": Array [],
+  "$$parsedEvents": Object {},
+  "$$parsedLifeCycle": Object {},
+  "$$parsedProperties": Object {},
+  "$$uid": 1,
+  "alias": undefined,
+  "context": Array [
+    Object {
+      "name": "data-1",
+      "value": "<% QUERY.id %>",
+    },
+    Object {
+      "name": "data-2",
+      "resolve": Object {
+        "args": Array [
+          "arg1",
         ],
-        "id": "B-001",
-        "path": "/home",
-        "type": "bricks",
-      }
-    `);
+        "transform": Object {
+          "value": "<% DATA %>",
+        },
+        "useProvider": "provider-a",
+      },
+    },
+  ],
+  "id": "B-001",
+  "path": "/home",
+  "type": "bricks",
+}
+`);
     expect(listenOnDataChange).toBeCalled();
     unlistenOnDataChange();
   });
@@ -557,39 +590,48 @@ describe("BuilderDataManager for route of bricks", () => {
       nodeInstanceId: null,
     });
     expect(manager.getData().edges).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "child": 2,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 0,
-        },
-        Object {
-          "child": 4,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 1,
-        },
-        Object {
-          "child": 5,
-          "mountPoint": "toolbar",
-          "parent": 3,
-          "sort": 2,
-        },
-        Object {
-          "child": 3,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 1,
-        },
-        Object {
-          "child": 6,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 0,
-        },
-      ]
-    `);
+Array [
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 2,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 4,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 5,
+    "mountPoint": "toolbar",
+    "parent": 3,
+    "sort": 2,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 3,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "child": 6,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 0,
+  },
+]
+`);
     expect(listenOnNodeMove).toBeCalled();
     expect(listenOnDataChange).toBeCalled();
     unlistenOnNodeMove();
@@ -613,39 +655,48 @@ describe("BuilderDataManager for route of bricks", () => {
       nodeInstanceId: null,
     });
     expect(manager.getData().edges).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "child": 2,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 0,
-        },
-        Object {
-          "child": 4,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 0,
-        },
-        Object {
-          "child": 6,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 2,
-        },
-        Object {
-          "child": 3,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 1,
-        },
-        Object {
-          "child": 5,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 1,
-        },
-      ]
-    `);
+Array [
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 2,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 4,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 6,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 2,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 3,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "child": 5,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 1,
+  },
+]
+`);
     expect(listenOnNodeMove).toBeCalled();
     expect(listenOnDataChange).toBeCalled();
     unlistenOnNodeMove();
@@ -663,39 +714,49 @@ describe("BuilderDataManager for route of bricks", () => {
       nodeIds: null,
     });
     expect(manager.getData().edges).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "child": 2,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 1,
-        },
-        Object {
-          "child": 4,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 0,
-        },
-        Object {
-          "child": 5,
-          "mountPoint": "toolbar",
-          "parent": 3,
-          "sort": 1,
-        },
-        Object {
-          "child": 6,
-          "mountPoint": "content",
-          "parent": 3,
-          "sort": 2,
-        },
-        Object {
-          "child": 3,
-          "mountPoint": "bricks",
-          "parent": 1,
-          "sort": 0,
-        },
-      ]
-    `);
+Array [
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 2,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 4,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 0,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 5,
+    "mountPoint": "toolbar",
+    "parent": 3,
+    "sort": 1,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 6,
+    "mountPoint": "content",
+    "parent": 3,
+    "sort": 2,
+  },
+  Object {
+    "$$isTemplateDelegated": undefined,
+    "$$isTemplateInternal": undefined,
+    "child": 3,
+    "mountPoint": "bricks",
+    "parent": 1,
+    "sort": 0,
+  },
+]
+`);
     expect(listenOnNodeReorder).toBeCalled();
     expect(listenOnDataChange).toBeCalled();
     unlistenOnNodeReorder();
@@ -713,47 +774,49 @@ describe("BuilderDataManager for route of bricks", () => {
       sort: 1,
     });
     expect(manager.getData()).toMatchInlineSnapshot(`
-      Object {
-        "edges": Array [
-          Object {
-            "child": 2,
-            "mountPoint": "bricks",
-            "parent": 1,
-            "sort": 0,
-          },
-        ],
-        "nodes": Array [
-          Object {
-            "$$matchedSelectors": Array [],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 1,
-            "alias": undefined,
-            "id": "B-001",
-            "path": "/home",
-            "type": "bricks",
-          },
-          Object {
-            "$$matchedSelectors": Array [
-              "brick-a",
-            ],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 2,
-            "alias": "alias-a",
-            "brick": "brick-a",
-            "id": "B-002",
-            "sort": 0,
-            "type": "brick",
-          },
-        ],
-        "rootId": 1,
-      }
-    `);
+Object {
+  "edges": Array [
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 2,
+      "mountPoint": "bricks",
+      "parent": 1,
+      "sort": 0,
+    },
+  ],
+  "nodes": Array [
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 1,
+      "alias": undefined,
+      "id": "B-001",
+      "path": "/home",
+      "type": "bricks",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [
+        "brick-a",
+      ],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 2,
+      "alias": "alias-a",
+      "brick": "brick-a",
+      "id": "B-002",
+      "sort": 0,
+      "type": "brick",
+    },
+  ],
+  "rootId": 1,
+}
+`);
     expect(listenOnDataChange).toBeCalled();
     unlisten();
   });
@@ -845,103 +908,111 @@ describe("BuilderDataManager for route of routes", () => {
 
   it("should init data", () => {
     expect(manager.getData()).toMatchInlineSnapshot(`
-      Object {
-        "edges": Array [
-          Object {
-            "child": 3,
-            "mountPoint": "bricks",
-            "parent": 2,
-            "sort": 0,
-          },
-          Object {
-            "child": 2,
-            "mountPoint": "routes",
-            "parent": 1,
-            "sort": 0,
-          },
-          Object {
-            "child": 5,
-            "mountPoint": "routes",
-            "parent": 4,
-            "sort": 0,
-          },
-          Object {
-            "child": 4,
-            "mountPoint": "routes",
-            "parent": 1,
-            "sort": 1,
-          },
-        ],
-        "nodes": Array [
-          Object {
-            "$$matchedSelectors": Array [],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 1,
-            "alias": undefined,
-            "id": "B-001",
-            "path": "/home",
-            "type": "routes",
-          },
-          Object {
-            "$$matchedSelectors": Array [],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 2,
-            "alias": "alias-a",
-            "id": "B-002",
-            "path": "/home/a",
-            "sort": 0,
-            "type": "bricks",
-          },
-          Object {
-            "$$matchedSelectors": Array [
-              "brick-b",
-            ],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 3,
-            "alias": "brick-b",
-            "brick": "brick-b",
-            "id": "B-003",
-            "sort": 0,
-            "type": "brick",
-          },
-          Object {
-            "$$matchedSelectors": Array [],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 4,
-            "alias": undefined,
-            "id": "B-004",
-            "path": "/home/c",
-            "sort": 1,
-            "type": "routes",
-          },
-          Object {
-            "$$matchedSelectors": Array [],
-            "$$parsedEvents": Object {},
-            "$$parsedLifeCycle": Object {},
-            "$$parsedProperties": Object {},
-            "$$parsedProxy": Object {},
-            "$$uid": 5,
-            "alias": undefined,
-            "id": "B-005",
-            "path": "/home/c/d",
-            "type": "bricks",
-          },
-        ],
-        "rootId": 1,
-      }
-    `);
+Object {
+  "edges": Array [
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 3,
+      "mountPoint": "bricks",
+      "parent": 2,
+      "sort": 0,
+    },
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 2,
+      "mountPoint": "routes",
+      "parent": 1,
+      "sort": 0,
+    },
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 5,
+      "mountPoint": "routes",
+      "parent": 4,
+      "sort": 0,
+    },
+    Object {
+      "$$isTemplateDelegated": undefined,
+      "$$isTemplateInternal": undefined,
+      "child": 4,
+      "mountPoint": "routes",
+      "parent": 1,
+      "sort": 1,
+    },
+  ],
+  "nodes": Array [
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 1,
+      "alias": undefined,
+      "id": "B-001",
+      "path": "/home",
+      "type": "routes",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 2,
+      "alias": "alias-a",
+      "id": "B-002",
+      "path": "/home/a",
+      "sort": 0,
+      "type": "bricks",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [
+        "brick-b",
+      ],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 3,
+      "alias": "brick-b",
+      "brick": "brick-b",
+      "id": "B-003",
+      "sort": 0,
+      "type": "brick",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 4,
+      "alias": undefined,
+      "id": "B-004",
+      "path": "/home/c",
+      "sort": 1,
+      "type": "routes",
+    },
+    Object {
+      "$$isTemplateInternalNode": undefined,
+      "$$matchedSelectors": Array [],
+      "$$parsedEvents": Object {},
+      "$$parsedLifeCycle": Object {},
+      "$$parsedProperties": Object {},
+      "$$uid": 5,
+      "alias": undefined,
+      "id": "B-005",
+      "path": "/home/c/d",
+      "type": "bricks",
+    },
+  ],
+  "rootId": 1,
+}
+`);
 
     expect(manager.getRelatedNodesBasedOnEventsMap().size).toBe(5);
   });

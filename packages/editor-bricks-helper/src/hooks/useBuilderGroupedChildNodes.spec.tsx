@@ -13,16 +13,20 @@ jest.mock("./useBuilderData");
 //     - 2
 //   - content:
 //     - 3
-//        - content
-//        - 5
+//       - content
+//         - 5
+//           - <template-internal>
+//             - 6
+//           - items
+//             - 7
 //     - 4
 (useBuilderData as jest.MockedFunction<typeof useBuilderData>).mockReturnValue({
   rootId: 1,
-  nodes: range(1, 6).map(
+  nodes: range(1, 8).map(
     ($$uid) =>
-      (({
+      ({
         $$uid,
-      } as Partial<BuilderRuntimeNode>) as BuilderRuntimeNode)
+      } as Partial<BuilderRuntimeNode> as BuilderRuntimeNode)
   ),
   edges: [
     {
@@ -48,6 +52,20 @@ jest.mock("./useBuilderData");
       child: 5,
       mountPoint: "content",
       sort: 0,
+    },
+    {
+      parent: 5,
+      child: 6,
+      mountPoint: "<internal>",
+      sort: 0,
+      $$isTemplateInternal: true,
+    },
+    {
+      parent: 5,
+      child: 7,
+      mountPoint: "items",
+      sort: 1,
+      $$isTemplateDelegated: true,
     },
   ],
 });
@@ -83,6 +101,19 @@ describe("useBuilderGroupedChildNodes", () => {
         nodeUid: 3,
       },
       "content:5",
+    ],
+    [
+      {
+        nodeUid: 5,
+      },
+      "<internal>:6",
+    ],
+    [
+      {
+        nodeUid: 5,
+        doNotExpandTemplates: true,
+      },
+      "items:7",
     ],
   ])("should work", (props, stringUid) => {
     const wrapper = shallow(<TestComponent {...props} />);

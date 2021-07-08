@@ -21,10 +21,10 @@ function collectIdsToDelete(
   idsToDelete: Set<number>
 ): void {
   idsToDelete.add(nodeUid);
-  const ids: number[] = [];
+  const ids = new Set<number>();
   for (const edge of edges) {
     if (edge.parent === nodeUid) {
-      ids.push(edge.child);
+      ids.add(edge.child);
     }
   }
   for (const id of ids) {

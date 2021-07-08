@@ -23,9 +23,12 @@ export type BuilderRuntimeNode<P = Record<string, unknown>> =
     $$uid?: number;
     $$parsedProperties?: P;
     $$parsedEvents?: BrickEventsMap;
-    $$parsedProxy?: CustomTemplateProxy;
     $$parsedLifeCycle?: BrickLifeCycle;
     $$matchedSelectors?: string[];
+    $$isTemplateInternalNode?: boolean;
+    $$isExpandableTemplate?: boolean;
+    $$templateProxy?: CustomTemplateProxy;
+    $$templateRefToUid?: Map<string, number>;
   };
 
 export interface BuilderRuntimeEdge {
@@ -33,6 +36,10 @@ export interface BuilderRuntimeEdge {
   parent: number;
   mountPoint: string;
   sort: number;
+  $$isTemplateInternal?: boolean;
+  $$isTemplateDelegated?: boolean;
+  $$isTemplateExpanded?: boolean;
+  // $$templateExpandedFromMountPoint?: string;
 }
 
 export interface BuilderGroupedChildNode {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { EditorBrickType } from "../interfaces";
 import {
@@ -31,44 +31,65 @@ export function EditorContainer({
   editorBodyStyle,
   children,
 }: React.PropsWithChildren<EditorContainerProps>): React.ReactElement {
-  const [droppingStatus, setDroppingStatus] = React.useState<DroppingStatus>(
-    {}
-  );
-  const editorContainerRef = React.useRef<HTMLDivElement>();
+  const [droppingStatus, setDroppingStatus] = useState<DroppingStatus>({});
+  const editorContainerRef = useRef<HTMLDivElement>();
   const highlightNodes = useHighlightNodes();
   const node = useBuilderNode({ nodeUid });
-  const [isUpstreamNode, setIsUpstreamNode] = React.useState(false);
-  const [isDownstreamNode, setIsDownstreamNode] = React.useState(false);
+  const [isUpstreamNode, setIsUpstreamNode] = useState(false);
+  const [isDownstreamNode, setIsDownstreamNode] = useState(false);
   const contextMenuStatus = useBuilderContextMenuStatus();
   const hoverNodeUid = useHoverNodeUid();
   const showRelatedEvents = useShowRelatedNodesBasedOnEvents();
   const manager = useBuilderDataManager();
-  const [hover, setHover] = React.useState(hoverNodeUid === nodeUid);
+  const [hover, setHover] = useState(hoverNodeUid === nodeUid);
   const editorType = type ?? EditorBrickType.DEFAULT;
+  const hoverNodeUidRef = useRef(hoverNodeUid);
 
-  const handleMouseEnter = React.useCallback(
-    (event: React.MouseEvent) => {
+  useEffect(() => {
+    hoverNodeUidRef.current = hoverNodeUid;
+  }, [hoverNodeUid]);
+
+  const handleMouseOver = useCallback(
+    (event: MouseEvent) => {
       event.stopPropagation();
       setHover(true);
-      if (hoverNodeUid !== nodeUid) {
+      if (hoverNodeUidRef.current !== nodeUid) {
         manager.setHoverNodeUid(nodeUid);
       }
     },
-    [hoverNodeUid, nodeUid, manager]
+    [nodeUid, manager]
   );
 
-  const handleMouseLeave = React.useCallback(
-    (event: React.MouseEvent) => {
+  const handleMouseOut = useCallback(
+    (event: MouseEvent) => {
       event.stopPropagation();
       setHover(false);
-      if (hoverNodeUid === nodeUid) {
+      if (hoverNodeUidRef.current === nodeUid) {
         manager.setHoverNodeUid(undefined);
       }
     },
-    [hoverNodeUid, nodeUid, manager]
+    [nodeUid, manager]
   );
 
   useEffect(() => {
+    if (node.$$isTemplateInternalNode) {
+      return;
+    }
+    // Manually bind listeners since events which cross custom-elements
+    // seem not working in React v16.
+    const editorContainer = editorContainerRef.current;
+    editorContainer.addEventListener("mouseover", handleMouseOver);
+    editorContainer.addEventListener("mouseout", handleMouseOut);
+    return () => {
+      editorContainer.removeEventListener("mouseover", handleMouseOver);
+      editorContainer.removeEventListener("mouseout", handleMouseOut);
+    };
+  }, [handleMouseOver, handleMouseOut, node]);
+
+  useEffect(() => {
+    if (node.$$isTemplateInternalNode) {
+      return;
+    }
     setHover(hoverNodeUid === nodeUid);
     if (showRelatedEvents) {
       const relatedNodes = manager.getRelatedNodesBasedOnEventsMap();
@@ -81,19 +102,21 @@ export function EditorContainer({
         ?.downstreamNodes.has(nodeUid);
       setIsDownstreamNode(isDownstreamNode);
     }
-  }, [hoverNodeUid, nodeUid, showRelatedEvents, manager]);
+  }, [hoverNodeUid, node, nodeUid, showRelatedEvents, manager]);
 
-  const isCurrentTarget = React.useCallback(
+  const isCurrentTarget = useCallback(
     (event: React.MouseEvent) =>
+      !node.$$isTemplateInternalNode &&
       isCurrentTargetByClassName(
         event.target as HTMLElement,
         editorContainerRef.current,
-        styles.editorContainer
+        styles.editorContainer,
+        styles.isTemplateInternalNode
       ),
-    []
+    [node]
   );
 
-  const handleClick = React.useCallback(
+  const handleClick = useCallback(
     (event: React.MouseEvent) => {
       // `event.stopPropagation()` not working across bricks.
       if (isCurrentTarget(event)) {
@@ -103,7 +126,7 @@ export function EditorContainer({
     [isCurrentTarget, manager, node]
   );
 
-  const handleContextMenu = React.useCallback(
+  const handleContextMenu = useCallback(
     (event: React.MouseEvent) => {
       // `event.stopPropagation()` not working across bricks.
       if (isCurrentTarget(event)) {
@@ -137,11 +160,10 @@ export function EditorContainer({
           [styles.isDownstreamNode]: !hover && isDownstreamNode,
           [styles.isUpstreamNode]: !hover && isUpstreamNode,
           [styles.highlight]: highlightNodes.has(nodeUid),
+          [styles.isTemplateInternalNode]: node.$$isTemplateInternalNode,
         })}
         style={editorContainerStyle}
         ref={editorContainerRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         onClick={handleClick}
         onContextMenu={handleContextMenu}
       >
