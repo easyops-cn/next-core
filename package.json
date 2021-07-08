@@ -50,7 +50,7 @@
     "@next-bricks/general-auth": "^1.4.12",
     "@next-micro-apps/general-auth": "^1.0.9",
     "@size-limit/file": "^5.0.1",
-    "@types/enzyme": "^3.10.8",
+    "@types/enzyme": "^3.10.9",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.2",
     "@types/fs-extra": "^9.0.11",
