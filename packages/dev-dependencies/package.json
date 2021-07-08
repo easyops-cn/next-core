@@ -65,7 +65,7 @@
     "@types/echarts": "^4.9.8",
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/history": "^4.7.8",
+    "@types/history": "^4.7.9",
     "@types/jest": "^26.0.23",
     "@types/js-yaml": "^3.12.6",
     "@types/lodash": "^4.14.170",
