@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.26.3...@next-core/editor-bricks-helper@0.27.0) (2021-07-08)
+
+
+### Features
+
+* **builder:** support to expand templates ([df72450](https://github.com/easyops-cn/next-core/commit/df724508b7461dc6926d9985429d9dafef479488))
+
+
+
+
+
 ## [0.26.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.26.2...@next-core/editor-bricks-helper@0.26.3) (2021-07-06)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
