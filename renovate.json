@@ -50,6 +50,10 @@
     {
       "groupName": "d3 packages",
       "matchPackagePatterns": ["^d3-"]
+    },
+    {
+      "groupName": "type packages",
+      "matchPackagePatterns": ["^@types/"]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]
