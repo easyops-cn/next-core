@@ -52,7 +52,7 @@
     "@size-limit/file": "^5.0.1",
     "@types/enzyme": "^3.10.9",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/file-saver": "^2.0.2",
+    "@types/file-saver": "^2.0.3",
     "@types/fs-extra": "^9.0.12",
     "@types/history": "^4.7.9",
     "@types/inquirer": "^7.3.3",
