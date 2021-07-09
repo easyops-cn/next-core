@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.0...@next-core/editor-bricks-helper@0.27.1) (2021-07-09)
+
+
+### Bug Fixes
+
+* support dropping on proxied slots in template ([a66da4c](https://github.com/easyops-cn/next-core/commit/a66da4c0ea709bf22acfe766eae043e4c4860030))
+* use global dropping status ([7743e78](https://github.com/easyops-cn/next-core/commit/7743e78ee039bd8126c896aec071f394d35e4caf))
+
+
+
+
+
 # [0.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.26.3...@next-core/editor-bricks-helper@0.27.0) (2021-07-08)
 
 
