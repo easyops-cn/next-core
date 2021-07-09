@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { EditorBrickType } from "../interfaces";
-import {
-  DroppingStatusContext,
-  DroppingStatus,
-} from "../DroppingStatusContext";
 import { useBuilderNode } from "../hooks/useBuilderNode";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatus";
@@ -12,6 +8,7 @@ import { useShowRelatedNodesBasedOnEvents } from "../hooks/useShowRelatedNodesBa
 import { isCurrentTargetByClassName } from "./isCurrentTargetByClassName";
 import { useHoverNodeUid } from "../hooks/useHoverNodeUid";
 import { useHighlightNodes } from "../hooks/useHighlightNodes";
+import { useDroppingStatus } from "../hooks/useDroppingStatus";
 
 import styles from "./EditorContainer.module.css";
 
@@ -31,7 +28,6 @@ export function EditorContainer({
   editorBodyStyle,
   children,
 }: React.PropsWithChildren<EditorContainerProps>): React.ReactElement {
-  const [droppingStatus, setDroppingStatus] = useState<DroppingStatus>({});
   const editorContainerRef = useRef<HTMLDivElement>();
   const highlightNodes = useHighlightNodes();
   const node = useBuilderNode({ nodeUid });
@@ -44,6 +40,7 @@ export function EditorContainer({
   const [hover, setHover] = useState(hoverNodeUid === nodeUid);
   const editorType = type ?? EditorBrickType.DEFAULT;
   const hoverNodeUidRef = useRef(hoverNodeUid);
+  const droppingStatus = useDroppingStatus();
 
   useEffect(() => {
     hoverNodeUidRef.current = hoverNodeUid;
@@ -143,43 +140,38 @@ export function EditorContainer({
   );
 
   return (
-    <DroppingStatusContext.Provider
-      value={{
-        droppingStatus,
-        setDroppingStatus,
-      }}
+    <div
+      className={classNames(styles.editorContainer, styles[editorType], {
+        [styles.transparentContainer]: isTransparentContainer,
+        [styles.dropping]: Array.from(
+          droppingStatus.get(nodeUid)?.values() ?? []
+        ).some(Boolean),
+        [styles.hover]:
+          hover ||
+          (contextMenuStatus.active &&
+            contextMenuStatus.node.$$uid === nodeUid),
+        [styles.isDownstreamNode]: !hover && isDownstreamNode,
+        [styles.isUpstreamNode]: !hover && isUpstreamNode,
+        [styles.highlight]: highlightNodes.has(nodeUid),
+        [styles.isTemplateInternalNode]: node.$$isTemplateInternalNode,
+      })}
+      style={editorContainerStyle}
+      ref={editorContainerRef}
+      onClick={handleClick}
+      onContextMenu={handleContextMenu}
     >
-      <div
-        className={classNames(styles.editorContainer, styles[editorType], {
-          [styles.transparentContainer]: isTransparentContainer,
-          [styles.dropping]: Object.values(droppingStatus).some(Boolean),
-          [styles.hover]:
-            hover ||
-            (contextMenuStatus.active &&
-              contextMenuStatus.node.$$uid === nodeUid),
-          [styles.isDownstreamNode]: !hover && isDownstreamNode,
-          [styles.isUpstreamNode]: !hover && isUpstreamNode,
-          [styles.highlight]: highlightNodes.has(nodeUid),
-          [styles.isTemplateInternalNode]: node.$$isTemplateInternalNode,
-        })}
-        style={editorContainerStyle}
-        ref={editorContainerRef}
-        onClick={handleClick}
-        onContextMenu={handleContextMenu}
-      >
-        <div className={styles.nodeAlias}>
-          {!hover &&
-            (isDownstreamNode ? (
-              <span className={styles.arrow}>↓</span>
-            ) : isUpstreamNode ? (
-              <span className={styles.arrow}>↑</span>
-            ) : null)}
-          {node.alias || node.brick}
-        </div>
-        <div className={styles.editorBody} style={editorBodyStyle}>
-          {children}
-        </div>
+      <div className={styles.nodeAlias}>
+        {!hover &&
+          (isDownstreamNode ? (
+            <span className={styles.arrow}>↓</span>
+          ) : isUpstreamNode ? (
+            <span className={styles.arrow}>↑</span>
+          ) : null)}
+        {node.alias || node.brick}
       </div>
-    </DroppingStatusContext.Provider>
+      <div className={styles.editorBody} style={editorBodyStyle}>
+        {children}
+      </div>
+    </div>
   );
 }

@@ -8,7 +8,6 @@ import { useShowRelatedNodesBasedOnEvents } from "../hooks/useShowRelatedNodesBa
 import { useHoverNodeUid } from "../hooks/useHoverNodeUid";
 import { useHighlightNodes } from "../hooks/useHighlightNodes";
 import { EditorContainer } from "./EditorContainer";
-import { DroppingStatusContext } from "../DroppingStatusContext";
 import { BuilderRuntimeNode } from "../interfaces";
 import { BuilderDataManager } from "../internal/BuilderDataManager";
 import { isCurrentTargetByClassName } from "./isCurrentTargetByClassName";
@@ -20,6 +19,9 @@ jest.mock("../hooks/useShowRelatedNodesBasedOnEvents");
 jest.mock("../hooks/useHoverNodeUid");
 jest.mock("../hooks/useHighlightNodes");
 jest.mock("./isCurrentTargetByClassName");
+jest.mock("../hooks/useDroppingStatus", () => ({
+  useDroppingStatus: () => new Map([[9, new Map([["any", true]])]]),
+}));
 
 const currentNode: BuilderRuntimeNode = {
   $$uid: 1,
@@ -95,12 +97,9 @@ describe("EditorContainer", () => {
   it("should apply dropping class", () => {
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
     expect(wrapper.find(".editorContainer").hasClass("dropping")).toBe(false);
-    wrapper
-      .find(DroppingStatusContext.Provider)
-      .prop("value")
-      .setDroppingStatus({
-        content: true,
-      });
+    wrapper.setProps({
+      nodeUid: 9,
+    });
     expect(wrapper.find(".editorContainer").hasClass("dropping")).toBe(true);
   });
 

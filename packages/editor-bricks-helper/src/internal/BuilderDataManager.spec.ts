@@ -1283,3 +1283,75 @@ describe("test sharedEditorList", () => {
     ]);
   });
 });
+
+describe("test dropping status", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+  });
+
+  it("should return an empty map as initial", () => {
+    expect(manager.getDroppingStatus()).toEqual(new Map());
+  });
+
+  it("should update dropping status", () => {
+    const listenOnDroppingStatusChange = jest.fn();
+    const unlistenOnDroppingStatusChange = manager.onDroppingStatusChange(
+      listenOnDroppingStatusChange
+    );
+    const setHoverNodeUid = jest.spyOn(manager, "setHoverNodeUid");
+
+    manager.updateDroppingStatus(1, "header", true);
+    expect(manager.getDroppingStatus()).toEqual(
+      new Map([[1, new Map([["header", true]])]])
+    );
+
+    expect(setHoverNodeUid).not.toBeCalled();
+    manager.setHoverNodeUid(100);
+    setHoverNodeUid.mockClear();
+
+    manager.updateDroppingStatus(1, "header", false);
+    expect(manager.getDroppingStatus()).toEqual(
+      new Map([[1, new Map([["header", false]])]])
+    );
+    expect(setHoverNodeUid).not.toBeCalled();
+
+    manager.updateDroppingStatus(1, "footer", true);
+    expect(manager.getDroppingStatus()).toEqual(
+      new Map([
+        [
+          1,
+          new Map([
+            ["header", false],
+            ["footer", true],
+          ]),
+        ],
+      ])
+    );
+    expect(setHoverNodeUid).toBeCalledWith(undefined);
+
+    manager.updateDroppingStatus(2, "content", true);
+    manager.updateDroppingStatus(1, "footer", false);
+    expect(manager.getDroppingStatus()).toEqual(
+      new Map([
+        [
+          1,
+          new Map([
+            ["header", false],
+            ["footer", false],
+          ]),
+        ],
+        [2, new Map([["content", true]])],
+      ])
+    );
+
+    expect(listenOnDroppingStatusChange).toBeCalledTimes(5);
+    expect(setHoverNodeUid).toBeCalledTimes(1);
+    unlistenOnDroppingStatusChange();
+  });
+});

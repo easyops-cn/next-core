@@ -15,7 +15,6 @@ import {
   EditorSlotContentLayout,
   TemplateDelegatedContext,
 } from "../interfaces";
-import { useDroppingStatusContext } from "../DroppingStatusContext";
 import { useBuilderNode } from "../hooks/useBuilderNode";
 import {
   getBuilderGroupedChildNodes,
@@ -69,7 +68,6 @@ export function DropZone({
   slotContentLayout,
   showOutlineIfEmpty,
 }: DropZoneProps): React.ReactElement {
-  const { setDroppingStatus } = useDroppingStatusContext();
   const dropZoneBody = React.useRef<HTMLDivElement>();
   const [dropPositionCursor, setDropPositionCursor] =
     React.useState<DropPositionCursor>(null);
@@ -248,11 +246,12 @@ export function DropZone({
   });
 
   React.useEffect(() => {
-    setDroppingStatus((prev) => ({
-      ...prev,
-      [mountPoint]: isDraggingOverCurrent,
-    }));
-  }, [isDraggingOverCurrent, mountPoint, setDroppingStatus]);
+    manager.updateDroppingStatus(
+      delegatedContext ? delegatedContext.templateUid : nodeUid,
+      delegatedContext ? delegatedContext.templateMountPoint : mountPoint,
+      isDraggingOverCurrent
+    );
+  }, [isDraggingOverCurrent, mountPoint, manager, delegatedContext, nodeUid]);
 
   const droppable =
     !!delegatedContext ||

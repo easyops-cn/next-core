@@ -178,6 +178,8 @@ export interface SharedEditorConf {
   editorProps?: Record<string, unknown>;
 }
 
+export type BuilderDroppingStatus = Map<number, Map<string, boolean>>;
+
 export interface AbstractBuilderDataManager {
   getData(): BuilderCanvasData;
   getRouteList(): BuilderRouteNode[];
