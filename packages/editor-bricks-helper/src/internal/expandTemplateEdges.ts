@@ -34,74 +34,77 @@ export function expandTemplateEdges({
     }
   };
 
+  const expandEdgesThroughTemplateChain = (
+    node: BuilderRuntimeNode,
+    mountPoint: string,
+    childUid: number
+  ): void => {
+    let proxySlotConf: CustomTemplateProxySlot;
+    let delegateToParentUid: number;
+    if (
+      node.$$isExpandableTemplate &&
+      node.$$templateProxy?.slots &&
+      hasOwnProperty(node.$$templateProxy.slots, mountPoint) &&
+      (proxySlotConf = node.$$templateProxy.slots[mountPoint]) &&
+      (delegateToParentUid = node.$$templateRefToUid.get(proxySlotConf.ref))
+    ) {
+      const nextNode = nodes.find((n) => n.$$uid === delegateToParentUid);
+      const nextMountPoint = proxySlotConf.refSlot;
+      if (nextNode.$$isExpandableTemplate) {
+        expandEdgesThroughTemplateChain(nextNode, nextMountPoint, childUid);
+      } else {
+        const expandedEdge: BuilderRuntimeEdge = {
+          child: childUid,
+          parent: delegateToParentUid,
+          mountPoint: nextMountPoint,
+          sort: undefined,
+          $$isTemplateExpanded: true,
+        };
+        const siblingEdges = sortBy(
+          newEdges.filter((edge) => edge.parent === delegateToParentUid),
+          (edge) => reorderedEdgesMap.get(edge) ?? edge.sort
+        );
+        const internalEdges = siblingEdges.filter(
+          (edge) => edge.$$isTemplateInternal
+        );
+        // For more details about refPosition implementation detail,
+        // see `packages/brick-kit/src/core/CustomTemplates/expandCustomTemplate.ts`.
+        const refPosition = proxySlotConf.refPosition ?? -1;
+        const clampedRefPosition = clamp(
+          refPosition < 0
+            ? internalEdges.length + 1 + refPosition
+            : refPosition,
+          0,
+          internalEdges.length
+        );
+        siblingEdges.splice(
+          clampedRefPosition < internalEdges.length
+            ? siblingEdges.findIndex(
+                (edge) => edge === internalEdges[clampedRefPosition]
+              )
+            : siblingEdges.length,
+          0,
+          expandedEdge
+        );
+        siblingEdges.forEach((edge, index) => {
+          reorderedEdgesMap.set(edge, index);
+        });
+        newEdges.push(expandedEdge);
+      }
+    }
+  };
+
   walk(rootId, (node, childEdges) => {
     if (!node.$$isExpandableTemplate) {
       return;
     }
     for (const childEdge of childEdges) {
       // Recursively expand templates.
-      let cursorNode = node;
-      let cursorMountPoint = childEdge.mountPoint;
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        let proxySlotConf: CustomTemplateProxySlot;
-        let delegateToParentUid: number;
-        if (
-          cursorNode.$$isExpandableTemplate &&
-          cursorNode.$$templateProxy?.slots &&
-          hasOwnProperty(cursorNode.$$templateProxy.slots, cursorMountPoint) &&
-          (proxySlotConf =
-            cursorNode.$$templateProxy.slots[cursorMountPoint]) &&
-          (delegateToParentUid = cursorNode.$$templateRefToUid.get(
-            proxySlotConf.ref
-          ))
-        ) {
-          cursorNode = nodes.find((n) => n.$$uid === delegateToParentUid);
-          cursorMountPoint = proxySlotConf.refSlot;
-          if (!cursorNode.$$isExpandableTemplate) {
-            const expandedEdge: BuilderRuntimeEdge = {
-              child: childEdge.child,
-              parent: delegateToParentUid,
-              mountPoint: cursorMountPoint,
-              sort: undefined,
-              $$isTemplateExpanded: true,
-            };
-            const siblingEdges = sortBy(
-              newEdges.filter((edge) => edge.parent === delegateToParentUid),
-              (edge) => reorderedEdgesMap.get(edge) ?? edge.sort
-            );
-            const internalEdges = siblingEdges.filter(
-              (edge) => edge.$$isTemplateInternal
-            );
-            // For more details about refPosition implementation detail,
-            // see `packages/brick-kit/src/core/CustomTemplates/expandCustomTemplate.ts`.
-            const refPosition = proxySlotConf.refPosition ?? -1;
-            const clampedRefPosition = clamp(
-              refPosition < 0
-                ? internalEdges.length + 1 + refPosition
-                : refPosition,
-              0,
-              internalEdges.length
-            );
-            siblingEdges.splice(
-              clampedRefPosition < internalEdges.length
-                ? siblingEdges.findIndex(
-                    (edge) => edge === internalEdges[clampedRefPosition]
-                  )
-                : siblingEdges.length,
-              0,
-              expandedEdge
-            );
-            siblingEdges.forEach((edge, index) => {
-              reorderedEdgesMap.set(edge, index);
-            });
-            newEdges.push(expandedEdge);
-            break;
-          }
-        } else {
-          break;
-        }
-      }
+      expandEdgesThroughTemplateChain(
+        node,
+        childEdge.mountPoint,
+        childEdge.child
+      );
     }
   });
 

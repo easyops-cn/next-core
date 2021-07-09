@@ -68,6 +68,52 @@ export function getAppendingNodesAndEdges(
           $$isTemplateInternal: true,
         });
       });
+
+      if (!builderNode.$$isTemplateInternalNode) {
+        // Here all internal nodes of the template including nested templates are ready.
+        const findDelegatingSlots = (
+          cursorNode: BuilderRuntimeNode,
+          mountPoint?: string,
+          rootMountPoint?: string
+        ): void => {
+          if (builderNode.$$templateProxy?.slots) {
+            const slotEntries = Object.entries(
+              cursorNode.$$templateProxy?.slots
+            );
+            const filteredSlotEntries = slotEntries.filter(
+              (entry) => mountPoint === undefined || entry[0] === mountPoint
+            );
+            for (const [slotName, slotConf] of filteredSlotEntries) {
+              const refUid = cursorNode.$$templateRefToUid.get(slotConf.ref);
+              if (refUid) {
+                const refNode = nodes.find((node) => node.$$uid === refUid);
+                if (refNode.$$isExpandableTemplate) {
+                  findDelegatingSlots(refNode, slotConf.refSlot, slotName);
+                } else {
+                  if (!refNode.$$delegatedSlots) {
+                    refNode.$$delegatedSlots = new Map();
+                  }
+                  let delegatedSlotsByRefSlot = refNode.$$delegatedSlots.get(
+                    slotConf.refSlot
+                  );
+                  if (!delegatedSlotsByRefSlot) {
+                    delegatedSlotsByRefSlot = [];
+                    refNode.$$delegatedSlots.set(
+                      slotConf.refSlot,
+                      delegatedSlotsByRefSlot
+                    );
+                  }
+                  delegatedSlotsByRefSlot.push({
+                    templateUid: builderNode.$$uid,
+                    templateMountPoint: rootMountPoint || slotName,
+                  });
+                }
+              }
+            }
+          }
+        };
+        findDelegatingSlots(builderNode);
+      }
     }
 
     if (Array.isArray(nodeData.children)) {

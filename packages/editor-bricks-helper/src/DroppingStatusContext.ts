@@ -1,17 +1,15 @@
-import { createContext, Dispatch, SetStateAction, useContext } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 
 // It indicates which mount point of a container is active dropping zone.
-export type DroppingStatus = {
+type DroppingStatus = {
   [mountPoint: string]: boolean;
 };
 
-export interface ContextOfDroppingStatus {
+interface ContextOfDroppingStatus {
   droppingStatus?: DroppingStatus;
   setDroppingStatus?: Dispatch<SetStateAction<DroppingStatus>>;
 }
 
+// Todo(steve): remove this file.
+/** @deprecated no more usage but for compatibility only. */
 export const DroppingStatusContext = createContext<ContextOfDroppingStatus>({});
-
-export function useDroppingStatusContext(): ContextOfDroppingStatus {
-  return useContext(DroppingStatusContext);
-}

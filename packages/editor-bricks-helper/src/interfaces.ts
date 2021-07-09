@@ -29,6 +29,7 @@ export type BuilderRuntimeNode<P = Record<string, unknown>> =
     $$isExpandableTemplate?: boolean;
     $$templateProxy?: CustomTemplateProxy;
     $$templateRefToUid?: Map<string, number>;
+    $$delegatedSlots?: Map<string, TemplateDelegatedContext[]>;
   };
 
 export interface BuilderRuntimeEdge {
@@ -39,7 +40,11 @@ export interface BuilderRuntimeEdge {
   $$isTemplateInternal?: boolean;
   $$isTemplateDelegated?: boolean;
   $$isTemplateExpanded?: boolean;
-  // $$templateExpandedFromMountPoint?: string;
+}
+
+export interface TemplateDelegatedContext {
+  templateUid: number;
+  templateMountPoint: string;
 }
 
 export interface BuilderGroupedChildNode {
@@ -172,6 +177,8 @@ export interface SharedEditorConf {
   editor: string;
   editorProps?: Record<string, unknown>;
 }
+
+export type BuilderDroppingStatus = Map<number, Map<string, boolean>>;
 
 export interface AbstractBuilderDataManager {
   getData(): BuilderCanvasData;

@@ -15,7 +15,9 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
       id: "T-1",
       templateId: "tpl-micro-view",
       type: "custom-template",
-      proxy: '{"slots":{"toolbar":{"ref":"microView","refSlot":"toolbar"}}}',
+      proxy: JSON.stringify({
+        slots: { toolbar: { ref: "microView", refSlot: "toolbar" } },
+      }),
       children: [
         {
           id: "TB-1",
@@ -42,7 +44,9 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
       id: "T-2",
       templateId: "tpl-easy-view",
       type: "custom-template",
-      proxy: '{"slots":{"content":{"ref":"easyView","refSlot":"content"}}}',
+      proxy: JSON.stringify({
+        slots: { content: { ref: "easyView", refSlot: "content" } },
+      }),
       children: [
         {
           id: "TB-3",
@@ -227,6 +231,24 @@ describe("getAppendingNodesAndEdges", () => {
         ["pageTitle", 2],
       ])
     );
+    const nodesWithDelegatedSlots = result.nodes.filter(
+      (node) => node.$$delegatedSlots
+    );
+    expect(nodesWithDelegatedSlots.length).toBe(1);
+    expect(nodesWithDelegatedSlots[0]).toMatchObject({
+      id: "TB-3",
+      $$delegatedSlots: new Map([
+        [
+          "content",
+          [
+            {
+              templateUid: 1000,
+              templateMountPoint: "content",
+            },
+          ],
+        ],
+      ]),
+    });
   });
 
   it("should work for nested templates", () => {
@@ -337,6 +359,10 @@ describe("getAppendingNodesAndEdges", () => {
         ["pageTitle", 3],
       ])
     );
+    const nodesWithDelegatedSlots = result.nodes.filter(
+      (node) => node.$$delegatedSlots
+    );
+    expect(nodesWithDelegatedSlots.length).toBe(0);
   });
 
   it("should work when root is a custom-template", () => {
@@ -345,7 +371,9 @@ describe("getAppendingNodesAndEdges", () => {
         id: "T-1",
         templateId: "tpl-micro-view",
         type: "custom-template",
-        proxy: '{"slots":{"toolbar":{"ref":"microView","refSlot":"toolbar"}}}',
+        proxy: JSON.stringify({
+          slots: { toolbar: { ref: "microView", refSlot: "toolbar" } },
+        }),
         children: [
           {
             id: "TB-1",
@@ -428,6 +456,198 @@ describe("getAppendingNodesAndEdges", () => {
       ],
     });
     expect(result.nodes[0].$$isExpandableTemplate).toBeUndefined();
+    const nodesWithDelegatedSlots = result.nodes.filter(
+      (node) => node.$$delegatedSlots
+    );
+    expect(nodesWithDelegatedSlots.length).toBe(1);
+    expect(nodesWithDelegatedSlots[0]).toMatchObject({
+      id: "TB-3",
+      $$delegatedSlots: new Map([
+        [
+          "content",
+          [
+            {
+              templateUid: 1,
+              templateMountPoint: "content",
+            },
+          ],
+        ],
+      ]),
+    });
+  });
+
+  // Given templates:
+  //
+  // 1. tpl-basic-view contains:
+  //    - page-title
+  //    - tpl-three-row-view
+  //
+  // It exposes `tpl-three-row-view`'s slots by:
+  //   `beforeTopContent` : `beforeTop`
+  //   `centerContent` : `center`
+  //   `beforeBottomContent` : `beforeBottom`
+  //   `afterBottomContent` : `afterBottom`
+  //
+  // 2. tpl-three-row-view contains
+  //    - easy-view
+  //      (t)
+  //        general-button
+  //
+  // It exposes `easy-view`'s slots by:
+  //   `beforeTop` : `t`
+  //   `afterTop` : `t`
+  //   `center` : `c`
+  //   `beforeBottom` : `b`
+  //   `afterBottom` : `b`
+  it("should work for nested templates with nested slots proxy", () => {
+    const result = getAppendingNodesAndEdges(
+      {
+        id: "B-a",
+        type: "brick",
+        brick: "tpl-basic-view",
+        children: [
+          {
+            id: "B-b",
+            type: "brick",
+            brick: "tpl-empty",
+            mountPoint: "header",
+          },
+        ],
+      },
+      1000,
+      new Map([
+        [
+          "tpl-basic-view",
+          {
+            id: "T-a",
+            type: "custom-template",
+            templateId: "tpl-basic-view",
+            proxy: JSON.stringify({
+              slots: {
+                beforeTopContent: { ref: "threeRowView", refSlot: "beforeTop" },
+                centerContent: { ref: "threeRowView", refSlot: "center" },
+                beforeBottomContent: {
+                  ref: "threeRowView",
+                  refSlot: "beforeBottom",
+                },
+                afterBottomContent: {
+                  ref: "threeRowView",
+                  refSlot: "afterBottom",
+                },
+                notExistedSlot: { ref: "notExistedRef", refSlot: "any" },
+              },
+            }),
+            children: [
+              {
+                id: "TB-a",
+                type: "brick",
+                brick: "page-title",
+              },
+              {
+                id: "TB-b",
+                type: "brick",
+                brick: "tpl-three-row-view",
+                ref: "threeRowView",
+              },
+            ],
+          },
+        ],
+        [
+          "tpl-three-row-view",
+          {
+            id: "T-b",
+            type: "custom-template",
+            templateId: "tpl-three-row-view",
+            proxy: JSON.stringify({
+              slots: {
+                beforeTop: { ref: "easyView", refSlot: "t", refPosition: 0 },
+                afterTop: { ref: "easyView", refSlot: "t" },
+                center: { ref: "easyView", refSlot: "c" },
+                beforeBottom: { ref: "easyView", refSlot: "b", refPosition: 0 },
+                afterBottom: { ref: "easyView", refSlot: "b" },
+              },
+            }),
+            children: [
+              {
+                id: "TB-c",
+                type: "brick",
+                brick: "basic-bricks.easy-view",
+                ref: "easyView",
+                children: [
+                  {
+                    id: "TB-d",
+                    type: "brick",
+                    brick: "general-header",
+                    mountPoint: "t",
+                  },
+                  {
+                    id: "TB-e",
+                    type: "brick",
+                    brick: "general-footer",
+                    mountPoint: "b",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        [
+          "tpl-empty",
+          {
+            id: "T-c",
+            type: "custom-template",
+            templateId: "tpl-empty",
+            children: [
+              {
+                id: "TB-f",
+                type: "brick",
+                brick: "no-op",
+              },
+            ],
+          },
+        ],
+      ])
+    );
+    const nodesWithDelegatedSlots = result.nodes.filter(
+      (node) => node.$$delegatedSlots
+    );
+    expect(nodesWithDelegatedSlots.length).toBe(1);
+    expect(nodesWithDelegatedSlots[0]).toMatchObject({
+      id: "TB-c",
+      $$delegatedSlots: new Map([
+        [
+          "t",
+          [
+            {
+              templateUid: 1000,
+              templateMountPoint: "beforeTopContent",
+            },
+          ],
+        ],
+        [
+          "c",
+          [
+            {
+              templateUid: 1000,
+              templateMountPoint: "centerContent",
+            },
+          ],
+        ],
+        [
+          "b",
+          [
+            {
+              templateUid: 1000,
+              templateMountPoint: "beforeBottomContent",
+            },
+            {
+              templateUid: 1000,
+              templateMountPoint: "afterBottomContent",
+            },
+          ],
+        ],
+      ]),
+    });
   });
 
   it("should work when root is a route of bricks", () => {

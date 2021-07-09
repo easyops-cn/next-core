@@ -10,18 +10,24 @@ import {
   BuilderDataTransferPayloadOfNodeToAdd,
   BuilderDataTransferPayloadOfNodeToMove,
   BuilderDataTransferType,
+  BuilderGroupedChildNode,
+  BuilderRuntimeNode,
   EditorSlotContentLayout,
+  TemplateDelegatedContext,
 } from "../interfaces";
-import { useDroppingStatusContext } from "../DroppingStatusContext";
 import { useBuilderNode } from "../hooks/useBuilderNode";
-import { useBuilderGroupedChildNodes } from "../hooks/useBuilderGroupedChildNodes";
+import {
+  getBuilderGroupedChildNodes,
+  useBuilderGroupedChildNodes,
+} from "../hooks/useBuilderGroupedChildNodes";
 import { useCanDrop } from "../hooks/useCanDrop";
 import { DropPositionCursor, getDropPosition } from "./getDropPosition";
 import { processDrop } from "./processDrop";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
+import { useCanvasList } from "../hooks/useCanvasList";
+import { useBuilderData } from "../hooks/useBuilderData";
 
 import styles from "./DropZone.module.css";
-import { useCanvasList } from "../hooks/useCanvasList";
 
 export interface DropZoneProps {
   nodeUid?: number;
@@ -32,10 +38,19 @@ export interface DropZoneProps {
   canvasIndex?: number;
   mountPoint: string;
   fullscreen?: boolean;
+  delegatedContext?: TemplateDelegatedContext;
   dropZoneStyle?: React.CSSProperties;
   dropZoneBodyStyle?: React.CSSProperties;
   slotContentLayout?: EditorSlotContentLayout;
   showOutlineIfEmpty?: boolean;
+}
+
+export interface DroppingContext {
+  droppingParentUid: number;
+  droppingParentInstanceId: string;
+  droppingMountPoint: string;
+  droppingChildNodes: BuilderRuntimeNode[];
+  droppingSiblingGroups: BuilderGroupedChildNode[];
 }
 
 export function DropZone({
@@ -47,12 +62,12 @@ export function DropZone({
   canvasIndex,
   mountPoint,
   fullscreen,
+  delegatedContext,
   dropZoneStyle,
   dropZoneBodyStyle,
   slotContentLayout,
   showOutlineIfEmpty,
 }: DropZoneProps): React.ReactElement {
-  const { setDroppingStatus } = useDroppingStatusContext();
   const dropZoneBody = React.useRef<HTMLDivElement>();
   const [dropPositionCursor, setDropPositionCursor] =
     React.useState<DropPositionCursor>(null);
@@ -135,6 +150,46 @@ export function DropZone({
     ]
   );
 
+  const { nodes, edges } = useBuilderData();
+
+  const getDroppingContext = React.useCallback(() => {
+    if (delegatedContext) {
+      const siblingGroups = getBuilderGroupedChildNodes({
+        nodeUid: delegatedContext.templateUid,
+        nodes,
+        edges,
+        doNotExpandTemplates: true,
+      });
+      return {
+        droppingParentUid: delegatedContext.templateUid,
+        droppingParentInstanceId: nodes.find(
+          (item) => item.$$uid === delegatedContext.templateUid
+        ).instanceId,
+        droppingMountPoint: delegatedContext.templateMountPoint,
+        droppingChildNodes:
+          siblingGroups.find(
+            (group) => group.mountPoint === delegatedContext.templateMountPoint
+          )?.childNodes ?? [],
+        droppingSiblingGroups: siblingGroups,
+      };
+    }
+    return {
+      droppingParentUid: node.$$uid,
+      droppingParentInstanceId: node.instanceId,
+      droppingMountPoint: mountPoint,
+      droppingChildNodes: selfChildNodes,
+      droppingSiblingGroups: groupedChildNodes,
+    };
+  }, [
+    delegatedContext,
+    edges,
+    groupedChildNodes,
+    mountPoint,
+    node,
+    nodes,
+    selfChildNodes,
+  ]);
+
   const [{ isDraggingOverCurrent }, dropRef] = useDrop({
     accept: [
       BuilderDataTransferType.NODE_TO_ADD,
@@ -182,32 +237,29 @@ export function DropZone({
           droppingIndex: getDroppingIndexInFullCanvas(
             dropPositionCursorRef.current.index
           ),
-          droppingParentUid: node.$$uid,
-          droppingParentInstanceId: node.instanceId,
-          droppingMountPoint: mountPoint,
-          droppingChildNodes: selfChildNodes,
-          droppingSiblingGroups: groupedChildNodes,
           isPortalCanvas: isGeneralizedPortalCanvas,
           manager,
+          ...getDroppingContext(),
         });
       }
     },
   });
 
   React.useEffect(() => {
-    setDroppingStatus((prev) => ({
-      ...prev,
-      [mountPoint]: isDraggingOverCurrent,
-    }));
-  }, [isDraggingOverCurrent, mountPoint, setDroppingStatus]);
+    manager.updateDroppingStatus(
+      delegatedContext ? delegatedContext.templateUid : nodeUid,
+      delegatedContext ? delegatedContext.templateMountPoint : mountPoint,
+      isDraggingOverCurrent
+    );
+  }, [isDraggingOverCurrent, mountPoint, manager, delegatedContext, nodeUid]);
 
-  // Ignore dropping for internal nodes
-  const shouldIgnoreDropping =
-    node.$$isExpandableTemplate || node.$$isTemplateInternalNode;
+  const droppable =
+    !!delegatedContext ||
+    !(node.$$isExpandableTemplate || node.$$isTemplateInternalNode);
 
   return (
     <div
-      ref={shouldIgnoreDropping ? null : dropRef}
+      ref={droppable ? dropRef : null}
       className={classNames(
         styles.dropZone,
         isRoot

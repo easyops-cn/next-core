@@ -22,6 +22,7 @@ import {
   EventDetailOfSnippetApply,
   EventDetailOfSnippetApplyStored,
   SharedEditorConf,
+  BuilderDroppingStatus,
 } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -49,6 +50,7 @@ enum BuilderInternalEventType {
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
   OUTLINE_DISABLED_NODES_CHANGE = "builder.outlineDisabledNodes.change",
+  DROPPING_STATUS_CHANGE = "builder.droppingStatus.change",
 }
 
 const storageKeyOfOutlineDisabledNodes = "builder-outline-disabled-nodes";
@@ -81,6 +83,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   private highlightNodes: Set<number> = new Set();
 
   private templateSourceMap: Map<string, BuilderCustomTemplateNode>;
+
+  private droppingStatus: BuilderDroppingStatus = new Map();
 
   private readonly localJsonStorage = new JsonStorage<{
     [storageKeyOfOutlineDisabledNodes]: string[];
@@ -593,6 +597,58 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.HIGHLIGHT_NODES_CHANGE,
+        fn
+      );
+    };
+  }
+
+  updateDroppingStatus(
+    nodeUid: number,
+    mountPoint: string,
+    isDraggingOver: boolean
+  ): void {
+    const nodeStatus = this.droppingStatus.get(nodeUid);
+    this.droppingStatus = new Map(
+      Array.from(this.droppingStatus.entries()).concat([
+        [
+          nodeUid,
+          new Map(
+            (nodeStatus ? Array.from(nodeStatus) : []).concat([
+              [mountPoint, isDraggingOver],
+            ])
+          ),
+        ],
+      ])
+    );
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.DROPPING_STATUS_CHANGE)
+    );
+
+    // When dragging nodes over `EditorContainer`, the `mouseout` events
+    // are not triggered, which causes hover status does not get cleared.
+    // So we manually reset hover status once dragging starts.
+    if (
+      this.hoverNodeUid &&
+      Array.from(this.droppingStatus.values())
+        .flatMap((nodeStatus) => Array.from(nodeStatus.values()))
+        .some(Boolean)
+    ) {
+      this.setHoverNodeUid(undefined);
+    }
+  }
+
+  getDroppingStatus(): BuilderDroppingStatus {
+    return this.droppingStatus;
+  }
+
+  onDroppingStatusChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.DROPPING_STATUS_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.DROPPING_STATUS_CHANGE,
         fn
       );
     };

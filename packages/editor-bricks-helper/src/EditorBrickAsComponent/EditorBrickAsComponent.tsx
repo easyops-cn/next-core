@@ -135,6 +135,7 @@ export function EditorBrickAsComponent({
           [styles.selfLayoutContainer]:
             selfLayout === EditorSelfLayout.CONTAINER,
           [styles.dragging]: isDragging,
+          isTemplateInternalNode: node.$$isTemplateInternalNode,
         })}
       >
         <div
