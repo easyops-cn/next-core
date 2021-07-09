@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "composite": false,
+    "emitDecoratorMetadata": false,
+    "emitDeclarationOnly": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "strict": false,
+    "strictNullChecks": false,
+    "suppressExcessPropertyErrors": true,
+    "suppressImplicitAnyIndexErrors": true
+  },
+  "include": [
+    "./src",
+    "../../declarations"
+  ],
+  "exclude": ["node_modules", "**/*.spec.ts","**/*.spec.tsx", "dist/", "**/__mocks__/","**/!(index).tsx", "**/i18n/", "**/data-providers/", "**/components/"]
+}

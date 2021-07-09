@@ -160,7 +160,7 @@ const mergeEditors = () => {
   }
 };
 
-module.exports = (scope) => {
+async function postBuild(scope) {
   if (scope === "libs") {
     return;
   }
@@ -185,9 +185,9 @@ module.exports = (scope) => {
 
   if (scope === "bricks") {
     if (pluginName.startsWith(providerPackagePrefix)) {
-      generateProviderDocs(pluginName);
+      await generateProviderDocs(pluginName);
     } else {
-      enableGenerateDoc && generateBrickDocs(pluginName);
+      enableGenerateDoc && await generateBrickDocs(pluginName);
       generateBrickContracts(cwd);
     }
     generateDeps();
@@ -200,4 +200,8 @@ module.exports = (scope) => {
   } else if (scope === "templates") {
     generateDeps();
   }
+}
+
+module.exports = (scope) => {
+  postBuild(scope).catch(console.error);
 };

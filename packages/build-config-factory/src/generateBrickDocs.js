@@ -576,42 +576,26 @@ function generateBrickBook(docsJson) {
   console.log("Brick book written to doc.json.");
 }
 
-module.exports = function generateBrickDocs(packageName) {
+async function generateBrickDocs(packageName) {
   const app = new TypeDoc.Application();
+  const tsconfigFilename = "story.tsconfig.json";
+  const tsconfigPath = path.resolve(tsconfigFilename);
+
+  fs.copyFileSync(path.join(__dirname, tsconfigFilename), tsconfigPath);
+  app.options.addReader(new TypeDoc.TSConfigReader());
+
 
   app.bootstrap({
-    // tsconfig
-    noImplicitAny: false,
-    allowUnreachableCode: true,
-    allowUnusedLabels: true,
-    module: "ESNext",
-    target: "ESNext",
-    moduleResolution: "node",
-    skipLibCheck: true,
-    esModuleInterop: true,
-    experimentalDecorators: true,
-    jsx: "react",
-    allowJs: true,
-    allowSyntheticDefaultImports: true,
-    emitDecoratorMetadata: true,
-    emitDeclarationOnly: true,
-    declaration: false,
-    importHelpers: true,
-    resolveJsonModule: true,
-    strict: false,
-    strictNullChecks: false,
-    suppressExcessPropertyErrors: true,
-    suppressImplicitAnyIndexErrors: true,
+    tsconfig: tsconfigPath,
+
+
+    entryPoints:[ `${process.cwd()}/src/**/*.index.tsx`],
 
     // typedoc config
     out: "./docs",
-    mode: "modules",
     excludeExternals: true,
-    excludeNotExported: true,
     excludePrivate: true,
     excludeProtected: true,
-    includeDeclarations: true,
-    // disableSources: true,
     hideGenerator: true,
     categoryOrder: ["property", "event", "method", "Other"],
     allowInheritedDoc: ["FormItemElement", "BaseChartElement", "GraphElement"],
@@ -628,18 +612,14 @@ module.exports = function generateBrickDocs(packageName) {
     ],
   });
 
-  const project = app.convert(
-    app.expandInputFiles([
-      `${path.resolve(process.cwd(), "..", "..", "declarations")}`,
-      `${process.cwd()}/src`,
-    ])
-  );
-  if (project) {
+  const project = app.convert();
+  if (project || !app.logger.hasErrors()) {
     const docsJsonPath = path.resolve(process.cwd(), "./dist/docs.json");
 
     // app.generateDocs(project, "docs")
-    const json = app.generateJson(project, "dist/docs.json");
-    if (json) {
+    try {
+      await app.generateJson(project, "dist/docs.json");
+
       const typeDocJson = require(path.resolve(docsJsonPath));
       const bricksDocJson = generateBrickDoc(typeDocJson);
       if (fs.existsSync(docsJsonPath)) {
@@ -657,10 +637,16 @@ module.exports = function generateBrickDocs(packageName) {
           console.log(`Bricks docs for ${packageName} generated.`);
         }
       }
-    } else {
+    } catch (e) {
+      console.error(e)
       throw new Error(`Bricks docs for ${packageName} generate failed.`);
     }
+
   } else {
     throw new Error(`typedoc convert failed for ${packageName} `);
   }
 };
+
+module.exports =  (packageName) => {
+   generateBrickDocs(packageName).catch(console.error)
+}
