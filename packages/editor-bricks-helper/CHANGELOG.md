@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.1...@next-core/editor-bricks-helper@0.27.2) (2021-07-12)
+
+
+### Bug Fixes
+
+* fix avoid nesting templates ([bc145b9](https://github.com/easyops-cn/next-core/commit/bc145b9d6e4b5d9d0d298217b5a804cd93c74be3))
+* support context-menu of root node ([9e5eebb](https://github.com/easyops-cn/next-core/commit/9e5eebb88d6269a8c53c33c45f2f5d51b64fb77c))
+
+
+
+
+
 ## [0.27.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.0...@next-core/editor-bricks-helper@0.27.1) (2021-07-09)
 
 
