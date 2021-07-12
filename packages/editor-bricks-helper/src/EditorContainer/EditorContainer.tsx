@@ -106,9 +106,7 @@ export function EditorContainer({
       !node.$$isTemplateInternalNode &&
       isCurrentTargetByClassName(
         event.target as HTMLElement,
-        editorContainerRef.current,
-        styles.editorContainer,
-        styles.isTemplateInternalNode
+        editorContainerRef.current
       ),
     [node]
   );
@@ -146,10 +144,9 @@ export function EditorContainer({
         [styles.dropping]: Array.from(
           droppingStatus.get(nodeUid)?.values() ?? []
         ).some(Boolean),
-        [styles.hover]:
-          hover ||
-          (contextMenuStatus.active &&
-            contextMenuStatus.node.$$uid === nodeUid),
+        [styles.hover]: hover,
+        [styles.active]:
+          contextMenuStatus.active && contextMenuStatus.node.$$uid === nodeUid,
         [styles.isDownstreamNode]: !hover && isDownstreamNode,
         [styles.isUpstreamNode]: !hover && isUpstreamNode,
         [styles.highlight]: highlightNodes.has(nodeUid),

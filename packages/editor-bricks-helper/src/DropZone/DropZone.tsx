@@ -26,6 +26,8 @@ import { processDrop } from "./processDrop";
 import { useBuilderDataManager } from "../hooks/useBuilderDataManager";
 import { useCanvasList } from "../hooks/useCanvasList";
 import { useBuilderData } from "../hooks/useBuilderData";
+import { useBuilderContextMenuStatus } from "../hooks/useBuilderContextMenuStatus";
+import { isCurrentTargetByClassName } from "../EditorContainer/isCurrentTargetByClassName";
 
 import styles from "./DropZone.module.css";
 
@@ -72,6 +74,7 @@ export function DropZone({
   const [dropPositionCursor, setDropPositionCursor] =
     React.useState<DropPositionCursor>(null);
   const dropPositionCursorRef = React.useRef<DropPositionCursor>();
+  const contextMenuStatus = useBuilderContextMenuStatus();
   const manager = useBuilderDataManager();
   const node = useBuilderNode({ nodeUid, isRoot });
   const groupedChildNodes = useBuilderGroupedChildNodes({
@@ -247,19 +250,53 @@ export function DropZone({
 
   React.useEffect(() => {
     manager.updateDroppingStatus(
-      delegatedContext ? delegatedContext.templateUid : nodeUid,
+      delegatedContext ? delegatedContext.templateUid : node.$$uid,
       delegatedContext ? delegatedContext.templateMountPoint : mountPoint,
       isDraggingOverCurrent
     );
-  }, [isDraggingOverCurrent, mountPoint, manager, delegatedContext, nodeUid]);
+  }, [isDraggingOverCurrent, mountPoint, manager, delegatedContext, node]);
 
   const droppable =
     !!delegatedContext ||
     !(node.$$isExpandableTemplate || node.$$isTemplateInternalNode);
 
+  const dropZoneRef = React.useRef<HTMLElement>();
+
+  const dropZoneRefCallback = React.useCallback(
+    (element: HTMLElement) => {
+      dropZoneRef.current = element;
+      if (droppable) {
+        dropRef(element);
+      }
+    },
+    [dropRef, droppable]
+  );
+
+  const handleContextMenu = React.useCallback(
+    (event: React.MouseEvent) => {
+      // `event.stopPropagation()` not working across bricks.
+      if (
+        !isGeneralizedPortalCanvas &&
+        isCurrentTargetByClassName(
+          event.target as HTMLElement,
+          dropZoneRef.current
+        )
+      ) {
+        event.preventDefault();
+        manager.contextMenuChange({
+          active: true,
+          node,
+          x: event.clientX,
+          y: event.clientY,
+        });
+      }
+    },
+    [isGeneralizedPortalCanvas, manager, node]
+  );
+
   return (
     <div
-      ref={droppable ? dropRef : null}
+      ref={dropZoneRefCallback}
       className={classNames(
         styles.dropZone,
         isRoot
@@ -278,6 +315,10 @@ export function DropZone({
         {
           [styles.isPortalCanvas]: isGeneralizedPortalCanvas,
           [styles.dropping]: isDraggingOverCurrent,
+          [styles.active]:
+            isRoot &&
+            contextMenuStatus.active &&
+            contextMenuStatus.node.$$uid === node.$$uid,
           [styles.showOutlineIfEmpty]:
             !isRoot && showOutlineIfEmpty && selfChildNodes.length === 0,
           [styles.slotContentLayoutBlock]:
@@ -289,6 +330,7 @@ export function DropZone({
         }
       )}
       style={dropZoneStyle}
+      onContextMenu={isRoot ? handleContextMenu : null}
     >
       <div
         ref={dropZoneBody}

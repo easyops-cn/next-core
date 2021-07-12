@@ -4,29 +4,34 @@ describe("isCurrentTargetByClassName", () => {
   const outerElement = document.createElement("div");
   outerElement.classList.add("editorContainer");
   const outerWrapper = document.createElement("div");
-  const innerElement = document.createElement("div");
-  innerElement.classList.add("editorContainer");
-  const innerWrapper = document.createElement("div");
+  const innerInternalElement = document.createElement("div");
+  innerInternalElement.classList.add(
+    "editorContainer",
+    "isTemplateInternalNode"
+  );
+  const innerInternalWrapper = document.createElement("div");
+  const innerDelegatedElement = document.createElement("div");
+  innerDelegatedElement.classList.add("editorContainer");
+  const innerDelegatedWrapper = document.createElement("div");
 
   outerElement.appendChild(outerWrapper);
-  outerWrapper.appendChild(innerElement);
-  innerElement.appendChild(innerWrapper);
+  outerWrapper.appendChild(innerInternalElement);
+  innerInternalElement.appendChild(innerInternalWrapper);
+  innerInternalWrapper.appendChild(innerDelegatedElement);
+  innerDelegatedElement.appendChild(innerDelegatedWrapper);
   document.body.appendChild(outerElement);
 
   it.each<[HTMLElement, HTMLElement, boolean]>([
-    [innerWrapper, innerElement, true],
-    [innerElement, innerElement, true],
-    [innerElement, outerElement, false],
+    [innerDelegatedWrapper, outerElement, false],
+    [innerDelegatedElement, outerElement, false],
+    [innerInternalWrapper, outerElement, true],
+    [innerInternalElement, outerElement, true],
+    [innerInternalElement, outerElement, true],
     [outerWrapper, outerElement, true],
     [document.body, outerElement, false],
   ])("should work", (targetElement, currentElement, result) => {
-    expect(
-      isCurrentTargetByClassName(
-        targetElement,
-        currentElement,
-        "editorContainer",
-        "isTemplateInternal"
-      )
-    ).toBe(result);
+    expect(isCurrentTargetByClassName(targetElement, currentElement)).toBe(
+      result
+    );
   });
 });

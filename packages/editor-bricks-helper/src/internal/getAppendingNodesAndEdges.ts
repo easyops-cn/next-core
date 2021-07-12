@@ -59,7 +59,14 @@ export function getAppendingNodesAndEdges(
       ]);
       sortedChildren.forEach((child, index) => {
         const childUid = getUniqueNodeId();
-        walk(child, childUid, processedTemplateSet, true, templateRefToUid);
+        walk(
+          child,
+          childUid,
+          // Each child should be a branch.
+          new Set(processedTemplateSet),
+          true,
+          templateRefToUid
+        );
         edges.push({
           child: childUid,
           parent: currentUid,
@@ -138,7 +145,8 @@ export function getAppendingNodesAndEdges(
         walk(
           child,
           childUid,
-          processedTemplateSet,
+          // Each child should be a branch.
+          new Set(processedTemplateSet),
           isTemplateInternalNode,
           inheritedTemplateRefToUid
         );

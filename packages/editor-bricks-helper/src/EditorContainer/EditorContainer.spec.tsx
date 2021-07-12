@@ -108,13 +108,13 @@ describe("EditorContainer", () => {
     expect(wrapper.find(".editorContainer").hasClass("highlight")).toBe(true);
   });
 
-  it("should apply hover class when context menu is active", () => {
+  it("should apply active class when context menu is active", () => {
     mockUseBuilderContextMenuStatus.mockReturnValueOnce({
       active: true,
       node: currentNode,
     });
     const wrapper = shallow(<EditorContainer nodeUid={1} />);
-    expect(wrapper.find(".editorContainer").hasClass("hover")).toBe(true);
+    expect(wrapper.find(".editorContainer").hasClass("active")).toBe(true);
   });
 
   it("should handle mouse enter", () => {
