@@ -18,6 +18,7 @@
 
 .editorContainer.highlight > .nodeAlias,
 .editorContainer.hover > .nodeAlias,
+.editorContainer.active > .nodeAlias,
 .editorContainer.dropping > .nodeAlias {
   visibility: visible;
 }
@@ -38,6 +39,7 @@
 
 .nodeAlias,
 .editorContainer.hover > .editorBody,
+.editorContainer.active > .editorBody,
 .editorContainer.dropping > .editorBody {
   box-shadow: 0 0 0 1px var(--editor-brick-stroke-color-active);
 }

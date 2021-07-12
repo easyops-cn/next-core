@@ -41,7 +41,7 @@ export function getDropPositions(
   // const gridRect = dropZoneGrid.getBoundingClientRect();
   const positions: DropPosition[] = [];
   const gridItemList = Array.from(dropZoneGrid.children).filter(
-    (item) => !item.classList.contains("isTemplateInternalNode")
+    (item) => !item.classList.contains("__isTemplateInternalNode")
   );
   if (gridItemList.length > 0) {
     let currentRow: DropGridRow = {

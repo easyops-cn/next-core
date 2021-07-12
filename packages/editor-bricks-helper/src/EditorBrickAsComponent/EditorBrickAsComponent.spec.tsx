@@ -114,6 +114,7 @@ describe("EditorBrickAsComponent", () => {
     const element = wrapper.find("div").at(0);
     expect(element.hasClass("dragging")).toBe(false);
     expect(element.hasClass("selfLayoutInline")).toBe(true);
+    expect(element.hasClass("__isTemplateInternalNode")).toBe(false);
   });
 
   it("should work for brick which has children", async () => {
@@ -133,6 +134,7 @@ describe("EditorBrickAsComponent", () => {
             instanceId: "instance-a",
             id: "B-1",
             brick: "any-brick",
+            $$isTemplateInternalNode: true,
           } as Partial<BuilderRuntimeNode> as BuilderRuntimeNode
         }
       />
@@ -144,6 +146,7 @@ describe("EditorBrickAsComponent", () => {
 
     const element = wrapper.find("div").at(0);
     expect(element.hasClass("selfLayoutContainer")).toBe(true);
+    expect(element.hasClass("__isTemplateInternalNode")).toBe(true);
   });
 
   it("should work when enabled installed-bricks", async () => {
