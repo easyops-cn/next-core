@@ -54,6 +54,11 @@
     {
       "groupName": "type packages",
       "matchPackagePatterns": ["^@types/"]
+    },
+    {
+      "matchPackageNames": ["antd"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]
