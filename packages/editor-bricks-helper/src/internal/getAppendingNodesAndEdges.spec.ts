@@ -17,6 +17,10 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
       type: "custom-template",
       proxy: JSON.stringify({
         slots: { toolbar: { ref: "microView", refSlot: "toolbar" } },
+        properties: {
+          microTitle: { ref: "microView", refProperty: "easyTitle" },
+          notExistedProperty: { ref: "notExistedRef", refProperty: "any" },
+        },
       }),
       children: [
         {
@@ -46,6 +50,9 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
       type: "custom-template",
       proxy: JSON.stringify({
         slots: { content: { ref: "easyView", refSlot: "content" } },
+        properties: {
+          easyTitle: { ref: "pageTitle", refProperty: "pageTitle" },
+        },
       }),
       children: [
         {
@@ -61,6 +68,7 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
               brick: "basic-bricks.page-title",
               ref: "pageTitle",
               mountPoint: "header",
+              properties: '{"any":"value"}',
             },
           ],
         },
@@ -183,22 +191,31 @@ describe("getAppendingNodesAndEdges", () => {
           $$isExpandableTemplate: true,
           $$templateProxy: {
             slots: { content: { ref: "easyView", refSlot: "content" } },
+            properties: {
+              easyTitle: { ref: "pageTitle", refProperty: "pageTitle" },
+            },
           },
+          $$parsedProperties: {},
         }),
         expect.objectContaining({
           $$uid: 1,
           id: "TB-3",
           $$isTemplateInternalNode: true,
+          $$parsedProperties: {},
         }),
         expect.objectContaining({
           $$uid: 2,
           id: "TB-4",
           $$isTemplateInternalNode: true,
+          $$parsedProperties: {
+            any: "value",
+          },
         }),
         expect.objectContaining({
           $$uid: 3,
           id: "B-2",
           $$isTemplateInternalNode: undefined,
+          $$parsedProperties: {},
         }),
       ],
       edges: [
@@ -265,6 +282,7 @@ describe("getAppendingNodesAndEdges", () => {
             mountPoint: "toolbar",
           },
         ],
+        properties: '{"microTitle":"Hello World","notExistedProperty":"oops"}',
       },
       1000,
       templateSourceMap
@@ -278,6 +296,14 @@ describe("getAppendingNodesAndEdges", () => {
           $$isExpandableTemplate: true,
           $$templateProxy: {
             slots: { toolbar: { ref: "microView", refSlot: "toolbar" } },
+            properties: {
+              microTitle: { ref: "microView", refProperty: "easyTitle" },
+              notExistedProperty: { ref: "notExistedRef", refProperty: "any" },
+            },
+          },
+          $$parsedProperties: {
+            microTitle: "Hello World",
+            notExistedProperty: "oops",
           },
         }),
         expect.objectContaining({
@@ -287,27 +313,40 @@ describe("getAppendingNodesAndEdges", () => {
           $$isExpandableTemplate: true,
           $$templateProxy: {
             slots: { content: { ref: "easyView", refSlot: "content" } },
+            properties: {
+              easyTitle: { ref: "pageTitle", refProperty: "pageTitle" },
+            },
+          },
+          $$parsedProperties: {
+            easyTitle: "Hello World",
           },
         }),
         expect.objectContaining({
           $$uid: 2,
           id: "TB-3",
           $$isTemplateInternalNode: true,
+          $$parsedProperties: {},
         }),
         expect.objectContaining({
           $$uid: 3,
           id: "TB-4",
           $$isTemplateInternalNode: true,
+          $$parsedProperties: {
+            any: "value",
+            pageTitle: "Hello World",
+          },
         }),
         expect.objectContaining({
           $$uid: 4,
           id: "TB-2",
           $$isTemplateInternalNode: true,
+          $$parsedProperties: {},
         }),
         expect.objectContaining({
           $$uid: 5,
           id: "B-2",
           $$isTemplateInternalNode: undefined,
+          $$parsedProperties: {},
         }),
       ],
       edges: [

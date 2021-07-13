@@ -1,7 +1,10 @@
 import { sortBy } from "lodash";
+import { hasOwnProperty } from "@next-core/brick-utils";
 import {
   BuilderRouteOrBrickNode,
   BuilderCustomTemplateNode,
+  CustomTemplateProxyProperty,
+  CustomTemplateProxyBasicProperty,
 } from "@next-core/brick-types";
 import { BuilderRuntimeEdge, BuilderRuntimeNode } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
@@ -78,7 +81,7 @@ export function getAppendingNodesAndEdges(
 
       if (!builderNode.$$isTemplateInternalNode) {
         // Here all internal nodes of the template including nested templates are ready.
-        const findDelegatingSlots = (
+        const processDelegatingSlots = (
           cursorNode: BuilderRuntimeNode,
           mountPoint?: string,
           rootMountPoint?: string
@@ -86,16 +89,15 @@ export function getAppendingNodesAndEdges(
           if (cursorNode.$$templateProxy?.slots) {
             const slotEntries = Object.entries(
               cursorNode.$$templateProxy?.slots
-            );
-            const filteredSlotEntries = slotEntries.filter(
+            ).filter(
               (entry) => mountPoint === undefined || entry[0] === mountPoint
             );
-            for (const [slotName, slotConf] of filteredSlotEntries) {
+            for (const [slotName, slotConf] of slotEntries) {
               const refUid = cursorNode.$$templateRefToUid.get(slotConf.ref);
               if (refUid) {
                 const refNode = nodes.find((node) => node.$$uid === refUid);
                 if (refNode.$$isExpandableTemplate) {
-                  findDelegatingSlots(refNode, slotConf.refSlot, slotName);
+                  processDelegatingSlots(refNode, slotConf.refSlot, slotName);
                 } else {
                   if (!refNode.$$delegatedSlots) {
                     refNode.$$delegatedSlots = new Map();
@@ -119,7 +121,46 @@ export function getAppendingNodesAndEdges(
             }
           }
         };
-        findDelegatingSlots(builderNode);
+        processDelegatingSlots(builderNode);
+
+        const processDelegatingProperties = (
+          cursorNode: BuilderRuntimeNode,
+          previousPropertyName?: string
+        ): void => {
+          if (cursorNode.$$templateProxy?.properties) {
+            const propertyEntries = Object.entries(
+              cursorNode.$$templateProxy?.properties
+            ).filter(
+              (entry) =>
+                previousPropertyName === undefined ||
+                entry[0] === previousPropertyName
+            );
+            for (const [propertyName, propertyConf] of propertyEntries) {
+              if (
+                hasOwnProperty(cursorNode.$$parsedProperties, propertyName) &&
+                isBasicRefProperty(propertyConf)
+              ) {
+                const refUid = cursorNode.$$templateRefToUid.get(
+                  propertyConf.ref
+                );
+                const propertyValue =
+                  cursorNode.$$parsedProperties[propertyName];
+                if (refUid) {
+                  const refNode = nodes.find((node) => node.$$uid === refUid);
+                  refNode.$$parsedProperties[propertyConf.refProperty] =
+                    propertyValue;
+                  if (refNode.$$isExpandableTemplate) {
+                    processDelegatingProperties(
+                      refNode,
+                      propertyConf.refProperty
+                    );
+                  }
+                }
+              }
+            }
+          }
+        };
+        processDelegatingProperties(builderNode);
       }
     }
 
@@ -166,4 +207,13 @@ export function getAppendingNodesAndEdges(
     nodes,
     edges,
   };
+}
+
+export function isBasicRefProperty(
+  propRef: CustomTemplateProxyProperty
+): propRef is CustomTemplateProxyBasicProperty {
+  return (
+    !!(propRef as CustomTemplateProxyBasicProperty).ref &&
+    !!(propRef as CustomTemplateProxyBasicProperty).refProperty
+  );
 }
