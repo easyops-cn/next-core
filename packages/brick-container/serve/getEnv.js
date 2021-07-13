@@ -52,6 +52,9 @@ module.exports = (cwd) => {
       localEditors: {
         type: "string",
       },
+      localSnippets: {
+        type: "string",
+      },
       localMicroApps: {
         type: "string",
       },
@@ -118,6 +121,7 @@ module.exports = (cwd) => {
         --subdir            Set base href to "/next/" instead of "/"
         --local-bricks      Specify local brick packages to be used in remote mode
         --local-editors     Specify local editor packages to be used in remote mode
+        --local-snippets    Specify local snippet packages to be used in remote mode
         --local-micro-apps  Specify local micro apps to be used in remote mode
         --local-templates   Specify local template packages to be used in remote mode
         --local-settings    Use local settings instead of remote settings in remote mode
@@ -151,9 +155,8 @@ module.exports = (cwd) => {
   const contextDir = cwd || rootDir;
   const nextRepoDir = getBrickNextDir();
 
-  const { usePublicScope, standalone: confStandalone } = getEasyopsConfig(
-    nextRepoDir
-  );
+  const { usePublicScope, standalone: confStandalone } =
+    getEasyopsConfig(nextRepoDir);
 
   const standalone = confStandalone || flags.standalone;
 
@@ -178,6 +181,11 @@ module.exports = (cwd) => {
     ? flags.localEditors.split(",")
     : process.env.LOCAL_EDITORS
     ? process.env.LOCAL_EDITORS.split(",")
+    : [];
+  const localSnippetPackages = flags.localSnippets
+    ? flags.localSnippets.split(",")
+    : process.env.LOCAL_SNIPPETS
+    ? process.env.LOCAL_SNIPPETS.split(",")
     : [];
   const localMicroApps = flags.localMicroApps
     ? flags.localMicroApps.split(",")
@@ -248,6 +256,7 @@ module.exports = (cwd) => {
     publicPath,
     localBrickPackages,
     localEditorPackages,
+    localSnippetPackages,
     localMicroApps,
     localTemplates,
     useLocalSettings,
@@ -322,6 +331,11 @@ module.exports = (cwd) => {
   if (env.localEditorPackages.length > 0) {
     console.log();
     console.log("local editors:", env.localEditorPackages);
+  }
+
+  if (env.localSnippetPackages.length > 0) {
+    console.log();
+    console.log("local snippets:", env.localSnippetPackages);
   }
 
   if (env.localTemplates.length > 0) {
