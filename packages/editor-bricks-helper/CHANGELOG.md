@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.2...@next-core/editor-bricks-helper@0.28.0) (2021-07-13)
+
+
+### Bug Fixes
+
+* fix checking proxy slots when expanding templates ([c554459](https://github.com/easyops-cn/next-core/commit/c554459ffe708cf1ce1204fece09f275c6367d1a))
+
+
+### Features
+
+* process delegating properties when expanding templates ([cb4dd2c](https://github.com/easyops-cn/next-core/commit/cb4dd2c157dbd28cc231d3c9f577ea7627d1532f))
+
+
+
+
+
 ## [0.27.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.1...@next-core/editor-bricks-helper@0.27.2) (2021-07-12)
 
 
