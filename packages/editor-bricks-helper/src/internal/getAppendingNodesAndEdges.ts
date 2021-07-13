@@ -83,7 +83,7 @@ export function getAppendingNodesAndEdges(
           mountPoint?: string,
           rootMountPoint?: string
         ): void => {
-          if (builderNode.$$templateProxy?.slots) {
+          if (cursorNode.$$templateProxy?.slots) {
             const slotEntries = Object.entries(
               cursorNode.$$templateProxy?.slots
             );
