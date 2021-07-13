@@ -19,6 +19,7 @@ module.exports = (env) => {
     publicPath,
     localBrickPackages,
     localEditorPackages,
+    localSnippetPackages,
     localMicroApps,
     localTemplates,
     useLocalSettings,
@@ -144,6 +145,60 @@ module.exports = (env) => {
             }
           });
 
+          return JSON.stringify(result);
+        });
+      } else if (
+        localSnippetPackages.length > 0 &&
+        (req.path ===
+          "/next/api/gateway/cmdb.instance.PostSearchV3/v3/object/INSTALLED_BRICK_SNIPPET@EASYOPS/instance/_search" ||
+          req.path ===
+            "/api/gateway/cmdb.instance.PostSearchV3/v3/object/INSTALLED_BRICK_SNIPPET@EASYOPS/instance/_search")
+      ) {
+        modifyResponse(res, proxyRes, (raw) => {
+          if (res.statusCode !== 200) {
+            return raw;
+          }
+          const result = JSON.parse(raw);
+          const { data } = result;
+          localSnippetPackages.forEach((pkgId) => {
+            const devDistJsPath = path.join(
+              brickPackagesDir,
+              pkgId,
+              "dist-snippets/index.js"
+            );
+            const prodDistJsonPath = path.join(
+              brickPackagesDir,
+              pkgId,
+              "dist/snippets.json"
+            );
+            // Prefer dev output to prod output.
+            const distPath = fs.existsSync(devDistJsPath)
+              ? devDistJsPath
+              : fs.existsSync(prodDistJsonPath)
+              ? prodDistJsonPath
+              : null;
+            if (distPath) {
+              let snippets;
+              try {
+                // Clear require cache to get the newest output each time.
+                delete require.cache[require.resolve(distPath)];
+                snippets = require(distPath).snippets;
+              } catch (e) {
+                console.warn(`Load snippets from "${distPath}" failed:`, e);
+              }
+              if (Array.isArray(snippets)) {
+                data.list = [
+                  // Put local snippets before others.
+                  ...snippets,
+                  ...data.list.filter(
+                    // Identify snippet by id.
+                    (v) => !snippets.some((s) => s.id === v.id)
+                  ),
+                ];
+              }
+            }
+          });
+          data.total = data.list.length;
           return JSON.stringify(result);
         });
       }
