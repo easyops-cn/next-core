@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.28.0...@next-core/editor-bricks-helper@0.28.1) (2021-07-14)
+
+
+### Bug Fixes
+
+* disable dragging template internal nodes ([87c36d8](https://github.com/easyops-cn/next-core/commit/87c36d822ee7d55b5c958529bcfe135f0abee003))
+
+
+
+
+
 # [0.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.2...@next-core/editor-bricks-helper@0.28.0) (2021-07-13)
 
 
