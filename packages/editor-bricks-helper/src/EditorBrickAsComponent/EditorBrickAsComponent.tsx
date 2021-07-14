@@ -139,8 +139,8 @@ export function EditorBrickAsComponent({
         })}
       >
         <div
-          ref={dragRef}
-          draggable
+          ref={node.$$isTemplateInternalNode ? undefined : dragRef}
+          draggable={!node.$$isTemplateInternalNode}
           className={classNames({
             [styles.baseView]:
               node.brick === "basic-bricks.micro-view" ||
