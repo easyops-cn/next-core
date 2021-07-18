@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import sys
 import os
-import requests
+import sys
+
 import ens_api
+import requests
 import simplejson
-import commands
 
 
 # 1. 获取到当前的需要处理的包处理到包名
@@ -66,17 +66,8 @@ if __name__ == "__main__":
     print("Usage: ./report_installed_brick_next_package.py $org $install_path")
     sys.exit(1)
 
-  cmd = "/usr/local/easyops/deploy_init/tools/get_env.py micro_app_service report_brick_info"
-  status_code, res = commands.getstatusoutput(cmd)
-  status_code = os.WEXITSTATUS(status_code)
-  if status_code == 0:
-    if res == "true":
-      org = sys.argv[1]
-      install_path = sys.argv[2]
-      package_name, bricks_content, stories_content, snippets_content = collect(install_path)
-      if package_name and bricks_content and snippets_content:
-        report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
-  elif status_code == 2:
-    sys.exit(0)
-  else:
-    raise Exception("%s exec fail;status_code: %s;output: %s" % (cmd, status_code, res))
+  org = sys.argv[1]
+  install_path = sys.argv[2]
+  package_name, bricks_content, stories_content, snippets_content = collect(install_path)
+  if package_name and bricks_content and snippets_content:
+    report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
