@@ -38,7 +38,7 @@
     "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.11.2",
+    "react-i18next": "^11.11.3",
     "react-transition-group": "^4.4.2"
   },
   "devDependencies": {
