@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.54.1...@next-core/brick-kit@2.55.0) (2021-07-19)
+
+
+### Features
+
+* support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
+
+
+
+
+
 ## [2.54.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.54.0...@next-core/brick-kit@2.54.1) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-kit

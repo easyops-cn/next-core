@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.29.0...@next-core/editor-bricks-helper@0.30.0) (2021-07-19)
+
+
+### Features
+
+* support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
+
+
+
+
+
 # [0.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.28.1...@next-core/editor-bricks-helper@0.29.0) (2021-07-19)
 
 

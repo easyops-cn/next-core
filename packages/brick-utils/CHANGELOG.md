@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.19.0...@next-core/brick-utils@2.20.0) (2021-07-19)
+
+
+### Features
+
+* support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
+
+
+
+
+
 # [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.18.1...@next-core/brick-utils@2.19.0) (2021-07-19)
 
 
