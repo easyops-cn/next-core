@@ -58,16 +58,16 @@ export function useFeatureFlags(
  * ```tsx
  * featureFlags = {"enabled-foo": true}
  *
- * <FeatureFlags name={["enable-foo"]}>
+ * <DisplayByFeatureFlags name={["enable-foo"]}>
  *   <div>Can you see me?</div>
- * </FeatureFlags>
+ * </DisplayByFeatureFlags>
  * // 显示 `Can you see me?`
  *
  *
  * featureFlags = {"enabled-foo": true}
- * <FeatureFlags fallback={<h1>Good to see you.</h1>} name={"enable-bar"}>
+ * <DisplayByFeatureFlags fallback={<h1>Good to see you.</h1>} name={"enable-bar"}>
  *   <div>Can you see me?</div>
- * </FeatureFlags>
+ * </DisplayByFeatureFlags>
  * // 显示 `Good to see you.`
  *
  * ```
