@@ -164,6 +164,11 @@ export const developHelper: {
     getFakeKernel: typeof _dev_only_getFakeKernel;
 };
 
+// Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function DisplayByFeatureFlags(props: React_2.PropsWithChildren<featureFlagsProps>): React_2.ReactElement;
+
 // Warning: (ae-internal-missing-underscore) The name "doTransform" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -206,6 +211,9 @@ export interface EventDeclaration extends EventInit {
 export interface EventEmitter<T = unknown> {
     emit: (detail?: T) => boolean;
 }
+
+// @public (undocumented)
+export const FeatureFlagsProvider: React_2.Provider<FeatureFlags>;
 
 // Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
@@ -392,6 +400,9 @@ export function useCurrentMode(): SiteMode;
 
 // @public (undocumented)
 export function useCurrentTheme(): SiteTheme;
+
+// @public
+export function useFeatureFlags(name?: string | string[]): boolean[] | string[];
 
 // Warning: (ae-internal-missing-underscore) The name "useLocation" should be prefixed with an underscore because the declaration is marked as @internal
 //
