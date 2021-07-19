@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import { getRuntime } from "./runtime";
 import { BrickWrapper } from "./BrickWrapper";
-import { FeatureFlags, useFeatureFlags } from "./fetureFlags";
+import { DisplayByFeatureFlags, useFeatureFlags } from "./featureFlags";
 jest.mock("i18next", () => ({ language: "zh" }));
 jest.mock("antd/es/locale/zh_CN", () => "zh_CN");
 jest.mock("antd/es/locale/en_US", () => "en_US");
@@ -62,9 +62,9 @@ describe("featureFlags", () => {
       function TestComponent(): React.ReactElement {
         return (
           <>
-            <FeatureFlags name={"enable-feature"}>
+            <DisplayByFeatureFlags name={"enable-feature"}>
               <div>Can you see me?</div>
-            </FeatureFlags>
+            </DisplayByFeatureFlags>
           </>
         );
       }
@@ -82,9 +82,11 @@ describe("featureFlags", () => {
       function TestComponent(): React.ReactElement {
         return (
           <>
-            <FeatureFlags name={["enable-feature", "enable-say-hello"]}>
+            <DisplayByFeatureFlags
+              name={["enable-feature", "enable-say-hello"]}
+            >
               <div>Can you see me?</div>
-            </FeatureFlags>
+            </DisplayByFeatureFlags>
           </>
         );
       }
@@ -102,9 +104,9 @@ describe("featureFlags", () => {
       function TestComponent(): React.ReactElement {
         return (
           <>
-            <FeatureFlags name={"enable-say-hi"}>
+            <DisplayByFeatureFlags name={"enable-say-hi"}>
               <div>Can you see me?</div>
-            </FeatureFlags>
+            </DisplayByFeatureFlags>
           </>
         );
       }
@@ -122,9 +124,9 @@ describe("featureFlags", () => {
       function TestComponent(): React.ReactElement {
         return (
           <>
-            <FeatureFlags name={["enable-say-hi", "enable-say-hello"]}>
+            <DisplayByFeatureFlags name={["enable-say-hi", "enable-say-hello"]}>
               <div>Can you see me?</div>
-            </FeatureFlags>
+            </DisplayByFeatureFlags>
           </>
         );
       }
@@ -142,12 +144,12 @@ describe("featureFlags", () => {
       function TestComponent(): React.ReactElement {
         return (
           <>
-            <FeatureFlags
+            <DisplayByFeatureFlags
               fallback={<h1>Good to see you.</h1>}
               name={"enable-foo"}
             >
               <div>Can you see me?</div>
-            </FeatureFlags>
+            </DisplayByFeatureFlags>
           </>
         );
       }

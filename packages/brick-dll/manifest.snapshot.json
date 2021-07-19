@@ -18151,9 +18151,9 @@
         "providedExports": [
           "BrickAsComponent",
           "BrickWrapper",
+          "DisplayByFeatureFlags",
           "EasyopsEmpty",
           "ErrorBoundary",
-          "FeatureFlags",
           "FeatureFlagsProvider",
           "ForwardRefSingleBrickAsComponent",
           "ModalElement",

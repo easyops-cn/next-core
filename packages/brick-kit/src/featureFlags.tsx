@@ -75,7 +75,7 @@ export function useFeatureFlags(
  *
  * @param fallback - 如果没有开启传入的特性开关则渲染此属性内传入的 React Node
  */
-export function FeatureFlags(
+export function DisplayByFeatureFlags(
   props: React.PropsWithChildren<featureFlagsProps>
 ): React.ReactElement {
   const featureFlags = useFeatureFlags(props.name) as boolean[];

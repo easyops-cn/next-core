@@ -6,7 +6,7 @@ import enUS from "antd/es/locale/en_US";
 
 import { ErrorBoundary } from "./ErrorBoundary";
 import { EasyopsEmpty, EasyopsEmptyProps } from "./EasyopsEmpty";
-import { FeatureFlagsProvider } from "./fetureFlags";
+import { FeatureFlagsProvider } from "./featureFlags";
 import { getRuntime } from "./runtime";
 
 interface BrickWrapperProps {
