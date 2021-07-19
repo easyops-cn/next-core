@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.15.10...@next-core/brick-dll@2.16.0) (2021-07-19)
+
+
+### Features
+
+* unify builder node normalization ([ad7d140](https://github.com/easyops-cn/next-core/commit/ad7d140d4c442a6f7421147415424fa0b6b39682))
+
+
+
+
+
 ## [2.15.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.15.9...@next-core/brick-dll@2.15.10) (2021-07-14)
 
 **Note:** Version bump only for package @next-core/brick-dll

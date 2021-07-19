@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.18.1...@next-core/brick-utils@2.19.0) (2021-07-19)
+
+
+### Features
+
+* unify builder node normalization ([ad7d140](https://github.com/easyops-cn/next-core/commit/ad7d140d4c442a6f7421147415424fa0b6b39682))
+
+
+
+
+
 ## [2.18.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.18.0...@next-core/brick-utils@2.18.1) (2021-07-06)
 
 **Note:** Version bump only for package @next-core/brick-utils

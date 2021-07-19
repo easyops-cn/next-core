@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.14.9...@next-dll/editor-bricks-helper@0.15.0) (2021-07-19)
+
+
+### Features
+
+* unify builder node normalization ([ad7d140](https://github.com/easyops-cn/next-core/commit/ad7d140d4c442a6f7421147415424fa0b6b39682))
+
+
+
+
+
 ## [0.14.9](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.14.8...@next-dll/editor-bricks-helper@0.14.9) (2021-07-14)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
