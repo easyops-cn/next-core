@@ -6,6 +6,8 @@ import enUS from "antd/es/locale/en_US";
 
 import { ErrorBoundary } from "./ErrorBoundary";
 import { EasyopsEmpty, EasyopsEmptyProps } from "./EasyopsEmpty";
+import { FeatureFlagsProvider } from "./fetureFlags";
+import { getRuntime } from "./runtime";
 
 interface BrickWrapperProps {
   children?: React.ReactElement;
@@ -15,20 +17,23 @@ interface BrickWrapperProps {
 }
 
 /**
- * 构件的 React 组件包装器，包含 ErrorBoundary 和 ConfigProvider。
+ * 构件的 React 组件包装器，包含 ErrorBoundary, ConfigProvider, FeatureFlagsProvider。
  */
 export function BrickWrapper(props: BrickWrapperProps): React.ReactElement {
   const locale =
     i18n.language && i18n.language.split("-")[0] === "en" ? enUS : zhCN;
+  const featureFlags = getRuntime().getFeatureFlags();
   return (
     <ErrorBoundary>
-      <ConfigProvider
-        locale={locale}
-        autoInsertSpaceInButton={false}
-        renderEmpty={() => <EasyopsEmpty {...props.wrapperConfig?.empty} />}
-      >
-        {props.children}
-      </ConfigProvider>
+      <FeatureFlagsProvider value={featureFlags}>
+        <ConfigProvider
+          locale={locale}
+          autoInsertSpaceInButton={false}
+          renderEmpty={() => <EasyopsEmpty {...props.wrapperConfig?.empty} />}
+        >
+          {props.children}
+        </ConfigProvider>
+      </FeatureFlagsProvider>
     </ErrorBoundary>
   );
 }

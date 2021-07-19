@@ -22,7 +22,7 @@ import { CustomTemplateProxyMergeablePropertyOfObject } from '@next-core/brick-t
 import { CustomTemplateProxyRefProperty } from '@next-core/brick-types';
 import { DefineResolveConf } from '@next-core/brick-types';
 import { DesktopData } from '@next-core/brick-types';
-import { FeatureFlags } from '@next-core/brick-types';
+import { FeatureFlags as FeatureFlags_2 } from '@next-core/brick-types';
 import { GeneralTransform } from '@next-core/brick-types';
 import { HttpFetchError } from '@next-core/brick-http';
 import { HttpParseError } from '@next-core/brick-http';
@@ -74,7 +74,7 @@ export interface AbstractRuntime {
     getCurrentApp(): MicroApp;
     getCurrentMode(): SiteMode;
     getCurrentTheme(): SiteTheme;
-    getFeatureFlags(): FeatureFlags;
+    getFeatureFlags(): FeatureFlags_2;
     getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
     getMiscSettings(): Record<string, unknown>;
     hasInstalledApp(appId: string): boolean;
@@ -206,6 +206,14 @@ export interface EventDeclaration extends EventInit {
 export interface EventEmitter<T = unknown> {
     emit: (detail?: T) => boolean;
 }
+
+// Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function FeatureFlags(props: React_2.PropsWithChildren<featureFlagsProps>): React_2.ReactElement;
+
+// @public (undocumented)
+export const FeatureFlagsProvider: React_2.Provider<FeatureFlags_2>;
 
 // Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
@@ -392,6 +400,9 @@ export function useCurrentMode(): SiteMode;
 
 // @public (undocumented)
 export function useCurrentTheme(): SiteTheme;
+
+// @public
+export function useFeatureFlags(name?: string | string[]): boolean[] | string[];
 
 // Warning: (ae-internal-missing-underscore) The name "useLocation" should be prefixed with an underscore because the declaration is marked as @internal
 //
