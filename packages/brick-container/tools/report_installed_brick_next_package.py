@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+import logging
 import os
 import sys
 
 import ens_api
 import requests
 import simplejson
+
+logger = logging.getLogger("report_installed_brick_next_package")
+logging.basicConfig(level=logging.DEBUG, filename="./report_installed_brick_next_package.log")
 
 
 # 1. 获取到当前的需要处理的包处理到包名
@@ -20,7 +24,10 @@ def collect(install_path):
     raise Exception("could not find install path {}".format(install_path))
   if not os.path.isdir(install_path):
     raise Exception("install_path must be a dir {}".format(install_path))
-  package_name = os.path.split(install_path[:-1])[-1]
+  if install_path.endswith(os.sep):
+    install_path = install_path[:-1]
+  package_name = os.path.basename(install_path)
+  logger.info("install_path %s packageName %s", install_path, package_name)
   bricks_path = os.path.join(install_path, "dist", "bricks.json")
   if not os.path.exists(bricks_path):
     raise Exception("could not find bricks.json path {}".format(bricks_path))
