@@ -6,6 +6,7 @@ import {
   BuilderRouteNode,
   BrickLifeCycle,
   BrickConf,
+  RouteConf,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
@@ -30,6 +31,7 @@ export type BuilderRuntimeNode<P = Record<string, unknown>> =
     $$templateProxy?: CustomTemplateProxy;
     $$templateRefToUid?: Map<string, number>;
     $$delegatedSlots?: Map<string, TemplateDelegatedContext[]>;
+    $$normalized?: BrickConf | RouteConf | null;
   };
 
 export interface BuilderRuntimeEdge {
