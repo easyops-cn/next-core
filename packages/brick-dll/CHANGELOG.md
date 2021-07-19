@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.16.2...@next-core/brick-dll@2.17.0) (2021-07-19)
+
+
+### Features
+
+* 支持多种获取特性开关的方式 ([#756](https://github.com/easyops-cn/next-core/issues/756)) ([c69d744](https://github.com/easyops-cn/next-core/commit/c69d744dea0b8d826167bc3251b2c1f5dfac1483))
+
+
+
+
+
 ## [2.16.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.16.1...@next-core/brick-dll@2.16.2) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-dll
