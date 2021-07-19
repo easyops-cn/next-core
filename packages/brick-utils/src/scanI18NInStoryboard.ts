@@ -1,8 +1,7 @@
 import { CallExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-import { isEvaluable, preevaluate } from "./cook/preevaluate";
-import PrecookVisitor from "./cook/PrecookVisitor";
+import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
 
 interface ESTreeStringLiteral {
   type: "Literal";
@@ -25,7 +24,7 @@ export function scanI18NInStoryboard(
     storyboard.routes,
     storyboard.meta && [
       storyboard.meta.customTemplates,
-      ((storyboard.meta as unknown) as MetaOfStoryboardToBuild).menus,
+      (storyboard.meta as unknown as MetaOfStoryboardToBuild).menus,
     ],
   ]);
 }
@@ -46,10 +45,8 @@ function collectProcessors(
       preevaluate(data, {
         visitors: {
           CallExpression: (node: CallExpression, state, callback) => {
-            const [
-              keyNode,
-              defaultNode,
-            ] = (node.arguments as unknown) as ESTreeStringLiteral[];
+            const [keyNode, defaultNode] =
+              node.arguments as unknown as ESTreeStringLiteral[];
             if (
               node.callee.type === "Identifier" &&
               node.callee.name === I18N &&

@@ -41,7 +41,9 @@ const SupportedConstructorSet = new Set([
   "WeakSet",
 ]);
 
-const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
+export const CookVisitor = Object.freeze<
+  Record<string, VisitorFn<CookVisitorState>>
+>({
   ArrayExpression(
     node: ArrayExpression,
     state: CookVisitorState<any[]>,
@@ -695,7 +697,7 @@ const CookVisitor: Record<string, VisitorFn<CookVisitorState>> = {
       );
     }
   },
-};
+});
 
 function isIterable(cooked: any): boolean {
   if (Array.isArray(cooked)) {
@@ -751,5 +753,3 @@ function sanitize(cooked: any): void {
     throw new TypeError("Cannot access reserved objects such as `Function`.");
   }
 }
-
-export default CookVisitor;

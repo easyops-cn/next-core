@@ -28,7 +28,9 @@ import {
 } from "./interfaces";
 import { spawnPrecookState, getScopes } from "./utils";
 
-const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
+export const PrecookVisitor = Object.freeze<
+  Record<string, VisitorFn<PrecookVisitorState>>
+>({
   ArrayExpression(node: ArrayExpression, state, callback) {
     for (const element of node.elements) {
       // 🚫Sparse arrays are not allowed.
@@ -180,6 +182,4 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
       callback(arg, state);
     }
   },
-};
-
-export default PrecookVisitor;
+});

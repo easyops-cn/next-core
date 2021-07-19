@@ -1,3 +1,4 @@
+import { deepFreeze } from "@next-core/brick-utils";
 import { BuilderCanvasData } from "../interfaces";
 import { expandTemplateEdges } from "./expandTemplateEdges";
 
@@ -225,21 +226,3 @@ describe("expandTemplateEdges", () => {
     expect(expandTemplateEdges(data)).toBe(data.edges);
   });
 });
-
-// Freeze object to avoid mutating objects accidentally.
-function deepFreeze<T>(object: T): T {
-  // Retrieve the property names defined on object
-  const propNames = Object.getOwnPropertyNames(object);
-
-  // Freeze properties before freezing self
-
-  for (const name of propNames) {
-    const value = (object as Record<string, unknown>)[name];
-
-    if (value && typeof value === "object") {
-      deepFreeze(value);
-    }
-  }
-
-  return Object.freeze(object);
-}
