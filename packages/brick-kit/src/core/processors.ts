@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 import i18next from "i18next";
 import { BootstrapData } from "@next-core/brick-types";
-import { deepFreeze } from "../deepFreeze";
+import { deepFreeze } from "@next-core/brick-utils";
 
 /**
  * Merge `app.defaultConfig` and `app.userConfig` to `app.config`.

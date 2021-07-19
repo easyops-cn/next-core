@@ -1,6 +1,6 @@
 import { Node } from "@babel/types";
 import { walkFactory } from "./utils";
-import CookVisitor from "./CookVisitor";
+import { CookVisitor } from "./CookVisitor";
 import { CookVisitorState, PrecookResult } from "./interfaces";
 import { supply } from "./supply";
 

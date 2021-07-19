@@ -6,6 +6,7 @@ import {
   getDllAndDepsByResource,
   getTemplateDepsOfStoryboard,
   scanBricksInBrickConf,
+  deepFreeze,
 } from "@next-core/brick-utils";
 import { checkLogin, bootstrap, getAppStoryboard } from "@next-sdk/auth-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
@@ -98,6 +99,8 @@ spyOnGetDllAndDepsByResource.mockImplementation(
     ],
   })
 );
+
+(deepFreeze as jest.Mock).mockImplementation((t) => Object.freeze(t));
 
 // Mock a custom element of `my.test-provider`.
 customElements.define("my.test-provider", class Tmp extends HTMLElement {});

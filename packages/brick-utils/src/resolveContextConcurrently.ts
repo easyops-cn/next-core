@@ -1,7 +1,6 @@
 import { MemberExpression } from "@babel/types";
 import { ContextConf } from "@next-core/brick-types";
-import { isEvaluable, preevaluate } from "./cook";
-import PrecookVisitor from "./cook/PrecookVisitor";
+import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
 import { isObject } from "./isObject";
 
 export async function resolveContextConcurrently(
