@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.20.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.1...@next-core/brick-utils@2.20.2) (2021-07-20)
+
+
+### Bug Fixes
+
+* **builder:** fix `transformFrom` in brick nodes ([1d520e5](https://github.com/easyops-cn/next-core/commit/1d520e59f673ba0d106718f40be4cedb9ff8882a))
+
+
+
+
+
 ## [2.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.0...@next-core/brick-utils@2.20.1) (2021-07-19)
 
 
