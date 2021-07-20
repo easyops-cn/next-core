@@ -34,6 +34,142 @@ interface BrickAsComponentProps {
   parentRefForUseBrickInPortal?: React.RefObject<HTMLElement>;
 }
 
+interface SingleBrickAsComponentProps extends BrickAsComponentProps {
+  useBrick: UseSingleBrickConf;
+  refCallback?: (element: HTMLElement) => void;
+  immediatelyRefCallback?: (element: HTMLElement) => void;
+}
+
+/**
+ * 可以渲染单个 `useBrick` 的 React 组件。
+ *
+ * @example
+ *
+ * ```tsx
+ * <BrickAsComponent
+ *   useBrick={{
+ *     brick: "your.any-brick"
+ *   }}
+ *   data={yourData}
+ * />
+ * ```
+ *
+ * @param props - 属性。
+ */
+export const SingleBrickAsComponent = React.memo(
+  function SingleBrickAsComponent({
+    useBrick,
+    data,
+    parentRefForUseBrickInPortal,
+    refCallback,
+    immediatelyRefCallback,
+  }: SingleBrickAsComponentProps): React.ReactElement {
+    const isBrickAvailable = React.useMemo(() => {
+      if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
+        // eslint-disable-next-line
+        console.warn("Currently resolvable-if in `useBrick` is not supported.");
+      } else if (!looseCheckIfByTransform(useBrick, data)) {
+        return false;
+      }
+
+      return true;
+    }, [useBrick, data]);
+
+    const runtimeBrick = React.useMemo(async () => {
+      if (!isBrickAvailable) {
+        return null;
+      }
+
+      // If the router state is initial, ignore rendering the sub-brick.
+      if (_internalApiGetRouterState() === "initial") {
+        return;
+      }
+      const brick: RuntimeBrick = {
+        type: useBrick.brick,
+        properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
+      };
+      transformProperties(
+        brick.properties,
+        data,
+        useBrick.transform,
+        useBrick.transformFrom
+      );
+      if (useBrick.lifeCycle) {
+        const resolver = _internalApiGetResolver();
+        try {
+          await resolver.resolve(
+            {
+              brick: useBrick.brick,
+              lifeCycle: useBrick.lifeCycle,
+            },
+            brick,
+            _internalApiGetCurrentContext()
+          );
+        } catch (e) {
+          handleHttpError(e);
+        }
+      }
+      return brick;
+    }, [useBrick, data, isBrickAvailable]);
+
+    const innerRefCallback = React.useCallback(
+      async (element: HTMLElement) => {
+        immediatelyRefCallback?.(element);
+        if (element) {
+          const brick = await runtimeBrick;
+          // sub-brick rendering is ignored.
+          if (!brick) {
+            return;
+          }
+          brick.element = element;
+          setRealProperties(element, brick.properties);
+          unbindListeners(element);
+          if (useBrick.events) {
+            bindListeners(element, transformEvents(data, useBrick.events));
+          }
+
+          // Memoize the parent ref of useBrick.
+          (element as RuntimeBrickElementWithTplSymbols)[
+            symbolForParentRefForUseBrickInPortal
+          ] = parentRefForUseBrickInPortal;
+
+          if (!useBrick.brick.includes("-")) {
+            (element as RuntimeBrickElement).$$typeof = "native";
+          } else if (!customElements.get(useBrick.brick)) {
+            (element as RuntimeBrickElement).$$typeof = "invalid";
+          }
+        }
+
+        refCallback?.(element);
+      },
+      [
+        runtimeBrick,
+        useBrick,
+        data,
+        refCallback,
+        immediatelyRefCallback,
+        parentRefForUseBrickInPortal,
+      ]
+    );
+
+    if (!isBrickAvailable) {
+      return null;
+    }
+
+    return React.createElement(
+      useBrick.brick,
+      {
+        ref: innerRefCallback,
+      },
+      ...slotsToChildren(useBrick.slots).map(
+        (item: UseSingleBrickConf, index: number) => (
+          <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+        )
+      )
+    );
+  }
+);
+
 /**
  * 可以渲染 `useBrick` 的 React 组件。
  *
@@ -81,140 +217,6 @@ export function BrickAsComponent({
   );
 }
 
-interface SingleBrickAsComponentProps extends BrickAsComponentProps {
-  useBrick: UseSingleBrickConf;
-  refCallback?: (element: HTMLElement) => void;
-  immediatelyRefCallback?: (element: HTMLElement) => void;
-}
-
-/**
- * 可以渲染单个 `useBrick` 的 React 组件。
- *
- * @example
- *
- * ```tsx
- * <BrickAsComponent
- *   useBrick={{
- *     brick: "your.any-brick"
- *   }}
- *   data={yourData}
- * />
- * ```
- *
- * @param props - 属性。
- */
-export function SingleBrickAsComponent({
-  useBrick,
-  data,
-  parentRefForUseBrickInPortal,
-  refCallback,
-  immediatelyRefCallback,
-}: SingleBrickAsComponentProps): React.ReactElement {
-  const isBrickAvailable = React.useMemo(() => {
-    if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
-      // eslint-disable-next-line
-      console.warn("Currently resolvable-if in `useBrick` is not supported.");
-    } else if (!looseCheckIfByTransform(useBrick, data)) {
-      return false;
-    }
-
-    return true;
-  }, [useBrick, data]);
-
-  const runtimeBrick = React.useMemo(async () => {
-    if (!isBrickAvailable) {
-      return null;
-    }
-
-    // If the router state is initial, ignore rendering the sub-brick.
-    if (_internalApiGetRouterState() === "initial") {
-      return;
-    }
-    const brick: RuntimeBrick = {
-      type: useBrick.brick,
-      properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
-    };
-    transformProperties(
-      brick.properties,
-      data,
-      useBrick.transform,
-      useBrick.transformFrom
-    );
-    if (useBrick.lifeCycle) {
-      const resolver = _internalApiGetResolver();
-      try {
-        await resolver.resolve(
-          {
-            brick: useBrick.brick,
-            lifeCycle: useBrick.lifeCycle,
-          },
-          brick,
-          _internalApiGetCurrentContext()
-        );
-      } catch (e) {
-        handleHttpError(e);
-      }
-    }
-    return brick;
-  }, [useBrick, data, isBrickAvailable]);
-
-  const innerRefCallback = React.useCallback(
-    async (element: HTMLElement) => {
-      immediatelyRefCallback?.(element);
-      if (element) {
-        const brick = await runtimeBrick;
-        // sub-brick rendering is ignored.
-        if (!brick) {
-          return;
-        }
-        brick.element = element;
-        setRealProperties(element, brick.properties);
-        unbindListeners(element);
-        if (useBrick.events) {
-          bindListeners(element, transformEvents(data, useBrick.events));
-        }
-
-        // Memoize the parent ref of useBrick.
-        (element as RuntimeBrickElementWithTplSymbols)[
-          symbolForParentRefForUseBrickInPortal
-        ] = parentRefForUseBrickInPortal;
-
-        if (!useBrick.brick.includes("-")) {
-          (element as RuntimeBrickElement).$$typeof = "native";
-        } else if (!customElements.get(useBrick.brick)) {
-          (element as RuntimeBrickElement).$$typeof = "invalid";
-        }
-      }
-
-      refCallback?.(element);
-    },
-    [
-      runtimeBrick,
-      useBrick,
-      data,
-      refCallback,
-      immediatelyRefCallback,
-      parentRefForUseBrickInPortal,
-    ]
-  );
-
-  if (!isBrickAvailable) {
-    return null;
-  }
-
-  return React.createElement(
-    useBrick.brick,
-    {
-      ref: innerRefCallback,
-    },
-    ...slotsToChildren(useBrick.slots).map(
-      (item: UseSingleBrickConf, index: number) => (
-        <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-      )
-    )
-  );
-}
-
 function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
   if (!slots) {
     return [];
@@ -254,118 +256,128 @@ function transformEvents(
 }
 
 /* istanbul ignore next */
-export const ForwardRefSingleBrickAsComponent = forwardRef<
-  HTMLElement,
-  SingleBrickAsComponentProps
->(function LegacySingleBrickAsComponent(
-  {
-    useBrick,
-    data,
-    parentRefForUseBrickInPortal,
-    refCallback,
-  }: SingleBrickAsComponentProps,
-  ref
-): React.ReactElement {
-  const brickRef = useRef<HTMLElement>();
-  const isBrickAvailable = React.useMemo(() => {
-    if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
-      // eslint-disable-next-line
-      console.warn("Currently resolvable-if in `useBrick` is not supported.");
-    } else if (!looseCheckIfByTransform(useBrick, data)) {
-      return false;
-    }
+// eslint-disable-next-line react/display-name
+export const ForwardRefSingleBrickAsComponent = React.memo(
+  forwardRef<HTMLElement, SingleBrickAsComponentProps>(
+    function LegacySingleBrickAsComponent(
+      {
+        useBrick,
+        data,
+        parentRefForUseBrickInPortal,
+        refCallback,
+      }: SingleBrickAsComponentProps,
+      ref
+    ): React.ReactElement {
+      const brickRef = useRef<HTMLElement>();
+      const isBrickAvailable = React.useMemo(() => {
+        if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
+          // eslint-disable-next-line
+          console.warn(
+            "Currently resolvable-if in `useBrick` is not supported."
+          );
+        } else if (!looseCheckIfByTransform(useBrick, data)) {
+          return false;
+        }
 
-    return true;
-  }, [useBrick, data]);
+        return true;
+      }, [useBrick, data]);
 
-  /* istanbul ignore next (never reach in test) */
-  useImperativeHandle(ref, () => {
-    return brickRef.current;
-  });
+      /* istanbul ignore next (never reach in test) */
+      useImperativeHandle(ref, () => {
+        return brickRef.current;
+      });
 
-  const runtimeBrick = React.useMemo(async () => {
-    if (!isBrickAvailable) {
-      return null;
-    }
+      const runtimeBrick = React.useMemo(async () => {
+        if (!isBrickAvailable) {
+          return null;
+        }
 
-    // If the router state is initial, ignore rendering the sub-brick.
-    if (_internalApiGetRouterState() === "initial") {
-      return;
-    }
-    const brick: RuntimeBrick = {
-      type: useBrick.brick,
-      properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
-    };
-    transformProperties(
-      brick.properties,
-      data,
-      useBrick.transform,
-      useBrick.transformFrom
-    );
-    if (useBrick.lifeCycle) {
-      const resolver = _internalApiGetResolver();
-      try {
-        await resolver.resolve(
-          {
-            brick: useBrick.brick,
-            lifeCycle: useBrick.lifeCycle,
-          },
-          brick,
-          _internalApiGetCurrentContext()
-        );
-      } catch (e) {
-        handleHttpError(e);
-      }
-    }
-    return brick;
-  }, [useBrick, data, isBrickAvailable]);
-
-  const innerRefCallback = React.useCallback(
-    async (element: HTMLElement) => {
-      brickRef.current = element;
-
-      if (element) {
-        const brick = await runtimeBrick;
-        // sub-brick rendering is ignored.
-        if (!brick) {
+        // If the router state is initial, ignore rendering the sub-brick.
+        if (_internalApiGetRouterState() === "initial") {
           return;
         }
-        brick.element = element;
-        setRealProperties(element, brick.properties);
-        unbindListeners(element);
-        if (useBrick.events) {
-          bindListeners(element, transformEvents(data, useBrick.events));
+        const brick: RuntimeBrick = {
+          type: useBrick.brick,
+          properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
+        };
+        transformProperties(
+          brick.properties,
+          data,
+          useBrick.transform,
+          useBrick.transformFrom
+        );
+        if (useBrick.lifeCycle) {
+          const resolver = _internalApiGetResolver();
+          try {
+            await resolver.resolve(
+              {
+                brick: useBrick.brick,
+                lifeCycle: useBrick.lifeCycle,
+              },
+              brick,
+              _internalApiGetCurrentContext()
+            );
+          } catch (e) {
+            handleHttpError(e);
+          }
         }
+        return brick;
+      }, [useBrick, data, isBrickAvailable]);
 
-        // Memoize the parent ref of useBrick.
-        (element as RuntimeBrickElementWithTplSymbols)[
-          symbolForParentRefForUseBrickInPortal
-        ] = parentRefForUseBrickInPortal;
+      const innerRefCallback = React.useCallback(
+        async (element: HTMLElement) => {
+          brickRef.current = element;
 
-        if (!useBrick.brick.includes("-")) {
-          (element as RuntimeBrickElement).$$typeof = "native";
-        } else if (!customElements.get(useBrick.brick)) {
-          (element as RuntimeBrickElement).$$typeof = "invalid";
-        }
+          if (element) {
+            const brick = await runtimeBrick;
+            // sub-brick rendering is ignored.
+            if (!brick) {
+              return;
+            }
+            brick.element = element;
+            setRealProperties(element, brick.properties);
+            unbindListeners(element);
+            if (useBrick.events) {
+              bindListeners(element, transformEvents(data, useBrick.events));
+            }
+
+            // Memoize the parent ref of useBrick.
+            (element as RuntimeBrickElementWithTplSymbols)[
+              symbolForParentRefForUseBrickInPortal
+            ] = parentRefForUseBrickInPortal;
+
+            if (!useBrick.brick.includes("-")) {
+              (element as RuntimeBrickElement).$$typeof = "native";
+            } else if (!customElements.get(useBrick.brick)) {
+              (element as RuntimeBrickElement).$$typeof = "invalid";
+            }
+          }
+          refCallback?.(element);
+        },
+        [
+          runtimeBrick,
+          useBrick,
+          data,
+          refCallback,
+          parentRefForUseBrickInPortal,
+        ]
+      );
+
+      if (!isBrickAvailable) {
+        return null;
       }
-      refCallback?.(element);
-    },
-    [runtimeBrick, useBrick, data, refCallback, parentRefForUseBrickInPortal]
-  );
 
-  if (!isBrickAvailable) {
-    return null;
-  }
-
-  return React.createElement(
-    useBrick.brick,
-    {
-      ref: innerRefCallback,
-    },
-    ...slotsToChildren(useBrick.slots).map(
-      (item: UseSingleBrickConf, index: number) => (
-        <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-      )
-    )
-  );
-});
+      return React.createElement(
+        useBrick.brick,
+        {
+          ref: innerRefCallback,
+        },
+        ...slotsToChildren(useBrick.slots).map(
+          (item: UseSingleBrickConf, index: number) => (
+            <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+          )
+        )
+      );
+    }
+  )
+);

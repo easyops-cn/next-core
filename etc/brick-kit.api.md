@@ -218,7 +218,7 @@ export const FeatureFlagsProvider: React_2.Provider<FeatureFlags>;
 // Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export const ForwardRefSingleBrickAsComponent: React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>;
+export const ForwardRefSingleBrickAsComponent: React_2.MemoExoticComponent<React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>>;
 
 // @public
 export function getAuth(): AuthInfo;
@@ -349,7 +349,7 @@ export function reTransformForDevtools(transformationId: number, data: unknown, 
 export type RouterState = "initial" | "ready-to-mount" | "mounted";
 
 // @public
-export function SingleBrickAsComponent({ useBrick, data, parentRefForUseBrickInPortal, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps): React_2.ReactElement;
+export const SingleBrickAsComponent: React_2.NamedExoticComponent<SingleBrickAsComponentProps>;
 
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //
