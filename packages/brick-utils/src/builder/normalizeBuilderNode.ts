@@ -20,7 +20,7 @@ const jsonFieldsInRoute = [
 ];
 
 // Fields stored as yaml string will be parsed when build & push.
-const yamlFieldsInRoute = ["permissionsPreCheck", "transformFrom"];
+const yamlFieldsInRoute = ["permissionsPreCheck"];
 
 const jsonFieldsInBrick = [
   "properties",
@@ -32,7 +32,7 @@ const jsonFieldsInBrick = [
 ];
 
 // Fields stored as yaml string will be parsed when build & push.
-const yamlFieldsInBrick = ["permissionsPreCheck"];
+const yamlFieldsInBrick = ["permissionsPreCheck", "transformFrom"];
 
 // Fields started with `_` will be removed by default.
 const fieldsToRemoveInRoute = [
