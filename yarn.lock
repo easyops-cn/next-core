@@ -3460,10 +3460,10 @@
     "@typescript-eslint/types" "4.28.4"
     eslint-visitor-keys "^2.0.0"
 
-"@ungap/event-target@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.npmjs.org/@ungap/event-target/-/event-target-0.2.2.tgz#6543122625a0a793c5fa265f45717cd096b0fb7c"
-  integrity sha1-ZUMSJiWgp5PF+iZfRXF80Jaw+3w=
+"@ungap/event-target@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.npmjs.org/@ungap/event-target/-/event-target-0.2.3.tgz#be682c681126dca2371c4e1a1721f8e8bb400905"
+  integrity sha512-7Bz0qdvxNGV9n0f+xcMKU7wsEfK6PNzo8IdAcOiBgMNyCuU0Mk9dv0Hbd/Kgr+MFFfn4xLHFbuOt820egT5qEA==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
