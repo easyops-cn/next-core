@@ -22,7 +22,9 @@ interface BrickWrapperProps {
 export function BrickWrapper(props: BrickWrapperProps): React.ReactElement {
   const locale =
     i18n.language && i18n.language.split("-")[0] === "en" ? enUS : zhCN;
-  const featureFlags = getRuntime().getFeatureFlags();
+  // istanbul ignore next
+  const featureFlags =
+    process.env.NODE_ENV === "test" ? {} : getRuntime().getFeatureFlags();
   return (
     <ErrorBoundary>
       <FeatureFlagsProvider value={featureFlags}>
