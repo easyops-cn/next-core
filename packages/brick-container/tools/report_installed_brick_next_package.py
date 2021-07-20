@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import string
 import sys
 import os
 import requests
@@ -20,7 +21,9 @@ def collect(install_path):
     raise Exception("could not find install path {}".format(install_path))
   if not os.path.isdir(install_path):
     raise Exception("install_path must be a dir {}".format(install_path))
-  package_name = os.path.split(install_path[:-1])[-1]
+  package_name = os.path.split(string.rstrip(install_path, chars=os.sep))[-1]
+  if not package_name.endswith("NB"):
+    raise Exception("package suffix error; packageName %s" % package_name)
   bricks_path = os.path.join(install_path, "dist", "bricks.json")
   if not os.path.exists(bricks_path):
     raise Exception("could not find bricks.json path {}".format(bricks_path))
