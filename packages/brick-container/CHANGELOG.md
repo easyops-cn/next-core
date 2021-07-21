@@ -7,156 +7,79 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.18...@next-core/brick-container@2.27.19) (2021-07-21)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.17...@next-core/brick-container@2.27.18) (2021-07-21)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.16...@next-core/brick-container@2.27.17) (2021-07-20)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.15...@next-core/brick-container@2.27.16) (2021-07-20)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.14...@next-core/brick-container@2.27.15) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.13...@next-core/brick-container@2.27.14) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.12...@next-core/brick-container@2.27.13) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.11...@next-core/brick-container@2.27.12) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.10...@next-core/brick-container@2.27.11) (2021-07-14)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.9...@next-core/brick-container@2.27.10) (2021-07-13)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.8...@next-core/brick-container@2.27.9) (2021-07-13)
-
 
 ### Bug Fixes
 
-* **serve:** support to set local snippet packages ([9153483](https://github.com/easyops-cn/next-core/commit/9153483ade291e607089488188ef5872315fc01a))
-
-
-
-
+- **serve:** support to set local snippet packages ([9153483](https://github.com/easyops-cn/next-core/commit/9153483ade291e607089488188ef5872315fc01a))
 
 ## [2.27.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.7...@next-core/brick-container@2.27.8) (2021-07-12)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.6...@next-core/brick-container@2.27.7) (2021-07-09)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.5...@next-core/brick-container@2.27.6) (2021-07-08)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.4...@next-core/brick-container@2.27.5) (2021-07-06)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.3...@next-core/brick-container@2.27.4) (2021-07-06)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.2...@next-core/brick-container@2.27.3) (2021-07-04)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.27.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.1...@next-core/brick-container@2.27.2) (2021-07-02)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.27.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.27.0...@next-core/brick-container@2.27.1) (2021-07-01)
 

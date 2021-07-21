@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.3.8](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.3.7...@next-core/illustrations@0.3.8) (2021-06-02)
 
 **Note:** Version bump only for package @next-core/illustrations

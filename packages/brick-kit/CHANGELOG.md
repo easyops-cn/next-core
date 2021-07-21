@@ -5,110 +5,60 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.56.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.3...@next-core/brick-kit@2.56.4) (2021-07-21)
 
-
 ### Bug Fixes
 
-* httpError style fix ([383b44f](https://github.com/easyops-cn/next-core/commit/383b44f042ee74992c8eb05ad6632b5913a9ea2b))
-* httpError style fix unit test update ([33f3985](https://github.com/easyops-cn/next-core/commit/33f3985cb2cfe1bee163c8442dc77ac7299979be))
-
-
-
-
+- httpError style fix ([383b44f](https://github.com/easyops-cn/next-core/commit/383b44f042ee74992c8eb05ad6632b5913a9ea2b))
+- httpError style fix unit test update ([33f3985](https://github.com/easyops-cn/next-core/commit/33f3985cb2cfe1bee163c8442dc77ac7299979be))
 
 ## [2.56.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.2...@next-core/brick-kit@2.56.3) (2021-07-21)
 
-
 ### Bug Fixes
 
-* refine feature flags ([cd2df14](https://github.com/easyops-cn/next-core/commit/cd2df14dc5c01c8d3806f1079ec338eb044431aa))
-
-
-
-
+- refine feature flags ([cd2df14](https://github.com/easyops-cn/next-core/commit/cd2df14dc5c01c8d3806f1079ec338eb044431aa))
 
 ## [2.56.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.1...@next-core/brick-kit@2.56.2) (2021-07-20)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.56.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.0...@next-core/brick-kit@2.56.1) (2021-07-20)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.55.1...@next-core/brick-kit@2.56.0) (2021-07-19)
-
 
 ### Features
 
-* 支持多种获取特性开关的方式 ([#756](https://github.com/easyops-cn/next-core/issues/756)) ([c69d744](https://github.com/easyops-cn/next-core/commit/c69d744dea0b8d826167bc3251b2c1f5dfac1483))
-
-
-
-
+- 支持多种获取特性开关的方式 ([#756](https://github.com/easyops-cn/next-core/issues/756)) ([c69d744](https://github.com/easyops-cn/next-core/commit/c69d744dea0b8d826167bc3251b2c1f5dfac1483))
 
 ## [2.55.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.55.0...@next-core/brick-kit@2.55.1) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.54.1...@next-core/brick-kit@2.55.0) (2021-07-19)
-
 
 ### Features
 
-* support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
-
-
-
-
+- support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
 
 ## [2.54.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.54.0...@next-core/brick-kit@2.54.1) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.2...@next-core/brick-kit@2.54.0) (2021-07-06)
-
 
 ### Features
 
-* support sessionStorage.getItem,sessionStorage.setItem and SESSION_STORAGE ([f094ab4](https://github.com/easyops-cn/next-core/commit/f094ab4140f4aabcd12370896f42bc8318199c4e))
-
-
-
-
+- support sessionStorage.getItem,sessionStorage.setItem and SESSION_STORAGE ([f094ab4](https://github.com/easyops-cn/next-core/commit/f094ab4140f4aabcd12370896f42bc8318199c4e))
 
 ## [2.53.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.1...@next-core/brick-kit@2.53.2) (2021-07-04)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.53.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.0...@next-core/brick-kit@2.53.1) (2021-07-02)
-
 
 ### Bug Fixes
 
-* refine contract ([56855dd](https://github.com/easyops-cn/next-core/commit/56855ddbefb55e78cea764c707818bf0911779aa))
-
-
-
-
+- refine contract ([56855dd](https://github.com/easyops-cn/next-core/commit/56855ddbefb55e78cea764c707818bf0911779aa))
 
 # [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.3...@next-core/brick-kit@2.53.0) (2021-07-01)
 

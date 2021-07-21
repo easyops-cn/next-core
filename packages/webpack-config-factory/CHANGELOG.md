@@ -7,17 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
 
-
-
-
-
 ## [2.9.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.1...@next-core/webpack-config-factory@2.9.2) (2021-05-27)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
-
-
-
-
 
 ## [2.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.0...@next-core/webpack-config-factory@2.9.1) (2021-05-19)
 

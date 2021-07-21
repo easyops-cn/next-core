@@ -5,170 +5,93 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.30.7](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.6...@next-core/editor-bricks-helper@0.30.7) (2021-07-21)
 
-
 ### Bug Fixes
 
-* **builder:** update only id and instanceId after node stored ([43b2d5f](https://github.com/easyops-cn/next-core/commit/43b2d5fd2fcf5132dfedbc99c320f4e81c152ba5))
-
-
-
-
+- **builder:** update only id and instanceId after node stored ([43b2d5f](https://github.com/easyops-cn/next-core/commit/43b2d5fd2fcf5132dfedbc99c320f4e81c152ba5))
 
 ## [0.30.6](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.5...@next-core/editor-bricks-helper@0.30.6) (2021-07-21)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.30.5](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.4...@next-core/editor-bricks-helper@0.30.5) (2021-07-21)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.30.4](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.3...@next-core/editor-bricks-helper@0.30.4) (2021-07-20)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.30.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.2...@next-core/editor-bricks-helper@0.30.3) (2021-07-20)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.30.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.1...@next-core/editor-bricks-helper@0.30.2) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.30.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.0...@next-core/editor-bricks-helper@0.30.1) (2021-07-19)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 # [0.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.29.0...@next-core/editor-bricks-helper@0.30.0) (2021-07-19)
-
 
 ### Features
 
-* support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
-
-
-
-
+- support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
 
 # [0.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.28.1...@next-core/editor-bricks-helper@0.29.0) (2021-07-19)
 
-
 ### Features
 
-* unify builder node normalization ([ad7d140](https://github.com/easyops-cn/next-core/commit/ad7d140d4c442a6f7421147415424fa0b6b39682))
-
-
-
-
+- unify builder node normalization ([ad7d140](https://github.com/easyops-cn/next-core/commit/ad7d140d4c442a6f7421147415424fa0b6b39682))
 
 ## [0.28.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.28.0...@next-core/editor-bricks-helper@0.28.1) (2021-07-14)
 
-
 ### Bug Fixes
 
-* disable dragging template internal nodes ([87c36d8](https://github.com/easyops-cn/next-core/commit/87c36d822ee7d55b5c958529bcfe135f0abee003))
-
-
-
-
+- disable dragging template internal nodes ([87c36d8](https://github.com/easyops-cn/next-core/commit/87c36d822ee7d55b5c958529bcfe135f0abee003))
 
 # [0.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.2...@next-core/editor-bricks-helper@0.28.0) (2021-07-13)
 
-
 ### Bug Fixes
 
-* fix checking proxy slots when expanding templates ([c554459](https://github.com/easyops-cn/next-core/commit/c554459ffe708cf1ce1204fece09f275c6367d1a))
-
+- fix checking proxy slots when expanding templates ([c554459](https://github.com/easyops-cn/next-core/commit/c554459ffe708cf1ce1204fece09f275c6367d1a))
 
 ### Features
 
-* process delegating properties when expanding templates ([cb4dd2c](https://github.com/easyops-cn/next-core/commit/cb4dd2c157dbd28cc231d3c9f577ea7627d1532f))
-
-
-
-
+- process delegating properties when expanding templates ([cb4dd2c](https://github.com/easyops-cn/next-core/commit/cb4dd2c157dbd28cc231d3c9f577ea7627d1532f))
 
 ## [0.27.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.1...@next-core/editor-bricks-helper@0.27.2) (2021-07-12)
 
-
 ### Bug Fixes
 
-* fix avoid nesting templates ([bc145b9](https://github.com/easyops-cn/next-core/commit/bc145b9d6e4b5d9d0d298217b5a804cd93c74be3))
-* support context-menu of root node ([9e5eebb](https://github.com/easyops-cn/next-core/commit/9e5eebb88d6269a8c53c33c45f2f5d51b64fb77c))
-
-
-
-
+- fix avoid nesting templates ([bc145b9](https://github.com/easyops-cn/next-core/commit/bc145b9d6e4b5d9d0d298217b5a804cd93c74be3))
+- support context-menu of root node ([9e5eebb](https://github.com/easyops-cn/next-core/commit/9e5eebb88d6269a8c53c33c45f2f5d51b64fb77c))
 
 ## [0.27.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.27.0...@next-core/editor-bricks-helper@0.27.1) (2021-07-09)
 
-
 ### Bug Fixes
 
-* support dropping on proxied slots in template ([a66da4c](https://github.com/easyops-cn/next-core/commit/a66da4c0ea709bf22acfe766eae043e4c4860030))
-* use global dropping status ([7743e78](https://github.com/easyops-cn/next-core/commit/7743e78ee039bd8126c896aec071f394d35e4caf))
-
-
-
-
+- support dropping on proxied slots in template ([a66da4c](https://github.com/easyops-cn/next-core/commit/a66da4c0ea709bf22acfe766eae043e4c4860030))
+- use global dropping status ([7743e78](https://github.com/easyops-cn/next-core/commit/7743e78ee039bd8126c896aec071f394d35e4caf))
 
 # [0.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.26.3...@next-core/editor-bricks-helper@0.27.0) (2021-07-08)
 
-
 ### Features
 
-* **builder:** support to expand templates ([df72450](https://github.com/easyops-cn/next-core/commit/df724508b7461dc6926d9985429d9dafef479488))
-
-
-
-
+- **builder:** support to expand templates ([df72450](https://github.com/easyops-cn/next-core/commit/df724508b7461dc6926d9985429d9dafef479488))
 
 ## [0.26.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.26.2...@next-core/editor-bricks-helper@0.26.3) (2021-07-06)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.26.1...@next-core/editor-bricks-helper@0.26.2) (2021-07-04)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.26.0...@next-core/editor-bricks-helper@0.26.1) (2021-07-02)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 # [0.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.25.8...@next-core/editor-bricks-helper@0.26.0) (2021-07-01)
 

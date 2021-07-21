@@ -5,75 +5,42 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.20.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.1...@next-core/brick-utils@2.20.2) (2021-07-20)
 
-
 ### Bug Fixes
 
-* **builder:** fix `transformFrom` in brick nodes ([1d520e5](https://github.com/easyops-cn/next-core/commit/1d520e59f673ba0d106718f40be4cedb9ff8882a))
-
-
-
-
+- **builder:** fix `transformFrom` in brick nodes ([1d520e5](https://github.com/easyops-cn/next-core/commit/1d520e59f673ba0d106718f40be4cedb9ff8882a))
 
 ## [2.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.0...@next-core/brick-utils@2.20.1) (2021-07-19)
 
-
 ### Bug Fixes
 
-* **builder:** consider `transformFrom` as a yaml field ([4886367](https://github.com/easyops-cn/next-core/commit/488636773fdf5b86c353cbaf5da56d82c57a325a))
-
-
-
-
+- **builder:** consider `transformFrom` as a yaml field ([4886367](https://github.com/easyops-cn/next-core/commit/488636773fdf5b86c353cbaf5da56d82c57a325a))
 
 # [2.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.19.0...@next-core/brick-utils@2.20.0) (2021-07-19)
 
-
 ### Features
 
-* support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
-
-
-
-
+- support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
 
 # [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.18.1...@next-core/brick-utils@2.19.0) (2021-07-19)
 
-
 ### Features
 
-* unify builder node normalization ([ad7d140](https://github.com/easyops-cn/next-core/commit/ad7d140d4c442a6f7421147415424fa0b6b39682))
-
-
-
-
+- unify builder node normalization ([ad7d140](https://github.com/easyops-cn/next-core/commit/ad7d140d4c442a6f7421147415424fa0b6b39682))
 
 ## [2.18.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.18.0...@next-core/brick-utils@2.18.1) (2021-07-06)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 # [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.8...@next-core/brick-utils@2.18.0) (2021-07-04)
-
 
 ### Features
 
-* **cook:** support tagged template ([3342610](https://github.com/easyops-cn/next-core/commit/33426101fadb2a8a4c6ad601f6ae3f53aaa8003a))
-* **evaluate:** support TAG_URL ([053b817](https://github.com/easyops-cn/next-core/commit/053b817136e85648ab9b88d5719be5efa660a887))
-
-
-
-
+- **cook:** support tagged template ([3342610](https://github.com/easyops-cn/next-core/commit/33426101fadb2a8a4c6ad601f6ae3f53aaa8003a))
+- **evaluate:** support TAG_URL ([053b817](https://github.com/easyops-cn/next-core/commit/053b817136e85648ab9b88d5719be5efa660a887))
 
 ## [2.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.7...@next-core/brick-utils@2.17.8) (2021-07-02)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.17.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.17.6...@next-core/brick-utils@2.17.7) (2021-06-24)
 

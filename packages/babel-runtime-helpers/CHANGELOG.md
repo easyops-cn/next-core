@@ -7,17 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/babel-runtime-helpers
 
-
-
-
-
 ## [1.0.10](https://github.com/easyops-cn/next-core/compare/@next-core/babel-runtime-helpers@1.0.9...@next-core/babel-runtime-helpers@1.0.10) (2021-05-08)
 
 **Note:** Version bump only for package @next-core/babel-runtime-helpers
-
-
-
-
 
 ## [1.0.9](https://github.com/easyops-cn/next-core/compare/@next-core/babel-runtime-helpers@1.0.8...@next-core/babel-runtime-helpers@1.0.9) (2021-04-26)
 
