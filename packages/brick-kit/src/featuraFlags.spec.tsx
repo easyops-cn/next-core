@@ -1,27 +1,29 @@
 import React from "react";
 import { mount } from "enzyme";
 import { getRuntime } from "./runtime";
-import { BrickWrapper } from "./BrickWrapper";
-import { DisplayByFeatureFlags, useFeatureFlags } from "./featureFlags";
+import {
+  DisplayByFeatureFlags,
+  FeatureFlagsProvider,
+  useFeatureFlags,
+} from "./featureFlags";
 jest.mock("i18next", () => ({ language: "zh" }));
 jest.mock("antd/es/locale/zh_CN", () => "zh_CN");
 jest.mock("antd/es/locale/en_US", () => "en_US");
-jest.mock("./runtime");
 
-(getRuntime as jest.Mock).mockImplementation(() => ({
-  getFeatureFlags: () => ({
-    "enable-feature": true,
-    "enable-say-hi": false,
-    "enable-say-hello": true,
-  }),
-}));
+const featureFlags = {
+  "enable-feature": true,
+  "enable-say-hi": false,
+  "enable-say-hello": true,
+};
 
 describe("featureFlags", () => {
   let TestWrapper: React.FC<any>;
   beforeEach(() => {
     // eslint-disable-next-line react/display-name
     TestWrapper = (props: any): React.ReactElement => (
-      <BrickWrapper>{props?.children}</BrickWrapper>
+      <FeatureFlagsProvider value={featureFlags}>
+        {props?.children}
+      </FeatureFlagsProvider>
     );
   });
 
