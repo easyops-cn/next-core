@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.30.7](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.6...@next-core/editor-bricks-helper@0.30.7) (2021-07-21)
+
+
+### Bug Fixes
+
+* **builder:** update only id and instanceId after node stored ([43b2d5f](https://github.com/easyops-cn/next-core/commit/43b2d5fd2fcf5132dfedbc99c320f4e81c152ba5))
+
+
+
+
+
 ## [0.30.6](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.5...@next-core/editor-bricks-helper@0.30.6) (2021-07-21)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
