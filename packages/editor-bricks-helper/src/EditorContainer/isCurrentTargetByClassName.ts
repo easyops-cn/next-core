@@ -1,7 +1,8 @@
+import editorContainerStyles from "./EditorContainer.module.css";
+
 export function isCurrentTargetByClassName(
   targetElement: HTMLElement,
-  currentElement: HTMLElement,
-  className: string
+  currentElement: HTMLElement
 ): boolean {
   // Traverse DOM from bottom to top.
   let element = targetElement;
@@ -9,7 +10,10 @@ export function isCurrentTargetByClassName(
     if (element === currentElement) {
       return true;
     }
-    if (element.classList.contains(className)) {
+    if (
+      element.classList.contains(editorContainerStyles.editorContainer) &&
+      !element.classList.contains(editorContainerStyles.isTemplateInternalNode)
+    ) {
       // It's not the current target if
       // matches another editor container first.
       return false;

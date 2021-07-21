@@ -1,3 +1,4 @@
+import { BrickConf } from "@next-core/brick-types";
 import { getBuilderNode } from "./getBuilderNode";
 
 jest.spyOn(console, "error").mockImplementation(() => void 0);
@@ -25,9 +26,11 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
+      $$normalized: {
+        brick: "my.any-brick",
+      },
     });
   });
 
@@ -44,7 +47,8 @@ describe("getBuilderNode", () => {
           graphInfo: {},
           mountPoint: "brick",
         },
-        1
+        1,
+        true
       )
     ).toEqual({
       type: "brick",
@@ -54,29 +58,32 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
+      $$isTemplateInternalNode: true,
+      $$normalized: {
+        alias: "preset-alias",
+        brick: "my.any-brick",
+      },
     });
   });
 
   it("should parse properties and events successfully", () => {
-    expect(
-      getBuilderNode(
-        {
-          type: "brick",
-          brick: "my.any-brick",
-          id: "B-001",
-          parent: [],
-          children: [],
-          graphInfo: {},
-          mountPoint: "brick",
-          properties: '{"pageTitle":"Hello"}',
-          events: '{"click":{"action":"console.log"}}',
-        },
-        1
-      )
-    ).toEqual({
+    const result = getBuilderNode(
+      {
+        type: "brick",
+        brick: "my.any-brick",
+        id: "B-001",
+        parent: [],
+        children: [],
+        graphInfo: {},
+        mountPoint: "brick",
+        properties: '{"pageTitle":"Hello"}',
+        events: '{"click":{"action":"console.log"}}',
+      },
+      1
+    );
+    expect(result).toEqual({
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
@@ -92,10 +99,23 @@ describe("getBuilderNode", () => {
           action: "console.log",
         },
       },
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
+      $$normalized: {
+        brick: "my.any-brick",
+        properties: {
+          pageTitle: "Hello",
+        },
+        events: {
+          click: {
+            action: "console.log",
+          },
+        },
+      },
     });
+    expect(result.$$parsedProperties).not.toBe(
+      (result.$$normalized as BrickConf).properties
+    );
   });
 
   it("should cache error if parse properties and events failed", () => {
@@ -124,74 +144,11 @@ describe("getBuilderNode", () => {
       events: "ouch",
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
-    });
-  });
-
-  it("should parse proxy successfully", () => {
-    expect(
-      getBuilderNode(
-        {
-          type: "custom-template",
-          templateId: "tpl-my-template",
-          id: "B-001",
-          parent: [],
-          children: [],
-          graphInfo: {},
-          proxy:
-            '{"properties":{"testProp":{"ref":"test-ref","refProperty":"anyProp"}}}',
-        },
-        1
-      )
-    ).toEqual({
-      type: "custom-template",
-      templateId: "tpl-my-template",
-      id: "B-001",
-      $$uid: 1,
-      proxy:
-        '{"properties":{"testProp":{"ref":"test-ref","refProperty":"anyProp"}}}',
-      $$parsedProperties: {},
-      $$parsedEvents: {},
-      $$parsedProxy: {
-        properties: {
-          testProp: {
-            ref: "test-ref",
-            refProperty: "anyProp",
-          },
-        },
+      $$normalized: {
+        brick: "my.any-brick",
       },
-      $$parsedLifeCycle: {},
-      $$matchedSelectors: [],
-    });
-  });
-
-  it("should cache error if parse proxy failed", () => {
-    expect(
-      getBuilderNode(
-        {
-          type: "custom-template",
-          templateId: "tpl-my-template",
-          id: "B-001",
-          parent: [],
-          children: [],
-          graphInfo: {},
-          proxy: "oops",
-        },
-        1
-      )
-    ).toEqual({
-      type: "custom-template",
-      templateId: "tpl-my-template",
-      id: "B-001",
-      $$uid: 1,
-      proxy: "oops",
-      $$parsedProperties: {},
-      $$parsedEvents: {},
-      $$parsedProxy: {},
-      $$parsedLifeCycle: {},
-      $$matchedSelectors: [],
     });
   });
 
@@ -199,8 +156,8 @@ describe("getBuilderNode", () => {
     expect(
       getBuilderNode(
         {
-          type: "custom-template",
-          templateId: "tpl-my-template",
+          type: "brick",
+          brick: "my.any-brick",
           id: "B-001",
           parent: [],
           children: [],
@@ -210,21 +167,30 @@ describe("getBuilderNode", () => {
         1
       )
     ).toEqual({
-      type: "custom-template",
-      templateId: "tpl-my-template",
+      type: "brick",
+      brick: "my.any-brick",
       id: "B-001",
+      alias: "any-brick",
       $$uid: 1,
       lifeCycle: '{"onPageLoad":{"target":"#modal","method":"open"}}',
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {
         onPageLoad: {
           target: "#modal",
           method: "open",
         },
       },
-      $$matchedSelectors: [],
+      $$matchedSelectors: ["my\\.any-brick"],
+      $$normalized: {
+        brick: "my.any-brick",
+        lifeCycle: {
+          onPageLoad: {
+            target: "#modal",
+            method: "open",
+          },
+        },
+      },
     });
   });
 
@@ -250,9 +216,9 @@ describe("getBuilderNode", () => {
       lifeCycle: "oops",
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: [],
+      $$normalized: null,
     });
   });
 
@@ -282,9 +248,14 @@ describe("getBuilderNode", () => {
         id: "myBrick",
       },
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick", "#myBrick"],
+      $$normalized: {
+        brick: "my.any-brick",
+        properties: {
+          id: "myBrick",
+        },
+      },
     });
   });
 
@@ -314,9 +285,14 @@ describe("getBuilderNode", () => {
         id: "<% QUERY.x %>",
       },
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick"],
+      $$normalized: {
+        brick: "my.any-brick",
+        properties: {
+          id: "<% QUERY.x %>",
+        },
+      },
     });
   });
 
@@ -341,9 +317,12 @@ describe("getBuilderNode", () => {
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
-      $$parsedProxy: {},
       $$parsedLifeCycle: {},
       $$matchedSelectors: [],
+      $$normalized: {
+        type: "bricks",
+        path: "/",
+      },
     });
   });
 });

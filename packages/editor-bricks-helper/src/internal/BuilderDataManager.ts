@@ -1,9 +1,10 @@
-import { omit, sortBy } from "lodash";
+import { omit } from "lodash";
 import EventTarget from "@ungap/event-target";
 import {
   BuilderRouteOrBrickNode,
   BuilderRouteNode,
   Story,
+  BuilderCustomTemplateNode,
 } from "@next-core/brick-types";
 import { JsonStorage } from "@next-core/brick-utils";
 import {
@@ -21,6 +22,7 @@ import {
   EventDetailOfSnippetApply,
   EventDetailOfSnippetApplyStored,
   SharedEditorConf,
+  BuilderDroppingStatus,
 } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -30,6 +32,9 @@ import {
   getRelatedNodesBasedOnEvents,
   RelatedNodesBasedOnEventsMap,
 } from "../processors/getRelatedNodesBasedOnEvents";
+import { expandTemplateEdges } from "./expandTemplateEdges";
+import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
+import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -45,6 +50,7 @@ enum BuilderInternalEventType {
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
   OUTLINE_DISABLED_NODES_CHANGE = "builder.outlineDisabledNodes.change",
+  DROPPING_STATUS_CHANGE = "builder.droppingStatus.change",
 }
 
 const storageKeyOfOutlineDisabledNodes = "builder-outline-disabled-nodes";
@@ -75,6 +81,10 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   private relatedNodesBasedOnEventsMap: RelatedNodesBasedOnEventsMap;
 
   private highlightNodes: Set<number> = new Set();
+
+  private templateSourceMap: Map<string, BuilderCustomTemplateNode>;
+
+  private droppingStatus: BuilderDroppingStatus = new Map();
 
   private readonly localJsonStorage = new JsonStorage<{
     [storageKeyOfOutlineDisabledNodes]: string[];
@@ -152,48 +162,19 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     };
   }
 
-  dataInit(root: BuilderRuntimeNode): void {
-    const nodes: BuilderRuntimeNode[] = [];
-    const edges: BuilderRuntimeEdge[] = [];
-    const walk = (node: BuilderRouteOrBrickNode): number => {
-      const currentUid = getUniqueNodeId();
-      nodes.push(getBuilderNode(node, currentUid));
-
-      // For routes and custom-templates, their children are fixed
-      // and mount points should be ignored. To unify tree edge
-      // data structure, just override their mount points.
-      let overrideChildrenMountPoint: string;
-      switch (node.type) {
-        case "bricks":
-        case "custom-template":
-          overrideChildrenMountPoint = "bricks";
-          break;
-        case "routes":
-          overrideChildrenMountPoint = "routes";
-          break;
-      }
-
-      if (Array.isArray(node.children)) {
-        const sortedChildren = sortBy(node.children, [
-          (item) => item.sort ?? -Infinity,
-        ]);
-        sortedChildren.forEach((child, index) => {
-          const childUid = walk(child);
-          edges.push({
-            child: childUid,
-            parent: currentUid,
-            mountPoint: overrideChildrenMountPoint ?? child.mountPoint,
-            sort: index,
-          });
-        });
-      }
-      return currentUid;
-    };
-    const rootId = walk(root);
-    this.data = {
+  dataInit(
+    root: BuilderRuntimeNode,
+    templateSourceMap?: Map<string, BuilderCustomTemplateNode>
+  ): void {
+    this.templateSourceMap = templateSourceMap;
+    const rootId = getUniqueNodeId();
+    const newData = {
       rootId,
-      nodes,
-      edges,
+      ...getAppendingNodesAndEdges(root, rootId, templateSourceMap),
+    };
+    this.data = {
+      ...newData,
+      edges: expandTemplateEdges(newData),
     };
     this.triggerDataChange();
   }
@@ -214,26 +195,38 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   nodeAdd(detail: EventDetailOfNodeAdd): void {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
-    this.data = {
+
+    const { nodes: appendingNodes, edges: appendingEdges } =
+      getAppendingNodesAndEdges(
+        omit(nodeData, [
+          "parent",
+        ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+        nodeUid,
+        this.templateSourceMap
+      );
+
+    const newNodes = nodes.concat(appendingNodes);
+    const newEdges = edges
+      .concat({
+        parent: parentUid,
+        child: nodeUid,
+        mountPoint: nodeData.mountPoint,
+        sort: undefined,
+        $$isTemplateDelegated: isParentExpandableTemplate(nodes, parentUid),
+      })
+      .concat(appendingEdges);
+
+    const newData = {
       rootId,
-      nodes: nodes.concat(
-        getBuilderNode(
-          omit(nodeData, [
-            "parent",
-          ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
-          nodeUid
-        )
-      ),
-      edges: reorderBuilderEdges(
-        edges.concat({
-          parent: parentUid,
-          child: nodeUid,
-          mountPoint: nodeData.mountPoint,
-          sort: undefined,
-        }),
+      nodes: newNodes,
+      edges: newEdges,
+    };
+    this.data = {
+      ...newData,
+      edges: reorderBuilderEdges(newData, {
         parentUid,
-        nodeUids
-      ),
+        nodeUids,
+      }),
     };
     this.triggerDataChange();
     this.eventTarget.dispatchEvent(
@@ -247,7 +240,9 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.data = {
       rootId,
       nodes: nodes.map((node) =>
-        node.$$uid === nodeUid ? getBuilderNode(nodeData, nodeUid) : node
+        node.$$uid === nodeUid
+          ? { ...node, id: nodeData.id, instanceId: nodeData.instanceId }
+          : node
       ),
       edges,
     };
@@ -258,8 +253,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     const { rootId, nodes, edges } = this.data;
     const { nodeDetails, parentUid, nodeUids } = detail;
 
-    const newNodes: BuilderRuntimeNode[] = [];
-    const newEdges: BuilderRuntimeEdge[] = [];
+    const newNodes: BuilderRuntimeNode[] = nodes.slice();
+    const newEdges: BuilderRuntimeEdge[] = edges.slice();
 
     const walk = ({
       parentUid,
@@ -267,20 +262,28 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       nodeData,
       children,
     }: SnippetNodeDetail): void => {
-      newNodes.push(
-        getBuilderNode(
+      const { nodes: appendingNodes, edges: appendingEdges } =
+        getAppendingNodesAndEdges(
           omit(nodeData, [
             "parent",
           ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
-          nodeUid
-        )
+          nodeUid,
+          this.templateSourceMap
+        );
+      newNodes.push(...appendingNodes);
+      newEdges.push(
+        {
+          parent: parentUid,
+          child: nodeUid,
+          mountPoint: nodeData.mountPoint,
+          sort: nodeData.sort,
+          $$isTemplateDelegated: isParentExpandableTemplate(
+            newNodes,
+            parentUid
+          ),
+        },
+        ...appendingEdges
       );
-      newEdges.push({
-        parent: parentUid,
-        child: nodeUid,
-        mountPoint: nodeData.mountPoint,
-        sort: nodeData.sort,
-      });
       for (const item of children) {
         walk(item);
       }
@@ -290,10 +293,17 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       walk(item);
     }
 
-    this.data = {
+    const newData = {
       rootId,
-      nodes: nodes.concat(newNodes),
-      edges: reorderBuilderEdges(edges.concat(newEdges), parentUid, nodeUids),
+      nodes: newNodes,
+      edges: newEdges,
+    };
+    this.data = {
+      ...newData,
+      edges: reorderBuilderEdges(newData, {
+        parentUid,
+        nodeUids,
+      }),
     };
     this.triggerDataChange();
     this.eventTarget.dispatchEvent(
@@ -308,7 +318,13 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       rootId,
       nodes: nodes.map((node) => {
         const found = flattenNodeDetails.find((n) => n.nodeUid === node.$$uid);
-        return found ? getBuilderNode(found.nodeData, found.nodeUid) : node;
+        return found
+          ? {
+              ...node,
+              id: found.nodeData.id,
+              instanceId: found.nodeData.instanceId,
+            }
+          : node;
       }),
       edges,
     };
@@ -318,21 +334,25 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   nodeMove(detail: EventDetailOfNodeMove): void {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
-    this.data = {
+    const newData = {
       rootId,
       nodes,
-      edges: reorderBuilderEdges(
-        edges
-          .filter((edge) => edge.child !== nodeUid)
-          .concat({
-            parent: parentUid,
-            child: nodeUid,
-            mountPoint: nodeData.mountPoint,
-            sort: undefined,
-          }),
+      edges: edges
+        .filter((edge) => edge.child !== nodeUid)
+        .concat({
+          parent: parentUid,
+          child: nodeUid,
+          mountPoint: nodeData.mountPoint,
+          sort: undefined,
+          $$isTemplateDelegated: isParentExpandableTemplate(nodes, parentUid),
+        }),
+    };
+    this.data = {
+      ...newData,
+      edges: reorderBuilderEdges(newData, {
         parentUid,
-        nodeUids
-      ),
+        nodeUids,
+      }),
     };
     this.triggerDataChange();
     this.eventTarget.dispatchEvent(
@@ -353,12 +373,10 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   nodeReorder(detail: EventDetailOfNodeReorder): void {
-    const { rootId, nodes, edges } = this.data;
     const { nodeUids, parentUid } = detail;
     this.data = {
-      rootId,
-      nodes,
-      edges: reorderBuilderEdges(edges, parentUid, nodeUids),
+      ...this.data,
+      edges: reorderBuilderEdges(this.data, { parentUid, nodeUids }),
     };
     this.triggerDataChange();
     this.eventTarget.dispatchEvent(
@@ -587,6 +605,58 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.HIGHLIGHT_NODES_CHANGE,
+        fn
+      );
+    };
+  }
+
+  updateDroppingStatus(
+    nodeUid: number,
+    mountPoint: string,
+    isDraggingOver: boolean
+  ): void {
+    const nodeStatus = this.droppingStatus.get(nodeUid);
+    this.droppingStatus = new Map(
+      Array.from(this.droppingStatus.entries()).concat([
+        [
+          nodeUid,
+          new Map(
+            (nodeStatus ? Array.from(nodeStatus) : []).concat([
+              [mountPoint, isDraggingOver],
+            ])
+          ),
+        ],
+      ])
+    );
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.DROPPING_STATUS_CHANGE)
+    );
+
+    // When dragging nodes over `EditorContainer`, the `mouseout` events
+    // are not triggered, which causes hover status does not get cleared.
+    // So we manually reset hover status once dragging starts.
+    if (
+      this.hoverNodeUid &&
+      Array.from(this.droppingStatus.values())
+        .flatMap((nodeStatus) => Array.from(nodeStatus.values()))
+        .some(Boolean)
+    ) {
+      this.setHoverNodeUid(undefined);
+    }
+  }
+
+  getDroppingStatus(): BuilderDroppingStatus {
+    return this.droppingStatus;
+  }
+
+  onDroppingStatusChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.DROPPING_STATUS_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.DROPPING_STATUS_CHANGE,
         fn
       );
     };

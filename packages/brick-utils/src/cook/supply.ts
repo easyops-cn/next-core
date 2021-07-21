@@ -156,6 +156,10 @@ function supplyIndividual(variableName: string): unknown {
       return Object.fromEntries(PipeRegistry.entries());
     case "location":
       return { href: location.href, origin: location.origin };
+    case "TAG_URL":
+      return tagUrlFactory(true);
+    case "SAFE_TAG_URL":
+      return tagUrlFactory();
     default:
       if (allowedGlobalObjects.has(variableName)) {
         return window[variableName as keyof Window];
@@ -176,4 +180,55 @@ function delegateMethods(
         ].apply(target, args),
     ])
   );
+}
+
+type FnTagUrl = (
+  strings: TemplateStringsArray,
+  ...partials: unknown[]
+) => string;
+
+/**
+ * Pass `ignoreSlashes` as `true` to encode all tagged expressions
+ * as URL components, except for `/` which maybe used in `APP.homepage`.
+ *
+ * Otherwise encode all tagged expressions as URL components.
+ * This will encode `/` as `%2F`. So do not use it directly
+ * with `APP.homepage` as in template expressions.
+ *
+ * @example
+ *
+ * ```js
+ * TAG_URL`${APP.homepage}/list?q=${q}&redirect=${redirect}`
+ * ```
+ *
+ * ```js
+ * SAFE_TAG_URL`file/${path}?q=${q}`
+ * // `path` will be fully transformed by `encodeURIComponent`.
+ * ```
+ *
+ * ```js
+ * // Wrap `APP.homepage` outside of `SAFE_TAG_URL`.
+ * `${APP.homepage}/${SAFE_TAG_URL`file/${path}?q=${q}`}`
+ * ```
+ */
+function tagUrlFactory(ignoreSlashes?: boolean): FnTagUrl {
+  return function (
+    strings: TemplateStringsArray,
+    ...partials: unknown[]
+  ): string {
+    const result: string[] = [];
+    strings.forEach((str, index) => {
+      result.push(str);
+      if (index < partials.length) {
+        result.push(
+          ignoreSlashes
+            ? String(partials[index]).replace(/[^/]+/g, (p) =>
+                encodeURIComponent(p)
+              )
+            : encodeURIComponent(String(partials[index]))
+        );
+      }
+    });
+    return result.join("");
+  };
 }

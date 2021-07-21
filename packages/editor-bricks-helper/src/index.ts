@@ -8,7 +8,7 @@ export * from "./BuilderProvider";
 export * from "./hooks/useBuilderContextMenuStatus";
 export * from "./hooks/useBuilderData";
 export * from "./hooks/useBuilderDataManager";
-export * from "./hooks/useBuilderGroupedChildNodes";
+export { useBuilderGroupedChildNodes } from "./hooks/useBuilderGroupedChildNodes";
 export * from "./hooks/useBuilderNode";
 export * from "./hooks/useBuilderNodeMountPoints";
 export * from "./hooks/useBuilderParentNode";

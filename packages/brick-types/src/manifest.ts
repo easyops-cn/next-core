@@ -1059,6 +1059,10 @@ export interface BuiltinBrickEventHandler {
     | "localStorage.setItem"
     | "localStorage.removeItem"
 
+    // sessionStorage
+    | "sessionStorage.setItem"
+    | "sessionStorage.removeItem"
+
     // Iframe
     | "legacy.go"
 

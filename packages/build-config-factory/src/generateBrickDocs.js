@@ -267,7 +267,7 @@ function existBrickDocId(element) {
   }
 }
 
-function extractRealInterfaceType(type, typeData) {
+function extractRealInterfaceType(type, typeData, parentType) {
   switch (type) {
     case "reference":
       // eslint-disable-next-line no-case-declarations
@@ -286,9 +286,15 @@ function extractRealInterfaceType(type, typeData) {
     case "array":
       return `${extractRealInterfaceType(
         typeData.elementType.type,
-        typeData.elementType
+        typeData.elementType,
+        type
       )}[]`;
     case "union":
+      if (parentType === "array") {
+        return `(${typeData.types
+          .map((type) => extractRealInterfaceType(type.type, type))
+          .join(" | ")})`;
+      }
       return typeData.types
         .map((type) => extractRealInterfaceType(type.type, type))
         .join(" | ");

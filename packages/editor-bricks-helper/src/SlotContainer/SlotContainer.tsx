@@ -1,10 +1,11 @@
 /* istanbul-ignore-file */
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
-import React from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 import { DropZone } from "../DropZone/DropZone";
-import { useDroppingStatusContext } from "../DroppingStatusContext";
 import { EditorSlotContentLayout } from "../interfaces";
+import { useBuilderNode } from "../hooks/useBuilderNode";
+import { useDroppingStatus } from "../hooks/useDroppingStatus";
 
 import styles from "./SlotContainer.module.css";
 
@@ -27,20 +28,33 @@ export function SlotContainer({
   slotContentLayout,
   showOutlineIfEmpty,
 }: SlotContainerProps): React.ReactElement {
-  const { droppingStatus } = useDroppingStatusContext();
+  const node = useBuilderNode({ nodeUid });
+  const droppingStatus = useDroppingStatus();
+
+  const delegatedContext = useMemo(() => {
+    const delegatedSlots = node.$$delegatedSlots?.get(slotName);
+    // Ignore when there are more than one delegated slots on a single slot.
+    return delegatedSlots?.length === 1 ? delegatedSlots[0] : null;
+  }, [node, slotName]);
+
   return (
     <div
       className={classNames(styles.slotContainer, {
-        [styles.dropping]:
-          Object.prototype.hasOwnProperty.call(droppingStatus, slotName) &&
-          droppingStatus[slotName],
+        [styles.dropping]: droppingStatus
+          .get(delegatedContext ? delegatedContext.templateUid : nodeUid)
+          ?.get(
+            delegatedContext ? delegatedContext.templateMountPoint : slotName
+          ),
       })}
       style={slotContainerStyle}
     >
-      <div className={styles.slotName}>{slotName}</div>
+      <div className={styles.slotName}>
+        {delegatedContext ? delegatedContext.templateMountPoint : slotName}
+      </div>
       <DropZone
         nodeUid={nodeUid}
         mountPoint={slotName}
+        delegatedContext={delegatedContext}
         dropZoneStyle={dropZoneStyle}
         dropZoneBodyStyle={dropZoneBodyStyle}
         slotContentLayout={slotContentLayout}

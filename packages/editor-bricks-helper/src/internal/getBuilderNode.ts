@@ -1,4 +1,5 @@
-import { upperFirst } from "lodash";
+import { cloneDeep, upperFirst } from "lodash";
+import { normalizeBuilderNode } from "@next-core/brick-utils";
 import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
 import { isBrickNode } from "../assertions";
@@ -7,7 +8,8 @@ const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];
 
 export function getBuilderNode(
   nodeData: BuilderRouteOrBrickNode,
-  nodeUid: number
+  nodeUid: number,
+  isTemplateInternalNode?: boolean
 ): BuilderRuntimeNode {
   const matchedSelectors: string[] = [];
 
@@ -15,20 +17,15 @@ export function getBuilderNode(
     matchedSelectors.push((nodeData.brick as string).replace(/\./g, "\\."));
   }
 
-  const jsonFieldsInBrick = ["properties", "events", "proxy", "lifeCycle"];
+  const normalized = normalizeBuilderNode(nodeData);
+
+  const jsonFieldsInBrick = ["properties", "events", "lifeCycle"];
   const parsedFields: [string, unknown][] = [];
 
   for (const field of jsonFieldsInBrick) {
-    let parsed;
-    const value = nodeData[field] as string;
-    if (value) {
-      try {
-        parsed = JSON.parse(value);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(`Parsing ${field} failed:`, value);
-      }
-    }
+    const parsed = cloneDeep(
+      (normalized as Record<string, unknown>)?.[field]
+    ) as Record<string, unknown>;
     parsedFields.push([`$$parsed${upperFirst(field)}`, parsed ?? {}]);
 
     if (
@@ -56,6 +53,8 @@ export function getBuilderNode(
         ],
         ["$$uid", nodeUid],
         ["$$matchedSelectors", matchedSelectors],
+        ["$$isTemplateInternalNode", isTemplateInternalNode],
+        ["$$normalized", normalized],
       ])
       .concat(parsedFields)
   ) as BuilderRuntimeNode;

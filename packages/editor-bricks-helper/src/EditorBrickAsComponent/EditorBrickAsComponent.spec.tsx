@@ -34,7 +34,7 @@ const mockGetFeatureFlags = jest.fn(); /* .mockReturnValue({}) */
 
 (useDrag as jest.MockedFunction<typeof useDrag>).mockReturnValue([
   { isDragging: false },
-  undefined,
+  jest.fn(),
   undefined,
 ]);
 
@@ -114,6 +114,8 @@ describe("EditorBrickAsComponent", () => {
     const element = wrapper.find("div").at(0);
     expect(element.hasClass("dragging")).toBe(false);
     expect(element.hasClass("selfLayoutInline")).toBe(true);
+    expect(element.hasClass("__isTemplateInternalNode")).toBe(false);
+    expect(element.childAt(0).prop("draggable")).toBe(true);
   });
 
   it("should work for brick which has children", async () => {
@@ -133,6 +135,7 @@ describe("EditorBrickAsComponent", () => {
             instanceId: "instance-a",
             id: "B-1",
             brick: "any-brick",
+            $$isTemplateInternalNode: true,
           } as Partial<BuilderRuntimeNode> as BuilderRuntimeNode
         }
       />
@@ -144,6 +147,8 @@ describe("EditorBrickAsComponent", () => {
 
     const element = wrapper.find("div").at(0);
     expect(element.hasClass("selfLayoutContainer")).toBe(true);
+    expect(element.hasClass("__isTemplateInternalNode")).toBe(true);
+    expect(element.childAt(0).prop("draggable")).toBe(false);
   });
 
   it("should work when enabled installed-bricks", async () => {

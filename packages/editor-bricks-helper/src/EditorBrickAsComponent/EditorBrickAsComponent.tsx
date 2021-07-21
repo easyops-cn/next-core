@@ -135,11 +135,12 @@ export function EditorBrickAsComponent({
           [styles.selfLayoutContainer]:
             selfLayout === EditorSelfLayout.CONTAINER,
           [styles.dragging]: isDragging,
+          __isTemplateInternalNode: node.$$isTemplateInternalNode,
         })}
       >
         <div
-          ref={dragRef}
-          draggable
+          ref={node.$$isTemplateInternalNode ? undefined : dragRef}
+          draggable={!node.$$isTemplateInternalNode}
           className={classNames({
             [styles.baseView]:
               node.brick === "basic-bricks.micro-view" ||

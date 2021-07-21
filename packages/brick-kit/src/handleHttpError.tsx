@@ -82,7 +82,15 @@ export function handleHttpError(
 
   return Modal.error({
     title: i18next.t(`${NS_BRICK_KIT}:${K.REQUEST_FAILED}`),
-    content: httpErrorToString(error),
+    content: (
+      <div
+        style={{
+          whiteSpace: "pre-wrap",
+        }}
+      >
+        {httpErrorToString(error)}
+      </div>
+    ),
     okText: i18next.t(`${NS_BRICK_KIT}:${K.MODAL_OK}`),
   });
 }

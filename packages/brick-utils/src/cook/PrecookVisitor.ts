@@ -16,6 +16,7 @@ import {
   RestElement,
   SequenceExpression,
   SpreadElement,
+  TaggedTemplateExpression,
   TemplateLiteral,
   UnaryExpression,
 } from "@babel/types";
@@ -27,7 +28,9 @@ import {
 } from "./interfaces";
 import { spawnPrecookState, getScopes } from "./utils";
 
-const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
+export const PrecookVisitor = Object.freeze<
+  Record<string, VisitorFn<PrecookVisitorState>>
+>({
   ArrayExpression(node: ArrayExpression, state, callback) {
     for (const element of node.elements) {
       // 🚫Sparse arrays are not allowed.
@@ -161,6 +164,10 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
   SpreadElement(node: SpreadElement, state, callback) {
     callback(node.argument, state);
   },
+  TaggedTemplateExpression(node: TaggedTemplateExpression, state, callback) {
+    callback(node.tag, state);
+    callback(node.quasi, state);
+  },
   TemplateLiteral(node: TemplateLiteral, state, callback) {
     for (const expression of node.expressions) {
       callback(expression, state);
@@ -175,6 +182,4 @@ const PrecookVisitor: Record<string, VisitorFn<PrecookVisitorState>> = {
       callback(arg, state);
     }
   },
-};
-
-export default PrecookVisitor;
+});

@@ -1,12 +1,12 @@
 .dropZone {
   position: relative;
   min-height: calc(var(--editor-brick-base-height) + 2px);
+  border-radius: var(--editor-brick-border-radius);
 
   --drop-zone-padding: 20px;
 }
 
 .isSlot {
-  border-radius: var(--editor-brick-border-radius);
   border: 1px dashed transparent;
 }
 
@@ -22,6 +22,11 @@
 .isRoot > .dropZoneBody {
   padding: calc(var(--drop-zone-padding) + 7px) var(--drop-zone-padding)
     var(--drop-zone-padding);
+}
+
+.isRoot.active,
+.isRoot.dropping {
+  box-shadow: 0 0 0 1px var(--editor-brick-stroke-color-active);
 }
 
 .isPortalCanvas,

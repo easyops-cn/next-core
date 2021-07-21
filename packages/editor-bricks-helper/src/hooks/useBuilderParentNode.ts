@@ -5,7 +5,9 @@ import { useBuilderData } from "./useBuilderData";
 export function useBuilderParentNode(nodeUid: number): BuilderRuntimeNode {
   const { nodes, edges } = useBuilderData();
   return useMemo(() => {
-    const parentUid = edges.find((edge) => edge.child === nodeUid).parent;
+    const parentUid = edges.find(
+      (edge) => edge.child === nodeUid && !edge.$$isTemplateExpanded
+    ).parent;
     return nodes.find((node) => node.$$uid === parentUid);
   }, [edges, nodeUid, nodes]);
 }

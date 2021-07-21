@@ -164,6 +164,11 @@ export const developHelper: {
     getFakeKernel: typeof _dev_only_getFakeKernel;
 };
 
+// Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function DisplayByFeatureFlags(props: React_2.PropsWithChildren<featureFlagsProps>): React_2.ReactElement;
+
 // Warning: (ae-internal-missing-underscore) The name "doTransform" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -207,10 +212,13 @@ export interface EventEmitter<T = unknown> {
     emit: (detail?: T) => boolean;
 }
 
+// @public (undocumented)
+export const FeatureFlagsProvider: React_2.Provider<FeatureFlags>;
+
 // Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export const ForwardRefSingleBrickAsComponent: React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>;
+export const ForwardRefSingleBrickAsComponent: React_2.MemoExoticComponent<React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>>;
 
 // @public
 export function getAuth(): AuthInfo;
@@ -341,7 +349,7 @@ export function reTransformForDevtools(transformationId: number, data: unknown, 
 export type RouterState = "initial" | "ready-to-mount" | "mounted";
 
 // @public
-export function SingleBrickAsComponent({ useBrick, data, parentRefForUseBrickInPortal, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps): React_2.ReactElement;
+export const SingleBrickAsComponent: React_2.NamedExoticComponent<SingleBrickAsComponentProps>;
 
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -392,6 +400,9 @@ export function useCurrentMode(): SiteMode;
 
 // @public (undocumented)
 export function useCurrentTheme(): SiteTheme;
+
+// @public
+export function useFeatureFlags(name?: string | string[]): boolean[] | string[];
 
 // Warning: (ae-internal-missing-underscore) The name "useLocation" should be prefixed with an underscore because the declaration is marked as @internal
 //
