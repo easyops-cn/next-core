@@ -240,7 +240,9 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.data = {
       rootId,
       nodes: nodes.map((node) =>
-        node.$$uid === nodeUid ? getBuilderNode(nodeData, nodeUid) : node
+        node.$$uid === nodeUid
+          ? { ...node, id: nodeData.id, instanceId: nodeData.instanceId }
+          : node
       ),
       edges,
     };
@@ -316,7 +318,13 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       rootId,
       nodes: nodes.map((node) => {
         const found = flattenNodeDetails.find((n) => n.nodeUid === node.$$uid);
-        return found ? getBuilderNode(found.nodeData, found.nodeUid) : node;
+        return found
+          ? {
+              ...node,
+              id: found.nodeData.id,
+              instanceId: found.nodeData.instanceId,
+            }
+          : node;
       }),
       edges,
     };

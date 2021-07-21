@@ -333,11 +333,16 @@ Object {
       nodeUid: 7,
       nodeData: {
         id: "B-007",
+        instanceId: "new-instance-id",
+        other: "any",
       } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
     });
-    expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
-      "B-007"
-    );
+    expect(
+      manager.getData().nodes.find((node) => node.$$uid === 7)
+    ).toMatchObject({
+      id: "B-007",
+      instanceId: "new-instance-id",
+    });
     expect(listenOnDataChange).toBeCalled();
     unlistenOnDataChange();
   });
@@ -534,22 +539,32 @@ Array [
           nodeUid: 7,
           nodeData: {
             id: "B-007",
+            instanceId: "new-instance-id-a",
+            other: "any",
           } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
         },
         {
           nodeUid: 8,
           nodeData: {
             id: "B-008",
+            instanceId: "new-instance-id-b",
+            other: "any",
           } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
         },
       ],
     });
-    expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
-      "B-007"
-    );
-    expect(manager.getData().nodes.find((node) => node.$$uid === 8).id).toBe(
-      "B-008"
-    );
+    expect(
+      manager.getData().nodes.find((node) => node.$$uid === 7)
+    ).toMatchObject({
+      id: "B-007",
+      instanceId: "new-instance-id-a",
+    });
+    expect(
+      manager.getData().nodes.find((node) => node.$$uid === 8)
+    ).toMatchObject({
+      id: "B-008",
+      instanceId: "new-instance-id-b",
+    });
     expect(listenOnDataChange).toBeCalled();
     unlistenOnDataChange();
   });
