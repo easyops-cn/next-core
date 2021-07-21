@@ -2,8 +2,15 @@ import yaml from "js-yaml";
 import { BrickConf } from "@next-core/brick-types";
 import { SnippetNodeInstance } from "../interfaces";
 
-const jsonFieldsInBrick = ["properties", "events", "lifeCycle", "params", "if"];
-const yamlFieldsInBrick = ["permissionsPreCheck"];
+const jsonFieldsInBrick = [
+  "properties",
+  "events",
+  "lifeCycle",
+  "params",
+  "if",
+  "transform",
+];
+const yamlFieldsInBrick = ["permissionsPreCheck", "transformFrom"];
 const ignoredFieldsInBrick = [
   "brick",
   "template",
@@ -33,12 +40,12 @@ export function reverseNormalize(
   return Object.fromEntries(
     Object.entries(brickConf)
       .map<[string, unknown]>(([key, value]) =>
-        jsonFieldsInBrick.includes(key)
+        value === undefined || ignoredFieldsInBrick.includes(key)
+          ? undefined
+          : jsonFieldsInBrick.includes(key)
           ? [key, JSON.stringify(value)]
           : yamlFieldsInBrick.includes(key)
           ? [key, yaml.safeDump(value)]
-          : ignoredFieldsInBrick.includes(key)
-          ? undefined
           : [key, value]
       )
       .filter(Boolean)
