@@ -3913,7 +3913,7 @@ aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.npmjs.org/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
 
-aproba@^2.0.0:
+"aproba@^1.0.3 || ^2.0.0", aproba@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/aproba/-/aproba-2.0.0.tgz#52520b8ae5b569215b354efc0caa3fe1e45a8adc"
 
@@ -3922,7 +3922,7 @@ arch@^2.2.0:
   resolved "https://registry.npmjs.org/arch/-/arch-2.2.0.tgz#1bc47818f305764f23ab3306b0bfc086c5a29d11"
   integrity sha512-Of/R0wqp83cgHozfIYLbBMnej79U/SVGOOyuB3VVFv1NRM/PSFMK12x9KVtiYzJqmnU5WR2qp0Z5rHb7sWGnFQ==
 
-are-we-there-yet@~1.1.2:
+are-we-there-yet@^1.1.5, are-we-there-yet@~1.1.2:
   version "1.1.5"
   resolved "https://registry.npmjs.org/are-we-there-yet/-/are-we-there-yet-1.1.5.tgz#4b35c2944f062a8bfcda66410760350fe9ddfc21"
   dependencies:
@@ -5220,6 +5220,11 @@ color-string@^1.5.2:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
 
+color-support@^1.1.2:
+  version "1.1.3"
+  resolved "https://registry.npmjs.org/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
+  integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
+
 color@^3.0.0:
   version "3.1.1"
   resolved "https://registry.npmjs.org/color/-/color-3.1.1.tgz#7abf5c0d38e89378284e873c207ae2172dcc8a61"
@@ -5411,7 +5416,7 @@ console-browserify@^1.1.0:
   dependencies:
     date-now "^0.1.4"
 
-console-control-strings@^1.0.0, console-control-strings@~1.1.0:
+console-control-strings@^1.0.0, console-control-strings@^1.1.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
@@ -7635,6 +7640,20 @@ functions-have-names@^1.2.1:
   version "1.2.2"
   resolved "https://registry.npmjs.org/functions-have-names/-/functions-have-names-1.2.2.tgz#98d93991c39da9361f8e50b337c4f6e41f120e21"
   integrity sha1-mNk5kcOdqTYfjlCzN8T25B8SDiE=
+
+gauge@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/gauge/-/gauge-3.0.0.tgz#2313d52e067a797356c8214907828ff1a097cde4"
+  integrity sha512-VSxauaaCsLOTerAyzunAYGgK3iaWZvOL1BCvBvf/IhDWrczPAf1tUqn05DOCJOOe4k3vOdX6fHhJIvF2UtCMhw==
+  dependencies:
+    aproba "^1.0.3 || ^2.0.0"
+    color-support "^1.1.2"
+    console-control-strings "^1.0.0"
+    has-unicode "^2.0.1"
+    signal-exit "^3.0.0"
+    string-width "^1.0.1 || ^2.0.0"
+    strip-ansi "^3.0.1 || ^4.0.0"
+    wide-align "^1.1.2"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -11000,6 +11019,16 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
     console-control-strings "~1.1.0"
     gauge "~2.7.3"
     set-blocking "~2.0.0"
+
+npmlog@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/npmlog/-/npmlog-5.0.0.tgz#e6a41b556e9b34cb29ea132294676c07acb30efb"
+  integrity sha512-ftpIiLjerL2tUg3dCqN8pOSoB90gqZlzv/gaZoxHaKjeLClrfJIEQ1Pdxi6qSzflz916Bljdy8dTWQ4J7hAFSQ==
+  dependencies:
+    are-we-there-yet "^1.1.5"
+    console-control-strings "^1.1.0"
+    gauge "^3.0.0"
+    set-blocking "^2.0.0"
 
 nth-check@^1.0.2, nth-check@~1.0.1:
   version "1.0.2"
@@ -14484,7 +14513,7 @@ string-width@^1.0.1:
     is-fullwidth-code-point "^1.0.0"
     strip-ansi "^3.0.0"
 
-"string-width@^1.0.2 || 2":
+"string-width@^1.0.1 || ^2.0.0", "string-width@^1.0.2 || 2":
   version "2.1.1"
   resolved "https://registry.npmjs.org/string-width/-/string-width-2.1.1.tgz#ab93f27a8dc13d28cac815c462143a6d9012ae9e"
   dependencies:
@@ -14574,7 +14603,7 @@ strip-ansi@^3.0.0, strip-ansi@^3.0.1:
   dependencies:
     ansi-regex "^2.0.0"
 
-strip-ansi@^4.0.0:
+"strip-ansi@^3.0.1 || ^4.0.0", strip-ansi@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-4.0.0.tgz#a8479022eb1ac368a871389b635262c505ee368f"
   dependencies:
@@ -15788,7 +15817,7 @@ which@^2.0.1, which@^2.0.2:
   dependencies:
     isexe "^2.0.0"
 
-wide-align@^1.1.0:
+wide-align@^1.1.0, wide-align@^1.1.2:
   version "1.1.3"
   resolved "https://registry.npmjs.org/wide-align/-/wide-align-1.1.3.tgz#ae074e6bdc0c14a431e804e624549c633b000457"
   dependencies:
