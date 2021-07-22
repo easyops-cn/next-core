@@ -76,7 +76,9 @@ export function getDependencyMapOfContext(
       includesComputed: false,
     };
     if (!contextConf.property) {
-      collectContexts(contextConf.resolve || contextConf.value, stats);
+      collectContexts(contextConf.if, stats);
+      collectContexts(contextConf.value, stats);
+      collectContexts(contextConf.resolve, stats);
     }
     depsMap.set(contextConf, stats);
   }

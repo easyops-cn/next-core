@@ -202,28 +202,30 @@ export class LocationContext {
       if (!looseCheckIf(contextConf, coreContext)) {
         return false;
       }
+      let isResolve = false;
       let value: unknown;
-      if (
-        contextConf.resolve &&
-        looseCheckIf(contextConf.resolve, coreContext)
-      ) {
-        const valueConf: Record<string, unknown> = {};
-        await this.resolver.resolveOne(
-          "reference",
-          {
-            transform: "value",
-            transformMapArray: false,
-            ...contextConf.resolve,
-          },
-          valueConf,
-          null,
-          coreContext
-        );
-        value = valueConf.value;
-      } else if (contextConf.value) {
+      if (contextConf.resolve) {
+        if (looseCheckIf(contextConf.resolve, coreContext)) {
+          isResolve = true;
+          const valueConf: Record<string, unknown> = {};
+          await this.resolver.resolveOne(
+            "reference",
+            {
+              transform: "value",
+              transformMapArray: false,
+              ...contextConf.resolve,
+            },
+            valueConf,
+            null,
+            coreContext
+          );
+          value = valueConf.value;
+        } else if (!contextConf.value) {
+          return false;
+        }
+      }
+      if (!isResolve && contextConf.value !== undefined) {
         value = computeRealValue(contextConf.value, coreContext, true);
-      } else {
-        return false;
       }
       this.setStoryboardContext(contextConf.name, {
         type: "free-variable",
