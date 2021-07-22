@@ -2181,6 +2181,8 @@ export interface UseProviderEventHandler {
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
+    // (undocumented)
+    method?: "resolve" | "saveAs";
     useProvider: string;
 }
 
