@@ -76,3 +76,19 @@ mockMicroAppApiOrchestrationMap.set("easyops.custom_api@getStatus:1.0.0", {
   },
   namespace: "easyops.custom_api",
 });
+
+mockMicroAppApiOrchestrationMap.set("easyops.custom_api@exportMarkdown:1.0.0", {
+  _object_id: "_INTERFACE_CONTRACT@easyops",
+  name: "exportMarkdown",
+  version: "1.0.0",
+  contract: {
+    endpoint: {
+      method: "get",
+      uri: "/api/export",
+    },
+    response: {
+      type: "file",
+    },
+  },
+  namespace: "easyops.custom_api",
+});

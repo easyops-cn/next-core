@@ -65,6 +65,23 @@ describe("CustomApis", () => {
         responseWrapper: false,
       },
     ]);
+
+    expect(
+      getArgsOfCustomApi(
+        "easyops.custom_api@exportMarkdown:1.0.0",
+        mockMicroAppApiOrchestrationMap,
+        ["test.md", { contetn: "hello world" }]
+      )
+    ).toEqual([
+      "test.md",
+      {
+        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export",
+        method: "get",
+        responseWrapper: false,
+      },
+      { contetn: "hello world" },
+      { responseType: "blob" },
+    ]);
   });
 
   it("getArgsOfCustomApi should throw error", () => {
