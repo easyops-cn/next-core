@@ -60,8 +60,8 @@ describe("scanPermissionActionsInAny", () => {
       brick: "b-b",
       properties: {
         good: "<% PERMISSIONS.check('my:action-a') %>",
-        good3: "<% PERMISSIONS.check('my:action-b', 'my:action-c') %>",
-        good2:
+        good2: "<% PERMISSIONS.check('my:action-b', 'my:action-c') %>",
+        good3:
           "<% PERMISSIONS.check('my:action-d') && PERMISSIONS.check('my:action-e') %>",
         bad: "<% PERMISSIONS.check(bad) %>",
         bad2: "<% PERMISSIONS.check(123) %>",
@@ -71,6 +71,7 @@ describe("scanPermissionActionsInAny", () => {
         bad6: "PERMISSIONS.check('my:action-w')",
         bad7: "<% PERMISSIONS.check() %>",
         bad8: "<% 'my:action-v' %>",
+        bad9: "<% PERMISSIONS[check]('my:action-v') %>",
       },
     } as any;
     expect(scanPermissionActionsInAny(brickConf).sort()).toEqual([

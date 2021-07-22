@@ -31,11 +31,11 @@ export function scanI18NInStoryboard(
 
 export function scanI18NInAny(data: unknown): Map<string, Set<string>> {
   const collection = new Map<string, Set<string>>();
-  collectProcessors(data, collection);
+  collectI18N(data, collection);
   return collection;
 }
 
-function collectProcessors(
+function collectI18N(
   data: unknown,
   collection: Map<string, Set<string>>,
   memo = new WeakSet()
@@ -80,11 +80,11 @@ function collectProcessors(
     memo.add(data);
     if (Array.isArray(data)) {
       for (const item of data) {
-        collectProcessors(item, collection, memo);
+        collectI18N(item, collection, memo);
       }
     } else {
       for (const item of Object.values(data)) {
-        collectProcessors(item, collection, memo);
+        collectI18N(item, collection, memo);
       }
     }
   }
