@@ -203,10 +203,10 @@ export class LocationContext {
         return false;
       }
       let value: unknown;
-      if (contextConf.resolve) {
-        if (!looseCheckIf(contextConf.resolve, coreContext)) {
-          return false;
-        }
+      if (
+        contextConf.resolve &&
+        looseCheckIf(contextConf.resolve, coreContext)
+      ) {
         const valueConf: Record<string, unknown> = {};
         await this.resolver.resolveOne(
           "reference",
@@ -220,8 +220,10 @@ export class LocationContext {
           coreContext
         );
         value = valueConf.value;
-      } else {
+      } else if (contextConf.value) {
         value = computeRealValue(contextConf.value, coreContext, true);
+      } else {
+        return false;
       }
       this.setStoryboardContext(contextConf.name, {
         type: "free-variable",
