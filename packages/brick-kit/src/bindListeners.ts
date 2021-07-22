@@ -302,7 +302,8 @@ function usingProviderFactory(
       const providerBrick = await _internalApiGetProviderBrick(
         handler.useProvider
       );
-      brickCallback(providerBrick, handler, "resolve", context, brick, event);
+      const method = handler.method !== "saveAs" ? "resolve" : "saveAs";
+      brickCallback(providerBrick, handler, method, context, brick, event);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(httpErrorToString(error));
