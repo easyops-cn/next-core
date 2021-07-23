@@ -1,4 +1,5 @@
 import { omit, orderBy, set } from "lodash";
+import EventTarget from "@ungap/event-target";
 import {
   PluginLocation,
   MatchResult,
@@ -227,12 +228,22 @@ export class LocationContext {
       if (!isResolve && contextConf.value !== undefined) {
         value = computeRealValue(contextConf.value, coreContext, true);
       }
-      this.setStoryboardContext(contextConf.name, {
+      const newContext: StoryboardContextItem = {
         type: "free-variable",
         value,
-        brick,
-        onChange: contextConf.onChange,
-      });
+      };
+      if (contextConf.onChange) {
+        newContext.eventTarget = new EventTarget();
+        for (const handler of ([] as BrickEventHandler[]).concat(
+          contextConf.onChange
+        )) {
+          newContext.eventTarget.addEventListener(
+            "context.change",
+            listenerFactory(handler, coreContext, brick)
+          );
+        }
+      }
+      this.setStoryboardContext(contextConf.name, newContext);
     }
     return true;
   }
@@ -649,6 +660,8 @@ export class LocationContext {
 
     Object.assign(brick, {
       type: tplTagName || brickConf.brick,
+      // 1. Returns a list of `{ CTX: string[]; brick: HTMLElement; propName: string; propValue: unknown; }`
+      // 2. Listens on CTXs change, and updates the brick.
       properties: computeRealProperties(
         brickConf.properties,
         context,
@@ -942,7 +955,7 @@ export class LocationContext {
             match: brickAndHandler.match,
             tplContextId: brickAndHandler.tplContextId,
           }),
-          brickAndHandler.brick.element
+          brickAndHandler.brick
         )(event);
       }
     }

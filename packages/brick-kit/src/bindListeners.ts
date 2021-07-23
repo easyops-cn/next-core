@@ -23,6 +23,7 @@ import {
   RuntimeBrickElementWithTplSymbols,
   _internalApiGetMicroAppApiOrchestrationMap,
   symbolForParentRefForUseBrickInPortal,
+  RuntimeBrick,
 } from "./core/exports";
 import { getUrlBySegueFactory } from "./segue";
 import { looseCheckIf, IfContainer } from "./checkIf";
@@ -40,7 +41,7 @@ export function bindListeners(
 ): void {
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
-      const listener = listenerFactory(handler, context, brick);
+      const listener = listenerFactory(handler, context, { element: brick });
       brick.addEventListener(eventType, listener);
       rememberListeners(brick, eventType, listener, handler);
     });
@@ -107,7 +108,7 @@ export function isSetPropsCustomHandler(
 export function listenerFactory(
   handler: BrickEventHandler,
   context: PluginRuntimeContext,
-  brick: HTMLElement
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   if (isBuiltinHandler(handler)) {
     const method = handler.action.split(".")[1] as any;
@@ -223,7 +224,7 @@ export function listenerFactory(
         );
       case "tpl.dispatchEvent":
         return builtinTplDispatchEventFactory(
-          brick,
+          runtimeBrick,
           handler.args,
           handler,
           context
@@ -231,7 +232,7 @@ export function listenerFactory(
       case "message.subscribe":
       case "message.unsubscribe":
         return builtinWebSocketListenerFactory(
-          brick,
+          runtimeBrick,
           method,
           handler.args,
           handler,
@@ -281,18 +282,18 @@ export function listenerFactory(
   }
 
   if (isUseProviderHandler(handler)) {
-    return usingProviderFactory(handler, context, brick);
+    return usingProviderFactory(handler, context, runtimeBrick);
   }
 
   if (isCustomHandler(handler)) {
-    return customListenerFactory(handler, handler, context, brick);
+    return customListenerFactory(handler, handler, context, runtimeBrick);
   }
 }
 
 function usingProviderFactory(
   handler: UseProviderEventHandler,
   context: PluginRuntimeContext,
-  brick: HTMLElement
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return async function (event: CustomEvent): Promise<void> {
     if (!looseCheckIf(handler, { ...context, event })) {
@@ -303,7 +304,14 @@ function usingProviderFactory(
         handler.useProvider
       );
       const method = handler.method !== "saveAs" ? "resolve" : "saveAs";
-      brickCallback(providerBrick, handler, method, context, brick, event);
+      brickCallback(
+        providerBrick,
+        handler,
+        method,
+        context,
+        runtimeBrick,
+        event
+      );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(httpErrorToString(error));
@@ -312,7 +320,7 @@ function usingProviderFactory(
 }
 
 function builtinTplDispatchEventFactory(
-  brick: HTMLElement,
+  runtimeBrick: RuntimeBrick,
   args: unknown[],
   ifContainer: IfContainer,
   context: PluginRuntimeContext
@@ -321,10 +329,13 @@ function builtinTplDispatchEventFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    const tpl = getParentTemplate(brick);
+    const tpl = getParentTemplate(runtimeBrick.element);
     if (!tpl) {
       // eslint-disable-next-line no-console
-      console.warn("Parent template not found for brick:", brick);
+      console.warn(
+        "Parent template not found for brick:",
+        runtimeBrick.element
+      );
       return;
     }
     const [type, init] = argsFactory(args, context, event) as [
@@ -387,21 +398,11 @@ function builtinContextListenerFactory(
         contextItem.value = value;
       }
     }
-    if (contextItem.onChange) {
-      for (const handler of ([] as BrickEventHandler[]).concat(
-        contextItem.onChange
-      )) {
-        listenerFactory(
-          handler,
-          context,
-          contextItem.brick?.element
-        )(
-          new CustomEvent("context.change", {
-            detail: contextItem.value,
-          })
-        );
-      }
-    }
+    contextItem.eventTarget?.dispatchEvent(
+      new CustomEvent("context.change", {
+        detail: contextItem.value,
+      })
+    );
   } as EventListener;
 }
 
@@ -470,7 +471,7 @@ function builtinAliasListenerFactory(
 }
 
 function builtinWebSocketListenerFactory(
-  brick: HTMLElement,
+  runtimeBrick: RuntimeBrick,
   method: "subscribe" | "unsubscribe",
   args: any[],
   ifContainer: IfContainer,
@@ -491,7 +492,7 @@ function builtinWebSocketListenerFactory(
     getMessageDispatcher()[method](
       channel,
       { system, topic },
-      { ...callback, brick, context }
+      { ...callback, runtimeBrick, context }
     );
   } as EventListener;
 }
@@ -569,7 +570,7 @@ function customListenerFactory(
   handler: CustomBrickEventHandler,
   ifContainer: IfContainer,
   context: PluginRuntimeContext,
-  brick: HTMLElement
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
     if (!looseCheckIf(ifContainer, { ...context, event })) {
@@ -578,7 +579,7 @@ function customListenerFactory(
     let targets: HTMLElement[] = [];
     if (typeof handler.target === "string") {
       if (handler.target === "_self") {
-        targets.push(brick);
+        targets.push(runtimeBrick.element);
       } else if (handler.multiple) {
         targets = Array.from(document.querySelectorAll(handler.target));
       } else {
@@ -590,7 +591,7 @@ function customListenerFactory(
     } else if (handler.target) {
       targets.push(handler.target as HTMLElement);
     } else if (handler.targetRef) {
-      const found = findRefElement(brick, handler.targetRef);
+      const found = findRefElement(runtimeBrick.element, handler.targetRef);
       if (found) {
         targets.push(found);
       }
@@ -602,9 +603,17 @@ function customListenerFactory(
     }
     if (isExecuteCustomHandler(handler)) {
       targets.forEach((target) => {
-        brickCallback(target, handler, handler.method, context, brick, event, {
-          useEventAsDefault: true,
-        });
+        brickCallback(
+          target,
+          handler,
+          handler.method,
+          context,
+          runtimeBrick,
+          event,
+          {
+            useEventAsDefault: true,
+          }
+        );
       });
     } else if (isSetPropsCustomHandler(handler)) {
       setProperties(
@@ -625,7 +634,7 @@ async function brickCallback(
   handler: ExecuteCustomBrickEventHandler | UseProviderEventHandler,
   method: string,
   context: PluginRuntimeContext,
-  brick: HTMLElement,
+  runtimeBrick: RuntimeBrick,
   event: CustomEvent,
   options?: ArgsFactoryOptions
 ): Promise<void> {
@@ -662,7 +671,7 @@ async function brickCallback(
             detail: result,
           });
           [].concat(success).forEach((eachSuccess) => {
-            listenerFactory(eachSuccess, context, brick)(successEvent);
+            listenerFactory(eachSuccess, context, runtimeBrick)(successEvent);
           });
         } catch (err) {
           // Do not throw errors in `callback.success`,
@@ -677,7 +686,7 @@ async function brickCallback(
           detail: err,
         });
         [].concat(error).forEach((eachError) => {
-          listenerFactory(eachError, context, brick)(errorEvent);
+          listenerFactory(eachError, context, runtimeBrick)(errorEvent);
         });
       } else {
         // eslint-disable-next-line
@@ -687,7 +696,7 @@ async function brickCallback(
       if (finallyHook) {
         const finallyEvent = new CustomEvent("callback.finally");
         [].concat(finallyHook).forEach((eachFinally) => {
-          listenerFactory(eachFinally, context, brick)(finallyEvent);
+          listenerFactory(eachFinally, context, runtimeBrick)(finallyEvent);
         });
       }
     }

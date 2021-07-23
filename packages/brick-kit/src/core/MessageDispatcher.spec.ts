@@ -43,11 +43,6 @@ const context: PluginRuntimeContext = {
     name: "cmdb",
     id: "cmdb",
   },
-  sys: {
-    org: 8888,
-    username: "easyops",
-    userInstanceId: "acbd46b",
-  },
   flags: {
     "better-world": true,
   },
@@ -132,24 +127,18 @@ describe("MessageDispatcher", () => {
         system: "pipeline",
         topic: "pipeline.task.running.001",
       };
-      const callback = {
-        brick: mockElement,
+      const callback: MessageBrickEventHandlerCallback = {
+        runtimeBrick: {
+          element: mockElement,
+        },
         context,
         success: { action: "console.log" },
         error: { action: "console.error" },
       };
 
       // subscribe message success
-      md.subscribe(
-        "channel",
-        topic,
-        callback as MessageBrickEventHandlerCallback
-      );
-      md.subscribe(
-        "channel",
-        topic,
-        callback as MessageBrickEventHandlerCallback
-      );
+      md.subscribe("channel", topic, callback);
+      md.subscribe("channel", topic, callback);
 
       expect(mockSend).toHaveBeenCalledTimes(1);
 
@@ -161,7 +150,9 @@ describe("MessageDispatcher", () => {
       expect(spyOnListenerFactory).toHaveBeenCalledWith(
         { action: "console.log" },
         context,
-        mockElement
+        {
+          element: mockElement,
+        }
       );
       spyOnListenerFactory.mockClear();
       // subscribe message failed
@@ -173,7 +164,9 @@ describe("MessageDispatcher", () => {
       expect(spyOnListenerFactory).toHaveBeenCalledWith(
         { action: "console.error" },
         context,
-        mockElement
+        {
+          element: mockElement,
+        }
       );
     });
 
@@ -187,7 +180,9 @@ describe("MessageDispatcher", () => {
       expect(spyOnListenerFactory).toHaveBeenCalledWith(
         { action: "console.warn" },
         context,
-        mockElement
+        expect.objectContaining({
+          element: mockElement,
+        })
       );
 
       spyOnListenerFactory.mockClear();
@@ -208,19 +203,17 @@ describe("MessageDispatcher", () => {
         system: "pipeline",
         topic: "pipeline.task.running.001",
       };
-      const callback = {
-        brick: mockElement,
+      const callback: MessageBrickEventHandlerCallback = {
+        runtimeBrick: {
+          element: mockElement,
+        },
         context,
         success: { action: "console.log" },
         error: { action: "console.error" },
       };
 
       // subscribe message success
-      md.unsubscribe(
-        "channel",
-        topic,
-        callback as MessageBrickEventHandlerCallback
-      );
+      md.unsubscribe("channel", topic, callback);
 
       spyOnGetWebSocket.mock.results[0].value.onMessage(
         new WebsocketMessageResponse(
@@ -230,7 +223,9 @@ describe("MessageDispatcher", () => {
       expect(spyOnListenerFactory).toHaveBeenCalledWith(
         { action: "console.log" },
         context,
-        mockElement
+        {
+          element: mockElement,
+        }
       );
       spyOnListenerFactory.mockClear();
       // subscribe message failed
@@ -242,7 +237,9 @@ describe("MessageDispatcher", () => {
       expect(spyOnListenerFactory).toHaveBeenCalledWith(
         { action: "console.error" },
         context,
-        mockElement
+        {
+          element: mockElement,
+        }
       );
 
       spyOnListenerFactory.mockClear();
@@ -250,19 +247,17 @@ describe("MessageDispatcher", () => {
 
     it("Do not unsubscribe if the message channel not fund", () => {
       spyOnConsoleError.mockClear();
-      const callback = {
-        brick: mockElement,
+      const callback: MessageBrickEventHandlerCallback = {
+        runtimeBrick: {
+          element: mockElement,
+        },
         context,
         success: { action: "console.log" },
         error: { action: "console.error" },
       };
 
       // subscribe message success
-      md.unsubscribe(
-        "channel1",
-        {} as PluginWebSocketMessageTopic,
-        callback as MessageBrickEventHandlerCallback
-      );
+      md.unsubscribe("channel1", {} as PluginWebSocketMessageTopic, callback);
 
       expect(spyOnConsoleError).toHaveBeenCalledWith(
         `Message channel："channel1" not found. `

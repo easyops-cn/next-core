@@ -19,6 +19,7 @@ import { createWebSocket } from "../websocket/WebSocket";
 import minimatch from "minimatch";
 import { WebSocketService } from "../websocket/WebSocketService";
 import { _internalApiMessageCloseHandler } from "./Runtime";
+import { RuntimeBrick } from "./BrickNode";
 
 let messageDispatcher: MessageDispatcher;
 
@@ -204,12 +205,12 @@ export class MessageDispatcher {
 
   private dispatch(
     event: CustomEvent,
-    element: HTMLElement,
+    brick: RuntimeBrick,
     context: PluginRuntimeContext,
     handlers: BrickEventHandler[]
   ): void {
     for (const handler of handlers.filter(Boolean)) {
-      listenerFactory(handler, context, element)(event);
+      listenerFactory(handler, context, brick)(event);
     }
   }
 
@@ -241,7 +242,7 @@ export class MessageDispatcher {
 
         this.dispatch(
           event,
-          brickAndMessage.brick.element,
+          brickAndMessage.brick,
           this.context,
           ([] as MessageConf[])
             .concat(brickAndMessage.message)
@@ -265,7 +266,7 @@ export class MessageDispatcher {
 
         this.dispatch(
           e,
-          handler.brick,
+          handler.runtimeBrick,
           handler.context,
           [].concat(handler?.[method]).filter(Boolean)
         );
