@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.58.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.58.0...@next-core/brick-kit@2.58.1) (2021-07-23)
+
+
+### Bug Fixes
+
+* **LocationContext:** use hasOwnProperty to check if value exists ([5bae1f5](https://github.com/easyops-cn/next-core/commit/5bae1f5146b4629ce27e0993b572a88e215fc9f1))
+
+
+
+
+
 # [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.57.0...@next-core/brick-kit@2.58.0) (2021-07-23)
 
 
