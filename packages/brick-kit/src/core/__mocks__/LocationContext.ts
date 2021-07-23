@@ -37,6 +37,7 @@ export class LocationContext {
   handlePageLeave = jest.fn();
   handleAnchorLoad = jest.fn();
   handleMessage = jest.fn();
+  getCurrentMatch = jest.fn(() => ({ path: "/developers" }));
 
   matchStoryboard(): RuntimeStoryboard {
     return _matchedStoryboard;

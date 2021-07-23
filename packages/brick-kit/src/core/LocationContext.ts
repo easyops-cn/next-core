@@ -920,6 +920,10 @@ export class LocationContext {
     );
   }
 
+  getCurrentMatch(): MatchResult {
+    return this.currentMatch;
+  }
+
   private dispatchLifeCycleEvent(
     event: CustomEvent,
     handlers: BrickAndLifeCycleHandler[]

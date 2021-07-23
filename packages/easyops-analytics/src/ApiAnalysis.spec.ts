@@ -11,6 +11,12 @@ const mockSendBeacon = jest.fn();
 (global as any).navigator.sendBeacon = mockSendBeacon;
 
 describe("ApiAnalysis", () => {
+  const uuid = "13be32d5-9868-417b-9ee5-528910ede818";
+  const route = "/developers/:id";
+  (global as any).URL = {
+    createObjectURL: () => `blob:https://google.com/${uuid}`,
+    revokeObjectURL: jest.fn(),
+  };
   let analyzer: ReturnType<typeof apiAnalyzer.create>;
   let pageTracker: any;
   beforeEach(() => {
@@ -65,7 +71,7 @@ describe("ApiAnalysis", () => {
       },
     };
     analyzer.analyses(response as any);
-    pageTracker();
+    pageTracker(route);
     const data = {
       model: "easyops.FRONTEND_STAT",
       columns: [
@@ -85,6 +91,7 @@ describe("ApiAnalysis", () => {
         "type",
         "msg",
         "status",
+        "route",
       ],
       data: [response],
     };
@@ -106,7 +113,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: "page-0-0-200",
+        pageId: uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -116,6 +123,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
+        route,
       },
     ]);
   });
@@ -162,6 +170,7 @@ describe("ApiAnalysis", () => {
         "type",
         "msg",
         "status",
+        "route",
       ],
       data: [response],
     };
@@ -180,7 +189,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: "page-0-0-200",
+        pageId: uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -190,6 +199,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
+        route,
       },
     ]);
   });
@@ -232,6 +242,7 @@ describe("ApiAnalysis", () => {
         "type",
         "msg",
         "status",
+        "route",
       ],
       data: [response],
     };
@@ -250,7 +261,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: "page-0-0-200",
+        pageId: uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -260,6 +271,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
+        route,
       },
     ]);
   });
