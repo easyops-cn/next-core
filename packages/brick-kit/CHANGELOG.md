@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.4...@next-core/brick-kit@2.57.0) (2021-07-23)
+
+
+### Features
+
+* add route field for analysis ([5e81e2f](https://github.com/easyops-cn/next-core/commit/5e81e2f813ec4c78be28b2d276f618f5bfbf38e1))
+* api contract support file download ([6420d61](https://github.com/easyops-cn/next-core/commit/6420d61c08ef8f63b071ea8580076b056c230c3d))
+* useProvider 支持 saveAs 的方法 ([7add9a1](https://github.com/easyops-cn/next-core/commit/7add9a152fe572b0c2274cbe363dc81361624abf))
+
+
+
+
+
 ## [2.56.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.3...@next-core/brick-kit@2.56.4) (2021-07-21)
 
 ### Bug Fixes
