@@ -220,7 +220,7 @@ export class LocationContext {
             coreContext
           );
           value = valueConf.value;
-        } else if (!contextConf.value) {
+        } else if (!hasOwnProperty(contextConf, "value")) {
           return false;
         }
       }
