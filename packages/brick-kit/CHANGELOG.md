@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.57.0...@next-core/brick-kit@2.58.0) (2021-07-23)
+
+
+### Bug Fixes
+
+* **getDependencyMapOfContext:** also collect contexts in if ([44a4b6a](https://github.com/easyops-cn/next-core/commit/44a4b6ac10238226083ca6271693f805469382f5))
+
+
+### Features
+
+* **LocationContext:** fallback to value when resolve is invalid ([a0adf42](https://github.com/easyops-cn/next-core/commit/a0adf420a55c65a736607df5914e707c6cfe2bd2))
+
+
+
+
+
 # [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.4...@next-core/brick-kit@2.57.0) (2021-07-23)
 
 
