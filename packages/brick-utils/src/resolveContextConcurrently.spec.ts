@@ -336,6 +336,15 @@ describe("getDependencyMapOfContext", () => {
           name: "g",
           value: "<% CTX.x %>",
         },
+        {
+          if: "<% CTX.a %>",
+          name: "h",
+          resolve: {
+            useProvider: "any",
+            args: ["<% CTX.b + CTX.c %>"],
+          },
+          value: "<% CTX.x %>",
+        },
       ])
     ).toEqual(
       new Map([
@@ -385,6 +394,13 @@ describe("getDependencyMapOfContext", () => {
           expect.objectContaining({ name: "g" }),
           expect.objectContaining({
             dependencies: ["x"],
+            includesComputed: false,
+          }),
+        ],
+        [
+          expect.objectContaining({ name: "h" }),
+          expect.objectContaining({
+            dependencies: ["a", "x", "b", "c"],
             includesComputed: false,
           }),
         ],

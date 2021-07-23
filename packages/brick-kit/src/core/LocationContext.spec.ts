@@ -391,6 +391,17 @@ describe("LocationContext", () => {
                   if: "<% CTX.myFreeContext === 'bad' %>",
                 },
               },
+              {
+                name: "myFallbackToValueContext",
+                resolve: {
+                  provider: "provider-c",
+                  transform: {
+                    value: "provider return value",
+                  },
+                  if: "<% CTX.myFreeContext === 'bad' %>",
+                },
+                value: "default value",
+              },
             ],
             type: "routes",
             routes: [
@@ -402,7 +413,7 @@ describe("LocationContext", () => {
                     brick: "div",
                     properties: {
                       title:
-                        "<% `${CTX.myFreeContext} ${CTX.myAsyncContext}` %>",
+                        "<% `${CTX.myFreeContext} ${CTX.myAsyncContext} ${CTX.myFallbackToValueContext}` %>",
                     },
                     context: [
                       {
@@ -664,7 +675,7 @@ describe("LocationContext", () => {
         {
           type: "div",
           properties: {
-            title: "good even better",
+            title: "good even better default value",
           },
           events: {
             click: {
