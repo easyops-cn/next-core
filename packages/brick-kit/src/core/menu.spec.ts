@@ -94,6 +94,7 @@ const mockMenuList: any[] = [
         children: [
           {
             text: "Menu Item 4",
+            children: [],
           },
         ],
       },
@@ -175,6 +176,47 @@ const mockMenuList: any[] = [
         activeIncludes: ["/any"],
         sort: 3,
         to: "${APP.homepage}/2",
+      },
+    ],
+    app: [
+      {
+        appId: "hola",
+      },
+    ],
+  },
+  {
+    menuId: "menu-g",
+    title: "Hello",
+    items: [
+      {
+        text: "Menu Item G 1",
+        type: "group",
+        groupId: "group-g-1",
+        children: [
+          {
+            text: "Menu Item G 1.1",
+            to: "${APP.homepage}/1",
+            sort: 2,
+          },
+        ],
+      },
+    ],
+    app: [
+      {
+        appId: "hello",
+      },
+    ],
+  },
+  {
+    menuId: "menu-g",
+    type: "inject",
+    injectMenuGroupId: "group-g-1",
+    title: "Injecting Hello",
+    items: [
+      {
+        text: "Menu Item G 1.2",
+        to: "${APP.homepage}/2",
+        sort: 1,
       },
     ],
     app: [
@@ -337,9 +379,9 @@ describe("processMenuTitle", () => {
 });
 
 describe("constructMenu", () => {
-  const context = ({
+  const context = {
     app: currentApp,
-  } as unknown) as PluginRuntimeContext;
+  } as unknown as PluginRuntimeContext;
 
   it("should ignore if no menuId", async () => {
     const menuBar = {};
@@ -403,6 +445,7 @@ describe("constructMenu", () => {
             items: [
               {
                 text: "Menu Item 4",
+                children: [],
               },
             ],
           },
@@ -420,7 +463,7 @@ describe("constructMenu", () => {
     const menuBar = {
       menuId: "menu-f",
     };
-    const fakeKernel = ({
+    const fakeKernel = {
       bootstrapData: {
         storyboards: [
           {
@@ -432,7 +475,7 @@ describe("constructMenu", () => {
         ],
       },
       fulfilStoryboard: jest.fn(),
-    } as unknown) as Kernel;
+    } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
       menuId: "menu-f",
@@ -460,6 +503,55 @@ describe("constructMenu", () => {
             sort: 3,
             to: "/hola/2",
             children: [],
+          },
+        ],
+      },
+      subMenu: null,
+    });
+  });
+
+  it("should construct menu with injected group", async () => {
+    const menuBar = {
+      menuId: "menu-g",
+    };
+    const fakeKernel = {
+      bootstrapData: {
+        storyboards: [
+          {
+            app: {
+              id: "hola",
+              homepage: "/hola",
+            },
+          },
+        ],
+      },
+      fulfilStoryboard: jest.fn(),
+    } as unknown as Kernel;
+    await constructMenu(menuBar, context, fakeKernel);
+    expect(menuBar).toEqual({
+      menuId: "menu-g",
+      menu: {
+        title: "Hello",
+        icon: undefined,
+        defaultCollapsed: false,
+        menuItems: [
+          {
+            type: "group",
+            title: "Menu Item G 1",
+            items: [
+              {
+                text: "Menu Item G 1.2",
+                to: "/hola/2",
+                children: [],
+                sort: 1,
+              },
+              {
+                text: "Menu Item G 1.1",
+                sort: 2,
+                to: "/hello/1",
+                children: [],
+              },
+            ],
           },
         ],
       },
