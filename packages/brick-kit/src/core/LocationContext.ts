@@ -37,7 +37,11 @@ import {
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../bindListeners";
-import { computeRealProperties, computeRealValue } from "../setProperties";
+import {
+  computeRealProperties,
+  computeRealValue,
+  TrackingContextItem,
+} from "../setProperties";
 import { isLoggedIn, getAuth } from "../auth";
 import { getHistory } from "../history";
 import {
@@ -66,6 +70,7 @@ import {
 } from "./getSubStoryboardByRoute";
 import { symbolForTplContextId } from "./CustomTemplates";
 import { validatePermissions } from "./checkPermissions";
+import { listenOnTrackingContext } from "./listenOnTrackingContext";
 
 export type MatchRoutesResult =
   | {
@@ -231,9 +236,10 @@ export class LocationContext {
       const newContext: StoryboardContextItem = {
         type: "free-variable",
         value,
+        // This is required for tracking context, even if no `onChange` is specified.
+        eventTarget: new EventTarget(),
       };
       if (contextConf.onChange) {
-        newContext.eventTarget = new EventTarget();
         for (const handler of ([] as BrickEventHandler[]).concat(
           contextConf.onChange
         )) {
@@ -658,14 +664,15 @@ export class LocationContext {
 
     await this.preCheckPermissions(brickConf, context);
 
+    const trackingContextList: TrackingContextItem[] = [];
+
     Object.assign(brick, {
       type: tplTagName || brickConf.brick,
-      // 1. Returns a list of `{ CTX: string[]; brick: HTMLElement; propName: string; propValue: unknown; }`
-      // 2. Listens on CTXs change, and updates the brick.
       properties: computeRealProperties(
         brickConf.properties,
         context,
-        brickConf.injectDeep !== false
+        brickConf.injectDeep !== false,
+        trackingContextList
       ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
@@ -692,6 +699,8 @@ export class LocationContext {
         set(brick.properties, propName, propValue);
       });
     }
+
+    listenOnTrackingContext(brick, trackingContextList, context);
 
     if (brick.refForProxy) {
       brick.refForProxy.brick = brick;
