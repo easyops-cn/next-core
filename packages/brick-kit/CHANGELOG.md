@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.60.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.0...@next-core/brick-kit@2.60.1) (2021-07-26)
+
+
+### Bug Fixes
+
+* evaluate lazily for events inside slots of useBrick ([adeeb4e](https://github.com/easyops-cn/next-core/commit/adeeb4ec02eded9cdde9809da60682bb758d51a2))
+
+
+
+
+
 # [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.59.0...@next-core/brick-kit@2.60.0) (2021-07-26)
 
 

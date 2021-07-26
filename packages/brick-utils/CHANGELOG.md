@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.21.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.21.0...@next-core/brick-utils@2.21.1) (2021-07-26)
+
+
+### Bug Fixes
+
+* fix scanning permission actions ([3e7eaec](https://github.com/easyops-cn/next-core/commit/3e7eaec332020a3ab0f8d611eb15f297eb703015))
+
+
+
+
+
 # [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.4...@next-core/brick-utils@2.21.0) (2021-07-26)
 
 
