@@ -98,51 +98,6 @@ describe("computeRealValue", () => {
     }
   );
 
-  it("should work for lazy events in useBrick", () => {
-    const { event, ...contextWithoutEvent } = context;
-    const result = computeRealValue(
-      {
-        properties: {
-          shouldBeComputed: "<% APP.name %>",
-        },
-        useBrick: {
-          brick: "a",
-          properties: {
-            shouldBeComputed: "<% APP.homepage %>",
-          },
-          events: {
-            click: {
-              action: "console.log",
-              args: ["<% APP.name %>", "<% CTX.memo %>"],
-            },
-          },
-        },
-      },
-      contextWithoutEvent,
-      true,
-      {
-        $$lazyForUseBrickEvents: true,
-      }
-    );
-    expect(result).toEqual({
-      properties: {
-        shouldBeComputed: "host",
-      },
-      useBrick: {
-        brick: "a",
-        properties: {
-          shouldBeComputed: "/host",
-        },
-        events: {
-          click: {
-            action: "console.log",
-            args: ["<% APP.name %>", "<% CTX.memo %>"],
-          },
-        },
-      },
-    });
-  });
-
   it("should disallow recursive evaluations by default", () => {
     const dataWithEvaluation = ['<% !!FLAGS["better-world"] %>'];
     const result = computeRealValue(
@@ -428,6 +383,11 @@ describe("setProperties", () => {
 
 describe("computeRealProperties", () => {
   const context: PluginRuntimeContext = {
+    app: {
+      homepage: "/host",
+      name: "host",
+      id: "host",
+    },
     storyboardContext: new Map([
       [
         "hello",
@@ -448,6 +408,110 @@ describe("computeRealProperties", () => {
 
   beforeEach(() => {
     mockCurrentContext.mockReturnValue(context);
+  });
+
+  it("should work for lazy events in useBrick", () => {
+    const { event, ...contextWithoutEvent } = context;
+    const result = computeRealProperties(
+      {
+        shouldBeComputed: "<% APP.name %>",
+        shouldBeLazy: {
+          useBrick: [
+            {
+              brick: "a",
+              properties: {
+                shouldBeComputed: "<% APP.homepage %>",
+              },
+              events: {
+                click: {
+                  action: "console.log",
+                  args: ["<% APP.name %>", "<% CTX.memo %>"],
+                },
+              },
+            },
+          ],
+        },
+      },
+      contextWithoutEvent,
+      true
+    );
+    expect(result).toEqual({
+      shouldBeComputed: "host",
+      shouldBeLazy: {
+        useBrick: [
+          {
+            brick: "a",
+            properties: {
+              shouldBeComputed: "/host",
+            },
+            events: {
+              click: {
+                action: "console.log",
+                args: ["<% APP.name %>", "<% CTX.memo %>"],
+              },
+            },
+          },
+        ],
+      },
+    });
+  });
+
+  it("should work for lazy events in useBrick slots", () => {
+    const { event, ...contextWithoutEvent } = context;
+    const result = computeRealProperties(
+      {
+        shouldBeComputed: "<% APP.name %>",
+        useBrick: {
+          brick: "a",
+          slots: {
+            "": {
+              type: "bricks",
+              bricks: [
+                {
+                  brick: "b",
+                  properties: {
+                    shouldBeComputed: "<% APP.homepage %>",
+                  },
+                  events: {
+                    click: {
+                      action: "console.log",
+                      args: ["<% APP.name %>", "<% CTX.memo %>"],
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      contextWithoutEvent,
+      true
+    );
+    expect(result).toEqual({
+      shouldBeComputed: "host",
+      useBrick: {
+        brick: "a",
+        slots: {
+          "": {
+            type: "bricks",
+            bricks: [
+              {
+                brick: "b",
+                properties: {
+                  shouldBeComputed: "/host",
+                },
+                events: {
+                  click: {
+                    action: "console.log",
+                    args: ["<% APP.name %>", "<% CTX.memo %>"],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
   });
 
   it("should collect tracking context list", () => {
