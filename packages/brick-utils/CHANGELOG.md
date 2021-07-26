@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.4...@next-core/brick-utils@2.21.0) (2021-07-26)
+
+
+### Features
+
+* support trackContext ([6e47e60](https://github.com/easyops-cn/next-core/commit/6e47e607c7a2f90dfc9c87dd8150c4c70298c01b))
+
+
+
+
+
 ## [2.20.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.3...@next-core/brick-utils@2.20.4) (2021-07-23)
 
 
