@@ -60,6 +60,7 @@
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
           "toPath",
+          "trackContext",
           "transform"
         ]
       }
