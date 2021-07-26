@@ -1,5 +1,10 @@
 import { PluginRuntimeContext } from "@next-core/brick-types";
-import { setProperties, computeRealValue } from "./setProperties";
+import {
+  setProperties,
+  computeRealValue,
+  computeRealProperties,
+  TrackingContextItem,
+} from "./setProperties";
 import * as runtime from "./core/Runtime";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
@@ -72,9 +77,8 @@ describe("computeRealValue", () => {
     [
       {
         label: {
-          [Symbol.for(
-            "pre.evaluated.raw"
-          )]: "<% `${EVENT.detail.to} is ${DATA}` %>",
+          [Symbol.for("pre.evaluated.raw")]:
+            "<% `${EVENT.detail.to} is ${DATA}` %>",
           [Symbol.for("pre.evaluated.context")]: {
             data: "good",
           },
@@ -420,4 +424,55 @@ describe("setProperties", () => {
       expect(elem).toEqual(expected);
     }
   );
+});
+
+describe("computeRealProperties", () => {
+  const context: PluginRuntimeContext = {
+    storyboardContext: new Map([
+      [
+        "hello",
+        {
+          type: "free-variable",
+          value: "Hello",
+        },
+      ],
+      [
+        "world",
+        {
+          type: "free-variable",
+          value: "World",
+        },
+      ],
+    ]),
+  } as PluginRuntimeContext;
+
+  beforeEach(() => {
+    mockCurrentContext.mockReturnValue(context);
+  });
+
+  it("should collect tracking context list", () => {
+    const trackingContextList: TrackingContextItem[] = [];
+    computeRealProperties(
+      {
+        title: "<% 'track context', CTX.hello + CTX.world %>",
+        message: "<% 'track context', CTX.hola %>",
+        extra: "<% CTX.any %>",
+      },
+      context,
+      true,
+      trackingContextList
+    );
+    expect(trackingContextList).toEqual([
+      {
+        contextNames: ["hello", "world"],
+        propName: "title",
+        propValue: "<% 'track context', CTX.hello + CTX.world %>",
+      },
+      {
+        contextNames: ["hola"],
+        propName: "message",
+        propValue: "<% 'track context', CTX.hola %>",
+      },
+    ]);
+  });
 });

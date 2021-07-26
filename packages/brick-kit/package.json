@@ -36,6 +36,7 @@
     "@next-sdk/cmdb-sdk": "^2.1.1",
     "@next-sdk/micro-app-sdk": "^2.1.1",
     "@next-sdk/user-service-sdk": "^2.1.1",
+    "@ungap/event-target": "^0.2.3",
     "minimatch": "^3.0.4"
   },
   "sideEffects": false,

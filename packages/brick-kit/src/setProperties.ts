@@ -1,6 +1,11 @@
 import { set } from "lodash";
 import { PluginRuntimeContext } from "@next-core/brick-types";
-import { isObject, inject, isEvaluable } from "@next-core/brick-utils";
+import {
+  isObject,
+  inject,
+  isEvaluable,
+  trackContext,
+} from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateRuntimeContext,
@@ -13,6 +18,12 @@ interface ComputeOptions {
   $$lazyForUseBrickEvents?: boolean;
   $$atUseBrickNow?: boolean;
   $$inUseBrickEventsNow?: boolean;
+}
+
+export interface TrackingContextItem {
+  contextNames: string[];
+  propName: string;
+  propValue: string;
 }
 
 export const computeRealValue = (
@@ -108,7 +119,7 @@ export function setRealProperties(
   for (const [propName, propValue] of Object.entries(realProps)) {
     if (propName === "style" || propName === "dataset") {
       for (const [k, v] of Object.entries(propValue)) {
-        ((brick[propName] as unknown) as Record<string, unknown>)[k] = v;
+        (brick[propName] as unknown as Record<string, unknown>)[k] = v;
       }
     } else if (propName === "innerHTML") {
       // `innerHTML` is dangerous, use `textContent` instead.
@@ -119,7 +130,7 @@ export function setRealProperties(
       if (extractProps) {
         set(brick, propName, propValue);
       } else {
-        ((brick as unknown) as Record<string, unknown>)[propName] = propValue;
+        (brick as unknown as Record<string, unknown>)[propName] = propValue;
       }
     }
   }
@@ -128,7 +139,8 @@ export function setRealProperties(
 export function computeRealProperties(
   properties: Record<string, unknown>,
   context: PluginRuntimeContext,
-  injectDeep?: boolean
+  injectDeep?: boolean,
+  trackingContextList?: TrackingContextItem[]
 ): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
@@ -146,6 +158,16 @@ export function computeRealProperties(
           isObject(realValue)
         ) {
           result[propName] = realValue;
+        }
+      }
+      if (Array.isArray(trackingContextList) && isEvaluable(propValue)) {
+        const contextNames = trackContext(propValue);
+        if (contextNames) {
+          trackingContextList.push({
+            contextNames,
+            propName,
+            propValue,
+          });
         }
       }
     }

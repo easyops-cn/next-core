@@ -423,6 +423,9 @@ describe("LocationContext", () => {
                       {
                         name: "myFreeContextDefinedOnBrick",
                         value: "some value",
+                        onChange: {
+                          action: "console.log",
+                        },
                       },
                     ],
                     exports: {
@@ -708,10 +711,18 @@ describe("LocationContext", () => {
           },
         },
       ]);
-      const brick = result.main[0];
+      const { storyboardContext } = result.main[0].context;
+      expect(storyboardContext.get("myNewPropContext")).toMatchObject({
+        type: "brick-property",
+        prop: "title",
+      });
       expect(
-        brick.context.storyboardContext.get("myFreeContextDefinedOnBrick").brick
-      ).toBe(brick);
+        storyboardContext.get("myFreeContextDefinedOnBrick")
+      ).toMatchObject({
+        type: "free-variable",
+        value: "some value",
+        eventTarget: expect.anything(),
+      });
       expect(kernel.mountPoints.bg.children.length).toBe(2);
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
