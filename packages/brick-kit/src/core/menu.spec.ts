@@ -190,7 +190,6 @@ const mockMenuList: any[] = [
     items: [
       {
         text: "Menu Item G 1",
-        type: "group",
         groupId: "group-g-1",
         children: [
           {
@@ -536,7 +535,7 @@ describe("constructMenu", () => {
         defaultCollapsed: false,
         menuItems: [
           {
-            type: "group",
+            type: "subMenu",
             title: "Menu Item G 1",
             items: [
               {

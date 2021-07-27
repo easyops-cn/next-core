@@ -158,9 +158,7 @@ function processGroupInject(
 ): MenuItemRawData[] {
   return items?.map((item) => {
     const foundInjectWithMenu =
-      item.type === "group" &&
-      item.groupId &&
-      injectWithMenus.get(item.groupId);
+      item.groupId && injectWithMenus.get(item.groupId);
     if (foundInjectWithMenu) {
       // Each menus to be injected with should be injected only once.
       injectWithMenus.delete(item.groupId);
