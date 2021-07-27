@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.60.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.1...@next-core/brick-kit@2.60.2) (2021-07-27)
+
+
+### Bug Fixes
+
+* **menu:** allow injecting menu items in non-group menus ([d744052](https://github.com/easyops-cn/next-core/commit/d744052eb2e1f1c16f5ce2ea611e253426f932e9))
+
+
+
+
+
 ## [2.60.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.0...@next-core/brick-kit@2.60.1) (2021-07-26)
 
 
