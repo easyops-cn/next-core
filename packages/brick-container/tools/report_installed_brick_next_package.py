@@ -24,8 +24,6 @@ def collect(install_path):
     raise Exception("could not find install path {}".format(install_path))
   if not os.path.isdir(install_path):
     raise Exception("install_path must be a dir {}".format(install_path))
-  if install_path.endswith(os.sep):
-    install_path = install_path[:-1]
   package_name = os.path.basename(install_path)
   logger.info("install_path %s packageName %s", install_path, package_name)
   bricks_path = os.path.join(install_path, "dist", "bricks.json")
@@ -75,6 +73,13 @@ if __name__ == "__main__":
 
   org = sys.argv[1]
   install_path = sys.argv[2]
+
+  if install_path.endswith(os.sep):
+    install_path = install_path[:-1]
+
+  if not install_path.endswith("-NB"):
+    sys.exit(0)
+
   package_name, bricks_content, stories_content, snippets_content = collect(install_path)
   if package_name and bricks_content and snippets_content:
     report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
