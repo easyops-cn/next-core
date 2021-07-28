@@ -419,8 +419,12 @@ describe("computeRealProperties", () => {
           useBrick: [
             {
               brick: "a",
+              if: "<% !!APP.homepage %>",
               properties: {
-                shouldBeComputed: "<% APP.homepage %>",
+                shouldBeLazy: "<% APP.homepage %>",
+              },
+              transform: {
+                shouldBeLazy: "<% APP.homepage %>",
               },
               events: {
                 click: {
@@ -441,8 +445,12 @@ describe("computeRealProperties", () => {
         useBrick: [
           {
             brick: "a",
+            if: true,
             properties: {
-              shouldBeComputed: "/host",
+              shouldBeLazy: "<% APP.homepage %>",
+            },
+            transform: {
+              shouldBeLazy: "<% APP.homepage %>",
             },
             events: {
               click: {
@@ -469,8 +477,12 @@ describe("computeRealProperties", () => {
               bricks: [
                 {
                   brick: "b",
+                  if: "<% !!APP.homepage %>",
                   properties: {
-                    shouldBeComputed: "<% APP.homepage %>",
+                    shouldBeLazy: "<% APP.homepage %>",
+                  },
+                  transform: {
+                    shouldBeLazy: "<% APP.homepage %>",
                   },
                   events: {
                     click: {
@@ -497,8 +509,12 @@ describe("computeRealProperties", () => {
             bricks: [
               {
                 brick: "b",
+                if: true,
                 properties: {
-                  shouldBeComputed: "/host",
+                  shouldBeLazy: "<% APP.homepage %>",
+                },
+                transform: {
+                  shouldBeLazy: "<% APP.homepage %>",
                 },
                 events: {
                   click: {
