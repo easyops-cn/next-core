@@ -1,7 +1,7 @@
 import { Node } from "@babel/types";
 import { parseExpression } from "@babel/parser";
 import { walkFactory } from "./utils";
-import PrecookVisitor from "./PrecookVisitor";
+import { PrecookVisitor } from "./PrecookVisitor";
 import { PrecookVisitorState, PrecookResult, VisitorFn } from "./interfaces";
 
 export interface PrecookOptions {

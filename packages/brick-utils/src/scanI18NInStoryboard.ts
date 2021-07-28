@@ -1,8 +1,7 @@
 import { CallExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-import { isEvaluable, preevaluate } from "./cook/preevaluate";
-import PrecookVisitor from "./cook/PrecookVisitor";
+import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
 
 interface ESTreeStringLiteral {
   type: "Literal";
@@ -25,18 +24,18 @@ export function scanI18NInStoryboard(
     storyboard.routes,
     storyboard.meta && [
       storyboard.meta.customTemplates,
-      ((storyboard.meta as unknown) as MetaOfStoryboardToBuild).menus,
+      (storyboard.meta as unknown as MetaOfStoryboardToBuild).menus,
     ],
   ]);
 }
 
 export function scanI18NInAny(data: unknown): Map<string, Set<string>> {
   const collection = new Map<string, Set<string>>();
-  collectProcessors(data, collection);
+  collectI18N(data, collection);
   return collection;
 }
 
-function collectProcessors(
+function collectI18N(
   data: unknown,
   collection: Map<string, Set<string>>,
   memo = new WeakSet()
@@ -46,10 +45,8 @@ function collectProcessors(
       preevaluate(data, {
         visitors: {
           CallExpression: (node: CallExpression, state, callback) => {
-            const [
-              keyNode,
-              defaultNode,
-            ] = (node.arguments as unknown) as ESTreeStringLiteral[];
+            const [keyNode, defaultNode] =
+              node.arguments as unknown as ESTreeStringLiteral[];
             if (
               node.callee.type === "Identifier" &&
               node.callee.name === I18N &&
@@ -83,11 +80,11 @@ function collectProcessors(
     memo.add(data);
     if (Array.isArray(data)) {
       for (const item of data) {
-        collectProcessors(item, collection, memo);
+        collectI18N(item, collection, memo);
       }
     } else {
       for (const item of Object.values(data)) {
-        collectProcessors(item, collection, memo);
+        collectI18N(item, collection, memo);
       }
     }
   }

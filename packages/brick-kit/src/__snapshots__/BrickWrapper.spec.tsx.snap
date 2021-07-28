@@ -9,14 +9,18 @@ exports[`brick wrapper should work 1`] = `
   }
   t={[Function]}
 >
-  <ConfigProvider
-    autoInsertSpaceInButton={false}
-    locale="zh_CN"
-    renderEmpty={[Function]}
+  <ContextProvider
+    value={Object {}}
   >
-    <div>
-      hello, brick-wrapper
-    </div>
-  </ConfigProvider>
+    <ConfigProvider
+      autoInsertSpaceInButton={false}
+      locale="zh_CN"
+      renderEmpty={[Function]}
+    >
+      <div>
+        hello, brick-wrapper
+      </div>
+    </ConfigProvider>
+  </ContextProvider>
 </LegacyErrorBoundary>
 `;

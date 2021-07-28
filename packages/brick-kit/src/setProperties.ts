@@ -1,6 +1,11 @@
 import { set } from "lodash";
 import { PluginRuntimeContext } from "@next-core/brick-types";
-import { isObject, inject, isEvaluable } from "@next-core/brick-utils";
+import {
+  isObject,
+  inject,
+  isEvaluable,
+  trackContext,
+} from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateRuntimeContext,
@@ -11,8 +16,24 @@ import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
 
 interface ComputeOptions {
   $$lazyForUseBrickEvents?: boolean;
-  $$atUseBrickNow?: boolean;
-  $$inUseBrickEventsNow?: boolean;
+  $$stateOfUseBrick?: StateOfUseBrick;
+}
+
+enum StateOfUseBrick {
+  INITIAL,
+  USE_BRICK,
+  USE_BRICK_ITEM,
+  USE_BRICK_EVENTS,
+  USE_BRICK_SLOTS,
+  USE_BRICK_SLOTS_ITEM,
+  USE_BRICK_SLOTS_ITEM_BRICKS,
+  USE_BRICK_SLOTS_ITEM_BRICKS_ITEM,
+}
+
+export interface TrackingContextItem {
+  contextNames: string[];
+  propName: string;
+  propValue: string;
 }
 
 export const computeRealValue = (
@@ -37,7 +58,8 @@ export const computeRealValue = (
       result = evaluate(value as string, runtimeContext, {
         lazy:
           internalOptions?.$$lazyForUseBrickEvents &&
-          internalOptions.$$inUseBrickEventsNow,
+          internalOptions.$$stateOfUseBrick ===
+            StateOfUseBrick.USE_BRICK_EVENTS,
       });
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         value as string
@@ -57,24 +79,20 @@ export const computeRealValue = (
       return value;
     }
     if (Array.isArray(value)) {
+      const nextOptions = getNextInternalOptions(internalOptions, true);
       newValue = value.map((v) =>
-        computeRealValue(v, context, injectDeep, internalOptions)
+        computeRealValue(v, context, injectDeep, nextOptions)
       );
     } else {
       newValue = Object.entries(value).reduce<Record<string, unknown>>(
         (acc, [k, v]) => {
           k = computeRealValue(k, context, false) as string;
-          let newOptions = internalOptions;
-          if (internalOptions?.$$lazyForUseBrickEvents) {
-            newOptions = {
-              ...internalOptions,
-              $$atUseBrickNow: k === "useBrick",
-              $$inUseBrickEventsNow:
-                internalOptions.$$inUseBrickEventsNow ||
-                (internalOptions.$$atUseBrickNow && k === "events"),
-            };
-          }
-          acc[k] = computeRealValue(v, context, injectDeep, newOptions);
+          acc[k] = computeRealValue(
+            v,
+            context,
+            injectDeep,
+            getNextInternalOptions(internalOptions, false, k)
+          );
           return acc;
         },
         {}
@@ -108,7 +126,7 @@ export function setRealProperties(
   for (const [propName, propValue] of Object.entries(realProps)) {
     if (propName === "style" || propName === "dataset") {
       for (const [k, v] of Object.entries(propValue)) {
-        ((brick[propName] as unknown) as Record<string, unknown>)[k] = v;
+        (brick[propName] as unknown as Record<string, unknown>)[k] = v;
       }
     } else if (propName === "innerHTML") {
       // `innerHTML` is dangerous, use `textContent` instead.
@@ -119,7 +137,7 @@ export function setRealProperties(
       if (extractProps) {
         set(brick, propName, propValue);
       } else {
-        ((brick as unknown) as Record<string, unknown>)[propName] = propValue;
+        (brick as unknown as Record<string, unknown>)[propName] = propValue;
       }
     }
   }
@@ -128,7 +146,8 @@ export function setRealProperties(
 export function computeRealProperties(
   properties: Record<string, unknown>,
   context: PluginRuntimeContext,
-  injectDeep?: boolean
+  injectDeep?: boolean,
+  trackingContextList?: TrackingContextItem[]
 ): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
@@ -137,7 +156,10 @@ export function computeRealProperties(
       // Related: https://github.com/facebook/react/issues/11347
       const realValue = computeRealValue(propValue, context, injectDeep, {
         $$lazyForUseBrickEvents: true,
-        $$atUseBrickNow: propName === "useBrick",
+        $$stateOfUseBrick:
+          propName === "useBrick"
+            ? StateOfUseBrick.USE_BRICK
+            : StateOfUseBrick.INITIAL,
       });
       if (realValue !== undefined) {
         // For `style` and `dataset`, only object is acceptable.
@@ -148,8 +170,80 @@ export function computeRealProperties(
           result[propName] = realValue;
         }
       }
+      if (Array.isArray(trackingContextList) && isEvaluable(propValue)) {
+        const contextNames = trackContext(propValue);
+        if (contextNames) {
+          trackingContextList.push({
+            contextNames,
+            propName,
+            propValue,
+          });
+        }
+      }
     }
   }
 
   return result;
+}
+
+function getNextInternalOptions(
+  internalOptions: ComputeOptions,
+  isArray: boolean,
+  key?: string
+): ComputeOptions {
+  return internalOptions?.$$lazyForUseBrickEvents
+    ? {
+        ...internalOptions,
+        $$stateOfUseBrick: getNextStateOfUseBrick(
+          internalOptions.$$stateOfUseBrick,
+          isArray,
+          key
+        ),
+      }
+    : internalOptions;
+}
+
+function getNextStateOfUseBrick(
+  state: StateOfUseBrick,
+  isArray?: boolean,
+  key?: string
+): StateOfUseBrick {
+  if (state === StateOfUseBrick.USE_BRICK_EVENTS) {
+    return state;
+  }
+  if (isArray) {
+    switch (state) {
+      case StateOfUseBrick.USE_BRICK:
+        return StateOfUseBrick.USE_BRICK_ITEM;
+      case StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS:
+        return StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS_ITEM;
+    }
+  } else {
+    switch (state) {
+      case StateOfUseBrick.INITIAL:
+        if (key === "useBrick") {
+          return StateOfUseBrick.USE_BRICK;
+        }
+        break;
+      case StateOfUseBrick.USE_BRICK:
+      case StateOfUseBrick.USE_BRICK_ITEM:
+      case StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS_ITEM: {
+        switch (key) {
+          case "events":
+            return StateOfUseBrick.USE_BRICK_EVENTS;
+          case "slots":
+            return StateOfUseBrick.USE_BRICK_SLOTS;
+        }
+        break;
+      }
+      case StateOfUseBrick.USE_BRICK_SLOTS:
+        return StateOfUseBrick.USE_BRICK_SLOTS_ITEM;
+      case StateOfUseBrick.USE_BRICK_SLOTS_ITEM:
+        if (key === "bricks") {
+          return StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS;
+        }
+        break;
+    }
+  }
+  return StateOfUseBrick.INITIAL;
 }

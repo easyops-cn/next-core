@@ -11,12 +11,14 @@
         "exportsType": "namespace",
         "providedExports": [
           "JsonStorage",
+          "PrecookVisitor",
           "asyncProcessBrick",
           "asyncProcessStoryboard",
           "computeRealRoutePath",
           "convertValueByPrecision",
           "cook",
           "createProviderClass",
+          "deepFreeze",
           "formatValue",
           "getDependencyMapOfContext",
           "getDepsOfTemplates",
@@ -26,11 +28,16 @@
           "getTemplateDepsOfStoryboard",
           "hasOwnProperty",
           "inject",
+          "isBrickNode",
+          "isCustomTemplateNode",
           "isEvaluable",
           "isObject",
+          "isRouteNode",
+          "isSnippetNode",
           "loadScript",
           "mapCustomApisToNameAndNamespace",
           "matchPath",
+          "normalizeBuilderNode",
           "pipes",
           "precook",
           "preevaluate",
@@ -53,6 +60,7 @@
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
           "toPath",
+          "trackContext",
           "transform"
         ]
       }
@@ -70,6 +78,10 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": [
+          "isBrickNode",
+          "isCustomTemplateNode",
+          "isRouteNode",
+          "isSnippetNode",
           "BuilderDataTransferType",
           "BuilderProvider",
           "DropZone",
@@ -81,10 +93,6 @@
           "EditorSlotContentLayout",
           "SlotContainer",
           "getSortedIdsAfterDropped",
-          "isBrickNode",
-          "isCustomTemplateNode",
-          "isRouteNode",
-          "isSnippetNode",
           "useBuilderContextMenuStatus",
           "useBuilderData",
           "useBuilderDataManager",
@@ -132,8 +140,10 @@
         "providedExports": [
           "BrickAsComponent",
           "BrickWrapper",
+          "DisplayByFeatureFlags",
           "EasyopsEmpty",
           "ErrorBoundary",
+          "FeatureFlagsProvider",
           "ForwardRefSingleBrickAsComponent",
           "ModalElement",
           "SingleBrickAsComponent",
@@ -170,6 +180,7 @@
           "useCurrentApp",
           "useCurrentMode",
           "useCurrentTheme",
+          "useFeatureFlags",
           "useLocation",
           "useRecentApps"
         ]

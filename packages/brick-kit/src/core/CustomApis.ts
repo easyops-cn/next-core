@@ -17,6 +17,7 @@ function getApiInfoFromMicroAppApiOrchestrationMap(
   namespace: string;
   responseWrapper: boolean;
   version?: string;
+  isFileType?: boolean;
 } {
   const api = allMicroAppApiOrchestrationMap.get(provider);
   if (api) {
@@ -43,6 +44,7 @@ function getApiInfoFromMicroAppApiOrchestrationMap(
         name: api.name,
         namespace: api.namespace,
         version: api.version,
+        isFileType: contract?.response?.type === "file",
         responseWrapper,
       };
     }
@@ -80,11 +82,16 @@ export function getArgsOfCustomApi(
   allMicroAppApiOrchestrationMap: Map<string, CustomApiOrchestration>,
   actualArgs: any[]
 ): any {
-  const { uri, method, name, namespace, responseWrapper, version } =
+  const { uri, method, name, namespace, responseWrapper, version, isFileType } =
     getApiInfoFromMicroAppApiOrchestrationMap(
       provider,
       allMicroAppApiOrchestrationMap
     );
+
+  let fileName: string;
+  if (isFileType) {
+    fileName = actualArgs.shift();
+  }
 
   const { url, args } = getTransformedUriAndRestArgs(
     uri,
@@ -93,12 +100,24 @@ export function getArgsOfCustomApi(
     namespace,
     version
   );
-  return [
-    {
-      url,
-      method,
-      responseWrapper,
-    },
-    ...args,
-  ];
+
+  return isFileType
+    ? [
+        fileName,
+        {
+          url,
+          method,
+          responseWrapper: false,
+        },
+        ...args,
+        { responseType: "blob" },
+      ]
+    : [
+        {
+          url,
+          method,
+          responseWrapper,
+        },
+        ...args,
+      ];
 }

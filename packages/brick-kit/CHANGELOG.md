@@ -3,35 +3,146 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.2...@next-core/brick-kit@2.54.0) (2021-07-06)
+## [2.60.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.1...@next-core/brick-kit@2.60.2) (2021-07-27)
+
+
+### Bug Fixes
+
+* **menu:** allow injecting menu items in non-group menus ([d744052](https://github.com/easyops-cn/next-core/commit/d744052eb2e1f1c16f5ce2ea611e253426f932e9))
+
+
+
+
+
+## [2.60.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.0...@next-core/brick-kit@2.60.1) (2021-07-26)
+
+
+### Bug Fixes
+
+* evaluate lazily for events inside slots of useBrick ([adeeb4e](https://github.com/easyops-cn/next-core/commit/adeeb4ec02eded9cdde9809da60682bb758d51a2))
+
+
+
+
+
+# [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.59.0...@next-core/brick-kit@2.60.0) (2021-07-26)
 
 
 ### Features
 
-* support sessionStorage.getItem,sessionStorage.setItem and SESSION_STORAGE ([f094ab4](https://github.com/easyops-cn/next-core/commit/f094ab4140f4aabcd12370896f42bc8318199c4e))
+* **menu:** support injecting menu items into a menu group ([a1dce86](https://github.com/easyops-cn/next-core/commit/a1dce86984f9354ef130f6d2b51ec1459e789386))
 
 
 
 
+
+# [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.58.1...@next-core/brick-kit@2.59.0) (2021-07-26)
+
+
+### Features
+
+* support tracking context ([c6ada04](https://github.com/easyops-cn/next-core/commit/c6ada04b3e7350ce2daa0e4a0e7ece06526aa1c8))
+
+
+
+
+
+## [2.58.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.58.0...@next-core/brick-kit@2.58.1) (2021-07-23)
+
+
+### Bug Fixes
+
+* **LocationContext:** use hasOwnProperty to check if value exists ([5bae1f5](https://github.com/easyops-cn/next-core/commit/5bae1f5146b4629ce27e0993b572a88e215fc9f1))
+
+
+
+
+
+# [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.57.0...@next-core/brick-kit@2.58.0) (2021-07-23)
+
+
+### Bug Fixes
+
+* **getDependencyMapOfContext:** also collect contexts in if ([44a4b6a](https://github.com/easyops-cn/next-core/commit/44a4b6ac10238226083ca6271693f805469382f5))
+
+
+### Features
+
+* **LocationContext:** fallback to value when resolve is invalid ([a0adf42](https://github.com/easyops-cn/next-core/commit/a0adf420a55c65a736607df5914e707c6cfe2bd2))
+
+
+
+
+
+# [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.4...@next-core/brick-kit@2.57.0) (2021-07-23)
+
+
+### Features
+
+* add route field for analysis ([5e81e2f](https://github.com/easyops-cn/next-core/commit/5e81e2f813ec4c78be28b2d276f618f5bfbf38e1))
+* api contract support file download ([6420d61](https://github.com/easyops-cn/next-core/commit/6420d61c08ef8f63b071ea8580076b056c230c3d))
+* useProvider 支持 saveAs 的方法 ([7add9a1](https://github.com/easyops-cn/next-core/commit/7add9a152fe572b0c2274cbe363dc81361624abf))
+
+
+
+
+
+## [2.56.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.3...@next-core/brick-kit@2.56.4) (2021-07-21)
+
+### Bug Fixes
+
+- httpError style fix ([383b44f](https://github.com/easyops-cn/next-core/commit/383b44f042ee74992c8eb05ad6632b5913a9ea2b))
+- httpError style fix unit test update ([33f3985](https://github.com/easyops-cn/next-core/commit/33f3985cb2cfe1bee163c8442dc77ac7299979be))
+
+## [2.56.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.2...@next-core/brick-kit@2.56.3) (2021-07-21)
+
+### Bug Fixes
+
+- refine feature flags ([cd2df14](https://github.com/easyops-cn/next-core/commit/cd2df14dc5c01c8d3806f1079ec338eb044431aa))
+
+## [2.56.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.1...@next-core/brick-kit@2.56.2) (2021-07-20)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.56.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.0...@next-core/brick-kit@2.56.1) (2021-07-20)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.55.1...@next-core/brick-kit@2.56.0) (2021-07-19)
+
+### Features
+
+- 支持多种获取特性开关的方式 ([#756](https://github.com/easyops-cn/next-core/issues/756)) ([c69d744](https://github.com/easyops-cn/next-core/commit/c69d744dea0b8d826167bc3251b2c1f5dfac1483))
+
+## [2.55.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.55.0...@next-core/brick-kit@2.55.1) (2021-07-19)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.54.1...@next-core/brick-kit@2.55.0) (2021-07-19)
+
+### Features
+
+- support deepFreeze in brick-utils ([e9e1922](https://github.com/easyops-cn/next-core/commit/e9e1922984063e999bacc998188b170433eb382b))
+
+## [2.54.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.54.0...@next-core/brick-kit@2.54.1) (2021-07-19)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.2...@next-core/brick-kit@2.54.0) (2021-07-06)
+
+### Features
+
+- support sessionStorage.getItem,sessionStorage.setItem and SESSION_STORAGE ([f094ab4](https://github.com/easyops-cn/next-core/commit/f094ab4140f4aabcd12370896f42bc8318199c4e))
 
 ## [2.53.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.1...@next-core/brick-kit@2.53.2) (2021-07-04)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.53.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.53.0...@next-core/brick-kit@2.53.1) (2021-07-02)
-
 
 ### Bug Fixes
 
-* refine contract ([56855dd](https://github.com/easyops-cn/next-core/commit/56855ddbefb55e78cea764c707818bf0911779aa))
-
-
-
-
+- refine contract ([56855dd](https://github.com/easyops-cn/next-core/commit/56855ddbefb55e78cea764c707818bf0911779aa))
 
 # [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.52.3...@next-core/brick-kit@2.53.0) (2021-07-01)
 

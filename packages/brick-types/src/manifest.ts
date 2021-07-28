@@ -1123,6 +1123,8 @@ export interface UseProviderEventHandler {
   /** {@inheritDoc UseProviderResolveConf.useProvider} */
   useProvider: string;
 
+  method?: "resolve" | "saveAs";
+
   /** {@inheritDoc BuiltinBrickEventHandler.args} */
   args?: unknown[];
 

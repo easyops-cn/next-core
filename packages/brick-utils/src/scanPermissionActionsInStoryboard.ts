@@ -1,8 +1,7 @@
 import { CallExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-import { isEvaluable, preevaluate } from "./cook/preevaluate";
-import PrecookVisitor from "./cook/PrecookVisitor";
+import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
 
 const PERMISSIONS = "PERMISSIONS";
 const check = "check";
@@ -41,10 +40,11 @@ function collectPermissionActions(
               node.callee.type === "MemberExpression" &&
               node.callee.object.type === "Identifier" &&
               node.callee.object.name === PERMISSIONS &&
+              !node.callee.computed &&
               node.callee.property.type === "Identifier" &&
               node.callee.property.name === check
             ) {
-              for (const arg of (node.arguments as unknown) as ESTreeStringLiteral[]) {
+              for (const arg of node.arguments as unknown as ESTreeStringLiteral[]) {
                 if (arg.type === "Literal" && typeof arg.value === "string") {
                   collection.add(arg.value);
                 }

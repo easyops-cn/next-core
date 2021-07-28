@@ -400,7 +400,7 @@ export class Router {
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
         window.scrollTo(0, 0);
 
-        pageTracker?.();
+        pageTracker?.(locationContext.getCurrentMatch().path);
 
         this.state = "mounted";
 

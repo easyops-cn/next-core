@@ -41,6 +41,7 @@ export interface ApiAnalyse {
   page: string;
   pageId?: string;
   size?: number;
+  route?: string;
 }
 
 interface ApiAnalysisServiceProps {
@@ -80,6 +81,7 @@ class ApiAnalysisService {
         "msg",
         "status",
         "pageId",
+        "route",
       ],
       data: this.logs,
     };
@@ -108,30 +110,25 @@ class ApiAnalysisService {
     }
   }
 
-  private pageIdFactory(): () => string {
-    let carry = 0;
-    const st = Date.now();
-    return function () {
-      const prefix = "page";
-      const t = Date.now() - st;
-      const r = Math.floor(Math.random() * 1000);
-      const str = "-" + carry + "-" + t + "-" + r;
-      carry += 1;
-      return prefix + str;
-    };
+  // Ref https://medium.com/teads-engineering/generating-uuids-at-scale-on-the-web-2877f529d2a2
+  private genUUID(): string {
+    const url = URL.createObjectURL(new Blob([]));
+    const uuid = url.substring(url.lastIndexOf("/") + 1);
+    URL.revokeObjectURL(url);
+    return uuid;
   }
 
-  pageTracker(): () => void {
-    const getPageId = this.pageIdFactory();
+  pageTracker(): (path: string) => void {
     const startTime = Date.now();
     this.apiQueue = [];
-    return () => {
+    return (path: string) => {
       const endTime = Date.now();
       // page load time
       const lt = endTime - startTime;
       const extra = {
         lt,
-        pageId: getPageId(),
+        route: path,
+        pageId: this.genUUID(),
       };
 
       const queuedApiList = this.apiQueue.map((api) => ({ ...api, ...extra }));

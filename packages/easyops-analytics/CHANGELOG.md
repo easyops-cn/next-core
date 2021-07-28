@@ -3,13 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.1.10...@next-core/easyops-analytics@0.2.0) (2021-07-23)
+
+
+### Features
+
+* add route field for analysis ([5e81e2f](https://github.com/easyops-cn/next-core/commit/5e81e2f813ec4c78be28b2d276f618f5bfbf38e1))
+
+
+
+
+
 ## [0.1.10](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.1.9...@next-core/easyops-analytics@0.1.10) (2021-07-02)
 
 **Note:** Version bump only for package @next-core/easyops-analytics
-
-
-
-
 
 ## [0.1.9](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.1.8...@next-core/easyops-analytics@0.1.9) (2021-06-02)
 

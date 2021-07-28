@@ -3,24 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.4...@next-core/brick-types@2.33.0) (2021-07-06)
-
-
-### Features
-
-* support sessionStorage.getItem,sessionStorage.setItem and SESSION_STORAGE ([f094ab4](https://github.com/easyops-cn/next-core/commit/f094ab4140f4aabcd12370896f42bc8318199c4e))
-
-
-
-
-
-## [2.32.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.3...@next-core/brick-types@2.32.4) (2021-07-02)
+## [2.34.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.34.0...@next-core/brick-types@2.34.1) (2021-07-26)
 
 **Note:** Version bump only for package @next-core/brick-types
 
 
 
 
+
+# [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.33.0...@next-core/brick-types@2.34.0) (2021-07-23)
+
+
+### Features
+
+* useProvider 支持 saveAs 的方法 ([7add9a1](https://github.com/easyops-cn/next-core/commit/7add9a152fe572b0c2274cbe363dc81361624abf))
+
+
+
+
+
+# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.4...@next-core/brick-types@2.33.0) (2021-07-06)
+
+### Features
+
+- support sessionStorage.getItem,sessionStorage.setItem and SESSION_STORAGE ([f094ab4](https://github.com/easyops-cn/next-core/commit/f094ab4140f4aabcd12370896f42bc8318199c4e))
+
+## [2.32.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.3...@next-core/brick-types@2.32.4) (2021-07-02)
+
+**Note:** Version bump only for package @next-core/brick-types
 
 ## [2.32.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.2...@next-core/brick-types@2.32.3) (2021-06-24)
 

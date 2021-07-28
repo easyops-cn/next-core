@@ -2,6 +2,7 @@ import {
   BrickEventHandlerCallback,
   PluginRuntimeContext,
 } from "@next-core/brick-types";
+import { RuntimeBrick } from "../../core/BrickNode";
 
 export interface PluginWebSocketOptions {
   url: string;
@@ -45,6 +46,6 @@ export interface PluginWebSocketMessageResponsePayload
 
 export interface MessageBrickEventHandlerCallback
   extends Pick<BrickEventHandlerCallback, "success" | "error"> {
-  brick: HTMLElement;
+  runtimeBrick: RuntimeBrick;
   context: PluginRuntimeContext;
 }

@@ -3,29 +3,105 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.2.74](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.73...@next-core/next-docs@1.2.74) (2021-07-06)
+## [1.2.89](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.88...@next-core/next-docs@1.2.89) (2021-07-27)
 
 **Note:** Version bump only for package @next-core/next-docs
 
 
 
 
+
+## [1.2.88](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.87...@next-core/next-docs@1.2.88) (2021-07-26)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+
+
+
+
+## [1.2.87](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.86...@next-core/next-docs@1.2.87) (2021-07-26)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+
+
+
+
+## [1.2.86](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.85...@next-core/next-docs@1.2.86) (2021-07-26)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+
+
+
+
+## [1.2.85](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.84...@next-core/next-docs@1.2.85) (2021-07-23)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+
+
+
+
+## [1.2.84](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.83...@next-core/next-docs@1.2.84) (2021-07-23)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+
+
+
+
+## [1.2.83](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.82...@next-core/next-docs@1.2.83) (2021-07-23)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+
+
+
+
+## [1.2.82](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.81...@next-core/next-docs@1.2.82) (2021-07-21)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.81](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.80...@next-core/next-docs@1.2.81) (2021-07-21)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.80](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.79...@next-core/next-docs@1.2.80) (2021-07-20)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.79](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.78...@next-core/next-docs@1.2.79) (2021-07-20)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.78](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.77...@next-core/next-docs@1.2.78) (2021-07-19)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.77](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.76...@next-core/next-docs@1.2.77) (2021-07-19)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.76](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.75...@next-core/next-docs@1.2.76) (2021-07-19)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.75](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.74...@next-core/next-docs@1.2.75) (2021-07-19)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.74](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.73...@next-core/next-docs@1.2.74) (2021-07-06)
+
+**Note:** Version bump only for package @next-core/next-docs
 
 ## [1.2.73](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.72...@next-core/next-docs@1.2.73) (2021-07-04)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.72](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.71...@next-core/next-docs@1.2.72) (2021-07-02)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.71](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.70...@next-core/next-docs@1.2.71) (2021-07-01)
 

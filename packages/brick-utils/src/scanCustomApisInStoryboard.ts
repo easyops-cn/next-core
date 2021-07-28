@@ -10,8 +10,7 @@ export function scanCustomApisInStoryboard(
   storyboard: Storyboard,
   options: boolean | ScanBricksOptions = true
 ): string[] {
-  const customApis = scanStoryboard(storyboard, options).customApis;
-  return customApis;
+  return scanStoryboard(storyboard, options).customApis;
 }
 
 export function mapCustomApisToNameAndNamespace(

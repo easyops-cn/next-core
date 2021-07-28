@@ -1904,11 +1904,7 @@ export interface StoryboardContextItemBrickProperty {
 // @internal (undocumented)
 export interface StoryboardContextItemFreeVariable {
     // (undocumented)
-    brick?: {
-        element?: HTMLElement;
-    };
-    // (undocumented)
-    onChange?: BrickEventHandler | BrickEventHandler[];
+    eventTarget?: EventTarget;
     // (undocumented)
     type: "free-variable";
     // (undocumented)
@@ -2181,6 +2177,8 @@ export interface UseProviderEventHandler {
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
+    // (undocumented)
+    method?: "resolve" | "saveAs";
     useProvider: string;
 }
 

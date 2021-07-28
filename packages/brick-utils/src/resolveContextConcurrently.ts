@@ -1,7 +1,6 @@
 import { MemberExpression } from "@babel/types";
 import { ContextConf } from "@next-core/brick-types";
-import { isEvaluable, preevaluate } from "./cook";
-import PrecookVisitor from "./cook/PrecookVisitor";
+import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
 import { isObject } from "./isObject";
 
 export async function resolveContextConcurrently(
@@ -77,7 +76,9 @@ export function getDependencyMapOfContext(
       includesComputed: false,
     };
     if (!contextConf.property) {
-      collectContexts(contextConf.resolve || contextConf.value, stats);
+      collectContexts(contextConf.if, stats);
+      collectContexts(contextConf.value, stats);
+      collectContexts(contextConf.resolve, stats);
     }
     depsMap.set(contextConf, stats);
   }

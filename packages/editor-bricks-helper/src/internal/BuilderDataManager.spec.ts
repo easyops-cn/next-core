@@ -117,6 +117,10 @@ Object {
     Object {
       "$$isTemplateInternalNode": undefined,
       "$$matchedSelectors": Array [],
+      "$$normalized": Object {
+        "path": "/home",
+        "type": "bricks",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -131,6 +135,10 @@ Object {
       "$$matchedSelectors": Array [
         "brick-a",
       ],
+      "$$normalized": Object {
+        "alias": "alias-a",
+        "brick": "brick-a",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -146,6 +154,9 @@ Object {
       "$$matchedSelectors": Array [
         "brick-b",
       ],
+      "$$normalized": Object {
+        "brick": "brick-b",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -161,6 +172,9 @@ Object {
       "$$matchedSelectors": Array [
         "brick-c",
       ],
+      "$$normalized": Object {
+        "brick": "brick-c",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -175,6 +189,9 @@ Object {
       "$$matchedSelectors": Array [
         "brick-d",
       ],
+      "$$normalized": Object {
+        "brick": "brick-d",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -189,6 +206,9 @@ Object {
       "$$matchedSelectors": Array [
         "brick-e",
       ],
+      "$$normalized": Object {
+        "brick": "brick-e",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -279,6 +299,9 @@ Object {
   "$$matchedSelectors": Array [
     "my\\\\.any-brick",
   ],
+  "$$normalized": Object {
+    "brick": "my.any-brick",
+  },
   "$$parsedEvents": Object {},
   "$$parsedLifeCycle": Object {},
   "$$parsedProperties": Object {},
@@ -310,11 +333,16 @@ Object {
       nodeUid: 7,
       nodeData: {
         id: "B-007",
+        instanceId: "new-instance-id",
+        other: "any",
       } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
     });
-    expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
-      "B-007"
-    );
+    expect(
+      manager.getData().nodes.find((node) => node.$$uid === 7)
+    ).toMatchObject({
+      id: "B-007",
+      instanceId: "new-instance-id",
+    });
     expect(listenOnDataChange).toBeCalled();
     unlistenOnDataChange();
   });
@@ -422,6 +450,14 @@ Array [
     "$$matchedSelectors": Array [
       "basic-bricks\\\\.easy-view",
     ],
+    "$$normalized": Object {
+      "brick": "basic-bricks.easy-view",
+      "properties": Object {
+        "containerStyle": Object {
+          "gap": "var(--page-card-gap)",
+        },
+      },
+    },
     "$$parsedEvents": Object {},
     "$$parsedLifeCycle": Object {},
     "$$parsedProperties": Object {
@@ -440,6 +476,14 @@ Array [
     "$$matchedSelectors": Array [
       "basic-bricks\\\\.general-button",
     ],
+    "$$normalized": Object {
+      "brick": "basic-bricks.general-button",
+      "events": Object {
+        "click": Object {
+          "action": "console.log",
+        },
+      },
+    },
     "$$parsedEvents": Object {
       "click": Object {
         "action": "console.log",
@@ -495,22 +539,32 @@ Array [
           nodeUid: 7,
           nodeData: {
             id: "B-007",
+            instanceId: "new-instance-id-a",
+            other: "any",
           } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
         },
         {
           nodeUid: 8,
           nodeData: {
             id: "B-008",
+            instanceId: "new-instance-id-b",
+            other: "any",
           } as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
         },
       ],
     });
-    expect(manager.getData().nodes.find((node) => node.$$uid === 7).id).toBe(
-      "B-007"
-    );
-    expect(manager.getData().nodes.find((node) => node.$$uid === 8).id).toBe(
-      "B-008"
-    );
+    expect(
+      manager.getData().nodes.find((node) => node.$$uid === 7)
+    ).toMatchObject({
+      id: "B-007",
+      instanceId: "new-instance-id-a",
+    });
+    expect(
+      manager.getData().nodes.find((node) => node.$$uid === 8)
+    ).toMatchObject({
+      id: "B-008",
+      instanceId: "new-instance-id-b",
+    });
     expect(listenOnDataChange).toBeCalled();
     unlistenOnDataChange();
   });
@@ -541,6 +595,10 @@ Array [
 Object {
   "$$isTemplateInternalNode": undefined,
   "$$matchedSelectors": Array [],
+  "$$normalized": Object {
+    "path": "/home",
+    "type": "bricks",
+  },
   "$$parsedEvents": Object {},
   "$$parsedLifeCycle": Object {},
   "$$parsedProperties": Object {},
@@ -789,6 +847,10 @@ Object {
     Object {
       "$$isTemplateInternalNode": undefined,
       "$$matchedSelectors": Array [],
+      "$$normalized": Object {
+        "path": "/home",
+        "type": "bricks",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -803,6 +865,10 @@ Object {
       "$$matchedSelectors": Array [
         "brick-a",
       ],
+      "$$normalized": Object {
+        "alias": "alias-a",
+        "brick": "brick-a",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -947,6 +1013,10 @@ Object {
     Object {
       "$$isTemplateInternalNode": undefined,
       "$$matchedSelectors": Array [],
+      "$$normalized": Object {
+        "path": "/home",
+        "type": "routes",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -959,6 +1029,11 @@ Object {
     Object {
       "$$isTemplateInternalNode": undefined,
       "$$matchedSelectors": Array [],
+      "$$normalized": Object {
+        "alias": "alias-a",
+        "path": "/home/a",
+        "type": "bricks",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -974,6 +1049,9 @@ Object {
       "$$matchedSelectors": Array [
         "brick-b",
       ],
+      "$$normalized": Object {
+        "brick": "brick-b",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -987,6 +1065,10 @@ Object {
     Object {
       "$$isTemplateInternalNode": undefined,
       "$$matchedSelectors": Array [],
+      "$$normalized": Object {
+        "path": "/home/c",
+        "type": "routes",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},
@@ -1000,6 +1082,10 @@ Object {
     Object {
       "$$isTemplateInternalNode": undefined,
       "$$matchedSelectors": Array [],
+      "$$normalized": Object {
+        "path": "/home/c/d",
+        "type": "bricks",
+      },
       "$$parsedEvents": Object {},
       "$$parsedLifeCycle": Object {},
       "$$parsedProperties": Object {},

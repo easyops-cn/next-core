@@ -35,6 +35,7 @@ export interface MenuRawData {
   titleDataSource?: TitleDataSource;
   items?: MenuItemRawData[];
   type?: "main" | "inject";
+  injectMenuGroupId?: string;
   defaultCollapsed?: boolean;
   dynamicItems?: boolean;
   itemsResolve?: ResolveConf;
@@ -46,6 +47,7 @@ type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
   sort?: number;
   if?: string | boolean;
   defaultExpanded?: boolean;
+  groupId?: string;
   [symbolAppId]?: string;
 };
 
@@ -96,6 +98,7 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
         titleDataSource: true,
         defaultCollapsed: true,
         type: true,
+        injectMenuGroupId: true,
         dynamicItems: true,
         itemsResolve: true,
         items: true,
@@ -129,15 +132,53 @@ function mergeMenu(menuList: MenuRawData[]): MenuRawData {
   if (!mainMenu) {
     return undefined;
   }
+  const validMenuList: MenuRawData[] = [];
+  const injectWithMenus = new Map<string, MenuRawData>();
+  for (const menu of menuList) {
+    if (menu.items?.length > 0) {
+      if (menu.type === "inject" && menu.injectMenuGroupId) {
+        injectWithMenus.set(menu.injectMenuGroupId, menu);
+      } else {
+        validMenuList.push(menu);
+      }
+    }
+  }
   return {
     ...mainMenu,
-    items: menuList.flatMap((menu) =>
-      (Array.isArray(menu.items) ? menu.items : []).map((item) => ({
-        ...item,
-        [symbolAppId]: menu.app[0].appId,
-      }))
+    items: validMenuList.flatMap((menu) =>
+      processGroupInject(menu.items, menu, injectWithMenus)
     ),
   };
+}
+
+function processGroupInject(
+  items: MenuItemRawData[],
+  menu: MenuRawData,
+  injectWithMenus: Map<string, MenuRawData>
+): MenuItemRawData[] {
+  return items?.map((item) => {
+    const foundInjectWithMenu =
+      item.groupId && injectWithMenus.get(item.groupId);
+    if (foundInjectWithMenu) {
+      // Each menus to be injected with should be injected only once.
+      injectWithMenus.delete(item.groupId);
+    }
+    return {
+      ...item,
+      children: (
+        processGroupInject(item.children, menu, injectWithMenus) ?? []
+      ).concat(
+        foundInjectWithMenu
+          ? processGroupInject(
+              foundInjectWithMenu.items,
+              foundInjectWithMenu,
+              injectWithMenus
+            )
+          : []
+      ),
+      [symbolAppId]: menu.app[0].appId,
+    };
+  });
 }
 
 async function loadDynamicMenuItems(menu: MenuRawData): Promise<void> {
@@ -173,16 +214,7 @@ export async function processMenu(
       context,
       kernel
     )),
-    items: await Promise.all(
-      items.map((item) =>
-        computeRealValueWithOverrideApp(
-          item,
-          item[symbolAppId],
-          context,
-          kernel
-        )
-      )
-    ),
+    items: await computeMenuItemsWithOverrideApp(items, context, kernel),
   };
 
   return {
@@ -190,7 +222,7 @@ export async function processMenu(
     icon: menuData.icon,
     link: menuData.link,
     menuItems: menuData.items
-      ?.filter(
+      .filter(
         // `if` is already evaluated.
         looseCheckIfOfComputed
       )
@@ -217,6 +249,26 @@ export async function processMenu(
       }),
     defaultCollapsed: menuData.defaultCollapsed || hasSubMenu,
   };
+}
+
+function computeMenuItemsWithOverrideApp(
+  items: MenuItemRawData[],
+  context: PluginRuntimeContext,
+  kernel: Kernel
+): Promise<MenuItemRawData[]> {
+  return Promise.all(
+    items.map(async ({ children, ...rest }) => ({
+      ...(await computeRealValueWithOverrideApp(
+        rest,
+        rest[symbolAppId],
+        context,
+        kernel
+      )),
+      children:
+        children &&
+        (await computeMenuItemsWithOverrideApp(children, context, kernel)),
+    }))
+  );
 }
 
 export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
