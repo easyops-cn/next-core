@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.62.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.61.0...@next-core/brick-kit@2.62.0) (2021-07-28)
+
+
+### Features
+
+* support tracking context in useBrick ([ef2988f](https://github.com/easyops-cn/next-core/commit/ef2988f1685a5dc21946d40eac22bde68fa04cd8))
+
+
+
+
+
 # [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.2...@next-core/brick-kit@2.61.0) (2021-07-28)
 
 
