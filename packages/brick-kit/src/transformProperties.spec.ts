@@ -1,4 +1,4 @@
-import { GeneralTransform } from "@next-core/brick-types";
+import { GeneralTransform, PluginRuntimeContext } from "@next-core/brick-types";
 import {
   transformProperties,
   transformIntermediateData,
@@ -6,8 +6,26 @@ import {
   transformElementProperties,
 } from "./transformProperties";
 import * as runtime from "./core/Runtime";
+import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 
-jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  storyboardContext: new Map([
+    [
+      "hello",
+      {
+        type: "free-variable",
+        value: "Hello",
+      },
+    ],
+    [
+      "world",
+      {
+        type: "free-variable",
+        value: "World",
+      },
+    ],
+  ]),
+} as PluginRuntimeContext);
 
 interface Args {
   props: Parameters<typeof transformProperties>[0];
@@ -434,6 +452,37 @@ describe("doTransform", () => {
         },
       },
     });
+  });
+
+  it("should collect tracking context list", () => {
+    const trackingContextList: TrackingContextItem[] = [];
+    doTransform(
+      {},
+      {
+        title: "<% 'track context', CTX.hello + CTX.world %>",
+        message: "<% 'track context', CTX.hola %>",
+        extra: "<% CTX.any %>",
+        nesting: {
+          // This should ignored since it is not at first level.
+          any: "<% 'track context', CTX.oops %>",
+        },
+      },
+      {
+        trackingContextList,
+      }
+    );
+    expect(trackingContextList).toEqual([
+      {
+        contextNames: ["hello", "world"],
+        propName: "title",
+        propValue: "<% 'track context', CTX.hello + CTX.world %>",
+      },
+      {
+        contextNames: ["hola"],
+        propName: "message",
+        propValue: "<% 'track context', CTX.hola %>",
+      },
+    ]);
   });
 });
 
