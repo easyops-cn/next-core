@@ -6,7 +6,6 @@ import {
   RuntimeBrickElement,
   BrickEventsMap,
   UseBrickSlotsConf,
-  BrickEventHandler,
 } from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./bindListeners";
 import { setRealProperties } from "./setProperties";
@@ -86,8 +85,18 @@ export const SingleBrickAsComponent = React.memo(
       }
       const brick: RuntimeBrick = {
         type: useBrick.brick,
-        properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
+        // Now transform data in properties too.
+        properties: doTransform(
+          data,
+          cloneDeepWithInjectedMark(useBrick.properties) || {},
+          {
+            // Keep lazy fields inside `useBrick` inside the `properties`.
+            // They will be transformed by their `BrickAsComponent` later.
+            $$lazyForUseBrick: true,
+          }
+        ),
       };
+      // Let `transform` works still.
       transformProperties(
         brick.properties,
         data,
@@ -238,21 +247,11 @@ function transformEvents(
   data: unknown,
   events: BrickEventsMap
 ): BrickEventsMap {
-  const options = {
+  return doTransform(data, events, {
     evaluateOptions: {
       lazy: true,
     },
-  };
-  return Object.fromEntries(
-    Object.entries(events).map(([eventType, eventConf]) => [
-      eventType,
-      Array.isArray(eventConf)
-        ? eventConf.map(
-            (item) => doTransform(data, item, options) as BrickEventHandler
-          )
-        : (doTransform(data, eventConf, options) as BrickEventHandler),
-    ])
-  );
+  }) as BrickEventsMap;
 }
 
 /* istanbul ignore next */
@@ -298,8 +297,18 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         }
         const brick: RuntimeBrick = {
           type: useBrick.brick,
-          properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
+          // Now transform data in properties too.
+          properties: doTransform(
+            data,
+            cloneDeepWithInjectedMark(useBrick.properties) || {},
+            {
+              // Keep lazy fields inside `useBrick` inside the `properties`.
+              // They will be transformed by their `BrickAsComponent` later.
+              $$lazyForUseBrick: true,
+            }
+          ),
         };
+        // Let `transform` works still.
         transformProperties(
           brick.properties,
           data,

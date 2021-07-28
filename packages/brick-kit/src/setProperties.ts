@@ -13,21 +13,15 @@ import {
   shouldDismissRecursiveMarkingInjected,
 } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
+import {
+  getNextStateOfUseBrick,
+  isLazyContentInUseBrick,
+  StateOfUseBrick,
+} from "./internal/getNextStateOfUseBrick";
 
 interface ComputeOptions {
-  $$lazyForUseBrickEvents?: boolean;
+  $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
-}
-
-enum StateOfUseBrick {
-  INITIAL,
-  USE_BRICK,
-  USE_BRICK_ITEM,
-  USE_BRICK_EVENTS,
-  USE_BRICK_SLOTS,
-  USE_BRICK_SLOTS_ITEM,
-  USE_BRICK_SLOTS_ITEM_BRICKS,
-  USE_BRICK_SLOTS_ITEM_BRICKS_ITEM,
 }
 
 export interface TrackingContextItem {
@@ -45,8 +39,14 @@ export const computeRealValue = (
   const preEvaluated = isPreEvaluated(value);
 
   if (preEvaluated || typeof value === "string") {
+    // For `useBrick`, some fields such as `properties`/`transform`/`events`,
+    // are kept and to be evaluated later.
+    const lazy =
+      internalOptions?.$$lazyForUseBrick &&
+      isLazyContentInUseBrick(internalOptions.$$stateOfUseBrick);
+
     let result: unknown;
-    let dismissRecursiveMarkingInjected = false;
+    let dismissRecursiveMarkingInjected = lazy;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
       const keys = ["event", "getTplVariables", "overrideApp"] as const;
@@ -55,12 +55,8 @@ export const computeRealValue = (
           runtimeContext[key as "event"] = context[key as "event"];
         }
       }
-      result = evaluate(value as string, runtimeContext, {
-        lazy:
-          internalOptions?.$$lazyForUseBrickEvents &&
-          internalOptions.$$stateOfUseBrick ===
-            StateOfUseBrick.USE_BRICK_EVENTS,
-      });
+      // The current runtime context is memoized even if the evaluation maybe lazy.
+      result = evaluate(value as string, runtimeContext, { lazy });
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         value as string
       );
@@ -73,34 +69,28 @@ export const computeRealValue = (
     return result;
   }
 
-  let newValue = value;
-  if (injectDeep && isObject(value)) {
-    if (haveBeenInjected(value)) {
-      return value;
-    }
-    if (Array.isArray(value)) {
-      const nextOptions = getNextInternalOptions(internalOptions, true);
-      newValue = value.map((v) =>
-        computeRealValue(v, context, injectDeep, nextOptions)
-      );
-    } else {
-      newValue = Object.entries(value).reduce<Record<string, unknown>>(
-        (acc, [k, v]) => {
-          k = computeRealValue(k, context, false) as string;
-          acc[k] = computeRealValue(
-            v,
-            context,
-            injectDeep,
-            getNextInternalOptions(internalOptions, false, k)
-          );
-          return acc;
-        },
-        {}
-      );
-    }
+  if (!(injectDeep && isObject(value)) || haveBeenInjected(value)) {
+    return value;
   }
 
-  return newValue;
+  if (Array.isArray(value)) {
+    const nextOptions = getNextInternalOptions(internalOptions, true);
+    return value.map((v) =>
+      computeRealValue(v, context, injectDeep, nextOptions)
+    );
+  }
+
+  return Object.fromEntries(
+    Object.entries(value).map(([k, v]) => [
+      computeRealValue(k, context, false) as string,
+      computeRealValue(
+        v,
+        context,
+        injectDeep,
+        getNextInternalOptions(internalOptions, false, k)
+      ),
+    ])
+  );
 };
 
 export function setProperties(
@@ -155,7 +145,7 @@ export function computeRealProperties(
     for (const [propName, propValue] of Object.entries(properties)) {
       // Related: https://github.com/facebook/react/issues/11347
       const realValue = computeRealValue(propValue, context, injectDeep, {
-        $$lazyForUseBrickEvents: true,
+        $$lazyForUseBrick: true,
         $$stateOfUseBrick:
           propName === "useBrick"
             ? StateOfUseBrick.USE_BRICK
@@ -191,7 +181,7 @@ function getNextInternalOptions(
   isArray: boolean,
   key?: string
 ): ComputeOptions {
-  return internalOptions?.$$lazyForUseBrickEvents
+  return internalOptions?.$$lazyForUseBrick
     ? {
         ...internalOptions,
         $$stateOfUseBrick: getNextStateOfUseBrick(
@@ -201,49 +191,4 @@ function getNextInternalOptions(
         ),
       }
     : internalOptions;
-}
-
-function getNextStateOfUseBrick(
-  state: StateOfUseBrick,
-  isArray?: boolean,
-  key?: string
-): StateOfUseBrick {
-  if (state === StateOfUseBrick.USE_BRICK_EVENTS) {
-    return state;
-  }
-  if (isArray) {
-    switch (state) {
-      case StateOfUseBrick.USE_BRICK:
-        return StateOfUseBrick.USE_BRICK_ITEM;
-      case StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS:
-        return StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS_ITEM;
-    }
-  } else {
-    switch (state) {
-      case StateOfUseBrick.INITIAL:
-        if (key === "useBrick") {
-          return StateOfUseBrick.USE_BRICK;
-        }
-        break;
-      case StateOfUseBrick.USE_BRICK:
-      case StateOfUseBrick.USE_BRICK_ITEM:
-      case StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS_ITEM: {
-        switch (key) {
-          case "events":
-            return StateOfUseBrick.USE_BRICK_EVENTS;
-          case "slots":
-            return StateOfUseBrick.USE_BRICK_SLOTS;
-        }
-        break;
-      }
-      case StateOfUseBrick.USE_BRICK_SLOTS:
-        return StateOfUseBrick.USE_BRICK_SLOTS_ITEM;
-      case StateOfUseBrick.USE_BRICK_SLOTS_ITEM:
-        if (key === "bricks") {
-          return StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS;
-        }
-        break;
-    }
-  }
-  return StateOfUseBrick.INITIAL;
 }

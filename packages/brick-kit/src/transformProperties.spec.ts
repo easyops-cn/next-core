@@ -201,9 +201,8 @@ describe("transformProperties", () => {
       },
       {
         label: {
-          [Symbol.for(
-            "pre.evaluated.raw"
-          )]: "<% `${EVENT.detail} is ${DATA}` %>",
+          [Symbol.for("pre.evaluated.raw")]:
+            "<% `${EVENT.detail} is ${DATA}` %>",
           [Symbol.for("pre.evaluated.context")]: {
             data: "good",
           },
@@ -351,9 +350,8 @@ describe("doTransform", () => {
     ["<%~ `quality: ${DATA.hello}` %>", "quality: good"],
     [
       {
-        [Symbol.for(
-          "pre.evaluated.raw"
-        )]: "<% `${TPL.label}: ${DATA.hello}` %>",
+        [Symbol.for("pre.evaluated.raw")]:
+          "<% `${TPL.label}: ${DATA.hello}` %>",
         [Symbol.for("pre.evaluated.context")]: {
           getTplVariables: () => ({
             label: "quality",
@@ -383,6 +381,56 @@ describe("doTransform", () => {
         [Symbol.for("pre.evaluated.raw")]: "<% DATA %>",
         [Symbol.for("pre.evaluated.context")]: {
           data: "<% oops %>",
+        },
+      },
+    });
+  });
+
+  it("should work for lazy useBrick", () => {
+    const result = doTransform(
+      {
+        a: "yes",
+        b: true,
+      },
+      {
+        prop: "<% DATA.a %>",
+        useBrick: {
+          brick: "my-brick",
+          if: "<% DATA.b %>",
+          properties: {
+            myProp: "<% DATA.c %>",
+          },
+          transform: {
+            myTransform: "<% DATA.d %>",
+          },
+          events: {
+            click: {
+              action: "console.log",
+              args: ["<% DATA.e %>", "<% DATA.f %>"],
+            },
+          },
+        },
+      },
+      {
+        $$lazyForUseBrick: true,
+      }
+    );
+    expect(result).toEqual({
+      prop: "yes",
+      useBrick: {
+        brick: "my-brick",
+        if: true,
+        properties: {
+          myProp: "<% DATA.c %>",
+        },
+        transform: {
+          myTransform: "<% DATA.d %>",
+        },
+        events: {
+          click: {
+            action: "console.log",
+            args: ["<% DATA.e %>", "<% DATA.f %>"],
+          },
         },
       },
     });
