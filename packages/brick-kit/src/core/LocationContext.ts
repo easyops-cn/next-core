@@ -37,11 +37,7 @@ import {
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../bindListeners";
-import {
-  computeRealProperties,
-  computeRealValue,
-  TrackingContextItem,
-} from "../setProperties";
+import { computeRealProperties, computeRealValue } from "../setProperties";
 import { isLoggedIn, getAuth } from "../auth";
 import { getHistory } from "../history";
 import {
@@ -70,7 +66,10 @@ import {
 } from "./getSubStoryboardByRoute";
 import { symbolForTplContextId } from "./CustomTemplates";
 import { validatePermissions } from "./checkPermissions";
-import { listenOnTrackingContext } from "./listenOnTrackingContext";
+import {
+  listenOnTrackingContext,
+  TrackingContextItem,
+} from "../internal/listenOnTrackingContext";
 
 export type MatchRoutesResult =
   | {

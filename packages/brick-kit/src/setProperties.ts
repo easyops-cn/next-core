@@ -18,16 +18,11 @@ import {
   isLazyContentInUseBrick,
   StateOfUseBrick,
 } from "./internal/getNextStateOfUseBrick";
+import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 
 interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
-}
-
-export interface TrackingContextItem {
-  contextNames: string[];
-  propName: string;
-  propValue: string;
 }
 
 export const computeRealValue = (

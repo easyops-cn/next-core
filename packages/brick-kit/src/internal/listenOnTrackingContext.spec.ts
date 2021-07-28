@@ -1,8 +1,10 @@
 import { PluginRuntimeContext } from "@next-core/brick-types";
-import { TrackingContextItem } from "../setProperties";
-import { RuntimeBrick } from "./BrickNode";
-import { listenOnTrackingContext } from "./listenOnTrackingContext";
-import * as runtime from "./Runtime";
+import { RuntimeBrick } from "../core/BrickNode";
+import {
+  listenOnTrackingContext,
+  TrackingContextItem,
+} from "./listenOnTrackingContext";
+import * as runtime from "../core/Runtime";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 

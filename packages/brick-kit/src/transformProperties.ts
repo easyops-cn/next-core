@@ -1,6 +1,11 @@
 import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@next-core/brick-types";
-import { isObject, transform, isEvaluable } from "@next-core/brick-utils";
+import {
+  isObject,
+  transform,
+  isEvaluable,
+  trackContext,
+} from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateOptions,
@@ -15,6 +20,7 @@ import {
   isLazyContentInUseBrick,
   StateOfUseBrick,
 } from "./internal/getNextStateOfUseBrick";
+import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 
 interface TransformOptions {
   isReTransformation?: boolean;
@@ -23,6 +29,7 @@ interface TransformOptions {
 
 interface DoTransformOptions {
   evaluateOptions?: EvaluateOptions;
+  trackingContextList?: TrackingContextItem[];
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
 }
@@ -99,10 +106,22 @@ export function doTransform(
   }
 
   return Object.fromEntries(
-    Object.entries(to).map(([k, v]) => [
-      k,
-      doTransform(data, v, getNextDoTransformOptions(options, false, k)),
-    ])
+    Object.entries(to).map(([k, v]) => {
+      if (Array.isArray(options?.trackingContextList) && isEvaluable(v)) {
+        const contextNames = trackContext(v);
+        if (contextNames) {
+          options.trackingContextList.push({
+            contextNames,
+            propName: k,
+            propValue: v,
+          });
+        }
+      }
+      return [
+        k,
+        doTransform(data, v, getNextDoTransformOptions(options, false, k)),
+      ];
+    })
   );
 }
 
@@ -227,14 +246,18 @@ function getNextDoTransformOptions(
   isArray: boolean,
   key?: string
 ): DoTransformOptions {
-  return options?.$$lazyForUseBrick
+  return options
     ? {
         ...options,
-        $$stateOfUseBrick: getNextStateOfUseBrick(
-          options.$$stateOfUseBrick ?? StateOfUseBrick.INITIAL,
-          isArray,
-          key
-        ),
+        // Collect tracking context in first level only.
+        trackingContextList: undefined,
+        $$stateOfUseBrick: options.$$lazyForUseBrick
+          ? getNextStateOfUseBrick(
+              options.$$stateOfUseBrick ?? StateOfUseBrick.INITIAL,
+              isArray,
+              key
+            )
+          : undefined,
       }
     : options;
 }

@@ -22,6 +22,10 @@ import { transformProperties, doTransform } from "./transformProperties";
 import { looseCheckIfByTransform } from "./checkIf";
 import { isPreEvaluated } from "./evaluate";
 import { cloneDeepWithInjectedMark } from "./injected";
+import {
+  listenOnTrackingContext,
+  TrackingContextItem,
+} from "./internal/listenOnTrackingContext";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -83,6 +87,9 @@ export const SingleBrickAsComponent = React.memo(
       if (_internalApiGetRouterState() === "initial") {
         return;
       }
+
+      const trackingContextList: TrackingContextItem[] = [];
+
       const brick: RuntimeBrick = {
         type: useBrick.brick,
         // Now transform data in properties too.
@@ -93,6 +100,7 @@ export const SingleBrickAsComponent = React.memo(
             // Keep lazy fields inside `useBrick` inside the `properties`.
             // They will be transformed by their `BrickAsComponent` later.
             $$lazyForUseBrick: true,
+            trackingContextList,
           }
         ),
       };
@@ -103,6 +111,9 @@ export const SingleBrickAsComponent = React.memo(
         useBrick.transform,
         useBrick.transformFrom
       );
+
+      const runtimeContext = _internalApiGetCurrentContext();
+
       if (useBrick.lifeCycle) {
         const resolver = _internalApiGetResolver();
         try {
@@ -112,12 +123,15 @@ export const SingleBrickAsComponent = React.memo(
               lifeCycle: useBrick.lifeCycle,
             },
             brick,
-            _internalApiGetCurrentContext()
+            runtimeContext
           );
         } catch (e) {
           handleHttpError(e);
         }
       }
+
+      listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+
       return brick;
     }, [useBrick, data, isBrickAvailable]);
 
