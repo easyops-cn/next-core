@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.2...@next-core/brick-kit@2.61.0) (2021-07-28)
+
+
+### Features
+
+* support to transform data in properties of useBrick ([c6cf3d4](https://github.com/easyops-cn/next-core/commit/c6cf3d4bd505d9a064f66799bae46ea798146d4b))
+
+
+
+
+
 ## [2.60.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.1...@next-core/brick-kit@2.60.2) (2021-07-27)
 
 
