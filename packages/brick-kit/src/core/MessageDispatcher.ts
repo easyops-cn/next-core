@@ -14,7 +14,7 @@ import {
   PluginWebSocketMessageTopic,
 } from "../websocket/interfaces";
 import { BrickAndMessage } from "./LocationContext";
-import { listenerFactory } from "../bindListeners";
+import { listenerFactory } from "../internal/bindListeners";
 import { createWebSocket } from "../websocket/WebSocket";
 import minimatch from "minimatch";
 import { WebSocketService } from "../websocket/WebSocketService";

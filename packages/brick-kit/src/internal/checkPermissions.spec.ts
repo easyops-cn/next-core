@@ -10,12 +10,14 @@ import {
 jest.mock("@next-core/brick-utils");
 jest.mock("@next-sdk/micro-app-sdk");
 
-const mockScanPermissionActionsInStoryboard = scanPermissionActionsInStoryboard as jest.MockedFunction<
-  typeof scanPermissionActionsInStoryboard
->;
-const mockValidatePermissions = PermissionApi_validatePermissions as jest.MockedFunction<
-  typeof PermissionApi_validatePermissions
->;
+const mockScanPermissionActionsInStoryboard =
+  scanPermissionActionsInStoryboard as jest.MockedFunction<
+    typeof scanPermissionActionsInStoryboard
+  >;
+const mockValidatePermissions =
+  PermissionApi_validatePermissions as jest.MockedFunction<
+    typeof PermissionApi_validatePermissions
+  >;
 const mockConsoleError = jest
   .spyOn(console, "error")
   .mockImplementation(() => void 0);

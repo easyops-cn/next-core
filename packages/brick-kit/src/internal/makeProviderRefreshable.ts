@@ -7,10 +7,10 @@ import {
 import {
   transformIntermediateData,
   transformElementProperties,
-} from "./transformProperties";
+} from "../transformProperties";
 import { computeRealValue } from "./setProperties";
-import { RuntimeBrick } from "./core/exports";
-import { handleHttpError } from "./handleHttpError";
+import { RuntimeBrick } from "../core/exports";
+import { handleHttpError } from "../handleHttpError";
 import { recursiveMarkAsInjected } from "./injected";
 
 export interface ProviderDependents {
@@ -137,8 +137,9 @@ export function makeProviderRefreshable(
                     try {
                       await fetchData();
                     } catch (error) {
-                      const onRejectTransform = (onReject as HandleRejectByTransform)
-                        .transform;
+                      const onRejectTransform = (
+                        onReject as HandleRejectByTransform
+                      ).transform;
                       if (onRejectTransform) {
                         transformElementProperties(
                           brick.element,

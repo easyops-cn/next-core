@@ -1,8 +1,8 @@
 import { PluginRuntimeContext } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
-import { computeRealValue } from "./setProperties";
+import { computeRealValue } from "./internal/setProperties";
 import { doTransform } from "./transformProperties";
-import { isPreEvaluated } from "./evaluate";
+import { isPreEvaluated } from "./internal/evaluate";
 
 type GetIf = (rawIf: unknown, ctx: unknown) => unknown;
 

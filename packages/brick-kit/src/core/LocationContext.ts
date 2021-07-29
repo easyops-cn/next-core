@@ -36,8 +36,11 @@ import {
   resolveContextConcurrently,
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
-import { listenerFactory } from "../bindListeners";
-import { computeRealProperties, computeRealValue } from "../setProperties";
+import { listenerFactory } from "../internal/bindListeners";
+import {
+  computeRealProperties,
+  computeRealValue,
+} from "../internal/setProperties";
 import { isLoggedIn, getAuth } from "../auth";
 import { getHistory } from "../history";
 import {
@@ -58,14 +61,14 @@ import {
 import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
 import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
-import { getRuntimeMisc } from "../misc";
+import { getRuntimeMisc } from "../internal/misc";
 import { httpErrorToString } from "../handleHttpError";
 import {
   getSubStoryboardByRoute,
   SubStoryboardMatcher,
-} from "./getSubStoryboardByRoute";
+} from "../internal/getSubStoryboardByRoute";
 import { symbolForTplContextId } from "./CustomTemplates";
-import { validatePermissions } from "./checkPermissions";
+import { validatePermissions } from "../internal/checkPermissions";
 import {
   listenOnTrackingContext,
   TrackingContextItem,

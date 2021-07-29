@@ -1,12 +1,12 @@
+import { act } from "react-dom/test-utils";
 import { listenDevtools } from "./devtools";
 import {
   TRANSFORMATION_EDIT,
   EVALUATION_EDIT,
   MESSAGE_SOURCE_PANEL,
 } from "./devtools";
-import { act } from "react-dom/test-utils";
 
-jest.mock("./core/Runtime", () => ({
+jest.mock("../core/Runtime", () => ({
   _internalApiGetCurrentContext: () => {
     return {
       app: {

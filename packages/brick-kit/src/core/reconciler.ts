@@ -1,4 +1,4 @@
-import { setRealProperties } from "../setProperties";
+import { setRealProperties } from "../internal/setProperties";
 import { RuntimeBrick, BrickNode } from "./exports";
 
 export interface MountableElement extends HTMLElement {

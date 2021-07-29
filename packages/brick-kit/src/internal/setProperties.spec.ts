@@ -4,8 +4,8 @@ import {
   computeRealValue,
   computeRealProperties,
 } from "./setProperties";
-import * as runtime from "./core/Runtime";
-import { TrackingContextItem } from "./internal/listenOnTrackingContext";
+import * as runtime from "../core/Runtime";
+import { TrackingContextItem } from "./listenOnTrackingContext";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 jest.spyOn(console, "error").mockImplementation(() => void 0);

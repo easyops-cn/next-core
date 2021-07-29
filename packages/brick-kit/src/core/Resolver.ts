@@ -15,19 +15,19 @@ import {
   GeneralTransform,
 } from "@next-core/brick-types";
 import { asyncProcessBrick } from "@next-core/brick-utils";
-import { computeRealValue } from "../setProperties";
+import { computeRealValue } from "../internal/setProperties";
 import { Kernel, RuntimeBrick } from "./exports";
 import {
   makeProviderRefreshable,
   RefreshableProvider,
   IntervalSettings,
-} from "../makeProviderRefreshable";
+} from "../internal/makeProviderRefreshable";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import {
   transformProperties,
   transformIntermediateData,
 } from "../transformProperties";
-import { recursiveMarkAsInjected } from "../injected";
+import { recursiveMarkAsInjected } from "../internal/injected";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./CustomApis";
 import { looseCheckIf } from "../checkIf";
 

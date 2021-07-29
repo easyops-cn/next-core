@@ -5,11 +5,11 @@ import {
   afterMountTree,
 } from "./reconciler";
 import { RuntimeBrick } from "./BrickNode";
-import { setRealProperties } from "../setProperties";
+import { setRealProperties } from "../internal/setProperties";
 
 jest.mock("./BrickNode");
 jest.mock("@next-core/brick-utils");
-jest.mock("../setProperties");
+jest.mock("../internal/setProperties");
 
 describe("reconciler", () => {
   it("should mount tree", () => {

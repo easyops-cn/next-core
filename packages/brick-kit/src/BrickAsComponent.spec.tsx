@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import { BrickConf, RuntimeBrickElement } from "@next-core/brick-types";
-import * as listenerUtils from "./bindListeners";
+import * as listenerUtils from "./internal/bindListeners";
 import {
   BrickAsComponent,
   ForwardRefSingleBrickAsComponent,

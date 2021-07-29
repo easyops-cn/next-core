@@ -7,8 +7,8 @@ import {
   BrickEventsMap,
   UseBrickSlotsConf,
 } from "@next-core/brick-types";
-import { bindListeners, unbindListeners } from "./bindListeners";
-import { setRealProperties } from "./setProperties";
+import { bindListeners, unbindListeners } from "./internal/bindListeners";
+import { setRealProperties } from "./internal/setProperties";
 import {
   RuntimeBrick,
   RuntimeBrickElementWithTplSymbols,
@@ -20,8 +20,8 @@ import {
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
 import { looseCheckIfByTransform } from "./checkIf";
-import { isPreEvaluated } from "./evaluate";
-import { cloneDeepWithInjectedMark } from "./injected";
+import { isPreEvaluated } from "./internal/evaluate";
+import { cloneDeepWithInjectedMark } from "./internal/injected";
 import {
   listenOnTrackingContext,
   TrackingContextItem,

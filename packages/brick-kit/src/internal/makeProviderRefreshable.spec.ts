@@ -1,7 +1,7 @@
 import { makeProviderRefreshable } from "./makeProviderRefreshable";
-import { handleHttpError } from "./handleHttpError";
+import { handleHttpError } from "../handleHttpError";
 
-jest.mock("./handleHttpError");
+jest.mock("../handleHttpError");
 
 describe("makeProviderRefreshable", () => {
   let provider: any;
