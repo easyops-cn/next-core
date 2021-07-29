@@ -432,6 +432,14 @@ describe("computeRealProperties", () => {
                   args: ["<% APP.name %>", "<% CTX.memo %>"],
                 },
               },
+              lifeCycle: {
+                useResolves: [
+                  {
+                    useProvider: "my.provider",
+                    args: ["<% APP.name %>"],
+                  },
+                ],
+              },
             },
           ],
         },
@@ -445,7 +453,7 @@ describe("computeRealProperties", () => {
         useBrick: [
           {
             brick: "a",
-            if: true,
+            if: "<% !!APP.homepage %>",
             properties: {
               shouldBeLazy: "<% APP.homepage %>",
             },
@@ -457,6 +465,14 @@ describe("computeRealProperties", () => {
                 action: "console.log",
                 args: ["<% APP.name %>", "<% CTX.memo %>"],
               },
+            },
+            lifeCycle: {
+              useResolves: [
+                {
+                  useProvider: "my.provider",
+                  args: ["host"],
+                },
+              ],
             },
           },
         ],
@@ -490,6 +506,14 @@ describe("computeRealProperties", () => {
                       args: ["<% APP.name %>", "<% CTX.memo %>"],
                     },
                   },
+                  lifeCycle: {
+                    useResolves: [
+                      {
+                        useProvider: "my.provider",
+                        args: ["<% APP.name %>"],
+                      },
+                    ],
+                  },
                 },
               ],
             },
@@ -509,7 +533,7 @@ describe("computeRealProperties", () => {
             bricks: [
               {
                 brick: "b",
-                if: true,
+                if: "<% !!APP.homepage %>",
                 properties: {
                   shouldBeLazy: "<% APP.homepage %>",
                 },
@@ -521,6 +545,14 @@ describe("computeRealProperties", () => {
                     action: "console.log",
                     args: ["<% APP.name %>", "<% CTX.memo %>"],
                   },
+                },
+                lifeCycle: {
+                  useResolves: [
+                    {
+                      useProvider: "my.provider",
+                      args: ["host"],
+                    },
+                  ],
                 },
               },
             ],

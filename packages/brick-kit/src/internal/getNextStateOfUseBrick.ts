@@ -5,6 +5,7 @@ export enum StateOfUseBrick {
   USE_BRICK_PROPERTIES,
   USE_BRICK_TRANSFORM,
   USE_BRICK_EVENTS,
+  USE_BRICK_IF,
   USE_BRICK_SLOTS,
   USE_BRICK_SLOTS_ITEM,
   USE_BRICK_SLOTS_ITEM_BRICKS,
@@ -16,6 +17,7 @@ export function isLazyContentInUseBrick(state: StateOfUseBrick): boolean {
     case StateOfUseBrick.USE_BRICK_PROPERTIES:
     case StateOfUseBrick.USE_BRICK_TRANSFORM:
     case StateOfUseBrick.USE_BRICK_EVENTS:
+    case StateOfUseBrick.USE_BRICK_IF:
       return true;
   }
   return false;
@@ -55,6 +57,8 @@ export function getNextStateOfUseBrick(
             return StateOfUseBrick.USE_BRICK_EVENTS;
           case "slots":
             return StateOfUseBrick.USE_BRICK_SLOTS;
+          case "if":
+            return StateOfUseBrick.USE_BRICK_IF;
         }
         break;
       }
