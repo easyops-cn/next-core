@@ -1,7 +1,7 @@
 import { createBrowserHistory } from "history";
 import { PluginHistory } from "@next-core/brick-types";
-import { historyExtended } from "./historyExtended";
-import { getBasePath } from "./getBasePath";
+import { historyExtended } from "./internal/historyExtended";
+import { getBasePath } from "./internal/getBasePath";
 
 let history: PluginHistory;
 

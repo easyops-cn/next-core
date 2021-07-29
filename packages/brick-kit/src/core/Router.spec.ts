@@ -18,7 +18,7 @@ import {
 import { mountTree, mountStaticNode } from "./reconciler";
 import { getAuth, isLoggedIn } from "../auth";
 import { getRuntime } from "../runtime";
-import { preCheckPermissions } from "./checkPermissions";
+import { preCheckPermissions } from "../internal/checkPermissions";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -26,7 +26,7 @@ jest.mock("./reconciler");
 jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
-jest.mock("./checkPermissions");
+jest.mock("../internal/checkPermissions");
 jest.mock("@next-core/easyops-analytics", () => ({
   apiAnalyzer: {
     create: () => jest.mock,
@@ -45,7 +45,8 @@ const spyOnScanCustomApisInStoryboard = scanCustomApisInStoryboard as jest.Mock;
 spyOnScanCustomApisInStoryboard.mockReturnValue([
   "easyops.custom_api@myAwesomeApi",
 ]);
-const spyOnMapCustomApisToNameAndNamespace = mapCustomApisToNameAndNamespace as jest.Mock;
+const spyOnMapCustomApisToNameAndNamespace =
+  mapCustomApisToNameAndNamespace as jest.Mock;
 spyOnMapCustomApisToNameAndNamespace.mockReturnValue([
   {
     name: "myAwesomeApi",
@@ -89,9 +90,9 @@ const unblock = jest.fn((): void => {
 let blockFn: History.TransitionPromptHook;
 
 const spyOnHistory = {
-  location: ({
+  location: {
     pathname: "/yo",
-  } as unknown) as Location,
+  } as unknown as Location,
   listen: jest.fn((fn: LocationListener) => {
     historyListeners.push(fn);
     return () => {
@@ -116,7 +117,7 @@ const mockFeature = jest.fn().mockReturnValue({});
 
 describe("Router", () => {
   let router: Router;
-  const kernel = ({
+  const kernel = {
     mountPoints: {
       main: document.createElement("div"),
       bg: document.createElement("div"),
@@ -151,7 +152,7 @@ describe("Router", () => {
       pageError: "basic-bricks.page-error",
     },
     currentLayout: "console",
-  } as unknown) as Kernel;
+  } as unknown as Kernel;
 
   beforeEach(() => {
     router = new Router(kernel);

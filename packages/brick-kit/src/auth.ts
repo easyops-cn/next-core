@@ -1,5 +1,5 @@
 import { AuthInfo } from "@next-core/brick-types";
-import { resetPermissionPreChecks } from "./core/checkPermissions";
+import { resetPermissionPreChecks } from "./internal/checkPermissions";
 
 const auth: AuthInfo = {};
 

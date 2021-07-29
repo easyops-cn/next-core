@@ -30,9 +30,9 @@ import {
   CustomApiOrchestration,
   AbstractRuntime,
 } from "./interfaces";
-import { getBasePath } from "../getBasePath";
+import { getBasePath } from "../internal/getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
-import { processMenu } from "./menu";
+import { processMenu } from "../internal/menu";
 
 let kernel: Kernel;
 

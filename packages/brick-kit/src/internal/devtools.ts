@@ -1,5 +1,5 @@
 import { evaluate } from "./evaluate";
-import { reTransformForDevtools } from "./transformProperties";
+import { reTransformForDevtools } from "../transformProperties";
 
 export const MESSAGE_SOURCE_PANEL = "brick-next-devtools-panel";
 export const EVALUATION_EDIT = "devtools-evaluation-edit";

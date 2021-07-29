@@ -17,8 +17,8 @@ import {
   getNextStateOfUseBrick,
   isLazyContentInUseBrick,
   StateOfUseBrick,
-} from "./internal/getNextStateOfUseBrick";
-import { TrackingContextItem } from "./internal/listenOnTrackingContext";
+} from "./getNextStateOfUseBrick";
+import { TrackingContextItem } from "./listenOnTrackingContext";
 
 interface ComputeOptions {
   $$lazyForUseBrick?: boolean;

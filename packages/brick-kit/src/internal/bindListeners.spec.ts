@@ -10,20 +10,20 @@ import {
   bindListeners,
   unbindListeners,
 } from "./bindListeners";
-import { getHistory } from "./history";
-import * as runtime from "./core/Runtime";
-import { getMessageDispatcher } from "./core/MessageDispatcher";
+import { getHistory } from "../history";
+import * as runtime from "../core/Runtime";
+import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { message } from "antd";
-import { CustomApiOrchestration } from "./core/interfaces";
-import { mockMicroAppApiOrchestrationMap } from "./core/__mocks__/MicroAppApiOrchestrationData";
-import { CUSTOM_API_PROVIDER } from "./providers/CustomApi";
-import { applyTheme, applyMode } from "./themeAndMode";
-import { clearMenuTitleCache, clearMenuCache } from "./core/menu";
+import { CustomApiOrchestration } from "../core/interfaces";
+import { mockMicroAppApiOrchestrationMap } from "../core/__mocks__/MicroAppApiOrchestrationData";
+import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
+import { applyTheme, applyMode } from "../themeAndMode";
+import { clearMenuTitleCache, clearMenuCache } from "./menu";
 
-jest.mock("./history");
-jest.mock("./core/MessageDispatcher");
-jest.mock("./themeAndMode");
-jest.mock("./core/menu");
+jest.mock("../history");
+jest.mock("../core/MessageDispatcher");
+jest.mock("../themeAndMode");
+jest.mock("./menu");
 
 // Mock a custom element of `any-provider`.
 customElements.define(

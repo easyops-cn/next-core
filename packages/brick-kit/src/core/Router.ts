@@ -25,16 +25,16 @@ import {
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
-import { isUnauthenticatedError } from "../isUnauthenticatedError";
+import { isUnauthenticatedError } from "../internal/isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
-import { resetAllInjected } from "../injected";
+import { resetAllInjected } from "../internal/injected";
 import { getAuth, isLoggedIn } from "../auth";
-import { devtoolsHookEmit } from "../devtools";
+import { devtoolsHookEmit } from "../internal/devtools";
 import { afterMountTree } from "./reconciler";
-import { constructMenu } from "./menu";
-import { getRuntimeMisc } from "../misc";
+import { constructMenu } from "../internal/menu";
+import { getRuntimeMisc } from "../internal/misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
-import { preCheckPermissions } from "./checkPermissions";
+import { preCheckPermissions } from "../internal/checkPermissions";
 
 export class Router {
   private defaultCollapsed = false;

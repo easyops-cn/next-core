@@ -12,12 +12,12 @@ import * as runtime from "../core/Runtime";
 import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
-import { validatePermissions } from "./checkPermissions";
+import { validatePermissions } from "../internal/checkPermissions";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
 jest.mock("../themeAndMode");
-jest.mock("./checkPermissions");
+jest.mock("../internal/checkPermissions");
 const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
 const consoleInfo = jest
   .spyOn(console, "info")

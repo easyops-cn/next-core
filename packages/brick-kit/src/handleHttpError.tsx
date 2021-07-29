@@ -10,7 +10,7 @@ import { ModalFunc } from "antd/lib/modal/confirm";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "./i18n/constants";
 import { getHistory } from "./history";
-import { isUnauthenticatedError } from "./isUnauthenticatedError";
+import { isUnauthenticatedError } from "./internal/isUnauthenticatedError";
 import { getRuntime } from "./runtime";
 
 /**

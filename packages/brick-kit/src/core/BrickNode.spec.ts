@@ -1,5 +1,5 @@
 import { RuntimeBrickElement } from "@next-core/brick-types";
-import { bindListeners } from "../bindListeners";
+import { bindListeners } from "../internal/bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
 import {
   handleProxyOfCustomTemplate,
@@ -7,7 +7,7 @@ import {
   RuntimeBrickElementWithTplSymbols,
 } from "./exports";
 
-jest.mock("../bindListeners");
+jest.mock("../internal/bindListeners");
 jest.mock("./CustomTemplates");
 const spyOnBindListeners = bindListeners as jest.Mock;
 

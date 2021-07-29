@@ -5,7 +5,7 @@ import {
 } from "./MessageDispatcher";
 import { MessageConf, PluginRuntimeContext } from "@next-core/brick-types";
 import * as WS from "../websocket/WebSocket";
-import * as BL from "../bindListeners";
+import * as BL from "../internal/bindListeners";
 import {
   MessageBrickEventHandlerCallback,
   PluginWebSocketMessageEvent,

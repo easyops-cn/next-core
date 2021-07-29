@@ -13,9 +13,9 @@ import {
   StoryboardContextItem,
   UseProviderEventHandler,
 } from "@next-core/brick-types";
-import { handleHttpError, httpErrorToString } from "./handleHttpError";
+import { handleHttpError, httpErrorToString } from "../handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
-import { getHistory } from "./history";
+import { getHistory } from "../history";
 import {
   _internalApiGetCurrentContext,
   _internalApiGetProviderBrick,
@@ -24,15 +24,15 @@ import {
   _internalApiGetMicroAppApiOrchestrationMap,
   symbolForParentRefForUseBrickInPortal,
   RuntimeBrick,
-} from "./core/exports";
+} from "../core/exports";
 import { getUrlBySegueFactory } from "./segue";
-import { looseCheckIf, IfContainer } from "./checkIf";
+import { looseCheckIf, IfContainer } from "../checkIf";
 import { getUrlByAliasFactory } from "./alias";
-import { getMessageDispatcher } from "./core/MessageDispatcher";
-import { PluginWebSocketMessageTopic } from "./websocket/interfaces";
-import { isCustomApiProvider, getArgsOfCustomApi } from "./core/CustomApis";
-import { applyTheme, applyMode } from "./themeAndMode";
-import { clearMenuTitleCache, clearMenuCache } from "./core/menu";
+import { getMessageDispatcher } from "../core/MessageDispatcher";
+import { PluginWebSocketMessageTopic } from "../websocket/interfaces";
+import { isCustomApiProvider, getArgsOfCustomApi } from "../core/CustomApis";
+import { applyTheme, applyMode } from "../themeAndMode";
+import { clearMenuTitleCache, clearMenuCache } from "./menu";
 
 export function bindListeners(
   brick: HTMLElement,

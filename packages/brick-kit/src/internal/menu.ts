@@ -11,14 +11,14 @@ import {
   InstanceApi_postSearch,
   InstanceApi_getDetail,
 } from "@next-sdk/cmdb-sdk";
-import { computeRealValue } from "../setProperties";
+import { computeRealValue } from "./setProperties";
 import { looseCheckIfOfComputed } from "../checkIf";
 import {
   _internalApiGetCurrentContext,
   _internalApiGetResolver,
   MountRoutesResult,
   Kernel,
-} from "./exports";
+} from "../core/exports";
 
 const symbolAppId = Symbol("appId");
 

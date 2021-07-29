@@ -2,7 +2,7 @@ import {
   PluginRuntimeContext,
   StoryboardContextItemFreeVariable,
 } from "@next-core/brick-types";
-import { setProperties } from "../setProperties";
+import { setProperties } from "./setProperties";
 import { RuntimeBrick } from "../core/BrickNode";
 
 export interface TrackingContextItem {

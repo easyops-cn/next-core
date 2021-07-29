@@ -11,10 +11,10 @@ import {
   EvaluateOptions,
   isPreEvaluated,
   shouldDismissRecursiveMarkingInjected,
-} from "./evaluate";
-import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
-import { devtoolsHookEmit } from "./devtools";
-import { setRealProperties } from "./setProperties";
+} from "./internal/evaluate";
+import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
+import { devtoolsHookEmit } from "./internal/devtools";
+import { setRealProperties } from "./internal/setProperties";
 import {
   getNextStateOfUseBrick,
   isLazyContentInUseBrick,

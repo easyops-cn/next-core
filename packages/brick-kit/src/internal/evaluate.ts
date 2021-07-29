@@ -8,16 +8,16 @@ import {
   shouldAllowRecursiveEvaluations,
 } from "@next-core/brick-utils";
 import { MicroApp } from "@next-core/brick-types";
-import { _internalApiGetCurrentContext } from "./core/Runtime";
+import { _internalApiGetCurrentContext } from "../core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
 import { getUrlByImageFactory } from "./image";
 import { devtoolsHookEmit } from "./devtools";
-import { customProcessorRegistry } from "./core/exports";
-import { checkPermissions } from "./core/checkPermissions";
-import { getItemFactory } from "./core/Storage";
-import { getRuntime } from "./runtime";
-import { i18nText } from "./i18nText";
+import { customProcessorRegistry } from "../core/exports";
+import { checkPermissions } from "./checkPermissions";
+import { getItemFactory } from "./Storage";
+import { getRuntime } from "../runtime";
+import { i18nText } from "../i18nText";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");

@@ -4,7 +4,7 @@ import {
   InstanceApi_getDetail,
   InstanceApi_postSearch,
 } from "@next-sdk/cmdb-sdk";
-import { Kernel } from "./Kernel";
+import { Kernel } from "../core/Kernel";
 import {
   fetchMenuById,
   constructMenu,
@@ -13,7 +13,7 @@ import {
   clearMenuTitleCache,
   clearMenuCache,
 } from "./menu";
-import * as runtime from "./Runtime";
+import * as runtime from "../core/Runtime";
 
 jest.mock("@next-sdk/cmdb-sdk");
 
