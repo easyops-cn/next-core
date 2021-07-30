@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.62.0...@next-core/brick-kit@2.62.1) (2021-07-30)
+
+
+### Bug Fixes
+
+* transform useBrick.if lazyly inside useBrick.properties ([887ecde](https://github.com/easyops-cn/next-core/commit/887ecde3f064e40c9b83e68db80af0219efc7e3d))
+
+
+
+
+
 # [2.62.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.61.0...@next-core/brick-kit@2.62.0) (2021-07-28)
 
 
