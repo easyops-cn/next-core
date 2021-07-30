@@ -8,6 +8,7 @@ import {
 } from "@next-core/brick-types";
 import { MicroAppModels } from "@next-sdk/micro-app-sdk";
 import { CustomProcessorFunc } from "./exports";
+import { LazyBrickImportFunction } from "./LazyBrickRegistry";
 
 /** @internal */
 export type RelatedApp = MicroAppModels.ModelObjectMicroApp;
@@ -151,6 +152,17 @@ export interface AbstractRuntime {
   registerCustomProcessor(
     processorFullName: string,
     processorFunc: CustomProcessorFunc
+  ): void;
+
+  /**
+   * 注册懒加载的构件。
+   *
+   * @param bricks - 一个或多个构件。
+   * @param factory - 动态加载函数（`import()` 调用）。
+   */
+  registerLazyBricks(
+    bricks: string | string[],
+    factory: LazyBrickImportFunction
   ): void;
 
   /**

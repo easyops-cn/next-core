@@ -15,6 +15,7 @@ module.exports = () => ({
         terserOptions: {
           output: {
             comments: (astNode, comment) =>
+              // See https://github.com/terser/terser/issues/983
               // Keep certain comments except `@contract`,
               // which will currently cause a problem of minification.
               // Invalid code generated:
