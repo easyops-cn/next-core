@@ -427,6 +427,14 @@ describe("doTransform", () => {
               args: ["<% DATA.e %>", "<% DATA.f %>"],
             },
           },
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "my.provider",
+                args: ["<% DATA.a %>"],
+              },
+            ],
+          },
         },
       },
       {
@@ -437,7 +445,7 @@ describe("doTransform", () => {
       prop: "yes",
       useBrick: {
         brick: "my-brick",
-        if: true,
+        if: "<% DATA.b %>",
         properties: {
           myProp: "<% DATA.c %>",
         },
@@ -449,6 +457,14 @@ describe("doTransform", () => {
             action: "console.log",
             args: ["<% DATA.e %>", "<% DATA.f %>"],
           },
+        },
+        lifeCycle: {
+          useResolves: [
+            {
+              useProvider: "my.provider",
+              args: ["yes"],
+            },
+          ],
         },
       },
     });

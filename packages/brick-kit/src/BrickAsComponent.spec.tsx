@@ -66,6 +66,14 @@ describe("BrickAsComponent", () => {
               transform: {
                 any: "@{tips}",
               },
+              lifeCycle: {
+                useResolves: [
+                  {
+                    useProvider: "my.provider",
+                    args: ["<% DATA.extraTips %>"],
+                  },
+                ],
+              },
             },
           },
           transform: "title",
@@ -91,14 +99,22 @@ describe("BrickAsComponent", () => {
     expect(div.id).toBe("better");
     expect((div as any).useBrick).toEqual({
       brick: "span",
-      if: true,
-      // `properties`, `transform` and `events` of `useBrick` inside
+      // `properties`, `transform`, `events` and `if` of `useBrick` inside
       // the properties of the root brick, are kept and to be transformed lazily.
+      if: "<% !!DATA.extraTips %>",
       properties: {
         any: "<% DATA.tips %>",
       },
       transform: {
         any: "@{tips}",
+      },
+      lifeCycle: {
+        useResolves: [
+          {
+            useProvider: "my.provider",
+            args: ["better"],
+          },
+        ],
       },
     });
     expect(bindListeners.mock.calls[0][1]).toEqual({

@@ -34,7 +34,7 @@ export const computeRealValue = (
   const preEvaluated = isPreEvaluated(value);
 
   if (preEvaluated || typeof value === "string") {
-    // For `useBrick`, some fields such as `properties`/`transform`/`events`,
+    // For `useBrick`, some fields such as `properties`/`transform`/`events`/`if`,
     // are kept and to be evaluated later.
     const lazy =
       internalOptions?.$$lazyForUseBrick &&
