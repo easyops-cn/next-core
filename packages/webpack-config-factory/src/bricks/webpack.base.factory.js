@@ -59,7 +59,12 @@ const getImageLoaderOptions = () => ({
 
 module.exports =
   (isForEditors) =>
-  ({ scope = "bricks", copyFiles = [], ignores = [] } = {}) => {
+  ({
+    scope = "bricks",
+    copyFiles = [],
+    ignores = [],
+    splitVendorsForLazyBricks,
+  } = {}) => {
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
     const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
@@ -101,6 +106,17 @@ module.exports =
           "@easyops": "@next-core",
         },
       },
+      ...(splitVendorsForLazyBricks
+        ? null
+        : {
+            optimization: {
+              splitChunks: {
+                cacheGroups: {
+                  vendors: false,
+                },
+              },
+            },
+          }),
       module: {
         rules: [
           {

@@ -25,6 +25,7 @@ import { Router } from "./Router";
 import { registerCustomTemplate } from "./CustomTemplates";
 import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
+import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 
 i18next.init({
   fallbackLng: "en",
@@ -38,6 +39,7 @@ jest.mock("@next-sdk/cmdb-sdk");
 jest.mock("./Bars");
 jest.mock("./Router");
 jest.mock("./CustomTemplates");
+jest.mock("./LazyBrickRegistry");
 jest.mock("../auth");
 
 const historyPush = jest.fn();
@@ -74,7 +76,10 @@ const getObjectMicroAppList =
   ObjectMicroAppApi_getObjectMicroAppList as jest.Mock;
 
 const spyOnLoadScript = loadScript as jest.Mock;
-const spyOnGetDllAndDepsOfStoryboard = getDllAndDepsOfStoryboard as jest.Mock;
+const spyOnGetDllAndDepsOfStoryboard =
+  getDllAndDepsOfStoryboard as jest.MockedFunction<
+    typeof getDllAndDepsOfStoryboard
+  >;
 const spyOnGetDllAndDepsByResource = getDllAndDepsByResource as jest.Mock;
 const spyOnGetTemplateDepsOfStoryboard =
   getTemplateDepsOfStoryboard as jest.Mock;
@@ -270,6 +275,7 @@ describe("Kernel", () => {
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
       dll: ["d3.js", "dll-of-editor-bricks-helper.abc.js"],
       deps: ["dep.js"],
+      bricks: ["my-brick"],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
     const storyboard = {
@@ -289,13 +295,19 @@ describe("Kernel", () => {
     await kernel.loadDepsOfStoryboard(storyboard);
     await kernel.registerCustomTemplatesInStoryboard(storyboard);
     expect(spyOnLoadScript).toBeCalledTimes(4);
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual(["layout.js"]);
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual("dll-of-react-dnd.789.js");
-    expect(spyOnLoadScript.mock.calls[2][0]).toEqual([
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(1, ["layout.js"]);
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(
+      2,
+      "dll-of-react-dnd.789.js"
+    );
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(3, [
       "d3.js",
       "dll-of-editor-bricks-helper.abc.js",
     ]);
-    expect(spyOnLoadScript.mock.calls[3][0]).toEqual(["dep.js"]);
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(4, ["dep.js"]);
+    expect(loadLazyBricks).toBeCalledTimes(1);
+    expect(loadLazyBricks).toBeCalledWith(["my-brick"]);
+    expect(loadAllLazyBricks).not.toBeCalled();
     expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
       "tpl-a",
       {
@@ -306,21 +318,28 @@ describe("Kernel", () => {
     );
 
     spyOnLoadScript.mockClear();
+    (loadLazyBricks as jest.Mock).mockClear();
 
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
       dll: [],
       deps: [],
+      bricks: [],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
     await kernel.loadDepsOfStoryboard({ dependsAll: true } as any);
     expect(spyOnLoadScript).toBeCalledTimes(3);
-    expect(spyOnLoadScript.mock.calls[0][0]).toEqual("dll-of-react-dnd.789.js");
-    expect(spyOnLoadScript.mock.calls[1][0]).toEqual([
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(
+      1,
+      "dll-of-react-dnd.789.js"
+    );
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(2, [
       "dll-of-d3.123.js",
       "dll-of-editor-bricks-helper.456.js",
       "dll-of-react-dnd.789.js",
     ]);
-    expect(spyOnLoadScript.mock.calls[2][0]).toEqual(["all.js", "layout.js"]);
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(3, ["all.js", "layout.js"]);
+    expect(loadLazyBricks).not.toBeCalled();
+    expect(loadAllLazyBricks).toBeCalled();
 
     const fakeStoryboard = {
       app: {
@@ -502,8 +521,10 @@ describe("Kernel", () => {
     await kernel.loadDynamicBricksInBrickConf({
       brick: "my.test-brick",
     });
+    expect(loadScript).toBeCalledTimes(2);
     expect(loadScript).toHaveBeenNthCalledWith(1, ["d3"]);
     expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
+    expect(loadLazyBricks).toBeCalledWith(["my.test-brick"]);
   });
 
   it("should loadEditorBricks", async () => {
@@ -644,6 +665,7 @@ describe("Kernel", () => {
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({
       dll: ["d3.js"],
       deps: ["dep.js"],
+      bricks: [],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
 

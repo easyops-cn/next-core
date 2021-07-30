@@ -10,18 +10,26 @@ interface DllAndDeps {
   deps: string[];
 }
 
+interface DllAndDepsAndBricks extends DllAndDeps {
+  bricks: string[];
+}
+
 export function getDllAndDepsOfStoryboard(
   storyboard: Storyboard,
   brickPackages: BrickPackage[],
   options?: ScanBricksOptions
-): DllAndDeps {
-  return getDllAndDepsByResource(
-    {
-      bricks: scanBricksInStoryboard(storyboard, options),
-      processors: scanProcessorsInStoryboard(storyboard),
-    },
-    brickPackages
-  );
+): DllAndDepsAndBricks {
+  const bricks = scanBricksInStoryboard(storyboard, options);
+  return {
+    ...getDllAndDepsByResource(
+      {
+        bricks,
+        processors: scanProcessorsInStoryboard(storyboard),
+      },
+      brickPackages
+    ),
+    bricks,
+  };
 }
 
 export function getDllAndDepsOfBricks(

@@ -81,6 +81,8 @@ export interface AbstractRuntime {
     // Warning: (ae-forgotten-export) The symbol "CustomProcessorFunc" needs to be exported by the entry point index.d.ts
     registerCustomProcessor(processorFullName: string, processorFunc: CustomProcessorFunc): void;
     registerCustomTemplate(tplName: string, tplConstructor: CustomTemplateConstructor, appId?: string): void;
+    // Warning: (ae-forgotten-export) The symbol "LazyBrickImportFunction" needs to be exported by the entry point index.d.ts
+    registerLazyBricks(bricks: string | string[], factory: LazyBrickImportFunction): void;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "authenticate" should be prefixed with an underscore because the declaration is marked as @internal
