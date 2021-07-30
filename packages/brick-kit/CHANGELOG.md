@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.62.1...@next-core/brick-kit@2.63.0) (2021-07-30)
+
+
+### Features
+
+* support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
+
+
+
+
+
 ## [2.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.62.0...@next-core/brick-kit@2.62.1) (2021-07-30)
 
 
