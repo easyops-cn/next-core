@@ -78,7 +78,7 @@ exports.rollupFactory = ({ umdName, plugins = [], disableUmd, disableEsm }) => {
           (disableEsm && item.format === "esm")
         )
     ),
-    external: Array.from(external),
+    external: Array.from(external.add(/@babel\/runtime/)),
     plugins: [
       ...plugins,
       nodeResolve({
@@ -97,6 +97,7 @@ exports.rollupFactory = ({ umdName, plugins = [], disableUmd, disableEsm }) => {
         // exclude: "node_modules/**",
         configFile: "../../babel.config.js",
         extensions: ["js", "jsx", "ts", "tsx"],
+        babelHelpers: "runtime",
       }),
     ],
   };
@@ -115,6 +116,7 @@ exports.rollupFactoryForSnippets = () => ({
     babel({
       configFile: "../../babel.config.js",
       extensions: ["ts"],
+      babelHelpers: "runtime",
     }),
     image(),
   ],
