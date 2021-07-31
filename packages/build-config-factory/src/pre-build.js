@@ -3,6 +3,8 @@ const os = require("os");
 const fs = require("fs-extra");
 const changeCase = require("change-case");
 const prettier = require("prettier");
+const yaml = require("js-yaml");
+const { escapeRegExp } = require("lodash");
 
 const findDuplicatesProvider = (providers) => {
   const sortedProviders = providers.slice().sort();
@@ -53,8 +55,92 @@ const generateProviderElements = () => {
   console.log("File created:", path.relative(process.cwd(), indexTsPath));
 };
 
+const generateLazyBricks = () => {
+  const lazyBricksConfPath = path.resolve("src/lazy-bricks.yaml");
+  if (!fs.existsSync(lazyBricksConfPath)) {
+    return;
+  }
+  console.log("Find `src/lazy-bricks.yaml`, building lazy bricks...");
+  const packageJson = require(path.resolve("package.json"));
+  const packageName = packageJson.name.split("/")[1];
+  const lazyBricksTs = ['import { getRuntime } from "@next-core/brick-kit";'];
+  const newFiles = [];
+  const lazyBricksConf = yaml.safeLoad(
+    fs.readFileSync(lazyBricksConfPath, "utf-8")
+  );
+  const flattenBricks = [];
+  for (const brick of lazyBricksConf.lazyBricks) {
+    if (typeof brick === "string") {
+      lazyBricksTs.push(
+        `getRuntime().registerLazyBricks(
+  "${packageName}.${brick}",
+  () =>
+    import(
+      /* webpackChunkName: "lazy-bricks/${brick}" */
+      "../${brick}"
+    )
+);`
+      );
+      flattenBricks.push(brick);
+    } else if (Array.isArray(brick.bricks)) {
+      lazyBricksTs.push(
+        `getRuntime().registerLazyBricks(
+  [
+    ${brick.bricks
+      .map((item) => `"${packageName}.${item}"`)
+      .join(`,${os.EOL}    `)}
+  ],
+  () =>
+    import(
+      /* webpackChunkName: "lazy-bricks/~${brick.group}" */
+      "./${brick.group}"
+    )
+);`
+      );
+      newFiles.push({
+        filename: `${brick.group}.ts`,
+        content: brick.bricks
+          .map((item) => `import "../${item}";`)
+          .join(os.EOL),
+      });
+      flattenBricks.push(...brick.bricks);
+    }
+  }
+
+  newFiles.push({
+    filename: "index.ts",
+    content: lazyBricksTs.join(os.EOL + os.EOL),
+  });
+
+  const targetDir = path.resolve("src/lazy-bricks");
+  fs.emptyDirSync(targetDir);
+
+  for (const { filename, content } of newFiles) {
+    fs.outputFileSync(path.join(targetDir, filename), content);
+  }
+
+  const indexTsPath = path.resolve("src/index.ts");
+  let indexTsContent = fs.readFileSync(indexTsPath, "utf-8");
+  for (const brick of flattenBricks) {
+    indexTsContent = indexTsContent.replace(
+      new RegExp(`^import "\\./${escapeRegExp(brick)}";$`, "m"),
+      "// !Lazy: $&"
+    );
+  }
+  const importLazyBricksString = 'import "./lazy-bricks";';
+  if (!indexTsContent.includes(importLazyBricksString)) {
+    indexTsContent = `${indexTsContent}${importLazyBricksString}${os.EOL}`;
+  }
+
+  fs.outputFileSync(indexTsPath, indexTsContent);
+
+  console.log(`${flattenBricks.length} lazy bricks are built successfully.`);
+};
+
 module.exports = (scope = "micro-apps") => {
   if (scope === "providers") {
     generateProviderElements();
+  } else if (scope === "bricks") {
+    generateLazyBricks();
   }
 };
