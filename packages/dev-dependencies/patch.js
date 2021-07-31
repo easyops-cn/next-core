@@ -19,6 +19,8 @@ const {
   addMocksForBrickIcons,
   migrateJest,
   updateResolutions,
+  updateBrickNext,
+  migrateJestV2,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -140,6 +142,11 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.8.26")) {
     updateResolutions();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.9.0")) {
+    updateBrickNext();
+    migrateJestV2();
   }
 
   updateDevDependenciesVersion();

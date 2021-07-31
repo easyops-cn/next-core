@@ -20,7 +20,8 @@
         "packages/dll-differ/**/*.js",
         "packages/less-plugin-css-variables/**/*.js",
         "packages/public-scoped-sdk/**/*.js",
-        "packages/repo-config/**/*.js"
+        "packages/repo-config/**/*.js",
+        "packages/jest-config-factory/**/*.js"
       ],
       "extends": "@next-core/eslint-config-next/node"
     },
