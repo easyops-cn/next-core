@@ -9,6 +9,7 @@ const proposalPrivateMethods = require("@babel/plugin-proposal-private-methods")
 const proposalNullishCoalescingOperator = require("@babel/plugin-proposal-nullish-coalescing-operator");
 const proposalOptionalChaining = require("@babel/plugin-proposal-optional-chaining");
 const proposalUnicodePropertyRegex = require("@babel/plugin-proposal-unicode-property-regex");
+const transformRuntime = require("@babel/plugin-transform-runtime");
 
 // https://babeljs.io/docs/en/plugins/#plugin-ordering
 // > * Plugins run before Presets.
@@ -33,6 +34,13 @@ const customPresetOfPluginsAfterTypescript = {
     // we have to place them here to ensure plugin ordering.
     proposalClassProperties,
     proposalPrivateMethods,
+    [
+      transformRuntime,
+      {
+        // https://github.com/babel/babel/issues/9454#issuecomment-460425922
+        version: "7.14.8",
+      },
+    ],
   ],
 };
 

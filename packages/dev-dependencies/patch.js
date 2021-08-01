@@ -19,6 +19,8 @@ const {
   addMocksForBrickIcons,
   migrateJest,
   updateResolutions,
+  updateBrickNext,
+  migrateJestV2,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -140,6 +142,12 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.8.26")) {
     updateResolutions();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.9.0")) {
+    updateBrickNext();
+    migrateJestV2();
+    addLazyBricksIntoGitignore();
   }
 
   updateDevDependenciesVersion();
@@ -453,4 +461,25 @@ function updateRenovateBaseBranches() {
   }
 
   writeJsonFile(renovateJsonPath, renovateJson);
+}
+
+function addLazyBricksIntoGitignore() {
+  const gitignoreFilePath = path.resolve(".gitignore");
+  const gitignoreContent = fs.readFileSync(gitignoreFilePath, "utf8");
+  const needAppendAt = new RegExp(
+    `(${escapeRegExp("/bricks/*/deploy/*")})([\\r\\n]*)`
+  );
+  const needAppend = "/bricks/*/src/lazy-bricks";
+  if (
+    needAppendAt.test(gitignoreContent) &&
+    !gitignoreContent.includes(needAppend)
+  ) {
+    fs.writeFileSync(
+      gitignoreFilePath,
+      gitignoreContent.replace(
+        needAppendAt,
+        (match, p1, p2) => `${p1}${os.EOL}${needAppend}${p2}`
+      )
+    );
+  }
 }

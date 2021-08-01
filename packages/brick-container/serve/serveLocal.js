@@ -9,6 +9,7 @@ const {
   getSettings,
   getTemplatePackages,
   getSingleStoryboard,
+  tryServeFiles,
 } = require("./utils");
 
 module.exports = (env, app) => {
@@ -36,19 +37,14 @@ module.exports = (env, app) => {
     localEditorPackages.forEach((pkgId) => {
       // 直接返回本地构件库编辑器相关文件。
       app.get(`${publicPath}bricks/${pkgId}/dist/editors/*`, (req, res) => {
-        const filePath = path.join(
-          brickPackagesDir,
-          pkgId,
-          "dist-editors",
-          req.params[0]
+        tryServeFiles(
+          [
+            path.join(brickPackagesDir, pkgId, "dist-editors", req.params[0]),
+            path.join(brickPackagesDir, pkgId, "dist/editors", req.params[0]),
+          ],
+          req,
+          res
         );
-        if (fs.existsSync(filePath)) {
-          res.sendFile(filePath);
-        } else {
-          res.status(404).json({
-            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-          });
-        }
       });
     });
 
@@ -62,13 +58,7 @@ module.exports = (env, app) => {
         ),
         (req, res) => {
           const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
-          if (fs.existsSync(filePath)) {
-            res.sendFile(filePath);
-          } else {
-            res.status(404).json({
-              error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-            });
-          }
+          tryServeFiles(filePath, req, res);
         }
       );
     });
@@ -77,39 +67,21 @@ module.exports = (env, app) => {
       // 直接返回本地小产品相关文件。
       app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
         const filePath = path.join(microAppsDir, appId, req.params[0]);
-        if (fs.existsSync(filePath)) {
-          res.sendFile(filePath);
-        } else {
-          res.status(404).json({
-            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-          });
-        }
+        tryServeFiles(filePath, req, res);
       });
     });
     localTemplates.forEach((pkgId) => {
       // 直接返回本地模板相关文件。
       app.get(`${publicPath}templates/${pkgId}/*`, (req, res) => {
         const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
-        if (fs.existsSync(filePath)) {
-          res.sendFile(filePath);
-        } else {
-          res.status(404).json({
-            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-          });
-        }
+        tryServeFiles(filePath, req, res);
       });
     });
     mockedMicroApps.forEach((appId) => {
       // 直接返回本地小产品相关文件。
       app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
         const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
-        if (fs.existsSync(filePath)) {
-          res.sendFile(filePath);
-        } else {
-          res.status(404).json({
-            error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-          });
-        }
+        tryServeFiles(filePath, req, res);
       });
       app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
         res.json({
@@ -168,37 +140,19 @@ module.exports = (env, app) => {
     // 直接返回构件库 js 文件。
     app.get(`${publicPath}bricks/*`, (req, res) => {
       const filePath = path.join(brickPackagesDir, req.params[0]);
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.status(404).json({
-          error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-        });
-      }
+      tryServeFiles(filePath, req, res);
     });
 
     // 直接返回小产品相关文件。
     app.get(`${publicPath}micro-apps/*`, (req, res) => {
       const filePath = path.join(microAppsDir, req.params[0]);
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.status(404).json({
-          error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-        });
-      }
+      tryServeFiles(filePath, req, res);
     });
 
     // 直接返回模板库 js 文件。
     app.get(`${publicPath}templates/*`, (req, res) => {
       const filePath = path.join(templatePackagesDir, req.params[0]);
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.status(404).json({
-          error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-        });
-      }
+      tryServeFiles(filePath, req, res);
     });
   }
 

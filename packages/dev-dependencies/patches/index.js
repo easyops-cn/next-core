@@ -12,3 +12,5 @@ exports.migrateHusky = require("./migrateHusky");
 exports.addMocksForBrickIcons = require("./addMocksForBrickIcons");
 exports.migrateJest = require("./migrateJest");
 exports.updateResolutions = require("./updateResolutions");
+exports.updateBrickNext = require("./updateBrickNext");
+exports.migrateJestV2 = require("./migrateJestV2");

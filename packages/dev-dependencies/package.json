@@ -24,6 +24,7 @@
     "@next-core/build-config-factory": "^2.13.10",
     "@next-core/custom-antd-styles": "^1.8.9",
     "@next-core/eslint-config-next": "^1.0.22",
+    "@next-core/jest-config-factory": "^0.0.0",
     "@next-core/rollup-config-factory": "^2.2.3",
     "@next-core/webpack-config-factory": "^2.10.0",
     "@next-dll/ace": "^2.0.185",

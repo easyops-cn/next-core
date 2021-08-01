@@ -350,6 +350,13 @@ postBuild(\\"bricks\\");
 ",
   ],
   Array [
+    "dist/scripts/pre-build.js",
+    "const { preBuild } = require(\\"@next-core/build-config-factory\\");
+
+preBuild(\\"bricks\\");
+",
+  ],
+  Array [
     "dist/scripts/rename-tar-package.js",
     "const { renameTarPackage } = require(\\"@next-core/build-config-factory\\");
 
@@ -417,6 +424,8 @@ jest.spyOn(kit, \\"getRuntime\\").mockReturnValue({
   registerCustomTemplate: jest.fn(),
   registerCustomProcessor: jest.fn(),
 } as any);
+
+jest.mock(\\"./lazy-bricks\\", () => void 0);
 
 // Use \`require\` instead of \`import\` to avoid hoisting.
 require(\\"./index\\");
@@ -595,6 +604,13 @@ postBuild(\\"bricks\\");
 ",
   ],
   Array [
+    "dist/scripts/pre-build.js",
+    "const { preBuild } = require(\\"@next-core/build-config-factory\\");
+
+preBuild(\\"bricks\\");
+",
+  ],
+  Array [
     "dist/scripts/rename-tar-package.js",
     "const { renameTarPackage } = require(\\"@next-core/build-config-factory\\");
 
@@ -662,6 +678,8 @@ jest.spyOn(kit, \\"getRuntime\\").mockReturnValue({
   registerCustomTemplate: jest.fn(),
   registerCustomProcessor: jest.fn(),
 } as any);
+
+jest.mock(\\"./lazy-bricks\\", () => void 0);
 
 // Use \`require\` instead of \`import\` to avoid hoisting.
 require(\\"./index\\");
@@ -921,6 +939,13 @@ postBuild(\\"bricks\\");
 ",
   ],
   Array [
+    "dist/scripts/pre-build.js",
+    "const { preBuild } = require(\\"@next-core/build-config-factory\\");
+
+preBuild(\\"providers\\");
+",
+  ],
+  Array [
     "dist/scripts/rename-tar-package.js",
     "const { renameTarPackage } = require(\\"@next-core/build-config-factory\\");
 
@@ -955,13 +980,6 @@ module.exports = merge(
   Array [
     "dist/.gitignore",
     "/src/
-",
-  ],
-  Array [
-    "dist/scripts/pre-build.js",
-    "const { preBuild } = require(\\"@next-core/build-config-factory\\");
-
-preBuild(\\"providers\\");
 ",
   ],
 ]
