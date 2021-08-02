@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.14.0...@next-core/build-config-factory@2.14.1) (2021-08-02)
+
+
+### Bug Fixes
+
+* support customized entry for lazy bricks ([98d2e7f](https://github.com/easyops-cn/next-core/commit/98d2e7f5ff1583e66e862c200552b066837620e4))
+
+
+
+
+
 # [2.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.13.10...@next-core/build-config-factory@2.14.0) (2021-08-01)
 
 

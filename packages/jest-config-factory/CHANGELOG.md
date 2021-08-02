@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.1.0...@next-core/jest-config-factory@0.1.1) (2021-08-02)
+
+
+### Bug Fixes
+
+* **jest-config-factory:** add easyops name mapper ([32ba6d9](https://github.com/easyops-cn/next-core/commit/32ba6d9acaa8a384a021996e28405549e9308ae7))
+
+
+
+
+
 # 0.1.0 (2021-08-01)
 
 
