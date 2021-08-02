@@ -12,12 +12,12 @@ import * as runtime from "../core/Runtime";
 import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
-import { validatePermissions } from "./checkPermissions";
+import { validatePermissions } from "../internal/checkPermissions";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
 jest.mock("../themeAndMode");
-jest.mock("./checkPermissions");
+jest.mock("../internal/checkPermissions");
 const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
 const consoleInfo = jest
   .spyOn(console, "info")
@@ -391,6 +391,17 @@ describe("LocationContext", () => {
                   if: "<% CTX.myFreeContext === 'bad' %>",
                 },
               },
+              {
+                name: "myFallbackToValueContext",
+                resolve: {
+                  provider: "provider-c",
+                  transform: {
+                    value: "provider return value",
+                  },
+                  if: "<% CTX.myFreeContext === 'bad' %>",
+                },
+                value: "default value",
+              },
             ],
             type: "routes",
             routes: [
@@ -402,7 +413,7 @@ describe("LocationContext", () => {
                     brick: "div",
                     properties: {
                       title:
-                        "<% `${CTX.myFreeContext} ${CTX.myAsyncContext}` %>",
+                        "<% `${CTX.myFreeContext} ${CTX.myAsyncContext} ${CTX.myFallbackToValueContext}` %>",
                     },
                     context: [
                       {
@@ -412,6 +423,9 @@ describe("LocationContext", () => {
                       {
                         name: "myFreeContextDefinedOnBrick",
                         value: "some value",
+                        onChange: {
+                          action: "console.log",
+                        },
                       },
                     ],
                     exports: {
@@ -664,7 +678,7 @@ describe("LocationContext", () => {
         {
           type: "div",
           properties: {
-            title: "good even better",
+            title: "good even better default value",
           },
           events: {
             click: {
@@ -697,10 +711,18 @@ describe("LocationContext", () => {
           },
         },
       ]);
-      const brick = result.main[0];
+      const { storyboardContext } = result.main[0].context;
+      expect(storyboardContext.get("myNewPropContext")).toMatchObject({
+        type: "brick-property",
+        prop: "title",
+      });
       expect(
-        brick.context.storyboardContext.get("myFreeContextDefinedOnBrick").brick
-      ).toBe(brick);
+        storyboardContext.get("myFreeContextDefinedOnBrick")
+      ).toMatchObject({
+        type: "free-variable",
+        value: "some value",
+        eventTarget: expect.anything(),
+      });
       expect(kernel.mountPoints.bg.children.length).toBe(2);
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");

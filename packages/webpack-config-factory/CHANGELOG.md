@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.5...@next-core/webpack-config-factory@2.10.0) (2021-07-30)
+
+
+### Features
+
+* support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
+
+
+
+
+
+## [2.9.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.4...@next-core/webpack-config-factory@2.9.5) (2021-07-29)
+
+**Note:** Version bump only for package @next-core/webpack-config-factory
+
+
+
+
+
+## [2.9.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.3...@next-core/webpack-config-factory@2.9.4) (2021-07-23)
+
+**Note:** Version bump only for package @next-core/webpack-config-factory
+
+
+
+
+
 ## [2.9.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.2...@next-core/webpack-config-factory@2.9.3) (2021-07-02)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory

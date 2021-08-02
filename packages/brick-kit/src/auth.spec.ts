@@ -1,7 +1,7 @@
 import { authenticate, getAuth, logout } from "./auth";
-import { resetPermissionPreChecks } from "./core/checkPermissions";
+import { resetPermissionPreChecks } from "./internal/checkPermissions";
 
-jest.mock("./core/checkPermissions");
+jest.mock("./internal/checkPermissions");
 
 describe("auth", () => {
   it("should work", () => {

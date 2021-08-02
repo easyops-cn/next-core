@@ -1,4 +1,5 @@
 import { omit, orderBy, set } from "lodash";
+import EventTarget from "@ungap/event-target";
 import {
   PluginLocation,
   MatchResult,
@@ -35,8 +36,11 @@ import {
   resolveContextConcurrently,
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
-import { listenerFactory } from "../bindListeners";
-import { computeRealProperties, computeRealValue } from "../setProperties";
+import { listenerFactory } from "../internal/bindListeners";
+import {
+  computeRealProperties,
+  computeRealValue,
+} from "../internal/setProperties";
 import { isLoggedIn, getAuth } from "../auth";
 import { getHistory } from "../history";
 import {
@@ -57,14 +61,18 @@ import {
 import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
 import { getMessageDispatcher, MessageDispatcher } from "./MessageDispatcher";
-import { getRuntimeMisc } from "../misc";
+import { getRuntimeMisc } from "../internal/misc";
 import { httpErrorToString } from "../handleHttpError";
 import {
   getSubStoryboardByRoute,
   SubStoryboardMatcher,
-} from "./getSubStoryboardByRoute";
+} from "../internal/getSubStoryboardByRoute";
 import { symbolForTplContextId } from "./CustomTemplates";
-import { validatePermissions } from "./checkPermissions";
+import { validatePermissions } from "../internal/checkPermissions";
+import {
+  listenOnTrackingContext,
+  TrackingContextItem,
+} from "../internal/listenOnTrackingContext";
 
 export type MatchRoutesResult =
   | {
@@ -202,33 +210,48 @@ export class LocationContext {
       if (!looseCheckIf(contextConf, coreContext)) {
         return false;
       }
+      let isResolve = false;
       let value: unknown;
       if (contextConf.resolve) {
-        if (!looseCheckIf(contextConf.resolve, coreContext)) {
+        if (looseCheckIf(contextConf.resolve, coreContext)) {
+          isResolve = true;
+          const valueConf: Record<string, unknown> = {};
+          await this.resolver.resolveOne(
+            "reference",
+            {
+              transform: "value",
+              transformMapArray: false,
+              ...contextConf.resolve,
+            },
+            valueConf,
+            null,
+            coreContext
+          );
+          value = valueConf.value;
+        } else if (!hasOwnProperty(contextConf, "value")) {
           return false;
         }
-        const valueConf: Record<string, unknown> = {};
-        await this.resolver.resolveOne(
-          "reference",
-          {
-            transform: "value",
-            transformMapArray: false,
-            ...contextConf.resolve,
-          },
-          valueConf,
-          null,
-          coreContext
-        );
-        value = valueConf.value;
-      } else {
+      }
+      if (!isResolve && contextConf.value !== undefined) {
         value = computeRealValue(contextConf.value, coreContext, true);
       }
-      this.setStoryboardContext(contextConf.name, {
+      const newContext: StoryboardContextItem = {
         type: "free-variable",
         value,
-        brick,
-        onChange: contextConf.onChange,
-      });
+        // This is required for tracking context, even if no `onChange` is specified.
+        eventTarget: new EventTarget(),
+      };
+      if (contextConf.onChange) {
+        for (const handler of ([] as BrickEventHandler[]).concat(
+          contextConf.onChange
+        )) {
+          newContext.eventTarget.addEventListener(
+            "context.change",
+            listenerFactory(handler, coreContext, brick)
+          );
+        }
+      }
+      this.setStoryboardContext(contextConf.name, newContext);
     }
     return true;
   }
@@ -643,12 +666,15 @@ export class LocationContext {
 
     await this.preCheckPermissions(brickConf, context);
 
+    const trackingContextList: TrackingContextItem[] = [];
+
     Object.assign(brick, {
       type: tplTagName || brickConf.brick,
       properties: computeRealProperties(
         brickConf.properties,
         context,
-        brickConf.injectDeep !== false
+        brickConf.injectDeep !== false,
+        trackingContextList
       ),
       events: isObject(brickConf.events) ? brickConf.events : {},
       context,
@@ -675,6 +701,8 @@ export class LocationContext {
         set(brick.properties, propName, propValue);
       });
     }
+
+    listenOnTrackingContext(brick, trackingContextList, context);
 
     if (brick.refForProxy) {
       brick.refForProxy.brick = brick;
@@ -920,6 +948,10 @@ export class LocationContext {
     );
   }
 
+  getCurrentMatch(): MatchResult {
+    return this.currentMatch;
+  }
+
   private dispatchLifeCycleEvent(
     event: CustomEvent,
     handlers: BrickAndLifeCycleHandler[]
@@ -934,7 +966,7 @@ export class LocationContext {
             match: brickAndHandler.match,
             tplContextId: brickAndHandler.tplContextId,
           }),
-          brickAndHandler.brick.element
+          brickAndHandler.brick
         )(event);
       }
     }

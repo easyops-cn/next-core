@@ -3,6 +3,133 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.9.0...@next-core/dev-dependencies@1.9.1) (2021-08-02)
+
+
+### Bug Fixes
+
+* fix jest config replacement ([2e138c2](https://github.com/easyops-cn/next-core/commit/2e138c27d18488414690f52706c0551c80f75a05))
+
+
+
+
+
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.77...@next-core/dev-dependencies@1.9.0) (2021-08-01)
+
+
+### Features
+
+* support code generation of lazy-bricks ([1e1a8bb](https://github.com/easyops-cn/next-core/commit/1e1a8bb8a47251d67c7a353da739c9188ad5b78b))
+* use jest config factory ([09780a0](https://github.com/easyops-cn/next-core/commit/09780a0976c97b537cbea44669cad51c855ae44a))
+
+
+
+
+
+## [1.8.77](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.76...@next-core/dev-dependencies@1.8.77) (2021-07-30)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.76](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.75...@next-core/dev-dependencies@1.8.76) (2021-07-30)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.75](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.74...@next-core/dev-dependencies@1.8.75) (2021-07-29)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.74](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.73...@next-core/dev-dependencies@1.8.74) (2021-07-28)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.73](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.72...@next-core/dev-dependencies@1.8.73) (2021-07-28)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.72](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.71...@next-core/dev-dependencies@1.8.72) (2021-07-28)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.71](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.70...@next-core/dev-dependencies@1.8.71) (2021-07-27)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.70](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.69...@next-core/dev-dependencies@1.8.70) (2021-07-26)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.69](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.68...@next-core/dev-dependencies@1.8.69) (2021-07-26)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.68](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.67...@next-core/dev-dependencies@1.8.68) (2021-07-26)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.67](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.66...@next-core/dev-dependencies@1.8.67) (2021-07-23)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.66](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.65...@next-core/dev-dependencies@1.8.66) (2021-07-23)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
+## [1.8.65](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.64...@next-core/dev-dependencies@1.8.65) (2021-07-23)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+
+
+
+
 ## [1.8.64](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.8.63...@next-core/dev-dependencies@1.8.64) (2021-07-21)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

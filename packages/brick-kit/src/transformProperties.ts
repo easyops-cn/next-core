@@ -1,19 +1,37 @@
 import { get, set } from "lodash";
 import { GeneralTransform, TransformMap } from "@next-core/brick-types";
-import { isObject, transform, isEvaluable } from "@next-core/brick-utils";
+import {
+  isObject,
+  transform,
+  isEvaluable,
+  trackContext,
+} from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateOptions,
   isPreEvaluated,
   shouldDismissRecursiveMarkingInjected,
-} from "./evaluate";
-import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
-import { devtoolsHookEmit } from "./devtools";
-import { setRealProperties } from "./setProperties";
+} from "./internal/evaluate";
+import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
+import { devtoolsHookEmit } from "./internal/devtools";
+import { setRealProperties } from "./internal/setProperties";
+import {
+  getNextStateOfUseBrick,
+  isLazyContentInUseBrick,
+  StateOfUseBrick,
+} from "./internal/getNextStateOfUseBrick";
+import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 
 interface TransformOptions {
   isReTransformation?: boolean;
   transformationId?: number;
+}
+
+interface DoTransformOptions {
+  evaluateOptions?: EvaluateOptions;
+  trackingContextList?: TrackingContextItem[];
+  $$lazyForUseBrick?: boolean;
+  $$stateOfUseBrick?: StateOfUseBrick;
 }
 
 /** @internal */
@@ -47,12 +65,21 @@ export function transformProperties(
 export function doTransform(
   data: unknown,
   to: unknown,
-  options?: {
-    evaluateOptions?: EvaluateOptions;
-  }
+  options?: DoTransformOptions
 ): unknown {
   const preEvaluated = isPreEvaluated(to);
   if (preEvaluated || typeof to === "string") {
+    // For `useBrick`, some fields such as `properties`/`transform`/`events`,
+    // are kept and to be transformed later.
+    const lazy =
+      options?.$$lazyForUseBrick &&
+      isLazyContentInUseBrick(options.$$stateOfUseBrick);
+    if (lazy) {
+      // The current data context is not memoized, since a new data context
+      // should always be provided before later transformations.
+      return to;
+    }
+
     let result: unknown;
     let dismissRecursiveMarkingInjected = false;
     if (preEvaluated || isEvaluable(to as string)) {
@@ -69,20 +96,33 @@ export function doTransform(
     return result;
   }
 
-  if (isObject(to) && haveBeenInjected(to)) {
+  if (!isObject(to) || haveBeenInjected(to)) {
     return to;
   }
 
-  return Array.isArray(to)
-    ? to.map((item) => doTransform(data, item, options))
-    : isObject(to)
-    ? Object.fromEntries(
-        Object.entries(to).map((entry) => [
-          entry[0],
-          doTransform(data, entry[1], options),
-        ])
-      )
-    : to;
+  if (Array.isArray(to)) {
+    const nextOptions = getNextDoTransformOptions(options, true);
+    return to.map((item) => doTransform(data, item, nextOptions));
+  }
+
+  return Object.fromEntries(
+    Object.entries(to).map(([k, v]) => {
+      if (Array.isArray(options?.trackingContextList) && isEvaluable(v)) {
+        const contextNames = trackContext(v);
+        if (contextNames) {
+          options.trackingContextList.push({
+            contextNames,
+            propName: k,
+            propValue: v,
+          });
+        }
+      }
+      return [
+        k,
+        doTransform(data, v, getNextDoTransformOptions(options, false, k)),
+      ];
+    })
+  );
 }
 
 /** @internal */
@@ -199,4 +239,25 @@ export function transformIntermediateData(
     return intermediateData;
   }
   return transformProperties({}, intermediateData, to, undefined, mapArray);
+}
+
+function getNextDoTransformOptions(
+  options: DoTransformOptions,
+  isArray: boolean,
+  key?: string
+): DoTransformOptions {
+  return options
+    ? {
+        ...options,
+        // Collect tracking context in first level only.
+        trackingContextList: undefined,
+        $$stateOfUseBrick: options.$$lazyForUseBrick
+          ? getNextStateOfUseBrick(
+              options.$$stateOfUseBrick ?? StateOfUseBrick.INITIAL,
+              isArray,
+              key
+            )
+          : undefined,
+      }
+    : options;
 }

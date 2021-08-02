@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
 const chalk = require("chalk");
+const { omit } = require("lodash");
 
 function getNavbar(env) {
   return JSON.parse(fs.readFileSync(env.navbarJsonPath, "utf8"));
@@ -123,7 +124,9 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
         {
           filePath,
         },
-        bricksJson
+        !remoteBrickPackages || localEditorPackages.includes(brickPackageName)
+          ? bricksJson
+          : omit(bricksJson, ["editors", "editorsJsFilePath"])
       );
     }
     if (
@@ -319,6 +322,18 @@ function checkLocalPackages(env) {
   }
 }
 
+function tryServeFiles(files, req, res) {
+  for (const filePath of [].concat(files)) {
+    if (fs.existsSync(filePath)) {
+      res.sendFile(filePath);
+      return;
+    }
+  }
+  res.status(404).json({
+    error: `404 Not Found: ${req.method} ${req.originalUrl}`,
+  });
+}
+
 exports.getNavbar = getNavbar;
 exports.getStoryboardsByMicroApps = getStoryboardsByMicroApps;
 exports.getSingleStoryboard = getSingleStoryboard;
@@ -335,3 +350,4 @@ exports.getNamesOfBrickPackages = getNamesOfBrickPackages;
 exports.getNamesOfTemplatePackages = getNamesOfTemplatePackages;
 exports.getPatternsToWatch = getPatternsToWatch;
 exports.checkLocalPackages = checkLocalPackages;
+exports.tryServeFiles = tryServeFiles;

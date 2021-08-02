@@ -40,6 +40,7 @@ function collectPermissionActions(
               node.callee.type === "MemberExpression" &&
               node.callee.object.type === "Identifier" &&
               node.callee.object.name === PERMISSIONS &&
+              !node.callee.computed &&
               node.callee.property.type === "Identifier" &&
               node.callee.property.name === check
             ) {

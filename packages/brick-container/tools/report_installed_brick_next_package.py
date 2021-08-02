@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-import sys
+import logging
 import os
-import requests
+import sys
+
 import ens_api
+import requests
 import simplejson
-import commands
+
+logger = logging.getLogger("report_installed_brick_next_package")
+logging.basicConfig(level=logging.DEBUG, filename="./report_installed_brick_next_package.log")
 
 
 # 1. 获取到当前的需要处理的包处理到包名
@@ -20,7 +24,8 @@ def collect(install_path):
     raise Exception("could not find install path {}".format(install_path))
   if not os.path.isdir(install_path):
     raise Exception("install_path must be a dir {}".format(install_path))
-  package_name = os.path.split(install_path[:-1])[-1]
+  package_name = os.path.basename(install_path)
+  logger.info("install_path %s packageName %s", install_path, package_name)
   bricks_path = os.path.join(install_path, "dist", "bricks.json")
   if not os.path.exists(bricks_path):
     raise Exception("could not find bricks.json path {}".format(bricks_path))
@@ -66,17 +71,15 @@ if __name__ == "__main__":
     print("Usage: ./report_installed_brick_next_package.py $org $install_path")
     sys.exit(1)
 
-  cmd = "/usr/local/easyops/deploy_init/tools/get_env.py micro_app_service report_brick_info"
-  status_code, res = commands.getstatusoutput(cmd)
-  status_code = os.WEXITSTATUS(status_code)
-  if status_code == 0:
-    if res == "true":
-      org = sys.argv[1]
-      install_path = sys.argv[2]
-      package_name, bricks_content, stories_content, snippets_content = collect(install_path)
-      if package_name and bricks_content and snippets_content:
-        report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
-  elif status_code == 2:
+  org = sys.argv[1]
+  install_path = sys.argv[2]
+
+  if install_path.endswith(os.sep):
+    install_path = install_path[:-1]
+
+  if not install_path.endswith("-NB"):
     sys.exit(0)
-  else:
-    raise Exception("%s exec fail;status_code: %s;output: %s" % (cmd, status_code, res))
+
+  package_name, bricks_content, stories_content, snippets_content = collect(install_path)
+  if package_name and bricks_content and snippets_content:
+    report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)

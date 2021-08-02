@@ -63,9 +63,11 @@ describe("getSubStoryboardByRoute", () => {
     ],
   };
 
-  const matcherFactory = (url: string): SubStoryboardMatcher => (routes) => {
-    return routes.filter((route) => url.startsWith(route.path));
-  };
+  const matcherFactory =
+    (url: string): SubStoryboardMatcher =>
+    (routes) => {
+      return routes.filter((route) => url.startsWith(route.path));
+    };
 
   it.each<[string, Partial<Storyboard>]>([
     [

@@ -30,9 +30,10 @@ import {
   CustomApiOrchestration,
   AbstractRuntime,
 } from "./interfaces";
-import { getBasePath } from "../getBasePath";
+import { getBasePath } from "../internal/getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
-import { processMenu } from "./menu";
+import { processMenu } from "../internal/menu";
+import { registerLazyBricks } from "./LazyBrickRegistry";
 
 let kernel: Kernel;
 
@@ -232,6 +233,7 @@ export class Runtime implements AbstractRuntime {
   registerBrickTemplate = registerBrickTemplate;
   registerCustomTemplate = registerCustomTemplate;
   registerCustomProcessor = registerCustomProcessor;
+  registerLazyBricks = registerLazyBricks;
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {

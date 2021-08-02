@@ -9,6 +9,7 @@
     "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",
     "start:editors": "cross-env NODE_ENV='development' webpack --config webpack.editors.js --watch",
     "start:both": "concurrently -k -n main,editors \"npm run start\" \"npm run start:editors\"",
+    "prebuild": "node scripts/pre-build.js",
     "build": "npm run build:webpack && npm run build:stories && npm run build:snippets",
     "build:webpack": "npm run build:webpack:main && npm run build:webpack:editors",
     "build:webpack:main": "webpack --config webpack.config.js",

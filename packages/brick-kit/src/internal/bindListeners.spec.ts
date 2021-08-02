@@ -10,20 +10,20 @@ import {
   bindListeners,
   unbindListeners,
 } from "./bindListeners";
-import { getHistory } from "./history";
-import * as runtime from "./core/Runtime";
-import { getMessageDispatcher } from "./core/MessageDispatcher";
+import { getHistory } from "../history";
+import * as runtime from "../core/Runtime";
+import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { message } from "antd";
-import { CustomApiOrchestration } from "./core/interfaces";
-import { mockMicroAppApiOrchestrationMap } from "./core/__mocks__/MicroAppApiOrchestrationData";
-import { CUSTOM_API_PROVIDER } from "./providers/CustomApi";
-import { applyTheme, applyMode } from "./themeAndMode";
-import { clearMenuTitleCache, clearMenuCache } from "./core/menu";
+import { CustomApiOrchestration } from "../core/interfaces";
+import { mockMicroAppApiOrchestrationMap } from "../core/__mocks__/MicroAppApiOrchestrationData";
+import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
+import { applyTheme, applyMode } from "../themeAndMode";
+import { clearMenuTitleCache, clearMenuCache } from "./menu";
 
-jest.mock("./history");
-jest.mock("./core/MessageDispatcher");
-jest.mock("./themeAndMode");
-jest.mock("./core/menu");
+jest.mock("../history");
+jest.mock("../core/MessageDispatcher");
+jest.mock("../themeAndMode");
+jest.mock("./menu");
 
 // Mock a custom element of `any-provider`.
 customElements.define(
@@ -170,6 +170,9 @@ describe("isCustomHandler", () => {
 });
 
 describe("bindListeners", () => {
+  const myObjectContextEventTarget = {
+    dispatchEvent: jest.fn(),
+  } as unknown as EventTarget;
   beforeEach(() => {
     storyboardContext.clear();
     const ctx: [string, StoryboardContextItem][] = [
@@ -194,10 +197,7 @@ describe("bindListeners", () => {
           value: {
             quality: "better",
           },
-          onChange: {
-            action: "console.info",
-            args: ["<% EVENT.type %>", "<% EVENT.detail %>"],
-          },
+          eventTarget: myObjectContextEventTarget,
         },
       ],
       [
@@ -645,6 +645,16 @@ describe("bindListeners", () => {
 
     expect(spyOnPreventDefault).toBeCalled();
 
+    expect(
+      (myObjectContextEventTarget.dispatchEvent as jest.Mock).mock.calls[0][0]
+    ).toMatchObject({
+      type: "context.change",
+      detail: {
+        checked: true,
+        quality: "better",
+      },
+    });
+
     expect(console.log).toBeCalledTimes(4);
     expect(console.log).toHaveBeenNthCalledWith(1, event1);
     expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
@@ -659,15 +669,10 @@ describe("bindListeners", () => {
       "custom api resolved"
     );
 
-    expect(console.info).toBeCalledTimes(3);
-    // expect(console.info).toBeCalledWith(event1);
+    expect(console.info).toBeCalledTimes(2);
     expect(console.info).toHaveBeenNthCalledWith(1, event1);
-    expect(console.info).toHaveBeenNthCalledWith(2, "context.change", {
-      checked: true,
-      quality: "better",
-    });
     expect(console.info).toHaveBeenNthCalledWith(
-      3,
+      2,
       new CustomEvent("callback.finally")
     );
 
@@ -756,7 +761,9 @@ describe("bindListeners", () => {
       "task1",
       { system: "pipeline", topic: "pipeline.running.001" },
       expect.objectContaining({
-        brick: sourceElem,
+        runtimeBrick: {
+          element: sourceElem,
+        },
         error: {
           action: "console.log",
         },
@@ -769,7 +776,9 @@ describe("bindListeners", () => {
       "task1",
       { system: "pipeline", topic: "pipeline.running.001" },
       expect.objectContaining({
-        brick: sourceElem,
+        runtimeBrick: {
+          element: sourceElem,
+        },
         error: {
           action: "console.log",
         },

@@ -15,7 +15,18 @@ module.exports = {
   devtool: "source-map",
   mode: isProd ? "production" : "development",
   entry: {
-    dll: Object.keys(packageJson.dependencies), //.map(k => k.replace("@next-core/", "@easyops/")),
+    dll: Object.keys(packageJson.dependencies).flatMap((dep) => {
+      if (dep === "@babel/runtime") {
+        const babelRuntime = require(`${dep}/package.json`);
+        return (
+          Object.keys(babelRuntime.exports)
+            // Ignore `./helpers/esm/*`.
+            .filter((exp) => /^\.\/helpers\/[^/]+$/.test(exp))
+            .map((exp) => `${dep}/${exp.substr(1)}`)
+        );
+      }
+      return dep;
+    }), //.map(k => k.replace("@next-core/", "@easyops/")),
   },
   output: {
     filename: isProd ? "[name].[contenthash].js" : "[name].bundle.js",

@@ -3,8 +3,8 @@ import {
   BrickLifeCycle,
   RefForProxy,
 } from "@next-core/brick-types";
-import { bindListeners } from "../bindListeners";
-import { setRealProperties } from "../setProperties";
+import { bindListeners } from "../internal/bindListeners";
+import { setRealProperties } from "../internal/setProperties";
 import { RuntimeCustomTemplateProxy } from "./CustomTemplates/internalInterfaces";
 import {
   handleProxyOfCustomTemplate,

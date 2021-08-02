@@ -48,9 +48,10 @@ import {
 } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { listenDevtools } from "../devtools";
+import { listenDevtools } from "../internal/devtools";
 import { isCustomApiProvider } from "./CustomApis";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
+import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -233,6 +234,7 @@ export class Kernel {
           .map((item) => item.filePath)
           .concat(templatePackages.map((item) => item.filePath))
       );
+      await loadAllLazyBricks();
     } else {
       // 先加载模板
       const templateDeps = getTemplateDepsOfStoryboard(
@@ -241,7 +243,7 @@ export class Kernel {
       );
       await loadScript(templateDeps);
       // 加载模板后才能加工得到最终的构件表
-      const result = getDllAndDepsOfStoryboard(
+      const { dll, deps, bricks } = getDllAndDepsOfStoryboard(
         await asyncProcessStoryboard(
           storyboard,
           brickTemplateRegistry,
@@ -252,8 +254,9 @@ export class Kernel {
           ignoreBricksInUnusedCustomTemplates: true,
         }
       );
-      await loadScriptOfDll(result.dll);
-      await loadScript(result.deps);
+      await loadScriptOfDll(dll);
+      await loadScript(deps);
+      await loadLazyBricks(bricks);
     }
   }
 
@@ -305,19 +308,21 @@ export class Kernel {
     bricks: string[],
     processors?: string[]
   ): Promise<void> {
+    const filteredBricks = bricks.filter(
+      // Only try to load undefined custom elements.
+      (item) => !customElements.get(item)
+    );
     // Try to load deps for dynamic added bricks.
     const { dll, deps } = getDllAndDepsByResource(
       {
-        bricks: bricks.filter(
-          // Only try to load undefined custom elements.
-          (item) => !customElements.get(item)
-        ),
+        bricks: filteredBricks,
         processors,
       },
       this.bootstrapData.brickPackages
     );
     await loadScriptOfDll(dll);
     await loadScript(deps);
+    await loadLazyBricks(filteredBricks);
   }
 
   async loadEditorBricks(editorBricks: string[]): Promise<void> {

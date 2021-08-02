@@ -5,6 +5,10 @@
       "id": "/8r5",
       "buildMeta": { "providedExports": true }
     },
+    "./node_modules/@babel/runtime/helpers/objectSpread2.js": {
+      "id": "3tO9",
+      "buildMeta": { "providedExports": true }
+    },
     "./node_modules/@easyops/brick-utils/dist/index.esm.js": {
       "id": "A+yw",
       "buildMeta": {
@@ -60,9 +64,14 @@
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
           "toPath",
+          "trackContext",
           "transform"
         ]
       }
+    },
+    "./node_modules/@babel/runtime/helpers/decorate.js": {
+      "id": "ACCw",
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/react-dnd/dist/esm/index.js": {
       "id": "IYwU",
@@ -70,6 +79,10 @@
     },
     "./node_modules/lodash/lodash.js": {
       "id": "LvDl",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js": {
+      "id": "QILm",
       "buildMeta": { "providedExports": true }
     },
     "./node_modules/@easyops/editor-bricks-helper/dist/index.esm.js": {
@@ -119,6 +132,10 @@
     },
     "./node_modules/react-dom/index.js": {
       "id": "i8i4",
+      "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/@babel/runtime/helpers/defineProperty.js": {
+      "id": "lSNA",
       "buildMeta": { "providedExports": true }
     },
     "./node_modules/react/index.js": {
@@ -184,6 +201,10 @@
           "useRecentApps"
         ]
       }
+    },
+    "./node_modules/@babel/runtime/helpers/asyncToGenerator.js": {
+      "id": "yXPU",
+      "buildMeta": { "providedExports": true }
     }
   }
 }

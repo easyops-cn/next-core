@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import { BrickConf, RuntimeBrickElement } from "@next-core/brick-types";
-import * as listenerUtils from "./bindListeners";
+import * as listenerUtils from "./internal/bindListeners";
 import {
   BrickAsComponent,
   ForwardRefSingleBrickAsComponent,
@@ -46,7 +46,7 @@ customElements.define(
 
 describe("BrickAsComponent", () => {
   afterEach(() => {
-    bindListeners.mockClear();
+    jest.clearAllMocks();
   });
 
   it("should work", async () => {
@@ -55,6 +55,27 @@ describe("BrickAsComponent", () => {
       <BrickAsComponent
         useBrick={{
           brick: "div",
+          properties: {
+            id: "<% DATA.extraTips %>",
+            useBrick: {
+              brick: "span",
+              if: "<% !!DATA.extraTips %>",
+              properties: {
+                any: "<% DATA.tips %>",
+              },
+              transform: {
+                any: "@{tips}",
+              },
+              lifeCycle: {
+                useResolves: [
+                  {
+                    useProvider: "my.provider",
+                    args: ["<% DATA.extraTips %>"],
+                  },
+                ],
+              },
+            },
+          },
           transform: "title",
           transformFrom: "tips",
           events: {
@@ -66,6 +87,7 @@ describe("BrickAsComponent", () => {
         }}
         data={{
           tips: "good",
+          extraTips: "better",
         }}
         parentRefForUseBrickInPortal={mockRef}
       />
@@ -74,6 +96,27 @@ describe("BrickAsComponent", () => {
     await (global as any).flushPromises();
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.title).toBe("good");
+    expect(div.id).toBe("better");
+    expect((div as any).useBrick).toEqual({
+      brick: "span",
+      // `properties`, `transform`, `events` and `if` of `useBrick` inside
+      // the properties of the root brick, are kept and to be transformed lazily.
+      if: "<% !!DATA.extraTips %>",
+      properties: {
+        any: "<% DATA.tips %>",
+      },
+      transform: {
+        any: "@{tips}",
+      },
+      lifeCycle: {
+        useResolves: [
+          {
+            useProvider: "my.provider",
+            args: ["better"],
+          },
+        ],
+      },
+    });
     expect(bindListeners.mock.calls[0][1]).toEqual({
       "button.click": {
         action: "console.log",
@@ -123,7 +166,6 @@ describe("BrickAsComponent", () => {
   });
 
   it("should work for `if`", async () => {
-    sypOnTransformProperties.mockClear();
     const wrapper = mount(
       <BrickAsComponent
         useBrick={[

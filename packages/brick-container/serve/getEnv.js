@@ -206,12 +206,12 @@ module.exports = (cwd) => {
       : flags.mergeSettings;
 
   function getBrickNextDir() {
-    if (cwd) {
-      return cwd;
-    }
     const devConfig = getDevConfig();
     if (devConfig && devConfig.nextRepoDir) {
       return devConfig.nextRepoDir;
+    }
+    if (cwd) {
+      return cwd;
     }
     return path.join(rootDir, "../next-basics");
   }

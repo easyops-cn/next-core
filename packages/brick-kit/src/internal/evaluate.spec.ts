@@ -4,17 +4,17 @@ import {
   PreEvaluated,
   shouldDismissRecursiveMarkingInjected,
 } from "./evaluate";
-import * as runtime from "./core/Runtime";
-import { registerCustomProcessor } from "./core/exports";
+import * as runtime from "../core/Runtime";
+import { registerCustomProcessor } from "../core/exports";
 import { devtoolsHookEmit } from "./devtools";
-import { checkPermissions } from "./core/checkPermissions";
-import { getItemFactory } from "./core/Storage";
-import { getRuntime } from "./runtime";
+import { checkPermissions } from "./checkPermissions";
+import { getItemFactory } from "./Storage";
+import { getRuntime } from "../runtime";
 
 jest.mock("./devtools");
-jest.mock("./runtime");
-jest.mock("./core/checkPermissions");
-jest.mock("./core/Storage");
+jest.mock("../runtime");
+jest.mock("./checkPermissions");
+jest.mock("./Storage");
 
 i18next.init({
   fallbackLng: "en",

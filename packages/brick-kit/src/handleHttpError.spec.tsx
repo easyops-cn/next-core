@@ -13,11 +13,11 @@ import {
   handleHttpError,
   LoginTimeoutMessage,
 } from "./handleHttpError";
-import { isUnauthenticatedError } from "./isUnauthenticatedError";
+import { isUnauthenticatedError } from "./internal/isUnauthenticatedError";
 import { getHistory } from "./history";
 import { getRuntime } from "./runtime";
 
-jest.mock("./isUnauthenticatedError");
+jest.mock("./internal/isUnauthenticatedError");
 jest.mock("./history");
 jest.mock("./runtime");
 

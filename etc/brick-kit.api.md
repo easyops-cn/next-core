@@ -81,6 +81,8 @@ export interface AbstractRuntime {
     // Warning: (ae-forgotten-export) The symbol "CustomProcessorFunc" needs to be exported by the entry point index.d.ts
     registerCustomProcessor(processorFullName: string, processorFunc: CustomProcessorFunc): void;
     registerCustomTemplate(tplName: string, tplConstructor: CustomTemplateConstructor, appId?: string): void;
+    // Warning: (ae-forgotten-export) The symbol "LazyBrickImportFunction" needs to be exported by the entry point index.d.ts
+    registerLazyBricks(bricks: string | string[], factory: LazyBrickImportFunction): void;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "authenticate" should be prefixed with an underscore because the declaration is marked as @internal
@@ -169,12 +171,11 @@ export const developHelper: {
 // @public
 export function DisplayByFeatureFlags(props: React_2.PropsWithChildren<featureFlagsProps>): React_2.ReactElement;
 
+// Warning: (ae-forgotten-export) The symbol "DoTransformOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "doTransform" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function doTransform(data: unknown, to: unknown, options?: {
-    evaluateOptions?: EvaluateOptions;
-}): unknown;
+export function doTransform(data: unknown, to: unknown, options?: DoTransformOptions): unknown;
 
 // @public
 export function EasyopsEmpty(props: EasyopsEmptyProps): React_2.ReactElement;
@@ -441,6 +442,5 @@ export interface VisitedWorkspace {
 // src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/transformProperties.ts:51:5 - (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
 
 ```

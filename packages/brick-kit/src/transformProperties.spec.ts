@@ -1,4 +1,4 @@
-import { GeneralTransform } from "@next-core/brick-types";
+import { GeneralTransform, PluginRuntimeContext } from "@next-core/brick-types";
 import {
   transformProperties,
   transformIntermediateData,
@@ -6,8 +6,26 @@ import {
   transformElementProperties,
 } from "./transformProperties";
 import * as runtime from "./core/Runtime";
+import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 
-jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({} as any);
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  storyboardContext: new Map([
+    [
+      "hello",
+      {
+        type: "free-variable",
+        value: "Hello",
+      },
+    ],
+    [
+      "world",
+      {
+        type: "free-variable",
+        value: "World",
+      },
+    ],
+  ]),
+} as PluginRuntimeContext);
 
 interface Args {
   props: Parameters<typeof transformProperties>[0];
@@ -201,9 +219,8 @@ describe("transformProperties", () => {
       },
       {
         label: {
-          [Symbol.for(
-            "pre.evaluated.raw"
-          )]: "<% `${EVENT.detail} is ${DATA}` %>",
+          [Symbol.for("pre.evaluated.raw")]:
+            "<% `${EVENT.detail} is ${DATA}` %>",
           [Symbol.for("pre.evaluated.context")]: {
             data: "good",
           },
@@ -351,9 +368,8 @@ describe("doTransform", () => {
     ["<%~ `quality: ${DATA.hello}` %>", "quality: good"],
     [
       {
-        [Symbol.for(
-          "pre.evaluated.raw"
-        )]: "<% `${TPL.label}: ${DATA.hello}` %>",
+        [Symbol.for("pre.evaluated.raw")]:
+          "<% `${TPL.label}: ${DATA.hello}` %>",
         [Symbol.for("pre.evaluated.context")]: {
           getTplVariables: () => ({
             label: "quality",
@@ -386,6 +402,103 @@ describe("doTransform", () => {
         },
       },
     });
+  });
+
+  it("should work for lazy useBrick", () => {
+    const result = doTransform(
+      {
+        a: "yes",
+        b: true,
+      },
+      {
+        prop: "<% DATA.a %>",
+        useBrick: {
+          brick: "my-brick",
+          if: "<% DATA.b %>",
+          properties: {
+            myProp: "<% DATA.c %>",
+          },
+          transform: {
+            myTransform: "<% DATA.d %>",
+          },
+          events: {
+            click: {
+              action: "console.log",
+              args: ["<% DATA.e %>", "<% DATA.f %>"],
+            },
+          },
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "my.provider",
+                args: ["<% DATA.a %>"],
+              },
+            ],
+          },
+        },
+      },
+      {
+        $$lazyForUseBrick: true,
+      }
+    );
+    expect(result).toEqual({
+      prop: "yes",
+      useBrick: {
+        brick: "my-brick",
+        if: "<% DATA.b %>",
+        properties: {
+          myProp: "<% DATA.c %>",
+        },
+        transform: {
+          myTransform: "<% DATA.d %>",
+        },
+        events: {
+          click: {
+            action: "console.log",
+            args: ["<% DATA.e %>", "<% DATA.f %>"],
+          },
+        },
+        lifeCycle: {
+          useResolves: [
+            {
+              useProvider: "my.provider",
+              args: ["yes"],
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it("should collect tracking context list", () => {
+    const trackingContextList: TrackingContextItem[] = [];
+    doTransform(
+      {},
+      {
+        title: "<% 'track context', CTX.hello + CTX.world %>",
+        message: "<% 'track context', CTX.hola %>",
+        extra: "<% CTX.any %>",
+        nesting: {
+          // This should ignored since it is not at first level.
+          any: "<% 'track context', CTX.oops %>",
+        },
+      },
+      {
+        trackingContextList,
+      }
+    );
+    expect(trackingContextList).toEqual([
+      {
+        contextNames: ["hello", "world"],
+        propName: "title",
+        propValue: "<% 'track context', CTX.hello + CTX.world %>",
+      },
+      {
+        contextNames: ["hola"],
+        propName: "message",
+        propValue: "<% 'track context', CTX.hola %>",
+      },
+    ]);
   });
 });
 

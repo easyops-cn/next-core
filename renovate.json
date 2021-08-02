@@ -56,6 +56,10 @@
       "matchPackagePatterns": ["^@types/"]
     },
     {
+      "groupName": "rollup packages",
+      "matchPackagePatterns": ["^@rollup/"]
+    },
+    {
       "matchPackageNames": ["antd"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false

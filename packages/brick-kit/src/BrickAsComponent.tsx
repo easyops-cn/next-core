@@ -6,10 +6,9 @@ import {
   RuntimeBrickElement,
   BrickEventsMap,
   UseBrickSlotsConf,
-  BrickEventHandler,
 } from "@next-core/brick-types";
-import { bindListeners, unbindListeners } from "./bindListeners";
-import { setRealProperties } from "./setProperties";
+import { bindListeners, unbindListeners } from "./internal/bindListeners";
+import { setRealProperties } from "./internal/setProperties";
 import {
   RuntimeBrick,
   RuntimeBrickElementWithTplSymbols,
@@ -21,8 +20,12 @@ import {
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
 import { looseCheckIfByTransform } from "./checkIf";
-import { isPreEvaluated } from "./evaluate";
-import { cloneDeepWithInjectedMark } from "./injected";
+import { isPreEvaluated } from "./internal/evaluate";
+import { cloneDeepWithInjectedMark } from "./internal/injected";
+import {
+  listenOnTrackingContext,
+  TrackingContextItem,
+} from "./internal/listenOnTrackingContext";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -84,16 +87,33 @@ export const SingleBrickAsComponent = React.memo(
       if (_internalApiGetRouterState() === "initial") {
         return;
       }
+
+      const trackingContextList: TrackingContextItem[] = [];
+
       const brick: RuntimeBrick = {
         type: useBrick.brick,
-        properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
+        // Now transform data in properties too.
+        properties: doTransform(
+          data,
+          cloneDeepWithInjectedMark(useBrick.properties) || {},
+          {
+            // Keep lazy fields inside `useBrick` inside the `properties`.
+            // They will be transformed by their `BrickAsComponent` later.
+            $$lazyForUseBrick: true,
+            trackingContextList,
+          }
+        ),
       };
+      // Let `transform` works still.
       transformProperties(
         brick.properties,
         data,
         useBrick.transform,
         useBrick.transformFrom
       );
+
+      const runtimeContext = _internalApiGetCurrentContext();
+
       if (useBrick.lifeCycle) {
         const resolver = _internalApiGetResolver();
         try {
@@ -103,12 +123,15 @@ export const SingleBrickAsComponent = React.memo(
               lifeCycle: useBrick.lifeCycle,
             },
             brick,
-            _internalApiGetCurrentContext()
+            runtimeContext
           );
         } catch (e) {
           handleHttpError(e);
         }
       }
+
+      listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+
       return brick;
     }, [useBrick, data, isBrickAvailable]);
 
@@ -238,21 +261,11 @@ function transformEvents(
   data: unknown,
   events: BrickEventsMap
 ): BrickEventsMap {
-  const options = {
+  return doTransform(data, events, {
     evaluateOptions: {
       lazy: true,
     },
-  };
-  return Object.fromEntries(
-    Object.entries(events).map(([eventType, eventConf]) => [
-      eventType,
-      Array.isArray(eventConf)
-        ? eventConf.map(
-            (item) => doTransform(data, item, options) as BrickEventHandler
-          )
-        : (doTransform(data, eventConf, options) as BrickEventHandler),
-    ])
-  );
+  }) as BrickEventsMap;
 }
 
 /* istanbul ignore next */
@@ -298,8 +311,18 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         }
         const brick: RuntimeBrick = {
           type: useBrick.brick,
-          properties: cloneDeepWithInjectedMark(useBrick.properties) || {},
+          // Now transform data in properties too.
+          properties: doTransform(
+            data,
+            cloneDeepWithInjectedMark(useBrick.properties) || {},
+            {
+              // Keep lazy fields inside `useBrick` inside the `properties`.
+              // They will be transformed by their `BrickAsComponent` later.
+              $$lazyForUseBrick: true,
+            }
+          ),
         };
+        // Let `transform` works still.
         transformProperties(
           brick.properties,
           data,

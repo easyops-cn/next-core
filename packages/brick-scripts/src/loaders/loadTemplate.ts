@@ -150,6 +150,10 @@ export async function loadTemplate({
     $PascalTemplateName$: changeCase.pascalCase(templateName),
     $camelProcessorName$: changeCase.camelCase(processorName),
     "$open-source-license$": workspaceLicense,
+    "$brick-package-type$":
+      targetType === TargetType.A_NEW_PACKAGE_OF_PROVIDERS
+        ? "providers"
+        : "bricks",
   };
 
   const filter = (src: string): boolean =>

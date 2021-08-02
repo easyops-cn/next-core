@@ -1,6 +1,11 @@
 import { set } from "lodash";
 import { PluginRuntimeContext } from "@next-core/brick-types";
-import { isObject, inject, isEvaluable } from "@next-core/brick-utils";
+import {
+  isObject,
+  inject,
+  isEvaluable,
+  trackContext,
+} from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateRuntimeContext,
@@ -8,11 +13,16 @@ import {
   shouldDismissRecursiveMarkingInjected,
 } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
+import {
+  getNextStateOfUseBrick,
+  isLazyContentInUseBrick,
+  StateOfUseBrick,
+} from "./getNextStateOfUseBrick";
+import { TrackingContextItem } from "./listenOnTrackingContext";
 
 interface ComputeOptions {
-  $$lazyForUseBrickEvents?: boolean;
-  $$atUseBrickNow?: boolean;
-  $$inUseBrickEventsNow?: boolean;
+  $$lazyForUseBrick?: boolean;
+  $$stateOfUseBrick?: StateOfUseBrick;
 }
 
 export const computeRealValue = (
@@ -24,8 +34,14 @@ export const computeRealValue = (
   const preEvaluated = isPreEvaluated(value);
 
   if (preEvaluated || typeof value === "string") {
+    // For `useBrick`, some fields such as `properties`/`transform`/`events`/`if`,
+    // are kept and to be evaluated later.
+    const lazy =
+      internalOptions?.$$lazyForUseBrick &&
+      isLazyContentInUseBrick(internalOptions.$$stateOfUseBrick);
+
     let result: unknown;
-    let dismissRecursiveMarkingInjected = false;
+    let dismissRecursiveMarkingInjected = lazy;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
       const keys = ["event", "getTplVariables", "overrideApp"] as const;
@@ -34,11 +50,8 @@ export const computeRealValue = (
           runtimeContext[key as "event"] = context[key as "event"];
         }
       }
-      result = evaluate(value as string, runtimeContext, {
-        lazy:
-          internalOptions?.$$lazyForUseBrickEvents &&
-          internalOptions.$$inUseBrickEventsNow,
-      });
+      // The current runtime context is memoized even if the evaluation maybe lazy.
+      result = evaluate(value as string, runtimeContext, { lazy });
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         value as string
       );
@@ -51,38 +64,28 @@ export const computeRealValue = (
     return result;
   }
 
-  let newValue = value;
-  if (injectDeep && isObject(value)) {
-    if (haveBeenInjected(value)) {
-      return value;
-    }
-    if (Array.isArray(value)) {
-      newValue = value.map((v) =>
-        computeRealValue(v, context, injectDeep, internalOptions)
-      );
-    } else {
-      newValue = Object.entries(value).reduce<Record<string, unknown>>(
-        (acc, [k, v]) => {
-          k = computeRealValue(k, context, false) as string;
-          let newOptions = internalOptions;
-          if (internalOptions?.$$lazyForUseBrickEvents) {
-            newOptions = {
-              ...internalOptions,
-              $$atUseBrickNow: k === "useBrick",
-              $$inUseBrickEventsNow:
-                internalOptions.$$inUseBrickEventsNow ||
-                (internalOptions.$$atUseBrickNow && k === "events"),
-            };
-          }
-          acc[k] = computeRealValue(v, context, injectDeep, newOptions);
-          return acc;
-        },
-        {}
-      );
-    }
+  if (!(injectDeep && isObject(value)) || haveBeenInjected(value)) {
+    return value;
   }
 
-  return newValue;
+  if (Array.isArray(value)) {
+    const nextOptions = getNextInternalOptions(internalOptions, true);
+    return value.map((v) =>
+      computeRealValue(v, context, injectDeep, nextOptions)
+    );
+  }
+
+  return Object.fromEntries(
+    Object.entries(value).map(([k, v]) => [
+      computeRealValue(k, context, false) as string,
+      computeRealValue(
+        v,
+        context,
+        injectDeep,
+        getNextInternalOptions(internalOptions, false, k)
+      ),
+    ])
+  );
 };
 
 export function setProperties(
@@ -108,7 +111,7 @@ export function setRealProperties(
   for (const [propName, propValue] of Object.entries(realProps)) {
     if (propName === "style" || propName === "dataset") {
       for (const [k, v] of Object.entries(propValue)) {
-        ((brick[propName] as unknown) as Record<string, unknown>)[k] = v;
+        (brick[propName] as unknown as Record<string, unknown>)[k] = v;
       }
     } else if (propName === "innerHTML") {
       // `innerHTML` is dangerous, use `textContent` instead.
@@ -119,7 +122,7 @@ export function setRealProperties(
       if (extractProps) {
         set(brick, propName, propValue);
       } else {
-        ((brick as unknown) as Record<string, unknown>)[propName] = propValue;
+        (brick as unknown as Record<string, unknown>)[propName] = propValue;
       }
     }
   }
@@ -128,7 +131,8 @@ export function setRealProperties(
 export function computeRealProperties(
   properties: Record<string, unknown>,
   context: PluginRuntimeContext,
-  injectDeep?: boolean
+  injectDeep?: boolean,
+  trackingContextList?: TrackingContextItem[]
 ): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
@@ -136,8 +140,11 @@ export function computeRealProperties(
     for (const [propName, propValue] of Object.entries(properties)) {
       // Related: https://github.com/facebook/react/issues/11347
       const realValue = computeRealValue(propValue, context, injectDeep, {
-        $$lazyForUseBrickEvents: true,
-        $$atUseBrickNow: propName === "useBrick",
+        $$lazyForUseBrick: true,
+        $$stateOfUseBrick:
+          propName === "useBrick"
+            ? StateOfUseBrick.USE_BRICK
+            : StateOfUseBrick.INITIAL,
       });
       if (realValue !== undefined) {
         // For `style` and `dataset`, only object is acceptable.
@@ -148,8 +155,35 @@ export function computeRealProperties(
           result[propName] = realValue;
         }
       }
+      if (Array.isArray(trackingContextList) && isEvaluable(propValue)) {
+        const contextNames = trackContext(propValue);
+        if (contextNames) {
+          trackingContextList.push({
+            contextNames,
+            propName,
+            propValue,
+          });
+        }
+      }
     }
   }
 
   return result;
+}
+
+function getNextInternalOptions(
+  internalOptions: ComputeOptions,
+  isArray: boolean,
+  key?: string
+): ComputeOptions {
+  return internalOptions?.$$lazyForUseBrick
+    ? {
+        ...internalOptions,
+        $$stateOfUseBrick: getNextStateOfUseBrick(
+          internalOptions.$$stateOfUseBrick,
+          isArray,
+          key
+        ),
+      }
+    : internalOptions;
 }

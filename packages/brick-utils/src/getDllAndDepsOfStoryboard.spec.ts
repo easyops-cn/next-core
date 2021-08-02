@@ -54,6 +54,7 @@ describe("getDllAndDepsOfStoryboard", () => {
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.123.js"],
       deps: ["x", "z", "w"],
+      bricks: ["a", "c"],
     });
   });
 });
