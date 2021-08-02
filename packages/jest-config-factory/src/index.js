@@ -38,6 +38,9 @@ exports.jestConfigFactory = () => ({
     "^dnd-core$": "dnd-core/dist/cjs",
     "^react-dnd$": "react-dnd/dist/cjs",
     "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs",
+    // Ref https://github.com/facebook/jest/issues/4262#issuecomment-753147691
+    "^@easyops/brick-icons": "<rootDir>/__mocks__/@next-core/brick-icons",
+    "^@easyops/(.*)": "@next-core/$1",
   },
   // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
   // Todo(steve): remove next line when issue fixed.

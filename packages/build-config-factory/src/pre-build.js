@@ -69,25 +69,36 @@ const generateLazyBricks = () => {
     fs.readFileSync(lazyBricksConfPath, "utf-8")
   );
   const flattenBricks = [];
+  const flattenEntries = [];
+
+  const pushNewBrick = (brick, entry) => {
+    lazyBricksTs.push(
+      `getRuntime().registerLazyBricks(
+"${packageName}.${brick}",
+() =>
+  import(
+    /* webpackChunkName: "lazy-bricks/${brick}" */
+    "../${entry}"
+  )
+);`
+    );
+    flattenBricks.push(brick);
+    flattenEntries.push(entry);
+  };
+
   for (const brick of lazyBricksConf.lazyBricks) {
     if (typeof brick === "string") {
-      lazyBricksTs.push(
-        `getRuntime().registerLazyBricks(
-  "${packageName}.${brick}",
-  () =>
-    import(
-      /* webpackChunkName: "lazy-bricks/${brick}" */
-      "../${brick}"
-    )
-);`
-      );
-      flattenBricks.push(brick);
+      pushNewBrick(brick, brick);
     } else if (Array.isArray(brick.bricks)) {
       lazyBricksTs.push(
         `getRuntime().registerLazyBricks(
   [
     ${brick.bricks
-      .map((item) => `"${packageName}.${item}"`)
+      .map((item) =>
+        typeof item === "string"
+          ? `"${packageName}.${item}"`
+          : `"${packageName}.${item.brick}"`
+      )
       .join(`,${os.EOL}    `)}
   ],
   () =>
@@ -99,11 +110,30 @@ const generateLazyBricks = () => {
       );
       newFiles.push({
         filename: `${brick.group}.ts`,
-        content: brick.bricks
-          .map((item) => `import "../${item}";`)
-          .join(os.EOL),
+        content: Array.from(
+          new Set(
+            brick.bricks
+              .filter((item) => typeof item === "string" || item.entry)
+              .map((item) =>
+                typeof item === "string"
+                  ? `import "../${item}";`
+                  : `import "../${item.entry}";`
+              )
+          )
+        ).join(os.EOL),
       });
-      flattenBricks.push(...brick.bricks);
+      flattenBricks.push(
+        ...brick.bricks.map((item) =>
+          typeof item === "string" ? item : item.brick
+        )
+      );
+      flattenEntries.push(
+        ...brick.bricks
+          .filter((item) => typeof item === "string" || item.entry)
+          .map((item) => (typeof item === "string" ? item : item.entry))
+      );
+    } else {
+      pushNewBrick(brick.brick, brick.entry);
     }
   }
 
@@ -121,9 +151,9 @@ const generateLazyBricks = () => {
 
   const indexTsPath = path.resolve("src/index.ts");
   let indexTsContent = fs.readFileSync(indexTsPath, "utf-8");
-  for (const brick of flattenBricks) {
+  for (const entry of flattenEntries) {
     indexTsContent = indexTsContent.replace(
-      new RegExp(`^import "\\./${escapeRegExp(brick)}";$`, "m"),
+      new RegExp(`^import "\\./${escapeRegExp(entry)}";$`, "m"),
       "// !Lazy: $&"
     );
   }
