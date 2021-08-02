@@ -146,8 +146,11 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.9.0")) {
     updateBrickNext();
-    migrateJestV2();
     addLazyBricksIntoGitignore();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.9.1")) {
+    migrateJestV2();
   }
 
   updateDevDependenciesVersion();
