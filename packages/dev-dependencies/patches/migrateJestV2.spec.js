@@ -23,6 +23,9 @@ describe("migrateJestV2", () => {
       lines: 88,
     },
   },
+  transform: {
+    "^.+\\.[jt]sx?$": "babel-jest",
+  },
 };
 `
     );

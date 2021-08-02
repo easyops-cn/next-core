@@ -5,7 +5,7 @@ async function migrateJestV2() {
   const jestConfigJs = path.resolve("jest.config.js");
   const jestConfig = fs.readFileSync(jestConfigJs, "utf-8");
   const coverageThreshold = jestConfig.match(
-    /^ {2}coverageThreshold:[\s\S]+^ {2}\}/m
+    /^ {2}coverageThreshold:[\s\S]+?^ {2}\}/m
   );
   fs.writeFileSync(
     jestConfigJs,
