@@ -57,6 +57,9 @@
   --page-title-margin-bottom: 18px;
   --toolbar-button-gap: 8px;
 
+  /* easy-view gap */
+  --easy-view-gap: 16px;
+
   /* tag */
   --tag-gray-color: #8c8c8c;
   --tag-gray-background: #f5f5f5;
