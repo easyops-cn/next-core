@@ -1,5 +1,6 @@
 const path = require("path");
 const os = require("os");
+const crypto = require("crypto");
 const fs = require("fs-extra");
 const changeCase = require("change-case");
 const prettier = require("prettier");
@@ -63,6 +64,15 @@ const generateLazyBricks = () => {
   console.log("Find `src/lazy-bricks.yaml`, building lazy bricks...");
   const packageJson = require(path.resolve("package.json"));
   const packageName = packageJson.name.split("/")[1];
+
+  // The chunk ids must be unique across foreign webpack bundles.
+  // So we suffix these ids with the hash of the package name.
+  const hash = crypto
+    .createHash("sha1")
+    .update(packageName)
+    .digest("hex")
+    .substr(0, 4);
+
   const lazyBricksTs = ['import { getRuntime } from "@next-core/brick-kit";'];
   const newFiles = [];
   const lazyBricksConf = yaml.safeLoad(
@@ -77,7 +87,7 @@ const generateLazyBricks = () => {
 "${packageName}.${brick}",
 () =>
   import(
-    /* webpackChunkName: "lazy-bricks/${brick}" */
+    /* webpackChunkName: "lazy-bricks/${brick}.${hash}" */
     "../${entry}"
   )
 );`
@@ -103,7 +113,7 @@ const generateLazyBricks = () => {
   ],
   () =>
     import(
-      /* webpackChunkName: "lazy-bricks/~${brick.group}" */
+      /* webpackChunkName: "lazy-bricks/~${brick.group}.${hash}" */
       "./${brick.group}"
     )
 );`

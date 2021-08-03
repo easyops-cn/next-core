@@ -106,17 +106,23 @@ module.exports =
           "@easyops": "@next-core",
         },
       },
-      ...(splitVendorsForLazyBricks
-        ? null
-        : {
-            optimization: {
+      optimization: {
+        // In production mode, when using dynamic chunks, module ids and
+        // chunk ids are numeric, and there maybe collisions among foreign
+        // webpack bundles. So we use hashed module ids and named chunk ids.
+        moduleIds: "hashed",
+        namedChunks: true,
+
+        ...(splitVendorsForLazyBricks
+          ? null
+          : {
               splitChunks: {
                 cacheGroups: {
                   vendors: false,
                 },
               },
-            },
-          }),
+            }),
+      },
       module: {
         rules: [
           {
