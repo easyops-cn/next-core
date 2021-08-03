@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.14.1...@next-core/build-config-factory@2.14.2) (2021-08-03)
+
+
+### Bug Fixes
+
+* **webpack:** use hashed module ids and named chunks ([b8d9e8a](https://github.com/easyops-cn/next-core/commit/b8d9e8ad759e5f80f13bb316fff1a0a7798d1b76))
+
+
+
+
+
 ## [2.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.14.0...@next-core/build-config-factory@2.14.1) (2021-08-02)
 
 
