@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.0...@next-core/brick-kit@2.63.1) (2021-08-04)
+
+
+### Bug Fixes
+
+* make lifeCycle.useResolves.transform as lazy in useBrick ([b54c6fa](https://github.com/easyops-cn/next-core/commit/b54c6fa2fbdc5e0cb719e6b8418dafeae5c39ba5))
+
+
+
+
+
 # [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.62.1...@next-core/brick-kit@2.63.0) (2021-07-30)
 
 
