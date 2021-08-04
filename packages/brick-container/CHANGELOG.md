@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.29.5...@next-core/brick-container@2.29.6) (2021-08-04)
+
+
+### Bug Fixes
+
+* **serve:** defaults to serve by remote container in remote mode ([ad47c1a](https://github.com/easyops-cn/next-core/commit/ad47c1a1b9e5fef77bc2726638569f6d959dba9b))
+
+
+
+
+
 ## [2.29.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.29.4...@next-core/brick-container@2.29.5) (2021-08-03)
 
 **Note:** Version bump only for package @next-core/brick-container
