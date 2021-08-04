@@ -22,7 +22,7 @@
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.5.0",
     "@babel/runtime": "^7.14.8",
-    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@fortawesome/react-fontawesome": "^0.1.15",
     "@next-core/babel-runtime-helpers": "^1.0.12",
     "@next-core/brick-http": "^2.2.10",
     "@next-core/brick-icons": "^2.19.11",
