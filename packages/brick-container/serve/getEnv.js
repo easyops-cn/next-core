@@ -61,6 +61,9 @@ module.exports = (cwd) => {
       localTemplates: {
         type: "string",
       },
+      localContainer: {
+        type: "boolean",
+      },
       localSettings: {
         type: "boolean",
       },
@@ -124,6 +127,7 @@ module.exports = (cwd) => {
         --local-snippets    Specify local snippet packages to be used in remote mode
         --local-micro-apps  Specify local micro apps to be used in remote mode
         --local-templates   Specify local template packages to be used in remote mode
+        --local-container   Use local brick-container instead of remote in remote mode
         --local-settings    Use local settings instead of remote settings in remote mode
         --no-merge-settings Disable merge remote settings by local settings in remote mode
         --port              Set local server listening port, defaults to "8081"
@@ -307,6 +311,9 @@ module.exports = (cwd) => {
     );
   }
 
+  env.useLocalContainer =
+    standalone || !cwd || !env.useRemote || flags.localContainer;
+
   env.mockedMicroApps = env.mocked ? getNamesOfMicroApps(env, true) : [];
 
   if (env.verbose) {
@@ -353,6 +360,11 @@ module.exports = (cwd) => {
       : env.useRemote
       ? chalk.bgCyan("remote")
       : chalk.bgWhite("local")
+  );
+
+  console.log(
+    chalk.bold.cyan("container:"),
+    env.useLocalContainer ? chalk.bgWhite("local") : chalk.bgCyan("remote")
   );
 
   console.log(
