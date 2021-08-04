@@ -437,8 +437,18 @@ describe("computeRealProperties", () => {
                   {
                     useProvider: "my.provider",
                     args: ["<% APP.name %>"],
+                    transform: {
+                      shouldBeLazy: "<% APP.homepage %>",
+                    },
+                    onReject: {
+                      transform: {
+                        shouldBeLazy: "<% APP.homepage %>",
+                      },
+                      isolatedCrash: "<% true %>",
+                    },
                   },
                 ],
+                onPageLoad: "<% null %>",
               },
             },
           ],
@@ -471,8 +481,18 @@ describe("computeRealProperties", () => {
                 {
                   useProvider: "my.provider",
                   args: ["host"],
+                  transform: {
+                    shouldBeLazy: "<% APP.homepage %>",
+                  },
+                  onReject: {
+                    transform: {
+                      shouldBeLazy: "<% APP.homepage %>",
+                    },
+                    isolatedCrash: true,
+                  },
                 },
               ],
+              onPageLoad: null,
             },
           },
         ],
