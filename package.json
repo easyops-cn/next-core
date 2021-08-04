@@ -10,8 +10,8 @@
   "scripts": {
     "prepare": "lerna bootstrap && husky install",
     "start": "lerna run start --scope \"@next-core/brick-container\"",
-    "serve": "brick-container-serve",
-    "serve:ci": "brick-container-serve --subdir --local-settings --no-live-reload --standalone",
+    "serve": "brick-container-serve --local-container",
+    "serve:ci": "brick-container-serve --subdir --no-live-reload --standalone",
     "build": "lerna run build",
     "docs:build": "lerna run docs:build",
     "docs:dev": "lerna run docs:dev",
