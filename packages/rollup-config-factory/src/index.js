@@ -103,6 +103,91 @@ exports.rollupFactory = ({ umdName, plugins = [], disableUmd, disableEsm }) => {
   };
 };
 
+exports.rollupFactoryForLibs = ({ plugins = [] } = {}) => {
+  const packageJson = require(path.join(process.cwd(), "package.json"));
+  // Find peer dependencies include:
+  //   dependencies of dll peerDependencies;
+  //   other peerDependencies.
+  const peerDependencies = Object.keys(packageJson.peerDependencies || {});
+  const dependencies = Object.keys(packageJson.dependencies || {});
+  const external = new Set();
+  const dllNames = [
+    // Internal:
+    "@easyops/brick-dll",
+    /^@dll\//,
+
+    // Public:
+    "@next-core/brick-dll",
+    /^@next-dll\//,
+  ];
+  peerDependencies.concat(dependencies).forEach((dep) => {
+    if (
+      dllNames.some((name) =>
+        typeof name === "string" ? name === dep : name.test(dep)
+      )
+    ) {
+      const dllJson = require(require.resolve(`${dep}/package.json`));
+      Object.keys(dllJson.dependencies).forEach((dllDep) => {
+        external.add(dllDep);
+      });
+    } else {
+      external.add(dep);
+    }
+  });
+
+  for (const ext of external) {
+    if (ext.startsWith("@next-core/")) {
+      external.add(ext.replace("@next-core/", "@easyops/"));
+    }
+  }
+
+  return {
+    input: "src/index.ts",
+    output: [
+      {
+        dir: "dist/cjs",
+        entryFileNames: "[name].js",
+        format: "cjs",
+        sourcemap: true,
+        exports: "named",
+        preserveModules: true,
+        preserveModulesRoot: true,
+      },
+      {
+        dir: "dist/esm",
+        entryFileNames: "[name].js",
+        format: "esm",
+        sourcemap: true,
+        exports: "named",
+        preserveModules: true,
+        preserveModulesRoot: true,
+      },
+    ],
+    external: Array.from(external.add(/@babel\/runtime/)),
+    plugins: [
+      ...plugins,
+      nodeResolve({
+        browser: true,
+        extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"],
+      }),
+      // postcss({
+      //   modules: {
+      //     generateScopedName,
+      //   },
+      //   plugins: [postcssNested()],
+      // }),
+      // json(),
+      // commonjs(),
+      babel({
+        // exclude: "node_modules/**",
+        configFile: "../../babel.config.js",
+        extensions: ["js", "jsx", "ts", "tsx"],
+        babelHelpers: "runtime",
+      }),
+    ],
+  };
+};
+
 exports.rollupFactoryForSnippets = () => ({
   input: "snippets/index.ts",
   output: {
