@@ -140,6 +140,11 @@ module.exports =
             ],
           },
           {
+            test: /\.js$/,
+            enforce: "pre",
+            use: ["source-map-loader"],
+          },
+          {
             // Include ts, tsx, js, and jsx files.
             test: /\.(ts|js)x?$/,
             exclude: /node_modules|\.worker\./,
@@ -165,6 +170,14 @@ module.exports =
                 loader: "@svgr/webpack",
                 options: {
                   babel: false,
+                  svgoConfig: {
+                    plugins: [
+                      {
+                        // Keep `viewbox`
+                        removeViewBox: false,
+                      },
+                    ],
+                  },
                 },
               },
               ...imageLoaderOptions.use,

@@ -14,3 +14,4 @@ exports.migrateJest = require("./migrateJest");
 exports.updateResolutions = require("./updateResolutions");
 exports.updateBrickNext = require("./updateBrickNext");
 exports.migrateJestV2 = require("./migrateJestV2");
+exports.updateBuildNextLibs = require("./updateBuildNextLibs");

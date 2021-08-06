@@ -21,6 +21,7 @@ const {
   updateResolutions,
   updateBrickNext,
   migrateJestV2,
+  updateBuildNextLibs,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -151,6 +152,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.9.1")) {
     migrateJestV2();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.10.0")) {
+    updateBuildNextLibs();
   }
 
   updateDevDependenciesVersion();
