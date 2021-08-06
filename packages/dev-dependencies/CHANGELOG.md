@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.1...@next-core/dev-dependencies@1.10.2) (2021-08-06)
+
+
+### Bug Fixes
+
+* add lazy-bricks into .gitignore ([fb7a2e3](https://github.com/easyops-cn/next-core/commit/fb7a2e3b71c08b9c0681089471f5ab22417c59d5))
+
+
+
+
+
 ## [1.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.0...@next-core/dev-dependencies@1.10.1) (2021-08-06)
 
 
