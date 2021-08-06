@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.0...@next-core/dev-dependencies@1.10.1) (2021-08-06)
+
+
+### Bug Fixes
+
+* **renovate:** add .gitignore into file filters ([9efa13b](https://github.com/easyops-cn/next-core/commit/9efa13bb7b0ea1f6d578a8fc57df7216989cb6b4))
+
+
+
+
+
 # [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.9.9...@next-core/dev-dependencies@1.10.0) (2021-08-06)
 
 
