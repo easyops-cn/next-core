@@ -24,7 +24,13 @@ exports.jestConfigFactory = () => ({
   transform: {
     "^.+\\.[jt]sx?$": "babel-jest",
   },
-  transformIgnorePatterns: ["node_modules/(?!(@babel/runtime/helpers/esm)/)"],
+  transformIgnorePatterns: [
+    // These node modules need to transform:
+    //  - `@babel/runtime/helpers/esm/**/*`
+    //  - `@next-libs/*/dist/esm/**/*`
+    //  - `@libs/*/dist/esm/**/*`
+    "node_modules/(?!(?:@babel/runtime/helpers/esm|@(?:next-)?libs/[^/]+/dist/esm)/)",
+  ],
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   moduleNameMapper: {
     "\\.module\\.css$": "identity-obj-proxy",
