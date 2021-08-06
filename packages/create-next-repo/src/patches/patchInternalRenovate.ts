@@ -25,7 +25,14 @@ export function patchInternalRenovate(dest: string): Promise<void> {
         "yarn-deduplicate yarn.lock",
         "yarn",
       ],
-      fileFilters: ["**/*", ".gitlab/**/*", ".huskyrc", ".husky/**/*"],
+      fileFilters: [
+        "**/*",
+        ".gitignore",
+        ".gitlab/**/*",
+        ".huskyrc",
+        ".husky/.gitignore",
+        ".husky/**/*",
+      ],
     };
 
     fs.writeJsonSync(renovateJsonPath, renovateJson, {

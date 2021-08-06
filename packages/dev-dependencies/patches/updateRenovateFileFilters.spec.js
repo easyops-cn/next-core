@@ -51,6 +51,7 @@ describe("updateRenovateFileFilters", () => {
               commands: [],
               fileFilters: [
                 "**/*",
+                ".gitignore",
                 ".gitlab/**/*",
                 ".huskyrc",
                 ".husky/.gitignore",
