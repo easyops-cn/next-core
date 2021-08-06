@@ -143,7 +143,6 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.9.0")) {
     updateBrickNext();
-    addLazyBricksIntoGitignore();
   }
 
   if (semver.lt(currentRenewVersion, "1.9.1")) {
@@ -156,6 +155,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.10.1")) {
     updateRenovateFileFilters();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.10.2")) {
+    addLazyBricksIntoGitignore();
   }
 
   updateDevDependenciesVersion();
