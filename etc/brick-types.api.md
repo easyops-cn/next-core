@@ -1742,7 +1742,7 @@ export interface SiteMapItem {
 export type SiteMode = "default" | "dashboard";
 
 // @public
-export type SiteTheme = "light" | "dark";
+export type SiteTheme = "light" | "dark" | "easyops-8.0";
 
 // @public
 export type SlotConf = SlotConfOfBricks | SlotConfOfRoutes;

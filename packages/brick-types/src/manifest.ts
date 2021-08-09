@@ -1590,7 +1590,7 @@ export interface ProbablyRuntimeBrick {
 /**
  * 站点主题。
  */
-export type SiteTheme = "light" | "dark";
+export type SiteTheme = "light" | "dark" | "easyops-8.0";
 
 /**
  * 站点模式。
