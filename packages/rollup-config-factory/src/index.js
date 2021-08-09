@@ -8,6 +8,14 @@ const image = require("@rollup/plugin-image");
 const postcssNested = require("postcss-nested");
 const stringHash = require("string-hash");
 
+exports.rollupPlugins = {
+  babel,
+  nodeResolve,
+  commonjs,
+  json,
+  image,
+};
+
 exports.rollupFactory = ({ umdName, plugins = [], disableUmd, disableEsm }) => {
   const packageJson = require(path.join(process.cwd(), "package.json"));
   // Find peer dependencies include:
