@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.1...@next-core/brick-kit@2.63.2) (2021-08-09)
+
+
+### Bug Fixes
+
+* load bricks in dynamic useBrick ([0e5d784](https://github.com/easyops-cn/next-core/commit/0e5d7848619a91fe7cefa89923c98e5d7dc69c1c))
+
+
+
+
+
 ## [2.63.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.0...@next-core/brick-kit@2.63.1) (2021-08-04)
 
 
