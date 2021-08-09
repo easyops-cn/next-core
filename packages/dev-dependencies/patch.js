@@ -22,6 +22,7 @@ const {
   updateBrickNext,
   migrateJestV2,
   updateBuildNextLibs,
+  addPreBuildScriptForBricks,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -159,6 +160,7 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.10.3")) {
     updateBuildNextLibs();
+    addPreBuildScriptForBricks();
   }
 
   updateDevDependenciesVersion();
