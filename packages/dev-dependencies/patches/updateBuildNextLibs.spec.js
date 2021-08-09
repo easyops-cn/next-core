@@ -112,7 +112,7 @@ describe("updateBuildNextLibs", () => {
       "/tmp/libs/lib-a/package.json",
       `{
   "name": "@next-libs/lib-a",
-  "main": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "scripts": {
     "clean": "rimraf dist",

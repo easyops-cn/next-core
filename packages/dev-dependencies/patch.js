@@ -149,16 +149,16 @@ module.exports = async function patch() {
     migrateJestV2();
   }
 
-  if (semver.lt(currentRenewVersion, "1.10.0")) {
-    updateBuildNextLibs();
-  }
-
   if (semver.lt(currentRenewVersion, "1.10.1")) {
     updateRenovateFileFilters();
   }
 
   if (semver.lt(currentRenewVersion, "1.10.2")) {
     addLazyBricksIntoGitignore();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.10.3")) {
+    updateBuildNextLibs();
   }
 
   updateDevDependenciesVersion();

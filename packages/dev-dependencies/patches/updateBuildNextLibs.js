@@ -25,7 +25,7 @@ function updateBuildNextLibs() {
         // `@libs/flow-chart` is a special case.
         return;
       }
-      packageJson.main = "dist/esm/index.js";
+      packageJson.main = "dist/cjs/index.js";
       packageJson.module = "dist/esm/index.js";
       packageJson.scripts = Object.fromEntries(
         Object.entries(packageJson.scripts).map(([key, value]) => {
