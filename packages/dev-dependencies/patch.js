@@ -142,10 +142,6 @@ module.exports = async function patch() {
     updateResolutions();
   }
 
-  if (semver.lt(currentRenewVersion, "1.9.0")) {
-    updateBrickNext();
-  }
-
   if (semver.lt(currentRenewVersion, "1.9.1")) {
     migrateJestV2();
   }
@@ -161,6 +157,10 @@ module.exports = async function patch() {
   if (semver.lt(currentRenewVersion, "1.10.3")) {
     updateBuildNextLibs();
     addPreBuildScriptForBricks();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.10.6")) {
+    updateBrickNext();
   }
 
   updateDevDependenciesVersion();
