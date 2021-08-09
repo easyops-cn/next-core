@@ -2,48 +2,61 @@ const path = require("path");
 const execa = require("execa");
 const rimraf = require("rimraf");
 
-execa(
-  getBinPath("@babel/cli", "babel"),
-  [
-    "src",
-    "--out-dir",
-    "dist/esm",
-    "--config-file",
-    "../../babel.config.js",
-    "--extensions",
-    ".ts,.tsx,.js,.jsx",
-    "--ignore",
+const babel = getBinPath("@babel/cli", "babel");
+
+function build(type) {
+  const task = execa(
+    babel,
     [
-      "src/**/*.spec.ts",
-      "src/**/*.spec.tsx",
-      "src/**/*.d.ts",
-      "src/**/__mocks__/*",
-    ].join(","),
-    "--copy-files",
-    "--no-copy-ignored",
-    "--source-maps",
-    process.argv.includes("--watch") && "--watch",
-  ].filter(Boolean),
-  {
-    stdio: "inherit",
-  }
-)
-  .then(
-    () =>
-      new Promise((resolve, reject) => {
-        rimraf("dist/esm/**/__{snapshots,mocks}__", (err) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-      })
-  )
-  .catch((err) => {
-    console.error(err);
-    process.exitCode = 1;
-  });
+      "src",
+      "--out-dir",
+      `dist/${type}`,
+      "--config-file",
+      "../../babel.config.js",
+      "--extensions",
+      ".ts,.tsx,.js,.jsx",
+      "--ignore",
+      [
+        "src/**/*.spec.ts",
+        "src/**/*.spec.tsx",
+        "src/**/*.d.ts",
+        "src/**/__mocks__/*",
+      ].join(","),
+      ...(type === "cjs" ? [] : ["--copy-files", "--no-copy-ignored"]),
+      "--source-maps",
+      process.argv.includes("--watch") && "--watch",
+    ],
+    {
+      stdio: "inherit",
+      env:
+        type === "cjs"
+          ? {
+              BABEL_ENV: "commonjs",
+            }
+          : undefined,
+    }
+  );
+
+  return type === "cjs"
+    ? task
+    : task.then(
+        () =>
+          new Promise((resolve, reject) => {
+            rimraf(`dist/${type}/**/__{snapshots,mocks}__`, (err) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve();
+              }
+            });
+          })
+      );
+}
+
+Promise.all(["esm", "cjs"].map((type) => build(type))).catch((err) => {
+  console.error(err);
+  process.exitCode = 1;
+});
 
 function getBinPath(packageName, binName = packageName) {
   const packageJsonPath = require.resolve(`${packageName}/package.json`);
