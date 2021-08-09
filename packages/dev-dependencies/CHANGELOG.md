@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.3](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.2...@next-core/dev-dependencies@1.10.3) (2021-08-09)
+
+
+### Bug Fixes
+
+* add pre-build for lazy bricks ([1757ba9](https://github.com/easyops-cn/next-core/commit/1757ba96771e27d06f6f005eddc294ce5b11a4f3))
+* build cjs for next-libs ([1da7fb3](https://github.com/easyops-cn/next-core/commit/1da7fb37c98c7fb3a83f2b11c489e8157755dc34))
+
+
+
+
+
 ## [1.10.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.1...@next-core/dev-dependencies@1.10.2) (2021-08-06)
 
 

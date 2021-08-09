@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.8.0...@next-core/babel-preset-next@0.9.0) (2021-08-09)
+
+
+### Features
+
+* add an env of commonjs ([95edb5d](https://github.com/easyops-cn/next-core/commit/95edb5d2f6bcb5bb4ce72602398dde4618768f75))
+
+
+
+
+
 # [0.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.7.3...@next-core/babel-preset-next@0.8.0) (2021-08-01)
 
 

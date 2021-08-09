@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.3.0...@next-core/rollup-config-factory@2.4.0) (2021-08-09)
+
+
+### Features
+
+* expose rollup plugins ([f9c0932](https://github.com/easyops-cn/next-core/commit/f9c0932eb77ed2120794a667b8d0b1a14c1186a3))
+
+
+
+
+
 # [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.2.3...@next-core/rollup-config-factory@2.3.0) (2021-08-01)
 
 
