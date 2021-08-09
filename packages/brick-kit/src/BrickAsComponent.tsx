@@ -309,6 +309,9 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         if (_internalApiGetRouterState() === "initial") {
           return;
         }
+
+        const trackingContextList: TrackingContextItem[] = [];
+
         const brick: RuntimeBrick = {
           type: useBrick.brick,
           // Now transform data in properties too.
@@ -319,6 +322,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
               // Keep lazy fields inside `useBrick` inside the `properties`.
               // They will be transformed by their `BrickAsComponent` later.
               $$lazyForUseBrick: true,
+              trackingContextList,
             }
           ),
         };
@@ -329,6 +333,9 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           useBrick.transform,
           useBrick.transformFrom
         );
+
+        const runtimeContext = _internalApiGetCurrentContext();
+
         if (useBrick.lifeCycle) {
           const resolver = _internalApiGetResolver();
           try {
@@ -338,12 +345,15 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
                 lifeCycle: useBrick.lifeCycle,
               },
               brick,
-              _internalApiGetCurrentContext()
+              runtimeContext
             );
           } catch (e) {
             handleHttpError(e);
           }
         }
+
+        listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+
         return brick;
       }, [useBrick, data, isBrickAvailable]);
 
