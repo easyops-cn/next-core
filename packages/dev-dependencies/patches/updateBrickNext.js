@@ -14,7 +14,7 @@ function updateBrickNext() {
     return;
   }
 
-  const brickNextVersion = "2.29.0";
+  const brickNextVersion = "2.29.11";
 
   fs.readdirSync(packageDir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
