@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.3...@next-core/brick-kit@2.63.4) (2021-08-09)
+
+
+### Bug Fixes
+
+* fix tracking context in forwarded useBrick ([d31b798](https://github.com/easyops-cn/next-core/commit/d31b79801965e413df408b5333a75e9a7a54eb08))
+* load bricks in dynamic useBrick ([f93923f](https://github.com/easyops-cn/next-core/commit/f93923f7c67f618782e5526ed6ecece679444dfe))
+
+
+
+
+
 ## [2.63.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.2...@next-core/brick-kit@2.63.3) (2021-08-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
