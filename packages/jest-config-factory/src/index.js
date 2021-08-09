@@ -1,4 +1,4 @@
-exports.jestConfigFactory = () => ({
+exports.jestConfigFactory = ({ transformModulePatterns = [] } = {}) => ({
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/__jest__/setup.ts"],
   snapshotSerializers: ["enzyme-to-json/serializer"],
@@ -25,11 +25,10 @@ exports.jestConfigFactory = () => ({
     "^.+\\.[jt]sx?$": "babel-jest",
   },
   transformIgnorePatterns: [
-    // These node modules need to transform:
-    //  - `@babel/runtime/helpers/esm/**/*`
-    //  - `@next-libs/*/dist/esm/**/*`
-    //  - `@libs/*/dist/esm/**/*`
     "node_modules/(?!(?:@babel/runtime/helpers/esm|@(?:next-)?libs/[^/]+/dist/esm)/)",
+    `/node_modules/(?!(?:${["@babel/runtime/helpers/esm/"]
+      .concat(transformModulePatterns)
+      .join("|")}))`,
   ],
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   moduleNameMapper: {
