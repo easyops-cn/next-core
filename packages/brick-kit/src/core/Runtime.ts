@@ -311,10 +311,3 @@ export function _internalApiGetMicroAppApiOrchestrationMap(): Promise<
 > {
   return kernel.allMicroAppApiOrchestrationPromise;
 }
-
-/* istanbul ignore next */
-export function _internalApiLoadDynamicBricksInBrickConf(
-  brickConf: BrickConf
-): Promise<void> {
-  return kernel.loadDynamicBricksInBrickConf(brickConf);
-}
