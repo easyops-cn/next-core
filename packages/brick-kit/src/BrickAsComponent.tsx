@@ -6,7 +6,6 @@ import {
   RuntimeBrickElement,
   BrickEventsMap,
   UseBrickSlotsConf,
-  BrickConf,
 } from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
@@ -17,7 +16,6 @@ import {
   _internalApiGetCurrentContext,
   _internalApiGetResolver,
   _internalApiGetRouterState,
-  _internalApiLoadDynamicBricksInBrickConf,
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
@@ -90,9 +88,6 @@ export const SingleBrickAsComponent = React.memo(
         return;
       }
 
-      // For a dynamic `useBrick`, its internal bricks need to be manually loaded.
-      await _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf);
-
       const trackingContextList: TrackingContextItem[] = [];
 
       const brick: RuntimeBrick = {
@@ -121,14 +116,18 @@ export const SingleBrickAsComponent = React.memo(
 
       if (useBrick.lifeCycle) {
         const resolver = _internalApiGetResolver();
-        await resolver.resolve(
-          {
-            brick: useBrick.brick,
-            lifeCycle: useBrick.lifeCycle,
-          },
-          brick,
-          runtimeContext
-        );
+        try {
+          await resolver.resolve(
+            {
+              brick: useBrick.brick,
+              lifeCycle: useBrick.lifeCycle,
+            },
+            brick,
+            runtimeContext
+          );
+        } catch (e) {
+          handleHttpError(e);
+        }
       }
 
       listenOnTrackingContext(brick, trackingContextList, runtimeContext);
@@ -140,12 +139,7 @@ export const SingleBrickAsComponent = React.memo(
       async (element: HTMLElement) => {
         immediatelyRefCallback?.(element);
         if (element) {
-          let brick;
-          try {
-            brick = await runtimeBrick;
-          } catch (e) {
-            handleHttpError(e);
-          }
+          const brick = await runtimeBrick;
           // sub-brick rendering is ignored.
           if (!brick) {
             return;
@@ -315,10 +309,6 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         if (_internalApiGetRouterState() === "initial") {
           return;
         }
-
-        // For a dynamic `useBrick`, its internal bricks need to be manually loaded.
-        await _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf);
-
         const brick: RuntimeBrick = {
           type: useBrick.brick,
           // Now transform data in properties too.
@@ -341,14 +331,18 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         );
         if (useBrick.lifeCycle) {
           const resolver = _internalApiGetResolver();
-          await resolver.resolve(
-            {
-              brick: useBrick.brick,
-              lifeCycle: useBrick.lifeCycle,
-            },
-            brick,
-            _internalApiGetCurrentContext()
-          );
+          try {
+            await resolver.resolve(
+              {
+                brick: useBrick.brick,
+                lifeCycle: useBrick.lifeCycle,
+              },
+              brick,
+              _internalApiGetCurrentContext()
+            );
+          } catch (e) {
+            handleHttpError(e);
+          }
         }
         return brick;
       }, [useBrick, data, isBrickAvailable]);
@@ -358,12 +352,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           brickRef.current = element;
 
           if (element) {
-            let brick;
-            try {
-              brick = await runtimeBrick;
-            } catch (e) {
-              handleHttpError(e);
-            }
+            const brick = await runtimeBrick;
             // sub-brick rendering is ignored.
             if (!brick) {
               return;
