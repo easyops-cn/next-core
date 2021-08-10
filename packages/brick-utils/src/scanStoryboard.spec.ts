@@ -83,6 +83,10 @@ describe("scanStoryboard", () => {
               useProvider: "u-n",
             },
           },
+          {
+            name: "hello",
+            onChange: [{ useProvider: "u-o" }],
+          },
         ],
       },
     ],
@@ -90,7 +94,18 @@ describe("scanStoryboard", () => {
 
   it("should work", () => {
     expect(scanStoryboard(storyboard)).toEqual({
-      bricks: ["u-n", "u-m", "u-q", "b-a", "b-b", "b-c", "b-e", "b-x", "b-y"],
+      bricks: [
+        "u-n",
+        "u-o",
+        "u-m",
+        "u-q",
+        "b-a",
+        "b-b",
+        "b-c",
+        "b-e",
+        "b-x",
+        "b-y",
+      ],
       customApis: [customApiA, customApiB, customApiC],
     });
   });
