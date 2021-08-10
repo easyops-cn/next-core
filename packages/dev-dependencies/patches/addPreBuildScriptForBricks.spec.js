@@ -10,6 +10,10 @@ const tree = {
       name: "my-bricks",
       isDirectory: () => true,
     },
+    {
+      name: "providers-of-mine",
+      isDirectory: () => true,
+    },
   ],
 };
 
@@ -17,6 +21,16 @@ const contents = {
   "/tmp/bricks/my-bricks/package.json": `{
   "name": "@next-bricks/my-bricks",
   "scripts": {
+    "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",
+    "build": "cross-env NODE_ENV='production' webpack --config webpack.config.js",
+    "postbuild": "node scripts/post-build.js",
+    "test": "cross-env NODE_ENV='test' jest"
+  }
+}`,
+  "/tmp/bricks/providers-of-mine/package.json": `{
+  "name": "@next-bricks/providers-of-mine",
+  "scripts": {
+    "postbuild": "node scripts/pre-build.js",
     "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",
     "build": "cross-env NODE_ENV='production' webpack --config webpack.config.js",
     "postbuild": "node scripts/post-build.js",

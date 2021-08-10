@@ -19,6 +19,9 @@ function addPreBuildScriptForBricks() {
         "package.json"
       );
       const packageJson = readJson(packageJsonPath);
+      if (packageJson.name.includes("/providers-of-")) {
+        return;
+      }
       const scripts = {};
       for (const [key, value] of Object.entries(packageJson.scripts)) {
         if (key === "start") {
