@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.1](/compare/@next-core/brick-scripts@2.6.0...@next-core/brick-scripts@2.6.1) (2021-08-10)
+
+
+### Bug Fixes
+
+* fix pre-build script for bricks 88d0c1a
+
+
+
+
+
 # [2.6.0](/compare/@next-core/brick-scripts@2.5.2...@next-core/brick-scripts@2.6.0) (2021-08-01)
 
 

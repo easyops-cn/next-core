@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.7](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.6...@next-core/dev-dependencies@1.10.7) (2021-08-10)
+
+
+### Bug Fixes
+
+* fix pre-build script for bricks ([88d0c1a](https://github.com/easyops-cn/next-core/commit/88d0c1a492561ea582be51ac02f9bb86ea28300d))
+
+
+
+
+
 ## [1.10.6](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.5...@next-core/dev-dependencies@1.10.6) (2021-08-09)
 
 
