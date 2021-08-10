@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.0...@next-core/brick-utils@2.22.1) (2021-08-10)
+
+
+### Bug Fixes
+
+* collect useProvider in onChange of context ([d4dfda1](https://github.com/easyops-cn/next-core/commit/d4dfda14c36213675f466f9179c0a38769ae50cc))
+
+
+
+
+
 # [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.21.1...@next-core/brick-utils@2.22.0) (2021-07-30)
 
 
