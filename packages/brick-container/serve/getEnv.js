@@ -155,6 +155,8 @@ module.exports = (cwd) => {
     flags = cli.flags;
   }
 
+  const _standalone = flags.standalone || process.env.STANDALONE === "true";
+
   const rootDir = path.join(__dirname, "../../..");
   const contextDir = cwd || rootDir;
   const nextRepoDir = getBrickNextDir();
@@ -162,7 +164,7 @@ module.exports = (cwd) => {
   const { usePublicScope, standalone: confStandalone } =
     getEasyopsConfig(nextRepoDir);
 
-  const standalone = confStandalone || flags.standalone;
+  const standalone = confStandalone || _standalone;
 
   const useOffline = flags.offline || process.env.OFFLINE === "true";
   const useSubdir = flags.subdir || process.env.SUBDIR === "true";
@@ -210,14 +212,13 @@ module.exports = (cwd) => {
       : flags.mergeSettings;
 
   function getBrickNextDir() {
-    const devConfig = getDevConfig();
-    if (devConfig && devConfig.nextRepoDir) {
-      return devConfig.nextRepoDir;
+    if (!_standalone) {
+      const devConfig = getDevConfig();
+      if (devConfig && devConfig.nextRepoDir) {
+        return devConfig.nextRepoDir;
+      }
     }
-    if (cwd) {
-      return cwd;
-    }
-    return path.join(rootDir, "../next-basics");
+    return cwd || rootDir;
   }
 
   function getDevConfig() {

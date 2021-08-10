@@ -88,17 +88,21 @@ export function looseCheckIf(
  *
  * @param ifContainer - 包含 `if` 条件判断的配置对象。
  * @param data - 要传递的数据源。
+ * @param options - `allowInject` 允许在 `if` 中使用 `${...}` 占位符。
  *
  * @returns 条件判断的结果。
  */
 export function looseCheckIfByTransform(
   ifContainer: IfContainer,
-  data: unknown
+  data: unknown,
+  options?: {
+    allowInject?: boolean;
+  }
 ): boolean {
   return (
     !hasOwnProperty(ifContainer, "if") ||
     _looseCheckIf(ifContainer.if, data, (_rawIf, _data) =>
-      doTransform(_data, _rawIf)
+      doTransform(_data, _rawIf, options)
     )
   );
 }

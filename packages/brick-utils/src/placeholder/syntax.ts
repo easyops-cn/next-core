@@ -4,20 +4,20 @@ import {
   TokenType,
   InjectableString,
   Placeholder,
-  PipeCall
+  PipeCall,
 } from "./interfaces";
 
 export function parseInjectableString(
   raw: string,
-  symbol = "$"
+  symbols: string | string[]
 ): InjectableString {
-  return parseTokens(tokenize(raw, symbol));
+  return parseTokens(tokenize(raw, symbols));
 }
 
 function parseTokens(tokens: Token[]): InjectableString {
   const tree: InjectableString = {
     type: "InjectableString",
-    elements: []
+    elements: [],
   };
 
   let token: Token;
@@ -43,22 +43,24 @@ function parseTokens(tokens: Token[]): InjectableString {
     if (optionalToken(TokenType.Raw)) {
       tree.elements.push({
         type: "RawString",
-        value: token.value
+        value: token.value,
       });
     } else {
       acceptToken(TokenType.BeginPlaceHolder);
       const start = token.loc.start;
+      const symbol = token.value;
       acceptToken(TokenType.Field);
 
       const placeholder: Placeholder = {
         type: "Placeholder",
+        symbol,
         field: token.value,
         defaultValue: undefined,
         pipes: [],
         loc: {
           start,
-          end: start
-        }
+          end: start,
+        },
       };
       tree.elements.push(placeholder);
 
@@ -72,7 +74,7 @@ function parseTokens(tokens: Token[]): InjectableString {
         const pipe: PipeCall = {
           type: "PipeCall",
           identifier: token.value,
-          parameters: []
+          parameters: [],
         };
         placeholder.pipes.push(pipe);
 

@@ -1,18 +1,28 @@
+import { escapeRegExp } from "lodash";
 import {
   LexicalContext,
   LexicalStatus,
   Token,
   TokenType,
-  JsonValueType
+  JsonValueType,
 } from "./interfaces";
 
-export function tokenize(raw: string, symbol = "$"): Token[] {
+export function getRegExpOfPlaceholder(symbols: string | string[]): RegExp {
+  return new RegExp(
+    `(${([] as string[])
+      .concat(symbols)
+      .map((symbol) => escapeRegExp(symbol))
+      .join("|")})\\{`
+  );
+}
+
+export function tokenize(raw: string, symbols: string | string[]): Token[] {
   const context: LexicalContext = {
-    beginPlaceholder: `${symbol}{`,
+    beginPlaceholder: getRegExpOfPlaceholder(symbols),
     raw,
     cursor: 0,
     status: LexicalStatus.Initial,
-    tokens: []
+    tokens: [],
   };
   while (context.cursor < raw.length) {
     switch (context.status) {
@@ -63,31 +73,35 @@ function eatOptionalRawAndOptionalPlaceholderBegin(
   context: LexicalContext
 ): void {
   const subRaw = getSubRaw(context);
-  const subCursor = subRaw.indexOf(context.beginPlaceholder);
+  const matchedPlaceholder = subRaw.match(context.beginPlaceholder)?.[0];
+  const subCursor = matchedPlaceholder
+    ? subRaw.indexOf(matchedPlaceholder)
+    : -1;
   if (
     subCursor >= 0 &&
-    subRaw.charAt(subCursor + context.beginPlaceholder.length) !== "{"
+    subRaw.charAt(subCursor + matchedPlaceholder.length) !== "{"
   ) {
     const nextCursor = context.cursor + subCursor;
     if (subCursor > 0) {
       context.tokens.push({
         type: TokenType.Raw,
-        value: subRaw.substr(0, subCursor)
+        value: subRaw.substr(0, subCursor),
       });
     }
     context.tokens.push({
       type: TokenType.BeginPlaceHolder,
       loc: {
         start: nextCursor,
-        end: nextCursor + context.beginPlaceholder.length
-      }
+        end: nextCursor + matchedPlaceholder.length,
+      },
+      value: matchedPlaceholder.substr(0, matchedPlaceholder.length - 1),
     });
-    context.cursor += subCursor + context.beginPlaceholder.length;
+    context.cursor += subCursor + matchedPlaceholder.length;
     context.status = LexicalStatus.ExpectField;
   } else {
     context.tokens.push({
       type: TokenType.Raw,
-      value: subRaw
+      value: subRaw,
     });
     context.cursor = context.raw.length;
   }
@@ -102,7 +116,7 @@ function eatField(context: LexicalContext): void {
   const [value] = getSubRaw(context).match(/^[\w.*[\]\-\u{80}-\u{10FFFF}]*/u);
   context.tokens.push({
     type: TokenType.Field,
-    value
+    value,
   });
   context.cursor += value.length;
   context.status = LexicalStatus.ExpectOptionalBeginDefault;
@@ -111,7 +125,7 @@ function eatField(context: LexicalContext): void {
 function eatOptionalDefault(context: LexicalContext): void {
   if (getSubRaw(context).charAt(0) === "=") {
     context.tokens.push({
-      type: TokenType.BeginDefault
+      type: TokenType.BeginDefault,
     });
     context.cursor += 1;
     context.status = LexicalStatus.ExpectDefaultValue;
@@ -127,7 +141,7 @@ function eatDefaultValue(context: LexicalContext): void {
 function eatOptionalBeginPipe(context: LexicalContext): void {
   if (getSubRaw(context).charAt(0) === "|") {
     context.tokens.push({
-      type: TokenType.BeginPipe
+      type: TokenType.BeginPipe,
     });
     context.cursor += 1;
     context.status = LexicalStatus.ExpectPipeIdentifier;
@@ -148,7 +162,7 @@ function eatPipeIdentifier(context: LexicalContext): void {
   const value = matches[0];
   context.tokens.push({
     type: TokenType.PipeIdentifier,
-    value
+    value,
   });
   context.cursor += value.length;
   context.status = LexicalStatus.ExpectOptionalBeginPipeParameter;
@@ -157,7 +171,7 @@ function eatPipeIdentifier(context: LexicalContext): void {
 function eatOptionalBeginPipeParameter(context: LexicalContext): void {
   if (getSubRaw(context).charAt(0) === ":") {
     context.tokens.push({
-      type: TokenType.BeginPipeParameter
+      type: TokenType.BeginPipeParameter,
     });
     context.cursor += 1;
     context.status = LexicalStatus.ExpectPipeParameter;
@@ -179,8 +193,8 @@ function eatPlaceholderEnd(context: LexicalContext): void {
       type: TokenType.EndPlaceHolder,
       loc: {
         start: context.cursor,
-        end: context.cursor + 1
-      }
+        end: context.cursor + 1,
+      },
     });
     context.cursor += 1;
     context.status = LexicalStatus.Initial;
@@ -196,7 +210,7 @@ function eatPlaceholderEnd(context: LexicalContext): void {
 const jsonLiteralMap = new Map([
   ["false", false],
   ["null", null],
-  ["true", true]
+  ["true", true],
 ]);
 
 function eatJsonValueOrLiteralString(
@@ -214,12 +228,12 @@ function eatJsonValueOrLiteralString(
     if (jsonLiteralMap.has(value)) {
       context.tokens.push({
         type: TokenType.JsonValue,
-        value: jsonLiteralMap.get(value)
+        value: jsonLiteralMap.get(value),
       });
     } else {
       context.tokens.push({
         type: TokenType.LiteralString,
-        value
+        value,
       });
     }
 
@@ -318,7 +332,7 @@ function eatJsonValue(
 
   context.tokens.push({
     type: TokenType.JsonValue,
-    value: JSON.parse(subRaw.substr(0, subCursor))
+    value: JSON.parse(subRaw.substr(0, subCursor)),
   });
   context.cursor += subCursor;
   context.status = nextStatus;
