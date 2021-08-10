@@ -313,8 +313,8 @@ export function _internalApiGetMicroAppApiOrchestrationMap(): Promise<
 }
 
 /* istanbul ignore next */
-export function _internalApiLoadDynamicBricksInBrickConf(
+export function _internalApiImperativelyloadDynamicBricksInBrickConf(
   brickConf: BrickConf
-): Promise<void> {
-  return kernel.loadDynamicBricksInBrickConf(brickConf);
+): Promise<unknown>[] {
+  return kernel.imperativelyloadDynamicBricksInBrickConf(brickConf);
 }

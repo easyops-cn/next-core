@@ -10,6 +10,8 @@ import {
   getDllAndDepsByResource,
   scanProcessorsInAny,
   CustomApiInfo,
+  resolveSequenceJobs,
+  imperativelyLoadScript,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
@@ -51,7 +53,11 @@ import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools } from "../internal/devtools";
 import { isCustomApiProvider } from "./CustomApis";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
-import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
+import {
+  imperativelyLoadLazyBricks,
+  loadAllLazyBricks,
+  loadLazyBricks,
+} from "./LazyBrickRegistry";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -295,19 +301,36 @@ export class Kernel {
     }
   }
 
-  async loadDynamicBricksInBrickConf(brickConf: BrickConf): Promise<void> {
-    // Notice: `brickConf` contains runtime data,
-    // which may contains recursive ref,
-    // which could cause stack overflow while traversing.
-    const bricks = scanBricksInBrickConf(brickConf);
-    const processors = scanProcessorsInAny(brickConf);
-    await this.loadDynamicBricks(bricks, processors);
+  loadDynamicBricksInBrickConf(brickConf: BrickConf): Promise<void> {
+    return resolveSequenceJobs(
+      this.imperativelyloadDynamicBricksInBrickConf(brickConf)
+    );
   }
 
   async loadDynamicBricks(
     bricks: string[],
     processors?: string[]
   ): Promise<void> {
+    return resolveSequenceJobs(
+      this.imperativelyLoadDynamicBricks(bricks, processors)
+    );
+  }
+
+  imperativelyloadDynamicBricksInBrickConf(
+    brickConf: BrickConf
+  ): Promise<unknown>[] {
+    // Notice: `brickConf` contains runtime data,
+    // which may contains recursive ref,
+    // which could cause stack overflow while traversing.
+    const bricks = scanBricksInBrickConf(brickConf);
+    const processors = scanProcessorsInAny(brickConf);
+    return this.imperativelyLoadDynamicBricks(bricks, processors);
+  }
+
+  private imperativelyLoadDynamicBricks(
+    bricks: string[],
+    processors?: string[]
+  ): Promise<unknown>[] {
     const filteredBricks = bricks.filter(
       // Only try to load undefined custom elements.
       (item) => !customElements.get(item)
@@ -320,9 +343,12 @@ export class Kernel {
       },
       this.bootstrapData.brickPackages
     );
-    await loadScriptOfDll(dll);
-    await loadScript(deps);
-    await loadLazyBricks(filteredBricks);
+
+    return [
+      ...imperativelyLoadScriptOfDll(dll),
+      ...imperativelyLoadScript(deps),
+      ...imperativelyLoadLazyBricks(filteredBricks),
+    ];
   }
 
   async loadEditorBricks(editorBricks: string[]): Promise<void> {
@@ -655,11 +681,17 @@ export class Kernel {
 
 // Since `@next-dll/editor-bricks-helper` depends on `@next-dll/react-dnd`,
 // always load react-dnd before loading editor-bricks-helper.
-async function loadScriptOfDll(dlls: string[]): Promise<void> {
+function imperativelyLoadScriptOfDll(dlls: string[]): Promise<unknown>[] {
+  const asyncJobs: Promise<unknown>[] = [];
   if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper."))) {
     const dllPath: Record<string, string> = (window as any).DLL_PATH || {};
-    await loadScript(dllPath["react-dnd"]);
+    asyncJobs.push(...imperativelyLoadScript(dllPath["react-dnd"]));
   }
   // `loadScript` is auto cached, no need to filter out `react-dnd`.
-  await loadScript(dlls);
+  asyncJobs.push(...imperativelyLoadScript(dlls));
+  return asyncJobs;
+}
+
+function loadScriptOfDll(dlls: string[]): Promise<void> {
+  return resolveSequenceJobs(imperativelyLoadScriptOfDll(dlls));
 }

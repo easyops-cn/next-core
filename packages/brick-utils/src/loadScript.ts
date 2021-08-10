@@ -1,12 +1,11 @@
 const cache = new Map<string, Promise<string>>();
+const scriptsLoaded = new Set<string>();
 
 export function loadScript(src: string): Promise<string>;
 export function loadScript(src: string[]): Promise<string[]>;
 export function loadScript(src: string | string[]): Promise<string | string[]> {
   if (Array.isArray(src)) {
-    return Promise.all(
-      src.map<Promise<string>>((item) => loadScript(item))
-    );
+    return Promise.all(src.map<Promise<string>>((item) => loadScript(item)));
   }
   if (cache.has(src)) {
     return cache.get(src);
@@ -18,6 +17,7 @@ export function loadScript(src: string | string[]): Promise<string | string[]> {
     const script = document.createElement("script");
     script.src = src;
     script.onload = () => {
+      scriptsLoaded.add(src);
       resolve(src);
       end();
     };
@@ -32,6 +32,16 @@ export function loadScript(src: string | string[]): Promise<string | string[]> {
   });
   cache.set(src, promise);
   return promise;
+}
+
+export function imperativelyLoadScript(
+  src: string | string[]
+): Promise<unknown>[] {
+  const asyncJobs: Promise<unknown>[] = [];
+  if (([] as string[]).concat(src).some((item) => !scriptsLoaded.has(item))) {
+    asyncJobs.push(loadScript(src as string));
+  }
+  return asyncJobs;
 }
 
 const prefetchCache = new Set<string>();

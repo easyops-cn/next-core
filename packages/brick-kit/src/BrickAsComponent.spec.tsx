@@ -32,9 +32,9 @@ jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   hash: "#test",
 } as any);
-const _internalApiLoadDynamicBricksInBrickConf = jest
-  .spyOn(runtime, "_internalApiLoadDynamicBricksInBrickConf")
-  .mockReturnValue(Promise.resolve());
+const _internalApiImperativelyloadDynamicBricksInBrickConf = jest
+  .spyOn(runtime, "_internalApiImperativelyloadDynamicBricksInBrickConf")
+  .mockReturnValue([]);
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 // Mock a custom element of `custom-existed`.
@@ -97,7 +97,7 @@ describe("BrickAsComponent", () => {
     );
 
     await (global as any).flushPromises();
-    expect(_internalApiLoadDynamicBricksInBrickConf).toBeCalled();
+    expect(_internalApiImperativelyloadDynamicBricksInBrickConf).toBeCalled();
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.title).toBe("good");
     expect(div.id).toBe("better");

@@ -2,6 +2,8 @@ export type LazyBrickImportFunction = () => Promise<unknown>;
 
 const lazyBrickRegistry = new Map<string, LazyBrickImportFunction>();
 const requestsMap = new WeakMap<LazyBrickImportFunction, Promise<unknown>>();
+const reverseBrickRegistry = new WeakMap<LazyBrickImportFunction, string[]>();
+const bricksLoaded = new Set<string>();
 
 export function registerLazyBricks(
   bricks: string | string[],
@@ -15,12 +17,14 @@ export function registerLazyBricks(
       window.dispatchEvent(new CustomEvent("request.end"));
     }
   };
-  for (const brick of ([] as string[]).concat(bricks)) {
+  const brickList = ([] as string[]).concat(bricks);
+  for (const brick of brickList) {
     if (lazyBrickRegistry.has(brick)) {
       throw new Error(`Lazy brick "${brick}" is already registered`);
     }
     lazyBrickRegistry.set(brick, factoryWrapper);
   }
+  reverseBrickRegistry.set(factoryWrapper, brickList);
 }
 
 export async function loadLazyBricks(bricks: Iterable<string>): Promise<void> {
@@ -32,6 +36,11 @@ export async function loadLazyBricks(bricks: Iterable<string>): Promise<void> {
       if (!request) {
         request = factory();
         requestsMap.set(factory, request);
+        request.then(() => {
+          for (const item of reverseBrickRegistry.get(factory)) {
+            bricksLoaded.add(item);
+          }
+        });
       }
       requests.add(request);
     }
@@ -41,4 +50,14 @@ export async function loadLazyBricks(bricks: Iterable<string>): Promise<void> {
 
 export function loadAllLazyBricks(): Promise<void> {
   return loadLazyBricks(lazyBrickRegistry.keys());
+}
+
+export function imperativelyLoadLazyBricks(
+  bricks: string[]
+): Promise<unknown>[] {
+  const asyncJobs: Promise<unknown>[] = [];
+  if (bricks.some((brick) => !bricksLoaded.has(brick))) {
+    asyncJobs.push(loadLazyBricks(bricks));
+  }
+  return asyncJobs;
 }

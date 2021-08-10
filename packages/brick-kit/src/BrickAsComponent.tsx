@@ -17,7 +17,7 @@ import {
   _internalApiGetCurrentContext,
   _internalApiGetResolver,
   _internalApiGetRouterState,
-  _internalApiLoadDynamicBricksInBrickConf,
+  _internalApiImperativelyloadDynamicBricksInBrickConf,
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
@@ -90,9 +90,12 @@ export const SingleBrickAsComponent = React.memo(
         return;
       }
 
-      _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
-        handleHttpError
+      const jobs = _internalApiImperativelyloadDynamicBricksInBrickConf(
+        useBrick as BrickConf
       );
+      for (const job of jobs) {
+        await job;
+      }
 
       const trackingContextList: TrackingContextItem[] = [];
 
@@ -317,9 +320,12 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           return;
         }
 
-        _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
-          handleHttpError
+        const jobs = _internalApiImperativelyloadDynamicBricksInBrickConf(
+          useBrick as BrickConf
         );
+        for (const job of jobs) {
+          await job;
+        }
 
         const trackingContextList: TrackingContextItem[] = [];
 
