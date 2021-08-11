@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.19.11...@next-core/brick-dll@2.19.12) (2021-08-11)
+
+
+### Bug Fixes
+
+* allow transform and inject in useBrick at the same time ([2d20690](https://github.com/easyops-cn/next-core/commit/2d20690908b8661bced455614e1432a61ca0ef3e))
+
+
+
+
+
 ## [2.19.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.19.10...@next-core/brick-dll@2.19.11) (2021-08-10)
 
 **Note:** Version bump only for package @next-core/brick-dll

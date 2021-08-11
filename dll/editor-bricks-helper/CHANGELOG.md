@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.12](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.18.11...@next-dll/editor-bricks-helper@0.18.12) (2021-08-11)
+
+
+### Bug Fixes
+
+* allow transform and inject in useBrick at the same time ([2d20690](https://github.com/easyops-cn/next-core/commit/2d20690908b8661bced455614e1432a61ca0ef3e))
+
+
+
+
+
 ## [0.18.11](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.18.10...@next-dll/editor-bricks-helper@0.18.11) (2021-08-10)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper

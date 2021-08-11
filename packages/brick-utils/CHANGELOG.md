@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.1...@next-core/brick-utils@2.22.2) (2021-08-11)
+
+
+### Bug Fixes
+
+* allow transform and inject in useBrick at the same time ([2d20690](https://github.com/easyops-cn/next-core/commit/2d20690908b8661bced455614e1432a61ca0ef3e))
+
+
+
+
+
 ## [2.22.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.0...@next-core/brick-utils@2.22.1) (2021-08-10)
 
 
