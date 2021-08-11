@@ -65,7 +65,8 @@
           "smartDisplayForEvaluableString",
           "toPath",
           "trackContext",
-          "transform"
+          "transform",
+          "transformAndInject"
         ]
       }
     },

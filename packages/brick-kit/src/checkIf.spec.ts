@@ -7,8 +7,12 @@ import {
   looseCheckIfByTransform,
   looseCheckIfOfComputed,
 } from "./checkIf";
+import * as runtime from "./core/Runtime";
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  query: new URLSearchParams("quality=good"),
+} as Partial<PluginRuntimeContext> as PluginRuntimeContext);
 
 describe("looseCheckIf", () => {
   it.each<[IfContainer, Record<string, unknown>, boolean]>([
@@ -33,7 +37,7 @@ describe("looseCheckIf", () => {
     ],
   ])("looseCheckIf(%j, %j) should return %j", (ifContainer, ctx, result) => {
     expect(
-      looseCheckIf(ifContainer, (ctx as unknown) as PluginRuntimeContext)
+      looseCheckIf(ifContainer, ctx as unknown as PluginRuntimeContext)
     ).toBe(result);
   });
 
@@ -42,6 +46,13 @@ describe("looseCheckIf", () => {
     expect(
       looseCheckIfByTransform({ if: "@{enabled}" }, { enabled: true })
     ).toBe(true);
+    expect(
+      looseCheckIfByTransform(
+        { if: "${QUERY.quality|equals:good|not}" },
+        {},
+        { allowInject: true }
+      )
+    ).toBe(false);
   });
 
   it("looseCheckIfOfComputed should work", () => {
@@ -77,9 +88,7 @@ describe("checkIf", () => {
       false,
     ],
   ])("checkIf(%j, %j) should return %j", (rawIf, ctx, result) => {
-    expect(checkIf(rawIf, (ctx as unknown) as PluginRuntimeContext)).toBe(
-      result
-    );
+    expect(checkIf(rawIf, ctx as unknown as PluginRuntimeContext)).toBe(result);
   });
 
   it("checkIfByTransform should work", () => {

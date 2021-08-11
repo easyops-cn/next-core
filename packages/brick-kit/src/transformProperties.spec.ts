@@ -33,6 +33,7 @@ interface Args {
   transform?: Parameters<typeof transformProperties>[2];
   transformFrom?: Parameters<typeof transformProperties>[3];
   transformMapArray?: Parameters<typeof transformProperties>[4];
+  options?: Parameters<typeof transformProperties>[5];
 }
 
 describe("transformProperties", () => {
@@ -227,6 +228,27 @@ describe("transformProperties", () => {
         },
       },
     ],
+    // Assign mixed inject and transform.
+    [
+      {
+        props: {
+          label: "hello",
+        },
+        data: {
+          quality: "good",
+        },
+        transform: {
+          value: "${CTX.hello}:@{quality}",
+        },
+        options: {
+          allowInject: true,
+        },
+      },
+      {
+        label: "hello",
+        value: "Hello:good",
+      },
+    ],
     // No transform
     [
       {
@@ -242,7 +264,7 @@ describe("transformProperties", () => {
   ])(
     "transformProperties(%j) should return %j",
     (
-      { props, data, transform, transformFrom, transformMapArray },
+      { props, data, transform, transformFrom, transformMapArray, options },
       newProps
     ) => {
       expect(
@@ -251,7 +273,8 @@ describe("transformProperties", () => {
           data,
           transform,
           transformFrom,
-          transformMapArray
+          transformMapArray,
+          options
         )
       ).toEqual(newProps);
     }
@@ -499,6 +522,19 @@ describe("doTransform", () => {
         propValue: "<% 'track context', CTX.hola %>",
       },
     ]);
+  });
+
+  it("should allow inject", () => {
+    const result = doTransform(
+      {
+        world: "World",
+      },
+      "${CTX.hello}=@{world}",
+      {
+        allowInject: true,
+      }
+    );
+    expect(result).toBe("Hello=World");
   });
 });
 

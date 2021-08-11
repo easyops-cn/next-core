@@ -1,5 +1,59 @@
 import { PluginRuntimeContext } from "@next-core/brick-types";
-import { transform, inject } from "./compile";
+import { transform, inject, transformAndInject } from "./compile";
+
+const originalQuery =
+  "q=abc&page=2&sort=name&asc=1&extra=0&fields=%7B%7D&errors=&name=abc&key=K&array=1&array=2";
+
+const context: PluginRuntimeContext = {
+  query: new URLSearchParams(originalQuery),
+  hash: "#yes",
+  match: {
+    params: {
+      objectId: "HOST",
+    },
+    path: "",
+    url: "",
+    isExact: false,
+  },
+  event: {
+    type: "hello",
+    detail: "world",
+  } as any,
+  app: {
+    homepage: "/cmdb",
+    name: "cmdb",
+    id: "cmdb",
+  },
+  sys: {
+    org: 8888,
+    username: "easyops",
+    userInstanceId: "acbd46b",
+  } as any,
+  flags: {
+    "better-world": true,
+  },
+  storyboardContext: new Map<string, any>([
+    [
+      "myFreeContext",
+      {
+        type: "free-variable",
+        value: "good",
+      },
+    ],
+    [
+      "myPropContext",
+      {
+        type: "brick-property",
+        brick: {
+          element: {
+            quality: "better",
+          },
+        },
+        prop: "quality",
+      },
+    ],
+  ]),
+};
 
 describe("transform", () => {
   it.each<[string, any, any]>([
@@ -33,70 +87,17 @@ describe("transform", () => {
   it("should throw if a placeholder is invalid", () => {
     expect(() => {
       transform("q=@{", {});
-    });
+    }).toThrowError();
     expect(() => {
       transform("q=@{quality=[}", {});
-    });
+    }).toThrowError();
     expect(() => {
       transform("q=@{quality|map:[}", {});
-    });
+    }).toThrowError();
   });
 });
 
 describe("inject", () => {
-  const originalQuery =
-    "q=abc&page=2&sort=name&asc=1&extra=0&fields=%7B%7D&errors=&name=abc&key=K&array=1&array=2";
-  const context: PluginRuntimeContext = {
-    query: new URLSearchParams(originalQuery),
-    hash: "#yes",
-    match: {
-      params: {
-        objectId: "HOST",
-      },
-      path: "",
-      url: "",
-      isExact: false,
-    },
-    event: {
-      type: "hello",
-      detail: "world",
-    } as any,
-    app: {
-      homepage: "/cmdb",
-      name: "cmdb",
-      id: "cmdb",
-    },
-    sys: {
-      org: 8888,
-      username: "easyops",
-      userInstanceId: "acbd46b",
-    } as any,
-    flags: {
-      "better-world": true,
-    },
-    storyboardContext: new Map<string, any>([
-      [
-        "myFreeContext",
-        {
-          type: "free-variable",
-          value: "good",
-        },
-      ],
-      [
-        "myPropContext",
-        {
-          type: "brick-property",
-          brick: {
-            element: {
-              quality: "better",
-            },
-          },
-          prop: "quality",
-        },
-      ],
-    ]),
-  };
-
   it.each<[string, PluginRuntimeContext, any]>([
     ["raw", context, "raw"],
     [
@@ -160,13 +161,64 @@ describe("inject", () => {
 
   it("should throw if a placeholder is invalid", () => {
     expect(() => {
-      transform("q=${", context);
-    });
+      inject("q=${", context);
+    }).toThrowError();
     expect(() => {
       inject("q=${quality=[}", context);
-    });
+    }).toThrowError();
     expect(() => {
       inject("q=${quality|map:[}", context);
-    });
+    }).toThrowError();
+  });
+});
+
+describe("transformAndInject", () => {
+  it.each<[string, any, any, any]>([
+    [
+      "@{}",
+      {
+        quality: "good",
+      },
+      context,
+      {
+        quality: "good",
+      },
+    ],
+    [
+      "good",
+      {
+        quality: "good",
+      },
+      context,
+      "good",
+    ],
+    [
+      "q=${QUERY.q}&p=@{page}&size=@{size=10}&asc=@{asc|bool | number}&lazy=${EVENT.detail}",
+      {
+        quality: "good",
+      },
+      {
+        ...context,
+        event: undefined,
+      },
+      "q=abc&p=&size=10&asc=0&lazy=${EVENT.detail}",
+    ],
+  ])(
+    "transformAndInject(%j, %j) should return %j",
+    (raw, data, context, result) => {
+      expect(transformAndInject(raw, data, context)).toEqual(result);
+    }
+  );
+
+  it("should throw if a placeholder is invalid", () => {
+    expect(() => {
+      transformAndInject("q=@{", {}, context);
+    }).toThrowError();
+    expect(() => {
+      transformAndInject("q=@{quality=[}", {}, context);
+    }).toThrowError();
+    expect(() => {
+      transformAndInject("q=${quality|map:[}", {}, context);
+    }).toThrowError();
   });
 });

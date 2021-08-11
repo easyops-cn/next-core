@@ -73,7 +73,9 @@ export const SingleBrickAsComponent = React.memo(
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
         // eslint-disable-next-line
         console.warn("Currently resolvable-if in `useBrick` is not supported.");
-      } else if (!looseCheckIfByTransform(useBrick, data)) {
+      } else if (
+        !looseCheckIfByTransform(useBrick, data, { allowInject: true })
+      ) {
         return false;
       }
 
@@ -107,6 +109,7 @@ export const SingleBrickAsComponent = React.memo(
             // They will be transformed by their `BrickAsComponent` later.
             $$lazyForUseBrick: true,
             trackingContextList,
+            allowInject: true,
           }
         ),
       };
@@ -115,7 +118,11 @@ export const SingleBrickAsComponent = React.memo(
         brick.properties,
         data,
         useBrick.transform,
-        useBrick.transformFrom
+        useBrick.transformFrom,
+        undefined,
+        {
+          allowInject: true,
+        }
       );
 
       const runtimeContext = _internalApiGetCurrentContext();
@@ -155,7 +162,11 @@ export const SingleBrickAsComponent = React.memo(
           setRealProperties(element, brick.properties);
           unbindListeners(element);
           if (useBrick.events) {
-            bindListeners(element, transformEvents(data, useBrick.events));
+            bindListeners(
+              element,
+              transformEvents(data, useBrick.events),
+              _internalApiGetCurrentContext()
+            );
           }
 
           // Memoize the parent ref of useBrick.
@@ -295,7 +306,9 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           console.warn(
             "Currently resolvable-if in `useBrick` is not supported."
           );
-        } else if (!looseCheckIfByTransform(useBrick, data)) {
+        } else if (
+          !looseCheckIfByTransform(useBrick, data, { allowInject: true })
+        ) {
           return false;
         }
 
@@ -334,6 +347,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
               // They will be transformed by their `BrickAsComponent` later.
               $$lazyForUseBrick: true,
               trackingContextList,
+              allowInject: true,
             }
           ),
         };
@@ -342,7 +356,11 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           brick.properties,
           data,
           useBrick.transform,
-          useBrick.transformFrom
+          useBrick.transformFrom,
+          undefined,
+          {
+            allowInject: true,
+          }
         );
 
         const runtimeContext = _internalApiGetCurrentContext();
@@ -383,7 +401,11 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
             setRealProperties(element, brick.properties);
             unbindListeners(element);
             if (useBrick.events) {
-              bindListeners(element, transformEvents(data, useBrick.events));
+              bindListeners(
+                element,
+                transformEvents(data, useBrick.events),
+                _internalApiGetCurrentContext()
+              );
             }
 
             // Memoize the parent ref of useBrick.
