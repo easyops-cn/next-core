@@ -5,7 +5,7 @@ describe("InterceptorManager", () => {
   it("should work", async () => {
     class FakeHttp {
       public interceptors: {
-        request: InterceptorManager;
+        request: InterceptorManager<HttpRequestConfig>;
       };
 
       constructor() {

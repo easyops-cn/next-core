@@ -35,8 +35,10 @@ describe("http", () => {
   );
 
   http.interceptors.response.use(
-    (config) => {
-      return config.data;
+    (response) => {
+      return response.config.options?.observe === "response"
+        ? response
+        : response.data;
     },
     (error) => {
       return Promise.reject(error.error);
@@ -232,5 +234,15 @@ describe("http", () => {
     } catch (e) {
       expect(e).toBeInstanceOf(HttpParseError);
     }
+  });
+
+  it("should return http response object ", async () => {
+    __setReturnValue(
+      Promise.resolve(new Response(JSON.stringify({ foo: "bar" })))
+    );
+    const result = await http.get("http://example.com", {
+      observe: "response",
+    });
+    expect(result).toMatchSnapshot();
   });
 });
