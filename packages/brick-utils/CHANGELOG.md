@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.2...@next-core/brick-utils@2.23.0) (2021-08-12)
+
+
+### Features
+
+* support atob and btoa in evaluations ([78a89d6](https://github.com/easyops-cn/next-core/commit/78a89d6d18b82177bfa7f7afd3c4beaf168e6682))
+
+
+
+
+
 ## [2.22.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.1...@next-core/brick-utils@2.22.2) (2021-08-11)
 
 
