@@ -2594,10 +2594,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.npmjs.org/@size-limit/file/-/file-5.0.2.tgz#6dc7f971eb85ca1e32adcbac88410684e5140035"
-  integrity sha512-xWiQnB4D9ty0ZAMLgPfsAhDzYSxj58bOveGsn0lpT/bxcPKvR+Mqqjwf33yRyHeKKGmslj3Hxm2Y8D5eLD465w==
+"@size-limit/file@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.npmjs.org/@size-limit/file/-/file-5.0.3.tgz#6b12240f4880e25736534542168ffd064a8e386f"
+  integrity sha512-tkxf5ntFdlZ1xHQAw4fYd+gIkH85S2D3Wb94upJhtOfPHwDsQoQycDFGQRwTgei07Eq5vA8Jj5f2mu/tAdoaXw==
   dependencies:
     semver "7.3.5"
 
@@ -5245,10 +5245,10 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-colorette@^1.1.0, colorette@^1.2.1, colorette@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.npmjs.org/colorette/-/colorette-1.2.2.tgz#cbcc79d5e99caea2dbf10eb3a26fd8b3e6acfa94"
-  integrity sha1-y8x51emcrqLb8Q6zom/Ys+as+pQ=
+colorette@^1.1.0, colorette@^1.2.1, colorette@^1.2.2, colorette@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/colorette/-/colorette-1.3.0.tgz#ff45d2f0edb244069d3b772adeb04fed38d0a0af"
+  integrity sha512-ecORCqbSFP7Wm8Y6lyqMJjexBQqXSF7SSeaTyGGphogUjBlFP9m9o08wy86HL2uB7fMTxtOUzLMk7ogKcxMg1w==
 
 colors@^1.1.2, colors@^1.2.1:
   version "1.4.0"
@@ -10347,10 +10347,10 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
-mico-spinner@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/mico-spinner/-/mico-spinner-1.2.1.tgz#653f8b0d075729d383c58664e1c4bd929b740b68"
-  integrity sha512-Ub+oCJ7B223Hqj08iAXHWm7aPIe7QvYTbsMFSDVhMdZCAfByvOdpXJY6ahPQHMRqKmTNQYa0m9xDiHua6HIBXQ==
+mico-spinner@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/mico-spinner/-/mico-spinner-1.2.2.tgz#0f00cbf45c81b58fbd7d0a7bb2dea8546867d413"
+  integrity sha512-jIsOIIk5xa+TmZJU2mPVTEk1AC7aKnrj8UJR58cTiK8msNWYvPuQxPx0ojNbtVOut/TjTgGkVLrEt1jsrceYfA==
   dependencies:
     colorette "^1.2.2"
 
@@ -14116,18 +14116,18 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.npmjs.org/size-limit/-/size-limit-5.0.2.tgz#eb049815c3de2fe40cf29c67506a89a7bbd891f1"
-  integrity sha512-BI9xdyRmwTULjLxI1ARSh6kj69LNBCI2+IPqlXo6OX2/TlPFjA6foJvuWdu9yNsi1se/ZqtB7gh5Z33dIfMUjQ==
+size-limit@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.npmjs.org/size-limit/-/size-limit-5.0.3.tgz#de4d4e9366274bd7987673ae76d51af02f57089b"
+  integrity sha512-522c33FTs09sDCN3SUjtxF3Jg361O8Xm1Rh9MUuGGVwY7XGvroE/vL20+//qGltUprGzYQONBbzy9TTdOJWgbw==
   dependencies:
     bytes-iec "^3.1.1"
     chokidar "^3.5.2"
     ci-job-number "^1.2.2"
-    colorette "^1.2.2"
+    colorette "^1.3.0"
     globby "^11.0.4"
     lilconfig "^2.0.3"
-    mico-spinner "^1.2.1"
+    mico-spinner "^1.2.2"
 
 slash@^1.0.0:
   version "1.0.0"
