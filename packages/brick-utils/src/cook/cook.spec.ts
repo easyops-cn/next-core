@@ -244,6 +244,8 @@ describe("cook", () => {
       "/hello/world/list?q=a%26b&redirect=/r/s%3Ft%3Du%26v%3Dw",
     ],
     ["SAFE_TAG_URL`file/${DATA.path}?q=${DATA.q}`", "file/x%2Fy.zip?q=a%26b"],
+    ["btoa('hello')", "aGVsbG8="],
+    ["atob('aGVsbG8=')", "hello"],
   ])("cook(precook(%j), {...}) should return %j", (input, cooked) => {
     expect(cook(precook(input), getGlobalVariables())).toEqual(cooked);
   });
