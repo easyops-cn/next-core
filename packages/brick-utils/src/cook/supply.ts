@@ -125,6 +125,8 @@ const allowedGlobalObjects = new Set([
   "URLSearchParams",
   "WeakMap",
   "WeakSet",
+  "atob",
+  "btoa",
 ]);
 
 function supplyIndividual(variableName: string): unknown {
