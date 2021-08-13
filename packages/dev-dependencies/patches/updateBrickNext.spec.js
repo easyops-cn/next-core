@@ -72,7 +72,7 @@ describe("updateBrickNext", () => {
 user: 'easyops:easyops'
 dependencies:
   - name: brick_next
-    version: ^2.29.0
+    version: ^2.29.11
     local_deploy: true
 `
     );

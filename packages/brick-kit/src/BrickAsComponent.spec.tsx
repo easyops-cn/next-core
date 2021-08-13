@@ -32,6 +32,9 @@ jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   hash: "#test",
 } as any);
+const _internalApiLoadDynamicBricksInBrickConf = jest
+  .spyOn(runtime, "_internalApiLoadDynamicBricksInBrickConf")
+  .mockReturnValue(Promise.resolve());
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 // Mock a custom element of `custom-existed`.
@@ -57,6 +60,7 @@ describe("BrickAsComponent", () => {
           brick: "div",
           properties: {
             id: "<% DATA.extraTips %>",
+            lang: "@{tips},${HASH}",
             useBrick: {
               brick: "span",
               if: "<% !!DATA.extraTips %>",
@@ -76,12 +80,15 @@ describe("BrickAsComponent", () => {
               },
             },
           },
-          transform: "title",
+          transform: {
+            title: "@{}",
+            accessKey: "${HASH},@{}",
+          },
           transformFrom: "tips",
           events: {
             "button.click": {
               action: "console.log",
-              args: ["@{tips}"],
+              args: ["@{tips}", "${HASH}"],
             },
           },
         }}
@@ -94,9 +101,12 @@ describe("BrickAsComponent", () => {
     );
 
     await (global as any).flushPromises();
+    expect(_internalApiLoadDynamicBricksInBrickConf).toBeCalled();
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.title).toBe("good");
     expect(div.id).toBe("better");
+    expect(div.lang).toBe("good,#test");
+    expect(div.accessKey).toBe("#test,good");
     expect((div as any).useBrick).toEqual({
       brick: "span",
       // `properties`, `transform`, `events` and `if` of `useBrick` inside
@@ -120,7 +130,7 @@ describe("BrickAsComponent", () => {
     expect(bindListeners.mock.calls[0][1]).toEqual({
       "button.click": {
         action: "console.log",
-        args: ["good"],
+        args: ["good", "${HASH}"],
       },
     });
     expect((div as RuntimeBrickElement).$$typeof).toBe("native");

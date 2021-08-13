@@ -40,6 +40,7 @@ interface EditTransformationPayload {
   options: {
     from?: string | string[];
     mapArray?: boolean | "auto";
+    allowInject?: boolean;
   };
   id: number;
 }
@@ -79,9 +80,9 @@ export function listenDevtools(): void {
         data,
         transform,
         id,
-        options: { from, mapArray },
+        options: { from, mapArray, allowInject },
       } = payload;
-      reTransformForDevtools(id, data, transform, from, mapArray);
+      reTransformForDevtools(id, data, transform, from, mapArray, allowInject);
     }
   });
 }

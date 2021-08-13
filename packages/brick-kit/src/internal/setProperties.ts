@@ -56,7 +56,7 @@ export const computeRealValue = (
         value as string
       );
     } else {
-      result = inject(value as string, context);
+      result = lazy ? value : inject(value as string, context);
     }
     if (!dismissRecursiveMarkingInjected) {
       recursiveMarkAsInjected(result);

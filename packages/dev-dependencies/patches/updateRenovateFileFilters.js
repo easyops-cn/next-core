@@ -12,6 +12,7 @@ function updateRenovateFileFilters() {
   if (nextCoreGroup && nextCoreGroup.postUpgradeTasks) {
     nextCoreGroup.postUpgradeTasks.fileFilters = [
       "**/*",
+      ".gitignore",
       ".gitlab/**/*",
       ".huskyrc",
       ".husky/.gitignore",

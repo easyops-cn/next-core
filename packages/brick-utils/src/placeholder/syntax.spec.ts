@@ -2,13 +2,14 @@ import { parseInjectableString } from "./syntax";
 import { InjectableString } from "./interfaces";
 
 describe("parseInjectableString", () => {
-  it.each<[string, InjectableString]>([
+  it.each<[string, InjectableString, string | string[]]>([
     [
       "",
       {
         type: "InjectableString",
-        elements: []
-      }
+        elements: [],
+      },
+      "$",
     ],
     [
       "good",
@@ -17,10 +18,11 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "RawString",
-            value: "good"
-          }
-        ]
-      }
+            value: "good",
+          },
+        ],
+      },
+      "$",
     ],
     [
       "${{good}}",
@@ -29,10 +31,11 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "RawString",
-            value: "${{good}}"
-          }
-        ]
-      }
+            value: "${{good}}",
+          },
+        ],
+      },
+      "$",
     ],
     [
       "#{abc}",
@@ -41,10 +44,11 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "RawString",
-            value: "#{abc}"
-          }
-        ]
-      }
+            value: "#{abc}",
+          },
+        ],
+      },
+      "$",
     ],
     [
       "${}",
@@ -53,16 +57,18 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "Placeholder",
+            symbol: "$",
             field: "",
             defaultValue: undefined,
             pipes: [],
             loc: {
               start: 0,
-              end: 3
-            }
-          }
-        ]
-      }
+              end: 3,
+            },
+          },
+        ],
+      },
+      "$",
     ],
     [
       "${QUERY.page}",
@@ -71,16 +77,18 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "Placeholder",
+            symbol: "$",
             field: "QUERY.page",
             defaultValue: undefined,
             pipes: [],
             loc: {
               start: 0,
-              end: 13
-            }
-          }
-        ]
-      }
+              end: 13,
+            },
+          },
+        ],
+      },
+      "$",
     ],
     [
       "${QUERY.page=}",
@@ -89,16 +97,18 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "Placeholder",
+            symbol: "$",
             field: "QUERY.page",
             defaultValue: "",
             pipes: [],
             loc: {
               start: 0,
-              end: 14
-            }
-          }
-        ]
-      }
+              end: 14,
+            },
+          },
+        ],
+      },
+      "$",
     ],
     [
       "${QUERY.page=-1}",
@@ -107,64 +117,69 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "Placeholder",
+            symbol: "$",
             field: "QUERY.page",
             defaultValue: -1,
             pipes: [],
             loc: {
               start: 0,
-              end: 16
-            }
-          }
-        ]
-      }
+              end: 16,
+            },
+          },
+        ],
+      },
+      "$",
     ],
     [
-      "asc=${QUERY.asc=true|number}&q=${QUERY.quality=good|split:-}",
+      "asc=${QUERY.asc=true|number}&q=@{quality=good|split:-}",
       {
         type: "InjectableString",
         elements: [
           {
             type: "RawString",
-            value: "asc="
+            value: "asc=",
           },
           {
             type: "Placeholder",
+            symbol: "$",
             field: "QUERY.asc",
             defaultValue: true,
             pipes: [
               {
                 type: "PipeCall",
                 identifier: "number",
-                parameters: []
-              }
+                parameters: [],
+              },
             ],
             loc: {
               start: 4,
-              end: 28
-            }
+              end: 28,
+            },
           },
           {
             type: "RawString",
-            value: "&q="
+            value: "&q=",
           },
           {
             type: "Placeholder",
-            field: "QUERY.quality",
+            symbol: "@",
+            field: "quality",
             defaultValue: "good",
             pipes: [
               {
                 type: "PipeCall",
                 identifier: "split",
-                parameters: ["-"]
-              }
+                parameters: ["-"],
+              },
             ],
             loc: {
               start: 31,
-              end: 60
-            }
-          }
-        ]
-      }
+              end: 54,
+            },
+          },
+        ],
+      },
+      ["@", "$"],
     ],
     [
       '${ some.field[0].path = ["complex","value\\n"] | map : {"a":-12.34E+5} : true | join : }',
@@ -173,37 +188,39 @@ describe("parseInjectableString", () => {
         elements: [
           {
             type: "Placeholder",
+            symbol: "$",
             field: "some.field[0].path",
             defaultValue: ["complex", "value\n"],
             pipes: [
               {
                 type: "PipeCall",
                 identifier: "map",
-                parameters: [{ a: -12.34e5 }, true]
+                parameters: [{ a: -12.34e5 }, true],
               },
               {
                 type: "PipeCall",
                 identifier: "join",
-                parameters: [""]
-              }
+                parameters: [""],
+              },
             ],
             loc: {
               start: 0,
-              end: 87
-            }
-          }
-        ]
-      }
-    ]
-  ])("parseInjectableString should work for %j", (raw, tree) => {
-    expect(parseInjectableString(raw)).toEqual(tree);
+              end: 87,
+            },
+          },
+        ],
+      },
+      "$",
+    ],
+  ])("parseInjectableString should work for %j", (raw, tree, symbols) => {
+    expect(parseInjectableString(raw, symbols)).toEqual(tree);
   });
 
   it.each<string>(["${a|b=c}", "${a=[}", "${a|0}", "${a=[{}}{]}"])(
     "should throw when parsing %j",
-    raw => {
+    (raw) => {
       expect(() => {
-        parseInjectableString(raw);
+        parseInjectableString(raw, "$");
       }).toThrowError();
     }
   );

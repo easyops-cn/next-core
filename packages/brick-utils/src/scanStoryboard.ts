@@ -165,6 +165,13 @@ function collectBricksInContext(
   if (Array.isArray(context)) {
     for (const ctx of context) {
       collectBricksInResolvable(ctx.resolve, collection);
+
+      if (ctx.onChange) {
+        collectUsedBricksInEventHandlers(
+          { onChange: ctx.onChange } as BrickEventsMap,
+          collection
+        );
+      }
     }
   }
 }

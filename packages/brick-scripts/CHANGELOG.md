@@ -3,24 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.6.0](/compare/@next-core/brick-scripts@2.5.2...@next-core/brick-scripts@2.6.0) (2021-08-01)
+## [2.6.1](/compare/@next-core/brick-scripts@2.6.0...@next-core/brick-scripts@2.6.1) (2021-08-10)
 
+### Bug Fixes
+
+- fix pre-build script for bricks 88d0c1a
+
+# [2.6.0](/compare/@next-core/brick-scripts@2.5.2...@next-core/brick-scripts@2.6.0) (2021-08-01)
 
 ### Features
 
-* support code generation of lazy-bricks 1e1a8bb
-
-
-
-
+- support code generation of lazy-bricks 1e1a8bb
 
 ## [2.5.2](/compare/@next-core/brick-scripts@2.5.1...@next-core/brick-scripts@2.5.2) (2021-07-23)
 
 **Note:** Version bump only for package @next-core/brick-scripts
-
-
-
-
 
 ## [2.5.1](https:///$repo-git-url$/next-core/compare/@next-core/brick-scripts@2.5.0...@next-core/brick-scripts@2.5.1) (2021-07-02)
 

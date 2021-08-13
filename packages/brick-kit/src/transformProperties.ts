@@ -5,6 +5,7 @@ import {
   transform,
   isEvaluable,
   trackContext,
+  transformAndInject,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -21,15 +22,18 @@ import {
   StateOfUseBrick,
 } from "./internal/getNextStateOfUseBrick";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
+import { _internalApiGetCurrentContext } from "./core/Runtime";
 
 interface TransformOptions {
   isReTransformation?: boolean;
   transformationId?: number;
+  allowInject?: boolean;
 }
 
 interface DoTransformOptions {
   evaluateOptions?: EvaluateOptions;
   trackingContextList?: TrackingContextItem[];
+  allowInject?: boolean;
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
 }
@@ -52,9 +56,18 @@ export function transformProperties(
   data: unknown,
   to: GeneralTransform,
   from?: string | string[],
-  mapArray?: boolean | "auto"
+  mapArray?: boolean | "auto",
+  options?: {
+    allowInject?: boolean;
+  }
 ): Record<string, unknown> {
-  const result = preprocessTransformProperties(data, to, from, mapArray);
+  const result = preprocessTransformProperties(
+    data,
+    to,
+    from,
+    mapArray,
+    options
+  );
   for (const [propName, propValue] of Object.entries(result)) {
     set(props, propName, propValue);
   }
@@ -88,7 +101,13 @@ export function doTransform(
         to as string
       );
     } else {
-      result = transform(to as string, data);
+      result = options?.allowInject
+        ? transformAndInject(
+            to as string,
+            data,
+            _internalApiGetCurrentContext()
+          )
+        : transform(to as string, data);
     }
     if (!dismissRecursiveMarkingInjected) {
       recursiveMarkAsInjected(result);
@@ -131,12 +150,14 @@ export function reTransformForDevtools(
   data: unknown,
   to: GeneralTransform,
   from?: string | string[],
-  mapArray?: boolean | "auto"
+  mapArray?: boolean | "auto",
+  allowInject?: boolean
 ): void {
   try {
     preprocessTransformProperties(data, to, from, mapArray, {
       isReTransformation: true,
       transformationId,
+      allowInject,
     });
   } catch (error) {
     devtoolsHookEmit("re-transformation", {
@@ -145,7 +166,7 @@ export function reTransformForDevtools(
       detail: {
         transform: to,
         data,
-        options: { from, mapArray },
+        options: { from, mapArray, allowInject },
       },
     });
   }
@@ -169,16 +190,21 @@ export function preprocessTransformProperties(
         processedData,
         item.to,
         item.from,
-        item.mapArray
+        item.mapArray,
+        {
+          allowInject: options?.allowInject,
+        }
       );
     }
   } else {
-    pipeableTransform(props, processedData, to, undefined, mapArray);
+    pipeableTransform(props, processedData, to, undefined, mapArray, {
+      allowInject: options?.allowInject,
+    });
   }
   const detail = {
     transform: to,
     data,
-    options: { from, mapArray },
+    options: { from, mapArray, allowInject: options?.allowInject },
     result: props,
   };
   if (options?.isReTransformation) {
@@ -197,7 +223,10 @@ function pipeableTransform(
   data: unknown,
   to: string | TransformMap,
   from?: string | string[],
-  mapArray?: boolean | "auto"
+  mapArray?: boolean | "auto",
+  options?: {
+    allowInject?: boolean;
+  }
 ): void {
   if (!to) {
     // Do nothing if `to` is falsy.
@@ -222,8 +251,10 @@ function pipeableTransform(
   for (const [transformedPropName, transformTo] of Object.entries(to)) {
     // If `fromData` is an array, mapping it's items.
     props[transformedPropName] = isArray
-      ? (fromData as unknown[]).map((item) => doTransform(item, transformTo))
-      : doTransform(fromData, transformTo);
+      ? (fromData as unknown[]).map((item) =>
+          doTransform(item, transformTo, options)
+        )
+      : doTransform(fromData, transformTo, options);
   }
 }
 

@@ -3,32 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.5...@next-core/webpack-config-factory@2.10.0) (2021-07-30)
-
+# [2.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.10.1...@next-core/webpack-config-factory@2.11.0) (2021-08-06)
 
 ### Features
 
-* support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
+- build-next-libs ([3b367c2](https://github.com/easyops-cn/next-core/commit/3b367c29029e6e95faf3231a783b15e300f11c7f))
 
+## [2.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.10.0...@next-core/webpack-config-factory@2.10.1) (2021-08-03)
 
+### Bug Fixes
 
+- **webpack:** use hashed module ids and named chunks ([b8d9e8a](https://github.com/easyops-cn/next-core/commit/b8d9e8ad759e5f80f13bb316fff1a0a7798d1b76))
 
+# [2.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.5...@next-core/webpack-config-factory@2.10.0) (2021-07-30)
+
+### Features
+
+- support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
 
 ## [2.9.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.4...@next-core/webpack-config-factory@2.9.5) (2021-07-29)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
 
-
-
-
-
 ## [2.9.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.3...@next-core/webpack-config-factory@2.9.4) (2021-07-23)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
-
-
-
-
 
 ## [2.9.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.9.2...@next-core/webpack-config-factory@2.9.3) (2021-07-02)
 

@@ -9,7 +9,7 @@ const WebSocket = require("ws");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
-const { getPatternsToWatch } = require("./utils");
+const { getPatternsToWatch, appendLiveReloadScript } = require("./utils");
 
 const app = express();
 
@@ -28,15 +28,7 @@ const serveIndexHtml = (_req, res) => {
   let content = fs.readFileSync(indexHtml, "utf8");
 
   if (env.liveReload) {
-    // 开发环境下增加 websocket 连接的脚本
-    content += `<script>
-  const socket = new WebSocket('ws://${env.host}:' + ${env.wsPort});
-  socket.onmessage = function(event) {
-    if (event.data === "content change") {
-      location.reload();
-    }
-  };
-</script>`;
+    content = appendLiveReloadScript(content, env);
   }
 
   // Replace nginx ssi placeholders.
@@ -51,11 +43,13 @@ const serveIndexHtml = (_req, res) => {
   );
 };
 
-// Serve index.html.
-app.get(env.publicPath, serveIndexHtml);
+if (env.useLocalContainer) {
+  // Serve index.html.
+  app.get(env.publicPath, serveIndexHtml);
 
-// Serve static files.
-app.use(env.publicPath, express.static(distDir));
+  // Serve static files.
+  app.use(env.publicPath, express.static(distDir));
+}
 
 // Using proxies.
 const proxies = getProxies(env);
@@ -87,8 +81,10 @@ if (proxies) {
   }
 }
 
-// All requests fallback to index.html.
-app.use(serveIndexHtml);
+if (env.useLocalContainer) {
+  // All requests fallback to index.html.
+  app.use(serveIndexHtml);
+}
 
 app.listen(port, env.host);
 

@@ -269,7 +269,9 @@ export function logout(): void;
 export function looseCheckIf(ifContainer: IfContainer, context: PluginRuntimeContext): boolean;
 
 // @public
-export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown): boolean;
+export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown, options?: {
+    allowInject?: boolean;
+}): boolean;
 
 // Warning: (ae-internal-missing-underscore) The name "looseCheckIfOfComputed" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -342,7 +344,7 @@ export function renderEasyopsEmpty(): React_2.ReactNode;
 // Warning: (ae-internal-missing-underscore) The name "reTransformForDevtools" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function reTransformForDevtools(transformationId: number, data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): void;
+export function reTransformForDevtools(transformationId: number, data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto", allowInject?: boolean): void;
 
 // Warning: (ae-internal-missing-underscore) The name "RouterState" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -365,7 +367,9 @@ export function transformIntermediateData(data: unknown, to: GeneralTransform, f
 // Warning: (ae-internal-missing-underscore) The name "transformProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function transformProperties(props: Record<string, unknown>, data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): Record<string, unknown>;
+export function transformProperties(props: Record<string, unknown>, data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto", options?: {
+    allowInject?: boolean;
+}): Record<string, unknown>;
 
 // @public
 export abstract class UpdatingElement extends HTMLElement {

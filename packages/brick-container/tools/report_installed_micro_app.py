@@ -72,9 +72,9 @@ def collect(install_path):
 def create_or_update_micro_app(app, org):
   address = os.environ.get("UCPRO_DESKTOP_SERVICE", "")
   if address == "":
-    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.ucpro_desktop_service")
+    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
     if session_id <= 0:
-      raise NameServiceError("get nameservice logic.ucpro_desktop_service error, session_id={}".format(session_id))
+      raise NameServiceError("get nameservice logic.micro_app_service error, session_id={}".format(session_id))
     address = "{}:{}".format(ip, port)
   headers = {"org": str(org), "user": "defaultUser"}
   url = "http://{}/api/micro_app/v1/installed_micro_app/report_result".format(address)
@@ -152,7 +152,7 @@ def report(org, app):
   except NameServiceError, e:
     create_or_update_micro_app_to_api_gw(app, org)
   except requests.HTTPError, e:
-    # ucpro_desktop_service还没有这个接口, 走回api_gw的方式上报
+    # micro_app_service还没有这个接口, 走回api_gw的方式上报
     if e.response.status_code == 404:
       create_or_update_micro_app_to_api_gw(app, org)
     else:
