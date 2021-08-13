@@ -37,6 +37,7 @@ import { getRuntimeMisc } from "../internal/misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
+import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 
 export class Router {
   private defaultCollapsed = false;
@@ -360,7 +361,12 @@ export class Router {
           this.locationContext.getCurrentContext(),
           this.kernel
         );
-        if (menuBar.menu?.defaultCollapsed) {
+        if (
+          shouldBeDefaultCollapsed(
+            menuBar.menu?.defaultCollapsed,
+            menuBar.menu?.defaultCollapsedBreakpoint
+          )
+        ) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;
         } else {

@@ -1688,6 +1688,7 @@ export interface Settings {
 // @public
 export interface SidebarMenu {
     defaultCollapsed?: boolean;
+    defaultCollapsedBreakpoint?: number;
     icon?: MenuIcon;
     link?: LocationDescriptor;
     menuItems: SidebarMenuItem[];
