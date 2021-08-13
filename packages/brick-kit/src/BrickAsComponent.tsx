@@ -6,6 +6,7 @@ import {
   RuntimeBrickElement,
   BrickEventsMap,
   UseBrickSlotsConf,
+  BrickConf,
 } from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
@@ -16,6 +17,7 @@ import {
   _internalApiGetCurrentContext,
   _internalApiGetResolver,
   _internalApiGetRouterState,
+  _internalApiLoadDynamicBricksInBrickConf,
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
@@ -71,7 +73,9 @@ export const SingleBrickAsComponent = React.memo(
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
         // eslint-disable-next-line
         console.warn("Currently resolvable-if in `useBrick` is not supported.");
-      } else if (!looseCheckIfByTransform(useBrick, data)) {
+      } else if (
+        !looseCheckIfByTransform(useBrick, data, { allowInject: true })
+      ) {
         return false;
       }
 
@@ -88,6 +92,10 @@ export const SingleBrickAsComponent = React.memo(
         return;
       }
 
+      _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
+        handleHttpError
+      );
+
       const trackingContextList: TrackingContextItem[] = [];
 
       const brick: RuntimeBrick = {
@@ -101,6 +109,7 @@ export const SingleBrickAsComponent = React.memo(
             // They will be transformed by their `BrickAsComponent` later.
             $$lazyForUseBrick: true,
             trackingContextList,
+            allowInject: true,
           }
         ),
       };
@@ -109,25 +118,25 @@ export const SingleBrickAsComponent = React.memo(
         brick.properties,
         data,
         useBrick.transform,
-        useBrick.transformFrom
+        useBrick.transformFrom,
+        undefined,
+        {
+          allowInject: true,
+        }
       );
 
       const runtimeContext = _internalApiGetCurrentContext();
 
       if (useBrick.lifeCycle) {
         const resolver = _internalApiGetResolver();
-        try {
-          await resolver.resolve(
-            {
-              brick: useBrick.brick,
-              lifeCycle: useBrick.lifeCycle,
-            },
-            brick,
-            runtimeContext
-          );
-        } catch (e) {
-          handleHttpError(e);
-        }
+        await resolver.resolve(
+          {
+            brick: useBrick.brick,
+            lifeCycle: useBrick.lifeCycle,
+          },
+          brick,
+          runtimeContext
+        );
       }
 
       listenOnTrackingContext(brick, trackingContextList, runtimeContext);
@@ -139,7 +148,12 @@ export const SingleBrickAsComponent = React.memo(
       async (element: HTMLElement) => {
         immediatelyRefCallback?.(element);
         if (element) {
-          const brick = await runtimeBrick;
+          let brick: RuntimeBrick;
+          try {
+            brick = await runtimeBrick;
+          } catch (e) {
+            handleHttpError(e);
+          }
           // sub-brick rendering is ignored.
           if (!brick) {
             return;
@@ -148,7 +162,11 @@ export const SingleBrickAsComponent = React.memo(
           setRealProperties(element, brick.properties);
           unbindListeners(element);
           if (useBrick.events) {
-            bindListeners(element, transformEvents(data, useBrick.events));
+            bindListeners(
+              element,
+              transformEvents(data, useBrick.events),
+              _internalApiGetCurrentContext()
+            );
           }
 
           // Memoize the parent ref of useBrick.
@@ -288,7 +306,9 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           console.warn(
             "Currently resolvable-if in `useBrick` is not supported."
           );
-        } else if (!looseCheckIfByTransform(useBrick, data)) {
+        } else if (
+          !looseCheckIfByTransform(useBrick, data, { allowInject: true })
+        ) {
           return false;
         }
 
@@ -309,6 +329,13 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         if (_internalApiGetRouterState() === "initial") {
           return;
         }
+
+        _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
+          handleHttpError
+        );
+
+        const trackingContextList: TrackingContextItem[] = [];
+
         const brick: RuntimeBrick = {
           type: useBrick.brick,
           // Now transform data in properties too.
@@ -319,6 +346,8 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
               // Keep lazy fields inside `useBrick` inside the `properties`.
               // They will be transformed by their `BrickAsComponent` later.
               $$lazyForUseBrick: true,
+              trackingContextList,
+              allowInject: true,
             }
           ),
         };
@@ -327,23 +356,29 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           brick.properties,
           data,
           useBrick.transform,
-          useBrick.transformFrom
+          useBrick.transformFrom,
+          undefined,
+          {
+            allowInject: true,
+          }
         );
+
+        const runtimeContext = _internalApiGetCurrentContext();
+
         if (useBrick.lifeCycle) {
           const resolver = _internalApiGetResolver();
-          try {
-            await resolver.resolve(
-              {
-                brick: useBrick.brick,
-                lifeCycle: useBrick.lifeCycle,
-              },
-              brick,
-              _internalApiGetCurrentContext()
-            );
-          } catch (e) {
-            handleHttpError(e);
-          }
+          await resolver.resolve(
+            {
+              brick: useBrick.brick,
+              lifeCycle: useBrick.lifeCycle,
+            },
+            brick,
+            runtimeContext
+          );
         }
+
+        listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+
         return brick;
       }, [useBrick, data, isBrickAvailable]);
 
@@ -352,7 +387,12 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           brickRef.current = element;
 
           if (element) {
-            const brick = await runtimeBrick;
+            let brick: RuntimeBrick;
+            try {
+              brick = await runtimeBrick;
+            } catch (e) {
+              handleHttpError(e);
+            }
             // sub-brick rendering is ignored.
             if (!brick) {
               return;
@@ -361,7 +401,11 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
             setRealProperties(element, brick.properties);
             unbindListeners(element);
             if (useBrick.events) {
-              bindListeners(element, transformEvents(data, useBrick.events));
+              bindListeners(
+                element,
+                transformEvents(data, useBrick.events),
+                _internalApiGetCurrentContext()
+              );
             }
 
             // Memoize the parent ref of useBrick.

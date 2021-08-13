@@ -7,6 +7,7 @@ const {
   mergeSettings,
   getUserSettings,
   getDevSettings,
+  appendLiveReloadScript,
 } = require("./utils");
 const fs = require("fs");
 const path = require("path");
@@ -46,10 +47,7 @@ module.exports = (env) => {
     proxyPaths.push("bricks", "micro-apps", "templates");
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
-      if (
-        req.path === "/next/api/auth/bootstrap" ||
-        req.path === "/api/auth/bootstrap"
-      ) {
+      if (req.path === "/next/api/auth/bootstrap") {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
@@ -116,9 +114,7 @@ module.exports = (env) => {
         });
       } else if (
         req.path ===
-          "/next/api/gateway/next_builder.build.GetStoriesJson/api/v1/next-builder/storiesjson" ||
-        req.path ===
-          "/api/gateway/next_builder.build.GetStoriesJson/api/v1/next-builder/storiesjson"
+        "/next/api/gateway/next_builder.build.GetStoriesJson/api/v1/next-builder/storiesjson"
       ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
@@ -149,10 +145,8 @@ module.exports = (env) => {
         });
       } else if (
         localSnippetPackages.length > 0 &&
-        (req.path ===
-          "/next/api/gateway/cmdb.instance.PostSearchV3/v3/object/INSTALLED_BRICK_SNIPPET@EASYOPS/instance/_search" ||
-          req.path ===
-            "/api/gateway/cmdb.instance.PostSearchV3/v3/object/INSTALLED_BRICK_SNIPPET@EASYOPS/instance/_search")
+        req.path ===
+          "/next/api/gateway/cmdb.instance.PostSearchV3/v3/object/INSTALLED_BRICK_SNIPPET@EASYOPS/instance/_search"
       ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
@@ -205,6 +199,33 @@ module.exports = (env) => {
     };
   }
 
+  const rootProxyOptions = {};
+  if (!env.useLocalContainer) {
+    proxyPaths.push("");
+    rootProxyOptions.onProxyRes = (proxyRes, req, res) => {
+      if (
+        req.method === "GET" &&
+        (req.get("accept") || "").includes("text/html")
+      ) {
+        modifyResponse(res, proxyRes, (raw) => {
+          if (
+            !(
+              res.statusCode === 200 &&
+              res.get("content-type") === "text/html" &&
+              raw.includes("/next/browse-happy.html")
+            )
+          ) {
+            return raw;
+          }
+          const content = env.useSubdir ? raw : raw.replace(/\/next\//g, "/");
+          return env.liveReload
+            ? appendLiveReloadScript(content, env)
+            : content;
+        });
+      }
+    };
+  }
+
   return useOffline
     ? undefined
     : {
@@ -225,7 +246,11 @@ module.exports = (env) => {
             secure: false,
             changeOrigin: true,
             pathRewrite: pathRewriteFactory(seg),
-            ...(seg === "api" ? apiProxyOptions : {}),
+            ...(seg === "api"
+              ? apiProxyOptions
+              : seg === ""
+              ? rootProxyOptions
+              : null),
           };
           return acc;
         }, {}),

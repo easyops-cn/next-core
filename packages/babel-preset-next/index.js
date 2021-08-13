@@ -45,15 +45,29 @@ const customPresetOfPluginsAfterTypescript = {
 };
 
 module.exports = () => {
-  const envTest = {
+  const envFactory = (env) => ({
     presets: [
       [
         presetEnv,
-        {
-          targets: {
-            node: "current",
-          },
-        },
+        env === "test"
+          ? {
+              targets: {
+                node: "current",
+              },
+            }
+          : env === "commonjs"
+          ? {
+              targets: {
+                node: "12",
+              },
+            }
+          : {
+              modules: false,
+              useBuiltIns: "entry",
+              corejs: {
+                version: 3,
+              },
+            },
       ],
       presetReact,
       customPresetOfPluginsAfterTypescript,
@@ -65,7 +79,7 @@ module.exports = () => {
       ],
     ],
     plugins: [
-      [
+      env === "test" && [
         antdImport,
         {
           libraryName: "antd",
@@ -80,42 +94,15 @@ module.exports = () => {
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
       proposalUnicodePropertyRegex,
-    ],
-  };
-
-  const envOthers = {
-    presets: [
-      [
-        presetEnv,
-        {
-          modules: false,
-          useBuiltIns: "entry",
-          corejs: {
-            version: 3,
-          },
-        },
-      ],
-      presetReact,
-      customPresetOfPluginsAfterTypescript,
-      [
-        presetTypescript,
-        {
-          allowDeclareFields: true,
-        },
-      ],
-    ],
-    plugins: [
-      proposalNullishCoalescingOperator,
-      proposalOptionalChaining,
-      proposalUnicodePropertyRegex,
-    ],
-  };
+    ].filter(Boolean),
+  });
 
   return {
-    env: {
-      test: envTest,
-      development: envOthers,
-      production: envOthers,
-    },
+    env: Object.fromEntries(
+      ["test", "development", "production", "commonjs"].map((env) => [
+        env,
+        envFactory(env),
+      ])
+    ),
   };
 };

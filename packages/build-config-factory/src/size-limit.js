@@ -8,7 +8,7 @@ function getPath(type, pkg) {
     case "templates":
       return `${type}/${pkg}/dist/index.*.js`;
     case "libs":
-      return `${type}/${pkg}/dist/index.esm.js`;
+      return `${type}/${pkg}/dist/esm/**/*.js`;
     case "editors":
       return `bricks/${pkg}/dist/editors/editors.*.js`;
     case "lazyBricks":

@@ -4,7 +4,7 @@ module.exports = () => ({
   mode: "production",
   devtool: "source-map",
   output: {
-    filename: "[name].[contenthash].js",
+    filename: "[name].[contenthash:8].js",
   },
   optimization: {
     minimizer: [

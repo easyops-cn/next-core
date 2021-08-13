@@ -396,6 +396,28 @@ Array [
 ]
 `;
 
+exports[`http should return http response object  1`] = `
+Object {
+  "config": Object {
+    "method": "GET",
+    "options": Object {
+      "observe": "response",
+    },
+    "url": "http://example.com",
+  },
+  "data": Object {
+    "foo": "bar",
+  },
+  "headers": Headers {
+    "map": Object {
+      "content-type": "text/plain;charset=UTF-8",
+    },
+  },
+  "status": 200,
+  "statusText": "",
+}
+`;
+
 exports[`http should work with http.request 1`] = `
 Array [
   "http://example.com/for-good",

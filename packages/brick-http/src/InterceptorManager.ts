@@ -1,17 +1,15 @@
-import { HttpError, HttpRequestConfig } from "./http";
+import { HttpError, HttpRequestConfig, HttpResponse } from "./http";
 
-export interface InterceptorHandlers {
-  fulfilled: (config: HttpRequestConfig) => void;
+export interface InterceptorHandlers<T> {
+  fulfilled: (config: T) => void;
   rejected: (error: HttpError) => void;
 }
 
-export default class InterceptorManager {
-  handlers: InterceptorHandlers[] = [];
+export default class InterceptorManager<T> {
+  handlers: InterceptorHandlers<T>[] = [];
 
   use(
-    onFulfilled?: (
-      value: HttpRequestConfig
-    ) => HttpRequestConfig | Promise<HttpRequestConfig>,
+    onFulfilled?: (value: T) => T | Promise<T>,
     onRejected?: (error: HttpError) => HttpError | Promise<HttpError>
   ): number {
     this.handlers.push({

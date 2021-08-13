@@ -334,6 +334,20 @@ function tryServeFiles(files, req, res) {
   });
 }
 
+function appendLiveReloadScript(raw, env) {
+  return raw.replace(
+    "</body>",
+    `<script>
+  const socket = new WebSocket("ws://${env.host}:${env.wsPort}");
+  socket.onmessage = function(event) {
+    if (event.data === "content change") {
+      location.reload();
+    }
+  };
+</script></body>`
+  );
+}
+
 exports.getNavbar = getNavbar;
 exports.getStoryboardsByMicroApps = getStoryboardsByMicroApps;
 exports.getSingleStoryboard = getSingleStoryboard;
@@ -351,3 +365,4 @@ exports.getNamesOfTemplatePackages = getNamesOfTemplatePackages;
 exports.getPatternsToWatch = getPatternsToWatch;
 exports.checkLocalPackages = checkLocalPackages;
 exports.tryServeFiles = tryServeFiles;
+exports.appendLiveReloadScript = appendLiveReloadScript;

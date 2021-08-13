@@ -7,7 +7,7 @@ export enum LexicalStatus {
   ExpectPipeIdentifier,
   ExpectOptionalBeginPipeParameter,
   ExpectPipeParameter,
-  ExpectPlaceholderEnd
+  ExpectPlaceholderEnd,
 }
 
 export enum TokenType {
@@ -20,18 +20,18 @@ export enum TokenType {
   PipeIdentifier = "PipeIdentifier",
   BeginPipeParameter = "BeginPipeParameter",
   EndPlaceHolder = "EndPlaceHolder",
-  JsonValue = "JsonValue"
+  JsonValue = "JsonValue",
 }
 
 export enum JsonValueType {
   Array,
   Object,
   String,
-  Others
+  Others,
 }
 
 export interface LexicalContext {
-  beginPlaceholder: string;
+  beginPlaceholder: RegExp;
   raw: string;
   cursor: number;
   status: LexicalStatus;
@@ -66,6 +66,7 @@ export interface RawString extends Node {
 
 export interface Placeholder extends Node {
   type: "Placeholder";
+  symbol: string;
   field: string;
   defaultValue: any;
   pipes: PipeCall[];

@@ -21,6 +21,8 @@ const {
   updateResolutions,
   updateBrickNext,
   migrateJestV2,
+  updateBuildNextLibs,
+  addPreBuildScriptForBricks,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -124,10 +126,6 @@ module.exports = async function patch() {
     disableSdkRenovate();
   }
 
-  if (semver.lt(currentRenewVersion, "1.8.4")) {
-    updateRenovateFileFilters();
-  }
-
   if (semver.lt(currentRenewVersion, "1.8.5")) {
     await migrateHusky();
   }
@@ -144,13 +142,25 @@ module.exports = async function patch() {
     updateResolutions();
   }
 
-  if (semver.lt(currentRenewVersion, "1.9.0")) {
-    updateBrickNext();
+  if (semver.lt(currentRenewVersion, "1.9.1")) {
+    migrateJestV2();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.10.1")) {
+    updateRenovateFileFilters();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.10.2")) {
     addLazyBricksIntoGitignore();
   }
 
-  if (semver.lt(currentRenewVersion, "1.9.1")) {
-    migrateJestV2();
+  if (semver.lt(currentRenewVersion, "1.10.3")) {
+    updateBuildNextLibs();
+    addPreBuildScriptForBricks();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.10.6")) {
+    updateBrickNext();
   }
 
   updateDevDependenciesVersion();

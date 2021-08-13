@@ -79,7 +79,9 @@ http.interceptors.response.use(
   function (response: HttpResponse) {
     window.dispatchEvent(new CustomEvent("request.end"));
     analyzer?.analyses(response);
-    return response.data;
+    return response.config.options?.observe === "response"
+      ? response
+      : response.data;
   },
   function (error: HttpError) {
     analyzer?.analyses(error);

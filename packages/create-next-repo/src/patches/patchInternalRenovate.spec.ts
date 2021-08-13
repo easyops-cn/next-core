@@ -65,7 +65,14 @@ describe("patchInternalRenovate", () => {
                 "yarn-deduplicate yarn.lock",
                 "yarn",
               ],
-              fileFilters: ["**/*", ".gitlab/**/*", ".huskyrc", ".husky/**/*"],
+              fileFilters: [
+                "**/*",
+                ".gitignore",
+                ".gitlab/**/*",
+                ".huskyrc",
+                ".husky/.gitignore",
+                ".husky/**/*",
+              ],
             },
           },
           {

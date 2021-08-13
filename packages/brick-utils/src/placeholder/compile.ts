@@ -5,29 +5,56 @@ import {
 } from "@next-core/brick-types";
 import { parseInjectableString } from "./syntax";
 import { processPipes } from "./pipes";
-import { RawString, Placeholder } from "./interfaces";
+import { Placeholder } from "./interfaces";
+import { getRegExpOfPlaceholder } from "./lexical";
 
 export function transform(raw: string, data: any): any {
-  return compile(raw, "@", transformNodeFactory(data));
+  return compile(raw, "@", data);
 }
 
 export function inject(raw: string, context: PluginRuntimeContext): any {
-  return compile(raw, "$", injectNodeFactory(context, raw));
+  return compile(raw, "$", undefined, context);
 }
 
-type CompileNode = (node: RawString | Placeholder) => any;
+export function transformAndInject(
+  raw: string,
+  data: any,
+  context: PluginRuntimeContext
+): any {
+  return compile(raw, ["@", "$"], data, context);
+}
 
-function compile(raw: string, symbol: string, compileNode: CompileNode): any {
-  if (!isInjectable(raw, symbol)) {
+type CompileNode = (node: Placeholder) => any;
+
+function compile(
+  raw: string,
+  symbols: string | string[],
+  data?: any,
+  context?: PluginRuntimeContext
+): any {
+  // const symbols = ["@", "$"];
+  if (!isInjectable(raw, symbols)) {
     return raw;
   }
 
-  const tree = parseInjectableString(raw, symbol);
+  const transformNode = transformNodeFactory(data);
+  const injectNode = injectNodeFactory(context, raw);
 
-  const values = tree.elements.map(compileNode);
+  const tree = parseInjectableString(raw, symbols);
+  const values = tree.elements.map((node) =>
+    node.type === "RawString"
+      ? node.value
+      : node.symbol === "$"
+      ? injectNode(node)
+      : transformNode(node)
+  );
 
+  return reduceCompiledValues(values);
+}
+
+function reduceCompiledValues(values: any[]): any {
   // If the whole string is a placeholder, we should keep the original value.
-  if (tree.elements.length === 1) {
+  if (values.length === 1) {
     return values[0];
   }
 
@@ -36,16 +63,12 @@ function compile(raw: string, symbol: string, compileNode: CompileNode): any {
   return values.join("");
 }
 
-function isInjectable(raw: string, symbol = "$"): boolean {
-  return raw.includes(`${symbol}{`);
+function isInjectable(raw: string, symbols?: string | string[]): boolean {
+  return getRegExpOfPlaceholder(symbols).test(raw);
 }
 
 function transformNodeFactory(data: any): CompileNode {
-  return function transformNode(node: RawString | Placeholder): any {
-    if (node.type === "RawString") {
-      return node.value;
-    }
-
+  return function transformNode(node: Placeholder): any {
     // If meet `@{}`, return `data`.
     let result = node.field ? get(data, node.field) : data;
 
@@ -61,10 +84,7 @@ function injectNodeFactory(
   context: PluginRuntimeContext,
   raw: string
 ): CompileNode {
-  return function injectNode(node: RawString | Placeholder): any {
-    if (node.type === "RawString") {
-      return node.value;
-    }
+  return function injectNode(node: Placeholder): any {
     const matches = node.field.match(
       /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|ANCHOR|SYS|FLAGS|CTX)\.)?(.+)$/
     );

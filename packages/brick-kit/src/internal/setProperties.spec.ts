@@ -6,6 +6,7 @@ import {
 } from "./setProperties";
 import * as runtime from "../core/Runtime";
 import { TrackingContextItem } from "./listenOnTrackingContext";
+import { StateOfUseBrick } from "./getNextStateOfUseBrick";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 jest.spyOn(console, "error").mockImplementation(() => void 0);
@@ -118,6 +119,35 @@ describe("computeRealValue", () => {
     ) as string[];
     expect(result).toEqual(dataWithEvaluation);
     expect(computeRealValue(result, context, true)).toEqual([true]);
+  });
+
+  it("should allow lazy inject", () => {
+    const result = computeRealValue(
+      {
+        homepage: "${APP.homepage}",
+        useBrick: {
+          brick: "my-brick",
+          properties: {
+            q: "${QUERY.q}",
+          },
+        },
+      },
+      context,
+      true,
+      {
+        $$lazyForUseBrick: true,
+        $$stateOfUseBrick: StateOfUseBrick.INITIAL,
+      }
+    );
+    expect(result).toEqual({
+      homepage: "/host",
+      useBrick: {
+        brick: "my-brick",
+        properties: {
+          q: "${QUERY.q}",
+        },
+      },
+    });
   });
 });
 
@@ -437,8 +467,18 @@ describe("computeRealProperties", () => {
                   {
                     useProvider: "my.provider",
                     args: ["<% APP.name %>"],
+                    transform: {
+                      shouldBeLazy: "<% APP.homepage %>",
+                    },
+                    onReject: {
+                      transform: {
+                        shouldBeLazy: "<% APP.homepage %>",
+                      },
+                      isolatedCrash: "<% true %>",
+                    },
                   },
                 ],
+                onPageLoad: "<% null %>",
               },
             },
           ],
@@ -471,8 +511,18 @@ describe("computeRealProperties", () => {
                 {
                   useProvider: "my.provider",
                   args: ["host"],
+                  transform: {
+                    shouldBeLazy: "<% APP.homepage %>",
+                  },
+                  onReject: {
+                    transform: {
+                      shouldBeLazy: "<% APP.homepage %>",
+                    },
+                    isolatedCrash: true,
+                  },
                 },
               ],
+              onPageLoad: null,
             },
           },
         ],

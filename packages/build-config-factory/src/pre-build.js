@@ -1,5 +1,6 @@
 const path = require("path");
 const os = require("os");
+const crypto = require("crypto");
 const fs = require("fs-extra");
 const changeCase = require("change-case");
 const prettier = require("prettier");
@@ -63,47 +64,86 @@ const generateLazyBricks = () => {
   console.log("Find `src/lazy-bricks.yaml`, building lazy bricks...");
   const packageJson = require(path.resolve("package.json"));
   const packageName = packageJson.name.split("/")[1];
+
+  // The chunk ids must be unique across foreign webpack bundles.
+  // So we suffix these ids with the hash of the package name.
+  const hash = crypto
+    .createHash("sha1")
+    .update(packageName)
+    .digest("hex")
+    .substr(0, 4);
+
   const lazyBricksTs = ['import { getRuntime } from "@next-core/brick-kit";'];
   const newFiles = [];
   const lazyBricksConf = yaml.safeLoad(
     fs.readFileSync(lazyBricksConfPath, "utf-8")
   );
   const flattenBricks = [];
+  const flattenEntries = [];
+
+  const pushNewBrick = (brick, entry) => {
+    lazyBricksTs.push(
+      `getRuntime().registerLazyBricks(
+"${packageName}.${brick}",
+() =>
+  import(
+    /* webpackChunkName: "lazy-bricks/${brick}.${hash}" */
+    "../${entry}"
+  )
+);`
+    );
+    flattenBricks.push(brick);
+    flattenEntries.push(entry);
+  };
+
   for (const brick of lazyBricksConf.lazyBricks) {
     if (typeof brick === "string") {
-      lazyBricksTs.push(
-        `getRuntime().registerLazyBricks(
-  "${packageName}.${brick}",
-  () =>
-    import(
-      /* webpackChunkName: "lazy-bricks/${brick}" */
-      "../${brick}"
-    )
-);`
-      );
-      flattenBricks.push(brick);
+      pushNewBrick(brick, brick);
     } else if (Array.isArray(brick.bricks)) {
       lazyBricksTs.push(
         `getRuntime().registerLazyBricks(
   [
     ${brick.bricks
-      .map((item) => `"${packageName}.${item}"`)
+      .map((item) =>
+        typeof item === "string"
+          ? `"${packageName}.${item}"`
+          : `"${packageName}.${item.brick}"`
+      )
       .join(`,${os.EOL}    `)}
   ],
   () =>
     import(
-      /* webpackChunkName: "lazy-bricks/~${brick.group}" */
+      /* webpackChunkName: "lazy-bricks/~${brick.group}.${hash}" */
       "./${brick.group}"
     )
 );`
       );
       newFiles.push({
         filename: `${brick.group}.ts`,
-        content: brick.bricks
-          .map((item) => `import "../${item}";`)
-          .join(os.EOL),
+        content: Array.from(
+          new Set(
+            brick.bricks
+              .filter((item) => typeof item === "string" || item.entry)
+              .map((item) =>
+                typeof item === "string"
+                  ? `import "../${item}";`
+                  : `import "../${item.entry}";`
+              )
+          )
+        ).join(os.EOL),
       });
-      flattenBricks.push(...brick.bricks);
+      flattenBricks.push(
+        ...brick.bricks.map((item) =>
+          typeof item === "string" ? item : item.brick
+        )
+      );
+      flattenEntries.push(
+        ...brick.bricks
+          .filter((item) => typeof item === "string" || item.entry)
+          .map((item) => (typeof item === "string" ? item : item.entry))
+      );
+    } else {
+      pushNewBrick(brick.brick, brick.entry);
     }
   }
 
@@ -121,9 +161,9 @@ const generateLazyBricks = () => {
 
   const indexTsPath = path.resolve("src/index.ts");
   let indexTsContent = fs.readFileSync(indexTsPath, "utf-8");
-  for (const brick of flattenBricks) {
+  for (const entry of flattenEntries) {
     indexTsContent = indexTsContent.replace(
-      new RegExp(`^import "\\./${escapeRegExp(brick)}";$`, "m"),
+      new RegExp(`^import "\\./${escapeRegExp(entry)}";$`, "m"),
       "// !Lazy: $&"
     );
   }

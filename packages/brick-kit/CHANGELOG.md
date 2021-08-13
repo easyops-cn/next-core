@@ -3,133 +3,118 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.62.1...@next-core/brick-kit@2.63.0) (2021-07-30)
+## [2.63.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.7...@next-core/brick-kit@2.63.8) (2021-08-13)
 
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.63.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.6...@next-core/brick-kit@2.63.7) (2021-08-12)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.63.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.5...@next-core/brick-kit@2.63.6) (2021-08-11)
+
+### Bug Fixes
+
+- allow transform and inject in useBrick at the same time ([2d20690](https://github.com/easyops-cn/next-core/commit/2d20690908b8661bced455614e1432a61ca0ef3e))
+
+## [2.63.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.4...@next-core/brick-kit@2.63.5) (2021-08-10)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.63.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.3...@next-core/brick-kit@2.63.4) (2021-08-09)
+
+### Bug Fixes
+
+- fix tracking context in forwarded useBrick ([d31b798](https://github.com/easyops-cn/next-core/commit/d31b79801965e413df408b5333a75e9a7a54eb08))
+- load bricks in dynamic useBrick ([f93923f](https://github.com/easyops-cn/next-core/commit/f93923f7c67f618782e5526ed6ecece679444dfe))
+
+## [2.63.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.2...@next-core/brick-kit@2.63.3) (2021-08-09)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.63.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.1...@next-core/brick-kit@2.63.2) (2021-08-09)
+
+### Bug Fixes
+
+- load bricks in dynamic useBrick ([0e5d784](https://github.com/easyops-cn/next-core/commit/0e5d7848619a91fe7cefa89923c98e5d7dc69c1c))
+
+## [2.63.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.0...@next-core/brick-kit@2.63.1) (2021-08-04)
+
+### Bug Fixes
+
+- make lifeCycle.useResolves.transform as lazy in useBrick ([b54c6fa](https://github.com/easyops-cn/next-core/commit/b54c6fa2fbdc5e0cb719e6b8418dafeae5c39ba5))
+
+# [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.62.1...@next-core/brick-kit@2.63.0) (2021-07-30)
 
 ### Features
 
-* support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
-
-
-
-
+- support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
 
 ## [2.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.62.0...@next-core/brick-kit@2.62.1) (2021-07-30)
 
-
 ### Bug Fixes
 
-* transform useBrick.if lazyly inside useBrick.properties ([887ecde](https://github.com/easyops-cn/next-core/commit/887ecde3f064e40c9b83e68db80af0219efc7e3d))
-
-
-
-
+- transform useBrick.if lazyly inside useBrick.properties ([887ecde](https://github.com/easyops-cn/next-core/commit/887ecde3f064e40c9b83e68db80af0219efc7e3d))
 
 # [2.62.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.61.0...@next-core/brick-kit@2.62.0) (2021-07-28)
 
-
 ### Features
 
-* support tracking context in useBrick ([ef2988f](https://github.com/easyops-cn/next-core/commit/ef2988f1685a5dc21946d40eac22bde68fa04cd8))
-
-
-
-
+- support tracking context in useBrick ([ef2988f](https://github.com/easyops-cn/next-core/commit/ef2988f1685a5dc21946d40eac22bde68fa04cd8))
 
 # [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.2...@next-core/brick-kit@2.61.0) (2021-07-28)
 
-
 ### Features
 
-* support to transform data in properties of useBrick ([c6cf3d4](https://github.com/easyops-cn/next-core/commit/c6cf3d4bd505d9a064f66799bae46ea798146d4b))
-
-
-
-
+- support to transform data in properties of useBrick ([c6cf3d4](https://github.com/easyops-cn/next-core/commit/c6cf3d4bd505d9a064f66799bae46ea798146d4b))
 
 ## [2.60.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.1...@next-core/brick-kit@2.60.2) (2021-07-27)
 
-
 ### Bug Fixes
 
-* **menu:** allow injecting menu items in non-group menus ([d744052](https://github.com/easyops-cn/next-core/commit/d744052eb2e1f1c16f5ce2ea611e253426f932e9))
-
-
-
-
+- **menu:** allow injecting menu items in non-group menus ([d744052](https://github.com/easyops-cn/next-core/commit/d744052eb2e1f1c16f5ce2ea611e253426f932e9))
 
 ## [2.60.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.60.0...@next-core/brick-kit@2.60.1) (2021-07-26)
 
-
 ### Bug Fixes
 
-* evaluate lazily for events inside slots of useBrick ([adeeb4e](https://github.com/easyops-cn/next-core/commit/adeeb4ec02eded9cdde9809da60682bb758d51a2))
-
-
-
-
+- evaluate lazily for events inside slots of useBrick ([adeeb4e](https://github.com/easyops-cn/next-core/commit/adeeb4ec02eded9cdde9809da60682bb758d51a2))
 
 # [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.59.0...@next-core/brick-kit@2.60.0) (2021-07-26)
 
-
 ### Features
 
-* **menu:** support injecting menu items into a menu group ([a1dce86](https://github.com/easyops-cn/next-core/commit/a1dce86984f9354ef130f6d2b51ec1459e789386))
-
-
-
-
+- **menu:** support injecting menu items into a menu group ([a1dce86](https://github.com/easyops-cn/next-core/commit/a1dce86984f9354ef130f6d2b51ec1459e789386))
 
 # [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.58.1...@next-core/brick-kit@2.59.0) (2021-07-26)
 
-
 ### Features
 
-* support tracking context ([c6ada04](https://github.com/easyops-cn/next-core/commit/c6ada04b3e7350ce2daa0e4a0e7ece06526aa1c8))
-
-
-
-
+- support tracking context ([c6ada04](https://github.com/easyops-cn/next-core/commit/c6ada04b3e7350ce2daa0e4a0e7ece06526aa1c8))
 
 ## [2.58.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.58.0...@next-core/brick-kit@2.58.1) (2021-07-23)
 
-
 ### Bug Fixes
 
-* **LocationContext:** use hasOwnProperty to check if value exists ([5bae1f5](https://github.com/easyops-cn/next-core/commit/5bae1f5146b4629ce27e0993b572a88e215fc9f1))
-
-
-
-
+- **LocationContext:** use hasOwnProperty to check if value exists ([5bae1f5](https://github.com/easyops-cn/next-core/commit/5bae1f5146b4629ce27e0993b572a88e215fc9f1))
 
 # [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.57.0...@next-core/brick-kit@2.58.0) (2021-07-23)
 
-
 ### Bug Fixes
 
-* **getDependencyMapOfContext:** also collect contexts in if ([44a4b6a](https://github.com/easyops-cn/next-core/commit/44a4b6ac10238226083ca6271693f805469382f5))
-
+- **getDependencyMapOfContext:** also collect contexts in if ([44a4b6a](https://github.com/easyops-cn/next-core/commit/44a4b6ac10238226083ca6271693f805469382f5))
 
 ### Features
 
-* **LocationContext:** fallback to value when resolve is invalid ([a0adf42](https://github.com/easyops-cn/next-core/commit/a0adf420a55c65a736607df5914e707c6cfe2bd2))
-
-
-
-
+- **LocationContext:** fallback to value when resolve is invalid ([a0adf42](https://github.com/easyops-cn/next-core/commit/a0adf420a55c65a736607df5914e707c6cfe2bd2))
 
 # [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.4...@next-core/brick-kit@2.57.0) (2021-07-23)
 
-
 ### Features
 
-* add route field for analysis ([5e81e2f](https://github.com/easyops-cn/next-core/commit/5e81e2f813ec4c78be28b2d276f618f5bfbf38e1))
-* api contract support file download ([6420d61](https://github.com/easyops-cn/next-core/commit/6420d61c08ef8f63b071ea8580076b056c230c3d))
-* useProvider 支持 saveAs 的方法 ([7add9a1](https://github.com/easyops-cn/next-core/commit/7add9a152fe572b0c2274cbe363dc81361624abf))
-
-
-
-
+- add route field for analysis ([5e81e2f](https://github.com/easyops-cn/next-core/commit/5e81e2f813ec4c78be28b2d276f618f5bfbf38e1))
+- api contract support file download ([6420d61](https://github.com/easyops-cn/next-core/commit/6420d61c08ef8f63b071ea8580076b056c230c3d))
+- useProvider 支持 saveAs 的方法 ([7add9a1](https://github.com/easyops-cn/next-core/commit/7add9a152fe572b0c2274cbe363dc81361624abf))
 
 ## [2.56.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.56.3...@next-core/brick-kit@2.56.4) (2021-07-21)
 

@@ -3,120 +3,123 @@ import { tokenize } from "./lexical";
 describe("tokenize", () => {
   it("should work", () => {
     const tokens = tokenize(
-      '${ some.field[0].path = ["complex","value"] | map : id : true | slice } ${=oops|a:-0.2E+3}'
+      '${ some.field[0].path = ["complex","value"] | map : id : true | slice } @{=oops|a:-0.2E+3}',
+      ["$", "@"]
     );
     expect(tokens).toEqual([
       {
         type: "BeginPlaceHolder",
         loc: {
           start: 0,
-          end: 2
-        }
+          end: 2,
+        },
+        value: "$",
       },
       {
         value: "some.field[0].path",
-        type: "Field"
+        type: "Field",
       },
       {
-        type: "BeginDefault"
+        type: "BeginDefault",
       },
       {
         value: ["complex", "value"],
-        type: "JsonValue"
+        type: "JsonValue",
       },
       {
-        type: "BeginPipe"
+        type: "BeginPipe",
       },
       {
         value: "map",
-        type: "PipeIdentifier"
+        type: "PipeIdentifier",
       },
       {
-        type: "BeginPipeParameter"
+        type: "BeginPipeParameter",
       },
       {
         value: "id",
-        type: "LiteralString"
+        type: "LiteralString",
       },
       {
-        type: "BeginPipeParameter"
+        type: "BeginPipeParameter",
       },
       {
         value: true,
-        type: "JsonValue"
+        type: "JsonValue",
       },
       {
-        type: "BeginPipe"
+        type: "BeginPipe",
       },
       {
         value: "slice",
-        type: "PipeIdentifier"
+        type: "PipeIdentifier",
       },
       {
         type: "EndPlaceHolder",
         loc: {
           start: 70,
-          end: 71
-        }
+          end: 71,
+        },
       },
       {
         value: " ",
-        type: "Raw"
+        type: "Raw",
       },
       {
         type: "BeginPlaceHolder",
         loc: {
           start: 72,
-          end: 74
-        }
+          end: 74,
+        },
+        value: "@",
       },
       {
         value: "",
-        type: "Field"
+        type: "Field",
       },
       {
-        type: "BeginDefault"
+        type: "BeginDefault",
       },
       {
         value: "oops",
-        type: "LiteralString"
+        type: "LiteralString",
       },
       {
-        type: "BeginPipe"
+        type: "BeginPipe",
       },
       {
         value: "a",
-        type: "PipeIdentifier"
+        type: "PipeIdentifier",
       },
       {
-        type: "BeginPipeParameter"
+        type: "BeginPipeParameter",
       },
       {
         value: -200,
-        type: "JsonValue"
+        type: "JsonValue",
       },
       {
         type: "EndPlaceHolder",
         loc: {
           start: 89,
-          end: 90
-        }
-      }
+          end: 90,
+        },
+      },
     ]);
   });
 
   it("should work for `${{...}}`", () => {
-    expect(tokenize("${{appId}}")).toEqual([
+    expect(tokenize("${{appId}}", "$")).toEqual([
       {
         type: "Raw",
-        value: "${{appId}}"
-      }
+        value: "${{appId}}",
+      },
     ]);
   });
 
   it("should throw", () => {
     expect(() => {
-      tokenize("${");
+      tokenize("${", "$");
     }).toThrowError();
   });
 });
