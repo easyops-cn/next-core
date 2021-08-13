@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.29.16...@next-core/brick-container@2.30.0) (2021-08-13)
+
+
+### Features
+
+* http请求可以指定返回数据类型 ([ef35f96](https://github.com/easyops-cn/next-core/commit/ef35f964a7882414f94c991d88d3ddce23383f41))
+
+
+
+
+
 ## [2.29.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.29.15...@next-core/brick-container@2.29.16) (2021-08-12)
 
 **Note:** Version bump only for package @next-core/brick-container
