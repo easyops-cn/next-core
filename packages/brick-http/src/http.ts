@@ -37,6 +37,7 @@ export type HttpParams =
     };
 
 export interface RequestCustomOptions {
+  observe?: "data" | "response";
   responseType?: "json" | "blob" | "arrayBuffer" | "text";
   interceptorParams?: any;
 }
@@ -211,8 +212,8 @@ const requestWithBody = <T = any>(
 
 class Http {
   public interceptors: {
-    request: InterceptorManager;
-    response: InterceptorManager;
+    request: InterceptorManager<HttpRequestConfig>;
+    response: InterceptorManager<HttpResponse>;
   };
 
   public defaults = {};
