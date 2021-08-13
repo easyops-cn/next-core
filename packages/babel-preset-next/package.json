@@ -16,10 +16,10 @@
     "@babel/plugin-proposal-optional-chaining": "^7.14.5",
     "@babel/plugin-proposal-private-methods": "^7.14.5",
     "@babel/plugin-proposal-unicode-property-regex": "^7.14.5",
-    "@babel/plugin-transform-runtime": "^7.14.5",
-    "@babel/preset-env": "^7.14.8",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
-    "@babel/preset-typescript": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
     "babel-plugin-import": "^1.13.3"
   }
 }

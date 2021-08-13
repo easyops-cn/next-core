@@ -5,22 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.2.10...@next-core/brick-http@2.3.0) (2021-08-13)
 
-
 ### Features
 
-* http请求可以指定返回数据类型 ([ef35f96](https://github.com/easyops-cn/next-core/commit/ef35f964a7882414f94c991d88d3ddce23383f41))
-
-
-
-
+- http 请求可以指定返回数据类型 ([ef35f96](https://github.com/easyops-cn/next-core/commit/ef35f964a7882414f94c991d88d3ddce23383f41))
 
 ## [2.2.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.2.9...@next-core/brick-http@2.2.10) (2021-07-23)
 
 **Note:** Version bump only for package @next-core/brick-http
-
-
-
-
 
 ## [2.2.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.2.8...@next-core/brick-http@2.2.9) (2021-07-02)
 

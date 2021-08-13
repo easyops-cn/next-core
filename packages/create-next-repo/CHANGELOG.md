@@ -5,22 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.3.13](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.12...@next-core/create-next-repo@1.3.13) (2021-08-06)
 
-
 ### Bug Fixes
 
-* **renovate:** add .gitignore into file filters ([9efa13b](https://github.com/easyops-cn/next-core/commit/9efa13bb7b0ea1f6d578a8fc57df7216989cb6b4))
-
-
-
-
+- **renovate:** add .gitignore into file filters ([9efa13b](https://github.com/easyops-cn/next-core/commit/9efa13bb7b0ea1f6d578a8fc57df7216989cb6b4))
 
 ## [1.3.12](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.11...@next-core/create-next-repo@1.3.12) (2021-07-23)
 
 **Note:** Version bump only for package @next-core/create-next-repo
-
-
-
-
 
 ## [1.3.11](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.10...@next-core/create-next-repo@1.3.11) (2021-07-02)
 

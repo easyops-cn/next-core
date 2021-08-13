@@ -5,88 +5,49 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.2...@next-core/brick-utils@2.23.0) (2021-08-12)
 
-
 ### Features
 
-* support atob and btoa in evaluations ([78a89d6](https://github.com/easyops-cn/next-core/commit/78a89d6d18b82177bfa7f7afd3c4beaf168e6682))
-
-
-
-
+- support atob and btoa in evaluations ([78a89d6](https://github.com/easyops-cn/next-core/commit/78a89d6d18b82177bfa7f7afd3c4beaf168e6682))
 
 ## [2.22.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.1...@next-core/brick-utils@2.22.2) (2021-08-11)
 
-
 ### Bug Fixes
 
-* allow transform and inject in useBrick at the same time ([2d20690](https://github.com/easyops-cn/next-core/commit/2d20690908b8661bced455614e1432a61ca0ef3e))
-
-
-
-
+- allow transform and inject in useBrick at the same time ([2d20690](https://github.com/easyops-cn/next-core/commit/2d20690908b8661bced455614e1432a61ca0ef3e))
 
 ## [2.22.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.0...@next-core/brick-utils@2.22.1) (2021-08-10)
 
-
 ### Bug Fixes
 
-* collect useProvider in onChange of context ([d4dfda1](https://github.com/easyops-cn/next-core/commit/d4dfda14c36213675f466f9179c0a38769ae50cc))
-
-
-
-
+- collect useProvider in onChange of context ([d4dfda1](https://github.com/easyops-cn/next-core/commit/d4dfda14c36213675f466f9179c0a38769ae50cc))
 
 # [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.21.1...@next-core/brick-utils@2.22.0) (2021-07-30)
 
-
 ### Features
 
-* support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
-
-
-
-
+- support lazy load of bricks ([d4c143d](https://github.com/easyops-cn/next-core/commit/d4c143db1483871efcdc5e3d733b069ae0feeec7))
 
 ## [2.21.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.21.0...@next-core/brick-utils@2.21.1) (2021-07-26)
 
-
 ### Bug Fixes
 
-* fix scanning permission actions ([3e7eaec](https://github.com/easyops-cn/next-core/commit/3e7eaec332020a3ab0f8d611eb15f297eb703015))
-
-
-
-
+- fix scanning permission actions ([3e7eaec](https://github.com/easyops-cn/next-core/commit/3e7eaec332020a3ab0f8d611eb15f297eb703015))
 
 # [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.4...@next-core/brick-utils@2.21.0) (2021-07-26)
 
-
 ### Features
 
-* support trackContext ([6e47e60](https://github.com/easyops-cn/next-core/commit/6e47e607c7a2f90dfc9c87dd8150c4c70298c01b))
-
-
-
-
+- support trackContext ([6e47e60](https://github.com/easyops-cn/next-core/commit/6e47e607c7a2f90dfc9c87dd8150c4c70298c01b))
 
 ## [2.20.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.3...@next-core/brick-utils@2.20.4) (2021-07-23)
 
-
 ### Bug Fixes
 
-* **getDependencyMapOfContext:** also collect contexts in if ([44a4b6a](https://github.com/easyops-cn/next-core/commit/44a4b6ac10238226083ca6271693f805469382f5))
-
-
-
-
+- **getDependencyMapOfContext:** also collect contexts in if ([44a4b6a](https://github.com/easyops-cn/next-core/commit/44a4b6ac10238226083ca6271693f805469382f5))
 
 ## [2.20.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.2...@next-core/brick-utils@2.20.3) (2021-07-23)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.20.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.20.1...@next-core/brick-utils@2.20.2) (2021-07-20)
 
