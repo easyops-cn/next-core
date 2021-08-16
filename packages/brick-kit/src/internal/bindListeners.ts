@@ -12,6 +12,7 @@ import {
   RuntimeBrickElement,
   StoryboardContextItem,
   UseProviderEventHandler,
+  ProviderPollOptions,
 } from "@next-core/brick-types";
 import { handleHttpError, httpErrorToString } from "../handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
@@ -33,6 +34,7 @@ import { PluginWebSocketMessageTopic } from "../websocket/interfaces";
 import { isCustomApiProvider, getArgsOfCustomApi } from "../core/CustomApis";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
+import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -660,48 +662,69 @@ async function brickCallback(
     }
   }
   const task = (): unknown => (target as any)[method](...argsFactoryResult);
-  const { success, error, finally: finallyHook } = handler.callback ?? {};
-  if (success || error || finallyHook) {
-    try {
-      // Try to catch synchronized tasks too.
-      const result = await task();
-      if (success) {
+
+  const {
+    success,
+    error,
+    finally: finallyHook,
+    progress,
+  } = handler.callback ?? {};
+
+  if (!(success || error || finallyHook || progress)) {
+    task();
+    return;
+  }
+
+  const callbackFactory =
+    (
+      eventType: string,
+      specificHandler: BrickEventHandler | BrickEventHandler[]
+    ): PollableCallbackFunction =>
+    (result: unknown) => {
+      if (specificHandler) {
         try {
-          const successEvent = new CustomEvent("callback.success", {
+          const event = new CustomEvent(eventType, {
             detail: result,
           });
-          [].concat(success).forEach((eachSuccess) => {
-            listenerFactory(eachSuccess, context, runtimeBrick)(successEvent);
+          [].concat(specificHandler).forEach((eachHandler) => {
+            listenerFactory(eachHandler, context, runtimeBrick)(event);
           });
         } catch (err) {
-          // Do not throw errors in `callback.success`,
+          // Do not throw errors in `callback.success` or `callback.progress`,
           // to avoid the following triggering of `callback.error`.
           // eslint-disable-next-line
           console.error(err);
         }
-      }
-    } catch (err) {
-      if (error) {
-        const errorEvent = new CustomEvent("callback.error", {
-          detail: err,
-        });
-        [].concat(error).forEach((eachError) => {
-          listenerFactory(eachError, context, runtimeBrick)(errorEvent);
-        });
-      } else {
+      } else if (eventType === "callback.error") {
         // eslint-disable-next-line
-        console.error(err);
+        console.error("Unhandled callback error:", result);
       }
-    } finally {
-      if (finallyHook) {
-        const finallyEvent = new CustomEvent("callback.finally");
-        [].concat(finallyHook).forEach((eachFinally) => {
-          listenerFactory(eachFinally, context, runtimeBrick)(finallyEvent);
-        });
-      }
-    }
+    };
+
+  const pollableCallback: Required<PollableCallback> = {
+    progress: callbackFactory("callback.progress", progress),
+    success: callbackFactory("callback.success", success),
+    error: callbackFactory("callback.error", error),
+    finally: callbackFactory("callback.finally", finallyHook),
+  };
+
+  let poll: ProviderPollOptions;
+  if (isUseProviderHandler(handler)) {
+    poll = computeRealValue(handler.poll, { ...context, event }, true);
+  }
+
+  if (poll?.enabled) {
+    startPoll(task, pollableCallback, poll);
   } else {
-    task();
+    try {
+      // Try to catch synchronized tasks too.
+      const result = await task();
+      pollableCallback.success(result);
+    } catch (err) {
+      pollableCallback.error(err);
+    } finally {
+      pollableCallback["finally"]();
+    }
   }
 }
 

@@ -1131,8 +1131,34 @@ export interface UseProviderEventHandler {
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
 
+  /** {@inheritDoc ProviderPollOptions} */
+  poll?: ProviderPollOptions;
+
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+}
+
+/**
+ * 使用 Provider 进行轮询时的选项配置。
+ */
+export interface ProviderPollOptions {
+  /** 是否启用轮询。 */
+  enabled?: boolean;
+
+  /** 每次轮询间隔时间（毫秒），默认为 `3000`。 */
+  interval?: number;
+
+  /** 第一次轮询延迟时间（毫秒），默认为 `0`。 */
+  leadingRequestDelay?: number;
+
+  /** 当轮询出现错误时，是否继续轮询。 */
+  continueOnError?: boolean;
+
+  /** 是否代理系统加载条的显示与隐藏。应配合 `expectPollEnd` 使用。 */
+  delegateLoadingBar?: boolean;
+
+  /** 提供一个方法以校验轮询是否应该结束。该方法接收一个参数：当前轮询的执行结果。 */
+  expectPollEnd?: (result: unknown) => boolean;
 }
 
 /**
@@ -1196,6 +1222,11 @@ export interface BrickEventHandlerCallback {
    * 事件处理执行后，无论成功与否，要执行的动作。
    */
   finally?: BrickEventHandler | BrickEventHandler[];
+
+  /**
+   * 轮询接口时，每次轮询得到结果时要执行的动作。为后续动作传递的事件的 `detail` 为该执行结果。
+   */
+  progress?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
