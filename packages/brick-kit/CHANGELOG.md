@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.64.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.64.0...@next-core/brick-kit@2.64.1) (2021-08-16)
+
+
+### Bug Fixes
+
+* **poll:** support expectPollStopImmediately ([3f4ab02](https://github.com/easyops-cn/next-core/commit/3f4ab02b9b6e24c994df6e608f2afc4ae8939459))
+
+
+
+
+
 # [2.64.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.9...@next-core/brick-kit@2.64.0) (2021-08-16)
 
 
