@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-dll",
-  "version": "2.19.15",
+  "version": "2.19.16",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-dll",
   "license": "GPL-3.0",
@@ -23,14 +23,14 @@
     "@ant-design/icons": "^4.5.0",
     "@babel/runtime": "^7.15.3",
     "@fortawesome/react-fontawesome": "^0.1.15",
-    "@next-core/babel-runtime-helpers": "^1.0.12",
-    "@next-core/brick-http": "^2.3.0",
-    "@next-core/brick-icons": "^2.20.0",
-    "@next-core/brick-kit": "^2.63.8",
-    "@next-core/brick-utils": "^2.23.0",
-    "@next-core/easyops-analytics": "^0.2.1",
-    "@next-core/fontawesome-library": "^1.1.18",
-    "@next-core/illustrations": "^0.3.10",
+    "@next-core/babel-runtime-helpers": "^1.0.13",
+    "@next-core/brick-http": "^2.3.1",
+    "@next-core/brick-icons": "^2.21.0",
+    "@next-core/brick-kit": "^2.63.9",
+    "@next-core/brick-utils": "^2.23.1",
+    "@next-core/easyops-analytics": "^0.2.2",
+    "@next-core/fontawesome-library": "^1.1.19",
+    "@next-core/illustrations": "^0.4.0",
     "antd": "~4.12.3",
     "history": "^4.10.1",
     "i18next": "^20.4.0",
@@ -43,7 +43,7 @@
     "react-transition-group": "^4.4.2"
   },
   "devDependencies": {
-    "@next-core/webpack-config-factory": "^2.11.0",
+    "@next-core/webpack-config-factory": "^2.11.1",
     "source-map-loader": "^1.1.3"
   }
 }

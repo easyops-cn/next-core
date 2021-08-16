@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.3.10...@next-core/illustrations@0.4.0) (2021-08-16)
+
+
+### Features
+
+* icon and illustrations update ([b936fe0](https://github.com/easyops-cn/next-core/commit/b936fe0e52259283cb88a89f50cb27088b894b8b))
+
+
+
+
+
 ## [0.3.10](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.3.9...@next-core/illustrations@0.3.10) (2021-07-23)
 
 **Note:** Version bump only for package @next-core/illustrations
