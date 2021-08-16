@@ -247,9 +247,7 @@ describe("poll", () => {
     jest.advanceTimersByTime(0);
     expect(task).toBeCalled();
 
-    mockApiGetRouterRenderId
-      .mockReturnValueOnce("render-id-2")
-      .mockReturnValueOnce("render-id-2");
+    mockApiGetRouterRenderId.mockReturnValueOnce("render-id-2");
     await (global as any).flushPromises();
 
     expect(progress).not.toBeCalled();
@@ -295,5 +293,116 @@ describe("poll", () => {
     expect(success).not.toBeCalled();
     expect(error).not.toBeCalled();
     expect(finallyCallback).not.toBeCalled();
+  });
+
+  it("should stop immediately before request", async () => {
+    const task = jest.fn().mockResolvedValueOnce({ loaded: false });
+    const progress = jest.fn();
+    const success = jest.fn();
+    const error = jest.fn();
+    const finallyCallback = jest.fn();
+    const expectPollEnd = jest.fn().mockReturnValueOnce(false);
+    const expectPollStopImmediately = jest.fn().mockReturnValue(false);
+
+    startPoll(
+      task,
+      {
+        progress,
+        success,
+        error,
+        finally: finallyCallback,
+      },
+      {
+        interval: 1000,
+        expectPollEnd,
+        expectPollStopImmediately,
+        delegateLoadingBar: true,
+      }
+    );
+
+    expect(dispatchEvent).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        type: "request.start",
+      })
+    );
+
+    jest.advanceTimersByTime(0);
+    expect(task).toBeCalledTimes(1);
+
+    await (global as any).flushPromises();
+    expect(progress).toBeCalledWith({ loaded: false });
+
+    jest.advanceTimersByTime(500);
+    expectPollStopImmediately.mockReturnValueOnce(true);
+    jest.advanceTimersByTime(500);
+    await (global as any).flushPromises();
+
+    expect(task).toBeCalledTimes(1);
+    expect(progress).toBeCalledTimes(1);
+    expect(success).not.toBeCalled();
+    expect(error).not.toBeCalled();
+    expect(finallyCallback).not.toBeCalled();
+    expect(dispatchEvent).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        type: "request.end",
+      })
+    );
+  });
+
+  it("should stop immediately during request", async () => {
+    const task = jest.fn().mockResolvedValueOnce({ loaded: false });
+    const progress = jest.fn();
+    const success = jest.fn();
+    const error = jest.fn();
+    const finallyCallback = jest.fn();
+    const expectPollEnd = jest.fn().mockReturnValueOnce(false);
+    const expectPollStopImmediately = jest.fn().mockReturnValue(false);
+
+    startPoll(
+      task,
+      {
+        progress,
+        success,
+        error,
+        finally: finallyCallback,
+      },
+      {
+        interval: 1000,
+        expectPollEnd,
+        expectPollStopImmediately,
+        delegateLoadingBar: true,
+      }
+    );
+
+    expect(dispatchEvent).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        type: "request.start",
+      })
+    );
+
+    jest.advanceTimersByTime(0);
+    expect(task).toBeCalledTimes(1);
+
+    await (global as any).flushPromises();
+    expect(progress).toBeCalledWith({ loaded: false });
+
+    jest.advanceTimersByTime(1000);
+    expect(task).toBeCalledTimes(2);
+    expectPollStopImmediately.mockReturnValueOnce(true);
+    await (global as any).flushPromises();
+
+    expect(progress).toBeCalledTimes(1);
+    expect(success).not.toBeCalled();
+    expect(error).not.toBeCalled();
+    expect(finallyCallback).not.toBeCalled();
+    expect(dispatchEvent).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        type: "request.end",
+      })
+    );
   });
 });
