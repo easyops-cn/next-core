@@ -280,6 +280,7 @@ export type BrickEventHandler = BuiltinBrickEventHandler | UseProviderEventHandl
 export interface BrickEventHandlerCallback {
     error?: BrickEventHandler | BrickEventHandler[];
     finally?: BrickEventHandler | BrickEventHandler[];
+    progress?: BrickEventHandler | BrickEventHandler[];
     success?: BrickEventHandler | BrickEventHandler[];
 }
 
@@ -1411,6 +1412,16 @@ export enum PropertyDisplayType {
 // @public
 export type ProviderConf = string | Pick<BrickConf, "brick" | "properties" | "events" | "lifeCycle">;
 
+// @public
+export interface ProviderPollOptions {
+    continueOnError?: boolean;
+    delegateLoadingBar?: boolean;
+    enabled?: boolean;
+    expectPollEnd?: (result: unknown) => boolean;
+    interval?: number;
+    leadingRequestDelay?: number;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "ReadAdvancedSearchChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -2179,6 +2190,7 @@ export interface UseProviderEventHandler {
     if?: string | boolean;
     // (undocumented)
     method?: "resolve" | "saveAs";
+    poll?: ProviderPollOptions;
     useProvider: string;
 }
 

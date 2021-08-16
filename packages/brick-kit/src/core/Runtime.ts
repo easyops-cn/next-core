@@ -286,6 +286,14 @@ export function _internalApiGetRouterState(): RouterState {
 }
 
 /* istanbul ignore next */
+export function _internalApiGetRouterRenderId(): string {
+  if (process.env.NODE_ENV === "test") {
+    return "render-id-1";
+  }
+  return kernel.router.getRenderId();
+}
+
+/* istanbul ignore next */
 export function _internalApiMessageCloseHandler(event: CloseEvent): void {
   return kernel.router.handleMessageClose(event);
 }
