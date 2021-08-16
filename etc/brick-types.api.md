@@ -1418,6 +1418,7 @@ export interface ProviderPollOptions {
     delegateLoadingBar?: boolean;
     enabled?: boolean;
     expectPollEnd?: (result: unknown) => boolean;
+    expectPollStopImmediately?: () => boolean;
     interval?: number;
     leadingRequestDelay?: number;
 }

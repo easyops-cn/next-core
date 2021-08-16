@@ -21,30 +21,44 @@ export function startPoll(
     continueOnError,
     delegateLoadingBar,
     expectPollEnd,
+    expectPollStopImmediately,
   }: ProviderPollOptions
 ): void {
   const currentRenderId = _internalApiGetRouterRenderId();
   let currentTimeoutId: number;
   async function poll(): Promise<void> {
     timeoutIdList.delete(currentTimeoutId);
+    let shouldStop: boolean;
     try {
-      const result = await task();
-      // Ignore when a different router is rendering after the task processed.
-      if (currentRenderId === _internalApiGetRouterRenderId()) {
-        progress?.(result);
-        if (expectPollEnd?.(result)) {
-          if (delegateLoadingBar) {
-            window.dispatchEvent(new CustomEvent("request.end"));
+      shouldStop = expectPollStopImmediately?.();
+      // Stop polling immediately when the expectation is match before task.
+      if (!shouldStop) {
+        const result = await task();
+        // Stop polling immediately when the expectation is match or a different router
+        // is rendering after the task processed.
+        shouldStop =
+          expectPollStopImmediately?.() ||
+          currentRenderId !== _internalApiGetRouterRenderId();
+        if (!shouldStop) {
+          progress?.(result);
+          if (expectPollEnd?.(result)) {
+            if (delegateLoadingBar) {
+              window.dispatchEvent(new CustomEvent("request.end"));
+            }
+            success?.(result);
+            finallyCallback?.();
+          } else {
+            delayedPoll(interval ?? 3000);
           }
-          success?.(result);
-          finallyCallback?.();
-        } else {
-          delayedPoll(interval ?? 3000);
         }
       }
     } catch (e) {
-      // Ignore when a different router is rendering after the task processed.
-      if (currentRenderId === _internalApiGetRouterRenderId()) {
+      // Stop polling immediately when the expectation is match or a different router
+      // is rendering after the task processed.
+      shouldStop =
+        expectPollStopImmediately?.() ||
+        currentRenderId !== _internalApiGetRouterRenderId();
+      if (!shouldStop) {
         error?.(e);
         if (continueOnError) {
           delayedPoll(interval ?? 3000);
@@ -53,12 +67,8 @@ export function startPoll(
         }
       }
     } finally {
-      // Manually dispatch an event of `request.end` when a different router
-      // is rendering after the task processed.
-      if (
-        delegateLoadingBar &&
-        currentRenderId !== _internalApiGetRouterRenderId()
-      ) {
+      // Manually dispatch an event of `request.end` when the polling is stopped immediately.
+      if (delegateLoadingBar && shouldStop) {
         window.dispatchEvent(new CustomEvent("request.end"));
       }
     }

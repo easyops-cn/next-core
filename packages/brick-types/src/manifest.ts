@@ -1157,8 +1157,18 @@ export interface ProviderPollOptions {
   /** 是否代理系统加载条的显示与隐藏。应配合 `expectPollEnd` 使用。 */
   delegateLoadingBar?: boolean;
 
-  /** 提供一个方法以校验轮询是否应该结束。该方法接收一个参数：当前轮询的执行结果。 */
+  /**
+   * 提供一个方法以校验轮询是否应该结束。
+   * 该方法接收一个参数：当前轮询的执行结果。
+   * 轮询结束时将触发 `callback.success` 事件。
+   */
   expectPollEnd?: (result: unknown) => boolean;
+
+  /**
+   * 提供一个方法以校验轮询是否应该立即停止，还在等待或进行中的轮询将失效，
+   * 不会触发 `progress|success|error|finally` 等事件。
+   */
+  expectPollStopImmediately?: () => boolean;
 }
 
 /**
