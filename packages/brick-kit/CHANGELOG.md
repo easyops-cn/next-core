@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.64.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.9...@next-core/brick-kit@2.64.0) (2021-08-16)
+
+
+### Features
+
+* support provider poll ([a003f59](https://github.com/easyops-cn/next-core/commit/a003f5941ae6e530fd8606fab71e29affa6f5a40))
+
+
+
+
+
 ## [2.63.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.8...@next-core/brick-kit@2.63.9) (2021-08-16)
 
 **Note:** Version bump only for package @next-core/brick-kit
