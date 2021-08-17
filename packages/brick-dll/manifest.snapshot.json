@@ -3519,6 +3519,7 @@
           "mapCustomApisToNameAndNamespace",
           "matchPath",
           "normalizeBuilderNode",
+          "normalizeMenu",
           "pipes",
           "precook",
           "preevaluate",

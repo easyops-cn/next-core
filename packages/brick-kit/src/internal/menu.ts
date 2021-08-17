@@ -37,6 +37,7 @@ export interface MenuRawData {
   type?: "main" | "inject";
   injectMenuGroupId?: string;
   defaultCollapsed?: boolean;
+  defaultCollapsedBreakpoint?: number;
   dynamicItems?: boolean;
   itemsResolve?: ResolveConf;
 }
@@ -97,6 +98,7 @@ export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
         link: true,
         titleDataSource: true,
         defaultCollapsed: true,
+        defaultCollapsedBreakpoint: true,
         type: true,
         injectMenuGroupId: true,
         dynamicItems: true,
@@ -248,6 +250,7 @@ export async function processMenu(
           : (item as SidebarMenuSimpleItem);
       }),
     defaultCollapsed: menuData.defaultCollapsed || hasSubMenu,
+    defaultCollapsedBreakpoint: menuData.defaultCollapsedBreakpoint,
   };
 }
 
