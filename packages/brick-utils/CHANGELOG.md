@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.23.3...@next-core/brick-utils@2.24.0) (2021-08-17)
+
+
+### Features
+
+* **menu:** support normalizeMenu ([3421e35](https://github.com/easyops-cn/next-core/commit/3421e359ba651c2be6b3784d32435144ad8e7ca6))
+
+
+
+
+
 ## [2.23.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.23.2...@next-core/brick-utils@2.23.3) (2021-08-16)
 
 **Note:** Version bump only for package @next-core/brick-utils

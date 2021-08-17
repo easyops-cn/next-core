@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.30.3...@next-core/brick-container@2.31.0) (2021-08-17)
+
+
+### Features
+
+* **menu:** support defaultCollapsedBreakpoint ([d875cd8](https://github.com/easyops-cn/next-core/commit/d875cd826437a56e8a342ac2ab92925af26783b1))
+
+
+
+
+
 ## [2.30.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.30.2...@next-core/brick-container@2.30.3) (2021-08-16)
 
 **Note:** Version bump only for package @next-core/brick-container

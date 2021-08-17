@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.35.1...@next-core/brick-types@2.36.0) (2021-08-17)
+
+
+### Features
+
+* **menu:** support defaultCollapsedBreakpoint ([d875cd8](https://github.com/easyops-cn/next-core/commit/d875cd826437a56e8a342ac2ab92925af26783b1))
+
+
+
+
+
 ## [2.35.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.35.0...@next-core/brick-types@2.35.1) (2021-08-16)
 
 
