@@ -4,4 +4,8 @@ module.exports = () => ({
   output: {
     filename: "[name].bundle.js",
   },
+  optimization: {
+    // Use named module ids to avoid conflicts with modules bundled in production mode.
+    moduleIds: "named",
+  },
 });
