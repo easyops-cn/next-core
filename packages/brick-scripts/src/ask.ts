@@ -4,7 +4,6 @@ import { TargetType, AskFlags } from "./interface";
 import { askTargetType } from "./questions/askTargetType";
 import { askPackageName } from "./questions/askPackageName";
 import { askBrickName } from "./questions/askBrickName";
-import { askTemplateName } from "./questions/askTemplateName";
 import { askProcessorName } from "./questions/askProcessorName";
 import { updateHistory } from "./loaders/loadHistory";
 import { askEditorBrickName } from "./questions/askEditorBrickName";
@@ -16,12 +15,11 @@ export async function ask(
   targetType: TargetType;
   packageName: string;
   brickName: string;
-  templateName: string;
   processorName: string;
 }> {
-  const questionOfTargetType = askTargetType();
+  const questionOfTargetType = askTargetType(flags?.type);
   let targetType: TargetType;
-  if (flags && flags.type) {
+  if (flags?.type) {
     // Specified in command line arguments
     const choices: {
       name: string;
@@ -41,7 +39,7 @@ export async function ask(
           .join(", ")}`
       );
     }
-    targetType = flags.type as TargetType;
+    targetType = flags.type;
   } else {
     targetType = (await inquirer.prompt(questionOfTargetType)).targetType;
   }
@@ -54,20 +52,20 @@ export async function ask(
     case TargetType.A_NEW_BRICK:
     case TargetType.A_NEW_EDITOR_BRICK:
     case TargetType.A_NEW_CUSTOM_TEMPLATE:
-    case TargetType.A_NEW_CUSTOM_PROVIDER_BRICK:
+    case TargetType.A_NEW_CUSTOM_PROVIDER:
     case TargetType.A_NEW_CUSTOM_PROCESSOR:
     case TargetType.A_NEW_PACKAGE_OF_BRICKS:
       updateHistory({ lastSelectedBrickPackage: packageName });
       break;
-    case TargetType.A_NEW_LEGACY_TEMPLATE:
-    case TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES:
-      updateHistory({ lastSelectedTemplatePackage: packageName });
+    // case TargetType.A_NEW_LEGACY_TEMPLATE:
+    // case TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES:
+    //   updateHistory({ lastSelectedTemplatePackage: packageName });
   }
 
   let createABrick = [
     TargetType.A_NEW_BRICK,
     TargetType.A_NEW_CUSTOM_TEMPLATE,
-    TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+    TargetType.A_NEW_CUSTOM_PROVIDER,
   ].includes(targetType);
 
   if (targetType === TargetType.A_NEW_PACKAGE_OF_BRICKS) {
@@ -82,7 +80,6 @@ export async function ask(
   }
 
   let brickName = "";
-  let templateName = "";
   let processorName = "";
   if (createABrick) {
     // 如果是新建构件/新建自定义模板/新建自定义 Provider 构件/新建构件库，额外询问新构件的名字。
@@ -95,22 +92,6 @@ export async function ask(
         })
       )
     ).brickName;
-  } else if (
-    [
-      TargetType.A_NEW_LEGACY_TEMPLATE,
-      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
-    ].includes(targetType)
-  ) {
-    // 如果是新建模板/模板库，额外询问新模板的名字。
-    templateName = (
-      await inquirer.prompt(
-        askTemplateName({
-          targetType,
-          packageName,
-          appRoot,
-        })
-      )
-    ).templateName;
   } else if (targetType === TargetType.A_NEW_CUSTOM_PROCESSOR) {
     processorName = (
       await inquirer.prompt(
@@ -135,7 +116,6 @@ export async function ask(
     targetType,
     packageName,
     brickName,
-    templateName,
     processorName,
   };
 }

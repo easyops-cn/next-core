@@ -9,6 +9,6 @@ export function $PascalBrickName$(
 }
 
 customElements.define(
-  "$kebab-custom-provider-brick-name$",
+  "$kebab-custom-provider-name$",
   createProviderClass($PascalBrickName$)
 );
