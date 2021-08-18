@@ -56,14 +56,12 @@ export async function loadTemplate({
   targetType,
   packageName,
   brickName,
-  templateName,
   processorName,
   targetRoot,
 }: {
   targetType: TargetType;
   packageName: string;
   brickName: string;
-  templateName: string;
   processorName: string;
   targetRoot: string;
 }): Promise<FileWithContent[]> {
@@ -94,16 +92,10 @@ export async function loadTemplate({
     [TargetType.A_NEW_CUSTOM_TEMPLATE]: "custom-template",
     [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks-pkg",
     [TargetType.A_NEW_PACKAGE_OF_LIBS]: "libs-pkg",
-    [TargetType.A_NEW_PACKAGE_OF_MICRO_APPS]: "micro-apps-pkg",
-    [TargetType.A_NEW_CUSTOM_PROVIDER_BRICK]: "custom-provider-brick",
+    [TargetType.A_NEW_CUSTOM_PROVIDER]: "custom-provider",
     [TargetType.A_NEW_CUSTOM_PROCESSOR]: "custom-processor",
     [TargetType.A_NEW_PACKAGE_OF_PROVIDERS]: "providers-pkg",
     [TargetType.A_NEW_PACKAGE_OF_DLL]: "dll-pkg",
-    [TargetType.TRANSFORM_A_MICRO_APP]: "transformed-micro-apps-pkg",
-    [TargetType.A_NEW_LEGACY_TEMPLATE]: "template",
-    [TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES]: "templates-pkg",
-    [TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES]:
-      "i18n-patched-templates-pkg",
   };
   const templateDirOfFileName = targetMap[targetType];
   const templateRoot = path.join(__dirname, "../../template");
@@ -140,14 +132,11 @@ export async function loadTemplate({
     $PascalBrickName$: changeCase.pascalCase(brickName),
     "$kebab-brick-name$": `${packageName}.${brickName}`,
     "$kebab-brick-last-name$": brickName,
-    "$kebab-custom-provider-brick-name$": `${packageName}.provider-${brickName}`,
+    "$kebab-custom-provider-name$": `${packageName}.provider-${brickName}`,
     "$generator.version$": `v${packageJson.version}`,
     "$brick.container.version$": brickContainerVersion,
     "$kebab-sdk-name$": sdkName,
-    "$kebab-template-name$": templateName,
     "$kebab-username$": userName,
-    $camelTemplateName$: changeCase.camelCase(templateName),
-    $PascalTemplateName$: changeCase.pascalCase(templateName),
     $camelProcessorName$: changeCase.camelCase(processorName),
     "$open-source-license$": workspaceLicense,
     "$brick-package-type$":
@@ -179,18 +168,6 @@ export async function loadTemplate({
       targetDir: path.join(targetRoot, "src", brickName),
       files: klawSync(brickTemplateDir, {
         depthLimit: 2,
-        nodir: true,
-        filter: (item) => filter(item.path),
-      }),
-    });
-  } else if (targetType === TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES) {
-    // Also create a new brick for the new bricks-package
-    const templateTemplateDir = path.join(templateRoot, "template");
-    templateGroups.push({
-      templateDir: templateTemplateDir,
-      targetDir: path.join(targetRoot, "src"),
-      files: klawSync(templateTemplateDir, {
-        depthLimit: 1,
         nodir: true,
         filter: (item) => filter(item.path),
       }),
@@ -280,10 +257,8 @@ export async function loadTemplate({
     [
       TargetType.A_NEW_PACKAGE_OF_BRICKS,
       TargetType.A_NEW_PACKAGE_OF_LIBS,
-      TargetType.A_NEW_PACKAGE_OF_MICRO_APPS,
       TargetType.A_NEW_PACKAGE_OF_PROVIDERS,
       TargetType.A_NEW_PACKAGE_OF_DLL,
-      TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
     ].includes(targetType)
   ) {
     files.push([
