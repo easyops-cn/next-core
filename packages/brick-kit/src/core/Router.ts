@@ -190,7 +190,7 @@ export class Router {
 
     const pageTracker = apiAnalyzer.getInstance().pageTracker();
 
-    const locationContext = (this.locationContext = new LocationContext(
+    const locationContext = (this.locationContext = LocationContext.getInstance(
       this.kernel,
       location
     ));

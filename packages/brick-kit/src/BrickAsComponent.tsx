@@ -18,17 +18,22 @@ import {
   _internalApiGetResolver,
   _internalApiGetRouterState,
   _internalApiLoadDynamicBricksInBrickConf,
+  RuntimeBrickConfWithTplSymbols,
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
 import { looseCheckIfByTransform } from "./checkIf";
 import { isPreEvaluated } from "./internal/evaluate";
 import { cloneDeepWithInjectedMark } from "./internal/injected";
+import { expandCustomTemplate } from "./core/CustomTemplates";
+import { LocationContext } from "./core/LocationContext";
+import { symbolForTplContextId } from "./core/CustomTemplates/constants";
+import { getTagNameOfCustomTemplate } from "./core/CustomTemplates/getTagNameOfCustomTemplate";
+// import { handleProxyOfCustomTemplate } from './core/CustomTemplates/handleProxyOfCustomTemplate';
 import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "./internal/listenOnTrackingContext";
-
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
   data?: unknown;
@@ -69,6 +74,8 @@ export const SingleBrickAsComponent = React.memo(
     refCallback,
     immediatelyRefCallback,
   }: SingleBrickAsComponentProps): React.ReactElement {
+    const instance = LocationContext.getInstance();
+
     const isBrickAvailable = React.useMemo(() => {
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
         // eslint-disable-next-line
@@ -98,21 +105,35 @@ export const SingleBrickAsComponent = React.memo(
 
       const trackingContextList: TrackingContextItem[] = [];
 
+      const transformOption: Record<string, any> = {
+        // Keep lazy fields inside `useBrick` inside the `properties`.
+        // They will be transformed by their `BrickAsComponent` later.
+        $$lazyForUseBrick: true,
+        trackingContextList,
+        allowInject: true,
+      };
+
+      if ((useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]) {
+        transformOption.getTplVariables = () =>
+          instance
+            .getTplContext()
+            .getContext(
+              (useBrick as RuntimeBrickConfWithTplSymbols)[
+                symbolForTplContextId
+              ]
+            );
+      }
+
       const brick: RuntimeBrick = {
         type: useBrick.brick,
         // Now transform data in properties too.
         properties: doTransform(
           data,
           cloneDeepWithInjectedMark(useBrick.properties) || {},
-          {
-            // Keep lazy fields inside `useBrick` inside the `properties`.
-            // They will be transformed by their `BrickAsComponent` later.
-            $$lazyForUseBrick: true,
-            trackingContextList,
-            allowInject: true,
-          }
+          transformOption
         ),
       };
+
       // Let `transform` works still.
       transformProperties(
         brick.properties,
@@ -169,6 +190,8 @@ export const SingleBrickAsComponent = React.memo(
             );
           }
 
+          // handleProxyOfCustomTemplate(brick);
+
           // Memoize the parent ref of useBrick.
           (element as RuntimeBrickElementWithTplSymbols)[
             symbolForParentRefForUseBrickInPortal
@@ -197,17 +220,65 @@ export const SingleBrickAsComponent = React.memo(
       return null;
     }
 
-    return React.createElement(
+    const tplTagName = getTagNameOfCustomTemplate(
       useBrick.brick,
-      {
-        ref: innerRefCallback,
-      },
-      ...slotsToChildren(useBrick.slots).map(
-        (item: UseSingleBrickConf, index: number) => (
-          <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-        )
-      )
+      _internalApiGetCurrentContext().app?.id
     );
+
+    if (tplTagName) {
+      const tplConf = {
+        brick: tplTagName,
+        properties: data as Record<string, unknown>,
+        events: useBrick.events,
+        lifeCycle: useBrick.lifeCycle,
+      };
+
+      const brick: RuntimeBrick = {
+        type: tplTagName,
+        // Now transform data in properties too.
+        properties: doTransform(
+          data,
+          cloneDeepWithInjectedMark(useBrick.properties) || {},
+          {
+            $$lazyForUseBrick: true,
+            trackingContextList: [],
+            allowInject: true,
+          }
+        ),
+        events: isObject(useBrick.events) ? useBrick.events : {},
+      };
+      const template = expandCustomTemplate(
+        tplConf,
+        brick,
+        _internalApiGetCurrentContext(),
+        instance.getTplContext()
+      );
+      Object.assign(template, brick);
+
+      return React.createElement(
+        template.brick,
+        {
+          ref: innerRefCallback,
+        },
+        ...slotsToChildren(template.slots).map(
+          (item: UseSingleBrickConf, index: number) => (
+            <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+          )
+        )
+      );
+    } else {
+      return React.createElement(
+        useBrick.brick,
+        {
+          ref: innerRefCallback,
+        },
+        ...slotsToChildren(useBrick.slots).map(
+          (item: UseSingleBrickConf, index: number) => (
+            <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+          )
+        )
+      );
+    }
   }
 );
 

@@ -34,6 +34,7 @@ interface DoTransformOptions {
   evaluateOptions?: EvaluateOptions;
   trackingContextList?: TrackingContextItem[];
   allowInject?: boolean;
+  getTplVariables?: () => Record<string, unknown>;
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
 }
@@ -96,7 +97,11 @@ export function doTransform(
     let result: unknown;
     let dismissRecursiveMarkingInjected = false;
     if (preEvaluated || isEvaluable(to as string)) {
-      result = evaluate(to as string, { data }, options?.evaluateOptions);
+      result = evaluate(
+        to as string,
+        { data, getTplVariables: options?.getTplVariables },
+        options?.evaluateOptions
+      );
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         to as string
       );

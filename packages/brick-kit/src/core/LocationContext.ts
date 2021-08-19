@@ -140,6 +140,14 @@ export class LocationContext {
   private readonly storyboardContext: StoryboardContext = new Map();
   private readonly tplContext = new CustomTemplateContext();
 
+  static instance: LocationContext;
+  static getInstance(kernel?: Kernel, location?: PluginLocation) {
+    if (!LocationContext.instance) {
+      LocationContext.instance = new LocationContext(kernel, location);
+    }
+    return LocationContext.instance;
+  }
+
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.resolver = new Resolver(kernel);
     this.query = new URLSearchParams(location.search);
@@ -181,6 +189,10 @@ export class LocationContext {
     return this.getContext({
       match: this.currentMatch,
     });
+  }
+
+  getTplContext(): CustomTemplateContext {
+    return this.tplContext;
   }
 
   private async defineStoryboardFreeContext(
