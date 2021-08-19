@@ -106,7 +106,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "rc-tabs": "~11.7.3",
-    "rc-textarea": "~0.3.4",
+    "rc-textarea": "~0.3.5",
     "rc-virtual-list": "^3.2.6"
   }
 }

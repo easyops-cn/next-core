@@ -13048,10 +13048,10 @@ rc-tabs@~11.7.0, rc-tabs@~11.7.3:
     rc-resize-observer "^1.0.0"
     rc-util "^5.5.0"
 
-rc-textarea@^0.3.0, rc-textarea@~0.3.0, rc-textarea@~0.3.4:
-  version "0.3.4"
-  resolved "https://registry.npmjs.org/rc-textarea/-/rc-textarea-0.3.4.tgz#1408a64c87b5e76db5c847699ef9ab5ee97dd6f9"
-  integrity sha1-FAimTIe15221yEdpnvmrXul91vk=
+rc-textarea@^0.3.0, rc-textarea@~0.3.0, rc-textarea@~0.3.5:
+  version "0.3.5"
+  resolved "https://registry.npmjs.org/rc-textarea/-/rc-textarea-0.3.5.tgz#07ed445dddb94e5ae6764676923a49bddad9b2ec"
+  integrity sha512-qa+k5vDn9ct65qr+SgD2KwJ9Xz6P84lG2z+TDht/RBr71WnM/K61PqHUAcUyU6YqTJD26IXgjPuuhZR7HMw7eA==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.1"
