@@ -1,3 +1,4 @@
+import { set } from "lodash";
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { isObject } from "@next-core/brick-utils";
 import {
@@ -27,9 +28,14 @@ import { isPreEvaluated } from "./internal/evaluate";
 import { cloneDeepWithInjectedMark } from "./internal/injected";
 import { expandCustomTemplate } from "./core/CustomTemplates";
 import { LocationContext } from "./core/LocationContext";
-import { symbolForTplContextId } from "./core/CustomTemplates/constants";
+import {
+  symbolForTplContextId,
+  symbolForRefForProxy,
+  symbolForComputedPropsFromProxy,
+} from "./core/CustomTemplates/constants";
 import { getTagNameOfCustomTemplate } from "./core/CustomTemplates/getTagNameOfCustomTemplate";
-// import { handleProxyOfCustomTemplate } from './core/CustomTemplates/handleProxyOfCustomTemplate';
+import { handleProxyOfCustomTemplate } from "./core/CustomTemplates/handleProxyOfCustomTemplate";
+import { ProbablyRuntimeBrick } from "../../brick-types/dist/types/manifest";
 import {
   listenOnTrackingContext,
   TrackingContextItem,
@@ -81,7 +87,17 @@ export const SingleBrickAsComponent = React.memo(
         // eslint-disable-next-line
         console.warn("Currently resolvable-if in `useBrick` is not supported.");
       } else if (
-        !looseCheckIfByTransform(useBrick, data, { allowInject: true })
+        !looseCheckIfByTransform(useBrick, data, {
+          allowInject: true,
+          getTplVariables: () =>
+            instance
+              .getTplContext()
+              .getContext(
+                (useBrick as RuntimeBrickConfWithTplSymbols)[
+                  symbolForTplContextId
+                ]
+              ),
+        })
       ) {
         return false;
       }
@@ -125,6 +141,7 @@ export const SingleBrickAsComponent = React.memo(
       }
 
       const brick: RuntimeBrick = {
+        ...useBrick,
         type: useBrick.brick,
         // Now transform data in properties too.
         properties: doTransform(
@@ -133,6 +150,43 @@ export const SingleBrickAsComponent = React.memo(
           transformOption
         ),
       };
+
+      const tplTagName = getTagNameOfCustomTemplate(
+        useBrick.brick,
+        _internalApiGetCurrentContext().app?.id
+      );
+      if (tplTagName) {
+        // 如果是模板, 需要展开解析模板, 并遍历模板中的slots, 再给slots的brick绑定值给自身
+        // 为后续ProxyRefs获取brick做值缓存
+        const tplConf = {
+          brick: tplTagName,
+          properties: data as Record<string, unknown>,
+          events: useBrick.events,
+          lifeCycle: useBrick.lifeCycle,
+        };
+        const template = expandCustomTemplate(
+          tplConf,
+          brick,
+          _internalApiGetCurrentContext(),
+          instance.getTplContext()
+        );
+        slotsToChildren(template.slots as UseBrickSlotsConf).forEach((item) => {
+          if (
+            (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy] !==
+            undefined
+          ) {
+            (item as RuntimeBrickConfWithTplSymbols)[
+              symbolForRefForProxy
+            ].brick = item as ProbablyRuntimeBrick;
+          }
+        });
+      } else if (
+        (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy]
+      ) {
+        (useBrick as RuntimeBrickConfWithTplSymbols)[
+          symbolForRefForProxy
+        ].brick = brick;
+      }
 
       // Let `transform` works still.
       transformProperties(
@@ -145,6 +199,21 @@ export const SingleBrickAsComponent = React.memo(
           allowInject: true,
         }
       );
+
+      // 设置 properties refProperty值
+      if (
+        (useBrick as RuntimeBrickConfWithTplSymbols)[
+          symbolForComputedPropsFromProxy
+        ]
+      ) {
+        Object.entries(
+          (useBrick as RuntimeBrickConfWithTplSymbols)[
+            symbolForComputedPropsFromProxy
+          ]
+        ).forEach(([propName, propValue]) => {
+          set(brick.properties, propName, propValue);
+        });
+      }
 
       const runtimeContext = _internalApiGetCurrentContext();
 
@@ -190,8 +259,8 @@ export const SingleBrickAsComponent = React.memo(
             );
           }
 
-          // handleProxyOfCustomTemplate(brick);
-
+          // 设置proxyEvent
+          handleProxyOfCustomTemplate(brick);
           // Memoize the parent ref of useBrick.
           (element as RuntimeBrickElementWithTplSymbols)[
             symbolForParentRefForUseBrickInPortal
@@ -228,12 +297,12 @@ export const SingleBrickAsComponent = React.memo(
     if (tplTagName) {
       const tplConf = {
         brick: tplTagName,
-        properties: data as Record<string, unknown>,
+        properties: (data as Record<string, unknown>) || useBrick.properties,
         events: useBrick.events,
         lifeCycle: useBrick.lifeCycle,
       };
 
-      const brick: RuntimeBrick = {
+      const proxyBrick: RuntimeBrick = {
         type: tplTagName,
         // Now transform data in properties too.
         properties: doTransform(
@@ -249,21 +318,30 @@ export const SingleBrickAsComponent = React.memo(
       };
       const template = expandCustomTemplate(
         tplConf,
-        brick,
+        proxyBrick,
         _internalApiGetCurrentContext(),
         instance.getTplContext()
       );
-      Object.assign(template, brick);
 
       return React.createElement(
         template.brick,
         {
           ref: innerRefCallback,
         },
-        ...slotsToChildren(template.slots).map(
-          (item: UseSingleBrickConf, index: number) => (
-            <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-          )
+        ...slotsToChildren(template.slots as UseBrickSlotsConf).map(
+          (item: UseSingleBrickConf, index: number) => {
+            const templateItem = {
+              ...proxyBrick,
+              ...item,
+            };
+            return (
+              <SingleBrickAsComponent
+                key={index}
+                useBrick={templateItem}
+                data={data}
+              />
+            );
+          }
         )
       );
     } else {
