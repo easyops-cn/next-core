@@ -28,6 +28,7 @@ import {
   Storyboard,
   StaticMenuConf,
   UseBrickConf,
+  UseBrickSlotsConf,
 } from "@next-core/brick-types";
 import {
   isObject,
@@ -703,22 +704,22 @@ export class LocationContext {
 
     const useBrick: UseBrickConf = brick.properties.useBrick;
     if (useBrick) {
-      if (Array.isArray(useBrick)) {
-        useBrick.forEach((item) => {
-          item[symbolForTplContextId] = tplContextId;
-          Object.values(item.slots).forEach((v) => {
-            v.bricks.forEach((item) => {
-              item[symbolForTplContextId] = tplContextId;
-            });
-          });
-        });
-      } else {
-        useBrick[symbolForTplContextId] = tplContextId;
-        Object.values(useBrick.slots).forEach((v) => {
+      const setTplIdForSlots = (slots: UseBrickSlotsConf) => {
+        if (!slots) return;
+        Object.values(slots).forEach((v) => {
           v.bricks.forEach((item) => {
             item[symbolForTplContextId] = tplContextId;
           });
         });
+      };
+      if (Array.isArray(useBrick)) {
+        useBrick.forEach((item) => {
+          item[symbolForTplContextId] = tplContextId;
+          setTplIdForSlots(item.slots);
+        });
+      } else {
+        useBrick[symbolForTplContextId] = tplContextId;
+        setTplIdForSlots(useBrick.slots);
       }
     }
 
