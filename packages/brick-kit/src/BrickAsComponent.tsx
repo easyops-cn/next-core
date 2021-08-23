@@ -302,24 +302,11 @@ export const SingleBrickAsComponent = React.memo(
         events: useBrick.events,
         lifeCycle: useBrick.lifeCycle,
       };
+      const proxyConf = {};
 
-      const proxyBrick: RuntimeBrick = {
-        type: tplTagName,
-        // Now transform data in properties too.
-        properties: doTransform(
-          data,
-          cloneDeepWithInjectedMark(useBrick.properties) || {},
-          {
-            $$lazyForUseBrick: true,
-            trackingContextList: [],
-            allowInject: true,
-          }
-        ),
-        events: isObject(useBrick.events) ? useBrick.events : {},
-      };
       const template = expandCustomTemplate(
         tplConf,
-        proxyBrick,
+        proxyConf,
         _internalApiGetCurrentContext(),
         instance.getTplContext()
       );
@@ -332,7 +319,7 @@ export const SingleBrickAsComponent = React.memo(
         ...slotsToChildren(template.slots as UseBrickSlotsConf).map(
           (item: UseSingleBrickConf, index: number) => {
             const templateItem = {
-              ...proxyBrick,
+              ...proxyConf,
               ...item,
             };
             return (
@@ -347,7 +334,7 @@ export const SingleBrickAsComponent = React.memo(
         ...slotsToChildren(useBrick.slots as UseBrickSlotsConf).map(
           (item: UseSingleBrickConf, index: number) => {
             const templateItem = {
-              ...proxyBrick,
+              ...proxyConf,
               ...item,
             };
             return (
