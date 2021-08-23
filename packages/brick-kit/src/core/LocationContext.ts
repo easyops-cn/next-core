@@ -143,7 +143,6 @@ export class LocationContext {
   private readonly tplContext = new CustomTemplateContext();
 
   static instance: Map<string, LocationContext> = new Map();
-  static currentLocation: string;
   static getInstance(kernel?: Kernel, location?: PluginLocation) {
     const key = location.pathname;
     if (!LocationContext.instance.get(key)) {
@@ -154,7 +153,7 @@ export class LocationContext {
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.resolver = new Resolver(kernel);
-    this.query = new URLSearchParams(location?.search || "");
+    this.query = new URLSearchParams(location.search);
     this.messageDispatcher = getMessageDispatcher();
   }
 
@@ -710,17 +709,20 @@ export class LocationContext {
         if (!slots) return;
         Object.values(slots).forEach((v) => {
           v.bricks.forEach((item) => {
-            item[symbolForTplContextId] = tplContextId;
+            (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
+              tplContextId;
           });
         });
       };
       if (Array.isArray(useBrick)) {
         useBrick.forEach((item) => {
-          item[symbolForTplContextId] = tplContextId;
+          (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
+            tplContextId;
           setTplIdForSlots(item.slots);
         });
       } else {
-        useBrick[symbolForTplContextId] = tplContextId;
+        (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
+          tplContextId;
         setTplIdForSlots(useBrick.slots);
       }
     }

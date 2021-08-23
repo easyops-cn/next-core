@@ -369,10 +369,15 @@ export const SingleBrickAsComponent = React.memo(
         ...slotsToChildren(useBrick.slots).map(
           (item: UseSingleBrickConf, index: number) => {
             if (
-              useBrick[symbolForTplContextId] &&
-              !item[symbolForTplContextId]
+              (useBrick as RuntimeBrickConfWithTplSymbols)[
+                symbolForTplContextId
+              ] &&
+              !(item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
             ) {
-              item[symbolForTplContextId] = useBrick[symbolForTplContextId];
+              (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
+                (useBrick as RuntimeBrickConfWithTplSymbols)[
+                  symbolForTplContextId
+                ];
             }
             return (
               <SingleBrickAsComponent key={index} useBrick={item} data={data} />
@@ -431,9 +436,7 @@ export function BrickAsComponent({
   );
 }
 
-export function slotsToChildren(
-  slots: UseBrickSlotsConf
-): UseSingleBrickConf[] {
+function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
   if (!slots) {
     return [];
   }
