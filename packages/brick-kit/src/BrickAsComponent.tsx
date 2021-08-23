@@ -38,6 +38,7 @@ import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "./internal/listenOnTrackingContext";
+import { getHistory } from "./history";
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
   data?: unknown;
@@ -78,7 +79,7 @@ export const SingleBrickAsComponent = React.memo(
     refCallback,
     immediatelyRefCallback,
   }: SingleBrickAsComponentProps): React.ReactElement {
-    const instance = LocationContext.getInstance();
+    const instance = LocationContext.getInstance(null, getHistory().location);
 
     const isBrickAvailable = React.useMemo(() => {
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {

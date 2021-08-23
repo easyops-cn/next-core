@@ -142,17 +142,19 @@ export class LocationContext {
   private readonly storyboardContext: StoryboardContext = new Map();
   private readonly tplContext = new CustomTemplateContext();
 
-  static instance: LocationContext;
+  static instance: Map<string, LocationContext> = new Map();
+  static currentLocation: string;
   static getInstance(kernel?: Kernel, location?: PluginLocation) {
-    if (!LocationContext.instance) {
-      LocationContext.instance = new LocationContext(kernel, location);
+    const key = location.pathname;
+    if (!LocationContext.instance.get(key)) {
+      LocationContext.instance.set(key, new LocationContext(kernel, location));
     }
-    return LocationContext.instance;
+    return LocationContext.instance.get(key);
   }
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.resolver = new Resolver(kernel);
-    this.query = new URLSearchParams(location.search);
+    this.query = new URLSearchParams(location?.search || "");
     this.messageDispatcher = getMessageDispatcher();
   }
 
