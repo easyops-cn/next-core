@@ -8,6 +8,7 @@ import {
   BrickEventsMap,
   UseBrickSlotsConf,
   BrickConf,
+  ProbablyRuntimeBrick,
 } from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
@@ -33,10 +34,6 @@ import { expandCustomTemplate } from "./core/CustomTemplates";
 import { LocationContext } from "./core/LocationContext";
 import { getTagNameOfCustomTemplate } from "./core/CustomTemplates/getTagNameOfCustomTemplate";
 import { handleProxyOfCustomTemplate } from "./core/CustomTemplates/handleProxyOfCustomTemplate";
-import {
-  ProbablyRuntimeBrick,
-  RefForProxy,
-} from "../../brick-types/dist/types/manifest";
 import {
   listenOnTrackingContext,
   TrackingContextItem,
@@ -369,9 +366,17 @@ export const SingleBrickAsComponent = React.memo(
           ref: innerRefCallback,
         },
         ...slotsToChildren(useBrick.slots).map(
-          (item: UseSingleBrickConf, index: number) => (
-            <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-          )
+          (item: UseSingleBrickConf, index: number) => {
+            if (
+              useBrick[symbolForTplContextId] &&
+              !item[symbolForTplContextId]
+            ) {
+              item[symbolForTplContextId] = useBrick[symbolForTplContextId];
+            }
+            return (
+              <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+            );
+          }
         )
       );
     }

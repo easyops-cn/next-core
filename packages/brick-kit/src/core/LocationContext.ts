@@ -27,6 +27,7 @@ import {
   BrickLifeCycle,
   Storyboard,
   StaticMenuConf,
+  UseBrickConf,
 } from "@next-core/brick-types";
 import {
   isObject,
@@ -699,6 +700,27 @@ export class LocationContext {
         symbolForParentTemplate
       ],
     });
+
+    const useBrick: UseBrickConf = brick.properties.useBrick;
+    if (useBrick) {
+      if (Array.isArray(useBrick)) {
+        useBrick.forEach((item) => {
+          item[symbolForTplContextId] = tplContextId;
+          Object.values(item.slots).forEach((v) => {
+            v.bricks.forEach((item) => {
+              item[symbolForTplContextId] = tplContextId;
+            });
+          });
+        });
+      } else {
+        useBrick[symbolForTplContextId] = tplContextId;
+        Object.values(useBrick.slots).forEach((v) => {
+          v.bricks.forEach((item) => {
+            item[symbolForTplContextId] = tplContextId;
+          });
+        });
+      }
+    }
 
     if (
       (brickConf as RuntimeBrickConfWithTplSymbols)[
