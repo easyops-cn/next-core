@@ -20,6 +20,9 @@ import {
   _internalApiGetRouterState,
   _internalApiLoadDynamicBricksInBrickConf,
   RuntimeBrickConfWithTplSymbols,
+  symbolForTplContextId,
+  symbolForRefForProxy,
+  symbolForComputedPropsFromProxy,
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import { transformProperties, doTransform } from "./transformProperties";
@@ -28,14 +31,12 @@ import { isPreEvaluated } from "./internal/evaluate";
 import { cloneDeepWithInjectedMark } from "./internal/injected";
 import { expandCustomTemplate } from "./core/CustomTemplates";
 import { LocationContext } from "./core/LocationContext";
-import {
-  symbolForTplContextId,
-  symbolForRefForProxy,
-  symbolForComputedPropsFromProxy,
-} from "./core/CustomTemplates/constants";
 import { getTagNameOfCustomTemplate } from "./core/CustomTemplates/getTagNameOfCustomTemplate";
 import { handleProxyOfCustomTemplate } from "./core/CustomTemplates/handleProxyOfCustomTemplate";
-import { ProbablyRuntimeBrick } from "../../brick-types/dist/types/manifest";
+import {
+  ProbablyRuntimeBrick,
+  RefForProxy,
+} from "../../brick-types/dist/types/manifest";
 import {
   listenOnTrackingContext,
   TrackingContextItem,
@@ -266,10 +267,12 @@ export const SingleBrickAsComponent = React.memo(
             symbolForParentRefForUseBrickInPortal
           ] = parentRefForUseBrickInPortal;
 
-          if (!useBrick.brick.includes("-")) {
-            (element as RuntimeBrickElement).$$typeof = "native";
-          } else if (!customElements.get(useBrick.brick)) {
-            (element as RuntimeBrickElement).$$typeof = "invalid";
+          if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
+            if (!useBrick.brick.includes("-")) {
+              (element as RuntimeBrickElement).$$typeof = "native";
+            } else if (!customElements.get(useBrick.brick)) {
+              (element as RuntimeBrickElement).$$typeof = "invalid";
+            }
           }
         }
 
@@ -329,6 +332,21 @@ export const SingleBrickAsComponent = React.memo(
           ref: innerRefCallback,
         },
         ...slotsToChildren(template.slots as UseBrickSlotsConf).map(
+          (item: UseSingleBrickConf, index: number) => {
+            const templateItem = {
+              ...proxyBrick,
+              ...item,
+            };
+            return (
+              <SingleBrickAsComponent
+                key={index}
+                useBrick={templateItem}
+                data={data}
+              />
+            );
+          }
+        ),
+        ...slotsToChildren(useBrick.slots as UseBrickSlotsConf).map(
           (item: UseSingleBrickConf, index: number) => {
             const templateItem = {
               ...proxyBrick,
@@ -407,7 +425,9 @@ export function BrickAsComponent({
   );
 }
 
-function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
+export function slotsToChildren(
+  slots: UseBrickSlotsConf
+): UseSingleBrickConf[] {
   if (!slots) {
     return [];
   }
