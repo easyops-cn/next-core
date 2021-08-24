@@ -20,6 +20,7 @@ import {
   _internalApiGetResolver,
   _internalApiGetRouterState,
   _internalApiLoadDynamicBricksInBrickConf,
+  _internalApiGetTplContext,
   RuntimeBrickConfWithTplSymbols,
   symbolForTplContextId,
   symbolForRefForProxy,
@@ -31,14 +32,13 @@ import { looseCheckIfByTransform } from "./checkIf";
 import { isPreEvaluated } from "./internal/evaluate";
 import { cloneDeepWithInjectedMark } from "./internal/injected";
 import { expandCustomTemplate } from "./core/CustomTemplates";
-import { LocationContext } from "./core/LocationContext";
 import { getTagNameOfCustomTemplate } from "./core/CustomTemplates/getTagNameOfCustomTemplate";
 import { handleProxyOfCustomTemplate } from "./core/CustomTemplates/handleProxyOfCustomTemplate";
 import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "./internal/listenOnTrackingContext";
-import { getHistory } from "./history";
+
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
   data?: unknown;
@@ -79,7 +79,7 @@ export const SingleBrickAsComponent = React.memo(
     refCallback,
     immediatelyRefCallback,
   }: SingleBrickAsComponentProps): React.ReactElement {
-    const instance = LocationContext.getInstance(null, getHistory().location);
+    const tplContext = _internalApiGetTplContext();
 
     const isBrickAvailable = React.useMemo(() => {
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
@@ -89,13 +89,11 @@ export const SingleBrickAsComponent = React.memo(
         !looseCheckIfByTransform(useBrick, data, {
           allowInject: true,
           getTplVariables: () =>
-            instance
-              .getTplContext()
-              .getContext(
-                (useBrick as RuntimeBrickConfWithTplSymbols)[
-                  symbolForTplContextId
-                ]
-              ),
+            tplContext.getContext(
+              (useBrick as RuntimeBrickConfWithTplSymbols)[
+                symbolForTplContextId
+              ]
+            ),
         })
       ) {
         return false;
@@ -130,13 +128,9 @@ export const SingleBrickAsComponent = React.memo(
 
       if ((useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]) {
         transformOption.getTplVariables = () =>
-          instance
-            .getTplContext()
-            .getContext(
-              (useBrick as RuntimeBrickConfWithTplSymbols)[
-                symbolForTplContextId
-              ]
-            );
+          tplContext.getContext(
+            (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
+          );
       }
 
       const brick: RuntimeBrick = {
@@ -167,7 +161,7 @@ export const SingleBrickAsComponent = React.memo(
           tplConf,
           brick,
           _internalApiGetCurrentContext(),
-          instance.getTplContext()
+          tplContext
         );
         slotsToChildren(template.slots as UseBrickSlotsConf).forEach((item) => {
           if (
@@ -308,7 +302,7 @@ export const SingleBrickAsComponent = React.memo(
         tplConf,
         proxyConf,
         _internalApiGetCurrentContext(),
-        instance.getTplContext()
+        tplContext
       );
 
       return React.createElement(

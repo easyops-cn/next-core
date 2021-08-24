@@ -34,6 +34,7 @@ import { getBasePath } from "../internal/getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
 import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
+import { CustomTemplateContext } from "./CustomTemplates";
 
 let kernel: Kernel;
 
@@ -304,6 +305,13 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
     return {} as any;
   }
   return kernel.router.getCurrentContext();
+}
+
+export function _internalApiGetTplContext(): CustomTemplateContext {
+  if (process.env.NODE_ENV === "test") {
+    return {} as any;
+  }
+  return kernel.router.getTplContext();
 }
 
 /* istanbul ignore next */

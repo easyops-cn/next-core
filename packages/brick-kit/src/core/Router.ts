@@ -38,6 +38,7 @@ import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
+import { CustomTemplateContext } from "./CustomTemplates";
 
 export class Router {
   private defaultCollapsed = false;
@@ -190,7 +191,7 @@ export class Router {
 
     const pageTracker = apiAnalyzer.getInstance().pageTracker();
 
-    const locationContext = (this.locationContext = LocationContext.getInstance(
+    const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
       location
     ));
@@ -481,6 +482,10 @@ export class Router {
   /* istanbul ignore next */
   getCurrentContext(): PluginRuntimeContext {
     return this.locationContext.getCurrentContext();
+  }
+
+  getTplContext(): CustomTemplateContext {
+    return this.locationContext.getTplContext();
   }
 
   /* istanbul ignore next */

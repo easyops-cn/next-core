@@ -1,7 +1,7 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon } from "./menu";
 import { PluginHistoryState } from "./runtime";
-import { symbolForTplContextId } from "../../brick-kit/src/core/CustomTemplates/constants";
+import { symbolForTplContextId } from "@next-core/brick-kit/src/core/CustomTemplates/constants";
 
 /** @internal */
 export interface BootstrapData {
