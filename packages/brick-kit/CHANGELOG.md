@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.65.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.65.0...@next-core/brick-kit@2.65.1) (2021-08-24)
+
+
+### Bug Fixes
+
+* fix dynamic flow api initializing ([0f3c2fe](https://github.com/easyops-cn/next-core/commit/0f3c2fe01e9b15707491f503780c9c161107ea86))
+
+
+
+
+
 # [2.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.64.1...@next-core/brick-kit@2.65.0) (2021-08-17)
 
 
