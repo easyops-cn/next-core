@@ -1,9 +1,40 @@
 import { Resolver, ResolveRequestError } from "./Resolver";
 import { RuntimeBrick } from "./BrickNode";
-import { mockMicroAppApiOrchestrationMap } from "./__mocks__/MicroAppApiOrchestrationData";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
+import * as runtime from "../core/Runtime";
 
 jest.mock("../handleHttpError");
+
+jest
+  .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
+  .mockResolvedValue(
+    new Map([
+      [
+        "easyops.custom_api@myAwesomeApi",
+        {
+          contract: {
+            endpoint: {
+              method: "POST",
+              uri: "/object/:objectId/instance/_search",
+            },
+            name: "myAwesomeApi",
+            response: {
+              fields: [
+                {
+                  description: "instance list",
+                  name: "list",
+                  type: "map[]",
+                },
+              ],
+              type: "object",
+            },
+          },
+          name: "myAwesomeApi",
+          namespace: "easyops.custom_api",
+        },
+      ],
+    ])
+  );
 
 // Mock a custom element of `any-provider`.
 customElements.define(
@@ -36,9 +67,6 @@ describe("Resolver", () => {
       .mockImplementation((brick: string) =>
         brick === "error-provider" ? errorProvider : anyProvider
       ),
-    getMicroAppApiOrchestrationMapAsync: jest
-      .fn()
-      .mockResolvedValue(mockMicroAppApiOrchestrationMap),
   } as any;
   let resolver: Resolver;
 
