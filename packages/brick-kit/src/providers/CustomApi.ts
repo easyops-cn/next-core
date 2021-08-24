@@ -9,9 +9,9 @@ export interface CustomApiParams {
   responseWrapper?: boolean;
 }
 
-export async function CustomApi<T>(
+export async function CustomApi(
   { url, method = "GET", responseWrapper = true }: CustomApiParams,
-  data: any,
+  data: unknown,
   options?: HttpOptions
 ): Promise<unknown> {
   const isSimpleRequest = ["get", "delete", "head"].includes(
@@ -19,18 +19,13 @@ export async function CustomApi<T>(
   );
 
   if (isSimpleRequest) {
-    const response = await http.simpleRequest<any>(method, url, {
+    const response = await http.simpleRequest(method, url, {
       params: data,
       ...options,
     });
     return responseWrapper ? response.data : response;
   } else {
-    const response = await http.requestWithBody<any>(
-      method,
-      url,
-      data,
-      options
-    );
+    const response = await http.requestWithBody(method, url, data, options);
     return responseWrapper ? response.data : response;
   }
 }
