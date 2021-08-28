@@ -1,31 +1,34 @@
-import { Node } from "@babel/types";
 import { parseExpression } from "@babel/parser";
-import { walkFactory } from "./utils";
-import { PrecookVisitor } from "./PrecookVisitor";
+import { FunctionExpression, Node } from "@babel/types";
 import {
-  PrecookVisitorState,
-  PrecookResult,
   PrecookOptions,
+  PrecookVisitorState,
+  PrecookFunctionResult,
 } from "./interfaces";
+import { PrecookFunctionVisitor } from "./PrecookFunctionVisitor";
+import { walkFactory } from "./utils";
 
-export function precook(
+export function precookFunction(
   source: string,
   options?: PrecookOptions
-): PrecookResult {
+): PrecookFunctionResult {
+  const func = parseExpression(source, {
+    plugins: ["estree"],
+    strictMode: true,
+  }) as FunctionExpression;
+  if (func.type !== "FunctionExpression") {
+    throw new SyntaxError("Invalid function declaration");
+  }
   const state: PrecookVisitorState = {
     scopeStack: [],
     attemptToVisitGlobals: new Set(),
     scopeMapByNode: new WeakMap(),
+    isRoot: true,
   };
-  const expression = parseExpression(source, {
-    plugins: ["estree", ["pipelineOperator", { proposal: "minimal" }]],
-  });
-
-  // const attemptToVisitMembers = new Map<string, Set<string>>();
   walkFactory(
     options?.visitors
-      ? { ...PrecookVisitor, ...options.visitors }
-      : PrecookVisitor,
+      ? { ...PrecookFunctionVisitor, ...options.visitors }
+      : PrecookFunctionVisitor,
     (node: Node) => {
       // eslint-disable-next-line no-console
       console.warn(
@@ -35,11 +38,10 @@ export function precook(
         )}\``
       );
     }
-  )(expression, state);
-
+  )(func, state);
   return {
     source,
-    expression,
+    function: func,
     attemptToVisitGlobals: state.attemptToVisitGlobals,
     scopeMapByNode: state.scopeMapByNode,
   };

@@ -1,7 +1,8 @@
 import lodash from "lodash";
 import moment from "moment";
-import { CookScope } from "./interfaces";
+import { SimpleFunction } from "@next-core/brick-types";
 import { PipeRegistry } from "../placeholder/pipes";
+import { CookScope, FLAG_SANDBOX } from "./Scope";
 
 export function supply(
   attemptToVisitGlobals: Set<string>,
@@ -21,15 +22,16 @@ export function supply(
     }
   }
 
-  return new Map(
-    Array.from(globalMap.entries()).map((entry) => [
-      entry[0],
-      {
-        cooked: entry[1],
-        initialized: true,
-      },
-    ])
-  );
+  const scope = new CookScope(FLAG_SANDBOX);
+  for (const [key, value] of globalMap.entries()) {
+    scope.variables.set(key, {
+      initialized: true,
+      cooked: value,
+      const: true,
+    });
+  }
+
+  return scope;
 }
 
 const shouldOmitInLodash = new Set([
@@ -172,7 +174,7 @@ function supplyIndividual(variableName: string): unknown {
 function delegateMethods(
   target: unknown,
   methods: string[]
-): Record<string, (...args: unknown[]) => unknown> {
+): Record<string, SimpleFunction> {
   return Object.fromEntries(
     methods.map((method) => [
       method,

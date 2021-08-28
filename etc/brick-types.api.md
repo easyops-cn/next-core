@@ -1650,6 +1650,18 @@ export interface RuntimeStoryboard extends Storyboard {
     $$registerCustomTemplateProcessed?: boolean;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboardFunction" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface RuntimeStoryboardFunction {
+    // (undocumented)
+    cooked?: SimpleFunction;
+    // (undocumented)
+    processed?: boolean;
+    // (undocumented)
+    source: string;
+}
+
 // @public
 export interface SegueConf {
     target: string;
@@ -1733,6 +1745,9 @@ export interface SidebarMenuSimpleItem {
 
 // @public
 export type SidebarSubMenu = Pick<SidebarMenu, "title" | "icon" | "menuItems">;
+
+// @public (undocumented)
+export type SimpleFunction<P extends unknown[] = unknown[], R = unknown> = (...args: P) => R;
 
 // Warning: (ae-internal-missing-underscore) The name "SiteMapItem" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -1925,8 +1940,15 @@ export interface StoryboardContextItemFreeVariable {
 }
 
 // @public
+export interface StoryboardFunction {
+    name: string;
+    source: string;
+}
+
+// @public
 export interface StoryboardMeta {
     customTemplates?: CustomTemplate[];
+    functions?: StoryboardFunction[];
     i18n?: MetaI18n;
     // (undocumented)
     images?: MetaImage[];

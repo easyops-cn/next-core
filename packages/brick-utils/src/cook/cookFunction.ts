@@ -1,12 +1,17 @@
 import { Node } from "@babel/types";
+import { SimpleFunction } from "@next-core/brick-types";
 import { raiseErrorFactory, walkFactory } from "./utils";
-import { CookVisitor } from "./CookVisitor";
-import { CookVisitorState, PrecookResult } from "./interfaces";
+import { CookFunctionVisitor } from "./CookFunctionVisitor";
+import {
+  CookFunctionOptions,
+  CookVisitorState,
+  PrecookFunctionResult,
+} from "./interfaces";
 import { supply } from "./supply";
 
-export function cook<T = unknown>(
-  precooked: PrecookResult,
-  globalVariables?: Record<string, unknown>
+export function cookFunction<T extends SimpleFunction>(
+  precooked: PrecookFunctionResult,
+  { rules = {}, globalVariables }: CookFunctionOptions = {}
 ): T {
   const raiseError = raiseErrorFactory(precooked.source);
   const state: CookVisitorState<T> = {
@@ -14,10 +19,11 @@ export function cook<T = unknown>(
     raiseError,
     scopeMapByNode: precooked.scopeMapByNode,
     scopeStack: [supply(precooked.attemptToVisitGlobals, globalVariables)],
-    rules: {},
+    isRoot: true,
+    rules,
   };
-  walkFactory(CookVisitor, (node: Node) => {
+  walkFactory(CookFunctionVisitor, (node: Node) => {
     raiseError(SyntaxError, `Unsupported node type \`${node.type}\``, node);
-  })(precooked.expression, state);
+  })(precooked.function, state);
   return state.cooked;
 }
