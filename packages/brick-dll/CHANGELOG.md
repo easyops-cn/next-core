@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.20.5...@next-core/brick-dll@2.21.0) (2021-08-30)
+
+
+### Features
+
+* support storyboard functions ([b27c235](https://github.com/easyops-cn/next-core/commit/b27c2354eb99fa82e515526e605c368f0dcca20a))
+
+
+
+
+
 ## [2.20.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.20.4...@next-core/brick-dll@2.20.5) (2021-08-30)
 
 **Note:** Version bump only for package @next-core/brick-dll
