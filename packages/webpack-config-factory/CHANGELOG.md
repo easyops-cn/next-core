@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.2...@next-core/webpack-config-factory@2.11.3) (2021-08-30)
+
+
+### Bug Fixes
+
+* prefix module id with package name to avoid collisions ([27aa880](https://github.com/easyops-cn/next-core/commit/27aa8801629e1cfef4b6da9d891404491031f4ce))
+
+
+
+
+
 ## [2.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.1...@next-core/webpack-config-factory@2.11.2) (2021-08-18)
 
 
