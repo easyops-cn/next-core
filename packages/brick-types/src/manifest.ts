@@ -1,6 +1,7 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon } from "./menu";
 import { PluginHistoryState } from "./runtime";
+import { SimpleFunction } from "./utility";
 
 /** @internal */
 export interface BootstrapData {
@@ -260,6 +261,13 @@ export interface RuntimeStoryboard extends Storyboard {
   $$registerCustomTemplateProcessed?: boolean;
   $$fulfilled?: boolean;
   $$fulfilling?: Promise<void>;
+}
+
+/** @internal */
+export interface RuntimeStoryboardFunction {
+  source: string;
+  processed?: boolean;
+  cooked?: SimpleFunction;
 }
 
 /**
@@ -1360,6 +1368,19 @@ export interface StoryboardMeta {
   i18n?: MetaI18n;
 
   images?: MetaImage[];
+
+  /** 应用定义的函数列表。 */
+  functions?: StoryboardFunction[];
+}
+
+/**
+ * 应用定义的函数。
+ */
+export interface StoryboardFunction {
+  /** 函数名称。 */
+  name: string;
+  /** 函数源码。 */
+  source: string;
 }
 
 /**

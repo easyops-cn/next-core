@@ -5,7 +5,9 @@ import { precook } from "./precook";
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 jest.mock("../placeholder/pipes", () => ({
-  PipeRegistry: new Map([["string", (v: any) => (v == null ? "" : String(v))]]),
+  PipeRegistry: new Map([
+    ["string", (v: unknown) => (v == null ? "" : String(v))],
+  ]),
 }));
 
 describe("cook", () => {
@@ -17,7 +19,7 @@ describe("cook", () => {
     clock.uninstall();
   });
 
-  const getGlobalVariables = (): Record<string, any> => ({
+  const getGlobalVariables = (): Record<string, unknown> => ({
     DATA: {
       for: "good",
       null: null,
@@ -42,7 +44,7 @@ describe("cook", () => {
     },
   });
 
-  it.each<[string, any]>([
+  it.each<[string, unknown]>([
     ["'good'", "good"],
     ["1", 1],
     ["null", null],
@@ -123,12 +125,15 @@ describe("cook", () => {
     ["+DATA.true", 1],
     ["-DATA.true", -1],
     ["typeof DATA.for", "string"],
+    ["typeof DATA.unknown", "undefined"],
+    ["typeof unknown", "undefined"],
     ["void DATA.for", undefined],
     ["DATA.number5 + 1", 6],
     ["DATA.number5 - 1", 4],
     ["DATA.number5 / 2", 2.5],
     ["DATA.number5 % 2", 1],
     ["DATA.number5 * 2", 10],
+    ["DATA.number5 ** 2", 25],
     ["DATA.number5 == '5'", true],
     ["DATA.number5 == 4", false],
     ["DATA.number5 === 5", true],
@@ -167,6 +172,8 @@ describe("cook", () => {
     ],
     ["[1,2,3].slice(1)", [2, 3]],
     ["[1, ...DATA.for, 2]", [1, "g", "o", "o", "d", 2]],
+    // eslint-disable-next-line no-sparse-arrays
+    ["[1, , 2]", [1, , 2]],
     ["[-1].concat(0, ...[1, 2], 3)", [-1, 0, 1, 2, 3]],
     ["[-1]?.concat(0, ...[1, 2], 3)", [-1, 0, 1, 2, 3]],
     [
@@ -231,6 +238,10 @@ describe("cook", () => {
     ["DATA.number5 |> PIPES.string", "5"],
     // Sequential pipeline operators with an arrow function.
     ["DATA.number5 |> (_ => _ + 1) |> PIPES.string", "6"],
+    // Reuse arrow functions.
+    ["(fn => fn(2)+fn())((a=1)=>a)", 3],
+    // Nested arrow functions
+    ["((a)=>(b)=>a+b)(1)(2)", 3],
     ["new Set([1, 2, 3])", new Set([1, 2, 3])],
     ["new Array(1, ...[2, 3])", [1, 2, 3]],
     [
@@ -267,7 +278,6 @@ describe("cook", () => {
     "DATA.number5?.toFixed.oo.ps",
     "DATA.number5.toFixed?.().oops()",
     "(DATA.notExisted?.length).oops",
-    "[1, , 2]",
     "[...DATA]",
     "[...null]",
     "[...undefined]",
@@ -300,6 +310,9 @@ describe("cook", () => {
     "(Set => new Set())(() => null)",
     "1`a${1}b`",
     "c`a${1}b`",
+    // Reuse arrow functions.
+    "(fn => fn(2,1)+fn())((a=b,b)=>a)",
+    "typeof unknown.any",
     // Todo(steve)
     // "_.wrap(_.method('constructor.assign',{a:1},{b:2}),(func,...a) => func(...a))({})"
   ])("cook(precook(%j), {...}) should throw", (input) => {

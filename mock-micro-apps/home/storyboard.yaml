@@ -4,6 +4,18 @@ app:
   homepage: /
 imports:
 - '@next-bricks/basic-bricks'
+meta:
+  functions:
+  - name: sayHello
+    source: |
+      function sayHello(name) {
+        return FN.sayExclamation(`Hello, ${name}`);
+      }
+  - name: sayExclamation
+    source: |
+      function sayExclamation(sentence) {
+        return `${sentence}!`;
+      }
 routes:
 - path: ${APP.homepage}
   context:
@@ -30,7 +42,7 @@ routes:
   bricks:
   - brick: basic-bricks.micro-view
     properties:
-      pageTitle: Hello World
+      pageTitle: '<% FN.sayHello("world") %>'
     slots:
       content:
         type: bricks
