@@ -12,6 +12,7 @@ import {
   EvaluateOptions,
   isPreEvaluated,
   shouldDismissRecursiveMarkingInjected,
+  EvaluateRuntimeContext,
 } from "./internal/evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
 import { devtoolsHookEmit } from "./internal/devtools";
@@ -97,11 +98,12 @@ export function doTransform(
     let result: unknown;
     let dismissRecursiveMarkingInjected = false;
     if (preEvaluated || isEvaluable(to as string)) {
-      result = evaluate(
-        to as string,
-        { data, getTplVariables: options?.getTplVariables },
-        options?.evaluateOptions
-      );
+      const runtimeContext: EvaluateRuntimeContext = {
+        data,
+      };
+      if (options?.getTplVariables)
+        runtimeContext.getTplVariables = options.getTplVariables;
+      result = evaluate(to as string, runtimeContext, options?.evaluateOptions);
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         to as string
       );

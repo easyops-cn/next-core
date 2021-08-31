@@ -267,15 +267,15 @@ export const SingleBrickAsComponent = React.memo(
             handleProxyOfCustomTemplate(brick);
           }
 
-          if (
-            brick.ref &&
+          const tplBrick = tplContext.getBrick(
             (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
-          ) {
-            const tplBrick = tplContext.getBrick(
-              (useBrick as RuntimeBrickConfWithTplSymbols)[
-                symbolForTplContextId
-              ]
-            );
+          );
+          /**
+           * 如果存在brick.ref, 表明当前brick为custom-template对外暴露的插槽部分
+           * 此部分构件不被 expandCustomTemplate 方法正常解析, 需要额外处理
+           * 保证父构件上proxyRefs指向的准确性
+           */
+          if (brick.ref && tplBrick) {
             const proxyBrick = tplBrick.proxyRefs.get(brick.ref);
             if (proxyBrick) {
               tplBrick.proxyRefs.set(brick.ref, {
@@ -285,9 +285,10 @@ export const SingleBrickAsComponent = React.memo(
                   element: brick.element,
                 },
               });
-              if (brick.isParent) handleProxyOfCustomTemplate(tplBrick);
             }
           }
+          if (brick.isParent && tplBrick) handleProxyOfCustomTemplate(tplBrick);
+
           // Memoize the parent ref of useBrick.
           (element as RuntimeBrickElementWithTplSymbols)[
             symbolForParentRefForUseBrickInPortal
