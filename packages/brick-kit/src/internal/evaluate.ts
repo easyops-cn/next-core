@@ -18,6 +18,7 @@ import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { i18nText } from "../i18nText";
+import { getStoryboardFunctions } from "../core/StoryboardFunctions";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -269,6 +270,10 @@ export function evaluate(
     globalVariables.INSTALLED_APPS = {
       has: (appId: string) => getRuntime().hasInstalledApp(appId),
     };
+  }
+
+  if (attemptToVisitGlobals.has("FN")) {
+    globalVariables.FN = getStoryboardFunctions();
   }
 
   try {

@@ -41,7 +41,7 @@ describe("askBrickName", () => {
 
   it("should allow brick name without a hyphen for provider", () => {
     const { validate } = askBrickName({
-      targetType: TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      targetType: TargetType.A_NEW_CUSTOM_PROVIDER,
       packageName: "general-auth",
       appRoot: process.cwd(),
     }) as any;

@@ -22,7 +22,6 @@ import {
   _internalApiGetProviderBrick,
   symbolForParentTemplate,
   RuntimeBrickElementWithTplSymbols,
-  _internalApiGetMicroAppApiOrchestrationMap,
   symbolForParentRefForUseBrickInPortal,
   RuntimeBrick,
 } from "../core/exports";
@@ -31,10 +30,10 @@ import { looseCheckIf, IfContainer } from "../checkIf";
 import { getUrlByAliasFactory } from "./alias";
 import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "../websocket/interfaces";
-import { isCustomApiProvider, getArgsOfCustomApi } from "../core/CustomApis";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
 import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
+import { getArgsOfCustomApi } from "../core/FlowApi";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -648,20 +647,12 @@ async function brickCallback(
     });
     return;
   }
-  let argsFactoryResult = argsFactory(handler.args, context, event, options);
+  let computedArgs = argsFactory(handler.args, context, event, options);
 
-  if ((handler as UseProviderEventHandler).useProvider) {
-    if (isCustomApiProvider((handler as UseProviderEventHandler).useProvider)) {
-      const allMicroAppApiOrchestrationMap =
-        await _internalApiGetMicroAppApiOrchestrationMap();
-      argsFactoryResult = getArgsOfCustomApi(
-        (handler as UseProviderEventHandler).useProvider,
-        allMicroAppApiOrchestrationMap,
-        argsFactoryResult
-      );
-    }
+  if (isUseProviderHandler(handler)) {
+    computedArgs = await getArgsOfCustomApi(handler.useProvider, computedArgs);
   }
-  const task = (): unknown => (target as any)[method](...argsFactoryResult);
+  const task = (): unknown => (target as any)[method](...computedArgs);
 
   const {
     success,

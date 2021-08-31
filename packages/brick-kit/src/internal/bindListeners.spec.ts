@@ -14,8 +14,6 @@ import { getHistory } from "../history";
 import * as runtime from "../core/Runtime";
 import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { message } from "antd";
-import { CustomApiOrchestration } from "../core/interfaces";
-import { mockMicroAppApiOrchestrationMap } from "../core/__mocks__/MicroAppApiOrchestrationData";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
@@ -136,11 +134,33 @@ jest
 
 jest
   .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
-  .mockImplementation(
-    async (): Promise<Map<string, CustomApiOrchestration>> => {
-      await Promise.resolve();
-      return mockMicroAppApiOrchestrationMap;
-    }
+  .mockResolvedValue(
+    new Map([
+      [
+        "easyops.custom_api@myAwesomeApi",
+        {
+          contract: {
+            endpoint: {
+              method: "POST",
+              uri: "/object/:objectId/instance/_search",
+            },
+            name: "myAwesomeApi",
+            response: {
+              fields: [
+                {
+                  description: "instance list",
+                  name: "list",
+                  type: "map[]",
+                },
+              ],
+              type: "object",
+            },
+          },
+          name: "myAwesomeApi",
+          namespace: "easyops.custom_api",
+        },
+      ],
+    ])
   );
 
 describe("isBuiltinHandler", () => {

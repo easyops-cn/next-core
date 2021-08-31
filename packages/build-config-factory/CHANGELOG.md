@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.11](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.15.10...@next-core/build-config-factory@2.15.11) (2021-08-30)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.15.10](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.15.9...@next-core/build-config-factory@2.15.10) (2021-08-30)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.15.9](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.15.8...@next-core/build-config-factory@2.15.9) (2021-08-27)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
+## [2.15.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.15.7...@next-core/build-config-factory@2.15.8) (2021-08-18)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+
+
+
+
 ## [2.15.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.15.6...@next-core/build-config-factory@2.15.7) (2021-08-17)
 
 **Note:** Version bump only for package @next-core/build-config-factory

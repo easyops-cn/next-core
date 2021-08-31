@@ -31,7 +31,9 @@ describe("Mocked homepage", () => {
         cy.spy(win.console, "info").as("console.info");
       },
     });
-    cy.get("basic-bricks\\.micro-view");
+    cy.get("basic-bricks\\.micro-view")
+      .invoke("prop", "pageTitle")
+      .should("eq", "Hello, world!");
     cy.get("basic-bricks\\.page-error").should("not.exist");
     cy.get("@console.error").should("not.be.called");
     cy.get("pre").invoke("text").should("eq", '"good"');
