@@ -267,27 +267,31 @@ export const SingleBrickAsComponent = React.memo(
             handleProxyOfCustomTemplate(brick);
           }
 
-          const tplBrick = tplContext.getBrick(
-            (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
-          );
-          /**
-           * 如果存在brick.ref, 表明当前brick为custom-template对外暴露的插槽部分
-           * 此部分构件不被 expandCustomTemplate 方法正常解析, 需要额外处理
-           * 保证父构件上proxyRefs指向的准确性
-           */
-          if (brick.ref && tplBrick) {
-            const proxyBrick = tplBrick.proxyRefs.get(brick.ref);
-            if (proxyBrick) {
-              tplBrick.proxyRefs.set(brick.ref, {
-                brick: {
-                  // children 继承template上proxy等属性
-                  ...tplBrick,
-                  element: brick.element,
-                },
-              });
+          const tplContextId = (useBrick as RuntimeBrickConfWithTplSymbols)[
+            symbolForTplContextId
+          ];
+          if (tplContextId && tplContext) {
+            const tplBrick = tplContext.getBrick(tplContextId);
+            /**
+             * 如果存在brick.ref, 表明当前brick为custom-template对外暴露的插槽部分
+             * 此部分构件不被 expandCustomTemplate 方法正常解析, 需要额外处理
+             * 保证父构件上proxyRefs指向的准确性
+             */
+            if (brick.ref && tplBrick) {
+              const proxyBrick = tplBrick.proxyRefs.get(brick.ref);
+              if (proxyBrick) {
+                tplBrick.proxyRefs.set(brick.ref, {
+                  brick: {
+                    // children 继承template上proxy等属性
+                    ...tplBrick,
+                    element: brick.element,
+                  },
+                });
+              }
             }
+            if (brick.isParent && tplBrick)
+              handleProxyOfCustomTemplate(tplBrick);
           }
-          if (brick.isParent && tplBrick) handleProxyOfCustomTemplate(tplBrick);
 
           // Memoize the parent ref of useBrick.
           (element as RuntimeBrickElementWithTplSymbols)[
