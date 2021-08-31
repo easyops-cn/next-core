@@ -26,9 +26,11 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
 
   // For usages of `targetRef: "..."`.
   // `tpl.$$getElementByRef(ref)` will return the ref element inside a custom template.
-  Object.defineProperty(node, "$$getElementByRef", {
-    value: getElementByRef,
-  });
+  if (!node.$$getElementByRef) {
+    Object.defineProperty(node, "$$getElementByRef", {
+      value: getElementByRef,
+    });
+  }
 
   if (!brick.proxy) {
     return;
@@ -106,16 +108,18 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
             enumerable: true,
           });
         } else {
-          Object.defineProperty(node, propName, {
-            get: function () {
-              return refElement[propRef.refProperty];
-            },
-            set: function (value: unknown) {
-              refElement[propRef.refProperty] = value;
-              handleExtraOneWayRefs(propName, propRef, value);
-            },
-            enumerable: true,
-          });
+          if (!node[propName]) {
+            Object.defineProperty(node, propName, {
+              get: function () {
+                return refElement[propRef.refProperty];
+              },
+              set: function (value: unknown) {
+                refElement[propRef.refProperty] = value;
+                handleExtraOneWayRefs(propName, propRef, value);
+              },
+              enumerable: true,
+            });
+          }
         }
       }
     }

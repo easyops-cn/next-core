@@ -9,6 +9,8 @@ import {
   UseBrickSlotsConf,
   BrickConf,
   ProbablyRuntimeBrick,
+  RuntimeBrickConf,
+  SlotsConf,
 } from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
@@ -102,6 +104,21 @@ export const SingleBrickAsComponent = React.memo(
       return true;
     }, [useBrick, data]);
 
+    const setProxyRefForSlots = (slots: UseBrickSlotsConf) => {
+      slotsToChildren(slots).forEach((item) => {
+        if (
+          (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy] !==
+          undefined
+        ) {
+          (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
+            item as ProbablyRuntimeBrick;
+          if (item.slots) {
+            setProxyRefForSlots(item.slots);
+          }
+        }
+      });
+    };
+
     const runtimeBrick = React.useMemo(async () => {
       if (!isBrickAvailable) {
         return null;
@@ -151,11 +168,12 @@ export const SingleBrickAsComponent = React.memo(
       if (tplTagName) {
         // 如果是模板, 需要展开解析模板, 并遍历模板中的slots, 再给slots的brick绑定值给自身
         // 为后续ProxyRefs获取brick做值缓存
-        const tplConf = {
+        const tplConf: RuntimeBrickConf = {
           brick: tplTagName,
           properties: data as Record<string, unknown>,
           events: useBrick.events,
           lifeCycle: useBrick.lifeCycle,
+          slots: useBrick.slots as SlotsConf,
         };
         const template = expandCustomTemplate(
           tplConf,
@@ -163,22 +181,15 @@ export const SingleBrickAsComponent = React.memo(
           _internalApiGetCurrentContext(),
           tplContext
         );
-        slotsToChildren(template.slots as UseBrickSlotsConf).forEach((item) => {
-          if (
-            (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy] !==
-            undefined
-          ) {
-            (item as RuntimeBrickConfWithTplSymbols)[
-              symbolForRefForProxy
-            ].brick = item as ProbablyRuntimeBrick;
-          }
-        });
+        brick.isParent = true;
+        setProxyRefForSlots(template.slots as UseBrickSlotsConf);
       } else if (
         (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy]
       ) {
         (useBrick as RuntimeBrickConfWithTplSymbols)[
           symbolForRefForProxy
         ].brick = brick;
+        setProxyRefForSlots(useBrick.slots as UseBrickSlotsConf);
       }
 
       // Let `transform` works still.
@@ -244,16 +255,39 @@ export const SingleBrickAsComponent = React.memo(
           brick.element = element;
           setRealProperties(element, brick.properties);
           unbindListeners(element);
-          if (useBrick.events) {
-            bindListeners(
-              element,
-              transformEvents(data, useBrick.events),
-              _internalApiGetCurrentContext()
-            );
+          if (!brick.isParent) {
+            if (brick.events) {
+              bindListeners(
+                element,
+                transformEvents(data, brick.events),
+                _internalApiGetCurrentContext()
+              );
+            }
+            // 设置proxyEvent
+            handleProxyOfCustomTemplate(brick);
           }
 
-          // 设置proxyEvent
-          handleProxyOfCustomTemplate(brick);
+          if (
+            brick.ref &&
+            (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
+          ) {
+            const tplBrick = tplContext.getBrick(
+              (useBrick as RuntimeBrickConfWithTplSymbols)[
+                symbolForTplContextId
+              ]
+            );
+            const proxyBrick = tplBrick.proxyRefs.get(brick.ref);
+            if (proxyBrick) {
+              tplBrick.proxyRefs.set(brick.ref, {
+                brick: {
+                  // children 继承template上proxy等属性
+                  ...tplBrick,
+                  element: brick.element,
+                },
+              });
+              if (brick.isParent) handleProxyOfCustomTemplate(tplBrick);
+            }
+          }
           // Memoize the parent ref of useBrick.
           (element as RuntimeBrickElementWithTplSymbols)[
             symbolForParentRefForUseBrickInPortal
@@ -290,16 +324,37 @@ export const SingleBrickAsComponent = React.memo(
     );
 
     if (tplTagName) {
+      const transformOption: Record<string, any> = {
+        // Keep lazy fields inside `useBrick` inside the `properties`.
+        // They will be transformed by their `BrickAsComponent` later.
+        $$lazyForUseBrick: true,
+        trackingContextList: [],
+        allowInject: true,
+      };
+      if ((useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]) {
+        transformOption.getTplVariables = () =>
+          tplContext.getContext(
+            (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
+          );
+      }
+
+      const transformData = doTransform(
+        data,
+        cloneDeepWithInjectedMark(useBrick.properties) || {},
+        transformOption
+      );
+
       const tplConf = {
         brick: tplTagName,
-        properties: (data as Record<string, unknown>) || useBrick.properties,
+        properties: transformData,
         events: useBrick.events,
         lifeCycle: useBrick.lifeCycle,
+        slots: useBrick.slots,
       };
       const proxyConf = {};
 
       const template = expandCustomTemplate(
-        tplConf,
+        tplConf as RuntimeBrickConf,
         proxyConf,
         _internalApiGetCurrentContext(),
         tplContext
@@ -316,26 +371,16 @@ export const SingleBrickAsComponent = React.memo(
               ...proxyConf,
               ...item,
             };
-            return (
-              <SingleBrickAsComponent
-                key={index}
-                useBrick={templateItem}
-                data={data}
-              />
+            // 由于子构件不继承模板上的事件, 故将事件复制给子构件
+            templateItem.events = Object.assign(
+              templateItem.events || {},
+              template.events || {}
             );
-          }
-        ),
-        ...slotsToChildren(useBrick.slots as UseBrickSlotsConf).map(
-          (item: UseSingleBrickConf, index: number) => {
-            const templateItem = {
-              ...proxyConf,
-              ...item,
-            };
             return (
               <SingleBrickAsComponent
                 key={index}
                 useBrick={templateItem}
-                data={data}
+                data={transformData}
               />
             );
           }

@@ -691,16 +691,20 @@ export class LocationContext {
     });
 
     const useBrick: UseBrickConf = brick.properties.useBrick;
-    if (useBrick) {
-      const setTplIdForSlots = (slots: UseBrickSlotsConf) => {
-        if (!slots) return;
-        Object.values(slots).forEach((v) => {
-          v.bricks.forEach((item) => {
-            (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
-              tplContextId;
-          });
+    const setTplIdForSlots = (slots: UseBrickSlotsConf) => {
+      if (!slots) return;
+      Object.values(slots).forEach((v) => {
+        v.bricks.forEach((item) => {
+          (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
+            tplContextId;
         });
-      };
+      });
+    };
+    if (useBrick) {
+      /**
+       * 由于 useBrick 在properties属性上, 不继承tplContext
+       * 需要在此步骤给useBrick的item, 以及slots添加tplContextId, 方便useBrick遍历使用
+       */
       if (Array.isArray(useBrick)) {
         useBrick.forEach((item) => {
           (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =

@@ -1,7 +1,6 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon } from "./menu";
 import { PluginHistoryState } from "./runtime";
-import { symbolForTplContextId } from "@next-core/brick-kit/src/core/CustomTemplates/constants";
 
 /** @internal */
 export interface BootstrapData {
@@ -1335,9 +1334,6 @@ export interface UseSingleBrickConf {
 
   /** {@inheritDoc UseBrickSlotsConf} */
   slots?: UseBrickSlotsConf;
-
-  /** parent template context id */
-  [symbolForTplContextId]?: string;
 }
 
 /** 在 `useBrick` 中使用的插槽配置表。 */

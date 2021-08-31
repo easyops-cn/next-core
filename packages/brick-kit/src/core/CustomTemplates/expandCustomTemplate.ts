@@ -6,6 +6,7 @@ import {
   RefForProxy,
   RuntimeBrickConf,
   SlotsConfOfBricks,
+  UseBrickConf,
 } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
 import { clamp } from "lodash";
@@ -224,6 +225,21 @@ function expandBrickInTemplate(
       },
     ])
   );
+
+  const useBrickInTemplate: UseBrickConf = brickConfInTemplate.properties
+    ?.useBrick as UseBrickConf;
+  if (useBrickInTemplate) {
+    if (Array.isArray(useBrickInTemplate)) {
+      useBrickInTemplate.map((item) => {
+        return expandBrickInTemplate(item as BrickConfInTemplate, proxyContext);
+      });
+    } else {
+      expandBrickInTemplate(
+        useBrickInTemplate as BrickConfInTemplate,
+        proxyContext
+      );
+    }
+  }
 
   if (ref) {
     refForProxy = {};
