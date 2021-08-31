@@ -10,11 +10,19 @@ import { devtoolsHookEmit } from "./devtools";
 import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
+import { getStoryboardFunctions } from "../core/StoryboardFunctions";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
 jest.mock("./checkPermissions");
 jest.mock("./Storage");
+jest.mock("../core/StoryboardFunctions");
+
+(getStoryboardFunctions as jest.Mock).mockReturnValue({
+  sayHello(name: string) {
+    return `Hello, ${name}`;
+  },
+});
 
 i18next.init({
   fallbackLng: "en",
@@ -188,6 +196,7 @@ describe("evaluate", () => {
     ["<% SESSION_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
     ["<% INSTALLED_APPS.has('my-app-id') %>", true],
     ["<% INSTALLED_APPS.has('my-another-app-id') %>", false],
+    ["<% FN.sayHello('world') %>", "Hello, world"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

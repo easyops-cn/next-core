@@ -9,6 +9,7 @@ const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 const ScanEditorBricksPlugin = require("./ScanEditorBricksPlugin");
 const NextDllReferencePlugin = require("../dll/NextDllReferencePlugin");
+const BrickHashedModuleIdsPlugin = require("./BrickHashedModuleIdsPlugin");
 
 const getCssLoader = (cssOptions) => ({
   loader: "css-loader",
@@ -110,7 +111,10 @@ module.exports =
         // In production mode, when using dynamic chunks, module ids and
         // chunk ids are numeric, and there maybe collisions among foreign
         // webpack bundles. So we use hashed module ids and named chunk ids.
-        moduleIds: "hashed",
+        // !Edited:
+        //   There maybe collisions among brick packages when using hashed
+        //   module ids, too. So we use `BrickHashedModuleIdsPlugin` to prefix
+        //   them with package names.
         namedChunks: true,
 
         ...(splitVendorsForLazyBricks
@@ -279,6 +283,10 @@ module.exports =
               packageName,
               dll.map((name) => name.substr("@next-dll/".length))
             ),
+        ...(scope === "bricks" && !isForEditors
+          ? // Avoid module id collisions among brick packages.
+            [new BrickHashedModuleIdsPlugin({ packageName })]
+          : []),
         new CleanWebpackPlugin(),
         new NextDllReferencePlugin({
           context: appRoot,

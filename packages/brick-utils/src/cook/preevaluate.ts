@@ -1,5 +1,5 @@
-import { PrecookOptions, precook } from "./precook";
-import { PrecookResult } from "./interfaces";
+import { precook } from "./precook";
+import { PrecookOptions, PrecookResult } from "./interfaces";
 
 // `raw` should always be asserted to `isEvaluable`.
 export function preevaluate(

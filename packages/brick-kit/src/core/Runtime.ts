@@ -27,7 +27,7 @@ import {
   RelatedApp,
   RouterState,
   RecentApps,
-  CustomApiOrchestration,
+  CustomApiDefinition,
   AbstractRuntime,
 } from "./interfaces";
 import { getBasePath } from "../internal/getBasePath";
@@ -323,7 +323,7 @@ export function _internalApiGetProviderBrick(
 
 /* istanbul ignore next */
 export function _internalApiGetMicroAppApiOrchestrationMap(): Promise<
-  Map<string, CustomApiOrchestration>
+  Map<string, CustomApiDefinition>
 > {
   return kernel.allMicroAppApiOrchestrationPromise;
 }

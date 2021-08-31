@@ -44,14 +44,14 @@ import {
   RelatedApp,
   VisitedWorkspace,
   RecentApps,
-  CustomApiOrchestration,
+  CustomApiDefinition,
 } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools } from "../internal/devtools";
-import { isCustomApiProvider } from "./CustomApis";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
+import { isCustomApiProvider } from "./FlowApi";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -75,7 +75,7 @@ export class Kernel {
   public nextAppMeta: StoryboardMeta;
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
-    Map<string, CustomApiOrchestration>
+    Map<string, CustomApiDefinition>
   > = Promise.resolve(new Map());
   private providerRepository = new Map<string, HTMLElement>();
   private loadUsersStarted = false;
@@ -424,28 +424,25 @@ export class Kernel {
   }
 
   async getMicroAppApiOrchestrationMapAsync(): Promise<
-    Map<string, CustomApiOrchestration>
+    Map<string, CustomApiDefinition>
   > {
     return await this.allMicroAppApiOrchestrationPromise;
   }
 
   private async loadMicroAppApiOrchestration(
     usedCustomApis: CustomApiInfo[]
-  ): Promise<Map<string, CustomApiOrchestration>> {
-    const allMicroAppApiOrchestrationMap: Map<string, CustomApiOrchestration> =
+  ): Promise<Map<string, CustomApiDefinition>> {
+    const allMicroAppApiOrchestrationMap: Map<string, CustomApiDefinition> =
       new Map();
-    const customApisV2 = usedCustomApis.filter((item) =>
-      item.name.includes(":")
-    );
-    const customApisV1 = usedCustomApis.filter(
+    const legacyCustomApis = usedCustomApis.filter(
       (item) => !item.name.includes(":")
     );
-    if (customApisV1.length) {
+    if (legacyCustomApis.length) {
       try {
         const allMicroAppApiOrchestration = (
           await InstanceApi_postSearch("MICRO_APP_API_ORCHESTRATION", {
             page: 1,
-            page_size: customApisV1.length,
+            page_size: legacyCustomApis.length,
             fields: {
               name: true,
               namespace: true,
@@ -454,10 +451,10 @@ export class Kernel {
               type: true,
             },
             query: {
-              $or: customApisV1,
+              $or: legacyCustomApis,
             },
           })
-        ).list as CustomApiOrchestration[];
+        ).list as CustomApiDefinition[];
         for (const api of allMicroAppApiOrchestration) {
           allMicroAppApiOrchestrationMap.set(
             `${api.namespace}@${api.name}`,
@@ -466,53 +463,9 @@ export class Kernel {
         }
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.warn("Load custom api orchestration error:", error);
+        console.warn("Load legacy custom api error:", error);
       }
     }
-
-    if (customApisV2.length) {
-      try {
-        const allMicroAppApiOrchestrationV2 = (
-          await InstanceApi_postSearch("_INTERFACE_CONTRACT@EASYOPS", {
-            page: 1,
-            page_size: customApisV2.length,
-            fields: {
-              name: true,
-              endpoint: true,
-              response: true,
-              "namespace.name": true,
-              version: true,
-            },
-            query: {
-              $or: customApisV2.map((item) => ({
-                name: item.name.split(":")[0],
-                version: item.name.split(":")[1],
-                "namespace.name": item.namespace,
-              })),
-            },
-          })
-        ).list.map((item) => ({
-          name: item.name,
-          namespace: item.namespace[0].name,
-          version: item.version,
-          contract: {
-            endpoint: item.endpoint,
-            response: item.response,
-          },
-        }));
-
-        for (const api of allMicroAppApiOrchestrationV2) {
-          allMicroAppApiOrchestrationMap.set(
-            `${api.namespace}@${api.name}:${api.version}`,
-            api
-          );
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.warn("Load custom api V2 orchestration error:", error);
-      }
-    }
-
     return allMicroAppApiOrchestrationMap;
   }
 

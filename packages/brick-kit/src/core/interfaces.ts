@@ -37,7 +37,7 @@ export interface RedirectConf {
 }
 
 /** @internal */
-export interface CustomApiOrchestration {
+export interface CustomApiDefinition {
   name: string;
   namespace: string;
   version?: string;
@@ -62,12 +62,20 @@ export interface CustomApiOrchestration {
     };
     response?: {
       wrapper?: boolean;
-      [key: string]: any;
+      type?: "file" | "object";
     };
-    [key: string]: any;
   };
-  config?: Record<string, any>;
-  type?: "emal" | "swagger";
+}
+
+/** @internal */
+export interface CustomApiProfile {
+  uri: string;
+  method: string;
+  name: string;
+  namespace: string;
+  responseWrapper: boolean;
+  version?: string;
+  isFileType?: boolean;
 }
 
 /**

@@ -56,9 +56,9 @@ describe("askPackageName", () => {
     expect(await source()).toEqual(["fake-package-sdk"]);
   });
 
-  it("should return choices of package for new custom provider brick", async () => {
+  it("should return choices of package for new custom provider", async () => {
     const { source } = askPackageName({
-      targetType: TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      targetType: TargetType.A_NEW_CUSTOM_PROVIDER,
       appRoot: process.cwd(),
     }) as any;
     expect(await source()).toEqual(["fake-package-sdk"]);
@@ -75,38 +75,5 @@ describe("askPackageName", () => {
         value: "providers-of-fake-package",
       },
     ]);
-  });
-
-  it("should validate correctly for new package of templates", async () => {
-    const { validate } = askPackageName({
-      targetType: TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
-      appRoot: process.cwd(),
-    }) as any;
-    expect(validate("good")).toBe(true);
-    expect(validate("Bad")).not.toBe(true);
-  });
-
-  it("should return choices of package for new template", async () => {
-    const { source } = askPackageName({
-      targetType: TargetType.A_NEW_LEGACY_TEMPLATE,
-      appRoot: process.cwd(),
-    }) as any;
-    expect(await source()).toEqual(["fake-package-sdk"]);
-  });
-
-  it("should return choices of micro-app package for transform", async () => {
-    const { source } = askPackageName({
-      targetType: TargetType.TRANSFORM_A_MICRO_APP,
-      appRoot: process.cwd(),
-    }) as any;
-    expect(await source()).toEqual(["fake-package-sdk"]);
-  });
-
-  it("should return choices of template package for patch", async () => {
-    const { source } = askPackageName({
-      targetType: TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES,
-      appRoot: process.cwd(),
-    }) as any;
-    expect(await source()).toEqual(["fake-package-sdk"]);
   });
 });

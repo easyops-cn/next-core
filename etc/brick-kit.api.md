@@ -121,12 +121,10 @@ export function createHistory(): PluginHistory;
 // @internal (undocumented)
 export function createRuntime(): Runtime;
 
-// Warning: (ae-internal-missing-underscore) The name "CustomApiOrchestration" should be prefixed with an underscore because the declaration is marked as @internal
+// Warning: (ae-internal-missing-underscore) The name "CustomApiDefinition" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface CustomApiOrchestration {
-    // (undocumented)
-    config?: Record<string, any>;
+export interface CustomApiDefinition {
     // (undocumented)
     contract?: {
         endpoint: {
@@ -135,16 +133,33 @@ export interface CustomApiOrchestration {
         };
         response?: {
             wrapper?: boolean;
-            [key: string]: any;
+            type?: "file" | "object";
         };
-        [key: string]: any;
     };
     // (undocumented)
     name: string;
     // (undocumented)
     namespace: string;
     // (undocumented)
-    type?: "emal" | "swagger";
+    version?: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "CustomApiProfile" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface CustomApiProfile {
+    // (undocumented)
+    isFileType?: boolean;
+    // (undocumented)
+    method: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    namespace: string;
+    // (undocumented)
+    responseWrapper: boolean;
+    // (undocumented)
+    uri: string;
     // (undocumented)
     version?: string;
 }

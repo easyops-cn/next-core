@@ -20,16 +20,18 @@ import {
   TemplateLiteral,
   UnaryExpression,
 } from "@babel/types";
+import { SimpleFunction } from "@next-core/brick-types";
 import {
-  VisitorFn,
   CookVisitorState,
-  CookScope,
   PropertyEntryCooked,
   ObjectCooked,
   PropertyCooked,
   ChainExpression,
+  ICookVisitor,
+  EstreeLiteral,
 } from "./interfaces";
-import { spawnCookState, getScopes } from "./utils";
+import { CookScopeStackFactory } from "./Scope";
+import { assertIterable, spawnCookState } from "./utils";
 
 const SupportedConstructorSet = new Set([
   "Array",
@@ -41,129 +43,93 @@ const SupportedConstructorSet = new Set([
   "WeakSet",
 ]);
 
-export const CookVisitor = Object.freeze<
-  Record<string, VisitorFn<CookVisitorState>>
->({
+export const CookVisitor = Object.freeze({
   ArrayExpression(
     node: ArrayExpression,
-    state: CookVisitorState<any[]>,
+    state: CookVisitorState<unknown[]>,
     callback
   ) {
-    const cookedElements = [];
+    const cookedElements: unknown[] = [];
+    let index = 0;
     for (const element of node.elements) {
-      if (element === null) {
-        throw new SyntaxError(
-          `Sparse arrays are not allowed: \`${state.source.substring(
-            node.start,
-            node.end
-          )}\``
-        );
-      }
-      const elementState = spawnCookState(state);
-      callback(element, elementState);
-      if (element.type === "SpreadElement") {
-        cookedElements.push(...elementState.cooked);
+      if (element !== null) {
+        const elementState = spawnCookState<unknown[]>(state);
+        callback(element, elementState);
+        if (element.type === "SpreadElement") {
+          for (let i = 0; i < elementState.cooked.length; i++) {
+            cookedElements[index + i] = elementState.cooked[i];
+          }
+          index += elementState.cooked.length;
+        } else {
+          cookedElements[index] = elementState.cooked;
+          index += 1;
+        }
       } else {
-        cookedElements.push(elementState.cooked);
+        index += 1;
       }
     }
     state.cooked = cookedElements;
   },
   ArrayPattern(node: ArrayPattern, state, callback) {
-    if (state.cookParamOnly) {
-      if (!isIterable(state.argReceived)) {
-        throw new TypeError(
-          `${typeof state.argReceived} is not iterable: \`${state.source.substring(
-            node.start,
-            node.end
-          )}\``
-        );
-      }
-      const [...spreadArgs] = state.argReceived;
-      node.elements.forEach((element, index) => {
-        callback(
-          element,
-          spawnCookState(state, {
-            cookParamOnly: true,
-            argReceived:
+    // if (state.assignment) {
+    assertIterable(
+      state.assignment.rightCooked,
+      state.source,
+      node.start,
+      node.end
+    );
+    const [...spreadArgs] = state.assignment.rightCooked as unknown[];
+    node.elements.forEach((element, index) => {
+      callback(
+        element,
+        spawnCookState(state, {
+          assignment: {
+            ...state.assignment,
+            rightCooked:
               element.type === "RestElement"
                 ? spreadArgs.slice(index)
                 : spreadArgs[index],
-          })
-        );
-      });
-      return;
-    }
-
-    // istanbul ignore else
-    if (state.collectParamNamesOnly) {
-      node.elements.forEach((element) => {
-        if (element === null) {
-          throw new SyntaxError(
-            `Sparse arrays are not allowed: \`${state.source.substring(
-              node.start,
-              node.end
-            )}\``
-          );
-        }
-        callback(element, state);
-      });
-    }
-    // Should nerve reach here.
+          },
+        })
+      );
+    });
+    // }
   },
   ArrowFunctionExpression(
     node: ArrowFunctionExpression,
-    state: CookVisitorState<(...args: any[]) => any>,
+    state: CookVisitorState<SimpleFunction>,
     callback
   ) {
     if (!node.expression) {
-      throw new SyntaxError(
-        `Only an \`Expression\` is allowed in \`ArrowFunctionExpression\`'s body, but received: \`${state.source.substring(
-          node.start,
-          node.end
-        )}\``
+      state.raiseError(
+        SyntaxError,
+        "Only an `Expression` is allowed in `ArrowFunctionExpression`'s body",
+        node
       );
     }
 
     if (node.async) {
-      throw new SyntaxError(
-        `Async function is not allowed, but received: \`${state.source.substring(
-          node.start,
-          node.end
-        )}\``
+      state.raiseError(SyntaxError, "Async function is not allowed", node);
+    }
+
+    state.cooked = function (...args) {
+      const scopeStack = CookScopeStackFactory(
+        state.scopeStack,
+        state.scopeMapByNode.get(node)
       );
-    }
-
-    const cookedParamNames: string[] = [];
-    const paramState: CookVisitorState<string> = spawnCookState(state, {
-      collectParamNamesOnly: cookedParamNames,
-    });
-    for (const param of node.params) {
-      callback(param, paramState);
-    }
-
-    state.cooked = function (...args: any[]) {
-      const currentScope: CookScope = new Map();
-      const bodyState: CookVisitorState = {
-        currentScope,
-        closures: getScopes(state),
-        source: state.source,
-      };
-
-      // For function parameters, define the current scope first.
-      for (const paramName of cookedParamNames) {
-        currentScope.set(paramName, {
-          initialized: false,
-        });
-      }
+      const bodyState = spawnCookState(state, {
+        scopeStack,
+      });
 
       node.params.forEach((param, index) => {
-        const argReceived =
+        const variableInitValue =
           param.type === "RestElement" ? args.slice(index) : args[index];
 
         const paramState = spawnCookState(bodyState, {
-          cookParamOnly: true,
-          argReceived,
+          assignment: {
+            initializing: true,
+            rightCooked: variableInitValue,
+          },
         });
 
         callback(param, paramState);
@@ -174,35 +140,31 @@ export const CookVisitor = Object.freeze<
     };
   },
   AssignmentPattern(node: AssignmentPattern, state, callback) {
-    if (state.cookParamOnly) {
-      if (state.argReceived === undefined) {
-        const paramValueState = spawnCookState(state);
-        callback(node.right, paramValueState);
-        callback(
-          node.left,
-          spawnCookState(state, {
-            cookParamOnly: true,
-            argReceived: paramValueState.cooked,
-          })
-        );
-      } else {
-        callback(node.left, state);
-      }
-      return;
-    }
-
-    // istanbul ignore else
-    if (state.collectParamNamesOnly) {
+    // if (state.assignment) {
+    if (state.assignment.rightCooked === undefined) {
+      const paramValueState = spawnCookState(state);
+      callback(node.right, paramValueState);
+      callback(
+        node.left,
+        spawnCookState(state, {
+          assignment: {
+            ...state.assignment,
+            rightCooked: paramValueState.cooked,
+          },
+        })
+      );
+    } else {
       callback(node.left, state);
     }
-    // Should nerve reach here.
+    // }
+    // Should never reach here.
   },
   BinaryExpression(node: BinaryExpression, state, callback) {
-    const leftState = spawnCookState(state);
+    const leftState = spawnCookState<number>(state);
     callback(node.left, leftState);
     const leftCooked = leftState.cooked;
 
-    const rightState = spawnCookState(state);
+    const rightState = spawnCookState<number>(state);
     callback(node.right, rightState);
     const rightCooked = rightState.cooked;
 
@@ -221,6 +183,9 @@ export const CookVisitor = Object.freeze<
         return;
       case "*":
         state.cooked = leftCooked * rightCooked;
+        return;
+      case "**":
+        state.cooked = leftCooked ** rightCooked;
         return;
       case "==":
         state.cooked = leftCooked == rightCooked;
@@ -248,28 +213,22 @@ export const CookVisitor = Object.freeze<
         return;
       case "|>":
         if (typeof rightCooked !== "function") {
-          throw new TypeError(
-            `${state.source.substring(
-              node.right.start,
-              node.right.end
-            )} is not a function`
-          );
+          state.raiseError.notFunction(node.right);
         }
-        state.cooked = rightCooked(leftCooked);
+        state.cooked = (rightCooked as unknown as SimpleFunction)(leftCooked);
         return;
     }
 
-    throw new SyntaxError(
-      `Unsupported binary operator \`${
-        node.operator
-      }\`: \`${state.source.substring(node.start, node.end)}\``
+    state.raiseError(
+      SyntaxError,
+      `Unsupported binary operator \`${node.operator}\``,
+      node
     );
   },
   CallExpression(node: CallExpression, state, callback) {
-    const calleeState: CookVisitorState<(...args: any[]) => any> =
-      spawnCookState(state, {
-        chainRef: state.chainRef,
-      });
+    const calleeState = spawnCookState<SimpleFunction>(state, {
+      chainRef: state.chainRef,
+    });
     callback(node.callee, calleeState);
     const calleeCooked = calleeState.cooked;
 
@@ -287,7 +246,7 @@ export const CookVisitor = Object.freeze<
 
     const cookedArgs = [];
     for (const arg of node.arguments) {
-      const argState = spawnCookState(state);
+      const argState = spawnCookState<unknown[]>(state);
       callback(arg, argState);
       if (arg.type === "SpreadElement") {
         cookedArgs.push(...argState.cooked);
@@ -297,12 +256,7 @@ export const CookVisitor = Object.freeze<
     }
 
     if (typeof calleeCooked !== "function") {
-      throw new TypeError(
-        `${state.source.substring(
-          node.callee.start,
-          node.callee.end
-        )} is not a function`
-      );
+      state.raiseError.notFunction(node.callee);
     }
 
     const thisArg =
@@ -337,47 +291,64 @@ export const CookVisitor = Object.freeze<
       state.cooked = alternateState.cooked;
     }
   },
-  Identifier(node: Identifier, state: CookVisitorState<string>) {
-    if (state.cookParamOnly) {
-      const ref = state.currentScope.get(node.name);
-      ref.cooked = state.argReceived;
-      ref.initialized = true;
-      return;
-    }
-    if (state.collectParamNamesOnly) {
-      state.collectParamNamesOnly.push(node.name);
-      return;
-    }
+  Identifier(node: Identifier, state: CookVisitorState) {
     if (state.identifierAsLiteralString) {
       state.cooked = node.name;
       return;
     }
 
-    const scopes = getScopes(state);
-    for (const scope of scopes) {
-      if (scope.has(node.name)) {
-        const ref = scope.get(node.name);
-        if (!ref.initialized) {
-          throw new ReferenceError(
-            `Cannot access '${node.name}' before initialization`
-          );
-        }
-        state.cooked = ref.cooked;
-        return;
+    for (let i = state.scopeStack.length - 1; i >= 0; i--) {
+      const ref = state.scopeStack[i].get(node.name);
+      if (!ref) {
+        continue;
       }
+      if (state.assignment?.initializing) {
+        ref.cooked = state.assignment.rightCooked;
+        ref.initialized = true;
+      } else if (!ref.initialized) {
+        state.raiseError(
+          ReferenceError,
+          `Cannot access '${node.name}' before initialization`
+        );
+      } else if (state.assignment) {
+        if (ref.const) {
+          state.raiseError(TypeError, "Assignment to constant variable");
+        }
+        state.cooked = performAssignment(
+          state,
+          ref as unknown as Record<string, unknown>,
+          "cooked"
+        );
+      } else if (state.update) {
+        const prevValue = ref.cooked as number;
+        ref.cooked = prevValue + (state.update.operator === "--" ? -1 : 1);
+        state.cooked = state.update.prefix ? ref.cooked : prevValue;
+      } else {
+        state.cooked = ref.cooked;
+      }
+      return;
     }
 
-    throw new ReferenceError(`${node.name} is not defined`);
+    if (state.checkTypeOf) {
+      state.cooked = undefined;
+      return;
+    }
+
+    state.raiseError(ReferenceError, `${node.name} is not defined`);
   },
-  Literal(node: any, state) {
+  Literal(node: EstreeLiteral, state) {
     if (node.regex) {
       if (node.value === null) {
         // Invalid regular expression fails silently in @babel/parser.
-        throw new SyntaxError(`Invalid regular expression: ${node.raw}`);
+        state.raiseError(
+          SyntaxError,
+          `Invalid regular expression: ${node.raw}`
+        );
       }
       if (node.regex.flags.includes("u")) {
         // Currently unicode flag is not fully supported across major browsers.
-        throw new SyntaxError(
+        state.raiseError(
+          SyntaxError,
           `Unsupported unicode flag in regular expression: ${node.raw}`
         );
       }
@@ -417,7 +388,7 @@ export const CookVisitor = Object.freeze<
     state.cooked = rightState.cooked;
   },
   MemberExpression(node: MemberExpression, state, callback) {
-    const objectState: CookVisitorState<ObjectCooked> = spawnCookState(state, {
+    const objectState = spawnCookState<ObjectCooked>(state, {
       chainRef: state.chainRef,
     });
     callback(node.object, objectState);
@@ -434,12 +405,9 @@ export const CookVisitor = Object.freeze<
       return;
     }
 
-    const propertyState: CookVisitorState<PropertyCooked> = spawnCookState(
-      state,
-      {
-        identifierAsLiteralString: !node.computed,
-      }
-    );
+    const propertyState = spawnCookState<PropertyCooked>(state, {
+      identifierAsLiteralString: !node.computed,
+    });
     callback(node.property, propertyState);
 
     const propertyCooked = propertyState.cooked;
@@ -449,12 +417,19 @@ export const CookVisitor = Object.freeze<
     };
 
     if (objectCookedIsNil) {
-      throw new TypeError(
-        `Cannot read property '${propertyCooked}' of ${objectCooked}`
+      state.raiseError(
+        TypeError,
+        `Cannot ${
+          state.assignment ? "set" : "read"
+        } property '${propertyCooked}' of ${objectCooked}`
       );
     }
 
-    state.cooked = objectCooked[propertyCooked];
+    if (state.assignment) {
+      state.cooked = performAssignment(state, objectCooked, propertyCooked);
+    } else {
+      state.cooked = objectCooked[propertyCooked];
+    }
 
     // Sanitize the accessed member.
     sanitize(state.cooked);
@@ -466,9 +441,9 @@ export const CookVisitor = Object.freeze<
   ) {
     const cookedEntries: PropertyEntryCooked[] = [];
     for (const prop of node.properties) {
-      const propState: CookVisitorState<
+      const propState = spawnCookState<
         PropertyEntryCooked | PropertyEntryCooked[]
-      > = spawnCookState(state, {
+      >(state, {
         spreadAsProperties: true,
       });
       callback(prop, propState);
@@ -486,64 +461,54 @@ export const CookVisitor = Object.freeze<
     state.cooked = Object.fromEntries(cookedEntries);
   },
   ObjectPattern(node: ObjectPattern, state, callback) {
-    if (state.cookParamOnly) {
-      if (state.argReceived === null || state.argReceived === undefined) {
-        throw new TypeError(`Cannot destructure ${state.argReceived}`);
-      }
-      const usedProps = new Set<PropertyCooked>();
-      for (const prop of node.properties) {
-        if (prop.type === "RestElement") {
-          callback(
-            prop,
-            spawnCookState(state, {
-              cookParamOnly: true,
-              argReceived: Object.fromEntries(
-                Object.entries(state.argReceived).filter(
+    // if (state.assignment) {
+    const rightCooked = state.assignment.rightCooked;
+    if (rightCooked === null || rightCooked === undefined) {
+      state.raiseError(TypeError, `Cannot destructure ${rightCooked}`);
+    }
+    const usedProps = new Set<PropertyCooked>();
+    for (const prop of node.properties) {
+      if (prop.type === "RestElement") {
+        callback(
+          prop,
+          spawnCookState(state, {
+            assignment: {
+              ...state.assignment,
+              rightCooked: Object.fromEntries(
+                Object.entries(rightCooked).filter(
                   (entry) => !usedProps.has(entry[0])
                 )
               ),
-            })
-          );
-        } else {
-          const keyState: CookVisitorState<PropertyCooked> = spawnCookState(
-            state,
-            {
-              identifierAsLiteralString: true,
-            }
-          );
-          callback(prop.key, keyState);
-          usedProps.add(keyState.cooked);
-          callback(
-            prop.value,
-            spawnCookState(state, {
-              cookParamOnly: true,
-              argReceived: state.argReceived[keyState.cooked],
-            })
-          );
-        }
-      }
-      return;
-    }
-
-    // istanbul ignore else
-    if (state.collectParamNamesOnly) {
-      for (const prop of node.properties) {
-        callback(prop, state);
+            },
+          })
+        );
+      } else {
+        const keyState = spawnCookState<PropertyCooked>(state, {
+          identifierAsLiteralString: true,
+        });
+        callback(prop.key, keyState);
+        usedProps.add(keyState.cooked);
+        callback(
+          prop.value,
+          spawnCookState(state, {
+            assignment: {
+              ...state.assignment,
+              rightCooked:
+                rightCooked[keyState.cooked as keyof typeof rightCooked],
+            },
+          })
+        );
       }
     }
-    // Should nerve reach here.
+    // }
+    // Should never reach here.
   },
   Property(
     node: ObjectProperty,
     state: CookVisitorState<PropertyEntryCooked>,
     callback
   ) {
-    if (state.collectParamNamesOnly) {
-      callback(node.value, state);
-      return;
-    }
-
-    const keyState: CookVisitorState<PropertyCooked> = spawnCookState(state, {
+    const keyState = spawnCookState<PropertyCooked>(state, {
       identifierAsLiteralString: !node.computed,
     });
     callback(node.key, keyState);
@@ -568,19 +533,13 @@ export const CookVisitor = Object.freeze<
     const argumentState = spawnCookState(state);
     callback(node.argument, argumentState);
     const cooked = argumentState.cooked;
-    if (!state.spreadAsProperties && !isIterable(cooked)) {
-      throw new TypeError(
-        `${typeof cooked} is not iterable: \`${state.source.substring(
-          node.start,
-          node.end
-        )}\``
-      );
+    if (!state.spreadAsProperties) {
+      assertIterable(cooked, state.source, node.start, node.end);
     }
     state.cooked = cooked;
   },
   TaggedTemplateExpression(node: TaggedTemplateExpression, state, callback) {
-    const tagState: CookVisitorState<(...args: unknown[]) => unknown> =
-      spawnCookState(state);
+    const tagState = spawnCookState<SimpleFunction>(state);
     callback(node.tag, tagState);
     const tagCooked = tagState.cooked;
 
@@ -596,12 +555,7 @@ export const CookVisitor = Object.freeze<
     }
 
     if (typeof tagCooked !== "function") {
-      throw new TypeError(
-        `${state.source.substring(
-          node.tag.start,
-          node.tag.end
-        )} is not a function`
-      );
+      state.raiseError.notFunction(node.tag);
     }
 
     state.cooked = tagCooked(...tagArgs);
@@ -618,7 +572,9 @@ export const CookVisitor = Object.freeze<
     state.cooked = chunk.join("");
   },
   UnaryExpression(node: UnaryExpression, state, callback) {
-    const argumentState = spawnCookState(state);
+    const argumentState = spawnCookState(state, {
+      checkTypeOf: node.operator === "typeof",
+    });
     callback(node.argument, argumentState);
 
     const argumentCooked = argumentState.cooked;
@@ -641,35 +597,37 @@ export const CookVisitor = Object.freeze<
         return;
     }
 
-    throw new SyntaxError(
-      `Unsupported unary operator \`${
-        node.operator
-      }\`: \`${state.source.substring(node.start, node.end)}\``
+    state.raiseError(
+      SyntaxError,
+      `Unsupported unary operator \`${node.operator}\``,
+      node
     );
   },
   NewExpression(node: NewExpression, state, callback) {
     if (node.callee.type === "Identifier") {
       if (!SupportedConstructorSet.has((node.callee as Identifier).name)) {
-        throw new TypeError(
-          `Unsupported constructor \`${
-            node.callee.name
-          }\`: \`${state.source.substring(node.start, node.end)}\``
+        state.raiseError(
+          TypeError,
+          `Unsupported constructor \`${node.callee.name}\``,
+          node
         );
       }
 
-      const calleeState: CookVisitorState<new (...args: any[]) => any> =
-        spawnCookState(state);
+      const calleeState =
+        spawnCookState<new (...args: unknown[]) => unknown>(state);
       callback(node.callee, calleeState);
       const calleeCooked = calleeState.cooked;
 
       if (
         calleeCooked !==
-        (window as Record<string, any>)[(node.callee as Identifier).name]
+        (window as unknown as Record<string, unknown>)[
+          (node.callee as Identifier).name
+        ]
       ) {
-        throw new TypeError(
-          `Unsupported non-global constructor \`${
-            node.callee.name
-          }\`: \`${state.source.substring(node.start, node.end)}\``
+        state.raiseError(
+          TypeError,
+          `Unsupported non-global constructor \`${node.callee.name}\``,
+          node
         );
       }
 
@@ -678,7 +636,7 @@ export const CookVisitor = Object.freeze<
 
       const cookedArgs = [];
       for (const arg of node.arguments) {
-        const argState = spawnCookState(state);
+        const argState = spawnCookState<unknown[]>(state);
         callback(arg, argState);
         if (arg.type === "SpreadElement") {
           cookedArgs.push(...argState.cooked);
@@ -689,32 +647,18 @@ export const CookVisitor = Object.freeze<
 
       state.cooked = new calleeCooked(...cookedArgs);
     } else {
-      throw new TypeError(
-        `Unsupported new expression: \`${state.source.substring(
-          node.start,
-          node.end
-        )}\``
-      );
+      state.raiseError(TypeError, "Unsupported new expression", node);
     }
   },
-});
-
-function isIterable(cooked: any): boolean {
-  if (Array.isArray(cooked)) {
-    return true;
-  }
-  if (cooked === null || cooked === undefined) {
-    return false;
-  }
-  return typeof cooked[Symbol.iterator] === "function";
-}
+} as ICookVisitor);
 
 // Ref https://github.com/tc39/proposal-global
 // In addition, the es6-shim had to switch from Function('return this')()
 // due to CSP concerns, such that the current check to handle browsers,
 // node, web workers, and frames is:
 // istanbul ignore next
-function getGlobal(): any {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function getGlobal(): object {
   // the only reliable means to get the global object is
   // `Function('return this')()`
   // However, this causes CSP violations in Chrome apps.
@@ -748,8 +692,44 @@ const reservedObjects = new WeakSet([
   getGlobal(),
 ]);
 
-function sanitize(cooked: any): void {
-  if (reservedObjects.has(cooked)) {
+function sanitize(cooked: unknown): void {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  if (reservedObjects.has(cooked as object)) {
     throw new TypeError("Cannot access reserved objects such as `Function`.");
   }
+}
+
+function performAssignment(
+  state: CookVisitorState,
+  object: Record<string, unknown>,
+  property: unknown
+): unknown {
+  const { operator, rightCooked: value } = state.assignment;
+  switch (operator) {
+    case "=":
+      return (object[property as keyof typeof object] = value);
+    case "+=":
+      return ((object[property as keyof typeof object] as number) +=
+        value as number);
+    case "-=":
+      return ((object[property as keyof typeof object] as number) -=
+        value as number);
+    case "*=":
+      return ((object[property as keyof typeof object] as number) *=
+        value as number);
+    case "/=":
+      return ((object[property as keyof typeof object] as number) /=
+        value as number);
+    case "%=":
+      return ((object[property as keyof typeof object] as number) %=
+        value as number);
+    case "**=":
+      return ((object[property as keyof typeof object] as number) **=
+        value as number);
+  }
+
+  state.raiseError(
+    SyntaxError,
+    `Unsupported assignment operator \`${operator}\``
+  );
 }

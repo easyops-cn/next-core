@@ -27,7 +27,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_BRICK,
       packageName: "for-good",
       brickName: "for-better",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
@@ -38,7 +37,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_EDITOR_BRICK,
       packageName: "for-good",
       brickName: "for-better",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
@@ -49,7 +47,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_CUSTOM_TEMPLATE,
       packageName: "for-good",
       brickName: "for-better",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
@@ -60,7 +57,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
       packageName: "for-good",
       brickName: "for-better",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
@@ -72,7 +68,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_PACKAGE_OF_BRICKS,
       packageName: "for-good",
       brickName: "",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
@@ -84,31 +79,17 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_PACKAGE_OF_LIBS,
       packageName: "for-good",
       brickName: "",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
     const otherFiles = ignoreVersionRelatedFiles(files);
     expect(otherFiles).toMatchSnapshot();
   });
-  it("should create a new package of micro-apps", async () => {
+  it("should create a new custom provider", async () => {
     const files = await loadTemplate({
-      targetType: TargetType.A_NEW_PACKAGE_OF_MICRO_APPS,
-      packageName: "for-good",
-      brickName: "",
-      templateName: "",
-      processorName: "",
-      targetRoot: "dist",
-    });
-    const otherFiles = ignoreVersionRelatedFiles(files);
-    expect(otherFiles).toMatchSnapshot();
-  });
-  it("should create a new custom provider brick", async () => {
-    const files = await loadTemplate({
-      targetType: TargetType.A_NEW_CUSTOM_PROVIDER_BRICK,
+      targetType: TargetType.A_NEW_CUSTOM_PROVIDER,
       packageName: "for-good",
       brickName: "get-data",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
@@ -119,7 +100,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_CUSTOM_PROCESSOR,
       packageName: "for-good",
       brickName: "",
-      templateName: "",
       processorName: "doGood",
       targetRoot: "dist",
     });
@@ -130,7 +110,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_PACKAGE_OF_PROVIDERS,
       packageName: "for-good",
       brickName: "",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
@@ -142,54 +121,6 @@ describe("loadTemplate", () => {
       targetType: TargetType.A_NEW_PACKAGE_OF_DLL,
       packageName: "for-good",
       brickName: "",
-      templateName: "",
-      processorName: "",
-      targetRoot: "dist",
-    });
-    const otherFiles = ignoreVersionRelatedFiles(files);
-    expect(otherFiles).toMatchSnapshot();
-  });
-  it("should transform a micro-app", async () => {
-    const files = await loadTemplate({
-      targetType: TargetType.TRANSFORM_A_MICRO_APP,
-      packageName: "for-good",
-      brickName: "",
-      templateName: "",
-      processorName: "",
-      targetRoot: "dist",
-    });
-    const otherFiles = ignoreVersionRelatedFiles(files);
-    expect(otherFiles).toMatchSnapshot();
-  });
-  it("should create a new legacy template", async () => {
-    const files = await loadTemplate({
-      targetType: TargetType.A_NEW_LEGACY_TEMPLATE,
-      packageName: "for-good",
-      brickName: "",
-      templateName: "for-better",
-      processorName: "",
-      targetRoot: "dist",
-    });
-    expect(files).toMatchSnapshot();
-  });
-  it("should create a new package of legacy templates", async () => {
-    const files = await loadTemplate({
-      targetType: TargetType.A_NEW_PACKAGE_OF_LEGACY_TEMPLATES,
-      packageName: "for-good",
-      brickName: "",
-      templateName: "for-better",
-      processorName: "",
-      targetRoot: "dist",
-    });
-    const otherFiles = ignoreVersionRelatedFiles(files);
-    expect(otherFiles).toMatchSnapshot();
-  });
-  it("should i18n-patch a package of legacy templates", async () => {
-    const files = await loadTemplate({
-      targetType: TargetType.I18N_PATCH_A_PACKAGE_OF_LEGACY_TEMPLATES,
-      packageName: "for-good",
-      brickName: "",
-      templateName: "",
       processorName: "",
       targetRoot: "dist",
     });
