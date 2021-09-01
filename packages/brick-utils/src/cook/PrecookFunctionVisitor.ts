@@ -91,14 +91,18 @@ const FunctionVisitor: VisitorFn<PrecookVisitorState> = (
     callback(param, bodyState);
   }
 
-  // Collect hoist var and function declarations first.
-  callback(
-    node.body,
-    spawnPrecookState(bodyState, {
-      isFunctionBody: true,
-      hoisting: true,
-    })
-  );
+  const bodyIsExpression =
+    node.type === "ArrowFunctionExpression" && !!node.expression;
+  if (!bodyIsExpression) {
+    // Collect hoist var and function declarations first.
+    callback(
+      node.body,
+      spawnPrecookState(bodyState, {
+        isFunctionBody: true,
+        hoisting: true,
+      })
+    );
+  }
 
   callback(node.body, bodyState);
 };
