@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.25.0...@next-core/brick-utils@2.25.1) (2021-09-01)
+
+
+### Bug Fixes
+
+* **storyboard-function:** fix arrow function expression ([83cbbf0](https://github.com/easyops-cn/next-core/commit/83cbbf09dc901d98b2d95c5ab0fa43154da62ac0))
+
+
+
+
+
 # [2.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.24.1...@next-core/brick-utils@2.25.0) (2021-08-30)
 
 
