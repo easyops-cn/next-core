@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { cookFunction } from "./cookFunction";
 import { precookFunction } from "./precookFunction";
 
@@ -1456,6 +1457,27 @@ describe("cookFunction", () => {
               [11, 21, 29, 39],
               [10, 21, 30, 39],
             ],
+          },
+        ],
+      },
+    ],
+    [
+      "arrow function expression",
+      {
+        source: `
+          function test(a) {
+            return a.map(b => b.name);
+          }
+        `,
+        cases: [
+          {
+            args: [
+              [
+                { name: "sayHello", description: "Hello" },
+                { name: "sayExclamation", description: "Exclamation" },
+              ],
+            ],
+            result: ["sayHello", "sayExclamation"],
           },
         ],
       },

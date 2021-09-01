@@ -106,15 +106,21 @@ const FunctionVisitor: VisitorFn<CookVisitorState> = (
     return;
   }
 
+  const bodyIsExpression =
+    node.type === "ArrowFunctionExpression" && !!node.expression;
+
   const fn: SimpleFunction = function (...args) {
     const { precookScope, blockState } = lowerLevelSpawnCookStateOfBlock(
       node,
       state,
       {
         isFunctionBody: true,
-        returns: {
-          returned: false,
-        },
+        returns: bodyIsExpression
+          ? undefined
+          : {
+              returned: false,
+            },
+        controlFlow: undefined,
       }
     );
 
@@ -151,7 +157,7 @@ const FunctionVisitor: VisitorFn<CookVisitorState> = (
 
     callback(node.body, blockState);
 
-    return blockState.returns.cooked;
+    return bodyIsExpression ? blockState.cooked : blockState.returns.cooked;
   };
 
   if (state.isRoot || node.type !== "FunctionDeclaration") {
