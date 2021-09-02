@@ -1291,7 +1291,7 @@
     js-yaml "^3.13.1"
     resolve "^1.17.0"
 
-"@easyops-cn/brick-next-pipes@^0.3.10", "@easyops-cn/brick-next-pipes@^0.3.12":
+"@easyops-cn/brick-next-pipes@^0.3.12":
   version "0.3.12"
   resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.3.12.tgz#b0ee3ad78dc4f33d2230feec6cb5cfa03041a25e"
   integrity sha512-pZF685BMwENCy0gWydesPQ07B3Uox9x5xQzDP89tp7lDMtftcj6FW4nZ+9RleAmv2/yik4dFjuZMyQFx7rIIoA==

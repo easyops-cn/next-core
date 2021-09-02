@@ -10,6 +10,7 @@ const generateProviderDocs = require("./generateProviderDocs");
 const generateBrickDocs = require("./generateBrickDocs");
 const generateBrickContracts = require("./generateBrickContracts");
 const generateSnippets = require("./generateSnippets");
+const ensureSingleRootBundle = require("./ensureSingleRootBundle");
 const { providerPackagePrefix } = require("./constants");
 
 const ignores = [".DS_Store"];
@@ -193,6 +194,7 @@ module.exports = (scope) => {
     generateDeps();
     mergeEditors();
     generateSnippets();
+    ensureSingleRootBundle();
   } else if (scope === "micro-apps") {
     ensureMicroApp();
     ensureDeps();
