@@ -24,6 +24,7 @@ export function registerStoryboardFunctions(
     for (const fn of storyboard.meta.functions) {
       registeredFunctions.set(fn.name, {
         source: fn.source,
+        typescript: fn.typescript,
       });
     }
   }
@@ -39,15 +40,20 @@ function getStoryboardFunction(name: string): (...args: unknown[]) => unknown {
     throw new ReferenceError(`Function not found: ${name}`);
   }
   if (!fn.processed) {
-    fn.cooked = cookFunction(precookFunction(fn.source), {
-      rules: {
-        noVar: true,
-      },
-      globalVariables: {
-        // Functions can call other functions.
-        FN: storyboardFunctions,
-      },
-    });
+    fn.cooked = cookFunction(
+      precookFunction(fn.source, {
+        typescript: fn.typescript,
+      }),
+      {
+        rules: {
+          noVar: true,
+        },
+        globalVariables: {
+          // Functions can call other functions.
+          FN: storyboardFunctions,
+        },
+      }
+    );
     fn.processed = true;
   }
   return fn.cooked;

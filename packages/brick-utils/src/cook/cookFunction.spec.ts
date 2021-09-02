@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { cookFunction } from "./cookFunction";
 import { precookFunction } from "./precookFunction";
 
@@ -1482,11 +1481,48 @@ describe("cookFunction", () => {
         ],
       },
     ],
+    [
+      "[TypeScript]",
+      {
+        source: `
+          interface A {
+            b: number;
+          }
+          type B = A & {
+            c: number;
+          }
+          declare function f(): void;
+          function test({ b, c }: B): void {
+            return { b: c, c: b };
+          }
+        `,
+        cases: [
+          {
+            args: [{ b: 1, c: 2 }],
+            result: { b: 2, c: 1 },
+          },
+        ],
+      },
+    ],
   ])("%s", (desc, { source, cases }) => {
-    const func = cookFunction(precookFunction(source));
+    const typescript = desc.startsWith("[TypeScript]");
+    const func = cookFunction(
+      precookFunction(
+        source,
+        typescript
+          ? {
+              typescript,
+            }
+          : undefined
+      )
+    );
     for (const { args, result } of cases) {
-      const equivalentFunc = new Function(`"use strict"; return (${source})`)();
-      expect(equivalentFunc(...args)).toEqual(result);
+      if (!typescript) {
+        const equivalentFunc = new Function(
+          `"use strict"; return (${source})`
+        )();
+        expect(equivalentFunc(...args)).toEqual(result);
+      }
       expect(func(...args)).toEqual(result);
     }
   });
@@ -1657,6 +1693,38 @@ describe("cookFunction", () => {
     expect(() => equivalentFunc()).not.toThrowError();
     expect(() => {
       const func = cookFunction(precookFunction(source));
+      func();
+    }).toThrowErrorMatchingSnapshot();
+  });
+
+  it.each<[desc: string, source: string]>([
+    [
+      "[TypeScript] enum",
+      `
+        enum C {}
+        function test(){}
+      `,
+    ],
+    [
+      "[TypeScript] interface only",
+      `
+        interface A {}
+      `,
+    ],
+    [
+      "Use interfaces in JavaScript",
+      `
+        interface A {}
+        function test(){}
+      `,
+    ],
+  ])("%s should throw", (desc, source) => {
+    expect(() => {
+      const func = cookFunction(
+        precookFunction(source, {
+          typescript: desc.startsWith("[TypeScript]"),
+        })
+      );
       func();
     }).toThrowErrorMatchingSnapshot();
   });

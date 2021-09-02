@@ -266,6 +266,7 @@ export interface RuntimeStoryboard extends Storyboard {
 /** @internal */
 export interface RuntimeStoryboardFunction {
   source: string;
+  typescript?: boolean;
   processed?: boolean;
   cooked?: SimpleFunction;
 }
@@ -1381,6 +1382,8 @@ export interface StoryboardFunction {
   name: string;
   /** 函数源码。 */
   source: string;
+  /** 是否使用 TypeScript。 */
+  typescript?: boolean;
 }
 
 /**

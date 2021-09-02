@@ -106,7 +106,8 @@ export function lowerLevelSpawnCookStateOfBlock(
 export function addVariableToScopeStack(
   name: string,
   kind: ScopeVariableKind,
-  scopeStack: PrecookScope[]
+  scopeStack: PrecookScope[],
+  isRoot?: boolean
 ): void {
   switch (kind) {
     case "param": {
@@ -129,7 +130,10 @@ export function addVariableToScopeStack(
       const scope = findScopeByFlags(scopeStack, FLAG_FUNCTION | FLAG_BLOCK);
       scope.variables.add(name);
       const prevFlags = scope.flagsMapByVariable.get(name) ?? 0;
-      scope.flagsMapByVariable.set(name, prevFlags | VARIABLE_FLAG_FUNCTION);
+      scope.flagsMapByVariable.set(
+        name,
+        prevFlags | VARIABLE_FLAG_FUNCTION | (isRoot ? VARIABLE_FLAG_CONST : 0)
+      );
       break;
     }
     case "var": {

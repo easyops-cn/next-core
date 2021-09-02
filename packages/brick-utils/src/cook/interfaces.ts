@@ -1,6 +1,6 @@
 import {
   Expression,
-  FunctionExpression,
+  FunctionDeclaration,
   Node,
   VariableDeclaration,
 } from "@babel/types";
@@ -13,6 +13,10 @@ export interface ChainExpression {
 
 export interface PrecookOptions {
   visitors?: Record<string, VisitorFn<PrecookVisitorState>>;
+}
+
+export interface PrecookFunctionOptions extends PrecookOptions {
+  typescript?: boolean;
 }
 
 export interface PrecookVisitorState {
@@ -101,7 +105,8 @@ export type VisitorFn<T> = (
 ) => void;
 
 export interface PrecookFunctionResult extends BasePreResult {
-  function: FunctionExpression;
+  function: FunctionDeclaration;
+  rootBlockScope: PrecookScope;
 }
 
 export interface ICookVisitor {
