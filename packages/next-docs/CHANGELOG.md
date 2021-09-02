@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.110](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.109...@next-core/next-docs@1.2.110) (2021-09-02)
+
+
+### Bug Fixes
+
+* ensure single root bundle for brick packages ([d19a209](https://github.com/easyops-cn/next-core/commit/d19a2099c82623595d113aaec2e9f20cac300d19))
+
+
+
+
+
 ## [1.2.109](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.108...@next-core/next-docs@1.2.109) (2021-09-01)
 
 **Note:** Version bump only for package @next-core/next-docs

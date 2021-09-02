@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.3...@next-core/webpack-config-factory@2.12.0) (2021-09-02)
+
+
+### Features
+
+* support dynamic imports in monaco-editor ([d3fa984](https://github.com/easyops-cn/next-core/commit/d3fa984ce9346eda1b430a04819e4dd9fa1f3c2e))
+
+
+
+
+
 ## [2.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.2...@next-core/webpack-config-factory@2.11.3) (2021-08-30)
 
 
