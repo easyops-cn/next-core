@@ -1,4 +1,5 @@
 const path = require("path");
+const crypto = require("crypto");
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
@@ -65,6 +66,7 @@ module.exports =
     copyFiles = [],
     ignores = [],
     splitVendorsForLazyBricks,
+    fixMonacoEditorDynamicImports,
   } = {}) => {
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
@@ -85,6 +87,12 @@ module.exports =
     const entryPair = isForEditors
       ? ["editors", "editor-bricks/index"]
       : ["index", "index"];
+
+    // The chunk ids must be unique across foreign webpack bundles.
+    // So we suffix these ids with the hash of the package name.
+    const hash = fixMonacoEditorDynamicImports
+      ? crypto.createHash("sha1").update(packageName).digest("hex").substr(0, 4)
+      : "";
 
     return {
       context: appRoot,
@@ -148,6 +156,20 @@ module.exports =
             enforce: "pre",
             use: ["source-map-loader"],
           },
+          ...(fixMonacoEditorDynamicImports
+            ? [
+                {
+                  // These dynamic imports must have unique ids across foreign webpack bundles.
+                  test: /\/node_modules\/monaco-editor\/.+\.contribution.js$/,
+                  loader: "string-replace-loader",
+                  options: {
+                    search: /\bimport\(('.\/(\w+)\.js')\)/g,
+                    replace: (_, p1, p2) =>
+                      `import(/* webpackChunkName: "chunks/${p2}.${hash}" */ ${p1})`,
+                  },
+                },
+              ]
+            : []),
           {
             // Include ts, tsx, js, and jsx files.
             test: /\.(ts|js)x?$/,
