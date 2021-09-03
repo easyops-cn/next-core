@@ -1489,11 +1489,11 @@ describe("cookFunction", () => {
             b: number;
           }
           type B = A & {
-            c: number;
+            c: string;
           }
           declare function f(): void;
           function test({ b, c }: B): void {
-            return { b: c, c: b };
+            return { b: c as number, c: b };
           }
         `,
         cases: [
