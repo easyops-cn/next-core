@@ -1,33 +1,58 @@
-import { parseExpression } from "@babel/parser";
-import { FunctionExpression, Node } from "@babel/types";
+import { parse, ParserPlugin } from "@babel/parser";
+import { FunctionDeclaration, Node, Statement } from "@babel/types";
 import {
-  PrecookOptions,
+  PrecookFunctionOptions,
   PrecookVisitorState,
   PrecookFunctionResult,
 } from "./interfaces";
 import { PrecookFunctionVisitor } from "./PrecookFunctionVisitor";
+import { FLAG_BLOCK, PrecookScope } from "./Scope";
 import { walkFactory } from "./utils";
 
 export function precookFunction(
   source: string,
-  options?: PrecookOptions
+  { visitors, typescript }: PrecookFunctionOptions = {}
 ): PrecookFunctionResult {
-  const func = parseExpression(source, {
-    plugins: ["estree"],
+  const file = parse(source, {
+    plugins: ["estree", typescript ? "typescript" : null].filter(
+      Boolean
+    ) as ParserPlugin[],
     strictMode: true,
-  }) as FunctionExpression;
-  if (func.type !== "FunctionExpression") {
-    throw new SyntaxError("Invalid function declaration");
+  });
+  const body = file.program.body;
+  const jsNodes: Statement[] = typescript ? [] : body;
+  if (typescript) {
+    for (const node of body) {
+      if (node.type.startsWith("TS")) {
+        if (/Enum|Import|Export/.test(node.type)) {
+          throw new SyntaxError(`Unsupported TypeScript syntax: ${node.type}`);
+        }
+      } else {
+        jsNodes.push(node);
+      }
+    }
   }
+  if (jsNodes.length === 0) {
+    throw new SyntaxError("Function declaration not found");
+  }
+  if (jsNodes.length > 1 || jsNodes[0].type !== "FunctionDeclaration") {
+    throw new SyntaxError(
+      `Expect a single function declaration, but received: ${jsNodes
+        .map((node) => `"${node.type}"`)
+        .join(", ")}`
+    );
+  }
+  const func = jsNodes[0] as FunctionDeclaration;
+  const rootBlockScope = new PrecookScope(FLAG_BLOCK);
   const state: PrecookVisitorState = {
-    scopeStack: [],
+    scopeStack: [rootBlockScope],
     attemptToVisitGlobals: new Set(),
     scopeMapByNode: new WeakMap(),
     isRoot: true,
   };
   walkFactory(
-    options?.visitors
-      ? { ...PrecookFunctionVisitor, ...options.visitors }
+    visitors
+      ? { ...PrecookFunctionVisitor, ...visitors }
       : PrecookFunctionVisitor,
     (node: Node) => {
       // eslint-disable-next-line no-console
@@ -44,5 +69,6 @@ export function precookFunction(
     function: func,
     attemptToVisitGlobals: state.attemptToVisitGlobals,
     scopeMapByNode: state.scopeMapByNode,
+    rootBlockScope,
   };
 }

@@ -50,13 +50,21 @@ const FunctionVisitor: VisitorFn<PrecookVisitorState> = (
   state,
   callback
 ) => {
-  if (!state.isRoot && node.type !== "FunctionDeclaration" && state.hoisting) {
+  if (node.type !== "FunctionDeclaration" && state.hoisting) {
     return;
   }
 
   if (node.type === "FunctionDeclaration") {
+    if (state.hoisting || state.isRoot) {
+      addVariableToScopeStack(
+        node.id.name,
+        "functions",
+        state.scopeStack,
+        state.isRoot
+      );
+    }
+
     if (state.hoisting) {
-      addVariableToScopeStack(node.id.name, "functions", state.scopeStack);
       const topScope = state.scopeStack[state.scopeStack.length - 1];
       topScope.hoistedFunctions.add(node);
       return;

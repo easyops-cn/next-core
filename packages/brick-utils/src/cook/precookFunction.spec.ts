@@ -279,7 +279,9 @@ describe("precookFunction", () => {
 
   it("should throw for invalid function declaration", () => {
     expect(() => {
-      precookFunction("function test() {}, test()");
-    }).toThrowErrorMatchingInlineSnapshot(`"Invalid function declaration"`);
+      precookFunction("function test() {} test()");
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Expect a single function declaration, but received: \\"FunctionDeclaration\\", \\"ExpressionStatement\\""`
+    );
   });
 });

@@ -1660,6 +1660,8 @@ export interface RuntimeStoryboardFunction {
     processed?: boolean;
     // (undocumented)
     source: string;
+    // (undocumented)
+    typescript?: boolean;
 }
 
 // @public
@@ -1943,6 +1945,7 @@ export interface StoryboardContextItemFreeVariable {
 export interface StoryboardFunction {
     name: string;
     source: string;
+    typescript?: boolean;
 }
 
 // @public

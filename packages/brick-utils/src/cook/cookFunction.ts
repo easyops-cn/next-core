@@ -8,6 +8,7 @@ import {
   PrecookFunctionResult,
 } from "./interfaces";
 import { supply } from "./supply";
+import { CookScopeFactory } from "./Scope";
 
 export function cookFunction<T extends SimpleFunction>(
   precooked: PrecookFunctionResult,
@@ -18,7 +19,10 @@ export function cookFunction<T extends SimpleFunction>(
     source: precooked.source,
     raiseError,
     scopeMapByNode: precooked.scopeMapByNode,
-    scopeStack: [supply(precooked.attemptToVisitGlobals, globalVariables)],
+    scopeStack: [
+      supply(precooked.attemptToVisitGlobals, globalVariables),
+      CookScopeFactory(precooked.rootBlockScope),
+    ],
     isRoot: true,
     rules,
   };
