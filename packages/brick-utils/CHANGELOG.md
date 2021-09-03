@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.0...@next-core/brick-utils@2.26.1) (2021-09-03)
+
+
+### Bug Fixes
+
+* **cook:** support ts as expression ([151e2da](https://github.com/easyops-cn/next-core/commit/151e2da29909b42c2fdb378ebe7ceea99d85e634))
+
+
+
+
+
 # [2.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.25.1...@next-core/brick-utils@2.26.0) (2021-09-03)
 
 
