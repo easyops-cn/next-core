@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.25.1...@next-core/brick-utils@2.26.0) (2021-09-03)
+
+
+### Features
+
+* support typescript in storyboard functions ([9c302f9](https://github.com/easyops-cn/next-core/commit/9c302f9f864f1a53af580c3d3647c14a342e21ca))
+
+
+
+
+
 ## [2.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.25.0...@next-core/brick-utils@2.25.1) (2021-09-01)
 
 

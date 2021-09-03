@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.37.0...@next-core/brick-types@2.38.0) (2021-09-03)
+
+
+### Features
+
+* support typescript in storyboard functions ([9c302f9](https://github.com/easyops-cn/next-core/commit/9c302f9f864f1a53af580c3d3647c14a342e21ca))
+
+
+
+
+
 # [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.36.0...@next-core/brick-types@2.37.0) (2021-08-30)
 
 
