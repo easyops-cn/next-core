@@ -18,6 +18,7 @@ import {
   SwitchStatement,
   ThrowStatement,
   TryStatement,
+  TSAsExpression,
   UpdateExpression,
   VariableDeclaration,
   WhileStatement,
@@ -247,6 +248,22 @@ export const CookFunctionVisitor = Object.freeze({
     }
     state.controlFlow.continued = true;
   },
+  DoWhileStatement(node: DoWhileStatement, state, callback) {
+    let testState: CookVisitorState;
+    const blockState = spawnCookState<void>(state, {
+      controlFlow: {},
+    });
+    do {
+      callback(node.body, blockState);
+      blockState.controlFlow.continued = false;
+      if (isTerminated(blockState)) {
+        break;
+      }
+    } while (
+      (callback(node.test, (testState = spawnCookState(state))),
+      testState.cooked)
+    );
+  },
   EmptyStatement() {
     // Do nothing.
   },
@@ -343,6 +360,9 @@ export const CookFunctionVisitor = Object.freeze({
       }
     }
   },
+  TSAsExpression(node: TSAsExpression, state, callback) {
+    callback(node.expression, state);
+  },
   ThrowStatement(node: ThrowStatement, state, callback) {
     const throwState = spawnCookState(state);
     callback(node.argument, throwState);
@@ -424,21 +444,5 @@ export const CookFunctionVisitor = Object.freeze({
         break;
       }
     }
-  },
-  DoWhileStatement(node: DoWhileStatement, state, callback) {
-    let testState: CookVisitorState;
-    const blockState = spawnCookState<void>(state, {
-      controlFlow: {},
-    });
-    do {
-      callback(node.body, blockState);
-      blockState.controlFlow.continued = false;
-      if (isTerminated(blockState)) {
-        break;
-      }
-    } while (
-      (callback(node.test, (testState = spawnCookState(state))),
-      testState.cooked)
-    );
   },
 } as ICookVisitor);

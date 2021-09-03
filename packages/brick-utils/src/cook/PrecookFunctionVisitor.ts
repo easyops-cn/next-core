@@ -16,6 +16,7 @@ import {
   SwitchStatement,
   ThrowStatement,
   TryStatement,
+  TSAsExpression,
   UpdateExpression,
   VariableDeclaration,
   WhileStatement,
@@ -148,6 +149,10 @@ export const PrecookFunctionVisitor = Object.freeze<
   ContinueStatement() {
     // Do nothing.
   },
+  DoWhileStatement(node: DoWhileStatement, state, callback) {
+    callback(node.body, state);
+    callback(node.test, state);
+  },
   EmptyStatement() {
     // Do nothing.
   },
@@ -198,6 +203,9 @@ export const PrecookFunctionVisitor = Object.freeze<
       callback(switchCase, blockState);
     }
   },
+  TSAsExpression(node: TSAsExpression, state, callback) {
+    callback(node.expression, state);
+  },
   ThrowStatement(node: ThrowStatement, state, callback) {
     callback(node.argument, state);
   },
@@ -235,9 +243,5 @@ export const PrecookFunctionVisitor = Object.freeze<
   WhileStatement(node: WhileStatement, state, callback) {
     callback(node.test, state);
     callback(node.body, state);
-  },
-  DoWhileStatement(node: DoWhileStatement, state, callback) {
-    callback(node.body, state);
-    callback(node.test, state);
   },
 });
