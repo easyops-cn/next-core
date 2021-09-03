@@ -33,7 +33,7 @@
     "@next-core/illustrations": "^0.3.10",
     "antd": "~4.12.3",
     "history": "^4.10.1",
-    "i18next": "^20.4.0",
+    "i18next": "^20.6.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
