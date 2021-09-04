@@ -36,7 +36,7 @@ export function askBrickName({
       }
     },
     validate(value) {
-      if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK) {
+      if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER) {
         if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(value)) {
           return "Please enter a lower-kebab-case name.";
         }
@@ -47,7 +47,7 @@ export function askBrickName({
       }
       const pkgRelativeDir = path.join("bricks", packageName);
       const relativeFilePath =
-        targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK
+        targetType === TargetType.A_NEW_CUSTOM_PROVIDER
           ? path.join(
               pkgRelativeDir,
               "src/data-providers",
@@ -64,7 +64,7 @@ export function askBrickName({
       return true;
     },
     transformer(value) {
-      if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER_BRICK) {
+      if (targetType === TargetType.A_NEW_CUSTOM_PROVIDER) {
         return `provider-${value}`;
       }
       return value;

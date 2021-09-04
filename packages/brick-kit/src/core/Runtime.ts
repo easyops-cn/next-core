@@ -27,7 +27,7 @@ import {
   RelatedApp,
   RouterState,
   RecentApps,
-  CustomApiOrchestration,
+  CustomApiDefinition,
   AbstractRuntime,
 } from "./interfaces";
 import { getBasePath } from "../internal/getBasePath";
@@ -286,6 +286,14 @@ export function _internalApiGetRouterState(): RouterState {
 }
 
 /* istanbul ignore next */
+export function _internalApiGetRouterRenderId(): string {
+  if (process.env.NODE_ENV === "test") {
+    return "render-id-1";
+  }
+  return kernel.router.getRenderId();
+}
+
+/* istanbul ignore next */
 export function _internalApiMessageCloseHandler(event: CloseEvent): void {
   return kernel.router.handleMessageClose(event);
 }
@@ -307,7 +315,7 @@ export function _internalApiGetProviderBrick(
 
 /* istanbul ignore next */
 export function _internalApiGetMicroAppApiOrchestrationMap(): Promise<
-  Map<string, CustomApiOrchestration>
+  Map<string, CustomApiDefinition>
 > {
   return kernel.allMicroAppApiOrchestrationPromise;
 }

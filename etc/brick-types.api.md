@@ -280,6 +280,7 @@ export type BrickEventHandler = BuiltinBrickEventHandler | UseProviderEventHandl
 export interface BrickEventHandlerCallback {
     error?: BrickEventHandler | BrickEventHandler[];
     finally?: BrickEventHandler | BrickEventHandler[];
+    progress?: BrickEventHandler | BrickEventHandler[];
     success?: BrickEventHandler | BrickEventHandler[];
 }
 
@@ -1411,6 +1412,17 @@ export enum PropertyDisplayType {
 // @public
 export type ProviderConf = string | Pick<BrickConf, "brick" | "properties" | "events" | "lifeCycle">;
 
+// @public
+export interface ProviderPollOptions {
+    continueOnError?: boolean;
+    delegateLoadingBar?: boolean;
+    enabled?: boolean;
+    expectPollEnd?: (result: unknown) => boolean;
+    expectPollStopImmediately?: () => boolean;
+    interval?: number;
+    leadingRequestDelay?: number;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "ReadAdvancedSearchChangeDetail" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1638,6 +1650,20 @@ export interface RuntimeStoryboard extends Storyboard {
     $$registerCustomTemplateProcessed?: boolean;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboardFunction" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface RuntimeStoryboardFunction {
+    // (undocumented)
+    cooked?: SimpleFunction;
+    // (undocumented)
+    processed?: boolean;
+    // (undocumented)
+    source: string;
+    // (undocumented)
+    typescript?: boolean;
+}
+
 // @public
 export interface SegueConf {
     target: string;
@@ -1676,6 +1702,7 @@ export interface Settings {
 // @public
 export interface SidebarMenu {
     defaultCollapsed?: boolean;
+    defaultCollapsedBreakpoint?: number;
     icon?: MenuIcon;
     link?: LocationDescriptor;
     menuItems: SidebarMenuItem[];
@@ -1720,6 +1747,9 @@ export interface SidebarMenuSimpleItem {
 
 // @public
 export type SidebarSubMenu = Pick<SidebarMenu, "title" | "icon" | "menuItems">;
+
+// @public (undocumented)
+export type SimpleFunction<P extends unknown[] = unknown[], R = unknown> = (...args: P) => R;
 
 // Warning: (ae-internal-missing-underscore) The name "SiteMapItem" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -1912,8 +1942,16 @@ export interface StoryboardContextItemFreeVariable {
 }
 
 // @public
+export interface StoryboardFunction {
+    name: string;
+    source: string;
+    typescript?: boolean;
+}
+
+// @public
 export interface StoryboardMeta {
     customTemplates?: CustomTemplate[];
+    functions?: StoryboardFunction[];
     i18n?: MetaI18n;
     // (undocumented)
     images?: MetaImage[];
@@ -2179,6 +2217,7 @@ export interface UseProviderEventHandler {
     if?: string | boolean;
     // (undocumented)
     method?: "resolve" | "saveAs";
+    poll?: ProviderPollOptions;
     useProvider: string;
 }
 

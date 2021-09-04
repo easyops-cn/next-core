@@ -1290,10 +1290,10 @@
     js-yaml "^3.13.1"
     resolve "^1.17.0"
 
-"@easyops-cn/brick-next-pipes@^0.3.10":
-  version "0.3.10"
-  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.3.10.tgz#a98b5903ef64578966b33fc0eac54c0f840af06c"
-  integrity sha1-qYtZA+9kV4lmsz/A6sVMD4QK8Gw=
+"@easyops-cn/brick-next-pipes@^0.3.12":
+  version "0.3.12"
+  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.3.12.tgz#b0ee3ad78dc4f33d2230feec6cb5cfa03041a25e"
+  integrity sha512-pZF685BMwENCy0gWydesPQ07B3Uox9x5xQzDP89tp7lDMtftcj6FW4nZ+9RleAmv2/yik4dFjuZMyQFx7rIIoA==
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
@@ -14522,6 +14522,14 @@ string-length@^4.0.1:
   dependencies:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
+
+string-replace-loader@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/string-replace-loader/-/string-replace-loader-3.0.3.tgz#bdbb4c9879ebb1d88185acd34afc4fb62334b433"
+  integrity sha512-8c26Dl6H9XmKNj3mFBvaUYR7ImOxQ4YRBFuUju78wXpa1cDpyDYvKmqGg8mfkxdYexQ/BBogB7PELlLnmR08nw==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
 
 string-width@^1.0.1:
   version "1.0.2"

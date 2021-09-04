@@ -18,6 +18,9 @@ export interface SidebarMenu {
   /** 是否默认折叠。 */
   defaultCollapsed?: boolean;
 
+  /** 针对小于特定尺寸的屏幕（例如 1600px），是否默认折叠。 */
+  defaultCollapsedBreakpoint?: number;
+
   /** 菜单项列表。 */
   menuItems: SidebarMenuItem[];
 

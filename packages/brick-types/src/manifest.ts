@@ -1,6 +1,7 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon } from "./menu";
 import { PluginHistoryState } from "./runtime";
+import { SimpleFunction } from "./utility";
 
 /** @internal */
 export interface BootstrapData {
@@ -260,6 +261,14 @@ export interface RuntimeStoryboard extends Storyboard {
   $$registerCustomTemplateProcessed?: boolean;
   $$fulfilled?: boolean;
   $$fulfilling?: Promise<void>;
+}
+
+/** @internal */
+export interface RuntimeStoryboardFunction {
+  source: string;
+  typescript?: boolean;
+  processed?: boolean;
+  cooked?: SimpleFunction;
 }
 
 /**
@@ -1131,8 +1140,44 @@ export interface UseProviderEventHandler {
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
 
+  /** {@inheritDoc ProviderPollOptions} */
+  poll?: ProviderPollOptions;
+
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+}
+
+/**
+ * 使用 Provider 进行轮询时的选项配置。
+ */
+export interface ProviderPollOptions {
+  /** 是否启用轮询。 */
+  enabled?: boolean;
+
+  /** 每次轮询间隔时间（毫秒），默认为 `3000`。 */
+  interval?: number;
+
+  /** 第一次轮询延迟时间（毫秒），默认为 `0`。 */
+  leadingRequestDelay?: number;
+
+  /** 当轮询出现错误时，是否继续轮询。 */
+  continueOnError?: boolean;
+
+  /** 是否代理系统加载条的显示与隐藏。应配合 `expectPollEnd` 使用。 */
+  delegateLoadingBar?: boolean;
+
+  /**
+   * 提供一个方法以校验轮询是否应该结束。
+   * 该方法接收一个参数：当前轮询的执行结果。
+   * 轮询结束时将触发 `callback.success` 事件。
+   */
+  expectPollEnd?: (result: unknown) => boolean;
+
+  /**
+   * 提供一个方法以校验轮询是否应该立即停止，还在等待或进行中的轮询将失效，
+   * 不会触发 `progress|success|error|finally` 等事件。
+   */
+  expectPollStopImmediately?: () => boolean;
 }
 
 /**
@@ -1196,6 +1241,11 @@ export interface BrickEventHandlerCallback {
    * 事件处理执行后，无论成功与否，要执行的动作。
    */
   finally?: BrickEventHandler | BrickEventHandler[];
+
+  /**
+   * 轮询接口时，每次轮询得到结果时要执行的动作。为后续动作传递的事件的 `detail` 为该执行结果。
+   */
+  progress?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -1319,6 +1369,21 @@ export interface StoryboardMeta {
   i18n?: MetaI18n;
 
   images?: MetaImage[];
+
+  /** 应用定义的函数列表。 */
+  functions?: StoryboardFunction[];
+}
+
+/**
+ * 应用定义的函数。
+ */
+export interface StoryboardFunction {
+  /** 函数名称。 */
+  name: string;
+  /** 函数源码。 */
+  source: string;
+  /** 是否使用 TypeScript。 */
+  typescript?: boolean;
 }
 
 /**

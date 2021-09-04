@@ -1,4 +1,5 @@
 import { locationsAreEqual, createPath, Action, Location } from "history";
+import { uniqueId } from "lodash";
 import {
   LayoutType,
   PluginHistoryState,
@@ -35,6 +36,9 @@ import { constructMenu } from "../internal/menu";
 import { getRuntimeMisc } from "../internal/misc";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 import { preCheckPermissions } from "../internal/checkPermissions";
+import { clearPollTimeout } from "../internal/poll";
+import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
+import { registerStoryboardFunctions } from "./StoryboardFunctions";
 
 export class Router {
   private defaultCollapsed = false;
@@ -43,6 +47,7 @@ export class Router {
   private nextLocation: PluginLocation;
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
+  private renderId: string;
   private readonly featureFlags: Record<string, boolean>;
 
   constructor(private kernel: Kernel) {
@@ -172,8 +177,10 @@ export class Router {
 
   private async render(location: PluginLocation): Promise<void> {
     this.state = "initial";
+    this.renderId = uniqueId("render-id-");
 
     resetAllInjected();
+    clearPollTimeout();
 
     if (this.locationContext) {
       this.locationContext.resolver.resetRefreshQueue();
@@ -209,8 +216,9 @@ export class Router {
         this.locationContext.getSubStoryboardByRoute(storyboard);
       await this.kernel.loadDepsOfStoryboard(subStoryboard);
 
-      // 注册 Storyboard 中定义的自定义模板。
+      // 注册 Storyboard 中定义的自定义模板和函数。
       this.kernel.registerCustomTemplatesInStoryboard(storyboard);
+      registerStoryboardFunctions(storyboard);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;
@@ -310,8 +318,6 @@ export class Router {
         return;
       }
 
-      this.state = "ready-to-mount";
-
       if (appChanged) {
         this.kernel.currentApp = currentApp;
         this.kernel.previousApp = previousApp;
@@ -321,6 +327,8 @@ export class Router {
         this.kernel.updateWorkspaceStack(),
         this.kernel.layoutBootstrap(layoutType),
       ]);
+
+      this.state = "ready-to-mount";
 
       // Unmount main tree to avoid app change fired before new routes mounted.
       unmountTree(mountPoints.main as MountableElement);
@@ -355,7 +363,12 @@ export class Router {
           this.locationContext.getCurrentContext(),
           this.kernel
         );
-        if (menuBar.menu?.defaultCollapsed) {
+        if (
+          shouldBeDefaultCollapsed(
+            menuBar.menu?.defaultCollapsed,
+            menuBar.menu?.defaultCollapsedBreakpoint
+          )
+        ) {
           this.kernel.menuBar.collapse(true);
           this.defaultCollapsed = true;
         } else {
@@ -426,11 +439,11 @@ export class Router {
       return;
     }
 
-    this.state = "ready-to-mount";
-
     await this.kernel.layoutBootstrap(layoutType);
     const brickPageNotFound = this.kernel.presetBricks.pageNotFound;
     await this.kernel.loadDynamicBricks([brickPageNotFound]);
+
+    this.state = "ready-to-mount";
 
     mountTree(
       [
@@ -460,6 +473,11 @@ export class Router {
 
   getState(): RouterState {
     return this.state;
+  }
+
+  /* istanbul ignore next */
+  getRenderId(): string {
+    return this.renderId;
   }
 
   /* istanbul ignore next */

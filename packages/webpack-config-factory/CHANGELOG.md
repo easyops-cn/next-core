@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.3...@next-core/webpack-config-factory@2.12.0) (2021-09-02)
+
+### Features
+
+- support dynamic imports in monaco-editor ([d3fa984](https://github.com/easyops-cn/next-core/commit/d3fa984ce9346eda1b430a04819e4dd9fa1f3c2e))
+
+## [2.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.2...@next-core/webpack-config-factory@2.11.3) (2021-08-30)
+
+### Bug Fixes
+
+- prefix module id with package name to avoid collisions ([27aa880](https://github.com/easyops-cn/next-core/commit/27aa8801629e1cfef4b6da9d891404491031f4ce))
+
+## [2.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.1...@next-core/webpack-config-factory@2.11.2) (2021-08-18)
+
+### Bug Fixes
+
+- fix module conflict ([b9db1d0](https://github.com/easyops-cn/next-core/commit/b9db1d00f8bbbbf6fef2693d8eeb0097e2c8e75a))
+
+## [2.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.11.0...@next-core/webpack-config-factory@2.11.1) (2021-08-16)
+
+**Note:** Version bump only for package @next-core/webpack-config-factory
+
 # [2.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.10.1...@next-core/webpack-config-factory@2.11.0) (2021-08-06)
 
 ### Features

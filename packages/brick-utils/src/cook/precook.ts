@@ -2,20 +2,20 @@ import { Node } from "@babel/types";
 import { parseExpression } from "@babel/parser";
 import { walkFactory } from "./utils";
 import { PrecookVisitor } from "./PrecookVisitor";
-import { PrecookVisitorState, PrecookResult, VisitorFn } from "./interfaces";
-
-export interface PrecookOptions {
-  visitors?: Record<string, VisitorFn<PrecookVisitorState>>;
-}
+import {
+  PrecookVisitorState,
+  PrecookResult,
+  PrecookOptions,
+} from "./interfaces";
 
 export function precook(
   source: string,
   options?: PrecookOptions
 ): PrecookResult {
   const state: PrecookVisitorState = {
-    currentScope: new Set(),
-    closures: [],
+    scopeStack: [],
     attemptToVisitGlobals: new Set(),
+    scopeMapByNode: new WeakMap(),
   };
   const expression = parseExpression(source, {
     plugins: ["estree", ["pipelineOperator", { proposal: "minimal" }]],
@@ -41,5 +41,6 @@ export function precook(
     source,
     expression,
     attemptToVisitGlobals: state.attemptToVisitGlobals,
+    scopeMapByNode: state.scopeMapByNode,
   };
 }
