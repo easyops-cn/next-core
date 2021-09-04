@@ -13,7 +13,8 @@
     "strictNullChecks": false,
     "jsx": "preserve",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "useUnknownInCatchVariables": false
   },
   "exclude": ["node_modules", "dist/", "**/__mocks__/"]
 }
