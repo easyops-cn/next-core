@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",
-    "@ant-design/icons": "^4.5.0",
+    "@ant-design/icons": "^4.6.4",
     "@babel/runtime": "^7.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
     "@next-core/babel-runtime-helpers": "^1.0.12",
