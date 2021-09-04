@@ -7,17 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/fontawesome-library
 
-
-
-
-
 ## [1.1.18](https://github.com/easyops-cn/next-core/compare/@next-core/fontawesome-library@1.1.17...@next-core/fontawesome-library@1.1.18) (2021-07-23)
 
 **Note:** Version bump only for package @next-core/fontawesome-library
-
-
-
-
 
 ## [1.1.17](https://github.com/easyops-cn/next-core/compare/@next-core/fontawesome-library@1.1.16...@next-core/fontawesome-library@1.1.17) (2021-07-02)
 

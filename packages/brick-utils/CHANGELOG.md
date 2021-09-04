@@ -5,90 +5,49 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.0...@next-core/brick-utils@2.26.1) (2021-09-03)
 
-
 ### Bug Fixes
 
-* **cook:** support ts as expression ([151e2da](https://github.com/easyops-cn/next-core/commit/151e2da29909b42c2fdb378ebe7ceea99d85e634))
-
-
-
-
+- **cook:** support ts as expression ([151e2da](https://github.com/easyops-cn/next-core/commit/151e2da29909b42c2fdb378ebe7ceea99d85e634))
 
 # [2.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.25.1...@next-core/brick-utils@2.26.0) (2021-09-03)
 
-
 ### Features
 
-* support typescript in storyboard functions ([9c302f9](https://github.com/easyops-cn/next-core/commit/9c302f9f864f1a53af580c3d3647c14a342e21ca))
-
-
-
-
+- support typescript in storyboard functions ([9c302f9](https://github.com/easyops-cn/next-core/commit/9c302f9f864f1a53af580c3d3647c14a342e21ca))
 
 ## [2.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.25.0...@next-core/brick-utils@2.25.1) (2021-09-01)
 
-
 ### Bug Fixes
 
-* **storyboard-function:** fix arrow function expression ([83cbbf0](https://github.com/easyops-cn/next-core/commit/83cbbf09dc901d98b2d95c5ab0fa43154da62ac0))
-
-
-
-
+- **storyboard-function:** fix arrow function expression ([83cbbf0](https://github.com/easyops-cn/next-core/commit/83cbbf09dc901d98b2d95c5ab0fa43154da62ac0))
 
 # [2.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.24.1...@next-core/brick-utils@2.25.0) (2021-08-30)
 
-
 ### Features
 
-* support storyboard functions ([b27c235](https://github.com/easyops-cn/next-core/commit/b27c2354eb99fa82e515526e605c368f0dcca20a))
-
-
-
-
+- support storyboard functions ([b27c235](https://github.com/easyops-cn/next-core/commit/b27c2354eb99fa82e515526e605c368f0dcca20a))
 
 ## [2.24.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.24.0...@next-core/brick-utils@2.24.1) (2021-08-27)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 # [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.23.3...@next-core/brick-utils@2.24.0) (2021-08-17)
-
 
 ### Features
 
-* **menu:** support normalizeMenu ([3421e35](https://github.com/easyops-cn/next-core/commit/3421e359ba651c2be6b3784d32435144ad8e7ca6))
-
-
-
-
+- **menu:** support normalizeMenu ([3421e35](https://github.com/easyops-cn/next-core/commit/3421e359ba651c2be6b3784d32435144ad8e7ca6))
 
 ## [2.23.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.23.2...@next-core/brick-utils@2.23.3) (2021-08-16)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.23.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.23.1...@next-core/brick-utils@2.23.2) (2021-08-16)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.23.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.23.0...@next-core/brick-utils@2.23.1) (2021-08-16)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 # [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.22.2...@next-core/brick-utils@2.23.0) (2021-08-12)
 
