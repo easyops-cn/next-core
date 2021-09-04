@@ -60,6 +60,10 @@
       "matchPackagePatterns": ["^@rollup/"]
     },
     {
+      "groupName": "brick packages",
+      "matchPackagePatterns": ["^@next-bricks/"]
+    },
+    {
       "matchPackageNames": ["antd"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false

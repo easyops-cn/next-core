@@ -1,6 +1,6 @@
 {
   "name": "@next-core/webpack-config-factory",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/webpack-config-factory",
   "license": "GPL-3.0",
@@ -37,6 +37,7 @@
     "raw-loader": "^4.0.2",
     "schema-utils": "^1.0.0",
     "source-map-loader": "^1.1.3",
+    "string-replace-loader": "^3.0.3",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^1.4.5",
     "to-string-loader": "^1.1.6",

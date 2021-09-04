@@ -28,8 +28,8 @@ import {
   transformIntermediateData,
 } from "../transformProperties";
 import { recursiveMarkAsInjected } from "../internal/injected";
-import { isCustomApiProvider, getArgsOfCustomApi } from "./CustomApis";
 import { looseCheckIf } from "../checkIf";
+import { getArgsOfCustomApi } from "./FlowApi";
 
 export class Resolver {
   private readonly cache: Map<string, Promise<any>> = new Map();
@@ -228,14 +228,8 @@ export class Resolver {
           : args
         : providerBrick.args || [];
 
-      if (useProvider && isCustomApiProvider(useProvider)) {
-        const allMicroAppApiOrchestrationMap =
-          await this.kernel.getMicroAppApiOrchestrationMapAsync();
-        actualArgs = getArgsOfCustomApi(
-          useProvider,
-          allMicroAppApiOrchestrationMap,
-          actualArgs
-        );
+      if (useProvider) {
+        actualArgs = await getArgsOfCustomApi(useProvider, actualArgs);
       }
 
       promise = providerBrick[method](...actualArgs);

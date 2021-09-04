@@ -1,4 +1,5 @@
 const path = require("path");
+const crypto = require("crypto");
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
@@ -9,6 +10,7 @@ const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 const ScanEditorBricksPlugin = require("./ScanEditorBricksPlugin");
 const NextDllReferencePlugin = require("../dll/NextDllReferencePlugin");
+const BrickHashedModuleIdsPlugin = require("./BrickHashedModuleIdsPlugin");
 
 const getCssLoader = (cssOptions) => ({
   loader: "css-loader",
@@ -64,6 +66,7 @@ module.exports =
     copyFiles = [],
     ignores = [],
     splitVendorsForLazyBricks,
+    fixMonacoEditorDynamicImports,
   } = {}) => {
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
@@ -84,6 +87,12 @@ module.exports =
     const entryPair = isForEditors
       ? ["editors", "editor-bricks/index"]
       : ["index", "index"];
+
+    // The chunk ids must be unique across foreign webpack bundles.
+    // So we suffix these ids with the hash of the package name.
+    const hash = fixMonacoEditorDynamicImports
+      ? crypto.createHash("sha1").update(packageName).digest("hex").substr(0, 4)
+      : "";
 
     return {
       context: appRoot,
@@ -110,7 +119,10 @@ module.exports =
         // In production mode, when using dynamic chunks, module ids and
         // chunk ids are numeric, and there maybe collisions among foreign
         // webpack bundles. So we use hashed module ids and named chunk ids.
-        moduleIds: "hashed",
+        // !Edited:
+        //   There maybe collisions among brick packages when using hashed
+        //   module ids, too. So we use `BrickHashedModuleIdsPlugin` to prefix
+        //   them with package names.
         namedChunks: true,
 
         ...(splitVendorsForLazyBricks
@@ -144,6 +156,20 @@ module.exports =
             enforce: "pre",
             use: ["source-map-loader"],
           },
+          ...(fixMonacoEditorDynamicImports
+            ? [
+                {
+                  // These dynamic imports must have unique ids across foreign webpack bundles.
+                  test: /\/node_modules\/monaco-editor\/.+\.contribution.js$/,
+                  loader: "string-replace-loader",
+                  options: {
+                    search: /\bimport\(('.\/(\w+)\.js')\)/g,
+                    replace: (_, p1, p2) =>
+                      `import(/* webpackChunkName: "chunks/${p2}.${hash}" */ ${p1})`,
+                  },
+                },
+              ]
+            : []),
           {
             // Include ts, tsx, js, and jsx files.
             test: /\.(ts|js)x?$/,
@@ -279,6 +305,10 @@ module.exports =
               packageName,
               dll.map((name) => name.substr("@next-dll/".length))
             ),
+        ...(scope === "bricks" && !isForEditors
+          ? // Avoid module id collisions among brick packages.
+            [new BrickHashedModuleIdsPlugin({ packageName })]
+          : []),
         new CleanWebpackPlugin(),
         new NextDllReferencePlugin({
           context: appRoot,

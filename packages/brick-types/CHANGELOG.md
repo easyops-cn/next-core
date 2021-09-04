@@ -3,24 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.37.0...@next-core/brick-types@2.38.0) (2021-09-03)
+
+### Features
+
+- support typescript in storyboard functions ([9c302f9](https://github.com/easyops-cn/next-core/commit/9c302f9f864f1a53af580c3d3647c14a342e21ca))
+
+# [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.36.0...@next-core/brick-types@2.37.0) (2021-08-30)
+
+### Features
+
+- support storyboard functions ([b27c235](https://github.com/easyops-cn/next-core/commit/b27c2354eb99fa82e515526e605c368f0dcca20a))
+
+# [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.35.1...@next-core/brick-types@2.36.0) (2021-08-17)
+
+### Features
+
+- **menu:** support defaultCollapsedBreakpoint ([d875cd8](https://github.com/easyops-cn/next-core/commit/d875cd826437a56e8a342ac2ab92925af26783b1))
+
+## [2.35.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.35.0...@next-core/brick-types@2.35.1) (2021-08-16)
+
+### Bug Fixes
+
+- **poll:** support expectPollStopImmediately ([3f4ab02](https://github.com/easyops-cn/next-core/commit/3f4ab02b9b6e24c994df6e608f2afc4ae8939459))
+
+# [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.34.1...@next-core/brick-types@2.35.0) (2021-08-16)
+
+### Features
+
+- support provider poll ([a003f59](https://github.com/easyops-cn/next-core/commit/a003f5941ae6e530fd8606fab71e29affa6f5a40))
+
 ## [2.34.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.34.0...@next-core/brick-types@2.34.1) (2021-07-26)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 # [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.33.0...@next-core/brick-types@2.34.0) (2021-07-23)
-
 
 ### Features
 
-* useProvider 支持 saveAs 的方法 ([7add9a1](https://github.com/easyops-cn/next-core/commit/7add9a152fe572b0c2274cbe363dc81361624abf))
-
-
-
-
+- useProvider 支持 saveAs 的方法 ([7add9a1](https://github.com/easyops-cn/next-core/commit/7add9a152fe572b0c2274cbe363dc81361624abf))
 
 # [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.32.4...@next-core/brick-types@2.33.0) (2021-07-06)
 

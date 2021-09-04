@@ -1,25 +1,23 @@
 import { Node } from "@babel/types";
-import { walkFactory } from "./utils";
+import { raiseErrorFactory, walkFactory } from "./utils";
 import { CookVisitor } from "./CookVisitor";
 import { CookVisitorState, PrecookResult } from "./interfaces";
 import { supply } from "./supply";
 
-export function cook(
+export function cook<T = unknown>(
   precooked: PrecookResult,
-  globalVariables: Record<string, any> = {}
-): any {
-  const state: CookVisitorState = {
+  globalVariables?: Record<string, unknown>
+): T {
+  const raiseError = raiseErrorFactory(precooked.source);
+  const state: CookVisitorState<T> = {
     source: precooked.source,
-    currentScope: new Map(),
-    closures: [supply(precooked.attemptToVisitGlobals, globalVariables)],
+    raiseError,
+    scopeMapByNode: precooked.scopeMapByNode,
+    scopeStack: [supply(precooked.attemptToVisitGlobals, globalVariables)],
+    rules: {},
   };
   walkFactory(CookVisitor, (node: Node) => {
-    throw new SyntaxError(
-      `Unsupported node type \`${node.type}\`: \`${precooked.source.substring(
-        node.start,
-        node.end
-      )}\``
-    );
+    raiseError(SyntaxError, `Unsupported node type \`${node.type}\``, node);
   })(precooked.expression, state);
   return state.cooked;
 }

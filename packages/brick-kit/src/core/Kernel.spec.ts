@@ -541,7 +541,7 @@ describe("Kernel", () => {
     expect(loadScript).toHaveBeenNthCalledWith(2, []);
   });
 
-  it("should getProviderBrick when isCustomApiProvider", async () => {
+  it("should getProviderBrick for legacy custom api", async () => {
     kernel.bootstrapData = {} as any;
     await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
@@ -584,7 +584,7 @@ describe("Kernel", () => {
     ).toBe(true);
   });
 
-  it("should getProviderBrick when isCustomApiV2 Provider", async () => {
+  it("should getProviderBrick when flow api", async () => {
     kernel.bootstrapData = {} as any;
     await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi:1.2.0");
     expect(loadScript).toHaveBeenNthCalledWith(1, []);
@@ -597,52 +597,11 @@ describe("Kernel", () => {
         namespace: "easyops.custom_api",
       },
     ];
-    searchAllMicroAppApiOrchestration.mockResolvedValueOnce({
-      list: [
-        {
-          name: "myAwesomeApi",
-          version: "1.2.0",
-          endpoint: {
-            method: "get",
-            uri: "api/gateway/xxx",
-          },
-          namespace: [{ name: "easyops.custom_api" }],
-        },
-      ],
-    });
-    kernel.loadMicroAppApiOrchestrationAsync([]);
-    expect(searchAllMicroAppApiOrchestration).not.toBeCalled();
     kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
     const allMicroAppApiOrchestrationMap =
       await kernel.getMicroAppApiOrchestrationMapAsync();
-    expect(searchAllMicroAppApiOrchestration).toBeCalledWith(
-      "_INTERFACE_CONTRACT@EASYOPS",
-      {
-        page: 1,
-        page_size: 1,
-        fields: {
-          name: true,
-          endpoint: true,
-          "namespace.name": true,
-          response: true,
-          version: true,
-        },
-        query: {
-          $or: [
-            {
-              name: "myAwesomeApi",
-              version: "1.2.0",
-              "namespace.name": "easyops.custom_api",
-            },
-          ],
-        },
-      }
-    );
-    expect(
-      allMicroAppApiOrchestrationMap.has(
-        "easyops.custom_api@myAwesomeApi:1.2.0"
-      )
-    ).toBe(true);
+    expect(searchAllMicroAppApiOrchestration).not.toBeCalled();
+    expect(allMicroAppApiOrchestrationMap.size).toBe(0);
   });
 
   it("should throw if getProviderBrick with not defined provider", async () => {

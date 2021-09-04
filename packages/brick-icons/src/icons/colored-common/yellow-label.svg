@@ -2,9 +2,9 @@
 <svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>FBCD4E9E-1F2D-43F4-9D8E-0CF1D430E7F8</title>
     <defs>
-        <linearGradient x1="23.6517922%" y1="0%" x2="76.15133%" y2="93.9734771%" id="linearGradient-1">
-            <stop stop-color="#FED286" offset="0%"></stop>
-            <stop stop-color="#F8AE52" offset="100%"></stop>
+        <linearGradient x1="30.8539036%" y1="16.3730491%" x2="47.4683601%" y2="74.0321764%" id="linearGradient-1">
+            <stop stop-color="#F6A10E" offset="0%"></stop>
+            <stop stop-color="#FFBA65" offset="100%"></stop>
         </linearGradient>
         <linearGradient x1="20.5542528%" y1="0%" x2="79.4457472%" y2="100%" id="linearGradient-2">
             <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
@@ -24,25 +24,23 @@
         </filter>
     </defs>
     <g id="入口卡片" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="卡片项---功能入口卡片" transform="translate(-501.000000, -3824.000000)">
-            <g id="功能入口卡片" transform="translate(181.000000, 381.000000)">
-                <g id="自定义" transform="translate(0.000000, 2907.000000)">
-                    <g id="2" transform="translate(7.000000, 414.000000)">
-                        <g id="自定义-1" transform="translate(0.000000, 42.000000)">
-                            <g id="卡片" transform="translate(20.000000, 62.000000)">
-                                <g id="Card备份-7" transform="translate(260.000000, 0.000000)">
-                                    <g id="标签" transform="translate(33.000000, 18.000000)">
-                                        <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="40" height="40"></rect>
-                                        <path d="M11,3 L29,3 C31.209139,3 33,4.790861 33,7 L33,22.3695378 L33,22.3695378 L12.9493745,33.5599057 C11.0203316,34.6365155 8.58376866,33.945482 7.50715887,32.0164391 C7.1745884,31.4205475 7,30.7494794 7,30.0670646 L7,7 C7,4.790861 8.790861,3 11,3 Z" id="矩形备份-6" fill="#E28305" transform="translate(20.000000, 19.940143) scale(-1, 1) translate(-20.000000, -19.940143) "></path>
-                                        <path d="M29,2.5 C30.2426407,2.5 31.3676407,3.00367966 32.1819805,3.81801948 C32.9963203,4.63235931 33.5,5.75735931 33.5,7 L33.5,7 L33.5,22.6630847 L13.1930463,33.9965109 C12.1079597,34.6021039 10.880133,34.7105472 9.77217979,34.3963206 C8.66422656,34.082094 7.67614674,33.3451975 7.07055373,32.2601109 C6.69641195,31.5897329 6.5,30.8347812 6.5,30.0670646 L6.5,30.0670646 L6.5,7 C6.5,5.75735931 7.00367966,4.63235931 7.81801948,3.81801948 C8.63235931,3.00367966 9.75735931,2.5 11,2.5 L11,2.5 Z" id="矩形" stroke="url(#linearGradient-2)" fill-opacity="0.13" fill="url(#linearGradient-1)"></path>
-                                        <g id="形状结合">
-                                            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
-                                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
-                                        </g>
-                                        <g id="形状结合备份">
-                                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
-                                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-5"></use>
-                                        </g>
+        <g id="卡片项---功能入口卡片" transform="translate(-491.000000, -4511.000000)">
+            <g id="自定义" transform="translate(178.000000, 4193.000000)">
+                <g id="2" transform="translate(0.000000, 196.000000)">
+                    <g id="自定义-1" transform="translate(0.000000, 42.000000)">
+                        <g id="卡片" transform="translate(20.000000, 62.000000)">
+                            <g id="Card备份-7" transform="translate(260.000000, 0.000000)">
+                                <g id="标签" transform="translate(33.000000, 18.000000)">
+                                    <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="40" height="40"></rect>
+                                    <path d="M11,3 L29,3 C31.209139,3 33,4.790861 33,7 L33,22.3695378 L33,22.3695378 L12.9493745,33.5599057 C11.0203316,34.6365155 8.58376866,33.945482 7.50715887,32.0164391 C7.1745884,31.4205475 7,30.7494794 7,30.0670646 L7,7 C7,4.790861 8.790861,3 11,3 Z" id="矩形备份-6" fill="#E28305" transform="translate(20.000000, 19.940143) scale(-1, 1) translate(-20.000000, -19.940143) "></path>
+                                    <path d="M29,3.5 C29.9664983,3.5 30.8414983,3.89175084 31.4748737,4.52512627 C32.1082492,5.15850169 32.5,6.03350169 32.5,7 L32.5,7 L32.5,22.0759908 L12.7057027,33.1233006 C11.8617464,33.5943174 10.9067701,33.6786622 10.0450287,33.4342637 C9.18328732,33.1898653 8.41478079,32.6167235 7.94376401,31.7727673 C7.65276485,31.2513621 7.5,30.6641775 7.5,30.0670646 L7.5,30.0670646 L7.5,7 C7.5,6.03350169 7.89175084,5.15850169 8.52512627,4.52512627 C9.15850169,3.89175084 10.0335017,3.5 11,3.5 L11,3.5 L29,3.5 Z" id="矩形" stroke="url(#linearGradient-2)" fill="url(#linearGradient-1)"></path>
+                                    <g id="形状结合">
+                                        <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                                    </g>
+                                    <g id="形状结合备份">
+                                        <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-5"></use>
                                     </g>
                                 </g>
                             </g>

@@ -4,6 +4,18 @@ app:
   homepage: /
 imports:
 - '@next-bricks/basic-bricks'
+meta:
+  functions:
+  - name: sayHello
+    source: |
+      function sayHello(name) {
+        return FN.sayExclamation(`Hello, ${name}`);
+      }
+  - name: sayExclamation
+    source: |
+      function sayExclamation(sentence) {
+        return `${sentence}!`;
+      }
 routes:
 - path: ${APP.homepage}
   context:
@@ -30,7 +42,7 @@ routes:
   bricks:
   - brick: basic-bricks.micro-view
     properties:
-      pageTitle: Hello World
+      pageTitle: '<% FN.sayHello("world") %>'
     slots:
       content:
         type: bricks
@@ -40,20 +52,40 @@ routes:
             buttonName: Check My Todos
           events:
             general.button.click:
-              action: history.push
-              args: [/todo]
-
-        - brick: basic-bricks.general-button
-          properties:
-            buttonName: Check Car Store
-          events:
-            general.button.click:
-              action: history.push
-              args: [/car-store]
+              useProvider: "basic-providers.provider-http-proxy"
+              args:
+              - serviceName: 'testService'
+                api: 'testApiPoll'
+              poll:
+                enabled: true
+                interval: 1000
+                expectPollEnd: '<% (result) => result.loaded %>'
+              callback:
+                progress:
+                  action: console.info
+                  args:
+                  - '<% EVENT.type %>'
+                  - '<% EVENT.detail.loaded %>'
+                success:
+                - action: console.info
+                  args:
+                  - '<% EVENT.type %>'
+                  - '<% EVENT.detail.loaded %>'
+                - action: context.replace
+                  args:
+                  - myExtData
+                  - '<% EVENT.detail.quality %>'
+                error:
+                  action: console.error
+                finally:
+                  action: console.info
+                  args:
+                  - '<% EVENT.type %>'
+                  - '<% EVENT.detail %>'
 
         - brick: pre
           properties:
-            textContent: '<% JSON.stringify(CTX.myExtData ?? "undefined", null, 2) %>'
+            textContent: '<% "track context", JSON.stringify(CTX.myExtData ?? "undefined", null, 2) %>'
 
   menu:
     sidebarMenu:

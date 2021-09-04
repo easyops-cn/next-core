@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.67.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.67.0...@next-core/brick-kit@2.67.1) (2021-09-03)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.67.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.66.1...@next-core/brick-kit@2.67.0) (2021-09-03)
+
+### Features
+
+- support typescript in storyboard functions ([9c302f9](https://github.com/easyops-cn/next-core/commit/9c302f9f864f1a53af580c3d3647c14a342e21ca))
+
+## [2.66.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.66.0...@next-core/brick-kit@2.66.1) (2021-09-01)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.66.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.65.2...@next-core/brick-kit@2.66.0) (2021-08-30)
+
+### Features
+
+- support storyboard functions ([b27c235](https://github.com/easyops-cn/next-core/commit/b27c2354eb99fa82e515526e605c368f0dcca20a))
+
+## [2.65.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.65.1...@next-core/brick-kit@2.65.2) (2021-08-27)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.65.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.65.0...@next-core/brick-kit@2.65.1) (2021-08-24)
+
+### Bug Fixes
+
+- fix dynamic flow api initializing ([0f3c2fe](https://github.com/easyops-cn/next-core/commit/0f3c2fe01e9b15707491f503780c9c161107ea86))
+
+# [2.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.64.1...@next-core/brick-kit@2.65.0) (2021-08-17)
+
+### Features
+
+- **menu:** support defaultCollapsedBreakpoint ([d875cd8](https://github.com/easyops-cn/next-core/commit/d875cd826437a56e8a342ac2ab92925af26783b1))
+
+## [2.64.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.64.0...@next-core/brick-kit@2.64.1) (2021-08-16)
+
+### Bug Fixes
+
+- **poll:** support expectPollStopImmediately ([3f4ab02](https://github.com/easyops-cn/next-core/commit/3f4ab02b9b6e24c994df6e608f2afc4ae8939459))
+
+# [2.64.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.9...@next-core/brick-kit@2.64.0) (2021-08-16)
+
+### Features
+
+- support provider poll ([a003f59](https://github.com/easyops-cn/next-core/commit/a003f5941ae6e530fd8606fab71e29affa6f5a40))
+
+## [2.63.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.8...@next-core/brick-kit@2.63.9) (2021-08-16)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
 ## [2.63.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.63.7...@next-core/brick-kit@2.63.8) (2021-08-13)
 
 **Note:** Version bump only for package @next-core/brick-kit

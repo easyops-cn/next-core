@@ -147,6 +147,48 @@
   --theme-gray-background: #f5f5f5;
   --theme-gray-border-color: #c7c7c773;
 
+  --theme-slategray-color-rgb-channel: 101, 119, 154;
+  --theme-slategray-color: rgb(var(--theme-slategray-color-rgb-channel));
+
+  --theme-doderblue-color-rgb-channel: 26, 122, 255;
+  --theme-doderblue-color: rgb(var(--theme-doderblue-color-rgb-channel));
+  --theme-doderblue-background: #d6eaff;
+  --theme-doderblue-border-color: #5dacf9;
+
+  --theme-royalblue-color-rgb-channel: 91, 143, 250;
+  --theme-royalblue-color: rgb(var(--theme-royalblue-color-rgb-channel));
+
+  --theme-lightorange-color-rgb-channel: 248, 175, 81;
+  --theme-lightorange-color: rgb(var(--theme-lightorange-color-rgb-channel));
+  --theme-lightorange-border-color: #f9c179;
+
+  --theme-goldenrod-color-rgb-channel: 236, 199, 97;
+  --theme-goldenrod-color: rgb(var(--theme-goldenrod-color-rgb-channel));
+  --theme-goldenrod-border-color: #fade86;
+
+  --theme-jewelryblue-color-rgb-channel: 97, 227, 255;
+  --theme-jewelryblue-color: rgb(var(--theme-jewelryblue-color-rgb-channel));
+
+  --theme-orangered-color-rgb-channel: 248, 125, 96;
+  --theme-orangered-color: rgb(var(--theme-orangered-color-rgb-channel));
+  --theme-orangered-border-color: #f3917a;
+
+  --theme-springgreen-color-rgb-channel: 86, 189, 139;
+  --theme-springgreen-color: rgb(var(--theme-springgreen-color-rgb-channel));
+  --theme-springgreen-border-color: #62dca9;
+
+  --theme-mediumpurple-color-rgb-channel: 162, 152, 252;
+  --theme-mediumpurple-color: rgb(var(--theme-mediumpurple-color-rgb-channel));
+
+  --theme-skyblue-color-rgb-channel: 138, 211, 241;
+  --theme-skyblue-color: rgb(var(--theme-skyblue-color-rgb-channel));
+
+  --theme-yellowgreen-color-rgb-channel: 149, 212, 108;
+  --theme-yellowgreen-color: rgb(var(--theme-yellowgreen-color-rgb-channel));
+
+  --theme-lightpurple-color-rgb-channel: 165, 171, 254;
+  --theme-lightpurple-color: rgb(var(--theme-lightpurple-color-rgb-channel));
+
   --body-background: #f3f4f7;
 
   /* antd basics */

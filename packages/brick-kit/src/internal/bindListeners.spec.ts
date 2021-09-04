@@ -14,8 +14,6 @@ import { getHistory } from "../history";
 import * as runtime from "../core/Runtime";
 import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { message } from "antd";
-import { CustomApiOrchestration } from "../core/interfaces";
-import { mockMicroAppApiOrchestrationMap } from "../core/__mocks__/MicroAppApiOrchestrationData";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
@@ -29,9 +27,10 @@ jest.mock("./menu");
 customElements.define(
   "any-provider",
   class Tmp extends HTMLElement {
-    resolve(): string {
-      return "resolved";
-    }
+    resolve = jest
+      .fn()
+      .mockResolvedValueOnce("progressing")
+      .mockResolvedValueOnce("resolved");
   }
 );
 
@@ -135,11 +134,33 @@ jest
 
 jest
   .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
-  .mockImplementation(
-    async (): Promise<Map<string, CustomApiOrchestration>> => {
-      await Promise.resolve();
-      return mockMicroAppApiOrchestrationMap;
-    }
+  .mockResolvedValue(
+    new Map([
+      [
+        "easyops.custom_api@myAwesomeApi",
+        {
+          contract: {
+            endpoint: {
+              method: "POST",
+              uri: "/object/:objectId/instance/_search",
+            },
+            name: "myAwesomeApi",
+            response: {
+              fields: [
+                {
+                  description: "instance list",
+                  name: "list",
+                  type: "map[]",
+                },
+              ],
+              type: "object",
+            },
+          },
+          name: "myAwesomeApi",
+          namespace: "easyops.custom_api",
+        },
+      ],
+    ])
   );
 
 describe("isBuiltinHandler", () => {
@@ -155,6 +176,12 @@ describe("isBuiltinHandler", () => {
     }
   );
 });
+
+const expectEvent = (event: CustomEvent): any =>
+  expect.objectContaining({
+    type: event.type,
+    detail: event.detail,
+  });
 
 describe("isCustomHandler", () => {
   const cases: [BrickEventHandler, boolean][] = [
@@ -521,7 +548,14 @@ describe("bindListeners", () => {
         {
           useProvider: "any-provider",
           args: ["for", "${EVENT.detail}"],
+          poll: {
+            enabled: "${EVENT.detail}",
+            expectPollEnd: '<% (result) => result === "resolved" %>',
+          },
           callback: {
+            progress: {
+              action: "console.info",
+            },
             success: {
               action: "console.log",
             },
@@ -578,6 +612,10 @@ describe("bindListeners", () => {
     });
     sourceElem.dispatchEvent(event2);
 
+    await jest.runAllTimers();
+    await (global as any).flushPromises();
+    await jest.runAllTimers();
+    await (global as any).flushPromises();
     await jest.runAllTimers();
     await (global as any).flushPromises();
 
@@ -656,7 +694,7 @@ describe("bindListeners", () => {
     });
 
     expect(console.log).toBeCalledTimes(4);
-    expect(console.log).toHaveBeenNthCalledWith(1, event1);
+    expect(console.log).toHaveBeenNthCalledWith(1, expectEvent(event1));
     expect((console.log as jest.Mock).mock.calls[1][0].type).toBe(
       "callback.success"
     );
@@ -664,16 +702,36 @@ describe("bindListeners", () => {
     expect((console.log as jest.Mock).mock.calls[2][0].type).toBe(
       "callback.success"
     );
-    expect((console.log as jest.Mock).mock.calls[2][0].detail).toBe("resolved");
-    expect((console.log as jest.Mock).mock.calls[3][0].detail).toBe(
+    expect((console.log as jest.Mock).mock.calls[2][0].detail).toBe(
       "custom api resolved"
     );
+    expect((console.log as jest.Mock).mock.calls[3][0].detail).toBe("resolved");
 
-    expect(console.info).toBeCalledTimes(2);
-    expect(console.info).toHaveBeenNthCalledWith(1, event1);
+    expect(console.info).toBeCalledTimes(4);
+    expect(console.info).toHaveBeenNthCalledWith(1, expectEvent(event1));
     expect(console.info).toHaveBeenNthCalledWith(
       2,
-      new CustomEvent("callback.finally")
+      expectEvent(
+        new CustomEvent("callback.finally", {
+          detail: undefined,
+        })
+      )
+    );
+    expect(console.info).toHaveBeenNthCalledWith(
+      3,
+      expectEvent(
+        new CustomEvent("callback.progress", {
+          detail: "progressing",
+        })
+      )
+    );
+    expect(console.info).toHaveBeenNthCalledWith(
+      4,
+      expectEvent(
+        new CustomEvent("callback.progress", {
+          detail: "resolved",
+        })
+      )
     );
 
     expect(console.warn).toBeCalledTimes(5);
@@ -733,7 +791,10 @@ describe("bindListeners", () => {
       1,
       "target is _self"
     );
-    expect((targetElem as any).forGood).toHaveBeenNthCalledWith(1, event2);
+    expect((targetElem as any).forGood).toHaveBeenNthCalledWith(
+      1,
+      expectEvent(event2)
+    );
     expect((targetElem as any).forGood).toHaveBeenNthCalledWith(
       2,
       "specified args for multiple"

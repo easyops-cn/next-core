@@ -137,7 +137,7 @@ getRuntime().registerCustomProcessor(
 ]
 `;
 
-exports[`loadTemplate should create a new custom provider brick 1`] = `
+exports[`loadTemplate should create a new custom provider 1`] = `
 Array [
   Array [
     "dist/GetData.spec.ts",
@@ -266,60 +266,6 @@ customElements.define(
   EditorElementFactory(ForBetterEditor, {
     selfLayout: EditorSelfLayout.INLINE,
   })
-);
-",
-  ],
-]
-`;
-
-exports[`loadTemplate should create a new legacy template 1`] = `
-Array [
-  Array [
-    "dist/for-better.spec.ts",
-    "import { BrickConf } from \\"@next-core/brick-types\\";
-import {
-  forBetterFactory,
-  ForBetterParams,
-} from \\"./for-better\\";
-
-jest.mock(\\"@next-core/brick-kit\\", () => ({
-  getRuntime: () => ({
-    registerBrickTemplate: jest.fn(),
-  }),
-}));
-
-describe(\\"micro-app\\", () => {
-  it.each<[ForBetterParams, BrickConf]>([
-    [
-      {},
-      {
-        brick: \\"your.brick\\",
-      },
-    ],
-  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
-    expect(forBetterFactory(params)).toEqual(brickConf);
-  });
-});
-",
-  ],
-  Array [
-    "dist/for-better.ts",
-    "import { getRuntime } from \\"@next-core/brick-kit\\";
-import { BrickConf } from \\"@next-core/brick-types\\";
-
-export interface ForBetterParams {}
-
-export function forBetterFactory(
-  params: ForBetterParams
-): BrickConf {
-  return {
-    brick: \\"your.brick\\",
-  };
-}
-
-getRuntime().registerBrickTemplate(
-  \\"for-good.for-better\\",
-  forBetterFactory
 );
 ",
   ],
@@ -750,97 +696,6 @@ module.exports = dll.webpackDllFactory();
 ]
 `;
 
-exports[`loadTemplate should create a new package of legacy templates 1`] = `
-Array [
-  Array [
-    "dist/scripts/generate-version-file.js",
-    "const { createVersionFile } = require(\\"@next-core/build-config-factory\\");
-
-createVersionFile();
-",
-  ],
-  Array [
-    "dist/scripts/post-build.js",
-    "const { postBuild } = require(\\"@next-core/build-config-factory\\");
-
-postBuild(\\"templates\\");
-",
-  ],
-  Array [
-    "dist/scripts/rename-tar-package.js",
-    "const { renameTarPackage } = require(\\"@next-core/build-config-factory\\");
-
-renameTarPackage();
-",
-  ],
-  Array [
-    "dist/webpack.config.js",
-    "const { bricks, merge } = require(\\"@next-core/webpack-config-factory\\");
-
-const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
-
-module.exports = merge(
-  webpackCommonFactory({
-    scope: \\"templates\\",
-  }),
-  process.env.NODE_ENV === \\"development\\"
-    ? webpackDevFactory()
-    : webpackProdFactory()
-);
-",
-  ],
-  Array [
-    "dist/src/for-better.spec.ts",
-    "import { BrickConf } from \\"@next-core/brick-types\\";
-import {
-  forBetterFactory,
-  ForBetterParams,
-} from \\"./for-better\\";
-
-jest.mock(\\"@next-core/brick-kit\\", () => ({
-  getRuntime: () => ({
-    registerBrickTemplate: jest.fn(),
-  }),
-}));
-
-describe(\\"micro-app\\", () => {
-  it.each<[ForBetterParams, BrickConf]>([
-    [
-      {},
-      {
-        brick: \\"your.brick\\",
-      },
-    ],
-  ])(\\"forBetterFactory(%j) should work\\", (params, brickConf) => {
-    expect(forBetterFactory(params)).toEqual(brickConf);
-  });
-});
-",
-  ],
-  Array [
-    "dist/src/for-better.ts",
-    "import { getRuntime } from \\"@next-core/brick-kit\\";
-import { BrickConf } from \\"@next-core/brick-types\\";
-
-export interface ForBetterParams {}
-
-export function forBetterFactory(
-  params: ForBetterParams
-): BrickConf {
-  return {
-    brick: \\"your.brick\\",
-  };
-}
-
-getRuntime().registerBrickTemplate(
-  \\"for-good.for-better\\",
-  forBetterFactory
-);
-",
-  ],
-]
-`;
-
 exports[`loadTemplate should create a new package of libs 1`] = `
 Array [
   Array [
@@ -869,46 +724,6 @@ postBuild(\\"libs\\");
     \\"./src\\",
     \\"../../declarations\\"
   ]
-}
-",
-  ],
-]
-`;
-
-exports[`loadTemplate should create a new package of micro-apps 1`] = `
-Array [
-  Array [
-    "dist/scripts/generate-version-file.js",
-    "const { createVersionFile } = require(\\"@next-core/build-config-factory\\");
-
-createVersionFile();
-",
-  ],
-  Array [
-    "dist/scripts/post-build.js",
-    "const { postBuild } = require(\\"@next-core/build-config-factory\\");
-
-postBuild(\\"micro-apps\\");
-",
-  ],
-  Array [
-    "dist/scripts/rename-tar-package.js",
-    "const { renameTarPackage } = require(\\"@next-core/build-config-factory\\");
-
-renameTarPackage();
-",
-  ],
-  Array [
-    "dist/storyboard.json",
-    "{
-  \\"$schema\\": \\"../../node_modules/@next-core/brick-types/.schema/storyboard.json\\",
-  \\"imports\\": [],
-  \\"app\\": {
-    \\"name\\": \\"For Good\\",
-    \\"id\\": \\"for-good\\",
-    \\"homepage\\": \\"/for-good\\"
-  },
-  \\"routes\\": []
 }
 ",
   ],
@@ -980,96 +795,6 @@ module.exports = merge(
   Array [
     "dist/.gitignore",
     "/src/
-",
-  ],
-]
-`;
-
-exports[`loadTemplate should i18n-patch a package of legacy templates 1`] = `
-Array [
-  Array [
-    "dist/src/i18n/constants.ts",
-    "export const NS_FOR_GOOD = \\"templates-for-good\\";
-
-export enum K {
-  FOR_GOOD = \\"FOR_GOOD\\"
-}
-
-export type Locale = { [key in K]: string };
-",
-  ],
-  Array [
-    "dist/src/i18n/index.ts",
-    "import i18next from \\"i18next\\";
-import { NS_FOR_GOOD } from \\"./constants\\";
-import en from \\"./locales/en\\";
-import zh from \\"./locales/zh\\";
-
-i18next.addResourceBundle(\\"en\\", NS_FOR_GOOD, en);
-i18next.addResourceBundle(\\"zh\\", NS_FOR_GOOD, zh);
-",
-  ],
-  Array [
-    "dist/src/i18n/locales/en.ts",
-    "import { Locale, K } from \\"../constants\\";
-
-const locale: Locale = {
-  [K.FOR_GOOD]: \\"For Good\\"
-};
-
-export default locale;
-",
-  ],
-  Array [
-    "dist/src/i18n/locales/zh.ts",
-    "import { Locale, K } from \\"../constants\\";
-
-const locale: Locale = {
-  [K.FOR_GOOD]: \\"For Good\\"
-};
-
-export default locale;
-",
-  ],
-]
-`;
-
-exports[`loadTemplate should transform a micro-app 1`] = `
-Array [
-  Array [
-    "dist/.gitignore",
-    "/storyboard.json
-",
-  ],
-  Array [
-    "dist/scripts/build.js",
-    "const { build } = require(\\"@next-core/build-config-factory\\");
-
-build(\\"micro-apps\\");
-",
-  ],
-  Array [
-    "dist/tsconfig.json",
-    "{
-  \\"compilerOptions\\": {
-    \\"target\\": \\"ES6\\",
-    \\"module\\": \\"CommonJS\\",
-    \\"moduleResolution\\": \\"node\\",
-    \\"esModuleInterop\\": true,
-    \\"resolveJsonModule\\": true,
-    \\"skipLibCheck\\": true,
-    \\"declaration\\": false,
-    \\"outDir\\": \\"./dist\\"
-  },
-  \\"exclude\\": [
-    \\"node_modules\\",
-    \\"**/*.spec.ts\\",
-    \\"dist/\\",
-    \\"template/\\",
-    \\"**/__mocks__/\\",
-    \\"package.json\\"
-  ]
-}
 ",
   ],
 ]
