@@ -38,6 +38,9 @@ describe("cook", () => {
       q: "a&b",
       redirect: "/r/s?t=u&v=w",
       path: "x/y.zip",
+      fnReturnThisFor() {
+        return (this as any).for;
+      },
     },
     APP: {
       homepage: "/hello/world",
@@ -109,6 +112,8 @@ describe("cook", () => {
     ["DATA.null ?? 'oops'", "oops"],
     ["DATA.undefined ?? 'oops'", "oops"],
     ["DATA.for?.length", 4],
+    ["DATA?.fnReturnThisFor()", "good"],
+    ["DATA.fnReturnThisFor?.()", "good"],
     ["String?.(null)", "null"],
     ["DATA.notExisted?.length", undefined],
     ["DATA.notExisted?.length?.oops", undefined],

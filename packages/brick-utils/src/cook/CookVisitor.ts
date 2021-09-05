@@ -260,8 +260,7 @@ export const CookVisitor = Object.freeze({
     }
 
     const thisArg =
-      node.callee.type === "MemberExpression" ||
-      node.callee.type === "OptionalMemberExpression"
+      node.callee.type === "MemberExpression"
         ? calleeState.memberCooked.object
         : null;
 
