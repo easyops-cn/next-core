@@ -14,6 +14,7 @@ import {
   FunctionExpression,
   IfStatement,
   ReturnStatement,
+  Statement,
   SwitchCase,
   SwitchStatement,
   ThrowStatement,
@@ -55,11 +56,10 @@ const ForOfStatementItemVisitor = (
   callback(node.body, blockState);
 };
 
-const ForOfStatementVisitor: VisitorFn<CookVisitorState> = (
-  node: ForOfStatement | ForInStatement,
-  state,
-  callback
-) => {
+const ForOfStatementVisitor: VisitorFn<
+  CookVisitorState,
+  ForOfStatement | ForInStatement
+> = (node, state, callback) => {
   const blockState = spawnCookStateOfBlock(node, state, {
     controlFlow: {},
   });
@@ -87,11 +87,10 @@ const ForOfStatementVisitor: VisitorFn<CookVisitorState> = (
   }
 };
 
-const FunctionVisitor: VisitorFn<CookVisitorState> = (
-  node: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression,
-  state,
-  callback
-) => {
+const FunctionVisitor: VisitorFn<
+  CookVisitorState,
+  FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
+> = (node, state, callback) => {
   if (node.async || node.generator) {
     state.raiseError(
       SyntaxError,
@@ -173,6 +172,18 @@ const FunctionVisitor: VisitorFn<CookVisitorState> = (
   }
 };
 
+const StatementListVisitor: VisitorFn<
+  CookVisitorState,
+  Statement[] | SwitchCase[]
+> = (statements, state, callback) => {
+  for (const statement of statements) {
+    callback(statement, state);
+    if (isTerminated(state)) {
+      break;
+    }
+  }
+};
+
 export const CookFunctionVisitor = Object.freeze({
   ...CookVisitor,
   ArrowFunctionExpression: FunctionVisitor,
@@ -207,12 +218,7 @@ export const CookFunctionVisitor = Object.freeze({
       }
     }
 
-    for (const statement of node.body) {
-      callback(statement, blockState);
-      if (isTerminated(blockState)) {
-        break;
-      }
-    }
+    StatementListVisitor(node.body, blockState, callback);
   },
   BreakStatement(node: BreakStatement, state) {
     // istanbul ignore if
@@ -314,20 +320,30 @@ export const CookFunctionVisitor = Object.freeze({
     state.returns.cooked = argumentState.cooked;
   },
   SwitchCase(node: SwitchCase, state, callback) {
-    if (!state.controlFlow.switchTested && node.test) {
-      const testState = spawnCookState(state);
-      callback(node.test, testState);
-      state.controlFlow.switchTested =
-        testState.cooked === state.controlFlow.switchDiscriminantCooked;
-    }
-    if (state.controlFlow.switchTested || !node.test) {
-      for (const statement of node.consequent) {
-        callback(statement, state);
-        if (isTerminated(state)) {
-          state.controlFlow.switchTested = false;
-          break;
+    if (node.test) {
+      // `case …:`
+      let switchContinue: boolean;
+      if (state.controlFlow.switchCaseStage === "repeat-second") {
+        switchContinue = true;
+      } else {
+        const caseFoundKey =
+          state.controlFlow.switchCaseStage === "second"
+            ? "switchCaseFoundSecond"
+            : "switchCaseFound";
+        switchContinue = state.controlFlow[caseFoundKey];
+        if (!switchContinue) {
+          const testState = spawnCookState(state);
+          callback(node.test, testState);
+          switchContinue = state.controlFlow[caseFoundKey] =
+            testState.cooked === state.controlFlow.switchDiscriminantCooked;
         }
       }
+      if (switchContinue) {
+        StatementListVisitor(node.consequent, state, callback);
+      }
+    } else {
+      // `default:`
+      StatementListVisitor(node.consequent, state, callback);
     }
   },
   SwitchStatement(node: SwitchStatement, state, callback) {
@@ -340,6 +356,7 @@ export const CookFunctionVisitor = Object.freeze({
       {
         controlFlow: {
           switchDiscriminantCooked: discriminantState.cooked,
+          switchCaseStage: "first",
         },
       }
     );
@@ -353,10 +370,24 @@ export const CookFunctionVisitor = Object.freeze({
       );
     }
 
-    for (const switchCase of node.cases) {
-      callback(switchCase, blockState);
-      if (isTerminated(blockState)) {
-        break;
+    const defaultCaseIndex = node.cases.findIndex(
+      (switchCase) => !switchCase.test
+    );
+    const hasDefaultCase = defaultCaseIndex >= 0;
+    const firstCases = hasDefaultCase
+      ? node.cases.slice(0, defaultCaseIndex)
+      : node.cases;
+    StatementListVisitor(firstCases, blockState, callback);
+
+    if (hasDefaultCase && !isTerminated(blockState)) {
+      const secondCases = node.cases.slice(defaultCaseIndex + 1);
+      blockState.controlFlow.switchCaseStage = "second";
+      StatementListVisitor(secondCases, blockState, callback);
+
+      if (!blockState.controlFlow.switchCaseFoundSecond) {
+        blockState.controlFlow.switchCaseStage = "repeat-second";
+        const restCases = node.cases.slice(defaultCaseIndex);
+        StatementListVisitor(restCases, blockState, callback);
       }
     }
   },

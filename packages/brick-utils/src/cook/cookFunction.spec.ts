@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import { cookFunction } from "./cookFunction";
 import { precookFunction } from "./precookFunction";
 
@@ -213,6 +214,89 @@ describe("cookFunction", () => {
           {
             args: [3],
             result: "C",
+          },
+        ],
+      },
+    ],
+    [
+      "switch statements: case after default",
+      {
+        source: `
+          function test(a) {
+            let b = '';
+            switch(a) {
+              case 1:
+                b += 'A';
+                break;
+              default:
+                b += 'C';
+              case 2:
+                b += 'B';
+              case 4:
+                b += 'D';
+                break;
+              case 5:
+                b += 'E';
+            }
+            return b;
+          }
+        `,
+        cases: [
+          {
+            args: [1],
+            result: "A",
+          },
+          {
+            args: [2],
+            result: "BD",
+          },
+          {
+            args: [3],
+            result: "CBD",
+          },
+          {
+            args: [4],
+            result: "D",
+          },
+          {
+            args: [5],
+            result: "E",
+          },
+        ],
+      },
+    ],
+    [
+      "switch statements: case after default, and mutate discriminant",
+      {
+        source: `
+        function test(a) {
+          a.c = [];
+          switch(a.b) {
+            case 1:
+              a.c.push('case 1');
+              break;
+            default:
+              a.c.push('default');
+              a.b = 2;
+            case 2:
+              a.c.push('case 2');
+              a.b = 3;
+          }
+          return a;
+        }
+        `,
+        cases: [
+          {
+            args: [{ b: 1 }],
+            result: { b: 1, c: ["case 1"] },
+          },
+          {
+            args: [{ b: 2 }],
+            result: { b: 3, c: ["case 2"] },
+          },
+          {
+            args: [{ b: 3 }],
+            result: { b: 3, c: ["default", "case 2"] },
           },
         ],
       },
@@ -1603,9 +1687,9 @@ describe("cookFunction", () => {
         const equivalentFunc = new Function(
           `"use strict"; return (${source})`
         )();
-        expect(equivalentFunc(...args)).toEqual(result);
+        expect(equivalentFunc(...cloneDeep(args))).toEqual(result);
       }
-      expect(func(...args)).toEqual(result);
+      expect(func(...cloneDeep(args))).toEqual(result);
     }
   });
 

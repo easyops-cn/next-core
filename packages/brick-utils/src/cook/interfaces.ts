@@ -74,7 +74,9 @@ export interface CookVisitorState<T = unknown> {
   };
   controlFlow?: {
     switchDiscriminantCooked?: unknown;
-    switchTested?: boolean;
+    switchCaseFound?: boolean;
+    switchCaseFoundSecond?: boolean;
+    switchCaseStage?: "first" | "second" | "repeat-second";
     // Broken or returned.
     broken?: boolean;
     continued?: boolean;
@@ -100,8 +102,8 @@ export type ObjectCooked = Record<PropertyCooked, unknown>;
 
 export type VisitorCallback<T> = (node: any, state: T) => void;
 
-export type VisitorFn<T> = (
-  node: any,
+export type VisitorFn<T, N = any> = (
+  node: N,
   state: T,
   callback: VisitorCallback<T>
 ) => void;

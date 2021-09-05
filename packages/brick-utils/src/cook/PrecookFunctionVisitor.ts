@@ -11,6 +11,7 @@ import {
   FunctionDeclaration,
   FunctionExpression,
   IfStatement,
+  Node,
   ReturnStatement,
   SwitchCase,
   SwitchStatement,
@@ -35,22 +36,30 @@ import {
   spawnPrecookState,
 } from "./utils";
 
-const ForOfStatementVisitor: VisitorFn<PrecookVisitorState> = (
-  node: ForInStatement | ForOfStatement,
+const NodeListVisitor: VisitorFn<PrecookVisitorState, Node[]> = (
+  nodes,
   state,
   callback
 ) => {
+  for (const node of nodes) {
+    callback(node, state);
+  }
+};
+
+const ForOfStatementVisitor: VisitorFn<
+  PrecookVisitorState,
+  ForInStatement | ForOfStatement
+> = (node, state, callback) => {
   const blockState = spawnPrecookStateOfBlock(node, state);
   callback(node.right, blockState);
   callback(node.left, blockState);
   callback(node.body, blockState);
 };
 
-const FunctionVisitor: VisitorFn<PrecookVisitorState> = (
-  node: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression,
-  state,
-  callback
-) => {
+const FunctionVisitor: VisitorFn<
+  PrecookVisitorState,
+  FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
+> = (node, state, callback) => {
   if (node.type !== "FunctionDeclaration" && state.hoisting) {
     return;
   }
@@ -92,13 +101,10 @@ const FunctionVisitor: VisitorFn<PrecookVisitorState> = (
   const paramState = spawnPrecookState(bodyState, {
     collectVariableNamesAsKind: "param",
   });
-  for (const param of node.params) {
-    callback(param, paramState);
-  }
 
-  for (const param of node.params) {
-    callback(param, bodyState);
-  }
+  NodeListVisitor(node.params, paramState, callback);
+
+  NodeListVisitor(node.params, bodyState, callback);
 
   const bodyIsExpression =
     node.type === "ArrowFunctionExpression" && !!node.expression;
@@ -129,9 +135,7 @@ export const PrecookFunctionVisitor = Object.freeze<
     const bodyState = state.isFunctionBody
       ? spawnPrecookState(state)
       : spawnPrecookStateOfBlock(node, state);
-    for (const statement of node.body) {
-      callback(statement, bodyState);
-    }
+    NodeListVisitor(node.body, bodyState, callback);
   },
   BreakStatement() {
     // Do nothing.
@@ -192,16 +196,12 @@ export const PrecookFunctionVisitor = Object.freeze<
     if (node.test) {
       callback(node.test, state);
     }
-    for (const statement of node.consequent) {
-      callback(statement, state);
-    }
+    NodeListVisitor(node.consequent, state, callback);
   },
   SwitchStatement(node: SwitchStatement, state, callback) {
     const blockState = spawnPrecookStateOfBlock(node, state);
     callback(node.discriminant, state);
-    for (const switchCase of node.cases) {
-      callback(switchCase, blockState);
-    }
+    NodeListVisitor(node.cases, blockState, callback);
   },
   TSAsExpression(node: TSAsExpression, state, callback) {
     callback(node.expression, state);
