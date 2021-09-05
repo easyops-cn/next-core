@@ -70,6 +70,7 @@ export function spawnCookState<T>(
   return {
     source: parentState.source,
     rules: parentState.rules,
+    cookingFunction: parentState.cookingFunction,
     raiseError: parentState.raiseError,
     scopeMapByNode: parentState.scopeMapByNode,
     scopeStack: parentState.scopeStack,

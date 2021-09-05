@@ -2,6 +2,7 @@ import {
   Expression,
   FunctionDeclaration,
   Node,
+  UnaryExpression,
   VariableDeclaration,
 } from "@babel/types";
 import { CookScope, PrecookScope } from "./Scope";
@@ -51,12 +52,13 @@ export interface CookVisitorState<T = unknown> {
   scopeMapByNode: WeakMap<Node, PrecookScope>;
   scopeStack: CookScope[];
   raiseError: FnRaiseError;
+  cookingFunction?: boolean;
   isRoot?: boolean;
   identifierAsLiteralString?: boolean;
   spreadAsProperties?: boolean;
   isFunctionBody?: boolean;
   hoisting?: boolean;
-  checkTypeOf?: boolean;
+  unaryOperator?: UnaryExpression["operator"];
   assignment?: CookAssignmentData;
   update?: CookUpdateData;
   chainRef?: {

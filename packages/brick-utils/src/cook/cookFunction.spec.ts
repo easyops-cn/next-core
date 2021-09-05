@@ -842,7 +842,50 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for let ... of and break",
+      "for ... of",
+      {
+        source: `
+          function test() {
+            let total = 0;
+            let i;
+            for (i of [1, 2]) {
+              total += i;
+            }
+            return total + i;
+          }
+        `,
+        cases: [
+          {
+            args: [],
+            result: 5,
+          },
+        ],
+      },
+    ],
+    [
+      "for ... of: nesting scopes",
+      {
+        source: `
+          function test() {
+            let total = '';
+            const i = 'a';
+            for (const i of ['b', 'c']) {
+              const i = 'd';
+              total += i;
+            }
+            return total + i;
+          }
+        `,
+        cases: [
+          {
+            args: [],
+            result: "dda",
+          },
+        ],
+      },
+    ],
+    [
+      "for let ... of: break",
       {
         source: `
           function test() {
@@ -867,7 +910,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... of and continue",
+      "for const ... of: continue",
       {
         source: `
           function test() {
@@ -910,6 +953,27 @@ describe("cookFunction", () => {
       },
     ],
     [
+      "for ... in",
+      {
+        source: `
+          function test() {
+            let total = '';
+            var i;
+            for (i in {a:1,b:2}) {
+              total += i;
+            }
+            return total + i;
+          }
+        `,
+        cases: [
+          {
+            args: [],
+            result: "abb",
+          },
+        ],
+      },
+    ],
+    [
       "for var ... in",
       {
         source: `
@@ -930,7 +994,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... in and return",
+      "for const ... in: return",
       {
         source: `
           function test() {
@@ -953,7 +1017,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... in and continue",
+      "for const ... in: continue",
       {
         source: `
           function test() {
@@ -997,7 +1061,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for var ... and break",
+      "for var ...: break",
       {
         source: `
           function test() {
@@ -1021,7 +1085,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... and continue",
+      "for const ...: continue",
       {
         source: `
           function test() {
@@ -1045,7 +1109,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for ... with no init nor test nor update",
+      "for ...: with no init nor test nor update",
       {
         source: `
           function test() {
@@ -1068,7 +1132,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ...",
+      "for ...: nested",
       {
         source: `
           function test() {
@@ -1093,7 +1157,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ... and break inner",
+      "for ...: nested and break inner",
       {
         source: `
           function test() {
@@ -1119,7 +1183,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ... and break outer",
+      "for ...: nested and break outer",
       {
         source: `
           function test() {
@@ -1145,7 +1209,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ... and return inner",
+      "for ...: nested and return inner",
       {
         source: `
           function test() {
@@ -1212,7 +1276,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "while ... and break",
+      "while ...: break",
       {
         source: `
           function test() {
@@ -1235,7 +1299,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "while ... and continue",
+      "while ...: continue",
       {
         source: `
           function test() {
@@ -1298,7 +1362,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "do ... while and break",
+      "do ... while: break",
       {
         source: `
           function test() {
@@ -1321,7 +1385,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "do ... while and continue",
+      "do ... while: continue",
       {
         source: `
           function test() {
@@ -1477,6 +1541,24 @@ describe("cookFunction", () => {
               ],
             ],
             result: ["sayHello", "sayExclamation"],
+          },
+        ],
+      },
+    ],
+    [
+      "delete",
+      {
+        source: `
+          function test(a) {
+            const d = delete a.b;
+            const e = delete a.f;
+            return { ...a, d, e };
+          }
+        `,
+        cases: [
+          {
+            args: [{ b: 1, c: 2 }],
+            result: { c: 2, d: true, e: true },
           },
         ],
       },
