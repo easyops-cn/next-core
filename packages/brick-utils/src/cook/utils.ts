@@ -75,7 +75,9 @@ export function spawnCookState<T>(
     scopeMapByNode: parentState.scopeMapByNode,
     scopeStack: parentState.scopeStack,
     returns: parentState.returns,
-    controlFlow: parentState.controlFlow,
+    switches: parentState.switches,
+    breakableFlow: parentState.breakableFlow,
+    continuableFlow: parentState.continuableFlow,
     ...extendsState,
   };
 }
@@ -182,8 +184,8 @@ export function assertIterable(
 export function isTerminated(state: CookVisitorState): boolean {
   return (
     state.returns.returned ||
-    state.controlFlow?.broken ||
-    state.controlFlow?.continued
+    state.breakableFlow?.broken ||
+    state.continuableFlow?.continued
   );
 }
 

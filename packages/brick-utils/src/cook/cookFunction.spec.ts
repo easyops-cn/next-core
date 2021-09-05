@@ -302,6 +302,34 @@ describe("cookFunction", () => {
       },
     ],
     [
+      "switch statements: in for …",
+      {
+        source: `
+        function test() {
+          let total = 0;
+          for (const i of [1, 2, 3]) {
+            switch (i) {
+              case 1:
+                break;
+              case 2:
+                continue;
+              default:
+                break;
+            }
+            total += i;
+          }
+          return total;
+        }
+        `,
+        cases: [
+          {
+            args: [],
+            result: 4,
+          },
+        ],
+      },
+    ],
+    [
       "if statements",
       {
         source: `

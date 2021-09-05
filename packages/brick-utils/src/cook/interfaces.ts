@@ -72,13 +72,16 @@ export interface CookVisitorState<T = unknown> {
     returned: boolean;
     cooked?: unknown;
   };
-  controlFlow?: {
-    switchDiscriminantCooked?: unknown;
-    switchCaseFound?: boolean;
-    switchCaseFoundSecond?: boolean;
-    switchCaseStage?: "first" | "second" | "repeat-second";
-    // Broken or returned.
+  switches?: {
+    discriminantCooked?: unknown;
+    caseFound?: boolean;
+    caseFoundSecond?: boolean;
+    caseStage?: "first" | "second" | "repeat-second";
+  };
+  breakableFlow?: {
     broken?: boolean;
+  };
+  continuableFlow?: {
     continued?: boolean;
   };
   caughtError?: unknown;

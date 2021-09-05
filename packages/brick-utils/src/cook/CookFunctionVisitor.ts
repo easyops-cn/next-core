@@ -61,7 +61,8 @@ const ForOfStatementVisitor: VisitorFn<
   ForOfStatement | ForInStatement
 > = (node, state, callback) => {
   const blockState = spawnCookStateOfBlock(node, state, {
-    controlFlow: {},
+    breakableFlow: {},
+    continuableFlow: {},
   });
 
   const rightState = spawnCookState<Iterable<unknown>>(blockState);
@@ -71,7 +72,7 @@ const ForOfStatementVisitor: VisitorFn<
     assertIterable(rightState.cooked, state.source, node.start, node.end);
     for (const value of rightState.cooked) {
       ForOfStatementItemVisitor(node, blockState, callback, value);
-      blockState.controlFlow.continued = false;
+      blockState.continuableFlow.continued = false;
       if (isTerminated(blockState)) {
         break;
       }
@@ -79,7 +80,7 @@ const ForOfStatementVisitor: VisitorFn<
   } else {
     for (const value in rightState.cooked) {
       ForOfStatementItemVisitor(node, blockState, callback, value);
-      blockState.controlFlow.continued = false;
+      blockState.continuableFlow.continued = false;
       if (isTerminated(blockState)) {
         break;
       }
@@ -120,7 +121,9 @@ const FunctionVisitor: VisitorFn<
           : {
               returned: false,
             },
-        controlFlow: undefined,
+        switches: undefined,
+        breakableFlow: undefined,
+        continuableFlow: undefined,
       }
     );
 
@@ -229,7 +232,7 @@ export const CookFunctionVisitor = Object.freeze({
         node
       );
     }
-    state.controlFlow.broken = true;
+    state.breakableFlow.broken = true;
   },
   CatchClause(node: CatchClause, state, callback) {
     const blockState = spawnCookStateOfBlock(node, state);
@@ -252,16 +255,17 @@ export const CookFunctionVisitor = Object.freeze({
         node
       );
     }
-    state.controlFlow.continued = true;
+    state.continuableFlow.continued = true;
   },
   DoWhileStatement(node: DoWhileStatement, state, callback) {
     let testState: CookVisitorState;
     const blockState = spawnCookState<void>(state, {
-      controlFlow: {},
+      breakableFlow: {},
+      continuableFlow: {},
     });
     do {
       callback(node.body, blockState);
-      blockState.controlFlow.continued = false;
+      blockState.continuableFlow.continued = false;
       if (isTerminated(blockState)) {
         break;
       }
@@ -280,7 +284,8 @@ export const CookFunctionVisitor = Object.freeze({
   ForOfStatement: ForOfStatementVisitor,
   ForStatement(node: ForStatement, state, callback) {
     const blockState = spawnCookStateOfBlock(node, state, {
-      controlFlow: {},
+      breakableFlow: {},
+      continuableFlow: {},
     });
     if (node.init) {
       callback(node.init, spawnCookState(blockState));
@@ -294,7 +299,7 @@ export const CookFunctionVisitor = Object.freeze({
       node.update && callback(node.update, spawnCookState(blockState))
     ) {
       callback(node.body, spawnCookState(blockState));
-      blockState.controlFlow.continued = false;
+      blockState.continuableFlow.continued = false;
       if (isTerminated(blockState)) {
         break;
       }
@@ -323,19 +328,19 @@ export const CookFunctionVisitor = Object.freeze({
     if (node.test) {
       // `case …:`
       let switchContinue: boolean;
-      if (state.controlFlow.switchCaseStage === "repeat-second") {
+      if (state.switches.caseStage === "repeat-second") {
         switchContinue = true;
       } else {
         const caseFoundKey =
-          state.controlFlow.switchCaseStage === "second"
-            ? "switchCaseFoundSecond"
-            : "switchCaseFound";
-        switchContinue = state.controlFlow[caseFoundKey];
+          state.switches.caseStage === "second"
+            ? "caseFoundSecond"
+            : "caseFound";
+        switchContinue = state.switches[caseFoundKey];
         if (!switchContinue) {
           const testState = spawnCookState(state);
           callback(node.test, testState);
-          switchContinue = state.controlFlow[caseFoundKey] =
-            testState.cooked === state.controlFlow.switchDiscriminantCooked;
+          switchContinue = state.switches[caseFoundKey] =
+            testState.cooked === state.switches.discriminantCooked;
         }
       }
       if (switchContinue) {
@@ -354,10 +359,11 @@ export const CookFunctionVisitor = Object.freeze({
       node,
       state,
       {
-        controlFlow: {
-          switchDiscriminantCooked: discriminantState.cooked,
-          switchCaseStage: "first",
+        switches: {
+          discriminantCooked: discriminantState.cooked,
+          caseStage: "first",
         },
+        breakableFlow: {},
       }
     );
 
@@ -381,11 +387,11 @@ export const CookFunctionVisitor = Object.freeze({
 
     if (hasDefaultCase && !isTerminated(blockState)) {
       const secondCases = node.cases.slice(defaultCaseIndex + 1);
-      blockState.controlFlow.switchCaseStage = "second";
+      blockState.switches.caseStage = "second";
       StatementListVisitor(secondCases, blockState, callback);
 
-      if (!blockState.controlFlow.switchCaseFoundSecond) {
-        blockState.controlFlow.switchCaseStage = "repeat-second";
+      if (!blockState.switches.caseFoundSecond) {
+        blockState.switches.caseStage = "repeat-second";
         const restCases = node.cases.slice(defaultCaseIndex);
         StatementListVisitor(restCases, blockState, callback);
       }
@@ -463,14 +469,15 @@ export const CookFunctionVisitor = Object.freeze({
   WhileStatement(node: WhileStatement, state, callback) {
     let testState: CookVisitorState;
     const blockState = spawnCookState<void>(state, {
-      controlFlow: {},
+      breakableFlow: {},
+      continuableFlow: {},
     });
     while (
       (callback(node.test, (testState = spawnCookState(state))),
       testState.cooked)
     ) {
       callback(node.body, blockState);
-      blockState.controlFlow.continued = false;
+      blockState.continuableFlow.continued = false;
       if (isTerminated(blockState)) {
         break;
       }
