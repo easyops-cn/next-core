@@ -2,6 +2,7 @@ import {
   Expression,
   FunctionDeclaration,
   Node,
+  UnaryExpression,
   VariableDeclaration,
 } from "@babel/types";
 import { CookScope, PrecookScope } from "./Scope";
@@ -51,12 +52,13 @@ export interface CookVisitorState<T = unknown> {
   scopeMapByNode: WeakMap<Node, PrecookScope>;
   scopeStack: CookScope[];
   raiseError: FnRaiseError;
+  cookingFunction?: boolean;
   isRoot?: boolean;
   identifierAsLiteralString?: boolean;
   spreadAsProperties?: boolean;
   isFunctionBody?: boolean;
   hoisting?: boolean;
-  checkTypeOf?: boolean;
+  unaryOperator?: UnaryExpression["operator"];
   assignment?: CookAssignmentData;
   update?: CookUpdateData;
   chainRef?: {
@@ -70,11 +72,16 @@ export interface CookVisitorState<T = unknown> {
     returned: boolean;
     cooked?: unknown;
   };
-  controlFlow?: {
-    switchDiscriminantCooked?: unknown;
-    switchTested?: boolean;
-    // Broken or returned.
+  switches?: {
+    discriminantCooked?: unknown;
+    caseFound?: boolean;
+    caseFoundSecond?: boolean;
+    caseStage?: "first" | "second" | "repeat-second";
+  };
+  breakableFlow?: {
     broken?: boolean;
+  };
+  continuableFlow?: {
     continued?: boolean;
   };
   caughtError?: unknown;
@@ -98,8 +105,8 @@ export type ObjectCooked = Record<PropertyCooked, unknown>;
 
 export type VisitorCallback<T> = (node: any, state: T) => void;
 
-export type VisitorFn<T> = (
-  node: any,
+export type VisitorFn<T, N = any> = (
+  node: N,
   state: T,
   callback: VisitorCallback<T>
 ) => void;

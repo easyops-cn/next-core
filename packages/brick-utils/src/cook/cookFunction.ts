@@ -23,6 +23,7 @@ export function cookFunction<T extends SimpleFunction>(
       supply(precooked.attemptToVisitGlobals, globalVariables),
       CookScopeFactory(precooked.rootBlockScope),
     ],
+    cookingFunction: true,
     isRoot: true,
     rules,
   };

@@ -260,8 +260,7 @@ export const CookVisitor = Object.freeze({
     }
 
     const thisArg =
-      node.callee.type === "MemberExpression" ||
-      node.callee.type === "OptionalMemberExpression"
+      node.callee.type === "MemberExpression"
         ? calleeState.memberCooked.object
         : null;
 
@@ -329,7 +328,7 @@ export const CookVisitor = Object.freeze({
       return;
     }
 
-    if (state.checkTypeOf) {
+    if (state.unaryOperator === "typeof") {
       state.cooked = undefined;
       return;
     }
@@ -427,7 +426,8 @@ export const CookVisitor = Object.freeze({
 
     if (state.assignment) {
       state.cooked = performAssignment(state, objectCooked, propertyCooked);
-    } else {
+    } else if (state.unaryOperator !== "delete") {
+      // No cooking for `delete object.property`.
       state.cooked = objectCooked[propertyCooked];
     }
 
@@ -573,7 +573,7 @@ export const CookVisitor = Object.freeze({
   },
   UnaryExpression(node: UnaryExpression, state, callback) {
     const argumentState = spawnCookState(state, {
-      checkTypeOf: node.operator === "typeof",
+      unaryOperator: node.operator,
     });
     callback(node.argument, argumentState);
 
@@ -595,6 +595,15 @@ export const CookVisitor = Object.freeze({
       case "void":
         state.cooked = undefined;
         return;
+      case "delete":
+        if (state.cookingFunction) {
+          // In strict mode, the argument of delete operator is always a MemberExpression.
+          state.cooked =
+            delete argumentState.memberCooked.object[
+              argumentState.memberCooked.property
+            ];
+          return;
+        }
     }
 
     state.raiseError(

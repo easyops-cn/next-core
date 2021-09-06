@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import { cookFunction } from "./cookFunction";
 import { precookFunction } from "./precookFunction";
 
@@ -213,6 +214,117 @@ describe("cookFunction", () => {
           {
             args: [3],
             result: "C",
+          },
+        ],
+      },
+    ],
+    [
+      "switch statements: case after default",
+      {
+        source: `
+          function test(a) {
+            let b = '';
+            switch(a) {
+              case 1:
+                b += 'A';
+                break;
+              default:
+                b += 'C';
+              case 2:
+                b += 'B';
+              case 4:
+                b += 'D';
+                break;
+              case 5:
+                b += 'E';
+            }
+            return b;
+          }
+        `,
+        cases: [
+          {
+            args: [1],
+            result: "A",
+          },
+          {
+            args: [2],
+            result: "BD",
+          },
+          {
+            args: [3],
+            result: "CBD",
+          },
+          {
+            args: [4],
+            result: "D",
+          },
+          {
+            args: [5],
+            result: "E",
+          },
+        ],
+      },
+    ],
+    [
+      "switch statements: case after default, and mutate discriminant",
+      {
+        source: `
+        function test(a) {
+          a.c = [];
+          switch(a.b) {
+            case 1:
+              a.c.push('case 1');
+              break;
+            default:
+              a.c.push('default');
+              a.b = 2;
+            case 2:
+              a.c.push('case 2');
+              a.b = 3;
+          }
+          return a;
+        }
+        `,
+        cases: [
+          {
+            args: [{ b: 1 }],
+            result: { b: 1, c: ["case 1"] },
+          },
+          {
+            args: [{ b: 2 }],
+            result: { b: 3, c: ["case 2"] },
+          },
+          {
+            args: [{ b: 3 }],
+            result: { b: 3, c: ["default", "case 2"] },
+          },
+        ],
+      },
+    ],
+    [
+      "switch statements: in for …",
+      {
+        source: `
+        function test() {
+          let total = 0;
+          for (const i of [1, 2, 3]) {
+            switch (i) {
+              case 1:
+                break;
+              case 2:
+                continue;
+              default:
+                break;
+            }
+            total += i;
+          }
+          return total;
+        }
+        `,
+        cases: [
+          {
+            args: [],
+            result: 4,
           },
         ],
       },
@@ -842,7 +954,50 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for let ... of and break",
+      "for ... of",
+      {
+        source: `
+          function test() {
+            let total = 0;
+            let i;
+            for (i of [1, 2]) {
+              total += i;
+            }
+            return total + i;
+          }
+        `,
+        cases: [
+          {
+            args: [],
+            result: 5,
+          },
+        ],
+      },
+    ],
+    [
+      "for ... of: nesting scopes",
+      {
+        source: `
+          function test() {
+            let total = '';
+            const i = 'a';
+            for (const i of ['b', 'c']) {
+              const i = 'd';
+              total += i;
+            }
+            return total + i;
+          }
+        `,
+        cases: [
+          {
+            args: [],
+            result: "dda",
+          },
+        ],
+      },
+    ],
+    [
+      "for let ... of: break",
       {
         source: `
           function test() {
@@ -867,7 +1022,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... of and continue",
+      "for const ... of: continue",
       {
         source: `
           function test() {
@@ -910,6 +1065,27 @@ describe("cookFunction", () => {
       },
     ],
     [
+      "for ... in",
+      {
+        source: `
+          function test() {
+            let total = '';
+            var i;
+            for (i in {a:1,b:2}) {
+              total += i;
+            }
+            return total + i;
+          }
+        `,
+        cases: [
+          {
+            args: [],
+            result: "abb",
+          },
+        ],
+      },
+    ],
+    [
       "for var ... in",
       {
         source: `
@@ -930,7 +1106,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... in and return",
+      "for const ... in: return",
       {
         source: `
           function test() {
@@ -953,7 +1129,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... in and continue",
+      "for const ... in: continue",
       {
         source: `
           function test() {
@@ -997,7 +1173,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for var ... and break",
+      "for var ...: break",
       {
         source: `
           function test() {
@@ -1021,7 +1197,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for const ... and continue",
+      "for const ...: continue",
       {
         source: `
           function test() {
@@ -1045,7 +1221,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "for ... with no init nor test nor update",
+      "for ...: with no init nor test nor update",
       {
         source: `
           function test() {
@@ -1068,7 +1244,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ...",
+      "for ...: nested",
       {
         source: `
           function test() {
@@ -1093,7 +1269,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ... and break inner",
+      "for ...: nested and break inner",
       {
         source: `
           function test() {
@@ -1119,7 +1295,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ... and break outer",
+      "for ...: nested and break outer",
       {
         source: `
           function test() {
@@ -1145,7 +1321,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "nested for ... and return inner",
+      "for ...: nested and return inner",
       {
         source: `
           function test() {
@@ -1212,7 +1388,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "while ... and break",
+      "while ...: break",
       {
         source: `
           function test() {
@@ -1235,7 +1411,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "while ... and continue",
+      "while ...: continue",
       {
         source: `
           function test() {
@@ -1298,7 +1474,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "do ... while and break",
+      "do ... while: break",
       {
         source: `
           function test() {
@@ -1321,7 +1497,7 @@ describe("cookFunction", () => {
       },
     ],
     [
-      "do ... while and continue",
+      "do ... while: continue",
       {
         source: `
           function test() {
@@ -1482,6 +1658,24 @@ describe("cookFunction", () => {
       },
     ],
     [
+      "delete",
+      {
+        source: `
+          function test(a) {
+            const d = delete a.b;
+            const e = delete a.f;
+            return { ...a, d, e };
+          }
+        `,
+        cases: [
+          {
+            args: [{ b: 1, c: 2 }],
+            result: { c: 2, d: true, e: true },
+          },
+        ],
+      },
+    ],
+    [
       "[TypeScript]",
       {
         source: `
@@ -1521,9 +1715,9 @@ describe("cookFunction", () => {
         const equivalentFunc = new Function(
           `"use strict"; return (${source})`
         )();
-        expect(equivalentFunc(...args)).toEqual(result);
+        expect(equivalentFunc(...cloneDeep(args))).toEqual(result);
       }
-      expect(func(...args)).toEqual(result);
+      expect(func(...cloneDeep(args))).toEqual(result);
     }
   });
 
