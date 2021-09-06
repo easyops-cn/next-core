@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.1...@next-core/brick-utils@2.26.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* **cookFunction:** fix switch cases after default ([0b58c22](https://github.com/easyops-cn/next-core/commit/0b58c223c0b865174392eefc9fc28f315d0fafbe))
+* **cookFunction:** no OptionalMemberExpression ([73e34c0](https://github.com/easyops-cn/next-core/commit/73e34c03de10a13a24ea08b313e8a0e6a801a183))
+* **cookFunction:** support delete operator ([9d28b7a](https://github.com/easyops-cn/next-core/commit/9d28b7a8e938d1ad6737eaaa70706c65f8ec4109))
+* fix continue-statement in switch-statement which in iteration statement ([7817b64](https://github.com/easyops-cn/next-core/commit/7817b64adef157e8b7c1b0ec8c106905d4a7b49b))
+
+
+
+
+
 ## [2.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.0...@next-core/brick-utils@2.26.1) (2021-09-03)
 
 ### Bug Fixes
