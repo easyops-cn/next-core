@@ -108,18 +108,17 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
             enumerable: true,
           });
         } else {
-          if (!node[propName]) {
-            Object.defineProperty(node, propName, {
-              get: function () {
-                return refElement[propRef.refProperty];
-              },
-              set: function (value: unknown) {
-                refElement[propRef.refProperty] = value;
-                handleExtraOneWayRefs(propName, propRef, value);
-              },
-              enumerable: true,
-            });
-          }
+          Object.defineProperty(node, propName, {
+            get: function () {
+              return refElement[propRef.refProperty];
+            },
+            set: function (value: unknown) {
+              refElement[propRef.refProperty] = value;
+              handleExtraOneWayRefs(propName, propRef, value);
+            },
+            enumerable: true,
+            configurable: true,
+          });
         }
       }
     }

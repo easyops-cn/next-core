@@ -1,4 +1,4 @@
-import { set } from "lodash";
+import { set, isEmpty } from "lodash";
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { isObject } from "@next-core/brick-utils";
 import {
@@ -82,6 +82,8 @@ export const SingleBrickAsComponent = React.memo(
     immediatelyRefCallback,
   }: SingleBrickAsComponentProps): React.ReactElement {
     const tplContext = _internalApiGetTplContext();
+    let template: RuntimeBrickConf;
+    let brick: RuntimeBrick;
 
     const isBrickAvailable = React.useMemo(() => {
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
@@ -112,27 +114,14 @@ export const SingleBrickAsComponent = React.memo(
         ) {
           (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
             item as ProbablyRuntimeBrick;
-          if (item.slots) {
-            setProxyRefForSlots(item.slots);
-          }
+        }
+        if (!isEmpty(item.slots)) {
+          setProxyRefForSlots(item.slots);
         }
       });
     };
 
-    const runtimeBrick = React.useMemo(async () => {
-      if (!isBrickAvailable) {
-        return null;
-      }
-
-      // If the router state is initial, ignore rendering the sub-brick.
-      if (_internalApiGetRouterState() === "initial") {
-        return;
-      }
-
-      _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
-        handleHttpError
-      );
-
+    const getCurrentRunTimeBrick = (): RuntimeBrick => {
       const trackingContextList: TrackingContextItem[] = [];
 
       const transformOption: Record<string, any> = {
@@ -149,17 +138,41 @@ export const SingleBrickAsComponent = React.memo(
             (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
           );
       }
+      const properties = doTransform(
+        data,
+        cloneDeepWithInjectedMark(useBrick.properties) || {},
+        transformOption
+      );
 
       const brick: RuntimeBrick = {
         ...useBrick,
         type: useBrick.brick,
         // Now transform data in properties too.
-        properties: doTransform(
-          data,
-          cloneDeepWithInjectedMark(useBrick.properties) || {},
-          transformOption
-        ),
+        properties,
       };
+
+      const runtimeContext = _internalApiGetCurrentContext();
+
+      listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+
+      return brick;
+    };
+
+    const runtimeBrick = React.useMemo(async () => {
+      if (!isBrickAvailable) {
+        return null;
+      }
+
+      // If the router state is initial, ignore rendering the sub-brick.
+      if (_internalApiGetRouterState() === "initial") {
+        return;
+      }
+
+      _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
+        handleHttpError
+      );
+
+      brick = getCurrentRunTimeBrick();
 
       const tplTagName = getTagNameOfCustomTemplate(
         useBrick.brick,
@@ -170,12 +183,12 @@ export const SingleBrickAsComponent = React.memo(
         // 为后续ProxyRefs获取brick做值缓存
         const tplConf: RuntimeBrickConf = {
           brick: tplTagName,
-          properties: data as Record<string, unknown>,
+          properties: brick.properties,
           events: useBrick.events,
           lifeCycle: useBrick.lifeCycle,
           slots: useBrick.slots as SlotsConf,
         };
-        const template = expandCustomTemplate(
+        template = expandCustomTemplate(
           tplConf,
           brick,
           _internalApiGetCurrentContext(),
@@ -233,8 +246,6 @@ export const SingleBrickAsComponent = React.memo(
         );
       }
 
-      listenOnTrackingContext(brick, trackingContextList, runtimeContext);
-
       return brick;
     }, [useBrick, data, isBrickAvailable]);
 
@@ -253,19 +264,18 @@ export const SingleBrickAsComponent = React.memo(
             return;
           }
           brick.element = element;
+
           setRealProperties(element, brick.properties);
           unbindListeners(element);
-          if (!brick.isParent) {
-            if (brick.events) {
-              bindListeners(
-                element,
-                transformEvents(data, brick.events),
-                _internalApiGetCurrentContext()
-              );
-            }
-            // 设置proxyEvent
-            handleProxyOfCustomTemplate(brick);
+          if (brick.events) {
+            bindListeners(
+              element,
+              transformEvents(data, brick.events),
+              _internalApiGetCurrentContext()
+            );
           }
+          // 设置proxyEvent
+          handleProxyOfCustomTemplate(brick);
 
           const tplContextId = (useBrick as RuntimeBrickConfWithTplSymbols)[
             symbolForTplContextId
@@ -275,22 +285,25 @@ export const SingleBrickAsComponent = React.memo(
             /**
              * 如果存在brick.ref, 表明当前brick为custom-template对外暴露的插槽部分
              * 此部分构件不被 expandCustomTemplate 方法正常解析, 需要额外处理
-             * 保证父构件上proxyRefs指向的准确性
+             * 保证父构件上proxyRefs指向的准确性, 并执行其代理方法属性
              */
             if (brick.ref && tplBrick) {
               const proxyBrick = tplBrick.proxyRefs.get(brick.ref);
               if (proxyBrick) {
+                const proxyBrick = {
+                  // children 继承template上proxy等属性
+                  ...tplBrick,
+                  element: brick.element,
+                };
                 tplBrick.proxyRefs.set(brick.ref, {
-                  brick: {
-                    // children 继承template上proxy等属性
-                    ...tplBrick,
-                    element: brick.element,
-                  },
+                  brick: proxyBrick,
                 });
               }
             }
-            if (brick.isParent && tplBrick)
+            if (brick.isParent && tplBrick) {
               handleProxyOfCustomTemplate(tplBrick);
+              setRealProperties(tplBrick.element, tplBrick.properties);
+            }
           }
 
           // Memoize the parent ref of useBrick.
@@ -323,48 +336,7 @@ export const SingleBrickAsComponent = React.memo(
       return null;
     }
 
-    const tplTagName = getTagNameOfCustomTemplate(
-      useBrick.brick,
-      _internalApiGetCurrentContext().app?.id
-    );
-
-    if (tplTagName) {
-      const transformOption: Record<string, any> = {
-        // Keep lazy fields inside `useBrick` inside the `properties`.
-        // They will be transformed by their `BrickAsComponent` later.
-        $$lazyForUseBrick: true,
-        trackingContextList: [],
-        allowInject: true,
-      };
-      if ((useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]) {
-        transformOption.getTplVariables = () =>
-          tplContext.getContext(
-            (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
-          );
-      }
-
-      const transformData = doTransform(
-        data,
-        cloneDeepWithInjectedMark(useBrick.properties) || {},
-        transformOption
-      );
-
-      const tplConf = {
-        brick: tplTagName,
-        properties: transformData,
-        events: useBrick.events,
-        lifeCycle: useBrick.lifeCycle,
-        slots: useBrick.slots,
-      };
-      const proxyConf = {};
-
-      const template = expandCustomTemplate(
-        tplConf as RuntimeBrickConf,
-        proxyConf,
-        _internalApiGetCurrentContext(),
-        tplContext
-      );
-
+    if (template) {
       return React.createElement(
         template.brick,
         {
@@ -372,20 +344,11 @@ export const SingleBrickAsComponent = React.memo(
         },
         ...slotsToChildren(template.slots as UseBrickSlotsConf).map(
           (item: UseSingleBrickConf, index: number) => {
-            const templateItem = {
-              ...proxyConf,
-              ...item,
-            };
-            // 由于子构件不继承模板上的事件, 故将事件复制给子构件
-            templateItem.events = Object.assign(
-              templateItem.events || {},
-              template.events || {}
-            );
             return (
               <SingleBrickAsComponent
                 key={index}
-                useBrick={templateItem}
-                data={transformData}
+                useBrick={item}
+                data={brick.properties}
               />
             );
           }
