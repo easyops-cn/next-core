@@ -286,7 +286,6 @@ export function looseCheckIf(ifContainer: IfContainer, context: PluginRuntimeCon
 // @public
 export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown, options?: {
     allowInject?: boolean;
-    getTplVariables?: () => Record<string, unknown>;
 }): boolean;
 
 // Warning: (ae-internal-missing-underscore) The name "looseCheckIfOfComputed" should be prefixed with an underscore because the declaration is marked as @internal
