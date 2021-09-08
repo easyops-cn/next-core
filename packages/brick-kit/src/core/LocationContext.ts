@@ -27,8 +27,6 @@ import {
   BrickLifeCycle,
   Storyboard,
   StaticMenuConf,
-  UseBrickConf,
-  UseBrickSlotsConf,
 } from "@next-core/brick-types";
 import {
   isObject,
@@ -690,34 +688,6 @@ export class LocationContext {
       ],
     });
 
-    const useBrick: UseBrickConf = brick.properties.useBrick;
-    const setTplIdForSlots = (slots: UseBrickSlotsConf) => {
-      if (!slots) return;
-      Object.values(slots).forEach((v) => {
-        v.bricks.forEach((item) => {
-          (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
-            tplContextId;
-        });
-      });
-    };
-    if (useBrick) {
-      /**
-       * 由于 useBrick 在properties属性上, 不继承tplContext
-       * 需要在此步骤给useBrick的item, 以及slots添加tplContextId, 方便useBrick遍历使用
-       */
-      if (Array.isArray(useBrick)) {
-        useBrick.forEach((item) => {
-          (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
-            tplContextId;
-          setTplIdForSlots(item.slots);
-        });
-      } else {
-        (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
-          tplContextId;
-        setTplIdForSlots(useBrick.slots);
-      }
-    }
-
     if (
       (brickConf as RuntimeBrickConfWithTplSymbols)[
         symbolForComputedPropsFromProxy
@@ -786,6 +756,11 @@ export class LocationContext {
           setTplIdForUseBrick(item);
         } else {
           item[symbolForTplContextId] = tplContextId;
+          if (item.slots) {
+            Object.values(item.slots).forEach((slotItem) => {
+              setTplIdForUseBrick((slotItem as any)[slotItem.type]);
+            });
+          }
         }
       });
     };
