@@ -24,6 +24,7 @@ import {
 } from "./internal/getNextStateOfUseBrick";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
+import { symbolForTplContextId } from "./core/CustomTemplates/constants";
 
 interface TransformOptions {
   isReTransformation?: boolean;
@@ -143,10 +144,27 @@ export function doTransform(
           });
         }
       }
-      return [
-        k,
-        doTransform(data, v, getNextDoTransformOptions(options, false, k)),
-      ];
+      if (k === "useBrick") {
+        /**
+         * 在locationContext中已经为useBrick添加 SymbolTplContextId
+         * 在此如果通过Object.enteries遍历useBrick会出现 id丢失对情况,
+         * 故需要对 SymbolTplContextId 特殊处理
+         */
+        const result: any = doTransform(
+          data,
+          v,
+          getNextDoTransformOptions(options, false, k)
+        );
+        if (v[symbolForTplContextId]) {
+          result[symbolForTplContextId] = v[symbolForTplContextId];
+        }
+        return [k, result];
+      } else {
+        return [
+          k,
+          doTransform(data, v, getNextDoTransformOptions(options, false, k)),
+        ];
+      }
     })
   );
 }

@@ -32,10 +32,17 @@ export function cloneDeepWithInjectedMark<T>(value: T): T {
     const clone = Array.isArray(value)
       ? (value as unknown[]).map((item) => cloneDeepWithInjectedMark(item))
       : Object.fromEntries(
-          Object.entries(value).map(([k, v]) => [
-            k,
-            cloneDeepWithInjectedMark(v),
-          ])
+          Object.entries(value).map(([k, v]) => {
+            /**
+             * object.entries会丢失symbol属性
+             * 对useBrick做特殊处理
+             */
+            if (k === "useBrick") {
+              return [k, v];
+            } else {
+              return [k, cloneDeepWithInjectedMark(v)];
+            }
+          })
         );
     if (haveBeenInjected(value)) {
       injected.add(clone);

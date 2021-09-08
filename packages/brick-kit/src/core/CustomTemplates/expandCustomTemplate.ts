@@ -8,7 +8,7 @@ import {
   SlotsConfOfBricks,
   UseBrickConf,
 } from "@next-core/brick-types";
-import { hasOwnProperty } from "@next-core/brick-utils";
+import { hasOwnProperty, isObject } from "@next-core/brick-utils";
 import { clamp } from "lodash";
 import { preprocessTransformProperties } from "../../transformProperties";
 import { RuntimeBrick } from "../BrickNode";
@@ -226,20 +226,26 @@ function expandBrickInTemplate(
     ])
   );
 
-  const useBrickInTemplate: UseBrickConf = brickConfInTemplate.properties
-    ?.useBrick as UseBrickConf;
-  if (useBrickInTemplate) {
-    if (Array.isArray(useBrickInTemplate)) {
-      useBrickInTemplate.map((item) => {
-        return expandBrickInTemplate(item as BrickConfInTemplate, proxyContext);
-      });
-    } else {
-      expandBrickInTemplate(
-        useBrickInTemplate as BrickConfInTemplate,
-        proxyContext
-      );
-    }
-  }
+  // 递归遍历properties下UseBrick, 目的是为了获取底下所有代理属性
+  const walkUseBrickInProperties = (
+    properties: Record<string, unknown> = {}
+  ) => {
+    Object.entries(properties).forEach(([key, value]) => {
+      if (key === "useBrick") {
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            expandBrickInTemplate(item as BrickConfInTemplate, proxyContext);
+          });
+        } else {
+          expandBrickInTemplate(value as BrickConfInTemplate, proxyContext);
+        }
+      }
+      if (isObject(value)) {
+        walkUseBrickInProperties(value);
+      }
+    });
+  };
+  walkUseBrickInProperties(brickConfInTemplate.properties);
 
   if (ref) {
     refForProxy = {};

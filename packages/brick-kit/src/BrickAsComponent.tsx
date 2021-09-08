@@ -11,6 +11,9 @@ import {
   ProbablyRuntimeBrick,
   RuntimeBrickConf,
   SlotsConf,
+  CustomTemplateProxyEvents,
+  CustomTemplateProxyProperties,
+  CustomTemplateProxyMethods,
 } from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
@@ -40,6 +43,7 @@ import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "./internal/listenOnTrackingContext";
+import { RuntimeCustomTemplateProxy } from "./core/CustomTemplates/internalInterfaces";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -92,12 +96,6 @@ export const SingleBrickAsComponent = React.memo(
       } else if (
         !looseCheckIfByTransform(useBrick, data, {
           allowInject: true,
-          getTplVariables: () =>
-            tplContext.getContext(
-              (useBrick as RuntimeBrickConfWithTplSymbols)[
-                symbolForTplContextId
-              ]
-            ),
         })
       ) {
         return false;
@@ -158,6 +156,39 @@ export const SingleBrickAsComponent = React.memo(
       return brick;
     };
 
+    const getFilterProxy = (
+      proxy: RuntimeCustomTemplateProxy = {},
+      ref: string
+    ): RuntimeCustomTemplateProxy => {
+      const getFilterByRef = (
+        obj:
+          | CustomTemplateProxyEvents
+          | CustomTemplateProxyProperties
+          | CustomTemplateProxyMethods,
+        ref: string
+      ) => {
+        if (!obj) return;
+        return Object.fromEntries(
+          Object.entries(obj).filter(([k, v]) => {
+            if (v.ref === ref) {
+              return [k, v];
+            }
+          })
+        );
+      };
+      const events = getFilterByRef(proxy.events, ref);
+      const properties = getFilterByRef(proxy.properties, ref);
+      const methods = getFilterByRef(proxy.methods, ref);
+      const $$properties = getFilterByRef(proxy.$$properties, ref);
+
+      return {
+        $$properties,
+        events,
+        properties,
+        methods,
+      };
+    };
+
     const runtimeBrick = React.useMemo(async () => {
       if (!isBrickAvailable) {
         return null;
@@ -194,7 +225,6 @@ export const SingleBrickAsComponent = React.memo(
           _internalApiGetCurrentContext(),
           tplContext
         );
-        brick.isParent = true;
         setProxyRefForSlots(template.slots as UseBrickSlotsConf);
       } else if (
         (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy]
@@ -298,11 +328,18 @@ export const SingleBrickAsComponent = React.memo(
                 tplBrick.proxyRefs.set(brick.ref, {
                   brick: proxyBrick,
                 });
+                // 对单独ref brick进行proxy赋值
+                const singleRefBrickProxyMap = new Map();
+                singleRefBrickProxyMap.set(brick.ref, {
+                  brick: proxyBrick,
+                });
+                handleProxyOfCustomTemplate({
+                  ...tplBrick,
+                  proxyRefs: singleRefBrickProxyMap,
+                  proxy: getFilterProxy(tplBrick.proxy, brick.ref),
+                });
+                setRealProperties(tplBrick.element, tplBrick.properties);
               }
-            }
-            if (brick.isParent && tplBrick) {
-              handleProxyOfCustomTemplate(tplBrick);
-              setRealProperties(tplBrick.element, tplBrick.properties);
             }
           }
 

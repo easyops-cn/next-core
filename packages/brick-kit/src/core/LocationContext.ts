@@ -766,6 +766,35 @@ export class LocationContext {
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 
+    const useBrickList: RuntimeBrickConfWithTplSymbols[] = [];
+
+    const walkUseBrickInProperties = (
+      properties: Record<string, unknown> = {}
+    ) => {
+      Object.entries(properties).forEach(([key, value]) => {
+        if (key === "useBrick") {
+          useBrickList.push(value);
+        }
+        if (isObject(value)) {
+          walkUseBrickInProperties(value);
+        }
+      });
+    };
+    const setTplIdForUseBrick = (list: RuntimeBrickConfWithTplSymbols[]) => {
+      list.forEach((item) => {
+        if (Array.isArray(item)) {
+          setTplIdForUseBrick(item);
+        } else {
+          item[symbolForTplContextId] = tplContextId;
+        }
+      });
+    };
+    // 如果properteis中存在useBrick, 则递归遍历并赋值tplContextId
+    walkUseBrickInProperties(brick.properties);
+    if (useBrickList.length > 0) {
+      setTplIdForUseBrick(useBrickList);
+    }
+
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
         if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
