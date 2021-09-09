@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.5](/compare/@next-core/brick-scripts@2.6.4...@next-core/brick-scripts@2.6.5) (2021-09-09)
+
+
+### Bug Fixes
+
+* **brick-scripts:** add missed files of providers-pkg template to files of package.json f4c1931
+
+
+
+
+
 ## [2.6.4](/compare/@next-core/brick-scripts@2.6.3...@next-core/brick-scripts@2.6.4) (2021-09-06)
 
 **Note:** Version bump only for package @next-core/brick-scripts
