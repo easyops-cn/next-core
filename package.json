@@ -41,7 +41,7 @@
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.5.0",
     "@babel/core": "^7.15.5",
-    "@babel/types": "^7.15.4",
+    "@babel/types": "^7.15.6",
     "@cypress/browserify-preprocessor": "^3.0.1",
     "@easyops-cn/api-documenter": "^7.9.3",
     "@microsoft/api-extractor": "^7.13.1",
@@ -100,7 +100,7 @@
     "dll/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.15.5",
+    "@babel/parser": "^7.15.6",
     "@babel/runtime": "^7.15.4",
     "@types/react": "^16.14.14",
     "lodash": "^4.17.21",
