@@ -227,9 +227,8 @@ function expandBrickInTemplate(
   );
 
   // 递归遍历properties下UseBrick, 目的是为了获取底下所有代理属性
-  const walkUseBrickInProperties = (
-    properties: Record<string, unknown> = {}
-  ) => {
+  const walkUseBrickInProperties = (properties: Record<string, unknown>) => {
+    if (!properties) return;
     Object.entries(properties).forEach(([key, value]) => {
       if (key === "useBrick") {
         if (Array.isArray(value)) {

@@ -13,6 +13,7 @@ import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
 import { validatePermissions } from "../internal/checkPermissions";
+import { symbolForTplContextId } from "./CustomTemplates/constants";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -414,6 +415,52 @@ describe("LocationContext", () => {
                     properties: {
                       title:
                         "<% `${CTX.myFreeContext} ${CTX.myAsyncContext} ${CTX.myFallbackToValueContext}` %>",
+                      useBrick: {
+                        brick: "useBrick-a",
+                        properties: {
+                          useBrick: {
+                            brick: "useBrick-in-useBrick-b",
+                            slots: {
+                              content: {
+                                bricks: [
+                                  {
+                                    brick: "slots-useBrick-in-useBrick-c",
+                                  },
+                                ],
+                                type: "bricks",
+                              },
+                            },
+                          },
+                        },
+                        slots: {
+                          content: {
+                            bricks: [
+                              {
+                                brick: "slots-in-useBrick-d",
+                              },
+                            ],
+                            type: "bricks",
+                          },
+                        },
+                      },
+                      columns: [
+                        {
+                          title: "title-1",
+                          label: "label-1",
+                        },
+                        {
+                          title: "title-2",
+                          label: "label-2",
+                          useBrick: {
+                            brick: "deep-useBrick-e",
+                            properties: {
+                              useBrick: {
+                                brick: "deep-useBrick-in-useBrick-f",
+                              },
+                            },
+                          },
+                        },
+                      ],
                     },
                     context: [
                       {
@@ -621,6 +668,7 @@ describe("LocationContext", () => {
                         ],
                       },
                     },
+                    [symbolForTplContextId]: "tpl-1",
                   },
                   {
                     if: "${FLAGS.testing|not}",
@@ -722,6 +770,61 @@ describe("LocationContext", () => {
         type: "free-variable",
         value: "some value",
         eventTarget: expect.anything(),
+      });
+      expect(result.main[0].properties).toEqual({
+        title: "good even better default value",
+        useBrick: {
+          brick: "useBrick-a",
+          [symbolForTplContextId]: "tpl-1",
+          properties: {
+            useBrick: {
+              brick: "useBrick-in-useBrick-b",
+              [symbolForTplContextId]: "tpl-1",
+              slots: {
+                content: {
+                  bricks: [
+                    {
+                      brick: "slots-useBrick-in-useBrick-c",
+                      [symbolForTplContextId]: "tpl-1",
+                    },
+                  ],
+                  type: "bricks",
+                },
+              },
+            },
+          },
+          slots: {
+            content: {
+              bricks: [
+                {
+                  brick: "slots-in-useBrick-d",
+                  [symbolForTplContextId]: "tpl-1",
+                },
+              ],
+              type: "bricks",
+            },
+          },
+        },
+        columns: [
+          {
+            title: "title-1",
+            label: "label-1",
+          },
+          {
+            title: "title-2",
+            label: "label-2",
+            useBrick: {
+              brick: "deep-useBrick-e",
+              [symbolForTplContextId]: "tpl-1",
+              properties: {
+                useBrick: {
+                  brick: "deep-useBrick-in-useBrick-f",
+                  [symbolForTplContextId]: "tpl-1",
+                },
+              },
+            },
+          },
+        ],
       });
       expect(kernel.mountPoints.bg.children.length).toBe(2);
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");

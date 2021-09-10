@@ -1,3 +1,4 @@
+import { symbolForTplContextId } from "../core/CustomTemplates/constants";
 import {
   cloneDeepWithInjectedMark,
   haveBeenInjected,
@@ -71,7 +72,16 @@ describe("injected", () => {
 describe("cloneDeepWithInjectedMark", () => {
   it("should work", () => {
     const innerArray = ["quality", "good"];
-    const innerObject = { quality: "good" };
+    const innerObject = {
+      quality: "good",
+      useBrick: {
+        quality: "good",
+        useBrick: {
+          brick: "a",
+          [symbolForTplContextId]: "tpl-1",
+        },
+      },
+    };
     const object = {
       innerArray,
       innerObject,

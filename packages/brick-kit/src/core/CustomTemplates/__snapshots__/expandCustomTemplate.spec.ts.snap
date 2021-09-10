@@ -232,9 +232,50 @@ Object {
                       "button" => Object {},
                       "input" => Object {},
                       "link" => Object {},
+                      "useBrick-slot-useBrick-ref-d" => Object {},
+                      "useBrick-slot-ref-c" => Object {},
+                      "useBrick-in-useBrick-ref-b" => Object {},
+                      "useBrick-ref-a" => Object {},
                       "micro-view" => Object {},
                     },
                   },
+                  Symbol(tpl.contextId): "tpl-ctx-1",
+                },
+                Object {
+                  "brick": "basic-bricks.useBrick-in-tpl",
+                  "properties": Object {
+                    "useBrick": Object {
+                      "brick": "a",
+                      "properties": Object {
+                        "useBrick": Object {
+                          "brick": "b",
+                          "ref": "useBrick-in-useBrick-ref-b",
+                        },
+                      },
+                      "ref": "useBrick-ref-a",
+                      "slots": Object {
+                        "": Object {
+                          "bricks": Array [
+                            Object {
+                              "brick": "c",
+                              "properties": Object {
+                                "useBrick": Object {
+                                  "brick": "d",
+                                  "ref": "useBrick-slot-useBrick-ref-d",
+                                },
+                              },
+                              "ref": "useBrick-slot-ref-c",
+                            },
+                          ],
+                          "type": "bricks",
+                        },
+                      },
+                    },
+                  },
+                  "slots": Object {},
+                  Symbol(tpl.computedPropsFromProxy): Object {},
+                  Symbol(tpl.refForProxy): undefined,
+                  Symbol(tpl.parentTemplate): undefined,
                   Symbol(tpl.contextId): "tpl-ctx-1",
                 },
                 Object {
@@ -419,6 +460,10 @@ Object {
     "button" => Object {},
     "input" => Object {},
     "link" => Object {},
+    "useBrick-slot-useBrick-ref-d" => Object {},
+    "useBrick-slot-ref-c" => Object {},
+    "useBrick-in-useBrick-ref-b" => Object {},
+    "useBrick-ref-a" => Object {},
     "micro-view" => Object {},
   },
 }

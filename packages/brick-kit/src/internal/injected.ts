@@ -1,5 +1,6 @@
 import { isObject } from "@next-core/brick-utils";
 import { isPreEvaluated } from "./evaluate";
+import { symbolForTplContextId } from "../core/CustomTemplates/constants";
 
 let injected = new WeakSet();
 
@@ -38,6 +39,10 @@ export function cloneDeepWithInjectedMark<T>(value: T): T {
              * 对useBrick做特殊处理
              */
             if (k === "useBrick") {
+              const result: any = cloneDeepWithInjectedMark(v);
+              if (v[symbolForTplContextId]) {
+                result[symbolForTplContextId] = v[symbolForTplContextId];
+              }
               return [k, v];
             } else {
               return [k, cloneDeepWithInjectedMark(v)];

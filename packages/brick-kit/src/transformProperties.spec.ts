@@ -7,6 +7,7 @@ import {
 } from "./transformProperties";
 import * as runtime from "./core/Runtime";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
+import { symbolForTplContextId } from "./core/CustomTemplates/constants";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   storyboardContext: new Map([
@@ -458,6 +459,7 @@ describe("doTransform", () => {
               },
             ],
           },
+          [symbolForTplContextId]: "tpl-1",
         },
       },
       {
@@ -489,6 +491,7 @@ describe("doTransform", () => {
             },
           ],
         },
+        [symbolForTplContextId]: "tpl-1",
       },
     });
   });

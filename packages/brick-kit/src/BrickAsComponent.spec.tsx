@@ -1,5 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
+import ReactDOM from "react-dom";
 import { BrickConf, RuntimeBrickElement } from "@next-core/brick-types";
 import * as listenerUtils from "./internal/bindListeners";
 import {
@@ -9,8 +10,10 @@ import {
 import * as runtime from "./core/Runtime";
 import * as transformProperties from "./transformProperties";
 import {
+  registerCustomTemplate,
   RuntimeBrickElementWithTplSymbols,
   symbolForParentRefForUseBrickInPortal,
+  CustomTemplateContext,
 } from "./core/exports";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
@@ -31,7 +34,13 @@ jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
 } as any);
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   hash: "#test",
+  app: {
+    id: "steve-test",
+  },
 } as any);
+jest
+  .spyOn(runtime, "_internalApiGetTplContext")
+  .mockReturnValue(new CustomTemplateContext());
 const _internalApiLoadDynamicBricksInBrickConf = jest
   .spyOn(runtime, "_internalApiLoadDynamicBricksInBrickConf")
   .mockReturnValue(Promise.resolve());
@@ -46,6 +55,236 @@ customElements.define(
     }
   }
 );
+
+customElements.define(
+  "use-brick-element",
+  // MockElement
+  class UseBrickElement extends HTMLElement {
+    constructor() {
+      super();
+      ReactDOM.render(
+        <BrickAsComponent
+          useBrick={{
+            brick: "span",
+            properties: {
+              textContent: "<% DATA.textContent %>",
+              id: "test-1",
+              useBrick: {
+                brick: "b",
+                ref: "useBrick-in-useBrick-ref-b",
+                properties: {},
+              },
+            },
+            slots: {
+              "": {
+                type: "bricks",
+                bricks: [
+                  {
+                    brick: "div",
+                    properties: {
+                      id: "c",
+                      textContent: "hello world",
+                      useBrick: {
+                        brick: "d",
+                        ref: "useBrick-slot-useBrick-ref-d",
+                        properties: {},
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          }}
+          data={{
+            textContent: "hello world",
+          }}
+        />,
+        this
+      );
+    }
+
+    connectedCallback(): void {
+      // istanbul ignore else
+      if (!this.style.display) {
+        this.style.display = "block";
+      }
+      this._render();
+    }
+
+    disconnectedCallback(): void {
+      ReactDOM.unmountComponentAtNode(this);
+    }
+
+    _render() {
+      ReactDOM.render(
+        <BrickAsComponent
+          useBrick={{
+            brick: "span",
+            properties: {
+              textContent: "div",
+              id: "test-1",
+              useBrick: {
+                brick: "b",
+                ref: "useBrick-in-useBrick-ref-b",
+                properties: {},
+              },
+            },
+          }}
+          data={{}}
+        />,
+        this
+      );
+    }
+  }
+);
+
+beforeAll(() => {
+  registerCustomTemplate("steve-test.tpl-custom-template", {
+    proxy: {
+      properties: {
+        button: {
+          ref: "button",
+          refProperty: "buttonName",
+        },
+        isDanger: {
+          ref: "button",
+          refTransform: {
+            buttonType: "<% DATA.isDanger ? 'danger' : 'default' %>",
+            style: {
+              display: "<% DATA.isDanger ? 'inline' : 'block' %>",
+            },
+          },
+        },
+        sharedProp: {
+          ref: "button",
+          refProperty: "sharedPropOfButton",
+          extraOneWayRefs: [
+            {
+              ref: "input",
+              refProperty: "sharedPropOfInput",
+            },
+            {
+              ref: "link",
+              refTransform: {
+                sharedPropOfLink: "<% `linked:${DATA.sharedProp}` %>",
+              },
+            },
+            {
+              ref: "micro-view",
+              refProperty: "sharedPropOfMicroView",
+            },
+          ],
+        },
+        appendColumns: {
+          ref: "micro-view",
+          mergeProperty: "columns",
+          mergeType: "array",
+          mergeMethod: "append",
+        },
+      },
+      events: {
+        "button.click": {
+          ref: "button",
+          refEvent: "general.button.click",
+        },
+      },
+      slots: {
+        tools: {
+          ref: "micro-view",
+          refSlot: "toolbar",
+          refPosition: 0,
+        },
+        extraContent: {
+          ref: "micro-view",
+          refSlot: "content",
+        },
+      },
+      methods: {
+        tell: {
+          ref: "button",
+          refMethod: "tellStory",
+        },
+      },
+    },
+    bricks: [
+      {
+        brick: "basic-bricks.micro-view",
+        ref: "micro-view",
+        properties: {
+          pageTitle: "Testing Template",
+        },
+        slots: {
+          content: {
+            type: "bricks",
+            bricks: [
+              {
+                brick: "basic-bricks.general-button",
+                if: null,
+                ref: "button",
+                properties: {
+                  buttonType: "dashed",
+                },
+                events: {
+                  "general.button.click": {
+                    action: "console.log",
+                    args: ["source", "${EVENT}"],
+                  },
+                },
+              },
+              {
+                brick: "basic-bricks.general-link",
+                ref: "link",
+              },
+              {
+                brick: "use-brick-in-template",
+              },
+            ],
+          },
+        },
+      },
+    ],
+  });
+  registerCustomTemplate("steve-test.use-brick-in-template", {
+    proxy: {},
+    bricks: [
+      {
+        brick: "basic-bricks.micro-view",
+        ref: "micro-view",
+        properties: {
+          pageTitle: "Testing Template",
+        },
+        slots: {
+          content: {
+            type: "bricks",
+            bricks: [
+              {
+                brick: "div",
+                if: null,
+                ref: "refDiv",
+                properties: {
+                  textContent: "refDiv",
+                  id: "refDiv",
+                },
+                events: {
+                  click: {
+                    action: "console.log",
+                    args: ["source", "${EVENT}"],
+                  },
+                },
+              },
+              {
+                brick: "use-brick-element",
+                properties: {
+                  id: "use-brick-element",
+                },
+              },
+            ],
+          },
+        },
+      },
+    ],
+  });
+});
 
 describe("BrickAsComponent", () => {
   afterEach(() => {
@@ -281,6 +520,9 @@ describe("BrickAsComponent", () => {
     });
     expect(spyOnResolve.mock.calls[0][2]).toEqual({
       hash: "#test",
+      app: {
+        id: "steve-test",
+      },
     });
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.id).toBe("hello");
@@ -346,5 +588,36 @@ describe("BrickAsComponent", () => {
     expect(div.childNodes.length).toBe(1);
     expect(span.tagName).toBe("SPAN");
     expect(span.textContent).toBe("good");
+  });
+
+  it("should work for custom-template", async () => {
+    const wrapper = mount(
+      <BrickAsComponent
+        useBrick={{
+          brick: "tpl-custom-template",
+          properties: {},
+        }}
+        data={{
+          tips: "good",
+        }}
+      />
+    );
+    await (global as any).flushPromises();
+    expect(wrapper.html()).toBe(
+      "<steve-test.tpl-custom-template>" +
+        '<basic-bricks.micro-view slot="">' +
+        '<basic-bricks.general-button slot="content" style="display: block;"></basic-bricks.general-button>' +
+        '<basic-bricks.general-link slot="content"></basic-bricks.general-link>' +
+        '<steve-test.use-brick-in-template slot="content">' +
+        '<basic-bricks.micro-view slot="">' +
+        '<div id="refDiv" slot="content">refDiv</div>' +
+        '<use-brick-element id="use-brick-element" slot="content">' +
+        '<span id="test-1">hello world</span>' +
+        "</use-brick-element>" +
+        "</basic-bricks.micro-view>" +
+        "</steve-test.use-brick-in-template>" +
+        "</basic-bricks.micro-view>" +
+        "</steve-test.tpl-custom-template>"
+    );
   });
 });

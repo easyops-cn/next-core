@@ -273,4 +273,71 @@ describe("handleProxyOfCustomTemplate", () => {
     expect(tplElement.$$getElementByRef("button")).toBe(button);
     expect(tplElement.$$getElementByRef("not-existed")).toBe(undefined);
   });
+
+  it("useBrick re-render and events was dipatch once", () => {
+    const tplElement = document.createElement("div") as any;
+    const button = document.createElement("div") as any;
+    tplElement.appendChild(button);
+
+    button.buttonName = "original button name";
+    button.buttonType = "default";
+    button.style.display = "block";
+    button.tellStory = jest.fn();
+    const nonBubbleEvents: CustomEvent[] = [];
+    tplElement.addEventListener("mockClick", (event: CustomEvent) => {
+      nonBubbleEvents.push(event);
+    });
+
+    const brick: RuntimeBrick = {
+      element: tplElement,
+      proxy: {
+        events: {
+          mockClick: {
+            ref: "button",
+            refEvent: "general.button.click",
+          },
+        },
+      },
+      proxyRefs: new Map([
+        [
+          "button",
+          {
+            brick: {
+              element: button,
+            },
+          },
+        ],
+      ]),
+    };
+
+    expect(button.$$proxyEvents).toBeUndefined();
+
+    handleProxyOfCustomTemplate(brick);
+
+    expect(button.$$proxyEvents.length).toBe(1);
+    button.dispatchEvent(
+      new CustomEvent("general.button.click", {
+        detail: "once",
+        cancelable: true,
+      })
+    );
+    expect(nonBubbleEvents[0].type).toBe("mockClick");
+    expect(nonBubbleEvents[0].detail).toBe("once");
+
+    // mock useBrick re-render
+    handleProxyOfCustomTemplate(brick);
+    // init event length
+    nonBubbleEvents.length = 0;
+
+    expect(button.$$proxyEvents.length).toBe(1);
+    button.dispatchEvent(
+      new CustomEvent("general.button.click", {
+        detail: "twice",
+        cancelable: true,
+      })
+    );
+    expect(nonBubbleEvents[0].type).toBe("mockClick");
+    expect(nonBubbleEvents[0].detail).toBe("twice");
+    expect(nonBubbleEvents.length).toBe(1);
+  });
 });

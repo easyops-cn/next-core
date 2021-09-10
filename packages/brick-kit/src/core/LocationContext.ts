@@ -765,9 +765,11 @@ export class LocationContext {
       });
     };
     // 如果properteis中存在useBrick, 则递归遍历并赋值tplContextId
-    walkUseBrickInProperties(brick.properties);
-    if (useBrickList.length > 0) {
-      setTplIdForUseBrick(useBrickList);
+    if (tplContextId) {
+      walkUseBrickInProperties(brick.properties);
+      if (useBrickList.length > 0) {
+        setTplIdForUseBrick(useBrickList);
+      }
     }
 
     if (expandedBrickConf.exports) {
