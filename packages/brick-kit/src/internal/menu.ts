@@ -135,11 +135,16 @@ function mergeMenu(menuList: MenuRawData[]): MenuRawData {
     return undefined;
   }
   const validMenuList: MenuRawData[] = [];
-  const injectWithMenus = new Map<string, MenuRawData>();
+  const injectWithMenus = new Map<string, MenuRawData[]>();
   for (const menu of menuList) {
     if (menu.items?.length > 0) {
       if (menu.type === "inject" && menu.injectMenuGroupId) {
-        injectWithMenus.set(menu.injectMenuGroupId, menu);
+        let injectingMenus = injectWithMenus.get(menu.injectMenuGroupId);
+        if (!injectingMenus) {
+          injectingMenus = [];
+          injectWithMenus.set(menu.injectMenuGroupId, injectingMenus);
+        }
+        injectingMenus.push(menu);
       } else {
         validMenuList.push(menu);
       }
@@ -156,13 +161,13 @@ function mergeMenu(menuList: MenuRawData[]): MenuRawData {
 function processGroupInject(
   items: MenuItemRawData[],
   menu: MenuRawData,
-  injectWithMenus: Map<string, MenuRawData>
+  injectWithMenus: Map<string, MenuRawData[]>
 ): MenuItemRawData[] {
   return items?.map((item) => {
-    const foundInjectWithMenu =
+    const foundInjectingMenus =
       item.groupId && injectWithMenus.get(item.groupId);
-    if (foundInjectWithMenu) {
-      // Each menus to be injected with should be injected only once.
+    if (foundInjectingMenus) {
+      // Each menu to be injected with should be injected only once.
       injectWithMenus.delete(item.groupId);
     }
     return {
@@ -170,11 +175,13 @@ function processGroupInject(
       children: (
         processGroupInject(item.children, menu, injectWithMenus) ?? []
       ).concat(
-        foundInjectWithMenu
-          ? processGroupInject(
-              foundInjectWithMenu.items,
-              foundInjectWithMenu,
-              injectWithMenus
+        foundInjectingMenus
+          ? foundInjectingMenus.flatMap((injectingMenu) =>
+              processGroupInject(
+                injectingMenu.items,
+                injectingMenu,
+                injectWithMenus
+              )
             )
           : []
       ),
