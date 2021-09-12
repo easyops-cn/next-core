@@ -486,6 +486,7 @@ export class Router {
     return this.locationContext.getCurrentContext();
   }
 
+  /* istanbul ignore next */
   getTplContext(): CustomTemplateContext {
     return this.locationContext.getTplContext();
   }

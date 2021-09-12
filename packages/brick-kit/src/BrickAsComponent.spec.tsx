@@ -29,6 +29,7 @@ const sypOnTransformProperties = jest.spyOn(
   transformProperties,
   "transformProperties"
 );
+const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
 jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
   resolve: spyOnResolve,
 } as any);
@@ -63,6 +64,7 @@ customElements.define(
     constructor() {
       super();
       ReactDOM.render(
+        // TODO: deep DOM wasn't show?
         <BrickAsComponent
           useBrick={{
             brick: "span",
@@ -75,62 +77,10 @@ customElements.define(
                 properties: {},
               },
             },
-            slots: {
-              "": {
-                type: "bricks",
-                bricks: [
-                  {
-                    brick: "div",
-                    properties: {
-                      id: "c",
-                      textContent: "hello world",
-                      useBrick: {
-                        brick: "d",
-                        ref: "useBrick-slot-useBrick-ref-d",
-                        properties: {},
-                      },
-                    },
-                  },
-                ],
-              },
-            },
           }}
           data={{
             textContent: "hello world",
           }}
-        />,
-        this
-      );
-    }
-
-    connectedCallback(): void {
-      // istanbul ignore else
-      if (!this.style.display) {
-        this.style.display = "block";
-      }
-      this._render();
-    }
-
-    disconnectedCallback(): void {
-      ReactDOM.unmountComponentAtNode(this);
-    }
-
-    _render() {
-      ReactDOM.render(
-        <BrickAsComponent
-          useBrick={{
-            brick: "span",
-            properties: {
-              textContent: "div",
-              id: "test-1",
-              useBrick: {
-                brick: "b",
-                ref: "useBrick-in-useBrick-ref-b",
-                properties: {},
-              },
-            },
-          }}
-          data={{}}
         />,
         this
       );
@@ -142,50 +92,69 @@ beforeAll(() => {
   registerCustomTemplate("steve-test.tpl-custom-template", {
     proxy: {
       properties: {
-        button: {
-          ref: "button",
-          refProperty: "buttonName",
+        refPropertiesName: {
+          ref: "refPropertiesName",
+          refProperty: "textContent",
         },
-        isDanger: {
-          ref: "button",
+        tplPropertiesName: {
+          asVariable: true,
+        },
+        slotToolDivContent: {
+          asVariable: true,
+        },
+        refStyleIsInline: {
+          ref: "refPropertiesName",
           refTransform: {
-            buttonType: "<% DATA.isDanger ? 'danger' : 'default' %>",
             style: {
-              display: "<% DATA.isDanger ? 'inline' : 'block' %>",
+              display: "<% DATA.refStyleIsInline ? 'inline' : 'block' %>",
             },
           },
         },
         sharedProp: {
-          ref: "button",
-          refProperty: "sharedPropOfButton",
+          ref: "refPropertiesName",
+          refProperty: "style.color",
           extraOneWayRefs: [
             {
-              ref: "input",
-              refProperty: "sharedPropOfInput",
-            },
-            {
-              ref: "link",
-              refTransform: {
-                sharedPropOfLink: "<% `linked:${DATA.sharedProp}` %>",
-              },
-            },
-            {
-              ref: "micro-view",
-              refProperty: "sharedPropOfMicroView",
+              ref: "tplPropertiesName",
+              refProperty: "style.color",
             },
           ],
         },
-        appendColumns: {
-          ref: "micro-view",
-          mergeProperty: "columns",
-          mergeType: "array",
-          mergeMethod: "append",
+        defaultSlotContentShow: {
+          asVariable: true,
+        },
+        defaultSlotContentText: {
+          ref: "defaultTplSlotRef-show",
+          refProperty: "textContent",
+        },
+        inTplRefPropertyContent: {
+          asVariable: true,
+        },
+        inTplRefPropertyStyle: {
+          asVariable: true,
+        },
+        tplOutsideSlotContent: {
+          ref: "tplOutsideSlotRef",
+          refProperty: "textContent",
         },
       },
       events: {
-        "button.click": {
-          ref: "button",
-          refEvent: "general.button.click",
+        refClick: {
+          ref: "refPropertiesName",
+          refEvent: "click",
+        },
+        slotRefClick: {
+          ref: "defaultTplSlotRef-show",
+          refEvent: "click",
+        },
+        inTplRefEvent: {
+          // TODO: ref miss
+          ref: "tpl-use-brick-in-template-ref",
+          refEvent: "inTplRefEvent",
+        },
+        tplOutsideSlotClick: {
+          ref: "tplOutsideSlotRef",
+          refEvent: "click",
         },
       },
       slots: {
@@ -194,14 +163,10 @@ beforeAll(() => {
           refSlot: "toolbar",
           refPosition: 0,
         },
-        extraContent: {
-          ref: "micro-view",
-          refSlot: "content",
-        },
       },
       methods: {
-        tell: {
-          ref: "button",
+        refTell: {
+          ref: "refPropertiesName",
           refMethod: "tellStory",
         },
       },
@@ -218,25 +183,64 @@ beforeAll(() => {
             type: "bricks",
             bricks: [
               {
-                brick: "basic-bricks.general-button",
+                brick: "div",
                 if: null,
-                ref: "button",
+                ref: "refPropertiesName",
                 properties: {
-                  buttonType: "dashed",
+                  id: "refPropertiesName",
                 },
                 events: {
-                  "general.button.click": {
+                  click: {
                     action: "console.log",
                     args: ["source", "${EVENT}"],
                   },
                 },
               },
               {
-                brick: "basic-bricks.general-link",
-                ref: "link",
+                brick: "div",
+                ref: "tplPropertiesName",
+                properties: {
+                  id: "tplPropertiesName",
+                  textContent: "<% TPL.tplPropertiesName %>",
+                },
               },
               {
-                brick: "use-brick-in-template",
+                brick: "tpl-use-brick-in-template",
+                // TODO: miss ref ?
+                ref: "tpl-use-brick-in-template-ref",
+                properties: {
+                  inTplRefPropertyContent: "<% TPL.inTplRefPropertyContent %>",
+                  inTplRefPropertyStyle: "<% TPL.inTplRefPropertyStyle %>",
+                },
+                slots: {
+                  tplOutsizeSlots: {
+                    type: "bricks",
+                    bricks: [
+                      {
+                        brick: "div",
+                        ref: "tplOutsideSlotRef",
+                        properties: {
+                          id: "tplOutsideSlotRef",
+                          textContent: "in tpl ouside slots",
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          toolbar: {
+            type: "bricks",
+            bricks: [
+              {
+                brick: "div",
+                ref: "defaultTplSlotRef-show",
+                if: "<% TPL.defaultSlotContentShow %>",
+                properties: {
+                  id: "defaultTplSlotRef-show",
+                  textContent: "defaultTplSlotRef-show",
+                },
               },
             ],
           },
@@ -244,8 +248,31 @@ beforeAll(() => {
       },
     ],
   });
-  registerCustomTemplate("steve-test.use-brick-in-template", {
-    proxy: {},
+  registerCustomTemplate("steve-test.tpl-use-brick-in-template", {
+    proxy: {
+      properties: {
+        inTplRefPropertyContent: {
+          ref: "inTplRef",
+          refProperty: "textContent",
+        },
+        inTplRefPropertyStyle: {
+          asVariable: true,
+        },
+      },
+      events: {
+        inTplRefEvent: {
+          ref: "inTplRef",
+          refEvent: "click",
+        },
+      },
+      slots: {
+        tplOutsizeSlots: {
+          ref: "micro-view",
+          refSlot: "tplOutsizeSlots",
+          refPosition: 0,
+        },
+      },
+    },
     bricks: [
       {
         brick: "basic-bricks.micro-view",
@@ -260,10 +287,11 @@ beforeAll(() => {
               {
                 brick: "div",
                 if: null,
-                ref: "refDiv",
+                ref: "inTplRef",
                 properties: {
-                  textContent: "refDiv",
-                  id: "refDiv",
+                  textContent: "inTplRef",
+                  id: "inTplRef",
+                  style: "<% TPL.inTplRefPropertyStyle %>",
                 },
                 events: {
                   click: {
@@ -276,6 +304,17 @@ beforeAll(() => {
                 brick: "use-brick-element",
                 properties: {
                   id: "use-brick-element",
+                },
+              },
+            ],
+          },
+          tplOutsizeSlots: {
+            type: "bricks",
+            bricks: [
+              {
+                brick: "div",
+                properties: {
+                  textContent: "default outsize slots",
                 },
               },
             ],
@@ -595,10 +634,56 @@ describe("BrickAsComponent", () => {
       <BrickAsComponent
         useBrick={{
           brick: "tpl-custom-template",
-          properties: {},
+          properties: {
+            refPropertiesName: "refName",
+            tplPropertiesName: "tplName",
+            refStyleIsInline: false,
+            sharedProp: "#f5f5f5",
+            slotToolDivContent: "topToolDivContent",
+            defaultSlotContentShow: false,
+            defaultSlotContentText: "this is default slot content innerHTML",
+            inTplRefPropertyContent: "inTplRefContent",
+            inTplRefPropertyStyle: {
+              color: "#f5f5f5",
+            },
+            tplOutsideSlotContent:
+              "this is tpl outside slot ref content innherHTML",
+          },
+          events: {
+            refClick: {
+              action: "console.log",
+              args: ["refClick"],
+            },
+            slotRefClick: {
+              action: "console.log",
+              args: ["slotRefClick"],
+            },
+            inTplRefEvent: {
+              action: "console.log",
+              args: ["inTplRefClick"],
+            },
+            tplOutsideSlotClick: {
+              action: "console.log",
+              args: ["tplOutsideSlotClick"],
+            },
+          },
+          slots: {
+            tools: {
+              type: "bricks",
+              bricks: [
+                {
+                  brick: "div",
+                  properties: {
+                    id: "toolDiv",
+                    textContent: "<% TPL.slotToolDivContent %>",
+                  },
+                },
+              ],
+            },
+          },
         }}
         data={{
-          tips: "good",
+          buttonName: "good",
         }}
       />
     );
@@ -606,18 +691,63 @@ describe("BrickAsComponent", () => {
     expect(wrapper.html()).toBe(
       "<steve-test.tpl-custom-template>" +
         '<basic-bricks.micro-view slot="">' +
-        '<basic-bricks.general-button slot="content" style="display: block;"></basic-bricks.general-button>' +
-        '<basic-bricks.general-link slot="content"></basic-bricks.general-link>' +
-        '<steve-test.use-brick-in-template slot="content">' +
+        '<div id="refPropertiesName" slot="content" style="display: block; color: rgb(245, 245, 245);">refName</div>' +
+        '<div id="tplPropertiesName" slot="content" style="color: rgb(245, 245, 245);">tplName</div>' +
+        '<steve-test.tpl-use-brick-in-template slot="content">' +
         '<basic-bricks.micro-view slot="">' +
-        '<div id="refDiv" slot="content">refDiv</div>' +
+        '<div id="inTplRef" style="color: rgb(245, 245, 245);" slot="content">inTplRefContent</div>' +
         '<use-brick-element id="use-brick-element" slot="content">' +
         '<span id="test-1">hello world</span>' +
         "</use-brick-element>" +
+        '<div id="tplOutsideSlotRef" slot="tplOutsizeSlots">this is tpl outside slot ref content innherHTML</div>' +
+        '<div slot="tplOutsizeSlots">default outsize slots</div>' +
         "</basic-bricks.micro-view>" +
-        "</steve-test.use-brick-in-template>" +
+        "</steve-test.tpl-use-brick-in-template>" +
+        '<div id="toolDiv" slot="toolbar">topToolDivContent</div>' +
+        '<div id="defaultTplSlotRef-show" slot="toolbar">this is default slot content innerHTML</div>' +
         "</basic-bricks.micro-view>" +
         "</steve-test.tpl-custom-template>"
     );
+
+    // tpl proxy event
+    // @ts-ignore
+    const wrapperElement: HTMLElement = wrapper.getDOMNode()[0];
+    const refElement = wrapperElement.querySelector("#refPropertiesName");
+    refElement.dispatchEvent(
+      new CustomEvent("click", {
+        detail: "mock click form refElement",
+      })
+    );
+    expect(consoleLog).toHaveBeenCalledTimes(2);
+
+    // slots proxy event
+    const slotRefElement = wrapperElement.querySelector(
+      "#defaultTplSlotRef-show"
+    );
+    slotRefElement.dispatchEvent(
+      new CustomEvent("click", {
+        detail: "mock click form slotRefElement",
+      })
+    );
+    expect(consoleLog).toHaveBeenCalledTimes(3);
+
+    // in tpl proxy event
+    const inTplElement = wrapperElement.querySelector("#inTplRef");
+    inTplElement.dispatchEvent(
+      new CustomEvent("click", {
+        detail: "mock click form inTplElement",
+      })
+    );
+    expect(consoleLog).toHaveBeenCalledTimes(4);
+
+    // in tpl outside slot proxy event
+    const inTplOutsideSlotElement =
+      wrapperElement.querySelector("#tplOutsideSlotRef");
+    inTplOutsideSlotElement.dispatchEvent(
+      new CustomEvent("click", {
+        detail: "mock click form in tpl outside slot element",
+      })
+    );
+    expect(consoleLog).toHaveBeenCalledTimes(5);
   });
 });

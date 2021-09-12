@@ -539,6 +539,25 @@ describe("doTransform", () => {
     );
     expect(result).toBe("Hello=World");
   });
+
+  it("should work while option had getTplVariables", () => {
+    const getTplVariables = () => ({
+      isShow: true,
+    });
+
+    const result = doTransform(
+      {},
+      {
+        text: "<% TPL.isShow ? 'I am show' : 'I am hide' %>",
+      },
+      {
+        getTplVariables,
+      }
+    );
+    expect(result).toEqual({
+      text: "I am show",
+    });
+  });
 });
 
 describe("transformElementProperties", () => {

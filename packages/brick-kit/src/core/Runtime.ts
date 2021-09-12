@@ -307,6 +307,7 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
   return kernel.router.getCurrentContext();
 }
 
+/* istanbul ignore next */
 export function _internalApiGetTplContext(): CustomTemplateContext {
   if (process.env.NODE_ENV === "test") {
     return {} as any;
