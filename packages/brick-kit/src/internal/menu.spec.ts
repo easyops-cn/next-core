@@ -224,6 +224,24 @@ const mockMenuList: any[] = [
       },
     ],
   },
+  {
+    menuId: "menu-g",
+    type: "inject",
+    injectMenuGroupId: "group-g-1",
+    title: "Injecting Hello",
+    items: [
+      {
+        text: "Menu Item G 1.3",
+        to: "${APP.homepage}/3",
+        sort: 3,
+      },
+    ],
+    app: [
+      {
+        appId: "bonjour",
+      },
+    ],
+  },
 ];
 
 (InstanceApi_postSearch as jest.Mock).mockImplementation((objectId, params) => {
@@ -548,6 +566,12 @@ describe("constructMenu", () => {
                 text: "Menu Item G 1.1",
                 sort: 2,
                 to: "/hello/1",
+                children: [],
+              },
+              {
+                text: "Menu Item G 1.3",
+                sort: 3,
+                to: "/hello/3",
                 children: [],
               },
             ],
