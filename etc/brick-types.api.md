@@ -69,6 +69,8 @@ export interface AttributeConfig {
 // @internal (undocumented)
 export interface AuthInfo {
     // (undocumented)
+    accessRule?: string;
+    // (undocumented)
     loginFrom?: string;
     // (undocumented)
     org?: number;
@@ -2145,6 +2147,8 @@ export interface StoryDocTypeAndInterface {
 
 // @public
 export interface SystemInfo extends RuntimeMisc {
+    // (undocumented)
+    accessRule?: string;
     // (undocumented)
     loginFrom?: string;
     // (undocumented)

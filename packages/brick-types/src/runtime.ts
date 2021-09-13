@@ -51,6 +51,7 @@ export interface SystemInfo extends RuntimeMisc {
   username: string;
   userInstanceId: string;
   loginFrom?: string;
+  accessRule?: string;
 }
 
 /**
