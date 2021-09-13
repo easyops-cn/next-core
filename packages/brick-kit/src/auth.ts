@@ -10,6 +10,7 @@ export function authenticate(newAuth: AuthInfo): void {
     username: newAuth.username,
     userInstanceId: newAuth.userInstanceId,
     loginFrom: newAuth.loginFrom,
+    accessRule: newAuth.accessRule,
   });
 }
 
@@ -29,6 +30,7 @@ export function logout(): void {
   auth.org = undefined;
   auth.username = undefined;
   auth.userInstanceId = undefined;
+  auth.accessRule = undefined;
   resetPermissionPreChecks();
 }
 

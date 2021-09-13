@@ -215,6 +215,7 @@ export interface AuthInfo {
   username?: string;
   userInstanceId?: string;
   loginFrom?: string;
+  accessRule?: string;
 }
 
 /** @internal */

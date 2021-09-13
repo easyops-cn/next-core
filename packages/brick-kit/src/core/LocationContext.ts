@@ -165,6 +165,7 @@ export class LocationContext {
         username: auth.username,
         userInstanceId: auth.userInstanceId,
         loginFrom: auth.loginFrom,
+        accessRule: auth.accessRule,
         ...getRuntimeMisc(),
       },
       flags: this.kernel.getFeatureFlags(),
