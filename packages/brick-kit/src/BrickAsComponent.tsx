@@ -36,7 +36,10 @@ import { transformProperties, doTransform } from "./transformProperties";
 import { looseCheckIfByTransform } from "./checkIf";
 import { isPreEvaluated } from "./internal/evaluate";
 import { cloneDeepWithInjectedMark } from "./internal/injected";
-import { expandCustomTemplate } from "./core/CustomTemplates";
+import {
+  CustomTemplateContext,
+  expandCustomTemplate,
+} from "./core/CustomTemplates";
 import { getTagNameOfCustomTemplate } from "./core/CustomTemplates/getTagNameOfCustomTemplate";
 import { handleProxyOfCustomTemplate } from "./core/CustomTemplates/handleProxyOfCustomTemplate";
 import {
@@ -60,6 +63,78 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   refCallback?: (element: HTMLElement) => void;
   immediatelyRefCallback?: (element: HTMLElement) => void;
 }
+
+export const handleProxyOfParentTemplate = (
+  brick: RuntimeBrick,
+  tplContextId: string,
+  tplContext: CustomTemplateContext
+) => {
+  if (tplContextId && tplContext) {
+    const tplBrick = tplContext.getBrick(tplContextId);
+    /**
+     * 如果存在brick.ref, 表明当前brick为custom-template对外暴露的插槽部分
+     * 此部分构件不被 expandCustomTemplate 方法正常解析, 需要额外处理
+     * 保证父构件上proxyRefs指向的准确性, 并执行其代理方法属性
+     */
+    if (brick.ref && tplBrick) {
+      const proxyBrick = tplBrick.proxyRefs.get(brick.ref);
+      if (proxyBrick) {
+        const getFilterProxy = (
+          proxy: RuntimeCustomTemplateProxy = {},
+          ref: string
+        ): RuntimeCustomTemplateProxy => {
+          const getFilterByRef = (
+            obj:
+              | CustomTemplateProxyEvents
+              | CustomTemplateProxyProperties
+              | CustomTemplateProxyMethods,
+            ref: string
+          ) => {
+            if (!obj) return;
+            return Object.fromEntries(
+              Object.entries(obj).filter(([k, v]) => {
+                if (v.ref === ref) {
+                  return [k, v];
+                }
+              })
+            );
+          };
+          const events = getFilterByRef(proxy.events, ref);
+          const properties = getFilterByRef(proxy.properties, ref);
+          const methods = getFilterByRef(proxy.methods, ref);
+          const $$properties = getFilterByRef(proxy.$$properties, ref);
+
+          return {
+            $$properties,
+            events,
+            properties,
+            methods,
+          };
+        };
+
+        const proxyBrick = {
+          // children 继承template上proxy等属性
+          ...tplBrick,
+          element: brick.element,
+        };
+        tplBrick.proxyRefs.set(brick.ref, {
+          brick: proxyBrick,
+        });
+        // 对单独ref brick进行proxy赋值
+        const singleRefBrickProxyMap = new Map();
+        singleRefBrickProxyMap.set(brick.ref, {
+          brick: proxyBrick,
+        });
+        handleProxyOfCustomTemplate({
+          ...tplBrick,
+          proxyRefs: singleRefBrickProxyMap,
+          proxy: getFilterProxy(tplBrick.proxy, brick.ref),
+        });
+        setRealProperties(tplBrick.element, tplBrick.properties);
+      }
+    }
+  }
+};
 
 /**
  * 可以渲染单个 `useBrick` 的 React 组件。
@@ -154,39 +229,6 @@ export const SingleBrickAsComponent = React.memo(
       listenOnTrackingContext(brick, trackingContextList, runtimeContext);
 
       return brick;
-    };
-
-    const getFilterProxy = (
-      proxy: RuntimeCustomTemplateProxy = {},
-      ref: string
-    ): RuntimeCustomTemplateProxy => {
-      const getFilterByRef = (
-        obj:
-          | CustomTemplateProxyEvents
-          | CustomTemplateProxyProperties
-          | CustomTemplateProxyMethods,
-        ref: string
-      ) => {
-        if (!obj) return;
-        return Object.fromEntries(
-          Object.entries(obj).filter(([k, v]) => {
-            if (v.ref === ref) {
-              return [k, v];
-            }
-          })
-        );
-      };
-      const events = getFilterByRef(proxy.events, ref);
-      const properties = getFilterByRef(proxy.properties, ref);
-      const methods = getFilterByRef(proxy.methods, ref);
-      const $$properties = getFilterByRef(proxy.$$properties, ref);
-
-      return {
-        $$properties,
-        events,
-        properties,
-        methods,
-      };
     };
 
     const runtimeBrick = React.useMemo(async () => {
@@ -310,38 +352,7 @@ export const SingleBrickAsComponent = React.memo(
           const tplContextId = (useBrick as RuntimeBrickConfWithTplSymbols)[
             symbolForTplContextId
           ];
-          if (tplContextId && tplContext) {
-            const tplBrick = tplContext.getBrick(tplContextId);
-            /**
-             * 如果存在brick.ref, 表明当前brick为custom-template对外暴露的插槽部分
-             * 此部分构件不被 expandCustomTemplate 方法正常解析, 需要额外处理
-             * 保证父构件上proxyRefs指向的准确性, 并执行其代理方法属性
-             */
-            if (brick.ref && tplBrick) {
-              const proxyBrick = tplBrick.proxyRefs.get(brick.ref);
-              if (proxyBrick) {
-                const proxyBrick = {
-                  // children 继承template上proxy等属性
-                  ...tplBrick,
-                  element: brick.element,
-                };
-                tplBrick.proxyRefs.set(brick.ref, {
-                  brick: proxyBrick,
-                });
-                // 对单独ref brick进行proxy赋值
-                const singleRefBrickProxyMap = new Map();
-                singleRefBrickProxyMap.set(brick.ref, {
-                  brick: proxyBrick,
-                });
-                handleProxyOfCustomTemplate({
-                  ...tplBrick,
-                  proxyRefs: singleRefBrickProxyMap,
-                  proxy: getFilterProxy(tplBrick.proxy, brick.ref),
-                });
-                setRealProperties(tplBrick.element, tplBrick.properties);
-              }
-            }
-          }
+          handleProxyOfParentTemplate(brick, tplContextId, tplContext);
 
           // Memoize the parent ref of useBrick.
           (element as RuntimeBrickElementWithTplSymbols)[

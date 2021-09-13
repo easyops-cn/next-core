@@ -234,6 +234,7 @@ Object {
                       "link" => Object {},
                       "useBrick-slot-useBrick-ref-d" => Object {},
                       "useBrick-slot-ref-c" => Object {},
+                      "useBrick-slot-useBrick-deep-ref-f" => Object {},
                       "useBrick-in-useBrick-ref-b" => Object {},
                       "useBrick-ref-a" => Object {},
                       "micro-view" => Object {},
@@ -265,6 +266,21 @@ Object {
                                 },
                               },
                               "ref": "useBrick-slot-ref-c",
+                            },
+                            Object {
+                              "brick": "f",
+                              "properties": Object {
+                                "columns": Array [
+                                  Object {
+                                    "label": "f",
+                                    "title": "f",
+                                    "useBrick": Object {
+                                      "brick": "f",
+                                      "ref": "useBrick-slot-useBrick-deep-ref-f",
+                                    },
+                                  },
+                                ],
+                              },
                             },
                           ],
                           "type": "bricks",
@@ -462,6 +478,7 @@ Object {
     "link" => Object {},
     "useBrick-slot-useBrick-ref-d" => Object {},
     "useBrick-slot-ref-c" => Object {},
+    "useBrick-slot-useBrick-deep-ref-f" => Object {},
     "useBrick-in-useBrick-ref-b" => Object {},
     "useBrick-ref-a" => Object {},
     "micro-view" => Object {},

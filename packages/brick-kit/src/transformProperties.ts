@@ -155,8 +155,14 @@ export function doTransform(
           v,
           getNextDoTransformOptions(options, false, k)
         );
-        if (v[symbolForTplContextId]) {
-          result[symbolForTplContextId] = v[symbolForTplContextId];
+        if (Array.isArray(v)) {
+          for (let i = 0; i < v.length; i++) {
+            if (v[i][symbolForTplContextId])
+              result[i][symbolForTplContextId] = v[i][symbolForTplContextId];
+          }
+        } else {
+          if (v[symbolForTplContextId])
+            result[symbolForTplContextId] = v[symbolForTplContextId];
         }
         return [k, result];
       } else {

@@ -40,8 +40,15 @@ export function cloneDeepWithInjectedMark<T>(value: T): T {
              */
             if (k === "useBrick") {
               const result: any = cloneDeepWithInjectedMark(v);
-              if (v[symbolForTplContextId]) {
-                result[symbolForTplContextId] = v[symbolForTplContextId];
+              if (Array.isArray(v)) {
+                for (let i = 0; i < v.length; i++) {
+                  if (v[i][symbolForTplContextId])
+                    result[i][symbolForTplContextId] =
+                      v[i][symbolForTplContextId];
+                }
+              } else {
+                if (v[symbolForTplContextId])
+                  result[symbolForTplContextId] = v[symbolForTplContextId];
               }
               return [k, v];
             } else {

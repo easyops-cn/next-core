@@ -6,6 +6,7 @@ import * as listenerUtils from "./internal/bindListeners";
 import {
   BrickAsComponent,
   ForwardRefSingleBrickAsComponent,
+  handleProxyOfParentTemplate,
 } from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
 import * as transformProperties from "./transformProperties";
@@ -675,6 +676,7 @@ describe("BrickAsComponent", () => {
                   brick: "div",
                   properties: {
                     id: "toolDiv",
+                    ref: "toolDiv",
                     textContent: "<% TPL.slotToolDivContent %>",
                   },
                 },
@@ -749,5 +751,84 @@ describe("BrickAsComponent", () => {
       })
     );
     expect(consoleLog).toHaveBeenCalledTimes(5);
+  });
+
+  it("handleProxyOfParentTemplate should work", async () => {
+    const buttonElement = document.createElement("div");
+    const tplElement = document.createElement("div");
+    const brick = {
+      bg: false,
+      brick: "basic-bricks.general-button",
+      element: buttonElement,
+      events: {
+        "general.button.click": [
+          {
+            action: "console.log",
+            args: ["底层事件"],
+          },
+        ],
+      },
+      properties: {},
+      ref: "button",
+      type: "basic-bricks.general-button",
+    };
+    const context = new CustomTemplateContext();
+    const tplContextId = context.createContext();
+    const proxyRefs = new Map();
+    proxyRefs.set("button", {
+      brick: "div",
+      element: buttonElement,
+    });
+    context.sealContext(
+      tplContextId,
+      {},
+      {
+        type: "steve-test-only.tpl-steve-test-11",
+        element: tplElement,
+        properties: {},
+        events: {
+          buttonClick: [
+            {
+              action: "console.log",
+              args: ["outside button click"],
+            },
+          ],
+        },
+        proxy: {
+          events: {
+            buttonClick: {
+              ref: "button",
+              refEvent: "general.button.click",
+            },
+          },
+        },
+        proxyRefs: proxyRefs,
+      }
+    );
+    listenerUtils.bindListeners(buttonElement, {
+      "general.button.click": [
+        {
+          action: "console.log",
+          args: ["底层事件"],
+        },
+      ],
+    });
+    listenerUtils.bindListeners(tplElement, {
+      buttonClick: [
+        {
+          action: "console.log",
+          args: ["outside button click"],
+        },
+      ],
+    });
+    handleProxyOfParentTemplate(brick, tplContextId, context);
+
+    expect((buttonElement as any).$$proxyEvents.length).toBe(1);
+    buttonElement.dispatchEvent(
+      new CustomEvent("general.button.click", {
+        detail: "mock click form buttonElement",
+      })
+    );
+    expect(consoleLog).toBeCalledTimes(2);
   });
 });

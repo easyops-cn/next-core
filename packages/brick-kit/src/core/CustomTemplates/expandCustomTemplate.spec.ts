@@ -143,6 +143,21 @@ describe("expandCustomTemplate", () => {
                                 },
                               },
                             },
+                            {
+                              brick: "f",
+                              properties: {
+                                columns: [
+                                  {
+                                    title: "f",
+                                    label: "f",
+                                    useBrick: {
+                                      brick: "f",
+                                      ref: "useBrick-slot-useBrick-deep-ref-f",
+                                    },
+                                  },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },

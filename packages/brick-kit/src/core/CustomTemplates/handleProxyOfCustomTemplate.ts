@@ -148,15 +148,16 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
          * 每次设置代理属性方法, 提前判断之前是否已经绑定, 如若有, 则解绑并删除
          */
         if (refElement.$$proxyEvents) {
-          (
+          refElement.$$proxyEvents = (
             refElement.$$proxyEvents as Array<
               [string, string, (e: Event) => void]
             >
-          ).forEach(([proxyEvent, event, listener], index: number) => {
+          ).filter(([proxyEvent, event, listener]) => {
             if (proxyEvent === eventType) {
               refElement.removeEventListener(event, listener);
-              refElement.$$proxyEvents.splice(index, 1);
+              return false;
             }
+            return true;
           });
         } else {
           refElement.$$proxyEvents = [];
