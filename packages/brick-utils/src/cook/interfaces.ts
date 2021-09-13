@@ -1,126 +1,46 @@
 import {
   Expression,
   FunctionDeclaration,
+  LVal,
   Node,
-  UnaryExpression,
+  ObjectExpression,
+  ObjectPattern,
+  ObjectProperty,
+  RestElement,
+  SpreadElement,
   VariableDeclaration,
 } from "@babel/types";
-import { CookScope, PrecookScope } from "./Scope";
 
-export interface ChainExpression {
+export type EstreeNode =
+  | Node
+  | EstreeObjectExpression
+  | EstreeObjectPattern
+  | EstreeProperty
+  | EstreeChainExpression
+  | EstreeLiteral;
+
+export type EstreeLVal = LVal | EstreeObjectPattern;
+
+export type EstreeObjectExpression = Omit<ObjectExpression, "properties"> & {
+  properties: (EstreeProperty | SpreadElement)[];
+};
+
+export type EstreeObjectPattern = Omit<ObjectPattern, "properties"> & {
+  properties: (EstreeProperty | RestElement)[];
+};
+
+export type EstreeProperty = Omit<ObjectProperty, "type"> & {
+  type: "Property";
+  kind: "init" | "get" | "set";
+};
+
+export interface EstreeChainExpression {
   type: "ChainExpression";
   expression: Expression;
 }
 
-export interface PrecookOptions {
-  visitors?: Record<string, VisitorFn<PrecookVisitorState>>;
-}
-
-export interface PrecookFunctionOptions extends PrecookOptions {
-  typescript?: boolean;
-}
-
-export interface PrecookVisitorState {
-  scopeStack: PrecookScope[];
-  attemptToVisitGlobals: Set<string>;
-  scopeMapByNode: WeakMap<Node, PrecookScope>;
-  isRoot?: boolean;
-  identifierAsLiteralString?: boolean;
-  collectVariableNamesAsKind?: ScopeVariableKind;
-  isFunctionBody?: boolean;
-  hoisting?: boolean;
-}
-
-export type ScopeVariableKind =
-  | "param"
-  | VariableDeclaration["kind"]
-  | "functions";
-
-export interface BasePreResult {
-  source: string;
-  attemptToVisitGlobals: Set<string>;
-  scopeMapByNode: WeakMap<Node, PrecookScope>;
-}
-
-export interface PrecookResult extends BasePreResult {
-  expression: Expression;
-}
-
-export interface CookVisitorState<T = unknown> {
-  source: string;
-  rules: CookRules;
-  scopeMapByNode: WeakMap<Node, PrecookScope>;
-  scopeStack: CookScope[];
-  raiseError: FnRaiseError;
-  cookingFunction?: boolean;
-  isRoot?: boolean;
-  identifierAsLiteralString?: boolean;
-  spreadAsProperties?: boolean;
-  isFunctionBody?: boolean;
-  hoisting?: boolean;
-  unaryOperator?: UnaryExpression["operator"];
-  assignment?: CookAssignmentData;
-  update?: CookUpdateData;
-  chainRef?: {
-    skipped?: boolean;
-  };
-  memberCooked?: {
-    object: ObjectCooked;
-    property: PropertyCooked;
-  };
-  returns?: {
-    returned: boolean;
-    cooked?: unknown;
-  };
-  switches?: {
-    discriminantCooked?: unknown;
-    caseFound?: boolean;
-    caseFoundSecond?: boolean;
-    caseStage?: "first" | "second" | "repeat-second";
-  };
-  breakableFlow?: {
-    broken?: boolean;
-  };
-  continuableFlow?: {
-    continued?: boolean;
-  };
-  caughtError?: unknown;
-  cooked?: T;
-}
-
-export interface CookAssignmentData {
-  operator?: string;
-  initializing?: boolean;
-  rightCooked?: unknown;
-}
-
-export interface CookUpdateData {
-  operator: "++" | "--";
-  prefix: boolean;
-}
-
-export type PropertyCooked = string | number;
-export type PropertyEntryCooked = [PropertyCooked, unknown];
-export type ObjectCooked = Record<PropertyCooked, unknown>;
-
-export type VisitorCallback<T> = (node: any, state: T) => void;
-
-export type VisitorFn<T, N = any> = (
-  node: N,
-  state: T,
-  callback: VisitorCallback<T>
-) => void;
-
-export interface PrecookFunctionResult extends BasePreResult {
-  function: FunctionDeclaration;
-  rootBlockScope: PrecookScope;
-}
-
-export interface ICookVisitor {
-  [key: string]: VisitorFn<CookVisitorState>;
-}
-
 export interface EstreeLiteral {
+  type: "Literal";
   value: unknown;
   raw: string;
   regex?: {
@@ -128,23 +48,11 @@ export interface EstreeLiteral {
   };
 }
 
-export interface CookFunctionOptions {
-  rules?: CookRules;
-  globalVariables?: Record<string, unknown>;
-}
+export type NodeWithBoundNames =
+  | LVal
+  | VariableDeclaration
+  | FunctionDeclaration;
 
-export interface CookRules {
-  noVar?: boolean;
-}
+export type EstreeVisitors = Record<string, EstreeVisitorFn>;
 
-// export type FnRaiseError = (
-//   error: ErrorConstructor,
-//   message: string,
-//   node?: Node
-// ) => void;
-
-export interface FnRaiseError {
-  (error: ErrorConstructor, message: string, node?: Node): void;
-
-  notFunction: (node: Node) => void;
-}
+export type EstreeVisitorFn = (node: any) => void;

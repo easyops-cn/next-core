@@ -3,7 +3,7 @@ import {
   RuntimeStoryboardFunction,
   SimpleFunction,
 } from "@next-core/brick-types";
-import { cookFunction, precookFunction } from "@next-core/brick-utils";
+import { cook, precookFunction, supply } from "@next-core/brick-utils";
 
 const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
 
@@ -11,7 +11,7 @@ type ReadonlyStoryboardFunctions = Readonly<Record<string, SimpleFunction>>;
 
 // Use `Proxy` with a frozen target, to make a readonly function registry.
 const storyboardFunctions = new Proxy(Object.freeze({}), {
-  get: (target, key) => {
+  get(target, key) {
     return getStoryboardFunction(key as string);
   },
 }) as ReadonlyStoryboardFunctions;
@@ -40,20 +40,18 @@ function getStoryboardFunction(name: string): (...args: unknown[]) => unknown {
     throw new ReferenceError(`Function not found: ${name}`);
   }
   if (!fn.processed) {
-    fn.cooked = cookFunction(
-      precookFunction(fn.source, {
-        typescript: fn.typescript,
+    const precooked = precookFunction(fn.source, {
+      typescript: fn.typescript,
+    });
+    fn.cooked = cook(precooked.function, fn.source, {
+      rules: {
+        noVar: true,
+      },
+      globalVariables: supply(precooked.attemptToVisitGlobals, {
+        // Functions can call other functions.
+        FN: storyboardFunctions,
       }),
-      {
-        rules: {
-          noVar: true,
-        },
-        globalVariables: {
-          // Functions can call other functions.
-          FN: storyboardFunctions,
-        },
-      }
-    );
+    }) as SimpleFunction;
     fn.processed = true;
   }
   return fn.cooked;

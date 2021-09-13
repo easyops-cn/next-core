@@ -1,7 +1,24 @@
-export { cook } from "./cook";
-export { precook } from "./precook";
-export { cookFunction } from "./cookFunction";
-export { precookFunction } from "./precookFunction";
+// istanbul ignore file
+export * from "./cook";
+export * from "./precook";
+export * from "./precookFunction";
 export * from "./preevaluate";
-export { PrecookVisitor } from "./PrecookVisitor";
-export { PrecookFunctionVisitor } from "./PrecookFunctionVisitor";
+export * from "./supply";
+
+/** @deprecated */
+export const PrecookVisitor = new Proxy(Object.freeze({}), {
+  get() {
+    return noop;
+  },
+});
+
+/** @deprecated */
+export const PrecookFunctionVisitor = new Proxy(Object.freeze({}), {
+  get() {
+    return noop;
+  },
+});
+
+function noop(): void {
+  /* noop */
+}

@@ -2,36 +2,26 @@ import lodash from "lodash";
 import moment from "moment";
 import { SimpleFunction } from "@next-core/brick-types";
 import { PipeRegistry } from "../placeholder/pipes";
-import { CookScope, FLAG_SANDBOX } from "./Scope";
+import { hasOwnProperty } from "../hasOwnProperty";
 
 export function supply(
   attemptToVisitGlobals: Set<string>,
-  globalVariables: Record<string, unknown> = {}
-): CookScope {
-  const globalMap = new Map(Object.entries(globalVariables));
-
-  // Allow limited DOM builtin values.
-  globalMap.set("undefined", undefined);
-
-  for (const variableName of attemptToVisitGlobals.values()) {
-    if (!globalMap.has(variableName)) {
+  providedGlobalVariables?: Record<string, unknown>
+): Record<string, unknown> {
+  const globalVariables = {
+    ...providedGlobalVariables,
+  };
+  // Allow limited browser builtin values.
+  globalVariables["undefined"] = undefined;
+  for (const variableName of attemptToVisitGlobals) {
+    if (!hasOwnProperty(globalVariables, variableName)) {
       const variable = supplyIndividual(variableName);
       if (variable !== undefined) {
-        globalMap.set(variableName, variable);
+        globalVariables[variableName] = variable;
       }
     }
   }
-
-  const scope = new CookScope(FLAG_SANDBOX);
-  for (const [key, value] of globalMap.entries()) {
-    scope.variables.set(key, {
-      initialized: true,
-      cooked: value,
-      const: true,
-    });
-  }
-
-  return scope;
+  return globalVariables;
 }
 
 const shouldOmitInLodash = new Set([

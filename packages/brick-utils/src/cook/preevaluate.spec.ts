@@ -36,9 +36,7 @@ describe("preevaluate", () => {
   it("should throw SyntaxError", () => {
     expect(() => {
       preevaluate("<% DATA : EVENT %>");
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected token (1:5), in \\"<% DATA : EVENT %>\\""`
-    );
+    }).toThrowErrorMatchingInlineSnapshot(`"Unexpected token (1:5)"`);
   });
 });
 
