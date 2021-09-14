@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.69.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.68.1...@next-core/brick-kit@2.69.0) (2021-09-14)
+
+
+### Features
+
+* refine cook which follows ECMA-262 ([417c628](https://github.com/easyops-cn/next-core/commit/417c62869397976c6ac5b9e0b97e68692eb2efc4))
+
+
+
+
+
 ## [2.68.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.68.0...@next-core/brick-kit@2.68.1) (2021-09-14)
 
 **Note:** Version bump only for package @next-core/brick-kit

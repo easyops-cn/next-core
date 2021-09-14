@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.20.11...@next-dll/editor-bricks-helper@0.21.0) (2021-09-14)
+
+
+### Features
+
+* refine cook which follows ECMA-262 ([417c628](https://github.com/easyops-cn/next-core/commit/417c62869397976c6ac5b9e0b97e68692eb2efc4))
+
+
+
+
+
 ## [0.20.11](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.20.10...@next-dll/editor-bricks-helper@0.20.11) (2021-09-14)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
