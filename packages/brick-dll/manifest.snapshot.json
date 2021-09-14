@@ -18449,7 +18449,6 @@
           "getHistory",
           "getRuntime",
           "handleHttpError",
-          "handleProxyOfParentTemplate",
           "httpErrorToString",
           "i18nText",
           "initI18n",
