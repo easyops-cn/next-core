@@ -254,12 +254,6 @@ export function getRuntime(): Runtime;
 // @public
 export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError): ReturnType<ModalFunc>;
 
-// Warning: (ae-forgotten-export) The symbol "RuntimeBrick" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "CustomTemplateContext" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export const handleProxyOfParentTemplate: (brick: RuntimeBrick, tplContextId: string, tplContext: CustomTemplateContext) => void;
-
 // @public
 export function httpErrorToString(error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event): string;
 
