@@ -135,14 +135,16 @@ export const casesOfExpressionOnly: [string, unknown][] = [
   ["[-1].concat(0, ...[1, 2], 3)", [-1, 0, 1, 2, 3]],
   ["[-1]?.concat(0, ...[1, 2], 3)", [-1, 0, 1, 2, 3]],
   [
-    "{...DATA.objectA, ...DATA.objectB, ...DATA.objectC}",
+    "{...DATA.objectA, ...DATA.objectB, ...DATA.objectC, ...DATA.objectD}",
     {
       onlyInA: 1,
       bothInAB: 4,
       onlyInB: 3,
       C2: 12,
+      [Symbol.for("test-symbol")]: "Hello Symbol",
     },
   ],
+  ["DATA.objectD[DATA.symbol]", "Hello Symbol"],
   ["{...null, ...undefined}", {}],
   ["[1, undefined, null].map((i = 5) => i)", [1, 5, null]],
   ["[1, undefined].map((i = DATA.number5) => i)", [1, 5]],

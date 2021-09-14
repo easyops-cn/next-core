@@ -28,20 +28,4 @@ export const casesOfBindings: LooseCase[] = [
       result: { a: 1, c: { c: 2, d: 3 }, m: undefined, n: undefined },
     },
   ],
-  // [
-  //   "bindings: catch clause",
-  //   {
-  //     source: `
-  //       function test(p) {
-  //         try {
-  //           throw new Error('oops');
-  //         } catch ({message}) {
-  //           return message;
-  //         }
-  //       }
-  //     `,
-  //     args: [],
-  //     result: "oops",
-  //   },
-  // ],
 ];

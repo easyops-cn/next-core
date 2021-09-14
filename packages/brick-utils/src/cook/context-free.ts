@@ -83,11 +83,8 @@ export function UpdateEmpty(
 // https://tc39.es/ecma262/#sec-getvalue
 export function GetValue(V: unknown): unknown {
   if (V instanceof CompletionRecord) {
-    if (V.Type === "normal") {
-      V = V.Value;
-    } else {
-      return V;
-    }
+    // Assert: V.Type is normal.
+    V = V.Value;
   }
   if (!(V instanceof ReferenceRecord)) {
     return V;
@@ -117,9 +114,7 @@ export function GetV(V: unknown, P: PropertyKey): unknown {
 
 // https://tc39.es/ecma262/#sec-putvalue
 export function PutValue(V: ReferenceRecord, W: unknown): CompletionRecord {
-  if (!(V instanceof ReferenceRecord)) {
-    throw new ReferenceError();
-  }
+  // Assert: V is a ReferenceRecord.
   if (V.Base === "unresolvable") {
     throw new ReferenceError(`${V.ReferenceName as string} is not defined`);
   }

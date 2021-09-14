@@ -72,6 +72,8 @@ exports[`evaluate should throw: assign \`for const ... of\` 1`] = `"Assignment t
 
 exports[`evaluate should throw: assign \`for const ...\` 1`] = `"Assignment to constant variable"`;
 
+exports[`evaluate should throw: assign before initialized 1`] = `"a is not initialized"`;
+
 exports[`evaluate should throw: assign constants 1`] = `"Assignment to constant variable"`;
 
 exports[`evaluate should throw: assign function expressions 1`] = `"Assignment to constant variable"`;
@@ -80,7 +82,7 @@ exports[`evaluate should throw: assign global functions 1`] = `"Assignment to co
 
 exports[`evaluate should throw: assign member of nil 1`] = `"Cannot set property 'b' of undefined"`;
 
-exports[`evaluate should throw: assignment before initialized 1`] = `"a is not initialized"`;
+exports[`evaluate should throw: assign variables not defined 1`] = `"a is not defined"`;
 
 exports[`evaluate should throw: expression: (DATA.notExisted?.length).oops 1`] = `"Cannot read property 'oops' of undefined"`;
 

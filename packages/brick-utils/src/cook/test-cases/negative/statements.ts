@@ -77,18 +77,25 @@ export const negativeCasesOfStatements: LooseCase[] = [
     "access before initialized",
     `
       function test() {
-        let a = typeof b;
+        let a = b;
         let b;
-        return a;
       }
     `,
   ],
   [
-    "assignment before initialized",
+    "assign before initialized",
     `
       function test() {
         a = 1;
         let a;
+      }
+    `,
+  ],
+  [
+    "assign variables not defined",
+    `
+      function test() {
+        a = 1;
       }
     `,
   ],

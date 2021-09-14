@@ -51,6 +51,10 @@ const getExtraGlobalVariables = (): Record<string, unknown> => ({
         },
       }
     ),
+    objectD: {
+      [Symbol.for("test-symbol")]: "Hello Symbol",
+    },
+    symbol: Symbol.for("test-symbol"),
     q: "a&b",
     redirect: "/r/s?t=u&v=w",
     path: "x/y.zip",

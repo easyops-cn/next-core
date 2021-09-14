@@ -70,22 +70,12 @@ export class EnvironmentRecord {
     strict: boolean
   ): CompletionRecord {
     const binding = this.bindingMap.get(name);
-    if (!binding) {
-      if (strict) {
-        throw new ReferenceError(`[strict] no binding for ${name}`);
-      }
-      this.CreateMutableBinding(name, true);
-      this.InitializeBinding(name, value);
-      return NormalCompletion(undefined);
-    }
-    if (binding.strict) {
-      strict = true;
-    }
+    // Assert: binding exists.
     if (!binding.initialized) {
       throw new ReferenceError(`${name} is not initialized`);
     } else if (binding.mutable) {
       binding.value = value;
-    } else if (strict) {
+    } else {
       throw new TypeError(`Assignment to constant variable`);
     }
     return NormalCompletion(undefined);
@@ -93,19 +83,11 @@ export class EnvironmentRecord {
 
   GetBindingValue(name: string, strict: boolean): unknown {
     const binding = this.bindingMap.get(name);
-    if (strict && !binding) {
-      throw new ReferenceError(`${name} is not defined`);
-    }
     // Assert: binding exists.
     if (!binding.initialized) {
       throw new ReferenceError(`${name} is not initialized`);
     }
     return binding.value;
-  }
-
-  IsUninitializedBinding(name: string): boolean {
-    // Assert: binding exists.
-    return !this.bindingMap.get(name).initialized;
   }
 }
 
