@@ -494,6 +494,126 @@ describe("doTransform", () => {
         [symbolForTplContextId]: "tpl-1",
       },
     });
+
+    const arrResult = doTransform(
+      {
+        a: "yes",
+        b: true,
+      },
+      {
+        prop: "<% DATA.a %>",
+        useBrick: [
+          {
+            brick: "my-brick-1",
+            if: "<% DATA.b %>",
+            properties: {
+              myProp: "<% DATA.c %>",
+            },
+            transform: {
+              myTransform: "<% DATA.d %>",
+            },
+            events: {
+              click: {
+                action: "console.log",
+                args: ["<% DATA.e %>", "<% DATA.f %>"],
+              },
+            },
+            lifeCycle: {
+              useResolves: [
+                {
+                  useProvider: "my.provider",
+                  args: ["<% DATA.a %>"],
+                },
+              ],
+            },
+            [symbolForTplContextId]: "tpl-1",
+          },
+          {
+            brick: "my-brick-2",
+            if: "<% DATA.b %>",
+            properties: {
+              myProp: "<% DATA.c %>",
+            },
+            transform: {
+              myTransform: "<% DATA.d %>",
+            },
+            events: {
+              click: {
+                action: "console.log",
+                args: ["<% DATA.e %>", "<% DATA.f %>"],
+              },
+            },
+            lifeCycle: {
+              useResolves: [
+                {
+                  useProvider: "my.provider",
+                  args: ["<% DATA.a %>"],
+                },
+              ],
+            },
+            [symbolForTplContextId]: "tpl-2",
+          },
+        ],
+      },
+      {
+        $$lazyForUseBrick: true,
+      }
+    );
+    expect(arrResult).toEqual({
+      prop: "yes",
+      useBrick: [
+        {
+          brick: "my-brick-1",
+          if: "<% DATA.b %>",
+          properties: {
+            myProp: "<% DATA.c %>",
+          },
+          transform: {
+            myTransform: "<% DATA.d %>",
+          },
+          events: {
+            click: {
+              action: "console.log",
+              args: ["<% DATA.e %>", "<% DATA.f %>"],
+            },
+          },
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "my.provider",
+                args: ["yes"],
+              },
+            ],
+          },
+          [symbolForTplContextId]: "tpl-1",
+        },
+        {
+          brick: "my-brick-2",
+          if: "<% DATA.b %>",
+          properties: {
+            myProp: "<% DATA.c %>",
+          },
+          transform: {
+            myTransform: "<% DATA.d %>",
+          },
+          events: {
+            click: {
+              action: "console.log",
+              args: ["<% DATA.e %>", "<% DATA.f %>"],
+            },
+          },
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "my.provider",
+                args: ["yes"],
+              },
+            ],
+          },
+          [symbolForTplContextId]: "tpl-2",
+        },
+      ],
+    });
   });
 
   it("should collect tracking context list", () => {

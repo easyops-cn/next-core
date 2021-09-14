@@ -74,13 +74,22 @@ describe("cloneDeepWithInjectedMark", () => {
     const innerArray = ["quality", "good"];
     const innerObject = {
       quality: "good",
-      useBrick: {
-        quality: "good",
-        useBrick: {
-          brick: "a",
-          [symbolForTplContextId]: "tpl-1",
+      useBrick: [
+        {
+          quality: "good",
+          useBrick: {
+            brick: "a",
+            [symbolForTplContextId]: "tpl-1",
+          },
         },
-      },
+        {
+          quality: "bad",
+          useBrick: {
+            brick: "b",
+            [symbolForTplContextId]: "tpl-1",
+          },
+        },
+      ],
     };
     const object = {
       innerArray,
