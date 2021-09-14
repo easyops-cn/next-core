@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.39.0...@next-core/brick-types@2.39.1) (2021-09-14)
+
+
+### Bug Fixes
+
+* **MenuIcon:** revert MenuIcon ([7ab4a0f](https://github.com/easyops-cn/next-core/commit/7ab4a0f8755f750d588d2997cd77cff10cade36a)), closes [Refs#BRICK_STORE-2278](https://github.com/Refs/issues/BRICK_STORE-2278)
+
+
+
+
+
 # [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.38.2...@next-core/brick-types@2.39.0) (2021-09-13)
 
 
