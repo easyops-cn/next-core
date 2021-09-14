@@ -298,7 +298,7 @@ export function cook(
         for (const prop of (node as EstreeObjectExpression).properties) {
           if (prop.type === "SpreadElement") {
             const fromValue = GetValue(Evaluate(prop.argument));
-            CopyDataProperties(object, fromValue, []);
+            CopyDataProperties(object, fromValue, new Set());
           } else {
             if (prop.kind !== "init") {
               throw new SyntaxError("Unsupported object getter/setter");
@@ -360,17 +360,15 @@ export function cook(
           }
           // Should never reach here in strict mode.
         }
-        switch (node.operator) {
-          case "typeof":
-            if (ref instanceof ReferenceRecord && ref.Base === "unresolvable") {
-              return NormalCompletion("undefined");
-            }
-            return NormalCompletion(typeof GetValue(ref));
-          default:
-            return NormalCompletion(
-              ApplyUnaryOperator(GetValue(ref), node.operator)
-            );
+        if (node.operator === "typeof") {
+          if (ref instanceof ReferenceRecord && ref.Base === "unresolvable") {
+            return NormalCompletion("undefined");
+          }
+          return NormalCompletion(typeof GetValue(ref));
         }
+        return NormalCompletion(
+          ApplyUnaryOperator(GetValue(ref), node.operator)
+        );
       }
     }
     if (!expressionOnly) {
@@ -976,7 +974,7 @@ export function cook(
     properties: (EstreeProperty | RestElement)[],
     value: unknown
   ): void {
-    const excludedNames: PropertyKey[] = [];
+    const excludedNames = new Set<PropertyKey>();
     for (const prop of properties) {
       if (prop.type === "Property") {
         const propName =
@@ -996,10 +994,10 @@ export function cook(
             v = GetValue(defaultValue);
           }
           PutValue(lref, v);
-          excludedNames.push(propName);
+          excludedNames.add(propName);
         } else {
           KeyedDestructuringAssignmentEvaluation(prop.value, value, propName);
-          excludedNames.push(propName);
+          excludedNames.add(propName);
         }
       } else {
         RestDestructuringAssignmentEvaluation(prop, value, excludedNames);
@@ -1041,7 +1039,7 @@ export function cook(
   function RestDestructuringAssignmentEvaluation(
     restProperty: RestElement,
     value: unknown,
-    excludedNames: PropertyKey[]
+    excludedNames: Set<PropertyKey>
   ): CompletionRecord {
     const lref = Evaluate(restProperty.argument).Value as ReferenceRecord;
     const restObj = CopyDataProperties({}, value, excludedNames);
@@ -1514,7 +1512,7 @@ export function cook(
     value: unknown,
     environment: EnvironmentRecord
   ): CompletionRecord {
-    const excludedNames: PropertyKey[] = [];
+    const excludedNames = new Set<PropertyKey>();
     for (const prop of properties) {
       if (prop.type === "RestElement") {
         return RestBindingInitialization(
@@ -1531,7 +1529,7 @@ export function cook(
           environment,
           prop.key.name
         );
-        excludedNames.push(prop.key.name);
+        excludedNames.add(prop.key.name);
       } else {
         const P = EvaluateComputedPropertyName(prop.key);
         KeyedBindingInitialization(
@@ -1540,7 +1538,7 @@ export function cook(
           environment,
           P
         );
-        excludedNames.push(P);
+        excludedNames.add(P);
       }
     }
     return NormalCompletion(Empty);
@@ -1557,7 +1555,7 @@ export function cook(
     restProperty: RestElement,
     value: unknown,
     environment: EnvironmentRecord,
-    excludedNames: PropertyKey[]
+    excludedNames: Set<PropertyKey>
   ): CompletionRecord {
     const lhs = ResolveBinding(
       (restProperty.argument as Identifier).name,

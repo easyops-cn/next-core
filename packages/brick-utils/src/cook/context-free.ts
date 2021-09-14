@@ -30,7 +30,7 @@ export function InitializeReferencedBinding(
 export function CopyDataProperties(
   target: Record<PropertyKey, unknown>,
   source: unknown,
-  excludedItems: PropertyKey[]
+  excludedItems: Set<PropertyKey>
 ): Record<PropertyKey, unknown> {
   if (source === undefined || source === null) {
     return target;
@@ -39,7 +39,7 @@ export function CopyDataProperties(
     Object.getOwnPropertySymbols(source)
   );
   for (const nextKey of keys) {
-    if (!excludedItems.includes(nextKey)) {
+    if (!excludedItems.has(nextKey)) {
       const desc = Object.getOwnPropertyDescriptor(source, nextKey);
       if (desc?.enumerable) {
         target[nextKey] = (source as Record<PropertyKey, unknown>)[nextKey];
