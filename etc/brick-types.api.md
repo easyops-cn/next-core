@@ -4,7 +4,6 @@
 
 ```ts
 
-import { CSSProperties } from 'react';
 import { History as History_2 } from 'history';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { IconPrefix } from '@fortawesome/fontawesome-svg-core';
@@ -30,7 +29,7 @@ export interface Action {
 }
 
 // @public
-export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon | ImgIcon;
+export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon;
 
 // Warning: (ae-internal-missing-underscore) The name "AppBarBrick" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -1128,14 +1127,6 @@ export interface HandleRejectByTransform {
 export interface I18nData {
     // (undocumented)
     [language: string]: string;
-}
-
-// @public
-export interface ImgIcon {
-    // (undocumented)
-    imgSrc?: string;
-    // (undocumented)
-    imgStyle?: CSSProperties;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "InstanceDisplay" should be prefixed with an underscore because the declaration is marked as @internal
