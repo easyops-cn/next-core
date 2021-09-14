@@ -1,87 +1,211 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cook cook(precook("((a,b)=>a[b])(()=>1, 'constructor')"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+exports[`evaluate should throw [selective]: [TypeScript] enum 1`] = `"Unsupported TypeScript syntax: TSEnumDeclaration"`;
 
-exports[`cook cook(precook("((a,b)=>a[b])(()=>1, 'constructor')('console.log(\`yo\`)')()"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+exports[`evaluate should throw [selective]: [TypeScript] interface only 1`] = `"Function declaration not found"`;
 
-exports[`cook cook(precook("((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(\`yo\`)')()"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+exports[`evaluate should throw [selective]: Use interfaces in JavaScript 1`] = `"Unexpected reserved word 'interface'. (2:6)"`;
 
-exports[`cook cook(precook("() => {}"), {...}) should throw 1`] = `"Only an \`Expression\` is allowed in \`ArrowFunctionExpression\`'s body: \`() => {}\`"`;
+exports[`evaluate should throw [selective]: async functions 1`] = `"Async function is not allowed"`;
 
-exports[`cook cook(precook("({}).constructor.assign"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+exports[`evaluate should throw [selective]: bitwise and assignment 1`] = `"Unsupported assignment operator \`&=\`"`;
 
-exports[`cook cook(precook("(DATA.notExisted?.length).oops"), {...}) should throw 1`] = `"Cannot read property 'oops' of undefined"`;
+exports[`evaluate should throw [selective]: expression: ((a,b)=>a[b])(()=>1, 'constructor') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("(Set => new Set())(() => null)"), {...}) should throw 1`] = `"Unsupported non-global constructor \`Set\`: \`new Set()\`"`;
+exports[`evaluate should throw [selective]: expression: ((a,b)=>a[b])(()=>1, 'constructor')('console.log(\`yo\`)')() 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("(fn => fn(2,1)+fn())((a=b,b)=>a)"), {...}) should throw 1`] = `"Cannot access 'b' before initialization"`;
+exports[`evaluate should throw [selective]: expression: ((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(\`yo\`)')() 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("/bc\\\\u{/u.test('dcba')"), {...}) should throw 1`] = `"Invalid regular expression: /bc\\\\u{/u"`;
+exports[`evaluate should throw [selective]: expression: ({}).constructor.assign 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("/bc\\\\u{13}/u.test('dcba')"), {...}) should throw 1`] = `"Unsupported unicode flag in regular expression: /bc\\\\u{13}/u"`;
+exports[`evaluate should throw [selective]: expression: (Set => new Set())(function(){}) 1`] = `"Set is not an allowed constructor"`;
 
-exports[`cook cook(precook("[...DATA]"), {...}) should throw 1`] = `"object is not iterable: \`...DATA\`"`;
+exports[`evaluate should throw [selective]: expression: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\\\u{13}/u"`;
 
-exports[`cook cook(precook("[...null]"), {...}) should throw 1`] = `"object is not iterable: \`...null\`"`;
+exports[`evaluate should throw [selective]: expression: _.get(()=>1, 'constructor.prototype') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("[...undefined]"), {...}) should throw 1`] = `"undefined is not iterable: \`...undefined\`"`;
+exports[`evaluate should throw [selective]: expression: { get prop() { return 1; } } 1`] = `"Unsupported object getter/setter"`;
 
-exports[`cook cook(precook("[[1]].map(([a, [b]]) => a + b)"), {...}) should throw 1`] = `"undefined is not iterable: \`[b]\`"`;
+exports[`evaluate should throw [selective]: expression: {__proto__:{}} 1`] = `"Setting '__proto__' property is not allowed"`;
 
-exports[`cook cook(precook("[1, 2].map(([, a]) => a)"), {...}) should throw 1`] = `"number is not iterable: \`[, a]\`"`;
+exports[`evaluate should throw [selective]: expression: DATA.number5 ^ 1 1`] = `"Unsupported binary operator \`^\`"`;
 
-exports[`cook cook(precook("[undefined].map(({...a}) => a)"), {...}) should throw 1`] = `"Cannot destructure undefined"`;
+exports[`evaluate should throw [selective]: expression: async () => null 1`] = `"Async function is not allowed"`;
 
-exports[`cook cook(precook("[undefined].map(({}) => 1)"), {...}) should throw 1`] = `"Cannot destructure undefined"`;
+exports[`evaluate should throw [selective]: expression: new Boolean() 1`] = `"Boolean is not an allowed constructor"`;
 
-exports[`cook cook(precook("[undefined].map(({a}) => a)"), {...}) should throw 1`] = `"Cannot destructure undefined"`;
+exports[`evaluate should throw [selective]: expression-only: ((a,b)=>a[b])(()=>1, 'constructor') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("[undefined].map((i = DATA.number5, DATA) => i)"), {...}) should throw 1`] = `"Cannot access 'DATA' before initialization"`;
+exports[`evaluate should throw [selective]: expression-only: ((a,b)=>a[b])(()=>1, 'constructor')('console.log(\`yo\`)')() 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("[undefined].map((i = j + 1) => i)"), {...}) should throw 1`] = `"j is not defined"`;
+exports[`evaluate should throw [selective]: expression-only: ((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(\`yo\`)')() 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("[undefined].map((i = j + 1, j) => i)"), {...}) should throw 1`] = `"Cannot access 'j' before initialization"`;
+exports[`evaluate should throw [selective]: expression-only: () => {} 1`] = `"Only an \`Expression\` is allowed in \`ArrowFunctionExpression\`'s body"`;
 
-exports[`cook cook(precook("_.get(()=>1, 'constructor.prototype')"), {...}) should throw 1`] = `"Cannot access reserved objects such as \`Function\`."`;
+exports[`evaluate should throw [selective]: expression-only: ({}).constructor.assign 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("_.reverse([0,1,2])"), {...}) should throw 1`] = `"_.reverse is not a function"`;
+exports[`evaluate should throw [selective]: expression-only: (Set => new Set())(function(){}) 1`] = `"Unsupported node type \`FunctionExpression\`"`;
 
-exports[`cook cook(precook("1\`a\${1}b\`"), {...}) should throw 1`] = `"1 is not a function"`;
+exports[`evaluate should throw [selective]: expression-only: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\\\u{13}/u"`;
 
-exports[`cook cook(precook("DATA |> DATA.number5"), {...}) should throw 1`] = `"DATA.number5 is not a function"`;
+exports[`evaluate should throw [selective]: expression-only: _.get(()=>1, 'constructor.prototype') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`cook cook(precook("DATA.number5 ^ 1"), {...}) should throw 1`] = `"Unsupported binary operator \`^\`: \`DATA.number5 ^ 1\`"`;
+exports[`evaluate should throw [selective]: expression-only: {__proto__:{}} 1`] = `"Setting '__proto__' property is not allowed"`;
 
-exports[`cook cook(precook("DATA.number5()"), {...}) should throw 1`] = `"DATA.number5 is not a function"`;
+exports[`evaluate should throw [selective]: expression-only: DATA.number5 ^ 1 1`] = `"Unsupported binary operator \`^\`"`;
 
-exports[`cook cook(precook("DATA.number5.toFixed?.().oops()"), {...}) should throw 1`] = `"DATA.number5.toFixed?.().oops is not a function"`;
+exports[`evaluate should throw [selective]: expression-only: async () => null 1`] = `"Async function is not allowed"`;
 
-exports[`cook cook(precook("DATA.number5?.toFixed.oo.ps"), {...}) should throw 1`] = `"Cannot read property 'ps' of undefined"`;
+exports[`evaluate should throw [selective]: expression-only: delete DATA.for 1`] = `"Unsupported unary operator \`delete\`"`;
 
-exports[`cook cook(precook("DATA?.()"), {...}) should throw 1`] = `"DATA is not a function"`;
+exports[`evaluate should throw [selective]: expression-only: new Boolean() 1`] = `"Boolean is not an allowed constructor"`;
 
-exports[`cook cook(precook("DATA?.number5()"), {...}) should throw 1`] = `"DATA?.number5 is not a function"`;
+exports[`evaluate should throw [selective]: generator functions 1`] = `"Generator function is not allowed"`;
 
-exports[`cook cook(precook("DATA?.number5.notExisted.oops"), {...}) should throw 1`] = `"Cannot read property 'oops' of undefined"`;
+exports[`evaluate should throw [selective]: labeled statement 1`] = `"Unsupported node type \`LabeledStatement\`"`;
 
-exports[`cook cook(precook("EVENT.detail"), {...}) should throw 1`] = `"EVENT is not defined"`;
+exports[`evaluate should throw if restrict no war usage 1`] = `"Var declaration is not recommended, use \`let\` or \`const\` instead"`;
 
-exports[`cook cook(precook("Object.assign(DATA, { override: true })"), {...}) should throw 1`] = `"Object.assign is not a function"`;
+exports[`evaluate should throw: access before initialized 1`] = `"b is not initialized"`;
 
-exports[`cook cook(precook("async () => null"), {...}) should throw 1`] = `"Async function is not allowed: \`async () => null\`"`;
+exports[`evaluate should throw: assign \`for const ... of\` 1`] = `"Assignment to constant variable"`;
 
-exports[`cook cook(precook("c\`a\${1}b\`"), {...}) should throw 1`] = `"c is not defined"`;
+exports[`evaluate should throw: assign \`for const ...\` 1`] = `"Assignment to constant variable"`;
 
-exports[`cook cook(precook("delete DATA.for"), {...}) should throw 1`] = `"Unsupported unary operator \`delete\`: \`delete DATA.for\`"`;
+exports[`evaluate should throw: assign before initialized 1`] = `"a is not initialized"`;
 
-exports[`cook cook(precook("location.assign('/')"), {...}) should throw 1`] = `"location.assign is not a function"`;
+exports[`evaluate should throw: assign constants 1`] = `"Assignment to constant variable"`;
 
-exports[`cook cook(precook("moment.updateLocale('en', {})"), {...}) should throw 1`] = `"moment.updateLocale is not a function"`;
+exports[`evaluate should throw: assign function expressions 1`] = `"Assignment to constant variable"`;
 
-exports[`cook cook(precook("new (a = function () {})()"), {...}) should throw 1`] = `"Unsupported new expression: \`new (a = function () {})()\`"`;
+exports[`evaluate should throw: assign global functions 1`] = `"Assignment to constant variable"`;
 
-exports[`cook cook(precook("new Boolean()"), {...}) should throw 1`] = `"Unsupported constructor \`Boolean\`: \`new Boolean()\`"`;
+exports[`evaluate should throw: assign member of nil 1`] = `"Cannot set property 'b' of undefined"`;
 
-exports[`cook cook(precook("this.bad"), {...}) should throw 1`] = `"Unsupported node type \`ThisExpression\`: \`this\`"`;
+exports[`evaluate should throw: assign variables not defined 1`] = `"a is not defined"`;
 
-exports[`cook cook(precook("typeof unknown.any"), {...}) should throw 1`] = `"unknown is not defined"`;
+exports[`evaluate should throw: expression: (DATA.notExisted?.length).oops 1`] = `"Cannot read property 'oops' of undefined"`;
+
+exports[`evaluate should throw: expression: (Set => new Set())(() => null) 1`] = `"Set is not a constructor"`;
+
+exports[`evaluate should throw: expression: (fn => fn(2,1)+fn())((a=b,b)=>a) 1`] = `"b is not initialized"`;
+
+exports[`evaluate should throw: expression: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\\\u{/u"`;
+
+exports[`evaluate should throw: expression: [...DATA] 1`] = `"Found non-callable @@iterator"`;
+
+exports[`evaluate should throw: expression: [...null] 1`] = `"spreadValues is not iterable (cannot read property null)"`;
+
+exports[`evaluate should throw: expression: [...undefined] 1`] = `"spreadValues is not iterable (cannot read property undefined)"`;
+
+exports[`evaluate should throw: expression: [[1]].map(([a, [b]]) => a + b) 1`] = `"undefined is not iterable"`;
+
+exports[`evaluate should throw: expression: [1, 2].map(([, a]) => a) 1`] = `"number is not iterable"`;
+
+exports[`evaluate should throw: expression: [undefined].map(({...a}) => a) 1`] = `"Cannot destructure properties of undefined or null"`;
+
+exports[`evaluate should throw: expression: [undefined].map(({}) => 1) 1`] = `"Cannot destructure properties of undefined or null"`;
+
+exports[`evaluate should throw: expression: [undefined].map(({a}) => a) 1`] = `"Cannot destructure properties of undefined or null"`;
+
+exports[`evaluate should throw: expression: [undefined].map((i = DATA.number5, DATA) => i) 1`] = `"DATA is not initialized"`;
+
+exports[`evaluate should throw: expression: [undefined].map((i = j + 1) => i) 1`] = `"j is not defined"`;
+
+exports[`evaluate should throw: expression: [undefined].map((i = j + 1, j) => i) 1`] = `"j is not initialized"`;
+
+exports[`evaluate should throw: expression: _.reverse([0,1,2]) 1`] = `"_.reverse is not a function"`;
+
+exports[`evaluate should throw: expression: 1\`a\${1}b\` 1`] = `"1 is not a function"`;
+
+exports[`evaluate should throw: expression: DATA.number5() 1`] = `"DATA.number5 is not a function"`;
+
+exports[`evaluate should throw: expression: DATA.number5.toFixed?.().oops() 1`] = `"DATA.number5.toFixed?.().oops is not a function"`;
+
+exports[`evaluate should throw: expression: DATA.number5?.toFixed.oo.ps 1`] = `"Cannot read property 'ps' of undefined"`;
+
+exports[`evaluate should throw: expression: DATA?.() 1`] = `"DATA is not a function"`;
+
+exports[`evaluate should throw: expression: DATA?.number5() 1`] = `"DATA?.number5 is not a function"`;
+
+exports[`evaluate should throw: expression: DATA?.number5.notExisted.oops 1`] = `"Cannot read property 'oops' of undefined"`;
+
+exports[`evaluate should throw: expression: EVENT.detail 1`] = `"EVENT is not defined"`;
+
+exports[`evaluate should throw: expression: Object.assign(DATA, { override: true }) 1`] = `"Object.assign is not a function"`;
+
+exports[`evaluate should throw: expression: c\`a\${1}b\` 1`] = `"c is not defined"`;
+
+exports[`evaluate should throw: expression: delete DATA.objectC.C1 1`] = `"Cannot delete property 'C1' of #<Object>"`;
+
+exports[`evaluate should throw: expression: location.assign('/') 1`] = `"location.assign is not a function"`;
+
+exports[`evaluate should throw: expression: moment.updateLocale('en', {}) 1`] = `"moment.updateLocale is not a function"`;
+
+exports[`evaluate should throw: expression: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
+
+exports[`evaluate should throw: expression: typeof unknown.any 1`] = `"unknown is not defined"`;
+
+exports[`evaluate should throw: expression-only: (DATA.notExisted?.length).oops 1`] = `"Cannot read property 'oops' of undefined"`;
+
+exports[`evaluate should throw: expression-only: (Set => new Set())(() => null) 1`] = `"Set is not a constructor"`;
+
+exports[`evaluate should throw: expression-only: (fn => fn(2,1)+fn())((a=b,b)=>a) 1`] = `"b is not initialized"`;
+
+exports[`evaluate should throw: expression-only: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\\\u{/u"`;
+
+exports[`evaluate should throw: expression-only: [...DATA] 1`] = `"Found non-callable @@iterator"`;
+
+exports[`evaluate should throw: expression-only: [...null] 1`] = `"spreadValues is not iterable (cannot read property null)"`;
+
+exports[`evaluate should throw: expression-only: [...undefined] 1`] = `"spreadValues is not iterable (cannot read property undefined)"`;
+
+exports[`evaluate should throw: expression-only: [[1]].map(([a, [b]]) => a + b) 1`] = `"undefined is not iterable"`;
+
+exports[`evaluate should throw: expression-only: [1, 2].map(([, a]) => a) 1`] = `"number is not iterable"`;
+
+exports[`evaluate should throw: expression-only: [undefined].map(({...a}) => a) 1`] = `"Cannot destructure properties of undefined or null"`;
+
+exports[`evaluate should throw: expression-only: [undefined].map(({}) => 1) 1`] = `"Cannot destructure properties of undefined or null"`;
+
+exports[`evaluate should throw: expression-only: [undefined].map(({a}) => a) 1`] = `"Cannot destructure properties of undefined or null"`;
+
+exports[`evaluate should throw: expression-only: [undefined].map((i = DATA.number5, DATA) => i) 1`] = `"DATA is not initialized"`;
+
+exports[`evaluate should throw: expression-only: [undefined].map((i = j + 1) => i) 1`] = `"j is not defined"`;
+
+exports[`evaluate should throw: expression-only: [undefined].map((i = j + 1, j) => i) 1`] = `"j is not initialized"`;
+
+exports[`evaluate should throw: expression-only: _.reverse([0,1,2]) 1`] = `"_.reverse is not a function"`;
+
+exports[`evaluate should throw: expression-only: 1\`a\${1}b\` 1`] = `"1 is not a function"`;
+
+exports[`evaluate should throw: expression-only: DATA |> DATA.number5 1`] = `"DATA.number5 is not a function"`;
+
+exports[`evaluate should throw: expression-only: DATA.number5() 1`] = `"DATA.number5 is not a function"`;
+
+exports[`evaluate should throw: expression-only: DATA.number5.toFixed?.().oops() 1`] = `"DATA.number5.toFixed?.().oops is not a function"`;
+
+exports[`evaluate should throw: expression-only: DATA.number5?.toFixed.oo.ps 1`] = `"Cannot read property 'ps' of undefined"`;
+
+exports[`evaluate should throw: expression-only: DATA?.() 1`] = `"DATA is not a function"`;
+
+exports[`evaluate should throw: expression-only: DATA?.number5() 1`] = `"DATA?.number5 is not a function"`;
+
+exports[`evaluate should throw: expression-only: DATA?.number5.notExisted.oops 1`] = `"Cannot read property 'oops' of undefined"`;
+
+exports[`evaluate should throw: expression-only: EVENT.detail 1`] = `"EVENT is not defined"`;
+
+exports[`evaluate should throw: expression-only: Object.assign(DATA, { override: true }) 1`] = `"Object.assign is not a function"`;
+
+exports[`evaluate should throw: expression-only: c\`a\${1}b\` 1`] = `"c is not defined"`;
+
+exports[`evaluate should throw: expression-only: location.assign('/') 1`] = `"location.assign is not a function"`;
+
+exports[`evaluate should throw: expression-only: moment.updateLocale('en', {}) 1`] = `"moment.updateLocale is not a function"`;
+
+exports[`evaluate should throw: expression-only: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
+
+exports[`evaluate should throw: expression-only: typeof unknown.any 1`] = `"unknown is not defined"`;
+
+exports[`evaluate should throw: try without catch 1`] = `"a is not a function"`;

@@ -1,7 +1,7 @@
 import { CallExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
+import { isEvaluable, preevaluate } from "./cook";
 
 const PERMISSIONS = "PERMISSIONS";
 const check = "check";
@@ -35,7 +35,7 @@ function collectPermissionActions(
     if (data.includes(PERMISSIONS) && isEvaluable(data)) {
       preevaluate(data, {
         visitors: {
-          CallExpression: (node: CallExpression, state, callback) => {
+          CallExpression(node: CallExpression) {
             if (
               node.callee.type === "MemberExpression" &&
               node.callee.object.type === "Identifier" &&
@@ -50,7 +50,6 @@ function collectPermissionActions(
                 }
               }
             }
-            PrecookVisitor.CallExpression(node, state, callback);
           },
         },
       });

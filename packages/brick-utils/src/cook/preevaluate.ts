@@ -1,17 +1,34 @@
+import { Expression } from "@babel/types";
+import { parseAsEstreeExpression } from "./parse";
 import { precook } from "./precook";
-import { PrecookOptions, PrecookResult } from "./interfaces";
+import { EstreeVisitors } from "./interfaces";
 
-// `raw` should always be asserted to `isEvaluable`.
+export interface PreevaluateOptions {
+  visitors?: EstreeVisitors;
+}
+
+export interface PreevaluateResult {
+  expression: Expression;
+  attemptToVisitGlobals: Set<string>;
+  source: string;
+}
+
+// `raw` should always be asserted by `isEvaluable`.
 export function preevaluate(
   raw: string,
-  options?: PrecookOptions
-): PrecookResult {
+  options?: PreevaluateOptions
+): PreevaluateResult {
   const source = raw.replace(/^\s*<%~?\s|\s%>\s*$/g, "");
-  try {
-    return precook(source, options);
-  } catch (error) {
-    throw new SyntaxError(`${error.message}, in "${raw}"`);
-  }
+  const expression = parseAsEstreeExpression(source);
+  const attemptToVisitGlobals = precook(expression, {
+    ...options,
+    expressionOnly: true,
+  });
+  return {
+    expression,
+    attemptToVisitGlobals,
+    source,
+  };
 }
 
 export function isEvaluable(raw: string): boolean {

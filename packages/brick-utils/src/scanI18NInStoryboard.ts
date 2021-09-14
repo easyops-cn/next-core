@@ -1,7 +1,7 @@
 import { CallExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
+import { isEvaluable, preevaluate } from "./cook";
 
 interface ESTreeStringLiteral {
   type: "Literal";
@@ -44,7 +44,7 @@ function collectI18N(
     if (data.includes(I18N) && isEvaluable(data)) {
       preevaluate(data, {
         visitors: {
-          CallExpression: (node: CallExpression, state, callback) => {
+          CallExpression(node: CallExpression) {
             const [keyNode, defaultNode] =
               node.arguments as unknown as ESTreeStringLiteral[];
             if (
@@ -67,7 +67,6 @@ function collectI18N(
                 valueSet.add(defaultNode.value);
               }
             }
-            PrecookVisitor.CallExpression(node, state, callback);
           },
         },
       });

@@ -1,6 +1,6 @@
 import { MemberExpression } from "@babel/types";
 import { ContextConf } from "@next-core/brick-types";
-import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
+import { isEvaluable, preevaluate } from "./cook";
 import { isObject } from "./isObject";
 
 export async function resolveContextConcurrently(
@@ -96,7 +96,7 @@ function collectContexts(
     if (data.includes(CTX) && isEvaluable(data)) {
       preevaluate(data, {
         visitors: {
-          MemberExpression: (node: MemberExpression, state, callback) => {
+          MemberExpression(node: MemberExpression) {
             if (node.object.type === "Identifier" && node.object.name === CTX) {
               if (!node.computed && node.property.type === "Identifier") {
                 if (!stats.dependencies.includes(node.property.name)) {
@@ -106,7 +106,6 @@ function collectContexts(
                 stats.includesComputed = true;
               }
             }
-            PrecookVisitor.MemberExpression(node, state, callback);
           },
         },
       });

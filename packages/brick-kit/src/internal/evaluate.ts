@@ -5,7 +5,9 @@ import {
   hasOwnProperty,
   isEvaluable,
   preevaluate,
+  PreevaluateResult,
   shouldAllowRecursiveEvaluations,
+  supply,
 } from "@next-core/brick-utils";
 import { MicroApp } from "@next-core/brick-types";
 import { _internalApiGetCurrentContext } from "../core/Runtime";
@@ -54,6 +56,18 @@ export function shouldDismissRecursiveMarkingInjected(
   return shouldAllowRecursiveEvaluations(raw[symbolForRaw]);
 }
 
+const possibleErrorConstructs = new WeakSet<ErrorConstructor>([
+  SyntaxError,
+  TypeError,
+  ReferenceError,
+]);
+
+export function getCookErrorConstructor(error: any): ErrorConstructor {
+  return possibleErrorConstructs.has(error.constructor)
+    ? error.constructor
+    : TypeError;
+}
+
 // `raw` should always be asserted to `isEvaluable` or `isPreEvaluated`.
 export function evaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
@@ -83,19 +97,21 @@ export function evaluate(
   }
 
   // A `SyntaxError` maybe thrown.
-  let precooked: ReturnType<typeof preevaluate>;
+  let precooked: PreevaluateResult;
   try {
     precooked = preevaluate(raw);
   } catch (error) {
+    const message = `${error.message}, in "${raw}"`;
     if (options.isReEvaluation) {
       devtoolsHookEmit("re-evaluation", {
         id: options.evaluationId,
         detail: { raw, context: {} },
-        error: error.message,
+        error: message,
       });
       return;
     } else {
-      throw error;
+      const errorConstructor = getCookErrorConstructor(error);
+      throw new errorConstructor(message);
     }
   }
 
@@ -277,7 +293,9 @@ export function evaluate(
   }
 
   try {
-    const result = cook(precooked, globalVariables);
+    const result = cook(precooked.expression, precooked.source, {
+      globalVariables: supply(precooked.attemptToVisitGlobals, globalVariables),
+    });
     const detail = { raw, context: globalVariables, result };
     if (options.isReEvaluation) {
       devtoolsHookEmit("re-evaluation", {
@@ -297,7 +315,8 @@ export function evaluate(
         error: message,
       });
     } else {
-      throw new SyntaxError(message);
+      const errorConstructor = getCookErrorConstructor(error);
+      throw new errorConstructor(message);
     }
   }
 }
