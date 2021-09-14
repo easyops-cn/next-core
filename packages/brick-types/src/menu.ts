@@ -1,7 +1,6 @@
 import { LocationDescriptor } from "history";
 import { ThemeType } from "@ant-design/compatible/lib/icon";
 import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
-import { CSSProperties } from "react";
 /**
  * 侧边栏菜单配置。
  */
@@ -110,7 +109,7 @@ export interface GradientColor {
 }
 
 /** Antd 图标配置。 */
-export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon | ImgIcon;
+export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon;
 
 /** 优化后的 Antd 图标配置。 */
 export interface RefinedAntdIcon {
@@ -142,10 +141,4 @@ export interface EasyopsIcon {
   icon: string;
   category?: string;
   color?: string | GradientColor;
-}
-
-/** Img图标配置 */
-export interface ImgIcon {
-  imgSrc?: string;
-  imgStyle?: CSSProperties;
 }
