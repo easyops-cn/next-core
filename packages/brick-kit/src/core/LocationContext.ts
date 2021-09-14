@@ -742,7 +742,8 @@ export class LocationContext {
       properties: Record<string, unknown> = {}
     ) => {
       Object.entries(properties).forEach(([key, value]) => {
-        if (key === "useBrick") {
+        // 在测试环境发现有人写成 useBrick: true, 故做了一个兼容处理, 防止报错
+        if (key === "useBrick" && isObject(value)) {
           useBrickList.push(value);
         }
         if (isObject(value)) {
@@ -758,7 +759,7 @@ export class LocationContext {
           item[symbolForTplContextId] = tplContextId;
           if (item.slots) {
             Object.values(item.slots).forEach((slotItem) => {
-              setTplIdForUseBrick((slotItem as any)[slotItem.type]);
+              setTplIdForUseBrick((slotItem as any).bricks);
             });
           }
         }

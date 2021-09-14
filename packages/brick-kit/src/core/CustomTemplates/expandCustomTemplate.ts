@@ -230,17 +230,18 @@ function expandBrickInTemplate(
   const walkUseBrickInProperties = (properties: Record<string, unknown>) => {
     if (!properties) return;
     Object.entries(properties).forEach(([key, value]) => {
-      if (key === "useBrick") {
-        if (Array.isArray(value)) {
-          value.forEach((item) => {
-            expandBrickInTemplate(item as BrickConfInTemplate, proxyContext);
-          });
-        } else {
-          expandBrickInTemplate(value as BrickConfInTemplate, proxyContext);
-        }
-      }
       if (isObject(value)) {
-        walkUseBrickInProperties(value);
+        if (key === "useBrick") {
+          if (Array.isArray(value)) {
+            value.forEach((item) => {
+              expandBrickInTemplate(item as BrickConfInTemplate, proxyContext);
+            });
+          } else {
+            expandBrickInTemplate(value as BrickConfInTemplate, proxyContext);
+          }
+        } else {
+          walkUseBrickInProperties(value);
+        }
       }
     });
   };
