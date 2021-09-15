@@ -64,6 +64,99 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   immediatelyRefCallback?: (element: HTMLElement) => void;
 }
 
+const setProxyRefForSlots = (slots: UseBrickSlotsConf) => {
+  slotsToChildren(slots).forEach((item) => {
+    if (
+      (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy] !==
+      undefined
+    ) {
+      (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
+        item as ProbablyRuntimeBrick;
+    }
+    if (!isEmpty(item.slots)) {
+      setProxyRefForSlots(item.slots);
+    }
+  });
+};
+
+const setProxyRef = (
+  useBrick: UseSingleBrickConf,
+  brick: RuntimeBrick,
+  tplContext: CustomTemplateContext
+) => {
+  let template;
+  const tplTagName = getTagNameOfCustomTemplate(
+    useBrick.brick,
+    _internalApiGetCurrentContext().app?.id
+  );
+  if (tplTagName) {
+    // 如果是模板, 需要展开解析模板, 并遍历模板中的slots, 再给slots的brick绑定值给自身
+    // 为后续ProxyRefs获取brick做值缓存
+    const tplConf: RuntimeBrickConf = {
+      brick: tplTagName,
+      properties: brick.properties,
+      events: useBrick.events,
+      lifeCycle: useBrick.lifeCycle,
+      slots: useBrick.slots as SlotsConf,
+    };
+    template = expandCustomTemplate(
+      tplConf,
+      brick,
+      _internalApiGetCurrentContext(),
+      tplContext
+    );
+    setProxyRefForSlots(template.slots as UseBrickSlotsConf);
+  } else if (
+    (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy]
+  ) {
+    (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
+      brick;
+    setProxyRefForSlots(useBrick.slots as UseBrickSlotsConf);
+  }
+  return template;
+};
+
+const getCurrentRunTimeBrick = (
+  useBrick: UseSingleBrickConf,
+  data: unknown,
+  tplContext: CustomTemplateContext
+): RuntimeBrick => {
+  const trackingContextList: TrackingContextItem[] = [];
+
+  const transformOption: Record<string, any> = {
+    // Keep lazy fields inside `useBrick` inside the `properties`.
+    // They will be transformed by their `BrickAsComponent` later.
+    $$lazyForUseBrick: true,
+    trackingContextList,
+    allowInject: true,
+  };
+
+  if ((useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]) {
+    transformOption.getTplVariables = () =>
+      tplContext.getContext(
+        (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
+      );
+  }
+  const properties = doTransform(
+    data,
+    cloneDeepWithInjectedMark(useBrick.properties) || {},
+    transformOption
+  );
+
+  const brick: RuntimeBrick = {
+    ...useBrick,
+    type: useBrick.brick,
+    // Now transform data in properties too.
+    properties,
+  };
+
+  const runtimeContext = _internalApiGetCurrentContext();
+
+  listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+
+  return brick;
+};
+
 export const handleProxyOfParentTemplate = (
   brick: RuntimeBrick,
   tplContextId: string,
@@ -179,58 +272,6 @@ export const SingleBrickAsComponent = React.memo(
       return true;
     }, [useBrick, data]);
 
-    const setProxyRefForSlots = (slots: UseBrickSlotsConf) => {
-      slotsToChildren(slots).forEach((item) => {
-        if (
-          (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy] !==
-          undefined
-        ) {
-          (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
-            item as ProbablyRuntimeBrick;
-        }
-        if (!isEmpty(item.slots)) {
-          setProxyRefForSlots(item.slots);
-        }
-      });
-    };
-
-    const getCurrentRunTimeBrick = (): RuntimeBrick => {
-      const trackingContextList: TrackingContextItem[] = [];
-
-      const transformOption: Record<string, any> = {
-        // Keep lazy fields inside `useBrick` inside the `properties`.
-        // They will be transformed by their `BrickAsComponent` later.
-        $$lazyForUseBrick: true,
-        trackingContextList,
-        allowInject: true,
-      };
-
-      if ((useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]) {
-        transformOption.getTplVariables = () =>
-          tplContext.getContext(
-            (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
-          );
-      }
-      const properties = doTransform(
-        data,
-        cloneDeepWithInjectedMark(useBrick.properties) || {},
-        transformOption
-      );
-
-      const brick: RuntimeBrick = {
-        ...useBrick,
-        type: useBrick.brick,
-        // Now transform data in properties too.
-        properties,
-      };
-
-      const runtimeContext = _internalApiGetCurrentContext();
-
-      listenOnTrackingContext(brick, trackingContextList, runtimeContext);
-
-      return brick;
-    };
-
     const runtimeBrick = React.useMemo(async () => {
       if (!isBrickAvailable) {
         return null;
@@ -245,37 +286,9 @@ export const SingleBrickAsComponent = React.memo(
         handleHttpError
       );
 
-      brick = getCurrentRunTimeBrick();
+      brick = getCurrentRunTimeBrick(useBrick, data, tplContext);
 
-      const tplTagName = getTagNameOfCustomTemplate(
-        useBrick.brick,
-        _internalApiGetCurrentContext().app?.id
-      );
-      if (tplTagName) {
-        // 如果是模板, 需要展开解析模板, 并遍历模板中的slots, 再给slots的brick绑定值给自身
-        // 为后续ProxyRefs获取brick做值缓存
-        const tplConf: RuntimeBrickConf = {
-          brick: tplTagName,
-          properties: brick.properties,
-          events: useBrick.events,
-          lifeCycle: useBrick.lifeCycle,
-          slots: useBrick.slots as SlotsConf,
-        };
-        template = expandCustomTemplate(
-          tplConf,
-          brick,
-          _internalApiGetCurrentContext(),
-          tplContext
-        );
-        setProxyRefForSlots(template.slots as UseBrickSlotsConf);
-      } else if (
-        (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy]
-      ) {
-        (useBrick as RuntimeBrickConfWithTplSymbols)[
-          symbolForRefForProxy
-        ].brick = brick;
-        setProxyRefForSlots(useBrick.slots as UseBrickSlotsConf);
-      }
+      template = setProxyRef(useBrick, brick, tplContext);
 
       // Let `transform` works still.
       transformProperties(
@@ -520,6 +533,10 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
       ref
     ): React.ReactElement {
       const brickRef = useRef<HTMLElement>();
+      const tplContext = _internalApiGetTplContext();
+      let template: RuntimeBrickConf;
+      let brick: RuntimeBrick;
+
       const isBrickAvailable = React.useMemo(() => {
         if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
           // eslint-disable-next-line
@@ -556,21 +573,10 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
 
         const trackingContextList: TrackingContextItem[] = [];
 
-        const brick: RuntimeBrick = {
-          type: useBrick.brick,
-          // Now transform data in properties too.
-          properties: doTransform(
-            data,
-            cloneDeepWithInjectedMark(useBrick.properties) || {},
-            {
-              // Keep lazy fields inside `useBrick` inside the `properties`.
-              // They will be transformed by their `BrickAsComponent` later.
-              $$lazyForUseBrick: true,
-              trackingContextList,
-              allowInject: true,
-            }
-          ),
-        };
+        brick = getCurrentRunTimeBrick(useBrick, data, tplContext);
+
+        template = setProxyRef(useBrick, brick, tplContext);
+
         // Let `transform` works still.
         transformProperties(
           brick.properties,
@@ -582,6 +588,21 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
             allowInject: true,
           }
         );
+
+        // 设置 properties refProperty值
+        if (
+          (useBrick as RuntimeBrickConfWithTplSymbols)[
+            symbolForComputedPropsFromProxy
+          ]
+        ) {
+          Object.entries(
+            (useBrick as RuntimeBrickConfWithTplSymbols)[
+              symbolForComputedPropsFromProxy
+            ]
+          ).forEach(([propName, propValue]) => {
+            set(brick.properties, propName, propValue);
+          });
+        }
 
         const runtimeContext = _internalApiGetCurrentContext();
 
@@ -627,16 +648,27 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
                 _internalApiGetCurrentContext()
               );
             }
+            // 设置proxyEvent
+            handleProxyOfCustomTemplate(brick);
+
+            const tplContextId = (useBrick as RuntimeBrickConfWithTplSymbols)[
+              symbolForTplContextId
+            ];
+            handleProxyOfParentTemplate(brick, tplContextId, tplContext);
 
             // Memoize the parent ref of useBrick.
             (element as RuntimeBrickElementWithTplSymbols)[
               symbolForParentRefForUseBrickInPortal
             ] = parentRefForUseBrickInPortal;
 
-            if (!useBrick.brick.includes("-")) {
-              (element as RuntimeBrickElement).$$typeof = "native";
-            } else if (!customElements.get(useBrick.brick)) {
-              (element as RuntimeBrickElement).$$typeof = "invalid";
+            if (
+              (element as RuntimeBrickElement).$$typeof !== "custom-template"
+            ) {
+              if (!useBrick.brick.includes("-")) {
+                (element as RuntimeBrickElement).$$typeof = "native";
+              } else if (!customElements.get(useBrick.brick)) {
+                (element as RuntimeBrickElement).$$typeof = "invalid";
+              }
             }
           }
           refCallback?.(element);
@@ -654,17 +686,55 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         return null;
       }
 
-      return React.createElement(
-        useBrick.brick,
-        {
-          ref: innerRefCallback,
-        },
-        ...slotsToChildren(useBrick.slots).map(
-          (item: UseSingleBrickConf, index: number) => (
-            <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+      if (template) {
+        return React.createElement(
+          template.brick,
+          {
+            ref: innerRefCallback,
+          },
+          ...slotsToChildren(template.slots as UseBrickSlotsConf).map(
+            (item: UseSingleBrickConf, index: number) => {
+              return (
+                <SingleBrickAsComponent
+                  key={index}
+                  useBrick={item}
+                  data={brick.properties}
+                />
+              );
+            }
           )
-        )
-      );
+        );
+      } else {
+        return React.createElement(
+          useBrick.brick,
+          {
+            ref: innerRefCallback,
+          },
+          ...slotsToChildren(useBrick.slots).map(
+            (item: UseSingleBrickConf, index: number) => {
+              if (
+                (useBrick as RuntimeBrickConfWithTplSymbols)[
+                  symbolForTplContextId
+                ] &&
+                !(item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId]
+              ) {
+                (item as RuntimeBrickConfWithTplSymbols)[
+                  symbolForTplContextId
+                ] = (useBrick as RuntimeBrickConfWithTplSymbols)[
+                  symbolForTplContextId
+                ];
+              }
+              return (
+                <SingleBrickAsComponent
+                  key={index}
+                  useBrick={item}
+                  data={data}
+                />
+              );
+            }
+          )
+        );
+      }
     }
   )
 );
