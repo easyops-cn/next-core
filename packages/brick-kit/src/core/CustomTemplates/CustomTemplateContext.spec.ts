@@ -31,5 +31,8 @@ describe("CustomTemplateContext", () => {
     expect(context.getContext(id)).toEqual({
       quality: "better",
     });
+
+    expect(context.getBrick(id)).toEqual(brick);
+    expect(context.getBrick("xxx")).toBeUndefined();
   });
 });

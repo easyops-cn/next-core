@@ -26,9 +26,11 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
 
   // For usages of `targetRef: "..."`.
   // `tpl.$$getElementByRef(ref)` will return the ref element inside a custom template.
-  Object.defineProperty(node, "$$getElementByRef", {
-    value: getElementByRef,
-  });
+  if (!node.$$getElementByRef) {
+    Object.defineProperty(node, "$$getElementByRef", {
+      value: getElementByRef,
+    });
+  }
 
   if (!brick.proxy) {
     return;
@@ -123,11 +125,11 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
 
   if (events) {
     for (const [eventType, eventRef] of Object.entries(events)) {
-      const refElement = getElementByRef(eventRef.ref);
+      const refElement = getElementByRef(eventRef.ref) as any;
       // should always have refElement.
       // istanbul ignore else
       if (refElement) {
-        refElement.addEventListener(eventRef.refEvent, (e) => {
+        const listener = (e: Event) => {
           if (e.bubbles) {
             e.stopPropagation();
           }
@@ -139,7 +141,29 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
               composed: e.composed,
             })
           );
-        });
+        };
+        /**
+         * useBrick 重新渲染会导致事件重复绑定发生
+         * 为了防止代理事件重复绑定, 增加$$proxyEvents
+         * 每次设置代理属性方法, 提前判断之前是否已经绑定, 如若有, 则解绑并删除
+         */
+        if (refElement.$$proxyEvents) {
+          refElement.$$proxyEvents = (
+            refElement.$$proxyEvents as Array<
+              [string, string, (e: Event) => void]
+            >
+          ).filter(([proxyEvent, event, listener]) => {
+            if (proxyEvent === eventType) {
+              refElement.removeEventListener(event, listener);
+              return false;
+            }
+            return true;
+          });
+        } else {
+          refElement.$$proxyEvents = [];
+        }
+        refElement.$$proxyEvents.push([eventType, eventRef.refEvent, listener]);
+        refElement.addEventListener(eventRef.refEvent, listener);
       }
     }
   }

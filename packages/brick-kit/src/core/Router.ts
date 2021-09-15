@@ -38,6 +38,7 @@ import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
+import { CustomTemplateContext } from "./CustomTemplates";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 
 export class Router {
@@ -483,6 +484,11 @@ export class Router {
   /* istanbul ignore next */
   getCurrentContext(): PluginRuntimeContext {
     return this.locationContext.getCurrentContext();
+  }
+
+  /* istanbul ignore next */
+  getTplContext(): CustomTemplateContext {
+    return this.locationContext.getTplContext();
   }
 
   /* istanbul ignore next */

@@ -31,4 +31,8 @@ export class CustomTemplateContext {
     }
     return this.contextMap.get(id);
   }
+
+  getBrick(id: string): RuntimeBrick {
+    return this.brickMap.get(id);
+  }
 }

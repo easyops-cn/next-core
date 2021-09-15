@@ -16,7 +16,11 @@ export * from "./useApplyPageTitle";
 export * from "./useCurrentApp";
 export * from "./useLocation";
 export * from "./useRecentApps";
-export * from "./BrickAsComponent";
+export {
+  BrickAsComponent,
+  SingleBrickAsComponent,
+  ForwardRefSingleBrickAsComponent,
+} from "./BrickAsComponent";
 export * from "./BrickWrapper";
 export * from "./developHelper";
 export * from "./UpdatingElement";

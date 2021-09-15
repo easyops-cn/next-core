@@ -737,6 +737,43 @@ export class LocationContext {
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 
+    const useBrickList: RuntimeBrickConfWithTplSymbols[] = [];
+
+    const walkUseBrickInProperties = (
+      properties: Record<string, unknown> = {}
+    ) => {
+      Object.entries(properties).forEach(([key, value]) => {
+        // 在测试环境发现有人写成 useBrick: true, 故做了一个兼容处理, 防止报错
+        if (key === "useBrick" && isObject(value)) {
+          useBrickList.push(value);
+        }
+        if (isObject(value)) {
+          walkUseBrickInProperties(value);
+        }
+      });
+    };
+    const setTplIdForUseBrick = (list: RuntimeBrickConfWithTplSymbols[]) => {
+      list.forEach((item) => {
+        if (Array.isArray(item)) {
+          setTplIdForUseBrick(item);
+        } else {
+          item[symbolForTplContextId] = tplContextId;
+          if (item.slots) {
+            Object.values(item.slots).forEach((slotItem) => {
+              setTplIdForUseBrick((slotItem as any).bricks);
+            });
+          }
+        }
+      });
+    };
+    // 如果properteis中存在useBrick, 则递归遍历并赋值tplContextId
+    if (tplContextId) {
+      walkUseBrickInProperties(brick.properties);
+      if (useBrickList.length > 0) {
+        setTplIdForUseBrick(useBrickList);
+      }
+    }
+
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
         if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
@@ -951,6 +988,10 @@ export class LocationContext {
 
   getCurrentMatch(): MatchResult {
     return this.currentMatch;
+  }
+
+  getTplContext(): CustomTemplateContext {
+    return this.tplContext;
   }
 
   private dispatchLifeCycleEvent(
