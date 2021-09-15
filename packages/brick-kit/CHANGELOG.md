@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.70.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.69.0...@next-core/brick-kit@2.70.0) (2021-09-15)
+
+
+### Features
+
+* useBrick support template ([7b7ed28](https://github.com/easyops-cn/next-core/commit/7b7ed2837f8644dbff45e763fda2e2819df72d8a))
+
+
+
+
+
 # [2.69.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.68.1...@next-core/brick-kit@2.69.0) (2021-09-14)
 
 
