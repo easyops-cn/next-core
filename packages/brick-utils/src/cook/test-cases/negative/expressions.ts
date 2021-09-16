@@ -1,7 +1,6 @@
 import { LooseCase } from "../interfaces";
 
 const negativeCasesOfExpressionAny: string[] = [
-  "this.bad",
   // `_.reverse` is not supplied.
   "_.reverse([0,1,2])",
   "Object.assign(DATA, { override: true })",
@@ -65,12 +64,13 @@ const selectiveNegativeCasesOfAny: string[] = [
 export const selectiveNegativeCasesOfExpressionOnly: string[] = [
   "() => {}",
   "delete DATA.for",
+  "this.bad",
   ...selectiveNegativeCasesOfAny,
 ];
 
 export const negativeCasesOfExpression: LooseCase[] =
   negativeCasesOfExpressionAny
-    .concat("delete DATA.objectC.C1")
+    .concat("delete DATA.objectC.C1", "this.bad")
     .map((source) => [
       `expression: ${source}`,
       {

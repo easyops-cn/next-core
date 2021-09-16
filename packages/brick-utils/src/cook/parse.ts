@@ -4,7 +4,6 @@ import { Expression, FunctionDeclaration, Statement } from "@babel/types";
 export function parseAsEstreeExpression(source: string): Expression {
   return parseExpression(source, {
     plugins: ["estree", ["pipelineOperator", { proposal: "minimal" }]],
-    strictMode: true,
   });
 }
 
