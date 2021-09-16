@@ -284,4 +284,12 @@ describe("precookFunction", () => {
       `"Expect a single function declaration, but received: \\"FunctionDeclaration\\", \\"ExpressionStatement\\""`
     );
   });
+
+  it("should throw if use reserved words of strict mode only", () => {
+    expect(() => {
+      precookFunction("function test() { return ((package)=>package); }");
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected reserved word 'package'. (1:27)"`
+    );
+  });
 });

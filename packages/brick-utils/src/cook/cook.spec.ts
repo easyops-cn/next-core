@@ -69,7 +69,8 @@ const getExtraGlobalVariables = (): Record<string, unknown> => ({
 
 const equivalentFunc = (
   source: string,
-  attemptToVisitGlobals: Set<string>
+  attemptToVisitGlobals: Set<string>,
+  expressionOnly?: boolean
 ): SimpleFunction => {
   const globalVariables = supply(
     attemptToVisitGlobals,
@@ -77,7 +78,7 @@ const equivalentFunc = (
   );
   return new Function(
     ...Object.keys(globalVariables),
-    `"use strict"; return (${source})`
+    `${expressionOnly ? "" : '"use strict"; '}return (${source})`
   )(...Object.values(globalVariables));
 };
 
@@ -127,7 +128,9 @@ describe("evaluate", () => {
         globalVariables,
       }) as SimpleFunction;
       if (!/\|>/.test(source)) {
-        expect(equivalentFunc(source, attemptToVisitGlobals)).toEqual(result);
+        expect(equivalentFunc(source, attemptToVisitGlobals, true)).toEqual(
+          result
+        );
       }
       expect(received).toEqual(result);
     }
@@ -222,7 +225,7 @@ describe("evaluate", () => {
       );
       if (!containsExperimental(source)) {
         expect(() =>
-          equivalentFunc(source, attemptToVisitGlobals)
+          equivalentFunc(source, attemptToVisitGlobals, true)
         ).toThrowError();
       }
       expect(() =>

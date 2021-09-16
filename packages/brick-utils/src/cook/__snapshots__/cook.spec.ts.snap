@@ -60,6 +60,8 @@ exports[`evaluate should throw [selective]: expression-only: delete DATA.for 1`]
 
 exports[`evaluate should throw [selective]: expression-only: new Boolean() 1`] = `"Boolean is not an allowed constructor"`;
 
+exports[`evaluate should throw [selective]: expression-only: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
+
 exports[`evaluate should throw [selective]: generator functions 1`] = `"Generator function is not allowed"`;
 
 exports[`evaluate should throw [selective]: labeled statement 1`] = `"Unsupported node type \`LabeledStatement\`"`;
@@ -203,8 +205,6 @@ exports[`evaluate should throw: expression-only: c\`a\${1}b\` 1`] = `"c is not d
 exports[`evaluate should throw: expression-only: location.assign('/') 1`] = `"location.assign is not a function"`;
 
 exports[`evaluate should throw: expression-only: moment.updateLocale('en', {}) 1`] = `"moment.updateLocale is not a function"`;
-
-exports[`evaluate should throw: expression-only: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
 
 exports[`evaluate should throw: expression-only: typeof unknown.any 1`] = `"unknown is not defined"`;
 

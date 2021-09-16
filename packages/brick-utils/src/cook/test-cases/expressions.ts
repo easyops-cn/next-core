@@ -1,6 +1,6 @@
 import { LooseCase } from "./interfaces";
 
-export const casesOfExpressionOnly: [string, unknown][] = [
+const casesOfExpressionAny: [string, unknown][] = [
   ["'good'", "good"],
   ["1", 1],
   ["null", null],
@@ -195,11 +195,6 @@ export const casesOfExpressionOnly: [string, unknown][] = [
   ["[undefined].map(({a, ...b}={}) => a + b)", ["undefined[object Object]"]],
   // `ObjectPattern` with a computed key
   ["[{'a.b': 1}].map(({'a.b': c}) => c)", [1]],
-  // Pipeline operator.
-  ["DATA.number5 |> PIPES.string", "5"],
-  ["DATA.number5 |> String", "5"],
-  // Sequential pipeline operators with an arrow function.
-  ["DATA.number5 |> (_ => _ + 1) |> PIPES.string", "6"],
   // Reuse arrow functions.
   ["(fn => fn(2)+fn())((a=1)=>a)", 3],
   // Nested arrow functions
@@ -226,9 +221,18 @@ export const casesOfExpressionOnly: [string, unknown][] = [
   ["atob('aGVsbG8=')", "hello"],
 ];
 
-export const casesOfExpressions: LooseCase[] = casesOfExpressionOnly
-  .filter((item) => !/\|>/.test(item[0]))
-  .map(([source, result]) => [
+export const casesOfExpressionOnly: [string, unknown][] = [
+  ...casesOfExpressionAny,
+  // Pipeline operator.
+  ["DATA.number5 |> PIPES.string", "5"],
+  ["DATA.number5 |> String", "5"],
+  // Sequential pipeline operators with an arrow function.
+  ["DATA.number5 |> (_ => _ + 1) |> PIPES.string", "6"],
+  ["((package)=>package)(1)", 1],
+];
+
+export const casesOfExpressions: LooseCase[] = casesOfExpressionAny.map(
+  ([source, result]) => [
     `expression: ${source}`,
     {
       source: `
@@ -239,4 +243,5 @@ export const casesOfExpressions: LooseCase[] = casesOfExpressionOnly
       args: [],
       result,
     },
-  ]);
+  ]
+);
