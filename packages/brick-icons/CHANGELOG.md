@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.22.4...@next-core/brick-icons@2.22.5) (2021-09-16)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+
+
+
+
 ## [2.22.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.22.3...@next-core/brick-icons@2.22.4) (2021-09-14)
 
 **Note:** Version bump only for package @next-core/brick-icons

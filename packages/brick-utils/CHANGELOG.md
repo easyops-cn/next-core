@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.27.0...@next-core/brick-utils@2.27.1) (2021-09-16)
+
+
+### Bug Fixes
+
+* **cook:** use non-strict-mode for expression ([d25af31](https://github.com/easyops-cn/next-core/commit/d25af318bf92b84bbe0ec98fcd475d999c743791))
+
+
+
+
+
 # [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.5...@next-core/brick-utils@2.27.0) (2021-09-14)
 
 
