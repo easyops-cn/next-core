@@ -93,6 +93,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./.coverage/lcov.info
+      continue-on-error: true
 
     - id: next-publish-from-tags
       uses: easyops-cn/actions-next-publish-from-tags@master

@@ -3516,6 +3516,7 @@
           "isObject",
           "isRouteNode",
           "isSnippetNode",
+          "lint",
           "loadScript",
           "mapCustomApisToNameAndNamespace",
           "matchPath",

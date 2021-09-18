@@ -1,5 +1,6 @@
 // istanbul ignore file
 export * from "./cook";
+export * from "./lint";
 export * from "./precook";
 export * from "./precookFunction";
 export * from "./preevaluate";

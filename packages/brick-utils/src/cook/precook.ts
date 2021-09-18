@@ -277,8 +277,12 @@ export function precook(
             return;
         }
       }
-      // eslint-disable-next-line no-console
-      console.warn(`Unsupported node type \`${node.type}\``);
+      if (visitors && hasOwnProperty(visitors, "UnknownNode")) {
+        visitors.UnknownNode(node);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn(`Unsupported node type \`${node.type}\``);
+      }
     }
   }
 

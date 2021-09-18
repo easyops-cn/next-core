@@ -63,6 +63,7 @@ import {
   EstreeObjectExpression,
   EstreeObjectPattern,
   EstreeProperty,
+  CookRules,
 } from "./interfaces";
 import { sanitize, isAllowedConstructor } from "./sanitize";
 import {
@@ -71,13 +72,9 @@ import {
   containsExpression,
 } from "./traverse";
 
-export interface EvaluateOptions {
-  rules?: EvaluateRules;
+export interface CookOptions {
+  rules?: CookRules;
   globalVariables?: Record<string, unknown>;
-}
-
-export interface EvaluateRules {
-  noVar?: boolean;
 }
 
 export interface CookContext {
@@ -88,7 +85,7 @@ export interface CookContext {
 export function cook(
   rootAst: FunctionDeclaration | Expression,
   codeSource: string,
-  { rules, globalVariables = {} }: EvaluateOptions = {}
+  { rules, globalVariables = {} }: CookOptions = {}
 ): unknown {
   const expressionOnly = rootAst.type !== "FunctionDeclaration";
 
