@@ -1080,6 +1080,7 @@ export interface BuiltinBrickEventHandler {
     | "location.reload"
     | "location.assign"
     | "window.open"
+    | "window.triggerResize"
     | "event.preventDefault"
     | "console.log"
     | "console.error"

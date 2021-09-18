@@ -328,6 +328,9 @@ describe("bindListeners", () => {
           args: ["www.google.com"],
         },
         {
+          action: "window.triggerResize",
+        },
+        {
           action: "location.reload",
           args: [true],
         },
@@ -596,6 +599,7 @@ describe("bindListeners", () => {
     jest.spyOn(console, "warn").mockImplementation(() => void 0);
     jest.spyOn(console, "error").mockImplementation(() => void 0);
     window.open = jest.fn();
+    window.dispatchEvent = jest.fn();
 
     jest.spyOn(Storage.prototype, "setItem");
     jest.spyOn(Storage.prototype, "removeItem");
@@ -800,6 +804,7 @@ describe("bindListeners", () => {
       "specified args for multiple"
     );
     expect(window.open).toBeCalledWith("www.google.com", "_self");
+    expect(window.dispatchEvent).toHaveBeenCalled();
     expect((targetElem2 as any).forGood).toHaveBeenNthCalledWith(
       1,
       "specified args for multiple"

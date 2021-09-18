@@ -155,6 +155,8 @@ export function listenerFactory(
         return builtinIframeListenerFactory(handler.args, handler, context);
       case "window.open":
         return builtinWindowListenerFactory(handler.args, handler, context);
+      case "window.triggerResize":
+        return builtinWindowTriggerResizeFactory(handler, context);
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(
@@ -344,6 +346,19 @@ function builtinTplDispatchEventFactory(
       CustomEventInit
     ];
     tpl.dispatchEvent(new CustomEvent(type, init));
+  } as EventListener;
+}
+
+function builtinWindowTriggerResizeFactory(
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+
+    window.dispatchEvent(new CustomEvent("resize"));
   } as EventListener;
 }
 
