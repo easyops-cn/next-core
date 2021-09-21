@@ -1,5 +1,5 @@
-import { utils } from "@easyops-cn/brick-next-pipes";
-export { pipes } from "@easyops-cn/brick-next-pipes";
+import { utils } from "@next-core/pipes";
+export { pipes } from "@next-core/pipes";
 
 export { inject, transform, transformAndInject } from "./compile";
 

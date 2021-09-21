@@ -9,7 +9,7 @@ module.exports = {
     "/packages/.*-config-factory/",
     "/scripts/",
     "/__jest__/",
-    "/test-cases/",
+    "/__fixtures__/",
   ],
   collectCoverage: true,
   coverageThreshold: {

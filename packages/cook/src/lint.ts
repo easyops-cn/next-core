@@ -4,6 +4,7 @@ import {
   File,
   FunctionDeclaration,
   FunctionExpression,
+  Identifier,
   SourceLocation,
   Statement,
   VariableDeclaration,
@@ -28,6 +29,7 @@ export interface LintError {
   loc: SourceLocation;
 }
 
+/** For next-core internal or devtools usage only. */
 export function lint(
   source: string,
   { typescript, rules }: LintOptions = {}
@@ -40,10 +42,11 @@ export function lint(
         Boolean
       ) as ParserPlugin[],
       strictMode: true,
-      // Use module to find invalid export/import declarations.
-      sourceType: "module",
+      // Allow export/import declarations to make linter handle errors.
+      sourceType: "unambiguous",
     });
   } catch (e) {
+    // Return no errors if parse failed.
     return errors;
   }
   const body = file.program.body;
@@ -161,12 +164,21 @@ export function lint(
             });
           }
         },
-        UnknownNode(node: EstreeNode) {
+        __UnknownNode(node: EstreeNode) {
           errors.push({
             type: "SyntaxError",
             message: `Unsupported syntax: \`${node.type}\``,
             loc: node.loc,
           });
+        },
+        __GlobalVariable(node: Identifier) {
+          if (node.name === "arguments") {
+            errors.push({
+              type: "SyntaxError",
+              message: "Use the rest parameters instead of 'arguments'",
+              loc: node.loc,
+            });
+          }
         },
       },
     });

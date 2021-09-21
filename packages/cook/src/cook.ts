@@ -82,6 +82,7 @@ export interface CookContext {
   attemptToVisitGlobals: Set<string>;
 }
 
+/** For next-core internal usage only. */
 export function cook(
   rootAst: FunctionDeclaration | Expression,
   codeSource: string,

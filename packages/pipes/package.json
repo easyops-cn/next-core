@@ -1,19 +1,19 @@
 {
-  "name": "@next-core/brick-utils",
-  "version": "2.27.1",
-  "description": "Pure utility functions for kernel",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-utils",
+  "name": "@next-core/pipes",
+  "version": "1.0.0",
+  "description": "Pipes for expressions and storyboard functions",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/pipes",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
   "main": "dist/index.bundle.js",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
-  },
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
@@ -29,19 +29,14 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.39.1",
-    "@next-core/cook": "^1.0.0",
-    "file-saver": "^2.0.5",
-    "path-to-regexp": "^6.2.0"
+    "@easyops-cn/brick-next-pipes": "^0.3.12"
   },
   "devDependencies": {
-    "@next-core/pipes": "^1.0.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1"
   },
   "peerDependencies": {
-    "@next-core/pipes": "*",
     "js-yaml": "*",
     "lodash": "*",
     "moment": "*"

@@ -1,11 +1,6 @@
+import { PipeCall } from "@next-core/pipes";
 import { tokenize } from "./lexical";
-import {
-  Token,
-  TokenType,
-  InjectableString,
-  Placeholder,
-  PipeCall,
-} from "./interfaces";
+import { Token, TokenType, InjectableString, Placeholder } from "./interfaces";
 
 export function parseInjectableString(
   raw: string,

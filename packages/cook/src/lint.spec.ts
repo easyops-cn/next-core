@@ -214,6 +214,24 @@ describe("lint", () => {
       ],
     ],
     [
+      "Using 'arguments'",
+      `
+        function test(){
+          return arguments;
+        }
+      `,
+      [
+        {
+          type: "SyntaxError",
+          message: "Use the rest parameters instead of 'arguments'",
+          loc: {
+            start: { line: 3, column: 17 },
+            end: { line: 3, column: 26 },
+          },
+        },
+      ],
+    ],
+    [
       "Debugger statement",
       `
         function test(){

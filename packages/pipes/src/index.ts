@@ -1,12 +1,30 @@
 import { pipes } from "@easyops-cn/brick-next-pipes";
-import { PipeCall } from "./interfaces";
+
+export { pipes, utils } from "@easyops-cn/brick-next-pipes";
 
 type PipeFunction = (...args: unknown[]) => unknown;
 
-export const PipeRegistry = new Map<string, PipeFunction>(
+export interface PipeCall extends Node {
+  type: "PipeCall";
+  identifier: string;
+  parameters: any[];
+}
+
+export interface Node {
+  type: string;
+  loc?: SourceLocation;
+}
+
+export interface SourceLocation {
+  start: number;
+  end: number;
+}
+
+const PipeRegistry = new Map<string, PipeFunction>(
   Array.from(Object.entries(pipes as Record<string, PipeFunction>))
 );
 
+/** For next-core internal usage only. */
 export function processPipes(value: unknown, pipes: PipeCall[]): unknown {
   if (pipes.length === 0) {
     return value;

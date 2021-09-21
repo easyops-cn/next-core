@@ -1,5 +1,4 @@
-import { processPipes } from "./pipes";
-import { PipeCall } from "./interfaces";
+import { processPipes, PipeCall } from "./";
 
 type Identifier = string;
 type Parameters = any[];

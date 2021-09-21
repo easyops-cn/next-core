@@ -1,21 +1,21 @@
 import { install, InstalledClock } from "lolex";
 import { SimpleFunction } from "@next-core/brick-types";
+import { supply } from "@next-core/supply";
 import { cloneDeep } from "lodash";
 import { cook } from "./cook";
-import { supply } from "./supply";
 import { precookFunction } from "./precookFunction";
 import { preevaluate } from "./preevaluate";
 import {
   positiveCases,
   negativeCases,
   selectiveNegativeCases,
-} from "./test-cases";
-import { NormalizedCase } from "./test-cases/interfaces";
-import { casesOfExpressionOnly } from "./test-cases/expressions";
+} from "./__fixtures__";
+import { NormalizedCase } from "./__fixtures__/interfaces";
+import { casesOfExpressionOnly } from "./__fixtures__/expressions";
 import {
   negativeCasesOfExpressionOnly,
   selectiveNegativeCasesOfExpressionOnly,
-} from "./test-cases/negative/expressions";
+} from "./__fixtures__/negative/expressions";
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 

@@ -1,7 +1,7 @@
 {
   "name": "@next-core/build-next-libs",
   "version": "0.2.2",
-  "description": "build next libs",
+  "description": "Build next libs (and some next-core libs)",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-next-libs",
   "license": "GPL-3.0",
   "main": "src/index.js",
