@@ -110,18 +110,20 @@ export function lint(
         FunctionDeclaration: FunctionVisitor,
         FunctionExpression: FunctionVisitor,
         Literal(node: EstreeLiteral) {
-          if (node.value === null) {
-            errors.push({
-              type: "SyntaxError",
-              message: "Invalid regular expression",
-              loc: node.loc,
-            });
-          } else if (node.regex.flags.includes("u")) {
-            errors.push({
-              type: "SyntaxError",
-              message: "Unsupported unicode flag in regular expression",
-              loc: node.loc,
-            });
+          if (node.regex) {
+            if (node.value === null) {
+              errors.push({
+                type: "SyntaxError",
+                message: "Invalid regular expression",
+                loc: node.loc,
+              });
+            } else if (node.regex.flags.includes("u")) {
+              errors.push({
+                type: "SyntaxError",
+                message: "Unsupported unicode flag in regular expression",
+                loc: node.loc,
+              });
+            }
           }
         },
         ObjectExpression(node: EstreeObjectExpression) {

@@ -2,7 +2,7 @@ import { lint, LintError } from "./lint";
 
 describe("lint", () => {
   it.each<[desc: string, source: string, errors: LintError[]]>([
-    ["Valid function", `function test(){}`, []],
+    ["Valid function", `function test(){ return "a" }`, []],
     [
       "Empty source",
       ``,
