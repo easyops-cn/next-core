@@ -9,6 +9,7 @@ node_modules
 report.*.json
 
 /dev.config.js
+/dev-settings.yaml
 
 /cypress/videos
 /cypress/screenshots

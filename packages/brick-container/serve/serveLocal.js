@@ -10,6 +10,7 @@ const {
   getTemplatePackages,
   getSingleStoryboard,
   tryServeFiles,
+  tryFiles,
 } = require("./utils");
 
 module.exports = (env, app) => {
@@ -23,6 +24,7 @@ module.exports = (env, app) => {
     localTemplates,
     microAppsDir,
     brickPackagesDir,
+    alternativeBrickPackagesDir,
     templatePackagesDir,
     mocked,
     mockedMicroAppsDir,
@@ -41,6 +43,18 @@ module.exports = (env, app) => {
           [
             path.join(brickPackagesDir, pkgId, "dist-editors", req.params[0]),
             path.join(brickPackagesDir, pkgId, "dist/editors", req.params[0]),
+            path.join(
+              alternativeBrickPackagesDir,
+              pkgId,
+              "dist-editors",
+              req.params[0]
+            ),
+            path.join(
+              alternativeBrickPackagesDir,
+              pkgId,
+              "dist/editors",
+              req.params[0]
+            ),
           ],
           req,
           res
@@ -57,8 +71,14 @@ module.exports = (env, app) => {
           )}(?!dist\\/editors\\/)(.+)`
         ),
         (req, res) => {
-          const filePath = path.join(brickPackagesDir, pkgId, req.params[0]);
-          tryServeFiles(filePath, req, res);
+          tryServeFiles(
+            [
+              path.join(brickPackagesDir, pkgId, req.params[0]),
+              path.join(alternativeBrickPackagesDir, pkgId, req.params[0]),
+            ],
+            req,
+            res
+          );
         }
       );
     });
@@ -139,8 +159,14 @@ module.exports = (env, app) => {
 
     // 直接返回构件库 js 文件。
     app.get(`${publicPath}bricks/*`, (req, res) => {
-      const filePath = path.join(brickPackagesDir, req.params[0]);
-      tryServeFiles(filePath, req, res);
+      tryServeFiles(
+        [
+          path.join(brickPackagesDir, req.params[0]),
+          path.join(alternativeBrickPackagesDir, req.params[0]),
+        ],
+        req,
+        res
+      );
     });
 
     // 直接返回小产品相关文件。

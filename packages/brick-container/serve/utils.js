@@ -75,18 +75,23 @@ function getBrickPackages(env) {
 }
 
 function getNamesOfBrickPackages(env) {
-  if (!fs.existsSync(env.brickPackagesDir)) {
+  const dir = tryFiles([env.brickPackagesDir, env.alternativeBrickPackagesDir]);
+  if (!dir) {
     return [];
   }
   return fs
-    .readdirSync(env.brickPackagesDir, { withFileTypes: true })
+    .readdirSync(dir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
     .map((dirent) => dirent.name);
 }
 
 function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
-  const { brickPackagesDir, localBrickPackages, localEditorPackages } = env;
-  const distDir = path.join(brickPackagesDir, brickPackageName, "dist");
+  const {
+    brickPackagesDir,
+    alternativeBrickPackagesDir,
+    localBrickPackages,
+    localEditorPackages,
+  } = env;
   let remoteJson;
   // `remoteBrickPackages` is passed only in remote-local-mixed mode.
   if (remoteBrickPackages) {
@@ -104,6 +109,10 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
   } else {
     remoteJson = {};
   }
+  const distDir = tryFiles([
+    path.join(brickPackagesDir, brickPackageName, "dist"),
+    path.join(alternativeBrickPackagesDir, brickPackageName, "dist"),
+  ]);
   if (fs.existsSync(distDir)) {
     if (!remoteBrickPackages || localBrickPackages.includes(brickPackageName)) {
       let filePath, bricksJson;
@@ -133,11 +142,7 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
       !remoteBrickPackages ||
       localEditorPackages.includes(brickPackageName)
     ) {
-      const distEditorsDir = path.join(
-        brickPackagesDir,
-        brickPackageName,
-        "dist-editors/editors.json"
-      );
+      const distEditorsDir = path.join(distDir, "../dist-editors/editors.json");
       if (fs.existsSync(distEditorsDir)) {
         const editorsJson = JSON.parse(fs.readFileSync(distEditorsDir, "utf8"));
         Object.assign(remoteJson, editorsJson);
@@ -255,10 +260,12 @@ function listRealpathOfSubdir(dir) {
 
 function getPatternsToWatch(env) {
   return [
-    ...listRealpathOfSubdir(env.brickPackagesDir).flatMap((dir) => [
-      path.join(dir, "dist/*.js"),
-      path.join(dir, "dist-editors/*.js"),
-    ]),
+    ...listRealpathOfSubdir(env.brickPackagesDir)
+      .concat(listRealpathOfSubdir(env.alternativeBrickPackagesDir))
+      .flatMap((dir) => [
+        path.join(dir, "dist/*.js"),
+        path.join(dir, "dist-editors/*.js"),
+      ]),
     ...listRealpathOfSubdir(env.microAppsDir).map((dir) =>
       path.join(dir, "storyboard.*")
     ),
@@ -289,15 +296,15 @@ function checkLocalPackages(env) {
     }
   }
   for (const item of env.localBrickPackages) {
-    if (!fs.existsSync(path.join(env.brickPackagesDir, item))) {
+    const itemDir = tryFiles([
+      path.join(env.brickPackagesDir, item),
+      path.join(env.alternativeBrickPackagesDir, item),
+    ]);
+    if (!itemDir) {
       console.log(chalk.red(`Error: Local bricks not found: ${item}`));
-    } else if (
-      !fs.existsSync(path.join(env.brickPackagesDir, item, "package.json"))
-    ) {
+    } else if (!fs.existsSync(path.join(itemDir, "package.json"))) {
       console.log(chalk.red(`Error: Local bricks are empty: ${item}`));
-    } else if (
-      !fs.existsSync(path.join(env.brickPackagesDir, item, "dist/bricks.json"))
-    ) {
+    } else if (!fs.existsSync(path.join(itemDir, "dist/bricks.json"))) {
       console.log(
         chalk.yellow(`Warning: Local bricks are not built yet: ${item}`)
       );
@@ -322,12 +329,19 @@ function checkLocalPackages(env) {
   }
 }
 
-function tryServeFiles(files, req, res) {
+function tryFiles(files) {
   for (const filePath of [].concat(files)) {
     if (fs.existsSync(filePath)) {
-      res.sendFile(filePath);
-      return;
+      return filePath;
     }
+  }
+}
+
+function tryServeFiles(files, req, res) {
+  const filePath = tryFiles(files);
+  if (filePath) {
+    res.sendFile(filePath);
+    return;
   }
   res.status(404).json({
     error: `404 Not Found: ${req.method} ${req.originalUrl}`,
@@ -364,5 +378,6 @@ exports.getNamesOfBrickPackages = getNamesOfBrickPackages;
 exports.getNamesOfTemplatePackages = getNamesOfTemplatePackages;
 exports.getPatternsToWatch = getPatternsToWatch;
 exports.checkLocalPackages = checkLocalPackages;
+exports.tryFiles = tryFiles;
 exports.tryServeFiles = tryServeFiles;
 exports.appendLiveReloadScript = appendLiveReloadScript;
