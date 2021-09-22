@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.27.1...@next-core/brick-utils@2.28.0) (2021-09-22)
+
+
+### Features
+
+* lint storyboard functions ([c9b25d8](https://github.com/easyops-cn/next-core/commit/c9b25d837a604503d4a70f19c68922695e0c2650))
+
+
+
+
+
 ## [2.27.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.27.0...@next-core/brick-utils@2.27.1) (2021-09-16)
 
 
