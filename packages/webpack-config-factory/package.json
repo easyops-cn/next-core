@@ -44,7 +44,8 @@
     "url-loader": "^4.1.1",
     "webpack": "^4.46.0",
     "webpack-cli": "^4.8.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "worker-loader": "^3.0.8"
   },
   "peerDependencies": {
     "@next-core/brick-dll": "*"

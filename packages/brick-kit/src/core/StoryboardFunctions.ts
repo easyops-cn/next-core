@@ -3,7 +3,8 @@ import {
   RuntimeStoryboardFunction,
   SimpleFunction,
 } from "@next-core/brick-types";
-import { cook, precookFunction, supply } from "@next-core/brick-utils";
+import { cook, precookFunction } from "@next-core/brick-utils";
+import { supply } from "@next-core/supply";
 
 const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
 

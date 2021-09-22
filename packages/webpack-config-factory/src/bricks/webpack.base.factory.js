@@ -12,6 +12,8 @@ const ScanEditorBricksPlugin = require("./ScanEditorBricksPlugin");
 const NextDllReferencePlugin = require("../dll/NextDllReferencePlugin");
 const BrickHashedModuleIdsPlugin = require("./BrickHashedModuleIdsPlugin");
 
+const isProd = process.env.NODE_ENV === "production";
+
 const getCssLoader = (cssOptions) => ({
   loader: "css-loader",
   options: {
@@ -171,9 +173,31 @@ module.exports =
               ]
             : []),
           {
+            // For web workers.
+            test: /\.worker\.(ts|js)$/,
+            exclude: /node_modules/,
+            use: [
+              {
+                loader: "worker-loader",
+                options: {
+                  publicPath: `${distPublicPath}/`,
+                  filename(pathData) {
+                    const chunkName = pathData.chunk.name.replace(
+                      /\.worker$/,
+                      ""
+                    );
+                    return `workers/${chunkName}.${
+                      isProd ? "[contenthash:8]" : "bundle"
+                    }.worker.js`;
+                  },
+                },
+              },
+            ],
+          },
+          {
             // Include ts, tsx, js, and jsx files.
             test: /\.(ts|js)x?$/,
-            exclude: /node_modules|\.worker\./,
+            exclude: /node_modules/,
             loader: "babel-loader",
             options: {
               rootMode: "upward",

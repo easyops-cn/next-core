@@ -3491,6 +3491,7 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": [
+          "pipes",
           "JsonStorage",
           "PrecookFunctionVisitor",
           "PrecookVisitor",
@@ -3516,13 +3517,12 @@
           "isObject",
           "isRouteNode",
           "isSnippetNode",
+          "lint",
           "loadScript",
           "mapCustomApisToNameAndNamespace",
           "matchPath",
           "normalizeBuilderNode",
           "normalizeMenu",
-          "pipes",
-          "precook",
           "precookFunction",
           "preevaluate",
           "prefetchScript",
@@ -3543,7 +3543,6 @@
           "scanTemplatesInStoryboard",
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
-          "supply",
           "toPath",
           "trackContext",
           "transform",
@@ -11666,6 +11665,13 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
+      }
+    },
+    "./node_modules/@easyops/pipes/dist/index.esm.js": {
+      "id": "VU4u",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["pipes", "processPipes", "utils"]
       }
     },
     "./node_modules/@ant-design/icons/es/icons/CloudOutlined.js": {

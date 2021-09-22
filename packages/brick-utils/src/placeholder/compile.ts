@@ -3,8 +3,8 @@ import {
   PluginRuntimeContext,
   StoryboardContextItem,
 } from "@next-core/brick-types";
+import { processPipes } from "@next-core/pipes";
 import { parseInjectableString } from "./syntax";
-import { processPipes } from "./pipes";
 import { Placeholder } from "./interfaces";
 import { getRegExpOfPlaceholder } from "./lexical";
 

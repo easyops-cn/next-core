@@ -1,38 +1,35 @@
 {
-  "name": "@next-core/brick-utils",
-  "version": "2.27.1",
-  "description": "Pure utility functions for kernel",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-utils",
+  "name": "@next-core/supply",
+  "version": "1.0.0",
+  "description": "Supply for expressions and storyboard functions",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/supply",
   "license": "GPL-3.0",
-  "main": "dist/index.bundle.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/types/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
   },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
-    "start": "concurrently -k -n tsc,build \"npm run start:types\" \"npm run start:rollup\"",
-    "start:rollup": "cross-env NODE_ENV='development' rollup --watch --config rollup.config.js",
+    "start": "concurrently -k -n types,main \"npm run start:types\" \"npm run start:main\"",
+    "start:main": "cross-env NODE_ENV=development build-next-libs --watch",
     "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
     "prebuild": "npm run clean",
-    "build": "npm run build:types && npm run build:rollup",
-    "build:rollup": "cross-env NODE_ENV='production' rollup --config rollup.config.js",
+    "build": "npm run build:types && npm run build:main",
+    "build:main": "cross-env NODE_ENV=production build-next-libs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.39.1",
-    "@next-core/cook": "^1.0.0",
-    "file-saver": "^2.0.5",
-    "path-to-regexp": "^6.2.0"
+    "@next-core/brick-types": "^2.39.1"
   },
   "devDependencies": {
     "@next-core/pipes": "^1.0.0",

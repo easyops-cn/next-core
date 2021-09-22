@@ -21,10 +21,11 @@ function build(type) {
         "src/**/*.spec.tsx",
         "src/**/*.d.ts",
         "src/**/__mocks__/*",
+        "src/**/__fixtures__/*",
       ].join(","),
       ...(type === "cjs" ? [] : ["--copy-files", "--no-copy-ignored"]),
       "--source-maps",
-      process.argv.includes("--watch") && "--watch",
+      ...(process.argv.includes("--watch") ? ["--watch"] : []),
     ],
     {
       stdio: "inherit",
@@ -42,13 +43,16 @@ function build(type) {
     : task.then(
         () =>
           new Promise((resolve, reject) => {
-            rimraf(`dist/${type}/**/__{snapshots,mocks}__`, (err) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve();
+            rimraf(
+              `dist/{${type},types}/**/__{snapshots,mocks,fixtures}__`,
+              (err) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve();
+                }
               }
-            });
+            );
           })
       );
 }

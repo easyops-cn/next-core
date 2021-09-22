@@ -7,6 +7,7 @@ import {
   ObjectPattern,
   ObjectProperty,
   RestElement,
+  SourceLocation,
   SpreadElement,
   VariableDeclaration,
 } from "@babel/types";
@@ -37,6 +38,7 @@ export type EstreeProperty = Omit<ObjectProperty, "type"> & {
 export interface EstreeChainExpression {
   type: "ChainExpression";
   expression: Expression;
+  loc: SourceLocation;
 }
 
 export interface EstreeLiteral {
@@ -46,6 +48,7 @@ export interface EstreeLiteral {
   regex?: {
     flags: string;
   };
+  loc: SourceLocation;
 }
 
 export type NodeWithBoundNames =
@@ -56,3 +59,7 @@ export type NodeWithBoundNames =
 export type EstreeVisitors = Record<string, EstreeVisitorFn>;
 
 export type EstreeVisitorFn = (node: any) => void;
+
+export interface CookRules {
+  noVar?: boolean;
+}

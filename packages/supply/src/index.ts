@@ -1,8 +1,7 @@
 import lodash from "lodash";
 import moment from "moment";
 import { SimpleFunction } from "@next-core/brick-types";
-import { PipeRegistry } from "../placeholder/pipes";
-import { hasOwnProperty } from "../hasOwnProperty";
+import { pipes } from "@next-core/pipes";
 
 export function supply(
   attemptToVisitGlobals: Set<string>,
@@ -14,7 +13,7 @@ export function supply(
   // Allow limited browser builtin values.
   globalVariables["undefined"] = undefined;
   for (const variableName of attemptToVisitGlobals) {
-    if (!hasOwnProperty(globalVariables, variableName)) {
+    if (!Object.prototype.hasOwnProperty.call(globalVariables, variableName)) {
       const variable = supplyIndividual(variableName);
       if (variable !== undefined) {
         globalVariables[variableName] = variable;
@@ -147,7 +146,7 @@ function supplyIndividual(variableName: string): unknown {
         )
       );
     case "PIPES":
-      return Object.fromEntries(PipeRegistry.entries());
+      return pipes;
     case "location":
       return { href: location.href, origin: location.origin };
     case "TAG_URL":

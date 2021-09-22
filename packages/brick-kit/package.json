@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@next-core/brick-types": "^2.39.1",
+    "@next-core/supply": "^1.0.0",
     "@next-sdk/auth-sdk": "^1.0.0",
     "@next-sdk/cmdb-sdk": "^2.1.1",
     "@next-sdk/micro-app-sdk": "^2.1.1",
@@ -46,6 +47,7 @@
     "@next-core/brick-utils": "^2.27.1",
     "@next-core/easyops-analytics": "^0.2.3",
     "@next-core/illustrations": "^0.4.1",
+    "@next-core/pipes": "^1.0.0",
     "antd": "~4.12.3",
     "history": "^4.10.1",
     "i18next": "^20.6.0",
@@ -53,6 +55,7 @@
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "mock-socket": "^9.0.3",
+    "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-i18next": "^11.11.4"
@@ -63,11 +66,13 @@
     "@next-core/brick-utils": "*",
     "@next-core/easyops-analytics": "*",
     "@next-core/illustrations": "*",
+    "@next-core/pipes": "*",
     "antd": "*",
     "history": "*",
     "i18next": "*",
     "js-yaml": "*",
     "lodash": "*",
+    "moment": "*",
     "react": "*",
     "react-dom": "*",
     "react-i18next": "*"

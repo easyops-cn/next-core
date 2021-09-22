@@ -7,8 +7,8 @@ import {
   preevaluate,
   PreevaluateResult,
   shouldAllowRecursiveEvaluations,
-  supply,
 } from "@next-core/brick-utils";
+import { supply } from "@next-core/supply";
 import { MicroApp } from "@next-core/brick-types";
 import { _internalApiGetCurrentContext } from "../core/Runtime";
 import { getUrlBySegueFactory } from "./segue";

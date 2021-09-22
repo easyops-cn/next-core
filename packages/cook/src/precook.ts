@@ -7,7 +7,7 @@ import {
   SwitchCase,
   VariableDeclaration,
 } from "@babel/types";
-import { hasOwnProperty } from "../hasOwnProperty";
+import { hasOwnProperty } from "./hasOwnProperty";
 import {
   AnalysisContext,
   AnalysisEnvironment,
@@ -67,6 +67,9 @@ export function precook(
         case "Identifier":
           if (!ResolveBinding(node.name)) {
             attemptToVisitGlobals.add(node.name);
+            if (visitors && hasOwnProperty(visitors, "__GlobalVariable")) {
+              visitors.__GlobalVariable(node);
+            }
           }
           return;
         case "ArrayExpression":
@@ -277,8 +280,12 @@ export function precook(
             return;
         }
       }
-      // eslint-disable-next-line no-console
-      console.warn(`Unsupported node type \`${node.type}\``);
+      if (visitors && hasOwnProperty(visitors, "__UnknownNode")) {
+        visitors.__UnknownNode(node);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn(`Unsupported node type \`${node.type}\``);
+      }
     }
   }
 

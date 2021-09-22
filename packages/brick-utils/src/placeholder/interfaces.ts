@@ -1,3 +1,5 @@
+import { Node, SourceLocation, PipeCall } from "@next-core/pipes";
+
 export enum LexicalStatus {
   Initial,
   ExpectField,
@@ -44,16 +46,6 @@ export interface Token {
   loc?: SourceLocation;
 }
 
-export interface SourceLocation {
-  start: number;
-  end: number;
-}
-
-export interface Node {
-  type: string;
-  loc?: SourceLocation;
-}
-
 export interface InjectableString extends Node {
   type: "InjectableString";
   elements: (RawString | Placeholder)[];
@@ -70,10 +62,4 @@ export interface Placeholder extends Node {
   field: string;
   defaultValue: any;
   pipes: PipeCall[];
-}
-
-export interface PipeCall extends Node {
-  type: "PipeCall";
-  identifier: string;
-  parameters: any[];
 }
