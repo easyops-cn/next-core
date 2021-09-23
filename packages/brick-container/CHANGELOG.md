@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.32.8...@next-core/brick-container@2.32.9) (2021-09-23)
+
+
+### Bug Fixes
+
+* allow alternative brick package dir ([ac1c41b](https://github.com/easyops-cn/next-core/commit/ac1c41bbfd4f5adc1df9e9c389abd28de0f5145a))
+
+
+
+
+
 ## [2.32.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.32.7...@next-core/brick-container@2.32.8) (2021-09-23)
 
 **Note:** Version bump only for package @next-core/brick-container

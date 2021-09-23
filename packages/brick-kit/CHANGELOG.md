@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.4...@next-core/brick-kit@2.71.0) (2021-09-23)
+
+
+### Bug Fixes
+
+* refine inject marking ([01675a8](https://github.com/easyops-cn/next-core/commit/01675a8b26fb0ab0e97de89a83c4618ccb4e7127))
+
+
+### Features
+
+* **LocationContext:** handlePageLoad dispatch page.load event on window for e2e testing usage ([d9bb07b](https://github.com/easyops-cn/next-core/commit/d9bb07b0395fbf769d485768bbb64e035b72c743))
+
+
+
+
+
 ## [2.70.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.3...@next-core/brick-kit@2.70.4) (2021-09-23)
 
 **Note:** Version bump only for package @next-core/brick-kit
