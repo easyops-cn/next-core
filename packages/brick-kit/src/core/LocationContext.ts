@@ -925,10 +925,12 @@ export class LocationContext {
   }
 
   handlePageLoad(): void {
-    this.dispatchLifeCycleEvent(
-      new CustomEvent("page.load"),
-      this.pageLoadHandlers
-    );
+    const event = new CustomEvent("page.load");
+
+    this.dispatchLifeCycleEvent(event, this.pageLoadHandlers);
+
+    // Currently only for e2e testing
+    window.dispatchEvent(event);
   }
 
   handleBeforePageLeave(detail: {

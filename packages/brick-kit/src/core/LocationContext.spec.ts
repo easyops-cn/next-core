@@ -48,6 +48,7 @@ const spyOnGetCurrentContext = jest.spyOn(
   runtime,
   "_internalApiGetCurrentContext"
 );
+const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 
 describe("LocationContext", () => {
   const kernel: Kernel = {
@@ -877,6 +878,10 @@ describe("LocationContext", () => {
       context.handlePageLeave();
       context.handleMessageClose(new CloseEvent("error"));
       context.handleMessage();
+
+      expect(spyOnDispatchEvent).toBeCalledWith(
+        expect.objectContaining({ type: "page.load" })
+      );
 
       // Assert `console.log()`.
       expect(consoleLog).toHaveBeenNthCalledWith(
