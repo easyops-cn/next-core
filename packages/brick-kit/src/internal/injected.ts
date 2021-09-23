@@ -12,9 +12,12 @@ export function recursiveMarkAsInjected(value: any): void {
       injected.add(value);
       if (Array.isArray(value)) {
         value.forEach(recursiveMarkAsInjected);
-      } else if (value.constructor === Object) {
+      } else {
         // Only mark pure objects.
-        Object.values(value).forEach(recursiveMarkAsInjected);
+        const proto = Object.getPrototypeOf(value);
+        if (!proto || proto.constructor === Object) {
+          Object.values(value).forEach(recursiveMarkAsInjected);
+        }
       }
     }
   }

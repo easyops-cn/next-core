@@ -8,6 +8,7 @@ const {
   getUserSettings,
   getDevSettings,
   appendLiveReloadScript,
+  tryFiles,
 } = require("./utils");
 const fs = require("fs");
 const path = require("path");
@@ -28,6 +29,7 @@ module.exports = (env) => {
     server,
     mockedMicroApps,
     brickPackagesDir,
+    alternativeBrickPackagesDir,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -123,14 +125,17 @@ module.exports = (env) => {
           const result = JSON.parse(raw);
           const { data } = result;
           localBrickPackages.forEach((pkgId) => {
-            const filePath = path.join(
-              brickPackagesDir,
-              pkgId,
-              "dist",
-              "stories.json"
-            );
+            const filePath = tryFiles([
+              path.join(brickPackagesDir, pkgId, "dist", "stories.json"),
+              path.join(
+                alternativeBrickPackagesDir,
+                pkgId,
+                "dist",
+                "stories.json"
+              ),
+            ]);
 
-            if (fs.existsSync(filePath)) {
+            if (filePath) {
               const story = JSON.parse(fs.readFileSync(filePath, "utf-8"));
               data.list = [
                 ...data.list.filter(
@@ -155,22 +160,20 @@ module.exports = (env) => {
           const result = JSON.parse(raw);
           const { data } = result;
           localSnippetPackages.forEach((pkgId) => {
-            const devDistJsPath = path.join(
-              brickPackagesDir,
-              pkgId,
-              "dist-snippets/index.js"
-            );
-            const prodDistJsonPath = path.join(
-              brickPackagesDir,
-              pkgId,
-              "dist/snippets.json"
-            );
-            // Prefer dev output to prod output.
-            const distPath = fs.existsSync(devDistJsPath)
-              ? devDistJsPath
-              : fs.existsSync(prodDistJsonPath)
-              ? prodDistJsonPath
-              : null;
+            const distPath = tryFiles([
+              path.join(brickPackagesDir, pkgId, "dist-snippets/index.js"),
+              path.join(brickPackagesDir, pkgId, "dist/snippets.json"),
+              path.join(
+                alternativeBrickPackagesDir,
+                pkgId,
+                "dist-snippets/index.js"
+              ),
+              path.join(
+                alternativeBrickPackagesDir,
+                pkgId,
+                "dist/snippets.json"
+              ),
+            ]);
             if (distPath) {
               let snippets;
               try {

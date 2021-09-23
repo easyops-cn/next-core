@@ -10,10 +10,11 @@ describe("injected", () => {
   it("should work for an object", () => {
     const innerArray = ["quality", "good"];
     const innerObject = { quality: "good" };
-    const object = {
+    const object = Object.create(null);
+    Object.assign(object, {
       innerArray,
       innerObject,
-    };
+    });
     expect(haveBeenInjected(object)).toBe(false);
     expect(haveBeenInjected(innerArray)).toBe(false);
     expect(haveBeenInjected(innerObject)).toBe(false);
