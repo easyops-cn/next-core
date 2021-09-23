@@ -97,6 +97,16 @@ describe("lint", () => {
       ],
     ],
     [
+      "[noVar] let/const declarations",
+      `
+        function test(){
+          let a = 1;
+          const b = 2;
+        }
+      `,
+      [],
+    ],
+    [
       "Valid regular expression",
       `
         function test(){
