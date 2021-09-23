@@ -150,7 +150,7 @@ export function lint(
           }
         },
         VariableDeclaration(node: VariableDeclaration) {
-          if (rules?.noVar) {
+          if (node.kind === "var" && rules?.noVar) {
             errors.push({
               type: "SyntaxError",
               message:
