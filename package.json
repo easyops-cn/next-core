@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@ant-design/compatible": "^1.0.8",
-    "@ant-design/icons": "^4.5.0",
+    "@ant-design/icons": "^4.7.0",
     "@babel/core": "^7.15.5",
     "@babel/types": "^7.15.6",
     "@cypress/browserify-preprocessor": "^3.0.1",
