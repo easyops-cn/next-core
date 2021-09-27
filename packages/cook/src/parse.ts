@@ -4,6 +4,7 @@ import { Expression, FunctionDeclaration, Statement } from "@babel/types";
 export function parseAsEstreeExpression(source: string): Expression {
   return parseExpression(source, {
     plugins: ["estree", ["pipelineOperator", { proposal: "minimal" }]],
+    attachComment: false,
   });
 }
 
@@ -20,6 +21,7 @@ export function parseAsEstree(
       Boolean
     ) as ParserPlugin[],
     strictMode: true,
+    attachComment: false,
   });
   const body = file.program.body;
   const jsNodes: Statement[] = typescript ? [] : body;
@@ -39,7 +41,7 @@ export function parseAsEstree(
   }
   if (jsNodes.length > 1 || jsNodes[0].type !== "FunctionDeclaration") {
     throw new SyntaxError(
-      `Expect a single function declaration, but received: ${jsNodes
+      `Expect a single function declaration at top level, but received: ${jsNodes
         .map((node) => `"${node.type}"`)
         .join(", ")}`
     );

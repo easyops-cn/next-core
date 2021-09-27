@@ -281,7 +281,7 @@ describe("precookFunction", () => {
     expect(() => {
       precookFunction("function test() {} test()");
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Expect a single function declaration, but received: \\"FunctionDeclaration\\", \\"ExpressionStatement\\""`
+      `"Expect a single function declaration at top level, but received: \\"FunctionDeclaration\\", \\"ExpressionStatement\\""`
     );
   });
 

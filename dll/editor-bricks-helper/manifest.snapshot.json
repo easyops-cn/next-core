@@ -167,6 +167,7 @@
           "ForwardRefSingleBrickAsComponent",
           "ModalElement",
           "SingleBrickAsComponent",
+          "StoryboardFunctionRegistryFactory",
           "UpdatingElement",
           "authenticate",
           "checkIf",
