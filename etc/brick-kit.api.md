@@ -53,10 +53,12 @@ import { RuntimeBootstrapData } from '@next-core/brick-types';
 import { RuntimeStoryboard } from '@next-core/brick-types';
 import { SidebarMenu } from '@next-core/brick-types';
 import { SidebarSubMenu } from '@next-core/brick-types';
+import { SimpleFunction } from '@next-core/brick-types';
 import { SiteMapItem } from '@next-core/brick-types';
 import { SiteMode } from '@next-core/brick-types';
 import { SiteTheme } from '@next-core/brick-types';
 import { Storyboard } from '@next-core/brick-types';
+import { StoryboardFunction } from '@next-core/brick-types';
 import { StoryboardMeta } from '@next-core/brick-types';
 import { Subtract } from 'react-i18next';
 import { TemplatePackage } from '@next-core/brick-types';
@@ -328,6 +330,11 @@ export interface PropertyDeclaration<Type = unknown> {
     readonly type?: TypeHint;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "ReadonlyStoryboardFunctions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type ReadonlyStoryboardFunctions = Readonly<Record<string, SimpleFunction>>;
+
 // Warning: (ae-internal-missing-underscore) The name "RecentApps" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -368,6 +375,25 @@ export type RouterState = "initial" | "ready-to-mount" | "mounted";
 
 // @public
 export const SingleBrickAsComponent: React_2.NamedExoticComponent<SingleBrickAsComponentProps>;
+
+// Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionPatch" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type StoryboardFunctionPatch = Pick<StoryboardFunction, "source" | "typescript">;
+
+// Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistry" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryboardFunctionRegistry {
+    registerStoryboardFunctions(functions: StoryboardFunction[]): void;
+    storyboardFunctions: ReadonlyStoryboardFunctions;
+    updateStoryboardFunction(name: string, data: StoryboardFunctionPatch): void;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function StoryboardFunctionRegistryFactory(): StoryboardFunctionRegistry;
 
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //

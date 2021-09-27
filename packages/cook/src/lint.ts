@@ -42,6 +42,7 @@ export function lint(
         Boolean
       ) as ParserPlugin[],
       strictMode: true,
+      attachComment: false,
       // Allow export/import declarations to make linter handle errors.
       sourceType: "unambiguous",
     });

@@ -20,7 +20,7 @@ import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { i18nText } from "../i18nText";
-import { getStoryboardFunctions } from "../core/StoryboardFunctions";
+import { storyboardFunctions } from "../core/StoryboardFunctions";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -289,7 +289,7 @@ export function evaluate(
   }
 
   if (attemptToVisitGlobals.has("FN")) {
-    globalVariables.FN = getStoryboardFunctions();
+    globalVariables.FN = storyboardFunctions;
   }
 
   try {
