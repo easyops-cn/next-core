@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.23.3...@next-core/brick-dll@2.24.0) (2021-09-27)
+
+
+### Features
+
+* expose StoryboardFunctionRegistryFactory ([c7079e8](https://github.com/easyops-cn/next-core/commit/c7079e838a37350264ca3bf210527e1b09a542f7))
+
+
+
+
+
 ## [2.23.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.23.2...@next-core/brick-dll@2.23.3) (2021-09-23)
 
 **Note:** Version bump only for package @next-core/brick-dll

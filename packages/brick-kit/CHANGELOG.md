@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.72.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.71.0...@next-core/brick-kit@2.72.0) (2021-09-27)
+
+
+### Features
+
+* expose StoryboardFunctionRegistryFactory ([c7079e8](https://github.com/easyops-cn/next-core/commit/c7079e838a37350264ca3bf210527e1b09a542f7))
+
+
+
+
+
 # [2.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.4...@next-core/brick-kit@2.71.0) (2021-09-23)
 
 
