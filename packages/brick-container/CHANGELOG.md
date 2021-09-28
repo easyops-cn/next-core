@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.32.10...@next-core/brick-container@2.32.11) (2021-09-28)
+
+
+### Bug Fixes
+
+* 修复浏览器语言为非中英文时国际化文本空白问题 ([bab37b0](https://github.com/easyops-cn/next-core/commit/bab37b0ab0c62928652d20f2c378f5c2c3fd0018))
+
+
+
+
+
 ## [2.32.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.32.9...@next-core/brick-container@2.32.10) (2021-09-27)
 
 **Note:** Version bump only for package @next-core/brick-container
