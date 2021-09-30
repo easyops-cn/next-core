@@ -1,4 +1,10 @@
-import { Expression, FunctionDeclaration, Statement } from "@babel/types";
+import {
+  ArrowFunctionExpression,
+  Expression,
+  FunctionDeclaration,
+  FunctionExpression,
+  Statement,
+} from "@babel/types";
 
 // https://tc39.es/ecma262/#sec-execution-contexts
 export class ExecutionContext {
@@ -111,6 +117,7 @@ export interface BindingState {
   strict?: boolean;
 }
 
+export const SourceNode = Symbol.for("SourceNode");
 export const FormalParameters = Symbol.for("FormalParameters");
 export const ECMAScriptCode = Symbol.for("ECMAScriptCode");
 export const Environment = Symbol.for("Environment");
@@ -118,6 +125,10 @@ export const IsConstructor = Symbol.for("IsConstructor");
 
 export interface FunctionObject {
   (...args: unknown[]): unknown;
+  [SourceNode]:
+    | FunctionDeclaration
+    | FunctionExpression
+    | ArrowFunctionExpression;
   [FormalParameters]: FunctionDeclaration["params"];
   [ECMAScriptCode]: Statement[] | Expression;
   [Environment]: EnvironmentRecord;

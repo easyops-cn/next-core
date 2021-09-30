@@ -249,4 +249,98 @@ describe("evaluate", () => {
       ).toThrowErrorMatchingSnapshot();
     }
   );
+
+  it("should call hooks", () => {
+    const source = `
+      function test(a) {
+        try {
+          if (a) {
+            return a === 1 ? true : false;
+          }
+          throw 'oops';
+        } catch (e) {
+          return null;
+        }
+      }
+    `;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(
+      attemptToVisitGlobals,
+      getExtraGlobalVariables()
+    );
+    const beforeEvaluate = jest.fn();
+    const beforeBranch = jest.fn();
+    const func = cook(funcAst, source, {
+      globalVariables,
+      hooks: {
+        beforeEvaluate,
+        beforeBranch,
+      },
+    }) as SimpleFunction;
+
+    func(1);
+    expect(beforeEvaluate).toBeCalledTimes(12);
+    expect(beforeEvaluate).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        type: "FunctionDeclaration",
+      })
+    );
+    expect(beforeEvaluate).toHaveBeenNthCalledWith(
+      12,
+      expect.objectContaining({
+        type: "Literal",
+        value: true,
+      })
+    );
+    expect(beforeEvaluate).not.toBeCalledWith(
+      expect.objectContaining({
+        type: "Literal",
+        value: false,
+      })
+    );
+    expect(beforeEvaluate).not.toBeCalledWith(
+      expect.objectContaining({
+        type: "ThrowStatement",
+      })
+    );
+    expect(beforeBranch).toBeCalledTimes(1);
+    expect(beforeBranch).toBeCalledWith(
+      expect.objectContaining({
+        type: "IfStatement",
+      }),
+      "if"
+    );
+
+    jest.clearAllMocks();
+    func(0);
+    expect(beforeEvaluate).toBeCalledTimes(11);
+    expect(beforeEvaluate).toHaveBeenNthCalledWith(
+      6,
+      expect.objectContaining({
+        type: "ThrowStatement",
+      })
+    );
+    expect(beforeEvaluate).toHaveBeenNthCalledWith(
+      8,
+      expect.objectContaining({
+        type: "CatchClause",
+      })
+    );
+    expect(beforeEvaluate).toHaveBeenNthCalledWith(
+      11,
+      expect.objectContaining({
+        type: "Literal",
+        value: null,
+      })
+    );
+    expect(beforeBranch).toBeCalledTimes(1);
+    expect(beforeBranch).toBeCalledWith(
+      expect.objectContaining({
+        type: "IfStatement",
+      }),
+      "else"
+    );
+  });
 });

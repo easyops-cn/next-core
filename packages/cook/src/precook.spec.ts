@@ -510,4 +510,41 @@ describe("", () => {
       })
     );
   });
+
+  it("should call hooks", () => {
+    const func = parseAsEstree(`
+      function test(a){
+        return 1;
+      }
+    `);
+    const beforeVisit = jest.fn();
+    precook(func, {
+      hooks: { beforeVisit },
+    });
+    expect(beforeVisit).toBeCalledTimes(4);
+    expect(beforeVisit).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        type: "FunctionDeclaration",
+      })
+    );
+    expect(beforeVisit).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        type: "Identifier",
+      })
+    );
+    expect(beforeVisit).toHaveBeenNthCalledWith(
+      3,
+      expect.objectContaining({
+        type: "ReturnStatement",
+      })
+    );
+    expect(beforeVisit).toHaveBeenNthCalledWith(
+      4,
+      expect.objectContaining({
+        type: "Literal",
+      })
+    );
+  });
 });

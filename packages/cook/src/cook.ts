@@ -56,6 +56,7 @@ import {
   NormalCompletion,
   OptionalChainRef,
   ReferenceRecord,
+  SourceNode,
 } from "./ExecutionContext";
 import {
   EstreeLVal,
@@ -75,18 +76,19 @@ import {
 export interface CookOptions {
   rules?: CookRules;
   globalVariables?: Record<string, unknown>;
+  hooks?: CookHooks;
 }
 
-export interface CookContext {
-  source: string;
-  attemptToVisitGlobals: Set<string>;
+export interface CookHooks {
+  beforeEvaluate?(node: EstreeNode): void;
+  beforeBranch?(node: EstreeNode, branch: "if" | "else"): void;
 }
 
 /** For next-core internal usage only. */
 export function cook(
   rootAst: FunctionDeclaration | Expression,
   codeSource: string,
-  { rules, globalVariables = {} }: CookOptions = {}
+  { rules, globalVariables = {}, hooks = {} }: CookOptions = {}
 ): unknown {
   const expressionOnly = rootAst.type !== "FunctionDeclaration";
 
@@ -127,6 +129,7 @@ export function cook(
     node: EstreeNode,
     optionalChainRef?: OptionalChainRef
   ): CompletionRecord {
+    hooks.beforeEvaluate?.(node);
     // Expressions:
     switch (node.type) {
       case "ArrayExpression": {
@@ -449,8 +452,9 @@ export function cook(
         case "IfStatement":
           // https://tc39.es/ecma262/#sec-if-statement
           return GetValue(Evaluate(node.test))
-            ? UpdateEmpty(Evaluate(node.consequent), undefined)
-            : node.alternate
+            ? (hooks.beforeBranch?.(node, "if"),
+              UpdateEmpty(Evaluate(node.consequent), undefined))
+            : (hooks.beforeBranch?.(node, "else"), node.alternate)
             ? UpdateEmpty(Evaluate(node.alternate), undefined)
             : NormalCompletion(undefined);
         case "ReturnStatement": {
@@ -494,6 +498,7 @@ export function cook(
             R = Evaluate(node.block);
           } catch (error) {
             if (node.handler) {
+              hooks.beforeEvaluate?.(node.handler);
               R = CatchClauseEvaluation(node.handler, error);
             } else {
               throw error;
@@ -1234,6 +1239,7 @@ export function cook(
     closure: FunctionObject,
     args: Iterable<unknown>
   ): unknown {
+    hooks.beforeEvaluate?.(closure[SourceNode]);
     PrepareForOrdinaryCall(closure);
     const result = OrdinaryCallEvaluateBody(closure, args);
     executionContextStack.pop();
@@ -1393,7 +1399,7 @@ export function cook(
     func: FunctionDeclaration,
     scope: EnvironmentRecord
   ): FunctionObject {
-    return OrdinaryFunctionCreate(func.params, func.body, scope, true);
+    return OrdinaryFunctionCreate(func, scope, true);
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiateordinaryfunctionexpression
@@ -1406,20 +1412,16 @@ export function cook(
       const funcEnv = new DeclarativeEnvironment(scope);
       funcEnv.CreateImmutableBinding(name, false);
       const closure = OrdinaryFunctionCreate(
-        functionExpression.params,
-        functionExpression.body,
+        functionExpression,
+        // functionExpression.params,
+        // functionExpression.body,
         funcEnv,
         true
       );
       funcEnv.InitializeBinding(name, closure);
       return closure;
     } else {
-      const closure = OrdinaryFunctionCreate(
-        functionExpression.params,
-        functionExpression.body,
-        scope,
-        true
-      );
+      const closure = OrdinaryFunctionCreate(functionExpression, scope, true);
       return closure;
     }
   }
@@ -1429,19 +1431,18 @@ export function cook(
     arrowFunction: ArrowFunctionExpression
   ): FunctionObject {
     const scope = getRunningContext().LexicalEnvironment;
-    const closure = OrdinaryFunctionCreate(
-      arrowFunction.params,
-      arrowFunction.body,
-      scope,
-      false
-    );
+    const closure = OrdinaryFunctionCreate(arrowFunction, scope, false);
     return closure;
   }
 
   // https://tc39.es/ecma262/#sec-ordinaryfunctioncreate
   function OrdinaryFunctionCreate(
-    parameterList: FunctionDeclaration["params"],
-    body: BlockStatement | Expression,
+    sourceNode:
+      | FunctionDeclaration
+      | FunctionExpression
+      | ArrowFunctionExpression,
+    // parameterList: FunctionDeclaration["params"],
+    // body: BlockStatement | Expression,
     scope: EnvironmentRecord,
     isConstructor: boolean
   ): FunctionObject {
@@ -1450,24 +1451,22 @@ export function cook(
       return CallFunction(F, arguments);
     } as FunctionObject;
     Object.defineProperties(F, {
+      [SourceNode]: {
+        value: sourceNode,
+      },
       [FormalParameters]: {
-        enumerable: false,
-        writable: false,
-        value: parameterList,
+        value: sourceNode.params,
       },
       [ECMAScriptCode]: {
-        enumerable: false,
-        writable: false,
-        value: body.type === "BlockStatement" ? body.body : body,
+        value:
+          sourceNode.body.type === "BlockStatement"
+            ? sourceNode.body.body
+            : sourceNode.body,
       },
       [Environment]: {
-        enumerable: false,
-        writable: false,
         value: scope,
       },
       [IsConstructor]: {
-        enumerable: false,
-        writable: false,
         value: isConstructor,
       },
     });
