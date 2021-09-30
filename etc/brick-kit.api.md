@@ -246,6 +246,8 @@ export interface FunctionCoverageCollector {
     // (undocumented)
     beforeBranch(node: EstreeNode, branch: string): void;
     // (undocumented)
+    beforeCall(node: EstreeNode): void;
+    // (undocumented)
     beforeEvaluate(node: EstreeNode): void;
     // (undocumented)
     beforeVisit(node: EstreeNode): void;
