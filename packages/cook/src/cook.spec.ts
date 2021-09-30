@@ -270,11 +270,13 @@ describe("evaluate", () => {
       getExtraGlobalVariables()
     );
     const beforeEvaluate = jest.fn();
+    const beforeCall = jest.fn();
     const beforeBranch = jest.fn();
     const func = cook(funcAst, source, {
       globalVariables,
       hooks: {
         beforeEvaluate,
+        beforeCall,
         beforeBranch,
       },
     }) as SimpleFunction;
@@ -305,6 +307,12 @@ describe("evaluate", () => {
         type: "ThrowStatement",
       })
     );
+    expect(beforeCall).toBeCalledTimes(1);
+    expect(beforeCall).toBeCalledWith(
+      expect.objectContaining({
+        type: "FunctionDeclaration",
+      })
+    );
     expect(beforeBranch).toBeCalledTimes(1);
     expect(beforeBranch).toBeCalledWith(
       expect.objectContaining({
@@ -315,24 +323,30 @@ describe("evaluate", () => {
 
     jest.clearAllMocks();
     func(0);
-    expect(beforeEvaluate).toBeCalledTimes(11);
+    expect(beforeEvaluate).toBeCalledTimes(10);
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
-      6,
+      5,
       expect.objectContaining({
         type: "ThrowStatement",
       })
     );
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
-      8,
+      7,
       expect.objectContaining({
         type: "CatchClause",
       })
     );
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
-      11,
+      10,
       expect.objectContaining({
         type: "Literal",
         value: null,
+      })
+    );
+    expect(beforeCall).toBeCalledTimes(1);
+    expect(beforeCall).toBeCalledWith(
+      expect.objectContaining({
+        type: "FunctionDeclaration",
       })
     );
     expect(beforeBranch).toBeCalledTimes(1);

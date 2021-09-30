@@ -81,6 +81,7 @@ export interface CookOptions {
 
 export interface CookHooks {
   beforeEvaluate?(node: EstreeNode): void;
+  beforeCall?(node: EstreeNode): void;
   beforeBranch?(node: EstreeNode, branch: "if" | "else"): void;
 }
 
@@ -1239,7 +1240,7 @@ export function cook(
     closure: FunctionObject,
     args: Iterable<unknown>
   ): unknown {
-    hooks.beforeEvaluate?.(closure[SourceNode]);
+    hooks.beforeCall?.(closure[SourceNode]);
     PrepareForOrdinaryCall(closure);
     const result = OrdinaryCallEvaluateBody(closure, args);
     executionContextStack.pop();
@@ -1723,6 +1724,7 @@ export function cook(
     return GetValue(Evaluate(rootAst));
   }
 
+  hooks.beforeEvaluate?.(rootAst);
   ThrowIfFunctionIsInvalid(rootAst);
   const [fn] = collectBoundNames(rootAst);
   // Create an immutable binding for the root function.
