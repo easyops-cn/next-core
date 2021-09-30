@@ -72,6 +72,7 @@ describe("collect coverage", () => {
     const collector: FunctionCoverageCollector = {
       beforeVisit: jest.fn(),
       beforeEvaluate: jest.fn(),
+      beforeCall: jest.fn(),
       beforeBranch: jest.fn(),
     };
     const createCollector = (): FunctionCoverageCollector => collector;
@@ -98,6 +99,7 @@ describe("collect coverage", () => {
     fn.test(1);
     expect(collector.beforeVisit).toBeCalledTimes(9);
     expect(collector.beforeEvaluate).toBeCalledTimes(6);
+    expect(collector.beforeCall).toBeCalledTimes(1);
     expect(collector.beforeBranch).toBeCalledTimes(1);
     expect(collector.beforeBranch).toBeCalledWith(
       expect.objectContaining({
@@ -108,7 +110,8 @@ describe("collect coverage", () => {
 
     fn.test(0);
     expect(collector.beforeVisit).toBeCalledTimes(9);
-    expect(collector.beforeEvaluate).toBeCalledTimes(11);
+    expect(collector.beforeEvaluate).toBeCalledTimes(10);
+    expect(collector.beforeCall).toBeCalledTimes(2);
     expect(collector.beforeBranch).toBeCalledTimes(2);
     expect(collector.beforeBranch).toHaveBeenNthCalledWith(
       2,

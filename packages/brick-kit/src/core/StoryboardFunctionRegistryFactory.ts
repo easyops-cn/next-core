@@ -37,6 +37,7 @@ export interface RuntimeStoryboardFunction {
 export interface FunctionCoverageCollector {
   beforeVisit(node: EstreeNode): void;
   beforeEvaluate(node: EstreeNode): void;
+  beforeCall(node: EstreeNode): void;
   beforeBranch(node: EstreeNode, branch: string): void;
 }
 
@@ -100,6 +101,7 @@ export function StoryboardFunctionRegistryFactory({
       }),
       hooks: {
         beforeEvaluate: collector?.beforeEvaluate,
+        beforeCall: collector?.beforeCall,
         beforeBranch: collector?.beforeBranch,
       },
     }) as SimpleFunction;
