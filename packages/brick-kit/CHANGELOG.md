@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.73.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.72.0...@next-core/brick-kit@2.73.0) (2021-09-30)
+
+
+### Features
+
+* **function:** support to collect coverage ([93835f0](https://github.com/easyops-cn/next-core/commit/93835f0f202b6fb18c915045b5c2e0cf8e5e1f25))
+
+
+
+
+
 # [2.72.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.71.0...@next-core/brick-kit@2.72.0) (2021-09-27)
 
 
