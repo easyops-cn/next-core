@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.2.0...@next-core/cook@1.2.1) (2021-09-30)
+
+
+### Bug Fixes
+
+* **cook-hooks:** use beforeCall for functions ([78073ab](https://github.com/easyops-cn/next-core/commit/78073abb4025c2d3f428a1b42447a07b7fc222a3))
+
+
+
+
+
 # [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.1.0...@next-core/cook@1.2.0) (2021-09-30)
 
 

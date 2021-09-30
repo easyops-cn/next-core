@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.73.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.0...@next-core/brick-kit@2.73.1) (2021-09-30)
+
+
+### Bug Fixes
+
+* **cook-hooks:** use beforeCall for functions ([78073ab](https://github.com/easyops-cn/next-core/commit/78073abb4025c2d3f428a1b42447a07b7fc222a3))
+
+
+
+
+
 # [2.73.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.72.0...@next-core/brick-kit@2.73.0) (2021-09-30)
 
 
