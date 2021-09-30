@@ -60,6 +60,9 @@ export class Kernel {
   public menuBar: MenuBar;
   public appBar: AppBar;
   public loadingBar: BaseBar;
+  public sideBar: BaseBar;
+  public footer: BaseBar;
+  public breadCrumb: BaseBar;
   public router: Router;
   public currentApp: MicroApp;
   public previousApp: MicroApp;
@@ -80,6 +83,7 @@ export class Kernel {
   private providerRepository = new Map<string, HTMLElement>();
   private loadUsersStarted = false;
   private loadMagicBrickConfigStarted = false;
+  private enableUiV8 = false;
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     this.mountPoints = mountPoints;
@@ -90,9 +94,17 @@ export class Kernel {
     if (isLoggedIn()) {
       this.loadSharedData();
     }
+    this.enableUiV8 = this.getFeatureFlags()["ui-v8"];
+    if (this.enableUiV8) {
+      document.documentElement.dataset.ui = "v8";
+    }
     this.menuBar = new MenuBar(this, "menuBar");
     this.appBar = new AppBar(this, "appBar");
     this.loadingBar = new BaseBar(this, "loadingBar");
+    // 这里应该需要新写对应的class
+    this.sideBar = new BaseBar(this, "sideBar");
+    this.footer = new BaseBar(this, "footer");
+    this.breadCrumb = new BaseBar(this, "breadCrumb");
     this.router = new Router(this);
     await this.router.bootstrap();
     this.authGuard();
@@ -128,10 +140,17 @@ export class Kernel {
     }
 
     await Promise.all([
-      this.menuBar.bootstrap(this.presetBricks.menuBar, {
+      // this.menuBar.bootstrap(this.presetBricks.menuBar, {
+      //   testid: "brick-next-menu-bar",
+      // }),
+      // this.appBar.bootstrap(this.presetBricks.appBar),
+      this.menuBar.bootstrap("div", {
         testid: "brick-next-menu-bar",
       }),
-      this.appBar.bootstrap(this.presetBricks.appBar),
+      this.appBar.bootstrap("div"),
+      this.sideBar.bootstrap("div"),
+      this.footer.bootstrap("div"),
+      this.breadCrumb.bootstrap("div"),
       this.loadingBar.bootstrap(this.presetBricks.loadingBar),
     ]);
   }

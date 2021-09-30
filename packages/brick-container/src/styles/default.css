@@ -17,12 +17,7 @@ body {
   min-height: 0;
 }
 
-#menu-bar-mount-point {
-  width: var(--menu-bar-width);
-}
-
-.layout-console #main-mount-point,
-.layout-console #legacy-iframe-mount-point {
+.layout-console #main-content {
   margin-top: var(--app-bar-height);
   transition: var(--launchpad-backdrop-transition);
 }
@@ -33,20 +28,21 @@ body {
   position: absolute;
 }
 
-.bars-hidden #main-mount-point,
-.bars-hidden #legacy-iframe-mount-point,
-html[data-mode="dashboard"] #main-mount-point,
-html[data-mode="dashboard"] #legacy-iframe-mount-point {
+.bars-hidden #main-content,
+html[data-mode="dashboard"] #main-content {
   margin-top: 0;
 }
 
 .show-legacy-iframe #main-mount-point,
 .bars-hidden #menu-bar-mount-point,
 .bars-hidden #app-bar-mount-point,
+.bars-hidden #side-bar-mount-point,
 .layout-business #menu-bar-mount-point,
 .layout-business #app-bar-mount-point,
+.layout-business #side-bar-mount-point,
 html[data-mode="dashboard"] #menu-bar-mount-point,
-html[data-mode="dashboard"] #app-bar-mount-point {
+html[data-mode="dashboard"] #app-bar-mount-point,
+html[data-mode="dashboard"] #side-bar-mount-point {
   display: none;
 }
 
@@ -54,17 +50,15 @@ html[data-mode="dashboard"] #app-bar-mount-point {
   display: block;
 }
 
-.menu-bar-collapsed #menu-bar-mount-point {
-  width: var(--menu-bar-collapsed-width);
-}
-
 #menu-bar-mount-point,
-#app-bar-mount-point {
+#app-bar-mount-point,
+#side-bar-mount-point {
   visibility: hidden;
 }
 
 .first-rendered #menu-bar-mount-point,
-.first-rendered #app-bar-mount-point {
+.first-rendered #app-bar-mount-point,
+.first-rendered #side-bar-mount-point {
   visibility: visible;
 }
 
@@ -73,23 +67,90 @@ html[data-mode="dashboard"] #app-bar-mount-point {
     var(--menu-bar-collapse-transition-timing-function);
 }
 
+:root {
+  --content-max-width: 900px;
+}
+
+html:not([data-ui="v8"]) #menu-bar-mount-point {
+  width: var(--menu-bar-width);
+}
+
+html:not([data-ui="v8"]) .menu-bar-collapsed #menu-bar-mount-point {
+  width: var(--menu-bar-collapsed-width);
+}
+
+html:not([data-ui="v8"]) body.has-sub-menu #main-mount-point {
+  margin-left: var(--sub-menu-bar-width);
+}
+
+html:not([data-ui="v8"])
+  html[data-mode="dashboard"]
+  body.has-sub-menu
+  #main-mount-point {
+  margin-left: 0;
+}
+
+html:not([data-ui="v8"]) #bread-crumb-mount-point {
+  display: none;
+}
+
+html[data-ui="v8"] #menu-bar-mount-point {
+  display: none;
+}
+
+html[data-ui="v8"] #side-bar-mount-point {
+  /* width: var(--menu-bar-width); */
+  width: var(--menu-bar-collapsed-width);
+}
+
+html[data-ui="v8"] #main-wrapper {
+  display: flex;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+html[data-ui="v8"] #main-content {
+  flex: 1;
+}
+
+html[data-ui="v8"] #main-mount-point {
+  height: 3000px;
+}
+
+.test-app-bar {
+  width: 100%;
+  height: var(--app-bar-height);
+  background: blue;
+  position: fixed;
+  top: 0;
+  z-index: 998;
+}
+
+.test-app-bar-content {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.test-menu-bar {
+  width: var(--menu-bar-collapsed-width);
+  height: 100%;
+  background: red;
+  position: fixed;
+  top: var(--app-bar-height);
+  z-index: 998;
+}
+
+.test-menu-bar:hover {
+  width: var(--menu-bar-width);
+}
+
 body.launchpad-open {
   overflow: hidden;
 }
 
-.launchpad-open #main-mount-point,
-.launchpad-open #legacy-iframe-mount-point,
-.filter-of-blur #main-mount-point,
-.filter-of-blur #legacy-iframe-mount-point {
+.launchpad-open #main-content,
+.filter-of-blur #main-content {
   filter: var(--launchpad-backdrop-filter);
-}
-
-body.has-sub-menu #main-mount-point {
-  margin-left: var(--sub-menu-bar-width);
-}
-
-html[data-mode="dashboard"] body.has-sub-menu #main-mount-point {
-  margin-left: 0;
 }
 
 @media print {
@@ -138,18 +199,23 @@ html[data-mode="dashboard"] body.has-sub-menu #main-mount-point {
     left: -30%;
     width: 30%;
   }
+
   50% {
     width: 30%;
   }
+
   70% {
     width: 70%;
   }
+
   80% {
     left: 50%;
   }
+
   95% {
     left: 120%;
   }
+
   to {
     left: 100%;
   }
