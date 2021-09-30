@@ -1652,20 +1652,6 @@ export interface RuntimeStoryboard extends Storyboard {
     $$registerCustomTemplateProcessed?: boolean;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboardFunction" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface RuntimeStoryboardFunction {
-    // (undocumented)
-    cooked?: SimpleFunction;
-    // (undocumented)
-    processed?: boolean;
-    // (undocumented)
-    source: string;
-    // (undocumented)
-    typescript?: boolean;
-}
-
 // @public
 export interface SegueConf {
     target: string;

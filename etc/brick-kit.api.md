@@ -22,6 +22,7 @@ import { CustomTemplateProxyMergeablePropertyOfObject } from '@next-core/brick-t
 import { CustomTemplateProxyRefProperty } from '@next-core/brick-types';
 import { DefineResolveConf } from '@next-core/brick-types';
 import { DesktopData } from '@next-core/brick-types';
+import { EstreeNode } from '@next-core/brick-utils';
 import { FeatureFlags } from '@next-core/brick-types';
 import { GeneralTransform } from '@next-core/brick-types';
 import { HttpFetchError } from '@next-core/brick-http';
@@ -238,6 +239,26 @@ export const FeatureFlagsProvider: React_2.Provider<FeatureFlags>;
 // @public (undocumented)
 export const ForwardRefSingleBrickAsComponent: React_2.MemoExoticComponent<React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>>;
 
+// Warning: (ae-internal-missing-underscore) The name "FunctionCoverageCollector" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface FunctionCoverageCollector {
+    // (undocumented)
+    beforeBranch(node: EstreeNode, branch: string): void;
+    // (undocumented)
+    beforeEvaluate(node: EstreeNode): void;
+    // (undocumented)
+    beforeVisit(node: EstreeNode): void;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "FunctionCoverageSettings" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface FunctionCoverageSettings {
+    // (undocumented)
+    createCollector(name: string): FunctionCoverageCollector;
+}
+
 // @public
 export function getAuth(): AuthInfo;
 
@@ -373,6 +394,20 @@ export function reTransformForDevtools(transformationId: number, data: unknown, 
 // @internal (undocumented)
 export type RouterState = "initial" | "ready-to-mount" | "mounted";
 
+// Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboardFunction" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface RuntimeStoryboardFunction {
+    // (undocumented)
+    cooked?: SimpleFunction;
+    // (undocumented)
+    processed?: boolean;
+    // (undocumented)
+    source: string;
+    // (undocumented)
+    typescript?: boolean;
+}
+
 // @public
 export const SingleBrickAsComponent: React_2.NamedExoticComponent<SingleBrickAsComponentProps>;
 
@@ -393,7 +428,9 @@ export interface StoryboardFunctionRegistry {
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function StoryboardFunctionRegistryFactory(): StoryboardFunctionRegistry;
+export function StoryboardFunctionRegistryFactory({ collectCoverage, }?: {
+    collectCoverage?: FunctionCoverageSettings;
+}): StoryboardFunctionRegistry;
 
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //

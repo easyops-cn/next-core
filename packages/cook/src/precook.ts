@@ -23,6 +23,11 @@ import {
 export interface PrecookOptions {
   expressionOnly?: boolean;
   visitors?: EstreeVisitors;
+  hooks?: PrecookHooks;
+}
+
+export interface PrecookHooks {
+  beforeVisit?(node: EstreeNode): void;
 }
 
 /**
@@ -34,7 +39,7 @@ export interface PrecookOptions {
  */
 export function precook(
   rootAst: Expression | FunctionDeclaration,
-  { expressionOnly, visitors }: PrecookOptions = {}
+  { expressionOnly, visitors, hooks = {} }: PrecookOptions = {}
 ): Set<string> {
   const attemptToVisitGlobals = new Set<string>();
   const analysisContextStack: AnalysisContext[] = [];
@@ -61,6 +66,7 @@ export function precook(
       }
     } else if (node) {
       // `node` maybe `null` in some cases.
+      hooks.beforeVisit?.(node);
       visitors && visit(node);
       // Expressions:
       switch (node.type) {

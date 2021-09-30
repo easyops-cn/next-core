@@ -1,4 +1,7 @@
-import { StoryboardFunctionRegistryFactory } from "./StoryboardFunctionRegistryFactory";
+import {
+  StoryboardFunctionRegistryFactory,
+  FunctionCoverageCollector,
+} from "./StoryboardFunctionRegistryFactory";
 
 describe("StoryboardFunctions", () => {
   const {
@@ -60,6 +63,59 @@ describe("StoryboardFunctions", () => {
       storyboardFunctions.myFunc = () => 0;
     }).toThrowErrorMatchingInlineSnapshot(
       `"Cannot define property myFunc, object is not extensible"`
+    );
+  });
+});
+
+describe("collect coverage", () => {
+  it("should collect coverage", () => {
+    const collector: FunctionCoverageCollector = {
+      beforeVisit: jest.fn(),
+      beforeEvaluate: jest.fn(),
+      beforeBranch: jest.fn(),
+    };
+    const createCollector = (): FunctionCoverageCollector => collector;
+    const { storyboardFunctions: fn, registerStoryboardFunctions } =
+      StoryboardFunctionRegistryFactory({
+        collectCoverage: {
+          createCollector,
+        },
+      });
+    registerStoryboardFunctions([
+      {
+        name: "test",
+        source: `
+          function test(a) {
+            if (a) {
+              return a;
+            }
+            return false;
+          }
+        `,
+      },
+    ]);
+
+    fn.test(1);
+    expect(collector.beforeVisit).toBeCalledTimes(9);
+    expect(collector.beforeEvaluate).toBeCalledTimes(6);
+    expect(collector.beforeBranch).toBeCalledTimes(1);
+    expect(collector.beforeBranch).toBeCalledWith(
+      expect.objectContaining({
+        type: "IfStatement",
+      }),
+      "if"
+    );
+
+    fn.test(0);
+    expect(collector.beforeVisit).toBeCalledTimes(9);
+    expect(collector.beforeEvaluate).toBeCalledTimes(11);
+    expect(collector.beforeBranch).toBeCalledTimes(2);
+    expect(collector.beforeBranch).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        type: "IfStatement",
+      }),
+      "else"
     );
   });
 });

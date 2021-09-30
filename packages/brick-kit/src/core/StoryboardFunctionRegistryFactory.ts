@@ -1,9 +1,5 @@
-import {
-  RuntimeStoryboardFunction,
-  SimpleFunction,
-  StoryboardFunction,
-} from "@next-core/brick-types";
-import { cook, precookFunction } from "@next-core/brick-utils";
+import { SimpleFunction, StoryboardFunction } from "@next-core/brick-types";
+import { cook, precookFunction, EstreeNode } from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
 
 /** @internal */
@@ -30,7 +26,31 @@ export interface StoryboardFunctionRegistry {
 }
 
 /** @internal */
-export function StoryboardFunctionRegistryFactory(): StoryboardFunctionRegistry {
+export interface RuntimeStoryboardFunction {
+  source: string;
+  typescript?: boolean;
+  processed?: boolean;
+  cooked?: SimpleFunction;
+}
+
+/** @internal */
+export interface FunctionCoverageCollector {
+  beforeVisit(node: EstreeNode): void;
+  beforeEvaluate(node: EstreeNode): void;
+  beforeBranch(node: EstreeNode, branch: string): void;
+}
+
+/** @internal */
+export interface FunctionCoverageSettings {
+  createCollector(name: string): FunctionCoverageCollector;
+}
+
+/** @internal */
+export function StoryboardFunctionRegistryFactory({
+  collectCoverage,
+}: {
+  collectCoverage?: FunctionCoverageSettings;
+} = {}): StoryboardFunctionRegistry {
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
 
   // Use `Proxy` with a frozen target, to make a readonly function registry.
@@ -52,44 +72,52 @@ export function StoryboardFunctionRegistryFactory(): StoryboardFunctionRegistry 
     }
   }
 
-  function getStoryboardFunction(
-    name: string
-  ): (...args: unknown[]) => unknown {
+  function getStoryboardFunction(name: string): SimpleFunction {
     const fn = registeredFunctions.get(name);
     if (!fn) {
       return undefined;
     }
-    if (!fn.processed) {
-      const precooked = precookFunction(fn.source, {
-        typescript: fn.typescript,
-      });
-      fn.cooked = cook(precooked.function, fn.source, {
-        rules: {
-          noVar: true,
-        },
-        globalVariables: supply(precooked.attemptToVisitGlobals, {
-          // Functions can call other functions.
-          FN: storyboardFunctions,
-        }),
-      }) as SimpleFunction;
-      fn.processed = true;
+    if (fn.processed) {
+      return fn.cooked;
     }
-    return fn.cooked;
-  }
-
-  function updateStoryboardFunction(
-    name: string,
-    data: StoryboardFunctionPatch
-  ): void {
-    registeredFunctions.set(name, {
-      source: data.source,
-      typescript: data.typescript,
+    let collector: FunctionCoverageCollector;
+    if (collectCoverage) {
+      collector = collectCoverage.createCollector(name);
+    }
+    const precooked = precookFunction(fn.source, {
+      typescript: fn.typescript,
+      hooks: {
+        beforeVisit: collector?.beforeVisit,
+      },
     });
+    fn.cooked = cook(precooked.function, fn.source, {
+      rules: {
+        noVar: true,
+      },
+      globalVariables: supply(precooked.attemptToVisitGlobals, {
+        // Functions can call other functions.
+        FN: storyboardFunctions,
+      }),
+      hooks: {
+        beforeEvaluate: collector?.beforeEvaluate,
+        beforeBranch: collector?.beforeBranch,
+      },
+    }) as SimpleFunction;
+    fn.processed = true;
+    return fn.cooked;
   }
 
   return {
     storyboardFunctions,
     registerStoryboardFunctions,
-    updateStoryboardFunction,
+    updateStoryboardFunction(
+      name: string,
+      data: StoryboardFunctionPatch
+    ): void {
+      registeredFunctions.set(name, {
+        source: data.source,
+        typescript: data.typescript,
+      });
+    },
   };
 }

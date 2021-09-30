@@ -264,14 +264,6 @@ export interface RuntimeStoryboard extends Storyboard {
   $$fulfilling?: Promise<void>;
 }
 
-/** @internal */
-export interface RuntimeStoryboardFunction {
-  source: string;
-  typescript?: boolean;
-  processed?: boolean;
-  cooked?: SimpleFunction;
-}
-
 /**
  * 路由配置，类型可以是构件列表、子路由列表和重定向中的一种。
  */
