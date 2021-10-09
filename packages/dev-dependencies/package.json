@@ -56,12 +56,12 @@
     "pretty-format": "^27.2.5",
     "rimraf": "^3.0.2",
     "semver": "^7.3.4",
-    "size-limit": "^5.0.2",
+    "size-limit": "^5.0.5",
     "typescript": "~4.4.3",
     "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "@size-limit/file": "^5.0.2",
+    "@size-limit/file": "^5.0.5",
     "@types/d3": "^6.7.5",
     "@types/dompurify": "^2.2.3",
     "@types/echarts": "^4.9.10",
