@@ -2,5 +2,7 @@
   "$schema": "../../../node_modules/@next-core/brick-types/.schema/storyboard.json",
   "menuBar": "basic-bricks.menu-bar",
   "appBar": "basic-bricks.app-bar",
-  "loadingBar": "basic-bricks.loading-bar"
+  "loadingBar": "basic-bricks.loading-bar",
+  "navBar": "frame-bricks.nav-bar",
+  "sideBar": "frame-bricks.side-bar"
 }
