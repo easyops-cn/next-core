@@ -52,6 +52,7 @@ import { listenDevtools } from "../internal/devtools";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
+import { getRuntime } from "../runtime";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -372,7 +373,7 @@ export class Kernel {
       // 对于 Legacy 页面，仅当切换应用时重设面包屑。
       this.appBar.setBreadcrumb(null);
     }
-    this.appBar.setPageTitle(null);
+    getRuntime().applyPageTitle(null);
   }
 
   toggleLegacyIframe(visible: boolean): void {

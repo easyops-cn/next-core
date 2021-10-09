@@ -26,6 +26,7 @@ import { registerCustomTemplate } from "./CustomTemplates";
 import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
+import { getRuntime } from "../runtime";
 
 i18next.init({
   fallbackLng: "en",
@@ -41,6 +42,7 @@ jest.mock("./Router");
 jest.mock("./CustomTemplates");
 jest.mock("./LazyBrickRegistry");
 jest.mock("../auth");
+jest.mock("../runtime");
 
 const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
@@ -86,6 +88,12 @@ const spyOnGetTemplateDepsOfStoryboard =
 const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
 
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
+
+const spyOnApplyPageTitle = jest.fn();
+
+(getRuntime as jest.Mock).mockImplementation(() => ({
+  applyPageTitle: spyOnApplyPageTitle,
+}));
 
 spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [brickConf.brick]);
 
@@ -481,7 +489,7 @@ describe("Kernel", () => {
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalledWith(true);
     expect(kernel.menuBar.resetAppMenu).toBeCalled();
-    expect(kernel.appBar.setPageTitle).toBeCalledWith(null);
+    expect(spyOnApplyPageTitle).toBeCalledWith(null);
     expect(kernel.appBar.setBreadcrumb).toBeCalledWith(null);
   });
 
@@ -498,7 +506,7 @@ describe("Kernel", () => {
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalled();
     expect(kernel.menuBar.resetAppMenu).not.toBeCalled();
-    expect(kernel.appBar.setPageTitle).not.toBeCalled();
+    expect(spyOnApplyPageTitle).not.toBeCalled();
     expect(kernel.appBar.setBreadcrumb).not.toBeCalled();
   });
 
