@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.73.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.1...@next-core/brick-kit@2.73.2) (2021-10-09)
+
+
+### Bug Fixes
+
+* 页面跳转时应重置浏览器标题 ([66b81f8](https://github.com/easyops-cn/next-core/commit/66b81f8765427857cbd5ceb7b7fa4cd41e2c54df))
+
+
+
+
+
 ## [2.73.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.0...@next-core/brick-kit@2.73.1) (2021-09-30)
 
 
