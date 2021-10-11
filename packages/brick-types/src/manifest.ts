@@ -226,7 +226,17 @@ export interface NavbarConf {
 }
 
 /** @internal */
-export interface PresetBricksConf extends Partial<NavbarConf> {
+export interface NavbarConf_UiV8 {
+  navBar: string;
+  sideBar: string;
+  breadcrumb: string;
+  footer: string;
+}
+
+/** @internal */
+export interface PresetBricksConf
+  extends Partial<NavbarConf>,
+    Partial<NavbarConf_UiV8> {
   pageNotFound: string;
   pageError: string;
 }
