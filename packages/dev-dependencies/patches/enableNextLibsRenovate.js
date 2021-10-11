@@ -30,6 +30,7 @@ function enableNextLibsRenovate() {
     renovateJson.packageRules.push({
       groupName: nextLibsGroupName,
       matchPackagePatterns: [nextLibsPattern],
+      automerge: false,
     });
     updated = true;
   }

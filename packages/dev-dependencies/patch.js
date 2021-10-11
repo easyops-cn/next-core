@@ -164,7 +164,7 @@ module.exports = async function patch() {
     updateBrickNext();
   }
 
-  if (semver.lt(currentRenewVersion, "1.11.0")) {
+  if (semver.lt(currentRenewVersion, "1.11.1")) {
     enableNextLibsRenovate();
   }
 
