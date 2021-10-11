@@ -37,7 +37,7 @@
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "meow": "^9.0.0",
-    "ws": "^8.2.2"
+    "ws": "^8.2.3"
   },
   "devDependencies": {
     "@next-core/brick-dll": "^2.21.5",
