@@ -50,7 +50,7 @@
     "history": "^4.10.1",
     "i18next": "^20.6.1",
     "jest-websocket-mock": "^2.2.1",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "mock-socket": "^9.0.5",
     "react": "^16.14.0",

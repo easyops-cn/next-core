@@ -32,7 +32,7 @@
   "devDependencies": {
     "@next-core/brick-kit": "^2.67.1",
     "@next-core/brick-utils": "^2.26.1",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "react": "^16.14.0",
     "react-dnd": "^11.1.3",
