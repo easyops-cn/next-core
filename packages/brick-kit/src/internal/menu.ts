@@ -1,4 +1,4 @@
-import { sortBy } from "lodash";
+import { isNil, sortBy } from "lodash";
 import {
   MenuIcon,
   SidebarMenuSimpleItem,
@@ -69,12 +69,14 @@ export async function constructMenu(
 ): Promise<void> {
   const hasSubMenu = !!menuBar.subMenuId;
   if (menuBar.menuId) {
-    menuBar.menu = await processMenu(
-      menuBar.menuId,
-      context,
-      kernel,
-      hasSubMenu
-    );
+    const defaultCollapsed = menuBar.menu?.defaultCollapsed;
+    const menu = await processMenu(menuBar.menuId, context, kernel, hasSubMenu);
+
+    if (!isNil(defaultCollapsed)) {
+      menu.defaultCollapsed = defaultCollapsed;
+    }
+
+    menuBar.menu = menu;
   }
   if (hasSubMenu) {
     menuBar.subMenu = await processMenu(menuBar.subMenuId, context, kernel);
