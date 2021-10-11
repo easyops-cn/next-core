@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.11.0...@next-core/dev-dependencies@1.11.1) (2021-10-11)
+
+
+### Bug Fixes
+
+* **renovate:** disable automerge for next-libs ([95860e1](https://github.com/easyops-cn/next-core/commit/95860e144268f98f67e04ac069ba8cf4bbb89d04))
+
+
+
+
+
 # [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.50...@next-core/dev-dependencies@1.11.0) (2021-10-11)
 
 
