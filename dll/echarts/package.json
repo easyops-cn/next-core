@@ -19,7 +19,7 @@
     "postbuild": "dll-differ"
   },
   "dependencies": {
-    "echarts": "^4.9.0"
+    "echarts": "^5.2.1"
   },
   "devDependencies": {
     "@next-core/webpack-config-factory": "^2.12.0"
