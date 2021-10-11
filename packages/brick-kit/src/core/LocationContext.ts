@@ -86,8 +86,8 @@ export interface MountRoutesResult {
   main: RuntimeBrick[];
   menuInBg: RuntimeBrick[];
   menuBar: {
-    menu?: SidebarMenu;
-    subMenu?: SidebarSubMenu;
+    menu?: Partial<SidebarMenu>;
+    subMenu?: Partial<SidebarSubMenu>;
     menuId?: string;
     subMenuId?: string;
   };
@@ -485,7 +485,7 @@ export class LocationContext {
 
     if (menuId) {
       mountRoutesResult.menuBar.menuId = menuId;
-      mountRoutesResult.menuBar.menu = null;
+      mountRoutesResult.menuBar.menu = sidebarMenu;
     } else if (sidebarMenu) {
       mountRoutesResult.menuBar.menu = sidebarMenu;
       mountRoutesResult.menuBar.menuId = null;
