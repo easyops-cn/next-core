@@ -27,6 +27,7 @@ i18n
     react: {
       useSuspense: false,
     },
+    compatibilityJSON: "v3",
   });
 
 initI18n();
