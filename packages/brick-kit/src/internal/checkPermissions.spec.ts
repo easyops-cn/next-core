@@ -6,9 +6,13 @@ import {
   validatePermissions as _validatePermissions,
   resetPermissionPreChecks as _resetPermissionPreChecks,
 } from "./checkPermissions";
+import { getAuth } from "../auth";
 
 jest.mock("@next-core/brick-utils");
 jest.mock("@next-sdk/micro-app-sdk");
+jest.mock("../auth.ts");
+
+const mockGetAuth = (getAuth as jest.Mock).mockReturnValue({});
 
 const mockScanPermissionActionsInStoryboard =
   scanPermissionActionsInStoryboard as jest.MockedFunction<
@@ -154,6 +158,13 @@ describe("checkPermissions", () => {
     expect(mockConsoleError).toBeCalledWith(
       'Un-checked permission action: "my:action-x", please make sure the permission to check is defined in permissionsPreCheck.'
     );
+  });
+
+  it("should permission always authorized if the role is system admin", () => {
+    mockScanPermissionActionsInStoryboard.mockReturnValueOnce(["my:action-a"]);
+
+    mockGetAuth.mockReturnValueOnce({ isAdmin: true });
+    expect(checkPermissions("my:action-a")).toEqual(true);
   });
 
   it("should clear permission pre-checks", async () => {

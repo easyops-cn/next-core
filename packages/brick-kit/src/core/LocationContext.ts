@@ -168,6 +168,7 @@ export class LocationContext {
         userInstanceId: auth.userInstanceId,
         loginFrom: auth.loginFrom,
         accessRule: auth.accessRule,
+        isAdmin: auth.isAdmin,
         ...getRuntimeMisc(),
       },
       flags: this.kernel.getFeatureFlags(),
@@ -614,6 +615,7 @@ export class LocationContext {
   ): Promise<void> {
     if (
       isLoggedIn() &&
+      !getAuth().isAdmin &&
       container.permissionsPreCheck &&
       Array.isArray(container.permissionsPreCheck)
     ) {

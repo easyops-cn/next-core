@@ -208,7 +208,7 @@ export class Router {
       restoreDynamicTemplates(storyboard);
 
       // 预加载权限信息
-      if (isLoggedIn()) {
+      if (isLoggedIn() && !getAuth().isAdmin) {
         await preCheckPermissions(storyboard);
       }
 
