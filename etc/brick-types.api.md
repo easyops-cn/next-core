@@ -1308,13 +1308,19 @@ export interface NavbarConf {
     // (undocumented)
     appBar: string;
     // (undocumented)
-    breadcrumb: string;
-    // (undocumented)
-    footer: string;
-    // (undocumented)
     loadingBar: string;
     // (undocumented)
     menuBar: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "NavbarConf_UiV8" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface NavbarConf_UiV8 {
+    // (undocumented)
+    breadcrumb: string;
+    // (undocumented)
+    footer: string;
     // (undocumented)
     navBar: string;
     // (undocumented)
@@ -1370,7 +1376,7 @@ export interface PluginRuntimeContext {
 // Warning: (ae-internal-missing-underscore) The name "PresetBricksConf" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface PresetBricksConf extends Partial<NavbarConf> {
+export interface PresetBricksConf extends Partial<NavbarConf>, Partial<NavbarConf_UiV8> {
     // (undocumented)
     pageError: string;
     // (undocumented)

@@ -223,6 +223,10 @@ export interface NavbarConf {
   menuBar: string;
   appBar: string;
   loadingBar: string;
+}
+
+/** @internal */
+export interface NavbarConf_UiV8 {
   navBar: string;
   sideBar: string;
   breadcrumb: string;
@@ -230,7 +234,9 @@ export interface NavbarConf {
 }
 
 /** @internal */
-export interface PresetBricksConf extends Partial<NavbarConf> {
+export interface PresetBricksConf
+  extends Partial<NavbarConf>,
+    Partial<NavbarConf_UiV8> {
   pageNotFound: string;
   pageError: string;
 }

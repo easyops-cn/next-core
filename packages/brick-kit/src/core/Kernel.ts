@@ -629,7 +629,7 @@ export class Kernel {
     return brick;
   }
 
-  setUiVersion(): void {
+  private setUiVersion(): void {
     // get from localStorage fot test
     // this.enableUiV8 = this.getFeatureFlags()["ui-v8"];
     this.enableUiV8 = !!localStorage.getItem("test-ui-v8");

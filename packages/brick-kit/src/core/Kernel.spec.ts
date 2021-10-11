@@ -402,6 +402,19 @@ describe("Kernel", () => {
   });
 
   it("should work for easyops layout when ui version is v5", async () => {
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+    });
+    await kernel.bootstrap({});
     kernel.bootstrapData = {
       navbar: {
         menuBar: "basic-bricks.menu-bar",
@@ -430,7 +443,6 @@ describe("Kernel", () => {
     kernel.footer = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
-    kernel.setUiVersion();
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
     expect(document.documentElement.dataset.ui).toBe(undefined);
@@ -454,6 +466,25 @@ describe("Kernel", () => {
   });
 
   it("should work for easyops layout when ui version is v8", async () => {
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+      settings: {
+        featureFlags: {
+          "ui-v8": true,
+        },
+      },
+    });
+    localStorage.setItem("test-ui-v8", "true");
+    await kernel.bootstrap({});
     kernel.bootstrapData = {
       navbar: {
         menuBar: "basic-bricks.menu-bar",
@@ -461,7 +492,6 @@ describe("Kernel", () => {
         loadingBar: "basic-bricks.loading-bar",
       },
     } as RuntimeBootstrapData;
-    localStorage.setItem("test-ui-v8", "true");
     kernel.menuBar = {
       bootstrap: jest.fn(),
     } as unknown as MenuBar;
@@ -483,7 +513,6 @@ describe("Kernel", () => {
     kernel.footer = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
-    kernel.setUiVersion();
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
     expect(document.documentElement.dataset.ui).toBe("v8");
