@@ -31,7 +31,7 @@
     "markdown-loader": "^6.0.0",
     "neo-async": "^2.6.2",
     "postcss-loader": "^3.0.0",
-    "postcss-nested": "^4.2.3",
+    "postcss-nested": "^5.0.6",
     "postcss-preset-env": "^6.7.0",
     "prismjs": "^1.25.0",
     "raw-loader": "^4.0.2",
