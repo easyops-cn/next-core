@@ -68,6 +68,8 @@ export interface AttributeConfig {
 // @internal (undocumented)
 export interface AuthInfo {
     // (undocumented)
+    accessRule?: string;
+    // (undocumented)
     loginFrom?: string;
     // (undocumented)
     org?: number;
@@ -1650,20 +1652,6 @@ export interface RuntimeStoryboard extends Storyboard {
     $$registerCustomTemplateProcessed?: boolean;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboardFunction" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface RuntimeStoryboardFunction {
-    // (undocumented)
-    cooked?: SimpleFunction;
-    // (undocumented)
-    processed?: boolean;
-    // (undocumented)
-    source: string;
-    // (undocumented)
-    typescript?: boolean;
-}
-
 // @public
 export interface SegueConf {
     target: string;
@@ -2136,6 +2124,8 @@ export interface StoryDocTypeAndInterface {
 
 // @public
 export interface SystemInfo extends RuntimeMisc {
+    // (undocumented)
+    accessRule?: string;
     // (undocumented)
     loginFrom?: string;
     // (undocumented)

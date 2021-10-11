@@ -86,8 +86,8 @@ export interface MountRoutesResult {
   main: RuntimeBrick[];
   menuInBg: RuntimeBrick[];
   menuBar: {
-    menu?: SidebarMenu;
-    subMenu?: SidebarSubMenu;
+    menu?: Partial<SidebarMenu>;
+    subMenu?: Partial<SidebarSubMenu>;
     menuId?: string;
     subMenuId?: string;
   };
@@ -165,6 +165,7 @@ export class LocationContext {
         username: auth.username,
         userInstanceId: auth.userInstanceId,
         loginFrom: auth.loginFrom,
+        accessRule: auth.accessRule,
         ...getRuntimeMisc(),
       },
       flags: this.kernel.getFeatureFlags(),
@@ -484,7 +485,7 @@ export class LocationContext {
 
     if (menuId) {
       mountRoutesResult.menuBar.menuId = menuId;
-      mountRoutesResult.menuBar.menu = null;
+      mountRoutesResult.menuBar.menu = sidebarMenu;
     } else if (sidebarMenu) {
       mountRoutesResult.menuBar.menu = sidebarMenu;
       mountRoutesResult.menuBar.menuId = null;
@@ -736,6 +737,43 @@ export class LocationContext {
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 
+    const useBrickList: RuntimeBrickConfWithTplSymbols[] = [];
+
+    const walkUseBrickInProperties = (
+      properties: Record<string, unknown> = {}
+    ) => {
+      Object.entries(properties).forEach(([key, value]) => {
+        // 在测试环境发现有人写成 useBrick: true, 故做了一个兼容处理, 防止报错
+        if (key === "useBrick" && isObject(value)) {
+          useBrickList.push(value);
+        }
+        if (isObject(value)) {
+          walkUseBrickInProperties(value);
+        }
+      });
+    };
+    const setTplIdForUseBrick = (list: RuntimeBrickConfWithTplSymbols[]) => {
+      list.forEach((item) => {
+        if (Array.isArray(item)) {
+          setTplIdForUseBrick(item);
+        } else {
+          item[symbolForTplContextId] = tplContextId;
+          if (item.slots) {
+            Object.values(item.slots).forEach((slotItem) => {
+              setTplIdForUseBrick((slotItem as any).bricks);
+            });
+          }
+        }
+      });
+    };
+    // 如果properteis中存在useBrick, 则递归遍历并赋值tplContextId
+    if (tplContextId) {
+      walkUseBrickInProperties(brick.properties);
+      if (useBrickList.length > 0) {
+        setTplIdForUseBrick(useBrickList);
+      }
+    }
+
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
         if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
@@ -887,10 +925,12 @@ export class LocationContext {
   }
 
   handlePageLoad(): void {
-    this.dispatchLifeCycleEvent(
-      new CustomEvent("page.load"),
-      this.pageLoadHandlers
-    );
+    const event = new CustomEvent("page.load");
+
+    this.dispatchLifeCycleEvent(event, this.pageLoadHandlers);
+
+    // Currently only for e2e testing
+    window.dispatchEvent(event);
   }
 
   handleBeforePageLeave(detail: {
@@ -950,6 +990,10 @@ export class LocationContext {
 
   getCurrentMatch(): MatchResult {
     return this.currentMatch;
+  }
+
+  getTplContext(): CustomTemplateContext {
+    return this.tplContext;
   }
 
   private dispatchLifeCycleEvent(

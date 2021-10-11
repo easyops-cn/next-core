@@ -13,6 +13,7 @@ import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
 import { validatePermissions } from "../internal/checkPermissions";
+import { symbolForTplContextId } from "./CustomTemplates/constants";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -34,6 +35,7 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (getAuth as jest.Mock).mockReturnValue({
   username: "easyops",
   userInstanceId: "acbd46b",
+  accessRule: "cmdb",
 });
 
 jest.spyOn(history, "getHistory").mockReturnValue({
@@ -46,6 +48,7 @@ const spyOnGetCurrentContext = jest.spyOn(
   runtime,
   "_internalApiGetCurrentContext"
 );
+const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 
 describe("LocationContext", () => {
   const kernel: Kernel = {
@@ -414,6 +417,52 @@ describe("LocationContext", () => {
                     properties: {
                       title:
                         "<% `${CTX.myFreeContext} ${CTX.myAsyncContext} ${CTX.myFallbackToValueContext}` %>",
+                      useBrick: {
+                        brick: "useBrick-a",
+                        properties: {
+                          useBrick: {
+                            brick: "useBrick-in-useBrick-b",
+                            slots: {
+                              content: {
+                                bricks: [
+                                  {
+                                    brick: "slots-useBrick-in-useBrick-c",
+                                  },
+                                ],
+                                type: "bricks",
+                              },
+                            },
+                          },
+                        },
+                        slots: {
+                          content: {
+                            bricks: [
+                              {
+                                brick: "slots-in-useBrick-d",
+                              },
+                            ],
+                            type: "bricks",
+                          },
+                        },
+                      },
+                      columns: [
+                        {
+                          title: "title-1",
+                          label: "label-1",
+                        },
+                        {
+                          title: "title-2",
+                          label: "label-2",
+                          useBrick: {
+                            brick: "deep-useBrick-e",
+                            properties: {
+                              useBrick: {
+                                brick: "deep-useBrick-in-useBrick-f",
+                              },
+                            },
+                          },
+                        },
+                      ],
                     },
                     context: [
                       {
@@ -621,6 +670,7 @@ describe("LocationContext", () => {
                         ],
                       },
                     },
+                    [symbolForTplContextId]: "tpl-1",
                   },
                   {
                     if: "${FLAGS.testing|not}",
@@ -723,6 +773,61 @@ describe("LocationContext", () => {
         value: "some value",
         eventTarget: expect.anything(),
       });
+      expect(result.main[0].properties).toEqual({
+        title: "good even better default value",
+        useBrick: {
+          brick: "useBrick-a",
+          [symbolForTplContextId]: "tpl-1",
+          properties: {
+            useBrick: {
+              brick: "useBrick-in-useBrick-b",
+              [symbolForTplContextId]: "tpl-1",
+              slots: {
+                content: {
+                  bricks: [
+                    {
+                      brick: "slots-useBrick-in-useBrick-c",
+                      [symbolForTplContextId]: "tpl-1",
+                    },
+                  ],
+                  type: "bricks",
+                },
+              },
+            },
+          },
+          slots: {
+            content: {
+              bricks: [
+                {
+                  brick: "slots-in-useBrick-d",
+                  [symbolForTplContextId]: "tpl-1",
+                },
+              ],
+              type: "bricks",
+            },
+          },
+        },
+        columns: [
+          {
+            title: "title-1",
+            label: "label-1",
+          },
+          {
+            title: "title-2",
+            label: "label-2",
+            useBrick: {
+              brick: "deep-useBrick-e",
+              [symbolForTplContextId]: "tpl-1",
+              properties: {
+                useBrick: {
+                  brick: "deep-useBrick-in-useBrick-f",
+                  [symbolForTplContextId]: "tpl-1",
+                },
+              },
+            },
+          },
+        ],
+      });
       expect(kernel.mountPoints.bg.children.length).toBe(2);
       expect(kernel.mountPoints.bg.children[0].tagName).toBe("PROVIDER-A");
       expect(kernel.mountPoints.bg.children[1].tagName).toBe("PROVIDER-B");
@@ -773,6 +878,10 @@ describe("LocationContext", () => {
       context.handlePageLeave();
       context.handleMessageClose(new CloseEvent("error"));
       context.handleMessage();
+
+      expect(spyOnDispatchEvent).toBeCalledWith(
+        expect.objectContaining({ type: "page.load" })
+      );
 
       // Assert `console.log()`.
       expect(consoleLog).toHaveBeenNthCalledWith(

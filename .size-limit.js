@@ -21,7 +21,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll.*.js",
-    limit: "1.36 MB",
+    limit: "1.37 MB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
@@ -29,7 +29,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/icons--*.js",
-    limit: "410 KB",
+    limit: "425 KB",
   },
   {
     path: "packages/brick-container/dist/polyfill.*.js",
@@ -45,7 +45,7 @@ module.exports = [
   },
   {
     path: "packages/brick-kit/dist/index.esm.js",
-    limit: "75 KB",
+    limit: "80 KB",
   },
   {
     path: "packages/brick-types/dist/index.esm.js",
@@ -53,7 +53,7 @@ module.exports = [
   },
   {
     path: "packages/brick-utils/dist/index.esm.js",
-    limit: "125 KB",
+    limit: "135 KB",
   },
   {
     path: "packages/editor-bricks-helper/dist/index.esm.js",

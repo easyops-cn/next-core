@@ -1,7 +1,6 @@
 import { LocationDescriptor } from "history";
 import { ThemeType } from "@ant-design/compatible/lib/icon";
 import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
-
 /**
  * 侧边栏菜单配置。
  */

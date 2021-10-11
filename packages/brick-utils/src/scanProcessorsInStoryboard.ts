@@ -2,7 +2,7 @@ import { uniq } from "lodash";
 import { MemberExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-import { isEvaluable, preevaluate, PrecookVisitor } from "./cook";
+import { isEvaluable, preevaluate } from "./cook";
 
 const PROCESSORS = "PROCESSORS";
 
@@ -31,7 +31,7 @@ function collectProcessors(
     if (data.includes(PROCESSORS) && isEvaluable(data)) {
       preevaluate(data, {
         visitors: {
-          MemberExpression: (node: MemberExpression, state, callback) => {
+          MemberExpression(node: MemberExpression) {
             const accessNamespace = node.object;
             if (
               !node.computed &&
@@ -46,7 +46,6 @@ function collectProcessors(
                 `${accessNamespace.property.name}.${node.property.name}`
               );
             }
-            PrecookVisitor.MemberExpression(node, state, callback);
           },
         },
       });

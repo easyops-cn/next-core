@@ -12,6 +12,7 @@ import {
   EvaluateOptions,
   isPreEvaluated,
   shouldDismissRecursiveMarkingInjected,
+  EvaluateRuntimeContext,
 } from "./internal/evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
 import { devtoolsHookEmit } from "./internal/devtools";
@@ -23,6 +24,7 @@ import {
 } from "./internal/getNextStateOfUseBrick";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
+import { symbolForTplContextId } from "./core/CustomTemplates/constants";
 
 interface TransformOptions {
   isReTransformation?: boolean;
@@ -34,6 +36,7 @@ interface DoTransformOptions {
   evaluateOptions?: EvaluateOptions;
   trackingContextList?: TrackingContextItem[];
   allowInject?: boolean;
+  getTplVariables?: () => Record<string, unknown>;
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
 }
@@ -96,7 +99,12 @@ export function doTransform(
     let result: unknown;
     let dismissRecursiveMarkingInjected = false;
     if (preEvaluated || isEvaluable(to as string)) {
-      result = evaluate(to as string, { data }, options?.evaluateOptions);
+      const runtimeContext: EvaluateRuntimeContext = {
+        data,
+      };
+      if (options?.getTplVariables)
+        runtimeContext.getTplVariables = options.getTplVariables;
+      result = evaluate(to as string, runtimeContext, options?.evaluateOptions);
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         to as string
       );
@@ -136,10 +144,33 @@ export function doTransform(
           });
         }
       }
-      return [
-        k,
-        doTransform(data, v, getNextDoTransformOptions(options, false, k)),
-      ];
+      if (k === "useBrick") {
+        /**
+         * 在locationContext中已经为useBrick添加 SymbolTplContextId
+         * 在此如果通过Object.enteries遍历useBrick会出现 id丢失对情况,
+         * 故需要对 SymbolTplContextId 特殊处理
+         */
+        const result: any = doTransform(
+          data,
+          v,
+          getNextDoTransformOptions(options, false, k)
+        );
+        if (Array.isArray(v)) {
+          for (let i = 0; i < v.length; i++) {
+            if (v[i][symbolForTplContextId])
+              result[i][symbolForTplContextId] = v[i][symbolForTplContextId];
+          }
+        } else {
+          if (v[symbolForTplContextId])
+            result[symbolForTplContextId] = v[symbolForTplContextId];
+        }
+        return [k, result];
+      } else {
+        return [
+          k,
+          doTransform(data, v, getNextDoTransformOptions(options, false, k)),
+        ];
+      }
     })
   );
 }

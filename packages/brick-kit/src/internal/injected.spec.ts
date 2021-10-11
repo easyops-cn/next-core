@@ -1,3 +1,4 @@
+import { symbolForTplContextId } from "../core/CustomTemplates/constants";
 import {
   cloneDeepWithInjectedMark,
   haveBeenInjected,
@@ -9,10 +10,11 @@ describe("injected", () => {
   it("should work for an object", () => {
     const innerArray = ["quality", "good"];
     const innerObject = { quality: "good" };
-    const object = {
+    const object = Object.create(null);
+    Object.assign(object, {
       innerArray,
       innerObject,
-    };
+    });
     expect(haveBeenInjected(object)).toBe(false);
     expect(haveBeenInjected(innerArray)).toBe(false);
     expect(haveBeenInjected(innerObject)).toBe(false);
@@ -71,7 +73,25 @@ describe("injected", () => {
 describe("cloneDeepWithInjectedMark", () => {
   it("should work", () => {
     const innerArray = ["quality", "good"];
-    const innerObject = { quality: "good" };
+    const innerObject = {
+      quality: "good",
+      useBrick: [
+        {
+          quality: "good",
+          useBrick: {
+            brick: "a",
+            [symbolForTplContextId]: "tpl-1",
+          },
+        },
+        {
+          quality: "bad",
+          useBrick: {
+            brick: "b",
+            [symbolForTplContextId]: "tpl-1",
+          },
+        },
+      ],
+    };
     const object = {
       innerArray,
       innerObject,

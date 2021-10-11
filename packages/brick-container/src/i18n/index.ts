@@ -17,10 +17,13 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: "zh",
+    supportedLngs: ["zh", "en"],
+    nonExplicitSupportedLngs: true,
     /*global process*/
     debug: process.env.NODE_ENV === "development",
     // whitelist: ["en", "zh"],
-
+    supportedLngs: ["zh", "en"],
+    nonExplicitSupportedLngs: true,
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },

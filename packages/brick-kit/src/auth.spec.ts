@@ -10,11 +10,13 @@ describe("auth", () => {
       org: 8888,
       username: "mock-user",
       userInstanceId: "abc",
+      accessRule: "cmdb",
     });
     expect(getAuth()).toEqual({
       org: 8888,
       username: "mock-user",
       userInstanceId: "abc",
+      accessRule: "cmdb",
     });
 
     expect(resetPermissionPreChecks).not.toBeCalled();

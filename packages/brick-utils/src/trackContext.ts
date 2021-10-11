@@ -1,5 +1,5 @@
 import { MemberExpression } from "@babel/types";
-import { PrecookVisitor, preevaluate } from "./cook";
+import { preevaluate } from "./cook";
 
 const TRACK_CONTEXT = "track context";
 
@@ -34,7 +34,7 @@ export function trackContext(raw: string): string[] | false {
     const contexts = new Set<string>();
     const { expression } = preevaluate(raw, {
       visitors: {
-        MemberExpression: (node: MemberExpression, state, callback) => {
+        MemberExpression(node: MemberExpression) {
           if (node.object.type === "Identifier" && node.object.name === "CTX") {
             if (!node.computed && node.property.type === "Identifier") {
               contexts.add(node.property.name);
@@ -46,7 +46,6 @@ export function trackContext(raw: string): string[] | false {
               contexts.add((node.property as any).value);
             }
           }
-          PrecookVisitor.MemberExpression(node, state, callback);
         },
       },
     });

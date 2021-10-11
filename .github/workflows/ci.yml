@@ -93,6 +93,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./.coverage/lcov.info
+      continue-on-error: true
 
     - id: next-publish-from-tags
       uses: easyops-cn/actions-next-publish-from-tags@master
@@ -101,5 +102,5 @@ jobs:
       if: github.event_name == 'push'
 
     - name: Sync taobao npm mirror
-      run: npx lerna exec -- curl -sX PUT 'https://npm.taobao.org/sync/\$LERNA_PACKAGE_NAME?sync_upstream=true'
+      run: npx lerna exec -- curl -sX PUT 'https://npm.taobao.org/sync/$LERNA_PACKAGE_NAME?sync_upstream=true'
       if: github.event_name == 'push' && steps.next-publish-from-tags.outputs.has-tags

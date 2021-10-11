@@ -117,6 +117,53 @@ describe("expandCustomTemplate", () => {
                   brick: "basic-bricks.brick-in-portal",
                   portal: true,
                 },
+                {
+                  brick: "basic-bricks.useBrick-in-tpl",
+                  properties: {
+                    useBrick: {
+                      brick: "a",
+                      ref: "useBrick-ref-a",
+                      properties: {
+                        useBrick: {
+                          brick: "b",
+                          ref: "useBrick-in-useBrick-ref-b",
+                        },
+                      },
+                      slots: {
+                        "": {
+                          type: "bricks",
+                          bricks: [
+                            {
+                              brick: "c",
+                              ref: "useBrick-slot-ref-c",
+                              properties: {
+                                useBrick: {
+                                  brick: "d",
+                                  ref: "useBrick-slot-useBrick-ref-d",
+                                },
+                              },
+                            },
+                            {
+                              brick: "f",
+                              properties: {
+                                columns: [
+                                  {
+                                    title: "f",
+                                    label: "f",
+                                    useBrick: {
+                                      brick: "f",
+                                      ref: "useBrick-slot-useBrick-deep-ref-f",
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  },
+                },
               ],
             },
           },

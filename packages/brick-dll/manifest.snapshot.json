@@ -3491,6 +3491,7 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": [
+          "pipes",
           "JsonStorage",
           "PrecookFunctionVisitor",
           "PrecookVisitor",
@@ -3499,7 +3500,6 @@
           "computeRealRoutePath",
           "convertValueByPrecision",
           "cook",
-          "cookFunction",
           "createProviderClass",
           "deepFreeze",
           "formatValue",
@@ -3517,13 +3517,12 @@
           "isObject",
           "isRouteNode",
           "isSnippetNode",
+          "lint",
           "loadScript",
           "mapCustomApisToNameAndNamespace",
           "matchPath",
           "normalizeBuilderNode",
           "normalizeMenu",
-          "pipes",
-          "precook",
           "precookFunction",
           "preevaluate",
           "prefetchScript",
@@ -11668,6 +11667,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@easyops/pipes/dist/index.esm.js": {
+      "id": "VU4u",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["pipes", "processPipes", "utils"]
+      }
+    },
     "./node_modules/@ant-design/icons/es/icons/CloudOutlined.js": {
       "id": "VWbf",
       "buildMeta": {
@@ -18448,6 +18454,7 @@
           "ForwardRefSingleBrickAsComponent",
           "ModalElement",
           "SingleBrickAsComponent",
+          "StoryboardFunctionRegistryFactory",
           "UpdatingElement",
           "authenticate",
           "checkIf",

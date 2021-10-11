@@ -10,19 +10,18 @@ import { devtoolsHookEmit } from "./devtools";
 import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
-import { getStoryboardFunctions } from "../core/StoryboardFunctions";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
 jest.mock("./checkPermissions");
 jest.mock("./Storage");
-jest.mock("../core/StoryboardFunctions");
-
-(getStoryboardFunctions as jest.Mock).mockReturnValue({
-  sayHello(name: string) {
-    return `Hello, ${name}`;
+jest.mock("../core/StoryboardFunctions", () => ({
+  storyboardFunctions: {
+    sayHello(name: string) {
+      return `Hello, ${name}`;
+    },
   },
-});
+}));
 
 i18next.init({
   fallbackLng: "en",

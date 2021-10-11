@@ -215,6 +215,7 @@ export interface AuthInfo {
   username?: string;
   userInstanceId?: string;
   loginFrom?: string;
+  accessRule?: string;
 }
 
 /** @internal */
@@ -261,14 +262,6 @@ export interface RuntimeStoryboard extends Storyboard {
   $$registerCustomTemplateProcessed?: boolean;
   $$fulfilled?: boolean;
   $$fulfilling?: Promise<void>;
-}
-
-/** @internal */
-export interface RuntimeStoryboardFunction {
-  source: string;
-  typescript?: boolean;
-  processed?: boolean;
-  cooked?: SimpleFunction;
 }
 
 /**

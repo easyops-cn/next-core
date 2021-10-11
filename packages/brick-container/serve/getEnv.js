@@ -244,6 +244,10 @@ module.exports = (cwd) => {
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-bricks" : "@bricks"}`
   );
+  const alternativeBrickPackagesDir = path.join(
+    nextRepoDir,
+    `node_modules/${usePublicScope ? "@bricks" : "@next-bricks"}`
+  );
   const templatePackagesDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-legacy-templates" : "@templates"}`
@@ -269,6 +273,7 @@ module.exports = (cwd) => {
     nextRepoDir,
     microAppsDir,
     brickPackagesDir,
+    alternativeBrickPackagesDir,
     templatePackagesDir,
     navbarJsonPath,
     host: flags.host,

@@ -7,6 +7,7 @@ import {
 } from "./transformProperties";
 import * as runtime from "./core/Runtime";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
+import { symbolForTplContextId } from "./core/CustomTemplates/constants";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   storyboardContext: new Map([
@@ -458,6 +459,7 @@ describe("doTransform", () => {
               },
             ],
           },
+          [symbolForTplContextId]: "tpl-1",
         },
       },
       {
@@ -489,7 +491,128 @@ describe("doTransform", () => {
             },
           ],
         },
+        [symbolForTplContextId]: "tpl-1",
       },
+    });
+
+    const arrResult = doTransform(
+      {
+        a: "yes",
+        b: true,
+      },
+      {
+        prop: "<% DATA.a %>",
+        useBrick: [
+          {
+            brick: "my-brick-1",
+            if: "<% DATA.b %>",
+            properties: {
+              myProp: "<% DATA.c %>",
+            },
+            transform: {
+              myTransform: "<% DATA.d %>",
+            },
+            events: {
+              click: {
+                action: "console.log",
+                args: ["<% DATA.e %>", "<% DATA.f %>"],
+              },
+            },
+            lifeCycle: {
+              useResolves: [
+                {
+                  useProvider: "my.provider",
+                  args: ["<% DATA.a %>"],
+                },
+              ],
+            },
+            [symbolForTplContextId]: "tpl-1",
+          },
+          {
+            brick: "my-brick-2",
+            if: "<% DATA.b %>",
+            properties: {
+              myProp: "<% DATA.c %>",
+            },
+            transform: {
+              myTransform: "<% DATA.d %>",
+            },
+            events: {
+              click: {
+                action: "console.log",
+                args: ["<% DATA.e %>", "<% DATA.f %>"],
+              },
+            },
+            lifeCycle: {
+              useResolves: [
+                {
+                  useProvider: "my.provider",
+                  args: ["<% DATA.a %>"],
+                },
+              ],
+            },
+            [symbolForTplContextId]: "tpl-2",
+          },
+        ],
+      },
+      {
+        $$lazyForUseBrick: true,
+      }
+    );
+    expect(arrResult).toEqual({
+      prop: "yes",
+      useBrick: [
+        {
+          brick: "my-brick-1",
+          if: "<% DATA.b %>",
+          properties: {
+            myProp: "<% DATA.c %>",
+          },
+          transform: {
+            myTransform: "<% DATA.d %>",
+          },
+          events: {
+            click: {
+              action: "console.log",
+              args: ["<% DATA.e %>", "<% DATA.f %>"],
+            },
+          },
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "my.provider",
+                args: ["yes"],
+              },
+            ],
+          },
+          [symbolForTplContextId]: "tpl-1",
+        },
+        {
+          brick: "my-brick-2",
+          if: "<% DATA.b %>",
+          properties: {
+            myProp: "<% DATA.c %>",
+          },
+          transform: {
+            myTransform: "<% DATA.d %>",
+          },
+          events: {
+            click: {
+              action: "console.log",
+              args: ["<% DATA.e %>", "<% DATA.f %>"],
+            },
+          },
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "my.provider",
+                args: ["yes"],
+              },
+            ],
+          },
+          [symbolForTplContextId]: "tpl-2",
+        },
+      ],
     });
   });
 
@@ -535,6 +658,25 @@ describe("doTransform", () => {
       }
     );
     expect(result).toBe("Hello=World");
+  });
+
+  it("should work while option had getTplVariables", () => {
+    const getTplVariables = () => ({
+      isShow: true,
+    });
+
+    const result = doTransform(
+      {},
+      {
+        text: "<% TPL.isShow ? 'I am show' : 'I am hide' %>",
+      },
+      {
+        getTplVariables,
+      }
+    );
+    expect(result).toEqual({
+      text: "I am show",
+    });
   });
 });
 

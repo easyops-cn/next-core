@@ -16,5 +16,5 @@
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false
   },
-  "exclude": ["node_modules", "dist/", "**/__mocks__/"]
+  "exclude": ["node_modules", "dist/", "**/__mocks__/", "**/__fixtures__/"]
 }

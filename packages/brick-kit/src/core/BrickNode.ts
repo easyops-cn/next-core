@@ -30,6 +30,8 @@ export interface RuntimeBrick {
     brick?: RuntimeBrick;
   };
   parentTemplate?: RuntimeBrick;
+  isParent?: boolean;
+  ref?: string;
 }
 
 export class BrickNode {

@@ -37,6 +37,7 @@
   --text-color-disabled: #bfbfbf;
   --text-color-link: var(--antd-link-color);
 
+  /* ui-v5 use menuBar and has subMenuBar, ui-v8 use sideBar. */
   --menu-bar-width: 240px;
   --menu-bar-collapsed-width: 60px;
   --menu-bar-collapse-transition-duration: 250ms;
@@ -45,7 +46,14 @@
   /* Sub menu along with the menu bar. */
   --sub-menu-bar-width: 220px;
 
+  --side-bar-width: 220px;
+  --side-bar-collapsed-width: 60px;
+  --side-bar-collapse-transition-duration: 400ms;
+  --side-bar-collapse-transition-timing-function: ease;
+
+  /* ui-v5 use appBar, ui-v8 use navBar. */
   --app-bar-height: 56px;
+  --nav-bar-height: 52px;
 
   --launchpad-backdrop-filter: blur(5px);
   --launchpad-backdrop-transition: filter 100ms ease-out;
