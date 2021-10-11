@@ -59,7 +59,7 @@
     "html-webpack-plugin": "^4.5.2",
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^6.1.2",
-    "less": "^3.13.1",
+    "less": "^4.1.2",
     "less-loader": "^7.3.0",
     "mini-css-extract-plugin": "^1.6.2",
     "regenerator-runtime": "^0.13.9",
