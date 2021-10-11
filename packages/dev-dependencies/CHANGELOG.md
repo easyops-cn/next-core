@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.50...@next-core/dev-dependencies@1.11.0) (2021-10-11)
+
+
+### Features
+
+* enabled next-libs renovate ([c038960](https://github.com/easyops-cn/next-core/commit/c0389607856ba6384fe8677b9a0c72731d754139))
+
+
+
+
+
 ## [1.10.50](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.10.49...@next-core/dev-dependencies@1.10.50) (2021-10-09)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
