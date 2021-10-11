@@ -23,6 +23,7 @@ const {
   migrateJestV2,
   updateBuildNextLibs,
   addPreBuildScriptForBricks,
+  enableNextLibsRenovate,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -161,6 +162,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.10.6")) {
     updateBrickNext();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.11.0")) {
+    enableNextLibsRenovate();
   }
 
   updateDevDependenciesVersion();
