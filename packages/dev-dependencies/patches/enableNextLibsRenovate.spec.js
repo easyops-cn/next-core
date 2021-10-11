@@ -19,6 +19,7 @@ describe("enableNextLibsRenovate", () => {
         {
           groupName: "next-libs packages",
           matchPackagePatterns: ["^@next-libs/"],
+          automerge: false,
         },
       ],
     });
@@ -86,6 +87,7 @@ describe("enableNextLibsRenovate", () => {
           {
             groupName: "next-libs packages",
             matchPackagePatterns: ["^@next-libs/"],
+            automerge: false,
           },
         ],
       }
