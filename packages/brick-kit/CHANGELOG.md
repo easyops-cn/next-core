@@ -5,174 +5,95 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.74.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.2...@next-core/brick-kit@2.74.0) (2021-10-11)
 
-
 ### Features
 
-* **menu:** app menu support overridden by route menu ([7c6fd6c](https://github.com/easyops-cn/next-core/commit/7c6fd6cadf5d5bf020b22ab0c57a34ce67d53075))
-
-
-
-
+- **menu:** app menu support overridden by route menu ([7c6fd6c](https://github.com/easyops-cn/next-core/commit/7c6fd6cadf5d5bf020b22ab0c57a34ce67d53075))
 
 ## [2.73.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.1...@next-core/brick-kit@2.73.2) (2021-10-09)
 
-
 ### Bug Fixes
 
-* 页面跳转时应重置浏览器标题 ([66b81f8](https://github.com/easyops-cn/next-core/commit/66b81f8765427857cbd5ceb7b7fa4cd41e2c54df))
-
-
-
-
+- 页面跳转时应重置浏览器标题 ([66b81f8](https://github.com/easyops-cn/next-core/commit/66b81f8765427857cbd5ceb7b7fa4cd41e2c54df))
 
 ## [2.73.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.0...@next-core/brick-kit@2.73.1) (2021-09-30)
 
-
 ### Bug Fixes
 
-* **cook-hooks:** use beforeCall for functions ([78073ab](https://github.com/easyops-cn/next-core/commit/78073abb4025c2d3f428a1b42447a07b7fc222a3))
-
-
-
-
+- **cook-hooks:** use beforeCall for functions ([78073ab](https://github.com/easyops-cn/next-core/commit/78073abb4025c2d3f428a1b42447a07b7fc222a3))
 
 # [2.73.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.72.0...@next-core/brick-kit@2.73.0) (2021-09-30)
 
-
 ### Features
 
-* **function:** support to collect coverage ([93835f0](https://github.com/easyops-cn/next-core/commit/93835f0f202b6fb18c915045b5c2e0cf8e5e1f25))
-
-
-
-
+- **function:** support to collect coverage ([93835f0](https://github.com/easyops-cn/next-core/commit/93835f0f202b6fb18c915045b5c2e0cf8e5e1f25))
 
 # [2.72.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.71.0...@next-core/brick-kit@2.72.0) (2021-09-27)
 
-
 ### Features
 
-* expose StoryboardFunctionRegistryFactory ([c7079e8](https://github.com/easyops-cn/next-core/commit/c7079e838a37350264ca3bf210527e1b09a542f7))
-
-
-
-
+- expose StoryboardFunctionRegistryFactory ([c7079e8](https://github.com/easyops-cn/next-core/commit/c7079e838a37350264ca3bf210527e1b09a542f7))
 
 # [2.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.4...@next-core/brick-kit@2.71.0) (2021-09-23)
 
-
 ### Bug Fixes
 
-* refine inject marking ([01675a8](https://github.com/easyops-cn/next-core/commit/01675a8b26fb0ab0e97de89a83c4618ccb4e7127))
-
+- refine inject marking ([01675a8](https://github.com/easyops-cn/next-core/commit/01675a8b26fb0ab0e97de89a83c4618ccb4e7127))
 
 ### Features
 
-* **LocationContext:** handlePageLoad dispatch page.load event on window for e2e testing usage ([d9bb07b](https://github.com/easyops-cn/next-core/commit/d9bb07b0395fbf769d485768bbb64e035b72c743))
-
-
-
-
+- **LocationContext:** handlePageLoad dispatch page.load event on window for e2e testing usage ([d9bb07b](https://github.com/easyops-cn/next-core/commit/d9bb07b0395fbf769d485768bbb64e035b72c743))
 
 ## [2.70.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.3...@next-core/brick-kit@2.70.4) (2021-09-23)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.70.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.2...@next-core/brick-kit@2.70.3) (2021-09-22)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.70.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.1...@next-core/brick-kit@2.70.2) (2021-09-22)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.70.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.70.0...@next-core/brick-kit@2.70.1) (2021-09-16)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.70.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.69.0...@next-core/brick-kit@2.70.0) (2021-09-15)
-
 
 ### Features
 
-* useBrick support template ([7b7ed28](https://github.com/easyops-cn/next-core/commit/7b7ed2837f8644dbff45e763fda2e2819df72d8a))
-
-
-
-
+- useBrick support template ([7b7ed28](https://github.com/easyops-cn/next-core/commit/7b7ed2837f8644dbff45e763fda2e2819df72d8a))
 
 # [2.69.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.68.1...@next-core/brick-kit@2.69.0) (2021-09-14)
 
-
 ### Features
 
-* refine cook which follows ECMA-262 ([417c628](https://github.com/easyops-cn/next-core/commit/417c62869397976c6ac5b9e0b97e68692eb2efc4))
-
-
-
-
+- refine cook which follows ECMA-262 ([417c628](https://github.com/easyops-cn/next-core/commit/417c62869397976c6ac5b9e0b97e68692eb2efc4))
 
 ## [2.68.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.68.0...@next-core/brick-kit@2.68.1) (2021-09-14)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.68.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.67.4...@next-core/brick-kit@2.68.0) (2021-09-13)
-
 
 ### Features
 
-* 框架提供 SYS.accessRule 变量 ([75c885d](https://github.com/easyops-cn/next-core/commit/75c885d58102feea07710a78e3ac630a1e13e377))
-
-
-
-
+- 框架提供 SYS.accessRule 变量 ([75c885d](https://github.com/easyops-cn/next-core/commit/75c885d58102feea07710a78e3ac630a1e13e377))
 
 ## [2.67.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.67.3...@next-core/brick-kit@2.67.4) (2021-09-12)
 
-
 ### Bug Fixes
 
-* allow inject multiple menus into one group ([b541b94](https://github.com/easyops-cn/next-core/commit/b541b94c3d8a50a6519950b6e7e7553f3052e455))
-
-
-
-
+- allow inject multiple menus into one group ([b541b94](https://github.com/easyops-cn/next-core/commit/b541b94c3d8a50a6519950b6e7e7553f3052e455))
 
 ## [2.67.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.67.2...@next-core/brick-kit@2.67.3) (2021-09-10)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.67.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.67.1...@next-core/brick-kit@2.67.2) (2021-09-06)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.67.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.67.0...@next-core/brick-kit@2.67.1) (2021-09-03)
 

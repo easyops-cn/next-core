@@ -17,11 +17,8 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: "zh",
-    supportedLngs: ["zh", "en"],
-    nonExplicitSupportedLngs: true,
     /*global process*/
     debug: process.env.NODE_ENV === "development",
-    // whitelist: ["en", "zh"],
     supportedLngs: ["zh", "en"],
     nonExplicitSupportedLngs: true,
     interpolation: {
@@ -30,6 +27,7 @@ i18n
     react: {
       useSuspense: false,
     },
+    compatibilityJSON: "v3",
   });
 
 initI18n();

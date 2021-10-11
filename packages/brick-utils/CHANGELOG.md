@@ -7,112 +7,60 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.28.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.3...@next-core/brick-utils@2.28.4) (2021-09-30)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.28.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.2...@next-core/brick-utils@2.28.3) (2021-09-27)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.28.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.1...@next-core/brick-utils@2.28.2) (2021-09-23)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.28.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.0...@next-core/brick-utils@2.28.1) (2021-09-22)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 # [2.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.27.1...@next-core/brick-utils@2.28.0) (2021-09-22)
-
 
 ### Features
 
-* lint storyboard functions ([c9b25d8](https://github.com/easyops-cn/next-core/commit/c9b25d837a604503d4a70f19c68922695e0c2650))
-
-
-
-
+- lint storyboard functions ([c9b25d8](https://github.com/easyops-cn/next-core/commit/c9b25d837a604503d4a70f19c68922695e0c2650))
 
 ## [2.27.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.27.0...@next-core/brick-utils@2.27.1) (2021-09-16)
 
-
 ### Bug Fixes
 
-* **cook:** use non-strict-mode for expression ([d25af31](https://github.com/easyops-cn/next-core/commit/d25af318bf92b84bbe0ec98fcd475d999c743791))
-
-
-
-
+- **cook:** use non-strict-mode for expression ([d25af31](https://github.com/easyops-cn/next-core/commit/d25af318bf92b84bbe0ec98fcd475d999c743791))
 
 # [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.5...@next-core/brick-utils@2.27.0) (2021-09-14)
 
-
 ### Features
 
-* refine cook which follows ECMA-262 ([417c628](https://github.com/easyops-cn/next-core/commit/417c62869397976c6ac5b9e0b97e68692eb2efc4))
-
-
-
-
+- refine cook which follows ECMA-262 ([417c628](https://github.com/easyops-cn/next-core/commit/417c62869397976c6ac5b9e0b97e68692eb2efc4))
 
 ## [2.26.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.4...@next-core/brick-utils@2.26.5) (2021-09-14)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.26.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.3...@next-core/brick-utils@2.26.4) (2021-09-13)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.26.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.2...@next-core/brick-utils@2.26.3) (2021-09-10)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.1...@next-core/brick-utils@2.26.2) (2021-09-06)
-
 
 ### Bug Fixes
 
-* **cookFunction:** fix switch cases after default ([0b58c22](https://github.com/easyops-cn/next-core/commit/0b58c223c0b865174392eefc9fc28f315d0fafbe))
-* **cookFunction:** no OptionalMemberExpression ([73e34c0](https://github.com/easyops-cn/next-core/commit/73e34c03de10a13a24ea08b313e8a0e6a801a183))
-* **cookFunction:** support delete operator ([9d28b7a](https://github.com/easyops-cn/next-core/commit/9d28b7a8e938d1ad6737eaaa70706c65f8ec4109))
-* fix continue-statement in switch-statement which in iteration statement ([7817b64](https://github.com/easyops-cn/next-core/commit/7817b64adef157e8b7c1b0ec8c106905d4a7b49b))
-
-
-
-
+- **cookFunction:** fix switch cases after default ([0b58c22](https://github.com/easyops-cn/next-core/commit/0b58c223c0b865174392eefc9fc28f315d0fafbe))
+- **cookFunction:** no OptionalMemberExpression ([73e34c0](https://github.com/easyops-cn/next-core/commit/73e34c03de10a13a24ea08b313e8a0e6a801a183))
+- **cookFunction:** support delete operator ([9d28b7a](https://github.com/easyops-cn/next-core/commit/9d28b7a8e938d1ad6737eaaa70706c65f8ec4109))
+- fix continue-statement in switch-statement which in iteration statement ([7817b64](https://github.com/easyops-cn/next-core/commit/7817b64adef157e8b7c1b0ec8c106905d4a7b49b))
 
 ## [2.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.26.0...@next-core/brick-utils@2.26.1) (2021-09-03)
 

@@ -7,137 +7,69 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.128](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.127...@next-core/next-docs@1.2.128) (2021-10-09)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.127](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.126...@next-core/next-docs@1.2.127) (2021-09-30)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.126](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.125...@next-core/next-docs@1.2.126) (2021-09-30)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.125](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.124...@next-core/next-docs@1.2.125) (2021-09-27)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.124](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.123...@next-core/next-docs@1.2.124) (2021-09-23)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.123](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.122...@next-core/next-docs@1.2.123) (2021-09-23)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.122](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.121...@next-core/next-docs@1.2.122) (2021-09-22)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.121](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.120...@next-core/next-docs@1.2.121) (2021-09-22)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.120](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.119...@next-core/next-docs@1.2.120) (2021-09-16)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.119](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.118...@next-core/next-docs@1.2.119) (2021-09-15)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.118](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.117...@next-core/next-docs@1.2.118) (2021-09-14)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.117](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.116...@next-core/next-docs@1.2.117) (2021-09-14)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.116](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.115...@next-core/next-docs@1.2.116) (2021-09-13)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.115](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.114...@next-core/next-docs@1.2.115) (2021-09-12)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.114](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.113...@next-core/next-docs@1.2.114) (2021-09-10)
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.113](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.112...@next-core/next-docs@1.2.113) (2021-09-06)
 
 **Note:** Version bump only for package @next-core/next-docs
-
-
-
-
 
 ## [1.2.112](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.111...@next-core/next-docs@1.2.112) (2021-09-03)
 
