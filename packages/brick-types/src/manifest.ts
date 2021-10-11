@@ -223,6 +223,10 @@ export interface NavbarConf {
   menuBar: string;
   appBar: string;
   loadingBar: string;
+  navBar: string;
+  sideBar: string;
+  breadcrumb: string;
+  footer: string;
 }
 
 /** @internal */

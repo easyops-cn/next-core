@@ -1308,9 +1308,17 @@ export interface NavbarConf {
     // (undocumented)
     appBar: string;
     // (undocumented)
+    breadcrumb: string;
+    // (undocumented)
+    footer: string;
+    // (undocumented)
     loadingBar: string;
     // (undocumented)
     menuBar: string;
+    // (undocumented)
+    navBar: string;
+    // (undocumented)
+    sideBar: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal

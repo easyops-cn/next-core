@@ -23,7 +23,7 @@ import "./styles/business-variables.css";
 import "./styles/editor-bricks-variables.css";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
-import "./styles/default.css";
+import "./styles/default.less";
 import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
@@ -49,6 +49,10 @@ const mountPoints = {
   menuBar: root.querySelector<HTMLElement>("#menu-bar-mount-point"),
   appBar: root.querySelector<HTMLElement>("#app-bar-mount-point"),
   loadingBar: root.querySelector<HTMLElement>("#loading-bar-mount-point"),
+  navBar: root.querySelector<HTMLElement>("#app-bar-mount-point"),
+  sideBar: root.querySelector<HTMLElement>("#side-bar-mount-point"),
+  breadcrumb: root.querySelector<HTMLElement>("#breadcrumb-mount-point"),
+  footer: root.querySelector<HTMLElement>("#footer-mount-point"),
   main: root.querySelector<HTMLElement>("#main-mount-point"),
   bg: root.querySelector<HTMLElement>("#bg-mount-point"),
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),

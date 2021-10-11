@@ -1,0 +1,245 @@
+body {
+  background-color: var(--body-background);
+}
+
+#legacy-iframe-mount-point,
+#bg-mount-point {
+  display: none;
+}
+
+.layout-console #root-layout {
+  display: flex;
+}
+
+.layout-console #root-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.layout-console #main-content {
+  transition: var(--launchpad-backdrop-transition);
+}
+
+#portal-mount-point {
+  height: 0;
+  width: 0;
+  position: absolute;
+}
+
+.bars-hidden #main-content,
+html[data-mode="dashboard"] #main-content {
+  margin-top: 0 !important;
+}
+
+.show-legacy-iframe #main-mount-point,
+.bars-hidden #menu-bar-mount-point,
+.bars-hidden #app-bar-mount-point,
+.bars-hidden #side-bar-mount-point,
+.bars-hidden #breadcrumb-mount-point,
+.bars-hidden #footer-mount-point,
+html[data-mode="dashboard"] #menu-bar-mount-point,
+html[data-mode="dashboard"] #app-bar-mount-point,
+html[data-mode="dashboard"] #side-bar-mount-point,
+html[data-mode="dashboard"] #breadcrumb-mount-point,
+html[data-mode="dashboard"] #footer-mount-point {
+  display: none;
+}
+
+.show-legacy-iframe #legacy-iframe-mount-point {
+  display: block;
+}
+
+#menu-bar-mount-point,
+#app-bar-mount-point,
+#side-bar-mount-point,
+#breadcrumb-mount-point,
+#footer-mount-point {
+  visibility: hidden;
+}
+
+.first-rendered #menu-bar-mount-point,
+.first-rendered #app-bar-mount-point,
+.first-rendered #side-bar-mount-point,
+.first-rendered #breadcrumb-mount-point,
+.first-rendered #footer-mount-point {
+  visibility: visible;
+}
+
+.first-rendered #menu-bar-mount-point {
+  transition: width var(--menu-bar-collapse-transition-duration) var(--menu-bar-collapse-transition-timing-function);
+}
+
+html[data-mode="dashboard"] body.has-sub-menu #main-content {
+  margin-left: 0;
+}
+
+/* UI5.0 */
+html:not([data-ui="v8"]) {
+
+  /* 隐藏sidebar、breadcrumb、footer */
+  #side-bar-mount-point,
+  #breadcrumb-mount-point,
+  #footer-mount-point {
+    display: none;
+  }
+
+  /* console */
+  body.layout-console {
+
+    /* 显示app-bar、menu-bar */
+    #main-content {
+      margin-top: var(--app-bar-height);
+    }
+
+    #menu-bar-mount-point {
+      width: var(--menu-bar-width);
+    }
+
+    &.menu-bar-collapsed #menu-bar-mount-point {
+      width: var(--menu-bar-collapsed-width);
+    }
+
+    /* 启用has-sub-menu样式 */
+    &.has-sub-menu #main-content {
+      margin-left: var(--sub-menu-bar-width);
+    }
+  }
+
+  /* business */
+  body.layout-business {
+
+    /* 隐藏app-bar、menu-bar */
+    #app-bar-mount-point,
+    #menu-bar-mount-point {
+      display: none;
+    }
+  }
+
+}
+
+/* UI8.0 */
+html[data-ui="v8"] {
+
+  /* 隐藏menu-bar */
+  #menu-bar-mount-point {
+    display: none;
+  }
+
+  #main-wrapper {
+    display: flex;
+  }
+
+  #main-content {
+    flex: 1;
+  }
+
+  /* console */
+  body.layout-console {
+
+    /* 显示app-bar、side-bar、breadcrumb、footer */
+    #main-content {
+      margin-top: var(--nav-bar-height);
+    }
+
+    #side-bar-mount-point {
+      width: var(--side-bar-width);
+    }
+
+    &.side-bar-collapsed #menu-bar-mount-point {
+      width: var(--menu-bar-collapsed-width);
+    }
+
+    /* 启用居中相关样式, 待补充 */
+
+  }
+
+  /* business */
+  body.layout-business {
+
+    /* 隐藏app-bar、side-bar、breadcrumb、footer */
+    #app-bar-mount-point,
+    #side-bar-mount-point,
+    #breadcrumb-mount-point,
+    #footer-mount-point {
+      display: none;
+    }
+  }
+}
+
+body.launchpad-open {
+  overflow: hidden;
+}
+
+.launchpad-open #main-content,
+.filter-of-blur #main-content {
+  filter: var(--launchpad-backdrop-filter);
+}
+
+@media print {
+  .print-hide {
+    display: none;
+  }
+}
+
+/* Ref https://mika-el.github.io/angular-loading-page/#/animations */
+/* Will be used in basic-bricks.loading-bar, too */
+.global-loading-bar {
+  height: 3px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  z-index: 10000;
+}
+
+.global-loading-bar>div {
+  position: absolute;
+  left: -200px;
+  width: 200px;
+  height: 100%;
+  background-color: #0077e6;
+  animation: global-loading 2s ease-in 100ms infinite;
+}
+
+.rendered-loading-bar,
+.first-rendered .initial-loading-bar {
+  display: none;
+}
+
+/* `.rendered-loading-bar` will be used in basic-bricks.loading-bar */
+.first-rendered .rendered-loading-bar.loading {
+  display: block;
+}
+
+.bootstrap-error #loading-bar-mount-point {
+  display: none;
+}
+
+@keyframes global-loading {
+  from {
+    left: -30%;
+    width: 30%;
+  }
+
+  50% {
+    width: 30%;
+  }
+
+  70% {
+    width: 70%;
+  }
+
+  80% {
+    left: 50%;
+  }
+
+  95% {
+    left: 120%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
