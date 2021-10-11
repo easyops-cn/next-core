@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.74.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.2...@next-core/brick-kit@2.74.0) (2021-10-11)
+
+
+### Features
+
+* **menu:** app menu support overridden by route menu ([7c6fd6c](https://github.com/easyops-cn/next-core/commit/7c6fd6cadf5d5bf020b22ab0c57a34ce67d53075))
+
+
+
+
+
 ## [2.73.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.1...@next-core/brick-kit@2.73.2) (2021-10-09)
 
 
