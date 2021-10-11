@@ -23,13 +23,13 @@ jobs:
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
-          await github.issues.removeLabel({
+          await github.rest.issues.removeLabel({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
             name: 'eve: update docs etc',
           });
-          await github.issues.addLabels({
+          await github.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
@@ -88,13 +88,13 @@ jobs:
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
-          await github.issues.removeLabel({
+          await github.rest.issues.removeLabel({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
             name: '[bot]: updating docs etc',
           });
-          await github.issues.addLabels({
+          await github.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,

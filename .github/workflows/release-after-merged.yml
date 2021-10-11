@@ -21,7 +21,7 @@ jobs:
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
-          github.actions.createWorkflowDispatch({
+          github.rest.actions.createWorkflowDispatch({
             owner: context.repo.owner,
             repo: context.repo.repo,
             workflow_id: 'lerna-version.yml',
