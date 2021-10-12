@@ -26,6 +26,7 @@ import { registerCustomTemplate } from "./CustomTemplates";
 import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
+import { getRuntime } from "../runtime";
 
 i18next.init({
   fallbackLng: "en",
@@ -41,6 +42,7 @@ jest.mock("./Router");
 jest.mock("./CustomTemplates");
 jest.mock("./LazyBrickRegistry");
 jest.mock("../auth");
+jest.mock("../runtime");
 
 const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
@@ -86,6 +88,12 @@ const spyOnGetTemplateDepsOfStoryboard =
 const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
 
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
+
+const spyOnApplyPageTitle = jest.fn();
+
+(getRuntime as jest.Mock).mockImplementation(() => ({
+  applyPageTitle: spyOnApplyPageTitle,
+}));
 
 spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [brickConf.brick]);
 
@@ -393,7 +401,20 @@ describe("Kernel", () => {
     expect(document.body.classList.contains("first-rendered")).toBe(true);
   });
 
-  it("should work for easyops layout", async () => {
+  it("should work for easyops layout when ui version is v5", async () => {
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+    });
+    await kernel.bootstrap({});
     kernel.bootstrapData = {
       navbar: {
         menuBar: "basic-bricks.menu-bar",
@@ -410,8 +431,21 @@ describe("Kernel", () => {
     kernel.loadingBar = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
+    kernel.navBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.sideBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.breadcrumb = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.footer = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
+    expect(document.documentElement.dataset.ui).toBe(undefined);
     expect(kernel.presetBricks).toMatchObject({
       pageNotFound: "basic-bricks.page-not-found",
       pageError: "basic-bricks.page-error",
@@ -422,6 +456,80 @@ describe("Kernel", () => {
       testid: "brick-next-menu-bar",
     });
     expect(kernel.appBar.bootstrap).toBeCalledWith("basic-bricks.app-bar");
+    expect(kernel.navBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.sideBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.loadingBar.bootstrap).toBeCalledWith(
+      "basic-bricks.loading-bar"
+    );
+  });
+
+  it("should work for easyops layout when ui version is v8", async () => {
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+      settings: {
+        featureFlags: {
+          "ui-v8": true,
+        },
+      },
+    });
+    localStorage.setItem("test-ui-v8", "true");
+    await kernel.bootstrap({});
+    kernel.bootstrapData = {
+      navbar: {
+        menuBar: "basic-bricks.menu-bar",
+        appBar: "basic-bricks.app-bar",
+        loadingBar: "basic-bricks.loading-bar",
+      },
+    } as RuntimeBootstrapData;
+    kernel.menuBar = {
+      bootstrap: jest.fn(),
+    } as unknown as MenuBar;
+    kernel.appBar = {
+      bootstrap: jest.fn(),
+    } as unknown as AppBar;
+    kernel.loadingBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.navBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.sideBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.breadcrumb = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.footer = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    await kernel.layoutBootstrap("console");
+    expect(kernel.currentLayout).toBe("console");
+    expect(document.documentElement.dataset.ui).toBe("v8");
+    expect(kernel.presetBricks).toMatchObject({
+      pageNotFound: "basic-bricks.page-not-found",
+      pageError: "basic-bricks.page-error",
+    });
+    expect(document.body.classList.contains("layout-console")).toBe(true);
+    expect(document.body.classList.contains("layout-business")).toBe(false);
+    expect(kernel.menuBar.bootstrap).toBeCalledWith(undefined, {
+      testid: "brick-next-menu-bar",
+    });
+    expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.navBar.bootstrap).toBeCalledWith("frame-bricks.nav-bar");
+    expect(kernel.sideBar.bootstrap).toBeCalledWith("frame-bricks.side-bar");
+    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(null);
+    expect(kernel.footer.bootstrap).toBeCalledWith(null);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "basic-bricks.loading-bar"
     );
@@ -437,6 +545,18 @@ describe("Kernel", () => {
     kernel.loadingBar = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
+    kernel.navBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.sideBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.breadcrumb = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.footer = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
     await kernel.layoutBootstrap("business");
     expect(kernel.currentLayout).toBe("business");
     expect(kernel.presetBricks).toMatchObject({
@@ -449,6 +569,10 @@ describe("Kernel", () => {
       testid: "brick-next-menu-bar",
     });
     expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.navBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.sideBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "business-website.loading-bar"
     );
@@ -481,7 +605,7 @@ describe("Kernel", () => {
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalledWith(true);
     expect(kernel.menuBar.resetAppMenu).toBeCalled();
-    expect(kernel.appBar.setPageTitle).toBeCalledWith(null);
+    expect(spyOnApplyPageTitle).toBeCalledWith(null);
     expect(kernel.appBar.setBreadcrumb).toBeCalledWith(null);
   });
 
@@ -498,7 +622,7 @@ describe("Kernel", () => {
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalled();
     expect(kernel.menuBar.resetAppMenu).not.toBeCalled();
-    expect(kernel.appBar.setPageTitle).not.toBeCalled();
+    expect(spyOnApplyPageTitle).not.toBeCalled();
     expect(kernel.appBar.setBreadcrumb).not.toBeCalled();
   });
 

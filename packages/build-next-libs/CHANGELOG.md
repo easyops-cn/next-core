@@ -7,17 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/build-next-libs
 
-
-
-
-
 ## [0.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@0.2.1...@next-core/build-next-libs@0.2.2) (2021-09-06)
 
 **Note:** Version bump only for package @next-core/build-next-libs
-
-
-
-
 
 ## [0.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@0.2.0...@next-core/build-next-libs@0.2.1) (2021-08-16)
 

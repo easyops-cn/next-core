@@ -5,52 +5,29 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.39.1...@next-core/brick-types@2.40.0) (2021-09-30)
 
-
 ### Features
 
-* **function:** support to collect coverage ([93835f0](https://github.com/easyops-cn/next-core/commit/93835f0f202b6fb18c915045b5c2e0cf8e5e1f25))
-
-
-
-
+- **function:** support to collect coverage ([93835f0](https://github.com/easyops-cn/next-core/commit/93835f0f202b6fb18c915045b5c2e0cf8e5e1f25))
 
 ## [2.39.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.39.0...@next-core/brick-types@2.39.1) (2021-09-14)
 
-
 ### Bug Fixes
 
-* **MenuIcon:** revert MenuIcon ([7ab4a0f](https://github.com/easyops-cn/next-core/commit/7ab4a0f8755f750d588d2997cd77cff10cade36a)), closes [Refs#BRICK_STORE-2278](https://github.com/Refs/issues/BRICK_STORE-2278)
-
-
-
-
+- **MenuIcon:** revert MenuIcon ([7ab4a0f](https://github.com/easyops-cn/next-core/commit/7ab4a0f8755f750d588d2997cd77cff10cade36a)), closes [Refs#BRICK_STORE-2278](https://github.com/Refs/issues/BRICK_STORE-2278)
 
 # [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.38.2...@next-core/brick-types@2.39.0) (2021-09-13)
 
-
 ### Features
 
-* 框架提供 SYS.accessRule 变量 ([75c885d](https://github.com/easyops-cn/next-core/commit/75c885d58102feea07710a78e3ac630a1e13e377))
-
-
-
-
+- 框架提供 SYS.accessRule 变量 ([75c885d](https://github.com/easyops-cn/next-core/commit/75c885d58102feea07710a78e3ac630a1e13e377))
 
 ## [2.38.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.38.1...@next-core/brick-types@2.38.2) (2021-09-10)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 ## [2.38.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.38.0...@next-core/brick-types@2.38.1) (2021-09-06)
 
 **Note:** Version bump only for package @next-core/brick-types
-
-
-
-
 
 # [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.37.0...@next-core/brick-types@2.38.0) (2021-09-03)
 

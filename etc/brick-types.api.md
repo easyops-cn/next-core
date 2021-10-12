@@ -1313,6 +1313,20 @@ export interface NavbarConf {
     menuBar: string;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "NavbarConf_UiV8" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface NavbarConf_UiV8 {
+    // (undocumented)
+    breadcrumb: string;
+    // (undocumented)
+    footer: string;
+    // (undocumented)
+    navBar: string;
+    // (undocumented)
+    sideBar: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1362,7 +1376,7 @@ export interface PluginRuntimeContext {
 // Warning: (ae-internal-missing-underscore) The name "PresetBricksConf" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface PresetBricksConf extends Partial<NavbarConf> {
+export interface PresetBricksConf extends Partial<NavbarConf>, Partial<NavbarConf_UiV8> {
     // (undocumented)
     pageError: string;
     // (undocumented)

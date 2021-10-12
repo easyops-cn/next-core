@@ -19,17 +19,17 @@ jobs:
     steps:
 
     - name: Update labels
-      uses: actions/github-script@v4
+      uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
-          await github.issues.removeLabel({
+          await github.rest.issues.removeLabel({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
             name: 'eve: update dll manifest',
           });
-          await github.issues.addLabels({
+          await github.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
@@ -83,17 +83,17 @@ jobs:
         git push
 
     - name: Post update labels
-      uses: actions/github-script@v4
+      uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
-          await github.issues.removeLabel({
+          await github.rest.issues.removeLabel({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
             name: '[bot]: updating dll manifest',
           });
-          await github.issues.addLabels({
+          await github.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,

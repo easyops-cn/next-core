@@ -31,11 +31,11 @@
     "chalk": "^4.1.1",
     "change-case": "^4.1.2",
     "fs-extra": "^10.0.0",
-    "inquirer": "^8.1.2",
+    "inquirer": "^8.2.0",
     "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
     "meow": "^9.0.0",
-    "prettier": "^2.3.2",
+    "prettier": "^2.4.1",
     "semver": "^7.3.4"
   },
   "engines": {

@@ -411,6 +411,9 @@ describe("constructMenu", () => {
   it("should construct menu", async () => {
     const menuBar = {
       menuId: "menu-c",
+      menu: {
+        defaultCollapsed: true,
+      },
     };
     await constructMenu(menuBar, context, null);
     expect(menuBar).toEqual({
@@ -418,7 +421,7 @@ describe("constructMenu", () => {
       menu: {
         title: "Menu C",
         icon: undefined,
-        defaultCollapsed: false,
+        defaultCollapsed: true,
         menuItems: [],
       },
       subMenu: null,
