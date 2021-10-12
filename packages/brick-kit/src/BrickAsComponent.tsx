@@ -264,6 +264,13 @@ export const SingleBrickAsComponent = React.memo(
       } else if (
         !looseCheckIfByTransform(useBrick, data, {
           allowInject: true,
+          // useBrick 中嵌套custom-template的情况下, 会存在丢失getTplVariables的情况, 因此需要在此进行补充
+          getTplVariables: () =>
+            tplContext.getContext(
+              (useBrick as RuntimeBrickConfWithTplSymbols)[
+                symbolForTplContextId
+              ]
+            ),
         })
       ) {
         return false;

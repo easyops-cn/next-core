@@ -1,3 +1,4 @@
+import { BuilderCustomTemplateNode, LayerType } from "./builder";
 import { BrickConf, I18nData } from "./manifest";
 import { MenuIcon } from "./menu";
 
@@ -41,6 +42,8 @@ export interface Story {
   icon?: MenuIcon;
   previewColumns?: number;
   author?: string;
+  layerType?: LayerType;
+  originData?: BuilderCustomTemplateNode;
 }
 
 /** @internal */
