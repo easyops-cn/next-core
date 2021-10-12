@@ -1,4 +1,5 @@
-import { lint, LintError } from "./lint";
+import { lint } from "./lint";
+import { LintError } from "./semanticAnalysis";
 
 describe("lint", () => {
   it.each<[desc: string, source: string, errors: LintError[]]>([
