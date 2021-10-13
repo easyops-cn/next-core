@@ -50,7 +50,7 @@ export function getAppendingNodesAndEdges(
         !processedTemplateSet.has(builderNode.brick) &&
         (templateSource = templateSourceMap?.get(builderNode.brick)) &&
         templateSource.children?.length > 0) ||
-        ((templateSource = storyList.find(
+        ( builderNode.brick.includes(".tpl-") && (templateSource = storyList?.find(
           (item) => item.storyId === builderNode.brick
         )?.originData) &&
           templateSource.children?.length > 0))
