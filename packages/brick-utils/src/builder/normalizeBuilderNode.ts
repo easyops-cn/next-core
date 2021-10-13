@@ -8,6 +8,7 @@ import {
   BuilderRouteOrBrickNode,
   BuilderSnippetNode,
   RouteConf,
+  SeguesConf,
 } from "@next-core/brick-types";
 import { isBrickNode, isRouteNode } from "./assertions";
 
@@ -91,7 +92,8 @@ function normalizeBuilderRouteNode(node: BuilderRouteNode): RouteConf {
     node,
     fieldsToRemoveInRoute,
     jsonFieldsInRoute,
-    yamlFieldsInRoute
+    yamlFieldsInRoute,
+    true
   ) as unknown as RouteConf;
 }
 
@@ -99,7 +101,8 @@ function normalize(
   node: BuilderRouteOrBrickNode,
   fieldsToRemove: string[],
   jsonFields: string[],
-  yamlFields: string[]
+  yamlFields: string[],
+  cleanUpSegues?: boolean
 ): Record<string, unknown> {
   return Object.fromEntries(
     Object.entries(node)
@@ -109,12 +112,30 @@ function normalize(
       // Parse json fields.
       .map(([key, value]) => [
         key,
-        jsonFields.includes(key)
+        cleanUpSegues && key === "segues"
+          ? getCleanSegues(value as string)
+          : jsonFields.includes(key)
           ? safeJsonParse(value as string)
           : yamlFields.includes(key)
           ? safeYamlParse(value as string)
           : cloneDeep(value),
       ])
+  );
+}
+
+// Clear `segue._view` which is for development only.
+function getCleanSegues(string: string): SeguesConf {
+  const segues = safeJsonParse(string);
+  return (
+    segues &&
+    Object.fromEntries(
+      Object.entries(segues).map(([id, segue]) => [
+        id,
+        segue && {
+          target: segue.target,
+        },
+      ])
+    )
   );
 }
 

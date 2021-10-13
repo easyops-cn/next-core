@@ -23,7 +23,17 @@ describe("normalizeBuilderNode", () => {
         type: "bricks",
         parent: [], // Empty parent also works.
         providers: '["p1"]',
-        segues: null,
+        segues: JSON.stringify({
+          goHiking: {
+            target: "hiking",
+          },
+          goCooking: {
+            target: "cooking",
+            _view: {
+              controls: ["bottom", "top"],
+            },
+          },
+        }),
         // Fields should be removed.
         _ts: 123,
         org: 1,
@@ -31,7 +41,14 @@ describe("normalizeBuilderNode", () => {
       {
         path: "/a",
         providers: ["p1"],
-        segues: undefined,
+        segues: {
+          goHiking: {
+            target: "hiking",
+          },
+          goCooking: {
+            target: "cooking",
+          },
+        },
         type: "bricks",
         bricks: undefined,
       },
