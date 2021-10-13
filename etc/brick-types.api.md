@@ -1871,6 +1871,10 @@ export interface Story {
     // (undocumented)
     icon?: MenuIcon;
     // (undocumented)
+    layerType?: LayerType;
+    // (undocumented)
+    originData?: BuilderCustomTemplateNode;
+    // (undocumented)
     previewColumns?: number;
     // (undocumented)
     storyId: string;
