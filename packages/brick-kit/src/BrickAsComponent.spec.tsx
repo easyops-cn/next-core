@@ -721,17 +721,6 @@ describe("BrickAsComponent", () => {
     );
     expect(consoleLog).toHaveBeenCalledTimes(2);
 
-    // slots proxy event
-    const slotRefElement = wrapperElement.querySelector(
-      "#defaultTplSlotRef-show"
-    );
-    slotRefElement.dispatchEvent(
-      new CustomEvent("click", {
-        detail: "mock click form slotRefElement",
-      })
-    );
-    expect(consoleLog).toHaveBeenCalledTimes(3);
-
     // in tpl proxy event
     const inTplElement = wrapperElement.querySelector("#inTplRef");
     inTplElement.dispatchEvent(
@@ -739,7 +728,7 @@ describe("BrickAsComponent", () => {
         detail: "mock click form inTplElement",
       })
     );
-    expect(consoleLog).toHaveBeenCalledTimes(4);
+    expect(consoleLog).toHaveBeenCalledTimes(3);
 
     // in tpl outside slot proxy event
     const inTplOutsideSlotElement =
@@ -749,7 +738,7 @@ describe("BrickAsComponent", () => {
         detail: "mock click form in tpl outside slot element",
       })
     );
-    expect(consoleLog).toHaveBeenCalledTimes(5);
+    expect(consoleLog).toHaveBeenCalledTimes(4);
   });
 
   it("handleProxyOfParentTemplate should work", async () => {
