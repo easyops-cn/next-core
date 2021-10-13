@@ -170,7 +170,12 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     const rootId = getUniqueNodeId();
     const newData = {
       rootId,
-      ...getAppendingNodesAndEdges(root, rootId, templateSourceMap),
+      ...getAppendingNodesAndEdges(
+        root,
+        rootId,
+        templateSourceMap,
+        this.storyList
+      ),
     };
     this.data = {
       ...newData,
@@ -202,7 +207,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
           "parent",
         ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
         nodeUid,
-        this.templateSourceMap
+        this.templateSourceMap,
+        this.storyList
       );
 
     const newNodes = nodes.concat(appendingNodes);
@@ -268,7 +274,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
             "parent",
           ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
           nodeUid,
-          this.templateSourceMap
+          this.templateSourceMap,
+          this.storyList
         );
       newNodes.push(...appendingNodes);
       newEdges.push(
