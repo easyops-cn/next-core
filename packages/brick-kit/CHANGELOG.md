@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.75.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.74.1...@next-core/brick-kit@2.75.0) (2021-10-13)
+
+
+### Features
+
+* update BrickAsComponent unit test ([1c77a83](https://github.com/easyops-cn/next-core/commit/1c77a83d361f208d0fefd5b9296a8fdd7d7c3086))
+* update BrickAsComponent unit test ([0aed68d](https://github.com/easyops-cn/next-core/commit/0aed68d566b4a50d08fdb817124f8f648f7704ca))
+* update useBrick if condition, and support widget to expand ([df4b47a](https://github.com/easyops-cn/next-core/commit/df4b47ad3337c7723d50ee81e7bb1b86076bc5b2))
+
+
+
+
+
 ## [2.74.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.74.0...@next-core/brick-kit@2.74.1) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/brick-kit

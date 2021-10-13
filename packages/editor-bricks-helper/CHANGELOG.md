@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.54...@next-core/editor-bricks-helper@0.31.0) (2021-10-13)
+
+
+### Features
+
+* update getAppendingNodesAndEdges unit test ([b464000](https://github.com/easyops-cn/next-core/commit/b464000ef2ceca1bc821c9d483c0b76ff828e401))
+* update getAppendingNodesAndEdges unit test ([32fd0fb](https://github.com/easyops-cn/next-core/commit/32fd0fbb7c972d9978cd29ce52684ca4c5af1d1e))
+* update useBrick if condition, and support widget to expand ([df4b47a](https://github.com/easyops-cn/next-core/commit/df4b47ad3337c7723d50ee81e7bb1b86076bc5b2))
+
+
+
+
+
 ## [0.30.54](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.30.53...@next-core/editor-bricks-helper@0.30.54) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
