@@ -706,7 +706,6 @@ describe("BrickAsComponent", () => {
         "</basic-bricks.micro-view>" +
         "</steve-test.tpl-use-brick-in-template>" +
         '<div id="toolDiv" slot="toolbar">topToolDivContent</div>' +
-        '<div id="defaultTplSlotRef-show" slot="toolbar">this is default slot content innerHTML</div>' +
         "</basic-bricks.micro-view>" +
         "</steve-test.tpl-custom-template>"
     );
