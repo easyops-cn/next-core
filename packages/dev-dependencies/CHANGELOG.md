@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.6](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.11.5...@next-core/dev-dependencies@1.11.6) (2021-10-14)
+
+
+### Bug Fixes
+
+* **renovate:** remove legacy base branches ([e272b8e](https://github.com/easyops-cn/next-core/commit/e272b8e8105d3f3b302648ec814519d2f565fecd))
+
+
+
+
+
 ## [1.11.5](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.11.4...@next-core/dev-dependencies@1.11.5) (2021-10-13)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
