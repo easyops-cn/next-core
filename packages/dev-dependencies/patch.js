@@ -24,6 +24,7 @@ const {
   updateBuildNextLibs,
   addPreBuildScriptForBricks,
   enableNextLibsRenovate,
+  removeRenovateLegacyBaseBranches,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -89,10 +90,6 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "0.7.25")) {
     majorBrickNext.updateVersionOfBrickNext();
-  }
-
-  if (semver.lt(currentRenewVersion, "1.0.8")) {
-    updateRenovateBaseBranches();
   }
 
   if (semver.lt(currentRenewVersion, "1.0.12")) {
@@ -166,6 +163,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.11.1")) {
     enableNextLibsRenovate();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.11.6")) {
+    removeRenovateLegacyBaseBranches();
   }
 
   updateDevDependenciesVersion();
@@ -444,41 +445,6 @@ function updatePackageJsonScriptsTestCommand() {
   rootPackageJson.scripts["test:ci"] =
     "cross-env NODE_ENV='test' CI=true node --expose-gc ./node_modules/.bin/jest --logHeapUsage --ci";
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
-}
-
-function updateRenovateBaseBranches() {
-  const renovateJsonPath = path.resolve("renovate.json");
-  const renovateJson = readJson(renovateJsonPath);
-  const legacyBranchName = "legacy/brick-next_1.x";
-
-  renovateJson.semanticCommits = "enabled";
-  renovateJson.baseBranches = ["master", legacyBranchName];
-
-  const nextCoreGroup = renovateJson.packageRules.find(
-    (item) => item.groupName === "next-core packages"
-  );
-
-  if (nextCoreGroup) {
-    delete nextCoreGroup.baseBranches;
-    // Ignore major update for each branch.
-    delete nextCoreGroup.updateTypes;
-    nextCoreGroup.major = { enabled: false };
-  }
-
-  const legacyGroup = renovateJson.packageRules.find((item) =>
-    isEqual(item.baseBranchList, [legacyBranchName])
-  );
-
-  if (!legacyGroup) {
-    // Ignore all updates except `@next-core/*` in legacy branch.
-    renovateJson.packageRules.push({
-      baseBranchList: [legacyBranchName],
-      excludePackagePatterns: ["^@next-core/"],
-      enabled: false,
-    });
-  }
-
-  writeJsonFile(renovateJsonPath, renovateJson);
 }
 
 function addLazyBricksIntoGitignore() {
