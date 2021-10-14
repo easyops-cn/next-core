@@ -28,12 +28,17 @@ i18n
       useSuspense: false,
     },
     compatibilityJSON: "v3",
+    resources: {
+      en: {
+        [NS_BRICK_CONTAINER]: en,
+      },
+      zh: {
+        [NS_BRICK_CONTAINER]: zh,
+      },
+    },
   });
 
 initI18n();
-
-i18n.addResourceBundle("en", NS_BRICK_CONTAINER, en);
-i18n.addResourceBundle("zh", NS_BRICK_CONTAINER, zh);
 
 i18n.on("languageChanged", function (lng) {
   moment.locale(lng);
