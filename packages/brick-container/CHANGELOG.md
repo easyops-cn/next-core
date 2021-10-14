@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.33.8...@next-core/brick-container@2.34.0) (2021-10-14)
+
+
+### Features
+
+* 前端所有api请求头部带上lang refs EASY_CONF-31 ([5e83576](https://github.com/easyops-cn/next-core/commit/5e83576fdfb9466aaccc0b8e23f90980dba1071f))
+
+
+
+
+
 ## [2.33.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.33.7...@next-core/brick-container@2.33.8) (2021-10-13)
 
 **Note:** Version bump only for package @next-core/brick-container
