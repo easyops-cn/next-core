@@ -65,6 +65,18 @@ const analyzer = apiAnalyzer.create({
 });
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
+  const headers = new Headers(config.options?.headers || {});
+  headers.set("lang", i18n.resolvedLanguage);
+  return {
+    ...config,
+    options: {
+      ...config.options,
+      headers,
+    },
+  };
+});
+
+http.interceptors.request.use(function (config: HttpRequestConfig) {
   const { userInstanceId: uid, username } = getAuth();
   const date = Date.now();
   config.meta = {
