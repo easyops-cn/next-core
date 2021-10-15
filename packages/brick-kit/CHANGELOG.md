@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.75.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.75.0...@next-core/brick-kit@2.75.1) (2021-10-15)
+
+
+### Bug Fixes
+
+* window.open action the third parameter is missing ([e2e8e27](https://github.com/easyops-cn/next-core/commit/e2e8e278e080c6c0f157168e10d0e97d66e22ccf))
+
+
+
+
+
 # [2.75.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.74.1...@next-core/brick-kit@2.75.0) (2021-10-13)
 
 
