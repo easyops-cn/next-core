@@ -542,8 +542,12 @@ function builtinWindowListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    const [url, target] = argsFactory(args, context, event) as [string, string];
-    window.open(url, target || "_self");
+    const [url, target, features] = argsFactory(args, context, event) as [
+      string,
+      string,
+      string
+    ];
+    window.open(url, target || "_self", features);
   } as EventListener;
 }
 

@@ -799,7 +799,7 @@ describe("bindListeners", () => {
       2,
       "specified args for multiple"
     );
-    expect(window.open).toBeCalledWith("www.google.com", "_self");
+    expect(window.open).toBeCalledWith("www.google.com", "_self", undefined);
     expect((targetElem2 as any).forGood).toHaveBeenNthCalledWith(
       1,
       "specified args for multiple"
