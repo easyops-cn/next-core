@@ -40,7 +40,7 @@
     "string-replace-loader": "^3.0.3",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^1.4.5",
-    "to-string-loader": "^1.1.6",
+    "to-string-loader": "^1.2.0",
     "url-loader": "^4.1.1",
     "webpack": "^4.46.0",
     "webpack-cli": "^4.9.0",
