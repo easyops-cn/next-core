@@ -59,6 +59,9 @@ export interface MicroApp {
    */
   homepage: string;
 
+  /** 应用当前版本。 */
+  currentVersion?: string;
+
   /**
    * 应用图标配置。
    *

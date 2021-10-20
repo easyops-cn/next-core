@@ -59,8 +59,11 @@ jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 const mockInstalledApps = ["my-app-id"];
 (getRuntime as jest.Mock).mockReturnValue({
-  hasInstalledApp(appId: string) {
-    return mockInstalledApps.includes(appId);
+  hasInstalledApp(appId: string, matchVersion?: string): boolean {
+    return (
+      mockInstalledApps.includes(appId) &&
+      !(matchVersion && matchVersion.startsWith(">"))
+    );
   },
 });
 
@@ -203,6 +206,8 @@ describe("evaluate", () => {
     ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
     ["<% SESSION_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
     ["<% INSTALLED_APPS.has('my-app-id') %>", true],
+    ["<% INSTALLED_APPS.has('my-app-id', '<1.2.3') %>", true],
+    ["<% INSTALLED_APPS.has('my-app-id', '>=1.2.3') %>", false],
     ["<% INSTALLED_APPS.has('my-another-app-id') %>", false],
     ["<% FN.sayHello('world') %>", "Hello, world"],
     ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],

@@ -285,7 +285,8 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("INSTALLED_APPS")) {
     globalVariables.INSTALLED_APPS = {
-      has: (appId: string) => getRuntime().hasInstalledApp(appId),
+      has: (appId: string, matchVersion?: string) =>
+        getRuntime().hasInstalledApp(appId, matchVersion),
     };
   }
 

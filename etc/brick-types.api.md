@@ -1263,6 +1263,7 @@ export interface MicroApp {
     // @internal
     $$routeAliasMap?: RouteAliasMap;
     config?: Record<string, unknown>;
+    currentVersion?: string;
     defaultConfig?: Record<string, unknown>;
     homepage: string;
     iconBackground?: "circle" | "square";
