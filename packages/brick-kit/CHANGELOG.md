@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.76.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.75.1...@next-core/brick-kit@2.76.0) (2021-10-20)
+
+
+### Features
+
+* support widget functions ([a5a5cff](https://github.com/easyops-cn/next-core/commit/a5a5cff7b183b971e434506e531d0fddbbf5e597))
+
+
+
+
+
 ## [2.75.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.75.0...@next-core/brick-kit@2.75.1) (2021-10-15)
 
 
