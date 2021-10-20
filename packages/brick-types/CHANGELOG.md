@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.41.0...@next-core/brick-types@2.42.0) (2021-10-20)
+
+
+### Features
+
+* support checking version of installed apps ([220aed5](https://github.com/easyops-cn/next-core/commit/220aed501758a047743ecf6fa1485a09358ecadb))
+
+
+
+
+
 # [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.40.1...@next-core/brick-types@2.41.0) (2021-10-13)
 
 
