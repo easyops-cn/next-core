@@ -53,6 +53,7 @@ import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
+import { userAnalytics } from "@next-core/easyops-analytics";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -109,6 +110,14 @@ export class Kernel {
     await this.router.bootstrap();
     this.authGuard();
     listenDevtools();
+
+    // init analytics
+    const gaMeasurementId = getRuntime().getMiscSettings()
+      .gaMeasurementId as string;
+
+    if (gaMeasurementId) {
+      userAnalytics.init({ gaMeasurementId });
+    }
   }
 
   async layoutBootstrap(layout: LayoutType): Promise<void> {

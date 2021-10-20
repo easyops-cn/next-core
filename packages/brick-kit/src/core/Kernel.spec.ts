@@ -8,6 +8,7 @@ import {
   scanBricksInBrickConf,
   deepFreeze,
 } from "@next-core/brick-utils";
+import { userAnalytics } from "@next-core/easyops-analytics";
 import { checkLogin, bootstrap, getAppStoryboard } from "@next-sdk/auth-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
@@ -90,9 +91,12 @@ const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
 
 const spyOnApplyPageTitle = jest.fn();
+const mockGetMiscSettings = jest.fn(() => ({}));
+const sypOnUserAnalyticsInit = jest.spyOn(userAnalytics, "init");
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
   applyPageTitle: spyOnApplyPageTitle,
+  getMiscSettings: mockGetMiscSettings,
 }));
 
 spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [brickConf.brick]);
@@ -208,6 +212,7 @@ describe("Kernel", () => {
     expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
+    expect(sypOnUserAnalyticsInit).not.toBeCalled();
 
     kernel.popWorkspaceStack();
     await kernel.updateWorkspaceStack();
@@ -819,5 +824,24 @@ describe("Kernel", () => {
         },
       }
     `);
+  });
+
+  it("should init analytics in bootstrap when gaMeasurementId in misc is set", async () => {
+    const gaMeasurementId = "GA-MEASUREMENT-ID";
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+    });
+    mockGetMiscSettings.mockImplementationOnce(() => ({ gaMeasurementId }));
+    await kernel.bootstrap({});
+    expect(sypOnUserAnalyticsInit).toBeCalledWith({ gaMeasurementId });
   });
 });
