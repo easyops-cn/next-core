@@ -1,16 +1,15 @@
 import { Expression } from "@babel/types";
 import { parseAsEstreeExpression } from "./parse";
-import { precook } from "./precook";
-import { EstreeVisitors } from "./interfaces";
+import { precook, PrecookOptions } from "./precook";
 
-export interface PreevaluateOptions {
-  visitors?: EstreeVisitors;
-}
+export type PreevaluateOptions = Omit<PrecookOptions, "expressionOnly">;
 
 export interface PreevaluateResult {
   expression: Expression;
   attemptToVisitGlobals: Set<string>;
   source: string;
+  prefix: string;
+  suffix: string;
 }
 
 // `raw` should always be asserted by `isEvaluable`.
@@ -18,7 +17,11 @@ export function preevaluate(
   raw: string,
   options?: PreevaluateOptions
 ): PreevaluateResult {
-  const source = raw.replace(/^\s*<%~?\s|\s%>\s*$/g, "");
+  const fixes: string[] = [];
+  const source = raw.replace(/^\s*<%~?\s|\s%>\s*$/g, (m) => {
+    fixes.push(m);
+    return "";
+  });
   const expression = parseAsEstreeExpression(source);
   const attemptToVisitGlobals = precook(expression, {
     ...options,
@@ -28,6 +31,8 @@ export function preevaluate(
     expression,
     attemptToVisitGlobals,
     source,
+    prefix: fixes[0],
+    suffix: fixes[1],
   };
 }
 

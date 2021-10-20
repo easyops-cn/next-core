@@ -22,6 +22,15 @@ jest.mock("../core/StoryboardFunctions", () => ({
     },
   },
 }));
+jest.mock("../core/WidgetFunctions", () => ({
+  widgetFunctions: {
+    ["widget-a"]: {
+      abc() {
+        return "Hello, xyz";
+      },
+    },
+  },
+}));
 
 i18next.init({
   fallbackLng: "en",
@@ -196,6 +205,7 @@ describe("evaluate", () => {
     ["<% INSTALLED_APPS.has('my-app-id') %>", true],
     ["<% INSTALLED_APPS.has('my-another-app-id') %>", false],
     ["<% FN.sayHello('world') %>", "Hello, world"],
+    ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
