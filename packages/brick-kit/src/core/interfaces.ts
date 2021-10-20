@@ -97,7 +97,7 @@ export interface AbstractRuntime {
   /**
    * 查看是否已安装某应用。
    */
-  hasInstalledApp(appId: string): boolean;
+  hasInstalledApp(appId: string, matchVersion?: string): boolean;
 
   /**
    * 获取特性开关字典。

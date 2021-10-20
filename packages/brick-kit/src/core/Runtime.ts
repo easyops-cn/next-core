@@ -14,6 +14,7 @@ import {
   SiteMapItem,
   SidebarMenu,
 } from "@next-core/brick-types";
+import compareVersions from "compare-versions";
 import {
   Kernel,
   MenuBar,
@@ -124,10 +125,34 @@ export class Runtime implements AbstractRuntime {
     return apps;
   }
 
-  hasInstalledApp(appId: string): boolean {
-    return kernel.bootstrapData.microApps.some(
-      (app) => app.id === appId && app.installStatus !== "running"
-    );
+  hasInstalledApp(appId: string, matchVersion?: string): boolean {
+    return kernel.bootstrapData.microApps.some((app) => {
+      const foundApp = app.id === appId && app.installStatus !== "running";
+      if (!matchVersion || !foundApp) {
+        return foundApp;
+      }
+      // Valid `matchVersion`:
+      //   >=1.2.3
+      //   >1.2.3
+      //   =1.2.3
+      //   <=1.2.3
+      //   <1.2.3
+      const matches = matchVersion.match(/^([><]=?|=)(.*)$/);
+      try {
+        if (!matches) {
+          throw new TypeError(`Invalid match version: ${matchVersion}`);
+        }
+        return compareVersions.compare(
+          app.currentVersion,
+          matches[2],
+          matches[1] as compareVersions.CompareOperator
+        );
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+      return false;
+    });
   }
 
   reloadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {

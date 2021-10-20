@@ -5,6 +5,9 @@ import { MountPoints } from "@next-core/brick-types";
 jest.mock("./Kernel");
 
 const spyOnKernel = Kernel as jest.Mock;
+const spyOnConsoleError = jest
+  .spyOn(console, "error")
+  .mockImplementation(() => void 0);
 
 describe("Runtime", () => {
   let runtime: Runtime;
@@ -70,15 +73,18 @@ describe("Runtime", () => {
         {
           name: "a",
           id: "app-a",
+          currentVersion: "1.2.3",
         },
         {
           name: "b",
           id: "app-b",
           installStatus: "ok",
+          currentVersion: "2.3.4",
         },
         {
           id: "app-c",
           installStatus: "running",
+          currentVersion: "3.4.5",
         },
         {
           name: "d",
@@ -91,26 +97,31 @@ describe("Runtime", () => {
       {
         name: "a",
         id: "app-a",
+        currentVersion: "1.2.3",
       },
       {
         name: "b",
         id: "app-b",
         installStatus: "ok",
+        currentVersion: "2.3.4",
       },
       {
         id: "app-c",
         installStatus: "running",
+        currentVersion: "3.4.5",
       },
     ]);
     expect(runtime.getMicroApps({ excludeInstalling: true })).toEqual([
       {
         name: "a",
         id: "app-a",
+        currentVersion: "1.2.3",
       },
       {
         name: "b",
         id: "app-b",
         installStatus: "ok",
+        currentVersion: "2.3.4",
       },
     ]);
     expect(
@@ -119,11 +130,13 @@ describe("Runtime", () => {
       {
         name: "a",
         id: "app-a",
+        currentVersion: "1.2.3",
       },
       {
         name: "b",
         id: "app-b",
         installStatus: "ok",
+        currentVersion: "2.3.4",
       },
       {
         name: "d",
@@ -137,6 +150,20 @@ describe("Runtime", () => {
     expect(runtime.hasInstalledApp("app-b")).toBe(true);
     expect(runtime.hasInstalledApp("app-c")).toBe(false);
     expect(runtime.hasInstalledApp("app-d")).toBe(true);
+
+    expect(runtime.hasInstalledApp("app-a", ">1.1.10")).toBe(true);
+    expect(runtime.hasInstalledApp("app-a", "<1.11.0")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b", ">=2.3.4")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b", "<=2.3.4")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b", "=2.3.4")).toBe(true);
+
+    expect(runtime.hasInstalledApp("app-c", ">=1.0.0")).toBe(false);
+
+    expect(spyOnConsoleError).toBeCalledTimes(0);
+    expect(runtime.hasInstalledApp("app-a", "1.2.3")).toBe(false);
+    expect(spyOnConsoleError).toBeCalledTimes(1);
+    expect(runtime.hasInstalledApp("app-a", ">1.2.")).toBe(false);
+    expect(spyOnConsoleError).toBeCalledTimes(2);
   });
 
   it("should reload micro apps", async () => {
