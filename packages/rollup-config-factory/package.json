@@ -18,10 +18,10 @@
   "sideEffects": false,
   "dependencies": {
     "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^21.0.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "postcss-nested": "^4.2.3",
     "rollup": "^2.58.0",
     "rollup-plugin-postcss": "^3.1.8",
