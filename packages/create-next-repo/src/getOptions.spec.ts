@@ -95,4 +95,27 @@ describe("getOptions", () => {
 
     expect(getOptions).toThrowError();
   });
+
+  it("should use localrepo if localrepo is specified", () => {
+    mockMeow.mockReturnValueOnce({
+      input: ["/home/my-repo"],
+      flags: {
+        localrepo: "http://mygit.com/some-repo/zip/master",
+        internal: false,
+        verbose: false,
+      },
+    } as any);
+    mockFsExistsSync.mockReturnValueOnce(false);
+
+    expect(getOptions()).toEqual({
+      internal: false,
+      repoDir: "/home/my-repo",
+      localrepo: "http://mygit.com/some-repo/zip/master",
+      templateRepoZipUrl: "http://mygit.com/some-repo/zip/master",
+      verbose: false,
+      zipFilePath: expect.stringMatching(
+        /^\/tmp\/next-template-repo-\d+\.zip$/
+      ),
+    });
+  });
 });
