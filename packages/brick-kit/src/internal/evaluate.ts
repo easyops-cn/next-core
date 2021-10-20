@@ -21,6 +21,7 @@ import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { i18nText } from "../i18nText";
 import { storyboardFunctions } from "../core/StoryboardFunctions";
+import { widgetFunctions } from "../core/WidgetFunctions";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -290,6 +291,10 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("FN")) {
     globalVariables.FN = storyboardFunctions;
+  }
+
+  if (attemptToVisitGlobals.has("__WIDGET_FN__")) {
+    globalVariables.__WIDGET_FN__ = widgetFunctions;
   }
 
   try {

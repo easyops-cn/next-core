@@ -24,13 +24,27 @@ describe("isEvaluable", () => {
 
 describe("preevaluate", () => {
   it("should work", () => {
-    const result = preevaluate("<% DATA, EVENT.detail %>");
-    expect(Array.from(result.attemptToVisitGlobals)).toEqual(["DATA", "EVENT"]);
+    const { attemptToVisitGlobals, ...restResult } = preevaluate(
+      "<% DATA, EVENT.detail %>"
+    );
+    expect(Array.from(attemptToVisitGlobals)).toEqual(["DATA", "EVENT"]);
+    expect(restResult).toMatchObject({
+      source: "DATA, EVENT.detail",
+      prefix: "<% ",
+      suffix: " %>",
+    });
   });
 
   it("should work with the recursive flag", () => {
-    const result = preevaluate("<%~ DATA, EVENT.detail %>");
-    expect(Array.from(result.attemptToVisitGlobals)).toEqual(["DATA", "EVENT"]);
+    const { attemptToVisitGlobals, ...restResult } = preevaluate(
+      "<%~ DATA, EVENT.detail %>"
+    );
+    expect(Array.from(attemptToVisitGlobals)).toEqual(["DATA", "EVENT"]);
+    expect(restResult).toMatchObject({
+      source: "DATA, EVENT.detail",
+      prefix: "<%~ ",
+      suffix: " %>",
+    });
   });
 
   it("should throw SyntaxError", () => {
