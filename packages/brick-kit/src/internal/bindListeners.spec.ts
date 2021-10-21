@@ -4,6 +4,7 @@ import {
   BrickEventsMap,
   StoryboardContextItem,
 } from "@next-core/brick-types";
+import { userAnalytics } from "@next-core/easyops-analytics";
 import {
   isBuiltinHandler,
   isCustomHandler,
@@ -162,6 +163,9 @@ jest
       ],
     ])
   );
+const sypOnUserAnalyticsEvent = jest.spyOn(userAnalytics, "event");
+
+userAnalytics.init({ gaMeasurementId: "GA-MEASUREMENT-ID" });
 
 describe("isBuiltinHandler", () => {
   const cases: [BrickEventHandler, boolean][] = [
@@ -487,6 +491,10 @@ describe("bindListeners", () => {
           action: "sessionStorage.removeItem",
           args: ["foo"],
         },
+        {
+          action: "analytics.event",
+          args: ["action", { url: "<% location.href %>" }],
+        },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -678,6 +686,10 @@ describe("bindListeners", () => {
 
     expect(window.location.reload).toBeCalledWith();
     expect(window.location.assign).toBeCalledWith("www.baidu.com");
+
+    expect(sypOnUserAnalyticsEvent).toBeCalledWith("action", {
+      url: window.location.href,
+    });
 
     window.location = location;
 

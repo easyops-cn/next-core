@@ -1117,7 +1117,10 @@ export interface BuiltinBrickEventHandler {
     | "mode.setDashboardMode"
     | "mode.setDefaultMode"
     | "menu.clearMenuTitleCache"
-    | "menu.clearMenuCache";
+    | "menu.clearMenuCache"
+
+    // Analytics
+    | "analytics.event";
 
   /** 传递的参数列表 */
   args?: unknown[];
