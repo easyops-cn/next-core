@@ -19,7 +19,7 @@
   "dependencies": {
     "@next-core/less-plugin-css-variables": "^0.1.5",
     "@svgr/webpack": "^5.5.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.2.3",
     "change-case": "^4.1.2",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^6.4.1",
