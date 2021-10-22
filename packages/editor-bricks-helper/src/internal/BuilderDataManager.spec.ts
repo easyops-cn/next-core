@@ -136,7 +136,6 @@ Object {
         "brick-a",
       ],
       "$$normalized": Object {
-        "alias": "alias-a",
         "brick": "brick-a",
       },
       "$$parsedEvents": Object {},
@@ -866,7 +865,6 @@ Object {
         "brick-a",
       ],
       "$$normalized": Object {
-        "alias": "alias-a",
         "brick": "brick-a",
       },
       "$$parsedEvents": Object {},
