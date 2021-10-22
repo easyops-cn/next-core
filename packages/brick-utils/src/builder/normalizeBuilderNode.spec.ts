@@ -17,6 +17,7 @@ describe("normalizeBuilderNode", () => {
   it.each<[BuilderRouteOrBrickNode, BrickConf | RouteConf | null, number]>([
     [
       {
+        alias: "route-a",
         id: "R-01",
         instanceId: "instance-r01",
         path: "/a",
@@ -39,6 +40,7 @@ describe("normalizeBuilderNode", () => {
         org: 1,
       },
       {
+        alias: "route-a",
         path: "/a",
         providers: ["p1"],
         segues: {
@@ -62,11 +64,16 @@ describe("normalizeBuilderNode", () => {
         type: "routes",
         permissionsPreCheck:
           '["<% `cmdb:${QUERY.objectId}_instance_create` %>"]',
+        exact: null,
+        // Ignore when specific fields (such as `alias`) is `null`.
+        alias: null,
+        context: null,
       },
       {
         permissionsPreCheck: ["<% `cmdb:${QUERY.objectId}_instance_create` %>"],
         path: "/b",
         type: "routes",
+        exact: null,
       },
       0,
     ],
@@ -80,6 +87,8 @@ describe("normalizeBuilderNode", () => {
         if: "false",
         lifeCycle: undefined,
         permissionsPreCheck: null,
+        // Ignore `alias` for brick nodes.
+        alias: "brick-a",
       },
       {
         brick: "m",
