@@ -35,7 +35,6 @@ import { expandTemplateEdges } from "./expandTemplateEdges";
 import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
 import { StoriesCache } from "./StoriesCache";
-import { getRuntime } from "@next-core/brick-kit";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -69,10 +68,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   private routeList: BuilderRouteNode[];
 
   private storiesCache = StoriesCache.getInstance();
-
-  private flags = getRuntime().getFeatureFlags();
-
-  private storyList: Story[];
 
   private readonly eventTarget = new EventTarget();
 
@@ -146,19 +141,11 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   storyListInit(data: Story[]): void {
-    if (this.flags["next-builder-stories-json-lazy-loading"]) {
-      this.storyList = data;
-    } else {
-      this.storiesCache.init(data);
-    }
+    this.storiesCache.init(data);
   }
 
   getStoryList() {
-    if (this.flags["next-builder-stories-json-lazy-loading"]) {
-      return this.storyList;
-    } else {
-      return this.storiesCache.getStoryList();
-    }
+    return this.storiesCache.getStoryList();
   }
 
   onRouteListChange(fn: EventListener): () => void {
@@ -189,7 +176,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
      * and without request again
      */
     const installList = this.getInstallList(root);
-    installList.length && this.installStoryItem(installList);
+    installList.length && this.installStoryItem(installList, true);
     const newData = {
       rootId,
       ...getAppendingNodesAndEdges(
@@ -218,17 +205,22 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     return [...new Set(installList)];
   }
 
-  private async installStoryItem(list: Array<string>) {
+  private async installStoryItem(list: Array<string>, isforceUpdate = false) {
     // try to install the brick
-    await this.storiesCache.install(
+    const result = await this.storiesCache.install(
       {
         list,
         fields: ["id", "doc", "examples", "originData"],
       },
       true
     );
-    // re-render the EditorCanvas
-    // this.triggerDataChange();
+    if (result && isforceUpdate && result.find((item) => item.originData)) {
+      // Because the first render, the EditorCanvas don't had the originData
+      // So the widget shouldn't render as we expect
+      // So we should re-render the EditorCanvas o make it work normal
+      // TODO: update the this.data
+      this.triggerDataChange();
+    }
   }
 
   private triggerDataChange(): void {
@@ -244,14 +236,13 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
-  async nodeAdd(detail: EventDetailOfNodeAdd) {
+  async nodeAdd(detail: EventDetailOfNodeAdd): Promise<void> {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
     // if installed cache don't had the new node then try to install
     if (!this.storiesCache.hasInstalled(nodeData.brick))
       await this.installStoryItem([nodeData.brick]);
-
     const { nodes: appendingNodes, edges: appendingEdges } =
       getAppendingNodesAndEdges(
         omit(nodeData, [

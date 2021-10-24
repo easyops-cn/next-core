@@ -10,7 +10,7 @@ jest.mock("./useBuilderDataManager");
   getStoryList: jest.fn().mockReturnValue([
     {
       category: "card",
-      storyId: "basic-bricks.general-card",
+      id: "basic-bricks.general-card",
       text: {
         en: "general-card",
         zh: "卡片",
@@ -27,7 +27,7 @@ function TestComponent(): React.ReactElement {
   return (
     <>
       {data.map((item) => (
-        <div key={item.storyId}>editor:{(item.doc as StoryDoc).editor}</div>
+        <div key={item.id}>editor:{(item.doc as StoryDoc).editor}</div>
       ))}
     </>
   );

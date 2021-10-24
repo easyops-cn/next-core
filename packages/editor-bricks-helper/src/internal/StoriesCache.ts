@@ -10,7 +10,7 @@ interface installInfo {
 export class StoriesCache {
   static instance: StoriesCache;
 
-  static getInstance() {
+  static getInstance(): StoriesCache {
     if (!StoriesCache.instance) {
       StoriesCache.instance = new StoriesCache();
     }
@@ -41,19 +41,22 @@ export class StoriesCache {
 
   init(list: Story[]) {
     list.forEach((item) => {
-      this.cache.storyList.set(item.storyId, item);
+      this.cache.storyList.set(item.id, item);
     });
   }
 
-  async install(info: installInfo = {}, isCache?: boolean) {
-    let needInstallList = info.list || [];
-    if (Array.isArray(needInstallList) && needInstallList.length > 0) {
-      needInstallList = needInstallList.filter(
-        (item) => !this.cache.installed[item]
-      );
+  async install(
+    info?: installInfo,
+    isCache?: boolean
+  ): Promise<Story[] | void> {
+    let needInstallList: string[] = [];
+    if (Array.isArray(info?.list)) {
+      needInstallList = info.list.filter((item) => !this.cache.installed[item]);
       if (needInstallList.length === 0) return;
     }
-    if (info.fields && !info.list && this.getStoryList().length > 0) {
+    if (info && info.fields && !info.list && this.getStoryList().length > 0) {
+      // it's mean the base info had install
+      // and we don't need to requset again
       return;
     }
     const response = (await BuildApi_getStoriesJson(
@@ -76,5 +79,6 @@ export class StoriesCache {
       );
       this.cache.storyList.set(item.id, storyItem);
     });
+    return response.data.list;
   }
 }

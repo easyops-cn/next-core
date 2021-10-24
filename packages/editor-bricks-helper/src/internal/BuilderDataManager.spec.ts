@@ -23,6 +23,8 @@ describe("BuilderDataManager for route of bricks", () => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
     manager = new BuilderDataManager();
+    // @ts-ignore
+    jest.spyOn(manager.storiesCache, "install").mockImplementation(jest.fn());
     manager.dataInit({
       id: "B-001",
       type: "bricks",
@@ -225,12 +227,12 @@ Object {
 `);
   });
 
-  it("should add node", () => {
+  it("should add node", async () => {
     const listenOnNodeAdd = jest.fn();
     const listenOnDataChange = jest.fn();
     const unlistenOnNodeAdd = manager.onNodeAdd(listenOnNodeAdd);
     const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
-    manager.nodeAdd({
+    await manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
@@ -317,10 +319,10 @@ Object {
     unlistenOnDataChange();
   });
 
-  it("should update stored node", () => {
+  it("should update stored node", async () => {
     const listenOnDataChange = jest.fn();
     const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
-    manager.nodeAdd({
+    await manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
@@ -1229,7 +1231,7 @@ describe("test storyList", () => {
           icon: "pencil-alt",
           lib: "fa",
         },
-        storyId: "forms.general-input",
+        id: "forms.general-input",
         text: {
           en: "general input",
           zh: "普通输入框",
@@ -1250,7 +1252,7 @@ describe("test storyList", () => {
           icon: "chevron-down",
           lib: "fa",
         },
-        storyId: "basic-bricks.general-card",
+        id: "basic-bricks.general-card",
         text: {
           en: "general-card",
           zh: "卡片",
@@ -1272,7 +1274,7 @@ describe("test storyList", () => {
           icon: "pencil-alt",
           lib: "fa",
         },
-        storyId: "forms.general-input",
+        id: "forms.general-input",
         text: {
           en: "general input",
           zh: "普通输入框",
@@ -1293,7 +1295,7 @@ describe("test storyList", () => {
           icon: "chevron-down",
           lib: "fa",
         },
-        storyId: "basic-bricks.general-card",
+        id: "basic-bricks.general-card",
         text: {
           en: "general-card",
           zh: "卡片",
@@ -1304,6 +1306,94 @@ describe("test storyList", () => {
           author: "easyops",
         },
       },
+    ]);
+  });
+});
+
+describe("StorieCache install should work", () => {
+  const mockInstall = jest.fn();
+
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+  const manager = new BuilderDataManager();
+  // @ts-ignore
+  jest.spyOn(manager.storiesCache, "install").mockImplementation(mockInstall);
+  manager.storyListInit([
+    {
+      id: "brick-a",
+      type: "brick",
+      examples: [],
+    },
+    {
+      id: "brick-b",
+      type: "brick",
+      examples: [],
+    },
+  ] as Partial<Story>[] as Story[]);
+  manager.dataInit({
+    id: "B-001",
+    type: "bricks",
+    path: "/home",
+    children: [
+      {
+        id: "B-002",
+        type: "brick",
+        brick: "brick-a",
+        sort: 0,
+        mountPoint: "bricks",
+        alias: "alias-a",
+      },
+      {
+        id: "B-003",
+        type: "brick",
+        brick: "brick-b",
+        sort: 1,
+        mountPoint: "undefined",
+        children: [
+          {
+            id: "B-006",
+            type: "brick",
+            brick: "widget-a",
+            mountPoint: "content",
+          },
+        ],
+      },
+    ],
+  });
+
+  it("install should work", () => {
+    expect(mockInstall).toBeCalledTimes(1);
+    expect(mockInstall.mock.calls).toEqual([
+      [
+        {
+          fields: ["id", "doc", "examples", "originData"],
+          list: ["brick-a", "widget-a", "brick-b"],
+        },
+        true,
+      ],
+    ]);
+  });
+
+  it("nodeAdd should work", () => {
+    manager.nodeAdd({
+      nodeUid: 7,
+      parentUid: 3,
+      nodeUids: [4, 6, 7, 5],
+      nodeData: {
+        type: "brick",
+        brick: "my.any-brick",
+        mountPoint: "toolbar",
+      } as Partial<NodeInstance> as NodeInstance,
+      nodeIds: null,
+    });
+
+    expect(mockInstall).toBeCalledTimes(2);
+    expect(mockInstall.mock.calls[mockInstall.mock.calls.length - 1]).toEqual([
+      {
+        fields: ["id", "doc", "examples", "originData"],
+        list: ["my.any-brick"],
+      },
+      true,
     ]);
   });
 });

@@ -14,7 +14,7 @@ describe("getBrickDoc", () => {
     const storyList = [
       {
         type: "brick",
-        storyId: "basic-bricks.general-button",
+        id: "basic-bricks.general-button",
         doc: {
           editor: "base-button--editor",
           slots: [],

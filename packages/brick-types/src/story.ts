@@ -34,7 +34,7 @@ export interface Story {
   deprecated?: boolean;
   type: "brick" | "template" | "atom-brick";
   text: I18nData;
-  example: StoryConf | StoryConf[];
+  examples: StoryConf | StoryConf[];
   description?: I18nData;
   tags?: I18nData[];
   doc?: string | StoryDoc;

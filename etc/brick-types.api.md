@@ -1876,15 +1876,17 @@ export interface Story {
     // (undocumented)
     category: string;
     // (undocumented)
-    conf: StoryConf | StoryConf[];
-    // (undocumented)
     deprecated?: boolean;
     // (undocumented)
     description?: I18nData;
     // (undocumented)
     doc?: string | StoryDoc;
     // (undocumented)
+    examples: StoryConf | StoryConf[];
+    // (undocumented)
     icon?: MenuIcon;
+    // (undocumented)
+    id: string;
     // (undocumented)
     layerType?: LayerType;
     // (undocumented)
@@ -1892,13 +1894,11 @@ export interface Story {
     // (undocumented)
     previewColumns?: number;
     // (undocumented)
-    storyId: string;
-    // (undocumented)
     tags?: I18nData[];
     // (undocumented)
     text: I18nData;
     // (undocumented)
-    type: "brick" | "template";
+    type: "brick" | "template" | "atom-brick";
 }
 
 // @public

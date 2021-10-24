@@ -541,11 +541,11 @@ describe("getAppendingNodesAndEdges", () => {
       new Map(),
       [
         {
-          storyId: "widget.tpl-test-widget",
+          id: "widget.tpl-test-widget",
           category: "abc",
           type: "brick",
           text: {},
-          conf: [],
+          examples: [],
           originData: {
             appId: "widget",
             id: "T-01",
@@ -581,11 +581,11 @@ describe("getAppendingNodesAndEdges", () => {
           },
         },
         {
-          storyId: "widget.tpl-inside-widget",
+          id: "widget.tpl-inside-widget",
           category: "abc",
           type: "brick",
           text: {},
-          conf: [],
+          examples: [],
           originData: {
             appId: "widget",
             id: "T-05",
