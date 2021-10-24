@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.2.4...@next-core/easyops-analytics@0.3.0) (2021-10-21)
+
+
+### Features
+
+* add userAnalytics ([b960f7c](https://github.com/easyops-cn/next-core/commit/b960f7c0e8db81ecf4680abe41dae63614641124))
+
+
+
+
+
 ## [0.2.4](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.2.3...@next-core/easyops-analytics@0.2.4) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/easyops-analytics

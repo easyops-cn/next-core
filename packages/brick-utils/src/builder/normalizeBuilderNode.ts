@@ -50,13 +50,28 @@ const fieldsToRemoveInRoute = [
   "org",
   "parent",
   "sort",
+  "name",
+  "providersBak",
+  "providers_bak",
 
   "deleteAuthorizers",
   "readAuthorizers",
   "updateAuthorizers",
 ];
 
-const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type");
+const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type", "alias");
+
+// Those fields can be disposed if value is null.
+const disposableNullFields = [
+  "alias",
+  "documentId",
+  "hybrid",
+  "bg",
+  "context",
+  "exports",
+  "ref",
+  "portal",
+];
 
 export function normalizeBuilderNode(node: BuilderBrickNode): BrickConf;
 export function normalizeBuilderNode(node: BuilderRouteNode): RouteConf;
@@ -70,31 +85,24 @@ export function normalizeBuilderNode(
   node: BuilderRouteOrBrickNode
 ): BrickConf | RouteConf | null {
   if (isBrickNode(node)) {
-    return normalizeBuilderBrickNode(node);
+    return normalize(
+      node,
+      fieldsToRemoveInBrick,
+      jsonFieldsInBrick,
+      yamlFieldsInBrick,
+      false
+    ) as unknown as BrickConf;
   }
   if (isRouteNode(node)) {
-    return normalizeBuilderRouteNode(node);
+    return normalize(
+      node,
+      fieldsToRemoveInRoute,
+      jsonFieldsInRoute,
+      yamlFieldsInRoute,
+      true
+    ) as unknown as RouteConf;
   }
   return null;
-}
-
-function normalizeBuilderBrickNode(node: BuilderBrickNode): BrickConf {
-  return normalize(
-    node,
-    fieldsToRemoveInBrick,
-    jsonFieldsInBrick,
-    yamlFieldsInBrick
-  ) as unknown as BrickConf;
-}
-
-function normalizeBuilderRouteNode(node: BuilderRouteNode): RouteConf {
-  return normalize(
-    node,
-    fieldsToRemoveInRoute,
-    jsonFieldsInRoute,
-    yamlFieldsInRoute,
-    true
-  ) as unknown as RouteConf;
 }
 
 function normalize(
@@ -108,8 +116,15 @@ function normalize(
     Object.entries(node)
       // Remove unused fields from CMDB.
       // Consider fields started with `_` as unused.
-      .filter(([key]) => key[0] !== "_" && !fieldsToRemove.includes(key))
-      // Parse json fields.
+      .filter(
+        ([key, value]) =>
+          !(
+            key[0] === "_" ||
+            fieldsToRemove.includes(key) ||
+            (value === null && disposableNullFields.includes(key))
+          )
+      )
+      // Parse specific fields.
       .map(([key, value]) => [
         key,
         cleanUpSegues && key === "segues"

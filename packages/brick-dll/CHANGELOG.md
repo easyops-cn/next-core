@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.25.0...@next-core/brick-dll@2.25.1) (2021-10-22)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+
+
+
+
+# [2.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.24.11...@next-core/brick-dll@2.25.0) (2021-10-21)
+
+
+### Features
+
+* add userAnalytics ([b960f7c](https://github.com/easyops-cn/next-core/commit/b960f7c0e8db81ecf4680abe41dae63614641124))
+
+
+
+
+
 ## [2.24.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.24.10...@next-core/brick-dll@2.24.11) (2021-10-20)
 
 **Note:** Version bump only for package @next-core/brick-dll

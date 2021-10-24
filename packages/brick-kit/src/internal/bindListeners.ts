@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { isObject } from "@next-core/brick-utils";
+import { userAnalytics } from "@next-core/easyops-analytics";
 import {
   BrickEventHandler,
   BrickEventHandlerCallback,
@@ -274,6 +275,8 @@ export function listenerFactory(
           }
           clearMenuCache();
         }) as EventListener;
+      case "analytics.event":
+        return builtinAnalyticsListenerFactory(handler.args, handler, context);
       default:
         return () => {
           // eslint-disable-next-line no-console
@@ -548,6 +551,23 @@ function builtinWindowListenerFactory(
       string
     ];
     window.open(url, target || "_self", features);
+  } as EventListener;
+}
+
+function builtinAnalyticsListenerFactory(
+  args: unknown[],
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+    const [action, data] = argsFactory(args, context, event) as [
+      string,
+      Record<string, unknown>
+    ];
+    userAnalytics.event(action, data);
   } as EventListener;
 }
 
