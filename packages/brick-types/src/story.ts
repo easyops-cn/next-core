@@ -30,11 +30,11 @@ export interface StoryConf extends BrickConf {
 /** @internal */
 export interface Story {
   category: string;
-  storyId: string;
+  id: string;
   deprecated?: boolean;
-  type: "brick" | "template";
+  type: "brick" | "template" | "atom-brick";
   text: I18nData;
-  conf: StoryConf | StoryConf[];
+  example: StoryConf | StoryConf[];
   description?: I18nData;
   tags?: I18nData[];
   doc?: string | StoryDoc;

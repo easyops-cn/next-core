@@ -2307,6 +2307,11 @@
   resolved "https://registry.npmjs.org/@next-sdk/micro-app-sdk/-/micro-app-sdk-2.1.1.tgz#e441aaa303152c54451945703b5e96260dcb476e"
   integrity sha512-hiPq+SdwWVVycbEBq+OtCQwE3nDwQnSN4Kchzlh53DxfpxLpjo9w2lAkbf2ZmWB3qYhUGoZId8lhULp/Ez4GCg==
 
+"@next-sdk/next-builder-sdk@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.npmjs.org/@next-sdk/next-builder-sdk/-/next-builder-sdk-2.1.5.tgz#6bb69377fd7611fce7afa4ef271a96a3589619c0"
+  integrity sha512-Z1nCAYutuEqsAlz70ULESzvrqni6gp0tFVZxedhJX+Bg9XhssfsX5uQXD7djcrS/bvFUTnFswbId6W5Si7EcNQ==
+
 "@next-sdk/user-service-sdk@^2.1.1":
   version "2.1.1"
   resolved "https://registry.npmjs.org/@next-sdk/user-service-sdk/-/user-service-sdk-2.1.1.tgz#44ef1a59bf2d5a50ab0d3a62860cb39379018c5c"
@@ -13092,7 +13097,7 @@ rc-table@~7.13.0:
 rc-tabs@~11.7.0, rc-tabs@~11.7.3:
   version "11.7.3"
   resolved "https://registry.npmjs.org/rc-tabs/-/rc-tabs-11.7.3.tgz#32a30e59c6992d60fb58115ba0bf2652b337ed43"
-  integrity sha1-MqMOWcaZLWD7WBFboL8mUrM37UM=
+  integrity sha512-5nd2NVss9TprPRV9r8N05SjQyAE7zDrLejxFLcbJ+BdLxSwnGnk3ws/Iq0smqKZUnPQC0XEvnpF3+zlllUUT2w==
   dependencies:
     "@babel/runtime" "^7.11.2"
     classnames "2.x"
@@ -13182,9 +13187,9 @@ rc-util@^5.0.0, rc-util@^5.0.1, rc-util@^5.0.5, rc-util@^5.0.6, rc-util@^5.0.7, 
     shallowequal "^1.1.0"
 
 rc-virtual-list@^3.0.1, rc-virtual-list@^3.2.0, rc-virtual-list@^3.2.6:
-  version "3.2.6"
-  resolved "https://registry.npmjs.org/rc-virtual-list/-/rc-virtual-list-3.2.6.tgz#2c92a40f4425e19881b38134d6bd286a11137d2d"
-  integrity sha1-LJKkD0Ql4ZiBs4E01r0oahETfS0=
+  version "3.4.1"
+  resolved "https://registry.npmjs.org/rc-virtual-list/-/rc-virtual-list-3.4.1.tgz#1f3b41391acf033a6c7e84c2f4e8a4ee0dc72807"
+  integrity sha512-YexJy+Cx8qjnQdV8+0JBeM65VF2kvO9lnsfrIvHsL3lIH1adMZ85HqmePGUzKkKMZC+CRAJc2K4g2iJS1dOjPw==
   dependencies:
     classnames "^2.2.6"
     rc-resize-observer "^1.0.0"

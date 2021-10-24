@@ -24,7 +24,6 @@ import {
   SharedEditorConf,
   BuilderDroppingStatus,
 } from "../interfaces";
-import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
 import { deleteNodeFromTree } from "./deleteNodeFromTree";
@@ -35,6 +34,8 @@ import {
 import { expandTemplateEdges } from "./expandTemplateEdges";
 import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
+import { StoriesCache } from "./StoriesCache";
+import { getRuntime } from "@next-core/brick-kit";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -54,7 +55,6 @@ enum BuilderInternalEventType {
 }
 
 const storageKeyOfOutlineDisabledNodes = "builder-outline-disabled-nodes";
-
 export class BuilderDataManager implements AbstractBuilderDataManager {
   private data: BuilderCanvasData = {
     rootId: null,
@@ -67,6 +67,10 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   private sharedEditorList: SharedEditorConf[];
 
   private routeList: BuilderRouteNode[];
+
+  private storiesCache = StoriesCache.getInstance();
+
+  private flags = getRuntime().getFeatureFlags();
 
   private storyList: Story[];
 
@@ -142,11 +146,19 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   storyListInit(data: Story[]): void {
-    this.storyList = data;
+    if (this.flags["next-builder-stories-json-lazy-loading"]) {
+      this.storyList = data;
+    } else {
+      this.storiesCache.init(data);
+    }
   }
 
-  getStoryList(): Story[] {
-    return this.storyList;
+  getStoryList() {
+    if (this.flags["next-builder-stories-json-lazy-loading"]) {
+      return this.storyList;
+    } else {
+      return this.storiesCache.getStoryList();
+    }
   }
 
   onRouteListChange(fn: EventListener): () => void {
@@ -162,19 +174,29 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     };
   }
 
-  dataInit(
+  async dataInit(
     root: BuilderRuntimeNode,
     templateSourceMap?: Map<string, BuilderCustomTemplateNode>
-  ): void {
+  ) {
     this.templateSourceMap = templateSourceMap;
     const rootId = getUniqueNodeId();
+
+    /**
+     * When the EditorCanvas first render, we had install the story base info
+     * We will use the story fields likes [doc, examples, originData] later
+     * So we should get the brick form the root data, and install they then set they in the cache
+     * Finally, when the EditorCanvas re-render, we take the data from the cache,
+     * and without request again
+     */
+    const installList = this.getInstallList(root);
+    installList.length && this.installStoryItem(installList);
     const newData = {
       rootId,
       ...getAppendingNodesAndEdges(
         root,
         rootId,
         templateSourceMap,
-        this.storyList
+        this.getStoryList()
       ),
     };
     this.data = {
@@ -182,6 +204,31 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       edges: expandTemplateEdges(newData),
     };
     this.triggerDataChange();
+  }
+
+  private getInstallList(root: BuilderRuntimeNode) {
+    const installList: Array<string> = [];
+    const walkNode = (node: BuilderRuntimeNode) => {
+      if (Array.isArray(node.children)) {
+        node.children.forEach((child) => walkNode(child));
+      }
+      node.brick && installList.push(node.brick as string);
+    };
+    walkNode(root);
+    return [...new Set(installList)];
+  }
+
+  private async installStoryItem(list: Array<string>) {
+    // try to install the brick
+    await this.storiesCache.install(
+      {
+        list,
+        fields: ["id", "doc", "examples", "originData"],
+      },
+      true
+    );
+    // re-render the EditorCanvas
+    // this.triggerDataChange();
   }
 
   private triggerDataChange(): void {
@@ -197,9 +244,13 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
-  nodeAdd(detail: EventDetailOfNodeAdd): void {
+  async nodeAdd(detail: EventDetailOfNodeAdd) {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
+
+    // if installed cache don't had the new node then try to install
+    if (!this.storiesCache.hasInstalled(nodeData.brick))
+      await this.installStoryItem([nodeData.brick]);
 
     const { nodes: appendingNodes, edges: appendingEdges } =
       getAppendingNodesAndEdges(
@@ -208,7 +259,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
         ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
         nodeUid,
         this.templateSourceMap,
-        this.storyList
+        this.getStoryList()
       );
 
     const newNodes = nodes.concat(appendingNodes);
@@ -275,7 +326,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
           ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
           nodeUid,
           this.templateSourceMap,
-          this.storyList
+          this.getStoryList()
         );
       newNodes.push(...appendingNodes);
       newEdges.push(

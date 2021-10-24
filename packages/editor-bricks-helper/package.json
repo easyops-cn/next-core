@@ -26,6 +26,7 @@
   "sideEffects": false,
   "dependencies": {
     "@next-core/brick-types": "^2.42.0",
+    "@next-sdk/next-builder-sdk": "^2.1.5",
     "@ungap/event-target": "^0.2.3",
     "classnames": "^2.3.1"
   },
