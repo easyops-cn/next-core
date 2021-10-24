@@ -22,12 +22,7 @@ export class StoriesCache {
     installed: {} as Record<string, boolean>,
   };
 
-  getStoryList(): Story[];
-  getStoryList(id?: string): Story;
-  getStoryList(id?: string) {
-    if (typeof id === "string") {
-      return this.cache.storyList.get(id);
-    }
+  getStoryList(): Story[] {
     return [...this.cache.storyList.values()];
   }
 
@@ -50,11 +45,17 @@ export class StoriesCache {
     isCache?: boolean
   ): Promise<Story[] | void> {
     let needInstallList: string[] = [];
-    if (Array.isArray(info?.list)) {
+    if (Array.isArray(info?.list) && info.list.length > 0) {
       needInstallList = info.list.filter((item) => !this.cache.installed[item]);
       if (needInstallList.length === 0) return;
     }
-    if (info && info.fields && !info.list && this.getStoryList().length > 0) {
+    if (
+      info &&
+      info.fields &&
+      Array.isArray(info.list) &&
+      info.list.length === 0 &&
+      this.getStoryList().length > 0
+    ) {
       // it's mean the base info had install
       // and we don't need to requset again
       return;

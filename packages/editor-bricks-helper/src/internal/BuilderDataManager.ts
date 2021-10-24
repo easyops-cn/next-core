@@ -207,20 +207,20 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private async installStoryItem(list: Array<string>, isforceUpdate = false) {
     // try to install the brick
-    const result = await this.storiesCache.install(
+    await this.storiesCache.install(
       {
         list,
         fields: ["id", "doc", "examples", "originData"],
       },
       true
     );
-    if (result && isforceUpdate && result.find((item) => item.originData)) {
-      // Because the first render, the EditorCanvas don't had the originData
-      // So the widget shouldn't render as we expect
-      // So we should re-render the EditorCanvas o make it work normal
-      // TODO: update the this.data
-      this.triggerDataChange();
-    }
+    // if (result && isforceUpdate && result.find((item) => item.originData)) {
+    //   // Because the first render, the EditorCanvas don't had the originData
+    //   // So the widget shouldn't render as we expect
+    //   // So we should re-render the EditorCanvas o make it work normal
+    //   // TODO: update the this.data
+    //   this.triggerDataChange();
+    // }
   }
 
   private triggerDataChange(): void {

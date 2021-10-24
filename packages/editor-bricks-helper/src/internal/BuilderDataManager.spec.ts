@@ -1309,11 +1309,14 @@ describe("test storyList", () => {
 });
 
 describe("StorieCache install should work", () => {
-  const mockInstall = jest.fn();
-
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
   const manager = new BuilderDataManager();
+  const mockInstall = jest.fn((data) => {
+    data.list.forEach((item: string) => {
+      manager.storiesCache.setCache(item, true);
+    });
+  });
   // @ts-ignore
   jest.spyOn(manager.storiesCache, "install").mockImplementation(mockInstall);
   manager.storyListInit([
@@ -1379,7 +1382,7 @@ describe("StorieCache install should work", () => {
       nodeUids: [4, 6, 7, 5],
       nodeData: {
         type: "brick",
-        brick: "my.any-brick",
+        brick: "brick-c",
         mountPoint: "toolbar",
       } as Partial<NodeInstance> as NodeInstance,
       nodeIds: null,
@@ -1389,10 +1392,25 @@ describe("StorieCache install should work", () => {
     expect(mockInstall.mock.calls[mockInstall.mock.calls.length - 1]).toEqual([
       {
         fields: ["id", "doc", "examples", "originData"],
-        list: ["my.any-brick"],
+        list: ["brick-c"],
       },
       true,
     ]);
+
+    // add same brick and install will not call
+    manager.nodeAdd({
+      nodeUid: 7,
+      parentUid: 3,
+      nodeUids: [4, 6, 7, 5],
+      nodeData: {
+        type: "brick",
+        brick: "brick-c",
+        mountPoint: "toolbar",
+      } as Partial<NodeInstance> as NodeInstance,
+      nodeIds: null,
+    });
+
+    expect(mockInstall).toBeCalledTimes(2);
   });
 });
 
