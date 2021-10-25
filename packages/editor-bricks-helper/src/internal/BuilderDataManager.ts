@@ -161,7 +161,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     };
   }
 
-  async dataInit(
+  dataInit(
     root: BuilderRuntimeNode,
     templateSourceMap?: Map<string, BuilderCustomTemplateNode>
   ) {

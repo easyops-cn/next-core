@@ -65,7 +65,7 @@ describe("StoriesCache", () => {
         text: "b",
       },
     ]);
-    expect(instance.cache.installed).toEqual({});
+    expect([...instance.cache.installed]).toEqual([]);
     await instance.install(
       {
         list: ["brick-a"],
@@ -90,9 +90,7 @@ describe("StoriesCache", () => {
         text: "b",
       },
     ]);
-    expect(instance.cache.installed).toEqual({
-      "brick-a": true,
-    });
+    expect([...instance.cache.installed]).toEqual(["brick-a"]);
 
     // install brick-a again without request again
     await instance.install(
@@ -137,10 +135,7 @@ describe("StoriesCache", () => {
         text: "b",
       },
     ]);
-    expect(instance.cache.installed).toEqual({
-      "brick-a": true,
-      "brick-b": true,
-    });
+    expect([...instance.cache.installed]).toEqual(["brick-a", "brick-b"]);
 
     // use cache
     await instance.install(
@@ -201,9 +196,6 @@ describe("StoriesCache", () => {
       },
     ].concat(initData);
     expect(instance.getStoryList()).toEqual(result);
-    expect(instance.cache.installed).toEqual({
-      "brick-a": true,
-      "brick-b": true,
-    });
+    expect([...instance.cache.installed]).toEqual(["brick-a", "brick-b"]);
   });
 });

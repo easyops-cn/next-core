@@ -19,7 +19,7 @@ export class StoriesCache {
 
   private cache = {
     storyList: new Map<string, Story>(),
-    installed: {} as Record<string, boolean>,
+    installed: new Set<string>(),
   };
 
   getStoryList(): Story[] {
@@ -27,11 +27,11 @@ export class StoriesCache {
   }
 
   setCache(id: string): void {
-    this.cache.installed[id] = true;
+    this.cache.installed.add(id);
   }
 
-  hasInstalled(storyId: string): boolean {
-    return !!this.cache.installed[storyId];
+  hasInstalled(id: string): boolean {
+    return this.cache.installed.has(id);
   }
 
   init(list: Story[]) {
@@ -46,7 +46,7 @@ export class StoriesCache {
   ): Promise<Story[] | void> {
     let needInstallList: string[] = [];
     if (Array.isArray(info?.list) && info.list.length > 0) {
-      needInstallList = info.list.filter((item) => !this.cache.installed[item]);
+      needInstallList = info.list.filter((item) => !this.hasInstalled(item));
       if (needInstallList.length === 0) return;
     }
     if (
