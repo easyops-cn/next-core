@@ -180,7 +180,7 @@ module.exports =
               {
                 loader: "worker-loader",
                 options: {
-                  publicPath: `${distPublicPath}/`,
+                  publicPath: distPublicPath,
                   filename(pathData) {
                     const chunkName = pathData.chunk.name.replace(
                       /\.worker$/,
