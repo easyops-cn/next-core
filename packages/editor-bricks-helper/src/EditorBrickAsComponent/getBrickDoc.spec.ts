@@ -11,14 +11,30 @@ describe("getBrickDoc", () => {
       templateId: "",
     } as BuilderRuntimeNode;
 
+    const node2 = {
+      type: "brick",
+      brick: "basic-bricks.general-select",
+      id: "02",
+      templateId: "",
+    } as BuilderRuntimeNode;
+
     const storyList = [
       {
         type: "brick",
-        id: "basic-bricks.general-button",
+        storyId: "basic-bricks.general-button",
         doc: {
           editor: "base-button--editor",
           slots: [],
           memo: "this is button",
+        },
+      },
+      {
+        type: "brick",
+        id: "basic-bricks.general-select",
+        doc: {
+          editor: "base-button--editor",
+          slots: [],
+          memo: "this is select",
         },
       },
     ] as Story[];
@@ -32,5 +48,12 @@ describe("getBrickDoc", () => {
 
     const result2 = getBrickDoc(node, undefined);
     expect(result2).toEqual(undefined);
+
+    const result3 = getBrickDoc(node2, storyList);
+    expect(result3).toEqual({
+      editor: "base-button--editor",
+      slots: [],
+      memo: "this is select",
+    });
   });
 });

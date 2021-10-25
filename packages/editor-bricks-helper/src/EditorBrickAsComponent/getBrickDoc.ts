@@ -5,7 +5,9 @@ export function getBrickDoc(
   node: BuilderRuntimeNode,
   storyList: Story[]
 ): StoryDoc {
-  const find = storyList?.find((item) => item.id === node.brick);
+  const find = storyList?.find(
+    (item) => item.storyId === node.brick || item.id === node.brick
+  );
 
   return find?.doc as StoryDoc;
 }
