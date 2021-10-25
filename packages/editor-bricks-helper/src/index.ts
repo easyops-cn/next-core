@@ -21,4 +21,4 @@ export * from "./hooks/useOutlineEnabled";
 export * from "./hooks/useShowRelatedNodesBasedOnEvents";
 export * from "./processors/getSortedIdsAfterDropped";
 export * from "./assertions";
-export * from "./internal/StoriesCache";
+export * from "./StoriesCache";
