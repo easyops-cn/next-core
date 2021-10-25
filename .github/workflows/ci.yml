@@ -102,5 +102,5 @@ jobs:
       if: github.event_name == 'push'
 
     - name: Sync taobao npm mirror
-      run: npx lerna exec -- curl -sX PUT 'https://npm.taobao.org/sync/$LERNA_PACKAGE_NAME?sync_upstream=true'
+      run: npx lerna exec -- curl -sLX PUT 'https://npm.taobao.org/sync/$LERNA_PACKAGE_NAME?sync_upstream=true'
       if: github.event_name == 'push' && steps.next-publish-from-tags.outputs.has-tags
