@@ -73,12 +73,13 @@ export class StoriesCache {
       };
     };
     response.data.list.forEach((item) => {
-      isCache && this.setCache(item.id || item.storyId);
-      let storyItem = this.cache.storyList.get(item.id || item.storyId);
+      const id = item.id || item.storyId;
+      isCache && this.setCache(id);
+      let storyItem = this.cache.storyList.get(id);
       storyItem = _.mergeWith({}, storyItem, item, (o, s) =>
         _.isNull(s) ? o : s
       );
-      this.cache.storyList.set(item.id || item.storyId, storyItem);
+      this.cache.storyList.set(id, storyItem);
     });
     return response.data.list;
   }

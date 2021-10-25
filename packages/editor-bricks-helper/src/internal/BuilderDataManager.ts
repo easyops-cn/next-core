@@ -34,7 +34,7 @@ import {
 import { expandTemplateEdges } from "./expandTemplateEdges";
 import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
-import { StoriesCache } from "./StoriesCache";
+import { StoriesCache } from "../StoriesCache";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",

@@ -1,12 +1,18 @@
 const mockGetStoriesJSONRequset = jest.fn((args = {}) => {
   if (Array.isArray(args.storyIds) && args.storyIds.length > 0) {
     const list = args.storyIds.map((item: string) => ({
-      id: item,
       examples: [
         {
           properties: "test-props",
         },
       ],
+      ...(item === "brick-a"
+        ? {
+            id: "brick-a",
+          }
+        : {
+            storyId: "brick-b",
+          }),
     }));
     return {
       data: {
@@ -23,7 +29,7 @@ const mockGetStoriesJSONRequset = jest.fn((args = {}) => {
             text: "a",
           },
           {
-            id: "brick-b",
+            storyId: "brick-b",
             examples: null,
             text: "b",
           },
@@ -60,7 +66,7 @@ describe("StoriesCache", () => {
         text: "a",
       },
       {
-        id: "brick-b",
+        storyId: "brick-b",
         examples: null,
         text: "b",
       },
@@ -85,7 +91,7 @@ describe("StoriesCache", () => {
         text: "a",
       },
       {
-        id: "brick-b",
+        storyId: "brick-b",
         examples: null,
         text: "b",
       },
@@ -126,7 +132,7 @@ describe("StoriesCache", () => {
         text: "a",
       },
       {
-        id: "brick-b",
+        storyId: "brick-b",
         examples: [
           {
             properties: "test-props",
@@ -169,7 +175,7 @@ describe("StoriesCache", () => {
         text: "a",
       },
       {
-        id: "brick-d",
+        storyId: "brick-d",
         examples: null,
         text: "a",
       },
@@ -186,7 +192,7 @@ describe("StoriesCache", () => {
         text: "a",
       },
       {
-        id: "brick-b",
+        storyId: "brick-b",
         examples: [
           {
             properties: "test-props",
