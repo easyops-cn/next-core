@@ -51,7 +51,7 @@
     "jest": "^27.3.1",
     "js-yaml": "^3.14.1",
     "lerna": "^4.0.0",
-    "lint-staged": "^11.2.3",
+    "lint-staged": "^11.2.4",
     "prettier": "^2.4.1",
     "pretty-format": "^27.3.1",
     "rimraf": "^3.0.2",
