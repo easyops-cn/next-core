@@ -28,13 +28,13 @@ export interface StoryConf extends BrickConf {
 }
 
 /** @internal */
-export interface Story {
+export type Story = oldStory | newStory;
+
+interface StoryCommonFields {
   category: string;
-  id: string;
   deprecated?: boolean;
   type: "brick" | "template" | "atom-brick";
   text: I18nData;
-  examples: StoryConf | StoryConf[];
   description?: I18nData;
   tags?: I18nData[];
   doc?: string | StoryDoc;
@@ -43,7 +43,16 @@ export interface Story {
   previewColumns?: number;
   author?: string;
   layerType?: LayerType;
+  isCustomTemplate?: boolean;
   originData?: BuilderCustomTemplateNode;
+}
+interface oldStory extends StoryCommonFields {
+  storyId: string;
+  conf?: StoryConf | StoryConf[];
+}
+interface newStory extends StoryCommonFields {
+  id: string;
+  examples?: StoryConf | StoryConf[];
 }
 
 /** @internal */
