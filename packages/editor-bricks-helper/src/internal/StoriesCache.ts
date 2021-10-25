@@ -36,7 +36,7 @@ export class StoriesCache {
 
   init(list: Story[]) {
     list.forEach((item) => {
-      this.cache.storyList.set(item.id, item);
+      this.cache.storyList.set(item.id || item.storyId, item);
     });
   }
 
@@ -73,12 +73,12 @@ export class StoriesCache {
       };
     };
     response.data.list.forEach((item) => {
-      isCache && this.setCache(item.id);
-      let storyItem = this.cache.storyList.get(item.id);
+      isCache && this.setCache(item.id || item.storyId);
+      let storyItem = this.cache.storyList.get(item.id || item.storyId);
       storyItem = _.mergeWith({}, storyItem, item, (o, s) =>
         _.isNull(s) ? o : s
       );
-      this.cache.storyList.set(item.id, storyItem);
+      this.cache.storyList.set(item.id || item.storyId, storyItem);
     });
     return response.data.list;
   }
