@@ -28,9 +28,7 @@ export interface StoryConf extends BrickConf {
 }
 
 /** @internal */
-export type Story = oldStory | newStory;
-
-interface StoryCommonFields {
+export interface StoryCommonFields {
   category: string;
   deprecated?: boolean;
   type: "brick" | "template" | "atom-brick";
@@ -46,14 +44,20 @@ interface StoryCommonFields {
   isCustomTemplate?: boolean;
   originData?: BuilderCustomTemplateNode;
 }
-interface oldStory extends StoryCommonFields {
+/** @internal */
+export interface oldStory extends StoryCommonFields {
   storyId: string;
   conf?: StoryConf | StoryConf[];
 }
-interface newStory extends StoryCommonFields {
+
+/** @internal */
+export interface newStory extends StoryCommonFields {
   id: string;
   examples?: StoryConf | StoryConf[];
 }
+
+/** @internal */
+export type Story = oldStory | newStory;
 
 /** @internal */
 export interface Action {

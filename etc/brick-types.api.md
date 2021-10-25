@@ -1328,6 +1328,26 @@ export interface NavbarConf_UiV8 {
     sideBar: string;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "newStory" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface newStory extends StoryCommonFields {
+    // (undocumented)
+    examples?: StoryConf | StoryConf[];
+    // (undocumented)
+    id: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "oldStory" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface oldStory extends StoryCommonFields {
+    // (undocumented)
+    conf?: StoryConf | StoryConf[];
+    // (undocumented)
+    storyId: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1868,38 +1888,7 @@ export interface StaticMenuProps {
 // Warning: (ae-internal-missing-underscore) The name "Story" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface Story {
-    // (undocumented)
-    actions?: Action[];
-    // (undocumented)
-    author?: string;
-    // (undocumented)
-    category: string;
-    // (undocumented)
-    deprecated?: boolean;
-    // (undocumented)
-    description?: I18nData;
-    // (undocumented)
-    doc?: string | StoryDoc;
-    // (undocumented)
-    examples: StoryConf | StoryConf[];
-    // (undocumented)
-    icon?: MenuIcon;
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    layerType?: LayerType;
-    // (undocumented)
-    originData?: BuilderCustomTemplateNode;
-    // (undocumented)
-    previewColumns?: number;
-    // (undocumented)
-    tags?: I18nData[];
-    // (undocumented)
-    text: I18nData;
-    // (undocumented)
-    type: "brick" | "template" | "atom-brick";
-}
+export type Story = oldStory | newStory;
 
 // @public
 export interface Storyboard {
@@ -1962,6 +1951,40 @@ export interface StoryboardMeta {
     i18n?: MetaI18n;
     // (undocumented)
     images?: MetaImage[];
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryCommonFields" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryCommonFields {
+    // (undocumented)
+    actions?: Action[];
+    // (undocumented)
+    author?: string;
+    // (undocumented)
+    category: string;
+    // (undocumented)
+    deprecated?: boolean;
+    // (undocumented)
+    description?: I18nData;
+    // (undocumented)
+    doc?: string | StoryDoc;
+    // (undocumented)
+    icon?: MenuIcon;
+    // (undocumented)
+    isCustomTemplate?: boolean;
+    // (undocumented)
+    layerType?: LayerType;
+    // (undocumented)
+    originData?: BuilderCustomTemplateNode;
+    // (undocumented)
+    previewColumns?: number;
+    // (undocumented)
+    tags?: I18nData[];
+    // (undocumented)
+    text: I18nData;
+    // (undocumented)
+    type: "brick" | "template" | "atom-brick";
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
