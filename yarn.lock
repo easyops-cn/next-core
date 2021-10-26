@@ -2307,11 +2307,6 @@
   resolved "https://registry.npmjs.org/@next-sdk/micro-app-sdk/-/micro-app-sdk-2.1.1.tgz#e441aaa303152c54451945703b5e96260dcb476e"
   integrity sha512-hiPq+SdwWVVycbEBq+OtCQwE3nDwQnSN4Kchzlh53DxfpxLpjo9w2lAkbf2ZmWB3qYhUGoZId8lhULp/Ez4GCg==
 
-"@next-sdk/next-builder-sdk@^2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmjs.org/@next-sdk/next-builder-sdk/-/next-builder-sdk-2.1.5.tgz#6bb69377fd7611fce7afa4ef271a96a3589619c0"
-  integrity sha512-Z1nCAYutuEqsAlz70ULESzvrqni6gp0tFVZxedhJX+Bg9XhssfsX5uQXD7djcrS/bvFUTnFswbId6W5Si7EcNQ==
-
 "@next-sdk/user-service-sdk@^2.1.1":
   version "2.1.1"
   resolved "https://registry.npmjs.org/@next-sdk/user-service-sdk/-/user-service-sdk-2.1.1.tgz#44ef1a59bf2d5a50ab0d3a62860cb39379018c5c"

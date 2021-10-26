@@ -23,8 +23,6 @@ describe("BuilderDataManager for route of bricks", () => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
     manager = new BuilderDataManager();
-    // @ts-ignore
-    jest.spyOn(manager.storiesCache, "install").mockImplementation(jest.fn());
     manager.dataInit({
       id: "B-001",
       type: "bricks",
@@ -226,12 +224,16 @@ Object {
 `);
   });
 
-  it("should add node", async () => {
+  it("should add node", () => {
+    const listenOnNodeAddBefore = jest.fn();
     const listenOnNodeAdd = jest.fn();
     const listenOnDataChange = jest.fn();
+    const unlistenOnNodeAddBefore = manager.onNodeAddBefore(
+      listenOnNodeAddBefore
+    );
     const unlistenOnNodeAdd = manager.onNodeAdd(listenOnNodeAdd);
     const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
-    await manager.nodeAdd({
+    manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
@@ -312,16 +314,18 @@ Object {
   "type": "brick",
 }
 `);
+    expect(listenOnNodeAddBefore).toBeCalled();
     expect(listenOnNodeAdd).toBeCalled();
     expect(listenOnDataChange).toBeCalled();
     unlistenOnNodeAdd();
     unlistenOnDataChange();
+    unlistenOnNodeAddBefore();
   });
 
-  it("should update stored node", async () => {
+  it("should update stored node", () => {
     const listenOnDataChange = jest.fn();
     const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
-    await manager.nodeAdd({
+    manager.nodeAdd({
       nodeUid: 7,
       parentUid: 3,
       nodeUids: [4, 6, 7, 5],
@@ -1305,112 +1309,6 @@ describe("test storyList", () => {
         },
       },
     ]);
-  });
-});
-
-describe("StorieCache install should work", () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
-  const manager = new BuilderDataManager();
-  const mockInstall = jest.fn((data) => {
-    data.list.forEach((item: string) => {
-      manager.storiesCache.setCache(item, true);
-    });
-  });
-  // @ts-ignore
-  jest.spyOn(manager.storiesCache, "install").mockImplementation(mockInstall);
-  manager.storyListInit([
-    {
-      id: "brick-a",
-      type: "brick",
-      examples: [],
-    },
-    {
-      id: "brick-b",
-      type: "brick",
-      examples: [],
-    },
-  ] as Partial<Story>[] as Story[]);
-  manager.dataInit({
-    id: "B-001",
-    type: "bricks",
-    path: "/home",
-    children: [
-      {
-        id: "B-002",
-        type: "brick",
-        brick: "brick-a",
-        sort: 0,
-        mountPoint: "bricks",
-        alias: "alias-a",
-      },
-      {
-        id: "B-003",
-        type: "brick",
-        brick: "brick-b",
-        sort: 1,
-        mountPoint: "undefined",
-        children: [
-          {
-            id: "B-006",
-            type: "brick",
-            brick: "widget-a",
-            mountPoint: "content",
-          },
-        ],
-      },
-    ],
-  });
-
-  it("install should work", () => {
-    expect(mockInstall).toBeCalledTimes(1);
-    expect(mockInstall.mock.calls).toEqual([
-      [
-        {
-          fields: ["id", "doc", "examples", "originData"],
-          list: ["brick-a", "widget-a", "brick-b"],
-        },
-        true,
-      ],
-    ]);
-  });
-
-  it("nodeAdd should work", () => {
-    manager.nodeAdd({
-      nodeUid: 7,
-      parentUid: 3,
-      nodeUids: [4, 6, 7, 5],
-      nodeData: {
-        type: "brick",
-        brick: "brick-c",
-        mountPoint: "toolbar",
-      } as Partial<NodeInstance> as NodeInstance,
-      nodeIds: null,
-    });
-
-    expect(mockInstall).toBeCalledTimes(2);
-    expect(mockInstall.mock.calls[mockInstall.mock.calls.length - 1]).toEqual([
-      {
-        fields: ["id", "doc", "examples", "originData"],
-        list: ["brick-c"],
-      },
-      true,
-    ]);
-
-    // add same brick and install will not call
-    manager.nodeAdd({
-      nodeUid: 7,
-      parentUid: 3,
-      nodeUids: [4, 6, 7, 5],
-      nodeData: {
-        type: "brick",
-        brick: "brick-c",
-        mountPoint: "toolbar",
-      } as Partial<NodeInstance> as NodeInstance,
-      nodeIds: null,
-    });
-
-    expect(mockInstall).toBeCalledTimes(2);
   });
 });
 

@@ -34,9 +34,9 @@ import {
 import { expandTemplateEdges } from "./expandTemplateEdges";
 import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
-import { StoriesCache } from "../StoriesCache";
 
 enum BuilderInternalEventType {
+  NODE_ADD_BEFORE = "builder.node.add.before",
   NODE_ADD = "builder.node.add",
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
@@ -67,13 +67,13 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
 
   private routeList: BuilderRouteNode[];
 
-  private storiesCache = StoriesCache.getInstance();
-
   private readonly eventTarget = new EventTarget();
 
   private contextMenuStatus: BuilderContextMenuStatus = {
     active: false,
   };
+
+  private storyList: Story[];
 
   private showRelatedNodesBasedOnEvents: boolean;
 
@@ -141,11 +141,11 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
   }
 
   storyListInit(data: Story[]): void {
-    this.storiesCache.init(data);
+    this.storyList = data;
   }
 
   getStoryList() {
-    return this.storiesCache.getStoryList();
+    return this.storyList;
   }
 
   onRouteListChange(fn: EventListener): () => void {
@@ -168,15 +168,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.templateSourceMap = templateSourceMap;
     const rootId = getUniqueNodeId();
 
-    /**
-     * When the EditorCanvas first render, we had install the story base info
-     * We will use the story fields likes [doc, examples, originData] later
-     * So we should get the brick form the root data, and install they then set they in the cache
-     * Finally, when the EditorCanvas re-render, we take the data from the cache,
-     * and without request again
-     */
-    const installList = this.getInstallList(root);
-    installList.length && this.installStoryItem(installList, true);
     const newData = {
       rootId,
       ...getAppendingNodesAndEdges(
@@ -193,36 +184,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.triggerDataChange();
   }
 
-  private getInstallList(root: BuilderRuntimeNode) {
-    const installList: Array<string> = [];
-    const walkNode = (node: BuilderRuntimeNode) => {
-      if (Array.isArray(node.children)) {
-        node.children.forEach((child) => walkNode(child));
-      }
-      node.brick && installList.push(node.brick as string);
-    };
-    walkNode(root);
-    return [...new Set(installList)];
-  }
-
-  private async installStoryItem(list: Array<string>, isforceUpdate = false) {
-    // try to install the brick
-    await this.storiesCache.install(
-      {
-        list,
-        fields: ["id", "doc", "examples", "originData"],
-      },
-      true
-    );
-    // if (result && isforceUpdate && result.find((item) => item.originData)) {
-    //   // Because the first render, the EditorCanvas don't had the originData
-    //   // So the widget shouldn't render as we expect
-    //   // So we should re-render the EditorCanvas o make it work normal
-    //   // TODO: update the this.data
-    //   this.triggerDataChange();
-    // }
-  }
-
   private triggerDataChange(): void {
     const { rootId, nodes } = this.data;
     const rootNode = nodes.find((node) => node.$$uid === rootId);
@@ -236,13 +197,10 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
-  async nodeAdd(detail: EventDetailOfNodeAdd): Promise<void> {
+  runNodeAddAction(detail: EventDetailOfNodeAdd) {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
-    // if installed cache don't had the new node then try to install
-    if (!this.storiesCache.hasInstalled(nodeData.brick))
-      await this.installStoryItem([nodeData.brick]);
     const { nodes: appendingNodes, edges: appendingEdges } =
       getAppendingNodesAndEdges(
         omit(nodeData, [
@@ -277,6 +235,15 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       }),
     };
     this.triggerDataChange();
+  }
+
+  async nodeAdd(detail: EventDetailOfNodeAdd): Promise<void> {
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_ADD_BEFORE, { detail })
+    );
+
+    this.runNodeAddAction(detail);
+
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_ADD, { detail })
     );
@@ -457,6 +424,21 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.DATA_CHANGE,
         fn
+      );
+    };
+  }
+
+  onNodeAddBefore(
+    fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.NODE_ADD_BEFORE,
+      fn as EventListener
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.NODE_ADD_BEFORE,
+        fn as EventListener
       );
     };
   }
