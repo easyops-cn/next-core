@@ -2292,6 +2292,11 @@
   resolved "https://registry.npmjs.org/@next-micro-apps/general-auth/-/general-auth-1.0.9.tgz#ad18f28303ef44829228b297c646f51da60aa31d"
   integrity sha1-rRjygwPvRIKSKLKXxkb1HaYKox0=
 
+"@next-sdk/api-gateway-sdk@^2.0.13":
+  version "2.0.13"
+  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.0.13.tgz#eee75fdf24f423828bc2f471ff2285a78b4b1490"
+  integrity sha512-K5YQYzs0cdGPyVe4WnKiDEGz+KtnpZqQmAx14oVdlEhdfY46b4hEfBl6Sp++ddxCjxlpEOiPWf9JDKKZ+ORL3g==
+
 "@next-sdk/auth-sdk@^1.0.0":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@next-sdk/auth-sdk/-/auth-sdk-1.0.1.tgz#dc217556d6eddee4c143b419a25d7b3972fb06e2"

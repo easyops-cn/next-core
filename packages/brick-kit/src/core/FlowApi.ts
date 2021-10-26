@@ -1,5 +1,5 @@
 import yaml from "js-yaml";
-import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
+import { ContractApi_searchSingleContract } from "@next-sdk/api-gateway-sdk";
 import { CustomApiDefinition, CustomApiProfile } from "./interfaces";
 import { _internalApiGetMicroAppApiOrchestrationMap } from "./Runtime";
 
@@ -151,31 +151,21 @@ function fetchFlowApiDefinition(
 async function _fetchFlowApiDefinition(
   provider: string
 ): Promise<CustomApiDefinition> {
-  const [namespace, nameWithVersion] = provider.split("@");
+  const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
-  const result = await InstanceApi_postSearch("_INTERFACE_CONTRACT@EASYOPS", {
-    page: 1,
-    page_size: 1,
-    fields: {
-      name: true,
-      endpoint: true,
-      response: true,
-      "namespace.name": true,
-      version: true,
-    },
-    query: {
-      name,
-      version,
-      "namespace.name": namespace,
-    },
+  const { contractData = {} } = await ContractApi_searchSingleContract({
+    name,
+    version,
+    namespaceName,
   });
-  return result.list.map((item) => ({
-    name: item.name,
-    namespace: item.namespace[0].name,
-    version: item.version,
+
+  return {
+    name: contractData.name,
+    namespace: contractData.namespace?.[0]?.name,
+    version: contractData.version,
     contract: {
-      endpoint: item.endpoint,
-      response: item.response,
+      endpoint: contractData.endpoint,
+      response: contractData.response,
     },
-  }))[0];
+  };
 }
