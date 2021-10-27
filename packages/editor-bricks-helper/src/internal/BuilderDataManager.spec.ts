@@ -225,8 +225,12 @@ Object {
   });
 
   it("should add node", () => {
+    const listenOnNodeAddBefore = jest.fn();
     const listenOnNodeAdd = jest.fn();
     const listenOnDataChange = jest.fn();
+    const unlistenOnNodeAddBefore = manager.onNodeAddBefore(
+      listenOnNodeAddBefore
+    );
     const unlistenOnNodeAdd = manager.onNodeAdd(listenOnNodeAdd);
     const unlistenOnDataChange = manager.onDataChange(listenOnDataChange);
     manager.nodeAdd({
@@ -310,8 +314,10 @@ Object {
   "type": "brick",
 }
 `);
+    expect(listenOnNodeAddBefore).toBeCalled();
     expect(listenOnNodeAdd).toBeCalled();
     expect(listenOnDataChange).toBeCalled();
+    unlistenOnNodeAddBefore();
     unlistenOnNodeAdd();
     unlistenOnDataChange();
   });

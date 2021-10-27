@@ -37,6 +37,7 @@ import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
 
 enum BuilderInternalEventType {
+  NODE_ADD_BEFORE = "builder.node.beforeAdd",
   NODE_ADD = "builder.node.add",
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
@@ -197,9 +198,47 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
+  updateBrick(detail: EventDetailOfNodeAdd) {
+    const { rootId, nodes, edges } = this.data;
+    const { nodeUid, parentUid, nodeUids, nodeData } = detail;
+
+    const { nodes: addNodes, edges: addEdges } = getAppendingNodesAndEdges(
+      omit(nodeData, [
+        "parent",
+      ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+      nodeUid,
+      this.templateSourceMap,
+      this.getStoryList()
+    );
+
+    nodes.splice(
+      nodes.findIndex((oldItem) => oldItem.$$uid === nodeUid),
+      1,
+      ...addNodes
+    );
+
+    const newData = {
+      rootId,
+      nodes,
+      edges: edges.concat(addEdges),
+    };
+    this.data = {
+      ...newData,
+      edges: reorderBuilderEdges(newData, {
+        parentUid,
+        nodeUids,
+      }),
+    };
+    this.triggerDataChange();
+  }
+
   nodeAdd(detail: EventDetailOfNodeAdd): void {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
+
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_ADD_BEFORE, { detail })
+    );
 
     const { nodes: appendingNodes, edges: appendingEdges } =
       getAppendingNodesAndEdges(
@@ -415,6 +454,21 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.DATA_CHANGE,
         fn
+      );
+    };
+  }
+
+  onNodeAddBefore(
+    fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.NODE_ADD_BEFORE,
+      fn as EventListener
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.NODE_ADD,
+        fn as EventListener
       );
     };
   }
