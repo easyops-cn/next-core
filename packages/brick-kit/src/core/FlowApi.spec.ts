@@ -73,8 +73,8 @@ jest
 jest
   .spyOn(apiGatewaySdk, "ContractApi_searchSingleContract")
   .mockImplementation((params) => {
-    switch (params.name) {
-      case "getStatus":
+    switch (params.contractName) {
+      case "easyops.custom_api.getStatus":
         return {
           contractData: {
             name: "getStatus",
@@ -86,7 +86,7 @@ jest
             namespace: [{ name: "easyops.custom_api" }],
           },
         } as any;
-      case "exportMarkdown":
+      case "easyops.custom_api.exportMarkdown":
         return {
           contractData: {
             name: "exportMarkdown",
