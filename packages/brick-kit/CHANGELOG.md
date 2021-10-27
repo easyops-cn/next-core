@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.78.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.1...@next-core/brick-kit@2.78.2) (2021-10-27)
+
+
+### Bug Fixes
+
+* replace cmdb provider with new provider ([d7b33bd](https://github.com/easyops-cn/next-core/commit/d7b33bd6a653bb73f2ae2d112a8eee5b49434ee5))
+
+
+
+
+
 ## [2.78.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.0...@next-core/brick-kit@2.78.1) (2021-10-22)
 
 **Note:** Version bump only for package @next-core/brick-kit

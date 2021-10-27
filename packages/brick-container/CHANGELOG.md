@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.34.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.34.6...@next-core/brick-container@2.34.7) (2021-10-27)
+
+
+### Bug Fixes
+
+* replace cmdb provider with new provider ([d7b33bd](https://github.com/easyops-cn/next-core/commit/d7b33bd6a653bb73f2ae2d112a8eee5b49434ee5))
+
+
+
+
+
 ## [2.34.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.34.5...@next-core/brick-container@2.34.6) (2021-10-25)
 
 **Note:** Version bump only for package @next-core/brick-container
