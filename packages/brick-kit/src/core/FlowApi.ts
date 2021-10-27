@@ -154,9 +154,8 @@ async function _fetchFlowApiDefinition(
   const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
   const { contractData = {} } = await ContractApi_searchSingleContract({
-    name,
+    contractName: `${namespaceName}.${name}`,
     version,
-    namespaceName,
   });
 
   return {
