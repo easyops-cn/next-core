@@ -37,7 +37,6 @@ import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
 
 enum BuilderInternalEventType {
-  NODE_ADD_BEFORE = "builder.node.beforeAdd",
   NODE_ADD = "builder.node.add",
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
@@ -198,7 +197,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
-  updateBrick(detail: EventDetailOfNodeAdd) {
+  runAddNodeAction = (detail: EventDetailOfNodeAdd) => {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
@@ -211,46 +210,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       this.getStoryList()
     );
 
-    nodes.splice(
-      nodes.findIndex((oldItem) => oldItem.$$uid === nodeUid),
-      1,
-      ...addNodes
-    );
-
-    const newData = {
-      rootId,
-      nodes,
-      edges: edges.concat(addEdges),
-    };
-    this.data = {
-      ...newData,
-      edges: reorderBuilderEdges(newData, {
-        parentUid,
-        nodeUids,
-      }),
-    };
-    this.triggerDataChange();
-  }
-
-  nodeAdd(detail: EventDetailOfNodeAdd): void {
-    const { rootId, nodes, edges } = this.data;
-    const { nodeUid, parentUid, nodeUids, nodeData } = detail;
-
-    this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.NODE_ADD_BEFORE, { detail })
-    );
-
-    const { nodes: appendingNodes, edges: appendingEdges } =
-      getAppendingNodesAndEdges(
-        omit(nodeData, [
-          "parent",
-        ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
-        nodeUid,
-        this.templateSourceMap,
-        this.storyList
-      );
-
-    const newNodes = nodes.concat(appendingNodes);
+    const newNodes = nodes.concat(addNodes);
     const newEdges = edges
       .concat({
         parent: parentUid,
@@ -259,7 +219,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
         sort: undefined,
         $$isTemplateDelegated: isParentExpandableTemplate(nodes, parentUid),
       })
-      .concat(appendingEdges);
+      .concat(addEdges);
 
     const newData = {
       rootId,
@@ -274,6 +234,17 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       }),
     };
     this.triggerDataChange();
+  };
+
+  updateBrick(detail: EventDetailOfNodeAdd) {
+    this.data = deleteNodeFromTree(detail.nodeUid, this.data);
+
+    this.runAddNodeAction(detail);
+  }
+
+  nodeAdd(detail: EventDetailOfNodeAdd): void {
+    this.runAddNodeAction(detail);
+
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_ADD, { detail })
     );
@@ -454,21 +425,6 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.DATA_CHANGE,
         fn
-      );
-    };
-  }
-
-  onNodeAddBefore(
-    fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void
-  ): () => void {
-    this.eventTarget.addEventListener(
-      BuilderInternalEventType.NODE_ADD_BEFORE,
-      fn as EventListener
-    );
-    return (): void => {
-      this.eventTarget.removeEventListener(
-        BuilderInternalEventType.NODE_ADD,
-        fn as EventListener
       );
     };
   }
