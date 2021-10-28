@@ -107,17 +107,18 @@ export class Kernel {
     this.breadcrumb = new BaseBar(this, "breadcrumb");
     this.footer = new BaseBar(this, "footer");
     this.router = new Router(this);
-    await this.router.bootstrap();
-    this.authGuard();
-    listenDevtools();
 
     // init analytics
     const gaMeasurementId = getRuntime().getMiscSettings()
       .gaMeasurementId as string;
 
     if (gaMeasurementId) {
-      userAnalytics.init({ gaMeasurementId });
+      userAnalytics.init({ gaMeasurementId, sendPageView: false });
     }
+
+    await this.router.bootstrap();
+    this.authGuard();
+    listenDevtools();
   }
 
   async layoutBootstrap(layout: LayoutType): Promise<void> {

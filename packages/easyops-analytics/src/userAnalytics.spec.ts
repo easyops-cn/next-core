@@ -4,6 +4,7 @@ describe("userAnalytics", () => {
   const sypOnConsoleError = jest.spyOn(console, "error");
   const sypOnConsoleInfo = jest.spyOn(console, "info");
   const gaMeasurementId = "GA-MEASUREMENT-ID";
+  const sendPageView = false;
   const action = "action";
   const data = { prop1: 123 };
 
@@ -19,7 +20,7 @@ describe("userAnalytics", () => {
   });
 
   it("should work", () => {
-    userAnalytics.init({ gaMeasurementId });
+    userAnalytics.init({ gaMeasurementId, sendPageView });
 
     const gtagScript = document.head.querySelector("script:last-child");
 
@@ -29,7 +30,11 @@ describe("userAnalytics", () => {
     );
     expect(window.dataLayer[0][0]).toBe("js");
     expect(window.dataLayer[0][1]).toBeInstanceOf(Date);
-    expect([...window.dataLayer[1]]).toEqual(["config", gaMeasurementId]);
+    expect([...window.dataLayer[1]]).toEqual([
+      "config",
+      gaMeasurementId,
+      { send_page_view: sendPageView },
+    ]);
 
     const result = userAnalytics.event(action, data);
     const lastIndex = window.dataLayer.length - 1;

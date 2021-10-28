@@ -16,8 +16,6 @@ import {
   PluginRuntimeContext,
   BrickEventHandler,
   ResolveConf,
-  RouteConfOfRoutes,
-  RouteConfOfBricks,
   StaticMenuProps,
   SeguesConf,
   ContextConf,
@@ -27,6 +25,8 @@ import {
   BrickLifeCycle,
   Storyboard,
   StaticMenuConf,
+  isRouteConfOfBricks,
+  isRouteConfOfRoutes,
 } from "@next-core/brick-types";
 import {
   isObject,
@@ -107,6 +107,7 @@ export interface MountRoutesResult {
     hybrid?: boolean;
     failed?: boolean;
   };
+  analyticsData?: Record<string, unknown>;
 }
 
 interface BrickAndLifeCycleHandler {
@@ -393,19 +394,24 @@ export class LocationContext {
           mountRoutesResult.appBar.documentId = route.documentId;
         }
 
-        if (route.type === "routes") {
-          await this.mountRoutes(
-            (route as RouteConfOfRoutes).routes,
-            slotId,
-            mountRoutesResult
-          );
-        } else if (Array.isArray((route as RouteConfOfBricks).bricks)) {
+        if (isRouteConfOfRoutes(route) && Array.isArray(route.routes)) {
+          await this.mountRoutes(route.routes, slotId, mountRoutesResult);
+        } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
           await this.mountBricks(
-            (route as RouteConfOfBricks).bricks,
+            route.bricks,
             matched.match,
             slotId,
             mountRoutesResult
           );
+
+          // analytics data (page_view event)
+          if (route.analyticsData) {
+            mountRoutesResult.analyticsData = computeRealValue(
+              route.analyticsData,
+              context,
+              true
+            ) as Record<string, unknown>;
+          }
         }
     }
     return mountRoutesResult;

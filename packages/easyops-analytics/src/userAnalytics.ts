@@ -1,5 +1,6 @@
 export interface UserAnalyticsInitOptions {
   gaMeasurementId?: string;
+  sendPageView?: boolean;
 }
 
 let initialized = false;
@@ -14,7 +15,7 @@ export const userAnalytics = {
       return;
     }
 
-    const { gaMeasurementId } = options;
+    const { gaMeasurementId, sendPageView = true } = options;
 
     if (gaMeasurementId) {
       const gtagScript = document.createElement("script");
@@ -34,7 +35,7 @@ export const userAnalytics = {
       };
 
       gtag("js", new Date());
-      gtag("config", gaMeasurementId);
+      gtag("config", gaMeasurementId, { send_page_view: sendPageView });
 
       initialized = true;
     }
