@@ -27,11 +27,10 @@ function getServerPath(server) {
   return server;
 }
 
-// When start webpack-dev-server for brick-container,
-// the `cwd` is empty.
-module.exports = (cwd) => {
+module.exports = () => {
   let flags = {};
-  if (cwd) {
+  const isWebpackServe = process.env.WEBPACK_SERVE === "true";
+  if (!isWebpackServe) {
     const flagOptions = {
       offline: {
         type: "boolean",
@@ -157,8 +156,9 @@ module.exports = (cwd) => {
 
   const _standalone = flags.standalone || process.env.STANDALONE === "true";
 
-  const rootDir = path.join(__dirname, "../../..");
-  const contextDir = cwd || rootDir;
+  const rootDir = process.env.INIT_CWD.endsWith("/packages/brick-container")
+    ? path.join(process.env.INIT_CWD, "../..")
+    : process.env.INIT_CWD;
   const nextRepoDir = getBrickNextDir();
 
   const { usePublicScope, standalone: confStandalone } =
@@ -218,11 +218,11 @@ module.exports = (cwd) => {
         return devConfig.nextRepoDir;
       }
     }
-    return cwd || rootDir;
+    return rootDir;
   }
 
   function getDevConfig() {
-    const devConfigJsPath = path.join(contextDir, "dev.config.js");
+    const devConfigJsPath = path.join(rootDir, "dev.config.js");
     if (fs.existsSync(devConfigJsPath)) {
       return require(devConfigJsPath);
     }
@@ -257,6 +257,7 @@ module.exports = (cwd) => {
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
 
   const env = {
+    rootDir,
     standalone,
     useOffline,
     useSubdir,
@@ -318,7 +319,7 @@ module.exports = (cwd) => {
   }
 
   env.useLocalContainer =
-    standalone || !cwd || !env.useRemote || flags.localContainer;
+    standalone || isWebpackServe || !env.useRemote || flags.localContainer;
 
   env.mockedMicroApps = env.mocked ? getNamesOfMicroApps(env, true) : [];
 

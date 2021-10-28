@@ -17,7 +17,7 @@ const distDir = path.dirname(
   require.resolve("@next-core/brick-container/dist/index.html")
 );
 
-const env = getEnv(process.cwd());
+const env = getEnv();
 
 const port = env.port;
 
