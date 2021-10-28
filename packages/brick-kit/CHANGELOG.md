@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.79.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.79.0...@next-core/brick-kit@2.79.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* **useBrick:** fix useBrick accpet object data ([6c84290](https://github.com/easyops-cn/next-core/commit/6c84290959c8ab624a6ffd675a62d800c84caaab))
+
+
+
+
+
 # [2.79.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.4...@next-core/brick-kit@2.79.0) (2021-10-28)
 
 
