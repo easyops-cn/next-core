@@ -293,6 +293,9 @@ export interface RouteConfOfBricks extends BaseRouteConf {
 
   /** 构件列表。 */
   bricks: BrickConf[];
+
+  /** 分析数据。 */
+  analyticsData?: Record<string, unknown>;
 }
 
 /**

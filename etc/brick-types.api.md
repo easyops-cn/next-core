@@ -1588,6 +1588,7 @@ export type RouteConf = RouteConfOfBricks | RouteConfOfRoutes | RouteConfOfRedir
 
 // @public
 export interface RouteConfOfBricks extends BaseRouteConf {
+    analyticsData?: Record<string, unknown>;
     bricks: BrickConf[];
     // (undocumented)
     type?: "bricks";
