@@ -442,9 +442,46 @@ describe("LocationContext", () => {
                             bricks: [
                               {
                                 brick: "slots-in-useBrick-d",
+                                slots: "error",
+                              },
+                              {
+                                brick: "slots-in-useBrick-g",
+                                slots: null,
+                              },
+                              {
+                                brick: "slots-in-useBrick-h",
+                                slots: [
+                                  {
+                                    brick: "slots-in-brick-i",
+                                  },
+                                ],
                               },
                             ],
                             type: "bricks",
+                          },
+                          error1: {
+                            bricks: {
+                              brick: "error-brick",
+                            },
+                          },
+                          error2: {
+                            bricks: [
+                              {
+                                useBrick: "1",
+                                slots: {
+                                  content: "slots-in-brick-j",
+                                },
+                              },
+                              {
+                                useBrick: 2,
+                              },
+                              {
+                                useBrick: null,
+                              },
+                              {
+                                useBrick: undefined,
+                              },
+                            ],
                           },
                         },
                       },
@@ -452,6 +489,7 @@ describe("LocationContext", () => {
                         {
                           title: "title-1",
                           label: "label-1",
+                          useBrick: true,
                         },
                         {
                           title: "title-2",
@@ -806,10 +844,53 @@ describe("LocationContext", () => {
               bricks: [
                 {
                   brick: "slots-in-useBrick-d",
+                  slots: "error",
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  brick: "slots-in-useBrick-g",
+                  slots: null,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  brick: "slots-in-useBrick-h",
+                  slots: [
+                    {
+                      brick: "slots-in-brick-i",
+                    },
+                  ],
                   [symbolForTplContextId]: "tpl-1",
                 },
               ],
               type: "bricks",
+            },
+            error1: {
+              bricks: {
+                brick: "error-brick",
+              },
+            },
+            error2: {
+              bricks: [
+                {
+                  useBrick: "1",
+                  slots: {
+                    content: "slots-in-brick-j",
+                  },
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  useBrick: 2,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  useBrick: null,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  useBrick: undefined,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+              ],
             },
           },
         },
@@ -817,6 +898,7 @@ describe("LocationContext", () => {
           {
             title: "title-1",
             label: "label-1",
+            useBrick: true,
           },
           {
             title: "title-2",

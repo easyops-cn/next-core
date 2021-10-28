@@ -759,18 +759,21 @@ export class LocationContext {
       });
     };
     const setTplIdForUseBrick = (list: RuntimeBrickConfWithTplSymbols[]) => {
-      list.forEach((item) => {
-        if (Array.isArray(item)) {
-          setTplIdForUseBrick(item);
-        } else {
-          item[symbolForTplContextId] = tplContextId;
-          if (item.slots) {
-            Object.values(item.slots).forEach((slotItem) => {
-              setTplIdForUseBrick((slotItem as any).bricks);
-            });
+      if (Array.isArray(list)) {
+        list.forEach((item) => {
+          if (Array.isArray(item)) {
+            setTplIdForUseBrick(item);
+          } else {
+            item[symbolForTplContextId] = tplContextId;
+            if (item.slots) {
+              const slotsContent = Object.values(item.slots);
+              slotsContent.forEach((slotItem) => {
+                setTplIdForUseBrick((slotItem as any).bricks);
+              });
+            }
           }
-        }
-      });
+        });
+      }
     };
     // 如果properteis中存在useBrick, 则递归遍历并赋值tplContextId
     if (tplContextId) {
