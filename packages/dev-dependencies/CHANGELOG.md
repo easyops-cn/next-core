@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.11.16...@next-core/dev-dependencies@1.12.0) (2021-10-28)
+
+
+### Features
+
+* update resolutions of ua-parser-js ([47cc288](https://github.com/easyops-cn/next-core/commit/47cc2889eabebdd72222b5fb4117fdf844b06a0a))
+
+
+
+
+
 ## [1.11.16](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.11.15...@next-core/dev-dependencies@1.11.16) (2021-10-28)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
