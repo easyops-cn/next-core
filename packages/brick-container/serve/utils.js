@@ -206,8 +206,8 @@ function mergeSettings(defaultSettings, userSettings) {
   return defaultSettings;
 }
 
-function getUserSettings() {
-  const yamlPath = path.join(process.cwd(), "dev-settings.yaml");
+function getUserSettings(env) {
+  const yamlPath = path.join(env.rootDir, "dev-settings.yaml");
   if (!fs.existsSync(yamlPath)) {
     return {};
   }
@@ -233,7 +233,7 @@ function getDevSettings() {
   };
 }
 
-function getSettings() {
+function getSettings(env) {
   const defaultSettings = mergeSettings(
     {
       featureFlags: {},
@@ -243,7 +243,7 @@ function getSettings() {
     },
     getDevSettings()
   );
-  return mergeSettings(defaultSettings, getUserSettings());
+  return mergeSettings(defaultSettings, getUserSettings(env));
 }
 
 // Resolve all symlinks of subdir to real path.

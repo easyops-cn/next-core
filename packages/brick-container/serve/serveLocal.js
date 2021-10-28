@@ -141,7 +141,7 @@ module.exports = (env, app) => {
           ),
           brickPackages: getBrickPackages(env),
           templatePackages: getTemplatePackages(env),
-          settings: getSettings(),
+          settings: getSettings(env),
         },
       });
     });

@@ -105,11 +105,14 @@ module.exports = (env) => {
               );
           }
           if (useLocalSettings) {
-            data.settings = getSettings();
+            data.settings = getSettings(env);
           } else {
             data.settings = mergeSettings(data.settings, getDevSettings());
             if (useMergeSettings) {
-              data.settings = mergeSettings(data.settings, getUserSettings());
+              data.settings = mergeSettings(
+                data.settings,
+                getUserSettings(env)
+              );
             }
           }
           return JSON.stringify(result);
