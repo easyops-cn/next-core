@@ -277,6 +277,18 @@ export interface RuntimeStoryboard extends Storyboard {
   $$fulfilling?: Promise<void>;
 }
 
+export function isRouteConfOfBricks(
+  conf: RouteConf
+): conf is RouteConfOfBricks {
+  return conf.type !== "routes" && !!(conf as RouteConfOfBricks).bricks;
+}
+
+export function isRouteConfOfRoutes(
+  conf: RouteConf
+): conf is RouteConfOfRoutes {
+  return conf.type === "routes";
+}
+
 /**
  * 路由配置，类型可以是构件列表、子路由列表和重定向中的一种。
  */

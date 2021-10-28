@@ -1142,6 +1142,12 @@ export interface InterceptorParams {
     ignoreLoadingBar?: boolean;
 }
 
+// @public (undocumented)
+export function isRouteConfOfBricks(conf: RouteConf): conf is RouteConfOfBricks;
+
+// @public (undocumented)
+export function isRouteConfOfRoutes(conf: RouteConf): conf is RouteConfOfRoutes;
+
 // Warning: (ae-internal-missing-underscore) The name "LayerType" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
