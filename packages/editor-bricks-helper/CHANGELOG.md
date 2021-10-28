@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.31.7...@next-core/editor-bricks-helper@0.32.0) (2021-10-28)
+
+
+### Features
+
+* **buildDataManage:** add the updateBrick function to update the widget ([a5929b4](https://github.com/easyops-cn/next-core/commit/a5929b4dee4148d95c6e37b4fe6eb2b4ee9f8570))
+* **buildDataManage:** update api.md ([93dbfe3](https://github.com/easyops-cn/next-core/commit/93dbfe3c22175c3242bc05a6fce1c02356633669))
+* **buildDataManage:** update unit test ([4a6f6f4](https://github.com/easyops-cn/next-core/commit/4a6f6f469c29977ed4741d7fe19f8fbad088116e))
+
+
+
+
+
 ## [0.31.7](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.31.6...@next-core/editor-bricks-helper@0.31.7) (2021-10-27)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper

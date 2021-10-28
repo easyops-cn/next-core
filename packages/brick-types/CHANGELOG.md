@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.43.0...@next-core/brick-types@2.44.0) (2021-10-28)
+
+
+### Features
+
+* **buildDataManage:** add the updateBrick function to update the widget ([a5929b4](https://github.com/easyops-cn/next-core/commit/a5929b4dee4148d95c6e37b4fe6eb2b4ee9f8570))
+
+
+
+
+
 # [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.42.0...@next-core/brick-types@2.43.0) (2021-10-21)
 
 
