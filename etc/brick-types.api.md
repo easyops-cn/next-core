@@ -1886,6 +1886,8 @@ export interface Story {
     // (undocumented)
     icon?: MenuIcon;
     // (undocumented)
+    isCustomTemplate?: boolean;
+    // (undocumented)
     layerType?: LayerType;
     // (undocumented)
     originData?: BuilderCustomTemplateNode;
