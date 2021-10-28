@@ -101,6 +101,8 @@ jest
             namespace: [{ name: "easyops.custom_api" }],
           },
         } as any;
+      case "invalid.export_api":
+        return {};
     }
   });
 
@@ -193,5 +195,9 @@ describe("FlowApi", () => {
         'Missing endpoint.uri in contract of provider "easyops.custom_api@apiWithoutMethodAndUri"'
       )
     );
+
+    await expect(() =>
+      getArgsOfCustomApi("invalid@export_api:1.0.0", [])
+    ).rejects.toThrow('Flow API not found: "invalid@export_api:1.0.0"');
   });
 });
