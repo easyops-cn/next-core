@@ -211,15 +211,17 @@ function getUserSettings(env) {
   if (!fs.existsSync(yamlPath)) {
     return {};
   }
-  const { feature_flags: featureFlags, ...rest } = yaml.safeLoad(
-    fs.readFileSync(yamlPath, "utf8"),
-    {
-      schema: yaml.JSON_SCHEMA,
-      json: true,
-    }
-  );
+  const {
+    feature_flags: featureFlags,
+    misc,
+    ...rest
+  } = yaml.safeLoad(fs.readFileSync(yamlPath, "utf8"), {
+    schema: yaml.JSON_SCHEMA,
+    json: true,
+  });
   return {
     featureFlags,
+    misc,
     ...rest,
   };
 }
