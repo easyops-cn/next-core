@@ -137,7 +137,11 @@ module.exports = async function patch() {
   }
 
   if (semver.lt(currentRenewVersion, "1.8.26")) {
-    updateResolutions();
+    // Add a resolution to fix an issue of `clearImmediate is not defined`.
+    // See https://github.com/testing-library/dom-testing-library/issues/899
+    updateResolutions({
+      "@testing-library/dom": "^7.31.2",
+    });
   }
 
   if (semver.lt(currentRenewVersion, "1.9.1")) {
@@ -167,6 +171,15 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.11.6")) {
     removeRenovateLegacyBaseBranches();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.12.0")) {
+    // There is a security issue for specific versions of ua-parser-js.
+    // See https://github.com/faisalman/ua-parser-js/issues/536
+    updateResolutions({
+      // Use the very current version of `0.7.19` to change nothing currently.
+      "ua-parser-js": "0.7.19",
+    });
   }
 
   updateDevDependenciesVersion();

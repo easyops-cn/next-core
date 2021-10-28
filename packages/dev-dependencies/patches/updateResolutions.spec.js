@@ -15,7 +15,9 @@ describe("updateResolutions", () => {
     mockFsReadJsonSync.mockReturnValueOnce({
       name: "any",
     });
-    updateResolutions();
+    updateResolutions({
+      "@testing-library/dom": "^7.31.2",
+    });
     expect(mockFsWriteJsonSync).toBeCalledWith(
       expect.stringContaining("package.json"),
       {
@@ -34,7 +36,9 @@ describe("updateResolutions", () => {
         lodash: "^4.17.21",
       },
     });
-    updateResolutions();
+    updateResolutions({
+      "@testing-library/dom": "^7.31.2",
+    });
     expect(mockFsWriteJsonSync).toBeCalledWith(
       expect.stringContaining("package.json"),
       {
@@ -54,7 +58,9 @@ describe("updateResolutions", () => {
         "@testing-library/dom": "^7.31.2",
       },
     });
-    updateResolutions();
+    updateResolutions({
+      "@testing-library/dom": "^7.31.2",
+    });
     expect(mockFsWriteJsonSync).not.toBeCalled();
   });
 });
