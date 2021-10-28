@@ -12,7 +12,7 @@ import {
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
 } from "@next-core/brick-utils";
-import { apiAnalyzer } from "@next-core/easyops-analytics";
+import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   LocationContext,
   mountTree,
@@ -420,6 +420,9 @@ export class Router {
         window.scrollTo(0, 0);
 
         pageTracker?.(locationContext.getCurrentMatch().path);
+
+        // analytics page_view event
+        userAnalytics.event("page_view", mountRoutesResult.analyticsData);
 
         this.state = "mounted";
 

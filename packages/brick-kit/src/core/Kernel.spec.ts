@@ -842,6 +842,9 @@ describe("Kernel", () => {
     });
     mockGetMiscSettings.mockImplementationOnce(() => ({ gaMeasurementId }));
     await kernel.bootstrap({});
-    expect(sypOnUserAnalyticsInit).toBeCalledWith({ gaMeasurementId });
+    expect(sypOnUserAnalyticsInit).toBeCalledWith({
+      gaMeasurementId,
+      sendPageView: false,
+    });
   });
 });

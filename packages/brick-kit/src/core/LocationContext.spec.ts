@@ -410,6 +410,9 @@ describe("LocationContext", () => {
             routes: [
               {
                 path: "/",
+                analyticsData: {
+                  prop1: "<% CTX.myAsyncContext %>",
+                },
                 bricks: [
                   {
                     if: "${FLAGS.testing}",
@@ -722,6 +725,9 @@ describe("LocationContext", () => {
         flags: {
           barsHidden: true,
           redirect: undefined,
+        },
+        analyticsData: {
+          prop1: "even better",
         },
       });
       expect(result.main).toMatchObject([
