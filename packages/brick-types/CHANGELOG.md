@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.44.0...@next-core/brick-types@2.45.0) (2021-10-28)
+
+
+### Features
+
+* add isRouteConfOfBricks and isRouteConfOfRoutes ([2f15f6c](https://github.com/easyops-cn/next-core/commit/2f15f6ce8b0fc1c6120cc4f93c185402c5f2f72a))
+* RouteConfOfBricks add analyticsData property ([348752f](https://github.com/easyops-cn/next-core/commit/348752fa7d0886e506ea728a60687715f0d6b1b5))
+
+
+
+
+
 # [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.43.0...@next-core/brick-types@2.44.0) (2021-10-28)
 
 

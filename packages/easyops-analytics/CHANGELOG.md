@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.3.0...@next-core/easyops-analytics@0.4.0) (2021-10-28)
+
+
+### Features
+
+* **userAnalytics:** init function add sendPageView option ([9211a3a](https://github.com/easyops-cn/next-core/commit/9211a3a6a371d60de2e3ec55008a491eb5d3b96d))
+
+
+
+
+
 # [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.2.4...@next-core/easyops-analytics@0.3.0) (2021-10-21)
 
 
