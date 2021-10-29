@@ -153,18 +153,21 @@ async function _fetchFlowApiDefinition(
 ): Promise<CustomApiDefinition> {
   const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
-  const { contractData = {} } = await ContractApi_searchSingleContract({
+  const { contractData } = await ContractApi_searchSingleContract({
     contractName: `${namespaceName}.${name}`,
     version,
   });
 
-  return {
-    name: contractData.name,
-    namespace: contractData.namespace?.[0]?.name,
-    version: contractData.version,
-    contract: {
-      endpoint: contractData.endpoint,
-      response: contractData.response,
-    },
-  };
+  // return undefined if don't found contract
+  if (contractData) {
+    return {
+      name: contractData.name,
+      namespace: contractData.namespace?.[0]?.name,
+      version: contractData.version,
+      contract: {
+        endpoint: contractData.endpoint,
+        response: contractData.response,
+      },
+    };
+  }
 }
