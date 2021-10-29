@@ -570,8 +570,8 @@ function builtinAnalyticsListenerFactory(
     ];
     const runtime = getRuntime();
     userAnalytics.event(action, {
-      micro_app_id: runtime.getCurrentApp().id,
-      route_alias: runtime.getCurrentRoute().alias,
+      micro_app_id: runtime.getCurrentApp()?.id,
+      route_alias: runtime.getCurrentRoute()?.alias,
       ...data,
     });
   } as EventListener;
