@@ -304,8 +304,16 @@ export class Router {
         }
       }
 
-      const { main, menuInBg, menuBar, appBar, flags, portal } =
-        mountRoutesResult;
+      const {
+        main,
+        menuInBg,
+        menuBar,
+        appBar,
+        flags,
+        portal,
+        route,
+        analyticsData,
+      } = mountRoutesResult;
 
       const { unauthenticated, redirect, barsHidden, hybrid, failed } = flags;
 
@@ -324,6 +332,7 @@ export class Router {
         this.kernel.previousApp = previousApp;
       }
       this.kernel.currentUrl = createPath(location);
+      this.kernel.currentRoute = route;
       await Promise.all([
         this.kernel.updateWorkspaceStack(),
         this.kernel.layoutBootstrap(layoutType),
@@ -422,7 +431,11 @@ export class Router {
         pageTracker?.(locationContext.getCurrentMatch().path);
 
         // analytics page_view event
-        userAnalytics.event("page_view", mountRoutesResult.analyticsData);
+        userAnalytics.event("page_view", {
+          micro_app_id: this.kernel.currentApp.id,
+          route_alias: route?.alias,
+          ...analyticsData,
+        });
 
         this.state = "mounted";
 

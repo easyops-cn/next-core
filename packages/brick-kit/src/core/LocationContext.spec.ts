@@ -409,6 +409,7 @@ describe("LocationContext", () => {
             type: "routes",
             routes: [
               {
+                alias: "route alias",
                 path: "/",
                 analyticsData: {
                   prop1: "<% CTX.myAsyncContext %>",
@@ -746,6 +747,10 @@ describe("LocationContext", () => {
         getInitialMountResult()
       );
       expect(result).toMatchObject({
+        route: expect.objectContaining({
+          path: "/",
+          alias: "route alias",
+        }),
         menuBar: {
           menu: {
             title: "menu title",

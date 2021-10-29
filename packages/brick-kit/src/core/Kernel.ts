@@ -30,6 +30,7 @@ import {
   StoryboardMeta,
   LayoutType,
   PresetBricksConf,
+  RouteConf,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
@@ -71,6 +72,7 @@ export class Kernel {
   public previousApp: MicroApp;
   public nextApp: MicroApp;
   public currentUrl: string;
+  public currentRoute: RouteConf;
   public workspaceStack: VisitedWorkspace[] = [];
   public currentLayout: LayoutType;
   public enableUiV8 = false;

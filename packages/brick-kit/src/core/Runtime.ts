@@ -13,6 +13,7 @@ import {
   TemplatePackage,
   SiteMapItem,
   SidebarMenu,
+  RouteConf,
 } from "@next-core/brick-types";
 import compareVersions from "compare-versions";
 import {
@@ -109,6 +110,11 @@ export class Runtime implements AbstractRuntime {
   /* istanbul ignore next */
   getRecentApps(): RecentApps {
     return kernel.getRecentApps();
+  }
+
+  /* istanbul ignore next */
+  getCurrentRoute(): RouteConf {
+    return kernel.currentRoute;
   }
 
   getMicroApps({

@@ -182,6 +182,9 @@ describe("Router", () => {
     });
     __setMountRoutesResults(
       {
+        route: {
+          alias: "route alias",
+        },
         main: [
           {
             type: "p",
@@ -219,7 +222,11 @@ describe("Router", () => {
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
     expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
     expect(preCheckPermissions).toBeCalled();
-    expect(mockUserAnalyticsEvent).toBeCalledWith("page_view", analyticsData);
+    expect(mockUserAnalyticsEvent).toBeCalledWith("page_view", {
+      micro_app_id: "hello",
+      route_alias: "route alias",
+      ...analyticsData,
+    });
   });
 
   it("should redirect to login page if not logged in.", async () => {

@@ -18,11 +18,13 @@ import { message } from "antd";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
+import { getRuntime } from "../runtime";
 
 jest.mock("../history");
 jest.mock("../core/MessageDispatcher");
 jest.mock("../themeAndMode");
 jest.mock("./menu");
+jest.mock("../runtime");
 
 // Mock a custom element of `any-provider`.
 customElements.define(
@@ -67,6 +69,14 @@ const mockMessageDispatcher = {
 } as any;
 
 (getMessageDispatcher as jest.Mock).mockReturnValue(mockMessageDispatcher);
+(getRuntime as jest.Mock).mockReturnValue({
+  getCurrentApp: () => ({
+    id: "micro-app-id",
+  }),
+  getCurrentRoute: () => ({
+    alias: "route alias",
+  }),
+});
 
 const mockMessageSuccess = jest.spyOn(message, "success");
 const mockMessageError = jest.spyOn(message, "error");
@@ -493,7 +503,7 @@ describe("bindListeners", () => {
         },
         {
           action: "analytics.event",
-          args: ["action", { url: "<% location.href %>" }],
+          args: ["action", { param1: "<% CTX.myNewContext.hello %>" }],
         },
       ],
       key2: [
@@ -688,7 +698,9 @@ describe("bindListeners", () => {
     expect(window.location.assign).toBeCalledWith("www.baidu.com");
 
     expect(sypOnUserAnalyticsEvent).toBeCalledWith("action", {
-      url: window.location.href,
+      micro_app_id: "micro-app-id",
+      route_alias: "route alias",
+      param1: "world",
     });
 
     window.location = location;
