@@ -107,6 +107,7 @@ export interface MountRoutesResult {
     hybrid?: boolean;
     failed?: boolean;
   };
+  route?: RouteConf;
   analyticsData?: Record<string, unknown>;
 }
 
@@ -344,7 +345,7 @@ export class LocationContext {
         mountRoutesResult.flags.unauthenticated = true;
         break;
       default:
-        route = matched.route;
+        mountRoutesResult.route = route = matched.route;
         if (route.segues) {
           Object.assign(this.segues, route.segues);
         }

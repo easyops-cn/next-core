@@ -35,6 +35,7 @@ import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
 import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
 import { getArgsOfCustomApi } from "../core/FlowApi";
+import { getRuntime } from "../runtime";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -567,7 +568,12 @@ function builtinAnalyticsListenerFactory(
       string,
       Record<string, unknown>
     ];
-    userAnalytics.event(action, data);
+    const runtime = getRuntime();
+    userAnalytics.event(action, {
+      micro_app_id: runtime.getCurrentApp().id,
+      route_alias: runtime.getCurrentRoute().alias,
+      ...data,
+    });
   } as EventListener;
 }
 
