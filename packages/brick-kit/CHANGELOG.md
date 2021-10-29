@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.80.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.79.2...@next-core/brick-kit@2.80.0) (2021-10-29)
+
+
+### Features
+
+* **analytics:** event add micro_app_id and route_alias parameters ([693ede0](https://github.com/easyops-cn/next-core/commit/693ede08e704e5586afbb36be82a67889a796d42))
+
+
+
+
+
 ## [2.79.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.79.1...@next-core/brick-kit@2.79.2) (2021-10-29)
 
 
