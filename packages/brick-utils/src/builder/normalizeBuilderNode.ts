@@ -71,6 +71,7 @@ const disposableNullFields = [
   "exports",
   "ref",
   "portal",
+  "analyticsData"
 ];
 
 export function normalizeBuilderNode(node: BuilderBrickNode): BrickConf;
