@@ -23,7 +23,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "postcss-nested": "^4.2.3",
-    "rollup": "^2.58.3",
+    "rollup": "^2.59.0",
     "rollup-plugin-postcss": "^3.1.8",
     "string-hash": "^1.1.3"
   }
