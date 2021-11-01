@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.13...@next-core/brick-utils@2.28.14) (2021-11-01)
+
+
+### Bug Fixes
+
+* make `analyticsData: null` disposable ([392d3a5](https://github.com/easyops-cn/next-core/commit/392d3a55e9b8d11d9d098f709077eef1d06c1269))
+
+
+
+
+
 ## [2.28.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.12...@next-core/brick-utils@2.28.13) (2021-10-28)
 
 **Note:** Version bump only for package @next-core/brick-utils
