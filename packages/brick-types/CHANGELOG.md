@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.45.0...@next-core/brick-types@2.46.0) (2021-11-01)
+
+
+### Features
+
+* **brick-types:** interface Story add fields: useWidget ([1efa653](https://github.com/easyops-cn/next-core/commit/1efa653329a06bba934227e93277918e3dc233ea))
+* **brick-types:** update Story type ([f4d0e95](https://github.com/easyops-cn/next-core/commit/f4d0e95423bb089f2a999865a99bbe1e58ff3cb7))
+
+
+
+
+
 # [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.44.0...@next-core/brick-types@2.45.0) (2021-10-28)
 
 
