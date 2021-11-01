@@ -45,7 +45,7 @@ export interface Story {
   layerType?: LayerType;
   originData?: BuilderCustomTemplateNode;
   isCustomTemplate?: boolean;
-  useWidget: string[];
+  useWidget?: string[];
 }
 
 /** @internal */

@@ -1909,7 +1909,7 @@ export interface Story {
     // (undocumented)
     type: "brick" | "template";
     // (undocumented)
-    useWidget: string[];
+    useWidget?: string[];
 }
 
 // @public
