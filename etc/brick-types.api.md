@@ -1908,6 +1908,8 @@ export interface Story {
     text: I18nData;
     // (undocumented)
     type: "brick" | "template";
+    // (undocumented)
+    useWidget?: string[];
 }
 
 // @public
