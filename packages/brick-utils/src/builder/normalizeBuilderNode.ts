@@ -18,6 +18,7 @@ const jsonFieldsInRoute = [
   "segues",
   "defineResolves",
   "redirect",
+  "analyticsData",
 ];
 
 // Fields stored as yaml string will be parsed when build & push.

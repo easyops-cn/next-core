@@ -657,6 +657,8 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
 // @internal (undocumented)
 export interface BuilderRouteNode extends BuilderBaseNode {
     // (undocumented)
+    analyticsData?: Record<string, unknown> | string;
+    // (undocumented)
     context?: ContextConf[];
     // (undocumented)
     defineResolves?: string;
@@ -1594,7 +1596,7 @@ export type RouteConf = RouteConfOfBricks | RouteConfOfRoutes | RouteConfOfRedir
 
 // @public
 export interface RouteConfOfBricks extends BaseRouteConf {
-    analyticsData?: Record<string, unknown>;
+    analyticsData?: Record<string, unknown> | string;
     bricks: BrickConf[];
     // (undocumented)
     type?: "bricks";

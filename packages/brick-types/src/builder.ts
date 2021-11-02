@@ -28,6 +28,7 @@ export interface BuilderRouteNode extends BuilderBaseNode {
   defineResolves?: string;
   redirect?: string;
   context?: ContextConf[];
+  analyticsData?: Record<string, unknown> | string;
 }
 
 /** @internal */
