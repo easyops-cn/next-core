@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.46.0...@next-core/brick-types@2.47.0) (2021-11-02)
+
+
+### Features
+
+* BuilderRouteNode add analyticsData property ([ed1d401](https://github.com/easyops-cn/next-core/commit/ed1d401e4f47e7f6849cef0260cb355d2d8f7e01))
+
+
+
+
+
 # [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.45.0...@next-core/brick-types@2.46.0) (2021-11-01)
 
 
