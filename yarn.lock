@@ -3095,10 +3095,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.9.10":
-  version "4.9.10"
-  resolved "https://registry.npmjs.org/@types/echarts/-/echarts-4.9.10.tgz#a3dd598fbb3b36e797f3ce771be3fa8dc18a7da6"
-  integrity sha512-8xNCE5d+hUU5hZJxmxvngkkODIh19jQXpZ4X9EgfXkyyejGitm7lYdAssJLtUUEtMDD6C08Z4QPmNoezg7Y97g==
+"@types/echarts@^4.9.11":
+  version "4.9.11"
+  resolved "https://registry.npmjs.org/@types/echarts/-/echarts-4.9.11.tgz#556817b23c7ef575708c43380108802121e10599"
+  integrity sha512-0XiaXYu5a4NqPrmkWdT4GYId09pdHEFI+a8qs6UI4pMMiaRVxuV23IKrIffzFZQBWOJ5UH+9Xw+Qsp2XgHZ2uA==
   dependencies:
     "@types/zrender" "*"
 
