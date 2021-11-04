@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.81.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.80.3...@next-core/brick-kit@2.81.0) (2021-11-04)
+
+
+### Features
+
+* support getting misc settings in storyboard ([e661336](https://github.com/easyops-cn/next-core/commit/e661336015a970edebae053c9220f2df6527969e))
+
+
+
+
+
 ## [2.80.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.80.2...@next-core/brick-kit@2.80.3) (2021-11-02)
 
 **Note:** Version bump only for package @next-core/brick-kit
