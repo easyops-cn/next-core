@@ -677,12 +677,17 @@ async function brickCallback(
     });
     return;
   }
-  let computedArgs = argsFactory(handler.args, context, event, options);
 
-  if (isUseProviderHandler(handler)) {
-    computedArgs = await getArgsOfCustomApi(handler.useProvider, computedArgs);
-  }
-  const task = (): unknown => (target as any)[method](...computedArgs);
+  const task = async (): Promise<unknown> => {
+    let computedArgs = argsFactory(handler.args, context, event, options);
+    if (isUseProviderHandler(handler)) {
+      computedArgs = await getArgsOfCustomApi(
+        handler.useProvider,
+        computedArgs
+      );
+    }
+    return (target as any)[method](...computedArgs);
+  };
 
   const {
     success,
