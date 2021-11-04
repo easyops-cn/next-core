@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.0...@next-core/brick-kit@2.81.1) (2021-11-04)
+
+
+### Bug Fixes
+
+* update args during polling ([c892a21](https://github.com/easyops-cn/next-core/commit/c892a21c24e1deb66a0b1a2707918d382ef810a9))
+
+
+
+
+
 # [2.81.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.80.3...@next-core/brick-kit@2.81.0) (2021-11-04)
 
 
