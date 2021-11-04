@@ -42,7 +42,7 @@
     "@ant-design/icons": "^4.5.0",
     "@babel/core": "^7.16.0",
     "@babel/types": "^7.16.0",
-    "@cypress/browserify-preprocessor": "^3.0.1",
+    "@cypress/browserify-preprocessor": "^3.0.2",
     "@easyops-cn/api-documenter": "^7.9.3",
     "@microsoft/api-extractor": "^7.13.1",
     "@next-bricks/basic-bricks": "^1.133.2",
