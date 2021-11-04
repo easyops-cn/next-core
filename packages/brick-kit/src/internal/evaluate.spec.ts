@@ -65,6 +65,11 @@ const mockInstalledApps = ["my-app-id"];
       !(matchVersion && matchVersion.startsWith(">"))
     );
   },
+  getMiscSettings() {
+    return {
+      hello: "world",
+    };
+  },
 });
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
@@ -211,6 +216,7 @@ describe("evaluate", () => {
     ["<% INSTALLED_APPS.has('my-another-app-id') %>", false],
     ["<% FN.sayHello('world') %>", "Hello, world"],
     ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],
+    ["<% MISC.hello %>", "world"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

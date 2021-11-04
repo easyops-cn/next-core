@@ -298,6 +298,10 @@ export function evaluate(
     globalVariables.__WIDGET_FN__ = widgetFunctions;
   }
 
+  if (attemptToVisitGlobals.has("MISC")) {
+    globalVariables.MISC = getRuntime().getMiscSettings();
+  }
+
   try {
     const result = cook(precooked.expression, precooked.source, {
       globalVariables: supply(precooked.attemptToVisitGlobals, globalVariables),
