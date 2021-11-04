@@ -36,6 +36,7 @@ import { clearMenuTitleCache, clearMenuCache } from "./menu";
 import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
 import { getArgsOfCustomApi } from "../core/FlowApi";
 import { getRuntime } from "../runtime";
+import { getBasePath } from "./getBasePath";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -551,7 +552,19 @@ function builtinWindowListenerFactory(
       string,
       string
     ];
-    window.open(url, target || "_self", features);
+    const basePath = getBasePath();
+    let prefix = "";
+    if (
+      basePath !== "/" &&
+      typeof url === "string" &&
+      url.startsWith("/") &&
+      !url.startsWith("//") &&
+      !url.startsWith(basePath)
+    ) {
+      // Prefix base href for certain URLs.
+      prefix = getBasePath().replace(/\/$/, "");
+    }
+    window.open(`${prefix}${url}`, target || "_self", features);
   } as EventListener;
 }
 
