@@ -10685,6 +10685,14 @@ mock-socket@^9.0.5:
   dependencies:
     url-parse "^1.4.4"
 
+modify-source-webpack-plugin@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/modify-source-webpack-plugin/-/modify-source-webpack-plugin-3.0.0.tgz#4fe973adc6e3b11f2ae39f3645a39e423dbed861"
+  integrity sha512-m2g6QEittzzcde0PhgQtOwRywjqo8Q+vMLHbNoH2JDEFE/AlTBWvtNQrp17xbqDUXIueLljm4bhE5OninatHYw==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
+
 modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
@@ -15799,6 +15807,11 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
   dependencies:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
+
+webpack-virtual-modules@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.4.3.tgz#cd597c6d51d5a5ecb473eea1983a58fa8a17ded9"
+  integrity sha512-5NUqC2JquIL2pBAAo/VfBP6KuGkHIZQXW/lNKupLPfhViwh8wNsu0BObtl09yuKZszeEUfbXz8xhrHvSG16Nqw==
 
 webpack@^4.46.0:
   version "4.46.0"

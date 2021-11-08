@@ -7,9 +7,9 @@ module.exports = class ScanTemplatesPlugin {
 
   apply(compiler) {
     const templateSet = new Set();
-    compiler.hooks.normalModuleFactory.tap(pluginName, factory => {
-      factory.hooks.parser.for("javascript/auto").tap(pluginName, parser => {
-        parser.hooks.statement.tap(pluginName, statement => {
+    compiler.hooks.normalModuleFactory.tap(pluginName, (factory) => {
+      factory.hooks.parser.for("javascript/auto").tap(pluginName, (parser) => {
+        parser.hooks.statement.tap(pluginName, (statement) => {
           const { type, expression } = statement;
           if (
             type === "ExpressionStatement" &&
@@ -35,12 +35,24 @@ module.exports = class ScanTemplatesPlugin {
         });
       });
     });
-    compiler.hooks.emit.tap(pluginName, compilation => {
+
+    compiler.hooks.emit.tap(pluginName, (compilation) => {
       const templates = Array.from(templateSet);
-      const source = JSON.stringify({ templates }, null, 2);
+
+      const assetFilePath = Object.keys(compilation.assets).find(
+        (filePath) => filePath.startsWith("index.") && filePath.endsWith(".js")
+      );
+      const jsFilePath =
+        assetFilePath && `templates/${this.packageName}/dist/${assetFilePath}`;
+
+      const source = JSON.stringify(
+        { templates, filePath: jsFilePath },
+        null,
+        2
+      );
       compilation.assets["templates.json"] = {
         source: () => source,
-        size: () => source.length
+        size: () => source.length,
       };
       console.log("Defined templates:", templates);
     });
