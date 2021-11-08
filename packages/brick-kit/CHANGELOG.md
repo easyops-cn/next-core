@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.1...@next-core/brick-kit@2.81.2) (2021-11-08)
+
+
+### Bug Fixes
+
+* window.open should follow base href ([0444f63](https://github.com/easyops-cn/next-core/commit/0444f63130ae58c9a8033eb79658387f8256aece))
+
+
+
+
+
 ## [2.81.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.0...@next-core/brick-kit@2.81.1) (2021-11-04)
 
 
