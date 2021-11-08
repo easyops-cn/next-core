@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.82.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.2...@next-core/brick-kit@2.82.0) (2021-11-08)
+
+
+### Features
+
+* **developHelper:** add checkoutContext api ([7d02acf](https://github.com/easyops-cn/next-core/commit/7d02acf41f4665f2068f5066cf6e288251d9ea6d))
+* **developHelper:** rename _dev_only_checkoutContext to _dev_only_checkoutTplContext ([e67d4dc](https://github.com/easyops-cn/next-core/commit/e67d4dc854b013ad12ce8d2d210a7e01ac638332))
+
+
+
+
+
 ## [2.81.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.1...@next-core/brick-kit@2.81.2) (2021-11-08)
 
 
