@@ -25,6 +25,9 @@ jest.mock("../core/MessageDispatcher");
 jest.mock("../themeAndMode");
 jest.mock("./menu");
 jest.mock("../runtime");
+jest.mock("./getBasePath", () => ({
+  getBasePath: () => "/next/",
+}));
 
 // Mock a custom element of `any-provider`.
 customElements.define(
@@ -339,7 +342,23 @@ describe("bindListeners", () => {
         },
         {
           action: "window.open",
-          args: ["www.google.com"],
+          args: ["https://www.example.com"],
+        },
+        {
+          action: "window.open",
+          args: ["//www.example.com", "_blank", "menubar=no"],
+        },
+        {
+          action: "window.open",
+          args: ["/next/hello"],
+        },
+        {
+          action: "window.open",
+          args: ["/halo"],
+        },
+        {
+          action: "window.open",
+          args: ["${APP.homepage}/yes"],
         },
         {
           action: "location.reload",
@@ -618,7 +637,11 @@ describe("bindListeners", () => {
     jest.spyOn(Storage.prototype, "setItem");
     jest.spyOn(Storage.prototype, "removeItem");
 
-    bindListeners(sourceElem, eventsMap);
+    bindListeners(sourceElem, eventsMap, {
+      app: {
+        homepage: "/hello",
+      },
+    } as any);
 
     const event1 = new CustomEvent("key1", {
       detail: "for-good",
@@ -823,7 +846,39 @@ describe("bindListeners", () => {
       2,
       "specified args for multiple"
     );
-    expect(window.open).toBeCalledWith("www.google.com", "_self", undefined);
+
+    expect(window.open).toBeCalledTimes(5);
+    expect(window.open).toHaveBeenNthCalledWith(
+      1,
+      "https://www.example.com",
+      "_self",
+      undefined
+    );
+    expect(window.open).toHaveBeenNthCalledWith(
+      2,
+      "//www.example.com",
+      "_blank",
+      "menubar=no"
+    );
+    expect(window.open).toHaveBeenNthCalledWith(
+      3,
+      "/next/hello",
+      "_self",
+      undefined
+    );
+    expect(window.open).toHaveBeenNthCalledWith(
+      4,
+      "/next/halo",
+      "_self",
+      undefined
+    );
+    expect(window.open).toHaveBeenNthCalledWith(
+      5,
+      "/next/hello/yes",
+      "_self",
+      undefined
+    );
+
     expect((targetElem2 as any).forGood).toHaveBeenNthCalledWith(
       1,
       "specified args for multiple"
