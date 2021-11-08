@@ -40,7 +40,7 @@ import { CustomTemplateContext } from "./CustomTemplates";
 import { registerWidgetFunctions } from "./WidgetFunctions";
 
 let kernel: Kernel;
-let fackContext: CustomTemplateContext;
+let fakeTplContext: CustomTemplateContext;
 
 /* istanbul ignore next */
 export function _dev_only_getBrickPackages(): BrickPackage[] {
@@ -342,13 +342,13 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
 }
 
 /* istanbul ignore next */
-export function _dev_only_checkoutContext(
+export function _dev_only_checkoutTplContext(
   context: CustomTemplateContext
 ): void {
   if (context) {
-    fackContext = context;
+    fakeTplContext = context;
   } else {
-    fackContext = null;
+    fakeTplContext = null;
   }
 }
 
@@ -357,8 +357,8 @@ export function _internalApiGetTplContext(): CustomTemplateContext {
   if (process.env.NODE_ENV === "test") {
     return {} as any;
   }
-  if (fackContext) {
-    return fackContext;
+  if (fakeTplContext) {
+    return fakeTplContext;
   }
   return kernel.router.getTplContext();
 }

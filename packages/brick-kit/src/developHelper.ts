@@ -12,7 +12,7 @@ import {
   _dev_only_getTemplatePackages,
   _dev_only_getFakeKernel,
   _dev_only_loadEditorBricks,
-  _dev_only_checkoutContext,
+  _dev_only_checkoutTplContext,
 } from "./core/exports";
 
 /** @internal */
@@ -34,5 +34,5 @@ export const developHelper = {
   loadEditorBricks: _dev_only_loadEditorBricks,
   loadDynamicBricksInBrickConf: _dev_only_loadDynamicBricksInBrickConf,
   getFakeKernel: _dev_only_getFakeKernel,
-  checkoutContext: _dev_only_checkoutContext,
+  checkoutTplContext: _dev_only_checkoutTplContext,
 };

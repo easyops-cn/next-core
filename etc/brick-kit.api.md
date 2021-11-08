@@ -182,7 +182,7 @@ export const developHelper: {
     loadEditorBricks: typeof _dev_only_loadEditorBricks;
     loadDynamicBricksInBrickConf: typeof _dev_only_loadDynamicBricksInBrickConf;
     getFakeKernel: typeof _dev_only_getFakeKernel;
-    checkoutContext: typeof _dev_only_checkoutContext;
+    checkoutTplContext: typeof _dev_only_checkoutTplContext;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -528,6 +528,6 @@ export interface VisitedWorkspace {
 // src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_checkoutContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_checkoutTplContext" needs to be exported by the entry point index.d.ts
 
 ```
