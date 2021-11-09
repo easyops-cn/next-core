@@ -21,7 +21,7 @@
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.5.0",
-    "@babel/runtime": "^7.16.0",
+    "@babel/runtime": "^7.16.3",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@next-core/babel-runtime-helpers": "^1.0.14",
     "@next-core/brick-http": "^2.3.2",
