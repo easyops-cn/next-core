@@ -9,7 +9,8 @@ const legacyBrickNames = [
   "workspace.container.shortcut-searchable-list",
   "workspace.container.create-deploy-unit",
 ];
-const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+const validBrickName =
+  /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
 const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
 
 module.exports = class ScanCustomElementsPlugin {
@@ -158,8 +159,14 @@ module.exports = class ScanCustomElementsPlugin {
       const processors = Array.from(processorSet);
       const providers = Array.from(providerSet);
 
+      const assetFilePath = Object.keys(compilation.assets).find(
+        (filePath) => filePath.startsWith("index.") && filePath.endsWith(".js")
+      );
+      const jsFilePath =
+        assetFilePath && `bricks/${this.packageName}/dist/${assetFilePath}`;
+
       const source = JSON.stringify(
-        { bricks, processors, providers, dll: this.dll },
+        { bricks, processors, providers, dll: this.dll, filePath: jsFilePath },
         null,
         2
       );

@@ -6,6 +6,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 const prism = require("prismjs");
 const loadLanguages = require("prismjs/components/index");
 const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
+const { ModifySourcePlugin } = require("modify-source-webpack-plugin");
+const VirtualModulesPlugin = require("webpack-virtual-modules");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 const ScanEditorBricksPlugin = require("./ScanEditorBricksPlugin");
@@ -75,7 +77,7 @@ module.exports =
     const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
     const distPublicPath = pkgRelativeRoot
       .split(path.sep)
-      .concat(isForEditors ? ["dist", "editors/"] : ["dist/"])
+      .concat(isForEditors ? "dist/editors/" : "dist/")
       .join("/");
     const imageLoaderOptions = getImageLoaderOptions();
 
@@ -89,6 +91,7 @@ module.exports =
     const entryPair = isForEditors
       ? ["editors", "editor-bricks/index"]
       : ["index", "index"];
+    const entryFilePath = path.join(cwdDirname, "src", entryPair[1]);
 
     // The chunk ids must be unique across foreign webpack bundles.
     // So we suffix these ids with the hash of the package name.
@@ -99,14 +102,13 @@ module.exports =
     return {
       context: appRoot,
       entry: {
-        [entryPair[0]]: path.join(cwdDirname, "src", entryPair[1]),
+        [entryPair[0]]: entryFilePath,
       },
       output: {
         // During webpack building, assets are written into
         // a temporary directory `dist-editors`.
         // And later to be merged into `dist/editors` during post-building.
         path: path.join(cwdDirname, isForEditors ? "dist-editors" : "dist"),
-        publicPath: distPublicPath,
       },
       resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
@@ -180,7 +182,6 @@ module.exports =
               {
                 loader: "worker-loader",
                 options: {
-                  publicPath: distPublicPath,
                   filename(pathData) {
                     const chunkName = pathData.chunk.name.replace(
                       /\.worker$/,
@@ -321,6 +322,24 @@ module.exports =
         ],
       },
       plugins: [
+        // Append a virtual module which declares `__webpack_public_path__`
+        // on the fly, for the entry.
+        // https://v4.webpack.js.org/guides/public-path/#on-the-fly
+        new ModifySourcePlugin({
+          debug: true,
+          rules: [
+            {
+              test: (module) => module.rawRequest === entryFilePath,
+              modify: (src) => `import './_/public-path.js';\n${src}`,
+            },
+          ],
+        }),
+        new VirtualModulesPlugin({
+          [path.join(
+            entryFilePath,
+            "../_/public-path.js"
+          )]: `__webpack_public_path__ = \`\${window.PUBLIC_ROOT ?? ""}${distPublicPath}\`;`,
+        }),
         isForEditors
           ? new ScanEditorBricksPlugin(packageName)
           : scope === "templates"
