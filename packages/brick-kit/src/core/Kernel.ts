@@ -32,7 +32,7 @@ import {
   PresetBricksConf,
   RouteConf,
 } from "@next-core/brick-types";
-import { authenticate, isLoggedIn } from "../auth";
+import { authenticate, getAuth, isLoggedIn } from "../auth";
 import {
   Router,
   MenuBar,
@@ -111,11 +111,19 @@ export class Kernel {
     this.router = new Router(this);
 
     // init analytics
-    const gaMeasurementId = getRuntime().getMiscSettings()
-      .gaMeasurementId as string;
+    const misc = getRuntime().getMiscSettings();
+    const { gaMeasurementId, analyticsDebugMode } = misc as {
+      gaMeasurementId?: string;
+      analyticsDebugMode?: boolean;
+    };
 
     if (gaMeasurementId) {
-      userAnalytics.init({ gaMeasurementId, sendPageView: false });
+      userAnalytics.init({
+        gaMeasurementId,
+        sendPageView: false,
+        userId: getAuth().userInstanceId,
+        debugMode: analyticsDebugMode,
+      });
     }
 
     await this.router.bootstrap();

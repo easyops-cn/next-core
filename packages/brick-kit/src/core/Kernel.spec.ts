@@ -20,7 +20,7 @@ import {
   Storyboard,
 } from "@next-core/brick-types";
 import { Kernel } from "./Kernel";
-import { authenticate, isLoggedIn } from "../auth";
+import { authenticate, isLoggedIn, getAuth } from "../auth";
 import { MenuBar, AppBar, BaseBar } from "./Bars";
 import { Router } from "./Router";
 import { registerCustomTemplate } from "./CustomTemplates";
@@ -72,6 +72,7 @@ const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockResolvedValue(
 );
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
+const mockGetAuth = getAuth as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
@@ -828,6 +829,8 @@ describe("Kernel", () => {
 
   it("should init analytics in bootstrap when gaMeasurementId in misc is set", async () => {
     const gaMeasurementId = "GA-MEASUREMENT-ID";
+    const analyticsDebugMode = true;
+    const userInstanceId = "user-instance-id";
 
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
@@ -840,11 +843,17 @@ describe("Kernel", () => {
       ],
       brickPackages: [],
     });
-    mockGetMiscSettings.mockImplementationOnce(() => ({ gaMeasurementId }));
+    mockGetMiscSettings.mockReturnValueOnce({
+      gaMeasurementId,
+      analyticsDebugMode,
+    });
+    mockGetAuth.mockReturnValueOnce({ userInstanceId });
     await kernel.bootstrap({});
     expect(sypOnUserAnalyticsInit).toBeCalledWith({
       gaMeasurementId,
       sendPageView: false,
+      userId: userInstanceId,
+      debugMode: analyticsDebugMode,
     });
   });
 });
