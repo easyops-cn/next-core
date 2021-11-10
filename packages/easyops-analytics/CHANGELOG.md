@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.4.0...@next-core/easyops-analytics@0.5.0) (2021-11-10)
+
+
+### Features
+
+* **userAnalytics:** init() add userId and debugMode options ([c5b0fe3](https://github.com/easyops-cn/next-core/commit/c5b0fe31a37cecd623e435e360897a4a414e882d))
+
+
+
+
+
 # [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.3.0...@next-core/easyops-analytics@0.4.0) (2021-10-28)
 
 
