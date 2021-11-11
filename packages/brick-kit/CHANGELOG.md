@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.83.0...@next-core/brick-kit@2.84.0) (2021-11-11)
+
+
+### Bug Fixes
+
+* **websocket:** refine get base url ([337bfc6](https://github.com/easyops-cn/next-core/commit/337bfc608e8cd3257e1c36840f365483cde8761a))
+
+
+### Features
+
+* support standalone micro-apps ([a08d9e8](https://github.com/easyops-cn/next-core/commit/a08d9e8502de5e4a5bd4adb00cf2c247696c5dd2))
+
+
+
+
+
 # [2.83.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.82.2...@next-core/brick-kit@2.83.0) (2021-11-10)
 
 

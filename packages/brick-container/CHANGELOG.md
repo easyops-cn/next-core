@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.34.26...@next-core/brick-container@2.35.0) (2021-11-11)
+
+
+### Features
+
+* support standalone micro-apps ([d29da27](https://github.com/easyops-cn/next-core/commit/d29da27b8453564a8004c92a04b0eb4ca0a61e59))
+
+
+
+
+
 ## [2.34.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.34.25...@next-core/brick-container@2.34.26) (2021-11-10)
 
 **Note:** Version bump only for package @next-core/brick-container

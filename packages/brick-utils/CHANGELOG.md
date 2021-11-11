@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.29.0...@next-core/brick-utils@2.30.0) (2021-11-11)
+
+
+### Features
+
+* **loadscript:** support script src prefix ([56229d1](https://github.com/easyops-cn/next-core/commit/56229d1783f8e3a450ec316d78becd4f405cff72))
+
+
+
+
+
 # [2.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.15...@next-core/brick-utils@2.29.0) (2021-11-02)
 
 

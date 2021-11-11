@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.47.0...@next-core/brick-types@2.48.0) (2021-11-11)
+
+
+### Features
+
+* support standalone menu types ([9ab5868](https://github.com/easyops-cn/next-core/commit/9ab5868c7182e5befa0d6553b47b813e46c2b73c))
+
+
+
+
+
 # [2.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.46.0...@next-core/brick-types@2.47.0) (2021-11-02)
 
 
