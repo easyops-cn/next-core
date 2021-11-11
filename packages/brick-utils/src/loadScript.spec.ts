@@ -28,13 +28,17 @@ describe("loadScript", () => {
   it("should load multiple script", () => {
     expect(document.head.childNodes.length).toBe(1);
     loadScript(["http://example.com/a.js", "http://example.com/b.js"]);
+    loadScript("c.js", "prefix/");
     // Hit cache
     loadScript("http://example.com/a.js");
-    expect(document.head.childNodes.length).toBe(3);
+    expect(document.head.childNodes.length).toBe(4);
     expect((document.head.childNodes[0] as HTMLScriptElement).src).toBe(
-      "http://example.com/b.js"
+      "http://localhost/prefix/c.js"
     );
     expect((document.head.childNodes[1] as HTMLScriptElement).src).toBe(
+      "http://example.com/b.js"
+    );
+    expect((document.head.childNodes[2] as HTMLScriptElement).src).toBe(
       "http://example.com/a.js"
     );
   });
@@ -47,10 +51,13 @@ describe("loadScript", () => {
       // Hit cache
       "http://example.com/a.js",
     ]);
-    expect(document.head.childNodes.length).toBe(3);
+    prefetchScript("c.js", "prefix/");
+    expect(document.head.childNodes.length).toBe(4);
     const links = document.querySelectorAll("link");
-    expect(links.length).toBe(1);
+    expect(links.length).toBe(2);
     expect(links.item(0).rel).toBe("prefetch");
     expect(links.item(0).href).toBe("http://example.com/b.js");
+    expect(links.item(1).rel).toBe("prefetch");
+    expect(links.item(1).href).toBe("http://localhost/prefix/c.js");
   });
 });
