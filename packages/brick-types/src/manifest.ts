@@ -1,7 +1,6 @@
 import { LocationDescriptor } from "history";
-import { SidebarMenu, MenuIcon } from "./menu";
+import { SidebarMenu, MenuIcon, MenuRawData } from "./menu";
 import { PluginHistoryState } from "./runtime";
-import { SimpleFunction } from "./utility";
 
 /** @internal */
 export interface BootstrapData {
@@ -151,6 +150,11 @@ export interface MicroApp {
    * 本地化后的应用名称（运行时得出），本地化获取失败时回退到 `name`。
    */
   localeName?: string;
+
+  /**
+   * 整个应用不启用登录守卫。
+   */
+  noAuthGuard?: boolean;
 
   /**
    * 路由别名映射（运行时得出）。
@@ -1396,6 +1400,8 @@ export interface StoryboardMeta {
 
   /** 应用定义的函数列表。 */
   functions?: StoryboardFunction[];
+
+  menus?: MenuRawData[];
 }
 
 /**

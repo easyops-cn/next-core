@@ -103,6 +103,12 @@ export interface ExtendedHistory {
 
   /** 取消之前设置的阻止页面离开信息的设置。 */
   unblock: () => void;
+
+  /** 推入一条记录。*/
+  push?: History<PluginHistoryState>["push"];
+
+  /** 替换一条记录。*/
+  replace?: History<PluginHistoryState>["replace"];
 }
 
 /**
