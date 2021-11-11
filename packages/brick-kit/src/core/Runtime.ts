@@ -163,7 +163,7 @@ export class Runtime implements AbstractRuntime {
   }
 
   reloadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
-    return kernel.loadMicroApps(
+    return kernel.reloadMicroApps(
       {
         check_login: true,
       },
@@ -339,6 +339,15 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
     return {} as any;
   }
   return kernel.router.getCurrentContext();
+}
+
+export function _internalApiHasMatchedApp(pathname: string): boolean {
+  for (const { homepage } of kernel.bootstrapData.microApps) {
+    if (pathname === homepage || pathname.startsWith(`${homepage}/`)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /* istanbul ignore next */

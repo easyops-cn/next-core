@@ -1075,9 +1075,13 @@ export interface ExecuteCustomBrickEventHandler extends BaseCustomBrickEventHand
 export interface ExtendedHistory {
     // @internal (undocumented)
     getBlockMessage: () => string;
+    // Warning: (ae-incompatible-release-tags) The symbol "push" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
+    push?: History_2<PluginHistoryState>["push"];
     pushAnchor: UpdateAnchorFunction;
     pushQuery: UpdateQueryFunction;
     reload: () => void;
+    // Warning: (ae-incompatible-release-tags) The symbol "replace" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
+    replace?: History_2<PluginHistoryState>["replace"];
     replaceQuery: UpdateQueryFunction;
     // @internal (undocumented)
     setBlockMessage: (message: string) => void;
@@ -1247,6 +1251,52 @@ export type MenuConf = false | StaticMenuConf | BrickMenuConf | ResolveMenuConf;
 // @public
 export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 
+// @public
+export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
+    children?: MenuItemRawData[];
+    type?: "default" | "group";
+    sort?: number;
+    if?: string | boolean;
+    defaultExpanded?: boolean;
+    groupId?: string;
+};
+
+// @public
+export interface MenuRawData {
+    // (undocumented)
+    app?: [
+        {
+            appId: string;
+        }
+    ];
+    // (undocumented)
+    defaultCollapsed?: boolean;
+    // (undocumented)
+    defaultCollapsedBreakpoint?: number;
+    // (undocumented)
+    dynamicItems?: boolean;
+    // (undocumented)
+    icon?: MenuIcon;
+    // (undocumented)
+    injectMenuGroupId?: string;
+    // (undocumented)
+    items?: MenuItemRawData[];
+    // (undocumented)
+    itemsResolve?: ResolveConf;
+    // (undocumented)
+    link?: string;
+    // (undocumented)
+    menuId: string;
+    // (undocumented)
+    title: string;
+    // Warning: (ae-forgotten-export) The symbol "TitleDataSource" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    titleDataSource?: TitleDataSource;
+    // (undocumented)
+    type?: "main" | "inject";
+}
+
 // Warning: (ae-internal-missing-underscore) The name "MessageConf" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1287,6 +1337,7 @@ export interface MicroApp {
     locales?: AppLocales;
     menuIcon?: MenuIcon;
     name: string;
+    noAuthGuard?: boolean;
     private?: boolean;
     status?: "developing" | "enabled" | "disabled";
     userConfig?: Record<string, unknown>;
@@ -1975,6 +2026,8 @@ export interface StoryboardMeta {
     i18n?: MetaI18n;
     // (undocumented)
     images?: MetaImage[];
+    // (undocumented)
+    menus?: MenuRawData[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal

@@ -1,6 +1,8 @@
 import { LocationDescriptor } from "history";
 import { ThemeType } from "@ant-design/compatible/lib/icon";
 import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
+import { ResolveConf } from "./manifest";
+
 /**
  * 侧边栏菜单配置。
  */
@@ -141,4 +143,42 @@ export interface EasyopsIcon {
   icon: string;
   category?: string;
   color?: string | GradientColor;
+}
+
+/** 原始菜单数据。 */
+export interface MenuRawData {
+  menuId: string;
+  title: string;
+  app?: [
+    {
+      appId: string;
+    }
+  ];
+  icon?: MenuIcon;
+  link?: string;
+  titleDataSource?: TitleDataSource;
+  items?: MenuItemRawData[];
+  type?: "main" | "inject";
+  injectMenuGroupId?: string;
+  defaultCollapsed?: boolean;
+  defaultCollapsedBreakpoint?: number;
+  dynamicItems?: boolean;
+  itemsResolve?: ResolveConf;
+}
+
+/** 原始菜单项数据。 */
+export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
+  children?: MenuItemRawData[];
+  type?: "default" | "group";
+  sort?: number;
+  if?: string | boolean;
+  defaultExpanded?: boolean;
+  groupId?: string;
+  // [symbolAppId]?: string;
+};
+
+interface TitleDataSource {
+  objectId: string;
+  instanceId: string;
+  attributeId?: string;
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <base href="<%= htmlWebpackPlugin.options.baseHref %>">
-    <link rel="shortcut icon" type="image/png" href="assets/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="<%= htmlWebpackPlugin.options.faviconPath %>"/>
     <script>(!("documentMode" in document)&&CSS.supports("display","grid")&&window.customElements)||(location.href="<%= htmlWebpackPlugin.options.baseHref %>browse-happy.html")</script>
   </head>
   <body>

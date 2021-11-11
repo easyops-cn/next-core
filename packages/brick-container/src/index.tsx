@@ -6,7 +6,6 @@ import { Result } from "antd";
 import {
   createRuntime,
   getAuth,
-  getRuntime,
   httpErrorToString,
 } from "@next-core/brick-kit";
 import {
@@ -58,11 +57,15 @@ const mountPoints = {
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
-const api = `${pluginRuntime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
+let analyzer: ReturnType<typeof apiAnalyzer.create>;
 
-const analyzer = apiAnalyzer.create({
-  api,
-});
+// Disable API stats for standalone micro-apps.
+if (!window.STANDALONE_MICRO_APPS) {
+  const api = `${pluginRuntime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
+  analyzer = apiAnalyzer.create({
+    api,
+  });
+}
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   const headers = new Headers(config.options?.headers || {});
@@ -77,14 +80,16 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
 });
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
-  const { userInstanceId: uid, username } = getAuth();
-  const date = Date.now();
-  config.meta = {
-    st: date,
-    time: Math.round(date / 1000),
-    uid,
-    username,
-  };
+  if (analyzer) {
+    const { userInstanceId: uid, username } = getAuth();
+    const date = Date.now();
+    config.meta = {
+      st: date,
+      time: Math.round(date / 1000),
+      uid,
+      username,
+    };
+  }
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
     window.dispatchEvent(new CustomEvent("request.start"));
   }

@@ -51,7 +51,7 @@ export function getDllAndDepsOfBricks(
       }
     });
   }
-  const dllPath: Record<string, string> = (window as any)["DLL_PATH"];
+  const dllPath = window.DLL_PATH;
   return {
     dll: Array.from(dll).map((dllName) => dllPath[dllName]),
     deps,
@@ -101,7 +101,7 @@ export function getDllAndDepsByResource(
       }
     });
   }
-  const dllPath: Record<string, string> = (window as any)["DLL_PATH"];
+  const dllPath = window.DLL_PATH;
   return {
     dll: Array.from(dll).map((dllName) => dllPath[dllName]),
     deps,

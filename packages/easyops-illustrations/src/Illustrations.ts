@@ -7,5 +7,6 @@ export interface IllustrationProps {
 
 export function getIllustration(props: IllustrationProps): any {
   const category = props?.category || "default";
-  return (categories as any)?.[category]?.[props.name];
+  const url = (categories as any)?.[category]?.[props.name];
+  return url && `${window.CORE_ROOT ?? ""}assets/illustrations/${url}`;
 }
