@@ -33,6 +33,9 @@ module.exports = {
     path: distPath,
     library: "[name]",
     hashDigestLength: 8,
+    // This will be replaced during @next-core/brick-container building.
+    // See `packages/brick-container/webpack/common.js`.
+    publicPath: "__DLL_PUBLIC_PATH__",
   },
   module: {
     rules: [

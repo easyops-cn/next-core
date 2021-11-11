@@ -5,7 +5,7 @@
     {
       "files": [
         "cypress/plugins/**/*.js",
-        "packages/brick-container/{dev-server,serve}/**/*.js",
+        "packages/brick-container/{dev-server,serve,webpack}/**/*.js",
         "packages/rollup-config-factory/src/**/*.{ts,js}",
         "packages/webpack-config-factory/src/**/*.{ts,js}",
         "packages/build-config-factory/src/**/*.{ts,js}",
