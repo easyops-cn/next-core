@@ -65,6 +65,11 @@ describe("LocationContext", () => {
         },
       ],
     },
+    nextApp: {
+      id: "hello",
+      name: "Hello",
+      homepage: "/hello",
+    },
     unsetBars: jest.fn(),
     menuBar: {
       element: {},
@@ -180,6 +185,19 @@ describe("LocationContext", () => {
       });
       const storyboard = context.matchStoryboard(storyboards);
       expect(storyboard.app.id).toBe("hello-world");
+    });
+
+    it("should handle standalone micro-apps", () => {
+      window.STANDALONE_MICRO_APPS = true;
+      const context = new LocationContext(kernel, {
+        pathname: "/hello/world",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      const storyboard = context.matchStoryboard(storyboards.slice(0, 1));
+      expect(storyboard.app.id).toBe("hello");
+      window.STANDALONE_MICRO_APPS = false;
     });
   });
 

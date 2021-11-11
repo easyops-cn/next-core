@@ -1,5 +1,5 @@
 import { Kernel } from "./Kernel";
-import { Runtime } from "./Runtime";
+import { Runtime, _internalApiHasMatchedApp } from "./Runtime";
 import { MountPoints } from "@next-core/brick-types";
 
 jest.mock("./Kernel");
@@ -12,11 +12,14 @@ const spyOnConsoleError = jest
 describe("Runtime", () => {
   let runtime: Runtime;
   let IsolatedRuntime: typeof Runtime;
+  let isolatedInternalApiHasMatchedApp: typeof _internalApiHasMatchedApp;
 
   beforeEach(() => {
     jest.isolateModules(() => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      IsolatedRuntime = require("./Runtime").Runtime;
+      const m = require("./Runtime");
+      IsolatedRuntime = m.Runtime;
+      isolatedInternalApiHasMatchedApp = m._internalApiHasMatchedApp;
     });
     runtime = new IsolatedRuntime();
     spyOnKernel.mockClear();
@@ -170,9 +173,9 @@ describe("Runtime", () => {
     const mountPoints: MountPoints = {} as any;
     await runtime.bootstrap(mountPoints);
     const mockKernelInstance = spyOnKernel.mock.instances[0];
-    mockKernelInstance.loadMicroApps = jest.fn();
+    mockKernelInstance.reloadMicroApps = jest.fn();
     runtime.reloadMicroApps();
-    expect(mockKernelInstance.loadMicroApps).toBeCalled();
+    expect(mockKernelInstance.reloadMicroApps).toBeCalled();
   });
 
   it("should get homepage", async () => {
@@ -274,5 +277,27 @@ describe("Runtime", () => {
     expect(document.title).toBe("DevOps 管理专家");
     runtime.applyPageTitle("Hello");
     expect(document.title).toBe("Hello - DevOps 管理专家");
+  });
+
+  it("should check matched app", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    expect(spyOnKernel).toBeCalled();
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.bootstrapData = {
+      microApps: [
+        {
+          id: "app-1",
+          homepage: "/app-1",
+        },
+        {
+          id: "app-2",
+          homepage: "/app-2",
+        },
+      ],
+    };
+    expect(isolatedInternalApiHasMatchedApp("/app-1")).toBe(true);
+    expect(isolatedInternalApiHasMatchedApp("/app-2/any")).toBe(true);
+    expect(isolatedInternalApiHasMatchedApp("/app-3")).toBe(false);
   });
 });

@@ -36,6 +36,7 @@ import { Location as Location_2 } from 'history';
 import { MagicBrickConfig } from '@next-core/brick-types';
 import { MatchResult } from '@next-core/brick-types';
 import { MenuBarBrick } from '@next-core/brick-types';
+import { MenuRawData } from '@next-core/brick-types';
 import { MessageConf } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
 import { MicroAppModels } from '@next-sdk/micro-app-sdk';

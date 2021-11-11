@@ -1,4 +1,4 @@
-import { History } from "history";
+import { History, LocationDescriptorObject } from "history";
 import {
   PluginHistoryState,
   ExtendedHistory,
@@ -6,10 +6,13 @@ import {
   UpdateQueryOptions,
   UpdateAnchorFunction,
 } from "@next-core/brick-types";
+import { getBasePath } from "./getBasePath";
+import { _internalApiHasMatchedApp } from "../core/Runtime";
 
 export function historyExtended(
   browserHistory: History<PluginHistoryState>
 ): ExtendedHistory {
+  const { push: originalPush, replace: originalReplace } = browserHistory;
   function updateQueryFactory(method: "push" | "replace"): UpdateQueryFunction {
     return function updateQuery(
       query: Record<string, any>,
@@ -33,7 +36,7 @@ export function historyExtended(
           urlSearchParams.set(key, value);
         }
       }
-      browserHistory[method](
+      (method === "push" ? originalPush : originalReplace)(
         `?${urlSearchParams.toString()}${
           keepHash ? browserHistory.location.hash : ""
         }`,
@@ -49,7 +52,7 @@ export function historyExtended(
       hash: string,
       state?: PluginHistoryState
     ): void {
-      browserHistory[method]({
+      (method === "push" ? originalPush : originalReplace)({
         ...browserHistory.location,
         key: undefined,
         hash,
@@ -63,7 +66,7 @@ export function historyExtended(
   }
 
   function reload(): void {
-    browserHistory.replace({
+    originalReplace({
       ...browserHistory.location,
       state: {
         ...browserHistory.location.state,
@@ -96,5 +99,50 @@ export function historyExtended(
     setBlockMessage,
     getBlockMessage,
     unblock,
+    ...(window.STANDALONE_MICRO_APPS
+      ? standaloneHistoryOverridden(browserHistory)
+      : null),
+  };
+}
+
+/**
+ * Override history for standalone micro apps.
+ *
+ * when `push` or `replace` to other apps, force page refresh.
+ */
+function standaloneHistoryOverridden(
+  browserHistory: History<PluginHistoryState>
+): Pick<History<PluginHistoryState>, "push" | "replace"> {
+  const { push: originalPush, replace: originalReplace } = browserHistory;
+  function updateFactory(
+    method: "push" | "replace"
+  ): History<PluginHistoryState>["push"] {
+    return function update(path, state?) {
+      let pathname: string;
+      const pathIsString = typeof path === "string";
+      if (pathIsString) {
+        pathname = path;
+      } else {
+        pathname = path.pathname;
+      }
+      if (_internalApiHasMatchedApp(pathname)) {
+        return (method === "push" ? originalPush : originalReplace)(
+          path as string,
+          state
+        );
+      }
+      // Going to outside apps.
+      return location[method === "push" ? "assign" : "replace"](
+        pathIsString
+          ? getBasePath() + path.replace(/^\//, "")
+          : browserHistory.createHref(
+              path as LocationDescriptorObject<PluginHistoryState>
+            )
+      );
+    };
+  }
+  return {
+    push: updateFactory("push"),
+    replace: updateFactory("replace"),
   };
 }

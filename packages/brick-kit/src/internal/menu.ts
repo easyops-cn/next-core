@@ -1,10 +1,10 @@
 import { isNil, sortBy } from "lodash";
 import {
-  MenuIcon,
   SidebarMenuSimpleItem,
   PluginRuntimeContext,
   SidebarMenu,
-  ResolveConf,
+  MenuRawData,
+  MenuItemRawData,
 } from "@next-core/brick-types";
 import { isEvaluable, isObject, preevaluate } from "@next-core/brick-utils";
 import {
@@ -22,40 +22,8 @@ import {
 
 const symbolAppId = Symbol("appId");
 
-export interface MenuRawData {
-  menuId: string;
-  title: string;
-  app?: [
-    {
-      appId: string;
-    }
-  ];
-  icon?: MenuIcon;
-  link?: string;
-  titleDataSource?: TitleDataSource;
-  items?: MenuItemRawData[];
-  type?: "main" | "inject";
-  injectMenuGroupId?: string;
-  defaultCollapsed?: boolean;
-  defaultCollapsedBreakpoint?: number;
-  dynamicItems?: boolean;
-  itemsResolve?: ResolveConf;
-}
-
-type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
-  children?: MenuItemRawData[];
-  type?: "default" | "group";
-  sort?: number;
-  if?: string | boolean;
-  defaultExpanded?: boolean;
-  groupId?: string;
+interface RuntimeMenuItemRawData extends MenuItemRawData {
   [symbolAppId]?: string;
-};
-
-interface TitleDataSource {
-  objectId: string;
-  instanceId: string;
-  attributeId?: string;
 }
 
 // Caching menu requests to avoid flicker.
@@ -85,42 +53,47 @@ export async function constructMenu(
   }
 }
 
-export async function fetchMenuById(menuId: string): Promise<MenuRawData> {
+export async function fetchMenuById(
+  menuId: string,
+  kernel: Kernel
+): Promise<MenuRawData> {
   if (menuCache.has(menuId)) {
     return menuCache.get(menuId);
   }
-  const menuList = (
-    await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
-      page: 1,
-      page_size: 200,
-      fields: {
-        menuId: true,
-        title: true,
-        icon: true,
-        link: true,
-        titleDataSource: true,
-        defaultCollapsed: true,
-        defaultCollapsedBreakpoint: true,
-        type: true,
-        injectMenuGroupId: true,
-        dynamicItems: true,
-        itemsResolve: true,
-        items: true,
-        "items.children": true,
-        "app.appId": true,
-      },
-      query: {
-        menuId: {
-          $eq: menuId,
-        },
-        app: {
-          $size: {
-            $gt: 0,
+  const menuList = window.STANDALONE_MICRO_APPS
+    ? kernel.getStandaloneMenus(menuId)
+    : ((
+        await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
+          page: 1,
+          page_size: 200,
+          fields: {
+            menuId: true,
+            title: true,
+            icon: true,
+            link: true,
+            titleDataSource: true,
+            defaultCollapsed: true,
+            defaultCollapsedBreakpoint: true,
+            type: true,
+            injectMenuGroupId: true,
+            dynamicItems: true,
+            itemsResolve: true,
+            items: true,
+            "items.children": true,
+            "app.appId": true,
           },
-        },
-      },
-    })
-  ).list as MenuRawData[];
+          query: {
+            menuId: {
+              $eq: menuId,
+            },
+            app: {
+              $size: {
+                $gt: 0,
+              },
+            },
+          },
+        })
+      ).list as MenuRawData[]);
   await Promise.all(menuList.map(loadDynamicMenuItems));
   const menuData = mergeMenu(menuList);
   if (!menuData) {
@@ -164,7 +137,7 @@ function processGroupInject(
   items: MenuItemRawData[],
   menu: MenuRawData,
   injectWithMenus: Map<string, MenuRawData[]>
-): MenuItemRawData[] {
+): RuntimeMenuItemRawData[] {
   return items?.map((item) => {
     const foundInjectingMenus =
       item.groupId && injectWithMenus.get(item.groupId);
@@ -216,7 +189,7 @@ export async function processMenu(
   kernel: Kernel,
   hasSubMenu?: boolean
 ): Promise<SidebarMenu> {
-  const { items, app, ...restMenuData } = await fetchMenuById(menuId);
+  const { items, app, ...restMenuData } = await fetchMenuById(menuId, kernel);
 
   const menuData = {
     ...(await computeRealValueWithOverrideApp(
@@ -264,10 +237,10 @@ export async function processMenu(
 }
 
 function computeMenuItemsWithOverrideApp(
-  items: MenuItemRawData[],
+  items: RuntimeMenuItemRawData[],
   context: PluginRuntimeContext,
   kernel: Kernel
-): Promise<MenuItemRawData[]> {
+): Promise<RuntimeMenuItemRawData[]> {
   return Promise.all(
     items.map(async ({ children, ...rest }) => ({
       ...(await computeRealValueWithOverrideApp(
