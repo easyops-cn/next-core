@@ -14,7 +14,7 @@ jest.mock("./scanProcessorsInStoryboard");
 
 (scanProcessorsInStoryboard as jest.Mock).mockReturnValue(["doGood"]);
 
-(window as any).DLL_PATH = {
+window.DLL_PATH = {
   d3: "dll-of-d3.123.js",
   "editor-bricks-helper": "dll-of-editor-bricks-helper.456.js",
 };

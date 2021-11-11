@@ -93,7 +93,7 @@ describe("asyncProcessStoryboard", () => {
       }));
     });
     await asyncProcessStoryboard(storyboard, registry, templatePackages);
-    expect(loadScript as jest.Mock).toBeCalledWith(["b.js"]);
+    expect(loadScript as jest.Mock).toBeCalledWith(["b.js"], undefined);
     expect((storyboard.routes[0] as RouteConfOfBricks).bricks[0]).toMatchObject(
       {
         brick: "a",
@@ -103,8 +103,10 @@ describe("asyncProcessStoryboard", () => {
       }
     );
     // Cover when a template returns a template.
-    const innerBrick = ((storyboard.routes[0] as RouteConfOfBricks).bricks[1]
-      .slots.s as SlotConfOfBricks).bricks[0];
+    const innerBrick = (
+      (storyboard.routes[0] as RouteConfOfBricks).bricks[1].slots
+        .s as SlotConfOfBricks
+    ).bricks[0];
     expect(innerBrick).toMatchObject({
       brick: "b",
       $$template: "c",

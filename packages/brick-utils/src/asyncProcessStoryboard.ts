@@ -41,7 +41,8 @@ export async function asyncProcessBrick(
 
         if (!templateRegistry.has(updatedBrickConf.template)) {
           await loadScript(
-            getDepsOfTemplates([updatedBrickConf.template], templatePackages)
+            getDepsOfTemplates([updatedBrickConf.template], templatePackages),
+            window.PUBLIC_ROOT
           );
         }
         if (templateRegistry.has(updatedBrickConf.template)) {
