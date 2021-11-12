@@ -1,5 +1,5 @@
 const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
-const devServerOptions = require("./dev-server");
+const devServerOptions = require("../dev-server");
 
 const servePublicPath = process.env.SUBDIR === "true" ? "/next/" : "/";
 
