@@ -8,7 +8,6 @@ import {
   scanBricksInBrickConf,
   deepFreeze,
 } from "@next-core/brick-utils";
-import { userAnalytics } from "@next-core/easyops-analytics";
 import { checkLogin, bootstrap, getAppStoryboard } from "@next-sdk/auth-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
@@ -21,7 +20,7 @@ import {
 } from "@next-core/brick-types";
 import { http } from "@next-core/brick-http";
 import { Kernel } from "./Kernel";
-import { authenticate, isLoggedIn, getAuth } from "../auth";
+import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar, AppBar, BaseBar } from "./Bars";
 import { Router } from "./Router";
 import { registerCustomTemplate } from "./CustomTemplates";
@@ -29,6 +28,7 @@ import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 import { getRuntime } from "../runtime";
+import { initAnalytics } from "./initAnalytics";
 
 i18next.init({
   fallbackLng: "en",
@@ -45,6 +45,7 @@ jest.mock("./CustomTemplates");
 jest.mock("./LazyBrickRegistry");
 jest.mock("../auth");
 jest.mock("../runtime");
+jest.mock("./initAnalytics");
 
 const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
@@ -73,7 +74,6 @@ const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockResolvedValue(
 );
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
-const mockGetAuth = getAuth as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
@@ -93,12 +93,10 @@ const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
 
 const spyOnApplyPageTitle = jest.fn();
-const mockGetMiscSettings = jest.fn(() => ({}));
-const sypOnUserAnalyticsInit = jest.spyOn(userAnalytics, "init");
+const mockInitAnalytics = initAnalytics as jest.Mock;
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
   applyPageTitle: spyOnApplyPageTitle,
-  getMiscSettings: mockGetMiscSettings,
 }));
 
 spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [brickConf.brick]);
@@ -221,7 +219,6 @@ describe("Kernel", () => {
     expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
     expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
-    expect(sypOnUserAnalyticsInit).not.toBeCalled();
 
     kernel.popWorkspaceStack();
     await kernel.updateWorkspaceStack();
@@ -908,18 +905,8 @@ describe("Kernel", () => {
       ],
       brickPackages: [],
     });
-    mockGetMiscSettings.mockReturnValueOnce({
-      gaMeasurementId,
-      analyticsDebugMode,
-    });
-    mockGetAuth.mockReturnValueOnce({ userInstanceId });
     await kernel.bootstrap({} as any);
-    expect(sypOnUserAnalyticsInit).toBeCalledWith({
-      gaMeasurementId,
-      sendPageView: false,
-      userId: userInstanceId,
-      debugMode: analyticsDebugMode,
-    });
+    expect(mockInitAnalytics).toBeCalled();
   });
 
   it("should get standalone menus", async () => {

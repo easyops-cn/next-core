@@ -10,43 +10,42 @@ let gtag: (command: string, ...args: unknown[]) => void;
 
 export const userAnalytics = {
   init(options: UserAnalyticsInitOptions): void {
-    if (initialized) {
-      // eslint-disable-next-line no-console
-      console.info("userAnalytics has been initialized.");
-
-      return;
-    }
-
     const { gaMeasurementId, sendPageView = true, userId, debugMode } = options;
+    let initSuccess = false;
 
     if (gaMeasurementId) {
-      const gtagScript = document.createElement("script");
+      if (!gtag) {
+        const gtagScript = document.createElement("script");
 
-      // Global site tag (gtag.js) - Google Analytics
-      gtagScript.setAttribute("async", "");
-      gtagScript.setAttribute(
-        "src",
-        `https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`
-      );
-      document.head.append(gtagScript);
+        // Global site tag (gtag.js) - Google Analytics
+        gtagScript.setAttribute("async", "");
+        gtagScript.setAttribute(
+          "src",
+          `https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`
+        );
+        document.head.append(gtagScript);
 
-      window.dataLayer = window.dataLayer || [];
-      gtag = function () {
-        // eslint-disable-next-line prefer-rest-params
-        window.dataLayer.push(arguments);
-      };
+        window.dataLayer = window.dataLayer || [];
+        gtag = function () {
+          // eslint-disable-next-line prefer-rest-params
+          window.dataLayer.push(arguments);
+        };
 
-      gtag("js", new Date());
+        gtag("js", new Date());
+      }
+
       gtag("config", gaMeasurementId, {
         send_page_view: sendPageView,
-        user_id: userId,
+        user_id: userId ?? "",
         debug_mode: debugMode,
       });
 
-      initialized = true;
+      initSuccess = true;
     }
 
-    if (!initialized) {
+    if (initSuccess) {
+      initialized = true;
+    } else {
       // eslint-disable-next-line no-console
       console.error(
         "Initialization failed. Please pass gaMeasurementId in the options."

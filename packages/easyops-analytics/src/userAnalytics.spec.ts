@@ -44,10 +44,17 @@ describe("userAnalytics", () => {
     expect([...window.dataLayer[lastIndex]]).toEqual(["event", action, data]);
   });
 
-  it("should skip initialization when already initialized", () => {
-    userAnalytics.init({ gaMeasurementId });
-    expect(sypOnConsoleInfo).toBeCalledWith(
-      "userAnalytics has been initialized."
-    );
+  it("should re-initialize when already initialized", () => {
+    userAnalytics.init({
+      gaMeasurementId,
+      sendPageView,
+      userId: undefined,
+      debugMode,
+    });
+    expect([...window.dataLayer[window.dataLayer.length - 1]]).toEqual([
+      "config",
+      gaMeasurementId,
+      { send_page_view: sendPageView, user_id: "", debug_mode: debugMode },
+    ]);
   });
 });
