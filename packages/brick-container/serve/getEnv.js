@@ -102,6 +102,13 @@ module.exports = () => {
       standalone: {
         type: "boolean",
       },
+      standaloneMicroApps: {
+        type: "boolean",
+      },
+      standaloneAppDir: {
+        type: "string",
+        default: "",
+      },
       // Todo(steve): remove `help` and `version` after meow fixed it.
       help: {
         type: "boolean",
@@ -173,7 +180,7 @@ module.exports = () => {
       ? process.env.NO_REMOTE !== "true"
       : flags.remote;
   const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
-  const publicPath = useSubdir ? "/next/" : "/";
+  const baseHref = useSubdir ? "/next/" : "/";
   const server = getServerPath(flags.server || process.env.SERVER);
   let consoleServer = flags.consoleServer || process.env.CONSOLE_SERVER;
   consoleServer = consoleServer ? getServerPath(consoleServer) : server;
@@ -263,7 +270,7 @@ module.exports = () => {
     useSubdir,
     useRemote,
     useAutoRemote,
-    publicPath,
+    baseHref,
     localBrickPackages,
     localEditorPackages,
     localSnippetPackages,
@@ -277,6 +284,8 @@ module.exports = () => {
     alternativeBrickPackagesDir,
     templatePackagesDir,
     navbarJsonPath,
+    standaloneMicroApps: flags.standaloneMicroApps,
+    standaloneAppDir: flags.standaloneAppDir,
     host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
@@ -360,7 +369,9 @@ module.exports = () => {
   console.log();
   console.log(
     chalk.bold.cyan("mode:"),
-    env.standalone
+    env.standaloneMicroApps
+      ? chalk.bgCyanBright("standalone-micro-apps")
+      : env.standalone
       ? chalk.bgBlueBright("standalone")
       : env.useAutoRemote
       ? chalk.bgYellow("auto-remote")
@@ -368,6 +379,10 @@ module.exports = () => {
       ? chalk.bgCyan("remote")
       : chalk.bgWhite("local")
   );
+
+  if (env.standaloneMicroApps) {
+    console.log(chalk.bold.cyan("app dir:"), env.standaloneAppDir);
+  }
 
   console.log(
     chalk.bold.cyan("container:"),

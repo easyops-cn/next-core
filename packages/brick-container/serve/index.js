@@ -11,44 +11,82 @@ const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
 const { getPatternsToWatch, appendLiveReloadScript } = require("./utils");
 
+const env = getEnv();
+
 const app = express();
 
 const distDir = path.dirname(
-  require.resolve("@next-core/brick-container/dist/index.html")
+  require.resolve(
+    `@next-core/brick-container/${
+      env.standaloneMicroApps ? "dist-standalone" : "dist"
+    }/index.html`
+  )
 );
-
-const env = getEnv();
 
 const port = env.port;
 
 serveLocal(env, app);
 
+let cachedIndexHtml;
+
 const serveIndexHtml = (_req, res) => {
-  const indexHtml = path.join(distDir, "index.html");
-  let content = fs.readFileSync(indexHtml, "utf8");
+  if (!cachedIndexHtml) {
+    const indexHtml = path.join(distDir, "index.html");
+    let content = fs.readFileSync(indexHtml, "utf8");
 
-  if (env.liveReload) {
-    content = appendLiveReloadScript(content, env);
-  }
+    if (env.liveReload) {
+      content = appendLiveReloadScript(content, env);
+    }
 
-  // Replace nginx ssi placeholders.
-  res.send(
-    content.replace(
+    content = content.replace(
       new RegExp(
         escapeRegExp("<!--# echo var='base_href' default='/' -->"),
         "g"
       ),
-      env.publicPath
-    )
-  );
+      env.baseHref
+    );
+
+    if (env.standaloneMicroApps) {
+      content = content
+        .replace(
+          new RegExp(escapeRegExp("<!--# echo var='app_dir' -->"), "g"),
+          env.standaloneAppDir
+        )
+        .replace(
+          "</head>",
+          [
+            "<script>",
+            "((w)=>{",
+            [
+              `var t=${JSON.stringify(env.standaloneAppDir)}`,
+              "w.STANDALONE_MICRO_APPS=true",
+              `var p=w.PUBLIC_ROOT=t+"-/"`,
+              'w.CORE_ROOT=p+"core/"',
+              `w.BOOTSTRAP_FILE=p+"bootstrap.hash.json"`,
+            ]
+              .filter(Boolean)
+              .join(";"),
+            "})(window)",
+            "</script></head>",
+          ].join("")
+        );
+    }
+
+    cachedIndexHtml = content;
+  }
+
+  // Replace nginx ssi placeholders.
+  res.send(cachedIndexHtml);
 };
 
 if (env.useLocalContainer) {
+  const serveRoot = env.standaloneMicroApps
+    ? `${env.baseHref}${env.standaloneAppDir}`
+    : env.baseHref;
   // Serve index.html.
-  app.get(env.publicPath, serveIndexHtml);
-
+  app.get(serveRoot, serveIndexHtml);
   // Serve static files.
-  app.use(env.publicPath, express.static(distDir));
+  app.use(serveRoot, express.static(distDir));
 }
 
 // Using proxies.
@@ -90,7 +128,7 @@ app.listen(port, env.host);
 
 console.log(
   chalk.bold.green("Started serving at:"),
-  `http://${env.host}:${port}${env.publicPath}`
+  `http://${env.host}:${port}${env.baseHref}`
 );
 
 // 建立 websocket 连接支持自动刷新

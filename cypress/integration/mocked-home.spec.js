@@ -25,7 +25,7 @@ describe("Mocked homepage", () => {
   });
 
   it("work", () => {
-    cy.visit("/next/", {
+    cy.visit("/next/home", {
       onBeforeLoad(win) {
         cy.spy(win.console, "error").as("console.error");
         cy.spy(win.console, "info").as("console.info");
