@@ -1,7 +1,7 @@
 app:
   name: Home
   id: home
-  homepage: /
+  homepage: /home
 imports:
 - '@next-bricks/basic-bricks'
 meta:

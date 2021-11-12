@@ -18,7 +18,7 @@ module.exports = (env) => {
     useOffline,
     useSubdir,
     useRemote,
-    publicPath,
+    baseHref,
     localBrickPackages,
     localEditorPackages,
     localSnippetPackages,
@@ -42,7 +42,7 @@ module.exports = (env) => {
   const proxyPaths = ["api"];
   const apiProxyOptions = {
     headers: {
-      "dev-only-login-page": `http://${env.host}:${env.port}${publicPath}auth/login`,
+      "dev-only-login-page": `http://${env.host}:${env.port}${baseHref}auth/login`,
     },
   };
   if (useRemote) {
@@ -235,7 +235,7 @@ module.exports = (env) => {
   return useOffline
     ? undefined
     : {
-        [`${publicPath}api/websocket_service`]: {
+        [`${baseHref}api/websocket_service`]: {
           target: server,
           secure: false,
           changeOrigin: true,
@@ -247,7 +247,7 @@ module.exports = (env) => {
           pathRewrite: pathRewriteFactory("api/websocket_service"),
         },
         ...proxyPaths.reduce((acc, seg) => {
-          acc[`${publicPath}${seg}`] = {
+          acc[`${baseHref}${seg}`] = {
             target: server,
             secure: false,
             changeOrigin: true,
