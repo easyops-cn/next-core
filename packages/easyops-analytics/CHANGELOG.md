@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.6.0...@next-core/easyops-analytics@0.7.0) (2021-11-12)
+
+
+### Features
+
+* **userAnalytics:** add setUserId function ([8e2fb04](https://github.com/easyops-cn/next-core/commit/8e2fb0420b83f3d72c98e44de3c885871af8f824))
+
+
+
+
+
 # [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.5.0...@next-core/easyops-analytics@0.6.0) (2021-11-12)
 
 
