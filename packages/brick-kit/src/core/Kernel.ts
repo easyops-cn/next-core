@@ -112,7 +112,6 @@ export class Kernel {
     this.footer = new BaseBar(this, "footer");
     this.router = new Router(this);
 
-    // init analytics
     initAnalytics();
 
     await this.router.bootstrap();
