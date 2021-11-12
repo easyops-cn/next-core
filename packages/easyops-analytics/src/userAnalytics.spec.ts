@@ -2,7 +2,6 @@ import { userAnalytics } from "./userAnalytics";
 
 describe("userAnalytics", () => {
   const sypOnConsoleError = jest.spyOn(console, "error");
-  const sypOnConsoleInfo = jest.spyOn(console, "info");
   const gaMeasurementId = "GA-MEASUREMENT-ID";
   const sendPageView = false;
   const userId = "user-id";
@@ -35,26 +34,40 @@ describe("userAnalytics", () => {
     expect([...window.dataLayer[1]]).toEqual([
       "config",
       gaMeasurementId,
-      { send_page_view: sendPageView, user_id: userId, debug_mode: debugMode },
+      { send_page_view: sendPageView, debug_mode: debugMode },
+    ]);
+    expect([...window.dataLayer[2]]).toEqual([
+      "set",
+      "user_properties",
+      { user_id: userId },
     ]);
 
     const result = userAnalytics.event(action, data);
     const lastIndex = window.dataLayer.length - 1;
     expect(result).toBe(true);
     expect([...window.dataLayer[lastIndex]]).toEqual(["event", action, data]);
+
+    userAnalytics.setUserId();
+    expect([...window.dataLayer[window.dataLayer.length - 1]]).toEqual([
+      "set",
+      "user_properties",
+      { user_id: "" },
+    ]);
   });
 
   it("should re-initialize when already initialized", () => {
     userAnalytics.init({
       gaMeasurementId,
-      sendPageView,
-      userId: undefined,
-      debugMode,
     });
-    expect([...window.dataLayer[window.dataLayer.length - 1]]).toEqual([
+    expect([...window.dataLayer[window.dataLayer.length - 2]]).toEqual([
       "config",
       gaMeasurementId,
-      { send_page_view: sendPageView, user_id: "", debug_mode: debugMode },
+      { send_page_view: true, debug_mode: undefined },
+    ]);
+    expect([...window.dataLayer[window.dataLayer.length - 1]]).toEqual([
+      "set",
+      "user_properties",
+      { user_id: "" },
     ]);
   });
 });

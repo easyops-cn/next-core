@@ -36,7 +36,6 @@ export const userAnalytics = {
 
       gtag("config", gaMeasurementId, {
         send_page_view: sendPageView,
-        user_id: userId ?? "",
         debug_mode: debugMode,
       });
 
@@ -45,6 +44,7 @@ export const userAnalytics = {
 
     if (initSuccess) {
       initialized = true;
+      userAnalytics.setUserId(userId);
     } else {
       // eslint-disable-next-line no-console
       console.error(
@@ -57,7 +57,18 @@ export const userAnalytics = {
       return false;
     }
 
-    gtag?.("event", action, data);
+    gtag("event", action, data);
+
+    return true;
+  },
+  setUserId(userId?: string): boolean {
+    if (!initialized) {
+      return false;
+    }
+
+    gtag("set", "user_properties", {
+      user_id: userId ?? "",
+    });
 
     return true;
   },
