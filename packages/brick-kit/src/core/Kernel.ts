@@ -33,9 +33,8 @@ import {
   RouteConf,
   MenuRawData,
 } from "@next-core/brick-types";
-import { userAnalytics } from "@next-core/easyops-analytics";
 import { http } from "@next-core/brick-http";
-import { authenticate, getAuth, isLoggedIn } from "../auth";
+import { authenticate, isLoggedIn } from "../auth";
 import {
   Router,
   MenuBar,
@@ -57,6 +56,7 @@ import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
+import { initAnalytics } from "./initAnalytics";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -113,20 +113,7 @@ export class Kernel {
     this.router = new Router(this);
 
     // init analytics
-    const misc = getRuntime().getMiscSettings();
-    const { gaMeasurementId, analyticsDebugMode } = misc as {
-      gaMeasurementId?: string;
-      analyticsDebugMode?: boolean;
-    };
-
-    if (gaMeasurementId) {
-      userAnalytics.init({
-        gaMeasurementId,
-        sendPageView: false,
-        userId: getAuth().userInstanceId,
-        debugMode: analyticsDebugMode,
-      });
-    }
+    initAnalytics();
 
     await this.router.bootstrap();
     if (!window.STANDALONE_MICRO_APPS) {
