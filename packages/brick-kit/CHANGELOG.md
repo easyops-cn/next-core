@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.84.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.84.0...@next-core/brick-kit@2.84.1) (2021-11-12)
+
+
+### Bug Fixes
+
+* **brick-kit:** update user_id of analytics when logout and login ([82ac205](https://github.com/easyops-cn/next-core/commit/82ac205b1ff525a60d2a7b63ddccd958e663b0fb))
+
+
+
+
+
 # [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.83.0...@next-core/brick-kit@2.84.0) (2021-11-11)
 
 
