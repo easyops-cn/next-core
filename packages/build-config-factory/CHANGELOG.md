@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.15.41...@next-core/build-config-factory@2.16.0) (2021-11-15)
+
+
+### Features
+
+* generate brick contracts ([dfa5b8f](https://github.com/easyops-cn/next-core/commit/dfa5b8f956bdb091782342f46c6c1a8f7e16feac))
+
+
+
+
+
 ## [2.15.41](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.15.40...@next-core/build-config-factory@2.15.41) (2021-11-11)
 
 **Note:** Version bump only for package @next-core/build-config-factory
