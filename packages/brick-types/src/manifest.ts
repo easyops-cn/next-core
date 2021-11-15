@@ -202,7 +202,7 @@ export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 /** @internal */
 export interface BrickPackage {
   filePath: string;
-  bricks: string[];
+  bricks?: string[];
   editors?: string[];
   editorsJsFilePath?: string;
   processors?: string[];
@@ -212,7 +212,7 @@ export interface BrickPackage {
 
 /** @internal */
 export interface TemplatePackage {
-  templates: string[];
+  templates?: string[];
   filePath: string;
 }
 

@@ -76,12 +76,36 @@ export function getDepsOfTemplates(
   templates: string[],
   templatePackages: TemplatePackage[]
 ): string[] {
-  const templateSet = new Set(templates);
-  return templatePackages
-    .filter((pkg) =>
-      pkg.templates.some((template) => templateSet.has(template))
-    )
-    .map((pkg) => pkg.filePath);
+  const templateMap: Map<string, TemplatePackage> = templatePackages.reduce(
+    (m, item) => {
+      if (/^templates\/.*\/dist\/.*\.js$/.test(item.filePath)) {
+        const namespace = item.filePath.split("/")[1];
+        m.set(namespace, item);
+      } else {
+        // eslint-disable-next-line no-console
+        console.error(
+          `the file path of template is \`${item.filePath}\` and it is non-standard format`
+        );
+      }
+      return m;
+    },
+    new Map()
+  );
+
+  return templates.reduce((arr, template) => {
+    const namespace = template.split(".")?.[0];
+    const find = templateMap.get(namespace);
+    if (find) {
+      arr.push(find.filePath);
+    } else {
+      // eslint-disable-next-line no-console
+      console.error(
+        `the name of template is \`${template}\` and it don't match any template package`
+      );
+    }
+
+    return arr;
+  }, []);
 }
 
 export function getTemplateDepsOfStoryboard(

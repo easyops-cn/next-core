@@ -11,17 +11,17 @@ describe("scanTemplatesInStoryboard", () => {
         {
           bricks: [
             {
-              template: "a",
+              template: "a.templateA",
             },
             {
-              brick: "b",
+              brick: "b.brickA",
               slots: {
                 s: {
                   type: "bricks",
                   bricks: [
                     {
-                      template: "c",
-                      internalUsedTemplates: ["e"],
+                      template: "c.templateB",
+                      internalUsedTemplates: ["e.templateC"],
                     },
                   ],
                 },
@@ -36,7 +36,7 @@ describe("scanTemplatesInStoryboard", () => {
         {
           menu: {
             type: "brick",
-            template: "d",
+            template: "d.templateD",
           },
           // `bricks` not set
         },
@@ -46,7 +46,7 @@ describe("scanTemplatesInStoryboard", () => {
             {
               bricks: [
                 {
-                  template: "f",
+                  template: "f.templateE",
                 },
               ],
             },
@@ -55,33 +55,36 @@ describe("scanTemplatesInStoryboard", () => {
       ],
     } as any;
     expect(scanTemplatesInStoryboard(storyboard)).toEqual([
-      "a",
-      "c",
-      "e",
-      "d",
-      "f",
+      "a.templateA",
+      "c.templateB",
+      "e.templateC",
+      "d.templateD",
+      "f.templateE",
     ]);
   });
 });
 
 describe("getTemplateDepsOfStoryboard", () => {
   it("should work", () => {
+    const spyConsoleError = jest
+      .spyOn(console, "error")
+      .mockReturnValue(undefined);
     const storyboard: Storyboard = {
       routes: [
         {
           bricks: [
             {
-              template: "a",
+              template: "a.templateA",
             },
             {
-              brick: "b",
+              brick: "b.brickA",
               slots: {
                 s: {
                   type: "bricks",
                   bricks: [
                     {
-                      template: "c",
-                      internalUsedTemplates: ["e"],
+                      template: "c.templateB",
+                      internalUsedTemplates: ["e.templateC"],
                     },
                   ],
                 },
@@ -96,7 +99,7 @@ describe("getTemplateDepsOfStoryboard", () => {
         {
           menu: {
             type: "brick",
-            template: "d",
+            template: "d.templateD",
           },
           // `bricks` not set
         },
@@ -106,7 +109,7 @@ describe("getTemplateDepsOfStoryboard", () => {
             {
               bricks: [
                 {
-                  template: "f",
+                  template: "f.templateE",
                 },
               ],
             },
@@ -117,10 +120,43 @@ describe("getTemplateDepsOfStoryboard", () => {
     expect(
       getTemplateDepsOfStoryboard(storyboard, [
         {
-          templates: ["a"],
-          filePath: "a.js",
+          filePath: "invalid/template/x.js",
+        },
+        {
+          templates: ["a.templateA"],
+          filePath: "templates/a/dist/a.js",
+        },
+        {
+          filePath: "templates/b/dist/b.js",
+        },
+        {
+          filePath: "templates/c/dist/c.js",
+        },
+        {
+          filePath: "templates/d/dist/d.js",
+        },
+        {
+          filePath: "templates/e/dist/e.js",
+        },
+        {
+          filePath: "templates/k/dist/k.js",
         },
       ])
-    ).toEqual(["a.js"]);
+    ).toEqual([
+      "templates/a/dist/a.js",
+      "templates/c/dist/c.js",
+      "templates/e/dist/e.js",
+      "templates/d/dist/d.js",
+    ]);
+
+    expect(spyConsoleError.mock.calls[0][0]).toEqual(
+      "the file path of template is `invalid/template/x.js` and it is non-standard format"
+    );
+
+    expect(spyConsoleError.mock.calls[1][0]).toEqual(
+      "the name of template is `f.templateE` and it don't match any template package"
+    );
+
+    spyConsoleError.mockRestore();
   });
 });
