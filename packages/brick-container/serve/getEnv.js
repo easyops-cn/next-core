@@ -27,7 +27,7 @@ function getServerPath(server) {
   return server;
 }
 
-module.exports = () => {
+module.exports = (runtimeFlags) => {
   let flags = {};
   const isWebpackServe = process.env.WEBPACK_SERVE === "true";
   if (!isWebpackServe) {
@@ -158,7 +158,10 @@ module.exports = () => {
       cli.showHelp();
     }
 
-    flags = cli.flags;
+    flags = {
+      ...cli.flags,
+      ...runtimeFlags,
+    };
   }
 
   const _standalone = flags.standalone || process.env.STANDALONE === "true";

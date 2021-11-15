@@ -1,13 +1,18 @@
 /// <reference types="Cypress" />
 
-describe("Login page", () => {
-  beforeEach(() => {
-    cy.logout();
-  });
+for (const port of Cypress.env("ports")) {
+  const origin = `http://localhost:${port}`;
 
-  it("redirect to login page", () => {
-    // We test as the real world with `--subdir`.
-    cy.visit("/next/home/?lng=zh");
-    cy.location("pathname").should("eq", "/next/auth/login");
+  describe(`Login page on port ${port}`, () => {
+    beforeEach(() => {
+      cy.logout(origin);
+    });
+
+    it("redirect to login page", () => {
+      // We test as the real world with `--subdir`.
+      cy.visit(`${origin}/next/home/?lng=zh`);
+      cy.location("pathname").should("eq", "/next/auth/login");
+      cy.contains("Login");
+    });
   });
-});
+}

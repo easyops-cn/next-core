@@ -2,8 +2,6 @@ app:
   name: Home
   id: home
   homepage: /home
-imports:
-- '@next-bricks/basic-bricks'
 meta:
   functions:
   - name: sayHello
