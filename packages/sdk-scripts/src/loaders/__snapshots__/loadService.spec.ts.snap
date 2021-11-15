@@ -30,7 +30,7 @@ export const PackageApi_autoDiscovery = (
   data: PackageApi_AutoDiscoveryRequestBody,
   options?: HttpOptions
 ): Promise<PackageApi_AutoDiscoveryResponseBody> =>
-  /**! @contract easyops.api.cd.package.AutoDiscovery */ http.post<PackageApi_AutoDiscoveryResponseBody>(
+  /**! @contract easyops.api.cd.package.AutoDiscovery@1.0.0 */ http.post<PackageApi_AutoDiscoveryResponseBody>(
     \`api/gateway/cd.package.AutoDiscovery/object/\${objectId}/instance/_import-json\`,
     data,
     options
@@ -96,7 +96,7 @@ export const PackageApi_create = (
   data: PackageApi_CreateRequestBody,
   options?: HttpOptions
 ): Promise<PackageApi_CreateResponseBody> =>
-  /**! @contract easyops.api.cd.package.Create */ http.post<PackageApi_CreateResponseBody>(
+  /**! @contract easyops.api.cd.package.Create@1 */ http.post<PackageApi_CreateResponseBody>(
     \\"api/gateway/cd.package.Create/package\\",
     data,
     options
@@ -174,7 +174,7 @@ export const PackageApi_get = async (
   params: PackageApi_GetRequestParams,
   options?: HttpOptions
 ): Promise<PackageApi_GetResponseBody> =>
-  /**! @contract easyops.api.cd.package.Get */ (
+  /**! @contract easyops.api.cd.package.Get@1 */ (
     await http.get<ResponseBodyWrapper<PackageApi_GetResponseBody>>(
       \\"api/gateway/cd.package.Get/packages/pkg\\",
       { ...options, params }
@@ -222,7 +222,7 @@ export const PackageApi_listNameService = (
   params: PackageApi_ListNameServiceRequestParams,
   options?: HttpOptions
 ): Promise<PackageApi_ListNameServiceResponseBody> =>
-  /**! @contract easyops.api.cd.package.ListNameService */ http.get<PackageApi_ListNameServiceResponseBody>(
+  /**! @contract easyops.api.cd.package.ListNameService@1.0.0 */ http.get<PackageApi_ListNameServiceResponseBody>(
     \\"api/gateway/cd.package.ListNameService/api/v1/name_service/config\\",
     { ...options, params }
   );
@@ -271,7 +271,7 @@ export const PackageApi_retry = async (
   build_id: string | number,
   options?: HttpOptions
 ): Promise<PackageApi_RetryResponseBody> =>
-  /**! @contract easyops.api.cd.package.Retry */ (
+  /**! @contract easyops.api.cd.package.Retry@1 */ (
     await http.post<ResponseBodyWrapper<PackageApi_RetryResponseBody>>(
       \`api/gateway/cd.package.Retry/api/pipeline/v1/builds/\${build_id}/retry\`,
       undefined,
@@ -314,7 +314,7 @@ export const PackageApi_search = async (
   params: PackageApi_SearchRequestParams,
   options?: HttpOptions
 ): Promise<PackageApi_SearchResponseBody> =>
-  /**! @contract easyops.api.cd.package.Search */ (
+  /**! @contract easyops.api.cd.package.Search@1 */ (
     await http.get<ResponseBodyWrapper<PackageApi_SearchResponseBody>>(
       \\"api/gateway/cd.package.Search/packages/search\\",
       { ...options, params }
@@ -349,7 +349,7 @@ export const PackageApi_sendMessageWithAppendix = (
   data: PackageApi_SendMessageWithAppendixRequestBody,
   options?: HttpOptions
 ): Promise<PackageApi_SendMessageWithAppendixResponseBody> => {
-  /**! @contract easyops.api.cd.package.SendMessageWithAppendix */ const _formData =
+  /**! @contract easyops.api.cd.package.SendMessageWithAppendix@1.0.0 */ const _formData =
     new FormData();
   for (const [key, value] of Object.entries(data)) {
     if (Array.isArray(value)) {
@@ -403,7 +403,7 @@ export const PackageApi_upload = (
   data: PackageApi_UploadRequestBody,
   options?: HttpOptions
 ): Promise<Blob> => {
-  /**! @contract easyops.api.cd.package.Upload */ const _formData =
+  /**! @contract easyops.api.cd.package.Upload@1 */ const _formData =
     new FormData();
   for (const [key, value] of Object.entries(data)) {
     if (Array.isArray(value)) {
@@ -595,7 +595,7 @@ export interface AuthApi_CheckLoginResponseBody {
 export const AuthApi_checkLogin = async (
   options?: HttpOptions
 ): Promise<AuthApi_CheckLoginResponseBody> =>
-  /**! @contract easyops.api.api_gateway.auth.CheckLogin */ (
+  /**! @contract easyops.api.api_gateway.auth.CheckLogin@1.0.0 */ (
     await http.get<ResponseBodyWrapper<AuthApi_CheckLoginResponseBody>>(
       \\"api/auth/login\\",
       options
