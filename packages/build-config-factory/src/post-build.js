@@ -185,12 +185,13 @@ module.exports = (scope) => {
   validateDeps(scope);
 
   if (scope === "bricks") {
-    if (pluginName.startsWith(providerPackagePrefix)) {
+    const isProviderBricks = pluginName.startsWith(providerPackagePrefix);
+    if (isProviderBricks) {
       generateProviderDocs(pluginName);
     } else {
       enableGenerateDoc && generateBrickDocs(pluginName);
-      generateBrickContracts(cwd);
     }
+    generateBrickContracts(cwd, isProviderBricks);
     generateDeps();
     mergeEditors();
     generateSnippets();
