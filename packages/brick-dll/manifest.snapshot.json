@@ -12369,7 +12369,22 @@
       "id": "XzT5",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["default"]
+        "providedExports": [
+          "default",
+          "changeLanguage",
+          "createInstance",
+          "exists",
+          "getFixedT",
+          "hasLoadedNamespace",
+          "init",
+          "loadLanguages",
+          "loadNamespaces",
+          "loadResources",
+          "reloadResources",
+          "setDefaultNamespace",
+          "t",
+          "use"
+        ]
       }
     },
     "./node_modules/lodash/isEqual.js": {
