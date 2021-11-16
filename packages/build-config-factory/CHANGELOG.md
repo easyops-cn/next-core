@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.1...@next-core/build-config-factory@2.17.2) (2021-11-16)
+
+
+### Bug Fixes
+
+* ignore worker files when building contracts ([aed987c](https://github.com/easyops-cn/next-core/commit/aed987ce536647eff342ba3c39ec6bc63d6555c8))
+
+
+
+
+
 ## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.0...@next-core/build-config-factory@2.17.1) (2021-11-16)
 
 
