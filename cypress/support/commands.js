@@ -24,13 +24,13 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("login", () => {
-  cy.request("POST", "/next/api/auth/login", {
+Cypress.Commands.add("login", (origin) => {
+  cy.request("POST", `${origin}/next/api/auth/login`, {
     username: "easyops",
     password: "easyops",
   });
 });
 
-Cypress.Commands.add("logout", () => {
-  cy.request("POST", "/next/api/auth/logout");
+Cypress.Commands.add("logout", (origin) => {
+  cy.request("POST", `${origin}/next/api/auth/logout`);
 });

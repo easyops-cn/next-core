@@ -1,12 +1,16 @@
 /// <reference types="Cypress" />
 
-describe("404 page", () => {
-  beforeEach(() => {
-    cy.login();
-  });
+for (const port of Cypress.env("ports")) {
+  const origin = `http://localhost:${port}`;
 
-  it("show page not found", () => {
-    cy.visit("/next/not-existed");
-    cy.contains("basic-bricks\\.page-not-found", "/next/not-existed");
+  describe("404 page", () => {
+    beforeEach(() => {
+      cy.login(origin);
+    });
+
+    it("show page not found", () => {
+      cy.visit(`${origin}/next/not-existed`);
+      cy.contains("basic-bricks\\.page-not-found", "/next/not-existed");
+    });
   });
-});
+}

@@ -1,0 +1,11 @@
+app:
+  name: Auth
+  id: auth
+  homepage: /auth
+  noAuthGuard: true
+routes:
+- path: ${APP.homepage}/login
+  bricks:
+    - brick: div
+      properties:
+        textContent: Login
