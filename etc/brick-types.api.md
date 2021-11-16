@@ -572,7 +572,7 @@ export type BrickOfUpdateSingle<S = any, F = any, C = any> = CustomEventListener
 // @internal (undocumented)
 export interface BrickPackage {
     // (undocumented)
-    bricks: string[];
+    bricks?: string[];
     // (undocumented)
     dll?: string[];
     // (undocumented)
@@ -2228,7 +2228,7 @@ export interface TemplatePackage {
     // (undocumented)
     filePath: string;
     // (undocumented)
-    templates: string[];
+    templates?: string[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "TemplateRegistry" should be prefixed with an underscore because the declaration is marked as @internal
