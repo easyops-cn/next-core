@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.0...@next-core/build-config-factory@2.17.1) (2021-11-16)
+
+
+### Bug Fixes
+
+* use compatible syntax for node.js ([7e15f67](https://github.com/easyops-cn/next-core/commit/7e15f67058a1420c4f8be0903b350ba5d3ee67d8))
+
+
+
+
+
 # [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.16.0...@next-core/build-config-factory@2.17.0) (2021-11-15)
 
 
