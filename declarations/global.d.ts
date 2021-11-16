@@ -56,3 +56,7 @@ interface Window {
   /** The bootstrap filename, E.g. "hello-world/-/bootstrap.abc123.json" */
   BOOTSTRAP_FILE?: string;
 }
+
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};

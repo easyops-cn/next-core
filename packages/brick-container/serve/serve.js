@@ -6,6 +6,7 @@ const { throttle, escapeRegExp } = require("lodash");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
 const WebSocket = require("ws");
+const yaml = require("js-yaml");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
@@ -78,10 +79,34 @@ module.exports = function serve(runtimeFlags) {
     res.send(cachedIndexHtml);
   };
 
+  if (env.standaloneMicroApps) {
+    // Return a fake `conf.yaml` for standalone micro-apps.
+    app.get(`${env.baseHref}conf.yaml`, (req, res) => {
+      res.setHeader("content-type", "text/plain");
+      res.send(
+        yaml.safeDump({
+          sys_settings: {
+            feature_flags: {
+              "development-mode": true,
+            },
+          },
+        })
+      );
+    });
+
+    // Return a fake page of `/auth/*` for fully standalone micro-apps.
+    if (env.standaloneAppDir) {
+      app.get(`${env.baseHref}auth/login`, (req, res) => {
+        res.send("Developing Login");
+      });
+    }
+  }
+
+  const serveRoot = env.standaloneMicroApps
+    ? `${env.baseHref}${env.standaloneAppDir}`
+    : env.baseHref;
+
   if (env.useLocalContainer) {
-    const serveRoot = env.standaloneMicroApps
-      ? `${env.baseHref}${env.standaloneAppDir}`
-      : env.baseHref;
     // Serve index.html.
     app.get(serveRoot, serveIndexHtml);
     // Serve static files.
@@ -119,8 +144,18 @@ module.exports = function serve(runtimeFlags) {
   }
 
   if (env.useLocalContainer) {
-    // All requests fallback to index.html.
-    app.use(serveIndexHtml);
+    app.use(serveRoot, serveIndexHtml);
+
+    if (env.standaloneAppDir) {
+      // Return a fake 404 page for path other than current app.
+      app.use(env.baseHref, (req, res) => {
+        res.send(
+          `<basic-bricks.page-not-found>${env.baseHref.replace(/\/$/, "")}${
+            req.path
+          } is not found</basic-bricks.page-not-found>`
+        );
+      });
+    }
   }
 
   app.listen(env.port, env.host);

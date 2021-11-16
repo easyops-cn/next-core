@@ -12,7 +12,7 @@ for (const port of Cypress.env("ports")) {
       // We test as the real world with `--subdir`.
       cy.visit(`${origin}/next/home/?lng=zh`);
       cy.location("pathname").should("eq", "/next/auth/login");
-      cy.contains("Login");
+      cy.contains("Developing Login");
     });
   });
 }
