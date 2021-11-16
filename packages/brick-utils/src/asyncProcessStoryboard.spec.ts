@@ -120,6 +120,6 @@ describe("asyncProcessStoryboard", () => {
       $$template: "c.template-c",
       $$params: undefined,
     });
-    // expect(hasOwnProperty(innerBrick, "$$if")).toBe(false);
+    expect(hasOwnProperty(innerBrick, "$$if")).toBe(false);
   });
 });

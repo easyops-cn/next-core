@@ -76,7 +76,13 @@ describe("getDllAndDepsOfBricks", () => {
   it("should work", () => {
     expect(
       getDllAndDepsOfBricks(
-        ["a.brick-a", "c.brick-c", "m.brick-m", "invalid.brick-z"],
+        [
+          "a.brick-a",
+          "c.brick-c",
+          "m.brick-m",
+          "invalid.brick-z",
+          "tpl-create-form",
+        ],
         brickPackages
       )
     ).toEqual({
@@ -135,9 +141,9 @@ describe("getDllAndDepsByResource", () => {
   it("should show error message", () => {
     getDllAndDepsByResource(
       {
-        bricks: ["invalid-bricks"],
-        editorBricks: ["invalid--editor"],
-        processors: ["inValidProcessor"],
+        bricks: ["invalid.form-bricks", "tpl-create-form"],
+        editorBricks: ["invalid.form--editor"],
+        processors: ["inValidProcessor.covert"],
       },
       [
         {
@@ -150,15 +156,15 @@ describe("getDllAndDepsByResource", () => {
       "the file path of brick is `invalid/file/path` and it is non-standard package path"
     );
     expect(spyConsoleError.mock.calls[1][0]).toEqual(
-      "the name of brick is `invalid-bricks` and it don't match any package"
+      "the name of brick is `invalid.form-bricks` and it don't match any package"
     );
 
     expect(spyConsoleError.mock.calls[2][0]).toEqual(
-      "the name of processor is `inValidProcessor` and it don't match any package"
+      "the name of processor is `inValidProcessor.covert` and it don't match any package"
     );
 
     expect(spyConsoleError.mock.calls[3][0]).toEqual(
-      "the name of editor is `invalid--editor` and it don't match any editor package"
+      "the name of editor is `invalid.form--editor` and it don't match any editor package"
     );
   });
 
@@ -166,6 +172,13 @@ describe("getDllAndDepsByResource", () => {
     expect(getDllAndDepsByResource({}, brickPackages)).toEqual({
       dll: [],
       deps: [],
+    });
+
+    expect(
+      getDllAndDepsByResource({ bricks: ["a.brick-a"] }, [] as BrickPackage[])
+    ).toEqual({
+      deps: [],
+      dll: [],
     });
   });
 });

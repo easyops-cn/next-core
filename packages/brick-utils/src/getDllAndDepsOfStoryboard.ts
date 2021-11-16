@@ -34,7 +34,7 @@ export function getDllAndDepsOfStoryboard(
   };
 }
 
-export function getBrickToPackageMap(
+function getBrickToPackageMap(
   brickPackages: BrickPackage[]
 ): Map<string, BrickPackage> {
   if (isEmpty(brickPackages)) {
@@ -43,7 +43,7 @@ export function getBrickToPackageMap(
 
   return brickPackages.reduce((m, item) => {
     if (/^bricks\/.*\/dist\/.*\.js$/.test(item.filePath)) {
-      const namespace = item.filePath.split("/")?.[1];
+      const namespace = item.filePath.split("/")[1];
       m.set(namespace, item);
     } else {
       // eslint-disable-next-line no-console
@@ -65,20 +65,24 @@ export function getDllAndDepsOfBricks(
   if (bricks.length > 0) {
     const brickMap = getBrickToPackageMap(brickPackages);
     bricks.forEach((brick) => {
-      const namespace = brick.split(".")?.[0];
-      const find = brickMap.get(namespace);
-      if (find) {
-        deps.add(find.filePath);
-        if (find.dll) {
-          for (const dllName of find.dll) {
-            dll.add(dllName);
+      // ignore custom template
+      // istanbul ignore else
+      if (brick.includes(".")) {
+        const namespace = brick.split(".")[0];
+        const find = brickMap.get(namespace);
+        if (find) {
+          deps.add(find.filePath);
+          if (find.dll) {
+            for (const dllName of find.dll) {
+              dll.add(dllName);
+            }
           }
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(
+            `the name of brick is \`${brick}\` and it don't match any brick package`
+          );
         }
-      } else {
-        // eslint-disable-next-line no-console
-        console.error(
-          `the name of brick is \`${brick}\` and it don't match any brick package`
-        );
       }
     });
   }
@@ -110,43 +114,51 @@ export function getDllAndDepsByResource(
     const brickMap = getBrickToPackageMap(brickPackages);
 
     [...(bricks ?? []), ...(processors ?? [])].forEach((name) => {
-      let namespace = name.split(".")?.[0];
-      const isProcessor = processors?.includes(name);
+      // ignore custom template
+      // istanbul ignore else
+      if (name.includes(".")) {
+        let namespace = name.split(".")[0];
+        const isProcessor = processors?.includes(name);
 
-      // processor 是 camelCase 格式，转成 brick 的 param-case 格式，统一去判断
-      if (isProcessor) {
-        namespace = changeCase.paramCase(namespace);
-      }
-      const find = brickMap.get(namespace);
-      if (find) {
-        deps.add(find.filePath);
-
-        if (find.dll) {
-          for (const dllName of find.dll) {
-            dll.add(dllName);
-          }
+        // processor 是 camelCase 格式，转成 brick 的 param-case 格式，统一去判断
+        if (isProcessor) {
+          namespace = changeCase.paramCase(namespace);
         }
-      } else {
-        // eslint-disable-next-line no-console
-        console.error(
-          `the name of ${
-            isProcessor ? "processor" : "brick"
-          } is \`${name}\` and it don't match any package`
-        );
+        const find = brickMap.get(namespace);
+        if (find) {
+          deps.add(find.filePath);
+
+          if (find.dll) {
+            for (const dllName of find.dll) {
+              dll.add(dllName);
+            }
+          }
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(
+            `the name of ${
+              isProcessor ? "processor" : "brick"
+            } is \`${name}\` and it don't match any package`
+          );
+        }
       }
     });
 
     editorBricks?.forEach((editor) => {
-      const namespace = editor.split(".")?.[0];
-      const find = brickMap.get(namespace);
-      if (find) {
-        deps.add(find.editorsJsFilePath);
-        dll.add("editor-bricks-helper");
-      } else {
-        // eslint-disable-next-line no-console
-        console.error(
-          `the name of editor is \`${editor}\` and it don't match any editor package`
-        );
+      // ignore custom template editor
+      // istanbul ignore else
+      if (editor.includes(".")) {
+        const namespace = editor.split(".")[0];
+        const find = brickMap.get(namespace);
+        if (find) {
+          deps.add(find.editorsJsFilePath);
+          dll.add("editor-bricks-helper");
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(
+            `the name of editor is \`${editor}\` and it don't match any editor package`
+          );
+        }
       }
     });
   }

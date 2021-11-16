@@ -26,7 +26,6 @@
           "createProviderClass",
           "deepFreeze",
           "formatValue",
-          "getBrickToPackageMap",
           "getDependencyMapOfContext",
           "getDepsOfTemplates",
           "getDllAndDepsByResource",

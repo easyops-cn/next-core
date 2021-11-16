@@ -84,7 +84,7 @@ export function getDepsOfTemplates(
       } else {
         // eslint-disable-next-line no-console
         console.error(
-          `the file path of template is \`${item.filePath}\` and it is non-standard format`
+          `the file path of template is \`${item.filePath}\` and it is non-standard package path`
         );
       }
       return m;
@@ -93,7 +93,7 @@ export function getDepsOfTemplates(
   );
 
   return templates.reduce((arr, template) => {
-    const namespace = template.split(".")?.[0];
+    const namespace = template.split(".")[0];
     const find = templateMap.get(namespace);
     if (find) {
       arr.push(find.filePath);

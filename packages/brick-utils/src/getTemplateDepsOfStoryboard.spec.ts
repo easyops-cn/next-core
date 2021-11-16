@@ -150,7 +150,7 @@ describe("getTemplateDepsOfStoryboard", () => {
     ]);
 
     expect(spyConsoleError.mock.calls[0][0]).toEqual(
-      "the file path of template is `invalid/template/x.js` and it is non-standard format"
+      "the file path of template is `invalid/template/x.js` and it is non-standard package path"
     );
 
     expect(spyConsoleError.mock.calls[1][0]).toEqual(
