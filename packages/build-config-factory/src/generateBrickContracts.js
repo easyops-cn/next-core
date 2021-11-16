@@ -18,7 +18,7 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
     if (err || stats.hasErrors()) {
       // [Handle errors here](#error-handling)
       console.error("Failed to generate brick contracts:");
-      console.error(err || stats);
+      console.error(err || stats.toString());
       process.exitCode = 1;
       return;
     }

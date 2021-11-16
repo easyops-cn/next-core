@@ -64,12 +64,18 @@ module.exports = (cwdDirname = process.cwd(), brickEntries) => {
             rootMode: "upward",
           },
         },
+        {
+          // Ignore worker modules, which do not matter with contracts.
+          test: /\.worker\./,
+          use: "null-loader",
+        },
       ],
     },
     plugins: [
       new webpack.IgnorePlugin({
         // Ignore all non-js files, which do not matter with contracts.
-        resourceRegExp: /\.(?:md|svga?|woff(2)?|ttf|eot|png|jpg|css|less|html)$/,
+        resourceRegExp:
+          /\.(?:md|svga?|woff(2)?|ttf|eot|png|jpg|css|less|html)$/,
       }),
       new CleanWebpackPlugin(),
       new NextDllReferencePlugin({
