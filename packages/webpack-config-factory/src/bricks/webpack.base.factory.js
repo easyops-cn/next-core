@@ -326,7 +326,6 @@ module.exports =
         // on the fly, for the entry.
         // https://v4.webpack.js.org/guides/public-path/#on-the-fly
         new ModifySourcePlugin({
-          debug: true,
           rules: [
             {
               test: (module) => module.rawRequest === entryFilePath,
