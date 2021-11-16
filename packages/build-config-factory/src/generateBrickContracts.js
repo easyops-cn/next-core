@@ -58,24 +58,26 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
                   {
                     type: "contract",
                     contract,
-                    version: version ?? "*",
+                    version: version || "*",
                   }
                 );
               }
             }
           } else {
             const brick = path.basename(filePath, ".js.contracts");
-            depsMap.set(
-              brick,
-              contracts?.map((item) => {
-                const [contract, version] = item.split("@");
-                return {
-                  type: "contract",
-                  contract,
-                  version: version ?? "*",
-                };
-              })
-            );
+            if (contracts) {
+              depsMap.set(
+                brick,
+                contracts.map((item) => {
+                  const [contract, version] = item.split("@");
+                  return {
+                    type: "contract",
+                    contract,
+                    version: version || "*",
+                  };
+                })
+              );
+            }
           }
         })
       );
