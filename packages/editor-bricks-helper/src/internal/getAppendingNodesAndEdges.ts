@@ -50,9 +50,10 @@ export function getAppendingNodesAndEdges(
         !processedTemplateSet.has(builderNode.brick) &&
         (templateSource = templateSourceMap?.get(builderNode.brick)) &&
         templateSource.children?.length > 0) ||
-        ( builderNode.brick.includes(".tpl-") && (templateSource = storyList?.find(
-          (item) => item.storyId === builderNode.brick
-        )?.originData) &&
+        (builderNode.brick.includes(".tpl-") &&
+          (templateSource = storyList?.find(
+            (item) => item.storyId === builderNode.brick
+          )?.originData) &&
           templateSource.children?.length > 0))
     ) {
       // Avoid nesting the same templates.

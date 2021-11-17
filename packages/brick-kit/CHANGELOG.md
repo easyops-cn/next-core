@@ -7,279 +7,152 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.84.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.84.0...@next-core/brick-kit@2.84.1) (2021-11-12)
-
 
 ### Bug Fixes
 
-* **brick-kit:** update user_id of analytics when logout and login ([82ac205](https://github.com/easyops-cn/next-core/commit/82ac205b1ff525a60d2a7b63ddccd958e663b0fb))
-
-
-
-
+- **brick-kit:** update user_id of analytics when logout and login ([82ac205](https://github.com/easyops-cn/next-core/commit/82ac205b1ff525a60d2a7b63ddccd958e663b0fb))
 
 # [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.83.0...@next-core/brick-kit@2.84.0) (2021-11-11)
 
-
 ### Bug Fixes
 
-* **websocket:** refine get base url ([337bfc6](https://github.com/easyops-cn/next-core/commit/337bfc608e8cd3257e1c36840f365483cde8761a))
-
+- **websocket:** refine get base url ([337bfc6](https://github.com/easyops-cn/next-core/commit/337bfc608e8cd3257e1c36840f365483cde8761a))
 
 ### Features
 
-* support standalone micro-apps ([a08d9e8](https://github.com/easyops-cn/next-core/commit/a08d9e8502de5e4a5bd4adb00cf2c247696c5dd2))
-
-
-
-
+- support standalone micro-apps ([a08d9e8](https://github.com/easyops-cn/next-core/commit/a08d9e8502de5e4a5bd4adb00cf2c247696c5dd2))
 
 # [2.83.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.82.2...@next-core/brick-kit@2.83.0) (2021-11-10)
 
-
 ### Features
 
-* **Kernel:** init analytics add userId and debugMode options ([7fa6ae8](https://github.com/easyops-cn/next-core/commit/7fa6ae8192f5dae7ac7b436ce588537e503fd53d))
-
-
-
-
+- **Kernel:** init analytics add userId and debugMode options ([7fa6ae8](https://github.com/easyops-cn/next-core/commit/7fa6ae8192f5dae7ac7b436ce588537e503fd53d))
 
 ## [2.82.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.82.1...@next-core/brick-kit@2.82.2) (2021-11-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.82.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.82.0...@next-core/brick-kit@2.82.1) (2021-11-08)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.82.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.2...@next-core/brick-kit@2.82.0) (2021-11-08)
-
 
 ### Features
 
-* **developHelper:** add checkoutContext api ([7d02acf](https://github.com/easyops-cn/next-core/commit/7d02acf41f4665f2068f5066cf6e288251d9ea6d))
-* **developHelper:** rename _dev_only_checkoutContext to _dev_only_checkoutTplContext ([e67d4dc](https://github.com/easyops-cn/next-core/commit/e67d4dc854b013ad12ce8d2d210a7e01ac638332))
-
-
-
-
+- **developHelper:** add checkoutContext api ([7d02acf](https://github.com/easyops-cn/next-core/commit/7d02acf41f4665f2068f5066cf6e288251d9ea6d))
+- **developHelper:** rename \_dev_only_checkoutContext to \_dev_only_checkoutTplContext ([e67d4dc](https://github.com/easyops-cn/next-core/commit/e67d4dc854b013ad12ce8d2d210a7e01ac638332))
 
 ## [2.81.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.1...@next-core/brick-kit@2.81.2) (2021-11-08)
 
-
 ### Bug Fixes
 
-* window.open should follow base href ([0444f63](https://github.com/easyops-cn/next-core/commit/0444f63130ae58c9a8033eb79658387f8256aece))
-
-
-
-
+- window.open should follow base href ([0444f63](https://github.com/easyops-cn/next-core/commit/0444f63130ae58c9a8033eb79658387f8256aece))
 
 ## [2.81.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.81.0...@next-core/brick-kit@2.81.1) (2021-11-04)
 
-
 ### Bug Fixes
 
-* update args during polling ([c892a21](https://github.com/easyops-cn/next-core/commit/c892a21c24e1deb66a0b1a2707918d382ef810a9))
-
-
-
-
+- update args during polling ([c892a21](https://github.com/easyops-cn/next-core/commit/c892a21c24e1deb66a0b1a2707918d382ef810a9))
 
 # [2.81.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.80.3...@next-core/brick-kit@2.81.0) (2021-11-04)
 
-
 ### Features
 
-* support getting misc settings in storyboard ([e661336](https://github.com/easyops-cn/next-core/commit/e661336015a970edebae053c9220f2df6527969e))
-
-
-
-
+- support getting misc settings in storyboard ([e661336](https://github.com/easyops-cn/next-core/commit/e661336015a970edebae053c9220f2df6527969e))
 
 ## [2.80.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.80.2...@next-core/brick-kit@2.80.3) (2021-11-02)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.80.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.80.1...@next-core/brick-kit@2.80.2) (2021-11-01)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.80.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.80.0...@next-core/brick-kit@2.80.1) (2021-11-01)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.80.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.79.2...@next-core/brick-kit@2.80.0) (2021-10-29)
-
 
 ### Features
 
-* **analytics:** event add micro_app_id and route_alias parameters ([693ede0](https://github.com/easyops-cn/next-core/commit/693ede08e704e5586afbb36be82a67889a796d42))
-
-
-
-
+- **analytics:** event add micro_app_id and route_alias parameters ([693ede0](https://github.com/easyops-cn/next-core/commit/693ede08e704e5586afbb36be82a67889a796d42))
 
 ## [2.79.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.79.1...@next-core/brick-kit@2.79.2) (2021-10-29)
 
-
 ### Bug Fixes
 
-* fix no contract data ([2282ae8](https://github.com/easyops-cn/next-core/commit/2282ae818092750747fc6fefefe1af72bb8ae194))
-
-
-
-
+- fix no contract data ([2282ae8](https://github.com/easyops-cn/next-core/commit/2282ae818092750747fc6fefefe1af72bb8ae194))
 
 ## [2.79.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.79.0...@next-core/brick-kit@2.79.1) (2021-10-28)
 
-
 ### Bug Fixes
 
-* **useBrick:** fix useBrick accpet object data ([6c84290](https://github.com/easyops-cn/next-core/commit/6c84290959c8ab624a6ffd675a62d800c84caaab))
-
-
-
-
+- **useBrick:** fix useBrick accpet object data ([6c84290](https://github.com/easyops-cn/next-core/commit/6c84290959c8ab624a6ffd675a62d800c84caaab))
 
 # [2.79.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.4...@next-core/brick-kit@2.79.0) (2021-10-28)
 
-
 ### Features
 
-* **analytics:** send page_view after mount tree and add support for extra parameters ([eb0faad](https://github.com/easyops-cn/next-core/commit/eb0faadf368617a48aaa1cf6ef76802e828ca8ce))
-
-
-
-
+- **analytics:** send page_view after mount tree and add support for extra parameters ([eb0faad](https://github.com/easyops-cn/next-core/commit/eb0faadf368617a48aaa1cf6ef76802e828ca8ce))
 
 ## [2.78.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.3...@next-core/brick-kit@2.78.4) (2021-10-28)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.78.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.2...@next-core/brick-kit@2.78.3) (2021-10-27)
-
 
 ### Bug Fixes
 
-* modify field ([81703e7](https://github.com/easyops-cn/next-core/commit/81703e7925087f2937c780363c22369ea67cfa44))
-
-
-
-
+- modify field ([81703e7](https://github.com/easyops-cn/next-core/commit/81703e7925087f2937c780363c22369ea67cfa44))
 
 ## [2.78.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.1...@next-core/brick-kit@2.78.2) (2021-10-27)
 
-
 ### Bug Fixes
 
-* replace cmdb provider with new provider ([d7b33bd](https://github.com/easyops-cn/next-core/commit/d7b33bd6a653bb73f2ae2d112a8eee5b49434ee5))
-
-
-
-
+- replace cmdb provider with new provider ([d7b33bd](https://github.com/easyops-cn/next-core/commit/d7b33bd6a653bb73f2ae2d112a8eee5b49434ee5))
 
 ## [2.78.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.78.0...@next-core/brick-kit@2.78.1) (2021-10-22)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.78.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.77.0...@next-core/brick-kit@2.78.0) (2021-10-21)
-
 
 ### Features
 
-* **bindListeners:** add analytics.send builtin handler ([bd16412](https://github.com/easyops-cn/next-core/commit/bd164129a1e95b73867be9504c0704beb14fe581))
-
-
-
-
+- **bindListeners:** add analytics.send builtin handler ([bd16412](https://github.com/easyops-cn/next-core/commit/bd164129a1e95b73867be9504c0704beb14fe581))
 
 # [2.77.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.76.0...@next-core/brick-kit@2.77.0) (2021-10-20)
 
-
 ### Features
 
-* support checking version of installed apps ([220aed5](https://github.com/easyops-cn/next-core/commit/220aed501758a047743ecf6fa1485a09358ecadb))
-
-
-
-
+- support checking version of installed apps ([220aed5](https://github.com/easyops-cn/next-core/commit/220aed501758a047743ecf6fa1485a09358ecadb))
 
 # [2.76.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.75.1...@next-core/brick-kit@2.76.0) (2021-10-20)
 
-
 ### Features
 
-* support widget functions ([a5a5cff](https://github.com/easyops-cn/next-core/commit/a5a5cff7b183b971e434506e531d0fddbbf5e597))
-
-
-
-
+- support widget functions ([a5a5cff](https://github.com/easyops-cn/next-core/commit/a5a5cff7b183b971e434506e531d0fddbbf5e597))
 
 ## [2.75.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.75.0...@next-core/brick-kit@2.75.1) (2021-10-15)
 
-
 ### Bug Fixes
 
-* window.open action the third parameter is missing ([e2e8e27](https://github.com/easyops-cn/next-core/commit/e2e8e278e080c6c0f157168e10d0e97d66e22ccf))
-
-
-
-
+- window.open action the third parameter is missing ([e2e8e27](https://github.com/easyops-cn/next-core/commit/e2e8e278e080c6c0f157168e10d0e97d66e22ccf))
 
 # [2.75.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.74.1...@next-core/brick-kit@2.75.0) (2021-10-13)
 
-
 ### Features
 
-* update BrickAsComponent unit test ([1c77a83](https://github.com/easyops-cn/next-core/commit/1c77a83d361f208d0fefd5b9296a8fdd7d7c3086))
-* update BrickAsComponent unit test ([0aed68d](https://github.com/easyops-cn/next-core/commit/0aed68d566b4a50d08fdb817124f8f648f7704ca))
-* update useBrick if condition, and support widget to expand ([df4b47a](https://github.com/easyops-cn/next-core/commit/df4b47ad3337c7723d50ee81e7bb1b86076bc5b2))
-
-
-
-
+- update BrickAsComponent unit test ([1c77a83](https://github.com/easyops-cn/next-core/commit/1c77a83d361f208d0fefd5b9296a8fdd7d7c3086))
+- update BrickAsComponent unit test ([0aed68d](https://github.com/easyops-cn/next-core/commit/0aed68d566b4a50d08fdb817124f8f648f7704ca))
+- update useBrick if condition, and support widget to expand ([df4b47a](https://github.com/easyops-cn/next-core/commit/df4b47ad3337c7723d50ee81e7bb1b86076bc5b2))
 
 ## [2.74.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.74.0...@next-core/brick-kit@2.74.1) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 # [2.74.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.73.2...@next-core/brick-kit@2.74.0) (2021-10-11)
 

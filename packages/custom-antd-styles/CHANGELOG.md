@@ -5,22 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.8.10](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.9...@next-core/custom-antd-styles@1.8.10) (2021-11-03)
 
-
 ### Bug Fixes
 
-* **table:** fix width of nested empty table keep growing ([e4e82bc](https://github.com/easyops-cn/next-core/commit/e4e82bc4cfc211a66f8fe27f92a48694168456bd))
-
-
-
-
+- **table:** fix width of nested empty table keep growing ([e4e82bc](https://github.com/easyops-cn/next-core/commit/e4e82bc4cfc211a66f8fe27f92a48694168456bd))
 
 ## [1.8.9](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.8...@next-core/custom-antd-styles@1.8.9) (2021-05-27)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
-
-
-
-
 
 ## [1.8.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.7...@next-core/custom-antd-styles@1.8.8) (2021-05-24)
 

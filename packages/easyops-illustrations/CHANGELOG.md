@@ -5,30 +5,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.4.3...@next-core/illustrations@0.4.4) (2021-11-11)
 
-
 ### Bug Fixes
 
-* refine assets path ([8cb81cc](https://github.com/easyops-cn/next-core/commit/8cb81cc748ee14686d71bce1a86dd0fdda1037e9))
-
-
-
-
+- refine assets path ([8cb81cc](https://github.com/easyops-cn/next-core/commit/8cb81cc748ee14686d71bce1a86dd0fdda1037e9))
 
 ## [0.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.4.2...@next-core/illustrations@0.4.3) (2021-11-09)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.4.1...@next-core/illustrations@0.4.2) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.4.0...@next-core/illustrations@0.4.1) (2021-09-06)
 

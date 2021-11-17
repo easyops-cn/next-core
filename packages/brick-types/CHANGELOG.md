@@ -5,101 +5,57 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.47.0...@next-core/brick-types@2.48.0) (2021-11-11)
 
-
 ### Features
 
-* support standalone menu types ([9ab5868](https://github.com/easyops-cn/next-core/commit/9ab5868c7182e5befa0d6553b47b813e46c2b73c))
-
-
-
-
+- support standalone menu types ([9ab5868](https://github.com/easyops-cn/next-core/commit/9ab5868c7182e5befa0d6553b47b813e46c2b73c))
 
 # [2.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.46.0...@next-core/brick-types@2.47.0) (2021-11-02)
 
-
 ### Features
 
-* BuilderRouteNode add analyticsData property ([ed1d401](https://github.com/easyops-cn/next-core/commit/ed1d401e4f47e7f6849cef0260cb355d2d8f7e01))
-
-
-
-
+- BuilderRouteNode add analyticsData property ([ed1d401](https://github.com/easyops-cn/next-core/commit/ed1d401e4f47e7f6849cef0260cb355d2d8f7e01))
 
 # [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.45.0...@next-core/brick-types@2.46.0) (2021-11-01)
 
-
 ### Features
 
-* **brick-types:** interface Story add fields: useWidget ([1efa653](https://github.com/easyops-cn/next-core/commit/1efa653329a06bba934227e93277918e3dc233ea))
-* **brick-types:** update Story type ([f4d0e95](https://github.com/easyops-cn/next-core/commit/f4d0e95423bb089f2a999865a99bbe1e58ff3cb7))
-
-
-
-
+- **brick-types:** interface Story add fields: useWidget ([1efa653](https://github.com/easyops-cn/next-core/commit/1efa653329a06bba934227e93277918e3dc233ea))
+- **brick-types:** update Story type ([f4d0e95](https://github.com/easyops-cn/next-core/commit/f4d0e95423bb089f2a999865a99bbe1e58ff3cb7))
 
 # [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.44.0...@next-core/brick-types@2.45.0) (2021-10-28)
 
-
 ### Features
 
-* add isRouteConfOfBricks and isRouteConfOfRoutes ([2f15f6c](https://github.com/easyops-cn/next-core/commit/2f15f6ce8b0fc1c6120cc4f93c185402c5f2f72a))
-* RouteConfOfBricks add analyticsData property ([348752f](https://github.com/easyops-cn/next-core/commit/348752fa7d0886e506ea728a60687715f0d6b1b5))
-
-
-
-
+- add isRouteConfOfBricks and isRouteConfOfRoutes ([2f15f6c](https://github.com/easyops-cn/next-core/commit/2f15f6ce8b0fc1c6120cc4f93c185402c5f2f72a))
+- RouteConfOfBricks add analyticsData property ([348752f](https://github.com/easyops-cn/next-core/commit/348752fa7d0886e506ea728a60687715f0d6b1b5))
 
 # [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.43.0...@next-core/brick-types@2.44.0) (2021-10-28)
 
-
 ### Features
 
-* **buildDataManage:** add the updateBrick function to update the widget ([a5929b4](https://github.com/easyops-cn/next-core/commit/a5929b4dee4148d95c6e37b4fe6eb2b4ee9f8570))
-
-
-
-
+- **buildDataManage:** add the updateBrick function to update the widget ([a5929b4](https://github.com/easyops-cn/next-core/commit/a5929b4dee4148d95c6e37b4fe6eb2b4ee9f8570))
 
 # [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.42.0...@next-core/brick-types@2.43.0) (2021-10-21)
 
-
 ### Features
 
-* **bindListeners:** add analytics.send builtin handler ([bd16412](https://github.com/easyops-cn/next-core/commit/bd164129a1e95b73867be9504c0704beb14fe581))
-
-
-
-
+- **bindListeners:** add analytics.send builtin handler ([bd16412](https://github.com/easyops-cn/next-core/commit/bd164129a1e95b73867be9504c0704beb14fe581))
 
 # [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.41.0...@next-core/brick-types@2.42.0) (2021-10-20)
 
-
 ### Features
 
-* support checking version of installed apps ([220aed5](https://github.com/easyops-cn/next-core/commit/220aed501758a047743ecf6fa1485a09358ecadb))
-
-
-
-
+- support checking version of installed apps ([220aed5](https://github.com/easyops-cn/next-core/commit/220aed501758a047743ecf6fa1485a09358ecadb))
 
 # [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.40.1...@next-core/brick-types@2.41.0) (2021-10-13)
 
-
 ### Features
 
-* update useBrick if condition, and support widget to expand ([df4b47a](https://github.com/easyops-cn/next-core/commit/df4b47ad3337c7723d50ee81e7bb1b86076bc5b2))
-
-
-
-
+- update useBrick if condition, and support widget to expand ([df4b47a](https://github.com/easyops-cn/next-core/commit/df4b47ad3337c7723d50ee81e7bb1b86076bc5b2))
 
 ## [2.40.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.40.0...@next-core/brick-types@2.40.1) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/brick-types
-
-
-
-
 
 # [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.39.1...@next-core/brick-types@2.40.0) (2021-09-30)
 

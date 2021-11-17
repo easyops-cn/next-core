@@ -5,52 +5,29 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.0...@next-core/webpack-config-factory@2.14.1) (2021-11-16)
 
-
 ### Bug Fixes
 
-* ignore worker files when building contracts ([aed987c](https://github.com/easyops-cn/next-core/commit/aed987ce536647eff342ba3c39ec6bc63d6555c8))
-
-
-
-
+- ignore worker files when building contracts ([aed987c](https://github.com/easyops-cn/next-core/commit/aed987ce536647eff342ba3c39ec6bc63d6555c8))
 
 # [2.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.13.0...@next-core/webpack-config-factory@2.14.0) (2021-11-15)
 
-
 ### Features
 
-* general brick contracts for providers ([8a34620](https://github.com/easyops-cn/next-core/commit/8a34620617186cf706f152f62f11a32289f84c3e))
-
-
-
-
+- general brick contracts for providers ([8a34620](https://github.com/easyops-cn/next-core/commit/8a34620617186cf706f152f62f11a32289f84c3e))
 
 # [2.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.12.4...@next-core/webpack-config-factory@2.13.0) (2021-11-09)
 
-
 ### Features
 
-* set webpack public path on the fly ([a5fb663](https://github.com/easyops-cn/next-core/commit/a5fb663932012f14c0ef6f40b597bd6187b2b844))
-
-
-
-
+- set webpack public path on the fly ([a5fb663](https://github.com/easyops-cn/next-core/commit/a5fb663932012f14c0ef6f40b597bd6187b2b844))
 
 ## [2.12.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.12.3...@next-core/webpack-config-factory@2.12.4) (2021-10-25)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
 
-
-
-
-
 ## [2.12.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.12.2...@next-core/webpack-config-factory@2.12.3) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
-
-
-
-
 
 ## [2.12.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.12.1...@next-core/webpack-config-factory@2.12.2) (2021-09-22)
 

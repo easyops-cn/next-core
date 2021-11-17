@@ -5,114 +5,61 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.29.0...@next-core/brick-utils@2.30.0) (2021-11-11)
 
-
 ### Features
 
-* **loadscript:** support script src prefix ([56229d1](https://github.com/easyops-cn/next-core/commit/56229d1783f8e3a450ec316d78becd4f405cff72))
-
-
-
-
+- **loadscript:** support script src prefix ([56229d1](https://github.com/easyops-cn/next-core/commit/56229d1783f8e3a450ec316d78becd4f405cff72))
 
 # [2.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.15...@next-core/brick-utils@2.29.0) (2021-11-02)
 
-
 ### Features
 
-* jsonFieldsInRoute add analyticsData ([7a6464f](https://github.com/easyops-cn/next-core/commit/7a6464f9b8d88754cb964babb2d9ffeca782be40))
-
-
-
-
+- jsonFieldsInRoute add analyticsData ([7a6464f](https://github.com/easyops-cn/next-core/commit/7a6464f9b8d88754cb964babb2d9ffeca782be40))
 
 ## [2.28.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.14...@next-core/brick-utils@2.28.15) (2021-11-01)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.28.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.13...@next-core/brick-utils@2.28.14) (2021-11-01)
-
 
 ### Bug Fixes
 
-* make `analyticsData: null` disposable ([392d3a5](https://github.com/easyops-cn/next-core/commit/392d3a55e9b8d11d9d098f709077eef1d06c1269))
-
-
-
-
+- make `analyticsData: null` disposable ([392d3a5](https://github.com/easyops-cn/next-core/commit/392d3a55e9b8d11d9d098f709077eef1d06c1269))
 
 ## [2.28.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.12...@next-core/brick-utils@2.28.13) (2021-10-28)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.28.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.11...@next-core/brick-utils@2.28.12) (2021-10-28)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.28.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.10...@next-core/brick-utils@2.28.11) (2021-10-22)
-
 
 ### Bug Fixes
 
-* dispose specific null fields ([0f50281](https://github.com/easyops-cn/next-core/commit/0f502815abf47faf4156bfbf91029125bbda01a4))
-
-
-
-
+- dispose specific null fields ([0f50281](https://github.com/easyops-cn/next-core/commit/0f502815abf47faf4156bfbf91029125bbda01a4))
 
 ## [2.28.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.9...@next-core/brick-utils@2.28.10) (2021-10-21)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.28.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.8...@next-core/brick-utils@2.28.9) (2021-10-20)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.28.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.7...@next-core/brick-utils@2.28.8) (2021-10-20)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.28.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.6...@next-core/brick-utils@2.28.7) (2021-10-13)
-
 
 ### Bug Fixes
 
-* get clean segues when building storyboard ([fd51ffd](https://github.com/easyops-cn/next-core/commit/fd51ffde311681e43e1c7d06d27d794a919ee1f7))
-
-
-
-
+- get clean segues when building storyboard ([fd51ffd](https://github.com/easyops-cn/next-core/commit/fd51ffde311681e43e1c7d06d27d794a919ee1f7))
 
 ## [2.28.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.5...@next-core/brick-utils@2.28.6) (2021-10-12)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.28.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.28.4...@next-core/brick-utils@2.28.5) (2021-09-30)
 
