@@ -1311,12 +1311,6 @@ export interface MessageConf {
 export type MetaI18n = Record<string, Record<string, string>>;
 
 // @public
-export interface MetaImage {
-    name: string;
-    url: string;
-}
-
-// @public
 export interface MicroApp {
     // @internal
     $$routeAliasMap?: RouteAliasMap;
@@ -1331,6 +1325,7 @@ export interface MicroApp {
     id: string;
     installStatus?: "ok" | "running";
     internal?: boolean;
+    isBuildPush?: boolean;
     layoutType?: LayoutType;
     legacy?: "iframe";
     localeName?: string;
@@ -1421,8 +1416,6 @@ export interface PluginRuntimeContext {
     // (undocumented)
     getTplVariables?: () => Record<string, unknown>;
     hash?: string;
-    // (undocumented)
-    images?: MetaImage[];
     // @internal (undocumented)
     match?: MatchResult;
     overrideApp?: MicroApp;
@@ -2024,8 +2017,6 @@ export interface StoryboardMeta {
     customTemplates?: CustomTemplate[];
     functions?: StoryboardFunction[];
     i18n?: MetaI18n;
-    // (undocumented)
-    images?: MetaImage[];
     // (undocumented)
     menus?: MenuRawData[];
 }

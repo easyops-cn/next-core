@@ -83,7 +83,6 @@ export class Kernel {
   );
   public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
     Promise.resolve(new Map());
-  public nextAppMeta: StoryboardMeta;
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
     Map<string, CustomApiDefinition>

@@ -231,7 +231,6 @@ export class Router {
         : previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
-    this.kernel.nextAppMeta = storyboard?.meta;
     const layoutType: LayoutType = currentApp?.layoutType || "console";
 
     devtoolsHookEmit("rendering");
