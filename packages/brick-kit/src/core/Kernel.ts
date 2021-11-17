@@ -251,10 +251,15 @@ export class Kernel {
     if (window.STANDALONE_MICRO_APPS) {
       Object.assign(storyboard, { $$fulfilled: true });
     } else {
-      const { routes, meta } = await AuthSdk.getAppStoryboard(
+      const { routes, meta, app } = await AuthSdk.getAppStoryboard(
         storyboard.app.id
       );
-      Object.assign(storyboard, { routes, meta, $$fulfilled: true });
+      Object.assign(storyboard, {
+        routes,
+        meta,
+        app: { ...storyboard.app, ...app },
+        $$fulfilled: true,
+      });
     }
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
 
