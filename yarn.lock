@@ -2148,15 +2148,15 @@
   resolved "https://registry.npmjs.org/@microsoft/tsdoc/-/tsdoc-0.12.24.tgz#30728e34ebc90351dd3aff4e18d038eed2c3e098"
   integrity sha1-MHKONOvJA1HdOv9OGNA47tLD4Jg=
 
-"@next-bricks/basic-bricks@^1.133.2":
-  version "1.133.2"
-  resolved "https://registry.npmjs.org/@next-bricks/basic-bricks/-/basic-bricks-1.133.2.tgz#d19ae1f5369595b6aa431dd5d1b7c9f345917ff5"
-  integrity sha512-bzyNT96KfHIcI2SAybfNW00kujWwrUzFGos+l1kzcU8DHLiCUcWgJs9riADL2k/zJCzIoB+kE3qy8XoQVnGdvw==
+"@next-bricks/basic-bricks@^1.155.4":
+  version "1.155.4"
+  resolved "https://registry.npmjs.org/@next-bricks/basic-bricks/-/basic-bricks-1.155.4.tgz#3e3e0c9a651b75cb0681e42c2fdcf52c4b079e72"
+  integrity sha512-GjOzX+81h60ZC6j7erpmFOZdWKVt/opNacqG7D9CWpE7n+IEeGYhI6J1ICUrAYhUDNo6aBCNeEtnpNonT5Iy+A==
 
-"@next-bricks/basic-providers@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@next-bricks/basic-providers/-/basic-providers-1.3.0.tgz#5d0961aa77b985f45e26614ad9cb53609a1f848a"
-  integrity sha512-M9rE8CDKw/49zlxj0kkZTUFtr3JJPg9tyHjefne9Pb+Qb9X7c0W4fL9Lc23Q4tx9xSmjsUVfUJnyoRzYUWEgfA==
+"@next-bricks/basic-providers@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@next-bricks/basic-providers/-/basic-providers-1.4.0.tgz#58b73aaf0a64dd6948f322cb44fa270459353cd1"
+  integrity sha512-UkIOLJFSv3U9m6ZldX8JQDk++i3TgOngG6QtC0QjaMtAWRAd1WYijBLKREQK0ACGCY/jbBbaCdvhFRRtu6Ds2w==
 
 "@next-sdk/api-gateway-sdk@^2.0.14":
   version "2.0.14"
