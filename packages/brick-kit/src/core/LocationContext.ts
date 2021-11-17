@@ -161,7 +161,6 @@ export class LocationContext {
       query: this.query,
       match,
       app: this.kernel.nextApp,
-      images: this.kernel.nextAppMeta?.images,
       sys: {
         org: auth.org,
         username: auth.username,

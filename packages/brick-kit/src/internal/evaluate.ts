@@ -13,7 +13,7 @@ import { MicroApp } from "@next-core/brick-types";
 import { _internalApiGetCurrentContext } from "../core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
-import { getUrlByImageFactory } from "./image";
+import { imagesFactory, widgetImagesFactory } from "./images";
 import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "../core/exports";
 import { checkPermissions } from "./checkPermissions";
@@ -173,7 +173,6 @@ export function evaluate(
     flags,
     hash,
     segues,
-    images,
     storyboardContext,
   } = _internalApiGetCurrentContext();
 
@@ -229,10 +228,12 @@ export function evaluate(
     };
   }
 
-  if (attemptToVisitGlobals.has("IMAGES")) {
-    globalVariables.IMAGES = {
-      getUrl: getUrlByImageFactory(images),
-    };
+  if (attemptToVisitGlobals.has("IMG")) {
+    globalVariables.IMG = imagesFactory(app);
+  }
+
+  if (attemptToVisitGlobals.has("__WIDGET_IMG__")) {
+    globalVariables.__WIDGET_IMG__ = widgetImagesFactory;
   }
 
   if (attemptToVisitGlobals.has("I18N")) {

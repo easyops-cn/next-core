@@ -157,6 +157,11 @@ export interface MicroApp {
   noAuthGuard?: boolean;
 
   /**
+   * 表示该应用是否是来自 BuildAndPush 的。
+   */
+  isBuildPush?: boolean;
+
+  /**
    * 路由别名映射（运行时得出）。
    *
    * @internal
@@ -1396,8 +1401,6 @@ export interface StoryboardMeta {
   /** {@inheritDoc MetaI18n} */
   i18n?: MetaI18n;
 
-  images?: MetaImage[];
-
   /** 应用定义的函数列表。 */
   functions?: StoryboardFunction[];
 
@@ -1431,16 +1434,6 @@ export interface StoryboardFunction {
  * ```
  */
 export type MetaI18n = Record<string, Record<string, string>>;
-
-/**
- * 图片配置。
- */
-export interface MetaImage {
-  /** 图片名称。 */
-  name: string;
-  /** 图片url。 */
-  url: string;
-}
 
 /**
  * 自定义模板配置。

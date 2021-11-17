@@ -61,7 +61,6 @@ import { SiteMode } from '@next-core/brick-types';
 import { SiteTheme } from '@next-core/brick-types';
 import { Storyboard } from '@next-core/brick-types';
 import { StoryboardFunction } from '@next-core/brick-types';
-import { StoryboardMeta } from '@next-core/brick-types';
 import { Subtract } from 'react-i18next';
 import { TemplatePackage } from '@next-core/brick-types';
 import { UseBrickConf } from '@next-core/brick-types';
