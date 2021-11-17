@@ -8,4 +8,7 @@ routes:
   bricks:
     - brick: div
       properties:
-        textContent: Login
+        textContent: |
+          <%
+            `${FLAGS["development-mode"] ? "Developing " : ""}Login`
+          %>
