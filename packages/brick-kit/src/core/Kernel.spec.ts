@@ -18,7 +18,6 @@ import {
   RuntimeBootstrapData,
   Storyboard,
 } from "@next-core/brick-types";
-import { http } from "@next-core/brick-http";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar, AppBar, BaseBar } from "./Bars";
@@ -29,6 +28,7 @@ import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
+import { standaloneBootstrap } from "./standaloneBootstrap";
 
 i18next.init({
   fallbackLng: "en",
@@ -46,6 +46,7 @@ jest.mock("./LazyBrickRegistry");
 jest.mock("../auth");
 jest.mock("../runtime");
 jest.mock("./initAnalytics");
+jest.mock("./standaloneBootstrap");
 
 const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
@@ -119,7 +120,7 @@ spyOnGetDllAndDepsByResource.mockImplementation(
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
-const mockHttpGet = jest.spyOn(http, "get");
+const mockStandaloneBootstrap = standaloneBootstrap as jest.Mock;
 
 (deepFreeze as jest.Mock).mockImplementation((t) => Object.freeze(t));
 
@@ -143,7 +144,6 @@ describe("Kernel", () => {
     kernel = new Kernel();
     window.STANDALONE_MICRO_APPS = undefined;
     window.NO_AUTH_GUARD = undefined;
-    window.BOOTSTRAP_FILE = undefined;
   });
 
   afterEach(() => {
@@ -428,7 +428,6 @@ describe("Kernel", () => {
   it("should bootstrap for standalone micro-apps", async () => {
     window.STANDALONE_MICRO_APPS = true;
     window.NO_AUTH_GUARD = true;
-    window.BOOTSTRAP_FILE = "-/bootstrap.json";
     const mountPoints: MountPoints = {
       appBar: document.createElement("div") as any,
       menuBar: document.createElement("div") as any,
@@ -442,20 +441,17 @@ describe("Kernel", () => {
         id: "hello",
       },
     };
-    mockHttpGet.mockResolvedValueOnce({
+    mockStandaloneBootstrap.mockResolvedValueOnce({
       storyboards: [appHello],
     });
     await kernel.bootstrap(mountPoints);
     expect(spyOnCheckLogin).not.toBeCalled();
     expect(spyOnBootstrap).not.toBeCalled();
-    expect(mockHttpGet).toBeCalledTimes(1);
-    expect(mockHttpGet).toBeCalledWith("-/bootstrap.json", {
-      interceptorParams: undefined,
-    });
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
 
     await kernel.reloadMicroApps();
     expect(spyOnBootstrap).not.toBeCalled();
-    expect(mockHttpGet).toBeCalledTimes(1);
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
 
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();

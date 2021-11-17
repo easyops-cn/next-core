@@ -33,7 +33,6 @@ import {
   RouteConf,
   MenuRawData,
 } from "@next-core/brick-types";
-import { http } from "@next-core/brick-http";
 import { authenticate, isLoggedIn } from "../auth";
 import {
   Router,
@@ -57,6 +56,7 @@ import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
+import { standaloneBootstrap } from "./standaloneBootstrap";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -202,9 +202,7 @@ export class Kernel {
     interceptorParams?: InterceptorParams
   ): Promise<void> {
     const data = await (window.STANDALONE_MICRO_APPS
-      ? http.get<BootstrapData>(window.BOOTSTRAP_FILE, {
-          interceptorParams,
-        })
+      ? standaloneBootstrap()
       : AuthSdk.bootstrap<BootstrapData>(
           {
             brief: true,
@@ -214,12 +212,10 @@ export class Kernel {
             interceptorParams,
           }
         ));
-    const bootstrapResponse = Object.assign(
-      {
-        templatePackages: [],
-      },
-      data
-    );
+    const bootstrapResponse: BootstrapData = {
+      templatePackages: [],
+      ...data,
+    };
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {

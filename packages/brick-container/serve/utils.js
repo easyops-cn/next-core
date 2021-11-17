@@ -19,10 +19,14 @@ function getNamesOfMicroApps(env, mocked) {
   if (!fs.existsSync(dir)) {
     return [];
   }
-  return fs
+  const apps = fs
     .readdirSync(dir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
     .map((dirent) => dirent.name);
+  // Ignore `auth` for fully standalone micro-apps.
+  return mocked && env.standaloneAppDir
+    ? apps.filter((name) => name !== "auth")
+    : apps;
 }
 
 function getSingleStoryboard(env, microAppName, mocked, options = {}) {
@@ -211,17 +215,15 @@ function getUserSettings(env) {
   if (!fs.existsSync(yamlPath)) {
     return {};
   }
-  const {
-    feature_flags: featureFlags,
-    misc,
-    ...rest
-  } = yaml.safeLoad(fs.readFileSync(yamlPath, "utf8"), {
-    schema: yaml.JSON_SCHEMA,
-    json: true,
-  });
+  const { feature_flags: featureFlags, ...rest } = yaml.safeLoad(
+    fs.readFileSync(yamlPath, "utf8"),
+    {
+      schema: yaml.JSON_SCHEMA,
+      json: true,
+    }
+  );
   return {
     featureFlags,
-    misc,
     ...rest,
   };
 }

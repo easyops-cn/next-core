@@ -9,6 +9,9 @@ const {
 } = require("@next-core/webpack-config-factory");
 
 module.exports = function generateBrickContracts(dir, isProviderBricks) {
+  console.log("Analyzing brick contracts...");
+  const startTime = Date.now();
+
   const brickEntriesFilePath = path.join(dir, "dist/brick-entries.json");
   const brickEntries = isProviderBricks
     ? { index: "src/index.ts" }
@@ -23,14 +26,14 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
       return;
     }
 
+    // Done processing
+    console.log(
+      `contracts.log generated in ${((Date.now() - startTime) / 1000).toFixed(
+        2
+      )}s.`
+    );
+
     try {
-      // Done processing
-      console.log("contracts.log generated.");
-
-      if (!isProviderBricks) {
-        fs.remove(brickEntriesFilePath);
-      }
-
       const pkg = await fs.readJson(path.join(dir, "package.json"));
       const pkgLastName = pkg.name.split("/")[1];
       const bricks = (await fs.readJson(path.join(dir, "dist/bricks.json")))
@@ -97,8 +100,12 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
           JSON.parse(JSON.stringify({ contracts: implementedBricks }))
         )
       );
+
+      if (!isProviderBricks) {
+        fs.remove(brickEntriesFilePath);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Failed to analyse brick contracts:", error);
       process.exitCode = 1;
     }
   });
