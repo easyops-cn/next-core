@@ -13,7 +13,9 @@ import {
   TemplatePackage,
   SiteMapItem,
   SidebarMenu,
+  RouteConf,
 } from "@next-core/brick-types";
+import compareVersions from "compare-versions";
 import {
   Kernel,
   MenuBar,
@@ -35,8 +37,10 @@ import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
 import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
 import { CustomTemplateContext } from "./CustomTemplates";
+import { registerWidgetFunctions } from "./WidgetFunctions";
 
 let kernel: Kernel;
+let fakeTplContext: CustomTemplateContext;
 
 /* istanbul ignore next */
 export function _dev_only_getBrickPackages(): BrickPackage[] {
@@ -109,6 +113,11 @@ export class Runtime implements AbstractRuntime {
     return kernel.getRecentApps();
   }
 
+  /* istanbul ignore next */
+  getCurrentRoute(): RouteConf {
+    return kernel.currentRoute;
+  }
+
   getMicroApps({
     excludeInstalling = false,
     includeInternal = false,
@@ -123,14 +132,38 @@ export class Runtime implements AbstractRuntime {
     return apps;
   }
 
-  hasInstalledApp(appId: string): boolean {
-    return kernel.bootstrapData.microApps.some(
-      (app) => app.id === appId && app.installStatus !== "running"
-    );
+  hasInstalledApp(appId: string, matchVersion?: string): boolean {
+    return kernel.bootstrapData.microApps.some((app) => {
+      const foundApp = app.id === appId && app.installStatus !== "running";
+      if (!matchVersion || !foundApp) {
+        return foundApp;
+      }
+      // Valid `matchVersion`:
+      //   >=1.2.3
+      //   >1.2.3
+      //   =1.2.3
+      //   <=1.2.3
+      //   <1.2.3
+      const matches = matchVersion.match(/^([><]=?|=)(.*)$/);
+      try {
+        if (!matches) {
+          throw new TypeError(`Invalid match version: ${matchVersion}`);
+        }
+        return compareVersions.compare(
+          app.currentVersion,
+          matches[2],
+          matches[1] as compareVersions.CompareOperator
+        );
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+      return false;
+    });
   }
 
   reloadMicroApps(interceptorParams?: InterceptorParams): Promise<void> {
-    return kernel.loadMicroApps(
+    return kernel.reloadMicroApps(
       {
         check_login: true,
       },
@@ -235,6 +268,7 @@ export class Runtime implements AbstractRuntime {
   registerCustomTemplate = registerCustomTemplate;
   registerCustomProcessor = registerCustomProcessor;
   registerLazyBricks = registerLazyBricks;
+  registerWidgetFunctions = registerWidgetFunctions;
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {
@@ -307,10 +341,33 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
   return kernel.router.getCurrentContext();
 }
 
+export function _internalApiHasMatchedApp(pathname: string): boolean {
+  for (const { homepage } of kernel.bootstrapData.microApps) {
+    if (pathname === homepage || pathname.startsWith(`${homepage}/`)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/* istanbul ignore next */
+export function _dev_only_checkoutTplContext(
+  context: CustomTemplateContext
+): void {
+  if (context) {
+    fakeTplContext = context;
+  } else {
+    fakeTplContext = null;
+  }
+}
+
 /* istanbul ignore next */
 export function _internalApiGetTplContext(): CustomTemplateContext {
   if (process.env.NODE_ENV === "test") {
     return {} as any;
+  }
+  if (fakeTplContext) {
+    return fakeTplContext;
   }
   return kernel.router.getTplContext();
 }

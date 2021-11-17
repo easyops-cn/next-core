@@ -12,7 +12,7 @@ import {
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
 } from "@next-core/brick-utils";
-import { apiAnalyzer } from "@next-core/easyops-analytics";
+import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   LocationContext,
   mountTree,
@@ -99,7 +99,9 @@ export class Router {
       params.append("t", to);
       params.append("ts", (+new Date()).toString());
       const image = new Image();
-      image.src = `assets/ea/analytics.jpg?${params.toString()}`;
+      image.src = `${
+        window.CORE_ROOT ?? ""
+      }assets/ea/analytics.jpg?${params.toString()}`;
     }
   }
 
@@ -189,8 +191,6 @@ export class Router {
 
     const history = getHistory();
     history.unblock();
-
-    const pageTracker = apiAnalyzer.getInstance().pageTracker();
 
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
@@ -304,8 +304,16 @@ export class Router {
         }
       }
 
-      const { main, menuInBg, menuBar, appBar, flags, portal } =
-        mountRoutesResult;
+      const {
+        main,
+        menuInBg,
+        menuBar,
+        appBar,
+        flags,
+        portal,
+        route,
+        analyticsData,
+      } = mountRoutesResult;
 
       const { unauthenticated, redirect, barsHidden, hybrid, failed } = flags;
 
@@ -324,8 +332,11 @@ export class Router {
         this.kernel.previousApp = previousApp;
       }
       this.kernel.currentUrl = createPath(location);
+      this.kernel.currentRoute = route;
       await Promise.all([
-        this.kernel.updateWorkspaceStack(),
+        ...(window.STANDALONE_MICRO_APPS
+          ? []
+          : [this.kernel.updateWorkspaceStack()]),
         this.kernel.layoutBootstrap(layoutType),
       ]);
 
@@ -359,32 +370,37 @@ export class Router {
       if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
         this.kernel.toggleBars(false);
       } else if (this.kernel.currentLayout === "console") {
-        await constructMenu(
-          menuBar,
-          this.locationContext.getCurrentContext(),
-          this.kernel
-        );
-        if (
-          shouldBeDefaultCollapsed(
-            menuBar.menu?.defaultCollapsed,
-            menuBar.menu?.defaultCollapsedBreakpoint
-          )
-        ) {
-          this.kernel.menuBar.collapse(true);
-          this.defaultCollapsed = true;
-        } else {
-          if (this.defaultCollapsed) {
-            this.kernel.menuBar.collapse(false);
+        /* istanbul ignore next */
+        if (!this.kernel.enableUiV8) {
+          await constructMenu(
+            menuBar,
+            this.locationContext.getCurrentContext(),
+            this.kernel
+          );
+          if (
+            shouldBeDefaultCollapsed(
+              menuBar.menu?.defaultCollapsed,
+              menuBar.menu?.defaultCollapsedBreakpoint
+            )
+          ) {
+            this.kernel.menuBar.collapse(true);
+            this.defaultCollapsed = true;
+          } else {
+            if (this.defaultCollapsed) {
+              this.kernel.menuBar.collapse(false);
+            }
+            this.defaultCollapsed = false;
           }
-          this.defaultCollapsed = false;
+          if (actualLegacy === "iframe") {
+            // Do not modify breadcrumb in iframe mode,
+            // it will be *popped* from iframe automatically.
+            delete appBar.breadcrumb;
+          }
+          mountStaticNode(this.kernel.menuBar.element, menuBar);
+          mountStaticNode(this.kernel.appBar.element, appBar);
+        } else {
+          // Todo(nlicro): mount navBar、sideBar...
         }
-        if (actualLegacy === "iframe") {
-          // Do not modify breadcrumb in iframe mode,
-          // it will be *popped* from iframe automatically.
-          delete appBar.breadcrumb;
-        }
-        mountStaticNode(this.kernel.menuBar.element, menuBar);
-        mountStaticNode(this.kernel.appBar.element, appBar);
       }
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
@@ -414,7 +430,17 @@ export class Router {
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
         window.scrollTo(0, 0);
 
-        pageTracker?.(locationContext.getCurrentMatch().path);
+        // API Analyzer maybe disabled.
+        apiAnalyzer.getInstance()?.pageTracker()(
+          locationContext.getCurrentMatch().path
+        );
+
+        // analytics page_view event
+        userAnalytics.event("page_view", {
+          micro_app_id: this.kernel.currentApp.id,
+          route_alias: route?.alias,
+          ...analyticsData,
+        });
 
         this.state = "mounted";
 
@@ -433,7 +459,7 @@ export class Router {
         }
         return;
       }
-    } else if (!isLoggedIn()) {
+    } else if (!window.NO_AUTH_GUARD && !isLoggedIn()) {
       // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
       // Redirect to login if no storyboard is matched.
       redirectToLogin();

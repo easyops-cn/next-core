@@ -1,4 +1,5 @@
 import { AuthInfo } from "@next-core/brick-types";
+import { userAnalytics } from "@next-core/easyops-analytics";
 import { resetPermissionPreChecks } from "./internal/checkPermissions";
 
 const auth: AuthInfo = {};
@@ -12,6 +13,11 @@ export function authenticate(newAuth: AuthInfo): void {
     loginFrom: newAuth.loginFrom,
     accessRule: newAuth.accessRule,
   });
+
+  // re-init analytics to set user_id
+  if (userAnalytics.initialized) {
+    userAnalytics.setUserId(newAuth.userInstanceId);
+  }
 }
 
 /**
@@ -32,6 +38,9 @@ export function logout(): void {
   auth.userInstanceId = undefined;
   auth.accessRule = undefined;
   resetPermissionPreChecks();
+
+  // re-init analytics to clear user_id
+  userAnalytics.setUserId();
 }
 
 /**

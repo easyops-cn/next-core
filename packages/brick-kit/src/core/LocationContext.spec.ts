@@ -65,6 +65,11 @@ describe("LocationContext", () => {
         },
       ],
     },
+    nextApp: {
+      id: "hello",
+      name: "Hello",
+      homepage: "/hello",
+    },
     unsetBars: jest.fn(),
     menuBar: {
       element: {},
@@ -180,6 +185,19 @@ describe("LocationContext", () => {
       });
       const storyboard = context.matchStoryboard(storyboards);
       expect(storyboard.app.id).toBe("hello-world");
+    });
+
+    it("should handle standalone micro-apps", () => {
+      window.STANDALONE_MICRO_APPS = true;
+      const context = new LocationContext(kernel, {
+        pathname: "/hello/world",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      const storyboard = context.matchStoryboard(storyboards.slice(0, 1));
+      expect(storyboard.app.id).toBe("hello");
+      window.STANDALONE_MICRO_APPS = false;
     });
   });
 
@@ -409,7 +427,11 @@ describe("LocationContext", () => {
             type: "routes",
             routes: [
               {
+                alias: "route alias",
                 path: "/",
+                analyticsData: {
+                  prop1: "<% CTX.myAsyncContext %>",
+                },
                 bricks: [
                   {
                     if: "${FLAGS.testing}",
@@ -439,9 +461,46 @@ describe("LocationContext", () => {
                             bricks: [
                               {
                                 brick: "slots-in-useBrick-d",
+                                slots: "error",
+                              },
+                              {
+                                brick: "slots-in-useBrick-g",
+                                slots: null,
+                              },
+                              {
+                                brick: "slots-in-useBrick-h",
+                                slots: [
+                                  {
+                                    brick: "slots-in-brick-i",
+                                  },
+                                ],
                               },
                             ],
                             type: "bricks",
+                          },
+                          error1: {
+                            bricks: {
+                              brick: "error-brick",
+                            },
+                          },
+                          error2: {
+                            bricks: [
+                              {
+                                useBrick: "1",
+                                slots: {
+                                  content: "slots-in-brick-j",
+                                },
+                              },
+                              {
+                                useBrick: 2,
+                              },
+                              {
+                                useBrick: null,
+                              },
+                              {
+                                useBrick: undefined,
+                              },
+                            ],
                           },
                         },
                       },
@@ -449,6 +508,7 @@ describe("LocationContext", () => {
                         {
                           title: "title-1",
                           label: "label-1",
+                          useBrick: true,
                         },
                         {
                           title: "title-2",
@@ -705,6 +765,10 @@ describe("LocationContext", () => {
         getInitialMountResult()
       );
       expect(result).toMatchObject({
+        route: expect.objectContaining({
+          path: "/",
+          alias: "route alias",
+        }),
         menuBar: {
           menu: {
             title: "menu title",
@@ -722,6 +786,9 @@ describe("LocationContext", () => {
         flags: {
           barsHidden: true,
           redirect: undefined,
+        },
+        analyticsData: {
+          prop1: "even better",
         },
       });
       expect(result.main).toMatchObject([
@@ -800,10 +867,53 @@ describe("LocationContext", () => {
               bricks: [
                 {
                   brick: "slots-in-useBrick-d",
+                  slots: "error",
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  brick: "slots-in-useBrick-g",
+                  slots: null,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  brick: "slots-in-useBrick-h",
+                  slots: [
+                    {
+                      brick: "slots-in-brick-i",
+                    },
+                  ],
                   [symbolForTplContextId]: "tpl-1",
                 },
               ],
               type: "bricks",
+            },
+            error1: {
+              bricks: {
+                brick: "error-brick",
+              },
+            },
+            error2: {
+              bricks: [
+                {
+                  useBrick: "1",
+                  slots: {
+                    content: "slots-in-brick-j",
+                  },
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  useBrick: 2,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  useBrick: null,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+                {
+                  useBrick: undefined,
+                  [symbolForTplContextId]: "tpl-1",
+                },
+              ],
             },
           },
         },
@@ -811,6 +921,7 @@ describe("LocationContext", () => {
           {
             title: "title-1",
             label: "label-1",
+            useBrick: true,
           },
           {
             title: "title-2",

@@ -10,61 +10,89 @@ import { scanProcessorsInStoryboard } from "./scanProcessorsInStoryboard";
 jest.mock("./scanBricksInStoryboard");
 jest.mock("./scanProcessorsInStoryboard");
 
-(scanBricksInStoryboard as jest.Mock).mockReturnValue(["a", "c"]);
+(scanBricksInStoryboard as jest.Mock).mockReturnValue([
+  "a.brick-a",
+  "c.brick-c",
+]);
 
-(scanProcessorsInStoryboard as jest.Mock).mockReturnValue(["doGood"]);
+(scanProcessorsInStoryboard as jest.Mock).mockReturnValue(["d.doGood"]);
 
-(window as any).DLL_PATH = {
+window.DLL_PATH = {
   d3: "dll-of-d3.123.js",
   "editor-bricks-helper": "dll-of-editor-bricks-helper.456.js",
 };
 
 const brickPackages: BrickPackage[] = [
   {
-    bricks: ["a"],
     dll: ["d3"],
-    filePath: "x",
+    filePath: "bricks/a/dist/a.js",
   },
   {
-    bricks: ["b"],
-    filePath: "y",
+    filePath: "bricks/b/dist/b.js",
   },
   {
-    bricks: ["c"],
     dll: ["d3"],
-    filePath: "z",
-    editors: ["c--editor"],
-    editorsJsFilePath: "z/editors",
+    filePath: "bricks/c/dist/c.js",
+    editorsJsFilePath: "bricks/c/dist/editors/editors.js",
   },
   {
-    bricks: [],
     dll: [],
-    processors: ["doGood"],
-    filePath: "w",
+    filePath: "bricks/d/dist/d.js",
   },
   {
-    bricks: ["m"],
-    filePath: "n",
+    filePath: "bricks/m/dist/m.js",
+  },
+  {
+    filePath: "bricks/a-test/dist/bbc.js",
   },
 ];
+
+let spyConsoleError: jest.SpyInstance;
+
+beforeAll(() => {
+  spyConsoleError = jest.spyOn(console, "error").mockReturnValue(undefined);
+});
+
+afterAll(() => {
+  spyConsoleError.mockRestore();
+});
+
+afterEach(() => {
+  spyConsoleError.mockClear();
+});
 
 describe("getDllAndDepsOfStoryboard", () => {
   it("should work", () => {
     const storyboard: Storyboard = {} as any;
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.123.js"],
-      deps: ["x", "z", "w"],
-      bricks: ["a", "c"],
+      deps: ["bricks/a/dist/a.js", "bricks/c/dist/c.js", "bricks/d/dist/d.js"],
+      bricks: ["a.brick-a", "c.brick-c"],
     });
   });
 });
 
 describe("getDllAndDepsOfBricks", () => {
   it("should work", () => {
-    expect(getDllAndDepsOfBricks(["a", "c", "m"], brickPackages)).toEqual({
+    expect(
+      getDllAndDepsOfBricks(
+        [
+          "a.brick-a",
+          "c.brick-c",
+          "m.brick-m",
+          "invalid.brick-z",
+          "tpl-create-form",
+        ],
+        brickPackages
+      )
+    ).toEqual({
       dll: ["dll-of-d3.123.js"],
-      deps: ["x", "z", "n"],
+      deps: ["bricks/a/dist/a.js", "bricks/c/dist/c.js", "bricks/m/dist/m.js"],
     });
+
+    expect(spyConsoleError.mock.calls[0][0]).toEqual(
+      "the name of brick is `invalid.brick-z` and it don't match any brick package"
+    );
   });
 
   it("should work for empty bricks", () => {
@@ -80,35 +108,77 @@ describe("getDllAndDepsByResource", () => {
     expect(
       getDllAndDepsByResource(
         {
-          editorBricks: ["b--editor", "c--editor"],
+          editorBricks: ["c.editor-c--editor"],
         },
         brickPackages
       )
     ).toEqual({
       dll: ["dll-of-editor-bricks-helper.456.js"],
-      deps: ["z/editors"],
+      deps: ["bricks/c/dist/editors/editors.js"],
     });
   });
 
-  it("should work for bricks and editor bricks", () => {
+  it("should work for bricks, processor and editor bricks", () => {
     expect(
       getDllAndDepsByResource(
         {
-          bricks: ["m"],
-          editorBricks: ["b--editor", "c--editor"],
+          bricks: ["m.brick-m"],
+          editorBricks: ["c.editor-c--editor"],
+          processors: ["aTest.custom-Processor"],
         },
         brickPackages
       )
     ).toEqual({
       dll: ["dll-of-editor-bricks-helper.456.js"],
-      deps: ["z/editors", "n"],
+      deps: [
+        "bricks/m/dist/m.js",
+        "bricks/a-test/dist/bbc.js",
+        "bricks/c/dist/editors/editors.js",
+      ],
     });
+  });
+
+  it("should show error message", () => {
+    getDllAndDepsByResource(
+      {
+        bricks: ["invalid.form-bricks", "tpl-create-form"],
+        editorBricks: ["invalid.form--editor"],
+        processors: ["inValidProcessor.covert"],
+      },
+      [
+        {
+          filePath: "invalid/file/path",
+        },
+      ]
+    );
+
+    expect(spyConsoleError.mock.calls[0][0]).toEqual(
+      "the file path of brick is `invalid/file/path` and it is non-standard package path"
+    );
+    expect(spyConsoleError.mock.calls[1][0]).toEqual(
+      "the name of brick is `invalid.form-bricks` and it don't match any package"
+    );
+
+    expect(spyConsoleError.mock.calls[2][0]).toEqual(
+      "the name of processor is `inValidProcessor.covert` and it don't match any package"
+    );
+
+    expect(spyConsoleError.mock.calls[3][0]).toEqual(
+      "the name of editor is `invalid.form--editor` and it don't match any editor package"
+    );
   });
 
   it("should work for empty resource", () => {
     expect(getDllAndDepsByResource({}, brickPackages)).toEqual({
       dll: [],
       deps: [],
+    });
+
+    expect(
+      getDllAndDepsByResource({ bricks: ["a.brick-a"] }, [] as BrickPackage[])
+    ).toEqual({
+      deps: [],
+      dll: [],
     });
   });
 });

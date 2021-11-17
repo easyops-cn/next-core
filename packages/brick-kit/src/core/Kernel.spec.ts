@@ -18,6 +18,7 @@ import {
   RuntimeBootstrapData,
   Storyboard,
 } from "@next-core/brick-types";
+import { http } from "@next-core/brick-http";
 import { Kernel } from "./Kernel";
 import { authenticate, isLoggedIn } from "../auth";
 import { MenuBar, AppBar, BaseBar } from "./Bars";
@@ -27,6 +28,7 @@ import * as mockHistory from "../history";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 import { getRuntime } from "../runtime";
+import { initAnalytics } from "./initAnalytics";
 
 i18next.init({
   fallbackLng: "en",
@@ -43,6 +45,7 @@ jest.mock("./CustomTemplates");
 jest.mock("./LazyBrickRegistry");
 jest.mock("../auth");
 jest.mock("../runtime");
+jest.mock("./initAnalytics");
 
 const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
@@ -90,6 +93,7 @@ const spyOnScanBricksInBrickConf = scanBricksInBrickConf as jest.Mock;
 const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
 
 const spyOnApplyPageTitle = jest.fn();
+const mockInitAnalytics = initAnalytics as jest.Mock;
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
   applyPageTitle: spyOnApplyPageTitle,
@@ -113,6 +117,10 @@ spyOnGetDllAndDepsByResource.mockImplementation(
   })
 );
 
+jest.spyOn(console, "warn").mockImplementation(() => void 0);
+
+const mockHttpGet = jest.spyOn(http, "get");
+
 (deepFreeze as jest.Mock).mockImplementation((t) => Object.freeze(t));
 
 // Mock a custom element of `my.test-provider`.
@@ -122,7 +130,7 @@ customElements.define(
   class ProviderCustomApi extends HTMLElement {}
 );
 
-(window as any).DLL_PATH = {
+window.DLL_PATH = {
   d3: "dll-of-d3.123.js",
   "editor-bricks-helper": "dll-of-editor-bricks-helper.456.js",
   "react-dnd": "dll-of-react-dnd.789.js",
@@ -133,6 +141,9 @@ describe("Kernel", () => {
 
   beforeEach(() => {
     kernel = new Kernel();
+    window.STANDALONE_MICRO_APPS = undefined;
+    window.NO_AUTH_GUARD = undefined;
+    window.BOOTSTRAP_FILE = undefined;
   });
 
   afterEach(() => {
@@ -303,16 +314,22 @@ describe("Kernel", () => {
     await kernel.loadDepsOfStoryboard(storyboard);
     await kernel.registerCustomTemplatesInStoryboard(storyboard);
     expect(spyOnLoadScript).toBeCalledTimes(4);
-    expect(spyOnLoadScript).toHaveBeenNthCalledWith(1, ["layout.js"]);
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(
+      1,
+      ["layout.js"],
+      undefined
+    );
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
       2,
-      "dll-of-react-dnd.789.js"
+      "dll-of-react-dnd.789.js",
+      undefined
     );
-    expect(spyOnLoadScript).toHaveBeenNthCalledWith(3, [
-      "d3.js",
-      "dll-of-editor-bricks-helper.abc.js",
-    ]);
-    expect(spyOnLoadScript).toHaveBeenNthCalledWith(4, ["dep.js"]);
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(
+      3,
+      ["d3.js", "dll-of-editor-bricks-helper.abc.js"],
+      undefined
+    );
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(4, ["dep.js"], undefined);
     expect(loadLazyBricks).toBeCalledTimes(1);
     expect(loadLazyBricks).toBeCalledWith(["my-brick"]);
     expect(loadAllLazyBricks).not.toBeCalled();
@@ -338,14 +355,23 @@ describe("Kernel", () => {
     expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
       1,
-      "dll-of-react-dnd.789.js"
-    );
-    expect(spyOnLoadScript).toHaveBeenNthCalledWith(2, [
-      "dll-of-d3.123.js",
-      "dll-of-editor-bricks-helper.456.js",
       "dll-of-react-dnd.789.js",
-    ]);
-    expect(spyOnLoadScript).toHaveBeenNthCalledWith(3, ["all.js", "layout.js"]);
+      undefined
+    );
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(
+      2,
+      [
+        "dll-of-d3.123.js",
+        "dll-of-editor-bricks-helper.456.js",
+        "dll-of-react-dnd.789.js",
+      ],
+      undefined
+    );
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(
+      3,
+      ["all.js", "layout.js"],
+      undefined
+    );
     expect(loadLazyBricks).not.toBeCalled();
     expect(loadAllLazyBricks).toBeCalled();
 
@@ -382,7 +408,7 @@ describe("Kernel", () => {
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: false,
     });
-    spyOnBootstrap.mockResolvedValueOnce({
+    spyOnBootstrap.mockResolvedValue({
       storyboards: [
         {
           routes: [],
@@ -391,7 +417,48 @@ describe("Kernel", () => {
       brickPackages: [],
     });
     await kernel.bootstrap(mountPoints);
+    expect(spyOnBootstrap).toBeCalledTimes(1);
     expect(spyOnAuthenticate).not.toBeCalled();
+
+    await kernel.reloadMicroApps();
+    expect(spyOnBootstrap).toBeCalledTimes(2);
+    spyOnBootstrap.mockReset();
+  });
+
+  it("should bootstrap for standalone micro-apps", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = true;
+    window.BOOTSTRAP_FILE = "-/bootstrap.json";
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    mockHttpGet.mockResolvedValueOnce({
+      storyboards: [appHello],
+    });
+    await kernel.bootstrap(mountPoints);
+    expect(spyOnCheckLogin).not.toBeCalled();
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockHttpGet).toBeCalledTimes(1);
+    expect(mockHttpGet).toBeCalledWith("-/bootstrap.json", {
+      interceptorParams: undefined,
+    });
+
+    await kernel.reloadMicroApps();
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockHttpGet).toBeCalledTimes(1);
+
+    await kernel.fulfilStoryboard(appHello);
+    expect(spyOnGetAppStoryboard).not.toBeCalled();
   });
 
   it("should firstRendered", async () => {
@@ -401,7 +468,20 @@ describe("Kernel", () => {
     expect(document.body.classList.contains("first-rendered")).toBe(true);
   });
 
-  it("should work for easyops layout", async () => {
+  it("should work for easyops layout when ui version is v5", async () => {
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+    });
+    await kernel.bootstrap({} as any);
     kernel.bootstrapData = {
       navbar: {
         menuBar: "basic-bricks.menu-bar",
@@ -418,8 +498,21 @@ describe("Kernel", () => {
     kernel.loadingBar = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
+    kernel.navBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.sideBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.breadcrumb = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.footer = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
+    expect(document.documentElement.dataset.ui).toBe(undefined);
     expect(kernel.presetBricks).toMatchObject({
       pageNotFound: "basic-bricks.page-not-found",
       pageError: "basic-bricks.page-error",
@@ -430,6 +523,80 @@ describe("Kernel", () => {
       testid: "brick-next-menu-bar",
     });
     expect(kernel.appBar.bootstrap).toBeCalledWith("basic-bricks.app-bar");
+    expect(kernel.navBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.sideBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.loadingBar.bootstrap).toBeCalledWith(
+      "basic-bricks.loading-bar"
+    );
+  });
+
+  it("should work for easyops layout when ui version is v8", async () => {
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+      settings: {
+        featureFlags: {
+          "ui-v8": true,
+        },
+      },
+    });
+    localStorage.setItem("test-ui-v8", "true");
+    await kernel.bootstrap({} as any);
+    kernel.bootstrapData = {
+      navbar: {
+        menuBar: "basic-bricks.menu-bar",
+        appBar: "basic-bricks.app-bar",
+        loadingBar: "basic-bricks.loading-bar",
+      },
+    } as RuntimeBootstrapData;
+    kernel.menuBar = {
+      bootstrap: jest.fn(),
+    } as unknown as MenuBar;
+    kernel.appBar = {
+      bootstrap: jest.fn(),
+    } as unknown as AppBar;
+    kernel.loadingBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.navBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.sideBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.breadcrumb = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.footer = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    await kernel.layoutBootstrap("console");
+    expect(kernel.currentLayout).toBe("console");
+    expect(document.documentElement.dataset.ui).toBe("v8");
+    expect(kernel.presetBricks).toMatchObject({
+      pageNotFound: "basic-bricks.page-not-found",
+      pageError: "basic-bricks.page-error",
+    });
+    expect(document.body.classList.contains("layout-console")).toBe(true);
+    expect(document.body.classList.contains("layout-business")).toBe(false);
+    expect(kernel.menuBar.bootstrap).toBeCalledWith(undefined, {
+      testid: "brick-next-menu-bar",
+    });
+    expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.navBar.bootstrap).toBeCalledWith("frame-bricks.nav-bar");
+    expect(kernel.sideBar.bootstrap).toBeCalledWith("frame-bricks.side-bar");
+    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(null);
+    expect(kernel.footer.bootstrap).toBeCalledWith(null);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "basic-bricks.loading-bar"
     );
@@ -445,6 +612,18 @@ describe("Kernel", () => {
     kernel.loadingBar = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
+    kernel.navBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.sideBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.breadcrumb = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    kernel.footer = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
     await kernel.layoutBootstrap("business");
     expect(kernel.currentLayout).toBe("business");
     expect(kernel.presetBricks).toMatchObject({
@@ -457,6 +636,10 @@ describe("Kernel", () => {
       testid: "brick-next-menu-bar",
     });
     expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.navBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.sideBar.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(undefined);
+    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "business-website.loading-bar"
     );
@@ -530,30 +713,30 @@ describe("Kernel", () => {
       brick: "my.test-brick",
     });
     expect(loadScript).toBeCalledTimes(2);
-    expect(loadScript).toHaveBeenNthCalledWith(1, ["d3"]);
-    expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
+    expect(loadScript).toHaveBeenNthCalledWith(1, ["d3"], undefined);
+    expect(loadScript).toHaveBeenNthCalledWith(2, ["my"], undefined);
     expect(loadLazyBricks).toBeCalledWith(["my.test-brick"]);
   });
 
   it("should loadEditorBricks", async () => {
     kernel.bootstrapData = {} as any;
     await kernel.loadEditorBricks(["my.test-brick--editor"]);
-    expect(loadScript).toHaveBeenNthCalledWith(1, []);
-    expect(loadScript).toHaveBeenNthCalledWith(2, ["my/editors"]);
+    expect(loadScript).toHaveBeenNthCalledWith(1, [], undefined);
+    expect(loadScript).toHaveBeenNthCalledWith(2, ["my/editors"], undefined);
   });
 
   it("should getProviderBrick", async () => {
     kernel.bootstrapData = {} as any;
     await kernel.getProviderBrick("my.test-provider");
-    expect(loadScript).toHaveBeenNthCalledWith(1, []);
-    expect(loadScript).toHaveBeenNthCalledWith(2, []);
+    expect(loadScript).toHaveBeenNthCalledWith(1, [], undefined);
+    expect(loadScript).toHaveBeenNthCalledWith(2, [], undefined);
   });
 
   it("should getProviderBrick for legacy custom api", async () => {
     kernel.bootstrapData = {} as any;
     await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi");
-    expect(loadScript).toHaveBeenNthCalledWith(1, []);
-    expect(loadScript).toHaveBeenNthCalledWith(2, []);
+    expect(loadScript).toHaveBeenNthCalledWith(1, [], undefined);
+    expect(loadScript).toHaveBeenNthCalledWith(2, [], undefined);
     const searchAllMicroAppApiOrchestration =
       InstanceApi_postSearch as jest.Mock;
     const usedCustomApis = [
@@ -595,8 +778,8 @@ describe("Kernel", () => {
   it("should getProviderBrick when flow api", async () => {
     kernel.bootstrapData = {} as any;
     await kernel.getProviderBrick("easyops.custom_api@myAwesomeApi:1.2.0");
-    expect(loadScript).toHaveBeenNthCalledWith(1, []);
-    expect(loadScript).toHaveBeenNthCalledWith(2, []);
+    expect(loadScript).toHaveBeenNthCalledWith(1, [], undefined);
+    expect(loadScript).toHaveBeenNthCalledWith(2, [], undefined);
     const searchAllMicroAppApiOrchestration =
       InstanceApi_postSearch as jest.Mock;
     const usedCustomApis = [
@@ -621,8 +804,8 @@ describe("Kernel", () => {
       expect(error.message).toBe(
         'Provider not defined: "my.not-defined-provider".'
       );
-      expect(loadScript).toHaveBeenNthCalledWith(1, []);
-      expect(loadScript).toHaveBeenNthCalledWith(2, ["my"]);
+      expect(loadScript).toHaveBeenNthCalledWith(1, [], undefined);
+      expect(loadScript).toHaveBeenNthCalledWith(2, ["my"], undefined);
     }
   });
 
@@ -642,9 +825,10 @@ describe("Kernel", () => {
     // Prefetch again.
     kernel.prefetchDepsOfStoryboard(storyboard);
 
-    expect(prefetchScript).toBeCalledTimes(2);
-    expect(prefetchScript).toHaveBeenNthCalledWith(1, ["layout.js"]);
-    expect(prefetchScript).toHaveBeenNthCalledWith(2, ["d3.js", "dep.js"]);
+    expect(prefetchScript).toBeCalledTimes(3);
+    expect(prefetchScript).toHaveBeenNthCalledWith(1, ["layout.js"], undefined);
+    expect(prefetchScript).toHaveBeenNthCalledWith(2, ["d3.js"], undefined);
+    expect(prefetchScript).toHaveBeenNthCalledWith(3, ["dep.js"], undefined);
   });
 
   it("should load users async", async () => {
@@ -703,5 +887,91 @@ describe("Kernel", () => {
         },
       }
     `);
+  });
+
+  it("should init analytics in bootstrap when gaMeasurementId in misc is set", async () => {
+    const gaMeasurementId = "GA-MEASUREMENT-ID";
+    const analyticsDebugMode = true;
+    const userInstanceId = "user-instance-id";
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+    });
+    await kernel.bootstrap({} as any);
+    expect(mockInitAnalytics).toBeCalled();
+  });
+
+  it("should get standalone menus", async () => {
+    kernel.currentApp = {
+      id: "app-b",
+    } as any;
+    kernel.bootstrapData = {
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+          },
+        },
+        {
+          app: {
+            id: "app-b",
+          },
+          meta: {
+            menus: [
+              {
+                menuId: "menu-1",
+                title: "Menu 1",
+              },
+              {
+                menuId: "menu-2",
+                title: "Menu 2",
+              },
+              {
+                menuId: "menu-1",
+                title: "Menu 1 Alternative",
+              },
+            ],
+          },
+        },
+      ],
+    } as any;
+    const menus = kernel.getStandaloneMenus("menu-1");
+    expect(menus).toEqual([
+      {
+        menuId: "menu-1",
+        title: "Menu 1",
+        app: [{ appId: "app-b" }],
+      },
+      {
+        menuId: "menu-1",
+        title: "Menu 1 Alternative",
+        app: [{ appId: "app-b" }],
+      },
+    ]);
+  });
+
+  it("should get empty standalone menus", async () => {
+    kernel.currentApp = {
+      id: "app-a",
+    } as any;
+    kernel.bootstrapData = {
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+          },
+        },
+      ],
+    } as any;
+    const menus = kernel.getStandaloneMenus("menu-1");
+    expect(menus).toEqual([]);
   });
 });

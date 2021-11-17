@@ -21,6 +21,7 @@ import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { i18nText } from "../i18nText";
 import { storyboardFunctions } from "../core/StoryboardFunctions";
+import { widgetFunctions } from "../core/WidgetFunctions";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -284,12 +285,21 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("INSTALLED_APPS")) {
     globalVariables.INSTALLED_APPS = {
-      has: (appId: string) => getRuntime().hasInstalledApp(appId),
+      has: (appId: string, matchVersion?: string) =>
+        getRuntime().hasInstalledApp(appId, matchVersion),
     };
   }
 
   if (attemptToVisitGlobals.has("FN")) {
     globalVariables.FN = storyboardFunctions;
+  }
+
+  if (attemptToVisitGlobals.has("__WIDGET_FN__")) {
+    globalVariables.__WIDGET_FN__ = widgetFunctions;
+  }
+
+  if (attemptToVisitGlobals.has("MISC")) {
+    globalVariables.MISC = getRuntime().getMiscSettings();
   }
 
   try {

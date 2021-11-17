@@ -1,5 +1,5 @@
 import "whatwg-fetch";
-import { apiAnalyzer } from "@next-core/easyops-analytics";
+import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   scanCustomApisInStoryboard,
   mapCustomApisToNameAndNamespace,
@@ -34,6 +34,9 @@ jest.mock("@next-core/easyops-analytics", () => ({
       pageTracker: jest.fn,
     }),
   },
+  userAnalytics: {
+    event: jest.fn(),
+  },
 }));
 jest.mock("@next-core/brick-utils");
 
@@ -59,6 +62,7 @@ const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
 (getAuth as jest.Mock).mockReturnValue({});
+const mockUserAnalyticsEvent = userAnalytics.event as jest.Mock;
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
   getFeatureFlags: () => ({ "enable-analyzer": false }),
@@ -167,6 +171,9 @@ describe("Router", () => {
   });
 
   it("should render matched storyboard", async () => {
+    const analyticsData = {
+      prop1: "value",
+    };
     __setMatchedStoryboard({
       routes: [],
       app: {
@@ -175,6 +182,9 @@ describe("Router", () => {
     });
     __setMountRoutesResults(
       {
+        route: {
+          alias: "route alias",
+        },
         main: [
           {
             type: "p",
@@ -186,6 +196,7 @@ describe("Router", () => {
         appBar: {
           title: "app",
         },
+        analyticsData,
       },
       null
     );
@@ -211,6 +222,11 @@ describe("Router", () => {
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
     expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
     expect(preCheckPermissions).toBeCalled();
+    expect(mockUserAnalyticsEvent).toBeCalledWith("page_view", {
+      micro_app_id: "hello",
+      route_alias: "route alias",
+      ...analyticsData,
+    });
   });
 
   it("should redirect to login page if not logged in.", async () => {

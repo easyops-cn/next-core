@@ -1,7 +1,6 @@
 import { LocationDescriptor } from "history";
-import { SidebarMenu, MenuIcon } from "./menu";
+import { SidebarMenu, MenuIcon, MenuRawData } from "./menu";
 import { PluginHistoryState } from "./runtime";
-import { SimpleFunction } from "./utility";
 
 /** @internal */
 export interface BootstrapData {
@@ -58,6 +57,9 @@ export interface MicroApp {
    * 应用主页地址，如 `/search`。
    */
   homepage: string;
+
+  /** 应用当前版本。 */
+  currentVersion?: string;
 
   /**
    * 应用图标配置。
@@ -150,6 +152,11 @@ export interface MicroApp {
   localeName?: string;
 
   /**
+   * 整个应用不启用登录守卫。
+   */
+  noAuthGuard?: boolean;
+
+  /**
    * 路由别名映射（运行时得出）。
    *
    * @internal
@@ -195,7 +202,7 @@ export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 /** @internal */
 export interface BrickPackage {
   filePath: string;
-  bricks: string[];
+  bricks?: string[];
   editors?: string[];
   editorsJsFilePath?: string;
   processors?: string[];
@@ -205,7 +212,7 @@ export interface BrickPackage {
 
 /** @internal */
 export interface TemplatePackage {
-  templates: string[];
+  templates?: string[];
   filePath: string;
 }
 
@@ -226,7 +233,17 @@ export interface NavbarConf {
 }
 
 /** @internal */
-export interface PresetBricksConf extends Partial<NavbarConf> {
+export interface NavbarConf_UiV8 {
+  navBar: string;
+  sideBar: string;
+  breadcrumb: string;
+  footer: string;
+}
+
+/** @internal */
+export interface PresetBricksConf
+  extends Partial<NavbarConf>,
+    Partial<NavbarConf_UiV8> {
   pageNotFound: string;
   pageError: string;
 }
@@ -264,6 +281,18 @@ export interface RuntimeStoryboard extends Storyboard {
   $$fulfilling?: Promise<void>;
 }
 
+export function isRouteConfOfBricks(
+  conf: RouteConf
+): conf is RouteConfOfBricks {
+  return conf.type !== "routes" && !!(conf as RouteConfOfBricks).bricks;
+}
+
+export function isRouteConfOfRoutes(
+  conf: RouteConf
+): conf is RouteConfOfRoutes {
+  return conf.type === "routes";
+}
+
 /**
  * 路由配置，类型可以是构件列表、子路由列表和重定向中的一种。
  */
@@ -280,6 +309,9 @@ export interface RouteConfOfBricks extends BaseRouteConf {
 
   /** 构件列表。 */
   bricks: BrickConf[];
+
+  /** 分析数据。 */
+  analyticsData?: Record<string, unknown> | string;
 }
 
 /**
@@ -1104,7 +1136,10 @@ export interface BuiltinBrickEventHandler {
     | "mode.setDashboardMode"
     | "mode.setDefaultMode"
     | "menu.clearMenuTitleCache"
-    | "menu.clearMenuCache";
+    | "menu.clearMenuCache"
+
+    // Analytics
+    | "analytics.event";
 
   /** 传递的参数列表 */
   args?: unknown[];
@@ -1365,6 +1400,8 @@ export interface StoryboardMeta {
 
   /** 应用定义的函数列表。 */
   functions?: StoryboardFunction[];
+
+  menus?: MenuRawData[];
 }
 
 /**

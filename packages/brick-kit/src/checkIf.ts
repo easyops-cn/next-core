@@ -97,6 +97,7 @@ export function looseCheckIfByTransform(
   data: unknown,
   options?: {
     allowInject?: boolean;
+    getTplVariables?: () => Record<string, unknown>;
   }
 ): boolean {
   return (

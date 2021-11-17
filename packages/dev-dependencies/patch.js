@@ -24,6 +24,7 @@ const {
   updateBuildNextLibs,
   addPreBuildScriptForBricks,
   enableNextLibsRenovate,
+  removeRenovateLegacyBaseBranches,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -91,10 +92,6 @@ module.exports = async function patch() {
     majorBrickNext.updateVersionOfBrickNext();
   }
 
-  if (semver.lt(currentRenewVersion, "1.0.8")) {
-    updateRenovateBaseBranches();
-  }
-
   if (semver.lt(currentRenewVersion, "1.0.12")) {
     updateLernaAllowBranch();
   }
@@ -140,7 +137,11 @@ module.exports = async function patch() {
   }
 
   if (semver.lt(currentRenewVersion, "1.8.26")) {
-    updateResolutions();
+    // Add a resolution to fix an issue of `clearImmediate is not defined`.
+    // See https://github.com/testing-library/dom-testing-library/issues/899
+    updateResolutions({
+      "@testing-library/dom": "^7.31.2",
+    });
   }
 
   if (semver.lt(currentRenewVersion, "1.9.1")) {
@@ -166,6 +167,19 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.11.1")) {
     enableNextLibsRenovate();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.11.6")) {
+    removeRenovateLegacyBaseBranches();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.12.0")) {
+    // There is a security issue for specific versions of ua-parser-js.
+    // See https://github.com/faisalman/ua-parser-js/issues/536
+    updateResolutions({
+      // Use the very current version of `0.7.19` to change nothing currently.
+      "ua-parser-js": "0.7.19",
+    });
   }
 
   updateDevDependenciesVersion();
@@ -444,41 +458,6 @@ function updatePackageJsonScriptsTestCommand() {
   rootPackageJson.scripts["test:ci"] =
     "cross-env NODE_ENV='test' CI=true node --expose-gc ./node_modules/.bin/jest --logHeapUsage --ci";
   writeJsonFile(rootPackageJsonPath, rootPackageJson);
-}
-
-function updateRenovateBaseBranches() {
-  const renovateJsonPath = path.resolve("renovate.json");
-  const renovateJson = readJson(renovateJsonPath);
-  const legacyBranchName = "legacy/brick-next_1.x";
-
-  renovateJson.semanticCommits = "enabled";
-  renovateJson.baseBranches = ["master", legacyBranchName];
-
-  const nextCoreGroup = renovateJson.packageRules.find(
-    (item) => item.groupName === "next-core packages"
-  );
-
-  if (nextCoreGroup) {
-    delete nextCoreGroup.baseBranches;
-    // Ignore major update for each branch.
-    delete nextCoreGroup.updateTypes;
-    nextCoreGroup.major = { enabled: false };
-  }
-
-  const legacyGroup = renovateJson.packageRules.find((item) =>
-    isEqual(item.baseBranchList, [legacyBranchName])
-  );
-
-  if (!legacyGroup) {
-    // Ignore all updates except `@next-core/*` in legacy branch.
-    renovateJson.packageRules.push({
-      baseBranchList: [legacyBranchName],
-      excludePackagePatterns: ["^@next-core/"],
-      enabled: false,
-    });
-  }
-
-  writeJsonFile(renovateJsonPath, renovateJson);
 }
 
 function addLazyBricksIntoGitignore() {

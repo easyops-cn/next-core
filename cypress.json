@@ -1,5 +1,7 @@
 {
   "projectId": "67qbbe",
-  "baseUrl": "http://localhost:8081",
-  "videoUploadOnPasses": false
+  "videoUploadOnPasses": false,
+  "env": {
+    "ports": [8081, 8082, 8083]
+  }
 }

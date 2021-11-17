@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { isObject } from "@next-core/brick-utils";
+import { userAnalytics } from "@next-core/easyops-analytics";
 import {
   BrickEventHandler,
   BrickEventHandlerCallback,
@@ -34,6 +35,7 @@ import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
 import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
 import { getArgsOfCustomApi } from "../core/FlowApi";
+import { getRuntime } from "../runtime";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -274,6 +276,8 @@ export function listenerFactory(
           }
           clearMenuCache();
         }) as EventListener;
+      case "analytics.event":
+        return builtinAnalyticsListenerFactory(handler.args, handler, context);
       default:
         return () => {
           // eslint-disable-next-line no-console
@@ -542,8 +546,34 @@ function builtinWindowListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    const [url, target] = argsFactory(args, context, event) as [string, string];
-    window.open(url, target || "_self");
+    const [url, target, features] = argsFactory(args, context, event) as [
+      string,
+      string,
+      string
+    ];
+    window.open(url, target || "_self", features);
+  } as EventListener;
+}
+
+function builtinAnalyticsListenerFactory(
+  args: unknown[],
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+    const [action, data] = argsFactory(args, context, event) as [
+      string,
+      Record<string, unknown>
+    ];
+    const runtime = getRuntime();
+    userAnalytics.event(action, {
+      micro_app_id: runtime.getCurrentApp()?.id,
+      route_alias: runtime.getCurrentRoute()?.alias,
+      ...data,
+    });
   } as EventListener;
 }
 
@@ -647,12 +677,17 @@ async function brickCallback(
     });
     return;
   }
-  let computedArgs = argsFactory(handler.args, context, event, options);
 
-  if (isUseProviderHandler(handler)) {
-    computedArgs = await getArgsOfCustomApi(handler.useProvider, computedArgs);
-  }
-  const task = (): unknown => (target as any)[method](...computedArgs);
+  const task = async (): Promise<unknown> => {
+    let computedArgs = argsFactory(handler.args, context, event, options);
+    if (isUseProviderHandler(handler)) {
+      computedArgs = await getArgsOfCustomApi(
+        handler.useProvider,
+        computedArgs
+      );
+    }
+    return (target as any)[method](...computedArgs);
+  };
 
   const {
     success,

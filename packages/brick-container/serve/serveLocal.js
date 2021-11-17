@@ -1,4 +1,3 @@
-const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
 const { escapeRegExp } = require("lodash");
@@ -10,14 +9,13 @@ const {
   getTemplatePackages,
   getSingleStoryboard,
   tryServeFiles,
-  tryFiles,
 } = require("./utils");
 
 module.exports = (env, app) => {
   const {
     useOffline,
     useRemote,
-    publicPath,
+    baseHref,
     localBrickPackages,
     localEditorPackages,
     localMicroApps,
@@ -29,6 +27,8 @@ module.exports = (env, app) => {
     mocked,
     mockedMicroAppsDir,
     mockedMicroApps,
+    standaloneMicroApps,
+    standaloneAppDir,
   } = env;
   let username;
 
@@ -38,7 +38,7 @@ module.exports = (env, app) => {
     // 设定透传远端请求时，可以指定特定的 brick packages, micro apps, template packages 使用本地文件。
     localEditorPackages.forEach((pkgId) => {
       // 直接返回本地构件库编辑器相关文件。
-      app.get(`${publicPath}bricks/${pkgId}/dist/editors/*`, (req, res) => {
+      app.get(`${baseHref}bricks/${pkgId}/dist/editors/*`, (req, res) => {
         tryServeFiles(
           [
             path.join(brickPackagesDir, pkgId, "dist-editors", req.params[0]),
@@ -67,7 +67,7 @@ module.exports = (env, app) => {
       app.get(
         new RegExp(
           `^${escapeRegExp(
-            `${publicPath}bricks/${pkgId}/`
+            `${baseHref}bricks/${pkgId}/`
           )}(?!dist\\/editors\\/)(.+)`
         ),
         (req, res) => {
@@ -85,25 +85,25 @@ module.exports = (env, app) => {
 
     localMicroApps.forEach((appId) => {
       // 直接返回本地小产品相关文件。
-      app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
+      app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
         const filePath = path.join(microAppsDir, appId, req.params[0]);
         tryServeFiles(filePath, req, res);
       });
     });
     localTemplates.forEach((pkgId) => {
       // 直接返回本地模板相关文件。
-      app.get(`${publicPath}templates/${pkgId}/*`, (req, res) => {
+      app.get(`${baseHref}templates/${pkgId}/*`, (req, res) => {
         const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
         tryServeFiles(filePath, req, res);
       });
     });
     mockedMicroApps.forEach((appId) => {
       // 直接返回本地小产品相关文件。
-      app.get(`${publicPath}micro-apps/${appId}/*`, (req, res) => {
+      app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
         const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
         tryServeFiles(filePath, req, res);
       });
-      app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
+      app.get(`${baseHref}api/auth/bootstrap/${appId}`, (req, res) => {
         res.json({
           code: 0,
           data: getSingleStoryboard(env, appId, true),
@@ -112,7 +112,7 @@ module.exports = (env, app) => {
     });
     // API to fulfil the active storyboard.
     localMicroApps.concat(mockedMicroApps).forEach((appId) => {
-      app.get(`${publicPath}api/auth/bootstrap/${appId}`, (req, res) => {
+      app.get(`${baseHref}api/auth/bootstrap/${appId}`, (req, res) => {
         res.json({
           code: 0,
           data: getSingleStoryboard(
@@ -124,10 +124,12 @@ module.exports = (env, app) => {
       });
     });
   } else {
-    app.get(`${publicPath}api/auth/bootstrap`, (req, res) => {
-      res.json({
-        code: 0,
-        data: {
+    const publicRoot = standaloneMicroApps
+      ? `${baseHref}${standaloneAppDir}-/`
+      : baseHref;
+    if (standaloneMicroApps) {
+      app.get(`${publicRoot}bootstrap.hash.json`, (req, res) => {
+        res.json({
           navbar: getNavbar(env),
           storyboards: (mocked
             ? getStoryboardsByMicroApps(env, true, {
@@ -141,24 +143,46 @@ module.exports = (env, app) => {
           ),
           brickPackages: getBrickPackages(env),
           templatePackages: getTemplatePackages(env),
-          settings: getSettings(),
-        },
+          settings: getSettings(env),
+        });
       });
-    });
+    } else {
+      app.get(`${baseHref}api/auth/bootstrap`, (req, res) => {
+        res.json({
+          code: 0,
+          data: {
+            navbar: getNavbar(env),
+            storyboards: (mocked
+              ? getStoryboardsByMicroApps(env, true, {
+                  brief: req.query.brief === "true",
+                })
+              : []
+            ).concat(
+              getStoryboardsByMicroApps(env, false, {
+                brief: req.query.brief === "true",
+              })
+            ),
+            brickPackages: getBrickPackages(env),
+            templatePackages: getTemplatePackages(env),
+            settings: getSettings(env),
+          },
+        });
+      });
 
-    app.get(`${publicPath}api/auth/bootstrap/:appId`, (req, res) => {
-      res.json({
-        code: 0,
-        data: getSingleStoryboard(
-          env,
-          req.params.appId,
-          mockedMicroApps.includes(req.params.appId)
-        ),
+      app.get(`${baseHref}api/auth/bootstrap/:appId`, (req, res) => {
+        res.json({
+          code: 0,
+          data: getSingleStoryboard(
+            env,
+            req.params.appId,
+            mockedMicroApps.includes(req.params.appId)
+          ),
+        });
       });
-    });
+    }
 
     // 直接返回构件库 js 文件。
-    app.get(`${publicPath}bricks/*`, (req, res) => {
+    app.get(`${publicRoot}bricks/*`, (req, res) => {
       tryServeFiles(
         [
           path.join(brickPackagesDir, req.params[0]),
@@ -170,13 +194,13 @@ module.exports = (env, app) => {
     });
 
     // 直接返回小产品相关文件。
-    app.get(`${publicPath}micro-apps/*`, (req, res) => {
+    app.get(`${publicRoot}micro-apps/*`, (req, res) => {
       const filePath = path.join(microAppsDir, req.params[0]);
       tryServeFiles(filePath, req, res);
     });
 
     // 直接返回模板库 js 文件。
-    app.get(`${publicPath}templates/*`, (req, res) => {
+    app.get(`${publicRoot}templates/*`, (req, res) => {
       const filePath = path.join(templatePackagesDir, req.params[0]);
       tryServeFiles(filePath, req, res);
     });
@@ -185,7 +209,7 @@ module.exports = (env, app) => {
   if (useOffline) {
     // 离线开发模式下，mock API 请求。
     // 校验登录。
-    app.get(`${publicPath}api/auth/login`, (req, res) => {
+    app.get(`${baseHref}api/auth/login`, (req, res) => {
       res.json({
         code: 0,
         data: {
@@ -197,7 +221,7 @@ module.exports = (env, app) => {
     });
 
     // 执行登录。
-    app.post(`${publicPath}api/auth/login`, bodyParser.json(), (req, res) => {
+    app.post(`${baseHref}api/auth/login`, bodyParser.json(), (req, res) => {
       // Enter any username and the same as password to get logged in,
       // such as `duck` / `duck`.
       if (req.body.username && req.body.username === req.body.password) {
@@ -221,14 +245,14 @@ module.exports = (env, app) => {
     });
 
     // 执行登出。
-    app.post(`${publicPath}api/auth/logout`, (req, res) => {
+    app.post(`${baseHref}api/auth/logout`, (req, res) => {
       username = undefined;
       res.json({ code: 0 });
     });
 
     // 关联菜单。
     app.get(
-      `${publicPath}api/gateway/micro_app.object_micro_app.GetObjectMicroAppList/api/micro_app/v1/object_micro_app`,
+      `${baseHref}api/gateway/micro_app.object_micro_app.GetObjectMicroAppList/api/micro_app/v1/object_micro_app`,
       (req, res) => {
         res.json({
           code: 0,
@@ -241,7 +265,7 @@ module.exports = (env, app) => {
 
     // 用户头像。
     app.get(
-      `${publicPath}api/gateway/user_service.user_admin.GetUserInfoV2/api/v1/users/detail/:username`,
+      `${baseHref}api/gateway/user_service.user_admin.GetUserInfoV2/api/v1/users/detail/:username`,
       (req, res) => {
         res.json({
           code: 0,
@@ -252,7 +276,7 @@ module.exports = (env, app) => {
 
     // Launchpad 收藏夹。
     app.get(
-      `${publicPath}api/gateway/user_service.launchpad.ListCollection/api/v1/launchpad/collection`,
+      `${baseHref}api/gateway/user_service.launchpad.ListCollection/api/v1/launchpad/collection`,
       (req, res) => {
         res.json({
           code: 0,
@@ -264,7 +288,7 @@ module.exports = (env, app) => {
     );
 
     // 其它 API。
-    app.all(`${publicPath}api/*`, (req, res) => {
+    app.all(`${baseHref}api/*`, (req, res) => {
       res.status(404).json({
         error: `404 Not Found: ${req.method} ${req.originalUrl}`,
       });

@@ -9,13 +9,15 @@ const legacyBrickNames = [
   "workspace.container.shortcut-searchable-list",
   "workspace.container.create-deploy-unit",
 ];
-const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+const validBrickName =
+  /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
 const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
 
 module.exports = class ScanCustomElementsPlugin {
   constructor(packageName, dll = []) {
     this.packageName = packageName;
     this.camelPackageName = changeCase.camelCase(packageName);
+    this.isProviderBricks = packageName.startsWith("providers-of-");
     this.dll = dll;
   }
 
@@ -48,10 +50,12 @@ module.exports = class ScanCustomElementsPlugin {
                   legacyBrickNames.includes(value)
                 ) {
                   brickSet.add(value);
-                  brickEntries.set(
-                    value,
-                    path.relative(process.cwd(), parser.state.module.resource)
-                  );
+                  if (!this.isProviderBricks) {
+                    brickEntries.set(
+                      value,
+                      path.relative(process.cwd(), parser.state.module.resource)
+                    );
+                  }
                 } else {
                   throw new Error(
                     `Invalid brick: "${value}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
@@ -65,7 +69,7 @@ module.exports = class ScanCustomElementsPlugin {
 
               // `customElements.define(..., createProviderClass(...))`.
               // Ignore `providers-of-*.*` since they are all providers.
-              if (!this.packageName.startsWith("providers-of-")) {
+              if (!this.isProviderBricks) {
                 const elementFactory = expression.arguments[1];
                 if (
                   elementFactory.type === "CallExpression" &&
@@ -158,8 +162,14 @@ module.exports = class ScanCustomElementsPlugin {
       const processors = Array.from(processorSet);
       const providers = Array.from(providerSet);
 
+      const assetFilePath = Object.keys(compilation.assets).find(
+        (filePath) => filePath.startsWith("index.") && filePath.endsWith(".js")
+      );
+      const jsFilePath =
+        assetFilePath && `bricks/${this.packageName}/dist/${assetFilePath}`;
+
       const source = JSON.stringify(
-        { bricks, processors, providers, dll: this.dll },
+        { bricks, processors, providers, dll: this.dll, filePath: jsFilePath },
         null,
         2
       );
@@ -172,13 +182,15 @@ module.exports = class ScanCustomElementsPlugin {
       console.log("Defined processors:", processors);
       console.log("Defined providers:", providers);
 
-      const entries = Object.fromEntries(brickEntries);
-      const brickEntriesSource = JSON.stringify(entries, null, 2);
-      compilation.emitAsset("brick-entries.json", {
-        source: () => brickEntriesSource,
-        size: () => brickEntriesSource.length,
-      });
-      console.log("Brick entries:", entries);
+      if (!this.isProviderBricks) {
+        const entries = Object.fromEntries(brickEntries);
+        const brickEntriesSource = JSON.stringify(entries, null, 2);
+        compilation.emitAsset("brick-entries.json", {
+          source: () => brickEntriesSource,
+          size: () => brickEntriesSource.length,
+        });
+        console.log("Brick entries:", entries);
+      }
     });
   }
 };

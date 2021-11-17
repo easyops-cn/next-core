@@ -22,6 +22,15 @@ jest.mock("../core/StoryboardFunctions", () => ({
     },
   },
 }));
+jest.mock("../core/WidgetFunctions", () => ({
+  widgetFunctions: {
+    ["widget-a"]: {
+      abc() {
+        return "Hello, xyz";
+      },
+    },
+  },
+}));
 
 i18next.init({
   fallbackLng: "en",
@@ -50,8 +59,16 @@ jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 const mockInstalledApps = ["my-app-id"];
 (getRuntime as jest.Mock).mockReturnValue({
-  hasInstalledApp(appId: string) {
-    return mockInstalledApps.includes(appId);
+  hasInstalledApp(appId: string, matchVersion?: string): boolean {
+    return (
+      mockInstalledApps.includes(appId) &&
+      !(matchVersion && matchVersion.startsWith(">"))
+    );
+  },
+  getMiscSettings() {
+    return {
+      hello: "world",
+    };
   },
 });
 
@@ -194,8 +211,12 @@ describe("evaluate", () => {
     ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
     ["<% SESSION_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
     ["<% INSTALLED_APPS.has('my-app-id') %>", true],
+    ["<% INSTALLED_APPS.has('my-app-id', '<1.2.3') %>", true],
+    ["<% INSTALLED_APPS.has('my-app-id', '>=1.2.3') %>", false],
     ["<% INSTALLED_APPS.has('my-another-app-id') %>", false],
     ["<% FN.sayHello('world') %>", "Hello, world"],
+    ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],
+    ["<% MISC.hello %>", "world"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

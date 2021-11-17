@@ -1,4 +1,4 @@
-import { sortBy } from "lodash";
+import { cloneDeep, sortBy } from "lodash";
 import {
   loadScript,
   prefetchScript,
@@ -30,7 +30,10 @@ import {
   StoryboardMeta,
   LayoutType,
   PresetBricksConf,
+  RouteConf,
+  MenuRawData,
 } from "@next-core/brick-types";
+import { http } from "@next-core/brick-http";
 import { authenticate, isLoggedIn } from "../auth";
 import {
   Router,
@@ -53,6 +56,7 @@ import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
+import { initAnalytics } from "./initAnalytics";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -61,13 +65,19 @@ export class Kernel {
   public menuBar: MenuBar;
   public appBar: AppBar;
   public loadingBar: BaseBar;
+  public navBar: BaseBar;
+  public sideBar: BaseBar;
+  public footer: BaseBar;
+  public breadcrumb: BaseBar;
   public router: Router;
   public currentApp: MicroApp;
   public previousApp: MicroApp;
   public nextApp: MicroApp;
   public currentUrl: string;
+  public currentRoute: RouteConf;
   public workspaceStack: VisitedWorkspace[] = [];
   public currentLayout: LayoutType;
+  public enableUiV8 = false;
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
@@ -88,15 +98,26 @@ export class Kernel {
     if (this.bootstrapData.storyboards.length === 0) {
       throw new Error("No storyboard were found.");
     }
+    this.setUiVersion();
     if (isLoggedIn()) {
       this.loadSharedData();
     }
     this.menuBar = new MenuBar(this, "menuBar");
     this.appBar = new AppBar(this, "appBar");
     this.loadingBar = new BaseBar(this, "loadingBar");
+    // Todo(nlicro): 这里需要新写对应的NavBar...
+    this.navBar = new BaseBar(this, "navBar");
+    this.sideBar = new BaseBar(this, "sideBar");
+    this.breadcrumb = new BaseBar(this, "breadcrumb");
+    this.footer = new BaseBar(this, "footer");
     this.router = new Router(this);
+
+    initAnalytics();
+
     await this.router.bootstrap();
-    this.authGuard();
+    if (!window.STANDALONE_MICRO_APPS) {
+      this.legacyAuthGuard();
+    }
     listenDevtools();
   }
 
@@ -115,7 +136,15 @@ export class Kernel {
             pageError: "business-website.page-error",
           }
         : {
-            ...this.bootstrapData.navbar,
+            ...(this.enableUiV8
+              ? {
+                  loadingBar: this.bootstrapData.navbar.loadingBar,
+                  navBar: "frame-bricks.nav-bar",
+                  sideBar: "frame-bricks.side-bar",
+                  breadcrumb: null,
+                  footer: null,
+                }
+              : this.bootstrapData.navbar),
             pageNotFound: "basic-bricks.page-not-found",
             pageError: "basic-bricks.page-error",
           };
@@ -133,11 +162,15 @@ export class Kernel {
         testid: "brick-next-menu-bar",
       }),
       this.appBar.bootstrap(this.presetBricks.appBar),
+      this.navBar.bootstrap(this.presetBricks.navBar),
+      this.sideBar.bootstrap(this.presetBricks.sideBar),
+      this.footer.bootstrap(this.presetBricks.footer),
+      this.breadcrumb.bootstrap(this.presetBricks.breadcrumb),
       this.loadingBar.bootstrap(this.presetBricks.loadingBar),
     ]);
   }
 
-  private authGuard(): void {
+  private legacyAuthGuard(): void {
     // Listen messages from legacy Console-W,
     // Redirect to login page if received an `auth.guard` message.
     window.addEventListener("message", (event: MessageEvent): void => {
@@ -156,30 +189,36 @@ export class Kernel {
   }
 
   private async loadCheckLogin(): Promise<void> {
-    const auth = await AuthSdk.checkLogin();
-    if (auth.loggedIn) {
-      authenticate(auth);
+    if (!window.NO_AUTH_GUARD) {
+      const auth = await AuthSdk.checkLogin();
+      if (auth.loggedIn) {
+        authenticate(auth);
+      }
     }
   }
 
-  async loadMicroApps(
+  private async loadMicroApps(
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
-    const d = await AuthSdk.bootstrap<BootstrapData>(
-      {
-        brief: true,
-        ...params,
-      },
-      {
-        interceptorParams,
-      }
-    );
+    const data = await (window.STANDALONE_MICRO_APPS
+      ? http.get<BootstrapData>(window.BOOTSTRAP_FILE, {
+          interceptorParams,
+        })
+      : AuthSdk.bootstrap<BootstrapData>(
+          {
+            brief: true,
+            ...params,
+          },
+          {
+            interceptorParams,
+          }
+        ));
     const bootstrapResponse = Object.assign(
       {
         templatePackages: [],
       },
-      d
+      data
     );
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
     processBootstrapResponse(bootstrapResponse);
@@ -189,6 +228,16 @@ export class Kernel {
         .map((storyboard) => storyboard.app)
         .filter(Boolean),
     };
+  }
+
+  reloadMicroApps(
+    params?: { check_login?: boolean },
+    interceptorParams?: InterceptorParams
+  ): Promise<void> {
+    // There is no need to reload standalone micro-apps.
+    if (!window.STANDALONE_MICRO_APPS) {
+      return this.loadMicroApps(params, interceptorParams);
+    }
   }
 
   async fulfilStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
@@ -204,15 +253,21 @@ export class Kernel {
   private async doFulfilStoryboard(
     storyboard: RuntimeStoryboard
   ): Promise<void> {
-    const { routes, meta } = await AuthSdk.getAppStoryboard(storyboard.app.id);
-    Object.assign(storyboard, { routes, meta, $$fulfilled: true });
+    if (window.STANDALONE_MICRO_APPS) {
+      Object.assign(storyboard, { $$fulfilled: true });
+    } else {
+      const { routes, meta } = await AuthSdk.getAppStoryboard(
+        storyboard.app.id
+      );
+      Object.assign(storyboard, { routes, meta, $$fulfilled: true });
+    }
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
 
-    if (meta?.i18n) {
+    if (storyboard.meta?.i18n) {
       // Prefix to avoid conflict between brick package's i18n namespace.
       const i18nNamespace = `$app-${storyboard.app.id}`;
       // Support any language in `meta.i18n`.
-      Object.entries(meta.i18n).forEach(([lang, resources]) => {
+      Object.entries(storyboard.meta.i18n).forEach(([lang, resources]) => {
         i18next.addResourceBundle(lang, i18nNamespace, resources);
       });
     }
@@ -222,15 +277,9 @@ export class Kernel {
     const { brickPackages, templatePackages } = this.bootstrapData;
 
     if (storyboard.dependsAll) {
-      const dllPath: Record<string, string> = (window as any).DLL_PATH || {};
-      const reactDnd = "react-dnd";
-      // istanbul ignore else
-      if (dllPath[reactDnd]) {
-        await loadScript(dllPath[reactDnd]);
-      }
-      // `loadScript` is auto cached, no need to filter out `react-dnd`.
-      await loadScript(Object.values(dllPath));
-      await loadScript(
+      const dllPath = window.DLL_PATH || {};
+      await loadScriptOfDll(Object.values(dllPath));
+      await loadScriptOfBricksOrTemplates(
         brickPackages
           .map((item) => item.filePath)
           .concat(templatePackages.map((item) => item.filePath))
@@ -242,7 +291,7 @@ export class Kernel {
         storyboard,
         templatePackages
       );
-      await loadScript(templateDeps);
+      await loadScriptOfBricksOrTemplates(templateDeps);
       // 加载模板后才能加工得到最终的构件表
       const { dll, deps, bricks } = getDllAndDepsOfStoryboard(
         await asyncProcessStoryboard(
@@ -256,7 +305,7 @@ export class Kernel {
         }
       );
       await loadScriptOfDll(dll);
-      await loadScript(deps);
+      await loadScriptOfBricksOrTemplates(deps);
       await loadLazyBricks(bricks);
     }
   }
@@ -270,9 +319,10 @@ export class Kernel {
       storyboard,
       templatePackages
     );
-    prefetchScript(templateDeps);
+    prefetchScript(templateDeps, window.PUBLIC_ROOT);
     const result = getDllAndDepsOfStoryboard(storyboard, brickPackages);
-    prefetchScript(result.dll.concat(result.deps));
+    prefetchScript(result.dll, window.CORE_ROOT);
+    prefetchScript(result.deps, window.PUBLIC_ROOT);
     storyboard.$$depsProcessed = true;
   }
 
@@ -322,7 +372,7 @@ export class Kernel {
       this.bootstrapData.brickPackages
     );
     await loadScriptOfDll(dll);
-    await loadScript(deps);
+    await loadScriptOfBricksOrTemplates(deps);
     await loadLazyBricks(filteredBricks);
   }
 
@@ -337,7 +387,7 @@ export class Kernel {
       this.bootstrapData.brickPackages
     );
     await loadScriptOfDll(dll);
-    await loadScript(deps);
+    await loadScriptOfBricksOrTemplates(deps);
   }
 
   firstRendered(): void {
@@ -381,7 +431,9 @@ export class Kernel {
   }
 
   loadSharedData(): void {
-    this.loadRelatedAppsAsync();
+    if (!window.STANDALONE_MICRO_APPS) {
+      this.loadRelatedAppsAsync();
+    }
   }
 
   loadUsersAsync(): void {
@@ -583,6 +635,19 @@ export class Kernel {
     return Object.assign({}, this.bootstrapData?.settings?.featureFlags);
   }
 
+  getStandaloneMenus(menuId: string): MenuRawData[] {
+    const currentAppId = this.currentApp.id;
+    const currentStoryboard = this.bootstrapData.storyboards.find(
+      (storyboard) => storyboard.app.id === currentAppId
+    );
+    return (cloneDeep(currentStoryboard.meta?.menus) ?? [])
+      .filter((menu) => menu.menuId === menuId)
+      .map((menu) => ({
+        ...menu,
+        app: [{ appId: currentAppId }],
+      }));
+  }
+
   async getProviderBrick(provider: string): Promise<HTMLElement> {
     if (isCustomApiProvider(provider)) {
       provider = CUSTOM_API_PROVIDER;
@@ -605,15 +670,28 @@ export class Kernel {
     this.providerRepository.set(provider, brick);
     return brick;
   }
+
+  private setUiVersion(): void {
+    // get from localStorage fot test
+    // this.enableUiV8 = this.getFeatureFlags()["ui-v8"];
+    this.enableUiV8 = !!localStorage.getItem("test-ui-v8");
+    if (this.enableUiV8) {
+      document.documentElement.dataset.ui = "v8";
+    }
+  }
 }
 
 // Since `@next-dll/editor-bricks-helper` depends on `@next-dll/react-dnd`,
 // always load react-dnd before loading editor-bricks-helper.
 async function loadScriptOfDll(dlls: string[]): Promise<void> {
   if (dlls.some((dll) => dll.startsWith("dll-of-editor-bricks-helper."))) {
-    const dllPath: Record<string, string> = (window as any).DLL_PATH || {};
-    await loadScript(dllPath["react-dnd"]);
+    const dllPath = window.DLL_PATH || {};
+    await loadScript(dllPath["react-dnd"], window.CORE_ROOT);
   }
   // `loadScript` is auto cached, no need to filter out `react-dnd`.
-  await loadScript(dlls);
+  await loadScript(dlls, window.CORE_ROOT);
+}
+
+function loadScriptOfBricksOrTemplates(src: string[]): Promise<unknown> {
+  return loadScript(src, window.PUBLIC_ROOT);
 }

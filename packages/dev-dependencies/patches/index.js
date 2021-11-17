@@ -17,3 +17,4 @@ exports.migrateJestV2 = require("./migrateJestV2");
 exports.updateBuildNextLibs = require("./updateBuildNextLibs");
 exports.addPreBuildScriptForBricks = require("./addPreBuildScriptForBricks");
 exports.enableNextLibsRenovate = require("./enableNextLibsRenovate");
+exports.removeRenovateLegacyBaseBranches = require("./removeRenovateLegacyBaseBranches");

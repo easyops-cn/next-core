@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.16...@next-core/create-next-repo@1.4.0) (2021-10-20)
+
+### Features
+
+- create next repo 支持本地下载 next-template-repo ([34e1282](https://github.com/easyops-cn/next-core/commit/34e1282b90a649316bf4d0d2e1f92ae86dd46c90))
+
+## [1.3.16](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.15...@next-core/create-next-repo@1.3.16) (2021-10-12)
+
+**Note:** Version bump only for package @next-core/create-next-repo
+
 ## [1.3.15](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.3.14...@next-core/create-next-repo@1.3.15) (2021-09-06)
 
 **Note:** Version bump only for package @next-core/create-next-repo

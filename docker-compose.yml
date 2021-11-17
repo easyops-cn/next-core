@@ -5,4 +5,4 @@ services:
     working_dir: /app
     volumes:
       - '.:/app'
-    entrypoint: npx start-server-and-test serve:ci http://localhost:8081/next/ cypress:run
+    entrypoint: npx start-server-and-test serve:e2e http://localhost:8081/next/ cypress:run

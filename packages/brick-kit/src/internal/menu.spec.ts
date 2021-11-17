@@ -277,35 +277,35 @@ describe("fetchMenuById", () => {
   });
 
   it("should work", async () => {
-    const menu1 = await fetchMenuById("menu-a");
+    const menu1 = await fetchMenuById("menu-a", null);
     expect(menu1).toEqual({
       menuId: "menu-a",
       items: [],
     });
-    const menu2 = await fetchMenuById("menu-a");
+    const menu2 = await fetchMenuById("menu-a", null);
     expect(menu2).toEqual({
       menuId: "menu-a",
       items: [],
     });
-    const menu3 = await fetchMenuById("menu-b");
+    const menu3 = await fetchMenuById("menu-b", null);
     expect(menu3).toEqual({
       menuId: "menu-b",
       items: [],
     });
-    await expect(fetchMenuById("menu-x")).rejects.toBeInstanceOf(Error);
+    await expect(fetchMenuById("menu-x", null)).rejects.toBeInstanceOf(Error);
   });
 
   it("test clear menu cache", async () => {
-    const menu1 = await fetchMenuById("menu-a");
+    const menu1 = await fetchMenuById("menu-a", null);
     expect(menu1).toEqual({
       menuId: "menu-a",
       items: [],
     });
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
-    await fetchMenuById("menu-a");
+    await fetchMenuById("menu-a", null);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
     clearMenuCache();
-    await fetchMenuById("menu-a");
+    await fetchMenuById("menu-a", null);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });
 });

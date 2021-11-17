@@ -170,7 +170,12 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     const rootId = getUniqueNodeId();
     const newData = {
       rootId,
-      ...getAppendingNodesAndEdges(root, rootId, templateSourceMap),
+      ...getAppendingNodesAndEdges(
+        root,
+        rootId,
+        templateSourceMap,
+        this.storyList
+      ),
     };
     this.data = {
       ...newData,
@@ -192,20 +197,20 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
-  nodeAdd(detail: EventDetailOfNodeAdd): void {
+  runAddNodeAction = (detail: EventDetailOfNodeAdd) => {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
-    const { nodes: appendingNodes, edges: appendingEdges } =
-      getAppendingNodesAndEdges(
-        omit(nodeData, [
-          "parent",
-        ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
-        nodeUid,
-        this.templateSourceMap
-      );
+    const { nodes: addNodes, edges: addEdges } = getAppendingNodesAndEdges(
+      omit(nodeData, [
+        "parent",
+      ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
+      nodeUid,
+      this.templateSourceMap,
+      this.getStoryList()
+    );
 
-    const newNodes = nodes.concat(appendingNodes);
+    const newNodes = nodes.concat(addNodes);
     const newEdges = edges
       .concat({
         parent: parentUid,
@@ -214,7 +219,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
         sort: undefined,
         $$isTemplateDelegated: isParentExpandableTemplate(nodes, parentUid),
       })
-      .concat(appendingEdges);
+      .concat(addEdges);
 
     const newData = {
       rootId,
@@ -229,6 +234,17 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
       }),
     };
     this.triggerDataChange();
+  };
+
+  updateBrick(detail: EventDetailOfNodeAdd) {
+    this.data = deleteNodeFromTree(detail.nodeUid, this.data);
+
+    this.runAddNodeAction(detail);
+  }
+
+  nodeAdd(detail: EventDetailOfNodeAdd): void {
+    this.runAddNodeAction(detail);
+
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_ADD, { detail })
     );
@@ -268,7 +284,8 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
             "parent",
           ]) as Partial<BuilderRouteOrBrickNode> as BuilderRouteOrBrickNode,
           nodeUid,
-          this.templateSourceMap
+          this.templateSourceMap,
+          this.storyList
         );
       newNodes.push(...appendingNodes);
       newEdges.push(

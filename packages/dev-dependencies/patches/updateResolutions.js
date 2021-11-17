@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs-extra");
 
-function updateResolutions() {
+function updateResolutions(pkg) {
   const rootPackageJsonPath = path.resolve("package.json");
   const rootPackageJson = fs.readJsonSync(rootPackageJsonPath);
 
@@ -9,12 +9,16 @@ function updateResolutions() {
     rootPackageJson.resolutions = {};
   }
 
-  // Add a resolution to fix an issue of `clearImmediate is not defined`.
-  // See https://github.com/testing-library/dom-testing-library/issues/899
-  const pkgName = "@testing-library/dom";
-  const pkgVersion = "^7.31.2";
-  if (!rootPackageJson.resolutions[pkgName]) {
-    rootPackageJson.resolutions[pkgName] = pkgVersion;
+  let updated = false;
+  for (const [pkgName, pkgVersion] of Object.entries(pkg)) {
+    if (!rootPackageJson.resolutions[pkgName]) {
+      rootPackageJson.resolutions[pkgName] = pkgVersion;
+      updated = true;
+      fs.writeJsonSync(rootPackageJsonPath, rootPackageJson);
+    }
+  }
+
+  if (updated) {
     fs.writeJsonSync(rootPackageJsonPath, rootPackageJson);
   }
 }

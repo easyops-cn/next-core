@@ -1,11 +1,27 @@
-import { historyExtended } from "./historyExtended";
 import {
   UpdateQueryFunction,
   UpdateAnchorFunction,
   PluginLocation,
+  PluginHistoryState,
 } from "@next-core/brick-types";
+import { History } from "history";
+import { historyExtended } from "./historyExtended";
+import { _internalApiHasMatchedApp } from "../core/Runtime";
+
+jest.mock("../core/Runtime", () => ({
+  _internalApiHasMatchedApp: jest.fn(),
+}));
+
+const mockHasMatchedApp = _internalApiHasMatchedApp as jest.Mock;
 
 describe("historyExtended", () => {
+  const location = window.location;
+  delete window.location;
+  window.location = {
+    assign: jest.fn(),
+    replace: jest.fn(),
+  } as unknown as Location;
+
   const history = {
     push: jest.fn(),
     replace: jest.fn(),
@@ -18,12 +34,20 @@ describe("historyExtended", () => {
         from: "e",
       },
     },
-  };
-  const ext = historyExtended(history as any);
+    createHref(path: any) {
+      return path.pathname;
+    },
+  } as any;
+  let ext: ReturnType<typeof historyExtended>;
 
   afterEach(() => {
     history.push.mockClear();
     history.replace.mockClear();
+    window.STANDALONE_MICRO_APPS = undefined;
+  });
+
+  afterAll(() => {
+    window.location = location;
   });
 
   it.each<[Parameters<UpdateQueryFunction>, [string, Record<string, any>]]>([
@@ -113,6 +137,7 @@ describe("historyExtended", () => {
   ])(
     "history.pushQuery(...%j) should call history.push(...%j)",
     (callerArgs, calleeArgs) => {
+      ext = historyExtended(history);
       ext.pushQuery(...callerArgs);
       expect(history.push).toBeCalledWith(...calleeArgs);
     }
@@ -141,6 +166,7 @@ describe("historyExtended", () => {
   ])(
     "history.replaceQuery(...%j) should call history.replace(...%j)",
     (callerArgs, calleeArgs) => {
+      ext = historyExtended(history);
       ext.replaceQuery(...callerArgs);
       expect(history.replace).toBeCalledWith(...calleeArgs);
     }
@@ -191,12 +217,14 @@ describe("historyExtended", () => {
   ])(
     "history.pushAnchor(...%j) should call history.push(%j)",
     (callerArgs, loc) => {
+      ext = historyExtended(history);
       ext.pushAnchor(...callerArgs);
       expect(history.push).toBeCalledWith(loc);
     }
   );
 
   it("should work for history.reload", () => {
+    ext = historyExtended(history);
     ext.reload();
     expect(history.replace).toBeCalledWith({
       pathname: "/a",
@@ -209,4 +237,73 @@ describe("historyExtended", () => {
       },
     });
   });
+
+  it.each<
+    [
+      "push" | "replace",
+      Parameters<History<PluginHistoryState>["push"]>,
+      [unknown, PluginHistoryState?]
+    ]
+  >([
+    ["push", ["/my-app"], ["/my-app", undefined]],
+    [
+      "replace",
+      [
+        {
+          pathname: "/my-app/hello",
+        },
+        {
+          from: "good",
+        },
+      ] as any,
+      [
+        {
+          pathname: "/my-app/hello",
+        },
+        { from: "good" },
+      ],
+    ],
+  ])(
+    "history[%j](...%j) with the same up should work for standalone micro-apps",
+    (method, callerArgs, calleeArgs) => {
+      window.STANDALONE_MICRO_APPS = true;
+      mockHasMatchedApp.mockReturnValueOnce(true);
+      ext = historyExtended(history);
+      ext[method](...callerArgs);
+      expect(history[method]).toBeCalledWith(...calleeArgs);
+    }
+  );
+
+  it.each<
+    [
+      "push" | "replace",
+      Parameters<History<PluginHistoryState>["push"]>,
+      string
+    ]
+  >([
+    ["push", ["/another-app"], "/another-app"],
+    [
+      "replace",
+      [
+        {
+          pathname: "/another-app/path",
+        },
+        {
+          from: "good",
+        },
+      ] as any,
+      "/another-app/path",
+    ],
+  ])(
+    "history[%j](...%j) with the same up should work for standalone micro-apps",
+    (method, callerArgs, url) => {
+      window.STANDALONE_MICRO_APPS = true;
+      mockHasMatchedApp.mockReturnValueOnce(false);
+      ext = historyExtended(history);
+      ext[method](...callerArgs);
+      expect(
+        window.location[method === "push" ? "assign" : "replace"]
+      ).toBeCalledWith(url);
+    }
+  );
 });

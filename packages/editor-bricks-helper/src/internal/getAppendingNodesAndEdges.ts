@@ -5,6 +5,7 @@ import {
   BuilderCustomTemplateNode,
   CustomTemplateProxyProperty,
   CustomTemplateProxyBasicProperty,
+  Story,
 } from "@next-core/brick-types";
 import { BuilderRuntimeEdge, BuilderRuntimeNode } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
@@ -14,7 +15,8 @@ import { isBrickNode } from "../assertions";
 export function getAppendingNodesAndEdges(
   nodeData: BuilderRouteOrBrickNode,
   nodeUid: number,
-  templateSourceMap: Map<string, BuilderCustomTemplateNode>
+  templateSourceMap: Map<string, BuilderCustomTemplateNode>,
+  storyList: Story[] = []
 ): {
   nodes: BuilderRuntimeNode[];
   edges: BuilderRuntimeEdge[];
@@ -43,11 +45,16 @@ export function getAppendingNodesAndEdges(
 
     if (
       isBrickNode(builderNode) &&
-      !builderNode.brick.includes(".") &&
-      builderNode.brick.startsWith("tpl-") &&
-      !processedTemplateSet.has(builderNode.brick) &&
-      (templateSource = templateSourceMap?.get(builderNode.brick)) &&
-      templateSource.children?.length > 0
+      ((!builderNode.brick.includes(".") &&
+        builderNode.brick.startsWith("tpl-") &&
+        !processedTemplateSet.has(builderNode.brick) &&
+        (templateSource = templateSourceMap?.get(builderNode.brick)) &&
+        templateSource.children?.length > 0) ||
+        (builderNode.brick.includes(".tpl-") &&
+          (templateSource = storyList?.find(
+            (item) => item.storyId === builderNode.brick
+          )?.originData) &&
+          templateSource.children?.length > 0))
     ) {
       // Avoid nesting the same templates.
       processedTemplateSet.add(builderNode.brick);

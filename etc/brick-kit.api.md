@@ -36,6 +36,7 @@ import { Location as Location_2 } from 'history';
 import { MagicBrickConfig } from '@next-core/brick-types';
 import { MatchResult } from '@next-core/brick-types';
 import { MenuBarBrick } from '@next-core/brick-types';
+import { MenuRawData } from '@next-core/brick-types';
 import { MessageConf } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
 import { MicroAppModels } from '@next-sdk/micro-app-sdk';
@@ -80,7 +81,7 @@ export interface AbstractRuntime {
     getFeatureFlags(): FeatureFlags;
     getMicroApps(options?: GetMicroAppsOptions): MicroApp[];
     getMiscSettings(): Record<string, unknown>;
-    hasInstalledApp(appId: string): boolean;
+    hasInstalledApp(appId: string, matchVersion?: string): boolean;
     // Warning: (ae-forgotten-export) The symbol "CustomProcessorFunc" needs to be exported by the entry point index.d.ts
     registerCustomProcessor(processorFullName: string, processorFunc: CustomProcessorFunc): void;
     registerCustomTemplate(tplName: string, tplConstructor: CustomTemplateConstructor, appId?: string): void;
@@ -182,6 +183,7 @@ export const developHelper: {
     loadEditorBricks: typeof _dev_only_loadEditorBricks;
     loadDynamicBricksInBrickConf: typeof _dev_only_loadDynamicBricksInBrickConf;
     getFakeKernel: typeof _dev_only_getFakeKernel;
+    checkoutTplContext: typeof _dev_only_checkoutTplContext;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -311,6 +313,7 @@ export function looseCheckIf(ifContainer: IfContainer, context: PluginRuntimeCon
 // @public
 export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown, options?: {
     allowInject?: boolean;
+    getTplVariables?: () => Record<string, unknown>;
 }): boolean;
 
 // Warning: (ae-internal-missing-underscore) The name "looseCheckIfOfComputed" should be prefixed with an underscore because the declaration is marked as @internal
@@ -516,15 +519,16 @@ export interface VisitedWorkspace {
 
 // Warnings were encountered during analysis:
 //
-// src/developHelper.ts:20:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:21:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:22:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:21:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:22:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_checkoutTplContext" needs to be exported by the entry point index.d.ts
 
 ```

@@ -2158,15 +2158,10 @@
   resolved "https://registry.npmjs.org/@next-bricks/basic-providers/-/basic-providers-1.3.0.tgz#5d0961aa77b985f45e26614ad9cb53609a1f848a"
   integrity sha512-M9rE8CDKw/49zlxj0kkZTUFtr3JJPg9tyHjefne9Pb+Qb9X7c0W4fL9Lc23Q4tx9xSmjsUVfUJnyoRzYUWEgfA==
 
-"@next-bricks/general-auth@^1.4.12":
-  version "1.4.12"
-  resolved "https://registry.npmjs.org/@next-bricks/general-auth/-/general-auth-1.4.12.tgz#6c7892b4c69c3c40b8c0fa79dc8bbf55037832a5"
-  integrity sha1-bHiStMacPEC4wPp53Iu/VQN4MqU=
-
-"@next-micro-apps/general-auth@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.npmjs.org/@next-micro-apps/general-auth/-/general-auth-1.0.9.tgz#ad18f28303ef44829228b297c646f51da60aa31d"
-  integrity sha1-rRjygwPvRIKSKLKXxkb1HaYKox0=
+"@next-sdk/api-gateway-sdk@^2.0.14":
+  version "2.0.14"
+  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.0.14.tgz#8574bf0ff37efe9b30f7e5afc0506a98656e0f85"
+  integrity sha512-Re5s5YYyV45YMoExky9brHwEN/dl09SFjpifPHyKfxPisWoYkqYVBXE2Tfix9ta53PiHIyVZg+VdSLW0D1PJ7g==
 
 "@next-sdk/auth-sdk@^1.0.0":
   version "1.0.1"
@@ -5283,6 +5278,11 @@ compare-func@^2.0.0:
   dependencies:
     array-ify "^1.0.0"
     dot-prop "^5.1.0"
+
+compare-versions@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.npmjs.org/compare-versions/-/compare-versions-3.6.0.tgz#1a5689913685e5a87637b8d3ffca75514ec41d62"
+  integrity sha512-W6Af2Iw1z4CB7q4uU4hv646dW9GQuBM+YpC0UvUCWSD8w90SJjp+ujJuXaEMtAXBtSqGfMPuFOVn4/+FlaqfBA==
 
 component-classes@^1.2.5:
   version "1.2.6"
@@ -10593,6 +10593,14 @@ mock-socket@^9.0.8:
   resolved "https://registry.npmjs.org/mock-socket/-/mock-socket-9.0.8.tgz#af1486e5ebf6eed36843ad54bc2fba793fcd0666"
   integrity sha512-8Syqkaaa2SzRqW68DEsnZkKQicHP7hVzfj3uCvigB5TL79H1ljKbwmOcRIENkx0ZTyu/5W6u+Pk9Qy6JCp38Ww==
 
+modify-source-webpack-plugin@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/modify-source-webpack-plugin/-/modify-source-webpack-plugin-3.0.0.tgz#4fe973adc6e3b11f2ae39f3645a39e423dbed861"
+  integrity sha512-m2g6QEittzzcde0PhgQtOwRywjqo8Q+vMLHbNoH2JDEFE/AlTBWvtNQrp17xbqDUXIueLljm4bhE5OninatHYw==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
+
 modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
@@ -15242,9 +15250,10 @@ typescript@~4.4.4:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"
   integrity sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==
 
-ua-parser-js@^0.7.18:
+ua-parser-js@0.7.19, ua-parser-js@^0.7.18:
   version "0.7.19"
   resolved "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
+  integrity sha512-T3PVJ6uz8i0HzPxOF9SWzWAlfN/DavlpQqepn22xgve/5QecC+XMCAtmUNnY7C9StehaV6exjUCI801lOI7QlQ==
 
 uglify-js@^3.1.4:
   version "3.4.9"
@@ -15715,6 +15724,11 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
   dependencies:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
+
+webpack-virtual-modules@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.4.3.tgz#cd597c6d51d5a5ecb473eea1983a58fa8a17ded9"
+  integrity sha512-5NUqC2JquIL2pBAAo/VfBP6KuGkHIZQXW/lNKupLPfhViwh8wNsu0BObtl09yuKZszeEUfbXz8xhrHvSG16Nqw==
 
 webpack@^4.46.0:
   version "4.46.0"

@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.46](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.45...@next-dll/d3@2.0.46) (2021-11-16)
+
+**Note:** Version bump only for package @next-dll/d3
+
+## [2.0.45](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.44...@next-dll/d3@2.0.45) (2021-11-15)
+
+**Note:** Version bump only for package @next-dll/d3
+
+## [2.0.44](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.43...@next-dll/d3@2.0.44) (2021-11-09)
+
+**Note:** Version bump only for package @next-dll/d3
+
+## [2.0.43](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.42...@next-dll/d3@2.0.43) (2021-10-25)
+
+**Note:** Version bump only for package @next-dll/d3
+
+## [2.0.42](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.41...@next-dll/d3@2.0.42) (2021-10-12)
+
+**Note:** Version bump only for package @next-dll/d3
+
 ## [2.0.41](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.40...@next-dll/d3@2.0.41) (2021-09-22)
 
 **Note:** Version bump only for package @next-dll/d3

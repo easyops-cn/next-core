@@ -1,4 +1,4 @@
-import * as cmdbSdk from "@next-sdk/cmdb-sdk";
+import * as apiGatewaySdk from "@next-sdk/api-gateway-sdk";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./FlowApi";
 import * as runtime from "./Runtime";
 
@@ -71,40 +71,38 @@ jest
   );
 
 jest
-  .spyOn(cmdbSdk, "InstanceApi_postSearch")
-  .mockImplementation((objectId, params) => {
-    switch (params.query.name) {
-      case "getStatus":
+  .spyOn(apiGatewaySdk, "ContractApi_searchSingleContract")
+  .mockImplementation((params) => {
+    switch (params.contractName) {
+      case "easyops.custom_api.getStatus":
         return {
-          list: [
-            {
-              name: "getStatus",
-              version: "1.0.0",
-              endpoint: {
-                method: "get",
-                uri: "/api/status",
-              },
-              namespace: [{ name: "easyops.custom_api" }],
+          contractData: {
+            name: "getStatus",
+            version: "1.0.0",
+            endpoint: {
+              method: "get",
+              uri: "/api/status",
             },
-          ],
+            namespace: [{ name: "easyops.custom_api" }],
+          },
         } as any;
-      case "exportMarkdown":
+      case "easyops.custom_api.exportMarkdown":
         return {
-          list: [
-            {
-              name: "exportMarkdown",
-              version: "1.0.0",
-              endpoint: {
-                method: "get",
-                uri: "/api/export",
-              },
-              response: {
-                type: "file",
-              },
-              namespace: [{ name: "easyops.custom_api" }],
+          contractData: {
+            name: "exportMarkdown",
+            version: "1.0.0",
+            endpoint: {
+              method: "get",
+              uri: "/api/export",
             },
-          ],
+            response: {
+              type: "file",
+            },
+            namespace: [{ name: "easyops.custom_api" }],
+          },
         } as any;
+      case "invalid.export_api":
+        return {};
     }
   });
 
@@ -118,6 +116,12 @@ describe("FlowApi", () => {
   });
 
   it("getArgsOfCustomApi should work", async () => {
+    expect(
+      await getArgsOfCustomApi("cmdb.provider", [
+        "myObjectId",
+        { fields: { "*": true } },
+      ])
+    ).toEqual(["myObjectId", { fields: { "*": true } }]);
     expect(
       await getArgsOfCustomApi("easyops.custom_api@myAwesomeApi", [
         "myObjectId",
@@ -191,5 +195,9 @@ describe("FlowApi", () => {
         'Missing endpoint.uri in contract of provider "easyops.custom_api@apiWithoutMethodAndUri"'
       )
     );
+
+    await expect(() =>
+      getArgsOfCustomApi("invalid@export_api:1.0.0", [])
+    ).rejects.toThrow('Flow API not found: "invalid@export_api:1.0.0"');
   });
 });

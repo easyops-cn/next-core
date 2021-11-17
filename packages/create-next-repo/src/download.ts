@@ -1,4 +1,5 @@
 import fs from "fs";
+import http from "http";
 import https from "https";
 import chalk from "chalk";
 import createHttpsProxyAgent from "https-proxy-agent";
@@ -24,7 +25,7 @@ export function download(url: string, dest: string): Promise<void> {
       LogLevel.DEFAULT,
       `Downloading template repo from ${url} ...`
     );
-    https
+    (url.startsWith("https") ? https : http)
       .get(url, options, function (response) {
         response.pipe(file);
         file.on("finish", function () {

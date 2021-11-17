@@ -16,8 +16,6 @@ import {
   PluginRuntimeContext,
   BrickEventHandler,
   ResolveConf,
-  RouteConfOfRoutes,
-  RouteConfOfBricks,
   StaticMenuProps,
   SeguesConf,
   ContextConf,
@@ -27,6 +25,8 @@ import {
   BrickLifeCycle,
   Storyboard,
   StaticMenuConf,
+  isRouteConfOfBricks,
+  isRouteConfOfRoutes,
 } from "@next-core/brick-types";
 import {
   isObject,
@@ -107,6 +107,8 @@ export interface MountRoutesResult {
     hybrid?: boolean;
     failed?: boolean;
   };
+  route?: RouteConf;
+  analyticsData?: Record<string, unknown>;
 }
 
 interface BrickAndLifeCycleHandler {
@@ -283,18 +285,20 @@ export class LocationContext {
         exact: route.exact,
       });
       if (match !== null) {
-        if (route.public || isLoggedIn()) {
+        if (app.noAuthGuard || route.public || isLoggedIn()) {
           this.currentMatch = match;
           return { match, route };
-        } else {
-          return "unauthenticated";
         }
+        return "unauthenticated";
       }
     }
     return "missed";
   }
 
   matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
+    if (window.STANDALONE_MICRO_APPS && storyboards.length === 1) {
+      return storyboards[0];
+    }
     // Put apps with longer homepage before shorter ones.
     // E.g., `/legacy/tool` will match first before `/legacy`.
     // This enables two apps with relationship of parent-child of homepage.
@@ -343,7 +347,7 @@ export class LocationContext {
         mountRoutesResult.flags.unauthenticated = true;
         break;
       default:
-        route = matched.route;
+        mountRoutesResult.route = route = matched.route;
         if (route.segues) {
           Object.assign(this.segues, route.segues);
         }
@@ -393,19 +397,24 @@ export class LocationContext {
           mountRoutesResult.appBar.documentId = route.documentId;
         }
 
-        if (route.type === "routes") {
-          await this.mountRoutes(
-            (route as RouteConfOfRoutes).routes,
-            slotId,
-            mountRoutesResult
-          );
-        } else if (Array.isArray((route as RouteConfOfBricks).bricks)) {
+        if (isRouteConfOfRoutes(route) && Array.isArray(route.routes)) {
+          await this.mountRoutes(route.routes, slotId, mountRoutesResult);
+        } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
           await this.mountBricks(
-            (route as RouteConfOfBricks).bricks,
+            route.bricks,
             matched.match,
             slotId,
             mountRoutesResult
           );
+
+          // analytics data (page_view event)
+          if (route.analyticsData) {
+            mountRoutesResult.analyticsData = computeRealValue(
+              route.analyticsData,
+              context,
+              true
+            ) as Record<string, unknown>;
+          }
         }
     }
     return mountRoutesResult;
@@ -753,18 +762,21 @@ export class LocationContext {
       });
     };
     const setTplIdForUseBrick = (list: RuntimeBrickConfWithTplSymbols[]) => {
-      list.forEach((item) => {
-        if (Array.isArray(item)) {
-          setTplIdForUseBrick(item);
-        } else {
-          item[symbolForTplContextId] = tplContextId;
-          if (item.slots) {
-            Object.values(item.slots).forEach((slotItem) => {
-              setTplIdForUseBrick((slotItem as any).bricks);
-            });
+      if (Array.isArray(list)) {
+        list.forEach((item) => {
+          if (Array.isArray(item)) {
+            setTplIdForUseBrick(item);
+          } else {
+            item[symbolForTplContextId] = tplContextId;
+            if (item.slots) {
+              const slotsContent = Object.values(item.slots);
+              slotsContent.forEach((slotItem) => {
+                setTplIdForUseBrick((slotItem as any).bricks);
+              });
+            }
           }
-        }
-      });
+        });
+      }
     };
     // 如果properteis中存在useBrick, 则递归遍历并赋值tplContextId
     if (tplContextId) {
