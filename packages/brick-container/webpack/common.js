@@ -42,14 +42,9 @@ const dll = Object.keys(packageJson.devDependencies)
 
 const brickDllJsName = getDllJsName("@next-core/brick-dll", /^dll\.\w+\.js$/);
 
-module.exports = ({ standalone } = {}) => {
-  const htmlPath = standalone ? "../../" : "";
-  const htmlPublicPath = standalone
-    ? "<!--# echo var='app_dir' -->-/core/"
-    : "auto";
-  const faviconPath = `${
-    standalone ? "<!--# echo var='app_dir' -->-/core/" : ""
-  }assets/favicon.png`;
+module.exports = () => {
+  const coreRootPlaceholder = "<!--# echo var='core_root' default='' -->";
+  const faviconPath = `${coreRootPlaceholder}assets/favicon.png`;
   const baseHref =
     process.env.SUBDIR === "true"
       ? "/next/"
@@ -64,11 +59,7 @@ module.exports = ({ standalone } = {}) => {
       main: path.join(packageRoot, "src", "index"),
     },
     output: {
-      path: path.join(
-        __dirname,
-        "..",
-        standalone ? "dist-standalone/-/core" : "dist"
-      ),
+      path: path.join(__dirname, "../dist"),
       publicPath: "",
     },
     resolve: {
@@ -153,16 +144,39 @@ module.exports = ({ standalone } = {}) => {
         ],
       }),
       new HtmlWebpackPlugin({
-        filename: `${htmlPath}index.html`,
-        publicPath: htmlPublicPath,
+        filename: "index.html",
         title: "DevOps 管理专家",
         baseHref,
         template: path.join(packageRoot, "src", "index.ejs"),
         faviconPath,
+        // We want to use a nginx ssi expression as the `publicPath`,
+        // but currently HtmlWebpackPlugin will auto append a trailing slash
+        // for it, which would break our tags.
+        // See https://github.com/jantimon/html-webpack-plugin/issues/1701
+        inject: false,
+        customizeTag(tag) {
+          if (tag.tagName === "link" && tag.attributes.rel === "stylesheet") {
+            return {
+              ...tag,
+              attributes: {
+                ...tag.attributes,
+                href: `${coreRootPlaceholder}${tag.attributes.href}`,
+              },
+            };
+          }
+          if (tag.tagName === "script") {
+            return {
+              ...tag,
+              attributes: {
+                ...tag.attributes,
+                src: `${coreRootPlaceholder}${tag.attributes.src}`,
+              },
+            };
+          }
+        },
       }),
       new HtmlWebpackPlugin({
-        filename: `${htmlPath}browse-happy.html`,
-        publicPath: htmlPublicPath,
+        filename: "browse-happy.html",
         title: "DevOps 管理专家",
         baseHref,
         template: path.join(packageRoot, "src", "browse-happy.ejs"),
@@ -170,7 +184,7 @@ module.exports = ({ standalone } = {}) => {
         chunks: [],
       }),
       new HtmlWebpackTagsPlugin({
-        files: [`${htmlPath}index.html`],
+        files: ["index.html"],
         scripts: [
           {
             path: brickDllJsName,

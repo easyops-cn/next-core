@@ -5,6 +5,7 @@ import { standaloneBootstrap } from "./standaloneBootstrap";
 const mockHttpGet = jest.spyOn(http, "get");
 
 window.BOOTSTRAP_FILE = "-/bootstrap.json";
+window.APP_ROOT = "";
 
 describe("standaloneBootstrap", () => {
   it.each<

@@ -18,11 +18,7 @@ module.exports = function serve(runtimeFlags) {
   const app = express();
 
   const distDir = path.dirname(
-    require.resolve(
-      `@next-core/brick-container/${
-        env.standaloneMicroApps ? "dist-standalone" : "dist"
-      }/index.html`
-    )
+    require.resolve("@next-core/brick-container/dist/index.html")
   );
 
   serveLocal(env, app);
@@ -38,38 +34,48 @@ module.exports = function serve(runtimeFlags) {
         content = appendLiveReloadScript(content, env);
       }
 
-      content = content.replace(
-        new RegExp(
-          escapeRegExp("<!--# echo var='base_href' default='/' -->"),
-          "g"
-        ),
-        env.baseHref
-      );
+      content = content
+        .replace(
+          new RegExp(
+            escapeRegExp("<!--# echo var='base_href' default='/' -->"),
+            "g"
+          ),
+          env.baseHref
+        )
+        .replace(
+          new RegExp(
+            escapeRegExp("<!--# echo var='app_root' default='' -->"),
+            "g"
+          ),
+          env.standaloneMicroApps ? env.standaloneAppDir : ""
+        )
+        .replace(
+          new RegExp(
+            escapeRegExp("<!--# echo var='core_root' default='' -->"),
+            "g"
+          ),
+          env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
+        );
 
       if (env.standaloneMicroApps) {
-        content = content
-          .replace(
-            new RegExp(escapeRegExp("<!--# echo var='app_dir' -->"), "g"),
-            env.standaloneAppDir
-          )
-          .replace(
-            "</head>",
+        content = content.replace(
+          "</head>",
+          [
+            "<script>",
+            "((w)=>{",
             [
-              "<script>",
-              "((w)=>{",
-              [
-                `var t=${JSON.stringify(env.standaloneAppDir)}`,
-                "w.STANDALONE_MICRO_APPS=true",
-                `var p=w.PUBLIC_ROOT=t+"-/"`,
-                'w.CORE_ROOT=p+"core/"',
-                `w.BOOTSTRAP_FILE=p+"bootstrap.hash.json"`,
-              ]
-                .filter(Boolean)
-                .join(";"),
-              "})(window)",
-              "</script></head>",
-            ].join("")
-          );
+              "w.STANDALONE_MICRO_APPS=!0",
+              `var a=w.APP_ROOT=${JSON.stringify(env.standaloneAppDir)}`,
+              'var p=w.PUBLIC_ROOT=a+"-/"',
+              'w.CORE_ROOT=p+"core/"',
+              `w.BOOTSTRAP_FILE=p+"bootstrap.hash.json"`,
+            ]
+              .filter(Boolean)
+              .join(";"),
+            "})(window)",
+            "</script></head>",
+          ].join("")
+        );
       }
 
       cachedIndexHtml = content;
@@ -109,8 +115,18 @@ module.exports = function serve(runtimeFlags) {
   if (env.useLocalContainer) {
     // Serve index.html.
     app.get(serveRoot, serveIndexHtml);
+
+    // Serve browse-happy.html.
+    const browseHappyHtml = "browse-happy.html";
+    app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
+      res.sendFile(path.join(distDir, browseHappyHtml));
+    });
+
     // Serve static files.
-    app.use(serveRoot, express.static(distDir));
+    const staticRoot = env.standaloneMicroApps
+      ? `${serveRoot}-/core/`
+      : serveRoot;
+    app.use(staticRoot, express.static(distDir));
   }
 
   // Using proxies.
