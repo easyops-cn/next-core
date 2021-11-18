@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.36.0...@next-core/brick-container@2.37.0) (2021-11-18)
+
+
+### Features
+
+* add dist-standalone into npm package files ([4ad5dd3](https://github.com/easyops-cn/next-core/commit/4ad5dd35d0c60de4adef2d6849d0c6c703636d04))
+
+
+
+
+
 # [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.35.6...@next-core/brick-container@2.36.0) (2021-11-18)
 
 
