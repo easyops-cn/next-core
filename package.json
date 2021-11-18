@@ -47,7 +47,7 @@
     "@microsoft/api-extractor": "^7.13.1",
     "@next-bricks/basic-bricks": "^1.155.4",
     "@next-bricks/basic-providers": "^1.4.0",
-    "@size-limit/file": "^6.0.4",
+    "@size-limit/file": "^7.0.1",
     "@types/enzyme": "^3.10.10",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.3",
