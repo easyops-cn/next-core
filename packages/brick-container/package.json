@@ -13,7 +13,6 @@
     "conf",
     "deploy",
     "dist",
-    "dist-standalone",
     "serve",
     "tools"
   ],

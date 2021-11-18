@@ -23,7 +23,7 @@ interface StandaloneSettings extends Omit<Settings, "featureFlags"> {
 export async function standaloneBootstrap(): Promise<BootstrapData> {
   const [bootstrapResult, confString] = await Promise.all([
     http.get<BootstrapData>(window.BOOTSTRAP_FILE),
-    http.get<string>("conf.yaml", {
+    http.get<string>(`${window.APP_ROOT}conf.yaml`, {
       responseType: "text",
     }),
   ]);

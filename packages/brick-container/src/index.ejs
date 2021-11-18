@@ -6,6 +6,12 @@
     <base href="<%= htmlWebpackPlugin.options.baseHref %>">
     <link rel="shortcut icon" type="image/png" href="<%= htmlWebpackPlugin.options.faviconPath %>"/>
     <script>(!("documentMode" in document)&&CSS.supports("display","grid")&&window.customElements)||(location.href="<%= htmlWebpackPlugin.options.baseHref %>browse-happy.html")</script>
+    <%= htmlWebpackPlugin
+      .tags
+      .headTags
+      .map(htmlWebpackPlugin.options.customizeTag)
+      .join('')
+    %>
   </head>
   <body>
     <div id="root-layout">
@@ -26,5 +32,11 @@
     </div>
     <div id="bg-mount-point"></div>
     <div id="portal-mount-point"></div>
+    <%= htmlWebpackPlugin
+      .tags
+      .bodyTags
+      .map(htmlWebpackPlugin.options.customizeTag)
+      .join('')
+    %>
   </body>
 </html>
