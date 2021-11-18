@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.48.0...@next-core/brick-types@2.49.0) (2021-11-18)
+
+
+### Bug Fixes
+
+* 构件按照名称前缀识别构件包 ([5293187](https://github.com/easyops-cn/next-core/commit/52931871641a072909d3ff2b5ddb4436503a5676))
+
+
+### Features
+
+* support getting images by static files ([c23d88a](https://github.com/easyops-cn/next-core/commit/c23d88aa70f5009453a1d3c58e7f4a0d6249c719))
+
+
+
+
+
 # [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.47.0...@next-core/brick-types@2.48.0) (2021-11-11)
 
 ### Features

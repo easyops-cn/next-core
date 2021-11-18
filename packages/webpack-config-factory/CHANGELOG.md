@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.1...@next-core/webpack-config-factory@2.14.2) (2021-11-18)
+
+
+### Bug Fixes
+
+* update postcss v8 and related packages ([615f198](https://github.com/easyops-cn/next-core/commit/615f19838118ba76d5b50de9aaf6f1aedf48ab02))
+
+
+
+
+
 ## [2.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.0...@next-core/webpack-config-factory@2.14.1) (2021-11-16)
 
 ### Bug Fixes

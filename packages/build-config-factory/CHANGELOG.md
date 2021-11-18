@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.2...@next-core/build-config-factory@2.17.3) (2021-11-18)
+
+
+### Bug Fixes
+
+* fix generating brick contracts ([6e94f82](https://github.com/easyops-cn/next-core/commit/6e94f8245df5a15c21b25d9f4de88cbc86d2212f))
+
+
+
+
+
 ## [2.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.1...@next-core/build-config-factory@2.17.2) (2021-11-16)
 
 ### Bug Fixes

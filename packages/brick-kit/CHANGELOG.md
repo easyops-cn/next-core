@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.85.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.84.2...@next-core/brick-kit@2.85.0) (2021-11-18)
+
+
+### Features
+
+* fetch conf in standalone micro-apps ([6175855](https://github.com/easyops-cn/next-core/commit/61758554f23ca685cd29f01130e46805c7674433))
+* support getting images by static files ([c23d88a](https://github.com/easyops-cn/next-core/commit/c23d88aa70f5009453a1d3c58e7f4a0d6249c719))
+
+
+
+
+
 ## [2.84.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.84.1...@next-core/brick-kit@2.84.2) (2021-11-12)
 
 **Note:** Version bump only for package @next-core/brick-kit

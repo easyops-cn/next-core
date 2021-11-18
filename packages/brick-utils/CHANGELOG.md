@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.30.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.30.0...@next-core/brick-utils@2.30.1) (2021-11-18)
+
+
+### Bug Fixes
+
+* refine loading depends ([bbc04cb](https://github.com/easyops-cn/next-core/commit/bbc04cb2bf4b2644aa9c7734a635493c77d9a7e2))
+* 构件按照名称前缀识别构件包 ([5293187](https://github.com/easyops-cn/next-core/commit/52931871641a072909d3ff2b5ddb4436503a5676))
+
+
+
+
+
 # [2.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.29.0...@next-core/brick-utils@2.30.0) (2021-11-11)
 
 ### Features
