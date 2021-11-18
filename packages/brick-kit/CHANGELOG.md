@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.86.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.85.0...@next-core/brick-kit@2.86.0) (2021-11-18)
+
+
+### Features
+
+* use a single build for standalone apps ([cb5db11](https://github.com/easyops-cn/next-core/commit/cb5db11829952fedfa9cf3898de3e62cfe647a16))
+
+
+
+
+
 # [2.85.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.84.2...@next-core/brick-kit@2.85.0) (2021-11-18)
 
 
