@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.48](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.47...@next-dll/d3@2.0.48) (2021-11-19)
+
+**Note:** Version bump only for package @next-dll/d3
+
+
+
+
+
 ## [2.0.47](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.46...@next-dll/d3@2.0.47) (2021-11-18)
 
 **Note:** Version bump only for package @next-dll/d3

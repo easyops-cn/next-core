@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.3...@next-core/build-config-factory@2.17.4) (2021-11-19)
+
+
+### Bug Fixes
+
+* fix postcss-loader after upgraded postcss to v8 ([d232c1d](https://github.com/easyops-cn/next-core/commit/d232c1dcad2f77bd1d6b558d6ec6db7f3fd9235e))
+
+
+
+
+
 ## [2.17.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.2...@next-core/build-config-factory@2.17.3) (2021-11-18)
 
 
