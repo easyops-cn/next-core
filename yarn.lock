@@ -2504,10 +2504,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.npmjs.org/@size-limit/file/-/file-7.0.1.tgz#7759139ad510f6cf6f9dd6c131054cbf2a867bcf"
-  integrity sha512-u4aabD80yQkvI0yXET7ndZiA026/C1jwtjTU+WKOk781omH8LA2yGAKYEIAEzR6KeY9gy6hyk7wNEnMBvJo0Mg==
+"@size-limit/file@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/@size-limit/file/-/file-7.0.3.tgz#a9ba258b8d386f557384a025c4f06f404a3035ba"
+  integrity sha512-jizDZduAQ71KoraRWkj6ZSHPPo8SQ/KO4z1hZBl1ZujxwF7R6NLWKghNUtIQHsXpqyZWbK3VV39lOLx7qHuLjg==
   dependencies:
     semver "7.3.5"
 
@@ -13724,10 +13724,10 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.npmjs.org/size-limit/-/size-limit-7.0.1.tgz#13beb572a9f259804d3f74487cf52d059e69252d"
-  integrity sha512-/AjoSCyAS5km1Uerg6TZlixtxN0JrM43gX4lLlAn7uKGl3mv8SCQMDEShYxUGCrVgKXLCPDnmufAwBjf3LZjgg==
+size-limit@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/size-limit/-/size-limit-7.0.3.tgz#1cc6e83d1f090c2008080a193337a9b84c98825d"
+  integrity sha512-CDGzcnw8f34yZ8ckh0dZ0ZNVfbfwJoG1+DWHdn63GieS0dnAB7oUH6Rok3Xaz4Ba+RUAd+4kXoJyZWHw5KkArw==
   dependencies:
     bytes-iec "^3.1.1"
     chokidar "^3.5.2"
