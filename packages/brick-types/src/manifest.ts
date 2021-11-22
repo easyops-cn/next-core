@@ -947,6 +947,11 @@ export interface BreadcrumbConf {
    * 是否覆盖上层路由已有的面包屑列表（默认为追加模式）。
    */
   overwrite?: boolean;
+
+  /**
+   * 是否显示当前AppName
+   * */
+  noCurrentApp?: boolean;
 }
 
 /**
@@ -958,9 +963,6 @@ export interface BreadcrumbItemConf {
 
   /** 面包屑对应的链接。 */
   to?: LocationDescriptor<PluginHistoryState>;
-
-  /** 是否显示AppName */
-  disabledAppName?: boolean;
 }
 
 /**

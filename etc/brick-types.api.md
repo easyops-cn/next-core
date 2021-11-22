@@ -142,12 +142,12 @@ export interface BootstrapData {
 // @public
 export interface BreadcrumbConf {
     items: BreadcrumbItemConf[];
+    noCurrentApp?: boolean;
     overwrite?: boolean;
 }
 
 // @public
 export interface BreadcrumbItemConf {
-    disabledAppName?: boolean;
     text: string;
     // Warning: (ae-incompatible-release-tags) The symbol "to" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
     to?: LocationDescriptor<PluginHistoryState>;
