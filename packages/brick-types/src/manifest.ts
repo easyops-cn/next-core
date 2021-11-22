@@ -167,6 +167,11 @@ export interface MicroApp {
    * @internal
    */
   $$routeAliasMap?: RouteAliasMap;
+
+  /**
+   * 面包屑配置
+   */
+  breadcrumb?: BreadcrumbConf;
 }
 
 /**
@@ -953,6 +958,9 @@ export interface BreadcrumbItemConf {
 
   /** 面包屑对应的链接。 */
   to?: LocationDescriptor<PluginHistoryState>;
+
+  /** 是否显示AppName */
+  disabledAppName?: boolean;
 }
 
 /**

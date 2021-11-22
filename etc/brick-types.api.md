@@ -147,6 +147,7 @@ export interface BreadcrumbConf {
 
 // @public
 export interface BreadcrumbItemConf {
+    disabledAppName?: boolean;
     text: string;
     // Warning: (ae-incompatible-release-tags) The symbol "to" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
     to?: LocationDescriptor<PluginHistoryState>;
@@ -1314,6 +1315,7 @@ export type MetaI18n = Record<string, Record<string, string>>;
 export interface MicroApp {
     // @internal
     $$routeAliasMap?: RouteAliasMap;
+    breadcrumb?: BreadcrumbConf;
     config?: Record<string, unknown>;
     currentVersion?: string;
     defaultConfig?: Record<string, unknown>;
