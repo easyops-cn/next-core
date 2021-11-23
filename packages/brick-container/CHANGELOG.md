@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.38.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.2...@next-core/brick-container@2.38.3) (2021-11-23)
+
+
+### Bug Fixes
+
+* use composited animations for loading-bar ([675f081](https://github.com/easyops-cn/next-core/commit/675f081abcb07b4f467a924ebf4bd156095c9d1f))
+
+
+
+
+
 ## [2.38.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.1...@next-core/brick-container@2.38.2) (2021-11-23)
 
 **Note:** Version bump only for package @next-core/brick-container
