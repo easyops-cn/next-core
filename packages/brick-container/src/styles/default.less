@@ -195,10 +195,13 @@ body.launchpad-open {
 }
 
 .global-loading-bar>div {
-  position: absolute;
-  left: -200px;
-  width: 200px;
-  height: 100%;
+  /* Use composited animations. */
+  /* https://developers.google.com/web/fundamentals/performance/rendering/stick-to-compositor-only-properties-and-manage-layer-count */
+  will-change: transform;
+  transform: translate3d(-30%, 0, 0) scaleX(.3);
+  transform-origin: 0 0;
+  width: 100%;
+  height: 3px;
   background-color: #0077e6;
   animation: global-loading 2s ease-in 100ms infinite;
 }
@@ -219,27 +222,26 @@ body.launchpad-open {
 
 @keyframes global-loading {
   from {
-    left: -30%;
-    width: 30%;
+    transform: translateX(-30%) scaleX(.3);
   }
 
   50% {
-    width: 30%;
+    transform: scaleX(.3);
   }
 
   70% {
-    width: 70%;
+    transform: scaleX(.7);
   }
 
   80% {
-    left: 50%;
+    transform: translateX(50%);
   }
 
   95% {
-    left: 120%;
+    transform: translateX(120%);
   }
 
   to {
-    left: 100%;
+    transform: translateX(120%);
   }
 }
