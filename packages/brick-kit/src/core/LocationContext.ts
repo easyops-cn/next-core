@@ -96,6 +96,7 @@ export interface MountRoutesResult {
     pageTitle?: string;
     breadcrumb: BreadcrumbItemConf[];
     documentId?: string;
+    noCurrentApp?: boolean;
   };
   flags: {
     unauthenticated?: boolean;
@@ -513,6 +514,7 @@ export class LocationContext {
           ...breadcrumb.items,
         ];
       }
+      mountRoutesResult.appBar.noCurrentApp = breadcrumb.noCurrentApp;
     }
   }
 
