@@ -514,7 +514,8 @@ export class LocationContext {
           ...breadcrumb.items,
         ];
       }
-      mountRoutesResult.appBar.noCurrentApp = breadcrumb.noCurrentApp;
+      if (hasOwnProperty(breadcrumb, "noCurrentApp"))
+        mountRoutesResult.appBar.noCurrentApp = breadcrumb.noCurrentApp;
     }
   }
 
