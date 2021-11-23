@@ -264,6 +264,7 @@ export class Router {
         appBar: {
           breadcrumb: [],
           documentId: null,
+          noCurrentApp: false,
         },
         flags: {
           redirect: undefined,
