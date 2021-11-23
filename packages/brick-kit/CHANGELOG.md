@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.87.0...@next-core/brick-kit@2.88.0) (2021-11-23)
+
+
+### Features
+
+* **Router:** set noCurrentApp default value ([8d5efe1](https://github.com/easyops-cn/next-core/commit/8d5efe14230b72ede0a87eeacf8881433b1e4829))
+
+
+
+
+
 # [2.87.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.86.1...@next-core/brick-kit@2.87.0) (2021-11-23)
 
 
