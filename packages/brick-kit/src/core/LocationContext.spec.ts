@@ -662,6 +662,7 @@ describe("LocationContext", () => {
                                     text: "second breadcrumb",
                                   },
                                 ],
+                                noCurrentApp: true,
                               },
                             },
                           },
@@ -782,6 +783,7 @@ describe("LocationContext", () => {
               text: "second breadcrumb",
             },
           ],
+          noCurrentApp: true,
         },
         flags: {
           barsHidden: true,
