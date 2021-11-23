@@ -167,6 +167,11 @@ export interface MicroApp {
    * @internal
    */
   $$routeAliasMap?: RouteAliasMap;
+
+  /**
+   * 面包屑配置
+   */
+  breadcrumb?: BreadcrumbConf;
 }
 
 /**
@@ -942,6 +947,11 @@ export interface BreadcrumbConf {
    * 是否覆盖上层路由已有的面包屑列表（默认为追加模式）。
    */
   overwrite?: boolean;
+
+  /**
+   * 是否显示当前AppName
+   * */
+  noCurrentApp?: boolean;
 }
 
 /**

@@ -142,6 +142,7 @@ export interface BootstrapData {
 // @public
 export interface BreadcrumbConf {
     items: BreadcrumbItemConf[];
+    noCurrentApp?: boolean;
     overwrite?: boolean;
 }
 
@@ -1314,6 +1315,7 @@ export type MetaI18n = Record<string, Record<string, string>>;
 export interface MicroApp {
     // @internal
     $$routeAliasMap?: RouteAliasMap;
+    breadcrumb?: BreadcrumbConf;
     config?: Record<string, unknown>;
     currentVersion?: string;
     defaultConfig?: Record<string, unknown>;
