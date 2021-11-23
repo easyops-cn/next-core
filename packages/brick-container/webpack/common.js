@@ -43,14 +43,16 @@ const dll = Object.keys(packageJson.devDependencies)
 const brickDllJsName = getDllJsName("@next-core/brick-dll", /^dll\.\w+\.js$/);
 
 module.exports = () => {
-  const coreRootPlaceholder = "<!--# echo var='core_root' default='' -->";
+  const isProduction = process.env.NODE_ENV === "production";
+  const coreRootPlaceholder = isProduction
+    ? "<!--# echo var='core_root' default='' -->"
+    : "";
   const faviconPath = `${coreRootPlaceholder}assets/favicon.png`;
-  const baseHref =
-    process.env.SUBDIR === "true"
-      ? "/next/"
-      : process.env.NODE_ENV === "production"
-      ? "<!--# echo var='base_href' default='/' -->"
-      : "/";
+  const baseHref = isProduction
+    ? "<!--# echo var='base_href' default='/' -->"
+    : process.env.SUBDIR === "true"
+    ? "/next/"
+    : "/";
 
   return {
     context: appRoot,
