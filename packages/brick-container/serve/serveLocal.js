@@ -146,7 +146,7 @@ module.exports = (env, app) => {
         });
       });
     } else {
-      app.get(`${baseHref}api/auth/bootstrap`, (req, res) => {
+      app.get(`${baseHref}api/auth(/v2)?/bootstrap`, (req, res) => {
         res.json({
           code: 0,
           data: {

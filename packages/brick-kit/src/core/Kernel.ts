@@ -13,6 +13,7 @@ import {
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
+import { BootstrapV2Api_bootstrapV2 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
@@ -202,19 +203,22 @@ export class Kernel {
   ): Promise<void> {
     const data = await (window.STANDALONE_MICRO_APPS
       ? standaloneBootstrap()
-      : AuthSdk.bootstrap<BootstrapData>(
+      : BootstrapV2Api_bootstrapV2(
           {
-            brief: true,
+            appFields:
+              "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status",
+            ignoreTemplateFields: "templates",
+            ignoreBrickFields: "bricks,processors,providers,editors",
             ...params,
           },
           {
             interceptorParams,
           }
         ));
-    const bootstrapResponse: BootstrapData = {
+    const bootstrapResponse = {
       templatePackages: [],
       ...data,
-    };
+    } as BootstrapData;
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
