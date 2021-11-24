@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.38.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.4...@next-core/brick-container@2.38.5) (2021-11-24)
+
+
+### Bug Fixes
+
+* upgrade api gateway version ([f8565b6](https://github.com/easyops-cn/next-core/commit/f8565b6379f21969c1ba411206e50c94438bb2cb))
+
+
+
+
+
 ## [2.38.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.3...@next-core/brick-container@2.38.4) (2021-11-23)
 
 **Note:** Version bump only for package @next-core/brick-container
