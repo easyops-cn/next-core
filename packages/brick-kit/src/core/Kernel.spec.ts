@@ -8,7 +8,8 @@ import {
   scanBricksInBrickConf,
   deepFreeze,
 } from "@next-core/brick-utils";
-import { checkLogin, bootstrap, getAppStoryboard } from "@next-sdk/auth-sdk";
+import { checkLogin, getAppStoryboard } from "@next-sdk/auth-sdk";
+import { BootstrapV2Api_bootstrapV2 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
@@ -37,6 +38,7 @@ i18next.init({
 jest.mock("@next-core/brick-utils");
 jest.mock("@next-sdk/auth-sdk");
 jest.mock("@next-sdk/user-service-sdk");
+jest.mock("@next-sdk/api-gateway-sdk");
 jest.mock("@next-sdk/micro-app-sdk");
 jest.mock("@next-sdk/cmdb-sdk");
 jest.mock("./Bars");
@@ -57,7 +59,7 @@ jest.spyOn(mockHistory, "getHistory").mockReturnValue({
 } as any);
 
 const spyOnCheckLogin = checkLogin as jest.Mock;
-const spyOnBootstrap = bootstrap as jest.Mock;
+const spyOnBootstrap = BootstrapV2Api_bootstrapV2 as jest.Mock;
 const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockResolvedValue(
   {
     routes: [],

@@ -49,7 +49,10 @@ module.exports = (env) => {
     proxyPaths.push("bricks", "micro-apps", "templates");
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
-      if (req.path === "/next/api/auth/bootstrap") {
+      if (
+        req.path === "/next/api/auth/bootstrap" ||
+        req.path === "/next/api/auth/v2/bootstrap"
+      ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
