@@ -49,6 +49,16 @@ describe("scanI18NInStoryboard", () => {
             ],
           },
         ],
+        functions: [
+          {
+            source: `
+              function test(): string {
+                return I18N("MY_KEY_F");
+              }
+            `,
+            typescript: true,
+          },
+        ],
       },
       app: {
         defaultConfig: {
@@ -57,16 +67,25 @@ describe("scanI18NInStoryboard", () => {
       },
     } as any;
     expect(
-      Array.from(
-        scanI18NInStoryboard(storyboard).entries()
-      ).map(([key, valueSet]) => [key, Array.from(valueSet)])
+      Array.from(scanI18NInStoryboard(storyboard).entries()).map(
+        ([key, valueSet]) => [key, Array.from(valueSet)]
+      )
     ).toEqual([
       ["MY_KEY_B", ["My key b"]],
       ["MY_KEY_C", ["My key c", "My key c v2"]],
       ["MY_KEY_D", []],
       ["MY_KEY_A", []],
       ["MY_KEY_M", []],
+      ["MY_KEY_F", []],
     ]);
+  });
+
+  it("should return empty", () => {
+    expect(
+      Array.from(
+        scanI18NInStoryboard({ routes: null, app: null }).entries()
+      ).map(([key, valueSet]) => [key, Array.from(valueSet)])
+    ).toEqual([]);
   });
 });
 
