@@ -8,7 +8,7 @@ import {
   scanBricksInBrickConf,
   deepFreeze,
 } from "@next-core/brick-utils";
-import { checkLogin, getAppStoryboard } from "@next-sdk/auth-sdk";
+import { checkLogin, getAppStoryboard, bootstrap } from "@next-sdk/auth-sdk";
 import { BootstrapV2Api_bootstrapV2 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
@@ -59,7 +59,8 @@ jest.spyOn(mockHistory, "getHistory").mockReturnValue({
 } as any);
 
 const spyOnCheckLogin = checkLogin as jest.Mock;
-const spyOnBootstrap = BootstrapV2Api_bootstrapV2 as jest.Mock;
+const spyOnBootstrap = bootstrap as jest.Mock;
+const spyOnBootstrapV2 = BootstrapV2Api_bootstrapV2 as jest.Mock;
 const spyOnGetAppStoryboard = (getAppStoryboard as jest.Mock).mockResolvedValue(
   {
     routes: [],
