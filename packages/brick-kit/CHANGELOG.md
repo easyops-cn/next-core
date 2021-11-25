@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.89.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.88.1...@next-core/brick-kit@2.89.0) (2021-11-25)
+
+
+### Bug Fixes
+
+* refine storyboard function ([90c42c1](https://github.com/easyops-cn/next-core/commit/90c42c1f49a7d7e8297d424bd02a3957787fb8e3))
+
+
+### Features
+
+* use global noCurrentApp as default ([4e18163](https://github.com/easyops-cn/next-core/commit/4e18163eeefa24cb022cb9b936746c9e7ad80e70))
+
+
+
+
+
 ## [2.88.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.88.0...@next-core/brick-kit@2.88.1) (2021-11-25)
 
 

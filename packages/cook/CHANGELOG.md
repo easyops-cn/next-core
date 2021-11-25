@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.3.9...@next-core/cook@1.4.0) (2021-11-25)
+
+
+### Features
+
+* support parseForAnalysis ([681de0a](https://github.com/easyops-cn/next-core/commit/681de0aef914b4e30d428180cad54cc0f9882b59))
+
+
+
+
+
 ## [1.3.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.3.8...@next-core/cook@1.3.9) (2021-11-23)
 
 **Note:** Version bump only for package @next-core/cook
