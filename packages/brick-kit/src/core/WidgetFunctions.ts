@@ -1,8 +1,10 @@
-import { StoryboardFunction } from "@next-core/brick-types";
+import i18next from "i18next";
+import { MetaI18n, StoryboardFunction } from "@next-core/brick-types";
 import {
   ReadonlyStoryboardFunctions,
   StoryboardFunctionRegistryFactory,
 } from "./StoryboardFunctionRegistryFactory";
+import { getI18nNamespace } from "../i18n";
 
 const widgetFunctionRegistry = new Map<string, ReadonlyStoryboardFunctions>();
 
@@ -21,7 +23,14 @@ export function registerWidgetFunctions(
     throw new Error(`Widget functions of "${widgetId}" already registered`);
   }
   const { storyboardFunctions, registerStoryboardFunctions } =
-    StoryboardFunctionRegistryFactory();
+    StoryboardFunctionRegistryFactory({ widgetId });
   widgetFunctionRegistry.set(widgetId, storyboardFunctions);
   registerStoryboardFunctions(functions);
+}
+
+export function registerWidgetI18n(widgetId: string, i18n: MetaI18n): void {
+  const ns = getI18nNamespace("widget", widgetId);
+  Object.entries(i18n).forEach(([lang, resources]) => {
+    i18next.addResourceBundle(lang, ns, resources);
+  });
 }

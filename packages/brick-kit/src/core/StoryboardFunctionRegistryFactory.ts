@@ -4,6 +4,7 @@ import { SimpleFunction, StoryboardFunction } from "@next-core/brick-types";
 import { cook, precookFunction, EstreeNode } from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
 import { i18nText } from "../i18nText";
+import { getI18nNamespace } from "../i18n";
 
 /** @internal */
 export type ReadonlyStoryboardFunctions = Readonly<
@@ -54,8 +55,10 @@ export interface FunctionCoverageSettings {
 
 /** @internal */
 export function StoryboardFunctionRegistryFactory({
+  widgetId,
   collectCoverage,
 }: {
+  widgetId?: string;
   collectCoverage?: FunctionCoverageSettings;
 } = {}): StoryboardFunctionRegistry {
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
@@ -112,8 +115,10 @@ export function StoryboardFunctionRegistryFactory({
         // Functions can call i18n methods.
         I18N: collectCoverage
           ? identity // Return the key directly for tests.
+          : widgetId
+          ? i18next.getFixedT(null, getI18nNamespace("widget", widgetId))
           : currentAppId
-          ? i18next.getFixedT(null, `$app-${currentAppId}`)
+          ? i18next.getFixedT(null, getI18nNamespace("app", currentAppId))
           : undefined,
         I18N_TEXT: collectCoverage
           ? fakeI18nText // Return `en` directly for tests.

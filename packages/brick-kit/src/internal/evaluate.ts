@@ -22,6 +22,7 @@ import { getRuntime } from "../runtime";
 import { i18nText } from "../i18nText";
 import { storyboardFunctions } from "../core/StoryboardFunctions";
 import { widgetFunctions } from "../core/WidgetFunctions";
+import { getI18nNamespace } from "../i18n";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -237,7 +238,10 @@ export function evaluate(
   }
 
   if (attemptToVisitGlobals.has("I18N")) {
-    globalVariables.I18N = i18next.getFixedT(null, `$app-${app.id}`);
+    globalVariables.I18N = i18next.getFixedT(
+      null,
+      getI18nNamespace("app", app.id)
+    );
   }
 
   if (attemptToVisitGlobals.has("I18N_TEXT")) {
