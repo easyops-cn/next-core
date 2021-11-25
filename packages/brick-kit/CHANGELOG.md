@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.89.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.1...@next-core/brick-kit@2.89.2) (2021-11-25)
+
+
+### Bug Fixes
+
+* get stroyboard v2 ([602d086](https://github.com/easyops-cn/next-core/commit/602d0860fc6c7c9e5ffc116ff023addb0f57efe1))
+
+
+
+
+
 ## [2.89.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.0...@next-core/brick-kit@2.89.1) (2021-11-25)
 
 
