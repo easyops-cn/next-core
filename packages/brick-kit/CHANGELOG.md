@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.89.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.0...@next-core/brick-kit@2.89.1) (2021-11-25)
+
+
+### Bug Fixes
+
+* bootsrtrap 增加开关控制 ([360b913](https://github.com/easyops-cn/next-core/commit/360b913f324f10ac79b1d637ec598583a89a61da))
+
+
+
+
+
 # [2.89.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.88.1...@next-core/brick-kit@2.89.0) (2021-11-25)
 
 
