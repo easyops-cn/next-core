@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.88.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.88.0...@next-core/brick-kit@2.88.1) (2021-11-25)
+
+
+### Bug Fixes
+
+* app 字段合并 boostrap 接口详情的 app 信息 ([2dffa41](https://github.com/easyops-cn/next-core/commit/2dffa41e020e92994c6275a62977128b0a7a4bad))
+* use boostreap v2 api ([e1fbf03](https://github.com/easyops-cn/next-core/commit/e1fbf0366e29b28f823915bda4707368910c013e))
+
+
+
+
+
 # [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.87.0...@next-core/brick-kit@2.88.0) (2021-11-23)
 
 

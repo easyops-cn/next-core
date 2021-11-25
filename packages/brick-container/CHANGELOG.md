@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.5...@next-core/brick-container@2.39.0) (2021-11-25)
+
+
+### Bug Fixes
+
+* use boostreap v2 api ([e1fbf03](https://github.com/easyops-cn/next-core/commit/e1fbf0366e29b28f823915bda4707368910c013e))
+
+
+### Features
+
+* support legacy bootstrap flag ([835cda0](https://github.com/easyops-cn/next-core/commit/835cda0f6b8564e3db60f48a1755cc6d5beaa3b8))
+
+
+
+
+
 ## [2.38.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.4...@next-core/brick-container@2.38.5) (2021-11-24)
 
 
