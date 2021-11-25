@@ -109,6 +109,9 @@ module.exports = (runtimeFlags) => {
         type: "string",
         default: "",
       },
+      legacyBootstrap: {
+        type: "boolean",
+      },
       // Todo(steve): remove `help` and `version` after meow fixed it.
       help: {
         type: "boolean",
@@ -129,6 +132,7 @@ module.exports = (runtimeFlags) => {
         --console-server    Set remote console server address, defaults to remote server address
         --subdir            Set base href to "/next/" instead of "/"
         --local-bricks      Specify local brick packages to be used in remote mode
+        --legacy-bootstrap  use legacy bootstrap provider 
         --local-editors     Specify local editor packages to be used in remote mode
         --local-snippets    Specify local snippet packages to be used in remote mode
         --local-micro-apps  Specify local micro apps to be used in remote mode
@@ -183,6 +187,8 @@ module.exports = (runtimeFlags) => {
       ? process.env.NO_REMOTE !== "true"
       : flags.remote;
   const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
+  const useLegacyBootstrap =
+    flags.legacyBootstrap || process.env.LEGACY_BOOTSTRAP === "true";
   const baseHref = useSubdir ? "/next/" : "/";
   const server = getServerPath(flags.server || process.env.SERVER);
   let consoleServer = flags.consoleServer || process.env.CONSOLE_SERVER;
@@ -273,6 +279,7 @@ module.exports = (runtimeFlags) => {
     useSubdir,
     useRemote,
     useAutoRemote,
+    useLegacyBootstrap,
     baseHref,
     localBrickPackages,
     localEditorPackages,

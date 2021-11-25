@@ -30,6 +30,7 @@ module.exports = (env) => {
     mockedMicroApps,
     brickPackagesDir,
     alternativeBrickPackagesDir,
+    useLegacyBootstrap,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -249,6 +250,16 @@ module.exports = (env) => {
           },
           pathRewrite: pathRewriteFactory("api/websocket_service"),
         },
+        ...(useLegacyBootstrap
+          ? {
+              [`${baseHref}api/auth/v2/bootstrap`]: {
+                target: server,
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: () => "/next/api/auth/bootstrap?brief=true",
+              },
+            }
+          : {}),
         ...proxyPaths.reduce((acc, seg) => {
           acc[`${baseHref}${seg}`] = {
             target: server,
