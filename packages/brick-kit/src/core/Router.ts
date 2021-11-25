@@ -219,7 +219,10 @@ export class Router {
 
       // 注册 Storyboard 中定义的自定义模板和函数。
       this.kernel.registerCustomTemplatesInStoryboard(storyboard);
-      registerStoryboardFunctions(storyboard.meta?.functions);
+      registerStoryboardFunctions(
+        storyboard.meta?.functions,
+        storyboard.app.id
+      );
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;

@@ -7,13 +7,18 @@ meta:
   - name: sayHello
     source: |
       function sayHello(name) {
-        return FN.sayExclamation(`Hello, ${name}`);
+        return FN.sayExclamation(`${I18N("HELLO")}, ${name}`);
       }
   - name: sayExclamation
     source: |
       function sayExclamation(sentence) {
         return `${sentence}!`;
       }
+  i18n:
+    en:
+      HELLO: Hello
+    zh:
+      HELLO: 你好
 routes:
 - path: ${APP.homepage}
   context:

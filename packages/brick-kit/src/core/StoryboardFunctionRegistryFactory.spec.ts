@@ -3,34 +3,42 @@ import {
   FunctionCoverageCollector,
 } from "./StoryboardFunctionRegistryFactory";
 
+jest.mock("i18next", () => ({
+  getFixedT(lang: string, ns: string) {
+    return (key: string) => `${ns}:${key}`;
+  },
+}));
+
 describe("StoryboardFunctions", () => {
   const {
-    storyboardFunctions,
+    storyboardFunctions: fn,
     registerStoryboardFunctions,
     updateStoryboardFunction,
   } = StoryboardFunctionRegistryFactory();
 
   it("should register two functions", () => {
-    registerStoryboardFunctions([
-      {
-        name: "sayHello",
-        source: `
+    registerStoryboardFunctions(
+      [
+        {
+          name: "sayHello",
+          source: `
           function sayHello(name) {
-            return FN.sayExclamation('Hello, ' + name);
+            return FN.sayExclamation(I18N('HELLO') + ', ' + name);
           }
         `,
-      },
-      {
-        name: "sayExclamation",
-        source: `
+        },
+        {
+          name: "sayExclamation",
+          source: `
           function sayExclamation(sentence) {
             return sentence + '!';
           }
         `,
-      },
-    ]);
-    const fn = storyboardFunctions;
-    expect(fn.sayHello("world")).toBe("Hello, world!");
+        },
+      ],
+      "my-app"
+    );
+    expect(fn.sayHello("world")).toBe("$app-my-app:HELLO, world!");
     expect(fn.sayExclamation("Oops")).toBe("Oops!");
 
     updateStoryboardFunction("sayExclamation", {
@@ -40,8 +48,24 @@ describe("StoryboardFunctions", () => {
         }
       `,
     });
-    expect(fn.sayHello("world")).toBe("Hello, world!!");
+    expect(fn.sayHello("world")).toBe("$app-my-app:HELLO, world!!");
     expect(fn.sayExclamation("Oops")).toBe("Oops!!");
+  });
+
+  it("should register a function with no appId", () => {
+    registerStoryboardFunctions([
+      {
+        name: "i18n",
+        source: `
+          function i18n(...args) {
+            return I18N(...args);
+          }
+        `,
+      },
+    ]);
+    expect(() => {
+      fn.i18n("world");
+    }).toThrowErrorMatchingInlineSnapshot(`"I18N is not a function"`);
   });
 
   it("should register no functions", () => {
@@ -50,17 +74,15 @@ describe("StoryboardFunctions", () => {
 
   it("should throw error if function not found", () => {
     expect(() => {
-      storyboardFunctions.notExisted();
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"storyboardFunctions.notExisted is not a function"`
-    );
+      fn.notExisted();
+    }).toThrowErrorMatchingInlineSnapshot(`"fn.notExisted is not a function"`);
   });
 
   it("should throw error if try to write functions", () => {
     expect(() => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      storyboardFunctions.myFunc = () => 0;
+      fn.myFunc = () => 0;
     }).toThrowErrorMatchingInlineSnapshot(
       `"Cannot define property myFunc, object is not extensible"`
     );
@@ -94,6 +116,22 @@ describe("collect coverage", () => {
           }
         `,
       },
+      {
+        name: "i18n",
+        source: `
+          function i18n(...args) {
+            return I18N(...args);
+          }
+        `,
+      },
+      {
+        name: "i18nText",
+        source: `
+          function i18nText(...args) {
+            return I18N_TEXT(...args);
+          }
+        `,
+      },
     ]);
 
     fn.test(1);
@@ -120,5 +158,8 @@ describe("collect coverage", () => {
       }),
       "else"
     );
+
+    expect(fn.i18n("HELLO")).toBe("HELLO");
+    expect(fn.i18nText({ zh: "你好", en: "Hello" })).toBe("Hello");
   });
 });

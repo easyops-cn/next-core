@@ -424,7 +424,7 @@ export type StoryboardFunctionPatch = Pick<StoryboardFunction, "source" | "types
 //
 // @internal (undocumented)
 export interface StoryboardFunctionRegistry {
-    registerStoryboardFunctions(functions: StoryboardFunction[]): void;
+    registerStoryboardFunctions(functions: StoryboardFunction[], appId?: string): void;
     storyboardFunctions: ReadonlyStoryboardFunctions;
     updateStoryboardFunction(name: string, data: StoryboardFunctionPatch): void;
 }

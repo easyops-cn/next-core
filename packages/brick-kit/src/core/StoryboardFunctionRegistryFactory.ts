@@ -1,6 +1,9 @@
+import i18next from "i18next";
+import { identity } from "lodash";
 import { SimpleFunction, StoryboardFunction } from "@next-core/brick-types";
 import { cook, precookFunction, EstreeNode } from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
+import { i18nText } from "../i18nText";
 
 /** @internal */
 export type ReadonlyStoryboardFunctions = Readonly<
@@ -19,7 +22,10 @@ export interface StoryboardFunctionRegistry {
   storyboardFunctions: ReadonlyStoryboardFunctions;
 
   /** Register storyboard functions. */
-  registerStoryboardFunctions(functions: StoryboardFunction[]): void;
+  registerStoryboardFunctions(
+    functions: StoryboardFunction[],
+    appId?: string
+  ): void;
 
   /** Update a storyboard function during debugging. */
   updateStoryboardFunction(name: string, data: StoryboardFunctionPatch): void;
@@ -53,6 +59,7 @@ export function StoryboardFunctionRegistryFactory({
   collectCoverage?: FunctionCoverageSettings;
 } = {}): StoryboardFunctionRegistry {
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
+  let currentAppId: string;
 
   // Use `Proxy` with a frozen target, to make a readonly function registry.
   const storyboardFunctions = new Proxy(Object.freeze({}), {
@@ -61,8 +68,12 @@ export function StoryboardFunctionRegistryFactory({
     },
   }) as ReadonlyStoryboardFunctions;
 
-  function registerStoryboardFunctions(functions: StoryboardFunction[]): void {
+  function registerStoryboardFunctions(
+    functions: StoryboardFunction[],
+    appId?: string
+  ): void {
     registeredFunctions.clear();
+    currentAppId = appId;
     if (Array.isArray(functions)) {
       for (const fn of functions) {
         registeredFunctions.set(fn.name, {
@@ -98,6 +109,15 @@ export function StoryboardFunctionRegistryFactory({
       globalVariables: supply(precooked.attemptToVisitGlobals, {
         // Functions can call other functions.
         FN: storyboardFunctions,
+        // Functions can call i18n methods.
+        I18N: collectCoverage
+          ? identity // Return the key directly for tests.
+          : currentAppId
+          ? i18next.getFixedT(null, `$app-${currentAppId}`)
+          : undefined,
+        I18N_TEXT: collectCoverage
+          ? fakeI18nText // Return `en` directly for tests.
+          : i18nText,
       }),
       hooks: collector && {
         beforeEvaluate: collector.beforeEvaluate,
@@ -122,4 +142,8 @@ export function StoryboardFunctionRegistryFactory({
       });
     },
   };
+}
+
+function fakeI18nText(data: Record<string, string>): string {
+  return data?.en;
 }
