@@ -201,14 +201,25 @@ export class Kernel {
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
+    // Todo(jojiang): 等 boostrap V2 接口测试通过后移除 V1 版本的兼容
     const data = await (window.STANDALONE_MICRO_APPS
       ? standaloneBootstrap()
-      : BootstrapV2Api_bootstrapV2(
+      : localStorage.getItem("__$$use-bootstrap-v2-provider$$__")
+      ? BootstrapV2Api_bootstrapV2(
           {
             appFields:
               "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status",
             ignoreTemplateFields: "templates",
             ignoreBrickFields: "bricks,processors,providers,editors",
+            ...params,
+          },
+          {
+            interceptorParams,
+          }
+        )
+      : AuthSdk.bootstrap<BootstrapData>(
+          {
+            brief: true,
             ...params,
           },
           {
