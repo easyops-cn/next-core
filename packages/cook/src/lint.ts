@@ -1,4 +1,4 @@
-import { parse, ParseResult, ParserPlugin } from "@babel/parser";
+import { ParseResult } from "@babel/parser";
 import {
   ArrowFunctionExpression,
   File,
@@ -16,6 +16,7 @@ import {
   EstreeVisitorFn,
   EstreeNode,
 } from "./interfaces";
+import { parseForAnalysis } from "./parse";
 import { precook } from "./precook";
 
 export interface LintOptions {
@@ -31,22 +32,15 @@ export interface LintError {
 
 /** For next-core internal or devtools usage only. */
 export function lint(
-  source: string,
+  source: string | ParseResult<File>,
   { typescript, rules }: LintOptions = {}
 ): LintError[] {
   const errors: LintError[] = [];
-  let file: ParseResult<File>;
-  try {
-    file = parse(source, {
-      plugins: ["estree", typescript && "typescript"].filter(
-        Boolean
-      ) as ParserPlugin[],
-      strictMode: true,
-      attachComment: false,
-      // Allow export/import declarations to make linter handle errors.
-      sourceType: "unambiguous",
-    });
-  } catch (e) {
+  const file =
+    typeof source === "string"
+      ? parseForAnalysis(source, { typescript })
+      : source;
+  if (!file) {
     // Return no errors if parse failed.
     return errors;
   }

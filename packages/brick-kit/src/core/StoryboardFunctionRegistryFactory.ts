@@ -87,8 +87,8 @@ export function StoryboardFunctionRegistryFactory({
     }
     const precooked = precookFunction(fn.source, {
       typescript: fn.typescript,
-      hooks: {
-        beforeVisit: collector?.beforeVisit,
+      hooks: collector && {
+        beforeVisit: collector.beforeVisit,
       },
     });
     fn.cooked = cook(precooked.function, fn.source, {
@@ -99,10 +99,10 @@ export function StoryboardFunctionRegistryFactory({
         // Functions can call other functions.
         FN: storyboardFunctions,
       }),
-      hooks: {
-        beforeEvaluate: collector?.beforeEvaluate,
-        beforeCall: collector?.beforeCall,
-        beforeBranch: collector?.beforeBranch,
+      hooks: collector && {
+        beforeEvaluate: collector.beforeEvaluate,
+        beforeCall: collector.beforeCall,
+        beforeBranch: collector.beforeBranch,
       },
     }) as SimpleFunction;
     fn.processed = true;
