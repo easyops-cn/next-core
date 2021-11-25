@@ -256,7 +256,15 @@ module.exports = (env) => {
                 target: server,
                 secure: false,
                 changeOrigin: true,
-                pathRewrite: () => "/next/api/auth/bootstrap?brief=true",
+                pathRewrite: (path, req) => {
+                  if (/api\/auth\/v2\/bootstrap$/.test(req.path)) {
+                    return "/next/api/auth/bootstrap?brief=true";
+                  } else if (/api\/auth\/v2\/bootstrap\/\w+/.test(req.path)) {
+                    return path.replace("api/auth/v2", "/next/api/auth");
+                  } else {
+                    return path;
+                  }
+                },
               },
             }
           : {}),
