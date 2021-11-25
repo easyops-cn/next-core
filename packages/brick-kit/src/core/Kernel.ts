@@ -13,7 +13,10 @@ import {
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
-import { BootstrapV2Api_bootstrapV2 } from "@next-sdk/api-gateway-sdk";
+import {
+  BootstrapV2Api_bootstrapV2,
+  BootstrapV2Api_getAppStoryboardV2,
+} from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
@@ -266,9 +269,12 @@ export class Kernel {
     if (window.STANDALONE_MICRO_APPS) {
       Object.assign(storyboard, { $$fulfilled: true });
     } else {
-      const { routes, meta, app } = await AuthSdk.getAppStoryboard(
-        storyboard.app.id
-      );
+      /* istanbul ignore next */
+      const { routes, meta, app } = await (localStorage.getItem(
+        "__$$use-bootstrap-v2-provider$$__"
+      )
+        ? BootstrapV2Api_getAppStoryboardV2(storyboard.app.id, {})
+        : AuthSdk.getAppStoryboard(storyboard.app.id));
       Object.assign(storyboard, {
         routes,
         meta,
