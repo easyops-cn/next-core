@@ -31,7 +31,6 @@ import {
   FeatureFlags,
   RuntimeStoryboard,
   BrickConf,
-  StoryboardMeta,
   LayoutType,
   PresetBricksConf,
   RouteConf,
