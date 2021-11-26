@@ -16,14 +16,14 @@ describe("StoryboardFunctions", () => {
     updateStoryboardFunction,
   } = StoryboardFunctionRegistryFactory();
 
-  it("should register two functions", () => {
+  it("should register functions", () => {
     registerStoryboardFunctions(
       [
         {
           name: "sayHello",
           source: `
-          function sayHello(name) {
-            return FN.sayExclamation(I18N('HELLO') + ', ' + name);
+          function sayHello(data) {
+            return FN.sayExclamation(I18N('HELLO') + ', ' + I18N_TEXT(data));
           }
         `,
         },
@@ -35,11 +35,24 @@ describe("StoryboardFunctions", () => {
           }
         `,
         },
+        {
+          name: "getImg",
+          source: `
+            function getImg() {
+              return IMG.get("my-img.png");
+            }
+          `,
+        },
       ],
-      "my-app"
+      {
+        id: "my-app",
+      }
     );
-    expect(fn.sayHello("world")).toBe("$app-my-app:HELLO, world!");
+    expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
+      "$app-my-app:HELLO, 世界!"
+    );
     expect(fn.sayExclamation("Oops")).toBe("Oops!");
+    expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
 
     updateStoryboardFunction("sayExclamation", {
       source: `
@@ -48,24 +61,11 @@ describe("StoryboardFunctions", () => {
         }
       `,
     });
-    expect(fn.sayHello("world")).toBe("$app-my-app:HELLO, world!!");
+    expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
+      "$app-my-app:HELLO, 世界!!"
+    );
     expect(fn.sayExclamation("Oops")).toBe("Oops!!");
-  });
-
-  it("should register a function with no appId", () => {
-    registerStoryboardFunctions([
-      {
-        name: "i18n",
-        source: `
-          function i18n(...args) {
-            return I18N(...args);
-          }
-        `,
-      },
-    ]);
-    expect(() => {
-      fn.i18n("world");
-    }).toThrowErrorMatchingInlineSnapshot(`"I18N is not a function"`);
+    expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
   });
 
   it("should register no functions", () => {
@@ -86,6 +86,46 @@ describe("StoryboardFunctions", () => {
     }).toThrowErrorMatchingInlineSnapshot(
       `"Cannot define property myFunc, object is not extensible"`
     );
+  });
+});
+
+describe("Widget Functions", () => {
+  const { storyboardFunctions: fn, registerStoryboardFunctions } =
+    StoryboardFunctionRegistryFactory({
+      widgetId: "my-widget",
+    });
+
+  it("should register functions", () => {
+    registerStoryboardFunctions([
+      {
+        name: "sayHello",
+        source: `
+          function sayHello(data) {
+            return FN.sayExclamation(I18N('HELLO') + ', ' + I18N_TEXT(data));
+          }
+        `,
+      },
+      {
+        name: "sayExclamation",
+        source: `
+          function sayExclamation(sentence) {
+            return sentence + '!';
+          }
+        `,
+      },
+      {
+        name: "getImg",
+        source: `
+          function getImg() {
+            return IMG.get("my-img.png");
+          }
+        `,
+      },
+    ]);
+    expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
+      "$widget-my-widget:HELLO, 世界!"
+    );
+    expect(fn.getImg()).toBe("bricks/my-widget/dist/assets/my-img.png");
   });
 });
 
@@ -132,6 +172,14 @@ describe("collect coverage", () => {
           }
         `,
       },
+      {
+        name: "getImg",
+        source: `
+          function getImg() {
+            return IMG.get("my-img.png");
+          }
+        `,
+      },
     ]);
 
     fn.test(1);
@@ -161,5 +209,6 @@ describe("collect coverage", () => {
 
     expect(fn.i18n("HELLO")).toBe("HELLO");
     expect(fn.i18nText({ zh: "你好", en: "Hello" })).toBe("Hello");
+    expect(fn.getImg()).toBe("mock/images/my-img.png");
   });
 });

@@ -38,6 +38,7 @@ import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
 import { CustomTemplateContext } from "./CustomTemplates";
 import { registerWidgetFunctions } from "./WidgetFunctions";
+import { registerWidgetI18n } from "./WidgetI18n";
 
 let kernel: Kernel;
 let fakeTplContext: CustomTemplateContext;
@@ -277,6 +278,7 @@ export class Runtime implements AbstractRuntime {
   registerCustomProcessor = registerCustomProcessor;
   registerLazyBricks = registerLazyBricks;
   registerWidgetFunctions = registerWidgetFunctions;
+  registerWidgetI18n = registerWidgetI18n;
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {

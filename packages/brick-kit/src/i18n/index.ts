@@ -9,6 +9,7 @@ export const initI18n = (): void => {
   i18next.addResourceBundle("zh", NS_BRICK_KIT, zh);
 };
 
+/** @internal */
 export function getI18nNamespace(type: "app" | "widget", id: string): string {
   return `$${type}-${id}`;
 }

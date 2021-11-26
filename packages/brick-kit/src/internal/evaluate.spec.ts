@@ -10,6 +10,7 @@ import { devtoolsHookEmit } from "./devtools";
 import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
+import { registerWidgetI18n } from "../core/WidgetI18n";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
@@ -41,6 +42,15 @@ i18next.addResourceBundle("en", "$app-hello", {
 });
 i18next.addResourceBundle("en", "$app-hola", {
   HELLO: "Hola",
+});
+
+registerWidgetI18n("my-widget", {
+  en: {
+    WORLD: "World",
+  },
+  zh: {
+    WORLD: "世界",
+  },
 });
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
@@ -198,6 +208,7 @@ describe("evaluate", () => {
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
+    ["<% __WIDGET_I18N__('my-widget')('WORLD') %>", "World"],
     ["<% I18N_TEXT({ en: 'hello', zh: '你好' }) %>", "你好"],
     ["<% CTX.myFreeContext %>", "good"],
     ["<% CTX.myPropContext %>", "better"],

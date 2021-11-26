@@ -22,6 +22,7 @@ import { getRuntime } from "../runtime";
 import { i18nText } from "../i18nText";
 import { storyboardFunctions } from "../core/StoryboardFunctions";
 import { widgetFunctions } from "../core/WidgetFunctions";
+import { widgetI18nFactory } from "../core/WidgetI18n";
 import { getI18nNamespace } from "../i18n";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
@@ -230,7 +231,7 @@ export function evaluate(
   }
 
   if (attemptToVisitGlobals.has("IMG")) {
-    globalVariables.IMG = imagesFactory(app);
+    globalVariables.IMG = imagesFactory(app.id, app.isBuildPush);
   }
 
   if (attemptToVisitGlobals.has("__WIDGET_IMG__")) {
@@ -242,6 +243,10 @@ export function evaluate(
       null,
       getI18nNamespace("app", app.id)
     );
+  }
+
+  if (attemptToVisitGlobals.has("__WIDGET_I18N__")) {
+    globalVariables.__WIDGET_I18N__ = widgetI18nFactory;
   }
 
   if (attemptToVisitGlobals.has("I18N_TEXT")) {

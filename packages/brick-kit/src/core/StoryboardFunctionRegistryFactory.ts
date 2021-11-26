@@ -1,10 +1,20 @@
-import i18next from "i18next";
+import { getFixedT } from "i18next";
 import { identity } from "lodash";
-import { SimpleFunction, StoryboardFunction } from "@next-core/brick-types";
+import {
+  MicroApp,
+  SimpleFunction,
+  StoryboardFunction,
+} from "@next-core/brick-types";
 import { cook, precookFunction, EstreeNode } from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
 import { i18nText } from "../i18nText";
 import { getI18nNamespace } from "../i18n";
+import {
+  ImagesFactory,
+  imagesFactory,
+  widgetImagesFactory,
+} from "../internal/images";
+import { widgetI18nFactory } from "./WidgetI18n";
 
 /** @internal */
 export type ReadonlyStoryboardFunctions = Readonly<
@@ -25,7 +35,7 @@ export interface StoryboardFunctionRegistry {
   /** Register storyboard functions. */
   registerStoryboardFunctions(
     functions: StoryboardFunction[],
-    appId?: string
+    app?: PartialMicroApp
   ): void;
 
   /** Update a storyboard function during debugging. */
@@ -54,6 +64,9 @@ export interface FunctionCoverageSettings {
 }
 
 /** @internal */
+export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
+
+/** @internal */
 export function StoryboardFunctionRegistryFactory({
   widgetId,
   collectCoverage,
@@ -62,7 +75,6 @@ export function StoryboardFunctionRegistryFactory({
   collectCoverage?: FunctionCoverageSettings;
 } = {}): StoryboardFunctionRegistry {
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
-  let currentAppId: string;
 
   // Use `Proxy` with a frozen target, to make a readonly function registry.
   const storyboardFunctions = new Proxy(Object.freeze({}), {
@@ -71,12 +83,38 @@ export function StoryboardFunctionRegistryFactory({
     },
   }) as ReadonlyStoryboardFunctions;
 
+  const builtinSupply: Record<string, unknown> = {
+    // Functions can call other functions.
+    FN: storyboardFunctions,
+    ...(collectCoverage
+      ? {
+          // Fake builtin methods for tests.
+          I18N: identity,
+          I18N_TEXT: fakeI18nText,
+          IMG: fakeImageFactory(),
+        }
+      : widgetId
+      ? {
+          I18N: widgetI18nFactory(widgetId),
+          I18N_TEXT: i18nText,
+          IMG: widgetImagesFactory(widgetId),
+        }
+      : {
+          I18N_TEXT: i18nText,
+        }),
+  };
+
   function registerStoryboardFunctions(
     functions: StoryboardFunction[],
-    appId?: string
+    app?: PartialMicroApp
   ): void {
+    if (app) {
+      Object.assign(builtinSupply, {
+        I18N: getFixedT(null, getI18nNamespace("app", app.id)),
+        IMG: imagesFactory(app.id, app.isBuildPush),
+      });
+    }
     registeredFunctions.clear();
-    currentAppId = appId;
     if (Array.isArray(functions)) {
       for (const fn of functions) {
         registeredFunctions.set(fn.name, {
@@ -109,21 +147,7 @@ export function StoryboardFunctionRegistryFactory({
       rules: {
         noVar: true,
       },
-      globalVariables: supply(precooked.attemptToVisitGlobals, {
-        // Functions can call other functions.
-        FN: storyboardFunctions,
-        // Functions can call i18n methods.
-        I18N: collectCoverage
-          ? identity // Return the key directly for tests.
-          : widgetId
-          ? i18next.getFixedT(null, getI18nNamespace("widget", widgetId))
-          : currentAppId
-          ? i18next.getFixedT(null, getI18nNamespace("app", currentAppId))
-          : undefined,
-        I18N_TEXT: collectCoverage
-          ? fakeI18nText // Return `en` directly for tests.
-          : i18nText,
-      }),
+      globalVariables: supply(precooked.attemptToVisitGlobals, builtinSupply),
       hooks: collector && {
         beforeEvaluate: collector.beforeEvaluate,
         beforeCall: collector.beforeCall,
@@ -151,4 +175,12 @@ export function StoryboardFunctionRegistryFactory({
 
 function fakeI18nText(data: Record<string, string>): string {
   return data?.en;
+}
+
+function fakeImageFactory(): ImagesFactory {
+  return {
+    get(name: string) {
+      return `mock/images/${name}`;
+    },
+  };
 }
