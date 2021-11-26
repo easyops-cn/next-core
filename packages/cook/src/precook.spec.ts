@@ -514,14 +514,17 @@ describe("", () => {
   it("should call hooks", () => {
     const func = parseAsEstree(`
       function test(a){
-        return 1;
+        debugger;
+        return b;
       }
     `);
     const beforeVisit = jest.fn();
+    const beforeVisitGlobal = jest.fn();
+    const beforeVisitUnknown = jest.fn();
     precook(func, {
-      hooks: { beforeVisit },
+      hooks: { beforeVisit, beforeVisitGlobal, beforeVisitUnknown },
     });
-    expect(beforeVisit).toBeCalledTimes(4);
+    expect(beforeVisit).toBeCalledTimes(5);
     expect(beforeVisit).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -537,13 +540,32 @@ describe("", () => {
     expect(beforeVisit).toHaveBeenNthCalledWith(
       3,
       expect.objectContaining({
-        type: "ReturnStatement",
+        type: "DebuggerStatement",
       })
     );
     expect(beforeVisit).toHaveBeenNthCalledWith(
       4,
       expect.objectContaining({
-        type: "Literal",
+        type: "ReturnStatement",
+      })
+    );
+    expect(beforeVisit).toHaveBeenNthCalledWith(
+      5,
+      expect.objectContaining({
+        type: "Identifier",
+      })
+    );
+    expect(beforeVisitGlobal).toHaveBeenCalledTimes(1);
+    expect(beforeVisitGlobal).toBeCalledWith(
+      expect.objectContaining({
+        type: "Identifier",
+        name: "b",
+      })
+    );
+    expect(beforeVisitUnknown).toHaveBeenCalledTimes(1);
+    expect(beforeVisitUnknown).toBeCalledWith(
+      expect.objectContaining({
+        type: "DebuggerStatement",
       })
     );
   });

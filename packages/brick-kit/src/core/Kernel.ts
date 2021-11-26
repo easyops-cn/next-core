@@ -60,6 +60,7 @@ import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
+import { getI18nNamespace } from "../i18n";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -285,7 +286,7 @@ export class Kernel {
 
     if (storyboard.meta?.i18n) {
       // Prefix to avoid conflict between brick package's i18n namespace.
-      const i18nNamespace = `$app-${storyboard.app.id}`;
+      const i18nNamespace = getI18nNamespace("app", storyboard.app.id);
       // Support any language in `meta.i18n`.
       Object.entries(storyboard.meta.i18n).forEach(([lang, resources]) => {
         i18next.addResourceBundle(lang, i18nNamespace, resources);

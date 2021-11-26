@@ -1,15 +1,16 @@
-import { MicroApp } from "@next-core/brick-types";
-
-interface ImagesFactory {
+export interface ImagesFactory {
   get(name: string): string;
 }
 
-export function imagesFactory(app: MicroApp): ImagesFactory {
+export function imagesFactory(
+  appId: string,
+  isBuildPush?: boolean
+): ImagesFactory {
   return {
     get(name) {
-      return app.isBuildPush
+      return isBuildPush
         ? `api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
-        : `${window.PUBLIC_ROOT ?? ""}micro-apps/${app.id}/images/${name}`;
+        : `${window.PUBLIC_ROOT ?? ""}micro-apps/${appId}/images/${name}`;
     },
   };
 }

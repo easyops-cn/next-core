@@ -3,20 +3,105 @@ import {
   FunctionCoverageCollector,
 } from "./StoryboardFunctionRegistryFactory";
 
+jest.mock("i18next", () => ({
+  getFixedT(lang: string, ns: string) {
+    return (key: string) => `${ns}:${key}`;
+  },
+}));
+
 describe("StoryboardFunctions", () => {
   const {
-    storyboardFunctions,
+    storyboardFunctions: fn,
     registerStoryboardFunctions,
     updateStoryboardFunction,
   } = StoryboardFunctionRegistryFactory();
 
-  it("should register two functions", () => {
+  it("should register functions", () => {
+    registerStoryboardFunctions(
+      [
+        {
+          name: "sayHello",
+          source: `
+          function sayHello(data) {
+            return FN.sayExclamation(I18N('HELLO') + ', ' + I18N_TEXT(data));
+          }
+        `,
+        },
+        {
+          name: "sayExclamation",
+          source: `
+          function sayExclamation(sentence) {
+            return sentence + '!';
+          }
+        `,
+        },
+        {
+          name: "getImg",
+          source: `
+            function getImg() {
+              return IMG.get("my-img.png");
+            }
+          `,
+        },
+      ],
+      {
+        id: "my-app",
+      }
+    );
+    expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
+      "$app-my-app:HELLO, 世界!"
+    );
+    expect(fn.sayExclamation("Oops")).toBe("Oops!");
+    expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
+
+    updateStoryboardFunction("sayExclamation", {
+      source: `
+        function sayExclamation(sentence) {
+          return sentence + '!!';
+        }
+      `,
+    });
+    expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
+      "$app-my-app:HELLO, 世界!!"
+    );
+    expect(fn.sayExclamation("Oops")).toBe("Oops!!");
+    expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
+  });
+
+  it("should register no functions", () => {
+    registerStoryboardFunctions(undefined);
+  });
+
+  it("should throw error if function not found", () => {
+    expect(() => {
+      fn.notExisted();
+    }).toThrowErrorMatchingInlineSnapshot(`"fn.notExisted is not a function"`);
+  });
+
+  it("should throw error if try to write functions", () => {
+    expect(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      fn.myFunc = () => 0;
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot define property myFunc, object is not extensible"`
+    );
+  });
+});
+
+describe("Widget Functions", () => {
+  const { storyboardFunctions: fn, registerStoryboardFunctions } =
+    StoryboardFunctionRegistryFactory({
+      widgetId: "my-widget",
+    });
+
+  it("should register functions", () => {
     registerStoryboardFunctions([
       {
         name: "sayHello",
         source: `
-          function sayHello(name) {
-            return FN.sayExclamation('Hello, ' + name);
+          function sayHello(data) {
+            return FN.sayExclamation(I18N('HELLO') + ', ' + I18N_TEXT(data));
           }
         `,
       },
@@ -28,42 +113,19 @@ describe("StoryboardFunctions", () => {
           }
         `,
       },
+      {
+        name: "getImg",
+        source: `
+          function getImg() {
+            return IMG.get("my-img.png");
+          }
+        `,
+      },
     ]);
-    const fn = storyboardFunctions;
-    expect(fn.sayHello("world")).toBe("Hello, world!");
-    expect(fn.sayExclamation("Oops")).toBe("Oops!");
-
-    updateStoryboardFunction("sayExclamation", {
-      source: `
-        function sayExclamation(sentence) {
-          return sentence + '!!';
-        }
-      `,
-    });
-    expect(fn.sayHello("world")).toBe("Hello, world!!");
-    expect(fn.sayExclamation("Oops")).toBe("Oops!!");
-  });
-
-  it("should register no functions", () => {
-    registerStoryboardFunctions(undefined);
-  });
-
-  it("should throw error if function not found", () => {
-    expect(() => {
-      storyboardFunctions.notExisted();
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"storyboardFunctions.notExisted is not a function"`
+    expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
+      "$widget-my-widget:HELLO, 世界!"
     );
-  });
-
-  it("should throw error if try to write functions", () => {
-    expect(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      storyboardFunctions.myFunc = () => 0;
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Cannot define property myFunc, object is not extensible"`
-    );
+    expect(fn.getImg()).toBe("bricks/my-widget/dist/assets/my-img.png");
   });
 });
 
@@ -94,6 +156,30 @@ describe("collect coverage", () => {
           }
         `,
       },
+      {
+        name: "i18n",
+        source: `
+          function i18n(...args) {
+            return I18N(...args);
+          }
+        `,
+      },
+      {
+        name: "i18nText",
+        source: `
+          function i18nText(...args) {
+            return I18N_TEXT(...args);
+          }
+        `,
+      },
+      {
+        name: "getImg",
+        source: `
+          function getImg() {
+            return IMG.get("my-img.png");
+          }
+        `,
+      },
     ]);
 
     fn.test(1);
@@ -120,5 +206,9 @@ describe("collect coverage", () => {
       }),
       "else"
     );
+
+    expect(fn.i18n("HELLO")).toBe("HELLO");
+    expect(fn.i18nText({ zh: "你好", en: "Hello" })).toBe("Hello");
+    expect(fn.getImg()).toBe("mock/images/my-img.png");
   });
 });

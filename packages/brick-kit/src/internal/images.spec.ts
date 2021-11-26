@@ -1,11 +1,10 @@
-import { MicroApp } from "@next-core/brick-types";
 import { imagesFactory, widgetImagesFactory } from "./images";
 
 describe("imagesFactory", () => {
   it.each<
     [
       {
-        app: RecursivePartial<MicroApp>;
+        app: { id: string; isBuildPush?: boolean };
         publicRoot?: string;
       },
       string,
@@ -43,7 +42,7 @@ describe("imagesFactory", () => {
     ],
   ])("should work", ({ app, publicRoot }, img, src) => {
     window.PUBLIC_ROOT = publicRoot;
-    expect(imagesFactory(app as MicroApp).get(img)).toBe(src);
+    expect(imagesFactory(app.id, app.isBuildPush).get(img)).toBe(src);
   });
 });
 

@@ -21,7 +21,7 @@ export function registerWidgetFunctions(
     throw new Error(`Widget functions of "${widgetId}" already registered`);
   }
   const { storyboardFunctions, registerStoryboardFunctions } =
-    StoryboardFunctionRegistryFactory();
+    StoryboardFunctionRegistryFactory({ widgetId });
   widgetFunctionRegistry.set(widgetId, storyboardFunctions);
   registerStoryboardFunctions(functions);
 }
