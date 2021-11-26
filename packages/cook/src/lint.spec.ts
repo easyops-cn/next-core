@@ -1,4 +1,4 @@
-import { parseForAnalysis } from ".";
+import { parseForAnalysis } from "./parse";
 import { lint, LintError } from "./lint";
 
 describe("lint", () => {

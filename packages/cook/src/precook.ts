@@ -3,6 +3,7 @@ import {
   Expression,
   FunctionDeclaration,
   FunctionExpression,
+  Identifier,
   Statement,
   SwitchCase,
   VariableDeclaration,
@@ -28,6 +29,9 @@ export interface PrecookOptions {
 
 export interface PrecookHooks {
   beforeVisit?(node: EstreeNode): void;
+  beforeVisitGlobal?(node: Identifier): void;
+  /** Return true if want to silent warnings for unknown nodes. */
+  beforeVisitUnknown?(node: EstreeNode): boolean | void;
 }
 
 /**
@@ -72,10 +76,8 @@ export function precook(
       switch (node.type) {
         case "Identifier":
           if (!ResolveBinding(node.name)) {
+            hooks.beforeVisitGlobal?.(node);
             attemptToVisitGlobals.add(node.name);
-            if (visitors && hasOwnProperty(visitors, "__GlobalVariable")) {
-              visitors.__GlobalVariable(node);
-            }
           }
           return;
         case "ArrayExpression":
@@ -286,9 +288,8 @@ export function precook(
             return;
         }
       }
-      if (visitors && hasOwnProperty(visitors, "__UnknownNode")) {
-        visitors.__UnknownNode(node);
-      } else {
+      const silent = hooks.beforeVisitUnknown?.(node);
+      if (!silent) {
         // eslint-disable-next-line no-console
         console.warn(`Unsupported node type \`${node.type}\``);
       }
