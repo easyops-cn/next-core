@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.4.0...@next-core/cook@1.5.0) (2021-11-26)
+
+
+### Features
+
+* support hooks for before visit global or unknown nodes ([50d770c](https://github.com/easyops-cn/next-core/commit/50d770c45a8194c12c3764f53d75a1a9519b790e))
+
+
+
+
+
 # [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.3.9...@next-core/cook@1.4.0) (2021-11-25)
 
 

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.90.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.2...@next-core/brick-kit@2.90.0) (2021-11-26)
+
+
+### Bug Fixes
+
+* fix a regression of caching resolves ([e9cd56d](https://github.com/easyops-cn/next-core/commit/e9cd56d882d0a13ee1cb13c4ed752a15f2c15bfd))
+
+
+### Features
+
+* support i18n in storyboard functions ([5891932](https://github.com/easyops-cn/next-core/commit/589193250f22735b20e93d32c807896f4ae0932b))
+* support i18n in widgets ([6020545](https://github.com/easyops-cn/next-core/commit/60205457fedbc7c000bb60b1e97729e3151be33d))
+* support img in widgets ([f19ad53](https://github.com/easyops-cn/next-core/commit/f19ad5329b95c71e612f4be0ffa57b5a3d9ec570))
+
+
+
+
+
 ## [2.89.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.1...@next-core/brick-kit@2.89.2) (2021-11-25)
 
 

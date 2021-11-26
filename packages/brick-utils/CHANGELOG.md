@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.30.3...@next-core/brick-utils@2.31.0) (2021-11-26)
+
+
+### Features
+
+* scan i18n in storyboard functions ([e0f68fb](https://github.com/easyops-cn/next-core/commit/e0f68fb456e12f62b4f68b380d66e3a535aaef56))
+
+
+
+
+
 ## [2.30.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.30.2...@next-core/brick-utils@2.30.3) (2021-11-25)
 
 **Note:** Version bump only for package @next-core/brick-utils
