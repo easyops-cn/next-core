@@ -198,7 +198,7 @@ module.exports =
                     );
                     return `workers/${chunkName}.${
                       isProd ? "[contenthash:8]" : "bundle"
-                    }.worker.js`;
+                    }.js`;
                   },
                 },
               },
