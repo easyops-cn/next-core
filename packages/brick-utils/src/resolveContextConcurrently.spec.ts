@@ -181,7 +181,7 @@ describe("resolveContextConcurrently", () => {
           name: "c",
           resolve: {
             useProvider: "willBeResolved",
-            args: [100, "<% CTX['x'] + 3 %>"],
+            args: [100, "<% CTX[x] + 3 %>"],
           },
         },
       ],
@@ -330,7 +330,7 @@ describe("getDependencyMapOfContext", () => {
         },
         {
           name: "f",
-          value: "<% CTX['x'] + CTX.e %>",
+          value: "<% CTX[x] + CTX['e'] %>",
         },
         {
           name: "g",

@@ -1,5 +1,4 @@
 import { uniq } from "lodash";
-import { MemberExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
 import { isEvaluable, preevaluate } from "./cook";
@@ -30,21 +29,26 @@ function collectProcessors(
   if (typeof data === "string") {
     if (data.includes(PROCESSORS) && isEvaluable(data)) {
       preevaluate(data, {
-        visitors: {
-          MemberExpression(node: MemberExpression) {
-            const accessNamespace = node.object;
-            if (
-              !node.computed &&
-              node.property.type === "Identifier" &&
-              accessNamespace.type === "MemberExpression" &&
-              !accessNamespace.computed &&
-              accessNamespace.object.type === "Identifier" &&
-              accessNamespace.object.name === PROCESSORS &&
-              accessNamespace.property.type === "Identifier"
-            ) {
-              collection.push(
-                `${accessNamespace.property.name}.${node.property.name}`
-              );
+        withParent: true,
+        hooks: {
+          beforeVisitGlobal(node, parent): void {
+            if (node.name === PROCESSORS) {
+              const memberParent = parent[parent.length - 1];
+              const outerMemberParent = parent[parent.length - 2];
+              if (
+                memberParent?.node.type === "MemberExpression" &&
+                memberParent.key === "object" &&
+                !memberParent.node.computed &&
+                memberParent.node.property.type === "Identifier" &&
+                outerMemberParent?.node.type === "MemberExpression" &&
+                outerMemberParent.key === "object" &&
+                !outerMemberParent.node.computed &&
+                outerMemberParent.node.property.type === "Identifier"
+              ) {
+                collection.push(
+                  `${memberParent.node.property.name}.${outerMemberParent.node.property.name}`
+                );
+              }
             }
           },
         },

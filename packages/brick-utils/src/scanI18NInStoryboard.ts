@@ -1,6 +1,11 @@
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-import { isEvaluable, preevaluate, precookFunction, EstreeNode } from "./cook";
+import {
+  isEvaluable,
+  preevaluate,
+  precookFunction,
+  PrecookHooks,
+} from "./cook";
 
 interface ESTreeStringLiteral {
   type: "Literal";
@@ -13,15 +18,16 @@ export function scanI18NInStoryboard(
   storyboard: Storyboard
 ): Map<string, Set<string>> {
   const collection = new Map<string, Set<string>>();
-  const beforeVisit = beforeVisitFactory(collection);
+  const beforeVisitGlobal = beforeVisitGlobalFactory(collection);
   // Notice: `menus` may contain evaluations of I18N too.
   const { customTemplates, menus, functions } = storyboard.meta ?? {};
-  collectI18N([storyboard.routes, customTemplates, menus], beforeVisit);
+  collectI18N([storyboard.routes, customTemplates, menus], beforeVisitGlobal);
   if (Array.isArray(functions)) {
     for (const fn of functions) {
       precookFunction(fn.source, {
         typescript: fn.typescript,
-        hooks: { beforeVisit },
+        withParent: true,
+        hooks: { beforeVisitGlobal },
       });
     }
   }
@@ -30,19 +36,20 @@ export function scanI18NInStoryboard(
 
 export function scanI18NInAny(data: unknown): Map<string, Set<string>> {
   const collection = new Map<string, Set<string>>();
-  collectI18N(data, beforeVisitFactory(collection));
+  collectI18N(data, beforeVisitGlobalFactory(collection));
   return collection;
 }
 
 function collectI18N(
   data: unknown,
-  beforeVisit: (node: EstreeNode) => void,
+  beforeVisitGlobal: PrecookHooks["beforeVisitGlobal"],
   memo = new WeakSet()
 ): void {
   if (typeof data === "string") {
     if (data.includes(I18N) && isEvaluable(data)) {
       preevaluate(data, {
-        hooks: { beforeVisit },
+        withParent: true,
+        hooks: { beforeVisitGlobal },
       });
     }
   } else if (isObject(data)) {
@@ -53,39 +60,45 @@ function collectI18N(
     memo.add(data);
     if (Array.isArray(data)) {
       for (const item of data) {
-        collectI18N(item, beforeVisit, memo);
+        collectI18N(item, beforeVisitGlobal, memo);
       }
     } else {
       for (const item of Object.values(data)) {
-        collectI18N(item, beforeVisit, memo);
+        collectI18N(item, beforeVisitGlobal, memo);
       }
     }
   }
 }
 
-function beforeVisitFactory(collection: Map<string, Set<string>>) {
-  return function beforeVisit(node: EstreeNode): void {
-    if (node.type === "CallExpression") {
-      const [keyNode, defaultNode] =
-        node.arguments as unknown as ESTreeStringLiteral[];
+function beforeVisitGlobalFactory(
+  collection: Map<string, Set<string>>
+): PrecookHooks["beforeVisitGlobal"] {
+  return function beforeVisitGlobal(node, parent): void {
+    if (node.name === I18N) {
+      const callParent = parent[parent.length - 1];
       if (
-        node.callee.type === "Identifier" &&
-        node.callee.name === I18N &&
-        keyNode &&
-        keyNode.type === "Literal" &&
-        typeof keyNode.value === "string"
+        callParent?.node.type === "CallExpression" &&
+        callParent.key === "callee"
       ) {
-        let valueSet = collection.get(keyNode.value);
-        if (!valueSet) {
-          valueSet = new Set();
-          collection.set(keyNode.value, valueSet);
-        }
+        const [keyNode, defaultNode] = callParent.node
+          .arguments as unknown as ESTreeStringLiteral[];
         if (
-          defaultNode &&
-          defaultNode.type === "Literal" &&
-          typeof defaultNode.value === "string"
+          keyNode &&
+          keyNode.type === "Literal" &&
+          typeof keyNode.value === "string"
         ) {
-          valueSet.add(defaultNode.value);
+          let valueSet = collection.get(keyNode.value);
+          if (!valueSet) {
+            valueSet = new Set();
+            collection.set(keyNode.value, valueSet);
+          }
+          if (
+            defaultNode &&
+            defaultNode.type === "Literal" &&
+            typeof defaultNode.value === "string"
+          ) {
+            valueSet.add(defaultNode.value);
+          }
         }
       }
     }
