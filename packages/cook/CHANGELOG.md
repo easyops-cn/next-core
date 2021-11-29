@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.5.0...@next-core/cook@1.6.0) (2021-11-29)
+
+
+### Features
+
+* support visit node with parent ([80f1ada](https://github.com/easyops-cn/next-core/commit/80f1ada97e1b720f787753fab4eedf618c08f36b))
+
+
+
+
+
 # [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.4.0...@next-core/cook@1.5.0) (2021-11-26)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.0...@next-core/brick-utils@2.31.1) (2021-11-29)
+
+
+### Bug Fixes
+
+* refine scanning global usage in expressions and functions ([1808401](https://github.com/easyops-cn/next-core/commit/1808401383ac2c7db8fc2335b4600b00b13c97bf))
+
+
+
+
+
 # [2.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.30.3...@next-core/brick-utils@2.31.0) (2021-11-26)
 
 
