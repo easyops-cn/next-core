@@ -23,15 +23,25 @@ import {
 
 export interface PrecookOptions {
   expressionOnly?: boolean;
+  /** @deprecated Use hooks instead. */
   visitors?: EstreeVisitors;
   hooks?: PrecookHooks;
+  withParent?: boolean;
+}
+
+export type EstreeParent = EstreeParentItem[];
+
+export interface EstreeParentItem {
+  node: EstreeNode;
+  key: string;
+  index?: number;
 }
 
 export interface PrecookHooks {
-  beforeVisit?(node: EstreeNode): void;
-  beforeVisitGlobal?(node: Identifier): void;
+  beforeVisit?(node: EstreeNode, parent?: EstreeParent): void;
+  beforeVisitGlobal?(node: Identifier, parent?: EstreeParent): void;
   /** Return true if want to silent warnings for unknown nodes. */
-  beforeVisitUnknown?(node: EstreeNode): boolean | void;
+  beforeVisitUnknown?(node: EstreeNode, parent?: EstreeParent): boolean | void;
 }
 
 /**
@@ -43,7 +53,7 @@ export interface PrecookHooks {
  */
 export function precook(
   rootAst: Expression | FunctionDeclaration,
-  { expressionOnly, visitors, hooks = {} }: PrecookOptions = {}
+  { expressionOnly, visitors, withParent, hooks = {} }: PrecookOptions = {}
 ): Set<string> {
   const attemptToVisitGlobals = new Set<string>();
   const analysisContextStack: AnalysisContext[] = [];
@@ -63,80 +73,99 @@ export function precook(
     }
   }
 
-  function Evaluate(node: EstreeNode | EstreeNode[]): void {
+  function EvaluateChildren<T extends EstreeNode>(
+    node: T,
+    keys: (keyof T)[],
+    parent?: EstreeParent
+  ): void {
+    for (const key of keys) {
+      Evaluate(
+        node[key] as unknown as EstreeNode | EstreeNode[],
+        parent?.concat({ node, key } as EstreeParentItem)
+      );
+    }
+  }
+
+  function Evaluate(
+    node: EstreeNode | EstreeNode[],
+    parent?: EstreeParent
+  ): void {
     if (Array.isArray(node)) {
-      for (const n of node) {
-        Evaluate(n);
-      }
+      node.forEach((n, index) => {
+        Evaluate(
+          n,
+          parent
+            ? parent.slice(0, -1).concat({
+                ...parent[parent.length - 1],
+                index,
+              })
+            : parent
+        );
+      });
     } else if (node) {
       // `node` maybe `null` in some cases.
-      hooks.beforeVisit?.(node);
+      hooks.beforeVisit?.(node, parent);
       visitors && visit(node);
       // Expressions:
       switch (node.type) {
         case "Identifier":
           if (!ResolveBinding(node.name)) {
-            hooks.beforeVisitGlobal?.(node);
+            hooks.beforeVisitGlobal?.(node, parent);
             attemptToVisitGlobals.add(node.name);
           }
           return;
         case "ArrayExpression":
         case "ArrayPattern":
-          Evaluate(node.elements);
+          EvaluateChildren(node, ["elements"], parent);
           return;
         case "ArrowFunctionExpression": {
           const env = getRunningContext().LexicalEnvironment;
           const closure = OrdinaryFunctionCreate(node, env);
-          CallFunction(closure);
+          CallFunction(closure, parent);
           return;
         }
         case "AssignmentPattern":
         case "BinaryExpression":
         case "LogicalExpression":
-          Evaluate(node.left);
-          Evaluate(node.right);
+          EvaluateChildren(node, ["left", "right"], parent);
           return;
         case "CallExpression":
         case "NewExpression":
-          Evaluate(node.callee);
-          Evaluate(node.arguments);
+          EvaluateChildren(node, ["callee", "arguments"], parent);
           return;
         case "ChainExpression":
-          Evaluate(node.expression);
+          EvaluateChildren(node, ["expression"], parent);
           return;
         case "ConditionalExpression":
-          Evaluate(node.test);
-          Evaluate(node.consequent);
-          Evaluate(node.alternate);
+          EvaluateChildren(node, ["test", "consequent", "alternate"], parent);
           return;
         case "MemberExpression":
-          Evaluate(node.object);
+          EvaluateChildren(node, ["object"], parent);
           if (node.computed) {
-            Evaluate(node.property);
+            EvaluateChildren(node, ["property"], parent);
           }
           return;
         case "ObjectExpression":
         case "ObjectPattern":
-          Evaluate(node.properties);
+          EvaluateChildren(node, ["properties"], parent);
           return;
         case "Property":
           if (node.computed) {
-            Evaluate(node.key);
+            EvaluateChildren(node, ["key"], parent);
           }
-          Evaluate(node.value);
+          EvaluateChildren(node, ["value"], parent);
           return;
         case "RestElement":
         case "SpreadElement":
         case "UnaryExpression":
-          Evaluate(node.argument);
+          EvaluateChildren(node, ["argument"], parent);
           return;
         case "SequenceExpression":
         case "TemplateLiteral":
-          Evaluate(node.expressions);
+          EvaluateChildren(node, ["expressions"], parent);
           return;
         case "TaggedTemplateExpression":
-          Evaluate(node.tag);
-          Evaluate(node.quasi);
+          EvaluateChildren(node, ["tag", "quasi"], parent);
           return;
         case "Literal":
           return;
@@ -145,8 +174,7 @@ export function precook(
         // Statements and assignments:
         switch (node.type) {
           case "AssignmentExpression":
-            Evaluate(node.right);
-            Evaluate(node.left);
+            EvaluateChildren(node, ["right", "left"], parent);
             return;
           case "BlockStatement": {
             if (!node.body.length) {
@@ -157,7 +185,7 @@ export function precook(
             const blockEnv = new AnalysisEnvironment(oldEnv);
             BlockDeclarationInstantiation(node.body, blockEnv);
             runningContext.LexicalEnvironment = blockEnv;
-            Evaluate(node.body);
+            EvaluateChildren(node, ["body"], parent);
             runningContext.LexicalEnvironment = oldEnv;
             return;
           }
@@ -171,18 +199,16 @@ export function precook(
             const catchEnv = new AnalysisEnvironment(oldEnv);
             BoundNamesInstantiation(node.param, catchEnv);
             runningContext.LexicalEnvironment = catchEnv;
-            Evaluate(node.param);
-            Evaluate(node.body);
+            EvaluateChildren(node, ["param", "body"], parent);
             runningContext.LexicalEnvironment = oldEnv;
             return;
           }
           case "DoWhileStatement":
-            Evaluate(node.body);
-            Evaluate(node.test);
+            EvaluateChildren(node, ["body", "test"], parent);
             return;
           case "ExpressionStatement":
           case "TSAsExpression":
-            Evaluate(node.expression);
+            EvaluateChildren(node, ["expression"], parent);
             return;
           case "ForInStatement":
           case "ForOfStatement": {
@@ -197,7 +223,7 @@ export function precook(
               BoundNamesInstantiation(node.left, newEnv);
               runningContext.LexicalEnvironment = newEnv;
             }
-            Evaluate(node.right);
+            EvaluateChildren(node, ["right"], parent);
             runningContext.LexicalEnvironment = oldEnv;
 
             // ForIn/OfBodyEvaluation
@@ -206,8 +232,7 @@ export function precook(
               BoundNamesInstantiation(node.left, iterationEnv);
               runningContext.LexicalEnvironment = iterationEnv;
             }
-            Evaluate(node.left);
-            Evaluate(node.body);
+            EvaluateChildren(node, ["left", "body"], parent);
             runningContext.LexicalEnvironment = oldEnv;
             return;
           }
@@ -225,10 +250,7 @@ export function precook(
               );
               runningContext.LexicalEnvironment = loopEnv;
             }
-            Evaluate(node.init);
-            Evaluate(node.test);
-            Evaluate(node.body);
-            Evaluate(node.update);
+            EvaluateChildren(node, ["init", "test", "body", "update"], parent);
             runningContext.LexicalEnvironment = oldEnv;
             return;
           }
@@ -237,58 +259,51 @@ export function precook(
             const env = getRunningContext().LexicalEnvironment;
             const fo = OrdinaryFunctionCreate(node, env);
             env.CreateBinding(fn);
-            CallFunction(fo);
+            CallFunction(fo, parent);
             return;
           }
           case "FunctionExpression": {
             const closure = InstantiateOrdinaryFunctionExpression(node);
-            CallFunction(closure);
+            CallFunction(closure, parent);
             return;
           }
           case "IfStatement":
-            Evaluate(node.test);
-            Evaluate(node.consequent);
-            Evaluate(node.alternate);
+            EvaluateChildren(node, ["test", "consequent", "alternate"], parent);
             return;
           case "ReturnStatement":
           case "ThrowStatement":
           case "UpdateExpression":
-            Evaluate(node.argument);
+            EvaluateChildren(node, ["argument"], parent);
             return;
           case "SwitchCase":
-            Evaluate(node.test);
-            Evaluate(node.consequent);
+            EvaluateChildren(node, ["test", "consequent"], parent);
             return;
           case "SwitchStatement": {
-            Evaluate(node.discriminant);
+            EvaluateChildren(node, ["discriminant"], parent);
             const runningContext = getRunningContext();
             const oldEnv = runningContext.LexicalEnvironment;
             const blockEnv = new AnalysisEnvironment(oldEnv);
             BlockDeclarationInstantiation(node.cases, blockEnv);
             runningContext.LexicalEnvironment = blockEnv;
-            Evaluate(node.cases);
+            EvaluateChildren(node, ["cases"], parent);
             runningContext.LexicalEnvironment = oldEnv;
             return;
           }
           case "TryStatement":
-            Evaluate(node.block);
-            Evaluate(node.handler);
-            Evaluate(node.finalizer);
+            EvaluateChildren(node, ["block", "handler", "finalizer"], parent);
             return;
           case "VariableDeclaration":
-            Evaluate(node.declarations);
+            EvaluateChildren(node, ["declarations"], parent);
             return;
           case "VariableDeclarator":
-            Evaluate(node.id);
-            Evaluate(node.init);
+            EvaluateChildren(node, ["id", "init"], parent);
             return;
           case "WhileStatement":
-            Evaluate(node.test);
-            Evaluate(node.body);
+            EvaluateChildren(node, ["test", "body"], parent);
             return;
         }
       }
-      const silent = hooks.beforeVisitUnknown?.(node);
+      const silent = hooks.beforeVisitUnknown?.(node, parent);
       if (!silent) {
         // eslint-disable-next-line no-console
         console.warn(`Unsupported node type \`${node.type}\``);
@@ -331,10 +346,28 @@ export function precook(
     BoundNamesInstantiation(declarations, env);
   }
 
-  function CallFunction(closure: AnalysisFunctionObject): void {
+  function CallFunction(
+    closure: AnalysisFunctionObject,
+    parent?: EstreeParent
+  ): void {
     PrepareOrdinaryCall(closure);
-    FunctionDeclarationInstantiation(closure);
-    Evaluate(closure.ECMAScriptCode);
+    FunctionDeclarationInstantiation(closure, parent);
+    Evaluate(
+      closure.ECMAScriptCode,
+      parent
+        ?.concat({
+          node: closure.Function,
+          key: "body",
+        })
+        .concat(
+          closure.Function.body.type === "BlockStatement"
+            ? {
+                node: closure.Function.body,
+                key: "body",
+              }
+            : []
+        )
+    );
     analysisContextStack.pop();
   }
 
@@ -347,7 +380,8 @@ export function precook(
   }
 
   function FunctionDeclarationInstantiation(
-    func: AnalysisFunctionObject
+    func: AnalysisFunctionObject,
+    parent?: EstreeParent
   ): void {
     const calleeContext = getRunningContext();
     const code = func.ECMAScriptCode;
@@ -362,7 +396,7 @@ export function precook(
     const env = calleeContext.LexicalEnvironment;
     BoundNamesInstantiation(formals, env);
 
-    Evaluate(formals);
+    Evaluate(formals, parent?.concat({ node: func.Function, key: "params" }));
 
     let varEnv: AnalysisEnvironment;
     if (!hasParameterExpressions) {
@@ -406,20 +440,19 @@ export function precook(
   }
 
   function OrdinaryFunctionCreate(
-    {
-      params,
-      body,
-    }: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression,
+    func: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression,
     scope: AnalysisEnvironment
   ): AnalysisFunctionObject {
     return {
-      FormalParameters: params,
-      ECMAScriptCode: body.type === "BlockStatement" ? body.body : body,
+      Function: func,
+      FormalParameters: func.params,
+      ECMAScriptCode:
+        func.body.type === "BlockStatement" ? func.body.body : func.body,
       Environment: scope,
     };
   }
 
-  Evaluate(rootAst);
+  Evaluate(rootAst, withParent ? [] : undefined);
 
   return attemptToVisitGlobals;
 }

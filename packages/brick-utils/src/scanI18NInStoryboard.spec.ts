@@ -102,6 +102,7 @@ describe("scanI18NInAny", () => {
         good4: "<% I18N('MY_KEY_D', {}) %>",
         good5: "<% I18N('MY_KEY_E', 123) %>",
         good6: "<% process(I18N('MY_KEY_F')) %>",
+        good7: "<% () => I18N('MY_KEY_G') %>",
         bad: "<% I18N(bad) %>",
         bad2: "<% I18N(123) %>",
         bad3: "<% I18N.doSomething('MY_KEY_Z') %>",
@@ -110,6 +111,7 @@ describe("scanI18NInAny", () => {
         bad6: "I18N('MY_KEY_W')",
         bad7: "<% I18N() %>",
         bad8: "<% 'MY_KEY_V' %>",
+        bad9: "<% (I18N) => I18N('MY_KEY_U') %>",
       },
     } as any;
     expect(
@@ -124,6 +126,7 @@ describe("scanI18NInAny", () => {
       ["MY_KEY_D", []],
       ["MY_KEY_E", []],
       ["MY_KEY_F", []],
+      ["MY_KEY_G", []],
     ]);
   });
 });

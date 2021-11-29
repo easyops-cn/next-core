@@ -1,4 +1,3 @@
-import { CallExpression } from "@babel/types";
 import { Storyboard } from "@next-core/brick-types";
 import { isObject } from "./isObject";
 import { isEvaluable, preevaluate } from "./cook";
@@ -34,19 +33,26 @@ function collectPermissionActions(
   if (typeof data === "string") {
     if (data.includes(PERMISSIONS) && isEvaluable(data)) {
       preevaluate(data, {
-        visitors: {
-          CallExpression(node: CallExpression) {
-            if (
-              node.callee.type === "MemberExpression" &&
-              node.callee.object.type === "Identifier" &&
-              node.callee.object.name === PERMISSIONS &&
-              !node.callee.computed &&
-              node.callee.property.type === "Identifier" &&
-              node.callee.property.name === check
-            ) {
-              for (const arg of node.arguments as unknown as ESTreeStringLiteral[]) {
-                if (arg.type === "Literal" && typeof arg.value === "string") {
-                  collection.add(arg.value);
+        withParent: true,
+        hooks: {
+          beforeVisitGlobal(node, parent): void {
+            if (node.name === PERMISSIONS) {
+              const memberParent = parent[parent.length - 1];
+              const callParent = parent[parent.length - 2];
+              if (
+                callParent?.node.type === "CallExpression" &&
+                callParent?.key === "callee" &&
+                memberParent?.node.type === "MemberExpression" &&
+                memberParent.key === "object" &&
+                !memberParent.node.computed &&
+                memberParent.node.property.type === "Identifier" &&
+                memberParent.node.property.name === check
+              ) {
+                for (const arg of callParent.node
+                  .arguments as unknown as ESTreeStringLiteral[]) {
+                  if (arg.type === "Literal" && typeof arg.value === "string") {
+                    collection.add(arg.value);
+                  }
                 }
               }
             }

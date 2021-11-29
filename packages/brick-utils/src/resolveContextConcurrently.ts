@@ -1,4 +1,3 @@
-import { MemberExpression } from "@babel/types";
 import { ContextConf } from "@next-core/brick-types";
 import { isEvaluable, preevaluate } from "./cook";
 import { isObject } from "./isObject";
@@ -95,15 +94,34 @@ function collectContexts(
   if (typeof data === "string") {
     if (data.includes(CTX) && isEvaluable(data)) {
       preevaluate(data, {
-        visitors: {
-          MemberExpression(node: MemberExpression) {
-            if (node.object.type === "Identifier" && node.object.name === CTX) {
-              if (!node.computed && node.property.type === "Identifier") {
-                if (!stats.dependencies.includes(node.property.name)) {
-                  stats.dependencies.push(node.property.name);
+        withParent: true,
+        hooks: {
+          beforeVisitGlobal(node, parent): void {
+            if (node.name === CTX) {
+              const memberParent = parent[parent.length - 1];
+              if (
+                memberParent?.node.type === "MemberExpression" &&
+                memberParent.key === "object"
+              ) {
+                const memberNode = memberParent.node;
+                let dep: string;
+                if (
+                  !memberNode.computed &&
+                  memberNode.property.type === "Identifier"
+                ) {
+                  dep = memberNode.property.name;
+                } else if (
+                  memberNode.computed &&
+                  (memberNode.property as any).type === "Literal" &&
+                  typeof (memberNode.property as any).value === "string"
+                ) {
+                  dep = (memberNode.property as any).value;
+                } else {
+                  stats.includesComputed = true;
                 }
-              } else {
-                stats.includesComputed = true;
+                if (dep !== undefined && !stats.dependencies.includes(dep)) {
+                  stats.dependencies.push(dep);
+                }
               }
             }
           },

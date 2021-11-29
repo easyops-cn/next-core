@@ -25,6 +25,7 @@ describe("scanProcessorsInStoryboard", () => {
                   bad: "PROCESSORS.one.doBad()",
                   bad2: "<% PROCESSORS['one'].doBad() %>",
                   bad3: "<% PROCESSORS.one['doBad']() %>",
+                  bad4: "<% (PROCESSORS) => PROCESSORS.one.doBad() %>",
                   worse: "<% PROCESSORS.one[doBad]() %>",
                   worse2: "<% PROCESSORS[one].doBad() %>",
                   evenWorse: "<% walk(PROCESSORS.one, 'doBad') %>",
@@ -44,6 +45,7 @@ describe("scanProcessorsInStoryboard", () => {
                 any: "<% DATA |> PROCESSORS.two.doEvenBetter %>",
                 recursive:
                   "<% PROCESSORS.one.doGood(PROCESSORS.two.doRecursive) %>",
+                inFunction: "<% () => PROCESSORS.one.doInFunction() %>",
                 selfRef,
               },
             },
@@ -57,6 +59,7 @@ describe("scanProcessorsInStoryboard", () => {
     expect(scanProcessorsInStoryboard(storyboard).sort()).toEqual([
       "one.doBetter",
       "one.doGood",
+      "one.doInFunction",
       "two.doEvenBetter",
       "two.doRecursive",
     ]);
