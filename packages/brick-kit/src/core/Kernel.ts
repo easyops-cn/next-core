@@ -204,25 +204,14 @@ export class Kernel {
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
-    // Todo(jojiang): 等 boostrap V2 接口测试通过后移除 V1 版本的兼容
     const data = await (window.STANDALONE_MICRO_APPS
       ? standaloneBootstrap()
-      : localStorage.getItem("__$$use-bootstrap-v2-provider$$__")
-      ? BootstrapV2Api_bootstrapV2(
+      : BootstrapV2Api_bootstrapV2(
           {
             appFields:
               "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status",
             ignoreTemplateFields: "templates",
             ignoreBrickFields: "bricks,processors,providers,editors",
-            ...params,
-          },
-          {
-            interceptorParams,
-          }
-        )
-      : AuthSdk.bootstrap<BootstrapData>(
-          {
-            brief: true,
             ...params,
           },
           {
@@ -269,12 +258,10 @@ export class Kernel {
     if (window.STANDALONE_MICRO_APPS) {
       Object.assign(storyboard, { $$fulfilled: true });
     } else {
-      /* istanbul ignore next */
-      const { routes, meta, app } = await (localStorage.getItem(
-        "__$$use-bootstrap-v2-provider$$__"
-      )
-        ? BootstrapV2Api_getAppStoryboardV2(storyboard.app.id, {})
-        : AuthSdk.getAppStoryboard(storyboard.app.id));
+      const { routes, meta, app } = await BootstrapV2Api_getAppStoryboardV2(
+        storyboard.app.id,
+        {}
+      );
       Object.assign(storyboard, {
         routes,
         meta,

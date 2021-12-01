@@ -168,7 +168,7 @@ module.exports = (env, app) => {
         });
       });
 
-      app.get(`${baseHref}api/auth/bootstrap/:appId`, (req, res) => {
+      app.get(`${baseHref}api/auth(/v2)?/bootstrap/:appId`, (req, res) => {
         res.json({
           code: 0,
           data: getSingleStoryboard(
