@@ -5,6 +5,7 @@ const commonjs = require("@rollup/plugin-commonjs");
 const json = require("@rollup/plugin-json");
 const postcss = require("rollup-plugin-postcss");
 const image = require("@rollup/plugin-image");
+const copy = require("rollup-plugin-copy");
 const postcssNested = require("postcss-nested");
 const stringHash = require("string-hash");
 
@@ -14,9 +15,16 @@ exports.rollupPlugins = {
   commonjs,
   json,
   image,
+  copy,
 };
 
-exports.rollupFactory = ({ umdName, plugins = [], disableUmd, disableEsm }) => {
+exports.rollupFactory = ({
+  umdName,
+  plugins = [],
+  disableUmd,
+  disableEsm,
+  copyFiles = [],
+}) => {
   const packageJson = require(path.join(process.cwd(), "package.json"));
   // Find peer dependencies include:
   //   dependencies of dll peerDependencies;
@@ -89,6 +97,13 @@ exports.rollupFactory = ({ umdName, plugins = [], disableUmd, disableEsm }) => {
     external: Array.from(external.add(/@babel\/runtime/)),
     plugins: [
       ...plugins,
+      ...(copyFiles.length > 0
+        ? [
+            copy({
+              targets: copyFiles,
+            }),
+          ]
+        : []),
       nodeResolve({
         browser: true,
         extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"],

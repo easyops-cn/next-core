@@ -25,6 +25,7 @@
     "postcss": "^8.3.11",
     "postcss-nested": "^5.0.6",
     "rollup": "^2.60.0",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-postcss": "^4.0.1",
     "string-hash": "^1.1.3"
   }
