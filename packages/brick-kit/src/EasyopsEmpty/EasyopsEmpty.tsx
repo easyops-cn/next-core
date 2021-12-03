@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Empty } from "antd";
-import EmptyGreyImage from "./empty-grey-image.svg";
-import EmptyLightGreyImage from "./empty-light-grey-image.svg";
+
+import EmptyImage from "./empty-image.svg";
 import { getIllustration, IllustrationProps } from "@next-core/illustrations";
 // @internal
 export interface EasyopsEmptyProps {
@@ -14,10 +14,7 @@ export interface EasyopsEmptyProps {
  * 用于展示空数据的 React 组件。
  */
 export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
-  const background = props.background ?? "white";
-  const emptyImage =
-    background === "white" ? EmptyGreyImage : EmptyLightGreyImage;
-
+  const emptyImage = EmptyImage;
   const illustration = useMemo(
     () => props.illustration && getIllustration(props.illustration),
     [props.illustration]
