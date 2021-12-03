@@ -7,6 +7,7 @@ const ensureMicroApp = require("./ensureMicroApp");
 const ensureDeps = require("./ensureDeps");
 const validateDeps = require("./validateDeps");
 const generateProviderDocs = require("./generateProviderDocs");
+const generateProviderContracts = require("./generateProviderContracts");
 const generateBrickDocs = require("./generateBrickDocs");
 const generateBrickContracts = require("./generateBrickContracts");
 const generateSnippets = require("./generateSnippets");
@@ -188,6 +189,7 @@ module.exports = (scope) => {
     const isProviderBricks = pluginName.startsWith(providerPackagePrefix);
     if (isProviderBricks) {
       generateProviderDocs(pluginName);
+      generateProviderContracts(pluginName);
     } else {
       enableGenerateDoc && generateBrickDocs(pluginName);
     }

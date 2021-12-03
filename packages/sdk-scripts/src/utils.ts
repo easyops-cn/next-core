@@ -1,5 +1,4 @@
 import semver from "semver";
-import * as changeCase from "change-case";
 import { pick } from "lodash";
 import { loadDefaultTypes } from "./loaders/loadDefaultTypes";
 import {
@@ -197,9 +196,7 @@ export function extractProviderContract(
   modelSeg: string
 ): ContractDoc {
   return {
-    provider: `providers-of-${changeCase.paramCase(
-      context.serviceSeg
-    )}.${changeCase.paramCase(modelSeg)}-api-${changeCase.paramCase(doc.name)}`,
+    contract: `${context.serviceSeg}.${modelSeg}.${doc.name}`,
     category: context.modelI18nMap.get("description"),
     ...pick(doc, [
       "name",

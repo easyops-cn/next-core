@@ -14,7 +14,7 @@ export class Context {
   readonly modelI18nMap = new Map<string, unknown>();
   readonly indexApiExports: string[] = [];
   readonly indexModelExports: string[] = [];
-  readonly providerContracts: ContractDoc[] = [];
+  readonly contractList: ContractDoc[] = [];
   readonly serviceSeg: string;
 
   constructor(serviceSeg: string) {
@@ -57,9 +57,9 @@ export class Context {
     };
 
     const contractDoc = {
-      name: `providers-of-${changeCase.paramCase(this.serviceSeg)}`,
+      name: this.serviceSeg,
       description: this.namespaceI18nMap.get("description"),
-      providers: this.providerContracts,
+      contracts: this.contractList,
     };
 
     return [
@@ -76,9 +76,7 @@ export class Context {
       .concat([
         [
           path.join(sdkRoot, "contract.json"),
-          prettier.format(JSON.stringify(contractDoc, null, 2), {
-            parser: "json",
-          }),
+          JSON.stringify(contractDoc, null, 2),
         ],
       ]);
   }
