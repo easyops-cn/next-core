@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.50.0...@next-core/brick-types@2.51.0) (2021-12-03)
+
+
+### Features
+
+* support isAdmin ([f160156](https://github.com/easyops-cn/next-core/commit/f1601567b59c9f4a27aa130dc3e2e327c84c35db))
+
+
+
+
+
 # [2.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.49.0...@next-core/brick-types@2.50.0) (2021-11-23)
 
 

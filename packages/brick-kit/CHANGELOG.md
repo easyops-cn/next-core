@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.91.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.90.2...@next-core/brick-kit@2.91.0) (2021-12-03)
+
+
+### Features
+
+* support isAdmin ([f160156](https://github.com/easyops-cn/next-core/commit/f1601567b59c9f4a27aa130dc3e2e327c84c35db))
+
+
+
+
+
 ## [2.90.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.90.1...@next-core/brick-kit@2.90.2) (2021-12-01)
 
 
