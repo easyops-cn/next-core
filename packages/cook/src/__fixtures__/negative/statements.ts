@@ -114,12 +114,12 @@ export const selectiveNegativeCasesOfStatements: LooseCase[] = [
       async function test(){}
     `,
   ],
-  [
-    "generator functions",
-    `
-      function* test(){}
-    `,
-  ],
+  // [
+  //   "generator functions",
+  //   `
+  //     function* test(){}
+  //   `,
+  // ],
   [
     "bitwise and assignment",
     `

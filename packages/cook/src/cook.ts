@@ -126,6 +126,22 @@ export function cook(
     return template;
   }
 
+  function* EvaluateInGenerator(
+    node: EstreeNode
+  ): Generator<unknown, CompletionRecord> {
+    switch (node.type) {
+      case "AssignmentExpression": {
+        const lref = Evaluate(node.left).Value as ReferenceRecord;
+        // Todo: IsAnonymousFunctionDefinition(lref)
+        const rref = yield* EvaluateInGenerator(node.right);
+        const rval = GetValue(rref);
+
+        PutValue(lref, rval);
+        return NormalCompletion(rval);
+      }
+    }
+  }
+
   function Evaluate(
     node: EstreeNode,
     optionalChainRef?: OptionalChainRef
@@ -553,6 +569,8 @@ export function cook(
         case "WhileStatement":
           // https://tc39.es/ecma262/#sec-while-statement
           return EvaluateBreakableStatement(WhileLoopEvaluation(node));
+        case "YieldExpression":
+          return Evaluate(node.argument);
       }
     }
     // eslint-disable-next-line no-console
@@ -1250,6 +1268,36 @@ export function cook(
     return undefined;
   }
 
+  // https://tc39.es/ecma262/#sec-ecmascript-function-objects-call-thisargument-argumentslist
+  function CallGenerator(
+    closure: FunctionObject,
+    args: Iterable<unknown>
+  ): unknown {
+    hooks.beforeCall?.(closure[SourceNode]);
+    PrepareForOrdinaryCall(closure);
+    const status = {
+      value: undefined as unknown,
+      done: false,
+    };
+    const g = {
+      next() {
+        return {
+          ...status,
+        };
+      },
+      // return() {},
+      // throw() {},
+    };
+    const result = OrdinaryCallEvaluateBody(closure, args);
+    executionContextStack.pop();
+    status.done = true;
+    if (result.Type === "return") {
+      status.value = result.Value;
+    }
+    status.value = undefined;
+    return g;
+  }
+
   // https://tc39.es/ecma262/#sec-prepareforordinarycall
   function PrepareForOrdinaryCall(F: FunctionObject): ExecutionContext {
     const calleeContext = new ExecutionContext();
@@ -1447,10 +1495,15 @@ export function cook(
     scope: EnvironmentRecord,
     isConstructor: boolean
   ): FunctionObject {
-    const F = function () {
-      // eslint-disable-next-line prefer-rest-params
-      return CallFunction(F, arguments);
-    } as FunctionObject;
+    const F: FunctionObject = sourceNode.generator
+      ? (function () {
+          // eslint-disable-next-line prefer-rest-params
+          return CallGenerator(F, arguments);
+        } as FunctionObject)
+      : (function () {
+          // eslint-disable-next-line prefer-rest-params
+          return CallFunction(F, arguments);
+        } as FunctionObject);
     Object.defineProperties(F, {
       [SourceNode]: {
         value: sourceNode,
@@ -1708,7 +1761,7 @@ export function cook(
   function ThrowIfFunctionIsInvalid(
     func: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
   ): void {
-    if (func.async || func.generator) {
+    if (func.async /* || func.generator */) {
       throw new SyntaxError(
         `${func.async ? "Async" : "Generator"} function is not allowed`
       );

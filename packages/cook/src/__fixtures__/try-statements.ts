@@ -49,4 +49,34 @@ export const casesOfTryStatements: LooseCase[] = [
       result: "Caught: Error: oops",
     },
   ],
+  [
+    "generator",
+    {
+      source: `
+        function test() {
+          function* G() {
+            let a = yield 1;
+            let b = yield 2;
+            return { a, b};
+          }
+          let g = G();
+          let x = g.next().value;
+          let y = g.next('x:'+x).value;
+          return { x, y, z: g.next(y) }
+        }
+      `,
+      args: [],
+      result: {
+        x: 1,
+        y: 2,
+        z: {
+          value: {
+            a: "x:1",
+            b: 2,
+          },
+          done: true,
+        },
+      },
+    },
+  ],
 ];
