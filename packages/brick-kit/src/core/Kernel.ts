@@ -209,7 +209,7 @@ export class Kernel {
       : BootstrapV2Api_bootstrapV2(
           {
             appFields:
-              "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status",
+              "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status,icons",
             ignoreTemplateFields: "templates",
             ignoreBrickFields: "bricks,processors,providers,editors",
             ...params,
