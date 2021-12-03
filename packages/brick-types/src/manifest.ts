@@ -233,6 +233,7 @@ export interface AuthInfo {
   userInstanceId?: string;
   loginFrom?: string;
   accessRule?: string;
+  isAdmin?: boolean;
 }
 
 /** @internal */

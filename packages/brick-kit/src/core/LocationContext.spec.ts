@@ -36,6 +36,7 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
   username: "easyops",
   userInstanceId: "acbd46b",
   accessRule: "cmdb",
+  isAdmin: false,
 });
 
 jest.spyOn(history, "getHistory").mockReturnValue({

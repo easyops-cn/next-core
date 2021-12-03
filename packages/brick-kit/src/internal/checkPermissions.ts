@@ -2,6 +2,7 @@ import { difference } from "lodash";
 import { scanPermissionActionsInStoryboard } from "@next-core/brick-utils";
 import { Storyboard } from "@next-core/brick-types";
 import { PermissionApi_validatePermissions } from "@next-sdk/micro-app-sdk";
+import { getAuth } from "../auth";
 
 type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 
@@ -46,6 +47,10 @@ export async function validatePermissions(
  * @param actions - Required permission actions.
  */
 export function checkPermissions(...actions: string[]): boolean {
+  if (getAuth().isAdmin) {
+    return true;
+  }
+
   for (const action of actions) {
     // Only **exclusively authorized** permissions are ok.
     // Those scenarios below will fail:

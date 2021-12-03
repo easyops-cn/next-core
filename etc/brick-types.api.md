@@ -70,6 +70,8 @@ export interface AuthInfo {
     // (undocumented)
     accessRule?: string;
     // (undocumented)
+    isAdmin?: boolean;
+    // (undocumented)
     loginFrom?: string;
     // (undocumented)
     org?: number;
@@ -2204,6 +2206,8 @@ export interface StoryDocTypeAndInterface {
 export interface SystemInfo extends RuntimeMisc {
     // (undocumented)
     accessRule?: string;
+    // (undocumented)
+    isAdmin?: boolean;
     // (undocumented)
     loginFrom?: string;
     // (undocumented)
