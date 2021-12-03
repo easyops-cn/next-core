@@ -4,12 +4,25 @@ import yaml from "js-yaml";
 import { Context } from "../lib/internal";
 import { apiDir } from "./env";
 import { Api } from "../lib/internal";
-import { expectDocVersion } from "../utils";
+import { isObject } from "lodash";
+import { expectDocVersion, extractProviderContract } from "../utils";
+import { i18nYamlFile } from "./env";
 
 export function loadService(serviceSeg: string): Context {
   const context = new Context(serviceSeg);
 
   const serviceDir = path.join(apiDir, serviceSeg);
+
+  const serviceI18nPath = path.join(serviceDir, i18nYamlFile);
+  if (fs.existsSync(serviceI18nPath)) {
+    const i18nData = yaml.safeLoad(fs.readFileSync(serviceI18nPath, "utf8"));
+    if (isObject(i18nData)) {
+      for (const [key, value] of Object.entries(i18nData)) {
+        context.namespaceI18nMap.set(key, value);
+      }
+    }
+  }
+
   fs.readdirSync(serviceDir, { withFileTypes: true }).forEach((dirent) => {
     if (!dirent.isDirectory()) {
       return;
@@ -20,10 +33,25 @@ export function loadService(serviceSeg: string): Context {
     context.indexApiExports.push(modelSeg);
 
     const modelDir = path.join(serviceDir, modelSeg);
+    const modelI18nPath = path.join(modelDir, i18nYamlFile);
+    if (fs.existsSync(modelI18nPath)) {
+      const modelI18nData = yaml.safeLoad(
+        fs.readFileSync(modelI18nPath, "utf8")
+      );
+      if (isObject(modelI18nData)) {
+        for (const [key, value] of Object.entries(modelI18nData)) {
+          context.modelI18nMap.set(key, value);
+        }
+      }
+    }
+
     fs.readdirSync(modelDir).forEach((file) => {
       const filePath = path.join(modelDir, file);
       const doc = yaml.safeLoad(fs.readFileSync(filePath, "utf8")) as any;
       expectDocVersion(doc);
+      context.providerContracts.push(
+        extractProviderContract(context, doc, modelSeg)
+      );
       const apiSeg = path.basename(file, ".yaml");
       const key = `${serviceSeg}/${modelSeg}/${apiSeg}`;
       const api = new Api(doc, context, modelSeg);

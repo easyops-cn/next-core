@@ -15,6 +15,14 @@ export interface ApiDoc {
   };
 }
 
+export interface ContractDoc extends ApiDoc {
+  provider: string;
+  category?: {
+    en: string;
+    zh: string;
+  };
+}
+
 export interface ModelDoc {
   name: string;
   description: string;
