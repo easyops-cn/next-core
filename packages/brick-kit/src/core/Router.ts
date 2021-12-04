@@ -300,6 +300,7 @@ export class Router {
               type: brickPageError,
               properties: {
                 error: httpErrorToString(error),
+                code: error.response?.status,
               },
               events: {},
             },
