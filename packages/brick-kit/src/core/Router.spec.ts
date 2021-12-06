@@ -279,6 +279,24 @@ describe("Router", () => {
         },
       },
     ]);
+
+    __setMountRoutesResults(
+      null,
+      new HttpResponseError(
+        new Response("", { statusText: "oops", status: 403 })
+      )
+    );
+    await router.bootstrap();
+    expect(spyOnMountTree).toBeCalledTimes(2);
+    expect(spyOnMountTree.mock.calls[1][0]).toMatchObject([
+      {
+        type: "basic-bricks.page-error",
+        properties: {
+          error: "HttpResponseError: oops",
+          code: 403,
+        },
+      },
+    ]);
   });
 
   it("should redirect to login page if redirect exists.", async () => {
