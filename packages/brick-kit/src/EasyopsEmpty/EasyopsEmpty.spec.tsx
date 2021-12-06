@@ -11,6 +11,7 @@ describe("Empty", () => {
   it("EasyopsEmpty should work", () => {
     const wrapper = mount(<EasyopsEmpty background="grey" />);
     expect(wrapper.find(EasyopsEmpty).length).toBe(1);
+    expect(wrapper.find(Empty).prop("image")).toBe("assets/mockFile");
   });
 
   it("EasyopsEmpty should work with illustration", () => {
