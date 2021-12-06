@@ -6,7 +6,15 @@ Array [
     "/tmp/sdk/rollup.config.js",
     "import { rollupFactory } from \\"@next-core/rollup-config-factory\\";
 
-export default rollupFactory({ umdName: \\"CdSdk\\" });
+export default rollupFactory({
+  umdName: \\"CdSdk\\",
+  copyFiles: [
+    {
+      src: \\"contract.json\\",
+      dest: \\"dist\\",
+    },
+  ],
+});
 ",
   ],
   Array [
@@ -78,7 +86,15 @@ Array [
     "/tmp/sdk/rollup.config.js",
     "import { rollupFactory } from \\"@next-core/rollup-config-factory\\";
 
-export default rollupFactory({ umdName: \\"CdSdk\\" });
+export default rollupFactory({
+  umdName: \\"CdSdk\\",
+  copyFiles: [
+    {
+      src: \\"contract.json\\",
+      dest: \\"dist\\",
+    },
+  ],
+});
 ",
   ],
   Array [
