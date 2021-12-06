@@ -302,7 +302,9 @@ export class Router {
               properties: {
                 error: httpErrorToString(error),
                 code:
-                  error instanceof HttpResponseError && error.response?.status,
+                  error instanceof HttpResponseError
+                    ? error.response.status
+                    : null,
               },
               events: {},
             },
