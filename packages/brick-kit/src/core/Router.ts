@@ -40,6 +40,7 @@ import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { CustomTemplateContext } from "./CustomTemplates";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
+import { HttpResponseError } from "@next-core/brick-http";
 
 export class Router {
   private defaultCollapsed = false;
@@ -300,6 +301,10 @@ export class Router {
               type: brickPageError,
               properties: {
                 error: httpErrorToString(error),
+                code:
+                  error instanceof HttpResponseError
+                    ? error.response.status
+                    : null,
               },
               events: {},
             },
