@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.9...@next-core/build-config-factory@2.18.0) (2021-12-06)
+
+
+### Bug Fixes
+
+* refactor generate contract ([0a40c3a](https://github.com/easyops-cn/next-core/commit/0a40c3a6889db1465250a126dda0112ea5ca1a2c))
+
+
+### Features
+
+* generate new contract.json after build provider-of-* package ([cbf7f96](https://github.com/easyops-cn/next-core/commit/cbf7f96d0130bd4a680fec11d9371c4e9bc01f5b))
+
+
+
+
+
 ## [2.17.9](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.8...@next-core/build-config-factory@2.17.9) (2021-12-03)
 
 **Note:** Version bump only for package @next-core/build-config-factory

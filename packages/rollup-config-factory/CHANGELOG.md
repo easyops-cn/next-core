@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.4.4...@next-core/rollup-config-factory@2.4.5) (2021-12-06)
+
+**Note:** Version bump only for package @next-core/rollup-config-factory
+
+
+
+
+
 ## [2.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.4.3...@next-core/rollup-config-factory@2.4.4) (2021-11-18)
 
 

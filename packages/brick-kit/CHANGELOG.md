@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.92.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.91.2...@next-core/brick-kit@2.92.0) (2021-12-06)
+
+
+### Features
+
+* expose http code ([#1227](https://github.com/easyops-cn/next-core/issues/1227)) ([9e22deb](https://github.com/easyops-cn/next-core/commit/9e22deb2dc27b7d907bb782790fa4a59960ccc82))
+
+
+
+
+
 ## [2.91.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.91.1...@next-core/brick-kit@2.91.2) (2021-12-05)
 
 
