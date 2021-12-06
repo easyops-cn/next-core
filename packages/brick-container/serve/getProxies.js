@@ -265,6 +265,7 @@ module.exports = (env) => {
                     return path;
                   }
                 },
+                ...apiProxyOptions,
               },
             }
           : {}),
