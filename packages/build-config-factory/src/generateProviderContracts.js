@@ -31,6 +31,7 @@ module.exports = function generateProviderDocsV2(pluginName) {
         provider: `providers-of-${changeCase.paramCase(
           service
         )}.${changeCase.paramCase(model)}-api-${changeCase.paramCase(name)}`,
+        namespace: `easyops.api.${service}.${model}`,
         ...omit(item, "contract"),
       };
     }),
