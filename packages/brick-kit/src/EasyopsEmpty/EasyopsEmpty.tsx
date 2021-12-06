@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 import { Empty } from "antd";
-
-import emptyImage from "./empty-image.png";
 import { getIllustration, IllustrationProps } from "@next-core/illustrations";
+
+import emptyImage from "../images/empty-image.png";
+
 // @internal
 export interface EasyopsEmptyProps {
   background?: string;
@@ -10,6 +11,7 @@ export interface EasyopsEmptyProps {
   imageStyle?: React.CSSProperties;
   illustration?: IllustrationProps;
 }
+
 /**
  * 用于展示空数据的 React 组件。
  */
@@ -19,7 +21,7 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
     [props.illustration]
   );
 
-  const image = props.illustration ? illustration : emptyImage;
+  const image = props.illustration ? illustration : getImageUrl(emptyImage);
   return (
     <Empty
       image={image}
@@ -27,6 +29,10 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
       description={props.description}
     />
   );
+}
+
+function getImageUrl(url: string): string {
+  return `${window.CORE_ROOT ?? ""}assets/${url}`;
 }
 
 /**
