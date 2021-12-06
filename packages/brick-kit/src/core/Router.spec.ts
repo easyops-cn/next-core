@@ -275,7 +275,7 @@ describe("Router", () => {
         type: "basic-bricks.page-error",
         properties: {
           error: "Error: oops",
-          code: 403,
+          code: null,
         },
       },
     ]);
