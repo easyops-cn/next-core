@@ -132,7 +132,7 @@ module.exports = (runtimeFlags) => {
         --console-server    Set remote console server address, defaults to remote server address
         --subdir            Set base href to "/next/" instead of "/"
         --local-bricks      Specify local brick packages to be used in remote mode
-        --legacy-bootstrap  use legacy bootstrap provider 
+        --legacy-bootstrap  use legacy bootstrap provider
         --local-editors     Specify local editor packages to be used in remote mode
         --local-snippets    Specify local snippet packages to be used in remote mode
         --local-micro-apps  Specify local micro apps to be used in remote mode
@@ -303,8 +303,7 @@ module.exports = (runtimeFlags) => {
     consoleServer,
     appConfig,
     verbose: flags.verbose || process.env.VERBOSE === "true",
-    mocked:
-      flags.mock === undefined ? process.env.NO_MOCK !== "true" : flags.mock,
+    mocked: flags.mock === undefined ? process.env.MOCK === "true" : flags.mock,
     mockedMicroAppsDir,
     liveReload:
       flags.liveReload === undefined
