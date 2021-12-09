@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.11...@next-core/brick-container@2.39.12) (2021-12-09)
+
+
+### Bug Fixes
+
+* serve with no mock by default in next-core ([0f6a89e](https://github.com/easyops-cn/next-core/commit/0f6a89ea0cfa9e298a917c7e651ee6e09ee9caf0))
+
+
+
+
+
 ## [2.39.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.10...@next-core/brick-container@2.39.11) (2021-12-06)
 
 

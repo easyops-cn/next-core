@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.0...@next-core/build-config-factory@2.18.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* add namespace ([8c81028](https://github.com/easyops-cn/next-core/commit/8c8102806ff1dd39ec5389fa83876d012f2f104a))
+
+
+
+
+
 # [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.9...@next-core/build-config-factory@2.18.0) (2021-12-06)
 
 
