@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.4...@next-core/webpack-config-factory@2.14.5) (2021-12-13)
+
+
+### Bug Fixes
+
+* refine generating contracts for bricks ([d57c995](https://github.com/easyops-cn/next-core/commit/d57c99557e3c4ed9b7d8a13a5aa00a2764ba3101))
+
+
+
+
+
 ## [2.14.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.3...@next-core/webpack-config-factory@2.14.4) (2021-11-29)
 
 
