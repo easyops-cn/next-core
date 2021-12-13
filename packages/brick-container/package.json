@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@next-core/repo-config": "^0.2.1",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.19.1",
     "chalk": "^4.1.1",
     "chokidar": "^3.5.2",
     "concat-stream": "^2.0.0",
