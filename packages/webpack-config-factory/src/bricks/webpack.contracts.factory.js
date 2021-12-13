@@ -56,6 +56,26 @@ module.exports = (cwdDirname = process.cwd(), brickEntries) => {
     module: {
       rules: [
         {
+          // Ignore worker modules and node modules other than libs and sdk,
+          // which do not matter with contracts.
+          resource: {
+            and: [
+              {
+                test: /\.(ts|js)x?$/,
+              },
+              {
+                // Match one of below.
+                test: [
+                  /\.worker\./,
+                  // Code in node_modules other than libs and sdk.
+                  /\/node_modules\/(?!@(?:next-)?(?:libs|sdk)\/)/,
+                ],
+              },
+            ],
+          },
+          use: "null-loader",
+        },
+        {
           // Include ts, tsx, js, and jsx files.
           test: /\.(ts|js)x?$/,
           exclude: /node_modules|\.worker\./,
@@ -63,11 +83,6 @@ module.exports = (cwdDirname = process.cwd(), brickEntries) => {
           options: {
             rootMode: "upward",
           },
-        },
-        {
-          // Ignore worker modules, which do not matter with contracts.
-          test: /\.worker\./,
-          use: "null-loader",
         },
       ],
     },
