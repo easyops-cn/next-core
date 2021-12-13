@@ -22,7 +22,7 @@
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
-    "postcss": "^8.4.4",
+    "postcss": "^8.4.5",
     "postcss-nested": "^5.0.6",
     "rollup": "^2.61.0",
     "rollup-plugin-postcss": "^4.0.2",
