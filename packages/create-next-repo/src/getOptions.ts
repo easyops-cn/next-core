@@ -18,10 +18,11 @@ export function getOptions(): RepoOptions {
       $ create-next-repo my-repo
 
     Options
-      --internal  Creates a EasyOps internal repository
-      --verbose   Show verbose logs
-      --help      Show help message
-      --version   Show create-next-repo version
+      --internal   Creates a EasyOps internal repository
+      --localrepo  Download template repository from intranet instead of github
+      --verbose    Show verbose logs
+      --help       Show help message
+      --version    Show create-next-repo version
     `,
     {
       flags: {
