@@ -413,11 +413,7 @@ export const SingleBrickAsComponent = React.memo(
         ...slotsToChildren(template.slots as UseBrickSlotsConf).map(
           (item: UseSingleBrickConf, index: number) => {
             return (
-              <SingleBrickAsComponent
-                key={index}
-                useBrick={item}
-                data={brick.properties}
-              />
+              <SingleBrickAsComponent key={index} useBrick={item} data={data} />
             );
           }
         )
@@ -705,7 +701,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
                 <SingleBrickAsComponent
                   key={index}
                   useBrick={item}
-                  data={brick.properties}
+                  data={data}
                 />
               );
             }
