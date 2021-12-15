@@ -9,13 +9,13 @@ module.exports = function generateProviderDocsV2(pluginName) {
   let contractPath;
   const providersJson = require(path.resolve("providers.json"));
   try {
-    contractPath = require.resolve(`${providersJson.sdk}/dist/contract.json`, {
+    contractPath = require.resolve(`${providersJson.sdk}/dist/contracts.json`, {
       paths: [process.cwd()],
     });
   } catch (error) {
     console.log(
       chalk.yellow(
-        `Warning: no contract.json file generated, if need it please execute \`yarn yo-sdk\` for ${providersJson.sdk} and build it later`
+        `Warning: no contracts.json file generated, if need it please execute \`yarn yo-sdk\` for ${providersJson.sdk} and build it later`
       )
     );
     return;
@@ -37,8 +37,8 @@ module.exports = function generateProviderDocsV2(pluginName) {
     }),
   };
   fs.writeFileSync(
-    path.join(process.cwd(), "dist", "contract.json"),
+    path.join(process.cwd(), "dist", "contracts.json"),
     JSON.stringify(contract, null, 2)
   );
-  console.log(`Providers contract for ${pluginName} generated.`);
+  console.log(`Providers contracts for ${pluginName} generated.`);
 };

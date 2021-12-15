@@ -574,7 +574,7 @@ export * as MsgsenderModels from \\"./model/msgsender\\";
 ",
   ],
   Array [
-    "dist/contract.json",
+    "dist/contracts.json",
     "{
   \\"name\\": \\"cd\\",
   \\"description\\": {
@@ -1143,7 +1143,7 @@ export const AuthApi_checkLogin = async (
 ",
   ],
   Array [
-    "dist/contract.json",
+    "dist/contracts.json",
     "{
   \\"name\\": \\"api_gateway\\",
   \\"contracts\\": [
