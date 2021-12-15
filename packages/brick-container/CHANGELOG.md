@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.13...@next-core/brick-container@2.40.0) (2021-12-15)
+
+
+### Features
+
+* 上报provider到_INTERFACE_CONTRACT@EASYOPS ([77f3353](https://github.com/easyops-cn/next-core/commit/77f3353846617ee43278bb695b040d1b64d3de25))
+
+
+
+
+
 ## [2.39.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.12...@next-core/brick-container@2.39.13) (2021-12-13)
 
 **Note:** Version bump only for package @next-core/brick-container

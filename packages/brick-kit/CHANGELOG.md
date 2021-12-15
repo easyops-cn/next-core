@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.92.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.92.1...@next-core/brick-kit@2.92.2) (2021-12-15)
+
+
+### Bug Fixes
+
+* pass data through tpl in useBrick ([3b6538c](https://github.com/easyops-cn/next-core/commit/3b6538cd37b8267f6a279f3b14c3a2fdefcb2ba9))
+
+
+
+
+
 ## [2.92.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.92.0...@next-core/brick-kit@2.92.1) (2021-12-06)
 
 

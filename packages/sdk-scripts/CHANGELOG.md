@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.0...@next-core/sdk-scripts@2.7.1) (2021-12-15)
+
+
+### Bug Fixes
+
+* rename contract.json -> contracts.json ([dc35786](https://github.com/easyops-cn/next-core/commit/dc3578631edb9f79d9d0bb40e61680d1a5d9cf11))
+
+
+
+
+
 # [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.14...@next-core/sdk-scripts@2.7.0) (2021-12-06)
 
 
