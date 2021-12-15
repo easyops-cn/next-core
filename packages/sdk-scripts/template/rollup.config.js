@@ -4,7 +4,7 @@ export default rollupFactory({
   umdName: "$PascalServiceName$Sdk",
   copyFiles: [
     {
-      src: "contract.json",
+      src: "contracts.json",
       dest: "dist",
     },
   ],

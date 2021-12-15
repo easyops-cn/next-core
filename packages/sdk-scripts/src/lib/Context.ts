@@ -75,7 +75,7 @@ export class Context {
       ])
       .concat([
         [
-          path.join(sdkRoot, "contract.json"),
+          path.join(sdkRoot, "contracts.json"),
           JSON.stringify(contractDoc, null, 2),
         ],
       ]);

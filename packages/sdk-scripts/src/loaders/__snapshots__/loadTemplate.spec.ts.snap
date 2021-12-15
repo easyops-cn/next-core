@@ -10,7 +10,7 @@ export default rollupFactory({
   umdName: \\"CdSdk\\",
   copyFiles: [
     {
-      src: \\"contract.json\\",
+      src: \\"contracts.json\\",
       dest: \\"dist\\",
     },
   ],
@@ -90,7 +90,7 @@ export default rollupFactory({
   umdName: \\"CdSdk\\",
   copyFiles: [
     {
-      src: \\"contract.json\\",
+      src: \\"contracts.json\\",
       dest: \\"dist\\",
     },
   ],
