@@ -33,16 +33,7 @@ const getStyleLoaders = (cssOptions) => [
       postcssOptions: {
         plugins: [
           require.resolve("postcss-nested"),
-          [
-            require.resolve("postcss-preset-env"),
-            {
-              // Remove this after the issue below resolved:
-              // https://github.com/csstools/postcss-preset-env/issues/223
-              features: {
-                "double-position-gradients": false,
-              },
-            },
-          ],
+          require.resolve("postcss-preset-env"),
         ],
       },
     },

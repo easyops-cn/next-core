@@ -5,38 +5,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.0...@next-core/sdk-scripts@2.7.1) (2021-12-15)
 
-
 ### Bug Fixes
 
-* rename contract.json -> contracts.json ([dc35786](https://github.com/easyops-cn/next-core/commit/dc3578631edb9f79d9d0bb40e61680d1a5d9cf11))
-
-
-
-
+- rename contract.json -> contracts.json ([dc35786](https://github.com/easyops-cn/next-core/commit/dc3578631edb9f79d9d0bb40e61680d1a5d9cf11))
 
 # [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.14...@next-core/sdk-scripts@2.7.0) (2021-12-06)
 
-
 ### Bug Fixes
 
-* refactor generate contract ([0a40c3a](https://github.com/easyops-cn/next-core/commit/0a40c3a6889db1465250a126dda0112ea5ca1a2c))
-
+- refactor generate contract ([0a40c3a](https://github.com/easyops-cn/next-core/commit/0a40c3a6889db1465250a126dda0112ea5ca1a2c))
 
 ### Features
 
-* generate contract.json in sdk ([297137f](https://github.com/easyops-cn/next-core/commit/297137f09b72ebaf2df3bcca046d7a38d4079f19))
-
-
-
-
+- generate contract.json in sdk ([297137f](https://github.com/easyops-cn/next-core/commit/297137f09b72ebaf2df3bcca046d7a38d4079f19))
 
 ## [2.6.14](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.13...@next-core/sdk-scripts@2.6.14) (2021-11-18)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
-
-
-
-
 
 ## [2.6.13](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.6.12...@next-core/sdk-scripts@2.6.13) (2021-11-15)
 

@@ -7,58 +7,31 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 # [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.5.0...@next-core/cook@1.6.0) (2021-11-29)
-
 
 ### Features
 
-* support visit node with parent ([80f1ada](https://github.com/easyops-cn/next-core/commit/80f1ada97e1b720f787753fab4eedf618c08f36b))
-
-
-
-
+- support visit node with parent ([80f1ada](https://github.com/easyops-cn/next-core/commit/80f1ada97e1b720f787753fab4eedf618c08f36b))
 
 # [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.4.0...@next-core/cook@1.5.0) (2021-11-26)
 
-
 ### Features
 
-* support hooks for before visit global or unknown nodes ([50d770c](https://github.com/easyops-cn/next-core/commit/50d770c45a8194c12c3764f53d75a1a9519b790e))
-
-
-
-
+- support hooks for before visit global or unknown nodes ([50d770c](https://github.com/easyops-cn/next-core/commit/50d770c45a8194c12c3764f53d75a1a9519b790e))
 
 # [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.3.9...@next-core/cook@1.4.0) (2021-11-25)
 
-
 ### Features
 
-* support parseForAnalysis ([681de0a](https://github.com/easyops-cn/next-core/commit/681de0aef914b4e30d428180cad54cc0f9882b59))
-
-
-
-
+- support parseForAnalysis ([681de0a](https://github.com/easyops-cn/next-core/commit/681de0aef914b4e30d428180cad54cc0f9882b59))
 
 ## [1.3.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.3.8...@next-core/cook@1.3.9) (2021-11-23)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [1.3.8](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.3.7...@next-core/cook@1.3.8) (2021-11-18)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [1.3.7](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.3.6...@next-core/cook@1.3.7) (2021-11-11)
 

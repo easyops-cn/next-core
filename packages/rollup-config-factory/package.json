@@ -21,12 +21,12 @@
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.6",
-    "postcss": "^8.3.11",
+    "@rollup/plugin-node-resolve": "^13.1.1",
+    "postcss": "^8.4.5",
     "postcss-nested": "^5.0.6",
-    "rollup": "^2.60.0",
+    "rollup": "^2.61.1",
     "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-postcss": "^4.0.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "string-hash": "^1.1.3"
   }
 }

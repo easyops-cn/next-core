@@ -5,41 +5,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.50.0...@next-core/brick-types@2.51.0) (2021-12-03)
 
-
 ### Features
 
-* support isAdmin ([f160156](https://github.com/easyops-cn/next-core/commit/f1601567b59c9f4a27aa130dc3e2e327c84c35db))
-
-
-
-
+- support isAdmin ([f160156](https://github.com/easyops-cn/next-core/commit/f1601567b59c9f4a27aa130dc3e2e327c84c35db))
 
 # [2.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.49.0...@next-core/brick-types@2.50.0) (2021-11-23)
 
-
 ### Features
 
-* update type ([#1174](https://github.com/easyops-cn/next-core/issues/1174)) ([a128ce1](https://github.com/easyops-cn/next-core/commit/a128ce11cfea01f3d73ba3ec9728ab647b390823))
-
-
-
-
+- update type ([#1174](https://github.com/easyops-cn/next-core/issues/1174)) ([a128ce1](https://github.com/easyops-cn/next-core/commit/a128ce11cfea01f3d73ba3ec9728ab647b390823))
 
 # [2.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.48.0...@next-core/brick-types@2.49.0) (2021-11-18)
 
-
 ### Bug Fixes
 
-* 构件按照名称前缀识别构件包 ([5293187](https://github.com/easyops-cn/next-core/commit/52931871641a072909d3ff2b5ddb4436503a5676))
-
+- 构件按照名称前缀识别构件包 ([5293187](https://github.com/easyops-cn/next-core/commit/52931871641a072909d3ff2b5ddb4436503a5676))
 
 ### Features
 
-* support getting images by static files ([c23d88a](https://github.com/easyops-cn/next-core/commit/c23d88aa70f5009453a1d3c58e7f4a0d6249c719))
-
-
-
-
+- support getting images by static files ([c23d88a](https://github.com/easyops-cn/next-core/commit/c23d88aa70f5009453a1d3c58e7f4a0d6249c719))
 
 # [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.47.0...@next-core/brick-types@2.48.0) (2021-11-11)
 

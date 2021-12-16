@@ -7,145 +7,73 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.34](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.33...@next-core/editor-bricks-helper@0.32.34) (2021-12-06)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.33](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.32...@next-core/editor-bricks-helper@0.32.33) (2021-12-06)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.32](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.31...@next-core/editor-bricks-helper@0.32.32) (2021-12-05)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.31](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.30...@next-core/editor-bricks-helper@0.32.31) (2021-12-03)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.30](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.29...@next-core/editor-bricks-helper@0.32.30) (2021-12-03)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.29](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.28...@next-core/editor-bricks-helper@0.32.29) (2021-12-01)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.28](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.27...@next-core/editor-bricks-helper@0.32.28) (2021-11-29)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.27](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.26...@next-core/editor-bricks-helper@0.32.27) (2021-11-26)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.26](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.25...@next-core/editor-bricks-helper@0.32.26) (2021-11-25)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.25](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.24...@next-core/editor-bricks-helper@0.32.25) (2021-11-25)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.24](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.23...@next-core/editor-bricks-helper@0.32.24) (2021-11-25)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.23](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.22...@next-core/editor-bricks-helper@0.32.23) (2021-11-25)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.22](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.21...@next-core/editor-bricks-helper@0.32.22) (2021-11-23)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.21](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.20...@next-core/editor-bricks-helper@0.32.21) (2021-11-23)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.20](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.19...@next-core/editor-bricks-helper@0.32.20) (2021-11-23)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.19](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.18...@next-core/editor-bricks-helper@0.32.19) (2021-11-18)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.32.18](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.17...@next-core/editor-bricks-helper@0.32.18) (2021-11-18)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.32.17](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.16...@next-core/editor-bricks-helper@0.32.17) (2021-11-12)
 

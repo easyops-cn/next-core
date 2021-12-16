@@ -5,47 +5,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.14.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.4...@next-core/webpack-config-factory@2.14.5) (2021-12-13)
 
-
 ### Bug Fixes
 
-* refine generating contracts for bricks ([d57c995](https://github.com/easyops-cn/next-core/commit/d57c99557e3c4ed9b7d8a13a5aa00a2764ba3101))
-
-
-
-
+- refine generating contracts for bricks ([d57c995](https://github.com/easyops-cn/next-core/commit/d57c99557e3c4ed9b7d8a13a5aa00a2764ba3101))
 
 ## [2.14.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.3...@next-core/webpack-config-factory@2.14.4) (2021-11-29)
 
-
 ### Bug Fixes
 
-* no `.worker` for worker js ([3003989](https://github.com/easyops-cn/next-core/commit/3003989c3afddae099c04668d4ea10dcfd47f17d))
-
-
-
-
+- no `.worker` for worker js ([3003989](https://github.com/easyops-cn/next-core/commit/3003989c3afddae099c04668d4ea10dcfd47f17d))
 
 ## [2.14.3](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.2...@next-core/webpack-config-factory@2.14.3) (2021-11-19)
 
-
 ### Bug Fixes
 
-* fix postcss-loader after upgraded postcss to v8 ([d232c1d](https://github.com/easyops-cn/next-core/commit/d232c1dcad2f77bd1d6b558d6ec6db7f3fd9235e))
-
-
-
-
+- fix postcss-loader after upgraded postcss to v8 ([d232c1d](https://github.com/easyops-cn/next-core/commit/d232c1dcad2f77bd1d6b558d6ec6db7f3fd9235e))
 
 ## [2.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.1...@next-core/webpack-config-factory@2.14.2) (2021-11-18)
 
-
 ### Bug Fixes
 
-* update postcss v8 and related packages ([615f198](https://github.com/easyops-cn/next-core/commit/615f19838118ba76d5b50de9aaf6f1aedf48ab02))
-
-
-
-
+- update postcss v8 and related packages ([615f198](https://github.com/easyops-cn/next-core/commit/615f19838118ba76d5b50de9aaf6f1aedf48ab02))
 
 ## [2.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.0...@next-core/webpack-config-factory@2.14.1) (2021-11-16)
 
