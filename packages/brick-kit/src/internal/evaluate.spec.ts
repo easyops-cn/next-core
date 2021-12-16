@@ -228,6 +228,7 @@ describe("evaluate", () => {
     ["<% FN.sayHello('world') %>", "Hello, world"],
     ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],
     ["<% MISC.hello %>", "world"],
+    ["<% BASE_URL %>", ""],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
