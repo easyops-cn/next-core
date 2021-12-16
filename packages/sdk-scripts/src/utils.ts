@@ -1,13 +1,17 @@
 import semver from "semver";
+import { pick } from "lodash";
 import { loadDefaultTypes } from "./loaders/loadDefaultTypes";
 import {
   RefFieldDoc,
   NormalFieldDoc,
   ExtFieldSource,
   BaseDoc,
-  TypeAndEnum
+  TypeAndEnum,
+  ApiDoc,
+  ContractDoc,
 } from "./interface";
 import { Api } from "./lib/Api";
+import { Context } from "./lib/Context";
 
 const PRIMITIVE_TYPES = [
   "string",
@@ -15,7 +19,7 @@ const PRIMITIVE_TYPES = [
   "boolean",
   "Record<string, any>",
   "File",
-  "any"
+  "any",
 ];
 const aliasTypeMap = new Map([
   ["int", "number"],
@@ -24,7 +28,7 @@ const aliasTypeMap = new Map([
   ["bool", "boolean"],
   ["map", "Record<string, any>"],
   ["file", "File"],
-  ["value", "any"]
+  ["value", "any"],
 ]);
 
 export function isPrimitiveType(type: string): boolean {
@@ -53,7 +57,7 @@ export function normalizeSemver(version: string | number): string {
 }
 
 export function expectDocVersion({
-  _version_: version
+  _version_: version,
 }: {
   _version_: string | number;
 }): void {
@@ -87,7 +91,7 @@ export function getRealType(
   return {
     type,
     enum: enumValues,
-    isArray
+    isArray,
   };
 }
 
@@ -97,7 +101,7 @@ export function getTransformedUri(uri: string): string {
 
 export function getParamsInUri(uri: string): string[] {
   const matches = uri.match(/:(?:[^/]+)/g);
-  return matches ? matches.map(m => m.substr(1)) : [];
+  return matches ? matches.map((m) => m.substr(1)) : [];
 }
 
 interface RefinedRequestDoc {
@@ -128,11 +132,11 @@ export function refineRequest(api: Api): RefinedRequestDoc {
       }
 
       const requestParamsField = extFields.find(
-        f => f.source === ExtFieldSource.query
+        (f) => f.source === ExtFieldSource.query
       );
       if (requestParamsField !== undefined) {
         const indexOfParams = fields.findIndex(
-          f => (f as NormalFieldDoc).name === requestParamsField.name
+          (f) => (f as NormalFieldDoc).name === requestParamsField.name
         );
         if (indexOfParams === -1) {
           throw new Error(
@@ -144,11 +148,11 @@ export function refineRequest(api: Api): RefinedRequestDoc {
       }
 
       const requestBodyField = extFields.find(
-        f => f.source === ExtFieldSource.body
+        (f) => f.source === ExtFieldSource.body
       );
       if (requestBodyField !== undefined) {
         const indexOfBody = fields.findIndex(
-          f => (f as NormalFieldDoc).name === requestBodyField.name
+          (f) => (f as NormalFieldDoc).name === requestBodyField.name
         );
         if (indexOfBody === -1) {
           throw new Error(
@@ -163,9 +167,9 @@ export function refineRequest(api: Api): RefinedRequestDoc {
       if (Array.isArray(fields)) {
         const uriParams = getParamsInUri(api.doc.endpoint.uri);
         fields = fields.filter(
-          f =>
+          (f) =>
             // Remove by ref or name.
-            !uriParams.some(p =>
+            !uriParams.some((p) =>
               (f as RefFieldDoc).ref
                 ? (f as RefFieldDoc).ref.endsWith(`.${p}`)
                 : (f as NormalFieldDoc).name === p
@@ -174,7 +178,7 @@ export function refineRequest(api: Api): RefinedRequestDoc {
         if (fields.length > 0) {
           result[key] = {
             ...request,
-            fields
+            fields,
           };
         }
       } else {
@@ -184,4 +188,26 @@ export function refineRequest(api: Api): RefinedRequestDoc {
   }
 
   return result;
+}
+
+export function extractProviderContract(
+  context: Context,
+  doc: ApiDoc,
+  modelSeg: string
+): ContractDoc {
+  return {
+    contract: `${context.serviceSeg}.${modelSeg}.${doc.name}`,
+    category: context.modelI18nMap.get("description"),
+    ...pick(doc, [
+      "name",
+      "version",
+      "description",
+      "detail",
+      "endpoint",
+      "import",
+      "request",
+      "response",
+      "examples",
+    ]),
+  } as ContractDoc;
 }

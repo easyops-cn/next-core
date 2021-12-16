@@ -38,6 +38,7 @@ import { MatchResult } from '@next-core/brick-types';
 import { MenuBarBrick } from '@next-core/brick-types';
 import { MenuRawData } from '@next-core/brick-types';
 import { MessageConf } from '@next-core/brick-types';
+import { MetaI18n } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
 import { MicroAppModels } from '@next-sdk/micro-app-sdk';
 import { ModalFunc } from 'antd/lib/modal/confirm';
@@ -61,7 +62,6 @@ import { SiteMode } from '@next-core/brick-types';
 import { SiteTheme } from '@next-core/brick-types';
 import { Storyboard } from '@next-core/brick-types';
 import { StoryboardFunction } from '@next-core/brick-types';
-import { StoryboardMeta } from '@next-core/brick-types';
 import { Subtract } from 'react-i18next';
 import { TemplatePackage } from '@next-core/brick-types';
 import { UseBrickConf } from '@next-core/brick-types';
@@ -331,6 +331,11 @@ export abstract class ModalElement extends UpdatingElement {
     openModal: (e?: CustomEvent) => void;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "PartialMicroApp" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
+
 // Warning: (ae-forgotten-export) The symbol "TransformOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "preprocessTransformProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -425,7 +430,7 @@ export type StoryboardFunctionPatch = Pick<StoryboardFunction, "source" | "types
 //
 // @internal (undocumented)
 export interface StoryboardFunctionRegistry {
-    registerStoryboardFunctions(functions: StoryboardFunction[]): void;
+    registerStoryboardFunctions(functions: StoryboardFunction[], app?: PartialMicroApp): void;
     storyboardFunctions: ReadonlyStoryboardFunctions;
     updateStoryboardFunction(name: string, data: StoryboardFunctionPatch): void;
 }
@@ -433,7 +438,8 @@ export interface StoryboardFunctionRegistry {
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function StoryboardFunctionRegistryFactory({ collectCoverage, }?: {
+export function StoryboardFunctionRegistryFactory({ widgetId, collectCoverage, }?: {
+    widgetId?: string;
     collectCoverage?: FunctionCoverageSettings;
 }): StoryboardFunctionRegistry;
 

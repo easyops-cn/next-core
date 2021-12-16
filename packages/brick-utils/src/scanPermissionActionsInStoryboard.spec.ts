@@ -1,4 +1,4 @@
-import { Storyboard, BrickConf } from "@next-core/brick-types";
+import { Storyboard } from "@next-core/brick-types";
 import {
   scanPermissionActionsInStoryboard,
   scanPermissionActionsInAny,
@@ -56,11 +56,11 @@ describe("scanPermissionActionsInStoryboard", () => {
 
 describe("scanPermissionActionsInAny", () => {
   it("should work", () => {
-    const brickConf: BrickConf = {
+    const brickConf = {
       brick: "b-b",
       properties: {
         good: "<% PERMISSIONS.check('my:action-a') %>",
-        good2: "<% PERMISSIONS.check('my:action-b', 'my:action-c') %>",
+        good2: "<% () => PERMISSIONS.check('my:action-b', 'my:action-c') %>",
         good3:
           "<% PERMISSIONS.check('my:action-d') && PERMISSIONS.check('my:action-e') %>",
         bad: "<% PERMISSIONS.check(bad) %>",
@@ -71,9 +71,10 @@ describe("scanPermissionActionsInAny", () => {
         bad6: "PERMISSIONS.check('my:action-w')",
         bad7: "<% PERMISSIONS.check() %>",
         bad8: "<% 'my:action-v' %>",
-        bad9: "<% PERMISSIONS[check]('my:action-v') %>",
+        bad9: "<% PERMISSIONS[check]('my:action-u') %>",
+        bad10: "<% (PERMISSIONS) => PERMISSIONS.check('my:action-t') %>",
       },
-    } as any;
+    };
     expect(scanPermissionActionsInAny(brickConf).sort()).toEqual([
       "my:action-a",
       "my:action-b",

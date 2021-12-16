@@ -91,8 +91,6 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
         deps: depsMap.get(brick),
       }));
 
-      console.log({ implementedBricks, depsMap });
-
       await fs.writeFile(
         path.join(dir, "deploy/contract.yaml"),
         yaml.safeDump(

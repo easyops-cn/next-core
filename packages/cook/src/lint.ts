@@ -1,21 +1,12 @@
-import { parse, ParseResult, ParserPlugin } from "@babel/parser";
+import { ParseResult } from "@babel/parser";
 import {
-  ArrowFunctionExpression,
   File,
   FunctionDeclaration,
-  FunctionExpression,
-  Identifier,
   SourceLocation,
   Statement,
-  VariableDeclaration,
 } from "@babel/types";
-import {
-  EstreeLiteral,
-  CookRules,
-  EstreeObjectExpression,
-  EstreeVisitorFn,
-  EstreeNode,
-} from "./interfaces";
+import { CookRules } from "./interfaces";
+import { parseForAnalysis } from "./parse";
 import { precook } from "./precook";
 
 export interface LintOptions {
@@ -31,22 +22,15 @@ export interface LintError {
 
 /** For next-core internal or devtools usage only. */
 export function lint(
-  source: string,
+  source: string | ParseResult<File>,
   { typescript, rules }: LintOptions = {}
 ): LintError[] {
   const errors: LintError[] = [];
-  let file: ParseResult<File>;
-  try {
-    file = parse(source, {
-      plugins: ["estree", typescript && "typescript"].filter(
-        Boolean
-      ) as ParserPlugin[],
-      strictMode: true,
-      attachComment: false,
-      // Allow export/import declarations to make linter handle errors.
-      sourceType: "unambiguous",
-    });
-  } catch (e) {
+  const file =
+    typeof source === "string"
+      ? parseForAnalysis(source, { typescript })
+      : source;
+  if (!file) {
     // Return no errors if parse failed.
     return errors;
   }
@@ -92,89 +76,83 @@ export function lint(
       },
     });
   } else {
-    const FunctionVisitor: EstreeVisitorFn = (
-      node: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
-    ) => {
-      if (node.async || node.generator) {
-        errors.push({
-          type: "SyntaxError",
-          message: `${
-            node.async ? "Async" : "Generator"
-          } function is not allowed`,
-          loc: node.loc,
-        });
-      }
-    };
     precook(func, {
-      visitors: {
-        ArrowFunctionExpression: FunctionVisitor,
-        FunctionDeclaration: FunctionVisitor,
-        FunctionExpression: FunctionVisitor,
-        Literal(node: EstreeLiteral) {
-          if (node.regex) {
-            if (node.value === null) {
-              errors.push({
-                type: "SyntaxError",
-                message: "Invalid regular expression",
-                loc: node.loc,
-              });
-            } else if (node.regex.flags.includes("u")) {
-              errors.push({
-                type: "SyntaxError",
-                message: "Unsupported unicode flag in regular expression",
-                loc: node.loc,
-              });
-            }
-          }
-        },
-        ObjectExpression(node: EstreeObjectExpression) {
-          for (const prop of node.properties) {
-            if (prop.type === "Property") {
-              if (prop.kind !== "init") {
+      hooks: {
+        beforeVisit(node) {
+          switch (node.type) {
+            case "ArrowFunctionExpression":
+            case "FunctionDeclaration":
+            case "FunctionExpression":
+              if (node.async || node.generator) {
                 errors.push({
                   type: "SyntaxError",
-                  message: "Unsupported object getter/setter property",
-                  loc: prop.loc,
-                });
-              } else if (
-                !prop.computed &&
-                prop.key.type === "Identifier" &&
-                prop.key.name === "__proto__"
-              ) {
-                errors.push({
-                  type: "TypeError",
-                  message: "Setting '__proto__' property is not allowed",
-                  loc: prop.key.loc,
+                  message: `${
+                    node.async ? "Async" : "Generator"
+                  } function is not allowed`,
+                  loc: node.loc,
                 });
               }
-            }
+              break;
+            case "Literal":
+              if (node.regex) {
+                if (node.value === null) {
+                  errors.push({
+                    type: "SyntaxError",
+                    message: "Invalid regular expression",
+                    loc: node.loc,
+                  });
+                } else if (node.regex.flags.includes("u")) {
+                  errors.push({
+                    type: "SyntaxError",
+                    message: "Unsupported unicode flag in regular expression",
+                    loc: node.loc,
+                  });
+                }
+              }
+              break;
+            case "ObjectExpression":
+              for (const prop of node.properties) {
+                if (prop.type === "Property") {
+                  if (prop.kind !== "init") {
+                    errors.push({
+                      type: "SyntaxError",
+                      message: "Unsupported object getter/setter property",
+                      loc: prop.loc,
+                    });
+                  } else if (
+                    !prop.computed &&
+                    prop.key.type === "Identifier" &&
+                    prop.key.name === "__proto__"
+                  ) {
+                    errors.push({
+                      type: "TypeError",
+                      message: "Setting '__proto__' property is not allowed",
+                      loc: prop.key.loc,
+                    });
+                  }
+                }
+              }
+              break;
+            case "VariableDeclaration":
+              if (node.kind === "var" && rules?.noVar) {
+                errors.push({
+                  type: "SyntaxError",
+                  message:
+                    "Var declaration is not recommended, use `let` or `const` instead",
+                  loc: {
+                    start: node.loc.start,
+                    end: {
+                      line: node.loc.end.line,
+                      // Only decorate the "var".
+                      column: node.loc.start.column + 3,
+                    },
+                  },
+                });
+              }
+              break;
           }
         },
-        VariableDeclaration(node: VariableDeclaration) {
-          if (node.kind === "var" && rules?.noVar) {
-            errors.push({
-              type: "SyntaxError",
-              message:
-                "Var declaration is not recommended, use `let` or `const` instead",
-              loc: {
-                start: node.loc.start,
-                end: {
-                  line: node.loc.end.line,
-                  // Only decorate the "var".
-                  column: node.loc.start.column + 3,
-                },
-              },
-            });
-          }
-        },
-        __UnknownNode(node: EstreeNode) {
-          errors.push({
-            type: "SyntaxError",
-            message: `Unsupported syntax: \`${node.type}\``,
-            loc: node.loc,
-          });
-        },
-        __GlobalVariable(node: Identifier) {
+        beforeVisitGlobal(node) {
           if (node.name === "arguments") {
             errors.push({
               type: "SyntaxError",
@@ -182,6 +160,14 @@ export function lint(
               loc: node.loc,
             });
           }
+        },
+        beforeVisitUnknown(node) {
+          errors.push({
+            type: "SyntaxError",
+            message: `Unsupported syntax: \`${node.type}\``,
+            loc: node.loc,
+          });
+          return true;
         },
       },
     });

@@ -3523,6 +3523,8 @@
           "matchPath",
           "normalizeBuilderNode",
           "normalizeMenu",
+          "parseForAnalysis",
+          "precook",
           "precookFunction",
           "preevaluate",
           "prefetchScript",
@@ -3544,6 +3546,7 @@
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
           "toPath",
+          "tokTypes",
           "trackContext",
           "transform",
           "transformAndInject"

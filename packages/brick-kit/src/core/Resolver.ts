@@ -228,11 +228,12 @@ export class Resolver {
           : args
         : providerBrick.args || [];
 
-      if (useProvider) {
-        actualArgs = await getArgsOfCustomApi(useProvider, actualArgs);
-      }
-
-      promise = providerBrick[method](...actualArgs);
+      promise = (async () => {
+        if (useProvider) {
+          actualArgs = await getArgsOfCustomApi(useProvider, actualArgs);
+        }
+        return providerBrick[method](...actualArgs);
+      })();
       this.cache.set(cacheKey, promise);
     }
 

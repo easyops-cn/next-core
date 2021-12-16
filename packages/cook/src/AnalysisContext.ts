@@ -1,4 +1,10 @@
-import { Expression, FunctionDeclaration, Statement } from "@babel/types";
+import {
+  ArrowFunctionExpression,
+  Expression,
+  FunctionDeclaration,
+  FunctionExpression,
+  Statement,
+} from "@babel/types";
 
 // https://tc39.es/ecma262/#sec-execution-contexts
 export class AnalysisContext {
@@ -25,6 +31,7 @@ export class AnalysisEnvironment {
 }
 
 export interface AnalysisFunctionObject {
+  Function: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression;
   FormalParameters: FunctionDeclaration["params"];
   ECMAScriptCode: Statement[] | Expression;
   Environment: AnalysisEnvironment;

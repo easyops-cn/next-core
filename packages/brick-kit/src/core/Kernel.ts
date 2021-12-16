@@ -13,6 +13,10 @@ import {
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
+import {
+  BootstrapV2Api_bootstrapV2,
+  BootstrapV2Api_getAppStoryboardV2,
+} from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
@@ -27,7 +31,6 @@ import {
   FeatureFlags,
   RuntimeStoryboard,
   BrickConf,
-  StoryboardMeta,
   LayoutType,
   PresetBricksConf,
   RouteConf,
@@ -57,6 +60,7 @@ import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
+import { getI18nNamespace } from "../i18n";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -83,7 +87,6 @@ export class Kernel {
   );
   public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
     Promise.resolve(new Map());
-  public nextAppMeta: StoryboardMeta;
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
     Map<string, CustomApiDefinition>
@@ -203,19 +206,22 @@ export class Kernel {
   ): Promise<void> {
     const data = await (window.STANDALONE_MICRO_APPS
       ? standaloneBootstrap()
-      : AuthSdk.bootstrap<BootstrapData>(
+      : BootstrapV2Api_bootstrapV2(
           {
-            brief: true,
+            appFields:
+              "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status,icons",
+            ignoreTemplateFields: "templates",
+            ignoreBrickFields: "bricks,processors,providers,editors",
             ...params,
           },
           {
             interceptorParams,
           }
         ));
-    const bootstrapResponse: BootstrapData = {
+    const bootstrapResponse = {
       templatePackages: [],
       ...data,
-    };
+    } as BootstrapData;
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
@@ -252,16 +258,22 @@ export class Kernel {
     if (window.STANDALONE_MICRO_APPS) {
       Object.assign(storyboard, { $$fulfilled: true });
     } else {
-      const { routes, meta } = await AuthSdk.getAppStoryboard(
-        storyboard.app.id
+      const { routes, meta, app } = await BootstrapV2Api_getAppStoryboardV2(
+        storyboard.app.id,
+        {}
       );
-      Object.assign(storyboard, { routes, meta, $$fulfilled: true });
+      Object.assign(storyboard, {
+        routes,
+        meta,
+        app: { ...storyboard.app, ...app },
+        $$fulfilled: true,
+      });
     }
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
 
     if (storyboard.meta?.i18n) {
       // Prefix to avoid conflict between brick package's i18n namespace.
-      const i18nNamespace = `$app-${storyboard.app.id}`;
+      const i18nNamespace = getI18nNamespace("app", storyboard.app.id);
       // Support any language in `meta.i18n`.
       Object.entries(storyboard.meta.i18n).forEach(([lang, resources]) => {
         i18next.addResourceBundle(lang, i18nNamespace, resources);

@@ -38,17 +38,26 @@ import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
 import { CustomTemplateContext } from "./CustomTemplates";
 import { registerWidgetFunctions } from "./WidgetFunctions";
+import { registerWidgetI18n } from "./WidgetI18n";
 
 let kernel: Kernel;
 let fakeTplContext: CustomTemplateContext;
 
 /* istanbul ignore next */
 export function _dev_only_getBrickPackages(): BrickPackage[] {
+  // eslint-disable-next-line no-console
+  console.warn(
+    "`_dev_only_getBrickPackages()` is deprecated and will always return an empty array, please use `(await BootstrapV2Api_brickPackageInfo()).bricks` instead"
+  );
   return kernel.bootstrapData.brickPackages;
 }
 
 /* istanbul ignore next */
 export function _dev_only_getTemplatePackages(): TemplatePackage[] {
+  // eslint-disable-next-line no-console
+  console.warn(
+    "`_dev_only_getTemplatePackages()` is deprecated and will always return an empty array, please use `(await BootstrapV2Api_brickPackageInfo()).templates` instead"
+  );
   return kernel.bootstrapData.templatePackages;
 }
 
@@ -269,6 +278,7 @@ export class Runtime implements AbstractRuntime {
   registerCustomProcessor = registerCustomProcessor;
   registerLazyBricks = registerLazyBricks;
   registerWidgetFunctions = registerWidgetFunctions;
+  registerWidgetI18n = registerWidgetI18n;
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {

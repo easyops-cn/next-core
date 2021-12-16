@@ -7,7 +7,6 @@ import {
   FeatureFlags,
   SeguesConf,
   BrickEventHandler,
-  MetaImage,
 } from "./manifest";
 import { SidebarMenu, SidebarSubMenu } from "./menu";
 
@@ -52,6 +51,7 @@ export interface SystemInfo extends RuntimeMisc {
   userInstanceId: string;
   loginFrom?: string;
   accessRule?: string;
+  isAdmin?: boolean;
 }
 
 /**
@@ -194,8 +194,6 @@ export interface PluginRuntimeContext {
 
   /** @internal */
   storyboardContext?: StoryboardContext;
-
-  images?: MetaImage[];
 
   getTplVariables?: () => Record<string, unknown>;
 }

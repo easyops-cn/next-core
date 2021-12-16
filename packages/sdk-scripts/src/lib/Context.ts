@@ -3,15 +3,18 @@ import path from "path";
 import * as changeCase from "change-case";
 import prettier from "prettier";
 import { Api, Model } from "./internal";
-import { FileWithContent } from "../interface";
+import { FileWithContent, ContractDoc } from "../interface";
 
 export class Context {
   readonly apiMap = new Map<string, Api>();
   readonly modelMap = new Map<string, Model>();
   readonly apiByModelExportsMap = new Map<string, string[]>();
   readonly modelByServiceExportsMap = new Map<string, string[]>();
+  readonly namespaceI18nMap = new Map<string, unknown>();
+  readonly modelI18nMap = new Map<string, unknown>();
   readonly indexApiExports: string[] = [];
   readonly indexModelExports: string[] = [];
+  readonly contractList: ContractDoc[] = [];
   readonly serviceSeg: string;
 
   constructor(serviceSeg: string) {
@@ -53,15 +56,28 @@ export class Context {
       toString: () => sdkIndexExports,
     };
 
+    const contractDoc = {
+      name: this.serviceSeg,
+      description: this.namespaceI18nMap.get("description"),
+      contracts: this.contractList,
+    };
+
     return [
       ...Array.from(this.apiMap.values()),
       ...Array.from(this.modelMap.values()),
       ...apiByModelIndexes,
       ...modelByServiceIndexes,
       sdkIndex,
-    ].map<FileWithContent>((file) => [
-      path.join(sdkRoot, "src", file.filePath + ".ts"),
-      prettier.format(file.toString(), { parser: "typescript" }),
-    ]);
+    ]
+      .map<FileWithContent>((file) => [
+        path.join(sdkRoot, "src", file.filePath + ".ts"),
+        prettier.format(file.toString(), { parser: "typescript" }),
+      ])
+      .concat([
+        [
+          path.join(sdkRoot, "contracts.json"),
+          JSON.stringify(contractDoc, null, 2),
+        ],
+      ]);
   }
 }

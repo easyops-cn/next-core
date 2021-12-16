@@ -13,7 +13,7 @@ import { MicroApp } from "@next-core/brick-types";
 import { _internalApiGetCurrentContext } from "../core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
-import { getUrlByImageFactory } from "./image";
+import { imagesFactory, widgetImagesFactory } from "./images";
 import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "../core/exports";
 import { checkPermissions } from "./checkPermissions";
@@ -22,6 +22,9 @@ import { getRuntime } from "../runtime";
 import { i18nText } from "../i18nText";
 import { storyboardFunctions } from "../core/StoryboardFunctions";
 import { widgetFunctions } from "../core/WidgetFunctions";
+import { widgetI18nFactory } from "../core/WidgetI18n";
+import { getI18nNamespace } from "../i18n";
+import { getBasePath } from "./getBasePath";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -173,7 +176,6 @@ export function evaluate(
     flags,
     hash,
     segues,
-    images,
     storyboardContext,
   } = _internalApiGetCurrentContext();
 
@@ -229,14 +231,23 @@ export function evaluate(
     };
   }
 
-  if (attemptToVisitGlobals.has("IMAGES")) {
-    globalVariables.IMAGES = {
-      getUrl: getUrlByImageFactory(images),
-    };
+  if (attemptToVisitGlobals.has("IMG")) {
+    globalVariables.IMG = imagesFactory(app.id, app.isBuildPush);
+  }
+
+  if (attemptToVisitGlobals.has("__WIDGET_IMG__")) {
+    globalVariables.__WIDGET_IMG__ = widgetImagesFactory;
   }
 
   if (attemptToVisitGlobals.has("I18N")) {
-    globalVariables.I18N = i18next.getFixedT(null, `$app-${app.id}`);
+    globalVariables.I18N = i18next.getFixedT(
+      null,
+      getI18nNamespace("app", app.id)
+    );
+  }
+
+  if (attemptToVisitGlobals.has("__WIDGET_I18N__")) {
+    globalVariables.__WIDGET_I18N__ = widgetI18nFactory;
   }
 
   if (attemptToVisitGlobals.has("I18N_TEXT")) {
@@ -300,6 +311,10 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("MISC")) {
     globalVariables.MISC = getRuntime().getMiscSettings();
+  }
+
+  if (attemptToVisitGlobals.has("BASE_URL")) {
+    globalVariables.BASE_URL = getBasePath().replace(/\/$/, "");
   }
 
   try {

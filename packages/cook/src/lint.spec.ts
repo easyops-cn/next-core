@@ -1,3 +1,4 @@
+import { parseForAnalysis } from "./parse";
 import { lint, LintError } from "./lint";
 
 describe("lint", () => {
@@ -315,5 +316,18 @@ describe("lint", () => {
         typescript || noVar ? { typescript, rules: { noVar } } : undefined
       )
     ).toMatchObject(errors);
+  });
+
+  it("should lint AST", () => {
+    expect(lint(parseForAnalysis("function* test(){}"))).toMatchObject([
+      {
+        type: "SyntaxError",
+        message: "Generator function is not allowed",
+        loc: {
+          start: { line: 1, column: 0 },
+          end: { line: 1, column: 18 },
+        },
+      },
+    ]);
   });
 });

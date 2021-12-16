@@ -70,6 +70,8 @@ export interface AuthInfo {
     // (undocumented)
     accessRule?: string;
     // (undocumented)
+    isAdmin?: boolean;
+    // (undocumented)
     loginFrom?: string;
     // (undocumented)
     org?: number;
@@ -142,6 +144,7 @@ export interface BootstrapData {
 // @public
 export interface BreadcrumbConf {
     items: BreadcrumbItemConf[];
+    noCurrentApp?: boolean;
     overwrite?: boolean;
 }
 
@@ -1311,15 +1314,10 @@ export interface MessageConf {
 export type MetaI18n = Record<string, Record<string, string>>;
 
 // @public
-export interface MetaImage {
-    name: string;
-    url: string;
-}
-
-// @public
 export interface MicroApp {
     // @internal
     $$routeAliasMap?: RouteAliasMap;
+    breadcrumb?: BreadcrumbConf;
     config?: Record<string, unknown>;
     currentVersion?: string;
     defaultConfig?: Record<string, unknown>;
@@ -1331,6 +1329,7 @@ export interface MicroApp {
     id: string;
     installStatus?: "ok" | "running";
     internal?: boolean;
+    isBuildPush?: boolean;
     layoutType?: LayoutType;
     legacy?: "iframe";
     localeName?: string;
@@ -1421,8 +1420,6 @@ export interface PluginRuntimeContext {
     // (undocumented)
     getTplVariables?: () => Record<string, unknown>;
     hash?: string;
-    // (undocumented)
-    images?: MetaImage[];
     // @internal (undocumented)
     match?: MatchResult;
     overrideApp?: MicroApp;
@@ -2025,8 +2022,6 @@ export interface StoryboardMeta {
     functions?: StoryboardFunction[];
     i18n?: MetaI18n;
     // (undocumented)
-    images?: MetaImage[];
-    // (undocumented)
     menus?: MenuRawData[];
 }
 
@@ -2211,6 +2206,8 @@ export interface StoryDocTypeAndInterface {
 export interface SystemInfo extends RuntimeMisc {
     // (undocumented)
     accessRule?: string;
+    // (undocumented)
+    isAdmin?: boolean;
     // (undocumented)
     loginFrom?: string;
     // (undocumented)

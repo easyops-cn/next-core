@@ -7,7 +7,7 @@
 export * from "./runtime";
 export * from "./history";
 export * from "./auth";
-export * from "./i18n";
+export { initI18n } from "./i18n";
 export * from "./i18nText";
 export { handleHttpError, httpErrorToString } from "./handleHttpError";
 export * from "./ErrorBoundary";

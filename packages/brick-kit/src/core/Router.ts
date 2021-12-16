@@ -40,6 +40,7 @@ import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { CustomTemplateContext } from "./CustomTemplates";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
+import { HttpResponseError } from "@next-core/brick-http";
 
 export class Router {
   private defaultCollapsed = false;
@@ -192,6 +193,10 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
+    // Create the page tracker before page load.
+    // And the API Analyzer maybe disabled.
+    const pageTracker = apiAnalyzer.getInstance()?.pageTracker();
+
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
       location
@@ -208,7 +213,7 @@ export class Router {
       restoreDynamicTemplates(storyboard);
 
       // 预加载权限信息
-      if (isLoggedIn()) {
+      if (isLoggedIn() && !getAuth().isAdmin) {
         await preCheckPermissions(storyboard);
       }
 
@@ -219,7 +224,7 @@ export class Router {
 
       // 注册 Storyboard 中定义的自定义模板和函数。
       this.kernel.registerCustomTemplatesInStoryboard(storyboard);
-      registerStoryboardFunctions(storyboard.meta?.functions);
+      registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;
@@ -231,7 +236,6 @@ export class Router {
         : previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
-    this.kernel.nextAppMeta = storyboard?.meta;
     const layoutType: LayoutType = currentApp?.layoutType || "console";
 
     devtoolsHookEmit("rendering");
@@ -265,6 +269,7 @@ export class Router {
         appBar: {
           breadcrumb: [],
           documentId: null,
+          noCurrentApp: currentApp.breadcrumb?.noCurrentApp ?? false,
         },
         flags: {
           redirect: undefined,
@@ -296,6 +301,10 @@ export class Router {
               type: brickPageError,
               properties: {
                 error: httpErrorToString(error),
+                code:
+                  error instanceof HttpResponseError
+                    ? error.response.status
+                    : null,
               },
               events: {},
             },
@@ -430,10 +439,7 @@ export class Router {
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
         window.scrollTo(0, 0);
 
-        // API Analyzer maybe disabled.
-        apiAnalyzer.getInstance()?.pageTracker()(
-          locationContext.getCurrentMatch().path
-        );
+        pageTracker?.(locationContext.getCurrentMatch().path);
 
         // analytics page_view event
         userAnalytics.event("page_view", {

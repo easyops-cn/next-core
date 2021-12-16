@@ -31,3 +31,5 @@ export const modelDir = isTesting
   ? testModelDir
   : /* istanbul ignore next (never reach in test) */
     easyopsModelDir;
+
+export const i18nYamlFile = ".info.yaml";

@@ -3,6 +3,122 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.92.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.92.1...@next-core/brick-kit@2.92.2) (2021-12-15)
+
+### Bug Fixes
+
+- pass data through tpl in useBrick ([3b6538c](https://github.com/easyops-cn/next-core/commit/3b6538cd37b8267f6a279f3b14c3a2fdefcb2ba9))
+
+## [2.92.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.92.0...@next-core/brick-kit@2.92.1) (2021-12-06)
+
+### Bug Fixes
+
+- fix empty image ([f941e83](https://github.com/easyops-cn/next-core/commit/f941e835cf42b4a0a94418004c19b0c37b3d24e0))
+
+# [2.92.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.91.2...@next-core/brick-kit@2.92.0) (2021-12-06)
+
+### Features
+
+- expose http code ([#1227](https://github.com/easyops-cn/next-core/issues/1227)) ([9e22deb](https://github.com/easyops-cn/next-core/commit/9e22deb2dc27b7d907bb782790fa4a59960ccc82))
+
+## [2.91.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.91.1...@next-core/brick-kit@2.91.2) (2021-12-05)
+
+### Bug Fixes
+
+- add icons field ([7415b3f](https://github.com/easyops-cn/next-core/commit/7415b3ffaafe109c3bd555878a1d5ab2cd117183))
+
+## [2.91.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.91.0...@next-core/brick-kit@2.91.1) (2021-12-03)
+
+### Bug Fixes
+
+- fix page tracker ([dbf1d00](https://github.com/easyops-cn/next-core/commit/dbf1d003cd2e60ad18471e403c5dc9c9690b30fa))
+
+# [2.91.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.90.2...@next-core/brick-kit@2.91.0) (2021-12-03)
+
+### Features
+
+- support isAdmin ([f160156](https://github.com/easyops-cn/next-core/commit/f1601567b59c9f4a27aa130dc3e2e327c84c35db))
+
+## [2.90.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.90.1...@next-core/brick-kit@2.90.2) (2021-12-01)
+
+### Bug Fixes
+
+- remove flags ([ed7f66b](https://github.com/easyops-cn/next-core/commit/ed7f66b40c5be427171ec5fc8817eee64c499f60))
+
+## [2.90.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.90.0...@next-core/brick-kit@2.90.1) (2021-11-29)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.90.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.2...@next-core/brick-kit@2.90.0) (2021-11-26)
+
+### Bug Fixes
+
+- fix a regression of caching resolves ([e9cd56d](https://github.com/easyops-cn/next-core/commit/e9cd56d882d0a13ee1cb13c4ed752a15f2c15bfd))
+
+### Features
+
+- support i18n in storyboard functions ([5891932](https://github.com/easyops-cn/next-core/commit/589193250f22735b20e93d32c807896f4ae0932b))
+- support i18n in widgets ([6020545](https://github.com/easyops-cn/next-core/commit/60205457fedbc7c000bb60b1e97729e3151be33d))
+- support img in widgets ([f19ad53](https://github.com/easyops-cn/next-core/commit/f19ad5329b95c71e612f4be0ffa57b5a3d9ec570))
+
+## [2.89.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.1...@next-core/brick-kit@2.89.2) (2021-11-25)
+
+### Bug Fixes
+
+- get stroyboard v2 ([602d086](https://github.com/easyops-cn/next-core/commit/602d0860fc6c7c9e5ffc116ff023addb0f57efe1))
+
+## [2.89.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.89.0...@next-core/brick-kit@2.89.1) (2021-11-25)
+
+### Bug Fixes
+
+- bootsrtrap 增加开关控制 ([360b913](https://github.com/easyops-cn/next-core/commit/360b913f324f10ac79b1d637ec598583a89a61da))
+
+# [2.89.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.88.1...@next-core/brick-kit@2.89.0) (2021-11-25)
+
+### Bug Fixes
+
+- refine storyboard function ([90c42c1](https://github.com/easyops-cn/next-core/commit/90c42c1f49a7d7e8297d424bd02a3957787fb8e3))
+
+### Features
+
+- use global noCurrentApp as default ([4e18163](https://github.com/easyops-cn/next-core/commit/4e18163eeefa24cb022cb9b936746c9e7ad80e70))
+
+## [2.88.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.88.0...@next-core/brick-kit@2.88.1) (2021-11-25)
+
+### Bug Fixes
+
+- app 字段合并 boostrap 接口详情的 app 信息 ([2dffa41](https://github.com/easyops-cn/next-core/commit/2dffa41e020e92994c6275a62977128b0a7a4bad))
+- use boostreap v2 api ([e1fbf03](https://github.com/easyops-cn/next-core/commit/e1fbf0366e29b28f823915bda4707368910c013e))
+
+# [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.87.0...@next-core/brick-kit@2.88.0) (2021-11-23)
+
+### Features
+
+- **Router:** set noCurrentApp default value ([8d5efe1](https://github.com/easyops-cn/next-core/commit/8d5efe14230b72ede0a87eeacf8881433b1e4829))
+
+# [2.87.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.86.1...@next-core/brick-kit@2.87.0) (2021-11-23)
+
+### Features
+
+- **locationContext:** add noCurrentApp ([8efc245](https://github.com/easyops-cn/next-core/commit/8efc245513f8e9ebf0aadcabfedd15647333d318))
+
+## [2.86.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.86.0...@next-core/brick-kit@2.86.1) (2021-11-23)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.86.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.85.0...@next-core/brick-kit@2.86.0) (2021-11-18)
+
+### Features
+
+- use a single build for standalone apps ([cb5db11](https://github.com/easyops-cn/next-core/commit/cb5db11829952fedfa9cf3898de3e62cfe647a16))
+
+# [2.85.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.84.2...@next-core/brick-kit@2.85.0) (2021-11-18)
+
+### Features
+
+- fetch conf in standalone micro-apps ([6175855](https://github.com/easyops-cn/next-core/commit/61758554f23ca685cd29f01130e46805c7674433))
+- support getting images by static files ([c23d88a](https://github.com/easyops-cn/next-core/commit/c23d88aa70f5009453a1d3c58e7f4a0d6249c719))
+
 ## [2.84.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.84.1...@next-core/brick-kit@2.84.2) (2021-11-12)
 
 **Note:** Version bump only for package @next-core/brick-kit

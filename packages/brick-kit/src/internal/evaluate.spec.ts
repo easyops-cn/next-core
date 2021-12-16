@@ -10,6 +10,7 @@ import { devtoolsHookEmit } from "./devtools";
 import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
+import { registerWidgetI18n } from "../core/WidgetI18n";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
@@ -41,6 +42,15 @@ i18next.addResourceBundle("en", "$app-hello", {
 });
 i18next.addResourceBundle("en", "$app-hola", {
   HELLO: "Hola",
+});
+
+registerWidgetI18n("my-widget", {
+  en: {
+    WORLD: "World",
+  },
+  zh: {
+    WORLD: "世界",
+  },
 });
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
@@ -190,14 +200,15 @@ describe("evaluate", () => {
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
     ["<% ALIAS.getUrl('mock-alias') %>", "/mock/alias"],
+    ["<% IMG.get('a.jpg') %>", "micro-apps/hello/images/a.jpg"],
     [
-      "<% IMAGES.getUrl('a.jpg') %>",
-      "api/gateway/object_store.object_store.GetObject/a.jpg",
+      "<% __WIDGET_IMG__('my-widget').get('b.png') %>",
+      "bricks/my-widget/dist/assets/b.png",
     ],
-    ["<% IMAGES.getUrl('none.jpg') %>", undefined],
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
+    ["<% __WIDGET_I18N__('my-widget')('WORLD') %>", "World"],
     ["<% I18N_TEXT({ en: 'hello', zh: '你好' }) %>", "你好"],
     ["<% CTX.myFreeContext %>", "good"],
     ["<% CTX.myPropContext %>", "better"],
@@ -217,6 +228,7 @@ describe("evaluate", () => {
     ["<% FN.sayHello('world') %>", "Hello, world"],
     ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],
     ["<% MISC.hello %>", "world"],
+    ["<% BASE_URL %>", ""],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });

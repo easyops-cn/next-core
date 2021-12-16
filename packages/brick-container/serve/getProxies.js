@@ -30,6 +30,7 @@ module.exports = (env) => {
     mockedMicroApps,
     brickPackagesDir,
     alternativeBrickPackagesDir,
+    useLegacyBootstrap,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -49,7 +50,10 @@ module.exports = (env) => {
     proxyPaths.push("bricks", "micro-apps", "templates");
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
-      if (req.path === "/next/api/auth/bootstrap") {
+      if (
+        req.path === "/next/api/auth/bootstrap" ||
+        req.path === "/next/api/auth/v2/bootstrap"
+      ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
@@ -246,6 +250,25 @@ module.exports = (env) => {
           },
           pathRewrite: pathRewriteFactory("api/websocket_service"),
         },
+        ...(useLegacyBootstrap
+          ? {
+              [`${baseHref}api/auth/v2/bootstrap`]: {
+                target: server,
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: (path, req) => {
+                  if (/api\/auth\/v2\/bootstrap$/.test(req.path)) {
+                    return "/next/api/auth/bootstrap?brief=true";
+                  } else if (/api\/auth\/v2\/bootstrap\/\w+/.test(req.path)) {
+                    return path.replace("api/auth/v2", "/next/api/auth");
+                  } else {
+                    return path;
+                  }
+                },
+                ...apiProxyOptions,
+              },
+            }
+          : {}),
         ...proxyPaths.reduce((acc, seg) => {
           acc[`${baseHref}${seg}`] = {
             target: server,

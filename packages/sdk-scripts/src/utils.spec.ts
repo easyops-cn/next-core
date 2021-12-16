@@ -3,7 +3,8 @@ import {
   isPropertyType,
   isModelType,
   expectDocVersion,
-  getRealType
+  getRealType,
+  extractProviderContract,
 } from "./utils";
 
 describe("sdk-scripts utils", () => {
@@ -14,7 +15,7 @@ describe("sdk-scripts utils", () => {
       ["bool", false],
       ["number", true],
       ["string", true],
-      ["boolean", true]
+      ["boolean", true],
     ];
 
     it.each(cases)("isPrimitiveType(%s) should be %s", (type, expected) => {
@@ -25,7 +26,7 @@ describe("sdk-scripts utils", () => {
   describe("isPropertyType should work", () => {
     const cases: [string, boolean][] = [
       ['type["field"]', true],
-      ["type", false]
+      ["type", false],
     ];
 
     it.each(cases)("isPropertyType(%s) should be %s", (type, expected) => {
@@ -43,12 +44,12 @@ describe("sdk-scripts utils", () => {
       [{ type: "email" }, { type: "string", isArray: false }],
       [
         { type: "email", enum: ["a@b.com"] },
-        { type: "string", isArray: false }
+        { type: "string", isArray: false },
       ],
       [
         { type: "env_type" },
-        { type: "number", isArray: false, enum: [1, 3, 7, 15] }
-      ]
+        { type: "number", isArray: false, enum: [1, 3, 7, 15] },
+      ],
     ];
 
     it.each(cases)("getRealType(%s) should be %j", (doc, expected) => {
@@ -60,12 +61,83 @@ describe("sdk-scripts utils", () => {
     const cases: [string, boolean][] = [
       ["number", false],
       ["object", false],
-      ["pkg", true]
+      ["pkg", true],
     ];
 
     it.each(cases)("isModelType(%s) should be %s", (type, expected) => {
       expect(isModelType(type)).toBe(expected);
     });
+  });
+
+  describe("extractProviderContract should work", () => {
+    const cases = [
+      [
+        {
+          serviceSeg: "cmdb",
+          modelSeg: "instance",
+          modelI18nMap: new Map([["description", { en: "cmdb", zh: "cmdb" }]]),
+        },
+        {
+          name: "postSearch",
+          version: "1.0.0",
+          description: "search instance",
+          endpoint: {
+            method: "get",
+            url: "api/cmdb",
+          },
+          import: [],
+          request: {
+            name: "id",
+            type: "string",
+          },
+          response: {
+            type: "object",
+            fields: [
+              {
+                name: "code",
+                type: "number",
+              },
+            ],
+          },
+        },
+        "instance",
+        {
+          contract: "cmdb.instance.postSearch",
+          name: "postSearch",
+          version: "1.0.0",
+          category: {
+            en: "cmdb",
+            zh: "cmdb",
+          },
+          description: "search instance",
+          endpoint: {
+            method: "get",
+            url: "api/cmdb",
+          },
+          import: [],
+          request: {
+            name: "id",
+            type: "string",
+          },
+          response: {
+            type: "object",
+            fields: [
+              {
+                name: "code",
+                type: "number",
+              },
+            ],
+          },
+        },
+      ],
+    ];
+
+    it.each(cases)(
+      "extractProviderContract(%s, %s, %s) should be %s",
+      (context, doc, modelSeg, result) => {
+        expect(extractProviderContract(context, doc, modelSeg)).toEqual(result);
+      }
+    );
   });
 
   it("expectDocVersion should work", () => {

@@ -12,8 +12,8 @@ logging.basicConfig(level=logging.DEBUG, filename="./report_installed_brick_next
 
 
 # 1. 获取到当前的需要处理的包处理到包名
-# 2. 拿到包下面的两个文件 bricks.json stories.json
-# 3. 读取两个文件的内容
+# 2. 拿到包下面的三个文件 bricks.json stories.json contracts.json
+# 3. 读取三个文件的内容
 # 4. 调用接口，发送文件内容
 class NameServiceError(Exception):
   pass
@@ -41,7 +41,12 @@ def collect(install_path):
   if os.path.exists(snippets_path):
     with open(snippets_path) as snippets_file:
       snippets_content = simplejson.load(snippets_file)
-  return package_name, bricks_content, stories_content, snippets_content
+  contract_path = os.path.join(install_path, "dist", "contracts.json")
+  contract_content = {}
+  if os.path.exists(contract_path):
+    with open(contract_path) as contract_file:
+      contract_content = simplejson.load(contract_file)
+  return package_name, bricks_content, stories_content, snippets_content, contract_content
 
 
 def report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content):
@@ -59,6 +64,18 @@ def report_bricks_atom(org, package_name, bricks_content, stories_content, snipp
   snippet_url = "http://{}/api/v1/brick/snippet/import".format(address)
   snippet_param = {"packageName": package_name, "snippets": snippets_content}
   rsp = requests.post(snippet_url, json=snippet_param, headers=headers)
+  rsp.raise_for_status()
+
+def report_provider_into_contract(org, package_name, contract_content):
+  session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
+  if session_id <= 0:
+    raise NameServiceError("get nameservice logic.micro_app_service error, session_id={}".format(session_id))
+  address = "{}:{}".format(ip, port)
+  headers = {"org": str(org), "user": "defaultUser"}
+  # report contract
+  url = "http://{}/api/v1/brick/provider/import_into_contract".format(address)
+  param = {"packageName": package_name, "data": {"contractInfo": contract_content}}
+  rsp = requests.post(url, json=param, headers=headers)
   rsp.raise_for_status()
 
 
@@ -80,6 +97,8 @@ if __name__ == "__main__":
   if not install_path.endswith("-NB"):
     sys.exit(0)
 
-  package_name, bricks_content, stories_content, snippets_content = collect(install_path)
+  package_name, bricks_content, stories_content, snippets_content, contract_content = collect(install_path)
   if package_name and bricks_content and snippets_content:
     report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
+  if contract_content:
+    report_provider_into_contract(org, package_name, contract_content)

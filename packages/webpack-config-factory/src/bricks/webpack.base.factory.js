@@ -19,7 +19,6 @@ const isProd = process.env.NODE_ENV === "production";
 const getCssLoader = (cssOptions) => ({
   loader: "css-loader",
   options: {
-    // Todo(steve): based on env.
     sourceMap: false,
     ...cssOptions,
   },
@@ -30,12 +29,22 @@ const getStyleLoaders = (cssOptions) => [
   {
     loader: "postcss-loader",
     options: {
-      ident: "postcss",
       sourceMap: false,
-      plugins: () => [
-        require("postcss-nested")(),
-        require("postcss-preset-env")(),
-      ],
+      postcssOptions: {
+        plugins: [
+          require.resolve("postcss-nested"),
+          [
+            require.resolve("postcss-preset-env"),
+            {
+              // Remove this after the issue below resolved:
+              // https://github.com/csstools/postcss-preset-env/issues/223
+              features: {
+                "double-position-gradients": false,
+              },
+            },
+          ],
+        ],
+      },
     },
   },
 ];
@@ -189,7 +198,7 @@ module.exports =
                     );
                     return `workers/${chunkName}.${
                       isProd ? "[contenthash:8]" : "bundle"
-                    }.worker.js`;
+                    }.js`;
                   },
                 },
               },

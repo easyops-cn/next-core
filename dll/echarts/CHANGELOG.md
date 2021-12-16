@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.51](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.50...@next-dll/echarts@2.0.51) (2021-12-13)
+
+**Note:** Version bump only for package @next-dll/echarts
+
+## [2.0.50](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.49...@next-dll/echarts@2.0.50) (2021-11-29)
+
+**Note:** Version bump only for package @next-dll/echarts
+
+## [2.0.49](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.48...@next-dll/echarts@2.0.49) (2021-11-19)
+
+**Note:** Version bump only for package @next-dll/echarts
+
+## [2.0.48](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.47...@next-dll/echarts@2.0.48) (2021-11-18)
+
+**Note:** Version bump only for package @next-dll/echarts
+
 ## [2.0.47](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.46...@next-dll/echarts@2.0.47) (2021-11-16)
 
 **Note:** Version bump only for package @next-dll/echarts

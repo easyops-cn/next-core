@@ -1,5 +1,10 @@
-import { parse, parseExpression, ParserPlugin } from "@babel/parser";
-import { Expression, FunctionDeclaration, Statement } from "@babel/types";
+import {
+  parse,
+  parseExpression,
+  ParseResult,
+  ParserPlugin,
+} from "@babel/parser";
+import { Expression, File, FunctionDeclaration, Statement } from "@babel/types";
 
 export function parseAsEstreeExpression(source: string): Expression {
   return parseExpression(source, {
@@ -47,4 +52,31 @@ export function parseAsEstree(
     );
   }
   return jsNodes[0] as FunctionDeclaration;
+}
+
+export interface AnalysisOptions {
+  typescript?: boolean;
+  tokens?: boolean;
+}
+
+/** For next-core internal or devtools usage only. */
+export function parseForAnalysis(
+  source: string,
+  { typescript, tokens }: AnalysisOptions = {}
+): ParseResult<File> {
+  try {
+    return parse(source, {
+      plugins: ["estree", typescript && "typescript"].filter(
+        Boolean
+      ) as ParserPlugin[],
+      strictMode: true,
+      attachComment: false,
+      // Allow export/import declarations to make analyser handle errors.
+      sourceType: "unambiguous",
+      tokens,
+    });
+  } catch (e) {
+    // Return no errors if parse failed.
+    return null;
+  }
 }

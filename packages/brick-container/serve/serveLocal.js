@@ -103,7 +103,7 @@ module.exports = (env, app) => {
         const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
         tryServeFiles(filePath, req, res);
       });
-      app.get(`${baseHref}api/auth/bootstrap/${appId}`, (req, res) => {
+      app.get(`${baseHref}api/auth(/v2)?/bootstrap/${appId}`, (req, res) => {
         res.json({
           code: 0,
           data: getSingleStoryboard(env, appId, true),
@@ -112,7 +112,7 @@ module.exports = (env, app) => {
     });
     // API to fulfil the active storyboard.
     localMicroApps.concat(mockedMicroApps).forEach((appId) => {
-      app.get(`${baseHref}api/auth/bootstrap/${appId}`, (req, res) => {
+      app.get(`${baseHref}api/auth(/v2)?/bootstrap/${appId}`, (req, res) => {
         res.json({
           code: 0,
           data: getSingleStoryboard(
@@ -146,7 +146,7 @@ module.exports = (env, app) => {
         });
       });
     } else {
-      app.get(`${baseHref}api/auth/bootstrap`, (req, res) => {
+      app.get(`${baseHref}api/auth(/v2)?/bootstrap`, (req, res) => {
         res.json({
           code: 0,
           data: {
@@ -168,7 +168,7 @@ module.exports = (env, app) => {
         });
       });
 
-      app.get(`${baseHref}api/auth/bootstrap/:appId`, (req, res) => {
+      app.get(`${baseHref}api/auth(/v2)?/bootstrap/:appId`, (req, res) => {
         res.json({
           code: 0,
           data: getSingleStoryboard(
@@ -194,8 +194,14 @@ module.exports = (env, app) => {
 
     // 直接返回小产品相关文件。
     app.get(`${publicRoot}micro-apps/*`, (req, res) => {
-      const filePath = path.join(microAppsDir, req.params[0]);
-      tryServeFiles(filePath, req, res);
+      tryServeFiles(
+        [
+          ...(mocked ? [path.join(mockedMicroAppsDir, req.params[0])] : []),
+          path.join(microAppsDir, req.params[0]),
+        ],
+        req,
+        res
+      );
     });
 
     // 直接返回模板库 js 文件。

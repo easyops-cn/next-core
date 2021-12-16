@@ -573,6 +573,535 @@ export * as CdModels from \\"./model/cd\\";
 export * as MsgsenderModels from \\"./model/msgsender\\";
 ",
   ],
+  Array [
+    "dist/contracts.json",
+    "{
+  \\"name\\": \\"cd\\",
+  \\"description\\": {
+    \\"en\\": \\"cd\\",
+    \\"zh\\": \\"持续部署\\"
+  },
+  \\"contracts\\": [
+    {
+      \\"contract\\": \\"cd.package.AutoDiscovery\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"AutoDiscovery\\",
+      \\"version\\": \\"1.0.0\\",
+      \\"description\\": \\"实例自动发现的接口\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"POST\\",
+        \\"uri\\": \\"/object/:objectId/instance/_import-json\\",
+        \\"ext_fields\\": [
+          {
+            \\"name\\": \\"body\\",
+            \\"source\\": \\"body\\"
+          }
+        ]
+      },
+      \\"request\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"objectId\\",
+            \\"type\\": \\"object_id\\",
+            \\"description\\": \\"资源模型ID\\"
+          },
+          {
+            \\"name\\": \\"body\\",
+            \\"type\\": \\"object[]\\",
+            \\"fields\\": [
+              {
+                \\"name\\": \\"filter\\",
+                \\"type\\": \\"map\\",
+                \\"description\\": \\"筛选器\\"
+              },
+              {
+                \\"name\\": \\"update\\",
+                \\"type\\": \\"map\\",
+                \\"description\\": \\"更新数据\\"
+              },
+              {
+                \\"name\\": \\"upsert\\",
+                \\"type\\": \\"bool\\",
+                \\"description\\": \\"存在即更新\\"
+              }
+            ],
+            \\"description\\": \\"请求体\\"
+          }
+        ],
+        \\"required\\": [
+          \\"objectId\\",
+          \\"body\\"
+        ]
+      },
+      \\"response\\": {
+        \\"wrapper\\": false,
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"code\\",
+            \\"type\\": \\"int\\",
+            \\"description\\": \\"返回码\\"
+          },
+          {
+            \\"name\\": \\"error\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"错误信息\\"
+          },
+          {
+            \\"name\\": \\"message\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"返回消息\\"
+          }
+        ],
+        \\"required\\": [
+          \\"code\\",
+          \\"error\\",
+          \\"message\\"
+        ]
+      }
+    },
+    {
+      \\"contract\\": \\"cd.package.Create\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"Create\\",
+      \\"version\\": 1,
+      \\"description\\": \\"创建包\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"POST\\",
+        \\"uri\\": \\"/package\\"
+      },
+      \\"import\\": [
+        \\"easyops/model/cd/package\\"
+      ],
+      \\"request\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"ref\\": \\"Package.name\\"
+          },
+          {
+            \\"ref\\": \\"Package.type\\"
+          },
+          {
+            \\"ref\\": \\"Package.cId\\"
+          },
+          {
+            \\"ref\\": \\"Package.memo\\"
+          },
+          {
+            \\"ref\\": \\"Package.installPath\\"
+          },
+          {
+            \\"ref\\": \\"Package.platform\\"
+          },
+          {
+            \\"ref\\": \\"Package.source\\"
+          },
+          {
+            \\"ref\\": \\"Package.category\\"
+          },
+          {
+            \\"ref\\": \\"Package.icon\\"
+          },
+          {
+            \\"ref\\": \\"Package.style\\"
+          }
+        ],
+        \\"required\\": [
+          \\"Package.name\\",
+          \\"Package.type\\",
+          \\"Package.cId\\",
+          \\"Package.memo\\",
+          \\"Package.installPath\\",
+          \\"Package.platform\\"
+        ]
+      },
+      \\"response\\": {
+        \\"wrapper\\": false,
+        \\"type\\": \\"Package\\",
+        \\"required\\": [
+          \\"Package.packageId\\",
+          \\"Package.name\\",
+          \\"Package.type\\",
+          \\"Package.cId\\",
+          \\"Package.memo\\",
+          \\"Package.installPath\\",
+          \\"Package.platform\\",
+          \\"Package.source\\",
+          \\"Package.category\\",
+          \\"Package.icon\\",
+          \\"Package.style\\"
+        ]
+      }
+    },
+    {
+      \\"contract\\": \\"cd.package.Get\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"Get\\",
+      \\"version\\": 1,
+      \\"description\\": \\"获取包\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"GET\\",
+        \\"uri\\": \\"/packages/pkg\\"
+      },
+      \\"import\\": [
+        \\"easyops/model/cd/package_with_version\\",
+        \\"easyops/model/cd/version\\"
+      ],
+      \\"request\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"ref\\": \\"Version.packageId\\"
+          },
+          {
+            \\"ref\\": \\"Version.versionId\\"
+          },
+          {
+            \\"name\\": \\"lang\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"语言\\"
+          }
+        ]
+      },
+      \\"response\\": {
+        \\"wrapper\\": true,
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"ref\\": \\"PackageWithVersion.lastVersionInfo\\"
+          },
+          {
+            \\"name\\": \\"mapField\\",
+            \\"type\\": \\"map\\",
+            \\"description\\": \\"MAP\\"
+          },
+          {
+            \\"name\\": \\"mapsField\\",
+            \\"type\\": \\"map[]\\",
+            \\"description\\": \\"MAPS\\"
+          }
+        ]
+      }
+    },
+    {
+      \\"contract\\": \\"cd.package.ListNameService\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"ListNameService\\",
+      \\"version\\": \\"1.0.0\\",
+      \\"description\\": \\"获取全量名字服务列表\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"GET\\",
+        \\"uri\\": \\"/api/v1/name_service/config\\"
+      },
+      \\"import\\": [],
+      \\"request\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"page\\",
+            \\"type\\": \\"int\\",
+            \\"description\\": \\"page\\"
+          },
+          {
+            \\"name\\": \\"page_size\\",
+            \\"type\\": \\"int\\",
+            \\"description\\": \\"page_size, 最大1000\\"
+          }
+        ]
+      },
+      \\"response\\": {
+        \\"wrapper\\": false,
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"code\\",
+            \\"type\\": \\"int\\",
+            \\"description\\": \\"返回码\\"
+          },
+          {
+            \\"name\\": \\"msg\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"消息\\"
+          },
+          {
+            \\"name\\": \\"page\\",
+            \\"type\\": \\"page\\",
+            \\"description\\": \\"页码\\"
+          },
+          {
+            \\"name\\": \\"page_size\\",
+            \\"type\\": \\"page_size\\",
+            \\"description\\": \\"分页大小\\"
+          },
+          {
+            \\"name\\": \\"total\\",
+            \\"type\\": \\"int\\",
+            \\"description\\": \\"总数\\"
+          },
+          {
+            \\"name\\": \\"data\\",
+            \\"type\\": \\"object[]\\",
+            \\"description\\": \\"名字服务列表\\",
+            \\"fields\\": [
+              {
+                \\"name\\": \\"service_name\\",
+                \\"type\\": \\"string\\",
+                \\"description\\": \\"服务名\\"
+              },
+              {
+                \\"name\\": \\"hosts\\",
+                \\"type\\": \\"object[]\\",
+                \\"description\\": \\"host列表\\",
+                \\"fields\\": [
+                  {
+                    \\"name\\": \\"ip\\",
+                    \\"type\\": \\"string\\",
+                    \\"description\\": \\"ip\\"
+                  },
+                  {
+                    \\"name\\": \\"port\\",
+                    \\"type\\": \\"int\\",
+                    \\"description\\": \\"端口\\"
+                  },
+                  {
+                    \\"name\\": \\"weight\\",
+                    \\"type\\": \\"int\\",
+                    \\"description\\": \\"权重\\"
+                  }
+                ]
+              },
+              {
+                \\"name\\": \\"ctime\\",
+                \\"type\\": \\"int\\",
+                \\"description\\": \\"创建时间\\"
+              },
+              {
+                \\"name\\": \\"mtime\\",
+                \\"type\\": \\"int\\",
+                \\"description\\": \\"修改时间\\"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      \\"contract\\": \\"cd.package.Retry\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"Retry\\",
+      \\"version\\": 1,
+      \\"description\\": \\"重试\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"POST\\",
+        \\"uri\\": \\"/api/pipeline/v1/builds/:build_id/retry\\"
+      },
+      \\"request\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"build_id\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"构建任务id\\"
+          }
+        ],
+        \\"required\\": [
+          \\"build_id\\"
+        ]
+      },
+      \\"response\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"id\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"build id\\"
+          }
+        ]
+      }
+    },
+    {
+      \\"contract\\": \\"cd.package.Search\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"Search\\",
+      \\"version\\": 1,
+      \\"description\\": \\"搜索包\\",
+      \\"detail\\": \\"支持模糊搜索\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"LIST\\",
+        \\"uri\\": \\"/packages/search\\"
+      },
+      \\"import\\": [
+        \\"easyops/model/cd/package\\",
+        \\"easyops/model/cd/package_ext\\"
+      ],
+      \\"request\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"ref\\": \\"Package.name\\"
+          },
+          {
+            \\"name\\": \\"page\\",
+            \\"type\\": \\"int\\",
+            \\"description\\": \\"page number\\"
+          },
+          {
+            \\"name\\": \\"pageSize\\",
+            \\"type\\": \\"int\\",
+            \\"description\\": \\"size of each page\\"
+          },
+          {
+            \\"name\\": \\"order\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"the field need to sort\\"
+          }
+        ],
+        \\"required\\": [
+          \\"Package.name\\"
+        ],
+        \\"default\\": {
+          \\"page\\": 1
+        }
+      },
+      \\"response\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"ref\\": \\"Package.*\\"
+          },
+          {
+            \\"ref\\": \\"PackageExt.lastVersionInfo\\"
+          }
+        ],
+        \\"required\\": [
+          \\"Package.*\\",
+          \\"PackageExt.lastVersionInfo\\"
+        ]
+      }
+    },
+    {
+      \\"contract\\": \\"cd.package.SendMessageWithAppendix\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"SendMessageWithAppendix\\",
+      \\"version\\": \\"1.0.0\\",
+      \\"description\\": \\"处理带附件的通知消息\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"post\\",
+        \\"uri\\": \\"/api/v1/message_sender/mail_with_appendix\\"
+      },
+      \\"import\\": [
+        \\"easyops/model/msgsender/send_message_with_appendix_request\\"
+      ],
+      \\"request\\": {
+        \\"type\\": \\"SendMessageWithAppendixRequest\\",
+        \\"required\\": [
+          \\"SendMessageWithAppendixRequest.files\\"
+        ]
+      },
+      \\"response\\": {
+        \\"wrapper\\": false,
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"id\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"some id\\"
+          }
+        ]
+      }
+    },
+    {
+      \\"contract\\": \\"cd.package.Upload\\",
+      \\"category\\": {
+        \\"en\\": \\"package\\",
+        \\"zh\\": \\"包\\"
+      },
+      \\"name\\": \\"Upload\\",
+      \\"version\\": 1,
+      \\"description\\": \\"上传包\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"POST\\",
+        \\"uri\\": \\"/packages/pkg/:packageId/upload\\",
+        \\"ext_fields\\": [
+          {
+            \\"name\\": \\"params\\",
+            \\"source\\": \\"query\\"
+          },
+          {
+            \\"name\\": \\"others\\",
+            \\"source\\": \\"body\\"
+          }
+        ]
+      },
+      \\"request\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"packageId\\",
+            \\"type\\": \\"string\\",
+            \\"description\\": \\"包 ID\\"
+          },
+          {
+            \\"name\\": \\"params\\",
+            \\"description\\": \\"params\\",
+            \\"type\\": \\"object\\",
+            \\"fields\\": [
+              {
+                \\"name\\": \\"versionId\\",
+                \\"type\\": \\"string\\",
+                \\"description\\": \\"版本 ID\\"
+              }
+            ]
+          },
+          {
+            \\"name\\": \\"others\\",
+            \\"description\\": \\"others\\",
+            \\"type\\": \\"object\\",
+            \\"fields\\": [
+              {
+                \\"name\\": \\"sourceFile\\",
+                \\"type\\": \\"file[]\\",
+                \\"description\\": \\"文件\\"
+              },
+              {
+                \\"name\\": \\"encoding\\",
+                \\"type\\": \\"string[]\\",
+                \\"description\\": \\"编码\\"
+              }
+            ]
+          }
+        ]
+      },
+      \\"response\\": {
+        \\"type\\": \\"file\\"
+      }
+    }
+  ]
+}",
+  ],
 ]
 `;
 
@@ -612,6 +1141,36 @@ export const AuthApi_checkLogin = async (
     "dist/src/index.ts",
     "export * from \\"./api/api_gateway/auth\\";
 ",
+  ],
+  Array [
+    "dist/contracts.json",
+    "{
+  \\"name\\": \\"api_gateway\\",
+  \\"contracts\\": [
+    {
+      \\"contract\\": \\"api_gateway.auth.CheckLogin\\",
+      \\"name\\": \\"CheckLogin\\",
+      \\"version\\": \\"1.0.0\\",
+      \\"description\\": \\"判断用户是否登录\\",
+      \\"endpoint\\": {
+        \\"method\\": \\"GET\\",
+        \\"uri\\": \\"/api/auth/login\\"
+      },
+      \\"import\\": [],
+      \\"request\\": null,
+      \\"response\\": {
+        \\"type\\": \\"object\\",
+        \\"fields\\": [
+          {
+            \\"name\\": \\"loggedIn\\",
+            \\"type\\": \\"bool\\",
+            \\"description\\": \\"是否已经登录\\"
+          }
+        ]
+      }
+    }
+  ]
+}",
   ],
 ]
 `;

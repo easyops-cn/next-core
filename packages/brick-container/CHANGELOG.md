@@ -3,6 +3,131 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.13...@next-core/brick-container@2.40.0) (2021-12-15)
+
+### Features
+
+- 上报 provider 到\_INTERFACE_CONTRACT@EASYOPS ([77f3353](https://github.com/easyops-cn/next-core/commit/77f3353846617ee43278bb695b040d1b64d3de25))
+
+## [2.39.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.12...@next-core/brick-container@2.39.13) (2021-12-13)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.39.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.11...@next-core/brick-container@2.39.12) (2021-12-09)
+
+### Bug Fixes
+
+- serve with no mock by default in next-core ([0f6a89e](https://github.com/easyops-cn/next-core/commit/0f6a89ea0cfa9e298a917c7e651ee6e09ee9caf0))
+
+## [2.39.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.10...@next-core/brick-container@2.39.11) (2021-12-06)
+
+### Bug Fixes
+
+- fix empty image ([f941e83](https://github.com/easyops-cn/next-core/commit/f941e835cf42b4a0a94418004c19b0c37b3d24e0))
+
+## [2.39.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.9...@next-core/brick-container@2.39.10) (2021-12-06)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.39.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.8...@next-core/brick-container@2.39.9) (2021-12-05)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.39.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.7...@next-core/brick-container@2.39.8) (2021-12-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.39.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.6...@next-core/brick-container@2.39.7) (2021-12-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.39.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.5...@next-core/brick-container@2.39.6) (2021-12-01)
+
+### Bug Fixes
+
+- remove flags ([ed7f66b](https://github.com/easyops-cn/next-core/commit/ed7f66b40c5be427171ec5fc8817eee64c499f60))
+
+## [2.39.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.4...@next-core/brick-container@2.39.5) (2021-11-29)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.39.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.3...@next-core/brick-container@2.39.4) (2021-11-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.39.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.2...@next-core/brick-container@2.39.3) (2021-11-25)
+
+### Bug Fixes
+
+- get stroyboard v2 ([602d086](https://github.com/easyops-cn/next-core/commit/602d0860fc6c7c9e5ffc116ff023addb0f57efe1))
+
+## [2.39.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.1...@next-core/brick-container@2.39.2) (2021-11-25)
+
+### Bug Fixes
+
+- bootsrtrap 增加开关控制 ([360b913](https://github.com/easyops-cn/next-core/commit/360b913f324f10ac79b1d637ec598583a89a61da))
+
+## [2.39.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.0...@next-core/brick-container@2.39.1) (2021-11-25)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+# [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.5...@next-core/brick-container@2.39.0) (2021-11-25)
+
+### Bug Fixes
+
+- use boostreap v2 api ([e1fbf03](https://github.com/easyops-cn/next-core/commit/e1fbf0366e29b28f823915bda4707368910c013e))
+
+### Features
+
+- support legacy bootstrap flag ([835cda0](https://github.com/easyops-cn/next-core/commit/835cda0f6b8564e3db60f48a1755cc6d5beaa3b8))
+
+## [2.38.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.4...@next-core/brick-container@2.38.5) (2021-11-24)
+
+### Bug Fixes
+
+- upgrade api gateway version ([f8565b6](https://github.com/easyops-cn/next-core/commit/f8565b6379f21969c1ba411206e50c94438bb2cb))
+
+## [2.38.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.3...@next-core/brick-container@2.38.4) (2021-11-23)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.38.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.2...@next-core/brick-container@2.38.3) (2021-11-23)
+
+### Bug Fixes
+
+- use composited animations for loading-bar ([675f081](https://github.com/easyops-cn/next-core/commit/675f081abcb07b4f467a924ebf4bd156095c9d1f))
+
+## [2.38.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.1...@next-core/brick-container@2.38.2) (2021-11-23)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.38.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.38.0...@next-core/brick-container@2.38.1) (2021-11-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.37.0...@next-core/brick-container@2.38.0) (2021-11-18)
+
+### Features
+
+- use a single build for standalone apps ([cb5db11](https://github.com/easyops-cn/next-core/commit/cb5db11829952fedfa9cf3898de3e62cfe647a16))
+
+# [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.36.0...@next-core/brick-container@2.37.0) (2021-11-18)
+
+### Features
+
+- add dist-standalone into npm package files ([4ad5dd3](https://github.com/easyops-cn/next-core/commit/4ad5dd35d0c60de4adef2d6849d0c6c703636d04))
+
+# [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.35.6...@next-core/brick-container@2.36.0) (2021-11-18)
+
+### Bug Fixes
+
+- update postcss v8 and related packages ([615f198](https://github.com/easyops-cn/next-core/commit/615f19838118ba76d5b50de9aaf6f1aedf48ab02))
+
+### Features
+
+- fetch conf in standalone micro-apps ([6175855](https://github.com/easyops-cn/next-core/commit/61758554f23ca685cd29f01130e46805c7674433))
+- support getting images by static files ([c23d88a](https://github.com/easyops-cn/next-core/commit/c23d88aa70f5009453a1d3c58e7f4a0d6249c719))
+
 ## [2.35.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.35.5...@next-core/brick-container@2.35.6) (2021-11-16)
 
 **Note:** Version bump only for package @next-core/brick-container

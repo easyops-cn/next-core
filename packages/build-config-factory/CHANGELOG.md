@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.2...@next-core/build-config-factory@2.18.3) (2021-12-15)
+
+### Bug Fixes
+
+- rename contract.json -> contracts.json ([dc35786](https://github.com/easyops-cn/next-core/commit/dc3578631edb9f79d9d0bb40e61680d1a5d9cf11))
+
+## [2.18.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.1...@next-core/build-config-factory@2.18.2) (2021-12-13)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.18.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.0...@next-core/build-config-factory@2.18.1) (2021-12-09)
+
+### Bug Fixes
+
+- add namespace ([8c81028](https://github.com/easyops-cn/next-core/commit/8c8102806ff1dd39ec5389fa83876d012f2f104a))
+
+# [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.9...@next-core/build-config-factory@2.18.0) (2021-12-06)
+
+### Bug Fixes
+
+- refactor generate contract ([0a40c3a](https://github.com/easyops-cn/next-core/commit/0a40c3a6889db1465250a126dda0112ea5ca1a2c))
+
+### Features
+
+- generate new contract.json after build provider-of-\* package ([cbf7f96](https://github.com/easyops-cn/next-core/commit/cbf7f96d0130bd4a680fec11d9371c4e9bc01f5b))
+
+## [2.17.9](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.8...@next-core/build-config-factory@2.17.9) (2021-12-03)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.7...@next-core/build-config-factory@2.17.8) (2021-11-29)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.17.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.6...@next-core/build-config-factory@2.17.7) (2021-11-26)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.17.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.5...@next-core/build-config-factory@2.17.6) (2021-11-25)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.17.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.4...@next-core/build-config-factory@2.17.5) (2021-11-23)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.17.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.3...@next-core/build-config-factory@2.17.4) (2021-11-19)
+
+### Bug Fixes
+
+- fix postcss-loader after upgraded postcss to v8 ([d232c1d](https://github.com/easyops-cn/next-core/commit/d232c1dcad2f77bd1d6b558d6ec6db7f3fd9235e))
+
+## [2.17.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.2...@next-core/build-config-factory@2.17.3) (2021-11-18)
+
+### Bug Fixes
+
+- fix generating brick contracts ([6e94f82](https://github.com/easyops-cn/next-core/commit/6e94f8245df5a15c21b25d9f4de88cbc86d2212f))
+
 ## [2.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.17.1...@next-core/build-config-factory@2.17.2) (2021-11-16)
 
 ### Bug Fixes

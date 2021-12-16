@@ -514,37 +514,205 @@ describe("", () => {
   it("should call hooks", () => {
     const func = parseAsEstree(`
       function test(a){
-        return 1;
+        debugger;
+        return b;
       }
     `);
     const beforeVisit = jest.fn();
+    const beforeVisitGlobal = jest.fn();
+    const beforeVisitUnknown = jest.fn();
     precook(func, {
-      hooks: { beforeVisit },
+      withParent: true,
+      hooks: { beforeVisit, beforeVisitGlobal, beforeVisitUnknown },
     });
-    expect(beforeVisit).toBeCalledTimes(4);
+    expect(beforeVisit).toBeCalledTimes(5);
     expect(beforeVisit).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
         type: "FunctionDeclaration",
-      })
+      }),
+      []
     );
     expect(beforeVisit).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
         type: "Identifier",
-      })
+      }),
+      [
+        {
+          node: expect.objectContaining({
+            type: "FunctionDeclaration",
+          }),
+          key: "params",
+          index: 0,
+        },
+      ]
     );
     expect(beforeVisit).toHaveBeenNthCalledWith(
       3,
       expect.objectContaining({
-        type: "ReturnStatement",
-      })
+        type: "DebuggerStatement",
+      }),
+      [
+        {
+          node: expect.objectContaining({
+            type: "FunctionDeclaration",
+          }),
+          key: "body",
+        },
+        {
+          node: expect.objectContaining({
+            type: "BlockStatement",
+          }),
+          key: "body",
+          index: 0,
+        },
+      ]
     );
     expect(beforeVisit).toHaveBeenNthCalledWith(
       4,
       expect.objectContaining({
+        type: "ReturnStatement",
+      }),
+      [
+        {
+          node: expect.objectContaining({
+            type: "FunctionDeclaration",
+          }),
+          key: "body",
+        },
+        {
+          node: expect.objectContaining({
+            type: "BlockStatement",
+          }),
+          key: "body",
+          index: 1,
+        },
+      ]
+    );
+    expect(beforeVisit).toHaveBeenNthCalledWith(
+      5,
+      expect.objectContaining({
+        type: "Identifier",
+      }),
+      [
+        {
+          node: expect.objectContaining({
+            type: "FunctionDeclaration",
+          }),
+          key: "body",
+        },
+        {
+          node: expect.objectContaining({
+            type: "BlockStatement",
+          }),
+          key: "body",
+          index: 1,
+        },
+        {
+          node: expect.objectContaining({
+            type: "ReturnStatement",
+          }),
+          key: "argument",
+        },
+      ]
+    );
+    expect(beforeVisitGlobal).toHaveBeenCalledTimes(1);
+    expect(beforeVisitGlobal).toBeCalledWith(
+      expect.objectContaining({
+        type: "Identifier",
+        name: "b",
+      }),
+      [
+        {
+          node: expect.objectContaining({
+            type: "FunctionDeclaration",
+          }),
+          key: "body",
+        },
+        {
+          node: expect.objectContaining({
+            type: "BlockStatement",
+          }),
+          key: "body",
+          index: 1,
+        },
+        {
+          node: expect.objectContaining({
+            type: "ReturnStatement",
+          }),
+          key: "argument",
+        },
+      ]
+    );
+    expect(beforeVisitUnknown).toHaveBeenCalledTimes(1);
+    expect(beforeVisitUnknown).toBeCalledWith(
+      expect.objectContaining({
+        type: "DebuggerStatement",
+      }),
+      [
+        {
+          node: expect.objectContaining({
+            type: "FunctionDeclaration",
+          }),
+          key: "body",
+        },
+        {
+          node: expect.objectContaining({
+            type: "BlockStatement",
+          }),
+          key: "body",
+          index: 0,
+        },
+      ]
+    );
+  });
+
+  it("should call hooks for arrow function expression", () => {
+    const func = parseAsEstree(`
+      function test(){
+        return () => 0;
+      }
+    `);
+    const beforeVisit = jest.fn();
+    precook(func, {
+      withParent: true,
+      hooks: { beforeVisit },
+    });
+    expect(beforeVisit).toBeCalledTimes(4);
+    expect(beforeVisit).toHaveBeenNthCalledWith(
+      4,
+      expect.objectContaining({
         type: "Literal",
-      })
+        value: 0,
+      }),
+      [
+        {
+          node: expect.objectContaining({
+            type: "FunctionDeclaration",
+          }),
+          key: "body",
+        },
+        {
+          node: expect.objectContaining({
+            type: "BlockStatement",
+          }),
+          key: "body",
+          index: 0,
+        },
+        {
+          node: expect.objectContaining({
+            type: "ReturnStatement",
+          }),
+          key: "argument",
+        },
+        {
+          node: expect.objectContaining({
+            type: "ArrowFunctionExpression",
+          }),
+          key: "body",
+        },
+      ]
     );
   });
 });

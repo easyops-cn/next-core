@@ -96,6 +96,7 @@ export interface MountRoutesResult {
     pageTitle?: string;
     breadcrumb: BreadcrumbItemConf[];
     documentId?: string;
+    noCurrentApp?: boolean;
   };
   flags: {
     unauthenticated?: boolean;
@@ -161,13 +162,13 @@ export class LocationContext {
       query: this.query,
       match,
       app: this.kernel.nextApp,
-      images: this.kernel.nextAppMeta?.images,
       sys: {
         org: auth.org,
         username: auth.username,
         userInstanceId: auth.userInstanceId,
         loginFrom: auth.loginFrom,
         accessRule: auth.accessRule,
+        isAdmin: auth.isAdmin,
         ...getRuntimeMisc(),
       },
       flags: this.kernel.getFeatureFlags(),
@@ -514,6 +515,8 @@ export class LocationContext {
           ...breadcrumb.items,
         ];
       }
+      if (hasOwnProperty(breadcrumb, "noCurrentApp"))
+        mountRoutesResult.appBar.noCurrentApp = breadcrumb.noCurrentApp;
     }
   }
 
@@ -612,6 +615,7 @@ export class LocationContext {
   ): Promise<void> {
     if (
       isLoggedIn() &&
+      !getAuth().isAdmin &&
       container.permissionsPreCheck &&
       Array.isArray(container.permissionsPreCheck)
     ) {
