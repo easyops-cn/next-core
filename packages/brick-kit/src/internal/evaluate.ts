@@ -24,6 +24,7 @@ import { storyboardFunctions } from "../core/StoryboardFunctions";
 import { widgetFunctions } from "../core/WidgetFunctions";
 import { widgetI18nFactory } from "../core/WidgetI18n";
 import { getI18nNamespace } from "../i18n";
+import { getBasePath } from "./getBasePath";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -310,6 +311,10 @@ export function evaluate(
 
   if (attemptToVisitGlobals.has("MISC")) {
     globalVariables.MISC = getRuntime().getMiscSettings();
+  }
+
+  if (attemptToVisitGlobals.has("BASE_URL")) {
+    globalVariables.BASE_URL = getBasePath().replace(/\/$/, "");
   }
 
   try {
