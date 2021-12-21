@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.2...@next-core/sdk-scripts@2.7.3) (2021-12-21)
+
+
+### Bug Fixes
+
+* remember clear model i8n ([1c84b3f](https://github.com/easyops-cn/next-core/commit/1c84b3fbd401e8450c5153760f7576a5ecb52359))
+
+
+
+
+
 ## [2.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.1...@next-core/sdk-scripts@2.7.2) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
