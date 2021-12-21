@@ -31,6 +31,9 @@ export function loadService(serviceSeg: string): Context {
 
     const modelDir = path.join(serviceDir, modelSeg);
     const modelI18nPath = path.join(modelDir, i18nYamlFile);
+
+    // Clear the last modelId i18n value
+    context.modelI18nMap.clear();
     if (fs.existsSync(modelI18nPath)) {
       const modelI18nData = yaml.safeLoad(
         fs.readFileSync(modelI18nPath, "utf8")
