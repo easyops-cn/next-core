@@ -69,10 +69,6 @@ export class Kernel {
   public menuBar: MenuBar;
   public appBar: AppBar;
   public loadingBar: BaseBar;
-  public navBar: BaseBar;
-  public sideBar: BaseBar;
-  public footer: BaseBar;
-  public breadcrumb: BaseBar;
   public router: Router;
   public currentApp: MicroApp;
   public previousApp: MicroApp;
@@ -81,7 +77,6 @@ export class Kernel {
   public currentRoute: RouteConf;
   public workspaceStack: VisitedWorkspace[] = [];
   public currentLayout: LayoutType;
-  public enableUiV8 = false;
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
@@ -101,18 +96,12 @@ export class Kernel {
     if (this.bootstrapData.storyboards.length === 0) {
       throw new Error("No storyboard were found.");
     }
-    this.setUiVersion();
     if (isLoggedIn()) {
       this.loadSharedData();
     }
     this.menuBar = new MenuBar(this, "menuBar");
     this.appBar = new AppBar(this, "appBar");
     this.loadingBar = new BaseBar(this, "loadingBar");
-    // Todo(nlicro): 这里需要新写对应的NavBar...
-    this.navBar = new BaseBar(this, "navBar");
-    this.sideBar = new BaseBar(this, "sideBar");
-    this.breadcrumb = new BaseBar(this, "breadcrumb");
-    this.footer = new BaseBar(this, "footer");
     this.router = new Router(this);
 
     initAnalytics();
@@ -139,15 +128,7 @@ export class Kernel {
             pageError: "business-website.page-error",
           }
         : {
-            ...(this.enableUiV8
-              ? {
-                  loadingBar: this.bootstrapData.navbar.loadingBar,
-                  navBar: "frame-bricks.nav-bar",
-                  sideBar: "frame-bricks.side-bar",
-                  breadcrumb: null,
-                  footer: null,
-                }
-              : this.bootstrapData.navbar),
+            ...this.bootstrapData.navbar,
             pageNotFound: "basic-bricks.page-not-found",
             pageError: "basic-bricks.page-error",
           };
@@ -165,10 +146,6 @@ export class Kernel {
         testid: "brick-next-menu-bar",
       }),
       this.appBar.bootstrap(this.presetBricks.appBar),
-      this.navBar.bootstrap(this.presetBricks.navBar),
-      this.sideBar.bootstrap(this.presetBricks.sideBar),
-      this.footer.bootstrap(this.presetBricks.footer),
-      this.breadcrumb.bootstrap(this.presetBricks.breadcrumb),
       this.loadingBar.bootstrap(this.presetBricks.loadingBar),
     ]);
   }
@@ -677,15 +654,6 @@ export class Kernel {
     const brick = document.createElement(provider);
     this.providerRepository.set(provider, brick);
     return brick;
-  }
-
-  private setUiVersion(): void {
-    // get from localStorage fot test
-    // this.enableUiV8 = this.getFeatureFlags()["ui-v8"];
-    this.enableUiV8 = !!localStorage.getItem("test-ui-v8");
-    if (this.enableUiV8) {
-      document.documentElement.dataset.ui = "v8";
-    }
   }
 }
 
