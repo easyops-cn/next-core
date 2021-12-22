@@ -6,7 +6,7 @@ const { getPatternsToWatch } = require("../serve/utils");
 const env = getEnv();
 
 // 开发时拦截 auth 及 bootstrap 相关请求。
-exports.onBeforeSetupMiddleware = (devServer) => {
+exports.setupMiddlewares = (middlewares, devServer) => {
   serveLocal(env, devServer.app);
 };
 
