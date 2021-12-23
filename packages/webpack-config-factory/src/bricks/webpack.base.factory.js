@@ -1,5 +1,4 @@
 const path = require("path");
-const crypto = require("crypto");
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
@@ -70,7 +69,7 @@ module.exports =
     copyFiles = [],
     ignores = [],
     splitVendorsForLazyBricks,
-    fixMonacoEditorDynamicImports,
+    prependRules,
   } = {}) => {
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
@@ -92,12 +91,6 @@ module.exports =
       ? ["editors", "editor-bricks/index"]
       : ["index", "index"];
     const entryFilePath = path.join(cwdDirname, "src", entryPair[1]);
-
-    // The chunk ids must be unique across foreign webpack bundles.
-    // So we suffix these ids with the hash of the package name.
-    const hash = fixMonacoEditorDynamicImports
-      ? crypto.createHash("sha1").update(packageName).digest("hex").substr(0, 4)
-      : "";
 
     return {
       context: appRoot,
@@ -141,6 +134,7 @@ module.exports =
       },
       module: {
         rules: [
+          ...(prependRules || []),
           {
             test: /\.md$/,
             use: [
@@ -160,20 +154,6 @@ module.exports =
             enforce: "pre",
             use: ["source-map-loader"],
           },
-          ...(fixMonacoEditorDynamicImports
-            ? [
-                {
-                  // These dynamic imports must have unique ids across foreign webpack bundles.
-                  test: /\/node_modules\/monaco-editor\/.+\.contribution.js$/,
-                  loader: "string-replace-loader",
-                  options: {
-                    search: /\bimport\(('.\/(\w+)\.js')\)/g,
-                    replace: (_, p1, p2) =>
-                      `import(/* webpackChunkName: "chunks/${p2}.${hash}" */ ${p1})`,
-                  },
-                },
-              ]
-            : []),
           {
             // For web workers.
             test: /\.worker\.(ts|js)$/,
