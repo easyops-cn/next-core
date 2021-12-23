@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.36...@next-core/editor-bricks-helper@0.33.0) (2021-12-23)
+
+
+### Features
+
+* display brick alias/id/dataset.testid/brick.name in order ([3645841](https://github.com/easyops-cn/next-core/commit/3645841ccf12f8ca3fe74f673a541ec75ff45d1c))
+
+
+
+
+
 ## [0.32.36](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.32.35...@next-core/editor-bricks-helper@0.32.36) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
