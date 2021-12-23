@@ -6,6 +6,10 @@ import { isBrickNode } from "../assertions";
 
 const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];
 
+// Match evaluations and placeholders,
+// E.g.: `<% QUERY.x %>` or `${QUERY.x}`.
+const computationRegExp = /[<{]/;
+
 export function getBuilderNode(
   nodeData: BuilderRouteOrBrickNode,
   nodeUid: number,
@@ -21,6 +25,8 @@ export function getBuilderNode(
 
   const jsonFieldsInBrick = ["properties", "events", "lifeCycle"];
   const parsedFields: [string, unknown][] = [];
+  let parsedId: string;
+  let parsedTestId: string;
 
   for (const field of jsonFieldsInBrick) {
     const parsed = cloneDeep(
@@ -28,15 +34,24 @@ export function getBuilderNode(
     ) as Record<string, unknown>;
     parsedFields.push([`$$parsed${upperFirst(field)}`, parsed ?? {}]);
 
-    if (
-      field === "properties" &&
-      parsed?.id &&
-      typeof parsed.id === "string" &&
-      // Ignore evaluations and placeholders,
-      // E.g.: `<% QUERY.x %>` or `${QUERY.x}`.
-      !/[<{]/.test(parsed.id)
-    ) {
-      matchedSelectors.push(`#${parsed.id}`);
+    if (field === "properties") {
+      let tempParsedId: string;
+      let tempParsedTestId: string;
+      if (
+        ((tempParsedId = parsed?.id as string),
+        typeof tempParsedId === "string") &&
+        !computationRegExp.test(tempParsedId)
+      ) {
+        parsedId = tempParsedId;
+        matchedSelectors.push(`#${parsedId}`);
+      } else if (
+        ((tempParsedTestId = (parsed?.dataset as Record<string, string>)
+          ?.testid),
+        typeof tempParsedTestId === "string") &&
+        !computationRegExp.test(tempParsedTestId)
+      ) {
+        parsedTestId = tempParsedTestId;
+      }
     }
   }
 
@@ -46,9 +61,9 @@ export function getBuilderNode(
       .concat([
         [
           "alias",
-          nodeData.alias ??
+          nodeData.alias ||
             (isBrickNode(nodeData)
-              ? nodeData.brick.split(".").pop()
+              ? parsedId || parsedTestId || nodeData.brick.split(".").pop()
               : undefined),
         ],
         ["$$uid", nodeUid],

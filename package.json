@@ -10,7 +10,7 @@
   "scripts": {
     "prepare": "lerna bootstrap && husky install",
     "start": "lerna run start --scope \"@next-core/brick-container\"",
-    "serve": "brick-container-serve --no-mock",
+    "serve": "brick-container-serve --no-mock --local-container",
     "serve:e2e": "cross-env NODE_ENV='e2e-test' brick-container-serve",
     "build": "lerna run build",
     "docs:build": "lerna run docs:build",
