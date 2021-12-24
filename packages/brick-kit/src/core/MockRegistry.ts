@@ -1,11 +1,11 @@
-import { mockRule } from "@next-core/brick-types/src/manifest";
-let useMockList: mockRule[] = [];
+import { MockRule } from "@next-core/brick-types/src/manifest";
+let useMockList: MockRule[] = [];
 
-export function registerMock(mockList: mockRule[]): void {
+export function registerMock(mockList: MockRule[]): void {
   useMockList = mockList;
 }
 
-export function getMockList(): mockRule[] {
+export function getMockList(): MockRule[] {
   return useMockList;
 }
 
@@ -18,6 +18,6 @@ export const isMatchMockUrl = (requestUrl: string, uri: string): boolean => {
   return reg.test(requestUrl);
 };
 
-export const getMockRule = (requestUrl: string): mockRule => {
+export const getMockRule = (requestUrl: string): MockRule => {
   return useMockList.find((item) => isMatchMockUrl(requestUrl, item.uri));
 };

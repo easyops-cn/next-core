@@ -1,5 +1,5 @@
 import { registerMock, getMockList, getMockRule } from "./MockRegistry";
-import { mockRule } from "@next-core/brick-types/src/manifest";
+import { MockRule } from "@next-core/brick-types/src/manifest";
 
 const register = () => {
   registerMock([
@@ -31,7 +31,7 @@ describe("Mock Registry should work", () => {
     expect(getMockList().length).toBe(4);
   });
 
-  it.each<[string, mockRule]>([
+  it.each<[string, MockRule]>([
     ["test-1/a/b/c/d/e", { mockId: "1", uri: "test-1/a/b/c/d/e" }],
     ["test-1/a/b/c/d/e/", undefined],
     ["test-1/a/b/c/d/e/f", undefined],

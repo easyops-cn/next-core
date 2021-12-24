@@ -41,7 +41,7 @@ import { MessageConf } from '@next-core/brick-types';
 import { MetaI18n } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
 import { MicroAppModels } from '@next-sdk/micro-app-sdk';
-import { mockRule } from '@next-core/brick-types/src/manifest';
+import { MockRule } from '@next-core/brick-types/src/manifest';
 import { ModalFunc } from 'antd/lib/modal/confirm';
 import { MountPoints } from '@next-core/brick-types';
 import { PluginHistory } from '@next-core/brick-types';
@@ -277,10 +277,7 @@ export interface GetMicroAppsOptions {
 }
 
 // @public (undocumented)
-export function getMockList(): mockRule[];
-
-// @public (undocumented)
-export const getMockRule: (requestUrl: string) => mockRule;
+export const getMockRule: (requestUrl: string) => MockRule;
 
 // @public
 export function getRuntime(): Runtime;
@@ -306,9 +303,6 @@ export const initI18n: () => void;
 
 // @public
 export function isLoggedIn(): boolean;
-
-// @public (undocumented)
-export const isMatchMockUrl: (requestUrl: string, uri: string) => boolean;
 
 // Warning: (ae-internal-missing-underscore) The name "logout" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -395,9 +389,6 @@ export interface RedirectConf {
     // (undocumented)
     redirect?: string;
 }
-
-// @public (undocumented)
-export function registerMock(mockList: mockRule[]): void;
 
 // Warning: (ae-internal-missing-underscore) The name "RelatedApp" should be prefixed with an underscore because the declaration is marked as @internal
 //

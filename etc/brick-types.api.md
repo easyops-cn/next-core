@@ -1343,7 +1343,7 @@ export interface MicroApp {
 }
 
 // @public
-export interface mockRule {
+export interface MockRule {
     mockId: string;
     uri: string;
 }
@@ -2015,7 +2015,7 @@ export interface StoryboardMeta {
     i18n?: MetaI18n;
     // (undocumented)
     menus?: MenuRawData[];
-    mocks?: mockRule[];
+    mocks?: MockRule[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
