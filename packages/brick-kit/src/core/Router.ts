@@ -41,6 +41,7 @@ import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { CustomTemplateContext } from "./CustomTemplates";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
+import { registerMock } from "./MockRegistry";
 
 export class Router {
   private defaultCollapsed = false;
@@ -225,6 +226,8 @@ export class Router {
       // 注册 Storyboard 中定义的自定义模板和函数。
       this.kernel.registerCustomTemplatesInStoryboard(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
+
+      registerMock(storyboard.meta?.mocks);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;

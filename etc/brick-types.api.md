@@ -1342,6 +1342,12 @@ export interface MicroApp {
     userConfig?: Record<string, unknown>;
 }
 
+// @public
+export interface MockRule {
+    mockId: string;
+    uri: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "MountPoints" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -2009,6 +2015,7 @@ export interface StoryboardMeta {
     i18n?: MetaI18n;
     // (undocumented)
     menus?: MenuRawData[];
+    mocks?: MockRule[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal

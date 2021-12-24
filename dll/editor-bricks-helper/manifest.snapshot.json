@@ -182,6 +182,7 @@
           "event",
           "getAuth",
           "getHistory",
+          "getMockRule",
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",
