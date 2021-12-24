@@ -2,7 +2,7 @@ import { MockRule } from "@next-core/brick-types/src/manifest";
 let useMockList: MockRule[] = [];
 
 export function registerMock(mockList: MockRule[]): void {
-  useMockList = mockList;
+  if (mockList) useMockList = mockList;
 }
 
 export function getMockList(): MockRule[] {
