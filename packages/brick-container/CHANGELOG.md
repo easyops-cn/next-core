@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.40.3...@next-core/brick-container@2.41.0) (2021-12-24)
+
+
+### Features
+
+* support request use mock ([#1293](https://github.com/easyops-cn/next-core/issues/1293)) ([9989c66](https://github.com/easyops-cn/next-core/commit/9989c663f1e5340c68853d4b158dc169484a7e1a))
+
+
+
+
+
 ## [2.40.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.40.2...@next-core/brick-container@2.40.3) (2021-12-23)
 
 **Note:** Version bump only for package @next-core/brick-container
