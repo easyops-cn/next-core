@@ -1406,6 +1406,20 @@ export interface StoryboardMeta {
   functions?: StoryboardFunction[];
 
   menus?: MenuRawData[];
+
+  /** 应用启用mock服务列表 */
+  mocks?: mockRule[];
+}
+
+/**
+ * 应用启用mock服务
+ */
+export interface mockRule {
+  /** uri地址 */
+  uri: string;
+
+  /** mock id */
+  mockId: string;
 }
 
 /**

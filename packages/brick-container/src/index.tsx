@@ -7,6 +7,7 @@ import {
   createRuntime,
   getAuth,
   httpErrorToString,
+  getMockRule,
 } from "@next-core/brick-kit";
 import {
   http,
@@ -66,6 +67,14 @@ if (!window.STANDALONE_MICRO_APPS) {
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   const headers = new Headers(config.options?.headers || {});
   headers.set("lang", i18n.resolvedLanguage);
+  const mockRule = getMockRule(config.url);
+  if (mockRule) {
+    config.url = config.url.replace(
+      "api/gateway",
+      `api/gateway/mock.proxy.${mockRule.mockId}`
+    );
+    headers.set("easyops-mockid", mockRule.mockId);
+  }
   return {
     ...config,
     options: {
