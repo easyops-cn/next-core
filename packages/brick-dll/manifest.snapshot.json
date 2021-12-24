@@ -13728,13 +13728,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/html-escaper/esm/index.js": {
-      "id": "cYju",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["escape", "unescape"]
-      }
-    },
     "./node_modules/@ant-design/icons-svg/es/asn/ToolFilled.js": {
       "id": "cZxi",
       "buildMeta": {
@@ -18491,12 +18484,15 @@
           "event",
           "getAuth",
           "getHistory",
+          "getMockList",
+          "getMockRule",
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",
           "i18nText",
           "initI18n",
           "isLoggedIn",
+          "isMatchMockUrl",
           "logout",
           "looseCheckIf",
           "looseCheckIfByTransform",
@@ -18505,6 +18501,7 @@
           "preprocessTransformProperties",
           "property",
           "reTransformForDevtools",
+          "registerMock",
           "renderEasyopsEmpty",
           "transformElementProperties",
           "transformIntermediateData",
