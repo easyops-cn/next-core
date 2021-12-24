@@ -3549,7 +3549,9 @@
           "tokTypes",
           "trackContext",
           "transform",
-          "transformAndInject"
+          "transformAndInject",
+          "visitStoryboardExpressions",
+          "visitStoryboardFunctions"
         ]
       }
     },
