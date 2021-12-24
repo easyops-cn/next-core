@@ -1,4 +1,5 @@
 import { StoryboardFunction } from "@next-core/brick-types";
+import { GetterOnlyProxyFactory } from "../internal/proxyFactories";
 import {
   ReadonlyStoryboardFunctions,
   StoryboardFunctionRegistryFactory,
@@ -6,11 +7,9 @@ import {
 
 const widgetFunctionRegistry = new Map<string, ReadonlyStoryboardFunctions>();
 
-export const widgetFunctions = new Proxy(Object.freeze({}), {
-  get(target, key) {
-    return widgetFunctionRegistry.get(key as string);
-  },
-}) as Readonly<Record<string, ReadonlyStoryboardFunctions>>;
+export const widgetFunctions = GetterOnlyProxyFactory((target, key) =>
+  widgetFunctionRegistry.get(key)
+) as Readonly<Record<string, ReadonlyStoryboardFunctions>>;
 
 export function registerWidgetFunctions(
   widgetId: string,

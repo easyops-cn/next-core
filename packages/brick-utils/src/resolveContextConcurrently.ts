@@ -1,6 +1,8 @@
 import { ContextConf } from "@next-core/brick-types";
-import { isEvaluable, preevaluate } from "./cook";
-import { isObject } from "./isObject";
+import { PrecookHooks } from "./cook";
+import { visitStoryboardExpressions } from "./visitStoryboard";
+
+const CTX = "CTX";
 
 export async function resolveContextConcurrently(
   contextConfs: ContextConf[],
@@ -75,75 +77,46 @@ export function getDependencyMapOfContext(
       includesComputed: false,
     };
     if (!contextConf.property) {
-      collectContexts(contextConf.if, stats);
-      collectContexts(contextConf.value, stats);
-      collectContexts(contextConf.resolve, stats);
+      visitStoryboardExpressions(
+        [contextConf.if, contextConf.value, contextConf.resolve],
+        beforeVisitContextFactory(stats),
+        CTX
+      );
     }
     depsMap.set(contextConf, stats);
   }
   return depsMap;
 }
 
-const CTX = "CTX";
-
-function collectContexts(
-  data: unknown,
-  stats: ContextStatistics,
-  memo = new WeakSet()
-): void {
-  if (typeof data === "string") {
-    if (data.includes(CTX) && isEvaluable(data)) {
-      preevaluate(data, {
-        withParent: true,
-        hooks: {
-          beforeVisitGlobal(node, parent): void {
-            if (node.name === CTX) {
-              const memberParent = parent[parent.length - 1];
-              if (
-                memberParent?.node.type === "MemberExpression" &&
-                memberParent.key === "object"
-              ) {
-                const memberNode = memberParent.node;
-                let dep: string;
-                if (
-                  !memberNode.computed &&
-                  memberNode.property.type === "Identifier"
-                ) {
-                  dep = memberNode.property.name;
-                } else if (
-                  memberNode.computed &&
-                  (memberNode.property as any).type === "Literal" &&
-                  typeof (memberNode.property as any).value === "string"
-                ) {
-                  dep = (memberNode.property as any).value;
-                } else {
-                  stats.includesComputed = true;
-                }
-                if (dep !== undefined && !stats.dependencies.includes(dep)) {
-                  stats.dependencies.push(dep);
-                }
-              }
-            }
-          },
-        },
-      });
-    }
-  } else if (isObject(data)) {
-    // Avoid call stack overflow.
-    if (memo.has(data)) {
-      return;
-    }
-    memo.add(data);
-    if (Array.isArray(data)) {
-      for (const item of data) {
-        collectContexts(item, stats, memo);
-      }
-    } else {
-      for (const item of Object.values(data)) {
-        collectContexts(item, stats, memo);
+function beforeVisitContextFactory(
+  stats: ContextStatistics
+): PrecookHooks["beforeVisitGlobal"] {
+  return function beforeVisitContext(node, parent): void {
+    if (node.name === CTX) {
+      const memberParent = parent[parent.length - 1];
+      if (
+        memberParent?.node.type === "MemberExpression" &&
+        memberParent.key === "object"
+      ) {
+        const memberNode = memberParent.node;
+        let dep: string;
+        if (!memberNode.computed && memberNode.property.type === "Identifier") {
+          dep = memberNode.property.name;
+        } else if (
+          memberNode.computed &&
+          (memberNode.property as any).type === "Literal" &&
+          typeof (memberNode.property as any).value === "string"
+        ) {
+          dep = (memberNode.property as any).value;
+        } else {
+          stats.includesComputed = true;
+        }
+        if (dep !== undefined && !stats.dependencies.includes(dep)) {
+          stats.dependencies.push(dep);
+        }
       }
     }
-  }
+  };
 }
 
 function detectCircularContexts(
