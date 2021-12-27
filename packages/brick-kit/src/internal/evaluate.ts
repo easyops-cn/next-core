@@ -21,10 +21,7 @@ import { storyboardFunctions } from "../core/StoryboardFunctions";
 import { widgetFunctions } from "../core/WidgetFunctions";
 import { widgetI18nFactory } from "../core/WidgetI18n";
 import { getGeneralGlobals } from "./getGeneralGlobals";
-import {
-  GetterOnlyProxyFactory,
-  ReadPropertyOnlyProxyFactory,
-} from "./proxyFactories";
+import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -192,16 +189,21 @@ export function evaluate(
       case "APP":
         return cloneDeep(app);
       case "CTX":
-        return GetterOnlyProxyFactory((target, key) => {
-          const item = storyboardContext.get(key);
-          return !item
-            ? item
-            : item.type === "brick-property"
-            ? item.brick.element?.[item.prop as keyof HTMLElement]
-            : item.value;
+        return getDynamicReadOnlyProxy({
+          get(target, key: string) {
+            const item = storyboardContext.get(key);
+            return !item
+              ? item
+              : item.type === "brick-property"
+              ? item.brick.element?.[item.prop as keyof HTMLElement]
+              : item.value;
+          },
+          ownKeys() {
+            return Array.from(storyboardContext.keys());
+          },
         });
       case "FLAGS":
-        return ReadPropertyOnlyProxyFactory(flags);
+        return getReadOnlyProxy(flags);
       case "HASH":
         return hash;
       case "INSTALLED_APPS":
@@ -218,16 +220,44 @@ export function evaluate(
       case "PARAMS":
         return new URLSearchParams(query);
       case "PATH":
-        return ReadPropertyOnlyProxyFactory(match.params);
+        return getReadOnlyProxy(match.params);
       case "PROCESSORS":
-        return GetterOnlyProxyFactory((target, key) => {
-          const pkg = customProcessorRegistry.get(key);
-          return pkg ? GetterOnlyProxyFactory((t, k) => pkg.get(k)) : pkg;
+        return getDynamicReadOnlyProxy({
+          get(target, key: string) {
+            const pkg = customProcessorRegistry.get(key);
+            return pkg
+              ? getDynamicReadOnlyProxy({
+                  get(t, k: string) {
+                    return pkg.get(k);
+                  },
+                  ownKeys() {
+                    return Array.from(pkg.keys());
+                  },
+                })
+              : pkg;
+          },
+          ownKeys() {
+            return Array.from(customProcessorRegistry.keys());
+          },
         });
       case "QUERY":
-        return GetterOnlyProxyFactory((target, key) => query.get(key));
+        return getDynamicReadOnlyProxy({
+          get(target, key: string) {
+            return query.get(key);
+          },
+          ownKeys() {
+            return Array.from(query.keys());
+          },
+        });
       case "QUERY_ARRAY":
-        return GetterOnlyProxyFactory((target, key) => query.getAll(key));
+        return getDynamicReadOnlyProxy({
+          get(target, key: string) {
+            return query.getAll(key);
+          },
+          ownKeys() {
+            return Array.from(query.keys());
+          },
+        });
       case "SEGUE":
         return {
           getUrl: getUrlBySegueFactory(app, segues),
@@ -237,7 +267,7 @@ export function evaluate(
           getItem: getItemFactory("session"),
         };
       case "SYS":
-        return ReadPropertyOnlyProxyFactory(sys);
+        return getReadOnlyProxy(sys);
       case "__WIDGET_FN__":
         return widgetFunctions;
       case "__WIDGET_IMG__":

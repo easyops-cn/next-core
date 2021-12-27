@@ -1,15 +1,33 @@
-export function GetterOnlyProxyFactory(
-  getter: (target: unknown, key: string) => unknown
-): unknown {
-  return new Proxy(Object.freeze({}), {
-    get: getter,
-  });
+import { getDevHook } from "./devtools";
+
+const THROW = (): any => {
+  throw new Error("Can't modify read-only proxy object");
+};
+
+const readOnlyHandler: ProxyHandler<object> = {
+  set: THROW,
+  defineProperty: THROW,
+  deleteProperty: THROW,
+  setPrototypeOf: THROW,
+};
+
+export function getReadOnlyProxy(object: object): unknown {
+  return new Proxy(object, readOnlyHandler);
 }
 
-export function ReadPropertyOnlyProxyFactory(object: unknown): unknown {
-  return new Proxy(Object.freeze({}), {
-    get(target, key: string) {
-      return (object as Record<string, unknown>)[key];
-    },
-  });
+// First, we want to make accessing property of globals lazy,
+// So we use *Proxy* to make a dynamic accessor for each of these globals.
+// But we also want to keep them working in devtools.
+export function getDynamicReadOnlyProxy({
+  get,
+  ownKeys,
+}: Pick<ProxyHandler<object>, "get" | "ownKeys">): unknown {
+  if (getDevHook()) {
+    // In devtools, we extract them at beginning.
+    const target = Object.fromEntries(
+      (ownKeys(null) as string[]).map((key) => [key, get(null, key, null)])
+    );
+    return getReadOnlyProxy(target);
+  }
+  return new Proxy(Object.freeze({}), { get });
 }

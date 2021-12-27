@@ -6,7 +6,6 @@ import {
 import { cook, precookFunction, EstreeNode } from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
 import { getGeneralGlobals } from "../internal/getGeneralGlobals";
-import { GetterOnlyProxyFactory } from "../internal/proxyFactories";
 
 /** @internal */
 export type ReadonlyStoryboardFunctions = Readonly<
@@ -69,9 +68,11 @@ export function StoryboardFunctionRegistryFactory({
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
 
   // Use `Proxy` with a frozen target, to make a readonly function registry.
-  const storyboardFunctions = GetterOnlyProxyFactory((target, key) =>
-    getStoryboardFunction(key)
-  ) as ReadonlyStoryboardFunctions;
+  const storyboardFunctions = new Proxy(Object.freeze({}), {
+    get(target, key) {
+      return getStoryboardFunction(key as string);
+    },
+  }) as ReadonlyStoryboardFunctions;
 
   let currentApp: PartialMicroApp;
 
