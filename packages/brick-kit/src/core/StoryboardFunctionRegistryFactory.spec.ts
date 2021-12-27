@@ -2,12 +2,20 @@ import {
   StoryboardFunctionRegistryFactory,
   FunctionCoverageCollector,
 } from "./StoryboardFunctionRegistryFactory";
+import { checkPermissions } from "../internal/checkPermissions";
 
+jest.mock("../internal/checkPermissions");
 jest.mock("i18next", () => ({
   getFixedT(lang: string, ns: string) {
     return (key: string) => `${ns}:${key}`;
   },
 }));
+
+(
+  checkPermissions as jest.MockedFunction<typeof checkPermissions>
+).mockImplementation((...actions) => {
+  return !actions.includes("my:action-b");
+});
 
 describe("StoryboardFunctions", () => {
   const {
@@ -43,6 +51,22 @@ describe("StoryboardFunctions", () => {
             }
           `,
         },
+        {
+          name: "getBaseUrl",
+          source: `
+          function getBaseUrl() {
+            return BASE_URL;
+          }
+          `,
+        },
+        {
+          name: "checkPermissions",
+          source: `
+          function checkPermissions(...actions) {
+            return PERMISSIONS.check(...actions);
+          }
+          `,
+        },
       ],
       {
         id: "my-app",
@@ -66,6 +90,9 @@ describe("StoryboardFunctions", () => {
     );
     expect(fn.sayExclamation("Oops")).toBe("Oops!!");
     expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
+    expect(fn.getBaseUrl()).toBe("");
+    expect(fn.checkPermissions("my:action-a")).toBe(true);
+    expect(fn.checkPermissions("my:action-b")).toBe(false);
   });
 
   it("should register no functions", () => {
@@ -180,6 +207,22 @@ describe("collect coverage", () => {
           }
         `,
       },
+      {
+        name: "getBaseUrl",
+        source: `
+        function getBaseUrl() {
+          return BASE_URL;
+        }
+        `,
+      },
+      {
+        name: "checkPermissions",
+        source: `
+        function checkPermissions(...actions) {
+          return PERMISSIONS.check(...actions);
+        }
+        `,
+      },
     ]);
 
     fn.test(1);
@@ -210,5 +253,7 @@ describe("collect coverage", () => {
     expect(fn.i18n("HELLO")).toBe("HELLO");
     expect(fn.i18nText({ zh: "你好", en: "Hello" })).toBe("Hello");
     expect(fn.getImg()).toBe("mock/images/my-img.png");
+    expect(fn.getBaseUrl()).toBe("/next");
+    expect(fn.checkPermissions("my:action-b")).toBe(true);
   });
 });

@@ -6,7 +6,7 @@ import {
 } from "./evaluate";
 import * as runtime from "../core/Runtime";
 import { registerCustomProcessor } from "../core/exports";
-import { devtoolsHookEmit } from "./devtools";
+import { devtoolsHookEmit, getDevHook } from "./devtools";
 import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
@@ -217,6 +217,7 @@ describe("evaluate", () => {
       "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
       [["quality", "good"]],
     ],
+    ["<% PROCESSORS.notExist %>", undefined],
     ["<% PERMISSIONS.check('my:action-a') %>", true],
     ["<% PERMISSIONS.check('my:action-b') %>", false],
     ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
@@ -232,6 +233,36 @@ describe("evaluate", () => {
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
+
+  it.each<[string, unknown]>([
+    ["<% QUERY.b %>", "2"],
+    ["<% QUERY_ARRAY.b %>", ["2", "1"]],
+    ["<% CTX.myFreeContext %>", "good"],
+    [
+      "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
+      [["quality", "good"]],
+    ],
+  ])("evaluate(%j) should return %j in devtools", (raw, result) => {
+    // Mock devtools.
+    (getDevHook as jest.Mock).mockReturnValue({});
+    expect(evaluate(raw)).toEqual(result);
+  });
+
+  it("should throw while override CTX", () => {
+    const ctx = evaluate("<% CTX %>") as any;
+    expect(ctx).toBeTruthy();
+    expect(() => {
+      ctx.override = "any";
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Can't modify read-only proxy object"`
+    );
+  });
+
+  // it("should return false for Object.isExtensible(CTX)", () => {
+  //   const ctx = evaluate("<% CTX %>") as any;
+  //   expect(ctx).toBeTruthy();
+  //   expect(Object.isExtensible(ctx)).toBe(false);
+  // });
 
   it.each<[string, any]>([
     ["<% [] %>", []],
