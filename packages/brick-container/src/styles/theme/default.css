@@ -1,0 +1,115 @@
+:root,
+[data-override-theme="light"] {
+  /* Basic CSS variables Refs: https://tapd.easyops.local/pages/viewpage.action?pageId=36045937 */
+  --color-brand: #0071eb;
+  --color-brand-hover: var(--light-palette-blue-4);
+  --color-brand-active: var(--light-palette-blue-8);
+  --color-fill-global-bg-1: #f7f8fa;
+  --color-fill-global-bg-2: var(--light-palette-gray-1);
+  --color-fill-bg-container-L1: var(--light-palette-gray-1);
+  --color-fill-bg-container-L2: var(--light-palette-gray-1);
+  --color-fill-bg-container-L3: var(--light-palette-gray-1);
+  --color-fill-bg-container-L4: var(--light-palette-gray-1);
+
+  --color-fill-bg-base-1: var(--light-palette-gray-3);
+  --color-fill-bg-base-2: #d9ffffff;
+  --color-text-divider-line: var(--light-palette-gray-4);
+  --color-border-divider-line: var(--light-palette-gray-5);
+  --color-header-text: var(--light-palette-gray-9);
+  --color-strong-text: var(--light-palette-gray-10);
+  --color-normal-text: var(--light-palette-gray-8);
+  --color-secondary-text: var(--light-palette-gray-7);
+  --color-disabled-text: var(--light-palette-gray-6);
+
+  --color-success: var(--light-palette-green-6);
+  --color-success-hover: var(--light-palette-green-4);
+  --color-success-active: var(--light-palette-green-8);
+  --color-success-bg: var(--light-palette-green-2);
+  --color-success-outline: var(--light-palette-green-3);
+
+  --color-info: var(--light-palette-blue-6);
+  --color-info-hover: var(--light-palette-blue-4);
+  --color-info-active: var(--light-palette-blue-8);
+  --color-info-bg: var(--light-palette-blue-2);
+  --color-info-outline: var(--light-palette-blue-3);
+
+  --color-warning: var(--light-palette-amber-6);
+  --color-warning-hover: var(--light-palette-amber-4);
+  --color-warning-active: var(--light-palette-amber-8);
+  --color-warning-bg: var(--light-palette-amber-2);
+  --color-warning-outline: var(--light-palette-amber-3);
+
+  --color-error: var(--light-palette-red-6);
+  --color-error-hover: var(--light-palette-red-4);
+  --color-error-active: var(--light-palette-red-8);
+  --color-error-bg: var(--light-palette-red-2);
+  --color-error-outline: var(--light-palette-red-3);
+
+  --small-border-radius: 2px;
+  --medius-border-radius: 4px;
+  --larger-border-radius: 6px;
+  --container-border-radius: 500px;
+  --no-border-radius: 0px;
+  --special-border-radius: 0 0 6px 6px;
+
+  --normal-font-size: 14px;
+  --title-font-size: 18px;
+  --special-title-font-size: 20px;
+  --sub-menu-title-font-size: 18px;
+  --card-title-font-size: 16px;
+  --statistical-title-font-size: 16px;
+  --sub-title-font-size-small: 12px;
+  --sub-title-font-size: 14px;
+  --auxiliary-font-size: 14px;
+  --auxiliary-font-size-small: 12px;
+  --bread-crumbs-font-size: 12px;
+  --overview-data-font-size: 30px;
+  --special-data-font-size: 20px;
+  --normal-data-font-size: 16px;
+  --chart-legend-font-size: 12px;
+  --chart-tooltips-font-size: 12px;
+  --chart-axis-x-font-size: 10px;
+  --chart-axis-y-font-size: 10px;
+
+  --font-weight-600: 600;
+  --font-weight-500: 500;
+  --font-weight-400: 400;
+  --font-weight-200: 200;
+
+  --line-height-base: 1.5;
+
+  --mask-bg: rgba(11, 26, 47, 0.45);
+
+  --base-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.4);
+  --feedback-container-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  --right-slide-shadow: -2px 0px 8px 0px rgba(0, 0, 0, 0.14);
+  --left-slide-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.14);
+  --connected-overlay-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+  --fullscreen-overlay-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  --hover-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
+  --slide-up-shadow: 0px -4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  --border-width-base: 1px;
+  --border-width-double-base: 2px;
+  --no-border-width: 0;
+
+  /* component CSS variables */
+
+  /*** menu ***/
+  --antd-menu-bg: #4e93ef;
+  --antd-menu-shadow: 3px 0px 8px 0px rgba(218, 218, 218, 0.44);
+  --antd-menu-item-active-bg: #3e86e6;
+  --antd-menu-item-hover: var(--antd-menu-item-active-bg);
+  --antd-menu-item-selected-bg: #0071eb;
+  --ant-menu-submenu-selected-bg: rgba(0, 99, 206, 0.2);
+  --ant-menu-item-group-title-color: rgba(255, 255, 255, 0.65);
+  --ant-menu-collapse-bar-bg-channel: 194, 225, 255;
+  --ant-menu-collapse-bar-bg: rgba(
+    var(--ant-menu-collapse-bar-bg-channel),
+    0.1
+  );
+  --ant-menu-collapse-bar-border-color: rgba(
+    var(--ant-menu-collapse-bar-bg-channel),
+    0.15
+  );
+}
