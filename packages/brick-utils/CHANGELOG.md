@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.5...@next-core/brick-utils@2.32.0) (2021-12-28)
+
+
+### Features
+
+* refine storyboard functions and expressions ([6626c61](https://github.com/easyops-cn/next-core/commit/6626c61bd910864daaa81be946f765630cfb8103))
+
+
+
+
+
 ## [2.31.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.4...@next-core/brick-utils@2.31.5) (2021-12-24)
 
 **Note:** Version bump only for package @next-core/brick-utils

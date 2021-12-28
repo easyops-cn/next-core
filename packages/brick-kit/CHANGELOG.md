@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.95.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.94.0...@next-core/brick-kit@2.95.0) (2021-12-28)
+
+
+### Bug Fixes
+
+* refine globals display in devtools ([6f42a1a](https://github.com/easyops-cn/next-core/commit/6f42a1ad37979a2dd6cdaabea8a55518131b35a9))
+
+
+### Features
+
+* refine storyboard functions and expressions ([6626c61](https://github.com/easyops-cn/next-core/commit/6626c61bd910864daaa81be946f765630cfb8103))
+
+
+
+
+
 # [2.94.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.93.1...@next-core/brick-kit@2.94.0) (2021-12-24)
 
 
