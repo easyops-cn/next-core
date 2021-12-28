@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.0...@next-core/brick-utils@2.32.1) (2021-12-28)
+
+
+### Bug Fixes
+
+* refine visiting storyboard ([5352ba4](https://github.com/easyops-cn/next-core/commit/5352ba460a333094e74a38257488085ebdad649e))
+
+
+
+
+
 # [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.5...@next-core/brick-utils@2.32.0) (2021-12-28)
 
 
