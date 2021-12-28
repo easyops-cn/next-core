@@ -6,13 +6,13 @@
   --color-brand-active: var(--light-palette-blue-8);
   --color-fill-global-bg-1: #f7f8fa;
   --color-fill-global-bg-2: var(--light-palette-gray-1);
-  --color-fill-bg-container-L1: var(--light-palette-gray-1);
-  --color-fill-bg-container-L2: var(--light-palette-gray-1);
-  --color-fill-bg-container-L3: var(--light-palette-gray-1);
-  --color-fill-bg-container-L4: var(--light-palette-gray-1);
+  --color-fill-bg-container-1: var(--light-palette-gray-1);
+  --color-fill-bg-container-2: var(--light-palette-gray-1);
+  --color-fill-bg-container-3: var(--light-palette-gray-1);
+  --color-fill-bg-container-4: var(--light-palette-gray-1);
 
   --color-fill-bg-base-1: var(--light-palette-gray-3);
-  --color-fill-bg-base-2: #d9ffffff;
+  --color-fill-bg-base-2: #d9ffff;
   --color-text-divider-line: var(--light-palette-gray-4);
   --color-border-divider-line: var(--light-palette-gray-5);
   --color-header-text: var(--light-palette-gray-9);
@@ -53,7 +53,7 @@
   --special-border-radius: 0 0 6px 6px;
 
   --normal-font-size: 14px;
-  --title-font-size: 18px;
+  --title-font-size: 16px;
   --special-title-font-size: 20px;
   --sub-menu-title-font-size: 18px;
   --card-title-font-size: 16px;
@@ -97,10 +97,15 @@
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
+  --antd-menu-color: #fff;
+  --antd-menu-highlight-color: var(--color-brand);
+  --antd-menu-title-bg: rgba(255, 255, 255, 0.1);
+  --antd-menu-popup-bg: #fff;
+  --antd-menu-title-color: var(--antd-menu-color);
   --antd-menu-shadow: 3px 0px 8px 0px rgba(218, 218, 218, 0.44);
   --antd-menu-item-active-bg: #3e86e6;
   --antd-menu-item-hover: var(--antd-menu-item-active-bg);
-  --antd-menu-item-selected-bg: #0071eb;
+  --antd-menu-item-selected-bg: var(--color-brand);
   --ant-menu-submenu-selected-bg: rgba(0, 99, 206, 0.2);
   --ant-menu-item-group-title-color: rgba(255, 255, 255, 0.65);
   --ant-menu-collapse-bar-bg-channel: 194, 225, 255;
@@ -112,4 +117,20 @@
     var(--ant-menu-collapse-bar-bg-channel),
     0.15
   );
+  --antd-app-submenu-title: rgba(0, 0, 0, 0.85);
+  --antd-app-submenu-bg: var(--antd-menu-popup-bg);
+  --antd-app-submenu-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
+  --antd-app-submenu-group-title-color: var(--antd-text-color-secondary);
+
+  /*** divider  ***/
+  --antd-divider-color: rgba(0, 0, 0, 6%);
+
+  /*** appp bar ***/
+  --app-bar-bg: rgba(255, 255, 255, 1);
+  --app-bar-shadow: 0px 3px 20px 0px rgba(128, 128, 128, 0.2);
+  --app-bar-dropdown-menu-item-color: var(--text-color-default);
+  --app-bar-dropdown-menu-item-hover-bg: var(--theme-blue-background);
+
+  /*** dropdown ***/
+  --antd-dropdown-menu-bg: var(--antd-component-background);
 }

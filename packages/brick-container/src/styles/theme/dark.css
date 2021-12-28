@@ -1,15 +1,17 @@
-html[data-theme="darkV2"],
-[data-override-theme="darkV2"] {
+html[data-theme="dark-v2"],
+[data-override-theme="dark-v2"] {
   /* Basic CSS variables Refs: https://tapd.easyops.local/pages/viewpage.action?pageId=36045937 */
+  --body-background: #17171a;
+
   --color-brand: var(--dark-palette-blue-6);
   --color-brand-hover: var(--dark-palette-blue-4);
   --color-brand-active: var(--dark-palette-blue-8);
   --color-fill-global-bg-1: var(--dark-palette-gray-1);
   --color-fill-global-bg-2: var(--dark-palette-gray-1);
-  --color-fill-bg-container-L1: #232324;
-  --color-fill-bg-container-L2: #2a2a2b;
-  --color-fill-bg-container-L3: #313132;
-  --color-fill-bg-container-L4: #373739;
+  --color-fill-bg-container-1: #232324;
+  --color-fill-bg-container-2: #2a2a2b;
+  --color-fill-bg-container-3: #313132;
+  --color-fill-bg-container-4: #373739;
 
   --color-fill-bg-base-1: var(--dark-palette-gray-3);
   --color-fill-bg-base-2: var(--dark-palette-gray-3);
@@ -55,16 +57,44 @@ html[data-theme="darkV2"],
   --fullscreen-overlay-shadow: 0px 10px 32px 0px rgba(0, 0, 0, 0.24);
   --hover-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
   --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
+  --menu-shadow: 6px 0px 18px 0px rgba(0, 0, 0, 0.24);
+
+  /*  全局字体颜色基准 */
+  --antd-text-color: var(--color-normal-text);
+  --antd-text-color-secondary: var(--color-secondary-text);
 
   /* component CSS variables */
 
   /* menu */
-  --antd-menu-bg: var(--color-fill-bg-base-1);
+  --antd-menu-bg: var(--body-background);
+  --antd-menu-color: var(--color-normal-text);
+  --antd-menu-highlight-color: var(--dark-palette-gray-2);
+  --antd-menu-shadow: var(--menu-shadow);
+  --antd-menu-popup-bg: var(--color-fill-bg-container-4);
+  --antd-menu-title-bg: rgba(255, 255, 255, 0.08);
+  --antd-menu-title-color: var(--color-strong-text);
   --antd-menu-item-active-bg: var(--color-brand);
   --antd-menu-item-hover: var(--dark-palette-gray-3);
-  --antd-menu-item-selected-bg: var(--dark-palette-blue-1);
+  --antd-menu-item-selected-bg: var(--dark-palette-blue-6);
   --ant-menu-submenu-selected-bg: var(--antd-menu-item-hover);
   --ant-menu-item-group-title-color: var(--color-strong-text);
   --ant-menu-collapse-bar-bg: var(--antd-menu-item-hover);
   --ant-menu-collapse-bar-border-color: var(--antd-menu-item-hover);
+
+  --antd-app-submenu-title: var(--color-header-text);
+  --antd-app-submenu-bg: var(--dark-palette-gray-2);
+  --antd-app-submenu-shadow: var(--base-shadow);
+  --antd-app-submenu-group-title-color: var(--color-normal-text);
+
+  /*** divider  ***/
+  --antd-divider-color: var(--color-text-divider-line);
+
+  /*** appp bar ***/
+  --app-bar-bg: var(--color-fill-bg-container-1);
+  --app-bar-shadow: var(--feedback-container-shadow);
+  --app-bar-dropdown-menu-item-color: var(--color-normal-text);
+  --app-bar-dropdown-menu-item-hover-bg: var(--color-fill-bg-base-1);
+
+  /*** dropdown ***/
+  --antd-dropdown-menu-bg: var(--color-fill-bg-container-4);
 }

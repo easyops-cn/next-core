@@ -56,16 +56,16 @@
   --light-palette-amber-10: #5e3c00;
 
   /** dark palette **/
-  --dark-palette-gray-1: #17171a;
-  --dark-palette-gray-2: #202022;
-  --dark-palette-gray-3: #29292b;
-  --dark-palette-gray-4: #333335;
-  --dark-palette-gray-5: #454547;
-  --dark-palette-gray-6: #5c5c5e;
-  --dark-palette-gray-7: #7f7f81;
-  --dark-palette-gray-8: #aeaeaf;
-  --dark-palette-gray-9: #dcdcdc;
-  --dark-palette-gray-10: #ffffff;
+  --dark-palette-gray-1: rgba(255, 255, 255, 0);
+  --dark-palette-gray-2: rgba(255, 255, 255, 0.04);
+  --dark-palette-gray-3: rgba(255, 255, 255, 0.08);
+  --dark-palette-gray-4: rgba(255, 255, 255, 0.12);
+  --dark-palette-gray-5: rgba(255, 255, 255, 0.02);
+  --dark-palette-gray-6: rgba(255, 255, 255, 0.03);
+  --dark-palette-gray-7: rgba(255, 255, 255, 0.45);
+  --dark-palette-gray-8: rgba(255, 255, 255, 0.65);
+  --dark-palette-gray-9: rgba(255, 255, 255, 0.85);
+  --dark-palette-gray-10: rgba(255, 255, 255, 1);
 
   --dark-palette-blue-1: #141d31;
   --dark-palette-blue-2: #14284a;
