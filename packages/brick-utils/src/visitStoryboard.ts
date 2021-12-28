@@ -27,15 +27,28 @@ export function visitStoryboardFunctions(
   }
 }
 
+interface VisitStoryboardExpressionsOptions {
+  matchExpressionString: (v: string) => boolean;
+  visitNonExpressionString?: (v: string) => unknown;
+  visitObject?: (v: object) => unknown;
+}
+
 export function visitStoryboardExpressions(
   data: unknown,
   beforeVisitGlobal: PrecookHooks["beforeVisitGlobal"],
-  keyword: string
+  // If `options` is a string, it means the *keyword*.
+  options: string | VisitStoryboardExpressionsOptions
 ): void {
   const memo = new WeakSet();
+  const { matchExpressionString, visitNonExpressionString, visitObject } =
+    typeof options === "string"
+      ? ({
+          matchExpressionString: (v: string) => v.includes(options),
+        } as VisitStoryboardExpressionsOptions)
+      : options;
   function visit(value: unknown): void {
     if (typeof value === "string") {
-      if (value.includes(keyword) && isEvaluable(value)) {
+      if (matchExpressionString(value) && isEvaluable(value)) {
         try {
           preevaluate(value, {
             withParent: true,
@@ -45,6 +58,8 @@ export function visitStoryboardExpressions(
           // eslint-disable-next-line no-console
           console.error("Parse storyboard expression failed:", error);
         }
+      } else {
+        visitNonExpressionString?.(value);
       }
     } else if (isObject(value)) {
       // Avoid call stack overflow.
@@ -52,6 +67,7 @@ export function visitStoryboardExpressions(
         return;
       }
       memo.add(value);
+      visitObject?.(value);
       for (const item of Array.isArray(value) ? value : Object.values(value)) {
         visit(item);
       }
