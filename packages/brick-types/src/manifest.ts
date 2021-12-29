@@ -1408,7 +1408,7 @@ export interface StoryboardMeta {
   menus?: MenuRawData[];
 
   /** 应用启用mock服务列表 */
-  mocks?: MockRule[];
+  mocks?: Mocks;
 }
 
 export interface Mocks {
