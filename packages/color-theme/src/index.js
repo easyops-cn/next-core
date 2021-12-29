@@ -1,6 +1,6 @@
 const { generate } = require("@ant-design/colors");
 
-function getCssVariableDefinitionsOfPalette(palettes) {
+function getCssVariableDefinitions(palettes) {
   return Object.entries(palettes)
     .flatMap(([colorName, palette]) =>
       palette
@@ -13,23 +13,19 @@ function getCssVariableDefinitionsOfPalette(palettes) {
     .join("\n");
 }
 
-function getPalettesOfLight(baseColors) {
+function generatePalettes(baseColors, theme, backgroundColor) {
   return Object.fromEntries(
     Object.entries(baseColors).map(([colorName, baseColor]) => [
       colorName,
-      generate(baseColor),
-    ])
-  );
-}
-
-function getPalettesOfDark(baseColors, backgroundColor) {
-  return Object.fromEntries(
-    Object.entries(baseColors).map(([colorName, baseColor]) => [
-      colorName,
-      generate(baseColor, {
-        theme: "dark",
-        backgroundColor,
-      }),
+      generate(
+        baseColor,
+        theme === "dark"
+          ? {
+              theme,
+              backgroundColor,
+            }
+          : undefined
+      ),
     ])
   );
 }
@@ -48,12 +44,10 @@ function getStyleByBaseColors(
   backgroundColor
 ) {
   return [
-    getLightStyle(
-      getCssVariableDefinitionsOfPalette(getPalettesOfLight(baseLightColors))
-    ),
+    getLightStyle(getCssVariableDefinitions(generatePalettes(baseLightColors))),
     getDarkStyle(
-      getCssVariableDefinitionsOfPalette(
-        getPalettesOfDark(baseDarkColors, backgroundColor)
+      getCssVariableDefinitions(
+        generatePalettes(baseDarkColors, "dark", backgroundColor)
       )
     ),
   ].join("\n\n");
@@ -70,10 +64,10 @@ function getCssVariableDefinitionsOfBrand(color) {
 
 function getStyleByBrandColor(brandColor, darkBrandColor) {
   return [
-    getLightStyle(getCssVariableDefinitionsOfPalette(
+    getLightStyle(getCssVariableDefinitions(
       getCssVariableDefinitionsOfBrand(brandColor)
     )),
-    getDarkStyle(getCssVariableDefinitionsOfPalette(
+    getDarkStyle(getCssVariableDefinitions(
       getCssVariableDefinitionsOfBrand(darkBrandColor ?? brandColor)
     )),
   ].join("\n\n");
