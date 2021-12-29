@@ -243,7 +243,7 @@ export function evaluate(
       case "QUERY":
         return getDynamicReadOnlyProxy({
           get(target, key: string) {
-            return query.get(key);
+            return query.has(key) ? query.get(key) : undefined;
           },
           ownKeys() {
             return Array.from(query.keys());
@@ -252,7 +252,7 @@ export function evaluate(
       case "QUERY_ARRAY":
         return getDynamicReadOnlyProxy({
           get(target, key: string) {
-            return query.getAll(key);
+            return query.has(key) ? query.getAll(key) : undefined;
           },
           ownKeys() {
             return Array.from(query.keys());

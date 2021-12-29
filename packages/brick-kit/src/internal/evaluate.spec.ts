@@ -190,7 +190,9 @@ describe("evaluate", () => {
     ["<% PATH.objectId %>", "HOST"],
     [" <% QUERY.a %>", "x"],
     ["<% QUERY.b %> ", "2"],
+    ["<% QUERY.x %> ", undefined],
     [" <% QUERY_ARRAY.b %> ", ["2", "1"]],
+    ["<% QUERY_ARRAY.x %> ", undefined],
     ["\n\t<% PARAMS.get('b') %>\n\t", "2"],
     ["<% PARAMS.getAll('b') %>", ["2", "1"]],
     ["<% PARAMS.toString() %>", "a=x&b=2&b=1"],
@@ -236,7 +238,9 @@ describe("evaluate", () => {
 
   it.each<[string, unknown]>([
     ["<% QUERY.b %>", "2"],
+    ["<% QUERY.x %> ", undefined],
     ["<% QUERY_ARRAY.b %>", ["2", "1"]],
+    ["<% QUERY_ARRAY.x %> ", undefined],
     ["<% CTX.myFreeContext %>", "good"],
     [
       "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
