@@ -1,3 +1,3 @@
 # @next-core/brick-utils
 
-Pure utility functions for kernel.
+Pure utility functions for Brick-Next.
