@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.97.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.96.0...@next-core/brick-kit@2.97.0) (2021-12-29)
+
+
+### Bug Fixes
+
+* fix accessing not-existed property of QUERY ([edcf0b1](https://github.com/easyops-cn/next-core/commit/edcf0b168e27f7b89ba2debde5a779c89500a0dd))
+
+
+### Features
+
+* **MockRegistry:**  update mocks data ([10fed90](https://github.com/easyops-cn/next-core/commit/10fed9053e62af9cc52d994772343d629f45afac))
+
+
+
+
+
 # [2.96.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.95.1...@next-core/brick-kit@2.96.0) (2021-12-29)
 
 

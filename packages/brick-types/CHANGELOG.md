@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.52.0...@next-core/brick-types@2.53.0) (2021-12-29)
+
+
+### Features
+
+* **MockRegistry:**  update manifest ([15a3a88](https://github.com/easyops-cn/next-core/commit/15a3a8834155559a849ddd7eb38358cf668954ec))
+* **MockRegistry:**  update mocks data ([10fed90](https://github.com/easyops-cn/next-core/commit/10fed9053e62af9cc52d994772343d629f45afac))
+
+
+
+
+
 # [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.51.2...@next-core/brick-types@2.52.0) (2021-12-24)
 
 

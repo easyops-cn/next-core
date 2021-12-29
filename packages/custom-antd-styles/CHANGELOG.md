@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.13](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.12...@next-core/custom-antd-styles@1.8.13) (2021-12-29)
+
+
+### Bug Fixes
+
+* extract menu css variables ([9574b8c](https://github.com/easyops-cn/next-core/commit/9574b8c61c283d93be1678b3d869e56e70b56ff4))
+
+
+
+
+
 ## [1.8.12](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.11...@next-core/custom-antd-styles@1.8.12) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles

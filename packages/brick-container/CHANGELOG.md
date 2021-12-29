@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.41.3...@next-core/brick-container@2.42.0) (2021-12-29)
+
+
+### Bug Fixes
+
+* extract menu css variables ([9574b8c](https://github.com/easyops-cn/next-core/commit/9574b8c61c283d93be1678b3d869e56e70b56ff4))
+* refactor css style ([f36d2a9](https://github.com/easyops-cn/next-core/commit/f36d2a9957bd9956fd3cfbde42ade403bb522991))
+
+
+### Features
+
+* add style css variables ([a64bb91](https://github.com/easyops-cn/next-core/commit/a64bb916dc1077b088db2bc97894ea45fb9f6e41))
+* **MockRegistry:**  update mocks data ([10fed90](https://github.com/easyops-cn/next-core/commit/10fed9053e62af9cc52d994772343d629f45afac))
+* support color theme ([62bf967](https://github.com/easyops-cn/next-core/commit/62bf9674088ce4fe8abb60d20f168e37ba171797))
+
+
+
+
+
 ## [2.41.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.41.2...@next-core/brick-container@2.41.3) (2021-12-29)
 
 **Note:** Version bump only for package @next-core/brick-container
