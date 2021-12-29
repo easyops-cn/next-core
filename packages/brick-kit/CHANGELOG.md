@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.96.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.95.1...@next-core/brick-kit@2.96.0) (2021-12-29)
+
+
+### Features
+
+* some adjustment for EasyopsEmpty's empty image ([cc5af32](https://github.com/easyops-cn/next-core/commit/cc5af32a93d7497ff236c2189e730a3f771d3866)), closes [Refs#MONITOR-2681](https://github.com/Refs/issues/MONITOR-2681)
+
+
+
+
+
 ## [2.95.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.95.0...@next-core/brick-kit@2.95.1) (2021-12-28)
 
 **Note:** Version bump only for package @next-core/brick-kit
