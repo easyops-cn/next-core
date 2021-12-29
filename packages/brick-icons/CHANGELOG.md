@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.23.6...@next-core/brick-icons@2.24.0) (2021-12-29)
+
+
+### Features
+
+* upload monitor-kit svg ([3597e3c](https://github.com/easyops-cn/next-core/commit/3597e3c10f6311e1ca4f44b3616cc1689b0fdbaf))
+
+
+
+
+
 ## [2.23.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.23.5...@next-core/brick-icons@2.23.6) (2021-12-29)
 
 **Note:** Version bump only for package @next-core/brick-icons
