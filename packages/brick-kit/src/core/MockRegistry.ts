@@ -1,23 +1,34 @@
-import { MockRule } from "@next-core/brick-types/src/manifest";
-let useMockList: MockRule[] = [];
+import { Mocks, MockRule } from "@next-core/brick-types/src/manifest";
 
-export function registerMock(mockList: MockRule[]): void {
-  if (mockList) useMockList = mockList;
+let mocks: Mocks = {
+  mockId: null,
+  mockList: [],
+};
+
+export function registerMock(useMocks: Mocks): void {
+  if (useMocks)
+    mocks = {
+      ...useMocks,
+      mockList: useMocks.mockList?.map((item) => ({
+        ...item,
+        uri: item.uri
+          .replace(
+            /(easyops\.api\.)(.+)(@\d+\.\d+\.\d+(?=\/))(.+)/,
+            (_match, p1, p2, _p3, p4) => {
+              return `(${p1})?${p2}(@\\d+\\.\\d+\\.\\d+)?${p4}$`;
+            }
+          )
+          .replace(/:\w+/g, "[\\w|-]+"),
+      })),
+    };
 }
 
 export function getMockList(): MockRule[] {
-  return useMockList;
+  return mocks.mockList;
 }
 
-function getUrlRegExp(str: string): RegExp {
-  return new RegExp(`${str.replace(/:\w+/g, "[\\w|-]+")}$`);
-}
-
-export const isMatchMockUrl = (requestUrl: string, uri: string): boolean => {
-  const reg = getUrlRegExp(uri);
-  return reg.test(requestUrl);
-};
-
-export const getMockRule = (requestUrl: string): MockRule => {
-  return useMockList.find((item) => isMatchMockUrl(requestUrl, item.uri));
+export const getMockId = (requestUrl: string): string | undefined => {
+  if (mocks.mockList.find((item) => new RegExp(item.uri).test(requestUrl)))
+    return mocks.mockId;
+  return undefined;
 };

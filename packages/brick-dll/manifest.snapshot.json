@@ -18493,7 +18493,7 @@
           "event",
           "getAuth",
           "getHistory",
-          "getMockRule",
+          "getMockId",
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",

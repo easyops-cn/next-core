@@ -1408,7 +1408,15 @@ export interface StoryboardMeta {
   menus?: MenuRawData[];
 
   /** 应用启用mock服务列表 */
-  mocks?: MockRule[];
+  mocks?: Mocks;
+}
+
+export interface Mocks {
+  /** mock id */
+  mockId: string;
+
+  /** 使用mock规则列表 */
+  mockList: MockRule[];
 }
 
 /**
@@ -1417,9 +1425,6 @@ export interface StoryboardMeta {
 export interface MockRule {
   /** uri地址 */
   uri: string;
-
-  /** mock id */
-  mockId: string;
 }
 
 /**

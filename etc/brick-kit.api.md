@@ -41,7 +41,6 @@ import { MessageConf } from '@next-core/brick-types';
 import { MetaI18n } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
 import { MicroAppModels } from '@next-sdk/micro-app-sdk';
-import { MockRule } from '@next-core/brick-types/src/manifest';
 import { ModalFunc } from 'antd/lib/modal/confirm';
 import { MountPoints } from '@next-core/brick-types';
 import { PluginHistory } from '@next-core/brick-types';
@@ -279,7 +278,7 @@ export interface GetMicroAppsOptions {
 }
 
 // @public (undocumented)
-export const getMockRule: (requestUrl: string) => MockRule;
+export const getMockId: (requestUrl: string) => string | undefined;
 
 // @public
 export function getRuntime(): Runtime;
