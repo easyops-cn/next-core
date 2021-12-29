@@ -25,6 +25,7 @@ html[data-theme="dark-v2"],
   --color-fill-bg-container-4: #373739;
 
   --color-fill-bg-base-2: var(--palette-gray-3);
+  --color-auxiliary-text: var(--palette-gray-9);
 
   --mask-bg: rgba(23, 23, 26, 0.6);
 
@@ -45,25 +46,26 @@ html[data-theme="dark-v2"],
   /* component CSS variables */
 
   /* menu */
-  --antd-menu-bg: var(--body-background);
+  --antd-menu-bg: var(--palette-gray-3);
   --antd-menu-color: var(--color-normal-text);
-  --antd-menu-highlight-color: var(--dark-palette-gray-2);
+  --antd-menu-highlight-color: var(--palette-gray-2);
   --antd-menu-shadow: var(--menu-shadow);
   --antd-menu-popup-bg: var(--color-fill-bg-container-4);
-  --antd-menu-title-bg: rgba(255, 255, 255, 0.08);
+  --antd-menu-title-bg: var(--color-fill-bg-base-2);
   --antd-menu-title-color: var(--color-strong-text);
   --antd-menu-item-active-bg: var(--color-brand);
-  --antd-menu-item-hover: var(--dark-palette-gray-3);
-  --antd-menu-item-selected-bg: var(--dark-palette-blue-6);
+  --antd-menu-item-hover: var(--palette-gray-2);
+  --antd-menu-item-selected-bg: var(--palette-blue-6);
   --ant-menu-submenu-selected-bg: var(--antd-menu-item-hover);
   --ant-menu-item-group-title-color: var(--color-strong-text);
-  --ant-menu-collapse-bar-bg: var(--antd-menu-item-hover);
-  --ant-menu-collapse-bar-border-color: var(--antd-menu-item-hover);
+  --ant-menu-collapse-bar-bg: var(--palette-gray-3);
+  --ant-menu-collapse-bar-border-color: var(--palette-gray-3);
 
   --antd-app-submenu-title: var(--color-header-text);
-  --antd-app-submenu-bg: var(--dark-palette-gray-2);
+  --antd-app-submenu-bg: var(--palette-gray-2);
+  --antd-app-submenu-active-bg: var(--palette-blue-1);
   --antd-app-submenu-shadow: var(--base-shadow);
-  --antd-app-submenu-group-title-color: var(--color-normal-text);
+  --antd-app-submenu-group-title-color: var(--antd-text-color-secondary);
 
   /*** divider  ***/
   --antd-divider-color: var(--color-text-divider-line);

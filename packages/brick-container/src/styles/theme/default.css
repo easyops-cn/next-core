@@ -30,6 +30,7 @@
   --color-header-text: var(--palette-gray-9);
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-8);
+  --color-auxiliary-text: var(--palette-gray-8);
   --color-secondary-text: var(--palette-gray-7);
   --color-disabled-text: var(--palette-gray-6);
 
@@ -131,6 +132,7 @@
   );
   --antd-app-submenu-title: rgba(0, 0, 0, 0.85);
   --antd-app-submenu-bg: var(--antd-menu-popup-bg);
+  --antd-app-submenu-active-bg: #e0eeff;
   --antd-app-submenu-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
   --antd-app-submenu-group-title-color: var(--antd-text-color-secondary);
 
