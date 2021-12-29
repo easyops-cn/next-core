@@ -3,6 +3,7 @@ import { Empty } from "antd";
 import { getIllustration, IllustrationProps } from "@next-core/illustrations";
 
 import emptyImage from "../images/empty-image.png";
+import bigEmptyImage from "../images/big-empty-image.png";
 
 // @internal
 export interface EasyopsEmptyProps {
@@ -10,6 +11,7 @@ export interface EasyopsEmptyProps {
   description?: string | React.ReactNode;
   imageStyle?: React.CSSProperties;
   illustration?: IllustrationProps;
+  useBigEmptyImage?: boolean;
 }
 
 /**
@@ -20,12 +22,16 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
     () => props.illustration && getIllustration(props.illustration),
     [props.illustration]
   );
+  const _emptyImage = props.useBigEmptyImage ? bigEmptyImage : emptyImage;
+  const image = props.illustration ? illustration : getImageUrl(_emptyImage);
+  const imageStyle =
+    props.imageStyle ??
+    (props.useBigEmptyImage ? undefined : { height: "60px" });
 
-  const image = props.illustration ? illustration : getImageUrl(emptyImage);
   return (
     <Empty
       image={image}
-      imageStyle={props.imageStyle}
+      imageStyle={imageStyle}
       description={props.description}
     />
   );
