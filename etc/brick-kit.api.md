@@ -211,6 +211,8 @@ export interface EasyopsEmptyProps {
     illustration?: IllustrationProps;
     // (undocumented)
     imageStyle?: React_2.CSSProperties;
+    // (undocumented)
+    useBigEmptyImage?: boolean;
 }
 
 // Warning: (ae-forgotten-export) The symbol "NS_BRICK_KIT" needs to be exported by the entry point index.d.ts
