@@ -2020,7 +2020,7 @@ export interface StoryboardMeta {
     i18n?: MetaI18n;
     // (undocumented)
     menus?: MenuRawData[];
-    mocks?: MockRule[];
+    mocks?: Mocks;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
