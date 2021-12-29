@@ -22,6 +22,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV='development' webpack serve --config webpack.dev.js",
+    "prebuild": "node scripts/pre-build.js",
     "build": "cross-env NODE_ENV='production' webpack --config webpack.prod.js",
     "test": "cross-env NODE_ENV='test' jest",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest"
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@next-core/brick-dll": "^2.27.3",
     "@next-core/brick-icons": "^2.23.5",
+    "@next-core/color-theme": "^0.1.0",
     "@next-core/custom-antd-styles": "^1.8.12",
     "@next-core/illustrations": "^0.4.6",
     "@next-core/less-plugin-css-variables": "^0.1.5",
@@ -56,6 +58,7 @@
     "copy-webpack-plugin": "^6.4.1",
     "core-js": "^3.20.0",
     "css-loader": "^5.2.7",
+    "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^4.5.2",
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^6.1.2",
