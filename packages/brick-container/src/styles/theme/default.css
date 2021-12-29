@@ -108,6 +108,10 @@
 
   /* component CSS variables */
 
+  /***  basic antd variables  ***/
+  --antd-border-color-split-lighten-80: #fff;
+  --antd-border-color-split: #f0f0f0;
+
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
   --antd-menu-color: #fff;

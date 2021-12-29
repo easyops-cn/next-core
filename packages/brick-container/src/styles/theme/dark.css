@@ -39,13 +39,15 @@ html[data-theme="dark-v2"],
   --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
   --menu-shadow: 6px 0px 18px 0px rgba(0, 0, 0, 0.24);
 
-  /*  全局字体颜色基准 */
+  /* component CSS variables */
+
+  /***  basic antd variables  ***/
   --antd-text-color: var(--color-normal-text);
   --antd-text-color-secondary: var(--color-secondary-text);
 
-  /* component CSS variables */
+  --antd-border-color-split: var(--color-text-divider-line);
 
-  /* menu */
+  /*** menu ***/
   --antd-menu-bg: var(--palette-gray-3);
   --antd-menu-color: var(--color-normal-text);
   --antd-menu-highlight-color: var(--palette-gray-2);
