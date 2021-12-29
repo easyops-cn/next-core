@@ -1344,8 +1344,13 @@ export interface MicroApp {
 
 // @public
 export interface MockRule {
-    mockId: string;
     uri: string;
+}
+
+// @public (undocumented)
+export interface Mocks {
+    mockId: string;
+    mockList: MockRule[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "MountPoints" should be prefixed with an underscore because the declaration is marked as @internal
