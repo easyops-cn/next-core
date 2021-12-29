@@ -1411,15 +1411,20 @@ export interface StoryboardMeta {
   mocks?: MockRule[];
 }
 
+export interface Mocks {
+  /** mock id */
+  mockId: string;
+
+  /** 使用mock规则列表 */
+  mockList: MockRule[];
+}
+
 /**
  * 应用启用mock服务
  */
 export interface MockRule {
   /** uri地址 */
   uri: string;
-
-  /** mock id */
-  mockId: string;
 }
 
 /**
