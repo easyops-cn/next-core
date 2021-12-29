@@ -1,0 +1,123 @@
+html[data-theme="dark-v2"],
+[data-override-theme="dark-v2"] {
+  /* Basic CSS variables Refs: https://tapd.easyops.local/pages/viewpage.action?pageId=36045937 */
+
+  /***  在  :root 定义的变量和使用的色板值一样的话，不需要在这额外定义 ***/
+  --palette-gray-1: rgba(255, 255, 255, 0);
+  --palette-gray-2: rgba(255, 255, 255, 0.04);
+  --palette-gray-3: rgba(255, 255, 255, 0.08);
+  --palette-gray-4: rgba(255, 255, 255, 0.12);
+  --palette-gray-5: rgba(255, 255, 255, 0.02);
+  --palette-gray-6: rgba(255, 255, 255, 0.03);
+  --palette-gray-7: rgba(255, 255, 255, 0.45);
+  --palette-gray-8: rgba(255, 255, 255, 0.65);
+  --palette-gray-9: rgba(255, 255, 255, 0.85);
+  --palette-gray-10: rgba(255, 255, 255, 1);
+
+  --palette-blue-1: #141d31;
+  --palette-blue-2: #14284a;
+  --palette-blue-3: #18355f;
+  --palette-blue-4: #184481;
+  --palette-blue-5: #1b5bb3;
+  --palette-blue-6: #1a6bdd;
+  --palette-blue-7: #3e8ae8;
+  --palette-blue-8: #67abf4;
+  --palette-blue-9: #90c6f8;
+  --palette-blue-10: #baddfb;
+
+  --palette-green-1: #203121;
+  --palette-green-2: #294621;
+  --palette-green-3: #355924;
+  --palette-green-4: #417523;
+  --palette-green-5: #509b22;
+  --palette-green-6: #60c121;
+  --palette-green-7: #83d743;
+  --palette-green-8: #a9ec6e;
+  --palette-green-9: #caf89a;
+  --palette-green-10: #e1fbc4;
+
+  --palette-red-1: #321f22;
+  --palette-red-2: #492422;
+  --palette-red-3: #5d2d26;
+  --palette-red-4: #7d3426;
+  --palette-red-5: #a73d25;
+  --palette-red-6: #d24525;
+  --palette-red-7: #e86d4b;
+  --palette-red-8: #f49474;
+  --palette-red-9: #f8b68d;
+  --palette-red-10: #fad6c6;
+
+  --palette-amber-1: #322d20;
+  --palette-amber-2: #4a3e1d;
+  --palette-amber-3: #5e501b;
+  --palette-amber-4: #7f6816;
+  --palette-amber-5: #ab870f;
+  --palette-amber-6: #d6a707;
+  --palette-amber-7: #e8c32b;
+  --palette-amber-8: #f4d952;
+  --palette-amber-9: #f8e87a;
+  --palette-amber-10: #faf2a3;
+
+  --body-background: #17171a;
+
+  --color-brand: var(--palette-blue-6);
+  --color-fill-global-bg-1: var(--palette-gray-1);
+
+  --color-fill-bg-container-1: #232324;
+  --color-fill-bg-container-2: #2a2a2b;
+  --color-fill-bg-container-3: #313132;
+  --color-fill-bg-container-4: #373739;
+
+  --color-fill-bg-base-2: var(--palette-gray-3);
+
+  --mask-bg: rgba(23, 23, 26, 0.6);
+
+  --base-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.1);
+  --feedback-container-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
+  --right-slide-shadow: -2px 0px 8px 0px rgba(0, 0, 0, 0.14);
+  --left-slide-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.14);
+  --connected-overlay-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
+  --fullscreen-overlay-shadow: 0px 10px 32px 0px rgba(0, 0, 0, 0.24);
+  --hover-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
+  --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
+  --menu-shadow: 6px 0px 18px 0px rgba(0, 0, 0, 0.24);
+
+  /*  全局字体颜色基准 */
+  --antd-text-color: var(--color-normal-text);
+  --antd-text-color-secondary: var(--color-secondary-text);
+
+  /* component CSS variables */
+
+  /* menu */
+  --antd-menu-bg: var(--body-background);
+  --antd-menu-color: var(--color-normal-text);
+  --antd-menu-highlight-color: var(--dark-palette-gray-2);
+  --antd-menu-shadow: var(--menu-shadow);
+  --antd-menu-popup-bg: var(--color-fill-bg-container-4);
+  --antd-menu-title-bg: rgba(255, 255, 255, 0.08);
+  --antd-menu-title-color: var(--color-strong-text);
+  --antd-menu-item-active-bg: var(--color-brand);
+  --antd-menu-item-hover: var(--dark-palette-gray-3);
+  --antd-menu-item-selected-bg: var(--dark-palette-blue-6);
+  --ant-menu-submenu-selected-bg: var(--antd-menu-item-hover);
+  --ant-menu-item-group-title-color: var(--color-strong-text);
+  --ant-menu-collapse-bar-bg: var(--antd-menu-item-hover);
+  --ant-menu-collapse-bar-border-color: var(--antd-menu-item-hover);
+
+  --antd-app-submenu-title: var(--color-header-text);
+  --antd-app-submenu-bg: var(--dark-palette-gray-2);
+  --antd-app-submenu-shadow: var(--base-shadow);
+  --antd-app-submenu-group-title-color: var(--color-normal-text);
+
+  /*** divider  ***/
+  --antd-divider-color: var(--color-text-divider-line);
+
+  /*** appp bar ***/
+  --app-bar-bg: var(--color-fill-bg-container-1);
+  --app-bar-shadow: var(--feedback-container-shadow);
+  --app-bar-dropdown-menu-item-color: var(--color-normal-text);
+  --app-bar-dropdown-menu-item-hover-bg: var(--color-fill-bg-base-1);
+
+  /*** dropdown ***/
+  --antd-dropdown-menu-bg: var(--color-fill-bg-container-4);
+}

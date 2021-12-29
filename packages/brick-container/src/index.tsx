@@ -18,6 +18,7 @@ import {
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
 import "./antd";
+import "./styles/theme/index.css";
 import "./styles/variables.css";
 import "./styles/business-variables.css";
 import "./styles/editor-bricks-variables.css";

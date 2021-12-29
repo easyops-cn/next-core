@@ -1,7 +1,5 @@
 :root,
 [data-override-theme="light"] {
-  --color-brand: #0071eb;
-
   --bg-color-table-head: var(--antd-table-header-bg);
   --bg-color-list-hover: var(--antd-background-color-light);
   --bg-color-input-focus: #d6e8fb;
