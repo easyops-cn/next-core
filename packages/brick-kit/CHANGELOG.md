@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.98.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.97.0...@next-core/brick-kit@2.98.0) (2021-12-30)
+
+
+### Features
+
+* support dark-v2 ([0434b7e](https://github.com/easyops-cn/next-core/commit/0434b7e34c441c28ceb75ba753f46e3cd5ccc5c8))
+
+
+
+
+
 # [2.97.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.96.0...@next-core/brick-kit@2.97.0) (2021-12-29)
 
 
