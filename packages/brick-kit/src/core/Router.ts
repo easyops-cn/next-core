@@ -364,7 +364,7 @@ export class Router {
           : undefined;
       this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
 
-      setTheme("light");
+      setTheme(currentApp.theme ?? "light");
       setMode("default");
       // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
       this.locationContext.handleBeforePageLoad();

@@ -6,7 +6,7 @@ const DEFAULT_THEME = "light";
 let theme: SiteTheme = DEFAULT_THEME;
 
 export function setTheme(value: SiteTheme): void {
-  if (value !== "dark" && value !== "light") {
+  if (value !== "dark" && value !== "light" && value !== "dark-v2") {
     throw new Error(`Unsupported theme: ${value}`);
   }
   theme = value;

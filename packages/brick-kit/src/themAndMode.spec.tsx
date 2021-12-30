@@ -33,6 +33,8 @@ describe("theme", () => {
     setTheme("dark");
     expect(getTheme()).toEqual("dark");
     expect(document.documentElement.dataset.theme).toBe("light");
+    setTheme("dark-v2");
+    expect(getTheme()).toEqual("dark-v2");
   });
 
   test("should throw error if set an invalid theme", () => {
