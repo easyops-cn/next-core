@@ -172,6 +172,11 @@ export interface MicroApp {
    * 面包屑配置
    */
   breadcrumb?: BreadcrumbConf;
+
+  /**
+   * 该应用所属主题， dark 已经被用大屏模式，这里使用 dark-v2
+   */
+  theme?: "light" | "dark-v2";
 }
 
 /**
@@ -1139,6 +1144,7 @@ export interface BuiltinBrickEventHandler {
     // Theme and mode.
     | "theme.setDarkTheme"
     | "theme.setLightTheme"
+    | "theme.setTheme"
     | "mode.setDashboardMode"
     | "mode.setDefaultMode"
     | "menu.clearMenuTitleCache"
@@ -1698,7 +1704,7 @@ export interface ProbablyRuntimeBrick {
 /**
  * 站点主题。
  */
-export type SiteTheme = "light" | "dark";
+export type SiteTheme = "light" | "dark" | "dark-v2";
 
 /**
  * 站点模式。

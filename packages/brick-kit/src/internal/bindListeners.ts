@@ -14,6 +14,7 @@ import {
   StoryboardContextItem,
   UseProviderEventHandler,
   ProviderPollOptions,
+  SiteTheme,
 } from "@next-core/brick-types";
 import { handleHttpError, httpErrorToString } from "../handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
@@ -252,6 +253,8 @@ export function listenerFactory(
             handler.action === "theme.setDarkTheme" ? "dark" : "light"
           );
         }) as EventListener;
+      case "theme.setTheme":
+        return builtinThemeListenerFactory(handler.args, handler, context);
       case "mode.setDashboardMode":
       case "mode.setDefaultMode":
         return ((event: CustomEvent) => {
@@ -574,6 +577,20 @@ function builtinAnalyticsListenerFactory(
       route_alias: runtime.getCurrentRoute()?.alias,
       ...data,
     });
+  } as EventListener;
+}
+
+function builtinThemeListenerFactory(
+  args: unknown[],
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+    const [theme] = argsFactory(args, context, event);
+    applyTheme(theme as SiteTheme);
   } as EventListener;
 }
 
