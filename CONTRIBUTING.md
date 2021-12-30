@@ -46,12 +46,12 @@ exports.nextRepoDir = path.join(__dirname, "../next-basics");
 .
 ├── dll/*                 # <DLL> Scope: `@next-dll/*`
 ├── packages              # <平台库> Scope: `@next-core/*`
-    ├── brick-container   # 新 Console
-    ├── brick-dll         # Vendors dll
-    ├── brick-http        # Http 基础库
-    ├── brick-kit         # 插件运行时
-    ├── brick-scripts     # 用于构件开发的脚本工具
-    └── sdk-scripts       # 用于 SDK 的脚本工具
+    ├── brick-container   # 新 Console
+    ├── brick-dll         # Vendors dll
+    ├── brick-http        # Http 基础库
+    ├── brick-kit         # 插件运行时
+    ├── brick-scripts     # 用于构件开发的脚本工具
+    └── sdk-scripts       # 用于 SDK 的脚本工具
 ```
 
 ## 开发调试
@@ -79,6 +79,16 @@ LOCAL_BRICKS=abc yarn start
 # is similar to
 yarn serve --local-bricks=abc
 ```
+
+## 常见问题 FAQ
+
+- CI 错误：
+  - `Warning: You have changed the public API signature for this project`:
+    - 可以为你的 PR 添加一个标签 `eve: update docs etc`，它会告诉我们的机器人 _Eve_ 来更新 docs etc。
+    - 注意：这个错误用于发现提交的代码意外更新了公共 API 的情况，PR 作者及审查者需要关注这些变更是否是预期的。
+  - `Manifest snapshot not match`:
+    - 可以为你的 PR 添加一个标签 `eve: update dll manifest`，它会告诉我们的机器人 _Eve_ 来更新 DLL manifest。
+    - 注意：这个错误用于发现提交的代码意外更新了 DLL exports 的情况，PR 作者及审查者需要关注这些变更是否是预期的。
 
 [lerna]: https://github.com/lerna/lerna
 [yarn workspace]: https://yarnpkg.com/lang/en/docs/workspaces/
