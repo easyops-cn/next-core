@@ -3,6 +3,7 @@ import { SiteMode, SiteTheme } from "@next-core/brick-types";
 
 // Themes.
 const DEFAULT_THEME = "light";
+export const DARK_THEME = "dark-v2" as SiteTheme;
 let theme: SiteTheme = DEFAULT_THEME;
 
 export function setTheme(value: SiteTheme): void {

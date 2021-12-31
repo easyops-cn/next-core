@@ -60,6 +60,9 @@ module.exports = (runtimeFlags) => {
       localTemplates: {
         type: "string",
       },
+      darkThemeApps: {
+        type: "string",
+      },
       localContainer: {
         type: "boolean",
       },
@@ -146,6 +149,7 @@ module.exports = (runtimeFlags) => {
         --offline           Use offline mode
         --verbose           Print verbose logs
         --no-mock           Disable mock-micro-apps
+        --dark-theme-apps   Specify local micro apps to be used in dark theme  
         --no-live-reload    Disable live reload through WebSocket (for E2E tests in CI)
         --help              Show help message
         --version           Show brick container version
@@ -220,6 +224,12 @@ module.exports = (runtimeFlags) => {
     ? process.env.LOCAL_TEMPLATES.split(",")
     : [];
 
+  const useDarkThemeApps = flags.darkThemeApps
+    ? flags.darkThemeApps.split(",")
+    : process.env.DARK_THEME_APPS
+    ? process.env.DARK_THEME_APPS.split(",")
+    : [];
+
   const useLocalSettings =
     flags.localSettings || process.env.LOCAL_SETTINGS === "true";
   const useMergeSettings =
@@ -286,6 +296,7 @@ module.exports = (runtimeFlags) => {
     localSnippetPackages,
     localMicroApps,
     localTemplates,
+    useDarkThemeApps,
     useLocalSettings,
     useMergeSettings,
     nextRepoDir,
