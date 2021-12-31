@@ -49,13 +49,13 @@ html[data-theme="dark-v2"],
 
   /*** menu ***/
   --antd-menu-bg: var(--palette-gray-3);
-  --antd-menu-color: var(--color-normal-text);
+  --antd-menu-color: var(--color-header-text);
   --antd-menu-highlight-color: var(--palette-gray-2);
   --antd-menu-shadow: var(--menu-shadow);
   --antd-menu-popup-bg: var(--color-fill-bg-container-4);
   --antd-menu-title-bg: var(--color-fill-bg-base-2);
   --antd-menu-title-color: var(--color-strong-text);
-  --antd-menu-item-active-bg: var(--color-brand);
+  --antd-menu-item-active-bg: var(--color-fill-bg-base-1);
   --antd-menu-item-hover: var(--palette-gray-2);
   --antd-menu-item-selected-bg: var(--palette-blue-6);
   --ant-menu-submenu-selected-bg: var(--antd-menu-item-hover);
