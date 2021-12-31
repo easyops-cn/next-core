@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { Empty } from "antd";
 import { getIllustration, IllustrationProps } from "@next-core/illustrations";
 
-import emptyImage from "../images/empty-image.png";
-import bigEmptyImage from "../images/big-empty-image.png";
+import emptyImage from "../images/empty-image.svg";
+import bigEmptyImage from "../images/big-empty-image.svg";
 
 // @internal
 export interface EasyopsEmptyProps {
@@ -23,7 +23,9 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
     [props.illustration]
   );
   const _emptyImage = props.useBigEmptyImage ? bigEmptyImage : emptyImage;
-  const image = props.illustration ? illustration : getImageUrl(_emptyImage);
+  const image = props.illustration
+    ? illustration
+    : React.createElement(_emptyImage);
   const imageStyle =
     props.imageStyle ??
     (props.useBigEmptyImage ? undefined : { height: "60px" });
@@ -33,12 +35,9 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
       image={image}
       imageStyle={imageStyle}
       description={props.description}
+      style={{ color: "var(--text-color-secondary)" }}
     />
   );
-}
-
-function getImageUrl(url: string): string {
-  return `${window.CORE_ROOT ?? ""}assets/${url}`;
 }
 
 /**

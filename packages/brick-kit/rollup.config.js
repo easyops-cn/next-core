@@ -16,12 +16,5 @@ export default rollupFactory({
         ],
       },
     }),
-    url({
-      include: ["**/*.png"],
-      fileName: "[dirname][name].[hash][extname]",
-      destDir: "dist/assets",
-      limit: 0,
-      sourceDir: path.join(__dirname, "src", "images"),
-    }),
   ],
 });
