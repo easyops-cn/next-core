@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.42.3...@next-core/brick-container@2.43.0) (2021-12-31)
+
+
+### Features
+
+* **httpInterceptors:**  update mock url ([ea176c2](https://github.com/easyops-cn/next-core/commit/ea176c205af0ea8671b755a69465d8a20c01010f))
+
+
+
+
+
 ## [2.42.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.42.2...@next-core/brick-container@2.42.3) (2021-12-30)
 
 
