@@ -72,9 +72,9 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
   if (mockId) {
     config.url = config.url.replace(
       "api/gateway",
-      `api/gateway/mock.proxy.${mockId}`
+      `api/gateway/mock_server.proxy.${mockId}`
     );
-    headers.set("easyops-mockid", mockId);
+    headers.set("easyops-mock-id", mockId);
   }
   return {
     ...config,
