@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.14](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.13...@next-core/custom-antd-styles@1.8.14) (2021-12-31)
+
+
+### Bug Fixes
+
+* css variables ([fde0ddd](https://github.com/easyops-cn/next-core/commit/fde0ddd0f5a4f98704ccb6643f9a9e9ac02b5a0c))
+
+
+
+
+
 ## [1.8.13](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.12...@next-core/custom-antd-styles@1.8.13) (2021-12-29)
 
 
