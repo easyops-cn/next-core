@@ -223,6 +223,7 @@ describe("evaluate", () => {
     ["<% PERMISSIONS.check('my:action-a') %>", true],
     ["<% PERMISSIONS.check('my:action-b') %>", false],
     ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
+    ["<% THEME.getTheme() %>", "light"],
     ["<% SESSION_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
     ["<% INSTALLED_APPS.has('my-app-id') %>", true],
     ["<% INSTALLED_APPS.has('my-app-id', '<1.2.3') %>", true],

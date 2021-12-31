@@ -1,4 +1,5 @@
 const modifyResponse = require("./modifyResponse");
+const chalk = require("chalk");
 const {
   getSingleBrickPackage,
   getSingleStoryboard,
@@ -24,6 +25,7 @@ module.exports = (env) => {
     localSnippetPackages,
     localMicroApps,
     localTemplates,
+    useDarkThemeApps,
     useLocalSettings,
     useMergeSettings,
     server,
@@ -80,6 +82,21 @@ module.exports = (env) => {
                   (item) => !(item.app && localMicroApps.includes(item.app.id))
                 )
               );
+          }
+
+          if (useDarkThemeApps.length > 0) {
+            useDarkThemeApps.forEach((id) => {
+              const find = data.storyboards.find((item) => item.app.id === id);
+              if (find) {
+                find.app.theme = "dark-v2";
+              } else {
+                console.warn(
+                  chalk.yellow(
+                    `Warning: micro app not found and dark mode cannot be used: ${id}`
+                  )
+                );
+              }
+            });
           }
           const combinedLocalBrickPackages = Array.from(
             new Set(localBrickPackages.concat(localEditorPackages))
