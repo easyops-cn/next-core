@@ -1,10 +1,9 @@
 import { rollupFactory } from "@next-core/rollup-config-factory";
 import svgr from "@svgr/rollup";
-import url from "@rollup/plugin-url";
-import path from "path";
 
 export default rollupFactory({
   umdName: "BrickKit",
+  babelExclude: /node_modules\/@ctrl\/tinycolor/,
   plugins: [
     svgr({
       svgoConfig: {
