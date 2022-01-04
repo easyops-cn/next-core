@@ -28,7 +28,7 @@
   --color-text-divider-line: var(--palette-gray-4);
   --color-border-divider-line: var(--palette-gray-5);
   --color-header-text: var(--palette-gray-9);
-  --color-strong-text: var(--palette-gray-10);
+  --color-strong-text: var(--palette-gray-9);
   --color-normal-text: var(--palette-gray-8);
   --color-auxiliary-text: var(--palette-gray-8);
   --color-secondary-text: var(--palette-gray-7);
@@ -112,6 +112,8 @@
   --menu-submenu-selected-bg: rgba(0, 99, 206, 0.2);
   --app-submenu-active-bg: #e0eeff;
 
+  --checkbox-bg-hover: #ebf3fd;
+
   /* component CSS variables */
 
   /***  basic antd variables  ***/
@@ -157,4 +159,9 @@
 
   /*** dropdown ***/
   --antd-dropdown-menu-bg: var(--antd-component-background);
+
+  /*** checkbox ***/
+  --antd-checkbox-color: var(--color-brand);
+  --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
+  --antd-checkbox-checked: #f5f5f5;
 }

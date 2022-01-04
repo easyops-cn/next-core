@@ -26,6 +26,9 @@ html[data-theme="dark-v2"],
 
   --color-fill-bg-base-2: var(--palette-gray-3);
   --color-auxiliary-text: var(--palette-gray-9);
+  --color-strong-text: var(--palette-gray-10);
+  --color-normal-text: var(--palette-gray-9);
+  --color-auxiliary-text: var(--palette-gray-9);
 
   --mask-bg: rgba(23, 23, 26, 0.6);
 
@@ -48,6 +51,7 @@ html[data-theme="dark-v2"],
   --menu-submenu-selected-bg: var(--palette-gray-3);
   --app-submenu-active-bg: var(--palette-blue-1);
 
+  --checkbox-bg-hover: var(--palette-gray-3);
   /* component CSS variables */
 
   /***  basic antd variables  ***/
@@ -88,4 +92,9 @@ html[data-theme="dark-v2"],
 
   /*** dropdown ***/
   --antd-dropdown-menu-bg: var(--color-fill-bg-container-4);
+
+  /*** checkbox ***/
+  --antd-checkbox-color: var(--color-brand);
+  --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
+  --antd-checkbox-checked: var(--color-info-bg);
 }
