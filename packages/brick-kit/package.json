@@ -47,6 +47,7 @@
     "@ant-design/icons": "^4.5.0",
     "@next-core/brick-http": "^2.3.5",
     "@next-core/brick-utils": "^2.32.3",
+    "@next-core/color-theme": "^0.2.0",
     "@next-core/easyops-analytics": "^0.7.2",
     "@next-core/illustrations": "^0.4.6",
     "@next-core/pipes": "^1.0.1",

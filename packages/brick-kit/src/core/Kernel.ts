@@ -96,6 +96,10 @@ export class Kernel {
     if (this.bootstrapData.storyboards.length === 0) {
       throw new Error("No storyboard were found.");
     }
+
+    // Todo(jo): apply global color theme.
+    // applyColorTheme(...);
+
     if (isLoggedIn()) {
       this.loadSharedData();
     }

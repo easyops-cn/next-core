@@ -1,24 +1,20 @@
-import { getStyleByBaseColors } from ".";
+import {
+  getStyleByBaseColors,
+  getStyleByBrandColor,
+  getStyleByVariables,
+} from ".";
 
 describe("getStyleByBaseColors", () => {
-  it("should work", () => {
+  it("should work for light theme", () => {
     const style = getStyleByBaseColors(
+      "light",
       // Base colors in light theme.
       {
         red: "#f24c25",
         green: "#52c41a",
         blue: "#1a7aff",
         amber: "#f7bf02",
-      },
-      // Base colors in dark theme.
-      {
-        red: "#f34d27",
-        green: "#7bff21",
-        blue: "#1a7aff",
-        amber: "#f8c004",
-      },
-      // Base background color in dark theme.
-      "#17171a"
+      }
     );
     expect(style).toMatchInlineSnapshot(`
       ":root,
@@ -66,9 +62,25 @@ describe("getStyleByBaseColors", () => {
         --palette-amber-8: #ab7800;
         --palette-amber-9: #855800;
         --palette-amber-10: #5e3c00;
-      }
+      }"
+    `);
+  });
 
-      html[data-theme=\\"dark-v2\\"],
+  it("should for dark theme", () => {
+    const style = getStyleByBaseColors(
+      "dark",
+      // Base colors in dark theme.
+      {
+        red: "#f34d27",
+        green: "#7bff21",
+        blue: "#1a7aff",
+        amber: "#f8c004",
+      },
+      // Base background color in dark theme.
+      "#17171a"
+    );
+    expect(style).toMatchInlineSnapshot(`
+      "html[data-theme=\\"dark-v2\\"],
       [data-override-theme=\\"dark-v2\\"] {
         --palette-red-1: #2c1818;
         --palette-red-2: #441e19;
@@ -115,5 +127,109 @@ describe("getStyleByBaseColors", () => {
         --palette-amber-10: #faf2a5;
       }"
     `);
+  });
+
+  it("should throw for invalid base color names", () => {
+    expect(() =>
+      getStyleByBaseColors("light", {
+        colorBrand: "red",
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Invalid base color name: \\"colorBrand\\""`
+    );
+  });
+});
+
+describe("getStyleByBrandColor", () => {
+  it("should work for light theme", () => {
+    const style = getStyleByBrandColor("light", "red");
+    expect(style).toMatchInlineSnapshot(`
+      ":root,
+      [data-override-theme=\\"light\\"] {
+        --color-brand: red;
+      }"
+    `);
+  });
+
+  it("should work for dark theme", () => {
+    const style = getStyleByBrandColor("dark", "red");
+    expect(style).toMatchInlineSnapshot(`
+      "html[data-theme=\\"dark-v2\\"],
+      [data-override-theme=\\"dark-v2\\"] {
+        --color-brand: red;
+      }"
+    `);
+  });
+
+  it("should work in advanced mode for light theme", () => {
+    const style = getStyleByBrandColor("light", {
+      default: "red-1",
+      hover: "red-2",
+      active: "red-3",
+    });
+    expect(style).toMatchInlineSnapshot(`
+      ":root,
+      [data-override-theme=\\"light\\"] {
+        --color-brand: red-1;
+        --color-brand-hover: red-2;
+        --color-brand-active: red-3;
+      }"
+    `);
+  });
+
+  it("should work in advanced mode for dark theme", () => {
+    const style = getStyleByBrandColor("dark", {
+      default: "red-1",
+      hover: "red-2",
+      active: "red-3",
+    });
+    expect(style).toMatchInlineSnapshot(`
+      "html[data-theme=\\"dark-v2\\"],
+      [data-override-theme=\\"dark-v2\\"] {
+        --color-brand: red-1;
+        --color-brand-hover: red-2;
+        --color-brand-active: red-3;
+      }"
+    `);
+  });
+});
+
+describe("getStyleByVariables", () => {
+  it("should work for light theme", () => {
+    const style = getStyleByVariables("light", {
+      "--color-brand": "red",
+      "--palette-blue-6": "darkblue",
+    });
+    expect(style).toMatchInlineSnapshot(`
+      ":root,
+      [data-override-theme=\\"light\\"] {
+        --color-brand: red;
+        --palette-blue-6: darkblue;
+      }"
+    `);
+  });
+
+  it("should work for dark theme", () => {
+    const style = getStyleByVariables("dark", {
+      "--color-brand": "red",
+      "--palette-blue-6": "darkblue",
+    });
+    expect(style).toMatchInlineSnapshot(`
+      "html[data-theme=\\"dark-v2\\"],
+      [data-override-theme=\\"dark-v2\\"] {
+        --color-brand: red;
+        --palette-blue-6: darkblue;
+      }"
+    `);
+  });
+
+  it("should throw for invalid css variable names", () => {
+    expect(() =>
+      getStyleByVariables("light", {
+        "--colorBrand": "red",
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Invalid css variable name: \\"--colorBrand\\""`
+    );
   });
 });
