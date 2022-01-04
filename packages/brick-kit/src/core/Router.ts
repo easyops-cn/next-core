@@ -426,16 +426,16 @@ export class Router {
         afterMountTree(mountPoints.portal as MountableElement);
         afterMountTree(mountPoints.bg as MountableElement);
 
+        // Scroll to top after each rendering.
+        // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
+        window.scrollTo(0, 0);
+
         if (!failed) {
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
           this.locationContext.resolver.scheduleRefreshing();
           this.locationContext.handleMessage();
         }
-
-        // Scroll to top after each rendering.
-        // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
-        window.scrollTo(0, 0);
 
         pageTracker?.(locationContext.getCurrentMatch().path);
 
