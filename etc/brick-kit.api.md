@@ -278,7 +278,10 @@ export interface GetMicroAppsOptions {
 }
 
 // @public (undocumented)
-export const getMockId: (requestUrl: string) => string | undefined;
+export const getMockInfo: (requestUrl: string) => {
+    url: string;
+    mockId: string;
+} | undefined;
 
 // @public
 export function getRuntime(): Runtime;

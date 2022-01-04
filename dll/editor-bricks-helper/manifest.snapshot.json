@@ -184,7 +184,7 @@
           "event",
           "getAuth",
           "getHistory",
-          "getMockId",
+          "getMockInfo",
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",
