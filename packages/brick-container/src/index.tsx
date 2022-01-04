@@ -7,7 +7,7 @@ import {
   createRuntime,
   getAuth,
   httpErrorToString,
-  getMockId,
+  getMockInfo,
 } from "@next-core/brick-kit";
 import {
   http,
@@ -68,12 +68,10 @@ if (!window.STANDALONE_MICRO_APPS) {
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   const headers = new Headers(config.options?.headers || {});
   headers.set("lang", i18n.resolvedLanguage);
-  const mockId = getMockId(config.url);
-  if (mockId) {
-    config.url = config.url
-      .replace("api/gateway", `api/gateway/mock_server.proxy.${mockId}`)
-      .replace(/@\d+\.\d+\.\d+/, "");
-    headers.set("easyops-mock-id", mockId);
+  const mockInfo = getMockInfo(config.url);
+  if (mockInfo) {
+    config.url = mockInfo.url;
+    headers.set("easyops-mock-id", mockInfo.mockId);
   }
   return {
     ...config,

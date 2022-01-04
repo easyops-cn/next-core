@@ -32,4 +32,4 @@ export * from "./checkIf";
 export { useCurrentTheme, useCurrentMode } from "./themeAndMode";
 export * from "./featureFlags";
 export * from "./core/StoryboardFunctionRegistryFactory";
-export { getMockId } from "./core/MockRegistry";
+export { getMockInfo } from "./core/MockRegistry";
