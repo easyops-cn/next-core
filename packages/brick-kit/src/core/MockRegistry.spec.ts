@@ -8,16 +8,16 @@ const register = (nothing?: boolean): void => {
       mockId: "123",
       mockList: [
         {
-          uri: "easyops.api.test.getA@1.0.0/a/b/c/d/e",
+          uri: "easyops.api.test.getA/a/b/c/d/e",
         },
         {
-          uri: "easyops.api.test.abc.getB@0.0.1/a/b/:projectId/c",
+          uri: "easyops.api.test.abc.getB/a/b/:projectId/c",
         },
         {
-          uri: "easyops.api.test.abc.efg.getC@2.11.1/a/b/:projectId/c/d/:instasnceId",
+          uri: "easyops.api.test.abc.efg.getC/a/b/:projectId/c/d/:instasnceId",
         },
         {
-          uri: "easyops.api.test.abc.getD@123.456.789/a/b/c/d/:instasnceId",
+          uri: "easyops.api.test.abc.getD/a/b/c/d/:instasnceId",
         },
       ],
     });

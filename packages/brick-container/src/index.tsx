@@ -70,10 +70,9 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
   headers.set("lang", i18n.resolvedLanguage);
   const mockId = getMockId(config.url);
   if (mockId) {
-    config.url = config.url.replace(
-      "api/gateway",
-      `api/gateway/mock_server.proxy.${mockId}`
-    );
+    config.url = config.url
+      .replace("api/gateway", `api/gateway/mock_server.proxy.${mockId}`)
+      .replace(/@\d+\.\d+\.\d+/, "");
     headers.set("easyops-mock-id", mockId);
   }
   return {

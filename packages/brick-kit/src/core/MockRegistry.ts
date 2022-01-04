@@ -12,12 +12,9 @@ export function registerMock(useMocks: Mocks): void {
       mockList: useMocks.mockList?.map((item) => ({
         ...item,
         uri: item.uri
-          .replace(
-            /(easyops\.api\.)(.+)(@\d+\.\d+\.\d+(?=\/))(.+)/,
-            (_match, p1, p2, _p3, p4) => {
-              return `(${p1})?${p2}(@\\d+\\.\\d+\\.\\d+)?${p4}$`;
-            }
-          )
+          .replace(/(easyops\.api\.)(.+?)\/(.+)/, (_match, p1, p2, p3) => {
+            return `(${p1})?${p2}(@\\d+\\.\\d+\\.\\d+)?/${p3}$`;
+          })
           .replace(/:\w+/g, "[\\w|-]+"),
       })),
     };
