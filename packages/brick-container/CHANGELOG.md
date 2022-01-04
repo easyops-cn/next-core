@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.44.3...@next-core/brick-container@2.45.0) (2022-01-04)
+
+
+### Features
+
+* **MockRegistry:**  remove version in mock url ([e291d52](https://github.com/easyops-cn/next-core/commit/e291d52626e5565a9ebd8cf6370cb6cf7dd33903))
+* **MockRegistry:**  update RegExp ([423be36](https://github.com/easyops-cn/next-core/commit/423be36023068c1ebf07215d15117af4299ec039))
+
+
+
+
+
 ## [2.44.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.44.2...@next-core/brick-container@2.44.3) (2022-01-04)
 
 **Note:** Version bump only for package @next-core/brick-container
