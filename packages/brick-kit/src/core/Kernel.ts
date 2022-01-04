@@ -50,6 +50,7 @@ import {
   VisitedWorkspace,
   RecentApps,
   CustomApiDefinition,
+  ThemeSetting,
 } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
@@ -61,6 +62,12 @@ import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
 import { getI18nNamespace } from "../i18n";
+import {
+  applyColorTheme,
+  ColorThemeOptionsByBrand,
+  ColorThemeOptionsByBaseColors,
+  ColorThemeOptionsByVariables,
+} from "../internal/applyColorTheme";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -97,8 +104,9 @@ export class Kernel {
       throw new Error("No storyboard were found.");
     }
 
-    // Todo(jo): apply global color theme.
-    // applyColorTheme(...);
+    generateColorTheme(
+      this.bootstrapData.settings?.misc?.theme as ThemeSetting
+    );
 
     if (isLoggedIn()) {
       this.loadSharedData();
@@ -674,4 +682,25 @@ async function loadScriptOfDll(dlls: string[]): Promise<void> {
 
 function loadScriptOfBricksOrTemplates(src: string[]): Promise<unknown> {
   return loadScript(src, window.PUBLIC_ROOT);
+}
+
+function generateColorTheme(theme: ThemeSetting): void {
+  if (!theme) {
+    return;
+  } else if (theme.brandColor as ColorThemeOptionsByBrand) {
+    applyColorTheme({
+      type: "brandColor",
+      ...theme.brandColor,
+    });
+  } else if (theme.baseColors as ColorThemeOptionsByBaseColors) {
+    applyColorTheme({
+      type: "baseColors",
+      ...theme.baseColors,
+    });
+  } else if (theme.variables as ColorThemeOptionsByVariables) {
+    applyColorTheme({
+      type: "variables",
+      ...theme.variables,
+    });
+  }
 }

@@ -7,6 +7,8 @@
 import { Action } from 'history';
 import { AppBarBrick } from '@next-core/brick-types';
 import { AuthInfo } from '@next-core/brick-types';
+import { BaseColors } from '@next-core/color-theme';
+import { BrandColor } from '@next-core/color-theme';
 import { BreadcrumbItemConf } from '@next-core/brick-types';
 import { BrickConf } from '@next-core/brick-types';
 import { BrickEventHandlerCallback } from '@next-core/brick-types';
@@ -450,6 +452,22 @@ export function StoryboardFunctionRegistryFactory({ widgetId, collectCoverage, }
     widgetId?: string;
     collectCoverage?: FunctionCoverageSettings;
 }): StoryboardFunctionRegistry;
+
+// @public (undocumented)
+export interface ThemeSetting {
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByBaseColors" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    baseColors: Omit<ColorThemeOptionsByBaseColors, "type">;
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByBrand" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    brandColor: Omit<ColorThemeOptionsByBrand, "type">;
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByVariables" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    variables: Omit<ColorThemeOptionsByVariables, "type">;
+}
 
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //

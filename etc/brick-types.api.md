@@ -1755,6 +1755,8 @@ export interface Settings {
     featureFlags: FeatureFlags;
     // (undocumented)
     homepage: string;
+    // (undocumented)
+    misc?: Record<string, unknown>;
 }
 
 // @public

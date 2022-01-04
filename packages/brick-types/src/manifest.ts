@@ -23,6 +23,7 @@ export interface RuntimeBootstrapData extends BootstrapData {
 export interface Settings {
   featureFlags: FeatureFlags;
   homepage: string;
+  misc?: Record<string, unknown>;
   [key: string]: unknown;
 }
 
