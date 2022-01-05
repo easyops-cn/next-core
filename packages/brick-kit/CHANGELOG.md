@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.101.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.0...@next-core/brick-kit@2.101.1) (2022-01-05)
+
+
+### Bug Fixes
+
+* fix `_.isEmpty(QUERY)` ([3202979](https://github.com/easyops-cn/next-core/commit/3202979a524a512423b9ce1f698c265ce650755c))
+
+
+
+
+
 # [2.101.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.100.0...@next-core/brick-kit@2.101.0) (2022-01-05)
 
 
