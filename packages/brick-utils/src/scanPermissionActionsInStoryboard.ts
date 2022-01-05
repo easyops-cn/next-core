@@ -1,4 +1,5 @@
 import { Storyboard } from "@next-core/brick-types";
+import { EstreeLiteral } from "@next-core/cook";
 import { PrecookHooks } from "./cook";
 import {
   visitStoryboardExpressions,
@@ -7,11 +8,6 @@ import {
 
 const PERMISSIONS = "PERMISSIONS";
 const check = "check";
-
-interface ESTreeStringLiteral {
-  type: "Literal";
-  value: string;
-}
 
 export function scanPermissionActionsInStoryboard(
   storyboard: Storyboard
@@ -55,7 +51,7 @@ function beforeVisitPermissionsFactory(
         memberParent.node.property.name === check
       ) {
         for (const arg of callParent.node
-          .arguments as unknown as ESTreeStringLiteral[]) {
+          .arguments as unknown as EstreeLiteral[]) {
           if (arg.type === "Literal" && typeof arg.value === "string") {
             collection.add(arg.value);
           }

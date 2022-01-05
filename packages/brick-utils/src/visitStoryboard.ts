@@ -30,7 +30,7 @@ export function visitStoryboardFunctions(
 interface VisitStoryboardExpressionsOptions {
   matchExpressionString: (v: string) => boolean;
   visitNonExpressionString?: (v: string) => unknown;
-  visitObject?: (v: object) => unknown;
+  visitObject?: (v: unknown[] | Record<string, unknown>) => unknown;
 }
 
 export function visitStoryboardExpressions(

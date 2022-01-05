@@ -1,14 +1,10 @@
 import { Storyboard } from "@next-core/brick-types";
+import { EstreeLiteral } from "@next-core/cook";
 import { PrecookHooks } from "./cook";
 import {
   visitStoryboardExpressions,
   visitStoryboardFunctions,
 } from "./visitStoryboard";
-
-interface ESTreeStringLiteral {
-  type: "Literal";
-  value: string;
-}
 
 const I18N = "I18N";
 
@@ -45,7 +41,7 @@ function beforeVisitI18nFactory(
         callParent.key === "callee"
       ) {
         const [keyNode, defaultNode] = callParent.node
-          .arguments as unknown as ESTreeStringLiteral[];
+          .arguments as unknown as EstreeLiteral[];
         if (
           keyNode &&
           keyNode.type === "Literal" &&

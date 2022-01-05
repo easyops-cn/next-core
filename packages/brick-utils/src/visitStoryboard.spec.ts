@@ -1,4 +1,7 @@
-import { visitStoryboardExpressions, visitStoryboardFunctions } from ".";
+import {
+  visitStoryboardExpressions,
+  visitStoryboardFunctions,
+} from "./visitStoryboard";
 
 const consoleError = jest
   .spyOn(console, "error")
