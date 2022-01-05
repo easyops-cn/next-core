@@ -40,7 +40,7 @@ html[data-theme="dark-v2"],
   --fullscreen-overlay-shadow: 0px 10px 32px 0px rgba(0, 0, 0, 0.24);
   --hover-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
   --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
-  --menu-shadow: 6px 0px 18px 0px rgba(0, 0, 0, 0.24);
+  --menu-shadow: 2px 0px 0px 0px rgba(0, 0, 0, 0.24);
 
   --menu-bg: var(--palette-gray-3);
   --menu-item-selected-bg: var(--palette-blue-6);

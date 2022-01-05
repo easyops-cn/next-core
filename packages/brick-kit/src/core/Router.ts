@@ -241,6 +241,9 @@ export class Router {
     this.kernel.nextApp = currentApp;
     const layoutType: LayoutType = currentApp?.layoutType || "console";
 
+    setTheme(currentApp?.theme ?? "light");
+    setMode("default");
+
     devtoolsHookEmit("rendering");
 
     unmountTree(mountPoints.bg as MountableElement);
@@ -364,8 +367,6 @@ export class Router {
           : undefined;
       this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
 
-      setTheme(currentApp.theme ?? "light");
-      setMode("default");
       // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
       this.locationContext.handleBeforePageLoad();
       applyTheme();
