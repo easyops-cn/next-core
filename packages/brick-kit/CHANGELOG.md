@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.101.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.100.0...@next-core/brick-kit@2.101.0) (2022-01-05)
+
+
+### Bug Fixes
+
+* fix building ([ad86f04](https://github.com/easyops-cn/next-core/commit/ad86f04310b8264a3a22a5296e71beff620978db))
+
+
+### Features
+
+* apply color theme ([0998f5f](https://github.com/easyops-cn/next-core/commit/0998f5fc1e662cde1eeedb7bc30bd7a5e1e8fe85))
+* support custom style ([4cdbbf5](https://github.com/easyops-cn/next-core/commit/4cdbbf524bf89bb402d945694c29066ce78b4f4e))
+
+
+
+
+
 # [2.100.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.99.2...@next-core/brick-kit@2.100.0) (2022-01-04)
 
 
