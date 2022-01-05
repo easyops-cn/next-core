@@ -33,6 +33,7 @@ import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
+import { applyColorTheme } from "../internal/applyColorTheme";
 
 i18next.init({
   fallbackLng: "en",
@@ -52,6 +53,7 @@ jest.mock("../auth");
 jest.mock("../runtime");
 jest.mock("./initAnalytics");
 jest.mock("./standaloneBootstrap");
+jest.mock("../internal/applyColorTheme");
 
 const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
@@ -80,6 +82,7 @@ const spyOnGetAppStoryboard = (
 });
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
+const spyApplyColorTheme = applyColorTheme as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
@@ -871,5 +874,153 @@ describe("Kernel", () => {
     } as any;
     const menus = kernel.getStandaloneMenus("menu-1");
     expect(menus).toEqual([]);
+  });
+
+  it("should apply custom theme", async () => {
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [
+        {
+          filePath: "all.js",
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js",
+        },
+      ],
+      settings: {
+        misc: {
+          theme: {
+            brandColor: {
+              light: "#6b6b6b",
+              dark: "red",
+            },
+          },
+        },
+      },
+    });
+    await kernel.bootstrap(mountPoints);
+
+    expect(spyApplyColorTheme.mock.calls[0][0]).toEqual({
+      dark: "red",
+      light: "#6b6b6b",
+      type: "brandColor",
+    });
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [
+        {
+          filePath: "all.js",
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js",
+        },
+      ],
+      settings: {
+        misc: {
+          theme: {
+            baseColors: {
+              light: {
+                red: "#6b6b6b",
+              },
+              dark: {
+                red: "#555",
+              },
+            },
+          },
+        },
+      },
+    });
+    await kernel.bootstrap(mountPoints);
+
+    expect(spyApplyColorTheme.mock.calls[1][0]).toEqual({
+      dark: {
+        red: "#555",
+      },
+      light: {
+        red: "#6b6b6b",
+      },
+      type: "baseColors",
+    });
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [
+        {
+          filePath: "all.js",
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js",
+        },
+      ],
+      settings: {
+        misc: {
+          theme: {
+            variables: {
+              light: {
+                "--color-brand": "yellow",
+              },
+              dark: {
+                "--color-brand": "yellow",
+              },
+            },
+          },
+        },
+      },
+    });
+    await kernel.bootstrap(mountPoints);
+
+    expect(spyApplyColorTheme.mock.calls[2][0]).toEqual({
+      dark: {
+        "--color-brand": "yellow",
+      },
+      light: {
+        "--color-brand": "yellow",
+      },
+      type: "variables",
+    });
   });
 });

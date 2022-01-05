@@ -26,6 +26,9 @@ html[data-theme="dark-v2"],
 
   --color-fill-bg-base-2: var(--palette-gray-3);
   --color-auxiliary-text: var(--palette-gray-9);
+  --color-strong-text: var(--palette-gray-10);
+  --color-normal-text: var(--palette-gray-9);
+  --color-auxiliary-text: var(--palette-gray-9);
 
   --mask-bg: rgba(23, 23, 26, 0.6);
 
@@ -39,6 +42,16 @@ html[data-theme="dark-v2"],
   --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
   --menu-shadow: 6px 0px 18px 0px rgba(0, 0, 0, 0.24);
 
+  --menu-bg: var(--palette-gray-3);
+  --menu-item-selected-bg: var(--palette-blue-6);
+  --menu-collapse-bar-border-color: var(--palette-gray-3);
+  --menu-collapse-bar-bg: var(--palette-gray-3);
+  --menu-item-hover: var(--palette-gray-2);
+  --app-submenu-bg: var(--palette-gray-2);
+  --menu-submenu-selected-bg: var(--palette-gray-3);
+  --app-submenu-active-bg: var(--palette-blue-1);
+
+  --checkbox-bg-hover: var(--palette-gray-3);
   /* component CSS variables */
 
   /***  basic antd variables  ***/
@@ -48,24 +61,23 @@ html[data-theme="dark-v2"],
   --antd-border-color-split: var(--color-text-divider-line);
 
   /*** menu ***/
-  --antd-menu-bg: var(--palette-gray-3);
+  --antd-menu-bg: var(--menu-bg);
   --antd-menu-color: var(--color-header-text);
-  --antd-menu-highlight-color: var(--palette-gray-2);
   --antd-menu-shadow: var(--menu-shadow);
   --antd-menu-popup-bg: var(--color-fill-bg-container-4);
   --antd-menu-title-bg: var(--color-fill-bg-base-2);
   --antd-menu-title-color: var(--color-strong-text);
   --antd-menu-item-active-bg: var(--color-fill-bg-base-1);
-  --antd-menu-item-hover: var(--palette-gray-2);
-  --antd-menu-item-selected-bg: var(--palette-blue-6);
-  --ant-menu-submenu-selected-bg: var(--antd-menu-item-hover);
+  --antd-menu-item-hover: var(--menu-item-hover);
+  --antd-menu-item-selected-bg: var(--menu-item-selected-bg);
+  --ant-menu-submenu-selected-bg: var(--menu-submenu-selected-bg);
   --ant-menu-item-group-title-color: var(--color-strong-text);
-  --ant-menu-collapse-bar-bg: var(--palette-gray-3);
-  --ant-menu-collapse-bar-border-color: var(--palette-gray-3);
+  --ant-menu-collapse-bar-bg: var(--menu-collapse-bar-bg);
+  --ant-menu-collapse-bar-border-color: var(--menu-collapse-bar-border-color);
 
   --antd-app-submenu-title: var(--color-header-text);
-  --antd-app-submenu-bg: var(--palette-gray-2);
-  --antd-app-submenu-active-bg: var(--palette-blue-1);
+  --antd-app-submenu-bg: var(--app-submenu-bg);
+  --antd-app-submenu-active-bg: var(--app-submenu-active-bg);
   --antd-app-submenu-shadow: var(--base-shadow);
   --antd-app-submenu-group-title-color: var(--antd-text-color-secondary);
 
@@ -80,4 +92,9 @@ html[data-theme="dark-v2"],
 
   /*** dropdown ***/
   --antd-dropdown-menu-bg: var(--color-fill-bg-container-4);
+
+  /*** checkbox ***/
+  --antd-checkbox-color: var(--color-brand);
+  --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
+  --antd-checkbox-checked: var(--color-info-bg);
 }
