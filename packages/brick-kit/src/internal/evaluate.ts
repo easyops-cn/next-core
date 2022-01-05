@@ -242,23 +242,13 @@ export function evaluate(
           },
         });
       case "QUERY":
-        return getDynamicReadOnlyProxy({
-          get(target, key: string) {
-            return query.has(key) ? query.get(key) : undefined;
-          },
-          ownKeys() {
-            return Array.from(query.keys());
-          },
-        });
+        return Object.fromEntries(
+          Array.from(query.keys()).map((key) => [key, query.get(key)])
+        );
       case "QUERY_ARRAY":
-        return getDynamicReadOnlyProxy({
-          get(target, key: string) {
-            return query.has(key) ? query.getAll(key) : undefined;
-          },
-          ownKeys() {
-            return Array.from(query.keys());
-          },
-        });
+        return Object.fromEntries(
+          Array.from(query.keys()).map((key) => [key, query.getAll(key)])
+        );
       case "SEGUE":
         return {
           getUrl: getUrlBySegueFactory(app, segues),
