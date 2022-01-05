@@ -119,6 +119,8 @@
   /***  basic antd variables  ***/
   --antd-border-color-split-lighten-80: #fff;
   --antd-border-color-split: #f0f0f0;
+  --antd-heading-color: rgba(0, 0, 0, 0.85);
+  --antd-component-background: #fff;
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
@@ -164,4 +166,9 @@
   --antd-checkbox-color: var(--color-brand);
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
   --antd-checkbox-checked: #f5f5f5;
+
+  /*** card ***/
+  --antd-card-background: var(--antd-component-background);
+  --antd-heading-color: var(--color-normal-text);
+  --antd-card-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
 }
