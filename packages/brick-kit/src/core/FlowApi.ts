@@ -175,7 +175,7 @@ async function _fetchFlowApiDefinition(
         },
       }
     );
-    if (list[0].instanceId) {
+    if (list[0]?.instanceId) {
       return {
         name: list[0].name,
         namespace: list[0]?.namespaceId,
