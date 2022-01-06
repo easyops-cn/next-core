@@ -2,6 +2,8 @@ import yaml from "js-yaml";
 import { ContractApi_searchSingleContract } from "@next-sdk/api-gateway-sdk";
 import { CustomApiDefinition, CustomApiProfile } from "./interfaces";
 import { _internalApiGetMicroAppApiOrchestrationMap } from "./Runtime";
+import { getMockList } from "./MockRegistry";
+import { InstanceApi_postSearchV3 } from "@next-sdk/cmdb-sdk";
 
 const flowApiDefinitionPromiseMap = new Map<
   string,
@@ -153,21 +155,54 @@ async function _fetchFlowApiDefinition(
 ): Promise<CustomApiDefinition> {
   const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
-  const { contractData } = await ContractApi_searchSingleContract({
-    contractName: `${namespaceName}.${name}`,
-    version,
-  });
 
-  // return undefined if don't found contract
-  if (contractData) {
-    return {
-      name: contractData.name,
-      namespace: contractData.namespace?.[0]?.name,
-      version: contractData.version,
-      contract: {
-        endpoint: contractData.endpoint,
-        response: contractData.response,
-      },
-    };
+  const isUseMock = getMockList().find(
+    (item) => item.provider === `${namespaceName}@${name}`
+  );
+
+  if (isUseMock) {
+    const { list } = await InstanceApi_postSearchV3(
+      "FLOW_BUILDER_API_CONTRACT@EASYOPS",
+      {
+        fields: ["name", "namespaceId", "endpoint", "response"],
+        query: {
+          namespaceId: {
+            $eq: namespaceName,
+          },
+          name: {
+            $eq: name,
+          },
+        },
+      }
+    );
+    if (list[0].instanceId) {
+      return {
+        name: list[0].name,
+        namespace: list[0]?.namespaceId,
+        version: list[0].version,
+        contract: {
+          endpoint: list[0].endpoint,
+          response: list[0].response,
+        },
+      };
+    }
+  } else {
+    const { contractData } = await ContractApi_searchSingleContract({
+      contractName: `${namespaceName}.${name}`,
+      version,
+    });
+
+    // return undefined if don't found contract
+    if (contractData) {
+      return {
+        name: contractData.name,
+        namespace: contractData.namespace?.[0]?.name,
+        version: contractData.version,
+        contract: {
+          endpoint: contractData.endpoint,
+          response: contractData.response,
+        },
+      };
+    }
   }
 }

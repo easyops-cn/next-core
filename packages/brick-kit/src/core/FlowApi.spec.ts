@@ -1,6 +1,42 @@
 import * as apiGatewaySdk from "@next-sdk/api-gateway-sdk";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./FlowApi";
 import * as runtime from "./Runtime";
+import * as mocks from "./MockRegistry";
+import * as cmdbSdk from "@next-sdk/cmdb-sdk";
+
+jest.spyOn(mocks, "getMockList").mockReturnValue([
+  {
+    uri: "/a/b/c/:objectId",
+    provider: "easyops.custom_api@TestMock",
+  },
+]);
+
+jest.spyOn(cmdbSdk, "InstanceApi_postSearchV3").mockResolvedValue({
+  list: [
+    {
+      endpoint: {
+        method: "GET",
+        uri: "/a/b/c/:objectId",
+      },
+      instanceId: "abcdefg",
+      name: "TestMockGet",
+      namespaceId: "easyops.api.test.sailor",
+      response: {
+        default: {},
+        description: "tt",
+        fields: [
+          {
+            description: "tt",
+            name: "data",
+            type: "map",
+          },
+        ],
+        required: [],
+        type: "object",
+      },
+    },
+  ],
+});
 
 jest
   .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
@@ -178,6 +214,18 @@ describe("FlowApi", () => {
       },
       { content: "hello world" },
       { responseType: "blob" },
+    ]);
+
+    expect(
+      await getArgsOfCustomApi("easyops.custom_api@TestMock:1.0.0", [
+        "object-1",
+      ])
+    ).toEqual([
+      {
+        method: "GET",
+        responseWrapper: true,
+        url: "api/gateway/api_service.easyops.api.test.sailor.TestMockGet/a/b/c/object-1",
+      },
     ]);
   });
 

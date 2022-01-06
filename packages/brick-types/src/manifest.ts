@@ -1432,6 +1432,8 @@ export interface Mocks {
 export interface MockRule {
   /** uri地址 */
   uri: string;
+  /** provider名称 */
+  provider: string;
 }
 
 /**
