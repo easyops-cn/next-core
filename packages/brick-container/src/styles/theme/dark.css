@@ -23,8 +23,10 @@ html[data-theme="dark-v2"],
   --color-fill-bg-container-2: #2a2a2b;
   --color-fill-bg-container-3: #313132;
   --color-fill-bg-container-4: #373739;
+  --color-fill-bg-container-5: #373739;
 
   --color-fill-bg-base-2: var(--palette-gray-3);
+  --color-fill-bg-base-3: var(--palette-gray-2);
   --color-auxiliary-text: var(--palette-gray-9);
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
@@ -41,6 +43,10 @@ html[data-theme="dark-v2"],
   --hover-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
   --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
   --menu-shadow: 2px 0px 0px 0px rgba(0, 0, 0, 0.24);
+  --input-shadow: 0px 0px 0px 2px rgba(20, 40, 74, 1);
+  --input-success-shadow: 0px 0px 0px 2px rgba(40, 72, 24, 1);
+  --input-error-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 1);
+  --chart-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
 
   --menu-bg: var(--palette-gray-3);
   --menu-item-selected-bg: var(--palette-blue-6);
@@ -52,13 +58,18 @@ html[data-theme="dark-v2"],
   --app-submenu-active-bg: var(--palette-blue-1);
 
   --checkbox-bg-hover: var(--palette-gray-3);
+  --checkbox-bg-active: var(--palette-blue-2);
+  --dashboard-radio-item-shadow: 0px 0px 0px 2px rgba(20, 40, 74, 0.15);
   /* component CSS variables */
 
   /***  basic antd variables  ***/
+  --antd-primary-color: var(--color-brand);
   --antd-text-color: var(--color-normal-text);
   --antd-text-color-secondary: var(--color-secondary-text);
 
   --antd-border-color-split: var(--color-text-divider-line);
+  --antd-heading-color: var(--color-header-text);
+  --antd-border-color-base: var(--color-border-divider-line);
 
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
@@ -96,10 +107,21 @@ html[data-theme="dark-v2"],
   /*** checkbox ***/
   --antd-checkbox-color: var(--color-brand);
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
-  --antd-checkbox-checked: var(--color-info-bg);
+  --antd-checkbox-checked: var(--checkbox-bg-active);
 
   /*** card ***/
   --antd-card-background: var(--color-fill-bg-container-1);
-  --antd-heading-color: var(--color-normal-text);
   --antd-card-shadow: var(--base-shadow);
+
+  /*** radio dashboard ***/
+  --antd-dashboard-radio-bg: var(--color-fill-bg-container-3);
+  --antd-dashboard-radio-item-bg: var(--color-fill-bg-container-3);
+  --antd-dashboard-radio-item-color: var(--color-normal-text);
+  --antd-dashboard-radio-item-disabled-color: var(--color-disabled-text);
+  --antd-dashboard-radio-item-checked-bg: var(--color-fill-bg-base-3);
+  --antd-dashboard-radio-item-checked-shadow: var(--radio-item-shadow);
+
+  /*** radio button ***/
+  --antd-radio-solid-checked-color: var(--color-normal-text);
+  --antd-radio-dot-color: var(--antd-primary-color);
 }
