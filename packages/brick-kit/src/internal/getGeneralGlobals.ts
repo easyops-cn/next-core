@@ -6,6 +6,7 @@ import { i18nText } from "../i18nText";
 import { getI18nNamespace } from "../i18n";
 import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
 import { getBasePath } from "./getBasePath";
+import { getTheme } from "../themeAndMode";
 import { checkPermissions } from "./checkPermissions";
 
 export interface GeneralGlobalsOptions {
@@ -59,6 +60,10 @@ function getIndividualGlobal(
     case "PERMISSIONS":
       return {
         check: collectCoverage ? fakeCheckPermissions : checkPermissions,
+      };
+    case "THEME":
+      return {
+        getTheme: collectCoverage ? () => "light" : getTheme,
       };
   }
 }

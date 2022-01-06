@@ -7,8 +7,8 @@ html[data-theme="dark-v2"],
   --palette-gray-2: rgba(255, 255, 255, 0.04);
   --palette-gray-3: rgba(255, 255, 255, 0.08);
   --palette-gray-4: rgba(255, 255, 255, 0.12);
-  --palette-gray-5: rgba(255, 255, 255, 0.02);
-  --palette-gray-6: rgba(255, 255, 255, 0.03);
+  --palette-gray-5: rgba(255, 255, 255, 0.2);
+  --palette-gray-6: rgba(255, 255, 255, 0.3);
   --palette-gray-7: rgba(255, 255, 255, 0.45);
   --palette-gray-8: rgba(255, 255, 255, 0.65);
   --palette-gray-9: rgba(255, 255, 255, 0.85);
@@ -40,7 +40,7 @@ html[data-theme="dark-v2"],
   --fullscreen-overlay-shadow: 0px 10px 32px 0px rgba(0, 0, 0, 0.24);
   --hover-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
   --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
-  --menu-shadow: 6px 0px 18px 0px rgba(0, 0, 0, 0.24);
+  --menu-shadow: 2px 0px 0px 0px rgba(0, 0, 0, 0.24);
 
   --menu-bg: var(--palette-gray-3);
   --menu-item-selected-bg: var(--palette-blue-6);
@@ -97,4 +97,9 @@ html[data-theme="dark-v2"],
   --antd-checkbox-color: var(--color-brand);
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
   --antd-checkbox-checked: var(--color-info-bg);
+
+  /*** card ***/
+  --antd-card-background: var(--color-fill-bg-container-1);
+  --antd-heading-color: var(--color-normal-text);
+  --antd-card-shadow: var(--base-shadow);
 }

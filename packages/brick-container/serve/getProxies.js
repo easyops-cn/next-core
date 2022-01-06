@@ -138,6 +138,20 @@ module.exports = (env) => {
           }
           return JSON.stringify(result);
         });
+      } else if (/api\/auth(\/v2)?\/bootstrap\/\w+/.test(req.path)) {
+        modifyResponse(res, proxyRes, (raw) => {
+          if (res.statusCode !== 200) {
+            return raw;
+          }
+
+          const result = JSON.parse(raw);
+          const { data } = result;
+          if (useDarkThemeApps.includes(data.app.id)) {
+            data.app.theme = "dark-v2";
+          }
+
+          return JSON.stringify(result);
+        });
       } else if (
         req.path ===
         "/next/api/gateway/next_builder.build.GetStoriesJson/api/v1/next-builder/storiesjson"

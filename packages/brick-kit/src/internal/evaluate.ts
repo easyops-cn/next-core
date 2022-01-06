@@ -22,7 +22,6 @@ import { widgetFunctions } from "../core/WidgetFunctions";
 import { widgetI18nFactory } from "../core/WidgetI18n";
 import { getGeneralGlobals } from "./getGeneralGlobals";
 import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
-import { getTheme, DARK_THEME } from "../themeAndMode";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -252,10 +251,6 @@ export function evaluate(
       case "SEGUE":
         return {
           getUrl: getUrlBySegueFactory(app, segues),
-        };
-      case "THEME":
-        return {
-          getTheme,
         };
       case "SESSION_STORAGE":
         return {
