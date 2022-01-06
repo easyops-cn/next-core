@@ -224,7 +224,7 @@ describe("FlowApi", () => {
       {
         method: "GET",
         responseWrapper: true,
-        url: "api/gateway/api_service.easyops.api.test.sailor.TestMockGet/a/b/c/object-1",
+        url: "api/gateway/easyops.api.test.sailor.TestMockGet/a/b/c/object-1",
       },
     ]);
   });

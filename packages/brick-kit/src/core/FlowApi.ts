@@ -164,7 +164,7 @@ async function _fetchFlowApiDefinition(
     const { list } = await InstanceApi_postSearchV3(
       "FLOW_BUILDER_API_CONTRACT@EASYOPS",
       {
-        fields: ["name", "namespaceId", "endpoint", "response"],
+        fields: ["name", "namespaceId", "endpoint", "response", "version"],
         query: {
           namespaceId: {
             $eq: namespaceName,
