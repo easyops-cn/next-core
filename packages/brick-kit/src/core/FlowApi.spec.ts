@@ -21,6 +21,7 @@ jest.spyOn(cmdbSdk, "InstanceApi_postSearchV3").mockResolvedValue({
       instanceId: "abcdefg",
       name: "TestMockGet",
       namespaceId: "easyops.api.test.sailor",
+      version: "1.0.0",
       response: {
         default: {},
         description: "tt",
@@ -224,7 +225,7 @@ describe("FlowApi", () => {
       {
         method: "GET",
         responseWrapper: true,
-        url: "api/gateway/easyops.api.test.sailor.TestMockGet/a/b/c/object-1",
+        url: "api/gateway/easyops.api.test.sailor.TestMockGet@1.0.0/a/b/c/object-1",
       },
     ]);
   });
