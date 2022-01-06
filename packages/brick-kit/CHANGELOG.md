@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.101.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.1...@next-core/brick-kit@2.101.2) (2022-01-06)
+
+
+### Bug Fixes
+
+* dark theme refine ([db6d4e5](https://github.com/easyops-cn/next-core/commit/db6d4e58c98779329e9dad99ee0fcde22631e44b))
+
+
+
+
+
 ## [2.101.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.0...@next-core/brick-kit@2.101.1) (2022-01-05)
 
 
