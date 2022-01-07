@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.102.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.2...@next-core/brick-kit@2.102.0) (2022-01-07)
+
+
+### Features
+
+* **FlowApi:**  update size-limit.js ([7b61a08](https://github.com/easyops-cn/next-core/commit/7b61a088ed6e0f2bd7ecd3bcb80fd2fa8b918bc7))
+* **FlowApi:**  update unit test ([059f6b6](https://github.com/easyops-cn/next-core/commit/059f6b612d5e90cb5facaa6285c8340f046ce4b0))
+* **FlowApi:**  update unit test ([a4bcc9d](https://github.com/easyops-cn/next-core/commit/a4bcc9d654039616a3889c142e5bd37c8ee987bc))
+* **FlowApi:**  useMock in flow api ([05a5751](https://github.com/easyops-cn/next-core/commit/05a5751e33aedfaae73c80a040081c2b4d2f2a73))
+
+
+
+
+
 ## [2.101.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.1...@next-core/brick-kit@2.101.2) (2022-01-06)
 
 

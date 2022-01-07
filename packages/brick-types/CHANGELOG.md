@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.55.0...@next-core/brick-types@2.56.0) (2022-01-07)
+
+
+### Features
+
+* **FlowApi:**  useMock in flow api ([05a5751](https://github.com/easyops-cn/next-core/commit/05a5751e33aedfaae73c80a040081c2b4d2f2a73))
+
+
+
+
+
 # [2.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.54.0...@next-core/brick-types@2.55.0) (2022-01-05)
 
 
