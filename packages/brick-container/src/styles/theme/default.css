@@ -194,4 +194,21 @@
   /*** radio button ***/
   --antd-radio-dot-color-fade-8: rgb(0 113 235 0.08);
   --antd-radio-dot-color: var(--antd-primary-color);
+
+  /*** divider ***/
+  --antd-divider-radiation-color: linear-gradient(
+      to right,
+      transparent,
+      #f9f9f9,
+      #979797,
+      #979797
+    )
+    no-repeat;
+  --antd-divider-radiation-text-color: #262626;
+  --antd-divider-radiation-proportion-normal-text-color: #595959;
+  --antd-divider-radiation-proportion-strong-text-color: #262626;
+
+  /*** statistic card ***/
+  --statistic-card-item-title-color: rgba(140, 140, 140, 1);
+  --statistic-card-itme-value-color: #262626;
 }
