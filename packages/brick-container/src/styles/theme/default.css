@@ -122,6 +122,15 @@
   --checkbox-bg-hover: #ebf3fd;
   --checkbox-bg-active: var(--palette-gray-3);
 
+  --chart-legend-font-size: 12px;
+  --chart-tooltips-font-size: 12px;
+  --chart-tooltips-font-size: 12px;
+  --chart-axis-x-font-size: 10px;
+  --chart-axis-y-font-size: 10px;
+  --chart-tooltip-bg: rgba(255, 255, 255, 0.95);
+  --chart-auxiliary-text: #9aa1a9;
+  --chart-outline-select: var(--palette-gray-10);
+
   /* component CSS variables */
 
   /***  basic antd variables  ***/
@@ -211,4 +220,16 @@
   /*** statistic card ***/
   --statistic-card-item-title-color: rgba(140, 140, 140, 1);
   --statistic-card-itme-value-color: #262626;
+
+  /*** base chart ***/
+  --antd-chart-legend-text-color: #595959;
+  --antd-chart-legend-unchecked-text-color: #d8d8d8;
+  --antd-chart-legend-unchecked-mark-color: #d8d8d8;
+  --antd-chart-legend-pageNavigator-marker-color: #000;
+  --antd-chart-legend-pageNavigator-marker-inactive-color: #000;
+  --antd-chart-legend-pageNavigator-text-color: #8c8c8c;
+  --antd-chart-tooltip-bg: rgb(255, 255, 255);
+  --antd-chart-tooltip-boxShadow: 0px 0px 10px #aeaeae;
+  --antd-chart-tooltip-color: var(--antd-chart-legend-text-color);
+  --antd-chart-label-color: var(--antd-chart-legend-text-color);
 }

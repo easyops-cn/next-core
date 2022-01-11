@@ -270,6 +270,9 @@ export interface FunctionCoverageSettings {
 // @public
 export function getAuth(): AuthInfo;
 
+// @public (undocumented)
+export function getCssValueFromStyle(name: string, el?: HTMLElement): string;
+
 // @public
 export function getHistory(): PluginHistory;
 

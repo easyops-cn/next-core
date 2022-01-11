@@ -60,6 +60,11 @@ html[data-theme="dark-v2"],
   --checkbox-bg-hover: var(--palette-gray-3);
   --checkbox-bg-active: var(--palette-blue-2);
   --dashboard-radio-item-shadow: 0px 0px 0px 2px rgba(20, 40, 74, 0.15);
+
+  --chart-tooltip-bg: rgba(23, 23, 26, 0.95);
+  --chart-auxiliary-text: var(--palette-gray-9);
+  --chart-outline-select: var(--palette-gray-10);
+
   /* component CSS variables */
 
   /***  basic antd variables  ***/
@@ -138,4 +143,18 @@ html[data-theme="dark-v2"],
   /*** statistic card ***/
   --statistic-card-item-title-color: var(--color-secondary-text);
   --statistic-card-itme-value-color: var(--color-normal-text);
+
+  /*** base chart ***/
+  --antd-chart-legend-text-color: var(--color-auxiliary-text);
+  --antd-chart-legend-unchecked-text-color: var(--color-disabled-text);
+  --antd-chart-legend-unchecked-mark-color: var(--color-disabled-text);
+  --antd-chart-legend-pageNavigator-marker-color: var(--palette-gray-10);
+  --antd-chart-legend-pageNavigator-marker-inactive-color: var(
+    --palette-gray-6
+  );
+  --antd-chart-legend-pageNavigator-text-color: var(--color-secondary-text);
+  --antd-chart-tooltip-bg: var(--chart-tooltip-bg);
+  --antd-chart-tooltip-boxShadow: var(--chart-shadow);
+  --antd-chart-tooltip-color: var(--color-normal-text);
+  --antd-chart-label-color: var(--color-auxiliary-text);
 }
