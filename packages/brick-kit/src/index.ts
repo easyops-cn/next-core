@@ -32,7 +32,7 @@ export * from "./checkIf";
 export {
   useCurrentTheme,
   useCurrentMode,
-  getCssValueFromStyle,
+  getCssPropertyValue,
 } from "./themeAndMode";
 export * from "./featureFlags";
 export * from "./core/StoryboardFunctionRegistryFactory";

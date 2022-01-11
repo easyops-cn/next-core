@@ -104,7 +104,7 @@ export function useCurrentMode(): SiteMode {
   return currentMode;
 }
 
-export function getCssValueFromStyle(
+export function getCssPropertyValue(
   name: string,
   el = document.documentElement
 ): string {

@@ -9,7 +9,7 @@ import {
   applyMode as _applyMode,
   useCurrentTheme,
   useCurrentMode,
-  getCssValueFromStyle,
+  getCssPropertyValue,
 } from "./themeAndMode";
 import { act } from "react-dom/test-utils";
 
@@ -161,6 +161,6 @@ describe("get css value", () => {
   });
 
   it("should get value", () => {
-    expect(getCssValueFromStyle("--brand-color")).toEqual("red");
+    expect(getCssPropertyValue("--brand-color")).toEqual("red");
   });
 });

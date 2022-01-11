@@ -47,6 +47,7 @@
   --color-info-hover: var(--palette-blue-4);
   --color-info-active: var(--palette-blue-8);
   --color-info-bg: var(--palette-blue-2);
+  --color-info-icon-bg: var(--palette-blue-1);
   --color-info-outline: var(--palette-blue-3);
 
   --color-warning: var(--palette-amber-6);
@@ -232,4 +233,15 @@
   --antd-chart-tooltip-boxShadow: 0px 0px 10px #aeaeae;
   --antd-chart-tooltip-color: var(--antd-chart-legend-text-color);
   --antd-chart-label-color: var(--antd-chart-legend-text-color);
+
+  /*** general-button ***/
+  --antd-btn-special-icon-type-color: var(--palette-gray-7);
+  --antd-btn-special-icon-type-bg: var(--palette-gray-3);
+  --antd-btn-special-icon-type-hover-color: var(--color-brand);
+  --antd-btn-special-icon-type-hover-bg: #d8ecff;
+  --antd-btn-special-icon-type-disabled-color: var(--palette-gray-6);
+  --antd-btn-special-icon-type-disabled-bg: var(--palette-gray-3);
+
+  --antd-btn-primary-color: #fff;
+  --antd-btn-primary-bg: var(--antd-primary-color);
 }
