@@ -294,7 +294,7 @@ export class Router {
         console.error(error);
 
         // Redirect to login page if not logged in.
-        if (isUnauthenticatedError(error)) {
+        if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
           mountRoutesResult.flags.unauthenticated = true;
         } else {
           await this.kernel.layoutBootstrap(layoutType);
