@@ -843,7 +843,23 @@ export function cook(
       const result = Evaluate(stmt);
       getRunningContext().LexicalEnvironment = oldEnv;
       if (!LoopContinues(result)) {
-        return UpdateEmpty(result, V);
+        const status = UpdateEmpty(result, V);
+        if (
+          !(
+            iterationKind === "enumerate" || iteratorRecord.return === undefined
+          )
+        ) {
+          // Perform *IteratorClose*
+          // https://tc39.es/ecma262/#sec-iteratorclose
+          const innerResult = iteratorRecord.return();
+          if (
+            !innerResult ||
+            !["object", "function"].includes(typeof innerResult)
+          ) {
+            throw new TypeError(`Iterator result is not an object`);
+          }
+        }
+        return status;
       }
       if (result.Value !== Empty) {
         V = result.Value;

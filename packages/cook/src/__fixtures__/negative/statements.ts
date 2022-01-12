@@ -159,6 +159,24 @@ export const selectiveNegativeCasesOfStatements: LooseCase[] = [
       function test(){}
     `,
   ],
+  [
+    "for of loop: break iterable",
+    `
+      function test(){
+        const list = [];
+        const iterable = DATA.getIterable(true);
+
+        for (const item of iterable) {
+          list.push(item);
+          if (item === 1) {
+            break;
+          }
+        }
+
+        return list;
+      }
+    `,
+  ],
 ].map(([desc, source]) => [
   desc,
   {
