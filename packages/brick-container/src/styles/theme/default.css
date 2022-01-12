@@ -275,4 +275,10 @@
   --antd-btn-fade-text-color: #8c8c8c;
   --antd-btn-text-hover-color: var(--bg-color-button-link-hover);
   --antd-btn-text-active-color: var(--bg-color-button-link-pressed);
+
+  /*** anchor ***/
+  --antd-anchor-radio-type-title-color: #6e6e6e;
+  --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
+  --antd-anchor-radio-type-title-active-color: #262626;
+  --antd-anchor-radio-type-title-active-bg: var(--antd-component-background);
 }

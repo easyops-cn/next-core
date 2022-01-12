@@ -74,6 +74,7 @@ html[data-theme="dark-v2"],
 
   --antd-border-color-split: var(--color-text-divider-line);
   --antd-heading-color: var(--color-header-text);
+  --antd-component-background: var(--color-fill-bg-container-1);
   --antd-border-color-base: var(--color-border-divider-line);
 
   --text-color-disabled: var(--color-disabled-text);
@@ -201,4 +202,10 @@ html[data-theme="dark-v2"],
   --antd-btn-fade-text-color: var(--color-secondary-text);
   --antd-btn-text-hover-color: var(--color-brand-hover);
   --antd-btn-text-active-color: var(--color-brand-active);
+
+  /*** anchor ***/
+  --antd-anchor-radio-type-title-color: var(--color-auxiliary-text);
+  --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
+  --antd-anchor-radio-type-title-active-color: var(--color-info);
+  --antd-anchor-radio-type-title-active-bg: var(--color-fill-bg-base-3);
 }
