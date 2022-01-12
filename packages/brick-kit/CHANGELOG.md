@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.102.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.102.0...@next-core/brick-kit@2.102.1) (2022-01-12)
+
+
+### Bug Fixes
+
+* do not redirect to login page while NO_AUTH_GUARD is enabled ([02b69b1](https://github.com/easyops-cn/next-core/commit/02b69b19b98b1ba4aa4e0d2405d28444f3c05def))
+
+
+
+
+
 # [2.102.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.2...@next-core/brick-kit@2.102.0) (2022-01-07)
 
 
