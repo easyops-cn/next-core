@@ -31,6 +31,7 @@ html[data-theme="dark-v2"],
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
   --color-auxiliary-text: var(--palette-gray-9);
+  --color-info-white: var(--palette-gray-10);
 
   --mask-bg: rgba(23, 23, 26, 0.6);
 
@@ -268,4 +269,12 @@ html[data-theme="dark-v2"],
 
   /*** modal ***/
   --antd-modal-footer-bg: var(--color-fill-bg-base-3);
+  
+  /*** tooltip ***/
+  --antd-tooltip-bg: var(--color-fill-bg-container-5);
+  --antd-tooltip-color: var(--color-info-white);
+
+  /*** popover ***/
+  --antd-popover-bg: var(--color-fill-bg-container-4);
+  --antd-popover-color: var(--color-auxiliary-text);
 }
