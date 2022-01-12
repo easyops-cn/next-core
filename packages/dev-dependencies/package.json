@@ -35,7 +35,7 @@
     "@next-dll/react-dnd": "^0.1.227",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^11.2.7",
-    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
     "babel-jest": "^27.4.6",
     "chalk": "^4.1.1",
     "concurrently": "^7.0.0",
