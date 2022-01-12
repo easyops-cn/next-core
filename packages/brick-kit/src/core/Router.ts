@@ -241,7 +241,7 @@ export class Router {
     this.kernel.nextApp = currentApp;
     const layoutType: LayoutType = currentApp?.layoutType || "console";
 
-    setTheme(currentApp?.theme ?? "light");
+    setTheme(currentApp?.theme || "light");
     setMode("default");
 
     devtoolsHookEmit("rendering");
