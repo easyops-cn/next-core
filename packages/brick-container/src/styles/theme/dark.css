@@ -79,6 +79,9 @@ html[data-theme="dark-v2"],
   --text-color-disabled: var(--color-disabled-text);
   --antd-background-color-base: var(--color-fill-bg-base-1);
 
+  --antd-item-active-bg: var(--palette-gray-3);
+  --antd-item-hover-bg: var(--palette-gray-3);
+
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
   --antd-menu-color: var(--color-header-text);
