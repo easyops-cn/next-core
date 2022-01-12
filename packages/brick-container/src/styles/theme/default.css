@@ -47,6 +47,7 @@
   --color-info-hover: var(--palette-blue-4);
   --color-info-active: var(--palette-blue-8);
   --color-info-bg: var(--palette-blue-2);
+  --color-info-icon-bg: var(--palette-blue-1);
   --color-info-outline: var(--palette-blue-3);
 
   --color-warning: var(--palette-amber-6);
@@ -122,6 +123,15 @@
   --checkbox-bg-hover: #ebf3fd;
   --checkbox-bg-active: var(--palette-gray-3);
 
+  --chart-legend-font-size: 12px;
+  --chart-tooltips-font-size: 12px;
+  --chart-tooltips-font-size: 12px;
+  --chart-axis-x-font-size: 10px;
+  --chart-axis-y-font-size: 10px;
+  --chart-tooltip-bg: rgba(255, 255, 255, 0.95);
+  --chart-auxiliary-text: #9aa1a9;
+  --chart-outline-select: var(--palette-gray-10);
+
   /* component CSS variables */
 
   /***  basic antd variables  ***/
@@ -194,4 +204,44 @@
   /*** radio button ***/
   --antd-radio-dot-color-fade-8: rgb(0 113 235 0.08);
   --antd-radio-dot-color: var(--antd-primary-color);
+
+  /*** divider ***/
+  --antd-divider-radiation-color: linear-gradient(
+      to right,
+      transparent,
+      #f9f9f9,
+      #979797,
+      #979797
+    )
+    no-repeat;
+  --antd-divider-radiation-text-color: #262626;
+  --antd-divider-radiation-proportion-normal-text-color: #595959;
+  --antd-divider-radiation-proportion-strong-text-color: #262626;
+
+  /*** statistic card ***/
+  --statistic-card-item-title-color: rgba(140, 140, 140, 1);
+  --statistic-card-itme-value-color: #262626;
+
+  /*** base chart ***/
+  --antd-chart-legend-text-color: #595959;
+  --antd-chart-legend-unchecked-text-color: #d8d8d8;
+  --antd-chart-legend-unchecked-mark-color: #d8d8d8;
+  --antd-chart-legend-pageNavigator-marker-color: #000;
+  --antd-chart-legend-pageNavigator-marker-inactive-color: #000;
+  --antd-chart-legend-pageNavigator-text-color: #8c8c8c;
+  --antd-chart-tooltip-bg: rgb(255, 255, 255);
+  --antd-chart-tooltip-boxShadow: 0px 0px 10px #aeaeae;
+  --antd-chart-tooltip-color: var(--antd-chart-legend-text-color);
+  --antd-chart-label-color: var(--antd-chart-legend-text-color);
+
+  /*** general-button ***/
+  --antd-btn-special-icon-type-color: var(--palette-gray-7);
+  --antd-btn-special-icon-type-bg: var(--palette-gray-3);
+  --antd-btn-special-icon-type-hover-color: var(--color-brand);
+  --antd-btn-special-icon-type-hover-bg: #d8ecff;
+  --antd-btn-special-icon-type-disabled-color: var(--palette-gray-6);
+  --antd-btn-special-icon-type-disabled-bg: var(--palette-gray-3);
+
+  --antd-btn-primary-color: #fff;
+  --antd-btn-primary-bg: var(--antd-primary-color);
 }

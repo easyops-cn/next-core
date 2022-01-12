@@ -29,7 +29,11 @@ export * from "./core/interfaces";
 export * from "./EasyopsEmpty";
 export * from "./transformProperties";
 export * from "./checkIf";
-export { useCurrentTheme, useCurrentMode } from "./themeAndMode";
+export {
+  useCurrentTheme,
+  useCurrentMode,
+  getCssPropertyValue,
+} from "./themeAndMode";
 export * from "./featureFlags";
 export * from "./core/StoryboardFunctionRegistryFactory";
 export { getMockInfo } from "./core/MockRegistry";

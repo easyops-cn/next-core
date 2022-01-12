@@ -9,6 +9,7 @@ import {
   applyMode as _applyMode,
   useCurrentTheme,
   useCurrentMode,
+  getCssPropertyValue,
 } from "./themeAndMode";
 import { act } from "react-dom/test-utils";
 
@@ -151,5 +152,15 @@ describe("mode", () => {
     wrapper.update();
     expect(wrapper.text()).toBe("dashboard");
     wrapper.unmount();
+  });
+});
+
+describe("get css value", () => {
+  beforeEach(() => {
+    document.documentElement.style.setProperty("--brand-color", "red");
+  });
+
+  it("should get value", () => {
+    expect(getCssPropertyValue("--brand-color")).toEqual("red");
   });
 });

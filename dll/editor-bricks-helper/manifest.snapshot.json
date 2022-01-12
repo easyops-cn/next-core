@@ -183,6 +183,7 @@
           "doTransform",
           "event",
           "getAuth",
+          "getCssPropertyValue",
           "getHistory",
           "getMockInfo",
           "getRuntime",
