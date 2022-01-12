@@ -227,4 +227,30 @@ export const casesOfForOfLoops: LooseCase[] = [
       result: [1, 2, 3],
     },
   ],
+  [
+    "for of loop: break iterable",
+    {
+      source: `
+        function test(){
+          const list = [];
+          const iterable = DATA.getIterable();
+
+          for (const item of iterable) {
+            list.push(item);
+            if (item === 1) {
+              break;
+            }
+          }
+
+          for (const item of iterable) {
+            list.push(item);
+          }
+
+          return list;
+        }
+      `,
+      args: [],
+      result: [1, 1, 2],
+    },
+  ],
 ];
