@@ -218,9 +218,15 @@ html[data-theme="dark-v2"],
 
   /*** input ***/
   --antd-input-bg: var(--antd-component-background);
+  --antd-input-color: var(--color-normal-text);
   --antd-input-focus-border-color: var(--input-outline-focus);
   --antd-input-hover-border-color: var(--input-outline-hover);
   --antd-input-placeholder-color: var(--text-color-disabled);
+  --antd-input-hover-border-color: var(--palette-blue-6);
+  --antd-input-border-color: var(--color-border-divider-line);
+  --antd-input-disabled-bg: var(--palette-gray-3);
+
+
 
   /*** select ***/
   --antd-select-item-selected-bg: var(--menu-dropdown-bg);
@@ -277,4 +283,10 @@ html[data-theme="dark-v2"],
   /*** popover ***/
   --antd-popover-bg: var(--color-fill-bg-container-4);
   --antd-popover-color: var(--color-auxiliary-text);
+  /*** transfer ***/
+  --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
+  --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
+  --antd-transfer-disable-bg: var(--palette-gray-3);
+
+
 }
