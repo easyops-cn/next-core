@@ -55,6 +55,7 @@ html[data-theme="dark-v2"],
   --menu-item-hover: var(--palette-gray-2);
   --app-submenu-bg: var(--palette-gray-2);
   --menu-submenu-selected-bg: var(--palette-gray-3);
+  --menu-dropdown-bg: var(--palette-blue-1);
   --app-submenu-active-bg: var(--palette-blue-1);
 
   --checkbox-bg-hover: var(--palette-gray-3);
@@ -74,6 +75,7 @@ html[data-theme="dark-v2"],
 
   --antd-border-color-split: var(--color-text-divider-line);
   --antd-heading-color: var(--color-header-text);
+  --antd-label-color: var(--antd-heading-color);
   --antd-component-background: var(--color-fill-bg-container-1);
   --antd-border-color-base: var(--color-border-divider-line);
 
@@ -208,4 +210,15 @@ html[data-theme="dark-v2"],
   --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
   --antd-anchor-radio-type-title-active-color: var(--color-info);
   --antd-anchor-radio-type-title-active-bg: var(--color-fill-bg-base-3);
+
+  /*** input ***/
+  --antd-input-bg: var(--antd-component-background);
+  --antd-input-focus-border-color: var(--input-outline-focus);
+  --antd-input-hover-border-color: var(--input-outline-hover);
+  --antd-input-placeholder-color: var(--text-color-disabled);
+
+  /*** select ***/
+  --antd-select-item-selected-bg: var(--menu-dropdown-bg);
+  --antd-select-dropdown-bg: var(--antd-component-background);
+  --antd-select-item-active-bg: var(--antd-item-active-bg);
 }
