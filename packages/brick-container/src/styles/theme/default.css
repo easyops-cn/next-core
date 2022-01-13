@@ -194,6 +194,7 @@
   --antd-checkbox-color: var(--color-brand);
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
   --antd-checkbox-checked: var(--checkbox-bg-active);
+  --antd-checkbox-check-bg: var(--antd-component-background);
 
   /*** card ***/
   --antd-card-background: var(--antd-component-background);
@@ -296,4 +297,24 @@
   --antd-select-item-selected-bg: #f5f5f5;
   --antd-select-dropdown-bg: var(--antd-component-background);
   --antd-select-item-active-bg: var(--antd-item-active-bg);
+
+  /*** table  ***/
+  --antd-table-bg: var(--antd-component-background);
+  --antd-table-body-sort-bg: #fafafa;
+  --antd-table-border-color: var(--antd-border-color-split);
+  --antd-table-even-bg: var(--antd-table-bg);
+  --antd-table-header-bg: #f2f5f9;
+  --antd-table-header-color: var(--text-color-title);
+  --antd-table-header-filter-active-bg: #d8e1ed;
+  --antd-table-header-sort-active-bg: #e8edf4;
+  --antd-table-header-overwrite-sort-th-active-bg: #e0e5ec;
+  --antd-table-header-overwrite-sort-td-active-bg: #f4f5f7;
+  --antd-table-header-sort-active-filter-bg: #f9fafc;
+  --antd-table-row-hover-bg: var(--antd-background-color-light);
+  --antd-table-selected-row-hover-bg: #dcf2ff;
+  --antd-table-row-expand-icon-color: rgba(0, 0, 0, 0.55);
+  --antd-table-row-expand-icon-action-bg: #f5f5f5;
+  --antd-table-row-expand-nested-wrapper: #fafafa;
+  --antd-table-row-expand-nested-wrapper-border: #e8e8e8;
+  --antd-table-expanded-row-bg: #fbfbfb;
 }

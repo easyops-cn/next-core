@@ -216,16 +216,6 @@
     --antd-background-color-light
   );
   --antd-picker-basic-cell-hover-with-range-color: #9fcdff;
-  --antd-table-bg: var(--antd-component-background);
-  --antd-table-body-sort-bg: #fafafa;
-  --antd-table-border-color: var(--antd-border-color-split);
-  --antd-table-even-bg: var(--antd-table-bg);
-  --antd-table-header-bg: #f2f5f9;
-  --antd-table-header-color: var(--text-color-title);
-  --antd-table-header-filter-active-bg: #d8e1ed;
-  --antd-table-header-sort-active-bg: #e8edf4;
-  --antd-table-header-sort-active-filter-bg: #f9fafc;
-  --antd-table-row-hover-bg: var(--antd-background-color-light);
   --antd-text-color-secondary-shade-40: rgba(0, 0, 0, 0.78);
 }
 
