@@ -141,6 +141,10 @@
   --antd-heading-color: rgba(0, 0, 0, 0.85);
   --antd-component-background: #fff;
   --antd-border-color-base: #d9d9d9;
+  --text-color-disabled: #bfbfbf;
+  --antd-background-color-base: #f5f5f5;
+  --antd-item-active-bg: var(--antd-background-color-light);
+  --antd-item-hover-bg: #f5f5f5;
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
@@ -244,4 +248,37 @@
 
   --antd-btn-primary-color: #fff;
   --antd-btn-primary-bg: var(--antd-primary-color);
+  --antd-btn-primary-bg-image: linear-gradient(
+    45deg,
+    rgba(0, 113, 235, 1) 0%,
+    rgba(101, 178, 255, 1) 100%
+  );
+  --antd-btn-primary-hover-bg: var(--bg-color-button-primary-hover);
+  --antd-btn-primary-active-bg: var(--bg-color-button-primary-pressed);
+
+  --antd-btn-default-color: var(--palette-gray-8);
+  --antd-btn-default-border: var(--antd-border-color-base);
+  --antd-btn-default-bg: var(--antd-component-background);
+  --antd-btn-default-active-border-color: #0063ce;
+  --antd-btn-default-active-color: #116ac2;
+  --antd-btn-default-hover-color: #53a7fb;
+  --antd-btn-default-hover-border-color: #53a7fb;
+
+  --antd-btn-danger-bg-image: linear-gradient(45deg, #f0493c 0%, #fc796f 100%);
+  --antd-btn-danger-color: #fff;
+  --antd-btn-danger-hover-bg: var(--bg-color-button-danger-hover);
+  --antd-btn-danger-active-bg: var(--bg-color-button-danger-pressed);
+
+  --antd-btn-link-hover-color: var(--bg-color-button-link-hover);
+  --antd-btn-link-active-color: var(--bg-color-button-link-pressed);
+
+  --antd-btn-fade-text-color: #8c8c8c;
+  --antd-btn-text-hover-color: var(--bg-color-button-link-hover);
+  --antd-btn-text-active-color: var(--bg-color-button-link-pressed);
+
+  /*** anchor ***/
+  --antd-anchor-radio-type-title-color: #6e6e6e;
+  --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
+  --antd-anchor-radio-type-title-active-color: #262626;
+  --antd-anchor-radio-type-title-active-bg: var(--antd-component-background);
 }

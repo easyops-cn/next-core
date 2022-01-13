@@ -74,7 +74,14 @@ html[data-theme="dark-v2"],
 
   --antd-border-color-split: var(--color-text-divider-line);
   --antd-heading-color: var(--color-header-text);
+  --antd-component-background: var(--color-fill-bg-container-1);
   --antd-border-color-base: var(--color-border-divider-line);
+
+  --text-color-disabled: var(--color-disabled-text);
+  --antd-background-color-base: var(--color-fill-bg-base-1);
+
+  --antd-item-active-bg: var(--palette-gray-3);
+  --antd-item-hover-bg: var(--palette-gray-3);
 
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
@@ -168,4 +175,37 @@ html[data-theme="dark-v2"],
 
   --antd-btn-primary-color: var(--color-normal-text);
   --antd-btn-primary-bg: var(--antd-primary-color);
+  --antd-btn-primary-bg-image: linear-gradient(
+    225deg,
+    #3e8ae8 0%,
+    #1a6bdd 100%
+  );
+  --antd-btn-primary-hover-bg: var(--color-info-hover);
+  --antd-btn-primary-active-bg: var(--color-info-active);
+
+  --antd-btn-default-color: var(--color-auxiliary-text);
+  --antd-btn-default-border: var(--color-border-divider-line);
+  --antd-btn-default-bg: var(--color-fill-bg-container-1);
+  --antd-btn-default-active-border-color: var(--color-brand);
+  --antd-btn-default-active-color: var(--color-info);
+  --antd-btn-default-hover-color: var(--color-brand-hover);
+  --antd-btn-default-hover-border-color: var(--color-brand-hover);
+
+  --antd-btn-danger-bg-image: linear-gradient(45deg, #d24525 0%, #7d3426 100%);
+  --antd-btn-danger-color: var(--color-normal-text);
+  --antd-btn-danger-hover-bg: var(--color-error-hover);
+  --antd-btn-danger-active-bg: var(--color-error-active);
+
+  --antd-btn-link-hover-color: var(--color-brand-hover);
+  --antd-btn-link-active-color: var(--color-brand-active);
+
+  --antd-btn-fade-text-color: var(--color-secondary-text);
+  --antd-btn-text-hover-color: var(--color-brand-hover);
+  --antd-btn-text-active-color: var(--color-brand-active);
+
+  /*** anchor ***/
+  --antd-anchor-radio-type-title-color: var(--color-auxiliary-text);
+  --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
+  --antd-anchor-radio-type-title-active-color: var(--color-info);
+  --antd-anchor-radio-type-title-active-bg: var(--color-fill-bg-base-3);
 }
