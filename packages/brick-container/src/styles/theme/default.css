@@ -61,6 +61,7 @@
   --color-error-active: var(--palette-red-8);
   --color-error-bg: var(--palette-red-2);
   --color-error-outline: var(--palette-red-3);
+  --color-white: #fff;
 
   --small-border-radius: 2px;
   --medius-border-radius: 4px;
@@ -317,4 +318,17 @@
   --antd-table-row-expand-nested-wrapper: #fafafa;
   --antd-table-row-expand-nested-wrapper-border: #e8e8e8;
   --antd-table-expanded-row-bg: #fbfbfb;
+
+  /*** pagination  ***/
+  --antd-paination-total-text: var(--text-color-disabled);
+  --antd-pagination-total-strong-text: var(--text-color-default);
+  --antd-pagination-item-hover: var(--color-brand);
+  --antd-pagination-item-active-bg: transparent;
+  --antd-pagination-item-active-border: var(--color-brand);
+  --antd-pagination-item-active-text-color: var(--color-brand);
+  --antd-pagination-item-selected-hover-text-color: #2893f7;
+  --antd-pagination-item-selected-hover-border-color: var(
+    --antd-pagination-item-active-border
+  );
+  --antd-pagination-item-selected-hover-bg: transparent;
 }

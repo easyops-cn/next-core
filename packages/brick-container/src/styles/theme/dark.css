@@ -247,4 +247,19 @@ html[data-theme="dark-v2"],
   --antd-table-row-expand-nested-wrapper: var(--color-fill-bg-container-2);
   --antd-table-row-expand-nested-wrapper-border: var(--antd-table-border-color);
   --antd-table-expanded-row-bg: var(--antd-table-row-expand-nested-wrapper);
+
+  /*** pagination  ***/
+  --antd-paination-total-text: var(--color-disabled-text);
+  --antd-pagination-total-strong-text: var(--color-normal-text);
+  --antd-pagination-item-hover: var(--color-info);
+  --antd-pagination-item-active-bg: var(--color-brand);
+  --antd-pagination-item-active-border: var(--color-info);
+  --antd-pagination-item-active-text-color: var(--color-white);
+  --antd-pagination-item-selected-hover-text-color: var(
+    --antd-pagination-item-active-text-color
+  );
+  --antd-pagination-item-selected-hover-bg: var(--color-brand-hover);
+  --antd-pagination-item-selected-hover-border-color: var(
+    --antd-pagination-item-selected-hover-bg
+  );
 }
