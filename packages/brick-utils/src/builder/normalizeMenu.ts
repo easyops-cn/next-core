@@ -15,6 +15,7 @@ const fieldsToKeepInMenu = [
 const fieldsToKeepInMenuItem = [
   "text",
   "to",
+  "href",
   "target",
   "icon",
   "exact",
