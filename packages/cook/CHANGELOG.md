@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.8...@next-core/cook@1.6.9) (2022-01-13)
+
+
+### Bug Fixes
+
+* perform iterator close in for-of-loop ([bd44f3f](https://github.com/easyops-cn/next-core/commit/bd44f3f2e3d3996b48b6af50cb97528aae631047))
+
+
+
+
+
 ## [1.6.8](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.7...@next-core/cook@1.6.8) (2022-01-07)
 
 **Note:** Version bump only for package @next-core/cook

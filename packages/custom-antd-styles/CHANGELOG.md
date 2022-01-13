@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.12.0...@next-core/custom-antd-styles@1.13.0) (2022-01-13)
+
+
+### Features
+
+* button style ([007445e](https://github.com/easyops-cn/next-core/commit/007445ecefaff3baaaaf77405e6e3083d56deca2))
+
+
+
+
+
 # [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.11.0...@next-core/custom-antd-styles@1.12.0) (2022-01-12)
 
 
