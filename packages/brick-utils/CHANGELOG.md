@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.6...@next-core/brick-utils@2.33.0) (2022-01-13)
+
+
+### Features
+
+* menu add href field ([963f123](https://github.com/easyops-cn/next-core/commit/963f123a6ee0dc6ce0e0acc648cffe2d8e299a02))
+
+
+
+
+
 ## [2.32.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.5...@next-core/brick-utils@2.32.6) (2022-01-13)
 
 **Note:** Version bump only for package @next-core/brick-utils
