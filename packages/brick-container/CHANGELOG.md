@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.51.0...@next-core/brick-container@2.52.0) (2022-01-14)
+
+
+### Features
+
+* add palette color ([ea5147e](https://github.com/easyops-cn/next-core/commit/ea5147e9d740d8ecbd6d12ffbb36791c90415b8f))
+* modal style ([ed15238](https://github.com/easyops-cn/next-core/commit/ed152386296227efa938d52e4274ff9fa5b06985))
+
+
+
+
+
 # [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.50.2...@next-core/brick-container@2.51.0) (2022-01-14)
 
 
