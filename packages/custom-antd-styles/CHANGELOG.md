@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.13.0...@next-core/custom-antd-styles@1.14.0) (2022-01-14)
+
+
+### Features
+
+* add input style ([a3dcc2c](https://github.com/easyops-cn/next-core/commit/a3dcc2cda9ac4d32521d8ecf7ed5ef117d0b28f1))
+* pagenation style ([2852c7f](https://github.com/easyops-cn/next-core/commit/2852c7f61c98152f2784822a265b14b8a66dd4d5))
+
+
+
+
+
 # [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.12.0...@next-core/custom-antd-styles@1.13.0) (2022-01-13)
 
 
