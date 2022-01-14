@@ -49,7 +49,8 @@
   --color-info-bg: var(--palette-blue-2);
   --color-info-icon-bg: var(--palette-blue-1);
   --color-info-outline: var(--palette-blue-3);
-  --color-info-white: var(--palette-gray-1);
+
+  --color-normal-icon: var(--palette-gray-1);
 
   --color-warning: var(--palette-amber-6);
   --color-warning-hover: var(--palette-amber-4);
@@ -303,7 +304,6 @@
   --antd-input-border-color: var(--color-border-divider-line);
   --antd-input-disabled-bg: var(--palette-gray-3);
 
-
   /*** select ***/
   --antd-select-item-selected-bg: #f5f5f5;
   --antd-select-dropdown-bg: var(--antd-component-background);
@@ -344,10 +344,10 @@
 
   /*** modal ***/
   --antd-modal-footer-bg: transparent;
-  
+
   /*** tooltip ***/
   --antd-tooltip-bg: var(--color-fill-bg-container-5);
-  --antd-tooltip-color: var(--color-info-white);
+  --antd-tooltip-color: var(--color-normal-icon);
 
   /*** popover ***/
   --antd-popover-bg: var(--color-fill-bg-container-4);
@@ -356,5 +356,4 @@
   --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-disable-bg: var(--palette-gray-3);
-
 }

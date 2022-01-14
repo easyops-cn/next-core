@@ -31,7 +31,8 @@ html[data-theme="dark-v2"],
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
   --color-auxiliary-text: var(--palette-gray-9);
-  --color-info-white: var(--palette-gray-10);
+
+  --color-normal-icon: var(--palette-gray-10);
 
   --mask-bg: rgba(23, 23, 26, 0.6);
 
@@ -222,11 +223,8 @@ html[data-theme="dark-v2"],
   --antd-input-focus-border-color: var(--input-outline-focus);
   --antd-input-hover-border-color: var(--input-outline-hover);
   --antd-input-placeholder-color: var(--text-color-disabled);
-  --antd-input-hover-border-color: var(--palette-blue-6);
   --antd-input-border-color: var(--color-border-divider-line);
   --antd-input-disabled-bg: var(--palette-gray-3);
-
-
 
   /*** select ***/
   --antd-select-item-selected-bg: var(--menu-dropdown-bg);
@@ -275,18 +273,17 @@ html[data-theme="dark-v2"],
 
   /*** modal ***/
   --antd-modal-footer-bg: var(--color-fill-bg-base-3);
-  
+
   /*** tooltip ***/
   --antd-tooltip-bg: var(--color-fill-bg-container-5);
-  --antd-tooltip-color: var(--color-info-white);
+  --antd-tooltip-color: var(--color-normal-icon);
 
   /*** popover ***/
   --antd-popover-bg: var(--color-fill-bg-container-4);
   --antd-popover-color: var(--color-auxiliary-text);
+
   /*** transfer ***/
   --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-disable-bg: var(--palette-gray-3);
-
-
 }
