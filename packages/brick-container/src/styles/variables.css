@@ -211,28 +211,11 @@
   /* antd components */
   --antd-card-background: var(--antd-component-background);
   --antd-card-head-border-bottom-color: var(--antd-border-color-split);
-  --antd-input-bg: var(--antd-component-background);
-  --antd-input-focus-border-color: var(--antd-primary-color);
-  --antd-input-hover-border-color: var(--antd-primary-color);
-  --antd-input-placeholder-color: var(--text-color-disabled);
   --antd-pagination-item-disabled-bg-active: #ddd;
   --antd-picker-basic-cell-active-with-range-color: var(
     --antd-background-color-light
   );
   --antd-picker-basic-cell-hover-with-range-color: #9fcdff;
-  --antd-select-dropdown-bg: var(--antd-component-background);
-  --antd-select-item-active-bg: var(--antd-item-active-bg);
-  --antd-select-item-selected-bg: #f5f5f5;
-  --antd-table-bg: var(--antd-component-background);
-  --antd-table-body-sort-bg: #fafafa;
-  --antd-table-border-color: var(--antd-border-color-split);
-  --antd-table-even-bg: var(--antd-table-bg);
-  --antd-table-header-bg: #f2f5f9;
-  --antd-table-header-color: var(--text-color-title);
-  --antd-table-header-filter-active-bg: #d8e1ed;
-  --antd-table-header-sort-active-bg: #e8edf4;
-  --antd-table-header-sort-active-filter-bg: #f9fafc;
-  --antd-table-row-hover-bg: var(--antd-background-color-light);
   --antd-text-color-secondary-shade-40: rgba(0, 0, 0, 0.78);
 }
 

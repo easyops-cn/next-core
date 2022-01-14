@@ -61,6 +61,7 @@
   --color-error-active: var(--palette-red-8);
   --color-error-bg: var(--palette-red-2);
   --color-error-outline: var(--palette-red-3);
+  --color-white: #fff;
 
   --small-border-radius: 2px;
   --medius-border-radius: 4px;
@@ -118,10 +119,13 @@
   --menu-item-selected-bg: var(--color-brand);
   --menu-item-hover: #3e86e6;
   --menu-submenu-selected-bg: rgba(0, 99, 206, 0.2);
+  --menu-dropdown-bg: var(--palette-blue-1);
   --app-submenu-active-bg: #e0eeff;
 
   --checkbox-bg-hover: #ebf3fd;
   --checkbox-bg-active: var(--palette-gray-3);
+  --input-outline-hover: var(--palette-blue-6);
+  --input-outline-focus: var(--palette-blue-6);
 
   --chart-legend-font-size: 12px;
   --chart-tooltips-font-size: 12px;
@@ -139,6 +143,7 @@
   --antd-border-color-split-lighten-80: #fff;
   --antd-border-color-split: #f0f0f0;
   --antd-heading-color: rgba(0, 0, 0, 0.85);
+  --antd-label-color: var(--antd-heading-color);
   --antd-component-background: #fff;
   --antd-border-color-base: #d9d9d9;
   --text-color-disabled: #bfbfbf;
@@ -190,6 +195,7 @@
   --antd-checkbox-color: var(--color-brand);
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
   --antd-checkbox-checked: var(--checkbox-bg-active);
+  --antd-checkbox-check-bg: var(--antd-component-background);
 
   /*** card ***/
   --antd-card-background: var(--antd-component-background);
@@ -281,4 +287,48 @@
   --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
   --antd-anchor-radio-type-title-active-color: #262626;
   --antd-anchor-radio-type-title-active-bg: var(--antd-component-background);
+
+  /*** input ***/
+  --antd-input-bg: var(--antd-component-background);
+  --antd-input-focus-border-color: var(--antd-primary-color);
+  --antd-input-hover-border-color: var(--antd-primary-color);
+  --antd-input-placeholder-color: var(--text-color-disabled);
+
+  /*** select ***/
+  --antd-select-item-selected-bg: #f5f5f5;
+  --antd-select-dropdown-bg: var(--antd-component-background);
+  --antd-select-item-active-bg: var(--antd-item-active-bg);
+
+  /*** table  ***/
+  --antd-table-bg: var(--antd-component-background);
+  --antd-table-body-sort-bg: #fafafa;
+  --antd-table-border-color: var(--antd-border-color-split);
+  --antd-table-even-bg: var(--antd-table-bg);
+  --antd-table-header-bg: #f2f5f9;
+  --antd-table-header-color: var(--text-color-title);
+  --antd-table-header-filter-active-bg: #d8e1ed;
+  --antd-table-header-sort-active-bg: #e8edf4;
+  --antd-table-header-overwrite-sort-th-active-bg: #e0e5ec;
+  --antd-table-header-overwrite-sort-td-active-bg: #f4f5f7;
+  --antd-table-header-sort-active-filter-bg: #f9fafc;
+  --antd-table-row-hover-bg: var(--antd-background-color-light);
+  --antd-table-selected-row-hover-bg: #dcf2ff;
+  --antd-table-row-expand-icon-color: rgba(0, 0, 0, 0.55);
+  --antd-table-row-expand-icon-action-bg: #f5f5f5;
+  --antd-table-row-expand-nested-wrapper: #fafafa;
+  --antd-table-row-expand-nested-wrapper-border: #e8e8e8;
+  --antd-table-expanded-row-bg: #fbfbfb;
+
+  /*** pagination  ***/
+  --antd-paination-total-text: var(--text-color-disabled);
+  --antd-pagination-total-strong-text: var(--text-color-default);
+  --antd-pagination-item-hover: var(--color-brand);
+  --antd-pagination-item-active-bg: transparent;
+  --antd-pagination-item-active-border: var(--color-brand);
+  --antd-pagination-item-active-text-color: var(--color-brand);
+  --antd-pagination-item-selected-hover-text-color: #2893f7;
+  --antd-pagination-item-selected-hover-border-color: var(
+    --antd-pagination-item-active-border
+  );
+  --antd-pagination-item-selected-hover-bg: transparent;
 }
