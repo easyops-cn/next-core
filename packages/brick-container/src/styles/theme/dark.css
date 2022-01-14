@@ -14,6 +14,8 @@ html[data-theme="dark-v2"],
   --palette-gray-9: rgba(255, 255, 255, 0.85);
   --palette-gray-10: rgba(255, 255, 255, 1);
 
+  --palette-hex-gray-2: #202020;
+  --palette-hex-gray-3: #29292b;
   --body-background: #17171a;
 
   --color-brand: var(--palette-blue-6);
@@ -238,16 +240,14 @@ html[data-theme="dark-v2"],
   --antd-table-even-bg: var(--antd-table-bg);
   --antd-table-header-bg: var(--color-fill-bg-base-4);
   --antd-table-header-color: var(--color-header-text);
-  --antd-table-row-hover-bg: var(--color-fill-bg-base-1);
+  --antd-table-row-hover-bg: var(--palette-hex-gray-3);
 
   --antd-table-header-filter-active-bg: var(--color-fill-bg-base-1);
   --antd-table-header-sort-active-bg: var(--color-fill-bg-base-1);
   --antd-table-header-overwrite-sort-th-active-bg: var(
     --antd-table-header-sort-active-bg
   );
-  --antd-table-header-overwrite-sort-td-active-bg: var(
-    --antd-table-header-sort-active-bg
-  );
+  --antd-table-header-overwrite-sort-td-active-bg: var(--color-fill-bg-base-4);
   --antd-table-header-sort-active-filter-bg: var(--color-fill-bg-base-4);
   --antd-table-selected-row-hover-bg: var(--menu-dropdown-bg);
   --antd-table-row-expand-icon-color: var(--color-normal-text);
@@ -255,6 +255,8 @@ html[data-theme="dark-v2"],
   --antd-table-row-expand-nested-wrapper: var(--color-fill-bg-container-2);
   --antd-table-row-expand-nested-wrapper-border: var(--antd-table-border-color);
   --antd-table-expanded-row-bg: var(--antd-table-row-expand-nested-wrapper);
+  --antd-table-cell-fixed-header-bg: var(--palette-hex-gray-2);
+  --antd-table-cell-fixed-body-bg: var(--palette-hex-gray-2);
 
   /*** pagination  ***/
   --antd-paination-total-text: var(--color-disabled-text);

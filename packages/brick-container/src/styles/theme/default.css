@@ -328,6 +328,8 @@
   --antd-table-row-expand-nested-wrapper: #fafafa;
   --antd-table-row-expand-nested-wrapper-border: #e8e8e8;
   --antd-table-expanded-row-bg: #fbfbfb;
+  --antd-table-cell-fixed-header-bg: var(--antd-table-header-bg);
+  --antd-table-cell-fixed-body-bg: var(--antd-component-background);
 
   /*** pagination  ***/
   --antd-paination-total-text: var(--text-color-disabled);
