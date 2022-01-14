@@ -126,6 +126,7 @@
   --checkbox-bg-active: var(--palette-gray-3);
   --input-outline-hover: var(--palette-blue-6);
   --input-outline-focus: var(--palette-blue-6);
+  --input-fill-bg: var(--palette-gray-3);
 
   --chart-legend-font-size: 12px;
   --chart-tooltips-font-size: 12px;
@@ -150,6 +151,7 @@
   --antd-background-color-base: #f5f5f5;
   --antd-item-active-bg: var(--antd-background-color-light);
   --antd-item-hover-bg: #f5f5f5;
+  --antd-icon-color-hover: rgba(0, 0, 0, 0.75);
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
@@ -249,6 +251,8 @@
   --antd-btn-special-icon-type-bg: var(--palette-gray-3);
   --antd-btn-special-icon-type-hover-color: var(--color-brand);
   --antd-btn-special-icon-type-hover-bg: #d8ecff;
+  --antd-btn-special-icon-type-active-color: #378be3;
+  --antd-btn-special-icon-type-active-bg: #bee0fb;
   --antd-btn-special-icon-type-disabled-color: var(--palette-gray-6);
   --antd-btn-special-icon-type-disabled-bg: var(--palette-gray-3);
 
@@ -331,4 +335,7 @@
     --antd-pagination-item-active-border
   );
   --antd-pagination-item-selected-hover-bg: transparent;
+
+  /*** modal ***/
+  --antd-modal-footer-bg: transparent;
 }
