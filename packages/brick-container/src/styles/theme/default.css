@@ -50,6 +50,8 @@
   --color-info-icon-bg: var(--palette-blue-1);
   --color-info-outline: var(--palette-blue-3);
 
+  --color-normal-icon: var(--palette-gray-1);
+
   --color-warning: var(--palette-amber-6);
   --color-warning-hover: var(--palette-amber-4);
   --color-warning-active: var(--palette-amber-8);
@@ -88,6 +90,7 @@
   --chart-tooltips-font-size: 12px;
   --chart-axis-x-font-size: 10px;
   --chart-axis-y-font-size: 10px;
+  --special-title-font-size-small: 18px;
 
   --font-weight-600: 600;
   --font-weight-500: 500;
@@ -294,9 +297,12 @@
 
   /*** input ***/
   --antd-input-bg: var(--antd-component-background);
+  --antd-input-color: var(--color-normal-text);
   --antd-input-focus-border-color: var(--antd-primary-color);
   --antd-input-hover-border-color: var(--antd-primary-color);
   --antd-input-placeholder-color: var(--text-color-disabled);
+  --antd-input-border-color: var(--color-border-divider-line);
+  --antd-input-disabled-bg: var(--palette-gray-3);
 
   /*** select ***/
   --antd-select-item-selected-bg: #f5f5f5;
@@ -338,4 +344,16 @@
 
   /*** modal ***/
   --antd-modal-footer-bg: transparent;
+
+  /*** tooltip ***/
+  --antd-tooltip-bg: var(--color-fill-bg-container-5);
+  --antd-tooltip-color: var(--color-normal-icon);
+
+  /*** popover ***/
+  --antd-popover-bg: var(--color-fill-bg-container-4);
+  --antd-popover-color: var(--color-auxiliary-text);
+  /*** transfer ***/
+  --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
+  --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
+  --antd-transfer-disable-bg: var(--palette-gray-3);
 }
