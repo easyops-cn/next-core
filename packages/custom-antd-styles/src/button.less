@@ -1,5 +1,21 @@
 .@{btn-prefix-cls} {
   transition: initial;
+  & {
+    &:hover,
+    &:focus {
+      color: var(--antd-btn-default-hover-color);
+      border-color: var(--antd-btn-default-hover-border-color);
+      background: var(--antd-btn-default-bg);
+    }
+
+    &.active,
+    &:active {
+      color: var(--antd-btn-default-active-color);
+      border-color: var(--antd-btn-default-active-border-color);
+      background: var(--antd-btn-default-bg);
+    }
+  }
+
   &-primary {
     background-image: var(--antd-btn-primary-bg-image);
     background-origin: border-box;
@@ -13,12 +29,14 @@
 
     &:hover,
     &:focus {
+      color: var(--antd-btn-primary-hover-color);
       background-color: var(--antd-btn-primary-hover-bg);
       border-color: var(--antd-btn-primary-hover-bg);
     }
 
     &.active,
     &:active {
+      color: var(--antd-btn-primary-active-color);
       background-color: var(--antd-btn-primary-active-bg);
       border-color: var(--antd-btn-primary-active-bg);
     }
@@ -35,12 +53,14 @@
 
     &:hover,
     &:focus {
+      color: var(--antd-btn-danger-hover-color);
       background-color: var(--antd-btn-danger-hover-bg);
       border-color: var(--antd-btn-danger-hover-bg);
     }
 
     &.active,
     &:active {
+      color: var(--antd-btn-danger-active-color);
       background-color: var(--antd-btn-danger-active-bg);
       border-color: var(--antd-btn-danger-active-bg);
     }
@@ -51,12 +71,14 @@
     &:focus {
       color: var(--antd-btn-default-hover-color);
       border-color: var(--antd-btn-default-hover-border-color);
+      background: var(--antd-btn-default-bg);
     }
 
     &.active,
     &:active {
       color: var(--antd-btn-default-active-color);
       border-color: var(--antd-btn-default-active-border-color);
+      background: var(--antd-btn-default-bg);
     }
   }
 
@@ -64,11 +86,15 @@
     &:hover,
     &:focus {
       color: var(--antd-btn-link-hover-color);
+      border-color: transparent;
+      background-color: transparent;
     }
 
     &.active,
     &:active {
       color: var(--antd-btn-link-active-color);
+      border-color: transparent;
+      background-color: transparent;
     }
   }
 
@@ -78,12 +104,14 @@
     &:focus {
       color: var(--antd-btn-text-hover-color);
       background-color: transparent;
+      border-color: transparent;
     }
 
     &.active,
     &:active {
       color: var(--antd-btn-text-active-color);
       background-color: transparent;
+      border-color: transparent;
     }
   }
 
