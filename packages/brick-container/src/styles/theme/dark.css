@@ -110,9 +110,6 @@ html[data-theme="dark-v2"],
   --antd-app-submenu-shadow: var(--base-shadow);
   --antd-app-submenu-group-title-color: var(--antd-text-color-secondary);
 
-  /*** divider  ***/
-  --antd-divider-color: var(--color-text-divider-line);
-
   /*** appp bar ***/
   --app-bar-bg: var(--color-fill-bg-container-1);
   --app-bar-shadow: var(--feedback-container-shadow);
@@ -148,12 +145,11 @@ html[data-theme="dark-v2"],
   --antd-radio-dot-color: var(--antd-primary-color);
 
   /*** divider ***/
+  --antd-divider-color: var(--color-text-divider-line);
   --antd-divider-radiation-color: linear-gradient(
-    to right,
-    transparent,
-    #d9d9d9,
-    #d9d9d9,
-    #d9d9d9
+    135deg,
+    rgba(217, 217, 217, 0),
+    rgba(217, 217, 217, 0.12)
   );
   --antd-divider-radiation-text-color: var(--color-header-text);
   --antd-divider-radiation-proportion-normal-text-color: var(
