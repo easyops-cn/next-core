@@ -184,9 +184,6 @@
   --antd-app-submenu-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
   --antd-app-submenu-group-title-color: var(--antd-text-color-secondary);
 
-  /*** divider  ***/
-  --antd-divider-color: rgba(0, 0, 0, 6%);
-
   /*** appp bar ***/
   --app-bar-bg: rgba(255, 255, 255, 1);
   --app-bar-shadow: 0px 3px 20px 0px rgba(128, 128, 128, 0.2);
@@ -224,6 +221,7 @@
   --antd-radio-dot-color: var(--antd-primary-color);
 
   /*** divider ***/
+  --antd-divider-color: rgba(0, 0, 0, 6%);
   --antd-divider-radiation-color: linear-gradient(
       to right,
       transparent,
