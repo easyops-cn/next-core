@@ -213,6 +213,9 @@
   --antd-dashboard-radio-item-disabled-color: var(--color-disabled-text);
   --antd-dashboard-radio-item-checked-bg: var(--antd-component-background);
   --antd-dashboard-radio-item-checked-color: var(--color-info);
+  --antd-dashboard-radio-item-checked-border-color: var(
+    --antd-dashboard-radio-bg
+  );
   --antd-dashboard-radio-item-checked-shadow: 0 0 0 3px rgb(0, 113, 235, 0.08);
   --antd-radio-solid-checked-color: var(--antd-component-background);
 
@@ -267,7 +270,9 @@
     rgba(101, 178, 255, 1) 100%
   );
   --antd-btn-primary-hover-bg: var(--bg-color-button-primary-hover);
+  --antd-btn-primary-hover-color: var(--antd-btn-primary-color);
   --antd-btn-primary-active-bg: var(--bg-color-button-primary-pressed);
+  --antd-btn-primary-active-color: var(--antd-btn-primary-color);
 
   --antd-btn-default-color: var(--palette-gray-8);
   --antd-btn-default-border: var(--antd-border-color-base);
@@ -280,7 +285,9 @@
   --antd-btn-danger-bg-image: linear-gradient(45deg, #f0493c 0%, #fc796f 100%);
   --antd-btn-danger-color: #fff;
   --antd-btn-danger-hover-bg: var(--bg-color-button-danger-hover);
+  --antd-btn-danger-hover-color: var(--antd-btn-danger-color);
   --antd-btn-danger-active-bg: var(--bg-color-button-danger-pressed);
+  --antd-btn-danger-active-color: var(--antd-btn-danger-color);
 
   --antd-btn-link-hover-color: var(--bg-color-button-link-hover);
   --antd-btn-link-active-color: var(--bg-color-button-link-pressed);
@@ -328,6 +335,8 @@
   --antd-table-row-expand-nested-wrapper: #fafafa;
   --antd-table-row-expand-nested-wrapper-border: #e8e8e8;
   --antd-table-expanded-row-bg: #fbfbfb;
+  --antd-table-cell-fixed-header-bg: var(--antd-table-header-bg);
+  --antd-table-cell-fixed-body-bg: var(--antd-component-background);
 
   /*** pagination  ***/
   --antd-paination-total-text: var(--text-color-disabled);

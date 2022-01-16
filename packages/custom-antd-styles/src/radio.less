@@ -11,3 +11,11 @@
     }
   }
 }
+
+.@{radio-prefix-cls-button-wrapper} {
+  &:first-child {
+    .@{radio-prefix-cls-button-wrapper}-checked:not([class*=~"' @{radio-prefix-cls}-button-wrapper-disabled'"]) {
+      border-right-color: transparent;
+    }
+  }
+}

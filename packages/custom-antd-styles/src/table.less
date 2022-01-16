@@ -15,6 +15,13 @@
     }
   }
 
+  &-thead > tr {
+    .@{table-prefix-cls}-cell-fix-left,
+    .@{table-prefix-cls}-cell-fix-right {
+      background-color: var(--antd-table-cell-fixed-header-bg);
+    }
+  }
+
   &-pagination.@{ant-prefix}-pagination {
     margin-bottom: 0;
   }
@@ -31,6 +38,10 @@
   }
 
   &-tbody {
+    .@{table-prefix-cls}-cell-fix-left,
+    .@{table-prefix-cls}-cell-fix-right {
+      background-color: var(--antd-table-cell-fixed-body-bg);
+    }
     > tr > td {
       border-bottom-color: var(--antd-table-border-color);
     }
