@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.52.0...@next-core/brick-container@2.53.0) (2022-01-16)
+
+
+### Bug Fixes
+
+* fix style ([1f9eadf](https://github.com/easyops-cn/next-core/commit/1f9eadf0723dbdfd3cea9455e6f6c7c4c23de975))
+* table style refine ([411d101](https://github.com/easyops-cn/next-core/commit/411d101062c7ec3dfaa7a8fe3e8302cd63f2bced))
+
+
+### Features
+
+* add css variables ([ffd208b](https://github.com/easyops-cn/next-core/commit/ffd208be8374afbcc8e859630aaa3323ee005611))
+* add general styles ([9e2a3db](https://github.com/easyops-cn/next-core/commit/9e2a3db7b21a7ff62ec6b450dfc39860e55a5d08))
+* delete and edit  css variables ([d4dec93](https://github.com/easyops-cn/next-core/commit/d4dec9392aba83f14a670281e51643325ffaed08))
+* **presentational-bricks.general-tooltip:** tooltip style ([c6cdd2d](https://github.com/easyops-cn/next-core/commit/c6cdd2d0e9f70f7b986d6041b78dd949de20fa4a))
+* transfer styles ([725da2b](https://github.com/easyops-cn/next-core/commit/725da2bc434bbd77ea6211113f71182b08d1c28d))
+
+
+
+
+
 # [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.51.0...@next-core/brick-container@2.52.0) (2022-01-14)
 
 
