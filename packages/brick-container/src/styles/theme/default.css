@@ -240,6 +240,7 @@
 
   /*** base chart ***/
   --antd-chart-legend-text-color: #595959;
+  --antd-chart-legend-hover-text-color: #595959;
   --antd-chart-legend-unchecked-text-color: #d8d8d8;
   --antd-chart-legend-unchecked-mark-color: #d8d8d8;
   --antd-chart-legend-pageNavigator-marker-color: #000;
