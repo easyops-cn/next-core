@@ -201,6 +201,7 @@
     0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
   --antd-column-active-bg: rgba(235, 243, 253, 0.8);
   --antd-disabled-color-fade-10: rgba(191, 191, 191, 0.9);
+  --antd-modal-mask-bg-fade-10: rgba(0, 0, 0, 0.1);
 
   --antd-link-color: var(--antd-primary-color);
   --antd-link-hover-color: #2893f7;
@@ -309,4 +310,5 @@ html[data-theme="dark"],
   --color-fill-bg-container-5: rgba(0, 0, 0, 0.75);
   --color-fill-bg-container-4: var(--antd-component-background);
   --antd-popover-color: var(--antd-text-color);
+  --antd-modal-mask-bg: rgba(11, 26, 47, 0.45);
 }
