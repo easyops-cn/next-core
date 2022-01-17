@@ -305,4 +305,8 @@ html[data-theme="dark"],
   --antd-table-header-sort-active-bg: #05255c;
   --antd-table-header-sort-active-filter-bg: #052357;
   --antd-table-row-hover-bg: var(--antd-background-color-base);
+
+  --color-fill-bg-container-5: rgba(0, 0, 0, 0.75);
+  --color-fill-bg-container-4: var(--antd-component-background);
+  --antd-popover-color: var(--antd-text-color);
 }
