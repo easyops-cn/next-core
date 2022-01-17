@@ -20,6 +20,7 @@ const rawStringMap = {
     "var(--antd-border-color-split-lighten-80)",
   "lighten(@table-border-color, 80%)":
     "var(--antd-border-color-split-lighten-80)",
+  "fade(@modal-mask-bg, 10%)": "var(--antd-modal-mask-bg-fade-10)",
 };
 
 const replacements = [

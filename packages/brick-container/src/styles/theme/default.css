@@ -219,6 +219,7 @@
   /*** radio button ***/
   --antd-radio-dot-color-fade-8: rgb(0 113 235 0.08);
   --antd-radio-dot-color: var(--antd-primary-color);
+  --antd-radio-button-hover-color: #2893f7;
 
   /*** divider ***/
   --antd-divider-color: rgba(0, 0, 0, 6%);
@@ -353,6 +354,7 @@
 
   /*** modal ***/
   --antd-modal-footer-bg: transparent;
+  --antd-modal-mask-bg: var(--mask-bg);
 
   /*** tooltip ***/
   --antd-tooltip-bg: var(--color-fill-bg-container-5);
