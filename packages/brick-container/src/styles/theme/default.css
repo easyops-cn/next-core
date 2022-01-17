@@ -328,6 +328,7 @@
   --antd-table-header-sort-active-filter-bg: #f9fafc;
   --antd-table-row-hover-bg: var(--antd-background-color-light);
   --antd-table-selected-row-hover-bg: #dcf2ff;
+  --antd-table-row-selected-border-color: rgba(0, 0, 0, 0.03);
   --antd-table-row-expand-icon-color: rgba(0, 0, 0, 0.55);
   --antd-table-row-expand-icon-action-bg: #f5f5f5;
   --antd-table-row-expand-nested-wrapper: #fafafa;
