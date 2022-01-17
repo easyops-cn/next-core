@@ -1,5 +1,5 @@
 .ant-transfer-list {
-  background: var(--color-fill-bg-container-4);
+  background: var(--color-fill-bg-container-1);
   border-radius: var(--larger-border-radius);
 }
 
@@ -20,6 +20,16 @@
 
 .ant-transfer-list-content-item-checked {
   background-color: var(--checkbox-bg-active);
+}
+
+.ant-checkbox-wrapper-checked {
+  background: none;
+}
+
+.ant-transfer-disabled {
+  .ant-transfer-list {
+    background: var(--color-fill-bg-base-4);
+  }
 }
 
 .ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled).ant-transfer-list-content-item-checked:hover {
