@@ -24,7 +24,7 @@ html[data-theme="dark-v2"],
   --color-fill-bg-container-2: #2a2a2b;
   --color-fill-bg-container-3: #313132;
   --color-fill-bg-container-4: #373739;
-  --color-fill-bg-container-5: #373739;
+  --color-fill-bg-container-5: rgba(55, 55, 57, 0.95);
 
   --color-fill-bg-base-2: var(--palette-gray-3);
   --color-fill-bg-base-3: var(--palette-gray-2);

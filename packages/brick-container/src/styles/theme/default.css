@@ -359,6 +359,7 @@
   /*** popover ***/
   --antd-popover-bg: var(--color-fill-bg-container-4);
   --antd-popover-color: var(--color-auxiliary-text);
+
   /*** transfer ***/
   --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
