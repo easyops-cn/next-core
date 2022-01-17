@@ -164,7 +164,8 @@ html[data-theme="dark-v2"],
   --statistic-card-itme-value-color: var(--color-normal-text);
 
   /*** base chart ***/
-  --antd-chart-legend-text-color: var(--color-auxiliary-text);
+  --antd-chart-legend-text-color: var(--palette-gray-8);
+  --antd-chart-legend-hover-text-color: var(--palette-gray-7);
   --antd-chart-legend-unchecked-text-color: var(--color-disabled-text);
   --antd-chart-legend-unchecked-mark-color: var(--color-disabled-text);
   --antd-chart-legend-pageNavigator-marker-color: var(--palette-gray-10);
@@ -258,6 +259,7 @@ html[data-theme="dark-v2"],
   --antd-table-header-overwrite-sort-td-active-bg: var(--color-fill-bg-base-4);
   --antd-table-header-sort-active-filter-bg: var(--color-fill-bg-base-4);
   --antd-table-selected-row-hover-bg: var(--menu-dropdown-bg);
+  --antd-table-row-selected-border-color: var(--antd-table-border-color);
   --antd-table-row-expand-icon-color: var(--color-normal-text);
   --antd-table-row-expand-icon-action-bg: var(--color-fill-bg-base-1);
   --antd-table-row-expand-nested-wrapper: var(--color-fill-bg-container-2);
