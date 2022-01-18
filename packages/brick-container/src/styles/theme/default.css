@@ -353,7 +353,7 @@
   --antd-pagination-item-selected-hover-bg: transparent;
 
   /*** modal ***/
-  --antd-modal-footer-bg: transparent;
+  --antd-modal-footer-bg: #f3f4f7;
   --antd-modal-mask-bg: var(--mask-bg);
 
   /*** tooltip ***/
