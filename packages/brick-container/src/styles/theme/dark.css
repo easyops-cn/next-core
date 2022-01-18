@@ -304,4 +304,17 @@ html[data-theme="dark-v2"],
   --antd-transfer-disable-bg: var(--palette-gray-3);
   --antd-transfer-item-selected-bg: var(--checkbox-bg-active);
   --antd-transfer-hover-bg: var(--antd-checkbox-bg-hover);
+
+  /*** tabs ***/
+  --antd-tabs-shadow: var(--base-shadow);
+  --antd-tabs-title-wrapper-bg: var(--color-fill-bg-container-1);
+  --antd-tabs-title-border-color: var(--color-border-divider-line);
+  --antd-tabs-title-color: var(--color-normal-text);
+  --antd-tabs-title-hover-color: var(--color-brand-hover);
+  --antd-tabs-title-selected-color: var(--color-brand);
+  --antd-tabs-title-disabled-color: var(--color-disabled-text);
+  --antd-tabs-panel-type-bg: var(--color-success-bg);
+  --antd-tabs-panel-type-shadow: var(--base-shadow);
+  --antd-tbas-panel-type-selected-color: var(--color-normal-icon);
+  --antd-tabs-panel-type-selected-bg: var(--color-brand);
 }

@@ -353,7 +353,7 @@
   --antd-pagination-item-selected-hover-bg: transparent;
 
   /*** modal ***/
-  --antd-modal-footer-bg: transparent;
+  --antd-modal-footer-bg: #f3f4f7;
   --antd-modal-mask-bg: var(--mask-bg);
 
   /*** tooltip ***/
@@ -370,4 +370,17 @@
   --antd-transfer-disable-bg: var(--palette-gray-3);
   --antd-transfer-item-selected-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-hover-bg: var(--palette-gray-3);
+
+  /*** tabs ***/
+  --antd-tabs-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.04);
+  --antd-tabs-title-wrapper-bg: var(--antd-component-background);
+  --antd-tabs-title-border-color: var(--palette-gray-4);
+  --antd-tabs-title-color: var(--text-color-default);
+  --antd-tabs-title-hover-color: #40a9ff;
+  --antd-tabs-title-selected-color: var(--antd-primary-color);
+  --antd-tabs-title-disabled-color: var(--color-disabled-text);
+  --antd-tabs-panel-type-bg: #dae5f5;
+  --antd-tabs-panel-type-shadow: none;
+  --antd-tbas-panel-type-selected-color: var(--color-white);
+  --antd-tabs-panel-type-selected-bg: var(--antd-primary-color);
 }
