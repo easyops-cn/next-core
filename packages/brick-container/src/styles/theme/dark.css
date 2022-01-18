@@ -32,6 +32,7 @@ html[data-theme="dark-v2"],
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
   --color-auxiliary-text: var(--palette-gray-9);
+  --color-info-bg: var(--palette-blue-2);
 
   --color-normal-icon: var(--palette-gray-10);
 
@@ -301,4 +302,6 @@ html[data-theme="dark-v2"],
   --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-disable-bg: var(--palette-gray-3);
+  --antd-transfer-item-selected-bg: var(--checkbox-bg-active);
+  --antd-transfer-hover-bg: var(--antd-checkbox-bg-hover);
 }

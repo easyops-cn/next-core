@@ -46,7 +46,7 @@
   --color-info: var(--palette-blue-6);
   --color-info-hover: var(--palette-blue-4);
   --color-info-active: var(--palette-blue-8);
-  --color-info-bg: var(--palette-blue-2);
+  --color-info-bg: var(--palette-blue-1);
   --color-info-icon-bg: var(--palette-blue-1);
   --color-info-outline: var(--palette-blue-3);
 
@@ -365,7 +365,9 @@
   --antd-popover-color: var(--color-auxiliary-text);
 
   /*** transfer ***/
-  --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
+  --antd-transfer-item-hover-bg: var(--palette-gray-3);
   --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-disable-bg: var(--palette-gray-3);
+  --antd-transfer-item-selected-bg: var(--antd-checkbox-bg-hover);
+  --antd-transfer-hover-bg: var(--palette-gray-3);
 }
