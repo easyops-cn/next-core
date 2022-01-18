@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.17.1...@next-core/custom-antd-styles@1.18.0) (2022-01-18)
+
+
+### Features
+
+* modal style ([75eefa9](https://github.com/easyops-cn/next-core/commit/75eefa96366f3acf0c588992485eff89272e9092))
+
+
+
+
+
 ## [1.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.17.0...@next-core/custom-antd-styles@1.17.1) (2022-01-18)
 
 
