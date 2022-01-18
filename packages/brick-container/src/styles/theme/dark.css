@@ -317,4 +317,9 @@ html[data-theme="dark-v2"],
   --antd-tabs-panel-type-shadow: var(--base-shadow);
   --antd-tbas-panel-type-selected-color: var(--color-normal-icon);
   --antd-tabs-panel-type-selected-bg: var(--color-brand);
+
+  /*** inputNumber ***/
+  --antd-input-number-handler-wrap-bg: var(--color-fill-bg-base-1);
+  --antd-input-number-handler-wrap-icon: var(--color-auxiliary-text);
+  --antd-input-number-handler-wrap-hover-bg: var(--palette-blue-2);
 }

@@ -383,4 +383,9 @@
   --antd-tabs-panel-type-shadow: none;
   --antd-tbas-panel-type-selected-color: var(--color-white);
   --antd-tabs-panel-type-selected-bg: var(--antd-primary-color);
+
+  /*** inputNumber ***/
+  --antd-input-number-handler-wrap-bg: var(--palette-gray-3);
+  --antd-input-number-handler-wrap-icon: var(--antd-text-color-secondary);
+  --antd-input-number-handler-wrap-hover-bg: #ebf3fd;
 }
