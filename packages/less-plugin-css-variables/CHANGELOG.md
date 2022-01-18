@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.2.0...@next-core/less-plugin-css-variables@0.2.1) (2022-01-18)
+
+
+### Bug Fixes
+
+* style refine ([54a9130](https://github.com/easyops-cn/next-core/commit/54a9130d18558d4c86871b458f58e5c652898e84))
+
+
+
+
+
 # [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.1.5...@next-core/less-plugin-css-variables@0.2.0) (2022-01-07)
 
 
