@@ -400,4 +400,15 @@
   --antd-description-title-color: var(--palette-gray-9);
   --antd-description-item-label-color: var(--palette-gray-8);
   --antd-description-item-content-color: var(--palette-gray-9);
+
+  /*** cmdb instance detail ***/
+  --cmdb-instance-detail-detail-description-item-label: rgba(0, 0, 0, 0.65);
+  --cmdb-instance-detail-detail-description-item-content: var(
+    --antd-heading-color
+  );
+  --cmdb-instance-detail-description-group-color: #404143;
+  --cmdb-instance-detail-group-label-bg: var(--palette-gray-3);
+  --cmdb-instance-detail-group-label-color: #333;
+  --cmdb-instance-detail-group-label-active-bg: #167be0;
+  --cmdb-instance-detail-group-label-active-color: var(--color-white);
 }

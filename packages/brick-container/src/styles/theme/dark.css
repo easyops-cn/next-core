@@ -339,4 +339,19 @@ html[data-theme="dark-v2"],
   --antd-description-title-color: var(--color-header-text);
   --antd-description-item-label-color: var(--color-secondary-text);
   --antd-description-item-content-color: var(--color-header-text);
+
+  /*** cmdb instance detail ***/
+  --cmdb-instance-detail-detail-description-item-label: var(
+    --color-secondary-text
+  );
+  --cmdb-instance-detail-detail-description-item-content: var(
+    --color-header-text
+  );
+  --cmdb-instance-detail-description-group-color: var(
+    --antd-description-title-color
+  );
+  --cmdb-instance-detail-group-label-bg: var(--color-fill-bg-base-1);
+  --cmdb-instance-detail-group-label-color: var(--color-normal-text);
+  --cmdb-instance-detail-group-label-active-bg: var(--color-brand);
+  --cmdb-instance-detail-group-label-active-color: var(--color-white);
 }
