@@ -126,6 +126,18 @@ html[data-theme="dark-v2"],
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
   --antd-checkbox-checked: var(--checkbox-bg-active);
   --antd-checkbox-check-bg: transparent;
+  --antd-checkbox-custom-type-icon-color: var(--color-strong-text);
+  --antd-checkbox-custom-type-color: var(--color-normal-text);
+  --antd-checkbox-custom-type-item-border-color: var(
+    --color-border-divider-line
+  );
+  --antd-checkbox-custom-type-item-hover-border-color: var(
+    --input-outline-focus
+  );
+  --antd-checkbox-custom-type-disabled-color: var(--color-disabled-text);
+  --antd-checkbox-custom-type-disabled-icon-color: var(
+    --input-outline-disabled
+  );
 
   /*** card ***/
   --antd-card-background: var(--color-fill-bg-container-1);
