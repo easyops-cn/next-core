@@ -130,6 +130,7 @@
   --input-outline-hover: var(--palette-blue-6);
   --input-outline-focus: var(--palette-blue-6);
   --input-fill-bg: var(--palette-gray-3);
+  --input-outline-disabled: var(--palette-gray-3);
 
   --chart-legend-font-size: 12px;
   --chart-tooltips-font-size: 12px;
@@ -198,6 +199,12 @@
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
   --antd-checkbox-checked: var(--checkbox-bg-active);
   --antd-checkbox-check-bg: var(--antd-component-background);
+  --antd-checkbox-custom-type-icon-color: var(--antd-heading-color);
+  --antd-checkbox-custom-type-color: var(--palette-gray-8);
+  --antd-checkbox-custom-type-item-border-color: var(--palette-gray-5);
+  --antd-checkbox-custom-type-item-hover-border-color: #65b2ff;
+  --antd-checkbox-custom-type-disabled-color: var(--color-disabled-text);
+  --antd-checkbox-custom-type-disabled-icon-color: var(--color-disabled-text);
 
   /*** card ***/
   --antd-card-background: var(--antd-component-background);
@@ -383,4 +390,9 @@
   --antd-tabs-panel-type-shadow: none;
   --antd-tbas-panel-type-selected-color: var(--color-white);
   --antd-tabs-panel-type-selected-bg: var(--antd-primary-color);
+
+  /*** inputNumber ***/
+  --antd-input-number-handler-wrap-bg: var(--palette-gray-3);
+  --antd-input-number-handler-wrap-icon: var(--antd-text-color-secondary);
+  --antd-input-number-handler-wrap-hover-bg: #ebf3fd;
 }
