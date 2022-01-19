@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.25.0...@next-core/brick-icons@2.26.0) (2022-01-19)
+
+
+### Features
+
+* delete icons ([1a8dfc0](https://github.com/easyops-cn/next-core/commit/1a8dfc09bd88e9407c8dd472b10fe8070ca67b35))
+* move to colored-common ([35d428f](https://github.com/easyops-cn/next-core/commit/35d428fdc0a749ed79c5439682963c422c493118))
+
+
+
+
+
 # [2.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.24.5...@next-core/brick-icons@2.25.0) (2022-01-19)
 
 
