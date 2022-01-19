@@ -4,6 +4,8 @@
 
 更多文档请查看 《[EasyOps 开发者中心](http://docs.developers.easyops.cn/)》
 
+next-core 代码执行流程图 ![next-core代码执行流程图](assets/next-core代码执行流程图.png)
+
 ## 安装依赖
 
 `yarn`
