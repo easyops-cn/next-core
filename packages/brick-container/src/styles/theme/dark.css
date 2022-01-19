@@ -32,7 +32,14 @@ html[data-theme="dark-v2"],
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
   --color-auxiliary-text: var(--palette-gray-9);
+
   --color-info-bg: var(--palette-blue-2);
+
+  --color-success-bg: var(--palette-green-2);
+
+  --color-warning-bg: var(--palette-amber-2);
+
+  --color-error-bg: var(--palette-red-2);
 
   --color-normal-icon: var(--palette-gray-10);
 
@@ -334,4 +341,24 @@ html[data-theme="dark-v2"],
   --antd-input-number-handler-wrap-bg: var(--color-fill-bg-base-1);
   --antd-input-number-handler-wrap-icon: var(--color-auxiliary-text);
   --antd-input-number-handler-wrap-hover-bg: var(--palette-blue-2);
+
+  /*** description ***/
+  --antd-description-title-color: var(--color-header-text);
+  --antd-description-item-label-color: var(--color-secondary-text);
+  --antd-description-item-content-color: var(--color-header-text);
+
+  /*** cmdb instance detail ***/
+  --cmdb-instance-detail-detail-description-item-label: var(
+    --color-secondary-text
+  );
+  --cmdb-instance-detail-detail-description-item-content: var(
+    --color-header-text
+  );
+  --cmdb-instance-detail-description-group-color: var(
+    --antd-description-title-color
+  );
+  --cmdb-instance-detail-group-label-bg: var(--color-fill-bg-base-1);
+  --cmdb-instance-detail-group-label-color: var(--color-normal-text);
+  --cmdb-instance-detail-group-label-active-bg: var(--color-brand);
+  --cmdb-instance-detail-group-label-active-color: var(--color-white);
 }

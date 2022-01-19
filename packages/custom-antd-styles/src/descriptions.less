@@ -1,6 +1,6 @@
 .@{descriptions-prefix-cls} {
   &-title {
-    color: #262626;
+    color: var(--antd-description-title-color);
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
@@ -12,15 +12,15 @@
   }
 
   &-item-label {
-    color: #595959;
+    color: var(--antd-description-item-label-color);
   }
 
   &-item-content {
-    color: #262626;
+    color: var(--antd-description-item-content-color);
   }
 
   &-row {
-    >td {
+    > td {
       padding-bottom: 10px;
     }
 
@@ -34,7 +34,7 @@
 
 html[data-theme="dark"] .@{descriptions-prefix-cls} {
   &-title {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   &-item-label {
@@ -44,5 +44,4 @@ html[data-theme="dark"] .@{descriptions-prefix-cls} {
   &-item-content {
     color: rgba(255, 255, 255, 0.85);
   }
-
 }

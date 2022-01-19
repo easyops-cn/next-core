@@ -40,7 +40,7 @@
   --color-success: var(--palette-green-6);
   --color-success-hover: var(--palette-green-4);
   --color-success-active: var(--palette-green-8);
-  --color-success-bg: var(--palette-green-2);
+  --color-success-bg: var(--palette-green-1);
   --color-success-outline: var(--palette-green-3);
 
   --color-info: var(--palette-blue-6);
@@ -55,13 +55,13 @@
   --color-warning: var(--palette-amber-6);
   --color-warning-hover: var(--palette-amber-4);
   --color-warning-active: var(--palette-amber-8);
-  --color-warning-bg: var(--palette-amber-2);
+  --color-warning-bg: var(--palette-amber-1);
   --color-warning-outline: var(--palette-amber-3);
 
   --color-error: var(--palette-red-6);
   --color-error-hover: var(--palette-red-4);
   --color-error-active: var(--palette-red-8);
-  --color-error-bg: var(--palette-red-2);
+  --color-error-bg: var(--palette-red-1);
   --color-error-outline: var(--palette-red-3);
   --color-white: #fff;
 
@@ -395,4 +395,20 @@
   --antd-input-number-handler-wrap-bg: var(--palette-gray-3);
   --antd-input-number-handler-wrap-icon: var(--antd-text-color-secondary);
   --antd-input-number-handler-wrap-hover-bg: #ebf3fd;
+
+  /*** description ***/
+  --antd-description-title-color: var(--palette-gray-9);
+  --antd-description-item-label-color: var(--palette-gray-8);
+  --antd-description-item-content-color: var(--palette-gray-9);
+
+  /*** cmdb instance detail ***/
+  --cmdb-instance-detail-detail-description-item-label: rgba(0, 0, 0, 0.65);
+  --cmdb-instance-detail-detail-description-item-content: var(
+    --antd-heading-color
+  );
+  --cmdb-instance-detail-description-group-color: #404143;
+  --cmdb-instance-detail-group-label-bg: var(--palette-gray-3);
+  --cmdb-instance-detail-group-label-color: #333;
+  --cmdb-instance-detail-group-label-active-bg: #167be0;
+  --cmdb-instance-detail-group-label-active-color: var(--color-white);
 }
