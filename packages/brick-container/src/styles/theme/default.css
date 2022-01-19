@@ -395,4 +395,9 @@
   --antd-input-number-handler-wrap-bg: var(--palette-gray-3);
   --antd-input-number-handler-wrap-icon: var(--antd-text-color-secondary);
   --antd-input-number-handler-wrap-hover-bg: #ebf3fd;
+
+  /*** description ***/
+  --antd-description-title-color: var(--palette-gray-9);
+  --antd-description-item-label-color: var(--palette-gray-8);
+  --antd-description-item-content-color: var(--palette-gray-9);
 }

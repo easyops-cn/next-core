@@ -334,4 +334,9 @@ html[data-theme="dark-v2"],
   --antd-input-number-handler-wrap-bg: var(--color-fill-bg-base-1);
   --antd-input-number-handler-wrap-icon: var(--color-auxiliary-text);
   --antd-input-number-handler-wrap-hover-bg: var(--palette-blue-2);
+
+  /*** description ***/
+  --antd-description-title-color: var(--color-header-text);
+  --antd-description-item-label-color: var(--color-secondary-text);
+  --antd-description-item-content-color: var(--color-header-text);
 }
