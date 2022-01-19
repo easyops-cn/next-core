@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.55.1...@next-core/brick-container@2.56.0) (2022-01-19)
+
+
+### Features
+
+* checkbox style ([f5317ad](https://github.com/easyops-cn/next-core/commit/f5317adb93ebcc854830c550f3916ffe0a94e09c))
+* input number style ([dafa23f](https://github.com/easyops-cn/next-core/commit/dafa23ff95416430605da5705c4b7e3fed51c2a3))
+
+
+
+
+
 ## [2.55.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.55.0...@next-core/brick-container@2.55.1) (2022-01-19)
 
 **Note:** Version bump only for package @next-core/brick-container

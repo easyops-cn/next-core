@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.18.0...@next-core/custom-antd-styles@1.19.0) (2022-01-19)
+
+
+### Features
+
+* input number style ([dafa23f](https://github.com/easyops-cn/next-core/commit/dafa23ff95416430605da5705c4b7e3fed51c2a3))
+
+
+
+
+
 # [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.17.1...@next-core/custom-antd-styles@1.18.0) (2022-01-18)
 
 
