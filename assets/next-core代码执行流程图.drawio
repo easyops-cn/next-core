@@ -1,13 +1,13 @@
 <mxfile host="65bd71144e">
     <diagram id="UlXR2attzgORiQ10WC5t" name="第 1 页">
-        <mxGraphModel dx="1287" dy="1249" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="8000" background="none" math="0" shadow="1">
+        <mxGraphModel dx="773" dy="573" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="8000" background="#ffffff" math="0" shadow="1">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="31" value="next-core" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;shadow=1;" parent="1" vertex="1">
+                <mxCell id="31" value="next-core" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;shadow=1;strokeColor=#000000;swimlaneFillColor=none;fontColor=#F0F0F0;fillColor=#2A2A2A;" parent="1" vertex="1">
                     <mxGeometry x="50" y="150" width="2690" height="6320" as="geometry"/>
                 </mxCell>
-                <mxCell id="32" value="Brick Container" style="swimlane;startSize=20;" parent="31" vertex="1">
+                <mxCell id="32" value="Brick Container" style="swimlane;startSize=20;swimlaneFillColor=#FFFFFF;strokeColor=#000000;fillColor=#2A2A2A;labelBackgroundColor=none;" parent="31" vertex="1">
                     <mxGeometry y="20" width="200" height="6300" as="geometry"/>
                 </mxCell>
                 <mxCell id="78" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startSize=20;fontColor=#1A1A1A;" parent="32" source="44" target="77" edge="1">
@@ -55,13 +55,13 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="33" value="Runtime" style="swimlane;startSize=20;fontColor=#1A1A1A;" parent="31" vertex="1">
+                <mxCell id="33" value="Runtime" style="swimlane;startSize=20;fontColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;labelBackgroundColor=none;fillColor=#2A2A2A;" parent="31" vertex="1">
                     <mxGeometry x="200" y="20" width="200" height="6300" as="geometry"/>
                 </mxCell>
                 <mxCell id="48" value="runtime.bootstrap" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;startSize=20;gradientColor=#ffffff;fontColor=#1A1A1A;fillColor=#FFFFFF;" parent="33" vertex="1">
                     <mxGeometry x="40" y="480" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="34" value="Kernel" style="swimlane;startSize=20;fontColor=#1A1A1A;" parent="31" vertex="1">
+                <mxCell id="34" value="Kernel" style="swimlane;startSize=20;fontColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;fillColor=#2A2A2A;" parent="31" vertex="1">
                     <mxGeometry x="400" y="20" width="400" height="6300" as="geometry"/>
                 </mxCell>
                 <mxCell id="83" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startSize=20;fontColor=#1A1A1A;" parent="34" source="80" target="82" edge="1">
@@ -79,7 +79,7 @@
                 <mxCell id="85" value="实例化Router&lt;br&gt;(Kernel实例数据会传入Router实例中)" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;startSize=20;gradientColor=#ffffff;align=center;fontColor=#1A1A1A;fillColor=#FFFFFF;" parent="34" vertex="1">
                     <mxGeometry x="70" y="720" width="240" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="40" value="Router" style="swimlane;startSize=20;fillColor=#2a2a2a;fontColor=#f0f0f0;strokeColor=#000000;labelBorderColor=none;" parent="31" vertex="1">
+                <mxCell id="40" value="Router" style="swimlane;startSize=20;fillColor=#2A2A2A;fontColor=#f0f0f0;strokeColor=#000000;labelBorderColor=none;swimlaneFillColor=#FFFFFF;" parent="31" vertex="1">
                     <mxGeometry x="800" y="20" width="710" height="6300" as="geometry"/>
                 </mxCell>
                 <mxCell id="92" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;startSize=20;fontColor=#1A1A1A;" parent="40" source="87" target="91" edge="1">
@@ -286,7 +286,7 @@
                 <mxCell id="130" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#1A1A1A;" parent="31" source="124" target="129" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="41" value="LocationContext" style="swimlane;startSize=20;swimlaneFillColor=none;" parent="31" vertex="1">
+                <mxCell id="41" value="LocationContext" style="swimlane;startSize=20;swimlaneFillColor=#FFFFFF;strokeColor=#000000;fillColor=#2A2A2A;fontColor=#FFFFFF;" parent="31" vertex="1">
                     <mxGeometry x="1510" y="20" width="590" height="6300" as="geometry"/>
                 </mxCell>
                 <mxCell id="132" value="" style="edgeStyle=none;html=1;fontColor=#1A1A1A;" parent="41" source="129" target="131" edge="1">
@@ -363,7 +363,7 @@
                         <mxPoint x="299.5714285714289" y="3690" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="198" value="reconciler" style="swimlane;startSize=20;" parent="31" vertex="1">
+                <mxCell id="198" value="reconciler" style="swimlane;startSize=20;swimlaneFillColor=#FFFFFF;strokeColor=#000000;fillColor=#2A2A2A;fontColor=#FFFFFF;" parent="31" vertex="1">
                     <mxGeometry x="2100" y="20" width="590" height="6300" as="geometry"/>
                 </mxCell>
                 <mxCell id="206" value="如果route存在&lt;br&gt;子路由" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="198" edge="1">
