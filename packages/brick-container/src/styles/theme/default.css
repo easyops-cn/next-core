@@ -40,7 +40,7 @@
   --color-success: var(--palette-green-6);
   --color-success-hover: var(--palette-green-4);
   --color-success-active: var(--palette-green-8);
-  --color-success-bg: var(--palette-green-2);
+  --color-success-bg: var(--palette-green-1);
   --color-success-outline: var(--palette-green-3);
 
   --color-info: var(--palette-blue-6);
@@ -55,13 +55,13 @@
   --color-warning: var(--palette-amber-6);
   --color-warning-hover: var(--palette-amber-4);
   --color-warning-active: var(--palette-amber-8);
-  --color-warning-bg: var(--palette-amber-2);
+  --color-warning-bg: var(--palette-amber-1);
   --color-warning-outline: var(--palette-amber-3);
 
   --color-error: var(--palette-red-6);
   --color-error-hover: var(--palette-red-4);
   --color-error-active: var(--palette-red-8);
-  --color-error-bg: var(--palette-red-2);
+  --color-error-bg: var(--palette-red-1);
   --color-error-outline: var(--palette-red-3);
   --color-white: #fff;
 

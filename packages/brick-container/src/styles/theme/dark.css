@@ -32,7 +32,14 @@ html[data-theme="dark-v2"],
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
   --color-auxiliary-text: var(--palette-gray-9);
+
   --color-info-bg: var(--palette-blue-2);
+
+  --color-success-bg: var(--palette-green-2);
+
+  --color-warning-bg: var(--palette-amber-2);
+
+  --color-error-bg: var(--palette-red-2);
 
   --color-normal-icon: var(--palette-gray-10);
 
