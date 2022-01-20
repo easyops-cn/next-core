@@ -41,8 +41,9 @@ describe("historyExtended", () => {
   let ext: ReturnType<typeof historyExtended>;
 
   afterEach(() => {
-    history.push.mockClear();
-    history.replace.mockClear();
+    // history.push.mockClear();
+    // history.replace.mockClear();
+    jest.clearAllMocks();
     window.STANDALONE_MICRO_APPS = undefined;
   });
 
@@ -246,6 +247,8 @@ describe("historyExtended", () => {
     ]
   >([
     ["push", ["/my-app"], ["/my-app", undefined]],
+    ["push", ["/my-app?a=1"], ["/my-app?a=1", undefined]],
+    ["push", ["?a=1"], ["?a=1", undefined]],
     [
       "replace",
       [
@@ -264,7 +267,7 @@ describe("historyExtended", () => {
       ],
     ],
   ])(
-    "history[%j](...%j) with the same up should work for standalone micro-apps",
+    "history[%j](...%j) with the same app should work for standalone micro-apps",
     (method, callerArgs, calleeArgs) => {
       window.STANDALONE_MICRO_APPS = true;
       mockHasMatchedApp.mockReturnValueOnce(true);
@@ -282,6 +285,7 @@ describe("historyExtended", () => {
     ]
   >([
     ["push", ["/another-app"], "/another-app"],
+    ["push", ["/another-app?a=1"], "/another-app?a=1"],
     [
       "replace",
       [
@@ -295,11 +299,12 @@ describe("historyExtended", () => {
       "/another-app/path",
     ],
   ])(
-    "history[%j](...%j) with the same up should work for standalone micro-apps",
+    "history[%j](...%j) with another app should work for standalone micro-apps",
     (method, callerArgs, url) => {
       window.STANDALONE_MICRO_APPS = true;
-      mockHasMatchedApp.mockReturnValueOnce(false);
+      mockHasMatchedApp.mockReturnValue(false);
       ext = historyExtended(history);
+      mockHasMatchedApp.mockReset();
       ext[method](...callerArgs);
       expect(
         window.location[method === "push" ? "assign" : "replace"]
