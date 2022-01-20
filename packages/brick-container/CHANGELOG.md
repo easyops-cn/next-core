@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.57.2...@next-core/brick-container@2.58.0) (2022-01-20)
+
+
+### Features
+
+* support css variables of rank table ([3a36229](https://github.com/easyops-cn/next-core/commit/3a362297c8efb500f0e4eadb3343f5d99decc972))
+
+
+
+
+
 ## [2.57.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.57.1...@next-core/brick-container@2.57.2) (2022-01-20)
 
 **Note:** Version bump only for package @next-core/brick-container
