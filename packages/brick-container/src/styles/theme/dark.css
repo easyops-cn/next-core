@@ -28,10 +28,9 @@ html[data-theme="dark-v2"],
 
   --color-fill-bg-base-2: var(--palette-gray-3);
   --color-fill-bg-base-3: var(--palette-gray-2);
-  --color-auxiliary-text: var(--palette-gray-9);
+  --color-auxiliary-text: var(--palette-gray-8);
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
-  --color-auxiliary-text: var(--palette-gray-9);
 
   --color-info-bg: var(--palette-blue-2);
 
@@ -386,4 +385,28 @@ html[data-theme="dark-v2"],
   );
   --rank-table-medal-bronze-border-color: rgb(171, 135, 15, 0.45);
   --rank-table-medal-bronze-text-shadow: none;
+  /*** calendar ***/
+  --antd-calendar-bg: var(--color-fill-bg-container-4);
+
+  /*** date-picker ***/
+  --antd-picker-basic-cell-active-with-range-color: var(--color-fill-bg-base-1);
+  --antd-picker-basic-cell-hover-with-range-color: var(--color-fill-bg-base-1);
+  --antd-picker-panel-header-color: var(--color-normal-text);
+  --antd-picker-panel-cell-color: var(--color-auxiliary-text);
+  --antd-picker-panel-cell-today-color: var(--color-info);
+  --antd-picker-panel-cell-today-border-color: var(--palette-blue-1);
+  --antd-picker-panel-cell-today-hover-border-color: var(
+    --color-fill-bg-base-1
+  );
+  --antd-picker-panel-cell-today-bg: var(--palette-blue-1);
+  --antd-picker-panel-cell-selected-color: var(--color-strong-text);
+  --antd-picker-panel-cell-selected-bg: var(--color-brand);
+  --antd-picker-footer-bg: var(--color-fill-bg-base-4);
+
+  --antd-picker-time-panel-cell-color: var(--color-auxiliary-text);
+  --antd-picker-time-panel-cell-selected-bg: var(--checkbox-bg-active);
+  --antd-picker-time-panel-cell-hover-bg: var(--color-fill-bg-base-1);
+
+  /*** datetime-selector ***/
+  --datetime-selector-label-color: var(--color-header-text);
 }

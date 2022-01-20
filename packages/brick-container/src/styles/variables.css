@@ -213,10 +213,6 @@
   --antd-card-background: var(--antd-component-background);
   --antd-card-head-border-bottom-color: var(--antd-border-color-split);
   --antd-pagination-item-disabled-bg-active: #ddd;
-  --antd-picker-basic-cell-active-with-range-color: var(
-    --antd-background-color-light
-  );
-  --antd-picker-basic-cell-hover-with-range-color: #9fcdff;
   --antd-text-color-secondary-shade-40: rgba(0, 0, 0, 0.78);
 }
 
