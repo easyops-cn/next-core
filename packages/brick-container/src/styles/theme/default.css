@@ -411,4 +411,29 @@
   --cmdb-instance-detail-group-label-color: #333;
   --cmdb-instance-detail-group-label-active-bg: #167be0;
   --cmdb-instance-detail-group-label-active-color: var(--color-white);
+
+  /*** rank table ***/
+  --rank-table-medal-gold-background-image: linear-gradient(
+    151deg,
+    #ffb6a6 0%,
+    #f53832 100%
+  );
+  --rank-table-medal-gold-border-color: #fe3f4980;
+  --rank-table-medal-gold-text-shadow: 0 0 4px #9d6c04;
+
+  --rank-table-medal-silver-background-image: linear-gradient(
+    151deg,
+    #fbdb6f 0%,
+    #f67915 100%
+  );
+  --rank-table-medal-silver-border-color: #fe782e80;
+  --rank-table-medal-silver-text-shadow: 0 0 4px #98a6ad;
+
+  --rank-table-medal-bronze-background-image: linear-gradient(
+    151deg,
+    #fbf644 0%,
+    #feba1c 100%
+  );
+  --rank-table-medal-bronze-border-color: #ffd10180;
+  --rank-table-medal-bronze-text-shadow: 0 0 4px #7d4604;
 }

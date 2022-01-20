@@ -361,4 +361,29 @@ html[data-theme="dark-v2"],
   --cmdb-instance-detail-group-label-color: var(--color-normal-text);
   --cmdb-instance-detail-group-label-active-bg: var(--color-brand);
   --cmdb-instance-detail-group-label-active-color: var(--color-white);
+
+  /*** rank table ***/
+  --rank-table-medal-gold-background-image: linear-gradient(
+    151deg,
+    #f49474 0%,
+    #d24525 100%
+  );
+  --rank-table-medal-gold-border-color: rgba(210, 69, 37, 0.45);
+  --rank-table-medal-gold-text-shadow: none;
+
+  --rank-table-medal-silver-background-image: linear-gradient(
+    151deg,
+    #f1b856 0%,
+    #c5740b 100%
+  );
+  --rank-table-medal-silver-border-color: rgba(197, 116, 11, 0.45);
+  --rank-table-medal-silver-text-shadow: none;
+
+  --rank-table-medal-bronze-background-image: linear-gradient(
+    151deg,
+    #f4d952 0%,
+    #ab870f 100%
+  );
+  --rank-table-medal-bronze-border-color: rgb(171, 135, 15, 0.45);
+  --rank-table-medal-bronze-text-shadow: none;
 }
