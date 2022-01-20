@@ -410,6 +410,12 @@
   --cmdb-instance-detail-group-label-color: #333;
   --cmdb-instance-detail-group-label-active-bg: #167be0;
   --cmdb-instance-detail-group-label-active-color: var(--color-white);
+  --cmdb-instance-detail-search-container-bg: rgb(250, 250, 250);
+  --cmdb-instance-detail-search-container-tag-bg: var(--theme-gray-background);
+  --cmdb-instance-detail-search-container-tag-color: var(--text-color-default);
+  --cmdb-instance-detail-search-container-tag-close-hover-color: var(
+    --text-color-default
+  );
 
   /*** rank table ***/
   --rank-table-medal-gold-background-image: linear-gradient(
