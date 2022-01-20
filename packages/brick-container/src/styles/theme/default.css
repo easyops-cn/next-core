@@ -435,4 +435,33 @@
   );
   --rank-table-medal-bronze-border-color: #ffd10180;
   --rank-table-medal-bronze-text-shadow: 0 0 4px #7d4604;
+
+  /*** calendar ***/
+  --antd-calendar-bg: var(--antd-component-background);
+
+  /*** date-picker ***/
+  --antd-picker-basic-cell-active-with-range-color: var(
+    --antd-background-color-light
+  );
+  --antd-picker-basic-cell-hover-with-range-color: #9fcdff;
+  --antd-picker-panel-header-color: var(--antd-heading-color);
+  --antd-picker-panel-cell-color: var(--antd-text-color);
+  --antd-picker-panel-cell-today-color: var(--antd-text-color);
+  --antd-picker-panel-cell-today-border-color: var(--color-brand);
+  --antd-picker-panel-cell-today-hover-border-color: var(--color-brand);
+  --antd-picker-panel-cell-today-bg: linear-gradient(
+    45deg,
+    #0071eb 0%,
+    #65b2ff 100%
+  );
+  --antd-picker-panel-cell-selected-color: #fff;
+  --antd-picker-panel-cell-selected-bg: var(--antd-picker-panel-cell-today-bg);
+  --antd-picker-footer-bg: var(--body-background);
+
+  --antd-picker-time-panel-cell-color: var(--antd-text-color);
+  --antd-picker-time-panel-cell-selected-bg: var(--theme-gray-background);
+  --antd-picker-time-panel-cell-hover-bg: var(--theme-blue-background);
+
+  /*** datetime-selector ***/
+  --datetime-selector-label-color: var(--text-color-title);
 }
