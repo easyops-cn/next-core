@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.58.0...@next-core/brick-container@2.59.0) (2022-01-20)
+
+
+### Features
+
+* support css variables of chart axis ([332953e](https://github.com/easyops-cn/next-core/commit/332953ed0b8dbf918866ce499bc37592a5ef98c2))
+
+
+
+
+
 # [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.57.2...@next-core/brick-container@2.58.0) (2022-01-20)
 
 
