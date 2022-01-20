@@ -86,10 +86,6 @@
   --overview-data-font-size: 30px;
   --special-data-font-size: 20px;
   --normal-data-font-size: 16px;
-  --chart-legend-font-size: 12px;
-  --chart-tooltips-font-size: 12px;
-  --chart-axis-x-font-size: 10px;
-  --chart-axis-y-font-size: 10px;
   --special-title-font-size-small: 18px;
 
   --font-weight-600: 600;
@@ -134,9 +130,8 @@
 
   --chart-legend-font-size: 12px;
   --chart-tooltips-font-size: 12px;
-  --chart-tooltips-font-size: 12px;
-  --chart-axis-x-font-size: 10px;
-  --chart-axis-y-font-size: 10px;
+  --chart-axis-x-font-size: 12px;
+  --chart-axis-y-font-size: 12px;
   --chart-tooltip-bg: rgba(255, 255, 255, 0.95);
   --chart-auxiliary-text: #9aa1a9;
   --chart-outline-select: var(--palette-gray-10);
@@ -258,6 +253,10 @@
   --antd-chart-tooltip-boxShadow: 0px 0px 10px #aeaeae;
   --antd-chart-tooltip-color: var(--antd-chart-legend-text-color);
   --antd-chart-label-color: var(--antd-chart-legend-text-color);
+  --antd-chart-axis-text-color: var(--color-secondary-text);
+  --antd-chart-axis-line-color: var(--color-border-divider-line);
+  --antd-chart-axis-grid-line-color: var(--color-text-divider-line);
+  --antd-chart-axis-tick-line-color: var(--color-border-divider-line);
 
   /*** general-button ***/
   --antd-btn-special-icon-type-color: var(--palette-gray-7);
