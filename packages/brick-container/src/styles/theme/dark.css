@@ -360,6 +360,14 @@ html[data-theme="dark-v2"],
   --cmdb-instance-detail-group-label-color: var(--color-normal-text);
   --cmdb-instance-detail-group-label-active-bg: var(--color-brand);
   --cmdb-instance-detail-group-label-active-color: var(--color-white);
+  --cmdb-instance-detail-search-container-bg: var(--color-fill-bg-base-4);
+  --cmdb-instance-detail-search-container-tag-bg: var(--color-fill-bg-base-1);
+  --cmdb-instance-detail-search-container-tag-color: var(
+    --color-auxiliary-text
+  );
+  --cmdb-instance-detail-search-container-tag-close-hover-color: var(
+    --color-auxiliary-text
+  );
 
   /*** rank table ***/
   --rank-table-medal-gold-background-image: linear-gradient(
