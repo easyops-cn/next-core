@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.60.0...@next-core/brick-container@2.61.0) (2022-01-21)
+
+
+### Features
+
+* dashboard style ([f591d20](https://github.com/easyops-cn/next-core/commit/f591d2054c2717c4e61af56e2870840d60fcd981))
+* slider style ([f620219](https://github.com/easyops-cn/next-core/commit/f6202193c8c40e37836d81a3b5b9719eef52b352))
+
+
+
+
+
 # [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.59.0...@next-core/brick-container@2.60.0) (2022-01-21)
 
 
