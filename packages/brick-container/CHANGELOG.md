@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.59.0...@next-core/brick-container@2.60.0) (2022-01-21)
+
+
+### Bug Fixes
+
+* refine style of avatar using css variables ([0189c83](https://github.com/easyops-cn/next-core/commit/0189c83b679ec75f28a4f7169a7a07fedfefff81))
+
+
+### Features
+
+* cmdb-instance-modal style ([93e8fce](https://github.com/easyops-cn/next-core/commit/93e8fce537e7bf47025fe7980f7bb45c3ae77967))
+* date picker style ([2812395](https://github.com/easyops-cn/next-core/commit/2812395a99c1de7c5f2cfbfec00806ef8f6a5fe9))
+* use css variables for new theme colors ([9f20d2a](https://github.com/easyops-cn/next-core/commit/9f20d2a3194d75972266bf6ddba871c45a59d1d8))
+
+
+
+
+
 # [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.58.0...@next-core/brick-container@2.59.0) (2022-01-20)
 
 
