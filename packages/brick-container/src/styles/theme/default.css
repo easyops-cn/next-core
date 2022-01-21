@@ -491,4 +491,20 @@
   --antd-slider-dot-border-color-active: #80b8f5;
   --antd-slider-mark-text-color: var(--antd-text-color-secondary);
   --antd-slider-mark-text-active-color: var(--antd-text-color);
+
+  --atnd-slide-dashboard-track-background-color: #0060ff;
+  --antd-slider-dashboard-track-background-color-hover: var(
+    --antd-slider-track-background-color-hover
+  );
+  --antd-slider-dashboard-hander-background-color: var(
+    --atnd-slide-dashboard-track-background-color
+  );
+  --antd-slider-dashboard-hander-border-color: var(--color-white);
+  --antd-slider-dashboard-hander-icon-color: var(
+    --antd-slider-dashboard-hander-border-color
+  );
+  --antd-slide-dashboard-hander-boxShadow: none;
+  --antd-slide-dashboard-hander-color-hover: var(
+    --antd-slider-handle-color-hover
+  );
 }
