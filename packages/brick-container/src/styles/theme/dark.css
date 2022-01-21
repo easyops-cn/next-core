@@ -17,6 +17,8 @@ html[data-theme="dark-v2"],
   --palette-hex-gray-3: #29292b;
   --body-background: #17171a;
 
+  --theme-gray-color-rgb-channel: 174, 174, 175;
+
   --color-brand: var(--palette-blue-6);
   --color-fill-global-bg-1: var(--palette-gray-1);
 

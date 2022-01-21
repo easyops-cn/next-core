@@ -6,9 +6,13 @@ export function getStyleByBaseColors(
   backgroundColor?: string
 ): string {
   return (theme === "dark" ? getDarkStyle : getLightStyle)(
-    getCssVariableDefinitionsByPalettes(
+    `${getCssVariableDefinitionsByPalettes(
       generatePalettes(baseColors, theme, backgroundColor)
-    )
+    )}\n${getMigratedCssVariableDefinitions(
+      theme,
+      baseColors,
+      backgroundColor
+    )}`
   );
 }
 
@@ -127,4 +131,55 @@ function ensureBaseColorName(name: string): void {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
     throw new Error(`Invalid base color name: ${JSON.stringify(name)}`);
   }
+}
+
+function getMigratedCssVariableDefinitions(
+  theme: ThemeType,
+  baseColors: BaseColors,
+  backgroundColor?: string
+): string {
+  const migrateMap = {
+    green: "green",
+    red: "red",
+    blue: "blue",
+    orange: "orange",
+    cyan: "cyan",
+    purple: "purple",
+    geekblue: "indigo",
+  };
+
+  return Object.entries(migrateMap)
+    .flatMap(([legacyColorName, newColorName]) => [
+      `  --theme-${legacyColorName}-color-rgb-channel: ${getRgbChannel(
+        getActualBaseColor(baseColors[newColorName], theme, backgroundColor)
+      )};`,
+      ...(theme === "dark"
+        ? []
+        : [
+            `  --theme-${legacyColorName}-color: var(--palette-${newColorName}-6);`,
+            `  --theme-${legacyColorName}-border-color: var(--palette-${newColorName}-3);`,
+          ]),
+      `  --theme-${legacyColorName}-background: var(--palette-${newColorName}-${
+        theme === "dark" ? 2 : 1
+      });`,
+      "",
+    ])
+    .join("\n");
+}
+
+function getRgbChannel(color: string): string {
+  return color
+    .match(/[0-9a-fA-F]{2}/g)
+    .map((hex) => parseInt(hex, 16))
+    .join(", ");
+}
+
+function getActualBaseColor(
+  baseColor: string,
+  theme: ThemeType,
+  backgroundColor?: string
+): string {
+  return theme === "dark"
+    ? generate(baseColor, { theme, backgroundColor })[5]
+    : baseColor;
 }

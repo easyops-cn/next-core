@@ -13,6 +13,11 @@
   --palette-gray-9: #262626;
   --palette-gray-10: #000;
 
+  --theme-gray-color-rgb-channel: 89, 89, 89;
+  --theme-gray-color: var(--palette-gray-8);
+  --theme-gray-background: var(--palette-gray-3);
+  --theme-gray-border-color: var(--palette-gray-4);
+
   --color-brand: #0071eb;
   --color-brand-hover: var(--palette-blue-4);
   --color-brand-active: var(--palette-blue-8);
@@ -473,4 +478,5 @@
 
   /*** avatar ***/
   --antd-avatar-bg: #ccc;
+  --antd-avatar-color: var(--antd-component-background);
 }
