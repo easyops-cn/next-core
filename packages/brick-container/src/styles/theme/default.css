@@ -470,4 +470,7 @@
 
   /*** datetime-selector ***/
   --datetime-selector-label-color: var(--text-color-title);
+
+  /*** avatar ***/
+  --antd-avatar-bg: #ccc;
 }

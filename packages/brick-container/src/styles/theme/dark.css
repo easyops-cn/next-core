@@ -417,4 +417,7 @@ html[data-theme="dark-v2"],
 
   /*** datetime-selector ***/
   --datetime-selector-label-color: var(--color-header-text);
+
+  /*** avatar ***/
+  --antd-avatar-bg: var(--palette-gray-6);
 }
