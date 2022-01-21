@@ -198,7 +198,15 @@ function getSingleTemplatePackage(env, templatePackageName) {
   }
 }
 
-function mergeSettings(defaultSettings, userSettings) {
+function mergeSettings(
+  defaultSettings = {
+    featureFlags: {},
+    homepage: "/",
+    brand: {},
+    misc: {},
+  },
+  userSettings
+) {
   const { featureFlags, homepage, brand, misc } = userSettings;
   if (!defaultSettings.misc) {
     defaultSettings.misc = {};
