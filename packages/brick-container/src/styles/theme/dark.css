@@ -434,4 +434,13 @@ html[data-theme="dark-v2"],
   --antd-slider-dot-border-color-active: var(--palette-blue-7);
   --antd-slider-mark-text-color: var(--color-disabled-text);
   --antd-slider-mark-text-active-color: var(--color-normal-text);
+
+  --atnd-slide-dashboard-track-background-color: #2a78f4;
+  --antd-slider-dashboard-track-background-color-hover: var(--palette-blue-4);
+  --antd-slider-dashboard-hander-background-color: var(--color-brand);
+  --antd-slider-dashboard-hander-border-color: #14284a;
+  --antd-slider-dashboard-hander-icon-color: var(--color-white);
+  --antd-slide-dashboard-hander-boxShadow: 0px 1px 18px 0px
+    rgba(20, 40, 74, 0.1);
+  --antd-slide-dashboard-hander-color-hover: var(--palette-blue-4);
 }
