@@ -16,6 +16,7 @@ fs.outputFileSync(
       teal: "#1dc897",
       purple: "#893ad8",
       pink: "#ff1a79",
+      indigo: "#3844e8",
     }),
     getStyleByBaseColors(
       "dark",
@@ -30,6 +31,7 @@ fs.outputFileSync(
         teal: "#1eca99",
         purple: "#8a3bda",
         pink: "#ff1a7c",
+        indigo: "#3946ea",
       },
       "#17171a"
     ),
