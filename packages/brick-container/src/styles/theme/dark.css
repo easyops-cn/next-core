@@ -422,4 +422,16 @@ html[data-theme="dark-v2"],
 
   /*** avatar ***/
   --antd-avatar-bg: var(--palette-gray-6);
+
+  /*** slider ***/
+  --antd-slider-track-background-color: var(--palette-blue-6);
+  --antd-slider-track-background-color-hover: var(--palette-blue-4);
+  --antd-slider-rail-background-color: var(--color-fill-bg-base-1);
+  --antd-slider-rail-background-color-hover: var(--palette-gray-5);
+  --antd-slider-handle-color: var(--palette-blue-6);
+  --antd-slider-handle-color-hover: var(--palette-blue-8);
+  --antd-slider-handle-background-color: var(--color-fill-bg-container-1);
+  --antd-slider-dot-border-color-active: var(--palette-blue-7);
+  --antd-slider-mark-text-color: var(--color-disabled-text);
+  --antd-slider-mark-text-active-color: var(--color-normal-text);
 }

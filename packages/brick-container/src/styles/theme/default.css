@@ -479,4 +479,16 @@
   /*** avatar ***/
   --antd-avatar-bg: #ccc;
   --antd-avatar-color: var(--antd-component-background);
+
+  /*** slider ***/
+  --antd-slider-track-background-color: #7ac8ff;
+  --antd-slider-track-background-color-hover: #52b1ff;
+  --antd-slider-rail-background-color: var(--antd-background-color-base);
+  --antd-slider-rail-background-color-hover: #e1e1e1;
+  --antd-slider-handle-color: #7ac8ff;
+  --antd-slider-handle-color-hover: #52b1ff;
+  --antd-slider-handle-background-color: var(--antd-component-background);
+  --antd-slider-dot-border-color-active: #80b8f5;
+  --antd-slider-mark-text-color: var(--antd-text-color-secondary);
+  --antd-slider-mark-text-active-color: var(--antd-text-color);
 }
