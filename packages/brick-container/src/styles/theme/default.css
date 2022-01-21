@@ -257,6 +257,7 @@
   --antd-chart-tooltip-bg: rgb(255, 255, 255);
   --antd-chart-tooltip-boxShadow: 0px 0px 10px #aeaeae;
   --antd-chart-tooltip-color: var(--antd-chart-legend-text-color);
+  --annt-chart-tooltip-crosshairs-line-color: var(--color-border-divider-line);
   --antd-chart-label-color: var(--antd-chart-legend-text-color);
   --antd-chart-axis-text-color: var(--color-secondary-text);
   --antd-chart-axis-line-color: var(--color-border-divider-line);
