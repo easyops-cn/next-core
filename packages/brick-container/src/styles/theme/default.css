@@ -508,4 +508,17 @@
   --antd-slide-dashboard-hander-color-hover: var(
     --antd-slider-handle-color-hover
   );
+
+  /*** tag ***/
+  --atnd-tag-checkable-color: var(--text-color-default);
+  --antd-tag-checkable-bg: var(--theme-gray-background);
+  --antd-tag-checkable-cheked-color: var(--color-white);
+  --antd-tag-checkable-checked-bg: var(--theme-blue-color);
+  --antd-tag-closable-color: var(--text-color-default);
+  --antd-tag-closable-bg: var(--theme-gray-background);
+  --antd-tag-closable-icon-color: var(--text-color-secondary);
+  --antd-tag-closable-icon-hover-bg: var(--text-color-default);
+  --antd-tag-closable-hover-bg: var(--stroke-color-default);
+  --antd-tag-closable-disabled-bg: var(--tag-gray-background);
+  --atnd-tag-closable-disabled-color: var(--tag-gray-color);
 }
