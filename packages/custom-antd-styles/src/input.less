@@ -58,3 +58,12 @@
     border-top-color: transparent;
   }
 }
+
+.has-error {
+  &.ant-legacy-form-item-control {
+    .@{input-prefix-cls},
+    .@{input-prefix-cls}:hover {
+      background-color: var(--antd-component-background);
+    }
+  }
+}
