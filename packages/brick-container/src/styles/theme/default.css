@@ -244,7 +244,7 @@
 
   /*** statistic card ***/
   --statistic-card-item-title-color: rgba(140, 140, 140, 1);
-  --statistic-card-itme-value-color: #262626;
+  --statistic-card-item-value-color: #262626;
 
   /*** base chart ***/
   --antd-chart-legend-text-color: #595959;
@@ -257,7 +257,7 @@
   --antd-chart-tooltip-bg: rgb(255, 255, 255);
   --antd-chart-tooltip-boxShadow: 0px 0px 10px #aeaeae;
   --antd-chart-tooltip-color: var(--antd-chart-legend-text-color);
-  --annt-chart-tooltip-crosshairs-line-color: var(--color-border-divider-line);
+  --antd-chart-tooltip-crosshairs-line-color: var(--color-border-divider-line);
   --antd-chart-label-color: var(--antd-chart-legend-text-color);
   --antd-chart-axis-text-color: var(--color-secondary-text);
   --antd-chart-axis-line-color: var(--color-border-divider-line);
@@ -352,7 +352,7 @@
   --antd-table-cell-fixed-body-bg: var(--antd-component-background);
 
   /*** pagination  ***/
-  --antd-paination-total-text: var(--text-color-disabled);
+  --antd-pagination-total-text: var(--text-color-disabled);
   --antd-pagination-total-strong-text: var(--text-color-default);
   --antd-pagination-item-hover: var(--color-brand);
   --antd-pagination-item-active-bg: transparent;
@@ -393,7 +393,7 @@
   --antd-tabs-title-disabled-color: var(--color-disabled-text);
   --antd-tabs-panel-type-bg: #dae5f5;
   --antd-tabs-panel-type-shadow: none;
-  --antd-tbas-panel-type-selected-color: var(--color-white);
+  --antd-tabs-panel-type-selected-color: var(--color-white);
   --antd-tabs-panel-type-selected-bg: var(--antd-primary-color);
 
   /*** inputNumber ***/
@@ -494,12 +494,12 @@
   --antd-slider-mark-text-color: var(--antd-text-color-secondary);
   --antd-slider-mark-text-active-color: var(--antd-text-color);
 
-  --atnd-slide-dashboard-track-background-color: #0060ff;
+  --antd-slide-dashboard-track-background-color: #0060ff;
   --antd-slider-dashboard-track-background-color-hover: var(
     --antd-slider-track-background-color-hover
   );
   --antd-slider-dashboard-hander-background-color: var(
-    --atnd-slide-dashboard-track-background-color
+    --antd-slide-dashboard-track-background-color
   );
   --antd-slider-dashboard-hander-border-color: var(--color-white);
   --antd-slider-dashboard-hander-icon-color: var(
@@ -513,7 +513,7 @@
   /*** tag ***/
   --antd-tag-checkable-color: var(--text-color-default);
   --antd-tag-checkable-bg: var(--theme-gray-background);
-  --antd-tag-checkable-cheked-color: var(--color-white);
+  --antd-tag-checkable-checked-color: var(--color-white);
   --antd-tag-checkable-checked-bg: var(--theme-blue-color);
   --antd-tag-closable-color: var(--text-color-default);
   --antd-tag-closable-bg: var(--theme-gray-background);
@@ -521,5 +521,5 @@
   --antd-tag-closable-icon-hover-bg: var(--text-color-default);
   --antd-tag-closable-hover-bg: var(--stroke-color-default);
   --antd-tag-closable-disabled-bg: var(--tag-gray-background);
-  --atnd-tag-closable-disabled-color: var(--tag-gray-color);
+  --antd-tag-closable-disabled-color: var(--tag-gray-color);
 }
