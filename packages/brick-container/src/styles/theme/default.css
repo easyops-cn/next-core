@@ -510,7 +510,7 @@
   );
 
   /*** tag ***/
-  --atnd-tag-checkable-color: var(--text-color-default);
+  --antd-tag-checkable-color: var(--text-color-default);
   --antd-tag-checkable-bg: var(--theme-gray-background);
   --antd-tag-checkable-cheked-color: var(--color-white);
   --antd-tag-checkable-checked-bg: var(--theme-blue-color);
