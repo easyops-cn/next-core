@@ -52,14 +52,14 @@ module.exports = (env) => {
     },
   };
   if (useRemote) {
-    const assetRoot = standaloneMicroApps ? `${standaloneAppDir}-` : "";
+    const assetRoot = standaloneMicroApps ? `${standaloneAppDir}-/` : "";
     if (standaloneMicroApps) {
       // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
       proxyPaths.push(assetRoot);
     }
 
     const assetPaths = ["bricks", "micro-apps", "templates"];
-    proxyPaths.push(...assetPaths.map((p) => `${assetRoot}/${p}`));
+    proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
