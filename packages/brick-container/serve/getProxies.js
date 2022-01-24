@@ -1,5 +1,8 @@
-const modifyResponse = require("./modifyResponse");
+const fs = require("fs");
+const path = require("path");
 const chalk = require("chalk");
+const { escapeRegExp } = require("lodash");
+const modifyResponse = require("./modifyResponse");
 const {
   getSingleBrickPackage,
   getSingleStoryboard,
@@ -11,8 +14,6 @@ const {
   appendLiveReloadScript,
   tryFiles,
 } = require("./utils");
-const fs = require("fs");
-const path = require("path");
 
 module.exports = (env) => {
   const {
@@ -33,6 +34,8 @@ module.exports = (env) => {
     brickPackagesDir,
     alternativeBrickPackagesDir,
     useLegacyBootstrap,
+    standaloneMicroApps,
+    standaloneAppDir,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -49,19 +52,34 @@ module.exports = (env) => {
     },
   };
   if (useRemote) {
-    proxyPaths.push("bricks", "micro-apps", "templates");
+    const assetRoot = standaloneMicroApps ? `${standaloneAppDir}-` : "";
+    if (standaloneMicroApps) {
+      // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
+      proxyPaths.push(assetRoot);
+    }
+
+    const assetPaths = ["bricks", "micro-apps", "templates"];
+    proxyPaths.push(...assetPaths.map((p) => `${assetRoot}/${p}`));
+
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
       if (
         req.path === "/next/api/auth/bootstrap" ||
-        req.path === "/next/api/auth/v2/bootstrap"
+        req.path === "/next/api/auth/v2/bootstrap" ||
+        (standaloneMicroApps &&
+          new RegExp(
+            `^${escapeRegExp(
+              // 匹配 `/next/your-app/-/bootstrap.[hash].json`
+              `/next/${standaloneAppDir}-/bootstrap.`
+            )}[^.]+\\.json$`
+          ).test(req.path))
       ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
           }
           const result = JSON.parse(raw);
-          const { data } = result;
+          const data = standaloneMicroApps ? result : result.data;
           if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
             data.storyboards = mockedMicroApps
               .map((id) =>
@@ -306,7 +324,7 @@ module.exports = (env) => {
             secure: false,
             changeOrigin: true,
             pathRewrite: pathRewriteFactory(seg),
-            ...(seg === "api"
+            ...(seg === "api" || seg.endsWith("/-")
               ? apiProxyOptions
               : seg === ""
               ? rootProxyOptions
