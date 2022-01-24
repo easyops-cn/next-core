@@ -399,8 +399,9 @@ html[data-theme="dark-v2"],
   --antd-calendar-bg: var(--color-fill-bg-container-4);
 
   /*** date-picker ***/
-  --antd-picker-basic-cell-active-with-range-color: var(--color-fill-bg-base-1);
-  --antd-picker-basic-cell-hover-with-range-color: var(--color-fill-bg-base-1);
+  --antd-picker-basic-cell-hover-bg: var(--color-fill-bg-base-1);
+  --antd-picker-basic-cell-active-with-range-color: var(--color-info-bg);
+  --antd-picker-basic-cell-hover-with-range-color: var(--color-info-icon-bg);
   --antd-picker-panel-header-color: var(--color-normal-text);
   --antd-picker-panel-cell-color: var(--color-auxiliary-text);
   --antd-picker-panel-cell-today-color: var(--color-info);
@@ -445,7 +446,7 @@ html[data-theme="dark-v2"],
   --antd-slide-dashboard-hander-color-hover: var(--palette-blue-4);
 
   /*** tag ***/
-  --atnd-tag-checkable-color: var(--color-normal-text);
+  --antd-tag-checkable-color: var(--color-normal-text);
   --antd-tag-checkable-bg: var(--color-fill-bg-base-1);
   --antd-tag-checkable-cheked-color: var(--color-white);
   --antd-tag-checkable-checked-bg: var(--theme-blue-color);
@@ -455,5 +456,5 @@ html[data-theme="dark-v2"],
   --antd-tag-closable-icon-hover-bg: var(--color-normal-text);
   --antd-tag-closable-hover-bg: var(--palette-gray-5);
   --antd-tag-closable-disabled-bg: var(--color-text-divider-line);
-  --atnd-tag-closable-disabled-color: var(--color-secondary-text);
+  --antd-tag-closable-disabled-color: var(--color-secondary-text);
 }
