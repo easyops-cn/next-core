@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.0...@next-core/brick-container@2.62.1) (2022-01-24)
+
+
+### Bug Fixes
+
+* support connect remote in standalone app ([d53c0c5](https://github.com/easyops-cn/next-core/commit/d53c0c5eb738eaf52cc920e9875bb2da15490004))
+
+
+
+
+
 # [2.62.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.61.1...@next-core/brick-container@2.62.0) (2022-01-23)
 
 
