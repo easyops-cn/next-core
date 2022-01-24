@@ -452,6 +452,7 @@
   --antd-calendar-bg: var(--antd-component-background);
 
   /*** date-picker ***/
+  --antd-picker-basic-cell-hover-bg: var(--antd-background-color-light);
   --antd-picker-basic-cell-active-with-range-color: var(
     --antd-background-color-light
   );

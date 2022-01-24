@@ -399,8 +399,9 @@ html[data-theme="dark-v2"],
   --antd-calendar-bg: var(--color-fill-bg-container-4);
 
   /*** date-picker ***/
-  --antd-picker-basic-cell-active-with-range-color: var(--color-fill-bg-base-1);
-  --antd-picker-basic-cell-hover-with-range-color: var(--color-fill-bg-base-1);
+  --antd-picker-basic-cell-hover-bg: var(--color-fill-bg-base-1);
+  --antd-picker-basic-cell-active-with-range-color: var(--color-info-bg);
+  --antd-picker-basic-cell-hover-with-range-color: var(--color-info-icon-bg);
   --antd-picker-panel-header-color: var(--color-normal-text);
   --antd-picker-panel-cell-color: var(--color-auxiliary-text);
   --antd-picker-panel-cell-today-color: var(--color-info);

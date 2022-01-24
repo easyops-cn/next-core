@@ -1,4 +1,13 @@
 .@{picker-prefix-cls} {
+  &-cell {
+    &:hover:not(&-in-view),
+    &:hover:not(&-selected):not(&-range-start):not(&-range-end):not(&-range-hover-start):not(&-range-hover-end) {
+      .@{picker-prefix-cls}-cell-inner {
+        background: var(--antd-picker-basic-cell-hover-bg);
+      }
+    }
+  }
+
   &-header-view {
     color: var(--antd-picker-panel-header-color);
   }
