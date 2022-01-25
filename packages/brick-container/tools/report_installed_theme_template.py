@@ -18,7 +18,7 @@ def collect(install_path):
 
 
 def create_or_update_theme_template_data(data, org):
-  session_id, ip, port = ens_api.get_service_by_name("logic.next_builder", "logic.micro_app_service")
+  session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.next_builder_service")
   if session_id <= 0:
     raise Exception("get nameservice logic.micro_app_service error, session_id={}".format(session_id))
   address = "{}:{}".format(ip, port)
