@@ -307,7 +307,7 @@ html[data-theme="dark-v2"],
   );
 
   /*** modal ***/
-  --antd-modal-footer-bg: var(--color-fill-bg-base-3);
+  --antd-modal-footer-bg: var(--palette-hex-gray-3);
   --antd-modal-mask-bg: var(--mask-bg);
 
   /*** tooltip ***/
