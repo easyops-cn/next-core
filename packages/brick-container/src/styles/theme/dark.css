@@ -445,6 +445,36 @@ html[data-theme="dark-v2"],
     rgba(20, 40, 74, 0.1);
   --antd-slide-dashboard-hander-color-hover: var(--palette-blue-4);
 
+  /*** 彩色标签 tag ***/
+  --tag-gray-color: var(--color-secondary-text);
+  --tag-gray-background: var(--color-border-divider-line);
+  --tag-green-color: var(--theme-green-color);
+  --tag-green-background: var(--theme-green-background);
+  --tag-red-color: var(--theme-red-color);
+  --tag-red-background: var(--theme-red-background);
+  --tag-blue-color: var(--theme-blue-color);
+  --tag-blue-background: var(--theme-blue-background);
+  --tag-orange-color: var(--theme-orange-color);
+  --tag-orange-background: var(--theme-orange-background);
+  --tag-cyan-color: var(--theme-cyan-color);
+  --tag-cyan-background: var(--theme-cyan-background);
+  --tag-purple-color: var(--theme-purple-color);
+  --tag-purple-background: var(--theme-purple-background);
+  --tag-geekblue-color: var(--theme-geekblue-color);
+  --tag-geekblue-background: var(--theme-geekblue-background);
+  --tag-yellow-color: var(--palette-yellow-6);
+  --tag-yellow-background: var(--palette-yellow-2);
+  --tag-blue-inverse-color: var(--tag-blue-color);
+  --tag-green-inverse-color: var(--tag-green-color);
+  --tag-geekblue-inverse-color: var(--tag-geekblue-color);
+  --tag-purple-inverse-color: var(--tag-purple-color);
+  --tag-orange-inverse-color: var(--tag-orange-color);
+  --tag-cyan-inverse-color: var(--tag-cyan-color);
+  --tag-red-inverse-color: var(--tag-red-color);
+  --tag-yellow-inverse-color: var(--tag-yellow-color);
+  --tag-gray-inverse-color: var(--color-secondary-text);
+  --tag-inverse-text-color: var(--color-strong-text);
+
   /*** tag ***/
   --antd-tag-checkable-color: var(--color-normal-text);
   --antd-tag-checkable-bg: var(--color-fill-bg-base-1);

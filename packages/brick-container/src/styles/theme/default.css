@@ -73,7 +73,7 @@
   --small-border-radius: 2px;
   --medius-border-radius: 4px;
   --larger-border-radius: 6px;
-  --container-border-radius: 500px;
+  --container-border-radius: 50%;
   --no-border-radius: 0px;
   --special-border-radius: 0 0 6px 6px;
 
