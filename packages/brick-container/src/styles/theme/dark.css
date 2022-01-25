@@ -33,6 +33,7 @@ html[data-theme="dark-v2"],
   --color-auxiliary-text: var(--palette-gray-8);
   --color-strong-text: var(--palette-gray-10);
   --color-normal-text: var(--palette-gray-9);
+  --color-border-divider-line: #454547;
 
   --color-info-bg: var(--palette-blue-2);
 

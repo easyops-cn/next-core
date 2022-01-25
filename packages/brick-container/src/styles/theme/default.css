@@ -73,7 +73,8 @@
   --small-border-radius: 2px;
   --medius-border-radius: 4px;
   --larger-border-radius: 6px;
-  --container-border-radius: 50%;
+  /* 元素的尺寸不确定，需要设置一个很大的值才能达到纯圆角的场景 */
+  --container-border-radius: 9999px;
   --no-border-radius: 0px;
   --special-border-radius: 0 0 6px 6px;
 
