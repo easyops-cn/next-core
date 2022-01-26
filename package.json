@@ -86,7 +86,7 @@
     "jest-websocket-mock": "^2.3.0",
     "lerna": "^4.0.0",
     "lint-staged": "^12.3.1",
-    "mock-socket": "^9.1.0",
+    "mock-socket": "^9.1.2",
     "null-loader": "^4.0.1",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
