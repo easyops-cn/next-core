@@ -111,6 +111,9 @@ html[data-theme="dark-v2"],
   --antd-item-hover-bg: var(--palette-gray-3);
   --antd-icon-color-hover: var(--color-normal-text);
 
+  --antd-error-color: var(--color-error);
+  --antd-error-color-fade-20: rgba(210, 69, 37, 0.2);
+
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
   --antd-menu-color: var(--color-header-text);

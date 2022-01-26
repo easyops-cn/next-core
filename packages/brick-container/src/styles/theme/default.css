@@ -157,6 +157,8 @@
   --antd-item-active-bg: var(--antd-background-color-light);
   --antd-item-hover-bg: #f5f5f5;
   --antd-icon-color-hover: rgba(0, 0, 0, 0.75);
+  --antd-error-color: #ff4d4f;
+  --antd-error-color-fade-20: rgba(242, 76, 37, 0.2);
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
