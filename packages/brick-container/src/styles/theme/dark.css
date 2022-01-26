@@ -14,7 +14,18 @@ html[data-theme="dark-v2"],
   --palette-gray-9: rgba(255, 255, 255, 0.85);
   --palette-gray-10: rgba(255, 255, 255, 1);
 
+  /* 上面的 gray 的色系转换成同等的不带透明度的色值 */
+  --palette-hex-gray-1: #17171a;
+  --palette-hex-gray-2: #202022;
   --palette-hex-gray-3: #29292b;
+  --palette-hex-gray-4: #333335;
+  --palette-hex-gray-5: #454547;
+  --palette-hex-gray-6: #5c5c5e;
+  --palette-hex-gray-7: #7f7f81;
+  --palette-hex-gray-8: #aeaeaf;
+  --palette-hex-gray-9: #dcdcdc;
+  --palette-hex-gray-10: #ffffff;
+
   --body-background: #17171a;
 
   --theme-gray-color-rgb-channel: 174, 174, 175;
@@ -62,7 +73,7 @@ html[data-theme="dark-v2"],
   --input-error-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 1);
   --chart-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
 
-  --menu-bg: var(--palette-gray-3);
+  --menu-bg: var(--palette-hex-gray-3);
   --menu-item-selected-bg: var(--palette-blue-6);
   --menu-collapse-bar-border-color: var(--palette-gray-3);
   --menu-collapse-bar-bg: var(--palette-gray-3);
