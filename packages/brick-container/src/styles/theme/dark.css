@@ -499,4 +499,29 @@ html[data-theme="dark-v2"],
   --antd-tag-closable-hover-bg: var(--palette-gray-5);
   --antd-tag-closable-disabled-bg: var(--color-text-divider-line);
   --antd-tag-closable-disabled-color: var(--color-secondary-text);
+
+  /*** timeline ***/
+  --antd-timeline-title-color: var(--color-header-text);
+  --antd-timeline-title-color-hover: var(--color-brand);
+  --antd-timeline-title-font-size: var(--sub-title-font-size);
+  --antd-timeline-title-font-weight: var(--font-weight-500);
+  --antd-timeline-description-color: var(--color-auxiliary-text);
+  --antd-timeline-description-font-weight: var(--font-weight-400);
+  --antd-timeline-description-font-size: var(--normal-font-size);
+  --antd-timeline-datetime-color: var(--color-disabled-text);
+  --antd-timeline-datetime-font-weight: var(--font-weight-400);
+  --antd-timeline-datetime-font-size: var(--auxiliary-font-size-small);
+  --antd-timeline-item-tail-color: var(--color-text-divider-line);
+  --antd-timeline-item-tail-border-width: var(--border-width-double-base);
+  --antd-timeline-item-color-green: var(--color-success);
+  --antd-timeline-item-color-red: var(--color-error);
+  --antd-timeline-item-color-blue: var(--color-info);
+  --antd-timeline-item-color-gray: var(--color-disabled-text);
+  --antd-timeline-item-dot-color-hover: var(--color-normal-icon);
+  --antd-timeline-extension-font-weight: var(--font-weight-400);
+  --antd-timeline-extension-font-size: var(--auxiliary-font-size-small);
+  --antd-timeline-extension-color: var(--color-secondary-text);
+  --antd-timeline-extension-day-font-weight: var(--font-weight-500);
+  --antd-timeline-extension-day-font-size: var(--title-font-size);
+  --antd-timeline-extension-day-color: var(--color-strong-text);
 }
