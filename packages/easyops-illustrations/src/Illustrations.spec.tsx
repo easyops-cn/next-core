@@ -20,6 +20,25 @@ describe("Illustration", () => {
     expect(result).toBe("-/core/assets/illustrations/mockFile");
   });
 
+  it("should work with default theme", () => {
+    window.CORE_ROOT = "-/core/";
+    const result = getIllustration({
+      name: "no-content",
+    });
+
+    expect(result).toBe("-/core/assets/illustrations/mockFile");
+  });
+
+  it("should work with dark theme", () => {
+    window.CORE_ROOT = "-/core/";
+    const result = getIllustration({
+      name: "no-content",
+      theme: "dark-v2",
+    });
+
+    expect(result).toBe("-/core/assets/illustrations/mockFile");
+  });
+
   it("should return undefined when illustration not exist", () => {
     window.CORE_ROOT = undefined;
     const result = getIllustration({
