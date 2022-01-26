@@ -524,4 +524,17 @@ html[data-theme="dark-v2"],
   --antd-timeline-extension-day-font-weight: var(--font-weight-500);
   --antd-timeline-extension-day-font-size: var(--title-font-size);
   --antd-timeline-extension-day-color: var(--color-strong-text);
+
+  /*** cascader ***/
+  --antd-cascader-picker-clear-color: var(--palette-gray-6);
+  --antd-cascader-picker-clear-color-hover: var(--palette-gray-7);
+  --antd-cascader-picker-arrow-color: var(--palette-gray-6);
+  --antd-cascader-menu-item-bg-color-hover: var(--color-fill-bg-base-1);
+  --antd-cascader-menu-item-bg-color-active: var(--menu-dropdown-bg);
+  --antd-cascader-menu-item-font-size: var(--normal-font-size);
+  --antd-cascader-menu-item-color: var(--color-normal-text);
+  --antd-cascader-menu-item-font-weight: var(--font-weight-400);
+  --antd-cascader-menu-item-font-weight-active: var(--font-weight-500);
+  --antd-cascader-menu-item-border-width: var(--border-width-base);
+  --antd-cascader-menu-item-border-color: var(--color-border-divider-line);
 }

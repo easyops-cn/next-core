@@ -1,0 +1,45 @@
+.@{cascader-prefix-cls} {
+
+  &-picker-clear {
+    color: var(--antd-cascader-picker-clear-color);
+  
+    &:hover {
+      color: var(--antd-cascader-picker-clear-color-hover);
+    }
+  }
+
+  &-menus {
+    padding: 0 2px;
+  }
+
+  &-menu {
+
+    border-right: var(--antd-cascader-menu-item-border-width) solid var(--antd-cascader-menu-item-border-color);
+
+    &-item {
+      border-radius: 6px;
+
+      font-size: var(--antd-cascader-menu-item-font-size);
+      color: var(--antd-cascader-menu-item-color);
+      font-weight: var(--antd-cascader-menu-item-font-weight);
+
+      &:hover {
+        background: var(--antd-cascader-menu-item-bg-color-hover);
+      }
+
+      &-active:not(&-disabled) {
+        background: var(--antd-cascader-menu-item-bg-color-active);
+        font-weight: var(--antd-cascader-menu-item-font-weight-active);
+
+        &:hover {
+          background: var(--antd-cascader-menu-item-bg-color-hover);
+          
+        }
+      }
+
+      
+
+    }
+  }
+
+}
