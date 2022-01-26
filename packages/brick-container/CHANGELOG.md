@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.1...@next-core/brick-container@2.63.2) (2022-01-26)
+
+
+### Bug Fixes
+
+* **style:** 增加cascade样式 ([e5154e9](https://github.com/easyops-cn/next-core/commit/e5154e9e1137e683e03e1cc245e08d7a28f28557))
+* **style:** 挪动timeline样式到antd custom ([e5d3c34](https://github.com/easyops-cn/next-core/commit/e5d3c343e7ad1b55fe5f98227845307c2cabe383))
+
+
+
+
+
 ## [2.63.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.0...@next-core/brick-container@2.63.1) (2022-01-26)
 
 
