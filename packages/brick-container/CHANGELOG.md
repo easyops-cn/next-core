@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.4...@next-core/brick-container@2.63.0) (2022-01-26)
+
+
+### Bug Fixes
+
+* modal style ([6f8d257](https://github.com/easyops-cn/next-core/commit/6f8d257a78af76b7a7c0501f7d54d3147f8af67a))
+* style refine ([ecb5971](https://github.com/easyops-cn/next-core/commit/ecb5971ac4cf9ffcadb036353ff12639daf38f18))
+* tag style ([d3b4a1a](https://github.com/easyops-cn/next-core/commit/d3b4a1a6d61bc4847c9e59ab1ed31a53743df496))
+
+
+### Features
+
+* **theme_report:** 主题模板数据上报 ([ccbb94e](https://github.com/easyops-cn/next-core/commit/ccbb94e10b856678029668087a09d5edf4613d8c))
+* **theme_report:** 主题模板数据上报, 被调服务修改 ([f0c2b0f](https://github.com/easyops-cn/next-core/commit/f0c2b0f07575a7107739257cfe8ad1bdce0a5073))
+
+
+
+
+
 ## [2.62.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.3...@next-core/brick-container@2.62.4) (2022-01-24)
 
 
