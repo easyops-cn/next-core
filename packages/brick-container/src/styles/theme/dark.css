@@ -511,8 +511,6 @@ html[data-theme="dark-v2"],
   --antd-timeline-datetime-color: var(--color-disabled-text);
   --antd-timeline-datetime-font-weight: var(--font-weight-400);
   --antd-timeline-datetime-font-size: var(--auxiliary-font-size-small);
-  --antd-timeline-item-tail-color: var(--color-text-divider-line);
-  --antd-timeline-item-tail-border-width: var(--border-width-double-base);
   --antd-timeline-item-color-green: var(--color-success);
   --antd-timeline-item-color-red: var(--color-error);
   --antd-timeline-item-color-blue: var(--color-info);
