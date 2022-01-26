@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.2...@next-core/brick-container@2.63.3) (2022-01-26)
+
+
+### Bug Fixes
+
+* **style:** cascader在light模式下缺少样式 ([1b33a36](https://github.com/easyops-cn/next-core/commit/1b33a3669bd55850d2fc8333c6e0fbde9b591256))
+
+
+
+
+
 ## [2.63.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.1...@next-core/brick-container@2.63.2) (2022-01-26)
 
 
