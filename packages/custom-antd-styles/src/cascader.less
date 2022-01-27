@@ -12,9 +12,17 @@
     padding: 0 2px;
   }
 
+  /* 
+    antd 在低版本（已知4.12.3），级联选项的children为空数组[]时，会额外出现一个空白的下级ul。
+    以下通过覆盖样式来解决。
+    通过 sibling selector 和 empty 伪类定位到空白的下级ul，设置display: none
+    此时，倒数第一个 ul 会出现一条额外的分割线（border-right）。覆盖样式使 border-right 隐藏，同时使用 border-left 来重画 ul 之间的分割线
+  */
   &-menu {
 
-    border-right: var(--antd-cascader-menu-item-border-width) solid var(--antd-cascader-menu-item-border-color);
+    // 隐藏 border-right，重画 border-left
+    border-right-color: transparent;
+    border-left: var(--antd-cascader-menu-item-border-width) solid var(--antd-cascader-menu-item-border-color);
 
     &-item {
       border-radius: 6px;
@@ -36,15 +44,17 @@
           
         }
       }
-
-      
-
     }
   }
 
-  // 隐藏空的子选项
+  // 隐藏空的ul
   &-menu + &-menu:empty {
     display: none;
+  }
+
+  // 第一个ul隐藏border-left
+  &-menu:first-child {
+    border-left-color: transparent;
   }
 
 }
