@@ -1,5 +1,8 @@
 html[data-theme="dark-v2"],
 [data-override-theme="dark-v2"] {
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme */
+  color-scheme: dark;
+
   /* Basic CSS variables Refs: https://tapd.easyops.local/pages/viewpage.action?pageId=36045937 */
 
   /***  在  :root 定义的变量和使用的色板值一样的话，不需要在这额外定义 ***/
