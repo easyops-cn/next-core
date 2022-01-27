@@ -6,35 +6,35 @@ html[data-theme="dark-v2"],
   /* Basic CSS variables Refs: https://tapd.easyops.local/pages/viewpage.action?pageId=36045937 */
 
   /***  在  :root 定义的变量和使用的色板值一样的话，不需要在这额外定义 ***/
-  --palette-gray-1: rgba(255, 255, 255, 0);
-  --palette-gray-2: rgba(255, 255, 255, 0.04);
-  --palette-gray-3: rgba(255, 255, 255, 0.08);
-  --palette-gray-4: rgba(255, 255, 255, 0.12);
-  --palette-gray-5: rgba(255, 255, 255, 0.2);
-  --palette-gray-6: rgba(255, 255, 255, 0.3);
-  --palette-gray-7: rgba(255, 255, 255, 0.45);
-  --palette-gray-8: rgba(255, 255, 255, 0.65);
-  --palette-gray-9: rgba(255, 255, 255, 0.85);
-  --palette-gray-10: rgba(255, 255, 255, 1);
+  --palette-rgba-gray-1: rgba(255, 255, 255, 0);
+  --palette-rgba-gray-2: rgba(255, 255, 255, 0.04);
+  --palette-rgba-gray-3: rgba(255, 255, 255, 0.08);
+  --palette-rgba-gray-4: rgba(255, 255, 255, 0.12);
+  --palette-rgba-gray-5: rgba(255, 255, 255, 0.2);
+  --palette-rgba-gray-6: rgba(255, 255, 255, 0.3);
+  --palette-rgba-gray-7: rgba(255, 255, 255, 0.45);
+  --palette-rgba-gray-8: rgba(255, 255, 255, 0.65);
+  --palette-rgba-gray-9: rgba(255, 255, 255, 0.85);
+  --palette-rgba-gray-10: rgba(255, 255, 255, 1);
 
   /* 上面的 gray 的色系转换成同等的不带透明度的色值 */
-  --palette-hex-gray-1: #17171a;
-  --palette-hex-gray-2: #202022;
-  --palette-hex-gray-3: #29292b;
-  --palette-hex-gray-4: #333335;
-  --palette-hex-gray-5: #454547;
-  --palette-hex-gray-6: #5c5c5e;
-  --palette-hex-gray-7: #7f7f81;
-  --palette-hex-gray-8: #aeaeaf;
-  --palette-hex-gray-9: #dcdcdc;
-  --palette-hex-gray-10: #ffffff;
+  --palette-gray-1: #17171a;
+  --palette-gray-2: #202022;
+  --palette-gray-3: #29292b;
+  --palette-gray-4: #333335;
+  --palette-gray-5: #454547;
+  --palette-gray-6: #5c5c5e;
+  --palette-gray-7: #7f7f81;
+  --palette-gray-8: #aeaeaf;
+  --palette-gray-9: #dcdcdc;
+  --palette-gray-10: #ffffff;
 
   --body-background: #17171a;
 
   --theme-gray-color-rgb-channel: 174, 174, 175;
 
   --color-brand: var(--palette-blue-6);
-  --color-fill-global-bg-1: var(--palette-gray-1);
+  --color-fill-global-bg-1: var(--palette-rgba-gray-1);
 
   --color-fill-bg-container-1: #232324;
   --color-fill-bg-container-2: #2a2a2b;
@@ -42,11 +42,11 @@ html[data-theme="dark-v2"],
   --color-fill-bg-container-4: #373739;
   --color-fill-bg-container-5: rgba(55, 55, 57, 0.95);
 
-  --color-fill-bg-base-2: var(--palette-gray-3);
-  --color-fill-bg-base-3: var(--palette-gray-2);
-  --color-auxiliary-text: var(--palette-gray-8);
-  --color-strong-text: var(--palette-gray-10);
-  --color-normal-text: var(--palette-gray-9);
+  --color-fill-bg-base-2: var(--palette-rgba-gray-3);
+  --color-fill-bg-base-3: var(--palette-rgba-gray-2);
+  --color-auxiliary-text: var(--palette-rgba-gray-8);
+  --color-strong-text: var(--palette-rgba-gray-10);
+  --color-normal-text: var(--palette-rgba-gray-9);
   --color-border-divider-line: #454547;
 
   --color-info-bg: var(--palette-blue-2);
@@ -57,7 +57,7 @@ html[data-theme="dark-v2"],
 
   --color-error-bg: var(--palette-red-2);
 
-  --color-normal-icon: var(--palette-gray-10);
+  --color-normal-icon: var(--palette-rgba-gray-10);
 
   --mask-bg: rgba(23, 23, 26, 0.6);
 
@@ -76,23 +76,23 @@ html[data-theme="dark-v2"],
   --input-error-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 1);
   --chart-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
 
-  --menu-bg: var(--palette-hex-gray-3);
+  --menu-bg: var(--palette-gray-3);
   --menu-item-selected-bg: var(--palette-blue-6);
-  --menu-collapse-bar-border-color: var(--palette-gray-3);
-  --menu-collapse-bar-bg: var(--palette-gray-3);
-  --menu-item-hover: var(--palette-gray-2);
-  --app-submenu-bg: var(--palette-gray-2);
-  --menu-submenu-selected-bg: var(--palette-gray-3);
+  --menu-collapse-bar-border-color: var(--palette-rgba-gray-3);
+  --menu-collapse-bar-bg: var(--palette-rgba-gray-3);
+  --menu-item-hover: var(--palette-rgba-gray-2);
+  --app-submenu-bg: var(--palette-rgba-gray-2);
+  --menu-submenu-selected-bg: var(--palette-rgba-gray-3);
   --menu-dropdown-bg: var(--palette-blue-1);
   --app-submenu-active-bg: var(--palette-blue-1);
 
-  --checkbox-bg-hover: var(--palette-gray-3);
+  --checkbox-bg-hover: var(--palette-rgba-gray-3);
   --checkbox-bg-active: var(--palette-blue-2);
   --dashboard-radio-item-shadow: 0px 0px 0px 2px rgba(20, 40, 74, 0.15);
-  --input-fill-bg: var(--palette-gray-2);
+  --input-fill-bg: var(--palette-rgba-gray-2);
   --chart-tooltip-bg: rgba(23, 23, 26, 0.95);
-  --chart-auxiliary-text: var(--palette-gray-9);
-  --chart-outline-select: var(--palette-gray-10);
+  --chart-auxiliary-text: var(--palette-rgba-gray-9);
+  --chart-outline-select: var(--palette-rgba-gray-10);
 
   /* component CSS variables */
 
@@ -110,8 +110,8 @@ html[data-theme="dark-v2"],
   --text-color-disabled: var(--color-disabled-text);
   --antd-background-color-base: var(--color-fill-bg-base-1);
 
-  --antd-item-active-bg: var(--palette-gray-3);
-  --antd-item-hover-bg: var(--palette-gray-3);
+  --antd-item-active-bg: var(--palette-rgba-gray-3);
+  --antd-item-hover-bg: var(--palette-rgba-gray-3);
   --antd-icon-color-hover: var(--color-normal-text);
 
   /*** menu ***/
@@ -202,13 +202,13 @@ html[data-theme="dark-v2"],
   --statistic-card-item-value-color: var(--color-normal-text);
 
   /*** base chart ***/
-  --antd-chart-legend-text-color: var(--palette-gray-8);
-  --antd-chart-legend-hover-text-color: var(--palette-gray-7);
+  --antd-chart-legend-text-color: var(--palette-rgba-gray-8);
+  --antd-chart-legend-hover-text-color: var(--palette-rgba-gray-7);
   --antd-chart-legend-unchecked-text-color: var(--color-disabled-text);
   --antd-chart-legend-unchecked-mark-color: var(--color-disabled-text);
-  --antd-chart-legend-pageNavigator-marker-color: var(--palette-gray-10);
+  --antd-chart-legend-pageNavigator-marker-color: var(--palette-rgba-gray-10);
   --antd-chart-legend-pageNavigator-marker-inactive-color: var(
-    --palette-gray-6
+    --palette-rgba-gray-6
   );
   --antd-chart-legend-pageNavigator-text-color: var(--color-secondary-text);
   --antd-chart-tooltip-bg: var(--chart-tooltip-bg);
@@ -273,7 +273,7 @@ html[data-theme="dark-v2"],
   --antd-input-hover-border-color: var(--input-outline-hover);
   --antd-input-placeholder-color: var(--text-color-disabled);
   --antd-input-border-color: var(--color-border-divider-line);
-  --antd-input-disabled-bg: var(--palette-gray-3);
+  --antd-input-disabled-bg: var(--palette-rgba-gray-3);
 
   /*** select ***/
   --antd-select-item-selected-bg: var(--menu-dropdown-bg);
@@ -282,12 +282,12 @@ html[data-theme="dark-v2"],
 
   /*** table ***/
   --antd-table-bg: var(--antd-component-background);
-  --antd-table-body-sort-bg: var(--palette-gray-3);
+  --antd-table-body-sort-bg: var(--palette-rgba-gray-3);
   --antd-table-border-color: var(--color-text-divider-line);
   --antd-table-even-bg: var(--antd-table-bg);
   --antd-table-header-bg: var(--color-fill-bg-base-4);
   --antd-table-header-color: var(--color-header-text);
-  --antd-table-row-hover-bg: var(--palette-hex-gray-3);
+  --antd-table-row-hover-bg: var(--palette-gray-3);
 
   --antd-table-header-filter-active-bg: var(--color-fill-bg-base-1);
   --antd-table-header-sort-active-bg: var(--color-fill-bg-base-1);
@@ -322,7 +322,7 @@ html[data-theme="dark-v2"],
   );
 
   /*** modal ***/
-  --antd-modal-footer-bg: var(--palette-hex-gray-3);
+  --antd-modal-footer-bg: var(--palette-gray-3);
   --antd-modal-mask-bg: var(--mask-bg);
 
   /*** tooltip ***/
@@ -336,7 +336,7 @@ html[data-theme="dark-v2"],
   /*** transfer ***/
   --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
-  --antd-transfer-disable-bg: var(--palette-gray-3);
+  --antd-transfer-disable-bg: var(--palette-rgba-gray-3);
   --antd-transfer-item-selected-bg: var(--checkbox-bg-active);
   --antd-transfer-hover-bg: var(--antd-checkbox-bg-hover);
 
@@ -437,13 +437,13 @@ html[data-theme="dark-v2"],
   --datetime-selector-label-color: var(--color-header-text);
 
   /*** avatar ***/
-  --antd-avatar-bg: var(--palette-gray-6);
+  --antd-avatar-bg: var(--palette-rgba-gray-6);
 
   /*** slider ***/
   --antd-slider-track-background-color: var(--palette-blue-6);
   --antd-slider-track-background-color-hover: var(--palette-blue-4);
   --antd-slider-rail-background-color: var(--color-fill-bg-base-1);
-  --antd-slider-rail-background-color-hover: var(--palette-gray-5);
+  --antd-slider-rail-background-color-hover: var(--palette-rgba-gray-5);
   --antd-slider-handle-color: var(--palette-blue-6);
   --antd-slider-handle-color-hover: var(--palette-blue-8);
   --antd-slider-handle-background-color: var(--color-fill-bg-container-1);
@@ -499,7 +499,7 @@ html[data-theme="dark-v2"],
   --antd-tag-closable-bg: var(--color-fill-bg-base-1);
   --antd-tag-closable-icon-color: var(--color-secondary-text);
   --antd-tag-closable-icon-hover-bg: var(--color-normal-text);
-  --antd-tag-closable-hover-bg: var(--palette-gray-5);
+  --antd-tag-closable-hover-bg: var(--palette-rgba-gray-5);
   --antd-tag-closable-disabled-bg: var(--color-text-divider-line);
   --antd-tag-closable-disabled-color: var(--color-secondary-text);
 
@@ -517,7 +517,7 @@ html[data-theme="dark-v2"],
   --antd-timeline-item-color-green: var(--color-success);
   --antd-timeline-item-color-red: var(--color-error);
   --antd-timeline-item-color-blue: var(--color-info);
-  --antd-timeline-item-color-gray: var(--color-disabled-text);
+  --antd-timeline-item-color-gray: var(--text-color-disabled);
   --antd-timeline-item-dot-color-hover: var(--color-normal-icon);
   --antd-timeline-extension-font-weight: var(--font-weight-400);
   --antd-timeline-extension-font-size: var(--auxiliary-font-size-small);
@@ -527,9 +527,9 @@ html[data-theme="dark-v2"],
   --antd-timeline-extension-day-color: var(--color-strong-text);
 
   /*** cascader ***/
-  --antd-cascader-picker-clear-color: var(--palette-gray-6);
-  --antd-cascader-picker-clear-color-hover: var(--palette-gray-7);
-  --antd-cascader-picker-arrow-color: var(--palette-gray-6);
+  --antd-cascader-picker-clear-color: var(--palette-rgba-gray-6);
+  --antd-cascader-picker-clear-color-hover: var(--palette-rgba-gray-7);
+  --antd-cascader-picker-arrow-color: var(--palette-rgba-gray-6);
   --antd-cascader-menu-item-bg-color-hover: var(--color-fill-bg-base-1);
   --antd-cascader-menu-item-bg-color-active: var(--menu-dropdown-bg);
   --antd-cascader-menu-item-font-size: var(--normal-font-size);
