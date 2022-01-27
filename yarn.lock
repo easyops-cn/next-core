@@ -2154,10 +2154,10 @@
   resolved "https://registry.npmjs.org/@microsoft/tsdoc/-/tsdoc-0.12.24.tgz#30728e34ebc90351dd3aff4e18d038eed2c3e098"
   integrity sha1-MHKONOvJA1HdOv9OGNA47tLD4Jg=
 
-"@next-bricks/basic-bricks@^1.166.2":
-  version "1.166.2"
-  resolved "https://registry.npmjs.org/@next-bricks/basic-bricks/-/basic-bricks-1.166.2.tgz#b3480d1b5ee1f8fb6007683aaa3e7897c2744f24"
-  integrity sha512-4WlPALUmW/XgBN1eiz2lOScHzQ3N70QVfaKpYsWWgc4+g7oJFXu33W7YKIzGHKSgQ7aYK0zpkfShPU+ahlqtAw==
+"@next-bricks/basic-bricks@^1.167.0":
+  version "1.167.0"
+  resolved "https://registry.npmjs.org/@next-bricks/basic-bricks/-/basic-bricks-1.167.0.tgz#d1071fb755e76363c554514f771ae7f875fa21a4"
+  integrity sha512-+3ccQp6u8mAEsuxOyvHzajMxyfZbMtmB3Ui0HfImA7sec64bpvDQRSnJYAS//LIy8EAIbxPTXdivscFDq9h/+g==
 
 "@next-bricks/basic-providers@^1.4.0":
   version "1.4.0"
