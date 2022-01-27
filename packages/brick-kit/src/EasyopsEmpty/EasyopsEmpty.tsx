@@ -1,9 +1,7 @@
 import React, { useMemo } from "react";
 import { Empty } from "antd";
 import { getIllustration, IllustrationProps } from "@next-core/illustrations";
-
-import emptyImage from "../images/empty-image.svg";
-import bigEmptyImage from "../images/big-empty-image.svg";
+import { EmptySvg } from "./EmptySvg";
 
 // @internal
 export interface EasyopsEmptyProps {
@@ -22,10 +20,11 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
     () => props.illustration && getIllustration(props.illustration),
     [props.illustration]
   );
-  const _emptyImage = props.useBigEmptyImage ? bigEmptyImage : emptyImage;
-  const image = props.illustration
-    ? illustration
-    : React.createElement(_emptyImage);
+  const image = props.illustration ? (
+    illustration
+  ) : (
+    <EmptySvg isBig={props.useBigEmptyImage}></EmptySvg>
+  );
   const imageStyle =
     props.imageStyle ??
     (props.useBigEmptyImage ? undefined : { height: "60px" });
