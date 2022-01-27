@@ -5,103 +5,55 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.6...@next-core/brick-utils@2.33.0) (2022-01-13)
 
-
 ### Features
 
-* menu add href field ([963f123](https://github.com/easyops-cn/next-core/commit/963f123a6ee0dc6ce0e0acc648cffe2d8e299a02))
-
-
-
-
+- menu add href field ([963f123](https://github.com/easyops-cn/next-core/commit/963f123a6ee0dc6ce0e0acc648cffe2d8e299a02))
 
 ## [2.32.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.5...@next-core/brick-utils@2.32.6) (2022-01-13)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.32.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.4...@next-core/brick-utils@2.32.5) (2022-01-07)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.32.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.3...@next-core/brick-utils@2.32.4) (2022-01-05)
-
 
 ### Bug Fixes
 
-* refine some types ([13d041a](https://github.com/easyops-cn/next-core/commit/13d041a8e5d0b714d96a7b6e41a5e8167993733a))
-
-
-
-
+- refine some types ([13d041a](https://github.com/easyops-cn/next-core/commit/13d041a8e5d0b714d96a7b6e41a5e8167993733a))
 
 ## [2.32.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.2...@next-core/brick-utils@2.32.3) (2021-12-30)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.32.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.1...@next-core/brick-utils@2.32.2) (2021-12-29)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.32.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.0...@next-core/brick-utils@2.32.1) (2021-12-28)
-
 
 ### Bug Fixes
 
-* refine visiting storyboard ([5352ba4](https://github.com/easyops-cn/next-core/commit/5352ba460a333094e74a38257488085ebdad649e))
-
-
-
-
+- refine visiting storyboard ([5352ba4](https://github.com/easyops-cn/next-core/commit/5352ba460a333094e74a38257488085ebdad649e))
 
 # [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.5...@next-core/brick-utils@2.32.0) (2021-12-28)
 
-
 ### Features
 
-* refine storyboard functions and expressions ([6626c61](https://github.com/easyops-cn/next-core/commit/6626c61bd910864daaa81be946f765630cfb8103))
-
-
-
-
+- refine storyboard functions and expressions ([6626c61](https://github.com/easyops-cn/next-core/commit/6626c61bd910864daaa81be946f765630cfb8103))
 
 ## [2.31.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.4...@next-core/brick-utils@2.31.5) (2021-12-24)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.31.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.3...@next-core/brick-utils@2.31.4) (2021-12-23)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.31.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.2...@next-core/brick-utils@2.31.3) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.31.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.1...@next-core/brick-utils@2.31.2) (2021-12-03)
 

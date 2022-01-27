@@ -5,625 +5,360 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.63.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.4...@next-core/brick-container@2.63.5) (2022-01-27)
 
-
 ### Bug Fixes
 
-* set color-scheme for specific theme ([0d448ff](https://github.com/easyops-cn/next-core/commit/0d448ffef701272dcddc6f5209c2c428e1e1ad5b))
-
-
-
-
+- set color-scheme for specific theme ([0d448ff](https://github.com/easyops-cn/next-core/commit/0d448ffef701272dcddc6f5209c2c428e1e1ad5b))
 
 ## [2.63.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.3...@next-core/brick-container@2.63.4) (2022-01-26)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.63.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.2...@next-core/brick-container@2.63.3) (2022-01-26)
-
 
 ### Bug Fixes
 
-* **style:** cascader在light模式下缺少样式 ([1b33a36](https://github.com/easyops-cn/next-core/commit/1b33a3669bd55850d2fc8333c6e0fbde9b591256))
-
-
-
-
+- **style:** cascader 在 light 模式下缺少样式 ([1b33a36](https://github.com/easyops-cn/next-core/commit/1b33a3669bd55850d2fc8333c6e0fbde9b591256))
 
 ## [2.63.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.1...@next-core/brick-container@2.63.2) (2022-01-26)
 
-
 ### Bug Fixes
 
-* **style:** 增加cascade样式 ([e5154e9](https://github.com/easyops-cn/next-core/commit/e5154e9e1137e683e03e1cc245e08d7a28f28557))
-* **style:** 挪动timeline样式到antd custom ([e5d3c34](https://github.com/easyops-cn/next-core/commit/e5d3c343e7ad1b55fe5f98227845307c2cabe383))
-
-
-
-
+- **style:** 增加 cascade 样式 ([e5154e9](https://github.com/easyops-cn/next-core/commit/e5154e9e1137e683e03e1cc245e08d7a28f28557))
+- **style:** 挪动 timeline 样式到 antd custom ([e5d3c34](https://github.com/easyops-cn/next-core/commit/e5d3c343e7ad1b55fe5f98227845307c2cabe383))
 
 ## [2.63.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.0...@next-core/brick-container@2.63.1) (2022-01-26)
 
-
 ### Bug Fixes
 
-* menu style ([ff72c69](https://github.com/easyops-cn/next-core/commit/ff72c695317ea1985a21a7c51f50b01a2428bd25))
-
-
-
-
+- menu style ([ff72c69](https://github.com/easyops-cn/next-core/commit/ff72c695317ea1985a21a7c51f50b01a2428bd25))
 
 # [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.4...@next-core/brick-container@2.63.0) (2022-01-26)
 
-
 ### Bug Fixes
 
-* modal style ([6f8d257](https://github.com/easyops-cn/next-core/commit/6f8d257a78af76b7a7c0501f7d54d3147f8af67a))
-* style refine ([ecb5971](https://github.com/easyops-cn/next-core/commit/ecb5971ac4cf9ffcadb036353ff12639daf38f18))
-* tag style ([d3b4a1a](https://github.com/easyops-cn/next-core/commit/d3b4a1a6d61bc4847c9e59ab1ed31a53743df496))
-
+- modal style ([6f8d257](https://github.com/easyops-cn/next-core/commit/6f8d257a78af76b7a7c0501f7d54d3147f8af67a))
+- style refine ([ecb5971](https://github.com/easyops-cn/next-core/commit/ecb5971ac4cf9ffcadb036353ff12639daf38f18))
+- tag style ([d3b4a1a](https://github.com/easyops-cn/next-core/commit/d3b4a1a6d61bc4847c9e59ab1ed31a53743df496))
 
 ### Features
 
-* **theme_report:** 主题模板数据上报 ([ccbb94e](https://github.com/easyops-cn/next-core/commit/ccbb94e10b856678029668087a09d5edf4613d8c))
-* **theme_report:** 主题模板数据上报, 被调服务修改 ([f0c2b0f](https://github.com/easyops-cn/next-core/commit/f0c2b0f07575a7107739257cfe8ad1bdce0a5073))
-
-
-
-
+- **theme_report:** 主题模板数据上报 ([ccbb94e](https://github.com/easyops-cn/next-core/commit/ccbb94e10b856678029668087a09d5edf4613d8c))
+- **theme_report:** 主题模板数据上报, 被调服务修改 ([f0c2b0f](https://github.com/easyops-cn/next-core/commit/f0c2b0f07575a7107739257cfe8ad1bdce0a5073))
 
 ## [2.62.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.3...@next-core/brick-container@2.62.4) (2022-01-24)
 
-
 ### Bug Fixes
 
-* typo ([53ec91c](https://github.com/easyops-cn/next-core/commit/53ec91cb81723028acbb3500671bd7f1f879b0e9))
-
-
-
-
+- typo ([53ec91c](https://github.com/easyops-cn/next-core/commit/53ec91cb81723028acbb3500671bd7f1f879b0e9))
 
 ## [2.62.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.2...@next-core/brick-container@2.62.3) (2022-01-24)
 
-
 ### Bug Fixes
 
-* refine css ([f295d70](https://github.com/easyops-cn/next-core/commit/f295d70637777b818661543d8635d22692f87bf9))
-* typo ([f796914](https://github.com/easyops-cn/next-core/commit/f796914ade8e30ee6a3ee48fc7f1d53ebb6e9458))
-
-
-
-
+- refine css ([f295d70](https://github.com/easyops-cn/next-core/commit/f295d70637777b818661543d8635d22692f87bf9))
+- typo ([f796914](https://github.com/easyops-cn/next-core/commit/f796914ade8e30ee6a3ee48fc7f1d53ebb6e9458))
 
 ## [2.62.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.1...@next-core/brick-container@2.62.2) (2022-01-24)
 
-
 ### Bug Fixes
 
-* fix remote asset root ([e346c36](https://github.com/easyops-cn/next-core/commit/e346c363084b4e3aa661e27de72deac99a9f88de))
-
-
-
-
+- fix remote asset root ([e346c36](https://github.com/easyops-cn/next-core/commit/e346c363084b4e3aa661e27de72deac99a9f88de))
 
 ## [2.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.62.0...@next-core/brick-container@2.62.1) (2022-01-24)
 
-
 ### Bug Fixes
 
-* support connect remote in standalone app ([d53c0c5](https://github.com/easyops-cn/next-core/commit/d53c0c5eb738eaf52cc920e9875bb2da15490004))
-
-
-
-
+- support connect remote in standalone app ([d53c0c5](https://github.com/easyops-cn/next-core/commit/d53c0c5eb738eaf52cc920e9875bb2da15490004))
 
 # [2.62.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.61.1...@next-core/brick-container@2.62.0) (2022-01-23)
 
-
 ### Features
 
-* tag style ([735741d](https://github.com/easyops-cn/next-core/commit/735741d8cd6e7526d9763e71391104f5700a6026))
-
-
-
-
+- tag style ([735741d](https://github.com/easyops-cn/next-core/commit/735741d8cd6e7526d9763e71391104f5700a6026))
 
 ## [2.61.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.61.0...@next-core/brick-container@2.61.1) (2022-01-21)
 
-
 ### Bug Fixes
 
-* chart tooltip ([60a21ee](https://github.com/easyops-cn/next-core/commit/60a21ee41256461f995b779f7937aeffb0249f1c))
-
-
-
-
+- chart tooltip ([60a21ee](https://github.com/easyops-cn/next-core/commit/60a21ee41256461f995b779f7937aeffb0249f1c))
 
 # [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.60.0...@next-core/brick-container@2.61.0) (2022-01-21)
 
-
 ### Features
 
-* dashboard style ([f591d20](https://github.com/easyops-cn/next-core/commit/f591d2054c2717c4e61af56e2870840d60fcd981))
-* slider style ([f620219](https://github.com/easyops-cn/next-core/commit/f6202193c8c40e37836d81a3b5b9719eef52b352))
-
-
-
-
+- dashboard style ([f591d20](https://github.com/easyops-cn/next-core/commit/f591d2054c2717c4e61af56e2870840d60fcd981))
+- slider style ([f620219](https://github.com/easyops-cn/next-core/commit/f6202193c8c40e37836d81a3b5b9719eef52b352))
 
 # [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.59.0...@next-core/brick-container@2.60.0) (2022-01-21)
 
-
 ### Bug Fixes
 
-* refine style of avatar using css variables ([0189c83](https://github.com/easyops-cn/next-core/commit/0189c83b679ec75f28a4f7169a7a07fedfefff81))
-
+- refine style of avatar using css variables ([0189c83](https://github.com/easyops-cn/next-core/commit/0189c83b679ec75f28a4f7169a7a07fedfefff81))
 
 ### Features
 
-* cmdb-instance-modal style ([93e8fce](https://github.com/easyops-cn/next-core/commit/93e8fce537e7bf47025fe7980f7bb45c3ae77967))
-* date picker style ([2812395](https://github.com/easyops-cn/next-core/commit/2812395a99c1de7c5f2cfbfec00806ef8f6a5fe9))
-* use css variables for new theme colors ([9f20d2a](https://github.com/easyops-cn/next-core/commit/9f20d2a3194d75972266bf6ddba871c45a59d1d8))
-
-
-
-
+- cmdb-instance-modal style ([93e8fce](https://github.com/easyops-cn/next-core/commit/93e8fce537e7bf47025fe7980f7bb45c3ae77967))
+- date picker style ([2812395](https://github.com/easyops-cn/next-core/commit/2812395a99c1de7c5f2cfbfec00806ef8f6a5fe9))
+- use css variables for new theme colors ([9f20d2a](https://github.com/easyops-cn/next-core/commit/9f20d2a3194d75972266bf6ddba871c45a59d1d8))
 
 # [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.58.0...@next-core/brick-container@2.59.0) (2022-01-20)
 
-
 ### Features
 
-* support css variables of chart axis ([332953e](https://github.com/easyops-cn/next-core/commit/332953ed0b8dbf918866ce499bc37592a5ef98c2))
-
-
-
-
+- support css variables of chart axis ([332953e](https://github.com/easyops-cn/next-core/commit/332953ed0b8dbf918866ce499bc37592a5ef98c2))
 
 # [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.57.2...@next-core/brick-container@2.58.0) (2022-01-20)
 
-
 ### Features
 
-* support css variables of rank table ([3a36229](https://github.com/easyops-cn/next-core/commit/3a362297c8efb500f0e4eadb3343f5d99decc972))
-
-
-
-
+- support css variables of rank table ([3a36229](https://github.com/easyops-cn/next-core/commit/3a362297c8efb500f0e4eadb3343f5d99decc972))
 
 ## [2.57.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.57.1...@next-core/brick-container@2.57.2) (2022-01-20)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.57.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.57.0...@next-core/brick-container@2.57.1) (2022-01-20)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 # [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.56.1...@next-core/brick-container@2.57.0) (2022-01-19)
-
 
 ### Bug Fixes
 
-* modify css variables ([f753613](https://github.com/easyops-cn/next-core/commit/f7536138769845168ff943bae52c5c794177bec9))
-
+- modify css variables ([f753613](https://github.com/easyops-cn/next-core/commit/f7536138769845168ff943bae52c5c794177bec9))
 
 ### Features
 
-* description style ([4521d10](https://github.com/easyops-cn/next-core/commit/4521d10983791bb09e7b462b35741405b193257c))
-
-
-
-
+- description style ([4521d10](https://github.com/easyops-cn/next-core/commit/4521d10983791bb09e7b462b35741405b193257c))
 
 ## [2.56.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.56.0...@next-core/brick-container@2.56.1) (2022-01-19)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 # [2.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.55.1...@next-core/brick-container@2.56.0) (2022-01-19)
-
 
 ### Features
 
-* checkbox style ([f5317ad](https://github.com/easyops-cn/next-core/commit/f5317adb93ebcc854830c550f3916ffe0a94e09c))
-* input number style ([dafa23f](https://github.com/easyops-cn/next-core/commit/dafa23ff95416430605da5705c4b7e3fed51c2a3))
-
-
-
-
+- checkbox style ([f5317ad](https://github.com/easyops-cn/next-core/commit/f5317adb93ebcc854830c550f3916ffe0a94e09c))
+- input number style ([dafa23f](https://github.com/easyops-cn/next-core/commit/dafa23ff95416430605da5705c4b7e3fed51c2a3))
 
 ## [2.55.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.55.0...@next-core/brick-container@2.55.1) (2022-01-19)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 # [2.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.54.1...@next-core/brick-container@2.55.0) (2022-01-18)
-
 
 ### Features
 
-* modal style ([75eefa9](https://github.com/easyops-cn/next-core/commit/75eefa96366f3acf0c588992485eff89272e9092))
-* tabs style ([eb51a23](https://github.com/easyops-cn/next-core/commit/eb51a236b9aa9522661d47cf72f17a7a41e4aa00))
-
-
-
-
+- modal style ([75eefa9](https://github.com/easyops-cn/next-core/commit/75eefa96366f3acf0c588992485eff89272e9092))
+- tabs style ([eb51a23](https://github.com/easyops-cn/next-core/commit/eb51a236b9aa9522661d47cf72f17a7a41e4aa00))
 
 ## [2.54.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.54.0...@next-core/brick-container@2.54.1) (2022-01-18)
 
-
 ### Bug Fixes
 
-* adpat to dark v1 theme ([c198250](https://github.com/easyops-cn/next-core/commit/c1982507c48ed34aa327bdb9a1ac8f9fb38bb330))
-* fix styles and replace css variables ([ed66930](https://github.com/easyops-cn/next-core/commit/ed6693080cafa3667cb0a7bd3dfd66e4a9b5e23f))
-* style refine ([54a9130](https://github.com/easyops-cn/next-core/commit/54a9130d18558d4c86871b458f58e5c652898e84))
-* style refine ([087a2fa](https://github.com/easyops-cn/next-core/commit/087a2fa330fb8b1f211e2dc8026ec2f372049035))
-
-
-
-
+- adpat to dark v1 theme ([c198250](https://github.com/easyops-cn/next-core/commit/c1982507c48ed34aa327bdb9a1ac8f9fb38bb330))
+- fix styles and replace css variables ([ed66930](https://github.com/easyops-cn/next-core/commit/ed6693080cafa3667cb0a7bd3dfd66e4a9b5e23f))
+- style refine ([54a9130](https://github.com/easyops-cn/next-core/commit/54a9130d18558d4c86871b458f58e5c652898e84))
+- style refine ([087a2fa](https://github.com/easyops-cn/next-core/commit/087a2fa330fb8b1f211e2dc8026ec2f372049035))
 
 # [2.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.53.0...@next-core/brick-container@2.54.0) (2022-01-17)
 
-
 ### Bug Fixes
 
-* fix style ([f7d2541](https://github.com/easyops-cn/next-core/commit/f7d25419cbb7fde54c34ad7f4893d9d4f068819a))
-* fix styles and replace css variables ([a84d2f7](https://github.com/easyops-cn/next-core/commit/a84d2f72dde782a542b518d148d95da9bd548e11))
-* style fix ([dee1718](https://github.com/easyops-cn/next-core/commit/dee17183240c72e298cb18631680098f0e9dc1b4))
-
+- fix style ([f7d2541](https://github.com/easyops-cn/next-core/commit/f7d25419cbb7fde54c34ad7f4893d9d4f068819a))
+- fix styles and replace css variables ([a84d2f7](https://github.com/easyops-cn/next-core/commit/a84d2f72dde782a542b518d148d95da9bd548e11))
+- style fix ([dee1718](https://github.com/easyops-cn/next-core/commit/dee17183240c72e298cb18631680098f0e9dc1b4))
 
 ### Features
 
-* replace tooltip  css variables ([d0816c5](https://github.com/easyops-cn/next-core/commit/d0816c5d5485e63284d4140864399794ed631631))
-
-
-
-
+- replace tooltip css variables ([d0816c5](https://github.com/easyops-cn/next-core/commit/d0816c5d5485e63284d4140864399794ed631631))
 
 # [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.52.0...@next-core/brick-container@2.53.0) (2022-01-16)
 
-
 ### Bug Fixes
 
-* fix style ([1f9eadf](https://github.com/easyops-cn/next-core/commit/1f9eadf0723dbdfd3cea9455e6f6c7c4c23de975))
-* table style refine ([411d101](https://github.com/easyops-cn/next-core/commit/411d101062c7ec3dfaa7a8fe3e8302cd63f2bced))
-
+- fix style ([1f9eadf](https://github.com/easyops-cn/next-core/commit/1f9eadf0723dbdfd3cea9455e6f6c7c4c23de975))
+- table style refine ([411d101](https://github.com/easyops-cn/next-core/commit/411d101062c7ec3dfaa7a8fe3e8302cd63f2bced))
 
 ### Features
 
-* add css variables ([ffd208b](https://github.com/easyops-cn/next-core/commit/ffd208be8374afbcc8e859630aaa3323ee005611))
-* add general styles ([9e2a3db](https://github.com/easyops-cn/next-core/commit/9e2a3db7b21a7ff62ec6b450dfc39860e55a5d08))
-* delete and edit  css variables ([d4dec93](https://github.com/easyops-cn/next-core/commit/d4dec9392aba83f14a670281e51643325ffaed08))
-* **presentational-bricks.general-tooltip:** tooltip style ([c6cdd2d](https://github.com/easyops-cn/next-core/commit/c6cdd2d0e9f70f7b986d6041b78dd949de20fa4a))
-* transfer styles ([725da2b](https://github.com/easyops-cn/next-core/commit/725da2bc434bbd77ea6211113f71182b08d1c28d))
-
-
-
-
+- add css variables ([ffd208b](https://github.com/easyops-cn/next-core/commit/ffd208be8374afbcc8e859630aaa3323ee005611))
+- add general styles ([9e2a3db](https://github.com/easyops-cn/next-core/commit/9e2a3db7b21a7ff62ec6b450dfc39860e55a5d08))
+- delete and edit css variables ([d4dec93](https://github.com/easyops-cn/next-core/commit/d4dec9392aba83f14a670281e51643325ffaed08))
+- **presentational-bricks.general-tooltip:** tooltip style ([c6cdd2d](https://github.com/easyops-cn/next-core/commit/c6cdd2d0e9f70f7b986d6041b78dd949de20fa4a))
+- transfer styles ([725da2b](https://github.com/easyops-cn/next-core/commit/725da2bc434bbd77ea6211113f71182b08d1c28d))
 
 # [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.51.0...@next-core/brick-container@2.52.0) (2022-01-14)
 
-
 ### Features
 
-* add palette color ([ea5147e](https://github.com/easyops-cn/next-core/commit/ea5147e9d740d8ecbd6d12ffbb36791c90415b8f))
-* modal style ([ed15238](https://github.com/easyops-cn/next-core/commit/ed152386296227efa938d52e4274ff9fa5b06985))
-
-
-
-
+- add palette color ([ea5147e](https://github.com/easyops-cn/next-core/commit/ea5147e9d740d8ecbd6d12ffbb36791c90415b8f))
+- modal style ([ed15238](https://github.com/easyops-cn/next-core/commit/ed152386296227efa938d52e4274ff9fa5b06985))
 
 # [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.50.2...@next-core/brick-container@2.51.0) (2022-01-14)
 
-
 ### Features
 
-* add input style ([a3dcc2c](https://github.com/easyops-cn/next-core/commit/a3dcc2cda9ac4d32521d8ecf7ed5ef117d0b28f1))
-* pagenation style ([2852c7f](https://github.com/easyops-cn/next-core/commit/2852c7f61c98152f2784822a265b14b8a66dd4d5))
-
-
-
-
+- add input style ([a3dcc2c](https://github.com/easyops-cn/next-core/commit/a3dcc2cda9ac4d32521d8ecf7ed5ef117d0b28f1))
+- pagenation style ([2852c7f](https://github.com/easyops-cn/next-core/commit/2852c7f61c98152f2784822a265b14b8a66dd4d5))
 
 ## [2.50.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.50.1...@next-core/brick-container@2.50.2) (2022-01-13)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.50.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.50.0...@next-core/brick-container@2.50.1) (2022-01-13)
-
 
 ### Bug Fixes
 
-* do not depend on next_builder_service ([226ee28](https://github.com/easyops-cn/next-core/commit/226ee28dd799a4f7e964008820b5dc8a098f6d23))
-
-
-
-
+- do not depend on next_builder_service ([226ee28](https://github.com/easyops-cn/next-core/commit/226ee28dd799a4f7e964008820b5dc8a098f6d23))
 
 # [2.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.49.0...@next-core/brick-container@2.50.0) (2022-01-13)
 
-
 ### Features
 
-* anchor style ([4db5957](https://github.com/easyops-cn/next-core/commit/4db595703e4a0ce4b6221247ebf4898d0042faab))
-* button style ([007445e](https://github.com/easyops-cn/next-core/commit/007445ecefaff3baaaaf77405e6e3083d56deca2))
-* custom button style ([d48d28e](https://github.com/easyops-cn/next-core/commit/d48d28ecf4d6c9db3aa63c1489cc074810995dc0))
-
-
-
-
+- anchor style ([4db5957](https://github.com/easyops-cn/next-core/commit/4db595703e4a0ce4b6221247ebf4898d0042faab))
+- button style ([007445e](https://github.com/easyops-cn/next-core/commit/007445ecefaff3baaaaf77405e6e3083d56deca2))
+- custom button style ([d48d28e](https://github.com/easyops-cn/next-core/commit/d48d28ecf4d6c9db3aa63c1489cc074810995dc0))
 
 # [2.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.48.1...@next-core/brick-container@2.49.0) (2022-01-12)
 
-
 ### Features
 
-* add button style ([ebf1377](https://github.com/easyops-cn/next-core/commit/ebf1377805306600dbf96a6c05164f295d04f9af))
-* chart style ([8d3f04b](https://github.com/easyops-cn/next-core/commit/8d3f04b342f79f62c65696ef82337b06d881aafd))
-* divider style ([7cbf067](https://github.com/easyops-cn/next-core/commit/7cbf067c38f8dadd5ab2c2d540807f6bc7faa6e8))
-
-
-
-
+- add button style ([ebf1377](https://github.com/easyops-cn/next-core/commit/ebf1377805306600dbf96a6c05164f295d04f9af))
+- chart style ([8d3f04b](https://github.com/easyops-cn/next-core/commit/8d3f04b342f79f62c65696ef82337b06d881aafd))
+- divider style ([7cbf067](https://github.com/easyops-cn/next-core/commit/7cbf067c38f8dadd5ab2c2d540807f6bc7faa6e8))
 
 ## [2.48.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.48.0...@next-core/brick-container@2.48.1) (2022-01-12)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 # [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.47.1...@next-core/brick-container@2.48.0) (2022-01-07)
-
 
 ### Features
 
-* general-radio style ([7065687](https://github.com/easyops-cn/next-core/commit/7065687063a4e14e3696f3feb6996f5629ede9c8))
-
-
-
-
+- general-radio style ([7065687](https://github.com/easyops-cn/next-core/commit/7065687063a4e14e3696f3feb6996f5629ede9c8))
 
 ## [2.47.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.47.0...@next-core/brick-container@2.47.1) (2022-01-07)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 # [2.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.46.1...@next-core/brick-container@2.47.0) (2022-01-06)
-
 
 ### Bug Fixes
 
-* dark theme refine ([db6d4e5](https://github.com/easyops-cn/next-core/commit/db6d4e58c98779329e9dad99ee0fcde22631e44b))
-
+- dark theme refine ([db6d4e5](https://github.com/easyops-cn/next-core/commit/db6d4e58c98779329e9dad99ee0fcde22631e44b))
 
 ### Features
 
-* card style ([cdc44c8](https://github.com/easyops-cn/next-core/commit/cdc44c8b4eacd37e64ebeb37bbfd728be307f2ff))
-
-
-
-
+- card style ([cdc44c8](https://github.com/easyops-cn/next-core/commit/cdc44c8b4eacd37e64ebeb37bbfd728be307f2ff))
 
 ## [2.46.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.46.0...@next-core/brick-container@2.46.1) (2022-01-05)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 # [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.45.0...@next-core/brick-container@2.46.0) (2022-01-05)
-
 
 ### Bug Fixes
 
-* modify style ([04f619f](https://github.com/easyops-cn/next-core/commit/04f619f6b31eb469574a5ecee588d4cde96e1427))
-
+- modify style ([04f619f](https://github.com/easyops-cn/next-core/commit/04f619f6b31eb469574a5ecee588d4cde96e1427))
 
 ### Features
 
-* apply color theme ([0998f5f](https://github.com/easyops-cn/next-core/commit/0998f5fc1e662cde1eeedb7bc30bd7a5e1e8fe85))
-* general-checkbox style ([5486fae](https://github.com/easyops-cn/next-core/commit/5486fae2a2ae4d7e14ae80b9f65de6fee7702b0d))
-
-
-
-
+- apply color theme ([0998f5f](https://github.com/easyops-cn/next-core/commit/0998f5fc1e662cde1eeedb7bc30bd7a5e1e8fe85))
+- general-checkbox style ([5486fae](https://github.com/easyops-cn/next-core/commit/5486fae2a2ae4d7e14ae80b9f65de6fee7702b0d))
 
 # [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.44.3...@next-core/brick-container@2.45.0) (2022-01-04)
 
-
 ### Features
 
-* **MockRegistry:**  remove version in mock url ([e291d52](https://github.com/easyops-cn/next-core/commit/e291d52626e5565a9ebd8cf6370cb6cf7dd33903))
-* **MockRegistry:**  update RegExp ([423be36](https://github.com/easyops-cn/next-core/commit/423be36023068c1ebf07215d15117af4299ec039))
-
-
-
-
+- **MockRegistry:** remove version in mock url ([e291d52](https://github.com/easyops-cn/next-core/commit/e291d52626e5565a9ebd8cf6370cb6cf7dd33903))
+- **MockRegistry:** update RegExp ([423be36](https://github.com/easyops-cn/next-core/commit/423be36023068c1ebf07215d15117af4299ec039))
 
 ## [2.44.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.44.2...@next-core/brick-container@2.44.3) (2022-01-04)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.44.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.44.1...@next-core/brick-container@2.44.2) (2021-12-31)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.44.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.44.0...@next-core/brick-container@2.44.1) (2021-12-31)
-
 
 ### Bug Fixes
 
-* css variables ([fde0ddd](https://github.com/easyops-cn/next-core/commit/fde0ddd0f5a4f98704ccb6643f9a9e9ac02b5a0c))
-
-
-
-
+- css variables ([fde0ddd](https://github.com/easyops-cn/next-core/commit/fde0ddd0f5a4f98704ccb6643f9a9e9ac02b5a0c))
 
 # [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.43.0...@next-core/brick-container@2.44.0) (2021-12-31)
 
-
 ### Features
 
-* dark theme ([c6709a7](https://github.com/easyops-cn/next-core/commit/c6709a7a30a8860a6cb3e0245967c9bcfd5e78f5))
-
-
-
-
+- dark theme ([c6709a7](https://github.com/easyops-cn/next-core/commit/c6709a7a30a8860a6cb3e0245967c9bcfd5e78f5))
 
 # [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.42.3...@next-core/brick-container@2.43.0) (2021-12-31)
 
-
 ### Features
 
-* **httpInterceptors:**  update mock url ([ea176c2](https://github.com/easyops-cn/next-core/commit/ea176c205af0ea8671b755a69465d8a20c01010f))
-
-
-
-
+- **httpInterceptors:** update mock url ([ea176c2](https://github.com/easyops-cn/next-core/commit/ea176c205af0ea8671b755a69465d8a20c01010f))
 
 ## [2.42.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.42.2...@next-core/brick-container@2.42.3) (2021-12-30)
 
-
 ### Bug Fixes
 
-* style refactor ([091b969](https://github.com/easyops-cn/next-core/commit/091b969e35c940ea53fa4e129fcdcb500ca3fce5))
-
-
-
-
+- style refactor ([091b969](https://github.com/easyops-cn/next-core/commit/091b969e35c940ea53fa4e129fcdcb500ca3fce5))
 
 ## [2.42.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.42.1...@next-core/brick-container@2.42.2) (2021-12-29)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.42.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.42.0...@next-core/brick-container@2.42.1) (2021-12-29)
-
 
 ### Bug Fixes
 
-* modify style ([03f5a85](https://github.com/easyops-cn/next-core/commit/03f5a85dee265ca35575467716eab93ce1e284e8))
-
-
-
-
+- modify style ([03f5a85](https://github.com/easyops-cn/next-core/commit/03f5a85dee265ca35575467716eab93ce1e284e8))
 
 # [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.41.3...@next-core/brick-container@2.42.0) (2021-12-29)
 
-
 ### Bug Fixes
 
-* extract menu css variables ([9574b8c](https://github.com/easyops-cn/next-core/commit/9574b8c61c283d93be1678b3d869e56e70b56ff4))
-* refactor css style ([f36d2a9](https://github.com/easyops-cn/next-core/commit/f36d2a9957bd9956fd3cfbde42ade403bb522991))
-
+- extract menu css variables ([9574b8c](https://github.com/easyops-cn/next-core/commit/9574b8c61c283d93be1678b3d869e56e70b56ff4))
+- refactor css style ([f36d2a9](https://github.com/easyops-cn/next-core/commit/f36d2a9957bd9956fd3cfbde42ade403bb522991))
 
 ### Features
 
-* add style css variables ([a64bb91](https://github.com/easyops-cn/next-core/commit/a64bb916dc1077b088db2bc97894ea45fb9f6e41))
-* **MockRegistry:**  update mocks data ([10fed90](https://github.com/easyops-cn/next-core/commit/10fed9053e62af9cc52d994772343d629f45afac))
-* support color theme ([62bf967](https://github.com/easyops-cn/next-core/commit/62bf9674088ce4fe8abb60d20f168e37ba171797))
-
-
-
-
+- add style css variables ([a64bb91](https://github.com/easyops-cn/next-core/commit/a64bb916dc1077b088db2bc97894ea45fb9f6e41))
+- **MockRegistry:** update mocks data ([10fed90](https://github.com/easyops-cn/next-core/commit/10fed9053e62af9cc52d994772343d629f45afac))
+- support color theme ([62bf967](https://github.com/easyops-cn/next-core/commit/62bf9674088ce4fe8abb60d20f168e37ba171797))
 
 ## [2.41.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.41.2...@next-core/brick-container@2.41.3) (2021-12-29)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.41.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.41.1...@next-core/brick-container@2.41.2) (2021-12-28)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.41.0...@next-core/brick-container@2.41.1) (2021-12-28)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 # [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.40.3...@next-core/brick-container@2.41.0) (2021-12-24)
-
 
 ### Features
 
-* support request use mock ([#1293](https://github.com/easyops-cn/next-core/issues/1293)) ([9989c66](https://github.com/easyops-cn/next-core/commit/9989c663f1e5340c68853d4b158dc169484a7e1a))
-
-
-
-
+- support request use mock ([#1293](https://github.com/easyops-cn/next-core/issues/1293)) ([9989c66](https://github.com/easyops-cn/next-core/commit/9989c663f1e5340c68853d4b158dc169484a7e1a))
 
 ## [2.40.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.40.2...@next-core/brick-container@2.40.3) (2021-12-23)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.40.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.40.1...@next-core/brick-container@2.40.2) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.40.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.40.0...@next-core/brick-container@2.40.1) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 # [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.39.13...@next-core/brick-container@2.40.0) (2021-12-15)
 

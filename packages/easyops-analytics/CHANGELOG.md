@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/easyops-analytics
 
-
-
-
-
 ## [0.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.7.0...@next-core/easyops-analytics@0.7.1) (2021-11-18)
 
 **Note:** Version bump only for package @next-core/easyops-analytics

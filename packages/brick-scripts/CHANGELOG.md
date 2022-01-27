@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-scripts
 
-
-
-
-
 ## [2.6.7](/compare/@next-core/brick-scripts@2.6.6...@next-core/brick-scripts@2.6.7) (2021-11-18)
 
 **Note:** Version bump only for package @next-core/brick-scripts

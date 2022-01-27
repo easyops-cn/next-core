@@ -5,287 +5,169 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.23.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.3...@next-core/custom-antd-styles@1.23.4) (2022-01-27)
 
-
 ### Bug Fixes
 
-* **cascader:** cascader的options有空数组children时显示空白下级选项 ([a4d336f](https://github.com/easyops-cn/next-core/commit/a4d336f411a0a2908d4a8156c23615ba644ce697))
-
-
-
-
+- **cascader:** cascader 的 options 有空数组 children 时显示空白下级选项 ([a4d336f](https://github.com/easyops-cn/next-core/commit/a4d336f411a0a2908d4a8156c23615ba644ce697))
 
 ## [1.23.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.2...@next-core/custom-antd-styles@1.23.3) (2022-01-26)
 
-
 ### Bug Fixes
 
-* **style:** 增加cascade样式 ([e5154e9](https://github.com/easyops-cn/next-core/commit/e5154e9e1137e683e03e1cc245e08d7a28f28557))
-* **style:** 挪动timeline样式到antd custom ([e5d3c34](https://github.com/easyops-cn/next-core/commit/e5d3c343e7ad1b55fe5f98227845307c2cabe383))
-
-
-
-
+- **style:** 增加 cascade 样式 ([e5154e9](https://github.com/easyops-cn/next-core/commit/e5154e9e1137e683e03e1cc245e08d7a28f28557))
+- **style:** 挪动 timeline 样式到 antd custom ([e5d3c34](https://github.com/easyops-cn/next-core/commit/e5d3c343e7ad1b55fe5f98227845307c2cabe383))
 
 ## [1.23.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.1...@next-core/custom-antd-styles@1.23.2) (2022-01-24)
 
-
 ### Bug Fixes
 
-* typo ([53ec91c](https://github.com/easyops-cn/next-core/commit/53ec91cb81723028acbb3500671bd7f1f879b0e9))
-
-
-
-
+- typo ([53ec91c](https://github.com/easyops-cn/next-core/commit/53ec91cb81723028acbb3500671bd7f1f879b0e9))
 
 ## [1.23.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.0...@next-core/custom-antd-styles@1.23.1) (2022-01-24)
 
-
 ### Bug Fixes
 
-* refine css ([f295d70](https://github.com/easyops-cn/next-core/commit/f295d70637777b818661543d8635d22692f87bf9))
-* typo ([f796914](https://github.com/easyops-cn/next-core/commit/f796914ade8e30ee6a3ee48fc7f1d53ebb6e9458))
-
-
-
-
+- refine css ([f295d70](https://github.com/easyops-cn/next-core/commit/f295d70637777b818661543d8635d22692f87bf9))
+- typo ([f796914](https://github.com/easyops-cn/next-core/commit/f796914ade8e30ee6a3ee48fc7f1d53ebb6e9458))
 
 # [1.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.22.0...@next-core/custom-antd-styles@1.23.0) (2022-01-23)
 
-
 ### Bug Fixes
 
-* input style ([1009215](https://github.com/easyops-cn/next-core/commit/100921521e69be0cc5cfd9b4372d676ea7a345a1))
-
+- input style ([1009215](https://github.com/easyops-cn/next-core/commit/100921521e69be0cc5cfd9b4372d676ea7a345a1))
 
 ### Features
 
-* tag style ([735741d](https://github.com/easyops-cn/next-core/commit/735741d8cd6e7526d9763e71391104f5700a6026))
-
-
-
-
+- tag style ([735741d](https://github.com/easyops-cn/next-core/commit/735741d8cd6e7526d9763e71391104f5700a6026))
 
 # [1.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.21.0...@next-core/custom-antd-styles@1.22.0) (2022-01-21)
 
-
 ### Features
 
-* slider style ([f620219](https://github.com/easyops-cn/next-core/commit/f6202193c8c40e37836d81a3b5b9719eef52b352))
-
-
-
-
+- slider style ([f620219](https://github.com/easyops-cn/next-core/commit/f6202193c8c40e37836d81a3b5b9719eef52b352))
 
 # [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.20.0...@next-core/custom-antd-styles@1.21.0) (2022-01-21)
 
-
 ### Bug Fixes
 
-* modify  transfer styles ([6670713](https://github.com/easyops-cn/next-core/commit/667071305c84a307fbb0bdbc8e996e063ba8f157))
-* refine style of avatar using css variables ([0189c83](https://github.com/easyops-cn/next-core/commit/0189c83b679ec75f28a4f7169a7a07fedfefff81))
-
+- modify transfer styles ([6670713](https://github.com/easyops-cn/next-core/commit/667071305c84a307fbb0bdbc8e996e063ba8f157))
+- refine style of avatar using css variables ([0189c83](https://github.com/easyops-cn/next-core/commit/0189c83b679ec75f28a4f7169a7a07fedfefff81))
 
 ### Features
 
-* date picker style ([2812395](https://github.com/easyops-cn/next-core/commit/2812395a99c1de7c5f2cfbfec00806ef8f6a5fe9))
-* use css variables for new theme colors ([9f20d2a](https://github.com/easyops-cn/next-core/commit/9f20d2a3194d75972266bf6ddba871c45a59d1d8))
-
-
-
-
+- date picker style ([2812395](https://github.com/easyops-cn/next-core/commit/2812395a99c1de7c5f2cfbfec00806ef8f6a5fe9))
+- use css variables for new theme colors ([9f20d2a](https://github.com/easyops-cn/next-core/commit/9f20d2a3194d75972266bf6ddba871c45a59d1d8))
 
 # [1.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.19.0...@next-core/custom-antd-styles@1.20.0) (2022-01-19)
 
-
 ### Features
 
-* description style ([4521d10](https://github.com/easyops-cn/next-core/commit/4521d10983791bb09e7b462b35741405b193257c))
-
-
-
-
+- description style ([4521d10](https://github.com/easyops-cn/next-core/commit/4521d10983791bb09e7b462b35741405b193257c))
 
 # [1.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.18.0...@next-core/custom-antd-styles@1.19.0) (2022-01-19)
 
-
 ### Features
 
-* input number style ([dafa23f](https://github.com/easyops-cn/next-core/commit/dafa23ff95416430605da5705c4b7e3fed51c2a3))
-
-
-
-
+- input number style ([dafa23f](https://github.com/easyops-cn/next-core/commit/dafa23ff95416430605da5705c4b7e3fed51c2a3))
 
 # [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.17.1...@next-core/custom-antd-styles@1.18.0) (2022-01-18)
 
-
 ### Features
 
-* modal style ([75eefa9](https://github.com/easyops-cn/next-core/commit/75eefa96366f3acf0c588992485eff89272e9092))
-
-
-
-
+- modal style ([75eefa9](https://github.com/easyops-cn/next-core/commit/75eefa96366f3acf0c588992485eff89272e9092))
 
 ## [1.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.17.0...@next-core/custom-antd-styles@1.17.1) (2022-01-18)
 
-
 ### Bug Fixes
 
-* fix styles and replace css variables ([ed66930](https://github.com/easyops-cn/next-core/commit/ed6693080cafa3667cb0a7bd3dfd66e4a9b5e23f))
-* style refine ([54a9130](https://github.com/easyops-cn/next-core/commit/54a9130d18558d4c86871b458f58e5c652898e84))
-
-
-
-
+- fix styles and replace css variables ([ed66930](https://github.com/easyops-cn/next-core/commit/ed6693080cafa3667cb0a7bd3dfd66e4a9b5e23f))
+- style refine ([54a9130](https://github.com/easyops-cn/next-core/commit/54a9130d18558d4c86871b458f58e5c652898e84))
 
 # [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.16.0...@next-core/custom-antd-styles@1.17.0) (2022-01-17)
 
-
 ### Bug Fixes
 
-* fix style ([f7d2541](https://github.com/easyops-cn/next-core/commit/f7d25419cbb7fde54c34ad7f4893d9d4f068819a))
-* fix styles and replace css variables ([a84d2f7](https://github.com/easyops-cn/next-core/commit/a84d2f72dde782a542b518d148d95da9bd548e11))
-* style fix ([dee1718](https://github.com/easyops-cn/next-core/commit/dee17183240c72e298cb18631680098f0e9dc1b4))
-
+- fix style ([f7d2541](https://github.com/easyops-cn/next-core/commit/f7d25419cbb7fde54c34ad7f4893d9d4f068819a))
+- fix styles and replace css variables ([a84d2f7](https://github.com/easyops-cn/next-core/commit/a84d2f72dde782a542b518d148d95da9bd548e11))
+- style fix ([dee1718](https://github.com/easyops-cn/next-core/commit/dee17183240c72e298cb18631680098f0e9dc1b4))
 
 ### Features
 
-* add transfer styles ([bec2d02](https://github.com/easyops-cn/next-core/commit/bec2d02370604b1e78f82129abc75e4dbcb9b9ac))
-* replace tooltip  css variables ([d0816c5](https://github.com/easyops-cn/next-core/commit/d0816c5d5485e63284d4140864399794ed631631))
-
-
-
-
+- add transfer styles ([bec2d02](https://github.com/easyops-cn/next-core/commit/bec2d02370604b1e78f82129abc75e4dbcb9b9ac))
+- replace tooltip css variables ([d0816c5](https://github.com/easyops-cn/next-core/commit/d0816c5d5485e63284d4140864399794ed631631))
 
 # [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.15.0...@next-core/custom-antd-styles@1.16.0) (2022-01-16)
 
-
 ### Bug Fixes
 
-* fix style ([1f9eadf](https://github.com/easyops-cn/next-core/commit/1f9eadf0723dbdfd3cea9455e6f6c7c4c23de975))
-* table style refine ([411d101](https://github.com/easyops-cn/next-core/commit/411d101062c7ec3dfaa7a8fe3e8302cd63f2bced))
-
+- fix style ([1f9eadf](https://github.com/easyops-cn/next-core/commit/1f9eadf0723dbdfd3cea9455e6f6c7c4c23de975))
+- table style refine ([411d101](https://github.com/easyops-cn/next-core/commit/411d101062c7ec3dfaa7a8fe3e8302cd63f2bced))
 
 ### Features
 
-* add general styles ([9e2a3db](https://github.com/easyops-cn/next-core/commit/9e2a3db7b21a7ff62ec6b450dfc39860e55a5d08))
-* delete and edit  css variables ([d4dec93](https://github.com/easyops-cn/next-core/commit/d4dec9392aba83f14a670281e51643325ffaed08))
-* **presentational-bricks.brick-alert:** alert styles ([43110e6](https://github.com/easyops-cn/next-core/commit/43110e6eca4bb81398304227ce8abe5b140105b8))
-* **presentational-bricks.general-tooltip:** tooltip style ([c6cdd2d](https://github.com/easyops-cn/next-core/commit/c6cdd2d0e9f70f7b986d6041b78dd949de20fa4a))
-* transfer styles ([725da2b](https://github.com/easyops-cn/next-core/commit/725da2bc434bbd77ea6211113f71182b08d1c28d))
-
-
-
-
+- add general styles ([9e2a3db](https://github.com/easyops-cn/next-core/commit/9e2a3db7b21a7ff62ec6b450dfc39860e55a5d08))
+- delete and edit css variables ([d4dec93](https://github.com/easyops-cn/next-core/commit/d4dec9392aba83f14a670281e51643325ffaed08))
+- **presentational-bricks.brick-alert:** alert styles ([43110e6](https://github.com/easyops-cn/next-core/commit/43110e6eca4bb81398304227ce8abe5b140105b8))
+- **presentational-bricks.general-tooltip:** tooltip style ([c6cdd2d](https://github.com/easyops-cn/next-core/commit/c6cdd2d0e9f70f7b986d6041b78dd949de20fa4a))
+- transfer styles ([725da2b](https://github.com/easyops-cn/next-core/commit/725da2bc434bbd77ea6211113f71182b08d1c28d))
 
 # [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.14.0...@next-core/custom-antd-styles@1.15.0) (2022-01-14)
 
-
 ### Features
 
-* modal style ([ed15238](https://github.com/easyops-cn/next-core/commit/ed152386296227efa938d52e4274ff9fa5b06985))
-
-
-
-
+- modal style ([ed15238](https://github.com/easyops-cn/next-core/commit/ed152386296227efa938d52e4274ff9fa5b06985))
 
 # [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.13.0...@next-core/custom-antd-styles@1.14.0) (2022-01-14)
 
-
 ### Features
 
-* add input style ([a3dcc2c](https://github.com/easyops-cn/next-core/commit/a3dcc2cda9ac4d32521d8ecf7ed5ef117d0b28f1))
-* pagenation style ([2852c7f](https://github.com/easyops-cn/next-core/commit/2852c7f61c98152f2784822a265b14b8a66dd4d5))
-
-
-
-
+- add input style ([a3dcc2c](https://github.com/easyops-cn/next-core/commit/a3dcc2cda9ac4d32521d8ecf7ed5ef117d0b28f1))
+- pagenation style ([2852c7f](https://github.com/easyops-cn/next-core/commit/2852c7f61c98152f2784822a265b14b8a66dd4d5))
 
 # [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.12.0...@next-core/custom-antd-styles@1.13.0) (2022-01-13)
 
-
 ### Features
 
-* button style ([007445e](https://github.com/easyops-cn/next-core/commit/007445ecefaff3baaaaf77405e6e3083d56deca2))
-
-
-
-
+- button style ([007445e](https://github.com/easyops-cn/next-core/commit/007445ecefaff3baaaaf77405e6e3083d56deca2))
 
 # [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.11.0...@next-core/custom-antd-styles@1.12.0) (2022-01-12)
 
-
 ### Features
 
-* add button style ([ebf1377](https://github.com/easyops-cn/next-core/commit/ebf1377805306600dbf96a6c05164f295d04f9af))
-
-
-
-
+- add button style ([ebf1377](https://github.com/easyops-cn/next-core/commit/ebf1377805306600dbf96a6c05164f295d04f9af))
 
 # [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.10.0...@next-core/custom-antd-styles@1.11.0) (2022-01-07)
 
-
 ### Features
 
-* general-radio style ([7065687](https://github.com/easyops-cn/next-core/commit/7065687063a4e14e3696f3feb6996f5629ede9c8))
-
-
-
-
+- general-radio style ([7065687](https://github.com/easyops-cn/next-core/commit/7065687063a4e14e3696f3feb6996f5629ede9c8))
 
 # [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.9.0...@next-core/custom-antd-styles@1.10.0) (2022-01-06)
 
-
 ### Features
 
-* card style ([cdc44c8](https://github.com/easyops-cn/next-core/commit/cdc44c8b4eacd37e64ebeb37bbfd728be307f2ff))
-
-
-
-
+- card style ([cdc44c8](https://github.com/easyops-cn/next-core/commit/cdc44c8b4eacd37e64ebeb37bbfd728be307f2ff))
 
 # [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.14...@next-core/custom-antd-styles@1.9.0) (2022-01-05)
 
-
 ### Features
 
-* general-checkbox style ([5486fae](https://github.com/easyops-cn/next-core/commit/5486fae2a2ae4d7e14ae80b9f65de6fee7702b0d))
-
-
-
-
+- general-checkbox style ([5486fae](https://github.com/easyops-cn/next-core/commit/5486fae2a2ae4d7e14ae80b9f65de6fee7702b0d))
 
 ## [1.8.14](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.13...@next-core/custom-antd-styles@1.8.14) (2021-12-31)
 
-
 ### Bug Fixes
 
-* css variables ([fde0ddd](https://github.com/easyops-cn/next-core/commit/fde0ddd0f5a4f98704ccb6643f9a9e9ac02b5a0c))
-
-
-
-
+- css variables ([fde0ddd](https://github.com/easyops-cn/next-core/commit/fde0ddd0f5a4f98704ccb6643f9a9e9ac02b5a0c))
 
 ## [1.8.13](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.12...@next-core/custom-antd-styles@1.8.13) (2021-12-29)
 
-
 ### Bug Fixes
 
-* extract menu css variables ([9574b8c](https://github.com/easyops-cn/next-core/commit/9574b8c61c283d93be1678b3d869e56e70b56ff4))
-
-
-
-
+- extract menu css variables ([9574b8c](https://github.com/easyops-cn/next-core/commit/9574b8c61c283d93be1678b3d869e56e70b56ff4))
 
 ## [1.8.12](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.11...@next-core/custom-antd-styles@1.8.12) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
-
-
-
-
 
 ## [1.8.11](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.8.10...@next-core/custom-antd-styles@1.8.11) (2021-11-18)
 

@@ -5,22 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.4.6...@next-core/rollup-config-factory@2.5.0) (2022-01-05)
 
-
 ### Features
 
-* support option of babelExclude ([f4cda4d](https://github.com/easyops-cn/next-core/commit/f4cda4d3c2005732422207b0e706341bd0bb31f5))
-
-
-
-
+- support option of babelExclude ([f4cda4d](https://github.com/easyops-cn/next-core/commit/f4cda4d3c2005732422207b0e706341bd0bb31f5))
 
 ## [2.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.4.5...@next-core/rollup-config-factory@2.4.6) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/rollup-config-factory
-
-
-
-
 
 ## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.4.4...@next-core/rollup-config-factory@2.4.5) (2021-12-06)
 
