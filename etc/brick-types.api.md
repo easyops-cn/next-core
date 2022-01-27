@@ -708,7 +708,7 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
 
 // @public
 export interface BuiltinBrickEventHandler {
-    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "analytics.event";
+    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "analytics.event";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
@@ -1339,7 +1339,20 @@ export interface MicroApp {
     noAuthGuard?: boolean;
     private?: boolean;
     status?: "developing" | "enabled" | "disabled";
+    theme?: "light" | "dark-v2";
     userConfig?: Record<string, unknown>;
+}
+
+// @public
+export interface MockRule {
+    provider: string;
+    uri: string;
+}
+
+// @public (undocumented)
+export interface Mocks {
+    mockId: string;
+    mockList: MockRule[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "MountPoints" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1370,20 +1383,6 @@ export interface NavbarConf {
     loadingBar: string;
     // (undocumented)
     menuBar: string;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "NavbarConf_UiV8" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface NavbarConf_UiV8 {
-    // (undocumented)
-    breadcrumb: string;
-    // (undocumented)
-    footer: string;
-    // (undocumented)
-    navBar: string;
-    // (undocumented)
-    sideBar: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1433,7 +1432,7 @@ export interface PluginRuntimeContext {
 // Warning: (ae-internal-missing-underscore) The name "PresetBricksConf" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface PresetBricksConf extends Partial<NavbarConf>, Partial<NavbarConf_UiV8> {
+export interface PresetBricksConf extends Partial<NavbarConf> {
     // (undocumented)
     pageError: string;
     // (undocumented)
@@ -1757,6 +1756,8 @@ export interface Settings {
     featureFlags: FeatureFlags;
     // (undocumented)
     homepage: string;
+    // (undocumented)
+    misc?: Record<string, unknown>;
 }
 
 // @public
@@ -1832,7 +1833,7 @@ export interface SiteMapItem {
 export type SiteMode = "default" | "dashboard";
 
 // @public
-export type SiteTheme = "light" | "dark";
+export type SiteTheme = "light" | "dark" | "dark-v2";
 
 // @public
 export type SlotConf = SlotConfOfBricks | SlotConfOfRoutes;
@@ -2023,6 +2024,7 @@ export interface StoryboardMeta {
     i18n?: MetaI18n;
     // (undocumented)
     menus?: MenuRawData[];
+    mocks?: Mocks;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal

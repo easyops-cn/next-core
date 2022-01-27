@@ -1,5 +1,5 @@
 import { userAnalytics } from "@next-core/easyops-analytics";
-import { authenticate, getAuth, logout } from "./auth";
+import { authenticate, getAuth, logout, isLoggedIn } from "./auth";
 import { resetPermissionPreChecks } from "./internal/checkPermissions";
 
 jest.spyOn(userAnalytics, "initialized", "get").mockReturnValue(true);
@@ -10,6 +10,7 @@ const spyOnSetUserId = jest.spyOn(userAnalytics, "setUserId");
 describe("auth", () => {
   it("should work", () => {
     expect(getAuth()).toEqual({});
+    expect(isLoggedIn()).toEqual(false);
     authenticate({
       org: 8888,
       username: "mock-user",
@@ -22,6 +23,7 @@ describe("auth", () => {
       userInstanceId: "abc",
       accessRule: "cmdb",
     });
+    expect(isLoggedIn()).toEqual(true);
     expect(spyOnSetUserId).toBeCalledWith("abc");
 
     expect(resetPermissionPreChecks).not.toBeCalled();

@@ -29,8 +29,6 @@ dependencies:
     version: ^1.22.0
   - name: micro_app_service_db
     version: ^1.16.11
-  - name: next_builder_service
-    version: ^1.21.9
   - name: object_store_service
     version: ^1.0.12
 start_dependencies:

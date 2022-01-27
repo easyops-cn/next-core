@@ -7,6 +7,7 @@ import {
   createRuntime,
   getAuth,
   httpErrorToString,
+  getMockInfo,
 } from "@next-core/brick-kit";
 import {
   http,
@@ -17,12 +18,13 @@ import {
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
 import "./antd";
+import "./styles/theme/index.css";
 import "./styles/variables.css";
 import "./styles/business-variables.css";
 import "./styles/editor-bricks-variables.css";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
-import "./styles/default.less";
+import "./styles/default.css";
 import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
@@ -48,10 +50,6 @@ const mountPoints = {
   menuBar: root.querySelector<HTMLElement>("#menu-bar-mount-point"),
   appBar: root.querySelector<HTMLElement>("#app-bar-mount-point"),
   loadingBar: root.querySelector<HTMLElement>("#loading-bar-mount-point"),
-  navBar: root.querySelector<HTMLElement>("#app-bar-mount-point"),
-  sideBar: root.querySelector<HTMLElement>("#side-bar-mount-point"),
-  breadcrumb: root.querySelector<HTMLElement>("#breadcrumb-mount-point"),
-  footer: root.querySelector<HTMLElement>("#footer-mount-point"),
   main: root.querySelector<HTMLElement>("#main-mount-point"),
   bg: root.querySelector<HTMLElement>("#bg-mount-point"),
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
@@ -70,6 +68,11 @@ if (!window.STANDALONE_MICRO_APPS) {
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   const headers = new Headers(config.options?.headers || {});
   headers.set("lang", i18n.resolvedLanguage);
+  const mockInfo = getMockInfo(config.url);
+  if (mockInfo) {
+    config.url = mockInfo.url;
+    headers.set("easyops-mock-id", mockInfo.mockId);
+  }
   return {
     ...config,
     options: {

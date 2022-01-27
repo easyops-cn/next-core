@@ -23,6 +23,7 @@ export interface RuntimeBootstrapData extends BootstrapData {
 export interface Settings {
   featureFlags: FeatureFlags;
   homepage: string;
+  misc?: Record<string, unknown>;
   [key: string]: unknown;
 }
 
@@ -172,6 +173,11 @@ export interface MicroApp {
    * 面包屑配置
    */
   breadcrumb?: BreadcrumbConf;
+
+  /**
+   * 该应用所属主题， dark 已经被用大屏模式，这里使用 dark-v2
+   */
+  theme?: "light" | "dark-v2";
 }
 
 /**
@@ -244,17 +250,7 @@ export interface NavbarConf {
 }
 
 /** @internal */
-export interface NavbarConf_UiV8 {
-  navBar: string;
-  sideBar: string;
-  breadcrumb: string;
-  footer: string;
-}
-
-/** @internal */
-export interface PresetBricksConf
-  extends Partial<NavbarConf>,
-    Partial<NavbarConf_UiV8> {
+export interface PresetBricksConf extends Partial<NavbarConf> {
   pageNotFound: string;
   pageError: string;
 }
@@ -1149,6 +1145,7 @@ export interface BuiltinBrickEventHandler {
     // Theme and mode.
     | "theme.setDarkTheme"
     | "theme.setLightTheme"
+    | "theme.setTheme"
     | "mode.setDashboardMode"
     | "mode.setDefaultMode"
     | "menu.clearMenuTitleCache"
@@ -1416,6 +1413,27 @@ export interface StoryboardMeta {
   functions?: StoryboardFunction[];
 
   menus?: MenuRawData[];
+
+  /** 应用启用mock服务列表 */
+  mocks?: Mocks;
+}
+
+export interface Mocks {
+  /** mock id */
+  mockId: string;
+
+  /** 使用mock规则列表 */
+  mockList: MockRule[];
+}
+
+/**
+ * 应用启用mock服务
+ */
+export interface MockRule {
+  /** uri地址 */
+  uri: string;
+  /** provider名称 */
+  provider: string;
 }
 
 /**
@@ -1689,7 +1707,7 @@ export interface ProbablyRuntimeBrick {
 /**
  * 站点主题。
  */
-export type SiteTheme = "light" | "dark";
+export type SiteTheme = "light" | "dark" | "dark-v2";
 
 /**
  * 站点模式。

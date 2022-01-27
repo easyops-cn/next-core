@@ -121,6 +121,7 @@ describe("httpErrorToString", () => {
 describe("handleHttpError", () => {
   afterEach(() => {
     jest.clearAllMocks();
+    window.NO_AUTH_GUARD = false;
   });
 
   it("should handle errors", () => {
@@ -159,6 +160,14 @@ describe("handleHttpError", () => {
     });
 
     mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
+  });
+
+  it("should not show modal to go to login page when unauthenticated error occurs while NO_AUTH_GUARD is enabled", () => {
+    window.NO_AUTH_GUARD = true;
+    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
+    handleHttpError(new Error("oops"));
+    expect(spyOnModalConfirm).not.toBeCalled();
+    expect(spyOnModalError).toBeCalledTimes(1);
   });
 
   it("should handle unauthenticated errors and redirect to sso login page", () => {

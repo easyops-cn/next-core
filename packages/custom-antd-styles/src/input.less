@@ -43,14 +43,27 @@
     width: 20px;
     border-left-color: transparent;
     background-clip: content-box;
-    background-color: var(--theme-gray-background);
+    background-color: var(--antd-input-number-handler-wrap-bg);
+    &-handler-up-inner,
+    &-handler-down-inner {
+      color: var(--antd-input-number-handler-wrap-icon);
+    }
   }
 
   &-handler:hover {
-    background-color: var(--theme-blue-background);
+    background-color: var(--antd-input-number-handler-wrap-hover-bg);
   }
 
   &-handler-down {
     border-top-color: transparent;
+  }
+}
+
+.has-error {
+  &.ant-legacy-form-item-control {
+    .@{input-prefix-cls},
+    .@{input-prefix-cls}:hover {
+      background-color: var(--antd-component-background);
+    }
   }
 }

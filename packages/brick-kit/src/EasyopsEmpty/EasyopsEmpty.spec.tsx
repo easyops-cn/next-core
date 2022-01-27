@@ -11,7 +11,6 @@ describe("Empty", () => {
   it("EasyopsEmpty should work", () => {
     const wrapper = mount(<EasyopsEmpty background="grey" />);
     expect(wrapper.find(EasyopsEmpty).length).toBe(1);
-    expect(wrapper.find(Empty).prop("image")).toBe("assets/mockFile");
   });
 
   it("EasyopsEmpty should work with illustration", () => {
@@ -27,6 +26,14 @@ describe("Empty", () => {
       true
     );
     expect(wrapper.find(Empty).prop("description")).toBe("No content");
+  });
+
+  it("EasyopsEmpty should work with the large-sized empty image", () => {
+    const props: EasyopsEmptyProps = {
+      useBigEmptyImage: true,
+    };
+    const wrapper = mount(<EasyopsEmpty {...props} />);
+    expect(wrapper.find(EasyopsEmpty).length).toBe(1);
   });
 
   it("renderEasyopsEmpty should work", () => {

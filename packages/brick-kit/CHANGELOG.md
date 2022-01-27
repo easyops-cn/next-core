@@ -3,6 +3,162 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.103.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.6...@next-core/brick-kit@2.103.7) (2022-01-27)
+
+### Bug Fixes
+
+- fix the bug that the svg files cannot be displayed completely when in the same page ([e8f26b1](https://github.com/easyops-cn/next-core/commit/e8f26b1b018e94b8cddb6f180fe8e74282e7d876)), closes [Refs#INSTANCE-2161](https://github.com/Refs/issues/INSTANCE-2161)
+
+## [2.103.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.5...@next-core/brick-kit@2.103.6) (2022-01-26)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.103.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.4...@next-core/brick-kit@2.103.5) (2022-01-26)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.103.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.3...@next-core/brick-kit@2.103.4) (2022-01-21)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.103.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.2...@next-core/brick-kit@2.103.3) (2022-01-20)
+
+### Bug Fixes
+
+- fix history push in standalone apps ([65219cf](https://github.com/easyops-cn/next-core/commit/65219cf133d2166ca9b3c612ff1a81be71bb069b))
+
+## [2.103.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.1...@next-core/brick-kit@2.103.2) (2022-01-13)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.103.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.0...@next-core/brick-kit@2.103.1) (2022-01-13)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.103.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.102.1...@next-core/brick-kit@2.103.0) (2022-01-12)
+
+### Bug Fixes
+
+- refine theme ([7d6480b](https://github.com/easyops-cn/next-core/commit/7d6480bffd738676a0c04865991c6cad796b7379))
+
+### Features
+
+- add button style ([ebf1377](https://github.com/easyops-cn/next-core/commit/ebf1377805306600dbf96a6c05164f295d04f9af))
+- chart style ([8d3f04b](https://github.com/easyops-cn/next-core/commit/8d3f04b342f79f62c65696ef82337b06d881aafd))
+
+## [2.102.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.102.0...@next-core/brick-kit@2.102.1) (2022-01-12)
+
+### Bug Fixes
+
+- do not redirect to login page while NO_AUTH_GUARD is enabled ([02b69b1](https://github.com/easyops-cn/next-core/commit/02b69b19b98b1ba4aa4e0d2405d28444f3c05def))
+
+# [2.102.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.2...@next-core/brick-kit@2.102.0) (2022-01-07)
+
+### Features
+
+- **FlowApi:** update size-limit.js ([7b61a08](https://github.com/easyops-cn/next-core/commit/7b61a088ed6e0f2bd7ecd3bcb80fd2fa8b918bc7))
+- **FlowApi:** update unit test ([059f6b6](https://github.com/easyops-cn/next-core/commit/059f6b612d5e90cb5facaa6285c8340f046ce4b0))
+- **FlowApi:** update unit test ([a4bcc9d](https://github.com/easyops-cn/next-core/commit/a4bcc9d654039616a3889c142e5bd37c8ee987bc))
+- **FlowApi:** useMock in flow api ([05a5751](https://github.com/easyops-cn/next-core/commit/05a5751e33aedfaae73c80a040081c2b4d2f2a73))
+
+## [2.101.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.1...@next-core/brick-kit@2.101.2) (2022-01-06)
+
+### Bug Fixes
+
+- dark theme refine ([db6d4e5](https://github.com/easyops-cn/next-core/commit/db6d4e58c98779329e9dad99ee0fcde22631e44b))
+
+## [2.101.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.101.0...@next-core/brick-kit@2.101.1) (2022-01-05)
+
+### Bug Fixes
+
+- fix `_.isEmpty(QUERY)` ([3202979](https://github.com/easyops-cn/next-core/commit/3202979a524a512423b9ce1f698c265ce650755c))
+
+# [2.101.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.100.0...@next-core/brick-kit@2.101.0) (2022-01-05)
+
+### Bug Fixes
+
+- fix building ([ad86f04](https://github.com/easyops-cn/next-core/commit/ad86f04310b8264a3a22a5296e71beff620978db))
+
+### Features
+
+- apply color theme ([0998f5f](https://github.com/easyops-cn/next-core/commit/0998f5fc1e662cde1eeedb7bc30bd7a5e1e8fe85))
+- support custom style ([4cdbbf5](https://github.com/easyops-cn/next-core/commit/4cdbbf524bf89bb402d945694c29066ce78b4f4e))
+
+# [2.100.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.99.2...@next-core/brick-kit@2.100.0) (2022-01-04)
+
+### Features
+
+- **MockRegistry:** remove version in mock url ([e291d52](https://github.com/easyops-cn/next-core/commit/e291d52626e5565a9ebd8cf6370cb6cf7dd33903))
+- **MockRegistry:** update RegExp ([423be36](https://github.com/easyops-cn/next-core/commit/423be36023068c1ebf07215d15117af4299ec039))
+
+## [2.99.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.99.1...@next-core/brick-kit@2.99.2) (2022-01-04)
+
+### Bug Fixes
+
+- **Router:** render call scrollTo before life cycle handler ([92279de](https://github.com/easyops-cn/next-core/commit/92279de483cf623a7bc116d2813ff86fef29695d))
+
+## [2.99.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.99.0...@next-core/brick-kit@2.99.1) (2021-12-31)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.99.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.98.0...@next-core/brick-kit@2.99.0) (2021-12-31)
+
+### Features
+
+- dark theme ([c6709a7](https://github.com/easyops-cn/next-core/commit/c6709a7a30a8860a6cb3e0245967c9bcfd5e78f5))
+
+# [2.98.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.97.0...@next-core/brick-kit@2.98.0) (2021-12-30)
+
+### Features
+
+- support dark-v2 ([0434b7e](https://github.com/easyops-cn/next-core/commit/0434b7e34c441c28ceb75ba753f46e3cd5ccc5c8))
+
+# [2.97.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.96.0...@next-core/brick-kit@2.97.0) (2021-12-29)
+
+### Bug Fixes
+
+- fix accessing not-existed property of QUERY ([edcf0b1](https://github.com/easyops-cn/next-core/commit/edcf0b168e27f7b89ba2debde5a779c89500a0dd))
+
+### Features
+
+- **MockRegistry:** update mocks data ([10fed90](https://github.com/easyops-cn/next-core/commit/10fed9053e62af9cc52d994772343d629f45afac))
+
+# [2.96.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.95.1...@next-core/brick-kit@2.96.0) (2021-12-29)
+
+### Features
+
+- some adjustment for EasyopsEmpty's empty image ([cc5af32](https://github.com/easyops-cn/next-core/commit/cc5af32a93d7497ff236c2189e730a3f771d3866)), closes [Refs#MONITOR-2681](https://github.com/Refs/issues/MONITOR-2681)
+
+## [2.95.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.95.0...@next-core/brick-kit@2.95.1) (2021-12-28)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.95.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.94.0...@next-core/brick-kit@2.95.0) (2021-12-28)
+
+### Bug Fixes
+
+- refine globals display in devtools ([6f42a1a](https://github.com/easyops-cn/next-core/commit/6f42a1ad37979a2dd6cdaabea8a55518131b35a9))
+
+### Features
+
+- refine storyboard functions and expressions ([6626c61](https://github.com/easyops-cn/next-core/commit/6626c61bd910864daaa81be946f765630cfb8103))
+
+# [2.94.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.93.1...@next-core/brick-kit@2.94.0) (2021-12-24)
+
+### Features
+
+- support request use mock ([#1293](https://github.com/easyops-cn/next-core/issues/1293)) ([9989c66](https://github.com/easyops-cn/next-core/commit/9989c663f1e5340c68853d4b158dc169484a7e1a))
+
+## [2.93.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.93.0...@next-core/brick-kit@2.93.1) (2021-12-23)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.93.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.92.2...@next-core/brick-kit@2.93.0) (2021-12-17)
+
+### Features
+
+- add new constant BASE_URL in evaluations ([80451fe](https://github.com/easyops-cn/next-core/commit/80451fe3c9e6f80488e207f6c164db2ace7191ac))
+
 ## [2.92.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.92.1...@next-core/brick-kit@2.92.2) (2021-12-15)
 
 ### Bug Fixes

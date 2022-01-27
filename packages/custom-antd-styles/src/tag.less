@@ -1,7 +1,8 @@
 // 非填充色
 @tag-color-list: green, red, blue, orange, cyan, purple, geekblue, yellow;
 // 填充色
-@tag-inverse-color-list: green-inverse, red-inverse, blue-inverse, orange-inverse, cyan-inverse, purple-inverse, geekblue-inverse, yellow-inverse;
+@tag-inverse-color-list: green-inverse, red-inverse, blue-inverse,
+  orange-inverse, cyan-inverse, purple-inverse, geekblue-inverse, yellow-inverse;
 
 .@{tag-prefix-cls} {
   line-height: 22px;
@@ -10,8 +11,8 @@
   border-color: transparent !important;
 
   &:not([class*="@{tag-prefix-cls}-"]) {
-    background: var(--theme-gray-background);
-    color: var(--text-color-default);
+    background: var(--antd-tag-closable-bg);
+    color: var(--antd-tag-closable-color);
   }
 
   &:hover {
@@ -25,13 +26,13 @@
 
   // 可选择标签样式
   &-checkable {
-    color: var(--text-color-default);
-    background: var(--theme-gray-background);
+    color: var(--antd-tag-checkable-color);
+    background: var(--antd-tag-checkable-bg);
   }
 
   &-checkable-checked {
-    color: #ffffff;
-    background: var(--theme-blue-color);
+    color: var(--antd-tag-checkable-checked-color);
+    background: var(--antd-tag-checkable-checked-bg);
   }
 
   &-checkable:not(&-checkable-checked):hover {
@@ -48,10 +49,10 @@
 
   // 可关闭标签样式
   &-close-icon {
-    color: var(--text-color-secondary);
+    color: var(--antd-tag-closable-icon-color);
 
     &:hover {
-      color: var(--text-color-default);
+      color: var(--antd-tag-closable-icon-hover-bg);
     }
   }
 
@@ -81,7 +82,6 @@
 */
 html[data-theme="dark"] {
   .@{tag-prefix-cls} {
-
     // 多彩标签样式
     each(@tag-color-list, {
         &-@{value} {

@@ -463,6 +463,10 @@ describe("bindListeners", () => {
         },
         { action: "theme.setLightTheme" },
         { action: "theme.setDarkTheme" },
+        {
+          action: "theme.setTheme",
+          args: ["dark-v2"],
+        },
         { action: "mode.setDefaultMode" },
         { action: "mode.setDashboardMode" },
         { action: "menu.clearMenuTitleCache" },
@@ -880,6 +884,7 @@ describe("bindListeners", () => {
 
     expect(applyTheme).toHaveBeenNthCalledWith(1, "light");
     expect(applyTheme).toHaveBeenNthCalledWith(2, "dark");
+    expect(applyTheme).toHaveBeenNthCalledWith(3, "dark-v2");
     expect(applyMode).toHaveBeenNthCalledWith(1, "default");
     expect(applyMode).toHaveBeenNthCalledWith(2, "dashboard");
 
@@ -1015,6 +1020,10 @@ describe("bindListeners", () => {
       { action: "console.log", if: "<% !EVENT.detail.rejected %>" },
       {
         action: "theme.setDarkTheme",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
+        action: "theme.setTheme",
         if: "<% !EVENT.detail.rejected %>",
       },
       {

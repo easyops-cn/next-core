@@ -14,7 +14,7 @@
     &-in-view&-selected &-inner,
     &-in-view&-range-start &-inner,
     &-in-view&-range-end &-inner {
-      background: linear-gradient(45deg, #0071eb 0%, #65b2ff 100%);
+      background: var(--antd-picker-panel-cell-selected-bg);
     }
 
     &-in-view&-in-range::before {
@@ -22,21 +22,25 @@
     }
   }
 
+  &-time-panel-column > li&-time-panel-cell &-time-panel-cell-inner {
+    color: var(--antd-picker-time-panel-cell-color);
+  }
+
   // time-panel
   li&-time-panel-cell&-time-panel-cell-selected {
     .@{picker-prefix-cls}-time-panel-cell-inner {
-      background: var(--theme-gray-background);
+      background: var(--antd-picker-time-panel-cell-selected-bg);
     }
   }
 
   li&-time-panel-cell:not(&-time-panel-cell-selected) {
     .@{picker-prefix-cls}-time-panel-cell-inner:hover {
-      background: var(--theme-blue-background);
+      background: var(--antd-picker-time-panel-cell-hover-bg);
     }
   }
 
   // footer
   &-footer {
-    background-color: var(--body-background);
+    background-color: var(--antd-picker-footer-bg);
   }
 }

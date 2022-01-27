@@ -87,7 +87,7 @@ export function listenDevtools(): void {
   });
 }
 
-function getDevHook(): DevtoolsHook {
+export function getDevHook(): DevtoolsHook {
   return (window as DevtoolsHookContainer).__BRICK_NEXT_DEVTOOLS_HOOK__;
 }
 

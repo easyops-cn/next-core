@@ -240,7 +240,7 @@ describe("getBuilderNode", () => {
       type: "brick",
       brick: "my.any-brick",
       id: "B-001",
-      alias: "any-brick",
+      alias: "myBrick",
       $$uid: 1,
       properties: '{"id":"myBrick"}',
       $$parsedProperties: {
@@ -253,6 +253,47 @@ describe("getBuilderNode", () => {
         brick: "my.any-brick",
         properties: {
           id: "myBrick",
+        },
+      },
+    });
+  });
+
+  it("should use dataset.testid as brick alias", () => {
+    expect(
+      getBuilderNode(
+        {
+          type: "brick",
+          brick: "my.any-brick",
+          id: "B-001",
+          parent: [],
+          children: [],
+          graphInfo: {},
+          mountPoint: "brick",
+          properties: '{"dataset":{"testid":"myBrick"}}',
+        },
+        1
+      )
+    ).toEqual({
+      type: "brick",
+      brick: "my.any-brick",
+      id: "B-001",
+      alias: "myBrick",
+      $$uid: 1,
+      properties: '{"dataset":{"testid":"myBrick"}}',
+      $$parsedProperties: {
+        dataset: {
+          testid: "myBrick",
+        },
+      },
+      $$parsedEvents: {},
+      $$parsedLifeCycle: {},
+      $$matchedSelectors: ["my\\.any-brick"],
+      $$normalized: {
+        brick: "my.any-brick",
+        properties: {
+          dataset: {
+            testid: "myBrick",
+          },
         },
       },
     });
@@ -290,6 +331,47 @@ describe("getBuilderNode", () => {
         brick: "my.any-brick",
         properties: {
           id: "<% QUERY.x %>",
+        },
+      },
+    });
+  });
+
+  it("should ignore dynamic dataset.testid as brick alias", () => {
+    expect(
+      getBuilderNode(
+        {
+          type: "brick",
+          brick: "my.any-brick",
+          id: "B-001",
+          parent: [],
+          children: [],
+          graphInfo: {},
+          mountPoint: "brick",
+          properties: '{"dataset":{"testid":"${QUERY.any}"}}',
+        },
+        1
+      )
+    ).toEqual({
+      type: "brick",
+      brick: "my.any-brick",
+      id: "B-001",
+      alias: "any-brick",
+      $$uid: 1,
+      properties: '{"dataset":{"testid":"${QUERY.any}"}}',
+      $$parsedProperties: {
+        dataset: {
+          testid: "${QUERY.any}",
+        },
+      },
+      $$parsedEvents: {},
+      $$parsedLifeCycle: {},
+      $$matchedSelectors: ["my\\.any-brick"],
+      $$normalized: {
+        brick: "my.any-brick",
+        properties: {
+          dataset: {
+            testid: "${QUERY.any}",
+          },
         },
       },
     });

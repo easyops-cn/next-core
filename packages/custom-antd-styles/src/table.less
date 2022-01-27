@@ -1,18 +1,25 @@
 .@{table-prefix-cls} {
-  &-thead>tr>th {
+  &-thead > tr > th {
     padding: 11px @table-padding-horizontal;
     font-size: 12px;
     line-height: 20px;
     border-bottom: 0;
 
-    .@{table-prefix-cls}-column-sorter .@{table-prefix-cls}-column-sorter-inner-full {
+    .@{table-prefix-cls}-column-sorter
+      .@{table-prefix-cls}-column-sorter-inner-full {
       margin-top: -0.6em;
     }
 
     &.@{table-prefix-cls}-column-sort.@{table-prefix-cls}-column-has-sorters {
-      background-color: #e0e5ec;
+      background-color: var(--antd-table-header-sort-active-bg);
     }
+  }
 
+  &-thead > tr {
+    .@{table-prefix-cls}-cell-fix-left,
+    .@{table-prefix-cls}-cell-fix-right {
+      background-color: var(--antd-table-cell-fixed-header-bg);
+    }
   }
 
   &-pagination.@{ant-prefix}-pagination {
@@ -31,17 +38,22 @@
   }
 
   &-tbody {
-    >tr>td {
+    .@{table-prefix-cls}-cell-fix-left,
+    .@{table-prefix-cls}-cell-fix-right {
+      background-color: var(--antd-table-cell-fixed-body-bg);
+    }
+    > tr > td {
       border-bottom-color: var(--antd-table-border-color);
     }
 
-    >tr>td.@{table-prefix-cls}-column-sort {
-      background-color: #f4f5f7;
+    > tr > td.@{table-prefix-cls}-column-sort {
+      background-color: var(--antd-table-header-overwrite-sort-td-active-bg);
     }
 
     tr.@{table-prefix-cls}-row-selected {
-      >td {
+      > td {
         background: none;
+        border-color: var(--antd-table-row-selected-border-color);
       }
 
       td.@{table-prefix-cls}-selection-column {
@@ -52,27 +64,28 @@
     }
 
     tr.@{table-prefix-cls}-expanded-row {
-      >td {
+      > td {
         padding: 0;
       }
 
-      background: #fafafa;
+      background: var(--antd-table-row-expand-nested-wrapper);
 
       &:hover {
-        background: #fafafa;
+        background: var(--antd-table-row-expand-nested-wrapper);
       }
 
       .@{table-prefix-cls}-wrapper {
-        background: #fafafa;
+        background: var(--antd-table-row-expand-nested-wrapper);
         padding: 20px 32px;
         table {
           th {
-            background: #fafafa;
-            border-bottom: 1px solid #e8e8e8;
+            background: var(--antd-table-row-expand-nested-wrapper);
+            border-bottom: 1px solid
+              var(--antd-table-row-expand-nested-wrapper-border);
           }
 
           td {
-            background: #fafafa;
+            background: var(--antd-table-row-expand-nested-wrapper);
             padding: 10px 16px;
 
             button {

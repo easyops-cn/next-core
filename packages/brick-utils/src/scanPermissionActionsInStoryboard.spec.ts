@@ -26,6 +26,16 @@ describe("scanPermissionActionsInStoryboard", () => {
             ],
           },
         ],
+        functions: [
+          {
+            source: `
+              function test(): string {
+                return PERMISSIONS.check('my:action-d');
+              }
+            `,
+            typescript: true,
+          },
+        ],
       },
       routes: [
         {
@@ -50,7 +60,14 @@ describe("scanPermissionActionsInStoryboard", () => {
       "my:action-a",
       "my:action-b",
       "my:action-c",
+      "my:action-d",
     ]);
+  });
+
+  it("should return empty", () => {
+    expect(
+      scanPermissionActionsInStoryboard({ routes: null, app: null })
+    ).toEqual([]);
   });
 });
 

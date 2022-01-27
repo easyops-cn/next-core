@@ -3549,7 +3549,9 @@
           "tokTypes",
           "trackContext",
           "transform",
-          "transformAndInject"
+          "transformAndInject",
+          "visitStoryboardExpressions",
+          "visitStoryboardFunctions"
         ]
       }
     },
@@ -18490,7 +18492,9 @@
           "doTransform",
           "event",
           "getAuth",
+          "getCssPropertyValue",
           "getHistory",
+          "getMockInfo",
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",

@@ -1,11 +1,17 @@
 .ant-transfer-list {
-  background: #fff;
-  border-radius: 6px;
+  background: var(--color-fill-bg-container-1);
+  border-radius: var(--larger-border-radius);
 }
 
 .ant-transfer-list-header {
-  background: #f5f5f5;
+  background: var(--color-fill-bg-base-1);
   border-bottom: none;
+}
+
+.ant-transfer-list-header-title {
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-weight-400);
+  color: var(--color-disabled-text);
 }
 
 .ant-transfer-operation {
@@ -16,4 +22,22 @@
   .ant-btn:first-child {
     margin-bottom: 8px;
   }
+}
+
+.ant-transfer-list-content-item-checked {
+  background-color: var(--antd-transfer-item-selected-bg);
+}
+
+.ant-transfer-list-content-item .ant-checkbox-wrapper-checked {
+  background: none;
+}
+
+.ant-transfer-disabled {
+  .ant-transfer-list {
+    background: var(--color-fill-bg-base-4);
+  }
+}
+
+.ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled).ant-transfer-list-content-item-checked:hover {
+  background-color: var(--antd-transfer-hover-bg);
 }

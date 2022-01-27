@@ -7,6 +7,8 @@
 import { Action } from 'history';
 import { AppBarBrick } from '@next-core/brick-types';
 import { AuthInfo } from '@next-core/brick-types';
+import { BaseColors } from '@next-core/color-theme';
+import { BrandColor } from '@next-core/color-theme';
 import { BreadcrumbItemConf } from '@next-core/brick-types';
 import { BrickConf } from '@next-core/brick-types';
 import { BrickEventHandlerCallback } from '@next-core/brick-types';
@@ -210,6 +212,8 @@ export interface EasyopsEmptyProps {
     illustration?: IllustrationProps;
     // (undocumented)
     imageStyle?: React_2.CSSProperties;
+    // (undocumented)
+    useBigEmptyImage?: boolean;
 }
 
 // Warning: (ae-forgotten-export) The symbol "NS_BRICK_KIT" needs to be exported by the entry point index.d.ts
@@ -266,6 +270,9 @@ export interface FunctionCoverageSettings {
 // @public
 export function getAuth(): AuthInfo;
 
+// @public (undocumented)
+export function getCssPropertyValue(name: string, el?: HTMLElement): string;
+
 // @public
 export function getHistory(): PluginHistory;
 
@@ -274,6 +281,12 @@ export interface GetMicroAppsOptions {
     excludeInstalling?: boolean;
     includeInternal?: boolean;
 }
+
+// @public (undocumented)
+export const getMockInfo: (requestUrl: string) => {
+    url: string;
+    mockId: string;
+} | undefined;
 
 // @public
 export function getRuntime(): Runtime;
@@ -442,6 +455,22 @@ export function StoryboardFunctionRegistryFactory({ widgetId, collectCoverage, }
     widgetId?: string;
     collectCoverage?: FunctionCoverageSettings;
 }): StoryboardFunctionRegistry;
+
+// @public (undocumented)
+export interface ThemeSetting {
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByBaseColors" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    baseColors: Omit<ColorThemeOptionsByBaseColors, "type">;
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByBrand" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    brandColor: Omit<ColorThemeOptionsByBrand, "type">;
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByVariables" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    variables: Omit<ColorThemeOptionsByVariables, "type">;
+}
 
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //

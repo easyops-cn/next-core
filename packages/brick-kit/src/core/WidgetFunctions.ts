@@ -7,8 +7,8 @@ import {
 const widgetFunctionRegistry = new Map<string, ReadonlyStoryboardFunctions>();
 
 export const widgetFunctions = new Proxy(Object.freeze({}), {
-  get(target, key) {
-    return widgetFunctionRegistry.get(key as string);
+  get(target, key: string) {
+    return widgetFunctionRegistry.get(key);
   },
 }) as Readonly<Record<string, ReadonlyStoryboardFunctions>>;
 

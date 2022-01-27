@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.15.1...@next-core/webpack-config-factory@2.15.2) (2022-01-18)
+
+**Note:** Version bump only for package @next-core/webpack-config-factory
+
+## [2.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.15.0...@next-core/webpack-config-factory@2.15.1) (2022-01-07)
+
+**Note:** Version bump only for package @next-core/webpack-config-factory
+
+# [2.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.6...@next-core/webpack-config-factory@2.15.0) (2021-12-23)
+
+### Features
+
+- support prepending rules ([7d3f430](https://github.com/easyops-cn/next-core/commit/7d3f4304c5351c612756a7d7014fc06aaad749bc))
+
+## [2.14.6](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.5...@next-core/webpack-config-factory@2.14.6) (2021-12-17)
+
+### Bug Fixes
+
+- refine postcss config ([2c5844f](https://github.com/easyops-cn/next-core/commit/2c5844f790da39f0dfe06a01a1387e2aff58b578))
+
 ## [2.14.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.14.4...@next-core/webpack-config-factory@2.14.5) (2021-12-13)
 
 ### Bug Fixes
