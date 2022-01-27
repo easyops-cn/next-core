@@ -1,5 +1,8 @@
 :root,
 [data-override-theme="light"] {
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme */
+  color-scheme: light;
+
   /* Basic CSS variables Refs: https://tapd.easyops.local/pages/viewpage.action?pageId=36045937 */
 
   --palette-gray-1: #fff;
