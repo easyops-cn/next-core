@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.103.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.6...@next-core/brick-kit@2.103.7) (2022-01-27)
+
+
+### Bug Fixes
+
+* fix the bug that the svg files cannot be displayed completely when in the same page ([e8f26b1](https://github.com/easyops-cn/next-core/commit/e8f26b1b018e94b8cddb6f180fe8e74282e7d876)), closes [Refs#INSTANCE-2161](https://github.com/Refs/issues/INSTANCE-2161)
+
+
+
+
+
 ## [2.103.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.5...@next-core/brick-kit@2.103.6) (2022-01-26)
 
 **Note:** Version bump only for package @next-core/brick-kit
