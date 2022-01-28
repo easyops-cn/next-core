@@ -54,7 +54,14 @@
       background-color: var(--antd-timeline-item-color-gray);
     }
 
+    &-head-cyan {
+      color: var(--antd-timeline-item-color-cyan);
+      border-width: 0;
+      background-color: var(--antd-timeline-item-color-cyan);
+    }
+
     &:hover {
+      .@{timeline-prefix-cls}-item-head-cyan,
       .@{timeline-prefix-cls}-item-head-blue,
       .@{timeline-prefix-cls}-item-head-green,
       .@{timeline-prefix-cls}-item-head-red,
@@ -88,6 +95,10 @@
 
       .@{timeline-prefix-cls}-item-head-gray {
         box-shadow: 0px 0px 8px 0px var(--antd-timeline-item-color-gray);
+      }
+
+      .@{timeline-prefix-cls}-item-head-cyan {
+        box-shadow: 0px 0px 8px 0px var(--antd-timeline-item-color-cyan);
       }
     }
   }

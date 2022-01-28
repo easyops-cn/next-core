@@ -521,6 +521,7 @@ html[data-theme="dark-v2"],
   --antd-timeline-item-color-red: var(--color-error);
   --antd-timeline-item-color-blue: var(--color-info);
   --antd-timeline-item-color-gray: var(--text-color-disabled);
+  --antd-timeline-item-color-cyan: var(--palette-cyan-6);
   --antd-timeline-item-dot-color-hover: var(--color-normal-icon);
   --antd-timeline-extension-font-weight: var(--font-weight-400);
   --antd-timeline-extension-font-size: var(--auxiliary-font-size-small);
@@ -541,4 +542,20 @@ html[data-theme="dark-v2"],
   --antd-cascader-menu-item-font-weight-active: var(--font-weight-500);
   --antd-cascader-menu-item-border-width: var(--border-width-base);
   --antd-cascader-menu-item-border-color: var(--color-border-divider-line);
+
+  /*** cmdb instances timeline ***/
+  --cmdb-instance-timeline-bg-color: var(--antd-card-background);
+  --cmdb-instance-timeline-top-month-font-weight: var(--font-weight-400);
+  --cmdb-instance-timeline-top-month-font-size: var(
+    --auxiliary-font-size-small
+  );
+  --cmdb-instance-timeline-top-month-color: var(--color-secondary-text);
+  --cmdb-instance-timeline-left-month-font-weight: var(--font-weight-400);
+  --cmdb-instance-timeline-left-month-font-size: var(
+    --auxiliary-font-size-small
+  );
+  --cmdb-instance-timeline-left-month-color: var(--color-secondary-text);
+  --cmdb-instance-timeline-left-day-font-weight: var(--font-weight-500);
+  --cmdb-instance-timeline-left-day-font-size: var(--title-font-size);
+  --cmdb-instance-timeline-left-day-color: var(--color-strong-text);
 }
