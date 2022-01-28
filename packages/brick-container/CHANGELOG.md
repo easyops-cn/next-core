@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.5...@next-core/brick-container@2.63.6) (2022-01-28)
+
+
+### Bug Fixes
+
+* adopt webpack-dev-server 4.7.0 ([d97b03c](https://github.com/easyops-cn/next-core/commit/d97b03ce8a0126fbf16e23192a8acca0b9a3214f))
+* modal style ([0f1afc5](https://github.com/easyops-cn/next-core/commit/0f1afc538fc86f6895d7fac9a0e080132e9bcf96))
+
+
+
+
+
 ## [2.63.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.4...@next-core/brick-container@2.63.5) (2022-01-27)
 
 ### Bug Fixes

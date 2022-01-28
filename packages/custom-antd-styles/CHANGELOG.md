@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.4...@next-core/custom-antd-styles@1.23.5) (2022-01-28)
+
+
+### Bug Fixes
+
+* **cascader:** cascader的options有空数组children时异常显示分割线 ([a422446](https://github.com/easyops-cn/next-core/commit/a422446fc860ee8ab935bab2bb775b908b7885db))
+* modal style ([0f1afc5](https://github.com/easyops-cn/next-core/commit/0f1afc538fc86f6895d7fac9a0e080132e9bcf96))
+
+
+
+
+
 ## [1.23.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.3...@next-core/custom-antd-styles@1.23.4) (2022-01-27)
 
 ### Bug Fixes
