@@ -513,7 +513,7 @@ html[data-theme="dark-v2"],
   --antd-timeline-title-font-weight: var(--font-weight-500);
   --antd-timeline-description-color: var(--color-auxiliary-text);
   --antd-timeline-description-font-weight: var(--font-weight-400);
-  --antd-timeline-description-font-size: var(--normal-font-size);
+  --antd-timeline-description-font-size: var(--auxiliary-font-size-small);
   --antd-timeline-datetime-color: var(--color-disabled-text);
   --antd-timeline-datetime-font-weight: var(--font-weight-400);
   --antd-timeline-datetime-font-size: var(--auxiliary-font-size-small);
