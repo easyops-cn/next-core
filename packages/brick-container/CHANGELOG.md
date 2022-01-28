@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.6...@next-core/brick-container@2.63.7) (2022-01-28)
+
+
+### Bug Fixes
+
+* **dark:** gray色板区分color和rgba color ([50c117b](https://github.com/easyops-cn/next-core/commit/50c117b650e722b3ebe9e1c1c6e5a79dbd7c18d7))
+
+
+
+
+
 ## [2.63.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.5...@next-core/brick-container@2.63.6) (2022-01-28)
 
 

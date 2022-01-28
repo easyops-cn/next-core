@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.5...@next-core/custom-antd-styles@1.23.6) (2022-01-28)
+
+
+### Bug Fixes
+
+* **style:** cascader隐藏border-right带来的细小空白问题 ([0e6fc95](https://github.com/easyops-cn/next-core/commit/0e6fc952dca51407a1eeac4ebe96ddfc5f6f9bf3))
+
+
+
+
+
 ## [1.23.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.4...@next-core/custom-antd-styles@1.23.5) (2022-01-28)
 
 
