@@ -8,6 +8,7 @@ const env = getEnv();
 // 开发时拦截 auth 及 bootstrap 相关请求。
 exports.setupMiddlewares = (middlewares, devServer) => {
   serveLocal(env, devServer.app);
+  return middlewares;
 };
 
 exports.watchFiles = getPatternsToWatch(env);
