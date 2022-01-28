@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.7...@next-core/custom-antd-styles@1.23.8) (2022-01-28)
+
+
+### Bug Fixes
+
+* timeline调整后monitor-alert的timeline构件样式异常 ([f37f17a](https://github.com/easyops-cn/next-core/commit/f37f17acbfa18d7ac5364d117d24ce02e6c7fee5))
+
+
+
+
+
 ## [1.23.7](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.6...@next-core/custom-antd-styles@1.23.7) (2022-01-28)
 
 
