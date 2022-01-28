@@ -9,7 +9,7 @@
   }
 
   &-menus {
-    padding: 0 2px;
+    padding: 2px 0;
   }
 
   /* 
@@ -19,6 +19,8 @@
     此时，倒数第一个 ul 会出现一条额外的分割线（border-right）。覆盖样式使 border-right 隐藏，同时使用 border-left 来重画 ul 之间的分割线
   */
   &-menu {
+
+    padding: 0 2px;
 
     // 隐藏 border-right，重画 border-left
     border-right: none;
@@ -54,7 +56,7 @@
 
   // 第一个ul隐藏border-left
   &-menu:first-child {
-    border-left-color: transparent;
+    border-left: none;
   }
 
 }
