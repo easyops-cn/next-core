@@ -215,6 +215,7 @@
   /*** card ***/
   --antd-card-background: var(--antd-component-background);
   --antd-card-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
+  --antd-card-inner-border-color: var(--palette-gray-5);
 
   /*** radio dashboard ***/
   --antd-dashboard-radio-bg: #f2f5f9;
