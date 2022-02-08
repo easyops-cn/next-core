@@ -2538,10 +2538,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@size-limit/file@^7.0.5":
-  version "7.0.5"
-  resolved "https://registry.npmjs.org/@size-limit/file/-/file-7.0.5.tgz#e8c8a610f2df408dba02a38dc283666db81948b0"
-  integrity sha512-DqyuUkmCSHwML6GVmeRr0v6Ih/P3pwmCu6RDWh2QxdDSec1ZnShmFUmcC6rLQDX7KW5aCjK3cs5FNd22Eaqapw==
+"@size-limit/file@^7.0.8":
+  version "7.0.8"
+  resolved "https://registry.npmjs.org/@size-limit/file/-/file-7.0.8.tgz#05c43fa01bf164c2fba24e13f1695bf7e861e277"
+  integrity sha512-1KeFQuMXIXAH/iELqIX7x+YNYDFvzIvmxcp9PrdwEoSNL0dXdaDIo9WE/yz8xvOmUcKaLfqbWkL75DM0k91WHQ==
   dependencies:
     semver "7.3.5"
 
@@ -9841,7 +9841,7 @@ libnpmpublish@^4.0.0:
     semver "^7.1.3"
     ssri "^8.0.0"
 
-lilconfig@2.0.4, lilconfig@^2.0.3:
+lilconfig@2.0.4, lilconfig@^2.0.3, lilconfig@^2.0.4:
   version "2.0.4"
   resolved "https://registry.npmjs.org/lilconfig/-/lilconfig-2.0.4.tgz#f4507d043d7058b380b6a8f5cb7bcd4b34cee082"
   integrity sha512-bfTIN7lEsiooCocSISTWXkiWJkRqtL9wYtYy+8EK3Y41qh3mpwPU0ycTOgjdY9ErwXCc8QyrQp82bdL0Xkm9yA==
@@ -10699,10 +10699,10 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-nanospinner@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/nanospinner/-/nanospinner-0.6.0.tgz#1943a2668b1ff93a02847c1d9c4655647d52e578"
-  integrity sha512-G2QQwVJListXbtsBW5r5kJs8WXybsO9/SQxzcvSmPRSIOQOeR0v/ETI9hncOna0tzWscdjjcCZUVCJoR4eJlag==
+nanospinner@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/nanospinner/-/nanospinner-1.0.0.tgz#6af6bb0e5f0ddf0004e3426f61765fa0ab6ba010"
+  integrity sha512-14c2r2QQ9xfTmdbqdF51FKCNvww+0ZON9GeEHur+pBdOufoFvxD4CZQRaYWmFrGH3Nuv7PZ/9Q+wsV+hFSp32g==
   dependencies:
     picocolors "^1.0.0"
 
@@ -13886,18 +13886,18 @@ sisteransi@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
 
-size-limit@^7.0.5:
-  version "7.0.5"
-  resolved "https://registry.npmjs.org/size-limit/-/size-limit-7.0.5.tgz#0a211825b540595805111c45d88a39a9d0dc8b4e"
-  integrity sha512-dve+Vaq/a6H7QZhFbozAUBKNO9ZnZkPX3EF1ETI8yv3YCMdC7e63HmVZDXKB//o3FCTHqtZQ0p3ZtOwN/PSiqQ==
+size-limit@^7.0.8:
+  version "7.0.8"
+  resolved "https://registry.npmjs.org/size-limit/-/size-limit-7.0.8.tgz#bf0c656da9e6bc3b8eb5b8a5a634df4634309811"
+  integrity sha512-3h76c9E0e/nNhYLSR7IBI/bSoXICeo7EYkYjlyVqNIsu7KvN/PQmMbIXeyd2QKIF8iZKhaiZQoXLkGWbyPDtvQ==
   dependencies:
     bytes-iec "^3.1.1"
-    chokidar "^3.5.2"
+    chokidar "^3.5.3"
     ci-job-number "^1.2.2"
-    globby "^11.0.4"
-    lilconfig "^2.0.3"
+    globby "^11.1.0"
+    lilconfig "^2.0.4"
     mkdirp "^1.0.4"
-    nanospinner "^0.6.0"
+    nanospinner "^1.0.0"
     picocolors "^1.0.0"
 
 slash@^1.0.0:
