@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.9](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.8...@next-core/custom-antd-styles@1.23.9) (2022-02-08)
+
+
+### Bug Fixes
+
+* card style ([123819c](https://github.com/easyops-cn/next-core/commit/123819c7f17606529e2cec455e26f1ff24bf355d))
+
+
+
+
+
 ## [1.23.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.7...@next-core/custom-antd-styles@1.23.8) (2022-01-28)
 
 
