@@ -1476,6 +1476,9 @@ export interface CustomTemplate {
 
   /** {@inheritDoc CustomTemplateProxy} */
   proxy?: CustomTemplateProxy;
+
+  /** 模板级上下文配置列表 */
+  context?: ContextConf[];
 }
 
 /**

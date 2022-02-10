@@ -882,6 +882,7 @@ export interface CustomDisplay<T = any, O = Record<string, any>> {
 // @public
 export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
+    context?: ContextConf[];
     name: string;
     proxy?: CustomTemplateProxy;
 }
@@ -1416,8 +1417,6 @@ export interface PluginRuntimeContext {
     app?: MicroApp;
     event?: CustomEvent;
     flags?: FeatureFlags;
-    // (undocumented)
-    getTplVariables?: () => Record<string, unknown>;
     hash?: string;
     // @internal (undocumented)
     match?: MatchResult;
@@ -1427,6 +1426,8 @@ export interface PluginRuntimeContext {
     // @internal (undocumented)
     storyboardContext?: StoryboardContext;
     sys?: SystemInfo;
+    // @internal (undocumented)
+    tplContextId?: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "PresetBricksConf" should be prefixed with an underscore because the declaration is marked as @internal

@@ -23,6 +23,7 @@ import { TrackingContextItem } from "./listenOnTrackingContext";
 interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
+  ignoreSymbols?: boolean;
 }
 
 export const computeRealValue = (
@@ -44,7 +45,7 @@ export const computeRealValue = (
     let dismissRecursiveMarkingInjected = lazy;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
-      const keys = ["event", "getTplVariables", "overrideApp"] as const;
+      const keys = ["event", "tplContextId", "overrideApp"] as const;
       for (const key of keys) {
         if (context?.[key]) {
           runtimeContext[key as "event"] = context[key as "event"];
@@ -76,15 +77,24 @@ export const computeRealValue = (
   }
 
   return Object.fromEntries(
-    Object.entries(value).map(([k, v]) => [
-      computeRealValue(k, context, false) as string,
-      computeRealValue(
-        v,
-        context,
-        injectDeep,
-        getNextInternalOptions(internalOptions, false, k)
-      ),
-    ])
+    Object.entries(value)
+      .map(([k, v]) => [
+        computeRealValue(k, context, false),
+        computeRealValue(
+          v,
+          context,
+          injectDeep,
+          getNextInternalOptions(internalOptions, false, k)
+        ),
+      ])
+      .concat(
+        internalOptions?.ignoreSymbols
+          ? []
+          : Object.getOwnPropertySymbols(value).map((k) => [
+              k,
+              (value as Record<string | symbol, unknown>)[k],
+            ])
+      )
   );
 };
 

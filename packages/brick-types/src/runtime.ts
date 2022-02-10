@@ -195,7 +195,8 @@ export interface PluginRuntimeContext {
   /** @internal */
   storyboardContext?: StoryboardContext;
 
-  getTplVariables?: () => Record<string, unknown>;
+  /** @internal */
+  tplContextId?: string;
 }
 
 /** @internal */

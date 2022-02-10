@@ -22,7 +22,8 @@ import { getHistory } from "../history";
 import {
   _internalApiGetCurrentContext,
   _internalApiGetProviderBrick,
-  symbolForParentTemplate,
+  symbolForTplContextId,
+  symbolForIsExternal,
   RuntimeBrickElementWithTplSymbols,
   symbolForParentRefForUseBrickInPortal,
   RuntimeBrick,
@@ -37,6 +38,7 @@ import { clearMenuTitleCache, clearMenuCache } from "./menu";
 import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
 import { getArgsOfCustomApi } from "../core/FlowApi";
 import { getRuntime } from "../runtime";
+import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -599,17 +601,30 @@ function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
 }
 
 function getParentTemplate(brick: RuntimeBrickElement): RuntimeBrickElement {
-  let tpl = brick;
-  while (
-    (tpl =
-      (tpl as RuntimeBrickElementWithTplSymbols)[symbolForParentTemplate] ||
-      (tpl as RuntimeBrickElementWithTplSymbols)[
-        symbolForParentRefForUseBrickInPortal
-      ]?.current ||
-      tpl.parentElement)
-  ) {
+  // Find belonged template.
+  // Traverse up and try to read symbol property on element.
+  // Skip external elements of template.
+  let tpl = brick as RuntimeBrickElementWithTplSymbols;
+  let isExternalOfTpl = tpl[symbolForIsExternal];
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const tplContextId = tpl[symbolForTplContextId];
+    tpl = tplContextId
+      ? getCustomTemplateContext(tplContextId).getBrick().element
+      : tpl[symbolForParentRefForUseBrickInPortal]?.current ||
+        tpl.parentElement;
+    if (!tpl) {
+      return;
+    }
+    if (!isExternalOfTpl) {
+      isExternalOfTpl = tpl[symbolForIsExternal];
+    }
     if (tpl.$$typeof === "custom-template") {
-      return tpl;
+      if (isExternalOfTpl) {
+        isExternalOfTpl = false;
+      } else {
+        return tpl;
+      }
     }
   }
 }

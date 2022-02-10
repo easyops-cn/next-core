@@ -1,38 +1,43 @@
 import { uniqueId } from "lodash";
 import { RuntimeBrick } from "../BrickNode";
+import { StoryboardContextWrapper } from "../StoryboardContext";
+
+const tplContextMap = new Map<string, CustomTemplateContext>();
 
 export class CustomTemplateContext {
-  private contextMap = new Map<string, Record<string, unknown>>();
-  private brickMap = new Map<string, RuntimeBrick>();
-  private propsMap = new Map<string, string[]>();
+  private variables: Record<string, unknown>;
+  public readonly scopedContext = new StoryboardContextWrapper();
+  public readonly id = uniqueId("tpl-ctx-");
 
-  createContext(): string {
-    return uniqueId("tpl-ctx-");
+  constructor(private brick: RuntimeBrick) {
+    tplContextMap.set(this.id, this);
   }
 
-  sealContext(
-    id: string,
-    value: Record<string, unknown>,
-    brick: RuntimeBrick
-  ): void {
-    Object.freeze(value);
-    this.contextMap.set(id, value);
-    this.brickMap.set(id, brick);
-    this.propsMap.set(id, Object.keys(value));
+  setVariables(variables: Record<string, unknown>): void {
+    this.variables = variables;
+    Object.freeze(variables);
   }
 
-  getContext(id: string): Record<string, unknown> {
-    const brick = this.brickMap.get(id);
-    if (brick.element) {
-      const props = this.propsMap.get(id);
+  getVariables(): Record<string, unknown> {
+    const { element } = this.brick;
+    if (element) {
       return Object.fromEntries(
-        props.map((prop) => [prop, (brick.element as any)[prop]])
+        Object.keys(this.variables).map((prop) => [
+          prop,
+          (element as any)[prop],
+        ])
       );
     }
-    return this.contextMap.get(id);
+    return this.variables;
   }
 
-  getBrick(id: string): RuntimeBrick {
-    return this.brickMap.get(id);
+  getBrick(): RuntimeBrick {
+    return this.brick;
   }
+}
+
+export function getCustomTemplateContext(
+  tplContextId: string
+): CustomTemplateContext {
+  return tplContextMap.get(tplContextId);
 }

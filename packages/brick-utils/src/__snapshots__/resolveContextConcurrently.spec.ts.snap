@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`syncResolveContextConcurrently should throw if duplicated context defined 1`] = `"Duplicated context defined: a"`;

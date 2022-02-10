@@ -3545,6 +3545,7 @@
           "scanTemplatesInStoryboard",
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
+          "syncResolveContextConcurrently",
           "toPath",
           "tokTypes",
           "trackContext",

@@ -1,6 +1,5 @@
 import {
   CustomTemplate,
-  ProbablyRuntimeBrick,
   RefForProxy,
   RuntimeBrickConf,
   RuntimeBrickElement,
@@ -16,8 +15,8 @@ export const symbolForComputedPropsFromProxy = Symbol.for(
   "tpl.computedPropsFromProxy"
 );
 export const symbolForRefForProxy = Symbol.for("tpl.refForProxy");
-export const symbolForParentTemplate = Symbol.for("tpl.parentTemplate");
 export const symbolForTplContextId = Symbol.for("tpl.contextId");
+export const symbolForIsExternal = Symbol.for("tpl.isExternal");
 export const symbolForParentRefForUseBrickInPortal = Symbol.for(
   "parentRefForUseBrickInPortal"
 );
@@ -25,11 +24,12 @@ export const symbolForParentRefForUseBrickInPortal = Symbol.for(
 export interface RuntimeBrickConfWithTplSymbols extends RuntimeBrickConf {
   [symbolForComputedPropsFromProxy]?: Record<string, any>;
   [symbolForRefForProxy]?: RefForProxy;
-  [symbolForParentTemplate]?: ProbablyRuntimeBrick;
+  [symbolForIsExternal]?: boolean;
   [symbolForTplContextId]?: string;
 }
 
 export interface RuntimeBrickElementWithTplSymbols extends RuntimeBrickElement {
-  [symbolForParentTemplate]?: RuntimeBrickElementWithTplSymbols;
+  [symbolForTplContextId]?: string;
+  [symbolForIsExternal]?: boolean;
   [symbolForParentRefForUseBrickInPortal]?: RefObject<HTMLElement>;
 }

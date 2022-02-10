@@ -185,7 +185,7 @@ export const developHelper: {
     loadEditorBricks: typeof _dev_only_loadEditorBricks;
     loadDynamicBricksInBrickConf: typeof _dev_only_loadDynamicBricksInBrickConf;
     getFakeKernel: typeof _dev_only_getFakeKernel;
-    checkoutTplContext: typeof _dev_only_checkoutTplContext;
+    checkoutTplContext: (...args: any[]) => void;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -193,11 +193,32 @@ export const developHelper: {
 // @public
 export function DisplayByFeatureFlags(props: React_2.PropsWithChildren<featureFlagsProps>): React_2.ReactElement;
 
-// Warning: (ae-forgotten-export) The symbol "DoTransformOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "doTransform" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
 export function doTransform(data: unknown, to: unknown, options?: DoTransformOptions): unknown;
+
+// @public (undocumented)
+export interface DoTransformOptions {
+    // (undocumented)
+    $$lazyForUseBrick?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "StateOfUseBrick" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    $$stateOfUseBrick?: StateOfUseBrick;
+    // (undocumented)
+    allowInject?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    evaluateOptions?: EvaluateOptions;
+    // (undocumented)
+    tplContextId?: string;
+    // Warning: (ae-forgotten-export) The symbol "TrackingContextItem" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    trackingContextList?: TrackingContextItem[];
+}
 
 // @public
 export function EasyopsEmpty(props: EasyopsEmptyProps): React_2.ReactElement;
@@ -324,10 +345,7 @@ export function logout(): void;
 export function looseCheckIf(ifContainer: IfContainer, context: PluginRuntimeContext): boolean;
 
 // @public
-export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown, options?: {
-    allowInject?: boolean;
-    getTplVariables?: () => Record<string, unknown>;
-}): boolean;
+export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown, options?: Pick<DoTransformOptions, "allowInject" | "tplContextId">): boolean;
 
 // Warning: (ae-internal-missing-underscore) The name "looseCheckIfOfComputed" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -564,6 +582,5 @@ export interface VisitedWorkspace {
 // src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_checkoutTplContext" needs to be exported by the entry point index.d.ts
 
 ```

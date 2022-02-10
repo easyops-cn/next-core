@@ -13,7 +13,6 @@ import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
 import { validatePermissions } from "../internal/checkPermissions";
-import { symbolForTplContextId } from "./CustomTemplates/constants";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -49,6 +48,7 @@ const spyOnGetCurrentContext = jest.spyOn(
   runtime,
   "_internalApiGetCurrentContext"
 );
+const spyOnGetResolver = jest.spyOn(runtime, "_internalApiGetResolver");
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 
 describe("LocationContext", () => {
@@ -349,17 +349,15 @@ describe("LocationContext", () => {
 
       spyOnGetCurrentContext.mockReturnValue(context.getCurrentContext());
 
-      jest
-        .spyOn(context.resolver, "resolveOne")
-        .mockImplementationOnce(
-          async (
-            type: any,
-            resolveConf: ResolveConf,
-            conf: Record<string, any>
-          ) => {
-            Object.assign(conf, resolveConf.transform);
-          }
-        );
+      spyOnGetResolver.mockReturnValueOnce({
+        async resolveOne(
+          type: any,
+          resolveConf: ResolveConf,
+          conf: Record<string, any>
+        ): Promise<void> {
+          Object.assign(conf, resolveConf.transform);
+        },
+      } as any);
 
       jest
         .spyOn(context.resolver, "resolve")
@@ -732,7 +730,6 @@ describe("LocationContext", () => {
                         ],
                       },
                     },
-                    [symbolForTplContextId]: "tpl-1",
                   },
                   {
                     if: "${FLAGS.testing|not}",
@@ -847,17 +844,14 @@ describe("LocationContext", () => {
         title: "good even better default value",
         useBrick: {
           brick: "useBrick-a",
-          [symbolForTplContextId]: "tpl-1",
           properties: {
             useBrick: {
               brick: "useBrick-in-useBrick-b",
-              [symbolForTplContextId]: "tpl-1",
               slots: {
                 content: {
                   bricks: [
                     {
                       brick: "slots-useBrick-in-useBrick-c",
-                      [symbolForTplContextId]: "tpl-1",
                     },
                   ],
                   type: "bricks",
@@ -871,12 +865,10 @@ describe("LocationContext", () => {
                 {
                   brick: "slots-in-useBrick-d",
                   slots: "error",
-                  [symbolForTplContextId]: "tpl-1",
                 },
                 {
                   brick: "slots-in-useBrick-g",
                   slots: null,
-                  [symbolForTplContextId]: "tpl-1",
                 },
                 {
                   brick: "slots-in-useBrick-h",
@@ -885,7 +877,6 @@ describe("LocationContext", () => {
                       brick: "slots-in-brick-i",
                     },
                   ],
-                  [symbolForTplContextId]: "tpl-1",
                 },
               ],
               type: "bricks",
@@ -902,19 +893,15 @@ describe("LocationContext", () => {
                   slots: {
                     content: "slots-in-brick-j",
                   },
-                  [symbolForTplContextId]: "tpl-1",
                 },
                 {
                   useBrick: 2,
-                  [symbolForTplContextId]: "tpl-1",
                 },
                 {
                   useBrick: null,
-                  [symbolForTplContextId]: "tpl-1",
                 },
                 {
                   useBrick: undefined,
-                  [symbolForTplContextId]: "tpl-1",
                 },
               ],
             },
@@ -931,11 +918,9 @@ describe("LocationContext", () => {
             label: "label-2",
             useBrick: {
               brick: "deep-useBrick-e",
-              [symbolForTplContextId]: "tpl-1",
               properties: {
                 useBrick: {
                   brick: "deep-useBrick-in-useBrick-f",
-                  [symbolForTplContextId]: "tpl-1",
                 },
               },
             },

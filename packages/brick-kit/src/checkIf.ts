@@ -1,7 +1,7 @@
 import { PluginRuntimeContext } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
 import { computeRealValue } from "./internal/setProperties";
-import { doTransform } from "./transformProperties";
+import { doTransform, DoTransformOptions } from "./transformProperties";
 import { isPreEvaluated } from "./internal/evaluate";
 
 type GetIf = (rawIf: unknown, ctx: unknown) => unknown;
@@ -95,10 +95,7 @@ export function looseCheckIf(
 export function looseCheckIfByTransform(
   ifContainer: IfContainer,
   data: unknown,
-  options?: {
-    allowInject?: boolean;
-    getTplVariables?: () => Record<string, unknown>;
-  }
+  options?: Pick<DoTransformOptions, "allowInject" | "tplContextId">
 ): boolean {
   return (
     !hasOwnProperty(ifContainer, "if") ||

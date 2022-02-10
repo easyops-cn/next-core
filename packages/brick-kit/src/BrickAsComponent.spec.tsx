@@ -14,8 +14,9 @@ import {
   registerCustomTemplate,
   RuntimeBrickElementWithTplSymbols,
   symbolForParentRefForUseBrickInPortal,
-  CustomTemplateContext,
 } from "./core/exports";
+import { CustomTemplateContext } from "./core/CustomTemplates/CustomTemplateContext";
+import { RuntimeBrick } from "./core/BrickNode";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn(
@@ -40,9 +41,6 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
     id: "steve-test",
   },
 } as any);
-jest
-  .spyOn(runtime, "_internalApiGetTplContext")
-  .mockReturnValue(new CustomTemplateContext());
 const _internalApiLoadDynamicBricksInBrickConf = jest
   .spyOn(runtime, "_internalApiLoadDynamicBricksInBrickConf")
   .mockReturnValue(Promise.resolve());
@@ -705,7 +703,7 @@ describe("BrickAsComponent", () => {
         '<div slot="tplOutsizeSlots">default outsize slots</div>' +
         "</basic-bricks.micro-view>" +
         "</steve-test.tpl-use-brick-in-template>" +
-        '<div id="toolDiv" slot="toolbar">topToolDivContent</div>' +
+        '<div id="toolDiv" slot="toolbar">[object Object]</div>' +
         "</basic-bricks.micro-view>" +
         "</steve-test.tpl-custom-template>"
     );
@@ -760,39 +758,39 @@ describe("BrickAsComponent", () => {
       ref: "button",
       type: "basic-bricks.general-button",
     };
-    const context = new CustomTemplateContext();
-    const tplContextId = context.createContext();
-    const proxyRefs = new Map();
-    proxyRefs.set("button", {
-      brick: "div",
-      element: buttonElement,
-    });
-    context.sealContext(
-      tplContextId,
-      {},
-      {
-        type: "steve-test-only.tpl-steve-test-11",
-        element: tplElement,
-        properties: {},
+    const tplBrick: RuntimeBrick = {
+      type: "steve-test-only.tpl-steve-test-11",
+      element: tplElement,
+      properties: {},
+      events: {
+        buttonClick: [
+          {
+            action: "console.log",
+            args: ["outside button click"],
+          },
+        ],
+      },
+      proxy: {
         events: {
-          buttonClick: [
-            {
-              action: "console.log",
-              args: ["outside button click"],
-            },
-          ],
-        },
-        proxy: {
-          events: {
-            buttonClick: {
-              ref: "button",
-              refEvent: "general.button.click",
-            },
+          buttonClick: {
+            ref: "button",
+            refEvent: "general.button.click",
           },
         },
-        proxyRefs: proxyRefs,
-      }
-    );
+      },
+      proxyRefs: new Map<string, unknown>([
+        [
+          "button",
+          {
+            brick: "div",
+            element: buttonElement,
+          },
+        ],
+      ]),
+    };
+    const tplContext = new CustomTemplateContext(tplBrick);
+    const tplContextId = tplContext.id;
+    tplContext.setVariables({});
     listenerUtils.bindListeners(buttonElement, {
       "general.button.click": [
         {
@@ -809,7 +807,7 @@ describe("BrickAsComponent", () => {
         },
       ],
     });
-    handleProxyOfParentTemplate(brick, tplContextId, context);
+    handleProxyOfParentTemplate(brick, tplContextId);
 
     expect((buttonElement as any).$$proxyEvents.length).toBe(1);
     buttonElement.dispatchEvent(

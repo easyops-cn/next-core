@@ -8,7 +8,8 @@ import { setRealProperties } from "../internal/setProperties";
 import { RuntimeCustomTemplateProxy } from "./CustomTemplates/internalInterfaces";
 import {
   handleProxyOfCustomTemplate,
-  symbolForParentTemplate,
+  symbolForTplContextId,
+  symbolForIsExternal,
   RuntimeBrickElementWithTplSymbols,
 } from "./exports";
 
@@ -29,7 +30,8 @@ export interface RuntimeBrick {
   refForProxy?: {
     brick?: RuntimeBrick;
   };
-  parentTemplate?: RuntimeBrick;
+  tplContextId?: string;
+  isExternalOfTpl?: boolean;
   isParent?: boolean;
   ref?: string;
 }
@@ -89,10 +91,15 @@ export class BrickNode {
   // Handle proxies later after bricks in portal and main both mounted.
   afterMount(): void {
     const brick = this.$$brick;
-    if (brick.parentTemplate) {
+    if (brick.tplContextId) {
       (brick.element as RuntimeBrickElementWithTplSymbols)[
-        symbolForParentTemplate
-      ] = brick.parentTemplate.element;
+        symbolForTplContextId
+      ] = brick.tplContextId;
+    }
+    if (brick.isExternalOfTpl) {
+      (brick.element as RuntimeBrickElementWithTplSymbols)[
+        symbolForIsExternal
+      ] = brick.isExternalOfTpl;
     }
     handleProxyOfCustomTemplate(brick);
     this.children.forEach((child) => {

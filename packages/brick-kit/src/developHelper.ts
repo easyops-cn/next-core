@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import { asyncProcessBrick } from "@next-core/brick-utils";
 import { BrickConf } from "@next-core/brick-types";
 import { brickTemplateRegistry } from "./core/TemplateRegistries";
@@ -12,7 +13,6 @@ import {
   _dev_only_getTemplatePackages,
   _dev_only_getFakeKernel,
   _dev_only_loadEditorBricks,
-  _dev_only_checkoutTplContext,
 } from "./core/exports";
 
 /** @internal */
@@ -34,5 +34,6 @@ export const developHelper = {
   loadEditorBricks: _dev_only_loadEditorBricks,
   loadDynamicBricksInBrickConf: _dev_only_loadDynamicBricksInBrickConf,
   getFakeKernel: _dev_only_getFakeKernel,
-  checkoutTplContext: _dev_only_checkoutTplContext,
+  // Keep it for backward-compatibility.
+  checkoutTplContext: noop,
 };

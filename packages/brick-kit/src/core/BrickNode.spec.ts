@@ -1,9 +1,9 @@
 import { RuntimeBrickElement } from "@next-core/brick-types";
 import { bindListeners } from "../internal/bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
+import { symbolForIsExternal, symbolForTplContextId } from "./CustomTemplates";
 import {
   handleProxyOfCustomTemplate,
-  symbolForParentTemplate,
   RuntimeBrickElementWithTplSymbols,
 } from "./exports";
 
@@ -82,16 +82,18 @@ describe("BrickNode", () => {
       properties: {},
       events: {},
       children: [],
-      parentTemplate: {
-        element: document.createElement("span"),
-      },
+      tplContextId: "tpl-ctx-1",
+      isExternalOfTpl: true,
     };
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount() as RuntimeBrickElement;
     brickNode.afterMount();
     expect(
-      (node as RuntimeBrickElementWithTplSymbols)[symbolForParentTemplate]
-    ).toBe(runtimeBrick.parentTemplate.element);
+      (node as RuntimeBrickElementWithTplSymbols)[symbolForTplContextId]
+    ).toBe("tpl-ctx-1");
+    expect(
+      (node as RuntimeBrickElementWithTplSymbols)[symbolForIsExternal]
+    ).toBe(true);
   });
 
   it("should unmount", () => {

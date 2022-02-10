@@ -59,7 +59,6 @@ Object {
                     },
                   },
                   Symbol(tpl.refForProxy): Object {},
-                  Symbol(tpl.parentTemplate): undefined,
                   Symbol(tpl.contextId): "tpl-ctx-1",
                 },
                 Object {
@@ -69,7 +68,6 @@ Object {
                     "sharedPropOfInput": "shared",
                   },
                   Symbol(tpl.refForProxy): Object {},
-                  Symbol(tpl.parentTemplate): undefined,
                   Symbol(tpl.contextId): "tpl-ctx-1",
                 },
                 Object {
@@ -79,7 +77,6 @@ Object {
                     "sharedPropOfLink": "linked:shared",
                   },
                   Symbol(tpl.refForProxy): Object {},
-                  Symbol(tpl.parentTemplate): undefined,
                   Symbol(tpl.contextId): "tpl-ctx-1",
                 },
                 Object {
@@ -88,158 +85,6 @@ Object {
                   "slots": Object {},
                   Symbol(tpl.computedPropsFromProxy): Object {},
                   Symbol(tpl.refForProxy): undefined,
-                  Symbol(tpl.parentTemplate): Object {
-                    "proxy": Object {
-                      "$$properties": Object {
-                        "appendColumns": Object {
-                          "$$mergeBase": Object {
-                            "baseValue": undefined,
-                            "context": Object {
-                              "getTplVariables": [Function],
-                            },
-                            "mergeType": "array",
-                            "proxies": Array [
-                              [Circular],
-                            ],
-                          },
-                          "$$reversedRef": "appendColumns",
-                          "extraOneWayRefs": undefined,
-                          "mergeMethod": "append",
-                          "mergeProperty": "columns",
-                          "mergeType": "array",
-                          "ref": "micro-view",
-                        },
-                        "button": Object {
-                          "$$reversedRef": "button",
-                          "extraOneWayRefs": undefined,
-                          "ref": "button",
-                          "refProperty": "buttonName",
-                        },
-                        "isDanger": Object {
-                          "$$reversedRef": "isDanger",
-                          "extraOneWayRefs": undefined,
-                          "ref": "button",
-                          "refTransform": Object {
-                            "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
-                            "style": Object {
-                              "display": "<% DATA.isDanger ? 'inline' : 'block' %>",
-                            },
-                          },
-                        },
-                        "noGap": Object {
-                          "$$reversedRef": "noGap",
-                          "extraOneWayRefs": undefined,
-                          "ref": "micro-view",
-                          "refProperty": "noGap",
-                        },
-                        "sharedProp": Object {
-                          "$$reversedRef": "sharedProp",
-                          "extraOneWayRefs": Array [
-                            Object {
-                              "$$reversedRef": "sharedProp",
-                              "ref": "input",
-                              "refProperty": "sharedPropOfInput",
-                            },
-                            Object {
-                              "$$reversedRef": "sharedProp",
-                              "ref": "link",
-                              "refTransform": Object {
-                                "sharedPropOfLink": "<% \`linked:\${DATA.sharedProp}\` %>",
-                              },
-                            },
-                            Object {
-                              "$$reversedRef": "sharedProp",
-                              "ref": "micro-view",
-                              "refProperty": "sharedPropOfMicroView",
-                            },
-                          ],
-                          "ref": "button",
-                          "refProperty": "sharedPropOfButton",
-                        },
-                      },
-                      "events": Object {
-                        "button.click": Object {
-                          "ref": "button",
-                          "refEvent": "general.button.click",
-                        },
-                      },
-                      "methods": Object {
-                        "tell": Object {
-                          "ref": "button",
-                          "refMethod": "tellStory",
-                        },
-                      },
-                      "properties": Object {
-                        "appendColumns": Object {
-                          "mergeMethod": "append",
-                          "mergeProperty": "columns",
-                          "mergeType": "array",
-                          "ref": "micro-view",
-                        },
-                        "button": Object {
-                          "ref": "button",
-                          "refProperty": "buttonName",
-                        },
-                        "isDanger": Object {
-                          "ref": "button",
-                          "refTransform": Object {
-                            "buttonType": "<% DATA.isDanger ? 'danger' : 'default' %>",
-                            "style": Object {
-                              "display": "<% DATA.isDanger ? 'inline' : 'block' %>",
-                            },
-                          },
-                        },
-                        "noGap": Object {
-                          "ref": "micro-view",
-                          "refProperty": "noGap",
-                        },
-                        "sharedProp": Object {
-                          "extraOneWayRefs": Array [
-                            Object {
-                              "ref": "input",
-                              "refProperty": "sharedPropOfInput",
-                            },
-                            Object {
-                              "ref": "link",
-                              "refTransform": Object {
-                                "sharedPropOfLink": "<% \`linked:\${DATA.sharedProp}\` %>",
-                              },
-                            },
-                            Object {
-                              "ref": "micro-view",
-                              "refProperty": "sharedPropOfMicroView",
-                            },
-                          ],
-                          "ref": "button",
-                          "refProperty": "sharedPropOfButton",
-                        },
-                      },
-                      "slots": Object {
-                        "extraContent": Object {
-                          "$$reversedRef": "extraContent",
-                          "ref": "micro-view",
-                          "refSlot": "content",
-                        },
-                        "tools": Object {
-                          "$$reversedRef": "tools",
-                          "ref": "micro-view",
-                          "refPosition": 0,
-                          "refSlot": "toolbar",
-                        },
-                      },
-                    },
-                    "proxyRefs": Map {
-                      "button" => Object {},
-                      "input" => Object {},
-                      "link" => Object {},
-                      "useBrick-slot-useBrick-ref-d" => Object {},
-                      "useBrick-slot-ref-c" => Object {},
-                      "useBrick-slot-useBrick-deep-ref-f" => Object {},
-                      "useBrick-in-useBrick-ref-b" => Object {},
-                      "useBrick-ref-a" => Object {},
-                      "micro-view" => Object {},
-                    },
-                  },
                   Symbol(tpl.contextId): "tpl-ctx-1",
                 },
                 Object {
@@ -251,6 +96,7 @@ Object {
                         "useBrick": Object {
                           "brick": "b",
                           "ref": "useBrick-in-useBrick-ref-b",
+                          Symbol(tpl.contextId): "tpl-ctx-1",
                         },
                       },
                       "ref": "useBrick-ref-a",
@@ -263,9 +109,11 @@ Object {
                                 "useBrick": Object {
                                   "brick": "d",
                                   "ref": "useBrick-slot-useBrick-ref-d",
+                                  Symbol(tpl.contextId): "tpl-ctx-1",
                                 },
                               },
                               "ref": "useBrick-slot-ref-c",
+                              Symbol(tpl.contextId): "tpl-ctx-1",
                             },
                             Object {
                               "brick": "f",
@@ -277,21 +125,23 @@ Object {
                                     "useBrick": Object {
                                       "brick": "f",
                                       "ref": "useBrick-slot-useBrick-deep-ref-f",
+                                      Symbol(tpl.contextId): "tpl-ctx-1",
                                     },
                                   },
                                 ],
                               },
+                              Symbol(tpl.contextId): "tpl-ctx-1",
                             },
                           ],
                           "type": "bricks",
                         },
                       },
+                      Symbol(tpl.contextId): "tpl-ctx-1",
                     },
                   },
                   "slots": Object {},
                   Symbol(tpl.computedPropsFromProxy): Object {},
                   Symbol(tpl.refForProxy): undefined,
-                  Symbol(tpl.parentTemplate): undefined,
                   Symbol(tpl.contextId): "tpl-ctx-1",
                 },
                 Object {
@@ -299,6 +149,7 @@ Object {
                   "properties": Object {
                     "textContent": "slotted extra content!",
                   },
+                  Symbol(tpl.isExternal): true,
                 },
               ],
               "type": "bricks",
@@ -310,6 +161,7 @@ Object {
                   "properties": Object {
                     "textContent": "slotted tools!",
                   },
+                  Symbol(tpl.isExternal): true,
                 },
               ],
               "type": "bricks",
@@ -321,7 +173,6 @@ Object {
             "sharedPropOfMicroView": "shared",
           },
           Symbol(tpl.refForProxy): Object {},
-          Symbol(tpl.parentTemplate): undefined,
           Symbol(tpl.contextId): "tpl-ctx-1",
         },
       ],
@@ -339,7 +190,7 @@ Object {
         "$$mergeBase": Object {
           "baseValue": undefined,
           "context": Object {
-            "getTplVariables": [Function],
+            "tplContextId": "tpl-ctx-1",
           },
           "mergeType": "array",
           "proxies": Array [
@@ -476,11 +327,6 @@ Object {
     "button" => Object {},
     "input" => Object {},
     "link" => Object {},
-    "useBrick-slot-useBrick-ref-d" => Object {},
-    "useBrick-slot-ref-c" => Object {},
-    "useBrick-slot-useBrick-deep-ref-f" => Object {},
-    "useBrick-in-useBrick-ref-b" => Object {},
-    "useBrick-ref-a" => Object {},
     "micro-view" => Object {},
   },
 }
@@ -498,7 +344,6 @@ Object {
           "slots": Object {},
           Symbol(tpl.computedPropsFromProxy): Object {},
           Symbol(tpl.refForProxy): undefined,
-          Symbol(tpl.parentTemplate): undefined,
           Symbol(tpl.contextId): "tpl-ctx-2",
         },
       ],
