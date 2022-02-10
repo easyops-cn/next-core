@@ -256,6 +256,7 @@ html[data-theme="dark-v2"],
   --antd-btn-danger-active-bg: var(--color-error-active);
   --antd-btn-danger-active-color: var(--antd-btn-danger-color);
 
+  --antd-btn-link-color: var(--color-brand);
   --antd-btn-link-hover-color: var(--color-brand-hover);
   --antd-btn-link-active-color: var(--color-brand-active);
 
