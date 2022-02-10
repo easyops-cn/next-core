@@ -329,6 +329,10 @@ Object {
     "link" => Object {},
     "micro-view" => Object {},
   },
+  "stateNames": Array [
+    "scopedData",
+  ],
+  "tplContextId": "tpl-ctx-1",
 }
 `;
 
@@ -357,5 +361,7 @@ exports[`expandCustomTemplate should work if proxy is empty 2`] = `
 Object {
   "proxy": Object {},
   "proxyRefs": Map {},
+  "stateNames": undefined,
+  "tplContextId": "tpl-ctx-2",
 }
 `;

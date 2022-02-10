@@ -123,8 +123,8 @@ export function evaluate(
   const attemptToVisitEvent = attemptToVisitGlobals.has("EVENT");
   const attemptToVisitData = attemptToVisitGlobals.has("DATA");
   const attemptToVisitTpl = attemptToVisitGlobals.has("TPL");
-  const attemptToVisitVar = attemptToVisitGlobals.has("VAR");
-  const attemptToVisitTplOrVar = attemptToVisitTpl || attemptToVisitVar;
+  const attemptToVisitState = attemptToVisitGlobals.has("STATE");
+  const attemptToVisitTplOrState = attemptToVisitTpl || attemptToVisitState;
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
@@ -138,8 +138,8 @@ export function evaluate(
     }
   }
 
-  const missingTplOrVar =
-    attemptToVisitTplOrVar && !hasOwnProperty(runtimeContext, "tplContextId");
+  const missingTplOrState =
+    attemptToVisitTplOrState && !hasOwnProperty(runtimeContext, "tplContextId");
   const missingData =
     attemptToVisitData && !hasOwnProperty(runtimeContext, "data");
 
@@ -151,9 +151,9 @@ export function evaluate(
         } as PreEvaluated)
       : raw;
 
-  // Since `EVENT`, `DATA`, `TPL` and `VAR` are provided in different context,
+  // Since `EVENT`, `DATA`, `TPL` and `STATE` are provided in different context,
   // whenever missing one of them, memorize the current context for later consuming.
-  if (missingEvent || missingData || missingTplOrVar) {
+  if (missingEvent || missingData || missingTplOrState) {
     return rawWithContext;
   }
 
@@ -161,18 +161,18 @@ export function evaluate(
     globalVariables.DATA = runtimeContext.data;
   }
 
-  if (attemptToVisitTplOrVar && runtimeContext.tplContextId) {
+  if (attemptToVisitTplOrState && runtimeContext.tplContextId) {
     const tplContext = getCustomTemplateContext(runtimeContext.tplContextId);
     if (attemptToVisitTpl) {
       globalVariables.TPL = tplContext.getVariables();
     }
-    if (attemptToVisitVar) {
-      globalVariables.VAR = getDynamicReadOnlyProxy({
+    if (attemptToVisitState) {
+      globalVariables.STATE = getDynamicReadOnlyProxy({
         get(target, key: string) {
-          return tplContext.scopedContext.getValue(key);
+          return tplContext.state.getValue(key);
         },
         ownKeys() {
-          return Array.from(tplContext.scopedContext.get().keys());
+          return Array.from(tplContext.state.get().keys());
         },
       });
     }

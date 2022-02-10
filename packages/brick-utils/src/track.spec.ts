@@ -1,4 +1,4 @@
-import { trackContext } from "./trackContext";
+import { trackContext, trackState } from "./track";
 
 const consoleWarn = jest
   .spyOn(console, "warn")
@@ -25,6 +25,31 @@ describe("trackContext", () => {
 
   it("should return false if no CTX usage were found", () => {
     expect(trackContext("<% 'track context', () => DATA.bad %>")).toBe(false);
+    expect(consoleWarn).toBeCalled();
+  });
+});
+
+describe("trackState", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should return tracking states", () => {
+    expect(
+      trackState(
+        "<% 'track state', STATE.good1(STATE['good2'], () => STATE.good3, DATA.bad1, STATE[bad2], (STATE) => STATE.bad3, STATE) %>"
+      )
+    ).toEqual(["good1", "good2", "good3"]);
+  });
+
+  it("should return false for non-track-state mode", () => {
+    expect(trackState("<% STATE.bad %>")).toBe(false);
+    expect(trackState("<% 'oops', 'track state', STATE.bad %>")).toBe(false);
+    expect(trackState("<% track.STATE, STATE.bad %>")).toBe(false);
+  });
+
+  it("should return false if no STATE usage were found", () => {
+    expect(trackState("<% 'track state', () => DATA.bad %>")).toBe(false);
     expect(consoleWarn).toBeCalled();
   });
 });

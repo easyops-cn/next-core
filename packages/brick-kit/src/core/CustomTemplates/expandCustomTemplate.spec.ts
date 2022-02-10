@@ -82,7 +82,7 @@ describe("expandCustomTemplate", () => {
           },
         },
       },
-      context: [
+      state: [
         {
           name: "scopedData",
           value: "Yes",

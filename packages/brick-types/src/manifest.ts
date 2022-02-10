@@ -1477,9 +1477,15 @@ export interface CustomTemplate {
   /** {@inheritDoc CustomTemplateProxy} */
   proxy?: CustomTemplateProxy;
 
-  /** 模板级上下文配置列表 */
-  context?: ContextConf[];
+  /** 状态数据配置列表。 */
+  state?: CustomTemplateState[];
 }
+
+/** 自定义模板状态数据配置。 */
+export type CustomTemplateState = Pick<
+  ContextConf,
+  "name" | "value" | "if" | "resolve"
+>;
 
 /**
  * 自定义模板构造声明。

@@ -18,8 +18,11 @@ import { RuntimeBrick, _internalApiGetResolver } from "./exports";
 
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
+  readonly isTemplateState: boolean;
 
-  constructor(private isScopedContext?: boolean) {}
+  constructor(isTemplateState?: boolean) {
+    this.isTemplateState = isTemplateState;
+  }
 
   set(name: string, item: StoryboardContextItem): void {
     if (this.data.has(name)) {
@@ -39,6 +42,19 @@ export class StoryboardContextWrapper {
     return (this.data.get(name) as StoryboardContextItemFreeVariable)?.value;
   }
 
+  updateValue(name: string, value: unknown): void {
+    const item = this.data.get(name) as StoryboardContextItemFreeVariable;
+    item.value = value;
+    item.eventTarget?.dispatchEvent(
+      new CustomEvent(
+        this.isTemplateState ? "state.change" : "context.change",
+        {
+          detail: value,
+        }
+      )
+    );
+  }
+
   async define(
     contextConfs: ContextConf[],
     coreContext: PluginRuntimeContext,
@@ -49,7 +65,7 @@ export class StoryboardContextWrapper {
         contextConfs,
         (contextConf: ContextConf) =>
           resolveStoryboardContext(
-            this.isScopedContext,
+            this.isTemplateState,
             contextConf,
             coreContext,
             this,
@@ -62,25 +78,25 @@ export class StoryboardContextWrapper {
   syncDefine(
     contextConfs: ContextConf[],
     coreContext: PluginRuntimeContext,
-    brick?: RuntimeBrick
+    brick: RuntimeBrick
   ): void {
     if (Array.isArray(contextConfs)) {
       syncResolveContextConcurrently(contextConfs, (contextConf: ContextConf) =>
-        resolveSyncStoryboardContext(contextConf, coreContext, this, brick)
+        syncResolveStoryboardContext(contextConf, coreContext, this, brick)
       );
     }
   }
 }
 
 async function resolveStoryboardContext(
-  isScopedContext: boolean,
+  isTemplateState: boolean,
   contextConf: ContextConf,
   coreContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick
 ): Promise<boolean> {
   if (contextConf.property) {
-    if (isScopedContext) {
+    if (isTemplateState) {
       throw new Error(
         "Setting `property` is not allowed in template scoped context"
       );
@@ -112,28 +128,64 @@ async function resolveNormalStoryboardContext(
     return false;
   }
   let isResolve = false;
-  let value: unknown;
-  if (contextConf.resolve) {
-    if (looseCheckIf(contextConf.resolve, coreContext)) {
-      isResolve = true;
-      const valueConf: Record<string, unknown> = {};
-      await _internalApiGetResolver().resolveOne(
-        "reference",
-        {
-          transform: "value",
-          transformMapArray: false,
-          ...contextConf.resolve,
-        },
-        valueConf,
-        null,
-        coreContext
-      );
-      value = valueConf.value;
-    } else if (!hasOwnProperty(contextConf, "value")) {
-      return false;
+  let value = getDefinedTemplateState(
+    contextConf,
+    storyboardContextWrapper,
+    brick
+  );
+  if (value === undefined) {
+    if (contextConf.resolve) {
+      if (looseCheckIf(contextConf.resolve, coreContext)) {
+        isResolve = true;
+        const valueConf: Record<string, unknown> = {};
+        await _internalApiGetResolver().resolveOne(
+          "reference",
+          {
+            transform: "value",
+            transformMapArray: false,
+            ...contextConf.resolve,
+          },
+          valueConf,
+          null,
+          coreContext
+        );
+        value = valueConf.value;
+      } else if (!hasOwnProperty(contextConf, "value")) {
+        return false;
+      }
+    }
+    if (!isResolve && contextConf.value !== undefined) {
+      value = computeRealValue(contextConf.value, coreContext, true);
     }
   }
-  if (!isResolve && contextConf.value !== undefined) {
+  resolveFreeVariableValue(
+    value,
+    contextConf,
+    coreContext,
+    storyboardContextWrapper,
+    brick
+  );
+  return true;
+}
+
+function syncResolveStoryboardContext(
+  contextConf: ContextConf,
+  coreContext: PluginRuntimeContext,
+  storyboardContextWrapper: StoryboardContextWrapper,
+  brick?: RuntimeBrick
+): boolean {
+  if (!looseCheckIf(contextConf, coreContext)) {
+    return false;
+  }
+  if (contextConf.resolve) {
+    throw new Error("resolve is now allowed here");
+  }
+  let value = getDefinedTemplateState(
+    contextConf,
+    storyboardContextWrapper,
+    brick
+  );
+  if (value === undefined) {
     value = computeRealValue(contextConf.value, coreContext, true);
   }
   resolveFreeVariableValue(
@@ -146,27 +198,18 @@ async function resolveNormalStoryboardContext(
   return true;
 }
 
-function resolveSyncStoryboardContext(
+function getDefinedTemplateState(
   contextConf: ContextConf,
-  coreContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
-  brick?: RuntimeBrick
-): boolean {
-  if (!looseCheckIf(contextConf, coreContext)) {
-    return false;
+  brick: RuntimeBrick
+): unknown {
+  if (
+    storyboardContextWrapper.isTemplateState &&
+    brick.properties &&
+    hasOwnProperty(brick.properties, contextConf.name)
+  ) {
+    return brick.properties[contextConf.name];
   }
-  if (contextConf.resolve) {
-    throw new Error("context.resolve is now allowed here");
-  }
-  const value = computeRealValue(contextConf.value, coreContext, true);
-  resolveFreeVariableValue(
-    value,
-    contextConf,
-    coreContext,
-    storyboardContextWrapper,
-    brick
-  );
-  return true;
 }
 
 function resolveFreeVariableValue(

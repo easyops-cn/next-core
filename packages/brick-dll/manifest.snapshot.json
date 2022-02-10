@@ -3549,6 +3549,7 @@
           "toPath",
           "tokTypes",
           "trackContext",
+          "trackState",
           "transform",
           "transformAndInject",
           "visitStoryboardExpressions",

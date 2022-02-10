@@ -540,6 +540,7 @@ describe("syncResolveContextConcurrently", () => {
               args: [100],
             },
           },
+
           {
             name: "a",
             resolve: {
@@ -548,9 +549,10 @@ describe("syncResolveContextConcurrently", () => {
             },
           },
         ],
+
         syncProcess
       );
-    }).toThrowErrorMatchingSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`"Duplicated context defined: a"`);
   });
 });
 

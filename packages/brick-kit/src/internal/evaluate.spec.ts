@@ -161,7 +161,7 @@ tplContext.setVariables({
   quality: "good",
   num: 2,
 });
-tplContext.scopedContext.set("scopedData", {
+tplContext.state.set("scopedData", {
   type: "free-variable",
   value: "Yes",
 });
@@ -311,7 +311,7 @@ describe("evaluate", () => {
   it.each<[string, any]>([
     ["<% [] %>", []],
     ["<% TPL.quality %>", "good"],
-    ["<% VAR.scopedData %>", "Yes"],
+    ["<% STATE.scopedData %>", "Yes"],
   ])("evaluate(%j, { tplContextId }) should return %j", (raw, result) => {
     expect(
       evaluate(raw, {

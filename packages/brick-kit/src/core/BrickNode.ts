@@ -27,6 +27,7 @@ export interface RuntimeBrick {
   bg?: boolean;
   proxy?: RuntimeCustomTemplateProxy;
   proxyRefs?: Map<string, RefForProxy>;
+  stateNames?: string[];
   refForProxy?: {
     brick?: RuntimeBrick;
   };

@@ -5,6 +5,7 @@ import {
   inject,
   isEvaluable,
   trackContext,
+  trackState,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -167,9 +168,11 @@ export function computeRealProperties(
       }
       if (Array.isArray(trackingContextList) && isEvaluable(propValue)) {
         const contextNames = trackContext(propValue);
-        if (contextNames) {
+        const stateNames = trackState(propValue);
+        if (contextNames || stateNames) {
           trackingContextList.push({
             contextNames,
+            stateNames,
             propName,
             propValue,
           });

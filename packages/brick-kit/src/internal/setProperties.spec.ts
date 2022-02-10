@@ -649,7 +649,7 @@ describe("computeRealProperties", () => {
     computeRealProperties(
       {
         title: "<% 'track context', CTX.hello + CTX.world %>",
-        message: "<% 'track context', CTX.hola %>",
+        message: "<% 'track state', STATE.hola %>",
         extra: "<% CTX.any %>",
       },
       context,
@@ -659,13 +659,15 @@ describe("computeRealProperties", () => {
     expect(trackingContextList).toEqual([
       {
         contextNames: ["hello", "world"],
+        stateNames: false,
         propName: "title",
         propValue: "<% 'track context', CTX.hello + CTX.world %>",
       },
       {
-        contextNames: ["hola"],
+        contextNames: false,
+        stateNames: ["hola"],
         propName: "message",
-        propValue: "<% 'track context', CTX.hola %>",
+        propValue: "<% 'track state', STATE.hola %>",
       },
     ]);
   });

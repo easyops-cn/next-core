@@ -6,6 +6,7 @@ import {
   isEvaluable,
   trackContext,
   transformAndInject,
+  trackState,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -137,9 +138,11 @@ export function doTransform(
       .map(([k, v]) => {
         if (Array.isArray(options?.trackingContextList) && isEvaluable(v)) {
           const contextNames = trackContext(v);
-          if (contextNames) {
+          const stateNames = trackState(v);
+          if (contextNames || stateNames) {
             options.trackingContextList.push({
               contextNames,
+              stateNames,
               propName: k,
               propValue: v,
             });

@@ -882,9 +882,9 @@ export interface CustomDisplay<T = any, O = Record<string, any>> {
 // @public
 export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
-    context?: ContextConf[];
     name: string;
     proxy?: CustomTemplateProxy;
+    state?: CustomTemplateState[];
 }
 
 // @public
@@ -992,6 +992,9 @@ export interface CustomTemplateProxyWithExtra {
     extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
     ref: string;
 }
+
+// @public
+export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve">;
 
 // @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {

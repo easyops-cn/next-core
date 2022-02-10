@@ -63,8 +63,8 @@ export function expandCustomTemplate(
 ): RuntimeBrickConf {
   const tplContext = new CustomTemplateContext(proxyBrick);
   const template = customTemplateRegistry.get(brickConf.brick);
-  if (Array.isArray(template.context)) {
-    tplContext.scopedContext.syncDefine(template.context, context, proxyBrick);
+  if (Array.isArray(template.state)) {
+    tplContext.state.syncDefine(template.state, context, proxyBrick);
   }
   return lowLevelExpandCustomTemplate(
     template,
@@ -82,12 +82,8 @@ export async function asyncExpandCustomTemplate(
 ): Promise<RuntimeBrickConf> {
   const tplContext = new CustomTemplateContext(proxyBrick);
   const template = customTemplateRegistry.get(brickConf.brick);
-  if (Array.isArray(template.context)) {
-    await tplContext.scopedContext.define(
-      template.context,
-      context,
-      proxyBrick
-    );
+  if (Array.isArray(template.state)) {
+    await tplContext.state.define(template.state, context, proxyBrick);
   }
   return lowLevelExpandCustomTemplate(
     template,
@@ -105,7 +101,7 @@ function lowLevelExpandCustomTemplate(
   context: PluginRuntimeContext,
   tplContext: CustomTemplateContext
 ): RuntimeBrickConf {
-  const { bricks, proxy } = template;
+  const { bricks, proxy, state } = template;
   const {
     properties: templateProperties,
     slots: externalSlots,
@@ -119,6 +115,7 @@ function lowLevelExpandCustomTemplate(
   };
   proxyBrick.proxy = proxyCopy;
   proxyBrick.proxyRefs = new Map();
+  proxyBrick.stateNames = state?.map((item) => item.name);
 
   const refToBrickConf = collectRefsInTemplate(template);
 

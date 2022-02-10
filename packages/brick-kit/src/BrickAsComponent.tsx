@@ -119,16 +119,16 @@ const getCurrentRunTimeBrick = (
   data: unknown
 ): RuntimeBrick => {
   const trackingContextList: TrackingContextItem[] = [];
-
+  const tplContextId = (useBrick as RuntimeBrickConfWithTplSymbols)[
+    symbolForTplContextId
+  ];
   const transformOption: DoTransformOptions = {
     // Keep lazy fields inside `useBrick` inside the `properties`.
     // They will be transformed by their `BrickAsComponent` later.
     $$lazyForUseBrick: true,
     trackingContextList,
     allowInject: true,
-    tplContextId: (useBrick as RuntimeBrickConfWithTplSymbols)[
-      symbolForTplContextId
-    ],
+    tplContextId,
   };
 
   const properties = doTransform(
@@ -146,7 +146,10 @@ const getCurrentRunTimeBrick = (
 
   const runtimeContext = _internalApiGetCurrentContext();
 
-  listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+  listenOnTrackingContext(brick, trackingContextList, {
+    ...runtimeContext,
+    tplContextId,
+  });
 
   return brick;
 };
@@ -209,11 +212,14 @@ export const handleProxyOfParentTemplate = (
       singleRefBrickProxyMap.set(brick.ref, {
         brick: proxyBrick,
       });
-      handleProxyOfCustomTemplate({
-        ...tplBrick,
-        proxyRefs: singleRefBrickProxyMap,
-        proxy: getFilterProxy(tplBrick.proxy, brick.ref),
-      });
+      handleProxyOfCustomTemplate(
+        {
+          ...tplBrick,
+          proxyRefs: singleRefBrickProxyMap,
+          proxy: getFilterProxy(tplBrick.proxy, brick.ref),
+        },
+        true
+      );
       setRealProperties(tplBrick.element, tplBrick.properties || {});
     }
   }

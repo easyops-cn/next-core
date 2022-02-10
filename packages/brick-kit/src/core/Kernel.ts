@@ -333,7 +333,7 @@ export class Kernel {
             {
               bricks: tpl.bricks,
               proxy: tpl.proxy,
-              context: tpl.context,
+              state: tpl.state,
             },
             storyboard.app?.id
           );
