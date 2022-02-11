@@ -39,6 +39,7 @@ export function handleProxyOfCustomTemplate(
   }
 
   if (!reRun && brick.stateNames) {
+    // Define properties from state for tpl.
     const getState = (): StoryboardContextWrapper =>
       getCustomTemplateContext(brick.tplContextId).state;
     for (const propName of brick.stateNames) {
@@ -47,7 +48,7 @@ export function handleProxyOfCustomTemplate(
           return getState().getValue(propName);
         },
         set: function (value: unknown) {
-          getState().updateValue(propName, value);
+          getState().updateValue(propName, value, "replace");
         },
         enumerable: true,
       });

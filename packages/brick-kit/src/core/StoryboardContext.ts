@@ -8,6 +8,7 @@ import {
 } from "@next-core/brick-types";
 import {
   hasOwnProperty,
+  isObject,
   resolveContextConcurrently,
   syncResolveContextConcurrently,
 } from "@next-core/brick-utils";
@@ -38,18 +39,60 @@ export class StoryboardContextWrapper {
     return this.data;
   }
 
+  /** Get value of free-variable only. */
   getValue(name: string): unknown {
     return (this.data.get(name) as StoryboardContextItemFreeVariable)?.value;
   }
 
-  updateValue(name: string, value: unknown): void {
+  updateValue(
+    name: string,
+    value: unknown,
+    method: "assign" | "replace"
+  ): void {
+    if (!this.data.has(name)) {
+      if (this.isTemplateState) {
+        throw new Error(`State not found: ${name}`);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Context "${name}" is not declared, we recommend declaring it first.`
+        );
+        this.set(name, {
+          type: "free-variable",
+          value,
+        });
+        return;
+      }
+    }
+
     const item = this.data.get(name) as StoryboardContextItemFreeVariable;
-    item.value = value;
+    if (item.type !== "free-variable") {
+      // eslint-disable-next-line no-console
+      console.error(
+        `Conflict storyboard context "${name}", expected "free-variable", received "${item.type}".`
+      );
+      return;
+    }
+
+    if (method === "replace") {
+      item.value = value;
+    } else {
+      if (isObject(item.value)) {
+        Object.assign(item.value, value);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Non-object current value of context "${name}" for "context.assign", try "context.replace" instead.`
+        );
+        item.value = value;
+      }
+    }
+
     item.eventTarget?.dispatchEvent(
       new CustomEvent(
         this.isTemplateState ? "state.change" : "context.change",
         {
-          detail: value,
+          detail: item.value,
         }
       )
     );
@@ -178,7 +221,7 @@ function syncResolveStoryboardContext(
     return false;
   }
   if (contextConf.resolve) {
-    throw new Error("resolve is now allowed here");
+    throw new Error("resolve is not allowed here");
   }
   let value = getDefinedTemplateState(
     contextConf,

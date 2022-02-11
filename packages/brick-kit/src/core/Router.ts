@@ -41,6 +41,7 @@ import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
+import { StoryboardContextWrapper } from "./StoryboardContext";
 
 export class Router {
   private defaultCollapsed = false;
@@ -514,6 +515,11 @@ export class Router {
   /* istanbul ignore next */
   getCurrentContext(): PluginRuntimeContext {
     return this.locationContext.getCurrentContext();
+  }
+
+  /* istanbul ignore next */
+  getStoryboardContextWrapper(): StoryboardContextWrapper {
+    return this.locationContext.storyboardContextWrapper;
   }
 
   /* istanbul ignore next */

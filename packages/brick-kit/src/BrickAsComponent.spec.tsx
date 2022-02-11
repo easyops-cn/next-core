@@ -10,11 +10,7 @@ import {
 } from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
 import * as transformProperties from "./transformProperties";
-import {
-  registerCustomTemplate,
-  RuntimeBrickElementWithTplSymbols,
-  symbolForParentRefForUseBrickInPortal,
-} from "./core/exports";
+import { registerCustomTemplate } from "./core/exports";
 import { CustomTemplateContext } from "./core/CustomTemplates/CustomTemplateContext";
 import { RuntimeBrick } from "./core/BrickNode";
 
@@ -411,11 +407,6 @@ describe("BrickAsComponent", () => {
       },
     });
     expect((div as RuntimeBrickElement).$$typeof).toBe("native");
-    expect(
-      (div as RuntimeBrickElementWithTplSymbols)[
-        symbolForParentRefForUseBrickInPortal
-      ]
-    ).toBe(mockRef);
   });
 
   it("should work for multiple bricks", async () => {
@@ -791,22 +782,30 @@ describe("BrickAsComponent", () => {
     const tplContext = new CustomTemplateContext(tplBrick);
     const tplContextId = tplContext.id;
     tplContext.setVariables({});
-    listenerUtils.bindListeners(buttonElement, {
-      "general.button.click": [
-        {
-          action: "console.log",
-          args: ["底层事件"],
-        },
-      ],
-    });
-    listenerUtils.bindListeners(tplElement, {
-      buttonClick: [
-        {
-          action: "console.log",
-          args: ["outside button click"],
-        },
-      ],
-    });
+    listenerUtils.bindListeners(
+      buttonElement,
+      {
+        "general.button.click": [
+          {
+            action: "console.log",
+            args: ["底层事件"],
+          },
+        ],
+      },
+      {} as any
+    );
+    listenerUtils.bindListeners(
+      tplElement,
+      {
+        buttonClick: [
+          {
+            action: "console.log",
+            args: ["outside button click"],
+          },
+        ],
+      },
+      {} as any
+    );
     handleProxyOfParentTemplate(brick, tplContextId);
 
     expect((buttonElement as any).$$proxyEvents.length).toBe(1);

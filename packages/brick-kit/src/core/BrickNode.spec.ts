@@ -1,11 +1,8 @@
 import { RuntimeBrickElement } from "@next-core/brick-types";
 import { bindListeners } from "../internal/bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
-import { symbolForIsExternal, symbolForTplContextId } from "./CustomTemplates";
-import {
-  handleProxyOfCustomTemplate,
-  RuntimeBrickElementWithTplSymbols,
-} from "./exports";
+import { symbolForTplContextId } from "./CustomTemplates";
+import { handleProxyOfCustomTemplate } from "./exports";
 
 jest.mock("../internal/bindListeners");
 jest.mock("./CustomTemplates");
@@ -82,18 +79,9 @@ describe("BrickNode", () => {
       properties: {},
       events: {},
       children: [],
-      tplContextId: "tpl-ctx-1",
-      isExternalOfTpl: true,
     };
     const brickNode = new BrickNode(runtimeBrick);
-    const node = brickNode.mount() as RuntimeBrickElement;
     brickNode.afterMount();
-    expect(
-      (node as RuntimeBrickElementWithTplSymbols)[symbolForTplContextId]
-    ).toBe("tpl-ctx-1");
-    expect(
-      (node as RuntimeBrickElementWithTplSymbols)[symbolForIsExternal]
-    ).toBe(true);
   });
 
   it("should unmount", () => {

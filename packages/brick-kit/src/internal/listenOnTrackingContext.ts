@@ -38,9 +38,6 @@ export function listenOnTrackingContext(
       }
     }
     if (track.stateNames) {
-      if (!context.tplContextId) {
-        return;
-      }
       const tplContext = getCustomTemplateContext(context.tplContextId);
       for (const stateName of track.stateNames) {
         const ctx = tplContext.state.get().get(stateName);

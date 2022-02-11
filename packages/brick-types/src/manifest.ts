@@ -1135,6 +1135,9 @@ export interface BuiltinBrickEventHandler {
     | "context.assign"
     | "context.replace"
 
+    // Update template state
+    | "state.update"
+
     // Find related tpl and dispatch event.
     | "tpl.dispatchEvent"
 

@@ -48,7 +48,6 @@ import {
   getTagNameOfCustomTemplate,
   symbolForComputedPropsFromProxy,
   symbolForRefForProxy,
-  symbolForIsExternal,
   symbolForTplContextId,
   ResolveRequestError,
   RuntimeBrickConfWithTplSymbols,
@@ -135,7 +134,7 @@ export class LocationContext {
   private readonly messageHandlers: BrickAndMessage[] = [];
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
-  private readonly storyboardContextWrapper = new StoryboardContextWrapper();
+  readonly storyboardContextWrapper = new StoryboardContextWrapper();
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.resolver = new Resolver(kernel);
@@ -602,12 +601,7 @@ export class LocationContext {
       refForProxy: (brickConf as RuntimeBrickConfWithTplSymbols)[
         symbolForRefForProxy
       ],
-      tplContextId: (brickConf as RuntimeBrickConfWithTplSymbols)[
-        symbolForTplContextId
-      ],
-      isExternalOfTpl: (brickConf as RuntimeBrickConfWithTplSymbols)[
-        symbolForIsExternal
-      ],
+      tplContextId,
     });
 
     if (

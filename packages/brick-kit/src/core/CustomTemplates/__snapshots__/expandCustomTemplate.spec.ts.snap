@@ -149,7 +149,6 @@ Object {
                   "properties": Object {
                     "textContent": "slotted extra content!",
                   },
-                  Symbol(tpl.isExternal): true,
                 },
               ],
               "type": "bricks",
@@ -161,7 +160,6 @@ Object {
                   "properties": Object {
                     "textContent": "slotted tools!",
                   },
-                  Symbol(tpl.isExternal): true,
                 },
               ],
               "type": "bricks",

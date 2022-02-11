@@ -34,6 +34,6 @@ export const developHelper = {
   loadEditorBricks: _dev_only_loadEditorBricks,
   loadDynamicBricksInBrickConf: _dev_only_loadDynamicBricksInBrickConf,
   getFakeKernel: _dev_only_getFakeKernel,
-  // Keep it for backward-compatibility.
+  /** @deprecated Keep it for backward-compatibility. */
   checkoutTplContext: noop,
 };

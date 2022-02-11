@@ -30,7 +30,6 @@ import {
   RuntimeBrickConfWithTplSymbols,
   symbolForComputedPropsFromProxy,
   symbolForRefForProxy,
-  symbolForIsExternal,
   symbolForTplContextId,
 } from "./constants";
 import { propertyMergeAll } from "./propertyMerge";
@@ -337,15 +336,7 @@ function expandBrickInTemplate(
             0,
             expandableSlot.length - 1
           )
-        ].push(
-          ...(externalSlots?.[item.$$reversedRef]?.bricks ?? []).map(
-            (conf) => ({
-              ...conf,
-              // Mark bricks in external slots.
-              [symbolForIsExternal]: true,
-            })
-          )
-        );
+        ].push(...(externalSlots?.[item.$$reversedRef]?.bricks ?? []));
       }
     }
 

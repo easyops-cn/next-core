@@ -1,5 +1,4 @@
 import { message } from "antd";
-import { isObject } from "@next-core/brick-utils";
 import { userAnalytics } from "@next-core/easyops-analytics";
 import {
   BrickEventHandler,
@@ -11,7 +10,6 @@ import {
   ExecuteCustomBrickEventHandler,
   SetPropsCustomBrickEventHandler,
   RuntimeBrickElement,
-  StoryboardContextItem,
   UseProviderEventHandler,
   ProviderPollOptions,
   SiteTheme,
@@ -22,11 +20,8 @@ import { getHistory } from "../history";
 import {
   _internalApiGetCurrentContext,
   _internalApiGetProviderBrick,
-  symbolForTplContextId,
-  symbolForIsExternal,
-  RuntimeBrickElementWithTplSymbols,
-  symbolForParentRefForUseBrickInPortal,
   RuntimeBrick,
+  _internalApiGetStoryboardContextWrapper,
 } from "../core/exports";
 import { getUrlBySegueFactory } from "./segue";
 import { looseCheckIf, IfContainer } from "../checkIf";
@@ -38,12 +33,15 @@ import { clearMenuTitleCache, clearMenuCache } from "./menu";
 import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
 import { getArgsOfCustomApi } from "../core/FlowApi";
 import { getRuntime } from "../runtime";
-import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
+import {
+  CustomTemplateContext,
+  getCustomTemplateContext,
+} from "../core/CustomTemplates/CustomTemplateContext";
 
 export function bindListeners(
   brick: HTMLElement,
   eventsMap: BrickEventsMap,
-  context?: PluginRuntimeContext
+  context: PluginRuntimeContext
 ): void {
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     [].concat(handlers).forEach((handler: BrickEventHandler) => {
@@ -228,13 +226,10 @@ export function listenerFactory(
           handler,
           context
         );
+      case "state.update":
+        return builtinStateListenerFactory(handler.args, handler, context);
       case "tpl.dispatchEvent":
-        return builtinTplDispatchEventFactory(
-          runtimeBrick,
-          handler.args,
-          handler,
-          context
-        );
+        return builtinTplDispatchEventFactory(handler.args, handler, context);
       case "message.subscribe":
       case "message.unsubscribe":
         return builtinWebSocketListenerFactory(
@@ -329,8 +324,15 @@ function usingProviderFactory(
   } as unknown as EventListener;
 }
 
+function getTplContext(tplContextId: string): CustomTemplateContext {
+  // istanbul ignore if
+  if (!tplContextId) {
+    throw new Error("Calling tpl but no tplContextId was found in context!");
+  }
+  return getCustomTemplateContext(tplContextId);
+}
+
 function builtinTplDispatchEventFactory(
-  runtimeBrick: RuntimeBrick,
   args: unknown[],
   ifContainer: IfContainer,
   context: PluginRuntimeContext
@@ -339,15 +341,7 @@ function builtinTplDispatchEventFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    const tpl = getParentTemplate(runtimeBrick.element);
-    if (!tpl) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "Parent template not found for brick:",
-        runtimeBrick.element
-      );
-      return;
-    }
+    const tpl = getTplContext(context.tplContextId).getBrick().element;
     const [type, init] = argsFactory(args, context, event) as [
       string,
       CustomEventInit
@@ -366,53 +360,24 @@ function builtinContextListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
+    const storyboardContext = _internalApiGetStoryboardContextWrapper();
     const [name, value] = argsFactory(args, context, event);
-    if (typeof name !== "string") {
-      // eslint-disable-next-line no-console
-      console.error("Invalid context name:", name);
+    storyboardContext.updateValue(name as string, value, method);
+  } as EventListener;
+}
+
+function builtinStateListenerFactory(
+  args: unknown[],
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    const { storyboardContext } = _internalApiGetCurrentContext();
-    const contextItem: StoryboardContextItem = storyboardContext.get(name);
-    if (!contextItem) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Context "${name}" is not declared, we recommend declaring it first.`
-      );
-      storyboardContext.set(name, {
-        type: "free-variable",
-        value,
-      });
-      return;
-    }
-    if (contextItem.type !== "free-variable") {
-      // eslint-disable-next-line no-console
-      console.error(
-        `Conflict storyboard context "${name}", expected "free-variable", received "${contextItem.type}".`
-      );
-      return;
-    }
-    // `context.replace`
-    if (method === "replace") {
-      contextItem.value = value;
-    } else {
-      // `context.assign`
-      const previousValue = contextItem.value;
-      if (isObject(previousValue)) {
-        Object.assign(previousValue, value);
-      } else {
-        // eslint-disable-next-line no-console
-        console.warn(
-          `Non-object current value of context "${name}" for "context.assign", try "context.replace" instead.`
-        );
-        contextItem.value = value;
-      }
-    }
-    contextItem.eventTarget?.dispatchEvent(
-      new CustomEvent("context.change", {
-        detail: contextItem.value,
-      })
-    );
+    const tplContext = getTplContext(context.tplContextId);
+    const [name, value] = argsFactory(args, context, event);
+    tplContext.state.updateValue(name as string, value, "replace");
   } as EventListener;
 }
 
@@ -596,39 +561,6 @@ function builtinThemeListenerFactory(
   } as EventListener;
 }
 
-function findRefElement(brick: RuntimeBrickElement, ref: string): HTMLElement {
-  return getParentTemplate(brick)?.$$getElementByRef?.(ref);
-}
-
-function getParentTemplate(brick: RuntimeBrickElement): RuntimeBrickElement {
-  // Find belonged template.
-  // Traverse up and try to read symbol property on element.
-  // Skip external elements of template.
-  let tpl = brick as RuntimeBrickElementWithTplSymbols;
-  let isExternalOfTpl = tpl[symbolForIsExternal];
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    const tplContextId = tpl[symbolForTplContextId];
-    tpl = tplContextId
-      ? getCustomTemplateContext(tplContextId).getBrick().element
-      : tpl[symbolForParentRefForUseBrickInPortal]?.current ||
-        tpl.parentElement;
-    if (!tpl) {
-      return;
-    }
-    if (!isExternalOfTpl) {
-      isExternalOfTpl = tpl[symbolForIsExternal];
-    }
-    if (tpl.$$typeof === "custom-template") {
-      if (isExternalOfTpl) {
-        isExternalOfTpl = false;
-      } else {
-        return tpl;
-      }
-    }
-  }
-}
-
 function customListenerFactory(
   handler: CustomBrickEventHandler,
   ifContainer: IfContainer,
@@ -654,7 +586,10 @@ function customListenerFactory(
     } else if (handler.target) {
       targets.push(handler.target as HTMLElement);
     } else if (handler.targetRef) {
-      const found = findRefElement(runtimeBrick.element, handler.targetRef);
+      const tpl: RuntimeBrickElement = getTplContext(
+        context.tplContextId
+      ).getBrick().element;
+      const found = tpl.$$getElementByRef?.(handler.targetRef);
       if (found) {
         targets.push(found);
       }

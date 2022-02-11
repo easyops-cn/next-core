@@ -15,6 +15,7 @@ import { BrickEventHandlerCallback } from '@next-core/brick-types';
 import { BrickLifeCycle } from '@next-core/brick-types';
 import { BrickPackage } from '@next-core/brick-types';
 import { BrickTemplateFactory } from '@next-core/brick-types';
+import { ContextConf } from '@next-core/brick-types';
 import { CustomApiInfo } from '@next-core/brick-utils';
 import { CustomTemplateConstructor } from '@next-core/brick-types';
 import { CustomTemplateProxy } from '@next-core/brick-types';
@@ -63,6 +64,7 @@ import { SiteMapItem } from '@next-core/brick-types';
 import { SiteMode } from '@next-core/brick-types';
 import { SiteTheme } from '@next-core/brick-types';
 import { Storyboard } from '@next-core/brick-types';
+import { StoryboardContextItem } from '@next-core/brick-types';
 import { StoryboardFunction } from '@next-core/brick-types';
 import { Subtract } from 'react-i18next';
 import { TemplatePackage } from '@next-core/brick-types';
@@ -99,7 +101,7 @@ export function authenticate(newAuth: AuthInfo): void;
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function BrickAsComponent({ useBrick, data, parentRefForUseBrickInPortal, }: BrickAsComponentProps): React_2.ReactElement;
+export function BrickAsComponent({ useBrick, data, }: BrickAsComponentProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //

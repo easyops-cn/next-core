@@ -19,15 +19,12 @@ import { bindListeners, unbindListeners } from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
 import {
   RuntimeBrick,
-  RuntimeBrickElementWithTplSymbols,
-  symbolForParentRefForUseBrickInPortal,
   _internalApiGetCurrentContext,
   _internalApiGetResolver,
   _internalApiGetRouterState,
   _internalApiLoadDynamicBricksInBrickConf,
   RuntimeBrickConfWithTplSymbols,
   symbolForTplContextId,
-  symbolForIsExternal,
   symbolForRefForProxy,
   symbolForComputedPropsFromProxy,
   expandCustomTemplate,
@@ -53,9 +50,8 @@ import { getCustomTemplateContext } from "./core/CustomTemplates/CustomTemplateC
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
   data?: unknown;
-
   /**
-   * This is only required for useBrick in portal.
+   * @deprecated
    */
   parentRefForUseBrickInPortal?: React.RefObject<HTMLElement>;
 }
@@ -245,7 +241,6 @@ export const SingleBrickAsComponent = React.memo(
   function SingleBrickAsComponent({
     useBrick,
     data,
-    parentRefForUseBrickInPortal,
     refCallback,
     immediatelyRefCallback,
   }: SingleBrickAsComponentProps): React.ReactElement {
@@ -350,38 +345,20 @@ export const SingleBrickAsComponent = React.memo(
           }
           brick.element = element;
 
+          const { [symbolForTplContextId]: tplContextId } =
+            useBrick as RuntimeBrickConfWithTplSymbols;
+
           setRealProperties(element, brick.properties);
           unbindListeners(element);
           if (brick.events) {
-            bindListeners(
-              element,
-              transformEvents(data, brick.events),
-              _internalApiGetCurrentContext()
-            );
+            bindListeners(element, transformEvents(data, brick.events), {
+              ..._internalApiGetCurrentContext(),
+              tplContextId,
+            });
           }
           // 设置proxyEvent
           handleProxyOfCustomTemplate(brick);
-
-          const {
-            [symbolForTplContextId]: tplContextId,
-            [symbolForIsExternal]: isExternalOfTpl,
-          } = useBrick as RuntimeBrickConfWithTplSymbols;
-
-          if (tplContextId) {
-            (element as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
-              tplContextId;
-          }
-          if (isExternalOfTpl) {
-            (element as RuntimeBrickConfWithTplSymbols)[symbolForIsExternal] =
-              isExternalOfTpl;
-          }
-
           handleProxyOfParentTemplate(brick, tplContextId);
-
-          // Memoize the parent ref of useBrick.
-          (element as RuntimeBrickElementWithTplSymbols)[
-            symbolForParentRefForUseBrickInPortal
-          ] = parentRefForUseBrickInPortal;
 
           if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
             if (!useBrick.brick.includes("-")) {
@@ -394,14 +371,7 @@ export const SingleBrickAsComponent = React.memo(
 
         refCallback?.(element);
       },
-      [
-        runtimeBrick,
-        useBrick,
-        data,
-        refCallback,
-        immediatelyRefCallback,
-        parentRefForUseBrickInPortal,
-      ]
+      [runtimeBrick, useBrick, data, refCallback, immediatelyRefCallback]
     );
 
     if (!isBrickAvailable) {
@@ -435,7 +405,6 @@ export const SingleBrickAsComponent = React.memo(
  *     brick: "your.any-brick"
  *   }}
  *   data={yourData}
- *   parentRefForUseBrickInPortal={yourParentElementRef}
  * />
  * ```
  *
@@ -444,29 +413,17 @@ export const SingleBrickAsComponent = React.memo(
 export function BrickAsComponent({
   useBrick,
   data,
-  parentRefForUseBrickInPortal,
 }: BrickAsComponentProps): React.ReactElement {
   if (Array.isArray(useBrick)) {
     return (
       <>
         {useBrick.map((item, index) => (
-          <SingleBrickAsComponent
-            key={index}
-            useBrick={item}
-            data={data}
-            parentRefForUseBrickInPortal={parentRefForUseBrickInPortal}
-          />
+          <SingleBrickAsComponent key={index} useBrick={item} data={data} />
         ))}
       </>
     );
   }
-  return (
-    <SingleBrickAsComponent
-      useBrick={useBrick}
-      data={data}
-      parentRefForUseBrickInPortal={parentRefForUseBrickInPortal}
-    />
-  );
+  return <SingleBrickAsComponent useBrick={useBrick} data={data} />;
 }
 
 function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
@@ -502,12 +459,7 @@ function transformEvents(
 export const ForwardRefSingleBrickAsComponent = React.memo(
   forwardRef<HTMLElement, SingleBrickAsComponentProps>(
     function LegacySingleBrickAsComponent(
-      {
-        useBrick,
-        data,
-        parentRefForUseBrickInPortal,
-        refCallback,
-      }: SingleBrickAsComponentProps,
+      { useBrick, data, refCallback }: SingleBrickAsComponentProps,
       ref
     ): React.ReactElement {
       const brickRef = useRef<HTMLElement>();
@@ -619,39 +571,21 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
               return;
             }
             brick.element = element;
+
+            const { [symbolForTplContextId]: tplContextId } =
+              useBrick as RuntimeBrickConfWithTplSymbols;
+
             setRealProperties(element, brick.properties);
             unbindListeners(element);
             if (useBrick.events) {
-              bindListeners(
-                element,
-                transformEvents(data, useBrick.events),
-                _internalApiGetCurrentContext()
-              );
+              bindListeners(element, transformEvents(data, useBrick.events), {
+                ..._internalApiGetCurrentContext(),
+                tplContextId,
+              });
             }
             // 设置proxyEvent
             handleProxyOfCustomTemplate(brick);
-
-            const {
-              [symbolForTplContextId]: tplContextId,
-              [symbolForIsExternal]: isExternalOfTpl,
-            } = useBrick as RuntimeBrickConfWithTplSymbols;
-
-            if (tplContextId) {
-              (element as RuntimeBrickConfWithTplSymbols)[
-                symbolForTplContextId
-              ] = tplContextId;
-            }
-            if (isExternalOfTpl) {
-              (element as RuntimeBrickConfWithTplSymbols)[symbolForIsExternal] =
-                isExternalOfTpl;
-            }
-
             handleProxyOfParentTemplate(brick, tplContextId);
-
-            // Memoize the parent ref of useBrick.
-            (element as RuntimeBrickElementWithTplSymbols)[
-              symbolForParentRefForUseBrickInPortal
-            ] = parentRefForUseBrickInPortal;
 
             if (
               (element as RuntimeBrickElement).$$typeof !== "custom-template"
@@ -665,13 +599,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           }
           refCallback?.(element);
         },
-        [
-          runtimeBrick,
-          useBrick,
-          data,
-          refCallback,
-          parentRefForUseBrickInPortal,
-        ]
+        [runtimeBrick, useBrick, data, refCallback]
       );
 
       if (!isBrickAvailable) {

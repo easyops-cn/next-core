@@ -6,12 +6,7 @@ import {
 import { bindListeners } from "../internal/bindListeners";
 import { setRealProperties } from "../internal/setProperties";
 import { RuntimeCustomTemplateProxy } from "./CustomTemplates/internalInterfaces";
-import {
-  handleProxyOfCustomTemplate,
-  symbolForTplContextId,
-  symbolForIsExternal,
-  RuntimeBrickElementWithTplSymbols,
-} from "./exports";
+import { handleProxyOfCustomTemplate } from "./exports";
 
 export interface RuntimeBrick {
   type?: string;
@@ -91,18 +86,7 @@ export class BrickNode {
 
   // Handle proxies later after bricks in portal and main both mounted.
   afterMount(): void {
-    const brick = this.$$brick;
-    if (brick.tplContextId) {
-      (brick.element as RuntimeBrickElementWithTplSymbols)[
-        symbolForTplContextId
-      ] = brick.tplContextId;
-    }
-    if (brick.isExternalOfTpl) {
-      (brick.element as RuntimeBrickElementWithTplSymbols)[
-        symbolForIsExternal
-      ] = brick.isExternalOfTpl;
-    }
-    handleProxyOfCustomTemplate(brick);
+    handleProxyOfCustomTemplate(this.$$brick);
     this.children.forEach((child) => {
       child.afterMount();
     });

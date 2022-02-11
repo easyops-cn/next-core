@@ -1,6 +1,5 @@
 import { isObject } from "@next-core/brick-utils";
 import { isPreEvaluated } from "./evaluate";
-import { symbolForTplContextId } from "../core/CustomTemplates/constants";
 
 let injected = new WeakSet();
 

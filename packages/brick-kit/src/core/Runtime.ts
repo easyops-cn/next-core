@@ -38,6 +38,7 @@ import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
 import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
+import { StoryboardContextWrapper } from "./StoryboardContext";
 
 let kernel: Kernel;
 
@@ -339,6 +340,11 @@ export function _internalApiGetRouterRenderId(): string {
 /* istanbul ignore next */
 export function _internalApiMessageCloseHandler(event: CloseEvent): void {
   return kernel.router.handleMessageClose(event);
+}
+
+/* istanbul ignore next */
+export function _internalApiGetStoryboardContextWrapper(): StoryboardContextWrapper {
+  return kernel.router.getStoryboardContextWrapper();
 }
 
 /* istanbul ignore next */
