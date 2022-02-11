@@ -19,7 +19,7 @@ jobs:
     steps:
 
     - name: Update labels
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
@@ -84,7 +84,7 @@ jobs:
         git push
 
     - name: Post update labels
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
