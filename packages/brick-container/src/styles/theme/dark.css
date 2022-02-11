@@ -559,4 +559,7 @@ html[data-theme="dark-v2"],
   --cmdb-instance-timeline-left-day-font-weight: var(--font-weight-500);
   --cmdb-instance-timeline-left-day-font-size: var(--title-font-size);
   --cmdb-instance-timeline-left-day-color: var(--color-strong-text);
+
+  /*** collapse ***/
+  --antd-collapse-content-bg: var(--antd-component-background);
 }
