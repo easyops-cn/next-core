@@ -869,6 +869,11 @@ export class LocationContext {
     return this.currentMatch;
   }
 
+  /** @deprecated */
+  getTplContext(): void {
+    // Keep it for compatibility only.
+  }
+
   private dispatchLifeCycleEvent(
     event: CustomEvent,
     handlers: BrickAndLifeCycleHandler[]
