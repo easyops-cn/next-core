@@ -33,14 +33,7 @@ export async function resolveContextConcurrently(
 
   async function scheduleNext(): Promise<void> {
     const readyContexts = Array.from(dependencyMap.entries())
-      .filter((entry, index) =>
-        // When contexts contain computed CTX accesses, it implies a dynamic dependency map.
-        // So make them process sequentially, keep the same behavior as before.
-        scheduleAsSerial
-          ? index === 0
-          : // A context is ready when it has no pending dependencies.
-            !entry[1].dependencies.some((dep) => pendingDeps.has(dep))
-      )
+      .filter(predicateNextResolveFactory(pendingDeps, scheduleAsSerial))
       .map((entry) => entry[0])
       .filter((contextConf) => !processed.has(contextConf));
     await Promise.all(readyContexts.map(wrapResolve));
@@ -60,6 +53,66 @@ export async function resolveContextConcurrently(
     scheduleAsSerial = true;
     await scheduleNext();
   }
+}
+
+export function syncResolveContextConcurrently(
+  contextConfs: ContextConf[],
+  resolveContext: (contextConf: ContextConf) => boolean
+): void {
+  const dependencyMap = getDependencyMapOfContext(contextConfs);
+  const pendingDeps = new Set<string>(
+    Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
+  );
+  const includesComputed = Array.from(dependencyMap.values()).some(
+    (stats) => stats.includesComputed
+  );
+
+  let scheduleAsSerial = includesComputed;
+
+  function scheduleNext(): void {
+    const dep = Array.from(dependencyMap.entries()).find(
+      predicateNextResolveFactory(pendingDeps, scheduleAsSerial)
+    );
+    if (dep) {
+      const [contextConf] = dep;
+      const resolved = resolveContext(contextConf);
+      dependencyMap.delete(contextConf);
+      if (resolved) {
+        if (!pendingDeps.delete(contextConf.name)) {
+          throw new Error(`Duplicated context defined: ${contextConf.name}`);
+        }
+      }
+      scheduleNext();
+    }
+  }
+
+  scheduleNext();
+
+  // If there are still contexts left, it implies one of these situations:
+  //   - Circular contexts.
+  //     Such as: a depends on b, while b depends on a.
+  //   - Related contexts are all ignored.
+  //     Such as: a depends on b,
+  //     while both them are ignore by a falsy result of `if`.
+  if (dependencyMap.size > 0) {
+    // This will throw if circular contexts detected.
+    detectCircularContexts(dependencyMap);
+    scheduleAsSerial = true;
+    scheduleNext();
+  }
+}
+
+function predicateNextResolveFactory(
+  pendingDeps: Set<string>,
+  scheduleAsSerial: boolean
+): (entry: [ContextConf, ContextStatistics], index: number) => boolean {
+  return (entry, index) =>
+    // When contexts contain computed CTX accesses, it implies a dynamic dependency map.
+    // So make them process sequentially, keep the same behavior as before.
+    scheduleAsSerial
+      ? index === 0
+      : // A context is ready when it has no pending dependencies.
+        !entry[1].dependencies.some((dep) => pendingDeps.has(dep));
 }
 
 interface ContextStatistics {

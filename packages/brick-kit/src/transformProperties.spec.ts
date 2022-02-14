@@ -8,6 +8,7 @@ import {
 import * as runtime from "./core/Runtime";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 import { symbolForTplContextId } from "./core/CustomTemplates/constants";
+import { CustomTemplateContext } from "./core/CustomTemplates/CustomTemplateContext";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   storyboardContext: new Map([
@@ -27,6 +28,12 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
     ],
   ]),
 } as PluginRuntimeContext);
+
+const tplContext = new CustomTemplateContext({});
+tplContext.setVariables({
+  label: "quality",
+  isShow: true,
+});
 
 interface Args {
   props: Parameters<typeof transformProperties>[0];
@@ -395,12 +402,21 @@ describe("doTransform", () => {
         [Symbol.for("pre.evaluated.raw")]:
           "<% `${TPL.label}: ${DATA.hello}` %>",
         [Symbol.for("pre.evaluated.context")]: {
-          getTplVariables: () => ({
-            label: "quality",
-          }),
+          tplContextId: tplContext.id,
         },
       },
       "quality: good",
+    ],
+    [
+      {
+        brick: "any",
+        [Symbol.for("test")]: "@{hello}",
+      },
+      {
+        brick: "any",
+        // Symbol property is kept and no computation was taken.
+        [Symbol.for("test")]: "@{hello}",
+      },
     ],
   ])('doTransform({hello:"good"}, %j, %j) should return %j', (to, result) => {
     expect(doTransform(data, to)).toEqual(result);
@@ -622,7 +638,7 @@ describe("doTransform", () => {
       {},
       {
         title: "<% 'track context', CTX.hello + CTX.world %>",
-        message: "<% 'track context', CTX.hola %>",
+        message: "<% 'track state', STATE.hola %>",
         extra: "<% CTX.any %>",
         nesting: {
           // This should ignored since it is not at first level.
@@ -636,13 +652,15 @@ describe("doTransform", () => {
     expect(trackingContextList).toEqual([
       {
         contextNames: ["hello", "world"],
+        stateNames: false,
         propName: "title",
         propValue: "<% 'track context', CTX.hello + CTX.world %>",
       },
       {
-        contextNames: ["hola"],
+        contextNames: false,
+        stateNames: ["hola"],
         propName: "message",
-        propValue: "<% 'track context', CTX.hola %>",
+        propValue: "<% 'track state', STATE.hola %>",
       },
     ]);
   });
@@ -660,18 +678,14 @@ describe("doTransform", () => {
     expect(result).toBe("Hello=World");
   });
 
-  it("should work while option had getTplVariables", () => {
-    const getTplVariables = () => ({
-      isShow: true,
-    });
-
+  it("should work while option had tplContextId", () => {
     const result = doTransform(
       {},
       {
         text: "<% TPL.isShow ? 'I am show' : 'I am hide' %>",
       },
       {
-        getTplVariables,
+        tplContextId: tplContext.id,
       }
     );
     expect(result).toEqual({

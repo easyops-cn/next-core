@@ -708,7 +708,7 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
 
 // @public
 export interface BuiltinBrickEventHandler {
-    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "analytics.event";
+    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "state.update" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "analytics.event";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
@@ -884,6 +884,7 @@ export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
     name: string;
     proxy?: CustomTemplateProxy;
+    state?: CustomTemplateState[];
 }
 
 // @public
@@ -991,6 +992,9 @@ export interface CustomTemplateProxyWithExtra {
     extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
     ref: string;
 }
+
+// @public
+export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve">;
 
 // @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {
@@ -1416,8 +1420,6 @@ export interface PluginRuntimeContext {
     app?: MicroApp;
     event?: CustomEvent;
     flags?: FeatureFlags;
-    // (undocumented)
-    getTplVariables?: () => Record<string, unknown>;
     hash?: string;
     // @internal (undocumented)
     match?: MatchResult;
@@ -1427,6 +1429,8 @@ export interface PluginRuntimeContext {
     // @internal (undocumented)
     storyboardContext?: StoryboardContext;
     sys?: SystemInfo;
+    // @internal (undocumented)
+    tplContextId?: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "PresetBricksConf" should be prefixed with an underscore because the declaration is marked as @internal

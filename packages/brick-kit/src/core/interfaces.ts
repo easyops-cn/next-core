@@ -1,11 +1,8 @@
 import {
   CustomTemplateConstructor,
   FeatureFlags,
-  MenuIcon,
   MicroApp,
-  ResolveConf,
   SidebarMenu,
-  SidebarMenuSimpleItem,
   SiteMode,
   SiteTheme,
 } from "@next-core/brick-types";

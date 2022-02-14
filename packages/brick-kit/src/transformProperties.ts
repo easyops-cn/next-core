@@ -6,6 +6,7 @@ import {
   isEvaluable,
   trackContext,
   transformAndInject,
+  trackState,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -24,7 +25,6 @@ import {
 } from "./internal/getNextStateOfUseBrick";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
-import { symbolForTplContextId } from "./core/CustomTemplates/constants";
 
 interface TransformOptions {
   isReTransformation?: boolean;
@@ -32,11 +32,11 @@ interface TransformOptions {
   allowInject?: boolean;
 }
 
-interface DoTransformOptions {
+export interface DoTransformOptions {
   evaluateOptions?: EvaluateOptions;
   trackingContextList?: TrackingContextItem[];
   allowInject?: boolean;
-  getTplVariables?: () => Record<string, unknown>;
+  tplContextId?: string;
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
 }
@@ -102,8 +102,8 @@ export function doTransform(
       const runtimeContext: EvaluateRuntimeContext = {
         data,
       };
-      if (options?.getTplVariables)
-        runtimeContext.getTplVariables = options.getTplVariables;
+      if (options?.tplContextId)
+        runtimeContext.tplContextId = options.tplContextId;
       result = evaluate(to as string, runtimeContext, options?.evaluateOptions);
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         to as string
@@ -133,45 +133,32 @@ export function doTransform(
   }
 
   return Object.fromEntries(
-    Object.entries(to).map(([k, v]) => {
-      if (Array.isArray(options?.trackingContextList) && isEvaluable(v)) {
-        const contextNames = trackContext(v);
-        if (contextNames) {
-          options.trackingContextList.push({
-            contextNames,
-            propName: k,
-            propValue: v,
-          });
-        }
-      }
-      if (k === "useBrick") {
-        /**
-         * 在locationContext中已经为useBrick添加 SymbolTplContextId
-         * 在此如果通过Object.enteries遍历useBrick会出现 id丢失对情况,
-         * 故需要对 SymbolTplContextId 特殊处理
-         */
-        const result: any = doTransform(
-          data,
-          v,
-          getNextDoTransformOptions(options, false, k)
-        );
-        if (Array.isArray(v)) {
-          for (let i = 0; i < v.length; i++) {
-            if (v[i][symbolForTplContextId])
-              result[i][symbolForTplContextId] = v[i][symbolForTplContextId];
+    // Get both string and symbol keys.
+    Object.entries(to)
+      .map(([k, v]) => {
+        if (Array.isArray(options?.trackingContextList) && isEvaluable(v)) {
+          const contextNames = trackContext(v);
+          const stateNames = trackState(v);
+          if (contextNames || stateNames) {
+            options.trackingContextList.push({
+              contextNames,
+              stateNames,
+              propName: k,
+              propValue: v,
+            });
           }
-        } else {
-          if (v[symbolForTplContextId])
-            result[symbolForTplContextId] = v[symbolForTplContextId];
         }
-        return [k, result];
-      } else {
         return [
           k,
           doTransform(data, v, getNextDoTransformOptions(options, false, k)),
         ];
-      }
-    })
+      })
+      .concat(
+        Object.getOwnPropertySymbols(to).map((k) => [
+          k,
+          (to as Record<string | symbol, unknown>)[k],
+        ])
+      )
   );
 }
 

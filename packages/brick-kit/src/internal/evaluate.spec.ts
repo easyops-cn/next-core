@@ -11,6 +11,7 @@ import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { registerWidgetI18n } from "../core/WidgetI18n";
+import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
@@ -154,6 +155,16 @@ function objectEntries(object: Record<string, any>): [string, any][] {
   return Object.entries(object);
 }
 registerCustomProcessor("brickKit.objectEntries", objectEntries);
+
+const tplContext = new CustomTemplateContext({});
+tplContext.setVariables({
+  quality: "good",
+  num: 2,
+});
+tplContext.state.set("scopedData", {
+  type: "free-variable",
+  value: "Yes",
+});
 
 describe("shouldDismissRecursiveMarkingInjected", () => {
   it("should work with string", () => {
@@ -300,12 +311,11 @@ describe("evaluate", () => {
   it.each<[string, any]>([
     ["<% [] %>", []],
     ["<% TPL.quality %>", "good"],
-  ])("evaluate(%j, { getTplVariables }) should return %j", (raw, result) => {
+    ["<% STATE.scopedData %>", "Yes"],
+  ])("evaluate(%j, { tplContextId }) should return %j", (raw, result) => {
     expect(
       evaluate(raw, {
-        getTplVariables: () => ({
-          quality: "good",
-        }),
+        tplContextId: tplContext.id,
       })
     ).toEqual(result);
   });
@@ -334,9 +344,7 @@ describe("evaluate", () => {
 
   it("should work when using both `EVENT` and `TPL`", () => {
     const preEvaluated = evaluate("<% EVENT.detail + TPL.num %>", {
-      getTplVariables: () => ({
-        num: 2,
-      }),
+      tplContextId: tplContext.id,
     }) as PreEvaluated;
 
     // Simulate an event dispatching after a transformation.
@@ -351,9 +359,7 @@ describe("evaluate", () => {
 
   it("should work when using both `DATA` and `TPL`", () => {
     const preEvaluated = evaluate("<% DATA + TPL.num %>", {
-      getTplVariables: () => ({
-        num: 2,
-      }),
+      tplContextId: tplContext.id,
     }) as PreEvaluated;
 
     // Simulate an event dispatching after a transformation.
@@ -366,9 +372,7 @@ describe("evaluate", () => {
 
   it("should work when using all `EVENT`, `DATA` and `TPL`", () => {
     const preEvaluated = evaluate("<% EVENT.detail + DATA + TPL.num %>", {
-      getTplVariables: () => ({
-        num: 2,
-      }),
+      tplContextId: tplContext.id,
     }) as PreEvaluated;
 
     // Simulate an event dispatching after a transformation.

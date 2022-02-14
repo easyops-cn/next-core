@@ -1,7 +1,9 @@
 import { RuntimeBrick } from "../BrickNode";
 import * as runtime from "../Runtime";
-import { CustomTemplateContext } from "./CustomTemplateContext";
-import { expandCustomTemplate } from "./expandCustomTemplate";
+import {
+  expandCustomTemplate,
+  asyncExpandCustomTemplate,
+} from "./expandCustomTemplate";
 import { getTagNameOfCustomTemplate } from "./getTagNameOfCustomTemplate";
 import { registerCustomTemplate } from "./registerCustomTemplate";
 
@@ -80,6 +82,12 @@ describe("expandCustomTemplate", () => {
           },
         },
       },
+      state: [
+        {
+          name: "scopedData",
+          value: "Yes",
+        },
+      ],
       bricks: [
         {
           brick: "basic-bricks.micro-view",
@@ -255,8 +263,7 @@ describe("expandCustomTemplate", () => {
         },
       },
       proxyBrick,
-      {} as any,
-      new CustomTemplateContext()
+      {} as any
     );
 
     expect(expanded).toMatchSnapshot();
@@ -272,11 +279,36 @@ describe("expandCustomTemplate", () => {
         events: {},
       },
       proxyBrick,
-      {} as any,
-      new CustomTemplateContext()
+      {} as any
     );
 
     expect(expanded).toMatchSnapshot();
     expect(proxyBrick).toMatchSnapshot();
+  });
+
+  it("should asyncExpandCustomTemplate", async () => {
+    const expanded = await asyncExpandCustomTemplate(
+      {
+        brick: "steve-test.custom-template",
+        properties: {},
+        events: {},
+      },
+      {},
+      {} as any
+    );
+    expect(expanded).toBeTruthy();
+  });
+
+  it("should work if proxy is empty as async", async () => {
+    const expanded = await asyncExpandCustomTemplate(
+      {
+        brick: "steve-test.custom-template-no-proxy",
+        properties: {},
+        events: {},
+      },
+      {},
+      {} as any
+    );
+    expect(expanded).toBeTruthy();
   });
 });

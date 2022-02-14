@@ -1,6 +1,7 @@
 import { handleProxyOfCustomTemplate } from "./handleProxyOfCustomTemplate";
 import { RuntimeBrick } from "../BrickNode";
 import { propertyMerge } from "./propertyMerge";
+import { CustomTemplateContext } from "./CustomTemplateContext";
 
 jest.mock("./propertyMerge");
 
@@ -325,7 +326,7 @@ describe("handleProxyOfCustomTemplate", () => {
     expect(nonBubbleEvents[0].detail).toBe("once");
 
     // mock useBrick re-render
-    handleProxyOfCustomTemplate(brick);
+    handleProxyOfCustomTemplate(brick, true);
     // init event length
     nonBubbleEvents.length = 0;
 
@@ -339,5 +340,24 @@ describe("handleProxyOfCustomTemplate", () => {
     expect(nonBubbleEvents[0].type).toBe("mockClick");
     expect(nonBubbleEvents[0].detail).toBe("twice");
     expect(nonBubbleEvents.length).toBe(1);
+  });
+
+  it("should define state properties", () => {
+    const brick: RuntimeBrick = {
+      element: document.createElement("div"),
+      stateNames: ["title"],
+      proxyRefs: new Map(),
+    };
+    const tplContext = new CustomTemplateContext(brick);
+    brick.tplContextId = tplContext.id;
+    tplContext.state.set("title", {
+      type: "free-variable",
+      value: "good",
+    });
+    handleProxyOfCustomTemplate(brick);
+    expect(brick.element.title).toBe("good");
+    brick.element.title = "better";
+    expect(tplContext.state.getValue("title")).toBe("better");
+    expect(brick.element.title).toBe("better");
   });
 });

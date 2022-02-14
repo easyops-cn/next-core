@@ -22,6 +22,7 @@ import { widgetFunctions } from "../core/WidgetFunctions";
 import { widgetI18nFactory } from "../core/WidgetI18n";
 import { getGeneralGlobals } from "./getGeneralGlobals";
 import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
+import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -40,7 +41,7 @@ export interface EvaluateOptions {
 export interface EvaluateRuntimeContext {
   event?: CustomEvent;
   data?: unknown;
-  getTplVariables?: () => Record<string, unknown>;
+  tplContextId?: string;
   overrideApp?: MicroApp;
 }
 
@@ -122,6 +123,8 @@ export function evaluate(
   const attemptToVisitEvent = attemptToVisitGlobals.has("EVENT");
   const attemptToVisitData = attemptToVisitGlobals.has("DATA");
   const attemptToVisitTpl = attemptToVisitGlobals.has("TPL");
+  const attemptToVisitState = attemptToVisitGlobals.has("STATE");
+  const attemptToVisitTplOrState = attemptToVisitTpl || attemptToVisitState;
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
@@ -135,8 +138,8 @@ export function evaluate(
     }
   }
 
-  const missingTpl =
-    attemptToVisitTpl && !hasOwnProperty(runtimeContext, "getTplVariables");
+  const missingTplOrState =
+    attemptToVisitTplOrState && !hasOwnProperty(runtimeContext, "tplContextId");
   const missingData =
     attemptToVisitData && !hasOwnProperty(runtimeContext, "data");
 
@@ -148,9 +151,9 @@ export function evaluate(
         } as PreEvaluated)
       : raw;
 
-  // Since `EVENT`, `DATA` and `TPL` are provided in different context,
+  // Since `EVENT`, `DATA`, `TPL` and `STATE` are provided in different context,
   // whenever missing one of them, memorize the current context for later consuming.
-  if (missingEvent || missingData || missingTpl) {
+  if (missingEvent || missingData || missingTplOrState) {
     return rawWithContext;
   }
 
@@ -158,11 +161,21 @@ export function evaluate(
     globalVariables.DATA = runtimeContext.data;
   }
 
-  if (
-    attemptToVisitTpl &&
-    typeof runtimeContext.getTplVariables === "function"
-  ) {
-    globalVariables.TPL = runtimeContext.getTplVariables();
+  if (attemptToVisitTplOrState && runtimeContext.tplContextId) {
+    const tplContext = getCustomTemplateContext(runtimeContext.tplContextId);
+    if (attemptToVisitTpl) {
+      globalVariables.TPL = tplContext.getVariables();
+    }
+    if (attemptToVisitState) {
+      globalVariables.STATE = getDynamicReadOnlyProxy({
+        get(target, key: string) {
+          return tplContext.state.getValue(key);
+        },
+        ownKeys() {
+          return Array.from(tplContext.state.get().keys());
+        },
+      });
+    }
   }
 
   const {

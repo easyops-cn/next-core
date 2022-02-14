@@ -5,8 +5,16 @@ import {
   TrackingContextItem,
 } from "./listenOnTrackingContext";
 import * as runtime from "../core/Runtime";
+import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
+const tplContext = new CustomTemplateContext({});
+const eventTargetOfHola = new EventTarget();
+tplContext.state.set("hola", {
+  type: "free-variable",
+  value: "Hola",
+  eventTarget: eventTargetOfHola,
+});
 
 describe("listenOnTrackingContext", () => {
   const eventTargetOfHello = new EventTarget();
@@ -28,17 +36,20 @@ describe("listenOnTrackingContext", () => {
         },
       ],
     ]),
+    tplContextId: tplContext.id,
   } as PluginRuntimeContext;
   const trackingContextList: TrackingContextItem[] = [
     {
       contextNames: ["hello", "world"],
+      stateNames: false,
       propName: "title",
       propValue: "<% 'track context', CTX.hello + CTX.world %>",
     },
     {
-      contextNames: ["hola"],
-      propName: "message",
-      propValue: "<% 'track context', CTX.hola %>",
+      contextNames: false,
+      stateNames: ["hola"],
+      propName: "textContent",
+      propValue: "<% 'track state', STATE.hola %>",
     },
   ];
 
@@ -53,6 +64,15 @@ describe("listenOnTrackingContext", () => {
     listenOnTrackingContext(brick, trackingContextList, context);
     eventTargetOfHello.dispatchEvent(new CustomEvent("context.change"));
     expect(brick.element.title).toBe("HelloWorld");
+  });
+
+  it("should update brick properties when tpl state changed", () => {
+    const brick: RuntimeBrick = {
+      element: document.createElement("div"),
+    };
+    listenOnTrackingContext(brick, trackingContextList, context);
+    eventTargetOfHola.dispatchEvent(new CustomEvent("state.change"));
+    expect(brick.element.textContent).toBe("Hola");
   });
 
   it("should do nothing if brick has no element when context changed", () => {

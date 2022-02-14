@@ -1,8 +1,5 @@
 import { preevaluate } from "./cook";
 
-const TRACK_CONTEXT = "track context";
-const CTX = "CTX";
-
 /**
  * Get tracking CTX for an evaluable expression in `track context` mode.
  *
@@ -30,13 +27,25 @@ const CTX = "CTX";
  * ```
  */
 export function trackContext(raw: string): string[] | false {
-  if (raw.includes(TRACK_CONTEXT)) {
+  return track(raw, "track context", "CTX");
+}
+
+export function trackState(raw: string): string[] | false {
+  return track(raw, "track state", "STATE");
+}
+
+function track(
+  raw: string,
+  trackText?: string,
+  variableName?: string
+): string[] | false {
+  if (raw.includes(trackText)) {
     const contexts = new Set<string>();
     const { expression } = preevaluate(raw, {
       withParent: true,
       hooks: {
         beforeVisitGlobal(node, parent): void {
-          if (node.name === CTX) {
+          if (node.name === variableName) {
             const memberParent = parent[parent.length - 1];
             if (
               memberParent?.node.type === "MemberExpression" &&
@@ -65,14 +74,16 @@ export function trackContext(raw: string): string[] | false {
       expression.type === "SequenceExpression" &&
       (trackCtxExp = expression.expressions[0] as unknown) &&
       trackCtxExp.type === "Literal" &&
-      trackCtxExp.value === TRACK_CONTEXT
+      trackCtxExp.value === trackText
     ) {
       if (contexts.size > 0) {
         return Array.from(contexts);
       } else {
         // eslint-disable-next-line no-console
         console.warn(
-          `You are using "${TRACK_CONTEXT}" but no CTX usage found in your expression: "${raw}"`
+          `You are using "${trackText}" but no \`${variableName}\` usage found in your expression: ${JSON.stringify(
+            raw
+          )}`
         );
       }
     }

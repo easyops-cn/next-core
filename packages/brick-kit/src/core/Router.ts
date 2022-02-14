@@ -38,10 +38,10 @@ import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
-import { CustomTemplateContext } from "./CustomTemplates";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
+import { StoryboardContextWrapper } from "./StoryboardContext";
 
 export class Router {
   private defaultCollapsed = false;
@@ -453,8 +453,8 @@ export class Router {
 
         // Try to prefetch during a browser's idle periods.
         // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
-        if (typeof (window as any).requestIdleCallback === "function") {
-          (window as any).requestIdleCallback(() => {
+        if (typeof window.requestIdleCallback === "function") {
+          window.requestIdleCallback(() => {
             this.kernel.prefetchDepsOfStoryboard(storyboard);
           });
         } else {
@@ -518,8 +518,8 @@ export class Router {
   }
 
   /* istanbul ignore next */
-  getTplContext(): CustomTemplateContext {
-    return this.locationContext.getTplContext();
+  getStoryboardContextWrapper(): StoryboardContextWrapper {
+    return this.locationContext.storyboardContextWrapper;
   }
 
   /* istanbul ignore next */

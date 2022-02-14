@@ -7,9 +7,15 @@ import {
 import * as runtime from "../core/Runtime";
 import { TrackingContextItem } from "./listenOnTrackingContext";
 import { StateOfUseBrick } from "./getNextStateOfUseBrick";
+import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 jest.spyOn(console, "error").mockImplementation(() => void 0);
+
+const tplContext = new CustomTemplateContext({});
+tplContext.setVariables({
+  quality: "good",
+});
 
 describe("computeRealValue", () => {
   const context: PluginRuntimeContext = {
@@ -92,6 +98,18 @@ describe("computeRealValue", () => {
       context,
       {
         label: "world is good",
+      },
+    ],
+    [
+      {
+        brick: "any",
+        [Symbol.for("test")]: "${APP.homepage}",
+      },
+      context,
+      {
+        brick: "any",
+        // Symbol property is kept and no computation was taken.
+        [Symbol.for("test")]: "${APP.homepage}",
       },
     ],
   ];
@@ -188,9 +206,7 @@ describe("setProperties", () => {
     flags: {
       "better-world": true,
     },
-    getTplVariables: () => ({
-      quality: "good",
-    }),
+    tplContextId: tplContext.id,
   };
   const properties = {
     objectId: "${objectId}",
@@ -633,7 +649,7 @@ describe("computeRealProperties", () => {
     computeRealProperties(
       {
         title: "<% 'track context', CTX.hello + CTX.world %>",
-        message: "<% 'track context', CTX.hola %>",
+        message: "<% 'track state', STATE.hola %>",
         extra: "<% CTX.any %>",
       },
       context,
@@ -643,13 +659,15 @@ describe("computeRealProperties", () => {
     expect(trackingContextList).toEqual([
       {
         contextNames: ["hello", "world"],
+        stateNames: false,
         propName: "title",
         propValue: "<% 'track context', CTX.hello + CTX.world %>",
       },
       {
-        contextNames: ["hola"],
+        contextNames: false,
+        stateNames: ["hola"],
         propName: "message",
-        propValue: "<% 'track context', CTX.hola %>",
+        propValue: "<% 'track state', STATE.hola %>",
       },
     ]);
   });

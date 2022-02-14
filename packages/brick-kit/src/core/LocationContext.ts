@@ -1,5 +1,4 @@
 import { omit, orderBy, set } from "lodash";
-import EventTarget from "@ungap/event-target";
 import {
   PluginLocation,
   MatchResult,
@@ -18,9 +17,6 @@ import {
   ResolveConf,
   StaticMenuProps,
   SeguesConf,
-  ContextConf,
-  StoryboardContext,
-  StoryboardContextItem,
   MessageConf,
   BrickLifeCycle,
   Storyboard,
@@ -33,7 +29,6 @@ import {
   matchPath,
   computeRealRoutePath,
   hasOwnProperty,
-  resolveContextConcurrently,
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../internal/bindListeners";
@@ -48,15 +43,14 @@ import {
   Kernel,
   appendBrick,
   Resolver,
-  expandCustomTemplate,
+  asyncExpandCustomTemplate,
   MountableElement,
   getTagNameOfCustomTemplate,
   symbolForComputedPropsFromProxy,
   symbolForRefForProxy,
-  symbolForParentTemplate,
+  symbolForTplContextId,
   ResolveRequestError,
   RuntimeBrickConfWithTplSymbols,
-  CustomTemplateContext,
 } from "./exports";
 import { RedirectConf } from "./interfaces";
 import { looseCheckIf, IfContainer } from "../checkIf";
@@ -67,12 +61,12 @@ import {
   getSubStoryboardByRoute,
   SubStoryboardMatcher,
 } from "../internal/getSubStoryboardByRoute";
-import { symbolForTplContextId } from "./CustomTemplates";
 import { validatePermissions } from "../internal/checkPermissions";
 import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "../internal/listenOnTrackingContext";
+import { StoryboardContextWrapper } from "./StoryboardContext";
 
 export type MatchRoutesResult =
   | {
@@ -140,8 +134,7 @@ export class LocationContext {
   private readonly messageHandlers: BrickAndMessage[] = [];
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
-  private readonly storyboardContext: StoryboardContext = new Map();
-  private readonly tplContext = new CustomTemplateContext();
+  readonly storyboardContextWrapper = new StoryboardContextWrapper();
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.resolver = new Resolver(kernel);
@@ -173,11 +166,9 @@ export class LocationContext {
       },
       flags: this.kernel.getFeatureFlags(),
       segues: this.segues,
-      storyboardContext: this.storyboardContext,
+      storyboardContext: this.storyboardContextWrapper.get(),
+      tplContextId,
     };
-    if (tplContextId) {
-      context.getTplVariables = () => this.tplContext.getContext(tplContextId);
-    }
     return context;
   }
 
@@ -185,92 +176,6 @@ export class LocationContext {
     return this.getContext({
       match: this.currentMatch,
     });
-  }
-
-  private async defineStoryboardFreeContext(
-    contextConfs: ContextConf[],
-    coreContext: PluginRuntimeContext,
-    brick?: RuntimeBrick
-  ): Promise<void> {
-    await resolveContextConcurrently(contextConfs, (contextConf: ContextConf) =>
-      this.resolveStoryboardContext(contextConf, coreContext, brick)
-    );
-  }
-
-  private async resolveStoryboardContext(
-    contextConf: ContextConf,
-    coreContext: PluginRuntimeContext,
-    brick?: RuntimeBrick
-  ): Promise<boolean> {
-    if (contextConf.property) {
-      if (brick) {
-        this.setStoryboardContext(contextConf.name, {
-          type: "brick-property",
-          brick,
-          prop: contextConf.property,
-        });
-      }
-    } else {
-      if (!looseCheckIf(contextConf, coreContext)) {
-        return false;
-      }
-      let isResolve = false;
-      let value: unknown;
-      if (contextConf.resolve) {
-        if (looseCheckIf(contextConf.resolve, coreContext)) {
-          isResolve = true;
-          const valueConf: Record<string, unknown> = {};
-          await this.resolver.resolveOne(
-            "reference",
-            {
-              transform: "value",
-              transformMapArray: false,
-              ...contextConf.resolve,
-            },
-            valueConf,
-            null,
-            coreContext
-          );
-          value = valueConf.value;
-        } else if (!hasOwnProperty(contextConf, "value")) {
-          return false;
-        }
-      }
-      if (!isResolve && contextConf.value !== undefined) {
-        value = computeRealValue(contextConf.value, coreContext, true);
-      }
-      const newContext: StoryboardContextItem = {
-        type: "free-variable",
-        value,
-        // This is required for tracking context, even if no `onChange` is specified.
-        eventTarget: new EventTarget(),
-      };
-      if (contextConf.onChange) {
-        for (const handler of ([] as BrickEventHandler[]).concat(
-          contextConf.onChange
-        )) {
-          newContext.eventTarget.addEventListener(
-            "context.change",
-            listenerFactory(handler, coreContext, brick)
-          );
-        }
-      }
-      this.setStoryboardContext(contextConf.name, newContext);
-    }
-    return true;
-  }
-
-  private setStoryboardContext(
-    name: string,
-    item: StoryboardContextItem
-  ): void {
-    if (this.storyboardContext.has(name)) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Storyboard context "${name}" have already existed, it will be replaced.`
-      );
-    }
-    this.storyboardContext.set(name, item);
   }
 
   private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
@@ -364,9 +269,7 @@ export class LocationContext {
           mountRoutesResult
         );
 
-        if (Array.isArray(route.context)) {
-          await this.defineStoryboardFreeContext(route.context, context);
-        }
+        await this.storyboardContextWrapper.define(route.context, context);
         await this.preCheckPermissions(route, context);
 
         redirect = computeRealValue(route.redirect, context, true) as
@@ -674,10 +577,11 @@ export class LocationContext {
 
     const brick: RuntimeBrick = {};
 
-    if (Array.isArray(brickConf.context)) {
-      await this.defineStoryboardFreeContext(brickConf.context, context, brick);
-    }
-
+    await this.storyboardContextWrapper.define(
+      brickConf.context,
+      context,
+      brick
+    );
     await this.preCheckPermissions(brickConf, context);
 
     const trackingContextList: TrackingContextItem[] = [];
@@ -697,9 +601,7 @@ export class LocationContext {
       refForProxy: (brickConf as RuntimeBrickConfWithTplSymbols)[
         symbolForRefForProxy
       ],
-      parentTemplate: (brickConf as RuntimeBrickConfWithTplSymbols)[
-        symbolForParentTemplate
-      ],
+      tplContextId,
     });
 
     if (
@@ -734,7 +636,7 @@ export class LocationContext {
 
     let expandedBrickConf = brickConf;
     if (tplTagName) {
-      expandedBrickConf = expandCustomTemplate(
+      expandedBrickConf = await asyncExpandCustomTemplate(
         {
           ...brickConf,
           brick: tplTagName,
@@ -742,58 +644,17 @@ export class LocationContext {
           properties: brick.properties,
         },
         brick,
-        context,
-        this.tplContext
+        context
       );
 
       // Try to load deps for dynamic added bricks.
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 
-    const useBrickList: RuntimeBrickConfWithTplSymbols[] = [];
-
-    const walkUseBrickInProperties = (
-      properties: Record<string, unknown> = {}
-    ) => {
-      Object.entries(properties).forEach(([key, value]) => {
-        // 在测试环境发现有人写成 useBrick: true, 故做了一个兼容处理, 防止报错
-        if (key === "useBrick" && isObject(value)) {
-          useBrickList.push(value);
-        }
-        if (isObject(value)) {
-          walkUseBrickInProperties(value);
-        }
-      });
-    };
-    const setTplIdForUseBrick = (list: RuntimeBrickConfWithTplSymbols[]) => {
-      if (Array.isArray(list)) {
-        list.forEach((item) => {
-          if (Array.isArray(item)) {
-            setTplIdForUseBrick(item);
-          } else {
-            item[symbolForTplContextId] = tplContextId;
-            if (item.slots) {
-              const slotsContent = Object.values(item.slots);
-              slotsContent.forEach((slotItem) => {
-                setTplIdForUseBrick((slotItem as any).bricks);
-              });
-            }
-          }
-        });
-      }
-    };
-    // 如果properteis中存在useBrick, 则递归遍历并赋值tplContextId
-    if (tplContextId) {
-      walkUseBrickInProperties(brick.properties);
-      if (useBrickList.length > 0) {
-        setTplIdForUseBrick(useBrickList);
-      }
-    }
-
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
         if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
-          this.setStoryboardContext(ctxName.substr(4), {
+          this.storyboardContextWrapper.set(ctxName.substr(4), {
             type: "brick-property",
             brick,
             prop,
@@ -1006,10 +867,6 @@ export class LocationContext {
 
   getCurrentMatch(): MatchResult {
     return this.currentMatch;
-  }
-
-  getTplContext(): CustomTemplateContext {
-    return this.tplContext;
   }
 
   private dispatchLifeCycleEvent(

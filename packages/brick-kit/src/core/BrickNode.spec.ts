@@ -1,11 +1,8 @@
 import { RuntimeBrickElement } from "@next-core/brick-types";
 import { bindListeners } from "../internal/bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
-import {
-  handleProxyOfCustomTemplate,
-  symbolForParentTemplate,
-  RuntimeBrickElementWithTplSymbols,
-} from "./exports";
+import { symbolForTplContextId } from "./CustomTemplates";
+import { handleProxyOfCustomTemplate } from "./exports";
 
 jest.mock("../internal/bindListeners");
 jest.mock("./CustomTemplates");
@@ -82,16 +79,9 @@ describe("BrickNode", () => {
       properties: {},
       events: {},
       children: [],
-      parentTemplate: {
-        element: document.createElement("span"),
-      },
     };
     const brickNode = new BrickNode(runtimeBrick);
-    const node = brickNode.mount() as RuntimeBrickElement;
     brickNode.afterMount();
-    expect(
-      (node as RuntimeBrickElementWithTplSymbols)[symbolForParentTemplate]
-    ).toBe(runtimeBrick.parentTemplate.element);
   });
 
   it("should unmount", () => {
