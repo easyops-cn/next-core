@@ -589,4 +589,10 @@
 
   /*** collapse ***/
   --antd-collapse-content-bg: var(--antd-component-background);
+
+  /*** show-color-swatches ***/
+  --show-color-swatches-bg: #f4f5fa;
+  --show-color-swatches-dropdown-box-shadow: var(--connected-overlay-shadow);
+  --show-color-swatches-dropdown-item-selected-bg: #e6f7ff;
+  --show-color-swatches-dropdown-item-hover-bg: #f5f5f5;
 }
