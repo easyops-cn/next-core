@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.104.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.0...@next-core/brick-kit@2.104.1) (2022-02-14)
+
+
+### Bug Fixes
+
+* resume getTplContext for compatibility ([e6c40cf](https://github.com/easyops-cn/next-core/commit/e6c40cfec328776ace36cd917195da526451bad4))
+
+
+
+
+
 # [2.104.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.9...@next-core/brick-kit@2.104.0) (2022-02-14)
 
 
