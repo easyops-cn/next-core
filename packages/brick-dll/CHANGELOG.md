@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.15...@next-core/brick-dll@2.29.0) (2022-02-14)
+
+
+### Features
+
+* support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
+* support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
+
+
+
+
+
 ## [2.28.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.14...@next-core/brick-dll@2.28.15) (2022-02-10)
 
 **Note:** Version bump only for package @next-core/brick-dll
