@@ -568,4 +568,8 @@ html[data-theme="dark-v2"],
   --show-color-swatches-dropdown-box-shadow: var(--connected-overlay-shadow);
   --show-color-swatches-dropdown-item-selected-bg: var(--menu-dropdown-bg);
   --show-color-swatches-dropdown-item-hover-bg: var(--color-fill-bg-base-1);
+
+  /*** hexagon-map-chart ***/
+  --hexagon-map-chart-polygon-hover-stroke: #38a4f0;
+  --hexagon-map-chart-fill-default-color: #4c4c4d;
 }
