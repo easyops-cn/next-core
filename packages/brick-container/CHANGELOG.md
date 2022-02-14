@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.17...@next-core/brick-container@2.63.18) (2022-02-14)
+
+
+### Bug Fixes
+
+* css variables ([5b91c24](https://github.com/easyops-cn/next-core/commit/5b91c243c373751f84f8c34f8de81f4f65e3a306))
+* hexagon map chart style ([9e02bec](https://github.com/easyops-cn/next-core/commit/9e02bec63d5e4f743b654c8c224530276fc6f6ba))
+
+
+
+
+
 ## [2.63.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.16...@next-core/brick-container@2.63.17) (2022-02-14)
 
 **Note:** Version bump only for package @next-core/brick-container
