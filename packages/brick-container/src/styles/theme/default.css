@@ -597,6 +597,9 @@
   /*** collapse ***/
   --antd-collapse-content-bg: var(--antd-component-background);
 
+  /*** sub-menu-brick ***/
+  --sub-menu-brick-item-hover-bg: #f2f5f9;
+
   /*** show-color-swatches ***/
   --show-color-swatches-bg: #f4f5fa;
   --show-color-swatches-dropdown-box-shadow: var(--connected-overlay-shadow);
