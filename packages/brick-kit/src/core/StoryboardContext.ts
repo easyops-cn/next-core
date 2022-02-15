@@ -273,7 +273,9 @@ function resolveFreeVariableValue(
       contextConf.onChange
     )) {
       newContext.eventTarget.addEventListener(
-        "context.change",
+        storyboardContextWrapper.isTemplateState
+          ? "state.change"
+          : "context.change",
         listenerFactory(handler, coreContext, brick)
       );
     }
