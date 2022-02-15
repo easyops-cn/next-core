@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.104.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.1...@next-core/brick-kit@2.104.2) (2022-02-15)
+
+
+### Bug Fixes
+
+* fix state.onChange ([cfdfbf8](https://github.com/easyops-cn/next-core/commit/cfdfbf80574cbaa38168b42b5c0899a71f28be12))
+
+
+
+
+
 ## [2.104.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.0...@next-core/brick-kit@2.104.1) (2022-02-14)
 
 
