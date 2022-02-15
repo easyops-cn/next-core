@@ -94,6 +94,13 @@ html[data-theme="dark-v2"],
   --chart-auxiliary-text: var(--palette-rgba-gray-9);
   --chart-outline-select: var(--palette-rgba-gray-10);
 
+  /* 8.0 框架 */
+  v8-top-navigation-bg: var(--palette-gray-3);
+  v8-top-menu-item-hover: var(--palette-gray-3);
+  v8-top-menu-item-selected-bg: var(--palette-gray-4);
+  v8-left-menu-bg: rgba(32, 32, 33, 0.3);
+  v8-left-menu-hover-bg: rgba(32, 32, 33, 0.8);
+
   /* component CSS variables */
 
   /***  basic antd variables  ***/
