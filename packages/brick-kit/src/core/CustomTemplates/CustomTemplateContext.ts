@@ -6,11 +6,12 @@ const tplContextMap = new Map<string, CustomTemplateContext>();
 
 export class CustomTemplateContext {
   private variables: Record<string, unknown>;
-  public readonly state = new StoryboardContextWrapper(true);
-  public readonly id = uniqueId("tpl-ctx-");
+  readonly state: StoryboardContextWrapper;
+  readonly id = uniqueId("tpl-ctx-");
 
   constructor(private brick: RuntimeBrick) {
     tplContextMap.set(this.id, this);
+    this.state = new StoryboardContextWrapper(this.id);
     brick.tplContextId = this.id;
   }
 

@@ -30,5 +30,7 @@ describe("CustomTemplateContext", () => {
     expect(context.getBrick()).toBe(brick);
 
     expect(getCustomTemplateContext("tpl-ctx-1")).toBe(context);
+
+    expect(context.state.tplContextId).toBe("tpl-ctx-1");
   });
 });
