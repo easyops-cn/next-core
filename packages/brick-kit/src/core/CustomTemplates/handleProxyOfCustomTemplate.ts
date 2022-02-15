@@ -13,10 +13,7 @@ import {
 import { getCustomTemplateContext } from "./CustomTemplateContext";
 import { propertyMerge } from "./propertyMerge";
 
-export function handleProxyOfCustomTemplate(
-  brick: RuntimeBrick,
-  reRun?: boolean
-): void {
+export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
   // Ignore non-tpl bricks.
   if (!brick.proxyRefs) {
     return;
@@ -30,15 +27,17 @@ export function handleProxyOfCustomTemplate(
     }
   }
 
+  const firstRun = !node.$$getElementByRef;
+
   // For usages of `targetRef: "..."`.
   // `tpl.$$getElementByRef(ref)` will return the ref element inside a custom template.
-  if (!reRun) {
+  if (firstRun) {
     Object.defineProperty(node, "$$getElementByRef", {
       value: getElementByRef,
     });
   }
 
-  if (!reRun && brick.stateNames) {
+  if (firstRun && brick.stateNames) {
     // Define properties from state for tpl.
     const getState = (): StoryboardContextWrapper =>
       getCustomTemplateContext(brick.tplContextId).state;
