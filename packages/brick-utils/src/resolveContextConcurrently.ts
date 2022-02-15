@@ -2,13 +2,12 @@ import { ContextConf } from "@next-core/brick-types";
 import { PrecookHooks } from "./cook";
 import { visitStoryboardExpressions } from "./visitStoryboard";
 
-const CTX = "CTX";
-
 export async function resolveContextConcurrently(
   contextConfs: ContextConf[],
-  resolveContext: (contextConf: ContextConf) => Promise<boolean>
+  resolveContext: (contextConf: ContextConf) => Promise<boolean>,
+  keyword = "CTX"
 ): Promise<void> {
-  const dependencyMap = getDependencyMapOfContext(contextConfs);
+  const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
   const pendingDeps = new Set<string>(
     Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
   );
@@ -49,7 +48,7 @@ export async function resolveContextConcurrently(
   //     while both them are ignore by a falsy result of `if`.
   if (dependencyMap.size > 0) {
     // This will throw if circular contexts detected.
-    detectCircularContexts(dependencyMap);
+    detectCircularContexts(dependencyMap, keyword);
     scheduleAsSerial = true;
     await scheduleNext();
   }
@@ -57,9 +56,10 @@ export async function resolveContextConcurrently(
 
 export function syncResolveContextConcurrently(
   contextConfs: ContextConf[],
-  resolveContext: (contextConf: ContextConf) => boolean
+  resolveContext: (contextConf: ContextConf) => boolean,
+  keyword = "CTX"
 ): void {
-  const dependencyMap = getDependencyMapOfContext(contextConfs);
+  const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
   const pendingDeps = new Set<string>(
     Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
   );
@@ -96,7 +96,7 @@ export function syncResolveContextConcurrently(
   //     while both them are ignore by a falsy result of `if`.
   if (dependencyMap.size > 0) {
     // This will throw if circular contexts detected.
-    detectCircularContexts(dependencyMap);
+    detectCircularContexts(dependencyMap, keyword);
     scheduleAsSerial = true;
     scheduleNext();
   }
@@ -121,7 +121,8 @@ interface ContextStatistics {
 }
 
 export function getDependencyMapOfContext(
-  contextConfs: ContextConf[]
+  contextConfs: ContextConf[],
+  keyword = "CTX"
 ): Map<ContextConf, ContextStatistics> {
   const depsMap = new Map<ContextConf, ContextStatistics>();
   for (const contextConf of contextConfs) {
@@ -132,8 +133,8 @@ export function getDependencyMapOfContext(
     if (!contextConf.property) {
       visitStoryboardExpressions(
         [contextConf.if, contextConf.value, contextConf.resolve],
-        beforeVisitContextFactory(stats),
-        CTX
+        beforeVisitContextFactory(stats, keyword),
+        keyword
       );
     }
     depsMap.set(contextConf, stats);
@@ -142,10 +143,11 @@ export function getDependencyMapOfContext(
 }
 
 function beforeVisitContextFactory(
-  stats: ContextStatistics
+  stats: ContextStatistics,
+  keyword: string
 ): PrecookHooks["beforeVisitGlobal"] {
   return function beforeVisitContext(node, parent): void {
-    if (node.name === CTX) {
+    if (node.name === keyword) {
       const memberParent = parent[parent.length - 1];
       if (
         memberParent?.node.type === "MemberExpression" &&
@@ -173,7 +175,8 @@ function beforeVisitContextFactory(
 }
 
 function detectCircularContexts(
-  dependencyMap: Map<ContextConf, ContextStatistics>
+  dependencyMap: Map<ContextConf, ContextStatistics>,
+  keyword: string
 ): void {
   const duplicatedMap = new Map(dependencyMap);
   const pendingDeps = new Set<string>(
@@ -196,7 +199,7 @@ function detectCircularContexts(
 
   if (duplicatedMap.size > 0) {
     throw new ReferenceError(
-      `Circular CTX detected: ${Array.from(duplicatedMap.keys())
+      `Circular ${keyword} detected: ${Array.from(duplicatedMap.keys())
         .map((contextConf) => contextConf.name)
         .join(", ")}`
     );
