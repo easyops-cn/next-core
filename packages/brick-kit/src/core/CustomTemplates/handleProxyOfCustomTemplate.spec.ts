@@ -326,7 +326,7 @@ describe("handleProxyOfCustomTemplate", () => {
     expect(nonBubbleEvents[0].detail).toBe("once");
 
     // mock useBrick re-render
-    handleProxyOfCustomTemplate(brick, true);
+    handleProxyOfCustomTemplate(brick);
     // init event length
     nonBubbleEvents.length = 0;
 

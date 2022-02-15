@@ -208,14 +208,11 @@ export const handleProxyOfParentTemplate = (
       singleRefBrickProxyMap.set(brick.ref, {
         brick: proxyBrick,
       });
-      handleProxyOfCustomTemplate(
-        {
-          ...tplBrick,
-          proxyRefs: singleRefBrickProxyMap,
-          proxy: getFilterProxy(tplBrick.proxy, brick.ref),
-        },
-        true
-      );
+      handleProxyOfCustomTemplate({
+        ...tplBrick,
+        proxyRefs: singleRefBrickProxyMap,
+        proxy: getFilterProxy(tplBrick.proxy, brick.ref),
+      });
       setRealProperties(tplBrick.element, tplBrick.properties || {});
     }
   }
