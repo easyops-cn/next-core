@@ -1,3 +1,5 @@
+import { RuntimeBrickElement } from "@next-core/brick-types";
+import { CustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 
 const consoleWarn = jest
@@ -6,7 +8,7 @@ const consoleWarn = jest
 
 describe("StoryboardContextWrapper", () => {
   it("should work", () => {
-    const ctx = new StoryboardContextWrapper(true);
+    const ctx = new StoryboardContextWrapper("tpl-ctx-1");
     ctx.syncDefine(
       [
         {
@@ -36,7 +38,7 @@ describe("StoryboardContextWrapper", () => {
   });
 
   it("should throw if use resolve with syncDefine", () => {
-    const ctx = new StoryboardContextWrapper(true);
+    const ctx = new StoryboardContextWrapper("tpl-ctx-1");
     expect(() => {
       ctx.syncDefine(
         [
@@ -83,8 +85,35 @@ describe("StoryboardContextWrapper", () => {
     });
   });
 
+  it("should listen on state.change", () => {
+    const brick = {
+      element: document.createElement("div") as RuntimeBrickElement,
+    };
+    const refElement = document.createElement("span");
+    brick.element.$$getElementByRef = () => refElement;
+    const tplContext = new CustomTemplateContext(brick);
+    tplContext.state.define(
+      [
+        {
+          name: "quality",
+          value: "good",
+          onChange: {
+            targetRef: "any",
+            properties: {
+              title: "updated",
+            },
+          },
+        },
+      ],
+      {} as any,
+      brick
+    );
+    tplContext.state.updateValue("quality", "better", "replace");
+    expect(refElement.title).toBe("updated");
+  });
+
   it("should throw if trying to update undefined state", () => {
-    const ctx = new StoryboardContextWrapper(true);
+    const ctx = new StoryboardContextWrapper("tpl-ctx-1");
     expect(() => {
       ctx.updateValue("notExisted", "oops", "replace");
     }).toThrowErrorMatchingInlineSnapshot(`"State not found: notExisted"`);

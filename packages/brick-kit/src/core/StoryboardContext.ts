@@ -19,10 +19,10 @@ import { RuntimeBrick, _internalApiGetResolver } from "./exports";
 
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
-  readonly isTemplateState: boolean;
+  readonly tplContextId: string;
 
-  constructor(isTemplateState?: boolean) {
-    this.isTemplateState = isTemplateState;
+  constructor(tplContextId?: string) {
+    this.tplContextId = tplContextId;
   }
 
   set(name: string, item: StoryboardContextItem): void {
@@ -50,7 +50,7 @@ export class StoryboardContextWrapper {
     method: "assign" | "replace"
   ): void {
     if (!this.data.has(name)) {
-      if (this.isTemplateState) {
+      if (this.tplContextId) {
         throw new Error(`State not found: ${name}`);
       } else {
         // eslint-disable-next-line no-console
@@ -89,12 +89,9 @@ export class StoryboardContextWrapper {
     }
 
     item.eventTarget?.dispatchEvent(
-      new CustomEvent(
-        this.isTemplateState ? "state.change" : "context.change",
-        {
-          detail: item.value,
-        }
-      )
+      new CustomEvent(this.tplContextId ? "state.change" : "context.change", {
+        detail: item.value,
+      })
     );
   }
 
@@ -107,13 +104,7 @@ export class StoryboardContextWrapper {
       await resolveContextConcurrently(
         contextConfs,
         (contextConf: ContextConf) =>
-          resolveStoryboardContext(
-            this.isTemplateState,
-            contextConf,
-            coreContext,
-            this,
-            brick
-          )
+          resolveStoryboardContext(contextConf, coreContext, this, brick)
       );
     }
   }
@@ -132,14 +123,13 @@ export class StoryboardContextWrapper {
 }
 
 async function resolveStoryboardContext(
-  isTemplateState: boolean,
   contextConf: ContextConf,
   coreContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick
 ): Promise<boolean> {
   if (contextConf.property) {
-    if (isTemplateState) {
+    if (storyboardContextWrapper.tplContextId) {
       throw new Error(
         "Setting `property` is not allowed in template scoped context"
       );
@@ -247,7 +237,7 @@ function getDefinedTemplateState(
   brick: RuntimeBrick
 ): unknown {
   if (
-    storyboardContextWrapper.isTemplateState &&
+    storyboardContextWrapper.tplContextId &&
     brick.properties &&
     hasOwnProperty(brick.properties, contextConf.name)
   ) {
@@ -272,12 +262,24 @@ function resolveFreeVariableValue(
     for (const handler of ([] as BrickEventHandler[]).concat(
       contextConf.onChange
     )) {
-      newContext.eventTarget.addEventListener(
-        storyboardContextWrapper.isTemplateState
-          ? "state.change"
-          : "context.change",
-        listenerFactory(handler, coreContext, brick)
-      );
+      if (storyboardContextWrapper.tplContextId) {
+        newContext.eventTarget.addEventListener(
+          "state.change",
+          listenerFactory(
+            handler,
+            {
+              ...coreContext,
+              tplContextId: storyboardContextWrapper.tplContextId,
+            },
+            brick
+          )
+        );
+      } else {
+        newContext.eventTarget.addEventListener(
+          "context.change",
+          listenerFactory(handler, coreContext, brick)
+        );
+      }
     }
   }
   storyboardContextWrapper.set(contextConf.name, newContext);
