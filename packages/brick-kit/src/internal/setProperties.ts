@@ -20,6 +20,7 @@ import {
   StateOfUseBrick,
 } from "./getNextStateOfUseBrick";
 import { TrackingContextItem } from "./listenOnTrackingContext";
+import { setupUseBrickInTemplate } from "../core/CustomTemplates/setupUseBrickInTemplate";
 
 interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
@@ -106,6 +107,9 @@ export function setProperties(
   injectDeep?: boolean
 ): void {
   const realProps = computeRealProperties(properties, context, injectDeep);
+  if (context.tplContextId) {
+    setupUseBrickInTemplate(realProps, context.tplContextId);
+  }
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
   }

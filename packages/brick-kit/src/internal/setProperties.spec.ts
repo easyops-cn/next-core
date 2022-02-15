@@ -8,6 +8,7 @@ import * as runtime from "../core/Runtime";
 import { TrackingContextItem } from "./listenOnTrackingContext";
 import { StateOfUseBrick } from "./getNextStateOfUseBrick";
 import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
+import { symbolForTplContextId } from "../core/CustomTemplates";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 jest.spyOn(console, "error").mockImplementation(() => void 0);
@@ -441,6 +442,30 @@ describe("setProperties", () => {
       expect(elem).toEqual(expected);
     }
   );
+
+  it("should setup useBrick in template", () => {
+    const element = {} as any;
+    setProperties(
+      element,
+      {
+        display: {
+          useBrick: {
+            brick: "my-brick",
+          },
+        },
+      },
+      context,
+      true
+    );
+    expect(element).toEqual({
+      display: {
+        useBrick: {
+          brick: "my-brick",
+          [symbolForTplContextId]: tplContext.id,
+        },
+      },
+    });
+  });
 });
 
 describe("computeRealProperties", () => {
