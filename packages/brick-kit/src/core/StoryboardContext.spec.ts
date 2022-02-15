@@ -8,9 +8,14 @@ const consoleWarn = jest
 
 describe("StoryboardContextWrapper", () => {
   it("should work", () => {
-    const ctx = new StoryboardContextWrapper("tpl-ctx-1");
+    const tplContext = new CustomTemplateContext({});
+    const ctx = tplContext.state;
     ctx.syncDefine(
       [
+        {
+          name: "depends",
+          value: "<% `depends:${STATE.quality}` %>",
+        },
         {
           name: "quality",
           value: "good",
@@ -35,6 +40,7 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("quality")).toBe("good");
     expect(ctx.getValue("state")).toBe("updated");
     expect(ctx.getValue("ignored")).toBe(undefined);
+    expect(ctx.getValue("depends")).toBe("depends:good");
   });
 
   it("should throw if use resolve with syncDefine", () => {

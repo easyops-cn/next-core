@@ -101,10 +101,12 @@ export class StoryboardContextWrapper {
     brick?: RuntimeBrick
   ): Promise<void> {
     if (Array.isArray(contextConfs)) {
+      const { mergedContext, keyword } = this.getResolveOptions(coreContext);
       await resolveContextConcurrently(
         contextConfs,
         (contextConf: ContextConf) =>
-          resolveStoryboardContext(contextConf, coreContext, this, brick)
+          resolveStoryboardContext(contextConf, mergedContext, this, brick),
+        keyword
       );
     }
   }
@@ -115,10 +117,29 @@ export class StoryboardContextWrapper {
     brick: RuntimeBrick
   ): void {
     if (Array.isArray(contextConfs)) {
-      syncResolveContextConcurrently(contextConfs, (contextConf: ContextConf) =>
-        syncResolveStoryboardContext(contextConf, coreContext, this, brick)
+      const { mergedContext, keyword } = this.getResolveOptions(coreContext);
+      syncResolveContextConcurrently(
+        contextConfs,
+        (contextConf: ContextConf) =>
+          syncResolveStoryboardContext(contextConf, mergedContext, this, brick),
+        keyword
       );
     }
+  }
+
+  private getResolveOptions(coreContext: PluginRuntimeContext): {
+    mergedContext: PluginRuntimeContext;
+    keyword: string;
+  } {
+    return this.tplContextId
+      ? {
+          mergedContext: { ...coreContext, tplContextId: this.tplContextId },
+          keyword: "STATE",
+        }
+      : {
+          mergedContext: coreContext,
+          keyword: "CTX",
+        };
   }
 }
 
@@ -153,22 +174,22 @@ async function resolveStoryboardContext(
 
 async function resolveNormalStoryboardContext(
   contextConf: ContextConf,
-  coreContext: PluginRuntimeContext,
+  mergedContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick
 ): Promise<boolean> {
-  if (!looseCheckIf(contextConf, coreContext)) {
+  if (!looseCheckIf(contextConf, mergedContext)) {
     return false;
   }
   let isResolve = false;
   let value = getDefinedTemplateState(
+    !!storyboardContextWrapper.tplContextId,
     contextConf,
-    storyboardContextWrapper,
     brick
   );
   if (value === undefined) {
     if (contextConf.resolve) {
-      if (looseCheckIf(contextConf.resolve, coreContext)) {
+      if (looseCheckIf(contextConf.resolve, mergedContext)) {
         isResolve = true;
         const valueConf: Record<string, unknown> = {};
         await _internalApiGetResolver().resolveOne(
@@ -180,7 +201,7 @@ async function resolveNormalStoryboardContext(
           },
           valueConf,
           null,
-          coreContext
+          mergedContext
         );
         value = valueConf.value;
       } else if (!hasOwnProperty(contextConf, "value")) {
@@ -188,13 +209,13 @@ async function resolveNormalStoryboardContext(
       }
     }
     if (!isResolve && contextConf.value !== undefined) {
-      value = computeRealValue(contextConf.value, coreContext, true);
+      value = computeRealValue(contextConf.value, mergedContext, true);
     }
   }
   resolveFreeVariableValue(
     value,
     contextConf,
-    coreContext,
+    mergedContext,
     storyboardContextWrapper,
     brick
   );
@@ -203,28 +224,28 @@ async function resolveNormalStoryboardContext(
 
 function syncResolveStoryboardContext(
   contextConf: ContextConf,
-  coreContext: PluginRuntimeContext,
+  mergedContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick
 ): boolean {
-  if (!looseCheckIf(contextConf, coreContext)) {
+  if (!looseCheckIf(contextConf, mergedContext)) {
     return false;
   }
   if (contextConf.resolve) {
     throw new Error("resolve is not allowed here");
   }
   let value = getDefinedTemplateState(
+    !!storyboardContextWrapper.tplContextId,
     contextConf,
-    storyboardContextWrapper,
     brick
   );
   if (value === undefined) {
-    value = computeRealValue(contextConf.value, coreContext, true);
+    value = computeRealValue(contextConf.value, mergedContext, true);
   }
   resolveFreeVariableValue(
     value,
     contextConf,
-    coreContext,
+    mergedContext,
     storyboardContextWrapper,
     brick
   );
@@ -232,12 +253,12 @@ function syncResolveStoryboardContext(
 }
 
 function getDefinedTemplateState(
+  isTemplateState: boolean,
   contextConf: ContextConf,
-  storyboardContextWrapper: StoryboardContextWrapper,
   brick: RuntimeBrick
 ): unknown {
   if (
-    storyboardContextWrapper.tplContextId &&
+    isTemplateState &&
     brick.properties &&
     hasOwnProperty(brick.properties, contextConf.name)
   ) {
@@ -248,7 +269,7 @@ function getDefinedTemplateState(
 function resolveFreeVariableValue(
   value: unknown,
   contextConf: ContextConf,
-  coreContext: PluginRuntimeContext,
+  mergedContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick
 ): void {
@@ -262,24 +283,12 @@ function resolveFreeVariableValue(
     for (const handler of ([] as BrickEventHandler[]).concat(
       contextConf.onChange
     )) {
-      if (storyboardContextWrapper.tplContextId) {
-        newContext.eventTarget.addEventListener(
-          "state.change",
-          listenerFactory(
-            handler,
-            {
-              ...coreContext,
-              tplContextId: storyboardContextWrapper.tplContextId,
-            },
-            brick
-          )
-        );
-      } else {
-        newContext.eventTarget.addEventListener(
-          "context.change",
-          listenerFactory(handler, coreContext, brick)
-        );
-      }
+      newContext.eventTarget.addEventListener(
+        storyboardContextWrapper.tplContextId
+          ? "state.change"
+          : "context.change",
+        listenerFactory(handler, mergedContext, brick)
+      );
     }
   }
   storyboardContextWrapper.set(contextConf.name, newContext);

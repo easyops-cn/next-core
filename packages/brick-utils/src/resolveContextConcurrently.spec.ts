@@ -311,7 +311,7 @@ describe("syncResolveContextConcurrently", () => {
     jest.clearAllMocks();
   });
 
-  it("should resolve context concurrently", async () => {
+  it("should resolve state concurrently", async () => {
     // Dependency map:
     //
     // ```
@@ -365,7 +365,7 @@ describe("syncResolveContextConcurrently", () => {
           name: "b",
           resolve: {
             useProvider: "willBeUnresolved",
-            args: [100, "<% CTX.a + CTX.x %>"],
+            args: [100, "<% STATE.a + STATE.x %>"],
             if: false,
           },
         },
@@ -373,21 +373,21 @@ describe("syncResolveContextConcurrently", () => {
           name: "b",
           resolve: {
             useProvider: "willBeResolved",
-            args: [100, "<% CTX.a + 1 %>"],
+            args: [100, "<% STATE.a + 1 %>"],
           },
         },
         {
           name: "c",
           resolve: {
             useProvider: "willBeResolved",
-            args: [200, "<% CTX.a + 3 %>"],
+            args: [200, "<% STATE.a + 3 %>"],
           },
         },
         {
           name: "d",
           resolve: {
             useProvider: "willBeResolved",
-            args: [100, "<% CTX.b + CTX.c %>"],
+            args: [100, "<% STATE.b + STATE.c %>"],
           },
         },
         {
@@ -401,7 +401,7 @@ describe("syncResolveContextConcurrently", () => {
           name: "f",
           resolve: {
             useProvider: "willBeResolved",
-            args: [100, "<% CTX.e + 5 %>"],
+            args: [100, "<% STATE.e + 5 %>"],
           },
         },
         {
@@ -412,7 +412,8 @@ describe("syncResolveContextConcurrently", () => {
           },
         },
       ],
-      syncProcess
+      syncProcess,
+      "STATE"
     );
 
     expect(fnRequest).toBeCalledTimes(9);
