@@ -233,6 +233,10 @@ html[data-theme="dark"],
   --antd-primary-color: #2fa1fa;
   --antd-text-color-secondary: rgba(255, 255, 255, 0.45);
   --antd-text-color: rgba(255, 255, 255, 0.65);
+  --antd-input-border-color: rgba(255, 255, 255, 0.2);
+  --antd-btn-default-border: rgba(255, 255, 255, 0.2);
+  --antd-input-placeholder-color: rgba(255, 255, 255, 0.3);
+  --antd-input-color: rgba(255, 255, 255, 0.85);
 
   /* antd components */
   --antd-btn-default-bg: transparent;
