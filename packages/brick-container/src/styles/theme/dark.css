@@ -570,6 +570,9 @@ html[data-theme="dark-v2"],
   /*** collapse ***/
   --antd-collapse-content-bg: var(--antd-component-background);
 
+  /*** sub-menu-brick ***/
+  --sub-menu-brick-item-hover-bg: var(--menu-item-hover);
+
   /*** show-color-swatches ***/
   --show-color-swatches-bg: #282a2c;
   --show-color-swatches-dropdown-box-shadow: var(--connected-overlay-shadow);
