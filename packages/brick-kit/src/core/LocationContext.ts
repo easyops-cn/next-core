@@ -602,6 +602,7 @@ export class LocationContext {
         symbolForRefForProxy
       ],
       tplContextId,
+      iid: brickConf.iid,
     });
 
     if (

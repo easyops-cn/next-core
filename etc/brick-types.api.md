@@ -182,6 +182,7 @@ export interface BrickConf {
     // @internal @deprecated
     exports?: Record<string, string>;
     if?: string | boolean | ResolveConf;
+    iid?: string;
     // @internal @deprecated (undocumented)
     injectDeep?: boolean;
     // @internal @deprecated (undocumented)
@@ -2331,6 +2332,7 @@ export interface UseSingleBrickConf {
     brick: string;
     events?: BrickEventsMap;
     if?: string | boolean | ResolveConf;
+    iid?: string;
     lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
     properties?: Record<string, unknown>;
     slots?: UseBrickSlotsConf;
