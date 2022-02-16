@@ -599,6 +599,15 @@
 
   /*** sub-menu-brick ***/
   --sub-menu-brick-item-hover-bg: #f2f5f9;
+  --sub-menu-brick-item-active-bg: #d8e4f0;
+  --sub-menu-brick-group-bg: #f7f7f7;
+
+  /*** sub-menu-filter ***/
+  --sub-menu-filter-group-bg: #f7f7f7;
+  --sub-menu-filter-transparent-type-item-color: var(--color-secondary-text);
+  --sub-menu-filter-transparent-type-item-hover-bg: #ebebeb;
+  --sub-menu-filter-transparent-type-group-selected-color: #116ac3;
+  --sub-menu-filter-transparent-type-group-selected-bg: #ebf3fd;
 
   /*** show-color-swatches ***/
   --show-color-swatches-bg: #f4f5fa;
