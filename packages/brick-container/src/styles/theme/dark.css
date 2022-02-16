@@ -571,7 +571,18 @@ html[data-theme="dark-v2"],
   --antd-collapse-content-bg: var(--antd-component-background);
 
   /*** sub-menu-brick ***/
-  --sub-menu-brick-item-hover-bg: var(--menu-item-hover);
+  --sub-menu-brick-item-hover-bg: none;
+  --sub-menu-brick-item-active-bg: transparent;
+  --sub-menu-brick-group-bg: var(--menu-submenu-selected-bg);
+
+  /*** sub-menu-filter ***/
+  --sub-menu-filter-group-bg: var(--menu-submenu-selected-bg);
+  --sub-menu-filter-transparent-type-item-color: var(--color-normal-text);
+  --sub-menu-filter-transparent-type-item-hover-bg: none;
+  --sub-menu-filter-transparent-type-group-selected-color: var(--color-brand);
+  --sub-menu-filter-transparent-type-group-selected-bg: var(
+    --palette-rgba-gray-3
+  );
 
   /*** show-color-swatches ***/
   --show-color-swatches-bg: #282a2c;
