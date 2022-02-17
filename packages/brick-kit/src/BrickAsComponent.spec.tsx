@@ -97,6 +97,9 @@ beforeAll(() => {
         slotToolDivContent: {
           asVariable: true,
         },
+        tplArgument: {
+          asVariable: true,
+        },
         refStyleIsInline: {
           ref: "refPropertiesName",
           refTransform: {
@@ -197,6 +200,14 @@ beforeAll(() => {
                 properties: {
                   id: "tplPropertiesName",
                   textContent: "<% TPL.tplPropertiesName %>",
+                },
+                lifeCycle: {
+                  useResolves: [
+                    {
+                      useProvider: "my.provider",
+                      args: ["<% TPL.tplArgument %>"],
+                    },
+                  ],
                 },
               },
               {
@@ -633,6 +644,7 @@ describe("BrickAsComponent", () => {
             defaultSlotContentShow: false,
             defaultSlotContentText: "this is default slot content innerHTML",
             inTplRefPropertyContent: "inTplRefContent",
+            tplArgument: "test",
             inTplRefPropertyStyle: {
               color: "#f5f5f5",
             },
@@ -679,11 +691,16 @@ describe("BrickAsComponent", () => {
       />
     );
     await (global as any).flushPromises();
+    expect(spyOnResolve.mock.calls[0][2]).toEqual({
+      app: { id: "steve-test" },
+      hash: "#test",
+      tplContextId: "tpl-ctx-1",
+    });
     expect(wrapper.html()).toBe(
       "<steve-test.tpl-custom-template>" +
         '<basic-bricks.micro-view slot="">' +
         '<div id="refPropertiesName" slot="content" style="display: block; color: rgb(245, 245, 245);">refName</div>' +
-        '<div id="tplPropertiesName" slot="content" style="color: rgb(245, 245, 245);">tplName</div>' +
+        '<div id="tplPropertiesName" slot="content" style="color: rgb(245, 245, 245);" title="resolved">tplName</div>' +
         '<steve-test.tpl-use-brick-in-template slot="content">' +
         '<basic-bricks.micro-view slot="">' +
         '<div id="inTplRef" style="color: rgb(245, 245, 245);" slot="content">inTplRefContent</div>' +
