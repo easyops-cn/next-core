@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.105.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.7...@next-core/brick-kit@2.105.0) (2022-02-17)
+
+
+### Features
+
+* 新增`PATH_NAME`常量 ([094fe48](https://github.com/easyops-cn/next-core/commit/094fe4877581b7594ea297a3da5c4ae047d9cc4d))
+
+
+
+
+
 ## [2.104.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.6...@next-core/brick-kit@2.104.7) (2022-02-17)
 
 

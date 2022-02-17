@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.57.0...@next-core/brick-types@2.58.0) (2022-02-17)
+
+
+### Features
+
+* 新增`PATH_NAME`常量 ([094fe48](https://github.com/easyops-cn/next-core/commit/094fe4877581b7594ea297a3da5c4ae047d9cc4d))
+
+
+
+
+
 # [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.56.1...@next-core/brick-types@2.57.0) (2022-02-14)
 
 
