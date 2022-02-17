@@ -550,7 +550,12 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
               lifeCycle: useBrick.lifeCycle,
             },
             brick,
-            _internalApiGetCurrentContext()
+            {
+              ..._internalApiGetCurrentContext(),
+              tplContextId: (useBrick as RuntimeBrickConfWithTplSymbols)[
+                symbolForTplContextId
+              ],
+            }
           );
         }
 
