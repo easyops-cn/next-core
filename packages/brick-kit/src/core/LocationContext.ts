@@ -159,6 +159,7 @@ export class LocationContext {
     const auth = getAuth();
     const context: PluginRuntimeContext = {
       hash: this.location.hash,
+      pathname: this.location.pathname,
       query: this.query,
       match,
       app: this.kernel.nextApp,
