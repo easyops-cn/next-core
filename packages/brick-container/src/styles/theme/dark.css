@@ -593,4 +593,9 @@ html[data-theme="dark-v2"],
   /*** hexagon-map-chart ***/
   --hexagon-map-chart-polygon-hover-stroke: #38a4f0;
   --hexagon-map-chart-fill-default-color: #4c4c4d;
+
+  /*** log-display ***/
+  --log-display-border-color: #323330;
+  --log-display-bg: #1b1c19;
+  --log-display-color: var(--color-normal-text);
 }
