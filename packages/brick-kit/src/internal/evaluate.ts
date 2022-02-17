@@ -185,6 +185,7 @@ export function evaluate(
     sys,
     flags,
     hash,
+    pathname,
     segues,
     storyboardContext,
   } = _internalApiGetCurrentContext();
@@ -219,6 +220,8 @@ export function evaluate(
         return getReadOnlyProxy(flags);
       case "HASH":
         return hash;
+      case "PATH_NAME":
+        return pathname;
       case "INSTALLED_APPS":
         return {
           has: (appId: string, matchVersion?: string) =>

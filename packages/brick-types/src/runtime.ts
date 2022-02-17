@@ -180,6 +180,9 @@ export interface PluginRuntimeContext {
   /** 当前的 hash 参数 */
   hash?: string;
 
+  /** 当前的 pathname 参数 */
+  pathname?: string;
+
   /** 当前的 anchor 参数（hash 除去开头的 `#`） */
   anchor?: string;
 

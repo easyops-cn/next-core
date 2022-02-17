@@ -123,6 +123,7 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
     test: true,
   },
   hash: "#readme",
+  pathname: "/path/name",
   segues: {
     testSegueId: {
       target: "segue-target",
@@ -212,6 +213,7 @@ describe("evaluate", () => {
     ["<% SYS.username %>", "tester"],
     ["<% FLAGS.test %>", true],
     ["<% HASH %>", "#readme"],
+    ["<% PATH_NAME %>", "/path/name"],
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
     ["<% ALIAS.getUrl('mock-alias') %>", "/mock/alias"],

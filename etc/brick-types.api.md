@@ -1424,6 +1424,7 @@ export interface PluginRuntimeContext {
     // @internal (undocumented)
     match?: MatchResult;
     overrideApp?: MicroApp;
+    pathname?: string;
     query: URLSearchParams;
     segues?: SeguesConf;
     // @internal (undocumented)
