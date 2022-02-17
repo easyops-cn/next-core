@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.104.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.6...@next-core/brick-kit@2.104.7) (2022-02-17)
+
+
+### Bug Fixes
+
+* mark lazy useBrick for tpl property merge ([5794719](https://github.com/easyops-cn/next-core/commit/579471913e569856772e24ccdf024519b6680aaa))
+
+
+
+
+
 ## [2.104.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.5...@next-core/brick-kit@2.104.6) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-kit
