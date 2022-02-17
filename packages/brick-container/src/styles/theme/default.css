@@ -618,4 +618,9 @@
   /*** hexagon-map-chart ***/
   --hexagon-map-chart-polygon-hover-stroke: #2d99ff;
   --hexagon-map-chart-fill-default-color: #d8d8d8;
+
+  /*** log-display ***/
+  --log-display-border-color: #292c33;
+  --log-display-bg: #2f333d;
+  --log-display-color: #c5c8c6;
 }
