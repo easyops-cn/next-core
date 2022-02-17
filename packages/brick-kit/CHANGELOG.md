@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.105.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.105.0...@next-core/brick-kit@2.105.1) (2022-02-17)
+
+
+### Bug Fixes
+
+* fix useBrick lifeCycle couldn't get TPL ([6bbb1ff](https://github.com/easyops-cn/next-core/commit/6bbb1fff00427af2bfca30074a7a8003118763b3))
+* fix useBrick lifeCycle couldn't get TPL ([af1232f](https://github.com/easyops-cn/next-core/commit/af1232fce2fe425a24d841b05ef4d5f2b284a23e))
+
+
+
+
+
 # [2.105.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.7...@next-core/brick-kit@2.105.0) (2022-02-17)
 
 
