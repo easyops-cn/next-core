@@ -628,4 +628,9 @@ html[data-theme="dark-v2"],
   --entry-card-item-hover-shadow: var(--antd-card-shadow);
   --entry-card-item-highlight-hover-color: var(--color-brand);
   --entry-card-item-default-hover-color: var(--color-strong-text);
+
+  /*** dropdown-select ***/
+  --dropdown-select-shape-type-trigger-shadow: 0px 2px 6px 0px
+    rgba(0, 0, 0, 0.4);
+  --dropdown-select-shape-type-disable-bg: var(--color-disabled-text);
 }
