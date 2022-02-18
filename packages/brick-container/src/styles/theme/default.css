@@ -170,6 +170,9 @@
   --antd-icon-color-hover: rgba(0, 0, 0, 0.75);
   --antd-error-color: #ff4d4f;
   --antd-error-color-fade-20: rgba(242, 76, 37, 0.2);
+  --antd-link-color: var(--antd-primary-color);
+  --antd-link-hover-color: #2893f7;
+  --antd-link-active-color: #0058c4;
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
@@ -577,6 +580,10 @@
   --antd-cascader-menu-item-font-weight-active: var(--font-weight-500);
   --antd-cascader-menu-item-border-width: var(--border-width-base);
   --antd-cascader-menu-item-border-color: var(--color-border-divider-line);
+
+  /*** tabs ***/
+  --antd-tabs-highlight-color: var(--color-brand);
+  --antd-tabs-hover-color: var(--antd-link-hover-color);
 
   /*** cmdb instances timeline ***/
   --cmdb-instance-timeline-bg-color: var(--antd-card-background);

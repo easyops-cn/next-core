@@ -124,6 +124,10 @@ html[data-theme="dark-v2"],
   --antd-error-color: var(--color-error);
   --antd-error-color-fade-20: rgba(210, 69, 37, 0.2);
 
+  --antd-link-color: var(--color-brand);
+  --antd-link-hover-color: var(--color-brand-hover);
+  --antd-link-active-color: var(--color-brand-active);
+
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
   --antd-menu-color: var(--color-header-text);
@@ -373,6 +377,10 @@ html[data-theme="dark-v2"],
   --antd-description-title-color: var(--color-header-text);
   --antd-description-item-label-color: var(--color-secondary-text);
   --antd-description-item-content-color: var(--color-header-text);
+
+  /*** tabs ***/
+  --antd-tabs-highlight-color: var(--color-brand);
+  --antd-tabs-hover-color: var(--color-brand-hover);
 
   /*** cmdb instance detail ***/
   --cmdb-instance-detail-detail-description-item-label: var(
