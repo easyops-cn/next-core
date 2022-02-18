@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.63.31](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.30...@next-core/brick-container@2.63.31) (2022-02-18)
+
+
+### Bug Fixes
+
+* card item style ([0c35a30](https://github.com/easyops-cn/next-core/commit/0c35a30590c1cef981721c2c52368fd8f95c9a51))
+* dropdown select style ([8827cab](https://github.com/easyops-cn/next-core/commit/8827cab73d6535217f5034a5bde768f4e2def057))
+* style refine ([74c3146](https://github.com/easyops-cn/next-core/commit/74c314666ee696252f8876f3c828e50a3b73605c))
+
+
+
+
+
 ## [2.63.30](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.63.29...@next-core/brick-container@2.63.30) (2022-02-17)
 
 **Note:** Version bump only for package @next-core/brick-container

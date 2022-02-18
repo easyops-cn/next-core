@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.11](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.10...@next-core/custom-antd-styles@1.23.11) (2022-02-18)
+
+
+### Bug Fixes
+
+* tabs style ([af4e20f](https://github.com/easyops-cn/next-core/commit/af4e20fa1ca0b6bf5623fe70cdf5609bdd7e4381))
+
+
+
+
+
 ## [1.23.10](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.9...@next-core/custom-antd-styles@1.23.10) (2022-02-11)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
