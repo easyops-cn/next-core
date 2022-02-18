@@ -125,7 +125,12 @@
 
   --menu-bg: #4e93ef;
   --menu-item-selected-bg: var(--color-brand);
+  --menu-group-active-bg: var(--palette-blue-7);
+  --menu-collapse-bar-border-color: rgba(255, 255, 255, 0.08);
+  --menu-collapse-bar-bg: rgba(255, 255, 255, 0.08);
+  --menu-submenu-group-active-bg: var(--palette-gray-3);
   --menu-item-hover: #3e86e6;
+  --menu-submenu-group-selected-bg: var(--palette-gray-3);
   --menu-submenu-selected-bg: rgba(0, 99, 206, 0.2);
   --menu-dropdown-bg: var(--palette-blue-1);
   --app-submenu-active-bg: #e0eeff;

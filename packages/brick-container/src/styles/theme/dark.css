@@ -78,10 +78,12 @@ html[data-theme="dark-v2"],
 
   --menu-bg: var(--palette-gray-3);
   --menu-item-selected-bg: var(--palette-blue-6);
+  --menu-group-active-bg: var(--palette-gray-2);
   --menu-collapse-bar-border-color: var(--palette-rgba-gray-3);
   --menu-collapse-bar-bg: var(--palette-rgba-gray-3);
   --menu-item-hover: var(--palette-rgba-gray-2);
   --app-submenu-bg: var(--palette-rgba-gray-2);
+  --menu-submenu-group-selected-bg: var(--palette-rgba-gray-3);
   --menu-submenu-selected-bg: var(--palette-rgba-gray-3);
   --menu-dropdown-bg: var(--palette-blue-1);
   --app-submenu-active-bg: var(--palette-blue-1);
