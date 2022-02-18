@@ -49,6 +49,12 @@ html[data-theme="dark-v2"],
   --color-normal-text: var(--palette-rgba-gray-9);
   --color-border-divider-line: #454547;
 
+  --stroke-color-default: var(--color-text-divider-line);
+  --text-color-default: var(--color-normal-text);
+  --text-color-title: var(--color-header-text);
+  --text-color-secondary: var(--color-secondary-text);
+  --text-color-link: var(--color-brand);
+
   --color-info-bg: var(--palette-blue-2);
 
   --color-success-bg: var(--palette-green-2);
@@ -608,4 +614,18 @@ html[data-theme="dark-v2"],
   --log-display-border-color: #323330;
   --log-display-bg: #1b1c19;
   --log-display-color: var(--color-normal-text);
+
+  /*** card-item ***/
+  --card-item-border-color: var(--color-border-divider-line);
+  --card-item-border-radius: var(--card-inner-border-radius);
+  --card-item-bg: var(--color-fill-bg-container-1);
+  --card-item-hover-shadow: var(--hover-shadow);
+
+  /*** entry-card-item ***/
+  --entry-card-item-bg: var(--antd-card-background);
+  --entry-card-item-radius: var(--larger-border-radius);
+  --entry-card-item-color: var(--text-color-default);
+  --entry-card-item-hover-shadow: var(--antd-card-shadow);
+  --entry-card-item-highlight-hover-color: var(--color-brand);
+  --entry-card-item-default-hover-color: var(--color-strong-text);
 }

@@ -635,4 +635,18 @@
   --log-display-border-color: #292c33;
   --log-display-bg: #2f333d;
   --log-display-color: #c5c8c6;
+
+  /*** card-item ***/
+  --card-item-border-color: var(--stroke-color-default);
+  --card-item-border-radius: var(--card-inner-border-radius);
+  --card-item-bg: var(--antd-component-background);
+  --card-item-hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  /*** entry-card-item ***/
+  --entry-card-item-bg: var(--antd-card-background);
+  --entry-card-item-radius: var(--larger-border-radius);
+  --entry-card-item-color: var(--text-color-default);
+  --entry-card-item-hover-shadow: var(--antd-card-shadow);
+  --entry-card-item-highlight-hover-color: var(--text-color-link);
+  --entry-card-item-default-hover-color: #08132d;
 }
