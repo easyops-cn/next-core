@@ -125,7 +125,12 @@
 
   --menu-bg: #4e93ef;
   --menu-item-selected-bg: var(--color-brand);
+  --menu-group-active-bg: var(--palette-blue-7);
+  --menu-collapse-bar-border-color: rgba(255, 255, 255, 0.08);
+  --menu-collapse-bar-bg: rgba(255, 255, 255, 0.08);
+  --menu-submenu-group-active-bg: var(--palette-gray-3);
   --menu-item-hover: #3e86e6;
+  --menu-submenu-group-selected-bg: var(--palette-gray-3);
   --menu-submenu-selected-bg: rgba(0, 99, 206, 0.2);
   --menu-dropdown-bg: var(--palette-blue-1);
   --app-submenu-active-bg: #e0eeff;
@@ -170,6 +175,9 @@
   --antd-icon-color-hover: rgba(0, 0, 0, 0.75);
   --antd-error-color: #ff4d4f;
   --antd-error-color-fade-20: rgba(242, 76, 37, 0.2);
+  --antd-link-color: var(--antd-primary-color);
+  --antd-link-hover-color: #2893f7;
+  --antd-link-active-color: #0058c4;
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
@@ -578,6 +586,10 @@
   --antd-cascader-menu-item-border-width: var(--border-width-base);
   --antd-cascader-menu-item-border-color: var(--color-border-divider-line);
 
+  /*** tabs ***/
+  --antd-tabs-highlight-color: var(--color-brand);
+  --antd-tabs-hover-color: var(--antd-link-hover-color);
+
   /*** cmdb instances timeline ***/
   --cmdb-instance-timeline-bg-color: var(--antd-card-background);
   --cmdb-instance-timeline-top-month-font-weight: var(--font-weight-400);
@@ -623,4 +635,22 @@
   --log-display-border-color: #292c33;
   --log-display-bg: #2f333d;
   --log-display-color: #c5c8c6;
+
+  /*** card-item ***/
+  --card-item-border-color: var(--stroke-color-default);
+  --card-item-border-radius: var(--card-inner-border-radius);
+  --card-item-bg: var(--antd-component-background);
+  --card-item-hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  /*** entry-card-item ***/
+  --entry-card-item-bg: var(--antd-card-background);
+  --entry-card-item-radius: var(--larger-border-radius);
+  --entry-card-item-color: var(--text-color-default);
+  --entry-card-item-hover-shadow: var(--antd-card-shadow);
+  --entry-card-item-highlight-hover-color: var(--text-color-link);
+  --entry-card-item-default-hover-color: #08132d;
+
+  /*** dropdown-select ***/
+  --dropdown-select-shape-type-trigger-shadow: 0px 2px 6px 0px #dcdcdc;
+  --dropdown-select-shape-type-disable-bg: #e5e5e5;
 }

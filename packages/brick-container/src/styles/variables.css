@@ -163,9 +163,6 @@
   --antd-disabled-color-fade-10: rgba(191, 191, 191, 0.9);
   --antd-modal-mask-bg-fade-10: rgba(0, 0, 0, 0.1);
 
-  --antd-link-color: var(--antd-primary-color);
-  --antd-link-hover-color: #2893f7;
-  --antd-link-active-color: #0058c4;
   --antd-text-color-secondary: rgba(0, 0, 0, 0.45);
 
   /* antd components */
