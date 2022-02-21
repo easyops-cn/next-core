@@ -350,6 +350,9 @@ export const SingleBrickAsComponent = React.memo(
           const { [symbolForTplContextId]: tplContextId } =
             useBrick as RuntimeBrickConfWithTplSymbols;
 
+          if (useBrick.iid) {
+            element.dataset.iid = useBrick.iid;
+          }
           setRealProperties(element, brick.properties);
           unbindListeners(element);
           if (brick.events) {
@@ -582,6 +585,9 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
             const { [symbolForTplContextId]: tplContextId } =
               useBrick as RuntimeBrickConfWithTplSymbols;
 
+            if (useBrick.iid) {
+              element.dataset.iid = useBrick.iid;
+            }
             setRealProperties(element, brick.properties);
             unbindListeners(element);
             if (useBrick.events) {

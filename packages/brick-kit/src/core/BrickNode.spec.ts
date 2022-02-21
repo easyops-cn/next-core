@@ -1,7 +1,5 @@
-import { RuntimeBrickElement } from "@next-core/brick-types";
 import { bindListeners } from "../internal/bindListeners";
 import { BrickNode, RuntimeBrick } from "./BrickNode";
-import { symbolForTplContextId } from "./CustomTemplates";
 import { handleProxyOfCustomTemplate } from "./exports";
 
 jest.mock("../internal/bindListeners");
@@ -27,13 +25,15 @@ describe("BrickNode", () => {
           // Do nothing
         },
       },
+      iid: "i-1",
     };
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount();
     expect(node.nodeName).toBe("DIV");
     expect(node.getAttribute("slot")).toBe(null);
-    // expect(node.title).toBe("good");
+    expect(node.title).toBe("good");
     expect(node.childNodes.length).toBe(0);
+    expect(node.dataset.iid).toBe("i-1");
     const callArgs = spyOnBindListeners.mock.calls[0];
     expect(callArgs[0]).toBe(node);
     expect(callArgs[1]).toBe(runtimeBrick.events);

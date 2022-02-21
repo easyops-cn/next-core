@@ -8,6 +8,7 @@ import {
   getAuth,
   httpErrorToString,
   getMockInfo,
+  developHelper,
 } from "@next-core/brick-kit";
 import {
   http,
@@ -17,6 +18,10 @@ import {
 } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
+import type {
+  PreviewHelperBrick,
+  PreviewMessageContainerStartPreview,
+} from "@next-core/brick-types";
 import "./antd";
 import "./styles/theme/index.css";
 import "./styles/variables.css";
@@ -44,7 +49,7 @@ window.BRICK_NEXT_FEATURES = BRICK_NEXT_FEATURES;
 
 const root = document.body;
 
-const pluginRuntime = createRuntime();
+const runtime = createRuntime();
 
 const mountPoints = {
   menuBar: root.querySelector<HTMLElement>("#menu-bar-mount-point"),
@@ -59,7 +64,7 @@ let analyzer: ReturnType<typeof apiAnalyzer.create>;
 
 // Disable API stats for standalone micro-apps.
 if (!window.STANDALONE_MICRO_APPS) {
-  const api = `${pluginRuntime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
+  const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
   analyzer = apiAnalyzer.create({
     api,
   });
@@ -114,9 +119,29 @@ http.interceptors.response.use(
   }
 );
 
+let previewFromOrigin: string;
+if (window.parent) {
+  const listener = async ({
+    data,
+    origin,
+  }: MessageEvent<PreviewMessageContainerStartPreview>): Promise<void> => {
+    if (
+      data &&
+      data.sender === "preview-container" &&
+      data.type === "start-preview"
+    ) {
+      window.removeEventListener("message", listener);
+      previewFromOrigin = origin;
+    }
+  };
+  window.addEventListener("message", listener);
+}
+
 async function bootstrap(): Promise<void> {
+  let ok = false;
   try {
-    await pluginRuntime.bootstrap(mountPoints);
+    await runtime.bootstrap(mountPoints);
+    ok = true;
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
@@ -132,6 +157,43 @@ async function bootstrap(): Promise<void> {
       />,
       mountPoints.main
     );
+  }
+
+  if (ok && previewFromOrigin) {
+    // Make sure preview from the expected origins.
+    let previewAllowed =
+      previewFromOrigin === location.origin ||
+      /^https?:\/\/localhost(?:$|:)/.test(previewFromOrigin);
+    if (!previewAllowed) {
+      const { allowedPreviewFromOrigins } = runtime.getMiscSettings() as {
+        allowedPreviewFromOrigins?: string[];
+      };
+      if (Array.isArray(allowedPreviewFromOrigins)) {
+        previewAllowed = allowedPreviewFromOrigins.some(
+          (origin) => origin === previewFromOrigin
+        );
+      }
+      if (!previewAllowed) {
+        // eslint-disable-next-line
+        console.error(
+          `Preview is disallowed, from origin: ${previewFromOrigin}, while allowing: ${JSON.stringify(
+            allowedPreviewFromOrigins
+          )}`
+        );
+      }
+    }
+    if (previewAllowed) {
+      const helperBrickName = "next-previewer.preview-helper";
+      await developHelper.loadDynamicBricksInBrickConf({
+        brick: helperBrickName,
+      });
+      if (customElements.get(helperBrickName)) {
+        const helper = document.createElement(
+          helperBrickName
+        ) as unknown as PreviewHelperBrick;
+        helper.start(previewFromOrigin);
+      }
+    }
   }
 }
 

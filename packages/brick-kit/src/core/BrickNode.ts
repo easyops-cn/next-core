@@ -30,6 +30,7 @@ export interface RuntimeBrick {
   isExternalOfTpl?: boolean;
   isParent?: boolean;
   ref?: string;
+  iid?: string;
 }
 
 export class BrickNode {
@@ -63,6 +64,9 @@ export class BrickNode {
 
     if (brick.slotId) {
       node.setAttribute("slot", brick.slotId);
+    }
+    if (brick.iid) {
+      node.dataset.iid = brick.iid;
     }
     setRealProperties(node, brick.properties);
     bindListeners(node, brick.events, brick.context);

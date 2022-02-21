@@ -37,13 +37,12 @@ const jsonFieldsInBrick = [
 const yamlFieldsInBrick = ["permissionsPreCheck", "transformFrom"];
 
 // Fields started with `_` will be removed by default.
-const fieldsToRemoveInRoute = [
+const baseFieldsToRemove = [
   "appId",
   "children",
   "creator",
   "ctime",
   "id",
-  "instanceId",
   "graphInfo",
   "modifier",
   "mountPoint",
@@ -60,7 +59,9 @@ const fieldsToRemoveInRoute = [
   "updateAuthorizers",
 ];
 
-const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type", "alias");
+const fieldsToRemoveInRoute = baseFieldsToRemove.concat("instanceId");
+
+const fieldsToRemoveInBrick = baseFieldsToRemove.concat("type", "alias");
 
 // Those fields can be disposed if value is null.
 const disposableNullFields = [
@@ -92,7 +93,7 @@ export function normalizeBuilderNode(
       fieldsToRemoveInBrick,
       jsonFieldsInBrick,
       yamlFieldsInBrick,
-      false
+      "brick"
     ) as unknown as BrickConf;
   }
   if (isRouteNode(node)) {
@@ -101,7 +102,7 @@ export function normalizeBuilderNode(
       fieldsToRemoveInRoute,
       jsonFieldsInRoute,
       yamlFieldsInRoute,
-      true
+      "route"
     ) as unknown as RouteConf;
   }
   return null;
@@ -112,7 +113,7 @@ function normalize(
   fieldsToRemove: string[],
   jsonFields: string[],
   yamlFields: string[],
-  cleanUpSegues?: boolean
+  type: "brick" | "route"
 ): Record<string, unknown> {
   return Object.fromEntries(
     Object.entries(node)
@@ -128,8 +129,8 @@ function normalize(
       )
       // Parse specific fields.
       .map(([key, value]) => [
-        key,
-        cleanUpSegues && key === "segues"
+        key === "instanceId" ? "iid" : key,
+        type === "route" && key === "segues"
           ? getCleanSegues(value as string)
           : jsonFields.includes(key)
           ? safeJsonParse(value as string)

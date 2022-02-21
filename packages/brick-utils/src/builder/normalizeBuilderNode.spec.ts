@@ -93,6 +93,7 @@ describe("normalizeBuilderNode", () => {
       {
         brick: "m",
         if: false,
+        iid: "instance-b01",
         lifeCycle: undefined,
         permissionsPreCheck: undefined,
       },

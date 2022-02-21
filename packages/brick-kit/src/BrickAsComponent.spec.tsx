@@ -375,6 +375,7 @@ describe("BrickAsComponent", () => {
               args: ["@{tips}", "${HASH}"],
             },
           },
+          iid: "i-1",
         }}
         data={{
           tips: "good",
@@ -418,6 +419,7 @@ describe("BrickAsComponent", () => {
       },
     });
     expect((div as RuntimeBrickElement).$$typeof).toBe("native");
+    expect(div.dataset.iid).toBe("i-1");
   });
 
   it("should work for multiple bricks", async () => {
@@ -586,6 +588,7 @@ describe("BrickAsComponent", () => {
       <ForwardRefSingleBrickAsComponent
         useBrick={{
           brick: "input",
+          iid: "i-2",
         }}
         ref={(r) => {
           ref = r;

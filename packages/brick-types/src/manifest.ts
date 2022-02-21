@@ -619,6 +619,9 @@ export interface BrickConf {
    * @internal
    */
   exports?: Record<string, string>;
+
+  /** 构件编排 ID */
+  iid?: string;
 }
 
 /**
@@ -1387,6 +1390,9 @@ export interface UseSingleBrickConf {
 
   /** {@inheritDoc UseBrickSlotsConf} */
   slots?: UseBrickSlotsConf;
+
+  /** {@inheritDoc BrickConf.iid} */
+  iid?: string;
 }
 
 /** 在 `useBrick` 中使用的插槽配置表。 */
