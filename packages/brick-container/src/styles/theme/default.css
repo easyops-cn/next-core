@@ -232,6 +232,7 @@
   --antd-card-background: var(--antd-component-background);
   --antd-card-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04);
   --antd-card-inner-border-color: var(--palette-gray-5);
+  --antd-card-footer-bg: var(--color-white);
 
   /*** radio dashboard ***/
   --antd-dashboard-radio-bg: #f2f5f9;
@@ -608,6 +609,13 @@
 
   /*** collapse ***/
   --antd-collapse-content-bg: var(--antd-component-background);
+
+  /*** upload ***/
+  --antd-upload-drag-bg: #f8f9fc;
+  --antd-upload-drag-border-color: #b9c6de;
+  --antd-upload-drag-hover-bg: #ebf3fd;
+  --antd-upload-drag-hover-border-color: #0071eb;
+  --antd-upload-list-item-hover-bg: var(--theme-blue-background);
 
   /*** sub-menu-brick ***/
   --sub-menu-brick-item-hover-bg: #f2f5f9;
