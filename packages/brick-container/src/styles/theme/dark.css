@@ -187,6 +187,7 @@ html[data-theme="dark-v2"],
   /*** card ***/
   --antd-card-background: var(--color-fill-bg-container-1);
   --antd-card-shadow: var(--base-shadow);
+  --antd-card-footer-bg: var(--color-fill-bg-base-3);
 
   /*** radio dashboard ***/
   --antd-dashboard-radio-bg: var(--color-fill-bg-container-3);
@@ -585,6 +586,13 @@ html[data-theme="dark-v2"],
 
   /*** collapse ***/
   --antd-collapse-content-bg: var(--antd-component-background);
+
+  /*** upload ***/
+  --antd-upload-drag-bg: var(--palette-rgba-gray-2);
+  --antd-upload-drag-border-color: var(--color-border-divider-line);
+  --antd-upload-drag-hover-bg: var(--color-fill-bg-base-3);
+  --antd-upload-drag-hover-border-color: var(--color-brand);
+  --antd-upload-list-item-hover-bg: var(--color-fill-bg-base-1);
 
   /*** sub-menu-brick ***/
   --sub-menu-brick-item-hover-bg: none;
