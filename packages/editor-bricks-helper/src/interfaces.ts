@@ -181,33 +181,3 @@ export interface SharedEditorConf {
 }
 
 export type BuilderDroppingStatus = Map<number, Map<string, boolean>>;
-
-export interface AbstractBuilderDataManager {
-  getData(): BuilderCanvasData;
-  getRouteList(): BuilderRouteNode[];
-  getContextMenuStatus(): BuilderContextMenuStatus;
-  dataInit(root: BuilderRuntimeNode): void;
-  sharedEditorListInit(data: SharedEditorConf[]): void;
-  routeListInit(data: BuilderRouteNode[]): void;
-  nodeAdd(detail: EventDetailOfNodeAdd): void;
-  nodeAddStored(detail: EventDetailOfNodeAddStored): void;
-  snippetApply(detail: EventDetailOfSnippetApply): void;
-  snippetApplyStored(detail: EventDetailOfSnippetApplyStored): void;
-  nodeMove(detail: EventDetailOfNodeMove): void;
-  nodeReorder(detail: EventDetailOfNodeReorder): void;
-  nodeDelete(detail: BuilderRuntimeNode): void;
-  nodeClick(detail: BuilderRuntimeNode): void;
-  contextUpdated(detail: EventDetailOfContextUpdated): void;
-  onDataChange(fn: EventListener): () => void;
-  onNodeAdd(fn: (event: CustomEvent<EventDetailOfNodeAdd>) => void): () => void;
-  onNodeReorder(
-    fn: (event: CustomEvent<EventDetailOfNodeReorder>) => void
-  ): () => void;
-  onNodeMove(
-    fn: (event: CustomEvent<EventDetailOfNodeMove>) => void
-  ): () => void;
-  onNodeClick(fn: (event: CustomEvent<BuilderRuntimeNode>) => void): () => void;
-  onContextMenuChange(
-    fn: (event: CustomEvent<BuilderContextMenuStatus>) => void
-  ): () => void;
-}
