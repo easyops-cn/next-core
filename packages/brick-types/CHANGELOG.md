@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.58.0...@next-core/brick-types@2.59.0) (2022-02-21)
+
+
+### Features
+
+* record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
+* support preview messages ([883af1d](https://github.com/easyops-cn/next-core/commit/883af1dc9b616c161d5d4a6ae05292b236654776))
+
+
+
+
+
 # [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.57.0...@next-core/brick-types@2.58.0) (2022-02-17)
 
 

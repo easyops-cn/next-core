@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.106.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.105.1...@next-core/brick-kit@2.106.0) (2022-02-21)
+
+
+### Features
+
+* record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
+
+
+
+
+
 ## [2.105.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.105.0...@next-core/brick-kit@2.105.1) (2022-02-17)
 
 

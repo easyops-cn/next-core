@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.2...@next-core/brick-utils@2.35.0) (2022-02-21)
+
+
+### Features
+
+* record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
+
+
+
+
+
 ## [2.34.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.1...@next-core/brick-utils@2.34.2) (2022-02-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
