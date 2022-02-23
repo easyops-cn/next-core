@@ -223,6 +223,9 @@ html[data-theme="dark-v2"],
   /*** statistic card ***/
   --statistic-card-item-title-color: var(--color-secondary-text);
   --statistic-card-item-value-color: var(--color-normal-text);
+  --statistic-card-item-hover-shadow: var(--hover-shadow);
+  --statistic-card-item-empty-value-color: var(--palette-rgba-gray-5);
+  --statistic-card-item-larger-type-title-color: var(--color-header-text);
 
   /*** base chart ***/
   --antd-chart-legend-text-color: var(--palette-rgba-gray-8);
@@ -466,6 +469,7 @@ html[data-theme="dark-v2"],
 
   /*** avatar ***/
   --antd-avatar-bg: var(--palette-rgba-gray-6);
+  --antd-avatar-color: var(--color-normal-text);
 
   /*** slider ***/
   --antd-slider-track-background-color: var(--palette-blue-6);
@@ -628,6 +632,9 @@ html[data-theme="dark-v2"],
   --card-item-border-radius: var(--card-inner-border-radius);
   --card-item-bg: var(--color-fill-bg-container-1);
   --card-item-hover-shadow: var(--hover-shadow);
+  --card-item-title-color: var(--text-color-title);
+  --card-item-sub-title-color: var(--text-color-secondary);
+  --card-item-desc-color: var(--text-color-secondary);
 
   /*** entry-card-item ***/
   --entry-card-item-bg: var(--antd-card-background);
