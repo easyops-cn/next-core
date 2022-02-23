@@ -269,6 +269,9 @@
   /*** statistic card ***/
   --statistic-card-item-title-color: rgba(140, 140, 140, 1);
   --statistic-card-item-value-color: #262626;
+  --statistic-card-item-hover-shadow: var(--antd-card-shadow);
+  --statistic-card-item-empty-value-color: var(--color-border-divider-line);
+  --statistic-card-item-larger-type-title-color: rgba(79, 79, 79, 1);
 
   /*** base chart ***/
   --antd-chart-legend-text-color: #595959;
@@ -649,6 +652,9 @@
   --card-item-border-radius: var(--card-inner-border-radius);
   --card-item-bg: var(--antd-component-background);
   --card-item-hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  --card-item-title-color: var(--text-color-title);
+  --card-item-sub-title-color: var(--text-color-secondary);
+  --card-item-desc-color: var(--text-color-secondary);
 
   /*** entry-card-item ***/
   --entry-card-item-bg: var(--antd-card-background);
