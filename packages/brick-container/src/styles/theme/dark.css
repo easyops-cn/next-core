@@ -330,7 +330,7 @@ html[data-theme="dark-v2"],
   --antd-table-row-expand-nested-wrapper: var(--color-fill-bg-container-2);
   --antd-table-row-expand-nested-wrapper-border: var(--antd-table-border-color);
   --antd-table-expanded-row-bg: var(--antd-table-row-expand-nested-wrapper);
-  --antd-table-cell-fixed-header-bg: #2c2c2d;
+  --antd-table-cell-fixed-header-bg: var(--palette-gray-2);
   --antd-table-cell-fixed-body-bg: var(--antd-component-background);
 
   /*** pagination  ***/
@@ -347,6 +347,7 @@ html[data-theme="dark-v2"],
   --antd-pagination-item-selected-hover-border-color: var(
     --antd-pagination-item-selected-hover-bg
   );
+  --antd-table-drop-hover-border-color: var(--color-info);
 
   /*** modal ***/
   --antd-modal-footer-bg: var(--palette-gray-3);
