@@ -7,12 +7,14 @@ import {
   BrickLifeCycle,
   BrickConf,
   RouteConf,
+  LayoutTypeEnum,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
   rootId: number;
   nodes: BuilderRuntimeNode[];
   edges: BuilderRuntimeEdge[];
+  wrapperNode?: BuilderRuntimeNode;
 }
 
 export interface BuilderCanvasSettings {
@@ -39,6 +41,7 @@ export interface BuilderRuntimeEdge {
   parent: number;
   mountPoint: string;
   sort: number;
+  layoutType?: LayoutTypeEnum;
   $$isTemplateInternal?: boolean;
   $$isTemplateDelegated?: boolean;
   $$isTemplateExpanded?: boolean;

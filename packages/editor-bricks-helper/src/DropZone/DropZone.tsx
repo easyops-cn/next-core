@@ -1,7 +1,7 @@
 /* istanbul-ignore-file */
 // Todo(steve): Ignore tests temporarily for potential breaking change in the future.
 import React from "react";
-import { clamp } from "lodash";
+import { clamp, isEmpty } from "lodash";
 import classNames from "classnames";
 import { DragObjectWithType, useDrop } from "react-dnd";
 import { EditorBrickAsComponent } from "../EditorBrickAsComponent/EditorBrickAsComponent";
@@ -45,6 +45,7 @@ export interface DropZoneProps {
   dropZoneBodyStyle?: React.CSSProperties;
   slotContentLayout?: EditorSlotContentLayout;
   showOutlineIfEmpty?: boolean;
+  hiddenWrapper?: boolean;
 }
 
 export interface DroppingContext {
@@ -69,6 +70,7 @@ export function DropZone({
   dropZoneBodyStyle,
   slotContentLayout,
   showOutlineIfEmpty,
+  hiddenWrapper = true,
 }: DropZoneProps): React.ReactElement {
   const dropZoneBody = React.useRef<HTMLDivElement>();
   const [dropPositionCursor, setDropPositionCursor] =
@@ -76,10 +78,14 @@ export function DropZone({
   const dropPositionCursorRef = React.useRef<DropPositionCursor>();
   const contextMenuStatus = useBuilderContextMenuStatus();
   const manager = useBuilderDataManager();
-  const node = useBuilderNode({ nodeUid, isRoot });
+  const { nodes, edges, wrapperNode } = useBuilderData();
+  const useWrapper = hiddenWrapper && isRoot && !isEmpty(wrapperNode);
+  const node = useBuilderNode({ nodeUid, isRoot, useWrapper });
   const groupedChildNodes = useBuilderGroupedChildNodes({
     nodeUid,
     isRoot,
+    doNotExpandTemplates: useWrapper,
+    useWrapper,
   });
 
   const isGeneralizedPortalCanvas = independentPortalCanvas
@@ -153,8 +159,6 @@ export function DropZone({
     ]
   );
 
-  const { nodes, edges } = useBuilderData();
-
   const getDroppingContext = React.useCallback(() => {
     if (delegatedContext) {
       const siblingGroups = getBuilderGroupedChildNodes({
@@ -178,7 +182,9 @@ export function DropZone({
     }
     return {
       droppingParentUid: node.$$uid,
-      droppingParentInstanceId: node.instanceId,
+      droppingParentInstanceId: useWrapper
+        ? wrapperNode.instanceId
+        : node.instanceId,
       droppingMountPoint: mountPoint,
       droppingChildNodes: selfChildNodes,
       droppingSiblingGroups: groupedChildNodes,
@@ -191,6 +197,8 @@ export function DropZone({
     node,
     nodes,
     selfChildNodes,
+    useWrapper,
+    wrapperNode,
   ]);
 
   const [{ isDraggingOverCurrent }, dropRef] = useDrop({
@@ -258,6 +266,7 @@ export function DropZone({
 
   const droppable =
     !!delegatedContext ||
+    useWrapper ||
     !(node.$$isExpandableTemplate || node.$$isTemplateInternalNode);
 
   const dropZoneRef = React.useRef<HTMLElement>();

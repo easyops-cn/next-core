@@ -58,6 +58,7 @@ export class BuilderDataManager {
     rootId: null,
     nodes: [],
     edges: [],
+    wrapperNode: null,
   };
 
   private hoverNodeUid: number;
@@ -172,7 +173,8 @@ export class BuilderDataManager {
         root,
         rootId,
         templateSourceMap,
-        this.storyList
+        this.storyList,
+        true
       ),
     };
     this.data = {
@@ -195,8 +197,8 @@ export class BuilderDataManager {
     );
   }
 
-  runAddNodeAction = (detail: EventDetailOfNodeAdd): void => {
-    const { rootId, nodes, edges } = this.data;
+  runAddNodeAction = (detail: EventDetailOfNodeAdd) => {
+    const { rootId, nodes, edges, wrapperNode } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
     const { nodes: addNodes, edges: addEdges } = getAppendingNodesAndEdges(
@@ -207,7 +209,6 @@ export class BuilderDataManager {
       this.templateSourceMap,
       this.getStoryList()
     );
-
     const newNodes = nodes.concat(addNodes);
     const newEdges = edges
       .concat({
@@ -223,6 +224,7 @@ export class BuilderDataManager {
       rootId,
       nodes: newNodes,
       edges: newEdges,
+      wrapperNode,
     };
     this.data = {
       ...newData,
@@ -240,7 +242,20 @@ export class BuilderDataManager {
     this.runAddNodeAction(detail);
   }
 
+  redirectMountPoint(
+    detail: EventDetailOfNodeAdd | EventDetailOfNodeMove
+  ): void {
+    const { rootId, wrapperNode } = this.data;
+    if (detail.nodeUid === rootId) {
+      detail.nodeData.mountPoint = "bricks";
+    }
+    if (wrapperNode && wrapperNode.instanceId === detail.nodeData.parent) {
+      detail.nodeData.mountPoint = "content";
+    }
+  }
+
   nodeAdd(detail: EventDetailOfNodeAdd): void {
+    this.redirectMountPoint(detail);
     this.runAddNodeAction(detail);
 
     this.eventTarget.dispatchEvent(
@@ -249,7 +264,7 @@ export class BuilderDataManager {
   }
 
   nodeAddStored(detail: EventDetailOfNodeAddStored): void {
-    const { rootId, nodes, edges } = this.data;
+    const { rootId, nodes, edges, wrapperNode } = this.data;
     const { nodeUid, nodeData } = detail;
     this.data = {
       rootId,
@@ -259,12 +274,13 @@ export class BuilderDataManager {
           : node
       ),
       edges,
+      wrapperNode,
     };
     this.triggerDataChange();
   }
 
   snippetApply(detail: EventDetailOfSnippetApply): void {
-    const { rootId, nodes, edges } = this.data;
+    const { rootId, nodes, edges, wrapperNode } = this.data;
     const { nodeDetails, parentUid, nodeUids } = detail;
 
     const newNodes: BuilderRuntimeNode[] = nodes.slice();
@@ -312,6 +328,7 @@ export class BuilderDataManager {
       rootId,
       nodes: newNodes,
       edges: newEdges,
+      wrapperNode,
     };
     this.data = {
       ...newData,
@@ -347,7 +364,8 @@ export class BuilderDataManager {
   }
 
   nodeMove(detail: EventDetailOfNodeMove): void {
-    const { rootId, nodes, edges } = this.data;
+    const { rootId, nodes, edges, wrapperNode } = this.data;
+    this.redirectMountPoint(detail);
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
     const newData = {
       rootId,
@@ -361,6 +379,7 @@ export class BuilderDataManager {
           sort: undefined,
           $$isTemplateDelegated: isParentExpandableTemplate(nodes, parentUid),
         }),
+      wrapperNode,
     };
     this.data = {
       ...newData,
@@ -376,13 +395,14 @@ export class BuilderDataManager {
   }
 
   contextUpdated(detail: EventDetailOfContextUpdated): void {
-    const { rootId, nodes, edges } = this.data;
+    const { rootId, nodes, edges, wrapperNode } = this.data;
     this.data = {
       rootId,
       edges,
       nodes: nodes.map((node) =>
         node.$$uid === rootId ? { ...node, context: detail.context } : node
       ),
+      wrapperNode,
     };
     this.triggerDataChange();
   }

@@ -106,4 +106,24 @@ describe("deleteNodeFromTree", () => {
       result.edges.map((edge) => `${edge.parent}:${edge.child}`).sort()
     ).toEqual(resultEdges);
   });
+
+  it("should delete while wrapper node", () => {
+    const wrapperNode = {
+      $$parsedProperties: {},
+      $$uid: 2,
+      alias: "alias-a",
+      brick: "brick-a",
+      id: "B-002",
+      sort: 0,
+      type: "brick",
+    };
+    const newData = Object.assign(data, {
+      wrapperNode,
+    });
+    const result1 = deleteNodeFromTree(3, newData);
+    expect(result1.wrapperNode).toEqual(wrapperNode);
+
+    const result2 = deleteNodeFromTree(2, newData);
+    expect(result2.wrapperNode).toBeNull();
+  });
 });

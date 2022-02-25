@@ -2,7 +2,7 @@ import { BuilderCanvasData, BuilderRuntimeEdge } from "../interfaces";
 
 export function deleteNodeFromTree(
   nodeUid: number,
-  { rootId, nodes, edges }: BuilderCanvasData
+  { rootId, nodes, edges, wrapperNode }: BuilderCanvasData
 ): BuilderCanvasData {
   const idsToDelete = new Set<number>();
   collectIdsToDelete(nodeUid, edges, idsToDelete);
@@ -12,6 +12,7 @@ export function deleteNodeFromTree(
     edges: edges.filter(
       (edge) => !idsToDelete.has(edge.parent) && !idsToDelete.has(edge.child)
     ),
+    wrapperNode: wrapperNode?.$$uid === nodeUid ? null : wrapperNode,
   };
 }
 

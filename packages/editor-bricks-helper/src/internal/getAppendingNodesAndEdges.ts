@@ -1,4 +1,4 @@
-import { sortBy } from "lodash";
+import { cloneDeep, sortBy } from "lodash";
 import { hasOwnProperty } from "@next-core/brick-utils";
 import {
   BuilderRouteOrBrickNode,
@@ -6,6 +6,7 @@ import {
   CustomTemplateProxyProperty,
   CustomTemplateProxyBasicProperty,
   Story,
+  LayoutTypeEnum,
 } from "@next-core/brick-types";
 import { BuilderRuntimeEdge, BuilderRuntimeNode } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
@@ -16,19 +17,24 @@ export function getAppendingNodesAndEdges(
   nodeData: BuilderRouteOrBrickNode,
   nodeUid: number,
   templateSourceMap: Map<string, BuilderCustomTemplateNode>,
-  storyList: Story[] = []
+  storyList: Story[] = [],
+  isRoot?: boolean
 ): {
   nodes: BuilderRuntimeNode[];
   edges: BuilderRuntimeEdge[];
+  wrapperNode?: BuilderRuntimeNode;
 } {
   const nodes: BuilderRuntimeNode[] = [];
   const edges: BuilderRuntimeEdge[] = [];
+  let wrapperNode: BuilderRuntimeNode;
+
   const walk = (
     nodeData: BuilderRouteOrBrickNode,
     currentUid: number,
     processedTemplateSet: Set<string>,
     isTemplateInternalNode?: boolean,
-    inheritedTemplateRefToUid?: Map<string, number>
+    inheritedTemplateRefToUid?: Map<string, number>,
+    layoutType?: LayoutTypeEnum
   ): void => {
     const builderNode = getBuilderNode(
       nodeData,
@@ -36,6 +42,10 @@ export function getAppendingNodesAndEdges(
       isTemplateInternalNode
     );
     nodes.push(builderNode);
+
+    if (layoutType && isTemplateInternalNode) {
+      builderNode.layoutType = layoutType;
+    }
 
     if (inheritedTemplateRefToUid && builderNode.ref) {
       inheritedTemplateRefToUid.set(builderNode.ref as string, currentUid);
@@ -56,6 +66,9 @@ export function getAppendingNodesAndEdges(
           )?.originData) &&
           templateSource.children?.length > 0))
     ) {
+      if (templateSource.layoutType === LayoutTypeEnum.Wrapper) {
+        builderNode.layoutType = LayoutTypeEnum.Wrapper;
+      }
       // Avoid nesting the same templates.
       processedTemplateSet.add(builderNode.brick);
       builderNode.$$isExpandableTemplate = true;
@@ -75,7 +88,8 @@ export function getAppendingNodesAndEdges(
           // Each child should be a branch.
           new Set(processedTemplateSet),
           true,
-          templateRefToUid
+          templateRefToUid,
+          layoutType
         );
         edges.push({
           child: childUid,
@@ -196,7 +210,8 @@ export function getAppendingNodesAndEdges(
           // Each child should be a branch.
           new Set(processedTemplateSet),
           isTemplateInternalNode,
-          inheritedTemplateRefToUid
+          inheritedTemplateRefToUid,
+          layoutType
         );
         edges.push({
           child: childUid,
@@ -210,9 +225,22 @@ export function getAppendingNodesAndEdges(
     }
   };
   walk(nodeData, nodeUid, new Set());
+  nodes.forEach((item) => {
+    // 布局模板属于第一层
+    if (
+      item.layoutType === LayoutTypeEnum.Wrapper &&
+      isRoot &&
+      edges.find((edge) => edge.child === item.$$uid).parent === nodeUid
+    ) {
+      if (!wrapperNode) {
+        wrapperNode = item;
+      }
+    }
+  });
   return {
     nodes,
     edges,
+    wrapperNode,
   };
 }
 

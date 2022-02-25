@@ -649,6 +649,8 @@ export interface BuilderBrickNode extends BuilderBaseNode {
 // @internal (undocumented)
 export interface BuilderCustomTemplateNode extends BuilderBaseNode {
     // (undocumented)
+    layoutType?: LayoutTypeEnum;
+    // (undocumented)
     proxy?: string;
     // (undocumented)
     templateId: string;
@@ -1169,6 +1171,12 @@ export type LayerType = "layout" | "widget" | "brick";
 
 // @public
 export type LayoutType = "console" | "business";
+
+// @public (undocumented)
+export enum LayoutTypeEnum {
+    // (undocumented)
+    Wrapper = "wrapper"
+}
 
 // @public
 export interface LegacyAntdIcon {
