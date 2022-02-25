@@ -7,33 +7,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [1.6.12](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.11...@next-core/cook@1.6.12) (2022-02-17)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [1.6.11](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.10...@next-core/cook@1.6.11) (2022-02-14)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [1.6.10](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.9...@next-core/cook@1.6.10) (2022-01-28)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [1.6.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.8...@next-core/cook@1.6.9) (2022-01-13)
 

@@ -5,46 +5,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.58.0...@next-core/brick-types@2.59.0) (2022-02-21)
 
-
 ### Features
 
-* record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
-* support preview messages ([883af1d](https://github.com/easyops-cn/next-core/commit/883af1dc9b616c161d5d4a6ae05292b236654776))
-
-
-
-
+- record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
+- support preview messages ([883af1d](https://github.com/easyops-cn/next-core/commit/883af1dc9b616c161d5d4a6ae05292b236654776))
 
 # [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.57.0...@next-core/brick-types@2.58.0) (2022-02-17)
 
-
 ### Features
 
-* 新增`PATH_NAME`常量 ([094fe48](https://github.com/easyops-cn/next-core/commit/094fe4877581b7594ea297a3da5c4ae047d9cc4d))
-
-
-
-
+- 新增`PATH_NAME`常量 ([094fe48](https://github.com/easyops-cn/next-core/commit/094fe4877581b7594ea297a3da5c4ae047d9cc4d))
 
 # [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.56.1...@next-core/brick-types@2.57.0) (2022-02-14)
 
-
 ### Features
 
-* support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
-* support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
-
-
-
-
+- support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
+- support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
 
 ## [2.56.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.56.0...@next-core/brick-types@2.56.1) (2022-01-28)
 
 **Note:** Version bump only for package @next-core/brick-types
-
-
-
-
 
 # [2.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.55.0...@next-core/brick-types@2.56.0) (2022-01-07)
 

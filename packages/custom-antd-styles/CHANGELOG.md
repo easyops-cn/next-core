@@ -5,79 +5,45 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.23.11](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.10...@next-core/custom-antd-styles@1.23.11) (2022-02-18)
 
-
 ### Bug Fixes
 
-* tabs style ([af4e20f](https://github.com/easyops-cn/next-core/commit/af4e20fa1ca0b6bf5623fe70cdf5609bdd7e4381))
-
-
-
-
+- tabs style ([af4e20f](https://github.com/easyops-cn/next-core/commit/af4e20fa1ca0b6bf5623fe70cdf5609bdd7e4381))
 
 ## [1.23.10](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.9...@next-core/custom-antd-styles@1.23.10) (2022-02-11)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
 
-
-
-
-
 ## [1.23.9](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.8...@next-core/custom-antd-styles@1.23.9) (2022-02-08)
-
 
 ### Bug Fixes
 
-* card style ([123819c](https://github.com/easyops-cn/next-core/commit/123819c7f17606529e2cec455e26f1ff24bf355d))
-
-
-
-
+- card style ([123819c](https://github.com/easyops-cn/next-core/commit/123819c7f17606529e2cec455e26f1ff24bf355d))
 
 ## [1.23.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.7...@next-core/custom-antd-styles@1.23.8) (2022-01-28)
 
-
 ### Bug Fixes
 
-* timeline调整后monitor-alert的timeline构件样式异常 ([f37f17a](https://github.com/easyops-cn/next-core/commit/f37f17acbfa18d7ac5364d117d24ce02e6c7fee5))
-
-
-
-
+- timeline 调整后 monitor-alert 的 timeline 构件样式异常 ([f37f17a](https://github.com/easyops-cn/next-core/commit/f37f17acbfa18d7ac5364d117d24ce02e6c7fee5))
 
 ## [1.23.7](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.6...@next-core/custom-antd-styles@1.23.7) (2022-01-28)
 
-
 ### Bug Fixes
 
-* **style:** cascader隐藏border-right带来的细小空白问题 ([1434b6d](https://github.com/easyops-cn/next-core/commit/1434b6dedc7dc9c5b2a32e23962e73f0674fafd2))
-* timeline调整后cmdb实例变更历史构件样式异常 ([8f2cb7d](https://github.com/easyops-cn/next-core/commit/8f2cb7d5c6f424fe4d3ceaaa33870ef98177e6ae))
-
-
-
-
+- **style:** cascader 隐藏 border-right 带来的细小空白问题 ([1434b6d](https://github.com/easyops-cn/next-core/commit/1434b6dedc7dc9c5b2a32e23962e73f0674fafd2))
+- timeline 调整后 cmdb 实例变更历史构件样式异常 ([8f2cb7d](https://github.com/easyops-cn/next-core/commit/8f2cb7d5c6f424fe4d3ceaaa33870ef98177e6ae))
 
 ## [1.23.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.5...@next-core/custom-antd-styles@1.23.6) (2022-01-28)
 
-
 ### Bug Fixes
 
-* **style:** cascader隐藏border-right带来的细小空白问题 ([0e6fc95](https://github.com/easyops-cn/next-core/commit/0e6fc952dca51407a1eeac4ebe96ddfc5f6f9bf3))
-
-
-
-
+- **style:** cascader 隐藏 border-right 带来的细小空白问题 ([0e6fc95](https://github.com/easyops-cn/next-core/commit/0e6fc952dca51407a1eeac4ebe96ddfc5f6f9bf3))
 
 ## [1.23.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.4...@next-core/custom-antd-styles@1.23.5) (2022-01-28)
 
-
 ### Bug Fixes
 
-* **cascader:** cascader的options有空数组children时异常显示分割线 ([a422446](https://github.com/easyops-cn/next-core/commit/a422446fc860ee8ab935bab2bb775b908b7885db))
-* modal style ([0f1afc5](https://github.com/easyops-cn/next-core/commit/0f1afc538fc86f6895d7fac9a0e080132e9bcf96))
-
-
-
-
+- **cascader:** cascader 的 options 有空数组 children 时异常显示分割线 ([a422446](https://github.com/easyops-cn/next-core/commit/a422446fc860ee8ab935bab2bb775b908b7885db))
+- modal style ([0f1afc5](https://github.com/easyops-cn/next-core/commit/0f1afc538fc86f6895d7fac9a0e080132e9bcf96))
 
 ## [1.23.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.3...@next-core/custom-antd-styles@1.23.4) (2022-01-27)
 

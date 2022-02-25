@@ -31,7 +31,7 @@
     "@next-core/brick-utils": "^2.35.0",
     "@svgr/rollup": "^5.5.0",
     "change-case": "^4.1.2",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "klaw-sync": "^6.0.0",
     "lodash": "^4.17.21",
     "prettier": "^2.5.1",

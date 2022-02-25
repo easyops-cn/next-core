@@ -5,50 +5,28 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.2...@next-core/brick-utils@2.35.0) (2022-02-21)
 
-
 ### Features
 
-* record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
-
-
-
-
+- record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
 
 ## [2.34.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.1...@next-core/brick-utils@2.34.2) (2022-02-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.34.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.0...@next-core/brick-utils@2.34.1) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 # [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.33.1...@next-core/brick-utils@2.34.0) (2022-02-14)
-
 
 ### Features
 
-* support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
-* support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
-
-
-
-
+- support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
+- support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
 
 ## [2.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.33.0...@next-core/brick-utils@2.33.1) (2022-01-28)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 # [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.6...@next-core/brick-utils@2.33.0) (2022-01-13)
 

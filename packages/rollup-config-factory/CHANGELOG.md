@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/rollup-config-factory
 
-
-
-
-
 # [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.4.6...@next-core/rollup-config-factory@2.5.0) (2022-01-05)
 
 ### Features

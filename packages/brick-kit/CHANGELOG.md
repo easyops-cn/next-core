@@ -5,142 +5,79 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.106.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.105.1...@next-core/brick-kit@2.106.0) (2022-02-21)
 
-
 ### Features
 
-* record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
-
-
-
-
+- record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
 
 ## [2.105.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.105.0...@next-core/brick-kit@2.105.1) (2022-02-17)
 
-
 ### Bug Fixes
 
-* fix useBrick lifeCycle couldn't get TPL ([6bbb1ff](https://github.com/easyops-cn/next-core/commit/6bbb1fff00427af2bfca30074a7a8003118763b3))
-* fix useBrick lifeCycle couldn't get TPL ([af1232f](https://github.com/easyops-cn/next-core/commit/af1232fce2fe425a24d841b05ef4d5f2b284a23e))
-
-
-
-
+- fix useBrick lifeCycle couldn't get TPL ([6bbb1ff](https://github.com/easyops-cn/next-core/commit/6bbb1fff00427af2bfca30074a7a8003118763b3))
+- fix useBrick lifeCycle couldn't get TPL ([af1232f](https://github.com/easyops-cn/next-core/commit/af1232fce2fe425a24d841b05ef4d5f2b284a23e))
 
 # [2.105.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.7...@next-core/brick-kit@2.105.0) (2022-02-17)
 
-
 ### Features
 
-* 新增`PATH_NAME`常量 ([094fe48](https://github.com/easyops-cn/next-core/commit/094fe4877581b7594ea297a3da5c4ae047d9cc4d))
-
-
-
-
+- 新增`PATH_NAME`常量 ([094fe48](https://github.com/easyops-cn/next-core/commit/094fe4877581b7594ea297a3da5c4ae047d9cc4d))
 
 ## [2.104.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.6...@next-core/brick-kit@2.104.7) (2022-02-17)
 
-
 ### Bug Fixes
 
-* mark lazy useBrick for tpl property merge ([5794719](https://github.com/easyops-cn/next-core/commit/579471913e569856772e24ccdf024519b6680aaa))
-
-
-
-
+- mark lazy useBrick for tpl property merge ([5794719](https://github.com/easyops-cn/next-core/commit/579471913e569856772e24ccdf024519b6680aaa))
 
 ## [2.104.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.5...@next-core/brick-kit@2.104.6) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.104.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.4...@next-core/brick-kit@2.104.5) (2022-02-15)
-
 
 ### Bug Fixes
 
-* fix re-render of useBrick of tpl ([7cbd0d8](https://github.com/easyops-cn/next-core/commit/7cbd0d83517afdb1eef9fafb5e803655f3e698b9))
-
-
-
-
+- fix re-render of useBrick of tpl ([7cbd0d8](https://github.com/easyops-cn/next-core/commit/7cbd0d83517afdb1eef9fafb5e803655f3e698b9))
 
 ## [2.104.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.3...@next-core/brick-kit@2.104.4) (2022-02-15)
 
-
 ### Bug Fixes
 
-* fix targetRef on working in state.onChange ([bac0003](https://github.com/easyops-cn/next-core/commit/bac000367d82ebd428a2aa08d05193b129718eb7))
-
-
-
-
+- fix targetRef on working in state.onChange ([bac0003](https://github.com/easyops-cn/next-core/commit/bac000367d82ebd428a2aa08d05193b129718eb7))
 
 ## [2.104.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.2...@next-core/brick-kit@2.104.3) (2022-02-15)
 
-
 ### Bug Fixes
 
-* fix missing tpl context when setting properties by callback ([c681dd4](https://github.com/easyops-cn/next-core/commit/c681dd41baec10a9f5eb13ac6bccfa5ae559044c))
-
-
-
-
+- fix missing tpl context when setting properties by callback ([c681dd4](https://github.com/easyops-cn/next-core/commit/c681dd41baec10a9f5eb13ac6bccfa5ae559044c))
 
 ## [2.104.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.1...@next-core/brick-kit@2.104.2) (2022-02-15)
 
-
 ### Bug Fixes
 
-* fix state.onChange ([cfdfbf8](https://github.com/easyops-cn/next-core/commit/cfdfbf80574cbaa38168b42b5c0899a71f28be12))
-
-
-
-
+- fix state.onChange ([cfdfbf8](https://github.com/easyops-cn/next-core/commit/cfdfbf80574cbaa38168b42b5c0899a71f28be12))
 
 ## [2.104.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.104.0...@next-core/brick-kit@2.104.1) (2022-02-14)
 
-
 ### Bug Fixes
 
-* resume getTplContext for compatibility ([e6c40cf](https://github.com/easyops-cn/next-core/commit/e6c40cfec328776ace36cd917195da526451bad4))
-
-
-
-
+- resume getTplContext for compatibility ([e6c40cf](https://github.com/easyops-cn/next-core/commit/e6c40cfec328776ace36cd917195da526451bad4))
 
 # [2.104.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.9...@next-core/brick-kit@2.104.0) (2022-02-14)
 
-
 ### Features
 
-* support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
-* support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
-
-
-
-
+- support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
+- support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
 
 ## [2.103.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.8...@next-core/brick-kit@2.103.9) (2022-01-28)
 
-
 ### Bug Fixes
 
-* empty image ([61d1d1e](https://github.com/easyops-cn/next-core/commit/61d1d1e751ea6a07afd6805c950ce740e52642e9))
-
-
-
-
+- empty image ([61d1d1e](https://github.com/easyops-cn/next-core/commit/61d1d1e751ea6a07afd6805c950ce740e52642e9))
 
 ## [2.103.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.7...@next-core/brick-kit@2.103.8) (2022-01-28)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.103.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.103.6...@next-core/brick-kit@2.103.7) (2022-01-27)
 

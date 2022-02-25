@@ -7,141 +7,72 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.29.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.10...@next-core/brick-dll@2.29.11) (2022-02-21)
 
 **Note:** Version bump only for package @next-core/brick-dll
-
-
-
-
 
 ## [2.29.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.9...@next-core/brick-dll@2.29.10) (2022-02-21)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.29.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.8...@next-core/brick-dll@2.29.9) (2022-02-17)
 
 **Note:** Version bump only for package @next-core/brick-dll
-
-
-
-
 
 ## [2.29.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.7...@next-core/brick-dll@2.29.8) (2022-02-17)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.29.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.6...@next-core/brick-dll@2.29.7) (2022-02-17)
 
 **Note:** Version bump only for package @next-core/brick-dll
-
-
-
-
 
 ## [2.29.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.5...@next-core/brick-dll@2.29.6) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.29.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.4...@next-core/brick-dll@2.29.5) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-dll
-
-
-
-
 
 ## [2.29.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.3...@next-core/brick-dll@2.29.4) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.29.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.2...@next-core/brick-dll@2.29.3) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-dll
-
-
-
-
 
 ## [2.29.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.1...@next-core/brick-dll@2.29.2) (2022-02-15)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.29.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.0...@next-core/brick-dll@2.29.1) (2022-02-14)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 # [2.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.15...@next-core/brick-dll@2.29.0) (2022-02-14)
-
 
 ### Features
 
-* support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
-* support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
-
-
-
-
+- support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
+- support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
 
 ## [2.28.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.14...@next-core/brick-dll@2.28.15) (2022-02-10)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.28.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.13...@next-core/brick-dll@2.28.14) (2022-02-10)
 
 **Note:** Version bump only for package @next-core/brick-dll
-
-
-
-
 
 ## [2.28.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.12...@next-core/brick-dll@2.28.13) (2022-01-28)
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.28.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.11...@next-core/brick-dll@2.28.12) (2022-01-28)
 
 **Note:** Version bump only for package @next-core/brick-dll
-
-
-
-
 
 ## [2.28.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.28.10...@next-core/brick-dll@2.28.11) (2022-01-27)
 

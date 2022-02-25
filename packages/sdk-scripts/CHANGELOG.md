@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/sdk-scripts
 
-
-
-
-
 ## [2.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.2...@next-core/sdk-scripts@2.7.3) (2021-12-21)
 
 ### Bug Fixes

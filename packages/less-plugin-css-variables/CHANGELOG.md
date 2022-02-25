@@ -5,14 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.2.1...@next-core/less-plugin-css-variables@0.2.2) (2022-01-28)
 
-
 ### Bug Fixes
 
-* modal style ([0f1afc5](https://github.com/easyops-cn/next-core/commit/0f1afc538fc86f6895d7fac9a0e080132e9bcf96))
-
-
-
-
+- modal style ([0f1afc5](https://github.com/easyops-cn/next-core/commit/0f1afc538fc86f6895d7fac9a0e080132e9bcf96))
 
 ## [0.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.2.0...@next-core/less-plugin-css-variables@0.2.1) (2022-01-18)
 

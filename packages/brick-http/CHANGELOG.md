@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-http
 
-
-
-
-
 ## [2.3.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.3.4...@next-core/brick-http@2.3.5) (2021-12-17)
 
 **Note:** Version bump only for package @next-core/brick-http

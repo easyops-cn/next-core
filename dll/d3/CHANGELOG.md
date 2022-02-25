@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-dll/d3
 
-
-
-
-
 ## [2.0.54](https://github.com/easyops-cn/next-core/compare/@next-dll/d3@2.0.53...@next-dll/d3@2.0.54) (2022-01-18)
 
 **Note:** Version bump only for package @next-dll/d3
