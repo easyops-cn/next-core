@@ -102,12 +102,30 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
             {
               id: "TT-2",
               type: "brick",
-              brick: "basic-bricks.page-title",
+              brick: "tpl-page-wrapper-theme-1",
               ref: "pageTitle",
               mountPoint: "header",
               properties: '{"any":"value"}',
             },
           ],
+        },
+      ],
+    },
+  ],
+  [
+    "tpl-page-wrapper-theme-1",
+    {
+      id: "T-4",
+      templateId: "tpl-page-wrapper-theme-1",
+      type: "custom-template",
+      layoutType: LayoutTypeEnum.Wrapper,
+      children: [
+        {
+          id: "TT-3",
+          type: "brick",
+          brick: "basic-bricks.general-button",
+          mountPoint: "bricks",
+          children: [],
         },
       ],
     },
@@ -1119,6 +1137,13 @@ describe("getAppendingNodesAndEdges", () => {
       Object {
         "edges": Array [
           Object {
+            "$$isTemplateInternal": true,
+            "child": 4,
+            "mountPoint": "",
+            "parent": 3,
+            "sort": 0,
+          },
+          Object {
             "$$isTemplateDelegated": undefined,
             "$$isTemplateInternal": true,
             "child": 3,
@@ -1224,12 +1249,13 @@ describe("getAppendingNodesAndEdges", () => {
             "type": "brick",
           },
           Object {
+            "$$isExpandableTemplate": true,
             "$$isTemplateInternalNode": true,
             "$$matchedSelectors": Array [
-              "basic-bricks\\\\.page-title",
+              "tpl-page-wrapper-theme-1",
             ],
             "$$normalized": Object {
-              "brick": "basic-bricks.page-title",
+              "brick": "tpl-page-wrapper-theme-1",
               "properties": Object {
                 "any": "value",
               },
@@ -1240,12 +1266,32 @@ describe("getAppendingNodesAndEdges", () => {
             "$$parsedProperties": Object {
               "any": "value",
             },
+            "$$templateProxy": undefined,
+            "$$templateRefToUid": Map {},
             "$$uid": 3,
-            "alias": "page-title",
-            "brick": "basic-bricks.page-title",
+            "alias": "tpl-page-wrapper-theme-1",
+            "brick": "tpl-page-wrapper-theme-1",
             "id": "TT-2",
+            "layoutType": "wrapper",
             "properties": "{\\"any\\":\\"value\\"}",
             "ref": "pageTitle",
+            "type": "brick",
+          },
+          Object {
+            "$$isTemplateInternalNode": true,
+            "$$matchedSelectors": Array [
+              "basic-bricks\\\\.general-button",
+            ],
+            "$$normalized": Object {
+              "brick": "basic-bricks.general-button",
+            },
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$uid": 4,
+            "alias": "general-button",
+            "brick": "basic-bricks.general-button",
+            "id": "TT-3",
             "type": "brick",
           },
         ],

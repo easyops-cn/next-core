@@ -43,10 +43,6 @@ export function getAppendingNodesAndEdges(
     );
     nodes.push(builderNode);
 
-    if (layoutType && isTemplateInternalNode) {
-      builderNode.layoutType = layoutType;
-    }
-
     if (inheritedTemplateRefToUid && builderNode.ref) {
       inheritedTemplateRefToUid.set(builderNode.ref as string, currentUid);
     }
@@ -210,8 +206,7 @@ export function getAppendingNodesAndEdges(
           // Each child should be a branch.
           new Set(processedTemplateSet),
           isTemplateInternalNode,
-          inheritedTemplateRefToUid,
-          layoutType
+          inheritedTemplateRefToUid
         );
         edges.push({
           child: childUid,
