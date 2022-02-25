@@ -15,10 +15,17 @@ const rawStringMap = {
   "shade(@text-color-secondary, 40%)":
     "var(--antd-text-color-secondary-shade-40)",
   "fade(@disabled-color, 10%)": "var(--antd-disabled-color-fade-10)",
+  "fade(@radio-dot-color, 8%)": "var(--antd-radio-dot-color-fade-8)",
   "lighten(@border-color-split, 80%)":
     "var(--antd-border-color-split-lighten-80)",
   "lighten(@table-border-color, 80%)":
     "var(--antd-border-color-split-lighten-80)",
+  "fade(@modal-mask-bg, 10%)": "var(--antd-modal-mask-bg-fade-10)",
+  "fade(@error-color, @outline-fade);": "var(--antd-error-color-fade-20)",
+  "box-shadow: @input-outline-offset @outline-blur-size @outline-width fade(@color, @outline-fade)":
+    ".replaceFormInputErrorShadow(@color; @input-outline-offset; @outline-blur-size;@outline-width;@outline-fade;)",
+  "border-color: ~`colorPalette('@{color}', 5) `":
+    ".replaceFormInputErrorBorder(@color)",
 };
 
 const replacements = [

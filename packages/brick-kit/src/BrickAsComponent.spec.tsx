@@ -10,12 +10,9 @@ import {
 } from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
 import * as transformProperties from "./transformProperties";
-import {
-  registerCustomTemplate,
-  RuntimeBrickElementWithTplSymbols,
-  symbolForParentRefForUseBrickInPortal,
-  CustomTemplateContext,
-} from "./core/exports";
+import { registerCustomTemplate } from "./core/exports";
+import { CustomTemplateContext } from "./core/CustomTemplates/CustomTemplateContext";
+import { RuntimeBrick } from "./core/BrickNode";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn(
@@ -40,9 +37,6 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
     id: "steve-test",
   },
 } as any);
-jest
-  .spyOn(runtime, "_internalApiGetTplContext")
-  .mockReturnValue(new CustomTemplateContext());
 const _internalApiLoadDynamicBricksInBrickConf = jest
   .spyOn(runtime, "_internalApiLoadDynamicBricksInBrickConf")
   .mockReturnValue(Promise.resolve());
@@ -101,6 +95,9 @@ beforeAll(() => {
           asVariable: true,
         },
         slotToolDivContent: {
+          asVariable: true,
+        },
+        tplArgument: {
           asVariable: true,
         },
         refStyleIsInline: {
@@ -203,6 +200,14 @@ beforeAll(() => {
                 properties: {
                   id: "tplPropertiesName",
                   textContent: "<% TPL.tplPropertiesName %>",
+                },
+                lifeCycle: {
+                  useResolves: [
+                    {
+                      useProvider: "my.provider",
+                      args: ["<% TPL.tplArgument %>"],
+                    },
+                  ],
                 },
               },
               {
@@ -370,6 +375,7 @@ describe("BrickAsComponent", () => {
               args: ["@{tips}", "${HASH}"],
             },
           },
+          iid: "i-1",
         }}
         data={{
           tips: "good",
@@ -413,11 +419,7 @@ describe("BrickAsComponent", () => {
       },
     });
     expect((div as RuntimeBrickElement).$$typeof).toBe("native");
-    expect(
-      (div as RuntimeBrickElementWithTplSymbols)[
-        symbolForParentRefForUseBrickInPortal
-      ]
-    ).toBe(mockRef);
+    expect(div.dataset.iid).toBe("i-1");
   });
 
   it("should work for multiple bricks", async () => {
@@ -586,6 +588,7 @@ describe("BrickAsComponent", () => {
       <ForwardRefSingleBrickAsComponent
         useBrick={{
           brick: "input",
+          iid: "i-2",
         }}
         ref={(r) => {
           ref = r;
@@ -644,6 +647,7 @@ describe("BrickAsComponent", () => {
             defaultSlotContentShow: false,
             defaultSlotContentText: "this is default slot content innerHTML",
             inTplRefPropertyContent: "inTplRefContent",
+            tplArgument: "test",
             inTplRefPropertyStyle: {
               color: "#f5f5f5",
             },
@@ -690,11 +694,16 @@ describe("BrickAsComponent", () => {
       />
     );
     await (global as any).flushPromises();
+    expect(spyOnResolve.mock.calls[0][2]).toEqual({
+      app: { id: "steve-test" },
+      hash: "#test",
+      tplContextId: "tpl-ctx-1",
+    });
     expect(wrapper.html()).toBe(
       "<steve-test.tpl-custom-template>" +
         '<basic-bricks.micro-view slot="">' +
         '<div id="refPropertiesName" slot="content" style="display: block; color: rgb(245, 245, 245);">refName</div>' +
-        '<div id="tplPropertiesName" slot="content" style="color: rgb(245, 245, 245);">tplName</div>' +
+        '<div id="tplPropertiesName" slot="content" style="color: rgb(245, 245, 245);" title="resolved">tplName</div>' +
         '<steve-test.tpl-use-brick-in-template slot="content">' +
         '<basic-bricks.micro-view slot="">' +
         '<div id="inTplRef" style="color: rgb(245, 245, 245);" slot="content">inTplRefContent</div>' +
@@ -705,7 +714,7 @@ describe("BrickAsComponent", () => {
         '<div slot="tplOutsizeSlots">default outsize slots</div>' +
         "</basic-bricks.micro-view>" +
         "</steve-test.tpl-use-brick-in-template>" +
-        '<div id="toolDiv" slot="toolbar">topToolDivContent</div>' +
+        '<div id="toolDiv" slot="toolbar">[object Object]</div>' +
         "</basic-bricks.micro-view>" +
         "</steve-test.tpl-custom-template>"
     );
@@ -760,56 +769,64 @@ describe("BrickAsComponent", () => {
       ref: "button",
       type: "basic-bricks.general-button",
     };
-    const context = new CustomTemplateContext();
-    const tplContextId = context.createContext();
-    const proxyRefs = new Map();
-    proxyRefs.set("button", {
-      brick: "div",
-      element: buttonElement,
-    });
-    context.sealContext(
-      tplContextId,
-      {},
-      {
-        type: "steve-test-only.tpl-steve-test-11",
-        element: tplElement,
-        properties: {},
+    const tplBrick: RuntimeBrick = {
+      type: "steve-test-only.tpl-steve-test-11",
+      element: tplElement,
+      properties: {},
+      events: {
+        buttonClick: [
+          {
+            action: "console.log",
+            args: ["outside button click"],
+          },
+        ],
+      },
+      proxy: {
         events: {
-          buttonClick: [
-            {
-              action: "console.log",
-              args: ["outside button click"],
-            },
-          ],
-        },
-        proxy: {
-          events: {
-            buttonClick: {
-              ref: "button",
-              refEvent: "general.button.click",
-            },
+          buttonClick: {
+            ref: "button",
+            refEvent: "general.button.click",
           },
         },
-        proxyRefs: proxyRefs,
-      }
+      },
+      proxyRefs: new Map<string, unknown>([
+        [
+          "button",
+          {
+            brick: "div",
+            element: buttonElement,
+          },
+        ],
+      ]),
+    };
+    const tplContext = new CustomTemplateContext(tplBrick);
+    const tplContextId = tplContext.id;
+    tplContext.setVariables({});
+    listenerUtils.bindListeners(
+      buttonElement,
+      {
+        "general.button.click": [
+          {
+            action: "console.log",
+            args: ["底层事件"],
+          },
+        ],
+      },
+      {} as any
     );
-    listenerUtils.bindListeners(buttonElement, {
-      "general.button.click": [
-        {
-          action: "console.log",
-          args: ["底层事件"],
-        },
-      ],
-    });
-    listenerUtils.bindListeners(tplElement, {
-      buttonClick: [
-        {
-          action: "console.log",
-          args: ["outside button click"],
-        },
-      ],
-    });
-    handleProxyOfParentTemplate(brick, tplContextId, context);
+    listenerUtils.bindListeners(
+      tplElement,
+      {
+        buttonClick: [
+          {
+            action: "console.log",
+            args: ["outside button click"],
+          },
+        ],
+      },
+      {} as any
+    );
+    handleProxyOfParentTemplate(brick, tplContextId);
 
     expect((buttonElement as any).$$proxyEvents.length).toBe(1);
     buttonElement.dispatchEvent(

@@ -693,7 +693,7 @@ describe("getAppendingNodesAndEdges", () => {
         {
           $$isTemplateInternalNode: true,
           $$matchedSelectors: ["easy-view"],
-          $$normalized: { brick: "easy-view" },
+          $$normalized: { brick: "easy-view", iid: "t-1" },
           $$parsedEvents: {},
           $$parsedLifeCycle: {},
           $$parsedProperties: {},
@@ -707,7 +707,7 @@ describe("getAppendingNodesAndEdges", () => {
         {
           $$isTemplateInternalNode: true,
           $$matchedSelectors: ["general-button"],
-          $$normalized: { brick: "general-button" },
+          $$normalized: { brick: "general-button", iid: "t-1-1" },
           $$parsedEvents: {},
           $$parsedLifeCycle: {},
           $$parsedProperties: {},
@@ -722,7 +722,7 @@ describe("getAppendingNodesAndEdges", () => {
           $$isExpandableTemplate: true,
           $$isTemplateInternalNode: true,
           $$matchedSelectors: ["widget\\.tpl-inside-widget"],
-          $$normalized: { brick: "widget.tpl-inside-widget" },
+          $$normalized: { brick: "widget.tpl-inside-widget", iid: "t-1-2" },
           $$parsedEvents: {},
           $$parsedLifeCycle: {},
           $$parsedProperties: {},
@@ -738,7 +738,7 @@ describe("getAppendingNodesAndEdges", () => {
         {
           $$isTemplateInternalNode: true,
           $$matchedSelectors: ["general-select"],
-          $$normalized: { brick: "general-select" },
+          $$normalized: { brick: "general-select", iid: "t-1" },
           $$parsedEvents: {},
           $$parsedLifeCycle: {},
           $$parsedProperties: {},
@@ -781,7 +781,7 @@ describe("getAppendingNodesAndEdges", () => {
         {
           $$isTemplateInternalNode: true,
           $$matchedSelectors: ["general-select"],
-          $$normalized: { brick: "general-select" },
+          $$normalized: { brick: "general-select", iid: "t-1" },
           $$parsedEvents: {},
           $$parsedLifeCycle: {},
           $$parsedProperties: {},

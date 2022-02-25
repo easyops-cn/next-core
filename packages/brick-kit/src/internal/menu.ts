@@ -349,5 +349,7 @@ async function computeRealValueWithOverrideApp<T>(
       };
     }
   }
-  return computeRealValue(data, newContext, true) as T;
+  return computeRealValue(data, newContext, true, {
+    ignoreSymbols: true,
+  }) as T;
 }

@@ -22,4 +22,5 @@ export { scanStoryboard } from "./scanStoryboard";
 export * from "./JsonStorage";
 export * from "./builder";
 export * from "./deepFreeze";
-export * from "./trackContext";
+export * from "./track";
+export * from "./visitStoryboard";

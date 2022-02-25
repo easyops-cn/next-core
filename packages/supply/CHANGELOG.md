@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.25](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.24...@next-core/supply@1.0.25) (2022-02-21)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.24](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.23...@next-core/supply@1.0.24) (2022-02-17)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.23](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.22...@next-core/supply@1.0.23) (2022-02-14)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.22](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.21...@next-core/supply@1.0.22) (2022-01-28)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.21](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.20...@next-core/supply@1.0.21) (2022-01-07)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.20](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.19...@next-core/supply@1.0.20) (2022-01-05)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.19](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.18...@next-core/supply@1.0.19) (2021-12-30)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.18](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.17...@next-core/supply@1.0.18) (2021-12-29)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.17](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.16...@next-core/supply@1.0.17) (2021-12-24)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.16](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.15...@next-core/supply@1.0.16) (2021-12-23)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.15](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.14...@next-core/supply@1.0.15) (2021-12-17)
+
+**Note:** Version bump only for package @next-core/supply
+
 ## [1.0.14](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.13...@next-core/supply@1.0.14) (2021-12-03)
 
 **Note:** Version bump only for package @next-core/supply

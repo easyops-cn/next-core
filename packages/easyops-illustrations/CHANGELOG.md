@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.4...@next-core/illustrations@0.5.5) (2022-02-21)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.3...@next-core/illustrations@0.5.4) (2022-02-17)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.2...@next-core/illustrations@0.5.3) (2022-02-14)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.1...@next-core/illustrations@0.5.2) (2022-01-28)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.0...@next-core/illustrations@0.5.1) (2022-01-26)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+# [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.4.6...@next-core/illustrations@0.5.0) (2022-01-26)
+
+### Features
+
+- adapt to the dark theme and add dark icons ([8268b9b](https://github.com/easyops-cn/next-core/commit/8268b9b4309d56bd2ca35465b00b92cc78634863))
+
+## [0.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.4.5...@next-core/illustrations@0.4.6) (2021-12-17)
+
+**Note:** Version bump only for package @next-core/illustrations
+
 ## [0.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.4.4...@next-core/illustrations@0.4.5) (2021-11-18)
 
 **Note:** Version bump only for package @next-core/illustrations

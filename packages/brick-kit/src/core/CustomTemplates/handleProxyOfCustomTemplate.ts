@@ -4,14 +4,17 @@ import {
 } from "@next-core/brick-types";
 import { transformElementProperties } from "../../transformProperties";
 import { RuntimeBrick } from "../BrickNode";
+import { StoryboardContextWrapper } from "../StoryboardContext";
 import {
   isMergeableProperty,
   isRefProperty,
   isTransformableProperty,
 } from "./assertions";
+import { getCustomTemplateContext } from "./CustomTemplateContext";
 import { propertyMerge } from "./propertyMerge";
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
+  // Ignore non-tpl bricks.
   if (!brick.proxyRefs) {
     return;
   }
@@ -24,12 +27,31 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick): void {
     }
   }
 
+  const firstRun = !node.$$getElementByRef;
+
   // For usages of `targetRef: "..."`.
   // `tpl.$$getElementByRef(ref)` will return the ref element inside a custom template.
-  if (!node.$$getElementByRef) {
+  if (firstRun) {
     Object.defineProperty(node, "$$getElementByRef", {
       value: getElementByRef,
     });
+  }
+
+  if (firstRun && brick.stateNames) {
+    // Define properties from state for tpl.
+    const getState = (): StoryboardContextWrapper =>
+      getCustomTemplateContext(brick.tplContextId).state;
+    for (const propName of brick.stateNames) {
+      Object.defineProperty(node, propName, {
+        get: function () {
+          return getState().getValue(propName);
+        },
+        set: function (value: unknown) {
+          getState().updateValue(propName, value, "replace");
+        },
+        enumerable: true,
+      });
+    }
   }
 
   if (!brick.proxy) {

@@ -1,15 +1,17 @@
 import {
   CustomTemplateConstructor,
   FeatureFlags,
-  MenuIcon,
   MicroApp,
-  ResolveConf,
   SidebarMenu,
-  SidebarMenuSimpleItem,
   SiteMode,
   SiteTheme,
 } from "@next-core/brick-types";
 import { MicroAppModels } from "@next-sdk/micro-app-sdk";
+import {
+  ColorThemeOptionsByBrand,
+  ColorThemeOptionsByBaseColors,
+  ColorThemeOptionsByVariables,
+} from "../internal/applyColorTheme";
 import { CustomProcessorFunc } from "./exports";
 import { LazyBrickImportFunction } from "./LazyBrickRegistry";
 
@@ -221,4 +223,9 @@ export interface GetMicroAppsOptions {
 
   /** 是否包括标记为不在 Launchpad 中显示的微应用。 */
   includeInternal?: boolean;
+}
+export interface ThemeSetting {
+  brandColor: Omit<ColorThemeOptionsByBrand, "type">;
+  baseColors: Omit<ColorThemeOptionsByBaseColors, "type">;
+  variables: Omit<ColorThemeOptionsByVariables, "type">;
 }

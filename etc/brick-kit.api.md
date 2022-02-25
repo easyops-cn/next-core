@@ -7,12 +7,15 @@
 import { Action } from 'history';
 import { AppBarBrick } from '@next-core/brick-types';
 import { AuthInfo } from '@next-core/brick-types';
+import { BaseColors } from '@next-core/color-theme';
+import { BrandColor } from '@next-core/color-theme';
 import { BreadcrumbItemConf } from '@next-core/brick-types';
 import { BrickConf } from '@next-core/brick-types';
 import { BrickEventHandlerCallback } from '@next-core/brick-types';
 import { BrickLifeCycle } from '@next-core/brick-types';
 import { BrickPackage } from '@next-core/brick-types';
 import { BrickTemplateFactory } from '@next-core/brick-types';
+import { ContextConf } from '@next-core/brick-types';
 import { CustomApiInfo } from '@next-core/brick-utils';
 import { CustomTemplateConstructor } from '@next-core/brick-types';
 import { CustomTemplateProxy } from '@next-core/brick-types';
@@ -61,6 +64,7 @@ import { SiteMapItem } from '@next-core/brick-types';
 import { SiteMode } from '@next-core/brick-types';
 import { SiteTheme } from '@next-core/brick-types';
 import { Storyboard } from '@next-core/brick-types';
+import { StoryboardContextItem } from '@next-core/brick-types';
 import { StoryboardFunction } from '@next-core/brick-types';
 import { Subtract } from 'react-i18next';
 import { TemplatePackage } from '@next-core/brick-types';
@@ -97,7 +101,7 @@ export function authenticate(newAuth: AuthInfo): void;
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function BrickAsComponent({ useBrick, data, parentRefForUseBrickInPortal, }: BrickAsComponentProps): React_2.ReactElement;
+export function BrickAsComponent({ useBrick, data, }: BrickAsComponentProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
@@ -183,7 +187,7 @@ export const developHelper: {
     loadEditorBricks: typeof _dev_only_loadEditorBricks;
     loadDynamicBricksInBrickConf: typeof _dev_only_loadDynamicBricksInBrickConf;
     getFakeKernel: typeof _dev_only_getFakeKernel;
-    checkoutTplContext: typeof _dev_only_checkoutTplContext;
+    checkoutTplContext: (...args: any[]) => void;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -191,11 +195,32 @@ export const developHelper: {
 // @public
 export function DisplayByFeatureFlags(props: React_2.PropsWithChildren<featureFlagsProps>): React_2.ReactElement;
 
-// Warning: (ae-forgotten-export) The symbol "DoTransformOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "doTransform" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
 export function doTransform(data: unknown, to: unknown, options?: DoTransformOptions): unknown;
+
+// @public (undocumented)
+export interface DoTransformOptions {
+    // (undocumented)
+    $$lazyForUseBrick?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "StateOfUseBrick" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    $$stateOfUseBrick?: StateOfUseBrick;
+    // (undocumented)
+    allowInject?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "EvaluateOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    evaluateOptions?: EvaluateOptions;
+    // (undocumented)
+    tplContextId?: string;
+    // Warning: (ae-forgotten-export) The symbol "TrackingContextItem" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    trackingContextList?: TrackingContextItem[];
+}
 
 // @public
 export function EasyopsEmpty(props: EasyopsEmptyProps): React_2.ReactElement;
@@ -210,6 +235,8 @@ export interface EasyopsEmptyProps {
     illustration?: IllustrationProps;
     // (undocumented)
     imageStyle?: React_2.CSSProperties;
+    // (undocumented)
+    useBigEmptyImage?: boolean;
 }
 
 // Warning: (ae-forgotten-export) The symbol "NS_BRICK_KIT" needs to be exported by the entry point index.d.ts
@@ -266,6 +293,9 @@ export interface FunctionCoverageSettings {
 // @public
 export function getAuth(): AuthInfo;
 
+// @public (undocumented)
+export function getCssPropertyValue(name: string, el?: HTMLElement): string;
+
 // @public
 export function getHistory(): PluginHistory;
 
@@ -274,6 +304,12 @@ export interface GetMicroAppsOptions {
     excludeInstalling?: boolean;
     includeInternal?: boolean;
 }
+
+// @public (undocumented)
+export const getMockInfo: (requestUrl: string) => {
+    url: string;
+    mockId: string;
+} | undefined;
 
 // @public
 export function getRuntime(): Runtime;
@@ -311,10 +347,7 @@ export function logout(): void;
 export function looseCheckIf(ifContainer: IfContainer, context: PluginRuntimeContext): boolean;
 
 // @public
-export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown, options?: {
-    allowInject?: boolean;
-    getTplVariables?: () => Record<string, unknown>;
-}): boolean;
+export function looseCheckIfByTransform(ifContainer: IfContainer, data: unknown, options?: Pick<DoTransformOptions, "allowInject" | "tplContextId">): boolean;
 
 // Warning: (ae-internal-missing-underscore) The name "looseCheckIfOfComputed" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -443,6 +476,22 @@ export function StoryboardFunctionRegistryFactory({ widgetId, collectCoverage, }
     collectCoverage?: FunctionCoverageSettings;
 }): StoryboardFunctionRegistry;
 
+// @public (undocumented)
+export interface ThemeSetting {
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByBaseColors" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    baseColors: Omit<ColorThemeOptionsByBaseColors, "type">;
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByBrand" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    brandColor: Omit<ColorThemeOptionsByBrand, "type">;
+    // Warning: (ae-forgotten-export) The symbol "ColorThemeOptionsByVariables" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    variables: Omit<ColorThemeOptionsByVariables, "type">;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "transformElementProperties" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -535,6 +584,5 @@ export interface VisitedWorkspace {
 // src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_checkoutTplContext" needs to be exported by the entry point index.d.ts
 
 ```

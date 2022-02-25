@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import { PluginRuntimeContext } from "@next-core/brick-types";
+import { PluginRuntimeContext, MenuRawData } from "@next-core/brick-types";
 import {
   InstanceApi_getDetail,
   InstanceApi_postSearch,
@@ -8,7 +8,6 @@ import { Kernel } from "../core/Kernel";
 import {
   fetchMenuById,
   constructMenu,
-  MenuRawData,
   processMenuTitle,
   clearMenuTitleCache,
   clearMenuCache,

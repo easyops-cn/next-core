@@ -6,11 +6,12 @@ import {
 } from "./evaluate";
 import * as runtime from "../core/Runtime";
 import { registerCustomProcessor } from "../core/exports";
-import { devtoolsHookEmit } from "./devtools";
+import { devtoolsHookEmit, getDevHook } from "./devtools";
 import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { registerWidgetI18n } from "../core/WidgetI18n";
+import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
@@ -122,6 +123,7 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
     test: true,
   },
   hash: "#readme",
+  pathname: "/path/name",
   segues: {
     testSegueId: {
       target: "segue-target",
@@ -154,6 +156,16 @@ function objectEntries(object: Record<string, any>): [string, any][] {
   return Object.entries(object);
 }
 registerCustomProcessor("brickKit.objectEntries", objectEntries);
+
+const tplContext = new CustomTemplateContext({});
+tplContext.setVariables({
+  quality: "good",
+  num: 2,
+});
+tplContext.state.set("scopedData", {
+  type: "free-variable",
+  value: "Yes",
+});
 
 describe("shouldDismissRecursiveMarkingInjected", () => {
   it("should work with string", () => {
@@ -190,13 +202,18 @@ describe("evaluate", () => {
     ["<% PATH.objectId %>", "HOST"],
     [" <% QUERY.a %>", "x"],
     ["<% QUERY.b %> ", "2"],
+    ["<% QUERY.x %> ", undefined],
+    ["<% _.isEmpty(QUERY) %> ", false],
     [" <% QUERY_ARRAY.b %> ", ["2", "1"]],
+    ["<% QUERY_ARRAY.x %> ", undefined],
+    ["<% _.isEmpty(QUERY_ARRAY) %> ", false],
     ["\n\t<% PARAMS.get('b') %>\n\t", "2"],
     ["<% PARAMS.getAll('b') %>", ["2", "1"]],
     ["<% PARAMS.toString() %>", "a=x&b=2&b=1"],
     ["<% SYS.username %>", "tester"],
     ["<% FLAGS.test %>", true],
     ["<% HASH %>", "#readme"],
+    ["<% PATH_NAME %>", "/path/name"],
     ["<% ANCHOR %>", "readme"],
     ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
     ["<% ALIAS.getUrl('mock-alias') %>", "/mock/alias"],
@@ -217,9 +234,11 @@ describe("evaluate", () => {
       "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
       [["quality", "good"]],
     ],
+    ["<% PROCESSORS.notExist %>", undefined],
     ["<% PERMISSIONS.check('my:action-a') %>", true],
     ["<% PERMISSIONS.check('my:action-b') %>", false],
     ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
+    ["<% THEME.getTheme() %>", "light"],
     ["<% SESSION_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
     ["<% INSTALLED_APPS.has('my-app-id') %>", true],
     ["<% INSTALLED_APPS.has('my-app-id', '<1.2.3') %>", true],
@@ -232,6 +251,38 @@ describe("evaluate", () => {
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
+
+  it.each<[string, unknown]>([
+    ["<% QUERY.b %>", "2"],
+    ["<% QUERY.x %> ", undefined],
+    ["<% QUERY_ARRAY.b %>", ["2", "1"]],
+    ["<% QUERY_ARRAY.x %> ", undefined],
+    ["<% CTX.myFreeContext %>", "good"],
+    [
+      "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
+      [["quality", "good"]],
+    ],
+  ])("evaluate(%j) should return %j in devtools", (raw, result) => {
+    // Mock devtools.
+    (getDevHook as jest.Mock).mockReturnValue({});
+    expect(evaluate(raw)).toEqual(result);
+  });
+
+  it("should throw while override CTX", () => {
+    const ctx = evaluate("<% CTX %>") as any;
+    expect(ctx).toBeTruthy();
+    expect(() => {
+      ctx.override = "any";
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Can't modify read-only proxy object"`
+    );
+  });
+
+  // it("should return false for Object.isExtensible(CTX)", () => {
+  //   const ctx = evaluate("<% CTX %>") as any;
+  //   expect(ctx).toBeTruthy();
+  //   expect(Object.isExtensible(ctx)).toBe(false);
+  // });
 
   it.each<[string, any]>([
     ["<% [] %>", []],
@@ -262,12 +313,11 @@ describe("evaluate", () => {
   it.each<[string, any]>([
     ["<% [] %>", []],
     ["<% TPL.quality %>", "good"],
-  ])("evaluate(%j, { getTplVariables }) should return %j", (raw, result) => {
+    ["<% STATE.scopedData %>", "Yes"],
+  ])("evaluate(%j, { tplContextId }) should return %j", (raw, result) => {
     expect(
       evaluate(raw, {
-        getTplVariables: () => ({
-          quality: "good",
-        }),
+        tplContextId: tplContext.id,
       })
     ).toEqual(result);
   });
@@ -296,9 +346,7 @@ describe("evaluate", () => {
 
   it("should work when using both `EVENT` and `TPL`", () => {
     const preEvaluated = evaluate("<% EVENT.detail + TPL.num %>", {
-      getTplVariables: () => ({
-        num: 2,
-      }),
+      tplContextId: tplContext.id,
     }) as PreEvaluated;
 
     // Simulate an event dispatching after a transformation.
@@ -313,9 +361,7 @@ describe("evaluate", () => {
 
   it("should work when using both `DATA` and `TPL`", () => {
     const preEvaluated = evaluate("<% DATA + TPL.num %>", {
-      getTplVariables: () => ({
-        num: 2,
-      }),
+      tplContextId: tplContext.id,
     }) as PreEvaluated;
 
     // Simulate an event dispatching after a transformation.
@@ -328,9 +374,7 @@ describe("evaluate", () => {
 
   it("should work when using all `EVENT`, `DATA` and `TPL`", () => {
     const preEvaluated = evaluate("<% EVENT.detail + DATA + TPL.num %>", {
-      getTplVariables: () => ({
-        num: 2,
-      }),
+      tplContextId: tplContext.id,
     }) as PreEvaluated;
 
     // Simulate an event dispatching after a transformation.

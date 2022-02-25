@@ -23,6 +23,7 @@ export interface RuntimeBootstrapData extends BootstrapData {
 export interface Settings {
   featureFlags: FeatureFlags;
   homepage: string;
+  misc?: Record<string, unknown>;
   [key: string]: unknown;
 }
 
@@ -172,6 +173,11 @@ export interface MicroApp {
    * 面包屑配置
    */
   breadcrumb?: BreadcrumbConf;
+
+  /**
+   * 该应用所属主题， dark 已经被用大屏模式，这里使用 dark-v2
+   */
+  theme?: "light" | "dark-v2";
 }
 
 /**
@@ -244,17 +250,7 @@ export interface NavbarConf {
 }
 
 /** @internal */
-export interface NavbarConf_UiV8 {
-  navBar: string;
-  sideBar: string;
-  breadcrumb: string;
-  footer: string;
-}
-
-/** @internal */
-export interface PresetBricksConf
-  extends Partial<NavbarConf>,
-    Partial<NavbarConf_UiV8> {
+export interface PresetBricksConf extends Partial<NavbarConf> {
   pageNotFound: string;
   pageError: string;
 }
@@ -623,6 +619,9 @@ export interface BrickConf {
    * @internal
    */
   exports?: Record<string, string>;
+
+  /** 构件编排 ID */
+  iid?: string;
 }
 
 /**
@@ -1139,6 +1138,9 @@ export interface BuiltinBrickEventHandler {
     | "context.assign"
     | "context.replace"
 
+    // Update template state
+    | "state.update"
+
     // Find related tpl and dispatch event.
     | "tpl.dispatchEvent"
 
@@ -1149,6 +1151,7 @@ export interface BuiltinBrickEventHandler {
     // Theme and mode.
     | "theme.setDarkTheme"
     | "theme.setLightTheme"
+    | "theme.setTheme"
     | "mode.setDashboardMode"
     | "mode.setDefaultMode"
     | "menu.clearMenuTitleCache"
@@ -1387,6 +1390,9 @@ export interface UseSingleBrickConf {
 
   /** {@inheritDoc UseBrickSlotsConf} */
   slots?: UseBrickSlotsConf;
+
+  /** {@inheritDoc BrickConf.iid} */
+  iid?: string;
 }
 
 /** 在 `useBrick` 中使用的插槽配置表。 */
@@ -1416,6 +1422,27 @@ export interface StoryboardMeta {
   functions?: StoryboardFunction[];
 
   menus?: MenuRawData[];
+
+  /** 应用启用mock服务列表 */
+  mocks?: Mocks;
+}
+
+export interface Mocks {
+  /** mock id */
+  mockId: string;
+
+  /** 使用mock规则列表 */
+  mockList: MockRule[];
+}
+
+/**
+ * 应用启用mock服务
+ */
+export interface MockRule {
+  /** uri地址 */
+  uri: string;
+  /** provider名称 */
+  provider: string;
 }
 
 /**
@@ -1458,7 +1485,16 @@ export interface CustomTemplate {
 
   /** {@inheritDoc CustomTemplateProxy} */
   proxy?: CustomTemplateProxy;
+
+  /** 状态数据配置列表。 */
+  state?: CustomTemplateState[];
 }
+
+/** 自定义模板状态数据配置。 */
+export type CustomTemplateState = Pick<
+  ContextConf,
+  "name" | "value" | "if" | "resolve"
+>;
 
 /**
  * 自定义模板构造声明。
@@ -1689,7 +1725,7 @@ export interface ProbablyRuntimeBrick {
 /**
  * 站点主题。
  */
-export type SiteTheme = "light" | "dark";
+export type SiteTheme = "light" | "dark" | "dark-v2";
 
 /**
  * 站点模式。

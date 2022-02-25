@@ -68,11 +68,15 @@
           "scanTemplatesInStoryboard",
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
+          "syncResolveContextConcurrently",
           "toPath",
           "tokTypes",
           "trackContext",
+          "trackState",
           "transform",
-          "transformAndInject"
+          "transformAndInject",
+          "visitStoryboardExpressions",
+          "visitStoryboardFunctions"
         ]
       }
     },
@@ -181,7 +185,9 @@
           "doTransform",
           "event",
           "getAuth",
+          "getCssPropertyValue",
           "getHistory",
+          "getMockInfo",
           "getRuntime",
           "handleHttpError",
           "httpErrorToString",

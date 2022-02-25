@@ -1,5 +1,4 @@
 import { cloneDeep } from "lodash";
-import i18next from "i18next";
 import {
   cook,
   hasOwnProperty,
@@ -13,18 +12,17 @@ import { MicroApp } from "@next-core/brick-types";
 import { _internalApiGetCurrentContext } from "../core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
-import { imagesFactory, widgetImagesFactory } from "./images";
+import { widgetImagesFactory } from "./images";
 import { devtoolsHookEmit } from "./devtools";
 import { customProcessorRegistry } from "../core/exports";
-import { checkPermissions } from "./checkPermissions";
 import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
-import { i18nText } from "../i18nText";
 import { storyboardFunctions } from "../core/StoryboardFunctions";
 import { widgetFunctions } from "../core/WidgetFunctions";
 import { widgetI18nFactory } from "../core/WidgetI18n";
-import { getI18nNamespace } from "../i18n";
-import { getBasePath } from "./getBasePath";
+import { getGeneralGlobals } from "./getGeneralGlobals";
+import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
+import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -43,7 +41,7 @@ export interface EvaluateOptions {
 export interface EvaluateRuntimeContext {
   event?: CustomEvent;
   data?: unknown;
-  getTplVariables?: () => Record<string, unknown>;
+  tplContextId?: string;
   overrideApp?: MicroApp;
 }
 
@@ -125,6 +123,8 @@ export function evaluate(
   const attemptToVisitEvent = attemptToVisitGlobals.has("EVENT");
   const attemptToVisitData = attemptToVisitGlobals.has("DATA");
   const attemptToVisitTpl = attemptToVisitGlobals.has("TPL");
+  const attemptToVisitState = attemptToVisitGlobals.has("STATE");
+  const attemptToVisitTplOrState = attemptToVisitTpl || attemptToVisitState;
 
   // Ignore evaluating if `event` is missing in context.
   // Since it should be evaluated during events handling.
@@ -138,8 +138,8 @@ export function evaluate(
     }
   }
 
-  const missingTpl =
-    attemptToVisitTpl && !hasOwnProperty(runtimeContext, "getTplVariables");
+  const missingTplOrState =
+    attemptToVisitTplOrState && !hasOwnProperty(runtimeContext, "tplContextId");
   const missingData =
     attemptToVisitData && !hasOwnProperty(runtimeContext, "data");
 
@@ -151,9 +151,9 @@ export function evaluate(
         } as PreEvaluated)
       : raw;
 
-  // Since `EVENT`, `DATA` and `TPL` are provided in different context,
+  // Since `EVENT`, `DATA`, `TPL` and `STATE` are provided in different context,
   // whenever missing one of them, memorize the current context for later consuming.
-  if (missingEvent || missingData || missingTpl) {
+  if (missingEvent || missingData || missingTplOrState) {
     return rawWithContext;
   }
 
@@ -161,11 +161,21 @@ export function evaluate(
     globalVariables.DATA = runtimeContext.data;
   }
 
-  if (
-    attemptToVisitTpl &&
-    typeof runtimeContext.getTplVariables === "function"
-  ) {
-    globalVariables.TPL = runtimeContext.getTplVariables();
+  if (attemptToVisitTplOrState && runtimeContext.tplContextId) {
+    const tplContext = getCustomTemplateContext(runtimeContext.tplContextId);
+    if (attemptToVisitTpl) {
+      globalVariables.TPL = tplContext.getVariables();
+    }
+    if (attemptToVisitState) {
+      globalVariables.STATE = getDynamicReadOnlyProxy({
+        get(target, key: string) {
+          return tplContext.state.getValue(key);
+        },
+        ownKeys() {
+          return Array.from(tplContext.state.get().keys());
+        },
+      });
+    }
   }
 
   const {
@@ -175,147 +185,118 @@ export function evaluate(
     sys,
     flags,
     hash,
+    pathname,
     segues,
     storyboardContext,
   } = _internalApiGetCurrentContext();
 
   const app = runtimeContext.overrideApp ?? currentApp;
 
-  if (attemptToVisitGlobals.has("QUERY")) {
-    globalVariables.QUERY = Object.fromEntries(
-      Array.from(query.keys()).map((key) => [key, query.get(key)])
-    );
-  }
-  if (attemptToVisitGlobals.has("QUERY_ARRAY")) {
-    globalVariables.QUERY_ARRAY = Object.fromEntries(
-      Array.from(query.keys()).map((key) => [key, query.getAll(key)])
-    );
-  }
-  if (attemptToVisitGlobals.has("PARAMS")) {
-    globalVariables.PARAMS = new URLSearchParams(query);
-  }
-
-  if (attemptToVisitGlobals.has("APP")) {
-    globalVariables.APP = cloneDeep(app);
-  }
-
-  if (attemptToVisitGlobals.has("PATH")) {
-    globalVariables.PATH = cloneDeep(match.params);
-  }
-
-  if (attemptToVisitGlobals.has("SYS")) {
-    globalVariables.SYS = cloneDeep(sys);
-  }
-
-  if (attemptToVisitGlobals.has("FLAGS")) {
-    globalVariables.FLAGS = cloneDeep(flags);
-  }
-
-  if (attemptToVisitGlobals.has("HASH")) {
-    globalVariables.HASH = hash;
-  }
-
-  if (attemptToVisitGlobals.has("ANCHOR")) {
-    globalVariables.ANCHOR = hash ? hash.substr(1) : null;
-  }
-
-  if (attemptToVisitGlobals.has("SEGUE")) {
-    globalVariables.SEGUE = {
-      getUrl: getUrlBySegueFactory(app, segues),
-    };
-  }
-
-  if (attemptToVisitGlobals.has("ALIAS")) {
-    globalVariables.ALIAS = {
-      getUrl: getUrlByAliasFactory(app),
-    };
-  }
-
-  if (attemptToVisitGlobals.has("IMG")) {
-    globalVariables.IMG = imagesFactory(app.id, app.isBuildPush);
-  }
-
-  if (attemptToVisitGlobals.has("__WIDGET_IMG__")) {
-    globalVariables.__WIDGET_IMG__ = widgetImagesFactory;
-  }
-
-  if (attemptToVisitGlobals.has("I18N")) {
-    globalVariables.I18N = i18next.getFixedT(
-      null,
-      getI18nNamespace("app", app.id)
-    );
-  }
-
-  if (attemptToVisitGlobals.has("__WIDGET_I18N__")) {
-    globalVariables.__WIDGET_I18N__ = widgetI18nFactory;
-  }
-
-  if (attemptToVisitGlobals.has("I18N_TEXT")) {
-    globalVariables.I18N_TEXT = i18nText;
-  }
-
-  if (attemptToVisitGlobals.has("CTX")) {
-    globalVariables.CTX = Object.fromEntries(
-      Array.from(storyboardContext.entries()).map(([name, item]) => [
-        name,
-        item.type === "brick-property"
-          ? item.brick.element?.[item.prop as keyof HTMLElement]
-          : item.value,
-      ])
-    );
-  }
-
-  if (attemptToVisitGlobals.has("PROCESSORS")) {
-    globalVariables.PROCESSORS = Object.fromEntries(
-      Array.from(customProcessorRegistry.entries()).map(
-        ([namespace, registry]) => [
-          namespace,
-          Object.fromEntries(registry.entries()),
-        ]
-      )
-    );
+  function getIndividualGlobal(variableName: string): unknown {
+    switch (variableName) {
+      case "ALIAS":
+        return {
+          getUrl: getUrlByAliasFactory(app),
+        };
+      case "ANCHOR":
+        return hash ? hash.substr(1) : null;
+      case "APP":
+        return cloneDeep(app);
+      case "CTX":
+        return getDynamicReadOnlyProxy({
+          get(target, key: string) {
+            const item = storyboardContext.get(key);
+            return !item
+              ? item
+              : item.type === "brick-property"
+              ? item.brick.element?.[item.prop as keyof HTMLElement]
+              : item.value;
+          },
+          ownKeys() {
+            return Array.from(storyboardContext.keys());
+          },
+        });
+      case "FLAGS":
+        return getReadOnlyProxy(flags);
+      case "HASH":
+        return hash;
+      case "PATH_NAME":
+        return pathname;
+      case "INSTALLED_APPS":
+        return {
+          has: (appId: string, matchVersion?: string) =>
+            getRuntime().hasInstalledApp(appId, matchVersion),
+        };
+      case "LOCAL_STORAGE":
+        return {
+          getItem: getItemFactory("local"),
+        };
+      case "MISC":
+        return getRuntime().getMiscSettings();
+      case "PARAMS":
+        return new URLSearchParams(query);
+      case "PATH":
+        return getReadOnlyProxy(match.params);
+      case "PROCESSORS":
+        return getDynamicReadOnlyProxy({
+          get(target, key: string) {
+            const pkg = customProcessorRegistry.get(key);
+            return pkg
+              ? getDynamicReadOnlyProxy({
+                  get(t, k: string) {
+                    return pkg.get(k);
+                  },
+                  ownKeys() {
+                    return Array.from(pkg.keys());
+                  },
+                })
+              : pkg;
+          },
+          ownKeys() {
+            return Array.from(customProcessorRegistry.keys());
+          },
+        });
+      case "QUERY":
+        return Object.fromEntries(
+          Array.from(query.keys()).map((key) => [key, query.get(key)])
+        );
+      case "QUERY_ARRAY":
+        return Object.fromEntries(
+          Array.from(query.keys()).map((key) => [key, query.getAll(key)])
+        );
+      case "SEGUE":
+        return {
+          getUrl: getUrlBySegueFactory(app, segues),
+        };
+      case "SESSION_STORAGE":
+        return {
+          getItem: getItemFactory("session"),
+        };
+      case "SYS":
+        return getReadOnlyProxy(sys);
+      case "__WIDGET_FN__":
+        return widgetFunctions;
+      case "__WIDGET_IMG__":
+        return widgetImagesFactory;
+      case "__WIDGET_I18N__":
+        return widgetI18nFactory;
+    }
   }
 
-  if (attemptToVisitGlobals.has("PERMISSIONS")) {
-    globalVariables.PERMISSIONS = {
-      check: checkPermissions,
-    };
+  for (const variableName of attemptToVisitGlobals) {
+    const variable = getIndividualGlobal(variableName);
+    if (variable !== undefined) {
+      globalVariables[variableName] = variable;
+    }
   }
 
-  if (attemptToVisitGlobals.has("LOCAL_STORAGE")) {
-    globalVariables.LOCAL_STORAGE = {
-      getItem: getItemFactory("local"),
-    };
-  }
-
-  if (attemptToVisitGlobals.has("SESSION_STORAGE")) {
-    globalVariables.SESSION_STORAGE = {
-      getItem: getItemFactory("session"),
-    };
-  }
-
-  if (attemptToVisitGlobals.has("INSTALLED_APPS")) {
-    globalVariables.INSTALLED_APPS = {
-      has: (appId: string, matchVersion?: string) =>
-        getRuntime().hasInstalledApp(appId, matchVersion),
-    };
-  }
-
-  if (attemptToVisitGlobals.has("FN")) {
-    globalVariables.FN = storyboardFunctions;
-  }
-
-  if (attemptToVisitGlobals.has("__WIDGET_FN__")) {
-    globalVariables.__WIDGET_FN__ = widgetFunctions;
-  }
-
-  if (attemptToVisitGlobals.has("MISC")) {
-    globalVariables.MISC = getRuntime().getMiscSettings();
-  }
-
-  if (attemptToVisitGlobals.has("BASE_URL")) {
-    globalVariables.BASE_URL = getBasePath().replace(/\/$/, "");
-  }
+  Object.assign(
+    globalVariables,
+    getGeneralGlobals(precooked.attemptToVisitGlobals, {
+      storyboardFunctions,
+      app,
+    })
+  );
 
   try {
     const result = cook(precooked.expression, precooked.source, {

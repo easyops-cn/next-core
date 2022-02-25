@@ -61,6 +61,36 @@ const getExtraGlobalVariables = (): Record<string, unknown> => ({
     fnReturnThisFor() {
       return (this as any).for;
     },
+    getIterable(returnUndefined?: boolean) {
+      return {
+        index: 0,
+        next() {
+          const done = this.index > 1;
+          if (done) {
+            this.index = 0;
+          } else {
+            this.index += 1;
+          }
+          const value = done ? undefined : this.index;
+          return {
+            value,
+            done,
+          };
+        },
+        return() {
+          this.index = 0;
+          return returnUndefined
+            ? undefined
+            : {
+                value: undefined as unknown,
+                done: true,
+              };
+        },
+        [Symbol.iterator]() {
+          return this;
+        },
+      };
+    },
   },
   APP: {
     homepage: "/hello/world",

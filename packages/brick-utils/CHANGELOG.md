@@ -3,6 +3,83 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.2...@next-core/brick-utils@2.35.0) (2022-02-21)
+
+### Features
+
+- record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
+
+## [2.34.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.1...@next-core/brick-utils@2.34.2) (2022-02-17)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.34.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.0...@next-core/brick-utils@2.34.1) (2022-02-15)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+# [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.33.1...@next-core/brick-utils@2.34.0) (2022-02-14)
+
+### Features
+
+- support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
+- support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
+
+## [2.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.33.0...@next-core/brick-utils@2.33.1) (2022-01-28)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.6...@next-core/brick-utils@2.33.0) (2022-01-13)
+
+### Features
+
+- menu add href field ([963f123](https://github.com/easyops-cn/next-core/commit/963f123a6ee0dc6ce0e0acc648cffe2d8e299a02))
+
+## [2.32.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.5...@next-core/brick-utils@2.32.6) (2022-01-13)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.32.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.4...@next-core/brick-utils@2.32.5) (2022-01-07)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.32.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.3...@next-core/brick-utils@2.32.4) (2022-01-05)
+
+### Bug Fixes
+
+- refine some types ([13d041a](https://github.com/easyops-cn/next-core/commit/13d041a8e5d0b714d96a7b6e41a5e8167993733a))
+
+## [2.32.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.2...@next-core/brick-utils@2.32.3) (2021-12-30)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.32.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.1...@next-core/brick-utils@2.32.2) (2021-12-29)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.32.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.32.0...@next-core/brick-utils@2.32.1) (2021-12-28)
+
+### Bug Fixes
+
+- refine visiting storyboard ([5352ba4](https://github.com/easyops-cn/next-core/commit/5352ba460a333094e74a38257488085ebdad649e))
+
+# [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.5...@next-core/brick-utils@2.32.0) (2021-12-28)
+
+### Features
+
+- refine storyboard functions and expressions ([6626c61](https://github.com/easyops-cn/next-core/commit/6626c61bd910864daaa81be946f765630cfb8103))
+
+## [2.31.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.4...@next-core/brick-utils@2.31.5) (2021-12-24)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.31.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.3...@next-core/brick-utils@2.31.4) (2021-12-23)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.31.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.2...@next-core/brick-utils@2.31.3) (2021-12-17)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
 ## [2.31.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.31.1...@next-core/brick-utils@2.31.2) (2021-12-03)
 
 **Note:** Version bump only for package @next-core/brick-utils

@@ -8,7 +8,6 @@ import {
 } from "@next-core/brick-types";
 import { JsonStorage } from "@next-core/brick-utils";
 import {
-  AbstractBuilderDataManager,
   BuilderCanvasData,
   BuilderContextMenuStatus,
   BuilderRuntimeEdge,
@@ -24,7 +23,6 @@ import {
   SharedEditorConf,
   BuilderDroppingStatus,
 } from "../interfaces";
-import { getBuilderNode } from "./getBuilderNode";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
 import { deleteNodeFromTree } from "./deleteNodeFromTree";
@@ -55,7 +53,7 @@ enum BuilderInternalEventType {
 
 const storageKeyOfOutlineDisabledNodes = "builder-outline-disabled-nodes";
 
-export class BuilderDataManager implements AbstractBuilderDataManager {
+export class BuilderDataManager {
   private data: BuilderCanvasData = {
     rootId: null,
     nodes: [],
@@ -197,7 +195,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     );
   }
 
-  runAddNodeAction = (detail: EventDetailOfNodeAdd) => {
+  runAddNodeAction = (detail: EventDetailOfNodeAdd): void => {
     const { rootId, nodes, edges } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
@@ -236,7 +234,7 @@ export class BuilderDataManager implements AbstractBuilderDataManager {
     this.triggerDataChange();
   };
 
-  updateBrick(detail: EventDetailOfNodeAdd) {
+  updateBrick(detail: EventDetailOfNodeAdd): void {
     this.data = deleteNodeFromTree(detail.nodeUid, this.data);
 
     this.runAddNodeAction(detail);

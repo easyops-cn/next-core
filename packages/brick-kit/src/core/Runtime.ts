@@ -36,12 +36,11 @@ import { getBasePath } from "../internal/getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
 import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
-import { CustomTemplateContext } from "./CustomTemplates";
 import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
+import { StoryboardContextWrapper } from "./StoryboardContext";
 
 let kernel: Kernel;
-let fakeTplContext: CustomTemplateContext;
 
 /* istanbul ignore next */
 export function _dev_only_getBrickPackages(): BrickPackage[] {
@@ -344,6 +343,11 @@ export function _internalApiMessageCloseHandler(event: CloseEvent): void {
 }
 
 /* istanbul ignore next */
+export function _internalApiGetStoryboardContextWrapper(): StoryboardContextWrapper {
+  return kernel.router.getStoryboardContextWrapper();
+}
+
+/* istanbul ignore next */
 export function _internalApiGetCurrentContext(): PluginRuntimeContext {
   if (process.env.NODE_ENV === "test") {
     return {} as any;
@@ -358,28 +362,6 @@ export function _internalApiHasMatchedApp(pathname: string): boolean {
     }
   }
   return false;
-}
-
-/* istanbul ignore next */
-export function _dev_only_checkoutTplContext(
-  context: CustomTemplateContext
-): void {
-  if (context) {
-    fakeTplContext = context;
-  } else {
-    fakeTplContext = null;
-  }
-}
-
-/* istanbul ignore next */
-export function _internalApiGetTplContext(): CustomTemplateContext {
-  if (process.env.NODE_ENV === "test") {
-    return {} as any;
-  }
-  if (fakeTplContext) {
-    return fakeTplContext;
-  }
-  return kernel.router.getTplContext();
 }
 
 /* istanbul ignore next */

@@ -19,6 +19,9 @@ import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
 import { getRuntime } from "../runtime";
+import { StoryboardContextWrapper } from "../core/StoryboardContext";
+import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
+import { symbolForTplContextId } from "../core/CustomTemplates";
 
 jest.mock("../history");
 jest.mock("../core/MessageDispatcher");
@@ -82,7 +85,8 @@ const mockMessageSuccess = jest.spyOn(message, "success");
 const mockMessageError = jest.spyOn(message, "error");
 const mockMessageInfo = jest.spyOn(message, "info");
 const mockMessageWarn = jest.spyOn(message, "warn");
-const storyboardContext = new Map<string, any>();
+const storyboardContextWrapper = new StoryboardContextWrapper();
+const storyboardContext = storyboardContextWrapper.get() as Map<string, any>;
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   app: {
     $$routeAliasMap: new Map([
@@ -126,6 +130,10 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   },
   storyboardContext,
 } as any);
+
+jest
+  .spyOn(runtime, "_internalApiGetStoryboardContextWrapper")
+  .mockReturnValue(storyboardContextWrapper);
 
 const anyProvider = document.createElement("any-provider");
 const customApiProvider = document.createElement(CUSTOM_API_PROVIDER);
@@ -417,15 +425,6 @@ describe("bindListeners", () => {
           ],
         },
         {
-          action: "context.assign",
-          args: [
-            100,
-            {
-              something: "wrong",
-            },
-          ],
-        },
-        {
           action: "message.subscribe",
           args: [
             "task1",
@@ -463,6 +462,10 @@ describe("bindListeners", () => {
         },
         { action: "theme.setLightTheme" },
         { action: "theme.setDarkTheme" },
+        {
+          action: "theme.setTheme",
+          args: ["dark-v2"],
+        },
         { action: "mode.setDefaultMode" },
         { action: "mode.setDashboardMode" },
         { action: "menu.clearMenuTitleCache" },
@@ -618,7 +621,7 @@ describe("bindListeners", () => {
     jest.spyOn(Storage.prototype, "setItem");
     jest.spyOn(Storage.prototype, "removeItem");
 
-    bindListeners(sourceElem, eventsMap);
+    bindListeners(sourceElem, eventsMap, {} as any);
 
     const event1 = new CustomEvent("key1", {
       detail: "for-good",
@@ -784,28 +787,28 @@ describe("bindListeners", () => {
       })
     );
 
-    expect(console.error).toBeCalledTimes(7);
+    expect(console.error).toBeCalledTimes(6);
     expect(console.error).toHaveBeenNthCalledWith(
       1,
       "specified args for console.error"
     );
-    expect((console.error as jest.Mock).mock.calls[3][0]).toBe(
+    expect((console.error as jest.Mock).mock.calls[2][0]).toBe(
       "target has no method:"
     );
-    expect((console.error as jest.Mock).mock.calls[3][1].method).toBe(
+    expect((console.error as jest.Mock).mock.calls[2][1].method).toBe(
       "notExisted"
     );
     expect(console.error).toHaveBeenNthCalledWith(
-      5,
+      4,
       "target not found:",
       "#not-existed"
     );
     expect(console.error).toHaveBeenNthCalledWith(
-      6,
+      5,
       'Error: Provider not defined: "not-defined-provider".'
     );
     expect(console.error).toHaveBeenNthCalledWith(
-      7,
+      6,
       expect.objectContaining({
         message: expect.stringContaining("EVENT.oops is not a function"),
       })
@@ -880,6 +883,7 @@ describe("bindListeners", () => {
 
     expect(applyTheme).toHaveBeenNthCalledWith(1, "light");
     expect(applyTheme).toHaveBeenNthCalledWith(2, "dark");
+    expect(applyTheme).toHaveBeenNthCalledWith(3, "dark-v2");
     expect(applyMode).toHaveBeenNthCalledWith(1, "default");
     expect(applyMode).toHaveBeenNthCalledWith(2, "dashboard");
 
@@ -913,7 +917,7 @@ describe("bindListeners", () => {
     legacyIframeMountPoint.remove();
   });
 
-  it("should work for ref target", () => {
+  it("should work for template", () => {
     // Mocking a custom template with several inside bricks.
     const tplElement = document.createElement("div") as any;
     const button = document.createElement("div") as any;
@@ -929,32 +933,59 @@ describe("bindListeners", () => {
     microView.appendChild(useBrickElem);
     document.body.appendChild(tplElement);
 
+    const tplContext = new CustomTemplateContext({
+      element: tplElement,
+    });
+    tplElement[symbolForTplContextId] = tplContext.id;
+    tplContext.state.set("myState", {
+      type: "free-variable",
+      value: "initial",
+    });
+
     button.forGood = jest.fn();
     jest.spyOn(console, "error").mockImplementation(() => void 0);
     const tplDispatchEvent = jest.spyOn(tplElement, "dispatchEvent");
 
-    bindListeners(sourceElem, {
-      keyWillFindTarget: {
-        targetRef: "button",
-        method: "forGood",
-      },
-      keyWillNotFindTarget: {
-        targetRef: "not-existed",
-        method: "forGood",
-      },
-    });
-
-    bindListeners(useBrickElem, {
-      triggeredByUseBrick: {
-        action: "tpl.dispatchEvent",
-        args: [
-          "customizedEventFromUseBrick",
+    bindListeners(
+      sourceElem,
+      {
+        keyWillFindTarget: [
           {
-            detail: "<% `quality is ${EVENT.detail}` %>",
+            targetRef: "button",
+            method: "forGood",
+          },
+          {
+            action: "state.update",
+            args: ["myState", "<% `${STATE.myState}:updated` %>"],
           },
         ],
+        keyWillNotFindTarget: {
+          targetRef: "not-existed",
+          method: "forGood",
+        },
       },
-    });
+      {
+        tplContextId: tplContext.id,
+      } as any
+    );
+
+    bindListeners(
+      useBrickElem,
+      {
+        triggeredByUseBrick: {
+          action: "tpl.dispatchEvent",
+          args: [
+            "customizedEventFromUseBrick",
+            {
+              detail: "<% `quality is ${EVENT.detail}` %>",
+            },
+          ],
+        },
+      },
+      {
+        tplContextId: tplContext.id,
+      } as any
+    );
 
     sourceElem.dispatchEvent(new CustomEvent("keyWillNotFindTarget"));
     expect(button.forGood).not.toBeCalled();
@@ -965,6 +996,7 @@ describe("bindListeners", () => {
 
     sourceElem.dispatchEvent(new CustomEvent("keyWillFindTarget"));
     expect(button.forGood).toBeCalled();
+    expect(tplContext.state.getValue("myState")).toBe("initial:updated");
 
     useBrickElem.dispatchEvent(
       new CustomEvent("triggeredByUseBrick", {
@@ -1018,6 +1050,10 @@ describe("bindListeners", () => {
         if: "<% !EVENT.detail.rejected %>",
       },
       {
+        action: "theme.setTheme",
+        if: "<% !EVENT.detail.rejected %>",
+      },
+      {
         action: "mode.setDashboardMode",
         if: "<% !EVENT.detail.rejected %>",
       },
@@ -1045,7 +1081,7 @@ describe("bindListeners", () => {
         if: "<% !EVENT.detail.rejected %>",
       },
     ];
-    bindListeners(sourceElem, { ifWillGetRejected: handlers });
+    bindListeners(sourceElem, { ifWillGetRejected: handlers }, {} as any);
     sourceElem.dispatchEvent(
       new CustomEvent("ifWillGetRejected", {
         detail: {

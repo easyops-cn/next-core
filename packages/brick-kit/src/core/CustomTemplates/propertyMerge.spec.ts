@@ -48,7 +48,20 @@ describe("propertyMerge", () => {
         {
           brick: "a",
           properties: {
-            columns: [2, 3, 4],
+            columns: [
+              2,
+              3,
+              {
+                useBrick: {
+                  events: {
+                    click: {
+                      action: "console.log",
+                      args: ["<% STATE.something %>"],
+                    },
+                  },
+                },
+              },
+            ],
             filters: {
               id: true,
             },
@@ -56,7 +69,9 @@ describe("propertyMerge", () => {
         },
       ],
     ]);
-    const context = {} as any;
+    const context = {
+      tplContextId: "tpl-ctx-1",
+    } as any;
 
     for (const [reveredRef, proxy] of Object.entries(proxyProperties)) {
       proxy.$$reversedRef = reveredRef;
@@ -73,7 +88,32 @@ describe("propertyMerge", () => {
       lastIntermediateColumns: [3.5],
       appendColumns: [10],
     });
-    expect(finalValue).toEqual([0, 1, 2, 2.5, 3, 3.5, 4, 10]);
+    expect(finalValue).toEqual([
+      0,
+      1,
+      2,
+      2.5,
+      3,
+      3.5,
+      {
+        useBrick: {
+          events: {
+            click: {
+              action: "console.log",
+              args: [
+                {
+                  [Symbol.for("pre.evaluated.raw")]: "<% STATE.something %>",
+                  [Symbol.for("pre.evaluated.context")]: {
+                    tplContextId: "tpl-ctx-1",
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      10,
+    ]);
   });
 
   it("should work for merging object", () => {
@@ -100,7 +140,32 @@ describe("propertyMerge", () => {
         appendColumns: [10],
       }
     );
-    expect(finalValue).toEqual([0, 1, 2, 2.5, 3, 3.5, 4, 10]);
+    expect(finalValue).toEqual([
+      0,
+      1,
+      2,
+      2.5,
+      3,
+      3.5,
+      {
+        useBrick: {
+          events: {
+            click: {
+              action: "console.log",
+              args: [
+                {
+                  [Symbol.for("pre.evaluated.raw")]: "<% STATE.something %>",
+                  [Symbol.for("pre.evaluated.context")]: {
+                    tplContextId: "tpl-ctx-1",
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      10,
+    ]);
   });
 
   it("should work for merging all of object", () => {

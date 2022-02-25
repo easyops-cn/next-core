@@ -1,4 +1,4 @@
-import { History, LocationDescriptorObject } from "history";
+import { History, LocationDescriptorObject, parsePath } from "history";
 import {
   PluginHistoryState,
   ExtendedHistory,
@@ -121,11 +121,11 @@ function standaloneHistoryOverridden(
       let pathname: string;
       const pathIsString = typeof path === "string";
       if (pathIsString) {
-        pathname = path;
+        pathname = parsePath(path).pathname;
       } else {
         pathname = path.pathname;
       }
-      if (_internalApiHasMatchedApp(pathname)) {
+      if (pathname === "" || _internalApiHasMatchedApp(pathname)) {
         return (method === "push" ? originalPush : originalReplace)(
           path as string,
           state

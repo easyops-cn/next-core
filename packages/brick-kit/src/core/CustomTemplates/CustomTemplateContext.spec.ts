@@ -1,26 +1,21 @@
 import { RuntimeBrick } from "../BrickNode";
-import { CustomTemplateContext } from "./CustomTemplateContext";
+import {
+  CustomTemplateContext,
+  getCustomTemplateContext,
+} from "./CustomTemplateContext";
 
 describe("CustomTemplateContext", () => {
-  let context: CustomTemplateContext;
-
-  beforeEach(() => {
-    context = new CustomTemplateContext();
-  });
-
   it("should work", () => {
-    const id = context.createContext();
-    const brick = {} as RuntimeBrick;
+    const brick: RuntimeBrick = {};
+    const context = new CustomTemplateContext(brick);
 
-    context.sealContext(
-      id,
-      {
-        quality: "good",
-      },
-      brick
-    );
+    expect(context.id).toBe("tpl-ctx-1");
 
-    expect(context.getContext(id)).toEqual({
+    context.setVariables({
+      quality: "good",
+    });
+
+    expect(context.getVariables()).toEqual({
       quality: "good",
     });
 
@@ -28,11 +23,14 @@ describe("CustomTemplateContext", () => {
       quality: "better",
     } as any;
 
-    expect(context.getContext(id)).toEqual({
+    expect(context.getVariables()).toEqual({
       quality: "better",
     });
 
-    expect(context.getBrick(id)).toEqual(brick);
-    expect(context.getBrick("xxx")).toBeUndefined();
+    expect(context.getBrick()).toBe(brick);
+
+    expect(getCustomTemplateContext("tpl-ctx-1")).toBe(context);
+
+    expect(context.state.tplContextId).toBe("tpl-ctx-1");
   });
 });

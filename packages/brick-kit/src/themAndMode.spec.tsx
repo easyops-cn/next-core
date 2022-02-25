@@ -9,6 +9,7 @@ import {
   applyMode as _applyMode,
   useCurrentTheme,
   useCurrentMode,
+  getCssPropertyValue,
 } from "./themeAndMode";
 import { act } from "react-dom/test-utils";
 
@@ -33,6 +34,8 @@ describe("theme", () => {
     setTheme("dark");
     expect(getTheme()).toEqual("dark");
     expect(document.documentElement.dataset.theme).toBe("light");
+    setTheme("dark-v2");
+    expect(getTheme()).toEqual("dark-v2");
   });
 
   test("should throw error if set an invalid theme", () => {
@@ -149,5 +152,15 @@ describe("mode", () => {
     wrapper.update();
     expect(wrapper.text()).toBe("dashboard");
     wrapper.unmount();
+  });
+});
+
+describe("get css value", () => {
+  beforeEach(() => {
+    document.documentElement.style.setProperty("--brand-color", "red");
+  });
+
+  it("should get value", () => {
+    expect(getCssPropertyValue("--brand-color")).toEqual("red");
   });
 });

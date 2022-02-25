@@ -3,10 +3,11 @@ import { SiteMode, SiteTheme } from "@next-core/brick-types";
 
 // Themes.
 const DEFAULT_THEME = "light";
+export const DARK_THEME = "dark-v2" as SiteTheme;
 let theme: SiteTheme = DEFAULT_THEME;
 
 export function setTheme(value: SiteTheme): void {
-  if (value !== "dark" && value !== "light") {
+  if (value !== "dark" && value !== "light" && value !== "dark-v2") {
     throw new Error(`Unsupported theme: ${value}`);
   }
   theme = value;
@@ -101,4 +102,11 @@ export function useCurrentMode(): SiteMode {
   }, []);
 
   return currentMode;
+}
+
+export function getCssPropertyValue(
+  name: string,
+  el = document.documentElement
+): string {
+  return window.getComputedStyle(el).getPropertyValue(name);
 }

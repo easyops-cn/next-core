@@ -62,6 +62,8 @@ exports[`evaluate should throw [selective]: expression-only: new Boolean() 1`] =
 
 exports[`evaluate should throw [selective]: expression-only: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
 
+exports[`evaluate should throw [selective]: for of loop: break iterable 1`] = `"Iterator result is not an object"`;
+
 exports[`evaluate should throw [selective]: generator functions 1`] = `"Generator function is not allowed"`;
 
 exports[`evaluate should throw [selective]: labeled statement 1`] = `"Unsupported node type \`LabeledStatement\`"`;

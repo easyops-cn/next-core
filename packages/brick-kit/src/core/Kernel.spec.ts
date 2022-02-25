@@ -33,6 +33,7 @@ import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
+import { applyColorTheme } from "../internal/applyColorTheme";
 
 i18next.init({
   fallbackLng: "en",
@@ -52,6 +53,7 @@ jest.mock("../auth");
 jest.mock("../runtime");
 jest.mock("./initAnalytics");
 jest.mock("./standaloneBootstrap");
+jest.mock("../internal/applyColorTheme");
 
 const historyPush = jest.fn();
 jest.spyOn(mockHistory, "getHistory").mockReturnValue({
@@ -80,6 +82,7 @@ const spyOnGetAppStoryboard = (
 });
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
+const spyApplyColorTheme = applyColorTheme as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
@@ -499,21 +502,8 @@ describe("Kernel", () => {
     kernel.loadingBar = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
-    kernel.navBar = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.sideBar = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.breadcrumb = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.footer = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
-    expect(document.documentElement.dataset.ui).toBe(undefined);
     expect(kernel.presetBricks).toMatchObject({
       pageNotFound: "basic-bricks.page-not-found",
       pageError: "basic-bricks.page-error",
@@ -524,80 +514,6 @@ describe("Kernel", () => {
       testid: "brick-next-menu-bar",
     });
     expect(kernel.appBar.bootstrap).toBeCalledWith("basic-bricks.app-bar");
-    expect(kernel.navBar.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.sideBar.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.loadingBar.bootstrap).toBeCalledWith(
-      "basic-bricks.loading-bar"
-    );
-  });
-
-  it("should work for easyops layout when ui version is v8", async () => {
-    spyOnCheckLogin.mockResolvedValueOnce({
-      loggedIn: true,
-    });
-    spyOnIsLoggedIn.mockReturnValueOnce(true);
-    spyOnBootstrap.mockResolvedValueOnce({
-      storyboards: [
-        {
-          routes: [],
-        },
-      ],
-      brickPackages: [],
-      settings: {
-        featureFlags: {
-          "ui-v8": true,
-        },
-      },
-    });
-    localStorage.setItem("test-ui-v8", "true");
-    await kernel.bootstrap({} as any);
-    kernel.bootstrapData = {
-      navbar: {
-        menuBar: "basic-bricks.menu-bar",
-        appBar: "basic-bricks.app-bar",
-        loadingBar: "basic-bricks.loading-bar",
-      },
-    } as RuntimeBootstrapData;
-    kernel.menuBar = {
-      bootstrap: jest.fn(),
-    } as unknown as MenuBar;
-    kernel.appBar = {
-      bootstrap: jest.fn(),
-    } as unknown as AppBar;
-    kernel.loadingBar = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.navBar = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.sideBar = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.breadcrumb = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.footer = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    await kernel.layoutBootstrap("console");
-    expect(kernel.currentLayout).toBe("console");
-    expect(document.documentElement.dataset.ui).toBe("v8");
-    expect(kernel.presetBricks).toMatchObject({
-      pageNotFound: "basic-bricks.page-not-found",
-      pageError: "basic-bricks.page-error",
-    });
-    expect(document.body.classList.contains("layout-console")).toBe(true);
-    expect(document.body.classList.contains("layout-business")).toBe(false);
-    expect(kernel.menuBar.bootstrap).toBeCalledWith(undefined, {
-      testid: "brick-next-menu-bar",
-    });
-    expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.navBar.bootstrap).toBeCalledWith("frame-bricks.nav-bar");
-    expect(kernel.sideBar.bootstrap).toBeCalledWith("frame-bricks.side-bar");
-    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(null);
-    expect(kernel.footer.bootstrap).toBeCalledWith(null);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "basic-bricks.loading-bar"
     );
@@ -613,18 +529,6 @@ describe("Kernel", () => {
     kernel.loadingBar = {
       bootstrap: jest.fn(),
     } as unknown as BaseBar;
-    kernel.navBar = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.sideBar = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.breadcrumb = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
-    kernel.footer = {
-      bootstrap: jest.fn(),
-    } as unknown as BaseBar;
     await kernel.layoutBootstrap("business");
     expect(kernel.currentLayout).toBe("business");
     expect(kernel.presetBricks).toMatchObject({
@@ -637,10 +541,6 @@ describe("Kernel", () => {
       testid: "brick-next-menu-bar",
     });
     expect(kernel.appBar.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.navBar.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.sideBar.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.breadcrumb.bootstrap).toBeCalledWith(undefined);
-    expect(kernel.footer.bootstrap).toBeCalledWith(undefined);
     expect(kernel.loadingBar.bootstrap).toBeCalledWith(
       "business-website.loading-bar"
     );
@@ -974,5 +874,153 @@ describe("Kernel", () => {
     } as any;
     const menus = kernel.getStandaloneMenus("menu-1");
     expect(menus).toEqual([]);
+  });
+
+  it("should apply custom theme", async () => {
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [
+        {
+          filePath: "all.js",
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js",
+        },
+      ],
+      settings: {
+        misc: {
+          theme: {
+            brandColor: {
+              light: "#6b6b6b",
+              dark: "red",
+            },
+          },
+        },
+      },
+    });
+    await kernel.bootstrap(mountPoints);
+
+    expect(spyApplyColorTheme.mock.calls[0][0]).toEqual({
+      dark: "red",
+      light: "#6b6b6b",
+      type: "brandColor",
+    });
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [
+        {
+          filePath: "all.js",
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js",
+        },
+      ],
+      settings: {
+        misc: {
+          theme: {
+            baseColors: {
+              light: {
+                red: "#6b6b6b",
+              },
+              dark: {
+                red: "#555",
+              },
+            },
+          },
+        },
+      },
+    });
+    await kernel.bootstrap(mountPoints);
+
+    expect(spyApplyColorTheme.mock.calls[1][0]).toEqual({
+      dark: {
+        red: "#555",
+      },
+      light: {
+        red: "#6b6b6b",
+      },
+      type: "baseColors",
+    });
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [
+        {
+          filePath: "all.js",
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "layout.js",
+        },
+      ],
+      settings: {
+        misc: {
+          theme: {
+            variables: {
+              light: {
+                "--color-brand": "yellow",
+              },
+              dark: {
+                "--color-brand": "yellow",
+              },
+            },
+          },
+        },
+      },
+    });
+    await kernel.bootstrap(mountPoints);
+
+    expect(spyApplyColorTheme.mock.calls[2][0]).toEqual({
+      dark: {
+        "--color-brand": "yellow",
+      },
+      light: {
+        "--color-brand": "yellow",
+      },
+      type: "variables",
+    });
   });
 });

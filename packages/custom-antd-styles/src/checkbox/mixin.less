@@ -1,5 +1,5 @@
-.customAntCheckboxFn(@checkbox-prefix-cls: ~'@{ant-prefix}-checkbox') {
-  @checkbox-inner-prefix-cls: ~'@{checkbox-prefix-cls}-inner';
+.customAntCheckboxFn(@checkbox-prefix-cls: ~"@{ant-prefix}-checkbox") {
+  @checkbox-inner-prefix-cls: ~"@{checkbox-prefix-cls}-inner";
   .@{checkbox-prefix-cls} {
     &-inner {
       border-radius: 4px;
@@ -27,16 +27,15 @@
     */
     &-wrapper {
       border-radius: 4px;
-      padding: 4px 6px;
+      padding: 2px 4px;
 
       &:hover {
-        background: #ebf3fd;
+        background: var(--antd-checkbox-bg-hover);
       }
 
       &-checked {
-        background: #f5f5f5;
+        background: var(--antd-checkbox-checked);
       }
     }
   }
-
 }

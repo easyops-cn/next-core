@@ -182,6 +182,7 @@ export interface BrickConf {
     // @internal @deprecated
     exports?: Record<string, string>;
     if?: string | boolean | ResolveConf;
+    iid?: string;
     // @internal @deprecated (undocumented)
     injectDeep?: boolean;
     // @internal @deprecated (undocumented)
@@ -708,7 +709,7 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
 
 // @public
 export interface BuiltinBrickEventHandler {
-    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "analytics.event";
+    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "state.update" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "analytics.event";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
@@ -884,6 +885,7 @@ export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
     name: string;
     proxy?: CustomTemplateProxy;
+    state?: CustomTemplateState[];
 }
 
 // @public
@@ -991,6 +993,9 @@ export interface CustomTemplateProxyWithExtra {
     extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
     ref: string;
 }
+
+// @public
+export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve">;
 
 // @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {
@@ -1339,7 +1344,20 @@ export interface MicroApp {
     noAuthGuard?: boolean;
     private?: boolean;
     status?: "developing" | "enabled" | "disabled";
+    theme?: "light" | "dark-v2";
     userConfig?: Record<string, unknown>;
+}
+
+// @public
+export interface MockRule {
+    provider: string;
+    uri: string;
+}
+
+// @public (undocumented)
+export interface Mocks {
+    mockId: string;
+    mockList: MockRule[];
 }
 
 // Warning: (ae-internal-missing-underscore) The name "MountPoints" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1370,20 +1388,6 @@ export interface NavbarConf {
     loadingBar: string;
     // (undocumented)
     menuBar: string;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "NavbarConf_UiV8" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface NavbarConf_UiV8 {
-    // (undocumented)
-    breadcrumb: string;
-    // (undocumented)
-    footer: string;
-    // (undocumented)
-    navBar: string;
-    // (undocumented)
-    sideBar: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1417,28 +1421,167 @@ export interface PluginRuntimeContext {
     app?: MicroApp;
     event?: CustomEvent;
     flags?: FeatureFlags;
-    // (undocumented)
-    getTplVariables?: () => Record<string, unknown>;
     hash?: string;
     // @internal (undocumented)
     match?: MatchResult;
     overrideApp?: MicroApp;
+    pathname?: string;
     query: URLSearchParams;
     segues?: SeguesConf;
     // @internal (undocumented)
     storyboardContext?: StoryboardContext;
     sys?: SystemInfo;
+    // @internal (undocumented)
+    tplContextId?: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "PresetBricksConf" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface PresetBricksConf extends Partial<NavbarConf>, Partial<NavbarConf_UiV8> {
+export interface PresetBricksConf extends Partial<NavbarConf> {
     // (undocumented)
     pageError: string;
     // (undocumented)
     pageNotFound: string;
 }
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewBaseMessage" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewBaseMessage {
+    // (undocumented)
+    forwardedFor?: "builder" | "previewer";
+    // (undocumented)
+    sender: "builder" | "preview-container" | "previewer";
+    // (undocumented)
+    type: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewerMessageToBuilder" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type PreviewerMessageToBuilder = PreviewMessageContainerPreviewerHoverOnBrick | PreviewMessageContainerPreviewerSelectBrick;
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewHelperBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewHelperBrick {
+    // (undocumented)
+    start(previewFromOrigin: string): void;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageBuilderHoverOnBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessageBuilderHoverOnBrick extends PreviewBaseMessage {
+    // (undocumented)
+    iid: string;
+    // (undocumented)
+    sender: "builder";
+    // (undocumented)
+    type: "hover-on-brick";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageContainerBuilderHoverOnBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessageContainerBuilderHoverOnBrick extends Omit<PreviewMessageBuilderHoverOnBrick, "sender"> {
+    // (undocumented)
+    forwardedFor: "builder";
+    // (undocumented)
+    sender: "preview-container";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageContainerPreviewerHoverOnBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessageContainerPreviewerHoverOnBrick extends Omit<PreviewMessagePreviewerHoverOnBrick, "sender"> {
+    // (undocumented)
+    forwardedFor: "previewer";
+    // (undocumented)
+    sender: "preview-container";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageContainerPreviewerSelectBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessageContainerPreviewerSelectBrick extends Omit<PreviewMessagePreviewerSelectBrick, "sender"> {
+    // (undocumented)
+    forwardedFor: "previewer";
+    // (undocumented)
+    sender: "preview-container";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageContainerStartPreview" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessageContainerStartPreview extends PreviewBaseMessage {
+    // (undocumented)
+    sender: "preview-container";
+    // (undocumented)
+    type: "start-preview";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageContainerToggleInspecting" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessageContainerToggleInspecting extends PreviewBaseMessage {
+    // (undocumented)
+    enabled: boolean;
+    // (undocumented)
+    sender: "preview-container";
+    // (undocumented)
+    type: "toggle-inspecting";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageFromContainer" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type PreviewMessageFromContainer = PreviewMessageContainerBuilderHoverOnBrick | PreviewMessageContainerPreviewerHoverOnBrick | PreviewMessageContainerPreviewerSelectBrick;
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessagePreviewerHoverOnBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessagePreviewerHoverOnBrick extends PreviewBaseMessage {
+    // (undocumented)
+    iidList: string[];
+    // (undocumented)
+    sender: "previewer";
+    // (undocumented)
+    type: "hover-on-brick";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessagePreviewerPreviewStarted" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessagePreviewerPreviewStarted extends PreviewBaseMessage {
+    // (undocumented)
+    sender: "previewer";
+    // (undocumented)
+    type: "preview-started";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessagePreviewerSelectBrick" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessagePreviewerSelectBrick extends PreviewBaseMessage {
+    // (undocumented)
+    iidList: string[];
+    // (undocumented)
+    sender: "previewer";
+    // (undocumented)
+    type: "select-brick";
+}
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageToContainer" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type PreviewMessageToContainer = PreviewMessageBuilderHoverOnBrick | PreviewMessagePreviewerHoverOnBrick | PreviewMessagePreviewerSelectBrick | PreviewMessagePreviewerPreviewStarted;
+
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageToPreviewer" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type PreviewMessageToPreviewer = PreviewMessageContainerBuilderHoverOnBrick | PreviewMessageContainerToggleInspecting;
 
 // Warning: (ae-internal-missing-underscore) The name "ProbablyRuntimeBrick" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -1757,6 +1900,8 @@ export interface Settings {
     featureFlags: FeatureFlags;
     // (undocumented)
     homepage: string;
+    // (undocumented)
+    misc?: Record<string, unknown>;
 }
 
 // @public
@@ -1832,7 +1977,7 @@ export interface SiteMapItem {
 export type SiteMode = "default" | "dashboard";
 
 // @public
-export type SiteTheme = "light" | "dark";
+export type SiteTheme = "light" | "dark" | "dark-v2";
 
 // @public
 export type SlotConf = SlotConfOfBricks | SlotConfOfRoutes;
@@ -2023,6 +2168,7 @@ export interface StoryboardMeta {
     i18n?: MetaI18n;
     // (undocumented)
     menus?: MenuRawData[];
+    mocks?: Mocks;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2325,6 +2471,7 @@ export interface UseSingleBrickConf {
     brick: string;
     events?: BrickEventsMap;
     if?: string | boolean | ResolveConf;
+    iid?: string;
     lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
     properties?: Record<string, unknown>;
     slots?: UseBrickSlotsConf;

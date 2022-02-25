@@ -38,9 +38,10 @@ import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
 import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
-import { CustomTemplateContext } from "./CustomTemplates";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
+import { registerMock } from "./MockRegistry";
+import { StoryboardContextWrapper } from "./StoryboardContext";
 
 export class Router {
   private defaultCollapsed = false;
@@ -225,6 +226,8 @@ export class Router {
       // 注册 Storyboard 中定义的自定义模板和函数。
       this.kernel.registerCustomTemplatesInStoryboard(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
+
+      registerMock(storyboard.meta?.mocks);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;
@@ -237,6 +240,9 @@ export class Router {
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
     const layoutType: LayoutType = currentApp?.layoutType || "console";
+
+    setTheme(currentApp?.theme || "light");
+    setMode("default");
 
     devtoolsHookEmit("rendering");
 
@@ -288,7 +294,7 @@ export class Router {
         console.error(error);
 
         // Redirect to login page if not logged in.
-        if (isUnauthenticatedError(error)) {
+        if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
           mountRoutesResult.flags.unauthenticated = true;
         } else {
           await this.kernel.layoutBootstrap(layoutType);
@@ -361,8 +367,6 @@ export class Router {
           : undefined;
       this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
 
-      setTheme("light");
-      setMode("default");
       // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
       this.locationContext.handleBeforePageLoad();
       applyTheme();
@@ -379,37 +383,32 @@ export class Router {
       if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
         this.kernel.toggleBars(false);
       } else if (this.kernel.currentLayout === "console") {
-        /* istanbul ignore next */
-        if (!this.kernel.enableUiV8) {
-          await constructMenu(
-            menuBar,
-            this.locationContext.getCurrentContext(),
-            this.kernel
-          );
-          if (
-            shouldBeDefaultCollapsed(
-              menuBar.menu?.defaultCollapsed,
-              menuBar.menu?.defaultCollapsedBreakpoint
-            )
-          ) {
-            this.kernel.menuBar.collapse(true);
-            this.defaultCollapsed = true;
-          } else {
-            if (this.defaultCollapsed) {
-              this.kernel.menuBar.collapse(false);
-            }
-            this.defaultCollapsed = false;
-          }
-          if (actualLegacy === "iframe") {
-            // Do not modify breadcrumb in iframe mode,
-            // it will be *popped* from iframe automatically.
-            delete appBar.breadcrumb;
-          }
-          mountStaticNode(this.kernel.menuBar.element, menuBar);
-          mountStaticNode(this.kernel.appBar.element, appBar);
+        await constructMenu(
+          menuBar,
+          this.locationContext.getCurrentContext(),
+          this.kernel
+        );
+        if (
+          shouldBeDefaultCollapsed(
+            menuBar.menu?.defaultCollapsed,
+            menuBar.menu?.defaultCollapsedBreakpoint
+          )
+        ) {
+          this.kernel.menuBar.collapse(true);
+          this.defaultCollapsed = true;
         } else {
-          // Todo(nlicro): mount navBar、sideBar...
+          if (this.defaultCollapsed) {
+            this.kernel.menuBar.collapse(false);
+          }
+          this.defaultCollapsed = false;
         }
+        if (actualLegacy === "iframe") {
+          // Do not modify breadcrumb in iframe mode,
+          // it will be *popped* from iframe automatically.
+          delete appBar.breadcrumb;
+        }
+        mountStaticNode(this.kernel.menuBar.element, menuBar);
+        mountStaticNode(this.kernel.appBar.element, appBar);
       }
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
@@ -428,16 +427,16 @@ export class Router {
         afterMountTree(mountPoints.portal as MountableElement);
         afterMountTree(mountPoints.bg as MountableElement);
 
+        // Scroll to top after each rendering.
+        // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
+        window.scrollTo(0, 0);
+
         if (!failed) {
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
           this.locationContext.resolver.scheduleRefreshing();
           this.locationContext.handleMessage();
         }
-
-        // Scroll to top after each rendering.
-        // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
-        window.scrollTo(0, 0);
 
         pageTracker?.(locationContext.getCurrentMatch().path);
 
@@ -454,8 +453,8 @@ export class Router {
 
         // Try to prefetch during a browser's idle periods.
         // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
-        if (typeof (window as any).requestIdleCallback === "function") {
-          (window as any).requestIdleCallback(() => {
+        if (typeof window.requestIdleCallback === "function") {
+          window.requestIdleCallback(() => {
             this.kernel.prefetchDepsOfStoryboard(storyboard);
           });
         } else {
@@ -519,8 +518,8 @@ export class Router {
   }
 
   /* istanbul ignore next */
-  getTplContext(): CustomTemplateContext {
-    return this.locationContext.getTplContext();
+  getStoryboardContextWrapper(): StoryboardContextWrapper {
+    return this.locationContext.storyboardContextWrapper;
   }
 
   /* istanbul ignore next */

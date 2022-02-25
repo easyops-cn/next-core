@@ -6,9 +6,9 @@ import {
   RefForProxy,
   RuntimeBrickConf,
   SlotsConfOfBricks,
-  UseBrickConf,
+  CustomTemplate,
 } from "@next-core/brick-types";
-import { hasOwnProperty, isObject } from "@next-core/brick-utils";
+import { hasOwnProperty } from "@next-core/brick-utils";
 import { clamp } from "lodash";
 import { preprocessTransformProperties } from "../../transformProperties";
 import { RuntimeBrick } from "../BrickNode";
@@ -29,18 +29,18 @@ import {
   customTemplateRegistry,
   RuntimeBrickConfWithTplSymbols,
   symbolForComputedPropsFromProxy,
-  symbolForParentTemplate,
   symbolForRefForProxy,
   symbolForTplContextId,
 } from "./constants";
 import { propertyMergeAll } from "./propertyMerge";
 import { collectMergeBases } from "./collectMergeBases";
 import { CustomTemplateContext } from "./CustomTemplateContext";
+import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate";
 
 interface ProxyContext {
   reversedProxies: ReversedProxies;
   templateProperties: Record<string, unknown>;
-  templateSlots: SlotsConfOfBricks;
+  externalSlots: SlotsConfOfBricks;
   templateContextId: string;
   proxyBrick: RuntimeBrick;
 }
@@ -58,14 +58,52 @@ interface SlotProxy extends CustomTemplateProxySlot {
 export function expandCustomTemplate(
   brickConf: RuntimeBrickConf,
   proxyBrick: RuntimeBrick,
+  context: PluginRuntimeContext
+): RuntimeBrickConf {
+  const tplContext = new CustomTemplateContext(proxyBrick);
+  const template = customTemplateRegistry.get(brickConf.brick);
+  if (Array.isArray(template.state)) {
+    tplContext.state.syncDefine(template.state, context, proxyBrick);
+  }
+  return lowLevelExpandCustomTemplate(
+    template,
+    brickConf,
+    proxyBrick,
+    context,
+    tplContext
+  );
+}
+
+export async function asyncExpandCustomTemplate(
+  brickConf: RuntimeBrickConf,
+  proxyBrick: RuntimeBrick,
+  context: PluginRuntimeContext
+): Promise<RuntimeBrickConf> {
+  const tplContext = new CustomTemplateContext(proxyBrick);
+  const template = customTemplateRegistry.get(brickConf.brick);
+  if (Array.isArray(template.state)) {
+    await tplContext.state.define(template.state, context, proxyBrick);
+  }
+  return lowLevelExpandCustomTemplate(
+    template,
+    brickConf,
+    proxyBrick,
+    context,
+    tplContext
+  );
+}
+
+function lowLevelExpandCustomTemplate(
+  template: CustomTemplate,
+  brickConf: RuntimeBrickConf,
+  proxyBrick: RuntimeBrick,
   context: PluginRuntimeContext,
   tplContext: CustomTemplateContext
 ): RuntimeBrickConf {
-  const template = customTemplateRegistry.get(brickConf.brick);
-  const { bricks, proxy } = template;
+  const { bricks, proxy, state } = template;
   const {
     properties: templateProperties,
-    slots: templateSlots,
+    slots: externalSlots,
     ...restBrickConf
   } = brickConf;
   const newBrickConf = restBrickConf as RuntimeBrickConf;
@@ -76,6 +114,7 @@ export function expandCustomTemplate(
   };
   proxyBrick.proxy = proxyCopy;
   proxyBrick.proxyRefs = new Map();
+  proxyBrick.stateNames = state?.map((item) => item.name);
 
   const refToBrickConf = collectRefsInTemplate(template);
 
@@ -87,9 +126,6 @@ export function expandCustomTemplate(
   };
 
   const tplVariables: Record<string, unknown> = {};
-  const templateContextId = tplContext.createContext();
-  const getTplVariables = (): Record<string, unknown> =>
-    tplContext.getContext(templateContextId);
 
   if (proxy?.properties) {
     const refPropertiesCopy = {} as RuntimeCustomTemplateProxyProperties;
@@ -109,7 +145,7 @@ export function expandCustomTemplate(
       }
     }
 
-    tplContext.sealContext(templateContextId, tplVariables, proxyBrick);
+    tplContext.setVariables(tplVariables);
 
     const reversedProperties = reversedProxies.properties;
     for (const [reversedRef, conf] of Object.entries(refPropertiesCopy)) {
@@ -128,7 +164,7 @@ export function expandCustomTemplate(
           reversedProxies.mergeBases,
           {
             ...context,
-            getTplVariables,
+            tplContextId: tplContext.id,
           },
           refToBrickConf
         );
@@ -171,8 +207,8 @@ export function expandCustomTemplate(
   const proxyContext: ProxyContext = {
     reversedProxies,
     templateProperties,
-    templateSlots: templateSlots as SlotsConfOfBricks,
-    templateContextId,
+    externalSlots: externalSlots as SlotsConfOfBricks,
+    templateContextId: tplContext.id,
     proxyBrick,
   };
 
@@ -202,17 +238,12 @@ function expandBrickInTemplate(
   const {
     reversedProxies,
     templateProperties,
-    templateSlots,
+    externalSlots,
     templateContextId,
-    proxyBrick: { proxyRefs },
+    proxyBrick,
   } = proxyContext;
   const computedPropsFromProxy: Record<string, unknown> = {};
   let refForProxy: RefForProxy;
-  let parentTemplate: RuntimeBrick;
-
-  if (restBrickConfInTemplate.bg || restBrickConfInTemplate.portal) {
-    parentTemplate = proxyContext.proxyBrick;
-  }
 
   const slots: SlotsConfOfBricks = Object.fromEntries(
     Object.entries(slotsInTemplate ?? {}).map(([slotName, slotConf]) => [
@@ -226,30 +257,11 @@ function expandBrickInTemplate(
     ])
   );
 
-  // 递归遍历properties下UseBrick, 目的是为了获取底下所有代理属性
-  const walkUseBrickInProperties = (properties: Record<string, unknown>) => {
-    if (!properties) return;
-    Object.entries(properties).forEach(([key, value]) => {
-      if (isObject(value)) {
-        if (key === "useBrick") {
-          if (Array.isArray(value)) {
-            value.forEach((item) => {
-              expandBrickInTemplate(item as BrickConfInTemplate, proxyContext);
-            });
-          } else {
-            expandBrickInTemplate(value as BrickConfInTemplate, proxyContext);
-          }
-        } else {
-          walkUseBrickInProperties(value);
-        }
-      }
-    });
-  };
-  walkUseBrickInProperties(brickConfInTemplate.properties);
+  setupUseBrickInTemplate(brickConfInTemplate.properties, templateContextId);
 
   if (ref) {
     refForProxy = {};
-    proxyRefs.set(ref, refForProxy);
+    proxyBrick.proxyRefs.set(ref, refForProxy);
 
     // Reversed proxies are used for expand storyboard before rendering page.
     if (reversedProxies.properties.has(ref)) {
@@ -324,7 +336,7 @@ function expandBrickInTemplate(
             0,
             expandableSlot.length - 1
           )
-        ].push(...(templateSlots?.[item.$$reversedRef]?.bricks ?? []));
+        ].push(...(externalSlots?.[item.$$reversedRef]?.bricks ?? []));
       }
     }
 
@@ -353,7 +365,6 @@ function expandBrickInTemplate(
     slots,
     [symbolForComputedPropsFromProxy]: computedPropsFromProxy,
     [symbolForRefForProxy]: refForProxy,
-    [symbolForParentTemplate]: parentTemplate,
     [symbolForTplContextId]: templateContextId,
   };
 }

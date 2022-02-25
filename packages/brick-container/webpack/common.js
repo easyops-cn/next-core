@@ -143,13 +143,6 @@ module.exports = () => {
             )}`,
             to: "assets/illustrations",
           },
-          {
-            from: `${path.resolve(
-              require.resolve("@next-core/brick-kit/package.json"),
-              "../dist/assets"
-            )}`,
-            to: "assets",
-          },
         ],
       }),
       new HtmlWebpackPlugin({

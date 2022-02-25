@@ -24,6 +24,7 @@ exports.rollupFactory = ({
   disableUmd,
   disableEsm,
   copyFiles = [],
+  babelExclude,
 }) => {
   const packageJson = require(path.join(process.cwd(), "package.json"));
   // Find peer dependencies include:
@@ -117,7 +118,7 @@ exports.rollupFactory = ({
       json(),
       commonjs(),
       babel({
-        // exclude: "node_modules/**",
+        exclude: babelExclude,
         configFile: "../../babel.config.js",
         extensions: ["js", "jsx", "ts", "tsx"],
         babelHelpers: "runtime",

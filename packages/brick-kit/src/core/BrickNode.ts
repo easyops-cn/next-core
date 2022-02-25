@@ -6,11 +6,7 @@ import {
 import { bindListeners } from "../internal/bindListeners";
 import { setRealProperties } from "../internal/setProperties";
 import { RuntimeCustomTemplateProxy } from "./CustomTemplates/internalInterfaces";
-import {
-  handleProxyOfCustomTemplate,
-  symbolForParentTemplate,
-  RuntimeBrickElementWithTplSymbols,
-} from "./exports";
+import { handleProxyOfCustomTemplate } from "./exports";
 
 export interface RuntimeBrick {
   type?: string;
@@ -26,12 +22,15 @@ export interface RuntimeBrick {
   bg?: boolean;
   proxy?: RuntimeCustomTemplateProxy;
   proxyRefs?: Map<string, RefForProxy>;
+  stateNames?: string[];
   refForProxy?: {
     brick?: RuntimeBrick;
   };
-  parentTemplate?: RuntimeBrick;
+  tplContextId?: string;
+  isExternalOfTpl?: boolean;
   isParent?: boolean;
   ref?: string;
+  iid?: string;
 }
 
 export class BrickNode {
@@ -66,6 +65,9 @@ export class BrickNode {
     if (brick.slotId) {
       node.setAttribute("slot", brick.slotId);
     }
+    if (brick.iid) {
+      node.dataset.iid = brick.iid;
+    }
     setRealProperties(node, brick.properties);
     bindListeners(node, brick.events, brick.context);
 
@@ -88,13 +90,7 @@ export class BrickNode {
 
   // Handle proxies later after bricks in portal and main both mounted.
   afterMount(): void {
-    const brick = this.$$brick;
-    if (brick.parentTemplate) {
-      (brick.element as RuntimeBrickElementWithTplSymbols)[
-        symbolForParentTemplate
-      ] = brick.parentTemplate.element;
-    }
-    handleProxyOfCustomTemplate(brick);
+    handleProxyOfCustomTemplate(this.$$brick);
     this.children.forEach((child) => {
       child.afterMount();
     });

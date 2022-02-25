@@ -5,6 +5,7 @@ import {
   inject,
   isEvaluable,
   trackContext,
+  trackState,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -19,10 +20,12 @@ import {
   StateOfUseBrick,
 } from "./getNextStateOfUseBrick";
 import { TrackingContextItem } from "./listenOnTrackingContext";
+import { setupUseBrickInTemplate } from "../core/CustomTemplates/setupUseBrickInTemplate";
 
 interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
+  ignoreSymbols?: boolean;
 }
 
 export const computeRealValue = (
@@ -44,7 +47,7 @@ export const computeRealValue = (
     let dismissRecursiveMarkingInjected = lazy;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
-      const keys = ["event", "getTplVariables", "overrideApp"] as const;
+      const keys = ["event", "tplContextId", "overrideApp"] as const;
       for (const key of keys) {
         if (context?.[key]) {
           runtimeContext[key as "event"] = context[key as "event"];
@@ -76,15 +79,24 @@ export const computeRealValue = (
   }
 
   return Object.fromEntries(
-    Object.entries(value).map(([k, v]) => [
-      computeRealValue(k, context, false) as string,
-      computeRealValue(
-        v,
-        context,
-        injectDeep,
-        getNextInternalOptions(internalOptions, false, k)
-      ),
-    ])
+    Object.entries(value)
+      .map(([k, v]) => [
+        computeRealValue(k, context, false),
+        computeRealValue(
+          v,
+          context,
+          injectDeep,
+          getNextInternalOptions(internalOptions, false, k)
+        ),
+      ])
+      .concat(
+        internalOptions?.ignoreSymbols
+          ? []
+          : Object.getOwnPropertySymbols(value).map((k) => [
+              k,
+              (value as Record<string | symbol, unknown>)[k],
+            ])
+      )
   );
 };
 
@@ -95,6 +107,9 @@ export function setProperties(
   injectDeep?: boolean
 ): void {
   const realProps = computeRealProperties(properties, context, injectDeep);
+  if (context.tplContextId) {
+    setupUseBrickInTemplate(realProps, context.tplContextId);
+  }
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
   }
@@ -157,9 +172,11 @@ export function computeRealProperties(
       }
       if (Array.isArray(trackingContextList) && isEvaluable(propValue)) {
         const contextNames = trackContext(propValue);
-        if (contextNames) {
+        const stateNames = trackState(propValue);
+        if (contextNames || stateNames) {
           trackingContextList.push({
             contextNames,
+            stateNames,
             propName,
             propValue,
           });

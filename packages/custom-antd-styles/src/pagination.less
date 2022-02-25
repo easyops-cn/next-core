@@ -5,12 +5,25 @@
 
     &:focus,
     &:hover {
+      color: var(--antd-pagination-item-hover);
       border-color: transparent;
     }
   }
 
   .ant-pagination-item-active {
-    border-color: @primary-color;
+    background-color: var(--antd-pagination-item-active-bg);
+    border-color: var(--antd-pagination-item-active-border);
+    a {
+      color: var(--antd-pagination-item-active-text-color);
+    }
+
+    &:hover {
+      background-color: var(--antd-pagination-item-selected-hover-bg);
+      border-color: var(--antd-pagination-item-selected-hover-border-color);
+      a {
+        color: var(--antd-pagination-item-selected-hover-text-color);
+      }
+    }
   }
 
   &-prev &-item-link,
@@ -44,9 +57,9 @@
     order: 0;
 
     .@{select-prefix-cls}-selector {
-      background-color: transparent!important;
-      border-color: transparent!important;
-      box-shadow: none!important;
+      background-color: transparent !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
     }
 
     /**

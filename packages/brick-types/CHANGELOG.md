@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.58.0...@next-core/brick-types@2.59.0) (2022-02-21)
+
+### Features
+
+- record brick instance id in storyboard for development ([9d1193e](https://github.com/easyops-cn/next-core/commit/9d1193e11cf5cd35d10d36afe4f07a52a7f7841a))
+- support preview messages ([883af1d](https://github.com/easyops-cn/next-core/commit/883af1dc9b616c161d5d4a6ae05292b236654776))
+
+# [2.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.57.0...@next-core/brick-types@2.58.0) (2022-02-17)
+
+### Features
+
+- 新增`PATH_NAME`常量 ([094fe48](https://github.com/easyops-cn/next-core/commit/094fe4877581b7594ea297a3da5c4ae047d9cc4d))
+
+# [2.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.56.1...@next-core/brick-types@2.57.0) (2022-02-14)
+
+### Features
+
+- support template scoped state ([d736f85](https://github.com/easyops-cn/next-core/commit/d736f8550b4b645851e2b0a99bb2f99eee4378a2))
+- support tpl-scoped context ([783b060](https://github.com/easyops-cn/next-core/commit/783b0605d3c74ac653120689d467384a71aaf79a))
+
+## [2.56.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.56.0...@next-core/brick-types@2.56.1) (2022-01-28)
+
+**Note:** Version bump only for package @next-core/brick-types
+
+# [2.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.55.0...@next-core/brick-types@2.56.0) (2022-01-07)
+
+### Features
+
+- **FlowApi:** useMock in flow api ([05a5751](https://github.com/easyops-cn/next-core/commit/05a5751e33aedfaae73c80a040081c2b4d2f2a73))
+
+# [2.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.54.0...@next-core/brick-types@2.55.0) (2022-01-05)
+
+### Features
+
+- support custom style ([4cdbbf5](https://github.com/easyops-cn/next-core/commit/4cdbbf524bf89bb402d945694c29066ce78b4f4e))
+
+# [2.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.53.0...@next-core/brick-types@2.54.0) (2021-12-30)
+
+### Features
+
+- support dark-v2 ([0434b7e](https://github.com/easyops-cn/next-core/commit/0434b7e34c441c28ceb75ba753f46e3cd5ccc5c8))
+
+# [2.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.52.0...@next-core/brick-types@2.53.0) (2021-12-29)
+
+### Features
+
+- **MockRegistry:** update manifest ([15a3a88](https://github.com/easyops-cn/next-core/commit/15a3a8834155559a849ddd7eb38358cf668954ec))
+- **MockRegistry:** update mocks data ([10fed90](https://github.com/easyops-cn/next-core/commit/10fed9053e62af9cc52d994772343d629f45afac))
+
+# [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.51.2...@next-core/brick-types@2.52.0) (2021-12-24)
+
+### Features
+
+- support request use mock ([#1293](https://github.com/easyops-cn/next-core/issues/1293)) ([9989c66](https://github.com/easyops-cn/next-core/commit/9989c663f1e5340c68853d4b158dc169484a7e1a))
+
+## [2.51.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.51.1...@next-core/brick-types@2.51.2) (2021-12-23)
+
+**Note:** Version bump only for package @next-core/brick-types
+
+## [2.51.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.51.0...@next-core/brick-types@2.51.1) (2021-12-17)
+
+**Note:** Version bump only for package @next-core/brick-types
+
 # [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.50.0...@next-core/brick-types@2.51.0) (2021-12-03)
 
 ### Features

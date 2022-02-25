@@ -45,7 +45,9 @@ function propertyMergeAllOfArray(
   // `quasi0${0}quais1${1}quasi2...`
   // Every quasi can be merged with multiple items.
   const computedBaseValue = Array.isArray(baseValue)
-    ? (computeRealValue(baseValue, context, true) as unknown[])
+    ? (computeRealValue(baseValue, context, true, {
+        $$lazyForUseBrick: true,
+      }) as unknown[])
     : [];
   const quasis: unknown[][] = [];
   const size = computedBaseValue.length + 1;

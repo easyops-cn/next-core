@@ -1,6 +1,64 @@
 import * as apiGatewaySdk from "@next-sdk/api-gateway-sdk";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./FlowApi";
 import * as runtime from "./Runtime";
+import * as mocks from "./MockRegistry";
+import { InstanceApi_postSearchV3 } from "@next-sdk/cmdb-sdk";
+
+jest.mock("@next-sdk/cmdb-sdk");
+
+jest.spyOn(mocks, "getMockList").mockReturnValue([
+  {
+    uri: "/a/b/c/:objectId",
+    provider: "easyops.custom_api@TestMock",
+  },
+  {
+    uri: "/a/b/c/d",
+    provider: "easyops.custom_api@noneMock",
+  },
+]);
+
+(InstanceApi_postSearchV3 as jest.Mock).mockImplementation(
+  (_objectId: string, condition) => {
+    switch (condition.query.name.$eq) {
+      case "TestMock":
+        return {
+          list: [
+            {
+              endpoint: {
+                method: "GET",
+                uri: "/a/b/c/:objectId",
+              },
+              instanceId: "abcdefg",
+              name: "TestMockGet",
+              namespaceId: "easyops.api.test.sailor",
+              version: "1.0.0",
+              response: {
+                default: {},
+                description: "tt",
+                fields: [
+                  {
+                    description: "tt",
+                    name: "data",
+                    type: "map",
+                  },
+                ],
+                required: [],
+                type: "object",
+              },
+            },
+          ],
+        };
+      case "noneMock":
+        return {
+          list: [],
+        };
+      default:
+        return {
+          list: [],
+        };
+    }
+  }
+);
 
 jest
   .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
@@ -179,6 +237,18 @@ describe("FlowApi", () => {
       { content: "hello world" },
       { responseType: "blob" },
     ]);
+
+    expect(
+      await getArgsOfCustomApi("easyops.custom_api@TestMock:1.0.0", [
+        "object-1",
+      ])
+    ).toEqual([
+      {
+        method: "GET",
+        responseWrapper: true,
+        url: "api/gateway/easyops.api.test.sailor.TestMockGet@1.0.0/a/b/c/object-1",
+      },
+    ]);
   });
 
   it("getArgsOfCustomApi should throw error", async () => {
@@ -186,6 +256,12 @@ describe("FlowApi", () => {
       getArgsOfCustomApi("easyops.custom_api@notFoundApi", [])
     ).rejects.toThrow(
       new Error('Legacy Custom API not found: "easyops.custom_api@notFoundApi"')
+    );
+
+    await expect(() =>
+      getArgsOfCustomApi("easyops.custom_api@noneMock:1.0.0", [])
+    ).rejects.toThrow(
+      new Error('Flow API not found: "easyops.custom_api@noneMock:1.0.0"')
     );
 
     await expect(() =>

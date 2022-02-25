@@ -1,12 +1,13 @@
 import { ContextConf } from "@next-core/brick-types";
-import { isEvaluable, preevaluate } from "./cook";
-import { isObject } from "./isObject";
+import { PrecookHooks } from "./cook";
+import { visitStoryboardExpressions } from "./visitStoryboard";
 
 export async function resolveContextConcurrently(
   contextConfs: ContextConf[],
-  resolveContext: (contextConf: ContextConf) => Promise<boolean>
+  resolveContext: (contextConf: ContextConf) => Promise<boolean>,
+  keyword = "CTX"
 ): Promise<void> {
-  const dependencyMap = getDependencyMapOfContext(contextConfs);
+  const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
   const pendingDeps = new Set<string>(
     Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
   );
@@ -31,14 +32,7 @@ export async function resolveContextConcurrently(
 
   async function scheduleNext(): Promise<void> {
     const readyContexts = Array.from(dependencyMap.entries())
-      .filter((entry, index) =>
-        // When contexts contain computed CTX accesses, it implies a dynamic dependency map.
-        // So make them process sequentially, keep the same behavior as before.
-        scheduleAsSerial
-          ? index === 0
-          : // A context is ready when it has no pending dependencies.
-            !entry[1].dependencies.some((dep) => pendingDeps.has(dep))
-      )
+      .filter(predicateNextResolveFactory(pendingDeps, scheduleAsSerial))
       .map((entry) => entry[0])
       .filter((contextConf) => !processed.has(contextConf));
     await Promise.all(readyContexts.map(wrapResolve));
@@ -54,10 +48,71 @@ export async function resolveContextConcurrently(
   //     while both them are ignore by a falsy result of `if`.
   if (dependencyMap.size > 0) {
     // This will throw if circular contexts detected.
-    detectCircularContexts(dependencyMap);
+    detectCircularContexts(dependencyMap, keyword);
     scheduleAsSerial = true;
     await scheduleNext();
   }
+}
+
+export function syncResolveContextConcurrently(
+  contextConfs: ContextConf[],
+  resolveContext: (contextConf: ContextConf) => boolean,
+  keyword = "CTX"
+): void {
+  const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
+  const pendingDeps = new Set<string>(
+    Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
+  );
+  const includesComputed = Array.from(dependencyMap.values()).some(
+    (stats) => stats.includesComputed
+  );
+
+  let scheduleAsSerial = includesComputed;
+
+  function scheduleNext(): void {
+    const dep = Array.from(dependencyMap.entries()).find(
+      predicateNextResolveFactory(pendingDeps, scheduleAsSerial)
+    );
+    if (dep) {
+      const [contextConf] = dep;
+      const resolved = resolveContext(contextConf);
+      dependencyMap.delete(contextConf);
+      if (resolved) {
+        if (!pendingDeps.delete(contextConf.name)) {
+          throw new Error(`Duplicated context defined: ${contextConf.name}`);
+        }
+      }
+      scheduleNext();
+    }
+  }
+
+  scheduleNext();
+
+  // If there are still contexts left, it implies one of these situations:
+  //   - Circular contexts.
+  //     Such as: a depends on b, while b depends on a.
+  //   - Related contexts are all ignored.
+  //     Such as: a depends on b,
+  //     while both them are ignore by a falsy result of `if`.
+  if (dependencyMap.size > 0) {
+    // This will throw if circular contexts detected.
+    detectCircularContexts(dependencyMap, keyword);
+    scheduleAsSerial = true;
+    scheduleNext();
+  }
+}
+
+function predicateNextResolveFactory(
+  pendingDeps: Set<string>,
+  scheduleAsSerial: boolean
+): (entry: [ContextConf, ContextStatistics], index: number) => boolean {
+  return (entry, index) =>
+    // When contexts contain computed CTX accesses, it implies a dynamic dependency map.
+    // So make them process sequentially, keep the same behavior as before.
+    scheduleAsSerial
+      ? index === 0
+      : // A context is ready when it has no pending dependencies.
+        !entry[1].dependencies.some((dep) => pendingDeps.has(dep));
 }
 
 interface ContextStatistics {
@@ -66,7 +121,8 @@ interface ContextStatistics {
 }
 
 export function getDependencyMapOfContext(
-  contextConfs: ContextConf[]
+  contextConfs: ContextConf[],
+  keyword = "CTX"
 ): Map<ContextConf, ContextStatistics> {
   const depsMap = new Map<ContextConf, ContextStatistics>();
   for (const contextConf of contextConfs) {
@@ -75,79 +131,52 @@ export function getDependencyMapOfContext(
       includesComputed: false,
     };
     if (!contextConf.property) {
-      collectContexts(contextConf.if, stats);
-      collectContexts(contextConf.value, stats);
-      collectContexts(contextConf.resolve, stats);
+      visitStoryboardExpressions(
+        [contextConf.if, contextConf.value, contextConf.resolve],
+        beforeVisitContextFactory(stats, keyword),
+        keyword
+      );
     }
     depsMap.set(contextConf, stats);
   }
   return depsMap;
 }
 
-const CTX = "CTX";
-
-function collectContexts(
-  data: unknown,
+function beforeVisitContextFactory(
   stats: ContextStatistics,
-  memo = new WeakSet()
-): void {
-  if (typeof data === "string") {
-    if (data.includes(CTX) && isEvaluable(data)) {
-      preevaluate(data, {
-        withParent: true,
-        hooks: {
-          beforeVisitGlobal(node, parent): void {
-            if (node.name === CTX) {
-              const memberParent = parent[parent.length - 1];
-              if (
-                memberParent?.node.type === "MemberExpression" &&
-                memberParent.key === "object"
-              ) {
-                const memberNode = memberParent.node;
-                let dep: string;
-                if (
-                  !memberNode.computed &&
-                  memberNode.property.type === "Identifier"
-                ) {
-                  dep = memberNode.property.name;
-                } else if (
-                  memberNode.computed &&
-                  (memberNode.property as any).type === "Literal" &&
-                  typeof (memberNode.property as any).value === "string"
-                ) {
-                  dep = (memberNode.property as any).value;
-                } else {
-                  stats.includesComputed = true;
-                }
-                if (dep !== undefined && !stats.dependencies.includes(dep)) {
-                  stats.dependencies.push(dep);
-                }
-              }
-            }
-          },
-        },
-      });
-    }
-  } else if (isObject(data)) {
-    // Avoid call stack overflow.
-    if (memo.has(data)) {
-      return;
-    }
-    memo.add(data);
-    if (Array.isArray(data)) {
-      for (const item of data) {
-        collectContexts(item, stats, memo);
-      }
-    } else {
-      for (const item of Object.values(data)) {
-        collectContexts(item, stats, memo);
+  keyword: string
+): PrecookHooks["beforeVisitGlobal"] {
+  return function beforeVisitContext(node, parent): void {
+    if (node.name === keyword) {
+      const memberParent = parent[parent.length - 1];
+      if (
+        memberParent?.node.type === "MemberExpression" &&
+        memberParent.key === "object"
+      ) {
+        const memberNode = memberParent.node;
+        let dep: string;
+        if (!memberNode.computed && memberNode.property.type === "Identifier") {
+          dep = memberNode.property.name;
+        } else if (
+          memberNode.computed &&
+          (memberNode.property as any).type === "Literal" &&
+          typeof (memberNode.property as any).value === "string"
+        ) {
+          dep = (memberNode.property as any).value;
+        } else {
+          stats.includesComputed = true;
+        }
+        if (dep !== undefined && !stats.dependencies.includes(dep)) {
+          stats.dependencies.push(dep);
+        }
       }
     }
-  }
+  };
 }
 
 function detectCircularContexts(
-  dependencyMap: Map<ContextConf, ContextStatistics>
+  dependencyMap: Map<ContextConf, ContextStatistics>,
+  keyword: string
 ): void {
   const duplicatedMap = new Map(dependencyMap);
   const pendingDeps = new Set<string>(
@@ -170,7 +199,7 @@ function detectCircularContexts(
 
   if (duplicatedMap.size > 0) {
     throw new ReferenceError(
-      `Circular CTX detected: ${Array.from(duplicatedMap.keys())
+      `Circular ${keyword} detected: ${Array.from(duplicatedMap.keys())
         .map((contextConf) => contextConf.name)
         .join(", ")}`
     );

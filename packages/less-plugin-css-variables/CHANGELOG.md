@@ -3,16 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.1.5](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.1.4...@next-core/less-plugin-css-variables@0.1.5) (2021-02-03)
-
+## [0.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.2.1...@next-core/less-plugin-css-variables@0.2.2) (2022-01-28)
 
 ### Bug Fixes
 
-* **less:** parse lighten of table-border-color ([5f1b3fe](https://github.com/easyops-cn/next-core/commit/5f1b3fe210e86790b4aeca577c61371cc1ff10e4))
+- modal style ([0f1afc5](https://github.com/easyops-cn/next-core/commit/0f1afc538fc86f6895d7fac9a0e080132e9bcf96))
 
+## [0.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.2.0...@next-core/less-plugin-css-variables@0.2.1) (2022-01-18)
 
+### Bug Fixes
 
+- style refine ([54a9130](https://github.com/easyops-cn/next-core/commit/54a9130d18558d4c86871b458f58e5c652898e84))
 
+# [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.1.5...@next-core/less-plugin-css-variables@0.2.0) (2022-01-07)
+
+### Features
+
+- general-radio style ([7065687](https://github.com/easyops-cn/next-core/commit/7065687063a4e14e3696f3feb6996f5629ede9c8))
+
+## [0.1.5](https://github.com/easyops-cn/next-core/compare/@next-core/less-plugin-css-variables@0.1.4...@next-core/less-plugin-css-variables@0.1.5) (2021-02-03)
+
+### Bug Fixes
+
+- **less:** parse lighten of table-border-color ([5f1b3fe](https://github.com/easyops-cn/next-core/commit/5f1b3fe210e86790b4aeca577c61371cc1ff10e4))
 
 ## [0.1.4](https://git.easyops.local/anyclouds/next-core/compare/@next-core/less-plugin-css-variables@0.1.3...@next-core/less-plugin-css-variables@0.1.4) (2021-01-26)
 
