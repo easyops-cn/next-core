@@ -11,21 +11,33 @@ export function useBuilderGroupedChildNodes({
   nodeUid,
   isRoot,
   doNotExpandTemplates,
+  isWrapper,
 }: {
   nodeUid?: number;
   isRoot?: boolean;
   doNotExpandTemplates?: boolean;
+  isWrapper?: boolean;
 }): BuilderGroupedChildNode[] {
-  const { rootId, nodes, edges } = useBuilderData();
+  const { rootId, nodes, edges, wrapperNode } = useBuilderData();
   return useMemo(
     () =>
       getBuilderGroupedChildNodes({
         nodes,
         edges,
-        nodeUid: isRoot ? rootId : nodeUid,
+        nodeUid: isRoot ? (isWrapper ? wrapperNode.$$uid : rootId) : nodeUid,
         doNotExpandTemplates,
+        isWrapper: isWrapper,
       }),
-    [doNotExpandTemplates, edges, isRoot, nodeUid, nodes, rootId]
+    [
+      doNotExpandTemplates,
+      edges,
+      isRoot,
+      nodeUid,
+      nodes,
+      rootId,
+      isWrapper,
+      wrapperNode,
+    ]
   );
 }
 
@@ -34,11 +46,13 @@ export function getBuilderGroupedChildNodes({
   nodes,
   edges,
   doNotExpandTemplates,
+  isWrapper,
 }: {
   nodeUid: number;
   nodes: BuilderRuntimeNode[];
   edges: BuilderRuntimeEdge[];
   doNotExpandTemplates?: boolean;
+  isWrapper?: boolean;
 }): BuilderGroupedChildNode[] {
   const groups = new Map<string, BuilderRuntimeNode[]>();
   const relatedEdges = sortBy(
@@ -60,7 +74,7 @@ export function getBuilderGroupedChildNodes({
     }
   }
   return Array.from(groups.entries()).map(([mountPoint, childNodes]) => ({
-    mountPoint,
+    mountPoint: isWrapper ? "bricks" : mountPoint,
     childNodes,
   }));
 }

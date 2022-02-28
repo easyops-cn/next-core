@@ -13,6 +13,7 @@ export interface BuilderCanvasData {
   rootId: number;
   nodes: BuilderRuntimeNode[];
   edges: BuilderRuntimeEdge[];
+  wrapperNode?: BuilderRuntimeNode;
 }
 
 export interface BuilderCanvasSettings {

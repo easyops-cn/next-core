@@ -6,6 +6,7 @@ import {
   CustomTemplateProxyProperty,
   CustomTemplateProxyBasicProperty,
   Story,
+  TemplateLayoutType,
 } from "@next-core/brick-types";
 import { BuilderRuntimeEdge, BuilderRuntimeNode } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
@@ -16,19 +17,24 @@ export function getAppendingNodesAndEdges(
   nodeData: BuilderRouteOrBrickNode,
   nodeUid: number,
   templateSourceMap: Map<string, BuilderCustomTemplateNode>,
-  storyList: Story[] = []
+  storyList: Story[] = [],
+  isRoot?: boolean
 ): {
   nodes: BuilderRuntimeNode[];
   edges: BuilderRuntimeEdge[];
+  wrapperNode?: BuilderRuntimeNode;
 } {
   const nodes: BuilderRuntimeNode[] = [];
   const edges: BuilderRuntimeEdge[] = [];
+  let wrapperNode: BuilderRuntimeNode;
+
   const walk = (
     nodeData: BuilderRouteOrBrickNode,
     currentUid: number,
     processedTemplateSet: Set<string>,
     isTemplateInternalNode?: boolean,
-    inheritedTemplateRefToUid?: Map<string, number>
+    inheritedTemplateRefToUid?: Map<string, number>,
+    layoutType?: TemplateLayoutType
   ): void => {
     const builderNode = getBuilderNode(
       nodeData,
@@ -56,6 +62,9 @@ export function getAppendingNodesAndEdges(
           )?.originData) &&
           templateSource.children?.length > 0))
     ) {
+      if (templateSource.layoutType === "wrapper") {
+        builderNode.layoutType = "wrapper";
+      }
       // Avoid nesting the same templates.
       processedTemplateSet.add(builderNode.brick);
       builderNode.$$isExpandableTemplate = true;
@@ -75,7 +84,8 @@ export function getAppendingNodesAndEdges(
           // Each child should be a branch.
           new Set(processedTemplateSet),
           true,
-          templateRefToUid
+          templateRefToUid,
+          layoutType
         );
         edges.push({
           child: childUid,
@@ -210,9 +220,24 @@ export function getAppendingNodesAndEdges(
     }
   };
   walk(nodeData, nodeUid, new Set());
+  for (let i = 0; i < nodes.length; i++) {
+    // 布局模板属于第一层
+    const item = nodes[i];
+    if (
+      item.layoutType === "wrapper" &&
+      isRoot &&
+      edges.find((edge) => edge.child === item.$$uid).parent === nodeUid
+    ) {
+      if (!wrapperNode) {
+        wrapperNode = item;
+      }
+      break;
+    }
+  }
   return {
     nodes,
     edges,
+    wrapperNode,
   };
 }
 

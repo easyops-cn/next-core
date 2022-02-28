@@ -3,7 +3,11 @@ import {
   Story,
   StoryDoc,
 } from "@next-core/brick-types";
-import { NodeInstance } from "../interfaces";
+import {
+  NodeInstance,
+  EventDetailOfNodeAdd,
+  EventDetailOfNodeMove,
+} from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
 // Given a tree:
@@ -220,6 +224,7 @@ Object {
     },
   ],
   "rootId": 1,
+  "wrapperNode": undefined,
 }
 `);
   });
@@ -879,6 +884,7 @@ Object {
     },
   ],
   "rootId": 1,
+  "wrapperNode": undefined,
 }
 `);
     expect(listenOnDataChange).toBeCalled();
@@ -1095,6 +1101,7 @@ Object {
     },
   ],
   "rootId": 1,
+  "wrapperNode": undefined,
 }
 `);
 
@@ -1437,5 +1444,322 @@ describe("test dropping status", () => {
     expect(listenOnDroppingStatusChange).toBeCalledTimes(5);
     expect(setHoverNodeUid).toBeCalledTimes(1);
     unlistenOnDroppingStatusChange();
+  });
+});
+
+describe("BuilderDataManager for route of routes", () => {
+  let manager: BuilderDataManagerType;
+  let BuilderDataManager: typeof BuilderDataManagerType;
+
+  beforeEach(() => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    BuilderDataManager = require("./BuilderDataManager").BuilderDataManager;
+    manager = new BuilderDataManager();
+    const templateSource = new Map();
+    templateSource.set("tpl-page-base-page-module-1", {
+      templateId: "tpl-page-base-page-module-1",
+      id: "B-006",
+      instanceId: "abc",
+      layoutType: "wrapper",
+      children: [
+        {
+          id: "B-007",
+          brick: "basic-bricks.easy-view",
+          type: "brick",
+          mountPoint: "bricks",
+          children: [
+            {
+              id: "B-008",
+              brick: "basic-bricks.general-button",
+              type: "brick",
+              mountPoint: "top",
+            },
+          ],
+        },
+      ],
+    });
+    manager.dataInit(
+      {
+        id: "B-001",
+        type: "bricks",
+        path: "/home",
+        children: [
+          {
+            id: "B-002",
+            brick: "tpl-page-base-page-module-1",
+            type: "brick",
+            mountPoint: "bricks",
+            instanceId: "abc",
+            children: [
+              {
+                id: "B-003",
+                type: "brick",
+                brick: "basic-bricks.micro-view",
+                sort: 0,
+                mountPoint: "content",
+                children: [
+                  {
+                    id: "B-004",
+                    type: "brick",
+                    brick: "basic-bricks.general-button",
+                    sort: 0,
+                    mountPoint: "toolbar",
+                  },
+                ],
+              },
+              {
+                id: "B-005",
+                type: "brick",
+                brick: "basic-bricks.general-button",
+                sort: 1,
+                mountPoint: "content",
+              },
+            ],
+          },
+        ],
+      },
+      templateSource
+    );
+  });
+
+  it("should init data", () => {
+    expect(manager.getData()).toMatchInlineSnapshot(`
+    Object {
+      "edges": Array [
+        Object {
+          "$$isTemplateDelegated": undefined,
+          "$$isTemplateInternal": true,
+          "child": 4,
+          "mountPoint": "top",
+          "parent": 3,
+          "sort": 0,
+        },
+        Object {
+          "$$isTemplateInternal": true,
+          "child": 3,
+          "mountPoint": "",
+          "parent": 2,
+          "sort": 0,
+        },
+        Object {
+          "$$isTemplateDelegated": undefined,
+          "$$isTemplateInternal": undefined,
+          "child": 6,
+          "mountPoint": "toolbar",
+          "parent": 5,
+          "sort": 0,
+        },
+        Object {
+          "$$isTemplateDelegated": true,
+          "$$isTemplateInternal": undefined,
+          "child": 5,
+          "mountPoint": "content",
+          "parent": 2,
+          "sort": 0,
+        },
+        Object {
+          "$$isTemplateDelegated": true,
+          "$$isTemplateInternal": undefined,
+          "child": 7,
+          "mountPoint": "content",
+          "parent": 2,
+          "sort": 1,
+        },
+        Object {
+          "$$isTemplateDelegated": undefined,
+          "$$isTemplateInternal": undefined,
+          "child": 2,
+          "mountPoint": "bricks",
+          "parent": 1,
+          "sort": 0,
+        },
+      ],
+      "nodes": Array [
+        Object {
+          "$$isTemplateInternalNode": undefined,
+          "$$matchedSelectors": Array [],
+          "$$normalized": Object {
+            "path": "/home",
+            "type": "bricks",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$uid": 1,
+          "alias": undefined,
+          "id": "B-001",
+          "path": "/home",
+          "type": "bricks",
+        },
+        Object {
+          "$$isExpandableTemplate": true,
+          "$$isTemplateInternalNode": undefined,
+          "$$matchedSelectors": Array [
+            "tpl-page-base-page-module-1",
+          ],
+          "$$normalized": Object {
+            "brick": "tpl-page-base-page-module-1",
+            "iid": "abc",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$templateProxy": undefined,
+          "$$templateRefToUid": Map {},
+          "$$uid": 2,
+          "alias": "tpl-page-base-page-module-1",
+          "brick": "tpl-page-base-page-module-1",
+          "id": "B-002",
+          "instanceId": "abc",
+          "layoutType": "wrapper",
+          "type": "brick",
+        },
+        Object {
+          "$$isTemplateInternalNode": true,
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.easy-view",
+          ],
+          "$$normalized": Object {
+            "brick": "basic-bricks.easy-view",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$uid": 3,
+          "alias": "easy-view",
+          "brick": "basic-bricks.easy-view",
+          "id": "B-007",
+          "type": "brick",
+        },
+        Object {
+          "$$isTemplateInternalNode": true,
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.general-button",
+          ],
+          "$$normalized": Object {
+            "brick": "basic-bricks.general-button",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$uid": 4,
+          "alias": "general-button",
+          "brick": "basic-bricks.general-button",
+          "id": "B-008",
+          "type": "brick",
+        },
+        Object {
+          "$$isTemplateInternalNode": undefined,
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.micro-view",
+          ],
+          "$$normalized": Object {
+            "brick": "basic-bricks.micro-view",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$uid": 5,
+          "alias": "micro-view",
+          "brick": "basic-bricks.micro-view",
+          "id": "B-003",
+          "sort": 0,
+          "type": "brick",
+        },
+        Object {
+          "$$isTemplateInternalNode": undefined,
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.general-button",
+          ],
+          "$$normalized": Object {
+            "brick": "basic-bricks.general-button",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$uid": 6,
+          "alias": "general-button",
+          "brick": "basic-bricks.general-button",
+          "id": "B-004",
+          "sort": 0,
+          "type": "brick",
+        },
+        Object {
+          "$$isTemplateInternalNode": undefined,
+          "$$matchedSelectors": Array [
+            "basic-bricks\\\\.general-button",
+          ],
+          "$$normalized": Object {
+            "brick": "basic-bricks.general-button",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$uid": 7,
+          "alias": "general-button",
+          "brick": "basic-bricks.general-button",
+          "id": "B-005",
+          "sort": 1,
+          "type": "brick",
+        },
+      ],
+      "rootId": 1,
+      "wrapperNode": Object {
+        "$$isExpandableTemplate": true,
+        "$$isTemplateInternalNode": undefined,
+        "$$matchedSelectors": Array [
+          "tpl-page-base-page-module-1",
+        ],
+        "$$normalized": Object {
+          "brick": "tpl-page-base-page-module-1",
+          "iid": "abc",
+        },
+        "$$parsedEvents": Object {},
+        "$$parsedLifeCycle": Object {},
+        "$$parsedProperties": Object {},
+        "$$templateProxy": undefined,
+        "$$templateRefToUid": Map {},
+        "$$uid": 2,
+        "alias": "tpl-page-base-page-module-1",
+        "brick": "tpl-page-base-page-module-1",
+        "id": "B-002",
+        "instanceId": "abc",
+        "layoutType": "wrapper",
+        "type": "brick",
+      },
+    }
+  `);
+
+    expect(manager.getRelatedNodesBasedOnEventsMap().size).toBe(7);
+  });
+
+  it("should redirect node", () => {
+    const node1: EventDetailOfNodeAdd = {
+      nodeUid: 4,
+      parentUid: 2,
+      nodeUids: [3],
+      nodeData: {
+        mountPoint: "bricks",
+        parent: "abc",
+      } as Partial<NodeInstance> as NodeInstance,
+      nodeIds: null,
+    };
+    manager.nodeAdd(node1);
+    expect(node1.nodeData.mountPoint).toBe("content");
+
+    const node2: EventDetailOfNodeMove = {
+      nodeUid: 3,
+      parentUid: 1,
+      nodeUids: [],
+      nodeInstanceId: "123",
+      nodeData: {
+        mountPoint: "content",
+        parent: "root",
+      } as Partial<NodeInstance> as NodeInstance,
+      nodeIds: null,
+    };
+    manager.nodeMove(node2);
+    expect(node2.nodeData.mountPoint).toBe("bricks");
   });
 });

@@ -8,15 +8,18 @@ jest.mock("./useBuilderData");
 
 (useBuilderData as jest.MockedFunction<typeof useBuilderData>).mockReturnValue({
   rootId: 1,
-  nodes: ([
+  nodes: [
     {
       $$uid: 1,
     },
     {
       $$uid: 2,
     },
-  ] as Partial<BuilderRuntimeNode>[]) as BuilderRuntimeNode[],
+  ] as Partial<BuilderRuntimeNode>[] as BuilderRuntimeNode[],
   edges: [],
+  wrapperNode: {
+    $$uid: 2,
+  } as BuilderRuntimeNode,
 });
 
 function TestComponent(
@@ -45,6 +48,13 @@ describe("useBuilderNode", () => {
         nodeUid: 3,
       },
       "",
+    ],
+    [
+      {
+        nodeUid: 3,
+        isWrapper: true,
+      },
+      "2",
     ],
   ])("should work", (props, stringUid) => {
     const wrapper = shallow(<TestComponent {...props} />);

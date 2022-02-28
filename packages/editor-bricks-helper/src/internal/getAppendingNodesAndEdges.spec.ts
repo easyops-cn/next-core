@@ -1,4 +1,7 @@
-import { BuilderCustomTemplateNode } from "@next-core/brick-types";
+import {
+  BuilderCustomTemplateNode,
+  TemplateLayoutType,
+} from "@next-core/brick-types";
 import { getAppendingNodesAndEdges as _getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 
 // Given two templates:
@@ -71,6 +74,58 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
               properties: '{"any":"value"}',
             },
           ],
+        },
+      ],
+    },
+  ],
+  [
+    "tpl-page-wrapper-theme",
+    {
+      id: "T-3",
+      templateId: "tpl-page-wrapper-theme",
+      type: "custom-template",
+      layoutType: "wrapper",
+      proxy: JSON.stringify({
+        slots: { content: { ref: "easyView", refSlot: "content" } },
+        properties: {
+          easyTitle: { ref: "pageTitle", refProperty: "pageTitle" },
+        },
+      }),
+      children: [
+        {
+          id: "TT-1",
+          type: "brick",
+          brick: "basic-bricks.easy-view",
+          mountPoint: "bricks",
+          ref: "easyView",
+          children: [
+            {
+              id: "TT-2",
+              type: "brick",
+              brick: "tpl-page-wrapper-theme-1",
+              ref: "pageTitle",
+              mountPoint: "header",
+              properties: '{"any":"value"}',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  [
+    "tpl-page-wrapper-theme-1",
+    {
+      id: "T-4",
+      templateId: "tpl-page-wrapper-theme-1",
+      type: "custom-template",
+      layoutType: "wrapper",
+      children: [
+        {
+          id: "TT-3",
+          type: "brick",
+          brick: "basic-bricks.general-button",
+          mountPoint: "bricks",
+          children: [],
         },
       ],
     },
@@ -1054,5 +1109,230 @@ describe("getAppendingNodesAndEdges", () => {
         }),
       ],
     });
+  });
+
+  it("should work when first child was wrapper", () => {
+    const result = getAppendingNodesAndEdges(
+      {
+        id: "B-001",
+        type: "bricks",
+        path: "/page-1",
+        mountPoint: "routes",
+        children: [
+          {
+            id: "B-002",
+            type: "brick",
+            brick: "tpl-page-wrapper-theme",
+            mountPoint: "bricks",
+          },
+        ],
+      },
+      1000,
+      templateSourceMap,
+      [],
+      true
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "edges": Array [
+          Object {
+            "$$isTemplateInternal": true,
+            "child": 4,
+            "mountPoint": "",
+            "parent": 3,
+            "sort": 0,
+          },
+          Object {
+            "$$isTemplateDelegated": undefined,
+            "$$isTemplateInternal": true,
+            "child": 3,
+            "mountPoint": "header",
+            "parent": 2,
+            "sort": 0,
+          },
+          Object {
+            "$$isTemplateInternal": true,
+            "child": 2,
+            "mountPoint": "",
+            "parent": 1,
+            "sort": 0,
+          },
+          Object {
+            "$$isTemplateDelegated": undefined,
+            "$$isTemplateInternal": undefined,
+            "child": 1,
+            "mountPoint": "bricks",
+            "parent": 1000,
+            "sort": 0,
+          },
+        ],
+        "nodes": Array [
+          Object {
+            "$$isTemplateInternalNode": undefined,
+            "$$matchedSelectors": Array [],
+            "$$normalized": Object {
+              "path": "/page-1",
+              "type": "bricks",
+            },
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$uid": 1000,
+            "alias": undefined,
+            "id": "B-001",
+            "path": "/page-1",
+            "type": "bricks",
+          },
+          Object {
+            "$$isExpandableTemplate": true,
+            "$$isTemplateInternalNode": undefined,
+            "$$matchedSelectors": Array [
+              "tpl-page-wrapper-theme",
+            ],
+            "$$normalized": Object {
+              "brick": "tpl-page-wrapper-theme",
+            },
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$templateProxy": Object {
+              "properties": Object {
+                "easyTitle": Object {
+                  "ref": "pageTitle",
+                  "refProperty": "pageTitle",
+                },
+              },
+              "slots": Object {
+                "content": Object {
+                  "ref": "easyView",
+                  "refSlot": "content",
+                },
+              },
+            },
+            "$$templateRefToUid": Map {
+              "easyView" => 2,
+              "pageTitle" => 3,
+            },
+            "$$uid": 1,
+            "alias": "tpl-page-wrapper-theme",
+            "brick": "tpl-page-wrapper-theme",
+            "id": "B-002",
+            "layoutType": "wrapper",
+            "type": "brick",
+          },
+          Object {
+            "$$delegatedSlots": Map {
+              "content" => Array [
+                Object {
+                  "templateMountPoint": "content",
+                  "templateUid": 1,
+                },
+              ],
+            },
+            "$$isTemplateInternalNode": true,
+            "$$matchedSelectors": Array [
+              "basic-bricks\\\\.easy-view",
+            ],
+            "$$normalized": Object {
+              "brick": "basic-bricks.easy-view",
+              "ref": "easyView",
+            },
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$uid": 2,
+            "alias": "easy-view",
+            "brick": "basic-bricks.easy-view",
+            "id": "TT-1",
+            "ref": "easyView",
+            "type": "brick",
+          },
+          Object {
+            "$$isExpandableTemplate": true,
+            "$$isTemplateInternalNode": true,
+            "$$matchedSelectors": Array [
+              "tpl-page-wrapper-theme-1",
+            ],
+            "$$normalized": Object {
+              "brick": "tpl-page-wrapper-theme-1",
+              "properties": Object {
+                "any": "value",
+              },
+              "ref": "pageTitle",
+            },
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {
+              "any": "value",
+            },
+            "$$templateProxy": undefined,
+            "$$templateRefToUid": Map {},
+            "$$uid": 3,
+            "alias": "tpl-page-wrapper-theme-1",
+            "brick": "tpl-page-wrapper-theme-1",
+            "id": "TT-2",
+            "layoutType": "wrapper",
+            "properties": "{\\"any\\":\\"value\\"}",
+            "ref": "pageTitle",
+            "type": "brick",
+          },
+          Object {
+            "$$isTemplateInternalNode": true,
+            "$$matchedSelectors": Array [
+              "basic-bricks\\\\.general-button",
+            ],
+            "$$normalized": Object {
+              "brick": "basic-bricks.general-button",
+            },
+            "$$parsedEvents": Object {},
+            "$$parsedLifeCycle": Object {},
+            "$$parsedProperties": Object {},
+            "$$uid": 4,
+            "alias": "general-button",
+            "brick": "basic-bricks.general-button",
+            "id": "TT-3",
+            "type": "brick",
+          },
+        ],
+        "wrapperNode": Object {
+          "$$isExpandableTemplate": true,
+          "$$isTemplateInternalNode": undefined,
+          "$$matchedSelectors": Array [
+            "tpl-page-wrapper-theme",
+          ],
+          "$$normalized": Object {
+            "brick": "tpl-page-wrapper-theme",
+          },
+          "$$parsedEvents": Object {},
+          "$$parsedLifeCycle": Object {},
+          "$$parsedProperties": Object {},
+          "$$templateProxy": Object {
+            "properties": Object {
+              "easyTitle": Object {
+                "ref": "pageTitle",
+                "refProperty": "pageTitle",
+              },
+            },
+            "slots": Object {
+              "content": Object {
+                "ref": "easyView",
+                "refSlot": "content",
+              },
+            },
+          },
+          "$$templateRefToUid": Map {
+            "easyView" => 2,
+            "pageTitle" => 3,
+          },
+          "$$uid": 1,
+          "alias": "tpl-page-wrapper-theme",
+          "brick": "tpl-page-wrapper-theme",
+          "id": "B-002",
+          "layoutType": "wrapper",
+          "type": "brick",
+        },
+      }
+    `);
   });
 });

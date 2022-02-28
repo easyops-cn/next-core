@@ -649,6 +649,8 @@ export interface BuilderBrickNode extends BuilderBaseNode {
 // @internal (undocumented)
 export interface BuilderCustomTemplateNode extends BuilderBaseNode {
     // (undocumented)
+    layoutType?: TemplateLayoutType;
+    // (undocumented)
     proxy?: string;
     // (undocumented)
     templateId: string;
@@ -2363,6 +2365,9 @@ export interface SystemInfo extends RuntimeMisc {
     // (undocumented)
     username: string;
 }
+
+// @public (undocumented)
+export type TemplateLayoutType = "wrapper";
 
 // Warning: (ae-internal-missing-underscore) The name "TemplatePackage" should be prefixed with an underscore because the declaration is marked as @internal
 //

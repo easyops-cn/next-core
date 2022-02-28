@@ -68,6 +68,9 @@ jest.mock("./useBuilderData");
       $$isTemplateDelegated: true,
     },
   ],
+  wrapperNode: {
+    $$uid: 3,
+  } as BuilderRuntimeNode,
 });
 
 function TestComponent(
@@ -114,6 +117,13 @@ describe("useBuilderGroupedChildNodes", () => {
         doNotExpandTemplates: true,
       },
       "items:7",
+    ],
+    [
+      {
+        isRoot: true,
+        isWrapper: true,
+      },
+      "bricks:5",
     ],
   ])("should work", (props, stringUid) => {
     const wrapper = shallow(<TestComponent {...props} />);
