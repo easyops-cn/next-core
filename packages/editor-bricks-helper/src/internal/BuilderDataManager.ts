@@ -242,7 +242,7 @@ export class BuilderDataManager {
     this.runAddNodeAction(detail);
   }
 
-  redirectMountPoint(
+  private redirectMountPoint(
     detail: EventDetailOfNodeAdd | EventDetailOfNodeMove
   ): void {
     const { rootId, wrapperNode } = this.data;
