@@ -108,6 +108,7 @@
 
   --base-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.4);
   --feedback-container-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  --left-sidebar-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.8);
   --right-slide-shadow: -2px 0px 8px 0px rgba(0, 0, 0, 0.14);
   --left-slide-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.14);
   --connected-overlay-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
