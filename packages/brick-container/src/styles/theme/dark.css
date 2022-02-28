@@ -597,7 +597,19 @@ html[data-theme="dark-v2"],
   --antd-upload-drag-border-color: var(--color-border-divider-line);
   --antd-upload-drag-hover-bg: var(--color-fill-bg-base-3);
   --antd-upload-drag-hover-border-color: var(--color-brand);
+  --antd-upload-list-type-picture-bg: var(--color-fill-bg-base-3);
+  --antd-upload-list-type-picture-hover-bg: var(--checkbox-bg-hover);
+  --antd-upload-list-type-picture-border-color: var(
+    --color-border-divider-line
+  );
+  --antd-upload-list-type-picture-error-bg: var(--color-error-bg);
+  --antd-upload-list-type-picture-error-border-color: var(
+    --color-error-outline
+  );
+  --antd-upload-select-picture-card-bg: var(--palette-gray-2);
+  --antd-upload-list-type-picture-card-bg: var(--palette-gray-2);
   --antd-upload-list-item-hover-bg: var(--color-fill-bg-base-1);
+  --antd-upload-error-color: var(--color-error);
 
   /*** sub-menu-brick ***/
   --sub-menu-brick-item-hover-bg: none;

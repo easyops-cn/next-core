@@ -619,7 +619,15 @@
   --antd-upload-drag-border-color: #b9c6de;
   --antd-upload-drag-hover-bg: #ebf3fd;
   --antd-upload-drag-hover-border-color: #0071eb;
+  --antd-upload-list-type-picture-bg: #f8f9fc;
+  --antd-upload-list-type-picture-hover-bg: var(--theme-blue-background);
+  --antd-upload-list-type-picture-border-color: #eceef3;
+  --antd-upload-list-type-picture-card-bg: var(--color-white);
+  --antd-upload-list-type-picture-error-bg: rgba(237, 73, 60, 0.1);
+  --antd-upload-list-type-picture-error-border-color: rgba(237, 73, 60, 0.5);
+  --antd-upload-select-picture-card-bg: var(--theme-gray-background);
   --antd-upload-list-item-hover-bg: var(--theme-blue-background);
+  --antd-upload-error-color: var(--bg-color-button-danger);
 
   /*** sub-menu-brick ***/
   --sub-menu-brick-item-hover-bg: #f2f5f9;
