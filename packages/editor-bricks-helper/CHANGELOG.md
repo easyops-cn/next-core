@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.34.0...@next-core/editor-bricks-helper@0.35.0) (2022-02-28)
+
+
+### Features
+
+* support wrapper theme hidden ([87e3299](https://github.com/easyops-cn/next-core/commit/87e32997e496718d6d27e213b93b265dc3540ac6))
+* update type ([f07ac57](https://github.com/easyops-cn/next-core/commit/f07ac57c12a867d3a6eada0838d2e7f2742d6478))
+* update type ([a32c5b1](https://github.com/easyops-cn/next-core/commit/a32c5b1c6ae8a7496a2e58e45c65097f94188e9b))
+* update unit test ([4f8b06c](https://github.com/easyops-cn/next-core/commit/4f8b06c3cfdd4d46ad97d2cade76a7f0712d2cf0))
+* update unit test ([cd8c97c](https://github.com/easyops-cn/next-core/commit/cd8c97c98160867f4b81e183fd40bd1fa037ac01))
+
+
+
+
+
 # [0.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.33.35...@next-core/editor-bricks-helper@0.34.0) (2022-02-21)
 
 ### Bug Fixes

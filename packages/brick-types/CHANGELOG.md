@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.59.0...@next-core/brick-types@2.60.0) (2022-02-28)
+
+
+### Features
+
+* support wrapper theme hidden ([87e3299](https://github.com/easyops-cn/next-core/commit/87e32997e496718d6d27e213b93b265dc3540ac6))
+* update type ([f07ac57](https://github.com/easyops-cn/next-core/commit/f07ac57c12a867d3a6eada0838d2e7f2742d6478))
+
+
+
+
+
 # [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.58.0...@next-core/brick-types@2.59.0) (2022-02-21)
 
 ### Features
