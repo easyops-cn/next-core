@@ -52,7 +52,7 @@ describe("useBuilderNode", () => {
     [
       {
         nodeUid: 3,
-        useWrapper: true,
+        isWrapper: true,
       },
       "2",
     ],

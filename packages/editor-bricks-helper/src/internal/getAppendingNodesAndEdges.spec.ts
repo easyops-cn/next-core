@@ -1,6 +1,6 @@
 import {
   BuilderCustomTemplateNode,
-  LayoutTypeEnum,
+  TemplateLayoutType,
 } from "@next-core/brick-types";
 import { getAppendingNodesAndEdges as _getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 
@@ -84,7 +84,7 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
       id: "T-3",
       templateId: "tpl-page-wrapper-theme",
       type: "custom-template",
-      layoutType: LayoutTypeEnum.Wrapper,
+      layoutType: "wrapper",
       proxy: JSON.stringify({
         slots: { content: { ref: "easyView", refSlot: "content" } },
         properties: {
@@ -118,7 +118,7 @@ const templateSourceMap = new Map<string, BuilderCustomTemplateNode>([
       id: "T-4",
       templateId: "tpl-page-wrapper-theme-1",
       type: "custom-template",
-      layoutType: LayoutTypeEnum.Wrapper,
+      layoutType: "wrapper",
       children: [
         {
           id: "TT-3",

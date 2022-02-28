@@ -7,7 +7,6 @@ import {
   BrickLifeCycle,
   BrickConf,
   RouteConf,
-  LayoutTypeEnum,
 } from "@next-core/brick-types";
 
 export interface BuilderCanvasData {
@@ -41,7 +40,6 @@ export interface BuilderRuntimeEdge {
   parent: number;
   mountPoint: string;
   sort: number;
-  layoutType?: LayoutTypeEnum;
   $$isTemplateInternal?: boolean;
   $$isTemplateDelegated?: boolean;
   $$isTemplateExpanded?: boolean;

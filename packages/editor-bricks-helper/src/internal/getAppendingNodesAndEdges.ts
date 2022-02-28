@@ -1,4 +1,4 @@
-import { cloneDeep, sortBy } from "lodash";
+import { sortBy } from "lodash";
 import { hasOwnProperty } from "@next-core/brick-utils";
 import {
   BuilderRouteOrBrickNode,
@@ -6,7 +6,7 @@ import {
   CustomTemplateProxyProperty,
   CustomTemplateProxyBasicProperty,
   Story,
-  LayoutTypeEnum,
+  TemplateLayoutType,
 } from "@next-core/brick-types";
 import { BuilderRuntimeEdge, BuilderRuntimeNode } from "../interfaces";
 import { getBuilderNode } from "./getBuilderNode";
@@ -34,7 +34,7 @@ export function getAppendingNodesAndEdges(
     processedTemplateSet: Set<string>,
     isTemplateInternalNode?: boolean,
     inheritedTemplateRefToUid?: Map<string, number>,
-    layoutType?: LayoutTypeEnum
+    layoutType?: TemplateLayoutType
   ): void => {
     const builderNode = getBuilderNode(
       nodeData,
@@ -62,8 +62,8 @@ export function getAppendingNodesAndEdges(
           )?.originData) &&
           templateSource.children?.length > 0))
     ) {
-      if (templateSource.layoutType === LayoutTypeEnum.Wrapper) {
-        builderNode.layoutType = LayoutTypeEnum.Wrapper;
+      if (templateSource.layoutType === "wrapper") {
+        builderNode.layoutType = "wrapper";
       }
       // Avoid nesting the same templates.
       processedTemplateSet.add(builderNode.brick);
@@ -220,18 +220,20 @@ export function getAppendingNodesAndEdges(
     }
   };
   walk(nodeData, nodeUid, new Set());
-  nodes.forEach((item) => {
+  for (let i = 0; i < nodes.length; i++) {
     // 布局模板属于第一层
+    const item = nodes[i];
     if (
-      item.layoutType === LayoutTypeEnum.Wrapper &&
+      item.layoutType === "wrapper" &&
       isRoot &&
       edges.find((edge) => edge.child === item.$$uid).parent === nodeUid
     ) {
       if (!wrapperNode) {
         wrapperNode = item;
       }
+      break;
     }
-  });
+  }
   return {
     nodes,
     edges,

@@ -79,13 +79,13 @@ export function DropZone({
   const contextMenuStatus = useBuilderContextMenuStatus();
   const manager = useBuilderDataManager();
   const { nodes, edges, wrapperNode } = useBuilderData();
-  const useWrapper = hiddenWrapper && isRoot && !isEmpty(wrapperNode);
-  const node = useBuilderNode({ nodeUid, isRoot, useWrapper });
+  const isWrapper = hiddenWrapper && isRoot && !isEmpty(wrapperNode);
+  const node = useBuilderNode({ nodeUid, isRoot, isWrapper });
   const groupedChildNodes = useBuilderGroupedChildNodes({
     nodeUid,
     isRoot,
-    doNotExpandTemplates: useWrapper,
-    useWrapper,
+    doNotExpandTemplates: isWrapper,
+    isWrapper,
   });
 
   const isGeneralizedPortalCanvas = independentPortalCanvas
@@ -182,7 +182,7 @@ export function DropZone({
     }
     return {
       droppingParentUid: node.$$uid,
-      droppingParentInstanceId: useWrapper
+      droppingParentInstanceId: isWrapper
         ? wrapperNode.instanceId
         : node.instanceId,
       droppingMountPoint: mountPoint,
@@ -197,7 +197,7 @@ export function DropZone({
     node,
     nodes,
     selfChildNodes,
-    useWrapper,
+    isWrapper,
     wrapperNode,
   ]);
 
@@ -266,7 +266,7 @@ export function DropZone({
 
   const droppable =
     !!delegatedContext ||
-    useWrapper ||
+    isWrapper ||
     !(node.$$isExpandableTemplate || node.$$isTemplateInternalNode);
 
   const dropZoneRef = React.useRef<HTMLElement>();

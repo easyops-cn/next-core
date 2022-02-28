@@ -649,7 +649,7 @@ export interface BuilderBrickNode extends BuilderBaseNode {
 // @internal (undocumented)
 export interface BuilderCustomTemplateNode extends BuilderBaseNode {
     // (undocumented)
-    layoutType?: LayoutTypeEnum;
+    layoutType?: TemplateLayoutType;
     // (undocumented)
     proxy?: string;
     // (undocumented)
@@ -1171,12 +1171,6 @@ export type LayerType = "layout" | "widget" | "brick";
 
 // @public
 export type LayoutType = "console" | "business";
-
-// @public (undocumented)
-export enum LayoutTypeEnum {
-    // (undocumented)
-    Wrapper = "wrapper"
-}
 
 // @public
 export interface LegacyAntdIcon {
@@ -2371,6 +2365,9 @@ export interface SystemInfo extends RuntimeMisc {
     // (undocumented)
     username: string;
 }
+
+// @public (undocumented)
+export type TemplateLayoutType = "wrapper";
 
 // Warning: (ae-internal-missing-underscore) The name "TemplatePackage" should be prefixed with an underscore because the declaration is marked as @internal
 //

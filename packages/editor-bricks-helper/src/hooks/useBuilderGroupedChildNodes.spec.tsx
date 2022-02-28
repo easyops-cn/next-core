@@ -121,7 +121,7 @@ describe("useBuilderGroupedChildNodes", () => {
     [
       {
         isRoot: true,
-        useWrapper: true,
+        isWrapper: true,
       },
       "bricks:5",
     ],

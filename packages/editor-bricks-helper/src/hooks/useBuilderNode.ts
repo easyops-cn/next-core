@@ -5,20 +5,20 @@ import { useBuilderData } from "./useBuilderData";
 export function useBuilderNode<P = Record<string, unknown>>({
   nodeUid,
   isRoot,
-  useWrapper,
+  isWrapper,
 }: {
   nodeUid?: number;
   isRoot?: boolean;
-  useWrapper?: boolean;
+  isWrapper?: boolean;
 }): BuilderRuntimeNode<P> {
   const { rootId, nodes, wrapperNode } = useBuilderData();
   const currentUid = isRoot ? rootId : nodeUid;
   return useMemo(() => {
-    if (useWrapper) {
+    if (isWrapper) {
       return wrapperNode as BuilderRuntimeNode<P>;
     }
     return nodes.find(
       (node) => node.$$uid === currentUid
     ) as BuilderRuntimeNode<P>;
-  }, [nodes, currentUid, useWrapper, wrapperNode]);
+  }, [nodes, currentUid, isWrapper, wrapperNode]);
 }

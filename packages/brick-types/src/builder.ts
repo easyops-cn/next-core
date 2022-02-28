@@ -42,16 +42,14 @@ export interface BuilderBrickNode extends BuilderBaseNode {
   context?: ContextConf[];
 }
 
-export enum LayoutTypeEnum {
-  Wrapper = "wrapper",
-}
+export type TemplateLayoutType = "wrapper";
 
 /** @internal */
 export interface BuilderCustomTemplateNode extends BuilderBaseNode {
   type: "custom-template";
   templateId: string;
   proxy?: string;
-  layoutType?: LayoutTypeEnum;
+  layoutType?: TemplateLayoutType;
 }
 
 /** @internal */
