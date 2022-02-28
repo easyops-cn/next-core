@@ -246,7 +246,7 @@ export class BuilderDataManager {
     detail: EventDetailOfNodeAdd | EventDetailOfNodeMove
   ): void {
     const { rootId, wrapperNode } = this.data;
-    if (detail.nodeUid === rootId) {
+    if (detail.parentUid === rootId) {
       detail.nodeData.mountPoint = "bricks";
     }
     if (wrapperNode && wrapperNode.instanceId === detail.nodeData.parent) {

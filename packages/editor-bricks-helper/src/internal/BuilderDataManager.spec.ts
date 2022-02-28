@@ -3,7 +3,11 @@ import {
   Story,
   StoryDoc,
 } from "@next-core/brick-types";
-import { NodeInstance, EventDetailOfNodeAdd } from "../interfaces";
+import {
+  NodeInstance,
+  EventDetailOfNodeAdd,
+  EventDetailOfNodeMove,
+} from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
 // Given a tree:
@@ -1732,28 +1736,30 @@ describe("BuilderDataManager for route of routes", () => {
 
   it("should redirect node", () => {
     const node1: EventDetailOfNodeAdd = {
-      nodeUid: 1,
+      nodeUid: 4,
       parentUid: 2,
       nodeUids: [3],
-      nodeData: {
-        mountPoint: "content",
-      } as Partial<NodeInstance> as NodeInstance,
-      nodeIds: null,
-    };
-    manager.redirectMountPoint(node1);
-    expect(node1.nodeData.mountPoint).toBe("bricks");
-
-    const node2: EventDetailOfNodeAdd = {
-      nodeUid: 2,
-      parentUid: 3,
-      nodeUids: [4],
       nodeData: {
         mountPoint: "bricks",
         parent: "abc",
       } as Partial<NodeInstance> as NodeInstance,
       nodeIds: null,
     };
-    manager.redirectMountPoint(node2);
-    expect(node2.nodeData.mountPoint).toBe("content");
+    manager.nodeAdd(node1);
+    expect(node1.nodeData.mountPoint).toBe("content");
+
+    const node2: EventDetailOfNodeMove = {
+      nodeUid: 3,
+      parentUid: 1,
+      nodeUids: [],
+      nodeInstanceId: "123",
+      nodeData: {
+        mountPoint: "content",
+        parent: "root",
+      } as Partial<NodeInstance> as NodeInstance,
+      nodeIds: null,
+    };
+    manager.nodeMove(node2);
+    expect(node2.nodeData.mountPoint).toBe("bricks");
   });
 });
