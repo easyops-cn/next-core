@@ -2,7 +2,7 @@ import { createProviderClass } from "./createProviderClass";
 import { saveAs } from "file-saver";
 
 jest.mock("file-saver");
-const mockSaveAs = saveAs as jest.Mock;
+const mockSaveAs = saveAs as unknown as jest.Mock;
 
 const spyOnDispatchEvent = jest.fn();
 (global as any).HTMLElement = class {
