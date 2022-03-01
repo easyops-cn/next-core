@@ -59,6 +59,7 @@
   --color-info-outline: var(--palette-blue-3);
 
   --color-normal-icon: var(--palette-gray-1);
+  --color-selected-icon: rgba(255, 255, 255, 0.85);
 
   --color-warning: var(--palette-amber-6);
   --color-warning-hover: var(--palette-amber-4);
@@ -141,7 +142,10 @@
   --input-outline-hover: var(--palette-blue-6);
   --input-outline-focus: var(--palette-blue-6);
   --input-fill-bg: var(--palette-gray-3);
+  --input-outline-fill: var(--palette-gray-3);
   --input-outline-disabled: var(--palette-gray-3);
+  --input-success-outline: var(--palette-green-6);
+  --input-error-outline: var(--palette-red-6);
 
   --chart-legend-font-size: 12px;
   --chart-tooltips-font-size: 12px;

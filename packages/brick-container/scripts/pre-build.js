@@ -21,12 +21,12 @@ fs.outputFileSync(
     getStyleByBaseColors(
       "dark",
       {
-        red: "#f34d27",
-        green: "#7bff21",
-        blue: "#1a7aff",
-        amber: "#f8c004",
+        red: "#f36546",
+        green: "#2ae14e",
+        blue: "#4686ff",
+        amber: "#f7ba1e",
         cyan: "#21d5f5",
-        orange: "#e48408",
+        orange: "#ff9626",
         yellow: "#fbdd17",
         teal: "#1eca99",
         purple: "#8a3bda",

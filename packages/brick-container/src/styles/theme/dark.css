@@ -29,24 +29,37 @@ html[data-theme="dark-v2"],
   --palette-gray-9: #dcdcdc;
   --palette-gray-10: #ffffff;
 
-  --body-background: #17171a;
+  --body-background: var(--color-fill-global-bg-1);
 
   --theme-gray-color-rgb-channel: 174, 174, 175;
+  --theme-gray-color: var(--palette-rgba-gray-8);
+  --theme-gray-background: var(--palette-rgba-gray-3);
+  --theme-gray-border-color: var(--palette-rgba-gray-4);
 
   --color-brand: var(--palette-blue-6);
-  --color-fill-global-bg-1: var(--palette-rgba-gray-1);
+  --color-brand-hover: var(--palette-blue-5);
+  --color-brand-active: var(--palette-blue-7);
+  --color-fill-global-bg-1: #29292d;
+  --color-fill-global-bg-2: #29292d;
 
-  --color-fill-bg-container-1: #232324;
+  --color-fill-bg-container-1: #202021;
   --color-fill-bg-container-2: #2a2a2b;
   --color-fill-bg-container-3: #313132;
   --color-fill-bg-container-4: #373739;
   --color-fill-bg-container-5: rgba(55, 55, 57, 0.95);
 
+  --color-fill-bg-base-1: var(--palette-rgba-gray-3);
   --color-fill-bg-base-2: var(--palette-rgba-gray-3);
   --color-fill-bg-base-3: var(--palette-rgba-gray-2);
-  --color-auxiliary-text: var(--palette-rgba-gray-8);
+  --color-fill-bg-base-4: var(--palette-rgba-gray-2);
+  --color-text-divider-line: var(--palette-rgba-gray-4);
+  --color-header-text: var(--palette-rgba-gray-9);
   --color-strong-text: var(--palette-rgba-gray-10);
   --color-normal-text: var(--palette-rgba-gray-9);
+  --color-auxiliary-text: var(--palette-rgba-gray-8);
+  --color-secondary-text: var(--palette-rgba-gray-7);
+  --color-disabled-text: var(--palette-rgba-gray-6);
+
   --color-border-divider-line: #454547;
 
   --stroke-color-default: var(--color-text-divider-line);
@@ -55,17 +68,33 @@ html[data-theme="dark-v2"],
   --text-color-secondary: var(--color-secondary-text);
   --text-color-link: var(--color-brand);
 
-  --color-info-bg: var(--palette-blue-2);
+  --color-success-bg: var(--palette-green-6);
+  --color-success-hover: var(--palette-green-5);
+  --color-success-active: var(--palette-green-7);
+  --color-success-bg: var(--palette-green-6);
+  --color-success-outline: var(--palette-green-6);
 
-  --color-success-bg: var(--palette-green-2);
+  --color-info-hover: var(--palette-blue-5);
+  --color-info-active: var(--palette-7);
+  --color-info-bg: var(--palette-blue-6);
+  --color-info-outline: var(--palette-blue-6);
 
-  --color-warning-bg: var(--palette-amber-2);
+  --color-warning: var(--palette-amber-6);
+  --color-warning-hover: var(--palette-amber-5);
+  --color-warning-active: var(--palette-amber-7);
+  --color-warning-bg: var(--palette-amber-6);
+  --color-warning-outline: var(--palette-amber-6);
 
-  --color-error-bg: var(--palette-red-2);
+  --color-error: var(--palette-red-6);
+  --color-error-hover: var(--palette-red-5);
+  --color-error-active: var(--palette-red-7);
+  --color-error-bg: var(--palette-red-6);
+  --color-error-outline: var(--palette-red-6);
 
   --color-normal-icon: var(--palette-rgba-gray-10);
+  --color-selected-icon: var(--palette-rgba-gray-9);
 
-  --mask-bg: rgba(23, 23, 26, 0.6);
+  --mask-bg: rgba(23, 23, 26, 0.7);
 
   --base-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.1);
   --feedback-container-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
@@ -83,30 +112,34 @@ html[data-theme="dark-v2"],
   --input-error-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 1);
   --chart-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
 
-  --menu-bg: var(--palette-gray-3);
+  --menu-bg: #202021;
   --menu-item-selected-bg: var(--palette-blue-6);
-  --menu-group-active-bg: var(--palette-gray-2);
+  --menu-group-active-bg: var(--palette-rgba-gray-2);
   --menu-collapse-bar-border-color: var(--palette-rgba-gray-3);
   --menu-collapse-bar-bg: var(--palette-rgba-gray-3);
+  --menu-submenu-group-active-bg: var(--palette-rgba-gray-2);
   --menu-item-hover: var(--palette-rgba-gray-2);
-  --app-submenu-bg: var(--palette-rgba-gray-2);
+  --app-submenu-bg: #202021;
   --menu-submenu-group-selected-bg: var(--palette-rgba-gray-3);
   --menu-submenu-selected-bg: var(--palette-rgba-gray-3);
   --menu-dropdown-bg: var(--palette-blue-1);
-  --app-submenu-active-bg: var(--palette-blue-1);
+  --app-submenu-active-bg: var(--palette-blue-2);
 
   --checkbox-bg-hover: var(--palette-rgba-gray-3);
   --checkbox-bg-active: var(--palette-blue-2);
   --dashboard-radio-item-shadow: 0px 0px 0px 2px rgba(20, 40, 74, 0.15);
+  --input-outline-fill: #202021;
   --input-fill-bg: var(--palette-rgba-gray-2);
+  --input-outline-disabled: var(--palette-rgba-gray-3);
+
   --chart-tooltip-bg: rgba(23, 23, 26, 0.95);
   --chart-auxiliary-text: var(--palette-rgba-gray-9);
   --chart-outline-select: var(--palette-rgba-gray-10);
 
   /* 8.0 框架 */
-  --v8-top-navigation-bg: var(--palette-gray-3);
+  --v8-top-navigation-bg: var(--palette-rgba-gray-3);
   --v8-top-menu-item-hover: var(--palette-rgba-gray-3);
-  --v8-top-menu-item-selected-bg: var(--palette-gray-4);
+  --v8-top-menu-item-selected-bg: var(--palette-rgba-gray-4);
   --v8-left-menu-bg: rgba(32, 32, 33, 0.3);
   --v8-left-menu-hover-bg: rgba(32, 32, 33, 0.8);
   --v8-left-sidebar-item-hover: rgba(--palette-gray-4);
@@ -265,8 +298,8 @@ html[data-theme="dark-v2"],
   --antd-btn-primary-bg: var(--antd-primary-color);
   --antd-btn-primary-bg-image: linear-gradient(
     225deg,
-    #3e8ae8 0%,
-    #1a6bdd 100%
+    #6597e8 0%,
+    #3f75dd 100%
   );
   --antd-btn-primary-hover-bg: var(--color-info-hover);
   --antd-btn-primary-hover-color: var(--color-normal-text);
@@ -281,7 +314,7 @@ html[data-theme="dark-v2"],
   --antd-btn-default-hover-color: var(--color-brand-hover);
   --antd-btn-default-hover-border-color: var(--color-brand-hover);
 
-  --antd-btn-danger-bg-image: linear-gradient(45deg, #d24525 0%, #7d3426 100%);
+  --antd-btn-danger-bg-image: linear-gradient(225deg, #e86d4c 0%, #d24525 100%);
   --antd-btn-danger-color: var(--color-normal-text);
   --antd-btn-danger-hover-bg: var(--color-error-hover);
   --antd-btn-danger-hover-color: var(--antd-btn-danger-color);
@@ -313,7 +346,7 @@ html[data-theme="dark-v2"],
 
   /*** select ***/
   --antd-select-item-selected-bg: var(--menu-dropdown-bg);
-  --antd-select-dropdown-bg: var(--antd-component-background);
+  --antd-select-dropdown-bg: var(--color-fill-bg-container-4);
   --antd-select-item-active-bg: var(--antd-item-active-bg);
 
   /*** table ***/
@@ -323,7 +356,7 @@ html[data-theme="dark-v2"],
   --antd-table-even-bg: var(--antd-table-bg);
   --antd-table-header-bg: var(--color-fill-bg-base-4);
   --antd-table-header-color: var(--color-header-text);
-  --antd-table-row-hover-bg: var(--palette-gray-3);
+  --antd-table-row-hover-bg: var(--palette-rgba-gray-3);
 
   --antd-table-header-filter-active-bg: var(--color-fill-bg-base-1);
   --antd-table-header-sort-active-bg: var(--color-fill-bg-base-1);
@@ -483,7 +516,7 @@ html[data-theme="dark-v2"],
 
   /*** slider ***/
   --antd-slider-track-background-color: var(--palette-blue-6);
-  --antd-slider-track-background-color-hover: var(--palette-blue-4);
+  --antd-slider-track-background-color-hover: var(--palette-blue-5);
   --antd-slider-rail-background-color: var(--color-fill-bg-base-1);
   --antd-slider-rail-background-color-hover: var(--palette-rgba-gray-5);
   --antd-slider-handle-color: var(--palette-blue-6);
@@ -494,13 +527,13 @@ html[data-theme="dark-v2"],
   --antd-slider-mark-text-active-color: var(--color-normal-text);
 
   --antd-slide-dashboard-track-background-color: #2a78f4;
-  --antd-slider-dashboard-track-background-color-hover: var(--palette-blue-4);
+  --antd-slider-dashboard-track-background-color-hover: var(--palette-blue-5);
   --antd-slider-dashboard-hander-background-color: var(--color-brand);
   --antd-slider-dashboard-hander-border-color: #14284a;
   --antd-slider-dashboard-hander-icon-color: var(--color-white);
   --antd-slide-dashboard-hander-boxShadow: 0px 1px 18px 0px
     rgba(20, 40, 74, 0.1);
-  --antd-slide-dashboard-hander-color-hover: var(--palette-blue-4);
+  --antd-slide-dashboard-hander-color-hover: var(--palette-blue-5);
 
   /*** 彩色标签 tag ***/
   --tag-gray-color: var(--color-secondary-text);
@@ -615,8 +648,8 @@ html[data-theme="dark-v2"],
   --antd-upload-list-type-picture-error-border-color: var(
     --color-error-outline
   );
-  --antd-upload-select-picture-card-bg: var(--palette-gray-2);
-  --antd-upload-list-type-picture-card-bg: var(--palette-gray-2);
+  --antd-upload-select-picture-card-bg: var(--palette-rgba-gray-2);
+  --antd-upload-list-type-picture-card-bg: var(--palette-rgba-gray-2);
   --antd-upload-list-item-hover-bg: var(--color-fill-bg-base-1);
   --antd-upload-error-color: var(--color-error);
 
