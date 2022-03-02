@@ -681,4 +681,11 @@
   /*** page-title ***/
   --page-title-font-size: 18px;
   --page-title-font-weight: var(--font-weight-400);
+
+  /*** monitor-alert custom css variables ***/
+  --monitor-alert-message: #6bb3ff;
+  --monitor-alert-info: #fb653c;
+  --monitor-alert-warning: #e20000;
+  --monitor-alert-critical: #a61b08;
+  --monitor-alert-emergency: #590400;
 }
