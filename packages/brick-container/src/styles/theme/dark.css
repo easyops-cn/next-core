@@ -670,4 +670,11 @@ html[data-theme="dark-v2"],
   --dropdown-select-shape-type-trigger-shadow: 0px 2px 6px 0px
     rgba(0, 0, 0, 0.4);
   --dropdown-select-shape-type-disable-bg: var(--color-disabled-text);
+
+  /*** monitor-alert custom css variables ***/
+  --monitor-alert-message: #2c4981;
+  --monitor-alert-info: #442320;
+  --monitor-alert-warning: #7a3a2e;
+  --monitor-alert-critical: #e8856a;
+  --monitor-alert-emergency: #e73333;
 }
