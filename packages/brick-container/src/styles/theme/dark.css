@@ -109,6 +109,14 @@ html[data-theme="dark-v2"],
   --v8-top-menu-item-selected-bg: var(--palette-gray-4);
   --v8-left-menu-bg: rgba(32, 32, 33, 0.3);
   --v8-left-menu-hover-bg: rgba(32, 32, 33, 0.8);
+  --v8-left-sidebar-item-hover: rgba(--palette-gray-4);
+  --v8-left-sidebar-border-right: linear-gradient(
+    146deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(232, 232, 232, 0.12) 12%,
+    rgba(232, 232, 232, 0.12) 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
 
   /* component CSS variables */
 
