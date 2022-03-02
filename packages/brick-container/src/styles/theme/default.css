@@ -108,7 +108,7 @@
 
   --base-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.4);
   --feedback-container-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
-  --left-sidebar-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.8);
+  --left-sidebar-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
   --right-slide-shadow: -2px 0px 8px 0px rgba(0, 0, 0, 0.14);
   --left-slide-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.14);
   --connected-overlay-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
@@ -157,6 +157,14 @@
   --v8-top-menu-item-selected-bg: var(--palette-gray-3);
   --v8-left-menu-bg: rgba(255, 255, 255, 0.3);
   --v8-left-menu-hover-bg: rgba(255, 255, 255, 0.8);
+  --v8-left-sidebar-item-hover: rgba(--palette-gray-3);
+  --v8-left-sidebar-border-right: linear-gradient(
+    152deg,
+    rgba(255, 255, 255, 0) 0%,
+    #e8e8e8 12%,
+    #e8e8e8 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
 
   /* component CSS variables */
 
