@@ -67,3 +67,11 @@
     }
   }
 }
+// https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete
+.ant-form-item,
+.ant-legacy-form-item {
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    box-shadow: 0 0 0 50px var(--antd-input-bg) inset;
+  }
+}
