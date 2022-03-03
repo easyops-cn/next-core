@@ -72,7 +72,6 @@ html[data-theme="dark-v2"],
   --color-success-bg: rgba(var(--palette-green-6-channel), 0.2);
   --color-success-hover: var(--palette-green-5);
   --color-success-active: var(--palette-green-7);
-  --color-success-bg: var(--palette-green-6);
   --color-success-outline: rgba(var(--palette-green-6-channel), 0.3);
 
   --color-info-hover: var(--palette-blue-5);
@@ -234,14 +233,14 @@ html[data-theme="dark-v2"],
   --antd-card-footer-bg: var(--palette-gray-3);
 
   /*** radio dashboard ***/
-  --antd-dashboard-radio-bg: var(--color-fill-bg-container-3);
-  --antd-dashboard-radio-item-bg: var(--color-fill-bg-container-3);
+  --antd-dashboard-radio-bg: var(--color-fill-bg-container-5);
+  --antd-dashboard-radio-item-bg: var(--antd-dashboard-radio-bg);
   --antd-dashboard-radio-item-color: var(--color-normal-text);
   --antd-dashboard-radio-item-disabled-color: var(--color-disabled-text);
   --antd-dashboard-radio-item-checked-border-color: var(
     --antd-dashboard-radio-bg
   );
-  --antd-dashboard-radio-item-checked-bg: var(--color-fill-bg-base-3);
+  --antd-dashboard-radio-item-checked-bg: var(--color-fill-bg-base-1);
   --antd-dashboard-radio-item-checked-shadow: var(--radio-item-shadow);
 
   /*** radio button ***/
@@ -356,7 +355,7 @@ html[data-theme="dark-v2"],
   --antd-table-body-sort-bg: var(--palette-rgba-gray-3);
   --antd-table-border-color: var(--color-text-divider-line);
   --antd-table-even-bg: var(--antd-table-bg);
-  --antd-table-header-bg: #282829;
+  --antd-table-header-bg: #2e2e30;
   --antd-table-header-color: var(--color-header-text);
   --antd-table-row-hover-bg: var(--palette-gray-3);
 
@@ -605,6 +604,7 @@ html[data-theme="dark-v2"],
   --antd-timeline-extension-day-color: var(--color-strong-text);
 
   /*** cascader ***/
+  --ant-cascader-menus-bg: var(--color-fill-bg-container-4);
   --antd-cascader-picker-clear-color: var(--palette-rgba-gray-6);
   --antd-cascader-picker-clear-color-hover: var(--palette-rgba-gray-7);
   --antd-cascader-picker-arrow-color: var(--palette-rgba-gray-6);
@@ -689,6 +689,7 @@ html[data-theme="dark-v2"],
   --card-item-border-radius: var(--card-inner-border-radius);
   --card-item-bg: var(--color-fill-bg-container-1);
   --card-item-hover-shadow: var(--hover-shadow);
+  --card-item-hover-bg: var(--card-item-bg);
   --card-item-title-color: var(--text-color-title);
   --card-item-sub-title-color: var(--text-color-secondary);
   --card-item-desc-color: var(--text-color-secondary);

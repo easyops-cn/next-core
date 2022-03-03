@@ -605,6 +605,7 @@
   --antd-timeline-extension-day-color: var(--color-strong-text);
 
   /*** cascader ***/
+  --ant-cascader-menus-bg: var(--antd-component-background);
   --antd-cascader-picker-clear-color: var(--palette-gray-6);
   --antd-cascader-picker-clear-color-hover: var(--palette-gray-7);
   --antd-cascader-picker-arrow-color: var(--palette-gray-6);
@@ -687,6 +688,7 @@
   --card-item-border-radius: var(--card-inner-border-radius);
   --card-item-bg: var(--antd-component-background);
   --card-item-hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  --card-item-hover-bg: var(--palette-rgba-gray-2);
   --card-item-title-color: var(--text-color-title);
   --card-item-sub-title-color: var(--text-color-secondary);
   --card-item-desc-color: var(--text-color-secondary);

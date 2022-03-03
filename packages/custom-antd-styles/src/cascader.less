@@ -1,8 +1,11 @@
 .@{cascader-prefix-cls} {
+  &-menus {
+    background: var(--ant-cascader-menus-bg);
+  }
 
   &-picker-clear {
     color: var(--antd-cascader-picker-clear-color);
-  
+
     &:hover {
       color: var(--antd-cascader-picker-clear-color-hover);
     }
@@ -19,12 +22,12 @@
     此时，倒数第一个 ul 会出现一条额外的分割线（border-right）。覆盖样式使 border-right 隐藏，同时使用 border-left 来重画 ul 之间的分割线
   */
   &-menu {
-
     padding: 0 2px;
 
     // 隐藏 border-right，重画 border-left
     border-right: none;
-    border-left: var(--antd-cascader-menu-item-border-width) solid var(--antd-cascader-menu-item-border-color);
+    border-left: var(--antd-cascader-menu-item-border-width) solid
+      var(--antd-cascader-menu-item-border-color);
 
     &-item {
       border-radius: 6px;
@@ -43,7 +46,6 @@
 
         &:hover {
           background: var(--antd-cascader-menu-item-bg-color-hover);
-          
         }
       }
     }
@@ -58,5 +60,4 @@
   &-menu:first-child {
     border-left: none;
   }
-
 }
