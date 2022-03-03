@@ -52,6 +52,7 @@ html[data-theme="dark-v2"],
   --color-fill-bg-base-2: var(--palette-rgba-gray-3);
   --color-fill-bg-base-3: var(--palette-rgba-gray-2);
   --color-fill-bg-base-4: var(--palette-rgba-gray-2);
+  --color-fill-bg-base-5: var(--palette-rgba-gray-2);
   --color-text-divider-line: var(--palette-rgba-gray-4);
   --color-header-text: var(--palette-rgba-gray-9);
   --color-strong-text: var(--palette-rgba-gray-10);
@@ -123,6 +124,7 @@ html[data-theme="dark-v2"],
   --menu-submenu-group-selected-bg: var(--palette-rgba-gray-3);
   --menu-submenu-selected-bg: var(--palette-rgba-gray-3);
   --menu-dropdown-bg: var(--palette-blue-1);
+  --app-submenu-bg: #202021;
   --app-submenu-active-bg: var(--palette-blue-2);
 
   --checkbox-bg-hover: var(--palette-rgba-gray-3);
@@ -274,7 +276,7 @@ html[data-theme="dark-v2"],
   --antd-chart-legend-hover-text-color: var(--palette-rgba-gray-7);
   --antd-chart-legend-unchecked-text-color: var(--color-disabled-text);
   --antd-chart-legend-unchecked-mark-color: var(--color-disabled-text);
-  --antd-chart-legend-pageNavigator-marker-color: var(--palette-rgba-gray-10);
+  --antd-chart-legend-pageNavigator-marker-color: var(--color-auxiliary-text);
   --antd-chart-legend-pageNavigator-marker-inactive-color: var(
     --palette-rgba-gray-6
   );
@@ -308,7 +310,7 @@ html[data-theme="dark-v2"],
 
   --antd-btn-default-color: var(--color-auxiliary-text);
   --antd-btn-default-border: var(--color-border-divider-line);
-  --antd-btn-default-bg: var(--color-fill-bg-container-1);
+  --antd-btn-default-bg: var(--palette-rgba-gray-1);
   --antd-btn-default-active-border-color: var(--color-brand);
   --antd-btn-default-active-color: var(--color-info);
   --antd-btn-default-hover-color: var(--color-brand-hover);
@@ -336,7 +338,7 @@ html[data-theme="dark-v2"],
   --antd-anchor-radio-type-title-active-bg: var(--color-fill-bg-base-3);
 
   /*** input ***/
-  --antd-input-bg: var(--antd-component-background);
+  --antd-input-bg: var(--palette-rgba-gray-1);
   --antd-input-color: var(--color-normal-text);
   --antd-input-focus-border-color: var(--input-outline-focus);
   --antd-input-hover-border-color: var(--input-outline-hover);
@@ -354,9 +356,9 @@ html[data-theme="dark-v2"],
   --antd-table-body-sort-bg: var(--palette-rgba-gray-3);
   --antd-table-border-color: var(--color-text-divider-line);
   --antd-table-even-bg: var(--antd-table-bg);
-  --antd-table-header-bg: var(--color-fill-bg-base-4);
+  --antd-table-header-bg: #282829;
   --antd-table-header-color: var(--color-header-text);
-  --antd-table-row-hover-bg: var(--palette-rgba-gray-3);
+  --antd-table-row-hover-bg: var(--palette-gray-3);
 
   --antd-table-header-filter-active-bg: var(--color-fill-bg-base-1);
   --antd-table-header-sort-active-bg: var(--color-fill-bg-base-1);
@@ -372,7 +374,7 @@ html[data-theme="dark-v2"],
   --antd-table-row-expand-nested-wrapper: var(--color-fill-bg-container-2);
   --antd-table-row-expand-nested-wrapper-border: var(--antd-table-border-color);
   --antd-table-expanded-row-bg: var(--antd-table-row-expand-nested-wrapper);
-  --antd-table-cell-fixed-header-bg: var(--palette-gray-2);
+  --antd-table-cell-fixed-header-bg: var(--antd-table-header-bg);
   --antd-table-cell-fixed-body-bg: var(--antd-component-background);
 
   /*** pagination  ***/
