@@ -7,7 +7,8 @@ export function getStyleByBaseColors(
 ): string {
   return (theme === "dark" ? getDarkStyle : getLightStyle)(
     `${getCssVariableDefinitionsByPalettes(
-      generatePalettes(baseColors, theme, backgroundColor)
+      generatePalettes(baseColors, theme, backgroundColor),
+      theme
     )}\n${getMigratedCssVariableDefinitions(
       theme,
       baseColors,
@@ -60,14 +61,29 @@ function getDarkStyle(cssVariableDefinitions: string): string {
   return `html[data-theme="dark-v2"],\n[data-override-theme="dark-v2"] {\n${cssVariableDefinitions}}`;
 }
 
-function getCssVariableDefinitionsByPalettes(palettes: Palettes): string {
+function getCssVariableDefinitionsByPalettes(
+  palettes: Palettes,
+  theme: ThemeType
+): string {
   return Object.entries(palettes)
     .flatMap(([colorName, palette]) => {
       ensureBaseColorName(colorName);
       return (
         palette
-          .map(
-            (color, index) => `  --palette-${colorName}-${index + 1}: ${color};`
+          .map((color, index) =>
+            [
+              `  --palette-${colorName}-${index + 1}-channel: ${getRgbChannel(
+                color
+              )};`,
+            ]
+              .concat(
+                theme === "dark"
+                  ? []
+                  : `  --palette-${colorName}-${
+                      index + 1
+                    }: rgb(var(--palette-${colorName}-${index + 1}-channel));`
+              )
+              .join("\n")
           )
           // Concat an empty string to make a double-line-break for each group of color name.
           .concat("")

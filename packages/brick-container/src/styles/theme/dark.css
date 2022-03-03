@@ -68,28 +68,28 @@ html[data-theme="dark-v2"],
   --text-color-secondary: var(--color-secondary-text);
   --text-color-link: var(--color-brand);
 
-  --color-success-bg: var(--palette-green-6);
+  --color-success-bg: rgba(var(--palette-green-6-channel), 0.2);
   --color-success-hover: var(--palette-green-5);
   --color-success-active: var(--palette-green-7);
   --color-success-bg: var(--palette-green-6);
-  --color-success-outline: var(--palette-green-6);
+  --color-success-outline: rgba(var(--palette-green-6-channel), 0.3);
 
   --color-info-hover: var(--palette-blue-5);
   --color-info-active: var(--palette-7);
-  --color-info-bg: var(--palette-blue-6);
-  --color-info-outline: var(--palette-blue-6);
+  --color-info-bg: rgba(var(--palette-blue-6-channel), 0.2);
+  --color-info-outline: rgba(var(--palette-blue-6-channel), 0.35);
 
   --color-warning: var(--palette-amber-6);
   --color-warning-hover: var(--palette-amber-5);
   --color-warning-active: var(--palette-amber-7);
-  --color-warning-bg: var(--palette-amber-6);
-  --color-warning-outline: var(--palette-amber-6);
+  --color-warning-bg: rgba(var(--palette-amber-6-channel), 0.2);
+  --color-warning-outline: rgba(var(--palette-amber-6-channel), 0.3);
 
   --color-error: var(--palette-red-6);
   --color-error-hover: var(--palette-red-5);
   --color-error-active: var(--palette-red-7);
-  --color-error-bg: var(--palette-red-6);
-  --color-error-outline: var(--palette-red-6);
+  --color-error-bg: rgba(var(--palette-red-6-channel), 0.2);
+  --color-error-outline: rgba(var(--palette-red-6-channel), 0.3);
 
   --color-normal-icon: var(--palette-rgba-gray-10);
   --color-selected-icon: var(--palette-rgba-gray-9);
