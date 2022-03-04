@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-kit",
-  "version": "2.106.1",
+  "version": "2.106.2",
   "description": "Kernel",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-kit",
   "license": "GPL-3.0",
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@next-core/brick-types": "^2.60.0",
-    "@next-core/color-theme": "^0.4.2",
+    "@next-core/color-theme": "^0.4.3",
     "@next-core/supply": "^1.0.26",
     "@next-sdk/api-gateway-sdk": "^2.0.17",
     "@next-sdk/auth-sdk": "^1.0.0",

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.106.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.106.1...@next-core/brick-kit@2.106.2) (2022-03-04)
+
+
+### Bug Fixes
+
+* color palette ([9d28804](https://github.com/easyops-cn/next-core/commit/9d2880444868961d5c0653aed2e12babf59fcc73))
+* empty icon ([c20ff1b](https://github.com/easyops-cn/next-core/commit/c20ff1b4d5205704edb2eb4ed48d186b834f3656))
+
+
+
+
+
 ## [2.106.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.106.0...@next-core/brick-kit@2.106.1) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/brick-kit

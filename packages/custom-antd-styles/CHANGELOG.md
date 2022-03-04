@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.13](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.12...@next-core/custom-antd-styles@1.23.13) (2022-03-04)
+
+
+### Bug Fixes
+
+* fix style ([a6a6628](https://github.com/easyops-cn/next-core/commit/a6a66283c43922d64e2e4130bc5abf8195b33acc))
+* modify style ([c8e30d5](https://github.com/easyops-cn/next-core/commit/c8e30d5f0ab064aea164de58c931cc64014482d8))
+
+
+
+
+
 ## [1.23.12](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.11...@next-core/custom-antd-styles@1.23.12) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.65.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.65.0...@next-core/brick-container@2.65.1) (2022-03-04)
+
+
+### Bug Fixes
+
+* color palette ([9d28804](https://github.com/easyops-cn/next-core/commit/9d2880444868961d5c0653aed2e12babf59fcc73))
+* fix style ([a6a6628](https://github.com/easyops-cn/next-core/commit/a6a66283c43922d64e2e4130bc5abf8195b33acc))
+* modify style ([c8e30d5](https://github.com/easyops-cn/next-core/commit/c8e30d5f0ab064aea164de58c931cc64014482d8))
+* style refine ([6501739](https://github.com/easyops-cn/next-core/commit/6501739e6b04f085fc32e9e4300132f8dd7bea73))
+
+
+
+
+
 # [2.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.64.9...@next-core/brick-container@2.65.0) (2022-03-02)
 
 
