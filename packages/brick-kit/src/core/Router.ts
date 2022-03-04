@@ -23,6 +23,7 @@ import {
   MountRoutesResult,
   appendBrick,
   Resolver,
+  ContainerData,
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
@@ -52,6 +53,7 @@ export class Router {
   private state: RouterState = "initial";
   private renderId: string;
   private readonly featureFlags: Record<string, boolean>;
+  private containerResult: ContainerData;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
@@ -380,14 +382,15 @@ export class Router {
         );
       }
 
+      await constructMenu(
+        menuBar,
+        this.locationContext.getCurrentContext(),
+        this.kernel
+      );
+
       if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
         this.kernel.toggleBars(false);
       } else if (this.kernel.currentLayout === "console") {
-        await constructMenu(
-          menuBar,
-          this.locationContext.getCurrentContext(),
-          this.kernel
-        );
         if (
           shouldBeDefaultCollapsed(
             menuBar.menu?.defaultCollapsed,
@@ -410,6 +413,8 @@ export class Router {
         mountStaticNode(this.kernel.menuBar.element, menuBar);
         mountStaticNode(this.kernel.appBar.element, appBar);
       }
+
+      this.setContainerData(mountRoutesResult);
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
@@ -496,6 +501,19 @@ export class Router {
 
     this.state = "mounted";
     devtoolsHookEmit("rendered");
+  }
+
+  private setContainerData(mountResult: MountRoutesResult): void {
+    this.containerResult = {
+      breadcrumb: mountResult.appBar.breadcrumb,
+      menu: mountResult.menuBar.menu,
+      subMenu: mountResult.menuBar.subMenu,
+    };
+  }
+
+  /* istanbul ignore next */
+  getContainerData(): ContainerData {
+    return this.containerResult;
   }
 
   /* istanbul ignore next */

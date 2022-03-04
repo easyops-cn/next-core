@@ -6674,10 +6674,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/@babel/runtime/helpers/applyDecs.js": {
-      "id": "HRdH",
-      "buildMeta": { "providedExports": true }
-    },
     "./node_modules/js-yaml/lib/js-yaml.js": {
       "id": "HUeH",
       "buildMeta": { "providedExports": true }
@@ -16699,10 +16695,6 @@
     },
     "./node_modules/babel-runtime/node_modules/core-js/library/fn/array/from.js": {
       "id": "myGB",
-      "buildMeta": { "providedExports": true }
-    },
-    "./node_modules/@babel/runtime/helpers/identity.js": {
-      "id": "n+GH",
       "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/FileUnknownOutlined.js": {
