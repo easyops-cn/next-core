@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.107.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.106.2...@next-core/brick-kit@2.107.0) (2022-03-04)
+
+
+### Features
+
+* support export nav config ([#1589](https://github.com/easyops-cn/next-core/issues/1589)) ([20f0493](https://github.com/easyops-cn/next-core/commit/20f0493e51a08e009b95a902452bcc7e155386ee))
+
+
+
+
+
 ## [2.106.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.106.1...@next-core/brick-kit@2.106.2) (2022-03-04)
 
 
