@@ -23,6 +23,7 @@ import {
   Resolver,
   registerCustomTemplate,
   registerCustomProcessor,
+  NavConfig,
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import {
@@ -124,6 +125,11 @@ export class Runtime implements AbstractRuntime {
   /* istanbul ignore next */
   getCurrentRoute(): RouteConf {
     return kernel.currentRoute;
+  }
+
+  /* istanbul ignore next */
+  getNavConfig(): NavConfig {
+    return kernel.router.getNavConfig();
   }
 
   getMicroApps({
