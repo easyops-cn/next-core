@@ -36,6 +36,7 @@
   --color-fill-bg-base-2: rgb(255, 255, 255, 0.08);
   --color-fill-bg-base-3: #f3f4f7;
   --color-fill-bg-base-4: var(--palette-gray-2);
+  --color-fill-bg-base-5: var(--palette-gray-1);
   --color-text-divider-line: var(--palette-gray-4);
   --color-border-divider-line: var(--palette-gray-5);
   --color-header-text: var(--palette-gray-9);
@@ -77,26 +78,30 @@
   --small-border-radius: 2px;
   --medius-border-radius: 4px;
   --larger-border-radius: 6px;
+  --larger-border-radius-2: 12px;
   /* 元素的尺寸不确定，需要设置一个很大的值才能达到纯圆角的场景 */
   --container-border-radius: 9999px;
   --no-border-radius: 0px;
+  --chart-border-radius: 3px;
   --special-border-radius: 0 0 6px 6px;
 
+  --special-title-font-size-larger: 40px;
+  --special-title-font-size: 20px;
+  --special-title-font-size-small: 18px;
   --normal-font-size: 14px;
   --title-font-size: 16px;
-  --special-title-font-size: 20px;
   --sub-menu-title-font-size: 18px;
   --card-title-font-size: 16px;
-  --statistical-title-font-size: 16px;
   --sub-title-font-size-small: 12px;
   --sub-title-font-size: 14px;
   --auxiliary-font-size: 14px;
   --auxiliary-font-size-small: 12px;
   --bread-crumbs-font-size: 12px;
+
   --overview-data-font-size: 30px;
+  --statistical-title-font-size: 16px;
   --special-data-font-size: 20px;
   --normal-data-font-size: 16px;
-  --special-title-font-size-small: 18px;
 
   --font-weight-600: 600;
   --font-weight-500: 500;
@@ -112,6 +117,7 @@
   --left-sidebar-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
   --right-slide-shadow: -2px 0px 8px 0px rgba(0, 0, 0, 0.14);
   --left-slide-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.14);
+  --up-slide-shadow: 0px -2px 8px 0px rgba(0, 0, 0, 0.14);
   --connected-overlay-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
   --fullscreen-overlay-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
   --hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
@@ -121,9 +127,15 @@
   --input-success-shadow: 0px 0px 0px 2px rgba(229, 255, 199, 1);
   --input-error-shadow: 0px 0px 0px 2px rgba(255, 218, 201, 1);
   --chart-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0);
+
   --border-width-base: 1px;
   --border-width-double-base: 2px;
   --no-border-width: 0;
+
+  --punctate-width-base: 1px;
+  --punctate-width-double-base: 2px;
+  --paragraph-width-base: 1px;
+  --paragraph-width-double-base: 2px;
 
   --menu-bg: #4e93ef;
   --menu-item-selected-bg: var(--color-brand);
@@ -135,6 +147,7 @@
   --menu-submenu-group-selected-bg: var(--palette-gray-3);
   --menu-submenu-selected-bg: rgba(0, 99, 206, 0.2);
   --menu-dropdown-bg: var(--palette-blue-1);
+  --app-submenu-bg: var(--palette-gray-1);
   --app-submenu-active-bg: #e0eeff;
 
   --checkbox-bg-hover: #ebf3fd;
@@ -142,7 +155,7 @@
   --input-outline-hover: var(--palette-blue-6);
   --input-outline-focus: var(--palette-blue-6);
   --input-fill-bg: var(--palette-gray-3);
-  --input-outline-fill: var(--palette-gray-3);
+  --input-outline-fill: var(--palette-gray-1);
   --input-outline-disabled: var(--palette-gray-3);
   --input-success-outline: var(--palette-green-6);
   --input-error-outline: var(--palette-red-6);
@@ -592,6 +605,7 @@
   --antd-timeline-extension-day-color: var(--color-strong-text);
 
   /*** cascader ***/
+  --ant-cascader-menus-bg: var(--antd-component-background);
   --antd-cascader-picker-clear-color: var(--palette-gray-6);
   --antd-cascader-picker-clear-color-hover: var(--palette-gray-7);
   --antd-cascader-picker-arrow-color: var(--palette-gray-6);
@@ -674,6 +688,7 @@
   --card-item-border-radius: var(--card-inner-border-radius);
   --card-item-bg: var(--antd-component-background);
   --card-item-hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  --card-item-hover-bg: var(--palette-rgba-gray-2);
   --card-item-title-color: var(--text-color-title);
   --card-item-sub-title-color: var(--text-color-secondary);
   --card-item-desc-color: var(--text-color-secondary);
