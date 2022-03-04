@@ -76,7 +76,7 @@ export type MatchRoutesResult =
   | "missed"
   | "unauthenticated";
 
-export interface ContainerData {
+export interface NavConfig {
   breadcrumb: BreadcrumbItemConf[];
   menu: Partial<SidebarMenu>;
   subMenu: Partial<SidebarMenu>;

@@ -23,7 +23,7 @@ import {
   MountRoutesResult,
   appendBrick,
   Resolver,
-  ContainerData,
+  NavConfig,
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
@@ -53,7 +53,7 @@ export class Router {
   private state: RouterState = "initial";
   private renderId: string;
   private readonly featureFlags: Record<string, boolean>;
-  private containerResult: ContainerData;
+  private navConfig: NavConfig;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
@@ -382,39 +382,40 @@ export class Router {
         );
       }
 
-      await constructMenu(
-        menuBar,
-        this.locationContext.getCurrentContext(),
-        this.kernel
-      );
-
       if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
         this.kernel.toggleBars(false);
-      } else if (this.kernel.currentLayout === "console") {
-        if (
-          shouldBeDefaultCollapsed(
-            menuBar.menu?.defaultCollapsed,
-            menuBar.menu?.defaultCollapsedBreakpoint
-          )
-        ) {
-          this.kernel.menuBar.collapse(true);
-          this.defaultCollapsed = true;
-        } else {
-          if (this.defaultCollapsed) {
-            this.kernel.menuBar.collapse(false);
+      } else {
+        await constructMenu(
+          menuBar,
+          this.locationContext.getCurrentContext(),
+          this.kernel
+        );
+        if (this.kernel.currentLayout === "console") {
+          if (
+            shouldBeDefaultCollapsed(
+              menuBar.menu?.defaultCollapsed,
+              menuBar.menu?.defaultCollapsedBreakpoint
+            )
+          ) {
+            this.kernel.menuBar.collapse(true);
+            this.defaultCollapsed = true;
+          } else {
+            if (this.defaultCollapsed) {
+              this.kernel.menuBar.collapse(false);
+            }
+            this.defaultCollapsed = false;
           }
-          this.defaultCollapsed = false;
+          if (actualLegacy === "iframe") {
+            // Do not modify breadcrumb in iframe mode,
+            // it will be *popped* from iframe automatically.
+            delete appBar.breadcrumb;
+          }
+          mountStaticNode(this.kernel.menuBar.element, menuBar);
+          mountStaticNode(this.kernel.appBar.element, appBar);
         }
-        if (actualLegacy === "iframe") {
-          // Do not modify breadcrumb in iframe mode,
-          // it will be *popped* from iframe automatically.
-          delete appBar.breadcrumb;
-        }
-        mountStaticNode(this.kernel.menuBar.element, menuBar);
-        mountStaticNode(this.kernel.appBar.element, appBar);
       }
 
-      this.setContainerData(mountRoutesResult);
+      this.setNavConfig(mountRoutesResult);
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
@@ -503,8 +504,8 @@ export class Router {
     devtoolsHookEmit("rendered");
   }
 
-  private setContainerData(mountResult: MountRoutesResult): void {
-    this.containerResult = {
+  private setNavConfig(mountResult: MountRoutesResult): void {
+    this.navConfig = {
       breadcrumb: mountResult.appBar.breadcrumb,
       menu: mountResult.menuBar.menu,
       subMenu: mountResult.menuBar.subMenu,
@@ -512,8 +513,8 @@ export class Router {
   }
 
   /* istanbul ignore next */
-  getContainerData(): ContainerData {
-    return this.containerResult;
+  getNavConfig(): NavConfig {
+    return this.navConfig;
   }
 
   /* istanbul ignore next */
