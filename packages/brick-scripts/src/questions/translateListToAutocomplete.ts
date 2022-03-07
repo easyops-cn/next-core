@@ -12,13 +12,17 @@ export function translateListToAutocomplete<
       name: question.name,
       message: question.message,
       default: question.default,
-      source: (_, input) =>
-        Promise.resolve(
-          input
-            ? ((question as inquirer.ListQuestion)
-                .choices as string[]).filter((item) => item.includes(input))
-            : (question as inquirer.ListQuestion).choices
-        ),
+      source: (_, input) => {
+        const choices = input
+          ? ((question as inquirer.ListQuestion).choices as string[]).filter(
+              (item) => item.includes(input)
+            )
+          : (question as inquirer.ListQuestion).choices;
+        if ((choices as string[]).length === 0) {
+          return Promise.resolve([input]);
+        }
+        return Promise.resolve(choices);
+      },
     } as any;
   }
 
