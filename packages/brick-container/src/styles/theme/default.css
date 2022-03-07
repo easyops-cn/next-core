@@ -450,6 +450,10 @@
   --antd-tabs-panel-type-shadow: none;
   --antd-tabs-panel-type-selected-color: var(--color-white);
   --antd-tabs-panel-type-selected-bg: var(--antd-primary-color);
+  --antd-tabs-panel-type-title-font-size: 18px;
+  --antd-tabs-panel-type-tab-title-border: none;
+  --antd-tabs-panel-type-tab-title-radius: 6px;
+  --antd-tabs-small-panel-type-title-font-size: 18px;
 
   /*** inputNumber ***/
   --antd-input-number-handler-wrap-bg: var(--palette-gray-3);

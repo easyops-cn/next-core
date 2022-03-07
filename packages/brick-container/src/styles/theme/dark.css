@@ -512,7 +512,7 @@ html[data-theme="dark-v2"],
   --datetime-selector-label-color: var(--color-header-text);
 
   /*** avatar ***/
-  --antd-avatar-bg: var(--palette-rgba-gray-6);
+  --antd-avatar-bg: var(--palette-gray-6);
   --antd-avatar-color: var(--color-normal-text);
 
   /*** slider ***/
@@ -538,23 +538,41 @@ html[data-theme="dark-v2"],
 
   /*** 彩色标签 tag ***/
   --tag-gray-color: var(--color-secondary-text);
-  --tag-gray-background: var(--color-border-divider-line);
+  --tag-gray-background: var(--palette-rgba-gray-2);
+  --tag-gray-border-color: var(--palette-rgba-gray-3);
+
   --tag-green-color: var(--theme-green-color);
-  --tag-green-background: var(--theme-green-background);
+  --tag-green-background: rgba(var(--palette-green-6-channel), 0.12);
+  --tag-green-border-color: rgba(var(--palette-green-6-channel), 0.2);
+
   --tag-red-color: var(--theme-red-color);
-  --tag-red-background: var(--theme-red-background);
+  --tag-red-background: rgba(var(--palette-red-6-channel), 0.12);
+  --tag-red-border-color: rgba(var(--palette-red-6-channel), 0.2);
+
   --tag-blue-color: var(--theme-blue-color);
-  --tag-blue-background: var(--theme-blue-background);
+  --tag-blue-background: rgba(var(--palette-blue-6-channel), 0.12);
+  --tag-blue-border-color: rgba(var(--palette-blue-6-channel), 0.2);
+
   --tag-orange-color: var(--theme-orange-color);
-  --tag-orange-background: var(--theme-orange-background);
+  --tag-orange-background: rgba(var(--palette-orange-6-channel), 0.12);
+  --tag-orange-border-color: rgba(var(--palette-orange-6-channel), 0.2);
+
   --tag-cyan-color: var(--theme-cyan-color);
-  --tag-cyan-background: var(--theme-cyan-background);
+  --tag-cyan-background: rgba(var(--palette-cyan-6-channel), 0.12);
+  --tag-cyan-border-color: rgba(var(--palette-cyan-6-channel), 0.2);
+
   --tag-purple-color: var(--theme-purple-color);
-  --tag-purple-background: var(--theme-purple-background);
+  --tag-purple-background: rgba(var(--palette-purple-6-channel), 0.12);
+  --tag-purple-border-color: rgba(var(--palette-purple-6-channel), 0.2);
+
   --tag-geekblue-color: var(--theme-geekblue-color);
-  --tag-geekblue-background: var(--theme-geekblue-background);
+  --tag-geekblue-background: rgba(var(--palette-geekblue-6-channel), 0.12);
+  --tag-geekblue-border-color: rgba(var(--palette-geekblue-6-channel), 0.2);
+
   --tag-yellow-color: var(--palette-yellow-6);
-  --tag-yellow-background: var(--palette-yellow-2);
+  --tag-yellow-background: rgba(var(--palette-yellow-6-channel), 0.12);
+  --tag-yellow-border-color: rgba(var(--palette-yellow-6-channel), 0.2);
+
   --tag-blue-inverse-color: var(--tag-blue-color);
   --tag-green-inverse-color: var(--tag-green-color);
   --tag-geekblue-inverse-color: var(--tag-geekblue-color);
