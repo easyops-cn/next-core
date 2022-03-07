@@ -233,10 +233,10 @@ html[data-theme="dark-v2"],
   --antd-card-footer-bg: var(--palette-gray-3);
 
   /*** radio dashboard ***/
-  --antd-dashboard-radio-bg: var(--color-fill-bg-container-5);
-  --antd-dashboard-radio-item-bg: var(--antd-dashboard-radio-bg);
-  --antd-dashboard-radio-item-color: var(--color-normal-text);
-  --antd-dashboard-radio-item-disabled-color: var(--color-disabled-text);
+  --antd-dashboard-radio-bg: var(--color-fill-bg-base-5);
+  --antd-dashboard-radio-item-bg: transparent;
+  --antd-dashboard-radio-item-color: var(--color-auxiliary-text);
+  --antd-dashboard-radio-item-disabled-color: var(--color-secondary-text);
   --antd-dashboard-radio-item-checked-border-color: var(
     --antd-dashboard-radio-bg
   );
