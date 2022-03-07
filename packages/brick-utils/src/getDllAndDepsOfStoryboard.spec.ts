@@ -36,6 +36,10 @@ const brickPackages: BrickPackage[] = [
     editorsJsFilePath: "bricks/c/dist/editors/editors.js",
   },
   {
+    dll: ["d3"],
+    filePath: "bricks/d/dist/d.js",
+  },
+  {
     dll: [],
     filePath: "bricks/d/dist/d.js",
   },
@@ -138,6 +142,20 @@ describe("getDllAndDepsByResource", () => {
     });
   });
 
+  it("should ignore package with no editors", () => {
+    expect(
+      getDllAndDepsByResource(
+        {
+          editorBricks: ["d.editor-d--editor"],
+        },
+        brickPackages
+      )
+    ).toEqual({
+      dll: [],
+      deps: [],
+    });
+  });
+
   it("should show error message", () => {
     getDllAndDepsByResource(
       {
@@ -148,6 +166,7 @@ describe("getDllAndDepsByResource", () => {
       [
         {
           filePath: "invalid/file/path",
+          editorsJsFilePath: "another/invalid/file/path",
         },
       ]
     );

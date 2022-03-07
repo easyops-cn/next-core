@@ -150,9 +150,12 @@ export function getDllAndDepsByResource(
       if (editor.includes(".")) {
         const namespace = editor.split(".")[0];
         const find = brickMap.get(namespace);
+        // There maybe no `editorsJsFilePath`.
         if (find) {
-          deps.add(find.editorsJsFilePath);
-          dll.add("editor-bricks-helper");
+          if (find.editorsJsFilePath) {
+            deps.add(find.editorsJsFilePath);
+            dll.add("editor-bricks-helper");
+          }
         } else {
           // eslint-disable-next-line no-console
           console.error(
