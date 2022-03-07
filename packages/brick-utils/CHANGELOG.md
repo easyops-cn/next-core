@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.35.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.1...@next-core/brick-utils@2.35.2) (2022-03-07)
+
+
+### Bug Fixes
+
+* fix get deps when brick package has no editors ([833739d](https://github.com/easyops-cn/next-core/commit/833739de875706666a8555d1becb35043f88efc6))
+
+
+
+
+
 ## [2.35.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.0...@next-core/brick-utils@2.35.1) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/brick-utils
