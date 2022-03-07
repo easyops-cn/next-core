@@ -32,7 +32,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="4.31113823%"
             x2="82.851613%"
             y2="88.6978534%"
-            id="linearGradient-1"
+            id={createNewId("inearGradient-1")}
           >
             <stop stopColor="#545454" offset="0%"></stop>
             <stop stopColor="#3B3B3B" offset="100%"></stop>
@@ -42,14 +42,14 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="4.31113823%"
             x2="84.2061777%"
             y2="88.6978534%"
-            id="linearGradient-2"
+            id={createNewId("inearGradient-2")}
           >
             <stop stopColor="#515151" offset="0%"></stop>
             <stop stopColor="#383838" offset="100%"></stop>
           </linearGradient>
           <path
             d="M34.9133489,37.0960187 L43.4004684,37.0960187 C45.6096074,37.0960187 47.4004684,38.8868797 47.4004684,41.0960187 L47.4004684,49.5831382 C47.4004684,51.7922772 45.6096074,53.5831382 43.4004684,53.5831382 L34.9133489,53.5831382 C32.7042099,53.5831382 30.9133489,51.7922772 30.9133489,49.5831382 L30.9133489,41.0960187 C30.9133489,38.8868797 32.7042099,37.0960187 34.9133489,37.0960187 Z"
-            id="path-3"
+            id={createNewId("path-3")}
           ></path>
           <filter
             x="-36.4%"
@@ -57,7 +57,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             width="184.9%"
             height="184.9%"
             filterUnits="objectBoundingBox"
-            id="filter-4"
+            id={createNewId("path-4")}
           >
             <feOffset
               dx="1"
@@ -87,14 +87,14 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="24.7954546%"
             x2="8.8126561%"
             y2="86.4269134%"
-            id="linearGradient-5"
+            id={createNewId("linearGradient-5")}
           >
             <stop stopColor="#676767" offset="0%"></stop>
             <stop stopColor="#787878" offset="100%"></stop>
           </linearGradient>
           <path
             d="M60.9180328,19.5784543 C63.1271718,19.5784543 64.9180328,21.3693153 64.9180328,23.5784543 L64.9180328,31.2366083 L53.2598788,19.5784543 L60.9180328,19.5784543 Z"
-            id="path-6"
+            id={createNewId("path-6")}
           ></path>
           <filter
             x="-60.0%"
@@ -102,7 +102,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             width="220.1%"
             height="220.1%"
             filterUnits="objectBoundingBox"
-            id="filter-7"
+            id={createNewId("filter-7")}
           >
             <feOffset
               dx="0"
@@ -142,21 +142,21 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
               <path
                 d="M53.2598788,19.5784543 L64.9180328,31.2366083 L64.9180328,68.3007026 C64.9180328,69.8470999 63.6644301,71.1007026 62.1180328,71.1007026 L17.2262295,71.1007026 C15.6798322,71.1007026 14.4262295,69.8470999 14.4262295,68.3007026 L14.4262295,25.5784543 C14.4262295,22.2647458 17.112521,19.5784543 20.4262295,19.5784543 L53.2598788,19.5784543 Z"
                 id="形状结合"
-                fill="url(#linearGradient-1)"
+                fill={`url(#${createNewId("linearGradient-1")})`}
               ></path>
               <g id="矩形备份">
                 <use
                   fill="black"
                   fillOpacity="1"
-                  filter="url(#filter-4)"
-                  xlinkHref="#path-3"
+                  filter={`url(#${createNewId("filter-4")})`}
+                  xlinkHref={`#${createNewId("path-3")}`}
                 ></use>
                 <path
                   stroke="#858585"
                   strokeWidth="1"
                   d="M43.4004684,37.5960187 C44.3669667,37.5960187 45.2419667,37.9877696 45.8753421,38.621145 C46.5087175,39.2545204 46.9004684,40.1295204 46.9004684,41.0960187 L46.9004684,41.0960187 L46.9004684,49.5831382 C46.9004684,50.5496365 46.5087175,51.4246365 45.8753421,52.0580119 C45.2419667,52.6913873 44.3669667,53.0831382 43.4004684,53.0831382 L43.4004684,53.0831382 L34.9133489,53.0831382 C33.9468506,53.0831382 33.0718506,52.6913873 32.4384752,52.0580119 C31.8050998,51.4246365 31.4133489,50.5496365 31.4133489,49.5831382 L31.4133489,49.5831382 L31.4133489,41.0960187 C31.4133489,40.1295204 31.8050998,39.2545204 32.4384752,38.621145 C33.0718506,37.9877696 33.9468506,37.5960187 34.9133489,37.5960187 L34.9133489,37.5960187 Z"
                   strokeLinejoin="round"
-                  fill="url(#linearGradient-2)"
+                  fill={`url(#${createNewId("linearGradient-2")})`}
                   fillRule="evenodd"
                 ></path>
               </g>
@@ -167,13 +167,13 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
                 <use
                   fill="black"
                   fillOpacity="1"
-                  filter="url(#filter-7)"
-                  xlinkHref="#path-6"
+                  filter={`url(#${createNewId("filter-7")})`}
+                  xlinkHref={`#${createNewId("path-6")}`}
                 ></use>
                 <use
-                  fill="url(#linearGradient-5)"
+                  fill={`url(#${createNewId("linearGradient-5")})`}
                   fillRule="evenodd"
-                  xlinkHref="#path-6"
+                  xlinkHref={`#${createNewId("path-6")}`}
                 ></use>
               </g>
               <path
@@ -222,7 +222,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="5.98667004%"
             x2="83.0501817%"
             y2="88.9150948%"
-            id="linearGradient-1"
+            id={createNewId("linearGradient-1")}
           >
             <stop stopColor="#595959" offset="0%"></stop>
             <stop stopColor="#484848" offset="100%"></stop>
@@ -232,14 +232,14 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="4.31113823%"
             x2="84.4129339%"
             y2="88.9150948%"
-            id="linearGradient-2"
+            id={createNewId("linearGradient-2")}
           >
             <stop stopColor="#646464" offset="0%"></stop>
             <stop stopColor="#4F4F4F" offset="100%"></stop>
           </linearGradient>
           <path
             d="M23.6721311,23.6065574 L26.1639344,23.6065574 C28.3730734,23.6065574 30.1639344,25.3974184 30.1639344,27.6065574 L30.1639344,30.0983607 C30.1639344,32.3074997 28.3730734,34.0983607 26.1639344,34.0983607 L23.6721311,34.0983607 C21.4629921,34.0983607 19.6721311,32.3074997 19.6721311,30.0983607 L19.6721311,27.6065574 C19.6721311,25.3974184 21.4629921,23.6065574 23.6721311,23.6065574 Z"
-            id="path-3"
+            id={createNewId("path-3")}
           ></path>
           <filter
             x="-57.2%"
@@ -247,7 +247,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             width="233.4%"
             height="233.4%"
             filterUnits="objectBoundingBox"
-            id="filter-4"
+            id={createNewId("filter-4")}
           >
             <feOffset
               dx="1"
@@ -277,14 +277,14 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="24.7954546%"
             x2="8.8126561%"
             y2="86.4269134%"
-            id="linearGradient-5"
+            id={createNewId("linearGradient-5")}
           >
             <stop stopColor="#848484" offset="0%"></stop>
             <stop stopColor="#686868" offset="100%"></stop>
           </linearGradient>
           <path
             d="M37.3114754,12.4590164 C39.5206144,12.4590164 41.3114754,14.2498774 41.3114754,16.4590164 L41.3114754,19.8778416 L33.8926502,12.4590164 L37.3114754,12.4590164 Z"
-            id="path-6"
+            id={createNewId("path-6")}
           ></path>
           <filter
             x="-94.4%"
@@ -292,7 +292,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             width="288.7%"
             height="288.7%"
             filterUnits="objectBoundingBox"
-            id="filter-7"
+            id={createNewId("filter-7")}
           >
             <feOffset
               dx="0"
@@ -327,27 +327,27 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
               >
                 <path
                   d="M39.6824378,33.9672131 L10.8093655,33.9672131 C10.0855554,33.9672131 9.38986655,34.247506 8.86822799,34.7492971 L3.67213115,39.7476907 L3.67213115,39.7476907 L3.67213115,46.7278689 C3.67213115,49.8206635 6.17933655,52.3278689 9.27213115,52.3278689 L41.2196721,52.3278689 C44.3124667,52.3278689 46.8196721,49.8206635 46.8196721,46.7278689 L46.8196721,39.7476907 L46.8196721,39.7476907 L41.6235753,34.7492971 C41.1019367,34.247506 40.4062478,33.9672131 39.6824378,33.9672131 Z"
-                  id="Fill-3"
+                  id={createNewId("Fill-3")}
                   fill="#3E3E3E"
                 ></path>
                 <path
                   d="M33.8926502,12.4590164 L41.3114754,19.8778416 L41.3114754,42.4459016 C41.3114754,43.9922989 40.0578727,45.2459016 38.5114754,45.2459016 L11.9803279,45.2459016 C10.4339306,45.2459016 9.18032787,43.9922989 9.18032787,42.4459016 L9.18032787,18.4590164 C9.18032787,15.1453079 11.8666194,12.4590164 15.1803279,12.4590164 L33.8926502,12.4590164 Z"
                   id="形状结合"
-                  fill="url(#linearGradient-1)"
+                  fill={`url(#${createNewId("linearGradient-1")})`}
                 ></path>
                 <g id="矩形备份">
                   <use
                     fill="black"
                     fillOpacity="1"
-                    filter="url(#filter-4)"
-                    xlinkHref="#path-3"
+                    filter={`url(#${createNewId("filter-4")})`}
+                    xlinkHref={`#${createNewId("path-3")}`}
                   ></use>
                   <path
                     stroke="#919191"
                     strokeWidth="1"
                     d="M26.1639344,24.1065574 C27.1304327,24.1065574 28.0054327,24.4983082 28.6388082,25.1316836 C29.2721836,25.7650591 29.6639344,26.6400591 29.6639344,27.6065574 L29.6639344,27.6065574 L29.6639344,30.0983607 C29.6639344,31.064859 29.2721836,31.939859 28.6388082,32.5732344 C28.0054327,33.2066098 27.1304327,33.5983607 26.1639344,33.5983607 L26.1639344,33.5983607 L23.6721311,33.5983607 C22.7056328,33.5983607 21.8306328,33.2066098 21.1972574,32.5732344 C20.563882,31.939859 20.1721311,31.064859 20.1721311,30.0983607 L20.1721311,30.0983607 L20.1721311,27.6065574 C20.1721311,26.6400591 20.563882,25.7650591 21.1972574,25.1316836 C21.8306328,24.4983082 22.7056328,24.1065574 23.6721311,24.1065574 L23.6721311,24.1065574 Z"
                     strokeLinejoin="round"
-                    fill="url(#linearGradient-2)"
+                    fill={`url(#${createNewId("linearGradient-2")})`}
                     fillRule="evenodd"
                   ></path>
                 </g>
@@ -358,13 +358,13 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
                   <use
                     fill="black"
                     fillOpacity="1"
-                    filter="url(#filter-7)"
-                    xlinkHref="#path-6"
+                    filter={`url(#${createNewId("filter-7")})`}
+                    xlinkHref={`#${createNewId("path-6")}`}
                   ></use>
                   <use
-                    fill="url(#linearGradient-5)"
+                    fill={`url(#${createNewId("linearGradient-5")})`}
                     fillRule="evenodd"
-                    xlinkHref="#path-6"
+                    xlinkHref={`#${createNewId("path-6")}`}
                   ></use>
                 </g>
                 <path
