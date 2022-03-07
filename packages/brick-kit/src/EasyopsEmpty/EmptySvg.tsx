@@ -32,7 +32,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="4.31113823%"
             x2="82.851613%"
             y2="88.6978534%"
-            id={createNewId("inearGradient-1")}
+            id={createNewId("linearGradient-1")}
           >
             <stop stopColor="#545454" offset="0%"></stop>
             <stop stopColor="#3B3B3B" offset="100%"></stop>
@@ -42,7 +42,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             y1="4.31113823%"
             x2="84.2061777%"
             y2="88.6978534%"
-            id={createNewId("inearGradient-2")}
+            id={createNewId("linearGradient-2")}
           >
             <stop stopColor="#515151" offset="0%"></stop>
             <stop stopColor="#383838" offset="100%"></stop>
@@ -136,7 +136,7 @@ export function EmptySvg(props: EmptySvgProps): React.ReactElement {
             >
               <path
                 d="M63.0027562,53.3770492 L16.3415061,53.3770492 C15.617696,53.3770492 14.9220071,53.6573421 14.4003686,54.1591332 L5.7704918,62.4606569 L5.7704918,62.4606569 L5.7704918,76.6295082 C5.7704918,79.7223028 8.2776972,82.2295082 11.3704918,82.2295082 L67.9737705,82.2295082 C71.0665651,82.2295082 73.5737705,79.7223028 73.5737705,76.6295082 L73.5737705,62.4606569 L73.5737705,62.4606569 L64.9438937,54.1591332 C64.4222552,53.6573421 63.7265663,53.3770492 63.0027562,53.3770492 Z"
-                id="Fill-3"
+                id={createNewId("Fill-3")}
                 fill="#313131"
               ></path>
               <path

@@ -75,7 +75,7 @@ html[data-theme="dark-v2"],
   --color-success-outline: rgba(var(--palette-green-6-channel), 0.3);
 
   --color-info-hover: var(--palette-blue-5);
-  --color-info-active: var(--palette-7);
+  --color-info-active: var(--palette-blue-7);
   --color-info-bg: rgba(var(--palette-blue-6-channel), 0.2);
   --color-info-outline: rgba(var(--palette-blue-6-channel), 0.35);
 
