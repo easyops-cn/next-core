@@ -17,6 +17,7 @@ export interface SlotContainerProps {
   dropZoneBodyStyle?: React.CSSProperties;
   slotContentLayout?: EditorSlotContentLayout;
   showOutlineIfEmpty?: boolean;
+  emptyClassName?: string;
 }
 
 export function SlotContainer({
@@ -27,6 +28,7 @@ export function SlotContainer({
   dropZoneBodyStyle,
   slotContentLayout,
   showOutlineIfEmpty,
+  emptyClassName,
 }: SlotContainerProps): React.ReactElement {
   const node = useBuilderNode({ nodeUid });
   const droppingStatus = useDroppingStatus();
@@ -59,6 +61,7 @@ export function SlotContainer({
         dropZoneBodyStyle={dropZoneBodyStyle}
         slotContentLayout={slotContentLayout}
         showOutlineIfEmpty={showOutlineIfEmpty}
+        emptyClassName={emptyClassName}
       />
     </div>
   );

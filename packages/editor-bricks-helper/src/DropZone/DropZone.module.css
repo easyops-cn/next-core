@@ -83,6 +83,7 @@
     auto-fill,
     minmax(var(--editor-brick-grid-width), 1fr)
   );
+  height: 100%;
 }
 
 .mode-dialog > .dropZoneBody {

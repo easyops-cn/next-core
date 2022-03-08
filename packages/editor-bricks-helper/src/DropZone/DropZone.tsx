@@ -46,6 +46,7 @@ export interface DropZoneProps {
   slotContentLayout?: EditorSlotContentLayout;
   showOutlineIfEmpty?: boolean;
   hiddenWrapper?: boolean;
+  emptyClassName?: string;
 }
 
 export interface DroppingContext {
@@ -71,6 +72,7 @@ export function DropZone({
   slotContentLayout,
   showOutlineIfEmpty,
   hiddenWrapper = true,
+  emptyClassName,
 }: DropZoneProps): React.ReactElement {
   const dropZoneBody = React.useRef<HTMLDivElement>();
   const [dropPositionCursor, setDropPositionCursor] =
@@ -343,7 +345,11 @@ export function DropZone({
     >
       <div
         ref={dropZoneBody}
-        className={styles.dropZoneBody}
+        className={classNames(
+          styles.dropZoneBody,
+          selfChildNodesInCurrentCanvas.length === 0 && emptyClassName
+        )}
+        data-slot-id={mountPoint}
         style={dropZoneBodyStyle}
       >
         {selfChildNodesInCurrentCanvas.map((child) => (
