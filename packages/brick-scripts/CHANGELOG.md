@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](/compare/@next-core/brick-scripts@2.6.10...@next-core/brick-scripts@2.7.0) (2022-03-08)
+
+
+### Features
+
+* support yarn yo input custom editor cf25117
+
+
+
+
+
 ## [2.6.10](/compare/@next-core/brick-scripts@2.6.9...@next-core/brick-scripts@2.6.10) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/brick-scripts
