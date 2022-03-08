@@ -316,6 +316,7 @@
   --antd-chart-axis-line-color: var(--color-border-divider-line);
   --antd-chart-axis-grid-line-color: var(--color-text-divider-line);
   --antd-chart-axis-tick-line-color: var(--color-border-divider-line);
+  --antd-chart-active-region-bg: rgb(204, 214, 236, 0.3);
 
   /*** general-button ***/
   --antd-btn-special-icon-type-color: var(--palette-gray-7);
@@ -367,6 +368,7 @@
   --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
   --antd-anchor-radio-type-title-active-color: #262626;
   --antd-anchor-radio-type-title-active-bg: var(--antd-component-background);
+  --antd-anchor-title-font-size: 14px;
 
   /*** input ***/
   --antd-input-bg: var(--antd-component-background);
@@ -644,6 +646,8 @@
 
   /*** collapse ***/
   --antd-collapse-content-bg: var(--antd-component-background);
+  --antd-collapse-title-font-size: 14px;
+  --antd-collapse-description-font-size: 14px;
 
   /*** upload ***/
   --antd-upload-drag-bg: #f8f9fc;
