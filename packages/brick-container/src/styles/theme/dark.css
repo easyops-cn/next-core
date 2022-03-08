@@ -284,6 +284,7 @@ html[data-theme="dark-v2"],
   --antd-chart-tooltip-boxShadow: var(--chart-shadow);
   --antd-chart-tooltip-color: var(--color-normal-text);
   --antd-chart-label-color: var(--color-auxiliary-text);
+  --antd-chart-active-region-bg: var(--palette-rgba-gray-3);
 
   /*** general-button ***/
   --antd-btn-special-icon-type-color: var(--color-normal-text);
@@ -309,7 +310,7 @@ html[data-theme="dark-v2"],
 
   --antd-btn-default-color: var(--color-auxiliary-text);
   --antd-btn-default-border: var(--color-border-divider-line);
-  --antd-btn-default-bg: var(--palette-rgba-gray-1);
+  --antd-btn-default-bg: var(--color-fill-bg-container-1);
   --antd-btn-default-active-border-color: var(--color-brand);
   --antd-btn-default-active-color: var(--color-info);
   --antd-btn-default-hover-color: var(--color-brand-hover);
@@ -337,7 +338,7 @@ html[data-theme="dark-v2"],
   --antd-anchor-radio-type-title-active-bg: var(--color-fill-bg-base-3);
 
   /*** input ***/
-  --antd-input-bg: var(--palette-rgba-gray-1);
+  --antd-input-bg: var(--antd-component-background);
   --antd-input-color: var(--color-normal-text);
   --antd-input-focus-border-color: var(--input-outline-focus);
   --antd-input-hover-border-color: var(--input-outline-hover);
