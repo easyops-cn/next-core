@@ -345,7 +345,7 @@ export function DropZone({
         ref={dropZoneBody}
         className={classNames(
           styles.dropZoneBody,
-          selfChildNodesInCurrentCanvas.length === 0 && "empty"
+          selfChildNodesInCurrentCanvas.length === 0 && "__empty"
         )}
         data-slot-id={mountPoint}
         style={dropZoneBodyStyle}

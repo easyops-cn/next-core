@@ -68,7 +68,6 @@
     auto-fill,
     minmax(var(--editor-brick-inline-width), 1fr)
   );
-  height: 100%;
 }
 
 .slotContentLayoutInline > .dropZoneBody {
