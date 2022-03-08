@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.35.4...@next-core/editor-bricks-helper@0.36.0) (2022-03-08)
+
+
+### Features
+
+* support dropZone add Empty ClassName ([5fbdd83](https://github.com/easyops-cn/next-core/commit/5fbdd83792d4ba54ece99953afcd6713c497dbb1))
+* update dropZone add emptyClassName ([f539585](https://github.com/easyops-cn/next-core/commit/f539585b936abf3de416d2d47867a4f7603e77c9))
+* update dropZone style ([53e2015](https://github.com/easyops-cn/next-core/commit/53e2015384c6f698218714b9267ef9430ad92ddd))
+
+
+
+
+
 ## [0.35.4](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.35.3...@next-core/editor-bricks-helper@0.35.4) (2022-03-07)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
