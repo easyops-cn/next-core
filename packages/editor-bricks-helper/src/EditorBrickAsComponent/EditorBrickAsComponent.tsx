@@ -145,7 +145,8 @@ export function EditorBrickAsComponent({
             [styles.baseView]:
               node.brick === "basic-bricks.micro-view" ||
               node.brick === "basic-bricks.micro-app" ||
-              node.brick === "basic-bricks.easy-view",
+              node.brick === "basic-bricks.easy-view" ||
+              node.brick === "frame-bricks.side-bar",
           })}
         >
           <BrickAsComponent useBrick={brickConf} />

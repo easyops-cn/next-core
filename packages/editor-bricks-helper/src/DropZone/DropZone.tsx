@@ -343,7 +343,11 @@ export function DropZone({
     >
       <div
         ref={dropZoneBody}
-        className={styles.dropZoneBody}
+        className={classNames(
+          styles.dropZoneBody,
+          selfChildNodesInCurrentCanvas.length === 0 && "empty"
+        )}
+        data-slot-id={mountPoint}
         style={dropZoneBodyStyle}
       >
         {selfChildNodesInCurrentCanvas.map((child) => (
