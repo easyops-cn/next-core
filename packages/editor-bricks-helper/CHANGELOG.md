@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.36.1...@next-core/editor-bricks-helper@0.37.0) (2022-03-09)
+
+
+### Features
+
+* support get widget editor brick ([ca88ed4](https://github.com/easyops-cn/next-core/commit/ca88ed4d440472229ff0b760625eba3b1dbd923e))
+* update unit test ([f9760ab](https://github.com/easyops-cn/next-core/commit/f9760abcff5c2e0375ab968145630d20035232bc))
+
+
+
+
+
 ## [0.36.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.36.0...@next-core/editor-bricks-helper@0.36.1) (2022-03-09)
 
 
