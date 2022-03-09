@@ -27,6 +27,11 @@ customElements.define(
   class Tmp extends HTMLElement {}
 );
 
+customElements.define(
+  "editors-of-base-layout.tpl-page-module--editor",
+  class Tmp extends HTMLElement {}
+);
+
 describe("getEditorBrick", () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -105,5 +110,15 @@ describe("getEditorBrick", () => {
         "common-container--editor"
       )
     ).toBe("common-container--editor");
+  });
+
+  it("should get widget editor brick", async () => {
+    expect(
+      await getEditorBrick({
+        type: "brick",
+        brick: "base-layout.tpl-page-module",
+        id: "B-001",
+      })
+    ).toBe("editors-of-base-layout.tpl-page-module--editor");
   });
 });
