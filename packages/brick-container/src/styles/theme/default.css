@@ -368,7 +368,11 @@
   --antd-anchor-radio-type-bg: var(--color-fill-bg-base-1);
   --antd-anchor-radio-type-title-active-color: #262626;
   --antd-anchor-radio-type-title-active-bg: var(--antd-component-background);
-  --antd-anchor-title-font-size: 14px;
+  --antd-anchor-title-font-size: var(--normal-font-size);
+  --antd-anchor-column-bar-bg: var(--antd-border-color-split);
+  --antd-anchor-link-ball-bg: var(--antd-component-background);
+  --antd-anchor-link-ball-color: var(--color-brand);
+  --antd-anchor-title-font-weight: var(--font-weight-400);
 
   /*** input ***/
   --antd-input-bg: var(--antd-component-background);
@@ -646,7 +650,7 @@
 
   /*** collapse ***/
   --antd-collapse-content-bg: var(--antd-component-background);
-  --antd-collapse-title-font-size: 14px;
+  --antd-collapse-title-font-size: 16px;
   --antd-collapse-description-font-size: 14px;
 
   /*** upload ***/
