@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.36.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.36.0...@next-core/editor-bricks-helper@0.36.1) (2022-03-09)
+
+
+### Bug Fixes
+
+* refine builder node name ([d2ed295](https://github.com/easyops-cn/next-core/commit/d2ed2958adb77b1a41c9ef927c7c89b596da7fae))
+
+
+
+
+
 # [0.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.35.4...@next-core/editor-bricks-helper@0.36.0) (2022-03-08)
 
 
