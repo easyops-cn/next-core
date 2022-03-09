@@ -38,19 +38,19 @@ export function getBuilderNode(
       let tempParsedId: string;
       let tempParsedTestId: string;
       if (
-        ((tempParsedId = parsed?.id as string),
-        typeof tempParsedId === "string") &&
-        !computationRegExp.test(tempParsedId)
-      ) {
-        parsedId = tempParsedId;
-        matchedSelectors.push(`#${parsedId}`);
-      } else if (
         ((tempParsedTestId = (parsed?.dataset as Record<string, string>)
           ?.testid),
         typeof tempParsedTestId === "string") &&
         !computationRegExp.test(tempParsedTestId)
       ) {
         parsedTestId = tempParsedTestId;
+      } else if (
+        ((tempParsedId = parsed?.id as string),
+        typeof tempParsedId === "string") &&
+        !computationRegExp.test(tempParsedId)
+      ) {
+        parsedId = tempParsedId;
+        matchedSelectors.push(`#${parsedId}`);
       }
     }
   }
@@ -63,7 +63,10 @@ export function getBuilderNode(
           "alias",
           nodeData.alias ||
             (isBrickNode(nodeData)
-              ? parsedId || parsedTestId || nodeData.brick.split(".").pop()
+              ? nodeData.ref ||
+                parsedTestId ||
+                parsedId ||
+                nodeData.brick.split(".").pop()
               : undefined),
         ],
         ["$$uid", nodeUid],
