@@ -204,6 +204,7 @@
   --antd-link-color: var(--antd-primary-color);
   --antd-link-hover-color: #2893f7;
   --antd-link-active-color: #0058c4;
+  --antd-disabled-color-fade-10: rgba(191, 191, 191, 0.9);
 
   /*** menu ***/
   --antd-menu-bg: #4e93ef;
@@ -436,6 +437,11 @@
   /*** popover ***/
   --antd-popover-bg: var(--color-fill-bg-container-4);
   --antd-popover-color: var(--color-auxiliary-text);
+
+  /*** message ***/
+  --antd-message-bg: var(--antd-component-background);
+  --antd-message-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
 
   /*** transfer ***/
   --antd-transfer-item-hover-bg: var(--palette-gray-3);
@@ -700,7 +706,7 @@
   --card-item-border-radius: var(--card-inner-border-radius);
   --card-item-bg: var(--antd-component-background);
   --card-item-hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
-  --card-item-hover-bg: var(--palette-rgba-gray-2);
+  --card-item-hover-bg: var(--card-item-bg);
   --card-item-title-color: var(--text-color-title);
   --card-item-sub-title-color: var(--text-color-secondary);
   --card-item-desc-color: var(--text-color-secondary);

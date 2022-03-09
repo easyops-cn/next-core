@@ -179,6 +179,8 @@ html[data-theme="dark-v2"],
   --antd-link-hover-color: var(--color-brand-hover);
   --antd-link-active-color: var(--color-brand-active);
 
+  --antd-disabled-color-fade-10: rgba(255, 255, 255, 0.27);
+
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
   --antd-menu-color: var(--color-header-text);
@@ -213,7 +215,7 @@ html[data-theme="dark-v2"],
   --antd-checkbox-color: var(--color-brand);
   --antd-checkbox-bg-hover: var(--checkbox-bg-hover);
   --antd-checkbox-checked: var(--checkbox-bg-active);
-  --antd-checkbox-check-bg: transparent;
+  --antd-checkbox-check-bg: var(--antd-component-background);
   --antd-checkbox-custom-type-icon-color: var(--color-strong-text);
   --antd-checkbox-custom-type-color: var(--color-normal-text);
   --antd-checkbox-custom-type-item-border-color: var(
@@ -405,6 +407,10 @@ html[data-theme="dark-v2"],
   --antd-popover-bg: var(--color-fill-bg-container-4);
   --antd-popover-color: var(--color-auxiliary-text);
 
+  /*** message ***/
+  --antd-message-bg: var(--color-fill-bg-container-4);
+  --antd-message-shadow: var(--feedback-container-shadow);
+
   /*** transfer ***/
   --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);
   --antd-transfer-item-selected-hover-bg: var(--antd-checkbox-bg-hover);
@@ -538,41 +544,49 @@ html[data-theme="dark-v2"],
   --antd-slide-dashboard-hander-color-hover: var(--palette-blue-5);
 
   /*** 彩色标签 tag ***/
-  --tag-gray-color: var(--color-secondary-text);
+  --tag-gray-color: var(--palette-gray-8);
   --tag-gray-background: var(--palette-rgba-gray-2);
   --tag-gray-border-color: var(--palette-rgba-gray-3);
 
-  --tag-green-color: var(--theme-green-color);
+  --tag-green-color: var(--palette-green-7);
   --tag-green-background: rgba(var(--palette-green-6-channel), 0.12);
   --tag-green-border-color: rgba(var(--palette-green-6-channel), 0.2);
 
-  --tag-red-color: var(--theme-red-color);
+  --tag-red-color: var(--palette-red-7);
   --tag-red-background: rgba(var(--palette-red-6-channel), 0.12);
   --tag-red-border-color: rgba(var(--palette-red-6-channel), 0.2);
 
-  --tag-blue-color: var(--theme-blue-color);
+  --tag-blue-color: var(--palette-blue-7);
   --tag-blue-background: rgba(var(--palette-blue-6-channel), 0.12);
-  --tag-blue-border-color: rgba(var(--palette-blue-6-channel), 0.2);
+  --tag-blue-border-color: rgba(var(--palette-blue-6-channel), 0.3);
 
-  --tag-orange-color: var(--theme-orange-color);
+  --tag-orange-color: var(--palette-orange-7);
   --tag-orange-background: rgba(var(--palette-orange-6-channel), 0.12);
   --tag-orange-border-color: rgba(var(--palette-orange-6-channel), 0.2);
 
-  --tag-cyan-color: var(--theme-cyan-color);
+  --tag-cyan-color: var(--palette-cyan-7);
   --tag-cyan-background: rgba(var(--palette-cyan-6-channel), 0.12);
   --tag-cyan-border-color: rgba(var(--palette-cyan-6-channel), 0.2);
 
-  --tag-purple-color: var(--theme-purple-color);
+  --tag-purple-color: var(--palette-purple-7);
   --tag-purple-background: rgba(var(--palette-purple-6-channel), 0.12);
-  --tag-purple-border-color: rgba(var(--palette-purple-6-channel), 0.2);
+  --tag-purple-border-color: rgba(var(--palette-purple-6-channel), 0.3);
 
-  --tag-geekblue-color: var(--theme-geekblue-color);
+  --tag-geekblue-color: var(--palette-indigo-7);
   --tag-geekblue-background: rgba(var(--palette-geekblue-6-channel), 0.12);
   --tag-geekblue-border-color: rgba(var(--palette-geekblue-6-channel), 0.2);
 
-  --tag-yellow-color: var(--palette-yellow-6);
+  --tag-yellow-color: var(--palette-yellow-7);
   --tag-yellow-background: rgba(var(--palette-yellow-6-channel), 0.12);
   --tag-yellow-border-color: rgba(var(--palette-yellow-6-channel), 0.2);
+
+  --tag-pink-color: var(--palette-pink-7);
+  --tag-pink-background: rgba(var(--palette-pink-6-channel), 0.12);
+  --tag-pink-border-color: rgba(var(--palette-pink-6-channel), 0.3);
+
+  --tag-teal-color: var(--palette-teal-7);
+  --tag-teal-background: rgba(var(--palette-teal-6-channel), 0.12);
+  --tag-teal-border-color: rgba(var(--palette-teal-6-channel), 0.2);
 
   --tag-blue-inverse-color: var(--tag-blue-color);
   --tag-green-inverse-color: var(--tag-green-color);
@@ -583,6 +597,8 @@ html[data-theme="dark-v2"],
   --tag-red-inverse-color: var(--tag-red-color);
   --tag-yellow-inverse-color: var(--tag-yellow-color);
   --tag-gray-inverse-color: var(--color-secondary-text);
+  --tag-pink-inverse-color: var(--palette-pink-6);
+  --tag-teal-inverse-color: var(--palette-teal-6);
   --tag-inverse-text-color: var(--color-strong-text);
 
   /*** tag ***/
@@ -708,7 +724,7 @@ html[data-theme="dark-v2"],
   --card-item-border-radius: var(--card-inner-border-radius);
   --card-item-bg: var(--color-fill-bg-container-1);
   --card-item-hover-shadow: var(--hover-shadow);
-  --card-item-hover-bg: var(--card-item-bg);
+  --card-item-hover-bg: var(--palette-rgba-gray-2);
   --card-item-title-color: var(--text-color-title);
   --card-item-sub-title-color: var(--text-color-secondary);
   --card-item-desc-color: var(--text-color-secondary);
