@@ -29,7 +29,9 @@ export async function getEditorBrick(
     tryEditorBricks.push(ANY_ROUTE_EDITOR);
   } else if (isBrickNode(node)) {
     if (node.brick.includes("-")) {
+      const isWidget = node.brick.split(".")[1]?.startsWith("tpl-");
       tryEditorBricks.push(`${node.brick}--editor`);
+      isWidget && tryEditorBricks.push(`editors-of-${node.brick}--editor`);
     }
 
     if (editor) {
