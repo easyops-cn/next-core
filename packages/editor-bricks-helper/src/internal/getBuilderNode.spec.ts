@@ -269,7 +269,7 @@ describe("getBuilderNode", () => {
           children: [],
           graphInfo: {},
           mountPoint: "brick",
-          properties: '{"dataset":{"testid":"myBrick"}}',
+          properties: '{"id":"myId","dataset":{"testid":"myBrick"}}',
         },
         1
       )
@@ -279,8 +279,9 @@ describe("getBuilderNode", () => {
       id: "B-001",
       alias: "myBrick",
       $$uid: 1,
-      properties: '{"dataset":{"testid":"myBrick"}}',
+      properties: '{"id":"myId","dataset":{"testid":"myBrick"}}',
       $$parsedProperties: {
+        id: "myId",
         dataset: {
           testid: "myBrick",
         },
@@ -291,6 +292,7 @@ describe("getBuilderNode", () => {
       $$normalized: {
         brick: "my.any-brick",
         properties: {
+          id: "myId",
           dataset: {
             testid: "myBrick",
           },

@@ -197,7 +197,7 @@ export class BuilderDataManager {
     );
   }
 
-  runAddNodeAction = (detail: EventDetailOfNodeAdd) => {
+  runAddNodeAction = (detail: EventDetailOfNodeAdd): void => {
     const { rootId, nodes, edges, wrapperNode } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
