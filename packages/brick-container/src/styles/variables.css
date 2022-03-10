@@ -102,6 +102,14 @@
   --tag-yellow-background: #feffe6;
   --tag-yellow-border-color: transparent;
 
+  --tag-pink-color: var(--palette-pink-6);
+  --tag-pink-background: var(--palette-pink-1);
+  --tag-pink-border-color: transparent;
+
+  --tag-teal-color: var(--palette-teal-6);
+  --tag-teal-background: var(--palette-teal-1);
+  --tag-teal-border-color: transparent;
+
   --tag-blue-inverse-color: var(--tag-blue-color);
   --tag-green-inverse-color: var(--tag-green-color);
   --tag-geekblue-inverse-color: var(--tag-geekblue-color);
@@ -110,6 +118,8 @@
   --tag-cyan-inverse-color: var(--tag-cyan-color);
   --tag-red-inverse-color: var(--tag-red-color);
   --tag-yellow-inverse-color: var(--tag-yellow-color);
+  --tag-pink-inverse-color: var(--palette-pink-6);
+  --tag-teal-inverse-color: var(--palette-teal-6);
   --tag-gray-inverse-color: #bfbfbf;
   --tag-inverse-text-color: #ffffffd9;
 
@@ -178,7 +188,6 @@
   --antd-box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
     0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
   --antd-column-active-bg: rgba(235, 243, 253, 0.8);
-  --antd-disabled-color-fade-10: rgba(191, 191, 191, 0.9);
   --antd-modal-mask-bg-fade-10: rgba(0, 0, 0, 0.1);
 
   --antd-text-color-secondary: rgba(0, 0, 0, 0.45);
@@ -241,7 +250,6 @@ html[data-theme="dark"],
     0px 6px 16px 0px rgba(0, 0, 0, 0.32), 0px 3px 6px -4px rgba(0, 0, 0, 0.48);
   --antd-column-active-bg: rgba(53, 102, 147, 0.8);
   --antd-component-background: #373e58;
-  --antd-disabled-color-fade-10: rgba(255, 255, 255, 0.27);
   --antd-heading-color: var(--text-color-default);
   --antd-item-active-bg: #356693;
   --antd-item-hover-bg: var(--antd-background-color-base);
