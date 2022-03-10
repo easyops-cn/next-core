@@ -168,6 +168,8 @@
   --chart-auxiliary-text: #9aa1a9;
   --chart-outline-select: var(--palette-gray-10);
 
+  --custom-form-item-wrapper-bg: rgb(245, 245, 245);
+
   /* 8.0 框架 */
   --v8-top-navigation-bg: var(--palette-gray-1);
   --v8-top-menu-item-hover: rgba(0, 0, 0, 0.03);
@@ -655,6 +657,9 @@
   --cmdb-instance-timeline-left-day-color: var(--color-strong-text);
 
   /*** collapse ***/
+  --antd-collapse-white-header-bg: var(--color-fill-bg-container-1);
+  --antd-collapse-gray-header-bg: var(--color-fill-bg-base-1);
+  --antd-collapse-radius-gray-header-bg: var(--color-fill-bg-base-4);
   --antd-collapse-content-bg: var(--antd-component-background);
   --antd-collapse-title-font-size: 16px;
   --antd-collapse-description-font-size: 14px;

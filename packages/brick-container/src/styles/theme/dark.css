@@ -137,6 +137,8 @@ html[data-theme="dark-v2"],
   --chart-auxiliary-text: var(--palette-rgba-gray-9);
   --chart-outline-select: var(--palette-rgba-gray-10);
 
+  --custom-form-item-wrapper-bg: var(--color-fill-bg-base-4);
+
   /* 8.0 框架 */
   --v8-top-navigation-bg: var(--palette-rgba-gray-3);
   --v8-top-menu-item-hover: var(--palette-rgba-gray-3);
