@@ -387,9 +387,9 @@
   --antd-input-disabled-bg: var(--palette-gray-3);
 
   /*** select ***/
-  --antd-select-item-selected-bg: #f5f5f5;
+  --antd-select-item-selected-bg: var(--menu-dropdown-bg);
   --antd-select-dropdown-bg: var(--antd-component-background);
-  --antd-select-item-active-bg: var(--antd-item-active-bg);
+  --antd-select-item-active-bg: var(--color-fill-bg-base-1);
 
   /*** table  ***/
   --antd-table-bg: var(--antd-component-background);
@@ -660,9 +660,11 @@
   --antd-collapse-white-header-bg: var(--color-fill-bg-container-1);
   --antd-collapse-gray-header-bg: var(--color-fill-bg-base-1);
   --antd-collapse-radius-gray-header-bg: var(--color-fill-bg-base-4);
+  --antd-collapse-radius-gray-header-arrow-color: var(--color-auxiliary-text);
   --antd-collapse-content-bg: var(--antd-component-background);
   --antd-collapse-title-font-size: 16px;
   --antd-collapse-description-font-size: 14px;
+  --antd-collapse-title-font-weight: var(--font-weight-500);
 
   /*** upload ***/
   --antd-upload-drag-bg: #f8f9fc;

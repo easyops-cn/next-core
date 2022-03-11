@@ -107,6 +107,7 @@ html[data-theme="dark-v2"],
 
   --slide-up-shadow: 0px -6px 18px 0px rgba(0, 0, 0, 0.14);
   --menu-shadow: 2px 0px 0px 0px rgba(0, 0, 0, 0.24);
+  --menu-special-shadow: 1px 0px 0px 0px var(--palette-gray-4);
   --input-shadow: 0px 0px 0px 2px rgba(20, 40, 74, 1);
   --input-success-shadow: 0px 0px 0px 2px rgba(40, 72, 24, 1);
   --input-error-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 1);
@@ -170,8 +171,8 @@ html[data-theme="dark-v2"],
   --text-color-disabled: var(--color-disabled-text);
   --antd-background-color-base: var(--color-fill-bg-base-1);
 
-  --antd-item-active-bg: var(--palette-rgba-gray-3);
-  --antd-item-hover-bg: var(--palette-rgba-gray-3);
+  --antd-item-active-bg: var(--color-fill-bg-base-1);
+  --antd-item-hover-bg: var(--color-fill-bg-base-1);
   --antd-icon-color-hover: var(--color-normal-text);
 
   --antd-error-color: var(--color-error);
@@ -186,11 +187,11 @@ html[data-theme="dark-v2"],
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
   --antd-menu-color: var(--color-header-text);
-  --antd-menu-shadow: var(--menu-shadow);
+  --antd-menu-shadow: var(--menu-special-shadow);
   --antd-menu-popup-bg: var(--color-fill-bg-container-4);
   --antd-menu-title-bg: var(--color-fill-bg-base-2);
   --antd-menu-title-color: var(--color-strong-text);
-  --antd-menu-item-active-bg: var(--color-fill-bg-base-1);
+  --antd-menu-item-active-bg: var(--color-fill-bg-base-3);
   --antd-menu-item-hover: var(--menu-item-hover);
   --antd-menu-item-selected-bg: var(--menu-item-selected-bg);
   --ant-menu-submenu-selected-bg: var(--menu-submenu-selected-bg);
@@ -206,7 +207,7 @@ html[data-theme="dark-v2"],
 
   /*** appp bar ***/
   --app-bar-bg: var(--color-fill-bg-container-1);
-  --app-bar-shadow: var(--feedback-container-shadow);
+  --app-bar-shadow: 0px 1px 0px 0px var(--palette-gray-4);
   --app-bar-dropdown-menu-item-color: var(--color-normal-text);
   --app-bar-dropdown-menu-item-hover-bg: var(--color-fill-bg-base-1);
 
@@ -294,7 +295,7 @@ html[data-theme="dark-v2"],
   --antd-btn-special-icon-type-color: var(--color-normal-text);
   --antd-btn-special-icon-type-bg: var(--color-fill-bg-base-1);
   --antd-btn-special-icon-type-hover-color: var(--color-brand-hover);
-  --antd-btn-special-icon-type-hover-bg: var(--color-info-icon-bg);
+  --antd-btn-special-icon-type-hover-bg: transparent;
   --antd-btn-special-icon-type-active-color: var(--color-brand-active);
   --antd-btn-special-icon-type-active-bg: var(--color-info-icon-bg);
   --antd-btn-special-icon-type-disabled-color: var(--color-disabled-text);
