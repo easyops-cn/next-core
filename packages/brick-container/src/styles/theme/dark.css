@@ -295,7 +295,7 @@ html[data-theme="dark-v2"],
   --antd-btn-special-icon-type-color: var(--color-normal-text);
   --antd-btn-special-icon-type-bg: var(--color-fill-bg-base-1);
   --antd-btn-special-icon-type-hover-color: var(--color-brand-hover);
-  --antd-btn-special-icon-type-hover-bg: transparent;
+  --antd-btn-special-icon-type-hover-bg: var(--antd-btn-special-icon-type-bg);
   --antd-btn-special-icon-type-active-color: var(--color-brand-active);
   --antd-btn-special-icon-type-active-bg: var(--color-info-icon-bg);
   --antd-btn-special-icon-type-disabled-color: var(--color-disabled-text);
