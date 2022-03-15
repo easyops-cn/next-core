@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.60.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.0...@next-core/brick-types@2.60.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* add several preview message types ([9cc1f0a](https://github.com/easyops-cn/next-core/commit/9cc1f0a739f2b2612876d05c4d2e88d2424b7818))
+
+
+
+
+
 # [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.59.0...@next-core/brick-types@2.60.0) (2022-02-28)
 
 
