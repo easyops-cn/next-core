@@ -213,6 +213,7 @@ html[data-theme="dark-v2"],
 
   /*** dropdown ***/
   --antd-dropdown-menu-bg: var(--color-fill-bg-container-4);
+  --antd-dropdown-selected-color: var(--antd-link-color);
 
   /*** checkbox ***/
   --antd-checkbox-color: var(--color-brand);

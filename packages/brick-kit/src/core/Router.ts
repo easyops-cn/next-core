@@ -35,7 +35,13 @@ import { devtoolsHookEmit } from "../internal/devtools";
 import { afterMountTree } from "./reconciler";
 import { constructMenu } from "../internal/menu";
 import { getRuntimeMisc } from "../internal/misc";
-import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode";
+import {
+  applyMode,
+  applyTheme,
+  setMode,
+  setTheme,
+  getLocalAppsTheme,
+} from "../themeAndMode";
 import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
@@ -243,7 +249,9 @@ export class Router {
     this.kernel.nextApp = currentApp;
     const layoutType: LayoutType = currentApp?.layoutType || "console";
 
-    setTheme(currentApp?.theme || "light");
+    setTheme(
+      getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
+    );
     setMode("default");
 
     devtoolsHookEmit("rendering");

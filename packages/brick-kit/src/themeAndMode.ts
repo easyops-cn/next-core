@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { SiteMode, SiteTheme } from "@next-core/brick-types";
+import { JsonStorage } from "@next-core/brick-utils";
 
 // Themes.
 const DEFAULT_THEME = "light";
 export const DARK_THEME = "dark-v2" as SiteTheme;
 let theme: SiteTheme = DEFAULT_THEME;
+const storage = new JsonStorage(localStorage);
+const LOCAL_STORAGE_APPS_THEME_KEY = "apps-theme";
 
 export function setTheme(value: SiteTheme): void {
   if (value !== "dark" && value !== "light" && value !== "dark-v2") {
@@ -51,6 +54,30 @@ export function useCurrentTheme(): SiteTheme {
   }, []);
 
   return currentTheme;
+}
+
+export function batchSetAppsLocalTheme(
+  appsTheme: Record<string, SiteTheme>
+): void {
+  storage.setItem(LOCAL_STORAGE_APPS_THEME_KEY, {
+    ...getLocalAppsTheme(),
+    ...appsTheme,
+  });
+}
+
+export function getLocalAppsTheme(): Record<string, SiteTheme> {
+  let result;
+  try {
+    result = storage.getItem(LOCAL_STORAGE_APPS_THEME_KEY) as Record<
+      string,
+      SiteTheme
+    >;
+  } catch {
+    // eslint-disable-next-line no-console
+    console.error("JSON parse error inside `getLocalAppsTheme()`");
+  }
+
+  return result || {};
 }
 
 // Modes.

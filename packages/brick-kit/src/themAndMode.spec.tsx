@@ -10,6 +10,8 @@ import {
   useCurrentTheme,
   useCurrentMode,
   getCssPropertyValue,
+  getLocalAppsTheme,
+  batchSetAppsLocalTheme,
 } from "./themeAndMode";
 import { act } from "react-dom/test-utils";
 
@@ -162,5 +164,26 @@ describe("get css value", () => {
 
   it("should get value", () => {
     expect(getCssPropertyValue("--brand-color")).toEqual("red");
+  });
+
+  it("should get app theme", () => {
+    jest
+      .spyOn(window.localStorage.__proto__, "getItem")
+      .mockReturnValueOnce('{"developer": "light"}')
+      .mockReturnValueOnce("undefined");
+
+    expect(getLocalAppsTheme()).toEqual({ developer: "light" });
+
+    expect(getLocalAppsTheme()).toEqual({});
+  });
+
+  it("should batch set app themes", () => {
+    const spyOnSetItem = jest.spyOn(window.localStorage.__proto__, "setItem");
+
+    batchSetAppsLocalTheme({ apm: "light", "infra-monitor": "dark" });
+    expect(spyOnSetItem.mock.calls[0]).toEqual([
+      "brick-next-apps-theme",
+      '{"apm":"light","infra-monitor":"dark"}',
+    ]);
   });
 });
