@@ -1514,6 +1514,16 @@ export interface PreviewMessageContainerPreviewerSelectBrick extends Omit<Previe
     sender: "preview-container";
 }
 
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessageContainerRefresh" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessageContainerRefresh extends PreviewBaseMessage {
+    // (undocumented)
+    sender: "preview-container";
+    // (undocumented)
+    type: "refresh";
+}
+
 // Warning: (ae-internal-missing-underscore) The name "PreviewMessageContainerStartPreview" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1539,7 +1549,7 @@ export interface PreviewMessageContainerToggleInspecting extends PreviewBaseMess
 // Warning: (ae-internal-missing-underscore) The name "PreviewMessageFromContainer" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type PreviewMessageFromContainer = PreviewMessageContainerBuilderHoverOnBrick | PreviewMessageContainerPreviewerHoverOnBrick | PreviewMessageContainerPreviewerSelectBrick;
+export type PreviewMessageFromContainer = PreviewMessageContainerBuilderHoverOnBrick | PreviewMessageContainerPreviewerHoverOnBrick | PreviewMessageContainerPreviewerSelectBrick | PreviewMessageContainerRefresh;
 
 // Warning: (ae-internal-missing-underscore) The name "PreviewMessagePreviewerHoverOnBrick" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -1575,15 +1585,27 @@ export interface PreviewMessagePreviewerSelectBrick extends PreviewBaseMessage {
     type: "select-brick";
 }
 
+// Warning: (ae-internal-missing-underscore) The name "PreviewMessagePreviewerUrlChange" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface PreviewMessagePreviewerUrlChange extends PreviewBaseMessage {
+    // (undocumented)
+    sender: "previewer";
+    // (undocumented)
+    type: "url-change";
+    // (undocumented)
+    url: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "PreviewMessageToContainer" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type PreviewMessageToContainer = PreviewMessageBuilderHoverOnBrick | PreviewMessagePreviewerHoverOnBrick | PreviewMessagePreviewerSelectBrick | PreviewMessagePreviewerPreviewStarted;
+export type PreviewMessageToContainer = PreviewMessageBuilderHoverOnBrick | PreviewMessagePreviewerHoverOnBrick | PreviewMessagePreviewerSelectBrick | PreviewMessagePreviewerPreviewStarted | PreviewMessagePreviewerUrlChange;
 
 // Warning: (ae-internal-missing-underscore) The name "PreviewMessageToPreviewer" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type PreviewMessageToPreviewer = PreviewMessageContainerBuilderHoverOnBrick | PreviewMessageContainerToggleInspecting;
+export type PreviewMessageToPreviewer = PreviewMessageContainerBuilderHoverOnBrick | PreviewMessageContainerToggleInspecting | PreviewMessageContainerRefresh;
 
 // Warning: (ae-internal-missing-underscore) The name "ProbablyRuntimeBrick" should be prefixed with an underscore because the declaration is marked as @internal
 //
