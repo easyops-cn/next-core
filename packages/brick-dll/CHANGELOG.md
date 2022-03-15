@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.17...@next-core/brick-dll@2.29.18) (2022-03-15)
+
+
+### Bug Fixes
+
+* switch dark theme ([00ebb32](https://github.com/easyops-cn/next-core/commit/00ebb32101d86dcf05942746a25258cb9e84b699))
+
+
+
+
+
 ## [2.29.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.29.16...@next-core/brick-dll@2.29.17) (2022-03-07)
 
 **Note:** Version bump only for package @next-core/brick-dll

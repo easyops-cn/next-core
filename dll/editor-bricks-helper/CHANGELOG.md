@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.26.21](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.20...@next-dll/editor-bricks-helper@0.26.21) (2022-03-15)
+
+
+### Bug Fixes
+
+* switch dark theme ([00ebb32](https://github.com/easyops-cn/next-core/commit/00ebb32101d86dcf05942746a25258cb9e84b699))
+
+
+
+
+
 ## [0.26.20](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.19...@next-dll/editor-bricks-helper@0.26.20) (2022-03-09)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
