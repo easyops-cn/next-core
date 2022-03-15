@@ -18531,6 +18531,7 @@
           "useCurrentTheme",
           "useFeatureFlags",
           "useLocation",
+          "useProvider",
           "useRecentApps"
         ]
       }
