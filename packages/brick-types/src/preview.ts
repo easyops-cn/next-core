@@ -20,20 +20,23 @@ export interface PreviewMessageBuilderHoverOnBrick extends PreviewBaseMessage {
 /** @internal */
 export type PreviewMessageToPreviewer =
   | PreviewMessageContainerBuilderHoverOnBrick
-  | PreviewMessageContainerToggleInspecting;
+  | PreviewMessageContainerToggleInspecting
+  | PreviewMessageContainerRefresh;
 
 /** @internal */
 export type PreviewMessageFromContainer =
   | PreviewMessageContainerBuilderHoverOnBrick
   | PreviewMessageContainerPreviewerHoverOnBrick
-  | PreviewMessageContainerPreviewerSelectBrick;
+  | PreviewMessageContainerPreviewerSelectBrick
+  | PreviewMessageContainerRefresh;
 
 /** @internal */
 export type PreviewMessageToContainer =
   | PreviewMessageBuilderHoverOnBrick
   | PreviewMessagePreviewerHoverOnBrick
   | PreviewMessagePreviewerSelectBrick
-  | PreviewMessagePreviewerPreviewStarted;
+  | PreviewMessagePreviewerPreviewStarted
+  | PreviewMessagePreviewerUrlChange;
 
 /** @internal */
 export type PreviewerMessageToBuilder =
@@ -63,6 +66,13 @@ export interface PreviewMessagePreviewerSelectBrick extends PreviewBaseMessage {
 }
 
 /** @internal */
+export interface PreviewMessagePreviewerUrlChange extends PreviewBaseMessage {
+  sender: "previewer";
+  type: "url-change";
+  url: string;
+}
+
+/** @internal */
 export interface PreviewMessageContainerStartPreview
   extends PreviewBaseMessage {
   sender: "preview-container";
@@ -75,6 +85,12 @@ export interface PreviewMessageContainerToggleInspecting
   sender: "preview-container";
   type: "toggle-inspecting";
   enabled: boolean;
+}
+
+/** @internal */
+export interface PreviewMessageContainerRefresh extends PreviewBaseMessage {
+  sender: "preview-container";
+  type: "refresh";
 }
 
 /** @internal */
