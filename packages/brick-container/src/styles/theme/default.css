@@ -244,6 +244,7 @@
 
   /*** dropdown ***/
   --antd-dropdown-menu-bg: var(--antd-component-background);
+  --antd-dropdown-selected-color: var(--color-brand);
 
   /*** checkbox ***/
   --antd-checkbox-color: var(--color-brand);

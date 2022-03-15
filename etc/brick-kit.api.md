@@ -98,6 +98,9 @@ export interface AbstractRuntime {
 // @internal (undocumented)
 export function authenticate(newAuth: AuthInfo): void;
 
+// @public (undocumented)
+export function batchSetAppsLocalTheme(appsTheme: Record<string, SiteTheme>): void;
+
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -295,6 +298,9 @@ export function getAuth(): AuthInfo;
 
 // @public (undocumented)
 export function getCssPropertyValue(name: string, el?: HTMLElement): string;
+
+// @public (undocumented)
+export function getCurrentTheme(): SiteTheme;
 
 // @public
 export function getHistory(): PluginHistory;
