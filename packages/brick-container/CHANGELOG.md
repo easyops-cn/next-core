@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.65.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.65.13...@next-core/brick-container@2.65.14) (2022-03-16)
+
+
+### Bug Fixes
+
+* theme icon ([d82697c](https://github.com/easyops-cn/next-core/commit/d82697cbd293cab9dfe7d05f6002757b157ca522))
+
+
+
+
+
 ## [2.65.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.65.12...@next-core/brick-container@2.65.13) (2022-03-16)
 
 **Note:** Version bump only for package @next-core/brick-container
