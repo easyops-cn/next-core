@@ -29,6 +29,7 @@ import { EstreeNode } from '@next-core/brick-utils';
 import { FeatureFlags } from '@next-core/brick-types';
 import { GeneralTransform } from '@next-core/brick-types';
 import { HttpFetchError } from '@next-core/brick-http';
+import { HttpOptions } from '@next-core/brick-http';
 import { HttpParseError } from '@next-core/brick-http';
 import { HttpResponseError } from '@next-core/brick-http';
 import { I18nData } from '@next-core/brick-types';
@@ -557,6 +558,12 @@ export function useFeatureFlags(name?: string | string[]): boolean[] | string[];
 //
 // @internal (undocumented)
 export function useLocation(): Location_2<PluginHistoryState>;
+
+// Warning: (ae-forgotten-export) The symbol "UseProviderArgs" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "UseProvider" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function useProvider<TData = any>(...args: UseProviderArgs): UseProvider<TData>;
 
 // Warning: (ae-internal-missing-underscore) The name "useRecentApps" should be prefixed with an underscore because the declaration is marked as @internal
 //
