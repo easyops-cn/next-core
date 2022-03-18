@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.23...@next-dll/editor-bricks-helper@0.27.0) (2022-03-18)
+
+
+### Features
+
+* React组件支持调用provider ([1fe6096](https://github.com/easyops-cn/next-core/commit/1fe60963f96b4cddd889837da3ae5dd19f472d46))
+
+
+
+
+
 ## [0.26.23](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.22...@next-dll/editor-bricks-helper@0.26.23) (2022-03-16)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper

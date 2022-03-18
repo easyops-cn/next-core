@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.3...@next-core/brick-utils@2.36.0) (2022-03-18)
+
+
+### Features
+
+* new util function: debounceByAnimationFrame ([d47d032](https://github.com/easyops-cn/next-core/commit/d47d032dea4f9a55e8b642b0d2af926e808c716f))
+
+
+
+
+
 ## [2.35.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.2...@next-core/brick-utils@2.35.3) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/brick-utils

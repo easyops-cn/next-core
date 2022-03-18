@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.108.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.107.4...@next-core/brick-kit@2.108.0) (2022-03-18)
+
+
+### Features
+
+* React组件支持调用provider ([1fe6096](https://github.com/easyops-cn/next-core/commit/1fe60963f96b4cddd889837da3ae5dd19f472d46))
+
+
+
+
+
 ## [2.107.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.107.3...@next-core/brick-kit@2.107.4) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/brick-kit
