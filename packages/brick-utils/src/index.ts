@@ -24,3 +24,4 @@ export * from "./builder";
 export * from "./deepFreeze";
 export * from "./track";
 export * from "./visitStoryboard";
+export * from "./debounceByAnimationFrame";
