@@ -24,6 +24,7 @@
           "convertValueByPrecision",
           "cook",
           "createProviderClass",
+          "debounceByAnimationFrame",
           "deepFreeze",
           "formatValue",
           "getDependencyMapOfContext",
