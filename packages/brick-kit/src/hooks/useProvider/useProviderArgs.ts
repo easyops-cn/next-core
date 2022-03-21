@@ -36,7 +36,7 @@ export default function useProviderArgs(
   }, [providerOrParamsOrGlobalOptions, gloabalOptionsOrDeps]);
 
   const requestInit = useMemo((): {
-    body: unknown;
+    args: unknown;
     options?: HttpOptions;
   } => {
     const customOptionKeys = [
@@ -44,14 +44,14 @@ export default function useProviderArgs(
       ...Object.keys(useProviderArgsDefaults.customOptions),
     ] as Array<UseProviderOptionArgsDefaults>;
 
-    const { body = null, ...restOptions } = (
+    const { args = null, ...restOptions } = (
       Object.keys(options) as any
     ).reduce((acc: Record<string, any>, key: UseProviderOptionArgsDefaults) => {
       if (!customOptionKeys.includes(key)) acc[key] = (options as never)[key];
       return acc;
     }, {} as Record<string, any>);
 
-    return { options: { ...restOptions }, body };
+    return { options: { ...restOptions }, args };
   }, [options]);
 
   const dependencies = useMemo((): any[] | undefined => {

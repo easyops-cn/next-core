@@ -14,7 +14,7 @@ describe("useProviderArgs", () => {
       },
       provider: "easyops.custom_api@test",
       requestInit: {
-        body: null,
+        args: null,
         options: {},
       },
     });
@@ -26,10 +26,12 @@ describe("useProviderArgs", () => {
         useProviderArgs(
           "easyops.custom_api@test",
           {
-            body: {
-              page: 1,
-              pageSize: 10,
-            },
+            args: [
+              {
+                page: 1,
+                pageSize: 10,
+              },
+            ],
             interceptorParams: {
               ignoreLoadingBar: true,
             },
@@ -41,10 +43,12 @@ describe("useProviderArgs", () => {
       ...useProviderArgsDefaults,
       provider: "easyops.custom_api@test",
       requestInit: {
-        body: {
-          page: 1,
-          pageSize: 10,
-        },
+        args: [
+          {
+            page: 1,
+            pageSize: 10,
+          },
+        ],
         options: {
           interceptorParams: {
             ignoreLoadingBar: true,
@@ -68,7 +72,7 @@ describe("useProviderArgs", () => {
       ...useProviderArgsDefaults,
       provider: "easyops.custom_api@test",
       requestInit: {
-        body: null,
+        args: null,
         options: {},
       },
       customOptions: {
@@ -88,7 +92,7 @@ describe("useProviderArgs", () => {
       ...useProviderArgsDefaults,
       provider: "",
       requestInit: {
-        body: null,
+        args: null,
         options: {},
       },
       customOptions: {

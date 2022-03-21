@@ -7,7 +7,6 @@ import {
   useState,
 } from "react";
 import useProviderArgs from "./useProviderArgs";
-import { CustomApi } from "../../providers/CustomApi";
 import {
   UseProviderArgs,
   FetchArgs,
@@ -20,6 +19,7 @@ import {
 } from "./useProviderTypes";
 import { isObject, isString } from "lodash";
 import fetchProviderArgs from "./fetchProviderArgs";
+import fetch from "./fetch";
 
 export function useProvider<TData = any>(
   ...args: UseProviderArgs
@@ -42,7 +42,7 @@ export function useProvider<TData = any>(
       try {
         error.current = undefined;
         if (!suspense) setLoading(true);
-        const newRes = (await CustomApi(...args)) as TData;
+        const newRes = (await fetch(provider, ...args)) as TData;
         response.current = newRes;
         data.current = transform(data.current, newRes);
       } catch (e) {
@@ -66,29 +66,29 @@ export function useProvider<TData = any>(
 
   const makeFetch = useCallback(
     async (
-      providerOrBody: string | BodyInit | object,
-      body?: BodyInit | object
+      providerOrBody: string | unknown[],
+      args?: unknown[]
     ): Promise<TData> => {
       let providerStr = provider;
-      let data = {};
+      let providerArgs = [] as unknown[];
       if (isString(providerOrBody)) {
         providerStr = providerOrBody;
       }
       if (isObject(providerOrBody)) {
-        data = providerOrBody;
-      } else if (isObject(body)) {
-        data = body;
+        providerArgs = providerOrBody;
+      } else if (isObject(args)) {
+        providerArgs = args;
       }
 
-      const args = await fetchProviderArgs(
+      const actualArgs = await fetchProviderArgs(
         providerStr,
-        data,
+        providerArgs,
         requestInit.options
       );
 
       if (suspense) {
         return (async () => {
-          suspender.current = doFetch(...args).then(
+          suspender.current = doFetch(...actualArgs).then(
             (newData) => {
               suspenseStatus.current = "success";
               return newData;
@@ -103,7 +103,7 @@ export function useProvider<TData = any>(
           return await suspender.current;
         })();
       }
-      return doFetch(...args);
+      return doFetch(...actualArgs);
     },
     [doFetch]
   );
@@ -139,7 +139,7 @@ export function useProvider<TData = any>(
   useEffect((): any => {
     mounted.current = true;
     if (Array.isArray(dependencies) && provider) {
-      request.query(provider, requestInit.body as any);
+      request.query(provider, requestInit.args as unknown[]);
     }
     return () => (mounted.current = false);
   }, dependencies);
