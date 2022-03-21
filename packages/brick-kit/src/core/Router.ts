@@ -5,6 +5,7 @@ import {
   PluginHistoryState,
   PluginLocation,
   PluginRuntimeContext,
+  NavConfig,
 } from "@next-core/brick-types";
 import {
   restoreDynamicTemplates,
@@ -23,7 +24,6 @@ import {
   MountRoutesResult,
   appendBrick,
   Resolver,
-  NavConfig,
 } from "./exports";
 import { getHistory } from "../history";
 import { httpErrorToString, handleHttpError } from "../handleHttpError";
@@ -518,6 +518,7 @@ export class Router {
       menu: mountResult.menuBar.menu,
       subMenu: mountResult.menuBar.subMenu,
     };
+    this.kernel.currentApp.navConfig = this.navConfig;
   }
 
   /* istanbul ignore next */

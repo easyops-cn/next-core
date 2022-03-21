@@ -1343,6 +1343,7 @@ export interface MicroApp {
     locales?: AppLocales;
     menuIcon?: MenuIcon;
     name: string;
+    navConfig?: NavConfig;
     noAuthGuard?: boolean;
     private?: boolean;
     status?: "developing" | "enabled" | "disabled";
@@ -1390,6 +1391,16 @@ export interface NavbarConf {
     loadingBar: string;
     // (undocumented)
     menuBar: string;
+}
+
+// @public (undocumented)
+export interface NavConfig {
+    // (undocumented)
+    breadcrumb: BreadcrumbItemConf[];
+    // (undocumented)
+    menu: Partial<SidebarMenu>;
+    // (undocumented)
+    subMenu: Partial<SidebarMenu>;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal

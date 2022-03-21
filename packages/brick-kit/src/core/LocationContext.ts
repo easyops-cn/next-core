@@ -76,12 +76,6 @@ export type MatchRoutesResult =
   | "missed"
   | "unauthenticated";
 
-export interface NavConfig {
-  breadcrumb: BreadcrumbItemConf[];
-  menu: Partial<SidebarMenu>;
-  subMenu: Partial<SidebarMenu>;
-}
-
 export interface MountRoutesResult {
   main: RuntimeBrick[];
   menuInBg: RuntimeBrick[];

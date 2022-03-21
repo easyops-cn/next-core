@@ -40,6 +40,12 @@ export interface Settings {
  */
 export type FeatureFlags = Record<string, boolean>;
 
+export interface NavConfig {
+  breadcrumb: BreadcrumbItemConf[];
+  menu: Partial<SidebarMenu>;
+  subMenu: Partial<SidebarMenu>;
+}
+
 /**
  * 微应用基本信息。
  */
@@ -178,6 +184,11 @@ export interface MicroApp {
    * 该应用所属主题， dark 已经被用大屏模式，这里使用 dark-v2
    */
   theme?: "light" | "dark-v2";
+
+  /**
+   * 导航栏菜单配置
+   */
+  navConfig?: NavConfig;
 }
 
 /**

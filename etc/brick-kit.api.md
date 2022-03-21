@@ -47,6 +47,7 @@ import { MicroApp } from '@next-core/brick-types';
 import { MicroAppModels } from '@next-sdk/micro-app-sdk';
 import { ModalFunc } from 'antd/lib/modal/confirm';
 import { MountPoints } from '@next-core/brick-types';
+import { NavConfig } from '@next-core/brick-types';
 import { PluginHistory } from '@next-core/brick-types';
 import { PluginHistoryState } from '@next-core/brick-types';
 import { PluginLocation } from '@next-core/brick-types';

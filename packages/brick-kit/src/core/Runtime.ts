@@ -14,6 +14,7 @@ import {
   SiteMapItem,
   SidebarMenu,
   RouteConf,
+  NavConfig,
 } from "@next-core/brick-types";
 import compareVersions from "compare-versions";
 import {
@@ -23,7 +24,6 @@ import {
   Resolver,
   registerCustomTemplate,
   registerCustomProcessor,
-  NavConfig,
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import {
