@@ -7,6 +7,7 @@ import {
   NodeInstance,
   EventDetailOfNodeAdd,
   EventDetailOfNodeMove,
+  EventDetailOfSnippetApply,
 } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -1761,5 +1762,77 @@ describe("BuilderDataManager for route of routes", () => {
     };
     manager.nodeMove(node2);
     expect(node2.nodeData.mountPoint).toBe("bricks");
+  });
+
+  it("snippet node should redirect", () => {
+    const node1 = {
+      parentUid: 1,
+      nodeUids: [4, 6, 7, 5],
+      nodeDetails: [
+        {
+          nodeUid: 7,
+          parentUid: 1,
+          nodeData: {
+            parent: "instance-a",
+            type: "brick",
+            brick: "basic-bricks.easy-view",
+            mountPoint: "toolbar",
+            properties: '{"containerStyle":{"gap":"var(--page-card-gap)"}}',
+          },
+          children: [
+            {
+              nodeUid: 8,
+              parentUid: 7,
+              nodeData: {
+                type: "brick",
+                brick: "basic-bricks.general-button",
+                mountPoint: "header",
+                events: '{"click":{"action":"console.log"}}',
+                sort: 0,
+              },
+              children: [],
+            },
+          ],
+        },
+      ],
+    } as EventDetailOfSnippetApply;
+    manager.snippetApply(node1);
+
+    expect(node1.nodeDetails[0].nodeData.mountPoint).toBe("bricks");
+
+    const node2 = {
+      parentUid: 2,
+      nodeUids: [4, 6, 7, 5],
+      nodeDetails: [
+        {
+          nodeUid: 7,
+          parentUid: 2,
+          nodeData: {
+            parent: "abc",
+            type: "brick",
+            brick: "basic-bricks.easy-view",
+            mountPoint: "toolbar",
+            properties: '{"containerStyle":{"gap":"var(--page-card-gap)"}}',
+          },
+          children: [
+            {
+              nodeUid: 8,
+              parentUid: 7,
+              nodeData: {
+                type: "brick",
+                brick: "basic-bricks.general-button",
+                mountPoint: "header",
+                events: '{"click":{"action":"console.log"}}',
+                sort: 0,
+              },
+              children: [],
+            },
+          ],
+        },
+      ],
+    } as EventDetailOfSnippetApply;
+    manager.snippetApply(node2);
+
+    expect(node2.nodeDetails[0].nodeData.mountPoint).toBe("content");
   });
 });

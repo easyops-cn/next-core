@@ -243,7 +243,7 @@ export class BuilderDataManager {
   }
 
   private redirectMountPoint(
-    detail: EventDetailOfNodeAdd | EventDetailOfNodeMove
+    detail: EventDetailOfNodeAdd | EventDetailOfNodeMove | SnippetNodeDetail
   ): void {
     const { rootId, wrapperNode } = this.data;
     if (detail.parentUid === rootId) {
@@ -252,6 +252,12 @@ export class BuilderDataManager {
     if (wrapperNode && wrapperNode.instanceId === detail.nodeData.parent) {
       detail.nodeData.mountPoint = "content";
     }
+  }
+
+  private redirectSnippetMountPoint(detail: EventDetailOfSnippetApply): void {
+    detail.nodeDetails?.forEach((item) => {
+      this.redirectMountPoint(item);
+    });
   }
 
   nodeAdd(detail: EventDetailOfNodeAdd): void {
@@ -280,6 +286,7 @@ export class BuilderDataManager {
   }
 
   snippetApply(detail: EventDetailOfSnippetApply): void {
+    this.redirectSnippetMountPoint(detail);
     const { rootId, nodes, edges, wrapperNode } = this.data;
     const { nodeDetails, parentUid, nodeUids } = detail;
 
@@ -344,7 +351,7 @@ export class BuilderDataManager {
   }
 
   snippetApplyStored(detail: EventDetailOfSnippetApplyStored): void {
-    const { rootId, nodes, edges } = this.data;
+    const { rootId, nodes, edges, wrapperNode } = this.data;
     const { flattenNodeDetails } = detail;
     this.data = {
       rootId,
@@ -359,6 +366,7 @@ export class BuilderDataManager {
           : node;
       }),
       edges,
+      wrapperNode,
     };
     this.triggerDataChange();
   }
