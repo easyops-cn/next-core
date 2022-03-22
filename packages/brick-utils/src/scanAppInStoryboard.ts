@@ -9,7 +9,7 @@ import { EstreeLiteral } from "./cook";
 const APP = "APP";
 const GET_MENUS = "getMenus";
 
-export function scanAppInStoryboard(storyboard: Storyboard): string[] {
+export function scanAppGetMenuInStoryboard(storyboard: Storyboard): string[] {
   const collection = new Set<string>();
   const beforeVisitPermissions = beforeVisitAppFactory(collection);
   const { customTemplates, functions } = storyboard.meta ?? {};
