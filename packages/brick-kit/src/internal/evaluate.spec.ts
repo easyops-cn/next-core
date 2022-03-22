@@ -34,7 +34,7 @@ jest.mock("../core/WidgetFunctions", () => ({
   },
 }));
 jest.mock("./menu", () => ({
-  getMenus: (menuId: string) => {
+  getMenu: (menuId: string) => {
     if (menuId) {
       return {
         title: menuId,
@@ -209,8 +209,8 @@ describe("evaluate", () => {
     ["<% EVENT.detail %>", "<% EVENT.detail %>"],
     ["<% DATA.cellData %>", "<% DATA.cellData %>"],
     ["<% APP.homepage %>", "/hello"],
-    ["<% APP.getMenus('test') %>", { title: "test" }],
-    ["<% APP.getMenus() %>", undefined],
+    ["<% APP.getMenu('test') %>", { title: "test" }],
+    ["<% APP.getMenu() %>", undefined],
     ["<% PATH.objectId %>", "HOST"],
     [" <% QUERY.a %>", "x"],
     ["<% QUERY.b %> ", "2"],

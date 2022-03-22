@@ -1105,10 +1105,10 @@ describe("LocationContext", () => {
               {
                 brick: "menu",
                 properties: {
-                  menu: "<% APP.getMenus('menu-1') %>",
+                  menu: "<% APP.getMenu('menu-1') %>",
                 },
                 context: {
-                  menu: "<% APP.getMenus('menu-2') %>",
+                  menu: "<% APP.getMenu('menu-2') %>",
                 },
               },
             ],

@@ -23,7 +23,7 @@ import { widgetI18nFactory } from "../core/WidgetI18n";
 import { getGeneralGlobals } from "./getGeneralGlobals";
 import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
 import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
-import { getMenus } from "./menu";
+import { getMenu } from "./menu";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -204,7 +204,7 @@ export function evaluate(
       case "APP":
         return {
           ...cloneDeep(app),
-          getMenus,
+          getMenu,
         };
       case "CTX":
         return getDynamicReadOnlyProxy({

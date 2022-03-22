@@ -1,6 +1,6 @@
 import { Storyboard } from "@next-core/brick-types";
 import {
-  scanAppInStoryboard,
+  scanAppGetMenuInStoryboard,
   scanAppActionsInAny,
 } from "./scanAppInStoryboard";
 
@@ -20,7 +20,7 @@ describe("scanPermissionActionsInStoryboard", () => {
                 brick: "b-x",
                 bg: true,
                 properties: {
-                  any: "<% APP.getMenus('main-menu-1') %>",
+                  any: "<% APP.getMenu('main-menu-1') %>",
                 },
               },
             ],
@@ -30,7 +30,7 @@ describe("scanPermissionActionsInStoryboard", () => {
           {
             source: `
               function test(): string {
-                return  APP.getMenus('main-menu-2');
+                return  APP.getMenu('main-menu-2');
               }
             `,
             typescript: true,
@@ -43,7 +43,7 @@ describe("scanPermissionActionsInStoryboard", () => {
             {
               brick: "b-a",
               properties: {
-                any: "<%  APP.getMenus('main-menu-3') %>",
+                any: "<%  APP.getMenu('main-menu-3') %>",
                 selfRef,
               },
             },
@@ -52,11 +52,11 @@ describe("scanPermissionActionsInStoryboard", () => {
       ],
       app: {
         defaultConfig: {
-          bad: "<% APP.getMenus('main-menu-4') %>",
+          bad: "<% APP.getMenu('main-menu-4') %>",
         },
       },
     } as any;
-    expect(scanAppInStoryboard(storyboard).sort()).toEqual([
+    expect(scanAppGetMenuInStoryboard(storyboard).sort()).toEqual([
       "main-menu-1",
       "main-menu-2",
       "main-menu-3",
@@ -64,7 +64,7 @@ describe("scanPermissionActionsInStoryboard", () => {
   });
 
   it("should return empty", () => {
-    expect(scanAppInStoryboard({ routes: null, app: null })).toEqual([]);
+    expect(scanAppGetMenuInStoryboard({ routes: null, app: null })).toEqual([]);
   });
 });
 
@@ -73,20 +73,21 @@ describe("scanPermissionActionsInAny", () => {
     const brickConf = {
       brick: "b-b",
       properties: {
-        good: "<% APP.getMenus('menu-1') %>",
-        good2: "<% () => APP.getMenus('menu-2') %>",
+        good: "<% APP.getMenu('menu-1') %>",
+        good2: "<% () => APP.getMenu('menu-2') %>",
         good3:
-          "<% PERMISSIONS.check('my:action-d') && APP.getMenus('menu-3') %>",
-        bad: "<% APP.getMenu(menu-4) %>",
-        bad2: "<% APPS.getMenus('menu-5') %>",
-        bad3: "<% APP.getMenu('menu-6') %>",
+          "<% PERMISSIONS.check('my:action-d') && APP.getMenu('menu-3') %>",
+        bad: "<% APP.getMenus(menu-4) %>",
+        bad2: "<% APPS.getMenu('menu-5') %>",
+        bad3: "<% APPS.getMenus('menu-6') %>",
         bad4: "<% APP.getmenus('menu-7') %>",
-        bad5: "<% APP.getmenus['menu-7'] %>",
+        bad5: "<% APP.getMenu['menu-7'] %>",
         bad6: "APP.getmenus('menu-8')",
-        bad7: "<% APP.getmenus() %>",
+        bad7: "<% APP.getMenu() %>",
         bad8: "<% menu-9 %>",
-        bad9: "<% APP.getmenu ('menu-9') %>",
+        bad9: "<% APP.getMenu('menu-9' %>",
         bad10: "<% (APP) => APP.check('menu-10') %>",
+        bad11: "<% APP.getMenu('menu-11', 'menu-12') %>",
       },
     };
     expect(scanAppActionsInAny(brickConf).sort()).toEqual([

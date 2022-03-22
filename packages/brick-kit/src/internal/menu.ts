@@ -63,7 +63,7 @@ export async function constructMenuByMenusList(
   );
 }
 
-export const getMenus = (menuId: string): MenuRawData => menuCache.get(menuId);
+export const getMenu = (menuId: string): MenuRawData => menuCache.get(menuId);
 
 export async function fetchMenuById(
   menuId: string,

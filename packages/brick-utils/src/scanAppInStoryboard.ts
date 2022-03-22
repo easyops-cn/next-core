@@ -7,7 +7,7 @@ import {
 import { EstreeLiteral } from "./cook";
 
 const APP = "APP";
-const GET_MENUS = "getMenus";
+const GET_MENUS = "getMenu";
 
 export function scanAppGetMenuInStoryboard(storyboard: Storyboard): string[] {
   const collection = new Set<string>();
@@ -44,10 +44,12 @@ function beforeVisitAppFactory(
         memberParent.node.property.type === "Identifier" &&
         memberParent.node.property.name === GET_MENUS
       ) {
-        for (const arg of callParent.node
-          .arguments as unknown as EstreeLiteral[]) {
-          if (arg.type === "Literal" && typeof arg.value === "string") {
-            collection.add(arg.value);
+        if (callParent.node.arguments.length === 1) {
+          const menuId = (
+            callParent.node.arguments as unknown as EstreeLiteral[]
+          )[0];
+          if (menuId.type === "Literal" && typeof menuId.value === "string") {
+            collection.add(menuId.value);
           }
         }
       }
