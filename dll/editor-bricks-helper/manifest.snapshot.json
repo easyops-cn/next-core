@@ -55,7 +55,7 @@
           "resolveContextConcurrently",
           "restoreDynamicTemplates",
           "scanAppActionsInAny",
-          "scanAppInStoryboard",
+          "scanAppGetMenuInStoryboard",
           "scanBricksInBrickConf",
           "scanBricksInStoryboard",
           "scanCustomApisInStoryboard",
