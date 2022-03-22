@@ -53,6 +53,18 @@ export async function constructMenu(
   }
 }
 
+export async function constructMenuByMenusList(
+  menus: string[],
+  context: PluginRuntimeContext,
+  kernel: Kernel
+): Promise<void> {
+  await Promise.all(
+    menus.map((menuId) => processMenu(menuId, context, kernel))
+  );
+}
+
+export const getMenus = (menuId: string): MenuRawData => menuCache.get(menuId);
+
 export async function fetchMenuById(
   menuId: string,
   kernel: Kernel

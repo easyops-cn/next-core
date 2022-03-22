@@ -13,6 +13,7 @@ import * as md from "./MessageDispatcher";
 import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
 import { validatePermissions } from "../internal/checkPermissions";
+import * as menu from "../internal/menu";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -30,6 +31,10 @@ jest.spyOn(md, "getMessageDispatcher").mockImplementation(
       create: jest.fn(),
     } as any)
 );
+const jestConstructMenu = jest.fn();
+jest
+  .spyOn(menu, "constructMenuByMenusList")
+  .mockImplementation(jestConstructMenu);
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (getAuth as jest.Mock).mockReturnValue({
   username: "easyops",
@@ -1096,13 +1101,28 @@ describe("LocationContext", () => {
               type: "resolve",
               resolve: resolveConf,
             },
-            bricks: [],
+            bricks: [
+              {
+                brick: "menu",
+                properties: {
+                  menu: "<% APP.getMenus('menu-1') %>",
+                },
+                context: {
+                  menu: "<% APP.getMenus('menu-2') %>",
+                },
+              },
+            ],
           },
         ],
         undefined,
         getInitialMountResult()
       );
 
+      expect(jestConstructMenu).toBeCalledTimes(1);
+      expect(jestConstructMenu.mock.calls[0][0]).toStrictEqual([
+        "menu-1",
+        "menu-2",
+      ]);
       expect(result.menuBar).toMatchObject({
         menu: {
           title: "title-a",

@@ -54,6 +54,8 @@
           "prefetchScript",
           "resolveContextConcurrently",
           "restoreDynamicTemplates",
+          "scanAppActionsInAny",
+          "scanAppInStoryboard",
           "scanBricksInBrickConf",
           "scanBricksInStoryboard",
           "scanCustomApisInStoryboard",

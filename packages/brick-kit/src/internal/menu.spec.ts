@@ -8,6 +8,7 @@ import { Kernel } from "../core/Kernel";
 import {
   fetchMenuById,
   constructMenu,
+  constructMenuByMenusList,
   processMenuTitle,
   clearMenuTitleCache,
   clearMenuCache,
@@ -582,5 +583,11 @@ describe("constructMenu", () => {
       },
       subMenu: null,
     });
+  });
+
+  it("constructMenuByMenusList should work", async () => {
+    await constructMenuByMenusList(["menu-c", "menu-d"], context, null);
+
+    expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });
 });

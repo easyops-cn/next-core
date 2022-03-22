@@ -13,6 +13,7 @@ export * from "./scanProcessorsInStoryboard";
 export * from "./scanPermissionActionsInStoryboard";
 export * from "./scanAliasInStoryboard";
 export * from "./scanI18NInStoryboard";
+export * from "./scanAppInStoryboard";
 export * from "./placeholder";
 export * from "./cook";
 export * from "./resolveContextConcurrently";
