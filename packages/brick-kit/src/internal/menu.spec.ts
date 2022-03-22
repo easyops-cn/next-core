@@ -396,6 +396,12 @@ describe("processMenuTitle", () => {
 });
 
 describe("constructMenu", () => {
+  beforeEach(() => {
+    clearMenuTitleCache();
+    clearMenuCache();
+    jest.clearAllMocks();
+  });
+
   const context = {
     app: currentApp,
   } as unknown as PluginRuntimeContext;
