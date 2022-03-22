@@ -4,12 +4,20 @@ import { FetchMock, GlobalWithFetchMock } from "jest-fetch-mock";
 import { HttpFetchError } from "@next-core/brick-http";
 import React, { Suspense } from "react";
 import { mount, shallow } from "enzyme";
+import * as fetchProvider from "./fetch";
+
 const customGlobal: GlobalWithFetchMock =
   global as unknown as GlobalWithFetchMock;
 customGlobal.fetch = require("jest-fetch-mock");
 customGlobal.fetchMock = customGlobal.fetch;
 
 const fetch = global.fetch as FetchMock;
+
+const expected = {
+  name: "Alex",
+  age: "29",
+};
+jest.spyOn(fetchProvider, "default").mockResolvedValue(expected);
 
 const argsData = [
   {
@@ -19,18 +27,12 @@ const argsData = [
   },
 ];
 
-const expected = {
-  name: "Alex",
-  age: "29",
-};
 jest.mock("../../core/FlowApi", () => ({
   getArgsOfCustomApi: jest.fn().mockResolvedValue(argsData),
 }));
 
 describe("useProvider Hook", () => {
   beforeEach((): void => {
-    fetch.mockResponseOnce(JSON.stringify(expected));
-
     jest.useFakeTimers();
     jest.setTimeout(8000);
   });
@@ -67,11 +69,11 @@ describe("useProvider Hook", () => {
       const request = useProvider();
       const handleClick = async () => {
         try {
-          const data = await request.query("easyops.custom_api@test", {
-            body: {
+          const data = await request.query("easyops.custom_api@test", [
+            {
               name: "alex",
             },
-          });
+          ]);
 
           onChange(data);
         } catch (e) {
@@ -109,7 +111,7 @@ describe("Error handing", () => {
   };
 
   beforeEach((): void => {
-    fetch.mockRejectedValueOnce(new Error("Fetch Error"));
+    jest.spyOn(fetchProvider, "default").mockRejectedValue(expectedError);
 
     jest.useFakeTimers();
     jest.setTimeout(8000);

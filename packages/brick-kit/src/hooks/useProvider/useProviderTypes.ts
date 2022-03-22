@@ -28,7 +28,7 @@ export type UseProviderArgsReturn = {
   dependencies?: any[];
   requestInit: Partial<{
     apiParams: CustomApiParams;
-    body: unknown;
+    args: unknown;
     options: HttpOptions;
   }>;
 };
@@ -45,10 +45,10 @@ export interface ReqBase<TData> {
   error: Error | undefined;
 }
 
-export type FetchArgs = Parameters<typeof CustomApi>;
+export type FetchArgs = Parameters<typeof CustomApi> | unknown[];
 
 export type RequestInit = Partial<Omit<HttpOptions, "body">> & {
-  body?: BodyInit | object | null;
+  args?: unknown[];
 };
 
 export type IncomingOptions = Partial<UseProviderCustomOptions> & RequestInit;
@@ -63,8 +63,8 @@ export type UseProviderOptionArgsDefaults = keyof UseProviderCustomOptions &
   keyof Omit<UseProviderArgsDefaults, "customOptions">;
 
 export type useProviderQueryMethod<TData> = (
-  providerOrBody: string | BodyInit | object,
-  body?: BodyInit | object
+  providerOrArgs: string | unknown[],
+  args?: unknown[]
 ) => Promise<TData>;
 
 export type Req<TData = any> = {
