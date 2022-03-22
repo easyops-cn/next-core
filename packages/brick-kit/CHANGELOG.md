@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.109.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.108.0...@next-core/brick-kit@2.109.0) (2022-03-22)
+
+
+### Features
+
+* React组件支持调用skd生成的provider ([aced8ff](https://github.com/easyops-cn/next-core/commit/aced8ffc0d05f5f700169ee06525c5a56e309fe3))
+
+
+
+
+
 # [2.108.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.107.4...@next-core/brick-kit@2.108.0) (2022-03-18)
 
 
