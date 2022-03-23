@@ -17,7 +17,13 @@ jest.mock("i18next", () => ({
   return !actions.includes("my:action-b");
 });
 
+const consoleLog = jest.spyOn(console, "log").mockImplementation();
+
 describe("StoryboardFunctions", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const {
     storyboardFunctions: fn,
     registerStoryboardFunctions,
@@ -31,6 +37,7 @@ describe("StoryboardFunctions", () => {
           name: "sayHello",
           source: `
           function sayHello(data) {
+            console.log(data);
             return FN.sayExclamation(I18N('HELLO') + ', ' + I18N_TEXT(data));
           }
         `,
@@ -75,6 +82,9 @@ describe("StoryboardFunctions", () => {
     expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
       "$app-my-app:HELLO, 世界!"
     );
+    expect(consoleLog).toBeCalledTimes(1);
+    expect(consoleLog).toBeCalledWith({ en: "world", zh: "世界" });
+
     expect(fn.sayExclamation("Oops")).toBe("Oops!");
     expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
 

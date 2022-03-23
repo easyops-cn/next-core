@@ -38,6 +38,18 @@ interface I18nTextFunction {
 interface I18nData {
   [language: string]: string;
 }
+
+declare const location: {
+  readonly href: string;
+  readonly origin: string;
+}
+
+declare const console: {
+  log(...data: any[]): void;
+  info(...data: any[]): void;
+  warn(...data: any[]): void;
+  error(...data: any[]): void;
+}
 `,
     },
   ];

@@ -54,7 +54,7 @@ registerWidgetI18n("my-widget", {
   },
 });
 
-jest.spyOn(console, "warn").mockImplementation(() => void 0);
+jest.spyOn(console, "warn").mockImplementation();
 
 (
   getItemFactory as jest.MockedFunction<typeof getItemFactory>
@@ -456,6 +456,14 @@ describe("evaluate", () => {
       detail: { raw: "[]", context: {} },
       error: "Invalid evaluation code",
     });
+  });
+
+  it("should throw if uses console", () => {
+    expect(() =>
+      evaluate("<% console.log(1) %>")
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"console is not defined, in \\"<% console.log(1) %>\\""`
+    );
   });
 
   it("should throw if contains type error", () => {

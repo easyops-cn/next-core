@@ -123,6 +123,7 @@ export function StoryboardFunctionRegistryFactory({
           widgetId,
           app: currentApp,
           storyboardFunctions,
+          isStoryboardFunction: true,
         })
       ),
       hooks: collector && {
