@@ -8,12 +8,14 @@ import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
 import { getBasePath } from "./getBasePath";
 import { getTheme } from "../themeAndMode";
 import { checkPermissions } from "./checkPermissions";
+import { getReadOnlyProxy } from "./proxyFactories";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
   widgetId?: string;
   app?: PartialMicroApp;
   storyboardFunctions?: unknown;
+  isStoryboardFunction?: boolean;
 }
 
 export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
@@ -36,7 +38,13 @@ export function getGeneralGlobals(
 
 function getIndividualGlobal(
   variableName: string,
-  { collectCoverage, widgetId, app, storyboardFunctions }: GeneralGlobalsOptions
+  {
+    collectCoverage,
+    widgetId,
+    app,
+    storyboardFunctions,
+    isStoryboardFunction,
+  }: GeneralGlobalsOptions
 ): unknown {
   switch (variableName) {
     case "BASE_URL":
@@ -65,6 +73,8 @@ function getIndividualGlobal(
       return {
         getTheme: collectCoverage ? () => "light" : getTheme,
       };
+    case "console":
+      return isStoryboardFunction ? getReadOnlyProxy(console) : undefined;
   }
 }
 
