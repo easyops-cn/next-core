@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.110.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.109.0...@next-core/brick-kit@2.110.0) (2022-03-23)
+
+
+### Features
+
+* support console in storyboard functions ([db24b0b](https://github.com/easyops-cn/next-core/commit/db24b0b1e6545a64974ab2ec1ffb1d8a2220d726))
+
+
+
+
+
 # [2.109.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.108.0...@next-core/brick-kit@2.109.0) (2022-03-22)
 
 
