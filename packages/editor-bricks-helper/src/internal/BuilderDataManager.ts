@@ -1,4 +1,4 @@
-import { omit } from "lodash";
+import { omit, sortBy } from "lodash";
 import EventTarget from "@ungap/event-target";
 import {
   BuilderRouteOrBrickNode,
@@ -197,7 +197,7 @@ export class BuilderDataManager {
     );
   }
 
-  runAddNodeAction = (detail: EventDetailOfNodeAdd): void => {
+  private runAddNodeAction(detail: EventDetailOfNodeAdd): void {
     const { rootId, nodes, edges, wrapperNode } = this.data;
     const { nodeUid, parentUid, nodeUids, nodeData } = detail;
 
@@ -234,7 +234,7 @@ export class BuilderDataManager {
       }),
     };
     this.triggerDataChange();
-  };
+  }
 
   updateBrick(detail: EventDetailOfNodeAdd): void {
     this.data = deleteNodeFromTree(detail.nodeUid, this.data);
@@ -371,6 +371,10 @@ export class BuilderDataManager {
     this.triggerDataChange();
   }
 
+  /**
+   * Move node anywhere by drag-n-drop.
+   * @deprecated use `moveNode` instead.
+   */
   nodeMove(detail: EventDetailOfNodeMove): void {
     const { rootId, nodes, edges, wrapperNode } = this.data;
     this.redirectMountPoint(detail);
@@ -399,6 +403,87 @@ export class BuilderDataManager {
     this.triggerDataChange();
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_MOVE, { detail })
+    );
+  }
+
+  /**
+   * Move node up or down.
+   */
+  moveNode(
+    { $$uid: nodeUid }: BuilderRuntimeNode,
+    direction: "up" | "down"
+  ): void {
+    const { parent: parentUid, mountPoint } = this.data.edges.find(
+      (edge) => edge.child === nodeUid
+    );
+    const { relatedEdges, mountPoints } = getRelatedEdgesAndMountPoint(
+      this.data.edges,
+      parentUid
+    );
+    /** Edges of the same mount-point */
+    const siblingEdges = relatedEdges.filter(
+      (edge) => edge.mountPoint === mountPoint
+    );
+    const index = siblingEdges.findIndex((edge) => edge.child === nodeUid);
+    const orderedSiblingEdges = moveItemInList(siblingEdges, index, direction);
+    if (!orderedSiblingEdges) {
+      return;
+    }
+    const orderedEdges = sortBy(
+      relatedEdges,
+      (edge) => mountPoints.indexOf(edge.mountPoint),
+      (edge) => orderedSiblingEdges.indexOf(edge)
+    );
+    this.reorder(parentUid, orderedEdges);
+  }
+
+  /**
+   * Move mount-point up or down.
+   */
+  moveMountPoint(
+    { $$uid: parentUid }: BuilderRuntimeNode,
+    mountPoint: string,
+    direction: "up" | "down"
+  ): void {
+    const { relatedEdges, mountPoints } = getRelatedEdgesAndMountPoint(
+      this.data.edges,
+      parentUid
+    );
+    const index = mountPoints.indexOf(mountPoint);
+    const orderedMountPoints = moveItemInList(mountPoints, index, direction);
+    if (!orderedMountPoints) {
+      return;
+    }
+    const orderedEdges = sortBy(
+      relatedEdges,
+      (edge) => orderedMountPoints.indexOf(edge.mountPoint),
+      "sort"
+    );
+    this.reorder(parentUid, orderedEdges);
+  }
+
+  private reorder(parentUid: number, orderedEdges: BuilderRuntimeEdge[]): void {
+    const { nodes } = this.data;
+    const childUids = orderedEdges.map((edge) => edge.child);
+    this.data = {
+      ...this.data,
+      edges: reorderBuilderEdges(this.data, { parentUid, nodeUids: childUids }),
+    };
+    this.triggerDataChange();
+    const childIds = childUids
+      .map((uid) => nodes.find((node) => node.$$uid === uid))
+      .map((node) => node.id);
+    this.eventTarget.dispatchEvent(
+      new CustomEvent<EventDetailOfNodeReorder>(
+        BuilderInternalEventType.NODE_REORDER,
+        {
+          detail: {
+            nodeUids: childUids,
+            parentUid,
+            nodeIds: childIds,
+          },
+        }
+      )
     );
   }
 
@@ -704,4 +789,52 @@ export class BuilderDataManager {
       );
     };
   }
+}
+
+function getRelatedEdgesAndMountPoint(
+  edges: BuilderRuntimeEdge[],
+  parentUid: number
+): {
+  /** Edges of the same parent */
+  relatedEdges: BuilderRuntimeEdge[];
+  /** Mount-point of the same parent */
+  mountPoints: string[];
+} {
+  const relatedEdges = sortBy(
+    edges.filter(
+      (edge) => edge.parent === parentUid && !edge.$$isTemplateExpanded
+    ),
+    "sort"
+  );
+  const mountPointSet = new Set<string>();
+  for (const edge of relatedEdges) {
+    mountPointSet.add(edge.mountPoint);
+  }
+  const mountPoints = Array.from(mountPointSet);
+  return { relatedEdges, mountPoints };
+}
+
+function moveItemInList<T>(
+  list: T[],
+  index: number,
+  direction: "up" | "down"
+): T[] | undefined {
+  let upperIndex: number;
+  if (direction === "up") {
+    if (index <= 0) {
+      return;
+    }
+    upperIndex = index - 1;
+  } else {
+    if (index === -1 || index >= list.length - 1) {
+      return;
+    }
+    upperIndex = index;
+  }
+  return [
+    ...list.slice(0, upperIndex),
+    list[upperIndex + 1],
+    list[upperIndex],
+    ...list.slice(upperIndex + 2),
+  ];
 }
