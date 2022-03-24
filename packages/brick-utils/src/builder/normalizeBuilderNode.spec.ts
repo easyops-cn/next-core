@@ -38,6 +38,7 @@ describe("normalizeBuilderNode", () => {
         // Fields should be removed.
         _ts: 123,
         org: 1,
+        previewSettings: {},
       },
       {
         alias: "route-a",
