@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.16](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.15...@next-core/cook@1.6.16) (2022-03-24)
+
+
+### Bug Fixes
+
+* support mocked location in storyboard functions ([260e775](https://github.com/easyops-cn/next-core/commit/260e77567a61c7f3199a174171de2eead4007d06))
+
+
+
+
+
 ## [1.6.15](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.14...@next-core/cook@1.6.15) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/cook

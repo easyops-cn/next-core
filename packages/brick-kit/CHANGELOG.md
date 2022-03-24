@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.111.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.111.0...@next-core/brick-kit@2.111.1) (2022-03-24)
+
+
+### Bug Fixes
+
+* support mocked location in storyboard functions ([260e775](https://github.com/easyops-cn/next-core/commit/260e77567a61c7f3199a174171de2eead4007d06))
+
+
+
+
+
 # [2.111.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.110.0...@next-core/brick-kit@2.111.0) (2022-03-24)
 
 

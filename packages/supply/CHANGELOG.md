@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.28](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.27...@next-core/supply@1.0.28) (2022-03-24)
+
+
+### Bug Fixes
+
+* support mocked location in storyboard functions ([260e775](https://github.com/easyops-cn/next-core/commit/260e77567a61c7f3199a174171de2eead4007d06))
+
+
+
+
+
 ## [1.0.27](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.26...@next-core/supply@1.0.27) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/supply

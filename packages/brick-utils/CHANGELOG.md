@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.0...@next-core/brick-utils@2.37.1) (2022-03-24)
+
+
+### Bug Fixes
+
+* ignore `previewSettings` when building route node ([8cffb40](https://github.com/easyops-cn/next-core/commit/8cffb40b0c583a989c29518a1ed3ef2c8b24ad62))
+
+
+
+
+
 # [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.36.0...@next-core/brick-utils@2.37.0) (2022-03-24)
 
 
