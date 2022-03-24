@@ -1,5 +1,6 @@
 import { act } from "react-dom/test-utils";
 import { listenDevtools } from "./devtools";
+import { getMenu } from "./menu";
 import {
   TRANSFORMATION_EDIT,
   EVALUATION_EDIT,
@@ -78,6 +79,7 @@ describe("devtools", () => {
               context: {
                 APP: {
                   homePage: "/easyops",
+                  getMenu,
                 },
               },
             },

@@ -33,6 +33,16 @@ jest.mock("../core/WidgetFunctions", () => ({
     },
   },
 }));
+jest.mock("./menu", () => ({
+  getMenu: (menuId: string) => {
+    if (menuId) {
+      return {
+        title: menuId,
+      };
+    }
+    return undefined;
+  },
+}));
 
 i18next.init({
   fallbackLng: "en",
@@ -199,6 +209,8 @@ describe("evaluate", () => {
     ["<% EVENT.detail %>", "<% EVENT.detail %>"],
     ["<% DATA.cellData %>", "<% DATA.cellData %>"],
     ["<% APP.homepage %>", "/hello"],
+    ["<% APP.getMenu('test') %>", { title: "test" }],
+    ["<% APP.getMenu() %>", undefined],
     ["<% PATH.objectId %>", "HOST"],
     [" <% QUERY.a %>", "x"],
     ["<% QUERY.b %> ", "2"],

@@ -8,6 +8,7 @@ import { Kernel } from "../core/Kernel";
 import {
   fetchMenuById,
   constructMenu,
+  constructMenuByMenusList,
   processMenuTitle,
   clearMenuTitleCache,
   clearMenuCache,
@@ -395,6 +396,12 @@ describe("processMenuTitle", () => {
 });
 
 describe("constructMenu", () => {
+  beforeEach(() => {
+    clearMenuTitleCache();
+    clearMenuCache();
+    jest.clearAllMocks();
+  });
+
   const context = {
     app: currentApp,
   } as unknown as PluginRuntimeContext;
@@ -582,5 +589,11 @@ describe("constructMenu", () => {
       },
       subMenu: null,
     });
+  });
+
+  it("constructMenuByMenusList should work", async () => {
+    await constructMenuByMenusList(["menu-c", "menu-d"], context, null);
+
+    expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });
 });

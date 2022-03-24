@@ -29,6 +29,7 @@ import {
   matchPath,
   computeRealRoutePath,
   hasOwnProperty,
+  scanAppGetMenuInAny,
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../internal/bindListeners";
@@ -67,6 +68,7 @@ import {
   TrackingContextItem,
 } from "../internal/listenOnTrackingContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
+import { constructMenuByMenusList } from "../internal/menu";
 
 export type MatchRoutesResult =
   | {
@@ -311,6 +313,14 @@ export class LocationContext {
         if (isRouteConfOfRoutes(route) && Array.isArray(route.routes)) {
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
+          const useMenus = scanAppGetMenuInAny(route);
+          if (useMenus.length) {
+            await constructMenuByMenusList(
+              useMenus,
+              this.getCurrentContext(),
+              this.kernel
+            );
+          }
           await this.mountBricks(
             route.bricks,
             matched.match,

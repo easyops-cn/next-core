@@ -3531,6 +3531,8 @@
           "prefetchScript",
           "resolveContextConcurrently",
           "restoreDynamicTemplates",
+          "scanAppGetMenuInAny",
+          "scanAppGetMenuInStoryboard",
           "scanBricksInBrickConf",
           "scanBricksInStoryboard",
           "scanCustomApisInStoryboard",
