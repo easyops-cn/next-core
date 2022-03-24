@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.30.4...@next-core/brick-dll@2.31.0) (2022-03-24)
+
+
+### Features
+
+* support APP.getMenu ([#1651](https://github.com/easyops-cn/next-core/issues/1651)) ([5b9f53a](https://github.com/easyops-cn/next-core/commit/5b9f53a3367087a062f415dd68070f15b98bf966))
+
+
+
+
+
 ## [2.30.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.30.3...@next-core/brick-dll@2.30.4) (2022-03-23)
 
 **Note:** Version bump only for package @next-core/brick-dll

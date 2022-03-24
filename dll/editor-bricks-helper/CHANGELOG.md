@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.5...@next-dll/editor-bricks-helper@0.28.0) (2022-03-24)
+
+
+### Features
+
+* support APP.getMenu ([#1651](https://github.com/easyops-cn/next-core/issues/1651)) ([5b9f53a](https://github.com/easyops-cn/next-core/commit/5b9f53a3367087a062f415dd68070f15b98bf966))
+
+
+
+
+
 ## [0.27.5](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.4...@next-dll/editor-bricks-helper@0.27.5) (2022-03-23)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
