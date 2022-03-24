@@ -22,7 +22,7 @@ export function scanAppGetMenuInStoryboard(storyboard: Storyboard): string[] {
   return Array.from(collection);
 }
 
-export function scanAppActionsInAny(data: unknown): string[] {
+export function scanAppGetMenuInAny(data: unknown): string[] {
   const collection = new Set<string>();
   visitStoryboardExpressions(data, beforeVisitAppFactory(collection), APP);
   return Array.from(collection);

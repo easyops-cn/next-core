@@ -1,7 +1,7 @@
 import { Storyboard } from "@next-core/brick-types";
 import {
   scanAppGetMenuInStoryboard,
-  scanAppActionsInAny,
+  scanAppGetMenuInAny,
 } from "./scanAppInStoryboard";
 
 describe("scanPermissionActionsInStoryboard", () => {
@@ -90,7 +90,7 @@ describe("scanPermissionActionsInAny", () => {
         bad11: "<% APP.getMenu('menu-11', 'menu-12') %>",
       },
     };
-    expect(scanAppActionsInAny(brickConf).sort()).toEqual([
+    expect(scanAppGetMenuInAny(brickConf).sort()).toEqual([
       "menu-1",
       "menu-2",
       "menu-3",

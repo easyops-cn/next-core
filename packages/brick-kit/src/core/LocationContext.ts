@@ -29,7 +29,7 @@ import {
   matchPath,
   computeRealRoutePath,
   hasOwnProperty,
-  scanAppActionsInAny,
+  scanAppGetMenuInAny,
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../internal/bindListeners";
@@ -313,7 +313,7 @@ export class LocationContext {
         if (isRouteConfOfRoutes(route) && Array.isArray(route.routes)) {
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
-          const useMenus = scanAppActionsInAny(route);
+          const useMenus = scanAppGetMenuInAny(route);
           if (useMenus.length) {
             await constructMenuByMenusList(
               useMenus,
