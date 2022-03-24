@@ -26,7 +26,6 @@ const negativeCasesOfExpressionAny: string[] = [
   "[undefined].map(({}) => 1)",
   "[undefined].map(({a}) => a)",
   "[undefined].map(({...a}) => a)",
-  "location.assign('/')",
   "moment.updateLocale('en', {})",
   // `ArrayPattern` meets non-iterable.
   "[[1]].map(([a, [b]]) => a + b)",

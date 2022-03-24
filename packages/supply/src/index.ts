@@ -147,8 +147,6 @@ function supplyIndividual(variableName: string): unknown {
       );
     case "PIPES":
       return pipes;
-    case "location":
-      return { href: location.href, origin: location.origin };
     case "TAG_URL":
       return tagUrlFactory(true);
     case "SAFE_TAG_URL":

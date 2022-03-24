@@ -142,8 +142,6 @@ exports[`evaluate should throw: expression: c\`a\${1}b\` 1`] = `"c is not define
 
 exports[`evaluate should throw: expression: delete DATA.objectC.C1 1`] = `"Cannot delete property 'C1' of #<Object>"`;
 
-exports[`evaluate should throw: expression: location.assign('/') 1`] = `"location.assign is not a function"`;
-
 exports[`evaluate should throw: expression: moment.updateLocale('en', {}) 1`] = `"moment.updateLocale is not a function"`;
 
 exports[`evaluate should throw: expression: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
@@ -203,8 +201,6 @@ exports[`evaluate should throw: expression-only: EVENT.detail 1`] = `"EVENT is n
 exports[`evaluate should throw: expression-only: Object.assign(DATA, { override: true }) 1`] = `"Object.assign is not a function"`;
 
 exports[`evaluate should throw: expression-only: c\`a\${1}b\` 1`] = `"c is not defined"`;
-
-exports[`evaluate should throw: expression-only: location.assign('/') 1`] = `"location.assign is not a function"`;
 
 exports[`evaluate should throw: expression-only: moment.updateLocale('en', {}) 1`] = `"moment.updateLocale is not a function"`;
 

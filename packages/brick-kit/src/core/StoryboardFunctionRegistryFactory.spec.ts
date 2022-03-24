@@ -62,7 +62,7 @@ describe("StoryboardFunctions", () => {
           name: "getBaseUrl",
           source: `
           function getBaseUrl() {
-            return BASE_URL;
+            return location.origin + BASE_URL;
           }
           `,
         },
@@ -100,7 +100,7 @@ describe("StoryboardFunctions", () => {
     );
     expect(fn.sayExclamation("Oops")).toBe("Oops!!");
     expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
-    expect(fn.getBaseUrl()).toBe("");
+    expect(fn.getBaseUrl()).toBe("http://localhost");
     expect(fn.checkPermissions("my:action-a")).toBe(true);
     expect(fn.checkPermissions("my:action-b")).toBe(false);
   });
@@ -221,7 +221,7 @@ describe("collect coverage", () => {
         name: "getBaseUrl",
         source: `
         function getBaseUrl() {
-          return BASE_URL;
+          return location.origin + BASE_URL;
         }
         `,
       },
@@ -263,7 +263,7 @@ describe("collect coverage", () => {
     expect(fn.i18n("HELLO")).toBe("HELLO");
     expect(fn.i18nText({ zh: "你好", en: "Hello" })).toBe("Hello");
     expect(fn.getImg()).toBe("mock/images/my-img.png");
-    expect(fn.getBaseUrl()).toBe("/next");
+    expect(fn.getBaseUrl()).toBe("http://localhost:3000/next");
     expect(fn.checkPermissions("my:action-b")).toBe(true);
   });
 });

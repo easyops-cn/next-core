@@ -27,7 +27,6 @@ const casesOfExpressionAny: [string, unknown][] = [
   ["parseInt('5.3good')", 5],
   ["Math.max(1, 2)", 2],
   ["PIPES.string(null)", ""],
-  ["location.href", "http://localhost/"],
   ["DATA.for", "good"],
   ["DATA['for']", "good"],
   ["DATA.other", undefined],

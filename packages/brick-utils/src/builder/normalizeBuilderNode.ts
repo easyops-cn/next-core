@@ -53,6 +53,7 @@ const baseFieldsToRemove = [
   "name",
   "providersBak",
   "providers_bak",
+  "previewSettings",
 
   "deleteAuthorizers",
   "readAuthorizers",
