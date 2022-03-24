@@ -75,6 +75,13 @@ function getIndividualGlobal(
       };
     case "console":
       return isStoryboardFunction ? getReadOnlyProxy(console) : undefined;
+    case "location":
+      return collectCoverage
+        ? {
+            href: "http://localhost:3000/functions/test",
+            origin: "http://localhost:3000",
+          }
+        : { href: location.href, origin: location.origin };
   }
 }
 
