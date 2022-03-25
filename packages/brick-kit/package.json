@@ -61,7 +61,7 @@
     "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.16.1"
+    "react-i18next": "^11.16.2"
   },
   "peerDependencies": {
     "@ant-design/icons": "*",
