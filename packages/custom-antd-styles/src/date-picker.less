@@ -10,6 +10,10 @@
 
   &-header-view {
     color: var(--antd-picker-panel-header-color);
+
+    button:hover {
+      color: var(--color-brand);
+    }
   }
 
   &-cell-in-view {
@@ -21,6 +25,10 @@
           border-color: var(--antd-picker-panel-cell-today-hover-border-color);
         }
       }
+    }
+
+    &.@{picker-prefix-cls}-cell-today .@{picker-prefix-cls}-cell-inner::before {
+      border-color: var(--color-brand);
     }
 
     &.@{picker-prefix-cls}-cell-today.@{picker-prefix-cls}-cell-selected {
@@ -38,6 +46,18 @@
       .@{picker-prefix-cls}-cell-inner {
         color: var(--antd-picker-panel-cell-selected-color);
       }
+    }
+  }
+}
+
+.@{picker-prefix-cls}-year-panel .@{picker-prefix-cls}-cell-disabled {
+  .@{picker-prefix-cls}-cell-inner {
+    background-color: transparent;
+  }
+
+  &.@{picker-prefix-cls}-cell-selected {
+    .@{picker-prefix-cls}-cell-inner {
+      background-color: var(--antd-picker-panel-cell-selected-bg);
     }
   }
 }

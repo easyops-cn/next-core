@@ -236,7 +236,7 @@ html[data-theme="dark-v2"],
   /*** card ***/
   --antd-card-background: var(--color-fill-bg-container-1);
   --antd-card-shadow: var(--base-shadow);
-  --antd-card-footer-bg: var(--palette-gray-3);
+  --antd-card-footer-bg: var(--color-fill-bg-container-1);
 
   /*** radio dashboard ***/
   --antd-dashboard-radio-bg: var(--color-fill-bg-base-5);
@@ -439,6 +439,10 @@ html[data-theme="dark-v2"],
   --antd-input-number-handler-wrap-bg: var(--color-fill-bg-base-1);
   --antd-input-number-handler-wrap-icon: var(--color-auxiliary-text);
   --antd-input-number-handler-wrap-hover-bg: var(--palette-blue-2);
+
+  /*** Switch ***/
+  --antd-switch-color: var(--color-brand);
+  --antd-switch-bg: var(--color-white);
 
   /*** description ***/
   --antd-description-title-color: var(--color-header-text);
