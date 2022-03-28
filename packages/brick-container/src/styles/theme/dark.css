@@ -183,6 +183,7 @@ html[data-theme="dark-v2"],
   --antd-link-active-color: var(--color-brand-active);
 
   --antd-disabled-color-fade-10: rgba(255, 255, 255, 0.27);
+  --antd-switch-color-fade-20: rgba(20, 40, 74, 1);
 
   /*** menu ***/
   --antd-menu-bg: var(--menu-bg);
