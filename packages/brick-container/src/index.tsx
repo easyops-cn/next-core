@@ -18,10 +18,6 @@ import {
 } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
-import type {
-  PreviewHelperBrick,
-  PreviewMessageContainerStartPreview,
-} from "@next-core/brick-types";
 import "./antd";
 import "./styles/theme/index.css";
 import "./styles/variables.css";
@@ -198,3 +194,12 @@ async function bootstrap(): Promise<void> {
 }
 
 bootstrap();
+
+export interface PreviewHelperBrick {
+  start(previewFromOrigin: string): void;
+}
+
+export interface PreviewMessageContainerStartPreview {
+  sender: "preview-container";
+  type: "start-preview";
+}
