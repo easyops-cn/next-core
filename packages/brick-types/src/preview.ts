@@ -28,6 +28,7 @@ export type PreviewMessageFromContainer =
   | PreviewMessageContainerBuilderHoverOnBrick
   | PreviewMessageContainerPreviewerHoverOnBrick
   | PreviewMessageContainerPreviewerSelectBrick
+  | PreviewMessageContainerPreviewerContextMenuOnBrick
   | PreviewMessageContainerRefresh;
 
 /** @internal */
@@ -35,13 +36,15 @@ export type PreviewMessageToContainer =
   | PreviewMessageBuilderHoverOnBrick
   | PreviewMessagePreviewerHoverOnBrick
   | PreviewMessagePreviewerSelectBrick
+  | PreviewMessagePreviewerContextMenuOnBrick
   | PreviewMessagePreviewerPreviewStarted
   | PreviewMessagePreviewerUrlChange;
 
 /** @internal */
 export type PreviewerMessageToBuilder =
   | PreviewMessageContainerPreviewerHoverOnBrick
-  | PreviewMessageContainerPreviewerSelectBrick;
+  | PreviewMessageContainerPreviewerSelectBrick
+  | PreviewMessageContainerPreviewerContextMenuOnBrick;
 
 /** @internal */
 export interface PreviewMessagePreviewerPreviewStarted
@@ -63,6 +66,18 @@ export interface PreviewMessagePreviewerSelectBrick extends PreviewBaseMessage {
   sender: "previewer";
   type: "select-brick";
   iidList: string[];
+}
+
+/** @internal */
+export interface PreviewMessagePreviewerContextMenuOnBrick
+  extends PreviewBaseMessage {
+  sender: "previewer";
+  type: "context-menu-on-brick";
+  iidList: string[];
+  position: {
+    x: number;
+    y: number;
+  };
 }
 
 /** @internal */
@@ -110,6 +125,13 @@ export interface PreviewMessageContainerPreviewerHoverOnBrick
 /** @internal */
 export interface PreviewMessageContainerPreviewerSelectBrick
   extends Omit<PreviewMessagePreviewerSelectBrick, "sender"> {
+  sender: "preview-container";
+  forwardedFor: "previewer";
+}
+
+/** @internal */
+export interface PreviewMessageContainerPreviewerContextMenuOnBrick
+  extends Omit<PreviewMessagePreviewerContextMenuOnBrick, "sender"> {
   sender: "preview-container";
   forwardedFor: "previewer";
 }
