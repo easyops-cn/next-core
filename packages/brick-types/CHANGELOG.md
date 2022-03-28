@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.60.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.1...@next-core/brick-types@2.60.2) (2022-03-28)
+
+
+### Bug Fixes
+
+* **preview:** add types for context menu on brick ([5d1f468](https://github.com/easyops-cn/next-core/commit/5d1f46870a91355cc971f0cf2170e914e93df282))
+
+
+
+
+
 ## [2.60.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.0...@next-core/brick-types@2.60.1) (2022-03-15)
 
 
