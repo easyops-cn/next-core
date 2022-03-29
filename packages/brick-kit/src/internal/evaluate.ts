@@ -24,6 +24,7 @@ import { getGeneralGlobals } from "./getGeneralGlobals";
 import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
 import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 import { getMenu } from "./menu";
+import { getMedia } from "./mediaQuery";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -278,6 +279,8 @@ export function evaluate(
         };
       case "SYS":
         return getReadOnlyProxy(sys);
+      case "MEDIA":
+        return getReadOnlyProxy(getMedia());
       case "__WIDGET_FN__":
         return widgetFunctions;
       case "__WIDGET_IMG__":

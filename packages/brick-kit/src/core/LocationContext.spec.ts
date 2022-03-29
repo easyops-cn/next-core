@@ -14,6 +14,7 @@ import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
 import { validatePermissions } from "../internal/checkPermissions";
 import * as menu from "../internal/menu";
+import { MediaSize } from "../internal/mediaQuery";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -568,6 +569,9 @@ describe("LocationContext", () => {
                       onAnchorUnload: {
                         action: "console.log",
                       },
+                      onMediaChange: {
+                        action: "console.log",
+                      },
                       onMessageClose: {
                         action: "console.log",
                       },
@@ -980,6 +984,8 @@ describe("LocationContext", () => {
         action: "POP",
       });
       context.handlePageLeave();
+      const mediaChangeDetail = { size: MediaSize.xLarge };
+      context.handleMediaChange(mediaChangeDetail);
       context.handleMessageClose(new CloseEvent("error"));
       context.handleMessage();
 
@@ -1021,6 +1027,11 @@ describe("LocationContext", () => {
 
       expect(consoleLog).toHaveBeenNthCalledWith(
         6,
+        new CustomEvent("media.change", { detail: mediaChangeDetail })
+      );
+
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        7,
         new CustomEvent("message.close")
       );
 

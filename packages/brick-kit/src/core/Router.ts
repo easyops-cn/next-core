@@ -49,6 +49,7 @@ import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
 import { StoryboardContextWrapper } from "./StoryboardContext";
+import { Media, mediaEventTarget } from "../internal/mediaQuery";
 
 export class Router {
   private defaultCollapsed = false;
@@ -60,6 +61,7 @@ export class Router {
   private renderId: string;
   private readonly featureFlags: Record<string, boolean>;
   private navConfig: NavConfig;
+  private mediaEventTargetHandler: (event: CustomEvent<Media>) => void;
 
   constructor(private kernel: Kernel) {
     this.featureFlags = this.kernel.getFeatureFlags();
@@ -377,6 +379,14 @@ export class Router {
           : undefined;
       this.kernel.unsetBars({ appChanged, legacy: actualLegacy });
 
+      if (this.mediaEventTargetHandler) {
+        mediaEventTarget.removeEventListener(
+          "change",
+          this.mediaEventTargetHandler as EventListener
+        );
+        this.mediaEventTargetHandler = undefined;
+      }
+
       // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
       this.locationContext.handleBeforePageLoad();
       applyTheme();
@@ -451,6 +461,13 @@ export class Router {
           this.locationContext.resolver.scheduleRefreshing();
           this.locationContext.handleMessage();
         }
+
+        this.mediaEventTargetHandler = (event) =>
+          this.locationContext.handleMediaChange(event.detail);
+        mediaEventTarget.addEventListener(
+          "change",
+          this.mediaEventTargetHandler as EventListener
+        );
 
         pageTracker?.(locationContext.getCurrentMatch().path);
 

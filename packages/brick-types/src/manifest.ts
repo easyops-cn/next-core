@@ -706,6 +706,11 @@ export interface BrickLifeCycle {
    */
   onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
 
+  /**
+   * 定义构件在页面渲染完成后，当求值占位符的 MEDIA 全局对象改变时，需要处理的动作。
+   */
+  onMediaChange?: BrickEventHandler | BrickEventHandler[];
+
   /** @internal */
   onMessage?: MessageConf | MessageConf[];
 

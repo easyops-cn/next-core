@@ -69,6 +69,8 @@ import {
 } from "../internal/listenOnTrackingContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { constructMenuByMenusList } from "../internal/menu";
+import { Media } from "../internal/mediaQuery";
+import { getReadOnlyProxy } from "../internal/proxyFactories";
 
 export type MatchRoutesResult =
   | {
@@ -138,6 +140,7 @@ export class LocationContext {
   private readonly pageLeaveHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly anchorUnloadHandlers: BrickAndLifeCycleHandler[] = [];
+  private readonly mediaChangeHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly messageCloseHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly messageHandlers: BrickAndMessage[] = [];
   private readonly segues: SeguesConf = {};
@@ -735,6 +738,7 @@ export class LocationContext {
       onPageLeave,
       onAnchorLoad,
       onAnchorUnload,
+      onMediaChange,
       onMessage,
       onMessageClose,
     } = lifeCycle ?? {};
@@ -790,6 +794,15 @@ export class LocationContext {
         match,
         tplContextId,
         handler: onAnchorUnload,
+      });
+    }
+
+    if (onMediaChange) {
+      this.mediaChangeHandlers.push({
+        brick,
+        match,
+        tplContextId,
+        handler: onMediaChange,
       });
     }
 
@@ -865,6 +878,13 @@ export class LocationContext {
         this.anchorUnloadHandlers
       );
     }
+  }
+
+  handleMediaChange(detail: Media): void {
+    this.dispatchLifeCycleEvent(
+      new CustomEvent("media.change", { detail: getReadOnlyProxy(detail) }),
+      this.mediaChangeHandlers
+    );
   }
 
   handleMessage(): void {
