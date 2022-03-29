@@ -20,7 +20,7 @@ import {
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
-import {
+import type {
   MountPoints,
   BootstrapData,
   RuntimeBootstrapData,
@@ -35,6 +35,7 @@ import {
   PresetBricksConf,
   RouteConf,
   MenuRawData,
+  Storyboard,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
@@ -258,6 +259,10 @@ export class Kernel {
         $$fulfilled: true,
       });
     }
+    this.postProcessStoryboard(storyboard);
+  }
+
+  private postProcessStoryboard(storyboard: RuntimeStoryboard): void {
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
 
     if (storyboard.meta?.i18n) {
@@ -268,6 +273,21 @@ export class Kernel {
         i18next.addResourceBundle(lang, i18nNamespace, resources);
       });
     }
+  }
+
+  _dev_only_updateStoryboard(
+    appId: string,
+    storyboardPatch: Partial<Storyboard>
+  ): void {
+    const storyboard = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    Object.assign(storyboard, {
+      ...storyboardPatch,
+      $$fulfilling: Promise.resolve(),
+      $$fulfilled: true,
+    });
+    this.postProcessStoryboard(storyboard);
   }
 
   async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {

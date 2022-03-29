@@ -1023,4 +1023,85 @@ describe("Kernel", () => {
       type: "variables",
     });
   });
+
+  it("should update storyboard", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+          },
+          routes: [
+            {
+              alias: "home",
+              path: "${APP.homepage}",
+              bricks: [],
+            },
+          ],
+        },
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [
+            {
+              alias: "home",
+              path: "${APP.homepage}",
+              bricks: [],
+            },
+          ],
+          $$fulfilling: false,
+          $$fulfilled: false,
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+    kernel._dev_only_updateStoryboard("app-b", {
+      routes: [
+        {
+          alias: "new-home",
+          path: "${APP.homepage}/new",
+          bricks: [],
+        },
+      ],
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          id: "app-a",
+          homepage: "/app-a",
+          config: {},
+        },
+        routes: [
+          {
+            alias: "home",
+            path: "${APP.homepage}",
+            bricks: [],
+          },
+        ],
+      },
+      {
+        app: {
+          id: "app-b",
+          homepage: "/app-b",
+          config: {},
+        },
+        routes: [
+          {
+            alias: "new-home",
+            path: "${APP.homepage}/new",
+            bricks: [],
+          },
+        ],
+        $$fulfilling: Promise.resolve(),
+        $$fulfilled: true,
+      },
+    ]);
+  });
 });
