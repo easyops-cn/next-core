@@ -302,6 +302,7 @@ export interface BrickLifeCycle {
     onAnchorUnload?: BrickEventHandler | BrickEventHandler[];
     onBeforePageLeave?: BrickEventHandler | BrickEventHandler[];
     onBeforePageLoad?: BrickEventHandler | BrickEventHandler[];
+    onMediaChange?: BrickEventHandler | BrickEventHandler[];
     // @internal (undocumented)
     onMessage?: MessageConf | MessageConf[];
     // @internal (undocumented)

@@ -19,6 +19,7 @@ import { mountTree, mountStaticNode } from "./reconciler";
 import { getAuth, isLoggedIn } from "../auth";
 import { getRuntime } from "../runtime";
 import { preCheckPermissions } from "../internal/checkPermissions";
+import { mediaEventTarget } from "../internal/mediaQuery";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -62,6 +63,10 @@ const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
 (getAuth as jest.Mock).mockReturnValue({});
+const spyOnMediaEventTargetAddEventListener = jest.spyOn(
+  mediaEventTarget,
+  "addEventListener"
+);
 const mockUserAnalyticsEvent = userAnalytics.event as jest.Mock;
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
@@ -222,6 +227,7 @@ describe("Router", () => {
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
     expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
     expect(preCheckPermissions).toBeCalled();
+    expect(spyOnMediaEventTargetAddEventListener).toBeCalled();
     expect(mockUserAnalyticsEvent).toBeCalledWith("page_view", {
       micro_app_id: "hello",
       route_alias: "route alias",
