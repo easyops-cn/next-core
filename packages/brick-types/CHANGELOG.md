@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.3...@next-core/brick-types@2.61.0) (2022-03-29)
+
+
+### Features
+
+* add MEDIA gloabl object and onMediaChange life cycle ([3192ee4](https://github.com/easyops-cn/next-core/commit/3192ee4e595e2edc78d05b68d6cf0431905296fb))
+
+
+
+
+
 ## [2.60.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.2...@next-core/brick-types@2.60.3) (2022-03-29)
 
 

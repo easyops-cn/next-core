@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.114.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.113.0...@next-core/brick-kit@2.114.0) (2022-03-29)
+
+
+### Features
+
+* add MEDIA gloabl object and onMediaChange life cycle ([3192ee4](https://github.com/easyops-cn/next-core/commit/3192ee4e595e2edc78d05b68d6cf0431905296fb))
+
+
+
+
+
 # [2.113.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.112.1...@next-core/brick-kit@2.113.0) (2022-03-29)
 
 
