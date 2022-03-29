@@ -71,6 +71,7 @@ import { StoryboardContextWrapper } from "./StoryboardContext";
 import { constructMenuByMenusList } from "../internal/menu";
 import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
+import { customTemplateRegistry } from "./CustomTemplates/constants";
 
 export type MatchRoutesResult =
   | {
@@ -314,22 +315,23 @@ export class LocationContext {
         }
 
         if (isRouteConfOfRoutes(route) && Array.isArray(route.routes)) {
+          await this.preFetchMenu(route.context);
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
-          const useMenus = scanAppGetMenuInAny(route);
-          if (useMenus.length) {
-            await constructMenuByMenusList(
-              useMenus,
-              this.getCurrentContext(),
-              this.kernel
-            );
-          }
+          const tplStack: string[] = [];
           await this.mountBricks(
             route.bricks,
             matched.match,
             slotId,
-            mountRoutesResult
+            mountRoutesResult,
+            tplStack
           );
+          const templates =
+            tplStack?.map((item) => customTemplateRegistry.get(item)) ?? [];
+          this.preFetchMenu({
+            route,
+            templates,
+          });
 
           // analytics data (page_view event)
           if (route.analyticsData) {
@@ -483,7 +485,7 @@ export class LocationContext {
           match,
           slotId,
           mountRoutesResult,
-          tplStack?.slice()
+          tplStack
         );
       } catch (error) {
         if (error instanceof ResolveRequestError) {
@@ -929,6 +931,17 @@ export class LocationContext {
           brickAndHandler.brick
         )(event);
       }
+    }
+  }
+
+  private async preFetchMenu(data: unknown): Promise<void> {
+    const useMenus: string[] = scanAppGetMenuInAny(data);
+    if (useMenus.length) {
+      await constructMenuByMenusList(
+        useMenus,
+        this.getCurrentContext(),
+        this.kernel
+      );
     }
   }
 }
