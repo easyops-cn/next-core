@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.113.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.112.1...@next-core/brick-kit@2.113.0) (2022-03-29)
+
+
+### Features
+
+* cache fetchMenu, and APP.getMenu change ([07ede47](https://github.com/easyops-cn/next-core/commit/07ede4778f012fbbb7e72d30b1c41d6478660aec))
+* update type ([d7b480e](https://github.com/easyops-cn/next-core/commit/d7b480ecc287263345415c536bd263b7fb317b1e))
+
+
+
+
+
 ## [2.112.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.112.0...@next-core/brick-kit@2.112.1) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/brick-kit
