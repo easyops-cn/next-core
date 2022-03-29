@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const NextDllReferencePlugin = require("../dll/NextDllReferencePlugin");
+const ScanUseProviderHookContractsPlugin = require("./ScanUseProviderHookContractsPlugin");
 
 /**
  * This webpack configuration is used only for contract analysis.
@@ -93,6 +94,9 @@ module.exports = (cwdDirname = process.cwd(), brickEntries) => {
           /\.(?:md|svga?|woff(2)?|ttf|eot|png|jpg|css|less|html)$/,
       }),
       new CleanWebpackPlugin(),
+      new ScanUseProviderHookContractsPlugin({
+        printWarning: true,
+      }),
       new NextDllReferencePlugin({
         context: appRoot,
         // 解决该包在 `npm link` 下引用到错误的包路径的问题
