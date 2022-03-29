@@ -1,11 +1,11 @@
 import { act } from "react-dom/test-utils";
 import { listenDevtools } from "./devtools";
-import { getMenu } from "./menu";
 import {
   TRANSFORMATION_EDIT,
   EVALUATION_EDIT,
   MESSAGE_SOURCE_PANEL,
 } from "./devtools";
+const jestGetMenuFn = (menuId: string) => menuId;
 
 jest.mock("../core/Runtime", () => ({
   _internalApiGetCurrentContext: () => {
@@ -21,6 +21,7 @@ jest.mock("../core/Runtime", () => ({
       storyboardContext: new Map(),
     };
   },
+  _internalApiGetMenu: jestGetMenuFn,
 }));
 
 describe("devtools", () => {
@@ -79,7 +80,6 @@ describe("devtools", () => {
               context: {
                 APP: {
                   homePage: "/easyops",
-                  getMenu,
                 },
               },
             },

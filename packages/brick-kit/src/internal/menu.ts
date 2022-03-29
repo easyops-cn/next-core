@@ -64,9 +64,6 @@ export async function constructMenuByMenusList(
   );
 }
 
-export const getMenu = (menuId: string): SidebarMenu =>
-  processMenuCache.get(menuId);
-
 export async function fetchMenuById(
   menuId: string,
   kernel: Kernel

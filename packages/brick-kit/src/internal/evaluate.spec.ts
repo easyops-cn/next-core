@@ -33,16 +33,6 @@ jest.mock("../core/WidgetFunctions", () => ({
     },
   },
 }));
-jest.mock("./menu", () => ({
-  getMenu: (menuId: string) => {
-    if (menuId) {
-      return {
-        title: menuId,
-      };
-    }
-    return undefined;
-  },
-}));
 
 i18next.init({
   fallbackLng: "en",
@@ -161,6 +151,14 @@ jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
     ],
   ]),
 } as any);
+
+jest.spyOn(runtime, "_internalApiGetMenu").mockReturnValue((menuId: string) =>
+  menuId
+    ? {
+        title: menuId,
+      }
+    : undefined
+);
 
 function objectEntries(object: Record<string, any>): [string, any][] {
   return Object.entries(object);

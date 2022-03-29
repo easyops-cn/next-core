@@ -56,6 +56,10 @@ const spyOnGetCurrentContext = jest.spyOn(
 const spyOnGetResolver = jest.spyOn(runtime, "_internalApiGetResolver");
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 
+jest
+  .spyOn(runtime, "_internalApiGetMenu")
+  .mockReturnValue((menuId: string) => menuId);
+
 describe("LocationContext", () => {
   const kernel: Kernel = {
     mountPoints: {

@@ -369,6 +369,13 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
   return kernel.router.getCurrentContext();
 }
 
+/* istanbul ignore next */
+export function _internalApiGetMenu(): SidebarMenu {
+  return (menuId: string) => {
+    return processMenu(menuId, kernel.router.getCurrentContext(), kernel);
+  };
+}
+
 export function _internalApiHasMatchedApp(pathname: string): boolean {
   for (const { homepage } of kernel.bootstrapData.microApps) {
     if (pathname === homepage || pathname.startsWith(`${homepage}/`)) {

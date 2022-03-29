@@ -9,7 +9,10 @@ import {
 } from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
 import { MicroApp } from "@next-core/brick-types";
-import { _internalApiGetCurrentContext } from "../core/Runtime";
+import {
+  _internalApiGetCurrentContext,
+  _internalApiGetMenu,
+} from "../core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
 import { widgetImagesFactory } from "./images";
@@ -23,7 +26,6 @@ import { widgetI18nFactory } from "../core/WidgetI18n";
 import { getGeneralGlobals } from "./getGeneralGlobals";
 import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
 import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
-import { getMenu } from "./menu";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -204,7 +206,7 @@ export function evaluate(
       case "APP":
         return {
           ...cloneDeep(app),
-          getMenu,
+          getMenu: _internalApiGetMenu(),
         };
       case "CTX":
         return getDynamicReadOnlyProxy({
