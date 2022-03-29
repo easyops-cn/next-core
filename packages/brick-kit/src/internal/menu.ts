@@ -66,7 +66,7 @@ export async function constructMenuByMenusList(
   data.forEach((item, index) => processMenuCache.set(menus[index], item));
 }
 
-export const getMenu = (menuId: string): MenuRawData =>
+export const getMenu = (menuId: string): SidebarMenu =>
   processMenuCache.get(menuId);
 
 export async function fetchMenuById(
