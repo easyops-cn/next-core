@@ -29,7 +29,6 @@ interface RuntimeMenuItemRawData extends MenuItemRawData {
 // Caching menu requests to avoid flicker.
 const menuCache = new Map<string, MenuRawData>();
 const menuTitleCache = new Map<string, string>();
-const processMenuCache = new Map<string, SidebarMenu>();
 
 export async function constructMenu(
   menuBar: MountRoutesResult["menuBar"],
@@ -212,7 +211,7 @@ export async function processMenu(
     items: await computeMenuItemsWithOverrideApp(items, context, kernel),
   };
 
-  const menuItem = {
+  return {
     title: await processMenuTitle(menuData),
     icon: menuData.icon,
     link: menuData.link,
@@ -244,9 +243,7 @@ export async function processMenu(
       }),
     defaultCollapsed: menuData.defaultCollapsed || hasSubMenu,
     defaultCollapsedBreakpoint: menuData.defaultCollapsedBreakpoint,
-  } as SidebarMenu;
-  processMenuCache.set(menuId, menuItem);
-  return menuItem;
+  };
 }
 
 function computeMenuItemsWithOverrideApp(
