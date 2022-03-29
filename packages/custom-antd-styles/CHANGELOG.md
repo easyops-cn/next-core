@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.21...@next-core/custom-antd-styles@1.24.0) (2022-03-29)
+
+
+### Features
+
+* adapt to the dark theme ([22b62ad](https://github.com/easyops-cn/next-core/commit/22b62adbfef71227d3769fce249e95e2d5080f89)), closes [Refs#BRICK_STORE-2651](https://github.com/Refs/issues/BRICK_STORE-2651)
+
+
+
+
+
 ## [1.23.21](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.20...@next-core/custom-antd-styles@1.23.21) (2022-03-28)
 
 
