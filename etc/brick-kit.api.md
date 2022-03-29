@@ -35,12 +35,12 @@ import { HttpResponseError } from '@next-core/brick-http';
 import { I18nData } from '@next-core/brick-types';
 import { IllustrationProps } from '@next-core/illustrations';
 import { InterceptorParams } from '@next-core/brick-types';
-import { LayoutType } from '@next-core/brick-types';
+import type { LayoutType } from '@next-core/brick-types';
 import { Location as Location_2 } from 'history';
 import { MagicBrickConfig } from '@next-core/brick-types';
 import { MatchResult } from '@next-core/brick-types';
 import { MenuBarBrick } from '@next-core/brick-types';
-import { MenuRawData } from '@next-core/brick-types';
+import type { MenuRawData } from '@next-core/brick-types';
 import { MessageConf } from '@next-core/brick-types';
 import { MetaI18n } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
@@ -51,12 +51,12 @@ import { PluginHistory } from '@next-core/brick-types';
 import { PluginHistoryState } from '@next-core/brick-types';
 import { PluginLocation } from '@next-core/brick-types';
 import { PluginRuntimeContext } from '@next-core/brick-types';
-import { PresetBricksConf } from '@next-core/brick-types';
+import type { PresetBricksConf } from '@next-core/brick-types';
 import { default as React_2 } from 'react';
 import { RefForProxy } from '@next-core/brick-types';
 import { ResolveConf } from '@next-core/brick-types';
 import { RouteConf } from '@next-core/brick-types';
-import { RuntimeBootstrapData } from '@next-core/brick-types';
+import type { RuntimeBootstrapData } from '@next-core/brick-types';
 import { RuntimeStoryboard } from '@next-core/brick-types';
 import { SidebarMenu } from '@next-core/brick-types';
 import { SidebarSubMenu } from '@next-core/brick-types';
@@ -192,6 +192,7 @@ export const developHelper: {
     loadDynamicBricksInBrickConf: typeof _dev_only_loadDynamicBricksInBrickConf;
     getFakeKernel: typeof _dev_only_getFakeKernel;
     checkoutTplContext: (...args: any[]) => void;
+    updateStoryboard: typeof _dev_only_updateStoryboard;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -587,15 +588,16 @@ export interface VisitedWorkspace {
 
 // Warnings were encountered during analysis:
 //
-// src/developHelper.ts:21:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:22:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:22:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:40:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
 
 ```
