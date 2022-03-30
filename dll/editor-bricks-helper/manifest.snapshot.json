@@ -79,7 +79,8 @@
           "transform",
           "transformAndInject",
           "visitStoryboardExpressions",
-          "visitStoryboardFunctions"
+          "visitStoryboardFunctions",
+          "walkAny"
         ]
       }
     },
