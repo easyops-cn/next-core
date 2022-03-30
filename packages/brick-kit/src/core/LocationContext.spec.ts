@@ -14,7 +14,7 @@ import { applyTheme } from "../themeAndMode";
 import { ResolveRequestError } from "./Resolver";
 import { validatePermissions } from "../internal/checkPermissions";
 import * as menu from "../internal/menu";
-import { MediaSize } from "../internal/mediaQuery";
+import { MediaBreakpoint } from "../internal/mediaQuery";
 import { registerCustomTemplate } from "./CustomTemplates/registerCustomTemplate";
 
 jest.mock("../auth");
@@ -1014,7 +1014,7 @@ describe("LocationContext", () => {
         action: "POP",
       });
       context.handlePageLeave();
-      const mediaChangeDetail = { size: MediaSize.xLarge };
+      const mediaChangeDetail = { breakpoint: MediaBreakpoint.xLarge };
       context.handleMediaChange(mediaChangeDetail);
       context.handleMessageClose(new CloseEvent("error"));
       context.handleMessage();

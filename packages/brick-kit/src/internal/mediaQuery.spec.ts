@@ -1,29 +1,29 @@
 import {
   getMedia,
   mediaEventTarget,
-  mediaSizeBreakpointMap,
+  mediaBreakpointMinWidthMap,
 } from "./mediaQuery";
 
 const matchMediaMockResults = (window.matchMedia as jest.Mock).mock.results;
-const offset = matchMediaMockResults.length - mediaSizeBreakpointMap.size;
+const offset = matchMediaMockResults.length - mediaBreakpointMinWidthMap.size;
 
 describe("mediaQuery", () => {
   it("should work", () => {
     const handler = jest.fn();
-    expect(getMedia()).toEqual({ size: "xLarge" });
+    expect(getMedia()).toEqual({ breakpoint: "xLarge" });
     mediaEventTarget.addEventListener("change", handler);
-    const mediaSizes = [...mediaSizeBreakpointMap.keys()];
-    mediaSizes.forEach((size, index) => {
-      const nextSize = mediaSizes[index + 1];
+    const mediaBreakpoints = [...mediaBreakpointMinWidthMap.keys()];
+    mediaBreakpoints.forEach((breakpoint, index) => {
+      const nextBreakpoint = mediaBreakpoints[index + 1];
 
-      if (nextSize) {
+      if (nextBreakpoint) {
         (
           matchMediaMockResults[index + offset].value
             .addEventListener as jest.Mock
         ).mock.calls[0][1]({
           matches: false,
         });
-        const newMedia = { size: nextSize };
+        const newMedia = { breakpoint: nextBreakpoint };
         expect(getMedia()).toEqual(newMedia);
         expect(handler).lastCalledWith(
           expect.objectContaining({
