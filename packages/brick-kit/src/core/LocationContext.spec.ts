@@ -54,7 +54,8 @@ registerCustomTemplate("tpl-a", {
       },
       slots: {
         context: {
-          brick: "tpl-b",
+          bricks: [{ brick: "tpl-b" }],
+          type: "bricks",
         },
       },
     },
@@ -1228,13 +1229,15 @@ describe("LocationContext", () => {
       getInitialMountResult()
     );
 
-    expect(jestConstructMenu).toBeCalledTimes(2);
+    expect(jestConstructMenu).toBeCalledTimes(4);
     expect(jestConstructMenu.mock.calls[0][0]).toStrictEqual(["CTX-menu"]);
-    expect(jestConstructMenu.mock.calls[1][0]).toStrictEqual([
+    expect(jestConstructMenu.mock.calls[1][0]).toStrictEqual(["tpl-a-menu"]);
+    expect(jestConstructMenu.mock.calls[2][0]).toStrictEqual([
+      "tpl-b-menu-inner-tpl-a",
+    ]);
+    expect(jestConstructMenu.mock.calls[3][0]).toStrictEqual([
       "menu-1",
       "menu-2",
-      "tpl-a-menu",
-      "tpl-b-menu-inner-tpl-a",
     ]);
   });
 
