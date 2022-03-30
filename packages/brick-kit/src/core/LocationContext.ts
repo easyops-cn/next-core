@@ -30,7 +30,6 @@ import {
   computeRealRoutePath,
   hasOwnProperty,
   scanAppGetMenuInAny,
-  walkAny,
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../internal/bindListeners";
@@ -320,41 +319,13 @@ export class LocationContext {
           await this.preFetchMenu(route.context);
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
-          const currentRouteUseTpl: string[] = [];
           await this.mountBricks(
             route.bricks,
             matched.match,
             slotId,
             mountRoutesResult
           );
-          const deepWalk = (data: unknown): void => {
-            walkAny(data, (item: unknown) => {
-              if (Array.isArray(item)) {
-                if (
-                  typeof item[0] === "string" &&
-                  item[0] === "brick" &&
-                  item[1].startsWith("tpl-")
-                ) {
-                  currentRouteUseTpl.push(
-                    `${this.kernel.nextApp.id}.${item[1]}`
-                  );
-                  const template = customTemplateRegistry.get(item[1]);
-                  if (template) {
-                    deepWalk(template);
-                  }
-                }
-              }
-            });
-          };
-          deepWalk(route);
-          const templates: CustomTemplate[] =
-            currentRouteUseTpl?.map((item) =>
-              customTemplateRegistry.get(item)
-            ) ?? [];
-          await this.preFetchMenu({
-            route,
-            templates,
-          });
+          await this.preFetchMenu(route);
 
           // analytics data (page_view event)
           if (route.analyticsData) {
@@ -682,6 +653,7 @@ export class LocationContext {
 
     let expandedBrickConf = brickConf;
     if (tplTagName) {
+      await this.preFetchMenu(customTemplateRegistry.get(tplTagName)?.bricks);
       expandedBrickConf = await asyncExpandCustomTemplate(
         {
           ...brickConf,
