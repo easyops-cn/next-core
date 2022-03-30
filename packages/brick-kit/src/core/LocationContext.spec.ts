@@ -15,6 +15,7 @@ import { ResolveRequestError } from "./Resolver";
 import { validatePermissions } from "../internal/checkPermissions";
 import * as menu from "../internal/menu";
 import { MediaSize } from "../internal/mediaQuery";
+import { registerCustomTemplate } from "./CustomTemplates/registerCustomTemplate";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -42,6 +43,34 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
   userInstanceId: "acbd46b",
   accessRule: "cmdb",
   isAdmin: false,
+});
+
+registerCustomTemplate("tpl-a", {
+  bricks: [
+    {
+      brick: "basic-bricks.micro-view",
+      properties: {
+        menu: "<% APP.getMenu('tpl-a-menu') %>",
+      },
+      slots: {
+        context: {
+          bricks: [{ brick: "tpl-b" }],
+          type: "bricks",
+        },
+      },
+    },
+  ],
+});
+
+registerCustomTemplate("tpl-b", {
+  bricks: [
+    {
+      brick: "basic-bricks.micro-view",
+      properties: {
+        menu: "<% APP.getMenu('tpl-b-menu-inner-tpl-a') %>",
+      },
+    },
+  ],
 });
 
 jest.spyOn(history, "getHistory").mockReturnValue({
@@ -90,6 +119,7 @@ describe("LocationContext", () => {
     getFeatureFlags: jest.fn().mockReturnValue({
       testing: true,
     }),
+    loadDynamicBricksInBrickConf: jest.fn(),
   } as any;
 
   const getInitialMountResult = (): MountRoutesResult => ({
@@ -1129,11 +1159,6 @@ describe("LocationContext", () => {
         getInitialMountResult()
       );
 
-      expect(jestConstructMenu).toBeCalledTimes(1);
-      expect(jestConstructMenu.mock.calls[0][0]).toStrictEqual([
-        "menu-1",
-        "menu-2",
-      ]);
       expect(result.menuBar).toMatchObject({
         menu: {
           title: "title-a",
@@ -1145,6 +1170,75 @@ describe("LocationContext", () => {
         },
       });
     });
+  });
+
+  it("preFetchMenu should work", async () => {
+    const context = new LocationContext(kernel, {
+      pathname: "/hello/a/b",
+      search: "",
+      hash: "",
+      state: {},
+    });
+    spyOnIsLoggedIn.mockReturnValue(true);
+    jest
+      .spyOn(context.resolver, "resolveOne")
+      .mockImplementationOnce(
+        (type: any, resolveConf: ResolveConf, conf: Record<string, any>) => {
+          Object.assign(conf, resolveConf.transform);
+          return Promise.resolve();
+        }
+      );
+
+    await context.mountRoutes(
+      [
+        {
+          path: "/hello/a",
+          context: [
+            {
+              name: "menu",
+              value: "<% APP.getMenu('CTX-menu') %>",
+            },
+          ],
+          exact: false,
+          providers: [],
+          routes: [
+            {
+              path: "/hello/a/b",
+              context: {
+                menu: "<% APP.getMenu('menu-1') %>",
+              },
+              bricks: [
+                {
+                  brick: "menu",
+                  properties: {
+                    menu: "<% APP.getMenu('menu-2') %>",
+                  },
+                },
+                {
+                  brick: "tpl-a",
+                },
+              ],
+              type: "bricks",
+              exact: true,
+            },
+          ],
+          type: "routes",
+        },
+      ],
+      undefined,
+      getInitialMountResult()
+    );
+
+    expect(jestConstructMenu).toBeCalledTimes(4);
+    expect(jestConstructMenu.mock.calls[0][0]).toStrictEqual(["CTX-menu"]);
+    expect(jestConstructMenu.mock.calls[1][0]).toStrictEqual(["tpl-a-menu"]);
+    expect(jestConstructMenu.mock.calls[2][0]).toStrictEqual([
+      "tpl-b-menu-inner-tpl-a",
+    ]);
+    expect(jestConstructMenu.mock.calls[3][0]).toStrictEqual([
+      "menu-1",
+      "menu-2",
+    ]);
   });
 
   it("getSubStoryboardByRoute should work", () => {

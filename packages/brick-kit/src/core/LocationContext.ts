@@ -71,6 +71,8 @@ import { StoryboardContextWrapper } from "./StoryboardContext";
 import { constructMenuByMenusList } from "../internal/menu";
 import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
+import { customTemplateRegistry } from "./CustomTemplates/constants";
+import { CustomTemplate } from "../../../brick-types/dist/types/manifest";
 
 export type MatchRoutesResult =
   | {
@@ -314,22 +316,16 @@ export class LocationContext {
         }
 
         if (isRouteConfOfRoutes(route) && Array.isArray(route.routes)) {
+          await this.preFetchMenu(route.context);
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
-          const useMenus = scanAppGetMenuInAny(route);
-          if (useMenus.length) {
-            await constructMenuByMenusList(
-              useMenus,
-              this.getCurrentContext(),
-              this.kernel
-            );
-          }
           await this.mountBricks(
             route.bricks,
             matched.match,
             slotId,
             mountRoutesResult
           );
+          await this.preFetchMenu(route);
 
           // analytics data (page_view event)
           if (route.analyticsData) {
@@ -657,6 +653,7 @@ export class LocationContext {
 
     let expandedBrickConf = brickConf;
     if (tplTagName) {
+      await this.preFetchMenu(customTemplateRegistry.get(tplTagName)?.bricks);
       expandedBrickConf = await asyncExpandCustomTemplate(
         {
           ...brickConf,
@@ -929,6 +926,17 @@ export class LocationContext {
           brickAndHandler.brick
         )(event);
       }
+    }
+  }
+
+  private async preFetchMenu(data: unknown): Promise<void> {
+    const useMenus: string[] = scanAppGetMenuInAny(data);
+    if (useMenus.length) {
+      await constructMenuByMenusList(
+        useMenus,
+        this.getCurrentContext(),
+        this.kernel
+      );
     }
   }
 }
