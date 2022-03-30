@@ -50,7 +50,23 @@ registerCustomTemplate("tpl-a", {
     {
       brick: "basic-bricks.micro-view",
       properties: {
-        menu: "<% APP.getMenu('tpl-menu') %>",
+        menu: "<% APP.getMenu('tpl-a-menu') %>",
+      },
+      slots: {
+        context: {
+          brick: "tpl-b",
+        },
+      },
+    },
+  ],
+});
+
+registerCustomTemplate("tpl-b", {
+  bricks: [
+    {
+      brick: "basic-bricks.micro-view",
+      properties: {
+        menu: "<% APP.getMenu('tpl-b-menu-inner-tpl-a') %>",
       },
     },
   ],
@@ -1217,7 +1233,8 @@ describe("LocationContext", () => {
     expect(jestConstructMenu.mock.calls[1][0]).toStrictEqual([
       "menu-1",
       "menu-2",
-      "tpl-menu",
+      "tpl-a-menu",
+      "tpl-b-menu-inner-tpl-a",
     ]);
   });
 

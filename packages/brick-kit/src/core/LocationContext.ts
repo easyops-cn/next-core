@@ -30,6 +30,7 @@ import {
   computeRealRoutePath,
   hasOwnProperty,
   scanAppGetMenuInAny,
+  walkAny,
 } from "@next-core/brick-utils";
 import { Action, Location } from "history";
 import { listenerFactory } from "../internal/bindListeners";
@@ -72,6 +73,7 @@ import { constructMenuByMenusList } from "../internal/menu";
 import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
+import { CustomTemplate } from "../../../brick-types/dist/types/manifest";
 
 export type MatchRoutesResult =
   | {
@@ -318,17 +320,38 @@ export class LocationContext {
           await this.preFetchMenu(route.context);
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
-          const tplStack: string[] = [];
+          const currentRouteUseTpl: string[] = [];
           await this.mountBricks(
             route.bricks,
             matched.match,
             slotId,
-            mountRoutesResult,
-            tplStack
+            mountRoutesResult
           );
-          const templates =
-            tplStack?.map((item) => customTemplateRegistry.get(item)) ?? [];
-          this.preFetchMenu({
+          const deepWalk = (data: unknown): void => {
+            walkAny(data, (item: unknown) => {
+              if (Array.isArray(item)) {
+                if (
+                  typeof item[0] === "string" &&
+                  item[0] === "brick" &&
+                  item[1].startsWith("tpl-")
+                ) {
+                  currentRouteUseTpl.push(
+                    `${this.kernel.nextApp.id}.${item[1]}`
+                  );
+                  const template = customTemplateRegistry.get(item[1]);
+                  if (template) {
+                    deepWalk(template);
+                  }
+                }
+              }
+            });
+          };
+          deepWalk(route);
+          const templates: CustomTemplate[] =
+            currentRouteUseTpl?.map((item) =>
+              customTemplateRegistry.get(item)
+            ) ?? [];
+          await this.preFetchMenu({
             route,
             templates,
           });
@@ -485,7 +508,7 @@ export class LocationContext {
           match,
           slotId,
           mountRoutesResult,
-          tplStack
+          tplStack?.slice()
         );
       } catch (error) {
         if (error instanceof ResolveRequestError) {
