@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.115.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.114.0...@next-core/brick-kit@2.115.0) (2022-03-30)
+
+
+### Features
+
+* APP.getMenu support scan template & routes ([5498846](https://github.com/easyops-cn/next-core/commit/54988465a5357a97834aaca317b41b3fcb2c6a65))
+* loactionContext preFetchMenu ([9a0ec7b](https://github.com/easyops-cn/next-core/commit/9a0ec7b0a19e26633772a71de829f014574ec735))
+* support walkAny unit function ([8adff8e](https://github.com/easyops-cn/next-core/commit/8adff8e2538a43676c5eef1f275e1c5a8127171a))
+* unit test update ([00b3606](https://github.com/easyops-cn/next-core/commit/00b3606c2a2d7ba9a26f3a0255721a11e225c7d9))
+
+
+
+
+
 # [2.114.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.113.0...@next-core/brick-kit@2.114.0) (2022-03-29)
 
 
