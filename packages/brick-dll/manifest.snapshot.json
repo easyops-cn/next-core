@@ -3556,8 +3556,7 @@
           "transform",
           "transformAndInject",
           "visitStoryboardExpressions",
-          "visitStoryboardFunctions",
-          "walkAny"
+          "visitStoryboardFunctions"
         ]
       }
     },
