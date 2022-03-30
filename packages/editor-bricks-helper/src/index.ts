@@ -17,6 +17,7 @@ export * from "./hooks/useCanvasList";
 export * from "./hooks/useRouteList";
 export * from "./hooks/useHighlightNodes";
 export * from "./hooks/useHoverNodeUid";
+export * from "./hooks/useActiveNodeUid";
 export * from "./hooks/useOutlineEnabled";
 export * from "./hooks/useShowRelatedNodesBasedOnEvents";
 export * from "./processors/getSortedIdsAfterDropped";

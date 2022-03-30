@@ -45,6 +45,7 @@ enum BuilderInternalEventType {
   SHARED_EDITOR_LIST_CHANGE = "builder.sharedEditorList.change",
   ROUTE_LIST_CHANGE = "builder.routeList.change",
   HOVER_NODE_CHANGE = "builder.hoverNode.change",
+  ACTIVE_NODE_CHANGE = "builder.activeNode.change",
   SHOW_RELATED_NODES_BASED_ON_EVENTS = "builder.showRelatedNodesBasedOnEvents.change",
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
   OUTLINE_DISABLED_NODES_CHANGE = "builder.outlineDisabledNodes.change",
@@ -62,6 +63,7 @@ export class BuilderDataManager {
   };
 
   private hoverNodeUid: number;
+  private activeNodeUid: number;
 
   private sharedEditorList: SharedEditorConf[];
 
@@ -518,6 +520,7 @@ export class BuilderDataManager {
   }
 
   nodeClick(detail: BuilderRuntimeNode): void {
+    this.setActiveNodeUid(detail.$$uid);
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_CLICK, { detail })
     );
@@ -677,6 +680,32 @@ export class BuilderDataManager {
     return (): void => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.HOVER_NODE_CHANGE,
+        fn
+      );
+    };
+  }
+
+  setActiveNodeUid(uid: number): void {
+    if (this.activeNodeUid !== uid) {
+      this.activeNodeUid = uid;
+      this.eventTarget.dispatchEvent(
+        new CustomEvent(BuilderInternalEventType.ACTIVE_NODE_CHANGE)
+      );
+    }
+  }
+
+  getActiveNodeUid(): number {
+    return this.activeNodeUid;
+  }
+
+  onActiveNodeChange(fn: EventListener): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.ACTIVE_NODE_CHANGE,
+      fn
+    );
+    return (): void => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.ACTIVE_NODE_CHANGE,
         fn
       );
     };
