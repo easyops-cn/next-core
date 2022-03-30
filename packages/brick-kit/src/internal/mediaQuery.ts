@@ -1,10 +1,10 @@
 import EventTarget from "@ungap/event-target";
 
 export interface Media {
-  size?: MediaSize;
+  breakpoint?: MediaBreakpoint;
 }
 
-export enum MediaSize {
+export enum MediaBreakpoint {
   xLarge = "xLarge",
   large = "large",
   medium = "medium",
@@ -12,28 +12,31 @@ export enum MediaSize {
   xSmall = "xSmall",
 }
 
-export const mediaSizeBreakpointMap = new Map<MediaSize, string | number>([
-  [MediaSize.xLarge, "1920px"],
-  [MediaSize.large, "1600px"],
-  [MediaSize.medium, "1280px"],
-  [MediaSize.small, "1024px"],
-  [MediaSize.xSmall, 0],
+export const mediaBreakpointMinWidthMap = new Map<
+  MediaBreakpoint,
+  string | number
+>([
+  [MediaBreakpoint.xLarge, "1920px"],
+  [MediaBreakpoint.large, "1600px"],
+  [MediaBreakpoint.medium, "1280px"],
+  [MediaBreakpoint.small, "1024px"],
+  [MediaBreakpoint.xSmall, 0],
 ]);
 export const mediaEventTarget = new EventTarget();
 
-const sizeMatchesMap: Partial<Record<MediaSize, boolean>> = {};
+const breakpointMatchesMap: Partial<Record<MediaBreakpoint, boolean>> = {};
 const MEDIA: Media = {};
 
 function handleMatchesChange(
   data: { readonly matches: boolean; readonly media: string },
-  size: MediaSize
+  breakpoint: MediaBreakpoint
 ): void {
   let changed = false;
-  sizeMatchesMap[size] = data.matches;
+  breakpointMatchesMap[breakpoint] = data.matches;
 
-  for (const [size] of mediaSizeBreakpointMap) {
-    if (sizeMatchesMap[size] && MEDIA.size !== size) {
-      MEDIA.size = size;
+  for (const [breakpoint] of mediaBreakpointMinWidthMap) {
+    if (breakpointMatchesMap[breakpoint] && MEDIA.breakpoint !== breakpoint) {
+      MEDIA.breakpoint = breakpoint;
       changed = true;
       break;
     }
@@ -46,18 +49,18 @@ function handleMatchesChange(
   }
 }
 
-mediaSizeBreakpointMap.forEach((breakpoint, size) => {
-  const mediaQueryList = window.matchMedia(`(min-width: ${breakpoint})`);
+mediaBreakpointMinWidthMap.forEach((minWidth, breakpoint) => {
+  const mediaQueryList = window.matchMedia(`(min-width: ${minWidth})`);
 
-  handleMatchesChange(mediaQueryList, size);
+  handleMatchesChange(mediaQueryList, breakpoint);
 
   if (mediaQueryList.addEventListener) {
     mediaQueryList.addEventListener("change", (event) => {
-      handleMatchesChange(event, size);
+      handleMatchesChange(event, breakpoint);
     });
   } else {
     mediaQueryList.addListener((event) => {
-      handleMatchesChange(event, size);
+      handleMatchesChange(event, breakpoint);
     });
   }
 });

@@ -45,7 +45,7 @@ jest.mock("./menu", () => ({
 }));
 jest.mock("./mediaQuery", () => ({
   getMedia: () => ({
-    size: "xLarge",
+    breakpoint: "xLarge",
   }),
 }));
 
@@ -262,7 +262,7 @@ describe("evaluate", () => {
     ["<% INSTALLED_APPS.has('my-app-id', '>=1.2.3') %>", false],
     ["<% INSTALLED_APPS.has('my-another-app-id') %>", false],
     ["<% FN.sayHello('world') %>", "Hello, world"],
-    ["<% MEDIA %>", { size: "xLarge" }],
+    ["<% MEDIA %>", { breakpoint: "xLarge" }],
     ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],
     ["<% MISC.hello %>", "world"],
     ["<% BASE_URL %>", ""],
