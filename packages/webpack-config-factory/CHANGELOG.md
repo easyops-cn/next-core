@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.15.5...@next-core/webpack-config-factory@2.16.0) (2022-03-31)
+
+
+### Features
+
+* useProviderHook契约收集 ([39d20b5](https://github.com/easyops-cn/next-core/commit/39d20b5b96cf3e95d17340c2a3bb7102f5b9ff39))
+
+
+
+
+
 ## [2.15.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.15.4...@next-core/webpack-config-factory@2.15.5) (2022-03-28)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
