@@ -190,6 +190,7 @@ describe("expandCustomTemplate", () => {
   it("should define a custom element", () => {
     const tpl = customElements.get("steve-test.custom-template");
     expect((tpl as any)._dev_only_definedProperties).toEqual([
+      "scopedData",
       "button",
       "noGap",
       "isDanger",

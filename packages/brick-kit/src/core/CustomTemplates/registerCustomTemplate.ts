@@ -11,31 +11,32 @@ export function registerCustomTemplate(
   if (appId && !tplName.includes(".")) {
     tagName = `${appId}.${tplName}`;
   }
-  if (customTemplateRegistry.has(tagName)) {
+  let registered = customTemplateRegistry.has(tagName);
+  if (registered) {
     // When open launchpad, the storyboard will be updated.
     // However, we can't *undefine* a custom element.
     // Just ignore re-registering custom templates.
     if (!appId || appRegistered.has(appId)) {
       // eslint-disable-next-line no-console
-      console.error(`Custom template of "${tagName}" already registered.`);
+      console.warn(`Custom template of "${tagName}" already registered.`);
     }
-    return;
+  } else {
+    registered = !!customElements.get(tagName);
+    if (registered) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Custom template of "${tagName}" already defined by customElements.`
+      );
+    }
   }
-  if (customElements.get(tagName)) {
-    // eslint-disable-next-line no-console
-    console.error(
-      `Custom template of "${tagName}" already defined by customElements.`
-    );
-    return;
-  }
+  // Now we allow re-register custom template
   customTemplateRegistry.set(tagName, {
     ...tplConstructor,
     name: tagName,
   });
 
   // Collect defined properties of the template.
-  const props = Object.keys(tplConstructor.proxy?.properties || {});
-
+  const props = getPropsOfCustomTemplate(tagName);
   const nativeProp = props.find((prop) => prop in HTMLElement.prototype);
   // istanbul ignore if
   if (nativeProp !== undefined) {
@@ -43,6 +44,10 @@ export function registerCustomTemplate(
     console.error(
       `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and should be avoid to be used as a brick property.`
     );
+  }
+
+  if (registered) {
+    return;
   }
 
   customElements.define(
@@ -53,7 +58,7 @@ export function registerCustomTemplate(
       }
 
       static get _dev_only_definedProperties(): string[] {
-        return props;
+        return getPropsOfCustomTemplate(tagName);
       }
 
       connectedCallback(): void {
@@ -68,4 +73,11 @@ export function registerCustomTemplate(
   if (appId) {
     appRegistered.add(appId);
   }
+}
+
+function getPropsOfCustomTemplate(tagName: string): string[] {
+  const { state, proxy } = customTemplateRegistry.get(tagName);
+  return (state?.map((item) => item.name) ?? []).concat(
+    Object.keys(proxy?.properties ?? {})
+  );
 }
