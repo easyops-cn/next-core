@@ -1,5 +1,5 @@
 # Brick Container
 
-The container of [brick-next].
+The container of [brick-next] 🧩.
 
 [brick-next]: https://github.com/easyops-cn/next-core
