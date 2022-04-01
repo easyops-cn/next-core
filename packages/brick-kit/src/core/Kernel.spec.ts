@@ -1101,6 +1101,8 @@ describe("Kernel", () => {
         ],
         $$fulfilling: Promise.resolve(),
         $$fulfilled: true,
+        $$registerCustomTemplateProcessed: false,
+        $$depsProcessed: false,
       },
     ]);
   });

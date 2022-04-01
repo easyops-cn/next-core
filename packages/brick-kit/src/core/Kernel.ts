@@ -286,6 +286,8 @@ export class Kernel {
       ...storyboardPatch,
       $$fulfilling: Promise.resolve(),
       $$fulfilled: true,
+      $$registerCustomTemplateProcessed: false,
+      $$depsProcessed: false,
     });
     this.postProcessStoryboard(storyboard);
   }
