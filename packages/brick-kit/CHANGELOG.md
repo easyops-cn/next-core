@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.116.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.115.1...@next-core/brick-kit@2.116.0) (2022-04-01)
+
+
+### Features
+
+* support re-registering custom templates ([ea91d7d](https://github.com/easyops-cn/next-core/commit/ea91d7de23e0a9d3a935c01a9a103fb44b8cdfb3))
+
+
+
+
+
 ## [2.115.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.115.0...@next-core/brick-kit@2.115.1) (2022-03-30)
 
 **Note:** Version bump only for package @next-core/brick-kit
