@@ -45,7 +45,7 @@ module.exports = [
   },
   {
     path: "packages/brick-kit/dist/index.esm.js",
-    limit: "100 KB",
+    limit: "102 KB",
   },
   {
     path: "packages/brick-types/dist/index.esm.js",

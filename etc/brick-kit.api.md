@@ -26,6 +26,7 @@ import { CustomTemplateProxyRefProperty } from '@next-core/brick-types';
 import { DefineResolveConf } from '@next-core/brick-types';
 import { DesktopData } from '@next-core/brick-types';
 import { EstreeNode } from '@next-core/brick-utils';
+import { ExtField } from '@next-core/brick-types';
 import { FeatureFlags } from '@next-core/brick-types';
 import { GeneralTransform } from '@next-core/brick-types';
 import { HttpFetchError } from '@next-core/brick-http';
@@ -140,6 +141,7 @@ export interface CustomApiDefinition {
     // (undocumented)
     contract?: {
         endpoint: {
+            ext_fields?: ExtField[];
             uri: string;
             method: "POST" | "post" | "PUT" | "put" | "GET" | "get" | "DELETE" | "delete" | "LIST" | "list" | "PATCH" | "patch" | "HEAD" | "head";
         };
@@ -160,6 +162,8 @@ export interface CustomApiDefinition {
 //
 // @internal (undocumented)
 export interface CustomApiProfile {
+    // (undocumented)
+    ext_fields: ExtField[];
     // (undocumented)
     isFileType?: boolean;
     // (undocumented)

@@ -1430,6 +1430,9 @@ export interface StoryboardMeta {
 
   /** 应用启用mock服务列表 */
   mocks?: Mocks;
+
+  /** 应用所用到的契约 **/
+  contracts: Contract[];
 }
 
 export interface Mocks {
@@ -1448,6 +1451,40 @@ export interface MockRule {
   uri: string;
   /** provider名称 */
   provider: string;
+}
+
+export interface ExtField {
+  name?: string;
+  source?: "body" | "query";
+}
+
+export interface Contract {
+  name: string;
+  namespaceId: string;
+  version: string;
+  endpoint: {
+    method:
+      | "POST"
+      | "post"
+      | "PUT"
+      | "put"
+      | "GET"
+      | "get"
+      | "DELETE"
+      | "delete"
+      | "LIST"
+      | "list"
+      | "PATCH"
+      | "patch"
+      | "HEAD"
+      | "head";
+    uri: string;
+    ext_fields?: ExtField[];
+  };
+  response: {
+    wrapper?: boolean;
+    type?: "file" | "object";
+  };
 }
 
 /**
