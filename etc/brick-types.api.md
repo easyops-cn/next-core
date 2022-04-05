@@ -830,6 +830,27 @@ export interface ContextConf {
     value?: unknown;
 }
 
+// @public (undocumented)
+export interface Contract {
+    // (undocumented)
+    endpoint: {
+        method: string;
+        uri: string;
+        ext_fields?: ExtField[];
+    };
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    namespaceId: string;
+    // (undocumented)
+    response: {
+        wrapper?: boolean;
+        type?: "file" | "object";
+    };
+    // (undocumented)
+    version: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "CustomBrickConfig" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1097,6 +1118,14 @@ export interface ExtendedHistory {
     // @internal (undocumented)
     setBlockMessage: (message: string) => void;
     unblock: () => void;
+}
+
+// @public (undocumented)
+export interface ExtField {
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    source?: "body" | "query";
 }
 
 // @public
@@ -2028,6 +2057,7 @@ export interface StoryboardFunction {
 
 // @public
 export interface StoryboardMeta {
+    contracts: Contract[];
     customTemplates?: CustomTemplate[];
     functions?: StoryboardFunction[];
     i18n?: MetaI18n;

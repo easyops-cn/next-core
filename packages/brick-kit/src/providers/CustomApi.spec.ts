@@ -1,4 +1,4 @@
-import { CustomApi, CustomApiParams } from "./CustomApi";
+import { CustomApi, CustomApiParams, processExtFields } from "./CustomApi";
 
 jest.mock("@next-core/brick-http", () => ({
   http: {
@@ -63,4 +63,143 @@ describe("CustomApi", () => {
   ])("CustomApi(%j) should work", async (params1, params2, params3, result) => {
     expect(await CustomApi(params1, params2, params3)).toEqual(result);
   });
+
+  it.each([
+    [
+      [
+        {
+          name: "page",
+          source: "query",
+        },
+      ],
+      {
+        page: 1,
+      },
+      undefined,
+      {
+        data: {},
+        options: {
+          params: {
+            page: 1,
+          },
+        },
+      },
+    ],
+    [
+      [
+        {
+          name: "page",
+          source: "query",
+        },
+        {
+          name: "instance",
+          source: "body",
+        },
+      ],
+      {
+        instance: {
+          name: "test",
+          instanceId: "bacd2",
+        },
+      },
+      {
+        page: 1,
+      },
+      {
+        data: { instance: { instanceId: "bacd2", name: "test" } },
+        options: { params: { page: 1 } },
+      },
+    ],
+    [
+      [
+        {
+          name: "instance",
+          type: "object",
+        },
+      ],
+      {
+        instance: {
+          name: "test",
+          instanceId: "bacd2",
+        },
+      },
+      {
+        interceptorParams: { ignoreLoadingBar: true },
+      },
+      {
+        data: { instance: { instanceId: "bacd2", name: "test" } },
+        options: { interceptorParams: { ignoreLoadingBar: true } },
+      },
+    ],
+  ])(
+    "processExtFields(%j) should work",
+    (params1, params2, params3, result) => {
+      expect(processExtFields(params1, params2, params3)).toEqual(result);
+    }
+  );
+  // it("should process ext_fields", async () => {
+  //   const result = processExtFields(
+  //     [
+  //       {
+  //         name: "page",
+  //         type: "number",
+  //       },
+  //     ],
+  //     {
+  //       page: 1,
+  //     }
+  //   );
+
+  //   expect(result).toEqual({ data: { page: 1 }, options: undefined });
+
+  //   const result2 = processExtFields(
+  //     [
+  //       {
+  //         name: "page",
+  //         type: "number",
+  //       },
+  //       {
+  //         name: "instance",
+  //         type: "object",
+  //       },
+  //     ],
+  //     {
+  //       instance: {
+  //         name: "test",
+  //         instanceId: "bacd2",
+  //       },
+  //     },
+  //     {
+  //       page: 1,
+  //     }
+  //   );
+
+  //   expect(result2).toEqual({
+  //     data: { instance: { instanceId: "bacd2", name: "test" } },
+  //     options: { page: 1 },
+  //   });
+
+  //   const result3 = processExtFields(
+  //     [
+  //       {
+  //         name: "instance",
+  //         type: "object",
+  //       },
+  //     ],
+  //     {
+  //       instance: {
+  //         name: "test",
+  //         instanceId: "bacd2",
+  //       },
+  //     },
+  //     {
+  //       interceptorParams: { ignoreLoadingBar: true },
+  //     }
+  //   );
+
+  //   expect(result3).toEqual({
+  //     data: { instance: { instanceId: "bacd2", name: "test" } },
+  //     options: { interceptorParams: { ignoreLoadingBar: true } },
+  //   });
+  // });
 });

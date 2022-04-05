@@ -5,6 +5,7 @@ import {
   SidebarMenu,
   SiteMode,
   SiteTheme,
+  ExtField,
 } from "@next-core/brick-types";
 import { MicroAppModels } from "@next-sdk/micro-app-sdk";
 import {
@@ -48,6 +49,7 @@ export interface CustomApiDefinition {
   version?: string;
   contract?: {
     endpoint: {
+      ext_fields?: ExtField[];
       uri: string;
       method:
         | "POST"
@@ -81,6 +83,7 @@ export interface CustomApiProfile {
   responseWrapper: boolean;
   version?: string;
   isFileType?: boolean;
+  ext_fields: ExtField[];
 }
 
 /**

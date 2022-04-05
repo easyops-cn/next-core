@@ -2,6 +2,7 @@ import * as apiGatewaySdk from "@next-sdk/api-gateway-sdk";
 import { isCustomApiProvider, getArgsOfCustomApi } from "./FlowApi";
 import * as runtime from "./Runtime";
 import * as mocks from "./MockRegistry";
+import * as CollectContract from "./CollectContracts";
 import { InstanceApi_postSearchV3 } from "@next-sdk/cmdb-sdk";
 
 jest.mock("@next-sdk/cmdb-sdk");
@@ -17,6 +18,18 @@ jest.spyOn(mocks, "getMockList").mockReturnValue([
   },
 ]);
 
+jest.spyOn(CollectContract, "getContract").mockImplementation((key) => {
+  if (key === "easyops.api.test.GetDetail")
+    return {
+      name: "GetDetail",
+      namespaceId: "easyops.api.test",
+      endpoint: {
+        uri: "/api/cmdb",
+        method: "get",
+      },
+      version: "1.0.0",
+    };
+});
 (InstanceApi_postSearchV3 as jest.Mock).mockImplementation(
   (_objectId: string, condition) => {
     switch (condition.query.name.$eq) {
@@ -248,6 +261,18 @@ describe("FlowApi", () => {
         responseWrapper: true,
         url: "api/gateway/easyops.api.test.sailor.TestMockGet@1.0.0/a/b/c/object-1",
       },
+    ]);
+
+    expect(
+      await getArgsOfCustomApi("easyops.api.test@GetDetail:1.0.0", ["APP"])
+    ).toEqual([
+      {
+        ext_fields: undefined,
+        method: "get",
+        responseWrapper: false,
+        url: "api/gateway/easyops.api.test.GetDetail@1.0.0/api/cmdb",
+      },
+      "APP",
     ]);
   });
 
