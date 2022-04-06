@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.61.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.0...@next-core/brick-types@2.61.1) (2022-04-06)
+
+
+### Bug Fixes
+
+* contract refactor ([a506766](https://github.com/easyops-cn/next-core/commit/a5067664253a51a007b8fea96ddf7efefd7da7d8))
+
+
+
+
+
 # [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.3...@next-core/brick-types@2.61.0) (2022-03-29)
 
 

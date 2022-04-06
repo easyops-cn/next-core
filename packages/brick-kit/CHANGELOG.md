@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.117.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.116.1...@next-core/brick-kit@2.117.0) (2022-04-06)
+
+
+### Bug Fixes
+
+* contract refactor ([a506766](https://github.com/easyops-cn/next-core/commit/a5067664253a51a007b8fea96ddf7efefd7da7d8))
+
+
+### Features
+
+* support previewing template by settings ([b1fa0f9](https://github.com/easyops-cn/next-core/commit/b1fa0f9e4d774a6b4162643348ca49402bde1479))
+
+
+
+
+
 ## [2.116.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.116.0...@next-core/brick-kit@2.116.1) (2022-04-06)
 
 **Note:** Version bump only for package @next-core/brick-kit

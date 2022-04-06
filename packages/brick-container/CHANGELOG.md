@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.66.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.65.38...@next-core/brick-container@2.66.0) (2022-04-06)
+
+
+### Features
+
+* support previewing template by settings ([b1fa0f9](https://github.com/easyops-cn/next-core/commit/b1fa0f9e4d774a6b4162643348ca49402bde1479))
+
+
+
+
+
 ## [2.65.38](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.65.37...@next-core/brick-container@2.65.38) (2022-04-06)
 
 **Note:** Version bump only for package @next-core/brick-container
