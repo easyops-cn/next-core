@@ -103,6 +103,15 @@ export function _dev_only_updateStoryboard(
   kernel._dev_only_updateStoryboard(appId, storyboardPatch);
 }
 
+/* istanbul ignore next */
+export function _dev_only_updateTemplatePreviewSettings(
+  appId: string,
+  templateId: string,
+  settings: unknown
+): void {
+  kernel._dev_only_updateTemplatePreviewSettings(appId, templateId, settings);
+}
+
 export class Runtime implements AbstractRuntime {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     if (kernel !== undefined) {

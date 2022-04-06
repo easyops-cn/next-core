@@ -300,7 +300,15 @@ export class Router {
       };
       try {
         await locationContext.mountRoutes(
-          storyboard.routes,
+          // Concat with a placeholder when loading template preview settings.
+          storyboard.routes.concat({
+            path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
+            bricks: [
+              {
+                brick: "next-previewer.template-preview-loader",
+              },
+            ],
+          }),
           undefined,
           mountRoutesResult
         );

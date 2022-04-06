@@ -1,4 +1,4 @@
-import { cloneDeep, sortBy } from "lodash";
+import { cloneDeep, pick, sortBy } from "lodash";
 import {
   loadScript,
   prefetchScript,
@@ -290,6 +290,34 @@ export class Kernel {
       $$depsProcessed: false,
     });
     this.postProcessStoryboard(storyboard);
+  }
+
+  _dev_only_updateTemplatePreviewSettings(
+    appId: string,
+    templateId: string,
+    settings?: unknown
+  ): void {
+    const { routes } = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    const previewPath = `\${APP.homepage}/_dev_only_/template-preview/${templateId}`;
+    const previewRouteIndex = routes.findIndex(
+      (route) => route.path === previewPath
+    );
+    const newPreviewRoute: RouteConf = {
+      path: previewPath,
+      bricks: [
+        {
+          brick: templateId,
+          ...pick(settings, "properties"),
+        },
+      ],
+    };
+    if (previewRouteIndex === -1) {
+      routes.push(newPreviewRoute);
+    } else {
+      routes.splice(previewRouteIndex, 1, newPreviewRoute);
+    }
   }
 
   async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {

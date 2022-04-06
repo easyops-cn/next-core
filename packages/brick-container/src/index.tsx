@@ -115,7 +115,53 @@ http.interceptors.response.use(
   }
 );
 
+let bootstrapStatus: "loading" | "ok" | "failed" = "loading";
+let previewStarted = false;
 let previewFromOrigin: string;
+let previewOptions: PreviewStartOptions;
+
+async function startPreview(): Promise<void> {
+  // Start preview once bootstrap is ok and preview message has also been arrived.
+  if (previewStarted || bootstrapStatus !== "ok" || !previewFromOrigin) {
+    return;
+  }
+  previewStarted = true;
+  // Make sure preview from the expected origins.
+  let previewAllowed =
+    previewFromOrigin === location.origin ||
+    /^https?:\/\/localhost(?:$|:)/.test(previewFromOrigin);
+  if (!previewAllowed) {
+    const { allowedPreviewFromOrigins } = runtime.getMiscSettings() as {
+      allowedPreviewFromOrigins?: string[];
+    };
+    if (Array.isArray(allowedPreviewFromOrigins)) {
+      previewAllowed = allowedPreviewFromOrigins.some(
+        (origin) => origin === previewFromOrigin
+      );
+    }
+    if (!previewAllowed) {
+      // eslint-disable-next-line
+      console.error(
+        `Preview is disallowed, from origin: ${previewFromOrigin}, while allowing: ${JSON.stringify(
+          allowedPreviewFromOrigins
+        )}`
+      );
+    }
+  }
+  if (previewAllowed) {
+    const helperBrickName = "next-previewer.preview-helper";
+    await developHelper.loadDynamicBricksInBrickConf({
+      brick: helperBrickName,
+    });
+    if (customElements.get(helperBrickName)) {
+      const helper = document.createElement(
+        helperBrickName
+      ) as unknown as PreviewHelperBrick;
+      helper.start(previewFromOrigin, previewOptions);
+    }
+  }
+}
+
 if (window.parent) {
   const listener = async ({
     data,
@@ -128,17 +174,19 @@ if (window.parent) {
     ) {
       window.removeEventListener("message", listener);
       previewFromOrigin = origin;
+      previewOptions = data.options;
+      startPreview();
     }
   };
   window.addEventListener("message", listener);
 }
 
 async function bootstrap(): Promise<void> {
-  let ok = false;
   try {
     await runtime.bootstrap(mountPoints);
-    ok = true;
+    bootstrapStatus = "ok";
   } catch (e) {
+    bootstrapStatus = "failed";
     // eslint-disable-next-line no-console
     console.error(e);
 
@@ -155,51 +203,25 @@ async function bootstrap(): Promise<void> {
     );
   }
 
-  if (ok && previewFromOrigin) {
-    // Make sure preview from the expected origins.
-    let previewAllowed =
-      previewFromOrigin === location.origin ||
-      /^https?:\/\/localhost(?:$|:)/.test(previewFromOrigin);
-    if (!previewAllowed) {
-      const { allowedPreviewFromOrigins } = runtime.getMiscSettings() as {
-        allowedPreviewFromOrigins?: string[];
-      };
-      if (Array.isArray(allowedPreviewFromOrigins)) {
-        previewAllowed = allowedPreviewFromOrigins.some(
-          (origin) => origin === previewFromOrigin
-        );
-      }
-      if (!previewAllowed) {
-        // eslint-disable-next-line
-        console.error(
-          `Preview is disallowed, from origin: ${previewFromOrigin}, while allowing: ${JSON.stringify(
-            allowedPreviewFromOrigins
-          )}`
-        );
-      }
-    }
-    if (previewAllowed) {
-      const helperBrickName = "next-previewer.preview-helper";
-      await developHelper.loadDynamicBricksInBrickConf({
-        brick: helperBrickName,
-      });
-      if (customElements.get(helperBrickName)) {
-        const helper = document.createElement(
-          helperBrickName
-        ) as unknown as PreviewHelperBrick;
-        helper.start(previewFromOrigin);
-      }
-    }
-  }
+  startPreview();
 }
 
 bootstrap();
 
 export interface PreviewHelperBrick {
-  start(previewFromOrigin: string): void;
+  start(previewFromOrigin: string, options?: PreviewStartOptions): void;
 }
 
 export interface PreviewMessageContainerStartPreview {
   sender: "preview-container";
   type: "start-preview";
+  options?: PreviewStartOptions;
+}
+
+export interface PreviewStartOptions {
+  appId: string;
+  templateId: string;
+  settings?: {
+    properties?: Record<string, unknown>;
+  };
 }

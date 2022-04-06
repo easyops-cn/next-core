@@ -14,6 +14,7 @@ import {
   _dev_only_getFakeKernel,
   _dev_only_loadEditorBricks,
   _dev_only_updateStoryboard,
+  _dev_only_updateTemplatePreviewSettings,
 } from "./core/exports";
 
 /** @internal */
@@ -38,4 +39,5 @@ export const developHelper = {
   /** @deprecated Keep it for backward-compatibility. */
   checkoutTplContext: noop,
   updateStoryboard: _dev_only_updateStoryboard,
+  updateTemplatePreviewSettings: _dev_only_updateTemplatePreviewSettings,
 };
