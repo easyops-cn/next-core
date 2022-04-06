@@ -48,6 +48,7 @@ import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
+import { collectContract } from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
 
@@ -238,6 +239,8 @@ export class Router {
       registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
 
       registerMock(storyboard.meta?.mocks);
+
+      collectContract(storyboard.meta?.contracts);
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;

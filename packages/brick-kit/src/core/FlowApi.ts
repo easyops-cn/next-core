@@ -3,6 +3,7 @@ import { ContractApi_searchSingleContract } from "@next-sdk/api-gateway-sdk";
 import { CustomApiDefinition, CustomApiProfile } from "./interfaces";
 import { _internalApiGetMicroAppApiOrchestrationMap } from "./Runtime";
 import { getMockList } from "./MockRegistry";
+import { getContract } from "./CollectContracts";
 import { InstanceApi_postSearchV3 } from "@next-sdk/cmdb-sdk";
 
 const flowApiDefinitionPromiseMap = new Map<
@@ -45,6 +46,7 @@ function getApiArgsFromApiProfile(
   {
     uri,
     method,
+    ext_fields,
     name,
     namespace,
     responseWrapper,
@@ -72,6 +74,7 @@ function getApiArgsFromApiProfile(
         {
           url,
           method,
+          ext_fields,
           responseWrapper: false,
         },
         ...args,
@@ -81,6 +84,7 @@ function getApiArgsFromApiProfile(
         {
           url,
           method,
+          ext_fields,
           responseWrapper,
         },
         ...args,
@@ -119,7 +123,7 @@ function getApiProfileFromApiDefinition(
           json: true,
         }) as CustomApiDefinition["contract"])
       : api.contract;
-  const { uri, method = "GET" } = contract?.endpoint ?? {};
+  const { uri, method = "GET", ext_fields } = contract?.endpoint ?? {};
   const responseWrapper = contract?.response
     ? contract.response.wrapper !== false
     : false;
@@ -131,6 +135,7 @@ function getApiProfileFromApiDefinition(
   return {
     uri,
     method: method.toLowerCase() === "list" ? "get" : method,
+    ext_fields,
     name: api.name,
     namespace: api.namespace,
     version: api.version,
@@ -187,22 +192,35 @@ async function _fetchFlowApiDefinition(
       };
     }
   } else {
-    const { contractData } = await ContractApi_searchSingleContract({
-      contractName: `${namespaceName}.${name}`,
-      version,
-    });
-
-    // return undefined if don't found contract
-    if (contractData) {
+    let contract;
+    if ((contract = getContract(`${namespaceName}.${name}`))) {
       return {
-        name: contractData.name,
-        namespace: contractData.namespace?.[0]?.name,
-        version: contractData.version,
+        name: contract.name,
+        namespace: contract.namespaceId,
+        version: contract.version,
         contract: {
-          endpoint: contractData.endpoint,
-          response: contractData.response,
+          endpoint: contract.endpoint,
+          response: contract.response,
         },
       };
+    } else {
+      const { contractData } = await ContractApi_searchSingleContract({
+        contractName: `${namespaceName}.${name}`,
+        version,
+      });
+
+      // return undefined if don't found contract
+      if (contractData) {
+        return {
+          name: contractData.name,
+          namespace: contractData.namespace?.[0]?.name,
+          version: contractData.version,
+          contract: {
+            endpoint: contractData.endpoint,
+            response: contractData.response,
+          },
+        };
+      }
     }
   }
 }
