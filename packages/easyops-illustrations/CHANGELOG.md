@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.12](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.11...@next-core/illustrations@0.5.12) (2022-04-06)
+
+
+### Bug Fixes
+
+* **easyops-illustrations:** 替换插画图片  Closes DESIGNER_ROUTINE-546 ([d12d3a5](https://github.com/easyops-cn/next-core/commit/d12d3a59b4f6e6a35f99a083c60fc1ac3c58fa90))
+
+
+
+
+
 ## [0.5.11](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.10...@next-core/illustrations@0.5.11) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/illustrations
