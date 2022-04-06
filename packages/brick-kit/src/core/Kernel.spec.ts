@@ -1106,4 +1106,119 @@ describe("Kernel", () => {
       },
     ]);
   });
+
+  it("should update template preview settings", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+          },
+          routes: [],
+        },
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [
+            {
+              alias: "home",
+              path: "${APP.homepage}",
+              bricks: [],
+            },
+          ],
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+    kernel._dev_only_updateTemplatePreviewSettings("app-b", "tpl-c", {
+      properties: {
+        dataTest: "good",
+      },
+      events: [],
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          id: "app-a",
+          homepage: "/app-a",
+          config: {},
+        },
+        routes: [],
+      },
+      {
+        app: {
+          id: "app-b",
+          homepage: "/app-b",
+          config: {},
+        },
+        routes: [
+          {
+            alias: "home",
+            path: "${APP.homepage}",
+            bricks: [],
+          },
+          {
+            path: "${APP.homepage}/_dev_only_/template-preview/tpl-c",
+            bricks: [
+              {
+                brick: "tpl-c",
+                properties: {
+                  dataTest: "good",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+
+    // Update again.
+    kernel._dev_only_updateTemplatePreviewSettings("app-b", "tpl-c", {
+      properties: {
+        dataTest: "better",
+      },
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          id: "app-a",
+          homepage: "/app-a",
+          config: {},
+        },
+        routes: [],
+      },
+      {
+        app: {
+          id: "app-b",
+          homepage: "/app-b",
+          config: {},
+        },
+        routes: [
+          {
+            alias: "home",
+            path: "${APP.homepage}",
+            bricks: [],
+          },
+          {
+            path: "${APP.homepage}/_dev_only_/template-preview/tpl-c",
+            bricks: [
+              {
+                brick: "tpl-c",
+                properties: {
+                  dataTest: "better",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+  });
 });
