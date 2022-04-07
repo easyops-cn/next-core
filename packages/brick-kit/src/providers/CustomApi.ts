@@ -15,8 +15,6 @@ export function processExtFields(
   ext_fields: ExtField[],
   ...args: unknown[]
 ): { data: unknown; options: HttpOptions } {
-  const extFieldsMap = new Map<string, boolean>();
-
   const hasFields = (type: "query" | "body"): boolean => {
     return ext_fields.some((item) => item.source === type);
   };

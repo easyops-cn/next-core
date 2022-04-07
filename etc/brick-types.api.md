@@ -848,6 +848,8 @@ export interface Contract {
         type?: "file" | "object";
     };
     // (undocumented)
+    serviceName?: string;
+    // (undocumented)
     version: string;
 }
 

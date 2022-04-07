@@ -1461,6 +1461,7 @@ export interface ExtField {
 export interface Contract {
   name: string;
   namespaceId: string;
+  serviceName?: string;
   version: string;
   endpoint: {
     method:

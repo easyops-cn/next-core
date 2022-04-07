@@ -47,6 +47,7 @@ export interface CustomApiDefinition {
   name: string;
   namespace: string;
   version?: string;
+  serviceName?: string;
   contract?: {
     endpoint: {
       ext_fields?: ExtField[];
@@ -80,6 +81,7 @@ export interface CustomApiProfile {
   method: string;
   name: string;
   namespace: string;
+  serviceName?: string;
   responseWrapper: boolean;
   version?: string;
   isFileType?: boolean;
