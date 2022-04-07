@@ -126,6 +126,27 @@ def create_or_update_micro_app_to_api_gw(app, org):
     print 'create app: {}'.format(app["appId"])
 
 
+def import_micro_app_permissions(install_path, org):
+  permission_path = os.path.join(install_path, "micro_app_permissions", "permissions.json")
+  if not os.path.exists(permission_path):
+    print "could not find permission path {}, will not import permissions".format(permission_path)
+    return
+
+  session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
+  if session_id <= 0:
+    raise NameServiceError("get nameservice logic.object_store_service error, session_id={}".format(session_id))
+  address = "{}:{}".format(ip, port)
+  headers = {"org": str(org), "user": "defaultUser"}
+  url = "http://{}/api/micro_app/v1/permission/import".format(address)
+  
+  with open(permission_path) as f:
+    p_f_content = f.read()
+    permission_list = simplejson.loads(p_f_content)
+    body = {"permissionList": permission_list}
+    rsp = requests.post(url, json=body, headers=headers)
+    rsp.raise_for_status()
+
+
 def upload_micro_app_images(install_path, org):
   address = os.environ.get("OBJECT_STORE_SERVICE", "")
   if address == "":
@@ -170,3 +191,4 @@ if __name__ == "__main__":
   if app:
     report(org, app)
     upload_micro_app_images(install_path, org)
+    import_micro_app_permissions(install_path, org)
