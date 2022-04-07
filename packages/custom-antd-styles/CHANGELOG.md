@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.2...@next-core/custom-antd-styles@1.24.3) (2022-04-07)
+
+
+### Bug Fixes
+
+* 自定义rate的颜色 refs BRICK_STORE-2660 ([5e59eab](https://github.com/easyops-cn/next-core/commit/5e59eab72b8b2f3a95fd4776fd080e402044dba4))
+
+
+
+
+
 ## [1.24.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.1...@next-core/custom-antd-styles@1.24.2) (2022-04-07)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles

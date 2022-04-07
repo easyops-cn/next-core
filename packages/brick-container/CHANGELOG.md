@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.3...@next-core/brick-container@2.66.4) (2022-04-07)
+
+
+### Bug Fixes
+
+* navigation style ([5af0aef](https://github.com/easyops-cn/next-core/commit/5af0aefff64cb285301aa2d48f2d746c9b1edcd2))
+* 自定义rate的颜色 refs BRICK_STORE-2660 ([5e59eab](https://github.com/easyops-cn/next-core/commit/5e59eab72b8b2f3a95fd4776fd080e402044dba4))
+
+
+
+
+
 ## [2.66.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.2...@next-core/brick-container@2.66.3) (2022-04-07)
 
 **Note:** Version bump only for package @next-core/brick-container
