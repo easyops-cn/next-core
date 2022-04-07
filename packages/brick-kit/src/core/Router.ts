@@ -303,11 +303,7 @@ export class Router {
           // Concat with a placeholder when loading template preview settings.
           storyboard.routes.concat({
             path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
-            bricks: [
-              {
-                brick: "next-previewer.template-preview-loader",
-              },
-            ],
+            bricks: [{ brick: "span" }],
           }),
           undefined,
           mountRoutesResult
