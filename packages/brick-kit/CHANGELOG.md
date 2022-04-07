@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.0...@next-core/brick-kit@2.117.1) (2022-04-07)
+
+
+### Bug Fixes
+
+* use an empty placeholder for template preview ([b24c623](https://github.com/easyops-cn/next-core/commit/b24c623f6d7f6405808f385297612e17afb362af))
+
+
+
+
+
 # [2.117.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.116.1...@next-core/brick-kit@2.117.0) (2022-04-06)
 
 
