@@ -23,11 +23,15 @@ jest.spyOn(CollectContract, "getContract").mockImplementation((key) => {
     return {
       name: "GetDetail",
       namespaceId: "easyops.api.test",
+      serviceName: "cmdb.loginc",
       endpoint: {
         uri: "/api/cmdb",
         method: "get",
       },
       version: "1.0.0",
+      response: {
+        wrapper: false,
+      },
     };
 });
 (InstanceApi_postSearchV3 as jest.Mock).mockImplementation(
@@ -270,7 +274,7 @@ describe("FlowApi", () => {
         ext_fields: undefined,
         method: "get",
         responseWrapper: false,
-        url: "api/gateway/easyops.api.test.GetDetail@1.0.0/api/cmdb",
+        url: "api/gateway/cmdb.loginc/api/cmdb",
       },
       "APP",
     ]);

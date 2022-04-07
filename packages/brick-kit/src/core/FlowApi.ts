@@ -49,6 +49,7 @@ function getApiArgsFromApiProfile(
     ext_fields,
     name,
     namespace,
+    serviceName,
     responseWrapper,
     version,
     isFileType,
@@ -65,6 +66,7 @@ function getApiArgsFromApiProfile(
     originalArgs,
     name,
     namespace,
+    serviceName,
     version
   );
 
@@ -96,10 +98,13 @@ function getTransformedUriAndRestArgs(
   originalArgs: unknown[],
   name: string,
   namespace: string,
+  serviceName: string,
   version?: string
 ): { url: string; args: unknown[] } {
   const prefix = version
-    ? `api/gateway/${namespace}.${name}@${version}`
+    ? serviceName
+      ? `api/gateway/${serviceName}`
+      : `api/gateway/${namespace}.${name}@${version}`
     : `api/gateway/api_service.${namespace}.${name}`;
   const restArgs = originalArgs.slice();
   const transformedUri = uri.replace(
@@ -138,6 +143,7 @@ function getApiProfileFromApiDefinition(
     ext_fields,
     name: api.name,
     namespace: api.namespace,
+    serviceName: api.serviceName,
     version: api.version,
     isFileType: contract?.response?.type === "file",
     responseWrapper,
@@ -169,7 +175,14 @@ async function _fetchFlowApiDefinition(
     const { list } = await InstanceApi_postSearchV3(
       "FLOW_BUILDER_API_CONTRACT@EASYOPS",
       {
-        fields: ["name", "namespaceId", "endpoint", "response", "version"],
+        fields: [
+          "name",
+          "namespaceId",
+          "endpoint",
+          "response",
+          "version",
+          "serviceName",
+        ],
         query: {
           namespaceId: {
             $eq: namespaceName,
@@ -184,6 +197,7 @@ async function _fetchFlowApiDefinition(
       return {
         name: list[0].name,
         namespace: list[0]?.namespaceId,
+        serviceName: list[0]?.serviceName,
         version: list[0].version,
         contract: {
           endpoint: list[0].endpoint,
@@ -197,6 +211,7 @@ async function _fetchFlowApiDefinition(
       return {
         name: contract.name,
         namespace: contract.namespaceId,
+        serviceName: contract.serviceName,
         version: contract.version,
         contract: {
           endpoint: contract.endpoint,
@@ -214,6 +229,7 @@ async function _fetchFlowApiDefinition(
         return {
           name: contractData.name,
           namespace: contractData.namespace?.[0]?.name,
+          serviceName: contractData.serviceName,
           version: contractData.version,
           contract: {
             endpoint: contractData.endpoint,

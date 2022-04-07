@@ -155,6 +155,8 @@ export interface CustomApiDefinition {
     // (undocumented)
     namespace: string;
     // (undocumented)
+    serviceName?: string;
+    // (undocumented)
     version?: string;
 }
 
@@ -174,6 +176,8 @@ export interface CustomApiProfile {
     namespace: string;
     // (undocumented)
     responseWrapper: boolean;
+    // (undocumented)
+    serviceName?: string;
     // (undocumented)
     uri: string;
     // (undocumented)
