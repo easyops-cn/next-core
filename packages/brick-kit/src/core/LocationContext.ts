@@ -319,13 +319,13 @@ export class LocationContext {
           await this.preFetchMenu(route.context);
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
+          await this.preFetchMenu(route);
           await this.mountBricks(
             route.bricks,
             matched.match,
             slotId,
             mountRoutesResult
           );
-          await this.preFetchMenu(route);
 
           // analytics data (page_view event)
           if (route.analyticsData) {
