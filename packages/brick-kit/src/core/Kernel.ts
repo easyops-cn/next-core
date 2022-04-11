@@ -312,6 +312,8 @@ export class Kernel {
           ...pick(settings, "properties"),
         },
       ],
+      menu: false,
+      exact: true,
     };
     if (previewRouteIndex === -1) {
       routes.push(newPreviewRoute);
