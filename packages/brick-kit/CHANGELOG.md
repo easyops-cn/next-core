@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.4...@next-core/brick-kit@2.117.5) (2022-04-11)
+
+
+### Bug Fixes
+
+* useProvider hook 支持query查询provider ([c8581e8](https://github.com/easyops-cn/next-core/commit/c8581e877f740f4218ac296eaa6448ce54be2803))
+
+
+
+
+
 ## [2.117.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.3...@next-core/brick-kit@2.117.4) (2022-04-11)
 
 
