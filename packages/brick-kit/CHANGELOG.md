@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.3...@next-core/brick-kit@2.117.4) (2022-04-11)
+
+
+### Bug Fixes
+
+* bg bricks should have no slot ([0c93d41](https://github.com/easyops-cn/next-core/commit/0c93d417da911b5b7d012d81f73bdeeadbf4f9d2))
+* no menu for template preview ([6f5ed88](https://github.com/easyops-cn/next-core/commit/6f5ed88002f61f105a6e2ab87481ffab2bbb0616))
+
+
+
+
+
 ## [2.117.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.2...@next-core/brick-kit@2.117.3) (2022-04-08)
 
 
