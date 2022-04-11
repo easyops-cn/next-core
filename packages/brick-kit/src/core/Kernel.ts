@@ -36,6 +36,7 @@ import type {
   RouteConf,
   MenuRawData,
   Storyboard,
+  SimpleFunction,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
@@ -322,7 +323,9 @@ export class Kernel {
     }
   }
 
-  async loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+  private _loadDepsOfStoryboard = async (
+    storyboard: RuntimeStoryboard
+  ): Promise<void> => {
     const { brickPackages, templatePackages } = this.bootstrapData;
 
     if (storyboard.dependsAll) {
@@ -356,6 +359,29 @@ export class Kernel {
       await loadScriptOfDll(dll);
       await loadScriptOfBricksOrTemplates(deps);
       await loadLazyBricks(bricks);
+    }
+  };
+
+  loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+    return this.gracefullyLoadDeps(this._loadDepsOfStoryboard, storyboard);
+  }
+
+  private async gracefullyLoadDeps<P extends unknown[]>(
+    fn: SimpleFunction<P, Promise<void>>,
+    ...args: P
+  ): Promise<void> {
+    try {
+      await fn(...args);
+    } catch (e) {
+      if (e instanceof Event && e.target instanceof HTMLScriptElement) {
+        // The scripts maybe stale when a user stays in page while upgrades been applied.
+        // So we force reloading again automatically.
+        // NOTE: reload only once to avoid a infinite loop.
+        await this.reloadMicroApps();
+        await fn(...args);
+      } else {
+        throw e;
+      }
     }
   }
 
@@ -405,10 +431,10 @@ export class Kernel {
     await this.loadDynamicBricks(bricks, processors);
   }
 
-  async loadDynamicBricks(
+  private _loadDynamicBricks = async (
     bricks: string[],
     processors?: string[]
-  ): Promise<void> {
+  ): Promise<void> => {
     const filteredBricks = bricks.filter(
       // Only try to load undefined custom elements.
       (item) => !customElements.get(item)
@@ -424,9 +450,13 @@ export class Kernel {
     await loadScriptOfDll(dll);
     await loadScriptOfBricksOrTemplates(deps);
     await loadLazyBricks(filteredBricks);
+  };
+
+  loadDynamicBricks(bricks: string[], processors?: string[]): Promise<void> {
+    return this.gracefullyLoadDeps(this._loadDynamicBricks, bricks, processors);
   }
 
-  async loadEditorBricks(editorBricks: string[]): Promise<void> {
+  private _loadEditorBricks = async (editorBricks: string[]): Promise<void> => {
     const { dll, deps } = getDllAndDepsByResource(
       {
         editorBricks: editorBricks.filter(
@@ -438,6 +468,10 @@ export class Kernel {
     );
     await loadScriptOfDll(dll);
     await loadScriptOfBricksOrTemplates(deps);
+  };
+
+  loadEditorBricks(editorBricks: string[]): Promise<void> {
+    return this.gracefullyLoadDeps(this._loadEditorBricks, editorBricks);
   }
 
   firstRendered(): void {
