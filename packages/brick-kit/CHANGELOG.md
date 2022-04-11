@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.5...@next-core/brick-kit@2.117.6) (2022-04-11)
+
+
+### Bug Fixes
+
+* handle checking isInIframeOfLegacyConsole when previewing in visual builder by iframe ([8e347b9](https://github.com/easyops-cn/next-core/commit/8e347b969033992412ee349ecd6f633141be95d5))
+* reload bootstrap again when loading bricks failed ([f022593](https://github.com/easyops-cn/next-core/commit/f0225934d5a1694ee06f96f3d1b5cd1c9b92c1b2))
+
+
+
+
+
 ## [2.117.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.4...@next-core/brick-kit@2.117.5) (2022-04-11)
 
 
