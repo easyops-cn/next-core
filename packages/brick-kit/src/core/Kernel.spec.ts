@@ -619,6 +619,37 @@ describe("Kernel", () => {
     expect(loadLazyBricks).toBeCalledWith(["my.test-brick"]);
   });
 
+  it("should loadDynamicBricksInBrickConf again after failed once", async () => {
+    kernel.bootstrapData = {} as any;
+    spyOnGetDllAndDepsByResource
+      .mockImplementationOnce(({ bricks }: { bricks: string[] }) => ({
+        dll: ["d3.v1"],
+        deps: bricks.map((brick) => brick.split(".")[0]),
+      }))
+      .mockImplementationOnce(({ bricks }: { bricks: string[] }) => ({
+        dll: ["d3.v2"],
+        deps: bricks.map((brick) => brick.split(".")[0]),
+      }));
+    spyOnLoadScript.mockImplementationOnce(() => {
+      const e = new Event("error");
+      Object.defineProperty(e, "target", {
+        value: document.createElement("script"),
+      });
+      throw e;
+    });
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [],
+    });
+    await kernel.loadDynamicBricksInBrickConf({
+      brick: "my.test-brick",
+    });
+    expect(loadScript).toBeCalledTimes(3);
+    expect(loadScript).toHaveBeenNthCalledWith(1, ["d3.v1"], undefined);
+    expect(loadScript).toHaveBeenNthCalledWith(2, ["d3.v2"], undefined);
+    expect(loadScript).toHaveBeenNthCalledWith(3, ["my"], undefined);
+    expect(loadLazyBricks).toBeCalledWith(["my.test-brick"]);
+  });
+
   it("should loadEditorBricks", async () => {
     kernel.bootstrapData = {} as any;
     await kernel.loadEditorBricks(["my.test-brick--editor"]);
