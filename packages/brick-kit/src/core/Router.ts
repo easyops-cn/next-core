@@ -304,6 +304,8 @@ export class Router {
           storyboard.routes.concat({
             path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
             bricks: [{ brick: "span" }],
+            menu: false,
+            exact: true,
           }),
           undefined,
           mountRoutesResult
