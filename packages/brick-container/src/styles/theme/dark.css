@@ -368,7 +368,7 @@ html[data-theme="dark-v2"],
   --antd-table-row-hover-bg: var(--palette-gray-3);
 
   --antd-table-header-filter-active-bg: var(--color-fill-bg-base-1);
-  --antd-table-header-sort-active-bg: var(--color-fill-bg-base-1);
+  --antd-table-header-sort-active-bg: rgba(62, 62, 64);
   --antd-table-header-overwrite-sort-th-active-bg: var(
     --antd-table-header-sort-active-bg
   );
