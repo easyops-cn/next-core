@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.8...@next-core/brick-container@2.66.9) (2022-04-11)
+
+
+### Bug Fixes
+
+* **general-button:** 适配dark模式下按钮背景色 ([4eabc05](https://github.com/easyops-cn/next-core/commit/4eabc057c343099fd091b23814cd8b0aca012a14))
+
+
+
+
+
 ## [2.66.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.7...@next-core/brick-container@2.66.8) (2022-04-11)
 
 **Note:** Version bump only for package @next-core/brick-container
