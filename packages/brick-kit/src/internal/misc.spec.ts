@@ -1,4 +1,9 @@
 import { RuntimeMisc } from "@next-core/brick-types";
+import { getBasePath } from "./getBasePath";
+
+jest.mock("./getBasePath");
+
+(getBasePath as jest.Mock).mockReturnValue("/next/");
 
 describe("getRuntimeMisc", () => {
   let getRuntimeMisc: () => RuntimeMisc;
@@ -65,16 +70,46 @@ describe("getRuntimeMisc", () => {
   });
 
   it("show work in iframe of legacy console", () => {
+    const location = window.location;
+    delete window.location;
+    window.location = {
+      pathname: "/next/abc",
+    } as unknown as Location;
     Object.defineProperty(window, "parent", {
       value: {
         origin: "http://localhost",
+        location: {
+          pathname: "/xyz",
+        },
       },
       writable: true,
     });
-
     expect(getRuntimeMisc()).toEqual({
       isInIframe: true,
       isInIframeOfLegacyConsole: true,
     });
+    window.location = location;
+  });
+
+  it("show work in iframe of non-legacy console", () => {
+    const location = window.location;
+    delete window.location;
+    window.location = {
+      pathname: "/next/abc",
+    } as unknown as Location;
+    Object.defineProperty(window, "parent", {
+      value: {
+        origin: "http://localhost",
+        location: {
+          pathname: "/next/xyz",
+        },
+      },
+      writable: true,
+    });
+    expect(getRuntimeMisc()).toEqual({
+      isInIframe: true,
+      isInIframeOfLegacyConsole: false,
+    });
+    window.location = location;
   });
 });
