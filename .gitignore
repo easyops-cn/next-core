@@ -11,6 +11,8 @@ report.*.json
 
 /dev.config.js
 /dev-settings.yaml
+/dev-https.key
+/dev-https.cert
 
 /cypress/videos
 /cypress/screenshots

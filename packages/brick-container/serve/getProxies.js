@@ -48,7 +48,9 @@ module.exports = (env) => {
   const proxyPaths = ["api"];
   const apiProxyOptions = {
     headers: {
-      "dev-only-login-page": `http://${env.host}:${env.port}${baseHref}auth/login`,
+      "dev-only-login-page": `http${env.https ? "s" : ""}://${env.host}:${
+        env.port
+      }${baseHref}auth/login`,
     },
   };
   if (useRemote) {
@@ -254,6 +256,20 @@ module.exports = (env) => {
           data.total = data.list.length;
           return JSON.stringify(result);
         });
+      } else if (
+        env.https &&
+        env.cookieSameSiteNone &&
+        (req.path === "/next/api/auth/login/v2" ||
+          req.path === "/api/auth/login/v2")
+      ) {
+        if (
+          res.statusCode === 200 &&
+          Array.isArray(proxyRes.headers["set-cookie"])
+        ) {
+          proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
+            (cookie) => cookie + "; SameSite=None; Secure"
+          );
+        }
       }
     };
   }

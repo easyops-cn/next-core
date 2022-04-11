@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const https = require("https");
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const { throttle, escapeRegExp } = require("lodash");
@@ -174,11 +175,22 @@ module.exports = function serve(runtimeFlags) {
     }
   }
 
-  app.listen(env.port, env.host);
+  if (env.https) {
+    const server = https.createServer(
+      {
+        key: fs.readFileSync(path.join(env.rootDir, "dev-https.key"), "utf8"),
+        cert: fs.readFileSync(path.join(env.rootDir, "dev-https.cert"), "utf8"),
+      },
+      app
+    );
+    server.listen(env.port, env.host);
+  } else {
+    app.listen(env.port, env.host);
+  }
 
   console.log(
     chalk.bold.green("Started serving at:"),
-    `http://${env.host}:${env.port}${env.baseHref}`
+    `http${env.https ? "s" : ""}://${env.host}:${env.port}${env.baseHref}`
   );
 
   // 建立 websocket 连接支持自动刷新

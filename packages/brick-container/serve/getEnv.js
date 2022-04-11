@@ -85,6 +85,14 @@ module.exports = (runtimeFlags) => {
         type: "string",
         default: "8090",
       },
+      https: {
+        type: "boolean",
+        default: false,
+      },
+      cookieSameSiteNone: {
+        type: "boolean",
+        default: false,
+      },
       server: {
         type: "string",
       },
@@ -129,30 +137,32 @@ module.exports = (runtimeFlags) => {
         $ yarn serve [options]
 
       Options
-        --auto-remote       Use auto remote mode (use all local existed packages, combined with remote packages)
-        --no-remote         Disable remote mode (Defaults to remote enabled)
-        --server            Set remote server address, defaults to "192.168.100.162"
-        --console-server    Set remote console server address, defaults to remote server address
-        --subdir            Set base href to "/next/" instead of "/"
-        --local-bricks      Specify local brick packages to be used in remote mode
-        --legacy-bootstrap  use legacy bootstrap provider
-        --local-editors     Specify local editor packages to be used in remote mode
-        --local-snippets    Specify local snippet packages to be used in remote mode
-        --local-micro-apps  Specify local micro apps to be used in remote mode
-        --local-templates   Specify local template packages to be used in remote mode
-        --local-container   Use local brick-container instead of remote in remote mode
-        --local-settings    Use local settings instead of remote settings in remote mode
-        --no-merge-settings Disable merge remote settings by local settings in remote mode
-        --port              Set local server listening port, defaults to "8081"
-        --ws-port           Set local WebSocket server listening port, defaults to "8090"
-        --host              Set local server listening host, defaults to "localhost"
-        --offline           Use offline mode
-        --verbose           Print verbose logs
-        --no-mock           Disable mock-micro-apps
-        --dark-theme-apps   Specify local micro apps to be used in dark theme  
-        --no-live-reload    Disable live reload through WebSocket (for E2E tests in CI)
-        --help              Show help message
-        --version           Show brick container version
+        --auto-remote           Use auto remote mode (use all local existed packages, combined with remote packages)
+        --no-remote             Disable remote mode (Defaults to remote enabled)
+        --server                Set remote server address, defaults to "192.168.100.162"
+        --console-server        Set remote console server address, defaults to remote server address
+        --subdir                Set base href to "/next/" instead of "/"
+        --local-bricks          Specify local brick packages to be used in remote mode
+        --legacy-bootstrap      use legacy bootstrap provider
+        --local-editors         Specify local editor packages to be used in remote mode
+        --local-snippets        Specify local snippet packages to be used in remote mode
+        --local-micro-apps      Specify local micro apps to be used in remote mode
+        --local-templates       Specify local template packages to be used in remote mode
+        --local-container       Use local brick-container instead of remote in remote mode
+        --local-settings        Use local settings instead of remote settings in remote mode
+        --no-merge-settings     Disable merge remote settings by local settings in remote mode
+        --port                  Set local server listening port, defaults to "8081"
+        --ws-port               Set local WebSocket server listening port, defaults to "8090"
+        --host                  Set local server listening host, defaults to "localhost"
+        --offline               Use offline mode
+        --verbose               Print verbose logs
+        --no-mock               Disable mock-micro-apps
+        --dark-theme-apps       Specify local micro apps to be used in dark theme
+        --no-live-reload        Disable live reload through WebSocket (for E2E tests in CI)
+        --https                 Enable serving by https
+        --cookie-same-site-none Enable serving by https
+        --help                  Show help message
+        --version               Show brick container version
       `,
       {
         flags: flagOptions,
@@ -310,6 +320,8 @@ module.exports = (runtimeFlags) => {
     host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
+    https: flags.https,
+    cookieSameSiteNone: flags.cookieSameSiteNone,
     server,
     consoleServer,
     appConfig,
