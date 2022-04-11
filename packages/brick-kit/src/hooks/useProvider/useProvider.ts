@@ -38,7 +38,7 @@ export function useProvider<TData = any>(
   const forceUpdate = useReducer(() => ({}), [])[1];
 
   const doFetch = useCallback(
-    async (...args: FetchArgs): Promise<TData> => {
+    async (provider: string, ...args: FetchArgs): Promise<TData> => {
       try {
         error.current = undefined;
         if (!suspense) setLoading(true);
@@ -88,7 +88,7 @@ export function useProvider<TData = any>(
 
       if (suspense) {
         return (async () => {
-          suspender.current = doFetch(...actualArgs).then(
+          suspender.current = doFetch(providerStr, ...actualArgs).then(
             (newData) => {
               suspenseStatus.current = "success";
               return newData;
@@ -103,7 +103,7 @@ export function useProvider<TData = any>(
           return await suspender.current;
         })();
       }
-      return doFetch(...actualArgs);
+      return doFetch(providerStr, ...actualArgs);
     },
     [doFetch]
   );
