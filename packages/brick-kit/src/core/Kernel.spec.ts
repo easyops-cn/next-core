@@ -1172,7 +1172,13 @@ describe("Kernel", () => {
       properties: {
         dataTest: "good",
       },
-      events: [],
+      events: {
+        click: { action: "console.log" },
+      },
+      lifeCycle: {
+        onPageLoad: { action: "message.info" },
+      },
+      params: [],
     });
     expect(kernel.bootstrapData.storyboards).toEqual([
       {
@@ -1202,6 +1208,12 @@ describe("Kernel", () => {
                 brick: "tpl-c",
                 properties: {
                   dataTest: "good",
+                },
+                events: {
+                  click: { action: "console.log" },
+                },
+                lifeCycle: {
+                  onPageLoad: { action: "message.info" },
                 },
               },
             ],
