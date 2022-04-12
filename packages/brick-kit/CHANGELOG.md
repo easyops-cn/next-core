@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.6...@next-core/brick-kit@2.117.7) (2022-04-12)
+
+
+### Bug Fixes
+
+* **template-preview:** support setting lifeCycle and events ([275cf02](https://github.com/easyops-cn/next-core/commit/275cf02fe2a2ce46241cb55d93b4822768e20459))
+
+
+
+
+
 ## [2.117.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.5...@next-core/brick-kit@2.117.6) (2022-04-11)
 
 
