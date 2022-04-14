@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.3...@next-core/custom-antd-styles@1.24.4) (2022-04-14)
+
+
+### Bug Fixes
+
+* **general-modal:** 给模态框加一个border ([323fb06](https://github.com/easyops-cn/next-core/commit/323fb067c3da265255938d8eb1911713fb092f86))
+* **general-radio:** 适配type:button的radio禁用态背景色 ([33c8474](https://github.com/easyops-cn/next-core/commit/33c847466b385055151dd49cd07450402c2c5978))
+* **loading-container:** 适配加载容器的暗色模式，修改颜色变量 ([9ceb80e](https://github.com/easyops-cn/next-core/commit/9ceb80e4de004b0d17cee2e3d38290afc0f4da18))
+* **loading-container:** 适配暗色模式，修改加载容器的图标样式 ([754c4b7](https://github.com/easyops-cn/next-core/commit/754c4b78671766c959112c2bcaf1f1d6198483f3))
+
+
+
+
+
 ## [1.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.2...@next-core/custom-antd-styles@1.24.3) (2022-04-07)
 
 
