@@ -1197,11 +1197,6 @@ describe("Kernel", () => {
         },
         routes: [
           {
-            alias: "home",
-            path: "${APP.homepage}",
-            bricks: [],
-          },
-          {
             path: "${APP.homepage}/_dev_only_/template-preview/tpl-c",
             bricks: [
               {
@@ -1219,6 +1214,11 @@ describe("Kernel", () => {
             ],
             menu: false,
             exact: true,
+          },
+          {
+            alias: "home",
+            path: "${APP.homepage}",
+            bricks: [],
           },
         ],
       },
@@ -1247,11 +1247,6 @@ describe("Kernel", () => {
         },
         routes: [
           {
-            alias: "home",
-            path: "${APP.homepage}",
-            bricks: [],
-          },
-          {
             path: "${APP.homepage}/_dev_only_/template-preview/tpl-c",
             bricks: [
               {
@@ -1263,6 +1258,11 @@ describe("Kernel", () => {
             ],
             menu: false,
             exact: true,
+          },
+          {
+            alias: "home",
+            path: "${APP.homepage}",
+            bricks: [],
           },
         ],
       },
