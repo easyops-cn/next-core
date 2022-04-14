@@ -943,6 +943,7 @@ describe("bindListeners", () => {
     });
 
     button.forGood = jest.fn();
+    button.forArray = jest.fn();
     jest.spyOn(console, "error").mockImplementation(() => void 0);
     const tplDispatchEvent = jest.spyOn(tplElement, "dispatchEvent");
 
@@ -953,6 +954,10 @@ describe("bindListeners", () => {
           {
             targetRef: "button",
             method: "forGood",
+          },
+          {
+            targetRef: ["button"],
+            method: "forArray",
           },
           {
             action: "state.update",
@@ -996,6 +1001,7 @@ describe("bindListeners", () => {
 
     sourceElem.dispatchEvent(new CustomEvent("keyWillFindTarget"));
     expect(button.forGood).toBeCalled();
+    expect(button.forArray).toBeCalled();
     expect(tplContext.state.getValue("myState")).toBe("initial:updated");
 
     useBrickElem.dispatchEvent(

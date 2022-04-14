@@ -86,7 +86,7 @@ export interface BaseCustomBrickEventHandler {
     if?: string | boolean;
     multiple?: boolean;
     target?: string | unknown;
-    targetRef?: string;
+    targetRef?: string | string[];
 }
 
 // @public

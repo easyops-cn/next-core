@@ -1244,7 +1244,7 @@ export interface BaseCustomBrickEventHandler {
   /**
    * 在自定义模板中指定 ref 对应的构件。
    */
-  targetRef?: string;
+  targetRef?: string | string[];
 
   /**
    * 是否使用 `target` 匹配多个构件。

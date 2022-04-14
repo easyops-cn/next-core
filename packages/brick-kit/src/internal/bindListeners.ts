@@ -589,10 +589,12 @@ function customListenerFactory(
       const tpl: RuntimeBrickElement = getTplContext(
         context.tplContextId
       ).getBrick().element;
-      const found = tpl.$$getElementByRef?.(handler.targetRef);
-      if (found) {
-        targets.push(found);
-      }
+      targets.push(
+        ...[]
+          .concat(handler.targetRef)
+          .map((ref) => tpl.$$getElementByRef?.(ref))
+          .filter(Boolean)
+      );
     }
     if (targets.length === 0) {
       // eslint-disable-next-line no-console
