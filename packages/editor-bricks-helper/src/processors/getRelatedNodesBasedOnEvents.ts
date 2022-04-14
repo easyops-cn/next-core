@@ -96,10 +96,12 @@ function collectRelatedNodes(
           nodesMap.get(targetNodeUid).upstreamNodes.add(node.$$uid);
         }
       } else if (handler.targetRef) {
-        const targetRefNodeUid = targetRefMap.get(handler.targetRef);
-        if (targetRefNodeUid) {
-          nodesMap.get(node.$$uid).downstreamNodes.add(targetRefNodeUid);
-          nodesMap.get(targetRefNodeUid).upstreamNodes.add(node.$$uid);
+        for (const ref of [].concat(handler.targetRef)) {
+          const targetRefNodeUid = targetRefMap.get(ref);
+          if (targetRefNodeUid) {
+            nodesMap.get(node.$$uid).downstreamNodes.add(targetRefNodeUid);
+            nodesMap.get(targetRefNodeUid).upstreamNodes.add(node.$$uid);
+          }
         }
       }
       if (handler.callback) {

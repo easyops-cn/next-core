@@ -317,7 +317,7 @@ export class Kernel {
       exact: true,
     };
     if (previewRouteIndex === -1) {
-      routes.push(newPreviewRoute);
+      routes.unshift(newPreviewRoute);
     } else {
       routes.splice(previewRouteIndex, 1, newPreviewRoute);
     }
