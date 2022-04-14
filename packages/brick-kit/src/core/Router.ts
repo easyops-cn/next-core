@@ -1,5 +1,5 @@
 import { locationsAreEqual, createPath, Action, Location } from "history";
-import { uniqueId } from "lodash";
+import { findLastIndex, uniqueId } from "lodash";
 import type {
   LayoutType,
   PluginHistoryState,
@@ -300,16 +300,25 @@ export class Router {
         },
       };
       try {
+        const specificTemplatePreviewIndex = findLastIndex(
+          storyboard.routes,
+          (route) =>
+            route.path.startsWith(
+              "${APP.homepage}/_dev_only_/template-preview/"
+            )
+        );
+        const mergedRoutes = [
+          ...storyboard.routes.slice(0, specificTemplatePreviewIndex + 1),
+          {
+            path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
+            bricks: [{ brick: "span" }],
+            menu: false,
+            exact: true,
+          } as RouteConf,
+          ...storyboard.routes.slice(specificTemplatePreviewIndex + 1),
+        ];
         await locationContext.mountRoutes(
-          // Concat with a placeholder when loading template preview settings.
-          [
-            {
-              path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
-              bricks: [{ brick: "span" }],
-              menu: false,
-              exact: true,
-            } as RouteConf,
-          ].concat(storyboard.routes),
+          mergedRoutes,
           undefined,
           mountRoutesResult
         );
