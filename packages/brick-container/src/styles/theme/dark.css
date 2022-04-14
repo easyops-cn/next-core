@@ -597,15 +597,15 @@ html[data-theme="dark-v2"],
   --tag-teal-background: rgba(var(--palette-teal-6-channel), 0.12);
   --tag-teal-border-color: rgba(var(--palette-teal-6-channel), 0.2);
 
-  --tag-blue-inverse-color: var(--tag-blue-color);
-  --tag-green-inverse-color: var(--tag-green-color);
-  --tag-geekblue-inverse-color: var(--tag-geekblue-color);
-  --tag-purple-inverse-color: var(--tag-purple-color);
-  --tag-orange-inverse-color: var(--tag-orange-color);
-  --tag-cyan-inverse-color: var(--tag-cyan-color);
-  --tag-red-inverse-color: var(--tag-red-color);
-  --tag-yellow-inverse-color: var(--tag-yellow-color);
-  --tag-gray-inverse-color: var(--color-secondary-text);
+  --tag-blue-inverse-color: var(--palette-blue-6);
+  --tag-green-inverse-color: var(--palette-green-6);
+  --tag-geekblue-inverse-color: var(--palette-indigo-6);
+  --tag-purple-inverse-color: var(--palette-purple-6);
+  --tag-orange-inverse-color: var(--palette-orange-6);
+  --tag-cyan-inverse-color: var(--palette-cyan-6);
+  --tag-red-inverse-color: var(--palette-red-6);
+  --tag-yellow-inverse-color: var(--palette-yellow-6);
+  --tag-gray-inverse-color: var(--palette-rgba-gray-6);
   --tag-pink-inverse-color: var(--palette-pink-6);
   --tag-teal-inverse-color: var(--palette-teal-6);
   --tag-inverse-text-color: var(--color-strong-text);
