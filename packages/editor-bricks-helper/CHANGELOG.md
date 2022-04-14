@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.39.12](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.11...@next-core/editor-bricks-helper@0.39.12) (2022-04-14)
+
+
+### Bug Fixes
+
+* support setting targetRef as array ([ec822f3](https://github.com/easyops-cn/next-core/commit/ec822f37f881efe96a06b7fe53af17e6a40c79c6))
+
+
+
+
+
 ## [0.39.11](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.10...@next-core/editor-bricks-helper@0.39.11) (2022-04-14)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper

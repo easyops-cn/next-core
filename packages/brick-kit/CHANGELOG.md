@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.8...@next-core/brick-kit@2.117.9) (2022-04-14)
+
+
+### Bug Fixes
+
+* put template preview route before others ([bcb1cac](https://github.com/easyops-cn/next-core/commit/bcb1cac988befac5dab41c325921d7738bb8c306))
+* support setting targetRef as array ([ec822f3](https://github.com/easyops-cn/next-core/commit/ec822f37f881efe96a06b7fe53af17e6a40c79c6))
+
+
+
+
+
 ## [2.117.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.7...@next-core/brick-kit@2.117.8) (2022-04-14)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.61.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.2...@next-core/brick-types@2.61.3) (2022-04-14)
+
+
+### Bug Fixes
+
+* support setting targetRef as array ([ec822f3](https://github.com/easyops-cn/next-core/commit/ec822f37f881efe96a06b7fe53af17e6a40c79c6))
+
+
+
+
+
 ## [2.61.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.1...@next-core/brick-types@2.61.2) (2022-04-07)
 
 
