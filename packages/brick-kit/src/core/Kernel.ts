@@ -310,7 +310,7 @@ export class Kernel {
       bricks: [
         {
           brick: templateId,
-          ...pick(settings, "properties", "events", "lifeCycle"),
+          ...pick(settings, "properties", "events", "lifeCycle", "context"),
         },
       ],
       menu: false,
