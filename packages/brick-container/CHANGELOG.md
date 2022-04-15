@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.15...@next-core/brick-container@2.66.16) (2022-04-15)
+
+
+### Bug Fixes
+
+* 修改颜色变量指向 ([ed611ac](https://github.com/easyops-cn/next-core/commit/ed611acc8d2c8f616ed8168fec2afb11c825e1df))
+
+
+
+
+
 ## [2.66.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.14...@next-core/brick-container@2.66.15) (2022-04-15)
 
 **Note:** Version bump only for package @next-core/brick-container
