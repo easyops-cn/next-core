@@ -605,7 +605,7 @@ html[data-theme="dark-v2"],
   --tag-cyan-inverse-color: var(--palette-cyan-6);
   --tag-red-inverse-color: var(--palette-red-6);
   --tag-yellow-inverse-color: var(--palette-yellow-6);
-  --tag-gray-inverse-color: var(--palette-rgba-gray-6);
+  --tag-gray-inverse-color: var(--palette-gray-6);
   --tag-pink-inverse-color: var(--palette-pink-6);
   --tag-teal-inverse-color: var(--palette-teal-6);
   --tag-inverse-text-color: var(--color-strong-text);
