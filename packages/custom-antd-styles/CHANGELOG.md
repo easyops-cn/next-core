@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.4...@next-core/custom-antd-styles@1.24.5) (2022-04-15)
+
+
+### Bug Fixes
+
+* **general-radio:** 修改颜色变量 ([2091b19](https://github.com/easyops-cn/next-core/commit/2091b1947d627e68b4c7b29c05c161cc96383af9))
+
+
+
+
+
 ## [1.24.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.3...@next-core/custom-antd-styles@1.24.4) (2022-04-14)
 
 
