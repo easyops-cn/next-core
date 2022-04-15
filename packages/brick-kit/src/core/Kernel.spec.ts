@@ -1179,6 +1179,7 @@ describe("Kernel", () => {
         onPageLoad: { action: "message.info" },
       },
       params: [],
+      context: [{ name: "quality" }],
     });
     expect(kernel.bootstrapData.storyboards).toEqual([
       {
@@ -1210,6 +1211,7 @@ describe("Kernel", () => {
                 lifeCycle: {
                   onPageLoad: { action: "message.info" },
                 },
+                context: [{ name: "quality" }],
               },
             ],
             menu: false,
