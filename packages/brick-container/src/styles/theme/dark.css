@@ -238,6 +238,7 @@ html[data-theme="dark-v2"],
   --antd-card-background: var(--color-fill-bg-container-1);
   --antd-card-shadow: var(--base-shadow);
   --antd-card-footer-bg: var(--color-fill-bg-container-1);
+  --antd-card-footer-top-border-color: var(--color-border-divider-line);
 
   /*** radio dashboard ***/
   --antd-dashboard-radio-bg: var(--color-fill-bg-base-5);
