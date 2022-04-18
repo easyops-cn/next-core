@@ -20,6 +20,6 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
-    "babel-plugin-import": "^1.13.3"
+    "babel-plugin-import": "^1.13.5"
   }
 }
