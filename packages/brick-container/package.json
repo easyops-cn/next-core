@@ -58,7 +58,7 @@
     "copy-webpack-plugin": "^6.4.1",
     "core-js": "^3.21.1",
     "css-loader": "^5.2.7",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.1.0",
     "html-webpack-plugin": "^4.5.2",
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^6.1.4",
