@@ -61,6 +61,15 @@ export interface RuntimeMisc {
   /** 当前是否处于 iframe 模式。 */
   isInIframe: boolean;
 
+  /** 当前是否处于同域的 iframe 模式。 */
+  isInIframeOfSameSite: boolean;
+
+  /** 当前是否处于新框架下的 iframe 模式。 */
+  isInIframeOfNext: boolean;
+
+  /** 当前是否处于 Visual Builder 预览的 iframe 模式。 */
+  isInIframeOfVisualBuilder: boolean;
+
   /** 当前是否处于老 console 下的 iframe 模式。 */
   isInIframeOfLegacyConsole: boolean;
 }

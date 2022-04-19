@@ -1,7 +1,8 @@
-import { RuntimeMisc } from "@next-core/brick-types";
+import type { RuntimeMisc } from "@next-core/brick-types";
 import { getBasePath } from "./getBasePath";
 
 jest.mock("./getBasePath");
+jest.mock("../history");
 
 (getBasePath as jest.Mock).mockReturnValue("/next/");
 
@@ -21,6 +22,9 @@ describe("getRuntimeMisc", () => {
     const misc = getRuntimeMisc();
     expect(misc).toEqual({
       isInIframe: false,
+      isInIframeOfSameSite: false,
+      isInIframeOfNext: false,
+      isInIframeOfVisualBuilder: false,
       isInIframeOfLegacyConsole: false,
     });
 
@@ -50,6 +54,9 @@ describe("getRuntimeMisc", () => {
 
     expect(getRuntimeMisc()).toEqual({
       isInIframe: true,
+      isInIframeOfSameSite: false,
+      isInIframeOfNext: false,
+      isInIframeOfVisualBuilder: false,
       isInIframeOfLegacyConsole: false,
     });
   });
@@ -65,6 +72,9 @@ describe("getRuntimeMisc", () => {
 
     expect(getRuntimeMisc()).toEqual({
       isInIframe: true,
+      isInIframeOfSameSite: false,
+      isInIframeOfNext: false,
+      isInIframeOfVisualBuilder: false,
       isInIframeOfLegacyConsole: false,
     });
   });
@@ -86,6 +96,9 @@ describe("getRuntimeMisc", () => {
     });
     expect(getRuntimeMisc()).toEqual({
       isInIframe: true,
+      isInIframeOfSameSite: true,
+      isInIframeOfNext: false,
+      isInIframeOfVisualBuilder: false,
       isInIframeOfLegacyConsole: true,
     });
     window.location = location;
@@ -108,6 +121,34 @@ describe("getRuntimeMisc", () => {
     });
     expect(getRuntimeMisc()).toEqual({
       isInIframe: true,
+      isInIframeOfSameSite: true,
+      isInIframeOfNext: true,
+      isInIframeOfVisualBuilder: false,
+      isInIframeOfLegacyConsole: false,
+    });
+    window.location = location;
+  });
+
+  it("show work in iframe of visual builder", () => {
+    const location = window.location;
+    delete window.location;
+    window.location = {
+      pathname: "/next/any",
+    } as unknown as Location;
+    Object.defineProperty(window, "parent", {
+      value: {
+        origin: "http://localhost",
+        location: {
+          pathname: "/next/visual-builder/xyz",
+        },
+      },
+      writable: true,
+    });
+    expect(getRuntimeMisc()).toEqual({
+      isInIframe: true,
+      isInIframeOfSameSite: true,
+      isInIframeOfNext: true,
+      isInIframeOfVisualBuilder: true,
       isInIframeOfLegacyConsole: false,
     });
     window.location = location;
