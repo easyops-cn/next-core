@@ -3091,10 +3091,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.9.13":
-  version "4.9.13"
-  resolved "https://registry.npmjs.org/@types/echarts/-/echarts-4.9.13.tgz#b4a56f8ff471af65dd54b196af6972629d6745d4"
-  integrity sha512-xqZ21MXOBU5i+BywnxAi0He+M6lsRtANBvbqJHmqM8T64Lx7azHJWbv/vSKVJfEbv3XyYpxeDhpV7gFi5mfgeA==
+"@types/echarts@^4.9.14":
+  version "4.9.14"
+  resolved "https://registry.npmjs.org/@types/echarts/-/echarts-4.9.14.tgz#41fd4aa286078fa3346bbd92144a704aec5e2b78"
+  integrity sha512-hg2EFjTmiatztvxIFNIQ7tTIdSsbRZJXfBwJlaucvnQKqv4t2AKmpbPXU9rLtrgD/KCpyi1SX7T+WH6uVybmqA==
   dependencies:
     "@types/zrender" "*"
 
@@ -3261,10 +3261,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.181":
-  version "4.14.181"
-  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.181.tgz#d1d3740c379fda17ab175165ba04e2d03389385d"
-  integrity sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==
+"@types/lodash@^4.14.182":
+  version "4.14.182"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.182.tgz#05301a4d5e62963227eaafe0ce04dd77c54ea5c2"
+  integrity sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==
 
 "@types/lolex@^5.1.2":
   version "5.1.2"
@@ -3310,10 +3310,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-10.17.13.tgz#ccebcdb990bd6139cd16e84c39dc2fb1023ca90c"
   integrity sha1-zOvNuZC9YTnNFuhMOdwvsQI8qQw=
 
-"@types/node@^12.20.47":
-  version "12.20.47"
-  resolved "https://registry.npmjs.org/@types/node/-/node-12.20.47.tgz#ca9237d51f2a2557419688511dab1c8daf475188"
-  integrity sha512-BzcaRsnFuznzOItW1WpQrDHM7plAa7GIDMZ6b5pnMbkqEtM/6WCOhvZar39oeMQP79gwvFUWjjptE7/KGcNqFg==
+"@types/node@^12.20.48":
+  version "12.20.48"
+  resolved "https://registry.npmjs.org/@types/node/-/node-12.20.48.tgz#55f70bd432b6515828c0298689776861b90ca4fa"
+  integrity sha512-4kxzqkrpwYtn6okJUcb2lfUu9ilnb3yhUOH6qX3nug8D2DupZ2drIkff2yJzYcNJVl3begnlcaBJ7tqiTTzjnQ==
 
 "@types/node@^14.14.31":
   version "14.14.37"
@@ -3374,10 +3374,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16", "@types/react@^16.14.24", "@types/react@^17":
-  version "16.14.24"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.24.tgz#f2c5e9fa78f83f769884b83defcf7924b9eb5c82"
-  integrity sha512-e7U2WC8XQP/xfR7bwhOhNFZKPTfW1ph+MiqtudKb8tSV8RyCsovQx2sNVtKoOryjxFKpHPPC/yNiGfdeVM5Gyw==
+"@types/react@*", "@types/react@^16", "@types/react@^16.14.25", "@types/react@^17":
+  version "16.14.25"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.25.tgz#d003f712c7563fdef5a87327f1892825af375608"
+  integrity sha512-cXRVHd7vBT5v1is72mmvmsg9stZrbJO04DJqFeh3Yj2tVKO6vmxg5BI+ybI6Ls7ROXRG3aFbZj9x0WA3ZAoDQw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
