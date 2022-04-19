@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.11...@next-core/brick-kit@2.117.12) (2022-04-19)
+
+
+### Bug Fixes
+
+* **getMenu:** fix menu lose ([3be0166](https://github.com/easyops-cn/next-core/commit/3be0166378cd5ae735c76b41cb7537fa6f3327d6))
+
+
+
+
+
 ## [2.117.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.10...@next-core/brick-kit@2.117.11) (2022-04-15)
 
 
