@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.61.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.3...@next-core/brick-types@2.61.4) (2022-04-19)
+
+
+### Bug Fixes
+
+* fix menu in iframe ([4a6f83d](https://github.com/easyops-cn/next-core/commit/4a6f83dda1c00665453cf2df2742cb8d27aff7c0))
+
+
+
+
+
 ## [2.61.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.2...@next-core/brick-types@2.61.3) (2022-04-14)
 
 
