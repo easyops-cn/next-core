@@ -59,7 +59,6 @@ export async function constructMenuByMenusList(
   context: PluginRuntimeContext,
   kernel: Kernel
 ): Promise<void> {
-  processMenuCache.clear();
   const data: SidebarMenu[] = await Promise.all(
     menus.map((menuId) => processMenu(menuId, context, kernel))
   );
