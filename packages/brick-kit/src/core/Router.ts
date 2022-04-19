@@ -6,6 +6,7 @@ import type {
   PluginLocation,
   PluginRuntimeContext,
   RouteConf,
+  RuntimeMisc,
 } from "@next-core/brick-types";
 import {
   restoreDynamicTemplates,
@@ -421,7 +422,12 @@ export class Router {
         );
       }
 
-      if (barsHidden || getRuntimeMisc().isInIframeOfLegacyConsole) {
+      let misc: RuntimeMisc;
+      if (
+        barsHidden ||
+        ((misc = getRuntimeMisc()),
+        misc.isInIframeOfSameSite && !misc.isInIframeOfVisualBuilder)
+      ) {
         this.kernel.toggleBars(false);
       } else {
         await constructMenu(

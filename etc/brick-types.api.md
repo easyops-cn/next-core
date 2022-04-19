@@ -1747,6 +1747,9 @@ export interface RuntimeBrickElement extends HTMLElement {
 export interface RuntimeMisc {
     isInIframe: boolean;
     isInIframeOfLegacyConsole: boolean;
+    isInIframeOfNext: boolean;
+    isInIframeOfSameSite: boolean;
+    isInIframeOfVisualBuilder: boolean;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboard" should be prefixed with an underscore because the declaration is marked as @internal
