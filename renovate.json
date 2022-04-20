@@ -15,7 +15,12 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["^@next-core/", "^@next-dll/", "^@next-sdk/"],
+      "matchPackagePatterns": [
+        "^@next-core/",
+        "^@next-dll/",
+        "^@next-sdk/",
+        "^@next-bricks/"
+      ],
       "enabled": false
     },
     {
@@ -33,9 +38,22 @@
         "html-loader",
         "less-loader",
         "style-loader",
-        "mini-css-extract-plugin"
+        "css-loader",
+        "postcss-loader",
+        "markdown-loader",
+        "mini-css-extract-plugin",
+        "echarts",
+        "buffer",
+        "history",
+        "less",
+        "js-yaml",
+        "minimatch",
+        "schema-utils",
+        "terser-webpack-plugin",
+        "svgr",
+        "globby"
       ],
-      "matchPackagePatterns": ["react"],
+      "matchPackagePatterns": ["react", "^@fortawesome/"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },
@@ -65,6 +83,7 @@
     },
     {
       "matchPackageNames": ["antd"],
+      "matchPackagePatterns": ["^rc-", "^@ant-design/"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false
     }
