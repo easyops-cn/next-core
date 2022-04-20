@@ -24,7 +24,7 @@ jobs:
       with:
         timezone: Asia/Shanghai
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -37,7 +37,7 @@ jobs:
       run: echo "::set-output name=dir::$(yarn cache dir)"
 
     - name: Cache node modules
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -48,7 +48,7 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: Cache npx packages
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.npm
         key: ${{ runner.os }}-wait-on--start-serve-and-test
@@ -56,7 +56,7 @@ jobs:
           ${{ runner.os }}-wait-on--start-serve-and-test
 
     - name: Cache Cypress binary
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.cache/Cypress
         key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}

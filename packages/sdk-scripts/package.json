@@ -30,13 +30,13 @@
     "@next-core/repo-config": "^0.2.1",
     "chalk": "^4.1.1",
     "change-case": "^4.1.2",
-    "fs-extra": "^10.0.1",
-    "inquirer": "^8.2.0",
+    "fs-extra": "^10.1.0",
+    "inquirer": "^8.2.2",
     "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
     "meow": "^9.0.0",
-    "prettier": "^2.5.1",
-    "semver": "^7.3.5"
+    "prettier": "^2.6.2",
+    "semver": "^7.3.7"
   },
   "engines": {
     "node": ">=12.0.0"
