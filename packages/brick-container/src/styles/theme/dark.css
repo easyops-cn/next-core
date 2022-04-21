@@ -753,6 +753,13 @@ html[data-theme="dark-v2"],
   --dropdown-select-shape-type-disable-bg: var(--color-disabled-text);
 
   /*** monitor-alert custom css variables ***/
+
+  --blue-4: #184481;
+  --amber-4: #7c601c;
+  --orange-5: #ae6a22;
+  --red-6: #d2593f;
+  --red-8: #f39575;
+
   --monitor-alert-message: var(--blue-4);
   --monitor-alert-info: var(--amber-4);
   --monitor-alert-warning: var(--orange-5);
