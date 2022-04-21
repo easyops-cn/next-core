@@ -5,13 +5,17 @@ Array [
   Array [
     "dist/ForBetter.spec.tsx",
     "import React from \\"react\\";
-import { shallow } from \\"enzyme\\";
+import { fireEvent, render, screen } from \\"@testing-library/react\\";
+import \\"@testing-library/jest-dom\\";
 import { ForBetter } from \\"./ForBetter\\";
 
 describe(\\"ForBetter\\", () => {
   it(\\"should work\\", () => {
-    const wrapper = shallow(<ForBetter />);
-    expect(wrapper.find(\\"div\\").text()).toBe(\\"FOR_GOOD works!\\");
+    render(<ForBetter />);
+    fireEvent.click(screen.getByTestId(\\"my-brick\\"));
+    expect(screen.getByTestId(\\"my-brick\\")).toHaveTextContent(
+      \\"FOR_GOOD works!\\"
+    );
   });
 });
 ",
@@ -25,7 +29,9 @@ import { NS_FOR_GOOD, K } from \\"../i18n/constants\\";
 export function ForBetter(): React.ReactElement {
   const { t } = useTranslation(NS_FOR_GOOD);
 
-  return <div>{t(K.FOR_GOOD)} works!</div>;
+  return (
+    <div data-testid=\\"my-brick\\">{t(K.FOR_GOOD)} works!</div>
+  );
 }
 ",
   ],
@@ -430,13 +436,17 @@ module.exports = merge(
   Array [
     "dist/src/for-better/ForBetter.spec.tsx",
     "import React from \\"react\\";
-import { shallow } from \\"enzyme\\";
+import { fireEvent, render, screen } from \\"@testing-library/react\\";
+import \\"@testing-library/jest-dom\\";
 import { ForBetter } from \\"./ForBetter\\";
 
 describe(\\"ForBetter\\", () => {
   it(\\"should work\\", () => {
-    const wrapper = shallow(<ForBetter />);
-    expect(wrapper.find(\\"div\\").text()).toBe(\\"FOR_GOOD works!\\");
+    render(<ForBetter />);
+    fireEvent.click(screen.getByTestId(\\"my-brick\\"));
+    expect(screen.getByTestId(\\"my-brick\\")).toHaveTextContent(
+      \\"FOR_GOOD works!\\"
+    );
   });
 });
 ",
@@ -450,7 +460,9 @@ import { NS_FOR_GOOD, K } from \\"../i18n/constants\\";
 export function ForBetter(): React.ReactElement {
   const { t } = useTranslation(NS_FOR_GOOD);
 
-  return <div>{t(K.FOR_GOOD)} works!</div>;
+  return (
+    <div data-testid=\\"my-brick\\">{t(K.FOR_GOOD)} works!</div>
+  );
 }
 ",
   ],

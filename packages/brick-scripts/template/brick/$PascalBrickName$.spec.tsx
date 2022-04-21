@@ -1,10 +1,14 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { fireEvent, render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { $PascalBrickName$ } from "./$PascalBrickName$";
 
 describe("$PascalBrickName$", () => {
   it("should work", () => {
-    const wrapper = shallow(<$PascalBrickName$ />);
-    expect(wrapper.find("div").text()).toBe("$CONSTANT_PACKAGE_NAME$ works!");
+    render(<$PascalBrickName$ />);
+    fireEvent.click(screen.getByTestId("my-brick"));
+    expect(screen.getByTestId("my-brick")).toHaveTextContent(
+      "$CONSTANT_PACKAGE_NAME$ works!"
+    );
   });
 });
