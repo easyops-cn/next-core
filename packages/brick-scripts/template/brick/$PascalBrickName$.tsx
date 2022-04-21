@@ -5,5 +5,7 @@ import { NS_$CONSTANT_PACKAGE_NAME$, K } from "../i18n/constants";
 export function $PascalBrickName$(): React.ReactElement {
   const { t } = useTranslation(NS_$CONSTANT_PACKAGE_NAME$);
 
-  return <div>{t(K.$CONSTANT_PACKAGE_NAME$)} works!</div>;
+  return (
+    <div data-testid="my-brick">{t(K.$CONSTANT_PACKAGE_NAME$)} works!</div>
+  );
 }
