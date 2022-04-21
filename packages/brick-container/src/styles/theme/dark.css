@@ -753,9 +753,9 @@ html[data-theme="dark-v2"],
   --dropdown-select-shape-type-disable-bg: var(--color-disabled-text);
 
   /*** monitor-alert custom css variables ***/
-  --monitor-alert-message: #2c4981;
-  --monitor-alert-info: #442320;
-  --monitor-alert-warning: #7a3a2e;
-  --monitor-alert-critical: #e8856a;
-  --monitor-alert-emergency: #e73333;
+  --monitor-alert-message: var(--blue-4);
+  --monitor-alert-info: var(--amber-4);
+  --monitor-alert-warning: var(--orange-5);
+  --monitor-alert-critical: var(--red-6);
+  --monitor-alert-emergency: var(--red-8);
 }
