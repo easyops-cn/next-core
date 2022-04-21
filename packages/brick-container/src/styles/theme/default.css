@@ -745,13 +745,9 @@
   --page-title-font-weight: var(--font-weight-400);
 
   /*** monitor-alert custom css variables ***/
-  --amber-6: #f7bf02;
-  --orange-6: #e38306;
-  --red-7: #cc3014;
-
   --monitor-alert-message: #6bb3ff;
-  --monitor-alert-info: var(--amber-6);
-  --monitor-alert-warning: var(--orange-6);
-  --monitor-alert-critical: var(--red-7);
+  --monitor-alert-info: var(--palette-amber-6);
+  --monitor-alert-warning: var(--palette-orange-6);
+  --monitor-alert-critical: var(--palette-red-7);
   --monitor-alert-emergency: #590400;
 }
