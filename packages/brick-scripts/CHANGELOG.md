@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2](/compare/@next-core/brick-scripts@2.7.1...@next-core/brick-scripts@2.7.2) (2022-04-21)
+
+
+### Bug Fixes
+
+* adopt testing-library instead of enzyme a9b1234
+
+
+
+
+
 ## [2.7.1](/compare/@next-core/brick-scripts@2.7.0...@next-core/brick-scripts@2.7.1) (2022-04-21)
 
 **Note:** Version bump only for package @next-core/brick-scripts
