@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.31](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@1.0.30...@next-core/eslint-config-next@1.0.31) (2022-04-21)
+
+**Note:** Version bump only for package @next-core/eslint-config-next
+
+
+
+
+
 ## [1.0.30](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@1.0.29...@next-core/eslint-config-next@1.0.30) (2022-03-01)
 
 **Note:** Version bump only for package @next-core/eslint-config-next
