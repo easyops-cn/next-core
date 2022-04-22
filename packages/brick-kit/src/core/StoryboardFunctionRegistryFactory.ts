@@ -124,7 +124,8 @@ export function StoryboardFunctionRegistryFactory({
           app: currentApp,
           storyboardFunctions,
           isStoryboardFunction: true,
-        })
+        }),
+        !!collectCoverage
       ),
       hooks: collector && {
         beforeEvaluate: collector.beforeEvaluate,

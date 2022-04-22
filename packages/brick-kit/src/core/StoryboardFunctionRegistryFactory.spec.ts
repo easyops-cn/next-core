@@ -74,6 +74,14 @@ describe("StoryboardFunctions", () => {
           }
           `,
         },
+        {
+          name: "getUniqueId",
+          source: `
+            function getUniqueId(prefix) {
+              return _.uniqueId(prefix);
+            }
+          `,
+        },
       ],
       {
         id: "my-app",
@@ -103,6 +111,8 @@ describe("StoryboardFunctions", () => {
     expect(fn.getBaseUrl()).toBe("http://localhost");
     expect(fn.checkPermissions("my:action-a")).toBe(true);
     expect(fn.checkPermissions("my:action-b")).toBe(false);
+    expect(fn.getUniqueId()).not.toBe("42");
+    expect(fn.getUniqueId("test-")).not.toBe("test-42");
   });
 
   it("should register no functions", () => {
@@ -220,17 +230,25 @@ describe("collect coverage", () => {
       {
         name: "getBaseUrl",
         source: `
-        function getBaseUrl() {
-          return location.origin + BASE_URL;
-        }
+          function getBaseUrl() {
+            return location.origin + BASE_URL;
+          }
         `,
       },
       {
         name: "checkPermissions",
         source: `
-        function checkPermissions(...actions) {
-          return PERMISSIONS.check(...actions);
-        }
+          function checkPermissions(...actions) {
+            return PERMISSIONS.check(...actions);
+          }
+        `,
+      },
+      {
+        name: "getUniqueId",
+        source: `
+          function getUniqueId(prefix) {
+            return _.uniqueId(prefix);
+          }
         `,
       },
     ]);
@@ -265,5 +283,7 @@ describe("collect coverage", () => {
     expect(fn.getImg()).toBe("mock/images/my-img.png");
     expect(fn.getBaseUrl()).toBe("http://localhost:3000/next");
     expect(fn.checkPermissions("my:action-b")).toBe(true);
+    expect(fn.getUniqueId()).toBe("42");
+    expect(fn.getUniqueId("test-")).toBe("test-42");
   });
 });
