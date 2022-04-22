@@ -189,6 +189,7 @@ export function getAppendingNodesAndEdges(
       switch (builderNode.type) {
         case "bricks":
         case "custom-template":
+        case "snippet":
           overrideChildrenMountPoint = "bricks";
           break;
         case "routes":
