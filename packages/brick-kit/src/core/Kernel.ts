@@ -37,6 +37,8 @@ import type {
   MenuRawData,
   Storyboard,
   SimpleFunction,
+  BuilderRouteNode,
+  RouteConfOfBricks,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
@@ -70,6 +72,7 @@ import {
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
+import { BuilderBrickNode } from "@next-core/brick-types";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -313,6 +316,33 @@ export class Kernel {
           ...pick(settings, "properties", "events", "lifeCycle", "context"),
         },
       ],
+      menu: false,
+      exact: true,
+    };
+    if (previewRouteIndex === -1) {
+      routes.unshift(newPreviewRoute);
+    } else {
+      routes.splice(previewRouteIndex, 1, newPreviewRoute);
+    }
+  }
+
+  _dev_only_updateSnippetPreviewSettings(
+    appId: string,
+    snippetData: Array<{ snippetId: string } & RouteConfOfBricks>
+  ): void {
+    const { routes } = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    const previewPath = `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData[0].snippetId}`;
+    const previewRouteIndex = routes.findIndex(
+      (route) => route.path === previewPath
+    );
+    const newPreviewRoute: RouteConf = {
+      path: previewPath,
+      bricks:
+        snippetData[0]?.bricks.length > 0
+          ? snippetData[0].bricks
+          : [{ brick: "span" }],
       menu: false,
       exact: true,
     };
