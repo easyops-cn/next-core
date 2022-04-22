@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.117.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.14...@next-core/brick-kit@2.117.15) (2022-04-22)
+
+
+### Bug Fixes
+
+* mock _.uniqueId in storyboard functions ([f6d5eb2](https://github.com/easyops-cn/next-core/commit/f6d5eb2a6e00d7c5bd32e60a238b67c14641b840))
+
+
+
+
+
 ## [2.117.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.13...@next-core/brick-kit@2.117.14) (2022-04-21)
 
 **Note:** Version bump only for package @next-core/brick-kit
