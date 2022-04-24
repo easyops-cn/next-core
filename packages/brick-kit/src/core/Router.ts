@@ -330,7 +330,6 @@ export class Router {
             exact: true,
           } as RouteConf,
           ...storyboard.routes.slice(specificTemplatePreviewIndex + 1),
-          ...storyboard.routes.slice(0, specificSnippetPreviewIndex + 1),
         ];
         await locationContext.mountRoutes(
           mergedRoutes,
