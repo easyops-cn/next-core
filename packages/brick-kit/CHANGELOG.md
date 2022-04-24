@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.118.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.15...@next-core/brick-kit@2.118.0) (2022-04-24)
+
+
+### Features
+
+* support snippet preview ([fa92790](https://github.com/easyops-cn/next-core/commit/fa92790bd9d2f2ebf0bc930a70844e887da006fc))
+* update snippetData type ([07be28c](https://github.com/easyops-cn/next-core/commit/07be28ced614ce35c17aae806a85e0f5231ffcb4))
+
+
+
+
+
 ## [2.117.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.14...@next-core/brick-kit@2.117.15) (2022-04-22)
 
 
