@@ -1301,21 +1301,19 @@ describe("Kernel", () => {
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
     await kernel.bootstrap({} as any);
-    kernel._dev_only_updateSnippetPreviewSettings("app-b", [
-      {
-        snippetId: "snippet-a",
-        bricks: [
-          {
-            brick: "button",
-            properties: {
-              buttonName: "123",
-            },
+    kernel._dev_only_updateSnippetPreviewSettings("app-b", {
+      snippetId: "snippet-a",
+      bricks: [
+        {
+          brick: "button",
+          properties: {
+            buttonName: "123",
           },
-        ],
-        path: "/snippet-a",
-        type: "bricks",
-      },
-    ]);
+        },
+      ],
+      path: "/snippet-a",
+      type: "bricks",
+    });
     expect(mockStoryBoard).toMatchInlineSnapshot(`
       Array [
         Object {
@@ -1358,21 +1356,17 @@ describe("Kernel", () => {
     `);
 
     // Update again.
-    kernel._dev_only_updateSnippetPreviewSettings("app-b", [
-      {
-        snippetId: "snippet-a",
-        bricks: [
-          {
-            brick: "button",
-            properties: {
-              buttonName: "234",
-            },
+    kernel._dev_only_updateSnippetPreviewSettings("app-b", {
+      snippetId: "snippet-a",
+      bricks: [
+        {
+          brick: "button",
+          properties: {
+            buttonName: "234",
           },
-        ],
-        path: "/snippet-a",
-        type: "bricks",
-      },
-    ]);
+        },
+      ],
+    });
 
     expect(mockStoryBoard).toMatchInlineSnapshot(`
       Array [
