@@ -202,6 +202,7 @@ export const developHelper: {
     checkoutTplContext: (...args: any[]) => void;
     updateStoryboard: typeof _dev_only_updateStoryboard;
     updateTemplatePreviewSettings: typeof _dev_only_updateTemplatePreviewSettings;
+    updateSnippetPreviewSettings: typeof _dev_only_updateSnippetPreviewSettings;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -597,17 +598,18 @@ export interface VisitedWorkspace {
 
 // Warnings were encountered during analysis:
 //
-// src/developHelper.ts:23:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:32:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:41:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:42:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:24:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:25:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:26:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:27:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:28:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:29:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:30:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:32:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:33:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:42:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:43:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:44:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
 
 ```
