@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.118.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.0...@next-core/brick-kit@2.118.1) (2022-04-25)
+
+
+### Bug Fixes
+
+* fix types of BrickWrapper ([5063cf3](https://github.com/easyops-cn/next-core/commit/5063cf347d2b943897b3e4311302300304b26bb5))
+
+
+
+
+
 # [2.118.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.117.15...@next-core/brick-kit@2.118.0) (2022-04-24)
 
 
