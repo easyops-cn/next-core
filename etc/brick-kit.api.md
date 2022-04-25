@@ -111,7 +111,7 @@ export function BrickAsComponent({ useBrick, data, }: BrickAsComponentProps): Re
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function BrickWrapper(props: BrickWrapperProps): React_2.ReactElement;
+export function BrickWrapper(props: React_2.PropsWithChildren<BrickWrapperProps>): React_2.ReactElement;
 
 // Warning: (ae-internal-missing-underscore) The name "checkIf" should be prefixed with an underscore because the declaration is marked as @internal
 //
