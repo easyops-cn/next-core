@@ -27,7 +27,7 @@ exports.jestConfigFactory = ({ transformModulePatterns = [] } = {}) => ({
   transformIgnorePatterns: [
     `/node_modules/(?!(?:${[
       "@babel/runtime/helpers/esm/",
-      "@(?:next-)?libs/[^/]+/dist/esm)/",
+      "@(?:next-)?libs/[^/]+/dist/esm/",
     ]
       .concat(transformModulePatterns)
       .join("|")}))`,
