@@ -1,6 +1,6 @@
 {
   "name": "@next-core/dev-dependencies",
-  "version": "1.12.209",
+  "version": "1.12.210",
   "description": "Dev dependencies for brick-next related packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/dev-dependencies",
   "license": "GPL-3.0",
@@ -25,7 +25,7 @@
     "@next-core/build-next-libs": "^0.2.9",
     "@next-core/custom-antd-styles": "^1.24.5",
     "@next-core/eslint-config-next": "^1.0.32",
-    "@next-core/jest-config-factory": "^0.2.8",
+    "@next-core/jest-config-factory": "^0.2.9",
     "@next-core/rollup-config-factory": "^2.5.3",
     "@next-core/webpack-config-factory": "^2.16.1",
     "@next-dll/ace": "^2.0.385",
