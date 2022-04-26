@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.26](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.25...@next-core/cook@1.6.26) (2022-04-26)
+
+
+### Bug Fixes
+
+* allow mocking Date ([9d5490b](https://github.com/easyops-cn/next-core/commit/9d5490b199d3b70d39d99afa9fa6d42c8d4242ae))
+
+
+
+
+
 ## [1.6.25](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.24...@next-core/cook@1.6.25) (2022-04-22)
 
 **Note:** Version bump only for package @next-core/cook
