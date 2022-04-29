@@ -3095,10 +3095,10 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/echarts@^4.9.14":
-  version "4.9.14"
-  resolved "https://registry.npmjs.org/@types/echarts/-/echarts-4.9.14.tgz#41fd4aa286078fa3346bbd92144a704aec5e2b78"
-  integrity sha512-hg2EFjTmiatztvxIFNIQ7tTIdSsbRZJXfBwJlaucvnQKqv4t2AKmpbPXU9rLtrgD/KCpyi1SX7T+WH6uVybmqA==
+"@types/echarts@^4.9.15":
+  version "4.9.15"
+  resolved "https://registry.npmjs.org/@types/echarts/-/echarts-4.9.15.tgz#a3a5f577c2e747f8dc926dca788926493e6bebe1"
+  integrity sha512-C+GhOl8jYjpZrPE9JPYgI8pH8+mIfsib2WoE5E+WpM2wRWZDQhaIy6ZZ1HhaZOT1h+QkrHvDVWUoGvXCzcb0rw==
   dependencies:
     "@types/zrender" "*"
 
@@ -3314,10 +3314,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-10.17.13.tgz#ccebcdb990bd6139cd16e84c39dc2fb1023ca90c"
   integrity sha1-zOvNuZC9YTnNFuhMOdwvsQI8qQw=
 
-"@types/node@^12.20.48":
-  version "12.20.48"
-  resolved "https://registry.npmjs.org/@types/node/-/node-12.20.48.tgz#55f70bd432b6515828c0298689776861b90ca4fa"
-  integrity sha512-4kxzqkrpwYtn6okJUcb2lfUu9ilnb3yhUOH6qX3nug8D2DupZ2drIkff2yJzYcNJVl3begnlcaBJ7tqiTTzjnQ==
+"@types/node@^12.20.50":
+  version "12.20.50"
+  resolved "https://registry.npmjs.org/@types/node/-/node-12.20.50.tgz#14ba5198f1754ffd0472a2f84ab433b45ee0b65e"
+  integrity sha512-+9axpWx2b2JCVovr7Ilgt96uc6C1zBKOQMpGtRbWT9IoR/8ue32GGMfGA4woP8QyP2gBs6GQWEVM3tCybGCxDA==
 
 "@types/node@^14.14.31":
   version "14.14.37"
@@ -3364,10 +3364,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^16.9.14":
-  version "16.9.14"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-16.9.14.tgz#674b8f116645fe5266b40b525777fc6bb8eb3bcd"
-  integrity sha512-FIX2AVmPTGP30OUJ+0vadeIFJJ07Mh1m+U0rxfgyW34p3rTlXI+nlenvAxNn4BP36YyI9IJ/+UJ7Wu22N1pI7A==
+"@types/react-dom@^16.9.15":
+  version "16.9.15"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-16.9.15.tgz#7bf41f2b2b86915ff9c0de475cb111d904df12c6"
+  integrity sha512-PjWhZj54ACucQX2hDmnHyqHz+N2On5g3Lt5BeNn+wy067qvOokVSQw1nEog1XGfvLYrSl3cyrdebEfjQQNXD3A==
   dependencies:
     "@types/react" "^16"
 
