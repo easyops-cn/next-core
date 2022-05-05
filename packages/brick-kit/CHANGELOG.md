@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.118.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.2...@next-core/brick-kit@2.118.3) (2022-05-05)
+
+
+### Bug Fixes
+
+* **BrickAsComponent:** fix update error ([9eedb23](https://github.com/easyops-cn/next-core/commit/9eedb230ddb05ec18cd1207972ce0cf79aa3dd8d))
+
+
+
+
+
 ## [2.118.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.1...@next-core/brick-kit@2.118.2) (2022-04-26)
 
 **Note:** Version bump only for package @next-core/brick-kit
