@@ -363,7 +363,7 @@ export const SingleBrickAsComponent = React.memo(
           }
           // 设置proxyEvent
           handleProxyOfCustomTemplate(brick);
-          handleProxyOfParentTemplate(brick, tplContextId);
+          // handleProxyOfParentTemplate(brick, tplContextId);
 
           if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
             if (!useBrick.brick.includes("-")) {
@@ -598,7 +598,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
             }
             // 设置proxyEvent
             handleProxyOfCustomTemplate(brick);
-            handleProxyOfParentTemplate(brick, tplContextId);
+            // handleProxyOfParentTemplate(brick, tplContextId);
 
             if (
               (element as RuntimeBrickElement).$$typeof !== "custom-template"
