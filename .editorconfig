@@ -9,3 +9,6 @@ insert_final_newline = true
 
 [*.{md,snap}]
 trim_trailing_whitespace = false
+
+[COPYING]
+insert_final_newline = false
