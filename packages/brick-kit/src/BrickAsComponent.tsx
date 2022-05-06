@@ -1,4 +1,4 @@
-import { set, isEmpty } from "lodash";
+import { set } from "lodash";
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { isObject } from "@next-core/brick-utils";
 import {
@@ -8,12 +8,8 @@ import {
   BrickEventsMap,
   UseBrickSlotsConf,
   BrickConf,
-  ProbablyRuntimeBrick,
   RuntimeBrickConf,
   SlotsConf,
-  CustomTemplateProxyEvents,
-  CustomTemplateProxyProperties,
-  CustomTemplateProxyMethods,
 } from "@next-core/brick-types";
 import { bindListeners, unbindListeners } from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
@@ -25,8 +21,8 @@ import {
   _internalApiLoadDynamicBricksInBrickConf,
   RuntimeBrickConfWithTplSymbols,
   symbolForTplContextId,
-  symbolForRefForProxy,
   symbolForComputedPropsFromProxy,
+  symbolForRefForProxy,
   expandCustomTemplate,
   getTagNameOfCustomTemplate,
   handleProxyOfCustomTemplate,
@@ -44,8 +40,6 @@ import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "./internal/listenOnTrackingContext";
-import { RuntimeCustomTemplateProxy } from "./core/CustomTemplates/internalInterfaces";
-import { getCustomTemplateContext } from "./core/CustomTemplates/CustomTemplateContext";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -62,22 +56,7 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   immediatelyRefCallback?: (element: HTMLElement) => void;
 }
 
-const setProxyRefForSlots = (slots: UseBrickSlotsConf): void => {
-  slotsToChildren(slots).forEach((item) => {
-    if (
-      (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy] !==
-      undefined
-    ) {
-      (item as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
-        item as ProbablyRuntimeBrick;
-    }
-    if (!isEmpty(item.slots)) {
-      setProxyRefForSlots(item.slots);
-    }
-  });
-};
-
-const setProxyRef = (
+const expandTemplateInUseBrick = (
   useBrick: UseSingleBrickConf,
   tplTagName: string | false,
   brick: RuntimeBrick
@@ -98,13 +77,11 @@ const setProxyRef = (
       brick,
       _internalApiGetCurrentContext()
     );
-    setProxyRefForSlots(template.slots as UseBrickSlotsConf);
   } else if (
     (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy]
   ) {
     (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
       brick;
-    setProxyRefForSlots(useBrick.slots as UseBrickSlotsConf);
   }
   return template;
 };
@@ -148,74 +125,6 @@ const getCurrentRunTimeBrick = (
   });
 
   return brick;
-};
-
-export const handleProxyOfParentTemplate = (
-  brick: RuntimeBrick,
-  tplContextId: string
-): void => {
-  if (tplContextId) {
-    const tplBrick = getCustomTemplateContext(tplContextId).getBrick();
-    /**
-     * 如果存在brick.ref, 表明当前brick为custom-template对外暴露的插槽部分
-     * 此部分构件不被 expandCustomTemplate 方法正常解析, 需要额外处理
-     * 保证父构件上proxyRefs指向的准确性, 并执行其代理方法属性
-     */
-    if (brick.ref && tplBrick) {
-      const getFilterProxy = (
-        proxy: RuntimeCustomTemplateProxy = {},
-        ref: string
-      ): RuntimeCustomTemplateProxy => {
-        const getFilterByRef = (
-          obj:
-            | CustomTemplateProxyEvents
-            | CustomTemplateProxyProperties
-            | CustomTemplateProxyMethods,
-          ref: string
-        ): Record<string, any> => {
-          if (!obj) return;
-          return Object.fromEntries(
-            Object.entries(obj).filter(([k, v]) => {
-              if (v.ref === ref) {
-                return [k, v];
-              }
-            })
-          );
-        };
-        const events = getFilterByRef(proxy.events, ref);
-        const properties = getFilterByRef(proxy.properties, ref);
-        const methods = getFilterByRef(proxy.methods, ref);
-        const $$properties = getFilterByRef(proxy.$$properties, ref);
-
-        return {
-          $$properties,
-          events,
-          properties,
-          methods,
-        };
-      };
-
-      const proxyBrick = {
-        // children 继承template上proxy等属性
-        ...tplBrick,
-        element: brick.element,
-      };
-      tplBrick.proxyRefs.set(brick.ref, {
-        brick: proxyBrick,
-      });
-      // 对单独ref brick进行proxy赋值
-      const singleRefBrickProxyMap = new Map();
-      singleRefBrickProxyMap.set(brick.ref, {
-        brick: proxyBrick,
-      });
-      handleProxyOfCustomTemplate({
-        ...tplBrick,
-        proxyRefs: singleRefBrickProxyMap,
-        proxy: getFilterProxy(tplBrick.proxy, brick.ref),
-      });
-      setRealProperties(tplBrick.element, tplBrick.properties || {});
-    }
-  }
 };
 
 /**
@@ -282,7 +191,11 @@ export const SingleBrickAsComponent = React.memo(
 
       const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
 
-      templateRef.current = setProxyRef(useBrick, tplTagName, brick);
+      templateRef.current = expandTemplateInUseBrick(
+        useBrick,
+        tplTagName,
+        brick
+      );
 
       // Let `transform` works still.
       transformProperties(
@@ -363,7 +276,6 @@ export const SingleBrickAsComponent = React.memo(
           }
           // 设置proxyEvent
           handleProxyOfCustomTemplate(brick);
-          // handleProxyOfParentTemplate(brick, tplContextId);
 
           if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
             if (!useBrick.brick.includes("-")) {
@@ -516,7 +428,11 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
 
         const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
 
-        templateRef.current = setProxyRef(useBrick, tplTagName, brick);
+        templateRef.current = expandTemplateInUseBrick(
+          useBrick,
+          tplTagName,
+          brick
+        );
 
         // Let `transform` works still.
         transformProperties(
@@ -598,7 +514,6 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
             }
             // 设置proxyEvent
             handleProxyOfCustomTemplate(brick);
-            // handleProxyOfParentTemplate(brick, tplContextId);
 
             if (
               (element as RuntimeBrickElement).$$typeof !== "custom-template"
