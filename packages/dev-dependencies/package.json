@@ -44,7 +44,7 @@
     "enzyme-to-json": "^3.6.2",
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
     "execa": "^5.1.1",
     "husky": "^7.0.2",
     "identity-obj-proxy": "^3.0.0",

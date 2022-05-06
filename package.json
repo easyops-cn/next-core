@@ -81,7 +81,7 @@
     "enzyme-to-json": "^3.6.2",
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
     "husky": "^7.0.2",
     "jest": "^28.0.3",
     "jest-environment-jsdom": "^28.0.2",
