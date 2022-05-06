@@ -15,6 +15,8 @@ import {
 } from "./themeAndMode";
 import { act } from "react-dom/test-utils";
 
+jest.spyOn(console, "error").mockImplementation();
+
 describe("theme", () => {
   let getTheme: typeof _getTheme;
   let setTheme: typeof _setTheme;

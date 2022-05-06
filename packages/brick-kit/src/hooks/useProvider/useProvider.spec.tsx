@@ -1,10 +1,10 @@
-import { renderHook, act } from "@testing-library/react-hooks";
-import { useProvider } from "./useProvider";
+import { renderHook } from "@testing-library/react-hooks";
 import { FetchMock, GlobalWithFetchMock } from "jest-fetch-mock";
-import { HttpFetchError } from "@next-core/brick-http";
 import React, { Suspense } from "react";
 import { mount, shallow } from "enzyme";
+import { act } from "react-dom/test-utils";
 import * as fetchProvider from "./fetch";
+import { useProvider } from "./useProvider";
 
 const customGlobal: GlobalWithFetchMock =
   global as unknown as GlobalWithFetchMock;
@@ -32,17 +32,12 @@ jest.mock("../../core/FlowApi", () => ({
 }));
 
 describe("useProvider Hook", () => {
-  beforeEach((): void => {
-    jest.useFakeTimers();
-    jest.setTimeout(8000);
-  });
-
   afterEach((): void => {
     fetch.resetMocks();
   });
 
   it("should fetch provider with object destructuring", async (): Promise<void> => {
-    const { result } = renderHook(() =>
+    const { result, waitForNextUpdate } = renderHook(() =>
       useProvider("easyops.custom_api@test", [])
     );
 
@@ -53,7 +48,9 @@ describe("useProvider Hook", () => {
     expect(result.current.response).toEqual(undefined);
     expect(result.current.request.loading).toBe(true);
 
-    await (global as any).flushPromises();
+    await act(async () => {
+      await waitForNextUpdate();
+    });
 
     expect(result.current.data).toStrictEqual(expected);
     expect(result.current.loading).toBe(false);
@@ -90,7 +87,9 @@ describe("useProvider Hook", () => {
     const wrapper = shallow(<ToDo onChange={mockFn} />);
     wrapper.find("span").simulate("click");
 
-    await (global as any).flushPromises();
+    await act(async () => {
+      await (global as any).flushPromises();
+    });
 
     expect(mockFn).toHaveBeenCalledWith(expected);
   });
@@ -112,9 +111,6 @@ describe("Error handing", () => {
 
   beforeEach((): void => {
     jest.spyOn(fetchProvider, "default").mockRejectedValue(expectedError);
-
-    jest.useFakeTimers();
-    jest.setTimeout(8000);
   });
 
   afterEach((): void => {
@@ -123,7 +119,7 @@ describe("Error handing", () => {
 
   it("should handing error", async (): Promise<void> => {
     const onError = jest.fn();
-    const { result } = renderHook(() =>
+    const { result, waitForNextUpdate } = renderHook(() =>
       useProvider(
         "easyops.custom_api@test",
         {
@@ -140,7 +136,10 @@ describe("Error handing", () => {
     expect(result.current.response).toEqual(undefined);
     expect(result.current.request.loading).toBe(true);
 
-    await (global as any).flushPromises();
+    await act(async () => {
+      await waitForNextUpdate();
+    });
+
     expect(onError).toBeCalled();
     expect(result.current.data).toBe(undefined);
     expect(result.current.loading).toBe(false);
@@ -178,7 +177,9 @@ describe("useProviderHook with React Suspense", () => {
 
     expect(wrapper.find("Suspense").prop("fallback")).toBe("loading...");
 
-    await (global as any).flushPromises();
+    await act(async () => {
+      await (global as any).flushPromises();
+    });
 
     expect(wrapper.find("ToDo").text()).toBe("rendered");
   });

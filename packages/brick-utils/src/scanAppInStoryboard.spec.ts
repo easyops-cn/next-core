@@ -4,6 +4,8 @@ import {
   scanAppGetMenuInAny,
 } from "./scanAppInStoryboard";
 
+jest.spyOn(console, "error").mockImplementation();
+
 describe("scanPermissionActionsInStoryboard", () => {
   it("should work", () => {
     const selfRef: Record<string, any> = {
