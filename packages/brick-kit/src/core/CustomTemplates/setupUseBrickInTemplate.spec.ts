@@ -3,7 +3,9 @@ import { symbolForTplContextId } from "./constants";
 
 describe("setupUseBrickInTemplate", () => {
   it("should work for undefined props", () => {
-    setupUseBrickInTemplate(undefined, "tpl-ctx-1");
+    setupUseBrickInTemplate(undefined, {
+      templateContextId: "tpl-ctx-1",
+    } as any);
   });
 
   it("should work", () => {
@@ -34,7 +36,9 @@ describe("setupUseBrickInTemplate", () => {
         },
       },
     };
-    setupUseBrickInTemplate(props, "tpl-ctx-1");
+    setupUseBrickInTemplate(props, {
+      templateContextId: "tpl-ctx-1",
+    } as any);
 
     for (const item of [
       props,

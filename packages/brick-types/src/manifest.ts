@@ -1373,6 +1373,9 @@ export interface UseSingleBrickConf {
   /** 构件名。 */
   brick: string;
 
+  /** {@inheritDoc BrickConfInTemplate.ref} */
+  ref?: string;
+
   /** {@inheritDoc BrickConf.properties} */
   properties?: Record<string, unknown>;
 

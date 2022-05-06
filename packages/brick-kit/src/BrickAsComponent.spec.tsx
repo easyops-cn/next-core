@@ -6,13 +6,10 @@ import * as listenerUtils from "./internal/bindListeners";
 import {
   BrickAsComponent,
   ForwardRefSingleBrickAsComponent,
-  handleProxyOfParentTemplate,
 } from "./BrickAsComponent";
 import * as runtime from "./core/Runtime";
 import * as transformProperties from "./transformProperties";
 import { registerCustomTemplate } from "./core/exports";
-import { CustomTemplateContext } from "./core/CustomTemplates/CustomTemplateContext";
-import { RuntimeBrick } from "./core/BrickNode";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
 const spyOnResolve = jest.fn(
@@ -227,7 +224,7 @@ beforeAll(() => {
                         ref: "tplOutsideSlotRef",
                         properties: {
                           id: "tplOutsideSlotRef",
-                          textContent: "in tpl ouside slots",
+                          textContent: "in tpl outside slots",
                         },
                       },
                     ],
@@ -729,6 +726,8 @@ describe("BrickAsComponent", () => {
       })
     );
     expect(consoleLog).toHaveBeenCalledTimes(2);
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "source", expect.anything());
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "refClick");
 
     // in tpl proxy event
     const inTplElement = wrapperElement.querySelector("#inTplRef");
@@ -738,6 +737,7 @@ describe("BrickAsComponent", () => {
       })
     );
     expect(consoleLog).toHaveBeenCalledTimes(3);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "source", expect.anything());
 
     // in tpl outside slot proxy event
     const inTplOutsideSlotElement =
@@ -748,92 +748,6 @@ describe("BrickAsComponent", () => {
       })
     );
     expect(consoleLog).toHaveBeenCalledTimes(4);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "tplOutsideSlotClick");
   });
-
-  // it("handleProxyOfParentTemplate should work", async () => {
-  //   const buttonElement = document.createElement("div");
-  //   const tplElement = document.createElement("div");
-  //   const brick = {
-  //     bg: false,
-  //     brick: "basic-bricks.general-button",
-  //     element: buttonElement,
-  //     events: {
-  //       "general.button.click": [
-  //         {
-  //           action: "console.log",
-  //           args: ["底层事件"],
-  //         },
-  //       ],
-  //     },
-  //     properties: {},
-  //     ref: "button",
-  //     type: "basic-bricks.general-button",
-  //   };
-  //   const tplBrick: RuntimeBrick = {
-  //     type: "steve-test-only.tpl-steve-test-11",
-  //     element: tplElement,
-  //     properties: {},
-  //     events: {
-  //       buttonClick: [
-  //         {
-  //           action: "console.log",
-  //           args: ["outside button click"],
-  //         },
-  //       ],
-  //     },
-  //     proxy: {
-  //       events: {
-  //         buttonClick: {
-  //           ref: "button",
-  //           refEvent: "general.button.click",
-  //         },
-  //       },
-  //     },
-  //     proxyRefs: new Map<string, unknown>([
-  //       [
-  //         "button",
-  //         {
-  //           brick: "div",
-  //           element: buttonElement,
-  //         },
-  //       ],
-  //     ]),
-  //   };
-  //   const tplContext = new CustomTemplateContext(tplBrick);
-  //   const tplContextId = tplContext.id;
-  //   tplContext.setVariables({});
-  //   listenerUtils.bindListeners(
-  //     buttonElement,
-  //     {
-  //       "general.button.click": [
-  //         {
-  //           action: "console.log",
-  //           args: ["底层事件"],
-  //         },
-  //       ],
-  //     },
-  //     {} as any
-  //   );
-  //   listenerUtils.bindListeners(
-  //     tplElement,
-  //     {
-  //       buttonClick: [
-  //         {
-  //           action: "console.log",
-  //           args: ["outside button click"],
-  //         },
-  //       ],
-  //     },
-  //     {} as any
-  //   );
-  //   handleProxyOfParentTemplate(brick, tplContextId);
-
-  //   expect((buttonElement as any).$$proxyEvents.length).toBe(1);
-  //   buttonElement.dispatchEvent(
-  //     new CustomEvent("general.button.click", {
-  //       detail: "mock click form buttonElement",
-  //     })
-  //   );
-  //   expect(consoleLog).toBeCalledTimes(2);
-  // });
 });

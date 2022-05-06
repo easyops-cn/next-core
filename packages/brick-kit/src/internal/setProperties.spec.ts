@@ -8,7 +8,11 @@ import * as runtime from "../core/Runtime";
 import { TrackingContextItem } from "./listenOnTrackingContext";
 import { StateOfUseBrick } from "./getNextStateOfUseBrick";
 import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
-import { symbolForTplContextId } from "../core/CustomTemplates";
+import {
+  symbolForComputedPropsFromProxy,
+  symbolForRefForProxy,
+  symbolForTplContextId,
+} from "../core/CustomTemplates";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 jest.spyOn(console, "error").mockImplementation(() => void 0);
@@ -459,10 +463,13 @@ describe("setProperties", () => {
     );
     expect(element).toEqual({
       display: {
-        useBrick: {
+        useBrick: expect.objectContaining({
           brick: "my-brick",
+          slots: {},
+          [symbolForComputedPropsFromProxy]: {},
+          [symbolForRefForProxy]: undefined,
           [symbolForTplContextId]: tplContext.id,
-        },
+        }),
       },
     });
   });
