@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.12...@next-core/brick-utils@2.37.13) (2022-05-07)
+
+
+### Bug Fixes
+
+* ignore screenshot in builder nodes ([1e59600](https://github.com/easyops-cn/next-core/commit/1e59600e13bb95ffdf8d3440b60d77b39efa075b))
+
+
+
+
+
 ## [2.37.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.11...@next-core/brick-utils@2.37.12) (2022-05-06)
 
 **Note:** Version bump only for package @next-core/brick-utils
