@@ -53,6 +53,9 @@ module.exports = () => {
     : process.env.SUBDIR === "true"
     ? "/next/"
     : "/";
+  const mockDate = isProduction
+    ? "<!--# echo var='mock_date' default='' -->"
+    : "";
 
   return {
     context: appRoot,
@@ -156,6 +159,7 @@ module.exports = () => {
         // for it, which would break our tags.
         // See https://github.com/jantimon/html-webpack-plugin/issues/1701
         inject: false,
+        mockDate,
         customizeTag(tag) {
           if (tag.tagName === "link" && tag.attributes.rel === "stylesheet") {
             return {

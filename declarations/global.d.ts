@@ -58,6 +58,9 @@ interface Window {
 
   /** The bootstrap filename, E.g. "hello-world/-/bootstrap.abc123.json" */
   BOOTSTRAP_FILE?: string;
+
+  /** Mock global date, currently for sandbox demo website only */
+  MOCK_DATE?: string;
 }
 
 type RecursivePartial<T> = {
