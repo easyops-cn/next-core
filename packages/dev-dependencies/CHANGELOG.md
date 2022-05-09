@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.12.213...@next-core/dev-dependencies@1.13.0) (2022-05-09)
+
+
+### Features
+
+* adopt jest v28 ([670d326](https://github.com/easyops-cn/next-core/commit/670d326ff9cc30b3b6d0da8fbbac445c0120d405))
+
+
+
+
+
 ## [1.12.213](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.12.212...@next-core/dev-dependencies@1.12.213) (2022-05-07)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

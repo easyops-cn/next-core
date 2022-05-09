@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.31](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.30...@next-core/brick-container@2.66.31) (2022-05-09)
+
+
+### Bug Fixes
+
+* allow setting cookie samesite=none for http ([129c36b](https://github.com/easyops-cn/next-core/commit/129c36b452313a647b1443a546dbfc31fe3bc4db))
+
+
+
+
+
 ## [2.66.30](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.29...@next-core/brick-container@2.66.30) (2022-05-07)
 
 **Note:** Version bump only for package @next-core/brick-container
