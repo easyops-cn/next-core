@@ -47,7 +47,6 @@ export function sanitize(cooked: unknown): void {
 
 const allowedConstructors = new WeakSet([
   Array,
-  Date,
   Map,
   Set,
   URLSearchParams,
@@ -56,5 +55,9 @@ const allowedConstructors = new WeakSet([
 ]);
 
 export function isAllowedConstructor(constructor: unknown): boolean {
-  return allowedConstructors.has(constructor as ArrayConstructor);
+  // `Date` maybe mocked when running tests for storyboard functions.
+  return (
+    allowedConstructors.has(constructor as ArrayConstructor) ||
+    constructor === Date
+  );
 }

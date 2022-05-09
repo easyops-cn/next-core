@@ -308,10 +308,23 @@ export class Router {
               "${APP.homepage}/_dev_only_/template-preview/"
             )
         );
+
+        const specificSnippetPreviewIndex = findLastIndex(
+          storyboard.routes,
+          (route) =>
+            route.path.startsWith("${APP.homepage}/_dev_only_/snippet-preview/")
+        );
         const mergedRoutes = [
           ...storyboard.routes.slice(0, specificTemplatePreviewIndex + 1),
+          ...storyboard.routes.slice(0, specificSnippetPreviewIndex + 1),
           {
             path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
+            bricks: [{ brick: "span" }],
+            menu: false,
+            exact: true,
+          } as RouteConf,
+          {
+            path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
             bricks: [{ brick: "span" }],
             menu: false,
             exact: true,

@@ -3,88 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.0.35](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.34...@next-core/supply@1.0.35) (2022-04-19)
+## [1.0.38](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.37...@next-core/supply@1.0.38) (2022-05-06)
 
 **Note:** Version bump only for package @next-core/supply
 
+## [1.0.37](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.36...@next-core/supply@1.0.37) (2022-04-22)
 
+### Bug Fixes
 
+- mock \_.uniqueId in storyboard functions ([f6d5eb2](https://github.com/easyops-cn/next-core/commit/f6d5eb2a6e00d7c5bd32e60a238b67c14641b840))
 
+## [1.0.36](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.35...@next-core/supply@1.0.36) (2022-04-21)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.35](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.34...@next-core/supply@1.0.35) (2022-04-19)
+
+**Note:** Version bump only for package @next-core/supply
 
 ## [1.0.34](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.33...@next-core/supply@1.0.34) (2022-04-14)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [1.0.33](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.32...@next-core/supply@1.0.33) (2022-04-07)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [1.0.32](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.31...@next-core/supply@1.0.32) (2022-04-06)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [1.0.31](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.30...@next-core/supply@1.0.31) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [1.0.30](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.29...@next-core/supply@1.0.30) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [1.0.29](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.28...@next-core/supply@1.0.29) (2022-03-28)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [1.0.28](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.27...@next-core/supply@1.0.28) (2022-03-24)
-
 
 ### Bug Fixes
 
-* support mocked location in storyboard functions ([260e775](https://github.com/easyops-cn/next-core/commit/260e77567a61c7f3199a174171de2eead4007d06))
-
-
-
-
+- support mocked location in storyboard functions ([260e775](https://github.com/easyops-cn/next-core/commit/260e77567a61c7f3199a174171de2eead4007d06))
 
 ## [1.0.27](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.26...@next-core/supply@1.0.27) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [1.0.26](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.25...@next-core/supply@1.0.26) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [1.0.25](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.24...@next-core/supply@1.0.25) (2022-02-21)
 

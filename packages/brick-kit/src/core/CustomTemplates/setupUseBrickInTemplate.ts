@@ -1,13 +1,15 @@
-import { UseBrickConf, UseSingleBrickConf } from "@next-core/brick-types";
-import { isObject } from "@next-core/brick-utils";
 import {
-  symbolForTplContextId,
-  RuntimeBrickConfWithTplSymbols,
-} from "./constants";
+  SlotsConfOfBricks,
+  UseBrickConf,
+  UseSingleBrickConf,
+} from "@next-core/brick-types";
+import { isObject } from "@next-core/brick-utils";
+import type { ProxyContext } from "./expandCustomTemplate";
+import { setupTemplateProxy } from "./setupTemplateProxy";
 
 export function setupUseBrickInTemplate(
   props: unknown,
-  tplContextId: string
+  proxyContext: Partial<ProxyContext>
 ): void {
   function walk(props: unknown): void {
     if (!props) {
@@ -29,17 +31,29 @@ export function setupUseBrickInTemplate(
       }
     }
   }
-  function setup(item: UseSingleBrickConf): void {
-    (item as RuntimeBrickConfWithTplSymbols)[symbolForTplContextId] =
-      tplContextId;
+
+  function setup(item: UseSingleBrickConf): UseSingleBrickConf {
+    const { ref, slots: slotsInTemplate } = item;
+
+    item.slots = Object.fromEntries(
+      Object.entries(slotsInTemplate ?? {}).map(([slotName, slotConf]) => [
+        slotName,
+        {
+          type: "bricks",
+          bricks: (slotConf.bricks ?? []).map(setup),
+        },
+      ])
+    );
+
+    Object.assign(
+      item,
+      setupTemplateProxy(proxyContext, ref, item.slots as SlotsConfOfBricks)
+    );
+
     walk(item.properties);
-    if (item.slots) {
-      Object.values(item.slots).forEach((slot) => {
-        if (Array.isArray(slot.bricks)) {
-          slot.bricks.forEach(setup);
-        }
-      });
-    }
+
+    return item;
   }
+
   walk(props);
 }

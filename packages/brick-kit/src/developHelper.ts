@@ -15,6 +15,7 @@ import {
   _dev_only_loadEditorBricks,
   _dev_only_updateStoryboard,
   _dev_only_updateTemplatePreviewSettings,
+  _dev_only_updateSnippetPreviewSettings,
 } from "./core/exports";
 
 /** @internal */
@@ -40,4 +41,5 @@ export const developHelper = {
   checkoutTplContext: noop,
   updateStoryboard: _dev_only_updateStoryboard,
   updateTemplatePreviewSettings: _dev_only_updateTemplatePreviewSettings,
+  updateSnippetPreviewSettings: _dev_only_updateSnippetPreviewSettings,
 };

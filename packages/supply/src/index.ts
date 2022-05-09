@@ -5,7 +5,8 @@ import { pipes } from "@next-core/pipes";
 
 export function supply(
   attemptToVisitGlobals: Set<string>,
-  providedGlobalVariables?: Record<string, unknown>
+  providedGlobalVariables?: Record<string, unknown>,
+  mock?: boolean
 ): Record<string, unknown> {
   const globalVariables = {
     ...providedGlobalVariables,
@@ -14,7 +15,7 @@ export function supply(
   globalVariables["undefined"] = undefined;
   for (const variableName of attemptToVisitGlobals) {
     if (!Object.prototype.hasOwnProperty.call(globalVariables, variableName)) {
-      const variable = supplyIndividual(variableName);
+      const variable = supplyIndividual(variableName, mock);
       if (variable !== undefined) {
         globalVariables[variableName] = variable;
       }
@@ -120,7 +121,7 @@ const allowedGlobalObjects = new Set([
   "btoa",
 ]);
 
-function supplyIndividual(variableName: string): unknown {
+function supplyIndividual(variableName: string, mock?: boolean): unknown {
   switch (variableName) {
     case "Object":
       // Do not allow mutable methods like `Object.assign`.
@@ -132,9 +133,11 @@ function supplyIndividual(variableName: string): unknown {
       ]);
     case "_":
       return Object.fromEntries(
-        Object.entries(lodash).filter(
-          (entry) => !shouldOmitInLodash.has(entry[0])
-        )
+        Object.entries(lodash)
+          .filter((entry) => !shouldOmitInLodash.has(entry[0]))
+          .concat(
+            mock ? [["uniqueId", (prefix?: string) => `${prefix ?? ""}42`]] : []
+          )
       );
     case "moment":
       return Object.assign(

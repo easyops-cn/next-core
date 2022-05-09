@@ -1270,4 +1270,143 @@ describe("Kernel", () => {
       },
     ]);
   });
+
+  it("should update snippet preview settings", async () => {
+    const mockStoryBoard = [
+      {
+        app: {
+          id: "app-a",
+          homepage: "/app-a",
+        },
+        routes: [],
+      },
+      {
+        app: {
+          id: "app-b",
+          homepage: "/app-b",
+        },
+        routes: [
+          {
+            alias: "home",
+            path: "${APP.homepage}",
+          },
+        ],
+      },
+    ];
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: mockStoryBoard,
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+    kernel._dev_only_updateSnippetPreviewSettings("app-b", {
+      snippetId: "snippet-a",
+      bricks: [
+        {
+          brick: "button",
+          properties: {
+            buttonName: "123",
+          },
+        },
+      ],
+      path: "/snippet-a",
+      type: "bricks",
+    });
+    expect(mockStoryBoard).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "app": Object {
+            "config": Object {},
+            "homepage": "/app-a",
+            "id": "app-a",
+            "localeName": undefined,
+          },
+          "routes": Array [],
+        },
+        Object {
+          "app": Object {
+            "config": Object {},
+            "homepage": "/app-b",
+            "id": "app-b",
+            "localeName": undefined,
+          },
+          "routes": Array [
+            Object {
+              "bricks": Array [
+                Object {
+                  "brick": "button",
+                  "properties": Object {
+                    "buttonName": "123",
+                  },
+                },
+              ],
+              "exact": true,
+              "menu": false,
+              "path": "\${APP.homepage}/_dev_only_/snippet-preview/snippet-a",
+            },
+            Object {
+              "alias": "home",
+              "path": "\${APP.homepage}",
+            },
+          ],
+        },
+      ]
+    `);
+
+    // Update again.
+    kernel._dev_only_updateSnippetPreviewSettings("app-b", {
+      snippetId: "snippet-a",
+      bricks: [
+        {
+          brick: "button",
+          properties: {
+            buttonName: "234",
+          },
+        },
+      ],
+    });
+
+    expect(mockStoryBoard).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "app": Object {
+            "config": Object {},
+            "homepage": "/app-a",
+            "id": "app-a",
+            "localeName": undefined,
+          },
+          "routes": Array [],
+        },
+        Object {
+          "app": Object {
+            "config": Object {},
+            "homepage": "/app-b",
+            "id": "app-b",
+            "localeName": undefined,
+          },
+          "routes": Array [
+            Object {
+              "bricks": Array [
+                Object {
+                  "brick": "button",
+                  "properties": Object {
+                    "buttonName": "234",
+                  },
+                },
+              ],
+              "exact": true,
+              "menu": false,
+              "path": "\${APP.homepage}/_dev_only_/snippet-preview/snippet-a",
+            },
+            Object {
+              "alias": "home",
+              "path": "\${APP.homepage}",
+            },
+          ],
+        },
+      ]
+    `);
+  });
 });

@@ -3,105 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.61.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.3...@next-core/brick-types@2.61.4) (2022-04-19)
-
+## [2.61.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.4...@next-core/brick-types@2.61.5) (2022-05-06)
 
 ### Bug Fixes
 
-* fix menu in iframe ([4a6f83d](https://github.com/easyops-cn/next-core/commit/4a6f83dda1c00665453cf2df2742cb8d27aff7c0))
+- fix use brick with template ([473d73f](https://github.com/easyops-cn/next-core/commit/473d73fa2837f2a7975dd6f683bfb6f90f9a074e))
 
+## [2.61.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.3...@next-core/brick-types@2.61.4) (2022-04-19)
 
+### Bug Fixes
 
-
+- fix menu in iframe ([4a6f83d](https://github.com/easyops-cn/next-core/commit/4a6f83dda1c00665453cf2df2742cb8d27aff7c0))
 
 ## [2.61.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.2...@next-core/brick-types@2.61.3) (2022-04-14)
 
-
 ### Bug Fixes
 
-* support setting targetRef as array ([ec822f3](https://github.com/easyops-cn/next-core/commit/ec822f37f881efe96a06b7fe53af17e6a40c79c6))
-
-
-
-
+- support setting targetRef as array ([ec822f3](https://github.com/easyops-cn/next-core/commit/ec822f37f881efe96a06b7fe53af17e6a40c79c6))
 
 ## [2.61.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.1...@next-core/brick-types@2.61.2) (2022-04-07)
 
-
 ### Bug Fixes
 
-* support service name ([63b8f0b](https://github.com/easyops-cn/next-core/commit/63b8f0be85d4d213e8fd308beec84d0bbdee210d))
-
-
-
-
+- support service name ([63b8f0b](https://github.com/easyops-cn/next-core/commit/63b8f0be85d4d213e8fd308beec84d0bbdee210d))
 
 ## [2.61.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.0...@next-core/brick-types@2.61.1) (2022-04-06)
 
-
 ### Bug Fixes
 
-* contract refactor ([a506766](https://github.com/easyops-cn/next-core/commit/a5067664253a51a007b8fea96ddf7efefd7da7d8))
-
-
-
-
+- contract refactor ([a506766](https://github.com/easyops-cn/next-core/commit/a5067664253a51a007b8fea96ddf7efefd7da7d8))
 
 # [2.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.3...@next-core/brick-types@2.61.0) (2022-03-29)
 
-
 ### Features
 
-* add MEDIA gloabl object and onMediaChange life cycle ([3192ee4](https://github.com/easyops-cn/next-core/commit/3192ee4e595e2edc78d05b68d6cf0431905296fb))
-
-
-
-
+- add MEDIA gloabl object and onMediaChange life cycle ([3192ee4](https://github.com/easyops-cn/next-core/commit/3192ee4e595e2edc78d05b68d6cf0431905296fb))
 
 ## [2.60.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.2...@next-core/brick-types@2.60.3) (2022-03-29)
 
-
 ### Bug Fixes
 
-* remove preview types from brick-types ([cb72e52](https://github.com/easyops-cn/next-core/commit/cb72e52a61cd05876f282a09e153e103401cdfbf))
-
-
-
-
+- remove preview types from brick-types ([cb72e52](https://github.com/easyops-cn/next-core/commit/cb72e52a61cd05876f282a09e153e103401cdfbf))
 
 ## [2.60.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.1...@next-core/brick-types@2.60.2) (2022-03-28)
 
-
 ### Bug Fixes
 
-* **preview:** add types for context menu on brick ([5d1f468](https://github.com/easyops-cn/next-core/commit/5d1f46870a91355cc971f0cf2170e914e93df282))
-
-
-
-
+- **preview:** add types for context menu on brick ([5d1f468](https://github.com/easyops-cn/next-core/commit/5d1f46870a91355cc971f0cf2170e914e93df282))
 
 ## [2.60.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.60.0...@next-core/brick-types@2.60.1) (2022-03-15)
 
-
 ### Bug Fixes
 
-* add several preview message types ([9cc1f0a](https://github.com/easyops-cn/next-core/commit/9cc1f0a739f2b2612876d05c4d2e88d2424b7818))
-
-
-
-
+- add several preview message types ([9cc1f0a](https://github.com/easyops-cn/next-core/commit/9cc1f0a739f2b2612876d05c4d2e88d2424b7818))
 
 # [2.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.59.0...@next-core/brick-types@2.60.0) (2022-02-28)
 
-
 ### Features
 
-* support wrapper theme hidden ([87e3299](https://github.com/easyops-cn/next-core/commit/87e32997e496718d6d27e213b93b265dc3540ac6))
-* update type ([f07ac57](https://github.com/easyops-cn/next-core/commit/f07ac57c12a867d3a6eada0838d2e7f2742d6478))
-
-
-
-
+- support wrapper theme hidden ([87e3299](https://github.com/easyops-cn/next-core/commit/87e32997e496718d6d27e213b93b265dc3540ac6))
+- update type ([f07ac57](https://github.com/easyops-cn/next-core/commit/f07ac57c12a867d3a6eada0838d2e7f2742d6478))
 
 # [2.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.58.0...@next-core/brick-types@2.59.0) (2022-02-21)
 

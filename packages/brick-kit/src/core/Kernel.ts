@@ -37,6 +37,7 @@ import type {
   MenuRawData,
   Storyboard,
   SimpleFunction,
+  RouteConfOfBricks,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
@@ -313,6 +314,36 @@ export class Kernel {
           ...pick(settings, "properties", "events", "lifeCycle", "context"),
         },
       ],
+      menu: false,
+      exact: true,
+    };
+    if (previewRouteIndex === -1) {
+      routes.unshift(newPreviewRoute);
+    } else {
+      routes.splice(previewRouteIndex, 1, newPreviewRoute);
+    }
+  }
+
+  _dev_only_updateSnippetPreviewSettings(
+    appId: string,
+    snippetData: {
+      snippetId: string;
+      bricks: BrickConf[];
+    }
+  ): void {
+    const { routes } = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    const previewPath = `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData.snippetId}`;
+    const previewRouteIndex = routes.findIndex(
+      (route) => route.path === previewPath
+    );
+    const newPreviewRoute: RouteConf = {
+      path: previewPath,
+      bricks:
+        snippetData.bricks?.length > 0
+          ? snippetData.bricks
+          : [{ brick: "span" }],
       menu: false,
       exact: true,
     };

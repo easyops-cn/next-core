@@ -2377,6 +2377,7 @@ export interface UseSingleBrickConf {
     iid?: string;
     lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
     properties?: Record<string, unknown>;
+    ref?: string;
     slots?: UseBrickSlotsConf;
     transform?: GeneralTransform;
     transformFrom?: string | string[];

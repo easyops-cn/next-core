@@ -108,7 +108,9 @@ export function setProperties(
 ): void {
   const realProps = computeRealProperties(properties, context, injectDeep);
   if (context.tplContextId) {
-    setupUseBrickInTemplate(realProps, context.tplContextId);
+    setupUseBrickInTemplate(realProps, {
+      templateContextId: context.tplContextId,
+    });
   }
   if (!Array.isArray(bricks)) {
     bricks = [bricks];

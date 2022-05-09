@@ -3,13 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.9](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.2.8...@next-core/jest-config-factory@0.2.9) (2022-04-26)
+
+### Bug Fixes
+
+- fix transformModulePatterns ([f60e937](https://github.com/easyops-cn/next-core/commit/f60e93787f030e72f15fcf45b1f6f0b2044a7f58))
+
+## [0.2.8](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.2.7...@next-core/jest-config-factory@0.2.8) (2022-04-26)
+
+### Bug Fixes
+
+- fix transformModulePatterns ([ba0bbe7](https://github.com/easyops-cn/next-core/commit/ba0bbe7d455bedb7571382cd493a2d4245902c51))
+
 ## [0.2.7](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.2.6...@next-core/jest-config-factory@0.2.7) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/jest-config-factory
-
-
-
-
 
 ## [0.2.6](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.2.5...@next-core/jest-config-factory@0.2.6) (2022-01-28)
 

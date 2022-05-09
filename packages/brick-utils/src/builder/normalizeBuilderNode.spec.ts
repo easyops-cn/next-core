@@ -39,6 +39,7 @@ describe("normalizeBuilderNode", () => {
         _ts: 123,
         org: 1,
         previewSettings: {},
+        screenshot: "data:image/png,XYZ",
       },
       {
         alias: "route-a",

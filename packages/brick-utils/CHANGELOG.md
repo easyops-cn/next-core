@@ -3,121 +3,87 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.37.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.7...@next-core/brick-utils@2.37.8) (2022-04-19)
+## [2.37.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.12...@next-core/brick-utils@2.37.13) (2022-05-07)
+
+### Bug Fixes
+
+- ignore screenshot in builder nodes ([1e59600](https://github.com/easyops-cn/next-core/commit/1e59600e13bb95ffdf8d3440b60d77b39efa075b))
+
+## [2.37.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.11...@next-core/brick-utils@2.37.12) (2022-05-06)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
+## [2.37.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.10...@next-core/brick-utils@2.37.11) (2022-04-26)
 
+**Note:** Version bump only for package @next-core/brick-utils
 
+## [2.37.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.9...@next-core/brick-utils@2.37.10) (2022-04-22)
 
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.37.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.8...@next-core/brick-utils@2.37.9) (2022-04-21)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.37.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.7...@next-core/brick-utils@2.37.8) (2022-04-19)
+
+**Note:** Version bump only for package @next-core/brick-utils
 
 ## [2.37.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.6...@next-core/brick-utils@2.37.7) (2022-04-14)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.37.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.5...@next-core/brick-utils@2.37.6) (2022-04-07)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.37.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.4...@next-core/brick-utils@2.37.5) (2022-04-06)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.37.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.3...@next-core/brick-utils@2.37.4) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 ## [2.37.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.2...@next-core/brick-utils@2.37.3) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.37.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.1...@next-core/brick-utils@2.37.2) (2022-03-28)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.37.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.0...@next-core/brick-utils@2.37.1) (2022-03-24)
-
 
 ### Bug Fixes
 
-* ignore `previewSettings` when building route node ([8cffb40](https://github.com/easyops-cn/next-core/commit/8cffb40b0c583a989c29518a1ed3ef2c8b24ad62))
-
-
-
-
+- ignore `previewSettings` when building route node ([8cffb40](https://github.com/easyops-cn/next-core/commit/8cffb40b0c583a989c29518a1ed3ef2c8b24ad62))
 
 # [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.36.0...@next-core/brick-utils@2.37.0) (2022-03-24)
 
-
 ### Features
 
-* support APP.getMenu ([#1651](https://github.com/easyops-cn/next-core/issues/1651)) ([5b9f53a](https://github.com/easyops-cn/next-core/commit/5b9f53a3367087a062f415dd68070f15b98bf966))
-
-
-
-
+- support APP.getMenu ([#1651](https://github.com/easyops-cn/next-core/issues/1651)) ([5b9f53a](https://github.com/easyops-cn/next-core/commit/5b9f53a3367087a062f415dd68070f15b98bf966))
 
 # [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.3...@next-core/brick-utils@2.36.0) (2022-03-18)
 
-
 ### Features
 
-* new util function: debounceByAnimationFrame ([d47d032](https://github.com/easyops-cn/next-core/commit/d47d032dea4f9a55e8b642b0d2af926e808c716f))
-
-
-
-
+- new util function: debounceByAnimationFrame ([d47d032](https://github.com/easyops-cn/next-core/commit/d47d032dea4f9a55e8b642b0d2af926e808c716f))
 
 ## [2.35.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.2...@next-core/brick-utils@2.35.3) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.35.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.1...@next-core/brick-utils@2.35.2) (2022-03-07)
-
 
 ### Bug Fixes
 
-* fix get deps when brick package has no editors ([833739d](https://github.com/easyops-cn/next-core/commit/833739de875706666a8555d1becb35043f88efc6))
-
-
-
-
+- fix get deps when brick package has no editors ([833739d](https://github.com/easyops-cn/next-core/commit/833739de875706666a8555d1becb35043f88efc6))
 
 ## [2.35.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.35.0...@next-core/brick-utils@2.35.1) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/brick-utils
-
-
-
-
 
 # [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.34.2...@next-core/brick-utils@2.35.0) (2022-02-21)
 

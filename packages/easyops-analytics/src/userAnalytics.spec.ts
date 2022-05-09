@@ -1,5 +1,7 @@
 import { userAnalytics } from "./userAnalytics";
 
+jest.spyOn(console, "error").mockImplementation();
+
 describe("userAnalytics", () => {
   const sypOnConsoleError = jest.spyOn(console, "error");
   const gaMeasurementId = "GA-MEASUREMENT-ID";

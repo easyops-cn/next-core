@@ -15,7 +15,10 @@ export const symbolForComputedPropsFromProxy = Symbol.for(
 export const symbolForRefForProxy = Symbol.for("tpl.refForProxy");
 export const symbolForTplContextId = Symbol.for("tpl.contextId");
 
-export interface RuntimeBrickConfWithTplSymbols extends RuntimeBrickConf {
+export type RuntimeBrickConfWithTplSymbols = RuntimeBrickConf &
+  RuntimeBrickConfOfTplSymbols;
+
+export interface RuntimeBrickConfOfTplSymbols {
   [symbolForComputedPropsFromProxy]?: Record<string, any>;
   [symbolForRefForProxy]?: RefForProxy;
   [symbolForTplContextId]?: string;

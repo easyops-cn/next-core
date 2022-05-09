@@ -746,8 +746,8 @@
 
   /*** monitor-alert custom css variables ***/
   --monitor-alert-message: #6bb3ff;
-  --monitor-alert-info: #fb653c;
-  --monitor-alert-warning: #e20000;
-  --monitor-alert-critical: #a61b08;
+  --monitor-alert-info: var(--palette-amber-6);
+  --monitor-alert-warning: var(--palette-orange-6);
+  --monitor-alert-critical: var(--palette-red-7);
   --monitor-alert-emergency: #590400;
 }
