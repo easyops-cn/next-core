@@ -123,6 +123,9 @@ module.exports = (runtimeFlags) => {
       legacyBootstrap: {
         type: "boolean",
       },
+      mockDate: {
+        type: "string",
+      },
       // Todo(steve): remove `help` and `version` after meow fixed it.
       help: {
         type: "boolean",
@@ -161,6 +164,7 @@ module.exports = (runtimeFlags) => {
         --no-live-reload        Disable live reload through WebSocket (for E2E tests in CI)
         --https                 Enable serving by https
         --cookie-same-site-none Enable serving by https
+        --mock-date             Setting mock date (for sandbox demo website only)
         --help                  Show help message
         --version               Show brick container version
       `,
@@ -332,6 +336,7 @@ module.exports = (runtimeFlags) => {
       flags.liveReload === undefined
         ? process.env.NO_LIVE_RELOAD !== "true"
         : flags.liveReload,
+    mockDate: flags.mockDate,
   };
 
   checkLocalPackages(env);
