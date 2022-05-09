@@ -5,41 +5,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.7.2](/compare/@next-core/brick-scripts@2.7.1...@next-core/brick-scripts@2.7.2) (2022-04-21)
 
-
 ### Bug Fixes
 
-* adopt testing-library instead of enzyme a9b1234
-
-
-
-
+- adopt testing-library instead of enzyme a9b1234
 
 ## [2.7.1](/compare/@next-core/brick-scripts@2.7.0...@next-core/brick-scripts@2.7.1) (2022-04-21)
 
 **Note:** Version bump only for package @next-core/brick-scripts
 
-
-
-
-
 # [2.7.0](/compare/@next-core/brick-scripts@2.6.10...@next-core/brick-scripts@2.7.0) (2022-03-08)
-
 
 ### Features
 
-* support yarn yo input custom editor cf25117
-
-
-
-
+- support yarn yo input custom editor cf25117
 
 ## [2.6.10](/compare/@next-core/brick-scripts@2.6.9...@next-core/brick-scripts@2.6.10) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/brick-scripts
-
-
-
-
 
 ## [2.6.9](/compare/@next-core/brick-scripts@2.6.8...@next-core/brick-scripts@2.6.9) (2022-01-28)
 

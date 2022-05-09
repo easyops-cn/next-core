@@ -7,466 +7,235 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.38](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.37...@next-dll/editor-bricks-helper@0.28.38) (2022-05-06)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.37](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.36...@next-dll/editor-bricks-helper@0.28.37) (2022-05-05)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.36](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.35...@next-dll/editor-bricks-helper@0.28.36) (2022-04-26)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.35](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.34...@next-dll/editor-bricks-helper@0.28.35) (2022-04-25)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.34](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.33...@next-dll/editor-bricks-helper@0.28.34) (2022-04-24)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.33](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.32...@next-dll/editor-bricks-helper@0.28.33) (2022-04-22)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.32](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.31...@next-dll/editor-bricks-helper@0.28.32) (2022-04-22)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.31](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.30...@next-dll/editor-bricks-helper@0.28.31) (2022-04-21)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.30](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.29...@next-dll/editor-bricks-helper@0.28.30) (2022-04-19)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.29](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.28...@next-dll/editor-bricks-helper@0.28.29) (2022-04-19)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.28](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.27...@next-dll/editor-bricks-helper@0.28.28) (2022-04-15)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.27](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.26...@next-dll/editor-bricks-helper@0.28.27) (2022-04-14)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.26](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.25...@next-dll/editor-bricks-helper@0.28.26) (2022-04-14)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.25](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.24...@next-dll/editor-bricks-helper@0.28.25) (2022-04-14)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.24](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.23...@next-dll/editor-bricks-helper@0.28.24) (2022-04-14)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.23](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.22...@next-dll/editor-bricks-helper@0.28.23) (2022-04-12)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.22](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.21...@next-dll/editor-bricks-helper@0.28.22) (2022-04-11)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.21](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.20...@next-dll/editor-bricks-helper@0.28.21) (2022-04-11)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.20](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.19...@next-dll/editor-bricks-helper@0.28.20) (2022-04-11)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.19](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.18...@next-dll/editor-bricks-helper@0.28.19) (2022-04-08)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.18](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.17...@next-dll/editor-bricks-helper@0.28.18) (2022-04-07)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.17](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.16...@next-dll/editor-bricks-helper@0.28.17) (2022-04-07)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.16](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.15...@next-dll/editor-bricks-helper@0.28.16) (2022-04-06)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.15](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.14...@next-dll/editor-bricks-helper@0.28.15) (2022-04-06)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.14](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.13...@next-dll/editor-bricks-helper@0.28.14) (2022-04-01)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.13](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.12...@next-dll/editor-bricks-helper@0.28.13) (2022-03-31)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.12](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.11...@next-dll/editor-bricks-helper@0.28.12) (2022-03-30)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.11](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.10...@next-dll/editor-bricks-helper@0.28.11) (2022-03-30)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.10](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.9...@next-dll/editor-bricks-helper@0.28.10) (2022-03-30)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.9](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.8...@next-dll/editor-bricks-helper@0.28.9) (2022-03-29)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.8](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.7...@next-dll/editor-bricks-helper@0.28.8) (2022-03-29)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.7](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.6...@next-dll/editor-bricks-helper@0.28.7) (2022-03-29)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.6](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.5...@next-dll/editor-bricks-helper@0.28.6) (2022-03-29)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.5](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.4...@next-dll/editor-bricks-helper@0.28.5) (2022-03-29)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.4](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.3...@next-dll/editor-bricks-helper@0.28.4) (2022-03-28)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.3](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.2...@next-dll/editor-bricks-helper@0.28.3) (2022-03-28)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.28.2](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.1...@next-dll/editor-bricks-helper@0.28.2) (2022-03-25)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.28.1](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.0...@next-dll/editor-bricks-helper@0.28.1) (2022-03-24)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 # [0.28.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.5...@next-dll/editor-bricks-helper@0.28.0) (2022-03-24)
-
 
 ### Features
 
-* support APP.getMenu ([#1651](https://github.com/easyops-cn/next-core/issues/1651)) ([5b9f53a](https://github.com/easyops-cn/next-core/commit/5b9f53a3367087a062f415dd68070f15b98bf966))
-
-
-
-
+- support APP.getMenu ([#1651](https://github.com/easyops-cn/next-core/issues/1651)) ([5b9f53a](https://github.com/easyops-cn/next-core/commit/5b9f53a3367087a062f415dd68070f15b98bf966))
 
 ## [0.27.5](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.4...@next-dll/editor-bricks-helper@0.27.5) (2022-03-23)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.27.4](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.3...@next-dll/editor-bricks-helper@0.27.4) (2022-03-23)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.27.3](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.2...@next-dll/editor-bricks-helper@0.27.3) (2022-03-22)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.27.2](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.1...@next-dll/editor-bricks-helper@0.27.2) (2022-03-22)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.27.1](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.27.0...@next-dll/editor-bricks-helper@0.27.1) (2022-03-21)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 # [0.27.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.23...@next-dll/editor-bricks-helper@0.27.0) (2022-03-18)
-
 
 ### Features
 
-* React组件支持调用provider ([1fe6096](https://github.com/easyops-cn/next-core/commit/1fe60963f96b4cddd889837da3ae5dd19f472d46))
-
-
-
-
+- React 组件支持调用 provider ([1fe6096](https://github.com/easyops-cn/next-core/commit/1fe60963f96b4cddd889837da3ae5dd19f472d46))
 
 ## [0.26.23](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.22...@next-dll/editor-bricks-helper@0.26.23) (2022-03-16)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.26.22](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.21...@next-dll/editor-bricks-helper@0.26.22) (2022-03-15)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.26.21](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.20...@next-dll/editor-bricks-helper@0.26.21) (2022-03-15)
-
 
 ### Bug Fixes
 
-* switch dark theme ([00ebb32](https://github.com/easyops-cn/next-core/commit/00ebb32101d86dcf05942746a25258cb9e84b699))
-
-
-
-
+- switch dark theme ([00ebb32](https://github.com/easyops-cn/next-core/commit/00ebb32101d86dcf05942746a25258cb9e84b699))
 
 ## [0.26.20](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.19...@next-dll/editor-bricks-helper@0.26.20) (2022-03-09)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.26.19](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.18...@next-dll/editor-bricks-helper@0.26.19) (2022-03-09)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.26.18](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.17...@next-dll/editor-bricks-helper@0.26.18) (2022-03-08)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.26.17](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.16...@next-dll/editor-bricks-helper@0.26.17) (2022-03-07)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.26.16](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.15...@next-dll/editor-bricks-helper@0.26.16) (2022-03-07)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.26.15](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.14...@next-dll/editor-bricks-helper@0.26.15) (2022-03-04)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.26.14](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.13...@next-dll/editor-bricks-helper@0.26.14) (2022-03-04)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
 
-
-
-
-
 ## [0.26.13](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.12...@next-dll/editor-bricks-helper@0.26.13) (2022-02-28)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
-
-
-
-
 
 ## [0.26.12](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.26.11...@next-dll/editor-bricks-helper@0.26.12) (2022-02-22)
 

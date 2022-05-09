@@ -7,161 +7,81 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.40](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.39...@next-core/build-config-factory@2.18.40) (2022-05-06)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.39](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.38...@next-core/build-config-factory@2.18.39) (2022-04-26)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.38](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.37...@next-core/build-config-factory@2.18.38) (2022-04-22)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.37](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.36...@next-core/build-config-factory@2.18.37) (2022-04-21)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.36](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.35...@next-core/build-config-factory@2.18.36) (2022-04-19)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.35](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.34...@next-core/build-config-factory@2.18.35) (2022-04-14)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.34](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.33...@next-core/build-config-factory@2.18.34) (2022-04-07)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.33](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.32...@next-core/build-config-factory@2.18.33) (2022-04-06)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.32](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.31...@next-core/build-config-factory@2.18.32) (2022-03-31)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.31](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.30...@next-core/build-config-factory@2.18.31) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.30](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.29...@next-core/build-config-factory@2.18.30) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.29](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.28...@next-core/build-config-factory@2.18.29) (2022-03-28)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.28](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.27...@next-core/build-config-factory@2.18.28) (2022-03-28)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.27](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.26...@next-core/build-config-factory@2.18.27) (2022-03-24)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.26](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.25...@next-core/build-config-factory@2.18.26) (2022-03-24)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.25](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.24...@next-core/build-config-factory@2.18.25) (2022-03-18)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.24](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.23...@next-core/build-config-factory@2.18.24) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.23](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.22...@next-core/build-config-factory@2.18.23) (2022-03-07)
 
 **Note:** Version bump only for package @next-core/build-config-factory
 
-
-
-
-
 ## [2.18.22](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.21...@next-core/build-config-factory@2.18.22) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/build-config-factory
-
-
-
-
 
 ## [2.18.21](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.20...@next-core/build-config-factory@2.18.21) (2022-02-21)
 

@@ -32,7 +32,7 @@
     "@next-core/brick-types": "^2.61.5",
     "@next-core/cook": "^1.6.27",
     "file-saver": "^2.0.5",
-    "path-to-regexp": "^6.2.0"
+    "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
     "@next-core/pipes": "^1.0.2",

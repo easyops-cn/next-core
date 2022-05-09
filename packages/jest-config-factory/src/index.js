@@ -54,5 +54,7 @@ exports.jestConfigFactory = ({ transformModulePatterns = [] } = {}) => ({
   modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
   // Use jsdom >= 14 which supports `MutationObserver`
   // Use jsdom >= 16.2 which supports `CustomElements`
-  timers: "fake",
+  fakeTimers: {
+    enableGlobally: true,
+  },
 });

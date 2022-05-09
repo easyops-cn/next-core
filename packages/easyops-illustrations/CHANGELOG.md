@@ -7,111 +7,57 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.5.17](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.16...@next-core/illustrations@0.5.17) (2022-04-21)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.5.16](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.15...@next-core/illustrations@0.5.16) (2022-04-19)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.5.15](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.14...@next-core/illustrations@0.5.15) (2022-04-14)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.5.14](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.13...@next-core/illustrations@0.5.14) (2022-04-07)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.5.13](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.12...@next-core/illustrations@0.5.13) (2022-04-06)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.5.12](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.11...@next-core/illustrations@0.5.12) (2022-04-06)
-
 
 ### Bug Fixes
 
-* **easyops-illustrations:** 替换插画图片  Closes DESIGNER_ROUTINE-546 ([d12d3a5](https://github.com/easyops-cn/next-core/commit/d12d3a59b4f6e6a35f99a083c60fc1ac3c58fa90))
-
-
-
-
+- **easyops-illustrations:** 替换插画图片 Closes DESIGNER_ROUTINE-546 ([d12d3a5](https://github.com/easyops-cn/next-core/commit/d12d3a59b4f6e6a35f99a083c60fc1ac3c58fa90))
 
 ## [0.5.11](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.10...@next-core/illustrations@0.5.11) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.5.10](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.9...@next-core/illustrations@0.5.10) (2022-03-29)
-
 
 ### Bug Fixes
 
-* **easyops-illustrations:** 替换插画图片  Closes DESIGNER_ROUTINE-546 ([13fdfe9](https://github.com/easyops-cn/next-core/commit/13fdfe9f1685160e37313930eb36a0515121d12e))
-
-
-
-
+- **easyops-illustrations:** 替换插画图片 Closes DESIGNER_ROUTINE-546 ([13fdfe9](https://github.com/easyops-cn/next-core/commit/13fdfe9f1685160e37313930eb36a0515121d12e))
 
 ## [0.5.9](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.8...@next-core/illustrations@0.5.9) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.5.8](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.7...@next-core/illustrations@0.5.8) (2022-03-28)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.5.7](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.6...@next-core/illustrations@0.5.7) (2022-03-15)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.5...@next-core/illustrations@0.5.6) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.4...@next-core/illustrations@0.5.5) (2022-02-21)
 
