@@ -42,7 +42,7 @@ export const getMockInfo = (
   const item = mocks.mockList.find(
     (item) =>
       new RegExp(item.uri).test(requestUrl) &&
-      transformGetMethod(item.method) === method
+      transformGetMethod(item.method) === method?.toUpperCase()
   );
   if (item) {
     return {
