@@ -1454,6 +1454,8 @@ export interface MockRule {
   uri: string;
   /** provider名称 */
   provider: string;
+  /** method方法 */
+  method?: string;
 }
 
 export interface ExtField {

@@ -25,15 +25,24 @@ export function getMockList(): MockRule[] {
 }
 
 export const getMockInfo = (
-  requestUrl: string
+  requestUrl: string,
+  method: string
 ):
   | {
       url: string;
       mockId: string;
     }
   | undefined => {
-  const item = mocks.mockList.find((item) =>
-    new RegExp(item.uri).test(requestUrl)
+  const transformGetMethod = (method: string): string => {
+    if (method.toUpperCase() === "LIST") {
+      return "GET";
+    }
+    return method?.toUpperCase();
+  };
+  const item = mocks.mockList.find(
+    (item) =>
+      new RegExp(item.uri).test(requestUrl) &&
+      transformGetMethod(item.method) === method
   );
   if (item) {
     return {

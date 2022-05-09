@@ -69,7 +69,7 @@ if (!window.STANDALONE_MICRO_APPS) {
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   const headers = new Headers(config.options?.headers || {});
   headers.set("lang", i18n.resolvedLanguage);
-  const mockInfo = getMockInfo(config.url);
+  const mockInfo = getMockInfo(config.url, config.method);
   if (mockInfo) {
     config.url = mockInfo.url;
     headers.set("easyops-mock-id", mockInfo.mockId);
