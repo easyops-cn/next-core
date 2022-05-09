@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.67.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.31...@next-core/brick-container@2.67.0) (2022-05-09)
+
+
+### Features
+
+* support mocking global date ([12f57fd](https://github.com/easyops-cn/next-core/commit/12f57fd5f7cd57b0f9725d94a9962ecdebdd49b3))
+
+
+
+
+
 ## [2.66.31](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.66.30...@next-core/brick-container@2.66.31) (2022-05-09)
 
 
