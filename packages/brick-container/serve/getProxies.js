@@ -257,7 +257,6 @@ module.exports = (env) => {
           return JSON.stringify(result);
         });
       } else if (
-        env.https &&
         env.cookieSameSiteNone &&
         (req.path === "/next/api/auth/login/v2" ||
           req.path === "/api/auth/login/v2")
@@ -267,7 +266,7 @@ module.exports = (env) => {
           Array.isArray(proxyRes.headers["set-cookie"])
         ) {
           proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
-            (cookie) => cookie + "; SameSite=None; Secure"
+            (cookie) => `${cookie}; SameSite=None; Secure`
           );
         }
       }
