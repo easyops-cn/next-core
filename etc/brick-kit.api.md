@@ -324,7 +324,7 @@ export interface GetMicroAppsOptions {
 }
 
 // @public (undocumented)
-export const getMockInfo: (requestUrl: string) => {
+export const getMockInfo: (requestUrl: string, method: string) => {
     url: string;
     mockId: string;
 } | undefined;
