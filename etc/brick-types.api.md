@@ -1384,6 +1384,7 @@ export interface MicroApp {
 
 // @public
 export interface MockRule {
+    method?: string;
     provider: string;
     uri: string;
 }
