@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.119.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.7...@next-core/brick-kit@2.119.0) (2022-05-11)
+
+
+### Features
+
+* **mock:** add note ([74c0031](https://github.com/easyops-cn/next-core/commit/74c0031c81ded97014384213d99fedce8ed55d54))
+* **mock:** update mock rule ([c8fe9fc](https://github.com/easyops-cn/next-core/commit/c8fe9fccb46117330e1ff2ef42a18bef8dfff864))
+* **mock:** update mock rule ([5898ecf](https://github.com/easyops-cn/next-core/commit/5898ecfd604ca418feeb954a6091e3b940a1e867))
+
+
+
+
+
 ## [2.118.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.6...@next-core/brick-kit@2.118.7) (2022-05-10)
 
 **Note:** Version bump only for package @next-core/brick-kit
