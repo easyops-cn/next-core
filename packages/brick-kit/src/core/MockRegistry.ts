@@ -11,9 +11,13 @@ export function registerMock(useMocks: Mocks): void {
       ...useMocks,
       mockList: useMocks.mockList?.map((item) => ({
         ...item,
-        uri: item.uri
-          .replace(/(easyops\.api\.)(.+?)\/(.+)/, (_match, p1, p2, p3) => {
-            return `(${p1})?${p2}(@\\d+\\.\\d+\\.\\d+)?/${p3}$`;
+        uri: `${
+          item.provider.includes("@")
+            ? item.uri
+            : item.uri.split(".").slice(2).join(".")
+        }`
+          .replace(/(.+?)\/(.+)/, (_match, p1, p2) => {
+            return `${p1}(@\\d+\\.\\d+\\.\\d+)?/${p2}$`;
           })
           .replace(/:\w+/g, "([^/]+)"),
       })),

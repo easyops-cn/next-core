@@ -32,6 +32,11 @@ const register = (nothing?: boolean): void => {
           provider: "provider-e",
           method: "post",
         },
+        {
+          uri: "logic.cmdb.service/object/:objectId/list",
+          provider: "flowBuilder@api-a",
+          method: "get",
+        },
       ],
     });
   }
@@ -49,33 +54,38 @@ describe("Mock Registry should work", () => {
 
     register();
 
-    expect(getMockList().length).toBe(5);
+    expect(getMockList().length).toBe(6);
 
     expect(getMockList()).toStrictEqual([
       {
         provider: "provider-a",
         method: "GET",
-        uri: "(easyops.api.)?test.getA(@\\d+\\.\\d+\\.\\d+)?/a/b/c/d/e$",
+        uri: "test.getA(@\\d+\\.\\d+\\.\\d+)?/a/b/c/d/e$",
       },
       {
         provider: "provider-b",
         method: "GET",
-        uri: "(easyops.api.)?test.abc.getB(@\\d+\\.\\d+\\.\\d+)?/a/b/([^/]+)/c$",
+        uri: "test.abc.getB(@\\d+\\.\\d+\\.\\d+)?/a/b/([^/]+)/c$",
       },
       {
         provider: "provider-c",
         method: "GET",
-        uri: "(easyops.api.)?test.abc.efg.getC(@\\d+\\.\\d+\\.\\d+)?/a/b/([^/]+)/c/d/([^/]+)$",
+        uri: "test.abc.efg.getC(@\\d+\\.\\d+\\.\\d+)?/a/b/([^/]+)/c/d/([^/]+)$",
       },
       {
         provider: "provider-d",
         method: "LIST",
-        uri: "(easyops.api.)?test.abc.getD(@\\d+\\.\\d+\\.\\d+)?/a/b/c/d/([^/]+)$",
+        uri: "test.abc.getD(@\\d+\\.\\d+\\.\\d+)?/a/b/c/d/([^/]+)$",
       },
       {
         provider: "provider-e",
         method: "post",
-        uri: "(easyops.api.)?test.abc.getD(@\\d+\\.\\d+\\.\\d+)?/a/b/c/d/([^/]+)$",
+        uri: "test.abc.getD(@\\d+\\.\\d+\\.\\d+)?/a/b/c/d/([^/]+)$",
+      },
+      {
+        uri: "logic.cmdb.service(@\\d+\\.\\d+\\.\\d+)?/object/([^/]+)/list$",
+        provider: "flowBuilder@api-a",
+        method: "get",
       },
     ]);
   });
@@ -146,6 +156,14 @@ describe("Mock Registry should work", () => {
       "get",
       undefined,
     ],
+    [
+      "api/gateway/logic.cmdb.service/object/APP/list",
+      "get",
+      "api/gateway/mock_server.proxy.123/logic.cmdb.service/object/APP/list",
+    ],
+    ["api/gateway/logic.cmdb.service/object/APP/list", "post", undefined],
+    ["api/gateway/logic.cmdb.service/object/APP/list/abc", "get", undefined],
+    ["api/gateway/logic.cmdb.service/object/APP", "get", undefined],
   ])("getMockRule args: %j ,should return %j", (param, method, result) => {
     register();
     expect(getMockInfo(param, method)?.url).toEqual(result);
