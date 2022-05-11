@@ -1,4 +1,5 @@
 import { Mocks, MockRule } from "@next-core/brick-types/src/manifest";
+import { isCustomApiProvider } from "./FlowApi";
 
 let mocks: Mocks = {
   mockId: null,
@@ -9,18 +10,19 @@ export function registerMock(useMocks: Mocks): void {
   if (useMocks)
     mocks = {
       ...useMocks,
-      mockList: useMocks.mockList?.map((item) => ({
-        ...item,
-        uri: `${
-          item.provider.includes("@")
-            ? item.uri
-            : item.uri.split(".").slice(2).join(".")
-        }`
-          .replace(/(.+?)\/(.+)/, (_match, p1, p2) => {
-            return `${p1}(@\\d+\\.\\d+\\.\\d+)?/${p2}$`;
-          })
-          .replace(/:\w+/g, "([^/]+)"),
-      })),
+      mockList: useMocks.mockList?.map((item) => {
+        const isFlowAPi = isCustomApiProvider(item.provider);
+        return {
+          ...item,
+          uri: `${
+            isFlowAPi
+              ? item.uri.replace(/(.+?)\/(.+)/, (_match, p1, p2) => {
+                  return `/${p1}(@\\d+\\.\\d+\\.\\d+)?/${p2}$`;
+                })
+              : `/${item.uri.split(".").slice(2).join(".")}$`
+          }`.replace(/:\w+/g, "([^/]+)"),
+        };
+      }),
     };
 }
 
