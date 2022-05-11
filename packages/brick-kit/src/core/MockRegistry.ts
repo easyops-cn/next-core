@@ -54,6 +54,7 @@ export const getMockInfo = (
         .replace(
           /(api\/gateway\/.+?)(@\d+\.\d+\.\d+)?\/(.+)/,
           (_match, p1, _p2, p3) => {
+            // 忽略版本
             return `${p1}/${p3}`;
           }
         )
