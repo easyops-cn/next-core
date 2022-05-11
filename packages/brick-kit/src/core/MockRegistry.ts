@@ -1,4 +1,5 @@
 import { Mocks, MockRule } from "@next-core/brick-types/src/manifest";
+import { isCustomApiProvider } from "./FlowApi";
 
 let mocks: Mocks = {
   mockId: null,
@@ -9,14 +10,19 @@ export function registerMock(useMocks: Mocks): void {
   if (useMocks)
     mocks = {
       ...useMocks,
-      mockList: useMocks.mockList?.map((item) => ({
-        ...item,
-        uri: item.uri
-          .replace(/(easyops\.api\.)(.+?)\/(.+)/, (_match, p1, p2, p3) => {
-            return `(${p1})?${p2}(@\\d+\\.\\d+\\.\\d+)?/${p3}$`;
-          })
-          .replace(/:\w+/g, "([^/]+)"),
-      })),
+      mockList: useMocks.mockList?.map((item) => {
+        const isFlowAPi = isCustomApiProvider(item.provider);
+        return {
+          ...item,
+          uri: `${
+            isFlowAPi
+              ? item.uri.replace(/(.+?)\/(.+)/, (_match, p1, p2) => {
+                  return `/${p1}(@\\d+\\.\\d+\\.\\d+)?/${p2}$`;
+                })
+              : `/${item.uri.split(".").slice(2).join(".")}$`
+          }`.replace(/:\w+/g, "([^/]+)"),
+        };
+      }),
     };
 }
 
@@ -50,6 +56,7 @@ export const getMockInfo = (
         .replace(
           /(api\/gateway\/.+?)(@\d+\.\d+\.\d+)?\/(.+)/,
           (_match, p1, _p2, p3) => {
+            // 忽略版本
             return `${p1}/${p3}`;
           }
         )
