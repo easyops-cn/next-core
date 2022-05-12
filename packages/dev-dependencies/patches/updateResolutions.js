@@ -11,7 +11,11 @@ function updateResolutions(pkg) {
 
   let updated = false;
   for (const [pkgName, pkgVersion] of Object.entries(pkg)) {
-    if (!rootPackageJson.resolutions[pkgName]) {
+    // Add or remove resolutions.
+    if (
+      (Number(!rootPackageJson.resolutions[pkgName]) ^ Number(!pkgVersion)) ===
+      1
+    ) {
       rootPackageJson.resolutions[pkgName] = pkgVersion;
       updated = true;
       fs.writeJsonSync(rootPackageJsonPath, rootPackageJson);
