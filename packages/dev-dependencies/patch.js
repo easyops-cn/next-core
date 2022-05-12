@@ -136,11 +136,10 @@ module.exports = async function patch() {
     migrateJest();
   }
 
-  if (semver.lt(currentRenewVersion, "1.8.26")) {
-    // Add a resolution to fix an issue of `clearImmediate is not defined`.
-    // See https://github.com/testing-library/dom-testing-library/issues/899
+  if (semver.lt(currentRenewVersion, "1.13.4")) {
+    // No resolution for `@testing-library/dom` is required now.
     updateResolutions({
-      "@testing-library/dom": "^7.31.2",
+      "@testing-library/dom": undefined,
     });
   }
 

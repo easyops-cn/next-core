@@ -51,11 +51,33 @@ describe("updateResolutions", () => {
     );
   });
 
-  it("should ignore if resolutions exists", () => {
+  it("should remove resolutions", () => {
     mockFsReadJsonSync.mockReturnValueOnce({
       name: "any",
       resolutions: {
         "@testing-library/dom": "^7.31.2",
+        lodash: "^4.17.21",
+      },
+    });
+    updateResolutions({
+      "@testing-library/dom": undefined,
+    });
+    expect(mockFsWriteJsonSync).toBeCalledWith(
+      expect.stringContaining("package.json"),
+      {
+        name: "any",
+        resolutions: {
+          lodash: "^4.17.21",
+        },
+      }
+    );
+  });
+
+  it("should ignore if resolutions exists", () => {
+    mockFsReadJsonSync.mockReturnValueOnce({
+      name: "any",
+      resolutions: {
+        "@testing-library/dom": "^8.0.0",
       },
     });
     updateResolutions({
