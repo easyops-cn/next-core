@@ -6,9 +6,7 @@
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/dll-differ",
   "license": "GPL-3.0",
   "main": "src/index.js",
-  "bin": {
-    "dll-differ": "./bin/dll-differ.js"
-  },
+  "bin": "./bin/dll-differ.js",
   "files": [
     "bin",
     "src"

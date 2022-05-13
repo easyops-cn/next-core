@@ -5,9 +5,7 @@
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/sdk-scripts",
   "license": "GPL-3.0",
   "main": "dist/main.js",
-  "bin": {
-    "sdk-scripts": "./bin/sdk-scripts.js"
-  },
+  "bin": "./bin/sdk-scripts.js",
   "files": [
     "bin",
     "dist",

@@ -5,9 +5,7 @@
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-next-repo",
   "license": "GPL-3.0",
   "main": "dist/index.js",
-  "bin": {
-    "create-next-repo": "./bin/create-next-repo.js"
-  },
+  "bin": "./bin/create-next-repo.js",
   "files": [
     "bin",
     "dist",

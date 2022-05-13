@@ -10,8 +10,8 @@
   },
   "sideEffects": false,
   "bin": {
-    "dev-dependencies-renew": "./cli-renew.js",
-    "dev-dependencies-extract": "./cli-extract.js"
+    "dev-dependencies-extract": "./cli-extract.js",
+    "dev-dependencies-renew": "./cli-renew.js"
   },
   "dependencies": {
     "@babel/core": "^7.17.10",

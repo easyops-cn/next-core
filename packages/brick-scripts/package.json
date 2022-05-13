@@ -5,9 +5,7 @@
   "homepage": "$repo-org-url$/next-core/tree/master/packages/brick-scripts",
   "license": "GPL-3.0",
   "main": "dist/index.js",
-  "bin": {
-    "brick-scripts": "./bin/brick-scripts.js"
-  },
+  "bin": "./bin/brick-scripts.js",
   "files": [
     "bin",
     "dist",

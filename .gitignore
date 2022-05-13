@@ -16,3 +16,10 @@ report.*.json
 
 /cypress/videos
 /cypress/screenshots
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

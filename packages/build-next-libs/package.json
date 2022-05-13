@@ -5,9 +5,7 @@
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-next-libs",
   "license": "GPL-3.0",
   "main": "src/index.js",
-  "bin": {
-    "build-next-libs": "./bin/build-next-libs.js"
-  },
+  "bin": "./bin/build-next-libs.js",
   "files": [
     "bin",
     "src"
