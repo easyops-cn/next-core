@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.5...@next-core/custom-antd-styles@1.24.6) (2022-05-17)
+
+
+### Bug Fixes
+
+* **general-select:** 修改select样式 ([3bfd37f](https://github.com/easyops-cn/next-core/commit/3bfd37f06fd51c1a4ab22f979ed687dd9787fc2b))
+
+
+
+
+
 ## [1.24.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.4...@next-core/custom-antd-styles@1.24.5) (2022-04-15)
 
 
