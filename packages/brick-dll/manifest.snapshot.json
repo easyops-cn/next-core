@@ -14711,6 +14711,10 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js": {
+      "id": "fsL8",
+      "buildMeta": { "providedExports": true }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/DiffOutlined.js": {
       "id": "ft1z",
       "buildMeta": {
@@ -16399,10 +16403,6 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
-    },
-    "./node_modules/regenerator-runtime/runtime.js": {
-      "id": "ls82",
-      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/LeftCircleTwoTone.js": {
       "id": "ltWs",

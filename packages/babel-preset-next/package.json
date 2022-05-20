@@ -16,8 +16,8 @@
     "@babel/plugin-proposal-optional-chaining": "^7.17.12",
     "@babel/plugin-proposal-private-methods": "^7.17.12",
     "@babel/plugin-proposal-unicode-property-regex": "^7.17.12",
-    "@babel/plugin-transform-runtime": "^7.17.12",
-    "@babel/preset-env": "^7.17.12",
+    "@babel/plugin-transform-runtime": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
     "babel-plugin-import": "^1.13.5"
