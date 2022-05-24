@@ -258,6 +258,8 @@
   --antd-checkbox-custom-type-item-hover-border-color: #65b2ff;
   --antd-checkbox-custom-type-disabled-color: var(--color-disabled-text);
   --antd-checkbox-custom-type-disabled-icon-color: var(--color-disabled-text);
+  --antd-checkbox-color-blue-gray: #778dc3;
+  --antd-checkbox-color-deep-purple: #6641f9;
 
   /*** card ***/
   --antd-card-background: var(--antd-component-background);

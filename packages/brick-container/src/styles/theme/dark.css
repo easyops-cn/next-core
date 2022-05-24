@@ -233,6 +233,8 @@ html[data-theme="dark-v2"],
   --antd-checkbox-custom-type-disabled-icon-color: var(
     --input-outline-disabled
   );
+  --antd-checkbox-color-blue-gray: #6a7dab;
+  --antd-checkbox-color-deep-purple: #5b3cd9;
 
   /*** card ***/
   --antd-card-background: var(--color-fill-bg-container-1);
