@@ -310,6 +310,7 @@ export interface BrickLifeCycle {
     // @internal (undocumented)
     onPageLeave?: BrickEventHandler | BrickEventHandler[];
     onPageLoad?: BrickEventHandler | BrickEventHandler[];
+    onScrollIntoView?: ScrollIntoViewConf;
     useResolves?: ResolveConf[];
 }
 
@@ -1765,6 +1766,14 @@ export interface RuntimeStoryboard extends Storyboard {
     $$fulfilling?: Promise<void>;
     // (undocumented)
     $$registerCustomTemplateProcessed?: boolean;
+}
+
+// @public
+export interface ScrollIntoViewConf {
+    // (undocumented)
+    handlers: BrickEventHandler | BrickEventHandler[];
+    // (undocumented)
+    threshold?: number;
 }
 
 // @public
