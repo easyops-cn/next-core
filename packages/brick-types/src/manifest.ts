@@ -648,6 +648,14 @@ export interface MessageConf {
 }
 
 /**
+ *  `threshold`范围在[0,1], 默认0.1
+ */
+export interface ScrollIntoViewConf {
+  threshold?: number;
+  handlers: BrickEventHandler | BrickEventHandler[];
+}
+
+/**
  * 构件生命周期配置。
  *
  * @remarks
@@ -716,6 +724,10 @@ export interface BrickLifeCycle {
 
   /** @internal */
   onMessageClose?: BrickEventHandler | BrickEventHandler[];
+  /**
+   * 定义构件与窗口视图交集大小超过阈值（threshold）规定的大小时候执行的动作
+   */
+  onScrollIntoView?: ScrollIntoViewConf;
 }
 
 /**

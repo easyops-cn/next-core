@@ -131,6 +131,9 @@ export interface BrickAndMessage {
   tplContextId?: string;
   message: MessageConf | MessageConf[];
 }
+interface BrickIntersectionObserver {
+  $$observe(): void;
+}
 
 export class LocationContext {
   private readonly query: URLSearchParams;
@@ -145,9 +148,14 @@ export class LocationContext {
   private readonly mediaChangeHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly messageCloseHandlers: BrickAndLifeCycleHandler[] = [];
   private readonly messageHandlers: BrickAndMessage[] = [];
+  private readonly scrollIntoViewHandlersMap: Map<
+    string,
+    BrickAndLifeCycleHandler
+  > = new Map();
   private readonly segues: SeguesConf = {};
   private currentMatch: MatchResult;
   readonly storyboardContextWrapper = new StoryboardContextWrapper();
+  private observersList: BrickIntersectionObserver[] = [];
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
     this.resolver = new Resolver(kernel);
@@ -619,6 +627,13 @@ export class LocationContext {
       ],
       tplContextId,
       iid: brickConf.iid,
+      ...(brickConf.lifeCycle?.onScrollIntoView
+        ? {
+            lifeCycle: {
+              onScrollIntoView: brickConf.lifeCycle.onScrollIntoView,
+            },
+          }
+        : {}),
     });
 
     if (
@@ -647,6 +662,10 @@ export class LocationContext {
       match,
       tplContextId
     );
+
+    if (brick.lifeCycle?.onScrollIntoView) {
+      this.brickBindObserver(brick);
+    }
 
     // Then, resolve the brick.
     await this.resolver.resolve(brickConf, brick, context);
@@ -740,6 +759,7 @@ export class LocationContext {
       onMediaChange,
       onMessage,
       onMessageClose,
+      onScrollIntoView,
     } = lifeCycle ?? {};
 
     if (onBeforePageLoad) {
@@ -822,6 +842,14 @@ export class LocationContext {
         handler: onMessageClose,
       });
     }
+    if (onScrollIntoView) {
+      this.scrollIntoViewHandlersMap.set(brick.iid, {
+        brick,
+        match,
+        tplContextId,
+        handler: onScrollIntoView.handlers,
+      });
+    }
   }
 
   handleBeforePageLoad(): void {
@@ -901,6 +929,17 @@ export class LocationContext {
       this.messageCloseHandlers
     );
   }
+  handleScrollIntoView(id: string): void {
+    const currentHandlers = this.scrollIntoViewHandlersMap.get(id);
+    this.dispatchLifeCycleEvent(new CustomEvent("scroll.into.view"), [
+      currentHandlers,
+    ]);
+  }
+  handleBrickBindObserver(): void {
+    this.observersList.forEach((value) => {
+      value.$$observe();
+    });
+  }
 
   getCurrentMatch(): MatchResult {
     return this.currentMatch;
@@ -940,5 +979,27 @@ export class LocationContext {
         this.kernel
       );
     }
+  }
+
+  private brickBindObserver(brick: RuntimeBrick): void {
+    const threshold = brick.lifeCycle.onScrollIntoView.threshold ?? 0.1;
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.intersectionRatio >= threshold) {
+              this.handleScrollIntoView(brick.iid);
+              observer.disconnect();
+            }
+          }
+        });
+      },
+      {
+        threshold,
+      }
+    );
+    this.observersList.push({
+      $$observe: () => observer.observe(brick.element),
+    });
   }
 }

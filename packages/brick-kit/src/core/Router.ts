@@ -496,6 +496,7 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
+          this.locationContext.handleBrickBindObserver();
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
           this.locationContext.resolver.scheduleRefreshing();
