@@ -85,6 +85,12 @@ const spyOnGetCurrentContext = jest.spyOn(
 );
 const spyOnGetResolver = jest.spyOn(runtime, "_internalApiGetResolver");
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
+const observe = jest.fn();
+const disconnect = jest.fn();
+(window.IntersectionObserver as any) = jest.fn(() => ({
+  observe,
+  disconnect,
+}));
 
 describe("LocationContext", () => {
   const kernel: Kernel = {
@@ -471,6 +477,7 @@ describe("LocationContext", () => {
                   {
                     if: "${FLAGS.testing}",
                     brick: "div",
+                    iid: "5df55280297f6",
                     properties: {
                       title:
                         "<% `${CTX.myFreeContext} ${CTX.myAsyncContext} ${CTX.myFallbackToValueContext}` %>",
@@ -605,6 +612,20 @@ describe("LocationContext", () => {
                       onMessageClose: {
                         action: "console.log",
                       },
+                      onMessage: {
+                        channel: "pipelineChannel",
+                        handlers: {
+                          action: "console.log",
+                        },
+                      },
+                      onScrollIntoView: {
+                        threshold: 0.5,
+                        handlers: [
+                          {
+                            action: "console.log",
+                          },
+                        ],
+                      },
                     },
                     slots: {
                       menu: {
@@ -625,6 +646,7 @@ describe("LocationContext", () => {
                               sidebarMenu: {
                                 title: "menu title",
                                 menuItems: [],
+                                menuId: "test-menu-id",
                               },
                               pageTitle: "page title",
                               breadcrumb: {
@@ -811,6 +833,7 @@ describe("LocationContext", () => {
           menu: {
             title: "menu title",
             menuItems: [],
+            menuId: "test-menu-id",
           },
         },
         appBar: {
@@ -1009,6 +1032,7 @@ describe("LocationContext", () => {
         },
       });
       context.handleAnchorLoad();
+      context.handleScrollIntoView("5df55280297f6");
       context.handleBeforePageLeave({
         location: { pathname: "/home" } as Location,
         action: "POP",
@@ -1018,6 +1042,7 @@ describe("LocationContext", () => {
       context.handleMediaChange(mediaChangeDetail);
       context.handleMessageClose(new CloseEvent("error"));
       context.handleMessage();
+      context.handleBrickBindObserver();
 
       expect(spyOnDispatchEvent).toBeCalledWith(
         expect.objectContaining({ type: "page.load" })
@@ -1063,6 +1088,10 @@ describe("LocationContext", () => {
       expect(consoleLog).toHaveBeenNthCalledWith(
         7,
         new CustomEvent("message.close")
+      );
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        8,
+        new CustomEvent("scroll.into.view")
       );
 
       // Assert `console.info()`.
@@ -1148,9 +1177,12 @@ describe("LocationContext", () => {
                 properties: {
                   menu: "<% APP.getMenu('menu-1') %>",
                 },
-                context: {
-                  menu: "<% APP.getMenu('menu-2') %>",
-                },
+                context: [
+                  {
+                    name: "menu",
+                    value: "<% APP.getMenu('menu-2') %>",
+                  },
+                ],
               },
             ],
           },
@@ -1204,9 +1236,12 @@ describe("LocationContext", () => {
           routes: [
             {
               path: "/hello/a/b",
-              context: {
-                menu: "<% APP.getMenu('menu-1') %>",
-              },
+              context: [
+                {
+                  name: "menu",
+                  value: "<% APP.getMenu('menu-1') %>",
+                },
+              ],
               bricks: [
                 {
                   brick: "menu",

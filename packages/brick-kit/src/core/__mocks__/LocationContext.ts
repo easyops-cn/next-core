@@ -38,6 +38,7 @@ export class LocationContext {
   handleAnchorLoad = jest.fn();
   handleMessage = jest.fn();
   getCurrentMatch = jest.fn(() => ({ path: "/developers" }));
+  handleBrickBindObserver = jest.fn();
 
   matchStoryboard(): RuntimeStoryboard {
     return _matchedStoryboard;
