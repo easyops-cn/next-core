@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.3.0...@next-core/jest-config-factory@0.4.0) (2022-05-26)
+
+
+### Features
+
+* support extending moduleNameMappper ([8e4f0b4](https://github.com/easyops-cn/next-core/commit/8e4f0b4d73a4957ff0db42f80ce3105ab259b3dd))
+
+
+
+
+
 # [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.2.9...@next-core/jest-config-factory@0.3.0) (2022-05-09)
 
 
