@@ -1,40 +1,61 @@
-.@{message-prefix-cls} {
-  &-notice-content {
-    position: relative;
-    padding: 9px 35px 9px 18px;
-    background: var(--antd-message-bg);
-    box-shadow: var(--antd-message-shadow);
-  }
+.ant-message-notice-content {
+  box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.14);
+  height: 54px;
+  padding: 16px 24px 16px 22px;
+  border-radius: 32px;
+  border: var(--antd-message-border);
+  backdrop-filter: blur(20px);
 
-  &-success::before,
-  &-error::before,
-  &-warning::before,
-  &-info::before,
-  &-loading::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
+  .ant-message-custom-content {
     height: 100%;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-  }
+    display: flex;
+    align-items: center;
+    color: var(--antd-message-content-color);
 
-  &-success::before {
-    background-color: @success-color;
+    .anticon {
+      top: 0;
+      margin-right: 8px;
+      font-size: 28px;
+    }
   }
+}
 
-  &-error::before {
-    background-color: @error-color;
+.ant-message-notice-info {
+  .ant-message-notice-content {
+    background: var(--antd-message-bg-info);
+
+    .anticon {
+      color: var(--palette-blue-6);
+    }
   }
+}
 
-  &-warning::before {
-    background-color: @warning-color;
+.ant-message-notice-success {
+  .ant-message-notice-content {
+    background: var(--antd-message-bg-success);
+
+    .anticon {
+      color: var(--palette-green-6);
+    }
   }
+}
 
-  &-info::before,
-  &-loading::before {
-    background-color: @info-color;
+.ant-message-notice-error {
+  .ant-message-notice-content {
+    background: var(--antd-message-bg-error);
+
+    .anticon {
+      color: var(--palette-red-6);
+    }
+  }
+}
+
+.ant-message-notice-warn {
+  .ant-message-notice-content {
+    background: var(--antd-message-bg-warn);
+
+    .anticon {
+      color: var(--palette-amber-6);
+    }
   }
 }

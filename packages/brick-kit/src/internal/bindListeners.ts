@@ -37,6 +37,8 @@ import {
   CustomTemplateContext,
   getCustomTemplateContext,
 } from "../core/CustomTemplates/CustomTemplateContext";
+import React from "react";
+import { ArgsProps } from "antd/lib/message";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -793,11 +795,20 @@ function builtinMessageListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    message[method](
-      ...(argsFactory(args, context, event) as Parameters<
-        typeof message["success"]
-      >)
-    );
+    const processArg = argsFactory(args, context, event) as Parameters<
+      typeof message["success"]
+    >;
+    const contentNode = React.createElement(
+      "span",
+      null,
+      `${processArg[0]}`
+    ) as React.ReactNode;
+    const argProp = {
+      content: contentNode,
+      className: `ant-message-notice-${method}`,
+    } as ArgsProps;
+    processArg[0] = argProp;
+    message[method](...processArg);
   } as EventListener;
 }
 
