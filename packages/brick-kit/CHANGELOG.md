@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.120.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.120.0...@next-core/brick-kit@2.120.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* theme dark ([8ff6958](https://github.com/easyops-cn/next-core/commit/8ff6958e134c199e58ec4e026003839dcbc5ea57))
+* 兼容message事件传多个参数的情况 ([fbde026](https://github.com/easyops-cn/next-core/commit/fbde026b51f8bd2d4a83b3c2ac3ac93bf6515179))
+* 支持message.*传任意多个参数 ([abbfaeb](https://github.com/easyops-cn/next-core/commit/abbfaeb4752b408005a82e6a6cf57505b9d3aeb8))
+
+
+
+
+
 # [2.120.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.119.1...@next-core/brick-kit@2.120.0) (2022-05-26)
 
 
