@@ -418,31 +418,35 @@ html[data-theme="dark-v2"],
   /*** message ***/
   --antd-message-bg: var(--color-fill-bg-container-4);
   --antd-message-shadow: var(--feedback-container-shadow);
-  --antd-message-bg-info: linear-gradient(
-    267deg,
-    #373739 0%,
-    rgba(55, 55, 57, 0.3) 50%,
-    rgba(63, 117, 221, 0.3) 100%
-  );
-  --antd-message-bg-success: linear-gradient(
-    267deg,
-    #373739 0%,
-    rgba(55, 55, 57, 0.3) 50%,
-    rgba(39, 195, 70, 0.3) 100%
-  );
-  --antd-message-bg-error: linear-gradient(
-    267deg,
-    #373739 0%,
-    rgba(55, 55, 57, 0.3) 50%,
-    rgba(210, 89, 63, 0.3) 100%
-  );
-  --antd-message-bg-warn: linear-gradient(
-    267deg,
-    #373739 0%,
-    rgba(55, 55, 57, 0.3) 50%,
-    rgba(213, 162, 29, 0.3) 100%
-  );
-  --antd-message-border: 1px solid #373739;
+  --antd-message-bg-info: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(63, 117, 221, 0.2) 100%
+    );
+  --antd-message-bg-success: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(39, 195, 70, 0.2) 100%
+    );
+  --antd-message-bg-error: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(210, 89, 63, 0.2) 100%
+    );
+  --antd-message-bg-warn: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(213, 162, 29, 0.2) 100%
+    );
+  --antd-message-border: 1px solid rgba(255, 255, 255, 0.12);
   --antd-message-content-color: rgba(255, 255, 255, 0.85);
 
   /*** transfer ***/
