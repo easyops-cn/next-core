@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.121.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.120.1...@next-core/brick-kit@2.121.0) (2022-06-01)
+
+
+### Features
+
+* **MessageDispatcher:** call error callbacks on WS error event ([d89a993](https://github.com/easyops-cn/next-core/commit/d89a993347107b8bc15e2e54cce68a620374d451))
+
+
+
+
+
 ## [2.120.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.120.0...@next-core/brick-kit@2.120.1) (2022-05-27)
 
 
