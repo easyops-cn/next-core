@@ -53,8 +53,7 @@ describe("WebSocket Service", () => {
 
     const call = (client.onMessage as jest.Mock).mock.calls[0][0];
     expect(call).toMatchObject({
-      data:
-        '{"event":"TOPIC.SUB_SUCCESS","sessionID":"9336039e-2ae7-4caa-93ea-f1fae213ee3f","payload":{"source":"","system":"pipeline","topic":"pipeline.task.running.001*"}}',
+      data: '{"event":"TOPIC.SUB_SUCCESS","sessionID":"9336039e-2ae7-4caa-93ea-f1fae213ee3f","payload":{"source":"","system":"pipeline","topic":"pipeline.task.running.001*"}}',
       event: "TOPIC.SUB_SUCCESS",
       message: {
         event: "TOPIC.SUB_SUCCESS",
@@ -70,13 +69,36 @@ describe("WebSocket Service", () => {
     expect(call instanceof WebsocketMessageResponse).toBe(true);
   });
 
-  it("should catch `createWebSocket` error", () => {
-    const client2 = new WebSocketService({
-      url: "ws://",
+  it("should catch `createWebSocket` error and call onError", async () => {
+    new WS("ws://localhost:456", { verifyClient: () => false });
+    const options = {
+      url: "ws://localhost:456",
       retryLimit: 5,
-    });
+    };
+    const handleError = jest.fn();
+    let error;
 
-    expect(client2.createWebSocket).toThrow();
+    try {
+      await new Promise((resolve, reject) => {
+        handleError.mockImplementation(reject);
+        const client2 = new WebSocketService(options);
+        client2.onOpen = resolve;
+        client2.onError = handleError;
+      });
+    } catch (e) {
+      error = e;
+    }
+
+    expect(error.type).toBe("error");
+    expect(handleError).toBeCalledWith(
+      expect.objectContaining({ type: "error" }),
+      {
+        options: expect.objectContaining(options),
+        retryCount: 0,
+        state: "connecting",
+        readyState: 3,
+      }
+    );
   });
 
   describe("WebSocket server get in trouble", () => {

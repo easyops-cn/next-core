@@ -11,8 +11,8 @@ const readOnlyHandler: ProxyHandler<object> = {
   setPrototypeOf: THROW,
 };
 
-export function getReadOnlyProxy(object: object): unknown {
-  return new Proxy(object, readOnlyHandler);
+export function getReadOnlyProxy<T extends object>(object: T): T {
+  return new Proxy<T>(object, readOnlyHandler);
 }
 
 // First, we want to make accessing property of globals lazy,
