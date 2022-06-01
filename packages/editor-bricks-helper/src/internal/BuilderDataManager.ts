@@ -22,6 +22,7 @@ import {
   EventDetailOfSnippetApplyStored,
   SharedEditorConf,
   BuilderDroppingStatus,
+  EventDetailOfWorkbenchTreeNodeMove,
 } from "../interfaces";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
@@ -50,6 +51,7 @@ enum BuilderInternalEventType {
   HIGHLIGHT_NODES_CHANGE = "builder.highlightNodes.change",
   OUTLINE_DISABLED_NODES_CHANGE = "builder.outlineDisabledNodes.change",
   DROPPING_STATUS_CHANGE = "builder.droppingStatus.change",
+  WORKBENCH_TREE_NODE_MOVE = "workbench.tree.node.move",
 }
 
 const storageKeyOfOutlineDisabledNodes = "builder-outline-disabled-nodes";
@@ -439,6 +441,112 @@ export class BuilderDataManager {
     this.reorder(parentUid, orderedEdges);
   }
 
+  workbenchTreeNodeMove(detail: EventDetailOfWorkbenchTreeNodeMove): void {
+    const { rootId, nodes, edges, wrapperNode } = this.data;
+    const { dragNodeUid, dragOverNodeUid, dragParentNodeUid, dragStatus } =
+      detail;
+    const isDragRoot = dragOverNodeUid === rootId;
+    const nodeData = nodes.find((item) => item.$$uid === dragNodeUid);
+    const dragEdge = edges.find((item) => item.child === dragNodeUid);
+    const dragOverEdge = edges.find((item) => item.child === dragOverNodeUid);
+    /**
+     * 如果是根节点, 则mountPoint强制等于 bricks
+     * 如果是属于拖动进某个节点中, 则使用原mountPoint
+     * 其他情况, 使用被拖拽节点的mountPoint
+     */
+    const mountPoint = isDragRoot
+      ? "bricks"
+      : dragStatus === "inside"
+      ? dragEdge.mountPoint
+      : dragOverEdge.mountPoint;
+
+    const parentEdge = edges.find((item) => item.child === dragOverNodeUid);
+    /**
+     * 如果是根节点, parentUid强制等于rootId
+     * 如果是拖动进某个节点, 则当前节点为该节点parent
+     * 否则, 等于该节点的父节点
+     */
+    const parentUid = isDragRoot
+      ? rootId
+      : dragStatus === "inside"
+      ? parentEdge.child
+      : parentEdge.parent;
+    const parnetNodeData = nodes.find((item) => item.$$uid === parentUid);
+    // 找到节点父亲等于拖动节点的父节点(寻找兄弟节点)
+    const siblingEdge = edges.filter(
+      (edge) => edge.child !== dragNodeUid && edge.parent === parentUid
+    );
+    let sortIndex: number;
+    let sortNodeUids: string[] = [];
+    if (dragStatus === "inside") {
+      sortIndex = siblingEdge.length
+        ? Math.max(...siblingEdge.map((item) => item.sort)) + 1
+        : 0;
+      const sortUids = siblingEdge
+        .sort((a, b) => a.sort - b.sort)
+        .map((item) => item.child);
+      sortNodeUids = sortUids
+        .map((item) => {
+          return nodes.find((node) => node.$$uid === item).id;
+        })
+        .concat([nodeData.id]);
+    }
+    if (dragStatus === "top" || dragStatus === "bottom") {
+      // 排序修正
+      const overEdge = siblingEdge.find(
+        (item) => item.child === dragOverNodeUid
+      );
+      sortIndex = dragStatus === "top" ? overEdge.sort : overEdge.sort + 1;
+      siblingEdge.forEach((item) => {
+        if (item.sort >= sortIndex) item.sort += 1;
+      });
+      const sortUids = siblingEdge
+        .concat([
+          {
+            child: nodeData.$$uid,
+            sort: sortIndex,
+          } as BuilderRuntimeEdge,
+        ])
+        .sort((a, b) => a.sort - b.sort)
+        .map((item) => item.child);
+      sortNodeUids = sortUids.map((item) => {
+        return nodes.find((node) => node.$$uid === item).id;
+      });
+    }
+
+    this.data = {
+      rootId,
+      nodes,
+      edges: edges
+        .filter((edge) => edge.child !== dragNodeUid)
+        .concat({
+          parent: dragParentNodeUid,
+          child: dragNodeUid,
+          mountPoint: mountPoint,
+          sort: sortIndex,
+          $$isTemplateDelegated: isParentExpandableTemplate(
+            nodes,
+            dragParentNodeUid
+          ),
+        }),
+      wrapperNode,
+    };
+    this.triggerDataChange();
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.WORKBENCH_TREE_NODE_MOVE, {
+        detail: {
+          nodeUid: dragNodeUid,
+          nodeInstanceId: nodeData.instanceId,
+          nodeIds: sortNodeUids,
+          nodeData: {
+            parent: parnetNodeData.instanceId,
+            mountPoint: mountPoint,
+          },
+        },
+      })
+    );
+  }
+
   /**
    * Move mount-point up or down.
    */
@@ -598,6 +706,21 @@ export class BuilderDataManager {
     return () => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.NODE_MOVE,
+        fn as EventListener
+      );
+    };
+  }
+
+  onWorkbenchTreeNodeMove(
+    fn: (event: CustomEvent<EventDetailOfNodeMove>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.WORKBENCH_TREE_NODE_MOVE,
+      fn as EventListener
+    );
+    return () => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.WORKBENCH_TREE_NODE_MOVE,
         fn as EventListener
       );
     };
