@@ -52,7 +52,7 @@
     "jest-environment-jsdom": "^28.1.0",
     "js-yaml": "^3.14.1",
     "lerna": "^4.0.0",
-    "lint-staged": "^12.5.0",
+    "lint-staged": "^13.0.0",
     "prettier": "^2.6.2",
     "pretty-format": "^28.1.0",
     "rimraf": "^3.0.2",
