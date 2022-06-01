@@ -20,6 +20,7 @@ import minimatch from "minimatch";
 import { WebSocketService } from "../websocket/WebSocketService";
 import { _internalApiMessageCloseHandler } from "./Runtime";
 import { RuntimeBrick } from "./BrickNode";
+import { getReadOnlyProxy } from "../internal/proxyFactories";
 
 let messageDispatcher: MessageDispatcher;
 
@@ -85,6 +86,19 @@ export class MessageDispatcher {
     );
     this.setMessageCallbackHandlers(req.identity, callback);
 
+    if (this.ws?.state === "finished") {
+      const { options, retryCount, state, readyState } = this.ws;
+
+      this.handleError({
+        options: getReadOnlyProxy(options),
+        retryCount,
+        state,
+        readyState,
+      });
+
+      return;
+    }
+
     // Prevent repeated subscriptions to the same topic.
     if (!this.channels.has(req.topic)) {
       this.channels.set(req.topic, channel);
@@ -100,7 +114,7 @@ export class MessageDispatcher {
     const t = this.getTopicByChannel(channel);
     if (!t) {
       // eslint-disable-next-line no-console
-      console.error(`Message channel："${channel}" not found. `);
+      console.error(`Message channel: "${channel}" not found. `);
       return;
     }
     const req = new WebsocketMessageRequest(
@@ -128,12 +142,33 @@ export class MessageDispatcher {
 
   private createWebsocketService(): void {
     this.ws = createWebSocket();
+    this.ws.onError = (_event, data) => {
+      this.handleError(data);
+    };
     this.ws.onMessage = (message) => {
       this.reducer(message);
     };
     this.ws.onClose = (event: CloseEvent) => {
       this.onClose(event);
     };
+  }
+
+  handleError(
+    data: Pick<
+      WebSocketService,
+      "options" | "retryCount" | "state" | "readyState"
+    >
+  ): void {
+    const event = new CustomEvent("callback.error", {
+      detail: {
+        payload: { message: {} }, // for compatibility
+        ...data,
+      },
+    });
+
+    this.messageCallbackHandlers.forEach((callbacks) => {
+      this.messageSubscribeCallbacksHandler(callbacks, "error", event);
+    });
   }
 
   onClose(event: CloseEvent): void {
@@ -252,25 +287,32 @@ export class MessageDispatcher {
     }
   }
 
-  private messageSubscribeResponseEventHandler(
-    response: WebsocketMessageResponse,
+  private messageSubscribeCallbacksHandler(
+    callbacks: MessageBrickEventHandlerCallback[],
     method: "success" | "error",
-    event: PluginWebSocketMessageEvent
+    event: CustomEvent
   ): void {
-    const callbacks = this.messageCallbackHandlers.get(response.identity);
     if (Array.isArray(callbacks)) {
       for (const handler of callbacks) {
-        const e = new CustomEvent(event, {
-          detail: response.message,
-        });
-
         this.dispatch(
-          e,
+          event,
           handler.runtimeBrick,
           handler.context,
           [].concat(handler?.[method]).filter(Boolean)
         );
       }
     }
+  }
+
+  private messageSubscribeResponseEventHandler(
+    response: WebsocketMessageResponse,
+    method: "success" | "error",
+    event: PluginWebSocketMessageEvent
+  ): void {
+    const callbacks = this.messageCallbackHandlers.get(response.identity);
+    const e = new CustomEvent(event, {
+      detail: response.message,
+    });
+    this.messageSubscribeCallbacksHandler(callbacks, method, e);
   }
 }

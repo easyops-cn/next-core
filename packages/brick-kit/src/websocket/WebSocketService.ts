@@ -1,8 +1,9 @@
+import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { PluginWebSocketOptions } from "./interfaces";
 import { WebsocketMessageResponse } from "./WebsocketMessageResponse";
 
 export class WebSocketService {
-  private retryCount = 0;
+  private _retryCount = 0;
   private ws: WebSocket = null;
   private lockReconnect = false;
   public options: PluginWebSocketOptions;
@@ -14,6 +15,14 @@ export class WebSocketService {
     reconnectTimeout: 1000,
     retryLimit: 6,
   };
+
+  get retryCount(): number {
+    return this._retryCount;
+  }
+
+  private set retryCount(value: number) {
+    this._retryCount = value;
+  }
 
   constructor(options: PluginWebSocketOptions) {
     this.options = { ...this.defaultOptions, ...options };
@@ -66,7 +75,13 @@ export class WebSocketService {
     };
 
     this.ws.onerror = (event: Event) => {
-      this.onError(event);
+      const { options, retryCount, state, readyState } = this;
+      this.onError(event, {
+        options: getReadOnlyProxy(options),
+        retryCount,
+        state,
+        readyState,
+      });
 
       // eslint-disable-next-line no-console
       console.log("WebSocket encountered error: ", event);
@@ -131,7 +146,13 @@ export class WebSocketService {
   // istanbul ignore next
   onClose(event: CloseEvent): void {}
 
-  onError(event: Event): void {}
+  onError(
+    event: Event,
+    data: Pick<
+      WebSocketService,
+      "options" | "retryCount" | "state" | "readyState"
+    >
+  ): void {}
 
   onMessage(message: WebsocketMessageResponse): void {}
 
