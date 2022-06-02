@@ -10,6 +10,7 @@ import {
   EventDetailOfNodeMove,
   EventDetailOfSnippetApply,
   BuilderRuntimeNode,
+  WorkbenchTreeNodeMoveProps,
 } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -2088,6 +2089,242 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     };
     manager.nodeMove(node2);
     expect(node2.nodeData.mountPoint).toBe("bricks");
+  });
+
+  describe("workbenchTreeNodeMove should work", () => {
+    it("move the node inside the other node", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 6,
+        dragParentNodeUid: 6,
+        dragStatus: "inside",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 6,
+          sort: 0,
+        },
+      ]);
+    });
+
+    it("move the node to the root, mountPoint should be bricks", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 1,
+        dragParentNodeUid: 1,
+        dragStatus: "inside",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 5,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 1,
+        },
+      ]);
+    });
+
+    it("move the node to top", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 3,
+        dragOverNodeUid: 2,
+        dragParentNodeUid: 2,
+        dragStatus: "top",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: true,
+          child: 3,
+          mountPoint: "bricks",
+          parent: 2,
+          sort: 0,
+        },
+      ]);
+    });
+
+    it("move the node to bottom", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 3,
+        dragOverNodeUid: 2,
+        dragParentNodeUid: 2,
+        dragStatus: "bottom",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          child: 3,
+          mountPoint: "bricks",
+          parent: 2,
+          sort: 1,
+        },
+      ]);
+    });
   });
 
   it("snippet node should redirect", () => {

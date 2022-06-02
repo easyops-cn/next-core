@@ -117,6 +117,25 @@ export type EventDetailOfNodeMove = Omit<EventDetailOfNodeAdd, "nodeData"> & {
   };
 };
 
+export type EventDetailOfWorkbenchTreeNodeMove = {
+  nodeUid: number;
+  nodeInstanceId: string;
+  nodeIds: string[];
+  nodeData: {
+    parent: string;
+    mountPoint: string;
+  };
+};
+
+export type dragStatus = "inside" | "top" | "bottom";
+
+export interface WorkbenchTreeNodeMoveProps {
+  dragNodeUid: number;
+  dragOverNodeUid: number;
+  dragParentNodeUid: number;
+  dragStatus: "inside" | "top" | "bottom";
+}
+
 export interface EventDetailOfNodeReorder {
   nodeUids: number[];
   parentUid: number;
