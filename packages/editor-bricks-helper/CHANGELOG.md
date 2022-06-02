@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.32...@next-core/editor-bricks-helper@0.40.0) (2022-06-02)
+
+
+### Features
+
+* **BuilderDataManager:** support workbench move ([d6f892e](https://github.com/easyops-cn/next-core/commit/d6f892e684586873098fa1790001b4c8c8d690db))
+* **BuilderDataManager:** support workbench move ([e37f490](https://github.com/easyops-cn/next-core/commit/e37f490c5580182da3638ad9ffa81267b51638aa))
+
+
+
+
+
 ## [0.39.32](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.31...@next-core/editor-bricks-helper@0.39.32) (2022-06-01)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
