@@ -10,7 +10,7 @@ import {
   EventDetailOfNodeMove,
   EventDetailOfSnippetApply,
   BuilderRuntimeNode,
-  EventDetailOfWorkbenchTreeNodeMove,
+  WorkbenchTreeNodeMoveProps,
 } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -2093,7 +2093,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
 
   describe("workbenchTreeNodeMove should work", () => {
     it("move the node inside the other node", () => {
-      const node: EventDetailOfWorkbenchTreeNodeMove = {
+      const node: WorkbenchTreeNodeMoveProps = {
         dragNodeUid: 5,
         dragOverNodeUid: 6,
         dragParentNodeUid: 6,
@@ -2151,7 +2151,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     });
 
     it("move the node to the root, mountPoint should be bricks", () => {
-      const node: EventDetailOfWorkbenchTreeNodeMove = {
+      const node: WorkbenchTreeNodeMoveProps = {
         dragNodeUid: 5,
         dragOverNodeUid: 1,
         dragParentNodeUid: 1,
@@ -2209,7 +2209,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     });
 
     it("move the node to top", () => {
-      const node: EventDetailOfWorkbenchTreeNodeMove = {
+      const node: WorkbenchTreeNodeMoveProps = {
         dragNodeUid: 3,
         dragOverNodeUid: 2,
         dragParentNodeUid: 2,
@@ -2268,7 +2268,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     });
 
     it("move the node to bottom", () => {
-      const node: EventDetailOfWorkbenchTreeNodeMove = {
+      const node: WorkbenchTreeNodeMoveProps = {
         dragNodeUid: 3,
         dragOverNodeUid: 2,
         dragParentNodeUid: 2,

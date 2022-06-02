@@ -22,6 +22,7 @@ import {
   EventDetailOfSnippetApplyStored,
   SharedEditorConf,
   BuilderDroppingStatus,
+  WorkbenchTreeNodeMoveProps,
   EventDetailOfWorkbenchTreeNodeMove,
 } from "../interfaces";
 import { getUniqueNodeId } from "./getUniqueNodeId";
@@ -441,7 +442,7 @@ export class BuilderDataManager {
     this.reorder(parentUid, orderedEdges);
   }
 
-  workbenchTreeNodeMove(detail: EventDetailOfWorkbenchTreeNodeMove): void {
+  workbenchTreeNodeMove(detail: WorkbenchTreeNodeMoveProps): void {
     const { rootId, nodes, edges, wrapperNode } = this.data;
     const { dragNodeUid, dragOverNodeUid, dragParentNodeUid, dragStatus } =
       detail;
@@ -476,45 +477,27 @@ export class BuilderDataManager {
     const siblingEdge = edges.filter(
       (edge) => edge.child !== dragNodeUid && edge.parent === parentUid
     );
+    const sortUids = sortBy(siblingEdge, "sort").map((item) => item.child);
+    const sortNodeIds: string[] = sortUids.map((item) => {
+      return nodes.find((node) => node.$$uid === item).id;
+    });
     let sortIndex: number;
-    let sortNodeUids: string[] = [];
     if (dragStatus === "inside") {
       sortIndex = siblingEdge.length
         ? Math.max(...siblingEdge.map((item) => item.sort)) + 1
         : 0;
-      const sortUids = siblingEdge
-        .sort((a, b) => a.sort - b.sort)
-        .map((item) => item.child);
-      sortNodeUids = sortUids
-        .map((item) => {
-          return nodes.find((node) => node.$$uid === item).id;
-        })
-        .concat([nodeData.id]);
-    }
-    if (dragStatus === "top" || dragStatus === "bottom") {
+      // 插入默认插最后
+      sortNodeIds.push(nodeData.id);
+    } else if (dragStatus === "top" || dragStatus === "bottom") {
+      const dragEdge = edges.find((edge) => edge.child === dragNodeUid);
+      const overIndex = sortUids.findIndex((item) => item === dragOverNodeUid);
+      sortIndex = dragStatus === "top" ? overIndex : overIndex + 1;
       // 排序修正
-      const overEdge = siblingEdge.find(
-        (item) => item.child === dragOverNodeUid
-      );
-      sortIndex = dragStatus === "top" ? overEdge.sort : overEdge.sort + 1;
-      siblingEdge.forEach((item) => {
-        if (item.sort >= sortIndex) item.sort += 1;
-      });
-      const sortUids = siblingEdge
-        .concat([
-          {
-            child: nodeData.$$uid,
-            sort: sortIndex,
-          } as BuilderRuntimeEdge,
-        ])
-        .sort((a, b) => a.sort - b.sort)
-        .map((item) => item.child);
-      sortNodeUids = sortUids.map((item) => {
-        return nodes.find((node) => node.$$uid === item).id;
-      });
+      sortNodeIds.splice(sortIndex, 0, nodeData.id);
+      sortUids.splice(sortIndex, 0, dragEdge.child);
     }
 
-    this.data = {
+    const newData = {
       rootId,
       nodes,
       edges: edges
@@ -531,19 +514,29 @@ export class BuilderDataManager {
         }),
       wrapperNode,
     };
+    this.data = {
+      ...newData,
+      edges: reorderBuilderEdges(newData, {
+        parentUid,
+        nodeUids: sortUids,
+      }),
+    };
     this.triggerDataChange();
     this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.WORKBENCH_TREE_NODE_MOVE, {
-        detail: {
-          nodeUid: dragNodeUid,
-          nodeInstanceId: nodeData.instanceId,
-          nodeIds: sortNodeUids,
-          nodeData: {
-            parent: parnetNodeData.instanceId,
-            mountPoint: mountPoint,
+      new CustomEvent<EventDetailOfWorkbenchTreeNodeMove>(
+        BuilderInternalEventType.WORKBENCH_TREE_NODE_MOVE,
+        {
+          detail: {
+            nodeUid: dragNodeUid,
+            nodeInstanceId: nodeData.instanceId,
+            nodeIds: sortNodeIds,
+            nodeData: {
+              parent: parnetNodeData.instanceId,
+              mountPoint: mountPoint,
+            },
           },
-        },
-      })
+        }
+      )
     );
   }
 
