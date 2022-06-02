@@ -64,7 +64,7 @@ module.exports = {
     {
       files: [
         "webpack.*.js",
-        "*.config.js",
+        "*.config.{ts,js}",
         "**/scripts/**/*.{ts,js}",
         "**/bin/*.js",
       ],
