@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.16...@next-core/brick-utils@2.37.17) (2022-06-06)
+
+
+### Bug Fixes
+
+* collect custom template state ([8d96be3](https://github.com/easyops-cn/next-core/commit/8d96be331674c7e3ec57f228396080d68809fd68))
+
+
+
+
+
 ## [2.37.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.15...@next-core/brick-utils@2.37.16) (2022-05-26)
 
 **Note:** Version bump only for package @next-core/brick-utils
