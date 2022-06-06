@@ -296,6 +296,7 @@ function collectBricksInCustomTemplates(
     customTemplates.forEach((tpl) => {
       selfDefined.add(tpl.name);
       collectBricksInBrickConfs(tpl.bricks, collection);
+      collectBricksInContext(tpl.state, collection);
     });
   }
 }
