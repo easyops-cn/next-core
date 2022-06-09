@@ -36,6 +36,7 @@ const baseDocComments = [
   "deprecated",
   "editor",
   "editorprops",
+  "groupi18n",
 ];
 
 function generateBrickDoc(doc) {
@@ -72,13 +73,23 @@ function convertTagsToMapByFields(tags, fields) {
         return prev;
       }
 
-      if (curr.tag === "editorprops") {
+      let specialField;
+      // typedoc 读取到的 tag 都为小写，不是驼峰的形式，这里特殊处理下最终文档生成驼峰的形式
+      if (
+        (specialField = ["editorProps", "groupI18n"].find(
+          (name) => name.toLowerCase() === curr.tag
+        ))
+      ) {
         try {
-          prev["editorProps"] = JSON.parse(curr.text);
+          prev[specialField] = JSON.parse(curr.text);
           return prev;
         } catch {
           const find = tags.find((item) => item.tag === "name");
-          throw new Error(`editorProps of ${find && find.text} parse error`);
+          throw new Error(
+            `${specialField} tag of ${
+              find && find.text
+            } \`JSON.parse()\` parse error`
+          );
         }
       }
 
@@ -237,11 +248,11 @@ function extractBrickDocComplexKind(groups, elementChildren) {
     }, {});
 
   // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
-  const propertieList = brickConf[brickKindMap.property];
-  return propertieList
+  const propertiesList = brickConf[brickKindMap.property];
+  return propertiesList
     ? {
         ...brickConf,
-        [brickKindMap.property]: sortBy(propertieList, (item) => {
+        [brickKindMap.property]: sortBy(propertiesList, (item) => {
           const find = elementChildren.find(
             (child) => child.name === item.name
           );
