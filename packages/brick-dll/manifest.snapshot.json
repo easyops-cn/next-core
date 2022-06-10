@@ -8006,7 +8006,11 @@
       "id": "M7uQ",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["getIllustration", "illustrationsByCategory"]
+        "providedExports": [
+          "determineIllustrationName",
+          "getIllustration",
+          "illustrationsByCategory"
+        ]
       }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/YuqueFilled.js": {
