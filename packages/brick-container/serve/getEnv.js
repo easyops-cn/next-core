@@ -13,6 +13,11 @@ const {
 function getServerPath(server) {
   if (server) {
     if (/^\d+$/.test(server)) {
+      console.warn(
+        chalk.yellow(
+          "Warning: using a single part of IP is deprecated, and will be removed soon!"
+        )
+      );
       server = `http://192.168.100.${server}`;
     } else if (
       !server.startsWith("http://") &&
@@ -21,7 +26,7 @@ function getServerPath(server) {
       server = `http://${server}`;
     }
   } else {
-    server = "http://192.168.100.162";
+    server = "https://dev.easyops.local";
   }
 
   return server;
@@ -142,7 +147,7 @@ module.exports = (runtimeFlags) => {
       Options
         --auto-remote           Use auto remote mode (use all local existed packages, combined with remote packages)
         --no-remote             Disable remote mode (Defaults to remote enabled)
-        --server                Set remote server address, defaults to "192.168.100.162"
+        --server                Set remote server address, defaults to "https://dev.easyops.local"
         --console-server        Set remote console server address, defaults to remote server address
         --subdir                Set base href to "/next/" instead of "/"
         --local-bricks          Specify local brick packages to be used in remote mode
@@ -429,6 +434,11 @@ module.exports = (runtimeFlags) => {
   console.log(
     chalk.bold.cyan("live-reload:"),
     env.liveReload ? chalk.bgGreen("enabled") : chalk.bgGrey("disabled")
+  );
+
+  console.log(
+    chalk.bold.cyan("remote:"),
+    env.useRemote || !env.useLocalContainer ? server : "N/A"
   );
 
   return env;
