@@ -61,6 +61,7 @@ export interface EventDetailOfNodeAdd {
   nodeUids: number[];
   nodeIds: string[];
   nodeData: NodeInstance;
+  sort?: number;
 }
 
 export interface EventDetailOfContextUpdated {
@@ -129,6 +130,15 @@ export type EventDetailOfWorkbenchTreeNodeMove = {
 
 export type dragStatus = "inside" | "top" | "bottom";
 
+export interface WorkbenchNodeData extends NodeInstance {
+  instanceId: string;
+  id: string;
+}
+export interface WorkbenchNodeAdd {
+  nodeData: WorkbenchNodeData;
+  dragOverNodeInstanceId: string;
+  dragStatus: dragStatus;
+}
 export interface WorkbenchTreeNodeMoveProps {
   dragNodeUid: number;
   dragOverNodeUid: number;
