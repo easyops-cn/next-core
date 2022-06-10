@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.68.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.68.6...@next-core/brick-container@2.68.7) (2022-06-10)
+
+
+### Bug Fixes
+
+* update default remote server ([77b9e08](https://github.com/easyops-cn/next-core/commit/77b9e08b07625f3efd29a63e0a47c4d88be5022b))
+
+
+
+
+
 ## [2.68.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.68.5...@next-core/brick-container@2.68.6) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/brick-container
