@@ -10,6 +10,7 @@ module.exports = {
     "/scripts/",
     "/__jest__/",
     "/__fixtures__/",
+    "\\.config\\.js$",
   ],
   collectCoverage: true,
   coverageThreshold: {
