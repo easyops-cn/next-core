@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.21...@next-core/illustrations@0.6.0) (2022-06-10)
+
+
+### Features
+
+* add resources to illustration lib ([09e8aba](https://github.com/easyops-cn/next-core/commit/09e8aba9e5ae2ce6d2747500d31ea88aad7912cf))
+
+
+
+
+
 ## [0.5.21](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.20...@next-core/illustrations@0.5.21) (2022-05-26)
 
 **Note:** Version bump only for package @next-core/illustrations
