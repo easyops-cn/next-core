@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.6.0...@next-core/illustrations@0.7.0) (2022-06-10)
+
+
+### Features
+
+* add resources to illustrations library, and support GIF ([cffa82f](https://github.com/easyops-cn/next-core/commit/cffa82facfdb860f0c20c45f02864bb47db09f91))
+
+
+
+
+
 # [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.21...@next-core/illustrations@0.6.0) (2022-06-10)
 
 

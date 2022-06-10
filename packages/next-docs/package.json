@@ -1,6 +1,6 @@
 {
   "name": "@next-core/next-docs",
-  "version": "1.2.265",
+  "version": "1.2.266",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/next-docs",
   "license": "GPL-3.0",
@@ -21,7 +21,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@easyops-cn/brick-next-pipes": "^0.3.12",
-    "@next-core/brick-kit": "^2.121.2",
+    "@next-core/brick-kit": "^2.121.3",
     "@next-core/brick-types": "^2.62.0",
     "fs-extra": "^10.1.0"
   }
