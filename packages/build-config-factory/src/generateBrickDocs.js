@@ -76,7 +76,7 @@ function convertTagsToMapByFields(tags, fields) {
       let specialField;
       // typedoc 读取到的 tag 都为小写，不是驼峰的形式，这里特殊处理下最终文档生成驼峰的形式
       if (
-        (specialField = ["editorProps", "groupI18n"].find(
+        (specialField = ["editorProps", "groupI18N"].find(
           (name) => name.toLowerCase() === curr.tag
         ))
       ) {
