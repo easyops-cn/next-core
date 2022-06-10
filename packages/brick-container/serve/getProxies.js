@@ -173,8 +173,9 @@ module.exports = (env) => {
           return JSON.stringify(result);
         });
       } else if (
-        req.path ===
-        "/next/api/gateway/next_builder.build.GetStoriesJson/api/v1/next-builder/storiesjson"
+        /\/next\/api\/gateway\/next_builder\.build\.GetStoriesJson(V2)?\/api\/(v1|v2)\/next-builder\/storiesjson/.test(
+          req.path
+        )
       ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
@@ -195,9 +196,11 @@ module.exports = (env) => {
 
             if (filePath) {
               const story = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+              // v2 接口用的是 id  v1用的是 storyId，这里需要兼容下
               data.list = [
                 ...data.list.filter(
-                  (v) => !story.some((s) => s.storyId === v.storyId)
+                  (v) =>
+                    !story.some((s) => [v.storyId, v.id].includes(s.storyId))
                 ),
                 ...story,
               ];
