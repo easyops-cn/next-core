@@ -25,7 +25,6 @@ import {
   WorkbenchTreeNodeMoveProps,
   EventDetailOfWorkbenchTreeNodeMove,
   WorkbenchNodeAdd,
-  WorkbenchNodeData,
 } from "../interfaces";
 import { getUniqueNodeId } from "./getUniqueNodeId";
 import { reorderBuilderEdges } from "./reorderBuilderEdges";
@@ -37,6 +36,7 @@ import {
 import { expandTemplateEdges } from "./expandTemplateEdges";
 import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
+import { getSnippetNodeDetail } from "../DropZone/getSnippetNodeDetail";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -530,6 +530,9 @@ export class BuilderDataManager {
       // insert
       const newNodeUid = getUniqueNodeId();
       const isRoot = dragOverNodeInstanceId === "#main-mount-point";
+      const parentInstanceId = isRoot
+        ? nodes.find((item) => item.$$uid === rootId).instanceId
+        : dragOverNodeInstanceId;
       const dragOverNodeUid = nodes.find((item) =>
         isRoot
           ? item.$$uid === rootId
@@ -555,6 +558,26 @@ export class BuilderDataManager {
         (item) => item.$$uid === parentUid
       ).instanceId;
       nodeData.mountPoint = mountPoint;
+
+      if (nodeData.bricks) {
+        // snippet
+        this.snippetApply({
+          parentUid,
+          nodeDetails: nodeData.bricks.map((brickConf) =>
+            getSnippetNodeDetail({
+              parent: parentInstanceId,
+              parentUid: parentUid,
+              mountPoint: mountPoint,
+              nodeUid: newNodeUid,
+              brickConf: brickConf,
+              isPortalCanvas: false,
+            })
+          ),
+          nodeIds,
+          nodeUids,
+        });
+        return;
+      }
 
       this.runAddNodeAction({
         nodeUid: newNodeUid,

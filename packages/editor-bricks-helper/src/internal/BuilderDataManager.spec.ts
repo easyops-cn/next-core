@@ -2468,6 +2468,67 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
         },
       ]);
     });
+
+    it("intert snippet should work", () => {
+      const listenOnSnippetApply = jest.fn();
+      manager.onSnippetApply(listenOnSnippetApply);
+      const node = {
+        dragOverNodeInstanceId: "#main-mount-point",
+        dragStatus: "inside",
+        nodeData: {
+          brick: "",
+          instanceId: null,
+          id: null,
+          type: "brick",
+          bricks: [
+            {
+              brick: "div",
+              properties: {},
+              lifeCycle: {
+                onPageLoad: [
+                  {
+                    useProvider: "a",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node);
+
+      expect(listenOnSnippetApply).toBeCalled();
+      expect(listenOnSnippetApply.mock.calls[0][0].detail)
+        .toMatchInlineSnapshot(`
+        Object {
+          "nodeDetails": Array [
+            Object {
+              "children": Array [],
+              "nodeData": Object {
+                "brick": "div",
+                "lifeCycle": "{\\"onPageLoad\\":[{\\"useProvider\\":\\"a\\"}]}",
+                "mountPoint": "bricks",
+                "parent": undefined,
+                "portal": undefined,
+                "properties": "{}",
+                "sort": undefined,
+                "type": "brick",
+              },
+              "nodeUid": 8,
+              "parentUid": 1,
+            },
+          ],
+          "nodeIds": Array [
+            "B-002",
+            null,
+          ],
+          "nodeUids": Array [
+            2,
+          ],
+          "parentUid": 1,
+        }
+      `);
+    });
   });
 
   it("snippet node should redirect", () => {

@@ -135,7 +135,9 @@ export interface WorkbenchNodeData extends NodeInstance {
   id: string;
 }
 export interface WorkbenchNodeAdd {
-  nodeData: WorkbenchNodeData;
+  nodeData: WorkbenchNodeData & {
+    bricks: BrickConf[];
+  };
   dragOverNodeInstanceId: string;
   dragStatus: dragStatus;
 }
