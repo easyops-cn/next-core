@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.40](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.26.39...@next-core/brick-icons@2.26.40) (2022-06-14)
+
+
+### Bug Fixes
+
+* 增加cmdb操作实例图标 refs PERMISSION-235 ([9df6c9e](https://github.com/easyops-cn/next-core/commit/9df6c9ed05e17e1d24357ff307c7bf19e261a24c))
+
+
+
+
+
 ## [2.26.39](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.26.38...@next-core/brick-icons@2.26.39) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/brick-icons
