@@ -138,7 +138,9 @@ export interface WorkbenchNodeAdd {
   nodeData: WorkbenchNodeData & {
     bricks: BrickConf[];
   };
-  dragOverNodeInstanceId: string;
+  mountPoint: string;
+  dragOverInstanceId: string;
+  parentInstanceId: string;
   dragStatus: dragStatus;
 }
 export interface WorkbenchTreeNodeMoveProps {
