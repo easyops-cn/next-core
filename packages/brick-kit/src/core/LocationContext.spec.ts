@@ -45,6 +45,8 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
   isAdmin: false,
 });
 
+const mockFeature = jest.fn().mockReturnValue({ testing: true });
+
 registerCustomTemplate("tpl-a", {
   bricks: [
     {
@@ -122,9 +124,7 @@ describe("LocationContext", () => {
       },
     },
     toggleBars: jest.fn(),
-    getFeatureFlags: jest.fn().mockReturnValue({
-      testing: true,
-    }),
+    getFeatureFlags: mockFeature,
     loadDynamicBricksInBrickConf: jest.fn(),
   } as any;
 
@@ -1201,6 +1201,79 @@ describe("LocationContext", () => {
           ],
         },
       });
+    });
+    it("base layout should work", async () => {
+      mockFeature.mockReturnValue({
+        "support-ui-8.0-base-layout": true,
+        testing: true,
+      });
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      spyOnIsLoggedIn.mockReturnValue(true);
+      spyOnGetResolver.mockReturnValueOnce({
+        async resolveOne(
+          type: any,
+          resolveConf: ResolveConf,
+          conf: Record<string, any>
+        ): Promise<void> {
+          Object.assign(conf, resolveConf.transform);
+        },
+      } as any);
+      jest
+        .spyOn(context.resolver, "resolveOne")
+        .mockImplementationOnce(
+          (type: any, resolveConf: ResolveConf, conf: Record<string, any>) => {
+            Object.assign(conf, resolveConf.transform);
+            return Promise.resolve();
+          }
+        );
+      await context.mountRoutes(
+        [
+          {
+            path: "/",
+            context: [
+              {
+                name: "menu",
+                value: "<% APP.getMenu('CTX-menu') %>",
+              },
+            ],
+            exact: false,
+            providers: [],
+            routes: [
+              {
+                path: "/test/a",
+                context: [
+                  {
+                    name: "menu",
+                    value: "<% APP.getMenu('menu-1') %>",
+                  },
+                ],
+                bricks: [
+                  {
+                    brick: "menu",
+                    properties: {
+                      menu: "<% APP.getMenu('menu-2') %>",
+                    },
+                  },
+                  {
+                    brick: "base-layout.tpl-homepage-base-module",
+                  },
+                ],
+                type: "bricks",
+                exact: true,
+              },
+            ],
+            type: "routes",
+          },
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+      expect(jestConstructMenu).toBeCalledTimes(1);
     });
   });
 

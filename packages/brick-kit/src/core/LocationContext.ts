@@ -671,7 +671,16 @@ export class LocationContext {
     await this.resolver.resolve(brickConf, brick, context);
 
     let expandedBrickConf = brickConf;
-    if (tplTagName) {
+    const isBaseLayout: boolean = [
+      "base-layout.tpl-homepage-base-module",
+      "base-layout.tpl-base-page-module",
+    ].includes(tplTagName as string);
+    if (
+      tplTagName &&
+      (!isBaseLayout ||
+        (this.kernel.getFeatureFlags()["support-ui-8.0-base-layout"] &&
+          isBaseLayout))
+    ) {
       await this.preFetchMenu(customTemplateRegistry.get(tplTagName)?.bricks);
       expandedBrickConf = await asyncExpandCustomTemplate(
         {

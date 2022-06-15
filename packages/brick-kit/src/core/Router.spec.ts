@@ -1,8 +1,8 @@
 import "whatwg-fetch";
 import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
-  scanCustomApisInStoryboard,
   mapCustomApisToNameAndNamespace,
+  scanStoryboard,
 } from "@next-core/brick-utils";
 import { HttpResponseError } from "@next-core/brick-http";
 import { History, Location, LocationListener } from "history";
@@ -44,11 +44,11 @@ jest.mock("@next-core/brick-utils");
 const mockConsoleError = jest
   .spyOn(console, "error")
   .mockImplementation(() => void 0);
-
-const spyOnScanCustomApisInStoryboard = scanCustomApisInStoryboard as jest.Mock;
-spyOnScanCustomApisInStoryboard.mockReturnValue([
-  "easyops.custom_api@myAwesomeApi",
-]);
+const spyOnScanStoryboard = scanStoryboard as jest.Mock;
+spyOnScanStoryboard.mockReturnValue({
+  bricks: [],
+  customApis: ["easyops.custom_api@myAwesomeApi"],
+});
 const spyOnMapCustomApisToNameAndNamespace =
   mapCustomApisToNameAndNamespace as jest.Mock;
 spyOnMapCustomApisToNameAndNamespace.mockReturnValue([
@@ -563,5 +563,60 @@ describe("Router", () => {
       "PUSH"
     );
     expect(messageBlocked).toBe("Are you sure to leave?");
+  });
+  it("should work width layoutBootstrap", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+        layoutType: "business",
+      },
+      routes: [
+        {
+          alias: "page1",
+          bricks: [
+            {
+              bg: false,
+              brick: "base-layout.tpl-base-page-module",
+              iid: "5e111eff838cb",
+              injectDeep: true,
+              portal: false,
+              properties: {
+                dataset: {
+                  testid: "tpl-base-page-module",
+                },
+              },
+              slots: {
+                content: {
+                  bricks: [
+                    {
+                      brick: "basic-bricks.micro-view",
+                      iid: "5e111f3c46f81",
+                      injectDeep: true,
+                      portal: false,
+                      properties: {
+                        pageTitle: "hello world",
+                      },
+                    },
+                  ],
+                  type: "bricks",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    });
+    __setMountRoutesResults(null, new Error("oops"));
+    spyOnScanStoryboard.mockReturnValue({
+      bricks: ["base-layout.tpl-base-page-module", "basic-bricks.micro-view"],
+      customApis: ["easyops.custom_api@myAwesomeApi"],
+    });
+    await router.bootstrap();
+    expect(spyOnHistory.replace).not.toBeCalled();
+    expect(kernel.layoutBootstrap).toBeCalledWith("console");
+    mockFeature.mockReturnValue({ "support-ui-8.0-base-layout": true });
+    router = new Router(kernel);
+    await router.bootstrap();
+    expect(kernel.layoutBootstrap).toBeCalledWith("business");
   });
 });
