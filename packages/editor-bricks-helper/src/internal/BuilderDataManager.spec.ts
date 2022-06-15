@@ -1812,6 +1812,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       {
         id: "B-001",
         type: "bricks",
+        instanceId: "route-a",
         path: "/home",
         children: [
           {
@@ -1827,6 +1828,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
                 brick: "basic-bricks.micro-view",
                 sort: 0,
                 mountPoint: "content",
+                instanceId: "brick-b",
                 children: [
                   {
                     id: "B-004",
@@ -1918,6 +1920,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
+            "instanceId": "route-a",
             "path": "/home",
             "type": "bricks",
           },
@@ -1985,6 +1988,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             ],
             "$$normalized": Object {
               "brick": "basic-bricks.micro-view",
+              "iid": "brick-b",
             },
             "$$parsedEvents": Object {},
             "$$parsedLifeCycle": Object {},
@@ -1993,6 +1997,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             "alias": "micro-view",
             "brick": "basic-bricks.micro-view",
             "id": "B-003",
+            "instanceId": "brick-b",
             "sort": 0,
             "type": "brick",
           },
@@ -2331,7 +2336,9 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
   describe("workbenchNodeAdd should work", () => {
     it("insert a node", () => {
       const node = {
-        dragOverNodeInstanceId: "abc",
+        dragOverInstanceId: "abc",
+        parentInstanceId: "route-a",
+        mountPoint: "content",
         nodeData: {
           brick: "butotn",
           instanceId: null,
@@ -2401,7 +2408,9 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
 
     it("insert a node into root", () => {
       const node = {
-        dragOverNodeInstanceId: "#main-mount-point",
+        dragOverInstanceId: "route-a",
+        parentInstanceId: "route-a",
+        mountPoint: "bricks",
         nodeData: {
           brick: "root-button",
           instanceId: null,
@@ -2473,7 +2482,9 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       const listenOnSnippetApply = jest.fn();
       manager.onSnippetApply(listenOnSnippetApply);
       const node = {
-        dragOverNodeInstanceId: "#main-mount-point",
+        dragOverInstanceId: "route-a",
+        parentInstanceId: "route-a",
+        mountPoint: "bricks",
         dragStatus: "inside",
         nodeData: {
           brick: "",
@@ -2508,7 +2519,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
                 "brick": "div",
                 "lifeCycle": "{\\"onPageLoad\\":[{\\"useProvider\\":\\"a\\"}]}",
                 "mountPoint": "bricks",
-                "parent": undefined,
+                "parent": "route-a",
                 "portal": undefined,
                 "properties": "{}",
                 "sort": undefined,

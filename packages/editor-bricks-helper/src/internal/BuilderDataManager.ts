@@ -522,26 +522,43 @@ export class BuilderDataManager {
   }
 
   workbenchNodeAdd(detail: WorkbenchNodeAdd): void {
-    const { rootId, nodes } = this.data;
-    const { nodeData, dragOverNodeInstanceId, dragStatus } = detail;
+    const { nodes, edges, rootId } = this.data;
+    const {
+      nodeData,
+      dragOverInstanceId,
+      parentInstanceId,
+      dragStatus,
+      mountPoint,
+    } = detail;
     if (nodeData.instanceId) {
       // move
     } else {
       // insert
       const newNodeUid = getUniqueNodeId();
-      const isRoot = dragOverNodeInstanceId === "#main-mount-point";
-      const parentInstanceId = isRoot
-        ? nodes.find((item) => item.$$uid === rootId).instanceId
-        : dragOverNodeInstanceId;
-      const dragOverNodeUid = nodes.find((item) =>
-        isRoot
-          ? item.$$uid === rootId
-          : item.instanceId === dragOverNodeInstanceId
-      )?.$$uid;
+      const overNode = nodes.find(
+        (item) => item.instanceId === dragOverInstanceId
+      );
+      let dragOverNodeUid = overNode.$$uid;
+      let realDragStatus = dragStatus;
+      if (dragOverNodeUid === rootId) {
+        realDragStatus = "inside";
+      } else {
+        const overEdge = edges.find((item) => item.child === dragOverNodeUid);
+        const overParentNode = nodes.find(
+          (item) => item.$$uid === overEdge.parent
+        );
+
+        if (overParentNode.instanceId !== parentInstanceId) {
+          // 如果instanceId不相同, 说明父元素被修改, dragStatus强制等于inside, uid也需要切换成实际父元素的uid
+          realDragStatus = "inside";
+          dragOverNodeUid = nodes.find(
+            (item) => item.instanceId === parentInstanceId
+          ).$$uid;
+        }
+      }
 
       const {
         parentUid,
-        mountPoint,
         sortIndex,
         sortUids: nodeUids,
         sortNodeIds: nodeIds,
@@ -551,12 +568,10 @@ export class BuilderDataManager {
         } as BuilderRuntimeNode,
         dragNodeUid: newNodeUid,
         dragOverNodeUid,
-        dragStatus,
+        dragStatus: realDragStatus,
       });
 
-      nodeData.parent = nodes.find(
-        (item) => item.$$uid === parentUid
-      ).instanceId;
+      nodeData.parent = parentInstanceId;
       nodeData.mountPoint = mountPoint;
 
       if (nodeData.bricks) {
