@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.122.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.121.3...@next-core/brick-kit@2.122.0) (2022-06-16)
+
+
+### Features
+
+* 增加开关控制6.0或8.0UI的切换 ([54007a4](https://github.com/easyops-cn/next-core/commit/54007a43d81e97d0eb62efd28266adc2a2ccd631))
+
+
+
+
+
 ## [2.121.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.121.2...@next-core/brick-kit@2.121.3) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/brick-kit

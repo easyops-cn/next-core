@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.42.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.42.1...@next-core/editor-bricks-helper@0.42.2) (2022-06-16)
+
+
+### Bug Fixes
+
+* **BuilderDataManager:** add node redirect parent error ([ac3e0cc](https://github.com/easyops-cn/next-core/commit/ac3e0cc2ab4115062eb057fce803de23bbd77cbf))
+
+
+
+
+
 ## [0.42.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.42.0...@next-core/editor-bricks-helper@0.42.1) (2022-06-15)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
