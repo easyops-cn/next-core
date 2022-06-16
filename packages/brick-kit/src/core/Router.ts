@@ -10,7 +10,7 @@ import type {
 } from "@next-core/brick-types";
 import {
   restoreDynamicTemplates,
-  scanCustomApisInStoryboard,
+  scanStoryboard,
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
 } from "@next-core/brick-utils";
@@ -254,7 +254,7 @@ export class Router {
         : previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
-    const layoutType: LayoutType = currentApp?.layoutType || "console";
+    let layoutType: LayoutType = currentApp?.layoutType || "console";
 
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
@@ -275,14 +275,25 @@ export class Router {
     };
 
     if (storyboard) {
+      const { bricks, customApis } = scanStoryboard(storyboard);
       if (appChanged && currentApp.id && isLoggedIn()) {
-        const usedCustomApis: CustomApiInfo[] = mapCustomApisToNameAndNamespace(
-          scanCustomApisInStoryboard(storyboard)
-        );
+        const usedCustomApis: CustomApiInfo[] =
+          mapCustomApisToNameAndNamespace(customApis);
         if (usedCustomApis?.length) {
           await this.kernel.loadMicroAppApiOrchestrationAsync(usedCustomApis);
         }
       }
+      layoutType =
+        bricks.some((brick) =>
+          [
+            "base-layout.tpl-base-page-module",
+            "base-layout.tpl-homepage-base-module",
+          ].includes(brick)
+        ) &&
+        layoutType === "business" &&
+        !this.featureFlags["support-ui-8.0-base-layout"]
+          ? "console"
+          : layoutType;
 
       const mountRoutesResult: MountRoutesResult = {
         main: [],
