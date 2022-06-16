@@ -544,8 +544,10 @@ export class BuilderDataManager {
         realDragStatus = "inside";
       } else {
         const overEdge = edges.find((item) => item.child === dragOverNodeUid);
-        const overParentNode = nodes.find(
-          (item) => item.$$uid === overEdge.parent
+        const overParentNode = nodes.find((item) =>
+          dragStatus === "inside"
+            ? item.$$uid === overEdge.child
+            : item.$$uid === overEdge.parent
         );
 
         if (overParentNode.instanceId !== parentInstanceId) {

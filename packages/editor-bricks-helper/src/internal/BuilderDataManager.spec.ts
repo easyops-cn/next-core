@@ -2378,7 +2378,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
           child: 5,
           mountPoint: "content",
           parent: 2,
-          sort: 1,
+          sort: 0,
         },
         {
           $$isTemplateDelegated: true,
@@ -2386,7 +2386,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
           child: 7,
           mountPoint: "content",
           parent: 2,
-          sort: 2,
+          sort: 1,
         },
         {
           $$isTemplateDelegated: undefined,
@@ -2397,11 +2397,11 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
           sort: 0,
         },
         {
-          $$isTemplateDelegated: true,
+          $$isTemplateDelegated: undefined,
           child: 8,
           mountPoint: "content",
-          parent: 2,
-          sort: 2,
+          parent: 1,
+          sort: 1,
         },
       ]);
     });
