@@ -69,7 +69,8 @@ export function getOptions(): RepoOptions {
   const templateRepoName = "next-template-repo";
   const templateRepoZipUrl =
     flags.localrepo === undefined || flags.localrepo === ""
-      ? `https://codeload.github.com/easyops-cn/${templateRepoName}/zip/refs/heads/master`
+      ? // ? `https://codeload.github.com/easyops-cn/${templateRepoName}/zip/refs/heads/master`
+        `https://github.com/easyops-cn/${templateRepoName}/archive/refs/heads/master.zip`
       : flags.localrepo;
   const zipFilename = `${templateRepoName}-${Date.now()}.zip`;
   const zipFilePath = path.join(os.tmpdir(), zipFilename);
