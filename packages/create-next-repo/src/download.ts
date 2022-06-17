@@ -25,8 +25,21 @@ export function download(url: string, dest: string): Promise<void> {
       LogLevel.DEFAULT,
       `Downloading template repo from ${url} ...`
     );
-    (url.startsWith("https") ? https : http)
-      .get(url, options, function (response) {
+    const onError = (err: Error) => {
+      customConsole.error(LogLevel.DEFAULT, chalk.red("Failed to download!"));
+      cleanDownload(dest).catch((err) => {
+        customConsole.error(LogLevel.VERBOSE, err);
+      });
+      reject(err);
+    };
+    followRedirect(
+      url,
+      options,
+      (response) => {
+        if (response.statusCode !== 200) {
+          onError(new Error(`Download server returns ${response.statusCode}`));
+          return;
+        }
         response.pipe(file);
         file.on("finish", function () {
           customConsole.log(
@@ -35,13 +48,32 @@ export function download(url: string, dest: string): Promise<void> {
           );
           resolve();
         });
-      })
-      .on("error", function (err) {
-        customConsole.error(LogLevel.DEFAULT, chalk.red("Failed to download!"));
-        cleanDownload(dest).catch((err) => {
-          customConsole.error(LogLevel.VERBOSE, err);
-        });
-        reject(err);
-      });
+      },
+      onError
+    );
   });
+}
+
+function followRedirect(
+  url: string,
+  options: http.RequestOptions,
+  callback: (res: http.IncomingMessage) => void,
+  onError: (err: Error) => void,
+  maxRedirect = 10
+): http.ClientRequest {
+  return (url.startsWith("https") ? https : http)
+    .get(url, options, function (response) {
+      if ([301, 302, 303].includes(response.statusCode)) {
+        const redirect = response.headers.location;
+        maxRedirect--;
+        customConsole.log(
+          LogLevel.DEFAULT,
+          `Downloading template repo redirected to ${redirect} ...`
+        );
+        followRedirect(redirect, options, callback, onError, maxRedirect);
+      } else {
+        callback(response);
+      }
+    })
+    .on("error", onError);
 }
