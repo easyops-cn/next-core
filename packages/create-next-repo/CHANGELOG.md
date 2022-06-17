@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.9](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.8...@next-core/create-next-repo@1.4.9) (2022-06-17)
+
+
+### Bug Fixes
+
+* follow redirect when downloading from github ([8d6ffef](https://github.com/easyops-cn/next-core/commit/8d6ffeff713e4b8192fcd90ac572179756492d4d))
+
+
+
+
+
 ## [1.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.7...@next-core/create-next-repo@1.4.8) (2022-06-17)
 
 
