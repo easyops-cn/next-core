@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.0...@next-core/jest-config-factory@0.4.1) (2022-06-20)
+
+
+### Bug Fixes
+
+* **jest-config-factory:** add lazy-bricks  name mapper ([39e3a94](https://github.com/easyops-cn/next-core/commit/39e3a94b7e0b92fcfc1caa400e8a7c71d4866c9d))
+
+
+
+
+
 # [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.3.0...@next-core/jest-config-factory@0.4.0) (2022-05-26)
 
 
