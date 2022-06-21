@@ -62,6 +62,10 @@
     "yargs": "^17.5.0"
   },
   "devDependencies": {
+    "@babel/generator": "^7.18.2",
+    "@babel/parser": "^7.18.5",
+    "@babel/traverse": "^7.18.5",
+    "@babel/types": "^7.18.4",
     "@size-limit/file": "^7.0.8",
     "@types/d3": "^6.7.5",
     "@types/dompurify": "^2.3.3",
@@ -79,6 +83,7 @@
     "@types/react-test-renderer": "^17.0.2",
     "@types/react-transition-group": "^4.4.4",
     "enzyme": "^3.11.0",
-    "lolex": "^5.1.2"
+    "lolex": "^5.1.2",
+    "prettier": "^2.7.1"
   }
 }

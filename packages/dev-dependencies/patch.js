@@ -25,6 +25,7 @@ const {
   addPreBuildScriptForBricks,
   enableNextLibsRenovate,
   removeRenovateLegacyBaseBranches,
+  migrateLazyBricksWithJest,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -179,6 +180,10 @@ module.exports = async function patch() {
       // Use the very current version of `0.7.19` to change nothing currently.
       "ua-parser-js": "0.7.19",
     });
+  }
+
+  if (semver.lt(currentRenewVersion, "1.13.21")) {
+    migrateLazyBricksWithJest();
   }
 
   updateDevDependenciesVersion();
