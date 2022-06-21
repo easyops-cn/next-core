@@ -2406,6 +2406,78 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       ]);
     });
 
+    it("insert a node after micro-view", () => {
+      const node = {
+        dragOverInstanceId: "brick-b",
+        parentInstanceId: "abc",
+        mountPoint: "content",
+        nodeData: {
+          brick: "div",
+          instanceId: null,
+          id: null,
+          type: "brick",
+        },
+        dragStatus: "top",
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 2,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 3,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          child: 8,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+      ]);
+    });
+
     it("insert a node into root", () => {
       const node = {
         dragOverInstanceId: "route-a",

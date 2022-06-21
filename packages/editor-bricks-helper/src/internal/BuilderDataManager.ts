@@ -508,7 +508,8 @@ export class BuilderDataManager {
       sortIndex = dragStatus === "top" ? overIndex : overIndex + 1;
       // 排序修正
       sortNodeIds.splice(sortIndex, 0, nodeData.id);
-      sortUids.splice(sortIndex, 0, dragEdge?.child ?? null);
+      // 如果是新增的情况下, 没有edge, 则取dragNodeUid(新创建的uid)
+      sortUids.splice(sortIndex, 0, dragEdge?.child ?? dragNodeUid);
     }
 
     return {
