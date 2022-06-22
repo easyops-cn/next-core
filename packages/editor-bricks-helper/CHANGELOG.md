@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.42.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.42.2...@next-core/editor-bricks-helper@0.42.3) (2022-06-22)
+
+
+### Bug Fixes
+
+* **BuilderDataManage:**  sortUid incorrect after add node ([b7d2c1b](https://github.com/easyops-cn/next-core/commit/b7d2c1ba615f8242f46261218c3dbb7b36db2441))
+
+
+
+
+
 ## [0.42.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.42.1...@next-core/editor-bricks-helper@0.42.2) (2022-06-16)
 
 
