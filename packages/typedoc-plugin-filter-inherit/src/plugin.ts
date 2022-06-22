@@ -16,11 +16,12 @@ export class FilterInheritPlugin extends ConverterComponent {
   private allowInheritedList: string[];
 
   private inheritedReflections: DeclarationReflection[];
+  private excludesInheritedList: Map<string, Map<string, string[]>>;
 
   /**
    * Create a new FilterInheritPlugin instance.
    */
-  initialize() {
+  initialize(): void {
     this.listenTo(this.owner, Converter.EVENT_BEGIN, this.onBegin);
     this.listenTo(
       this.owner,
@@ -35,10 +36,11 @@ export class FilterInheritPlugin extends ConverterComponent {
     );
   }
 
-  onBegin() {
+  onBegin(): void {
     const options = this.application.options.getRawValues();
     this.allowInheritedList = options[ALLOW_INHERIT_OPTIONS] || [];
     this.inheritedReflections = [];
+    this.excludesInheritedList = new Map();
   }
 
   /**
@@ -54,8 +56,9 @@ export class FilterInheritPlugin extends ConverterComponent {
     context: Context,
     reflection: DeclarationReflection,
     node?
-  ) {
+  ): void {
     if (
+      this.allowInheritedList.length &&
       reflection.inheritedFrom &&
       reflection.parent &&
       reflection.parent.kindOf(ReflectionKind.ClassOrInterface) &&
@@ -64,6 +67,23 @@ export class FilterInheritPlugin extends ConverterComponent {
           reflection.overwrites !== reflection.inheritedFrom))
     ) {
       this.inheritedReflections.push(reflection);
+    }
+
+    if (reflection.comment?.hasTag("excludesinherit")) {
+      const { text } = reflection.comment.getTag("excludesinherit");
+      const fields = text.trim().split(/\s+/);
+
+      const fileName = reflection.sources?.[0]?.fileName;
+      const find = this.excludesInheritedList.get(fileName);
+
+      if (find) {
+        find.set(reflection.name, fields);
+      } else {
+        const map = new Map();
+        this.excludesInheritedList.set(fileName, map);
+
+        map.set(reflection.name, fields);
+      }
     }
   }
 
@@ -74,12 +94,28 @@ export class FilterInheritPlugin extends ConverterComponent {
    *
    * @param context The context object describing the current state the converter is in.
    */
-  private onBeginResolve(context: Context) {
-    this.inheritedReflections.forEach((refletion: any) => {
+  private onBeginResolve(context: Context): void {
+    this.inheritedReflections.forEach((reflection: any) => {
       const project = context.project;
-      const result = refletion.inheritedFrom?.name.match(/(\w+)\.(\w+)/);
+      const result = reflection.inheritedFrom?.name.match(/(\w+)\.(\w+)/);
       if (!result || (result && !this.allowInheritedList.includes(result[1]))) {
-        project.removeReflection(refletion);
+        project.removeReflection(reflection);
+      }
+    });
+
+    const all = ReflectionKind.Reference * 2 - 1;
+    const reflectionList = context.project.getReflectionsByKind(all);
+
+    reflectionList.forEach((reflection: DeclarationReflection) => {
+      if (reflection.inheritedFrom && reflection.parent) {
+        const fieldList =
+          this.excludesInheritedList
+            .get(reflection.parent?.sources?.[0]?.fileName)
+            ?.get(reflection.parent.name) || [];
+
+        if (fieldList.includes(reflection.name)) {
+          context.project.removeReflection(reflection);
+        }
       }
     });
   }
