@@ -89,6 +89,7 @@
   --special-title-font-size: 20px;
   --special-title-font-size-small: 18px;
   --normal-font-size: 14px;
+  --title-font-size-larger: 22px;
   --title-font-size: 16px;
   --sub-menu-title-font-size: 18px;
   --card-title-font-size: 16px;
@@ -172,7 +173,7 @@
 
   /* 8.0 框架 */
   --v8-top-navigation-bg: var(--palette-gray-1);
-  --v8-top-menu-item-hover: rgba(0, 0, 0, 0.03);
+  --v8-top-menu-item-hover: var(--palette-gray-3);
   --v8-top-menu-item-selected-bg: var(--palette-gray-3);
   --v8-left-menu-bg: rgba(255, 255, 255, 0.3);
   --v8-left-menu-hover-bg: rgba(255, 255, 255, 0.8);
