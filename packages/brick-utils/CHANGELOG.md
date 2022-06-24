@@ -5,14 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.37.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.17...@next-core/brick-utils@2.37.18) (2022-06-24)
 
-
 ### Bug Fixes
 
-* fix types after upgrading typescript to 4.7 ([29adeb6](https://github.com/easyops-cn/next-core/commit/29adeb6eeb41a00d319cca3ca2d3617723c2ca29))
-
-
-
-
+- fix types after upgrading typescript to 4.7 ([29adeb6](https://github.com/easyops-cn/next-core/commit/29adeb6eeb41a00d319cca3ca2d3617723c2ca29))
 
 ## [2.37.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.16...@next-core/brick-utils@2.37.17) (2022-06-06)
 

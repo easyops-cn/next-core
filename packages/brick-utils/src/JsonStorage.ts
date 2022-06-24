@@ -9,15 +9,15 @@ export class JsonStorage<U = Record<string, unknown>> {
     private prefix: string = "brick-next-"
   ) {}
 
-  setItem<T extends string & keyof U>(name: T, value: U[T]): void {
+  setItem<T extends keyof U>(name: T, value: U[T]): void {
     this.storage.setItem(this.prefix + name, JSON.stringify(value));
   }
 
-  getItem<T extends string & keyof U>(name: T): U[T] {
+  getItem<T extends keyof U>(name: T): U[T] {
     return JSON.parse(this.storage.getItem(this.prefix + name)) as U[T];
   }
 
-  removeItem<T extends string & keyof U>(name: T): void {
+  removeItem<T extends keyof U>(name: T): void {
     return this.storage.removeItem(this.prefix + name);
   }
 

@@ -30,7 +30,7 @@
     "https-proxy-agent": "^5.0.1",
     "meow": "^9.0.0",
     "node-stream-zip": "^1.15.0",
-    "replace-in-file": "^6.3.3"
+    "replace-in-file": "^6.3.2"
   },
   "engines": {
     "node": ">=12.0.0"

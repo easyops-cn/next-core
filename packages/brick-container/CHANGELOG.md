@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.68.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.68.15...@next-core/brick-container@2.68.16) (2022-06-23)
 
 ### Bug Fixes

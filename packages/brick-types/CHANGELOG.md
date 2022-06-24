@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 # [2.62.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.61.7...@next-core/brick-types@2.62.0) (2022-05-26)
 
 ### Features

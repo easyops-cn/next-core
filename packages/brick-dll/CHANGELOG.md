@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-dll
 
-
-
-
-
 ## [2.31.49](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.31.48...@next-core/brick-dll@2.31.49) (2022-06-23)
 
 **Note:** Version bump only for package @next-core/brick-dll

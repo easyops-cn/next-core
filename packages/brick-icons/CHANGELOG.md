@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-icons
 
-
-
-
-
 ## [2.26.40](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.26.39...@next-core/brick-icons@2.26.40) (2022-06-14)
 
 ### Bug Fixes
