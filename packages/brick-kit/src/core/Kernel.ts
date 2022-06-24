@@ -527,6 +527,7 @@ export class Kernel {
     legacy,
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
+    getRuntime().applyPageTitle(null);
     if (this.currentLayout !== "console") {
       // No bars should be unset for the business layout.
       return;
@@ -538,7 +539,6 @@ export class Kernel {
       // 对于 Legacy 页面，仅当切换应用时重设面包屑。
       this.appBar.setBreadcrumb(null);
     }
-    getRuntime().applyPageTitle(null);
   }
 
   toggleLegacyIframe(visible: boolean): void {
