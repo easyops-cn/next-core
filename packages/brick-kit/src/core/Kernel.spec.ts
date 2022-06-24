@@ -590,7 +590,7 @@ describe("Kernel", () => {
     kernel.unsetBars({ appChanged: true });
     expect(kernel.toggleBars).toBeCalled();
     expect(kernel.menuBar.resetAppMenu).not.toBeCalled();
-    expect(spyOnApplyPageTitle).not.toBeCalled();
+    expect(spyOnApplyPageTitle).toBeCalledWith(null);
     expect(kernel.appBar.setBreadcrumb).not.toBeCalled();
   });
 
