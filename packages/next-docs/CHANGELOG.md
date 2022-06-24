@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/next-docs
 
-
-
-
-
 ## [1.2.268](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.267...@next-core/next-docs@1.2.268) (2022-06-23)
 
 **Note:** Version bump only for package @next-core/next-docs

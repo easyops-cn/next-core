@@ -5,14 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.9.11](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.9.10...@next-core/babel-preset-next@0.9.11) (2022-06-24)
 
-
 ### Bug Fixes
 
-* use corejs 3.23 ([ff1c31d](https://github.com/easyops-cn/next-core/commit/ff1c31d31ae6fd34da0bd33fb18fa114425aa485))
-
-
-
-
+- use corejs 3.23 ([ff1c31d](https://github.com/easyops-cn/next-core/commit/ff1c31d31ae6fd34da0bd33fb18fa114425aa485))
 
 ## [0.9.10](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.9.9...@next-core/babel-preset-next@0.9.10) (2022-05-09)
 
