@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.35](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@1.0.34...@next-core/eslint-config-next@1.0.35) (2022-06-24)
+
+
+### Bug Fixes
+
+* lint `*.config.ts` as node ([662de02](https://github.com/easyops-cn/next-core/commit/662de0254c8d75e3e5591d4a957d66b44a8a077a))
+
+
+
+
+
 ## [1.0.34](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@1.0.33...@next-core/eslint-config-next@1.0.34) (2022-05-13)
 
 **Note:** Version bump only for package @next-core/eslint-config-next

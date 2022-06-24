@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.17](https://github.com/easyops-cn/next-core/compare/@next-core/dll-differ@1.1.16...@next-core/dll-differ@1.1.17) (2022-06-24)
+
+**Note:** Version bump only for package @next-core/dll-differ
+
+
+
+
+
 ## [1.1.16](https://github.com/easyops-cn/next-core/compare/@next-core/dll-differ@1.1.15...@next-core/dll-differ@1.1.16) (2022-05-09)
 
 **Note:** Version bump only for package @next-core/dll-differ
