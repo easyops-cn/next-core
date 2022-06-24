@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.18...@next-core/brick-utils@2.37.19) (2022-06-24)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+
+
+
+
 ## [2.37.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.17...@next-core/brick-utils@2.37.18) (2022-06-24)
 
 ### Bug Fixes
