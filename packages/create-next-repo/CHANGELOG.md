@@ -5,33 +5,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.4.9](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.8...@next-core/create-next-repo@1.4.9) (2022-06-17)
 
-
 ### Bug Fixes
 
-* follow redirect when downloading from github ([8d6ffef](https://github.com/easyops-cn/next-core/commit/8d6ffeff713e4b8192fcd90ac572179756492d4d))
-
-
-
-
+- follow redirect when downloading from github ([8d6ffef](https://github.com/easyops-cn/next-core/commit/8d6ffeff713e4b8192fcd90ac572179756492d4d))
 
 ## [1.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.7...@next-core/create-next-repo@1.4.8) (2022-06-17)
 
-
 ### Bug Fixes
 
-* fix github download url ([26e90f5](https://github.com/easyops-cn/next-core/commit/26e90f5b2ad87fc323df597db95e30ff89aeffa7))
-
-
-
-
+- fix github download url ([26e90f5](https://github.com/easyops-cn/next-core/commit/26e90f5b2ad87fc323df597db95e30ff89aeffa7))
 
 ## [1.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.6...@next-core/create-next-repo@1.4.7) (2022-05-09)
 
 **Note:** Version bump only for package @next-core/create-next-repo
-
-
-
-
 
 ## [1.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.5...@next-core/create-next-repo@1.4.6) (2022-04-21)
 

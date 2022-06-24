@@ -7,116 +7,63 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.122.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.121.3...@next-core/brick-kit@2.122.0) (2022-06-16)
-
 
 ### Features
 
-* 增加开关控制6.0或8.0UI的切换 ([54007a4](https://github.com/easyops-cn/next-core/commit/54007a43d81e97d0eb62efd28266adc2a2ccd631))
-
-
-
-
+- 增加开关控制 6.0 或 8.0UI 的切换 ([54007a4](https://github.com/easyops-cn/next-core/commit/54007a43d81e97d0eb62efd28266adc2a2ccd631))
 
 ## [2.121.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.121.2...@next-core/brick-kit@2.121.3) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.121.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.121.1...@next-core/brick-kit@2.121.2) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.121.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.121.0...@next-core/brick-kit@2.121.1) (2022-06-06)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.121.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.120.1...@next-core/brick-kit@2.121.0) (2022-06-01)
-
 
 ### Features
 
-* **MessageDispatcher:** call error callbacks on WS error event ([d89a993](https://github.com/easyops-cn/next-core/commit/d89a993347107b8bc15e2e54cce68a620374d451))
-
-
-
-
+- **MessageDispatcher:** call error callbacks on WS error event ([d89a993](https://github.com/easyops-cn/next-core/commit/d89a993347107b8bc15e2e54cce68a620374d451))
 
 ## [2.120.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.120.0...@next-core/brick-kit@2.120.1) (2022-05-27)
 
-
 ### Bug Fixes
 
-* theme dark ([8ff6958](https://github.com/easyops-cn/next-core/commit/8ff6958e134c199e58ec4e026003839dcbc5ea57))
-* 兼容message事件传多个参数的情况 ([fbde026](https://github.com/easyops-cn/next-core/commit/fbde026b51f8bd2d4a83b3c2ac3ac93bf6515179))
-* 支持message.*传任意多个参数 ([abbfaeb](https://github.com/easyops-cn/next-core/commit/abbfaeb4752b408005a82e6a6cf57505b9d3aeb8))
-
-
-
-
+- theme dark ([8ff6958](https://github.com/easyops-cn/next-core/commit/8ff6958e134c199e58ec4e026003839dcbc5ea57))
+- 兼容 message 事件传多个参数的情况 ([fbde026](https://github.com/easyops-cn/next-core/commit/fbde026b51f8bd2d4a83b3c2ac3ac93bf6515179))
+- 支持 message.\*传任意多个参数 ([abbfaeb](https://github.com/easyops-cn/next-core/commit/abbfaeb4752b408005a82e6a6cf57505b9d3aeb8))
 
 # [2.120.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.119.1...@next-core/brick-kit@2.120.0) (2022-05-26)
 
-
 ### Features
 
-* support lifeCycle.onScrollIntoView ([4e3a4ec](https://github.com/easyops-cn/next-core/commit/4e3a4ec99a78b312c6efe595d82e214a843458d0))
-
-
-
-
+- support lifeCycle.onScrollIntoView ([4e3a4ec](https://github.com/easyops-cn/next-core/commit/4e3a4ec99a78b312c6efe595d82e214a843458d0))
 
 ## [2.119.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.119.0...@next-core/brick-kit@2.119.1) (2022-05-13)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.119.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.7...@next-core/brick-kit@2.119.0) (2022-05-11)
-
 
 ### Features
 
-* **mock:** add note ([74c0031](https://github.com/easyops-cn/next-core/commit/74c0031c81ded97014384213d99fedce8ed55d54))
-* **mock:** update mock rule ([c8fe9fc](https://github.com/easyops-cn/next-core/commit/c8fe9fccb46117330e1ff2ef42a18bef8dfff864))
-* **mock:** update mock rule ([5898ecf](https://github.com/easyops-cn/next-core/commit/5898ecfd604ca418feeb954a6091e3b940a1e867))
-
-
-
-
+- **mock:** add note ([74c0031](https://github.com/easyops-cn/next-core/commit/74c0031c81ded97014384213d99fedce8ed55d54))
+- **mock:** update mock rule ([c8fe9fc](https://github.com/easyops-cn/next-core/commit/c8fe9fccb46117330e1ff2ef42a18bef8dfff864))
+- **mock:** update mock rule ([5898ecf](https://github.com/easyops-cn/next-core/commit/5898ecfd604ca418feeb954a6091e3b940a1e867))
 
 ## [2.118.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.6...@next-core/brick-kit@2.118.7) (2022-05-10)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.118.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.5...@next-core/brick-kit@2.118.6) (2022-05-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.118.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.118.4...@next-core/brick-kit@2.118.5) (2022-05-07)
 

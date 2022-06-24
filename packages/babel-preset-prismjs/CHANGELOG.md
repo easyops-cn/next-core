@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/babel-preset-prismjs
 
-
-
-
-
 ## [1.0.13](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-prismjs@1.0.12...@next-core/babel-preset-prismjs@1.0.13) (2022-04-21)
 
 **Note:** Version bump only for package @next-core/babel-preset-prismjs

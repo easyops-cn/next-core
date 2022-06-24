@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-dll/echarts
 
-
-
-
-
 ## [2.0.60](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.59...@next-dll/echarts@2.0.60) (2022-04-21)
 
 **Note:** Version bump only for package @next-dll/echarts

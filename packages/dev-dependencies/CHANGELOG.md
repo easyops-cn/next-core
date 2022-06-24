@@ -7,210 +7,107 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 # [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.22...@next-core/dev-dependencies@1.14.0) (2022-06-22)
-
 
 ### Features
 
-* **dev-deps:** remove mock lazy bricks form index.spec.ts ([d3af8dc](https://github.com/easyops-cn/next-core/commit/d3af8dc16e23ada2f686b04ef45a7a48594b8d02))
-
-
-
-
+- **dev-deps:** remove mock lazy bricks form index.spec.ts ([d3af8dc](https://github.com/easyops-cn/next-core/commit/d3af8dc16e23ada2f686b04ef45a7a48594b8d02))
 
 ## [1.13.22](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.21...@next-core/dev-dependencies@1.13.22) (2022-06-22)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.21](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.20...@next-core/dev-dependencies@1.13.21) (2022-06-20)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.20](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.19...@next-core/dev-dependencies@1.13.20) (2022-06-16)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.19](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.18...@next-core/dev-dependencies@1.13.19) (2022-06-15)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.18](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.17...@next-core/dev-dependencies@1.13.18) (2022-06-14)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.17](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.16...@next-core/dev-dependencies@1.13.17) (2022-06-14)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.16](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.15...@next-core/dev-dependencies@1.13.16) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.15](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.14...@next-core/dev-dependencies@1.13.15) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.14](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.13...@next-core/dev-dependencies@1.13.14) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.13](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.12...@next-core/dev-dependencies@1.13.13) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.12](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.11...@next-core/dev-dependencies@1.13.12) (2022-06-06)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.11](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.10...@next-core/dev-dependencies@1.13.11) (2022-06-02)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.10](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.9...@next-core/dev-dependencies@1.13.10) (2022-06-01)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.9](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.8...@next-core/dev-dependencies@1.13.9) (2022-05-30)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.8](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.7...@next-core/dev-dependencies@1.13.8) (2022-05-27)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.7](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.6...@next-core/dev-dependencies@1.13.7) (2022-05-26)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.6](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.5...@next-core/dev-dependencies@1.13.6) (2022-05-18)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.5](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.4...@next-core/dev-dependencies@1.13.5) (2022-05-17)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.4](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.3...@next-core/dev-dependencies@1.13.4) (2022-05-13)
-
 
 ### Bug Fixes
 
-* adopt @testing-library/react v12 ([aa3485f](https://github.com/easyops-cn/next-core/commit/aa3485fa1d290d7a0a078fa4f0ecc1153aeecc31))
-
-
-
-
+- adopt @testing-library/react v12 ([aa3485f](https://github.com/easyops-cn/next-core/commit/aa3485fa1d290d7a0a078fa4f0ecc1153aeecc31))
 
 ## [1.13.3](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.2...@next-core/dev-dependencies@1.13.3) (2022-05-11)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 ## [1.13.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.1...@next-core/dev-dependencies@1.13.2) (2022-05-10)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
-
-
-
-
 
 ## [1.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.13.0...@next-core/dev-dependencies@1.13.1) (2022-05-09)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
 
-
-
-
-
 # [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.12.213...@next-core/dev-dependencies@1.13.0) (2022-05-09)
-
 
 ### Features
 
-* adopt jest v28 ([670d326](https://github.com/easyops-cn/next-core/commit/670d326ff9cc30b3b6d0da8fbbac445c0120d405))
-
-
-
-
+- adopt jest v28 ([670d326](https://github.com/easyops-cn/next-core/commit/670d326ff9cc30b3b6d0da8fbbac445c0120d405))
 
 ## [1.12.213](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.12.212...@next-core/dev-dependencies@1.12.213) (2022-05-07)
 

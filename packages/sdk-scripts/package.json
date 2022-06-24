@@ -35,7 +35,7 @@
     "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
     "meow": "^9.0.0",
-    "prettier": "^2.6.2",
+    "prettier": "^2.7.1",
     "semver": "^7.3.7"
   },
   "engines": {

@@ -5,202 +5,112 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.24.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.7...@next-core/custom-antd-styles@1.24.8) (2022-05-27)
 
-
 ### Bug Fixes
 
-* theme dark ([8ff6958](https://github.com/easyops-cn/next-core/commit/8ff6958e134c199e58ec4e026003839dcbc5ea57))
-
-
-
-
+- theme dark ([8ff6958](https://github.com/easyops-cn/next-core/commit/8ff6958e134c199e58ec4e026003839dcbc5ea57))
 
 ## [1.24.7](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.6...@next-core/custom-antd-styles@1.24.7) (2022-05-18)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
 
-
-
-
-
 ## [1.24.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.5...@next-core/custom-antd-styles@1.24.6) (2022-05-17)
-
 
 ### Bug Fixes
 
-* **general-select:** 修改select样式 ([3bfd37f](https://github.com/easyops-cn/next-core/commit/3bfd37f06fd51c1a4ab22f979ed687dd9787fc2b))
-
-
-
-
+- **general-select:** 修改 select 样式 ([3bfd37f](https://github.com/easyops-cn/next-core/commit/3bfd37f06fd51c1a4ab22f979ed687dd9787fc2b))
 
 ## [1.24.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.4...@next-core/custom-antd-styles@1.24.5) (2022-04-15)
 
-
 ### Bug Fixes
 
-* **general-radio:** 修改颜色变量 ([2091b19](https://github.com/easyops-cn/next-core/commit/2091b1947d627e68b4c7b29c05c161cc96383af9))
-
-
-
-
+- **general-radio:** 修改颜色变量 ([2091b19](https://github.com/easyops-cn/next-core/commit/2091b1947d627e68b4c7b29c05c161cc96383af9))
 
 ## [1.24.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.3...@next-core/custom-antd-styles@1.24.4) (2022-04-14)
 
-
 ### Bug Fixes
 
-* **general-modal:** 给模态框加一个border ([323fb06](https://github.com/easyops-cn/next-core/commit/323fb067c3da265255938d8eb1911713fb092f86))
-* **general-radio:** 适配type:button的radio禁用态背景色 ([33c8474](https://github.com/easyops-cn/next-core/commit/33c847466b385055151dd49cd07450402c2c5978))
-* **loading-container:** 适配加载容器的暗色模式，修改颜色变量 ([9ceb80e](https://github.com/easyops-cn/next-core/commit/9ceb80e4de004b0d17cee2e3d38290afc0f4da18))
-* **loading-container:** 适配暗色模式，修改加载容器的图标样式 ([754c4b7](https://github.com/easyops-cn/next-core/commit/754c4b78671766c959112c2bcaf1f1d6198483f3))
-
-
-
-
+- **general-modal:** 给模态框加一个 border ([323fb06](https://github.com/easyops-cn/next-core/commit/323fb067c3da265255938d8eb1911713fb092f86))
+- **general-radio:** 适配 type:button 的 radio 禁用态背景色 ([33c8474](https://github.com/easyops-cn/next-core/commit/33c847466b385055151dd49cd07450402c2c5978))
+- **loading-container:** 适配加载容器的暗色模式，修改颜色变量 ([9ceb80e](https://github.com/easyops-cn/next-core/commit/9ceb80e4de004b0d17cee2e3d38290afc0f4da18))
+- **loading-container:** 适配暗色模式，修改加载容器的图标样式 ([754c4b7](https://github.com/easyops-cn/next-core/commit/754c4b78671766c959112c2bcaf1f1d6198483f3))
 
 ## [1.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.2...@next-core/custom-antd-styles@1.24.3) (2022-04-07)
 
-
 ### Bug Fixes
 
-* 自定义rate的颜色 refs BRICK_STORE-2660 ([5e59eab](https://github.com/easyops-cn/next-core/commit/5e59eab72b8b2f3a95fd4776fd080e402044dba4))
-
-
-
-
+- 自定义 rate 的颜色 refs BRICK_STORE-2660 ([5e59eab](https://github.com/easyops-cn/next-core/commit/5e59eab72b8b2f3a95fd4776fd080e402044dba4))
 
 ## [1.24.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.1...@next-core/custom-antd-styles@1.24.2) (2022-04-07)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
 
-
-
-
-
 ## [1.24.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.0...@next-core/custom-antd-styles@1.24.1) (2022-03-29)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
 
-
-
-
-
 # [1.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.21...@next-core/custom-antd-styles@1.24.0) (2022-03-29)
-
 
 ### Features
 
-* adapt to the dark theme ([22b62ad](https://github.com/easyops-cn/next-core/commit/22b62adbfef71227d3769fce249e95e2d5080f89)), closes [Refs#BRICK_STORE-2651](https://github.com/Refs/issues/BRICK_STORE-2651)
-
-
-
-
+- adapt to the dark theme ([22b62ad](https://github.com/easyops-cn/next-core/commit/22b62adbfef71227d3769fce249e95e2d5080f89)), closes [Refs#BRICK_STORE-2651](https://github.com/Refs/issues/BRICK_STORE-2651)
 
 ## [1.23.21](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.20...@next-core/custom-antd-styles@1.23.21) (2022-03-28)
 
-
 ### Bug Fixes
 
-* refine style ([4bf9512](https://github.com/easyops-cn/next-core/commit/4bf9512338d7a7d5111402bad314d273bc69c4d2))
-
-
-
-
+- refine style ([4bf9512](https://github.com/easyops-cn/next-core/commit/4bf9512338d7a7d5111402bad314d273bc69c4d2))
 
 ## [1.23.20](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.19...@next-core/custom-antd-styles@1.23.20) (2022-03-18)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
 
-
-
-
-
 ## [1.23.19](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.18...@next-core/custom-antd-styles@1.23.19) (2022-03-16)
-
 
 ### Bug Fixes
 
-* style refine ([f5b2f73](https://github.com/easyops-cn/next-core/commit/f5b2f73c7a49b6fc7a0878c29f1127f5fa036ada))
-
-
-
-
+- style refine ([f5b2f73](https://github.com/easyops-cn/next-core/commit/f5b2f73c7a49b6fc7a0878c29f1127f5fa036ada))
 
 ## [1.23.18](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.17...@next-core/custom-antd-styles@1.23.18) (2022-03-15)
 
-
 ### Bug Fixes
 
-* switch dark theme ([00ebb32](https://github.com/easyops-cn/next-core/commit/00ebb32101d86dcf05942746a25258cb9e84b699))
-
-
-
-
+- switch dark theme ([00ebb32](https://github.com/easyops-cn/next-core/commit/00ebb32101d86dcf05942746a25258cb9e84b699))
 
 ## [1.23.17](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.16...@next-core/custom-antd-styles@1.23.17) (2022-03-11)
 
-
 ### Bug Fixes
 
-* style refine ([079269f](https://github.com/easyops-cn/next-core/commit/079269fd2f31602fd48dda4e4377c2bd56b13b3c))
-* theme style ([40437b9](https://github.com/easyops-cn/next-core/commit/40437b9804870a494c287ef3355a12f55d9ec2e3))
-
-
-
-
+- style refine ([079269f](https://github.com/easyops-cn/next-core/commit/079269fd2f31602fd48dda4e4377c2bd56b13b3c))
+- theme style ([40437b9](https://github.com/easyops-cn/next-core/commit/40437b9804870a494c287ef3355a12f55d9ec2e3))
 
 ## [1.23.16](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.15...@next-core/custom-antd-styles@1.23.16) (2022-03-08)
 
-
 ### Bug Fixes
 
-* style modify ([5a0ed70](https://github.com/easyops-cn/next-core/commit/5a0ed708df404bd2458a302f93c2164e239ce822))
-
-
-
-
+- style modify ([5a0ed70](https://github.com/easyops-cn/next-core/commit/5a0ed708df404bd2458a302f93c2164e239ce822))
 
 ## [1.23.15](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.14...@next-core/custom-antd-styles@1.23.15) (2022-03-07)
 
-
 ### Bug Fixes
 
-* style refine ([3200d76](https://github.com/easyops-cn/next-core/commit/3200d76695f30b71505914f3c3bf1e321ee4c32d))
-
-
-
-
+- style refine ([3200d76](https://github.com/easyops-cn/next-core/commit/3200d76695f30b71505914f3c3bf1e321ee4c32d))
 
 ## [1.23.14](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.13...@next-core/custom-antd-styles@1.23.14) (2022-03-07)
 
-
 ### Bug Fixes
 
-* modify  style ([38ea3c0](https://github.com/easyops-cn/next-core/commit/38ea3c000d077b16c776a5a17ccbff845517a947))
-
-
-
-
+- modify style ([38ea3c0](https://github.com/easyops-cn/next-core/commit/38ea3c000d077b16c776a5a17ccbff845517a947))
 
 ## [1.23.13](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.12...@next-core/custom-antd-styles@1.23.13) (2022-03-04)
 
-
 ### Bug Fixes
 
-* fix style ([a6a6628](https://github.com/easyops-cn/next-core/commit/a6a66283c43922d64e2e4130bc5abf8195b33acc))
-* modify style ([c8e30d5](https://github.com/easyops-cn/next-core/commit/c8e30d5f0ab064aea164de58c931cc64014482d8))
-
-
-
-
+- fix style ([a6a6628](https://github.com/easyops-cn/next-core/commit/a6a66283c43922d64e2e4130bc5abf8195b33acc))
+- modify style ([c8e30d5](https://github.com/easyops-cn/next-core/commit/c8e30d5f0ab064aea164de58c931cc64014482d8))
 
 ## [1.23.12](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.11...@next-core/custom-antd-styles@1.23.12) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
-
-
-
-
 
 ## [1.23.11](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.23.10...@next-core/custom-antd-styles@1.23.11) (2022-02-18)
 

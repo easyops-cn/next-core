@@ -7,145 +7,76 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.42.3](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.42.2...@next-core/editor-bricks-helper@0.42.3) (2022-06-22)
-
 
 ### Bug Fixes
 
-* **BuilderDataManage:**  sortUid incorrect after add node ([b7d2c1b](https://github.com/easyops-cn/next-core/commit/b7d2c1ba615f8242f46261218c3dbb7b36db2441))
-
-
-
-
+- **BuilderDataManage:** sortUid incorrect after add node ([b7d2c1b](https://github.com/easyops-cn/next-core/commit/b7d2c1ba615f8242f46261218c3dbb7b36db2441))
 
 ## [0.42.2](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.42.1...@next-core/editor-bricks-helper@0.42.2) (2022-06-16)
 
-
 ### Bug Fixes
 
-* **BuilderDataManager:** add node redirect parent error ([ac3e0cc](https://github.com/easyops-cn/next-core/commit/ac3e0cc2ab4115062eb057fce803de23bbd77cbf))
-
-
-
-
+- **BuilderDataManager:** add node redirect parent error ([ac3e0cc](https://github.com/easyops-cn/next-core/commit/ac3e0cc2ab4115062eb057fce803de23bbd77cbf))
 
 ## [0.42.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.42.0...@next-core/editor-bricks-helper@0.42.1) (2022-06-15)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 # [0.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.41.1...@next-core/editor-bricks-helper@0.42.0) (2022-06-14)
-
 
 ### Features
 
-* **BuilderDataManager:** support preview snippet apply ([ef506d4](https://github.com/easyops-cn/next-core/commit/ef506d4ae83946665e1a30a125948ff5504ba4aa))
-
-
-
-
+- **BuilderDataManager:** support preview snippet apply ([ef506d4](https://github.com/easyops-cn/next-core/commit/ef506d4ae83946665e1a30a125948ff5504ba4aa))
 
 ## [0.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.41.0...@next-core/editor-bricks-helper@0.41.1) (2022-06-10)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 # [0.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.40.1...@next-core/editor-bricks-helper@0.41.0) (2022-06-10)
-
 
 ### Features
 
-* **BuilderDataManager:** support preview addNode ([b5b0ee7](https://github.com/easyops-cn/next-core/commit/b5b0ee7e55466486a6d31656ec384d0114111ce7))
-
-
-
-
+- **BuilderDataManager:** support preview addNode ([b5b0ee7](https://github.com/easyops-cn/next-core/commit/b5b0ee7e55466486a6d31656ec384d0114111ce7))
 
 ## [0.40.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.40.0...@next-core/editor-bricks-helper@0.40.1) (2022-06-06)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 # [0.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.32...@next-core/editor-bricks-helper@0.40.0) (2022-06-02)
-
 
 ### Features
 
-* **BuilderDataManager:** support workbench move ([d6f892e](https://github.com/easyops-cn/next-core/commit/d6f892e684586873098fa1790001b4c8c8d690db))
-* **BuilderDataManager:** support workbench move ([e37f490](https://github.com/easyops-cn/next-core/commit/e37f490c5580182da3638ad9ffa81267b51638aa))
-
-
-
-
+- **BuilderDataManager:** support workbench move ([d6f892e](https://github.com/easyops-cn/next-core/commit/d6f892e684586873098fa1790001b4c8c8d690db))
+- **BuilderDataManager:** support workbench move ([e37f490](https://github.com/easyops-cn/next-core/commit/e37f490c5580182da3638ad9ffa81267b51638aa))
 
 ## [0.39.32](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.31...@next-core/editor-bricks-helper@0.39.32) (2022-06-01)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.39.31](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.30...@next-core/editor-bricks-helper@0.39.31) (2022-05-27)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.39.30](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.29...@next-core/editor-bricks-helper@0.39.30) (2022-05-26)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.39.29](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.28...@next-core/editor-bricks-helper@0.39.29) (2022-05-13)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.39.28](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.27...@next-core/editor-bricks-helper@0.39.28) (2022-05-11)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.39.27](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.26...@next-core/editor-bricks-helper@0.39.27) (2022-05-10)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
 
-
-
-
-
 ## [0.39.26](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.25...@next-core/editor-bricks-helper@0.39.26) (2022-05-09)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
-
-
-
-
 
 ## [0.39.25](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.39.24...@next-core/editor-bricks-helper@0.39.25) (2022-05-07)
 
