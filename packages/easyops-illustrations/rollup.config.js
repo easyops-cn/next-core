@@ -6,7 +6,7 @@ export default rollupFactory({
   umdName: "EasyopsIllustrations",
   plugins: [
     url({
-      include: ["**/*.png"],
+      include: ["**/*.png", "**/*.gif"],
       fileName: "[dirname][name].[hash][extname]",
       destDir: "dist/illustrations",
       limit: 0,

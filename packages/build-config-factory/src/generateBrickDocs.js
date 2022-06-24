@@ -36,6 +36,7 @@ const baseDocComments = [
   "deprecated",
   "editor",
   "editorprops",
+  "groupi18n",
 ];
 
 function generateBrickDoc(doc) {
@@ -72,13 +73,23 @@ function convertTagsToMapByFields(tags, fields) {
         return prev;
       }
 
-      if (curr.tag === "editorprops") {
+      let specialField;
+      // typedoc 读取到的 tag 都为小写，不是驼峰的形式，这里特殊处理下最终文档生成驼峰的形式
+      if (
+        (specialField = ["editorProps", "groupI18N"].find(
+          (name) => name.toLowerCase() === curr.tag
+        ))
+      ) {
         try {
-          prev["editorProps"] = JSON.parse(curr.text);
+          prev[specialField] = JSON.parse(curr.text);
           return prev;
         } catch {
           const find = tags.find((item) => item.tag === "name");
-          throw new Error(`editorProps of ${find && find.text} parse error`);
+          throw new Error(
+            `${specialField} tag of ${
+              find && find.text
+            } \`JSON.parse()\` parse error`
+          );
         }
       }
 
@@ -166,12 +177,18 @@ function extractBrickDocBaseKind(tags) {
 
 function getRealBrickDocCategory(brick) {
   if (!Object.prototype.hasOwnProperty.call(brick, "decorators")) {
-    //当继承的属性来自于 node_modeule 时，相关的 @propert decorators 已经被转成低版本的代码，typedoc 获取不到相关 decorators 信息，
+    //当继承的属性来自于 node_module 时，相关的 @property decorators 已经被转成低版本的代码，typedoc 获取不到相关 decorators 信息，
     // 这里通过 comment tag 来标识是否使用了 @property, 以便继承的属性也能生成到文档的 property 类别中显示
     if (
       get(brick, "comment.tags", []).find((item) => item.tag === "property")
     ) {
       return "property";
+    } else if (
+      get(brick, "signatures[0].comment.tags", []).find(
+        (item) => item.tag === "method"
+      )
+    ) {
+      return "method";
     }
 
     return null;
@@ -237,11 +254,11 @@ function extractBrickDocComplexKind(groups, elementChildren) {
     }, {});
 
   // `Object literals` 类型也会放在 Properties 列表中， 放进去后再统一进行排序
-  const propertieList = brickConf[brickKindMap.property];
-  return propertieList
+  const propertiesList = brickConf[brickKindMap.property];
+  return propertiesList
     ? {
         ...brickConf,
-        [brickKindMap.property]: sortBy(propertieList, (item) => {
+        [brickKindMap.property]: sortBy(propertiesList, (item) => {
           const find = elementChildren.find(
             (child) => child.name === item.name
           );
@@ -614,7 +631,6 @@ module.exports = function generateBrickDocs(packageName) {
     // disableSources: true,
     hideGenerator: true,
     categoryOrder: ["property", "event", "method", "Other"],
-    allowInheritedDoc: ["FormItemElement", "BaseChartElement", "GraphElement"],
     exclude: [
       "node_modules",
       "**/*.spec.ts?(x)",

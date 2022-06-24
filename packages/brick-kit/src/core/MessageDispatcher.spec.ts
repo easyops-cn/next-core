@@ -17,7 +17,7 @@ import * as runtime from "./Runtime";
 jest.mock("./Runtime");
 const spyOnListenerFactory = jest
   .spyOn(BL, "listenerFactory")
-  .mockImplementation(() => () => jest.fn());
+  .mockImplementation(() => jest.fn());
 
 const spyOnMessageCloseHandler = jest.spyOn(
   runtime,
@@ -195,6 +195,33 @@ describe("MessageDispatcher", () => {
 
       expect(spyOnListenerFactory).not.toHaveBeenCalled();
     });
+
+    it("should call error callbacks on WS error event", () => {
+      const data = {
+        options: {
+          url: "ws://localhost:123",
+          retryLimit: 5,
+        },
+        retryCount: 0,
+        state: "connecting",
+      };
+
+      spyOnGetWebSocket.mock.results[0].value.onError({}, data);
+
+      expect(spyOnListenerFactory).toHaveBeenCalledWith(
+        { action: "console.error" },
+        context,
+        {
+          element: mockElement,
+        }
+      );
+      expect(spyOnListenerFactory.mock.results[0].value).toBeCalledWith(
+        expect.objectContaining({
+          type: "callback.error",
+          detail: expect.objectContaining(data),
+        })
+      );
+    });
   });
 
   describe("test unsubscribe message", () => {
@@ -260,7 +287,7 @@ describe("MessageDispatcher", () => {
       md.unsubscribe("channel1", {} as PluginWebSocketMessageTopic, callback);
 
       expect(spyOnConsoleError).toHaveBeenCalledWith(
-        `Message channel："channel1" not found. `
+        `Message channel: "channel1" not found. `
       );
     });
   });

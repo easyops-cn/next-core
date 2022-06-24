@@ -10,6 +10,8 @@ import {
   EventDetailOfNodeMove,
   EventDetailOfSnippetApply,
   BuilderRuntimeNode,
+  WorkbenchTreeNodeMoveProps,
+  WorkbenchNodeAdd,
 } from "../interfaces";
 import { BuilderDataManager as BuilderDataManagerType } from "./BuilderDataManager";
 
@@ -1810,6 +1812,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       {
         id: "B-001",
         type: "bricks",
+        instanceId: "route-a",
         path: "/home",
         children: [
           {
@@ -1825,6 +1828,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
                 brick: "basic-bricks.micro-view",
                 sort: 0,
                 mountPoint: "content",
+                instanceId: "brick-b",
                 children: [
                   {
                     id: "B-004",
@@ -1916,6 +1920,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             "$$uid": 1,
             "alias": undefined,
             "id": "B-001",
+            "instanceId": "route-a",
             "path": "/home",
             "type": "bricks",
           },
@@ -1983,6 +1988,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             ],
             "$$normalized": Object {
               "brick": "basic-bricks.micro-view",
+              "iid": "brick-b",
             },
             "$$parsedEvents": Object {},
             "$$parsedLifeCycle": Object {},
@@ -1991,6 +1997,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             "alias": "micro-view",
             "brick": "basic-bricks.micro-view",
             "id": "B-003",
+            "instanceId": "brick-b",
             "sort": 0,
             "type": "brick",
           },
@@ -2088,6 +2095,523 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     };
     manager.nodeMove(node2);
     expect(node2.nodeData.mountPoint).toBe("bricks");
+  });
+
+  describe("workbenchTreeNodeMove should work", () => {
+    it("move the node inside the other node", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 6,
+        dragParentNodeUid: 6,
+        dragStatus: "inside",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 6,
+          sort: 0,
+        },
+      ]);
+    });
+
+    it("move the node to the root, mountPoint should be bricks", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 1,
+        dragParentNodeUid: 1,
+        dragStatus: "inside",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 5,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 1,
+        },
+      ]);
+    });
+
+    it("move the node to top", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 3,
+        dragOverNodeUid: 2,
+        dragParentNodeUid: 2,
+        dragStatus: "top",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 3,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+      ]);
+    });
+
+    it("move the node to bottom", () => {
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 3,
+        dragOverNodeUid: 2,
+        dragParentNodeUid: 2,
+        dragStatus: "bottom",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 3,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 1,
+        },
+      ]);
+    });
+  });
+
+  describe("workbenchNodeAdd should work", () => {
+    it("insert a node", () => {
+      const node = {
+        dragOverInstanceId: "abc",
+        parentInstanceId: "route-a",
+        mountPoint: "content",
+        nodeData: {
+          brick: "butotn",
+          instanceId: null,
+          id: null,
+          type: "brick",
+        },
+        dragStatus: "inside",
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 8,
+          mountPoint: "content",
+          parent: 1,
+          sort: 1,
+        },
+      ]);
+    });
+
+    it("insert a node after micro-view", () => {
+      const node = {
+        dragOverInstanceId: "brick-b",
+        parentInstanceId: "abc",
+        mountPoint: "content",
+        nodeData: {
+          brick: "div",
+          instanceId: null,
+          id: null,
+          type: "brick",
+        },
+        dragStatus: "top",
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 2,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 3,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          child: 8,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+      ]);
+    });
+
+    it("insert a node into root", () => {
+      const node = {
+        dragOverInstanceId: "route-a",
+        parentInstanceId: "route-a",
+        mountPoint: "bricks",
+        nodeData: {
+          brick: "root-button",
+          instanceId: null,
+          id: null,
+          type: "brick",
+        },
+        dragStatus: "inside",
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node);
+      expect(manager.getData().edges).toEqual([
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: true,
+          child: 4,
+          mountPoint: "top",
+          parent: 3,
+          sort: 0,
+        },
+        {
+          $$isTemplateInternal: true,
+          child: 3,
+          mountPoint: "",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 6,
+          mountPoint: "toolbar",
+          parent: 5,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 5,
+          mountPoint: "content",
+          parent: 2,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: true,
+          $$isTemplateInternal: undefined,
+          child: 7,
+          mountPoint: "content",
+          parent: 2,
+          sort: 1,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          $$isTemplateInternal: undefined,
+          child: 2,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 0,
+        },
+        {
+          $$isTemplateDelegated: undefined,
+          child: 8,
+          mountPoint: "bricks",
+          parent: 1,
+          sort: 1,
+        },
+      ]);
+    });
+
+    it("intert snippet should work", () => {
+      const listenOnSnippetApply = jest.fn();
+      manager.onSnippetApply(listenOnSnippetApply);
+      const node = {
+        dragOverInstanceId: "route-a",
+        parentInstanceId: "route-a",
+        mountPoint: "bricks",
+        dragStatus: "inside",
+        nodeData: {
+          brick: "",
+          instanceId: null,
+          id: null,
+          type: "brick",
+          bricks: [
+            {
+              brick: "div",
+              properties: {},
+              lifeCycle: {
+                onPageLoad: [
+                  {
+                    useProvider: "a",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node);
+
+      expect(listenOnSnippetApply).toBeCalled();
+      expect(listenOnSnippetApply.mock.calls[0][0].detail)
+        .toMatchInlineSnapshot(`
+        Object {
+          "nodeDetails": Array [
+            Object {
+              "children": Array [],
+              "nodeData": Object {
+                "brick": "div",
+                "lifeCycle": "{\\"onPageLoad\\":[{\\"useProvider\\":\\"a\\"}]}",
+                "mountPoint": "bricks",
+                "parent": "route-a",
+                "portal": undefined,
+                "properties": "{}",
+                "sort": undefined,
+                "type": "brick",
+              },
+              "nodeUid": 8,
+              "parentUid": 1,
+            },
+          ],
+          "nodeIds": Array [
+            "B-002",
+            null,
+          ],
+          "nodeUids": Array [
+            2,
+          ],
+          "parentUid": 1,
+        }
+      `);
+    });
   });
 
   it("snippet node should redirect", () => {

@@ -56,6 +56,13 @@ module.exports = function serve(runtimeFlags) {
             "g"
           ),
           env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
+        )
+        .replace(
+          new RegExp(
+            escapeRegExp("<!--# echo var='mock_date' default='' -->"),
+            "g"
+          ),
+          env.mockDate ?? ""
         );
 
       if (env.standaloneMicroApps) {

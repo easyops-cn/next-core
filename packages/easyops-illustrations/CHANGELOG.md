@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.7.0...@next-core/illustrations@0.8.0) (2022-06-23)
+
+### Features
+
+- **illustrations:** add gif resources ([a48ccf0](https://github.com/easyops-cn/next-core/commit/a48ccf0c34170901611131970d1f83449108eba2))
+
+# [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.6.0...@next-core/illustrations@0.7.0) (2022-06-10)
+
+### Features
+
+- add resources to illustrations library, and support GIF ([cffa82f](https://github.com/easyops-cn/next-core/commit/cffa82facfdb860f0c20c45f02864bb47db09f91))
+
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.21...@next-core/illustrations@0.6.0) (2022-06-10)
+
+### Features
+
+- add resources to illustration lib ([09e8aba](https://github.com/easyops-cn/next-core/commit/09e8aba9e5ae2ce6d2747500d31ea88aad7912cf))
+
+## [0.5.21](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.20...@next-core/illustrations@0.5.21) (2022-05-26)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.5.20](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.19...@next-core/illustrations@0.5.20) (2022-05-10)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.5.19](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.18...@next-core/illustrations@0.5.19) (2022-05-09)
+
+**Note:** Version bump only for package @next-core/illustrations
+
 ## [0.5.18](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.5.17...@next-core/illustrations@0.5.18) (2022-05-06)
 
 **Note:** Version bump only for package @next-core/illustrations

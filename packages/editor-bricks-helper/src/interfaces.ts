@@ -61,6 +61,7 @@ export interface EventDetailOfNodeAdd {
   nodeUids: number[];
   nodeIds: string[];
   nodeData: NodeInstance;
+  sort?: number;
 }
 
 export interface EventDetailOfContextUpdated {
@@ -116,6 +117,38 @@ export type EventDetailOfNodeMove = Omit<EventDetailOfNodeAdd, "nodeData"> & {
     mountPoint: string;
   };
 };
+
+export type EventDetailOfWorkbenchTreeNodeMove = {
+  nodeUid: number;
+  nodeInstanceId: string;
+  nodeIds: string[];
+  nodeData: {
+    parent: string;
+    mountPoint: string;
+  };
+};
+
+export type dragStatus = "inside" | "top" | "bottom";
+
+export interface WorkbenchNodeData extends NodeInstance {
+  instanceId: string;
+  id: string;
+}
+export interface WorkbenchNodeAdd {
+  nodeData: WorkbenchNodeData & {
+    bricks: BrickConf[];
+  };
+  mountPoint: string;
+  dragOverInstanceId: string;
+  parentInstanceId: string;
+  dragStatus: dragStatus;
+}
+export interface WorkbenchTreeNodeMoveProps {
+  dragNodeUid: number;
+  dragOverNodeUid: number;
+  dragParentNodeUid: number;
+  dragStatus: "inside" | "top" | "bottom";
+}
 
 export interface EventDetailOfNodeReorder {
   nodeUids: number[];

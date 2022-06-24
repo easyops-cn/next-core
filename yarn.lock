@@ -10786,6 +10786,11 @@ mock-socket@^9.1.0, mock-socket@^9.1.5:
   resolved "https://registry.npmjs.org/mock-socket/-/mock-socket-9.1.5.tgz#2c4e44922ad556843b6dfe09d14ed8041fa2cdeb"
   integrity sha512-3DeNIcsQixWHHKk6NdoBhWI4t1VMj5/HzfnI1rE/pLl5qKx7+gd4DNA07ehTaZ6MoUU053si6Hd+YtiM/tQZfg==
 
+mockdate@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/mockdate/-/mockdate-3.0.5.tgz#789be686deb3149e7df2b663d2bc4392bc3284fb"
+  integrity sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==
+
 modify-source-webpack-plugin@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/modify-source-webpack-plugin/-/modify-source-webpack-plugin-3.0.0.tgz#4fe973adc6e3b11f2ae39f3645a39e423dbed861"

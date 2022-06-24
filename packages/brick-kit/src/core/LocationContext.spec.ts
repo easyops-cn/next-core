@@ -45,6 +45,8 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
   isAdmin: false,
 });
 
+const mockFeature = jest.fn().mockReturnValue({ testing: true });
+
 registerCustomTemplate("tpl-a", {
   bricks: [
     {
@@ -85,6 +87,12 @@ const spyOnGetCurrentContext = jest.spyOn(
 );
 const spyOnGetResolver = jest.spyOn(runtime, "_internalApiGetResolver");
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
+const observe = jest.fn();
+const disconnect = jest.fn();
+(window.IntersectionObserver as any) = jest.fn(() => ({
+  observe,
+  disconnect,
+}));
 
 describe("LocationContext", () => {
   const kernel: Kernel = {
@@ -116,9 +124,7 @@ describe("LocationContext", () => {
       },
     },
     toggleBars: jest.fn(),
-    getFeatureFlags: jest.fn().mockReturnValue({
-      testing: true,
-    }),
+    getFeatureFlags: mockFeature,
     loadDynamicBricksInBrickConf: jest.fn(),
   } as any;
 
@@ -471,6 +477,7 @@ describe("LocationContext", () => {
                   {
                     if: "${FLAGS.testing}",
                     brick: "div",
+                    iid: "5df55280297f6",
                     properties: {
                       title:
                         "<% `${CTX.myFreeContext} ${CTX.myAsyncContext} ${CTX.myFallbackToValueContext}` %>",
@@ -605,6 +612,20 @@ describe("LocationContext", () => {
                       onMessageClose: {
                         action: "console.log",
                       },
+                      onMessage: {
+                        channel: "pipelineChannel",
+                        handlers: {
+                          action: "console.log",
+                        },
+                      },
+                      onScrollIntoView: {
+                        threshold: 0.5,
+                        handlers: [
+                          {
+                            action: "console.log",
+                          },
+                        ],
+                      },
                     },
                     slots: {
                       menu: {
@@ -625,6 +646,7 @@ describe("LocationContext", () => {
                               sidebarMenu: {
                                 title: "menu title",
                                 menuItems: [],
+                                menuId: "test-menu-id",
                               },
                               pageTitle: "page title",
                               breadcrumb: {
@@ -811,6 +833,7 @@ describe("LocationContext", () => {
           menu: {
             title: "menu title",
             menuItems: [],
+            menuId: "test-menu-id",
           },
         },
         appBar: {
@@ -1009,6 +1032,7 @@ describe("LocationContext", () => {
         },
       });
       context.handleAnchorLoad();
+      context.handleScrollIntoView("5df55280297f6");
       context.handleBeforePageLeave({
         location: { pathname: "/home" } as Location,
         action: "POP",
@@ -1018,6 +1042,7 @@ describe("LocationContext", () => {
       context.handleMediaChange(mediaChangeDetail);
       context.handleMessageClose(new CloseEvent("error"));
       context.handleMessage();
+      context.handleBrickBindObserver();
 
       expect(spyOnDispatchEvent).toBeCalledWith(
         expect.objectContaining({ type: "page.load" })
@@ -1063,6 +1088,10 @@ describe("LocationContext", () => {
       expect(consoleLog).toHaveBeenNthCalledWith(
         7,
         new CustomEvent("message.close")
+      );
+      expect(consoleLog).toHaveBeenNthCalledWith(
+        8,
+        new CustomEvent("scroll.into.view")
       );
 
       // Assert `console.info()`.
@@ -1148,9 +1177,12 @@ describe("LocationContext", () => {
                 properties: {
                   menu: "<% APP.getMenu('menu-1') %>",
                 },
-                context: {
-                  menu: "<% APP.getMenu('menu-2') %>",
-                },
+                context: [
+                  {
+                    name: "menu",
+                    value: "<% APP.getMenu('menu-2') %>",
+                  },
+                ],
               },
             ],
           },
@@ -1169,6 +1201,79 @@ describe("LocationContext", () => {
           ],
         },
       });
+    });
+    it("base layout should work", async () => {
+      mockFeature.mockReturnValue({
+        "support-ui-8.0-base-layout": true,
+        testing: true,
+      });
+      const context = new LocationContext(kernel, {
+        pathname: "/",
+        search: "",
+        hash: "",
+        state: {},
+      });
+      spyOnIsLoggedIn.mockReturnValue(true);
+      spyOnGetResolver.mockReturnValueOnce({
+        async resolveOne(
+          type: any,
+          resolveConf: ResolveConf,
+          conf: Record<string, any>
+        ): Promise<void> {
+          Object.assign(conf, resolveConf.transform);
+        },
+      } as any);
+      jest
+        .spyOn(context.resolver, "resolveOne")
+        .mockImplementationOnce(
+          (type: any, resolveConf: ResolveConf, conf: Record<string, any>) => {
+            Object.assign(conf, resolveConf.transform);
+            return Promise.resolve();
+          }
+        );
+      await context.mountRoutes(
+        [
+          {
+            path: "/",
+            context: [
+              {
+                name: "menu",
+                value: "<% APP.getMenu('CTX-menu') %>",
+              },
+            ],
+            exact: false,
+            providers: [],
+            routes: [
+              {
+                path: "/test/a",
+                context: [
+                  {
+                    name: "menu",
+                    value: "<% APP.getMenu('menu-1') %>",
+                  },
+                ],
+                bricks: [
+                  {
+                    brick: "menu",
+                    properties: {
+                      menu: "<% APP.getMenu('menu-2') %>",
+                    },
+                  },
+                  {
+                    brick: "base-layout.tpl-homepage-base-module",
+                  },
+                ],
+                type: "bricks",
+                exact: true,
+              },
+            ],
+            type: "routes",
+          },
+        ],
+        undefined,
+        getInitialMountResult()
+      );
+      expect(jestConstructMenu).toBeCalledTimes(1);
     });
   });
 
@@ -1204,9 +1309,12 @@ describe("LocationContext", () => {
           routes: [
             {
               path: "/hello/a/b",
-              context: {
-                menu: "<% APP.getMenu('menu-1') %>",
-              },
+              context: [
+                {
+                  name: "menu",
+                  value: "<% APP.getMenu('menu-1') %>",
+                },
+              ],
               bricks: [
                 {
                   brick: "menu",

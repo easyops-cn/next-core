@@ -141,8 +141,8 @@ html[data-theme="dark-v2"],
   --custom-form-item-wrapper-bg: var(--color-fill-bg-base-4);
 
   /* 8.0 框架 */
-  --v8-top-navigation-bg: var(--palette-rgba-gray-2);
-  --v8-top-menu-item-hover: var(--palette-rgba-gray-3);
+  --v8-top-navigation-bg: #323237;
+  --v8-top-menu-item-hover: var(--palette-rgba-gray-4);
   --v8-top-menu-item-selected-bg: var(--palette-rgba-gray-4);
   --v8-left-menu-bg: rgba(32, 32, 33, 0.3);
   --v8-left-menu-hover-bg: rgba(32, 32, 33, 0.8);
@@ -233,6 +233,8 @@ html[data-theme="dark-v2"],
   --antd-checkbox-custom-type-disabled-icon-color: var(
     --input-outline-disabled
   );
+  --antd-checkbox-color-blue-gray: #6a7dab;
+  --antd-checkbox-color-deep-purple: #5b3cd9;
 
   /*** card ***/
   --antd-card-background: var(--color-fill-bg-container-1);
@@ -416,6 +418,36 @@ html[data-theme="dark-v2"],
   /*** message ***/
   --antd-message-bg: var(--color-fill-bg-container-4);
   --antd-message-shadow: var(--feedback-container-shadow);
+  --antd-message-bg-info: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(63, 117, 221, 0.2) 100%
+    );
+  --antd-message-bg-success: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(39, 195, 70, 0.2) 100%
+    );
+  --antd-message-bg-error: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(210, 89, 63, 0.2) 100%
+    );
+  --antd-message-bg-warn: rgba(55, 55, 57, 0.85)
+    linear-gradient(
+      270deg,
+      rgba(55, 55, 57, 0) 0%,
+      rgba(55, 55, 57, 0) 48%,
+      rgba(213, 162, 29, 0.2) 100%
+    );
+  --antd-message-border: 1px solid rgba(255, 255, 255, 0.12);
+  --antd-message-content-color: rgba(255, 255, 255, 0.85);
 
   /*** transfer ***/
   --antd-transfer-item-hover-bg: var(--antd-checkbox-bg-hover);

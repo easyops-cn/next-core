@@ -1,4 +1,7 @@
-exports.jestConfigFactory = ({ transformModulePatterns = [] } = {}) => ({
+exports.jestConfigFactory = ({
+  transformModulePatterns = [],
+  moduleNameMapper,
+} = {}) => ({
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/__jest__/setup.ts"],
   snapshotSerializers: ["enzyme-to-json/serializer"],
@@ -48,6 +51,8 @@ exports.jestConfigFactory = ({ transformModulePatterns = [] } = {}) => ({
     // Ref https://github.com/facebook/jest/issues/4262#issuecomment-753147691
     "^@easyops/brick-icons": "<rootDir>/__mocks__/@next-core/brick-icons",
     "^@easyops/(.*)": "@next-core/$1",
+    "^\\./lazy-bricks$": "identity-obj-proxy",
+    ...moduleNameMapper,
   },
   // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
   // Todo(steve): remove next line when issue fixed.

@@ -86,6 +86,10 @@
       "matchPackagePatterns": ["^rc-", "^@ant-design/"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false
+    },
+    {
+      "groupName": "cypress packages",
+      "matchPackageNames": ["cypress", "cypress/included"]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]

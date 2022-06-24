@@ -11,7 +11,7 @@ const imagesDir = path.join(process.cwd(), "src/images");
 const flattenImages = klawSync(imagesDir, {
   depthLimit: 2,
   nodir: true,
-  filter: (item) => item.path.endsWith(".png"),
+  filter: (item) => item.path.endsWith(".png") || item.path.endsWith(".gif"),
   traverseAll: true,
 }).map((item) => {
   const relativePath = path
@@ -19,7 +19,8 @@ const flattenImages = klawSync(imagesDir, {
     .split(path.sep)
     .join("/");
 
-  const basename = path.basename(relativePath, ".png");
+  const extName = path.extname(item.path);
+  const basename = path.basename(relativePath, extName);
   const category = relativePath.includes("/")
     ? relativePath.split("/")[0]
     : "default";

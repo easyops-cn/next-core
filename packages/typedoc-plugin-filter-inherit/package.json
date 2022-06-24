@@ -1,6 +1,6 @@
 {
   "name": "@next-core/typedoc-plugin-filter-inherit",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/typedoc-plugin-filter-inherit",
   "license": "GPL-3.0",

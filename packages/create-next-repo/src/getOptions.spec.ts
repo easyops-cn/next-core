@@ -32,7 +32,7 @@ describe("getOptions", () => {
       internal: false,
       repoDir: "/home/my-repo",
       templateRepoZipUrl:
-        "https://codeload.github.com/easyops-cn/next-template-repo/zip/master",
+        "https://github.com/easyops-cn/next-template-repo/archive/refs/heads/master.zip",
       verbose: false,
       zipFilePath: expect.stringMatching(
         /^\/tmp\/next-template-repo-\d+\.zip$/

@@ -50,6 +50,7 @@ describe("download", () => {
     } as any;
     const mockResponse = {
       pipe: jest.fn(),
+      statusCode: 200,
     } as any;
     const mockWriteStream = {
       on: jest.fn((event, listener) => {
@@ -102,6 +103,7 @@ describe("download", () => {
     } as any;
     const mockResponse = {
       pipe: jest.fn(),
+      statusCode: 200,
     } as any;
     const mockWriteStream = {
       on: jest.fn((event, listener) => {
@@ -182,6 +184,108 @@ describe("download", () => {
       LogLevel.VERBOSE,
       cleanError
     );
+  });
+
+  it("should fail to download with certain status code", async () => {
+    const mockRequest = {
+      on: jest.fn(),
+    } as any;
+    const mockResponse = {
+      pipe: jest.fn(),
+      statusCode: 404,
+    } as any;
+    mockHttpsGet.mockImplementationOnce((url, options, callback) => {
+      setTimeout(() => {
+        callback(mockResponse);
+      }, 100);
+      return mockRequest;
+    });
+    mockCleanDownload.mockResolvedValueOnce(null);
+
+    const promise = download("https://example.com/master.zip", "/tmp.zip");
+
+    expect(promise).rejects.toMatchObject({
+      message: "Download server returns 404",
+    });
+
+    // Advance timers to trigger http on error callback.
+    jest.advanceTimersByTime(100);
+    expect(customConsole.error).toHaveBeenNthCalledWith(
+      1,
+      LogLevel.DEFAULT,
+      expect.stringContaining("Failed")
+    );
+    expect(cleanDownload).toBeCalledWith("/tmp.zip");
+
+    // Flush promises to trigger `cleanDownload()` resolve.
+    await (global as any).flushPromises();
+    expect(customConsole.error).toBeCalledTimes(1);
+  });
+
+  it("should follow redirect", async () => {
+    const mockRequest = {
+      on: jest.fn(),
+    } as any;
+    const mockResponse = {
+      statusCode: 303,
+      headers: {
+        location: "https://codeland.example.com/master.zip",
+      },
+    } as any;
+    const mockRedirectedRequest = {
+      on: jest.fn(),
+    } as any;
+    const mockRedirectedResponse = {
+      pipe: jest.fn(),
+      statusCode: 200,
+    } as any;
+    mockHttpsGet
+      .mockImplementationOnce((url, options, callback) => {
+        setTimeout(() => {
+          callback(mockResponse);
+        }, 100);
+        return mockRequest;
+      })
+      .mockImplementationOnce((url, options, callback) => {
+        setTimeout(() => {
+          callback(mockRedirectedResponse);
+        }, 100);
+        return mockRedirectedRequest;
+      });
+    const mockWriteStream = {
+      on: jest.fn((event, listener) => {
+        setTimeout(listener, 100);
+      }),
+    } as any;
+    mockFsCreateWriteStream.mockReturnValueOnce(mockWriteStream);
+
+    const promise = download("https://example.com/zip/master", "/tmp.zip");
+
+    expect(customConsole.log).toHaveBeenNthCalledWith(
+      1,
+      LogLevel.DEFAULT,
+      expect.stringContaining("from https://example.com/zip/master")
+    );
+
+    jest.advanceTimersByTime(100);
+    expect(customConsole.log).toHaveBeenNthCalledWith(
+      2,
+      LogLevel.DEFAULT,
+      expect.stringContaining(
+        "redirected to https://codeland.example.com/master.zip"
+      )
+    );
+
+    jest.advanceTimersByTime(100);
+
+    jest.advanceTimersByTime(100);
+    expect(customConsole.log).toHaveBeenNthCalledWith(
+      3,
+      LogLevel.DEFAULT,
+      expect.stringContaining("successfully")
+    );
+
+    await promise;
   });
 
   it("should use proxy", async () => {
