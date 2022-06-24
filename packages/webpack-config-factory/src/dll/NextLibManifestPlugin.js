@@ -61,7 +61,12 @@ class NextLibManifestPlugin {
                   if (ident) {
                     return {
                       // !!! Here's the replacement.
-                      ident: ident.replace("@next-core/", "@easyops/"),
+                      ident: ident
+                        .replace("@next-core/", "@easyops/")
+                        .replace(
+                          "@babel/runtime/helpers/regeneratorRuntime",
+                          "regenerator-runtime/runtime"
+                        ),
                       data: {
                         id: module.id,
                         buildMeta: module.buildMeta,
