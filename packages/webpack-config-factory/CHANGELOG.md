@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.16.4...@next-core/webpack-config-factory@2.16.5) (2022-06-27)
+
+
+### Bug Fixes
+
+* keep dll hash for regenertor runtime helper ([d63f3f9](https://github.com/easyops-cn/next-core/commit/d63f3f9f46739800cc814876dbaa3df93cbeed76))
+
+
+
+
+
 ## [2.16.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.16.3...@next-core/webpack-config-factory@2.16.4) (2022-06-24)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
