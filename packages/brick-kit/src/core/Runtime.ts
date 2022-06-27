@@ -120,6 +120,15 @@ export function _dev_only_updateSnippetPreviewSettings(
   kernel._dev_only_updateSnippetPreviewSettings(appId, snippetData);
 }
 
+/* istanbul ignore next */
+export function _dev_only_updateFormPreviewSettings(
+  appId: string,
+  formId: string,
+  settings: unknown
+): void {
+  kernel._dev_only_updateFormPreviewSettings(appId, formId, settings);
+}
+
 export class Runtime implements AbstractRuntime {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     if (kernel !== undefined) {

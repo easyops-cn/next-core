@@ -50,6 +50,8 @@ import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
+import { registerCustomForm } from "./CustomForms/registerCustomForm";
+
 import { collectContract } from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
@@ -242,6 +244,8 @@ export class Router {
 
       registerMock(storyboard.meta?.mocks);
 
+      // registerCustomForm(storyboard.meta?.cunstomForm);
+
       collectContract(storyboard.meta?.contracts);
     }
 
@@ -325,9 +329,16 @@ export class Router {
           (route) =>
             route.path.startsWith("${APP.homepage}/_dev_only_/snippet-preview/")
         );
+
+        const specificFormPreviewIndex = findLastIndex(
+          storyboard.routes,
+          (route) =>
+            route.path.startsWith("${APP.homepage}/_dev_only_/form-preview/")
+        );
         const mergedRoutes = [
           ...storyboard.routes.slice(0, specificTemplatePreviewIndex + 1),
           ...storyboard.routes.slice(0, specificSnippetPreviewIndex + 1),
+          ...storyboard.routes.slice(0, specificFormPreviewIndex + 1),
           {
             path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
             bricks: [{ brick: "span" }],
@@ -336,6 +347,12 @@ export class Router {
           } as RouteConf,
           {
             path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
+            bricks: [{ brick: "span" }],
+            menu: false,
+            exact: true,
+          } as RouteConf,
+          {
+            path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
             bricks: [{ brick: "span" }],
             menu: false,
             exact: true,

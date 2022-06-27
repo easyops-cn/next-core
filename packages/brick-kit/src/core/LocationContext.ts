@@ -73,6 +73,8 @@ import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
 import { CustomTemplate } from "../../../brick-types/dist/types/manifest";
+import { getTagNameOfCustomForm } from "./CustomForms/getTagNameOfCustomForm";
+import { getStoryboard } from "./CustomForms/ExpandCustomForm";
 
 export type MatchRoutesResult =
   | {
@@ -599,6 +601,13 @@ export class LocationContext {
       tplStack.push(tplTagName);
     }
 
+    // If it's a custom form, `formTagName` is the tag name of the form.
+    // Otherwise, `form` is false.
+    const formTagName = getTagNameOfCustomForm(
+      brickConf.brick,
+      this.kernel.nextApp?.id
+    );
+
     const brick: RuntimeBrick = {};
 
     await this.storyboardContextWrapper.define(
@@ -695,6 +704,12 @@ export class LocationContext {
 
       // Try to load deps for dynamic added bricks.
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
+    }
+
+    if (formTagName) {
+      //TODO: render customForm with formProvider
+      // const formStoryboard = getStoryboard([datasource.layout],[],fields);
+      // expandedBrickConf = {brick:formTagName,slots:{'':{bricks:formStoryboard,type:"bricks"}}};
     }
 
     if (expandedBrickConf.exports) {
