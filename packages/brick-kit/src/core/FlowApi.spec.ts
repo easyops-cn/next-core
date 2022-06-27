@@ -3,9 +3,6 @@ import { isCustomApiProvider, getArgsOfCustomApi } from "./FlowApi";
 import * as runtime from "./Runtime";
 import * as mocks from "./MockRegistry";
 import * as CollectContract from "./CollectContracts";
-import { InstanceApi_postSearchV3 } from "@next-sdk/cmdb-sdk";
-
-jest.mock("@next-sdk/cmdb-sdk");
 
 jest.spyOn(mocks, "getMockList").mockReturnValue([
   {
@@ -34,48 +31,6 @@ jest.spyOn(CollectContract, "getContract").mockImplementation((key) => {
       },
     };
 });
-(InstanceApi_postSearchV3 as jest.Mock).mockImplementation(
-  (_objectId: string, condition) => {
-    switch (condition.query.name.$eq) {
-      case "TestMock":
-        return {
-          list: [
-            {
-              endpoint: {
-                method: "GET",
-                uri: "/a/b/c/:objectId",
-              },
-              instanceId: "abcdefg",
-              name: "TestMockGet",
-              namespaceId: "easyops.api.test.sailor",
-              version: "1.0.0",
-              response: {
-                default: {},
-                description: "tt",
-                fields: [
-                  {
-                    description: "tt",
-                    name: "data",
-                    type: "map",
-                  },
-                ],
-                required: [],
-                type: "object",
-              },
-            },
-          ],
-        };
-      case "noneMock":
-        return {
-          list: [],
-        };
-      default:
-        return {
-          list: [],
-        };
-    }
-  }
-);
 
 jest
   .spyOn(runtime, "_internalApiGetMicroAppApiOrchestrationMap")
@@ -176,6 +131,35 @@ jest
             namespace: [{ name: "easyops.custom_api" }],
           },
         } as any;
+      case "easyops.custom_api.TestMock":
+        return {
+          contractData: {
+            endpoint: {
+              method: "GET",
+              uri: "/a/b/c/:objectId",
+            },
+            instanceId: "abcdefg",
+            name: "TestMock",
+            namespaceId: "easyops.api.test.sailor",
+            namespace: [{ name: "easyops.api.test.sailor" }],
+            version: "1.0.0",
+            response: {
+              default: {},
+              description: "tt",
+              fields: [
+                {
+                  description: "tt",
+                  name: "data",
+                  type: "map",
+                },
+              ],
+              required: [],
+              type: "object",
+            },
+          },
+        };
+      case "easyops.custom_api.noneMock":
+        return {};
       case "invalid.export_api":
         return {};
     }
@@ -263,7 +247,7 @@ describe("FlowApi", () => {
       {
         method: "GET",
         responseWrapper: true,
-        url: "api/gateway/easyops.api.test.sailor.TestMockGet@1.0.0/a/b/c/object-1",
+        url: "api/gateway/easyops.api.test.sailor.TestMock@1.0.0/a/b/c/object-1",
       },
     ]);
 
