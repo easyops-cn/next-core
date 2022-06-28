@@ -70,6 +70,7 @@ module.exports =
     ignores = [],
     splitVendorsForLazyBricks,
     prependRules,
+    useLessReplacePlugin = true,
   } = {}) => {
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
@@ -289,7 +290,9 @@ module.exports =
                   lessOptions: {
                     sourceMap: false,
                     javascriptEnabled: true,
-                    plugins: [lessReplacePlugin],
+                    plugins: [
+                      ...(useLessReplacePlugin ? [lessReplacePlugin] : []),
+                    ],
                   },
                 },
               },
