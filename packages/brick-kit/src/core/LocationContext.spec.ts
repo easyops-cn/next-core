@@ -1325,6 +1325,12 @@ describe("LocationContext", () => {
                 {
                   brick: "tpl-a",
                 },
+                {
+                  brick: "form-builder.form-render",
+                  properties: {
+                    formData: { formSchema: {}, fields: [] },
+                  },
+                },
               ],
               type: "bricks",
               exact: true,
