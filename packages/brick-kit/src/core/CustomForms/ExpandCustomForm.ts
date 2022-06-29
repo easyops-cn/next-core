@@ -1,9 +1,14 @@
-export function ExpandCustomForm(formData: any, brickConf: any): any {
+import { BrickConf } from "@next-core/brick-types";
+
+export function ExpandCustomForm(
+  formData: formDataProperties,
+  brickConf: BrickConf
+): any {
   try {
     const formStoryboard = getStoryboard(
       [formData.formSchema.layout],
       [],
-      formData?.fields
+      formData.fields
     );
     return {
       ...brickConf,
@@ -36,7 +41,16 @@ export function ExpandCustomForm(formData: any, brickConf: any): any {
     };
   }
 }
-
+export interface formDataProperties {
+  formSchema: {
+    layout: {
+      [key: string]: any;
+    };
+    op?: string;
+  };
+  fields: fieldProperties[];
+  [key: string]: any;
+}
 export interface fieldProperties {
   creator?: string;
   ctime?: string;

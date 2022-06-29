@@ -71,6 +71,7 @@ import {
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
+import { formDataProperties } from "./CustomForms/ExpandCustomForm";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -357,7 +358,7 @@ export class Kernel {
   _dev_only_updateFormPreviewSettings(
     appId: string,
     formId: string,
-    formData: any
+    formData: formDataProperties
   ): void {
     const { routes } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId

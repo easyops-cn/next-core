@@ -73,7 +73,10 @@ import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
 import { CustomTemplate } from "../../../brick-types/dist/types/manifest";
-import { ExpandCustomForm } from "./CustomForms/ExpandCustomForm";
+import {
+  ExpandCustomForm,
+  formDataProperties,
+} from "./CustomForms/ExpandCustomForm";
 import { formRender } from "./CustomForms/constants";
 
 export type MatchRoutesResult =
@@ -700,7 +703,7 @@ export class LocationContext {
     }
 
     if (brick.type === formRender) {
-      const formData: any = brick.properties.formData;
+      const formData: formDataProperties = brick.properties.formData;
       expandedBrickConf = ExpandCustomForm(formData, brickConf);
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
