@@ -40,6 +40,7 @@ import { registerLazyBricks } from "./LazyBrickRegistry";
 import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
+import { formDataProperties } from "./CustomForms/ExpandCustomForm";
 
 let kernel: Kernel;
 
@@ -124,7 +125,7 @@ export function _dev_only_updateSnippetPreviewSettings(
 export function _dev_only_updateFormPreviewSettings(
   appId: string,
   formId: string,
-  settings: unknown
+  settings: formDataProperties
 ): void {
   kernel._dev_only_updateFormPreviewSettings(appId, formId, settings);
 }
