@@ -1503,16 +1503,63 @@ describe("Kernel", () => {
           {
             bricks: [
               {
-                brick: "form-c",
-                properties: { style: { marginTop: "20px" } },
-                slots: { "": { bricks: [], type: "bricks" } },
+                brick: "form-builder.form-render",
+                properties: {
+                  formData: {
+                    fields: [
+                      {
+                        _object_id: "FORM_MODEL_FIELD@EASYOPS",
+                        creator: "easyops",
+                        ctime: "2022-05-30 10:27:25",
+                        defaultValue: "0",
+                        description: "不允许特殊字符",
+                        id: "userName",
+                        instanceId: "5e0316589e322",
+                        limit: ["required"],
+                        modifier: "easyops",
+                        mtime: "2022-06-07 15:34:11",
+                        name: "用户名",
+                        type: "STRING",
+                      },
+                    ],
+                    schema: {
+                      brick: "forms.general-form",
+                      bricks: [
+                        {
+                          brick: "basic-bricks.grid-layout",
+                          bricks: [
+                            {
+                              quote: "userName",
+                            },
+                          ],
+
+                          properties: {
+                            columns: 1,
+                            id: "grid_252",
+                            title: "行容器",
+                          },
+                        },
+                      ],
+                      properties: {
+                        formItemConfig: {},
+                        id: "form_251",
+                        sectionConfig: {},
+                        values: {},
+                      },
+                    },
+                  },
+                },
               },
             ],
             exact: true,
             menu: false,
             path: "${APP.homepage}/_dev_only_/form-preview/form-c",
           },
-          { alias: "home", bricks: [], path: "${APP.homepage}" },
+          {
+            alias: "home",
+            bricks: [],
+            path: "${APP.homepage}",
+          },
         ],
       },
     ]);

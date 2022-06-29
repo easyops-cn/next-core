@@ -50,8 +50,7 @@ import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
-import { registerCustomForm } from "./CustomForms/registerCustomForm";
-
+import { registerFormRender } from "./CustomForms/registerFormRender";
 import { collectContract } from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
@@ -244,7 +243,7 @@ export class Router {
 
       registerMock(storyboard.meta?.mocks);
 
-      // registerCustomForm(storyboard.meta?.cunstomForm);
+      registerFormRender();
 
       collectContract(storyboard.meta?.contracts);
     }

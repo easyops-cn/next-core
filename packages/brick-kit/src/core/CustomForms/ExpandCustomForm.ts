@@ -1,14 +1,40 @@
-import { PluginRuntimeContext, RuntimeBrickConf } from "@next-core/brick-types";
-import { RuntimeBrick } from "../BrickNode";
-import { customFormRegistry } from "./constants";
-export function ExpandCustomForm(
-  brickConf: any,
-  proxyBrick: RuntimeBrick,
-  context: PluginRuntimeContext
-): any {
-  //TODO: get formSchema and fields converted to brickconf
-  // const _brickConf = getStoryboard(customFormRegistry.get(brickConf['brick']), [], customFormRegistry.get(brickConf['brick']).fields)
-  // return _brickConf;
+export function ExpandCustomForm(formData: any, brickConf: any): any {
+  try {
+    const formStoryboard = getStoryboard(
+      [formData.formSchema.layout],
+      [],
+      formData?.fields
+    );
+    return {
+      ...brickConf,
+      brick: "div",
+      slots: { "": { bricks: formStoryboard, type: "bricks" } },
+    };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn(error.message);
+    return {
+      brick: "div",
+      slots: {
+        "": {
+          bricks: [
+            {
+              brick: "presentational-bricks.brick-illustration",
+              properties: {
+                category: "default",
+                header: {
+                  title: "参数错误",
+                },
+                mode: "guide",
+                name: "search-empty",
+              },
+            },
+          ],
+          type: "bricks",
+        },
+      },
+    };
+  }
 }
 
 export interface fieldProperties {

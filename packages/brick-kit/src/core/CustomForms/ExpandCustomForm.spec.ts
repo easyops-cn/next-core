@@ -1,8 +1,9 @@
 import "@testing-library/jest-dom";
-import { shallow } from "enzyme";
-import { customFormRegistry } from "./constants";
-import { getDefaultProperties, getStoryboard } from "./ExpandCustomForm";
-import { getTagNameOfCustomForm } from "./getTagNameOfCustomForm";
+import {
+  ExpandCustomForm,
+  getDefaultProperties,
+  getStoryboard,
+} from "./ExpandCustomForm";
 
 describe("getDefaultProperties is work", () => {
   it("getDefaultProperties by STRING", () => {
@@ -536,17 +537,278 @@ describe("getStoryboard is work", () => {
   ]);
 });
 
-describe("getTagNameOfCustomForm is word", () => {
-  //jest.mock('./constants',() => () => [{"form":{}},{"form.a":{}}]);
-  customFormRegistry.set("appA.form");
-  customFormRegistry.set("form.a");
-  it("getTagNameOfCustomForm - form", () => {
-    const tagName = getTagNameOfCustomForm("form", "appA");
-    expect(tagName).toBe("appA.form");
+describe("ExpandCustomForm is work", () => {
+  const formData = {
+    fields: [
+      {
+        description: "不允许特殊字符",
+        id: "userName",
+        name: "用户名",
+        instanceId: "5e0316589e322",
+        limit: ["readOnly", "only", "required"],
+        type: "STRING",
+      },
+      {
+        defaultValue: "0",
+        description: "不允许特殊字符",
+        id: "userId",
+        limit: [],
+        name: "用户Id",
+        type: "STRING",
+      },
+      {
+        defaultValue: "0",
+        description: "不允许特殊字符",
+        id: "age",
+        instanceId: "5e04a62a36373",
+        limit: [],
+        name: "年龄",
+        type: "INT",
+      },
+      {
+        description: "不允许特殊字符",
+        id: "department",
+        instanceId: "5e04a6469c232",
+        limit: ["required"],
+        name: "部门",
+        type: "ENUMERATED_SINGLE_OPTION",
+      },
+      {
+        defaultValue: "在职",
+        id: "status",
+        limit: ["required"],
+        name: "状态",
+        type: "ENUMERATED_SINGLE_OPTION",
+      },
+    ],
+    formName: "222",
+    formSchema: {
+      layout: {
+        brick: "forms.general-form",
+        bricks: [
+          {
+            brick: "basic-bricks.grid-layout",
+            bricks: [
+              {
+                quote: "userName",
+              },
+              {
+                quote: "userId",
+                userDefined: {
+                  brick: "forms.general-input",
+                  properties: {
+                    label: "ID",
+                  },
+                },
+              },
+              {
+                quote: "age",
+              },
+              {
+                quote: "department",
+              },
+              {
+                quote: "status",
+              },
+            ],
+            properties: {
+              columns: 1,
+              id: "grid_138",
+              title: "行容器",
+            },
+          },
+        ],
+        context: {},
+        properties: {
+          formItemConfig: {},
+          id: "form_137",
+          sectionConfig: {},
+          values: {},
+        },
+        userDefined: {
+          brick: "forms.general-form",
+          properties: {
+            style: {
+              marginTop: "20px",
+            },
+          },
+        },
+      },
+      op: "",
+    },
+  };
+  const _formData = {};
+  const brickConf = {
+    bg: false,
+    brick: "form-builder.form-render",
+    iid: "5e27819b1e711",
+    injectDeep: true,
+    portal: false,
+    properties: {
+      dataset: {
+        testid: "test",
+      },
+      formData: "<% CTX.formData %>",
+    },
+  };
+  expect(ExpandCustomForm(formData, brickConf)).toEqual({
+    bg: false,
+    brick: "div",
+    iid: "5e27819b1e711",
+    injectDeep: true,
+    portal: false,
+    properties: {
+      dataset: {
+        testid: "test",
+      },
+      formData: "<% CTX.formData %>",
+    },
+    slots: {
+      "": {
+        bricks: [
+          {
+            brick: "forms.general-form",
+            context: {},
+            properties: {
+              formItemConfig: {},
+              id: "form_137",
+              sectionConfig: {},
+              values: {},
+              style: {
+                marginTop: "20px",
+              },
+            },
+            slots: {
+              items: {
+                bricks: [
+                  {
+                    brick: "basic-bricks.grid-layout",
+                    properties: {
+                      columns: 1,
+                      id: "grid_138",
+                      title: "行容器",
+                    },
+                    slots: {
+                      items: {
+                        bricks: [
+                          {
+                            brick: "forms.general-input",
+                            properties: {
+                              id: "userName",
+                              name: "userName",
+                              label: "用户名",
+                              readOnly: true,
+                              required: true,
+                              placeholder: "不允许特殊字符",
+                            },
+                          },
+                          {
+                            brick: "forms.general-input",
+                            properties: {
+                              id: "userId",
+                              name: "userId",
+                              label: "ID",
+                              readOnly: false,
+                              required: false,
+                              placeholder: "不允许特殊字符",
+                            },
+                          },
+                          {
+                            brick: "forms.general-input-number",
+                            properties: {
+                              id: "age",
+                              name: "age",
+                              label: "年龄",
+                              readOnly: false,
+                              required: false,
+                              placeholder: "不允许特殊字符",
+                              precision: 0,
+                              inputBoxStyle: {
+                                width: "100%",
+                              },
+                            },
+                          },
+                          {
+                            brick: "forms.general-select",
+                            properties: {
+                              id: "department",
+                              name: "department",
+                              label: "部门",
+                              readOnly: false,
+                              required: true,
+                              options: [
+                                {
+                                  label: "选项一",
+                                  value: 1,
+                                },
+                                {
+                                  label: "选项二",
+                                  value: 2,
+                                },
+                              ],
+                              placeholder: "不允许特殊字符",
+                              inputBoxStyle: {
+                                width: "100%",
+                              },
+                            },
+                          },
+                          {
+                            brick: "forms.general-select",
+                            properties: {
+                              id: "status",
+                              name: "status",
+                              label: "状态",
+                              readOnly: false,
+                              required: true,
+                              options: [
+                                {
+                                  label: "选项一",
+                                  value: 1,
+                                },
+                                {
+                                  label: "选项二",
+                                  value: 2,
+                                },
+                              ],
+                              inputBoxStyle: {
+                                width: "100%",
+                              },
+                            },
+                          },
+                        ],
+                        type: "bricks",
+                      },
+                    },
+                  },
+                ],
+                type: "bricks",
+              },
+            },
+          },
+        ],
+        type: "bricks",
+      },
+    },
   });
-
-  it("getDefaultProperties - form.a", () => {
-    const tagName = getTagNameOfCustomForm("form.a");
-    expect(tagName).toBe("form.a");
+  expect(ExpandCustomForm(_formData, brickConf)).toEqual({
+    brick: "div",
+    slots: {
+      "": {
+        bricks: [
+          {
+            brick: "presentational-bricks.brick-illustration",
+            properties: {
+              category: "default",
+              header: {
+                title: "参数错误",
+              },
+              mode: "guide",
+              name: "search-empty",
+            },
+          },
+        ],
+        type: "bricks",
+      },
+    },
   });
 });

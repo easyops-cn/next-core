@@ -1,1 +1,1 @@
-export const customFormRegistry: any = new Map();
+export const formRender = "form-builder.form-render";

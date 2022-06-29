@@ -71,7 +71,6 @@ import {
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
-import { getStoryboard } from "./CustomForms/ExpandCustomForm";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -371,15 +370,9 @@ export class Kernel {
       path: previewPath,
       bricks: [
         {
-          brick: formId,
-          slots: {
-            "": {
-              bricks: getStoryboard(formData.schema, [], formData.fields),
-              type: "bricks",
-            },
-          },
+          brick: "form-builder.form-render",
           properties: {
-            style: { marginTop: "20px" },
+            formData: formData,
           },
         },
       ],
