@@ -72,6 +72,7 @@ import {
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { formRender } from "./CustomForms/constants";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -371,7 +372,7 @@ export class Kernel {
       path: previewPath,
       bricks: [
         {
-          brick: "form-builder.form-render",
+          brick: formRender,
           properties: {
             formData: formData,
           },

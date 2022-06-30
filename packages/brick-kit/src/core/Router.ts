@@ -334,32 +334,34 @@ export class Router {
           (route) =>
             route.path.startsWith("${APP.homepage}/_dev_only_/form-preview/")
         );
-        const mergedRoutes = [
-          ...storyboard.routes.slice(0, specificTemplatePreviewIndex + 1),
-          ...storyboard.routes.slice(0, specificSnippetPreviewIndex + 1),
-          ...storyboard.routes.slice(0, specificFormPreviewIndex + 1),
-          {
+
+        if (specificTemplatePreviewIndex > -1) {
+          storyboard.routes.splice(specificTemplatePreviewIndex, 1, {
             path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
             bricks: [{ brick: "span" }],
             menu: false,
             exact: true,
-          } as RouteConf,
-          {
+          } as RouteConf);
+        }
+        if (specificSnippetPreviewIndex > -1) {
+          storyboard.routes.splice(specificTemplatePreviewIndex, 1, {
             path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
             bricks: [{ brick: "span" }],
             menu: false,
             exact: true,
-          } as RouteConf,
-          {
+          } as RouteConf);
+        }
+        if (specificFormPreviewIndex > -1) {
+          storyboard.routes.splice(specificTemplatePreviewIndex, 1, {
             path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
             bricks: [{ brick: "span" }],
             menu: false,
             exact: true,
-          } as RouteConf,
-          ...storyboard.routes.slice(specificTemplatePreviewIndex + 1),
-        ];
+          } as RouteConf);
+        }
+
         await locationContext.mountRoutes(
-          mergedRoutes,
+          storyboard.routes,
           undefined,
           mountRoutesResult
         );

@@ -3,7 +3,7 @@ import { BrickConf } from "@next-core/brick-types";
 export function ExpandCustomForm(
   formData: formDataProperties,
   brickConf: BrickConf
-): any {
+): BrickConf {
   try {
     const formStoryboard = getStoryboard(
       [formData.formSchema.layout],
@@ -269,56 +269,56 @@ export function getStoryboard(
   fields: fieldProperties[]
 ): any {
   for (let i = 0; i < datasource.length; i++) {
-    let _datasource = datasource[i];
-    const _result = result[i] ?? {};
+    let dataItem = datasource[i];
+    const resultItem = result[i] ?? {};
     //数据初始化：若存在引用，根据字段类型获取默认属性
-    if (_datasource.quote) {
-      _datasource = {
-        ..._datasource,
-        ...getDefaultProperties(_datasource.quote, fields),
+    if (dataItem.quote) {
+      dataItem = {
+        ...dataItem,
+        ...getDefaultProperties(dataItem.quote, fields),
       };
     }
     //数据初始化：若存在userDefiend，与默认属性进行合并
-    if (_datasource.userDefined) {
-      Object.keys(_datasource["userDefined"]).forEach((item) => {
-        if (typeof _datasource[item] === "object")
-          _datasource[item] = {
-            ..._datasource[item],
-            ..._datasource["userDefined"][item],
+    if (dataItem.userDefined) {
+      Object.keys(dataItem["userDefined"]).forEach((item) => {
+        if (typeof dataItem[item] === "object")
+          dataItem[item] = {
+            ...dataItem[item],
+            ...dataItem["userDefined"][item],
           };
-        else _datasource[item] = _datasource["userDefined"][item];
+        else dataItem[item] = dataItem["userDefined"][item];
       });
     }
 
-    Object.keys(_datasource).forEach((item) => {
+    Object.keys(dataItem).forEach((item) => {
       if (!["bricks", "quote", "userDefined"].includes(item)) {
-        _result[item] = _datasource[item];
+        resultItem[item] = dataItem[item];
       }
     });
 
-    if (Array.isArray(_datasource.bricks)) {
+    if (Array.isArray(dataItem.bricks)) {
       if (
         ["forms.general-form", "basic-bricks.grid-layout"].includes(
-          _datasource.brick
+          dataItem.brick
         )
       ) {
-        _result["slots"] = { items: { bricks: [], type: "bricks" } };
-        _result.slots.items.bricks = getStoryboard(
-          _datasource.bricks,
-          _result.slots.items.bricks,
+        resultItem["slots"] = { items: { bricks: [], type: "bricks" } };
+        resultItem.slots.items.bricks = getStoryboard(
+          dataItem.bricks,
+          resultItem.slots.items.bricks,
           fields
         );
       } else {
-        _result["slots"] = { content: { bricks: [], type: "bricks" } };
-        _result.slots.content.bricks = getStoryboard(
-          _datasource.bricks,
-          _result.slots.content.bricks,
+        resultItem["slots"] = { content: { bricks: [], type: "bricks" } };
+        resultItem.slots.content.bricks = getStoryboard(
+          dataItem.bricks,
+          resultItem.slots.content.bricks,
           fields
         );
       }
     }
 
-    result[i] = _result;
+    result[i] = resultItem;
   }
   return result;
 }

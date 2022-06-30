@@ -34,6 +34,7 @@ import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
 import { applyColorTheme } from "../internal/applyColorTheme";
+import { formRender } from "./CustomForms/constants";
 
 i18next.init({
   fallbackLng: "en",
@@ -1503,7 +1504,7 @@ describe("Kernel", () => {
           {
             bricks: [
               {
-                brick: "form-builder.form-render",
+                brick: formRender,
                 properties: {
                   formData: {
                     fields: [

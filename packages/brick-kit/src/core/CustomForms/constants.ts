@@ -1,1 +1,1 @@
-export const formRender = "form-builder.form-render";
+export const formRender = "form-render.form-render";

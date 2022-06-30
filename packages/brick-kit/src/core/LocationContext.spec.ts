@@ -16,6 +16,7 @@ import { validatePermissions } from "../internal/checkPermissions";
 import * as menu from "../internal/menu";
 import { MediaBreakpoint } from "../internal/mediaQuery";
 import { registerCustomTemplate } from "./CustomTemplates/registerCustomTemplate";
+import { formRender } from "./CustomForms/constants";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -1326,7 +1327,7 @@ describe("LocationContext", () => {
                   brick: "tpl-a",
                 },
                 {
-                  brick: "form-builder.form-render",
+                  brick: formRender,
                   properties: {
                     formData: { formSchema: {}, fields: [] },
                   },
