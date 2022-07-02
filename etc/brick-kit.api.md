@@ -12,6 +12,7 @@ import { BrandColor } from '@next-core/color-theme';
 import { BreadcrumbItemConf } from '@next-core/brick-types';
 import { BrickConf } from '@next-core/brick-types';
 import { BrickEventHandlerCallback } from '@next-core/brick-types';
+import { BrickEventsMap } from '@next-core/brick-types';
 import { BrickLifeCycle } from '@next-core/brick-types';
 import { BrickPackage } from '@next-core/brick-types';
 import { BrickTemplateFactory } from '@next-core/brick-types';
