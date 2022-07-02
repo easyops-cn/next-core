@@ -564,7 +564,7 @@ export class Router {
     };
   }
 
-  MergePreviewRouter(router: BaseRouteConf[]) {
+  MergePreviewRouter(router: RouteConf[]): RouteConf[] {
     const specificTemplatePreviewIndex = findLastIndex(router, (route) =>
       route.path.startsWith("${APP.homepage}/_dev_only_/template-preview/")
     );
