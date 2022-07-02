@@ -234,6 +234,67 @@ describe("Router", () => {
       ...analyticsData,
     });
   });
+  it("it should work-MergePreviewRouter", async () => {
+    const router = new Router(kernel);
+    const result = router.MergePreviewRouter([
+      {
+        path: "${APP.homepage}/home",
+      },
+      {
+        path: "${APP.homepage}/_dev_only_/template-preview/test",
+      },
+      {
+        path: "${APP.homepage}/_dev_only_/form-preview/test",
+      },
+      {
+        path: "${APP.homepage}/_dev_only_/snippet-preview/test",
+      },
+    ]);
+    expect(result).toEqual([
+      {
+        path: "${APP.homepage}/home",
+      },
+      {
+        path: "${APP.homepage}/_dev_only_/template-preview/test",
+      },
+      {
+        bricks: [
+          {
+            brick: "span",
+          },
+        ],
+        exact: true,
+        menu: false,
+        path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
+      },
+      {
+        bricks: [
+          {
+            brick: "span",
+          },
+        ],
+        exact: true,
+        menu: false,
+        path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
+      },
+      {
+        path: "${APP.homepage}/_dev_only_/form-preview/test",
+      },
+      {
+        bricks: [
+          {
+            brick: "span",
+          },
+        ],
+        exact: true,
+        menu: false,
+        path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
+      },
+      {
+        path: "${APP.homepage}/_dev_only_/snippet-preview/test",
+      },
+    ]);
+  });
 
   it("should redirect to login page if not logged in.", async () => {
     __setMatchedStoryboard({
