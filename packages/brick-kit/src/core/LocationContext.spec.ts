@@ -1324,13 +1324,13 @@ describe("LocationContext", () => {
                   },
                 },
                 {
-                  brick: "tpl-a",
-                },
-                {
                   brick: formRender,
                   properties: {
                     formData: { formSchema: {}, fields: [] },
                   },
+                },
+                {
+                  brick: "tpl-a",
                 },
               ],
               type: "bricks",

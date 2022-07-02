@@ -335,33 +335,47 @@ export class Router {
             route.path.startsWith("${APP.homepage}/_dev_only_/form-preview/")
         );
 
+        let mergedRoutes = storyboard.routes;
         if (specificTemplatePreviewIndex > -1) {
-          storyboard.routes.splice(specificTemplatePreviewIndex, 1, {
-            path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
-            bricks: [{ brick: "span" }],
-            menu: false,
-            exact: true,
-          } as RouteConf);
+          mergedRoutes = [
+            ...mergedRoutes.slice(0, specificTemplatePreviewIndex + 1),
+            {
+              path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
+              bricks: [{ brick: "span" }],
+              menu: false,
+              exact: true,
+            } as RouteConf,
+            ...mergedRoutes.slice(specificTemplatePreviewIndex + 1),
+          ];
         }
+
         if (specificSnippetPreviewIndex > -1) {
-          storyboard.routes.splice(specificTemplatePreviewIndex, 1, {
-            path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
-            bricks: [{ brick: "span" }],
-            menu: false,
-            exact: true,
-          } as RouteConf);
+          mergedRoutes = [
+            ...mergedRoutes.slice(0, specificSnippetPreviewIndex + 1),
+            {
+              path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
+              bricks: [{ brick: "span" }],
+              menu: false,
+              exact: true,
+            } as RouteConf,
+            ...mergedRoutes.slice(specificSnippetPreviewIndex + 1),
+          ];
         }
         if (specificFormPreviewIndex > -1) {
-          storyboard.routes.splice(specificTemplatePreviewIndex, 1, {
-            path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
-            bricks: [{ brick: "span" }],
-            menu: false,
-            exact: true,
-          } as RouteConf);
+          mergedRoutes = [
+            ...mergedRoutes.slice(0, specificFormPreviewIndex + 1),
+            {
+              path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
+              bricks: [{ brick: "span" }],
+              menu: false,
+              exact: true,
+            } as RouteConf,
+            ...mergedRoutes.slice(specificFormPreviewIndex + 1),
+          ];
         }
 
         await locationContext.mountRoutes(
-          storyboard.routes,
+          mergedRoutes,
           undefined,
           mountRoutesResult
         );
