@@ -392,16 +392,31 @@ function extractBrickDocInterface(typeIds, references) {
             name: finder.name,
             typeParameter: getTypeParameter(finder),
             kind: "interface",
-            children: [
-              ...finder.children.map((child) => {
+            children:
+              finder.children?.map((child) => {
                 return {
                   name: child.name,
                   type: extractRealInterfaceType(child.type.type, child.type),
                   required: !get(child, ["flags", "isOptional"], false),
                   description: get(child, ["comment", "shortText"], "").trim(),
                 };
-              }),
-            ],
+              }) || [],
+            indexSignature:
+              finder.indexSignature?.map((child) => {
+                return {
+                  name: child.name,
+                  parameters: child.parameters.map((parameter) => ({
+                    ...parameter,
+                    type: extractRealInterfaceType(
+                      parameter.type.type,
+                      parameter.type
+                    ),
+                  })),
+                  type: extractRealInterfaceType(child.type.type, child.type),
+                  required: !get(child, ["flags", "isOptional"], false),
+                  description: get(child, ["comment", "shortText"], "").trim(),
+                };
+              }) || [],
           };
         }
 
@@ -538,7 +553,16 @@ function traverseUsedReferenceIdsByReflection(
   switch (reflection.kindString) {
     case "Interface":
       reflection.children
-        .filter((item) => item.kindString === "Property")
+        ?.filter((item) => item.kindString === "Property")
+        .forEach((item) =>
+          traverseUsedReferenceIdsByType(
+            item.type,
+            usedReferenceIds,
+            references
+          )
+        );
+      reflection.indexSignature
+        ?.filter((item) => item.kindString === "Index signature")
         .forEach((item) =>
           traverseUsedReferenceIdsByType(
             item.type,
@@ -590,7 +614,7 @@ function generateBrickBook(docsJson) {
   fs.writeFileSync(storiesPath, JSON.stringify(stories, null, 2), {
     encoding: "utf-8",
   });
-  console.log("Brick book written to doc.json.");
+  console.log("Brick book written to stories.json.");
 }
 
 module.exports = function generateBrickDocs(packageName) {
