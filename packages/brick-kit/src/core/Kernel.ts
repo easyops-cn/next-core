@@ -71,6 +71,8 @@ import {
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
+import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { formRenderer } from "./CustomForms/constants";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -344,6 +346,38 @@ export class Kernel {
         snippetData.bricks?.length > 0
           ? snippetData.bricks
           : [{ brick: "span" }],
+      menu: false,
+      exact: true,
+    };
+    if (previewRouteIndex === -1) {
+      routes.unshift(newPreviewRoute);
+    } else {
+      routes.splice(previewRouteIndex, 1, newPreviewRoute);
+    }
+  }
+
+  _dev_only_updateFormPreviewSettings(
+    appId: string,
+    formId: string,
+    formData: formDataProperties
+  ): void {
+    const { routes } = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    const previewPath = `\${APP.homepage}/_dev_only_/form-preview/${formId}`;
+    const previewRouteIndex = routes.findIndex(
+      (route) => route.path === previewPath
+    );
+    const newPreviewRoute: RouteConf = {
+      path: previewPath,
+      bricks: [
+        {
+          brick: formRenderer,
+          properties: {
+            formData: formData,
+          },
+        },
+      ],
       menu: false,
       exact: true,
     };

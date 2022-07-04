@@ -1,6 +1,7 @@
 import { locationsAreEqual, createPath, Action, Location } from "history";
 import { findLastIndex, uniqueId } from "lodash";
 import type {
+  BaseRouteConf,
   LayoutType,
   PluginHistoryState,
   PluginLocation,
@@ -50,6 +51,7 @@ import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
+import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
 import { collectContract } from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
@@ -242,6 +244,8 @@ export class Router {
 
       registerMock(storyboard.meta?.mocks);
 
+      registerFormRenderer();
+
       collectContract(storyboard.meta?.contracts);
     }
 
@@ -312,36 +316,7 @@ export class Router {
         },
       };
       try {
-        const specificTemplatePreviewIndex = findLastIndex(
-          storyboard.routes,
-          (route) =>
-            route.path.startsWith(
-              "${APP.homepage}/_dev_only_/template-preview/"
-            )
-        );
-
-        const specificSnippetPreviewIndex = findLastIndex(
-          storyboard.routes,
-          (route) =>
-            route.path.startsWith("${APP.homepage}/_dev_only_/snippet-preview/")
-        );
-        const mergedRoutes = [
-          ...storyboard.routes.slice(0, specificTemplatePreviewIndex + 1),
-          ...storyboard.routes.slice(0, specificSnippetPreviewIndex + 1),
-          {
-            path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
-            bricks: [{ brick: "span" }],
-            menu: false,
-            exact: true,
-          } as RouteConf,
-          {
-            path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
-            bricks: [{ brick: "span" }],
-            menu: false,
-            exact: true,
-          } as RouteConf,
-          ...storyboard.routes.slice(specificTemplatePreviewIndex + 1),
-        ];
+        const mergedRoutes = this.MergePreviewRouter(storyboard.routes);
         await locationContext.mountRoutes(
           mergedRoutes,
           undefined,
@@ -589,6 +564,57 @@ export class Router {
     };
   }
 
+  MergePreviewRouter(router: RouteConf[]): RouteConf[] {
+    let mergedRoutes = router;
+    const specificTemplatePreviewIndex = findLastIndex(mergedRoutes, (route) =>
+      route.path.startsWith("${APP.homepage}/_dev_only_/template-preview/")
+    );
+    if (specificTemplatePreviewIndex > -1) {
+      mergedRoutes = [
+        ...mergedRoutes.slice(0, specificTemplatePreviewIndex + 1),
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
+          bricks: [{ brick: "span" }],
+          menu: false,
+          exact: true,
+        } as RouteConf,
+        ...mergedRoutes.slice(specificTemplatePreviewIndex + 1),
+      ];
+    }
+
+    const specificSnippetPreviewIndex = findLastIndex(mergedRoutes, (route) =>
+      route.path.startsWith("${APP.homepage}/_dev_only_/snippet-preview/")
+    );
+    if (specificSnippetPreviewIndex > -1) {
+      mergedRoutes = [
+        ...mergedRoutes.slice(0, specificSnippetPreviewIndex + 1),
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
+          bricks: [{ brick: "span" }],
+          menu: false,
+          exact: true,
+        } as RouteConf,
+        ...mergedRoutes.slice(specificSnippetPreviewIndex + 1),
+      ];
+    }
+
+    const specificFormPreviewIndex = findLastIndex(mergedRoutes, (route) =>
+      route.path.startsWith("${APP.homepage}/_dev_only_/form-preview/")
+    );
+    if (specificFormPreviewIndex > -1) {
+      mergedRoutes = [
+        ...mergedRoutes.slice(0, specificFormPreviewIndex + 1),
+        {
+          path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
+          bricks: [{ brick: "span" }],
+          menu: false,
+          exact: true,
+        } as RouteConf,
+        ...mergedRoutes.slice(specificFormPreviewIndex + 1),
+      ];
+    }
+    return mergedRoutes;
+  }
   /* istanbul ignore next */
   getNavConfig(): NavConfig {
     return this.navConfig;

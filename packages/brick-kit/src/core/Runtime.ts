@@ -40,6 +40,7 @@ import { registerLazyBricks } from "./LazyBrickRegistry";
 import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
+import { formDataProperties } from "./CustomForms/ExpandCustomForm";
 
 let kernel: Kernel;
 
@@ -118,6 +119,15 @@ export function _dev_only_updateSnippetPreviewSettings(
   snippetData: any
 ): void {
   kernel._dev_only_updateSnippetPreviewSettings(appId, snippetData);
+}
+
+/* istanbul ignore next */
+export function _dev_only_updateFormPreviewSettings(
+  appId: string,
+  formId: string,
+  settings: formDataProperties
+): void {
+  kernel._dev_only_updateFormPreviewSettings(appId, formId, settings);
 }
 
 export class Runtime implements AbstractRuntime {

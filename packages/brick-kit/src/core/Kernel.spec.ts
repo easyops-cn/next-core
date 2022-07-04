@@ -34,6 +34,7 @@ import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
 import { applyColorTheme } from "../internal/applyColorTheme";
+import { formRenderer } from "./CustomForms/constants";
 
 i18next.init({
   fallbackLng: "en",
@@ -1408,5 +1409,160 @@ describe("Kernel", () => {
         },
       ]
     `);
+  });
+
+  it("should update form preview settings", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+          },
+          routes: [],
+        },
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [
+            {
+              alias: "home",
+              path: "${APP.homepage}",
+              bricks: [],
+            },
+          ],
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+    kernel._dev_only_updateFormPreviewSettings("app-b", "form-c", {
+      schema: {
+        brick: "forms.general-form",
+        bricks: [
+          {
+            brick: "basic-bricks.grid-layout",
+            bricks: [
+              {
+                quote: "userName",
+              },
+            ],
+            properties: {
+              columns: 1,
+              id: "grid_252",
+              title: "行容器",
+            },
+          },
+        ],
+        properties: {
+          formItemConfig: {},
+          id: "form_251",
+          sectionConfig: {},
+          values: {},
+        },
+      },
+      fields: [
+        {
+          _object_id: "FORM_MODEL_FIELD@EASYOPS",
+          creator: "easyops",
+          ctime: "2022-05-30 10:27:25",
+          defaultValue: "0",
+          description: "不允许特殊字符",
+          id: "userName",
+          instanceId: "5e0316589e322",
+          limit: ["required"],
+          modifier: "easyops",
+          mtime: "2022-06-07 15:34:11",
+          name: "用户名",
+          type: "STRING",
+        },
+      ],
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          config: {},
+          homepage: "/app-a",
+          id: "app-a",
+          localeName: undefined,
+        },
+        routes: [],
+      },
+      {
+        app: {
+          config: {},
+          homepage: "/app-b",
+          id: "app-b",
+          localeName: undefined,
+        },
+        routes: [
+          {
+            bricks: [
+              {
+                brick: formRenderer,
+                properties: {
+                  formData: {
+                    fields: [
+                      {
+                        _object_id: "FORM_MODEL_FIELD@EASYOPS",
+                        creator: "easyops",
+                        ctime: "2022-05-30 10:27:25",
+                        defaultValue: "0",
+                        description: "不允许特殊字符",
+                        id: "userName",
+                        instanceId: "5e0316589e322",
+                        limit: ["required"],
+                        modifier: "easyops",
+                        mtime: "2022-06-07 15:34:11",
+                        name: "用户名",
+                        type: "STRING",
+                      },
+                    ],
+                    schema: {
+                      brick: "forms.general-form",
+                      bricks: [
+                        {
+                          brick: "basic-bricks.grid-layout",
+                          bricks: [
+                            {
+                              quote: "userName",
+                            },
+                          ],
+
+                          properties: {
+                            columns: 1,
+                            id: "grid_252",
+                            title: "行容器",
+                          },
+                        },
+                      ],
+                      properties: {
+                        formItemConfig: {},
+                        id: "form_251",
+                        sectionConfig: {},
+                        values: {},
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+            exact: true,
+            menu: false,
+            path: "${APP.homepage}/_dev_only_/form-preview/form-c",
+          },
+          {
+            alias: "home",
+            bricks: [],
+            path: "${APP.homepage}",
+          },
+        ],
+      },
+    ]);
   });
 });
