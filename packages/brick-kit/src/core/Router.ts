@@ -51,7 +51,7 @@ import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
-import { registerFormRender } from "./CustomForms/registerFormRender";
+import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
 import { collectContract } from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
@@ -244,7 +244,7 @@ export class Router {
 
       registerMock(storyboard.meta?.mocks);
 
-      registerFormRender();
+      registerFormRenderer();
 
       collectContract(storyboard.meta?.contracts);
     }
@@ -565,19 +565,10 @@ export class Router {
   }
 
   MergePreviewRouter(router: RouteConf[]): RouteConf[] {
-    const specificTemplatePreviewIndex = findLastIndex(router, (route) =>
+    let mergedRoutes = router;
+    const specificTemplatePreviewIndex = findLastIndex(mergedRoutes, (route) =>
       route.path.startsWith("${APP.homepage}/_dev_only_/template-preview/")
     );
-
-    const specificSnippetPreviewIndex = findLastIndex(router, (route) =>
-      route.path.startsWith("${APP.homepage}/_dev_only_/snippet-preview/")
-    );
-
-    const specificFormPreviewIndex = findLastIndex(router, (route) =>
-      route.path.startsWith("${APP.homepage}/_dev_only_/form-preview/")
-    );
-
-    let mergedRoutes = router;
     if (specificTemplatePreviewIndex > -1) {
       mergedRoutes = [
         ...mergedRoutes.slice(0, specificTemplatePreviewIndex + 1),
@@ -591,6 +582,9 @@ export class Router {
       ];
     }
 
+    const specificSnippetPreviewIndex = findLastIndex(mergedRoutes, (route) =>
+      route.path.startsWith("${APP.homepage}/_dev_only_/snippet-preview/")
+    );
     if (specificSnippetPreviewIndex > -1) {
       mergedRoutes = [
         ...mergedRoutes.slice(0, specificSnippetPreviewIndex + 1),
@@ -603,6 +597,10 @@ export class Router {
         ...mergedRoutes.slice(specificSnippetPreviewIndex + 1),
       ];
     }
+
+    const specificFormPreviewIndex = findLastIndex(mergedRoutes, (route) =>
+      route.path.startsWith("${APP.homepage}/_dev_only_/form-preview/")
+    );
     if (specificFormPreviewIndex > -1) {
       mergedRoutes = [
         ...mergedRoutes.slice(0, specificFormPreviewIndex + 1),

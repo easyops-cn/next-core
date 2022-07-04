@@ -1,4 +1,4 @@
-export const formRender = "form-renderer.form-renderer";
+export const formRenderer = "form-renderer.form-renderer";
 export const filterProperties: string[] = [
   "brick",
   "slots",

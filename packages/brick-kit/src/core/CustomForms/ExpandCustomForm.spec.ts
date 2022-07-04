@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { formRender } from "./constants";
+import { formRenderer } from "./constants";
 import {
   ExpandCustomForm,
   getDefaultProperties,
@@ -580,7 +580,7 @@ describe("ExpandCustomForm is work", () => {
   const _formData = {};
   const brickConf = {
     bg: false,
-    brick: formRender,
+    brick: formRenderer,
     iid: "5e27819b1e711",
     injectDeep: true,
     portal: false,

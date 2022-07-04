@@ -77,7 +77,7 @@ import {
   ExpandCustomForm,
   formDataProperties,
 } from "./CustomForms/ExpandCustomForm";
-import { formRender } from "./CustomForms/constants";
+import { formRenderer } from "./CustomForms/constants";
 
 export type MatchRoutesResult =
   | {
@@ -702,7 +702,7 @@ export class LocationContext {
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 
-    if (brick.type === formRender) {
+    if (brick.type === formRenderer) {
       const formData: formDataProperties = brick.properties.formData;
       expandedBrickConf = ExpandCustomForm(formData, brickConf);
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
