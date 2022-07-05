@@ -392,6 +392,7 @@ function extractBrickDocInterface(typeIds, references) {
             name: finder.name,
             typeParameter: getTypeParameter(finder),
             kind: "interface",
+            extendedTypes: finder.extendedTypes,
             children:
               finder.children?.map((child) => {
                 return {
@@ -585,6 +586,14 @@ function traverseUsedReferenceIdsByReflection(
   }
   switch (reflection.kindString) {
     case "Interface":
+      reflection.extendedTypes?.forEach((type) =>
+        traverseUsedReferenceIdsByType(
+          type,
+          usedReferenceIds,
+          references,
+          traversedTypeSet
+        )
+      );
       reflection.children
         ?.filter((item) => item.kindString === "Property")
         .forEach((item) =>
