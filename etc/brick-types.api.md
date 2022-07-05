@@ -2113,7 +2113,7 @@ export interface StoryDoc {
     // (undocumented)
     id: string;
     // (undocumented)
-    interface?: (StoryDocInterface | StoryDocType)[];
+    interface?: (StoryDocInterface | StoryDocEnum | StoryDocType)[];
     // (undocumented)
     memo?: MarkdownString;
     // (undocumented)
@@ -2136,6 +2136,18 @@ export interface StoryDocEnum {
     name: string;
     // (undocumented)
     value: string;
+}
+
+// @internal (undocumented)
+export interface StoryDocEnum {
+    // (undocumented)
+    children: StoryDocEnum[];
+    // (undocumented)
+    kind: "enum";
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    typeParameter: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryDocEvent" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2167,13 +2179,41 @@ export interface StoryDocHistory {
 // @internal (undocumented)
 export interface StoryDocInterface {
     // (undocumented)
-    children: StoryDocTypeAndInterface[] | StoryDocEnum[];
+    children?: StoryDocInterfaceProperty[];
+    // Warning: (ae-forgotten-export) The symbol "SomeType" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    kind: "interface" | "enum" | "type";
+    extendedTypes?: SomeType[];
+    // (undocumented)
+    indexSignature?: StoryDocInterfaceIndexSignature[];
+    // (undocumented)
+    kind: "interface";
     // (undocumented)
     name: string;
     // (undocumented)
     typeParameter: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryDocInterfaceIndexSignature" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryDocInterfaceIndexSignature extends StoryDocInterfaceProperty {
+    // (undocumented)
+    parameters: StoryDocTypeParameter[];
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryDocInterfaceProperty" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryDocInterfaceProperty {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    required: boolean;
+    // (undocumented)
+    type: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryDocMethod" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2235,7 +2275,7 @@ export interface StoryDocType {
     // (undocumented)
     description: string;
     // (undocumented)
-    kind: boolean;
+    kind: "type";
     // (undocumented)
     name: string;
     // (undocumented)
@@ -2244,16 +2284,12 @@ export interface StoryDocType {
     typeParameter: string;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "StoryDocTypeAndInterface" should be prefixed with an underscore because the declaration is marked as @internal
+// Warning: (ae-internal-missing-underscore) The name "StoryDocTypeParameter" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface StoryDocTypeAndInterface {
-    // (undocumented)
-    description: string;
+export interface StoryDocTypeParameter {
     // (undocumented)
     name: string;
-    // (undocumented)
-    required: boolean;
     // (undocumented)
     type: string;
 }

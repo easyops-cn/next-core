@@ -392,16 +392,32 @@ function extractBrickDocInterface(typeIds, references) {
             name: finder.name,
             typeParameter: getTypeParameter(finder),
             kind: "interface",
-            children: [
-              ...finder.children.map((child) => {
+            extendedTypes: finder.extendedTypes,
+            children:
+              finder.children?.map((child) => {
                 return {
                   name: child.name,
                   type: extractRealInterfaceType(child.type.type, child.type),
                   required: !get(child, ["flags", "isOptional"], false),
                   description: get(child, ["comment", "shortText"], "").trim(),
                 };
-              }),
-            ],
+              }) || [],
+            indexSignature:
+              finder.indexSignature?.map((child) => {
+                return {
+                  name: child.name,
+                  parameters: child.parameters.map((parameter) => ({
+                    ...parameter,
+                    type: extractRealInterfaceType(
+                      parameter.type.type,
+                      parameter.type
+                    ),
+                  })),
+                  type: extractRealInterfaceType(child.type.type, child.type),
+                  required: !get(child, ["flags", "isOptional"], false),
+                  description: get(child, ["comment", "shortText"], "").trim(),
+                };
+              }) || [],
           };
         }
 
@@ -438,10 +454,16 @@ function traverseExtraInterfaceReferences(modules, References) {
 function traverseElementUsedInterfaceIds(
   element,
   usedReferenceIds,
-  references
+  references,
+  traversedTypeSet
 ) {
   element.children.forEach((child) => {
-    traverseUsedReferenceIdsByType(child.type, usedReferenceIds, references);
+    traverseUsedReferenceIdsByType(
+      child.type,
+      usedReferenceIds,
+      references,
+      traversedTypeSet
+    );
   });
 }
 
@@ -461,13 +483,19 @@ function traverseModules(modules, brickDocs) {
     if (!elementId) return;
 
     const usedReferenceIds = new Set();
+    const traversedTypeSet = new Set();
     const classElement = module.children.find(
       (child) => child.id === elementId && existBrickDocId(child)
     );
     if (!classElement) return;
     const { comment, children, groups } = classElement;
     const references = [...module.children, ...extraInterfaceReferencesValues];
-    traverseElementUsedInterfaceIds(classElement, usedReferenceIds, references);
+    traverseElementUsedInterfaceIds(
+      classElement,
+      usedReferenceIds,
+      references,
+      traversedTypeSet
+    );
     const brick = {
       ...extractBrickDocBaseKind(comment.tags),
       ...extractBrickDocComplexKind(groups, children),
@@ -480,25 +508,38 @@ function traverseModules(modules, brickDocs) {
   });
 }
 
-function traverseUsedReferenceIdsByType(type, usedReferenceIds, references) {
+function traverseUsedReferenceIdsByType(
+  type,
+  usedReferenceIds,
+  references,
+  traversedTypeSet
+) {
   if (!type || !type.type) return;
 
-  if (type.$$traversed) {
+  if (traversedTypeSet.has(type)) {
     return;
   }
-  type.$$traversed = true;
+
+  traversedTypeSet.add(type);
+
   switch (type.type) {
     case "union":
     case "intersection":
       type.types.forEach((item) =>
-        traverseUsedReferenceIdsByType(item, usedReferenceIds, references)
+        traverseUsedReferenceIdsByType(
+          item,
+          usedReferenceIds,
+          references,
+          traversedTypeSet
+        )
       );
       break;
     case "array":
       traverseUsedReferenceIdsByType(
         type.elementType,
         usedReferenceIds,
-        references
+        references,
+        traversedTypeSet
       );
       break;
     case "reference":
@@ -507,12 +548,18 @@ function traverseUsedReferenceIdsByType(type, usedReferenceIds, references) {
         traverseUsedReferenceIdsByReflection(
           references.find((child) => child.id === type.id),
           usedReferenceIds,
-          references
+          references,
+          traversedTypeSet
         );
       }
       if (type.typeArguments && type.typeArguments.length > 0) {
         type.typeArguments.forEach((item) =>
-          traverseUsedReferenceIdsByType(item, usedReferenceIds, references)
+          traverseUsedReferenceIdsByType(
+            item,
+            usedReferenceIds,
+            references,
+            traversedTypeSet
+          )
         );
       }
       break;
@@ -521,7 +568,8 @@ function traverseUsedReferenceIdsByType(type, usedReferenceIds, references) {
       traverseUsedReferenceIdsByType(
         type.objectType,
         usedReferenceIds,
-        references
+        references,
+        traversedTypeSet
       );
       break;
   }
@@ -530,20 +578,40 @@ function traverseUsedReferenceIdsByType(type, usedReferenceIds, references) {
 function traverseUsedReferenceIdsByReflection(
   reflection,
   usedReferenceIds,
-  references
+  references,
+  traversedTypeSet
 ) {
   if (!reflection) {
     return;
   }
   switch (reflection.kindString) {
     case "Interface":
+      reflection.extendedTypes?.forEach((type) =>
+        traverseUsedReferenceIdsByType(
+          type,
+          usedReferenceIds,
+          references,
+          traversedTypeSet
+        )
+      );
       reflection.children
-        .filter((item) => item.kindString === "Property")
+        ?.filter((item) => item.kindString === "Property")
         .forEach((item) =>
           traverseUsedReferenceIdsByType(
             item.type,
             usedReferenceIds,
-            references
+            references,
+            traversedTypeSet
+          )
+        );
+      reflection.indexSignature
+        ?.filter((item) => item.kindString === "Index signature")
+        .forEach((item) =>
+          traverseUsedReferenceIdsByType(
+            item.type,
+            usedReferenceIds,
+            references,
+            traversedTypeSet
           )
         );
       break;
@@ -551,7 +619,8 @@ function traverseUsedReferenceIdsByReflection(
       traverseUsedReferenceIdsByType(
         reflection.type,
         usedReferenceIds,
-        references
+        references,
+        traversedTypeSet
       );
       break;
   }
@@ -590,7 +659,7 @@ function generateBrickBook(docsJson) {
   fs.writeFileSync(storiesPath, JSON.stringify(stories, null, 2), {
     encoding: "utf-8",
   });
-  console.log("Brick book written to doc.json.");
+  console.log("Brick book written to stories.json.");
 }
 
 module.exports = function generateBrickDocs(packageName) {
