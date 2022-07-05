@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.62.2...@next-core/brick-types@2.63.0) (2022-07-05)
+
+
+### Features
+
+* **story:** StoryDocInterface add extendedTypes and indexSignature properties ([6df5590](https://github.com/easyops-cn/next-core/commit/6df55908236be41e8e0d8415307a0ec4b108963f))
+
+
+
+
+
 ## [2.62.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.62.1...@next-core/brick-types@2.62.2) (2022-06-24)
 
 **Note:** Version bump only for package @next-core/brick-types

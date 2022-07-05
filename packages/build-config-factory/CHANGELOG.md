@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.52...@next-core/build-config-factory@2.19.0) (2022-07-05)
+
+
+### Bug Fixes
+
+* **generateBrickDocs:** type will not be traversed in another module once traversed ([c539bcf](https://github.com/easyops-cn/next-core/commit/c539bcf86a8d7d0955f4115373db838032c5c677))
+
+
+### Features
+
+* **generateBrickDocs:** add support for extendedTypes ([12c9e53](https://github.com/easyops-cn/next-core/commit/12c9e536b07104a9ee8478cbe8c2aa6887751335))
+* **generateBrickDocs:** add support for index signature ([1f16c2c](https://github.com/easyops-cn/next-core/commit/1f16c2c1a961a43a139f8bef1117c8eb4e4ba3f6))
+
+
+
+
+
 ## [2.18.52](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.51...@next-core/build-config-factory@2.18.52) (2022-06-28)
 
 **Note:** Version bump only for package @next-core/build-config-factory
