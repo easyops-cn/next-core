@@ -101,11 +101,12 @@ function convertTagsToMapByFields(tags, fields) {
 }
 
 function composeBrickDocProperties(brick) {
-  const { name, comment } = brick;
-  const type = brick.type && brick.type.type;
+  const { name, comment, type, flags, defaultValue } = brick;
   return {
     name,
-    type: extractRealInterfaceType(type, brick.type),
+    type: extractRealInterfaceType(type?.type, type),
+    required: flags?.isOptional !== true,
+    default: defaultValue,
     ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
   };
 }
@@ -122,11 +123,19 @@ function getEventTypeByDecorators(decorators) {
   return null;
 }
 
+function getDetailTypeByEventType(type) {
+  if (type.name === "EventEmitter" && type.typeArguments?.length > 0) {
+    const argument = type.typeArguments[0];
+    return extractRealInterfaceType(argument.type, argument);
+  }
+}
+
 function composeBrickDocEvents(brick) {
-  const { comment, decorators } = brick;
+  const { comment, decorators, type } = brick;
 
   return {
     type: getEventTypeByDecorators(decorators),
+    detail: getDetailTypeByEventType(type),
     ...convertTagsToMapByFields(get(comment, "tags", []), eventDocComments),
   };
 }
