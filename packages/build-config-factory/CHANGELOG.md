@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.19.0...@next-core/build-config-factory@2.20.0) (2022-07-05)
+
+
+### Features
+
+* **generateBrickDocs:** support infer required and default of property and detail of event from declaration ([6a60f26](https://github.com/easyops-cn/next-core/commit/6a60f26563683d89d5b36bb766f973cb23522e70))
+
+
+
+
+
 # [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.52...@next-core/build-config-factory@2.19.0) (2022-07-05)
 
 
