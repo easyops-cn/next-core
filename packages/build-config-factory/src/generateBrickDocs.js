@@ -100,8 +100,21 @@ function convertTagsToMapByFields(tags, fields) {
   }, {});
 }
 
+function getClassChildType(child) {
+  let type = child.type;
+
+  // setter
+  if (!type && child.kindString === "Accessor" && child.setSignature) {
+    type = child.setSignature[0].parameters[0].type;
+  }
+
+  return type;
+}
+
 function composeBrickDocProperties(brick) {
-  const { name, comment, type, flags, defaultValue } = brick;
+  const { name, comment, flags, defaultValue } = brick;
+  const type = getClassChildType(brick);
+
   return {
     name,
     type: extractRealInterfaceType(type?.type, type),
@@ -469,8 +482,10 @@ function traverseElementUsedInterfaceIds(
   traversedTypeSet
 ) {
   element.children.forEach((child) => {
+    const type = getClassChildType(child);
+
     traverseUsedReferenceIdsByType(
-      child.type,
+      type,
       usedReferenceIds,
       references,
       traversedTypeSet
