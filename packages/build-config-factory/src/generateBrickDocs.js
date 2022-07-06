@@ -356,6 +356,7 @@ function extractBrickDocEnumerations(enumerations) {
     name: enumerations.name,
     typeParameter: null,
     kind: "enum",
+    description: enumerations?.comment?.shortText?.trim(),
     children: [
       ...enumerations.children.map((child) => {
         return {
@@ -402,6 +403,7 @@ function extractBrickDocInterface(typeIds, references) {
             typeParameter: getTypeParameter(finder),
             kind: "interface",
             extendedTypes: finder.extendedTypes,
+            description: finder?.comment?.shortText?.trim(),
             children:
               finder.children?.map((child) => {
                 return {

@@ -96,10 +96,10 @@ export interface StoryDocHistory {
 }
 
 /** @internal */
-export interface StoryDocEnum {
+export interface StoryDocEnumChild {
   name: string;
   value: string;
-  description: string;
+  description?: string;
 }
 
 /** @internal */
@@ -128,7 +128,7 @@ export interface StoryDocType {
   type: string;
   kind: "type";
   typeParameter: string;
-  description: string;
+  description?: string;
 }
 
 /** @internal */
@@ -136,7 +136,8 @@ export interface StoryDocEnum {
   name: string;
   typeParameter: string;
   kind: "enum";
-  children: StoryDocEnum[];
+  children: StoryDocEnumChild[];
+  description?: string;
 }
 
 /** @internal */
@@ -151,6 +152,7 @@ export interface StoryDocInterface {
   typeParameter: string;
   kind: "interface";
   extendedTypes?: SomeType[];
+  description?: string;
   children?: StoryDocInterfaceProperty[];
   indexSignature?: StoryDocInterfaceIndexSignature[];
 }
