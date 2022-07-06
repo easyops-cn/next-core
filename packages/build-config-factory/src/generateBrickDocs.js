@@ -161,6 +161,14 @@ function composeBrickDocMethods(brick) {
     [];
   return {
     name,
+    params: signatures[0].parameters
+      ?.map(
+        (parameter) =>
+          `${parameter.name}${
+            parameter.flags?.isOptional ? "?" : ""
+          }: ${extractRealInterfaceType(parameter.type)}`
+      )
+      .join(" "),
     ...convertTagsToMapByFields(tags, methodComments),
   };
 }
@@ -499,14 +507,25 @@ function traverseElementUsedInterfaceIds(
   traversedTypeSet
 ) {
   element.children.forEach((child) => {
-    const type = getClassChildType(child);
+    if (child.kindString === "Method") {
+      child.signatures[0].parameters?.map((parameter) =>
+        traverseUsedReferenceIdsByType(
+          parameter.type,
+          usedReferenceIds,
+          references,
+          traversedTypeSet
+        )
+      );
+    } else {
+      const type = getClassChildType(child);
 
-    traverseUsedReferenceIdsByType(
-      type,
-      usedReferenceIds,
-      references,
-      traversedTypeSet
-    );
+      traverseUsedReferenceIdsByType(
+        type,
+        usedReferenceIds,
+        references,
+        traversedTypeSet
+      );
+    }
   });
 }
 
