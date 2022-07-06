@@ -347,8 +347,29 @@ function extractRealInterfaceType(type, typeData, parentType) {
       return typeData.types
         .map((type) => extractRealInterfaceType(type.type, type))
         .join(" & ");
-    case "reflection":
-      return "object";
+    case "reflection": {
+      if (typeData.declaration) {
+        const { children = [], indexSignature = [] } = typeData.declaration;
+
+        return `{ ${[
+          ...children.map(
+            (child) =>
+              `${child.name}${
+                child.flags?.isOptional ? "?" : ""
+              }: ${extractRealInterfaceType(child.type.type, child.type)};`
+          ),
+          ...indexSignature.map((item) => {
+            const parameter = item.parameters[0];
+            return `[${parameter.name}: ${extractRealInterfaceType(
+              parameter.type.type,
+              parameter.type
+            )}]: ${extractRealInterfaceType(item.type.type, item.type)};`;
+          }),
+        ].join(" ")} }`;
+      } else {
+        return "object";
+      }
+    }
     default:
       return "";
   }
