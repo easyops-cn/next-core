@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.64.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.63.0...@next-core/brick-types@2.64.0) (2022-07-07)
+
+
+### Features
+
+* **generateBrickDocs:** support description of enum and interface ([3b81fe1](https://github.com/easyops-cn/next-core/commit/3b81fe1a5ee3d1666083fad50c7da8d62379c98a))
+
+
+
+
+
 # [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.62.2...@next-core/brick-types@2.63.0) (2022-07-05)
 
 

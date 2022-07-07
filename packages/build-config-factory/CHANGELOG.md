@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.20.0...@next-core/build-config-factory@2.21.0) (2022-07-07)
+
+
+### Features
+
+* **generateBrickDocs:** support description of enum and interface ([3b81fe1](https://github.com/easyops-cn/next-core/commit/3b81fe1a5ee3d1666083fad50c7da8d62379c98a))
+* **generateBrickDocs:** support get detail of reflection type from declaration ([b62557f](https://github.com/easyops-cn/next-core/commit/b62557f09a362a85ac25151d8940cec4e691700b))
+* **generateBrickDocs:** support get parameters type of method from declaration ([e88bef6](https://github.com/easyops-cn/next-core/commit/e88bef6006140001bd44271911566df497e03ca4))
+* **generateBrickDocs:** support get property type from setter ([5825363](https://github.com/easyops-cn/next-core/commit/5825363195c4359a21b9b80360a58a261e886825))
+
+
+
+
+
 # [2.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.19.0...@next-core/build-config-factory@2.20.0) (2022-07-05)
 
 
