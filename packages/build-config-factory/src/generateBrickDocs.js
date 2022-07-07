@@ -100,11 +100,24 @@ function convertTagsToMapByFields(tags, fields) {
   }, {});
 }
 
+function getClassChildType(child) {
+  let type = child.type;
+
+  // setter
+  if (!type && child.kindString === "Accessor" && child.setSignature) {
+    type = child.setSignature[0].parameters[0].type;
+  }
+
+  return type;
+}
+
 function composeBrickDocProperties(brick) {
-  const { name, comment, type, flags, defaultValue } = brick;
+  const { name, comment, flags, defaultValue } = brick;
+  const type = getClassChildType(brick);
+
   return {
     name,
-    type: extractRealInterfaceType(type?.type, type),
+    type: extractRealInterfaceType(type),
     required: flags?.isOptional !== true,
     default: defaultValue,
     ...convertTagsToMapByFields(get(comment, "tags", []), propertyDocComments),
@@ -126,7 +139,7 @@ function getEventTypeByDecorators(decorators) {
 function getDetailTypeByEventType(type) {
   if (type.name === "EventEmitter" && type.typeArguments?.length > 0) {
     const argument = type.typeArguments[0];
-    return extractRealInterfaceType(argument.type, argument);
+    return extractRealInterfaceType(argument);
   }
 }
 
@@ -148,6 +161,14 @@ function composeBrickDocMethods(brick) {
     [];
   return {
     name,
+    params: signatures[0].parameters
+      ?.map(
+        (parameter) =>
+          `${parameter.name}${
+            parameter.flags?.isOptional ? "?" : ""
+          }: ${extractRealInterfaceType(parameter.type)}`
+      )
+      .join(" "),
     ...convertTagsToMapByFields(tags, methodComments),
   };
 }
@@ -293,8 +314,8 @@ function existBrickDocId(element) {
   }
 }
 
-function extractRealInterfaceType(type, typeData, parentType) {
-  switch (type) {
+function extractRealInterfaceType(typeData, parentType) {
+  switch (typeData?.type) {
     case "reference":
       // eslint-disable-next-line no-case-declarations
       let result = "";
@@ -304,25 +325,24 @@ function extractRealInterfaceType(type, typeData, parentType) {
 
       if (typeData.typeArguments && typeData.typeArguments.length > 0) {
         result += `<${typeData.typeArguments
-          .map((type) => extractRealInterfaceType(type.type, type))
+          .map((type) => extractRealInterfaceType(type))
           .join(", ")}>`;
       }
 
       return result;
     case "array":
       return `${extractRealInterfaceType(
-        typeData.elementType.type,
         typeData.elementType,
-        type
+        typeData.type
       )}[]`;
     case "union":
       if (parentType === "array") {
         return `(${typeData.types
-          .map((type) => extractRealInterfaceType(type.type, type))
+          .map((type) => extractRealInterfaceType(type))
           .join(" | ")})`;
       }
       return typeData.types
-        .map((type) => extractRealInterfaceType(type.type, type))
+        .map((type) => extractRealInterfaceType(type))
         .join(" | ");
     case "stringLiteral":
       return `"${typeData.value}"`;
@@ -332,10 +352,31 @@ function extractRealInterfaceType(type, typeData, parentType) {
       return typeData.name;
     case "intersection":
       return typeData.types
-        .map((type) => extractRealInterfaceType(type.type, type))
+        .map((type) => extractRealInterfaceType(type))
         .join(" & ");
-    case "reflection":
-      return "object";
+    case "reflection": {
+      if (typeData.declaration) {
+        const { children = [], indexSignature = [] } = typeData.declaration;
+
+        return `{ ${[
+          ...children.map(
+            (child) =>
+              `${child.name}${
+                child.flags?.isOptional ? "?" : ""
+              }: ${extractRealInterfaceType(child.type)};`
+          ),
+          ...indexSignature.map((item) => {
+            const parameter = item.parameters[0];
+            return `[${parameter.name}: ${extractRealInterfaceType(
+              parameter.type.type,
+              parameter.type
+            )}]: ${extractRealInterfaceType(item.type)};`;
+          }),
+        ].join(" ")} }`;
+      } else {
+        return "object";
+      }
+    }
     default:
       return "";
   }
@@ -347,7 +388,7 @@ function extractBrickDocTypes(type) {
     typeParameter: getTypeParameter(type),
     kind: "type",
     description: get(type, ["comment", "shortText"], "").trim(),
-    type: extractRealInterfaceType(type.type.type, type.type),
+    type: extractRealInterfaceType(type.type),
   };
 }
 
@@ -356,6 +397,7 @@ function extractBrickDocEnumerations(enumerations) {
     name: enumerations.name,
     typeParameter: null,
     kind: "enum",
+    description: enumerations?.comment?.shortText?.trim(),
     children: [
       ...enumerations.children.map((child) => {
         return {
@@ -402,11 +444,12 @@ function extractBrickDocInterface(typeIds, references) {
             typeParameter: getTypeParameter(finder),
             kind: "interface",
             extendedTypes: finder.extendedTypes,
+            description: finder?.comment?.shortText?.trim(),
             children:
               finder.children?.map((child) => {
                 return {
                   name: child.name,
-                  type: extractRealInterfaceType(child.type.type, child.type),
+                  type: extractRealInterfaceType(child.type),
                   required: !get(child, ["flags", "isOptional"], false),
                   description: get(child, ["comment", "shortText"], "").trim(),
                 };
@@ -417,12 +460,9 @@ function extractBrickDocInterface(typeIds, references) {
                   name: child.name,
                   parameters: child.parameters.map((parameter) => ({
                     ...parameter,
-                    type: extractRealInterfaceType(
-                      parameter.type.type,
-                      parameter.type
-                    ),
+                    type: extractRealInterfaceType(parameter.type),
                   })),
-                  type: extractRealInterfaceType(child.type.type, child.type),
+                  type: extractRealInterfaceType(child.type),
                   required: !get(child, ["flags", "isOptional"], false),
                   description: get(child, ["comment", "shortText"], "").trim(),
                 };
@@ -467,12 +507,25 @@ function traverseElementUsedInterfaceIds(
   traversedTypeSet
 ) {
   element.children.forEach((child) => {
-    traverseUsedReferenceIdsByType(
-      child.type,
-      usedReferenceIds,
-      references,
-      traversedTypeSet
-    );
+    if (child.kindString === "Method") {
+      child.signatures[0].parameters?.map((parameter) =>
+        traverseUsedReferenceIdsByType(
+          parameter.type,
+          usedReferenceIds,
+          references,
+          traversedTypeSet
+        )
+      );
+    } else {
+      const type = getClassChildType(child);
+
+      traverseUsedReferenceIdsByType(
+        type,
+        usedReferenceIds,
+        references,
+        traversedTypeSet
+      );
+    }
   });
 }
 

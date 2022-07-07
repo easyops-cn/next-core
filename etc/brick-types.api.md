@@ -2131,23 +2131,27 @@ export interface StoryDoc {
 // @internal (undocumented)
 export interface StoryDocEnum {
     // (undocumented)
-    description: string;
+    children: StoryDocEnumChild[];
     // (undocumented)
-    name: string;
-    // (undocumented)
-    value: string;
-}
-
-// @internal (undocumented)
-export interface StoryDocEnum {
-    // (undocumented)
-    children: StoryDocEnum[];
+    description?: string;
     // (undocumented)
     kind: "enum";
     // (undocumented)
     name: string;
     // (undocumented)
     typeParameter: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryDocEnumChild" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryDocEnumChild {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    value: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryDocEvent" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2180,6 +2184,8 @@ export interface StoryDocHistory {
 export interface StoryDocInterface {
     // (undocumented)
     children?: StoryDocInterfaceProperty[];
+    // (undocumented)
+    description?: string;
     // Warning: (ae-forgotten-export) The symbol "SomeType" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -2273,7 +2279,7 @@ export interface StoryDocTemplate {
 // @internal (undocumented)
 export interface StoryDocType {
     // (undocumented)
-    description: string;
+    description?: string;
     // (undocumented)
     kind: "type";
     // (undocumented)
