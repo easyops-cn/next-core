@@ -21,6 +21,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-input",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -44,6 +47,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-input",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -68,6 +74,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-input-number",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         inputBoxStyle: { width: "100%" },
         label: "用户名",
@@ -94,6 +103,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-switch",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -117,6 +129,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-input-number",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         inputBoxStyle: { width: "100%" },
         label: "用户名",
@@ -142,6 +157,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-select",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         inputBoxStyle: { width: "100%" },
         label: "用户名",
@@ -171,6 +189,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-select",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         inputBoxStyle: { width: "100%" },
         label: "用户名",
@@ -201,6 +222,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-date-picker",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -225,6 +249,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-date-picker",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -249,6 +276,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.general-input",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -272,7 +302,17 @@ describe("getDefaultProperties is work", () => {
         type: "JSON",
       },
     ]);
-    expect(result).toEqual({});
+    expect(result).toEqual({
+      brick: "forms.general-textarea",
+      properties: {
+        dataset: {
+          testid: "test",
+        },
+        id: "test",
+        label: "用户名",
+        name: "test",
+      },
+    });
   });
 
   it("getDefaultProperties by ARRAY", () => {
@@ -286,7 +326,17 @@ describe("getDefaultProperties is work", () => {
         type: "ARRAY",
       },
     ]);
-    expect(result).toEqual({});
+    expect(result).toEqual({
+      brick: "forms.general-select",
+      properties: {
+        dataset: {
+          testid: "test",
+        },
+        id: "test",
+        label: "用户名",
+        name: "test",
+      },
+    });
   });
 
   it("getDefaultProperties by STRUCTURE", () => {
@@ -303,6 +353,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.cmdb-instance-select-panel",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -326,6 +379,9 @@ describe("getDefaultProperties is work", () => {
     expect(result).toEqual({
       brick: "forms.cmdb-instance-select-panel",
       properties: {
+        dataset: {
+          testid: "test",
+        },
         id: "test",
         label: "用户名",
         name: "test",
@@ -364,6 +420,7 @@ describe("ExpandCustomForm is work", () => {
       bricks: [
         {
           brick: "basic-bricks.grid-layout",
+          instanceId: "123",
           mountPoint: "items",
           properties: {
             columns: 1,
@@ -619,6 +676,7 @@ describe("ExpandCustomForm is work", () => {
               {
                 brick: "basic-bricks.grid-layout",
                 mountPoint: "items",
+                instanceId: "123",
                 properties: {
                   columns: 1,
                   id: "grid_138",
@@ -630,6 +688,9 @@ describe("ExpandCustomForm is work", () => {
                     mountPoint: "items",
                     brick: "forms.general-input",
                     properties: {
+                      dataset: {
+                        testid: "userName",
+                      },
                       id: "userName",
                       name: "userName",
                       label: "用户名",
@@ -644,6 +705,9 @@ describe("ExpandCustomForm is work", () => {
                     mountPoint: "items",
                     brick: "forms.general-input",
                     properties: {
+                      dataset: {
+                        testid: "userId",
+                      },
                       id: "userId",
                       name: "userId",
                       label: "ID",
@@ -657,6 +721,9 @@ describe("ExpandCustomForm is work", () => {
                     mountPoint: "items",
                     brick: "forms.general-input-number",
                     properties: {
+                      dataset: {
+                        testid: "age",
+                      },
                       id: "age",
                       name: "age",
                       label: "年龄",
@@ -674,6 +741,9 @@ describe("ExpandCustomForm is work", () => {
                     mountPoint: "items",
                     brick: "forms.general-select",
                     properties: {
+                      dataset: {
+                        testid: "department",
+                      },
                       id: "department",
                       name: "department",
                       label: "部门",
@@ -700,6 +770,9 @@ describe("ExpandCustomForm is work", () => {
                     mountPoint: "items",
                     brick: "forms.general-select",
                     properties: {
+                      dataset: {
+                        testid: "status",
+                      },
                       id: "status",
                       name: "status",
                       label: "状态",
@@ -729,6 +802,7 @@ describe("ExpandCustomForm is work", () => {
                   {
                     brick: "basic-bricks.grid-layout",
                     mountPoint: "items",
+                    iid: "123",
                     properties: {
                       columns: 1,
                       id: "grid_138",
@@ -740,6 +814,9 @@ describe("ExpandCustomForm is work", () => {
                         mountPoint: "items",
                         brick: "forms.general-input",
                         properties: {
+                          dataset: {
+                            testid: "userName",
+                          },
                           id: "userName",
                           name: "userName",
                           label: "用户名",
@@ -754,6 +831,9 @@ describe("ExpandCustomForm is work", () => {
                         mountPoint: "items",
                         brick: "forms.general-input",
                         properties: {
+                          dataset: {
+                            testid: "userId",
+                          },
                           id: "userId",
                           name: "userId",
                           label: "ID",
@@ -767,6 +847,9 @@ describe("ExpandCustomForm is work", () => {
                         mountPoint: "items",
                         brick: "forms.general-input-number",
                         properties: {
+                          dataset: {
+                            testid: "age",
+                          },
                           id: "age",
                           name: "age",
                           label: "年龄",
@@ -784,6 +867,9 @@ describe("ExpandCustomForm is work", () => {
                         mountPoint: "items",
                         brick: "forms.general-select",
                         properties: {
+                          dataset: {
+                            testid: "department",
+                          },
                           id: "department",
                           name: "department",
                           label: "部门",
@@ -810,6 +896,9 @@ describe("ExpandCustomForm is work", () => {
                         mountPoint: "items",
                         brick: "forms.general-select",
                         properties: {
+                          dataset: {
+                            testid: "status",
+                          },
                           id: "status",
                           name: "status",
                           label: "状态",
@@ -838,6 +927,9 @@ describe("ExpandCustomForm is work", () => {
                             mountPoint: "items",
                             brick: "forms.general-input",
                             properties: {
+                              dataset: {
+                                testid: "userName",
+                              },
                               id: "userName",
                               name: "userName",
                               label: "用户名",
@@ -851,6 +943,9 @@ describe("ExpandCustomForm is work", () => {
                             mountPoint: "items",
                             brick: "forms.general-input",
                             properties: {
+                              dataset: {
+                                testid: "userId",
+                              },
                               id: "userId",
                               name: "userId",
                               label: "ID",
@@ -863,6 +958,9 @@ describe("ExpandCustomForm is work", () => {
                             mountPoint: "items",
                             brick: "forms.general-input-number",
                             properties: {
+                              dataset: {
+                                testid: "age",
+                              },
                               id: "age",
                               name: "age",
                               label: "年龄",
@@ -879,6 +977,9 @@ describe("ExpandCustomForm is work", () => {
                             mountPoint: "items",
                             brick: "forms.general-select",
                             properties: {
+                              dataset: {
+                                testid: "department",
+                              },
                               id: "department",
                               name: "department",
                               label: "部门",
@@ -904,6 +1005,9 @@ describe("ExpandCustomForm is work", () => {
                             mountPoint: "items",
                             brick: "forms.general-select",
                             properties: {
+                              dataset: {
+                                testid: "status",
+                              },
                               id: "status",
                               name: "status",
                               label: "状态",

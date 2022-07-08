@@ -81,8 +81,19 @@ export function getDefaultProperties(
   const field: fieldProperties = fields.filter(
     (item: { id: string }) => item.id === _name
   )[0];
-  let defaultValue = {};
+
   if (field) {
+    let defaultValue: defaultFieldProperties = {
+      brick: "forms.general-input",
+      properties: {
+        id: field.id,
+        name: field.id,
+        label: field.name,
+        readOnly: field.limit.includes("readOnly"),
+        required: field.limit.includes("required"),
+        placeholder: field.description,
+      },
+    };
     switch (field.type) {
       case "STRING":
         defaultValue = {
@@ -217,10 +228,24 @@ export function getDefaultProperties(
         };
         break;
       case "JSON":
-        defaultValue = {};
+        defaultValue = {
+          brick: "forms.general-textarea",
+          properties: {
+            id: field.id,
+            name: field.id,
+            label: field.name,
+          },
+        };
         break;
       case "ARRAY":
-        defaultValue = {};
+        defaultValue = {
+          brick: "forms.general-select",
+          properties: {
+            id: field.id,
+            name: field.id,
+            label: field.name,
+          },
+        };
         break;
       case "STRUCTURE":
         defaultValue = {
@@ -247,22 +272,11 @@ export function getDefaultProperties(
         };
         break;
       default:
-        defaultValue = {
-          brick: "forms.general-input",
-          properties: {
-            id: field.id,
-            name: field.id,
-            label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
-            placeholder: field.description,
-          },
-        };
         break;
     }
-  }
-
-  return defaultValue;
+    defaultValue.properties.dataset = { testid: field.id };
+    return defaultValue;
+  } else return {};
 }
 
 export function getStoryboard(
@@ -286,7 +300,8 @@ export function getStoryboard(
 
     Object.keys(dataItem).forEach((item) => {
       if (filterProperties.includes(item)) {
-        resultItem[item] = dataItem[item];
+        const key = item === "instanceId" ? "iid" : item;
+        resultItem[key] = dataItem[item];
       }
     });
 
