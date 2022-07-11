@@ -168,7 +168,7 @@ function composeBrickDocMethods(brick) {
             parameter.flags?.isOptional ? "?" : ""
           }: ${extractRealInterfaceType(parameter.type)}`
       )
-      .join(" "),
+      .join(", "),
     ...convertTagsToMapByFields(tags, methodComments),
   };
 }
@@ -335,15 +335,15 @@ function extractRealInterfaceType(typeData, parentType) {
         typeData.elementType,
         typeData.type
       )}[]`;
-    case "union":
-      if (parentType === "array") {
-        return `(${typeData.types
-          .map((type) => extractRealInterfaceType(type))
-          .join(" | ")})`;
-      }
-      return typeData.types
-        .map((type) => extractRealInterfaceType(type))
+    case "union": {
+      const typeStr = typeData.types
+        .map((type) => extractRealInterfaceType(type, typeData.type))
         .join(" | ");
+
+      return parentType === "array" || parentType === "union"
+        ? `(${typeStr})`
+        : typeStr;
+    }
     case "stringLiteral":
       return `"${typeData.value}"`;
     case "intrinsic":
@@ -356,23 +356,43 @@ function extractRealInterfaceType(typeData, parentType) {
         .join(" & ");
     case "reflection": {
       if (typeData.declaration) {
-        const { children = [], indexSignature = [] } = typeData.declaration;
+        const {
+          signatures,
+          children = [],
+          indexSignature = [],
+        } = typeData.declaration;
 
-        return `{ ${[
-          ...children.map(
-            (child) =>
-              `${child.name}${
-                child.flags?.isOptional ? "?" : ""
-              }: ${extractRealInterfaceType(child.type)};`
-          ),
-          ...indexSignature.map((item) => {
-            const parameter = item.parameters[0];
-            return `[${parameter.name}: ${extractRealInterfaceType(
-              parameter.type.type,
-              parameter.type
-            )}]: ${extractRealInterfaceType(item.type)};`;
-          }),
-        ].join(" ")} }`;
+        if (signatures) {
+          const { parameters, type } = signatures[0];
+          const typeStr = `(${parameters
+            ?.map(
+              (parameter) =>
+                `${parameter.name}${
+                  parameter.flags?.isOptional ? "?" : ""
+                }: ${extractRealInterfaceType(parameter.type)}`
+            )
+            .join(", ")}) => ${extractRealInterfaceType(type)}`;
+
+          return parentType === "array" || parentType === "union"
+            ? `(${typeStr})`
+            : typeStr;
+        } else {
+          return `{ ${[
+            ...children.map(
+              (child) =>
+                `${child.name}${
+                  child.flags?.isOptional ? "?" : ""
+                }: ${extractRealInterfaceType(child.type)};`
+            ),
+            ...indexSignature.map((item) => {
+              const parameter = item.parameters[0];
+              return `[${parameter.name}: ${extractRealInterfaceType(
+                parameter.type.type,
+                parameter.type
+              )}]: ${extractRealInterfaceType(item.type)};`;
+            }),
+          ].join(" ")} }`;
+        }
       } else {
         return "object";
       }
@@ -634,6 +654,43 @@ function traverseUsedReferenceIdsByType(
         traversedTypeSet
       );
       break;
+    case "reflection":
+      if (type.declaration) {
+        const { signatures, children, indexSignature } = type.declaration;
+
+        signatures?.forEach((signature) => {
+          signature.parameters?.forEach((parameter) =>
+            traverseUsedReferenceIdsByType(
+              parameter.type,
+              usedReferenceIds,
+              references,
+              traversedTypeSet
+            )
+          );
+          traverseUsedReferenceIdsByType(
+            signature.type,
+            usedReferenceIds,
+            references,
+            traversedTypeSet
+          );
+        });
+        children?.forEach((child) => {
+          traverseUsedReferenceIdsByType(
+            child.type,
+            usedReferenceIds,
+            references,
+            traversedTypeSet
+          );
+        });
+        indexSignature?.forEach((item) => {
+          traverseUsedReferenceIdsByType(
+            item.type,
+            usedReferenceIds,
+            references,
+            traversedTypeSet
+          );
+        });
+      }
   }
 }
 
