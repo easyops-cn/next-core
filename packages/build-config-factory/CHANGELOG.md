@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.21.0...@next-core/build-config-factory@2.22.0) (2022-07-11)
+
+
+### Features
+
+* **generateBrickDocs:** support function type ([b085bbf](https://github.com/easyops-cn/next-core/commit/b085bbf089b89dc6e7fa7f743a69731b24ea449a))
+
+
+
+
+
 # [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.20.0...@next-core/build-config-factory@2.21.0) (2022-07-07)
 
 
