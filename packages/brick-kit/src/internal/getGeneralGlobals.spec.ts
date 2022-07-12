@@ -26,6 +26,12 @@ describe("getGeneralGlobals", () => {
     const attemptToVisitGlobals = new Set(["THEME"]);
     expect(
       (
+        getGeneralGlobals(attemptToVisitGlobals, { collectCoverage: true })
+          .THEME as any
+      ).getCssPropertyValue("--brand-color")
+    ).toEqual("");
+    expect(
+      (
         getGeneralGlobals(attemptToVisitGlobals, { collectCoverage: false })
           .THEME as any
       ).getCssPropertyValue("--brand-color")
