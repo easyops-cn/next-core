@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.22.0...@next-core/build-config-factory@2.23.0) (2022-07-12)
+
+
+### Bug Fixes
+
+* **generateBrickDocs:** filter inherited properties ([38daaff](https://github.com/easyops-cn/next-core/commit/38daaffa0dcb5c4ef66cc3d846e525db2ea3ba95))
+
+
+### Features
+
+* **generateBrickDocs:** support typle types ([148ad87](https://github.com/easyops-cn/next-core/commit/148ad87935a8deac87c69fd4d60828a2aef7723f))
+
+
+
+
+
 # [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.21.0...@next-core/build-config-factory@2.22.0) (2022-07-11)
 
 
