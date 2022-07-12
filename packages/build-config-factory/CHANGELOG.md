@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.1...@next-core/build-config-factory@2.23.2) (2022-07-12)
+
+
+### Bug Fixes
+
+* **generateBrickDocs:** support wrapping intersection types ([9dca68d](https://github.com/easyops-cn/next-core/commit/9dca68d14396fec7f250c2ad41ba95464dcc3577))
+
+
+
+
+
 ## [2.23.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.0...@next-core/build-config-factory@2.23.1) (2022-07-12)
 
 **Note:** Version bump only for package @next-core/build-config-factory
