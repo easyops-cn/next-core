@@ -314,6 +314,14 @@ function existBrickDocId(element) {
   }
 }
 
+function wrapBracketByParentType(typeStr, parentType) {
+  return parentType === "array" ||
+    parentType === "union" ||
+    parentType === "intersection"
+    ? `(${typeStr})`
+    : typeStr;
+}
+
 function extractRealInterfaceType(typeData, parentType) {
   switch (typeData?.type) {
     case "reference":
@@ -335,15 +343,13 @@ function extractRealInterfaceType(typeData, parentType) {
         typeData.elementType,
         typeData.type
       )}[]`;
-    case "union": {
-      const typeStr = typeData.types
-        .map((type) => extractRealInterfaceType(type, typeData.type))
-        .join(" | ");
-
-      return parentType === "array" || parentType === "union"
-        ? `(${typeStr})`
-        : typeStr;
-    }
+    case "union":
+      return wrapBracketByParentType(
+        typeData.types
+          .map((type) => extractRealInterfaceType(type, typeData.type))
+          .join(" | "),
+        parentType
+      );
     case "stringLiteral":
       return `"${typeData.value}"`;
     case "intrinsic":
@@ -351,9 +357,12 @@ function extractRealInterfaceType(typeData, parentType) {
     case "unknown": // unknown 暂定是`type`中的数字类型,e.g: type t = 0 | 1 | 'string'
       return typeData.name;
     case "intersection":
-      return typeData.types
-        .map((type) => extractRealInterfaceType(type))
-        .join(" & ");
+      return wrapBracketByParentType(
+        typeData.types
+          .map((type) => extractRealInterfaceType(type, typeData.type))
+          .join(" & "),
+        parentType
+      );
     case "reflection": {
       if (typeData.declaration) {
         const {
@@ -373,25 +382,23 @@ function extractRealInterfaceType(typeData, parentType) {
             )
             .join(", ")}) => ${extractRealInterfaceType(type)}`;
 
-          return parentType === "array" || parentType === "union"
-            ? `(${typeStr})`
-            : typeStr;
+          return wrapBracketByParentType(typeStr, parentType);
         } else {
           return `{ ${[
             ...children.map(
               (child) =>
                 `${child.name}${
                   child.flags?.isOptional ? "?" : ""
-                }: ${extractRealInterfaceType(child.type)};`
+                }: ${extractRealInterfaceType(child.type)}`
             ),
             ...indexSignature.map((item) => {
               const parameter = item.parameters[0];
               return `[${parameter.name}: ${extractRealInterfaceType(
                 parameter.type.type,
                 parameter.type
-              )}]: ${extractRealInterfaceType(item.type)};`;
+              )}]: ${extractRealInterfaceType(item.type)}`;
             }),
-          ].join(" ")} }`;
+          ].join("; ")} }`;
         }
       } else {
         return "object";
