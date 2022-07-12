@@ -135,5 +135,6 @@ export function getCssPropertyValue(
   name: string,
   el = document.documentElement
 ): string {
-  return window.getComputedStyle(el).getPropertyValue(name);
+  if (!el) return "";
+  return window.getComputedStyle(el)?.getPropertyValue(name) || "";
 }
