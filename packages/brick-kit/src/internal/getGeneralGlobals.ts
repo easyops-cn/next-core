@@ -6,7 +6,7 @@ import { i18nText } from "../i18nText";
 import { getI18nNamespace } from "../i18n";
 import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
 import { getBasePath } from "./getBasePath";
-import { getTheme } from "../themeAndMode";
+import { getTheme, getCssPropertyValue } from "../themeAndMode";
 import { checkPermissions } from "./checkPermissions";
 import { getReadOnlyProxy } from "./proxyFactories";
 
@@ -72,6 +72,7 @@ function getIndividualGlobal(
     case "THEME":
       return {
         getTheme: collectCoverage ? () => "light" : getTheme,
+        getCssPropertyValue: collectCoverage ? () => "" : getCssPropertyValue,
       };
     case "console":
       return isStoryboardFunction ? getReadOnlyProxy(console) : undefined;

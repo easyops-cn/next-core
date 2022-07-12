@@ -168,6 +168,10 @@ describe("get css value", () => {
     expect(getCssPropertyValue("--brand-color")).toEqual("red");
   });
 
+  it("should get value with null", () => {
+    expect(getCssPropertyValue("--brand-color", null)).toEqual("");
+  });
+
   it("should get app theme", () => {
     jest
       .spyOn(window.localStorage.__proto__, "getItem")
