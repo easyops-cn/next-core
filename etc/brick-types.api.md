@@ -146,6 +146,7 @@ export interface BreadcrumbConf {
     items: BreadcrumbItemConf[];
     noCurrentApp?: boolean;
     overwrite?: boolean;
+    useCurrentMenuTitle?: boolean;
 }
 
 // @public

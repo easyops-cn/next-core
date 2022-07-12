@@ -969,6 +969,11 @@ export interface BreadcrumbConf {
    * 是否显示当前AppName
    * */
   noCurrentApp?: boolean;
+
+  /**
+   * 使用当前菜单标题作为面包屑标题
+   */
+  useCurrentMenuTitle?: boolean;
 }
 
 /**
