@@ -397,6 +397,10 @@ function extractRealInterfaceType(typeData, parentType) {
         return "object";
       }
     }
+    case "tuple":
+      return `[${typeData.elements
+        ?.map((element) => element.name)
+        .join(", ")}]`;
     default:
       return "";
   }
@@ -466,14 +470,20 @@ function extractBrickDocInterface(typeIds, references) {
             extendedTypes: finder.extendedTypes,
             description: finder?.comment?.shortText?.trim(),
             children:
-              finder.children?.map((child) => {
-                return {
-                  name: child.name,
-                  type: extractRealInterfaceType(child.type),
-                  required: !get(child, ["flags", "isOptional"], false),
-                  description: get(child, ["comment", "shortText"], "").trim(),
-                };
-              }) || [],
+              finder.children
+                ?.filter((child) => !child.inheritedFrom)
+                .map((child) => {
+                  return {
+                    name: child.name,
+                    type: extractRealInterfaceType(child.type),
+                    required: !get(child, ["flags", "isOptional"], false),
+                    description: get(
+                      child,
+                      ["comment", "shortText"],
+                      ""
+                    ).trim(),
+                  };
+                }) || [],
             indexSignature:
               finder.indexSignature?.map((child) => {
                 return {
@@ -484,7 +494,6 @@ function extractBrickDocInterface(typeIds, references) {
                   })),
                   type: extractRealInterfaceType(child.type),
                   required: !get(child, ["flags", "isOptional"], false),
-                  description: get(child, ["comment", "shortText"], "").trim(),
                 };
               }) || [],
           };
@@ -691,6 +700,17 @@ function traverseUsedReferenceIdsByType(
           );
         });
       }
+      break;
+    case "tuple":
+      type.elements?.forEach((element) =>
+        traverseUsedReferenceIdsByType(
+          element,
+          usedReferenceIds,
+          references,
+          traversedTypeSet
+        )
+      );
+      break;
   }
 }
 
