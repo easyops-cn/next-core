@@ -397,6 +397,10 @@ function extractRealInterfaceType(typeData, parentType) {
         return "object";
       }
     }
+    case "tuple":
+      return `[${typeData.elements
+        ?.map((element) => element.name)
+        .join(", ")}]`;
     default:
       return "";
   }
@@ -691,6 +695,17 @@ function traverseUsedReferenceIdsByType(
           );
         });
       }
+      break;
+    case "tuple":
+      type.elements?.forEach((element) =>
+        traverseUsedReferenceIdsByType(
+          element,
+          usedReferenceIds,
+          references,
+          traversedTypeSet
+        )
+      );
+      break;
   }
 }
 
