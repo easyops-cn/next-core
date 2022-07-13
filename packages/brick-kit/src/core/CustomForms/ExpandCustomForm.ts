@@ -29,7 +29,18 @@ export function ExpandCustomForm(
     return {
       ...brickConf,
       brick: "div",
-      slots: { "": { bricks: formStoryboard, type: "bricks" } },
+      slots: {
+        "": {
+          bricks: [
+            {
+              brick: "basic-bricks.micro-view",
+              properties: { style: { padding: "12px" } },
+              slots: { content: { bricks: formStoryboard, type: "bricks" } },
+            },
+          ],
+          type: "bricks",
+        },
+      },
     };
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -63,10 +74,10 @@ export interface formSchemaProperties {
 export interface fieldProperties {
   defaultValue?: string;
   description?: string;
-  id: string;
+  fieldId: string;
   limit?: string[];
   name: string;
-  type: string;
+  fieldType: string;
   [key: string]: any;
 }
 
@@ -79,31 +90,31 @@ export function getDefaultProperties(
   fields: fieldProperties[]
 ): defaultFieldProperties | { [key: string]: any } {
   const field: fieldProperties = fields.filter(
-    (item: { id: string }) => item.id === _name
+    (item: fieldProperties) => item.fieldId === _name
   )[0];
 
   if (field) {
     let defaultValue: defaultFieldProperties = {
       brick: "forms.general-input",
       properties: {
-        id: field.id,
-        name: field.id,
+        id: field.fieldId,
+        name: field.fieldId,
         label: field.name,
-        readOnly: field.limit.includes("readOnly"),
-        required: field.limit.includes("required"),
+        readOnly: field.limit.includes("READONLY"),
+        required: field.limit.includes("REQUIRED"),
         placeholder: field.description,
       },
     };
-    switch (field.type) {
+    switch (field.fieldType) {
       case "STRING":
         defaultValue = {
           brick: "forms.general-input",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             placeholder: field.description,
           },
         };
@@ -112,11 +123,11 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-input-number",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             placeholder: field.description,
             precision: 0,
             inputBoxStyle: { width: "100%" },
@@ -127,11 +138,11 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-switch",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
           },
         };
         break;
@@ -139,25 +150,25 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-input-number",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             placeholder: field.description,
             inputBoxStyle: { width: "100%" },
           },
         };
         break;
-      case "ENUMERATED_SINGLE_OPTION":
+      case "ENUM":
         defaultValue = {
           brick: "forms.general-select",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             options: [
               { label: "选项一", value: 1 },
               { label: "选项二", value: 2 },
@@ -167,15 +178,15 @@ export function getDefaultProperties(
           },
         };
         break;
-      case "SELECT_MULTIPLE_ENUMERATED_TYPE":
+      case "ENUMS":
         defaultValue = {
           brick: "forms.general-select",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             mode: "multiple",
             options: [
               { label: "选项一", value: 1 },
@@ -190,11 +201,11 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-date-picker",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             placeholder: field.description,
           },
         };
@@ -203,11 +214,11 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-date-picker",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             placeholder: field.description,
           },
         };
@@ -216,11 +227,11 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-input",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
             placeholder: field.description,
             pattern:
               /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/,
@@ -231,8 +242,8 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-textarea",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
           },
         };
@@ -241,8 +252,8 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.general-select",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
           },
         };
@@ -251,11 +262,11 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.cmdb-instance-select-panel",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
           },
         };
         break;
@@ -263,18 +274,18 @@ export function getDefaultProperties(
         defaultValue = {
           brick: "forms.cmdb-instance-select-panel",
           properties: {
-            id: field.id,
-            name: field.id,
+            id: field.fieldId,
+            name: field.fieldId,
             label: field.name,
-            readOnly: field.limit.includes("readOnly"),
-            required: field.limit.includes("required"),
+            readOnly: field.limit.includes("READONLY"),
+            required: field.limit.includes("REQUIRED"),
           },
         };
         break;
       default:
         break;
     }
-    defaultValue.properties.dataset = { testid: field.id };
+    defaultValue.properties.dataset = { testid: field.fieldId };
     return defaultValue;
   } else return {};
 }
