@@ -29,7 +29,18 @@ export function ExpandCustomForm(
     return {
       ...brickConf,
       brick: "div",
-      slots: { "": { bricks: formStoryboard, type: "bricks" } },
+      slots: {
+        "": {
+          bricks: [
+            {
+              brick: "basic-bricks.micro-view",
+              properties: { style: { padding: "12px" } },
+              slots: { content: { bricks: formStoryboard, type: "bricks" } },
+            },
+          ],
+          type: "bricks",
+        },
+      },
     };
   } catch (error) {
     // eslint-disable-next-line no-console
