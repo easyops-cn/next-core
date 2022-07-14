@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.3.7...@next-core/brick-http@2.4.0) (2022-07-14)
+
+
+### Features
+
+* support request cache in preview ([df35157](https://github.com/easyops-cn/next-core/commit/df35157893cd849a67a63b1d4b597c9143c6bf2e))
+
+
+
+
+
 ## [2.3.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.3.6...@next-core/brick-http@2.3.7) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/brick-http
