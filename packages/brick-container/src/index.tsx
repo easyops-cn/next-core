@@ -175,6 +175,7 @@ if (window.parent) {
       window.removeEventListener("message", listener);
       previewFromOrigin = origin;
       previewOptions = data.options;
+      http.enableCache(true);
       startPreview();
     }
   };
