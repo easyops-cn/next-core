@@ -11,7 +11,7 @@ const brickKindMap = {
 };
 const extraScanPaths = ["src/interfaces"];
 
-const supportedDecorators = ["property", "event", "method"];
+const supportedDecoratorSet = new Set(["property", "event", "method"]);
 const methodComments = ["params", "description", "deprecated"];
 const eventDocComments = ["detail", "description", "deprecated"];
 const propertyDocComments = [
@@ -225,7 +225,7 @@ function getRealBrickDocCategory(brick) {
   }
 
   const finder = brick.decorators.find((d) =>
-    supportedDecorators.includes(d.name)
+    supportedDecoratorSet.has(d.name)
   );
 
   if (finder) {
@@ -543,6 +543,14 @@ function traverseElementUsedInterfaceIds(
   traversedTypeSet
 ) {
   element.children.forEach((child) => {
+    if (
+      !child.decorators?.some((decorator) =>
+        supportedDecoratorSet.has(decorator.name)
+      )
+    ) {
+      return;
+    }
+
     if (child.kindString === "Method") {
       child.signatures[0].parameters?.map((parameter) =>
         traverseUsedReferenceIdsByType(
