@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.2...@next-core/build-config-factory@2.23.3) (2022-07-14)
+
+
+### Bug Fixes
+
+* **generateBrickDocs:** filter element childern without supported decorators ([a2f8e50](https://github.com/easyops-cn/next-core/commit/a2f8e50425a6a1c6aec4ed2d6c21858d2d4dbea4))
+
+
+
+
+
 ## [2.23.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.1...@next-core/build-config-factory@2.23.2) (2022-07-12)
 
 
