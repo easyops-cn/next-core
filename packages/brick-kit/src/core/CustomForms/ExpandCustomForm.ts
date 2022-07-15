@@ -4,7 +4,8 @@ import { filterProperties } from "./constants";
 
 export function ExpandCustomForm(
   formData: formDataProperties,
-  brickConf: BrickConf
+  brickConf: BrickConf,
+  isPreview: boolean | undefined
 ): BrickConf {
   const errorBrick = {
     brick: "presentational-bricks.brick-illustration",
@@ -21,7 +22,8 @@ export function ExpandCustomForm(
     const formStoryboard = getStoryboard(
       [formData.formSchema],
       [],
-      formData.fields
+      formData.fields,
+      isPreview
     );
     formStoryboard[0] = _.isEmpty(formStoryboard[0])
       ? errorBrick
@@ -293,13 +295,34 @@ export function getDefaultProperties(
 export function getStoryboard(
   datasource: formSchemaProperties[],
   result: any[],
-  fields: fieldProperties[]
+  fields: fieldProperties[],
+  isPreview: boolean | undefined
 ): BrickConf[] {
   for (let i = 0; i < datasource.length; i++) {
     const dataItem = datasource[i];
     const resultItem: { [key: string]: any } = {};
     //数据初始化：根据id,字段类型获取默认属性
     const defaultProperties: any = getDefaultProperties(dataItem.id, fields);
+    if (dataItem.brick === "forms.general-form" && isPreview) {
+      dataItem.properties = {
+        ...dataItem.properties,
+        className: "form-preview",
+      };
+      dataItem.events = {
+        "validate.error": [
+          {
+            action: "preview.debug",
+            args: ["validate.error", "<% EVENT.detail %>"],
+          },
+        ],
+        "validate.success": [
+          {
+            action: "preview.debug",
+            args: ["validate.success", "<% EVENT.detail %>"],
+          },
+        ],
+      };
+    }
     //数据初始化：与默认属性进行合并
     Object.keys(defaultProperties).forEach((item) => {
       if (!dataItem[item]) {
@@ -318,7 +341,7 @@ export function getStoryboard(
 
     if (Array.isArray(dataItem.bricks)) {
       resultItem["slots"] = _.groupBy(
-        getStoryboard(dataItem.bricks, [], fields),
+        getStoryboard(dataItem.bricks, [], fields, isPreview),
         "mountPoint"
       );
       Object.keys(resultItem["slots"])?.forEach((item) => {
