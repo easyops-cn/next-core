@@ -682,14 +682,14 @@ describe("ExpandCustomForm is work", () => {
                     events: {
                       "validate.error": [
                         {
-                          action: "form.debug",
-                          args: ["error", "<% EVENT.detail %>"],
+                          action: "debug",
+                          args: ["validate.error", "<% EVENT.detail %>"],
                         },
                       ],
                       "validate.success": [
                         {
-                          action: "form.debug",
-                          args: ["success", "<% EVENT.detail %>"],
+                          action: "debug",
+                          args: ["validate.success", "<% EVENT.detail %>"],
                         },
                       ],
                     },

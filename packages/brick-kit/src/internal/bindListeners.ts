@@ -281,7 +281,7 @@ export function listenerFactory(
       case "analytics.event":
         return builtinAnalyticsListenerFactory(handler.args, handler, context);
 
-      case "form.debug":
+      case "debug":
         return builtinFormDebugListenerFactory(handler.args, handler, context);
       default:
         return () => {
@@ -849,8 +849,8 @@ function builtinFormDebugListenerFactory(
     }
     window.parent.postMessage({
       sender: "previewer",
-      type: "excute-proxy-method-success",
-      data: { method: "form.debug", res: argsFactory(args, context, event) },
+      type: "debug",
+      res: argsFactory(args, context, event),
     });
   } as EventListener;
 }
