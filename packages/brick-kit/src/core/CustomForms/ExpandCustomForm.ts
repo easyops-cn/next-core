@@ -311,13 +311,13 @@ export function getStoryboard(
       dataItem.events = {
         "validate.error": [
           {
-            action: "debug",
+            action: "preview.debug",
             args: ["validate.error", "<% EVENT.detail %>"],
           },
         ],
         "validate.success": [
           {
-            action: "debug",
+            action: "preview.debug",
             args: ["validate.success", "<% EVENT.detail %>"],
           },
         ],
