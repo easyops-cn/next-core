@@ -375,6 +375,7 @@ export class Kernel {
           brick: formRenderer,
           properties: {
             formData: formData,
+            isPreview: true,
           },
         },
       ],

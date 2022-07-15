@@ -648,7 +648,7 @@ describe("ExpandCustomForm is work", () => {
       formData: "<% CTX.formData %>",
     },
   };
-  expect(ExpandCustomForm(formData, brickConf)).toEqual({
+  expect(ExpandCustomForm(formData, brickConf, true)).toEqual({
     bg: false,
     brick: "div",
     iid: "5e27819b1e711",
@@ -677,6 +677,21 @@ describe("ExpandCustomForm is work", () => {
                       id: "form_137",
                       sectionConfig: {},
                       values: {},
+                      className: "form-preview",
+                    },
+                    events: {
+                      "validate.error": [
+                        {
+                          action: "form.debug",
+                          args: ["error", "<% EVENT.detail %>"],
+                        },
+                      ],
+                      "validate.success": [
+                        {
+                          action: "form.debug",
+                          args: ["success", "<% EVENT.detail %>"],
+                        },
+                      ],
                     },
                     bricks: [
                       {
@@ -1047,6 +1062,27 @@ describe("ExpandCustomForm is work", () => {
                 ],
                 type: "bricks",
               },
+            },
+          },
+        ],
+        type: "bricks",
+      },
+    },
+  });
+  expect(ExpandCustomForm(_formData, brickConf)).toEqual({
+    brick: "div",
+    slots: {
+      "": {
+        bricks: [
+          {
+            brick: "presentational-bricks.brick-illustration",
+            properties: {
+              category: "default",
+              header: {
+                title: "参数错误",
+              },
+              mode: "guide",
+              name: "search-empty",
             },
           },
         ],

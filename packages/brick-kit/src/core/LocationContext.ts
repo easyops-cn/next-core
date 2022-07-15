@@ -704,7 +704,11 @@ export class LocationContext {
 
     if (brick.type === formRenderer) {
       const formData: formDataProperties = brick.properties.formData;
-      expandedBrickConf = ExpandCustomForm(formData, brickConf);
+      expandedBrickConf = ExpandCustomForm(
+        formData,
+        brickConf,
+        brick.properties.isPreview
+      );
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 

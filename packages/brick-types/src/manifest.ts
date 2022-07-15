@@ -1178,6 +1178,7 @@ export interface BuiltinBrickEventHandler {
     | "mode.setDefaultMode"
     | "menu.clearMenuTitleCache"
     | "menu.clearMenuCache"
+    | "form.debug"
 
     // Analytics
     | "analytics.event";

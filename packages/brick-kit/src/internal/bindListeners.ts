@@ -280,6 +280,9 @@ export function listenerFactory(
         }) as EventListener;
       case "analytics.event":
         return builtinAnalyticsListenerFactory(handler.args, handler, context);
+
+      case "form.debug":
+        return builtinFormDebugListenerFactory(handler.args, handler, context);
       default:
         return () => {
           // eslint-disable-next-line no-console
@@ -832,6 +835,23 @@ function builtinWebStorageListenerFactory(
     } else if (method === "removeItem") {
       storage.removeItem(name as string);
     }
+  } as EventListener;
+}
+
+function builtinFormDebugListenerFactory(
+  args: unknown[],
+  ifContainer: IfContainer,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+    window.parent.postMessage({
+      sender: "previewer",
+      type: "excute-proxy-method-success",
+      data: { method: "form.debug", res: argsFactory(args, context, event) },
+    });
   } as EventListener;
 }
 

@@ -1549,6 +1549,7 @@ describe("Kernel", () => {
                       },
                     },
                   },
+                  isPreview: true,
                 },
               },
             ],
