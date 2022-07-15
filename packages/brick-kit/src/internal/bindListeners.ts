@@ -281,7 +281,7 @@ export function listenerFactory(
       case "analytics.event":
         return builtinAnalyticsListenerFactory(handler.args, handler, context);
 
-      case "debug":
+      case "preview.debug":
         return builtinFormDebugListenerFactory(handler.args, handler, context);
       default:
         return () => {
@@ -849,7 +849,7 @@ function builtinFormDebugListenerFactory(
     }
     window.parent.postMessage({
       sender: "previewer",
-      type: "debug",
+      type: "preview.debug",
       res: argsFactory(args, context, event),
     });
   } as EventListener;

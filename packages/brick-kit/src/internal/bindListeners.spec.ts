@@ -508,7 +508,7 @@ describe("bindListeners", () => {
           action: "analytics.event",
           args: ["action", { param1: "<% CTX.myNewContext.hello %>" }],
         },
-        { action: "debug", args: ["test"] },
+        { action: "preview.debug", args: ["test"] },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -644,7 +644,7 @@ describe("bindListeners", () => {
     expect(window.parent.postMessage).toHaveBeenCalledTimes(1);
     expect(window.top.postMessage).toHaveBeenCalledWith({
       sender: "previewer",
-      type: "debug",
+      type: "preview.debug",
       res: ["test"],
     });
     expect(iframeElement.contentWindow.postMessage).toBeCalledWith(
