@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.64.4...@next-core/brick-types@2.65.0) (2022-07-18)
+
+
+### Features
+
+* contract support upload type ([c4614f8](https://github.com/easyops-cn/next-core/commit/c4614f8d588bf60c243444e95780b62eb3612371))
+
+
+
+
+
 ## [2.64.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.64.3...@next-core/brick-types@2.64.4) (2022-07-15)
 
 **Note:** Version bump only for package @next-core/brick-types

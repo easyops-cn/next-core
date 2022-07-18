@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.123.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.14...@next-core/brick-kit@2.123.0) (2022-07-18)
+
+
+### Features
+
+* contract support upload type ([c4614f8](https://github.com/easyops-cn/next-core/commit/c4614f8d588bf60c243444e95780b62eb3612371))
+
+
+
+
+
 ## [2.122.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.13...@next-core/brick-kit@2.122.14) (2022-07-15)
 
 **Note:** Version bump only for package @next-core/brick-kit
