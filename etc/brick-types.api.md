@@ -845,14 +845,53 @@ export interface Contract {
     // (undocumented)
     namespaceId: string;
     // (undocumented)
-    response: {
-        wrapper?: boolean;
-        type?: "file" | "object";
-    };
+    request?: ContractRequest;
+    // (undocumented)
+    response?: ContractResponse;
     // (undocumented)
     serviceName?: string;
     // (undocumented)
     version: string;
+}
+
+// @public (undocumented)
+export type ContractField = ContractFieldItem | ContractFieldRefItem;
+
+// @public (undocumented)
+export interface ContractFieldItem {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    fields?: (ContractFieldItem | ContractFieldRefItem)[];
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: string;
+}
+
+// @public (undocumented)
+export interface ContractFieldRefItem {
+    // (undocumented)
+    ref: string;
+}
+
+// @public (undocumented)
+export type ContractRequest = Omit<ContractResponse, "wrapper">;
+
+// @public (undocumented)
+export interface ContractResponse {
+    // (undocumented)
+    default?: Record<string, any>;
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    fields?: ContractField[];
+    // (undocumented)
+    required?: string[];
+    // (undocumented)
+    type?: "file" | "object";
+    // (undocumented)
+    wrapper?: boolean;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "CustomBrickConfig" should be prefixed with an underscore because the declaration is marked as @internal

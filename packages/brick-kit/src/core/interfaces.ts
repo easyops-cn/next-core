@@ -6,6 +6,8 @@ import {
   SiteMode,
   SiteTheme,
   ExtField,
+  ContractRequest,
+  ContractResponse,
 } from "@next-core/brick-types";
 import { MicroAppModels } from "@next-sdk/micro-app-sdk";
 import {
@@ -68,10 +70,8 @@ export interface CustomApiDefinition {
         | "HEAD"
         | "head";
     };
-    response?: {
-      wrapper?: boolean;
-      type?: "file" | "object";
-    };
+    request?: ContractRequest;
+    response?: ContractResponse;
   };
 }
 
@@ -86,6 +86,7 @@ export interface CustomApiProfile {
   version?: string;
   isFileType?: boolean;
   ext_fields: ExtField[];
+  request?: ContractRequest;
 }
 
 /**
