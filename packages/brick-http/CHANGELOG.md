@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.4.0...@next-core/brick-http@2.4.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* **http:** get error cache ([774f5f1](https://github.com/easyops-cn/next-core/commit/774f5f14c45f42573ddf3c53893288a0ed6d0c0e))
+
+
+
+
+
 # [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.3.7...@next-core/brick-http@2.4.0) (2022-07-14)
 
 
