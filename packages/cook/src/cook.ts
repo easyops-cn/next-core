@@ -12,6 +12,7 @@ import {
   FunctionDeclaration,
   FunctionExpression,
   Identifier,
+  LVal,
   NewExpression,
   ObjectPattern,
   PatternLike,
@@ -1068,7 +1069,7 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratordestructuringassignmentevaluation
   function IteratorDestructuringAssignmentEvaluation(
-    elements: PatternLike[],
+    elements: (PatternLike | LVal)[],
     iteratorRecord: Iterator<unknown>
   ): CompletionRecord {
     let status = NormalCompletion(Empty);
@@ -1584,7 +1585,7 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratorbindinginitialization
   function IteratorBindingInitialization(
-    elements: PatternLike[],
+    elements: (PatternLike | LVal)[],
     iteratorRecord: Iterator<unknown>,
     environment: EnvironmentRecord
   ): CompletionRecord {
