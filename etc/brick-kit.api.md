@@ -17,6 +17,8 @@ import { BrickLifeCycle } from '@next-core/brick-types';
 import { BrickPackage } from '@next-core/brick-types';
 import { BrickTemplateFactory } from '@next-core/brick-types';
 import { ContextConf } from '@next-core/brick-types';
+import { ContractRequest } from '@next-core/brick-types';
+import { ContractResponse } from '@next-core/brick-types';
 import { CustomApiInfo } from '@next-core/brick-utils';
 import { CustomTemplateConstructor } from '@next-core/brick-types';
 import { CustomTemplateProxy } from '@next-core/brick-types';
@@ -146,10 +148,8 @@ export interface CustomApiDefinition {
             uri: string;
             method: "POST" | "post" | "PUT" | "put" | "GET" | "get" | "DELETE" | "delete" | "LIST" | "list" | "PATCH" | "patch" | "HEAD" | "head";
         };
-        response?: {
-            wrapper?: boolean;
-            type?: "file" | "object";
-        };
+        request?: ContractRequest;
+        response?: ContractResponse;
     };
     // (undocumented)
     name: string;
@@ -175,6 +175,8 @@ export interface CustomApiProfile {
     name: string;
     // (undocumented)
     namespace: string;
+    // (undocumented)
+    request?: ContractRequest;
     // (undocumented)
     responseWrapper: boolean;
     // (undocumented)

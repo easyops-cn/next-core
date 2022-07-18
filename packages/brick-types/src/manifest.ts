@@ -1481,6 +1481,30 @@ export interface ExtField {
   source?: "body" | "query";
 }
 
+export interface ContractFieldItem {
+  name: string;
+  type: string;
+  description: string;
+  fields?: (ContractFieldItem | ContractFieldRefItem)[];
+}
+
+export interface ContractFieldRefItem {
+  ref: string;
+}
+
+export type ContractField = ContractFieldItem | ContractFieldRefItem;
+
+export interface ContractResponse {
+  wrapper?: boolean;
+  type?: "file" | "object";
+  required?: string[];
+  default?: Record<string, any>;
+  fields?: ContractField[];
+  description?: string;
+}
+
+export type ContractRequest = Omit<ContractResponse, "wrapper">;
+
 export interface Contract {
   name: string;
   namespaceId: string;
@@ -1505,10 +1529,8 @@ export interface Contract {
     uri: string;
     ext_fields?: ExtField[];
   };
-  response: {
-    wrapper?: boolean;
-    type?: "file" | "object";
-  };
+  response?: ContractResponse;
+  request?: ContractRequest;
 }
 
 /**

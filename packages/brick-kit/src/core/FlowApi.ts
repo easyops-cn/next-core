@@ -51,6 +51,7 @@ function getApiArgsFromApiProfile(
     responseWrapper,
     version,
     isFileType,
+    request,
   }: CustomApiProfile,
   originalArgs: unknown[]
 ): unknown[] {
@@ -76,6 +77,7 @@ function getApiArgsFromApiProfile(
           method,
           ext_fields,
           responseWrapper: false,
+          request,
         },
         ...args,
         { responseType: "blob" },
@@ -86,6 +88,7 @@ function getApiArgsFromApiProfile(
           method,
           ext_fields,
           responseWrapper,
+          request,
         },
         ...args,
       ];
@@ -145,6 +148,7 @@ function getApiProfileFromApiDefinition(
     version: api.version,
     isFileType: contract?.response?.type === "file",
     responseWrapper,
+    request: contract.request,
   };
 }
 
@@ -175,6 +179,7 @@ async function _fetchFlowApiDefinition(
       contract: {
         endpoint: contract.endpoint,
         response: contract.response,
+        request: contract.request,
       },
     };
   } else {
@@ -193,6 +198,7 @@ async function _fetchFlowApiDefinition(
         contract: {
           endpoint: contractData.endpoint,
           response: contractData.response,
+          request: contractData.request,
         },
       };
     }
