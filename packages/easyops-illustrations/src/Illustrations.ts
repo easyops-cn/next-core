@@ -1,5 +1,6 @@
 import categories from "./categories";
 import { SiteTheme } from "@next-core/brick-types";
+import { useMemo } from "react";
 
 export interface IllustrationProps {
   name: string;
@@ -26,4 +27,27 @@ export function getIllustration(props: IllustrationProps): any {
   const name = determineIllustrationName(category, theme, props.name);
   const url = (categories as any)?.[category]?.[name];
   return url && `${window.CORE_ROOT ?? ""}assets/illustrations/${url}`;
+}
+
+export function useIllustrationConfig(
+  useNewIllustration: boolean,
+  illustrationsConfig: IllustrationProps
+): IllustrationProps {
+  const { category, name, theme } = illustrationsConfig;
+  const showNewIllustration = useNewIllustration && category === "default";
+  const illustrationName = useMemo(() => {
+    const illustrationNames = ["create-content", "browser-version-low"];
+    if (showNewIllustration && !illustrationNames.includes(name)) {
+      return `${name}-dynamic`;
+    }
+    return name;
+  }, [showNewIllustration, name]);
+  const illustrationCategory = useMemo(() => {
+    return showNewIllustration ? "easyops2" : category;
+  }, [showNewIllustration, category]);
+  return {
+    name: illustrationName,
+    category: illustrationCategory,
+    theme,
+  };
 }

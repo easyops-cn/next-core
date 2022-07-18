@@ -1,4 +1,35 @@
-import { getIllustration, determineIllustrationName } from "./Illustrations";
+import {
+  getIllustration,
+  determineIllustrationName,
+  useIllustrationConfig,
+  IllustrationProps,
+} from "./Illustrations";
+import { render } from "@testing-library/react";
+import React from "react";
+
+const setup = (
+  useNewIllustration: boolean,
+  illustrationsConfig: IllustrationProps
+): any => {
+  const returnVal = {};
+
+  const UseIllustrationConfigTest = (): any => {
+    const illustrationConfig = useIllustrationConfig(
+      useNewIllustration,
+      illustrationsConfig
+    );
+
+    Object.assign(returnVal, {
+      ...illustrationConfig,
+    });
+
+    return null;
+  };
+
+  render(<UseIllustrationConfigTest />);
+
+  return returnVal;
+};
 
 describe("Illustration", () => {
   it("should work", () => {
@@ -54,5 +85,45 @@ describe("Illustration", () => {
     });
 
     expect(result).toBeUndefined();
+  });
+
+  it("useIllustrationConfig should work ", () => {
+    const illustrationConfig: any = setup(true, {
+      name: "no-history",
+      category: "default",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("no-history-dynamic");
+    expect(illustrationConfig.category).toEqual("easyops2");
+  });
+
+  it("useIllustrationConfig should work when useNewIllustration is false", () => {
+    const illustrationConfig: any = setup(false, {
+      name: "no-history",
+      category: "default",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("no-history");
+    expect(illustrationConfig.category).toEqual("default");
+  });
+
+  it("useIllustrationConfig should work when image with no dynamic", () => {
+    const illustrationConfig: any = setup(true, {
+      name: "create-content",
+      category: "default",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("create-content");
+    expect(illustrationConfig.category).toEqual("easyops2");
+  });
+
+  it("useIllustrationConfig should work when category is feedback", () => {
+    const illustrationConfig: any = setup(true, {
+      name: "info",
+      category: "feedback",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("info");
+    expect(illustrationConfig.category).toEqual("feedback");
   });
 });
