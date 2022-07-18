@@ -283,7 +283,9 @@ class Http {
     if (this.isEnableCache) {
       try {
         key = `${config.method}.${config.url}.${
-          config.data ? JSON.stringify(config.data) : ""
+          config.data || config.options?.params
+            ? JSON.stringify(config.data || config.options?.params)
+            : ""
         }`;
       } catch {
         key = config.url;
