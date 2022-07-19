@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.31.65...@next-core/brick-dll@2.32.0) (2022-07-19)
+
+
+### Features
+
+* update icons and finish useIllustrationConfig ([b30f7c9](https://github.com/easyops-cn/next-core/commit/b30f7c95e8af83963bb0c3da21469280ba19414e))
+
+
+
+
+
 ## [2.31.65](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.31.64...@next-core/brick-dll@2.31.65) (2022-07-18)
 
 **Note:** Version bump only for package @next-core/brick-dll
