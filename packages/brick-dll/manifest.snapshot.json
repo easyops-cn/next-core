@@ -8010,7 +8010,7 @@
           "determineIllustrationName",
           "getIllustration",
           "illustrationsByCategory",
-          "useIllustrationConfig"
+          "translateIllustrationConfig"
         ]
       }
     },
