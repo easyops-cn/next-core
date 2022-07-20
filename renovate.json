@@ -74,6 +74,11 @@
       "matchPackagePatterns": ["^@types/"]
     },
     {
+      "matchPackagePatterns": ["^@types/"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "groupName": "rollup packages",
       "matchPackagePatterns": ["^@rollup/"]
     },
