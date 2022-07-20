@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/babel-preset-next
 
-
-
-
-
 ## [0.9.11](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.9.10...@next-core/babel-preset-next@0.9.11) (2022-06-24)
 
 ### Bug Fixes

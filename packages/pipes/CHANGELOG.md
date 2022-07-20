@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/pipes
 
-
-
-
-
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/pipes@1.0.3...@next-core/pipes@1.0.4) (2022-06-24)
 
 **Note:** Version bump only for package @next-core/pipes

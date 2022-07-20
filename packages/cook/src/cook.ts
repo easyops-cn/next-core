@@ -12,6 +12,7 @@ import {
   FunctionDeclaration,
   FunctionExpression,
   Identifier,
+  LVal,
   NewExpression,
   ObjectPattern,
   PatternLike,
@@ -308,7 +309,7 @@ export function cook(
             const propName =
               !prop.computed && prop.key.type === "Identifier"
                 ? prop.key.name
-                : EvaluateComputedPropertyName(prop.key);
+                : EvaluateComputedPropertyName(prop.key as Expression);
             if (propName === "__proto__") {
               throw new TypeError(
                 "Setting '__proto__' property is not allowed"
@@ -1000,7 +1001,7 @@ export function cook(
         const propName =
           !prop.computed && prop.key.type === "Identifier"
             ? prop.key.name
-            : (EvaluateComputedPropertyName(prop.key) as string);
+            : (EvaluateComputedPropertyName(prop.key as Expression) as string);
         const valueTarget =
           prop.value.type === "AssignmentPattern"
             ? prop.value.left
@@ -1068,7 +1069,7 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratordestructuringassignmentevaluation
   function IteratorDestructuringAssignmentEvaluation(
-    elements: PatternLike[],
+    elements: (PatternLike | LVal)[],
     iteratorRecord: Iterator<unknown>
   ): CompletionRecord {
     let status = NormalCompletion(Empty);
@@ -1545,7 +1546,7 @@ export function cook(
         );
         excludedNames.add(prop.key.name);
       } else {
-        const P = EvaluateComputedPropertyName(prop.key);
+        const P = EvaluateComputedPropertyName(prop.key as Expression);
         KeyedBindingInitialization(
           prop.value as EstreeLVal,
           value,
@@ -1584,7 +1585,7 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratorbindinginitialization
   function IteratorBindingInitialization(
-    elements: PatternLike[],
+    elements: (PatternLike | LVal)[],
     iteratorRecord: Iterator<unknown>,
     environment: EnvironmentRecord
   ): CompletionRecord {

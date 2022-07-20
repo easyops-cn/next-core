@@ -5,68 +5,37 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.64.4...@next-core/brick-types@2.65.0) (2022-07-18)
 
-
 ### Features
 
-* contract support upload type ([c4614f8](https://github.com/easyops-cn/next-core/commit/c4614f8d588bf60c243444e95780b62eb3612371))
-
-
-
-
+- contract support upload type ([c4614f8](https://github.com/easyops-cn/next-core/commit/c4614f8d588bf60c243444e95780b62eb3612371))
 
 ## [2.64.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.64.3...@next-core/brick-types@2.64.4) (2022-07-15)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 ## [2.64.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.64.1...@next-core/brick-types@2.64.3) (2022-07-15)
 
 **Note:** Version bump only for package @next-core/brick-types
-
-
-
-
 
 ## [2.64.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.64.0...@next-core/brick-types@2.64.1) (2022-07-12)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 # [2.64.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.63.0...@next-core/brick-types@2.64.0) (2022-07-07)
-
 
 ### Features
 
-* **generateBrickDocs:** support description of enum and interface ([3b81fe1](https://github.com/easyops-cn/next-core/commit/3b81fe1a5ee3d1666083fad50c7da8d62379c98a))
-
-
-
-
+- **generateBrickDocs:** support description of enum and interface ([3b81fe1](https://github.com/easyops-cn/next-core/commit/3b81fe1a5ee3d1666083fad50c7da8d62379c98a))
 
 # [2.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.62.2...@next-core/brick-types@2.63.0) (2022-07-05)
 
-
 ### Features
 
-* **story:** StoryDocInterface add extendedTypes and indexSignature properties ([6df5590](https://github.com/easyops-cn/next-core/commit/6df55908236be41e8e0d8415307a0ec4b108963f))
-
-
-
-
+- **story:** StoryDocInterface add extendedTypes and indexSignature properties ([6df5590](https://github.com/easyops-cn/next-core/commit/6df55908236be41e8e0d8415307a0ec4b108963f))
 
 ## [2.62.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.62.1...@next-core/brick-types@2.62.2) (2022-06-24)
 
 **Note:** Version bump only for package @next-core/brick-types
-
-
-
-
 
 ## [2.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.62.0...@next-core/brick-types@2.62.1) (2022-06-24)
 

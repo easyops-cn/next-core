@@ -13744,13 +13744,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/html-escaper/esm/index.js": {
-      "id": "cYju",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["escape", "unescape"]
-      }
-    },
     "./node_modules/@ant-design/icons-svg/es/asn/ToolFilled.js": {
       "id": "cZxi",
       "buildMeta": {
@@ -16403,6 +16396,13 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
+      }
+    },
+    "./node_modules/react-i18next/dist/es/unescape.js": {
+      "id": "ls4Q",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["unescape"]
       }
     },
     "./node_modules/regenerator-runtime/runtime.js": {
