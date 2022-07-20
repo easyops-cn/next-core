@@ -61,6 +61,6 @@ module.exports = [
   },
   {
     path: "packages/fontawesome-library/dist/index.esm.js",
-    limit: "425 KB",
+    limit: "426 KB",
   },
 ];
