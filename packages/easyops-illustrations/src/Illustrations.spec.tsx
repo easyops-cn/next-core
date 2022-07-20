@@ -1,4 +1,8 @@
-import { getIllustration, determineIllustrationName } from "./Illustrations";
+import {
+  getIllustration,
+  determineIllustrationName,
+  translateIllustrationConfig,
+} from "./Illustrations";
 
 describe("Illustration", () => {
   it("should work", () => {
@@ -54,5 +58,45 @@ describe("Illustration", () => {
     });
 
     expect(result).toBeUndefined();
+  });
+
+  it("translateIllustrationConfig should work ", () => {
+    const illustrationConfig: any = translateIllustrationConfig(true, {
+      name: "no-history",
+      category: "default",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("no-history-dynamic");
+    expect(illustrationConfig.category).toEqual("easyops2");
+  });
+
+  it("translateIllustrationConfig should work when useNewIllustration is false", () => {
+    const illustrationConfig: any = translateIllustrationConfig(false, {
+      name: "no-history",
+      category: "default",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("no-history");
+    expect(illustrationConfig.category).toEqual("default");
+  });
+
+  it("translateIllustrationConfig should work when image with no dynamic", () => {
+    const illustrationConfig: any = translateIllustrationConfig(true, {
+      name: "create-content",
+      category: "default",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("create-content");
+    expect(illustrationConfig.category).toEqual("easyops2");
+  });
+
+  it("translateIllustrationConfig should work when category is feedback", () => {
+    const illustrationConfig: any = translateIllustrationConfig(true, {
+      name: "info",
+      category: "feedback",
+      theme: "light",
+    });
+    expect(illustrationConfig.name).toEqual("info");
+    expect(illustrationConfig.category).toEqual("feedback");
   });
 });

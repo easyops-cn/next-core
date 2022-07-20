@@ -3,6 +3,84 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.123.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.3...@next-core/brick-kit@2.123.4) (2022-07-20)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.123.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.2...@next-core/brick-kit@2.123.3) (2022-07-19)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.123.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.1...@next-core/brick-kit@2.123.2) (2022-07-19)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.123.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.0...@next-core/brick-kit@2.123.1) (2022-07-18)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.123.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.14...@next-core/brick-kit@2.123.0) (2022-07-18)
+
+### Features
+
+- contract support upload type ([c4614f8](https://github.com/easyops-cn/next-core/commit/c4614f8d588bf60c243444e95780b62eb3612371))
+
+## [2.122.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.13...@next-core/brick-kit@2.122.14) (2022-07-15)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.12...@next-core/brick-kit@2.122.13) (2022-07-15)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.11...@next-core/brick-kit@2.122.12) (2022-07-14)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.10...@next-core/brick-kit@2.122.11) (2022-07-14)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.9...@next-core/brick-kit@2.122.10) (2022-07-12)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.8...@next-core/brick-kit@2.122.9) (2022-07-12)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.7...@next-core/brick-kit@2.122.8) (2022-07-12)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.6...@next-core/brick-kit@2.122.7) (2022-07-07)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.5...@next-core/brick-kit@2.122.6) (2022-07-05)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.4...@next-core/brick-kit@2.122.5) (2022-07-04)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.3...@next-core/brick-kit@2.122.4) (2022-06-27)
+
+### Bug Fixes
+
+- remove the request to fetch contarcts ([18f80d9](https://github.com/easyops-cn/next-core/commit/18f80d917f588956251621f27cc2d523cb5916fd))
+
+## [2.122.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.2...@next-core/brick-kit@2.122.3) (2022-06-24)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.122.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.1...@next-core/brick-kit@2.122.2) (2022-06-24)
+
+### Bug Fixes
+
+- 对于任意布局，在路由跳转的时候都应该重置浏览器标题 ([1b74aef](https://github.com/easyops-cn/next-core/commit/1b74aefd3689ede050bde022e5bf6c3cc0b6f456))
+
 ## [2.122.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.122.0...@next-core/brick-kit@2.122.1) (2022-06-23)
 
 **Note:** Version bump only for package @next-core/brick-kit

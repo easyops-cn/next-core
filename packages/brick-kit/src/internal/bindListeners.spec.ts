@@ -297,7 +297,7 @@ describe("bindListeners", () => {
     (iframeElement.contentWindow as any).angular = {};
 
     iframeElement.contentWindow.postMessage = jest.fn();
-
+    window.parent.postMessage = jest.fn();
     const eventsMap: BrickEventsMap = {
       key1: [
         { action: "history.push" },
@@ -508,6 +508,7 @@ describe("bindListeners", () => {
           action: "analytics.event",
           args: ["action", { param1: "<% CTX.myNewContext.hello %>" }],
         },
+        { action: "preview.debug", args: ["test"] },
       ],
       key2: [
         { target: "#target-elem", method: "forGood" },
@@ -640,6 +641,12 @@ describe("bindListeners", () => {
     await jest.runAllTimers();
     await (global as any).flushPromises();
 
+    expect(window.parent.postMessage).toHaveBeenCalledTimes(1);
+    expect(window.top.postMessage).toHaveBeenCalledWith({
+      sender: "previewer",
+      type: "preview.debug",
+      res: ["test"],
+    });
     expect(iframeElement.contentWindow.postMessage).toBeCalledWith(
       {
         type: "location.url",
@@ -699,7 +706,6 @@ describe("bindListeners", () => {
 
     expect(window.location.reload).toBeCalledWith();
     expect(window.location.assign).toBeCalledWith("www.baidu.com");
-
     expect(sypOnUserAnalyticsEvent).toBeCalledWith("action", {
       micro_app_id: "micro-app-id",
       route_alias: "route alias",

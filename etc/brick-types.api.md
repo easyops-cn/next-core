@@ -146,6 +146,7 @@ export interface BreadcrumbConf {
     items: BreadcrumbItemConf[];
     noCurrentApp?: boolean;
     overwrite?: boolean;
+    useCurrentMenuTitle?: boolean;
 }
 
 // @public
@@ -713,7 +714,7 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
 
 // @public
 export interface BuiltinBrickEventHandler {
-    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "state.update" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "analytics.event";
+    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "state.update" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "preview.debug" | "analytics.event";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
@@ -844,14 +845,53 @@ export interface Contract {
     // (undocumented)
     namespaceId: string;
     // (undocumented)
-    response: {
-        wrapper?: boolean;
-        type?: "file" | "object";
-    };
+    request?: ContractRequest;
+    // (undocumented)
+    response?: ContractResponse;
     // (undocumented)
     serviceName?: string;
     // (undocumented)
     version: string;
+}
+
+// @public (undocumented)
+export type ContractField = ContractFieldItem | ContractFieldRefItem;
+
+// @public (undocumented)
+export interface ContractFieldItem {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    fields?: (ContractFieldItem | ContractFieldRefItem)[];
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: string;
+}
+
+// @public (undocumented)
+export interface ContractFieldRefItem {
+    // (undocumented)
+    ref: string;
+}
+
+// @public (undocumented)
+export type ContractRequest = Omit<ContractResponse, "wrapper">;
+
+// @public (undocumented)
+export interface ContractResponse {
+    // (undocumented)
+    default?: Record<string, any>;
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    fields?: ContractField[];
+    // (undocumented)
+    required?: string[];
+    // (undocumented)
+    type?: "file" | "object";
+    // (undocumented)
+    wrapper?: boolean;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "CustomBrickConfig" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2113,7 +2153,7 @@ export interface StoryDoc {
     // (undocumented)
     id: string;
     // (undocumented)
-    interface?: (StoryDocInterface | StoryDocType)[];
+    interface?: (StoryDocInterface | StoryDocEnum | StoryDocType)[];
     // (undocumented)
     memo?: MarkdownString;
     // (undocumented)
@@ -2131,7 +2171,23 @@ export interface StoryDoc {
 // @internal (undocumented)
 export interface StoryDocEnum {
     // (undocumented)
-    description: string;
+    children: StoryDocEnumChild[];
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    kind: "enum";
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    typeParameter: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryDocEnumChild" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryDocEnumChild {
+    // (undocumented)
+    description?: string;
     // (undocumented)
     name: string;
     // (undocumented)
@@ -2167,13 +2223,43 @@ export interface StoryDocHistory {
 // @internal (undocumented)
 export interface StoryDocInterface {
     // (undocumented)
-    children: StoryDocTypeAndInterface[] | StoryDocEnum[];
+    children?: StoryDocInterfaceProperty[];
     // (undocumented)
-    kind: "interface" | "enum" | "type";
+    description?: string;
+    // Warning: (ae-forgotten-export) The symbol "SomeType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    extendedTypes?: SomeType[];
+    // (undocumented)
+    indexSignature?: StoryDocInterfaceIndexSignature[];
+    // (undocumented)
+    kind: "interface";
     // (undocumented)
     name: string;
     // (undocumented)
     typeParameter: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryDocInterfaceIndexSignature" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryDocInterfaceIndexSignature extends StoryDocInterfaceProperty {
+    // (undocumented)
+    parameters: StoryDocTypeParameter[];
+}
+
+// Warning: (ae-internal-missing-underscore) The name "StoryDocInterfaceProperty" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface StoryDocInterfaceProperty {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    required: boolean;
+    // (undocumented)
+    type: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "StoryDocMethod" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2233,9 +2319,9 @@ export interface StoryDocTemplate {
 // @internal (undocumented)
 export interface StoryDocType {
     // (undocumented)
-    description: string;
+    description?: string;
     // (undocumented)
-    kind: boolean;
+    kind: "type";
     // (undocumented)
     name: string;
     // (undocumented)
@@ -2244,16 +2330,12 @@ export interface StoryDocType {
     typeParameter: string;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "StoryDocTypeAndInterface" should be prefixed with an underscore because the declaration is marked as @internal
+// Warning: (ae-internal-missing-underscore) The name "StoryDocTypeParameter" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export interface StoryDocTypeAndInterface {
-    // (undocumented)
-    description: string;
+export interface StoryDocTypeParameter {
     // (undocumented)
     name: string;
-    // (undocumented)
-    required: boolean;
     // (undocumented)
     type: string;
 }

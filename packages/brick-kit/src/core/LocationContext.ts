@@ -73,6 +73,11 @@ import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
 import { CustomTemplate } from "../../../brick-types/dist/types/manifest";
+import {
+  ExpandCustomForm,
+  formDataProperties,
+} from "./CustomForms/ExpandCustomForm";
+import { formRenderer } from "./CustomForms/constants";
 
 export type MatchRoutesResult =
   | {
@@ -694,6 +699,16 @@ export class LocationContext {
       );
 
       // Try to load deps for dynamic added bricks.
+      await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
+    }
+
+    if (brick.type === formRenderer) {
+      const formData: formDataProperties = brick.properties.formData;
+      expandedBrickConf = ExpandCustomForm(
+        formData,
+        brickConf,
+        brick.properties.isPreview
+      );
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
 

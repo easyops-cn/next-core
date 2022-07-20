@@ -46,6 +46,7 @@ describe("http", () => {
   );
 
   afterEach(() => {
+    http.enableCache(false);
     spyOnFetch.mockClear();
   });
 
@@ -146,6 +147,62 @@ describe("http", () => {
     });
 
     expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
+  });
+
+  it("preview was true and http request should use cache", async () => {
+    http.enableCache(true);
+    // get
+    await http.get("http://example.com");
+    expect(spyOnFetch).toBeCalledTimes(1);
+
+    await http.get("http://example.com");
+    expect(spyOnFetch).toBeCalledTimes(1);
+
+    await http.get("http://example.com?v=1");
+    expect(spyOnFetch).toBeCalledTimes(2);
+
+    await http.get("http://example.com");
+    expect(spyOnFetch).toBeCalledTimes(2);
+
+    // post
+    await http.post("http://example.com");
+    expect(spyOnFetch).toBeCalledTimes(3);
+
+    await http.post("http://example.com", {
+      v: 1,
+    });
+    expect(spyOnFetch).toBeCalledTimes(4);
+
+    await http.post("http://example.com", {
+      v: 1,
+    });
+    expect(spyOnFetch).toBeCalledTimes(4);
+
+    await http.post("http://example.com", {
+      v: 2,
+    });
+    expect(spyOnFetch).toBeCalledTimes(5);
+
+    await http.get("http://example.com", {
+      params: {
+        v: 3,
+      },
+    });
+    expect(spyOnFetch).toBeCalledTimes(6);
+
+    await http.get("http://example.com", {
+      params: {
+        v: 3,
+      },
+    });
+    expect(spyOnFetch).toBeCalledTimes(6);
+
+    await http.get("http://example.com", {
+      params: {
+        v: 4,
+      },
+    });
+    expect(spyOnFetch).toBeCalledTimes(7);
   });
 
   it("should work with getUrlWithParams", () => {

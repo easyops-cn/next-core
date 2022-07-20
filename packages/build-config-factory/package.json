@@ -1,6 +1,6 @@
 {
   "name": "@next-core/build-config-factory",
-  "version": "2.18.48",
+  "version": "2.23.6",
   "description": "build config factory",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-config-factory",
   "license": "GPL-3.0",
@@ -18,10 +18,10 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-utils": "^2.37.17",
+    "@next-core/brick-utils": "^2.37.25",
     "@next-core/repo-config": "^0.2.1",
-    "@next-core/typedoc-plugin-filter-inherit": "^1.2.0",
-    "@next-core/webpack-config-factory": "^2.16.2",
+    "@next-core/typedoc-plugin-filter-inherit": "^1.2.2",
+    "@next-core/webpack-config-factory": "^2.16.6",
     "change-case": "^4.1.2",
     "chokidar": "^3.5.3",
     "fs-extra": "^10.1.0",
@@ -32,7 +32,7 @@
     "meow": "^9.0.0",
     "moment": "^2.29.4",
     "npmlog": "^6.0.2",
-    "prettier": "^2.7.1",
+    "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "typedoc": "^0.19.2",
     "typedoc-plugin-no-inherit": "^1.2.2"

@@ -79,14 +79,15 @@ function getBrickPackages(env) {
 }
 
 function getNamesOfBrickPackages(env) {
-  const dir = tryFiles([env.brickPackagesDir, env.alternativeBrickPackagesDir]);
-  if (!dir) {
-    return [];
-  }
-  return fs
-    .readdirSync(dir, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
-    .map((dirent) => dirent.name);
+  return [env.brickPackagesDir, env.alternativeBrickPackagesDir].flatMap(
+    (dir) =>
+      fs.existsSync(dir)
+        ? fs
+            .readdirSync(dir, { withFileTypes: true })
+            .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
+            .map((dirent) => dirent.name)
+        : []
+  );
 }
 
 function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {

@@ -21,7 +21,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll.*.js",
-    limit: "1.40 MB",
+    limit: "1.41 MB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
@@ -29,7 +29,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/icons--*.js",
-    limit: "450 KB",
+    limit: "455 KB",
   },
   {
     path: "packages/brick-container/dist/polyfill.*.js",
@@ -61,6 +61,6 @@ module.exports = [
   },
   {
     path: "packages/fontawesome-library/dist/index.esm.js",
-    limit: "426 KB",
+    limit: "425 KB",
   },
 ];

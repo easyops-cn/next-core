@@ -71,6 +71,8 @@ import {
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
+import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { formRenderer } from "./CustomForms/constants";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -354,6 +356,39 @@ export class Kernel {
     }
   }
 
+  _dev_only_updateFormPreviewSettings(
+    appId: string,
+    formId: string,
+    formData: formDataProperties
+  ): void {
+    const { routes } = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    const previewPath = `\${APP.homepage}/_dev_only_/form-preview/${formId}`;
+    const previewRouteIndex = routes.findIndex(
+      (route) => route.path === previewPath
+    );
+    const newPreviewRoute: RouteConf = {
+      path: previewPath,
+      bricks: [
+        {
+          brick: formRenderer,
+          properties: {
+            formData: formData,
+            isPreview: true,
+          },
+        },
+      ],
+      menu: false,
+      exact: true,
+    };
+    if (previewRouteIndex === -1) {
+      routes.unshift(newPreviewRoute);
+    } else {
+      routes.splice(previewRouteIndex, 1, newPreviewRoute);
+    }
+  }
+
   private _loadDepsOfStoryboard = async (
     storyboard: RuntimeStoryboard
   ): Promise<void> => {
@@ -527,6 +562,7 @@ export class Kernel {
     legacy,
   }: { appChanged?: boolean; legacy?: "iframe" } = {}): void {
     this.toggleBars(true);
+    getRuntime().applyPageTitle(null);
     if (this.currentLayout !== "console") {
       // No bars should be unset for the business layout.
       return;
@@ -538,7 +574,6 @@ export class Kernel {
       // 对于 Legacy 页面，仅当切换应用时重设面包屑。
       this.appBar.setBreadcrumb(null);
     }
-    getRuntime().applyPageTitle(null);
   }
 
   toggleLegacyIframe(visible: boolean): void {

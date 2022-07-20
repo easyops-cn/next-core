@@ -309,7 +309,7 @@ export function cook(
             const propName =
               !prop.computed && prop.key.type === "Identifier"
                 ? prop.key.name
-                : EvaluateComputedPropertyName(prop.key as Expression);
+                : EvaluateComputedPropertyName(prop.key);
             if (propName === "__proto__") {
               throw new TypeError(
                 "Setting '__proto__' property is not allowed"
@@ -1001,7 +1001,7 @@ export function cook(
         const propName =
           !prop.computed && prop.key.type === "Identifier"
             ? prop.key.name
-            : (EvaluateComputedPropertyName(prop.key as Expression) as string);
+            : (EvaluateComputedPropertyName(prop.key) as string);
         const valueTarget =
           prop.value.type === "AssignmentPattern"
             ? prop.value.left
@@ -1546,7 +1546,7 @@ export function cook(
         );
         excludedNames.add(prop.key.name);
       } else {
-        const P = EvaluateComputedPropertyName(prop.key as Expression);
+        const P = EvaluateComputedPropertyName(prop.key);
         KeyedBindingInitialization(
           prop.value as EstreeLVal,
           value,

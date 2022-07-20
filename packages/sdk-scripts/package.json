@@ -1,6 +1,6 @@
 {
   "name": "@next-core/sdk-scripts",
-  "version": "2.7.7",
+  "version": "2.7.9",
   "description": "Generate new brick-packages or new bricks in existed packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/sdk-scripts",
   "license": "GPL-3.0",
@@ -35,7 +35,7 @@
     "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
     "meow": "^9.0.0",
-    "prettier": "^2.7.1",
+    "prettier": "^2.6.2",
     "semver": "^7.3.7"
   },
   "engines": {

@@ -27,3 +27,22 @@ export function getIllustration(props: IllustrationProps): any {
   const url = (categories as any)?.[category]?.[name];
   return url && `${window.CORE_ROOT ?? ""}assets/illustrations/${url}`;
 }
+
+export function translateIllustrationConfig(
+  useNewIllustration: boolean,
+  illustrationsConfig: IllustrationProps
+): IllustrationProps {
+  const { category, name, theme } = illustrationsConfig;
+  const showNewIllustration = useNewIllustration && category === "default";
+  const illustrationNames = ["create-content", "browser-version-low"];
+  const illustrationCategory = showNewIllustration ? "easyops2" : category;
+  const illustrationName =
+    showNewIllustration && !illustrationNames.includes(name)
+      ? `${name}-dynamic`
+      : name;
+  return {
+    name: illustrationName,
+    category: illustrationCategory,
+    theme,
+  };
+}

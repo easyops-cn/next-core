@@ -1,6 +1,6 @@
 {
   "name": "@next-core/dll-differ",
-  "version": "1.1.16",
+  "version": "1.1.18",
   "private": true,
   "description": "Diff a dll package's manifest with snapshot",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/dll-differ",
@@ -14,7 +14,7 @@
     "src"
   ],
   "dependencies": {
-    "diff": "^5.1.0",
-    "prettier": "^2.7.1"
+    "diff": "^5.0.0",
+    "prettier": "^2.6.2"
   }
 }

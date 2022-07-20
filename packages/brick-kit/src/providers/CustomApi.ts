@@ -1,6 +1,12 @@
 import { createProviderClass } from "@next-core/brick-utils";
-import { ExtField } from "@next-core/brick-types";
+import {
+  ExtField,
+  ContractRequest,
+  ContractField,
+  ContractFieldItem,
+} from "@next-core/brick-types";
 import { http, HttpOptions } from "@next-core/brick-http";
+import { isEmpty } from "lodash";
 
 export const CUSTOM_API_PROVIDER = "brick-kit.provider-custom-api";
 
@@ -9,6 +15,7 @@ export interface CustomApiParams {
   method?: string;
   responseWrapper?: boolean;
   ext_fields?: ExtField[];
+  request?: ContractRequest;
 }
 
 export function processExtFields(
@@ -52,12 +59,52 @@ export function processExtFields(
   };
 }
 
+export function hasFileType(request: ContractRequest): boolean {
+  let flag = false;
+  if (!request) return flag;
+
+  const processFields = (fields: ContractField[]): boolean => {
+    return fields.some((field) => {
+      if (["file", "file[]"].includes((field as ContractFieldItem).type)) {
+        return true;
+      }
+
+      if (!isEmpty((field as ContractFieldItem).fields)) {
+        return processFields((field as ContractFieldItem).fields);
+      }
+    });
+  };
+
+  if (request.type === "object" && !isEmpty(request.fields)) {
+    flag = processFields(request.fields);
+  }
+
+  return flag;
+}
+
+export function transformFormData(data: Record<string, any>): FormData {
+  const formData = new FormData();
+  for (const [key, value] of Object.entries(data)) {
+    if (Array.isArray(value)) {
+      const k = `${key}[]`;
+      value.forEach((v) => {
+        formData.append(k, v);
+      });
+    } else {
+      formData.append(key, value);
+    }
+  }
+
+  return formData;
+}
+
 export async function CustomApi(
   {
     url,
     method = "GET",
     responseWrapper = true,
     ext_fields = [],
+    request,
   }: CustomApiParams,
   ...args: unknown[]
 ): Promise<unknown> {
@@ -65,23 +112,25 @@ export async function CustomApi(
     method.toLowerCase()
   );
 
+  let response;
   if (isSimpleRequest) {
     const [data, options] = args;
-    const response = await http.simpleRequest(method, url, {
+    response = await http.simpleRequest(method, url, {
       params: data,
       ...(options as HttpOptions),
     });
-    return responseWrapper ? response.data : response;
   } else {
+    const isUploadType = hasFileType(request);
     const result = processExtFields(ext_fields, ...args);
-    const response = await http.requestWithBody(
+    response = await http.requestWithBody(
       method,
       url,
-      result.data,
+      isUploadType ? transformFormData(result.data) : result.data,
       result.options
     );
-    return responseWrapper ? response.data : response;
   }
+
+  return responseWrapper ? response.data : response;
 }
 
 export function registerCustomApi(): void {

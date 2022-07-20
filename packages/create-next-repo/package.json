@@ -1,6 +1,6 @@
 {
   "name": "@next-core/create-next-repo",
-  "version": "1.4.9",
+  "version": "1.4.11",
   "description": "Create new brick-next repositories",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-next-repo",
   "license": "GPL-3.0",
@@ -30,7 +30,7 @@
     "https-proxy-agent": "^5.0.1",
     "meow": "^9.0.0",
     "node-stream-zip": "^1.15.0",
-    "replace-in-file": "^6.3.3"
+    "replace-in-file": "^6.3.2"
   },
   "engines": {
     "node": ">=12.0.0"

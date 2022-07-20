@@ -3,6 +3,92 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.5...@next-core/build-config-factory@2.23.6) (2022-07-18)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.23.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.4...@next-core/build-config-factory@2.23.5) (2022-07-15)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.23.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.3...@next-core/build-config-factory@2.23.4) (2022-07-15)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.23.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.2...@next-core/build-config-factory@2.23.3) (2022-07-14)
+
+### Bug Fixes
+
+- **generateBrickDocs:** filter element childern without supported decorators ([a2f8e50](https://github.com/easyops-cn/next-core/commit/a2f8e50425a6a1c6aec4ed2d6c21858d2d4dbea4))
+
+## [2.23.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.1...@next-core/build-config-factory@2.23.2) (2022-07-12)
+
+### Bug Fixes
+
+- **generateBrickDocs:** support wrapping intersection types ([9dca68d](https://github.com/easyops-cn/next-core/commit/9dca68d14396fec7f250c2ad41ba95464dcc3577))
+
+## [2.23.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.0...@next-core/build-config-factory@2.23.1) (2022-07-12)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+# [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.22.0...@next-core/build-config-factory@2.23.0) (2022-07-12)
+
+### Bug Fixes
+
+- **generateBrickDocs:** filter inherited properties ([38daaff](https://github.com/easyops-cn/next-core/commit/38daaffa0dcb5c4ef66cc3d846e525db2ea3ba95))
+
+### Features
+
+- **generateBrickDocs:** support typle types ([148ad87](https://github.com/easyops-cn/next-core/commit/148ad87935a8deac87c69fd4d60828a2aef7723f))
+
+# [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.21.0...@next-core/build-config-factory@2.22.0) (2022-07-11)
+
+### Features
+
+- **generateBrickDocs:** support function type ([b085bbf](https://github.com/easyops-cn/next-core/commit/b085bbf089b89dc6e7fa7f743a69731b24ea449a))
+
+# [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.20.0...@next-core/build-config-factory@2.21.0) (2022-07-07)
+
+### Features
+
+- **generateBrickDocs:** support description of enum and interface ([3b81fe1](https://github.com/easyops-cn/next-core/commit/3b81fe1a5ee3d1666083fad50c7da8d62379c98a))
+- **generateBrickDocs:** support get detail of reflection type from declaration ([b62557f](https://github.com/easyops-cn/next-core/commit/b62557f09a362a85ac25151d8940cec4e691700b))
+- **generateBrickDocs:** support get parameters type of method from declaration ([e88bef6](https://github.com/easyops-cn/next-core/commit/e88bef6006140001bd44271911566df497e03ca4))
+- **generateBrickDocs:** support get property type from setter ([5825363](https://github.com/easyops-cn/next-core/commit/5825363195c4359a21b9b80360a58a261e886825))
+
+# [2.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.19.0...@next-core/build-config-factory@2.20.0) (2022-07-05)
+
+### Features
+
+- **generateBrickDocs:** support infer required and default of property and detail of event from declaration ([6a60f26](https://github.com/easyops-cn/next-core/commit/6a60f26563683d89d5b36bb766f973cb23522e70))
+
+# [2.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.52...@next-core/build-config-factory@2.19.0) (2022-07-05)
+
+### Bug Fixes
+
+- **generateBrickDocs:** type will not be traversed in another module once traversed ([c539bcf](https://github.com/easyops-cn/next-core/commit/c539bcf86a8d7d0955f4115373db838032c5c677))
+
+### Features
+
+- **generateBrickDocs:** add support for extendedTypes ([12c9e53](https://github.com/easyops-cn/next-core/commit/12c9e536b07104a9ee8478cbe8c2aa6887751335))
+- **generateBrickDocs:** add support for index signature ([1f16c2c](https://github.com/easyops-cn/next-core/commit/1f16c2c1a961a43a139f8bef1117c8eb4e4ba3f6))
+
+## [2.18.52](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.51...@next-core/build-config-factory@2.18.52) (2022-06-28)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.18.51](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.50...@next-core/build-config-factory@2.18.51) (2022-06-27)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.18.50](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.49...@next-core/build-config-factory@2.18.50) (2022-06-24)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
+## [2.18.49](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.48...@next-core/build-config-factory@2.18.49) (2022-06-24)
+
+**Note:** Version bump only for package @next-core/build-config-factory
+
 ## [2.18.48](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.18.47...@next-core/build-config-factory@2.18.48) (2022-06-23)
 
 ### Bug Fixes

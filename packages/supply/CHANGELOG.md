@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.49](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.48...@next-core/supply@1.0.49) (2022-07-18)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.48](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.47...@next-core/supply@1.0.48) (2022-07-15)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.47](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.46...@next-core/supply@1.0.47) (2022-07-15)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.46](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.45...@next-core/supply@1.0.46) (2022-07-12)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.45](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.44...@next-core/supply@1.0.45) (2022-07-07)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.44](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.43...@next-core/supply@1.0.44) (2022-07-05)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.43](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.42...@next-core/supply@1.0.43) (2022-06-24)
+
+**Note:** Version bump only for package @next-core/supply
+
+## [1.0.42](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.41...@next-core/supply@1.0.42) (2022-06-24)
+
+**Note:** Version bump only for package @next-core/supply
+
 ## [1.0.41](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.0.40...@next-core/supply@1.0.41) (2022-05-26)
 
 **Note:** Version bump only for package @next-core/supply

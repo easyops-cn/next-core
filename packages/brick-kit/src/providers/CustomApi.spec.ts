@@ -1,4 +1,9 @@
-import { CustomApi, CustomApiParams, processExtFields } from "./CustomApi";
+import {
+  CustomApi,
+  CustomApiParams,
+  processExtFields,
+  hasFileType,
+} from "./CustomApi";
 
 jest.mock("@next-core/brick-http", () => ({
   http: {
@@ -58,6 +63,30 @@ describe("CustomApi", () => {
       },
       { a: 1 } as any,
       { headers: new Headers({ "x-requested-with": "XMLHttpRequest" }) } as any,
+      "requestWithBody resolved",
+    ],
+    [
+      {
+        url: "/xxx",
+        method: "post",
+        responseWrapper: true,
+        request: {
+          type: "object",
+          fields: [
+            {
+              name: "file",
+              type: "file",
+            },
+          ],
+        },
+      },
+      {
+        file: new File(["foo"], "foo.txt", {
+          type: "text/plain",
+        }),
+        key: ["id1", "id2"],
+      } as any,
+      undefined,
       "requestWithBody resolved",
     ],
   ])("CustomApi(%j) should work", async (params1, params2, params3, result) => {
@@ -137,4 +166,121 @@ describe("CustomApi", () => {
       expect(processExtFields(params1, params2, params3)).toEqual(result);
     }
   );
+
+  it.each([
+    [null, false],
+    [
+      {
+        type: "object",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "age",
+            type: "number",
+          },
+        ],
+      },
+      false,
+    ],
+    [
+      {
+        type: "object",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "age",
+            type: "number",
+          },
+          {
+            name: "file",
+            type: "file[]",
+          },
+        ],
+      },
+      true,
+    ],
+    [
+      {
+        type: "object",
+        fields: [
+          {
+            ref: "instanceData.name",
+          },
+          {
+            name: "age",
+            type: "number",
+          },
+          {
+            name: "plugin",
+            type: "object",
+            fields: [
+              {
+                name: "data",
+                type: "object",
+                fields: [
+                  {
+                    name: "file",
+                    type: "file",
+                  },
+                ],
+              },
+              {
+                ref: "instance.*",
+              },
+            ],
+          },
+        ],
+      },
+      true,
+    ],
+    [
+      {
+        type: "object",
+        fields: [
+          {
+            ref: "instanceData.name",
+          },
+          {
+            name: "age",
+            type: "number",
+          },
+          {
+            name: "plugin",
+            type: "object",
+            fields: [
+              {
+                name: "data",
+                type: "object",
+                fields: [
+                  {
+                    name: "instance",
+                    type: "object",
+                    fields: [
+                      {
+                        name: "id",
+                        type: "string",
+                      },
+                      {
+                        name: "model",
+                        type: "modelData",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      false,
+    ],
+  ])("hasFileType(%j) should work", (response, result) => {
+    expect(hasFileType(response)).toEqual(result);
+  });
 });

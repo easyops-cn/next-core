@@ -16,6 +16,7 @@ import { validatePermissions } from "../internal/checkPermissions";
 import * as menu from "../internal/menu";
 import { MediaBreakpoint } from "../internal/mediaQuery";
 import { registerCustomTemplate } from "./CustomTemplates/registerCustomTemplate";
+import { formRenderer } from "./CustomForms/constants";
 
 jest.mock("../auth");
 jest.mock("./MessageDispatcher");
@@ -1320,6 +1321,12 @@ describe("LocationContext", () => {
                   brick: "menu",
                   properties: {
                     menu: "<% APP.getMenu('menu-2') %>",
+                  },
+                },
+                {
+                  brick: formRenderer,
+                  properties: {
+                    formData: { formSchema: {}, fields: [] },
                   },
                 },
                 {

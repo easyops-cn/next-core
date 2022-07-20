@@ -211,6 +211,14 @@ const requestWithBody = <T = any>(
 };
 
 class Http {
+  private requestCache = new Map<string, Promise<any>>();
+
+  private isEnableCache: boolean;
+
+  public enableCache = (enable: boolean): void => {
+    this.isEnableCache = enable;
+  };
+
   public interceptors: {
     request: InterceptorManager<HttpRequestConfig>;
     response: InterceptorManager<HttpResponse>;
@@ -271,6 +279,21 @@ class Http {
 
   private fetch(config: HttpRequestConfig): Promise<any> {
     const chain: any[] = [];
+    let key;
+    if (this.isEnableCache) {
+      try {
+        key = `${config.method}.${config.url}.${
+          config.data || config.options?.params
+            ? JSON.stringify(config.data || config.options?.params)
+            : ""
+        }`;
+      } catch {
+        key = config.url;
+      }
+      if (this.requestCache.has(key)) {
+        return this.requestCache.get(key);
+      }
+    }
     let promise = Promise.resolve(config);
 
     this.interceptors.request.forEach((interceptor) => {
@@ -287,6 +310,7 @@ class Http {
       promise = promise.then(chain.shift(), chain.shift());
     }
 
+    this.isEnableCache && this.requestCache.set(key, promise);
     return promise;
   }
 

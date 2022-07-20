@@ -969,6 +969,11 @@ export interface BreadcrumbConf {
    * 是否显示当前AppName
    * */
   noCurrentApp?: boolean;
+
+  /**
+   * 使用当前菜单标题作为面包屑标题
+   */
+  useCurrentMenuTitle?: boolean;
 }
 
 /**
@@ -1173,6 +1178,7 @@ export interface BuiltinBrickEventHandler {
     | "mode.setDefaultMode"
     | "menu.clearMenuTitleCache"
     | "menu.clearMenuCache"
+    | "preview.debug"
 
     // Analytics
     | "analytics.event";
@@ -1475,6 +1481,30 @@ export interface ExtField {
   source?: "body" | "query";
 }
 
+export interface ContractFieldItem {
+  name: string;
+  type: string;
+  description: string;
+  fields?: (ContractFieldItem | ContractFieldRefItem)[];
+}
+
+export interface ContractFieldRefItem {
+  ref: string;
+}
+
+export type ContractField = ContractFieldItem | ContractFieldRefItem;
+
+export interface ContractResponse {
+  wrapper?: boolean;
+  type?: "file" | "object";
+  required?: string[];
+  default?: Record<string, any>;
+  fields?: ContractField[];
+  description?: string;
+}
+
+export type ContractRequest = Omit<ContractResponse, "wrapper">;
+
 export interface Contract {
   name: string;
   namespaceId: string;
@@ -1499,10 +1529,8 @@ export interface Contract {
     uri: string;
     ext_fields?: ExtField[];
   };
-  response: {
-    wrapper?: boolean;
-    type?: "file" | "object";
-  };
+  response?: ContractResponse;
+  request?: ContractRequest;
 }
 
 /**

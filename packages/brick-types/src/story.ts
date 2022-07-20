@@ -96,14 +96,14 @@ export interface StoryDocHistory {
 }
 
 /** @internal */
-export interface StoryDocEnum {
+export interface StoryDocEnumChild {
   name: string;
   value: string;
-  description: string;
+  description?: string;
 }
 
 /** @internal */
-export interface StoryDocTypeAndInterface {
+export interface StoryDocInterfaceProperty {
   name: string;
   type: string;
   required: boolean;
@@ -111,20 +111,50 @@ export interface StoryDocTypeAndInterface {
 }
 
 /** @internal */
+export interface StoryDocTypeParameter {
+  name: string;
+  type: string;
+}
+
+/** @internal */
+export interface StoryDocInterfaceIndexSignature
+  extends StoryDocInterfaceProperty {
+  parameters: StoryDocTypeParameter[];
+}
+
+/** @internal */
 export interface StoryDocType {
   name: string;
   type: string;
-  kind: boolean;
+  kind: "type";
   typeParameter: string;
-  description: string;
+  description?: string;
+}
+
+/** @internal */
+export interface StoryDocEnum {
+  name: string;
+  typeParameter: string;
+  kind: "enum";
+  children: StoryDocEnumChild[];
+  description?: string;
+}
+
+/** @internal */
+interface SomeType {
+  name: string;
+  type: string;
 }
 
 /** @internal */
 export interface StoryDocInterface {
   name: string;
   typeParameter: string;
-  kind: "interface" | "enum" | "type";
-  children: StoryDocTypeAndInterface[] | StoryDocEnum[];
+  kind: "interface";
+  extendedTypes?: SomeType[];
+  description?: string;
+  children?: StoryDocInterfaceProperty[];
+  indexSignature?: StoryDocInterfaceIndexSignature[];
 }
 
 /** @internal */
@@ -135,7 +165,7 @@ export interface StoryDoc {
   deprecated?: boolean;
   description?: string;
   memo?: MarkdownString;
-  interface?: (StoryDocInterface | StoryDocType)[];
+  interface?: (StoryDocInterface | StoryDocEnum | StoryDocType)[];
   history: StoryDocHistory[];
   slots?: StoryDocSlot[];
   events?: StoryDocEvent[];
