@@ -3,6 +3,7 @@ import {
   CustomApiParams,
   processExtFields,
   hasFileType,
+  transformFormData,
 } from "./CustomApi";
 
 jest.mock("@next-core/brick-http", () => ({
@@ -282,5 +283,26 @@ describe("CustomApi", () => {
     ],
   ])("hasFileType(%j) should work", (response, result) => {
     expect(hasFileType(response)).toEqual(result);
+  });
+
+  it("transformFormData should work", () => {
+    const formData = new FormData();
+    formData.append("name", "tester");
+
+    expect(transformFormData(formData)).toEqual(formData);
+
+    const result = transformFormData({
+      env: {
+        ip: "192.168.100.162",
+        instanceId: "abc53",
+      },
+    });
+    expect(result.get("env[ip]")).toEqual("192.168.100.162");
+    expect(result.get("env[instanceId]")).toEqual("abc53");
+
+    const result2 = transformFormData({
+      ids: ["abc", "ba3", "cd5"],
+    });
+    expect(result2.getAll("ids")).toEqual(["abc", "ba3", "cd5"]);
   });
 });
