@@ -6,7 +6,7 @@ import {
   ContractFieldItem,
 } from "@next-core/brick-types";
 import { http, HttpOptions } from "@next-core/brick-http";
-import { isEmpty } from "lodash";
+import { isEmpty, isObject } from "lodash";
 
 export const CUSTOM_API_PROVIDER = "brick-kit.provider-custom-api";
 
@@ -83,12 +83,23 @@ export function hasFileType(request: ContractRequest): boolean {
 }
 
 export function transformFormData(data: Record<string, any>): FormData {
+  if (data instanceof FormData) {
+    return data;
+  }
+
   const formData = new FormData();
   for (const [key, value] of Object.entries(data)) {
     if (Array.isArray(value)) {
-      const k = `${key}[]`;
       value.forEach((v) => {
-        formData.append(k, v);
+        formData.append(key, v);
+      });
+    } else if (
+      isObject(value) &&
+      !(value instanceof Blob) &&
+      !(value instanceof Date)
+    ) {
+      Object.entries(value).forEach(([k, v]) => {
+        formData.append(`${key}[${k}]`, v);
       });
     } else {
       formData.append(key, value);
