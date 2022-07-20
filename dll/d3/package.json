@@ -19,12 +19,12 @@
     "postbuild": "dll-differ"
   },
   "dependencies": {
-    "d3-drag": "^2.0.0",
-    "d3-force": "^2.1.1",
-    "d3-hierarchy": "^2.0.0",
-    "d3-selection": "^2.0.0",
-    "d3-shape": "^2.1.0",
-    "d3-zoom": "^2.0.0"
+    "d3-drag": "^3.0.0",
+    "d3-force": "^3.0.0",
+    "d3-hierarchy": "^3.1.2",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.1.0",
+    "d3-zoom": "^3.0.0"
   },
   "devDependencies": {
     "@next-core/webpack-config-factory": "^2.16.2"
