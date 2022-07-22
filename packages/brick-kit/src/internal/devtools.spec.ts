@@ -7,6 +7,13 @@ import {
   MESSAGE_SOURCE_PANEL,
 } from "./devtools";
 
+global.requestIdleCallback = (callback: IdleRequestCallback): number => {
+  Promise.resolve().then(() => {
+    callback(null);
+  });
+  return 0;
+};
+
 jest.mock("../core/Runtime", () => ({
   _internalApiGetCurrentContext: () => {
     return {
