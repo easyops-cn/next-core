@@ -47,12 +47,18 @@ interface EditTransformationPayload {
 
 /* istanbul ignore next */
 export function devtoolsHookEmit(type: string, payload?: unknown): void {
-  Promise.resolve().then(() => {
+  const emit = (): void => {
     getDevHook()?.emit?.({
       type,
       payload,
     });
-  });
+  };
+  // Try to emit only in idle time.
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(emit);
+  } else {
+    setTimeout(emit, 0);
+  }
 }
 
 export function listenDevtools(): void {
