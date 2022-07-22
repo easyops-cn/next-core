@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.123.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.6...@next-core/brick-kit@2.123.7) (2022-07-22)
+
+
+### Bug Fixes
+
+* **devtools:** try to emit only in idle time ([0bf3c47](https://github.com/easyops-cn/next-core/commit/0bf3c475cfc41d8badeb24480fc9d441d0dc1003))
+
+
+
+
+
 ## [2.123.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.5...@next-core/brick-kit@2.123.6) (2022-07-21)
 
 
