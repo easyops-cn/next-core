@@ -495,6 +495,7 @@
   /*** tabs ***/
   --antd-tabs-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.04);
   --antd-tabs-title-wrapper-bg: var(--antd-component-background);
+  --antd-tabs-title-wrapper-bg-channel: 255, 255, 255;
   --antd-tabs-title-border-color: var(--palette-gray-4);
   --antd-tabs-title-color: var(--text-color-default);
   --antd-tabs-title-hover-color: #40a9ff;

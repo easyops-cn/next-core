@@ -469,6 +469,7 @@ html[data-theme="dark-v2"],
   --antd-tabs-panel-type-shadow: var(--base-shadow);
   --antd-tabs-panel-type-selected-color: var(--color-normal-icon);
   --antd-tabs-panel-type-selected-bg: var(--color-brand);
+  --antd-tabs-title-wrapper-bg-channel: 32, 32, 33;
 
   /*** inputNumber ***/
   --antd-input-number-handler-wrap-bg: var(--color-fill-bg-base-1);
