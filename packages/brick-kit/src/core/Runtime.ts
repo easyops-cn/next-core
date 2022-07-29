@@ -14,6 +14,7 @@ import {
   SiteMapItem,
   SidebarMenu,
   RouteConf,
+  CustomTemplate,
 } from "@next-core/brick-types";
 import compareVersions from "compare-versions";
 import {
@@ -116,9 +117,38 @@ export function _dev_only_updateTemplatePreviewSettings(
 /* istanbul ignore next */
 export function _dev_only_updateSnippetPreviewSettings(
   appId: string,
-  snippetData: any
+  snippetData: {
+    snippetId: string;
+    bricks: BrickConf[];
+  }
 ): void {
   kernel._dev_only_updateSnippetPreviewSettings(appId, snippetData);
+}
+
+/* istanbul ignore next */
+export function _dev_only_updateStoryboardByRoute(
+  appId: string,
+  newRoute: RouteConf
+): void {
+  kernel._dev_only_updateStoryboardByRoute(appId, newRoute);
+}
+
+export function _dev_only_updateStoryboardByTemplate(
+  appId: string,
+  newTemplate: CustomTemplate,
+  settings?: unknown
+): void {
+  kernel._dev_only_updateStoryboardByTemplate(appId, newTemplate, settings);
+}
+
+export function _dev_only_updateStoryboardBySnippet(
+  appId: string,
+  newSnippet: {
+    snippetId: string;
+    bricks: BrickConf[];
+  }
+): void {
+  kernel._dev_only_updateStoryboardBySnippet(appId, newSnippet);
 }
 
 /* istanbul ignore next */

@@ -17,6 +17,9 @@ import {
   _dev_only_updateTemplatePreviewSettings,
   _dev_only_updateSnippetPreviewSettings,
   _dev_only_updateFormPreviewSettings,
+  _dev_only_updateStoryboardByRoute,
+  _dev_only_updateStoryboardByTemplate,
+  _dev_only_updateStoryboardBySnippet,
 } from "./core/exports";
 
 /** @internal */
@@ -41,6 +44,9 @@ export const developHelper = {
   /** @deprecated Keep it for backward-compatibility. */
   checkoutTplContext: noop,
   updateStoryboard: _dev_only_updateStoryboard,
+  updateStoryboardByRoute: _dev_only_updateStoryboardByRoute,
+  updateStoryboardByTemplate: _dev_only_updateStoryboardByTemplate,
+  updateStoryboardBySnippet: _dev_only_updateStoryboardBySnippet,
   updateTemplatePreviewSettings: _dev_only_updateTemplatePreviewSettings,
   updateSnippetPreviewSettings: _dev_only_updateSnippetPreviewSettings,
   updateFormPreviewSettings: _dev_only_updateFormPreviewSettings,

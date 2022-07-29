@@ -38,6 +38,7 @@ import type {
   Storyboard,
   SimpleFunction,
   RouteConfOfBricks,
+  CustomTemplate,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
@@ -73,6 +74,7 @@ import {
 } from "../internal/applyColorTheme";
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
 import { formRenderer } from "./CustomForms/constants";
+import { customTemplateRegistry } from "./CustomTemplates";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -354,6 +356,59 @@ export class Kernel {
     } else {
       routes.splice(previewRouteIndex, 1, newPreviewRoute);
     }
+  }
+
+  _dev_only_updateStoryboardByRoute(appId: string, newRoute: RouteConf): void {
+    const storyboard = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    const replaceRoute = (routes: RouteConf[], key: string): RouteConf[] => {
+      return routes.map((route) => {
+        const routeKey = route.path;
+        if (route.type === "routes") {
+          route.routes = replaceRoute(route.routes, key);
+          return route;
+        } else if (routeKey === key) {
+          return newRoute;
+        } else {
+          return route;
+        }
+      });
+    };
+    storyboard.routes = replaceRoute(storyboard.routes, newRoute.path);
+  }
+
+  _dev_only_updateStoryboardByTemplate(
+    appId: string,
+    newTemplate: CustomTemplate,
+    settings: unknown
+  ): void {
+    const tplName = `${appId}.${newTemplate.name}`;
+    customTemplateRegistry.delete(tplName);
+    registerCustomTemplate(
+      tplName,
+      {
+        bricks: newTemplate.bricks,
+        proxy: newTemplate.proxy,
+        state: newTemplate.state,
+      },
+      appId
+    );
+    this._dev_only_updateTemplatePreviewSettings(
+      appId,
+      newTemplate.name,
+      settings
+    );
+  }
+
+  _dev_only_updateStoryboardBySnippet(
+    appId: string,
+    newSnippet: {
+      snippetId: string;
+      bricks: BrickConf[];
+    }
+  ): void {
+    this._dev_only_updateSnippetPreviewSettings(appId, newSnippet);
   }
 
   _dev_only_updateFormPreviewSettings(

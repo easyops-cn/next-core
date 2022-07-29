@@ -1139,6 +1139,166 @@ describe("Kernel", () => {
     ]);
   });
 
+  it("should update storyboard by route", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+          },
+          routes: [
+            {
+              alias: "home",
+              path: "${APP.homepage}",
+              bricks: [],
+            },
+          ],
+        },
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [
+            {
+              alias: "page1",
+              path: "${APP.homepage}/page1",
+              bricks: [],
+            },
+          ],
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+    kernel._dev_only_updateStoryboardByRoute("app-b", {
+      alias: "page1",
+      path: "${APP.homepage}/page1",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          config: {},
+          homepage: "/app-a",
+          id: "app-a",
+          localeName: undefined,
+        },
+        routes: [{ alias: "home", bricks: [], path: "${APP.homepage}" }],
+      },
+      {
+        app: {
+          config: {},
+          homepage: "/app-b",
+          id: "app-b",
+          localeName: undefined,
+        },
+        routes: [
+          {
+            alias: "page1",
+            bricks: [{ brick: "div" }],
+            path: "${APP.homepage}/page1",
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("should update storyboard by template", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+          },
+          routes: [],
+        },
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [],
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+
+    kernel._dev_only_updateStoryboardByTemplate(
+      "app-b",
+      {
+        name: "tpl-a",
+        proxy: null,
+        state: [{ name: "test1", value: "test1" }],
+        bricks: [
+          {
+            brick: "div",
+          },
+        ],
+      },
+      {
+        properties: {
+          textContent: "hello",
+        },
+      }
+    );
+
+    expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
+      "app-b.tpl-a",
+      {
+        proxy: null,
+        state: [{ name: "test1", value: "test1" }],
+        bricks: [
+          {
+            brick: "div",
+          },
+        ],
+      },
+      "app-b"
+    );
+
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          config: {},
+          homepage: "/app-a",
+          id: "app-a",
+          localeName: undefined,
+        },
+        routes: [],
+      },
+      {
+        app: {
+          config: {},
+          homepage: "/app-b",
+          id: "app-b",
+          localeName: undefined,
+        },
+        routes: [
+          {
+            bricks: [{ brick: "tpl-a", properties: { textContent: "hello" } }],
+            exact: true,
+            menu: false,
+            path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          },
+        ],
+      },
+    ]);
+  });
+
   it("should update template preview settings", async () => {
     spyOnBootstrap.mockResolvedValueOnce({
       storyboards: [

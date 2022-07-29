@@ -23,12 +23,23 @@ export interface HttpError {
   error: HttpFetchError | HttpResponseError | HttpParseError;
 }
 
+let base;
+let isInWorker = false;
+
 function isNil(value: any): boolean {
   return value === undefined || value === null;
 }
 
-const base = document.querySelector("base");
-const fullBaseHref = base ? base.href : location.origin + "/";
+try {
+  base = document.querySelector("base");
+} catch {
+  isInWorker = true;
+}
+let fullBaseHref = base ? base.href : location.origin + "/";
+
+export function setBasePath(path: string): void {
+  fullBaseHref = location.origin + path;
+}
 
 export type HttpParams =
   | URLSearchParams
@@ -116,6 +127,9 @@ const request = async <T>(
 };
 
 const getUrlWithParams = (url: string, params?: HttpParams): string => {
+  if (isInWorker) {
+    return `${fullBaseHref}${url}`;
+  }
   if (params) {
     const parsedUrl = new URL(url, fullBaseHref);
     if (params instanceof URLSearchParams) {

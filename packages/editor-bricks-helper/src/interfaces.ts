@@ -137,10 +137,16 @@ export interface WorkbenchNodeData extends NodeInstance {
 export interface WorkbenchNodeAdd {
   nodeData: WorkbenchNodeData & {
     bricks: BrickConf[];
+    $$uid?: number;
   };
   mountPoint: string;
   dragOverInstanceId: string;
-  parentInstanceId: string;
+  /**
+   * @deprecated 请使用 parent。
+   * @internal
+   */
+  parentInstanceId?: string;
+  parent: string;
   dragStatus: dragStatus;
 }
 export interface WorkbenchTreeNodeMoveProps {
