@@ -7321,8 +7321,7 @@
           "HttpParseError",
           "HttpResponseError",
           "fetch",
-          "http",
-          "setBasePath"
+          "http"
         ]
       }
     },
