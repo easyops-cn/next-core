@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.124.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.8...@next-core/brick-kit@2.124.0) (2022-08-01)
+
+
+### Features
+
+* support local source change builderData ([1245f36](https://github.com/easyops-cn/next-core/commit/1245f3622f274e7b2cdbfcd24cb3463cb50f1238))
+
+
+
+
+
 ## [2.123.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.123.7...@next-core/brick-kit@2.123.8) (2022-07-25)
 
 **Note:** Version bump only for package @next-core/brick-kit
