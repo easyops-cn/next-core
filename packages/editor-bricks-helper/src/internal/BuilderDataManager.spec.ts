@@ -2337,7 +2337,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     it("insert a node", () => {
       const node = {
         dragOverInstanceId: "abc",
-        parentInstanceId: "route-a",
+        parent: "route-a",
         mountPoint: "content",
         nodeData: {
           brick: "butotn",
@@ -2409,7 +2409,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     it("insert a node after micro-view", () => {
       const node = {
         dragOverInstanceId: "brick-b",
-        parentInstanceId: "abc",
+        parent: "abc",
         mountPoint: "content",
         nodeData: {
           brick: "div",
@@ -2481,7 +2481,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     it("insert a node into root", () => {
       const node = {
         dragOverInstanceId: "route-a",
-        parentInstanceId: "route-a",
+        parent: "route-a",
         mountPoint: "bricks",
         nodeData: {
           brick: "root-button",
@@ -2555,7 +2555,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       manager.onSnippetApply(listenOnSnippetApply);
       const node = {
         dragOverInstanceId: "route-a",
-        parentInstanceId: "route-a",
+        parent: "route-a",
         mountPoint: "bricks",
         dragStatus: "inside",
         nodeData: {
@@ -2684,5 +2684,82 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     manager.snippetApply(node2);
 
     expect(node2.nodeDetails[0].nodeData.mountPoint).toBe("content");
+  });
+
+  it("updateNode should work", () => {
+    const listenOnNodeUpdate = jest.fn();
+    const unlistenOnNodeUpdate = manager.onNodeUpdate(listenOnNodeUpdate);
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(0);
+
+    manager.updateNode("brick-b", {
+      id: "B-003",
+      type: "brick",
+      brick: "basic-bricks.micro-view",
+      sort: 0,
+      properties: JSON.stringify({
+        pagetitle: "page-1",
+      }),
+      mountPoint: "content",
+      instanceId: "brick-b",
+    });
+
+    expect(
+      manager.getData().nodes.find((item) => item.instanceId === "brick-b")
+    ).toEqual({
+      $$isTemplateInternalNode: undefined,
+      $$matchedSelectors: ["basic-bricks\\.micro-view"],
+      $$normalized: { brick: "basic-bricks.micro-view", iid: "brick-b" },
+      $$parsedEvents: {},
+      $$parsedLifeCycle: {},
+      $$parsedProperties: {},
+      $$uid: 5,
+      alias: "micro-view",
+      brick: "basic-bricks.micro-view",
+      id: "B-003",
+      instanceId: "brick-b",
+      mountPoint: "content",
+      properties: '{"pagetitle":"page-1"}',
+      sort: 0,
+      type: "brick",
+    });
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(1);
+
+    manager.updateNode("brick-b", {
+      id: "B-003",
+      type: "brick",
+      brick: "basic-bricks.micro-view",
+      sort: 1,
+      properties: JSON.stringify({
+        pagetitle: "page-2",
+      }),
+      mountPoint: "content",
+      instanceId: "brick-b",
+    });
+
+    expect(
+      manager.getData().nodes.find((item) => item.instanceId === "brick-b")
+    ).toEqual({
+      $$isTemplateInternalNode: undefined,
+      $$matchedSelectors: ["basic-bricks\\.micro-view"],
+      $$normalized: { brick: "basic-bricks.micro-view", iid: "brick-b" },
+      $$parsedEvents: {},
+      $$parsedLifeCycle: {},
+      $$parsedProperties: {},
+      $$uid: 5,
+      alias: "micro-view",
+      brick: "basic-bricks.micro-view",
+      id: "B-003",
+      instanceId: "brick-b",
+      mountPoint: "content",
+      properties: '{"pagetitle":"page-2"}',
+      sort: 1,
+      type: "brick",
+    });
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(2);
+
+    unlistenOnNodeUpdate();
   });
 });

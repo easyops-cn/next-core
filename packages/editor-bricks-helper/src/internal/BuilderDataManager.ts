@@ -43,6 +43,7 @@ enum BuilderInternalEventType {
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
   NODE_CLICK = "builder.node.click",
+  NODE_UPDATE = "builder.node.update",
   SNIPPET_APPLY = "builder.snippet.apply",
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
@@ -200,7 +201,9 @@ export class BuilderDataManager {
       rootNodeIsCustomTemplate
     );
     this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
+      new CustomEvent(BuilderInternalEventType.DATA_CHANGE, {
+        detail: this.data,
+      })
     );
   }
 
@@ -247,6 +250,30 @@ export class BuilderDataManager {
     this.data = deleteNodeFromTree(detail.nodeUid, this.data);
 
     this.runAddNodeAction(detail);
+  }
+
+  updateNode(instanceId: string, detail: BuilderRuntimeNode): void {
+    const { rootId, nodes, edges, wrapperNode } = this.data;
+    const newNodes = nodes.map((item) => {
+      if (item.instanceId === instanceId) {
+        return {
+          ...item,
+          ...detail,
+        };
+      }
+      return item;
+    });
+    this.data = {
+      rootId,
+      nodes: newNodes,
+      edges,
+      wrapperNode,
+    };
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_UPDATE, {
+        detail: this.data,
+      })
+    );
   }
 
   private redirectMountPoint(
@@ -524,18 +551,13 @@ export class BuilderDataManager {
 
   workbenchNodeAdd(detail: WorkbenchNodeAdd): void {
     const { nodes, edges, rootId } = this.data;
-    const {
-      nodeData,
-      dragOverInstanceId,
-      parentInstanceId,
-      dragStatus,
-      mountPoint,
-    } = detail;
-    if (nodeData.instanceId) {
+    const { nodeData, dragOverInstanceId, dragStatus, mountPoint } = detail;
+    if (nodeData.instanceId && !nodeData.instanceId.startsWith("mock")) {
       // move
     } else {
       // insert
-      const newNodeUid = getUniqueNodeId();
+      const parentInstanceId = detail.parent || detail.parentInstanceId;
+      const newNodeUid = nodeData.$$uid || getUniqueNodeId();
       const overNode = nodes.find(
         (item) => item.instanceId === dragOverInstanceId
       );
@@ -576,6 +598,7 @@ export class BuilderDataManager {
 
       nodeData.parent = parentInstanceId;
       nodeData.mountPoint = mountPoint;
+      nodeData.sort = sortIndex;
 
       if (nodeData.bricks) {
         // snippet
@@ -866,6 +889,21 @@ export class BuilderDataManager {
     return () => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.NODE_CLICK,
+        fn as EventListener
+      );
+    };
+  }
+
+  onNodeUpdate(
+    fn: (event: CustomEvent<BuilderRuntimeNode>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.NODE_UPDATE,
+      fn as EventListener
+    );
+    return () => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.NODE_UPDATE,
         fn as EventListener
       );
     };
