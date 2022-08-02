@@ -3,13 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.7.10](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.9...@next-core/sdk-scripts@2.7.10) (2022-07-20)
+## [2.7.11](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.10...@next-core/sdk-scripts@2.7.11) (2022-08-02)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
 
+## [2.7.10](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.9...@next-core/sdk-scripts@2.7.10) (2022-07-20)
 
-
-
+**Note:** Version bump only for package @next-core/sdk-scripts
 
 ## [2.7.9](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.8...@next-core/sdk-scripts@2.7.9) (2022-06-24)
 
