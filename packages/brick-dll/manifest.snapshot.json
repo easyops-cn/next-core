@@ -8009,8 +8009,7 @@
         "providedExports": [
           "determineIllustrationName",
           "getIllustration",
-          "illustrationsByCategory",
-          "translateIllustrationConfig"
+          "illustrationsByCategory"
         ]
       }
     },

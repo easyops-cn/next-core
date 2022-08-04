@@ -2281,10 +2281,10 @@
   resolved "https://registry.npmjs.org/@next-bricks/basic-providers/-/basic-providers-1.4.0.tgz#58b73aaf0a64dd6948f322cb44fa270459353cd1"
   integrity sha512-UkIOLJFSv3U9m6ZldX8JQDk++i3TgOngG6QtC0QjaMtAWRAd1WYijBLKREQK0ACGCY/jbBbaCdvhFRRtu6Ds2w==
 
-"@next-sdk/api-gateway-sdk@^2.0.17":
-  version "2.0.17"
-  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.0.17.tgz#0ac1365076c1bd18db5208b72147df4808f43a6c"
-  integrity sha512-g4uCTvwI4O59Bbx3n9p+1dua0m1D/C+N76rDsCiLA8EGkbwOJ7BDDxkuAtc48nu1vYBA9wgYcMz8g81IYHqbAg==
+"@next-sdk/api-gateway-sdk@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.3.0.tgz#7eafaf998356bc55bf1ba38f5c675f80af898f9b"
+  integrity sha512-ehxjmY4gBO3ToqcO5FtBXmxgiRbc8bg4HlTcOk92jEFyqHVPFhosmLVHFoGH5bJi4E4UMnB7RWfz0dT342RHKg==
 
 "@next-sdk/auth-sdk@^1.0.0":
   version "1.0.1"
@@ -2300,6 +2300,11 @@
   version "2.1.1"
   resolved "https://registry.npmjs.org/@next-sdk/micro-app-sdk/-/micro-app-sdk-2.1.1.tgz#e441aaa303152c54451945703b5e96260dcb476e"
   integrity sha512-hiPq+SdwWVVycbEBq+OtCQwE3nDwQnSN4Kchzlh53DxfpxLpjo9w2lAkbf2ZmWB3qYhUGoZId8lhULp/Ez4GCg==
+
+"@next-sdk/micro-app-standalone-sdk@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@next-sdk/micro-app-standalone-sdk/-/micro-app-standalone-sdk-1.0.1.tgz#f3a33af3248ea9f9a137b1b31a0a9740ab026380"
+  integrity sha512-zjXd6/s7rV+ELXsbbdmD/G4nZ2rsT+o0GTmFdkDJpGDqLtIks+2fvzkrNJcnJwaLrsEQeC/v8D6Ztq/4chqAjA==
 
 "@next-sdk/user-service-sdk@^2.1.1":
   version "2.1.1"
