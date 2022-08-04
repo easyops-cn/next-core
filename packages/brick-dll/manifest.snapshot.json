@@ -3542,6 +3542,7 @@
           "scanCustomApisInStoryboard",
           "scanI18NInAny",
           "scanI18NInStoryboard",
+          "scanInstalledAppsInStoryboard",
           "scanPermissionActionsInAny",
           "scanPermissionActionsInStoryboard",
           "scanProcessorsInAny",
@@ -8009,8 +8010,7 @@
         "providedExports": [
           "determineIllustrationName",
           "getIllustration",
-          "illustrationsByCategory",
-          "translateIllustrationConfig"
+          "illustrationsByCategory"
         ]
       }
     },

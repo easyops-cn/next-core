@@ -1,5 +1,6 @@
 import { Kernel } from "./Kernel";
 import { Runtime, _internalApiHasMatchedApp } from "./Runtime";
+import { getStandaloneInstalledApps } from "../internal/getStandaloneInstalledApps";
 import { MountPoints } from "@next-core/brick-types";
 
 jest.mock("./Kernel");
@@ -167,6 +168,44 @@ describe("Runtime", () => {
     expect(spyOnConsoleError).toBeCalledTimes(1);
     expect(runtime.hasInstalledApp("app-a", ">1.2.")).toBe(false);
     expect(spyOnConsoleError).toBeCalledTimes(2);
+  });
+
+  it("should hasInstalledApp success on standalone mode", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.bootstrapData = {
+      offSiteStandaloneApps: [
+        {
+          name: "a",
+          id: "app-a",
+          currentVersion: "1.2.3",
+        },
+        {
+          name: "b",
+          id: "app-b",
+          installStatus: "ok",
+          currentVersion: "2.3.4",
+        },
+        {
+          id: "app-c",
+          installStatus: "running",
+          currentVersion: "3.4.5",
+        },
+      ],
+    };
+
+    expect(runtime.hasInstalledApp("app-a")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b")).toBe(true);
+    expect(runtime.hasInstalledApp("app-c")).toBe(false);
+
+    expect(runtime.hasInstalledApp("app-a", ">1.1.10")).toBe(true);
+    expect(runtime.hasInstalledApp("app-a", "<1.11.0")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b", ">=2.3.4")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b", "<=2.3.4")).toBe(true);
+    expect(runtime.hasInstalledApp("app-b", "=2.3.4")).toBe(true);
+    expect(runtime.hasInstalledApp("app-c", ">=1.0.0")).toBe(false);
   });
 
   it("should reload micro apps", async () => {
