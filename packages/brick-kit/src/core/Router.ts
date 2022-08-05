@@ -55,6 +55,10 @@ import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
 import { collectContract } from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
+import {
+  getStandaloneInstalledApps,
+  preFetchStandaloneInstalledApps,
+} from "../internal/getStandaloneInstalledApps";
 
 export class Router {
   private defaultCollapsed = false;
@@ -231,6 +235,14 @@ export class Router {
       // 预加载权限信息
       if (isLoggedIn() && !getAuth().isAdmin) {
         await preCheckPermissions(storyboard);
+      }
+
+      // Standalone App 需要额外读取 Installed App 信息
+      if (window.STANDALONE_MICRO_APPS && !window.NO_AUTH_GUARD) {
+        // TODO: get standalone apps when NO_AUTH_GUARD, maybe from conf.yaml
+        await preFetchStandaloneInstalledApps(storyboard);
+        this.kernel.bootstrapData.offSiteStandaloneApps =
+          getStandaloneInstalledApps();
       }
 
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。

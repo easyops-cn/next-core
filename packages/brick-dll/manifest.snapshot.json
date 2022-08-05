@@ -3542,6 +3542,7 @@
           "scanCustomApisInStoryboard",
           "scanI18NInAny",
           "scanI18NInStoryboard",
+          "scanInstalledAppsInStoryboard",
           "scanPermissionActionsInAny",
           "scanPermissionActionsInStoryboard",
           "scanProcessorsInAny",

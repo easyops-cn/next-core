@@ -42,6 +42,7 @@ import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { getStandaloneInstalledApps } from "../internal/getStandaloneInstalledApps";
 
 let kernel: Kernel;
 
@@ -212,7 +213,10 @@ export class Runtime implements AbstractRuntime {
   }
 
   hasInstalledApp(appId: string, matchVersion?: string): boolean {
-    return kernel.bootstrapData.microApps.some((app) => {
+    const allMicroApps = window.STANDALONE_MICRO_APPS
+      ? kernel.bootstrapData.offSiteStandaloneApps
+      : kernel.bootstrapData.microApps;
+    return allMicroApps.some((app) => {
       const foundApp = app.id === appId && app.installStatus !== "running";
       if (!matchVersion || !foundApp) {
         return foundApp;

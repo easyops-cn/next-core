@@ -17,6 +17,7 @@ export interface BootstrapData {
 export interface RuntimeBootstrapData extends BootstrapData {
   storyboards: RuntimeStoryboard[];
   microApps: MicroApp[];
+  offSiteStandaloneApps?: Partial<MicroApp>[];
 }
 
 /** @internal */
