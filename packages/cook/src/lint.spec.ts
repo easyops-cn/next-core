@@ -98,6 +98,26 @@ describe("lint", () => {
       ],
     ],
     [
+      "[noVar] var declarations in multi-line",
+      `
+        function test(){
+          var a,
+              b;
+        }
+      `,
+      [
+        {
+          type: "SyntaxError",
+          message:
+            "Var declaration is not recommended, use `let` or `const` instead",
+          loc: {
+            start: { line: 3, column: 10 },
+            end: { line: 3, column: 13 },
+          },
+        },
+      ],
+    ],
+    [
       "[noVar] let/const declarations",
       `
         function test(){
