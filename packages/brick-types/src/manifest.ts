@@ -1449,6 +1449,8 @@ export interface StoryboardMeta {
 
   menus?: MenuRawData[];
 
+  injectMenus?: MenuRawData[];
+
   /** 应用启用mock服务列表 */
   mocks?: Mocks;
 

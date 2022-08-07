@@ -35,6 +35,7 @@ import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
 import { applyColorTheme } from "../internal/applyColorTheme";
 import { formRenderer } from "./CustomForms/constants";
+import { RuntimeApi_runtimeMicroAppStandalone } from "@next-sdk/micro-app-standalone-sdk";
 
 i18next.init({
   fallbackLng: "en",
@@ -44,6 +45,7 @@ jest.mock("@next-core/brick-utils");
 jest.mock("@next-sdk/auth-sdk");
 jest.mock("@next-sdk/user-service-sdk");
 jest.mock("@next-sdk/api-gateway-sdk");
+jest.mock("@next-sdk/micro-app-standalone-sdk");
 jest.mock("@next-sdk/micro-app-sdk");
 jest.mock("@next-sdk/cmdb-sdk");
 jest.mock("./Bars");
@@ -81,6 +83,8 @@ const spyOnGetAppStoryboard = (
     },
   },
 });
+const spyOnRuntimeMicroAppStandalone =
+  RuntimeApi_runtimeMicroAppStandalone as jest.Mock;
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 const spyApplyColorTheme = applyColorTheme as jest.Mock;
@@ -464,6 +468,56 @@ describe("Kernel", () => {
 
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
+  });
+
+  it("should bootstrap for standalone micro-apps, without no auth guard", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = false;
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    mockStandaloneBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello],
+    });
+    spyOnRuntimeMicroAppStandalone.mockResolvedValueOnce({
+      injectMenus: [
+        {
+          menuId: "menu-1",
+          title: "Menu 1",
+        },
+      ],
+      userConfig: {
+        configA: "valueA",
+      },
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    await kernel.bootstrap(mountPoints);
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.reloadMicroApps();
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.fulfilStoryboard(appHello);
+    expect(spyOnGetAppStoryboard).not.toBeCalled();
+    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+
+    expect(kernel.bootstrapData.storyboards[0].app.userConfig).toEqual({
+      configA: "valueA",
+    });
   });
 
   it("should firstRendered", async () => {
@@ -859,6 +913,55 @@ describe("Kernel", () => {
           },
           meta: {
             menus: [
+              {
+                menuId: "menu-1",
+                title: "Menu 1",
+              },
+              {
+                menuId: "menu-2",
+                title: "Menu 2",
+              },
+              {
+                menuId: "menu-1",
+                title: "Menu 1 Alternative",
+              },
+            ],
+          },
+        },
+      ],
+    } as any;
+    const menus = kernel.getStandaloneMenus("menu-1");
+    expect(menus).toEqual([
+      {
+        menuId: "menu-1",
+        title: "Menu 1",
+        app: [{ appId: "app-b" }],
+      },
+      {
+        menuId: "menu-1",
+        title: "Menu 1 Alternative",
+        app: [{ appId: "app-b" }],
+      },
+    ]);
+  });
+
+  it("should get standalone inject menus", async () => {
+    kernel.currentApp = {
+      id: "app-b",
+    } as any;
+    kernel.bootstrapData = {
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+          },
+        },
+        {
+          app: {
+            id: "app-b",
+          },
+          meta: {
+            injectMenus: [
               {
                 menuId: "menu-1",
                 title: "Menu 1",
