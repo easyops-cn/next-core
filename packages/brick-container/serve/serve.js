@@ -22,6 +22,12 @@ module.exports = function serve(runtimeFlags) {
     require.resolve("@next-core/brick-container/dist/index.html")
   );
 
+  const abstractStandaloneAppDir = env.standaloneMicroApps
+    ? path.resolve(env.standaloneAppDir)
+    : "";
+
+  env.standaloneAppDir = path.parse(abstractStandaloneAppDir).base + "/";
+
   serveLocal(env, app);
 
   let cachedIndexHtml;
@@ -135,6 +141,12 @@ module.exports = function serve(runtimeFlags) {
       ? `${serveRoot}-/core/`
       : serveRoot;
     app.use(staticRoot, express.static(distDir));
+    if (abstractStandaloneAppDir) {
+      app.use(
+        `${serveRoot}-/`,
+        express.static(path.join(abstractStandaloneAppDir, "-"))
+      );
+    }
   }
 
   // Using proxies.
