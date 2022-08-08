@@ -131,7 +131,9 @@ spyOnGetDllAndDepsByResource.mockImplementation(
   })
 );
 
-jest.spyOn(console, "warn").mockImplementation(() => void 0);
+const mockConsoleWarn = jest
+  .spyOn(console, "warn")
+  .mockImplementation(() => void 0);
 
 const mockStandaloneBootstrap = standaloneBootstrap as jest.Mock;
 
@@ -518,6 +520,49 @@ describe("Kernel", () => {
     expect(kernel.bootstrapData.storyboards[0].app.userConfig).toEqual({
       configA: "valueA",
     });
+  });
+
+  it("should bootstrap for standalone micro-apps, without no auth guard, get runtime failed", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = false;
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    mockStandaloneBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello],
+    });
+    spyOnRuntimeMicroAppStandalone.mockRejectedValueOnce("oops");
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    await kernel.bootstrap(mountPoints);
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.reloadMicroApps();
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.fulfilStoryboard(appHello);
+    expect(spyOnGetAppStoryboard).not.toBeCalled();
+    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+
+    expect(mockConsoleWarn).toBeCalledWith(
+      "request standalone runtime api from micro-app-standalone failed: ",
+      "oops",
+      ", something might went wrong running standalone micro app"
+    );
+    expect(kernel.bootstrapData.storyboards[0].app.userConfig).toBeUndefined();
   });
 
   it("should firstRendered", async () => {

@@ -24,7 +24,9 @@ describe("standaloneBootstrap", () => {
       desc: string,
       rawBootstrap: RecursivePartial<BootstrapData>,
       confString: string,
-      runtimeApiReturn: BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
+      runtimeApiReturn:
+        | BootstrapStandaloneApi_RuntimeStandaloneResponseBody
+        | string,
       result: RecursivePartial<BootstrapData>
     ]
   >([
@@ -289,8 +291,51 @@ describe("standaloneBootstrap", () => {
         },
       },
     ],
+    [
+      "should work when runtime api failed",
+      {
+        storyboards: [
+          {
+            app: {
+              id: "app-a",
+            },
+          },
+        ],
+      },
+      `
+        sys_settings:
+          feature_flags:
+            myFlag: true
+          misc:
+            myMisc: yes
+      `,
+      "oops",
+      {
+        storyboards: [
+          {
+            app: {
+              id: "app-a",
+            },
+          },
+        ],
+        settings: {
+          featureFlags: {
+            myFlag: true,
+          },
+          misc: {
+            myMisc: "yes",
+          },
+        },
+      },
+    ],
   ])("%s", async (desc, rawBootstrap, confString, runtimeApiReturn, result) => {
-    mockRuntimeStandalone.mockResolvedValueOnce(runtimeApiReturn);
+    if (runtimeApiReturn === "oops") {
+      mockRuntimeStandalone.mockRejectedValueOnce(runtimeApiReturn);
+    } else {
+      mockRuntimeStandalone.mockResolvedValueOnce(
+        runtimeApiReturn as BootstrapStandaloneApi_RuntimeStandaloneResponseBody
+      );
+    }
     mockHttpGet.mockImplementation((url) => {
       if (url === "conf.yaml") {
         return Promise.resolve(confString);
@@ -301,6 +346,7 @@ describe("standaloneBootstrap", () => {
   });
 
   it("should throw error", async () => {
+    mockRuntimeStandalone.mockResolvedValueOnce({ settings: {} });
     jest.spyOn(console, "error").mockImplementationOnce(() => void 0);
     mockHttpGet.mockImplementation((url) => {
       if (url === "conf.yaml") {
