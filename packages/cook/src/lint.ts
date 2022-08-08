@@ -142,7 +142,7 @@ export function lint(
                   loc: {
                     start: node.loc.start,
                     end: {
-                      line: node.loc.end.line,
+                      line: node.loc.start.line,
                       // Only decorate the "var".
                       column: node.loc.start.column + 3,
                     },

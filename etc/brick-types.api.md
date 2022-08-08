@@ -1752,6 +1752,8 @@ export interface RuntimeBootstrapData extends BootstrapData {
     // (undocumented)
     microApps: MicroApp[];
     // (undocumented)
+    offSiteStandaloneApps?: Partial<MicroApp>[];
+    // (undocumented)
     storyboards: RuntimeStoryboard[];
 }
 
