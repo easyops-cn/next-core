@@ -254,6 +254,7 @@ export class BuilderDataManager {
 
   updateNode(instanceId: string, detail: BuilderRuntimeNode): void {
     const { rootId, nodes, edges, wrapperNode } = this.data;
+    const updateNode = nodes.find((item) => item.instanceId === instanceId);
     const newNodes = nodes.map((item) => {
       if (item.instanceId === instanceId) {
         return {
@@ -263,10 +264,22 @@ export class BuilderDataManager {
       }
       return item;
     });
+    const newEdges =
+      detail.mountPoint === undefined || detail.mountPoint === null
+        ? edges
+        : edges.map((item) => {
+            if (item.child === updateNode.$$uid) {
+              return {
+                ...item,
+                mountPoint: detail.mountPoint,
+              };
+            }
+            return item;
+          });
     this.data = {
       rootId,
       nodes: newNodes,
-      edges,
+      edges: newEdges,
       wrapperNode,
     };
     this.eventTarget.dispatchEvent(
@@ -895,7 +908,7 @@ export class BuilderDataManager {
   }
 
   onNodeUpdate(
-    fn: (event: CustomEvent<BuilderRuntimeNode>) => void
+    fn: (event: CustomEvent<BuilderCanvasData>) => void
   ): () => void {
     this.eventTarget.addEventListener(
       BuilderInternalEventType.NODE_UPDATE,
