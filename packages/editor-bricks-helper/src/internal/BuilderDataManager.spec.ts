@@ -2700,7 +2700,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       properties: JSON.stringify({
         pagetitle: "page-1",
       }),
-      mountPoint: "content",
+      mountPoint: "test-change",
       instanceId: "brick-b",
     });
 
@@ -2718,13 +2718,45 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       brick: "basic-bricks.micro-view",
       id: "B-003",
       instanceId: "brick-b",
-      mountPoint: "content",
+      mountPoint: "test-change",
       properties: '{"pagetitle":"page-1"}',
       sort: 0,
       type: "brick",
     });
 
+    expect(manager.getData().edges.find((item) => item.child === 5)).toEqual({
+      $$isTemplateDelegated: true,
+      $$isTemplateInternal: undefined,
+      child: 5,
+      mountPoint: "test-change",
+      parent: 2,
+      sort: 0,
+    });
+
     expect(listenOnNodeUpdate).toBeCalledTimes(1);
+
+    manager.updateNode("brick-b", {
+      id: "B-003",
+      type: "brick",
+      brick: "basic-bricks.micro-view",
+      sort: 0,
+      properties: JSON.stringify({
+        pagetitle: "page-1",
+      }),
+      mountPoint: undefined,
+      instanceId: "brick-b",
+    });
+
+    expect(manager.getData().edges.find((item) => item.child === 5)).toEqual({
+      $$isTemplateDelegated: true,
+      $$isTemplateInternal: undefined,
+      child: 5,
+      mountPoint: "test-change",
+      parent: 2,
+      sort: 0,
+    });
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(2);
 
     manager.updateNode("brick-b", {
       id: "B-003",
@@ -2758,7 +2790,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       type: "brick",
     });
 
-    expect(listenOnNodeUpdate).toBeCalledTimes(2);
+    expect(listenOnNodeUpdate).toBeCalledTimes(3);
 
     unlistenOnNodeUpdate();
   });
