@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.40](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.39...@next-core/cook@1.6.40) (2022-08-08)
+
+
+### Bug Fixes
+
+* fix linting with var in muti-line ([28c1f26](https://github.com/easyops-cn/next-core/commit/28c1f2611138f67ee650c942a86b217e77f30ba4))
+
+
+
+
+
 ## [1.6.39](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.38...@next-core/cook@1.6.39) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/cook

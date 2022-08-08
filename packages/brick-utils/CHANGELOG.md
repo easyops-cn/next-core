@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.26...@next-core/brick-utils@2.38.0) (2022-08-08)
+
+
+### Features
+
+* support INSTALLED_APPS in standalone mode ([c152053](https://github.com/easyops-cn/next-core/commit/c1520532597c88d1def251aafd44831c7a7fad56))
+
+
+
+
+
 ## [2.37.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.25...@next-core/brick-utils@2.37.26) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/brick-utils

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.9...@next-core/brick-dll@2.33.0) (2022-08-08)
+
+
+### Features
+
+* support INSTALLED_APPS in standalone mode ([c152053](https://github.com/easyops-cn/next-core/commit/c1520532597c88d1def251aafd44831c7a7fad56))
+
+
+
+
+
 ## [2.32.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.8...@next-core/brick-dll@2.32.9) (2022-08-03)
 
 **Note:** Version bump only for package @next-core/brick-dll
