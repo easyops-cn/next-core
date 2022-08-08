@@ -1,7 +1,12 @@
 import yaml from "js-yaml";
 import { http } from "@next-core/brick-http";
+import {
+  BootstrapStandaloneApi_runtimeStandalone,
+  BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
+} from "@next-sdk/api-gateway-sdk";
 import { BootstrapData, Settings } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
+import { isEmpty } from "lodash";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
@@ -21,10 +26,20 @@ interface StandaloneSettings extends Omit<Settings, "featureFlags"> {
 }
 
 export async function standaloneBootstrap(): Promise<BootstrapData> {
-  const [bootstrapResult, confString] = await Promise.all([
+  const [bootstrapResult, confString, runtimeData] = await Promise.all([
     http.get<BootstrapData>(window.BOOTSTRAP_FILE),
     http.get<string>(`${window.APP_ROOT}conf.yaml`, {
       responseType: "text",
+    }),
+    await BootstrapStandaloneApi_runtimeStandalone().catch(function (error) {
+      // make it not crash when the backend service is not updated.
+      // eslint-disable-next-line no-console
+      console.warn(
+        "request runtime api from api-gateway failed: ",
+        error,
+        ", something might went wrong running standalone micro app"
+      );
+      return undefined;
     }),
   ]);
   let conf: StandaloneConf;
@@ -57,6 +72,27 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
         if (hasOwnProperty(user_config_by_apps, app.id)) {
           app.userConfig = user_config_by_apps[app.id];
         }
+      }
+    }
+  }
+  if (runtimeData) {
+    const runtimeSetings = runtimeData.settings as Settings;
+    if (!isEmpty(runtimeSetings)) {
+      // Merge Feature Flags
+      if (!settings) {
+        settings = runtimeSetings;
+      } else {
+        // Merge Feature Flags & Misc
+        const { featureFlags, misc, ...rest } = runtimeSetings;
+        settings.featureFlags = {
+          ...settings.featureFlags,
+          ...runtimeSetings.featureFlags,
+        };
+        settings.misc = {
+          ...settings.misc,
+          ...runtimeSetings.misc,
+        };
+        settings = Object.assign(settings, rest);
       }
     }
   }

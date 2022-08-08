@@ -2119,6 +2119,8 @@ export interface StoryboardMeta {
     functions?: StoryboardFunction[];
     i18n?: MetaI18n;
     // (undocumented)
+    injectMenus?: MenuRawData[];
+    // (undocumented)
     menus?: MenuRawData[];
     mocks?: Mocks;
 }

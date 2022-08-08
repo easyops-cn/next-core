@@ -20,6 +20,10 @@ import {
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
+import {
+  RuntimeApi_runtimeMicroAppStandalone,
+  RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
+} from "@next-sdk/micro-app-standalone-sdk";
 import type {
   MountPoints,
   BootstrapData,
@@ -253,6 +257,34 @@ export class Kernel {
   ): Promise<void> {
     if (window.STANDALONE_MICRO_APPS) {
       Object.assign(storyboard, { $$fulfilled: true });
+      if (!window.NO_AUTH_GUARD) {
+        let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody;
+        try {
+          appRuntimeData = await RuntimeApi_runtimeMicroAppStandalone(
+            storyboard.app.id
+          );
+        } catch (error) {
+          // make it not crash when the backend service is not updated.
+          // eslint-disable-next-line no-console
+          console.warn(
+            "request standalone runtime api from micro-app-standalone failed: ",
+            error,
+            ", something might went wrong running standalone micro app"
+          );
+        }
+        if (appRuntimeData) {
+          // merge user config
+          storyboard.app.userConfig = {
+            ...storyboard.app.userConfig,
+            ...appRuntimeData.userConfig,
+          };
+          // get inject menus (Actually, appRuntimeData contains both main and inject menus)
+          storyboard.meta = {
+            ...storyboard.meta,
+            injectMenus: appRuntimeData.injectMenus as MenuRawData[],
+          };
+        }
+      }
     } else {
       const { routes, meta, app } = await BootstrapV2Api_getAppStoryboardV2(
         storyboard.app.id,
@@ -845,11 +877,18 @@ export class Kernel {
     const currentStoryboard = this.bootstrapData.storyboards.find(
       (storyboard) => storyboard.app.id === currentAppId
     );
-    return (cloneDeep(currentStoryboard.meta?.menus) ?? [])
+    const menus = currentStoryboard.meta?.injectMenus
+      ? cloneDeep(currentStoryboard.meta.injectMenus)
+      : currentStoryboard.meta?.menus
+      ? cloneDeep(currentStoryboard.meta.menus)
+      : [];
+    return menus
       .filter((menu) => menu.menuId === menuId)
       .map((menu) => ({
         ...menu,
-        app: [{ appId: currentAppId }],
+        ...(menu.app?.length && menu.app[0].appId
+          ? {}
+          : { app: [{ appId: currentAppId }] }),
       }));
   }
 
