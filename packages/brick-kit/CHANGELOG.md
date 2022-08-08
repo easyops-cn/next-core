@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.126.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.125.0...@next-core/brick-kit@2.126.0) (2022-08-08)
+
+
+### Bug Fixes
+
+* make loose dependency on backend runtime api ([6474f53](https://github.com/easyops-cn/next-core/commit/6474f53687ae514e79c88780810d98e887045c32))
+
+
+### Features
+
+* **runtime:** support runtime FLAGS and MISC on standalone mode ([131cdbc](https://github.com/easyops-cn/next-core/commit/131cdbc46eb609722719091a202c3364053bfc84))
+* support userConfig & injectMenus in standalone mode ([cd890ed](https://github.com/easyops-cn/next-core/commit/cd890edf01b12c18a771d677106de74ca4e837be))
+
+
+
+
+
 # [2.125.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.124.1...@next-core/brick-kit@2.125.0) (2022-08-08)
 
 

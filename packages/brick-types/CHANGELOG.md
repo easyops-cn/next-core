@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.67.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.66.0...@next-core/brick-types@2.67.0) (2022-08-08)
+
+
+### Features
+
+* support userConfig & injectMenus in standalone mode ([cd890ed](https://github.com/easyops-cn/next-core/commit/cd890edf01b12c18a771d677106de74ca4e837be))
+
+
+
+
+
 # [2.66.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.65.1...@next-core/brick-types@2.66.0) (2022-08-08)
 
 
