@@ -562,7 +562,10 @@ export class BuilderDataManager {
     };
   }
 
-  workbenchNodeAdd(detail: WorkbenchNodeAdd): void {
+  workbenchNodeAdd(
+    detail: WorkbenchNodeAdd,
+    isNeedUpdateSnippet = true
+  ): void | EventDetailOfSnippetApply {
     const { nodes, edges, rootId } = this.data;
     const { nodeData, dragOverInstanceId, dragStatus, mountPoint } = detail;
     if (nodeData.instanceId && !nodeData.instanceId.startsWith("mock")) {
@@ -615,7 +618,7 @@ export class BuilderDataManager {
 
       if (nodeData.bricks) {
         // snippet
-        this.snippetApply({
+        const snippetData = {
           parentUid,
           nodeDetails: nodeData.bricks.map((brickConf) =>
             getSnippetNodeDetail({
@@ -629,8 +632,12 @@ export class BuilderDataManager {
           ),
           nodeIds,
           nodeUids,
-        });
-        return;
+        };
+        if (isNeedUpdateSnippet) {
+          this.snippetApply(snippetData);
+        } else {
+          return snippetData;
+        }
       }
 
       this.runAddNodeAction({
