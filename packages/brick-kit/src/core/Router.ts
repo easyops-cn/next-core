@@ -479,7 +479,9 @@ export class Router {
         appendBrick(brick, mountPoints.portal as MountableElement);
       });
 
-      if (main.length > 0 || portal.length > 0) {
+      // When we have a matched route other than an abstract route,
+      // we say *page found*, otherwise, *page not found*.
+      if ((route && route.type !== "routes") || failed) {
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
@@ -528,9 +530,9 @@ export class Router {
             this.kernel.prefetchDepsOfStoryboard(storyboard);
           });
         } else {
-          Promise.resolve().then(() => {
+          setTimeout(() => {
             this.kernel.prefetchDepsOfStoryboard(storyboard);
-          });
+          }, 0);
         }
         return;
       }

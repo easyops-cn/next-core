@@ -230,7 +230,7 @@ describe("Router", () => {
     expect(kernel.registerCustomTemplatesInStoryboard).toBeCalled();
     expect(kernel.fulfilStoryboard).toBeCalled();
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
-    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
+    expect(kernel.prefetchDepsOfStoryboard).not.toBeCalled();
     expect(preCheckPermissions).toBeCalled();
     expect(preFetchStandaloneInstalledApps).not.toBeCalled();
     expect(getStandaloneInstalledApps).not.toBeCalled();
@@ -240,6 +240,8 @@ describe("Router", () => {
       route_alias: "route alias",
       ...analyticsData,
     });
+    jest.advanceTimersByTime(0);
+    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
   });
 
   it("should render matched storyboard in standalone mode", async () => {
@@ -294,7 +296,7 @@ describe("Router", () => {
     expect(kernel.registerCustomTemplatesInStoryboard).toBeCalled();
     expect(kernel.fulfilStoryboard).toBeCalled();
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
-    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
+    expect(kernel.prefetchDepsOfStoryboard).not.toBeCalled();
     expect(preCheckPermissions).toBeCalled();
     expect(preFetchStandaloneInstalledApps).toBeCalled();
     expect(getStandaloneInstalledApps).toBeCalled();
@@ -304,6 +306,8 @@ describe("Router", () => {
       route_alias: "route alias",
       ...analyticsData,
     });
+    jest.advanceTimersByTime(0);
+    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
   });
 
   it("it should work-MergePreviewRouter", async () => {
@@ -549,6 +553,41 @@ describe("Router", () => {
   });
 
   it("should handle when page not found", async () => {
+    await router.bootstrap();
+    expect(kernel.loadDynamicBricks).toBeCalledWith([
+      "basic-bricks.page-not-found",
+    ]);
+    expect(spyOnMountTree).toBeCalledTimes(1);
+    expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
+      {
+        type: "basic-bricks.page-not-found",
+        properties: {
+          url: "/oops",
+        },
+      },
+    ]);
+  });
+
+  it("should handle when page found is an abstract route", async () => {
+    __setMatchedStoryboard({
+      routes: [],
+      app: {
+        id: "hello",
+      },
+    });
+    __setMountRoutesResults(
+      {
+        route: {
+          type: "routes",
+        },
+        main: [
+          {
+            type: "p",
+          },
+        ],
+      },
+      null
+    );
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
       "basic-bricks.page-not-found",
