@@ -369,15 +369,10 @@ module.exports = (env) => {
                       .map((scheme) => env.server.replace(/^https?:/, scheme))
                       .flatMap((url) => [`${url}/next`, `${url}/next/`]);
                     if (expectLocation.some((loc) => rawLocation === loc)) {
-                      const newLocation = (proxyRes.headers[
-                        "location"
-                      ] = `http${env.https ? "s" : ""}://${env.host}:${
-                        env.port
-                      }${env.baseHref}`);
+                      proxyRes.headers["location"] = baseHref;
                       console.log(
-                        'Root redirection intercepted, raw: "%s", new: "%s"',
-                        rawLocation,
-                        newLocation
+                        'Root redirection intercepted: "%s"',
+                        rawLocation
                       );
                     }
                   }
