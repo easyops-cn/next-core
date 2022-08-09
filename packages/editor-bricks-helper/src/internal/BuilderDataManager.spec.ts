@@ -2612,6 +2612,41 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
         }
       `);
     });
+    it("intert a snippet and data not update should work", () => {
+      const listenOnSnippetApply = jest.fn();
+
+      const originData = manager.getData().nodes;
+      manager.onSnippetApply(listenOnSnippetApply);
+      const node = {
+        dragOverInstanceId: "route-a",
+        parent: "route-a",
+        mountPoint: "bricks",
+        dragStatus: "inside",
+        nodeData: {
+          brick: "",
+          instanceId: null,
+          id: null,
+          type: "brick",
+          bricks: [
+            {
+              brick: "div",
+              properties: {},
+              lifeCycle: {
+                onPageLoad: [
+                  {
+                    useProvider: "a",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node, false);
+
+      expect(listenOnSnippetApply).toBeCalledTimes(0);
+      expect(originData).toEqual(manager.getData().nodes);
+    });
   });
 
   it("snippet node should redirect", () => {
