@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.69.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.69.20...@next-core/brick-container@2.69.21) (2022-08-09)
+
+
+### Bug Fixes
+
+* fix interception of root redirect ([262556d](https://github.com/easyops-cn/next-core/commit/262556d2e044fe868ccfa7b56210bb963f478e12))
+* intercept hard-code remote root redirct ([1464b9a](https://github.com/easyops-cn/next-core/commit/1464b9a936cc37a9d03d3dfb270ae29e5ffa1a32))
+* simplify root redirect interception ([f8c2dcd](https://github.com/easyops-cn/next-core/commit/f8c2dcddabb177dd9742a79ff6031935809fb734))
+
+
+
+
+
 ## [2.69.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.69.19...@next-core/brick-container@2.69.20) (2022-08-09)
 
 **Note:** Version bump only for package @next-core/brick-container
