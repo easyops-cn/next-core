@@ -155,6 +155,31 @@ module.exports = function serve(runtimeFlags) {
     }
 
     if (env.useSubdir) {
+      app.get(
+        "/",
+        createProxyMiddleware({
+          target: env.server,
+          secure: false,
+          changeOrigin: true,
+          onProxyRes(proxyRes, req) {
+            if (
+              req.path === "/" &&
+              proxyRes.statusCode >= 301 &&
+              proxyRes.statusCode <= 303
+            ) {
+              const rawLocation = proxyRes.headers["location"] || "";
+              const expectLocation = ["http:", "https:"]
+                .map((scheme) => env.server.replace(/^https?:/, scheme))
+                .flatMap((url) => [`${url}/next`, `${url}/next/`]);
+              if (expectLocation.some((loc) => rawLocation === loc)) {
+                proxyRes.headers["location"] = env.baseHref;
+                console.log('Root redirection intercepted: "%s"', rawLocation);
+              }
+            }
+          },
+        })
+      );
+
       app.all(
         /^(?!\/next\/).+/,
         createProxyMiddleware({
