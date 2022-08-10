@@ -303,6 +303,8 @@ export class Router {
           [
             "base-layout.tpl-base-page-module",
             "base-layout.tpl-homepage-base-module",
+            "base-layout.tpl-homepage-base-module-cmdb",
+            "base-layout.tpl-base-page-module-cmdb",
           ].includes(brick)
         ) &&
         layoutType === "business" &&
