@@ -666,6 +666,12 @@ export class BuilderDataManager {
     const { rootId, nodes, edges, wrapperNode } = this.data;
     const { dragNodeUid, dragOverNodeUid, dragStatus } = detail;
     const nodeData = nodes.find((item) => item.$$uid === dragNodeUid);
+    const originParentUid = edges.find(
+      (edge) => edge.child === nodeData.$$uid
+    ).parent;
+    const originParentNode = nodes.find(
+      (node) => node.$$uid === originParentUid
+    );
     const {
       parentUid,
       parnetNodeData,
@@ -710,10 +716,15 @@ export class BuilderDataManager {
             nodeUid: dragNodeUid,
             nodeInstanceId: nodeData.instanceId,
             nodeIds,
-            nodeData: {
-              parent: parnetNodeData.instanceId,
-              mountPoint: mountPoint,
-            },
+            ...(originParentNode.instanceId !== parnetNodeData.instanceId
+              ? {
+                  nodeData: {
+                    parent: parnetNodeData.instanceId,
+                    mountPoint: mountPoint,
+                  },
+                }
+              : {}),
+            objectId: nodeData["_object_id"] as string,
           },
         }
       )

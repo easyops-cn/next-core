@@ -1842,6 +1842,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
               {
                 id: "B-005",
                 type: "brick",
+                instanceId: "brick-c",
                 brick: "basic-bricks.general-button",
                 sort: 1,
                 mountPoint: "content",
@@ -2026,6 +2027,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             ],
             "$$normalized": Object {
               "brick": "basic-bricks.general-button",
+              "iid": "brick-c",
             },
             "$$parsedEvents": Object {},
             "$$parsedLifeCycle": Object {},
@@ -2034,6 +2036,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             "alias": "general-button",
             "brick": "basic-bricks.general-button",
             "id": "B-005",
+            "instanceId": "brick-c",
             "sort": 1,
             "type": "brick",
           },
@@ -2098,6 +2101,40 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
   });
 
   describe("workbenchTreeNodeMove should work", () => {
+    it("move event should work", () => {
+      const mockOnWorkbenchTreeNodeMove = jest.fn();
+      manager.onWorkbenchTreeNodeMove(mockOnWorkbenchTreeNodeMove);
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 3,
+        dragParentNodeUid: 2,
+        dragStatus: "top",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(mockOnWorkbenchTreeNodeMove).toBeCalled();
+      expect(mockOnWorkbenchTreeNodeMove.mock.calls[0][0].detail).toEqual({
+        nodeIds: ["B-003", "B-007", "B-005"],
+        nodeInstanceId: "brick-b",
+        nodeUid: 5,
+        objectId: undefined,
+      });
+
+      const node2: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 3,
+        dragParentNodeUid: 2,
+        dragStatus: "inside",
+      };
+      manager.workbenchTreeNodeMove(node2);
+      expect(mockOnWorkbenchTreeNodeMove.mock.calls[1][0].detail).toEqual({
+        nodeData: { mountPoint: "content", parent: undefined },
+        nodeIds: ["B-008", "B-003"],
+        nodeInstanceId: "brick-b",
+        nodeUid: 5,
+        objectId: undefined,
+      });
+    });
+
     it("move the node inside the other node", () => {
       const node: WorkbenchTreeNodeMoveProps = {
         dragNodeUid: 5,
