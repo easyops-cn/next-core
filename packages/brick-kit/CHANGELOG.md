@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.127.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.126.2...@next-core/brick-kit@2.127.0) (2022-08-10)
+
+
+### Features
+
+* **brick-kit:** 增加两个cmdb模板 ([e53dca1](https://github.com/easyops-cn/next-core/commit/e53dca14ac2b00ec4cf4a13011c2e7b555bb18b2))
+
+
+
+
+
 ## [2.126.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.126.1...@next-core/brick-kit@2.126.2) (2022-08-09)
 
 
