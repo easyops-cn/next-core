@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.4.2...@next-core/brick-http@2.5.0) (2022-08-10)
+
+
+### Features
+
+* **http:** add match-api-cache event ([02487fa](https://github.com/easyops-cn/next-core/commit/02487fa3706cf548281ab702ba6d4b0a9e8ba272))
+
+
+
+
+
 ## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.4.1...@next-core/brick-http@2.4.2) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/brick-http
