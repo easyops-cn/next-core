@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.45.1...@next-core/editor-bricks-helper@0.46.0) (2022-08-10)
+
+
+### Features
+
+* update workbenchTree Drag move ([2a01659](https://github.com/easyops-cn/next-core/commit/2a016591ff4d3ba170fd75bea92bebb24a0f6b8d))
+
+
+
+
+
 ## [0.45.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.45.0...@next-core/editor-bricks-helper@0.45.1) (2022-08-09)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
