@@ -176,6 +176,18 @@ if (window.parent) {
       previewFromOrigin = origin;
       previewOptions = data.options;
       http.enableCache(true);
+      http.on("match-api-cache", (num: number) => {
+        window.postMessage(
+          {
+            type: "match-api-cache",
+            sender: "preview-container",
+            forwardedFor: "builder",
+            num,
+          },
+          previewFromOrigin
+        );
+      });
+
       startPreview();
     }
   };

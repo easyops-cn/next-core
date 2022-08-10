@@ -150,6 +150,8 @@ describe("http", () => {
   });
 
   it("preview was true and http request should use cache", async () => {
+    const mockListen = jest.fn();
+    http.on("match-api-cache", mockListen);
     http.enableCache(true);
     // get
     await http.get("http://example.com");
@@ -203,6 +205,8 @@ describe("http", () => {
       },
     });
     expect(spyOnFetch).toBeCalledTimes(7);
+
+    expect(mockListen).toHaveBeenLastCalledWith(6);
   });
 
   it("should work with getUrlWithParams", () => {

@@ -211,6 +211,7 @@ const requestWithBody = <T = any>(
 };
 
 class Http {
+  private listener: Record<string, any> = {};
   private requestCache = new Map<string, Promise<any>>();
 
   private isEnableCache: boolean;
@@ -218,6 +219,24 @@ class Http {
   public enableCache = (enable: boolean): void => {
     this.isEnableCache = enable;
   };
+
+  public on(action: string, fn: any): void {
+    if (this.listener[action]) {
+      this.listener[action].push(fn);
+    } else {
+      this.listener[action] = [fn];
+    }
+  }
+
+  private emit(action: string, args: any): void {
+    const listenList = this.listener[action];
+    if (listenList) {
+      let len = listenList.length;
+      while (len--) {
+        listenList[len](args);
+      }
+    }
+  }
 
   public interceptors: {
     request: InterceptorManager<HttpRequestConfig>;
@@ -291,6 +310,7 @@ class Http {
         key = config.url;
       }
       if (this.requestCache.has(key)) {
+        this.emit("match-api-cache", this.requestCache.size);
         return this.requestCache.get(key);
       }
     }
