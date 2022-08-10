@@ -679,6 +679,8 @@ export class LocationContext {
     const isBaseLayout: boolean = [
       "base-layout.tpl-homepage-base-module",
       "base-layout.tpl-base-page-module",
+      "base-layout.tpl-homepage-base-module-cmdb",
+      "base-layout.tpl-base-page-module-cmdb",
     ].includes(tplTagName as string);
     if (
       tplTagName &&
