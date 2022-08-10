@@ -122,7 +122,8 @@ export type EventDetailOfWorkbenchTreeNodeMove = {
   nodeUid: number;
   nodeInstanceId: string;
   nodeIds: string[];
-  nodeData: {
+  objectId: string;
+  nodeData?: {
     parent: string;
     mountPoint: string;
   };
