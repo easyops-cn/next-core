@@ -180,7 +180,7 @@ if (window.parent) {
         window.parent.postMessage(
           {
             type: "match-api-cache",
-            sender: "preview-container",
+            sender: "previewer",
             forwardedFor: "builder",
             num,
           },
