@@ -139,7 +139,8 @@ describe("devtools", () => {
           payload: {
             id: 0,
             error:
-              "Cannot read property 'name' of null, in \"<% EVENT.detail.name %>\"",
+              // "Cannot read property 'name' of null, in \"<% EVENT.detail.name %>\"",
+              expect.stringContaining("Cannot read propert"),
             detail: {
               raw: "<% EVENT.detail.name %>",
               context: {
