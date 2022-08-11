@@ -55,7 +55,9 @@ module.exports = function serve(runtimeFlags) {
             escapeRegExp("<!--# echo var='core_root' default='' -->"),
             "g"
           ),
-          env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
+          `${env.publicCdn ?? ""}${
+            env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
+          }`
         )
         .replace(
           new RegExp(
@@ -63,6 +65,13 @@ module.exports = function serve(runtimeFlags) {
             "g"
           ),
           env.mockDate ?? ""
+        )
+        .replace(
+          new RegExp(
+            escapeRegExp("<!--# echo var='public_cdn' default='' -->"),
+            "g"
+          ),
+          env.publicCdn ?? ""
         );
 
       if (env.standaloneMicroApps) {
@@ -74,7 +83,7 @@ module.exports = function serve(runtimeFlags) {
             [
               "w.STANDALONE_MICRO_APPS=!0",
               `var a=w.APP_ROOT=${JSON.stringify(env.standaloneAppDir)}`,
-              'var p=w.PUBLIC_ROOT=a+"-/"',
+              'var p=w.PUBLIC_ROOT=w.PUBLIC_CDN+a+"-/"',
               'w.CORE_ROOT=p+"core/"',
               `w.BOOTSTRAP_FILE=p+"bootstrap.hash.json"`,
             ]
