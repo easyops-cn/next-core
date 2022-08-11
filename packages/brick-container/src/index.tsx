@@ -177,7 +177,7 @@ if (window.parent) {
       previewOptions = data.options;
       http.enableCache(true);
       http.on("match-api-cache", (num: number) => {
-        window.postMessage(
+        window.parent.postMessage(
           {
             type: "match-api-cache",
             sender: "preview-container",
