@@ -184,7 +184,7 @@ if (window.parent) {
             forwardedFor: "builder",
             num,
           },
-          previewFromOrigin
+          origin
         );
       });
 
