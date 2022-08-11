@@ -1,6 +1,6 @@
 {
   "name": "@next-core/dev-dependencies",
-  "version": "1.14.44",
+  "version": "1.14.45",
   "description": "Dev dependencies for brick-next related packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/dev-dependencies",
   "license": "GPL-3.0",
@@ -17,7 +17,7 @@
     "@babel/core": "^7.18.9",
     "@next-core/babel-preset-next": "^0.9.13",
     "@next-core/babel-preset-prismjs": "^1.0.17",
-    "@next-core/brick-container": "^2.70.1",
+    "@next-core/brick-container": "^2.70.2",
     "@next-core/brick-dll": "^2.33.5",
     "@next-core/brick-scripts": "^2.7.6",
     "@next-core/browserslist-config-next": "^0.1.3",
