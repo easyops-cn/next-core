@@ -47,8 +47,12 @@ interface EditTransformationPayload {
 
 /* istanbul ignore next */
 export function devtoolsHookEmit(type: string, payload?: unknown): void {
+  const devtools = getDevHook();
+  if (!devtools) {
+    return;
+  }
   const emit = (): void => {
-    getDevHook()?.emit?.({
+    devtools.emit?.({
       type,
       payload,
     });
