@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.70.4...@next-core/brick-container@2.71.0) (2022-08-12)
+
+
+### Features
+
+* support public cdn ([d352b59](https://github.com/easyops-cn/next-core/commit/d352b595988300d4904a6ebe2ef10c1a4180896d))
+* support setting public cdn ([11866b3](https://github.com/easyops-cn/next-core/commit/11866b3594fce307bfa081b36409c1e9679de67b))
+
+
+
+
+
 ## [2.70.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.70.3...@next-core/brick-container@2.70.4) (2022-08-11)
 
 **Note:** Version bump only for package @next-core/brick-container

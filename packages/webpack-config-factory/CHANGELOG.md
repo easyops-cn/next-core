@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.16.7...@next-core/webpack-config-factory@2.17.0) (2022-08-12)
+
+
+### Features
+
+* support `useSameOriginPublicPath` ([848771a](https://github.com/easyops-cn/next-core/commit/848771ae0110445d7aaafa37528fd1b9fc36296b))
+
+
+
+
+
 ## [2.16.7](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.16.6...@next-core/webpack-config-factory@2.16.7) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
