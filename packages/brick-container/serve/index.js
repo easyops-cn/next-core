@@ -20,13 +20,13 @@ if (process.env.NODE_ENV === "e2e-test") {
   });
   serve({
     ...defaultFlags,
-    port: 8084,
-    publicCdn: "http://localhost:8085/next/",
+    port: 9002,
+    asCdn: true,
   });
   serve({
     ...defaultFlags,
-    port: 8085,
-    asCdn: true,
+    port: 9001,
+    publicCdn: "http://localhost:9002/next/",
   });
 } else {
   serve();
