@@ -55,7 +55,9 @@ module.exports = function serve(runtimeFlags) {
             escapeRegExp("<!--# echo var='core_root' default='' -->"),
             "g"
           ),
-          env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
+          `${env.publicCdn ?? ""}${
+            env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
+          }`
         )
         .replace(
           new RegExp(
@@ -63,6 +65,13 @@ module.exports = function serve(runtimeFlags) {
             "g"
           ),
           env.mockDate ?? ""
+        )
+        .replace(
+          new RegExp(
+            escapeRegExp("<!--# echo var='public_cdn' default='' -->"),
+            "g"
+          ),
+          env.publicCdn ?? ""
         );
 
       if (env.standaloneMicroApps) {
@@ -74,9 +83,10 @@ module.exports = function serve(runtimeFlags) {
             [
               "w.STANDALONE_MICRO_APPS=!0",
               `var a=w.APP_ROOT=${JSON.stringify(env.standaloneAppDir)}`,
-              'var p=w.PUBLIC_ROOT=a+"-/"',
+              `var d=a+"-/"`,
+              'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
               'w.CORE_ROOT=p+"core/"',
-              `w.BOOTSTRAP_FILE=p+"bootstrap.hash.json"`,
+              `w.BOOTSTRAP_FILE=d+"bootstrap.hash.json"`,
             ]
               .filter(Boolean)
               .join(";"),
@@ -121,14 +131,23 @@ module.exports = function serve(runtimeFlags) {
     : env.baseHref;
 
   if (env.useLocalContainer) {
-    // Serve index.html.
-    app.get(serveRoot, serveIndexHtml);
-
-    // Serve browse-happy.html.
     const browseHappyHtml = "browse-happy.html";
-    app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
-      res.sendFile(path.join(distDir, browseHappyHtml));
-    });
+    if (env.asCdn) {
+      app.get(serveRoot, (req, res) => {
+        res.sendStatus(404);
+      });
+      app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
+        res.sendStatus(404);
+      });
+    } else {
+      // Serve index.html.
+      app.get(serveRoot, serveIndexHtml);
+
+      // Serve browse-happy.html.
+      app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
+        res.sendFile(path.join(distDir, browseHappyHtml));
+      });
+    }
 
     // Serve static files.
     const staticRoot = env.standaloneMicroApps
@@ -154,7 +173,7 @@ module.exports = function serve(runtimeFlags) {
       );
     }
 
-    if (env.useSubdir) {
+    if (env.useSubdir && !env.asCdn) {
       app.get(
         "/",
         createProxyMiddleware({
@@ -192,7 +211,7 @@ module.exports = function serve(runtimeFlags) {
     }
   }
 
-  if (env.useLocalContainer) {
+  if (env.useLocalContainer && !env.asCdn) {
     app.use(serveRoot, serveIndexHtml);
 
     if (env.standaloneAppDir) {

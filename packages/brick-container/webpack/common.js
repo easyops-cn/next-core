@@ -56,6 +56,9 @@ module.exports = () => {
   const mockDate = isProduction
     ? "<!--# echo var='mock_date' default='' -->"
     : "";
+  const publicCdn = isProduction
+    ? "<!--# echo var='public_cdn' default='' -->"
+    : "";
 
   return {
     context: appRoot,
@@ -160,6 +163,7 @@ module.exports = () => {
         // See https://github.com/jantimon/html-webpack-plugin/issues/1701
         inject: false,
         mockDate,
+        publicCdn,
         customizeTag(tag) {
           if (tag.tagName === "link" && tag.attributes.rel === "stylesheet") {
             return {

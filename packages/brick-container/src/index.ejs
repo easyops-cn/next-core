@@ -6,7 +6,7 @@
     <base href="<%= htmlWebpackPlugin.options.baseHref %>">
     <link rel="shortcut icon" type="image/png" href="<%= htmlWebpackPlugin.options.faviconPath %>"/>
     <script>(!("documentMode" in document)&&CSS.supports("display","grid")&&window.customElements)||(location.href="<%= htmlWebpackPlugin.options.baseHref %>browse-happy.html")</script>
-    <script>window.MOCK_DATE="<%= htmlWebpackPlugin.options.mockDate %>"</script>
+    <script>window.MOCK_DATE="<%= htmlWebpackPlugin.options.mockDate %>";window.PUBLIC_ROOT=window.CORE_ROOT=window.PUBLIC_CDN="<%= htmlWebpackPlugin.options.publicCdn %>";</script>
     <%= htmlWebpackPlugin
       .tags
       .headTags
