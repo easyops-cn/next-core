@@ -29,6 +29,7 @@ module.exports = (env, app) => {
     mockedMicroApps,
     standaloneMicroApps,
     standaloneAppDir,
+    asCdn,
   } = env;
   let username;
 
@@ -109,15 +110,20 @@ module.exports = (env, app) => {
           const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
           tryServeFiles(filePath, req, res);
         });
-        app.get(`${baseHref}api/auth(/v2)?/bootstrap/${appId}`, (req, res) => {
-          res.json({
-            code: 0,
-            data: getSingleStoryboard(env, appId, true),
-          });
-        });
+        asCdn ||
+          app.get(
+            `${baseHref}api/auth(/v2)?/bootstrap/${appId}`,
+            (req, res) => {
+              res.json({
+                code: 0,
+                data: getSingleStoryboard(env, appId, true),
+              });
+            }
+          );
       });
     // API to fulfil the active storyboard.
-    standaloneMicroApps ||
+    asCdn ||
+      standaloneMicroApps ||
       localMicroApps.concat(mockedMicroApps).forEach((appId) => {
         app.get(`${baseHref}api/auth(/v2)?/bootstrap/${appId}`, (req, res) => {
           res.json({

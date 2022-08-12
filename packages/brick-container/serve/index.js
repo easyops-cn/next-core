@@ -18,6 +18,16 @@ if (process.env.NODE_ENV === "e2e-test") {
     standaloneAppDir: "home/",
     port: 8083,
   });
+  serve({
+    ...defaultFlags,
+    port: 8084,
+    publicCdn: "http://localhost:8085/next/",
+  });
+  serve({
+    ...defaultFlags,
+    port: 8085,
+    asCdn: true,
+  });
 } else {
   serve();
 }

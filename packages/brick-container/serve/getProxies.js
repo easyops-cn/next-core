@@ -64,6 +64,9 @@ module.exports = (env) => {
     proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
+      if (env.asCdn) {
+        return;
+      }
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
       if (
         req.path === "/next/api/auth/bootstrap" ||
@@ -277,7 +280,7 @@ module.exports = (env) => {
   }
 
   const rootProxyOptions = {};
-  if (!env.useLocalContainer) {
+  if (!env.useLocalContainer && !env.asCdn) {
     proxyPaths.push("");
     rootProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (
@@ -294,7 +297,7 @@ module.exports = (env) => {
           ) {
             return raw;
           }
-          const content = env.useSubdir ? raw : raw.replace(/\/next\//g, "/");
+          const content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
           return env.liveReload
             ? appendLiveReloadScript(content, env)
             : content;
@@ -306,17 +309,21 @@ module.exports = (env) => {
   return useOffline
     ? undefined
     : {
-        [`${baseHref}api/websocket_service`]: {
-          target: server,
-          secure: false,
-          changeOrigin: true,
-          ws: true,
-          headers: {
-            Origin: server,
-            referer: server,
-          },
-          pathRewrite: pathRewriteFactory("api/websocket_service"),
-        },
+        ...(env.asCdn
+          ? {}
+          : {
+              [`${baseHref}api/websocket_service`]: {
+                target: server,
+                secure: false,
+                changeOrigin: true,
+                ws: true,
+                headers: {
+                  Origin: server,
+                  referer: server,
+                },
+                pathRewrite: pathRewriteFactory("api/websocket_service"),
+              },
+            }),
         ...(useLegacyBootstrap
           ? {
               [`${baseHref}api/auth/v2/bootstrap`]: {

@@ -3,7 +3,7 @@
 for (const port of Cypress.env("ports")) {
   const origin = `http://localhost:${port}`;
 
-  describe("404 page", () => {
+  describe(`404 page on port ${port}`, () => {
     beforeEach(() => {
       cy.login(origin);
     });
