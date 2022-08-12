@@ -71,6 +71,7 @@ module.exports =
     splitVendorsForLazyBricks,
     prependRules,
     useLessReplacePlugin = true,
+    useSameOriginPublicPath,
   } = {}) => {
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
@@ -320,7 +321,18 @@ module.exports =
           [path.join(
             entryFilePath,
             "../_/public-path.js"
-          )]: `__webpack_public_path__ = \`\${window.PUBLIC_ROOT ?? ""}${distPublicPath}\`;`,
+          )]: `__webpack_public_path__ = \`\${${
+            // Web workers require strict same-origin policy.
+            useSameOriginPublicPath
+              ? `window.PUBLIC_ROOT
+                  ? (
+                    window.PUBLIC_CDN && window.PUBLIC_ROOT.startsWith(window.PUBLIC_CDN)
+                        ? window.PUBLIC_ROOT.substring(window.PUBLIC_CDN.length)
+                        : window.PUBLIC_ROOT
+                    )
+                  : ""`
+              : 'window.PUBLIC_ROOT ?? ""'
+          }}${distPublicPath}\`;`,
         }),
         isForEditors
           ? new ScanEditorBricksPlugin(packageName)
