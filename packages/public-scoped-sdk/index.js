@@ -10,5 +10,5 @@ exports.PUBLIC_SCOPED_SDK = [
   "user-service",
   "air-admin-service",
   "api-gateway",
-  "form-builder-service-sdk",
+  "form-builder-service",
 ];
