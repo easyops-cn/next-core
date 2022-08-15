@@ -70,7 +70,7 @@ describe("index", () => {
 const mockOutputFileSync = jest.fn();
 
 jest.mock("fs-extra", () => ({
-  existsSync: jest.fn((dir) => !!tree[dir]),
+  existsSync: jest.fn((dir) => !!tree[dir] || contents[dir]),
   readdirSync: jest.fn((dir) => tree[dir] || []),
   readFileSync: jest.fn((filePath) => {
     if (contents[filePath]) {
