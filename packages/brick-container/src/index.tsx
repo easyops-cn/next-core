@@ -126,10 +126,12 @@ async function startPreview(): Promise<void> {
     return;
   }
   previewStarted = true;
+  const localhostRegExp = /^https?:\/\/localhost(?:$|:)/;
   // Make sure preview from the expected origins.
   let previewAllowed =
     previewFromOrigin === location.origin ||
-    /^https?:\/\/localhost(?:$|:)/.test(previewFromOrigin);
+    localhostRegExp.test(previewFromOrigin) ||
+    localhostRegExp.test(location.origin);
   if (!previewAllowed) {
     const { allowedPreviewFromOrigins } = runtime.getMiscSettings() as {
       allowedPreviewFromOrigins?: string[];

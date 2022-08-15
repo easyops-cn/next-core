@@ -272,7 +272,16 @@ module.exports = (env) => {
           Array.isArray(proxyRes.headers["set-cookie"])
         ) {
           proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
-            (cookie) => `${cookie}; SameSite=None; Secure`
+            (cookie) => {
+              const separator = "; ";
+              const parts = cookie.split(separator);
+              for (const part of ["SameSite=None", "Secure"]) {
+                if (!parts.includes(part)) {
+                  parts.push(part);
+                }
+              }
+              return parts.join(separator);
+            }
           );
         }
       }
