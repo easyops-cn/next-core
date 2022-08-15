@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.50](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.49...@next-core/dev-dependencies@1.14.50) (2022-08-15)
+
+
+### Bug Fixes
+
+* fix jest migrations when no relevant files ([17961d9](https://github.com/easyops-cn/next-core/commit/17961d9c7f4472074eb45f3edc97731e8f7ba235))
+
+
+
+
+
 ## [1.14.49](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.48...@next-core/dev-dependencies@1.14.49) (2022-08-15)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
