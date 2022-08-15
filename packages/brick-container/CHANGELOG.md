@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.71.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.71.0...@next-core/brick-container@2.71.1) (2022-08-15)
+
+
+### Bug Fixes
+
+* append cookie same site none only if it is not existed ([5ecc8b0](https://github.com/easyops-cn/next-core/commit/5ecc8b0a4ad60769355e192521ce57b98b390b0c))
+* bypass preview localhost ([6802c94](https://github.com/easyops-cn/next-core/commit/6802c942bd2166973676239664ff22fa38735992))
+
+
+
+
+
 # [2.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.70.4...@next-core/brick-container@2.71.0) (2022-08-12)
 
 
