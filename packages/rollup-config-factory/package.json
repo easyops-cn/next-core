@@ -24,7 +24,7 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "postcss": "^8.4.16",
     "postcss-nested": "^5.0.6",
-    "rollup": "^2.77.3",
+    "rollup": "^2.78.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-postcss": "^4.0.2",
     "string-hash": "^1.1.3"
