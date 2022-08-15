@@ -134,6 +134,7 @@ export function _dev_only_updateStoryboardByRoute(
   kernel._dev_only_updateStoryboardByRoute(appId, newRoute);
 }
 
+/* istanbul ignore next */
 export function _dev_only_updateStoryboardByTemplate(
   appId: string,
   newTemplate: CustomTemplate,
@@ -142,6 +143,7 @@ export function _dev_only_updateStoryboardByTemplate(
   kernel._dev_only_updateStoryboardByTemplate(appId, newTemplate, settings);
 }
 
+/* istanbul ignore next */
 export function _dev_only_updateStoryboardBySnippet(
   appId: string,
   newSnippet: {
@@ -159,6 +161,11 @@ export function _dev_only_updateFormPreviewSettings(
   settings: formDataProperties
 ): void {
   kernel._dev_only_updateFormPreviewSettings(appId, formId, settings);
+}
+
+/* istanbul ignore next */
+export function _dev_only_updatePreviewUrl(url: string): void {
+  kernel._dev_only_updatePreviewUrl(url);
 }
 
 export class Runtime implements AbstractRuntime {

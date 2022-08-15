@@ -20,6 +20,7 @@ import {
   _dev_only_updateStoryboardByRoute,
   _dev_only_updateStoryboardByTemplate,
   _dev_only_updateStoryboardBySnippet,
+  _dev_only_updatePreviewUrl,
 } from "./core/exports";
 
 /** @internal */
@@ -50,4 +51,5 @@ export const developHelper = {
   updateTemplatePreviewSettings: _dev_only_updateTemplatePreviewSettings,
   updateSnippetPreviewSettings: _dev_only_updateSnippetPreviewSettings,
   updateFormPreviewSettings: _dev_only_updateFormPreviewSettings,
+  updatePreviewUrl: _dev_only_updatePreviewUrl,
 };

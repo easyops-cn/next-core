@@ -476,6 +476,11 @@ export class Kernel {
     }
   }
 
+  _dev_only_updatePreviewUrl(url: string): void {
+    const history = getHistory();
+    history.push(url);
+  }
+
   private _loadDepsOfStoryboard = async (
     storyboard: RuntimeStoryboard
   ): Promise<void> => {
