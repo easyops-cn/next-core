@@ -62,7 +62,7 @@ import {
 } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { listenDevtools } from "../internal/devtools";
+import { listenDevtools, listenDevtoolsEagerly } from "../internal/devtools";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
@@ -109,6 +109,7 @@ export class Kernel {
   private loadMagicBrickConfigStarted = false;
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
+    listenDevtoolsEagerly();
     this.mountPoints = mountPoints;
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
     if (this.bootstrapData.storyboards.length === 0) {
