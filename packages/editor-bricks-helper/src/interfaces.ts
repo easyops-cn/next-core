@@ -161,6 +161,7 @@ export interface EventDetailOfNodeReorder {
   nodeUids: number[];
   parentUid: number;
   nodeIds: string[];
+  objectId?: string;
 }
 
 export interface EventDetailOfNodeDragStart {

@@ -1567,6 +1567,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-003", "B-002", "B-004", "B-005", "B-006"],
       nodeUids: [4, 3, 5, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1592,6 +1593,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-002", "B-004", "B-003", "B-005", "B-006"],
       nodeUids: [3, 5, 4, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1637,6 +1639,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-002", "B-004", "B-003", "B-005", "B-006"],
       nodeUids: [3, 5, 4, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1662,6 +1665,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-003", "B-002", "B-004", "B-005", "B-006"],
       nodeUids: [4, 3, 5, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1707,6 +1711,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-005", "B-006", "B-002", "B-003", "B-004"],
       nodeUids: [6, 7, 3, 4, 5],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1752,6 +1757,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-005", "B-006", "B-002", "B-003", "B-004"],
       nodeUids: [6, 7, 3, 4, 5],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -2113,10 +2119,14 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       manager.workbenchTreeNodeMove(node);
       expect(mockOnWorkbenchTreeNodeMove).toBeCalled();
       expect(mockOnWorkbenchTreeNodeMove.mock.calls[0][0].detail).toEqual({
+        nodeData: {
+          mountPoint: "",
+          parent: "abc",
+        },
         nodeIds: ["B-003", "B-007", "B-005"],
         nodeInstanceId: "brick-b",
         nodeUid: 5,
-        objectId: undefined,
+        objectId: "STORYBOARD_BRICK",
       });
 
       const node2: WorkbenchTreeNodeMoveProps = {
@@ -2131,7 +2141,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
         nodeIds: ["B-008", "B-003"],
         nodeInstanceId: "brick-b",
         nodeUid: 5,
-        objectId: undefined,
+        objectId: "STORYBOARD_BRICK",
       });
     });
 

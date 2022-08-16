@@ -37,6 +37,7 @@ import { expandTemplateEdges } from "./expandTemplateEdges";
 import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
 import { getSnippetNodeDetail } from "../DropZone/getSnippetNodeDetail";
+import { getObjectIdByNode } from "./getObjectIdByNode";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -482,6 +483,11 @@ export class BuilderDataManager {
       (edge) => orderedSiblingEdges.indexOf(edge)
     );
     this.reorder(parentUid, orderedEdges);
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_UPDATE, {
+        detail: this.data,
+      })
+    );
   }
 
   private getDragInfo({
@@ -666,9 +672,8 @@ export class BuilderDataManager {
     const { rootId, nodes, edges, wrapperNode } = this.data;
     const { dragNodeUid, dragOverNodeUid, dragStatus } = detail;
     const nodeData = nodes.find((item) => item.$$uid === dragNodeUid);
-    const originParentUid = edges.find(
-      (edge) => edge.child === nodeData.$$uid
-    ).parent;
+    const originEdge = edges.find((edge) => edge.child === nodeData.$$uid);
+    const originParentUid = originEdge.parent;
     const originParentNode = nodes.find(
       (node) => node.$$uid === originParentUid
     );
@@ -716,7 +721,8 @@ export class BuilderDataManager {
             nodeUid: dragNodeUid,
             nodeInstanceId: nodeData.instanceId,
             nodeIds,
-            ...(originParentNode.instanceId !== parnetNodeData.instanceId
+            ...(originParentNode.instanceId !== parnetNodeData.instanceId ||
+            originEdge.mountPoint !== mountPoint
               ? {
                   nodeData: {
                     parent: parnetNodeData.instanceId,
@@ -724,10 +730,15 @@ export class BuilderDataManager {
                   },
                 }
               : {}),
-            objectId: nodeData["_object_id"] as string,
+            objectId: getObjectIdByNode(nodeData),
           },
         }
       )
+    );
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_UPDATE, {
+        detail: this.data,
+      })
     );
   }
 
@@ -775,6 +786,9 @@ export class BuilderDataManager {
             nodeUids: childUids,
             parentUid,
             nodeIds: childIds,
+            objectId: getObjectIdByNode(
+              nodes.find((node) => node.$$uid === parentUid)
+            ),
           },
         }
       )
