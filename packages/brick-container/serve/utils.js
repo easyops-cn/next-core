@@ -118,7 +118,7 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
     path.join(brickPackagesDir, brickPackageName, "dist"),
     path.join(alternativeBrickPackagesDir, brickPackageName, "dist"),
   ]);
-  if (fs.existsSync(distDir)) {
+  if (distDir) {
     if (!remoteBrickPackages || localBrickPackages.includes(brickPackageName)) {
       let filePath, bricksJson;
       for (const file of fs.readdirSync(distDir)) {
@@ -154,6 +154,12 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
       }
     }
     return remoteJson;
+  } else {
+    console.warn(
+      chalk.yellow(
+        `Warning: local brick package not found: ${brickPackageName}`
+      )
+    );
   }
 }
 
