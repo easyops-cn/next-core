@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.17.0...@next-core/webpack-config-factory@2.17.1) (2022-08-17)
+
+
+### Bug Fixes
+
+* refine contract building ([52582fc](https://github.com/easyops-cn/next-core/commit/52582fc61fa067fbd96debe25b200976467e483b))
+
+
+
+
+
 # [2.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.16.7...@next-core/webpack-config-factory@2.17.0) (2022-08-12)
 
 

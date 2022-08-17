@@ -1,6 +1,6 @@
 {
   "name": "@next-core/webpack-config-factory",
-  "version": "2.17.0",
+  "version": "2.17.1",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/webpack-config-factory",
   "license": "GPL-3.0",
