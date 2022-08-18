@@ -1,4 +1,4 @@
-import { isNil, sortBy } from "lodash";
+import { isEmpty, isNil, sortBy } from "lodash";
 import {
   SidebarMenuSimpleItem,
   PluginRuntimeContext,
@@ -54,13 +54,13 @@ export async function constructMenu(
   }
 }
 
-export async function constructMenuByMenusList(
+export async function preConstructMenus(
   menus: string[],
   context: PluginRuntimeContext,
   kernel: Kernel
 ): Promise<void> {
   const data: SidebarMenu[] = await Promise.all(
-    menus.map((menuId) => processMenu(menuId, context, kernel))
+    menus.map((menuId) => processMenu(menuId, context, kernel, undefined, true))
   );
   data.forEach((item, index) => processMenuCache.set(menus[index], item));
 }
@@ -70,13 +70,14 @@ export const getMenu = (menuId: string): SidebarMenu =>
 
 export async function fetchMenuById(
   menuId: string,
-  kernel: Kernel
+  kernel: Kernel,
+  isPreFetch?: boolean
 ): Promise<MenuRawData> {
   if (menuCache.has(menuId)) {
     return menuCache.get(menuId);
   }
   const menuList = window.STANDALONE_MICRO_APPS
-    ? kernel.getStandaloneMenus(menuId)
+    ? kernel.getStandaloneMenus(menuId, isPreFetch)
     : ((
         await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
           page: 1,
@@ -202,9 +203,14 @@ export async function processMenu(
   menuId: string,
   context: PluginRuntimeContext,
   kernel: Kernel,
-  hasSubMenu?: boolean
+  hasSubMenu?: boolean,
+  isPreFetch?: boolean
 ): Promise<SidebarMenu> {
-  const { items, app, ...restMenuData } = await fetchMenuById(menuId, kernel);
+  const { items, app, ...restMenuData } = await fetchMenuById(
+    menuId,
+    kernel,
+    isPreFetch
+  );
 
   const menuData = {
     ...(await computeRealValueWithOverrideApp(
@@ -272,7 +278,7 @@ function computeMenuItemsWithOverrideApp(
 }
 
 export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
-  if (menuData.title || !menuData.titleDataSource) {
+  if (menuData.title || isEmpty(menuData.titleDataSource)) {
     return menuData.title;
   }
   const cacheKey = JSON.stringify(menuData.titleDataSource);

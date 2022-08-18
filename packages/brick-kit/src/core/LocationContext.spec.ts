@@ -35,9 +35,7 @@ jest.spyOn(md, "getMessageDispatcher").mockImplementation(
     } as any)
 );
 const jestConstructMenu = jest.fn();
-jest
-  .spyOn(menu, "constructMenuByMenusList")
-  .mockImplementation(jestConstructMenu);
+jest.spyOn(menu, "preConstructMenus").mockImplementation(jestConstructMenu);
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 (getAuth as jest.Mock).mockReturnValue({
   username: "easyops",
