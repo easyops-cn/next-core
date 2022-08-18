@@ -81,8 +81,15 @@ function getIndividualGlobal(
         ? {
             href: "http://localhost:3000/functions/test",
             origin: "http://localhost:3000",
+            host: "localhost:3000",
+            hostname: "localhost",
           }
-        : { href: location.href, origin: location.origin };
+        : {
+            href: location.href,
+            origin: location.origin,
+            host: location.host,
+            hostname: location.hostname,
+          };
   }
 }
 
