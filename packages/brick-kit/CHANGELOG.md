@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.128.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.127.3...@next-core/brick-kit@2.128.0) (2022-08-18)
+
+
+### Features
+
+* **brick-kit:** support location.host and location.hostname ([0548c9f](https://github.com/easyops-cn/next-core/commit/0548c9fab28e58e4194bfedea44c92a39f0c27e2))
+
+
+
+
+
 ## [2.127.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.127.2...@next-core/brick-kit@2.127.3) (2022-08-17)
 
 
