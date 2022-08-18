@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.17.1...@next-core/webpack-config-factory@2.18.0) (2022-08-18)
+
+
+### Features
+
+* support loading gltf ([7302425](https://github.com/easyops-cn/next-core/commit/7302425f2ad39e260ddc231edfb21e172a22f287))
+
+
+
+
+
 ## [2.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.17.0...@next-core/webpack-config-factory@2.17.1) (2022-08-17)
 
 
