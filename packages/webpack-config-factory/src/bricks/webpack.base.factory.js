@@ -138,6 +138,22 @@ module.exports =
         rules: [
           ...(prependRules || []),
           {
+            test: /\.gltf$/,
+            loader: path.resolve(__dirname, "../loaders/gltf-loader"),
+          },
+          {
+            // For resource files issued by gltf.
+            test: /\.(?:png|jpe?g|bin)$/,
+            issuer: {
+              test: /\.gltf$/,
+            },
+            loader: "file-loader",
+            options: {
+              // Ignore `[name]` since these files in gltf have strange names.
+              name: "assets/[contenthash].[ext]",
+            },
+          },
+          {
             test: /\.md$/,
             use: [
               {
@@ -235,7 +251,11 @@ module.exports =
             ],
           },
           {
-            test: /\.(png|jpg)$/,
+            // For resource files issued by other than gltf.
+            test: /\.(png|jpe?g)$/,
+            issuer: {
+              exclude: /\.gltf$/,
+            },
             ...imageLoaderOptions,
           },
           {
