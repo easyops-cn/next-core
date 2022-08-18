@@ -241,6 +241,7 @@ export interface AuthInfo {
   loginFrom?: string;
   accessRule?: string;
   isAdmin?: boolean;
+  csrfToken?: string;
 }
 
 /** @internal */
