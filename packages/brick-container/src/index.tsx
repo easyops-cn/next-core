@@ -9,6 +9,7 @@ import {
   httpErrorToString,
   getMockInfo,
   developHelper,
+  getRuntime,
 } from "@next-core/brick-kit";
 import {
   http,
@@ -67,8 +68,11 @@ if (!window.STANDALONE_MICRO_APPS) {
 }
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
+  const { csrfToken } = getAuth();
   const headers = new Headers(config.options?.headers || {});
   headers.set("lang", i18n.resolvedLanguage);
+
+  csrfToken && headers.set("X-CSRF-Token", csrfToken);
   const mockInfo = getMockInfo(config.url, config.method);
   if (mockInfo) {
     config.url = mockInfo.url;

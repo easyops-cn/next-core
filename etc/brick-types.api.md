@@ -70,6 +70,8 @@ export interface AuthInfo {
     // (undocumented)
     accessRule?: string;
     // (undocumented)
+    csrfToken?: string;
+    // (undocumented)
     isAdmin?: boolean;
     // (undocumented)
     loginFrom?: string;
