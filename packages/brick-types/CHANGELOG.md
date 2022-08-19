@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.68.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.67.0...@next-core/brick-types@2.68.0) (2022-08-19)
+
+
+### Features
+
+* support crsf token ([3ef8c62](https://github.com/easyops-cn/next-core/commit/3ef8c624af8126185222ce2e98c4c5622e6de9e7))
+
+
+
+
+
 # [2.67.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.66.0...@next-core/brick-types@2.67.0) (2022-08-08)
 
 

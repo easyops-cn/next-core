@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.72.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.71.6...@next-core/brick-container@2.72.0) (2022-08-19)
+
+
+### Features
+
+* support crsf token ([3ef8c62](https://github.com/easyops-cn/next-core/commit/3ef8c624af8126185222ce2e98c4c5622e6de9e7))
+
+
+
+
+
 ## [2.71.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.71.5...@next-core/brick-container@2.71.6) (2022-08-19)
 
 
