@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.71.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.71.5...@next-core/brick-container@2.71.6) (2022-08-19)
+
+
+### Bug Fixes
+
+* support setting standalone app root ([8e0d3e4](https://github.com/easyops-cn/next-core/commit/8e0d3e49c2c2b93f2b05de4a857c6c6724f27b82))
+
+
+
+
+
 ## [2.71.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.71.4...@next-core/brick-container@2.71.5) (2022-08-18)
 
 **Note:** Version bump only for package @next-core/brick-container

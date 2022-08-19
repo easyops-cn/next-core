@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.128.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.128.0...@next-core/brick-kit@2.128.1) (2022-08-19)
+
+
+### Bug Fixes
+
+* fix menu prefetch in standalone apps ([e96b0cf](https://github.com/easyops-cn/next-core/commit/e96b0cfbe973a285ec6f8b5ceb2d8a3e638210bb))
+* support setting standalone app root ([8e0d3e4](https://github.com/easyops-cn/next-core/commit/8e0d3e49c2c2b93f2b05de4a857c6c6724f27b82))
+
+
+
+
+
 # [2.128.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.127.3...@next-core/brick-kit@2.128.0) (2022-08-18)
 
 
