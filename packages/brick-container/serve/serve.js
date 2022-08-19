@@ -26,6 +26,8 @@ module.exports = function serve(runtimeFlags) {
 
   let cachedIndexHtml;
 
+  const standaloneAppRoot = env.standaloneAppRoot;
+
   const serveIndexHtml = (_req, res) => {
     if (!cachedIndexHtml) {
       const indexHtml = path.join(distDir, "index.html");
@@ -48,7 +50,7 @@ module.exports = function serve(runtimeFlags) {
             escapeRegExp("<!--# echo var='app_root' default='' -->"),
             "g"
           ),
-          env.standaloneMicroApps ? env.standaloneAppDir : ""
+          standaloneAppRoot
         )
         .replace(
           new RegExp(
@@ -56,7 +58,7 @@ module.exports = function serve(runtimeFlags) {
             "g"
           ),
           `${env.publicCdn ?? ""}${
-            env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
+            env.standaloneMicroApps ? `${standaloneAppRoot}-/core/` : ""
           }`
         )
         .replace(
@@ -82,11 +84,11 @@ module.exports = function serve(runtimeFlags) {
             "((w)=>{",
             [
               "w.STANDALONE_MICRO_APPS=!0",
-              `var a=w.APP_ROOT=${JSON.stringify(env.standaloneAppDir)}`,
+              `var a=w.APP_ROOT=${JSON.stringify(standaloneAppRoot)}`,
               `var d=a+"-/"`,
               'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
               'w.CORE_ROOT=p+"core/"',
-              `w.BOOTSTRAP_FILE=d+"bootstrap.hash.json"`,
+              `w.BOOTSTRAP_FILE=d+"bootstrap.${env.bootstrapHash}.json"`,
             ]
               .filter(Boolean)
               .join(";"),
@@ -103,9 +105,9 @@ module.exports = function serve(runtimeFlags) {
     res.send(cachedIndexHtml);
   };
 
-  if (env.standaloneMicroApps) {
+  if (env.standaloneMicroApps && !env.useRemote) {
     // Return a fake `conf.yaml` for standalone micro-apps.
-    app.get(`${env.baseHref}conf.yaml`, (req, res) => {
+    app.get(`${standaloneAppRoot}conf.yaml`, (req, res) => {
       res.setHeader("content-type", "text/plain");
       res.send(
         yaml.safeDump({
@@ -151,7 +153,7 @@ module.exports = function serve(runtimeFlags) {
 
     // Serve static files.
     const staticRoot = env.standaloneMicroApps
-      ? `${serveRoot}-/core/`
+      ? `${standaloneAppRoot || serveRoot}-/core/`
       : serveRoot;
     app.use(staticRoot, express.static(distDir));
   }
@@ -199,15 +201,17 @@ module.exports = function serve(runtimeFlags) {
         })
       );
 
-      app.all(
-        /^(?!\/next\/).+/,
-        createProxyMiddleware({
-          target: env.consoleServer,
-          secure: false,
-          changeOrigin: true,
-          logLevel: "warn",
-        })
-      );
+      if (env.legacyConsole) {
+        app.all(
+          new RegExp(`^(?!${escapeRegExp(env.baseHref)}).+`),
+          createProxyMiddleware({
+            target: env.consoleServer,
+            secure: false,
+            changeOrigin: true,
+            logLevel: "warn",
+          })
+        );
+      }
     }
   }
 

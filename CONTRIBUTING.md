@@ -82,6 +82,21 @@ LOCAL_BRICKS=abc yarn start
 yarn serve --local-bricks=abc
 ```
 
+### 独立打包调试
+
+使用本地框架调试远端的独立打包：
+
+```shell
+yarn serve --standalone-micro-apps \
+  --set-subdir=sa \
+  --server=http://sit.easyops.local \
+  --standalone-app-root=/sa-static/ci/versions/1.0.2/webroot/ \
+  --standalone-app-dir=ci/ \
+  --bootstrap-hash=afb6beca13d998fd
+```
+
+将相关参数替换成调试目标上对应的数据即可。另外注意，如需登录，可以先先去掉独立打包相关参数后运行并登录一次，以便在本地取得登录会话，然后再启动上述服务。
+
 ## 常见问题 FAQ
 
 - CI 错误：

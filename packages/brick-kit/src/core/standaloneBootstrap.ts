@@ -1,9 +1,6 @@
 import yaml from "js-yaml";
 import { http } from "@next-core/brick-http";
-import {
-  BootstrapStandaloneApi_runtimeStandalone,
-  BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
-} from "@next-sdk/api-gateway-sdk";
+import { BootstrapStandaloneApi_runtimeStandalone } from "@next-sdk/api-gateway-sdk";
 import { BootstrapData, Settings } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
 import { isEmpty } from "lodash";
