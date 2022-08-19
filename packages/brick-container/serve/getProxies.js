@@ -35,7 +35,7 @@ module.exports = (env) => {
     alternativeBrickPackagesDir,
     useLegacyBootstrap,
     standaloneMicroApps,
-    standaloneAppDir,
+    standaloneAppRoot,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -54,10 +54,11 @@ module.exports = (env) => {
     },
   };
   if (useRemote) {
-    const assetRoot = standaloneMicroApps ? `${standaloneAppDir}-/` : "";
+    const assetRoot = standaloneMicroApps ? `${standaloneAppRoot}-/` : "";
     if (standaloneMicroApps) {
       // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
       proxyPaths.push(assetRoot);
+      proxyPaths.push(`${standaloneAppRoot}conf.yaml`);
     }
 
     const assetPaths = ["bricks", "micro-apps", "templates"];
@@ -75,7 +76,7 @@ module.exports = (env) => {
           new RegExp(
             `^${escapeRegExp(
               // 匹配 `/next/your-app/-/bootstrap.[hash].json`
-              `/next/${standaloneAppDir}-/bootstrap.`
+              `${standaloneAppRoot}-/bootstrap.`
             )}[^.]+\\.json$`
           ).test(req.path))
       ) {
@@ -301,12 +302,14 @@ module.exports = (env) => {
             !(
               res.statusCode === 200 &&
               res.get("content-type") === "text/html" &&
-              raw.includes("/next/browse-happy.html")
+              raw.includes(`${baseHref}browse-happy.html`)
             )
           ) {
             return raw;
           }
-          const content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
+          const content = useSubdir
+            ? raw
+            : raw.replace(new RegExp(escapeRegExp(baseHref), "g"), "/");
           return env.liveReload
             ? appendLiveReloadScript(content, env)
             : content;
@@ -353,7 +356,7 @@ module.exports = (env) => {
             }
           : {}),
         ...proxyPaths.reduce((acc, seg) => {
-          acc[`${baseHref}${seg}`] = {
+          acc[seg.startsWith("/") ? seg : `${baseHref}${seg}`] = {
             target: server,
             secure: false,
             changeOrigin: true,

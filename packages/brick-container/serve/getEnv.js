@@ -101,6 +101,9 @@ module.exports = (runtimeFlags) => {
       server: {
         type: "string",
       },
+      legacyConsole: {
+        type: "boolean",
+      },
       consoleServer: {
         type: "string",
       },
@@ -118,6 +121,7 @@ module.exports = (runtimeFlags) => {
       standalone: {
         type: "boolean",
       },
+      // <!-- Options for standalone micro-apps started.
       standaloneMicroApps: {
         type: "boolean",
       },
@@ -125,6 +129,17 @@ module.exports = (runtimeFlags) => {
         type: "string",
         default: "",
       },
+      standaloneAppRoot: {
+        type: "string",
+      },
+      bootstrapHash: {
+        type: "string",
+        default: "hash",
+      },
+      setSubdir: {
+        type: "string",
+      },
+      // --> Options for standalone micro-apps ended.
       legacyBootstrap: {
         type: "boolean",
       },
@@ -157,7 +172,7 @@ module.exports = (runtimeFlags) => {
         --console-server        Set remote console server address, defaults to remote server address
         --subdir                Set base href to "/next/" instead of "/"
         --local-bricks          Specify local brick packages to be used in remote mode
-        --legacy-bootstrap      use legacy bootstrap provider
+        --legacy-bootstrap      Use legacy bootstrap provider
         --local-editors         Specify local editor packages to be used in remote mode
         --local-snippets        Specify local snippet packages to be used in remote mode
         --local-micro-apps      Specify local micro apps to be used in remote mode
@@ -178,6 +193,7 @@ module.exports = (runtimeFlags) => {
         --mock-date             Setting mock date (for sandbox demo website only)
         --public-cdn            Setting public cdn site
         --as-cdn                Serve as cdn site
+        --legacy-console        Enable legacy console proxy
         --help                  Show help message
         --version               Show brick container version
       `,
@@ -212,7 +228,11 @@ module.exports = (runtimeFlags) => {
   const standalone = confStandalone || _standalone;
 
   const useOffline = flags.offline || process.env.OFFLINE === "true";
-  const useSubdir = flags.subdir || process.env.SUBDIR === "true";
+  const useSubdir =
+    flags.subdir ||
+    !!flags.setSubdir ||
+    process.env.SUBDIR === "true" ||
+    !!process.env.SET_SUBDIR;
   const useRemote =
     flags.remote === undefined
       ? process.env.NO_REMOTE !== "true"
@@ -220,9 +240,15 @@ module.exports = (runtimeFlags) => {
   const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
   const useLegacyBootstrap =
     flags.legacyBootstrap || process.env.LEGACY_BOOTSTRAP === "true";
-  const baseHref = useSubdir ? "/next/" : "/";
+  const baseHref = flags.setSubdir
+    ? `/${flags.setSubdir.replace(/^\/|\/$/, "")}/`
+    : useSubdir
+    ? "/next/"
+    : "/";
   const server = getServerPath(flags.server || process.env.SERVER);
   let consoleServer = flags.consoleServer || process.env.CONSOLE_SERVER;
+  const legacyConsole =
+    consoleServer || flags.legacyConsole || process.env.LEGACY_CONSOLE;
   consoleServer = consoleServer ? getServerPath(consoleServer) : server;
 
   const localBrickPackages = flags.localBricks
@@ -334,12 +360,17 @@ module.exports = (runtimeFlags) => {
     navbarJsonPath,
     standaloneMicroApps: flags.standaloneMicroApps,
     standaloneAppDir: flags.standaloneAppDir,
+    standaloneAppRoot: flags.standaloneMicroApps
+      ? flags.standaloneAppRoot || `${baseHref}${flags.standaloneAppDir}`
+      : "",
+    bootstrapHash: flags.bootstrapHash,
     host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     https: flags.https,
     cookieSameSiteNone: flags.cookieSameSiteNone,
     server,
+    legacyConsole,
     consoleServer,
     appConfig,
     verbose: flags.verbose || process.env.VERBOSE === "true",
@@ -435,6 +466,7 @@ module.exports = (runtimeFlags) => {
 
   if (env.standaloneMicroApps) {
     console.log(chalk.bold.cyan("app dir:"), env.standaloneAppDir);
+    console.log(chalk.bold.cyan("app root:"), env.standaloneAppRoot);
   }
 
   console.log(

@@ -68,7 +68,7 @@ import {
   TrackingContextItem,
 } from "../internal/listenOnTrackingContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
-import { constructMenuByMenusList } from "../internal/menu";
+import { preConstructMenus } from "../internal/menu";
 import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
@@ -999,11 +999,7 @@ export class LocationContext {
   private async preFetchMenu(data: unknown): Promise<void> {
     const useMenus: string[] = scanAppGetMenuInAny(data);
     if (useMenus.length) {
-      await constructMenuByMenusList(
-        useMenus,
-        this.getCurrentContext(),
-        this.kernel
-      );
+      await preConstructMenus(useMenus, this.getCurrentContext(), this.kernel);
     }
   }
 

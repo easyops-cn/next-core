@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs-extra");
 const bodyParser = require("body-parser");
 const { escapeRegExp } = require("lodash");
 const {
@@ -28,14 +29,12 @@ module.exports = (env, app) => {
     mockedMicroAppsDir,
     mockedMicroApps,
     standaloneMicroApps,
-    standaloneAppDir,
+    standaloneAppRoot,
     asCdn,
   } = env;
   let username;
 
-  const publicRoot = standaloneMicroApps
-    ? `${baseHref}${standaloneAppDir}-/`
-    : baseHref;
+  const publicRoot = standaloneMicroApps ? `${standaloneAppRoot}-/` : baseHref;
 
   // 开发时默认拦截 bootstrap 请求。
   // 如果设定 `REMOTE=true`，则透传远端请求。

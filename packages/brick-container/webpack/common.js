@@ -50,6 +50,8 @@ module.exports = () => {
   const faviconPath = `${coreRootPlaceholder}assets/favicon.png`;
   const baseHref = isProduction
     ? "<!--# echo var='base_href' default='/' -->"
+    : process.env.SET_SUBDIR
+    ? `/${process.env.SET_SUBDIR.replace(/^\/|\/$/, "")}/`
     : process.env.SUBDIR === "true"
     ? "/next/"
     : "/";

@@ -873,8 +873,9 @@ export class Kernel {
     return Object.assign({}, this.bootstrapData?.settings?.featureFlags);
   }
 
-  getStandaloneMenus(menuId: string): MenuRawData[] {
-    const currentAppId = this.currentApp.id;
+  getStandaloneMenus(menuId: string, isPreFetch?: boolean): MenuRawData[] {
+    const app = isPreFetch ? this.nextApp : this.currentApp;
+    const currentAppId = app.id;
     const currentStoryboard = this.bootstrapData.storyboards.find(
       (storyboard) => storyboard.app.id === currentAppId
     );
