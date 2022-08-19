@@ -71,7 +71,7 @@
     "@types/history": "^4.7.11",
     "@types/jest": "^26.0.24",
     "@types/js-yaml": "^3.12.7",
-    "@types/lodash": "^4.14.183",
+    "@types/lodash": "^4.14.184",
     "@types/lolex": "^5.1.2",
     "@types/node": "^12.20.55",
     "@types/react": "^16.14.30",
