@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.129.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.129.0...@next-core/brick-kit@2.129.1) (2022-08-22)
+
+
+### Bug Fixes
+
+* **handleHttpError:** 修复请求报错msg超出弹窗的问题  refs INSTANCE-2681 ([0944a36](https://github.com/easyops-cn/next-core/commit/0944a36f2733f4f10ae77f93391adaf5ed994cd8))
+
+
+
+
+
 # [2.129.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.128.1...@next-core/brick-kit@2.129.0) (2022-08-19)
 
 
