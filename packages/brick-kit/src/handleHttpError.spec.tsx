@@ -129,14 +129,7 @@ describe("handleHttpError", () => {
     handleHttpError(new Error("oops"));
     expect(spyOnModalError).toBeCalledWith({
       title: "brick-kit:REQUEST_FAILED",
-      content: (
-        <div
-          style={{ whiteSpace: "pre-wrap" }}
-          dangerouslySetInnerHTML={{
-            __html: "Error: oops",
-          }}
-        />
-      ),
+      content: <div style={{ whiteSpace: "pre-wrap" }}>Error: oops</div>,
       okText: "brick-kit:MODAL_OK",
     });
   });
