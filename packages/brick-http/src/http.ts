@@ -9,6 +9,10 @@ export interface HttpRequestConfig {
   meta?: Record<string, any>;
   options?: HttpOptions;
 }
+export interface ClearRequestCacheListConfig {
+  uri?: string;
+  method?: string;
+}
 
 export interface HttpResponse<T = any> {
   data: T;
@@ -215,9 +219,15 @@ class Http {
   private requestCache = new Map<string, Promise<any>>();
 
   private isEnableCache: boolean;
+  private clearCacheIgnoreList: ClearRequestCacheListConfig[] = [];
 
   public enableCache = (enable: boolean): void => {
     this.isEnableCache = enable;
+  };
+  public setClearCacheIgnoreList = (
+    list: ClearRequestCacheListConfig[]
+  ): void => {
+    this.clearCacheIgnoreList = list;
   };
 
   public on(action: string, fn: any): void {
@@ -329,8 +339,19 @@ class Http {
     while (chain.length) {
       promise = promise.then(chain.shift(), chain.shift());
     }
-
-    this.isEnableCache && this.requestCache.set(key, promise);
+    if (this.isEnableCache) {
+      const shouldCache = this.clearCacheIgnoreList.some(
+        (req) =>
+          req.method === config.method &&
+          (!req.uri || new RegExp(req.uri).test(config.url))
+      );
+      // 遇到 clearCacheIgnoreList 缓存列表外的，需要清除缓存
+      if (shouldCache) {
+        this.requestCache.set(key, promise);
+      } else {
+        this.requestCache.clear();
+      }
+    }
     return promise;
   }
 

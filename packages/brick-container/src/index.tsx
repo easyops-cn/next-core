@@ -16,6 +16,7 @@ import {
   HttpRequestConfig,
   HttpResponse,
   HttpError,
+  ClearRequestCacheListConfig,
 } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
@@ -193,7 +194,9 @@ if (window.parent) {
           origin
         );
       });
-
+      http.setClearCacheIgnoreList(
+        previewOptions.clearPreviewRequestCacheIgnoreList || []
+      );
       startPreview();
     }
   };
@@ -252,4 +255,5 @@ export interface PreviewStartOptions {
   settings?: {
     properties?: Record<string, unknown>;
   };
+  clearPreviewRequestCacheIgnoreList?: ClearRequestCacheListConfig[];
 }
