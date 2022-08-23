@@ -1,6 +1,6 @@
 import { getFixedT } from "i18next";
 import { identity } from "lodash";
-import type { MicroApp } from "@next-core/brick-types";
+import type { MicroApp, RuntimeMisc } from "@next-core/brick-types";
 import { widgetI18nFactory } from "../core/WidgetI18n";
 import { i18nText } from "../i18nText";
 import { getI18nNamespace } from "../i18n";
@@ -9,6 +9,7 @@ import { getBasePath } from "./getBasePath";
 import { getTheme, getCssPropertyValue } from "../themeAndMode";
 import { checkPermissions } from "./checkPermissions";
 import { getReadOnlyProxy } from "./proxyFactories";
+import { getRuntimeMisc } from "./misc";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
@@ -74,6 +75,8 @@ function getIndividualGlobal(
         getTheme: collectCoverage ? () => "light" : getTheme,
         getCssPropertyValue: collectCoverage ? () => "" : getCssPropertyValue,
       };
+    case "RUNTIME_MISC":
+      return collectCoverage ? fakeRuntimeMisc() : getRuntimeMisc();
     case "console":
       return isStoryboardFunction ? getReadOnlyProxy(console) : undefined;
     case "location":
@@ -107,4 +110,14 @@ function fakeImageFactory(): ImagesFactory {
 
 function fakeCheckPermissions(): boolean {
   return true;
+}
+
+function fakeRuntimeMisc(): RuntimeMisc {
+  return {
+    isInIframe: false,
+    isInIframeOfSameSite: false,
+    isInIframeOfNext: false,
+    isInIframeOfVisualBuilder: false,
+    isInIframeOfLegacyConsole: false,
+  };
 }
