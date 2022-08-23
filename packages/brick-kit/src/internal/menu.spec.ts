@@ -421,7 +421,10 @@ describe("constructMenu", () => {
         defaultCollapsed: true,
       },
     };
-    await constructMenu(menuBar, context, null);
+    const fakeKernel = {
+      fulfilStoryboardI18n: jest.fn(),
+    } as unknown as Kernel;
+    await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
       menuId: "menu-c",
       menu: {
@@ -432,6 +435,7 @@ describe("constructMenu", () => {
       },
       subMenu: null,
     });
+    expect(fakeKernel.fulfilStoryboardI18n).toBeCalledWith([]);
   });
 
   it("should construct menu and sub-menu", async () => {
@@ -439,7 +443,10 @@ describe("constructMenu", () => {
       menuId: "menu-d",
       subMenuId: "sub-menu-e",
     };
-    await constructMenu(menuBar, context, null);
+    const fakeKernel = {
+      fulfilStoryboardI18n: jest.fn(),
+    } as unknown as Kernel;
+    await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
       menuId: "menu-d",
       subMenuId: "sub-menu-e",
@@ -483,6 +490,7 @@ describe("constructMenu", () => {
         ],
       },
     });
+    expect(fakeKernel.fulfilStoryboardI18n).toBeCalledWith([]);
   });
 
   it("should construct menu with override app", async () => {
@@ -500,7 +508,7 @@ describe("constructMenu", () => {
           },
         ],
       },
-      fulfilStoryboard: jest.fn(),
+      fulfilStoryboardI18n: jest.fn(),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -534,6 +542,7 @@ describe("constructMenu", () => {
       },
       subMenu: null,
     });
+    expect(fakeKernel.fulfilStoryboardI18n).toBeCalledWith(["hola"]);
   });
 
   it("should construct menu with injected group", async () => {
@@ -551,7 +560,7 @@ describe("constructMenu", () => {
           },
         ],
       },
-      fulfilStoryboard: jest.fn(),
+      fulfilStoryboardI18n: jest.fn(),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -589,10 +598,14 @@ describe("constructMenu", () => {
       },
       subMenu: null,
     });
+    expect(fakeKernel.fulfilStoryboardI18n).toBeCalledWith(["hola", "bonjour"]);
   });
 
   it("preConstructMenus should work", async () => {
-    await preConstructMenus(["menu-c", "menu-d"], context, null);
+    const fakeKernel = {
+      fulfilStoryboardI18n: jest.fn(),
+    } as unknown as Kernel;
+    await preConstructMenus(["menu-c", "menu-d"], context, fakeKernel);
 
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });

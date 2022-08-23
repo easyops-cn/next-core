@@ -18,7 +18,10 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
+import {
+  InstalledMicroAppApi_getI18NData,
+  ObjectMicroAppApi_getObjectMicroAppList,
+} from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   RuntimeApi_runtimeMicroAppStandalone,
@@ -41,8 +44,8 @@ import type {
   MenuRawData,
   Storyboard,
   SimpleFunction,
-  RouteConfOfBricks,
   CustomTemplate,
+  MetaI18n,
 } from "@next-core/brick-types";
 import { authenticate, isLoggedIn } from "../auth";
 import {
@@ -257,7 +260,10 @@ export class Kernel {
     storyboard: RuntimeStoryboard
   ): Promise<void> {
     if (window.STANDALONE_MICRO_APPS) {
-      Object.assign(storyboard, { $$fulfilled: true });
+      Object.assign(storyboard, {
+        $$fulfilled: true,
+        $$fulfilling: null,
+      });
       if (!window.NO_AUTH_GUARD) {
         let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody;
         try {
@@ -296,6 +302,7 @@ export class Kernel {
         meta,
         app: { ...storyboard.app, ...app },
         $$fulfilled: true,
+        $$fulfilling: null,
       });
     }
     this.postProcessStoryboard(storyboard);
@@ -303,7 +310,10 @@ export class Kernel {
 
   private postProcessStoryboard(storyboard: RuntimeStoryboard): void {
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
+    this.postProcessStoryboardI18n(storyboard);
+  }
 
+  private postProcessStoryboardI18n(storyboard: RuntimeStoryboard): void {
     if (storyboard.meta?.i18n) {
       // Prefix to avoid conflict between brick package's i18n namespace.
       const i18nNamespace = getI18nNamespace("app", storyboard.app.id);
@@ -311,6 +321,62 @@ export class Kernel {
       Object.entries(storyboard.meta.i18n).forEach(([lang, resources]) => {
         i18next.addResourceBundle(lang, i18nNamespace, resources);
       });
+    }
+  }
+
+  async fulfilStoryboardI18n(appIds: string[]): Promise<void> {
+    // Ignore already fulfilled apps.
+    const filteredStoryboards = appIds
+      .map((appId) =>
+        this.bootstrapData.storyboards.find((story) => story.app.id === appId)
+      )
+      .filter((story) => story && !story.$$fulfilled && !story.$$i18nFulfilled);
+
+    if (window.STANDALONE_MICRO_APPS) {
+      // Fallback to fullfil whole storyboard for standalone micro-apps.
+      await Promise.all(
+        filteredStoryboards.map((story) => this.fulfilStoryboard(story))
+      );
+      return;
+    }
+
+    // Do not fulfil i18n if the app is doing a whole fulfilling.
+    const fulfilling: Promise<void>[] = [];
+    const filteredAppIds: string[] = [];
+    for (const story of filteredStoryboards) {
+      if (story.$$fulfilling) {
+        fulfilling.push(story.$$fulfilling);
+      } else {
+        filteredAppIds.push(story.app.id);
+      }
+    }
+
+    if (filteredAppIds.length === 0) {
+      // Still wait for these whole fulfilling.
+      await Promise.all(fulfilling);
+      return;
+    }
+
+    const [{ i18nInfo }] = await Promise.all([
+      InstalledMicroAppApi_getI18NData({
+        appIds: filteredAppIds.join(","),
+      }),
+      // Still wait for these whole fulfilling.
+      ...fulfilling,
+    ]);
+
+    for (const { appId, i18n } of i18nInfo) {
+      const storyboard = this.bootstrapData.storyboards.find(
+        (story) => story.app.id === appId
+      );
+      Object.assign(storyboard, {
+        meta: {
+          ...storyboard.meta,
+          i18n: i18n as MetaI18n,
+        },
+        $$i18nFulfilled: true,
+      });
+      this.postProcessStoryboardI18n(storyboard);
     }
   }
 
@@ -323,7 +389,7 @@ export class Kernel {
     );
     Object.assign(storyboard, {
       ...storyboardPatch,
-      $$fulfilling: Promise.resolve(),
+      $$fulfilling: null,
       $$fulfilled: true,
       $$registerCustomTemplateProcessed: false,
       $$depsProcessed: false,

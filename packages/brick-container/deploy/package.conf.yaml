@@ -26,7 +26,7 @@ dependencies:
   - name: cmdb_service
     version: ~2.31.1 || ^2.32.1
   - name: micro_app_service
-    version: ^1.22.0
+    version: ^1.28.0
   - name: micro_app_service_db
     version: ^1.16.11
   - name: object_store_service
