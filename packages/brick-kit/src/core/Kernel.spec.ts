@@ -14,7 +14,10 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
+import {
+  InstalledMicroAppApi_getI18NData,
+  ObjectMicroAppApi_getObjectMicroAppList,
+} from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   LayoutType,
@@ -91,6 +94,7 @@ const spyApplyColorTheme = applyColorTheme as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
+const getI18NData = InstalledMicroAppApi_getI18NData as jest.Mock;
 const getObjectMicroAppList =
   ObjectMicroAppApi_getObjectMicroAppList as jest.Mock;
 
@@ -438,6 +442,103 @@ describe("Kernel", () => {
     await kernel.reloadMicroApps();
     expect(spyOnBootstrap).toBeCalledTimes(2);
     spyOnBootstrap.mockReset();
+  });
+
+  it("should fulfil i18n", async () => {
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    const appFake: any = {
+      app: {
+        id: "fake",
+      },
+    };
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello, appFake],
+    });
+    await kernel.bootstrap(mountPoints);
+
+    kernel.fulfilStoryboard(appFake);
+    expect(appFake).toMatchObject({
+      $$fulfilling: expect.any(Promise),
+    });
+
+    getI18NData.mockImplementationOnce(({ appIds }: { appIds: string }) =>
+      Promise.resolve({
+        i18nInfo: appIds
+          .split(",")
+          .filter(Boolean)
+          .map((appId) => ({
+            appId,
+            i18n: {
+              en: {
+                WORLD: "World",
+              },
+            },
+          })),
+      })
+    );
+    await kernel.fulfilStoryboardI18n(["fake", "hello"]);
+
+    // `fake` is ignored since it's already being fulfilling.
+    expect(getI18NData).toBeCalledWith({ appIds: "hello" });
+
+    expect(appHello).toMatchObject({
+      $$i18nFulfilled: true,
+      meta: {
+        i18n: {
+          en: {
+            WORLD: "World",
+          },
+        },
+      },
+    });
+
+    // It should only fulfil once.
+    await kernel.fulfilStoryboardI18n(["fake", "hello"]);
+    expect(getI18NData).toBeCalledTimes(1);
+  });
+
+  it("should fulfil i18n for standalone micro-apps", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = false;
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    mockStandaloneBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    await kernel.bootstrap(mountPoints);
+
+    await kernel.fulfilStoryboardI18n(["hello"]);
+    expect(spyOnGetAppStoryboard).not.toBeCalled();
+    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
   });
 
   it("should bootstrap for standalone micro-apps", async () => {
@@ -1279,7 +1380,7 @@ describe("Kernel", () => {
             bricks: [],
           },
         ],
-        $$fulfilling: Promise.resolve(),
+        $$fulfilling: null,
         $$fulfilled: true,
         $$registerCustomTemplateProcessed: false,
         $$depsProcessed: false,
@@ -1620,8 +1721,6 @@ describe("Kernel", () => {
           },
         },
       ],
-      path: "/snippet-a",
-      type: "bricks",
     });
     expect(mockStoryBoard).toMatchInlineSnapshot(`
       Array [

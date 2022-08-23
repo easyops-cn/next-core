@@ -2296,10 +2296,10 @@
   resolved "https://registry.npmjs.org/@next-sdk/cmdb-sdk/-/cmdb-sdk-2.1.1.tgz#8522f75b71ae3c5772b8631528fe4bcaff9f0e70"
   integrity sha512-4F9psdHnmSUZg9BK0sSzgmoerhsMucsXdMGhRASaf+kGyh6foKMa2+Lp7lOpIjROUJbqBua1GkwPOtj6AexpsQ==
 
-"@next-sdk/micro-app-sdk@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/@next-sdk/micro-app-sdk/-/micro-app-sdk-2.1.1.tgz#e441aaa303152c54451945703b5e96260dcb476e"
-  integrity sha512-hiPq+SdwWVVycbEBq+OtCQwE3nDwQnSN4Kchzlh53DxfpxLpjo9w2lAkbf2ZmWB3qYhUGoZId8lhULp/Ez4GCg==
+"@next-sdk/micro-app-sdk@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.npmjs.org/@next-sdk/micro-app-sdk/-/micro-app-sdk-2.5.0.tgz#228712e392523163c65b6e2d6311f9155edb0b0e"
+  integrity sha512-uLrFGcBahmb+8OjTSPDxsWEUH+EGImhH9OtsKlT8qJ4V2h3G1vAsDTuwcMzT/zBFNRTK/g/MTKDsgmzPiv32BQ==
 
 "@next-sdk/micro-app-standalone-sdk@^1.0.1":
   version "1.0.1"

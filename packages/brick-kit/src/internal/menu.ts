@@ -212,14 +212,17 @@ export async function processMenu(
     isPreFetch
   );
 
+  const appIds = collectOverrideApps(items, app[0].appId, context.app.id);
+  await kernel.fulfilStoryboardI18n(appIds);
+
   const menuData = {
-    ...(await computeRealValueWithOverrideApp(
+    ...computeRealValueWithOverrideApp(
       restMenuData,
       app[0].appId,
       context,
       kernel
-    )),
-    items: await computeMenuItemsWithOverrideApp(items, context, kernel),
+    ),
+    items: computeMenuItemsWithOverrideApp(items, context, kernel),
   };
 
   return {
@@ -257,24 +260,47 @@ export async function processMenu(
   };
 }
 
+export function collectOverrideApps(
+  items: RuntimeMenuItemRawData[],
+  rootAppId: string,
+  contextAppId: string
+): string[] {
+  const appIds = new Set<string>();
+  if (rootAppId !== contextAppId) {
+    appIds.add(rootAppId);
+  }
+  function collect(items: RuntimeMenuItemRawData[]): void {
+    for (const { children, ...rest } of items as RuntimeMenuItemRawData[]) {
+      const overrideAppId = rest[symbolAppId];
+      if (
+        overrideAppId !== contextAppId &&
+        !appIds.has(overrideAppId) &&
+        requireOverrideApp(rest)
+      ) {
+        appIds.add(overrideAppId);
+      }
+      children && collect(children);
+    }
+  }
+  collect(items);
+  return [...appIds];
+}
+
 function computeMenuItemsWithOverrideApp(
   items: RuntimeMenuItemRawData[],
   context: PluginRuntimeContext,
   kernel: Kernel
-): Promise<RuntimeMenuItemRawData[]> {
-  return Promise.all(
-    items.map(async ({ children, ...rest }) => ({
-      ...(await computeRealValueWithOverrideApp(
-        rest,
-        rest[symbolAppId],
-        context,
-        kernel
-      )),
-      children:
-        children &&
-        (await computeMenuItemsWithOverrideApp(children, context, kernel)),
-    }))
-  );
+): RuntimeMenuItemRawData[] {
+  return items.map(({ children, ...rest }) => ({
+    ...computeRealValueWithOverrideApp(
+      rest,
+      rest[symbolAppId],
+      context,
+      kernel
+    ),
+    children:
+      children && computeMenuItemsWithOverrideApp(children, context, kernel),
+  }));
 }
 
 export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
@@ -351,19 +377,18 @@ function requireOverrideApp(data: unknown, memo = new WeakSet()): boolean {
   return false;
 }
 
-async function computeRealValueWithOverrideApp<T>(
+function computeRealValueWithOverrideApp<T>(
   data: T,
   overrideAppId: string,
   context: PluginRuntimeContext,
   kernel: Kernel
-): Promise<T> {
+): T {
   let newContext = context;
   if (overrideAppId !== context.app.id && requireOverrideApp(data)) {
     const storyboard = kernel.bootstrapData.storyboards.find(
       (story) => story.app.id === overrideAppId
     );
     if (storyboard) {
-      await kernel.fulfilStoryboard(storyboard);
       newContext = {
         ...context,
         overrideApp: storyboard.app,

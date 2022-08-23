@@ -1809,6 +1809,8 @@ export interface RuntimeStoryboard extends Storyboard {
     // (undocumented)
     $$fulfilling?: Promise<void>;
     // (undocumented)
+    $$i18nFulfilled?: boolean;
+    // (undocumented)
     $$registerCustomTemplateProcessed?: boolean;
 }
 
