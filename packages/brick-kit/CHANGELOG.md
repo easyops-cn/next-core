@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.130.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.129.3...@next-core/brick-kit@2.130.0) (2022-08-23)
+
+
+### Bug Fixes
+
+* fulfill i18n only when loading injected menus ([e9f7950](https://github.com/easyops-cn/next-core/commit/e9f7950a3e3208cc2e17a4bec6559baea9da76b6))
+
+
+### Features
+
+* support MISC variable ([fa13509](https://github.com/easyops-cn/next-core/commit/fa13509301b2c8a1a380c614d1fdd2cf17fa1707))
+
+
+
+
+
 ## [2.129.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.129.2...@next-core/brick-kit@2.129.3) (2022-08-23)
 
 **Note:** Version bump only for package @next-core/brick-kit
