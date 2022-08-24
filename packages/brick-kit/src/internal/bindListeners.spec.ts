@@ -261,6 +261,16 @@ describe("bindListeners", () => {
           prop: "quality",
         },
       ],
+      [
+        "myLazyContext",
+        {
+          type: "free-variable",
+          value: "initial",
+          refresh() {
+            return Promise.resolve("lazily updated");
+          },
+        },
+      ],
     ];
     ctx.forEach(([name, value]) => {
       storyboardContext.set(name, value);
@@ -423,6 +433,10 @@ describe("bindListeners", () => {
               something: "wrong",
             },
           ],
+        },
+        {
+          action: "context.refresh",
+          args: ["myLazyContext"],
         },
         {
           action: "message.subscribe",
@@ -633,6 +647,8 @@ describe("bindListeners", () => {
       detail: "for-better",
     });
     sourceElem.dispatchEvent(event2);
+
+    expect(storyboardContext.get("myLazyContext").value).toBe("initial");
 
     await jest.runAllTimers();
     await (global as any).flushPromises();
@@ -850,6 +866,7 @@ describe("bindListeners", () => {
     expect(storyboardContext.get("myNewContext").value).toEqual({
       hello: "world",
     });
+    expect(storyboardContext.get("myLazyContext").value).toBe("lazily updated");
 
     expect(mockMessageDispatcher.subscribe).toHaveBeenLastCalledWith(
       "task1",
@@ -923,7 +940,7 @@ describe("bindListeners", () => {
     legacyIframeMountPoint.remove();
   });
 
-  it("should work for template", () => {
+  it("should work for template", async () => {
     // Mocking a custom template with several inside bricks.
     const tplElement = document.createElement("div") as any;
     const button = document.createElement("div") as any;
@@ -947,6 +964,13 @@ describe("bindListeners", () => {
       type: "free-variable",
       value: "initial",
     });
+    tplContext.state.set("myLazyState", {
+      type: "free-variable",
+      value: "initial",
+      refresh() {
+        return Promise.resolve("lazily updated");
+      },
+    });
 
     button.forGood = jest.fn();
     button.forArray = jest.fn();
@@ -968,6 +992,10 @@ describe("bindListeners", () => {
           {
             action: "state.update",
             args: ["myState", "<% `${STATE.myState}:updated` %>"],
+          },
+          {
+            action: "state.refresh",
+            args: ["myLazyState"],
           },
         ],
         keyWillNotFindTarget: {
@@ -1022,6 +1050,10 @@ describe("bindListeners", () => {
     expect((tplDispatchEvent.mock.calls[0][0] as CustomEvent).detail).toBe(
       "quality is good"
     );
+
+    expect(tplContext.state.getValue("myLazyState")).toBe("initial");
+    await (global as any).flushPromises();
+    expect(tplContext.state.getValue("myLazyState")).toBe("lazily updated");
 
     tplElement.remove();
     (console.error as jest.Mock).mockRestore();

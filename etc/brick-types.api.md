@@ -716,7 +716,7 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
 
 // @public
 export interface BuiltinBrickEventHandler {
-    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "state.update" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "preview.debug" | "analytics.event";
+    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "context.refresh" | "state.update" | "state.refresh" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "preview.debug" | "analytics.event";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
@@ -830,9 +830,14 @@ export interface ContextConf {
     name: string;
     onChange?: BrickEventHandler | BrickEventHandler[];
     property?: string;
-    resolve?: ResolveConf;
+    resolve?: ContextResolveConf;
     value?: unknown;
 }
+
+// @public
+export type ContextResolveConf = ResolveConf & {
+    lazy?: boolean;
+};
 
 // @public (undocumented)
 export interface Contract {
@@ -2103,6 +2108,8 @@ export interface StoryboardContextItemBrickProperty {
 export interface StoryboardContextItemFreeVariable {
     // (undocumented)
     eventTarget?: EventTarget;
+    // (undocumented)
+    refresh?: () => Promise<unknown>;
     // (undocumented)
     type: "free-variable";
     // (undocumented)

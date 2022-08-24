@@ -717,7 +717,7 @@ export class LocationContext {
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
         if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
-          this.storyboardContextWrapper.set(ctxName.substr(4), {
+          this.storyboardContextWrapper.set(ctxName.substring(4), {
             type: "brick-property",
             brick,
             prop,

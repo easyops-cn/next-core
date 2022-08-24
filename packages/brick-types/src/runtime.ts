@@ -224,6 +224,7 @@ export interface StoryboardContextItemFreeVariable {
   type: "free-variable";
   value: unknown;
   eventTarget?: EventTarget;
+  refresh?: () => Promise<unknown>;
 }
 
 /** @internal */

@@ -1,10 +1,18 @@
 import { RuntimeBrickElement } from "@next-core/brick-types";
 import { CustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
+import * as runtime from "./Runtime";
 
 const consoleWarn = jest
   .spyOn(console, "warn")
   .mockImplementation(() => void 0);
+
+jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+  async resolveOne(a: unknown, b: unknown, c: Record<string, unknown>) {
+    await Promise.resolve();
+    c.value = "lazily updated";
+  },
+} as any);
 
 describe("StoryboardContextWrapper", () => {
   it("should work", () => {
@@ -41,6 +49,30 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("state")).toBe("updated");
     expect(ctx.getValue("ignored")).toBe(undefined);
     expect(ctx.getValue("depends")).toBe("depends:good");
+  });
+
+  it("should refresh", async () => {
+    const ctx = new StoryboardContextWrapper("tpl-ctx-1");
+    ctx.define(
+      [
+        {
+          name: "asyncValue",
+          resolve: {
+            useProvider: "my-provider",
+            lazy: true,
+          },
+          value: "initial",
+        },
+      ],
+      {} as any,
+      { properties: {} }
+    );
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+    ctx.updateValue("asyncValue", undefined, "refresh");
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+
+    await (global as any).flushPromises();
+    expect(ctx.getValue("asyncValue")).toBe("lazily updated");
   });
 
   it("should throw if use resolve with syncDefine", () => {
