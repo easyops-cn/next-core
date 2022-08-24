@@ -1,4 +1,5 @@
-import { preevaluate } from "./cook";
+import { PrecookHooks, preevaluate } from "./cook";
+import { visitStoryboardExpressions } from "./visitStoryboard";
 
 /**
  * Get tracking CTX for an evaluable expression in `track context` mode.
@@ -34,39 +35,25 @@ export function trackState(raw: string): string[] | false {
   return track(raw, "track state", "STATE");
 }
 
+export function trackUsedContext(data: unknown): string[] {
+  return trackUsed(data, "CTX");
+}
+
+export function trackUsedState(data: unknown): string[] {
+  return trackUsed(data, "STATE");
+}
+
 function track(
   raw: string,
-  trackText?: string,
-  variableName?: string
+  trackText: string,
+  variableName: string
 ): string[] | false {
   if (raw.includes(trackText)) {
     const contexts = new Set<string>();
     const { expression } = preevaluate(raw, {
       withParent: true,
       hooks: {
-        beforeVisitGlobal(node, parent): void {
-          if (node.name === variableName) {
-            const memberParent = parent[parent.length - 1];
-            if (
-              memberParent?.node.type === "MemberExpression" &&
-              memberParent.key === "object"
-            ) {
-              const memberNode = memberParent.node;
-              if (
-                !memberNode.computed &&
-                memberNode.property.type === "Identifier"
-              ) {
-                contexts.add(memberNode.property.name);
-              } else if (
-                memberNode.computed &&
-                (memberNode.property as any).type === "Literal" &&
-                typeof (memberNode.property as any).value === "string"
-              ) {
-                contexts.add((memberNode.property as any).value);
-              }
-            }
-          }
-        },
+        beforeVisitGlobal: beforeVisitContextFactory(contexts, variableName),
       },
     });
     let trackCtxExp: any;
@@ -89,4 +76,40 @@ function track(
     }
   }
   return false;
+}
+
+function trackUsed(data: unknown, variableName: string): string[] {
+  const contexts = new Set<string>();
+  visitStoryboardExpressions(
+    data,
+    beforeVisitContextFactory(contexts, variableName),
+    variableName
+  );
+  return Array.from(contexts);
+}
+
+function beforeVisitContextFactory(
+  contexts: Set<string>,
+  variableName: string
+): PrecookHooks["beforeVisitGlobal"] {
+  return function beforeVisitContext(node, parent): void {
+    if (node.name === variableName) {
+      const memberParent = parent[parent.length - 1];
+      if (
+        memberParent?.node.type === "MemberExpression" &&
+        memberParent.key === "object"
+      ) {
+        const memberNode = memberParent.node;
+        if (!memberNode.computed && memberNode.property.type === "Identifier") {
+          contexts.add(memberNode.property.name);
+        } else if (
+          memberNode.computed &&
+          (memberNode.property as any).type === "Literal" &&
+          typeof (memberNode.property as any).value === "string"
+        ) {
+          contexts.add((memberNode.property as any).value);
+        }
+      }
+    }
+  };
 }

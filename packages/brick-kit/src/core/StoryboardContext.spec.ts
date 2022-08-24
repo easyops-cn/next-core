@@ -7,11 +7,15 @@ const consoleWarn = jest
   .spyOn(console, "warn")
   .mockImplementation(() => void 0);
 
-jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
-  async resolveOne(a: unknown, b: unknown, c: Record<string, unknown>) {
+let resolveValue = "lazily updated";
+const resolveOne = jest.fn(
+  async (a: unknown, b: unknown, c: Record<string, unknown>) => {
     await Promise.resolve();
-    c.value = "lazily updated";
-  },
+    c.value = resolveValue;
+  }
+);
+jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+  resolveOne,
 } as any);
 
 describe("StoryboardContextWrapper", () => {
@@ -52,8 +56,10 @@ describe("StoryboardContextWrapper", () => {
   });
 
   it("should refresh", async () => {
-    const ctx = new StoryboardContextWrapper("tpl-ctx-1");
-    ctx.define(
+    const brick = { properties: {} };
+    const tplContext = new CustomTemplateContext(brick);
+    const ctx = tplContext.state;
+    await ctx.define(
       [
         {
           name: "asyncValue",
@@ -63,12 +69,63 @@ describe("StoryboardContextWrapper", () => {
           },
           value: "initial",
         },
+        {
+          name: "processedData",
+          value: "<% `processed: ${STATE.asyncValue}` %>",
+          track: true,
+        },
       ],
-      {} as any,
-      { properties: {} }
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
     );
+
     expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(ctx.getValue("processedData")).toBe("processed: initial");
     ctx.updateValue("asyncValue", undefined, "refresh");
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+
+    await (global as any).flushPromises();
+    expect(ctx.getValue("asyncValue")).toBe("lazily updated");
+    expect(ctx.getValue("processedData")).toBe("processed: lazily updated");
+  });
+
+  it("should refresh when deps updated", async () => {
+    const brick = { properties: {} };
+    const tplContext = new CustomTemplateContext(brick);
+    const ctx = tplContext.state;
+
+    const originalResolveValue = resolveValue;
+    resolveValue = "initial";
+
+    await ctx.define(
+      [
+        {
+          name: "asyncValue",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% STATE.dep %>"],
+          },
+          track: true,
+        },
+        {
+          name: "dep",
+          value: "first",
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(ctx.getValue("dep")).toBe("first");
+
+    resolveValue = originalResolveValue;
+    ctx.updateValue("dep", "second", "replace");
+    expect(ctx.getValue("dep")).toBe("second");
     expect(ctx.getValue("asyncValue")).toBe("initial");
 
     await (global as any).flushPromises();

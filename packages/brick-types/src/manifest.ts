@@ -491,6 +491,11 @@ export interface ContextConf {
   if?: string | boolean;
 
   /**
+   * 是否自动跟踪自己依赖的上下文数据，当它们变化时自动计算获得新的值。
+   */
+  track?: boolean;
+
+  /**
    * 当数据发生变化时触发的事件。注意，该事件仅适用于自由变量或异步处理的数据，不适用于绑定构件属性的数据。
    */
   onChange?: BrickEventHandler | BrickEventHandler[];
@@ -1599,7 +1604,7 @@ export interface CustomTemplate {
 /** 自定义模板状态数据配置。 */
 export type CustomTemplateState = Pick<
   ContextConf,
-  "name" | "value" | "if" | "resolve"
+  "name" | "value" | "if" | "resolve" | "track"
 >;
 
 /**

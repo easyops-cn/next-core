@@ -11,6 +11,8 @@ import {
   isObject,
   resolveContextConcurrently,
   syncResolveContextConcurrently,
+  trackUsedContext,
+  trackUsedState,
 } from "@next-core/brick-utils";
 import { looseCheckIf } from "../checkIf";
 import { listenerFactory } from "../internal/bindListeners";
@@ -203,11 +205,8 @@ async function resolveNormalStoryboardContext(
   if (!looseCheckIf(contextConf, mergedContext)) {
     return false;
   }
-  let value = getDefinedTemplateState(
-    !!storyboardContextWrapper.tplContextId,
-    contextConf,
-    brick
-  );
+  const isTemplateState = !!storyboardContextWrapper.tplContextId;
+  let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
   let refresh: () => Promise<unknown> = null;
   let isLazyResolve = false;
   if (value === undefined) {
@@ -241,7 +240,38 @@ async function resolveNormalStoryboardContext(
       // Or if the resolve is ignored or lazy, use its `value` as a fallback.
       value = computeRealValue(contextConf.value, mergedContext, true);
     }
+
+    if (contextConf.track) {
+      // Track its dependencies and auto update when each of them changed.
+      const deps = (isTemplateState ? trackUsedState : trackUsedContext)(
+        refresh ? contextConf.resolve : contextConf.value
+      );
+      for (const dep of deps) {
+        const ctx = storyboardContextWrapper.get().get(dep);
+        (
+          ctx as StoryboardContextItemFreeVariable
+        )?.eventTarget?.addEventListener(
+          isTemplateState ? "state.change" : "context.change",
+          () => {
+            if (refresh) {
+              storyboardContextWrapper.updateValue(
+                contextConf.name,
+                undefined,
+                "refresh"
+              );
+            } else {
+              storyboardContextWrapper.updateValue(
+                contextConf.name,
+                computeRealValue(contextConf.value, mergedContext, true),
+                "replace"
+              );
+            }
+          }
+        );
+      }
+    }
   }
+
   resolveFreeVariableValue(
     value,
     contextConf,

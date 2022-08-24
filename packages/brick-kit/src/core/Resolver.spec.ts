@@ -2,6 +2,7 @@ import { Resolver, ResolveRequestError } from "./Resolver";
 import { RuntimeBrick } from "./BrickNode";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import * as runtime from "../core/Runtime";
+import { registerStoryboardFunctions } from "./StoryboardFunctions";
 
 jest.mock("../handleHttpError");
 
@@ -55,6 +56,17 @@ customElements.define(
     }
   }
 );
+
+registerStoryboardFunctions([
+  {
+    name: "makeCircularReferences",
+    source: `function makeCircularReferences() {
+      const a = {};
+      a.a = a;
+      return a;
+    }`,
+  },
+]);
 
 describe("Resolver", () => {
   const anyProvider = document.createElement("any-provider");
@@ -189,6 +201,56 @@ describe("Resolver", () => {
     await jest.advanceTimersByTime(3000);
     expect(testMethod).toBeCalledTimes(2);
     resolver.resetRefreshQueue();
+  });
+
+  it("should handle cache with computed args which contain circular references", async () => {
+    const testMethod = jest.fn().mockResolvedValue({
+      data: {
+        hello: "world",
+      },
+    });
+    const providerName = "any-provider";
+    const provider = {
+      tagName: providerName,
+      testMethod,
+    };
+    kernel.mountPoints.bg = {
+      querySelector: () => provider,
+    } as any;
+    const brickA: RuntimeBrick = {
+      type: "brick-A",
+      properties: {},
+      events: {},
+      lifeCycle: {
+        useResolves: [
+          {
+            name: "testProp",
+            provider: providerName,
+            method: "testMethod",
+            args: ["<% FN.makeCircularReferences() %>"],
+          },
+        ],
+      },
+    };
+
+    await resolver.resolve(
+      {
+        lifeCycle: brickA.lifeCycle,
+      },
+      brickA,
+      {} as any
+    );
+    expect(testMethod).toBeCalledTimes(1);
+
+    // Cache is ok when the computed args contain circular references.
+    await resolver.resolve(
+      {
+        lifeCycle: brickA.lifeCycle,
+      },
+      brickA,
+      {} as any
+    );
+    expect(testMethod).toBeCalledTimes(1);
   });
 
   it("should work for useProvider", async () => {

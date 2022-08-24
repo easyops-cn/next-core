@@ -831,6 +831,7 @@ export interface ContextConf {
     onChange?: BrickEventHandler | BrickEventHandler[];
     property?: string;
     resolve?: ContextResolveConf;
+    track?: boolean;
     value?: unknown;
 }
 
@@ -1069,7 +1070,7 @@ export interface CustomTemplateProxyWithExtra {
 }
 
 // @public
-export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve">;
+export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve" | "track">;
 
 // @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {
