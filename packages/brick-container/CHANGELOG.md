@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.74.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.73.4...@next-core/brick-container@2.74.0) (2022-08-25)
+
+
+### Features
+
+* the next site in iframe and loading bar is triggered by outerside ([8bfc755](https://github.com/easyops-cn/next-core/commit/8bfc755ec0c73c8b2290a2b1d588e462c3c9d551))
+
+
+
+
+
 ## [2.73.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.73.3...@next-core/brick-container@2.73.4) (2022-08-25)
 
 **Note:** Version bump only for package @next-core/brick-container

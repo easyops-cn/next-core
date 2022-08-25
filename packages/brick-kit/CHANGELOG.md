@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.132.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.131.1...@next-core/brick-kit@2.132.0) (2022-08-25)
+
+
+### Features
+
+* the next site in iframe and loading bar is triggered by outerside ([8bfc755](https://github.com/easyops-cn/next-core/commit/8bfc755ec0c73c8b2290a2b1d588e462c3c9d551))
+
+
+### Reverts
+
+* Revert "feat(): support MISC variable" ([a03e603](https://github.com/easyops-cn/next-core/commit/a03e60340c77b68e2cb11d2d4963b20110d1a845))
+
+
+
+
+
 ## [2.131.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.131.0...@next-core/brick-kit@2.131.1) (2022-08-25)
 
 

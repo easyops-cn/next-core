@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.105](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.104...@next-dll/editor-bricks-helper@0.28.105) (2022-08-25)
+
+
+### Reverts
+
+* Revert "feat(): support MISC variable" ([a03e603](https://github.com/easyops-cn/next-core/commit/a03e60340c77b68e2cb11d2d4963b20110d1a845))
+
+
+
+
+
 ## [0.28.104](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.103...@next-dll/editor-bricks-helper@0.28.104) (2022-08-25)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
