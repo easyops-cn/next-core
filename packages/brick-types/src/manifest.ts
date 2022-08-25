@@ -478,7 +478,7 @@ export interface ContextConf {
   /**
    * 异步处理配置。如需 transform，将使用转换后的结果的 `value` 字段作为值。
    */
-  resolve?: ResolveConf;
+  resolve?: ContextResolveConf;
 
   /**
    * 要绑定的构件属性名。
@@ -491,10 +491,26 @@ export interface ContextConf {
   if?: string | boolean;
 
   /**
+   * 是否自动跟踪自己依赖的上下文数据，当它们变化时自动计算获得新的值。
+   */
+  track?: boolean;
+
+  /**
    * 当数据发生变化时触发的事件。注意，该事件仅适用于自由变量或异步处理的数据，不适用于绑定构件属性的数据。
    */
   onChange?: BrickEventHandler | BrickEventHandler[];
 }
+
+/**
+ * 用于 Context 的异步数据处理配置。
+ */
+export type ContextResolveConf = ResolveConf & {
+  /**
+   * 启用懒加载时，系统不再主动加载该异步数据（此时默认的 `value` 为 `null`），
+   * 需要用户主动通过 `context.refresh` 触发。
+   */
+  lazy?: boolean;
+};
 
 /**
  * 页面切换配置表。
@@ -1162,9 +1178,11 @@ export interface BuiltinBrickEventHandler {
     // Storyboard context
     | "context.assign"
     | "context.replace"
+    | "context.refresh"
 
     // Update template state
     | "state.update"
+    | "state.refresh"
 
     // Find related tpl and dispatch event.
     | "tpl.dispatchEvent"
@@ -1586,7 +1604,7 @@ export interface CustomTemplate {
 /** 自定义模板状态数据配置。 */
 export type CustomTemplateState = Pick<
   ContextConf,
-  "name" | "value" | "if" | "resolve"
+  "name" | "value" | "if" | "resolve" | "track"
 >;
 
 /**

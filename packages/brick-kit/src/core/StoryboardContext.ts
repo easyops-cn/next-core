@@ -11,11 +11,15 @@ import {
   isObject,
   resolveContextConcurrently,
   syncResolveContextConcurrently,
+  trackUsedContext,
+  trackUsedState,
 } from "@next-core/brick-utils";
 import { looseCheckIf } from "../checkIf";
 import { listenerFactory } from "../internal/bindListeners";
 import { computeRealValue } from "../internal/setProperties";
-import { RuntimeBrick, _internalApiGetResolver } from "./exports";
+import { RuntimeBrick } from "./exports";
+import { _internalApiGetResolver } from "./Runtime";
+import { handleHttpError } from "../handleHttpError";
 
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
@@ -47,7 +51,7 @@ export class StoryboardContextWrapper {
   updateValue(
     name: string,
     value: unknown,
-    method: "assign" | "replace"
+    method: "assign" | "replace" | "refresh"
   ): void {
     if (!this.data.has(name)) {
       if (this.tplContextId) {
@@ -71,6 +75,26 @@ export class StoryboardContextWrapper {
       console.error(
         `Conflict storyboard context "${name}", expected "free-variable", received "${item.type}".`
       );
+      return;
+    }
+
+    if (method === "refresh") {
+      if (!item.refresh) {
+        throw new Error(
+          `You can not refresh the storyboard context "${name}" which has no resolve.`
+        );
+      }
+      item.refresh().then((val) => {
+        item.value = val;
+        item.eventTarget?.dispatchEvent(
+          new CustomEvent(
+            this.tplContextId ? "state.change" : "context.change",
+            {
+              detail: item.value,
+            }
+          )
+        );
+      }, handleHttpError);
       return;
     }
 
@@ -181,43 +205,80 @@ async function resolveNormalStoryboardContext(
   if (!looseCheckIf(contextConf, mergedContext)) {
     return false;
   }
-  let isResolve = false;
-  let value = getDefinedTemplateState(
-    !!storyboardContextWrapper.tplContextId,
-    contextConf,
-    brick
-  );
+  const isTemplateState = !!storyboardContextWrapper.tplContextId;
+  let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
+  let refresh: () => Promise<unknown> = null;
+  let isLazyResolve = false;
   if (value === undefined) {
     if (contextConf.resolve) {
       if (looseCheckIf(contextConf.resolve, mergedContext)) {
-        isResolve = true;
-        const valueConf: Record<string, unknown> = {};
-        await _internalApiGetResolver().resolveOne(
-          "reference",
-          {
-            transform: "value",
-            transformMapArray: false,
-            ...contextConf.resolve,
-          },
-          valueConf,
-          null,
-          mergedContext
-        );
-        value = valueConf.value;
+        refresh = async () => {
+          const valueConf: Record<string, unknown> = {};
+          await _internalApiGetResolver().resolveOne(
+            "reference",
+            {
+              transform: "value",
+              transformMapArray: false,
+              ...contextConf.resolve,
+            },
+            valueConf,
+            null,
+            mergedContext
+          );
+          return valueConf.value;
+        };
+        isLazyResolve = contextConf.resolve.lazy;
+        if (!isLazyResolve) {
+          value = await refresh();
+        }
       } else if (!hasOwnProperty(contextConf, "value")) {
         return false;
       }
     }
-    if (!isResolve && contextConf.value !== undefined) {
+    if ((!refresh || isLazyResolve) && contextConf.value !== undefined) {
+      // If the context has no resolve, just use its `value`.
+      // Or if the resolve is ignored or lazy, use its `value` as a fallback.
       value = computeRealValue(contextConf.value, mergedContext, true);
     }
+
+    if (contextConf.track) {
+      // Track its dependencies and auto update when each of them changed.
+      const deps = (isTemplateState ? trackUsedState : trackUsedContext)(
+        refresh ? contextConf.resolve : contextConf.value
+      );
+      for (const dep of deps) {
+        const ctx = storyboardContextWrapper.get().get(dep);
+        (
+          ctx as StoryboardContextItemFreeVariable
+        )?.eventTarget?.addEventListener(
+          isTemplateState ? "state.change" : "context.change",
+          () => {
+            if (refresh) {
+              storyboardContextWrapper.updateValue(
+                contextConf.name,
+                undefined,
+                "refresh"
+              );
+            } else {
+              storyboardContextWrapper.updateValue(
+                contextConf.name,
+                computeRealValue(contextConf.value, mergedContext, true),
+                "replace"
+              );
+            }
+          }
+        );
+      }
+    }
   }
+
   resolveFreeVariableValue(
     value,
     contextConf,
     mergedContext,
     storyboardContextWrapper,
-    brick
+    brick,
+    refresh
   );
   return true;
 }
@@ -271,13 +332,15 @@ function resolveFreeVariableValue(
   contextConf: ContextConf,
   mergedContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
-  brick?: RuntimeBrick
+  brick?: RuntimeBrick,
+  refresh?: () => Promise<unknown>
 ): void {
   const newContext: StoryboardContextItem = {
     type: "free-variable",
     value,
     // This is required for tracking context, even if no `onChange` is specified.
     eventTarget: new EventTarget(),
+    refresh,
   };
   if (contextConf.onChange) {
     for (const handler of ([] as BrickEventHandler[]).concat(

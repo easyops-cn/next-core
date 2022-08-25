@@ -3558,6 +3558,8 @@
           "tokTypes",
           "trackContext",
           "trackState",
+          "trackUsedContext",
+          "trackUsedState",
           "transform",
           "transformAndInject",
           "visitStoryboardExpressions",

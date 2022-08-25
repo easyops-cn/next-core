@@ -210,24 +210,37 @@ export class Resolver {
       }
     }
 
-    const cacheKey = JSON.stringify({
-      provider,
-      useProvider,
-      method,
-      args,
-    });
+    let actualArgs = args
+      ? ref
+        ? args // `args` are already computed for `defineResolves`
+        : context
+        ? computeRealValue(args, context, true)
+        : args
+      : providerBrick.args || [];
+
+    let cacheKey: string;
+    try {
+      // `actualArgs` may contain circular references, which makes
+      // JSON stringify failed, thus we fallback to original args.
+      cacheKey = JSON.stringify({
+        provider,
+        useProvider,
+        method,
+        actualArgs,
+      });
+    } catch (e) {
+      cacheKey = JSON.stringify({
+        provider,
+        useProvider,
+        method,
+        args,
+      });
+    }
+
     let promise: Promise<any>;
     if (this.cache.has(cacheKey)) {
       promise = this.cache.get(cacheKey);
     } else {
-      let actualArgs = args
-        ? ref
-          ? args // `args` are already computed for `defineResolves`
-          : context
-          ? computeRealValue(args, context, true)
-          : args
-        : providerBrick.args || [];
-
       promise = (async () => {
         if (useProvider) {
           actualArgs = await getArgsOfCustomApi(useProvider, actualArgs);
