@@ -1459,6 +1459,45 @@ describe("Kernel", () => {
         ],
       },
     ]);
+
+    kernel._dev_only_updateStoryboardByRoute("app-b", {
+      alias: "page2",
+      path: "${APP.homepage}/page2",
+      exact: true,
+      bricks: [],
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          config: {},
+          homepage: "/app-a",
+          id: "app-a",
+          localeName: undefined,
+        },
+        routes: [{ alias: "home", bricks: [], path: "${APP.homepage}" }],
+      },
+      {
+        app: {
+          config: {},
+          homepage: "/app-b",
+          id: "app-b",
+          localeName: undefined,
+        },
+        routes: [
+          {
+            alias: "page2",
+            path: "${APP.homepage}/page2",
+            exact: true,
+            bricks: [],
+          },
+          {
+            alias: "page1",
+            bricks: [{ brick: "div" }],
+            path: "${APP.homepage}/page1",
+          },
+        ],
+      },
+    ]);
   });
 
   it("should update storyboard by template", async () => {

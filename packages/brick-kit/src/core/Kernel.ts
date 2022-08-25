@@ -471,20 +471,26 @@ export class Kernel {
     const storyboard = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
+    let match = false;
+    const getKey = (route: RouteConf): string => `${route.path}.${route.exact}`;
     const replaceRoute = (routes: RouteConf[], key: string): RouteConf[] => {
       return routes.map((route) => {
-        const routeKey = route.path;
+        const routeKey = getKey(route);
         if (route.type === "routes") {
           route.routes = replaceRoute(route.routes, key);
           return route;
         } else if (routeKey === key) {
+          match = true;
           return newRoute;
         } else {
           return route;
         }
       });
     };
-    storyboard.routes = replaceRoute(storyboard.routes, newRoute.path);
+    storyboard.routes = replaceRoute(storyboard.routes, getKey(newRoute));
+    if (!match) {
+      storyboard.routes.unshift(newRoute);
+    }
   }
 
   _dev_only_updateStoryboardByTemplate(
