@@ -402,7 +402,7 @@ export class Kernel {
     templateId: string,
     settings?: unknown
   ): void {
-    const { routes } = this.bootstrapData.storyboards.find(
+    const { routes, app } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
     const previewPath = `\${APP.homepage}/_dev_only_/template-preview/${templateId}`;
@@ -419,6 +419,7 @@ export class Kernel {
       ],
       menu: false,
       exact: true,
+      hybrid: app.legacy === "iframe",
     };
     if (previewRouteIndex === -1) {
       routes.unshift(newPreviewRoute);
@@ -434,7 +435,7 @@ export class Kernel {
       bricks: BrickConf[];
     }
   ): void {
-    const { routes } = this.bootstrapData.storyboards.find(
+    const { routes, app } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
     const previewPath = `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData.snippetId}`;
@@ -449,6 +450,7 @@ export class Kernel {
           : [{ brick: "span" }],
       menu: false,
       exact: true,
+      hybrid: app.legacy === "iframe",
     };
     if (previewRouteIndex === -1) {
       routes.unshift(newPreviewRoute);
