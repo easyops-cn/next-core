@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.131.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.131.0...@next-core/brick-kit@2.131.1) (2022-08-25)
+
+
+### Bug Fixes
+
+* preview error when legacy was iframe ([f79e45f](https://github.com/easyops-cn/next-core/commit/f79e45f5e09afa70a02912e6086f02947563312a))
+
+
+
+
+
 # [2.131.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.130.0...@next-core/brick-kit@2.131.0) (2022-08-25)
 
 
