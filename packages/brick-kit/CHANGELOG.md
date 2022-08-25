@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.132.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.132.0...@next-core/brick-kit@2.132.1) (2022-08-25)
+
+
+### Bug Fixes
+
+* preview route render error ([ebd1041](https://github.com/easyops-cn/next-core/commit/ebd1041acbb69f3b323a118bfb140fc5ff0248b0))
+
+
+
+
+
 # [2.132.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.131.1...@next-core/brick-kit@2.132.0) (2022-08-25)
 
 
