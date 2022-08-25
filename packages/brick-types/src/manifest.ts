@@ -1476,7 +1476,7 @@ export interface StoryboardMeta {
   mocks?: Mocks;
 
   /** 应用所用到的契约 **/
-  contracts: Contract[];
+  contracts?: Contract[];
 }
 
 export interface Mocks {

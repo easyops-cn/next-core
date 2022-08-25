@@ -10,6 +10,9 @@ export const initI18n = (): void => {
 };
 
 /** @internal */
-export function getI18nNamespace(type: "app" | "widget", id: string): string {
+export function getI18nNamespace(
+  type: "app" | "widget" | "menu",
+  id: string
+): string {
   return `$${type}-${id}`;
 }
