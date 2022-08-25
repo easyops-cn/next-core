@@ -62,6 +62,7 @@ import { RefForProxy } from '@next-core/brick-types';
 import { ResolveConf } from '@next-core/brick-types';
 import { RouteConf } from '@next-core/brick-types';
 import type { RuntimeBootstrapData } from '@next-core/brick-types';
+import type { RuntimeMisc } from '@next-core/brick-types';
 import { RuntimeStoryboard } from '@next-core/brick-types';
 import { SidebarMenu } from '@next-core/brick-types';
 import { SidebarSubMenu } from '@next-core/brick-types';
@@ -339,6 +340,9 @@ export const getMockInfo: (requestUrl: string, method: string) => {
 
 // @public
 export function getRuntime(): Runtime;
+
+// @public (undocumented)
+export function getRuntimeMisc(): RuntimeMisc;
 
 // @public
 export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError): ReturnType<ModalFunc>;

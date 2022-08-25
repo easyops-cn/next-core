@@ -10,6 +10,7 @@ import {
   getMockInfo,
   developHelper,
   getRuntime,
+  getRuntimeMisc,
 } from "@next-core/brick-kit";
 import {
   http,
@@ -88,6 +89,13 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
   };
 });
 
+const isInSpecialFrame = (): boolean => {
+  return (
+    getRuntimeMisc().isInIframeOfSameSite &&
+    !getRuntimeMisc().isInIframeOfVisualBuilder
+  );
+};
+
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   if (analyzer) {
     const { userInstanceId: uid, username } = getAuth();
@@ -99,15 +107,18 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
       username,
     };
   }
+
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
-    window.dispatchEvent(new CustomEvent("request.start"));
+    const curWindow = isInSpecialFrame() ? window.parent : window;
+    curWindow.dispatchEvent(new CustomEvent("request.start"));
   }
   return config;
 });
 
 http.interceptors.response.use(
   function (response: HttpResponse) {
-    window.dispatchEvent(new CustomEvent("request.end"));
+    const curWindow = isInSpecialFrame() ? window.parent : window;
+    curWindow.dispatchEvent(new CustomEvent("request.end"));
     analyzer?.analyses(response);
     return response.config.options?.observe === "response"
       ? response
@@ -115,7 +126,8 @@ http.interceptors.response.use(
   },
   function (error: HttpError) {
     analyzer?.analyses(error);
-    window.dispatchEvent(new CustomEvent("request.end"));
+    const curWindow = isInSpecialFrame() ? window.parent : window;
+    curWindow.dispatchEvent(new CustomEvent("request.end"));
     return Promise.reject(error.error);
   }
 );

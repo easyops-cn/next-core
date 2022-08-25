@@ -18517,6 +18517,7 @@
           "getHistory",
           "getMockInfo",
           "getRuntime",
+          "getRuntimeMisc",
           "handleHttpError",
           "httpErrorToString",
           "i18nText",
