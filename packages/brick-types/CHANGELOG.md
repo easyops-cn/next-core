@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.69.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.68.1...@next-core/brick-types@2.69.0) (2022-08-25)
+
+
+### Features
+
+* context can track its deps now ([4993308](https://github.com/easyops-cn/next-core/commit/49933089e1ff6ec1ec5f01eeac5609dde07c1e2e))
+* support lazy context ([39fdffb](https://github.com/easyops-cn/next-core/commit/39fdffb0500df36d5bb9447d63a448bd2b78df14))
+
+
+
+
+
 ## [2.68.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.68.0...@next-core/brick-types@2.68.1) (2022-08-23)
 
 

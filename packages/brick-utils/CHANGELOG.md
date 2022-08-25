@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.38.3...@next-core/brick-utils@2.39.0) (2022-08-25)
+
+
+### Features
+
+* context can track its deps now ([4993308](https://github.com/easyops-cn/next-core/commit/49933089e1ff6ec1ec5f01eeac5609dde07c1e2e))
+
+
+
+
+
 ## [2.38.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.38.2...@next-core/brick-utils@2.38.3) (2022-08-23)
 
 **Note:** Version bump only for package @next-core/brick-utils
