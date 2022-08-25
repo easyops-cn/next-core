@@ -37,29 +37,4 @@ describe("getGeneralGlobals", () => {
       ).getCssPropertyValue("--brand-color")
     ).toEqual("red");
   });
-
-  it("should get runtime misc", () => {
-    const attemptToVisitGlobals = new Set(["RUNTIME_MISC"]);
-    expect(
-      getGeneralGlobals(attemptToVisitGlobals, { collectCoverage: true })
-        .RUNTIME_MISC
-    ).toEqual({
-      isInIframe: false,
-      isInIframeOfLegacyConsole: false,
-      isInIframeOfNext: false,
-      isInIframeOfSameSite: false,
-      isInIframeOfVisualBuilder: false,
-    });
-
-    expect(
-      getGeneralGlobals(attemptToVisitGlobals, { collectCoverage: false })
-        .RUNTIME_MISC
-    ).toEqual({
-      isInIframe: false,
-      isInIframeOfLegacyConsole: false,
-      isInIframeOfNext: false,
-      isInIframeOfSameSite: false,
-      isInIframeOfVisualBuilder: false,
-    });
-  });
 });

@@ -40,6 +40,10 @@ html[data-mode="dashboard"] #legacy-iframe-mount-point {
   margin-top: 0;
 }
 
+.bars-hidden-in-iframe #loading-bar-mount-point {
+  display: none;
+}
+
 .show-legacy-iframe #main-mount-point,
 .bars-hidden #menu-bar-mount-point,
 .bars-hidden #app-bar-mount-point,

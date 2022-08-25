@@ -82,6 +82,7 @@ import {
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
 import { formRenderer } from "./CustomForms/constants";
 import { customTemplateRegistry } from "./CustomTemplates";
+import { getRuntimeMisc } from "../internal/misc";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -114,6 +115,13 @@ export class Kernel {
   async bootstrap(mountPoints: MountPoints): Promise<void> {
     listenDevtoolsEagerly();
     this.mountPoints = mountPoints;
+    if (
+      getRuntimeMisc().isInIframeOfSameSite &&
+      !getRuntimeMisc().isInIframeOfVisualBuilder
+    ) {
+      document.body.classList.add("bars-hidden-in-iframe");
+    }
+
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
     if (this.bootstrapData.storyboards.length === 0) {
       throw new Error("No storyboard were found.");
