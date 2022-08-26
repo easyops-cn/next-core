@@ -34,7 +34,7 @@
     "npmlog": "^6.0.2",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "typedoc": "^0.19.2",
+    "typedoc": "^0.23.11",
     "typedoc-plugin-no-inherit": "^1.2.2"
   }
 }
