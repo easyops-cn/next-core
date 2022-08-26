@@ -106,6 +106,14 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        apiCount: 1,
+        lt: 0,
+        page: "http://localhost/",
+        pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
+        route: "/developers/:id",
+        type: "page",
+      },
+      {
         api: "api/auth/login",
         code: 0,
         duration: 2,
@@ -113,7 +121,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: uuid,
+        pageId: "88-" + uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -182,6 +190,14 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        apiCount: 1,
+        lt: 0,
+        page: "http://localhost/",
+        pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
+        route: "/developers/:id",
+        type: "page",
+      },
+      {
         api: "api/auth/login",
         code: 0,
         duration: 2,
@@ -189,7 +205,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: uuid,
+        pageId: "88-" + uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -254,6 +270,14 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        apiCount: 1,
+        lt: 0,
+        page: "http://localhost/",
+        pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
+        route: "/developers/:id",
+        type: "page",
+      },
+      {
         api: "api/auth/login",
         code: 0,
         duration: 2,
@@ -261,7 +285,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: uuid,
+        pageId: "88-" + uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
