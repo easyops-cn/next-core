@@ -88,6 +88,7 @@ class ApiAnalysisService {
         "status",
         "pageId",
         "route",
+        "apiCount",
       ],
       data: this.logs,
     };
