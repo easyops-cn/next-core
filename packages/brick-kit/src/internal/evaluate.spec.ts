@@ -59,6 +59,9 @@ i18next.addResourceBundle("en", "$app-hello", {
 i18next.addResourceBundle("en", "$app-hola", {
   HELLO: "Hola",
 });
+i18next.addResourceBundle("en", "$menu-hello", {
+  HELLO: "Hi",
+});
 
 registerWidgetI18n("my-widget", {
   en: {
@@ -420,6 +423,14 @@ describe("evaluate", () => {
         },
       })
     ).toEqual("/hola:Hola");
+  });
+
+  it("should work when using `appendI18nNamespace`", () => {
+    expect(
+      evaluate("<% `${APP.homepage}:${I18N('HELLO')}` %>", {
+        appendI18nNamespace: "$menu-hello",
+      })
+    ).toEqual("/hello:Hi");
   });
 
   it("should work when set lazy", () => {

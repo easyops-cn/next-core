@@ -1367,6 +1367,8 @@ export interface MenuRawData {
     // (undocumented)
     dynamicItems?: boolean;
     // (undocumented)
+    i18n?: MetaI18n;
+    // (undocumented)
     icon?: MenuIcon;
     // (undocumented)
     injectMenuGroupId?: string;
@@ -1503,6 +1505,7 @@ export type PluginLocation = Location_2<PluginHistoryState>;
 export interface PluginRuntimeContext {
     anchor?: string;
     app?: MicroApp;
+    appendI18nNamespace?: string;
     event?: CustomEvent;
     flags?: FeatureFlags;
     hash?: string;
@@ -2126,7 +2129,7 @@ export interface StoryboardFunction {
 
 // @public
 export interface StoryboardMeta {
-    contracts: Contract[];
+    contracts?: Contract[];
     customTemplates?: CustomTemplate[];
     functions?: StoryboardFunction[];
     i18n?: MetaI18n;

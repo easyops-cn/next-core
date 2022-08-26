@@ -47,7 +47,12 @@ export const computeRealValue = (
     let dismissRecursiveMarkingInjected = lazy;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
-      const keys = ["event", "tplContextId", "overrideApp"] as const;
+      const keys = [
+        "event",
+        "tplContextId",
+        "overrideApp",
+        "appendI18nNamespace",
+      ] as const;
       for (const key of keys) {
         if (context?.[key]) {
           runtimeContext[key as "event"] = context[key as "event"];

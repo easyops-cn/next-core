@@ -19,15 +19,23 @@ import {
   MountRoutesResult,
   Kernel,
 } from "../core/exports";
+import { getI18nNamespace } from "../i18n";
+import i18next from "i18next";
 
 const symbolAppId = Symbol("appId");
+const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
 
 interface RuntimeMenuItemRawData extends MenuItemRawData {
   [symbolAppId]?: string;
+  [symbolMenuI18nNamespace]?: string;
+}
+
+interface RuntimeMenuRawData extends MenuRawData {
+  [symbolMenuI18nNamespace]?: string;
 }
 
 // Caching menu requests to avoid flicker.
-const menuCache = new Map<string, MenuRawData>();
+const menuCache = new Map<string, RuntimeMenuRawData>();
 const menuTitleCache = new Map<string, string>();
 const processMenuCache = new Map<string, SidebarMenu>();
 
@@ -72,7 +80,7 @@ export async function fetchMenuById(
   menuId: string,
   kernel: Kernel,
   isPreFetch?: boolean
-): Promise<MenuRawData> {
+): Promise<RuntimeMenuRawData> {
   if (menuCache.has(menuId)) {
     return menuCache.get(menuId);
   }
@@ -95,6 +103,7 @@ export async function fetchMenuById(
             dynamicItems: true,
             itemsResolve: true,
             items: true,
+            i18n: true,
             "items.children": true,
             "app.appId": true,
           },
@@ -120,14 +129,28 @@ export async function fetchMenuById(
   return menuData;
 }
 
-function mergeMenu(menuList: MenuRawData[]): MenuRawData {
+function mergeMenu(menuList: MenuRawData[]): RuntimeMenuRawData {
   const mainMenu = menuList.find((menu) => menu.type !== "inject");
   if (!mainMenu) {
     return undefined;
   }
   const validMenuList: MenuRawData[] = [];
   const injectWithMenus = new Map<string, MenuRawData[]>();
+  const menuWithI18n = new WeakMap<MenuRawData, string>();
   for (const menu of menuList) {
+    if (menu.i18n) {
+      const menuI18nNamespace = getI18nNamespace(
+        "menu",
+        `${menu.menuId}~${menu.app[0].appId}+${
+          (menu as { instanceId?: string }).instanceId
+        }`
+      );
+      // Support any language in `meta.i18n`.
+      Object.entries(menu.i18n).forEach(([lang, resources]) => {
+        i18next.addResourceBundle(lang, menuI18nNamespace, resources);
+      });
+      menuWithI18n.set(menu, menuI18nNamespace);
+    }
     if (menu.items?.length > 0) {
       if (menu.type === "inject" && menu.injectMenuGroupId) {
         let injectingMenus = injectWithMenus.get(menu.injectMenuGroupId);
@@ -144,15 +167,17 @@ function mergeMenu(menuList: MenuRawData[]): MenuRawData {
   return {
     ...mainMenu,
     items: validMenuList.flatMap((menu) =>
-      processGroupInject(menu.items, menu, injectWithMenus)
+      processGroupInject(menu.items, menu, injectWithMenus, menuWithI18n)
     ),
+    [symbolMenuI18nNamespace]: menuWithI18n.get(mainMenu),
   };
 }
 
 function processGroupInject(
   items: MenuItemRawData[],
   menu: MenuRawData,
-  injectWithMenus: Map<string, MenuRawData[]>
+  injectWithMenus: Map<string, MenuRawData[]>,
+  menuWithI18n: WeakMap<MenuRawData, string>
 ): RuntimeMenuItemRawData[] {
   return items?.map((item) => {
     const foundInjectingMenus =
@@ -164,19 +189,26 @@ function processGroupInject(
     return {
       ...item,
       children: (
-        processGroupInject(item.children, menu, injectWithMenus) ?? []
+        processGroupInject(
+          item.children,
+          menu,
+          injectWithMenus,
+          menuWithI18n
+        ) ?? []
       ).concat(
         foundInjectingMenus
           ? foundInjectingMenus.flatMap((injectingMenu) =>
               processGroupInject(
                 injectingMenu.items,
                 injectingMenu,
-                injectWithMenus
+                injectWithMenus,
+                menuWithI18n
               )
             )
           : []
       ),
       [symbolAppId]: menu.app[0].appId,
+      [symbolMenuI18nNamespace]: menuWithI18n.get(menu),
     };
   });
 }
@@ -212,13 +244,22 @@ export async function processMenu(
     isPreFetch
   );
 
-  const appIds = collectOverrideApps(items, app[0].appId, context.app.id);
-  await kernel.fulfilStoryboardI18n(appIds);
+  const appsRequireI18nFulfilled = new Set<string>();
+  const rootAppId = app[0].appId;
+  if (rootAppId !== context.app.id && !restMenuData[symbolMenuI18nNamespace]) {
+    appsRequireI18nFulfilled.add(rootAppId);
+  }
+  collectAppsRequireI18nFulfilled(
+    items,
+    context.app.id,
+    appsRequireI18nFulfilled
+  );
+  await kernel.fulfilStoryboardI18n([...appsRequireI18nFulfilled]);
 
   const menuData = {
     ...computeRealValueWithOverrideApp(
       restMenuData,
-      app[0].appId,
+      rootAppId,
       context,
       kernel
     ),
@@ -260,22 +301,19 @@ export async function processMenu(
   };
 }
 
-export function collectOverrideApps(
+export function collectAppsRequireI18nFulfilled(
   items: RuntimeMenuItemRawData[],
-  rootAppId: string,
-  contextAppId: string
-): string[] {
-  const appIds = new Set<string>();
-  if (rootAppId !== contextAppId) {
-    appIds.add(rootAppId);
-  }
+  contextAppId: string,
+  appIds: Set<string>
+): void {
   function collect(items: RuntimeMenuItemRawData[]): void {
     for (const { children, ...rest } of items as RuntimeMenuItemRawData[]) {
       const overrideAppId = rest[symbolAppId];
       if (
+        !rest[symbolMenuI18nNamespace] &&
         overrideAppId !== contextAppId &&
         !appIds.has(overrideAppId) &&
-        requireOverrideApp(rest)
+        attemptToVisit(rest, ["I18N"])
       ) {
         appIds.add(overrideAppId);
       }
@@ -283,7 +321,6 @@ export function collectOverrideApps(
     }
   }
   collect(items);
-  return [...appIds];
 }
 
 function computeMenuItemsWithOverrideApp(
@@ -346,20 +383,22 @@ function sortMenuItems(list: MenuItemRawData[]): MenuItemRawData[] {
   return sortBy(list, (item) => item.sort ?? -Infinity);
 }
 
-const overriddenGlobals = ["APP", "I18N"];
-
 /**
  * If the menu contains evaluations which use `APP` or `I18N`,
  * we have to override app in context when computing real values.
  */
-function requireOverrideApp(data: unknown, memo = new WeakSet()): boolean {
+function attemptToVisit(
+  data: unknown,
+  globals: string[],
+  memo = new WeakSet()
+): boolean {
   if (typeof data === "string") {
     if (isEvaluable(data)) {
-      if (overriddenGlobals.some((key) => data.includes(key))) {
+      if (globals.some((key) => data.includes(key))) {
         const { attemptToVisitGlobals } = preevaluate(data);
-        return overriddenGlobals.some((key) => attemptToVisitGlobals.has(key));
+        return globals.some((key) => attemptToVisitGlobals.has(key));
       }
-    } else {
+    } else if (globals.includes("APP")) {
       return /\${\s*APP\s*\./.test(data);
     }
   } else if (isObject(data)) {
@@ -370,29 +409,39 @@ function requireOverrideApp(data: unknown, memo = new WeakSet()): boolean {
     }
     memo.add(data);
     return (Array.isArray(data) ? data : Object.values(data)).some((item) =>
-      requireOverrideApp(item, memo)
+      attemptToVisit(item, globals, memo)
     );
   }
 
   return false;
 }
 
-function computeRealValueWithOverrideApp<T>(
+function computeRealValueWithOverrideApp<
+  T extends RuntimeMenuRawData | RuntimeMenuItemRawData
+>(
   data: T,
   overrideAppId: string,
   context: PluginRuntimeContext,
   kernel: Kernel
 ): T {
   let newContext = context;
-  if (overrideAppId !== context.app.id && requireOverrideApp(data)) {
+  if (
+    overrideAppId !== context.app.id &&
+    attemptToVisit(data, ["APP", "I18N"])
+  ) {
     const storyboard = kernel.bootstrapData.storyboards.find(
       (story) => story.app.id === overrideAppId
     );
+    /* istanbul ignore else: non-productive case */
     if (storyboard) {
       newContext = {
         ...context,
         overrideApp: storyboard.app,
+        appendI18nNamespace: data[symbolMenuI18nNamespace],
       };
+    } else {
+      // eslint-disable-next-line no-console
+      console.error("The app which injects menu was not found:", overrideAppId);
     }
   }
   return computeRealValue(data, newContext, true, {

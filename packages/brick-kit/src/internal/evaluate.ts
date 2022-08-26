@@ -45,6 +45,7 @@ export interface EvaluateRuntimeContext {
   data?: unknown;
   tplContextId?: string;
   overrideApp?: MicroApp;
+  appendI18nNamespace?: string;
 }
 
 export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
@@ -302,6 +303,7 @@ export function evaluate(
     getGeneralGlobals(precooked.attemptToVisitGlobals, {
       storyboardFunctions,
       app,
+      appendI18nNamespace: runtimeContext.appendI18nNamespace,
     })
   );
 

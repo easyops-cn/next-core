@@ -186,6 +186,9 @@ export interface PluginRuntimeContext {
    */
   overrideApp?: MicroApp;
 
+  /** 扩展当前表达式的国际化命名空间。 */
+  appendI18nNamespace?: string;
+
   /** 当前的 hash 参数 */
   hash?: string;
 

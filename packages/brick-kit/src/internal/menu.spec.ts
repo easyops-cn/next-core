@@ -213,7 +213,7 @@ const mockMenuList: any[] = [
     title: "Injecting Hello",
     items: [
       {
-        text: "Menu Item G 1.2",
+        text: "<% `${I18N('MENU_ITEM')} G 1.2` %>",
         to: "${APP.homepage}/2",
         sort: 1,
       },
@@ -231,11 +231,16 @@ const mockMenuList: any[] = [
     title: "Injecting Hello",
     items: [
       {
-        text: "Menu Item G 1.3",
+        text: "<% `${I18N('MENU_ITEM_G')} 1.3` %>",
         to: "${APP.homepage}/3",
         sort: 3,
       },
     ],
+    i18n: {
+      en: {
+        MENU_ITEM_G: "Menu Item G",
+      },
+    },
     app: [
       {
         appId: "bonjour",
@@ -558,6 +563,12 @@ describe("constructMenu", () => {
               homepage: "/hola",
             },
           },
+          {
+            app: {
+              id: "bonjour",
+              homepage: "/bonjour",
+            },
+          },
         ],
       },
       fulfilStoryboardI18n: jest.fn(),
@@ -575,7 +586,7 @@ describe("constructMenu", () => {
             title: "Menu Item G 1",
             items: [
               {
-                text: "Menu Item G 1.2",
+                text: "Opción del menú G 1.2",
                 to: "/hola/2",
                 children: [],
                 sort: 1,
@@ -589,7 +600,7 @@ describe("constructMenu", () => {
               {
                 text: "Menu Item G 1.3",
                 sort: 3,
-                to: "/hello/3",
+                to: "/bonjour/3",
                 children: [],
               },
             ],
@@ -598,7 +609,7 @@ describe("constructMenu", () => {
       },
       subMenu: null,
     });
-    expect(fakeKernel.fulfilStoryboardI18n).toBeCalledWith(["hola", "bonjour"]);
+    expect(fakeKernel.fulfilStoryboardI18n).toBeCalledWith(["hola"]);
   });
 
   it("preConstructMenus should work", async () => {
