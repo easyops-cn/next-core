@@ -24,10 +24,12 @@ const apiAnalyzer = {
 };
 
 export interface ApiMetric {
-  _ver?: Date;
+  // Date
+  _ver?: number;
   uid?: string;
   username?: string;
-  time?: Date;
+  // Date
+  time?: number;
   type?: "api";
   st: number;
   et: number;
@@ -44,7 +46,10 @@ export interface ApiMetric {
   route?: string;
 }
 
-export type PageMetric = Pick<ApiMetric, "lt" | "page" | "pageId" | "route"> & {
+export type PageMetric = Pick<
+  ApiMetric,
+  "lt" | "page" | "pageId" | "route" | "_ver"
+> & {
   apiCount: number;
 };
 export type MixMetric = ApiMetric | PageMetric;
@@ -88,6 +93,7 @@ class ApiAnalysisService {
         "status",
         "pageId",
         "route",
+        "apiCount",
       ],
       data: this.logs,
     };
@@ -146,6 +152,7 @@ class ApiAnalysisService {
         type: "page",
         apiCount: this.queue.length,
         page: location.href,
+        _ver: startTime,
         ...extra,
       } as PageMetric;
       this.logs.push(pageMetric);
