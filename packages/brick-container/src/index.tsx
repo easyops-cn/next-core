@@ -11,7 +11,9 @@ import {
   developHelper,
   getRuntime,
   getRuntimeMisc,
+  getHistory,
 } from "@next-core/brick-kit";
+import { PluginHistory } from "@next-core/brick-types";
 import {
   http,
   HttpRequestConfig,
@@ -215,6 +217,12 @@ if (window.parent) {
   window.addEventListener("message", listener);
 }
 
+if ((window as CypressContainer).Cypress) {
+  (window as CypressContainer).__test_only_getHistory = getHistory;
+  (window as CypressContainer).__test_only_getBasePath =
+    getRuntime().getBasePath;
+}
+
 async function bootstrap(): Promise<void> {
   try {
     if (window.MOCK_DATE) {
@@ -250,6 +258,13 @@ async function bootstrap(): Promise<void> {
 }
 
 bootstrap();
+
+type CypressContainer = Window &
+  typeof globalThis & {
+    Cypress: unknown;
+    __test_only_getHistory?(): PluginHistory;
+    __test_only_getBasePath?(): string;
+  };
 
 export interface PreviewHelperBrick {
   start(previewFromOrigin: string, options?: PreviewStartOptions): void;
