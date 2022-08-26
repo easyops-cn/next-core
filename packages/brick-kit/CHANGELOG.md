@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.133.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.132.2...@next-core/brick-kit@2.133.0) (2022-08-26)
+
+
+### Features
+
+* support bundling menu with i18n ([148393b](https://github.com/easyops-cn/next-core/commit/148393b3f2b6196f72e1340d6b9084b04599993d))
+
+
+
+
+
 ## [2.132.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.132.1...@next-core/brick-kit@2.132.2) (2022-08-26)
 
 **Note:** Version bump only for package @next-core/brick-kit

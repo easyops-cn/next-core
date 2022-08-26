@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.70.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.69.0...@next-core/brick-types@2.70.0) (2022-08-26)
+
+
+### Features
+
+* support bundling menu with i18n ([148393b](https://github.com/easyops-cn/next-core/commit/148393b3f2b6196f72e1340d6b9084b04599993d))
+
+
+
+
+
 # [2.69.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.68.1...@next-core/brick-types@2.69.0) (2022-08-25)
 
 
