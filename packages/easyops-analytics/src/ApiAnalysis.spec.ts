@@ -106,6 +106,7 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        _ver: 1603109440807,
         apiCount: 1,
         lt: 0,
         page: "http://localhost/",
@@ -190,6 +191,7 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        _ver: 1603109440807,
         apiCount: 1,
         lt: 0,
         page: "http://localhost/",
@@ -271,6 +273,7 @@ describe("ApiAnalysis", () => {
     expect(analyzer.logs).toEqual([
       {
         apiCount: 1,
+        _ver: 1603109440807,
         lt: 0,
         page: "http://localhost/",
         pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
