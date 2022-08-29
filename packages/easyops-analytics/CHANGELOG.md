@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.1...@next-core/easyops-analytics@0.8.2) (2022-08-29)
+
+
+### Bug Fixes
+
+* **easyops-analytics:** support more metric ([b259339](https://github.com/easyops-cn/next-core/commit/b2593398eb6a4d71f7aa68020c435d4d3d15ff31))
+
+
+
+
+
 ## [0.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.0...@next-core/easyops-analytics@0.8.1) (2022-08-26)
 
 
