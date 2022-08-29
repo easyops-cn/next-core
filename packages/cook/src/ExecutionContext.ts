@@ -24,6 +24,10 @@ export class EnvironmentRecord {
     this.OuterEnv = outer;
   }
 
+  _debug_only_GetBindingMap(): Map<string, BindingState> {
+    return this.bindingMap;
+  }
+
   HasBinding(name: string): boolean {
     return this.bindingMap.has(name);
   }
