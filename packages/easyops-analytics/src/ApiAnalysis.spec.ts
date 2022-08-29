@@ -113,6 +113,7 @@ describe("ApiAnalysis", () => {
         pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
         route: "/developers/:id",
         type: "page",
+        maxApiTimeCost: 2,
       },
       {
         api: "api/auth/login",
@@ -198,6 +199,7 @@ describe("ApiAnalysis", () => {
         pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
         route: "/developers/:id",
         type: "page",
+        maxApiTimeCost: 2,
       },
       {
         api: "api/auth/login",
@@ -275,6 +277,7 @@ describe("ApiAnalysis", () => {
         apiCount: 1,
         _ver: 1603109440807,
         lt: 0,
+        maxApiTimeCost: 2,
         page: "http://localhost/",
         pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
         route: "/developers/:id",

@@ -51,6 +51,7 @@ export type PageMetric = Pick<
   "lt" | "page" | "pageId" | "route" | "_ver"
 > & {
   apiCount: number;
+  maxApiTimeCost: number;
 };
 export type MixMetric = ApiMetric | PageMetric;
 
@@ -60,7 +61,7 @@ interface ApiAnalysisServiceProps {
 class ApiAnalysisService {
   readonly api: string;
   public logs: MixMetric[] = [];
-  public queue: MixMetric[] = [];
+  public queue: ApiMetric[] = [];
   private initialized = false;
 
   constructor(props: ApiAnalysisServiceProps) {
@@ -94,6 +95,7 @@ class ApiAnalysisService {
         "pageId",
         "route",
         "apiCount",
+        "maxApiTimeCost",
       ],
       data: this.logs,
     };
@@ -153,6 +155,7 @@ class ApiAnalysisService {
         apiCount: this.queue.length,
         page: location.href,
         _ver: startTime,
+        maxApiTimeCost: Math.max(...this.queue.map((api) => api.duration)),
         ...extra,
       } as PageMetric;
       this.logs.push(pageMetric);
