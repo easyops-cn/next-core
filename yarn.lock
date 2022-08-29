@@ -15432,10 +15432,10 @@ typedoc-default-themes@^0.11.4:
   resolved "https://registry.npmjs.org/typedoc-default-themes/-/typedoc-default-themes-0.11.4.tgz#1bc55b7c8d1132844616ff6f570e1e2cd0eb7343"
   integrity sha1-G8VbfI0RMoRGFv9vVw4eLNDrc0M=
 
-typedoc-plugin-no-inherit@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.npmjs.org/typedoc-plugin-no-inherit/-/typedoc-plugin-no-inherit-1.2.2.tgz#bcd44256ec80773250baf2b4e4dc50261a33b791"
-  integrity sha1-vNRCVuyAdzJQuvK05NxQJhozt5E=
+typedoc-plugin-no-inherit@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/typedoc-plugin-no-inherit/-/typedoc-plugin-no-inherit-1.4.0.tgz#8eafc790588f63f0a24621b646219cd6e8d6e4d6"
+  integrity sha512-cAvqQ8X9xh1xztVoDKtF4nYRSBx9XwttN3OBbNNpA0YaJSRM8XvpVVhugq8FoO1HdWjF3aizS0JzdUOMDt0y9g==
 
 typedoc@^0.19.2:
   version "0.19.2"
