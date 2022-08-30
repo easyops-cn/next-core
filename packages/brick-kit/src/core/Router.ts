@@ -271,6 +271,18 @@ export class Router {
     this.kernel.nextApp = currentApp;
     let layoutType: LayoutType = currentApp?.layoutType || "console";
 
+    const faviconElement: HTMLLinkElement = document.querySelector(
+      "link[rel='shortcut icon']"
+    );
+    const customFaviconHref = (
+      currentApp.config._easyops_app_favicon as Record<string, string>
+    )?.default;
+    if (customFaviconHref) {
+      faviconElement.href = customFaviconHref;
+    } else {
+      faviconElement.href = this.kernel.getOriginFaviconHref();
+    }
+
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
     );

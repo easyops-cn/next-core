@@ -104,6 +104,7 @@ export class Kernel {
   );
   public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
     Promise.resolve(new Map());
+  private originFaviconHref: string;
   private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
     Map<string, CustomApiDefinition>
@@ -141,6 +142,9 @@ export class Kernel {
 
     initAnalytics();
 
+    this.originFaviconHref = (
+      document.querySelector("link[rel='shortcut icon']") as HTMLLinkElement
+    ).href;
     await this.router.bootstrap();
     if (!window.STANDALONE_MICRO_APPS) {
       this.legacyAuthGuard();
@@ -974,6 +978,10 @@ export class Kernel {
           ? {}
           : { app: [{ appId: currentAppId }] }),
       }));
+  }
+
+  getOriginFaviconHref(): string {
+    return this.originFaviconHref;
   }
 
   async getProviderBrick(provider: string): Promise<HTMLElement> {
