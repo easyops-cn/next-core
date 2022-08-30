@@ -276,16 +276,18 @@ export class Router {
       "link[rel='shortcut icon']"
     );
     const customFaviconHref = (
-      currentApp.config._easyops_app_favicon as Record<string, string>
+      currentApp?.config?._easyops_app_favicon as Record<string, string>
     )?.default;
-    if (customFaviconHref) {
-      faviconElement.href = /^(?:https?|data):|^\//.test(customFaviconHref)
-        ? customFaviconHref
-        : imagesFactory(currentApp.id, currentApp.isBuildPush).get(
-            customFaviconHref
-          );
-    } else {
-      faviconElement.href = this.kernel.getOriginFaviconHref();
+    if (faviconElement) {
+      if (customFaviconHref) {
+        faviconElement.href = /^(?:https?|data):|^\//.test(customFaviconHref)
+          ? customFaviconHref
+          : imagesFactory(currentApp.id, currentApp.isBuildPush).get(
+              customFaviconHref
+            );
+      } else {
+        faviconElement.href = this.kernel.getOriginFaviconHref();
+      }
     }
 
     setTheme(
