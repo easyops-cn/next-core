@@ -159,6 +159,7 @@ describe("Router", () => {
     prefetchDepsOfStoryboard: jest.fn(),
     loadDynamicBricks: jest.fn(),
     layoutBootstrap: jest.fn(),
+    getOriginFaviconHref: jest.fn(),
     presetBricks: {
       pageNotFound: "basic-bricks.page-not-found",
       pageError: "basic-bricks.page-error",
