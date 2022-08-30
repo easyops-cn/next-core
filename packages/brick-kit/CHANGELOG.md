@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.134.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.133.3...@next-core/brick-kit@2.134.0) (2022-08-30)
+
+
+### Features
+
+* support visual builder favicon ([af61b02](https://github.com/easyops-cn/next-core/commit/af61b02f8d8d507a68525264bc1348a6416d4cf8))
+* update code ([5497f33](https://github.com/easyops-cn/next-core/commit/5497f33d6b3a23831ebe24e8decb3f207d431c96))
+* update code ([2578ef5](https://github.com/easyops-cn/next-core/commit/2578ef5e313e928ba13bbc237822274910e1513b))
+* update get image type ([d151d3c](https://github.com/easyops-cn/next-core/commit/d151d3ce0ddd1211e6156f2646b96533969b3e35))
+
+
+
+
+
 ## [2.133.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.133.2...@next-core/brick-kit@2.133.3) (2022-08-30)
 
 **Note:** Version bump only for package @next-core/brick-kit

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.26.61...@next-core/brick-icons@2.27.0) (2022-08-30)
+
+
+### Features
+
+* support visual builder favicon ([af61b02](https://github.com/easyops-cn/next-core/commit/af61b02f8d8d507a68525264bc1348a6416d4cf8))
+
+
+
+
+
 ## [2.26.61](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.26.60...@next-core/brick-icons@2.26.61) (2022-08-26)
 
 **Note:** Version bump only for package @next-core/brick-icons
