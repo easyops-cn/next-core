@@ -58,6 +58,7 @@ import {
   preFetchStandaloneInstalledApps,
 } from "../internal/getStandaloneInstalledApps";
 import { mergePreviewRoutes } from "../internal/mergePreviewRoutes";
+import { imagesFactory } from "../internal/images";
 
 export class Router {
   private defaultCollapsed = false;
@@ -278,7 +279,11 @@ export class Router {
       currentApp.config._easyops_app_favicon as Record<string, string>
     )?.default;
     if (customFaviconHref) {
-      faviconElement.href = customFaviconHref;
+      faviconElement.href = /^(?:https?|data):|^\//.test(customFaviconHref)
+        ? customFaviconHref
+        : imagesFactory(currentApp.id, currentApp.isBuildPush).get(
+            customFaviconHref
+          );
     } else {
       faviconElement.href = this.kernel.getOriginFaviconHref();
     }
