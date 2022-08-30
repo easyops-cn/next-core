@@ -14,10 +14,7 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import {
-  InstalledMicroAppApi_getI18NData,
-  ObjectMicroAppApi_getObjectMicroAppList,
-} from "@next-sdk/micro-app-sdk";
+import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   LayoutType,
@@ -95,8 +92,6 @@ const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
 const getI18NData = InstalledMicroAppApi_getI18NData as jest.Mock;
-const getObjectMicroAppList =
-  ObjectMicroAppApi_getObjectMicroAppList as jest.Mock;
 
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard =
@@ -184,22 +179,6 @@ describe("Kernel", () => {
       loggedIn: true,
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
-    getObjectMicroAppList.mockResolvedValueOnce({
-      list: [
-        {
-          microAppId: "a",
-          objectId: "App",
-        },
-        {
-          microAppId: "b",
-          objectId: "App",
-        },
-        {
-          microAppId: "c",
-          objectId: "Host",
-        },
-      ],
-    });
     spyOnBootstrap.mockResolvedValueOnce({
       storyboards: [
         {
@@ -235,64 +214,64 @@ describe("Kernel", () => {
     expect(kernel.getFeatureFlags()).toEqual({
       "load-magic-brick-config": true,
     });
-    expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
-    expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
-    expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
+    // expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
+    // expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
+    // expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
 
-    kernel.popWorkspaceStack();
-    await kernel.updateWorkspaceStack();
-
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "a",
-      name: "A",
-    } as any;
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/a";
-    kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toBe(undefined);
-    expect(kernel.getRecentApps()).toEqual({
-      previousApp: undefined,
-      currentApp: {
-        id: "a",
-        name: "A",
-      },
-      previousWorkspace: undefined,
-    });
+    // kernel.popWorkspaceStack();
+    // await kernel.updateWorkspaceStack();
 
     // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "b",
-      name: "B",
-    } as any;
+    // kernel.currentApp = {
+    //   id: "a",
+    //   name: "A",
+    // } as any;
     // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/b";
-    kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toBe(undefined);
+    // kernel.currentUrl = "/a";
+    // kernel.updateWorkspaceStack();
+    // expect(kernel.getPreviousWorkspace()).toBe(undefined);
+    // expect(kernel.getRecentApps()).toEqual({
+    //   previousApp: undefined,
+    //   currentApp: {
+    //     id: "a",
+    //     name: "A",
+    //   },
+    //   previousWorkspace: undefined,
+    // });
 
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "c",
-      name: "C",
-    } as any;
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/c";
-    await kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toEqual({
-      appId: "b",
-      appName: "B",
-      url: "/b",
-    });
+    // // eslint-disable-next-line require-atomic-updates
+    // kernel.currentApp = {
+    //   id: "b",
+    //   name: "B",
+    // } as any;
+    // // eslint-disable-next-line require-atomic-updates
+    // kernel.currentUrl = "/b";
+    // kernel.updateWorkspaceStack();
+    // expect(kernel.getPreviousWorkspace()).toBe(undefined);
 
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "x",
-      name: "X",
-    } as any;
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/x";
-    await kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toBe(undefined);
+    // // eslint-disable-next-line require-atomic-updates
+    // kernel.currentApp = {
+    //   id: "c",
+    //   name: "C",
+    // } as any;
+    // // eslint-disable-next-line require-atomic-updates
+    // kernel.currentUrl = "/c";
+    // await kernel.updateWorkspaceStack();
+    // expect(kernel.getPreviousWorkspace()).toEqual({
+    //   appId: "b",
+    //   appName: "B",
+    //   url: "/b",
+    // });
+
+    // // eslint-disable-next-line require-atomic-updates
+    // kernel.currentApp = {
+    //   id: "x",
+    //   name: "X",
+    // } as any;
+    // // eslint-disable-next-line require-atomic-updates
+    // kernel.currentUrl = "/x";
+    // await kernel.updateWorkspaceStack();
+    // expect(kernel.getPreviousWorkspace()).toBe(undefined);
 
     // `postMessage` did not trigger events.
     // window.postMessage({ type: "auth.guard" }, window.location.origin);
@@ -1931,7 +1910,7 @@ describe("Kernel", () => {
           mtime: "2022-06-07 15:34:11",
           name: "用户名",
           type: "STRING",
-        },
+        } as any,
       ],
     });
     expect(kernel.bootstrapData.storyboards).toEqual([

@@ -256,7 +256,7 @@ export class Runtime implements AbstractRuntime {
 
   /* istanbul ignore next */
   reloadSharedData(): void {
-    return kernel.loadSharedData();
+    // Drop supports for related apps;
   }
 
   /* istanbul ignore next */
@@ -356,26 +356,26 @@ export class Runtime implements AbstractRuntime {
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): RelatedApp[] {
-    // eslint-disable-next-line no-console
-    console.warn(
-      "`getRuntime().getRelatedApps()` is deprecated and will always return an empty array, please use `await getRuntime().getRelatedAppsAsync()` instead"
-    );
     return [];
   }
 
   /* istanbul ignore next */
   getRelatedAppsAsync(appId: string): Promise<RelatedApp[]> {
-    return kernel.getRelatedAppsAsync(appId);
+    // eslint-disable-next-line no-console
+    console.warn(
+      "`getRuntime().getRelatedAppsAsync()` is deprecated and will always resolve with an empty array"
+    );
+    return Promise.resolve([]);
   }
 
   /* istanbul ignore next */
   popWorkspaceStack(): void {
-    return kernel.popWorkspaceStack();
+    // deprecated
   }
 
   /* istanbul ignore next */
   resetWorkspaceStack(): void {
-    kernel.workspaceStack = [];
+    // deprecated
   }
 
   getBasePath = getBasePath;
