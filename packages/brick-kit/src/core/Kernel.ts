@@ -1,4 +1,4 @@
-import { cloneDeep, pick, sortBy } from "lodash";
+import { cloneDeep, pick } from "lodash";
 import {
   loadScript,
   prefetchScript,
@@ -18,10 +18,7 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import {
-  InstalledMicroAppApi_getI18NData,
-  ObjectMicroAppApi_getObjectMicroAppList,
-} from "@next-sdk/micro-app-sdk";
+import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   RuntimeApi_runtimeMicroAppStandalone,
@@ -47,7 +44,7 @@ import type {
   CustomTemplate,
   MetaI18n,
 } from "@next-core/brick-types";
-import { authenticate, isLoggedIn } from "../auth";
+import { authenticate } from "../auth";
 import {
   Router,
   MenuBar,
@@ -95,9 +92,7 @@ export class Kernel {
   public currentApp: MicroApp;
   public previousApp: MicroApp;
   public nextApp: MicroApp;
-  public currentUrl: string;
   public currentRoute: RouteConf;
-  public workspaceStack: VisitedWorkspace[] = [];
   public currentLayout: LayoutType;
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
@@ -132,9 +127,6 @@ export class Kernel {
       this.bootstrapData.settings?.misc?.theme as ThemeSetting
     );
 
-    if (isLoggedIn()) {
-      this.loadSharedData();
-    }
     this.menuBar = new MenuBar(this, "menuBar");
     this.appBar = new AppBar(this, "appBar");
     this.loadingBar = new BaseBar(this, "loadingBar");
@@ -754,12 +746,6 @@ export class Kernel {
     document.body.classList.toggle("show-legacy-iframe", visible);
   }
 
-  loadSharedData(): void {
-    if (!window.STANDALONE_MICRO_APPS) {
-      this.loadRelatedAppsAsync();
-    }
-  }
-
   loadUsersAsync(): void {
     if (!this.loadUsersStarted) {
       this.loadUsersStarted = true;
@@ -876,82 +862,10 @@ export class Kernel {
     return allMagicBrickConfigMap;
   }
 
-  private loadRelatedAppsAsync(): void {
-    this.allRelatedAppsPromise = this.loadRelatedApps();
-  }
-
-  private async loadRelatedApps(): Promise<RelatedApp[]> {
-    let relatedApps: RelatedApp[] = [];
-    try {
-      relatedApps = (await ObjectMicroAppApi_getObjectMicroAppList()).list;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("Load related apps error:", error);
-    }
-    return relatedApps;
-  }
-
-  async getRelatedAppsAsync(appId: string): Promise<RelatedApp[]> {
-    if (!appId) {
-      return [];
-    }
-    const allRelatedApps = await this.allRelatedAppsPromise;
-    const thisApp = allRelatedApps.find((item) => item.microAppId === appId);
-    if (!thisApp) {
-      return [];
-    }
-    return sortBy(
-      allRelatedApps.filter((item) => item.objectId === thisApp.objectId),
-      ["order"]
-    );
-  }
-
-  async updateWorkspaceStack(): Promise<void> {
-    if (this.currentApp && this.currentApp.id) {
-      const workspace: VisitedWorkspace = {
-        appId: this.currentApp.id,
-        appName: this.currentApp.name,
-        appLocaleName: this.currentApp.localeName,
-        url: this.currentUrl,
-      };
-      if (this.workspaceStack.length > 0) {
-        const previousWorkspace =
-          this.workspaceStack[this.workspaceStack.length - 1];
-        const relatedApps = await this.getRelatedAppsAsync(
-          previousWorkspace.appId
-        );
-        if (
-          relatedApps.some((item) => item.microAppId === this.currentApp.id)
-        ) {
-          Object.assign(previousWorkspace, workspace);
-          return;
-        }
-      }
-
-      const relatedApps = await this.getRelatedAppsAsync(this.currentApp.id);
-      if (relatedApps.length > 0) {
-        this.workspaceStack.push(workspace);
-        return;
-      }
-    }
-    this.workspaceStack = [];
-  }
-
-  getPreviousWorkspace(): VisitedWorkspace {
-    if (this.workspaceStack.length > 1) {
-      return this.workspaceStack[this.workspaceStack.length - 2];
-    }
-  }
-
-  popWorkspaceStack(): void {
-    this.workspaceStack.pop();
-  }
-
   getRecentApps(): RecentApps {
     return {
       previousApp: this.previousApp,
       currentApp: this.currentApp,
-      previousWorkspace: this.getPreviousWorkspace(),
     };
   }
 

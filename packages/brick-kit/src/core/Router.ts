@@ -1,4 +1,4 @@
-import { locationsAreEqual, createPath, Action, Location } from "history";
+import { locationsAreEqual, Action, Location } from "history";
 import { uniqueId } from "lodash";
 import type {
   LayoutType,
@@ -409,14 +409,8 @@ export class Router {
         this.kernel.currentApp = currentApp;
         this.kernel.previousApp = previousApp;
       }
-      this.kernel.currentUrl = createPath(location);
       this.kernel.currentRoute = route;
-      await Promise.all([
-        ...(window.STANDALONE_MICRO_APPS
-          ? []
-          : [this.kernel.updateWorkspaceStack()]),
-        this.kernel.layoutBootstrap(layoutType),
-      ]);
+      await this.kernel.layoutBootstrap(layoutType);
 
       this.state = "ready-to-mount";
 

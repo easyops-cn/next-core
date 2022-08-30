@@ -151,8 +151,6 @@ describe("Router", () => {
     toggleBars: jest.fn(),
     firstRendered: jest.fn(),
     toggleLegacyIframe: jest.fn(),
-    updateWorkspaceStack: jest.fn(),
-    getPreviousWorkspace: jest.fn(),
     getRecentApps: jest.fn(),
     loadDepsOfStoryboard: jest.fn(),
     registerCustomTemplatesInStoryboard: jest.fn(),
