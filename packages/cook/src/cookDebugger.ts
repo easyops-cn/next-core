@@ -86,12 +86,12 @@ export interface CookHooks {
   beforeBranch?(node: EstreeNode, branch: "if" | "else"): void;
 }
 
-const signal = {
-  promise: Promise.resolve()
-};
+// function getSignal(node: Expression | Statement): Promise<unknown> {
+//   return Promise.resolve();
+// }
 
-function getSignal(node: Expression | Statement): Promise<unknown> {
-  return Promise.resolve();
+function* getSignal(node: Expression | Statement): Generator<unknown, unknown> {
+
 }
 
 export interface CookDebugger {
@@ -102,6 +102,38 @@ export interface CookDebugger {
   stepOver?(): void;
   stepInto?(): void;
   stepOut?(): void;
+}
+
+function asyncGeneratorStep<TResult, TReturn, TNext, TError>(gen: Generator<TResult, TReturn, TNext>, resolve: (v: TReturn) => void, reject: (r: unknown) => void, _next: (v: TResult) => void, _throw: (r: TError) => void, key: "next" | "throw", arg: TResult | TNext | TError): void {
+  let info: IteratorResult<TResult, TReturn>, value: TResult | TReturn;
+  try {
+    info = gen[key](arg);
+    value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+  if (info.done) {
+    resolve(value as TReturn);
+  } else {
+    Promise.resolve(value as TResult).then(_next, _throw);
+  }
+}
+export default function _asyncToGenerator<TArgs extends unknown[], TResult, TReturn, TNext, TError = unknown>(fn: (...args: TArgs) => Generator<TResult, TReturn, TNext>) {
+  return function (this: unknown, ...args: TArgs) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this;
+    return new Promise<TReturn>(function (resolve, reject) {
+      const gen = fn.apply(self, args);
+      function _next(value: TResult): void {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+      function _throw(err: TError): void {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+      _next(undefined);
+    });
+  };
 }
 
 /** For next-core internal usage only. */
@@ -145,10 +177,39 @@ export function cookDebugger(
     return template;
   }
 
-  async function Evaluate(
+  // const AsyncEvaluate = _asyncToGenerator(Evaluate);
+  // let debugging = false;
+
+  // function higherEvaluate(node: EstreeNode): IteratorResult<Iterator<unknown, CompletionRecord>, CompletionRecord> {
+  //   ;
+  //   if (debugging) {
+  //     return {
+  //       done: false,
+  //       value: Evaluate(node),
+  //     };
+  //   }
+
+  //   const it = Evaluate(node);
+  //   do {
+  //     const result = it.next();
+  //     if (result.done) {
+  //       return result;
+  //     }
+  //   } while (true);
+  // }
+
+  // function y(i: Iterator<unknown, CompletionRecord>): Iterator<unknown, unknown, CompletionRecord> {
+  //   return {
+  //     next(v: CompletionRecord): IteratorResult<unknown, unknown> {
+  //       return;
+  //     }
+  //   };
+  // }
+
+  function* Evaluate(
     node: EstreeNode,
     optionalChainRef?: OptionalChainRef
-  ): Promise<CompletionRecord> {
+  ): Generator<unknown, CompletionRecord> {
     hooks.beforeEvaluate?.(node);
     // Expressions:
     switch (node.type) {
@@ -159,12 +220,33 @@ export function cookDebugger(
           if (!element) {
             array.length += 1;
           } else if (element.type === "SpreadElement") {
+            // let value: CompletionRecord;
+            // if (debugging) {
+            //   value = yield Evaluate(element.argument);
+            // } else {
+            //   const it = Evaluate(element.argument);
+            //   do {
+            //     const result = it.next();
+            //     if (result.done) {
+            //       value = result.value;
+            //       break;
+            //     }
+            //   } while (true);
+            // }
+            // const result = higherEvaluate(element.argument);
+            // if (result.done === true) {
+            //   value = result.value;
+            // } else {
+            //   value = yield y(result.value);
+            // }
+            // const it = yield Evaluate(element.argument)
             const spreadValues = GetValue(
-              await Evaluate(element.argument)
+              yield* Evaluate(element.argument)
+              // value
             ) as unknown[];
             array.push(...spreadValues);
           } else {
-            array.push(GetValue(await Evaluate(element)));
+            array.push(GetValue(yield* Evaluate(element)));
           }
         }
         return NormalCompletion(array);
@@ -176,9 +258,9 @@ export function cookDebugger(
         return NormalCompletion(closure);
       }
       case "BinaryExpression": {
-        const leftRef = await Evaluate(node.left);
+        const leftRef = yield* Evaluate(node.left);
         const leftValue = GetValue(leftRef);
-        const rightRef = (await Evaluate(node.right)).Value;
+        const rightRef = (yield* Evaluate(node.right)).Value;
         const rightValue = GetValue(rightRef);
         if (expressionOnly && (node.operator as unknown) === "|>") {
           // Minimal pipeline operator is supported only in expression-only mode.
@@ -211,7 +293,7 @@ export function cookDebugger(
       }
       case "CallExpression": {
         // https://tc39.es/ecma262/#sec-function-calls
-        const ref = (await Evaluate(node.callee, optionalChainRef))
+        const ref = (yield* Evaluate(node.callee, optionalChainRef))
           .Value as ReferenceRecord;
         const func = GetValue(ref) as SimpleFunction;
         if (
@@ -226,13 +308,13 @@ export function cookDebugger(
       }
       case "ChainExpression":
         // https://tc39.es/ecma262/#sec-optional-chains
-        return Evaluate(node.expression, {});
+        return yield* Evaluate(node.expression, {});
       case "ConditionalExpression":
         // https://tc39.es/ecma262/#sec-conditional-operator
         return NormalCompletion(
           GetValue(
-            await Evaluate(
-              GetValue(await Evaluate(node.test)) ? node.consequent : node.alternate
+            yield* Evaluate(
+              GetValue(yield* Evaluate(node.test)) ? node.consequent : node.alternate
             )
           )
         );
@@ -257,19 +339,19 @@ export function cookDebugger(
       }
       case "LogicalExpression": {
         // https://tc39.es/ecma262/#sec-binary-logical-operators
-        const leftValue = GetValue(await Evaluate(node.left));
+        const leftValue = GetValue(yield* Evaluate(node.left));
         switch (node.operator) {
           case "&&":
             return NormalCompletion(
-              leftValue && GetValue(await Evaluate(node.right))
+              leftValue && GetValue(yield* Evaluate(node.right))
             );
           case "||":
             return NormalCompletion(
-              leftValue || GetValue(await Evaluate(node.right))
+              leftValue || GetValue(yield* Evaluate(node.right))
             );
           case "??":
             return NormalCompletion(
-              leftValue ?? GetValue(await Evaluate(node.right))
+              leftValue ?? GetValue(yield* Evaluate(node.right))
             );
           // istanbul ignore next
           default:
@@ -282,7 +364,7 @@ export function cookDebugger(
       }
       case "MemberExpression": {
         // https://tc39.es/ecma262/#sec-property-accessors
-        const baseReference = (await Evaluate(node.object, optionalChainRef))
+        const baseReference = (yield* Evaluate(node.object, optionalChainRef))
           .Value as ReferenceRecord;
         const baseValue = GetValue(baseReference) as Record<
           PropertyKey,
@@ -318,7 +400,7 @@ export function cookDebugger(
         const object: Record<PropertyKey, unknown> = {};
         for (const prop of (node as EstreeObjectExpression).properties) {
           if (prop.type === "SpreadElement") {
-            const fromValue = GetValue(await Evaluate(prop.argument));
+            const fromValue = GetValue(yield* Evaluate(prop.argument));
             CopyDataProperties(object, fromValue, new Set());
           } else {
             if (prop.kind !== "init") {
@@ -333,7 +415,7 @@ export function cookDebugger(
                 "Setting '__proto__' property is not allowed"
               );
             }
-            object[propName] = GetValue(await Evaluate(prop.value));
+            object[propName] = GetValue(yield* Evaluate(prop.value));
           }
         }
         return NormalCompletion(object);
@@ -342,7 +424,7 @@ export function cookDebugger(
         // https://tc39.es/ecma262/#sec-comma-operator
         let result: CompletionRecord;
         for (const expr of node.expressions) {
-          result = NormalCompletion(GetValue(await Evaluate(expr)));
+          result = NormalCompletion(GetValue(yield* Evaluate(expr)));
         }
         return result;
       }
@@ -351,7 +433,7 @@ export function cookDebugger(
         const chunks: string[] = [node.quasis[0].value.cooked];
         let index = 0;
         for (const expr of node.expressions) {
-          const val = GetValue(await Evaluate(expr));
+          const val = GetValue(yield* Evaluate(expr));
           chunks.push(String(val));
           chunks.push(node.quasis[(index += 1)].value.cooked);
         }
@@ -359,14 +441,14 @@ export function cookDebugger(
       }
       case "TaggedTemplateExpression": {
         // https://tc39.es/ecma262/#sec-tagged-templates
-        const tagRef = (await Evaluate(node.tag)).Value as ReferenceRecord;
+        const tagRef = (yield* Evaluate(node.tag)).Value as ReferenceRecord;
         const tagFunc = GetValue(tagRef) as SimpleFunction;
         sanitize(tagFunc);
         return EvaluateCall(tagFunc, tagRef, node.quasi, node.tag);
       }
       case "UnaryExpression": {
         // https://tc39.es/ecma262/#sec-unary-operators
-        const ref = (await Evaluate(node.argument)).Value as ReferenceRecord;
+        const ref = (yield* Evaluate(node.argument)).Value as ReferenceRecord;
         if (!expressionOnly && node.operator === "delete") {
           // Delete operator is supported only in function mode.
           if (!(ref instanceof ReferenceRecord)) {
@@ -404,24 +486,24 @@ export function cookDebugger(
                 node.left.type === "ObjectPattern"
               )
             ) {
-              const lref = (await Evaluate(node.left)).Value as ReferenceRecord;
+              const lref = (yield* Evaluate(node.left)).Value as ReferenceRecord;
               // Todo: IsAnonymousFunctionDefinition(lref)
-              const rref = await Evaluate(node.right);
+              const rref = yield* Evaluate(node.right);
               const rval = GetValue(rref);
 
               PutValue(lref, rval);
               return NormalCompletion(rval);
             }
             throw new TypeError(`Unexpected lhs: ${node.left.type}`);
-            // const rref = await Evaluate(node.right);
+            // const rref = yield* Evaluate(node.right);
             // const rval = GetValue(rref) as string | number;
             // DestructuringAssignmentEvaluation(node.left, rval);
             // return NormalCompletion(rval);
           }
           // Operators other than `=`.
-          const lref = (await Evaluate(node.left)).Value as ReferenceRecord;
+          const lref = (yield* Evaluate(node.left)).Value as ReferenceRecord;
           const lval = GetValue(lref) as string | number;
-          const rref = await Evaluate(node.right);
+          const rref = yield* Evaluate(node.right);
           const rval = GetValue(rref) as string | number;
           const r = ApplyStringOrNumericAssignment(lval, node.operator, rval);
           PutValue(lref, r);
@@ -436,7 +518,7 @@ export function cookDebugger(
           const blockEnv = new DeclarativeEnvironment(oldEnv);
           BlockDeclarationInstantiation(node.body, blockEnv);
           getRunningContext().LexicalEnvironment = blockEnv;
-          const blockValue = await EvaluateStatementList(node.body);
+          const blockValue = yield* EvaluateStatementList(node.body);
           getRunningContext().LexicalEnvironment = oldEnv;
           return blockValue;
         }
@@ -453,12 +535,12 @@ export function cookDebugger(
         //   // https://tc39.es/ecma262/#sec-do-while-statement
         //   return EvaluateBreakableStatement(DoWhileLoopEvaluation(node));
         case "ExpressionStatement":
-          await getSignal(node);
+          // yield* getSignal(node);
           // https://tc39.es/ecma262/#sec-expression-statement
-          return Evaluate(node.expression);
+          return yield* Evaluate(node.expression);
         case "TSAsExpression":
           // https://tc39.es/ecma262/#sec-expression-statement
-          return Evaluate(node.expression);
+          return yield* Evaluate(node.expression);
         // case "ForInStatement":
         // case "ForOfStatement":
         //   // https://tc39.es/ecma262/#sec-for-in-and-for-of-statements
@@ -483,12 +565,12 @@ export function cookDebugger(
         //     : NormalCompletion(undefined);
         case "ReturnStatement": {
           console.log("entering ReturnStatement");
-          await getSignal(node);
+          // yield* getSignal(node);
           console.log("executing ReturnStatement");
           // https://tc39.es/ecma262/#sec-return-statement
           let v: unknown;
           if (node.argument) {
-            const exprRef = await Evaluate(node.argument);
+            const exprRef = yield* Evaluate(node.argument);
             v = GetValue(exprRef);
           }
           return new CompletionRecord("return", v);
@@ -543,7 +625,7 @@ export function cookDebugger(
         case "VariableDeclaration": {
           console.log("entering VariableDeclaration");
           // https://tc39.es/ecma262/#sec-declarations-and-the-variable-statement
-          await getSignal(node);
+          yield* getSignal(node);
           console.log("executing VariableDeclaration");
           let result: CompletionRecord;
           for (const declarator of node.declarations) {
@@ -559,14 +641,14 @@ export function cookDebugger(
               const bindingId = declarator.id.name;
               const lhs = ResolveBinding(bindingId);
               // Todo: IsAnonymousFunctionDefinition(Initializer)
-              const rhs = await Evaluate(declarator.init);
+              const rhs = yield* Evaluate(declarator.init);
               const value = GetValue(rhs);
               result =
                 node.kind === "var"
                   ? PutValue(lhs, value)
                   : InitializeReferencedBinding(lhs, value);
             } else {
-              const rhs = await Evaluate(declarator.init);
+              const rhs = yield* Evaluate(declarator.init);
               const rval = GetValue(rhs);
               result = BindingInitialization(
                 declarator.id,
@@ -1281,14 +1363,29 @@ export function cookDebugger(
   }
 
   // https://tc39.es/ecma262/#sec-ecmascript-function-objects-call-thisargument-argumentslist
-  async function CallFunction(
+  function* CallFunction(
     closure: FunctionObject,
     args: Iterable<unknown>
-  ): Promise<unknown> {
+  ): Generator<unknown, unknown> {
     hooks.beforeCall?.(closure[SourceNode]);
     PrepareForOrdinaryCall(closure);
-    // await getSignal(node);
-    const result = await OrdinaryCallEvaluateBody(closure, args);
+    // yield getSignal(node);
+    // const gen = OrdinaryCallEvaluateBody(closure, args);
+
+    // let result: CompletionRecord;
+    // do {
+    //   const r = gen.next();
+    //   console.log("done:", r.done);
+    //   console.log("value:", r.value);
+    //   if (r.done) {
+    //     result = r.value;
+    //     break;
+    //   }
+    // } while (true);
+    yield;
+    const result = yield* OrdinaryCallEvaluateBody(closure, args);
+    yield;
+
     executionContextStack.pop();
     if (result.Type === "return") {
       return result.Value;
@@ -1311,28 +1408,28 @@ export function cookDebugger(
   function OrdinaryCallEvaluateBody(
     F: FunctionObject,
     args: Iterable<unknown>
-  ): Promise<CompletionRecord> {
+  ): Generator<unknown, CompletionRecord> {
     return EvaluateFunctionBody(F[ECMAScriptCode], F, args);
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-evaluatefunctionbody
-  async function EvaluateFunctionBody(
+  function* EvaluateFunctionBody(
     body: Statement[] | Expression,
     F: FunctionObject,
     args: Iterable<unknown>
-  ): Promise<CompletionRecord> {
+  ): Generator<unknown, CompletionRecord> {
     FunctionDeclarationInstantiation(F, args);
     if (Array.isArray(body)) {
-      return EvaluateStatementList(body);
+      return yield* EvaluateStatementList(body);
     }
     return new CompletionRecord("return", GetValue(Evaluate(body)));
   }
 
   // https://tc39.es/ecma262/#sec-block-runtime-semantics-evaluation
-  async function EvaluateStatementList(statements: Statement[]): Promise<CompletionRecord> {
+  function* EvaluateStatementList(statements: Statement[]): Generator<unknown, CompletionRecord> {
     let result = NormalCompletion(Empty);
     for (const stmt of statements) {
-      const s = await Evaluate(stmt);
+      const s = yield* Evaluate(stmt);
       if (s.Type !== "normal") {
         return s;
       }
@@ -1450,28 +1547,28 @@ export function cookDebugger(
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiateordinaryfunctionexpression
-  function InstantiateOrdinaryFunctionExpression(
-    functionExpression: FunctionExpression
-  ): FunctionObject {
-    const scope = getRunningContext().LexicalEnvironment;
-    if (functionExpression.id) {
-      const name = functionExpression.id.name;
-      const funcEnv = new DeclarativeEnvironment(scope);
-      funcEnv.CreateImmutableBinding(name, false);
-      const closure = OrdinaryFunctionCreate(
-        functionExpression,
-        // functionExpression.params,
-        // functionExpression.body,
-        funcEnv,
-        true
-      );
-      funcEnv.InitializeBinding(name, closure);
-      return closure;
-    } else {
-      const closure = OrdinaryFunctionCreate(functionExpression, scope, true);
-      return closure;
-    }
-  }
+  // function InstantiateOrdinaryFunctionExpression(
+  //   functionExpression: FunctionExpression
+  // ): FunctionObject {
+  //   const scope = getRunningContext().LexicalEnvironment;
+  //   if (functionExpression.id) {
+  //     const name = functionExpression.id.name;
+  //     const funcEnv = new DeclarativeEnvironment(scope);
+  //     funcEnv.CreateImmutableBinding(name, false);
+  //     const closure = OrdinaryFunctionCreate(
+  //       functionExpression,
+  //       // functionExpression.params,
+  //       // functionExpression.body,
+  //       funcEnv,
+  //       true
+  //     );
+  //     funcEnv.InitializeBinding(name, closure);
+  //     return closure;
+  //   } else {
+  //     const closure = OrdinaryFunctionCreate(functionExpression, scope, true);
+  //     return closure;
+  //   }
+  // }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiatearrowfunctionexpression
   function InstantiateArrowFunctionExpression(
@@ -1481,6 +1578,9 @@ export function cookDebugger(
     const closure = OrdinaryFunctionCreate(arrowFunction, scope, false);
     return closure;
   }
+
+  let debugging = true;
+  let debuggingGen;
 
   // https://tc39.es/ecma262/#sec-ordinaryfunctioncreate
   function OrdinaryFunctionCreate(
@@ -1495,7 +1595,19 @@ export function cookDebugger(
   ): FunctionObject {
     const F = function () {
       // eslint-disable-next-line prefer-rest-params
-      return CallFunction(F, arguments);
+      const gen = CallFunction(F, arguments);
+      if (debugging) {
+        debuggingGen = gen;
+        return debugging;
+      }
+      do {
+        const r = gen.next();
+        console.log("done:", r.done);
+        console.log("value:", r.value);
+        if (r.done) {
+          return r.value;
+        }
+      } while (true);
     } as FunctionObject;
     Object.defineProperties(F, {
       [SourceNode]: {

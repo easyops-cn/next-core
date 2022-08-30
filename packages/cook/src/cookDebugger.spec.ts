@@ -11,7 +11,7 @@ describe("cookDebugger", () => {
     }
   `;
 
-  it("should work", async () => {
+  it("should work", () => {
     const { function: funcAst, attemptToVisitGlobals } = precookFunction(
       source
     );
@@ -24,22 +24,20 @@ describe("cookDebugger", () => {
     });
 
     // handler.setBreakpoints([]);
-    handler.debug();
+    const a = handler.debug();
 
-    console.log("variables 0:", handler.getVariables());
-
-    console.log("before 1");
-    // await (global as any).flushPromises();
-    await Promise.resolve();
-    console.log("after 1");
-
-    console.log("variables 1:", handler.getVariables());
-
-    console.log("before 2");
-    // await (global as any).flushPromises();
-    await Promise.resolve();
-    console.log("after 2");
-
-    console.log("variables 2:", handler.getVariables());
+    let index = 0;
+    do {
+      console.log(`[${index}] variables:`, handler.getVariables());
+      index ++;
+      console.log(`before ${index}`);
+      const { value, done } = a.next();
+      console.log(`after ${index}`);
+      console.log({ value, done });
+      if (done) {
+        console.log(`[${index}] variables:`, handler.getVariables());
+        break;
+      }
+    } while (true);
   });
 });
