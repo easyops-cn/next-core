@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.46](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.45...@next-core/cook@1.6.46) (2022-08-31)
+
+
+### Bug Fixes
+
+* remove dead code ([61db875](https://github.com/easyops-cn/next-core/commit/61db8759d48e0de3a31c55bf2ced50cf8617a5a2))
+
+
+
+
+
 ## [1.6.45](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.44...@next-core/cook@1.6.45) (2022-08-26)
 
 **Note:** Version bump only for package @next-core/cook

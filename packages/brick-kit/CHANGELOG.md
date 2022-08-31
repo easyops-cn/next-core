@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.134.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.134.0...@next-core/brick-kit@2.134.1) (2022-08-31)
+
+
+### Bug Fixes
+
+* remove dead code ([61db875](https://github.com/easyops-cn/next-core/commit/61db8759d48e0de3a31c55bf2ced50cf8617a5a2))
+
+
+
+
+
 # [2.134.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.133.3...@next-core/brick-kit@2.134.0) (2022-08-30)
 
 
