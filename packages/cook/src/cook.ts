@@ -1318,7 +1318,7 @@ export function cook(
     args: Iterable<unknown>
   ): void {
     const calleeContext = getRunningContext();
-    const code = func[ECMAScriptCode] as BlockStatement | Expression;
+    const code = func[ECMAScriptCode];
     const formals = func[FormalParameters] as FunctionDeclaration["params"];
     const parameterNames = collectBoundNames(formals);
     const hasParameterExpressions = containsExpression(formals);
@@ -1429,13 +1429,7 @@ export function cook(
       const name = functionExpression.id.name;
       const funcEnv = new DeclarativeEnvironment(scope);
       funcEnv.CreateImmutableBinding(name, false);
-      const closure = OrdinaryFunctionCreate(
-        functionExpression,
-        // functionExpression.params,
-        // functionExpression.body,
-        funcEnv,
-        true
-      );
+      const closure = OrdinaryFunctionCreate(functionExpression, funcEnv, true);
       funcEnv.InitializeBinding(name, closure);
       return closure;
     } else {
@@ -1459,8 +1453,6 @@ export function cook(
       | FunctionDeclaration
       | FunctionExpression
       | ArrowFunctionExpression,
-    // parameterList: FunctionDeclaration["params"],
-    // body: BlockStatement | Expression,
     scope: EnvironmentRecord,
     isConstructor: boolean
   ): FunctionObject {
