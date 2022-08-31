@@ -142,7 +142,7 @@ html[data-theme="dark-v2"],
 
   /* 8.0 框架 */
   --v8-top-navigation-bg: #323237;
-  --v8-top-menu-item-hover: var(--palette-rgba-gray-4);
+  --v8-top-menu-item-hover: var(--palette-rgba-gray-2);
   --v8-top-menu-item-selected-bg: var(--palette-rgba-gray-4);
   --v8-left-menu-bg: rgba(32, 32, 33, 0.3);
   --v8-left-menu-hover-bg: rgba(32, 32, 33, 0.8);

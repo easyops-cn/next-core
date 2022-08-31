@@ -176,7 +176,7 @@
   --v8-top-menu-item-hover: var(--palette-gray-3);
   --v8-dropdown-selected-bg: #f0f6ff;
   --v8-dropdown-selected: #1a7aff;
-  --v8-top-menu-item-selected-bg: var(--palette-gray-3);
+  --v8-top-menu-item-selected-bg: var(--palette-blue-1);
   --v8-left-menu-bg: rgba(255, 255, 255, 0.3);
   --v8-left-menu-hover-bg: rgba(255, 255, 255, 0.8);
   --v8-left-sidebar-item-hover: rgba(--palette-gray-3);
