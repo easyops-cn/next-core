@@ -49,7 +49,6 @@ import type { MenuRawData } from '@next-core/brick-types';
 import { MessageConf } from '@next-core/brick-types';
 import { MetaI18n } from '@next-core/brick-types';
 import { MicroApp } from '@next-core/brick-types';
-import { MicroAppModels } from '@next-sdk/micro-app-sdk';
 import { ModalFunc } from 'antd/lib/modal/confirm';
 import { MountPoints } from '@next-core/brick-types';
 import { PluginHistory } from '@next-core/brick-types';
@@ -437,8 +436,6 @@ export interface RecentApps {
     currentApp?: MicroApp;
     // (undocumented)
     previousApp?: MicroApp;
-    // (undocumented)
-    previousWorkspace?: VisitedWorkspace;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "RedirectConf" should be prefixed with an underscore because the declaration is marked as @internal
@@ -448,11 +445,6 @@ export interface RedirectConf {
     // (undocumented)
     redirect?: string;
 }
-
-// Warning: (ae-internal-missing-underscore) The name "RelatedApp" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export type RelatedApp = MicroAppModels.ModelObjectMicroApp;
 
 // @public
 export function renderEasyopsEmpty(): React_2.ReactNode;
@@ -592,20 +584,6 @@ export function useProvider<TData = any>(...args: UseProviderArgs): UseProvider<
 //
 // @internal (undocumented)
 export function useRecentApps(): RecentApps;
-
-// Warning: (ae-internal-missing-underscore) The name "VisitedWorkspace" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface VisitedWorkspace {
-    // (undocumented)
-    appId: string;
-    // (undocumented)
-    appLocaleName: string;
-    // (undocumented)
-    appName: string;
-    // (undocumented)
-    url: string;
-}
 
 
 // Warnings were encountered during analysis:
