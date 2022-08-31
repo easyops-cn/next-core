@@ -28,7 +28,6 @@ import {
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import {
-  RelatedApp,
   RouterState,
   RecentApps,
   CustomApiDefinition,
@@ -42,7 +41,6 @@ import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
-import { getStandaloneInstalledApps } from "../internal/getStandaloneInstalledApps";
 
 let kernel: Kernel;
 
@@ -355,12 +353,12 @@ export class Runtime implements AbstractRuntime {
   registerWidgetI18n = registerWidgetI18n;
 
   /* istanbul ignore next */
-  getRelatedApps(appId: string): RelatedApp[] {
+  getRelatedApps(appId: string): unknown[] {
     return [];
   }
 
   /* istanbul ignore next */
-  getRelatedAppsAsync(appId: string): Promise<RelatedApp[]> {
+  getRelatedAppsAsync(appId: string): Promise<unknown[]> {
     // eslint-disable-next-line no-console
     console.warn(
       "`getRuntime().getRelatedAppsAsync()` is deprecated and will always resolve with an empty array"

@@ -9,7 +9,6 @@ import {
   ContractRequest,
   ContractResponse,
 } from "@next-core/brick-types";
-import { MicroAppModels } from "@next-sdk/micro-app-sdk";
 import {
   ColorThemeOptionsByBrand,
   ColorThemeOptionsByBaseColors,
@@ -19,21 +18,9 @@ import { CustomProcessorFunc } from "./exports";
 import { LazyBrickImportFunction } from "./LazyBrickRegistry";
 
 /** @internal */
-export type RelatedApp = MicroAppModels.ModelObjectMicroApp;
-
-/** @internal */
-export interface VisitedWorkspace {
-  appId: string;
-  appName: string;
-  appLocaleName: string;
-  url: string;
-}
-
-/** @internal */
 export interface RecentApps {
   currentApp?: MicroApp;
   previousApp?: MicroApp;
-  previousWorkspace?: VisitedWorkspace;
 }
 
 /** @internal */

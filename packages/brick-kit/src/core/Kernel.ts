@@ -53,13 +53,7 @@ import {
   registerCustomTemplate,
 } from "./exports";
 import { getHistory } from "../history";
-import {
-  RelatedApp,
-  VisitedWorkspace,
-  RecentApps,
-  CustomApiDefinition,
-  ThemeSetting,
-} from "./interfaces";
+import { RecentApps, CustomApiDefinition, ThemeSetting } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools, listenDevtoolsEagerly } from "../internal/devtools";
@@ -100,7 +94,6 @@ export class Kernel {
   public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
     Promise.resolve(new Map());
   private originFaviconHref: string;
-  private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
   public allMicroAppApiOrchestrationPromise: Promise<
     Map<string, CustomApiDefinition>
   > = Promise.resolve(new Map());

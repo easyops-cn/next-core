@@ -207,71 +207,11 @@ describe("Kernel", () => {
     expect(spyOnAuthenticate.mock.calls[0][0]).toEqual({
       loggedIn: true,
     });
-    // expect(spyOnMenuBar.mock.instances[0].bootstrap).toBeCalled();
-    // expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
 
     expect(kernel.getFeatureFlags()).toEqual({
       "load-magic-brick-config": true,
     });
-    // expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
-    // expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
-    // expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
-
-    // kernel.popWorkspaceStack();
-    // await kernel.updateWorkspaceStack();
-
-    // eslint-disable-next-line require-atomic-updates
-    // kernel.currentApp = {
-    //   id: "a",
-    //   name: "A",
-    // } as any;
-    // eslint-disable-next-line require-atomic-updates
-    // kernel.currentUrl = "/a";
-    // kernel.updateWorkspaceStack();
-    // expect(kernel.getPreviousWorkspace()).toBe(undefined);
-    // expect(kernel.getRecentApps()).toEqual({
-    //   previousApp: undefined,
-    //   currentApp: {
-    //     id: "a",
-    //     name: "A",
-    //   },
-    //   previousWorkspace: undefined,
-    // });
-
-    // // eslint-disable-next-line require-atomic-updates
-    // kernel.currentApp = {
-    //   id: "b",
-    //   name: "B",
-    // } as any;
-    // // eslint-disable-next-line require-atomic-updates
-    // kernel.currentUrl = "/b";
-    // kernel.updateWorkspaceStack();
-    // expect(kernel.getPreviousWorkspace()).toBe(undefined);
-
-    // // eslint-disable-next-line require-atomic-updates
-    // kernel.currentApp = {
-    //   id: "c",
-    //   name: "C",
-    // } as any;
-    // // eslint-disable-next-line require-atomic-updates
-    // kernel.currentUrl = "/c";
-    // await kernel.updateWorkspaceStack();
-    // expect(kernel.getPreviousWorkspace()).toEqual({
-    //   appId: "b",
-    //   appName: "B",
-    //   url: "/b",
-    // });
-
-    // // eslint-disable-next-line require-atomic-updates
-    // kernel.currentApp = {
-    //   id: "x",
-    //   name: "X",
-    // } as any;
-    // // eslint-disable-next-line require-atomic-updates
-    // kernel.currentUrl = "/x";
-    // await kernel.updateWorkspaceStack();
-    // expect(kernel.getPreviousWorkspace()).toBe(undefined);
 
     // `postMessage` did not trigger events.
     // window.postMessage({ type: "auth.guard" }, window.location.origin);
