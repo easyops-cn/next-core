@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.70.0...@next-core/brick-types@2.71.0) (2022-09-01)
+
+
+### Features
+
+* stories rollup factory ([afe2827](https://github.com/easyops-cn/next-core/commit/afe2827d244605a12cc441ed369a103921f31d5f))
+
+
+
+
+
 # [2.70.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.69.0...@next-core/brick-types@2.70.0) (2022-08-26)
 
 
