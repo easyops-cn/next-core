@@ -2014,6 +2014,16 @@ export interface SnippetDefinition {
     thumbnail?: string;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "SrcIcon" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SrcIcon {
+    // (undocumented)
+    imgSrc?: string;
+    // (undocumented)
+    imgStyle?: React.CSSProperties;
+}
+
 // @public
 export interface StaticMenuConf extends StaticMenuProps {
     // (undocumented)
@@ -2050,7 +2060,7 @@ export interface Story {
     // (undocumented)
     doc?: string | StoryDoc;
     // (undocumented)
-    icon?: MenuIcon;
+    icon?: MenuIcon | SrcIcon;
     // (undocumented)
     isCustomTemplate?: boolean;
     // (undocumented)
