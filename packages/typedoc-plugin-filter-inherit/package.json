@@ -20,10 +20,10 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "typedoc": "^0.19.2"
+    "typedoc": "^0.23.13"
   },
   "peerDependencies": {
-    "typedoc": "^0.19.2"
+    "typedoc": "^0.23.13"
   },
   "keywords": [
     "typedoc",
