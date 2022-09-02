@@ -44,7 +44,7 @@
     "@babel/types": "^7.18.13",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@easyops-cn/api-documenter": "^7.9.3",
-    "@microsoft/api-extractor": "^7.13.1",
+    "@microsoft/api-extractor": "^7.30.0",
     "@next-bricks/basic-bricks": "^1.171.0",
     "@next-bricks/basic-providers": "^1.4.0",
     "@size-limit/file": "^8.0.1",
