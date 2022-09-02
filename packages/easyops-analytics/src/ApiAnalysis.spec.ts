@@ -114,6 +114,7 @@ describe("ApiAnalysis", () => {
         route: "/developers/:id",
         type: "page",
         maxApiTimeCost: 2,
+        time: 1603109441,
       },
       {
         api: "api/auth/login",
@@ -200,6 +201,7 @@ describe("ApiAnalysis", () => {
         route: "/developers/:id",
         type: "page",
         maxApiTimeCost: 2,
+        time: 1603109441,
       },
       {
         api: "api/auth/login",
@@ -282,6 +284,7 @@ describe("ApiAnalysis", () => {
         pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
         route: "/developers/:id",
         type: "page",
+        time: 1603109441,
       },
       {
         api: "api/auth/login",

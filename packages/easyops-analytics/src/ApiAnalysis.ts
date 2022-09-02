@@ -154,6 +154,7 @@ class ApiAnalysisService {
         type: "page",
         apiCount: this.queue.length,
         page: location.href,
+        time: Math.round(startTime / 1000),
         _ver: startTime,
         maxApiTimeCost: Math.max(...this.queue.map((api) => api.duration)),
         ...extra,
