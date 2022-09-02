@@ -302,14 +302,12 @@ module.exports = (env) => {
             !(
               res.statusCode === 200 &&
               res.get("content-type") === "text/html" &&
-              raw.includes(`${baseHref}browse-happy.html`)
+              raw.includes(`/next/browse-happy.html`)
             )
           ) {
             return raw;
           }
-          const content = useSubdir
-            ? raw
-            : raw.replace(new RegExp(escapeRegExp(baseHref), "g"), "/");
+          const content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
           return env.liveReload
             ? appendLiveReloadScript(content, env)
             : content;
