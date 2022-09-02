@@ -1,4 +1,4 @@
-import { RuntimeBrickElement } from "@next-core/brick-types";
+import { ResolveOptions, RuntimeBrickElement } from "@next-core/brick-types";
 import { CustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import * as runtime from "./Runtime";
@@ -9,9 +9,16 @@ const consoleWarn = jest
 
 let resolveValue = "lazily updated";
 const resolveOne = jest.fn(
-  async (a: unknown, b: unknown, c: Record<string, unknown>) => {
+  async (
+    type: unknown,
+    resolveConf: unknown,
+    conf: Record<string, unknown>,
+    brick?: unknown,
+    context?: unknown,
+    options?: ResolveOptions
+  ) => {
     await Promise.resolve();
-    c.value = resolveValue;
+    conf.value = `[cache:${options?.cache ?? "default"}] ${resolveValue}`;
   }
 );
 jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
@@ -19,6 +26,10 @@ jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
 } as any);
 
 describe("StoryboardContextWrapper", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should work", () => {
     const tplContext = new CustomTemplateContext({});
     const ctx = tplContext.state;
@@ -87,8 +98,10 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("asyncValue")).toBe("initial");
 
     await (global as any).flushPromises();
-    expect(ctx.getValue("asyncValue")).toBe("lazily updated");
-    expect(ctx.getValue("processedData")).toBe("processed: lazily updated");
+    expect(ctx.getValue("asyncValue")).toBe("[cache:reload] lazily updated");
+    expect(ctx.getValue("processedData")).toBe(
+      "processed: [cache:reload] lazily updated"
+    );
   });
 
   it("should refresh when deps updated", async () => {
@@ -120,16 +133,63 @@ describe("StoryboardContextWrapper", () => {
       brick
     );
 
-    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(ctx.getValue("asyncValue")).toBe("[cache:default] initial");
     expect(ctx.getValue("dep")).toBe("first");
 
     resolveValue = originalResolveValue;
     ctx.updateValue("dep", "second", "replace");
     expect(ctx.getValue("dep")).toBe("second");
+    expect(ctx.getValue("asyncValue")).toBe("[cache:default] initial");
+
+    await (global as any).flushPromises();
+    expect(ctx.getValue("asyncValue")).toBe("[cache:default] lazily updated");
+  });
+
+  it("should load", async () => {
+    const brick = { properties: {} };
+    const tplContext = new CustomTemplateContext(brick);
+    const ctx = tplContext.state;
+    await ctx.define(
+      [
+        {
+          name: "asyncValue",
+          resolve: {
+            useProvider: "my-provider",
+            lazy: true,
+          },
+          value: "initial",
+        },
+        {
+          name: "processedData",
+          value: "<% `processed: ${STATE.asyncValue}` %>",
+          track: true,
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(ctx.getValue("processedData")).toBe("processed: initial");
+    // Trigger load twice.
+    ctx.updateValue("asyncValue", undefined, "load");
+    ctx.updateValue("asyncValue", undefined, "load");
     expect(ctx.getValue("asyncValue")).toBe("initial");
 
     await (global as any).flushPromises();
-    expect(ctx.getValue("asyncValue")).toBe("lazily updated");
+    // Will not load again if it is already LOADING.
+    expect(resolveOne).toBeCalledTimes(1);
+    expect(ctx.getValue("asyncValue")).toBe("[cache:default] lazily updated");
+    expect(ctx.getValue("processedData")).toBe(
+      "processed: [cache:default] lazily updated"
+    );
+
+    ctx.updateValue("asyncValue", undefined, "load");
+    await (global as any).flushPromises();
+    // Will not load again if it is already LOADED.
+    expect(resolveOne).toBeCalledTimes(1);
   });
 
   it("should throw if use resolve with syncDefine", () => {
