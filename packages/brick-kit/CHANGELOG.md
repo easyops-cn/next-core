@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.135.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.134.2...@next-core/brick-kit@2.135.0) (2022-09-02)
+
+
+### Bug Fixes
+
+* ignore cache when refresh context ([a7d5f86](https://github.com/easyops-cn/next-core/commit/a7d5f864475ebff6f6e7ebd1abbf09afb6a77473))
+
+
+### Features
+
+* support context.load ([bf09ab1](https://github.com/easyops-cn/next-core/commit/bf09ab1aa650a4cd80b83650ad8c2173d8941d14))
+* support context.load ([7056edd](https://github.com/easyops-cn/next-core/commit/7056eddb088e4fa3fd6aadafd8e027eaddcd63db))
+
+
+
+
+
 ## [2.134.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.134.1...@next-core/brick-kit@2.134.2) (2022-09-01)
 
 **Note:** Version bump only for package @next-core/brick-kit
