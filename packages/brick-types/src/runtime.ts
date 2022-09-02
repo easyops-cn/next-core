@@ -227,7 +227,9 @@ export interface StoryboardContextItemFreeVariable {
   type: "free-variable";
   value: unknown;
   eventTarget?: EventTarget;
-  refresh?: (options?: ResolveOptions) => Promise<unknown>;
+  loaded?: boolean;
+  loading?: boolean;
+  load?: (options?: ResolveOptions) => Promise<unknown>;
 }
 
 /** @internal */
@@ -235,7 +237,7 @@ export interface ResolveOptions {
   /**
    * Cache mode of resolve.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Request/cache
+   * See https://developer.mozilla.org/en-US/docs/Web/API/Request/cache
    *
    * - `default`: Looks for a matching cache.
    * - `reload`: Without looking for a matching cache.

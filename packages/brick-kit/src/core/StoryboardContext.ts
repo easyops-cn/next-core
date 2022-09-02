@@ -51,7 +51,7 @@ export class StoryboardContextWrapper {
   updateValue(
     name: string,
     value: unknown,
-    method: "assign" | "replace" | "refresh"
+    method: "assign" | "replace" | "refresh" | "load"
   ): void {
     if (!this.data.has(name)) {
       if (this.tplContextId) {
@@ -73,29 +73,45 @@ export class StoryboardContextWrapper {
     if (item.type !== "free-variable") {
       // eslint-disable-next-line no-console
       console.error(
-        `Conflict storyboard context "${name}", expected "free-variable", received "${item.type}".`
+        `Unexpected storyboard context "${name}", expected "free-variable", received "${item.type}".`
       );
       return;
     }
 
-    if (method === "refresh") {
-      if (!item.refresh) {
+    // Todo(steve): support callback for refresh/load.
+    if (method === "refresh" || method === "load") {
+      if (!item.load) {
         throw new Error(
-          `You can not refresh the storyboard context "${name}" which has no resolve.`
+          `You can not ${method} the storyboard context "${name}" which has no resolve.`
         );
       }
-      // Defaults to ignore the cache.
-      item.refresh(value ?? { cache: "reload" }).then((val) => {
-        item.value = val;
-        item.eventTarget?.dispatchEvent(
-          new CustomEvent(
-            this.tplContextId ? "state.change" : "context.change",
-            {
-              detail: item.value,
-            }
-          )
+      if ((item.loaded || item.loading) && method === "load") {
+        // Do not load again.
+        return;
+      }
+      item.loading = true;
+      // Defaults to ignore cache when refreshing.
+      item
+        .load(value ?? { cache: method === "load" ? "default" : "reload" })
+        .then(
+          (val) => {
+            item.loading = false;
+            item.loaded = true;
+            item.value = val;
+            item.eventTarget?.dispatchEvent(
+              new CustomEvent(
+                this.tplContextId ? "state.change" : "context.change",
+                {
+                  detail: item.value,
+                }
+              )
+            );
+          },
+          (err) => {
+            item.loading = false;
+            handleHttpError(err);
+          }
         );
-      }, handleHttpError);
       return;
     }
 
@@ -208,12 +224,12 @@ async function resolveNormalStoryboardContext(
   }
   const isTemplateState = !!storyboardContextWrapper.tplContextId;
   let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
-  let refresh: StoryboardContextItemFreeVariable["refresh"] = null;
+  let load: StoryboardContextItemFreeVariable["load"] = null;
   let isLazyResolve = false;
   if (value === undefined) {
     if (contextConf.resolve) {
       if (looseCheckIf(contextConf.resolve, mergedContext)) {
-        refresh = async (options) => {
+        load = async (options) => {
           const valueConf: Record<string, unknown> = {};
           await _internalApiGetResolver().resolveOne(
             "reference",
@@ -231,13 +247,13 @@ async function resolveNormalStoryboardContext(
         };
         isLazyResolve = contextConf.resolve.lazy;
         if (!isLazyResolve) {
-          value = await refresh();
+          value = await load();
         }
       } else if (!hasOwnProperty(contextConf, "value")) {
         return false;
       }
     }
-    if ((!refresh || isLazyResolve) && contextConf.value !== undefined) {
+    if ((!load || isLazyResolve) && contextConf.value !== undefined) {
       // If the context has no resolve, just use its `value`.
       // Or if the resolve is ignored or lazy, use its `value` as a fallback.
       value = computeRealValue(contextConf.value, mergedContext, true);
@@ -246,7 +262,7 @@ async function resolveNormalStoryboardContext(
     if (contextConf.track) {
       // Track its dependencies and auto update when each of them changed.
       const deps = (isTemplateState ? trackUsedState : trackUsedContext)(
-        refresh ? contextConf.resolve : contextConf.value
+        load ? contextConf.resolve : contextConf.value
       );
       for (const dep of deps) {
         const ctx = storyboardContextWrapper.get().get(dep);
@@ -255,10 +271,10 @@ async function resolveNormalStoryboardContext(
         )?.eventTarget?.addEventListener(
           isTemplateState ? "state.change" : "context.change",
           () => {
-            if (refresh) {
+            if (load) {
               storyboardContextWrapper.updateValue(
                 contextConf.name,
-                undefined,
+                { cache: "default" },
                 "refresh"
               );
             } else {
@@ -280,7 +296,8 @@ async function resolveNormalStoryboardContext(
     mergedContext,
     storyboardContextWrapper,
     brick,
-    refresh
+    load,
+    !isLazyResolve
   );
   return true;
 }
@@ -335,14 +352,16 @@ function resolveFreeVariableValue(
   mergedContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick,
-  refresh?: () => Promise<unknown>
+  load?: StoryboardContextItemFreeVariable["load"],
+  loaded?: boolean
 ): void {
   const newContext: StoryboardContextItem = {
     type: "free-variable",
     value,
     // This is required for tracking context, even if no `onChange` is specified.
     eventTarget: new EventTarget(),
-    refresh,
+    load,
+    loaded,
   };
   if (contextConf.onChange) {
     for (const handler of ([] as BrickEventHandler[]).concat(

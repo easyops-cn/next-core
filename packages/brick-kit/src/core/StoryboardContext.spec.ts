@@ -26,6 +26,10 @@ jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
 } as any);
 
 describe("StoryboardContextWrapper", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should work", () => {
     const tplContext = new CustomTemplateContext({});
     const ctx = tplContext.state;
@@ -138,7 +142,54 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("asyncValue")).toBe("[cache:default] initial");
 
     await (global as any).flushPromises();
-    expect(ctx.getValue("asyncValue")).toBe("[cache:reload] lazily updated");
+    expect(ctx.getValue("asyncValue")).toBe("[cache:default] lazily updated");
+  });
+
+  it("should load", async () => {
+    const brick = { properties: {} };
+    const tplContext = new CustomTemplateContext(brick);
+    const ctx = tplContext.state;
+    await ctx.define(
+      [
+        {
+          name: "asyncValue",
+          resolve: {
+            useProvider: "my-provider",
+            lazy: true,
+          },
+          value: "initial",
+        },
+        {
+          name: "processedData",
+          value: "<% `processed: ${STATE.asyncValue}` %>",
+          track: true,
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(ctx.getValue("processedData")).toBe("processed: initial");
+    // Trigger load twice.
+    ctx.updateValue("asyncValue", undefined, "load");
+    ctx.updateValue("asyncValue", undefined, "load");
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+
+    await (global as any).flushPromises();
+    // Will not load again if it is already LOADING.
+    expect(resolveOne).toBeCalledTimes(1);
+    expect(ctx.getValue("asyncValue")).toBe("[cache:default] lazily updated");
+    expect(ctx.getValue("processedData")).toBe(
+      "processed: [cache:default] lazily updated"
+    );
+
+    ctx.updateValue("asyncValue", undefined, "load");
+    await (global as any).flushPromises();
+    // Will not load again if it is already LOADED.
+    expect(resolveOne).toBeCalledTimes(1);
   });
 
   it("should throw if use resolve with syncDefine", () => {

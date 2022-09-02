@@ -223,6 +223,7 @@ export function listenerFactory(
       case "context.assign":
       case "context.replace":
       case "context.refresh":
+      case "context.load":
         return builtinContextListenerFactory(
           method,
           handler.args,
@@ -231,6 +232,7 @@ export function listenerFactory(
         );
       case "state.update":
       case "state.refresh":
+      case "state.load":
         return builtinStateListenerFactory(
           method,
           handler.args,
@@ -363,7 +365,7 @@ function builtinTplDispatchEventFactory(
 }
 
 function builtinContextListenerFactory(
-  method: "assign" | "replace" | "refresh",
+  method: "assign" | "replace" | "refresh" | "load",
   args: unknown[],
   ifContainer: IfContainer,
   context: PluginRuntimeContext
@@ -379,7 +381,7 @@ function builtinContextListenerFactory(
 }
 
 function builtinStateListenerFactory(
-  method: "update" | "refresh",
+  method: "update" | "refresh" | "load",
   args: unknown[],
   ifContainer: IfContainer,
   context: PluginRuntimeContext
@@ -393,7 +395,7 @@ function builtinStateListenerFactory(
     tplContext.state.updateValue(
       name as string,
       value,
-      method === "refresh" ? method : "replace"
+      method === "update" ? "replace" : method
     );
   } as EventListener;
 }
