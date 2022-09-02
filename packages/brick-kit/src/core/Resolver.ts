@@ -13,6 +13,7 @@ import {
   HandleReject,
   HandleRejectByCatch,
   GeneralTransform,
+  ResolveOptions,
 } from "@next-core/brick-types";
 import { asyncProcessBrick } from "@next-core/brick-utils";
 import { computeRealValue } from "../internal/setProperties";
@@ -99,21 +100,24 @@ export class Resolver {
     resolveConf: ResolveConf,
     conf: BrickConf,
     brick?: RuntimeBrick,
-    context?: PluginRuntimeContext
+    context?: PluginRuntimeContext,
+    options?: ResolveOptions
   ): Promise<void>;
   async resolveOne(
     type: "reference",
     resolveConf: ResolveConf,
     conf: Record<string, any>,
     brick?: RuntimeBrick,
-    context?: PluginRuntimeContext
+    context?: PluginRuntimeContext,
+    options?: ResolveOptions
   ): Promise<void>;
   async resolveOne(
     type: "brick" | "reference",
     resolveConf: ResolveConf,
     conf: BrickConf | Record<string, any>,
     brick?: RuntimeBrick,
-    context?: PluginRuntimeContext
+    context?: PluginRuntimeContext,
+    options?: ResolveOptions
   ): Promise<void> {
     const brickConf = conf as BrickConf;
     const propsReference = conf as Record<string, any>;
@@ -238,7 +242,7 @@ export class Resolver {
     }
 
     let promise: Promise<any>;
-    if (this.cache.has(cacheKey)) {
+    if (options?.cache !== "reload" && this.cache.has(cacheKey)) {
       promise = this.cache.get(cacheKey);
     } else {
       promise = (async () => {

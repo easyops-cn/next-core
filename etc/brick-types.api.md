@@ -1721,6 +1721,13 @@ export interface ResolveMenuConf {
     type: "resolve";
 }
 
+// Warning: (ae-internal-missing-underscore) The name "ResolveOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface ResolveOptions {
+    cache?: "default" | "reload";
+}
+
 // Warning: (ae-internal-missing-underscore) The name "RouteAliasConf" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -2123,7 +2130,7 @@ export interface StoryboardContextItemFreeVariable {
     // (undocumented)
     eventTarget?: EventTarget;
     // (undocumented)
-    refresh?: () => Promise<unknown>;
+    refresh?: (options?: ResolveOptions) => Promise<unknown>;
     // (undocumented)
     type: "free-variable";
     // (undocumented)

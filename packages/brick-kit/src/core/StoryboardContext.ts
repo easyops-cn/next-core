@@ -84,7 +84,8 @@ export class StoryboardContextWrapper {
           `You can not refresh the storyboard context "${name}" which has no resolve.`
         );
       }
-      item.refresh().then((val) => {
+      // Defaults to ignore the cache.
+      item.refresh(value ?? { cache: "reload" }).then((val) => {
         item.value = val;
         item.eventTarget?.dispatchEvent(
           new CustomEvent(
@@ -207,12 +208,12 @@ async function resolveNormalStoryboardContext(
   }
   const isTemplateState = !!storyboardContextWrapper.tplContextId;
   let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
-  let refresh: () => Promise<unknown> = null;
+  let refresh: StoryboardContextItemFreeVariable["refresh"] = null;
   let isLazyResolve = false;
   if (value === undefined) {
     if (contextConf.resolve) {
       if (looseCheckIf(contextConf.resolve, mergedContext)) {
-        refresh = async () => {
+        refresh = async (options) => {
           const valueConf: Record<string, unknown> = {};
           await _internalApiGetResolver().resolveOne(
             "reference",
@@ -223,7 +224,8 @@ async function resolveNormalStoryboardContext(
             },
             valueConf,
             null,
-            mergedContext
+            mergedContext,
+            options
           );
           return valueConf.value;
         };
