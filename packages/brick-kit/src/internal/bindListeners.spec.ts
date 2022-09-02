@@ -266,8 +266,8 @@ describe("bindListeners", () => {
         {
           type: "free-variable",
           value: "initial",
-          refresh() {
-            return Promise.resolve("lazily updated");
+          load(options) {
+            return Promise.resolve(`[cache:${options.cache}] lazily updated`);
           },
         },
       ],
@@ -866,7 +866,9 @@ describe("bindListeners", () => {
     expect(storyboardContext.get("myNewContext").value).toEqual({
       hello: "world",
     });
-    expect(storyboardContext.get("myLazyContext").value).toBe("lazily updated");
+    expect(storyboardContext.get("myLazyContext").value).toBe(
+      "[cache:reload] lazily updated"
+    );
 
     expect(mockMessageDispatcher.subscribe).toHaveBeenLastCalledWith(
       "task1",
@@ -967,8 +969,8 @@ describe("bindListeners", () => {
     tplContext.state.set("myLazyState", {
       type: "free-variable",
       value: "initial",
-      refresh() {
-        return Promise.resolve("lazily updated");
+      load(options) {
+        return Promise.resolve(`[cache:${options.cache}] lazily updated`);
       },
     });
 
@@ -994,7 +996,7 @@ describe("bindListeners", () => {
             args: ["myState", "<% `${STATE.myState}:updated` %>"],
           },
           {
-            action: "state.refresh",
+            action: "state.load",
             args: ["myLazyState"],
           },
         ],
@@ -1053,7 +1055,9 @@ describe("bindListeners", () => {
 
     expect(tplContext.state.getValue("myLazyState")).toBe("initial");
     await (global as any).flushPromises();
-    expect(tplContext.state.getValue("myLazyState")).toBe("lazily updated");
+    expect(tplContext.state.getValue("myLazyState")).toBe(
+      "[cache:default] lazily updated"
+    );
 
     tplElement.remove();
     (console.error as jest.Mock).mockRestore();

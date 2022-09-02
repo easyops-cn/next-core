@@ -59,6 +59,7 @@ import type { PresetBricksConf } from '@next-core/brick-types';
 import { default as React_2 } from 'react';
 import { RefForProxy } from '@next-core/brick-types';
 import { ResolveConf } from '@next-core/brick-types';
+import { ResolveOptions } from '@next-core/brick-types';
 import { RouteConf } from '@next-core/brick-types';
 import type { RuntimeBootstrapData } from '@next-core/brick-types';
 import type { RuntimeMisc } from '@next-core/brick-types';

@@ -3,6 +3,7 @@ import {
   BrickEventHandler,
   ContextConf,
   PluginRuntimeContext,
+  ResolveOptions,
   StoryboardContextItem,
   StoryboardContextItemFreeVariable,
 } from "@next-core/brick-types";
@@ -92,7 +93,10 @@ export class StoryboardContextWrapper {
       item.loading = true;
       // Defaults to ignore cache when refreshing.
       item
-        .load(value ?? { cache: method === "load" ? "default" : "reload" })
+        .load({
+          cache: method === "load" ? "default" : "reload",
+          ...(value as ResolveOptions),
+        })
         .then(
           (val) => {
             item.loading = false;
