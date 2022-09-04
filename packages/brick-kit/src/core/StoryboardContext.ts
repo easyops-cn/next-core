@@ -1,6 +1,7 @@
 import EventTarget from "@ungap/event-target";
 import {
   BrickEventHandler,
+  BrickEventHandlerCallback,
   ContextConf,
   PluginRuntimeContext,
   ResolveOptions,
@@ -16,9 +17,12 @@ import {
   trackUsedState,
 } from "@next-core/brick-utils";
 import { looseCheckIf } from "../checkIf";
-import { listenerFactory } from "../internal/bindListeners";
+import {
+  eventCallbackFactory,
+  listenerFactory,
+} from "../internal/bindListeners";
 import { computeRealValue } from "../internal/setProperties";
-import { RuntimeBrick } from "./exports";
+import { RuntimeBrick, _internalApiGetCurrentContext } from "./exports";
 import { _internalApiGetResolver } from "./Runtime";
 import { handleHttpError } from "../handleHttpError";
 
@@ -52,7 +56,8 @@ export class StoryboardContextWrapper {
   updateValue(
     name: string,
     value: unknown,
-    method: "assign" | "replace" | "refresh" | "load"
+    method: "assign" | "replace" | "refresh" | "load",
+    callback?: BrickEventHandlerCallback
   ): void {
     if (!this.data.has(name)) {
       if (this.tplContextId) {
@@ -79,27 +84,31 @@ export class StoryboardContextWrapper {
       return;
     }
 
-    // Todo(steve): support callback for refresh/load.
     if (method === "refresh" || method === "load") {
       if (!item.load) {
         throw new Error(
           `You can not ${method} the storyboard context "${name}" which has no resolve.`
         );
       }
-      if ((item.loaded || item.loading) && method === "load") {
-        // Do not load again.
-        return;
+
+      let promise: Promise<unknown>;
+      if (method === "load") {
+        // Try to reuse previous request when calling `load`.
+        if (item.loaded) {
+          promise = Promise.resolve(item.value);
+        } else if (item.loading) {
+          promise = item.loading;
+        }
       }
-      item.loading = true;
-      // Defaults to ignore cache when refreshing.
-      item
-        .load({
+
+      if (!promise) {
+        promise = item.loading = item.load({
           cache: method === "load" ? "default" : "reload",
           ...(value as ResolveOptions),
-        })
-        .then(
+        });
+        // Do not use the chained promise, since the callbacks need the original promise.
+        promise.then(
           (val) => {
-            item.loading = false;
             item.loaded = true;
             item.value = val;
             item.eventTarget?.dispatchEvent(
@@ -112,10 +121,34 @@ export class StoryboardContextWrapper {
             );
           },
           (err) => {
-            item.loading = false;
-            handleHttpError(err);
+            // Let users to override error handling.
+            if (!callback?.error) {
+              handleHttpError(err);
+            }
           }
         );
+      }
+
+      if (callback) {
+        const callbackFactory = eventCallbackFactory(
+          callback,
+          () =>
+            this.getResolveOptions(_internalApiGetCurrentContext())
+              .mergedContext
+        );
+
+        promise.then(
+          (val) => {
+            callbackFactory("success")({ value: val });
+            callbackFactory("finally")();
+          },
+          (err) => {
+            callbackFactory("error")(err);
+            callbackFactory("finally")();
+          }
+        );
+      }
+
       return;
     }
 

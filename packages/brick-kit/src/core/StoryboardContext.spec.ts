@@ -3,11 +3,11 @@ import { CustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import * as runtime from "./Runtime";
 
-const consoleWarn = jest
-  .spyOn(console, "warn")
-  .mockImplementation(() => void 0);
+const consoleWarn = jest.spyOn(console, "warn").mockImplementation();
+const consoleInfo = jest.spyOn(console, "info").mockImplementation();
 
-let resolveValue = "lazily updated";
+let resolveValue: string;
+let rejectReason: Error;
 const resolveOne = jest.fn(
   async (
     type: unknown,
@@ -17,6 +17,9 @@ const resolveOne = jest.fn(
     context?: unknown,
     options?: ResolveOptions
   ) => {
+    if (rejectReason) {
+      throw rejectReason;
+    }
     await Promise.resolve();
     conf.value = `[cache:${options?.cache ?? "default"}] ${resolveValue}`;
   }
@@ -26,7 +29,9 @@ jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
 } as any);
 
 describe("StoryboardContextWrapper", () => {
-  afterEach(() => {
+  beforeEach(() => {
+    resolveValue = "lazily updated";
+    rejectReason = undefined;
     jest.clearAllMocks();
   });
 
@@ -94,14 +99,80 @@ describe("StoryboardContextWrapper", () => {
 
     expect(ctx.getValue("asyncValue")).toBe("initial");
     expect(ctx.getValue("processedData")).toBe("processed: initial");
-    ctx.updateValue("asyncValue", undefined, "refresh");
+    ctx.updateValue("asyncValue", undefined, "refresh", {
+      success: {
+        action: "console.info",
+        args: ["success", "<% EVENT.detail %>"],
+      },
+      error: {
+        action: "console.info",
+        args: ["error", "<% EVENT.detail.message %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["finally", "<% EVENT.detail %>"],
+      },
+    });
     expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(consoleInfo).not.toBeCalled();
 
     await (global as any).flushPromises();
     expect(ctx.getValue("asyncValue")).toBe("[cache:reload] lazily updated");
     expect(ctx.getValue("processedData")).toBe(
       "processed: [cache:reload] lazily updated"
     );
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "success", {
+      value: "[cache:reload] lazily updated",
+    });
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "finally", null);
+  });
+
+  it("should handle error when load failed", async () => {
+    const brick = { properties: {} };
+    const tplContext = new CustomTemplateContext(brick);
+    const ctx = tplContext.state;
+    await ctx.define(
+      [
+        {
+          name: "asyncValue",
+          resolve: {
+            useProvider: "my-provider",
+            lazy: true,
+          },
+          value: "initial",
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+
+    rejectReason = new Error("oops");
+    ctx.updateValue("asyncValue", undefined, "load", {
+      success: {
+        action: "console.info",
+        args: ["success", "<% EVENT.detail %>"],
+      },
+      error: {
+        action: "console.info",
+        args: ["error", "<% EVENT.detail.message %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["finally", "<% EVENT.detail %>"],
+      },
+    });
+
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(consoleInfo).not.toBeCalled();
+
+    await (global as any).flushPromises();
+    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "error", "oops");
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "finally", null);
   });
 
   it("should refresh when deps updated", async () => {
@@ -109,7 +180,6 @@ describe("StoryboardContextWrapper", () => {
     const tplContext = new CustomTemplateContext(brick);
     const ctx = tplContext.state;
 
-    const originalResolveValue = resolveValue;
     resolveValue = "initial";
 
     await ctx.define(
@@ -136,7 +206,7 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("asyncValue")).toBe("[cache:default] initial");
     expect(ctx.getValue("dep")).toBe("first");
 
-    resolveValue = originalResolveValue;
+    resolveValue = "lazily updated";
     ctx.updateValue("dep", "second", "replace");
     expect(ctx.getValue("dep")).toBe("second");
     expect(ctx.getValue("asyncValue")).toBe("[cache:default] initial");
@@ -174,9 +244,28 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("asyncValue")).toBe("initial");
     expect(ctx.getValue("processedData")).toBe("processed: initial");
     // Trigger load twice.
-    ctx.updateValue("asyncValue", undefined, "load");
-    ctx.updateValue("asyncValue", undefined, "load");
+    ctx.updateValue("asyncValue", undefined, "load", {
+      success: {
+        action: "console.info",
+        args: ["[1] success", "<% EVENT.detail %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["[1] finally", "<% EVENT.detail %>"],
+      },
+    });
+    ctx.updateValue("asyncValue", undefined, "load", {
+      success: {
+        action: "console.info",
+        args: ["[2] success", "<% EVENT.detail %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["[2] finally", "<% EVENT.detail %>"],
+      },
+    });
     expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(consoleInfo).not.toBeCalled();
 
     await (global as any).flushPromises();
     // Will not load again if it is already LOADING.
@@ -185,11 +274,34 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("processedData")).toBe(
       "processed: [cache:default] lazily updated"
     );
+    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "[1] success", {
+      value: "[cache:default] lazily updated",
+    });
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "[1] finally", null);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "[2] success", {
+      value: "[cache:default] lazily updated",
+    });
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, "[2] finally", null);
 
-    ctx.updateValue("asyncValue", undefined, "load");
+    ctx.updateValue("asyncValue", undefined, "load", {
+      success: {
+        action: "console.info",
+        args: ["[3] success", "<% EVENT.detail %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["[3] finally", "<% EVENT.detail %>"],
+      },
+    });
     await (global as any).flushPromises();
     // Will not load again if it is already LOADED.
     expect(resolveOne).toBeCalledTimes(1);
+    expect(consoleInfo).toBeCalledTimes(6);
+    expect(consoleInfo).toHaveBeenNthCalledWith(5, "[3] success", {
+      value: "[cache:default] lazily updated",
+    });
+    expect(consoleInfo).toHaveBeenNthCalledWith(6, "[3] finally", null);
   });
 
   it("should throw if use resolve with syncDefine", () => {

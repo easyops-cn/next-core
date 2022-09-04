@@ -228,6 +228,7 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
+          handler.callback,
           context
         );
       case "state.update":
@@ -237,6 +238,7 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
+          handler.callback,
           context
         );
       case "tpl.dispatchEvent":
@@ -368,6 +370,7 @@ function builtinContextListenerFactory(
   method: "assign" | "replace" | "refresh" | "load",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
@@ -376,7 +379,7 @@ function builtinContextListenerFactory(
     }
     const storyboardContext = _internalApiGetStoryboardContextWrapper();
     const [name, value] = argsFactory(args, context, event);
-    storyboardContext.updateValue(name as string, value, method);
+    storyboardContext.updateValue(name as string, value, method, callback);
   } as EventListener;
 }
 
@@ -384,6 +387,7 @@ function builtinStateListenerFactory(
   method: "update" | "refresh" | "load",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
@@ -395,7 +399,8 @@ function builtinStateListenerFactory(
     tplContext.state.updateValue(
       name as string,
       value,
-      method === "update" ? "replace" : method
+      method === "update" ? "replace" : method,
+      callback
     );
   } as EventListener;
 }
@@ -648,6 +653,37 @@ function customListenerFactory(
   } as EventListener;
 }
 
+export function eventCallbackFactory(
+  callback: BrickEventHandlerCallback,
+  getContext: () => PluginRuntimeContext
+) {
+  return function callbackFactory(
+    type: "success" | "error" | "finally" | "progress"
+  ) {
+    return function (result?: unknown) {
+      if (callback?.[type]) {
+        try {
+          const event = new CustomEvent(`callback.${type}`, {
+            detail: result,
+          });
+          const context = getContext();
+          [].concat(callback[type]).forEach((eachHandler) => {
+            listenerFactory(eachHandler, context, null)(event);
+          });
+        } catch (err) {
+          // Do not throw errors in `callback.success` or `callback.progress`,
+          // to avoid the following triggering of `callback.error`.
+          // eslint-disable-next-line
+          console.error(err);
+        }
+      } else if (type === "error") {
+        // eslint-disable-next-line
+        console.error("Unhandled callback error:", result);
+      }
+    };
+  };
+}
+
 async function brickCallback(
   target: HTMLElement,
   handler: ExecuteCustomBrickEventHandler | UseProviderEventHandler,
@@ -677,49 +713,18 @@ async function brickCallback(
     return (target as any)[method](...computedArgs);
   };
 
-  const {
-    success,
-    error,
-    finally: finallyHook,
-    progress,
-  } = handler.callback ?? {};
-
-  if (!(success || error || finallyHook || progress)) {
+  if (!handler.callback) {
     task();
     return;
   }
 
-  const callbackFactory =
-    (
-      eventType: string,
-      specificHandler: BrickEventHandler | BrickEventHandler[]
-    ): PollableCallbackFunction =>
-    (result: unknown) => {
-      if (specificHandler) {
-        try {
-          const event = new CustomEvent(eventType, {
-            detail: result,
-          });
-          [].concat(specificHandler).forEach((eachHandler) => {
-            listenerFactory(eachHandler, context, runtimeBrick)(event);
-          });
-        } catch (err) {
-          // Do not throw errors in `callback.success` or `callback.progress`,
-          // to avoid the following triggering of `callback.error`.
-          // eslint-disable-next-line
-          console.error(err);
-        }
-      } else if (eventType === "callback.error") {
-        // eslint-disable-next-line
-        console.error("Unhandled callback error:", result);
-      }
-    };
+  const callbackFactory = eventCallbackFactory(handler.callback, () => context);
 
   const pollableCallback: Required<PollableCallback> = {
-    progress: callbackFactory("callback.progress", progress),
-    success: callbackFactory("callback.success", success),
-    error: callbackFactory("callback.error", error),
-    finally: callbackFactory("callback.finally", finallyHook),
+    progress: callbackFactory("progress"),
+    success: callbackFactory("success"),
+    error: callbackFactory("error"),
+    finally: callbackFactory("finally"),
   };
 
   let poll: ProviderPollOptions;

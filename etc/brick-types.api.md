@@ -2134,7 +2134,7 @@ export interface StoryboardContextItemFreeVariable {
     // (undocumented)
     loaded?: boolean;
     // (undocumented)
-    loading?: boolean;
+    loading?: Promise<unknown>;
     // (undocumented)
     type: "free-variable";
     // (undocumented)
