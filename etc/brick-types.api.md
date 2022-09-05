@@ -1508,6 +1508,8 @@ export interface PluginRuntimeContext {
     appendI18nNamespace?: string;
     event?: CustomEvent;
     flags?: FeatureFlags;
+    // @internal (undocumented)
+    formContextId?: string;
     hash?: string;
     // @internal (undocumented)
     match?: MatchResult;
