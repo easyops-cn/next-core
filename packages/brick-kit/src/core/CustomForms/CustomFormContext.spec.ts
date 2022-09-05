@@ -1,7 +1,7 @@
 import { RuntimeBrick } from "../BrickNode";
 import { CustomFormContext, getCustomFormContext } from "./CustomFormContext";
 
-describe("CustomTemplateContext", () => {
+describe("CustomFormContext", () => {
   it("should work", () => {
     const brick: RuntimeBrick = {};
     const context = new CustomFormContext(brick);
