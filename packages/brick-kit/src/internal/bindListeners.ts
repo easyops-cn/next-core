@@ -655,7 +655,8 @@ function customListenerFactory(
 
 export function eventCallbackFactory(
   callback: BrickEventHandlerCallback,
-  getContext: () => PluginRuntimeContext
+  getContext: () => PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ) {
   return function callbackFactory(
     type: "success" | "error" | "finally" | "progress"
@@ -668,7 +669,7 @@ export function eventCallbackFactory(
           });
           const context = getContext();
           [].concat(callback[type]).forEach((eachHandler) => {
-            listenerFactory(eachHandler, context, null)(event);
+            listenerFactory(eachHandler, context, runtimeBrick)(event);
           });
         } catch (err) {
           // Do not throw errors in `callback.success` or `callback.progress`,
@@ -718,7 +719,11 @@ async function brickCallback(
     return;
   }
 
-  const callbackFactory = eventCallbackFactory(handler.callback, () => context);
+  const callbackFactory = eventCallbackFactory(
+    handler.callback,
+    () => context,
+    runtimeBrick
+  );
 
   const pollableCallback: Required<PollableCallback> = {
     progress: callbackFactory("progress"),

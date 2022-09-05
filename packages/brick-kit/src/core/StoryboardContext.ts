@@ -134,7 +134,8 @@ export class StoryboardContextWrapper {
           callback,
           () =>
             this.getResolveOptions(_internalApiGetCurrentContext())
-              .mergedContext
+              .mergedContext,
+          null
         );
 
         promise.then(
