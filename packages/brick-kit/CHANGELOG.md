@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.136.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.136.0...@next-core/brick-kit@2.136.1) (2022-09-05)
+
+
+### Bug Fixes
+
+* fix missing runtime brick in event callback ([a5b70be](https://github.com/easyops-cn/next-core/commit/a5b70be68bc6a856b78992320518d0a0e6a41128))
+
+
+
+
+
 # [2.136.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.135.1...@next-core/brick-kit@2.136.0) (2022-09-05)
 
 
