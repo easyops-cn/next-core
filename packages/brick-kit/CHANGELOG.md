@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.136.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.135.1...@next-core/brick-kit@2.136.0) (2022-09-05)
+
+
+### Features
+
+* support context/state load/refresh callback ([4dfdd8b](https://github.com/easyops-cn/next-core/commit/4dfdd8bc8e91430a99857154237bae290c685329))
+
+
+
+
+
 ## [2.135.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.135.0...@next-core/brick-kit@2.135.1) (2022-09-02)
 
 **Note:** Version bump only for package @next-core/brick-kit

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.73.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.72.0...@next-core/brick-types@2.73.0) (2022-09-05)
+
+
+### Features
+
+* support context/state load/refresh callback ([4dfdd8b](https://github.com/easyops-cn/next-core/commit/4dfdd8bc8e91430a99857154237bae290c685329))
+
+
+
+
+
 # [2.72.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.71.0...@next-core/brick-types@2.72.0) (2022-09-02)
 
 
