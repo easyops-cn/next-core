@@ -267,7 +267,9 @@ describe("bindListeners", () => {
           type: "free-variable",
           value: "initial",
           load(options) {
-            return Promise.resolve(`[cache:${options.cache}] lazily updated`);
+            return Promise.resolve(
+              `[cache:${options.cache ?? "default"}] lazily updated`
+            );
           },
         },
       ],
@@ -970,7 +972,9 @@ describe("bindListeners", () => {
       type: "free-variable",
       value: "initial",
       load(options) {
-        return Promise.resolve(`[cache:${options.cache}] lazily updated`);
+        return Promise.resolve(
+          `[cache:${options.cache ?? "default"}] lazily updated`
+        );
       },
     });
 
