@@ -10,13 +10,13 @@
   },
   "sideEffects": false,
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": ">= 5.36.1",
+    "@typescript-eslint/eslint-plugin": ">= 5.36.2",
     "eslint": ">= 8.23.0",
     "eslint-plugin-react": ">= 7.31.6",
     "eslint-plugin-react-hooks": ">= 4.6.0"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.2",
     "eslint-config-prettier": "^8.5.0"
   }
 }
