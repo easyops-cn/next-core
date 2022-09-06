@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.74.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.73.1...@next-core/brick-types@2.74.0) (2022-09-06)
+
+
+### Features
+
+* support to use contract in widgets ([25b3337](https://github.com/easyops-cn/next-core/commit/25b333724f9c45131b209845a7caef3e8597888d))
+
+
+
+
+
 ## [2.73.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.73.0...@next-core/brick-types@2.73.1) (2022-09-06)
 
 **Note:** Version bump only for package @next-core/brick-types

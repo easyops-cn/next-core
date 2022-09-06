@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.121...@next-dll/editor-bricks-helper@0.29.0) (2022-09-06)
+
+
+### Features
+
+* support to use contract in widgets ([25b3337](https://github.com/easyops-cn/next-core/commit/25b333724f9c45131b209845a7caef3e8597888d))
+
+
+
+
+
 ## [0.28.121](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.120...@next-dll/editor-bricks-helper@0.28.121) (2022-09-06)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
