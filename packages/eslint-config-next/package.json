@@ -12,7 +12,7 @@
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": ">= 5.36.1",
     "eslint": ">= 8.23.0",
-    "eslint-plugin-react": ">= 7.31.6",
+    "eslint-plugin-react": ">= 7.31.7",
     "eslint-plugin-react-hooks": ">= 4.6.0"
   },
   "dependencies": {
