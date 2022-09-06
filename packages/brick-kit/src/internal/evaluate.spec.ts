@@ -186,7 +186,7 @@ tplContext.state.set("scopedData", {
   value: "Yes",
 });
 
-const formContext = new CustomFormContext({});
+const formContext = new CustomFormContext();
 formContext.formState.set("description", {
   type: "free-variable",
   value: "test",

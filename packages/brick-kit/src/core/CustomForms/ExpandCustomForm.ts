@@ -20,15 +20,15 @@ export async function ExpandCustomForm(
       name: "search-empty",
     },
   };
+  const formContext = new CustomFormContext();
+  if (Array.isArray(formData.context)) {
+    await formContext.formState.define(
+      formData.context,
+      { ...context, formContextId: formContext.id },
+      {}
+    );
+  }
   try {
-    const formContext = new CustomFormContext({});
-    if (Array.isArray(formData.context)) {
-      await formContext.formState.define(
-        formData.context,
-        { ...context, formContextId: formContext.id },
-        {}
-      );
-    }
     const formStoryboard = getStoryboard(
       [formData.formSchema],
       [],
