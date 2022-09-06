@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-types",
-  "version": "2.73.0",
+  "version": "2.73.1",
   "description": "Pure types for kernel",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-types",
   "license": "GPL-3.0",
