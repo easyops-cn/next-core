@@ -301,7 +301,7 @@ function collectBricksInCustomTemplates(
   }
 }
 
-function collectBricksByCustomTemplates(
+export function collectBricksByCustomTemplates(
   customTemplates: CustomTemplate[]
 ): Map<string, string[]> {
   const collectionByTpl = new Map<string, string[]>();
@@ -310,6 +310,7 @@ function collectBricksByCustomTemplates(
       const collection = [] as string[];
       collectionByTpl.set(tpl.name, collection);
       collectBricksInBrickConfs(tpl.bricks, collection);
+      collectBricksInContext(tpl.state, collection);
     });
   }
   return collectionByTpl;

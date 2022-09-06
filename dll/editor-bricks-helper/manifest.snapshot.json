@@ -20,6 +20,7 @@
           "PrecookVisitor",
           "asyncProcessBrick",
           "asyncProcessStoryboard",
+          "collectBricksByCustomTemplates",
           "computeRealRoutePath",
           "convertValueByPrecision",
           "cook",

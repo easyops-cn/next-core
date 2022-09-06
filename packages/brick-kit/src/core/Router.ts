@@ -50,7 +50,10 @@ import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
 import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
-import { collectContract } from "./CollectContracts";
+import {
+  clearCollectWidgetContract,
+  collectContract,
+} from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
 import {
@@ -205,6 +208,7 @@ export class Router {
 
     resetAllInjected();
     clearPollTimeout();
+    clearCollectWidgetContract();
 
     if (this.locationContext) {
       this.locationContext.resolver.resetRefreshQueue();

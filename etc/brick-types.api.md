@@ -958,6 +958,7 @@ export interface CustomDisplay<T = any, O = Record<string, any>> {
 // @public
 export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
+    contracts?: Contract[];
     name: string;
     proxy?: CustomTemplateProxy;
     state?: CustomTemplateState[];
