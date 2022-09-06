@@ -3524,6 +3524,7 @@
           "isSnippetNode",
           "lint",
           "loadScript",
+          "makeThrottledAggregation",
           "mapCustomApisToNameAndNamespace",
           "matchPath",
           "normalizeBuilderNode",
