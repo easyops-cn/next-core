@@ -2388,8 +2388,8 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
         mountPoint: "content",
         nodeData: {
           brick: "butotn",
-          instanceId: null,
-          id: null,
+          instanceId: "mock_iid",
+          id: "mock_id",
           type: "brick",
         },
         dragStatus: "inside",
@@ -2451,6 +2451,12 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
           sort: 1,
         },
       ]);
+
+      expect(node.sortData).toEqual({
+        nodeIds: ["B-002", "mock_id"],
+        nodeInstanceIds: ["abc", "mock_iid"],
+        nodeUids: [2],
+      });
     });
 
     it("insert a node after micro-view", () => {

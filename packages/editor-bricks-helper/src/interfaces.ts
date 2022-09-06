@@ -149,6 +149,11 @@ export interface WorkbenchNodeAdd {
   parentInstanceId?: string;
   parent: string;
   dragStatus: dragStatus;
+  sortData?: {
+    nodeUids: number[];
+    nodeIds: string[];
+    nodeInstanceIds: string[];
+  };
 }
 export interface WorkbenchTreeNodeMoveProps {
   dragNodeUid: number;

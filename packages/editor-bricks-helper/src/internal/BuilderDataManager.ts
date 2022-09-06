@@ -504,22 +504,19 @@ export class BuilderDataManager {
     const { rootId, nodes, edges } = this.data;
     const isDragRoot = dragOverNodeUid === rootId;
     /*
-     * 如果没有id, 则为新增状态, 没有edge, 否则为移动状态
+     * 如果找不到edge, 则为新增状态, 否则为移动状态
      */
-    const isAdd = nodeData.id;
-    const dragEdge = !isAdd
-      ? edges.find((item) => item.child === dragNodeUid)
-      : null;
+    const dragEdge = edges.find((item) => item.child === dragNodeUid);
     const dragOverEdge = edges.find((item) => item.child === dragOverNodeUid);
     /**
      * 如果是根节点, 则mountPoint强制等于 bricks
-     * 如果是属于拖动进某个节点中, 则使用原mountPoint(新增节点为content)
+     * 如果是属于拖动进某个节点中, 默认使用 content
      * 其他情况, 使用被拖拽节点的mountPoint
      */
     const mountPoint = isDragRoot
       ? "bricks"
       : dragStatus === "inside"
-      ? dragEdge?.mountPoint ?? "content"
+      ? "content"
       : dragOverEdge.mountPoint;
 
     const parentEdge = edges.find((item) => item.child === dragOverNodeUid);
@@ -539,8 +536,12 @@ export class BuilderDataManager {
       (edge) => edge.child !== dragNodeUid && edge.parent === parentUid
     );
     const sortUids = sortBy(siblingEdge, "sort").map((item) => item.child);
-    const sortNodeIds: string[] = sortUids.map((item) => {
-      return nodes.find((node) => node.$$uid === item).id;
+    const sortNodeIds: string[] = [];
+    const sortNodeInstanceIds: string[] = [];
+    sortUids.forEach((item) => {
+      const node = nodes.find((node) => node.$$uid === item);
+      sortNodeIds.push(node.id);
+      sortNodeInstanceIds.push(node.instanceId);
     });
     let sortIndex: number;
     if (dragStatus === "inside") {
@@ -549,6 +550,7 @@ export class BuilderDataManager {
         : 0;
       // 插入默认插最后
       sortNodeIds.push(nodeData.id);
+      sortNodeInstanceIds.push(nodeData.instanceId);
     } else if (dragStatus === "top" || dragStatus === "bottom") {
       const overIndex = sortUids.findIndex((item) => item === dragOverNodeUid);
       sortIndex = dragStatus === "top" ? overIndex : overIndex + 1;
@@ -556,6 +558,7 @@ export class BuilderDataManager {
       sortNodeIds.splice(sortIndex, 0, nodeData.id);
       // 如果是新增的情况下, 没有edge, 则取dragNodeUid(新创建的uid)
       sortUids.splice(sortIndex, 0, dragEdge?.child ?? dragNodeUid);
+      sortNodeInstanceIds.splice(sortIndex, 0, nodeData.instanceId);
     }
 
     return {
@@ -565,6 +568,7 @@ export class BuilderDataManager {
       parnetNodeData,
       sortUids,
       sortNodeIds,
+      sortNodeInstanceIds,
     };
   }
 
@@ -609,9 +613,11 @@ export class BuilderDataManager {
         sortIndex,
         sortUids: nodeUids,
         sortNodeIds: nodeIds,
+        sortNodeInstanceIds: nodeInstanceIds,
       } = this.getDragInfo({
         nodeData: {
-          id: null,
+          id: nodeData.id ?? null,
+          instanceId: nodeData.instanceId ?? null,
         } as BuilderRuntimeNode,
         dragNodeUid: newNodeUid,
         dragOverNodeUid,
@@ -654,12 +660,19 @@ export class BuilderDataManager {
         nodeData,
         sort: sortIndex,
       });
+      const sortData = {
+        nodeUids,
+        nodeInstanceIds,
+        nodeIds,
+      };
+      detail.sortData = sortData;
       this.eventTarget.dispatchEvent(
         new CustomEvent(BuilderInternalEventType.NODE_ADD, {
           detail: {
             nodeUid: newNodeUid,
             parentUid,
             nodeUids,
+            nodeInstanceIds,
             nodeIds,
             nodeData,
           },
