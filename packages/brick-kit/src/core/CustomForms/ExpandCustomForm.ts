@@ -1,12 +1,14 @@
 import { BrickConf, BrickEventsMap, ResolveConf } from "@next-core/brick-types";
 import _ from "lodash";
-import { filterProperties } from "./constants";
+import { filterProperties, symbolForFormContextId } from "./constants";
+import { CustomFormContext } from "./CustomFormContext";
 
-export function ExpandCustomForm(
+export async function ExpandCustomForm(
   formData: formDataProperties,
   brickConf: BrickConf,
-  isPreview: boolean | undefined
-): BrickConf {
+  isPreview: boolean | undefined,
+  context: any
+): Promise<BrickConf> {
   const errorBrick = {
     brick: "presentational-bricks.brick-illustration",
     properties: {
@@ -18,16 +20,26 @@ export function ExpandCustomForm(
       name: "search-empty",
     },
   };
+  const formContext = new CustomFormContext();
+  if (Array.isArray(formData.context)) {
+    await formContext.formState.define(
+      formData.context,
+      { ...context, formContextId: formContext.id },
+      {}
+    );
+  }
   try {
     const formStoryboard = getStoryboard(
       [formData.formSchema],
       [],
       formData.fields,
-      isPreview
+      isPreview,
+      formContext.id
     );
     formStoryboard[0] = _.isEmpty(formStoryboard[0])
       ? errorBrick
       : formStoryboard[0];
+
     return {
       ...brickConf,
       brick: "div",
@@ -301,11 +313,12 @@ export function getStoryboard(
   datasource: formSchemaProperties[],
   result: any[],
   fields: fieldProperties[],
-  isPreview: boolean | undefined
+  isPreview: boolean | undefined,
+  formContextId: string
 ): BrickConf[] {
   for (let i = 0; i < datasource.length; i++) {
     const dataItem = datasource[i];
-    const resultItem: { [key: string]: any } = {};
+    let resultItem: { [key: string]: any } = {};
     //数据初始化：根据id,字段类型获取默认属性
     const defaultProperties: any = getDefaultProperties(dataItem.id, fields);
     if (dataItem.brick === "forms.general-form" && isPreview) {
@@ -346,7 +359,7 @@ export function getStoryboard(
 
     if (Array.isArray(dataItem.bricks)) {
       resultItem["slots"] = _.groupBy(
-        getStoryboard(dataItem.bricks, [], fields, isPreview),
+        getStoryboard(dataItem.bricks, [], fields, isPreview, formContextId),
         "mountPoint"
       );
       Object.keys(resultItem["slots"])?.forEach((item) => {
@@ -356,6 +369,10 @@ export function getStoryboard(
         };
       });
     }
+    resultItem = {
+      ...resultItem,
+      [symbolForFormContextId]: formContextId,
+    };
     result[i] = resultItem;
   }
   return result;

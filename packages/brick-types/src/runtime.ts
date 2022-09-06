@@ -212,6 +212,9 @@ export interface PluginRuntimeContext {
 
   /** @internal */
   tplContextId?: string;
+
+  /** @internal */
+  formContextId?: string;
 }
 
 /** @internal */

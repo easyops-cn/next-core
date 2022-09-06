@@ -25,6 +25,7 @@ import { getReadOnlyProxy, getDynamicReadOnlyProxy } from "./proxyFactories";
 import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
 import { getMenu } from "./menu";
 import { getMedia } from "./mediaQuery";
+import { getCustomFormContext } from "../core/CustomForms/CustomFormContext";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -44,6 +45,7 @@ export interface EvaluateRuntimeContext {
   event?: CustomEvent;
   data?: unknown;
   tplContextId?: string;
+  formContextId?: string;
   overrideApp?: MicroApp;
   appendI18nNamespace?: string;
 }
@@ -127,6 +129,7 @@ export function evaluate(
   const attemptToVisitData = attemptToVisitGlobals.has("DATA");
   const attemptToVisitTpl = attemptToVisitGlobals.has("TPL");
   const attemptToVisitState = attemptToVisitGlobals.has("STATE");
+  const attemptToVisitFormState = attemptToVisitGlobals.has("FORM_STATE");
   const attemptToVisitTplOrState = attemptToVisitTpl || attemptToVisitState;
 
   // Ignore evaluating if `event` is missing in context.
@@ -179,6 +182,18 @@ export function evaluate(
         },
       });
     }
+  }
+
+  if (attemptToVisitFormState && runtimeContext.formContextId) {
+    const formContext = getCustomFormContext(runtimeContext.formContextId);
+    globalVariables.FORM_STATE = getDynamicReadOnlyProxy({
+      get(target, key: string) {
+        return formContext.formState.getValue(key);
+      },
+      ownKeys() {
+        return Array.from(formContext.formState.get().keys());
+      },
+    });
   }
 
   const {

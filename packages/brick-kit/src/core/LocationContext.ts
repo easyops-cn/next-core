@@ -77,7 +77,11 @@ import {
   ExpandCustomForm,
   formDataProperties,
 } from "./CustomForms/ExpandCustomForm";
-import { formRenderer } from "./CustomForms/constants";
+import {
+  formRenderer,
+  RuntimeBrickConfOfFormSymbols,
+  symbolForFormContextId,
+} from "./CustomForms/constants";
 
 export type MatchRoutesResult =
   | {
@@ -171,9 +175,11 @@ export class LocationContext {
   private getContext({
     match,
     tplContextId,
+    formContextId,
   }: {
     match: MatchResult;
     tplContextId?: string;
+    formContextId?: string;
   }): PluginRuntimeContext {
     const auth = getAuth();
     const context: PluginRuntimeContext = {
@@ -195,6 +201,7 @@ export class LocationContext {
       segues: this.segues,
       storyboardContext: this.storyboardContextWrapper.get(),
       tplContextId,
+      formContextId,
     };
     return context;
   }
@@ -570,9 +577,15 @@ export class LocationContext {
     const tplContextId = (brickConf as RuntimeBrickConfWithTplSymbols)[
       symbolForTplContextId
     ];
+
+    const formContextId = (brickConf as RuntimeBrickConfOfFormSymbols)[
+      symbolForFormContextId
+    ];
+
     const context = this.getContext({
       match,
       tplContextId,
+      formContextId,
     });
 
     // First, check whether the brick should be rendered.
@@ -604,6 +617,11 @@ export class LocationContext {
       tplStack.push(tplTagName);
     }
 
+    if (brickConf.brick === formRenderer) {
+      brickConf.properties.formData = JSON.stringify(
+        brickConf.properties.formData
+      );
+    }
     const brick: RuntimeBrick = {};
 
     await this.storyboardContextWrapper.define(
@@ -631,6 +649,7 @@ export class LocationContext {
         symbolForRefForProxy
       ],
       tplContextId,
+      formContextId,
       iid: brickConf.iid,
       ...(brickConf.lifeCycle?.onScrollIntoView
         ? {
@@ -705,11 +724,14 @@ export class LocationContext {
     }
 
     if (brick.type === formRenderer) {
-      const formData: formDataProperties = brick.properties.formData;
-      expandedBrickConf = ExpandCustomForm(
+      const formData: formDataProperties = JSON.parse(
+        brick.properties.formData
+      );
+      expandedBrickConf = await ExpandCustomForm(
         formData,
         brickConf,
-        brick.properties.isPreview
+        brick.properties.isPreview,
+        context
       );
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }

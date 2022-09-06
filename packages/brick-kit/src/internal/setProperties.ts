@@ -52,6 +52,7 @@ export const computeRealValue = (
         "tplContextId",
         "overrideApp",
         "appendI18nNamespace",
+        "formContextId",
       ] as const;
       for (const key of keys) {
         if (context?.[key]) {

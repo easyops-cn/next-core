@@ -12,6 +12,7 @@ import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { registerWidgetI18n } from "../core/WidgetI18n";
 import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
+import { CustomFormContext } from "../core/CustomForms/CustomFormContext";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
@@ -185,6 +186,12 @@ tplContext.state.set("scopedData", {
   value: "Yes",
 });
 
+const formContext = new CustomFormContext();
+formContext.formState.set("description", {
+  type: "free-variable",
+  value: "test",
+});
+
 describe("shouldDismissRecursiveMarkingInjected", () => {
   it("should work with string", () => {
     expect(shouldDismissRecursiveMarkingInjected("<% DATA %>")).toBe(false);
@@ -339,6 +346,17 @@ describe("evaluate", () => {
     expect(
       evaluate(raw, {
         tplContextId: tplContext.id,
+      })
+    ).toEqual(result);
+  });
+
+  it.each<[string, any]>([
+    ["<% [] %>", []],
+    ["<% FORM_STATE.description %>", "test"],
+  ])("evaluate(%j, { formContextId }) should return %j", (raw, result) => {
+    expect(
+      evaluate(raw, {
+        formContextId: formContext.id,
       })
     ).toEqual(result);
   });
