@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.46.28...@next-core/editor-bricks-helper@0.47.0) (2022-09-06)
+
+
+### Features
+
+* **BuilderDataManage:** support workbenchNodeAdd get sortData ([ba91744](https://github.com/easyops-cn/next-core/commit/ba91744b512bde26788e0141cc602c592059d3bb))
+
+
+
+
+
 ## [0.46.28](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.46.27...@next-core/editor-bricks-helper@0.46.28) (2022-09-05)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
