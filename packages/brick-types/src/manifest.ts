@@ -1601,6 +1601,9 @@ export interface CustomTemplate {
 
   /** 状态数据配置列表。 */
   state?: CustomTemplateState[];
+
+  /** 契约的定义，只有 widget 才有该字段 */
+  contracts?: Contract[];
 }
 
 /** 自定义模板状态数据配置。 */

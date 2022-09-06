@@ -1,4 +1,9 @@
-import { collectContract, getContract } from "./CollectContracts";
+import {
+  collectContract,
+  getContract,
+  collectWidgetContract,
+  clearCollectWidgetContract,
+} from "./CollectContracts";
 
 describe("CollectContract", () => {
   it("should work", () => {
@@ -22,5 +27,31 @@ describe("CollectContract", () => {
       name: "a",
       version: "1.0.0",
     });
+  });
+
+  it("should work with widget", () => {
+    const contracts = [
+      {
+        namespaceId: "easyops.api.cmdb.model",
+        name: "getDetail",
+        version: "1.0.0",
+      },
+      {
+        namespaceId: "easyops.api.cmdb.model",
+        name: "postSearch",
+        version: "1.2.0",
+      },
+    ];
+    collectWidgetContract(contracts);
+
+    expect(getContract("easyops.api.cmdb.model.postSearch")).toEqual({
+      namespaceId: "easyops.api.cmdb.model",
+      name: "postSearch",
+      version: "1.2.0",
+    });
+
+    clearCollectWidgetContract();
+
+    expect(getContract("easyops.api.cmdb.model.postSearch")).toEqual(undefined);
   });
 });

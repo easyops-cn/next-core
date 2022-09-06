@@ -23,6 +23,7 @@ import { collectMergeBases } from "./collectMergeBases";
 import { CustomTemplateContext } from "./CustomTemplateContext";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate";
 import { setupTemplateProxy } from "./setupTemplateProxy";
+import { collectWidgetContract } from "../CollectContracts";
 
 export interface ProxyContext {
   reversedProxies: ReversedProxies;
@@ -87,7 +88,7 @@ function lowLevelExpandCustomTemplate(
   context: PluginRuntimeContext,
   tplContext: CustomTemplateContext
 ): RuntimeBrickConf {
-  const { bricks, proxy, state } = template;
+  const { bricks, proxy, state, contracts } = template;
   const {
     properties: templateProperties,
     slots: externalSlots,
@@ -103,6 +104,9 @@ function lowLevelExpandCustomTemplate(
   proxyBrick.proxyRefs = new Map();
   proxyBrick.stateNames = state?.map((item) => item.name);
 
+  if (contracts) {
+    collectWidgetContract(contracts);
+  }
   const refToBrickConf = collectRefsInTemplate(template);
 
   // Reversed proxies are used for expand storyboard before rendering page.
