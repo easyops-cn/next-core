@@ -352,7 +352,7 @@ describe("evaluate", () => {
 
   it.each<[string, any]>([
     ["<% [] %>", []],
-    ["<% FORMSTATE.description %>", "test"],
+    ["<% FORM_STATE.description %>", "test"],
   ])("evaluate(%j, { formContextId }) should return %j", (raw, result) => {
     expect(
       evaluate(raw, {

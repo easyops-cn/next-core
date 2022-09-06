@@ -668,47 +668,8 @@ describe("ExpandCustomForm is work", () => {
       formData: "<% CTX.formData %>",
     },
   };
-  expect(ExpandCustomForm(formData, brickConf, true)).toMatchSnapshot();
-  expect(ExpandCustomForm(_formData, brickConf)).toEqual({
-    brick: "div",
-    slots: {
-      "": {
-        bricks: [
-          {
-            brick: "presentational-bricks.brick-illustration",
-            properties: {
-              category: "default",
-              header: {
-                title: "参数错误",
-              },
-              mode: "guide",
-              name: "search-empty",
-            },
-          },
-        ],
-        type: "bricks",
-      },
-    },
-  });
-  expect(ExpandCustomForm(_formData, brickConf)).toEqual({
-    brick: "div",
-    slots: {
-      "": {
-        bricks: [
-          {
-            brick: "presentational-bricks.brick-illustration",
-            properties: {
-              category: "default",
-              header: {
-                title: "参数错误",
-              },
-              mode: "guide",
-              name: "search-empty",
-            },
-          },
-        ],
-        type: "bricks",
-      },
-    },
+  it("ExpandCustomForm is work", async () => {
+    expect(await ExpandCustomForm(formData, brickConf, true)).toMatchSnapshot();
+    expect(await ExpandCustomForm(_formData, brickConf)).toMatchSnapshot();
   });
 });

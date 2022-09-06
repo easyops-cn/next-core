@@ -3,12 +3,12 @@ import _ from "lodash";
 import { filterProperties, symbolForFormContextId } from "./constants";
 import { CustomFormContext } from "./CustomFormContext";
 
-export function ExpandCustomForm(
+export async function ExpandCustomForm(
   formData: formDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
   context: any
-): BrickConf {
+): Promise<BrickConf> {
   const errorBrick = {
     brick: "presentational-bricks.brick-illustration",
     properties: {
@@ -23,7 +23,7 @@ export function ExpandCustomForm(
   try {
     const formContext = new CustomFormContext({});
     if (Array.isArray(formData.context)) {
-      formContext.formState.define(
+      await formContext.formState.define(
         formData.context,
         { ...context, formContextId: formContext.id },
         {}

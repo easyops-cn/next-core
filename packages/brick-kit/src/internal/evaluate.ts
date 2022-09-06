@@ -129,7 +129,7 @@ export function evaluate(
   const attemptToVisitData = attemptToVisitGlobals.has("DATA");
   const attemptToVisitTpl = attemptToVisitGlobals.has("TPL");
   const attemptToVisitState = attemptToVisitGlobals.has("STATE");
-  const attemptToVisitFormState = attemptToVisitGlobals.has("FORMSTATE");
+  const attemptToVisitFormState = attemptToVisitGlobals.has("FORM_STATE");
   const attemptToVisitTplOrState = attemptToVisitTpl || attemptToVisitState;
 
   // Ignore evaluating if `event` is missing in context.
@@ -186,7 +186,7 @@ export function evaluate(
 
   if (attemptToVisitFormState && runtimeContext.formContextId) {
     const formContext = getCustomFormContext(runtimeContext.formContextId);
-    globalVariables.FORMSTATE = getDynamicReadOnlyProxy({
+    globalVariables.FORM_STATE = getDynamicReadOnlyProxy({
       get(target, key: string) {
         return formContext.formState.getValue(key);
       },

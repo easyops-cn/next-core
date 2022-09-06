@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `
+exports[`ExpandCustomForm is work ExpandCustomForm is work 1`] = `
 Object {
   "bg": false,
   "brick": "div",
@@ -435,6 +435,30 @@ Object {
               ],
               "type": "bricks",
             },
+          },
+        },
+      ],
+      "type": "bricks",
+    },
+  },
+}
+`;
+
+exports[`ExpandCustomForm is work ExpandCustomForm is work 2`] = `
+Object {
+  "brick": "div",
+  "slots": Object {
+    "": Object {
+      "bricks": Array [
+        Object {
+          "brick": "presentational-bricks.brick-illustration",
+          "properties": Object {
+            "category": "default",
+            "header": Object {
+              "title": "参数错误",
+            },
+            "mode": "guide",
+            "name": "search-empty",
           },
         },
       ],
