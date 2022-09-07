@@ -50,8 +50,12 @@ customElements.define(
 );
 
 const mockHistory = {
-  push: jest.fn(),
-  replace: jest.fn(),
+  push: jest.fn((loc, state, callback) => {
+    callback?.(true);
+  }),
+  replace: jest.fn((loc, state, callback) => {
+    callback?.(false);
+  }),
   pushQuery: jest.fn(),
   replaceQuery: jest.fn(),
   pushAnchor: jest.fn(),
@@ -312,10 +316,40 @@ describe("bindListeners", () => {
     window.parent.postMessage = jest.fn();
     const eventsMap: BrickEventsMap = {
       key1: [
-        { action: "history.push" },
+        {
+          action: "history.push",
+          callback: {
+            success: {
+              action: "console.info",
+              args: ["<% `history.push:success:${EVENT.detail.blocked}` %>"],
+            },
+            error: {
+              action: "console.info",
+              args: ["<% `history.push:error:${EVENT.detail.blocked}` %>"],
+            },
+            finally: {
+              action: "console.info",
+              args: ["<% `history.push:finally:${EVENT.detail.blocked}` %>"],
+            },
+          },
+        },
         {
           action: "history.replace",
           args: ["specified args for history.replace"],
+          callback: {
+            success: {
+              action: "console.info",
+              args: ["<% `history.replace:success:${EVENT.detail.blocked}` %>"],
+            },
+            error: {
+              action: "console.info",
+              args: ["<% `history.replace:error:${EVENT.detail.blocked}` %>"],
+            },
+            finally: {
+              action: "console.info",
+              args: ["<% `history.replace:finally:${EVENT.detail.blocked}` %>"],
+            },
+          },
         },
         {
           action: "history.pushQuery",
@@ -366,7 +400,24 @@ describe("bindListeners", () => {
           args: [true],
         },
         { action: "location.assign", args: ["www.baidu.com"] },
-        { action: "segue.push", args: ["testSegueIdA"] },
+        {
+          action: "segue.push",
+          args: ["testSegueIdA"],
+          callback: {
+            success: {
+              action: "console.info",
+              args: ["<% `segue.push:success:${EVENT.detail.blocked}` %>"],
+            },
+            error: {
+              action: "console.info",
+              args: ["<% `segue.push:error:${EVENT.detail.blocked}` %>"],
+            },
+            finally: {
+              action: "console.info",
+              args: ["<% `segue.push:finally:${EVENT.detail.blocked}` %>"],
+            },
+          },
+        },
         {
           action: "segue.replace",
           args: ["testSegueIdB", { id: "${EVENT.detail}" }],
@@ -685,8 +736,18 @@ describe("bindListeners", () => {
     expect(sessionStorage.removeItem).toBeCalledWith("foo");
 
     const history = mockHistory;
-    expect(history.push).toHaveBeenNthCalledWith(1, "for-good");
-    expect(history.push).toHaveBeenNthCalledWith(2, "/segue-target-a");
+    expect(history.push).toHaveBeenNthCalledWith(
+      1,
+      "for-good",
+      undefined,
+      expect.any(Function)
+    );
+    expect(history.push).toHaveBeenNthCalledWith(
+      2,
+      "/segue-target-a",
+      undefined,
+      expect.any(Function)
+    );
     expect(history.push).toHaveBeenNthCalledWith(3, "/mock/alias/a");
     expect(history.pushQuery).toBeCalledWith(
       {
@@ -702,20 +763,27 @@ describe("bindListeners", () => {
     );
     expect(history.replace).toHaveBeenNthCalledWith(
       1,
-      "specified args for history.replace"
+      "specified args for history.replace",
+      undefined,
+      expect.any(Function)
     );
     expect(history.replace).toHaveBeenNthCalledWith(
       2,
-      "/segue-target-b/for-good"
+      "/segue-target-b/for-good",
+      undefined,
+      undefined
     );
     expect(history.replace).toHaveBeenNthCalledWith(
       3,
       "/mock/alias/b/for-good"
     );
-    expect(history.replaceQuery).toBeCalledWith({
-      page: 1,
-    });
-    expect(history.pushAnchor).toBeCalledWith("yes");
+    expect(history.replaceQuery).toBeCalledWith(
+      {
+        page: 1,
+      },
+      undefined
+    );
+    expect(history.pushAnchor).toBeCalledWith("yes", undefined);
     expect(history.goBack).toBeCalledWith();
     expect(history.goForward).toBeCalledWith();
     expect(history.reload).toBeCalled();
@@ -758,10 +826,25 @@ describe("bindListeners", () => {
     );
     expect((console.log as jest.Mock).mock.calls[3][0].detail).toBe("resolved");
 
-    expect(console.info).toBeCalledTimes(4);
-    expect(console.info).toHaveBeenNthCalledWith(1, expectEvent(event1));
+    expect(console.info).toBeCalledTimes(10);
+    expect(console.info).toHaveBeenNthCalledWith(1, "history.push:error:true");
     expect(console.info).toHaveBeenNthCalledWith(
       2,
+      "history.push:finally:true"
+    );
+    expect(console.info).toHaveBeenNthCalledWith(
+      3,
+      "history.replace:success:false"
+    );
+    expect(console.info).toHaveBeenNthCalledWith(
+      4,
+      "history.replace:finally:false"
+    );
+    expect(console.info).toHaveBeenNthCalledWith(5, "segue.push:error:true");
+    expect(console.info).toHaveBeenNthCalledWith(6, "segue.push:finally:true");
+    expect(console.info).toHaveBeenNthCalledWith(7, expectEvent(event1));
+    expect(console.info).toHaveBeenNthCalledWith(
+      8,
       expectEvent(
         new CustomEvent("callback.finally", {
           detail: undefined,
@@ -769,7 +852,7 @@ describe("bindListeners", () => {
       )
     );
     expect(console.info).toHaveBeenNthCalledWith(
-      3,
+      9,
       expectEvent(
         new CustomEvent("callback.progress", {
           detail: "progressing",
@@ -777,7 +860,7 @@ describe("bindListeners", () => {
       )
     );
     expect(console.info).toHaveBeenNthCalledWith(
-      4,
+      10,
       expectEvent(
         new CustomEvent("callback.progress", {
           detail: "resolved",

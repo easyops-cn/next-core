@@ -5,7 +5,7 @@ import {
   PluginHistoryState,
 } from "@next-core/brick-types";
 import { History } from "history";
-import { historyExtended } from "./historyExtended";
+import { getUserConfirmation, historyExtended } from "./historyExtended";
 import { _internalApiHasMatchedApp } from "../core/Runtime";
 
 jest.mock("../core/Runtime", () => ({
@@ -41,8 +41,6 @@ describe("historyExtended", () => {
   let ext: ReturnType<typeof historyExtended>;
 
   afterEach(() => {
-    // history.push.mockClear();
-    // history.replace.mockClear();
     jest.clearAllMocks();
     window.STANDALONE_MICRO_APPS = undefined;
   });
@@ -220,23 +218,44 @@ describe("historyExtended", () => {
     (callerArgs, loc) => {
       ext = historyExtended(history);
       ext.pushAnchor(...callerArgs);
-      expect(history.push).toBeCalledWith(loc);
+      expect(history.push).toBeCalledWith(loc, undefined);
     }
   );
 
   it("should work for history.reload", () => {
     ext = historyExtended(history);
-    ext.reload();
-    expect(history.replace).toBeCalledWith({
-      pathname: "/a",
-      search: "?b=1",
-      hash: "#c",
-      key: "d",
-      state: {
-        from: "e",
-        notify: true,
+    const callback = jest.fn();
+    ext.reload(callback);
+    expect(history.replace).toBeCalledWith(
+      {
+        pathname: "/a",
+        search: "?b=1",
+        hash: "#c",
+        key: "d",
+        state: {
+          from: "e",
+          notify: true,
+        },
       },
-    });
+      undefined
+    );
+    expect(callback).toBeCalledWith(false);
+  });
+
+  it("should work for callback of history.push", () => {
+    ext = historyExtended(history);
+    const callback = jest.fn();
+    ext.push("/a", undefined, callback);
+    expect(history.push).toBeCalledWith("/a", undefined);
+    expect(callback).toBeCalledWith(false);
+  });
+
+  it("should work for callback of history.replace", () => {
+    ext = historyExtended(history);
+    const callback = jest.fn();
+    ext.replace("/a", { notify: false }, callback);
+    expect(history.replace).toBeCalledWith("/a", { notify: false });
+    expect(callback).toBeCalledWith(false);
   });
 
   it.each<
@@ -311,4 +330,13 @@ describe("historyExtended", () => {
       ).toBeCalledWith(url);
     }
   );
+});
+
+describe("getUserConfirmation", () => {
+  it("should work", () => {
+    const callback = jest.fn();
+    jest.spyOn(window, "confirm").mockReturnValueOnce(true);
+    getUserConfirmation("hello", callback);
+    expect(callback).toBeCalledWith(true);
+  });
 });

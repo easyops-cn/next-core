@@ -102,7 +102,7 @@ export interface ExtendedHistory {
   pushAnchor: UpdateAnchorFunction;
 
   /** 重载当前会话，即触发页面重新渲染。与 location.reload() 不同，它不会触发浏览器页面的重载。 */
-  reload: () => void;
+  reload: (callback?: (blocked: boolean) => void) => void;
 
   /** @internal */
   setBlockMessage: (message: string) => void;
@@ -114,10 +114,18 @@ export interface ExtendedHistory {
   unblock: () => void;
 
   /** 推入一条记录。*/
-  push?: History<PluginHistoryState>["push"];
+  push?: (
+    location: LocationDescriptor<PluginHistoryState>,
+    state?: PluginHistoryState,
+    callback?: (blocked: boolean) => void
+  ) => void;
 
   /** 替换一条记录。*/
-  replace?: History<PluginHistoryState>["replace"];
+  replace?: (
+    location: LocationDescriptor<PluginHistoryState>,
+    state?: PluginHistoryState,
+    callback?: (blocked: boolean) => void
+  ) => void;
 }
 
 /**
@@ -128,7 +136,8 @@ export interface ExtendedHistory {
  */
 export type UpdateQueryFunction = (
   query: Record<string, unknown>,
-  options?: UpdateQueryOptions
+  options?: UpdateQueryOptions,
+  callback?: (blocked: boolean) => void
 ) => void;
 
 /** 更新 query 参数时的选项 */
@@ -150,7 +159,8 @@ export interface UpdateQueryOptions extends PluginHistoryState {
  */
 export type UpdateAnchorFunction = (
   hash: string,
-  state?: PluginHistoryState
+  state?: PluginHistoryState,
+  callback?: (blocked: boolean) => void
 ) => void;
 
 /** @internal */
