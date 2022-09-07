@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.29.0...@next-dll/editor-bricks-helper@0.30.0) (2022-09-07)
+
+
+### Features
+
+* support makeThrottledAggregation ([b44074c](https://github.com/easyops-cn/next-core/commit/b44074ca2d11c080a6e9d64212a81a5a3a154c8c))
+
+
+
+
+
 # [0.29.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.28.121...@next-dll/editor-bricks-helper@0.29.0) (2022-09-06)
 
 

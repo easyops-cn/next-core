@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.40.0...@next-core/brick-utils@2.41.0) (2022-09-07)
+
+
+### Features
+
+* support makeThrottledAggregation ([b44074c](https://github.com/easyops-cn/next-core/commit/b44074ca2d11c080a6e9d64212a81a5a3a154c8c))
+
+
+
+
+
 # [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.6...@next-core/brick-utils@2.40.0) (2022-09-06)
 
 
