@@ -50,6 +50,9 @@ export function expandCustomTemplate(
 ): RuntimeBrickConf {
   const tplContext = new CustomTemplateContext(proxyBrick);
   const template = customTemplateRegistry.get(brickConf.brick);
+  if (template.contracts) {
+    collectWidgetContract(template.contracts);
+  }
   if (Array.isArray(template.state)) {
     tplContext.state.syncDefine(template.state, context, proxyBrick);
   }
@@ -69,6 +72,9 @@ export async function asyncExpandCustomTemplate(
 ): Promise<RuntimeBrickConf> {
   const tplContext = new CustomTemplateContext(proxyBrick);
   const template = customTemplateRegistry.get(brickConf.brick);
+  if (template.contracts) {
+    collectWidgetContract(template.contracts);
+  }
   if (Array.isArray(template.state)) {
     await tplContext.state.define(template.state, context, proxyBrick);
   }
@@ -88,7 +94,7 @@ function lowLevelExpandCustomTemplate(
   context: PluginRuntimeContext,
   tplContext: CustomTemplateContext
 ): RuntimeBrickConf {
-  const { bricks, proxy, state, contracts } = template;
+  const { bricks, proxy, state } = template;
   const {
     properties: templateProperties,
     slots: externalSlots,
@@ -104,9 +110,6 @@ function lowLevelExpandCustomTemplate(
   proxyBrick.proxyRefs = new Map();
   proxyBrick.stateNames = state?.map((item) => item.name);
 
-  if (contracts) {
-    collectWidgetContract(contracts);
-  }
   const refToBrickConf = collectRefsInTemplate(template);
 
   // Reversed proxies are used for expand storyboard before rendering page.
