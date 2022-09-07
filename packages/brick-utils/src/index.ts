@@ -30,3 +30,4 @@ export * from "./track";
 export * from "./visitStoryboard";
 export * from "./debounceByAnimationFrame";
 export * from "./scanInstalledAppsInStoryboard";
+export * from "./makeThrottledAggregation";
