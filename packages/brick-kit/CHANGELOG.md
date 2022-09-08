@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.138.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.137.2...@next-core/brick-kit@2.138.0) (2022-09-08)
+
+
+### Features
+
+* support history callback ([ca1d42e](https://github.com/easyops-cn/next-core/commit/ca1d42ee0bef5ab0cacf811c60b1324c1bd14837))
+
+
+
+
+
 ## [2.137.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.137.1...@next-core/brick-kit@2.137.2) (2022-09-07)
 
 
