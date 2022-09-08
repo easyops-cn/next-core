@@ -30,7 +30,7 @@ import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "../websocket/interfaces";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
-import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
+import { PollableCallback, startPoll } from "./poll";
 import { getArgsOfCustomApi } from "../core/FlowApi";
 import { getRuntime } from "../runtime";
 import {
@@ -125,19 +125,15 @@ export function listenerFactory(
       case "history.replaceQuery":
       case "history.pushAnchor":
       case "history.block":
-        return builtinHistoryListenerFactory(
-          method,
-          handler.args,
-          handler,
-          context
-        );
       case "history.goBack":
       case "history.goForward":
       case "history.reload":
       case "history.unblock":
-        return builtinHistoryWithoutArgsListenerFactory(
+        return builtinHistoryListenerFactory(
           method,
+          handler.args,
           handler,
+          handler.callback,
           context
         );
       case "segue.push":
@@ -146,6 +142,7 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
+          handler.callback,
           context
         );
       case "alias.push":
@@ -428,6 +425,7 @@ function builtinSegueListenerFactory(
   method: "push" | "replace",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
@@ -443,7 +441,19 @@ function builtinSegueListenerFactory(
         ...(argsFactory(args, context, event) as Parameters<
           ReturnType<typeof getUrlBySegueFactory>
         >)
-      )
+      ),
+      undefined,
+      callback
+        ? (blocked) => {
+            const callbackFactory = eventCallbackFactory(
+              callback,
+              () => context,
+              null
+            );
+            callbackFactory(blocked ? "error" : "success")({ blocked });
+            callbackFactory("finally")({ blocked });
+          }
+        : undefined
     );
   } as EventListener;
 }
@@ -759,37 +769,61 @@ function builtinHistoryListenerFactory(
     | "pushQuery"
     | "replaceQuery"
     | "pushAnchor"
-    | "block",
+    | "block"
+    | "goBack"
+    | "goForward"
+    | "reload"
+    | "unblock",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    (
-      getHistory()[method === "block" ? "setBlockMessage" : method] as (
-        ...args: unknown[]
-      ) => unknown
-    )(
-      ...argsFactory(args, context, event, {
+    let baseArgsLength = 0;
+    let hasCallback = false;
+    let overrideMethod = method as "setBlockMessage";
+    switch (method) {
+      case "push":
+      case "replace":
+      case "pushQuery":
+      case "replaceQuery":
+      case "pushAnchor":
+        baseArgsLength = 2;
+        hasCallback = true;
+        break;
+      case "reload":
+        hasCallback = true;
+        break;
+      case "block":
+        baseArgsLength = 1;
+        overrideMethod = "setBlockMessage";
+        break;
+    }
+    let computedArgs: unknown[] = [];
+    if (baseArgsLength > 0) {
+      computedArgs = argsFactory(args, context, event, {
         useEventDetailAsDefault: true,
-      })
-    );
-  } as EventListener;
-}
-
-function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward" | "reload" | "unblock",
-  ifContainer: IfContainer,
-  context: PluginRuntimeContext
-): EventListener {
-  return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
-      return;
+      });
+      computedArgs.length = baseArgsLength;
     }
-    getHistory()[method]();
+    if (hasCallback && callback) {
+      const callbackFactory = eventCallbackFactory(
+        callback,
+        () => context,
+        null
+      );
+      computedArgs.push((blocked: boolean) => {
+        callbackFactory(blocked ? "error" : "success")({ blocked });
+        callbackFactory("finally")({ blocked });
+      });
+    }
+    (getHistory()[overrideMethod] as (...args: unknown[]) => unknown)(
+      ...computedArgs
+    );
   } as EventListener;
 }
 

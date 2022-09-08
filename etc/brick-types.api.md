@@ -1160,12 +1160,12 @@ export interface ExtendedHistory {
     // @internal (undocumented)
     getBlockMessage: () => string;
     // Warning: (ae-incompatible-release-tags) The symbol "push" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
-    push?: History_2<PluginHistoryState>["push"];
+    push?: (location: LocationDescriptor<PluginHistoryState>, state?: PluginHistoryState, callback?: (blocked: boolean) => void) => void;
     pushAnchor: UpdateAnchorFunction;
     pushQuery: UpdateQueryFunction;
-    reload: () => void;
+    reload: (callback?: (blocked: boolean) => void) => void;
     // Warning: (ae-incompatible-release-tags) The symbol "replace" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
-    replace?: History_2<PluginHistoryState>["replace"];
+    replace?: (location: LocationDescriptor<PluginHistoryState>, state?: PluginHistoryState, callback?: (blocked: boolean) => void) => void;
     replaceQuery: UpdateQueryFunction;
     // @internal (undocumented)
     setBlockMessage: (message: string) => void;
@@ -2436,10 +2436,10 @@ export interface TransformMap {
 // Warning: (ae-incompatible-release-tags) The symbol "UpdateAnchorFunction" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
 //
 // @public
-export type UpdateAnchorFunction = (hash: string, state?: PluginHistoryState) => void;
+export type UpdateAnchorFunction = (hash: string, state?: PluginHistoryState, callback?: (blocked: boolean) => void) => void;
 
 // @public
-export type UpdateQueryFunction = (query: Record<string, unknown>, options?: UpdateQueryOptions) => void;
+export type UpdateQueryFunction = (query: Record<string, unknown>, options?: UpdateQueryOptions, callback?: (blocked: boolean) => void) => void;
 
 // Warning: (ae-incompatible-release-tags) The symbol "UpdateQueryOptions" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
 //

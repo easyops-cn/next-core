@@ -72,7 +72,6 @@ import { preConstructMenus } from "../internal/menu";
 import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
-import { CustomTemplate } from "../../../brick-types/dist/types/manifest";
 import {
   ExpandCustomForm,
   formDataProperties,

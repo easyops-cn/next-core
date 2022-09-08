@@ -1,28 +1,58 @@
-import { History, LocationDescriptorObject, parsePath } from "history";
+import {
+  History,
+  LocationDescriptor,
+  LocationDescriptorObject,
+  parsePath,
+} from "history";
 import {
   PluginHistoryState,
   ExtendedHistory,
   UpdateQueryFunction,
-  UpdateQueryOptions,
-  UpdateAnchorFunction,
 } from "@next-core/brick-types";
 import { getBasePath } from "./getBasePath";
 import { _internalApiHasMatchedApp } from "../core/Runtime";
+
+let blocked = false;
+export function getUserConfirmation(
+  message: string,
+  callback: (result: boolean) => void
+): void {
+  blocked = !confirm(message);
+  callback(!blocked);
+}
 
 export function historyExtended(
   browserHistory: History<PluginHistoryState>
 ): ExtendedHistory {
   const { push: originalPush, replace: originalReplace } = browserHistory;
+
+  function push(
+    location: LocationDescriptor<PluginHistoryState>,
+    state?: PluginHistoryState,
+    callback?: (blocked: boolean) => void
+  ): void {
+    blocked = false;
+    originalPush(location, state);
+    callback?.(blocked);
+  }
+
+  function replace(
+    location: LocationDescriptor<PluginHistoryState>,
+    state?: PluginHistoryState,
+    callback?: (blocked: boolean) => void
+  ): void {
+    blocked = false;
+    originalReplace(location, state);
+    callback?.(blocked);
+  }
+
   function updateQueryFactory(method: "push" | "replace"): UpdateQueryFunction {
-    return function updateQuery(
-      query: Record<string, any>,
-      options: UpdateQueryOptions = {}
-    ): void {
+    return function updateQuery(query, options = {}, callback?): void {
       const { extraQuery, clear, keepHash, ...state } = options;
       const urlSearchParams = new URLSearchParams(
         clear ? "" : browserHistory.location.search
       );
-      const params: Record<string, any> = {};
+      const params: Record<string, string | string[]> = {};
       Object.assign(params, query, extraQuery);
       for (const [key, value] of Object.entries(params)) {
         if (Array.isArray(value)) {
@@ -36,23 +66,23 @@ export function historyExtended(
           urlSearchParams.set(key, value);
         }
       }
-      (method === "push" ? originalPush : originalReplace)(
+      (method === "push" ? push : replace)(
         `?${urlSearchParams.toString()}${
           keepHash ? browserHistory.location.hash : ""
         }`,
-        state
+        state,
+        callback
       );
     };
   }
 
-  function updateAnchorFactory(
-    method: "push" /* | "replace" */
-  ): UpdateAnchorFunction {
-    return function updateAnchor(
-      hash: string,
-      state?: PluginHistoryState
-    ): void {
-      (method === "push" ? originalPush : originalReplace)({
+  function pushAnchor(
+    hash: string,
+    state?: PluginHistoryState,
+    callback?: (blocked: boolean) => void
+  ): void {
+    push(
+      {
         ...browserHistory.location,
         key: undefined,
         hash,
@@ -61,19 +91,25 @@ export function historyExtended(
           notify: false,
           ...state,
         },
-      });
-    };
+      },
+      undefined,
+      callback
+    );
   }
 
-  function reload(): void {
-    originalReplace({
-      ...browserHistory.location,
-      state: {
-        ...browserHistory.location.state,
-        // Always notify
-        notify: true,
+  function reload(callback?: (blocked: boolean) => void): void {
+    replace(
+      {
+        ...browserHistory.location,
+        state: {
+          ...browserHistory.location.state,
+          // Always notify
+          notify: true,
+        },
       },
-    });
+      undefined,
+      callback
+    );
   }
 
   let blockMessage: string;
@@ -93,15 +129,16 @@ export function historyExtended(
   return {
     pushQuery: updateQueryFactory("push"),
     replaceQuery: updateQueryFactory("replace"),
-    pushAnchor: updateAnchorFactory("push"),
-    // replaceAnchor: updateAnchorFactory("replace"),
+    pushAnchor: pushAnchor,
     reload,
     setBlockMessage,
     getBlockMessage,
     unblock,
+    push,
+    replace,
     ...(window.STANDALONE_MICRO_APPS
-      ? standaloneHistoryOverridden(browserHistory)
-      : null),
+      ? standaloneHistoryOverridden({ ...browserHistory, push, replace })
+      : {}),
   };
 }
 
@@ -111,13 +148,12 @@ export function historyExtended(
  * when `push` or `replace` to other apps, force page refresh.
  */
 function standaloneHistoryOverridden(
-  browserHistory: History<PluginHistoryState>
-): Pick<History<PluginHistoryState>, "push" | "replace"> {
+  browserHistory: History<PluginHistoryState> &
+    Pick<ExtendedHistory, "push" | "replace">
+): Pick<ExtendedHistory, "push" | "replace"> {
   const { push: originalPush, replace: originalReplace } = browserHistory;
-  function updateFactory(
-    method: "push" | "replace"
-  ): History<PluginHistoryState>["push"] {
-    return function update(path, state?) {
+  function updateFactory(method: "push" | "replace"): ExtendedHistory["push"] {
+    return function update(path, state?, callback?) {
       let pathname: string;
       const pathIsString = typeof path === "string";
       if (pathIsString) {
@@ -128,7 +164,8 @@ function standaloneHistoryOverridden(
       if (pathname === "" || _internalApiHasMatchedApp(pathname)) {
         return (method === "push" ? originalPush : originalReplace)(
           path as string,
-          state
+          state,
+          callback
         );
       }
       // Going to outside apps.
