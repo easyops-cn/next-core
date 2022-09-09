@@ -88,7 +88,6 @@ export async function loadTemplate({
 
   const targetMap: { [key: string]: string } = {
     [TargetType.A_NEW_BRICK]: "brick",
-    [TargetType.A_NEW_EDITOR_BRICK]: "editor-brick",
     [TargetType.A_NEW_CUSTOM_TEMPLATE]: "custom-template",
     [TargetType.A_NEW_PACKAGE_OF_BRICKS]: "bricks-pkg",
     [TargetType.A_NEW_PACKAGE_OF_LIBS]: "libs-pkg",
@@ -109,9 +108,8 @@ export async function loadTemplate({
       templateRoot,
       targetMap[TargetType.A_NEW_PACKAGE_OF_BRICKS]
     );
-    // Providers 库不需要 `src` 及 `webpack.editors.js`。
+    // Providers 库不需要 `src`。
     ignores.push("template/bricks-pkg/src/");
-    ignores.push("template/bricks-pkg/webpack.editors.js");
     sdkName = `${packageName.replace(/^providers-of-/, "")}-sdk`;
   }
 

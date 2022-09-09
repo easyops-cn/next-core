@@ -5,7 +5,6 @@ import { askTargetType } from "./questions/askTargetType";
 import { askPackageName } from "./questions/askPackageName";
 import { askBrickName } from "./questions/askBrickName";
 import { askProcessorName } from "./questions/askProcessorName";
-import { askEditorBrickName } from "./questions/askEditorBrickName";
 import { ask } from "./ask";
 
 jest.mock("inquirer");
@@ -14,7 +13,6 @@ jest.mock("./questions/askTargetType");
 jest.mock("./questions/askPackageName");
 jest.mock("./questions/askBrickName");
 jest.mock("./questions/askProcessorName");
-jest.mock("./questions/askEditorBrickName");
 
 (getEasyopsConfig as jest.Mock).mockReturnValue({
   useLocalSdk: true,
@@ -24,7 +22,6 @@ const spyOnAskTargetType = askTargetType as jest.Mock;
 const spyOnAskPackageName = askPackageName as jest.Mock;
 const spyOnAskBrickName = askBrickName as jest.Mock;
 const spyOnAskProcessorName = askProcessorName as jest.Mock;
-const spyOnAskEditorBrickName = askEditorBrickName as jest.Mock;
 
 describe("ask", () => {
   beforeEach(() => {
@@ -38,7 +35,6 @@ describe("ask", () => {
 
   test.each<[TargetType, string, string, string, string]>([
     [TargetType.A_NEW_BRICK, "package-a", "brick-a", "", ""],
-    [TargetType.A_NEW_EDITOR_BRICK, "package-a", "", "", "brick-a"],
     [TargetType.A_NEW_CUSTOM_PROVIDER, "package-a", "brick-b", "", ""],
     [TargetType.A_NEW_CUSTOM_PROCESSOR, "package-a", "", "doSomething", ""],
     [TargetType.A_NEW_PACKAGE_OF_LIBS, "lib-a", "", "", ""],
@@ -55,7 +51,6 @@ describe("ask", () => {
       spyOnAskPackageName.mockReturnValue({ packageName });
       spyOnAskBrickName.mockReturnValue({ brickName });
       spyOnAskProcessorName.mockReturnValue({ processorName });
-      spyOnAskEditorBrickName.mockReturnValue({ brickName: editorBrickName });
 
       expect(await ask("")).toEqual({
         targetType,

@@ -1,6 +1,0 @@
-.wrapper {
-  /* Try to use pre-defined css variables like `var(--editor-...)` */
-  /* See $repo-org-url$/next-core/blob/master/packages/brick-container/src/styles/editor-bricks-variables.css */
-  border-radius: var(--editor-brick-border-radius);
-  background: var(--editor-brick-skeleton-bg-light);
-}
