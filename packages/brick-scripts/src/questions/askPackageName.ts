@@ -20,7 +20,6 @@ function legacyAskPackageName({
   if (
     [
       TargetType.A_NEW_BRICK,
-      TargetType.A_NEW_EDITOR_BRICK,
       TargetType.A_NEW_CUSTOM_TEMPLATE,
       TargetType.A_NEW_CUSTOM_PROVIDER,
       TargetType.A_NEW_CUSTOM_PROCESSOR,
@@ -39,8 +38,6 @@ function legacyAskPackageName({
       message: `which package do you want to put the new ${
         targetType === TargetType.A_NEW_CUSTOM_TEMPLATE
           ? "custom template"
-          : targetType === TargetType.A_NEW_EDITOR_BRICK
-          ? "editor brick"
           : "brick"
       } in?`,
       choices: pkgList,

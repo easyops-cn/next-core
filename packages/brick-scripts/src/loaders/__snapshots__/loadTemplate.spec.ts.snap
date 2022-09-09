@@ -198,86 +198,6 @@ getRuntime().registerCustomTemplate(\\"for-good.for-better\\", {
 ]
 `;
 
-exports[`loadTemplate should create a new editor brick 1`] = `
-Array [
-  Array [
-    "dist/for-better.editor.module.css",
-    ".wrapper {
-  /* Try to use pre-defined css variables like \`var(--editor-...)\` */
-  /* See https://git.easyops.local/anyclouds/next-core/blob/master/packages/brick-container/src/styles/editor-bricks-variables.css */
-  border-radius: var(--editor-brick-border-radius);
-  background: var(--editor-brick-skeleton-bg-light);
-}
-",
-  ],
-  Array [
-    "dist/for-better.editor.spec.tsx",
-    "import React from \\"react\\";
-import { shallow } from \\"enzyme\\";
-import * as helper from \\"@next-core/editor-bricks-helper\\";
-import { ForBetterEditor } from \\"./for-better.editor\\";
-
-const mockUseBuilderNode = jest.spyOn(helper, \\"useBuilderNode\\");
-
-describe(\\"ForBetterEditor\\", () => {
-  it(\\"should work\\", () => {
-    mockUseBuilderNode.mockReturnValueOnce({
-      type: \\"brick\\",
-      id: \\"B-001\\",
-      brick: \\"for-better\\",
-      alias: \\"my-brick\\",
-      $$parsedProperties: {},
-    });
-    const wrapper = shallow(<ForBetterEditor nodeUid={1} />);
-    expect(wrapper.find(\\"div\\").text()).toBe(\\"my-brick\\");
-  });
-});
-",
-  ],
-  Array [
-    "dist/for-better.editor.tsx",
-    "import React from \\"react\\";
-import {
-  EditorComponentProps,
-  EditorContainer,
-  EditorElementFactory,
-  EditorSelfLayout,
-  useBuilderNode,
-} from \\"@next-core/editor-bricks-helper\\";
-import styles from \\"./for-better.editor.module.css\\";
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ForBetterProperties {
-  // someProps?: string;
-}
-
-export function ForBetterEditor({
-  nodeUid,
-}: EditorComponentProps): React.ReactElement {
-  const node = useBuilderNode<ForBetterProperties>({ nodeUid });
-  /**
-   * 提示：使用构件的属性配置来呈现该构件的关键 UI 特征。
-   * 例如：对于按钮构件，根据 \`buttonType\` 来显示对应的背景色。
-   */
-  // const { someProps } = node.$$parsedProperties;
-  return (
-    <EditorContainer nodeUid={nodeUid}>
-      <div className={styles.wrapper}>{node.alias}</div>
-    </EditorContainer>
-  );
-}
-
-customElements.define(
-  \\"for-good.for-better--editor\\",
-  EditorElementFactory(ForBetterEditor, {
-    selfLayout: EditorSelfLayout.INLINE,
-  })
-);
-",
-  ],
-]
-`;
-
 exports[`loadTemplate should create a new package of bricks 1`] = `
 Array [
   Array [
@@ -314,10 +234,6 @@ preBuild(\\"bricks\\");
 
 renameTarPackage();
 ",
-  ],
-  Array [
-    "dist/src/editor-bricks/index.ts",
-    "",
   ],
   Array [
     "dist/src/i18n/constants.ts",
@@ -413,20 +329,6 @@ const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
 
 module.exports = merge(
   webpackCommonFactory(),
-  process.env.NODE_ENV === \\"development\\"
-    ? webpackDevFactory()
-    : webpackProdFactory()
-);
-",
-  ],
-  Array [
-    "dist/webpack.editors.js",
-    "const { bricks, merge } = require(\\"@next-core/webpack-config-factory\\");
-
-const { webpackEditorsFactory, webpackDevFactory, webpackProdFactory } = bricks;
-
-module.exports = merge(
-  webpackEditorsFactory(),
   process.env.NODE_ENV === \\"development\\"
     ? webpackDevFactory()
     : webpackProdFactory()
@@ -576,10 +478,6 @@ renameTarPackage();
 ",
   ],
   Array [
-    "dist/src/editor-bricks/index.ts",
-    "",
-  ],
-  Array [
     "dist/src/i18n/constants.ts",
     "export const NS_FOR_GOOD = \\"for-good\\";
 
@@ -673,20 +571,6 @@ const { webpackCommonFactory, webpackDevFactory, webpackProdFactory } = bricks;
 
 module.exports = merge(
   webpackCommonFactory(),
-  process.env.NODE_ENV === \\"development\\"
-    ? webpackDevFactory()
-    : webpackProdFactory()
-);
-",
-  ],
-  Array [
-    "dist/webpack.editors.js",
-    "const { bricks, merge } = require(\\"@next-core/webpack-config-factory\\");
-
-const { webpackEditorsFactory, webpackDevFactory, webpackProdFactory } = bricks;
-
-module.exports = merge(
-  webpackEditorsFactory(),
   process.env.NODE_ENV === \\"development\\"
     ? webpackDevFactory()
     : webpackProdFactory()

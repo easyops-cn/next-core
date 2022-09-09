@@ -48,14 +48,6 @@ describe("askPackageName", () => {
     expect(await source()).toEqual(["fake-package-sdk"]);
   });
 
-  it("should return choices of package for new editor brick", async () => {
-    const { source } = askPackageName({
-      targetType: TargetType.A_NEW_EDITOR_BRICK,
-      appRoot: process.cwd(),
-    }) as any;
-    expect(await source()).toEqual(["fake-package-sdk"]);
-  });
-
   it("should return choices of package for new custom provider", async () => {
     const { source } = askPackageName({
       targetType: TargetType.A_NEW_CUSTOM_PROVIDER,
