@@ -13,7 +13,7 @@ import {
   getRuntimeMisc,
   getHistory,
 } from "@next-core/brick-kit";
-import { PluginHistory } from "@next-core/brick-types";
+import { FeatureFlags, PluginHistory } from "@next-core/brick-types";
 import {
   http,
   HttpRequestConfig,
@@ -61,15 +61,10 @@ const mountPoints = {
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
-let analyzer: ReturnType<typeof apiAnalyzer.create>;
-
-// Disable API stats for standalone micro-apps.
-if (!window.STANDALONE_MICRO_APPS) {
-  const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
-  analyzer = apiAnalyzer.create({
-    api,
-  });
-}
+const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
+const analyzer = apiAnalyzer.create({
+  api,
+});
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   const { csrfToken } = getAuth();
@@ -121,13 +116,15 @@ http.interceptors.response.use(
   function (response: HttpResponse) {
     const curWindow = isInSpecialFrame() ? window.parent : window;
     curWindow.dispatchEvent(new CustomEvent("request.end"));
-    analyzer?.analyses(response);
+    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
+      analyzer?.analyses(response);
     return response.config.options?.observe === "response"
       ? response
       : response.data;
   },
   function (error: HttpError) {
-    analyzer?.analyses(error);
+    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
+      analyzer?.analyses(error);
     const curWindow = isInSpecialFrame() ? window.parent : window;
     curWindow.dispatchEvent(new CustomEvent("request.end"));
     return Promise.reject(error.error);
@@ -221,6 +218,8 @@ if ((window as CypressContainer).Cypress) {
   (window as CypressContainer).__test_only_getHistory = getHistory;
   (window as CypressContainer).__test_only_getBasePath =
     getRuntime().getBasePath;
+  (window as CypressContainer).__test_only_getFeatureFlags =
+    getRuntime().getFeatureFlags;
 }
 
 async function bootstrap(): Promise<void> {
@@ -264,6 +263,7 @@ type CypressContainer = Window &
     Cypress: unknown;
     __test_only_getHistory?(): PluginHistory;
     __test_only_getBasePath?(): string;
+    __test_only_getFeatureFlags?(): FeatureFlags;
   };
 
 export interface PreviewHelperBrick {
