@@ -62,6 +62,7 @@ import {
 } from "../internal/getStandaloneInstalledApps";
 import { mergePreviewRoutes } from "../internal/mergePreviewRoutes";
 import { imagesFactory } from "../internal/images";
+import { computeRealValue } from "../internal/setProperties";
 
 export class Router {
   private defaultCollapsed = false;
@@ -343,7 +344,13 @@ export class Router {
         appBar: {
           breadcrumb: [],
           documentId: null,
-          noCurrentApp: currentApp.breadcrumb?.noCurrentApp ?? false,
+          noCurrentApp:
+            typeof currentApp.breadcrumb?.noCurrentApp === "string"
+              ? (computeRealValue(
+                  currentApp.breadcrumb?.noCurrentApp,
+                  this.locationContext.getCurrentContext()
+                ) as boolean)
+              : currentApp.breadcrumb?.noCurrentApp ?? false,
         },
         flags: {
           redirect: undefined,
