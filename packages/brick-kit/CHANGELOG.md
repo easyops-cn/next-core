@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.139.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.138.0...@next-core/brick-kit@2.139.0) (2022-09-13)
+
+
+### Features
+
+* support noCurrentApp evalute ([73a0662](https://github.com/easyops-cn/next-core/commit/73a06628ad66625fa8be18edf48819179ea931b4))
+
+
+
+
+
 # [2.138.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.137.2...@next-core/brick-kit@2.138.0) (2022-09-08)
 
 
